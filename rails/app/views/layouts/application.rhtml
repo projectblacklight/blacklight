@@ -1,0 +1,176 @@
+<!-- 
+##########################################################################
+# Copyright 2008 Rector and Visitors of the University of Virginia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+##########################################################################
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+<%#= javascript_include_tag :defaults %>
+
+<title>University of Virginia Library: Project Blacklight</title>
+
+<![if gte IE 6]>
+<link href="http://www.lib.virginia.edu/scripts/yui-2.2.0a/build/grids/grids.css" rel="stylesheet" type="text/css" />
+
+<link href="/stylesheets/main.css" rel="stylesheet" type="text/css" />
+
+<link href="http://www.lib.virginia.edu/scripts/yahoo/2.3.0/build/button/assets/skins/sam/button.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.form.js"></script>
+<script type="text/javascript" src="/javascripts/catalog.js"></script>
+
+<!--
+<script type="text/javascript" src="http://www.lib.virginia.edu/scripts/yahoo/2.3.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://www.lib.virginia.edu/scripts/yui-2.2.0a/build/element/element-beta-min.js"></script>
+<script type="text/javascript" src="http://www.lib.virginia.edu/scripts/yui-2.2.0a/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="http://www.lib.virginia.edu/scripts/yui-2.2.0a/build/tabview/tabview-min.js"></script>
+<script type="text/javascript" src="http://www.lib.virginia.edu/scripts/yahoo/2.3.0/build/button/button-beta-min.js"></script>
+<script type="text/javascript" src="/javascripts/main.js"></script>
+-->
+
+<![endif]>
+<!--[if IE 6]>
+<link href="/stylesheets/browsers/lt_ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if IE 7]>
+<link href="/stylesheets/browsers/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<%= stylesheet_link_tag 'main_overrides' %>
+
+</head>
+<body id="home" class="bnr1">
+<div id="globalHd">
+	<div class="docWrap">
+
+		<div id="bookmarkMotif"></div>
+		<div id="branding">
+			<h1 id="logo" class="imgReplace">University of Virginia Music Library</h1>
+		</div>
+		
+		<hr />
+		
+		<div id="search">
+			<div class="yui-navset">
+				<ul class="yui-nav">
+					<%
+					params = flare_copy_params_for_filter
+					params.delete(:id)
+					%>
+					<li <%= 'class="selected"' if @controller.class==CatalogController %>>
+						<%= link_to(
+						'<em>Entire Catalog</em>',
+						params.merge({:controller=>:catalog}),
+						{:title=>"Click to show default Catalog search box"}
+						) %>
+					</li>
+					<li <%= 'class="selected"' if @controller.class==MusicController %>>
+						<%= link_to(
+						'<em>Music</em>',
+						params.merge({:controller=>:music}),
+						{:title=>"Click to show the Music search box"}
+						) %>
+					</li>
+				</ul>
+			
+				<div class="yui-content yui-skin-sam">
+					<div id="CatalogSearch" class="searchOption">
+						<div class="simpleSearch">
+							<form id='SearchForm' name='SearchForm' method='GET' action="/<%= params[:controller] %>">
+								<div class="formTextButtonPair">
+									<%= flare_text_filter_form_params({:class=>:searchIn}) if @flare %>
+									<input type='submit' id="SearchBtn" class="searchBtn" name='text_search' value='Search' />
+								</div>
+							</form>
+						</div>
+					</div>
+				</div> <!-- END yui-content yui-skin-sam -->
+				
+				<div id="InfoDesc">
+					This is BLACKLIGHT, a research project of the University of Virginia Library.
+					<%= sub_description %>
+				</div>
+		
+			</div><!-- END search -->	
+		</div><!-- END docWrap -->
+	</div>
+  <hr />
+</div>
+
+<hr />
+</div>
+
+<div id="content">
+	<div class="docWrap">
+		<div id="mainContent">
+			<div style="margin:2em 2em;"><%= yield %></div>
+		</div>
+		<hr />
+		<div id="subContent1">
+			<div id="News" class="box newsListing first">    
+				<div>
+					<!-- insert warning bar here -->
+					<div id="blacklight_box" style="padding: 10px;">
+						<p>
+						<!-- Content for the announcement box goes here -->	
+						</p>
+						<div class="ft"/>
+					</div>
+					<!-- end warning bar -->    
+				</div>
+				<div class="bd">
+					<%= @sidebar %>
+				</div>
+	    	</div>
+		</div>
+	    <hr />
+		<div class="clearer"></div>
+	</div><!-- End .docWrap -->
+</div><!-- End #content -->
+
+<div id="globalFt"  style="background: #4672AF">
+  <div class="docWrap"  style="background: #4672AF">
+    <div class="col first">
+      <p><strong><a href="http://lib.virginia.edu">University&nbsp;of&nbsp;Virginia&nbsp;Library</a></strong><br />
+
+        PO Box 400113, Charlottesville, VA 22904-4113<br />
+        ph: (434) 924-3021, fax: (434) 924-1431, <a href="mailto:library@virginia.edu">library@virginia.edu</a></p>
+    </div>
+    <div class="col">
+      <p>
+        <!--<a href="http://www.lib.virginia.edu/libraries/">Libraries</a>&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;-->
+        <a href="http://www.lib.virginia.edu/dir/libdir.html">Depts./Contacts</a>&nbsp;&nbsp; |&nbsp;&nbsp;<a href="http://www.virginia.edu">U.Va. Home</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://www.itc.virginia.edu">ITC</a></p>
+
+      <p><a href="mailto:webmanager_library@virginia.edu">Website Feedback</a>&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;<a href="http://www.lib.virginia.edu/sitesearch.html">Search</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://www.lib.virginia.edu/questions.html">Questions? Ask a Librarian</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://www.lib.virginia.edu/hours/">Hours</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://www.lib.virginia.edu/map.html">Map</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://www.lib.virginia.edu/policies/">Policies</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://www.lib.virginia.edu/press/">Press</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://www.lib.virginia.edu/HR/">Jobs</a></p>
+
+      <p><a href="http://www.virginia.edu/copyright.html" id="copyrightLink">&copy;</a> 2007 by the Rector and Visitors of the <a href="http://www.virginia.edu">University&nbsp;of&nbsp;Virginia</a></p>
+    </div>
+    <div id="fdlpInfo">
+      <p><a href="http://www.lib.virginia.edu/govdocs/" id="fdlpBadge"><img class="iePNG" 
+src="/images/icons/fdlp_footer.png" alt="Federal Library Depository logo" width="41" height="36" /></a>&nbsp;&nbsp;This library is a Congressionally designated depository for <a href="http://www.lib.virginia.edu/govdocs/">U.S. Government documents</a>. Public access to the Government documents is guaranteed by public law.</p>
+    </div>
+
+  </div>
+  <!-- End .docWrap -->
+</div>
+<!-- End #globalFt -->
+</body>
+<!-- InstanceEnd -->
+</html>

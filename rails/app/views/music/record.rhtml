@@ -1,0 +1,79 @@
+<!-- 
+##########################################################################
+# Copyright 2008 Rector and Visitors of the University of Virginia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+##########################################################################
+-->
+
+<%= stylesheet_link_tag 'flare' %>
+
+<%
+require 'marc'
+  marc_record = MARC::Record.new_from_marc(@record['marc_display'])
+  virgo_link= "http://virgo.lib.virginia.edu/uhtbin/cgisirsi/uva/0/0/5?searchdata1=#{@record['id'][1..-1]}%7bCKEY%7d"
+%>
+
+<% content_for(:title) do %>
+  <%= @record['title_text'] %>
+<% end %>
+
+<%= link_to "&larr; back", flare_back_params %>
+
+<table>
+	<tr>
+		<td colspan="2">
+			<%= render_partial 'record', {:doc=>@record} %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<%= link_to 'Click', virgo_link, {:target => "_blank"}%> for Virgo.
+		</td>
+	</tr>
+	<%# @fields_for_record_details.each do |field_name| %>
+		<%#= flare_field_value_for_solr_doc(@record, field_name)%>  
+	<%# end %>
+	<% marc_record.find_all {|f| f.tag === '856'}.each do |field| %>
+	<tr>
+		<td colspan="2">
+			<%=link_to field['3'] || 'external link', field['u'], {:target => "_blank"}%>
+		</td>
+	</tr>
+	<% end %>
+  
+	<tr>
+		<td colspan="2">
+			<table cellspacing="10">
+				<tr>
+					<th>call number</th>
+					<th>location</th>
+					<th>library</th>
+					<th>format</th>
+				</tr>
+				<% marc_record.find_all {|f| f.tag === '999'}.each do |field| %>
+				<tr>
+					<td><%=field['a'] %></td>
+					<td><%=field['k'] %> <%=field['l'] %></td>
+					<td><%=field['m'] %></td>
+					<td><%=field['t'] %></td>
+				</tr>
+				<% end %>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<div class="flare-record-raw-marc">
+  <%= marc_record.to_s.gsub(/\n/, '<br/>') %>
+</div>

@@ -1,0 +1,351 @@
+@charset "UTF-8";
+/*
+Typography styles
+
+Related last design release: v0.9.3
+Last modified by: John Loy <jml4n@virginia.edu>
+*/
+
+
+/*****************************************************************************
+= Global element defaults
+******************************************************************************/
+
+html, body {
+	font-size: 13px; /* approximately the same as the "small" keyword size */
+	font-family: Arial, Helvetica, sans-serif;
+	line-height:1.5em; /* approximately 20px at default text size */
+}
+
+/* Correct font size inheritance for tables in IE */
+table {
+	font-size: inherit;
+	font: 100% Arial, Helvetica, sans-serif;
+}
+	
+/* Correct font size for Safari. 100% is too large, so make it 99% */
+select, input, textarea { 
+	font:99% Arial, Helvetica, sans-serif;
+}
+
+/* Bump up font-size in !IE to get to 13px equivalent */
+pre, code {
+	font:115% monospace Arial, Helvetica, sans-serif;
+}
+
+
+/*****************************************************************************
+= Global utility styles
+******************************************************************************
+
+*/
+
+/* Elements using Phark text image replacement 
+   ------------------------------------------- 
+   http://www.mezzoblue.com/tests/revised-image-replacement/   
+*/
+   
+#logo,
+  .imgReplace,
+  .imgReplace a {
+	text-indent: -3000em; /* Hide text for image replacement far off of left screen. */
+	overflow: hidden;
+}
+   
+
+
+/*****************************************************************************
+= General content formats
+******************************************************************************
+
+.newsListing - News
+.eventsListing - Events listing
+
+*/
+#mainContent,
+  #subContent1,
+  #subContent2 { 
+	font-family: Georgia, "Times New Roman", Times, serif;
+	word-spacing: .15em;
+}
+
+h1,
+  h2,
+  h3,
+  h4 {
+ 	font-family: Helvetica, Arial, sans-serif;
+	word-spacing: normal;
+}
+
+#mainContent h1 { 
+	font-size: 153%; 
+	font-weight: bold; 
+	letter-spacing: .01em;
+}
+
+#mainContent h2 {
+	line-height: 1.25em;
+	font-weight: normal; 
+	font-size: 139%; 
+	/*letter-spacing: .05em;*/
+}
+#mainContent h3 {
+	font-size: 108%;
+	line-height: 1.45em;
+}
+#mainContent p a {
+	font-weight: bold;
+}
+
+acronym, abbr, .abbr {
+	border-bottom: 1px dashed #CB6425;
+	cursor: help;
+	letter-spacing: 0.07em;
+}
+acronym {
+	text-transform: uppercase;
+}
+
+/*
+Lists:
+
+*/
+
+dt {
+	font-weight: bold;
+}
+
+.glossary dl, dl.glossary {
+
+}
+
+.dialogue dl, dl.dialogue {
+
+}
+
+.faq dl, dl.faq {
+
+}
+
+/* News listing 
+   ------------ */
+.newsListing .teaser .storyTitle {
+	font-weight: bold;
+}
+.newsListing .teaser p { 
+	font-size: 95%;
+}
+	
+/* Events listing
+   -------------- */
+.eventsListing dt .day {
+	font-size: 150%;
+}
+.eventsListing dt .dayRange {
+	font-size: 120%;
+}
+.eventsListing dt .month-year {
+	font-size: 95%;
+	text-align: center;
+	font-weight: bold;
+}
+.eventsListing dt .month {
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+.eventsListing dd.eventName {
+	font-weight: bold;
+}
+.eventsListing dd.details {
+	font-size: 95%;
+}
+
+
+
+/*****************************************************************************
+= General components
+******************************************************************************
+
+#search - Tab-view search widget
+#globalNav - Global navigation
+#sectHd - Section header
+#banner - Banner content area
+#mainContent .box - Standard content boxes in the main content
+#sectNav - Section navigation
+#subContent1 .box - Standard content boxes in the sidebar
+#globalFt - Global footer content
+
+*/
+	
+/* Tab-view search widget
+   ---------------------- */
+#search .yui-navset .yui-nav li {
+	font-size: 85%;
+	font-weight: bold;
+}
+	#search .simpleSearch input {
+		font-size: 100%;
+	}
+	#search .simpleSearch .searchBtn {
+		text-align: center;
+		font-weight: bold;
+	}
+	#search .advancedOptionsLink {
+		font-size: 90%;
+		font-weight: bold;
+	}
+
+/* Global navigation 
+   ----------------- */
+#globalNav h2 {
+	font: bold small-caps 102%/2.8em Arial, Helvetica, sans-serif;
+}
+#globalNav ul li {
+	font-size: 85%;
+}
+	#globalNav ul li {
+		line-height: 3.6em; font-weight: bold;
+	}
+	#globalNav ul ul a,
+	  #globalNav ul ul a:visited {
+		line-height: 1em;
+	}
+	#globalNav ul ul li {
+		font-size: 104%; font-family: Arial, Helvetica, sans-serif;
+		font-weight: normal;
+	}
+	  
+/* Section header
+   -------------- */
+#sectName {
+	font: bold 310% Georgia, "Times New Roman", Times, serif;
+}
+
+/* Banner content area
+   ------------------- */
+#banner {}
+
+/* Standard content boxes in the main content
+   ------------------------------------------ */
+#mainContent .box1 {
+	font-size: 100%;
+}
+#mainContent .box1 h2 {
+	font: bold 115% Arial, Helvetica, sans-serif;
+	line-height: 1.33em;
+	letter-spacing: normal;
+	font-variant: small-caps;
+}
+#mainContent .box1 p.prelude {
+	font-size: 90%;
+}
+
+/* Section navigation 
+   ------------------ */
+#sectNav,
+  #subContent1 .nav,
+  #subContent2 .nav {}
+	#sectNav ul li,
+	  #subContent1 .nav ul li,
+	  #subContent2 .nav ul li {
+		font-weight: bold;
+		font-family: Arial,Helvetica,sans-serif;
+	}
+		#sectNav ul ul li,
+		  #subContent1 .nav ul ul li,
+		  #subContent2 .nav ul ul li {
+			font-weight: normal;
+			font-size: 95%;
+			font-family: Georgia, "Times New Roman", Times, serif;
+		}
+
+/* Standard content boxes in the sidebar
+   ------------------------------------- */	
+#subContent1 .box .hd,
+  #subContent2 .box .hd {
+	text-align: right;
+}
+	#subContent1 h2,
+	  #subContent2 h2 {
+		font-size: 85%;
+		/*line-height: 3em;*/
+		font-weight: bold;
+		letter-spacing: .3em;
+		text-transform: uppercase;
+	}
+	#subContent1 .box p,
+	  #subContent2 .box p {
+		font-family: Georgia, "Times New Roman", Times, serif; font-size: 95%;
+	}
+
+/* Global footer content
+   --------------------- */
+#globalFt .docWrap {
+	line-height: 2em;
+	font-size: 85%;
+	font-weight: bold;
+}
+	#globalFtHomeLink {
+		font-size: 114%;
+		font-weight: bold;
+		line-height: 2.2em;
+	}
+	#fdlpInfo {
+		line-height: 1.8em;
+		font-weight: bold;
+	}
+	#copyrightLink {
+		font-size: 120%;
+		line-height: 1em;
+		font-weight: bold;
+	}
+	#globalFt a:link, #globalFt a:visited {
+		font-weight: bold;
+	}
+
+
+/*****************************************************************************
+= Components for lib_home template only
+******************************************************************************
+#home #News - "News" area
+#home #Exhibitions - "Exhibitions" advertisement
+
+*/
+
+/* "News" area
+   ----------- */
+#home #News .utilNav {
+	/*font-size: 85%;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 12px;*/
+	/*letter-spacing: .05em;*/
+}
+
+/* "Exhibitions" advertisement
+   --------------------------- */
+#home #Exhibitions #mainExhibition p,
+  #home #Exhibitions #permanentExhibitions p { 
+	font: 95%/1.6em Georgia, "Times New Roman", Times, serif; 
+}
+#home #Exhibitions #mainExhibition .dates {
+	font-weight: bold; 
+}
+#home #Exhibitions #mainExhibition .dates .hours {
+	font-weight: normal; font-style: italic;
+}
+#home #Exhibitions .eventName {
+	font-weight: bold;
+}
+#home #Exhibitions .subtitle {
+	font-weight: normal; font-size: 95%;
+}
+#home #permanentExhibitions .eventName {
+	font-weight: bold;
+}
+#home #Exhibitions h3 {
+	font-size: 90%; font-weight: bold; text-align: right; letter-spacing: .2em; text-transform: uppercase;
+}
+#home #Exhibitions .moreLink {
+	font-size: 90%;
+	font-style: italic;
+}

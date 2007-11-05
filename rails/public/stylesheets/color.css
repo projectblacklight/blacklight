@@ -1,0 +1,797 @@
+@charset "UTF-8";
+/*
+Colors, backgrounds, borders, and dividers
+
+Related last design release: v0.9.3
+Last modified by: John Loy <jml4n@virginia.edu>
+
+Color key
+---------
+(in order from darkest to lightest)
+
+Blues:
+#0f3e83
+#254c85
+#4672af
+#6b8ebc
+#7499cf
+#839dbf
+#a7bddf
+#c3d4fd
+#dae4fd
+#e4ebfd
+#e6e8f5
+#edf2fe
+
+Browns and Tans:
+#3F2D0C
+#af9b83
+#cfb69b
+#f5f5f5
+#f7f3e7
+#fef7e5
+#fef8eb
+
+Oranges:
+
+Blacks and Greys:
+#000000
+#1f1f1f
+#666666
+#8d94a0
+#a4a4a4
+ 
+*/
+
+
+/*****************************************************************************
+= Global element defaults
+******************************************************************************
+
+*/
+
+body { 
+	background-color: #4672AF; 
+}
+
+/* Links */
+a:link, a:visited { 
+	color:#0F3E83; 
+	text-decoration: none; 
+}
+a:hover { 
+	color: #000; 
+	text-decoration: underline;
+}
+a:active { 
+	color:#FF6633;
+}
+p a:link,
+  p a:visited, 
+  p a:hover { 
+	text-decoration: underline;
+}
+a img { 
+	border: none;
+}
+
+
+/*****************************************************************************
+= Global utility classes
+******************************************************************************
+
+*/
+
+.alert { 
+	color: red;
+}
+
+
+/*****************************************************************************
+= General main template divisions
+******************************************************************************
+
+#globalHd - Global header
+	#brandingSearch - Wrapper to group the branding and search box
+		#branding - Branding, or Library logo. On homepage uses an <h1>. On all other pages, is a link.
+		#search - Search widget container
+#globalNav - Global navigation container
+#sectHd - Section header container
+#content - Content container
+	#mainContent - Main content container and columns
+	#subContent1 - Subordinate content area #1 container, usually the sidebar
+#globalFt - Global footer
+
+*/
+
+/* Global header 
+   ------------- */
+#globalHd { 
+	color: #fff; 
+	background: url(../images/global_header/blue_gradient_bg.png) bottom repeat-x; 
+}
+	body.uvalib-hd1 #globalHd { 
+		color: #fff; 
+		background: url(../images/global_header/blue_gradient_bg_hd1.png) bottom repeat-x; 
+	}
+	#skipToNav {
+		background: url(../images/global_header/bookmark_motif_top_shadow.png) no-repeat;
+	}
+	#bookmarkMotif {
+		background: url(../images/global_header/bookmark_motif.png);
+	}
+	#globalHd .docWrap { 
+		background: url(../images/global_header/library_logo_stacked.png) left bottom no-repeat; 
+	}
+	#globalHd a:link, 
+	  #globalHd a:visited { 
+	  	color: #fff; border-bottom: 1px solid #839DBF; text-decoration: none; 
+	}
+	#globalHd a:hover, 
+	  #globalHd a:hover { 
+		border-bottom: 1px solid #fff; background: none; text-decoration: none; 
+	}
+	
+	/* Search widget container 
+	   ----------------------- */
+	#search, 
+	  #globalHd #search a { 
+	  	color: #000; 
+	}	
+
+/* Global navigation container 
+   --------------------------- */
+#globalNav {
+	background: #E4EBFD url(../images/components/globalNav/global_nav_bg.png) left top repeat-x;
+}
+
+/* Section header container
+   ------------------------ */
+#sectHd {
+	background: #E4EBFD;
+}
+
+/* Content container
+   ----------------- */
+#content {  
+	background: #fff url(../images/content_col_backgrounds/content_bg_tile-x.png) left top repeat-x;
+}
+	#content .docWrap { 
+		background: transparent url(../images/content_col_backgrounds/content_bg_with_feature.png) no-repeat scroll left top;
+	}	
+
+	/* Main content container and columns
+	   ---------------------------------- */
+	#mainContent { }
+		
+	/* Subordinate content area #1, usually the sidebar 
+	   ------------------------------------------------ */
+	#subContent1 { }
+
+/* Global footer 
+   ------------- */
+#globalFt { 
+	color: #A7BDDF; 
+	background: #4672AF url(../images/global_footer/footer_gradient.png) top repeat-x; 
+}
+
+
+/*****************************************************************************
+= Main template divisions for dept_home and derivative templates
+******************************************************************************
+
+*/
+
+body.uvalib-t5 #content .docWrap { 
+	background: transparent url(../images/content_col_backgrounds/content_bg_no_feature.png) no-repeat scroll left top; 
+}
+
+
+/*****************************************************************************
+= Main template divisions for content_default and derivative templates
+******************************************************************************
+
+*/
+
+#content .docWrap { 
+	background: transparent url(../images/content_col_backgrounds/2col_630-330.png) no-repeat scroll left top; 
+}
+	/* main content modular divisions (.hd, .bd, .ft) */
+	#mainContent .hd { 
+		background: url(../images/content_col_backgrounds/title_2col_630-330.png) left top no-repeat; 
+	}
+	#mainContent h1 { 
+		background: url(../images/content_col_backgrounds/title_shadow.png) left bottom no-repeat; 
+	}
+
+body.uvalib-t4 #content .docWrap {
+	background: url(../images/content_col_backgrounds/3col_210-548-210.png) left top no-repeat;
+}
+body.uvalib-t4 #mainContent .hd {
+	background: url(../images/content_col_backgrounds/title_3col_210-548-210.png) left top no-repeat;
+}
+body.uvalib-t2 #content .docWrap {
+	background: url(../images/content_col_backgrounds/2col_750-210.png) left top no-repeat;
+}
+body.uvalib-t3 #content .docWrap {
+	background: url(../images/content_col_backgrounds/2col_210-750.png) left top no-repeat;
+}
+
+/* This is for limiting the size of the feature box in the mainContent */
+/*body.bnr1 #content .docWrap {
+	background: transparent url(../images/content_col_backgrounds/content_bg_with_feature.png) no-repeat scroll left top;
+}*/
+
+body.uvalib-t2 #mainContent .hd,
+  body.uvalib-t3 #mainContent .hd {
+	background: url(../images/content_col_backgrounds/title_2col_750-210.png) left top no-repeat;
+}
+body.uvalib-hd1 #globalHd {
+	/*border-bottom: 2px solid #fff;*/
+}
+body.uvalib-hd1 #globalHd .docWrap { 
+		background: none; 
+	}
+body.uvalib-hd1 #globalHd #logo { 
+		background: url(../images/global_header/library_logo_horiz.png) left top no-repeat; 
+	}
+
+body.uvalib-t1 #content .docWrap {
+	background: transparent url(../images/content_col_backgrounds/1col_980.png) no-repeat scroll left top; 
+}
+
+body.uvalib-t1 #mainContent .hd { 
+		background: url(../images/content_col_backgrounds/title_1col_980.png) left top no-repeat; 
+	}
+body.uvalib-t1 #mainContent h1 {
+	background: url(../images/content_col_backgrounds/title_shadow.png) left bottom no-repeat;
+}
+body.uvalib-t1 #mainContent .bd { 
+		background: none; 
+	}
+
+
+body.uvalib-t4 #subContent1 {
+ 	background: none;
+}
+
+
+/*****************************************************************************
+= General content formats
+******************************************************************************
+
+.newsListing - News
+.eventsListing - Events listing
+
+*/
+
+#mainContent .divider hr {
+	color: #fff;
+}
+#mainContent .divider {
+	background: url(../images/dividers/horiz_dot_black.png) left center repeat-x;
+}
+	
+/* News listing 
+   ------------ */
+.newsListing {}
+	.newsListing .headlines li { 
+		/*border-top: 1px solid #C3D4FD; */
+		background: url(../images/dividers/horiz_dot_black.png) left top repeat-x;
+	}
+	.newsListing .headlines li.first { 
+		border-top: 0;
+		background: none;
+	}
+	.newsListing .headlines li.last { 
+		border-bottom: none; 
+	}
+	.newsListing .teaser .thumbImg { 
+		background: transparent url(../images/components/thumbImg/thumbImg_frame_75x75.png) left top no-repeat;
+	}
+	.newsNoticeBadge {
+		background: yellow;
+		display: inline-block;
+		width: auto;
+		padding: 2px 4px;
+		color: #000;
+		font-weight: bold;
+		font-size: 80%;
+		font-family: Arial, Helvetica, sans-serif;
+		letter-spacing: .07em;
+		border: 1px solid #A7A39D;
+		line-height: 1;
+	}
+
+/* Events listing
+   -------------- */
+.eventsListing dl dt { 
+	/*border-right-color: #AF9B83; 
+	border-bottom-color: #AF9B83;*/
+}
+.eventsListing dd {
+	border-left: 1px solid #A7A39D;
+}
+.eventsListing dt .day,
+  .eventsListing dt .dayRange { 
+	color: #5B4418;
+	/*background: #F4F7FE;
+	border-bottom: 1px solid #BFD1FD;*/
+	/*border-top: 1px solid #A7A39D;*/
+	/*border-color: #CFB69B; border-bottom: 1px solid #000; */
+}
+.eventsListing dt .month-year { 
+	/*background: #FEF8EB;
+	
+	border-top: 1px solid #A7A39D;*/
+	
+	/*border-color: #6B8EBC; 
+	background: url(../images/components/events/blue_box.gif) bottom right no-repeat;*/
+}
+.eventsListing dl {
+
+}
+
+
+/*****************************************************************************
+= Content formats for content_basic and derivative templates
+******************************************************************************
+
+h1-4, ul, ol, dl, blockquote, p, pre, abbr, acronym, a, code
+.divider
+.featureBox
+.pulloutLeft
+.pulloutRight
+
+*/
+
+/* Standard content elements 
+   ------------------------- */
+#mainContent h1 { 
+	/*color: #3F2D0C;*/
+	color: #5B4418;
+}
+#mainContent h2 { 
+	color: #8F8A82; 
+}
+#mainContent h3 {
+	color: #333;
+}
+
+
+/*****************************************************************************
+= General components
+******************************************************************************
+
+#search - Tab-view search widget
+#globalNav - Global navigation
+#sectHd - Section header
+#banner - Banner content area
+#mainContent .box - Standard content boxes in the main content
+#sectNav - Section navigation
+#subContent1 .box - Standard content boxes in the sidebar
+#globalFt - Global footer content
+
+*/
+
+/* Tab-view search widget
+   ---------------------- */
+#search {}
+	
+	/* tabs */
+	#globalHd #search .yui-navset .yui-nav a { 
+		color: #fff; 
+	}
+	#globalHd #search .yui-nav a,
+	  #globalHd #search .yui-nav a:hover { 
+		text-decoration: none; border-bottom: none;
+	}
+	#search .yui-navset .yui-nav li.selected { 
+		background:url(../images/icons/ptr.gif) no-repeat bottom center; 
+	}
+	#globalHd #search .yui-nav li a { 
+		background: url(../images/components/search/tab_bg_lt.png) top left no-repeat; 
+		filter:alpha(opacity=60);
+		-moz-opacity:0.6;
+		opacity: 0.6; 
+	}
+	#globalHd #search .yui-nav li a:hover { 
+		filter:alpha(opacity=100);
+		-moz-opacity:1;
+		opacity: 1; 
+	}
+	#globalHd #search .yui-nav li em { 
+		background: url(../images/components/search/tab_bg_rt.png) top right no-repeat; 
+	}
+	#globalHd #search .yui-nav li.selected a,
+	  #globalHd #search .yui-nav li.selected a:hover { 
+		filter:alpha(opacity=100);
+		-moz-opacity:1;
+		opacity: 1; 
+	}
+	
+	/* simple search forms */
+	#search .simpleSearch { 
+		background:#FEF7E5; 
+	}
+		#search .simpleSearch input.searchIn { 
+			background: #fff; border: 1px solid #666; 
+		}
+		#search .simpleSearch .yui-button {
+			background: url(../images/global_header/search_button_top.png) left top no-repeat;
+			border: 0;
+		}
+		#search .simpleSearch .yui-button span.first-child {
+			background: url(../images/global_header/search_button_bot.png) left bottom no-repeat;
+		}
+		#search .simpleSearch .yui-button .first-child,
+		  #search .simpleSearch .yui-button button {
+			border: 0;
+		}
+		#search .simpleSearch .searchBtn {
+			border-top-color: #6B8EBC;
+			border-left-color: #6B8EBC;
+			border-bottom-color: #254C85;
+			border-right-color: #254C85;
+			background: white url(../images/components/search/button_bg.png) bottom right no-repeat;
+			}
+		#search .simpleSearch input.dimmed { 
+			color: #A4A4A4; 
+			background: #F5F5F5; 
+		}
+	
+	/* advanced options links */
+	#search .advancedOptionsLink { 
+		background: #FEF7E5;
+	}
+		#search .advancedOptionsLink a:link,
+		  #search .advancedOptionsLink a:visited { 
+			border: none;
+		}
+		#search .advancedOptionsLink a:hover,
+		  #search .advancedOptionsLink a:active {
+			text-decoration: underline;
+		}
+
+/* Global navigation 
+   ----------------- */		
+#globalNav {}
+	#globalNav .docWrap { 
+		background: url(../images/components/globalNav/global_nav_bg_top.png) left top no-repeat;
+	}
+	#globalNav h2 { 
+		color: #000; 
+	}
+	#globalNav ul {
+		background: url(../images/components/globalNav/global_nav_bg_bot.png) left bottom no-repeat;
+	}
+	/*#globalNav ul li {
+		background: url(../images/components/globalNav/divider.png) left top repeat-y;
+	}
+	#globalNav ul li.pressed {
+		background: #E4EBFD;
+	}*/
+	#globalNav ul ul {
+		border-top: 0;
+		background: none;
+	}
+	#globalNav a:link,
+	  #globalNav a:visited,
+	  #globalNav ul span {
+		border-bottom: 0;
+		color: #0F3E83;
+		border-right: 1px solid #C3D4FD;
+		border-left: 1px solid #EDF2FE;
+	}
+	#globalNav ul li.hover a:link,
+	  #globalNav ul li.hover a:visited,
+	  #globalNav ul li.hover a:hover,
+	  #globalNav ul li.hover span {
+		color: #000;
+		text-decoration: none;
+		background: url(../images/components/globalNav/global_nav_link_hover_bg.png) top left no-repeat;
+	}
+	#globalNav ul li.hover-first {
+		background: url(../images/components/globalNav/first_link_hover_bg_top.png) left top no-repeat;
+	}
+	#globalNav ul li.hover-first a {
+		background: url(../images/components/globalNav/first_link_hover_bg_bot.png) left bottom no-repeat;
+		color: #000;
+		text-decoration: none;
+	}
+	#globalNav ul li span#LibrariesLink span span {
+		background: url(../images/components/globalNav/down_arrow_8x5_a4b6e3.png) right center no-repeat;
+	}
+	#globalNav ul li span#LibrariesLink.hover span span {
+		background: url(../images/components/globalNav/down_arrow_8x5_black.png) right center no-repeat;
+	}
+	#globalNav ul li.pressed span#LibrariesLink span span {
+		background: url(../images/components/globalNav/up_arrow_8x5_a4b6e3.png) right center no-repeat;
+	}
+	#globalNav ul li.pressed span#LibrariesLink.hover span span {
+		background: url(../images/components/globalNav/up_arrow_8x5_black.png) right center no-repeat;
+	}
+	#globalNav ul li.pressed span {
+		color: #0F3E83;
+	}
+	#globalNav ul li.pressed span.hover span {
+		color: #000;
+	}
+	#globalNav ul li.hover li a:link,
+	  #globalNav ul li.hover li a:visited,
+	  #globalNav ul li.hover li a:hover,
+	  #globalNav ul li.hover li span {
+		background: none;
+	}
+	#globalNav ul li.hover li a:link,
+	  #globalNav ul li.hover li a:visited {
+		color: #2C558F;
+	}
+	#globalNav ul li.hover li a:hover,
+	  #globalNav ul li.hover li a:active {
+		color: #000;
+		text-decoration: underline;
+		background: none;
+	}
+	#globalNav ul span span { border: none; }
+	#globalNav .first a:link,
+	  #globalNav .first a:visited {
+		border-left: none;
+	}
+	#globalNav ul ul a:link,
+	  #globalNav ul ul a:visited {
+	  border-left: none;
+	  border-right: 1px solid #C3D4FD;
+	  color: #0F3E83; 
+	  text-decoration: none;
+	}
+	#globalNav ul ul a:hover,
+	  #globalNav ul ul a:active,
+	  #globalNav ul li.hover ul a:hover,
+	  #globalNav ul li.hover ul a:active {
+		color: #000;
+		text-decoration: underline;
+		background: none;
+	}
+	#globalNav ul ul a.first {
+		border-left: none;
+	}
+	#globalNav ul ul a.last {
+		border-right: none;
+	}
+	#globalNav ul li.pressed {
+		background: #E4EBFD;
+	}
+	#globalNav ul li.pressed span {
+		background: transparent url(../images/components/globalNav/global_nav_link_hover_rt.png) right bottom no-repeat;
+		border: none;
+	}
+	#globalNav ul li.pressed span span {
+		background: transparent url(../images/components/globalNav/global_nav_link_hover_lt.png) left bottom no-repeat;
+	}
+
+/* Section header
+   -------------- */
+#sectHd {}
+	#sectName { 
+		background: url(../images/components/sectHd/sect_heading_placeholder.png) no-repeat; 
+	}
+	#sectVitals { 
+		background: #D6E0F8 url(../images/components/sectHd/sect_vitals_box_top.png) left top no-repeat;
+	}
+	#sectVitals div.ft { 
+		background: url(../images/components/sectHd/sect_vitals_box_bot.png) no-repeat; 
+	}
+
+/* Banner content area
+   ------------------- */	
+#banner { 
+	background: transparent url(../images/content_col_backgrounds/content_bg_with_feature.png) no-repeat scroll left top;
+}
+	#banner .content {
+		border: 7px solid #FEF7E5;
+	}
+
+/* Standard content boxes in the main content
+   ------------------------------------------ */	
+#mainContent .box1 { 
+	background: url(../images/components/box1/top_bg.png) -4px 0px no-repeat;
+}
+#mainContent .col-group-2-ab .first .box1 {
+	background-position: 3px 0px;
+}
+	#mainContent .box1 .hd {
+		background: none;
+	}
+		#mainContent .box1 h2 {
+			/*color: #3F2D0C;*/
+			color: #5B4418;
+		}
+	#mainContent .box1 .bd {
+		background: none;
+	}
+		#mainContent .box1 ul li {
+			background: url(../images/icons/bul_sq_gry.gif) 0px .6em no-repeat;
+		}
+		#mainContent .box1 p.prelude {
+			border-bottom: 1px solid #D8DBE3;
+			background: #E9EFFD;
+		}
+
+/* Section navigation 
+   ------------------ */
+#sectNav ul,
+  #subContent1 .nav ul,
+  #subContent2 .nav ul {
+	border-top: 1px solid #C3D4FD;
+}
+	#sectNav ul li,
+	  #subContent1 .nav ul li,
+	  #subContent2 .nav ul li {
+		border-bottom: 1px solid #C3D4FD;
+	}
+	#sectNav a,
+	  #subContent1 .nav a,
+	  #subContent2 .nav a {
+		text-decoration: none;
+	}
+	#sectNav a:hover,
+	  #subContent1 .nav a:hover,
+	  #subContent2 .nav a:hover {
+		background: #FEF7E5;
+		/*color: #3F2D0C;*/
+		color: #5B4418;
+	}
+	#sectNav .open a,
+	  #subContent1 .nav .open a,
+	  #subContent2 .nav .open a {
+		background: #FEF7E5;
+		border-bottom: 1px solid #C3D4FD;
+	}
+		#sectNav ul ul,
+		  #subContent1 .nav ul ul,
+		  #subContent2 .nav ul ul { 
+			border-top: none;
+		}
+		#sectNav ul ul li,
+		  #subContent1 .nav ul ul li,
+		  #subContent2 .nav ul ul li {
+			border-bottom: none;
+			background: url(../images/icons/bul_sq_gry.gif) 0px .75em no-repeat;
+		}
+		#sectNav .open ul a,
+		  #sectNav ul ul a:hover,
+		  #subContent1 .nav .open ul a,
+		  #subContent1 .nav ul ul a:hover,
+		  #subContent2 .nav .open ul a,
+		  #subContent2 .nav ul ul a:hover {
+			background: none; 
+			border: none;
+		  }
+		#sectNav ul ul a:hover,
+		  #subContent1 .nav ul ul a:hover,
+		  #subContent2 .nav ul ul a:hover {
+			text-decoration: underline;
+			color: #000;
+		}
+
+/* Standard content boxes in the sidebar
+   ------------------------------------- */			
+#subContent1,
+  #subContent2 {
+	/*background: transparent url(../images/backgrounds/content_bg_with_feature.png) no-repeat scroll right top;*/
+}
+	#subContent1 .box .hd,
+	  #subContent2 .box .hd {
+		border-bottom: 3px solid #000;
+	}
+		#subContent1 .box h2,
+		  #subContent2 .box h2 {
+			color: #000;
+		}
+		#subContent1 .box h2 a:link,
+		  #subContent1 .box h2 a:visited,
+		  #subContent2 .box h2 a:link,
+		  #subContent2 .box h2 a:visited {
+			color: #000;
+		  }
+		#subContent1 .box .hd .utilNav,
+		  #subContent2 .box .hd .utilNav {
+			/*background: #1F1F1F;
+			border-top: 1px solid #000;
+			border-left: 1px solid #000;
+			border-bottom: 1px solid #535456;
+			border-right: 1px solid #535456;*/
+		}
+		#subContent1 .box .hd .utilNav a:link,
+		  #subContent1 .box .hd .utilNav a:visited,
+		  #subContent2 .box .hd .utilNav a:link,
+		  #subContent2 .box .hd .utilNav a:visited {
+			color: #AFAAA4;
+			border-bottom: none;
+		  }
+		#subContent1 .box .hd .utilNav a:hover,
+		  #subContent2 .box .hd .utilNav a:hover {
+			color: #CACACA;
+		}
+			#subContent1 .box .hd .utilNav a img,
+			  #subContent2 .box .hd .utilNav a img {
+				vertical-align: middle;
+				border: none;
+			}
+	
+/* Global footer content
+   --------------------- */
+#globalFt {}
+	#globalFt a#globalFtHomeLink {
+		color: #fff;
+	}
+	#globalFt a:link, #globalFt a:visited {
+		color: #E6E8F5;
+		border-bottom: 1px solid #839DBF; text-decoration: none;
+	}
+	#globalFt a:hover, #globalFt a:hover {
+		border-bottom: 1px solid #fff; text-decoration: none;
+	}
+	#fdlpInfo {
+		border-left-color: #7499CF;
+	}
+	#globalFt a#fdlpBadge,
+	  #globalFt a#fdlpBadge:visited,
+	  #globalFt a#fdlpBadge:hover {
+	 	text-decoration: none;
+		border: none;
+	}
+
+
+/*****************************************************************************
+= Components for lib_home template only
+******************************************************************************
+
+#home #News - "News" area
+#home #Exhibitions - "Exhibitions" advertisement
+
+*/
+
+/* "News" area
+   ----------- */
+#home #subContent1 #News .utilNav { 
+	background: #E6ECFD;
+	/*background: #DAE4FD;*/
+	/*border-bottom: 1px solid #8D94A0; 
+	background: #5B4418;*/
+}
+#home #subContent1 #News .utilNav a,
+  #home #subContent1 #News .utilNav a:visited {
+	/*color: #fff;*/
+}
+
+/* "Exhibitions" advertisement
+   --------------------------- */	
+#home #Exhibitions {}
+	#home #Exhibitions h3 {
+		border-bottom: 2px solid #666; color: #666;
+	}
+	#home #Exhibitions .thumbImg {
+		background: transparent url(../images/components/thumbImg/thumbImg_frame_75x75.png) left top no-repeat;
+	}
+	#home #permanentExhibitions .event {
+		border-top: 1px solid #CFB69B;
+	}
+	#home #Exhibitions #mainExhibition .dates {
+		background: #F4F7FE;
+		border-bottom: 1px solid #BFD1FD;
+		border-top: 1px solid #BFD1FD;
+	}
+	#home #Exhibitions .location {
+		/*border-top: 1px solid #CFB69B;*/
+	}
+	#home #Exhibitions li { 
+		background: url(../images/dividers/horiz_dot_black.png) left top repeat-x;
+	}
+	#home li#mainExhibition { 
+		background: none;
+	}
+	#home #Exhibitions .moreLink a {
+		text-decoration: underline;
+	}

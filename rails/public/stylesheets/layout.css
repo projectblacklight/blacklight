@@ -1,0 +1,1075 @@
+@charset "UTF-8";
+/*
+Layout styles for box, positioning, float, and left/right border widths
+
+Related last design release: v0.9.3
+Last modified by: John Loy <jml4n@virginia.edu>  
+*/
+
+/*****************************************************************************
+= Global element defaults
+******************************************************************************
+
+*/
+
+body { margin: 0; padding: 0; }
+
+/* Reset block-level text elements */
+/*h1, h2, h3, h4, p, ul, ol, dl, blockquote  { margin-top: 1em; margin-bottom: 1em; }*/
+
+hr {
+	position: absolute;
+	left: -3000px;
+}
+#mainContent hr,
+  #subContent1 .box hr {
+	position: static;
+}
+
+
+/*****************************************************************************
+= Global utility styles
+******************************************************************************
+
+*/
+
+.hide { display: none; }
+
+/* Document wrapper. Constrains the width of the centered page. */
+.docWrap {
+	width: 980px;
+	padding: 0 14px; /* keep a litte space between edge of pages and the viewport/scrollbars */
+	margin:0 auto;
+	text-align: left; /* necessary to override the IE5/6 page centering hack used in grids.css */
+	position: relative;
+}
+
+/* Extensions to YUI grids.css, included before main.css */
+.yui-gd .yui-g .yui-u { width: 49%;}
+
+/* Prevents margin collapse of first p,h1-6,ul,ol,dl,blockquote, etc. */
+.bd { /*padding-top: 1px;*/ }
+
+.iconLink img { vertical-align: middle; }
+
+/* Elements needing easy clearing fix 
+   ----------------------------------
+   http://www.positioniseverything.net/easyclearing.html   
+*/
+#search .simpleSearch,
+  .docWrap,
+  .newsListing .teaser,
+  .formTextButtonPair,
+  .clearFix { 
+	display: inline-block; /* add hasLayout in IE7. see http://www.tanfa.co.uk/css/examples/haslayout/tripswitch-demo.asp*/
+}
+#search .simpleSearch:after,
+  .docWrap:after,
+  .newsListing .teaser:after,
+  .formTextButtonPair:after,
+  .clearFix:after {
+  content: '[.]';
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+#search .simpleSearch,
+  .docWrap,
+  .newsListing .teaser,
+  .formTextButtonPair,
+  .clearFix { 
+	display: block;
+}
+
+/* Float clearing fix using a clearing element (div or br) with a class of .clearer */
+.clearer { clear: both; height: 0px; }
+
+ 
+/* Columns and grid. */
+#content .col, .col {
+	float: left;
+	}
+#content .col-2-ab-b,
+  .col-2-ab-b,
+	#content .col-2-ba-b,
+  .col-2-ba-b { float: right; }
+  
+
+.displayForNoCSS {
+	position: absolute;
+	left: -3000px;
+}
+
+
+
+/*****************************************************************************
+= General main template divisions
+******************************************************************************
+
+#globalHd - Global header
+	#brandingSearch - Wrapper to group the branding and search box
+		#branding - Branding, or Library logo. On homepage uses an <h1>. On all other pages, is a link.
+		#search - Search widget container
+#globalNav - Global navigation container
+#sectHd - Section header container
+#content - Content container
+	#mainContent - Main content container and columns
+	#subContent1 - Subordinate content area #1 container, usually the sidebar
+#globalFt - Global footer
+
+*/
+
+
+
+/* Global header 
+   ------------- */
+#globalHd { 
+	width: 100%;
+}
+body.uvalib-hd1 #globalHd {
+	padding-bottom: 25px;
+}
+	
+	#skipToNav {
+		position: absolute;
+		top: 0;
+		right: 0px;
+		width: 55px;
+		height: 15px;
+		z-index: 3;
+	}
+	
+	/* Wrapper to group the branding and search box 
+	   -------------------------------------------- */
+	#globalHd .docWrap {
+		
+		padding: 24px 0 18px 0;
+	}
+		
+		/* Branding, or Library logo. On homepage uses an <h1>. On all other pages, is a link. 
+		   ----------------------------------------------------------------------------------- */
+		#branding {
+			width: 230px;
+			float: left;
+		}
+		body.uvalib-hd1 #branding {
+			width: 295px;
+		}
+			#bookmarkMotif {
+				position: absolute;
+				right: -5px;
+				bottom: 30px;
+				z-index: 2;
+				width: 66px;
+				height: 419px;
+			}
+			body.uvalib-hd1 #bookmarkMotif {
+				bottom: -28px;
+			}
+			#branding a#logo:link,
+			  #branding a#logo:visited,
+			  #branding h1#logo {
+				height: 95px;
+				display: block;
+				border-bottom: none;
+				margin: 0;
+			}
+		
+		/* Search widget container 
+		   ----------------------- */
+		#search {
+			width: 662px;
+			margin: 2px 0 0 0;
+			float: left;
+		}
+
+/* Global navigation container 
+   --------------------------- */
+#globalNav .docWrap {
+	padding: 0;
+	width: 1008px;
+}
+
+/* Section header container
+   ------------------------ */
+#sectHd {
+	clear: both;
+	width: 100%;
+	padding: 12px 0 0 0;
+	min-height: 55px; /* you can optionally customize this for each section depending upon the height of the section heading text */
+}
+	#sectHd .docWrap {
+		overflow: visible;
+		position: relative;
+	}
+	
+/* Content container
+   ----------------- */
+#content {
+	clear: both;
+	padding: 0 0 30px 0;
+	position: relative;
+}
+	#content .docWrap { 
+		padding: 0; 
+		width: 1008px; 
+	}
+	
+	/* Main content container and columns
+	   ---------------------------------- */
+	#mainContent {
+		width: 664px;
+		float: left;
+	}
+		body.uvalib-t5 #mainContent { 
+			padding: 5px 0 0; 
+		}
+		
+		/* Main content columns */
+		body.deptHome #mainContent .col {
+			width: 332px;
+			float: right;
+		}
+		body.deptHome #mainContent .col-group-2-ab .first {
+			float: left;
+		}
+	
+	/* Subordinate content area #1, usually the sidebar 
+	   ------------------------------------------------ */
+	#subContent1 {
+		width: 344px;
+		float: right;
+		margin: 16px 0 0 0;
+	}
+	
+/* Global footer 
+   ------------- */
+#globalFt { clear: both; }
+	#globalFt .docWrap {
+		padding: 20px;
+	}
+	
+/*****************************************************************************
+= Main template divisions for content_default and derivative templates
+******************************************************************************
+
+*/
+
+#mainContent {
+	/*width: 664px;*/
+	min-height: 400px;
+	padding: 16px 0 0 0;
+}
+body.uvalib-t1 #mainContent {
+	width: auto;
+}
+body.bnr1 #mainContent {
+	padding-top: 0;
+}
+/* main content modular divisions (.hd, .bd, .ft) */
+#mainContent .hd {
+	margin: 0 20px -10px 14px;
+	padding: 0;
+}
+#mainContent .bd {
+	margin: 0 20px 0 14px;
+	padding: 10px 20px 0 20px;
+}
+body.uvalib-hd1 #branding a#logo:link, /* uvalib-hd1 stands for "Layout with compact header */
+  body.uvalib-hd1 #branding a#logo:visited,
+  body.uvalib-hd1 #branding h1#logo {
+	height: 30px;
+	/*width: 290px;*/
+}
+body.uvalib-hd1 #sectHd {
+	padding: 15px 0 5px 0;
+}
+
+/*body.uvalib-t1 #mainContent {
+	width: auto;
+	min-height: 400px;
+	padding: 16px 0 0 0;
+}*/
+
+body.uvalib-t1 #mainContent .hd {
+	margin-right: 0;
+	width: 994px;
+}
+#mainContent h1 {
+	padding: .2em 20px .85em 20px;
+}
+#mainContent .bd {
+	margin: 24px 20px 0 14px;
+	padding: 0 20px 0 20px;
+}
+#mainContent h2.first {
+	margin-top: 0;
+}
+
+#subContent2 {
+	display: none;
+}
+
+body.uvalib-t4 #subContent1,
+  body.uvalib-t4 #subContent2,
+  body.uvalib-t2 #subContent1,
+  body.uvalib-t3 #subContent1 {
+ 	display: block;
+	width: 224px;
+}
+
+body.uvalib-t2 #subContent2,
+  body.uvalib-t3 #subContent2,
+  body.uvalib-t1 #subContent1,
+  body.uvalib-t1 #subContent2 {
+	display: none;
+}
+
+body.uvalib-t4 #mainContent {
+	width: 554px;
+	margin-right: -769px;
+}
+body.uvalib-t4 #mainContent,
+  body.uvalib-t3 #mainContent {
+	margin-left: 230px;
+}
+body.uvalib-t4 #subContent1,
+  body.uvalib-t3 #subContent1 {
+	float:left;
+}
+body.uvalib-t4 #subContent2 {
+	float:right;
+	display: block;
+}
+
+body.uvalib-t2 #mainContent,
+  body.uvalib-t3 #mainContent {
+	width: 784px;
+	float: left;
+}
+body.uvalib-t2 #mainContent {
+	width: 784px;
+	float: left;
+}
+body.uvalib-t3 #mainContent {
+	margin-right: -1000px;
+}
+body.uvalib-t2 #subContent1 {
+	float: right;
+}
+
+/*****************************************************************************
+= General content formats
+******************************************************************************
+
+.newsListing - News
+.eventsListing - Events listing
+
+*/
+#mainContent .divider hr {
+	position: absolute;
+	left: -5000px;
+	height: 1px;
+	color: #fff;
+}
+#mainContent .divider {
+	height: 1px;
+	margin: 1.8em 0;
+}
+#mainContent blockquote {
+	margin-left: 2.4em;
+	font-style: italic;
+}
+#mainContent dd {
+	margin-left: 2.4em;
+}
+#mainContent ul {
+	/*height: 100%;*/
+}
+#mainContent p,
+  #mainContent ol,
+  #mainContent ul,
+  #mainContent dl,
+  #mainContent .spacedList li {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+/* Nudge list items over a little further left than the default 40px left margin/padding. 
+   See http://developer.mozilla.org/en/docs/Consistent_List_Indentation */
+#mainContent ol,
+  #mainContent ul ol {
+	margin-left: 15px;
+	padding-left: 15px;
+}
+#mainContent ul {
+	margin-left: 1.2em;
+	padding-left: 0;
+	list-style: none;
+}
+#mainContent ul ol li,
+  #mainContent ol ul ol li {
+	padding-left: 0;
+	background: none;
+}
+#mainContent ul li,
+  #mainContent ol ul li {
+	padding-left: 15px;
+	background: url(../images/icons/bul_sq_gry.gif) 0px 0.65em no-repeat;
+}
+
+#mainContent .spacedList .unspacedList {
+	margin-top: 1.25em;
+}
+#mainContent .spacedList .unspacedList li {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+#mainContent .spacedList dt {
+	margin-top: 1.25em;
+}
+
+#mainContent ul ul,
+  #mainContent ul ol,
+  #mainContent ol ul,
+  #mainContent ol ol {
+ 	margin-top: 0;
+	margin-bottom: 0;
+}
+#mainContent h2 { 
+	margin: .90em 0;
+}
+#mainContent h3 { 
+	margin: 1.1em 0;
+}
+#mainContent h4 { 
+	margin: 1.25em 0;
+}
+
+/* News listing 
+   ------------ */
+.newsListing {}
+	
+	/* Clear lists in case they follow floated content */
+	.newsListing ul,
+	  .newsListing dl {
+		clear: both;
+	}
+	
+	/* Story headlines list */
+	.newsListing .headlines {
+		margin: 0;
+		width: 100%;
+	}
+	.newsListing .headlines ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.newsListing .headlines li {
+		margin: 0;
+		padding: .8em 2px;
+		clear: both;
+	}
+	.newsListing .headlines li.first {
+		padding-top: 0;
+	}
+	
+	/* Story teaser. Includes headline, text blurb, and optional image. */
+	.newsListing .teaser { }
+		.newsListing .teaser .storyTitle {
+			margin: 0 0 .4em 0;
+			display: block;
+		}
+		.newsListing .teaser p { margin: 0; }
+		.newsListing .teaser .thumbImg {
+			padding: 12px 14px 14px 12px;
+			display: block;
+			width: 75px;
+			height: 75px;
+			float: left;
+			margin: -3px 8px 0 -5px;
+			/*position: relative;
+			left: -5px;
+			margin-left: 0;
+			*/
+		}
+	
+	.newsListing .headlines dl {
+		/*padding: .4em 0;*/
+	}
+	
+/* Events listing
+   -------------- */
+.eventsListing {}
+	.eventsListing dl {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+	}
+	.eventsListing dl dt {
+		float: left;
+		width: 45px;
+		/*border-right: 1px solid;
+		border-bottom: 1px solid;*/
+	}
+	.eventsListing dt .day {
+		display: block;
+		/*border: 1px solid;
+		border-bottom: 0;*/
+		padding: 0 0 .3em 0;
+		
+	}
+	.eventsListing dt .month-year {
+		display: block;
+		/*border: 1px solid;*/
+		padding: .06em 0;
+	}
+	.eventsListing span.month {
+		display: block;
+	}
+	.eventsListing dt .year {
+		position: absolute;
+		left: -1000em;
+	}
+	.eventsListing dd {
+		margin-left: 50px;
+		padding: 0 0 0 10px;
+	}
+	.eventsListing dd.details {
+		/*margin-top: .6em;*/
+	}
+
+/*****************************************************************************
+= Content formats for content_default and derivative templates
+******************************************************************************
+
+*/
+
+/* Standard content elements 
+   ------------------------- */
+#mainContent h1 {
+	margin: 0;
+	line-height: 2.2em; /* for vertical centering */
+}
+
+
+/*****************************************************************************
+= General components
+******************************************************************************
+
+#search - Tab-view search widget
+#globalNav - Global navigation
+#sectHd - Section header
+#banner - Banner content area
+#mainContent .box - Standard content boxes in the main content
+#sectNav - Section navigation
+#subContent1 .box - Standard content boxes in the sidebar
+#globalFt - Global footer content
+
+*/
+		
+/* Tab-view search widget
+   ---------------------- */
+
+/* whole tabset */
+#search .yui-navset {
+	position:relative; /* contain absolute positioned tabs (left/right) */
+}
+	
+	/* tabs */
+	#search .yui-navset .yui-nav {
+		padding: 0 9px;
+		position: relative;
+		z-index: 2;
+	}
+	#search .yui-nav, .yui-nav li {
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+		#search .yui-navset .yui-nav li {
+			margin-right:2px; /* default space between tabs */
+			white-space: nowrap;
+			display:inline-block;
+			display:-moz-inline-stack;
+			*display:inline; /* IE */
+			vertical-align:bottom; /* safari: for overlap */
+			cursor:pointer; /* gecko: due to -moz-inline-stack on anchor */
+			margin-bottom:-10px; /* pointer overlap */
+			padding-bottom:6px; /* make room for pointer */
+			position:relative;
+			top:-4px; /* pull above nav */
+			zoom: 1; /* IE: kill space between horizontal tabs */
+		}
+			#search .yui-navset .yui-nav a {
+				outline:0; /* for gecko keep from shifting */
+				padding: 0;
+				position:relative; /* for IE to allow overlap */
+				display:block;
+				display:inline-block;
+				zoom:1;
+				vertical-align:bottom; /* safari: for overlap */
+			}
+	
+			/* selected list elements */
+			#search .yui-nav li.selected a,
+				#search .yui-nav li.selected a:hover {
+					/*border: 2px solid;
+					border-bottom: none;*/
+					padding: 0;
+					
+				}
+			#search .yui-nav a em {
+				padding: 8px 14px 3px 6px;
+				display: block;
+				font-style: normal;
+				margin-left: 8px;
+			}
+			#search .yui-nav li.selected a em {
+				padding: 8px 14px 6px 6px;
+			}
+			#search .yui-nav li.selected a em {
+				
+				/*padding: 6px 12px;*/
+			}
+
+	/* tab panes */
+	#search .yui-content {
+		float: left;
+		width: 100%;
+		position: relative;
+		z-index: 1;
+	}
+		
+		/* simple search forms */
+		#search .searchOption {
+			display: none;  /* hide search forms by default. The Javascript code will toggle them back. */
+		}
+		#search #CatalogSearch {
+				display: block; /* show the catalog search by default. override above style. */
+			}
+			#search .simpleSearch {
+				padding: 9px;
+			}
+				#search .simpleSearch form {
+					margin: 0;
+				}
+				#search .simpleSearch label {
+					position: absolute;
+					left: -1000em;
+					
+				}
+				#search .simpleSearch .formTextButtonPair {
+					position: relative;
+				}
+				#search .simpleSearch .searchIn {
+					float: left;
+					width: 510px;
+					padding: .35em 0 .35em 5px;
+				}
+				#search .simpleSearch .searchBtn {
+					/*position: absolute;
+					right: 0;
+					top: 0;*/
+					float: right;
+					width: 110px;
+					text-align: center;
+					padding: .25em 0 .25em 0;
+					border: 1px solid;
+					cursor: pointer;
+				}
+				#search .simpleSearch .yui-button {
+					position: absolute;
+					right: 0;
+					top: 0;
+					width: 122px;
+					text-align: center;
+					margin: 0;
+					cursor: pointer;
+					margin-top: -1px;
+				}
+				#search .simpleSearch .yui-button .first-child {
+					margin: 0;
+					padding: .35em 0 .4em 0;
+				}
+				#search .simpleSearch .yui-button button {
+				
+				}
+				#search .simpleSearch .yui-button,
+				  #search .simpleSearch .yui-button .first-child {
+				 	
+				}
+				#search .simpleSearch .yui-button button, 
+				  #search .simpleSearch .yui-button a {
+					padding: 0;
+					margin: 0 auto;
+					text-align: center;
+					width: 100%;
+					min-height: 10px;
+					line-height: 1.5em;
+					display: inline-block;
+					display: block;
+				}
+		
+		/* advanced options link */	
+		#search .advancedOptionsLink {
+			float: left;
+			width: auto;
+			padding: 0 8px .1em 8px;
+			margin: -.3em 0 0 10px;
+		}
+			#search .advancedOptionsLink a:link,
+			  #search .advancedOptionsLink a:visited {
+				border: none;
+			}
+				#search .advancedOptionsLink a img {
+					border: none;
+				}
+
+/* Global navigation 
+   ----------------- */
+#globalNav ul {
+	margin: 2px 0 0 0;
+	list-style-type: none;
+	position: relative;
+	float: left;
+	display: block;
+	padding: 0 14px;
+	width: 980px;
+}
+	#globalNav ul li {
+		float: left;
+		width: auto;
+		display: inline-block;
+		display: block;
+		margin-bottom: 8px;
+		}
+	
+		#globalNav ul li span {
+			display: block;
+		}
+		#globalNav ul a,
+		  #globalNav ul a:visited,
+		  #globalNav ul li span span  {
+			display: block;
+			padding: 0 16px;
+			/*margin: 0 0 8px 0;*/
+			margin: 0;
+			cursor:pointer;
+		}
+		#globalNav ul li.pressed {
+			margin-bottom: 0;
+			height: 100%;
+		}
+		
+		#globalNav ul li.pressed span span {
+			padding: 0 17px 8px 17px;
+			margin: 0;
+		}
+		#globalNav ul li span#LibrariesLink span span {
+			padding: 0 12px 0 0; /* add space to the right of the link for a downward arrow */
+		}
+		
+	
+	/* Second level, embedded list */
+	#globalNav ul ul {
+		padding: 0 0 0 14px;
+		margin: 0;
+		position: absolute;
+		top: 5.2em;
+		left: -3000px;
+		width: 980px;
+		z-index: 1000;
+	}
+		#globalNav ul ul li {
+			float: left;
+		}
+			#globalNav ul ul a:link,
+			  #globalNav ul ul a:visited  {
+				display: block;
+				padding: 0 10px;
+				float: left;
+				margin: 0;
+			}
+		
+/* Section header
+   -------------- */
+#sectHd {}
+	#sectName { 
+		margin: 0; 
+		position: absolute;
+		/* the following four styles should be customized for each site section */
+		bottom: 0;
+		right: 362px;
+		width: 370px;
+		height: 50px;
+	}
+	#sectVitals { 
+		float: right; 
+		width: 330px; 
+		margin: 0 0 0 20px;
+		
+	}
+		#sectVitals div.bd {
+			padding: 10px 14px 3px 14px;
+			font-size: 90%;
+			margin: 0;
+		}
+		#sectVitals div.ft {
+			height: 9px;
+			font-size: 1px;
+		}
+		#sectVitals p {
+			margin: 0 0 .1em 0;
+		}
+	
+/* Banner content area
+   ------------------- */	
+#banner {
+	clear: left;
+	min-height: 200px;
+	width: 630px;
+	padding: 16px 20px 10px 14px;
+}
+	#banner .content {
+		overflow: hidden;
+		height: 200px;
+		padding: 0;
+	}
+	
+/* Standard content boxes in the main content
+   ------------------------------------------ */
+#mainContent .box1 {
+	margin-bottom: 7px;
+	width: 332px;
+}
+	#mainContent .box1 .hd {
+			padding: 1px 0 0 0;
+			margin: 0;
+		}
+		#mainContent .box1 h2 {
+			margin: 21px 0 0 0;
+			padding: 0 24px 0 22px;
+		}
+		#mainContent .col-group-2-ab .first .box1 h2 {
+			padding-left: 28px;
+		}
+	#mainContent .box1 .bd {
+		/*padding: 0 20px 0 7px;*/
+		padding: 0;
+		margin: 27px 21px 0 9px;
+	}
+	#mainContent .col-group-2-ab .first .box1 .bd {
+		/*padding: 12px 13px 0 14px;*/
+		padding: 0;
+		margin: 27px 15px 0 15px;
+	}
+	#mainContent .box1 p.prelude {
+		margin: -5px 0 0 0;
+		padding: 5px 10px;
+	}
+	#mainContent .box1 ul {
+		margin: 0 0 0 7px;
+		padding: 0 0 0 8px;
+		list-style: none;
+	}
+	#mainContent .box1 ul.rEdge {
+	}
+		#mainContent .box1 ul li {
+			margin: .4em 0;
+			padding-left: 15px;
+			}
+			
+/* Section navigation 
+   ------------------ */
+#sectNav,
+  #subContent1 .nav,
+  #subContent2 .nav {
+	margin: 0 28px 0 14px; 
+	padding: 0 0 26px 0;
+}
+#sectNav {
+	width: 302px;
+}
+	#sectNav ul,
+	  #subContent1 .nav ul,
+	  #subContent2 .nav ul {
+		margin: 16px 0 0 0;
+		padding: 0;
+		list-style: none;
+	}
+		#sectNav a,
+		  #subContent1 .nav a,
+		  #subContent2 .nav a {
+			display: block;
+			padding: 0.7em 0 0.6em 7px;
+		}
+		#sectNav ul ul,
+		  #subContent1 .nav ul ul,
+		  #subContent2 .nav ul ul {
+			margin: 0.5em 0 0.8em 14px;
+		}
+		#sectNav ul ul li,
+		  #subContent1 .nav ul ul li,
+		  #subContent2 .nav ul ul li {
+			padding: 0.2em 0 0.1em 15px;
+		}			
+			#sectNav ul ul a,
+			  #subContent1 .nav ul ul a,
+			  #subContent2 .nav ul ul a {
+				display: inline;
+				padding: 0;
+			}
+			
+/* Standard content boxes in the sidebar
+   ------------------------------------- */	
+#subContent1 .box,
+  #subContent2 .box { 
+	margin: 0 28px 0 14px; 
+	/*width: 302px;*/
+	padding-bottom: 20px;
+}
+	#subContent1 div.first,
+	  #subContent2 div.first { 
+		/*padding-top: 14px;*/
+	}
+	#subContent1 .box h2,
+	  #subContent2 .box h2 {
+		padding: 0 0 .5em 0;
+		margin: 0;
+	}
+	#subContent1 .box .bd,
+	  #subContent2 .box .bd {
+		padding: 0;
+		/*margin-top: .7em;*/
+		margin-top: 1.5em;
+		clear: both;
+	}
+		#subContent1 .box p,
+		  #subContent2 .box p { 
+			margin: 0 0 .5em 0; 
+		}
+
+/* Global footer content
+   --------------------- */
+#globalFt p { margin: 0; }
+#globalFt .col {
+	float: right;
+	width: 600px;
+	text-align: right;
+}
+#globalFt .first {
+	float: left;
+	width: 360px;
+	text-align: left;
+}
+#globalFt #globalFtMainContent { width: 62%; margin-top: -.4em; }
+#globalFt #fdlpInfo { clear: both; padding-top: 1em; }
+#globalFt #fdlpInfo p { padding-top: 1em; border-top: 1px solid #648FC7; margin: 0; }
+	#fdlpInfo p {  }
+	#fdlpInfo img { vertical-align: top; }
+
+
+/*****************************************************************************
+= Components for lib_home template only
+******************************************************************************
+
+#home #News - "News" area
+#home #Exhibitions - "Exhibitions" advertisement
+
+*/
+
+/* "News" area
+   ----------- */
+#home #News .bd {
+	padding-top: 0; /* remove top padding because of .utilNav */
+	position: relative;
+}
+#home #News .utilNav {
+	/*display: block;
+	padding: 5px 10px;
+	margin-bottom: 14px;*/
+	/*display: block;
+	width: auto;
+	padding: 0;*/
+	/*position: absolute;
+	top: -1.5em;
+	right: 0;*/
+}
+	
+/* "Exhibitions" advertisement
+   --------------------------- */
+#home #Exhibitions h3 {
+	margin: 10px 0 0 0;
+	clear: both;
+}
+#home #Exhibitions h3.first {
+	margin: 5px 0 0 0;
+}
+#home #Exhibitions .thumbImg {
+	padding: 12px 14px 14px 12px;
+	display: block;
+	width: 75px;
+	height: 75px;
+	float: left;
+	margin: -4px 0 0 -4px;
+	
+	/*position: relative;
+	left: -5px;
+	margin-left: 0px;
+	*/
+	}
+#home #Exhibitions #permanentExhibitions .thumbImg {
+	top: 0;
+	width: 50px;
+	margin: 1em 0 0 0;
+}
+#home #mainExhibition .eventName,
+  #home #permanentExhibitions .eventName {
+	display: block;
+}
+#home #permanentExhibitions .event {
+	padding: 0 0 10px 0;
+	clear: both;
+}
+#home #Exhibitions #mainExhibition .details {
+	margin-top: 7px;
+}
+	#home #Exhibitions #mainExhibition p {
+		margin: .5em 0;
+	}
+	#home #Exhibitions #mainExhibition .visitTimes {
+		margin: 0 0 0 100px;
+	}
+	#home #Exhibitions #mainExhibition .dates {
+		padding: .5em 0 .5em 7px;
+	}
+	#home #Exhibitions #permanentExhibitions p {
+		margin: 0;
+	}
+	#home #Exhibitions #mainExhibition .dates {
+		/*padding-bottom: .4em;*/
+	}
+	#home #Exhibitions #mainExhibition .location {
+		padding: 0 0 0 7px;
+	}
+
+
+	#home #Exhibitions ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	#home #Exhibitions li {
+		margin: 0;
+		padding: .8em 2px;
+	}
+	#home #Exhibitions li.first {
+		padding-top: 0;
+	}
+
+#home li#mainExhibition {
+	padding-top: 0;
+}
+

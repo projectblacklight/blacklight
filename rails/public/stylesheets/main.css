@@ -1,0 +1,16 @@
+/*
+
+Main bootstrap style sheet for all of http://lib.virginia.edu
+
+Related last design release: v0.9.3
+Last modified by: John Loy <jml4n@virginia.edu>  
+
+*/
+
+/* Serve styles to all but NN4.x/All and IE5/Mac using an import syntax trick. See http://centricle.com/ref/css/filters/.
+   This style sheet is currently hidden from IE5 by a conditional comment.
+   Special styles for IE 6 are served using a conditional comment after this file is loaded.
+*/
+@import url('layout.css');
+@import url('typography.css');
+@import url('color.css');
