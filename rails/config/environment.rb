@@ -65,8 +65,7 @@ require 'solr'
 solr_environments = {
   :development => {
     :solr_query_type => :standard,
-   # :solr_url => "http://localhost:8983/solr"
-    :solr_url => "http://localhost:9009/solr"
+    :solr_url => "http://localhost:8983/solr"
   }
 }
 

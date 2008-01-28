@@ -64,7 +64,7 @@ class CatalogController < ApplicationController
   def init_flare
     flare_init_controller
     @flare_config = {
-      :solr_url=>'http://localhost:9009/solr',
+      :solr_url=>'http://localhost:8983/solr',
       :facet_values_limit=>FACET_VALUES_LIMIT
     }
     @flare = Flare::Context.new(@flare_config)

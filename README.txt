@@ -16,16 +16,15 @@
 
 
 Bess Sadler
-eos8d@virginia.edu - 23-JAN-08:
+eos8d@virginia.edu - 28-JAN-08:
 
 How to use this project:
-	1. Check out the entire project from https://aleph.lib.virginia.edu/svn/music-lib/trunk/
+	0. install ruby and required gems: solr-ruby, marc, linguistics, rails-1.2.5
+	1. Check out the entire project from svn or unzip release
 	2. start solr: cd scripts; ruby solr_jetty.rb
 		This will start solr via jetty on port 8983
 	3. index some data. You can index a very small test set like this:
 		cd scripts; ruby index.rb --test
-	   Or you can index a larger test set like this:
-		cd scripts; ruby index.rb
 	   Or you can index your own data like this:
 		cd scripts; ruby index.rb --marcdir /path/to/your/marcdir
 	 
