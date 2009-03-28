@@ -1,0 +1,9 @@
+<div id="search">
+  <%= form_tag catalog_index_path, :method=>:get %>
+    <%= text_field_tag :q, params[:q] %>
+    <%= label_tag(:per_page, "Results per page") %>
+    <%= select_tag(:per_page, options_for_select(['10', '20', '50', '100'], h(params[:per_page]))) %>
+    <%= submit_tag 'search', :class=>'submit' %>
+  </form>
+  <hr/>
+</div>

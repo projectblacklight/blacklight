@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title><%= h(@page_title || application_name) %></title>
+    
+    <%= javascript_include_tag 'jquery-1.3.1.min.js', 'blacklight', 'application', 'accordion', :plugin=>:blacklight %>
+    <%= stylesheet_link_tag 'yui', 'application', :plugin=>:blacklight %>
+    
+  </head>
+  
+  <body>
+	  
+	  <div id="doc4" class="yui-t2">
+	    
+	    <div id="hd">
+        <div class="yui-g">
+          <div class="yui-u first">
+            <strong><%= link_to application_name, root_path %></strong>
+          </div>
+          <div class="yui-u">
+            <%= render :partial=>'/user_util_links' %>
+          </div>
+        </div>
+      </div>
+	    
+	    <div id="bd">
+      	
+      	<div id="yui-main">
+          <div class="yui-b">
+            <%= render :partial=>'/flash_msg' %>
+            <%= yield %>
+          </div>
+        </div>
+        
+        <div class="yui-b"><%= @sidebar %></div>
+        
+	    </div>
+	    
+	    <div id="ft"><%= @footer %></div>
+	    
+	  </div>
+	  
+  </body>
+  
+</html>

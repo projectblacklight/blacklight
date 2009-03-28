@@ -1,0 +1,51 @@
+<% if parent? %><% # The parent? method is coming from the ResourceController plugin -%>
+	
+	<% @sidebar = capture do %>
+		<% if current_user.has_bookmarks? %>
+		  
+  	  <h3>Search your Bookmarks</h3>
+  	  <% form_tag user_bookmarks_path(current_user), :method=>:get do %>
+  	    <%= text_field_tag 'q', params[:q] %>
+        <%= submit_tag 'find', :name=>:a %>
+  		<% end %>
+		
+  		<h3>Bookmark Tags</h3>
+		
+  		<% @tags=current_user.bookmarks.tag_counts %>
+		
+  		<% tag_cloud @tags, %w(tagCloud1 tagCloud2 tagCloud3 tagCloud4) do |tag, css_class| %>
+  			<%= link_to h(tag.name), "#{collection_path}?tag=#{h(tag.name)}", :class=>css_class %>
+  		<% end %>
+		
+		<% end %>
+		
+	<% end %><% # END OF SIDEBAR CAPTURE -%>
+	
+	<h3>Your Bookmarks</h3>
+	
+	<% if current_user.has_bookmarks? %>
+	  
+  	<% if params[:tag] %>
+  	  Showing "<%= h params[:tag] %>" tagged items.
+  	  Show <%= link_to 'all', user_bookmarks_path(current_user) %>.
+  	<% end %>
+	  
+  	<%= will_paginate(@bookmarks) %>
+	  
+  	<div id="userBookmarks">
+    	<% @bookmarks.each do |bm| %>
+    		<div>
+    		  <h5><%= link_to h(bm.title), catalog_path(bm.document_id) %></h5>
+    			[<%= link_to 'edit', edit_user_bookmark_path(current_user, bm) %> | 
+    			<%= link_to 'remove', user_bookmark_path(current_user, bm), :method=>:delete, :confirm=>'Are you sure?' %>]
+    		</div>
+    	<% end %>
+  	</div>
+	  
+	<% else %>
+		<p>You have no bookmarks. <%= link_to 'Go look for something!', catalog_index_path %></p>
+	<% end %>
+	
+<% else %>
+	<h5>All User Bookmarks</h5>
+<% end %>

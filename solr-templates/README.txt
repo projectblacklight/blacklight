@@ -1,0 +1,1 @@
+The solrconfig.xml and schema.xml files can be used as starting points. Don't check these out -- export them!

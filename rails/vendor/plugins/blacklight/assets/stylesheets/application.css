@@ -1,0 +1,211 @@
+html,body{
+	font-family:"Bitstream Cyberbit", verdana, arial;
+	color:#333;
+}
+
+input {
+	padding:.1em;
+}
+
+a{
+	color:#12A;
+}
+	a:hover{
+		color:#333;
+	}
+
+hr{
+	border:none;
+	height:1px;
+	background-color:#CCC;
+}
+
+#bd #yui-main, #bd .yui-b{
+	padding-top:1em;
+}
+
+#hd{
+	background-color:#EFEFEF;
+	border:solid 1px #DEDEDE;
+}
+	#hd .yui-g{
+		padding:1em;
+	}
+		#hd .yui-g {
+			text-align:right;
+		}
+		#hd .yui-g .first{
+			text-align:left;
+		}
+
+#search hr{
+	margin:1em 0;
+	margin-top:2em;
+}
+	#search #q {
+		width:300px;
+	}
+	#search .submit {
+		
+	}
+
+.document{
+	border:solid 1px #efefef;
+	margin-bottom:1em;
+}
+
+#documents{
+	margin-top:1em;
+}
+	#documents .documentHeader{
+		background-color:#EEE;
+		padding:.5em;
+	}
+	#documents .documentHeader .documentFunctions{
+		text-align:right;
+	}
+
+#facets{
+	font-size:93%;
+}
+	#facets h3{
+		margin-bottom:0;
+		color:#999;
+		font-weight:normal;
+		text-align:justify;
+	}
+	#facets ul{
+		border-bottom:solid 1px #DEDEDE;
+		padding-bottom:1em;
+		margin:0;
+	}
+		#facets li{
+			list-style:none;
+			margin:.3em 0;
+		}
+			#facets li:hover{
+				background-color:#EFEFEF;
+			}
+			#facets li a.remove{
+				color:#666;
+			}
+		#facets span.selected{
+			color:green;
+		}
+
+
+.pagination{
+	text-align:center;
+	margin-bottom:.5em;
+}
+
+.solrQuery{
+	padding:.5em;
+	margin:.5em 0;
+	background-color:lightgray;
+	font-size:90%;
+}
+
+dl{
+	padding:.5em;
+}
+
+/*
+
+FORMS
+
+*/
+
+form div.row label{
+	float:left;
+	width:120px;
+	text-align:right;
+}
+
+form div.row {
+	clear:both;
+	margin-bottom:.5em;
+}
+
+form div.row.submit {
+	margin-left:130px;
+}
+
+label{
+	font-weight:bold;
+	color:#999;
+}
+
+textarea{
+	width:30em;
+	height:15em;
+}
+
+.fieldWithErrors {
+	display:inline;
+}
+	.fieldWithErrors label{
+		color:darkred;
+	}
+
+
+/*
+
+Tag Cloud
+
+*/
+
+.tagCloud1 { font-size: 1.0em; }
+.tagCloud2 { font-size: 1.2em; }
+.tagCloud3 { font-size: 1.4em; }
+.tagCloud4 { font-size: 1.6em; }
+
+#userBookmarks div{
+	
+}
+
+/* http://www.quirksmode.org/css/clearing.html */
+
+.defList{
+	overflow: auto;
+}
+
+.defList div.row {
+	clear: both;
+}
+
+.defList .row dt{
+	float:left;
+	text-align:right;
+	width:48%;
+	color:#666;
+}
+
+.defList .row dd{
+	width:50%;
+	float:right;
+}
+
+.defList .row{
+	overflow:auto;
+	border-bottom:solid 1px #EFEFEF;
+	padding:.1em;
+}
+
+.defList .row dt{
+	width:25%;
+}
+.defList .row dd{
+	width:73%;
+}
+
+#login form{
+	margin-bottom:1em;
+}
+
+.error{
+	background-color:lightyellow;
+	padding:1em;
+	margin-bottom:1em;
+	border:solid 1px #CDC;
+}

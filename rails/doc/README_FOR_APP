@@ -1,20 +1,90 @@
-##########################################################################
-# Copyright 2008 Rector and Visitors of the University of Virginia
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-##########################################################################
+=Blacklight
 
 
+==Getting Started
 
-Use this README file to introduce your application and point to useful places in the API for learning more.
-Run "rake appdoc" to generate API documentation for your models and controllers.
+Export or checkout a copy of blacklight from RubyForge. You'll need a Subversion client:
+
+  svn co svn+ssh://mwmitchell@rubyforge.org/var/svn/blacklight/trunk blacklight
+
+
+==Installing Dependencies
+
+
+===Ruby and Ruby Gems
+Information on installing Ruby and Ruby Gems can be found:
+	
+	http://www.ruby-lang.org/en/downloads/
+	http://www.rubygems.org/read/chapter/3
+
+
+===Individual Ruby Gems
+* sudo gem install marc
+* sudo gem install rails
+* sudo gem install Linguistics
+
+
+===ImageMagick - "ImageMagick® is a software suite to create, edit, and compose bitmap images."
+Blacklight features a user feedback form. The form makes use of the "simple_captcha" plugin (included). In order for this form to work properly, the ImageMagick libraries must be installed. You can follow the instructions here http://www.imagemagick.org/script/install-source.php for installing from source or install a binary from here: http://www.imagemagick.org/script/binary-releases.php
+
+On fedora, you can try:
+
+	sudo yum install ImageMagick ImageMagick-devel
+
+Test your installation of ImageMagick:
+
+	convert -version
+
+You should see something like:
+  
+  Version: ImageMagick 6.4.5 2008-11-04 Q16 OpenMP http://www.imagemagick.org
+  Copyright: Copyright (C) 1999-2008 ImageMagick Studio LLC
+
+
+===RMagick - "RMagick is an interface between the Ruby programming language and the ImageMagick® and GraphicsMagick image processing libraries."
+RMagick is used to "talk" to ImageMagick. It can be installed by using the Ruby Gems installer:
+
+	sudo gem install rmagick
+
+Test your RMagick installation:
+	
+	irb
+	require 'rubygems'
+	require 'RMagick'
+
+* tip: If you get an error about a shared object file not found, try setting the LD_LIBRARY_PATH before starting irb. If setting this path works, you'll need to set it before starting the Rails server as well.
+
+
+===Setup
+Within a shell, change into the downloaded trunk directory:
+
+cd blacklight
+
+Start solr:
+	
+	./scripts/start_solr (starts solr and availability service)
+
+Then change into the "rails" directory:
+
+	cd rails
+
+Copy the config/database.example file to config/database.yml and make your database config changes:
+	
+	cp config/database.example config/database.yml
+
+
+Copy the config/solr.example file to config/solr.yml and make your solr config changes:
+	
+	cp config/solr.example config/solr.yml
+
+
+Run the database migrations
+	
+	rake db:migrate
+
+Start the web server:
+	open new terminal window
+	cd <directory of blacklight/rails>
+	./script/server
+
+* Browse to: http://localhost:3000/catalog

@@ -1,0 +1,423 @@
+##########################################################################
+# Copyright 2008 Rector and Visitors of the University of Virginia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+=Blacklight Installation Documentation
+
+=Base Requirements
+
+  You will need some special system privileges for installing the 
+  dependencies + database creation.  These dependencies include Ruby, RubyGems,
+  and a git client.
+
+
+==Ruby
+
+  Version 1.8.6 is required. You can find out which version you are running 
+  by executing:
+    ruby -v
+
+    Information on installing Ruby can be found here:
+      http://www.ruby-lang.org/en/downloads
+
+
+==Ruby Gems
+
+  You'll need Ruby Gems version 1.3.1 or later. You can check which version 
+  of "gem" you have by running:
+    gem -v
+
+    To update your Ruby Gems, run:
+      sudo gem install rubygems-update
+      sudo update_rubygems
+
+    You can manually install Ruby Gems by doing:
+      wget http://rubyforge.org/frs/download.php/45905/rubygems-1.3.1.tgz
+      tar xzf rubygems-1.3.1.tgz
+      cd rubygems-1.3.1
+      sudo ruby setup.rb
+
+    More information on installing Ruby Gems can be found here:
+      http://www.rubygems.org/read/chapter/3
+
+
+===Ruby Gems Sources
+
+  Make sure you have the standard ruby gem sources available:
+    gem sources -l  (that's the letter L)
+
+    should show   
+       http://gems.rubyforge.org
+       http://gems.rubyonrails.org
+
+    If missing, do:
+      gem sources -a http://gems.rubyforge.org
+      gem sources -a http://gems.rubyonrails.org
+
+  You'll also need to add github, if it isn't already in your gem sources:
+    gem sources -a http://gems.github.com
+
+
+==Git Client
+
+  Information on getting the git client installed can be found here:
+    http://git-scm.com/
+    http://book.git-scm.com/2_installing_git.html
+
+  If you are behind a firewall, you may need to open port 9418 for Git.
+
+
+==Install Blacklight's Ruby Gem dependencies by running:
+  
+  (Please see vendor/plugins/blacklight/init.rb for the Blacklight plugin dependencies' versions.
+  An example of a versioned install: sudo gem install rails --version '2.2.2')
+
+  sudo gem install rails 
+  sudo gem install will_paginate
+  sudo gem install bcrypt-ruby
+  sudo gem install mwmitchell-rsolr 
+  sudo gem install mwmitchell-rsolr-ext 
+    
+  You can confirm your gem installations and their release numbers with
+    gem list
+
+==rake gems currently has problmes!
+
+  Currently, the rake gems tasks work only if the gems listed in init.rb by config.gem are installed. 
+  If any are missing, an error is thrown.
+
+==Create a new generic Rails application named what you like:
+ 
+  rails my_blacklight
+  cd my_blacklight
+
+***NOTE: all commands and file names below are relative to the 
+"my_blacklight" directory***
+
+=== Removing rails generated application files
+
+    If you're installing a clean rails application using the above method you 
+    need to remove the rails generated ApplicationHelper and ApplicationController
+    along with the index.html in the public directory (The weclome to rails screen)
+    
+    rm app/controllers/application.rb
+    rm app/helpers/application_helper.rb
+    rm public/index.html
+
+===Install the Blacklight plugin into your newly created rails app:
+
+  ruby ./script/plugin install http://blacklight.rubyforge.org/svn/branches/rails-engines/trunk/rails/vendor/plugins/blacklight
+
+===Install the Engines plugin:
+
+  ruby ./script/plugin install git://github.com/lazyatom/engines.git
+
+===Install additional required plugins into the Engines instance
+
+  ruby ./script/plugin install http://svn.viney.net.nz/things/rails/plugins/acts_as_taggable_on_steroids
+  ruby ./script/plugin install git://github.com/giraffesoft/resource_controller.git
+  ruby ./script/plugin install git://github.com/vigetlabs/simplest_auth.git
+
+  Information on these plugins:
+    ActsAsTaggableOnSteroids plugin docs:
+      http://agilewebdevelopment.com/plugins/acts_as_taggable_on_steroids
+    Very good video tutorial on the resource_controller plugin:
+      http://www.vimeo.com/637894
+    Article on the SimplestAuth plugin:
+      http://www.viget.com/extend/rails-authentication-plugin-simplest-auth/
+
+
+===Hook Blacklight into the Engines plugin
+
+  Put this line in your config/environment.rb file, right under this line
+    -> require File.join(File.dirname(__FILE__), 'boot')
+
+    require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
+
+
+===Inherit Blacklight's routes
+
+  Put this in your config/routes.rb file, inside of the #draw block:
+
+    map.from_plugin :blacklight
+
+    Note that "blacklight" is the name of the engines plugin, not your 
+    top level rails application directory.
+
+
+===Create a config/solr.yml file
+
+   It should have this text as its contents:
+
+	 development:
+	    url: http://127.0.0.1:8983/solr
+	 test:
+	    url: http://127.0.0.1:8983/solr
+	 production:
+	    url: http://127.0.0.1:8983/solr
+
+  where http://127.0.0.1:8983/solr   is the URL to your solr instance.
+
+
+===config/database.yml file
+
+  Make sure you have permissions for the database(s) and tables indicated in 
+  your database.yml file
+
+
+===Run the migrations:
+
+  ./script/generate plugin_migration  <-- this will have dependencies on 
+     your database (e.g. mysql or sqlite3) and database related gems
+  rake db:migrate
+  rake db:migrate:all
+
+
+===Start the blacklight server:
+  
+  ./script/server
+
+
+==Setting up Solr
+
+  Blacklight uses Solr as its "search engine". Create a directory for a solr 
+  distribution and download the latest Solr nightly build:
+    cd <my-new-solr-dir>
+    wget http://people.apache.org/builds/lucene/solr/nightly/solr-2009-01-27.tgz
+  
+  Uncompress the file:
+    tar -xzvf solr-2009-01-27.tgz
+
+  You now have a usable copy of Solr!
+
+  More information about Solr is available at the Solr web site:
+    http://lucene.apache.org/solr/
+
+
+===Solr Schema
+
+  Solr uses a schema.xml file to define document fields (among other things).
+  These fields store data for displaying and indexing. You can find the 
+  example/solr/conf/schema.xml file in the Solr distribution you just 
+  downloaded and uncompressed.
+
+  Documentation about the Solr schema.xml file is available here:
+    http://wiki.apache.org/solr/SchemaXml
+
+  The default schema.xml file comes with some preset fields made to work with
+  the example data. If you don't already have a schema.xml setup, we 
+  recommend using a simplified "fields" section like this:
+	<fields>
+		<field name="id" type="string" indexed="true" stored="true" required="true" />
+		<field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
+		<field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
+		<field name="spell" type="textSpell" indexed="true" stored="true" multiValued="true"/>
+		<dynamicField name="*_i"  type="sint"    indexed="true"  stored="true"/>
+		<dynamicField name="*_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+		<dynamicField name="*_l"  type="slong"   indexed="true"  stored="true"/>
+		<dynamicField name="*_t"  type="text"    indexed="true"  stored="true" multiValued="true"/>
+		<dynamicField name="*_b"  type="boolean" indexed="true"  stored="true"/>
+		<dynamicField name="*_f"  type="sfloat"  indexed="true"  stored="true"/>
+		<dynamicField name="*_d"  type="sdouble" indexed="true"  stored="true"/>
+		<dynamicField name="*_dt" type="date"    indexed="true"  stored="true"/>
+		<dynamicField name="random*" type="random" />
+		<dynamicField name="*_facet" type="string" indexed="true" stored="true" multiValued="true" />
+		<dynamicField name="*_display" type="string" indexed="false" stored="true" />
+	</fields>
+	
+  Simply replace the "fields" section in the schema.xml with the block above.
+
+  Additionally, replace all of the tags after the "fields" section, and before 
+  the </schema> tag with this:
+	<uniqueKey>id</uniqueKey>
+	<defaultSearchField>text</defaultSearchField>
+	<solrQueryParser defaultOperator="OR"/>
+	<copyField source="*_facet" dest="text"/>
+
+  Now you have a basic schema.xml file ready. The required fields used by the 
+  built in views are:
+    id
+    title_t (used to display the title for links)
+    format_code_t (used to select the partial views)
+
+  Fields that are "indexed" are searchable.
+
+  Fields that are "stored" are can be viewed/displayed from the Solr search 
+  results. 
+
+  The fields with asterisks ('*') in their names are "dynamic" fields. These 
+  allow you to create arbitrary tags at index time. 
+
+  The *_facet field can be used for creating your facets. When you index, 
+  simply define a field with _facet on the end:
+    category_facet
+
+  The *_display field can be used for storing text that doesn't need to be 
+  indexed. An example would be the raw MARC for a record's detail view:
+    raw_marc_display
+
+  For text that will be queried (and possibly displayed), use the *_t type 
+  field for tokenized text (text broken into pieces/words) or the *_s type 
+  for queries that should exactly match the field contents:
+    description_t
+    url_s
+
+  The Blacklight application is generic enough to work with any Solr schema, but to
+  manipulate the search results and single record displays, you'll need to know the 
+  stored fields in your indexed documents.
+
+  For more information, refer to the Solr documentation: 
+    http://wiki.apache.org/solr/SchemaXml
+
+
+===Solr Config
+
+  Solr also uses a solrconfig.xml file to define request handlers, set cache 
+  options, etc. You can find the examples/solr/conf/solrconfig.xml in the 
+  distribution directory you just uncompressed.
+
+  Documentation about the solrconfig.xml file is available here:
+    http://wiki.apache.org/solr/SolrConfigXml
+
+  Blacklight expects a few things to be setup in the solrconfig.xml file, 
+  namely two special request handler definitions. 
+    
+  You MUST set up these two request handlers.
+
+
+====Solr Search Request Handlers
+
+  When Blacklight does a collection search, it sends a request to a Solr 
+  request handler named "search". The most important settings in this handler 
+  definition are the "fl" param (field list) and the facet params.
+
+  The "fl" param specifies which fields are returned in a Solr response.
+  The facet related params set up the faceting mechanism.
+
+  Find out more about the basic params: 
+     http://wiki.apache.org/solr/DisMaxRequestHandler
+  
+  Find out more about the faceting params: 
+    http://wiki.apache.org/solr/SimpleFacetParameters
+
+
+=====How the "fl" param works in Blacklight's request handlers
+
+  Blacklight comes with a set of "default" views for rendering each document 
+  in a search results page. This view simply loops through all of the fields 
+  returned in each document in the Solr response. The "fl" (field list) param
+  tells Solr which fields to include in the documents in the response ... 
+  and these are the fields rendered in the Blacklight default views.  
+  Thus, the fields you want rendered must be specified in "fl".  Note that 
+  only "stored" fields will be available;  if you want a field to be rendered 
+  in the result, it must be "stored" per the field definition in schema.xml.
+
+  The "fl" parameter definition in the "search" handler looks like this:
+    <str name="fl">*,score</str>
+
+  The asterisk could be replaced by a list of specific field names:
+    <str name="fl">id,title_t,score</str>
+    
+
+=====How the facet params work in Blacklight's request handlers
+
+  In the search results view, Blacklight will look into the Solr response for 
+  facets. If you specify any facet.field params in your "search" handler, 
+  they will automatically get displayed in the facets list:
+    <str name="facet.field">format_facet</str>
+    <str name="facet.field">language_facet</str>
+
+
+====Blacklight's "search" request handler: for search results
+
+  When Blacklight displays a list of search results, it uses a Solr request 
+  handler named "search." Thus, the field list (fl param) for the "search"
+  request handler should be tailored to what will be displayed in a search
+  results page.  Generally, this will not include fields containing a large
+  quantity of text.  The facet param should contain the facets to be 
+  displayed with the search results.
+
+	<requestHandler name="search" class="solr.SearchHandler" >
+		<lst name="defaults">
+			<str name="defType">dismax</str>
+			<str name="echoParams">explicit</str>
+			<!-- list fields to be returned in the "fl" param -->
+			<str name="fl">*,score</str>
+			
+			<str name="facet">on</str>
+			<str name="facet.mincount">1</str>
+			<str name="facet.limit">10</str>
+			
+			<!-- list fields to be displayed as facets here. -->
+		    <str name="facet.field">format_facet</str>
+		    <str name="facet.field">language_facet</str>
+			
+			<str name="q.alt">*:*</str>
+		</lst>
+	</requestHandler>
+
+
+====Blacklight's "details" request handler:  for a single record
+
+  When Blacklight displays a single record it uses a Solr request handler 
+  named "details".  The "details" handler doesn't necessarily need to be 
+  different than the "search" handler, but it can be used to control which 
+  fields are available to display a single document. In the example below, 
+  there is no faceting set (facets are not displayed with a single record) 
+  and the "rows" param is set to 1 (since there will only be a single record).
+  Also, the field list ("fl" param) could include fields containing large
+  text values if they are desired for record display. amounts of data,
+  because this handler should only be used to query for one document:
+	
+	<requestHandler name="details" class="solr.SearchHandler" >
+		<lst name="defaults">
+			<str name="defType">dismax</str>
+			<str name="echoParams">explicit</str>
+			<str name="rows">1</str>
+			<str name="fl">*, score</str>
+		</lst>
+	</requestHandler>
+	
+  A Solr query for a single record might look like this:
+   http://(yourSolrBaseUrl)/solr/select?fq=id:"my_doc_id"&qt=details
+
+
+====Solr Schema and Solrconfig File Templates
+
+  Blacklight provides schema.xml and solrconfig.xml files as starting points:
+
+    http://blacklight.rubyforge.org/svn/branches/rails-engines/trunk/solr-templates/
+
+
+==SolrMARC:  from Marc data to Solr documents
+
+  The SolrMARC project is designed to create a Solr index from raw MARC data.  
+  It can be configured easily and used with the basic parsing and indexing 
+  supplied.  It is also readily customized for a site's unique requirements.
+
+  The project is available here:
+    http://code.google.com/p/solrmarc
+
+
+==TODO
+
+1.  Indicate which web server is used by default for blacklight.
+1a.  Indicate how to use other web servers (e.g. those supplied with
+Ruby, such as webrick and mongrel, and maybe mod_passenger).
+
+2.  Say more about database requirements.  What sort of table
+structure?  What sort of size?  How to configure database.yml for a
+couple of them -- example database.yml files in the plugin
+
+3.  provide an example config/solr.yml file for the plugin

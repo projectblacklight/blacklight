@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Artists start="1" count="3" total="3" errorCount="0">
+  <Artist id="33892447" name="Beirut" rating="-1" flags="12943" hotzillaID="1809721513" trackCount="24" website="http://www.beirutband.com/">
+    <Releases>
+      <Release id="34523710" rating="-1" title="Gulag Orkestar" rights="3952" label="Ba Da Bing!" UPC="600197004821" explicit="0" typeID="2" releaseYear="2006" releaseDate="2006-05-09T06:00:00Z" flags="0"/>
+      <Release id="39477375" rating="-1" title="Lon Gisland EP" rights="3952" label="Ba Da Bing!" UPC="600197005224" explicit="0" typeID="2" releaseYear="2007" releaseDate="2007-01-30T06:00:00Z" flags="128"/>
+      <Release id="43462404" rating="-1" title="Pompeii" rights="3952" label="Ba Da Bing!" UPC="600197005217" explicit="0" typeID="4" releaseYear="2007" releaseDate="2007-04-24T06:00:00Z" flags="0"/>
+      <Release id="47216786" rating="-1" title="Elephant Gun" rights="2048" label="Ba Da Bing!" UPC="600197005231" explicit="0" typeID="4" releaseYear="2007" releaseDate="2007-08-28T06:00:00Z" flags="128"/>
+      <Release id="47825734" rating="-1" title="The Flying Club Cup" rights="3952" label="Ba Da Bing!" UPC="600197005521" explicit="0" typeID="2" releaseYear="2007" releaseDate="2007-10-09T05:00:00Z" flags="128"/>
+    </Releases>
+    <ItemInfo>
+      <Relevancy index="6629"/>
+    </ItemInfo>
+  </Artist>
+</Artists>
+<!-- wsapi-ext1.music.mud.yahoo.com compressed/chunked Wed Aug  6 22:36:23 PDT 2008 -->

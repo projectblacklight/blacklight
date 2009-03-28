@@ -1,0 +1,30 @@
+<% # main container for facets/limits menu -%>
+<div id="facets">
+  
+  <% # loop thru each facet field -%>
+  <% @response.facets.each do |facet| %>
+    
+    <div>
+      
+      <h3><%= field_label facet.name %></h3>
+      
+      <ul>
+        <% facet.items.each do |item| %>
+          <% if facet_in_params? facet.name, item.value %>
+            <li>
+              <span class="selected"><%= item.value %> (<%= format_num item.hits %>)</span>
+              [<%= link_to 'remove', remove_facet_params(facet.name, item.value), :class=>'remove' %>]
+            </li>
+          <% else %>
+            <li>
+              <%= link_to item.value, add_facet_params(facet.name, item.value) %> (<%= format_num item.hits %>)
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+      
+    </div>
+    
+  <% end %>
+  
+</div>

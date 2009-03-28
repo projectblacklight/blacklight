@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Categories>
+  <CategoryType name="genre">
+    <Category rating="-1" id="7318639" name="Blues" videoCount="104" artistCount="413" releaseCount="2809" trackCount="28997" hasVideoStation="1" hasAudioStation="1"/>
+    <Category rating="-1" id="7318649" name="Christian" videoCount="5" artistCount="102" releaseCount="619" trackCount="6347" hasVideoStation="0" hasAudioStation="1">
+      <Category rating="-1" id="40123846" name="1990s Cont. Christian" videoCount="7" artistCount="47" releaseCount="67" trackCount="109" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468748" name="Christian Rock" videoCount="72" artistCount="90" releaseCount="515" trackCount="4484" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318725" name="Contemporary Christian" videoCount="231" artistCount="321" releaseCount="1348" trackCount="11706" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318726" name="Gospel" videoCount="65" artistCount="432" releaseCount="1554" trackCount="14733" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468799" name="Praise and Worship" videoCount="1" artistCount="44" releaseCount="58" trackCount="82" hasVideoStation="0" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7321136" name="Classical" videoCount="28" artistCount="407" releaseCount="2108" trackCount="6560" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="30958577" name="Classical Crossover" videoCount="49" artistCount="21" releaseCount="39" trackCount="97" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="30958550" name="Opera" videoCount="0" artistCount="62" releaseCount="14" trackCount="140" hasVideoStation="0" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318827" name="Comedy" videoCount="75" artistCount="316" releaseCount="647" trackCount="8102" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="7318828" name="Country Comedy" videoCount="0" artistCount="29" releaseCount="210" trackCount="2545" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469152" name="Naughty Comedy" videoCount="1" artistCount="65" releaseCount="63" trackCount="274" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468834" name="Stand Up Comedy" videoCount="1" artistCount="37" releaseCount="35" trackCount="145" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318640" name="Country" videoCount="2461" artistCount="705" releaseCount="6639" trackCount="71837" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468636" name="Americana" videoCount="34" artistCount="237" releaseCount="493" trackCount="5001" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468963" name="Bluegrass" videoCount="42" artistCount="154" releaseCount="307" trackCount="3790" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468738" name="Classic Country" videoCount="6" artistCount="170" releaseCount="892" trackCount="12017" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469132" name="Country" videoCount="521" artistCount="427" releaseCount="1736" trackCount="13190" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468796" name="Greatest Country Hits" videoCount="14" artistCount="124" releaseCount="113" trackCount="203" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468865" name="Soft Country" videoCount="76" artistCount="88" releaseCount="205" trackCount="238" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468705" name="Vintage Country" videoCount="1" artistCount="63" releaseCount="84" trackCount="140" hasVideoStation="0" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318636" name="Electronic/Dance" videoCount="915" artistCount="2015" releaseCount="4942" trackCount="23269" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468688" name="Chill Out" videoCount="130" artistCount="215" releaseCount="520" trackCount="3602" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468581" name="Dance" videoCount="127" artistCount="119" releaseCount="937" trackCount="6482" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318779" name="Disco" videoCount="56" artistCount="107" releaseCount="371" trackCount="4022" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318656" name="House" videoCount="68" artistCount="403" releaseCount="747" trackCount="4966" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318655" name="Jungle/Drum &amp; Bass" videoCount="22" artistCount="134" releaseCount="153" trackCount="1336" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318641" name="Folk" videoCount="331" artistCount="535" releaseCount="4243" trackCount="46963" hasVideoStation="1" hasAudioStation="1"/>
+    <Category rating="-1" id="7318638" name="Hip-Hop/Rap" videoCount="2287" artistCount="1231" releaseCount="5889" trackCount="37295" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="44649250" name="1980s Hip-Hop" videoCount="116" artistCount="92" releaseCount="635" trackCount="5299" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123848" name="1990s Hip-Hop" videoCount="57" artistCount="96" releaseCount="138" trackCount="178" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="44649261" name="Alternative Hip-Hop" videoCount="71" artistCount="172" releaseCount="451" trackCount="2887" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318668" name="Dirty South" videoCount="38" artistCount="179" releaseCount="1566" trackCount="9694" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318669" name="East Coast Rap" videoCount="84" artistCount="201" releaseCount="1763" trackCount="12561" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318672" name="Hardcore Rap" videoCount="61" artistCount="317" releaseCount="2794" trackCount="25959" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123865" name="Hip-Hop" videoCount="2352" artistCount="120" releaseCount="1221" trackCount="6371" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318670" name="Mainstream Rap" videoCount="317" artistCount="275" releaseCount="2819" trackCount="18769" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318671" name="Midwest Rap" videoCount="25" artistCount="47" releaseCount="587" trackCount="5236" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468787" name="The Big Jams" videoCount="370" artistCount="180" releaseCount="359" trackCount="606" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468574" name="Underground Hip-Hop" videoCount="36" artistCount="341" releaseCount="1760" trackCount="15354" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469054" name="Urban New Releases" videoCount="7" artistCount="106" releaseCount="164" trackCount="311" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318675" name="West Coast Rap" videoCount="37" artistCount="73" releaseCount="722" trackCount="5928" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318642" name="Holiday" videoCount="73" artistCount="20" releaseCount="1578" trackCount="16374" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468951" name="Breaking Up Is Hard" videoCount="0" artistCount="0" releaseCount="0" trackCount="175" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469039" name="Christian Holiday" videoCount="0" artistCount="0" releaseCount="0" trackCount="118" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="44649267" name="Christmas Classical" videoCount="0" artistCount="0" releaseCount="4" trackCount="151" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468824" name="Comedy Christmas" videoCount="1" artistCount="0" releaseCount="0" trackCount="115" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468811" name="Country Holiday" videoCount="0" artistCount="0" releaseCount="0" trackCount="599" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468740" name="Country Valentine" videoCount="0" artistCount="0" releaseCount="0" trackCount="163" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468812" name="Gospel Holiday" videoCount="0" artistCount="5" releaseCount="3" trackCount="109" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469123" name="Holiday Lounge" videoCount="0" artistCount="0" releaseCount="4" trackCount="215" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468808" name="Jazz Holiday" videoCount="0" artistCount="0" releaseCount="4" trackCount="378" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468814" name="Kidz Holiday" videoCount="0" artistCount="0" releaseCount="0" trackCount="279" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468823" name="Latin Holiday" videoCount="0" artistCount="0" releaseCount="1" trackCount="101" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468582" name="Love Bites" videoCount="0" artistCount="0" releaseCount="0" trackCount="219" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469107" name="Other Holiday" videoCount="0" artistCount="1" releaseCount="47" trackCount="531" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468803" name="Pop Holiday" videoCount="0" artistCount="0" releaseCount="6" trackCount="368" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469143" name="Pop Valentine" videoCount="0" artistCount="0" releaseCount="0" trackCount="110" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468800" name="Rock Holiday" videoCount="5" artistCount="0" releaseCount="3" trackCount="340" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468839" name="Rock Valentine" videoCount="0" artistCount="0" releaseCount="0" trackCount="194" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468826" name="Scrooge Tunes" videoCount="0" artistCount="0" releaseCount="0" trackCount="144" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468807" name="Traditional Christmas" videoCount="1" artistCount="0" releaseCount="3" trackCount="319" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468801" name="Urban Holiday" videoCount="1" artistCount="0" releaseCount="4" trackCount="500" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469142" name="Urban Valentine" videoCount="0" artistCount="0" releaseCount="0" trackCount="348" hasVideoStation="0" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318643" name="Jazz" videoCount="164" artistCount="901" releaseCount="10563" trackCount="89749" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468850" name="Big Band/Swing" videoCount="6" artistCount="173" releaseCount="1550" trackCount="9967" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468791" name="Classic Vocal Standards" videoCount="3" artistCount="87" releaseCount="1479" trackCount="20663" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318696" name="Fusion" videoCount="8" artistCount="160" releaseCount="718" trackCount="3505" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468967" name="Jazz Bebop" videoCount="0" artistCount="68" releaseCount="1937" trackCount="18143" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469134" name="Jazz Classics" videoCount="0" artistCount="78" releaseCount="160" trackCount="350" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="7318697" name="Latin Jazz" videoCount="1" artistCount="135" releaseCount="774" trackCount="4141" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="7318702" name="Modern Jazz" videoCount="0" artistCount="358" releaseCount="2707" trackCount="20035" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468873" name="New Vocal Standards" videoCount="20" artistCount="74" releaseCount="134" trackCount="376" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318699" name="Smooth Jazz" videoCount="63" artistCount="153" releaseCount="866" trackCount="4626" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469081" name="Vocal Jazz" videoCount="31" artistCount="59" releaseCount="1274" trackCount="18018" hasVideoStation="0" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318710" name="Kids" videoCount="25" artistCount="116" releaseCount="624" trackCount="2178" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468764" name="Kidz Pop" videoCount="53" artistCount="89" releaseCount="173" trackCount="443" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468813" name="Kidz Rock" videoCount="56" artistCount="95" releaseCount="135" trackCount="219" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468769" name="Lil' Kidz Tunes" videoCount="0" artistCount="76" releaseCount="75" trackCount="289" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468785" name="Lullaby Tunes" videoCount="2" artistCount="60" releaseCount="66" trackCount="182" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318644" name="Latin" videoCount="1196" artistCount="1233" releaseCount="7554" trackCount="19028" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468942" name="Classic Latin" videoCount="3" artistCount="65" releaseCount="184" trackCount="617" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468771" name="Pop Latino" videoCount="415" artistCount="399" releaseCount="2427" trackCount="4921" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468774" name="Rock En Español" videoCount="63" artistCount="144" releaseCount="695" trackCount="3597" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468772" name="Salsa Cien Por Ciento" videoCount="2" artistCount="118" releaseCount="920" trackCount="2523" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468773" name="Tejano" videoCount="2" artistCount="96" releaseCount="871" trackCount="4000" hasVideoStation="0" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318645" name="Miscellaneous" videoCount="15" artistCount="89" releaseCount="715" trackCount="6629" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39469120" name="Karaoke" videoCount="9" artistCount="1" releaseCount="1074" trackCount="6362" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318646" name="New Age" videoCount="38" artistCount="286" releaseCount="1022" trackCount="6257" hasVideoStation="1" hasAudioStation="1"/>
+    <Category rating="-1" id="7318647" name="Pop" videoCount="3149" artistCount="1079" releaseCount="6251" trackCount="45861" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39469063" name="Brit Pop" videoCount="98" artistCount="41" releaseCount="483" trackCount="4363" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468794" name="Greatest Pop Ballads" videoCount="28" artistCount="87" releaseCount="111" trackCount="119" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318842" name="New Wave" videoCount="215" artistCount="254" releaseCount="1341" trackCount="13539" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318718" name="Soft Pop" videoCount="335" artistCount="328" releaseCount="2894" trackCount="27453" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468930" name="Teen Pop" videoCount="119" artistCount="68" releaseCount="590" trackCount="3744" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468566" name="Today's Big Hits" videoCount="169" artistCount="150" releaseCount="247" trackCount="150" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318648" name="R&amp;B" videoCount="1940" artistCount="748" releaseCount="6235" trackCount="48203" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39469056" name="Adult R&amp;B" videoCount="217" artistCount="364" releaseCount="957" trackCount="1604" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469136" name="Classic Soul" videoCount="114" artistCount="347" releaseCount="4703" trackCount="57946" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468744" name="Doo Wop" videoCount="0" artistCount="105" releaseCount="377" trackCount="6025" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468739" name="Funk" videoCount="65" artistCount="96" releaseCount="1571" trackCount="15345" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123867" name="Men of R&amp;B" videoCount="109" artistCount="130" releaseCount="400" trackCount="812" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469076" name="Motown" videoCount="2" artistCount="24" releaseCount="746" trackCount="10596" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468790" name="Neo Soul" videoCount="26" artistCount="55" releaseCount="299" trackCount="1833" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469085" name="New Jack Swing" videoCount="26" artistCount="50" releaseCount="479" trackCount="2515" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318723" name="Quiet Storm" videoCount="250" artistCount="98" releaseCount="1169" trackCount="8378" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469131" name="R&amp;B" videoCount="1064" artistCount="468" releaseCount="4302" trackCount="27617" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123871" name="Women Of R&amp;B" videoCount="137" artistCount="97" releaseCount="292" trackCount="712" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318637" name="Reggae" videoCount="243" artistCount="328" releaseCount="3292" trackCount="24403" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468733" name="Reggae Dancehall" videoCount="32" artistCount="102" releaseCount="1276" trackCount="7532" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468632" name="Ska" videoCount="6" artistCount="73" releaseCount="394" trackCount="4998" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318811" name="Soca" videoCount="8" artistCount="31" releaseCount="139" trackCount="982" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318650" name="Rock" videoCount="6647" artistCount="3019" releaseCount="15052" trackCount="135919" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="7318736" name="Adult Alternative" videoCount="3224" artistCount="1201" releaseCount="4360" trackCount="31930" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469164" name="Alternative Rock" videoCount="4565" artistCount="2286" releaseCount="6398" trackCount="50259" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318876" name="Avant-Garde Rock" videoCount="143" artistCount="63" releaseCount="566" trackCount="6056" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468591" name="Brit Rock" videoCount="267" artistCount="106" releaseCount="1393" trackCount="14283" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318731" name="Classic Rock" videoCount="661" artistCount="598" releaseCount="4546" trackCount="53161" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468805" name="Cool As Folk" videoCount="64" artistCount="158" releaseCount="314" trackCount="890" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468784" name="Emo" videoCount="53" artistCount="116" releaseCount="427" trackCount="3452" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468683" name="Garage Rock" videoCount="43" artistCount="52" releaseCount="147" trackCount="1469" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468863" name="Goth Rock" videoCount="28" artistCount="109" releaseCount="215" trackCount="2431" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468867" name="Grunge" videoCount="33" artistCount="33" releaseCount="350" trackCount="4812" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468709" name="Hair Flare" videoCount="226" artistCount="48" releaseCount="97" trackCount="176" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318732" name="Hard Rock" videoCount="1752" artistCount="732" releaseCount="2388" trackCount="22468" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318863" name="Indie Rock" videoCount="1000" artistCount="1979" releaseCount="4684" trackCount="32874" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468789" name="Jam Bands" videoCount="27" artistCount="36" releaseCount="359" trackCount="4452" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318734" name="Mainstream Rock" videoCount="309" artistCount="698" releaseCount="3224" trackCount="31489" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318733" name="Metal" videoCount="382" artistCount="727" releaseCount="2720" trackCount="23411" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468788" name="New School Punk Rock" videoCount="76" artistCount="96" releaseCount="177" trackCount="769" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469135" name="Old School Punk Rock" videoCount="84" artistCount="738" releaseCount="2391" trackCount="24893" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468818" name="Power Ballads" videoCount="11" artistCount="59" releaseCount="107" trackCount="129" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318808" name="Powerpop" videoCount="117" artistCount="89" releaseCount="594" trackCount="7416" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468876" name="Progressive Rock" videoCount="80" artistCount="50" releaseCount="399" trackCount="4446" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469083" name="Rap-Rock" videoCount="76" artistCount="44" releaseCount="121" trackCount="258" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469077" name="Rockabilly" videoCount="9" artistCount="47" releaseCount="623" trackCount="11793" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468708" name="Soft Rock" videoCount="44" artistCount="55" releaseCount="838" trackCount="7597" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469079" name="Southern Rock" videoCount="5" artistCount="33" releaseCount="302" trackCount="3791" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="7318794" name="Surf Rock" videoCount="3" artistCount="43" releaseCount="33" trackCount="429" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468968" name="The Coffeehouse" videoCount="331" artistCount="433" releaseCount="692" trackCount="1196" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="36674374" name="Who's Next?" videoCount="213" artistCount="259" releaseCount="329" trackCount="586" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318651" name="Shows &amp; Movies" videoCount="80" artistCount="138" releaseCount="756" trackCount="3828" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468827" name="Classic Broadway" videoCount="0" artistCount="106" releaseCount="58" trackCount="149" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468971" name="Film Scores" videoCount="1" artistCount="27" releaseCount="307" trackCount="3717" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468829" name="Modern Broadway" videoCount="11" artistCount="191" releaseCount="220" trackCount="722" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468620" name="Show Tunes" videoCount="8" artistCount="140" releaseCount="116" trackCount="190" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469126" name="Soundtracks" videoCount="11" artistCount="55" releaseCount="4833" trackCount="53808" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="7318652" name="World" videoCount="148" artistCount="470" releaseCount="1972" trackCount="12250" hasVideoStation="1" hasAudioStation="1">
+      <Category rating="-1" id="39468751" name="African" videoCount="6" artistCount="70" releaseCount="79" trackCount="998" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468754" name="Asian" videoCount="14" artistCount="124" releaseCount="117" trackCount="826" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469067" name="Australian" videoCount="47" artistCount="30" releaseCount="80" trackCount="218" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468857" name="Brazilian" videoCount="0" artistCount="65" releaseCount="390" trackCount="3533" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39468822" name="Cajun/Zydeco" videoCount="2" artistCount="50" releaseCount="251" trackCount="3242" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469068" name="Caribbean" videoCount="0" artistCount="69" releaseCount="208" trackCount="3348" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469069" name="Celtic" videoCount="13" artistCount="106" releaseCount="122" trackCount="1545" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469072" name="India" videoCount="0" artistCount="33" releaseCount="40" trackCount="266" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469073" name="Klezmer" videoCount="0" artistCount="35" releaseCount="64" trackCount="1019" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469074" name="Middle Eastern" videoCount="4" artistCount="46" releaseCount="92" trackCount="379" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469078" name="South Pacific" videoCount="0" artistCount="26" releaseCount="11" trackCount="212" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469080" name="Spanish" videoCount="1" artistCount="35" releaseCount="28" trackCount="737" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468775" name="World Beat" videoCount="9" artistCount="39" releaseCount="201" trackCount="2059" hasVideoStation="0" hasAudioStation="1"/>
+    </Category>
+  </CategoryType>
+  <CategoryType name="theme">
+    <Category rating="-1" id="44649273" name="Themes" videoCount="0" artistCount="0" releaseCount="0" trackCount="0" hasVideoStation="0" hasAudioStation="1">
+      <Category rating="-1" id="53145927" name="2008 Grammy® Nominees" videoCount="92" artistCount="0" releaseCount="0" trackCount="126" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468569" name="Beatles Legacy" videoCount="4" artistCount="113" releaseCount="144" trackCount="236" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="60760093" name="Bonnaroo" videoCount="161" artistCount="0" releaseCount="0" trackCount="271" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469011" name="Cover Art" videoCount="28" artistCount="239" releaseCount="276" trackCount="457" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469017" name="Gay Club Mix" videoCount="48" artistCount="214" releaseCount="299" trackCount="255" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469064" name="Led Zeppelin Legacy" videoCount="29" artistCount="33" releaseCount="163" trackCount="604" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468905" name="Lite Office Music" videoCount="46" artistCount="139" releaseCount="229" trackCount="266" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468776" name="Love Songs" videoCount="110" artistCount="141" releaseCount="202" trackCount="226" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39469031" name="Mardi Gras" videoCount="2" artistCount="71" releaseCount="94" trackCount="190" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468577" name="Martini Lounge" videoCount="25" artistCount="60" releaseCount="242" trackCount="3036" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="39468843" name="Meditation" videoCount="0" artistCount="88" releaseCount="46" trackCount="309" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469059" name="Mood Swing" videoCount="19" artistCount="85" releaseCount="119" trackCount="238" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40476331" name="Nissan Live Sets: Artists" videoCount="392" artistCount="0" releaseCount="0" trackCount="0" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123774" name="Pet Sounds" videoCount="0" artistCount="0" releaseCount="0" trackCount="271" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="39469016" name="Video Games" videoCount="19" artistCount="92" releaseCount="78" trackCount="119" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="37949764" name="Video Premieres" videoCount="170" artistCount="0" releaseCount="0" trackCount="0" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+  </CategoryType>
+  <CategoryType name="era">
+    <Category rating="-1" id="44649268" name="Eras" videoCount="0" artistCount="0" releaseCount="0" trackCount="0" hasVideoStation="0" hasAudioStation="1">
+      <Category rating="-1" id="40123448" name="1950s Country" videoCount="1" artistCount="40" releaseCount="59" trackCount="242" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123782" name="1950s Rock" videoCount="0" artistCount="52" releaseCount="58" trackCount="106" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="40123784" name="1960s Country" videoCount="0" artistCount="15" releaseCount="38" trackCount="211" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="40123785" name="1960s Pop" videoCount="1" artistCount="109" releaseCount="100" trackCount="178" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123786" name="1960s Rock" videoCount="3" artistCount="34" releaseCount="75" trackCount="298" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123788" name="1970s Country" videoCount="1" artistCount="60" releaseCount="97" trackCount="256" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123829" name="1970s Rock" videoCount="1" artistCount="78" releaseCount="111" trackCount="696" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123830" name="1970s Soft Pop" videoCount="2" artistCount="214" releaseCount="373" trackCount="632" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123832" name="1970s Soul" videoCount="1" artistCount="131" releaseCount="166" trackCount="384" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123834" name="1980s Alternative" videoCount="2" artistCount="96" releaseCount="134" trackCount="146" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="40123835" name="1980s Country" videoCount="0" artistCount="39" releaseCount="55" trackCount="74" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="40123836" name="1980s Dance Party" videoCount="16" artistCount="74" releaseCount="88" trackCount="107" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123838" name="1980s Love Songs" videoCount="0" artistCount="0" releaseCount="0" trackCount="189" hasVideoStation="0" hasAudioStation="1"/>
+      <Category rating="-1" id="40123839" name="1980s Pop" videoCount="36" artistCount="104" releaseCount="134" trackCount="213" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123840" name="1980s R&amp;B" videoCount="25" artistCount="86" releaseCount="158" trackCount="344" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123841" name="1980s Rock" videoCount="53" artistCount="110" releaseCount="267" trackCount="520" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123842" name="1980s Soft Pop" videoCount="13" artistCount="82" releaseCount="102" trackCount="126" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123843" name="1980s Soft Rock" videoCount="14" artistCount="104" releaseCount="175" trackCount="241" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123845" name="1990s Alternative" videoCount="325" artistCount="259" releaseCount="460" trackCount="803" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123847" name="1990s Country" videoCount="21" artistCount="73" releaseCount="133" trackCount="176" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123849" name="1990s Pop" videoCount="98" artistCount="155" releaseCount="220" trackCount="306" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123850" name="1990s R&amp;B" videoCount="39" artistCount="79" releaseCount="114" trackCount="141" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123851" name="1990s Rock" videoCount="118" artistCount="100" releaseCount="167" trackCount="260" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123852" name="1990s Soft Pop" videoCount="39" artistCount="78" releaseCount="96" trackCount="110" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="40123853" name="1990s Soft Rock" videoCount="51" artistCount="88" releaseCount="133" trackCount="176" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="44649263" name="Big Hits Of The '60s" videoCount="5" artistCount="101" releaseCount="153" trackCount="238" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="44649264" name="Big Hits Of The '70s" videoCount="4" artistCount="195" releaseCount="341" trackCount="527" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="44649265" name="Big Hits Of The '80s" videoCount="381" artistCount="248" releaseCount="350" trackCount="549" hasVideoStation="1" hasAudioStation="1"/>
+      <Category rating="-1" id="44649266" name="Big Hits Of The '90s" videoCount="186" artistCount="187" releaseCount="265" trackCount="354" hasVideoStation="1" hasAudioStation="1"/>
+    </Category>
+    <Category rating="-1" id="39468724" name="Oldies" videoCount="20" artistCount="195" releaseCount="385" trackCount="1063" hasVideoStation="1" hasAudioStation="1"/>
+  </CategoryType>
+</Categories>
+<!-- wsapi-ext2.music.mud.yahoo.com compressed/chunked Thu Aug  7 16:21:34 PDT 2008 -->

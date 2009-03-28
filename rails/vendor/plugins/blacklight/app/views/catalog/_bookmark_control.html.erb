@@ -1,0 +1,11 @@
+<% if current_user and current_user.document_is_bookmarked? document[:id] %>
+  <span>This item is in your <%= link_to 'bookmarks', user_bookmarks_path(current_user) %></span>
+<% elsif current_user %>
+  <% form_for(current_user, :url=>user_path(current_user), :html=>{:id=>nil}) do |f| %>
+    <input type="hidden" name="user[documents_to_bookmark][][document_id]" value="<%= h document[:id] %>"/>
+    <input type="hidden" name="user[documents_to_bookmark][][title]" value="<%= h document[:id] %>"/>
+    <%= f.submit 'Bookmark this item' %>
+  <% end %>
+<% else %>
+  &nbsp;
+<% end %>

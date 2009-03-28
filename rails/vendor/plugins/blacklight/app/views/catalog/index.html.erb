@@ -1,0 +1,11 @@
+<%= render :partial=>'search_form' %>
+
+<%= will_paginate @response.docs %>
+
+<%= render :partial=>'document_list' %>
+
+<% @sidebar = capture do %>
+  <%= render :partial=>'facets' %>
+<% end %>
+
+<%= render :partial=>'solr_request' %>

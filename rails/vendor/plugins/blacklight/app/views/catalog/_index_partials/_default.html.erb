@@ -1,0 +1,10 @@
+<dl class="defList">
+  
+  <% DisplayFields.index_view_fields[:field_names].each do |field| %>
+    <div class="row">
+      <dt><%= field_label field %></dt>
+      <dd><%= document.get field %></dd>
+    </div>
+  <% end %>
+  
+</dl>

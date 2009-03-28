@@ -1,0 +1,28 @@
+<% @page_title = @document[DisplayFields.show_view[:html_title]] %>
+
+<div id="document">
+  <div id="doc_<%= @document[:id] %>">
+    
+    <h2><%= @document[DisplayFields.show_view[:heading]] %></h2>
+    
+    <div class="document">
+      <%= render_document_partial @document, :show %>
+    </div>
+    
+  </div>
+</div>
+
+<% if @previous_document || @next_document %>
+<div id="previousNextDocument">
+	<%= link_to_previous_document(@previous_document) %>
+	<% if @previous_document && @next_document %> | <% end %>
+	<%= link_to_next_document(@next_document)%>	
+</div>
+<% end %>
+
+
+<% @sidebar = capture do %>
+  <p><%= link_back_to_catalog :label=>'<< SEARCH' %></p>
+<% end %>
+
+<%= render :partial=>'solr_request' %>

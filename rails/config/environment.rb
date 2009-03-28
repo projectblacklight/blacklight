@@ -1,97 +1,67 @@
-##########################################################################
-# Copyright 2008 Rector and Visitors of the University of Virginia
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-##########################################################################
+# Be sure to restart your server when you modify this file
 
-# Be sure to restart your web server when you modify this file.
-
-# Uncomment below to force Rails into production mode when 
+# Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
+
 Rails::Initializer.run do |config|
-  # Settings in config/environments/* take precedence over those specified here
+  # Settings in config/environments/* take precedence over those specified here.
+  # Application configuration should go into files in config/initializers
+  # -- all .rb files in that directory are automatically loaded.
+  # See Rails::Configuration for more options.
+
+  # Skip frameworks you're not going to use (only works if using vendor/rails).
+  # To use Rails without a database, you must remove the Active Record framework
+  #config.frameworks -= [ :action_mailer ]
   
-  # Skip frameworks you're not going to use (only works if using vendor/rails)
-  # config.frameworks -= [ :action_web_service, :action_mailer ]
-
-  # Only load the plugins named here, by default all plugins in vendor/plugins are loaded
-  # config.plugins = %W( exception_notification ssl_requirement )
-
+  # Only load the plugins named here, in the order given. By default, all plugins 
+  # in vendor/plugins are loaded in alphabetical order.
+  # :all can be used as a placeholder for all plugins not explicitly named
+  config.plugins = %W(engines blacklight acts_as_taggable_on_steroids simplest_auth resource_controller)
+  
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
-  
-  # Force all environments to use the same logger level 
-  # (by default production uses :info, the others :debug)
-  # config.log_level = :debug
 
-  # Use the database for sessions instead of the file system
+  # Force all environments to use the same logger level
+  # (by default production uses :info, the others :debug)
+  config.log_level = :debug
+  
+  # Make Time.zone default to the specified zone, and make Active Record store time values
+  # in the database in UTC, and return them converted to the specified local zone.
+  # Run "rake -D time" for a list of tasks for finding time zone names. Comment line to use default local time.
+  config.time_zone = 'UTC'
+  
+  # Your secret key for verifying cookie session data integrity.
+  # If you change this key, all old sessions will become invalid!
+  # Make sure the secret is at least 30 characters and all random, 
+  # no regular words or you'll be exposed to dictionary attacks.
+  config.action_controller.session = {
+    :session_key => '_blacklight_session',
+    :secret      => '3e37cf3b7a9a3359f437aac207241fd25c2e2a107f85b2e6d32e0b5e3795e75fdb094b9d045d8c40e9ae2b38063c8926ef01b1e03946652eadf96c653d6effa9'
+  }
+  
+  # Use the database for sessions instead of the cookie-based default,
+  # which shouldn't be used to store highly confidential information
   # (create the session table with 'rake db:sessions:create')
   # config.action_controller.session_store = :active_record_store
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
-  # This is necessary if your schema can't be completely dumped by the schema dumper, 
+  # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-
+  
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
   
-  # See Rails::Configuration for more options
 end
-
-require 'solr'
-
-solr_environments = {
-  :development => {
-    :solr_query_type => :standard,
-    :solr_url => "http://localhost:8983/solr"
-  }
-}
-
-SOLR_ENV = :development
-SOLR_CONFIG = solr_environments[:development]
-
-# Add new inflection rules using the following format 
-# (all these examples are active by default):
-# Inflector.inflections do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
-
-# Add new mime types for use in respond_to blocks:
-# Mime::Type.register "text/richtext", :rtf
-# Mime::Type.register "application/x-mobile", :mobile
-
-# Include your application configuration below
-
-FACET_MAPPING = {
-  
-  'source_facet' => {'dl' => 'Digital Library (Fedora)',
-                     'etext_tang' => "Tang Dynasty Poems",
-                     'catalog' => 'VIRGO'},
-}
-
-require 'lib/to_query.rb'
