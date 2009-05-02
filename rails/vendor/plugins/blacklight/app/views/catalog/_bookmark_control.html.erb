@@ -4,7 +4,7 @@
   <% form_for(current_user, :url=>user_path(current_user), :html=>{:id=>nil}) do |f| %>
     <input type="hidden" name="user[documents_to_bookmark][][document_id]" value="<%= h document[:id] %>"/>
     <input type="hidden" name="user[documents_to_bookmark][][title]" value="<%= h document[:id] %>"/>
-    <%= f.submit 'Bookmark this item' %>
+    <%= f.submit 'Bookmark this item', :id => "user_submit_#{document[:id]}" %>
   <% end %>
 <% else %>
   &nbsp;

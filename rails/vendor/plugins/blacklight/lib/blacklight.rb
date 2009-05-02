@@ -2,13 +2,11 @@ module Blacklight
   
   autoload :Configurable, 'blacklight/configurable'
   autoload :SolrHelper, 'blacklight/solr_helper'
+  extend Configurable
   
   class << self
-    attr_accessor :solr, :solr_config, :config
+    attr_accessor :solr, :solr_config
   end
-  
-  # Nothing.... yet
-  @config ||= {}
   
   # The configuration hash that gets used by RSolr.connect
   @solr_config ||= {}

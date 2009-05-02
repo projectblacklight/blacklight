@@ -1,11 +1,11 @@
+<%# default partial to display solr document fields in catalog show view -%>
 <dl class="defList">
 
-  <% DisplayFields.show_view_fields[:field_names].each do |field| %>
-    <div class="row">
-      <dt><%= field_label field %></dt>
-      <dd><%= @document[field] %></dd>
-    </div>
-  <% end %>
-
+  <% Blacklight.config[:show_fields][:field_names].each do |solr_fname| -%>
+    <% if document[solr_fname] %>
+        <dt><%= Blacklight.config[:show_fields][:labels][solr_fname]%></dt>
+        <dd><%= document[solr_fname] %></dd>
+    <% end -%>
+  <% end -%>
 
 </dl>

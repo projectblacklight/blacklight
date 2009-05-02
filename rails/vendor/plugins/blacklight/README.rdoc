@@ -1,21 +1,19 @@
-##########################################################################
-# Copyright 2008 Rector and Visitors of the University of Virginia
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+=Blacklight 
 
-=Blacklight Installation Documentation
+Please note: The main Blacklight website is http://blacklightopac.org
 
-=Base Requirements
+Blacklight is open source discovery software. Libraries (or anyone else) may use blacklight to enable searching and browsing of their collections online. Blacklight uses Solr to index and search text and/or metadata, and it has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and several kinds of XML documents, including TEI, EAD, and GDMS. Blacklight was originally developed at the University of Virginia Library and is made public under an Apache 2.0 license. As of version 2.0 (released March 28, 2009), Blacklight is distributed as an engines plugin inside of a demo application. This should allow institutions to keep their local institutional edits separate from the core plugin functionality, enabling easy upgrades with future releases. 
+
+==Installing the demo app
+
+  If you're just getting started with Blacklight and want to get something up and running 
+  relatively quickly, start by installing the demo app. This will give you a good introduction 
+  to the pieces of the Blacklight system before you start customizing your own installation.
+  Instructions for installing the demo app, which comes pre-installed with this Blacklight plugin
+  can be found at 
+  http://wiki.blacklightopac.org/doku.php?id=installing_the_demo_app
+
+==Base Requirements
 
   You will need some special system privileges for installing the 
   dependencies + database creation.  These dependencies include Ruby, RubyGems,
@@ -24,7 +22,7 @@
 
 ==Ruby
 
-  Version 1.8.6 is required. You can find out which version you are running 
+  Version 1.8.6 or later is required. You can find out which version you are running 
   by executing:
     ruby -v
 
@@ -83,19 +81,32 @@
   (Please see vendor/plugins/blacklight/init.rb for the Blacklight plugin dependencies' versions.
   An example of a versioned install: sudo gem install rails --version '2.2.2')
 
-  sudo gem install rails 
-  sudo gem install will_paginate
   sudo gem install bcrypt-ruby
+  sudo gem install curb
+  sudo gem install marc
+  sudo gem install mislav-will_paginate
   sudo gem install mwmitchell-rsolr 
-  sudo gem install mwmitchell-rsolr-ext 
-    
+  sudo gem install mwmitchell-rsolr-ext
+  sudo gem install rails -v 2.2.2
+  sudo gem install rspec
+  sudo gem install rspec-rails
+  
   You can confirm your gem installations and their release numbers with
     gem list
 
-==rake gems currently has problmes!
+  You will need the appropriate gem for your database:    
+    if you are using mysql:
+      sudo gem install mysql  
+    if you are using sqlite3:
+      sudo gem install sqlite3-ruby
+
+
+==rake gems currently has problems!
 
   Currently, the rake gems tasks work only if the gems listed in init.rb by config.gem are installed. 
   If any are missing, an error is thrown.
+  
+  See http://blacklightopac.org:8080/jira/browse/CODEBASE-54
 
 ==Create a new generic Rails application named what you like:
  
@@ -117,7 +128,7 @@
 
 ===Install the Blacklight plugin into your newly created rails app:
 
-  ruby ./script/plugin install http://blacklight.rubyforge.org/svn/branches/rails-engines/trunk/rails/vendor/plugins/blacklight
+  ruby ./script/plugin install http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight
 
 ===Install the Engines plugin:
 
@@ -146,6 +157,14 @@
     require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 
 
+===Add Blacklight's Plugins directory and add the required plugins
+
+  Put this in the config section of environments.rb:
+  
+    config.plugin_paths += ["#{RAILS_ROOT}/vendor/plugins/blacklight/vendor/plugins"]  
+    config.plugins = %W(engines blacklight acts_as_taggable_on_steroids simplest_auth resource_controller)
+
+
 ===Inherit Blacklight's routes
 
   Put this in your config/routes.rb file, inside of the #draw block:
@@ -158,16 +177,11 @@
 
 ===Create a config/solr.yml file
 
-   It should have this text as its contents:
+  Copy the solr.yml file from the plugin to your rails application:
 
-	 development:
-	    url: http://127.0.0.1:8983/solr
-	 test:
-	    url: http://127.0.0.1:8983/solr
-	 production:
-	    url: http://127.0.0.1:8983/solr
+	cp vendor/plugins/blacklight/config/solr.yml ./config/solr.yml
 
-  where http://127.0.0.1:8983/solr   is the URL to your solr instance.
+  Change the solr URLs in solr.yml to mach your solr instance.
 
 
 ===config/database.yml file
@@ -175,6 +189,13 @@
   Make sure you have permissions for the database(s) and tables indicated in 
   your database.yml file
 
+=== Create blacklight configuration files in your initializers folder
+
+  Copy the initalizer files from the plugin to your rails application:
+  
+  cp vendor/plugins/blacklight/config/initializers/blacklight_config.rb. config/initializers/blacklight_config.rb
+
+  Change the values in blacklight_config.rb to match your solr fields.
 
 ===Run the migrations:
 
@@ -368,36 +389,38 @@
 	</requestHandler>
 
 
-====Blacklight's "details" request handler:  for a single record
+====Blacklight's "document" request handler:  for a single record
 
   When Blacklight displays a single record it uses a Solr request handler 
-  named "details".  The "details" handler doesn't necessarily need to be 
+  named "document".  The "document" handler doesn't necessarily need to be 
   different than the "search" handler, but it can be used to control which 
   fields are available to display a single document. In the example below, 
   there is no faceting set (facets are not displayed with a single record) 
   and the "rows" param is set to 1 (since there will only be a single record).
   Also, the field list ("fl" param) could include fields containing large
-  text values if they are desired for record display. amounts of data,
-  because this handler should only be used to query for one document:
-	
-	<requestHandler name="details" class="solr.SearchHandler" >
+  text values if they are desired for record display. Is is acceptable to
+  include large amounts of data, because this handler should only be used 
+  to query for one document:
+
+	<requestHandler name="document" class="solr.SearchHandler">
 		<lst name="defaults">
-			<str name="defType">dismax</str>
 			<str name="echoParams">explicit</str>
+			<str name="fl">*</str>
 			<str name="rows">1</str>
-			<str name="fl">*, score</str>
+			<str name="q">{!raw f=id v=$id}</str>
+			<!-- use id=blah instead of q=id:blah -->
 		</lst>
 	</requestHandler>
 	
   A Solr query for a single record might look like this:
-   http://(yourSolrBaseUrl)/solr/select?fq=id:"my_doc_id"&qt=details
+   http://(yourSolrBaseUrl)/solr/select?id=my_doc_id&qt=document
 
 
 ====Solr Schema and Solrconfig File Templates
 
   Blacklight provides schema.xml and solrconfig.xml files as starting points:
 
-    http://blacklight.rubyforge.org/svn/branches/rails-engines/trunk/solr-templates/
+    http://blacklight.rubyforge.org/svn/trunk/solr-templates/
 
 
 ==SolrMARC:  from Marc data to Solr documents

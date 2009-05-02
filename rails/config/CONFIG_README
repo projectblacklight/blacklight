@@ -1,0 +1,12 @@
+You will need:
+
+1.  database.yml   (copy database.example;  if you want to use MySQL, instead
+        of sqlite3, see
+        http://wiki.blacklightopac.org/doku.php?id=installing_the_demo_app )
+    
+2.  solr.yml   (copy solr.example)
+
+
+in initializers sub-directory:
+
+3.  blacklight_config.rb  (copy initializers blacklight_config.rb.example)

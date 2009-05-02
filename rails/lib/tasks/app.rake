@@ -2,8 +2,8 @@ namespace :app do
   
   namespace :index do
     
-    desc 'Index a marc file using the lib/marc_mapper class'
-    task :marc=>:environment do
+    desc 'Index a marc file at FILE=<location-of-file> using the lib/marc_mapper class.'
+    task :marc => :environment do
       
       t = Time.now
       

@@ -1,0 +1,45 @@
+# Rake tasks for Blacklight plugin
+
+desc "Runs db:migrate then spec for Cruise Control."
+task :ccspec => ["db:migrate", "solr:spec"]
+
+desc "Runs db:migrate then features for Cruise Control."
+task :ccfeatures => ["db:migrate", "solr:features"]
+
+
+# if you would like to see solr startup messages on STDERR
+# when starting solr test server during functional tests use:
+# 
+#    rake SOLR_CONSOLE=true
+require File.expand_path(File.dirname(__FILE__) + '/../../spec/lib/test_solr_server.rb')
+
+
+SOLR_PARAMS = {
+  :quiet => ENV['SOLR_CONSOLE'] ? false : true,
+  :jetty_home => ENV['SOLR_JETTY_HOME'] || File.expand_path('./jetty'),
+  :jetty_port => ENV['SOLR_JETTY_PORT'] || 8888,
+  :solr_home => ENV['SOLR_HOME'] || File.expand_path('./jetty/solr')
+}
+
+namespace :solr do
+  
+  desc "Calls RSpec Examples wrapped in the test instance of Solr"
+  task :spec do
+    # wrap tests with a test-specific Solr server
+    got_error = TestSolrServer.wrap(SOLR_PARAMS) do
+      Rake::Task["rake:spec"].invoke 
+      #puts `ps aux | grep start.jar` 
+    end
+    raise "test failures" if got_error
+  end
+
+  desc "Calls Cucumber Features wrapped in the test instance of Solr"
+  task :features do
+    # wrap tests with a test-specific Solr server
+    got_error = TestSolrServer.wrap(SOLR_PARAMS) do
+      Rake::Task["rake:features"].invoke 
+      #puts `ps aux | grep start.jar` 
+    end
+    raise "test failures" if got_error
+  end
+end

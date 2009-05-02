@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   
   include SimplestAuth::Model
+  has_many :searches
   
   before_create :hash_password
   

@@ -11,38 +11,45 @@ require 'marc'
 #  blacklight code get a single document returned?)
 =end
 describe 'Blacklight::SolrHelper' do
+
+    @@FLAVOR = 'DEMO'
+  #  @@FLAVOR = 'STANFORD'
+#     puts "\n\t solr FLAVOR is  *** #{@@FLAVOR} ***" 
   
-  extend Blacklight::SolrHelper
-
-  @@FLAVOR = 'DEMO'
-#  @@FLAVOR = 'LOCAL'
-  puts "\n\t solr FLAVOR is  *** #@@FLAVOR ***" 
-  @solr_url = Blacklight.solr_config[:url]
-  puts "\t SOLR url is ** #@solr_url **"
-
-  all_docs_query = ''
-  no_docs_query = 'zzzzzzzzzzzz'
-  single_word_query = 'book'
-  mult_word_query = 'tibetan history'
-#  f[format_facet][]=Book&f[language_facet][]=English
-  single_facet = {:format_facet=>'Book'}
-  mult_facets = {:format_facet=>'Book', :language_facet=>'Tibetan'}
-  bad_facet = {:format_facet=>'666'}
-
-# SPECS FOR blacklight.rb contents
-describe "blacklight.rb" do
-  describe "solr.yml config" do
+  before(:all) do
+    @solr_helper = Object.new
+    @solr_helper.extend(Blacklight::SolrHelper)
     
-    it "should contain a solr_url" do
-      Blacklight.solr_config[:url].should_not == nil      
-    end
     
-    it "should contain some display fields" do
-      DisplayFields.show_view.should_not == nil
-    end
-    
+    @solr_url = Blacklight.solr_config[:url]
+#     puts "\t SOLR url is ** #{@solr_url} **"
   end
-end
+
+  before(:each) do
+    @all_docs_query = ''
+    @no_docs_query = 'zzzzzzzzzzzz'
+    @single_word_query = 'book'
+    @mult_word_query = 'tibetan history'
+  #  f[format_facet][]=Book&f[language_facet][]=English
+    @single_facet = {:format_facet=>'Book'}
+    @multi_facets = {:format_facet=>'Book', :language_facet=>'Tibetan'}
+    @bad_facet = {:format_facet=>'666'}
+  end
+
+  # SPECS FOR blacklight.rb contents
+  describe "blacklight.rb" do
+    describe "solr.yml and/or initializers" do
+    
+      it "should contain a solr_url" do
+        Blacklight.solr_config[:url].should_not == nil      
+      end
+    
+      it "should contain some display fields" do
+        Blacklight.config[:show].should_not == nil
+      end
+    
+    end
+  end
 
 
 
@@ -50,93 +57,93 @@ end
   describe 'Search Results' do
 
     describe 'for All Docs Query, No Facets' do
-      solr_response = get_search_results(all_docs_query)
-      result_docs = solr_response.docs
-      it 'should have non-nil values for required doc fields set in solr.yml' do
+      it 'should have non-nil values for required doc fields set in initializer' do
+        solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
+        result_docs = solr_response.docs
         document = result_docs.first
-        document.get(DisplayFields.index_view[:show_link]).should_not == nil
-        document.get(DisplayFields.index_view[:record_display_type]).should_not == nil
+        document.get(Blacklight.config[:index][:show_link]).should_not == nil
+        document.get(Blacklight.config[:index][:record_display_type]).should_not == nil
       end
     end
     
-    describe "for Single Word Query " + single_word_query + ", No Facets" do
-      solr_response = get_search_results(single_word_query)
+    describe "Single Word Query with no Facets" do
       it 'should have results' do
+        solr_response = @solr_helper.get_search_results(:q => @single_word_query)
         solr_response.docs.size.should > 0
       end
     end
 
-    describe "for Multiple Words Query " + mult_word_query + ", No Facets" do
-      solr_response = get_search_results(mult_word_query)
+    describe "Multiple Words Query with No Facets" do
       it 'should have results' do
+        solr_response = @solr_helper.get_search_results(:q => @mult_word_query)
         solr_response.docs.size.should > 0
       end
     end
 
-    describe "for One Facet, No Query " + single_facet.to_s do
-      solr_response = get_search_results(nil, single_facet)
+    describe "One Facet, No Query" do
       it 'should have results' do
+        solr_response = @solr_helper.get_search_results(:f => @single_facet)
         solr_response.docs.size.should > 0
       end
     end
 
-    describe "for Mult Facets, No Query " + mult_facets.to_s do
-      solr_response = get_search_results(nil, mult_facets)
+    describe "Mult Facets, No Query" do
       it 'should have results' do
+        solr_response = @solr_helper.get_search_results(:f => @multi_facets)
         solr_response.docs.size.should > 0
       end
     end
 
-    describe "for Single Word Query " + single_word_query + ", One Facet " + single_facet.to_s do
-      solr_response = get_search_results(single_word_query, single_facet)
+    describe "Single Word Query with One Facet" do
       it 'should have results' do
+        solr_response = @solr_helper.get_search_results(:q => @single_word_query, :f => @single_facet)
         solr_response.docs.size.should > 0
       end
     end
 
-    describe "for Multiple Words Query " + mult_word_query + ", Mult Facets " + mult_facets.to_s do
-      solr_response = get_search_results(mult_word_query, mult_facets)
+    describe "Multiple Words Query with Multiple Facets" do
       it 'should have results' do
+        solr_response = @solr_helper.get_search_results(:q => @mult_word_query, :f => @multi_facets)
         solr_response.docs.size.should > 0
       end
     end
 
     describe "for All Docs Query and One Facet" do
-      solr_response = get_search_results(all_docs_query, single_facet)
       it 'should have results' do
+        solr_response = @solr_helper.get_search_results(:q => @all_docs_query, :f => @single_facet)
         solr_response.docs.size.should > 0
       end
-# TODO: check that number of these results < number of results for all docs query 
-#   BUT can't: num docs isn't total, it's the num docs in the single SOLR response (e.g. 10)
+      # TODO: check that number of these results < number of results for all docs query 
+      #   BUT can't: num docs isn't total, it's the num docs in the single SOLR response (e.g. 10)
     end
 
     describe "for Query Without Results and No Facet" do
-      solr_response = get_search_results(no_docs_query)
       it 'should have no results and not raise error' do
+        solr_response = @solr_helper.get_search_results(:q => @no_docs_query)
         solr_response.docs.size.should == 0
       end
     end
 
     describe "for Query Without Results and One Facet" do
-      solr_response = get_search_results(no_docs_query, single_facet)
       it 'should have no results and not raise error' do
+        solr_response = @solr_helper.get_search_results(:q => @no_docs_query, :f => @single_facet)
         solr_response.docs.size.should == 0
       end
     end
 
     describe "for All Docs Query and Bad Facet" do
-      solr_response = get_search_results(all_docs_query, bad_facet)
       it 'should have no results and not raise error' do
+        solr_response = @solr_helper.get_search_results(:q => @all_docs_query, :f => @bad_facet)
         solr_response.docs.size.should == 0
       end
     end
     
     describe "for default display fields" do
       it "should have a list of field names for index_view_fields" do
-        DisplayFields.index_view_fields.should_not be_nil
-        DisplayFields.index_view_fields[:field_names].should be_instance_of(Array)
-        DisplayFields.index_view_fields[:field_names].length.should == 5
-        DisplayFields.index_view_fields[:field_names][0].should == "title_t"
+        Blacklight.config[:index_fields].should_not be_nil
+        Blacklight.config[:index_fields][:field_names].should be_instance_of(Array)
+        Blacklight.config[:index_fields][:field_names].length.should > 0
+        Blacklight.config[:index_fields][:field_names][0].should_not == nil
       end
     end
 
@@ -146,25 +153,28 @@ end
   
 # SPECS FOR SEARCH RESULTS FOR FACETS 
   describe 'Facets in Search Results for All Docs Query' do
-    solr_response = get_search_results(all_docs_query)
-    facets = solr_response.facets      
+
+    before(:all) do
+      solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
+      @facets = solr_response.facets      
+    end
     
     it 'should have more than one facet' do
-      facets.size.should > 1
+      @facets.size.should > 1
     end
-    it 'should have all facets specified in solr.yml' do
-      facets.each do |facet|
-        DisplayFields.facet[:field_names].should include(facet.name)
+    it 'should have all facets specified in initializer' do
+      @facets.each do |facet|
+        Blacklight.config[:facet][:field_names].should include(facet.name)
       end
     end
     it 'should have at least one value for each facet' do
-      facets.each do |facet|
+      @facets.each do |facet|
         facet.items.size.should > 0
       end
     end
     it 'should have multiple values for at least one facet' do
       has_mult_values = false
-      facets.each do |facet|
+      @facets.each do |facet|
         if facet.items.size > 1
           has_mult_values = true
           break
@@ -173,7 +183,7 @@ end
       has_mult_values.should == true
     end
     it 'should have all value counts > 0' do
-      facets.each do |facet|
+      @facets.each do |facet|
         facet.items.each do |facet_vals|
           facet_vals.hits > 0
         end
@@ -185,97 +195,101 @@ end
 # SPECS FOR SEARCH RESULTS FOR PAGING
   describe 'Paging' do
 
-    solr_response = get_search_results(all_docs_query)
     it 'should start with first results by default' do
+      solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
       solr_response.params[:start].to_i.should == 0
     end
-    it 'should have number of results (per page) set in solr.yml, by default' do
-      solr_response.docs.size.should == DisplayFields.index_view[:num_per_page]
+    it 'should have number of results (per page) set in initializer, by default' do
+      solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
+      solr_response.docs.size.should == Blacklight.config[:index][:num_per_page]
     end
 
-    num_results = 3  # non-default value
-    solr_response1 = get_search_results(all_docs_query, nil, num_results)
-    it 'should get number of results requested' do
+    it 'should get number of results per page requested' do
+      num_results = 3  # non-default value
+      solr_response1 = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => num_results)
       solr_response1.docs.size.should == num_results
     end
     
-    page = 3
-    solr_response2 = get_search_results(all_docs_query, nil, nil, page)
     it 'should skip appropriate number of results when requested - default per page' do
-      solr_response2.params[:start].to_i.should ==  DisplayFields.index_view[:num_per_page] * (page-1)
+      page = 3
+      solr_response2 = @solr_helper.get_search_results(:q => @all_docs_query, :page => page)
+      solr_response2.params[:start].to_i.should ==  Blacklight.config[:index][:num_per_page] * (page-1)
     end
-    solr_response2a = get_search_results(all_docs_query, nil, num_results, page)
     it 'should skip appropriate number of results when requested - non-default per page' do
+      page = 3
+      num_results = 3
+      solr_response2a = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => num_results, :page => page)
       solr_response2a.params[:start].to_i.should == num_results * (page-1)
     end
 
-    big = 5000
-    solr_response3 = get_search_results(all_docs_query, nil, big, big)
     it 'should have no results when prompted for page after last result' do
+      big = 5000
+      solr_response3 = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => big, :page => big)
       solr_response3.docs.size.should == 0
     end
-    solr_response4 = get_search_results(all_docs_query, nil, nil, -1)
+
     it 'should show first results when prompted for page before first result' do
-# FIXME: should it show first results, or should it throw an error for view to deal w?
-#   Solr throws an error for a negative start value
+      # FIXME: should it show first results, or should it throw an error for view to deal w?
+      #   Solr throws an error for a negative start value
+      solr_response4 = @solr_helper.get_search_results(:q => @all_docs_query, :page => '-1')
       solr_response4.params[:start].to_i.should == 0
     end
-    solr_response5 = get_search_results(all_docs_query, nil, big, 1)
     it 'should have results available when asked for more than are in response' do
+      big = 5000
+      solr_response5 = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => big, :page => 1)
       solr_response5.docs.size.should > 0
     end
     
   end # page specs
 
-# SPECS FOR SINGLE DOCUMENT REQUESTS
+  # SPECS FOR SINGLE DOCUMENT REQUESTS
   describe 'Get Document By Id' do
-    doc_id = case @@FLAVOR
-      when 'DEMO' then '2007020969'
-      when 'LOCAL' then '5666387'
+    before(:all) do
+      @doc_id = case @@FLAVOR
+        when 'DEMO' then '2007020969'
+        when 'STANFORD' then '5666387'
+      end
+      @bad_id = "redrum"
+      @response2 = @solr_helper.get_solr_response_for_doc_id(@doc_id)
+      @document = @response2.docs.first
     end
-    bad_id = "redrum"
 
-    response1 = get_solr_response_for_doc_id(bad_id)
-    it "should have no documents in the response for an unknown id " + bad_id do
+    it "should have no documents in the response for an unknown id" do
+      response1 = @solr_helper.get_solr_response_for_doc_id(@bad_id)
       response1.docs.size.should == 0
     end
-    
-    response2 = get_solr_response_for_doc_id(doc_id)
-    document = response2.docs.first
-    
-    it "should have a non-nil result for a known id " + doc_id do
-      document.should_not == nil
+        
+    it "should have a non-nil result for a known id" do
+      @document.should_not == nil
     end
-    it "should have a single document in the response for a known id " + doc_id do
-      response2.docs.size.should == 1
+    it "should have a single document in the response for a known id" do
+      @response2.docs.size.should == 1
     end
     it 'should have the expected value in the id field' do
-      document.get(:id).should == doc_id
+      @document.get(:id).should == @doc_id
     end
-    it 'should have non-nil values for required fields set in solr.yml' do
-      document.get(DisplayFields.show_view[:html_title]).should_not == nil
-      document.get(DisplayFields.show_view[:heading]).should_not == nil
-      document.get(DisplayFields.show_view[:display_type]).should_not == nil
+    it 'should have non-nil values for required fields set in initializer' do
+      @document.get(Blacklight.config[:show][:html_title]).should_not == nil
+      @document.get(Blacklight.config[:show][:heading]).should_not == nil
+      @document.get(Blacklight.config[:show][:display_type]).should_not == nil
     end
     it "should have a list of field names for show_view_fields" do
-      DisplayFields.show_view_fields.should_not be_nil
-      DisplayFields.show_view_fields[:field_names].should be_instance_of(Array)
-      DisplayFields.show_view_fields[:field_names].length.should == 5
-      DisplayFields.show_view_fields[:field_names][0].should == "title_t"
+      Blacklight.config[:show_fields].should_not be_nil
+      Blacklight.config[:show_fields][:field_names].should be_instance_of(Array)
+      Blacklight.config[:show_fields][:field_names].length.should > 0
+      Blacklight.config[:show_fields][:field_names][0].should_not == nil
     end
-    require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
     # test whether stored marc is behaving properly
-    describe "marc record storage" do
+    describe "raw record storage" do
       
-      it "should have solr.yml values for marc storage" do
-        DisplayFields.marc_storage_field.should == 'marc_display'
+      it "should have initializer values for raw storage" do
+        Blacklight.config[:raw_storage_field].should_not == nil
       end
     
-      # grab the marc value for this record
-      marc = document[DisplayFields.marc_storage_field]
-
-      it "should have a non-nil value for marc_storage_field" do
+      it "should have a non-nil value for raw_storage_field" do
+        # grab the marc value for this record
+        marc = @document.get(Blacklight.config[:raw_storage_field])
         marc.should_not == nil
       end
     end
@@ -288,16 +302,17 @@ end
 
 # SPECS FOR SINGLE DOCUMENT VIA SEARCH
   describe "Get Document Via Search" do
-
-    doc_row = 3
-    doc = get_single_doc_via_search(all_docs_query, doc_row)
+    before(:all) do
+      @doc_row = 3
+      @doc = @solr_helper.get_single_doc_via_search(:q => @all_docs_query, :page => @doc_row)
+    end
 =begin
 # can't test these here, because the method only returns the document
     it "should get a single document" do
       response.docs.size.should == 1
     end
 
-    doc2 = get_single_doc_via_search(all_docs_query, doc_row, mult_facets)
+    doc2 = get_single_doc_via_search(@all_docs_query, nil, @doc_row, @multi_facets)
     it "should limit search result by facets when supplied" do
       response2.docs.numFound.should_be < response.docs.numFound
     end
@@ -308,17 +323,17 @@ end
 =end
 
     it 'should have a doc id field' do
-      doc.get(:id).should_not == nil
+      @doc.get(:id).should_not == nil
     end
     
-    it 'should have non-nil values for required fields set in solr.yml' do
-      doc.get(DisplayFields.show_view[:html_title]).should_not == nil
-      doc.get(DisplayFields.show_view[:heading]).should_not == nil
-      doc.get(DisplayFields.show_view[:display_type]).should_not == nil
+    it 'should have non-nil values for required fields set in initializer' do
+      @doc.get(Blacklight.config[:show][:html_title]).should_not == nil
+      @doc.get(Blacklight.config[:show][:heading]).should_not == nil
+      @doc.get(Blacklight.config[:show][:display_type]).should_not == nil
     end
 
-    doc2 = get_single_doc_via_search(all_docs_query, doc_row, mult_facets)
     it "should limit search result by facets when supplied" do
+      doc2 = @solr_helper.get_single_doc_via_search(:q => @all_docs_query, :page => @doc_row, :f => @multi_facets)
       doc2.get(:id).should_not == nil
     end
 

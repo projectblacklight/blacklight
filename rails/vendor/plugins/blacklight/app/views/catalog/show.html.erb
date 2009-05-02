@@ -1,10 +1,10 @@
-<% @page_title = @document[DisplayFields.show_view[:html_title]] %>
+<% @page_title = "#{@document[Blacklight.config[:show][:html_title]]} - #{application_name}" %>
 
 <div id="document">
   <div id="doc_<%= @document[:id] %>">
     
-    <h2><%= @document[DisplayFields.show_view[:heading]] %></h2>
-    
+    <h1><%= @document[Blacklight.config[:show][:heading]] %></h1>
+    <div class="tools"><%= render :partial => 'show_tools' %></div>
     <div class="document">
       <%= render_document_partial @document, :show %>
     </div>
@@ -22,7 +22,12 @@
 
 
 <% @sidebar = capture do %>
-  <p><%= link_back_to_catalog :label=>'<< SEARCH' %></p>
+  <p><%= link_back_to_catalog :label=>'&lt;&lt; SEARCH' %></p>
 <% end %>
 
 <%= render :partial=>'solr_request' %>
+<div id="lightboxContainer" style="display:none;">
+</div>
+<div id="lightboxContent" style="display:none;">
+  <%= render :partial => 'citation' %>
+</div>

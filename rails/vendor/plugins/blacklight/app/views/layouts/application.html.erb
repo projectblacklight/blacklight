@@ -7,8 +7,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title><%= h(@page_title || application_name) %></title>
-    
-    <%= javascript_include_tag 'jquery-1.3.1.min.js', 'blacklight', 'application', 'accordion', :plugin=>:blacklight %>
+    <link href="<%= url_for :controller=>'catalog',:action => 'opensearch', :format => 'xml', :only_path => false %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
+    <%= javascript_include_tag 'jquery-1.3.1.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight %>
     <%= stylesheet_link_tag 'yui', 'application', :plugin=>:blacklight %>
     
   </head>
@@ -20,7 +20,7 @@
 	    <div id="hd">
         <div class="yui-g">
           <div class="yui-u first">
-            <strong><%= link_to application_name, root_path %></strong>
+            <h1 class="site_title"><%= link_to application_name, root_path %><%= (params[:controller] == "catalog" and !params[:id]) ? "<span id='results_text'>Search Results</span>" : "" %></h1>
           </div>
           <div class="yui-u">
             <%= render :partial=>'/user_util_links' %>

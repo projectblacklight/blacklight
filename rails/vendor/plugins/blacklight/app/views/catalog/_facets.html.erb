@@ -1,30 +1,26 @@
 <% # main container for facets/limits menu -%>
 <div id="facets">
-  
-  <% # loop thru each facet field -%>
-  <% @response.facets.each do |facet| %>
-    
+  <h2>Limit your search</h2>
+  <% Blacklight.config[:facet][:field_names].each do |solr_fname| %>
     <div>
-      
-      <h3><%= field_label facet.name %></h3>
-      
-      <ul>
-        <% facet.items.each do |item| %>
-          <% if facet_in_params? facet.name, item.value %>
-            <li>
-              <span class="selected"><%= item.value %> (<%= format_num item.hits %>)</span>
-              [<%= link_to 'remove', remove_facet_params(facet.name, item.value), :class=>'remove' %>]
-            </li>
-          <% else %>
-            <li>
-              <%= link_to item.value, add_facet_params(facet.name, item.value) %> (<%= format_num item.hits %>)
-            </li>
+      <% display_facet = @response.facets.detect {|f| f.name == solr_fname} -%>
+      <% if display_facet %>
+        <h3><%= Blacklight.config[:facet][:labels][solr_fname] -%></h3>
+        <ul>
+          <% display_facet.items.each do |item| -%>
+            <% if facet_in_params? solr_fname, item.value %>
+              <li>
+                <span class="selected"><%= h(item.value) %> (<%= format_num item.hits %>)</span>
+                [<%= link_to 'remove', remove_facet_params(solr_fname, item.value), :class=>'remove' %>]
+              </li>
+              <% else %>
+              <li>
+                <%= link_to h(item.value), add_facet_params(solr_fname, item.value) %> (<%= format_num item.hits %>)
+              </li>
+            <% end -%>
           <% end %>
-        <% end %>
-      </ul>
-      
+        </ul>
+      <% end %>
     </div>
-    
   <% end %>
-  
 </div>

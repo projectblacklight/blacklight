@@ -50,6 +50,10 @@ class MARCMapper < BlockMapper
       rec.values_for '245', 'a'
     end
     
+    map :title_sort do |rec,index|
+      rec.extract '245:a'
+    end
+    
     map :sub_title_t do |rec,index|
       rec.values_for '245', 'b'
     end

@@ -1,16 +1,16 @@
 require 'ostruct'
 require 'rubygems'
-require 'marc'
 
 class SolrDocument < OpenStruct
-  
   attr_reader :table  
-  
   def initialize(h)  
     super(h)
-    if self.marc_display
-      reader = MARC::XMLReader.new(StringIO.new(self.marc_display)).to_a
-      self.marc = reader[0]
+    storage_type = Blacklight.config[:raw_storage_type]
+    case storage_type
+      when 'marcxml', 'marc21'
+        self.storage = BlacklightMarc::Document.new(h) unless !h.has_key? Blacklight.config[:raw_storage_field]
+      else
+      # Some Default Object created from data?
     end
     self.solr_id = h['id']
   end
@@ -19,18 +19,4 @@ class SolrDocument < OpenStruct
     self.__send__(key)
   end
   
-  def marc_xml
-    return nil if self.marc.blank?
-    self.marc.to_xml.to_s
-  end
-  
-  def to_xml
-    if self.marc 
-      self.marc_xml
-    else
-      "<not-implemented/>"
-    end
-  end
-  
 end
-

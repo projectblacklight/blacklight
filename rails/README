@@ -10,11 +10,14 @@ March 24, 2009
   You also need the marc gem for this demo:  
   sudo gem install marc
 
-
 ===Create database.yml and solr.yml configuration files
 
   cp config/database.example config/database.yml
   cp config/solr.example config/solr.yml
+
+===Create the initializers
+
+  cp config/initializers/blacklight_config.rb.example config/initializers/blacklight_config.rb
 
 ===Run the migrations:
   

@@ -1,0 +1,25 @@
+<h1>Search History</h1>
+<p>
+  <%= link_to "Clear Search History", clear_search_history_path, :method => :delete, :confirm => "Clear your search history?" %>
+</p>
+<%- if @searches.blank? -%>
+  <h2>You have no search history</h2>
+<%- else -%>
+  <h2>Your recent searches</h2>
+  <ul>
+  <%- @searches.each_with_index do |search, index| -%>
+    <li>
+      <%= link_to_previous_search(search.query_params) %>
+      |
+      <%- if session[:user_id] && search.saved? -%>
+        <%= link_to "[saved]", saved_search_path(search.id), :method => :delete %>
+      <%- else -%>
+        <%= link_to "save", save_saved_search_path(search.id), :method => :put %>
+      <%- end #search.saved? -%>
+      |
+      <%= link_to "delete", search_history_path(index), :method => :delete, :confirm => "Delete item?" %>
+    </li>
+  <%- end -%>
+  </ul>
+<%- end -%>
+

@@ -10,13 +10,38 @@ describe Blacklight::Configurable do
     TestConfig.reset_configs!
   end
   
+  it "should respond to configure" do
+    TestConfig.respond_to? :configure
+  end
+  
   describe "the default state" do
-    TestConfig.config.should == nil
-    TestConfig.configs[:shared].class.should == Hash
+    describe "config" do
+      it "should be a Hash" do
+          TestConfig.config.should be_a Hash      
+      end
+    end
+    describe "configs[:shared]" do
+      it "should be a Hash" do
+        TestConfig.configs[:shared].should be_a Hash
+      end
+    end
+  end
+  
+  describe "configs[:shared]" do
+    it "should not have the values of its members altered by other environments" do
+      TestConfig.configure do |config|
+        config[:key] = ":shared value"
+      end
+      TestConfig.configure(RAILS_ENV) do |config|
+        config[:key] = ":test value"
+      end
+      TestConfig.config[:key].should == ":test value"
+      TestConfig.configs[:shared][:key].should == ":shared value"
+      TestConfig.configs[RAILS_ENV][:key].should == ":test value"
+    end
   end
   
   describe "the #configure method behavior" do
-    TestConfig.respond_to? :configure
     it "requires a block" do
       lambda{TestConfig.configure}.should raise_error(LocalJumpError)
     end
@@ -31,44 +56,42 @@ describe Blacklight::Configurable do
       TestConfig.reset_configs!
       TestConfig.configs[:shared][:asdf].should == nil
     end
+    
     it "should merge settings from the :shared environment" do
       TestConfig.configure do |config|
         config[:app_id] = 'Blacklight'
         config[:mode] = :shared!
       end
-      TestConfig.configure(:development) do |config|
-        config[:app_id].should == 'Blacklight'
-        config[:mode].should == :shared!
-        config[:mode] = :dev
+      TestConfig.configure(RAILS_ENV) do |config|
+        config[:mode] = RAILS_ENV
       end
-      TestConfig.configure(:production) do |config|
-        config[:app_id].should == 'Blacklight'
-        config[:mode].should == :shared!
-        config[:mode] = :prod
+      TestConfig.config[:app_id].should == 'Blacklight'
+      TestConfig.config[:mode].should_not == :shared!
+      TestConfig.config[:mode].should == RAILS_ENV
+    end
+  end
+  
+  describe "config" do
+    it "should return an empty Hash if nothing was configured" do
+      TestConfig.config.should == {}
+    end
+    
+    it "should return only what is in configs[:shared] if no other environment was configured" do
+      TestConfig.configure(:shared) do |config|
+        config[:foo] = 'bar'
+        config[:baz] = 'dang'
+      end
+      TestConfig.config.should == {:foo => 'bar', :baz => 'dang'}
+      TestConfig.config.should == TestConfig.configs[:shared]
+    end
+    
+    it "should return a merge of configs[:shared] and configs[RAILS_ENV]" do
+      TestConfig.configure(:shared) do |config|
+        config[:foo] = 'bar'
+        config[:baz] = 'dang'
       end
     end
   end
   
-  describe "The env_name should change the result of #config" do
-    TestConfig.config.should == nil
-    TestConfig.env_name = :shared
-    TestConfig.config.class.should == Hash
-    #
-    TestConfig.configure do |config|
-      config[:solr] = {}
-    end
-    TestConfig.configure(:production) do |config|
-      config[:solr][:url] = 'http://solrserver.com'
-    end
-    TestConfig.configure(:development) do |config|
-      config[:solr][:url] = 'http://localhost:8983/solr'
-    end
-    #
-    TestConfig.config[:solr][:url].should == nil
-    TestConfig.env_name = :production
-    TestConfig.config[:solr][:url].should == 'http://solrserver.com'
-    TestConfig.env_name = :development
-    TestConfig.config[:solr][:url].should == 'http://localhost:8983/solr'
-  end
   
 end

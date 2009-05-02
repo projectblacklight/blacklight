@@ -6,21 +6,18 @@ module Blacklight::Configurable
   #   class MyThing
   #     extend Blacklight::Configurable
   #   end
-  #   MyThing.config_env = :production
   # 
   # Now MyThing.config will be the result of:
   #   MyThing.configure(:production) {|config|}
   #
-  attr_accessor :env_name
+  # You set shared attributes by leaving the first argument blank or passing the :shared value:
+  #   MyThing.configure {|config|} 
+  # or
+  #   MyThing.cofigure(:shared) {|config|}
   
-  # Serializes and de-serializes the object for deep cloning
-  # This prevents a non-:shared environment from overriding the :shared settings
-  def deepcopy(obj)
-    Marshal::load(Marshal::dump(obj))
-  end
-  
-  # sets the @configs variable to a new Hash
+  # sets the @configs variable to a new Hash with empty Hash for :shared key and @config to nil
   def reset_configs!
+    @config = nil
     @configs = {:shared=>{}}
   end
   
@@ -30,9 +27,10 @@ module Blacklight::Configurable
     @configs ? @configs : (reset_configs! and @configs)
   end
   
-  # The main config accessor
+  # The main config accessor. It merges the current configs[RAILS_ENV] 
+  # with configs[:shared] and lazy-loads @config to the result.
   def config
-    configs[env_name]
+    @config ||= configs[:shared].merge(configs[RAILS_ENV] ||= {})
   end
   
   # Accepts a value for the environment to configure and a block
@@ -41,9 +39,7 @@ module Blacklight::Configurable
   # the hash is created by deep cloning the :shared environment config.
   # This makes it possible to create defaults in the :shared config
   def configure(env = :shared, &blk)
-    if configs[:shared] and env != :shared
-      configs[env] ||= deepcopy(configs[:shared])
-    end
+    configs[env] = {}
     yield configs[env]
   end
   

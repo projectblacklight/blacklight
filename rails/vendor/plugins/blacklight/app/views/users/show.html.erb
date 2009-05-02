@@ -1,42 +1,27 @@
 <h3>Your Account</h3>
 
 <dl id="userInfo" class="defList">
-  
-  <div class="row">
     <dt>Login ID</dt>
     <dd><%= current_user.login %></dd>
-  </div>
-  
-  <div class="row">
+
     <dt>Last Login</dt>
     <dd><%= current_user.last_login %></dd>
-  </div>
-  
+
   <% if current_user.last_search_url %>
-    <div class="row">
       <dt>Last Search</dt>
       <dd><%= link_to 'view', catalog_index_path(current_user.last_search_url) %></dd>
-    </div>
   <% end %>
   
-  <div class="row">
     <dt>Bookmarks</dt>
     <dd><%= link_to 'view', user_bookmarks_path(current_user) %></dd>
-  </div>
-  
-  <div class="row">
+
     <dt>Checkout Items</dt>
     <dd>None</dd>
-  </div>
-  
-  <div class="row">
+
     <dt>On Hold</dt>
     <dd>None</dd>
-  </div>
-  
-  <div class="row">
+
     <dt>Fines and Charges</dt>
     <dd>None</dd>
-  </div>
-  
+
 </dl>

@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     if params[:f]
       redirect_to :controller=>'catalog', :f => params[:f]
     end
-    @response = get_search_results(nil)
+    @response = get_search_results
   end
   
 end
