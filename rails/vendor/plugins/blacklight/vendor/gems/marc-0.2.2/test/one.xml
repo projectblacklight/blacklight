@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+    <record>
+        <leader>     njm a22     uu 4500</leader>
+        <controlfield tag="001">afc99990058366</controlfield>
+        <controlfield tag="003">DLC</controlfield>
+        <controlfield tag="005">20071104155141.9</controlfield>
+        <controlfield tag="007">sd ummunniauub</controlfield>
+        <controlfield tag="008">071103s1939    xxufmnne||||||||| u eng||</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">afc99990058366</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+        </datafield>
+        <datafield tag="245" ind1="0" ind2="4">
+            <subfield code="a">The Texas ranger</subfield>
+            <subfield code="h">[sound recording] /</subfield>
+            <subfield code="c">Sung by Beale D. Taylor.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Medina, Texas,</subfield>
+            <subfield code="c">1939.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">1 sound disc :</subfield>
+            <subfield code="b">analog, 33 1/3 rpm, mono. ;</subfield>
+            <subfield code="c">12 in.</subfield>
+        </datafield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">Medina</subfield>
+            <subfield code="z">Texas</subfield>
+            <subfield code="z">United States of America.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Lomax, John Avery, 1867-1948</subfield>
+            <subfield code="e">Recording engineer.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Lomax, Ruby T. (Ruby Terrill)</subfield>
+            <subfield code="e">Recording engineer.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Taylor, Beale D.</subfield>
+            <subfield code="e">Singer.</subfield>
+        </datafield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="a">American Folklife Center, Library of Congress</subfield>
+        </datafield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+        </datafield>
+    </record>
+</collection>

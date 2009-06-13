@@ -1,10 +1,10 @@
 <h2>Editing Bookmark for "<%= link_to @bookmark.title, catalog_path(@bookmark.document_id) %>"</h2>
 
-<% @sidebar = capture do %>
-  <%= link_to '<< back to my bookmarks', user_bookmarks_path(current_user) %>
+<% sidebar_items << capture do %>
+  <%= link_to '<< back to my bookmarks', bookmarks_path %>
 <% end %>
 
-<% form_for @bookmark, :url=>user_bookmark_path(current_user) do |f| %>
+<% form_for @bookmark, :url => bookmark_path do |f| %>
 	
 	<fieldset>
   	
@@ -20,12 +20,12 @@
 	
   	<div class="row">
   		<%= f.label :notes %>
-  		<%= f.text_area :notes, :style=>'width:400px; height:200px;' %>
+  		<%= f.text_area :notes, :style => 'width:400px; height:200px;' %>
   	</div>
   	
-  	<div class="left">
-  	  <%= f.label '' %>
-  	  <%= link_to 'Cancel', collection_path %> | <%= submit_tag %>
+  	<div class="row">
+  	  <%= f.label '', link_to('Cancel', collection_path) %>
+  	  <%= submit_tag %>
   	</div>
   	
 	</fieldset>

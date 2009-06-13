@@ -13,6 +13,15 @@ module NavigationHelpers
     
     when /the saved searches page/
       saved_searches_path
+      
+    when /the bookmarks page/
+      bookmarks_path
+    
+    when /the login page/
+      login_path
+    
+    when /the new user page/
+      new_user_path
     
     # Add more page name => path mappings here
     
@@ -23,7 +32,13 @@ module NavigationHelpers
   end
 end
 
+# Cucumber 0.3
+World(NavigationHelpers)
+
+# Cucumber 0.2
+=begin
 World do |world|
   world.extend NavigationHelpers
   world
 end
+=end

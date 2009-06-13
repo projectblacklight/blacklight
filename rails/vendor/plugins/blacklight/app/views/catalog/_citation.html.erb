@@ -1,14 +1,17 @@
-    <div class="citeTitle">
-      <div id="citeBack">
-        <%= link_to "Close [X]", {:action => "show", :id => @document.solr_id}, {:id => "closeLightBox"} %>
-      </div>
-      <%= @document[Blacklight.config[:show][:html_title]] %>
-    </div>
-    <% unless @document.storage.to_mla.nil? or @document.storage.to_mla.blank? %>
-      <h4>MLA</h4>
-      <%= @document.storage.to_mla %><br/><br/>
-    <% end %>
-    <% unless @document.storage.to_apa.nil? or @document.storage.to_apa.blank? %>
-      <h4>APA</h4>
-      <%= @document.storage.to_apa %>
-    <% end %>
+<div class="citeTitle">
+  <div id="citeBack">
+    <%= link_to "Close [X]", catalog_path(@document), {:class => "lightboxLink", :name => 'citation'} %>
+  </div>
+  <%= document_show_html_title %>
+</div>
+
+
+<% unless @document.marc.to_mla.blank? %>
+  <h4>MLA</h4>
+  <%= @document.marc.to_mla %><br/><br/>
+<% end %>
+
+<% unless @document.marc.to_apa.blank? %>
+  <h4>APA</h4>
+  <%= @document.marc.to_apa %>
+<% end %>

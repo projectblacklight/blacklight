@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -17,6 +17,8 @@ Rails::Initializer.run do |config|
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
   # See Rails::Configuration for more options.
+  
+  config.gem 'authlogic'
 
   # Skip frameworks you're not going to use (only works if using vendor/rails).
   # To use Rails without a database, you must remove the Active Record framework
@@ -25,8 +27,8 @@ Rails::Initializer.run do |config|
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
-  config.plugins = %W(acts_as_taggable_on_steroids simplest_auth resource_controller)
-#   config.plugins = %W(engines blacklight acts_as_taggable_on_steroids simplest_auth resource_controller)
+  #config.plugins = %W(acts_as_taggable_on_steroids simplest_auth resource_controller)
+  config.plugins = %W(acts_as_taggable_on_steroids resource_controller)
   
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
@@ -64,5 +66,12 @@ Rails::Initializer.run do |config|
   
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
+  
+  # got this idea from Rails' Initializer#load_environment()
+  # it's reading the file and evaluating it in the context of this code
+  # This way, we keep things dry between Blacklight's stand-alone testing and 
+  # running as a plugin.
+  init_path = File.join(File.dirname(__FILE__), '..', 'init.rb')
+  eval(IO.read(init_path), binding, init_path)
   
 end

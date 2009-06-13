@@ -5,7 +5,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../../spec_helper')
 
 describe "/catalog/_show_partials/_default.html.erb" do
   
-  include CatalogHelper  
+  include ApplicationHelper
+  include CatalogHelper
   
   before(:each) do
     @fname_1 = Blacklight.config[:show_fields][:field_names].last

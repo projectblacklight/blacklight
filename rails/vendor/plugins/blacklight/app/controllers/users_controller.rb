@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
   
   # see vendor/plugins/resource_controller
-  resource_controller
+  resource_controller :singleton
   
-  create.after do
-    # find a way to combine this and the sessions controller login logic
-    self.current_user = object
-    flash[:notice] = "Welcome #{object.login}!"
+  create.flash { "Welcome #{@user.login}!"}
+  
+  protected
+  def object
+    @object ||= current_user
   end
   
 end

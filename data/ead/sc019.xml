@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ead xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns="urn:isbn:1-931666-22-9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <eadheader findaidstatus="unverified-full-draft" repositoryencoding="iso15511" countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b">
+        <eadid countrycode="US" mainagencycode="US-CSt">sc0019.xml</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>Guide to the Stanford War Records, 
+                    <date calendar="gregorian" era="ce">1917-1945</date>
+                    <num>SC.0019</num>
+                </titleproper>
+                <author>Finding aid prepared by Processed by Special Collections staff; machine-readable finding aid created by Patricia White</author>
+            </titlestmt>
+            <publicationstmt>
+                <publisher>Department of Special Collections and University Archives</publisher>
+                <address>
+                    <addressline>Stanford University Libraries</addressline>
+                    <addressline>557 Escondido Mall</addressline>
+                    <addressline>Stanford, California, 94305-6064</addressline>
+                    <addressline>Repository email: speccollref@stanford.edu</addressline>
+                </address>
+                <date>© 1997</date>
+            </publicationstmt>
+        </filedesc>
+        <profiledesc>
+            <creation>This finding aid was produced using the Archivists' Toolkit
+                <date>2009-04-28T13:58-0700</date>
+            </creation>
+            <langusage>Finding aid is written in 
+                <language>English.</language></langusage>
+        </profiledesc>
+    </eadheader>
+    <archdesc level="collection">
+        <did>
+            <unittitle>Stanford War Records,</unittitle>
+            <unitid>SC.0019</unitid>
+            <repository>
+                <corpname>Department of Special Collections and University Archives</corpname>
+            </repository>
+            <langmaterial>
+                <language langcode="eng"/>
+            </langmaterial>
+            <physdesc>
+                <extent>11.5 Linear feet</extent>
+            </physdesc>
+            <unitdate>1917-1945</unitdate>
+            <origination label="creator">
+                <persname source="ingest">Duniway, C. A.</persname>
+            </origination>
+            <origination label="creator">
+                <persname source="ingest">McDowell, John E.</persname>
+            </origination>
+        </did>
+        <scopecontent id="ref14">
+            <head>Scope and Contents Note:</head>
+            <p>These records pertain to Stanford University faculty and student participation in World Wars I and II. Included are papers regarding the establishment of ambulance units; personal narratives of servicemen and correspondence with those in the service; drafts of a Stanford war history by Dr. C. A. Duniway; records of each Stanford participant in the First World War; records regarding women in war work, the Student Army Training Corps, civil defense, and war courses; and photographs and memorabilia.</p>
+        </scopecontent>
+        <arrangement id="ref13">
+            <head>Arrangement note</head>
+            <p>The collection is arranged in three series. The records in Series 1 were collected during 1918-1919 by John E. McDowell, Alumni Secretary, with the assistance of Prof. Edgar E. Robinson. Mr. McDowell was particularly active in corresponding with military personnel. A Committee on War Information was to prepare a "War History of Stanford" from these materials, but nothing came of this effort. In 1936 interest in the war records was revived with the construction of Memorial Hall on the Stanford campus. Dr. C. A. Duniway, former professor of history, engaged in bringing the war records up to date; his collected materials make up Series 2. Although Prof. Duniway prepared a draft of Stanford's war history, it was never published. Series 3 consists of materials from varied sources pertaining to the campus war effort and Stanford personnel in the services during World War II.</p>
+        </arrangement>
+        <prefercite id="ref10">
+            <head>Preferred Citation</head>
+            <p>[Identification of item], Stanford War Records, SC0019, Stanford University Archives, Stanford, Calif.</p>
+        </prefercite>
+        <userestrict id="ref8">
+            <head>Publication Rights</head>
+            <p>Property rights reside with the repository. Literary rights reside with the creators of the documents or their heirs. To obtain permission to publish or reproduce, please contact the Public Services Librarian of the Dept. of Special Collections and University Archives.</p>
+        </userestrict>
+        <accessrestrict id="ref6">
+            <head>Access Restrictions</head>
+            <p>None.</p>
+        </accessrestrict>
+        <acqinfo id="ref4">
+            <head>Acquisition Information:</head>
+            <p>These records were first given to Stanford University Libraries and then moved to the Hoover Library in 1941. In 1964 they were returned to the Stanford Libraries to become part of the Stanford University Archives.</p>
+        </acqinfo>
+        <custodhist id="ref2">
+            <head>Provenance:</head>
+            <p>Collected by John E. McDowell and Dr. C. A. Duniway, with additions from other sources.</p>
+        </custodhist>
+        <dsc>
+            <c id="ref18" level="series">
+                <did>
+                    <unittitle>World War I Subject Files</unittitle>
+                    <unitdate normal="1917/1919" type="inclusive">1917-1919</unitdate>
+                </did>
+                <c id="ref19" level="file">
+                    <did>
+                        <unittitle>Ambulance Units. First Stanford Unit, organized Feb. 2, 1917</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">1</container>
+                    </did>
+                </c>
+                <c id="ref20" level="file">
+                    <did>
+                        <unittitle>Ambulance Units. Second Stanford Unit, organized April 25, 1917</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">2</container>
+                    </did>
+                </c>
+                <c id="ref21" level="file">
+                    <did>
+                        <unittitle>Ambulance Units. Third Stanford Unit</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">3</container>
+                    </did>
+                </c>
+                <c id="ref22" level="file">
+                    <did>
+                        <unittitle>Ambulance Units. Fourth Stanford Unit</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">4</container>
+                    </did>
+                </c>
+                <c id="ref23" level="file">
+                    <did>
+                        <unittitle>Ambulance Units. Fifth Stanford Unit. Italian Ambulance Unit, American Red Cross</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">5</container>
+                    </did>
+                </c>
+                <c id="ref24" level="file">
+                    <did>
+                        <unittitle>Ambulance Units. General literature</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">6</container>
+                    </did>
+                </c>
+                <c id="ref25" level="file">
+                    <did>
+                        <unittitle>American University Union in Europe Registers</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">7</container>
+                    </did>
+                </c>
+                <c id="ref26" level="file">
+                    <did>
+                        <unittitle>Civil Service. California State Civil Service Commission Announcements.</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">8</container>
+                    </did>
+                </c>
+                <c id="ref27" level="file">
+                    <did>
+                        <unittitle>Civil Service. California State Civil Service Commission Announcements. Correspondence</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">9</container>
+                    </did>
+                </c>
+                <c id="ref28" level="file">
+                    <did>
+                        <unittitle>Committee on Public Information, Washington, D.C.</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">10</container>
+                    </did>
+                </c>
+                <c id="ref29" level="file">
+                    <did>
+                        <unittitle>Draft</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">11</container>
+                    </did>
+                </c>
+                <c id="ref30" level="file">
+                    <did>
+                        <unittitle>Engineer enlisted reserve corps. Aeronautical engineers, 472D engineers (Signal Corps)</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">12</container>
+                    </did>
+                </c>
+                <c id="ref31" level="file">
+                    <did>
+                        <unittitle>Faculty War Service Departmental Record</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">13</container>
+                    </did>
+                </c>
+                <c id="ref32" level="file">
+                    <did>
+                        <unittitle>Faculty War Service, Lists and General matters</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">14</container>
+                    </did>
+                </c>
+                <c id="ref33" level="file">
+                    <did>
+                        <unittitle>U. S. Food Administration correspondence, bulletins, etc.</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">15</container>
+                    </did>
+                </c>
+                <c id="ref34" level="file">
+                    <did>
+                        <unittitle>U. S. Food Administration, food conservation notes</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">16</container>
+                    </did>
+                </c>
+                <c id="ref35" level="file">
+                    <did>
+                        <unittitle>U. S. Food Administration. Herbert Clark Hoover.</unittitle>
+                        <container type="Box">1</container>
+                        <container type="Folder">17</container>
+                    </did>
+                </c>
+                <c id="ref36" level="file">
+                    <did>
+                        <unittitle>U. S. Fuel Administration. Publications and releases.</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">18</container>
+                    </did>
+                </c>
+                <c id="ref37" level="file">
+                    <did>
+                        <unittitle>U. S. Food Administration Speeches of Dr. Ray Lyman Wilbur</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">19</container>
+                    </did>
+                </c>
+                <c id="ref38" level="file">
+                    <did>
+                        <unittitle>Liberty Loan Campaign - Third</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">20</container>
+                    </did>
+                </c>
+                <c id="ref39" level="file">
+                    <did>
+                        <unittitle>Marine Corps Reserve. Marine Reserve Flying Corps</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">21</container>
+                    </did>
+                </c>
+                <c id="ref40" level="file">
+                    <did>
+                        <unittitle>Medical Enlisted Reserve Corps</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">22</container>
+                    </did>
+                </c>
+                <c id="ref41" level="file">
+                    <did>
+                        <unittitle>Naval Reserve Flying Corps. Coast Defense Reserve. Engineer's and Technicians' jobs</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">23</container>
+                    </did>
+                </c>
+                <c id="ref42" level="file">
+                    <did>
+                        <unittitle>Officers' Training School</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">24</container>
+                    </did>
+                </c>
+                <c id="ref43" level="file">
+                    <did>
+                        <unittitle>Personal narratives of Stanford servicemen</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">25</container>
+                    </did>
+                </c>
+                <c id="ref44" level="file">
+                    <did>
+                        <unittitle>Personal narratives</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">26</container>
+                    </did>
+                </c>
+                <c id="ref45" level="file">
+                    <did>
+                        <unittitle>Birge Clark, "World War I Memoirs"</unittitle>
+                        <container type="Box">2</container>
+                        <container type="Folder">26a</container>
+                    </did>
+                </c>
+                <c id="ref46" level="file">
+                    <did>
+                        <unittitle>Personnel (periodical). U. S. Adjutant General Committee on Classification of Personnel in the Army</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">27</container>
+                    </did>
+                </c>
+                <c id="ref47" level="file">
+                    <did>
+                        <unittitle>Radio Instruction</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">28</container>
+                    </did>
+                </c>
+                <c id="ref48" level="file">
+                    <did>
+                        <unittitle>ROTC 2nd Presidio Camp</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">29</container>
+                    </did>
+                </c>
+                <c id="ref49" level="file">
+                    <did>
+                        <unittitle>Stanord Women's Unit</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">30</container>
+                    </did>
+                </c>
+                <c id="ref50" level="file">
+                    <did>
+                        <unittitle>Student Army Training Corps</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">31</container>
+                    </did>
+                </c>
+                <c id="ref51" level="file">
+                    <did>
+                        <unittitle>War History, blank forms</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">32</container>
+                    </did>
+                </c>
+                <c id="ref52" level="file">
+                    <did>
+                        <unittitle>War History, appeals for data</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">33</container>
+                    </did>
+                </c>
+                <c id="ref53" level="file">
+                    <did>
+                        <unittitle>War History, correspondence and exemplary materials - other universities</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">34</container>
+                    </did>
+                </c>
+                <c id="ref54" level="file">
+                    <did>
+                        <unittitle>War History, survey of materials on file. April 1918</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">35</container>
+                    </did>
+                </c>
+                <c id="ref55" level="file">
+                    <did>
+                        <unittitle>War History, June 1, 1918 report and preliminary summary</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">36</container>
+                    </did>
+                </c>
+                <c id="ref56" level="file">
+                    <did>
+                        <unittitle>War History, Aug. 10, 1918 summary of work; Sept. 24, 1918 supplementary report</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">37</container>
+                    </did>
+                </c>
+                <c id="ref57" level="file">
+                    <did>
+                        <unittitle>War History, Aug. 15, 1919 report of E. E. Robinson</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">38</container>
+                    </did>
+                </c>
+                <c id="ref58" level="file">
+                    <did>
+                        <unittitle>War History, Ambulance Units, list</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">39</container>
+                    </did>
+                </c>
+                <c id="ref59" level="file">
+                    <did>
+                        <unittitle>War History, Civilian service, list</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">40</container>
+                    </did>
+                </c>
+                <c id="ref60" level="file">
+                    <did>
+                        <unittitle>War History, "History of Stanford in the Great War," by E. E. Robinson</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">41</container>
+                    </did>
+                </c>
+                <c id="ref61" level="file">
+                    <did>
+                        <unittitle>War History, decorated, list</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">42</container>
+                    </did>
+                </c>
+                <c id="ref62" level="file">
+                    <did>
+                        <unittitle>War History, died in service, list</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">43</container>
+                    </did>
+                </c>
+                <c id="ref63" level="file">
+                    <did>
+                        <unittitle>War History, enlisted Medical Reserve Corps</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">44</container>
+                    </did>
+                </c>
+                <c id="ref64" level="file">
+                    <did>
+                        <unittitle>War History, Faculty, Civilian-military</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">45</container>
+                    </did>
+                </c>
+                <c id="ref65" level="file">
+                    <did>
+                        <unittitle>War History, foreign military service</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">46</container>
+                    </did>
+                </c>
+                <c id="ref66" level="file">
+                    <did>
+                        <unittitle>War History, misc. lists and registers</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">47</container>
+                    </did>
+                </c>
+                <c id="ref67" level="file">
+                    <did>
+                        <unittitle>War History, Red Cross in uniform</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">48</container>
+                    </did>
+                </c>
+                <c id="ref68" level="file">
+                    <did>
+                        <unittitle>War History, wounded</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">49</container>
+                    </did>
+                </c>
+                <c id="ref69" level="file">
+                    <did>
+                        <unittitle>War Service Memorial Committee (committee of 50). Minutes, suggestions, news</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">50</container>
+                    </did>
+                </c>
+                <c id="ref70" level="file">
+                    <did>
+                        <unittitle>War History, main military list</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">51</container>
+                    </did>
+                </c>
+                <c id="ref71" level="file">
+                    <did>
+                        <unittitle>War History, Stanford School of Nurses</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">52</container>
+                    </did>
+                </c>
+                <c id="ref72" level="file">
+                    <did>
+                        <unittitle>War History, U. S. Base Hospital #30</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">53</container>
+                    </did>
+                </c>
+                <c id="ref73" level="file">
+                    <did>
+                        <unittitle>War History, U. S. Navy Base Hospital</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">54</container>
+                    </did>
+                </c>
+                <c id="ref74" level="file">
+                    <did>
+                        <unittitle>War History, Women in Service</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">55</container>
+                    </did>
+                </c>
+                <c id="ref75" level="file">
+                    <did>
+                        <unittitle>War History, YMCA (in uniform)</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">56</container>
+                    </did>
+                </c>
+                <c id="ref76" level="file">
+                    <did>
+                        <unittitle>War Service Credit</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">57</container>
+                    </did>
+                </c>
+                <c id="ref77" level="file">
+                    <did>
+                        <unittitle>Women in war work</unittitle>
+                        <container type="Box">3</container>
+                        <container type="Folder">58</container>
+                    </did>
+                </c>
+                <c id="ref78" level="file">
+                    <did>
+                        <unittitle>Committee on War Information</unittitle>
+                        <container type="Box">4</container>
+                        <container type="Folder">59</container>
+                    </did>
+                </c>
+                <c id="ref79" level="file">
+                    <did>
+                        <unittitle>War Service Memoral Fund</unittitle>
+                        <container type="Box">4</container>
+                        <container type="Folder">60</container>
+                    </did>
+                </c>
+                <c id="ref80" level="file">
+                    <did>
+                        <unittitle>Women - position in war work</unittitle>
+                        <container type="Box">4</container>
+                        <container type="Folder">61</container>
+                    </did>
+                </c>
+                <c id="ref81" level="file">
+                    <did>
+                        <unittitle>YMCA</unittitle>
+                        <container type="Box">4</container>
+                        <container type="Folder">62</container>
+                    </did>
+                </c>
+                <c id="ref82" level="file">
+                    <did>
+                        <unittitle>Alan Nichols, copies of letters from France, 1918</unittitle>
+                        <container type="Box">4</container>
+                        <container type="Folder">63</container>
+                    </did>
+                </c>
+                <c id="ref83" level="file">
+                    <did>
+                        <unittitle>War Memorial, World War I (General Secretary's Office)</unittitle>
+                        <container type="Box">4</container>
+                        <container type="Folder">63a</container>
+                    </did>
+                </c>
+            </c>
+            <c id="ref84" level="series">
+                <did>
+                    <unittitle>World War I Materials Collected by Dr. C. A. Duniway, 1937-1938</unittitle>
+                    <unitdate normal="1937/1938" type="inclusive">1937-1938</unitdate>
+                </did>
+                <c id="ref85" level="file">
+                    <did>
+                        <unittitle>American Field Service in France</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">64</container>
+                    </did>
+                </c>
+                <c id="ref86" level="file">
+                    <did>
+                        <unittitle>Camp Fremont</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">65</container>
+                    </did>
+                </c>
+                <c id="ref87" level="file">
+                    <did>
+                        <unittitle>Clippings and copies of the Stanford Illustrated Review concerning Stanford in the war</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">66</container>
+                    </did>
+                </c>
+                <c id="ref88" level="file">
+                    <did>
+                        <unittitle>Duniway, "War History of Stanford"</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">67</container>
+                    </did>
+                </c>
+                <c id="ref89" level="file">
+                    <did>
+                        <unittitle>Memorial Building</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">68</container>
+                    </did>
+                </c>
+                <c id="ref90" level="file">
+                    <did>
+                        <unittitle>Military Training Committee</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">69</container>
+                    </did>
+                </c>
+                <c id="ref91" level="file">
+                    <did>
+                        <unittitle>Misc. printed items</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">70</container>
+                    </did>
+                </c>
+                <c id="ref92" level="file">
+                    <did>
+                        <unittitle>Stanford Belgian Relief</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">71</container>
+                    </did>
+                </c>
+                <c id="ref93" level="file">
+                    <did>
+                        <unittitle>Stanford School of Nursing War histories</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">72</container>
+                    </did>
+                </c>
+                <c id="ref94" level="file">
+                    <did>
+                        <unittitle>Stanford war history chronology</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">73</container>
+                    </did>
+                </c>
+                <c id="ref95" level="file">
+                    <did>
+                        <unittitle>Stanford war records, index of materials, 1936</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">74</container>
+                    </did>
+                </c>
+                <c id="ref96" level="file">
+                    <did>
+                        <unittitle>Stanford YMCA 1914-1918</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">75</container>
+                    </did>
+                </c>
+                <c id="ref97" level="file">
+                    <did>
+                        <unittitle>Student Army Training Corp. War issues course</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">76</container>
+                    </did>
+                </c>
+                <c id="ref98" level="file">
+                    <did>
+                        <unittitle>War History, fraternities</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">77</container>
+                    </did>
+                </c>
+                <c id="ref99" level="file">
+                    <did>
+                        <unittitle>War History, sororities</unittitle>
+                        <container type="Box">5</container>
+                        <container type="Folder">78</container>
+                    </did>
+                </c>
+                <c id="ref100" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: A</unittitle>
+                        <container type="Box">6</container>
+                        <container type="Folder">79-80</container>
+                    </did>
+                </c>
+                <c id="ref101" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: B</unittitle>
+                        <container type="Box">6</container>
+                        <container type="Folder">81-83</container>
+                    </did>
+                </c>
+                <c id="ref102" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: C - Carl</unittitle>
+                        <container type="Box">7</container>
+                        <container type="Folder">84-88</container>
+                    </did>
+                </c>
+                <c id="ref103" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Carr - Cron</unittitle>
+                        <container type="Box">8</container>
+                        <container type="Folder">89-92</container>
+                    </did>
+                </c>
+                <c id="ref104" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Croo - En</unittitle>
+                        <container type="Box">9</container>
+                        <container type="Folder">93-98</container>
+                    </did>
+                </c>
+                <c id="ref105" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: En - Gl</unittitle>
+                        <container type="Box">10</container>
+                        <container type="Folder">99-103</container>
+                    </did>
+                </c>
+                <c id="ref106" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Go - Hoe</unittitle>
+                        <container type="Box">11</container>
+                        <container type="Folder">104-108</container>
+                    </did>
+                </c>
+                <c id="ref107" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Hof - Kle</unittitle>
+                        <container type="Box">12</container>
+                        <container type="Folder">109-115</container>
+                    </did>
+                </c>
+                <c id="ref108" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Kli - MacD</unittitle>
+                        <container type="Box">13</container>
+                        <container type="Folder">116-121</container>
+                    </did>
+                </c>
+                <c id="ref109" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: MacR - Or</unittitle>
+                        <container type="Box">14</container>
+                        <container type="Folder">122-128</container>
+                    </did>
+                </c>
+                <c id="ref110" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Os - Re</unittitle>
+                        <container type="Box">15</container>
+                        <container type="Folder">129-134</container>
+                    </did>
+                </c>
+                <c id="ref111" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Rho - Si</unittitle>
+                        <container type="Box">16</container>
+                        <container type="Folder">135-141</container>
+                    </did>
+                </c>
+                <c id="ref112" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Sk - Ti</unittitle>
+                        <container type="Box">17</container>
+                        <container type="Folder">142-148</container>
+                    </did>
+                </c>
+                <c id="ref113" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: To - Will</unittitle>
+                        <container type="Box">18</container>
+                        <container type="Folder">149-156</container>
+                    </did>
+                </c>
+                <c id="ref114" level="file">
+                    <did>
+                        <unittitle>Biographical files of service men and women: Wills - Z</unittitle>
+                        <container type="Box">19</container>
+                        <container type="Folder">157-159</container>
+                    </did>
+                </c>
+                <c id="ref115" level="file">
+                    <did>
+                        <unittitle>Stanford War Record. Alumni Military Service List</unittitle>
+                        <container type="Box">19</container>
+                        <container type="Folder">160-161</container>
+                    </did>
+                </c>
+                <c id="ref116" level="file">
+                    <did>
+                        <unittitle>Service with Allies</unittitle>
+                        <container type="Box">19</container>
+                        <container type="Folder">162</container>
+                    </did>
+                </c>
+                <c id="ref117" level="file">
+                    <did>
+                        <unittitle>Faculty war records</unittitle>
+                        <container type="Box">19</container>
+                        <container type="Folder">163</container>
+                    </did>
+                </c>
+                <c id="ref118" level="file">
+                    <did>
+                        <unittitle>Pro Patria Mortui (died in service)</unittitle>
+                        <container type="Box">20</container>
+                        <container type="Folder">164-165</container>
+                    </did>
+                </c>
+                <c id="ref119" level="file">
+                    <did>
+                        <unittitle>Photographs of those who died in service</unittitle>
+                        <container type="Box">20</container>
+                        <container type="Folder">166</container>
+                    </did>
+                </c>
+                <c id="ref120" level="file">
+                    <did>
+                        <unittitle>Biographical sketches of those who died in service</unittitle>
+                        <container type="Box">20</container>
+                        <container type="Folder">167-168</container>
+                    </did>
+                </c>
+                <c id="ref121" level="file">
+                    <did>
+                        <unittitle>Book, the Story of the First Flag</unittitle>
+                        <container type="Box">21</container>
+                        <container type="Folder">169</container>
+                    </did>
+                </c>
+                <c id="ref122" level="file">
+                    <did>
+                        <unittitle>Photo album, Ambulance Unit in the Balkans</unittitle>
+                        <container type="Box">21</container>
+                        <container type="Folder">170</container>
+                    </did>
+                </c>
+                <c id="ref123" level="file">
+                    <did>
+                        <unittitle>Box of plates used in printing pictures of servicemen</unittitle>
+                        <container type="Box">21</container>
+                        <container type="Folder">172</container>
+                    </did>
+                </c>
+            </c>
+            <c id="ref124" level="series">
+                <did>
+                    <unittitle>World War II Records</unittitle>
+                    <unitdate normal="1941/1945" type="inclusive">1941-1945</unitdate>
+                </did>
+                <c id="ref125" level="file">
+                    <did>
+                        <unittitle>News releases about Stanford</unittitle>
+                        <container type="Box">21</container>
+                        <container type="Folder">173-174 </container>
+                    </did>
+                </c>
+                <c id="ref126" level="file">
+                    <did>
+                        <unittitle>1942 maps catalog prepared by O. S. S. and Military Intelligence</unittitle>
+                        <container type="Box">21</container>
+                        <container type="Folder">175</container>
+                    </did>
+                </c>
+                <c id="ref127" level="file">
+                    <did>
+                        <unittitle>Dibble General Hospital - A History</unittitle>
+                        <container type="Box">21</container>
+                        <container type="Folder">176</container>
+                    </did>
+                </c>
+                <c id="ref128" level="file">
+                    <did>
+                        <unittitle>American Field Service</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">177</container>
+                    </did>
+                </c>
+                <c id="ref129" level="file">
+                    <did>
+                        <unittitle>Civil Affairs Training School</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">178</container>
+                    </did>
+                </c>
+                <c id="ref130" level="file">
+                    <did>
+                        <unittitle>Civil Defense</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">179</container>
+                    </did>
+                </c>
+                <c id="ref131" level="file">
+                    <did>
+                        <unittitle>Civil Defense, disaster preparedness and relief plan</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">180</container>
+                    </did>
+                </c>
+                <c id="ref132" level="file">
+                    <did>
+                        <unittitle>Civil Defense</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">181</container>
+                    </did>
+                </c>
+                <c id="ref133" level="file">
+                    <did>
+                        <unittitle>Committee on University Services</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">182</container>
+                    </did>
+                </c>
+                <c id="ref134" level="file">
+                    <did>
+                        <unittitle>Engineering Science and Management War Training Program</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">183</container>
+                    </did>
+                </c>
+                <c id="ref135" level="file">
+                    <did>
+                        <unittitle>War News</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">184</container>
+                    </did>
+                </c>
+                <c id="ref136" level="file">
+                    <did>
+                        <unittitle>Miscellaneous printed matter pertaining to campus war effort, 1941-1945</unittitle>
+                        <container type="Box">22</container>
+                        <container type="Folder">185</container>
+                    </did>
+                </c>
+                <c id="ref137" level="file">
+                    <did>
+                        <unittitle>Letters from servicemen in response to President Donald B. Tresidder's letter inquiring about their post-war plans and their thoughts about Stanford University</unittitle>
+                        <container type="Box">23</container>
+                        <container type="Folder">186-193 </container>
+                    </did>
+                </c>
+                <c id="ref138" level="file">
+                    <did>
+                        <unittitle>War Memorial, World War II (General Secretary's Office)</unittitle>
+                        <container type="Box">23</container>
+                        <container type="Folder">194</container>
+                    </did>
+                </c>
+                <c id="ref139" level="file">
+                    <did>
+                        <unittitle>Letters from Stanford men in service during World War II to Prof. Thomas Barclay</unittitle>
+                        <container type="Box">23</container>
+                        <container type="Folder">195</container>
+                    </did>
+                </c>
+            </c>
+        </dsc>
+    </archdesc>
+</ead>

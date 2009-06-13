@@ -1,0 +1,97 @@
+<record xmlns="http://www.loc.gov/MARC21/slim">
+  <leader>01105nam a2200373 a 4504</leader>
+  <controlfield tag="001">4577</controlfield>
+  <controlfield tag="003">UK-WiU</controlfield>
+  <controlfield tag="005">20060908114255.0</controlfield>
+  <controlfield tag="008">991230s1973    xxk           000 0 eng| </controlfield>
+  <datafield tag="015" ind1=" " ind2=" ">
+    <subfield code="a">GB7408739</subfield>
+    <subfield code="2">bnb</subfield>
+  </datafield>
+  <datafield tag="020" ind1=" " ind2=" ">
+    <subfield code="a">0061317845</subfield>
+    <subfield code="c">1.90</subfield>
+  </datafield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(UK-WiU)0061317845</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="d">BSS</subfield>
+  </datafield>
+  <datafield tag="041" ind1="1" ind2=" ">
+    <subfield code="a">eng</subfield>
+    <subfield code="h">fre</subfield>
+  </datafield>
+  <datafield tag="050" ind1="0" ind2="0">
+    <subfield code="a">D13</subfield>
+  </datafield>
+  <datafield tag="082" ind1="0" ind2=" ">
+    <subfield code="a">907/.2</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Febvre, Lucien.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="2">
+    <subfield code="a">A new kind of history, and other essays /</subfield>
+    <subfield code="c">(by) Lucien Febvre ; edited by Peter Burke translated (from the French) by K. Folca.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">New York (etc.) ;</subfield>
+    <subfield code="a">London :</subfield>
+    <subfield code="b">Harper and Row,</subfield>
+    <subfield code="c">1973.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">xii,275p ;</subfield>
+    <subfield code="c">21 cm.</subfield>
+  </datafield>
+  <datafield tag="490" ind1="0" ind2=" ">
+    <subfield code="a">Harper torchbooks</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Also published, London, Routledge and Kegan Paul, 1973.</subfield>
+  </datafield>
+  <datafield tag="650" ind1=" " ind2="0">
+    <subfield code="a">Historiography</subfield>
+    <subfield code="x">Addresses, essays, lectures.</subfield>
+  </datafield>
+  <datafield tag="653" ind1=" " ind2=" ">
+    <subfield code="a">Historiography</subfield>
+    <subfield code="a">Essays</subfield>
+  </datafield>
+  <datafield tag="700" ind1="1" ind2=" ">
+    <subfield code="a">Burke, Peter,</subfield>
+    <subfield code="d">1937-</subfield>
+  </datafield>
+  <datafield tag="700" ind1="1" ind2=" ">
+    <subfield code="a">Folca, Keith.</subfield>
+  </datafield>
+  <datafield tag="909" ind1=" " ind2=" ">
+    <subfield code="a">a</subfield>
+    <subfield code="b">0</subfield>
+    <subfield code="c">0</subfield>
+  </datafield>
+  <datafield tag="TSO" ind1=" " ind2=" ">
+    <subfield code="a">NEW KIND OF HISTORY, AND OTHER ESSAYS /</subfield>
+  </datafield>
+  <datafield tag="ISB" ind1=" " ind2=" ">
+    <subfield code="a">9780061317842</subfield>
+  </datafield>
+  <datafield tag="LOC" ind1=" " ind2=" ">
+    <subfield code="a">ML</subfield>
+    <subfield code="9">1</subfield>
+  </datafield>
+  <datafield tag="COL" ind1=" " ind2=" ">
+    <subfield code="a">1</subfield>
+  </datafield>
+  <datafield tag="CLA" ind1=" " ind2=" ">
+    <subfield code="a">904</subfield>
+    <subfield code="b">904</subfield>
+  </datafield>
+  <datafield tag="RTP" ind1=" " ind2=" ">
+    <subfield code="a">bks</subfield>
+  </datafield>
+  <datafield tag="TMC" ind1=" " ind2=" ">
+    <subfield code="a">0061317845</subfield>
+  </datafield>
+</record>

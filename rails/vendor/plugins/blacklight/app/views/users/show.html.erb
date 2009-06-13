@@ -5,7 +5,7 @@
     <dd><%= current_user.login %></dd>
 
     <dt>Last Login</dt>
-    <dd><%= current_user.last_login %></dd>
+    <dd><%= current_user.last_login_at %></dd>
 
   <% if current_user.last_search_url %>
       <dt>Last Search</dt>
@@ -13,7 +13,7 @@
   <% end %>
   
     <dt>Bookmarks</dt>
-    <dd><%= link_to 'view', user_bookmarks_path(current_user) %></dd>
+    <dd><%= link_to 'view', bookmarks_path %></dd>
 
     <dt>Checkout Items</dt>
     <dd>None</dd>

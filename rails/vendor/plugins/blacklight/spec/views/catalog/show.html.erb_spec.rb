@@ -13,8 +13,8 @@ describe "/catalog/show.html.erb" do
     @div_doc_id = 'div[id=doc_' + @document[:id] + ']'
     @document.stub!(:solr_id).and_return("123456")
     @document.stub!(:storage).and_return("SolrDoc Storage")
-    @document.storage.stub!(:to_apa).and_return("APA Citation")
-    @document.storage.stub!(:to_mla).and_return("MLA Citation")
+    @document.marc.stub!(:to_apa).and_return("APA Citation")
+    @document.marc.stub!(:to_mla).and_return("MLA Citation")
     assigns[:response] = @solr_resp
     assigns[:document] = @document
     

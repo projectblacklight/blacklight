@@ -1,0 +1,85 @@
+--- !ruby/object:Gem::Specification 
+name: marc
+version: !ruby/object:Gem::Version 
+  version: 0.2.2
+platform: ruby
+authors: 
+- Ed Summers
+autorequire: marc
+bindir: bin
+cert_chain: []
+
+date: 2008-12-30 00:00:00 -05:00
+default_executable: 
+dependencies: []
+
+description: 
+email: ehs@pobox.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: []
+
+files: 
+- lib/marc.rb
+- lib/marc
+- lib/marc/xmlwriter.rb
+- lib/marc/controlfield.rb
+- lib/marc/xmlreader.rb
+- lib/marc/reader.rb
+- lib/marc/record.rb
+- lib/marc/exception.rb
+- lib/marc/datafield.rb
+- lib/marc/subfield.rb
+- lib/marc/constants.rb
+- lib/marc/dublincore.rb
+- lib/marc/writer.rb
+- test/non-numeric.dat
+- test/tc_dublincore.rb
+- test/tc_datafield.rb
+- test/non-numeric.xml
+- test/no-leading-zero.xml
+- test/ts_marc.rb
+- test/tc_writer.rb
+- test/batch.xml
+- test/tc_xml.rb
+- test/one.dat
+- test/tc_record.rb
+- test/one.xml
+- test/batch.dat
+- test/tc_controlfield.rb
+- test/tc_reader.rb
+- test/tc_subfield.rb
+- Rakefile
+- README
+- Changes
+- LICENSE
+has_rdoc: true
+homepage: http://www.textualize.com/ruby_marc
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: 1.8.6
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.1
+signing_key: 
+specification_version: 2
+summary: A ruby library for working with Machine Readable Cataloging
+test_files: 
+- test/ts_marc.rb

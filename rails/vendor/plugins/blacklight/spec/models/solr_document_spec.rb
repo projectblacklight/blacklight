@@ -28,20 +28,14 @@ def get_hash_with_marc21
 end
 
   describe SolrDocument do
+    
     before(:all) do
-      @original_raw_storage_type = Blacklight.config[:raw_storage_type]
-      @original_raw_storage_field = Blacklight.config[:raw_storage_field]
-      Blacklight.config[:raw_storage_type] = 'marcxml'
-      Blacklight.config[:raw_storage_field] = 'marc_display'
       @hash_with_marcxml = get_hash_with_marcxml['response']['docs'][0]
+      SolrDocument.marc_source_field  = :marc_display
+      SolrDocument.marc_format_type   = :marcxml
       @solrdoc = SolrDocument.new(@hash_with_marcxml)
     end
-    after(:all) do
-      Blacklight.config[:raw_storage_type] = @original_raw_storage_type
-      Blacklight.config[:raw_storage_field] = @original_raw_storage_field
-    end
     
-
     describe "new" do
       it "should take a Hash as the argument" do
         lambda { SolrDocument.new(@hash_with_marcxml) }.should_not raise_error(ArgumentError)
@@ -49,15 +43,17 @@ end
     end
     
     describe "access methods" do
+      
       it "should have the right value for format_facet" do
-        @solrdoc.format_facet[0].should == 'Book'
+        @solrdoc[:format_facet][0].should == 'Book'
       end
+      
       it "should provide the item's solr id" do
-        @solrdoc.solr_id.should == '00282214'
+        @solrdoc.id.should == '00282214'
       end
-      it "should have a table method that returns a Hash" do
-        @solrdoc.table.should be_instance_of(Hash)
-        
+      
+      it "should have a _source_hash method that returns a Hash" do
+        @solrdoc._source_hash.should be_instance_of(Hash)
       end
 
       it "should have access methods for all special function fields named in initializer" do
@@ -66,22 +62,14 @@ end
           @solrdoc[Blacklight.config[:show][function]].should_not be_nil
         end
       end
+      
     end
     
     describe "marc attribute" do
-# naomi sez:  this is a silly test and/or doesn't go here:  
-#    you're testing whether Blacklight read solr.yml correctly 
-#     and testing it against a *hardcoded* value.
-#    in the context of this test, you assume it's so and/or create mocks as needed
-#    
-#      it "should know the name of the marc field" do
-#        # again, from solr.yml. It has to know the value so it can know where to get the stored marc
-#        Blacklight.config[:marc_storage_field].should == 'marc_display'
-#      end
  
       it "should have a valid storage field instatiated with an object" do
         #When we have more than marc, this will need to test each type.
-        @solrdoc.storage.should be_instance_of(BlacklightMarc::Document)
+        @solrdoc.marc.should be_instance_of(Blacklight::Marc::Document)
       end
       
       it "should not try to create marc for objects w/out stored marc (marcxml test only at this time)" do
@@ -89,8 +77,49 @@ end
         # sure everything fails gracefully
         @hash_without_marcxml = get_hash_without_marcxml['response']['docs'][0]
         @solrdoc_without_marc = SolrDocument.new(@hash_without_marcxml)
-        @solrdoc_without_marc.storage.should be(nil)        
+        @solrdoc_without_marc.marc.should be(nil)
       end
     end
-  
+    
+    describe 'the search method' do
+      
+      it 'should use the default params from SolrDocument.default_params[:search]' do
+        expected_params = {:facets=>{:fields=>["language_facet", "subject_era_facet", "geographic_subject_facet", "format_facet"]}, :q=>"tibet", :qt=>:search, :per_page=>10}
+        response = SolrDocument.search(:q=>'tibet') do |params|
+          params.should == expected_params
+        end
+      end
+      
+      it 'should return docs that are SolrDocument objects' do
+        response = SolrDocument.search(:q=>'tibet')
+        response.docs.each{|d| d.should be_instance_of(SolrDocument) }
+      end
+      
+    end
+    
+    describe 'the find_by_id method' do
+      
+      it 'should use the default params from SolrDocument.default_params[:find_by_id]' do
+        expected_params = {:qt=>:document, :rows=>1, :id=>'2008308202'}
+        SolrDocument.find_by_id(:id=>'2008308202') do |params|
+          params.should == expected_params
+        end
+      end
+      
+    end
+    
+    describe 'the merge_defaults method; which uses defaults from SolrDocument.default_params' do
+      
+      it 'should not allow blank values to override defaults' do
+        p = SolrDocument.merge_defaults :search, :qt=>''
+        p[:qt].should == :search
+      end
+      
+      it 'should allow non-blank values to override the defaults' do
+        p = SolrDocument.merge_defaults :search, :qt=>'abc'
+        p[:qt].should == 'abc'
+      end
+      
+    end
+    
 end

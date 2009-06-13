@@ -1,51 +1,56 @@
-<% if parent? %><% # The parent? method is coming from the ResourceController plugin -%>
-	
-	<% @sidebar = capture do %>
-		<% if current_user.has_bookmarks? %>
-		  
-  	  <h3>Search your Bookmarks</h3>
-  	  <% form_tag user_bookmarks_path(current_user), :method=>:get do %>
-  	    <%= text_field_tag 'q', params[:q] %>
-        <%= submit_tag 'find', :name=>:a %>
-  		<% end %>
-		
-  		<h3>Bookmark Tags</h3>
-		
-  		<% @tags=current_user.bookmarks.tag_counts %>
-		
-  		<% tag_cloud @tags, %w(tagCloud1 tagCloud2 tagCloud3 tagCloud4) do |tag, css_class| %>
-  			<%= link_to h(tag.name), "#{collection_path}?tag=#{h(tag.name)}", :class=>css_class %>
-  		<% end %>
-		
+<h1>Bookmarks</h1>
+
+<%- if current_user.blank? -%>
+  
+  <h2>Please log in to see your bookmarks.</h2>
+  
+<%- elsif @bookmarks.blank? -%>
+  
+  <h2>You have no bookmarks</h2>
+  
+<%- else -%>
+
+
+  <% sidebar_items << capture do %>	  
+	  <h3>Search your Bookmarks</h3>
+	  <% form_tag bookmarks_path, :method=>:get do %>
+	    <%= text_field_tag 'q', params[:q] %>
+      <%= submit_tag 'find', :name=>:a %>
 		<% end %>
-		
-	<% end %><% # END OF SIDEBAR CAPTURE -%>
 	
-	<h3>Your Bookmarks</h3>
+		<h3>Bookmark Tags</h3>
 	
-	<% if current_user.has_bookmarks? %>
-	  
-  	<% if params[:tag] %>
-  	  Showing "<%= h params[:tag] %>" tagged items.
-  	  Show <%= link_to 'all', user_bookmarks_path(current_user) %>.
-  	<% end %>
-	  
-  	<%= will_paginate(@bookmarks) %>
-	  
-  	<div id="userBookmarks">
-    	<% @bookmarks.each do |bm| %>
-    		<div>
-    		  <h5><%= link_to h(bm.title), catalog_path(bm.document_id) %></h5>
-    			[<%= link_to 'edit', edit_user_bookmark_path(current_user, bm) %> | 
-    			<%= link_to 'remove', user_bookmark_path(current_user, bm), :method=>:delete, :confirm=>'Are you sure?' %>]
-    		</div>
-    	<% end %>
-  	</div>
-	  
-	<% else %>
-		<p>You have no bookmarks. <%= link_to 'Go look for something!', catalog_index_path %></p>
+		<% @tags=current_user.bookmarks.tag_counts %>
+	
+		<% tag_cloud @tags, %w(tagCloud1 tagCloud2 tagCloud3 tagCloud4) do |tag, css_class| %>
+			<%= link_to h(tag.name), "#{collection_path}?tag=#{h(tag.name)}", :class=>css_class %>
+		<% end %>
+	
 	<% end %>
-	
-<% else %>
-	<h5>All User Bookmarks</h5>
+	<% # END OF SIDEBAR CAPTURE -%>
+  
+	<% if params[:tag] %>
+	  Showing "<%= h params[:tag] %>" tagged items.
+	  Show <%= link_to 'all', bookmarks_path %>.
+	<% end %>
+
+	<%= will_paginate(@bookmarks) %>
+
+	<div id="userBookmarks">
+  	<p>
+      <%= link_to "Clear Bookmarks", clear_bookmarks_path, :method => :delete, :confirm => "Clear your bookmarks?" %>
+    </p>
+  
+    <h2>Your Bookmarks</h2>
+  
+    <table class="zebra">
+      <% @bookmarks.each do |bm| %>
+    		<tr>
+    		  <td><%= link_to h(bm.title), catalog_path(bm.document_id) %></td>
+    			<td><%= link_to 'edit', edit_bookmark_path(bm) %></td>
+    			<td><%= link_to 'remove', bookmark_path(bm), :method => :delete, :confirm => 'Remove this bookmark?' %></td>
+    		</tr>
+    	<% end %>
+  	</table>
+	</div>
 <% end %>

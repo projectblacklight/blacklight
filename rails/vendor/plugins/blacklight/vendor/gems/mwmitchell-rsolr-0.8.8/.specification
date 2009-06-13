@@ -1,0 +1,100 @@
+--- !ruby/object:Gem::Specification 
+name: mwmitchell-rsolr
+version: !ruby/object:Gem::Version 
+  version: 0.8.8
+platform: ruby
+authors: 
+- Matt Mitchell
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2009-05-06 00:00:00 -04:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: builder
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 2.1.2
+    version: 
+description: RSolr is a Ruby gem for working with Apache Solr!
+email: goodieboy@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- LICENSE
+- Rakefile
+- README.rdoc
+- CHANGES.txt
+files: 
+- examples/http.rb
+- examples/direct.rb
+- lib/rsolr.rb
+- lib/rsolr/adapter/direct.rb
+- lib/rsolr/adapter/http.rb
+- lib/rsolr/adapter.rb
+- lib/rsolr/connection.rb
+- lib/rsolr/http_client/adapter/curb.rb
+- lib/rsolr/http_client/adapter/net_http.rb
+- lib/rsolr/http_client/adapter.rb
+- lib/rsolr/http_client.rb
+- lib/rsolr/message.rb
+- LICENSE
+- Rakefile
+- README.rdoc
+- rsolr.gemspec
+- CHANGES.txt
+- test/connection/direct_test.rb
+- test/connection/http_test.rb
+- test/connection/test_methods.rb
+- test/helper.rb
+- test/http_client/curb_test.rb
+- test/http_client/net_http_test.rb
+- test/http_client/test_methods.rb
+- test/http_client/util_test.rb
+- test/message_test.rb
+- test/rsolr_test.rb
+has_rdoc: true
+homepage: http://github.com/mwmitchell/rsolr
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.1
+signing_key: 
+specification_version: 2
+summary: A Ruby client for Apache Solr
+test_files: 
+- test/connection/direct_test.rb
+- test/connection/http_test.rb
+- test/connection/test_methods.rb
+- test/helper.rb
+- test/http_client/curb_test.rb
+- test/http_client/net_http_test.rb
+- test/http_client/test_methods.rb
+- test/http_client/util_test.rb
+- test/message_test.rb
+- test/rsolr_test.rb

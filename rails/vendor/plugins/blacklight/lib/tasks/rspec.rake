@@ -1,4 +1,6 @@
 gem 'test-unit', '1.2.3' if RUBY_VERSION.to_f >= 1.9
+rspec_plugin_dir = File.expand_path(File.dirname(__FILE__) + '/../../vendor/plugins/rspec')
+$LOAD_PATH.unshift("#{rspec_plugin_dir}/lib") if File.exist?(rspec_plugin_dir)
 
 # Don't load rspec if running "rake gems:*"
 unless ARGV.any? {|a| a =~ /^gems/}
@@ -98,7 +100,7 @@ namespace :spec do
     ::STATS_DIRECTORIES << %w(Controller\ specs spec/controllers) if File.exist?('spec/controllers')
     ::STATS_DIRECTORIES << %w(Helper\ specs spec/helpers) if File.exist?('spec/helpers')
     ::STATS_DIRECTORIES << %w(Library\ specs spec/lib) if File.exist?('spec/lib')
-    ::STATS_DIRECTORIES << %w(Routing\ specs spec/lib) if File.exist?('spec/routing')
+    ::STATS_DIRECTORIES << %w(Routing\ specs spec/routing) if File.exist?('spec/routing')
     ::CodeStatistics::TEST_TYPES << "Model specs" if File.exist?('spec/models')
     ::CodeStatistics::TEST_TYPES << "View specs" if File.exist?('spec/views')
     ::CodeStatistics::TEST_TYPES << "Controller specs" if File.exist?('spec/controllers')

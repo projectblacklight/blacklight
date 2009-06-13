@@ -1,0 +1,172 @@
+Blacklight.configure(:shared) do |config|
+  # Blacklight's default SOLR Request Handler (defined in solr/conf/solrconfig.xml)
+  config[:default_qt] = "search"
+
+  # solr field values given special treatment in the show (single result) view
+  config[:show] = {
+    :html_title => "title_245a_display",
+    :heading => "title_full_display",
+    :display_type => "format"
+  }
+
+  # solr fld values given special treatment in the index (search results) view
+  config[:index] = {
+    :show_link => "title_display",
+    :num_per_page => 20,
+    :record_display_type => "format"
+  }
+
+  # solr fields that will be treated as facets by the blacklight application 
+  #   The ordering of the field names is the order of the display 
+  config[:facet] = {
+    :field_names => [
+      "access_facet",
+      "building_facet",
+      "format",
+      "lc_1letter_facet",
+      "dewey_1digit_facet",
+      "author_person_facet",
+      "author_other_facet",
+      "language",
+      "topic_facet",
+      "pub_date_group_facet",
+      "era_facet",
+      "geographic_facet"
+    ],
+    :labels => {
+      "access_facet"            => "Access",
+      "building_facet"          => "Library",
+      "format"                  => "Format",
+      "lc_1letter_facet"        => "Call Number (Library of \n Congress)",
+      "dewey_1digit_facet"      => "Call Number (Dewey)",
+      "author_person_facet"     => "Author (Person)",
+      "author_other_facet"      => "Organization (as Author)",
+      "language"                => "Language",
+      "topic_facet"             => "Topic",
+      "pub_date_group_facet"    => "Year",
+      "era_facet"               => "Era",
+      "geographic_facet"        => "Region"
+    }
+  }
+
+  # solr fields to be displayed in the index (search results) view
+  #   The ordering of the field names is the order of the display 
+  config[:index_fields] = {:field_names => [
+    "title_display", "vern_title_display",
+    "author_person_display", "vern_author_person_display",
+    "pub_date",
+    "format"
+  ]}
+  # solr fields to be displayed in the index (search results) view
+  #   The ordering of the field names is the order of the display 
+  config[:index_fields] = {
+    :field_names => [
+      "title_245a_display",
+      "title_display",
+      "vern_title_display",
+      "title_uniform_display",
+      "vern_title_uniform_display",
+      "author_person_display",
+      "vern_author_person_display",
+      "author_corp_display", 
+      "vern_author_corp_display",
+      "author_meeting_display", 
+      "vern_author_meeting_display",
+      "pub_date",
+      "format"
+    ],
+    :labels => {
+      "title_245a_display"          => "",
+      "title_display"               => "Title:",
+      "vern_title_display"          => "Title:",
+      "title_uniform_display"       => "Title:",
+      "vern_title_uniform_display"  => "Title:",
+      "author_person_display"       => "Author/Creator:",
+      "vern_author_person_display"  => "Author/Creator:",
+      "author_corp_display"         => "Corporate Author:", 
+      "vern_author_corp_display"    => "Corporate Author:",
+      "author_meeting_display"      => "Meeting Author:", 
+      "vern_author_meeting_display" => "Meeting Author:",
+      "pub_date"                    => "Published:",
+      "format"                      => "Format:"
+    }
+  }
+
+  # solr fields to be displayed in the show (single result) view
+  #   The ordering of the field names is the order of the display 
+  config[:show_fields] = {
+    :field_names => [
+      "title_full_display", 
+      "vern_title_full_display",
+      "vern_uniform_display",
+      "vern_title_uniform_display",
+      "title_variant_display", 
+      "vern_title_variant_display",
+      "author_person_full_display",
+      "vern_author_person_full_display",
+      "author_corp_display", 
+      "vern_author_corp_display",
+      "author_meeting_display", 
+      "vern_author_meeting_display",
+      "publication_display",
+      "vern_publication_display",
+      "format",
+      "physical",
+      "series_title_display",
+      "vern_series_title_display",
+      "edition_display", 
+      "vern_edition_display"
+    ],
+    :labels => {
+      "title_full_display"              => "Title:",
+      "vern_title_full_display"         => "Title:",
+      "title_uniform_display"           => "Uniform Title:",
+      "vern_title_uniform_display"      => "Uniform Title:",
+      "title_variant_display"           => "Variant Title", 
+      "vern_title_variant_display"      => "Variant Title",
+      "author_person_full_display"      => "Author/Creator:",
+      "vern_author_person_full_display" => "Author/Creator:",
+      "author_corp_display"             => "Corporate Author:", 
+      "vern_author_corp_display"        => "Corporate Author:",
+      "author_meeting_display"          => "Meeting Author:", 
+      "vern_author_meeting_display"     => "Meeting Author:",
+      "publication_display"             => "Published:",
+      "vern_publication_display"        => "Published:",
+      "format"                          => "Format:",
+      "physical"                        => "Physical Description:",
+      "series_title_display"            => "Series:",
+      "vern_series_title_display"       => "Series:",
+      "edition_display"                 => "Edition:", 
+      "vern_edition_display"            => "Edition:"
+    }
+  }
+
+  # type of raw data in index.  Currently marcxml and marc21 are supported.
+  config[:raw_storage_type] = "marc21"
+  # name of solr field containing raw data
+  config[:raw_storage_field] = "marc21"
+
+  # "fielded" search select (pulldown)
+  # label in pulldown is followed by the name of a SOLR request handler as 
+  # defined in solr/conf/solrconfig.xml
+  config[:search_fields] ||= []
+  config[:search_fields] << ['Everything', 'search']
+  config[:search_fields] << ['Author', 'search_author']
+  config[:search_fields] << ['Title', 'search_title']
+  
+  # "sort results by" select (pulldown)
+  # label in pulldown is followed by the name of the SOLR field to sort by and
+  #  whether the sort is ascending or descending (it must be asc or desc
+  #  except in the relevancy case).
+  # label is key, solr field is value
+  config[:sort_fields] ||= []
+  config[:sort_fields] << ['relevance', '']
+  config[:sort_fields] << ['year', 'pub_date_sort desc']
+  config[:sort_fields] << ['author', 'author_sort asc']
+  config[:sort_fields] << ['title', 'title_sort asc']
+  
+    # the maximum number of search results to allow display of a spelling 
+  #  ("did you mean") suggestion, if one is available.
+  config[:spell_max] = 5
+end
+

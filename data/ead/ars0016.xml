@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ead xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns="urn:isbn:1-931666-22-9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <eadheader findaidstatus="unverified-full-draft" repositoryencoding="iso15511" countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b">
+        <eadid>ars0016.xml</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>Guide to the Grover Sales Collection 
+                    <num>ARS.0016</num>
+                    <num>ARS.0016</num>
+                </titleproper>
+                <author>Finding aid prepared by Finding aid prepared by Processed by Andrea Castillo</author>
+            </titlestmt>
+            <publicationstmt>
+                <publisher>Archive of Recorded Sound</publisher>
+                <address>
+                    <addressline>Braun Music Center</addressline>
+                    <addressline>541 Lasuen Mall</addressline>
+                    <addressline>Stanford University</addressline>
+                    <addressline>Stanford, California, 94305-3076</addressline>
+                    <addressline>650-723-9312</addressline>
+                    <addressline>soundarchive@stanford.edu</addressline>
+                </address>
+                <date>2006</date>
+            </publicationstmt>
+        </filedesc>
+        <profiledesc>
+            <creation>This finding aid was produced using the Archivists' Toolkit
+                <date>2009-04-28T14:06-0700</date>
+            </creation>
+            <langusage>Finding aid is written in 
+                <language>English.</language></langusage>
+        </profiledesc>
+    </eadheader>
+    <archdesc level="collection">
+        <did>
+            <unittitle>Grover Sales Collection</unittitle>
+            <unitid>ARS.0016</unitid>
+            <repository>
+                <corpname>Archive of Recorded Sound</corpname>
+            </repository>
+            <langmaterial>
+                <language langcode="eng"/>
+            </langmaterial>
+            <physdesc>
+                <extent>8.0 boxes</extent>
+            </physdesc>
+            <unitdate normal="1940/2004" type="inclusive">1940-2004</unitdate>
+            <physdesc id="ref1" label="General Physical Description note"></physdesc>
+            <origination label="creator">
+                <persname source="ingest">Sales, Grover, Mr.</persname>
+            </origination>
+        </did>
+        <arrangement id="ref2">
+            <head>Arrangement note</head>
+            <p>The collection is arranged into 6 series: 1. Media; 2. Writings; 3. Photographs; 4. Publications; 5. Books; 6. Miscellaneous.</p>
+        </arrangement>
+        <scopecontent id="ref3">
+            <head>Scope and Contents note</head>
+            <p>The collection consists of 2018 slides of jazz musicians; jazz documentaries and interviews with famous jazz musicians on audio tapes; a well-written and entertaining autobiography; course syllabi; two articles and miscellaneous typescripts by Sales; and writings about him.</p>
+        </scopecontent>
+        <bioghist id="ref4">
+            <head>Biographical/Historical note</head>
+            <p>Grover Sales was born in Louisville, Kentucky in 1920. After serving in the Army Air Corps in Southeast Asia during World War II he studied at Reed College, Portland, Oregon and later at the University of California, Berkeley, where he received his BA in history. In his fifty-year career as a jazz critic he was known for his strongly opinionated and literate writing. Sales also wrote about film and cultural politics. His books include Jazz: America?s Classical Music, a biography of John Maher, and the very successful book he co-authored with his wife, The Clay-Pot Cookbook. He taught jazz history for several years at Stanford University, San Francisco State University, the San Francisco Conservatory, and the Jazz school. Sales also worked as the publicist for the Monterey Jazz Festival from 1958 to 1965. Grover Sales died in 2004.</p>
+        </bioghist>
+        <prefercite id="ref5">
+            <head>Preferred Citation:</head>
+            <p>Grover Sales Collection, ARS-0016. Courtesy of the Stanford Archive of Recorded Sound, Stanford University Libraries, Stanford, Calif.</p>
+            <p></p>
+        </prefercite>
+        <accessrestrict id="ref6">
+            <head>Access Restrictions:</head>
+            <p>Collection is open for research. Listening appointments may require 24 hours notice. Contact the Archive Operations Manager.</p>
+        </accessrestrict>
+        <controlaccess>
+            <genreform source="ingest">Jazz musicians--Portraits</genreform>
+            <genreform source="lcsh">Jazz</genreform>
+        </controlaccess>
+        <dsc>
+            <c id="ref7" level="series">
+                <did>
+                    <unittitle>Media</unittitle>
+                </did>
+                <c id="ref8" level="subseries">
+                    <did>
+                        <unittitle>Slides</unittitle>
+                    </did>
+                    <c id="ref9" level="file">
+                        <did>
+                            <unittitle>Jazz history slides</unittitle>
+                            <container type="Box">1</container>
+                            <container type="Folder">11200</container>
+                        </did>
+                        <scopecontent id="ref10">
+                            <head>Scope and Contents note</head>
+                            <p>(Box 1) 1 - 199 -- (Box 2) 200 - 400 -- (Box 3) 401 - 600 -- (Box 4) 601 - 800 --(Box 5) 801 - 1000 -- (Box 6) 1001 -1200</p>
+                        </scopecontent>
+                    </c>
+                </c>
+                <c id="ref11" level="subseries">
+                    <did>
+                        <unittitle>Videocassettes</unittitle>
+                    </did>
+                    <c id="ref12" level="file">
+                        <did>
+                            <unittitle>Jazz history slides</unittitle>
+                            <container type="Box">2</container>
+                            <container type="Folder">1.2012018E7</container>
+                        </did>
+                        <scopecontent id="ref13">
+                            <head>Scope and Contents note</head>
+                            <p>(Box 7) 1201 - 1400 -- (Box 8) 1401 - 1600 -- (Box 9) 1601 - 1800 -- (Box 10) 1801 - 1990 -- (Box 11) 1992 - 2018</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref14" level="file">
+                        <did>
+                            <unittitle>Jazz on Film</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">1</container>
+                            <physdesc id="ref15" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref16">
+                            <head>Scope and Contents note</head>
+                            <p>Great Day in Harlem (1994) ; Arlen, Harold, 1905-1986 (1999) ; Last of Blue Devils (1979) ; Pygmalion (1938)</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref17" level="file">
+                        <did>
+                            <unittitle>Krupa, Gene, 1909-1973. Swing, swing, swing</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">2</container>
+                            <unitdate>1999</unitdate>
+                            <physdesc id="ref18" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref19" level="file">
+                        <did>
+                            <unittitle>Jordan, Stanley. Montreal Jazz Festival</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">3</container>
+                            <physdesc id="ref20" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref21">
+                            <head>Scope and Contents note</head>
+                            <p>Gillespie, Dizzy, 1917-1993</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref22" level="file">
+                        <did>
+                            <unittitle>My dinner with Dizzy</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">4</container>
+                            <physdesc id="ref23" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref24">
+                            <head>Scope and Contents note</head>
+                            <p>My dinner with Dizzy -- Gaillard, Slim. Civilisation (Part III). Arena BBC (1988)</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref25" level="file">
+                        <did>
+                            <unittitle>Sound of Jazz.</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">5</container>
+                            <physdesc id="ref26" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref27">
+                            <head>Scope and Contents note</head>
+                            <p>Jazz and Big Band from the 30s and 40s</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref28" level="file">
+                        <did>
+                            <unittitle>Wonderful World of Louis Armstrong</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">6</container>
+                            <physdesc id="ref29" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref30">
+                            <head>Scope and Contents note</head>
+                            <p>Omnibus. BBC</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref31" level="file">
+                        <did>
+                            <unittitle>South Bank. Boogie-Woogie</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">7</container>
+                            <physdesc id="ref32" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref33">
+                            <head>Scope and Contents note</head>
+                            <p>Lewis, Lux, 1905-1964 ; Johnson, Peter</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref34" level="file">
+                        <did>
+                            <unittitle>PBS Documentary, The Choir. Episode 3 ; Bravo. Marsalis, Wynton, 1961- , Trumpet</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">8</container>
+                            <physdesc id="ref35" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref36" level="file">
+                        <did>
+                            <unittitle>Midwest Territory Bands</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">9</container>
+                            <physdesc id="ref37" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref38">
+                            <head>Scope and Contents note</head>
+                            <p>Documentary, Citizens Dancing</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref39" level="file">
+                        <did>
+                            <unittitle>Bauzá, Mario, 1911- . Jazz</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">10</container>
+                            <physdesc id="ref40" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref41" level="file">
+                        <did>
+                            <unittitle>Completely Cuckoo</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">11</container>
+                            <physdesc id="ref42" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref43">
+                            <head>Scope and Contents note</head>
+                            <p>Kesey, Ken. One flew over the cuckoo's nest -- Documentary on book. Douglas, K. ; Douglas, M</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref44" level="file">
+                        <did>
+                            <unittitle>Mingus, Charles, 1922-1979. Epitaph</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">12</container>
+                            <physdesc id="ref45" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref46" level="file">
+                        <did>
+                            <unittitle>John Coltrane Legacy</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">13</container>
+                            <physdesc id="ref47" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref48">
+                            <head>Scope and Contents note</head>
+                            <p>Vaughan, Sarah, 1924-1990</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref49" level="file">
+                        <did>
+                            <unittitle>Bravo. Waller, Fats, 1904-1943</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">14</container>
+                            <physdesc id="ref50" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref51" level="file">
+                        <did>
+                            <unittitle>Goodman, Benny, 1909-1986. Farewell</unittitle>
+                            <container type="Box">3</container>
+                            <container type="Folder">15</container>
+                            <unitdate>1981</unitdate>
+                            <physdesc id="ref52" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref53" level="file">
+                        <did>
+                            <unittitle>Jazzman from the Gulag. Rosner, Eddie, 1910-1976.</unittitle>
+                            <container type="Box">4</container>
+                            <container type="Folder">16</container>
+                            <unitdate>1941</unitdate>
+                            <physdesc id="ref54" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                        <scopecontent id="ref55">
+                            <head>Scope and Contents note</head>
+                            <p>Moskow</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref56" level="file">
+                        <did>
+                            <unittitle>Ellington, Duke, 1899-1974</unittitle>
+                            <container type="Box">4</container>
+                            <container type="Folder">17</container>
+                            <physdesc id="ref57" label="General Physical Description note">
+                                <extent>VHS</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref58" level="file">
+                        <did>
+                            <unittitle>Gershwin, George, 1898-1937</unittitle>
+                            <container type="Box">4</container>
+                            <container type="Folder">18</container>
+                            <physdesc id="ref59" label="General Physical Description note">
+                                <extent>Beta</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref60" level="file">
+                        <did>
+                            <unittitle>Coltrane Legacy</unittitle>
+                            <container type="Box">4</container>
+                            <container type="Folder">19</container>
+                            <physdesc id="ref61" label="General Physical Description note">
+                                <extent>Beta</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref62" level="file">
+                        <did>
+                            <unittitle>Music in Monk Time. Thelonious Sphere Monk: A retrospective tribute</unittitle>
+                            <container type="Box">4</container>
+                            <container type="Folder">20</container>
+                            <physdesc id="ref63" label="General Physical Description note">
+                                <extent>Beta</extent></physdesc>
+                        </did>
+                    </c>
+                    <c id="ref64" level="file">
+                        <did>
+                            <unittitle>Saxophone Summit</unittitle>
+                            <container type="Box">4</container>
+                            <container type="Folder">21</container>
+                            <unitdate>Feb. 6, 1985</unitdate>
+                            <physdesc id="ref65" label="General Physical Description note">
+                                <extent>Beta</extent></physdesc>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref66" level="subseries">
+                    <did>
+                        <unittitle>Reel to reel film</unittitle>
+                    </did>
+                    <c id="ref67" level="file">
+                        <did>
+                            <unittitle>Unidentified</unittitle>
+                            <container type="Box">4</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref68" level="subseries">
+                    <did>
+                        <unittitle>Reel to reel tapes</unittitle>
+                    </did>
+                    <c id="ref69" level="file">
+                        <did>
+                            <unittitle>Jazz lecture. KJAZ</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">1</container>
+                        </did>
+                        <scopecontent id="ref70">
+                            <head>Scope and Contents note</head>
+                            <p>Bob Houlihan</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref71" level="file">
+                        <did>
+                            <unittitle>Bob Houlihan KJAZ</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">2</container>
+                        </did>
+                    </c>
+                    <c id="ref72" level="file">
+                        <did>
+                            <unittitle>Bob Houlihan KJAZ</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">3</container>
+                            <unitdate>July 1, 1973</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref73" level="file">
+                        <did>
+                            <unittitle>Bob Houlihan KJAZ</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">4</container>
+                        </did>
+                    </c>
+                    <c id="ref74" level="file">
+                        <did>
+                            <unittitle>Hawkins, Coleman. Interview</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">5</container>
+                        </did>
+                    </c>
+                    <c id="ref75" level="file">
+                        <did>
+                            <unittitle>Mingus, Charles, 1922-1979. Interview</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">6</container>
+                        </did>
+                        <scopecontent id="ref76">
+                            <head>Scope and Contents note</head>
+                            <p>WKCR. Columbia University, N. Y.</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref77" level="file">
+                        <did>
+                            <unittitle>Jazz Workshop. Dixieland -- Bruce, Lenny.</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">7</container>
+                            <unitdate>Oct. 6, 1961</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref78" level="file">
+                        <did>
+                            <unittitle>Brown, Ray. Interview I</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">8</container>
+                        </did>
+                    </c>
+                    <c id="ref79" level="file">
+                        <did>
+                            <unittitle>Brown, Ray. Interview II</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">9</container>
+                        </did>
+                        <scopecontent id="ref80">
+                            <head>Scope and Contents note</head>
+                            <p>On bass playing</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref81" level="file">
+                        <did>
+                            <unittitle>Brown, Ray. Interview III</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">10</container>
+                        </did>
+                        <scopecontent id="ref82">
+                            <head>Scope and Contents note</head>
+                            <p>On bass playing</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref83" level="file">
+                        <did>
+                            <unittitle>Sales, Grover interviews Venuti, Joe.</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">11</container>
+                        </did>
+                    </c>
+                    <c id="ref84" level="file">
+                        <did>
+                            <unittitle>Sinatra, Frank, 1915-1998. Trilogy. Part I</unittitle>
+                            <container type="Box">5</container>
+                            <container type="Folder">12</container>
+                        </did>
+                    </c>
+                    <c id="ref85" level="file">
+                        <did>
+                            <unittitle>Sinatra, Frank, 1915-1998. Trilogy. Part II</unittitle>
+                            <container type="Box">6</container>
+                            <container type="Folder">13</container>
+                        </did>
+                    </c>
+                    <c id="ref86" level="file">
+                        <did>
+                            <unittitle>Abbott, Bud, 1895-1974 and Costello, Lou</unittitle>
+                            <container type="Box">6</container>
+                            <container type="Folder">14</container>
+                        </did>
+                        <scopecontent id="ref87">
+                            <head>Scope and Contents note</head>
+                            <p>Myerson, Alan, director of the committee in San Francisco</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref88" level="file">
+                        <did>
+                            <unittitle>Sales, Grover interviews Hines, Earl, 1903-1983</unittitle>
+                            <container type="Box">6</container>
+                            <container type="Folder">15</container>
+                        </did>
+                    </c>
+                    <c id="ref89" level="file">
+                        <did>
+                            <unittitle>Holiday, Billie, 1915-1959</unittitle>
+                            <container type="Box">6</container>
+                            <container type="Folder">16</container>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref90" level="subseries">
+                    <did>
+                        <unittitle>Audiocassettes</unittitle>
+                    </did>
+                    <c id="ref91" level="file">
+                        <did>
+                            <unittitle>Dylan on Dylan. Interview with Dylan, Bob, 1941-</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                    <c id="ref92" level="file">
+                        <did>
+                            <unittitle>Hawkins, Coleman. Interview</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">3</container>
+                        </did>
+                    </c>
+                    <c id="ref93" level="file">
+                        <did>
+                            <unittitle>Tatum, Art, 1910-1956. Radio interview</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">3</container>
+                            <unitdate>1955</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref94" level="file">
+                        <did>
+                            <unittitle>Terkel, Studs, 1912- interviews Freeman, Bud, 1906-1991</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">4</container>
+                        </did>
+                    </c>
+                    <c id="ref95" level="file">
+                        <did>
+                            <unittitle>Interview with Evans, Bill, 1929-1980</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">5</container>
+                            <unitdate>Nov. 1, 1973</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref96" level="file">
+                        <did>
+                            <unittitle>Holiday, Billie, 1915-1959 speaks and performs</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">6</container>
+                        </did>
+                    </c>
+                    <c id="ref97" level="file">
+                        <did>
+                            <unittitle>Evans, Bill, 1929-1980. Bach dancing</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">7</container>
+                            <unitdate>Feb. 23, 1998</unitdate>
+                        </did>
+                        <scopecontent id="ref98">
+                            <head>Scope and Contents note</head>
+                            <p>CD Master. Waltz for Debby -- Sareen Jurer -- Very early -- Autumn leaves -- What are you doing the rest -- Quiet now -- Who can I turn to -- Elsa -- Someday my Prince will come</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref99" level="file">
+                        <did>
+                            <unittitle>Houlihan, Bob and Grover Sales talk on Blues. KJAZ</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">8</container>
+                        </did>
+                        <scopecontent id="ref100">
+                            <head>Scope and Contents note</head>
+                            <p>Young, Lester, 1909-1959 ; Cole, Nat King, 1917-1965 ; Rich, Buddy, 1917-1987 -- Houlihan broadcast. Spanier, Muggsy, 1906-1967 ; Russell, Pee Wee ; Jackson, Cliff (1946) -- Grover Sales lecture on the Blues</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref101" level="file">
+                        <did>
+                            <unittitle>Concert and interview. Gross, Terry with Williams, Jessica. Part I</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">9</container>
+                        </did>
+                    </c>
+                    <c id="ref102" level="file">
+                        <did>
+                            <unittitle>Concert and interview. Gross, Terry with Williams, Jessica. Part II</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">10</container>
+                        </did>
+                    </c>
+                    <c id="ref103" level="file">
+                        <did>
+                            <unittitle>Hawkins, Coleman on Jack T.</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">11</container>
+                        </did>
+                        <scopecontent id="ref104">
+                            <head>Scope and Contents note</head>
+                            <p>Spoon. "Touch"</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref105" level="file">
+                        <did>
+                            <unittitle>Hammond, John on CBC</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">12</container>
+                        </did>
+                    </c>
+                    <c id="ref106" level="file">
+                        <did>
+                            <unittitle>Grover Sales. Black Olympian</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">13</container>
+                        </did>
+                    </c>
+                    <c id="ref107" level="file">
+                        <did>
+                            <unittitle>Radio broadcast on the late Kral, Irene with Detro, John.</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">14</container>
+                            <unitdate>Nov. 8, 1986</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref108" level="file">
+                        <did>
+                            <unittitle>NPR'S Jazz Profiles. Mc Rae, Carmen with Merrill, Joan</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">15</container>
+                            <unitdate>1996</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref109" level="file">
+                        <did>
+                            <unittitle>NPR's Jazz Profiles. O'Day, Anita with Merrill, Joan</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">16</container>
+                            <unitdate>1996</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref110" level="file">
+                        <did>
+                            <unittitle>McPartland, Marian. Piano Jazz. Interview with Wilson, Teddy, 1912-1986</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">17</container>
+                            <unitdate>May 1979</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref111" level="file">
+                        <did>
+                            <unittitle>McPartland, Marian. Piano Jazz. Interview with Williams, Mary Lou, 1910-1981</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">18</container>
+                            <unitdate>1977</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref112" level="file">
+                        <did>
+                            <unittitle>McPartland, Marian. Piano Jazz. Interview with Muscarella, Susan. KCSM</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">19</container>
+                            <unitdate>1977</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref113" level="file">
+                        <did>
+                            <unittitle>Jim Easton Show. Interview with Sales, Grover. KGO Radio</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">20</container>
+                        </did>
+                        <scopecontent id="ref114">
+                            <head>Scope and Contents note</head>
+                            <p>Social Commentary</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref115" level="file">
+                        <did>
+                            <unittitle>Interview with Ellington, Duke, 1899-1974. KALW Radio</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">21</container>
+                        </did>
+                    </c>
+                    <c id="ref116" level="file">
+                        <did>
+                            <unittitle>Ellington, Duke, 1899-1974. Hot Summer Dance</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">22</container>
+                            <unitdate>1960</unitdate>
+                        </did>
+                    </c>
+                    <c id="ref117" level="file">
+                        <did>
+                            <unittitle>Cash, Dick. First Take</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">23</container>
+                        </did>
+                        <scopecontent id="ref118">
+                            <head>Scope and Contents note</head>
+                            <p>Terry, Brad, clarinet ; Dobson, Smith, piano. Night and day ; Everything happens to me ; You stepped out of a dream ; Midnight sun ; Straighten up and fly right ; But not for me ; Autumn in New York ; Sun's going to shine ; Desifinado</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref119" level="file">
+                        <did>
+                            <unittitle>New Orleans Jazz.</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">24</container>
+                            <unitdate>April 1950</unitdate>
+                        </did>
+                        <scopecontent id="ref120">
+                            <head>Scope and Contents note</head>
+                            <p>Armstrong, Louis, 1901-1971, trumpet, voice ; Teagarden, Jack, 1905-1964, trombone ; Hines, Earl, 1903-1983, piano</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref121" level="file">
+                        <did>
+                            <unittitle>US Savings Bonds and the Mutual Broadcasting Network.</unittitle>
+                            <container type="Box">7</container>
+                            <container type="Folder">25</container>
+                            <unitdate>Nov. 28, 1947</unitdate>
+                        </did>
+                        <scopecontent id="ref122">
+                            <head>Scope and Contents note</head>
+                            <p>Elliott, Bruce, announcer ; Blesh, Rudy and Ulanov, Barry commentators.</p>
+                        </scopecontent>
+                    </c>
+                </c>
+            </c>
+            <c id="ref123" level="series">
+                <did>
+                    <unittitle>Writings</unittitle>
+                </did>
+                <c id="ref124" level="subseries">
+                    <did>
+                        <unittitle>Autobiographical</unittitle>
+                    </did>
+                    <c id="ref125" level="file">
+                        <did>
+                            <unittitle>Ragtime Cowboy Jew</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref126" level="subseries">
+                    <did>
+                        <unittitle>Typescripts</unittitle>
+                    </did>
+                    <c id="ref127" level="file">
+                        <did>
+                            <unittitle>Miscellaneous writings on the history of Jazz</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                    <c id="ref128" level="file">
+                        <did>
+                            <unittitle>I remember Duke</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">2</container>
+                        </did>
+                        <scopecontent id="ref129">
+                            <head>Scope and Contents note</head>
+                            <p>Article for the San Francisco Chronicle</p>
+                        </scopecontent>
+                    </c>
+                    <c id="ref130" level="file">
+                        <did>
+                            <unittitle>Jazz piano biographies for Warner new media</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">3</container>
+                        </did>
+                    </c>
+                    <c id="ref131" level="file">
+                        <did>
+                            <unittitle>Jazz piano: from Ragtime to Bebop</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">4</container>
+                        </did>
+                        <scopecontent id="ref132">
+                            <head>Scope and Contents note</head>
+                            <p>First draft</p>
+                        </scopecontent>
+                    </c>
+                </c>
+                <c id="ref133" level="subseries">
+                    <did>
+                        <unittitle>Course syllabi</unittitle>
+                    </did>
+                    <c id="ref134" level="file">
+                        <did>
+                            <unittitle>Stanford Continuing Studies. Survey of Jazz Syllabi. 1994, 1996</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref135" level="subseries">
+                    <did>
+                        <unittitle>Sales' writings</unittitle>
+                    </did>
+                    <c id="ref136" level="file">
+                        <did>
+                            <unittitle>Clippings and magazines from 1959-2003</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref137" level="subseries">
+                    <did>
+                        <unittitle>Writings about Grover Sales</unittitle>
+                    </did>
+                    <c id="ref138" level="file">
+                        <did>
+                            <unittitle>Clippings 1978-97</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref139" level="subseries">
+                    <did>
+                        <unittitle>Clippings</unittitle>
+                    </did>
+                    <c id="ref140" level="file">
+                        <did>
+                            <unittitle>General Clippings 1961-1979</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">1</container>
+                        </did>
+                    </c>
+                </c>
+                <c id="ref141" level="subseries">
+                    <did>
+                        <unittitle>Photographs</unittitle>
+                    </did>
+                    <c id="ref142" level="file">
+                        <did>
+                            <unittitle>Miscellaneous photographs and postcards</unittitle>
+                            <container type="Box">8</container>
+                            <container type="Folder">1</container>
+                        </did>
+                        <scopecontent id="ref143">
+                            <head>Scope and Contents note</head>
+                            <p>Postcards ; Grover Sales ; Ellington, Duke ; West Coast Jazz Box ; Smith, Jabbo ; Weston Randy</p>
+                        </scopecontent>
+                    </c>
+                </c>
+            </c>
+            <c id="ref144" level="series">
+                <did>
+                    <unittitle>Photographs</unittitle>
+                </did>
+                <c id="ref145" level="file">
+                    <did>
+                        <unittitle>Miscellaneous photographs and postcards</unittitle>
+                        <container type="Box">8</container>
+                        <container type="Folder">1</container>
+                    </did>
+                    <scopecontent id="ref146">
+                        <head>Scope and Contents note</head>
+                        <p>Postcards ; Grover Sales ; Ellington, Duke ; West Coast Jazz Box ; Smith, Jabbo ; Weston Randy</p>
+                    </scopecontent>
+                </c>
+            </c>
+            <c id="ref147" level="series">
+                <did>
+                    <unittitle>Publications</unittitle>
+                </did>
+                <c id="ref148" level="file">
+                    <did>
+                        <unittitle>Monterey Jazz Festival</unittitle>
+                        <container type="Box">8</container>
+                        <container type="Folder">1</container>
+                        <unitdate>1966 and 1967</unitdate>
+                    </did>
+                </c>
+                <c id="ref149" level="file">
+                    <did>
+                        <unittitle>Centennial Jazz Festival</unittitle>
+                        <container type="Box">8</container>
+                        <container type="Folder">2</container>
+                        <unitdate>Apr. 19-20, 1968</unitdate>
+                    </did>
+                    <scopecontent id="ref150">
+                        <head>Scope and Contents note</head>
+                        <p>Second Annual U.C. Jazz Festival</p>
+                    </scopecontent>
+                </c>
+                <c id="ref151" level="file">
+                    <did>
+                        <unittitle>American Mavericks</unittitle>
+                        <container type="Box">8</container>
+                        <container type="Folder">3</container>
+                        <unitdate>2000</unitdate>
+                    </did>
+                    <scopecontent id="ref152">
+                        <head>Scope and Contents note</head>
+                        <p>A look at 20th century music in the United States from the San Francisco Symphony</p>
+                    </scopecontent>
+                </c>
+            </c>
+            <c id="ref153" level="series">
+                <did>
+                    <unittitle>Books</unittitle>
+                </did>
+                <c id="ref154" level="file">
+                    <did>
+                        <unittitle>Sales, Grover. John Maher of Delancey Street</unittitle>
+                        <container type="Box">8</container>
+                        <container type="Folder">1</container>
+                        <unitdate>1976</unitdate>
+                    </did>
+                </c>
+            </c>
+            <c id="ref155" level="series">
+                <did>
+                    <unittitle>Miscellaneous</unittitle>
+                </did>
+                <c id="ref156" level="file">
+                    <did>
+                        <unittitle>Unidentified piano roll</unittitle>
+                        <container type="Box">8</container>
+                        <container type="Folder">1</container>
+                    </did>
+                </c>
+            </c>
+        </dsc>
+    </archdesc>
+</ead>

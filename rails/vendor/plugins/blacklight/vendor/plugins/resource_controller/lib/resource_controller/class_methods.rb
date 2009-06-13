@@ -10,12 +10,14 @@ module ResourceController
       config = {}
       config.merge!(opts.pop) if opts.last.is_a?(Hash)
 
+      all_actions = (singleton? ? ResourceController::SINGLETON_ACTIONS : ResourceController::ACTIONS) - [:new_action] + [:new]
+      
       actions_to_remove = []
-      actions_to_remove += (ResourceController::ACTIONS - [:new_action] + [:new]) - opts unless opts.first == :all                
+      actions_to_remove += all_actions - opts unless opts.first == :all                
       actions_to_remove += [*config[:except]] if config[:except]
       actions_to_remove.uniq!
 
-      actions_to_remove.each { |action| undef_method(action)}
+      actions_to_remove.each { |action| undef_method(action) if method_defined?(action) }
     end
     
   end

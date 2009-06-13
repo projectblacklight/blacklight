@@ -6,8 +6,9 @@ module UserSpecHelper
       :id => 1,
       :login => 'test_user_one',
       :email => 'user1@test.com',
-      :last_login=> '2008-04-09 14:11:12',
-      :password => 'password1'
+      :last_login_at=> '2008-04-09 14:11:12',
+      :password => 'password1',
+      :password_confirmation => 'password1'
     }
   end
   
@@ -16,8 +17,9 @@ module UserSpecHelper
     :id => 2,
     :login => 'test_user_one',
     :email => 'user2@test.com',
-    :last_login=> '2008-05-09 14:11:12',
-    :password => 'password2'
+    :last_login_at=> '2008-05-09 14:11:12',
+    :password => 'password2',
+    :password_confirmation => 'password2'
   }
   end
   
@@ -26,8 +28,9 @@ module UserSpecHelper
       :id => 3,
       :login => 'test_user_three',
       :email => 'user1@test.com',
-      :last_login=> '2008-04-10 14:11:12',
-      :password => 'password3'
+      :last_login_at=> '2008-04-10 14:11:12',
+      :password => 'password3',
+      :password_confirmation => 'password3'
     }
   end
 
@@ -60,7 +63,7 @@ describe User do
   
   it "should require email" do
     @user = User.new
-    @user.should have(1).error_on(:email)
+    @user.should have(3).errors_on(:email)
   end
 
   it "should have unique login" do
@@ -72,7 +75,7 @@ describe User do
 
   it "should require login" do    
     @user = User.new
-    @user.should have(1).error_on(:login)
+    @user.should have(3).errors_on(:login)
   end
 
   it "should have unique login" do
@@ -84,7 +87,7 @@ describe User do
 
   it "should require password" do
     @user = User.new
-    @user.should have(1).error_on(:password)
+    @user.should have(2).errors_on(:password)
   end
 
   it "should be able to have many bookmarks" do

@@ -17,7 +17,30 @@
 # 
 
 Blacklight.configure(:shared) do |config|
-  # Blacklight's default SOLR Request Handler (defined in solr/conf/solrconfig.xml)
+  
+  SolrDocument.marc_source_field  = :marc_display
+  SolrDocument.marc_format_type   = :marcxml
+  SolrDocument.ead_source_field   = :xml_display
+  
+  # default params for the SolrDocument.search method
+  SolrDocument.default_params[:search] = {
+    :qt=>:search,
+    :per_page => 10,
+    :facets => {:fields=>
+      ["language_facet",
+      "subject_era_facet",
+      "geographic_subject_facet",
+      "format_facet"]
+    }
+  }
+  
+  # default params for the SolrDocument.find_by_id method
+  SolrDocument.default_params[:find_by_id] = {:qt => :document}
+  
+  
+  ##############################
+  
+  
   config[:default_qt] = "search"
   
 
@@ -36,7 +59,7 @@ Blacklight.configure(:shared) do |config|
   }
 
   # solr fields that will be treated as facets by the blacklight application
-  #   The field_names and the labels MUST have the same keys in the same order 
+  #   The ordering of the field names is the order of the display 
   config[:facet] = {
     :field_names => [
       "language_facet",
@@ -53,7 +76,7 @@ Blacklight.configure(:shared) do |config|
   }
 
   # solr fields to be displayed in the index (search results) view
-  #   The field_names and the labels MUST have the same keys in the same order 
+  #   The ordering of the field names is the order of the display 
   config[:index_fields] = {
     :field_names => [
       "title_t",
@@ -72,7 +95,7 @@ Blacklight.configure(:shared) do |config|
   }
 
   # solr fields to be displayed in the show (single result) view
-  #   The field_names and the labels MUST have the same keys in the same order 
+  #   The ordering of the field names is the order of the display 
   config[:show_fields] = {
     :field_names => [
       "title_t",
@@ -118,5 +141,9 @@ Blacklight.configure(:shared) do |config|
   config[:sort_fields] << ['relevance', '']
   config[:sort_fields] << ['title', 'title_sort asc']
   config[:sort_fields] << ['format', 'format_sort asc']
+  
+  # the maximum number of search results to allow display of a spelling 
+  #  ("did you mean") suggestion, if one is available.
+  config[:spell_max] = 5
 end
 

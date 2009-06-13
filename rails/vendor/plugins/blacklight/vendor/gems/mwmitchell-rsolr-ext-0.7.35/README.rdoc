@@ -1,0 +1,48 @@
+=RSolr::Ext
+A set of helper methods/modules to assist in building Solr queries and handling responses when using the RSolr library.
+
+==Request Example
+  solr_params = {
+    :page=>2,
+    :per_page=>10,
+    :phrases=>{:name=>'This is a phrase'},
+    :filters=>['test', {:price=>(1..10)}],
+    :phrase_filters=>{:manu=>['Apple']},
+    :queries=>'ipod',
+    :facets=>{:fields=>['cat', 'blah']}
+  }
+  
+  rsolr = RSolr::Ext.connect
+  
+  response = rsolr.select(solr_params)
+
+==Response Example
+  rsolr = RSolr::Ext.connect
+  
+  response = rsolr.select(:q=>'*:*)
+  
+  response.ok?
+  response.params
+  response.docs
+  response.docs.previous_page
+  response.docs.next_page
+  response.facets
+
+You can access values in the response hash using symbols or strings.
+
+===Doc Pagination
+If you wanna paginate, just throw the collection into the WillPaginate view helper.
+  <%= will_paginate response.docs %>
+
+===The Doc Module
+You can create your own "models" using RSolr::Ext::Doc
+
+  class Book
+    include RSolr::Ext::Doc
+    def self.find_by_author(author)
+        find(:fq=>'object_type:"book"', :rows=>10, :phrase_filters=>{:author=>author})
+    end
+  end
+  
+  all_books = Book.find('*:*')
+  hawk_books = Book.find_by_author('hawk')

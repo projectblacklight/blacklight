@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
-  
-  include SimplestAuth::Model
-  has_many :searches
-  
-  before_create :hash_password
-  
+  acts_as_authentic do |config|
+    #config.my_config_option = my_value
+    config.transition_from_crypto_providers = Authlogic::CryptoProviders::BCrypt
+  end  
+  has_many :searches, :dependent => :destroy
+    
   validates_presence_of :email
   validates_uniqueness_of :email
   
@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
   validates_presence_of :login
   validates_uniqueness_of :login
   
-  has_many :bookmarks
+  has_many :bookmarks, :dependent => :destroy
   
   def to_s; login; end
   
-  def has_bookmarks?; bookmarks.count>0; end
+  def has_bookmarks?; bookmarks.count > 0; end
   
   #
   # Does this user actually exist in the db?

@@ -1,3 +1,4 @@
+@saved_searches
 Feature: Saved Searches Page
   As a user
   In order see searches I've saved and reuse them

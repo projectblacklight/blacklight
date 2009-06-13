@@ -1,7 +1,15 @@
 module Blacklight
   
+  autoload :CoreExt, 'blacklight/core_ext.rb'
+  # load up the CoreExt by referencing it:
+  CoreExt
+  
   autoload :Configurable, 'blacklight/configurable'
+  autoload :Solr, 'blacklight/solr.rb'
+  autoload :Marc, 'blacklight/marc.rb'
+  
   autoload :SolrHelper, 'blacklight/solr_helper'
+  
   extend Configurable
   
   class << self
@@ -19,7 +27,10 @@ module Blacklight
     Blacklight.solr_config[:url] = solr_config[RAILS_ENV]['url']
     
     # Create a global connection instance
-    Blacklight.solr = RSolr.connect(Blacklight.solr_config)
+    Blacklight.solr = RSolr::Ext.connect(Blacklight.solr_config)
+    
+    # set the SolrDocument.connection to Blacklight.solr
+    SolrDocument.connection = Blacklight.solr
     
     begin
       require 'curb'
@@ -37,6 +48,5 @@ module Blacklight
   def self.logger
     RAILS_DEFAULT_LOGGER
   end
-  
   
 end

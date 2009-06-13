@@ -1,0 +1,193 @@
+0.8.8 - May 6, 2009
+  Added method :request to RSolr::Connection
+    - this method is an alias for send_request
+
+0.8.7 - May 6, 2009
+  Added method_missing to RSolr::Connection, which sets the request handler path,
+  based on the method name:
+	# this sends a request like: /music_library?q=>coltrane
+	solr.music_library :q=>'coltrane'
+  Removed the core_ext file, put the Array extension code directly into rsolr.rb
+
+0.8.6 - April 25, 2009
+  Removed the Mash stuff -- which means the response keys from solr are only accessable using String based keys.
+  Use RSolr::Ext if you want more magic.
+
+0.8.5 - April 7, 2009
+  The RSolr::Message #add method now accepts a single Message::Document or an array of Message::Document objects
+  The Message::Document class has a new method: #add_field
+  Tests added for both changes
+  Permissions of files changed to non-executable
+  -- the above changes were made by Mat Brown, thank you Mat!
+  Added CannedSolrResponse module for mocks in the specs... not used yet
+
+0.8.4 - April 3, 2009
+  New test suite using RSpec and mocks coming. Run "rake spec"
+    - added specs for RSolr and RSolr::Connection
+
+0.8.3 - April 3, 2009
+  RSolr::Connection
+    - removed the block functionality of send_request and related methods
+      - this was used to gain access to the raw adapter response
+    - added #adapter_response method to all response objects
+      - this is used to get access to the original adapter response:
+        response = rsolr.select(:q=>'test')
+        response.adapter_response[:status_code]
+
+0.8.2 - March 24, 2009
+  Changed RSolr.connect method to accept one options hash argument
+    - This hash gets passed to the Connection object and the adapter
+  Updated tests, examples and README.rdoc to reflect this change
+  Bumped the version up in gemspec and the RSolr module
+
+0.8.1 - March 12, 2009
+  Added RSolr.escape and RSolr::Connection.new.escape
+    - tests in rsolr_test
+  Added ability to set doc and field attributes when adding documents via Message.add
+
+0.8.0 - March 6, 2009
+  Removed all response wrapper classes (now returning a simple hash for ruby responses)
+  Removed RSolr::Query - this library needs an external partner lib, RSolrExt etc..
+  changed query method to select
+  added send_request method to Connection for custom requests:
+    send_request '/my-handler', {:start=>0}, post_data=nil
+  moved Connection::Base to Connection
+  moved Connection::Adapter::* to Adapter::*
+  
+0.7.1 - February 27, 2009
+  Added simple query helper module -> RSolr::Query
+  Added tests for RSolr::Query
+  Modified Test::Unit::TestCase in test/test_helpers.rb
+
+0.7.0 - February 20, 2009
+  Removed all param mapping behavior, code and tests
+   - this stuff just gunks up rsolr and should be in an extension of some sort
+  Can now specify the request handler in all RSolr::Connection::Base methods as the first argument:
+    - solr.query 'select', :q=>'ipod'
+    - solr.query 'catalog', :q=>'humphry'
+    - solr.query :q=>'big' # defaults to the /select handler
+
+0.6.9 - January 29, 2009
+	Simplified facet response methods
+	Main facet method is called #facets
+	  - returns an array of Response::Facet instances
+	  - each Facet instance has field and values attributes
+	  -- the values attribute is an array with FacetValue instances which have @value and @hits
+	Added ability to set Connection::Base @param_adapters using :dismax or :standard
+	  instead of full class constant
+	  updated comments for #search method
+	Updated tests
+	Bumped up version
+
+0.6.8 - January 28, 2009
+	New method added to RSolr::Connection::Base - #find_values_for_facet
+	This method searches for facet values only, and sets the :rows param to 0
+	- returns an RSolr::Response::Query::Base instance
+	Example:
+		search_params[:facets][:offset]=0
+		search_params[:facets][:limit]=5
+		response = solr.search_facet_by_name(:language_facet, search_params)
+
+0.6.7 - January 27, 2009
+	The Symbol extension in core_ext.rb was cause for some REALLY painful debuging - so I removed it :(
+	This means no more :q.alt or :facet.field until RSolr gets a really nice query-builder module happening.
+
+0.6.6 - January 26, 2009
+	Added #get method helper to RSolr::Response::Query::DocExt
+	# doc.get(key, opts)
+	# key is the name of the field
+	# opts is a hash with the following valid keys:
+	#  - :sep - a string used for joining multivalued field values
+	#  - :default - a value to return when the key doesn't exist
+	# if :sep is nil and the field is a multivalued field, the array is returned
+
+0.6.5 - January 26, 2009
+	Removed to_mash everywhere, except for usage in RSolr::Response
+	Added a #close method to the Direct adapter
+		- this closes the connection and sets the @connection variable to nil
+	Removed to_mash in RSolr::Connection::Base
+	Changed RSolr::Response::Query::Doc to DocExt
+		- this no longer extends Mash
+		- each doc in the response now uses the #extend method to mixin the new DocExt module
+	Added #teardown method in direct connection test, this method closes the connection
+	Updated the connection test methods a bit
+
+0.6.4 - January 26, 2009
+	Updated the mapping output for the :filters and :phrase_filters (when using the #search method)
+		- now sending multiple fq's instead of one
+	Updated mapping tests
+
+0.6.3 - January 21, 2009
+	Added a new param mapping module: RSolr::Connection::ParamMapping
+	Mapping only for fields that need conversion/escaping or nested (facet.*) etc.
+	This new module can be activated by using the #search method
+	New tests for ParamMapping
+
+0.6.2 - January 14, 2009
+	Removed mapping and indexer modules -- seems to me that a general purpose mapping library
+	would be more valuable than an embedded module in RSolr ( RMapper ?)
+	This helps lighten RSolr a bit too
+	
+0.6.1 - January 13, 2009
+	Removed SearchExt and mapping until this library gets some real use
+	The only param mapping now is for :page and :per_page via the #search method
+	The Connection::Base #query method does NO mapping now
+	
+0.6.0 - January 9, 2009
+	Removed first argument from RSolr.connect, the "adapter_name"
+		The adapter is now set using the :adapter key when passing in options to RSolr.connect:
+		s = RSolr.connect(:adapter=>:direct)
+	
+0.5.9 - January 7, 2009
+	Finally brought in the ExtLib Mash classes for incoming params and response hashes from solr
+	  - this gives the ability to access/set values for hashes using strings OR symbols (HashWithIndifferentAccess)
+	Organized response tests
+	Added more response tests
+	Simplified the RSolr::Response::Base class by supporting only raw/string ruby input
+	Added method to Response::IndexInfo for grabbing a Solr field list
+	
+0.5.7 - January 5, 2009
+	Changed name from Solr to RSolr, changed all references to Solr to RSolr
+	Added new tests for RSolr::Mapper and RSolr::Message
+	
+0.5.6 - December 30, 2008
+	solr.gemspec cleanedup thanks to shairontoledo on github! :)
+	Added Solr::Response::Query::Facet module with helpers from the delsolr project
+		Also added test stub in test/connection/search_ext_test_methods.rb
+	Fixed pagination math errors
+	Added new SearchExt helper field: :phrase_filters
+		This will add quoted values to the :filters (fq solr param) hash for doing easier facet requests
+	
+	Be sure to check out the new demo app: http://github.com/mwmitchell/consuminator/tree/master
+	
+0.5.5 - December 29, 2008
+	Fixed bug where accessing a field by method name failed:
+		docs.each do |doc|
+			doc.timestamp
+		end
+	Fixed bug where using the #has? method on a doc failed:
+		docs.each do |doc|
+			doc.has?('timestamp')
+		end
+	Removed invalid autoload in Solr module
+	Fixed spelling error in Solr::Connection::SearchExt (thanks to matthewrudy)
+	
+0.5.4 - December 29, 2008
+	Re-organized the main Solr adapters, they're now in Solr::Connection::Adapter instead of Solr::Adapter
+	All responses from HTTPClient and Connection::Adapter::Direct return a hash with the following keys:
+		:status_code
+		:body
+		:params
+		:url
+		:path
+		:headers
+		:data
+	This hash is now available in the solr response objects as #source - this will be useful in testing and debugging by allowing you to see the generated params and queries... example:
+		response = Solr.query(:q=>'*:*')
+		response.source[:params]
+		response.source[:body]
+		response.source[:url]
+	Added MultiValue field support in Solr::Message, thanks to Fouad Mardini
+	Bug in Solr::Connection::SearchExt where the :q params was not getting generated - fixed by Fouad Mardini
+	Organized tests a bit, moved connection tests into test/connection
+	Fixed a bug in Solr::Connection::Adapter::HTTP where invalid HTTP POST headers were being generated

@@ -3,7 +3,7 @@ require 'rubygems'
 require 'marc'
 
 def standard_citation
-{Blacklight.config[:raw_storage_field] => "<record>
+"<record>
   <leader>01182pam a22003014a 4500</leader>
   <controlfield tag=\"001\">a4802615</controlfield>
   <controlfield tag=\"003\">SIRSI</controlfield>
@@ -32,13 +32,13 @@ def standard_citation
     <subfield code=\"a\">Warrington, I. J.</subfield>
     <subfield code=\"q\">(Ian J.)</subfield>
   </datafield>
-</record>"}
+</record>"
 end
 
 
 # 1:100,1:700,245a,0:245b,
 def record1_xml
-  {Blacklight.config[:raw_storage_field] => "<record>
+  "<record>
      <leader>01021cam a2200277 a 4500</leader>
      <controlfield tag=\"001\">a1711966</controlfield>
      <controlfield tag=\"003\">SIRSI</controlfield>
@@ -62,11 +62,12 @@ def record1_xml
      <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
        <subfield code=\"a\">Brüchle, Bernhard.</subfield>
      </datafield>
-  </record>"}
+  </record>"
 end
+
 # 0:100,0:700,245a,0:245b
 def record2_xml
-{Blacklight.config[:raw_storage_field] => "<record>
+"<record>
   <leader>00903nam a2200253   4500</leader>
   <controlfield tag=\"001\">a543347</controlfield>
   <controlfield tag=\"003\">SIRSI</controlfield>
@@ -81,11 +82,12 @@ def record2_xml
     <subfield code=\"b\">Printed by the State of Ohio, Dept. of Urban Affairs,</subfield>
     <subfield code=\"c\">1971]</subfield>
   </datafield>
-</record>"}
+</record>"
 end
+
 # 4+:athors
 def record3_xml
-{Blacklight.config[:raw_storage_field] => "<record>
+"<record>
   <leader>01828cjm a2200409 a 4500</leader>
   <controlfield tag=\"001\">a4768316</controlfield>
   <controlfield tag=\"003\">SIRSI</controlfield>
@@ -142,11 +144,12 @@ def record3_xml
     <subfield code=\"m\">horn, piano,</subfield>
     <subfield code=\"r\">F major.</subfield>
   </datafield>
-</record>"}
+</record>"
 end
+
 # No elements that can be put into a citation
 def no_good_data_xml
-{Blacklight.config[:raw_storage_field] => "<record>
+"<record>
   <leader>01828cjm a2200409 a 4500</leader>
   <controlfield tag=\"001\">a4768316</controlfield>
   <controlfield tag=\"003\">SIRSI</controlfield>
@@ -180,16 +183,18 @@ def no_good_data_xml
   <datafield tag=\"041\" ind1=\"0\" ind2=\" \">
     <subfield code=\"g\">engfre</subfield>
   </datafield>
-</record>"}
+</record>"
 end
 
-describe MarcCitation do
+describe Blacklight::Marc::Citation do
+  
   before(:all) do
-    @record_with_standard_citation_data = BlacklightMarc::Document.new(standard_citation)
-    @record_without_245b = BlacklightMarc::Document.new(record1_xml)
-    @record_without_authors = BlacklightMarc::Document.new(record2_xml)
-    @record_with_4plus_authors = BlacklightMarc::Document.new(record3_xml)
-    @record_without_citable_data = BlacklightMarc::Document.new(no_good_data_xml)
+    dclass = Blacklight::Marc::Document
+    @record_with_standard_citation_data = dclass.new(standard_citation, :marcxml)
+    @record_without_245b                = dclass.new(record1_xml, :marcxml)
+    @record_without_authors             = dclass.new(record2_xml, :marcxml)
+    @record_with_4plus_authors          = dclass.new(record3_xml, :marcxml)
+    @record_without_citable_data        = dclass.new(no_good_data_xml, :marcxml)
   end
   
   describe "to_apa" do

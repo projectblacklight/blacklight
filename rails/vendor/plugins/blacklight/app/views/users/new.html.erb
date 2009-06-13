@@ -1,10 +1,11 @@
 <%= error_messages_for :user %>
 
-<% form_for(@user) do |f| %>
+<% form_for(@user, :url => user_path) do |f| %>
   <fieldset>
-    <div class="row"><%= f.label :login %>: <%= f.text_field :login %></div>
-    <div class="row"><%= f.label :email %>: <%= f.text_field :email %></div>
-    <div class="row"><%= f.label :password %>: <%= f.password_field :password %></div>
-    <div class="row submit"><%= f.submit 'Create Acount' %></div>
+    <div class="row"><%= f.label :login %> <%= f.text_field :login %></div>
+    <div class="row"><%= f.label :email %> <%= f.text_field :email %></div>
+    <div class="row"><%= f.label :password %> <%= f.password_field :password %></div>
+    <div class="row"><%= f.label :password_confirmation, "Confirm Password" %> <%= f.password_field :password_confirmation %></div>
+    <div class="row submit"><%= f.submit 'Create Account' %></div>
   </fieldset>
 <% end %>

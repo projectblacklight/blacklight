@@ -22,10 +22,3 @@ config.action_controller.allow_forgery_protection    = false
 config.action_mailer.delivery_method = :test
 
 SSL_ENABLED=false
-
-# got this idea from Rails' Initializer#load_environment()
-# it's reading the file and evaluating it in the context of this code
-# This way, we keep things dry between Blacklight's stand-alone testing and 
-# running as a plugin.
-init_path = File.join(File.dirname(__FILE__), '../../init.rb')
-eval(IO.read(init_path), binding, init_path)

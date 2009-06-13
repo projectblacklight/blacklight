@@ -1,8 +1,9 @@
 class SearchHistoryController < ApplicationController
   def index
-    @searches = session[:history].blank? ? [] : Search.all(session[:history])
+    @searches = searches_from_history
   end
   
+  #TODO we may want to remove unsaved (those without user_id) items from the database when removed from history
   def destroy
     if session[:history].delete_at(params[:id].to_i)
       flash[:notice] = "Successfully removed that search history item."
@@ -12,6 +13,7 @@ class SearchHistoryController < ApplicationController
     redirect_to :back
   end
   
+  #TODO we may want to remove unsaved (those without user_id) items from the database when removed from history
   def clear
     if session[:history].clear
       flash[:notice] = "Cleared your search history."

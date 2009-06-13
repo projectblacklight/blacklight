@@ -1,11 +1,11 @@
 <% # main container for facets/limits menu -%>
 <div id="facets">
   <h2>Limit your search</h2>
-  <% Blacklight.config[:facet][:field_names].each do |solr_fname| %>
+  <% facet_field_names.each do |solr_fname| %>
     <div>
       <% display_facet = @response.facets.detect {|f| f.name == solr_fname} -%>
-      <% if display_facet %>
-        <h3><%= Blacklight.config[:facet][:labels][solr_fname] -%></h3>
+      <% if display_facet.items.length > 0 %>
+        <h3><%= facet_field_labels[solr_fname] -%></h3>
         <ul>
           <% display_facet.items.each do |item| -%>
             <% if facet_in_params? solr_fname, item.value %>

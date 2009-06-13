@@ -33,6 +33,13 @@ hr{
 	background-color:#CCC;
 }
 
+table.zebra .zebra_stripe, ul.zebra .zebra_stripe {
+  background-color: #F1F5FA;
+}
+th, td {
+  border: 0;
+}
+
 #bd #yui-main, #bd .yui-b{
 	padding-top:1em;
 }
@@ -136,6 +143,7 @@ form div.row label{
 	float:left;
 	width:120px;
 	text-align:right;
+	margin-right: .5em;
 }
 
 form div.row {
@@ -198,7 +206,7 @@ ul.tools li {
   z-index:1;
 }
 
-#lightboxContent {
+#lightboxContent, .lightboxContent {
   position:absolute;
   display:block;
   background-color:#EFEFEF;
@@ -206,7 +214,8 @@ ul.tools li {
   top: 25%;
   left:25%;
   width:50%;
-  height:150px;
+  height:auto;
+  padding-bottom:10px;
   text-align:center;
   opacity: 1.0;
   filter:alpha(opacity=100);
@@ -268,9 +277,18 @@ dl.defList dd {
 	margin-bottom:1em;
 }
 
-.error{
+.error, .notice, .errorExplanation {
 	background-color:lightyellow;
 	padding:1em;
 	margin-bottom:1em;
 	border:solid 1px #CDC;
+}
+.error, .notice {
+	font-size: 1.5em;
+}
+.error, .errorExplanation {
+  color: #C30;
+}
+.notice {
+  color: #060;
 }

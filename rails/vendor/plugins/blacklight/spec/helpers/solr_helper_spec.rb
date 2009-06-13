@@ -1,6 +1,23 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'marc'
 
+# Because SolrHelper is a controller layer mixin,
+# it depends on the methods provided by AtionController::Base
+# currently, the only method that is used is #params
+class MockSolrHelperContainer
+  
+  include Blacklight::SolrHelper
+  attr_accessor :params
+  
+  # SolrHelper expects a method called #params,
+  # within the class that's mixing it in
+  def params
+    @params ||= {}
+  end
+  
+end
+
+
 =begin
 # check the methods that do solr requests. Note that we are not testing if 
 #  solr gives "correct" responses, as that's out of scope (it's a part of 
@@ -12,17 +29,9 @@ require 'marc'
 =end
 describe 'Blacklight::SolrHelper' do
 
-    @@FLAVOR = 'DEMO'
-  #  @@FLAVOR = 'STANFORD'
-#     puts "\n\t solr FLAVOR is  *** #{@@FLAVOR} ***" 
-  
   before(:all) do
-    @solr_helper = Object.new
-    @solr_helper.extend(Blacklight::SolrHelper)
-    
-    
+    @solr_helper = MockSolrHelperContainer.new
     @solr_url = Blacklight.solr_config[:url]
-#     puts "\t SOLR url is ** #{@solr_url} **"
   end
 
   before(:each) do
@@ -245,10 +254,7 @@ describe 'Blacklight::SolrHelper' do
   # SPECS FOR SINGLE DOCUMENT REQUESTS
   describe 'Get Document By Id' do
     before(:all) do
-      @doc_id = case @@FLAVOR
-        when 'DEMO' then '2007020969'
-        when 'STANFORD' then '5666387'
-      end
+      @doc_id = '2007020969'
       @bad_id = "redrum"
       @response2 = @solr_helper.get_solr_response_for_doc_id(@doc_id)
       @document = @response2.docs.first
@@ -281,9 +287,9 @@ describe 'Blacklight::SolrHelper' do
     end
 
     # test whether stored marc is behaving properly
-    describe "raw record storage" do
+    describe "raw record marc" do
       
-      it "should have initializer values for raw storage" do
+      it "should have initializer values for raw marc" do
         Blacklight.config[:raw_storage_field].should_not == nil
       end
     
@@ -339,13 +345,39 @@ describe 'Blacklight::SolrHelper' do
 
   end
 
+# SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
+  describe "Searches should return spelling suggestions" do
+    it 'search results for poor, but nearly okay query, should have spelling suggestions' do
+      get_spelling_suggestion("boo").should_not be_nil
+    end
 
+    it "title search results for poor, but nearly okay query, should have spelling suggestions" do
+      get_spelling_suggestion("yehudiyam", 'title_search').should_not be_nil
+    end
+
+    it "author search results for poor, but nearly okay query, should have spelling suggestions" do
+      get_spelling_suggestion("shirma", 'author_search').should_not be_nil
+    end
+
+    def get_spelling_suggestion(query, qt=nil)
+      args = {:q => query, :qt => qt}
+      solr_response = @solr_helper.get_search_results(args)
+      spellcheck = solr_response[:spellcheck]
+      suggestions = spellcheck[:suggestions]
+      # suggestion is next in the array after collation 
+      #  (b/c it's the value of collation element in raw xml response)
+      i = suggestions.index("collation") 
+      suggestion = suggestions[i + 1]
+      suggestion.should_not be_nil
+    end
+
+  end
+  
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)
 #  search within query building (?)
 #  search + facets (search done first; facet selected first, both selected)
 
 # TODO: maybe eventually check other types of solr requests
-#  spell checker
 #  more like this
 #  nearby on shelf 
  

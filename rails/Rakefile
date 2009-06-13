@@ -16,7 +16,7 @@ MY_NAME = "Bess Sadler"
 # Your email address, used in packaging. 
 MY_EMAIL = "bess@virginia.edu" 
 # Short summary of your project, used in packaging. 
-PROJECT_SUMMARY = "Blacklight is open source discovery software. Libraries (or anyone else) may use blacklight to enable searching and browsing of their collections online. Blacklight uses Solr to index and search text and/or metadata, and it has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and several kinds of XML documents, including TEI, EAD, and GDMS. Blacklight was developed at the University of Virginia Library and is made public under an Apache 2.0 license." 
+PROJECT_SUMMARY = "Blacklight is open source discovery software. Libraries (or anyone else) may use blacklight to enable searching and browsing of their collections online. Blacklight uses Solr to index and search text and/or metadata, and it has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and several kinds of XML documents. Blacklight was developed at the University of Virginia Library and is made public under an Apache 2.0 license." 
 # The project's package name (as opposed to its display name). Used for 
 # RubyForge connectivity and packaging. 
 UNIX_NAME = "blacklight" 
@@ -27,14 +27,13 @@ RUBYFORGE_PATH = "/var/www/gforge-projects/blacklight/"
 # Output directory for the rdoc html files. 
 # If you don't have a custom homepage, and want to use the RDoc 
 # index.html as homepage, just set it to WEBSITE_DIR. 
-RDOC_HTML_DIR = "doc/plugins/blacklight/" 
-PROJECT_VERSION = "2.0.0" # e.g., "1.0.2"
+RDOC_HTML_DIR = "doc" 
+PROJECT_VERSION = "2.2" # e.g., "1.0.2"
 # where do our package files go? 
 target = './dist'
 # Clobber the package files when re-building
 CLOBBER.include("#{target}/*") 
 # Additional RDoc formatted files, besides the Ruby source files. 
-RDOC_FILES = FileList["README.rdoc", "Changes.rdoc"]
 CURRENT_SVN_BRANCH = "http://blacklight.rubyforge.org/svn/branches/rails-engines/trunk/"
 
 
@@ -42,16 +41,30 @@ CURRENT_SVN_BRANCH = "http://blacklight.rubyforge.org/svn/branches/rails-engines
 # task "default" => ["spec:plugins"] 
 # task "test" => ["spec:plugins"] 
 
-desc "Generate rdoc for the plugins." 
-task "rdoc" => ["doc:plugins"]
+  desc "Generate rdoc for the demo app and the blacklight plugin." 
+  task "rdoc"
+      require 'hanna/rdoctask'
+      Rake::RDocTask.new('rdoc') do |t| 
+      t.rdoc_files.include('DEMO_README', 'LICENSE')
+      t.rdoc_files.include('vendor/plugins/blacklight/*.rdoc')
+      t.rdoc_files.include('lib/**/*.rb', 'config/initializers/blacklight_config.rb')
+      t.rdoc_files.include('vendor/plugins/blacklight/app/controllers', 'vendor/plugins/blacklight/app/helpers', 'vendor/plugins/blacklight/app/models')
+      t.rdoc_files.include('vendor/plugins/blacklight/lib')
+      #t.rdoc_files.include('vendor/plugins/blacklight/vendor/gems')
+      t.options << "--exclude=vendor/plugins/blacklight/lib/experiments"
+    
+      t.main = 'vendor/plugins/blacklight/README_PROJECT.rdoc'
+      t.title = "Blacklight Documentation"
+      t.rdoc_dir = 'doc' 
+  end
 
-desc "Upload website to RubyForge. scp will prompt for your RubyForge password." 
-task "publish-rdoc" => ["rdoc"] do 
-  rubyforge_path = "/var/www/gforge-projects/#{UNIX_NAME}/" 
-  sh "scp -r #{RDOC_HTML_DIR}/* " + 
-    "#{RUBYFORGE_USER}@rubyforge.org:#{RUBYFORGE_PATH}", 
-    :verbose => true 
-end 
+  desc "Upload website to RubyForge. scp will prompt for your RubyForge password." 
+  task "publish-rdoc" => ["rdoc"] do 
+    rubyforge_path = "/var/www/gforge-projects/#{UNIX_NAME}/" 
+    sh "scp -r #{RDOC_HTML_DIR}/* " + 
+      "#{RUBYFORGE_USER}@rubyforge.org:#{RUBYFORGE_PATH}", 
+      :verbose => true 
+  end 
 
 # The "prepare-release" task makes sure your tests run, and then generates 
 # files for a new release. 

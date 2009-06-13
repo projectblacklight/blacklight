@@ -1,5 +1,7 @@
-<ul class="tools">
-  <li>
-     <%= link_to "Cite This", {:controller => 'catalog', :action => 'citation', :id =>  @document.solr_id}, {:id => 'citeLink'} %>
-  </li>
-</ul>
+<% if @document.marc %>
+  <ul class="tools">
+    <li>
+       <%= link_to "Cite This", citation_catalog_path(@document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
+    </li>
+  </ul>
+<% end %>

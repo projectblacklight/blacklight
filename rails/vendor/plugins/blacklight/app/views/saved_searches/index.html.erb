@@ -1,6 +1,6 @@
 <h1>Saved Searches</h1>
 
-<%- if session[:user_id].blank? -%>
+<%- if current_user.blank? -%>
   
   <h2>Please log in to see your saved searches.</h2>
   
@@ -14,15 +14,14 @@
   </p>
 
   <h2>Your saved searches</h2>
-  <ul>
+  <table class="zebra">
   <%- @searches.each do |search| -%>
-    <li>
-      <%= link_to_previous_search(search.query_params) %>
-      |
-      <%= link_to "delete", saved_search_path(search), :method => :delete, :confirm => "Delete item?" %>
-    </li>
+    <tr>
+      <td><%= link_to_previous_search(search.query_params) %></td>
+      <td><%= link_to "delete", saved_search_path(search), :method => :delete, :confirm => "Delete item?" %></td>
+    </tr>
   <%- end -%>
-  </ul>
+  </table>
 
 <%- end -%>
 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090428182620) do
+ActiveRecord::Schema.define(:version => 20090529214829) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -45,13 +45,16 @@ ActiveRecord::Schema.define(:version => 20090428182620) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "login",            :null => false
+    t.string   "login",             :null => false
     t.string   "email"
     t.string   "crypted_password"
     t.text     "last_search_url"
-    t.datetime "last_login"
+    t.datetime "last_login_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "password_salt"
+    t.string   "persistence_token"
+    t.datetime "current_login_at"
   end
 
 end
