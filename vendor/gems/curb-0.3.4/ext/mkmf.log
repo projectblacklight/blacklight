@@ -1,0 +1,809 @@
+find_executable: checking for curl-config... -------------------- yes
+
+--------------------
+
+have_constant: checking for curlinfo_redirect_time... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLINFO_REDIRECT_TIME;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlinfo_response_code... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLINFO_RESPONSE_CODE;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlinfo_filetime... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLINFO_FILETIME;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlinfo_redirect_count... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLINFO_REDIRECT_COUNT;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlinfo_os_errno... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLINFO_OS_ERRNO;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlinfo_num_connects... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLINFO_NUM_CONNECTS;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlinfo_ftp_entry_path... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLINFO_FTP_ENTRY_PATH;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_ssl... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_SSL;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_libz... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_LIBZ;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_ntlm... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_NTLM;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_gssnegotiate... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_GSSNEGOTIATE;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_debug... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_DEBUG;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_asynchdns... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_ASYNCHDNS;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_spnego... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_SPNEGO;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_largefile... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_LARGEFILE;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_idn... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_IDN;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_sspi... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_SSPI;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curl_version_conv... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURL_VERSION_CONV;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlproxy_http... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLPROXY_HTTP;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlproxy_socks4... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLPROXY_SOCKS4;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlproxy_socks5... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLPROXY_SOCKS5;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlauth_basic... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLAUTH_BASIC;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlauth_digest... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLAUTH_DIGEST;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlauth_gssnegotiate... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLAUTH_GSSNEGOTIATE;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlauth_ntlm... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLAUTH_NTLM;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlauth_anysafe... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLAUTH_ANYSAFE;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlauth_any... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLAUTH_ANY;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_tftp_notfound... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_TFTP_NOTFOUND;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_tftp_perm... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_TFTP_PERM;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_tftp_diskfull... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_TFTP_DISKFULL;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_tftp_illegal... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_TFTP_ILLEGAL;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_tftp_unknownid... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_TFTP_UNKNOWNID;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_tftp_exists... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_TFTP_EXISTS;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_tftp_nosuchuser... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_TFTP_NOSUCHUSER;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_send_fail_rewind... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_SEND_FAIL_REWIND;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_ssl_engine_initfailed... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_SSL_ENGINE_INITFAILED;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curle_login_denied... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLE_LOGIN_DENIED;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlmopt_maxconnects... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLMOPT_MAXCONNECTS;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+have_constant: checking for curlmopt_pipelining... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:       #include <curl/curl.h>
+2:       int main() {
+3:         int test = (int)CURLMOPT_PIPELINING;
+4:         return 0;
+5:       }
+/* end */
+
+--------------------
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include  -Wall -c conftest.c"
+checked program was:
+/* begin */
+1: int main() { return 0; }
+/* end */
+
+test_for: checking for Ruby 1.9 Hash... -------------------- no
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include -Wall  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -Wall -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+conftest.c: In function ‘main’:
+conftest.c:4: error: ‘struct RHash’ has no member named ‘ntbl’
+checked program was:
+/* begin */
+1:   #include <ruby.h>
+2:   int main() {
+3:     VALUE hash = rb_hash_new();
+4:     if( RHASH(hash)->ntbl->num_entries ) {
+5:       return 0;
+6:     }
+7:     return 1;
+8:   }
+/* end */
+
+--------------------
+
+test_for: checking for Ruby 1.9 st.h... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include -Wall  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -Wall -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:   #include <ruby.h>
+2:   #include <ruby/st.h>
+3:   int main() {
+4:     return 0;
+5:   }
+/* end */
+
+--------------------
+
+test_for: checking for curl_easy_escape... -------------------- yes
+
+"/usr/bin/gcc-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -I/opt/local/include -Wall  -O2  -fno-common -pipe -fno-common   -I/opt/local/include -Wall -lpthread -ldl -lobjc   -L/opt/local/lib -lcurl -L/opt/local/lib -L/opt/local/lib -lz -c conftest.c"
+i686-apple-darwin9-gcc-4.0.1: -lpthread: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -ldl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lobjc: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lcurl: linker input file unused because linking not done
+i686-apple-darwin9-gcc-4.0.1: -lz: linker input file unused because linking not done
+checked program was:
+/* begin */
+1:   #include <curl/curl.h>
+2:   int main() {
+3:     CURL *easy = curl_easy_init();
+4:     curl_easy_escape(easy,"hello",5);
+5:     return 0;
+6:   }
+/* end */
+
+--------------------
+

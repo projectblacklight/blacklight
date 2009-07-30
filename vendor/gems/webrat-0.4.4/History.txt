@@ -1,0 +1,324 @@
+== 0.4.4 / 2009-04-06
+
+* Major enhancements
+
+  * Make selenium process management code more robust and informative
+  
+* Minor enhancements
+  
+  * Add support for Rails javascript post links (Mark Menard)
+  * Upgrade selenium-client dependency to 1.2.14, and update for new waiting
+    API (Balint Erdi)
+  * Change default app environment from "selenium" to "test"
+
+* Bug fixes
+
+  * Don't create a new instance of WWW::Mechanize for each request
+    (Mark Menard)
+  
+== 0.4.3 / 2009-03-17
+
+* Minor enhancements
+
+  * Support Rails 2.3. Use Rack::Utils to parse params (Matthew Ford)
+  * Support for "modular" Sinatra app style (Simon Rozet)
+  * Initial Merb and Sinatra compatibility for Selenium mode (Corey Donohoe)
+  * When faced with a label with no for attribute, that contains a hidden field
+    and another field, as can be the case in Rails 2.3's checkbox view,
+    webrat now locates the non-hidden field. (Luke Melia) 
+  * Add application_framework config for Selenium mode to determine how to
+    start and stop the app server (Corey Donohoe)
+
+* Bug fixes
+
+  * Fix following of absolute redirect URL in Sinatra (Simon Rozet)
+
+== 0.4.2 / 2009-02-24
+
+* Major enhancements
+
+  * Significant improvements to have_selector. It now supports specifying
+    attributes in a hash and :count and :content options. See
+    have_selector_spec.rb for more.
+  * Add the same functionality mentioned above to have_xpath
+    
+* Minor enhancements
+
+  * Squeeze extra whitespace out of failures messages from contain
+    matcher
+  * Detect infinite redirects and raise a Webrat::InfiniteRedirectError
+    (Daniel Lucraft)
+
+* Bug fixes
+
+  * Properly quote single and double quotes strings in XPath
+  * Fix warning caused by Nokogiri deprecating CSS::Parser.parse
+    (Aaron Patterson)
+  * Accept do/end blocks in matchers. [#157] (Peter Jaros)
+  * Quote --chdir option to mongrel_rails to support RAILS_ROOTs with spaces
+    (T.J. VanSlyke)
+
+== 0.4.1 / 2009-01-31
+
+* Minor enhancements
+
+  * Support Sinatra 0.9 (Harry Vangberg)
+  * Update query param parsing to work with latest Edge Rails
+  * Added #redirected_to method to easily check where an external redirect was
+    redirected to (Adam Greene)
+  * Recognize input tags with type button (Lena Herrmann)
+  * Add uncheck method to Selenium mode (Lee Bankewitz)
+    
+* Bug fixes
+
+  * Make requests to a Rails app using a full URL instead of a relative path. This change
+    is helpful for Rails apps that use subdomains. (John Hwang and Zach Dennis)
+  * Follow redirects that are on the same domain but a different subdomain
+    (Adam Greene)
+  * rescue from Webrat::TimeoutError in selenium matchers which allows NegativeMatchers
+    to behave correctly (Noah Davis)
+  * Switch to using selenium.click instead of .check when checking a checkbox
+    (Noah Davis)
+  * Create tmp/pids directory if directory does not exist. (Amos King and Mike Gaffney)  
+  * Setup deprecated writers for the selenium_environment= and selenium_port= config
+  * Ensure the previous pages params aren't passed through redirect (Daniel Lucraft and
+    Bryan Helmkamp)
+  * Labels should only search for fields within the current scope (Kyle Hargraves)
+
+== 0.4.0 / 2009-01-18
+
+* _IMPORTANT_ Breaking change:
+
+  * Removed init.rb auto-require of webrat/rails
+  * Removed auto-require of webrat/rails when requiring webrat when RAILS_ENV is
+    defined
+
+  In your env.rb or test_helper.rb file, ensure you have something like:
+
+    require "webrat"
+
+    Webrat.configure do |config|
+      config.mode = :rails
+    end
+
+* Major enhancements
+
+  * Major improvements to Webrat::Selenium (Many contributors listed here)
+  * Add assert_* methods for using Webrat's matchers w/o RSpec (Mike Gaffney, Amos King)
+  * Added Webrat.configure method for Webrat configuration [#33] (Mike Gaffney)
+  * Added select_time, select_date, and select_datetime to API. [#36] (Ben Mabey)
+  * Use Hpricot and REXML when not parsing with Nokogiri (on JRuby, for example)
+
+* Minor enhancements
+
+  * Added Selenium grid configuration and support. (Amos King && Cornel Borcean)
+  * Support passing an ActiveRecord model to #within when in Rails mode [#68] (Luke Melia)
+  * Make assert_* matchers in rails mode increment the assertions count [#123] (Amos King)
+  * Added assert_* matchers to selenium matchers [#110] (Amos King)
+  * Added assert_contain, assert_not_contain [#86] (Mike Gaffney, Amos King)
+  * Add configuration options for the Selenium environment and port (Kieran Pilkington)
+  * Maximize the browser window after initializing Selenium (Luke Melia)
+  * Better inspect output for Webrat elements
+  * Sets the Webrat mode with Configuration#mode= in the config block [#85] (Mike Gaffney)
+  * Detect if the document is XML or HTML using the Content-Type when in Rails mode
+  * Expose #selenium method for direct access to Selenium client
+  * Check nokogiri gem version before requiring nokogiri
+  * Include the Selenium server jar file in the gem (Bryan Helmkamp, Ben Schwarz)
+  * Added key_down, key_up and fire_event to Selenium session (Fernando Garcia)
+  * Fix outputing README during Rails plugin install (Fernando Garcia)
+  * Strip newlines when matching label text (Miha Filej)
+  * Add simple support for accessing Webrat's matchers from RSpec by requiring
+    "webrat/rspec-rails" (David Chelimsky)
+  * Support save_and_open_page in Windows and Cygwin (Mike Gaffney)
+  * Added RadioField#checked? to indicated whether or not a radio button is checked
+    (Luke Melia)
+  * Add spec:jruby rake task for running Webrat's spec suite with JRuby
+  * Added field_by_xpath to locate a Webrat::Field using arbitrary XPath expressions
+  * Helpful error message for missing option values [#40] (Ben Mabey)
+  * Add set_hidden_field method (Noah Davis, Bryan Helmkamp)
+  * Add submit_form method for submitting a form by ID (Noah Davis, Bryan Helmkamp)
+  * Switch to using Nokogiri.parse for simple XML/XHTML autodetection [#66]
+  * Removed Webrat.root method, which seemed to be unused
+  * Added automatic starting and stopping of the Selenium server and a Mongrel Rails
+    app server when using webrat/selenium
+  * Switch to using selenium-client gem and vendor selenium-server.jar (Luke Melia)
+  * Added gemspec so the gem builds on GitHub now
+  * Deprecate old style methods (fills_in is deprecated in favor of fill_in, etc.)
+  * Improvements to the README and RDoc (Bryan Helmkamp, Mike Gaffney)
+  * Allow clicking links by id and id regexp (Mike Gaffney)
+  * Raise Webrat::DisabledFieldError when attempting to manipulate a disabled field
+  * Raise Webrat::NotFoundErrors when an element is not found
+  * Raise Webrat::PageLoadError when a failure occurs so that application exceptions
+    can be more accurately tested (Ryan Briones)
+  * Helpful error message for missing option in select box. [#40] (Ben Mabey)
+  * Extracted save_and_open page to make it usable in Selenium mode (Luke Melia)
+  * Added save_and_open_screengrab for Selenium mode (Luke Melia)
+
+* Bug fixes
+  
+  * field_labeled should disregard labels without matching fields (Kyle Hargraves)
+  * Fixed bug where Scope was creating a new DOM rather than re-using the existing DOM.
+    [#105] (Zach Dennis)
+  * Support Rails > v2.2 by using ActionController::RequestParser for param parsing [#107]
+    (Marcello Nuccio)
+  * Raise a Webrat::NotFoundError if the scope passed to #within doesn't exist [#90]
+  * Match against link _text_ which decodes character references.
+    Useful for multibyte languages like Japanese (moronatural@gmail.com)
+  * Fix params hash generation for Mechanize when Merb is not defined [#62]
+  * Expose some Webrat methods that were missing from the Webrat::Methods module
+    (Low Chin Chau)
+  * Allow mechanize session to pass through basic auth (Ryan Briones)
+  * Improvements to the Mechanize support (Jeremy Burks)
+  * Fix following fully qualified local links (Lawrence Pit)
+  * Fixed bug where Webrat would lose complex parameters (like foo[bar[baz]][])
+    in Merb due to not correctly merging Mashes. (Drew Colthorp)
+  * Extend Rails' ActionController::IntegrationTest instead of
+    ActionController::Integration::Session (Fixes using Webrat's #select method and
+    avoids usage of method_missing)
+  * Ensure that Webrat::MechanizeSession.request_page always uses an absolute
+    URL. (Graham Ashton)
+  * Strip anchor tags from URIs before passing to Rails integration session
+    (Noah Davis)
+  * Treat text and regexp when matching Selenium buttons (Ross Kaffenberger)
+  * Allow SeleniumSession's click_button to be called without an argument without
+    blowing up (Luke Melia)
+
+== 0.3.4 / 2008-12-29
+
+* 1 Minor enhancement
+
+  * Fix compatibility with Nokogiri 1.1.0 on JRuby
+
+* 1 Bug fix
+
+  * Correct version for Nokogiri dependency in gem
+
+== 0.3.3 / 2008-12-28
+
+* 1 Minor enhancement
+
+  * Fix compatibility with Nokogiri 1.1.0 on MRI
+
+== 0.3.2 / 2008-11-08
+
+* 1 Minor enhancement
+
+  * Fixes behavior or have_tag when a block is passed. It passes the matched node(s)
+    to the block for further specs again. (Carl Lerche)
+
+== 0.3.1 / 2008-11-07
+
+* 1 Minor enhancement
+
+  * Use @_webrat_session instance variable instead of @session for Merb integration
+    to avoid collisions
+
+== 0.3.0 / 2008-11-07
+
+* 4 Major enhancements
+
+  * Added Merb support (Gwyn Morfey, Jeremy Burks, Rob Kaufman, Yehuda Katz)
+  * Added experimental Selenium support (Luke Melia)
+  * Add have_selector, have_xpath, have_tag and contain matchers from Merb
+  * Switch from Hpricot to Nokogiri for XML parsing (thanks, Aaron Patterson)
+
+* 37 Minor enhancements
+
+  * Added #within for manipulating the current page within a selector scope
+  * Add support for file fields via #attaches_file method (Rails only at the moment)
+    (Kyle Hargraves)
+  * Add support for simulating SSL requests (Luke Melia)
+  * Added #basic_auth(user, pass) to support HTTP Basic Auth (Aslak Hellesøy)
+  * Added support for Sinatra and Rack (Aslak Hellesøy)
+  * Rename visits to visit, fills_in to fill_in, etc.
+  * Add #field_labeled for looking up form fields by label (David Chelimsky)
+  * Add #field_named and #field_with_id locators
+  * Don't depend on hoe anymore
+  * Return responses after sending requests
+  * Allow clicking links and buttons by a regular expression in Selenium (Luke Melia)
+  * Allow clicking links by a regular expression
+  * Add #http_accept for including MIME type HTTP "Accept" headers (Ryan Briones)
+  * Add #header to support inclusion of custom HTTP headers (Ryan Briones)
+  * Consider response codes 200-499 as successful enough to not raise a Webrat error
+    (David Leal)
+  * Add support for clicking areas of an image map (Alex Lang)
+  * Support relative links, including href="?foo=bar" (Kyle Hargraves)
+  * Separated Rails-specific code from the Webrat core to make it easier to use
+    Webrat with other environments
+  * Alias visits as visit, clicks_link as click_link, etc. for better readability
+  * Raise error when trying to interact with a disabled form element (Luke Melia)
+  * Don't send disabled form elements to the server (Nicholas A. Evans)
+  * Display response body when the page load is not successful (David Leal)
+  * CGI escape form field values (Miha Filej)
+  * Add support for redirect_to :back by sending HTTP_REFERER headers
+    (Hendrik Volkmer)
+  * Expose current DOM (as an Hpricot object) as #current_dom
+  * Add support for disabling JavaScript when clicking a link to enable testing of
+    both JS and non-JS implementations (Luke Melia and Bryan Helmkamp)
+  * Support &nbsp's as spaces in matching link text (Luke Melia)
+  * Support button elements (Nick Sieger)
+  * Support matching select options by regexp (Kyle Hargraves)
+  * save_and_open_page rewrites css and image references to provide a friendlier
+    debugging experience (Luke Melia)
+  * Added support for matching alt attributes in fields (primarly for clicks_button)
+    (Aaron Quint)
+  * Support '&amp;' in submitted values (Kyle Hargraves)
+  * Support clicking links by title (Dan Barry)
+  * Added missing spec for clicking image buttons (Tim Harper)
+  * Switched tests to specs, and from Mocha to RSpec's mocking library
+  * Add support to click_button for IDs (Gwyn Morfey)
+  * Miscellaneous core refactorings (Jan Suchal)
+
+* 8 Bug fixes
+
+  * Fix initialization of WWW::Mechanize (Derek Kastner)
+  * Don't open blank pages in the browser (Kyle Hargraves)
+  * Support radio buttons with multiple labels (Dan Barry)
+  * Fix load order bug on some platforms (Ismael Celis)
+  * Fix bug with empty select list option (Kyle Hargraves)
+  * Fix regression of not sending default values in password fields
+  * Don't explode if encountering inputs with no type attribute (assume text)
+  * Fix bug where choosing a radio button in a series with a default submitted the
+    incorrect field value (Luke Melia)
+
+== 0.2.0 / 2008-04-04
+
+* 4 Major enhancements
+
+  * Add save_and_open_page to aid in debugging
+  * Add radio button support via #chooses method
+  * Add basic support for Rails-generated JavaScript link tags
+  * Add support for checkboxes (Patches from Kyle Hargraves and Jarkko Laine)
+  * Add support for textarea fields (Sacha Schlegel)
+
+* 8 Minor enhancements
+
+  * Added reloads method to reload the page (Kamal Fariz Mahyuddi)
+  * Prevent making a request if clicking on local anchor link (Kamal Fariz Mahyuddi)
+  * Added clicks_link_within(selector, link_text), allowing restricting link search
+    to within a given css selector (Luke Melia)
+  * Allow specifying the input name/label when doing a select (David Chelimsky)
+  * Raise a specific exception if the developer tries to manipulate form elements
+    before loading a page (James Deville)
+  * Add support for alternate POST, PUT and DELETE link clicking (Kyle Hargraves)
+  * Change clicks_link to find the shortest matching link (Luke Melia)
+  * Improve matching for labels in potentially ambiguous cases
+
+* 7 Bug fixes
+
+  * Fix incorrect serializing of collection inputs, i.e. name contains []
+    (Kamal Fariz Mahyuddi)
+  * Serialize empty text field values just like browsers (Kamal Fariz Mahyuddi)
+  * Quick fix to avoid @dom not initialized warnings (Kamal Fariz Mahyuddi)
+  * Docfix: bad reference to #select method in README (Luke Melia)
+  * Ensure Rails-style checkboxes work properly (checkboxes followed by a hidden
+    input with the same name)
+  * Fix Edge Rails (a.k.a. 2.0 RC) compatibility (David Chelimsky)
+  * Support param hashes nested more than one level (David Chelimsky)
+
+== 0.1.0 / 2007-11-28
+
+* 1 major enhancement
+
+  * Birthday!
+

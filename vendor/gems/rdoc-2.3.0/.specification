@@ -1,0 +1,224 @@
+--- !ruby/object:Gem::Specification 
+name: rdoc
+version: !ruby/object:Gem::Version 
+  version: 2.3.0
+platform: ruby
+authors: 
+- Eric Hodel
+- Dave Thomas
+- Phil Hagelberg
+- Tony Strauss
+autorequire: 
+bindir: bin
+cert_chain: 
+- |
+  -----BEGIN CERTIFICATE-----
+  MIIDNjCCAh6gAwIBAgIBADANBgkqhkiG9w0BAQUFADBBMRAwDgYDVQQDDAdkcmJy
+  YWluMRgwFgYKCZImiZPyLGQBGRYIc2VnbWVudDcxEzARBgoJkiaJk/IsZAEZFgNu
+  ZXQwHhcNMDcxMjIxMDIwNDE0WhcNMDgxMjIwMDIwNDE0WjBBMRAwDgYDVQQDDAdk
+  cmJyYWluMRgwFgYKCZImiZPyLGQBGRYIc2VnbWVudDcxEzARBgoJkiaJk/IsZAEZ
+  FgNuZXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCbbgLrGLGIDE76
+  LV/cvxdEzCuYuS3oG9PrSZnuDweySUfdp/so0cDq+j8bqy6OzZSw07gdjwFMSd6J
+  U5ddZCVywn5nnAQ+Ui7jMW54CYt5/H6f2US6U0hQOjJR6cpfiymgxGdfyTiVcvTm
+  Gj/okWrQl0NjYOYBpDi+9PPmaH2RmLJu0dB/NylsDnW5j6yN1BEI8MfJRR+HRKZY
+  mUtgzBwF1V4KIZQ8EuL6I/nHVu07i6IkrpAgxpXUfdJQJi0oZAqXurAV3yTxkFwd
+  g62YrrW26mDe+pZBzR6bpLE+PmXCzz7UxUq3AE0gPHbiMXie3EFE0oxnsU3lIduh
+  sCANiQ8BAgMBAAGjOTA3MAkGA1UdEwQCMAAwCwYDVR0PBAQDAgSwMB0GA1UdDgQW
+  BBS5k4Z75VSpdM0AclG2UvzFA/VW5DANBgkqhkiG9w0BAQUFAAOCAQEAHagT4lfX
+  kP/hDaiwGct7XPuVGbrOsKRVD59FF5kETBxEc9UQ1clKWngf8JoVuEoKD774dW19
+  bU0GOVWO+J6FMmT/Cp7nuFJ79egMf/gy4gfUfQMuvfcr6DvZUPIs9P/TlK59iMYF
+  DIOQ3DxdF3rMzztNUCizN4taVscEsjCcgW6WkUJnGdqlu3OHWpQxZBJkBTjPCoc6
+  UW6on70SFPmAy/5Cq0OJNGEWBfgD9q7rrs/X8GGwUWqXb85RXnUVi/P8Up75E0ag
+  14jEc90kN+C7oI/AGCBN0j6JnEtYIEJZibjjDJTSMWlUKKkj30kq7hlUC2CepJ4v
+  x52qPcexcYZR7w==
+  -----END CERTIFICATE-----
+
+date: 2009-01-28 00:00:00 -05:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: minitest
+  type: :development
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        version: "1.3"
+    version: 
+- !ruby/object:Gem::Dependency 
+  name: hoe
+  type: :development
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 1.8.2
+    version: 
+description: RDoc is an application that produces documentation for one or more Ruby source files.  RDoc includes the +rdoc+ and +ri+ tools for generating and displaying online documentation.  At this point in time, RDoc 2.x is a work in progress and may incur further API changes beyond what has been made to RDoc 1.0.1.  Command-line tools are largely unaffected, but internal APIs may shift rapidly.  See RDoc for a description of RDoc's markup and basic use.
+email: 
+- drbrain@segment7.net
+- ""
+- technomancy@gmail.com
+- tony.strauss@designingpatterns.com
+executables: 
+- rdoc
+- ri
+extensions: []
+
+extra_rdoc_files: 
+- History.txt
+- Manifest.txt
+- README.txt
+- RI.txt
+- test/test.ja.txt
+files: 
+- .document
+- History.txt
+- Manifest.txt
+- README.txt
+- RI.txt
+- Rakefile
+- bin/rdoc
+- bin/ri
+- lib/rdoc.rb
+- lib/rdoc/cache.rb
+- lib/rdoc/code_objects.rb
+- lib/rdoc/diagram.rb
+- lib/rdoc/dot.rb
+- lib/rdoc/generator.rb
+- lib/rdoc/generator/darkfish.rb
+- lib/rdoc/generator/html.rb
+- lib/rdoc/generator/html/common.rb
+- lib/rdoc/generator/html/html.rb
+- lib/rdoc/generator/html/one_page_html.rb
+- lib/rdoc/generator/ri.rb
+- lib/rdoc/generator/template/darkfish/.document
+- lib/rdoc/generator/template/darkfish/classpage.rhtml
+- lib/rdoc/generator/template/darkfish/filepage.rhtml
+- lib/rdoc/generator/template/darkfish/images/brick.png
+- lib/rdoc/generator/template/darkfish/images/brick_link.png
+- lib/rdoc/generator/template/darkfish/images/bug.png
+- lib/rdoc/generator/template/darkfish/images/bullet_black.png
+- lib/rdoc/generator/template/darkfish/images/bullet_toggle_minus.png
+- lib/rdoc/generator/template/darkfish/images/bullet_toggle_plus.png
+- lib/rdoc/generator/template/darkfish/images/date.png
+- lib/rdoc/generator/template/darkfish/images/find.png
+- lib/rdoc/generator/template/darkfish/images/loadingAnimation.gif
+- lib/rdoc/generator/template/darkfish/images/macFFBgHack.png
+- lib/rdoc/generator/template/darkfish/images/package.png
+- lib/rdoc/generator/template/darkfish/images/page_green.png
+- lib/rdoc/generator/template/darkfish/images/page_white_text.png
+- lib/rdoc/generator/template/darkfish/images/page_white_width.png
+- lib/rdoc/generator/template/darkfish/images/plugin.png
+- lib/rdoc/generator/template/darkfish/images/ruby.png
+- lib/rdoc/generator/template/darkfish/images/tag_green.png
+- lib/rdoc/generator/template/darkfish/images/wrench.png
+- lib/rdoc/generator/template/darkfish/images/wrench_orange.png
+- lib/rdoc/generator/template/darkfish/images/zoom.png
+- lib/rdoc/generator/template/darkfish/index.rhtml
+- lib/rdoc/generator/template/darkfish/js/darkfish.js
+- lib/rdoc/generator/template/darkfish/js/jquery.js
+- lib/rdoc/generator/template/darkfish/js/quicksearch.js
+- lib/rdoc/generator/template/darkfish/js/thickbox-compressed.js
+- lib/rdoc/generator/template/darkfish/rdoc.css
+- lib/rdoc/generator/xml.rb
+- lib/rdoc/generator/xml/rdf.rb
+- lib/rdoc/generator/xml/xml.rb
+- lib/rdoc/known_classes.rb
+- lib/rdoc/markup.rb
+- lib/rdoc/markup/attribute_manager.rb
+- lib/rdoc/markup/formatter.rb
+- lib/rdoc/markup/fragments.rb
+- lib/rdoc/markup/inline.rb
+- lib/rdoc/markup/lines.rb
+- lib/rdoc/markup/preprocess.rb
+- lib/rdoc/markup/to_flow.rb
+- lib/rdoc/markup/to_html.rb
+- lib/rdoc/markup/to_html_crossref.rb
+- lib/rdoc/markup/to_latex.rb
+- lib/rdoc/markup/to_test.rb
+- lib/rdoc/markup/to_texinfo.rb
+- lib/rdoc/options.rb
+- lib/rdoc/parser.rb
+- lib/rdoc/parser/c.rb
+- lib/rdoc/parser/f95.rb
+- lib/rdoc/parser/perl.rb
+- lib/rdoc/parser/ruby.rb
+- lib/rdoc/parser/simple.rb
+- lib/rdoc/rdoc.rb
+- lib/rdoc/ri.rb
+- lib/rdoc/ri/cache.rb
+- lib/rdoc/ri/descriptions.rb
+- lib/rdoc/ri/display.rb
+- lib/rdoc/ri/driver.rb
+- lib/rdoc/ri/formatter.rb
+- lib/rdoc/ri/paths.rb
+- lib/rdoc/ri/reader.rb
+- lib/rdoc/ri/util.rb
+- lib/rdoc/ri/writer.rb
+- lib/rdoc/stats.rb
+- lib/rdoc/template.rb
+- lib/rdoc/tokenstream.rb
+- test/binary.dat
+- test/test.ja.rdoc
+- test/test.ja.txt
+- test/test_attribute_manager.rb
+- test/test_rdoc_markup.rb
+- test/test_rdoc_markup_attribute_manager.rb
+- test/test_rdoc_markup_to_html.rb
+- test/test_rdoc_markup_to_html_crossref.rb
+- test/test_rdoc_parser.rb
+- test/test_rdoc_parser_c.rb
+- test/test_rdoc_parser_perl.rb
+- test/test_rdoc_parser_ruby.rb
+- test/test_rdoc_ri_attribute_formatter.rb
+- test/test_rdoc_ri_default_display.rb
+- test/test_rdoc_ri_driver.rb
+- test/test_rdoc_ri_formatter.rb
+- test/test_rdoc_ri_overstrike_formatter.rb
+has_rdoc: true
+homepage: "Project Page: http://rubyforge.org/projects/rdoc/"
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --main
+- README.txt
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "1.3"
+  version: 
+requirements: []
+
+rubyforge_project: rdoc
+rubygems_version: 1.3.4
+signing_key: 
+specification_version: 2
+summary: RDoc is an application that produces documentation for one or more Ruby source files
+test_files: 
+- test/test_attribute_manager.rb
+- test/test_rdoc_markup.rb
+- test/test_rdoc_markup_attribute_manager.rb
+- test/test_rdoc_markup_to_html.rb
+- test/test_rdoc_markup_to_html_crossref.rb
+- test/test_rdoc_parser.rb
+- test/test_rdoc_parser_c.rb
+- test/test_rdoc_parser_perl.rb
+- test/test_rdoc_parser_ruby.rb
+- test/test_rdoc_ri_attribute_formatter.rb
+- test/test_rdoc_ri_default_display.rb
+- test/test_rdoc_ri_driver.rb
+- test/test_rdoc_ri_formatter.rb
+- test/test_rdoc_ri_overstrike_formatter.rb

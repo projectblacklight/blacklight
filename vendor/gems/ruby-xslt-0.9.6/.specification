@@ -1,0 +1,85 @@
+--- !ruby/object:Gem::Specification 
+name: ruby-xslt
+version: !ruby/object:Gem::Version 
+  version: 0.9.6
+platform: ruby
+authors: 
+- Gregoire Lejeune
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2008-04-05 00:00:00 -04:00
+default_executable: 
+dependencies: []
+
+description: Ruby/XSLT is a simple XSLT class based on libxml <http://xmlsoft.org/> and libxslt <http://xmlsoft.org/XSLT/>
+email: gregoire.lejeune@free.fr
+executables: []
+
+extensions: 
+- ext/xslt_lib/extconf.rb
+extra_rdoc_files: 
+- README
+- ChangeLog
+- COPYING
+- AUTHORS
+files: 
+- ChangeLog
+- COPYING
+- README
+- AUTHORS
+- setup.rb
+- test/subdir
+- test/subdir/result.xsl
+- test/subdir/test.xsl
+- test/t.xml
+- test/t.xsl
+- test/test.rb
+- lib/xml
+- lib/xml/xslt.rb
+- ext/xslt_lib/extfunc.h
+- ext/xslt_lib/parameters.h
+- ext/xslt_lib/parser.h
+- ext/xslt_lib/rb_utils.h
+- ext/xslt_lib/xslt.h
+- ext/xslt_lib/extfunc.c
+- ext/xslt_lib/parameters.c
+- ext/xslt_lib/parser.c
+- ext/xslt_lib/rb_utils.c
+- ext/xslt_lib/xslt_lib.c
+- ext/xslt_lib/extconf.rb
+has_rdoc: true
+homepage: http://raa.ruby-lang.org/project/ruby-xslt/
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --title
+- Ruby/XSLT
+- --main
+- README
+- --line-numbers
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: ruby-asp
+rubygems_version: 1.3.4
+signing_key: 
+specification_version: 2
+summary: A Ruby class for processing XSLT
+test_files: []
+

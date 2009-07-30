@@ -1,0 +1,37 @@
+- methods = methods_from_sections values[:sections]
+- unless methods.empty?
+  #method-list
+    %h2 Methods
+    - for type in ['public class', 'protected class', 'public instance', 'protected instance']
+      - unless (list = methods[type]).empty?
+        %h3= type
+        %ol
+          - for method in list
+            - if method[:name].to_s.empty? && method[:callseq]
+              %li= link_to method[:callseq].gsub(/<br\s*\/?>/, "").split(/[\r\n]+/).map{ |s| s.split(/([({]+|\[\{|\s+(#?=>|&rarr;)\s+)/).first.sub(/^[A-Za-z0-9_:]+\./, "").sub(/\s+=\s+.*/, "=").strip }.uniq.join("<br />\n"), '#' + method[:aref]
+            - else
+              %li= link_to method[:name], '#' + method[:aref]
+
+- if values[:requires] or values[:toc] or values[:includes]
+  #context
+    - if values[:requires]
+      #requires
+        %h2 Required files
+        %ol
+          - for req in values[:requires]
+            %li= link_to req[:name], req[:aref]
+            
+    - if values[:toc]
+      #contents
+        %h2 Contents
+        %ol
+          - for item in values[:toc]
+            %li= link_to values[:secname], values[:href]
+
+    - if values[:includes]
+      #includes
+        %h2 Included modules
+        %ol
+          - for inc in values[:includes]
+            %li= link_to inc[:name], inc[:aref]
+

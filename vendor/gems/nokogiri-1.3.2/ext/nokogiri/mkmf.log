@@ -1,0 +1,248 @@
+nokogiri_find_header: checking for iconv.h in /opt/local/include/,/opt/local/include/libxml2,/opt/local/include,/opt/local/include,/opt/local/include/libxml2,/usr/local/include,/usr/local/include/libxml2,/opt/local/include,/opt/local/include/libxml2,/usr/include,/usr/include/libxml2... -------------------- yes
+
+"/usr/bin/cpp-4.0 -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/opt/local/include/ conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <iconv.h>
+/* end */
+
+--------------------
+
+nokogiri_find_header: checking for libxml/parser.h in /opt/local/include/,/opt/local/include/libxml2,/opt/local/include,/opt/local/include,/opt/local/include/libxml2,/usr/local/include,/usr/local/include/libxml2,/opt/local/include,/opt/local/include/libxml2,/usr/include,/usr/include/libxml2... -------------------- yes
+
+"/usr/bin/cpp-4.0 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/opt/local/include/libxml2 conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <libxml/parser.h>
+/* end */
+
+--------------------
+
+nokogiri_find_header: checking for libxslt/xslt.h in /opt/local/include/,/opt/local/include/libxml2,/opt/local/include,/opt/local/include,/opt/local/include/libxml2,/usr/local/include,/usr/local/include/libxml2,/opt/local/include,/opt/local/include/libxml2,/usr/include,/usr/include/libxml2... -------------------- yes
+
+"/usr/bin/cpp-4.0 -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/opt/local/include/ conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <libxslt/xslt.h>
+/* end */
+
+--------------------
+
+nokogiri_find_header: checking for libexslt/exslt.h in /opt/local/include/,/opt/local/include/libxml2,/opt/local/include,/opt/local/include,/opt/local/include/libxml2,/usr/local/include,/usr/local/include/libxml2,/opt/local/include,/opt/local/include/libxml2,/usr/include,/usr/include/libxml2... -------------------- yes
+
+"/usr/bin/cpp-4.0 -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline -I/opt/local/include/ conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <libexslt/exslt.h>
+/* end */
+
+--------------------
+
+find_library: checking for xmlParseDoc() in -lxml2... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/local/lib -L/opt/local/lib -L. -L/opt/local/lib     -lruby-static -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlParseDoc’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlParseDoc; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/local/lib -L/opt/local/lib -L. -L/opt/local/lib     -lruby-static -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘xmlParseDoc’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlParseDoc(); return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for xsltParseStylesheetDoc() in -lxslt... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/local/lib -L/opt/local/lib -L. -L/opt/local/lib    -lxml2  -lruby-static -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xsltParseStylesheetDoc’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xsltParseStylesheetDoc; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/local/lib -L/opt/local/lib -L. -L/opt/local/lib    -lxml2  -lruby-static -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘xsltParseStylesheetDoc’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xsltParseStylesheetDoc(); return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for exsltFuncRegister() in -lexslt... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/local/lib -L/opt/local/lib -L. -L/opt/local/lib    -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘exsltFuncRegister’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))exsltFuncRegister; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/ -I/opt/local/include/libxml2 -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/local/lib -L/opt/local/lib -L. -L/opt/local/lib    -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘exsltFuncRegister’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { exsltFuncRegister(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetParserStructuredErrors()... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlRelaxNGSetParserStructuredErrors’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetParserStructuredErrors; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘xmlRelaxNGSetParserStructuredErrors’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlRelaxNGSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetParserStructuredErrors()... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlRelaxNGSetParserStructuredErrors’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetParserStructuredErrors; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘xmlRelaxNGSetParserStructuredErrors’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlRelaxNGSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetValidStructuredErrors()... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlRelaxNGSetValidStructuredErrors’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetValidStructuredErrors; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘xmlRelaxNGSetValidStructuredErrors’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlRelaxNGSetValidStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlSchemaSetValidStructuredErrors()... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlSchemaSetValidStructuredErrors’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlSchemaSetValidStructuredErrors; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘xmlSchemaSetValidStructuredErrors’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlSchemaSetValidStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlSchemaSetParserStructuredErrors()... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlSchemaSetParserStructuredErrors’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlSchemaSetParserStructuredErrors; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include/libxml2 -I/opt/local/include/ -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -O2  -fno-common -pipe -fno-common    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L/opt/local/lib -L. -L/opt/local/lib    -lexslt -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: implicit declaration of function ‘xmlSchemaSetParserStructuredErrors’
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlSchemaSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+

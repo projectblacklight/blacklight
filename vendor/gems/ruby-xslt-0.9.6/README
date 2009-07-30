@@ -1,0 +1,132 @@
+= Ruby/XSLT
+
+== About
+
+Ruby/XSLT is a simple XSLT class based on libxml <http://xmlsoft.org/> and libxslt <http://xmlsoft.org/XSLT/>
+
+== Licence
+
+Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 Gregoire Lejeune <gregoire dot lejeune at free dot fr>
+
+Ruby/XSLT is freely distributable according to the terms of the
+GNU General Public License (see the file 'COPYING').
+
+This program is distributed without any warranty. See the file
+'COPYING' for details.
+
+=== CVS access
+The CVS repository is available at rubyforge.org[http://rubyforge.org/projects/ruby-asp]. You can browse[http://rubyforge.org/cgi-bin/viewcvs.cgi/ruby-xslt/?cvsroot=ruby-asp] it or access it via anonymous access :
+
+  cvs -d :pserver:anonymous@rubyforge.org:/var/cvs/ruby-asp login
+  cvs -d :pserver:anonymous@rubyforge.org:/var/cvs/ruby-asp checkout ruby-xslt
+
+See this page[http://rubyforge.org/scm/?group_id=423] for more informations
+
+== INSTALLATION
+
+	sudo gem install ruby-xslt
+	
+or 
+
+	ruby extconf.rb # see CONFIGURATION for more options
+	make
+	make test
+	make doc
+	sudo make install
+
+=== CONFIGURATION
+
+  --help                   display this help and exit
+  
+  --with-xslt-lib=PATH
+  --with-xslt-include=PATH
+  --with-xslt-dir=PATH     specify the directory name for the libxslt include 
+                           files and/or library 
+  
+  --disable-error-handler  disables the new error handler 
+  
+  --disable-exslt          disables libexslt support <http://exslt.org/>
+  
+
+== EXAMPLES
+
+=== Simple example
+	require 'xml/xslt'
+
+	xslt = XML::XSLT.new()
+	xslt.xml = "text.xml"
+	xslt.xsl = "test.xsl"
+
+	out = xslt.serve()
+	print out;
+
+=== REXML support
+	require 'rexml/document'
+	require 'xml/xslt'
+
+	xslt = XML::XSLT.new()
+
+	xslt.xml = REXML::Document.new File.read( "test.xml" )
+	xslt.xsl = REXML::Document.new File.read( "test.xsl" )
+
+	out = xslt.serve()
+	print out;
+
+=== XML::Smart support
+	require 'xml/smart'
+	require 'xml/xslt'
+
+	xslt = XML::XSLT.new()
+
+	xslt.xml = XML::Smart.open( "test.xml" )
+	xslt.xsl = XML::Smart.open( "test.xsl" )
+
+	out = xslt.serve()
+	print out;
+	
+=== Parameters support
+	require "xml/xslt"
+
+	xslt = XML::XSLT.new()
+	xslt.xsl = "parameter.xsl"
+	xslt.xml = "test.xml"
+	xslt.parameters = { "p1" => "the first parameter ...",
+	                    "p2" => "'and the second one!'" }
+	xslt.save("test1.html")
+	
+	xslt.parameters = { "p1" => "Ruby...",
+	                    "p2" => "'...is cool !'" }
+	xslt.save("test2.html")
+
+=== External functions support
+	require "xml/xslt"
+
+	xslt = XML::XSLT.new()
+	xslt.xsl = "functions.xsl"
+	xslt.xml = "test.xml"
+	
+	XML::XSLT.registerExtFunc("http://test.none", "round-trip") do |arg|
+	  arg
+	end
+
+	XML::XSLT.registerExtFunc("http://test.none", "type") do |arg|
+	  arg.class.to_s
+	end
+
+	print xslt.serve
+
+=== Error handling
+
+	XML::XSLT.registerErrorHandler { |string| puts string }
+
+	xslt = XML::XSLT.new
+	xslt.xml = "not xml"
+
+This fragment would print:
+
+	Entity: line 1: 
+	parser 
+	error : 
+	Start Tag expected, '<' not found
+	not xml
+	^

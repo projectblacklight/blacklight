@@ -1,0 +1,60 @@
+--- !ruby/object:Gem::Specification 
+name: mwmitchell-material_girl
+version: !ruby/object:Gem::Version 
+  version: 0.0.2
+platform: ruby
+authors: []
+
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2009-06-18 00:00:00 -04:00
+default_executable: 
+dependencies: []
+
+description: 
+email: 
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- LICENSE
+- README.rdoc
+files: 
+- README.rdoc
+- material_girl.gemspec
+- lib/material_girl.rb
+- LICENSE
+- test/material_girl_test.rb
+has_rdoc: true
+homepage: 
+licenses: []
+
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.4
+signing_key: 
+specification_version: 2
+summary: A library parsing materialized paths
+test_files: 
+- test/material_girl_test.rb

@@ -1,0 +1,83 @@
+- for section in values[:sections]
+  #section
+    - if section[:sectitle]
+      %h2= link_to section[:sectitle], section[:secsequence]
+      - if section[:seccomment]
+        .section-comment= section[:seccomment]
+        
+    - if section[:classlist]
+      #class-list
+        %h2 Classes and Modules
+        = section[:classlist]
+        
+    - if section[:constants]
+      #constants-list
+        %h2 Constants
+        .name-list
+          %table{ :summary => "Constants" }
+            - for const in section[:constants]
+              %tr.top-aligned-row.context-row
+                %td.context-item-name= const[:name]
+                %td =
+                %td.context-item-value= const[:value]
+                - if const[:desc] then
+                  %td &nbsp;
+                  %td.context-item-desc= const[:desc]
+                    
+    - if section[:aliases]
+      #aliases-list
+        %h2 External Aliases
+        .name-list
+          %table{ :summary => "External aliases" }
+            - for alia in section[:aliases]
+              %tr.top-aligned-row.context-row
+                %td.context-item-name= alia[:old_name]
+                %td -&gt;
+                %td.context-item-value= alia[:new_name]
+              - if alia[:desc] then
+                %tr.top-aligned-row.context-row
+                  %td &nbsp;
+                  %td.context-item-desc{ :colspan => "2" }
+                    = alia[:desc]
+                    
+    - if section[:attributes]
+      #attribute-list
+        %h2.section-bar Attributes
+        .name-list
+          %table
+            - for attr in section[:attributes]
+              %tr.top-aligned-row.context-row
+                %td.context-item-name= attr[:name]
+                %td.context-item-value= attr[:rw] ? "[#{attr[:rw]}]" : '&nbsp;'
+                %td.context-item-desc= attr[:a_desc]
+    
+    - if section[:method_list]
+      #methods
+        - for list in section[:method_list]
+          - if list[:methods] then
+            %h2== #{list[:type]} #{list[:category].downcase} methods
+            
+            - for method in list[:methods]
+              .method{ :id => "method-#{method[:aref]}", :class => "#{list[:type]}-#{list[:category]}".downcase }
+                %a{ :name => method[:aref] }
+                .synopsis
+                  - method_html = capture_haml do
+                    - if method[:callseq]
+                      %span.name= method[:callseq]
+                    - else
+                      %span.name= method[:name]
+                      %span.arguments= method[:params]
+                  - if method[:codeurl]
+                    %a.method-signature{ :href => method[:codeurl], :onclick => "popupCode(this.href); return false", :target => "Code" }
+                      = method_html
+                  - else
+                    = method_html
+                - if method[:m_desc]
+                  .description
+                    ~ sanitize_code_blocks method[:m_desc]
+                - if method[:sourcecode]
+                  .source
+                    - name = "#{method[:aref]}-source"
+                    %a.source-toggle{ :href => "#", :onclick => "toggleCode('#{name}'); return false" }
+                      [show source]
+                    ~ "<pre id='#{name}'>#{method[:sourcecode]}</pre>"

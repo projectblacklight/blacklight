@@ -1,0 +1,128 @@
+=Blacklight 
+
+Please see Project Info below for main information about this project and plugin.
+
+Please see Solr in Blacklight below for information about setting up and configuring Solr.
+
+Note: these instructions appy to releases 2.2.0 and above.
+
+Note: issue commands from your Rails application's root directory.
+
+==How to Install the Blacklight Plugin into Your Rails Project
+
+1. Create your rails app: http://guides.rubyonrails.org/getting_started.html#creating-a-new-rails-project
+2. Install Blacklight: 
+From a release:
+	script/plugin -v install http://blacklight.rubyforge.org/svn/releases/plugins/blacklight-plugin-2.2.0_RC2/
+Or from trunk:
+    script/plugin -v install http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight/
+
+Using <tt>script/plugin install</tt> calls the plugin's install.rb script, which does the following: 
+
+1. automatically installs the Engines plugin ( http://rails-engines.org )
+2. updates config/environment.rb with the necessary lines for Engines and Blacklight
+3. copies the vendorized Authlogic gem from vendor/plugins/blacklight/vendor/gems to vendor/gems
+4. adds default solr.yml to config dir
+5. copies the migration files from vendor/plugins/blacklight/db/migrate to db/migrate
+6. copies the default blacklight_config.rb file to config/initializers/blacklight_config.rb
+
+If you need to manually install Blacklight, see Installing Blacklight Manually below, then return to Post Installation.
+
+==Post Installation
+
+Remove public/index.html, app/controllers/application_controller.rb and app/helpers/application_helper.rb:
+  
+  rm public/index.html
+  rm app/controllers/application_controller.rb
+  rm app/helpers/application_helper.rb
+  
+Next, run the migrations. By default, Rails uses a SQLite3 database. Configure others in config/databases.yml:
+
+	rake db:migrate
+  
+You need a running instance of Solr. Just to get going you can use the test instance in the Blacklight plugin:
+
+	cd vendor/plugins/blacklight/jetty
+	java -jar start.jar
+  
+This starts an instance of jetty with Solr running on port 8983. If you want to start on another port, use Java's -D argument:
+
+	java -Djetty.port=8888 -jar start.jar
+  
+This Solr instance has data. Once you start it you can run the Rails app against this.
+
+	script/server
+ 
+Now navigate to http://localhost:3000 and you should see a running app with the test data set!
+
+
+==Installing Blacklight Manually
+
+This assumes that for some reason you can't install the plugin via <tt>script/plugin install</tt> or
+there was a problem and you need to finish manually. Otherwise, see the instructions above.
+
+1. Create your Rails app: http://guides.rubyonrails.org/getting_started.html#creating-a-new-rails-project
+2. Get the Blacklight plugin and put it in your plugins directory:
+  
+    Edge: svn export http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight vendor/plugins/blacklight
+    
+    Specific Release: 
+    
+      1. Find the release you want here: http://blacklight.rubyforge.org/svn/releases/plugins/
+      2. Then navigate to the plugin, for example: http://blacklight.rubyforge.org/svn/releases/plugins/blacklight-plugin-2.2.0
+      3. Use SVN to export it: svn export http://blacklight.rubyforge.org/svn/releases/plugins/blacklight-plugin-2.2.0
+      
+    Finally, you can also downlowd the archive and unpack it in vendor/plugins/blacklight:
+    
+      1. Find the release you want here: http://rubyforge.org/frs/?group_id=5235
+      2. Download it into vendor/plugins
+      3. Move to the directory: cd vendor/plugins
+      4. Unarchive: tar xvzf blacklight-plugin-2.2.0
+      5. Rename the directory: mv blacklight-plugin-2.2.0 blacklight
+    
+3. Install the Engines plugin:
+    
+    script/plugin install git://github.com/lazyatom/engines.git
+    
+  If you aren't using or can't use script/plugin, then install it manually:
+  
+    1. git clone git://github.com/lazyatom/engines.git vendor/plugins/engines
+    2. rm -rf vendor/plugins/engines/.git
+    
+4. Update _config/environment.rb_ with necessary lines:
+
+    1. Below require File.join(File.dirname(__FILE__), 'boot'):
+  
+      require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
+    
+    2. Inside Rails::Initializer.run do |config| block:
+  
+      config.gem 'authlogic'
+      config.plugin_paths += ["#{RAILS_ROOT}/vendor/plugins/blacklight/vendor/plugins"]  
+      config.plugins = %W(engines blacklight acts_as_taggable_on_steroids resource_controller)
+      
+5. Install the Authlogic gem. You can install this as a system gem or copy it from the Blacklight plugin:
+
+    * As a system gem:
+
+      sudo gem install authlogic
+
+    * As a vendorized gem (this is what the Blacklight installer does--see above):
+
+      mkdir vendor/gems
+      cp -rp vendor/plugins/blacklight/vendor/gems/authlogic-<version> vendor/gems/authlogic-<version>
+
+6. Copy solr.yml to config dir:
+
+    cp vendor/plugins/blacklight/install/solr.yml config/
+    
+7. Copy the migration files to your app:
+
+    cp -pR vendor/plugins/blacklight/db/migrate db/migrate
+
+8. Copy the default blacklight_config.rb file to config/initializers:
+
+    cp vendor/plugins/blacklight/config/initializers/blacklight_config.rb config/initializers/
+    
+9. Go to "Post Installation", above.
+

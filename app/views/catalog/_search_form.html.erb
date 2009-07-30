@@ -1,0 +1,15 @@
+<div id="search">
+  <% form_tag catalog_index_path, :method => :get do %>
+    <h2 class="search"><%= label_tag(:q, "Search ") %></h2>
+    <%= text_field_tag :q, params[:q] %>
+    <%= label_tag(:qt, " in ") %>
+    <%= select_tag(:qt, options_for_select(search_fields, h(params[:qt])), :title => "Targeted search options") %>
+    <%= hidden_field_tag(:per_page, params[:per_page] ? params[:per_page] : "10", :id => 'hidden_per_page') %>
+
+    <%= render :partial => 'catalog/hidden_filters' %>
+    
+    <%= submit_tag 'search', :class=>'submit' %>
+  <% end %>
+
+  <hr/>
+</div>

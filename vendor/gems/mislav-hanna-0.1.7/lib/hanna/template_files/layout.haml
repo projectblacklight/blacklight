@@ -1,0 +1,34 @@
+!!! strict
+- index = values[:list_title]
+%html{ :lang => "en" }
+  %head
+    %title= values[:title]
+    %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=#{values[:charset]}" }
+    %link{ :rel => "stylesheet", :href => values[:style_url], :type => "text/css", :media => "screen" }
+    - unless index
+      :javascript
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+    - else
+      %base{ :target => 'docwin' }/
+        
+  %body{ :class => index ? 'list' : 'page' }
+    - if index
+      #index= yield
+    - else
+      #wrapper{ :class => values[:classmod] ? 'class' : 'file' }
+        = yield
+        #footer-push
+      #footer
+        = link_to '<strong>Hanna</strong> RDoc template', 'http://github.com/mislav/hanna/tree/master'

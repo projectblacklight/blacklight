@@ -1,0 +1,13 @@
+%h1= values[:list_title]
+
+%script{:type => 'text/javascript'}
+  = read("prototype-1.6.0.3.js")
+  = build_javascript_search_index(values[:entries])
+  = read("method_search.js")
+%form{:onsubmit => 'return performSearch()'}
+  %input{:type => 'text', :id => 'search', :class => 'untouched', :value => 'Enter search terms...'}
+%ol#search-results{ :class => 'methods', :style => 'display: none' }
+
+%ol#index-entries{ :class => 'methods' }
+  - for entry in values[:entries]
+    %li= link_to_method entry[:name], entry[:href]

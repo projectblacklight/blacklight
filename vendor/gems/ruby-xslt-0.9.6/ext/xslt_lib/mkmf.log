@@ -1,0 +1,72 @@
+have_library: checking for xmlParseDoc() in -lxml2... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -DUSE_ERROR_HANDLER conftest.c  -L. -L/opt/local/lib -L. -L/opt/local/lib     -lruby-static -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlParseDoc’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlParseDoc; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -DUSE_ERROR_HANDLER conftest.c  -L. -L/opt/local/lib -L. -L/opt/local/lib     -lruby-static -lxml2  -lpthread -ldl -lobjc  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlParseDoc(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for xsltParseStylesheetFile() in -lxslt... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -DUSE_ERROR_HANDLER conftest.c  -L. -L/opt/local/lib -L. -L/opt/local/lib    -lxml2  -lruby-static -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xsltParseStylesheetFile’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xsltParseStylesheetFile; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -DUSE_ERROR_HANDLER conftest.c  -L. -L/opt/local/lib -L. -L/opt/local/lib    -lxml2  -lruby-static -lxslt -lxml2  -lpthread -ldl -lobjc  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xsltParseStylesheetFile(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for exsltRegisterAll() in -lexslt... -------------------- yes
+
+"/usr/bin/gcc-4.0 -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -DUSE_ERROR_HANDLER conftest.c  -L. -L/opt/local/lib -L. -L/opt/local/lib    -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘exsltRegisterAll’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))exsltRegisterAll; return 0; }
+/* end */
+
+"/usr/bin/gcc-4.0 -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9 -I. -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -O2  -fno-common -pipe -fno-common   -DUSE_ERROR_HANDLER conftest.c  -L. -L/opt/local/lib -L. -L/opt/local/lib    -lxslt -lxml2  -lruby-static -lexslt -lxslt -lxml2  -lpthread -ldl -lobjc  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { exsltRegisterAll(); return 0; }
+/* end */
+
+--------------------
+

@@ -1,0 +1,9 @@
+<%- if !@document.marc.marc['245'].nil? -%>
+<%= "Title: #{@document.marc.marc['245']['a']}" unless @document.marc.marc['245']['a'].nil? %> <%= @document.marc.marc['245']['b'] unless @document.marc.marc['245']['b'].nil? %>
+<%- end -%>
+<%- if !@document.marc.marc['100'].nil? -%>
+<%= "Author: #{@document.marc.marc['100']['a']}" unless @document.marc.marc['100']['a'].nil? %>
+<% end -%>
+Format: <%= @document['format'] %>
+URL: <%= catalog_path(@document.id, :only_path => false, :host => @host) %>
+Message: <%= @message %>

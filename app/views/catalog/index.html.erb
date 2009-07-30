@@ -1,0 +1,35 @@
+<% if params[:q].to_s.empty? and params[:f].to_s.empty? %>
+	<%# if there are no input/search related params, display the "home" partial -%>
+	<%= render 'home' %>
+<% else %>
+
+	<% @page_title = application_name + " Search Results" %>
+
+	<%= render :partial => 'search_form' %>
+	
+	<%= render :partial => 'did_you_mean' %>
+	
+	<%= render 'constraints', :localized_params=>params %>
+	
+	<div class="pagination">
+	  <h2>Results navigation</h2>
+	  <%= will_paginate @response.docs, :page_links => false, :class => 'prev_next_links' %>
+	  <%= will_paginate @response.docs, :container => false %>
+	</div>
+	
+	<%= render 'sort_and_per_page' %>
+	
+	<%= render :partial=>'document_list' %>
+	
+	<% sidebar_items << capture do %>
+	  <%= render :partial=>'facets' %>
+	<% end %>
+
+	<div class="pagination">
+	  <%= will_paginate @response.docs, :page_links => false, :class => 'prev_next_links' %>
+	  <%= will_paginate @response.docs, :container => false %>
+	</div>
+
+	<%= render :partial=>'solr_request' %>
+
+<% end %>

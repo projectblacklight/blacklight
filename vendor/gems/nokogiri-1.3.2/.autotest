@@ -1,0 +1,27 @@
+# -*- ruby -*-
+
+begin
+  require 'autotest/fsevent'
+rescue LoadError
+end
+
+Autotest.add_hook :run_command do |at|
+  at.unit_diff = 'cat'
+  if ENV['ONENINE']
+    system "rake1.9 compile"
+  else
+    system "rake compile"
+  end
+end
+
+Autotest.add_hook :ran_command do |at|
+  File.open('/tmp/autotest.txt', 'wb') { |f|
+    f.write(at.results.join)
+  }
+end
+
+class Autotest
+  def ruby
+    'ruby1.9'
+  end
+end if ENV['ONENINE']

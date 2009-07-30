@@ -1,7 +1,0 @@
-<% if @document.marc %>
-  <ul class="tools">
-    <li>
-       <%= link_to "Cite This", citation_catalog_path(@document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
-    </li>
-  </ul>
-<% end %>

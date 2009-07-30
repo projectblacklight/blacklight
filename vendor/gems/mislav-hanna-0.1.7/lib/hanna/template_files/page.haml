@@ -1,0 +1,50 @@
+- file_page = !values[:classmod]
+- title_in_description = values[:description] && values[:description] =~ /^\s*<h1>/m
+
+.header
+  - title = capture_haml do
+    - if file_page
+      = values[:short_name]
+    - else
+      %span.type= values[:classmod]
+      = values[:full_name]
+  - if title_in_description
+    .name= title
+  - else
+    %h1.name= title
+    
+  - if file_page
+    .paths
+      = values[:full_path]
+      - if values[:cvsurl]
+        == (#{link_to 'view online', values[:cvsurl]})
+  - else
+    %ol.paths
+      - values[:infiles].each_with_index do |file, index|
+        %li{ :class => index > 0 ? 'other' : nil }
+          = link_to file[:full_path], file[:full_path_url]
+          - if file[:cvsurl]
+            == (#{link_to 'view online', file[:cvsurl]})
+      - if values[:infiles].size > 1
+        %li
+          %a.show{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all
+          
+  - if values[:parent] then
+    .parent
+      Parent:
+      %strong= link_to values[:parent], values[:par_url]
+
+  - if values[:dtm_modified]
+    .last-update
+      Last Update:
+      %span.datetime= values[:dtm_modified]
+    
+#content
+  - if values[:diagram]
+    #diagram= values[:diagram]
+
+  #text
+    - if values[:description]
+      #description~ sanitize_code_blocks values[:description]
+
+    = yield

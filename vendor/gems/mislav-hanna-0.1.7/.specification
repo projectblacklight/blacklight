@@ -1,0 +1,128 @@
+--- !ruby/object:Gem::Specification 
+name: mislav-hanna
+version: !ruby/object:Gem::Version 
+  version: 0.1.7
+platform: ruby
+authors: 
+- "Mislav Marohni\xC4\x87"
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2009-02-17 00:00:00 -05:00
+default_executable: hanna
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: rdoc
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        version: 2.3.0
+    version: 
+- !ruby/object:Gem::Dependency 
+  name: haml
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        version: 2.0.4
+    version: 
+- !ruby/object:Gem::Dependency 
+  name: rake
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        version: 0.8.2
+    version: 
+description: Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind.
+email: mislav.marohnic@gmail.com
+executables: 
+- hanna
+extensions: []
+
+extra_rdoc_files: 
+- bin/hanna
+- lib/hanna/hanna.rb
+- lib/hanna/rdoc_version.rb
+- lib/hanna/rdoctask.rb
+- lib/hanna/template_files/class_index.haml
+- lib/hanna/template_files/file_index.haml
+- lib/hanna/template_files/index.haml
+- lib/hanna/template_files/layout.haml
+- lib/hanna/template_files/method_index.haml
+- lib/hanna/template_files/method_list.haml
+- lib/hanna/template_files/page.haml
+- lib/hanna/template_files/sections.haml
+- lib/hanna/template_files/styles.sass
+- lib/hanna/template_files/prototype-1.6.0.3.js
+- lib/hanna/template_files/method_search.js
+- lib/hanna/template_helpers.rb
+- lib/hanna/template_page_patch.rb
+- lib/hanna.rb
+- README.markdown
+files: 
+- bin/hanna
+- hanna.gemspec
+- lib/hanna/hanna.rb
+- lib/hanna/rdoc_version.rb
+- lib/hanna/rdoctask.rb
+- lib/hanna/template_files/class_index.haml
+- lib/hanna/template_files/file_index.haml
+- lib/hanna/template_files/index.haml
+- lib/hanna/template_files/layout.haml
+- lib/hanna/template_files/method_index.haml
+- lib/hanna/template_files/method_list.haml
+- lib/hanna/template_files/page.haml
+- lib/hanna/template_files/sections.haml
+- lib/hanna/template_files/styles.sass
+- lib/hanna/template_files/prototype-1.6.0.3.js
+- lib/hanna/template_files/method_search.js
+- lib/hanna/template_helpers.rb
+- lib/hanna/template_page_patch.rb
+- lib/hanna.rb
+- Manifest
+- Rakefile
+- README.markdown
+has_rdoc: true
+homepage: http://github.com/mislav/hanna
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --line-numbers
+- --inline-source
+- --title
+- Hanna
+- --main
+- README.markdown
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "1.2"
+  version: 
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.4
+signing_key: 
+specification_version: 2
+summary: An RDoc template that scales
+test_files: []
+

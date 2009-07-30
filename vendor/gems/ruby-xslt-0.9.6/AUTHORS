@@ -1,0 +1,32 @@
+= Authors
+
+Gregoire Lejeune <gregoire dot lejeune at free dot fr>
+* Maintener
+
+Eustáquio "TaQ" Rangel <eustaquiorangel at yahoo dot com>
+* Add parameters support
+
+Brendan Taylor <whateley at gmail dot com>
+* Add external function support
+* Add media_type function
+* Changes to the way XSLT files are loaded, so that we can keep their base URI straight
+
+<kiyoya at gmail dot com>
+* Add definitions for some error classes and sets libxml error function
+
+Pau Garcia i Quiles <pgquiles at elpauer dot org>
+* gemspec
+
+Stéphane Mariel <smariel at rift dot fr>
+* Bugfix in extfunc.c
+
+Tom <tom@spongecell.com>
+* Found and patched some serious memory leaks
+
+== Thanks to :
+
+knu <knu at freebsd dot org> for FreeBSD port (see http://www.freshports.org/textproc/ruby-xslt/)
+
+Robert Shaw <rshaw at opendarwin dot org> for opendarwin port (see http://rb-xslt.darwinports.com/)
+
+Alexis Bernard aka alex__ for testing

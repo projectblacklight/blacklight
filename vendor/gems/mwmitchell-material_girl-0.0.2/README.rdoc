@@ -1,0 +1,35 @@
+=Material Girl
+A materialized path parser lib for Ruby.
+
+==What?
+Basically, let's say you have an array of objects. Each of those objects has a field that signifies its place in some arbitrary hierarchy:
+
+  docs = [
+    {:path=>'colors::red'},
+    {:path=>'colors::blue'},
+    {:path=>'colors::blue::light'},
+    {:path=>'colors::purple'}
+    {:path=>'colors::purple::dark'}
+  ]
+
+  composite = MaterialGirl.parse(docs) do |doc|
+    doc[:path].split('::')
+  end
+
+"composite" is now a root composite object that has put the structure above into something like:
+  root
+    colors
+      red
+      blue
+        light
+      purple
+        dark
+
+==MaterialGirl::Composite
+MaterialGirl.parse returns a MaterialGirl::Composite object. This composite thingy has some nice methods for working with the resulting tree:
+
+  root = MaterialGirl.parse(array_of_things)
+  root.children
+  root.descendants
+  root.descendants.last.ancestors
+  root.children.first.siblings

@@ -1,0 +1,353 @@
+!title_font = Georgia, serif
+!body_font = "Lucida Grande", Verdana, Arial, Helvetica, "sans-serif"
+!code_font_family = Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace
+!code_font_size   = 14px
+!code_font = !code_font_size !code_font_family
+
+!light_link = #369
+!link = !light_link - 40
+!light_text = #666
+!dark_blue_text = #0E3062
+
+html, body
+  :height 100%
+body
+  :font-family = !body_font
+  :font-size 90%
+  :margin 0
+  :padding 0
+  :background white
+  :color black
+    
+#wrapper
+  :min-height 100%
+  :height auto !important
+  :height 100%
+  :margin 0 auto -43px
+#footer-push
+  :height 43px
+div.header, #footer
+  :background #eee
+#footer
+  :border-top 1px solid silver
+  :margin-top 12px
+  :padding 0 2em
+  :line-height 30px
+  :text-align center
+  :font-variant small-caps
+  :font-size 95%
+
+// self-clearing
+.clearing
+  &:after
+    :content "."
+    :visibility hidden
+    :height 0
+    :display block
+    :clear both
+  * html &
+    :height 1px
+  *:first-child + html
+    :overflow hidden
+
+h1, h2, h3, h4, h5, h6
+  :margin 0
+  :font-weight normal
+
+a
+  :color = !link
+  &:hover
+    :background = !light_link
+    :text-decoration none
+    :color #eef
+
+#diagram
+  img
+    :border = 0
+
+#description, .method .description, .header
+  a
+    :color = !light_link
+    &:hover
+      :color #eee
+  h1, h2, h3, h4, h5, h6
+    a
+      :color = !link
+
+ol
+  :margin 0
+  :padding 0
+  :list-style none
+  li
+    :margin-left 0
+    :white-space nowrap
+    &.other
+      :display none
+ol.expanded li.other
+  :display list-item
+      
+table
+  :margin-bottom 1em
+  :font-size 1em
+  :border-collapse collapse
+  td, th
+    :padding .4em .8em
+  thead
+    :background-color #e8e8e8
+    th
+      :font-variant small-caps
+      :color = !light_text
+  tr
+    :border-bottom 1px solid silver
+
+#index, div.header
+  a.show
+    :text-decoration underline
+    :font-style italic
+    :color = !light_text
+    &:after
+      :content " ..."
+    &:hover
+      :color black
+      :background #ffe
+      
+#index
+  :font 85%/1.2 Arial, Helvetica, sans-serif
+  a
+    :text-decoration none
+  h1
+    :padding .2em .5em .1em
+    :background #ccc
+    :font = "small-caps 1.2em" !title_font
+    :color #333
+    :border-bottom 1px solid gray
+  form
+    :margin 0
+    :padding 0
+    input
+      :margin .4em
+      :margin-bottom 0
+      :width 90%
+    #search.untouched
+      :color #777777
+  ol
+    :padding .4em .5em
+    li
+      :white-space nowrap
+  #index-entries li a
+    :padding 1px 2px
+  #index-entries.classes
+    :font-size 1.1em
+    ol
+      :padding 0
+    span.nodoc
+      :display none
+    span.nodoc, a
+      :font-weight bold
+    .parent
+      :font-weight normal
+  #index-entries.methods, #search-results.methods
+    li
+      :margin-bottom 0.2em
+      a
+        .method_name
+          :margin-right 0.25em
+        .module_name
+          :color #666666
+        &:hover .module_name
+          :color #ddd
+  
+div.header
+  :font-size 80%
+  :padding .5em 2%
+  :font-family Arial, Helvetica, sans-serif
+  :border-bottom 1px solid silver
+  .name
+    :font-size 1.6em
+    :font-family = !title_font
+    .type
+      :color = !light_text
+      :font-size 80%
+      :font-variant small-caps
+  h1.name
+    :font-size 2.2em
+  .paths, .last-update, .parent
+    :color = !light_text
+  .last-update .datetime
+    :color = !light_text - 30
+  .parent
+    :margin-top .3em
+    strong
+      :font-weight normal
+      :color = !light_text - 30
+
+#content
+  :padding 12px 2%
+  div.class &
+    :position relative
+    :width 72%
+  
+  pre, .method .synopsis
+    :font = !code_font
+  pre
+    :color black
+    :background #eee
+    :border 1px solid silver
+    :padding .5em .8em
+    :overflow auto
+  p, li, dl
+    code, tt
+      :font = !code_font
+      :background #ffffe3
+      :padding 2px 3px
+      :line-height 1.4
+  h1, h2, h3, h4, h5, h6
+    code, tt
+      :font-size 1.1em
+
+  #text
+    :position relative
+  
+  #description
+    // :max-width 60em
+    p
+      :margin-top .5em
+    h1, h2, h3, h4, h5, h6
+      :font-family = !title_font
+    h1
+      :font-size 2.2em
+      :margin-bottom .2em
+      :border-bottom 3px double #d8d8d8
+      :padding-bottom .1em
+    h2
+      :font-size 1.8em
+      :color = !dark_blue_text
+      :margin .8em 0 .3em 0
+    h3
+      :font-size 1.6em
+      :margin .8em 0 .3em 0
+      :color = !light_text
+    h4
+      :font-size 1.4em
+      :margin .8em 0 .3em 0
+    h5
+      :font-size 1.2em
+      :margin .8em 0 .3em 0
+      :color = !dark_blue_text
+    h6
+      :font-size 1.0em
+      :margin .8em 0 .3em 0
+      :color = !light_text
+
+  #description, .method .description
+    ul, ol
+      :margin .8em 0
+      :padding-left 1.5em
+    ol
+      :list-style decimal
+      li
+        :white-space normal
+
+#method-list
+  :position absolute
+  :top 0px
+  :right -33%
+  :width 28%
+  :background #eee
+  :border 1px solid silver
+  :padding .4em 1%
+  :overflow hidden
+  h2
+    :font-size 1.3em
+  h3
+    :font-variant small-caps
+    :text-transform capitalize
+    :font-family = !title_font
+    :color #666
+    :font-size 1.1em
+  ol
+    :padding 0 0 .5em .5em
+
+#context
+  :border-top 1px dashed silver
+  :margin-top 1em
+  :margin-bottom 1em
+
+#context, #section
+  h2
+    :font = "small-caps 1.2em" !title_font
+    :color #444
+    :margin 1em 0 .2em 0
+
+#methods
+  .method
+    :border 1px solid silver
+    :margin-top .5em
+    :background #eee
+    .synopsis
+      :color black
+      :background silver
+      :padding .2em 1em
+      .name
+        :font-weight bold
+      a
+        :text-decoration none
+    .description
+      :padding 0 1em
+      pre
+        :background #f8f8f8
+    .source
+      :margin .5em 0
+    .source-toggle
+      :font-size 85%
+      :margin-left 1em
+  .public-class
+    :background #ffffe4
+  .public-instance .synopsis
+    :color #eee
+    :background = !light_link
+
+#content .method .source pre
+  :background #262626
+  :color #ffdead
+  :margin 1em
+  :padding 0.5em
+  :border 1px dashed #999
+  :overflow auto
+
+  .ruby-constant
+    :color #7fffd4
+    :background transparent
+
+  .ruby-keyword
+    :color #00ffff
+    :background transparent
+
+  .ruby-ivar
+    :color #eedd82
+    :background transparent
+
+  .ruby-operator
+    :color #00ffee
+    :background transparent
+
+  .ruby-identifier
+    :color #ffdead
+    :background transparent
+
+  .ruby-node
+    :color #ffa07a
+    :background transparent
+
+  .ruby-comment
+    :color #b22222
+    :font-weight bold
+    :background transparent
+
+  .ruby-regexp
+    :color #ffa07a
+    :background transparent
+
+  .ruby-value
+    :color #7fffd4
+    :background transparent
