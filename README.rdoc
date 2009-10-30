@@ -1,10 +1,10 @@
 = Blacklight 
 
-Please see {README_PROJECT.rdoc} for main information about this project and plugin.
+Please see {README_PROJECT.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/README_PROJECT.rdoc] for main information about this project and plugin.
 
-Please see {PRE-REQUISITES.rdoc}for pre-requisites Blacklight needs.
+Please see {PRE-REQUISITES.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/PRE-REQUISITES.rdoc] for pre-requisites Blacklight needs.
 
-Please see {README_SOLR.rdoc} for information about setting up and configuring SOLR (http://lucene.apache.org/solr).
+Please see {README_SOLR.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/README_SOLR.rdoc] for information about setting up and configuring SOLR (http://lucene.apache.org/solr).
 
 
 Note: these instructions apply to releases 2.4.0 and above.
