@@ -1,4 +1,4 @@
-=Blacklight 
+= Blacklight 
 
 Please see {README_PROJECT.rdoc}[link:files/vendor/plugins/blacklight/README_PROJECT_rdoc.html] for main information about this project and plugin.
 
@@ -8,7 +8,7 @@ Please see {README_SOLR.rdoc}[link:files/vendor/plugins/blacklight/README_SOLR_r
 
 
 Note: these instructions apply to releases 2.4.0 and above.
-==How to install Blacklight
+== How to install Blacklight
 
 Blacklight uses a new Rails feature called "templates". To install the Blacklight plugin into a new Rails application, run the following command (be sure to answer all of the installation questions):
 
