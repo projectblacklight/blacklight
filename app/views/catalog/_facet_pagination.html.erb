@@ -1,0 +1,6 @@
+<% unless request.xml_http_request? %><% # dont display the pagination links when request is "ajax" based -%>
+  <div>
+    <%= @pagination.has_previous? ? link_to('previous', catalog_facet_path(params.merge(:offset=>@pagination.previous_offset))) : 'previous' %> | 
+    <%= @pagination.has_next? ? link_to('next', catalog_facet_path(params.merge(:offset=>@pagination.next_offset))) : 'next' %>
+  </div>
+<% end %>

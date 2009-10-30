@@ -1,0 +1,59 @@
+<div id="appliedParams">
+
+	<h3>You searched for:<%= image_tag "magnifying_glass.gif", :alt=>"search icon", :plugin=>'blacklight' %></h3>
+
+	<span id="appliedQueries">
+		<% if ! localized_params[:q].blank? %>
+			<span class="appliedFilter">
+				<span class="first">
+					<span class="queryName"><%= search_field_label(localized_params) %></span>
+					<span><%= h(localized_params[:q]) %></span>
+				</span>
+				<%= link_to('',
+					catalog_index_path(localized_params.merge(:q=>nil, :action=>'index')),
+					:class=>'btnRemove imgReplace',
+          :alt=>'x'
+				) %>
+				<%= image_tag "checkmark.gif", :alt=>"checkmark", :plugin=>'blacklight' %>
+			</span>
+		<% else %>
+			<span class="appliedFilter"><span class="first"><span>No Keywords</span> </span></span>
+		<% end %>
+	</span>
+
+	<% if localized_params[:f] %>
+		<span id="appliedFilters">
+			<span id = "appliedFiltersList">
+				<% localized_params[:f].each_pair do |facet,values| %>
+					<% values.each do |v| %>
+						<span class="appliedFilter">
+							<span class="first">
+								<span>
+									<span class="filterName"><%= h facet_field_labels[facet] %></span>
+									<span class="filterValue"><%= v %></span>
+								</span>
+							</span>
+							<%= link_to(
+								'',
+								catalog_index_path(remove_facet_params(facet, v, localized_params)),
+								:class=>'btnRemove imgReplace',
+                :alot=>'x'
+							) %>
+							<%= image_tag "checkmark.gif", :alt=>"checkmark", :plugin=>'blacklight' %>
+						</span>
+					<% end %>
+				<% end %>
+			</span>
+		</span>
+	<% end %>
+	
+	<div>
+		<% if params[:action] == 'index' %>
+			<%= page_entries_info @response.docs, :entry_name=>'item' %>
+		<% else %>
+			Showing <%= session[:search][:counter].to_i %> of <%= format_num(session[:search][:total]) %> items from your search.
+		<% end %>
+		<%=link_to "Start&nbsp;over&thinsp;", catalog_index_path, :id=>"startOverLink" %>
+	</div>
+	
+</div>

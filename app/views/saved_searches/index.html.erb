@@ -1,0 +1,27 @@
+<h1>Saved Searches</h1>
+
+<%- if current_user.blank? -%>
+  
+  <h2>Please log in to see your saved searches.</h2>
+  
+<%- elsif @searches.blank? -%>
+  
+  <h2>You have no saved searches</h2>
+  
+<%- else -%>
+  <p>
+    <%= link_to "Clear Saved Searches", clear_saved_searches_path, :method => :delete, :confirm => "Clear your saved searches?" %>
+  </p>
+
+  <h2>Your saved searches</h2>
+  <table class="zebra">
+  <%- @searches.each do |search| -%>
+    <tr>
+      <td><%= link_to_previous_search(search.query_params) %></td>
+      <td><%= link_to "delete", saved_search_path(search), :method => :delete, :confirm => "Delete item?" %></td>
+    </tr>
+  <%- end -%>
+  </table>
+
+<%- end -%>
+

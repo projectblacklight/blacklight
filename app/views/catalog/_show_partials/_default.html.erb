@@ -1,0 +1,18 @@
+<%# default partial to display solr document fields in catalog show view -%>
+<dl class="defList">
+  <% document_show_fields.each do |solr_fname| -%>
+    <% if document[solr_fname] %>
+      <% if document[solr_fname].is_a?(Array) %>
+        <dt><%= document_show_field_labels[solr_fname]%></dt><dd>
+        <% document[solr_fname].each do |val| %>
+          <%= val %><%= "<br/>" unless val == document[solr_fname].last %>
+        <% end %>
+        </dd>
+      <% else %>
+        <dt><%= document_show_field_labels[solr_fname]%></dt>
+        <dd><%= document[solr_fname] %></dd>
+      <% end -%>
+    <% end -%>
+  <% end -%>
+
+</dl>

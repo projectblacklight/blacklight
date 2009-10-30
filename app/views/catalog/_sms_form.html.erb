@@ -1,0 +1,26 @@
+<% carriers = 
+{
+'Please select your carrier' => '',
+'AT&T' => 'att',
+'Verizon' => 'verizon',
+'T Mobile' => 'tmobile',
+'Sprint' => 'sprint',
+'Nextel' => 'nextel',
+'Virgin Mobile' => 'vmobile',
+'Alltel' => 'alltel',
+'Cricket' => 'cricket'
+}
+%>
+<div class="lightboxTitle">
+  <div class="lightboxBack">
+    <%= link_to "Close [X]", catalog_path(@document.id), {:class => "lightboxLink", :name => 'sms'} %>
+  </div>
+  SMS This
+</div>
+<% form_tag url_for(:action => 'send_email_record', :style => 'sms'), :id => 'sms_form', :method => :post do %>
+  <%= label_tag(:to, "Phone Number:") %><br/>
+  <%= text_field_tag :to %><br/>
+  <%= label_tag(:carrier, "Carrier:") %><br/>
+  <%= select_tag(:carrier, options_for_select(carriers, '')) %><br/>
+  <%= submit_tag "Send" %>
+<% end %>

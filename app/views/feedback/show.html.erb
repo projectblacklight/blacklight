@@ -1,0 +1,20 @@
+<h1>Send Us Feedback</h1>
+
+<% unless @errors.empty? %>
+  <strong>Please fix the following form errors:</strong>
+  <ul class="errors">
+  <% @errors.each do |msg| %>
+    <li><%= msg %></li>
+  <% end %>
+  </ul>
+<% end %>
+
+<% form_tag do %>
+  <fieldset>
+    <div class="row"><%= label_tag 'Your Name' %> <%= text_field_tag :name, params[:name] %></div>
+    <div class="row"><%= label_tag 'Your Email' %> <%= text_field_tag :email, params[:email] %></div>
+    <div class="row"><%= label_tag 'Your Message' %> <%= text_area_tag :message, params[:message] %></div>
+    <%#= show_simple_captcha(:image_style => 'random', :label => "Enter the characters you see into the text field") %>
+    <div class="row"><%= label_tag '' %><%= submit_tag 'Send!' %></div>
+  </fieldset>
+<% end %>

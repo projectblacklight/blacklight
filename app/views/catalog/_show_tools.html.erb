@@ -1,0 +1,19 @@
+<% if @document.marc %>
+  <ul class="tools">
+    <li>
+       <%= link_to "Cite This", citation_catalog_path(@document.id), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
+    </li>
+    <li>
+      <%= link_to "Export to RefWorks", "http://www.refworks.com/express/expressimport.asp?vendor=#{application_name}&filter=MARC%20Format&encoding=65001&url=#{catalog_path(@document.id, :format => 'refworks', :only_path => false)}" %>
+    </li>
+    <li>
+      <%= link_to "Export to EndNote", catalog_path(@document.id, :format => 'endnote') %>
+    </li>
+    <li>
+       <%= link_to "Email This", email_catalog_path(@document.id), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %>
+    </li>
+    <li>
+       <%= link_to "SMS This", sms_catalog_path(@document.id), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
+    </li>
+  </ul>
+<% end %>

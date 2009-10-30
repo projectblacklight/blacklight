@@ -1,0 +1,18 @@
+<% sidebar_items << capture do %>
+  <ul>
+    <% @document.ead.toc.each do |node| %>
+      <li><%= link_to_unless_current node['label'], catalog_path(node['id']) %></li>
+      <% unless node['children'].empty? %>
+        <ul>
+        <% node['children'].each do |child| %>
+          <li><%= link_to_unless_current child['label'], catalog_path(child['id']) %></li>
+        <% end %>
+        <ul>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= @document[:xml_display] %>
+
+<% # xslt 'catalog/_show_partials/_ead/show.xsl', @document[:xml_display] %>

@@ -1,0 +1,11 @@
+<%# default partial to display solr document fields in catalog index view -%>
+<dl class="defList">
+  
+  <% index_field_names.each do |solr_fname| -%>
+    <% if document.get solr_fname %>
+        <dt><%= h index_field_labels[solr_fname]%></dt>
+        <dd><%= h document.get(solr_fname) %></dd>
+    <% end -%>
+  <% end -%>
+
+</dl>

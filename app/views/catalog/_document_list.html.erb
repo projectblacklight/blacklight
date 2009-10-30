@@ -1,0 +1,32 @@
+<% # container for all documents in index view -%>
+<div id="documents">
+  
+  <% # loop thru each doc -%>
+  <% @response.docs.each_with_index do |document,counter| %>
+
+    <% # container for a single doc -%>
+    <div class="document">
+      
+      <% # header bar for doc items in index view -%>
+      <div class="documentHeader yui-g">
+        
+        <% # list controls for items/docs -%>
+        <div class="yui-u documentFunctions">
+          <%= render :partial=>'bookmark_control', :locals=>{:document=>document} %>
+        </div>
+        
+        <% # main title container for doc partial view -%>
+
+        <div class="yui-u">
+          <h3 class="index_title"><%= counter + 1 + @response.params[:start].to_i %>. <%= link_to_document document, :label=>document_show_link_field, :counter => (counter + 1 + @response.params[:start].to_i) %></h3>
+        </div>
+        
+      </div>
+      
+      <% # main container for doc partial view -%>
+      <%= render_document_partial document, :index %>
+
+    </div>
+    
+  <% end %>
+</div>

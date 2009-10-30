@@ -1,0 +1,4 @@
+development:
+  url: http://127.0.0.1:8888/solr
+test:
+  url: http://127.0.0.1:8888/solr

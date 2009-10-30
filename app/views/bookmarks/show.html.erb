@@ -1,0 +1,18 @@
+Showing Bookmark: <%= h @bookmark.title %>
+
+<% sidebar_items << capture do %>
+  <%= link_to '<< back to my bookmarks', bookmarks_path %>
+<% end %>
+
+<%= link_to 'edit', edit_object_path %>
+
+<dl>
+	<dt>Title</dt>
+	<dd><%= h @bookmark.title %></dd>
+	
+	<dt>Tags</dt>
+	<dd><%= h @bookmark.tag_list %></dd>
+	
+	<dt>Notes</dt>
+	<dd><%= h @bookmark.notes %></dd>
+</dl>

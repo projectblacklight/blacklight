@@ -1,0 +1,7 @@
+<%- if @document.marc.marc and ! @document.marc.marc['245'].nil? -%>
+<%= @document.marc.marc['245']['a'] unless @document.marc.marc['245']['a'].nil? -%>
+<%- end -%>
+<%- if @document.marc.marc and ! @document.marc.marc['100'].nil? -%>
+<%= " by #{@document.marc.marc['100']['a']}" unless @document.marc.marc['100']['a'].nil? %>
+<% end -%>
+Link: <%= catalog_path(@document.id, :only_path => false, :host => @host) %>

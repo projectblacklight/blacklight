@@ -1,0 +1,41 @@
+<% @page_title = "#{document_show_html_title} - #{application_name}" %>
+
+<%= render 'constraints', :localized_params=>session[:search] %>
+
+<%# this should be in a partial -%>
+<div class="yui-g">
+	<div class="yui-u first">
+	  <%= render 'previous_next_doc' %>
+  </div>
+	<div class="yui-u">
+		
+	</div>
+</div>
+<% sidebar_items << capture do %>
+  <p><%= link_back_to_catalog %></p>
+<% end %>
+<%# this should be in a partial -%>
+<div id="document">
+  <div id="doc_<%= @document[:id] %>">
+    <h1><%= document_heading %></h1>
+    <div class="tools"><%= render :partial => 'show_tools' %></div>
+    <div class="document">
+      <%= render_document_partial @document, :show %>
+    </div>
+  </div>
+</div>
+
+<%= render :partial=>'solr_request' %>
+
+<% if @document.marc %>
+  <%= @document.marc.to_zotero(document_partial_name(@document)) %>
+  <div class="lightboxContent" id="citation" style="display:none;">
+    <%= render :partial => 'citation' %>
+  </div>
+  <div class="lightboxContent" id="email" style="display:none;">
+    <%= render :partial => 'email_form' %>
+  </div>
+  <div class="lightboxContent" id="sms" style="display:none;">
+    <%= render :partial => 'sms_form' %>
+  </div>
+<% end %>
