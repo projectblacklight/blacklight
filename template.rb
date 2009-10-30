@@ -5,10 +5,10 @@ puts "\n* Blacklight Rails Template \n\n"
 bl_dirname = 'blacklight'
 
 # install the blacklight plugin - remove this when the github move is complete!
-plugin :blacklight, :svn => 'http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight'
+#plugin :blacklight, :svn => 'http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight'
 
 # uncomment next line when the github move is complete!
-#plugin :blacklight, :git=>'git://github.com/projectblacklight/blacklight-plugin.git'
+plugin :blacklight, :git=>'git://github.com/projectblacklight/blacklight-plugin.git'
 
 # mv the blacklight-plugin to #{bl_dirname}
 # uncomment next line when github move is complete!
