@@ -4,7 +4,7 @@ puts "\n* Blacklight Rails Template \n\n"
 # We do this because the repo name is "blacklight-plugin", which we don't want as the directory name.
 bl_dirname = 'blacklight'
 
-tag, branch = nil
+tag = branch = nil
 
 # install the blacklight plugin - remove this when the github move is complete!
 #plugin :blacklight, :svn => 'http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight'
@@ -26,12 +26,12 @@ def git_export repo, new_dir_name=nil, opts={}
   if opts[:branch]
     run "cd #{dir_name} && git checkout --track -b #{opts[:branch]} origin/#{opts[:branch]}"
   elsif opts[:tag]
-    run "cd #{dir_name} && git checkout opts[:tag]"
+    run "cd #{dir_name} && git checkout #{opts[:tag]}"
   end
   FileUtils.rm_r "#{dir_name}/.git", :force=>true
 end
 
-git_export 'git://github.com/projectblacklight/blacklight.git', 'vendor/plugins/blacklight', :branch=>branch
+git_export 'git://github.com/projectblacklight/blacklight.git', 'vendor/plugins/blacklight', :tag=>tag
 
 # mv the blacklight-plugin to #{bl_dirname}
 # uncomment next line when github move is complete!
