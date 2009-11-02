@@ -4,11 +4,34 @@ puts "\n* Blacklight Rails Template \n\n"
 # We do this because the repo name is "blacklight-plugin", which we don't want as the directory name.
 bl_dirname = 'blacklight'
 
+tag, branch = nil
+
 # install the blacklight plugin - remove this when the github move is complete!
 #plugin :blacklight, :svn => 'http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight'
 
 # uncomment next line when the github move is complete!
-plugin :blacklight, :git=>'git://github.com/projectblacklight/blacklight.git'
+#plugin :blacklight, :git=>'git://github.com/projectblacklight/blacklight.git'
+
+# Rails comes with a helper to install plugins but it doesn't give the ability to 
+# install a plugin from a git branch. Rails also comes with a Git.clone -- but
+# the branch option is broken -- this is why the git_export helper was created.
+# git_export expects a full git repo url, and an optional branch name.
+# It will clone the repo, checkout the remote branch and then remote the .git file.
+#
+# Example: git_export 'git://github.com/projectblacklight/blacklight.git', 'release-2.4'
+#
+def git_export repo, new_dir_name=nil, opts={}
+  dir_name = new_dir_name || File.basename(repo, '.git')
+  run "git clone #{repo} #{new_dir_name}"
+  if opts[:branch]
+    run "cd #{dir_name} && git checkout --track -b #{opts[:branch]} origin/#{opts[:branch]}"
+  elsif opts[:tag]
+    run "cd #{dir_name} && git checkout opts[:tag]"
+  end
+  FileUtils.rm_r "#{dir_name}/.git", :force=>true
+end
+
+git_export 'git://github.com/projectblacklight/blacklight.git', 'vendor/plugins/blacklight', :branch=>branch
 
 # mv the blacklight-plugin to #{bl_dirname}
 # uncomment next line when github move is complete!
@@ -108,7 +131,7 @@ end
 begin
   if yes? "\n* Would you like to download and configure Apache Solr now?"
     
-    run "git clone git://github.com/projectblacklight/blacklight-jetty.git jetty && rm -Rf jetty/.git"
+    git_export 'git://github.com/projectblacklight/blacklight-jetty.git', 'jetty', :tag=>tag
     
     puts "\n* To start solr:
     cd jetty
@@ -116,7 +139,7 @@ begin
     "
     
     if yes? "\n* Would you like to download a sample dataset to load into your Blacklight installation?"
-      run "git clone git://github.com/projectblacklight/blacklight-data.git data && rm -Rf data/.git"
+      git_export "git://github.com/projectblacklight/blacklight-data.git", 'data', :tag=>tag
       puts "\n* Copying SolrMarc configs to config/SolrMarc"
       FileUtils.cp_r 'vendor/plugins/blacklight/config/SolrMarc', 'config/SolrMarc'
       properties_file = File.read 'config/SolrMarc/config.properties'
