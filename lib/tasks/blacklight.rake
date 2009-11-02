@@ -1,5 +1,13 @@
 namespace :build do
   
+  # remove remote branch:
+  #   git push origin :heads/<branch-name>
+  # remove local branch
+  #   git branch -D <branch-name>
+  # remove remote tag:
+  #   git push origin :refs/tags/<tag-name>
+  # remove local tag:
+  #   git tag -d <tag-name>
   task :release do
     version = ENV['RELEASE_VERSION'].to_s.empty? ? nil : ENV['RELEASE_VERSION']
     raise "A RELEASE_VERSION is required." unless version
