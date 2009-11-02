@@ -30,7 +30,7 @@ namespace :build do
   
   task :undo_release do
     name = release_name
-    branch_cmd = "git push origin :heads/#{name} && git branch -D origin/#{name}"
+    branch_cmd = "git push origin :heads/#{name} && git branch -D #{name}"
     tag_cmd = "git tag -d #{name} && git push origin :refs/tags/#{name}"
     `#{branch_cmd} && #{tag_cmd}`
   #  `cd ../blacklight-jetty && #{tag_cmd}`
