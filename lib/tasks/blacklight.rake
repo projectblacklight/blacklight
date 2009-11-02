@@ -1,16 +1,15 @@
 namespace :build do
   
   task :release do
-    version = ENV['RELEASE_VERSION'].to_s.empty? ? nil : ENV['RELEASE_VERSION']
-    raise "A RELEASE_VERSION is required." unless version
-    name = "release-#{version}"
-    `git branch #{name}`
-    template = File.read "template.rb"
-    File.open("template.rb", "w") {|f| f.puts template.sub(/tag = branch = nil/, "tag = branch = '#{name}'") }
-    `git commit -a -m 'changed template to work with #{name}'`
-    `git push origin #{name}`
-    `git tag -a -m 'tag for #{name}' && git push origin tag #{name}`
-    `git checkout master`
+    # version = ENV['RELEASE_VERSION'].to_s.empty? ? nil : ENV['RELEASE_VERSION']
+    # raise "A RELEASE_VERSION is required." unless version
+    # name = "release-#{version}"
+    # `git branch #{name}`
+    # template = File.read "template.rb"
+    # File.open("template.rb", "w") {|f| f.puts template.sub(/tag = branch = nil/, "tag = branch = '#{name}'") }
+    # `git commit -a -m 'changed template to work with #{name}'`
+    # `git push origin #{name}`
+    # `git tag -a -m 'tag for #{name}' #{name} && git push origin tag #{name}`
   end
   
 end
