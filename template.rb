@@ -5,7 +5,7 @@ puts "\n* Blacklight Rails Template \n\n"
 bl_dirname = 'blacklight'
 
 branch = '2.4-stable'
-tag = 'v2.4'
+tag = 'v2.4.0'
 
 # install the blacklight plugin - remove this when the github move is complete!
 #plugin :blacklight, :svn => 'http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight'
