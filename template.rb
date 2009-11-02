@@ -8,7 +8,7 @@ bl_dirname = 'blacklight'
 #plugin :blacklight, :svn => 'http://blacklight.rubyforge.org/svn/trunk/rails/vendor/plugins/blacklight'
 
 # uncomment next line when the github move is complete!
-plugin :blacklight, :git=>'git://github.com/projectblacklight/blacklight-plugin.git'
+plugin :blacklight, :git=>'git://github.com/projectblacklight/blacklight.git'
 
 # mv the blacklight-plugin to #{bl_dirname}
 # uncomment next line when github move is complete!
