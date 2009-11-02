@@ -24,8 +24,8 @@ namespace :build do
     `git push origin #{name}`
     tag_cmd = "git tag -a -m 'tag for #{name}' #{name} && git push origin tag #{name}"
     `#{tag_cmd}`
-    `cd ../blacklight-jetty && #{tag_cmd}`
-    `cd ../blacklight-data && #{tag_cmd}`
+  #  `cd ../blacklight-jetty && #{tag_cmd}`
+  #  `cd ../blacklight-data && #{tag_cmd}`
   end
   
   task :undo_release do
@@ -33,8 +33,8 @@ namespace :build do
     branch_cmd = "git push origin :heads/#{name} && git branch -D origin/#{name}"
     tag_cmd = "git tag -d #{name} && git push origin :refs/tags/#{name}"
     `#{branch_cmd} && #{tag_cmd}`
-    `cd ../blacklight-jetty && #{tag_cmd}`
-    `cd ../blacklight-data && #{tag_cmd}`
+  #  `cd ../blacklight-jetty && #{tag_cmd}`
+  #  `cd ../blacklight-data && #{tag_cmd}`
   end
   
 end
