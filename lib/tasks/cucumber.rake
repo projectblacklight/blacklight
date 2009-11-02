@@ -1,3 +1,5 @@
+blacklight_plugin_dir = "#{File.dirname(__FILE__)}/../.."
+
 $LOAD_PATH.unshift(RAILS_ROOT + '/vendor/plugins/cucumber/lib') if File.directory?(RAILS_ROOT + '/vendor/plugins/cucumber/lib')
 
 begin
@@ -6,7 +8,7 @@ begin
   Cucumber::Rake::Task.new(:features) do |t|
     t.fork = true
     t.rcov = true
-    t.rcov_opts =   IO.readlines("#{RAILS_ROOT}/spec/rcov.opts").map {|l| l.chomp.split " "}.flatten
+    t.rcov_opts =   IO.readlines("#{blacklight_plugin_dir}/spec/rcov.opts").map {|l| l.chomp.split " "}.flatten
     t.cucumber_opts = %w{--format pretty}
   end
   task :features => 'db:test:prepare'
