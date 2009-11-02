@@ -13,7 +13,7 @@ Note: these instructions apply to releases 2.4.0 and above.
 Blacklight uses a new Rails feature called "templates". To install the Blacklight plugin into a new Rails application, run the following command (be sure to answer all of the installation questions):
 
 ===Installing Blacklight 2.4 (recommended):
-  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/release-2.4/template.rb
+  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/2.4-stable/template.rb
 
 === Installing the "trunk", or master branch:
   rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/master/template.rb
