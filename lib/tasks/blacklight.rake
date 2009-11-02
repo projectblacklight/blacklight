@@ -1,43 +1,4 @@
-namespace :build do
-  
-  def release_name
-    version = ENV['RELEASE_VERSION'].to_s.empty? ? nil : ENV['RELEASE_VERSION']
-    raise "A RELEASE_VERSION is required." unless version
-    "release-#{version}"
-  end
-  
-  # remove remote branch:
-  #   git push origin :heads/<branch-name>
-  # remove local branch
-  #   git branch -D <branch-name>
-  # remove remote tag:
-  #   git push origin :refs/tags/<tag-name>
-  # remove local tag:
-  #   git tag -d <tag-name>
-  desc "Creates a new modified branch and tag using <release-$RELEASE_VERSION>"
-  task :release do
-    name = release_name
-    `git branch #{name}`
-    template = File.read "template.rb"
-    File.open("template.rb", "w") {|f| f.puts template.sub(/tag = branch = nil/, "tag = branch = '#{name}'") }
-    `git commit -a -m 'changed template to work with #{name}'`
-    `git push origin #{name}`
-    tag_cmd = "git tag -a -m 'tag for #{name}' #{name} && git push origin tag #{name}"
-    `#{tag_cmd}`
-    `cd ../blacklight-jetty && #{tag_cmd}`
-    `cd ../blacklight-data && #{tag_cmd}`
-  end
-  
-  task :undo_release do
-    name = release_name
-    branch_cmd = "git push origin :heads/#{name} && git branch -D #{name}"
-    tag_cmd = "git tag -d #{name} && git push origin :refs/tags/#{name}"
-    `#{branch_cmd} && #{tag_cmd}`
-    `cd ../blacklight-jetty && #{tag_cmd}`
-    `cd ../blacklight-data && #{tag_cmd}`
-  end
-  
-end
+
 
 # Rake tasks for Blacklight plugin
 
