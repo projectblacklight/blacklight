@@ -4,7 +4,7 @@ namespace :build do
     version = ENV['RELEASE_VERSION'].to_s.empty? ? nil : ENV['RELEASE_VERSION']
     raise "A RELEASE_VERSION is required." unless version
     name = "release-#{version}"
-    `git branch -b #{name}`
+    `git branch #{name}`
     template = File.read "template.rb"
     File.open("template.rb", "w") {|f| f.puts template.sub(/tag = branch = nil/, "tag = branch = '#{name}'") }
     `git commit -a -m 'changed template to work with #{name}'`
