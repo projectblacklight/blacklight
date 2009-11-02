@@ -106,9 +106,9 @@ end
 
 # ask about installing apache solr
 begin
-  if yes? "\n* Would you like to download and configure Apache Solr now? (Linux only)"
+  if yes? "\n* Would you like to download and configure Apache Solr now?"
     
-    run "svn export http://blacklight.rubyforge.org/svn/trunk/jetty jetty"
+    run "git clone git://github.com/projectblacklight/blacklight-jetty.git jetty && rm -Rf jetty/.git"
     
     puts "\n* To start solr:
     cd jetty
@@ -116,14 +116,14 @@ begin
     "
     
     if yes? "\n* Would you like to download a sample dataset to load into your Blacklight installation?"
-      run "svn export http://blacklight.rubyforge.org/svn/trunk/data/test_data.utf8.mrc test_data.utf8.mrc"
+      run "git clone git://github.com/projectblacklight/blacklight-data.git data && rm -Rf data/.git"
       puts "\n* Copying SolrMarc configs to config/SolrMarc"
       FileUtils.cp_r 'vendor/plugins/blacklight/config/SolrMarc', 'config/SolrMarc'
-      properties_file = File.read('config/SolrMarc/config.properties')
-      properties_file.gsub!(/^solr\.path.*/, 'solr.path = ../../jetty/solr')
+      properties_file = File.read 'config/SolrMarc/config.properties'
+      properties_file.gsub! /^solr\.path.*/, 'solr.path = ../../jetty/solr'
       File.open('config/SolrMarc/config.properties', 'w'){|f|f.puts properties_file}
       puts "\n* To index the test data, make sure solr is running, then execute:
-    rake solr:marc:index MARC_FILE=test_data.utf8.mrc SOLR_WAR_PATH=jetty/webapps/solr.war
+    rake solr:marc:index MARC_FILE=data/test_data.utf8.mrc SOLR_WAR_PATH=jetty/webapps/solr.war
     "
     end
     
