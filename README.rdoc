@@ -18,8 +18,9 @@ If you want to integrate Blacklight search and discovery into another rails app,
 ==Pre-requisites
 Whichever method you choose for installation, be sure you have all the pre-requisites in place. You can find these detailed in {PRE-REQUISITES.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/PRE-REQUISITES.rdoc]
 
-==Installing the demo app
-Instructions for installing the demo app are contained in the file  {README_INSTALLATION.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_INSTALLATION.rdoc]
+
+===Installing Blacklight 2.4 (recommended):
+  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v2.4.0/template.rb
 
 ===Installing Blacklight 2.4 (recommended):
   rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v2.4.1/template.rb
