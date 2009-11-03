@@ -18,7 +18,7 @@ tag = 'v2.4.0'
 # git_export expects a full git repo url, and an optional branch name.
 # It will clone the repo, checkout the remote branch and then remote the .git file.
 #
-# Example: git_export 'git://github.com/projectblacklight/blacklight.git', 'release-2.4'
+# Example: git_export 'git://github.com/projectblacklight/blacklight.git', :tag=>'v2.4.0'
 #
 def git_export repo, new_dir_name=nil, opts={}
   dir_name = new_dir_name || File.basename(repo, '.git')
