@@ -89,7 +89,7 @@ To create a tag for new release, make sure you are in the correct branch by usin
   git checkout 2.4-stable
 
 Now create the tag:
-  git tag -a -m 'tagging for relase v2.4.1' v2.4.1
+  git tag -a -m 'tagging for release v2.4.1' v2.4.1
 
 You can see your new tag by using git-tag:
   git tag -l
