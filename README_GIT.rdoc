@@ -1,7 +1,7 @@
 =Branching and Merging
 ==Overview
 ===master
-Blacklight uses branches in a couple of different ways. First, the "master" branch is the current, "bleeding-edge" branch, similar to a "trunk" in Subversion. This is the normally branch that will become the next major version.
+Blacklight uses branches in a couple of different ways. First, the "master" branch is the current, "bleeding-edge" branch, similar to a "trunk" in Subversion. This is normally the branch that will become the next major version.
 
 ===Release Versioning
 Blacklight uses a "<VERSION>-stable" naming format for creating version based branches. These branches represent a set of features defined by a Blacklight software "roadmap". Tags are then created for individual releases, based on the branch name.
