@@ -85,8 +85,8 @@ You can now push your merged changes to the remote master:
 A tag in Git is a reference to a commit at some point in time. Think of a tag as a timeline pointer. We use tags to create "releases". You can also you "local" tags for your own development.
 
 ==Release tags
-To create a tag for new release, make sure you are in the correct branch by using git-checkout:
-  git checkout <the-branch>
+To create a tag for new release, make sure you are in the correct branch by using git-checkout. For example, you want to create a v2.4.1 release:
+  git checkout 2.4-stable
 
 Now create the tag:
   git tag -a -m 'tagging for relase v2.4.1' v2.4.1
@@ -95,14 +95,14 @@ You can see your new tag by using git-tag:
   git tag -l
 
 To push your tag to the remote repo:
-  git push origin tag <tag-name>
+  git push origin tag v2.4.1
 
 ==Update your tags!
 If another developer has created a new tag, you'll need to update your local tags:
   git fetch --tags
 
 ==Checkout a tag:
-A tag in Git is a reference, much like a branch. So to checkout a tag:
+A tag in Git can be checked-out like a branch, so:
   git checkout <tag-name>
 
 ==Delete a tag:
