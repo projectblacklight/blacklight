@@ -1,0 +1,110 @@
+=Branching and Merging
+==Overview
+===master
+Blacklight uses branches in a couple of different ways. First, the "master" branch is the current, "bleeding-edge" branch, similar to a "trunk" in Subversion. This is the normally branch that will become the next major version.
+
+===Release Versioning
+Blacklight uses a "<VERSION>-stable" naming format for creating version based branches. These branches represent a set of features defined by a Blacklight software "roadmap". Tags are then created for individual releases, based on the branch name.
+
+===Development branches
+A developer can create any arbitrary branch for development. For example, if I needed to update the way Blacklight creates and reads facet URL parameters, I'd create a new branch called "new-url-facets" and make my changes there. At some later point, I'd merge those changes into the master branch.
+
+==Branch and tag naming conventions
+===Branches
+A branch for a major version will use the following naming scheme: <VERSION>-stable. This is the base branch that the release tags will be created from. Continuing development for this branch will depend on the "roadmap" and/or bug fixes. For example, when Blacklight moves to version 2.5, the branch name would be "2.5-stable".
+
+===Tags
+Tags will use the following naming scheme: v<BRANCH-VERSION.MINOR>. For example, the first release of 2.5 would be "v2.5.0". The next release of 2.5 would be tagged "v2.5.1".
+
+==Creating, removing and merging branches
+In order to create a new branch, you'll need to have a local copy of the Blacklight master branch with commit rights. You'll need to be a "committer" and a member of the projectblacklight/blackight repo on github.
+
+If don't already have a local copy, run git-clone:
+  git clone git@github.com:projectblacklight/blacklight.git
+
+If you already have a copy, make sure it's up-to-date:
+  git status
+  # evaluate your local changes
+  # commit
+  git commit -a -m 'your message'
+  # push to master
+  git push origin master
+  # pull from master
+  git pull origin master
+
+To see a list of existing branches, use git-branch:
+  git branch
+
+The branch name with a star will be your active local branch.
+
+To create a new local branch, use git-branch:
+  git branch <branch-name>
+
+Now you can checkout your new branch with git-checkout:
+  git checkout <branch-name>
+
+This is the time to start making your changes/committing: make change, execute "git commit -a -m 'comment-here'". Rinse and repeat. You will be committing to your local branch.
+
+Once you're ready to push your new branch, use git-push:
+  git push origin <branch-name>
+
+That will push the branch to the remote repo.
+
+If you decide that you don't want to push your changes and would rather forget the whole thing, you can remove the local branch by using git-branch:
+  git branch -d <branch-name>
+
+If you've already pushed the branch to the remote repo, you can remove the remote branch by using git-push (notice the colon before "heads"):
+  git push origin :heads/<branch-name>
+
+Say you have your new branch working exactly the way you want, and you'd like to push it back into the master branch. First, **please make sure your tests are all passing**:
+  rake solr:spec
+  rake solr:features
+
+Next, **please add new tests for the code you're adding**.
+
+Once that's all done, commit and push to your branch:
+  git commit -a -m 'my new changes'
+  git push origin <branch-name>
+
+Time to pull your changes into master. First checkout the master branch:
+  git checkout master
+
+Ensure that the master branch is up-to-date with the remote:
+  git pull origin master
+
+Merge your branch into the master branch:
+  git merge <branch-name>
+
+You can now push your merged changes to the remote master:
+  git push origin master
+
+==Tagging
+A tag in Git is a reference to a commit at some point in time. Think of a tag as a timeline pointer. We use tags to create "releases". You can also you "local" tags for your own development.
+
+==Release tags
+To create a tag for new release, make sure you are in the correct branch by using git-checkout:
+  git checkout <the-branch>
+
+Now create the tag:
+  git tag -a -m 'tagging for relase v2.4.1' v2.4.1
+
+You can see your new tag by using git-tag:
+  git tag -l
+
+To push your tag to the remote repo:
+  git push origin tag <tag-name>
+
+==Update your tags!
+If another developer has created a new tag, you'll need to update your local tags:
+  git fetch --tags
+
+==Checkout a tag:
+A tag in Git is a reference, much like a branch. So to checkout a tag:
+  git checkout <tag-name>
+
+==Delete a tag:
+To remove a tag from your local repo:
+  git tag -d <tag-name>
+
+To remove the tag from the remote origin (note the colon before "refs"):
+  git push origin :refs/tags/<tag-name>
