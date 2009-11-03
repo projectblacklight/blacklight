@@ -7,7 +7,7 @@ Blacklight uses branches in a couple of different ways. First, the "master" bran
 Blacklight uses a "<VERSION>-stable" naming format for creating version based branches. These branches represent a set of features defined by a Blacklight software "roadmap". Tags are then created for individual releases, based on the branch name.
 
 ===Development branches
-A developer can create any arbitrary branch for development. For example, if I needed to update the way Blacklight creates and reads facet URL parameters, I'd create a new branch called "new-url-facets" and make my changes there. At some later point, I'd merge those changes into the master branch.
+A developer can create any number of arbitrary branches for development. For example, if I needed to update the way Blacklight creates and reads facet URL parameters, I'd create a new branch called "better-facet-url-params" and make my changes there. At some later point, I'd merge those changes into the master branch.
 
 ==Branch and tag naming conventions
 ===Branches
