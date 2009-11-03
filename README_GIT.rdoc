@@ -11,12 +11,13 @@ A developer can create any number of arbitrary branches for development. For exa
 
 ==Branch and tag naming conventions
 ===Branches
-A branch for a major version will use the following naming scheme: <VERSION>-stable. This is the base branch that the release tags will be created from. Continuing development for this branch will depend on the "roadmap" and/or bug fixes. For example, when Blacklight moves to version 2.5, the branch name would be "2.5-stable".
+A branch for a major version will use the following naming scheme: <VERSION>-stable. This is the base branch that the release tags will be created from. Continuing development for this branch will depend on the "roadmap" and/or version-related bug fixes. For example, when Blacklight moves to version 2.5, the branch name would be "2.5-stable".
 
 ===Tags
-Tags will use the following naming scheme: v<BRANCH-VERSION.MINOR>. For example, the first release of 2.5 would be "v2.5.0". The next release of 2.5 would be tagged "v2.5.1".
+Tags will use the following naming scheme: v<BRANCH-VERSION.MINOR>. For example, the first release tag of 2.5 would be "v2.5.0". The next release of 2.5 would be tagged "v2.5.1".
 
 ==Creating, removing and merging branches
+===Creating
 In order to create a new branch, you'll need to have a local copy of the Blacklight master branch with commit rights. You'll need to be a "committer" and a member of the projectblacklight/blackight repo on github.
 
 If don't already have a local copy, run git-clone:
@@ -35,7 +36,7 @@ If you already have a copy, make sure it's up-to-date:
 To see a list of existing branches, use git-branch:
   git branch
 
-The branch name with a star will be your active local branch.
+The branch marked with a * will be your active local branch.
 
 To create a new local branch, use git-branch:
   git branch <branch-name>
@@ -43,19 +44,21 @@ To create a new local branch, use git-branch:
 Now you can checkout your new branch with git-checkout:
   git checkout <branch-name>
 
-This is the time to start making your changes/committing: make change, execute "git commit -a -m 'comment-here'". Rinse and repeat. You will be committing to your local branch.
+This is the time to start making your changes/committing: make change, run "git commit -a -m 'comment-here'". Rinse and repeat. You will be committing to your local branch.
 
 Once you're ready to push your new branch, use git-push:
   git push origin <branch-name>
 
-That will push the branch to the remote repo.
+... that will push the branch to the remote origin.
 
+===Removing
 If you decide that you don't want to push your changes and would rather forget the whole thing, you can remove the local branch by using git-branch:
   git branch -d <branch-name>
 
 If you've already pushed the branch to the remote repo, you can remove the remote branch by using git-push (notice the colon before "heads"):
   git push origin :heads/<branch-name>
 
+===Merging
 Say you have your new branch working exactly the way you want, and you'd like to push it back into the master branch. First, **please make sure your tests are all passing**:
   rake solr:spec
   rake solr:features
