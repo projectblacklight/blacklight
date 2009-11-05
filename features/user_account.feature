@@ -39,7 +39,8 @@ Feature: User Account
     When I fill in "Login" with "user1"
     When I fill in "Password" with "password"
     And I press "Login"
-    Then I should see "Welcome user1!"    
+    Then I should see "Welcome user1!"
+        
     
   Scenario: Failed Login
     Given user with login "user1" and email "user1@foo.com" and password "password"
@@ -55,4 +56,8 @@ Feature: User Account
     When I follow "Log Out"
     Then I should see "You have successfully logged out."
     
-  
+  Scenario: Link to Profile
+    Given I am logged in as "user1"
+    Then I should see "user1"
+    When I follow "user1"
+    Then I should be on the user profile page

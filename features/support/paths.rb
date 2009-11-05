@@ -22,6 +22,9 @@ module NavigationHelpers
     
     when /the new user page/
       new_user_path
+
+    when /the user profile page/
+      user_path
       
     when /the document page for id (.+)/ 
       catalog_path($1)
