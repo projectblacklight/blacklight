@@ -90,7 +90,8 @@ module Blacklight::SolrHelper
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_response = Blacklight.solr.find solr_doc_params(id, extra_controller_params)
     raise InvalidSolrID.new if solr_response.docs.empty?
-    solr_response
+    document = SolrDocument.new(solr_response.docs.first)
+    [solr_response, document]
   end
   
   # returns a params hash for a single facet field solr query.

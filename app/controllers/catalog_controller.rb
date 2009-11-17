@@ -36,8 +36,7 @@ class CatalogController < ApplicationController
   
   # get single document from the solr index
   def show
-    @response = get_solr_response_for_doc_id
-    @document = SolrDocument.new(@response.docs.first)
+    @response, @document = get_solr_response_for_doc_id
     respond_to do |format|
       format.html {setup_next_and_previous_documents}
       format.xml  {render :xml => @document.marc.to_xml}
@@ -87,24 +86,20 @@ class CatalogController < ApplicationController
   
   # citation action
   def citation
-    @response = get_solr_response_for_doc_id
-    @document = SolrDocument.new(@response.docs.first)
+    @response, @document = get_solr_response_for_doc_id
   end
   # Email Action (this will only be accessed when the Email link is clicked by a non javascript browser)
   def email
-    @response = get_solr_response_for_doc_id
-    @document = SolrDocument.new(@response.docs.first)
+    @response, @document = get_solr_response_for_doc_id
   end
   # SMS action (this will only be accessed when the SMS link is clicked by a non javascript browser)
   def sms 
-    @response = get_solr_response_for_doc_id
-    @document = SolrDocument.new(@response.docs.first)
+    @response, @document = get_solr_response_for_doc_id
   end
   
   # action for sending email.  This is meant to post from the form and to do processing
   def send_email_record
-    @response = get_solr_response_for_doc_id
-    @document = SolrDocument.new(@response.docs.first)
+    @response, @document = get_solr_response_for_doc_id
     if params[:to]
       from = request.host # host w/o port for From address (from address cannot have port#)
       host = request.host
