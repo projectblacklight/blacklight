@@ -256,8 +256,7 @@ describe 'Blacklight::SolrHelper' do
     before(:all) do
       @doc_id = '2007020969'
       @bad_id = "redrum"
-      @response2 = @solr_helper.get_solr_response_for_doc_id(@doc_id)
-      @document = @response2.docs.first
+      @response2, @document = @solr_helper.get_solr_response_for_doc_id(@doc_id)
     end
 
     it "should raise Blacklight::SolrHelper::InvalidSolrID for an unknown id" do
