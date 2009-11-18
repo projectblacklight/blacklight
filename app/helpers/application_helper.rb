@@ -6,6 +6,28 @@ module ApplicationHelper
   def application_name
     'Blacklight'
   end
+
+  # Over-ride in local app if you want to specify your own
+  # stylesheets. Want to add your own stylesheets onto the defaults
+  # from plugin?
+  # alias_method_chain :render_stylesheet_includes :local
+  # def render_stylesheet_includes_with_local
+  #   render_stylesheet_includes_without_local + stylesheet_link_tag "mine"
+  # end
+  def render_stylesheet_includes
+    stylesheet_link_tag 'yui', 'application', :plugin=>:blacklight, :media=>'all' 
+  end
+  
+  # Over-ride in local app if you want to specify your own
+  # js. Want to add your own stylesheets onto the defaults
+  # from plugin?
+  # alias_method_chain :render_js_includes :local
+  # def render_js_includes_with_local
+  #   render_js_includes_without_local + javascript_include_tag "mine"
+  # end
+  def render_js_includes
+    javascript_include_tag 'jquery-1.3.1.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
+  end
   
   # collection of items to be rendered in the @sidebar
   def sidebar_items
@@ -39,6 +61,10 @@ module ApplicationHelper
   # Used in the show view for displaying the main solr document heading
   def document_heading
     @document[Blacklight.config[:show][:heading]]
+  end
+  def render_document_heading
+    '<h1>' + document_heading + '</h1>'
+    return ""
   end
   
   # Used in the show view for setting the main html document title
