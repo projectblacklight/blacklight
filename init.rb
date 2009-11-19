@@ -14,8 +14,8 @@ config.gem 'nokogiri', :version=>'1.3.3'
 
 config.gem 'mislav-will_paginate', :lib=>'will_paginate', :version=>'2.3.8', :source=>'http://gems.github.com'
 
-config.gem 'rsolr', :lib=>'rsolr', :version=>'0.9.6', :source=>'http://gemcutter.org'
-config.gem 'rsolr-ext', :lib=>'rsolr-ext', :version=>'0.9.6.4', :source=>'http://gemcutter.org'
+config.gem 'rsolr', :lib=>'rsolr', :version=>'0.11.0', :source=>'http://gemcutter.org'
+config.gem 'rsolr-ext', :lib=>'rsolr-ext', :version=>'0.11.1', :source=>'http://gemcutter.org'
 
 config.after_initialize do
   require 'will_paginate_link_renderer'   # in local ./lib
