@@ -351,12 +351,4 @@ module ApplicationHelper
     submit_function << "f.submit();"
   end
   
-  # performs an XSLT transform
-  def xslt(stylesheet_file_path, document, params={})
-    require 'nokogiri'
-    document = Nokogiri::XML(document) if document.is_a?(String)
-    stylesheet = Nokogiri::XSLT.parse(render(stylesheet_file_path))
-    stylesheet.apply_to(Nokogiri::XML(document.to_xml), params)
-  end
-  
 end
