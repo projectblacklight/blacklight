@@ -40,7 +40,7 @@ namespace :solr do
   task :spec do
     # wrap tests with a test-specific Solr server
     error = TestSolrServer.wrap(SOLR_PARAMS) do
-rm_f "coverage.data"
+      rm_f "coverage.data"
       Rake::Task["rake:spec"].invoke 
       #puts `ps aux | grep start.jar` 
     end
