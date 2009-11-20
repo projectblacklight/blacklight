@@ -22,7 +22,7 @@ Whichever method you choose for installation, be sure you have all the pre-requi
 Instructions for installing the demo app are contained in the file DEMO_README
 
 ==Installing the plugin into an existing rails app
-Instructions for installing the demo app are contained in the plugin's {README.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/README.rdoc]
+Instructions for installing the demo app are contained in the plugin's {README.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_INSTALLATION.rdoc]
 
 ==Running solr
 You'll also want some information about how Blacklight expects Apache SOLR ( http://lucene.apache.org/solr ) to run, which you can find in {README_SOLR.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_SOLR.rdoc]
