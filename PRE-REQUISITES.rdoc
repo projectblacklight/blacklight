@@ -63,20 +63,6 @@ You will need Rails gem version 2.3.2.  You can check if you have it installed:
   
 If you need to install rails 2.3.4:
   sudo gem install -v=2.3.4 rails
-
-You will need libxml and libxslt installed for the ruby-xslt and nokogiri gems.
-
-  On Red Hat Fedora the command is: 
-    sudo yum install libxml2-devel libxslt-devel
- 
-Note: the curb gem can be used for Blacklight SOLR requests, instead of net::http,
-which can be used by the rsolr gem. If you'd rather use curb than net::http, you need to make sure curl is installed.
-
-  On Red Hat Fedora the command is: 
-    sudo yum install curl curl-devel
-
-and then install the curb gem:
-  sudo gem install curb
 	
 ===Database dependencies
 You can choose to use any database that has ruby on rails bindings, but sqlite and MySQL are used most commonly and are documented here. 

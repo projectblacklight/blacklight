@@ -37,17 +37,6 @@ Once you start it you can run your Rails app and it will use this SOLR index (ex
 Now navigate to localhost:3000 and you should have a working demo blacklight application with the test data set!
 Possible Issues with Gems
 
-ruby-xslt gem: installations on Windows machines may have difficulties with ruby-xslt. This gem is only used for indexing EAD files. To remove this dependency, in bl-demo/vendor/plugins/blacklight/init.rb comment out the line:
-
-  config.gem 'ruby-xslt', :lib=>'xml/xslt' # you may need to install libxml and libxslt
-
-by inserting "#" at the beginning of the line.
-
-Note: as of 2009-08-10, there have been some reports of problems with gems. If you are seeing errors relating to gems, you may need to uninstall other versions of gems if they are already installed, for example:
-
-  sudo gem uninstall nokogiri
-  sudo gem uninstall ruby-xslt
-
 Be aware of gems that may have been inadvertently installed in your (home)/.gems directory, rather than in your system location for ruby gems. At least one site encountered difficulties when gems were installed in the account's directory, rather than in the system location. (This can happen if you don't use "sudo gem install" but instead use "gem install"). In this case, you may need to remove the account's version of the gems.
 
   gem uninstall (gem name)   -  note absence of ''sudo''
