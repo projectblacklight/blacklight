@@ -7,10 +7,6 @@
 config.gem "authlogic", :version=>'2.1.2'
 
 config.gem 'marc', :version=>'0.3.0'
-config.gem 'libxml-ruby', :lib=>'libxml', :version=>'1.1.3'
-config.gem 'ruby-xslt', :lib=>'xml/xslt', :version=>'0.9.6'
-
-config.gem 'nokogiri', :version=>'1.3.3'
 
 config.gem 'mislav-will_paginate', :lib=>'will_paginate', :version=>'2.3.8', :source=>'http://gems.github.com'
 
