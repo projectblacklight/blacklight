@@ -21,7 +21,6 @@ Blacklight.configure(:shared) do |config|
   # FIXME: is this duplicated below?
   SolrDocument.marc_source_field  = :marc_display
   SolrDocument.marc_format_type   = :marc21
-  SolrDocument.ead_source_field   = :xml_display
   
   # default params for the SolrDocument.search method
   SolrDocument.default_params[:search] = {
