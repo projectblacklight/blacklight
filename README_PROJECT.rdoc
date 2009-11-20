@@ -16,13 +16,13 @@ to the pieces of the Blacklight system before you start customizing your own ins
 If you want to integrate Blacklight search and discovery into another rails app, or if you already have a customized copy of Blacklight and you only want to upgrade the plugin, you'll want the plugin installation instructions. 
  
 ==Pre-requisites
-Whichever method you choose for installation, be sure you have all the pre-requisites in place. You can find these detailed in {PRE-REQUISITES.rdoc}[link:files/vendor/plugins/blacklight/PRE-REQUISITES_rdoc.html]
+Whichever method you choose for installation, be sure you have all the pre-requisites in place. You can find these detailed in {PRE-REQUISITES.rdoc}[/projectblacklight/blacklight/blob/master/PRE-REQUISITES_rdoc.html]
 
 ==Installing the demo app
 Instructions for installing the demo app are contained in the file DEMO_README
 
 ==Installing the plugin into an existing rails app
-Instructions for installing the demo app are contained in the plugin's {README.rdoc}[link:files/vendor/plugins/blacklight/README_rdoc.html]
+Instructions for installing the demo app are contained in the plugin's {README.rdoc}[/projectblacklight/blacklight/blob/master/README.rdoc]
 
 ==Running solr
-You'll also want some information about how Blacklight expects Apache SOLR ( http://lucene.apache.org/solr ) to run, which you can find in {README_SOLR.rdoc}[link:files/vendor/plugins/blacklight/README_SOLR_rdoc.html]
+You'll also want some information about how Blacklight expects Apache SOLR ( http://lucene.apache.org/solr ) to run, which you can find in {README_SOLR.rdoc}[/projectblacklight/blacklight/blob/master/README_SOLR.rdoc]
