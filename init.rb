@@ -24,3 +24,8 @@ end
 unless File.exists? File.join(Rails.root, 'config', 'initializers', 'blacklight_config.rb')
   raise "Blacklight requires a config/initializers/blacklight_config.rb file."
 end
+
+# loading these here prevents Rails from reloading in development mode -- which erases Blacklight.config
+# because config/initializers/* are only loaded at boot time.
+require 'rsolr-ext'
+require 'blacklight'
