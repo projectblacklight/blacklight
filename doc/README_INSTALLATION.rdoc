@@ -1,4 +1,4 @@
-= Blacklight 
+= Installing Blacklight 
 
 Please see {README_PROJECT.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_PROJECT.rdoc] for main information about this project and plugin.
 
