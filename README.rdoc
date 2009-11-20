@@ -1,51 +1,28 @@
-= Blacklight 
+Please note: The main Blacklight website is http://projectblacklight.org
 
-Please see {README_PROJECT.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_PROJECT.rdoc] for main information about this project and plugin.
+=Installing Blacklight
 
-Please see {PRE-REQUISITES.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/PRE-REQUISITES.rdoc] for pre-requisites Blacklight needs.
+== Some background information
 
-Please see {README_SOLR.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_SOLR.rdoc] for information about setting up and configuring SOLR (http://lucene.apache.org/solr).
+Blacklight is open source discovery software. Libraries (or anyone else) can use Blacklight to enable searching and browsing of their collections online. Blacklight uses the Apache SOLR ( http://lucene.apache.org/solr ) search engine to index and search full text and/or metadata, and Blacklight has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and EAD XML files, and support is planned for Dublin Core and MODS as well. Blacklight was originally developed at the University of Virginia Library and is made public under an Apache 2.0 license. As of version 2.3.0 (released July 31, 2009), Blacklight is distributed as a rails engines plugin and also as a demo rails application that uses an engines Blacklight plugin.
 
+== Which one should I install? 
+There are two ways of installing Blacklight. You can either install a pre-configured demo app, which already has the Blacklight plugin installed and integrated, or you can install the plugin into an existing rails application. 
 
-Note: these instructions apply to releases 2.4.0 and above.
-== How to install Blacklight
+If you're just getting started with Blacklight and want to get something up and running 
+relatively quickly, start by installing the demo app. This will give you a good introduction 
+to the pieces of the Blacklight system before you start customizing your own installation.
 
-Blacklight uses a new Rails feature called "templates". To install the Blacklight plugin into a new Rails application, run the following command (be sure to answer all of the installation questions):
+If you want to integrate Blacklight search and discovery into another rails app, or if you already have a customized copy of Blacklight and you only want to upgrade the plugin, you'll want the plugin installation instructions. 
+ 
+==Pre-requisites
+Whichever method you choose for installation, be sure you have all the pre-requisites in place. You can find these detailed in {PRE-REQUISITES.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/PRE-REQUISITES.rdoc]
 
-===Installing Blacklight 2.4 (recommended):
-  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v2.4.0/template.rb
+==Installing the demo app
+Instructions for installing the demo app are contained in the file DEMO_README
 
-=== Installing the "trunk", or master branch:
-  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/master/template.rb
+==Installing the plugin into an existing rails app
+Instructions for installing the demo app are contained in the plugin's {README.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/README.rdoc]
 
-After the installation process, make note of the instructions for starting Solr and indexing data. Blacklight depends on Solr so be sure it is running.
-Start Solr
-
-The template will give you instructions on how to start Solr, copied here for convenience:
-
-  cd jetty
-  java -jar start.jar
-
-This starts an instance of jetty with Solr running on port 8983. If you want to start on another port, use Java's -D argument:
-
-  java -Djetty.port=8888 -jar start.jar
-
-Once you start it you can run your Rails app and it will use this SOLR index (expected on port 8983).
-
-  ./script/server
-
-Now navigate to localhost:3000 and you should have a working demo blacklight application with the test data set!
-Possible Issues with Gems
-
-Be aware of gems that may have been inadvertently installed in your (home)/.gems directory, rather than in your system location for ruby gems. At least one site encountered difficulties when gems were installed in the account's directory, rather than in the system location. (This can happen if you don't use "sudo gem install" but instead use "gem install"). In this case, you may need to remove the account's version of the gems.
-
-  gem uninstall (gem name)   -  note absence of ''sudo''
-
-If that doesn't work, you can try the brute force method to remove them:
-
-  cd ~/.gem/ruby/1.8/gems
-
-then remove everything in that directory.
-
-You may also see messages to run refresh_spec when you run the ’’rake gems’’ command; go ahead and follow those instructions. (In at least one case, the refresh_spec command needed to be run many times before the error messages ceased.)
-
+==Running solr
+You'll also want some information about how Blacklight expects Apache SOLR ( http://lucene.apache.org/solr ) to run, which you can find in {README_SOLR.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_SOLR.rdoc]
