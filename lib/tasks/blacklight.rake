@@ -1,4 +1,14 @@
-
+namespace :blacklight do
+  
+  task :copy_assets do
+    bl_root = File.join(File.dirname(__FILE__), '..', '..')
+    from = File.join(bl_root, 'assets', '*')
+    to = File.join(Rails.root, 'public', 'plugin_assets', 'blacklight')
+    mkdir_p to
+    cp_r Dir[from], to
+  end
+  
+end
 
 # Rake tasks for Blacklight plugin
 

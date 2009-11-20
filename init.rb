@@ -13,6 +13,15 @@ config.gem 'mislav-will_paginate', :lib=>'will_paginate', :version=>'2.3.8', :so
 config.gem 'rsolr', :lib=>'rsolr', :version=>'0.11.0', :source=>'http://gemcutter.org'
 config.gem 'rsolr-ext', :lib=>'rsolr-ext', :version=>'0.11.1', :source=>'http://gemcutter.org'
 
+#if defined?(JRUBY_VERSION)
+  #sudo jgem install activerecord-jdbc-adapter jdbc-sqlite3 activerecord-jdbcsqlite3-adapter ActiveRecord-JDBC
+  # These gems aren't configured correctly...
+  #config.gem 'activerecord-jdbc-adapter'
+  #config.gem 'jdbc-sqlite3'
+  #config.gem 'activerecord-jdbcsqlite3-adapter'
+  #config.gem 'ActiveRecord-JDBC'
+#end
+
 config.after_initialize do
   require 'will_paginate_link_renderer'   # in local ./lib
   require 'taggable_pagination'           # in local ./lib
