@@ -1,5 +1,6 @@
 namespace :blacklight do
   
+  desc "Copies Blacklight's default images, css and javascript into your apps public/plugin_assets/blacklight directory."
   task :copy_assets do
     bl_root = File.join(File.dirname(__FILE__), '..', '..')
     from = File.join(bl_root, 'assets', '*')
