@@ -83,6 +83,9 @@ class TestSolrServer
       Process.wait
     end
   else # Not Windows
+    
+    raise 'JRuby requires that you start solr manually, then run "rake spec" or "rake features"' if defined?(JRUBY_VERSION)
+    
     # start the solr server
     def platform_specific_start
       puts self.inspect
