@@ -22,9 +22,3 @@ config.action_controller.allow_forgery_protection    = false
 config.action_mailer.delivery_method = :test
 
 SSL_ENABLED=false
-
-# load the gems that are needed for testing
-config.gem "rspec", :lib => false, :version => '>=1.2.2'
-config.gem "rspec-rails", :lib => false, :version => '>=1.2.2'
-config.gem "webrat", :lib => false, :version => ">=0.4.3"
-config.gem "cucumber", :lib => false, :version => '>=0.2.2'

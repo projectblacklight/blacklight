@@ -1,0 +1,11 @@
+.DS_Store
+coverage.data
+coverage/
+db/*.sqlite3
+db/schema.rb
+jetty/logs/*.log
+#jetty/solr/data/*
+log/*
+webrat-*
+public/
+config/SolrMarc/*.log*

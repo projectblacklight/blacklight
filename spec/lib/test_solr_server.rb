@@ -83,8 +83,16 @@ class TestSolrServer
       Process.wait
     end
   else # Not Windows
+    
+    def jruby_raise_error?
+      raise 'JRuby requires that you start solr manually, then run "rake spec" or "rake features"' if defined?(JRUBY_VERSION)
+    end
+    
     # start the solr server
     def platform_specific_start
+      
+      jruby_raise_error?
+      
       puts self.inspect
       Dir.chdir(@jetty_home) do
         @pid = fork do
@@ -96,6 +104,7 @@ class TestSolrServer
 
     # stop a running solr server
     def platform_specific_stop
+      jruby_raise_error?
       Process.kill('TERM', @pid)
       Process.wait
     end

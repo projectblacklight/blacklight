@@ -1,4 +1,15 @@
-
+namespace :blacklight do
+  
+  desc "Copies Blacklight's default images, css and javascript into your apps public/plugin_assets/blacklight directory."
+  task :copy_assets do
+    bl_root = File.join(File.dirname(__FILE__), '..', '..')
+    from = File.join(bl_root, 'assets', '*')
+    to = File.join(Rails.root, 'public', 'plugin_assets', 'blacklight')
+    mkdir_p to
+    cp_r Dir[from], to
+  end
+  
+end
 
 # Rake tasks for Blacklight plugin
 
@@ -29,7 +40,7 @@ namespace :solr do
   task :spec do
     # wrap tests with a test-specific Solr server
     error = TestSolrServer.wrap(SOLR_PARAMS) do
-rm_f "coverage.data"
+      rm_f "coverage.data"
       Rake::Task["rake:spec"].invoke 
       #puts `ps aux | grep start.jar` 
     end
