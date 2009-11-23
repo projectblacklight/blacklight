@@ -64,7 +64,6 @@ module ApplicationHelper
   end
   def render_document_heading
     '<h1>' + document_heading + '</h1>'
-    return ""
   end
   
   # Used in the show view for setting the main html document title
