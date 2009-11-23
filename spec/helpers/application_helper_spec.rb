@@ -107,7 +107,35 @@ describe ApplicationHelper do
       tag.should =~ /qt=author_search/
       tag.should_not =~ /page/
     end
-  end  
+  end
+
+  describe "render_stylesheet_links" do
+    it "should include link tags to yui and application stylesheets from blacklight plugin" do
+      html = render_stylesheet_includes
+      html.should have_tag("link[href*=plugin_assets/blacklight/stylesheets/yui.css]")
+      html.should have_tag("link[href*=plugin_assets/blacklight/stylesheets/application.css]")      
+    end
+  end
+
+  describe "render_js_includes" do
+    it "should include script tags for jquery, blacklight, application, accordion, and lightbox js from blacklight plugin" do
+      html = render_js_includes
+      html.should have_tag("script[src*=plugin_assets/blacklight/javascripts/blacklight]")
+      html.should have_tag("script[src*=plugin_assets/blacklight/javascripts/jquery]")
+      html.should have_tag("script[src*=plugin_assets/blacklight/javascripts/application]")
+      html.should have_tag("script[src*=plugin_assets/blacklight/javascripts/accordion]")
+      html.should have_tag("script[src*=plugin_assets/blacklight/javascripts/lightbox]")
+    end
+   end
+
+   describe "render_document_heading" do
+     it "should consist of #document_heading wrapped in a <h1>" do
+      @document = SolrDocument.new(Blacklight.config[:show][:heading] => "Some Document")
+
+      render_document_heading.should have_tag("h1", :text => document_heading, :count => 1)
+     end
+   end
+    
   
   describe "Export" do
     before(:all) do
