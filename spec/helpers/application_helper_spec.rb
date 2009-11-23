@@ -130,7 +130,7 @@ describe ApplicationHelper do
 
    describe "render_document_heading" do
      it "should consist of #document_heading wrapped in a <h1>" do
-      @document = SolrDocument.new(Blacklight.config[:show][:heading] => "Some Document")
+      @document = SolrDocument.new(Blacklight.config[:show][:heading] => "A Fake Document")
 
       render_document_heading.should have_tag("h1", :text => document_heading, :count => 1)
      end
