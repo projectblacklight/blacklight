@@ -26,7 +26,7 @@ class CatalogController < ApplicationController
   
   # get search results from the solr index
   def index
-    @response = get_search_results
+    (@response, @document_list) = get_search_results
     @filters = params[:f] || []
     respond_to do |format|
       format.html { save_current_search_params }
