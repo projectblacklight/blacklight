@@ -9,9 +9,10 @@ describe "/catalog/_document_list.html.erb" do
     activate_authlogic
     # get actual solr response
     all_docs_query = {}
-    @solr_resp = get_search_results(all_docs_query)
-    @doc = @solr_resp.docs.first
+    (@solr_resp, @document_list) = get_search_results(all_docs_query)
+    @doc = @document_list.first
     assigns[:response] = @solr_resp
+    assigns[:document_list] = @document_list
     render :partial => 'catalog/document_list'
   end
 
