@@ -35,7 +35,7 @@ Once you've fixed any conflicts, you're ready to create a patch:
 
   git format-patch master --stdout > your-patch-file.diff
 
-Now you can attach that patch file to a Jira ticket and add the 'patch' tag. Once you have a patch and a Jira ticket you need to find some people to give you feedback. You can either email the core list or ask in #blacklight on irc.freenode.net
+Now you can attach that patch file to a Jira ticket: http://jira.projectblacklight.org and add the 'patch' tag. Once you have a patch and a Jira ticket you need to find some people to give you feedback. You can either email the core list or ask in #blacklight on irc.freenode.net
 
 ==Reviewing Changes
 
