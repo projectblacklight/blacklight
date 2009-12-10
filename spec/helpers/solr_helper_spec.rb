@@ -65,61 +65,94 @@ describe 'Blacklight::SolrHelper' do
 # SPECS FOR SEARCH RESULTS FOR QUERY
   describe 'Search Results' do
 
+    describe 'for a sample query returning results' do
+
+      before(:all) do
+        (@solr_response, @document_list) = @solr_helper.get_search_results(:q => @all_docs_query)
+      end
+    
+      it 'should have a @response.docs list of the same size as @document_list' do              
+        @solr_response.docs.length.should == @document_list.length
+      end
+
+      it 'should have @response.docs list representing same documents as SolrDocuments in @document_list' do
+        @solr_response.docs.each_index do |index|
+          mash = @solr_response.docs[index]
+          solr_document = @document_list[index]
+
+          Set.new(mash.keys).should == Set.new(solr_document.keys)
+          
+          mash.each_key do |key|
+            mash[key].should == solr_document[key]
+          end
+        end
+      end
+    end
+
     describe 'for All Docs Query, No Facets' do
       it 'should have non-nil values for required doc fields set in initializer' do
-        solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
-        result_docs = solr_response.docs
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @all_docs_query)
+        result_docs = document_list
         document = result_docs.first
         document.get(Blacklight.config[:index][:show_link]).should_not == nil
         document.get(Blacklight.config[:index][:record_display_type]).should_not == nil
       end
     end
+
+
     
     describe "Single Word Query with no Facets" do
       it 'should have results' do
-        solr_response = @solr_helper.get_search_results(:q => @single_word_query)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @single_word_query)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should > 0
       end
     end
 
     describe "Multiple Words Query with No Facets" do
       it 'should have results' do
-        solr_response = @solr_helper.get_search_results(:q => @mult_word_query)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @mult_word_query)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should > 0
       end
     end
 
     describe "One Facet, No Query" do
       it 'should have results' do
-        solr_response = @solr_helper.get_search_results(:f => @single_facet)
+        (solr_response, document_list) = @solr_helper.get_search_results(:f => @single_facet)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should > 0
       end
     end
 
     describe "Mult Facets, No Query" do
       it 'should have results' do
-        solr_response = @solr_helper.get_search_results(:f => @multi_facets)
+        (solr_response, document_list) = @solr_helper.get_search_results(:f => @multi_facets)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should > 0
       end
     end
 
     describe "Single Word Query with One Facet" do
       it 'should have results' do
-        solr_response = @solr_helper.get_search_results(:q => @single_word_query, :f => @single_facet)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @single_word_query, :f => @single_facet)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should > 0
       end
     end
 
     describe "Multiple Words Query with Multiple Facets" do
       it 'should have results' do
-        solr_response = @solr_helper.get_search_results(:q => @mult_word_query, :f => @multi_facets)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @mult_word_query, :f => @multi_facets)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should > 0
       end
     end
 
     describe "for All Docs Query and One Facet" do
       it 'should have results' do
-        solr_response = @solr_helper.get_search_results(:q => @all_docs_query, :f => @single_facet)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @all_docs_query, :f => @single_facet)
+        solr_response.docs.size.should == document_list.size               
         solr_response.docs.size.should > 0
       end
       # TODO: check that number of these results < number of results for all docs query 
@@ -128,21 +161,24 @@ describe 'Blacklight::SolrHelper' do
 
     describe "for Query Without Results and No Facet" do
       it 'should have no results and not raise error' do
-        solr_response = @solr_helper.get_search_results(:q => @no_docs_query)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @no_docs_query)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should == 0
       end
     end
 
     describe "for Query Without Results and One Facet" do
       it 'should have no results and not raise error' do
-        solr_response = @solr_helper.get_search_results(:q => @no_docs_query, :f => @single_facet)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @no_docs_query, :f => @single_facet)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should == 0
       end
     end
 
     describe "for All Docs Query and Bad Facet" do
       it 'should have no results and not raise error' do
-        solr_response = @solr_helper.get_search_results(:q => @all_docs_query, :f => @bad_facet)
+        (solr_response, document_list) = @solr_helper.get_search_results(:q => @all_docs_query, :f => @bad_facet)
+        solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should == 0
       end
     end
@@ -164,7 +200,7 @@ describe 'Blacklight::SolrHelper' do
   describe 'Facets in Search Results for All Docs Query' do
 
     before(:all) do
-      solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
+      (solr_response, document_list) = @solr_helper.get_search_results(:q => @all_docs_query)
       @facets = solr_response.facets      
     end
     
@@ -205,47 +241,51 @@ describe 'Blacklight::SolrHelper' do
   describe 'Paging' do
 
     it 'should start with first results by default' do
-      solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
+      (solr_response, document_list) = @solr_helper.get_search_results(:q => @all_docs_query)
       solr_response.params[:start].to_i.should == 0
     end
     it 'should have number of results (per page) set in initializer, by default' do
-      solr_response = @solr_helper.get_search_results(:q => @all_docs_query)
+      (solr_response, document_list) = @solr_helper.get_search_results(:q => @all_docs_query)
+      solr_response.docs.size.should == document_list.size
       solr_response.docs.size.should == Blacklight.config[:index][:num_per_page]
     end
 
     it 'should get number of results per page requested' do
       num_results = 3  # non-default value
-      solr_response1 = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => num_results)
+      (solr_response1, document_list1) = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => num_results)
+      solr_response1.docs.size.should == document_list1.size
       solr_response1.docs.size.should == num_results
     end
     
     it 'should skip appropriate number of results when requested - default per page' do
       page = 3
-      solr_response2 = @solr_helper.get_search_results(:q => @all_docs_query, :page => page)
+      (solr_response2, document_list2) = @solr_helper.get_search_results(:q => @all_docs_query, :page => page)
       solr_response2.params[:start].to_i.should ==  Blacklight.config[:index][:num_per_page] * (page-1)
     end
     it 'should skip appropriate number of results when requested - non-default per page' do
       page = 3
       num_results = 3
-      solr_response2a = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => num_results, :page => page)
+      (solr_response2a, document_list2a) = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => num_results, :page => page)
       solr_response2a.params[:start].to_i.should == num_results * (page-1)
     end
 
     it 'should have no results when prompted for page after last result' do
       big = 5000
-      solr_response3 = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => big, :page => big)
+      (solr_response3, document_list3) = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => big, :page => big)
+      solr_response3.docs.size.should == document_list3.size
       solr_response3.docs.size.should == 0
     end
 
     it 'should show first results when prompted for page before first result' do
       # FIXME: should it show first results, or should it throw an error for view to deal w?
       #   Solr throws an error for a negative start value
-      solr_response4 = @solr_helper.get_search_results(:q => @all_docs_query, :page => '-1')
+      (solr_response4, document_list4) = @solr_helper.get_search_results(:q => @all_docs_query, :page => '-1')
       solr_response4.params[:start].to_i.should == 0
     end
     it 'should have results available when asked for more than are in response' do
       big = 5000
-      solr_response5 = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => big, :page => 1)
+      (solr_response5, document_list5) = @solr_helper.get_search_results(:q => @all_docs_query, :per_page => big, :page => 1)
+      solr_response5.docs.size.should == document_list5.size
       solr_response5.docs.size.should > 0
     end
     
@@ -348,13 +388,13 @@ describe 'Blacklight::SolrHelper' do
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions" do
     it 'search results for just-poor-enough-query term should have (multiple) spelling suggestions' do
-      solr_response = @solr_helper.get_search_results({:q => 'boo'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'boo'})
       solr_response.spelling.words.should include('bon')
 #      solr_response.spelling.words.should include('bod')  for multiple suggestions
     end
 
     it 'search results for just-poor-enough-query term should have multiple spelling suggestions' do
-      solr_response = @solr_helper.get_search_results({:q => 'politica'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'politica'})
       solr_response.spelling.words.should include('policy') # less freq
 =begin
       #  when we can have multiple suggestions
@@ -365,17 +405,17 @@ describe 'Blacklight::SolrHelper' do
     end
 
     it "title search results for just-poor-enough query term should have spelling suggestions" do
-      solr_response = @solr_helper.get_search_results({:q => 'yehudiyam', :qt => 'title_search'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'yehudiyam', :qt => 'title_search'})
       solr_response.spelling.words.should include('yehudiyim') 
     end
 
     it "author search results for just-poor-enough-query term should have spelling suggestions" do
-      solr_response = @solr_helper.get_search_results({:q => 'shirma', :qt => 'author_search'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'shirma', :qt => 'author_search'})
       solr_response.spelling.words.should include('sharma') 
     end
 
     it "subject search results for just-poor-enough-query term should have spelling suggestions" do
-      solr_response = @solr_helper.get_search_results({:q => 'wome', :qt => 'subject_search'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'wome', :qt => 'subject_search'})
       solr_response.spelling.words.should include('women') 
     end
 

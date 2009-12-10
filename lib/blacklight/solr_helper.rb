@@ -67,8 +67,15 @@ module Blacklight::SolrHelper
   # given a user query, return a solr response containing both result docs and facets
   # - mixes in the Blacklight::Solr::SpellingSuggestions module
   #   - the response will have a spelling_suggestions method
+  # Returns a two-element array (aka duple) with first the solr response object,
+  # and second an array of SolrDocuments representing the response.docs
   def get_search_results(extra_controller_params={})
-    Blacklight.solr.find self.solr_search_params(extra_controller_params)
+    solr_response = Blacklight.solr.find(  self.solr_search_params(extra_controller_params) )
+
+    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc)}
+
+    return [solr_response, document_list]
+    
   end
   
   # returns a params hash for finding a single solr document (CatalogController #show action)
