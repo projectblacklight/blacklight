@@ -1,3 +1,74 @@
+=Contributing to Blacklight
+So you've found a bug you want to fix, or a feature you want to implement, thanks! If you follow this guide it will make it much easier for the community to review your changes, and the core team to get them included in the next release. If you need an introduction to git, check out the tutorial:http://www.kernel.org/pub/software/scm/git/docs/tutorial.html and every day git in 20 commands or so:http://www.kernel.org/pub/software/scm/git/docs/everyday.html
+
+==Making Your Changes
+
+The first thing you need to do is obtain a clone of the Blacklight repository
+
+  git git://github.com/projectblacklight/blacklight.git
+  cd blacklight
+
+Then you need to create your new branch:
+
+  git checkout -b make_blacklight_scale
+  # Switched to a new branch "make_blacklight_scale"
+
+Now you're ready to get hacking. Be sure to include tests which demonstrate the bug you're fixing, and fully exercise any new features you're adding. You should also take care to make sure the documentation is updated if you're changing the API. This includes updating API docs and guides. Once you've finished making your changes you need to commit them.
+
+  git commit -a -m "I made blacklight scale by adding magic beans"
+  # Created commit 29f8baa: I made blacklight scale by adding magic beans
+  # 1 files changed, 0 insertions(+), 1 deletions(-)
+
+==Preparing your changes for submission.
+
+Now that you've made your changes it's time to get them into a patch. We need to update Blacklight and fix any conflicts we had.
+
+  git checkout master
+  # Switched to branch "master"
+  git pull
+  # ... 
+  git checkout make_blacklight_scale
+  # Switched to branch "make_blacklight_scale"
+  git rebase master
+
+Once you've fixed any conflicts, you're ready to create a patch:
+
+  git format-patch master --stdout > your-patch-file.diff
+
+Now you can attach that patch file to a Jira ticket and add the 'patch' tag. Once you have a patch and a Jira ticket you need to find some people to give you feedback. You can either email the core list or ask in #blacklight on irc.freenode.net
+
+==Reviewing Changes
+
+To apply someone's changes you need to first create a branch:
+
+  git checkout -b they_made_blacklight_scale
+
+Then you can apply their patch
+
+  git am < their-patch-file.diff
+
+Once you have a working copy, you should take note of the following kinds of things:
+
+    * Are you happy with the tests, can you follow what they're testing, is there anything missing
+    * Does the documentation still seem right to you
+    * Do you like the implementation, can you think of a nicer or faster way to implement a part of their change
+
+Once you're happy it's a good change, comment on the Jira ticket indicating your approval. Your comment should indicate that you like the change and what you like about it. Something like:
+
+       1. I like the way you've restructured that code in generate_finder_sql, much nicer. The tests look good too.
+
+If your comment simply says +1, then odds are other reviewers aren't going to take it too seriously. Show that you took the time to review the patch. Once three people have approved it, add the verified tag. This will bring it to the attention of a committer who'll then review the changes looking for the same kinds of things.
+
+Congratulations and Thank You!
+
+Once your changes have been applied, you've officially become part of the large community of independent contributors working to improve Blacklight.
+
+==Important Notes
+
+    * Blacklight core team prefers that you create a github fork only for large changesets which are likely to involve a lot of code reviews/changes back and forth, or if 2 or more people are working on the same feature/bug. Docrails and Rack on Rails are good examples of cases where forks are preferable over git formatted patches. But of course, like all the rules, exceptions can be made for cases that demands for it.
+
+
+
 =Branching and Merging
 ==Overview
 ===master
@@ -54,6 +125,9 @@ Once you're ready to push your new branch, use git-push:
 ===Removing
 If you decide that you don't want to push your changes and would rather forget the whole thing, you can remove the local branch by using git-branch:
   git branch -d <branch-name>
+
+To force delete a local branch:
+  git branch -D <branch-name>
 
 If you've already pushed the branch to the remote repo, you can remove the remote branch by using git-push (notice the colon before "heads"):
   git push origin :heads/<branch-name>
