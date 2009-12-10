@@ -18,12 +18,29 @@ If you want to integrate Blacklight search and discovery into another rails app,
 ==Pre-requisites
 Whichever method you choose for installation, be sure you have all the pre-requisites in place. You can find these detailed in {PRE-REQUISITES.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/PRE-REQUISITES.rdoc]
 
-
 ===Installing Blacklight 2.4 (recommended):
   rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v2.4.1/template.rb
 
-==Installing the plugin into an existing rails app
-Instructions for installing the demo app are contained in the plugin's  {README_INSTALLATION.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_INSTALLATION.rdoc]
+=== Installing the "trunk", or master branch:
+  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/master/template.rb
+
+After the installation process, make note of the instructions for starting Solr and indexing data. Blacklight depends on Solr so be sure it is running.
+Start Solr
+
+The template will give you instructions on how to start Solr, copied here for convenience:
+
+  cd jetty
+  java -jar start.jar
+
+This starts an instance of jetty with Solr running on port 8983. If you want to start on another port, use Java's -D argument:
+
+  java -Djetty.port=8888 -jar start.jar
+
+Once you start it you can run your Rails app and it will use this SOLR index (expected on port 8983).
+
+  ./script/server
+
+Now navigate to localhost:3000 and you should have a working demo blacklight application with the test data set!
 
 ==Running solr
 You'll also want some information about how Blacklight expects Apache SOLR ( http://lucene.apache.org/solr ) to run, which you can find in {README_SOLR.rdoc}[http://github.com/projectblacklight/blacklight/blob/master/doc/README_SOLR.rdoc]
