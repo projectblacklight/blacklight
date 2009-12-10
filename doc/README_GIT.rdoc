@@ -49,13 +49,13 @@ Then you can apply their patch
 
 Once you have a working copy, you should take note of the following kinds of things:
 
-    * Are you happy with the tests, can you follow what they're testing, is there anything missing
-    * Does the documentation still seem right to you
-    * Do you like the implementation, can you think of a nicer or faster way to implement a part of their change
+* Are you happy with the tests, can you follow what they're testing, is there anything missing
+* Does the documentation still seem right to you
+* Do you like the implementation, can you think of a nicer or faster way to implement a part of their change
 
 Once you're happy it's a good change, comment on the Jira ticket indicating your approval. Your comment should indicate that you like the change and what you like about it. Something like:
 
-       1. I like the way you've restructured that code in generate_finder_sql, much nicer. The tests look good too.
+1. I like the way you've restructured that code in generate_finder_sql, much nicer. The tests look good too.
 
 If your comment simply says +1, then odds are other reviewers aren't going to take it too seriously. Show that you took the time to review the patch. Once three people have approved it, add the verified tag. This will bring it to the attention of a committer who'll then review the changes looking for the same kinds of things.
 
@@ -65,7 +65,7 @@ Once your changes have been applied, you've officially become part of the large 
 
 ==Important Notes
 
-    * Blacklight core team prefers that you create a github fork only for large changesets which are likely to involve a lot of code reviews/changes back and forth, or if 2 or more people are working on the same feature/bug. Docrails and Rack on Rails are good examples of cases where forks are preferable over git formatted patches. But of course, like all the rules, exceptions can be made for cases that demands for it.
+* Blacklight core team prefers that you create a github fork only for large changesets which are likely to involve a lot of code reviews/changes back and forth, or if 2 or more people are working on the same feature/bug. Docrails and Rack on Rails are good examples of cases where forks are preferable over git formatted patches. But of course, like all the rules, exceptions can be made for cases that demands for it.
 
 
 
