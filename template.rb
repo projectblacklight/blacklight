@@ -110,21 +110,25 @@ rake "db:migrate" if yes? "\n* Would you like to run the initial database migrat
 # terribly ugly hack for application_controller to work with resource_controller
 # "require" and "require_dependency" DO NOT WORK
 puts "\n* Modifying your app/controllers/application_controller.rb file..."
-app_controller_hack = "eval File.read('vendor/plugins/blacklight/app/controllers/application_controller.rb')"
+app_controller_hack = "require 'vendor/plugins/blacklight/app/controllers/application_controller.rb'"
 app_controller = File.read('app/controllers/application_controller.rb')
-app_controller = "#{app_controller_hack}\n#{app_controller}"
-File.open('app/controllers/application_controller.rb', 'w'){|f|f.puts app_controller}
+if app_controller.scan(app_controller_hack).empty?
+  app_controller = "#{app_controller_hack}\n#{app_controller}"
+  File.open('app/controllers/application_controller.rb', 'w'){|f|f.puts app_controller}
+end
 
 # require_dependency for application_helper
 puts "\n* Modifying your app/helpers/application_helper.rb file..."
-app_helper_dep = "require_dependency 'vendor/plugins/blacklight/app/helpers/application_helper.rb'"
+app_helper_dep = "require 'vendor/plugins/blacklight/app/helpers/application_helper.rb'"
 app_helper = File.read('app/helpers/application_helper.rb')
-app_helper = "#{app_helper_dep}\n#{app_helper}"
-File.open('app/helpers/application_helper.rb', 'w'){|f| f.puts app_helper}
+if app_helper.scan(app_helper_dep).empty?
+  app_helper = "#{app_helper_dep}\n#{app_helper}"
+  File.open('app/helpers/application_helper.rb', 'w'){|f| f.puts app_helper}
+end
 
 puts "\n* Adding Blacklight routes to your application..."
 # Add the BL routes to the app's config/routes.rb file:
-unless File.read('config/routes.rb') =~ /Blacklight::Routes\.build map/
+if File.read('config/routes.rb').scan("Blacklight::Routes.build map").empty?
   route "Blacklight::Routes.build map"
 end
 
