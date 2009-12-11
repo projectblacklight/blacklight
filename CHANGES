@@ -6,7 +6,7 @@ NOTABLE CHANGES:
 	
 	- Blacklight::SolrHelper #get_search_results and #get_solr_response_for_doc_id methods now return an array where the first object is a solr response hash and the second is a SolrDocument instance or array of SolrDocuments, thanks to Jonathan Rochkind.
 	
-	- bug fixed where template installer would continue to add the same lines to appliation_controller and application_helper if the template was executed more than once.
+	- bug fixed where template installer would continue to add the same lines to application_controller and application_helper if the template was executed more than once.
 	
 	- Changed development solr port to 8983
 	
@@ -21,6 +21,10 @@ NOTABLE CHANGES:
 
 CHANGE LOG:
 
+dde0131 updated template and readme for tag version
+fd27ca3 updated CHANGES
+1491010 updated version number to 2.4.1
+bac8cbb notes about changes for v2.4.1
 088c26a updated template and readme for tag version
 392e17f updated template for 2.4
 21d40dc changed comment
@@ -29,13 +33,6 @@ CHANGE LOG:
 768e9d2 updated template for 2.4
 440d291 Fixed issue CODEBASE-194
 20ad46e updated development connection port to 8983
-=======
-8e7198f updated version number to 2.4.1
-dbf554f changed comment
-31552c6 updated tag version; removed branch variable
-ffce4c9 updated template and readme for tag version
-dc3c85f updated template for 2.4
->>>>>>> updated CHANGES, which include everything from v2.4.0 to HEAD
 673a566 added jira url
 991017b updated formatting
 d7dd1ee updated git info
