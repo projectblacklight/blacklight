@@ -29,6 +29,13 @@ CHANGE LOG:
 768e9d2 updated template for 2.4
 440d291 Fixed issue CODEBASE-194
 20ad46e updated development connection port to 8983
+=======
+8e7198f updated version number to 2.4.1
+dbf554f changed comment
+31552c6 updated tag version; removed branch variable
+ffce4c9 updated template and readme for tag version
+dc3c85f updated template for 2.4
+>>>>>>> updated CHANGES, which include everything from v2.4.0 to HEAD
 673a566 added jira url
 991017b updated formatting
 d7dd1ee updated git info
