@@ -119,7 +119,7 @@ module ApplicationHelper
     query_part = case
                    when params[:q].blank?
                      ""
-                   when (params[:search_field] == Blacklight.config[:default_search_field])
+                   when (params[:search_field] == Blacklight.default_search_field[:key])
                      params[:q]
                    else
                      "#{Blacklight.label_for_search_field(params[:search_field])}:(#{params[:q]})"

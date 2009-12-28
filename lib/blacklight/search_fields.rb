@@ -40,6 +40,13 @@ module Blacklight::SearchFields
     search_field_list.find {|c| c[:key] == key}
   end
 
+  # Returns default search field, used for simpler display in history, etc.
+  # if not set in config, defaults to first field listed in #search_field_list
+  def default_search_field
+    Blacklight.config[:default_search_field] || search_field_list[0]
+  end
+  memoize :default_search_field
+
   # Shortcut for commonly needed operation, look up display
   # label for the key specified. Returns "Keyword" if a label
   # can't be found. 
