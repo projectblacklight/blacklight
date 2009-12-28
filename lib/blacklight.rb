@@ -5,6 +5,8 @@ module Blacklight
   CoreExt
   
   autoload :Configurable, 'blacklight/configurable'
+  autoload :SearchFields, 'blacklight/search_fields'
+
   autoload :Solr, 'blacklight/solr.rb'
   autoload :Marc, 'blacklight/marc.rb'
   
@@ -13,6 +15,7 @@ module Blacklight
   autoload :Routes, 'blacklight/routes'
   
   extend Configurable
+  extend SearchFields
   
   class << self
     attr_accessor :solr, :solr_config
