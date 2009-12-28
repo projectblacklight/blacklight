@@ -1,3 +1,19 @@
+##
+# Module to deal with accessing (and setting some defaults) in an array of
+# hashes that describe Blacklight search fields.  Requires the base class this
+# module is added to implements a #config method that returns a hash, where
+# config[:search_fields] will be an array of hashes describing search fields.
+#
+# = Search Field Configuration Hash =
+# { :display_label => "Title",  # user-displayable label
+#   :qt => "search" # Solr qt param, request handler
+# }
+# Optionally you can supply a :key, which is what Blacklight will use
+# to identify this search field in HTTP query params. If no :key is
+# supplied, one will be computed from the :display_label. If that will
+# result in a collision of keys, you should supply one explicitly. 
+#
+##
 module Blacklight::SearchFields
   extend ActiveSupport::Memoizable
 
