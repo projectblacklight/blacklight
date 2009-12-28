@@ -7,7 +7,7 @@ Feature: Did You Mean
   Scenario: All Fields search - No Results with spelling suggestion
     When I am on the home page
     And I fill in "q" with "politica"
-    And I select "All Fields" from "qt"
+    And I select "All Fields" from "search_field"
     And I press "search"
     Then I should see "Did you mean"
     When I follow "policy"
@@ -17,7 +17,7 @@ Feature: Did You Mean
     When I am on the home page
     # yehudiyam is one letter away from a title word
     And I fill in "q" with "yehudiyam"
-    And I select "Title" from "qt"
+    And I select "Title" from "search_field"
     And I press "search"
     Then I should see "Did you mean"
     When I follow "yehudiyim"
@@ -25,13 +25,13 @@ Feature: Did You Mean
     # TODO:  it should be an title search, but I can't get step def right
     #  (it works in the code)
     # TODO: false positive?
-    # And I should see select list "select#qt" with "Title" selected
+    # And I should see select list "select#search_field" with "Title" selected
   
   Scenario: Author search - No Results with spelling suggestion
     When I am on the home page
     # shirma is one letter away from an author word
     And I fill in "q" with "shirma"
-    And I select "Author" from "qt"
+    And I select "Author" from "search_field"
     And I press "search"
     Then I should see "Did you mean"
     When I follow "sharma"
@@ -39,13 +39,13 @@ Feature: Did You Mean
     # TODO:  it should be an author search, but I can't get step def right
     #  (it works in the code)
     # TODO: false positive?
-    #And I should see select list "select#qt" with "Author" selected
+    #And I should see select list "select#search_field" with "Author" selected
   
   Scenario: Subject search - No Results with spelling suggestion
     When I am on the home page
     # shirma is one letter away from an author word
     And I fill in "q" with "wome"
-    And I select "Subject" from "qt"
+    And I select "Subject" from "search_field"
     And I press "search"
     Then I should see "Did you mean"
     When I follow "women"
@@ -62,7 +62,7 @@ Feature: Did You Mean
   Scenario: No Results - multiword query should be separate links
     When I am on the home page
     And I fill in "q" with "politica boo"
-    And I select "All Fields" from "qt"
+    And I select "All Fields" from "search_field"
     And I press "search"
     Then I should see "Did you mean"
     When I follow "policy"
@@ -71,7 +71,7 @@ Feature: Did You Mean
   Scenario: No Results - multiword query
     When I am on the home page
     And I fill in "q" with "politica boo"
-    And I select "All Fields" from "qt"
+    And I select "All Fields" from "search_field"
     And I press "search"
     Then I should see "Did you mean"
     When I follow "bon"
