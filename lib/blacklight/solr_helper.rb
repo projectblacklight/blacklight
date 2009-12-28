@@ -25,7 +25,18 @@ module Blacklight::SolrHelper
   # The CatalogController #index action uses this.
   def solr_search_params(extra_controller_params={})
     input = params.deep_merge(extra_controller_params)
-    qt = input[:qt].blank? ? Blacklight.config[:default_qt] : input[:qt]
+
+    qt = case
+           when (input[:search_field] && 
+                    (search_field_def = Blacklight.search_field_def_for_key(input[:search_field])))
+             search_field_def[:qt]
+           when ! input[:qt].blank?
+             input[:qt]
+           else
+             Blacklight.config[:default_qt]                                                      
+         end
+    
+    #qt = input[:qt].blank? ? Blacklight.config[:default_qt] : input[:qt]
     
     # TODO -- remove :facets
     # when are we passing in "facets" here? just for tests? -- no, always.  
