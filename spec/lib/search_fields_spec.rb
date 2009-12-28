@@ -8,7 +8,7 @@ describe Blacklight::SearchFields do
     # add in a #config method that includes search field config
     # that will be used by SearchFields
     def config
-      {:search_fields => [ {:display_label => 'All Fields', :qt => 'search'},
+      {:search_fields => [ {:display_label => 'All Fields'},
                            {:display_label => 'Title', :qt => 'title_search'},
                            {:display_label =>'Author', :qt => 'author_search'},
                            {:display_label => 'Subject', :qt=> 'subject_search'}     ]  
@@ -27,6 +27,10 @@ describe Blacklight::SearchFields do
      end
   end
 
+  it "should fill in default qt where needed" do
+    @search_field_obj.search_field_def_for_key("all_fields")[:qt].should == Blacklight.config[:default_qt]
+  end
+  
   it "should return proper options_for_select arguments" do
     select_arguments = @search_field_obj.search_field_options_for_select
 

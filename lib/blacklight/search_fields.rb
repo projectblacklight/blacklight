@@ -6,7 +6,7 @@
 #
 # = Search Field Configuration Hash =
 # { :display_label => "Title",  # user-displayable label
-#   :qt => "search" # Solr qt param, request handler
+#   :qt => "search" # Solr qt param, request handler, defaults to Blacklight.config[:default_qt] if left blank. 
 # }
 # Optionally you can supply a :key, which is what Blacklight will use
 # to identify this search field in HTTP query params. If no :key is
@@ -59,7 +59,9 @@ module Blacklight::SearchFields
     field_hash = field_hash.clone      
     # If no key was provided, turn the display label into one.      
     field_hash[:key] ||= field_hash[:display_label].downcase.gsub(/[^a-z0-9]+/,'_')
-  
+
+    # If no :qt was provided, take from config default
+    field_hash[:qt] ||= Blacklight.config[:default_qt]
   
     field_hash
   end
