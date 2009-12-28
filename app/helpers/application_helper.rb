@@ -83,7 +83,7 @@ module ApplicationHelper
   
   # Used in the search form partial for building a select tag
   def search_fields
-    Blacklight.config[:search_fields]
+    Blacklight.search_field_options_for_select
   end
   
   # used in the catalog/_show/_default partial
@@ -116,7 +116,15 @@ module ApplicationHelper
   
   # Search History and Saved Searches display
   def link_to_previous_search(params)
-    query_part = params[:qt] == Blacklight.config[:default_qt] ? params[:q] : "#{params[:qt]}:(#{params[:q]})"
+    query_part = case
+                   when params[:q].blank?
+                     ""
+                   when (params[:search_field] == Blacklight.config[:default_search_field])
+                     params[:q]
+                   else
+                     "#{Blacklight.label_for_search_field(params[:search_field])}:(#{params[:q]})"
+                 end      
+    
     facet_part = 
     if params[:f]
       tmp = 
