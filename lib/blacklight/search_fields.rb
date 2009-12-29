@@ -6,7 +6,8 @@
 #
 # = Search Field Configuration Hash =
 # { :display_label => "Title",  # user-displayable label
-#   :qt => "search" # Solr qt param, request handler, defaults to Blacklight.config[:default_qt] if left blank. 
+#   :qt => "search", # Solr qt param, request handler, defaults to Blacklight.config[:default_qt] if left blank.
+#   :solr_parameters => {:qf => "something"} # optional hash of additional parameters to pass to solr for searches on this field. 
 # }
 # Optionally you can supply a :key, which is what Blacklight will use
 # to identify this search field in HTTP query params. If no :key is
