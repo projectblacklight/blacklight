@@ -159,9 +159,8 @@ Blacklight.configure(:shared) do |config|
   # name of solr field containing raw data
   config[:raw_storage_field] = "marc_display"
 
-  # "fielded" search select (pulldown)
-  # label in pulldown is followed by the name of a SOLR request handler as 
-  # defined in solr/conf/solrconfig.xml
+  # "fielded" search configuration. Used by pulldown among other places.
+  # For supported keys in hash, see rdoc for Blacklight::SearchFields
   config[:search_fields] ||= []
   config[:search_fields] << {:display_label => 'All Fields', :qt => 'search'}
   config[:search_fields] << {:display_label => 'Title', :qt => 'title_search'}
