@@ -147,7 +147,7 @@ describe 'Blacklight::SolrHelper' do
     describe "with a complex parameter environment" do
       before do
         # Add a custom search field def in so we can test it
-        Blacklight.config[:search_fields] << {:display_label => "Test", :key=>"test_field", :solr_parameters => {:qf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :pf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :spellcheck => 'false', :per_page => "55", :sort => "request_params_sort"}}
+        Blacklight.config[:search_fields] << {:display_label => "Test", :key=>"test_field", :solr_parameters => {:qf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :pf => "", :spellcheck => 'false', :per_page => "55", :sort => "request_params_sort"}}
         #re-memoize
         Blacklight.search_field_list(:reload)
 
@@ -165,9 +165,12 @@ describe 'Blacklight::SolrHelper' do
       it "should merge parameters from search_field definition" do
         params = @solr_helper_with_params.solr_search_params
 
-        params[:qf].should == "fieldOne^2.3 fieldTwo fieldThree^0.4"
-        params[:pf].should == "fieldOne^2.3 fieldTwo fieldThree^0.4"
+        params[:qf].should == "fieldOne^2.3 fieldTwo fieldThree^0.4"        
         params[:spellcheck].should == 'false'        
+      end
+      it "should merge empty string parameters from search_field definition" do
+        params = @solr_helper_with_params.solr_search_params
+        params[:pf].should == ""
       end
 
       describe "should respect proper precedence of settings, " do
