@@ -43,6 +43,7 @@ describe 'Blacklight::SolrHelper' do
     @single_facet = {:format=>'Book'}
     @multi_facets = {:format=>'Book', :language_facet=>'Tibetan'}
     @bad_facet = {:format=>'666'}
+    @subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"per_page"=>"10", :"q"=>"wome"}
   end
 
   # SPECS FOR blacklight.rb contents
@@ -60,6 +61,153 @@ describe 'Blacklight::SolrHelper' do
     end
   end
 
+  # SPECS for actual search parameter generation
+  describe "solr_search_params" do
+    describe 'for an entirely empty search' do
+      before do
+        @produced_params = @solr_helper.solr_search_params
+      end
+      it 'should not have a q param' do       
+        @produced_params[:q].should be_nil
+        @produced_params["spellcheck.q"].should be_nil
+      end
+      it 'should have default per_page' do
+        @produced_params[:per_page].should == 10
+      end
+      it 'should have default facet fields' do
+        @produced_params[:facets][:fields].should == Blacklight.config[:facet][:field_names]
+      end
+      it 'should not use the exact facet array from config defaults' do
+        @produced_params[:facets][:fields].should_not be_equal(Blacklight.config[:facet][:field_names])
+      end
+      it "should have default qt"  do
+        @produced_params[:qt].should == "search"
+      end
+      it "should have no phrase_filters" do
+        @produced_params[:phrase_filters].should be_blank
+      end
+    end
+
+    describe "for an empty string search" do
+      it "should return empty string q in solr parameters" do
+        params = @solr_helper.solr_search_params(:q => "")
+        params[:q].should == ""
+        params["spellcheck.q"].should == ""
+      end
+    end
+    
+    
+    describe "for one facet, no query" do
+      it "should have proper solr parameters" do
+
+        params = @solr_helper.solr_search_params(:f => @single_facet)
+
+        params[:q].should be_blank
+        params["spellcheck.q"].should be_blank
+        params[:facets][:fields].should == Blacklight.config[:facet][:field_names]
+        
+        params[:phrase_filters].should == @single_facet
+      
+      end
+    end
+
+    describe "with Multi Facets, No Query" do
+      it 'should have phrase_filters set properly' do
+        params = @solr_helper.solr_search_params(:f => @multi_facets)
+
+        params[:phrase_filters].should == @multi_facets
+      end
+    end
+
+    describe "with Multi Facets, Multi Word Query" do
+      it 'should have phrase_filters and q set properly' do
+        params = @solr_helper.solr_search_params(:q => @mult_word_query, :f => @multi_facets)
+
+        params[:phrase_filters].should == @multi_facets
+        params[:q].should == @mult_word_query
+      end
+    end
+
+    describe "for a field search in request parameters" do
+      it 'should look up qt from field definition' do
+        params = @solr_helper.solr_search_params( @subject_search_params )
+
+        params[:qt].should == "subject_search"
+        params[:phrase_filters].should be_nil
+        
+        params[:q].should == "wome"
+        params["spellcheck.q"].should == params[:q]
+        params[:facets][:fields].should == Blacklight.config[:facet][:field_names]
+        params[:commit].should be_nil
+        params[:action].should be_nil
+        params[:controller].should be_nil
+      end
+    end
+
+    describe "with a complex parameter environment" do
+      before do
+        # Add a custom search field def in so we can test it
+        Blacklight.config[:search_fields] << {:display_label => "Test", :key=>"test_field", :solr_parameters => {:qf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :pf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :spellcheck => 'false', :per_page => "55", :sort => "request_params_sort"}}
+        #re-memoize
+        Blacklight.search_field_list(:reload)
+
+        # Add some params
+        @solr_helper_with_params = MockSolrHelperContainer.new
+        @solr_helper_with_params.params = {:search_field => "test_field", :q => "test query", "facet.field" => "extra_facet", "f" => "some_facet"}
+      end
+      after do
+        # restore search field list to how it was. 
+        Blacklight.config[:search_fields].delete_if {|hash| hash[:key] == "test_field"}
+        #re-memoize
+        Blacklight.search_field_list(:reload)
+      end
+    
+      it "should merge parameters from search_field definition" do
+        params = @solr_helper_with_params.solr_search_params
+
+        params[:qf].should == "fieldOne^2.3 fieldTwo fieldThree^0.4"
+        params[:pf].should == "fieldOne^2.3 fieldTwo fieldThree^0.4"
+        params[:spellcheck].should == 'false'        
+      end
+
+      describe "should respect proper precedence of settings, " do
+        before do
+          @produced_params = @solr_helper_with_params.solr_search_params(:sort => "extra_params_sort")
+        end
+
+
+        it "should not put :search_field in produced params" do
+          @produced_params[:search_field].should be_nil
+        end
+
+        it "should fall through to BL general defaults for qt not otherwise specified " do
+          @produced_params[:qt].should == Blacklight.config[:default_qt]
+        end
+        
+        it "should take per_page from search field definition where specified" do
+          @produced_params[:per_page].should == "55"
+        end
+
+        it "should take q from request params" do 
+          @produced_params[:q].should == "test query"
+        end
+
+        it "should add in extra facet.field from params" do
+          @produced_params[:facets][:fields].should include("extra_facet")
+          # translate 'f' to phrase_filter
+          @produced_params[:phrase_filters] = "some_facet"
+        end
+
+        it "should Overwrite request params sort with extra_params sort" do 
+          @produced_params[:sort].should == "extra_params_sort"
+        end
+        
+      end
+    end
+
+
+ end
+    
 
 
 # SPECS FOR SEARCH RESULTS FOR QUERY
@@ -111,6 +259,7 @@ describe 'Blacklight::SolrHelper' do
 
     describe "Multiple Words Query with No Facets" do
       it 'should have results' do
+      
         (solr_response, document_list) = @solr_helper.get_search_results(:q => @mult_word_query)
         solr_response.docs.size.should == document_list.size
         solr_response.docs.size.should > 0

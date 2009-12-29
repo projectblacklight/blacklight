@@ -16,62 +16,133 @@
 # end
 #
 module Blacklight::SolrHelper
-  
+  MaxPerPage = 100
   # When a request for a single solr document by id
   # is not successful, raise this:
   class InvalidSolrID < RuntimeError; end
-  
-  # returns a params hash for searching solr.
-  # The CatalogController #index action uses this.
-  def solr_search_params(extra_controller_params={})
-    input = params.deep_merge(extra_controller_params)
 
-    qt = case
-           when (input[:search_field] && 
-                    (search_field_def = Blacklight.search_field_def_for_key(input[:search_field])))
-             search_field_def[:qt]
-           when ! input[:qt].blank?
-             input[:qt]
-           else
-             Blacklight.config[:default_qt]                                                      
-         end
-    
-    #qt = input[:qt].blank? ? Blacklight.config[:default_qt] : input[:qt]
-    
+
+ # returns a params hash for searching solr.
+  # The CatalogController #index action uses this.
+  # Solr parameters can come from a number of places. From lowest
+  # precedence to highest:
+  #  1. General defaults in blacklight config (are trumped by)
+  #  2. defaults for the particular search field identified by  params[:search_field] (are trumped by) 
+  #  3. certain parameters directly on input HTTP query params 
+  #     * not just any parameter is grabbed willy nilly, only certain ones are allowed by HTTP input)
+  #     * for legacy reasons, qt in http query does not over-ride qt in search field definition default. 
+  #  4.  extra parameters passed in as argument.
+  #
+  # spellcheck.q will be supplied with the [:q] value unless specifically
+  # specified otherwise. 
+  #
+  # Incoming parameter :f is mapped to :phrase_filter solr parameter.
+  def solr_search_params(extra_controller_params={})
+    # Order of precedence for all the places solr params can come from,
+    # start lowest, and keep over-riding with higher. 
+    ####
+    # Start with general defaults from BL config.
     # TODO -- remove :facets
     # when are we passing in "facets" here? just for tests? -- no, always.  
     #   Bess prefers to pass in the desired facets this way.  
     #   Naomi prefers it as part of the Solr request handler
     # ** we need to be consistent about what is getting passed in:
     # ** -- solr params or controller params that need to be mapped?
-    facet_fields = input[:facets].blank? ? Blacklight.config[:facet][:field_names] : input[:facets]
-    # add any facet fields from the argument list (that aren't in the config list)
+    #   jrochkind 28-dec-09 likes it the way it is, where facets can be part
+    #   of the solr request handler OR in Blacklight. If you don't want them
+    #   in blacklight, just leave don't fill out the config.
+    ####
+
+    solr_parameters = {
+      :qt => Blacklight.config[:default_qt],
+      :facets => Blacklight.config[:facet][:field_names].clone,
+      :per_page => (Blacklight.config[:index][:num_per_page] rescue "10")
+    }
+
+    
+    ###
+    # Merge in search field configured values, if present, over-writing general
+    # defaults
+    ###
+    search_field_def = Blacklight.search_field_def_for_key(params[:search_field] || extra_controller_params[:search_field])
+    
+    solr_parameters[:qt] = search_field_def[:qt] if search_field_def
+    
+    if ( search_field_def && search_field_def[:solr_parameters])
+      solr_parameters.merge!( search_field_def[:solr_parameters])
+    end
+
+    
+    ###
+    # Merge in certain values from HTTP query itelf
+    ###
+    # Omit empty strings and nil values. 
+    [:facets, :f, :page, :sort, :per_page].each do |key|
+      solr_parameters[key] = params[key] unless params[key].blank?      
+    end
+    # :q is meaningful as an empty string, should be used unless nil!
+    [:q].each do |key|
+      solr_parameters[key] = params[key] if params[key]
+    end
+        
+    # qt is handled different for legacy reasons; qt in HTTP param can not
+    # over-ride qt from solr_field_def defaults, it's only used if there
+    # was no qt from solr_field_def_defaults
+    unless params[:qt].blank? || ( solr_field_def && solr_field_def[:qt])
+      solr_parameters[:qt] = params[:qt]
+    end
+    
+    # add any facet fields params["facet.field"] that aren't already included
     #  for example, if a selected facet value means a *new* facet is desired
     #   (Stanford is doing faux "hierarchical" facets this way;  the 
     #    hierarchical facet code for SOLR isn't fully baked yet and won't be
     #    included until Solr 1.5)
     if params.has_key?("facet.field")
       params["facet.field"].each do |ff|
-        if !facet_fields.include?(ff)
-          facet_fields << ff
+        if !solr_parameters[:facets].include?(ff)
+          solr_parameters[:facets] << ff
         end
       end
     end
+
     
-    # try a per_page, if it's not set, grab it from Blacklight.config
-    per_page = input[:per_page].blank? ? (Blacklight.config[:index][:num_per_page] rescue 10) : input[:per_page]
-    # limit to 100
-    per_page = per_page.to_i > 100 ? 100 : per_page
-    {
-      :qt => qt,
-      :per_page => per_page.to_i,
-      :q => input[:q],
-      :phrase_filters => input[:f],
-      :facets => {:fields=>facet_fields},
-      :page => input[:page],
-      :sort => input[:sort],
-      "spellcheck.q" => input[:q]
-    }
+    ###
+    # Merge in any values from extra_params argument. It doesn't seem like
+    # we should have to take a slice of just certain keys, but legacy code
+    # seems to put arguments in here that aren't really expected to turn
+    # into solr params. 
+    ###
+    solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fl, :sort, :qf, :df )   )
+
+    
+    ###
+    # Defaults for otherwise blank values and normalization. 
+    ###
+    
+    # TODO: Change calling code to expect this as a symbol instead of
+    # a string, for consistency? :'spellcheck.q' is a symbol. Right now
+    # callers assume a string. 
+    solr_parameters["spellcheck.q"] = solr_parameters[:q] unless solr_parameters["spellcheck.q"]
+
+    # And fix the 'facets' parameter to be the way the solr expects it.
+    solr_parameters[:facets]= {:fields => solr_parameters[:facets]} if solr_parameters[:facets]
+    
+    # phrase_filters, map from :f. 
+    if ( solr_parameters[:f])
+      solr_parameters[:phrase_filters] = solr_parameters.delete(:f)      
+    end
+
+    
+    ###
+    # Sanity/requirements checks.
+    ###
+    
+    # limit to MaxPerPage (100). Tests want this to be a string not an integer,
+    # not sure why. 
+    solr_parameters[:per_page] = solr_parameters[:per_page].to_i > MaxPerPage ? MaxPerPage.to_s : solr_parameters[:per_page]
+
+    return solr_parameters
+    
   end
   
   # a solr query method
@@ -81,6 +152,8 @@ module Blacklight::SolrHelper
   # Returns a two-element array (aka duple) with first the solr response object,
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(extra_controller_params={})
+  
+  
     solr_response = Blacklight.solr.find(  self.solr_search_params(extra_controller_params) )
 
     document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc)}
@@ -121,7 +194,7 @@ module Blacklight::SolrHelper
       :q => input[:q],
       :facets => {:fields => facet_field},
       'facet.limit' => 6,
-      'facet.offset' => input[:offset].to_i,
+      'facet.offset' => input[:offset].to_i
     }
   end
   
