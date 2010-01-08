@@ -1,0 +1,35 @@
+=Customizing Blacklight
+
+There are lots of way to override specific behaviors and views in Blacklight. One of the most important things though is to not change the blacklight source files unless you really know what you're doing. The problem with overriding sources files is that when you update your blacklight plugin, your changes will be lost! In short, stay away from making changes here:
+  vendor/plugins/blacklight
+
+If you find that there is no other way to make your customization, please describe your problem on the mailing list: http://groups.google.com/group/blacklight-development -- we'll do the best we can to help out, and even make changes to Blacklight as needed.
+
+==Overriding Views (templates and partials)
+As a Rails Engine, you can easily override views in your app. To see what views are available, look here:
+  vendor/plugins/blacklight/app/views/
+
+Once you find the view you'd like to change, copy the source code from the plugin view (optional) into a new file, with the same name and path in your own app/views directory.
+
+==Custom View Helpers
+One of the most common things you might need to is create a view helper. Blacklight comes packaged with several view helper modules, each corresponding to a specific controller. To override an existing helper method, You simply create a new helper file with the same name and path as the existing blacklight helper. You then add the module code. For example, the main layout view calls a helper named "application_name". The value of this is put into the HTML document's title tag. If you'd like to customize this:
+
+  1. create a new file here: app/helpers/application_helper.rb
+  2. bring in the existing application helper code by adding this line:
+    require 'vendor/plugins/blacklight/app/helpers/application_helper.rb'
+  3. "re-open" the ApplicationHelper module by adding this to the file:
+    module AppliationHelper
+      
+    end
+  4. add the application_name method to the module:
+    def application_name
+      'my new application name'
+    end
+
+You'll end up with something like this, in your app/helpers/application_helper.rb file:
+  require 'vendor/plugins/blacklight/app/helpers/application_helper.rb'
+  module AppliationHelper
+    def application_name
+      'my new application name'
+    end
+  end
