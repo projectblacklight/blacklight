@@ -8,10 +8,10 @@ config.gem "authlogic", :version=>'2.1.2'
 
 config.gem 'marc', :version=>'0.3.0'
 
-config.gem 'mislav-will_paginate', :lib=>'will_paginate', :version=>'2.3.8', :source=>'http://gems.github.com'
+config.gem 'will_paginate', :lib=>'will_paginate', :version=>'2.3.11', :source=>'http://gemcutter.org'
 
 config.gem 'rsolr', :lib=>'rsolr', :version=>'0.11.0', :source=>'http://gemcutter.org'
-config.gem 'rsolr-ext', :lib=>'rsolr-ext', :version=>'0.11.1', :source=>'http://gemcutter.org'
+config.gem 'rsolr-ext', :lib=>'rsolr-ext', :version=>'0.11.2', :source=>'http://gemcutter.org'
 
 if defined? JRUBY_VERSION
   config.gem 'activerecord-jdbc-adapter', :lib=>'jdbc_adapter', :version=>'0.9.2'
