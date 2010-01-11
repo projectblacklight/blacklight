@@ -22,7 +22,7 @@ module Blacklight::SearchFields
   # 'normalizes' all field config hashes using normalize_config method. 
   # Memoized for efficiency of normalization. 
   def search_field_list
-    config[:search_fields].collect {|hash| normalize_config(hash)}
+    config[:search_fields].collect {|obj| normalize_config(obj)}
   end
   memoize :search_field_list
 
@@ -63,8 +63,19 @@ module Blacklight::SearchFields
   protected
   # Fill in missing default values in a search_field config hash.
   def normalize_config(field_hash)
-    # Make a copy so we don't alter original. 
-    field_hash = field_hash.clone      
+
+
+    # Accept legacy two-element array, if it's not a Hash, assume it's legacy.
+    # No great way to 'duck type' here. 
+    unless ( field_hash.kind_of?(Hash))      
+      # Consistent with legacy behavior where two fields can have the same label,
+      # as long as they have different qt's, we base the unique :key on :qt. 
+      field_hash = {:display_label => field_hash[0], :key => field_hash[1], :qt => field_hash[1]}
+    else
+      # Make a copy of passed in Hash so we don't alter original. 
+      field_hash = field_hash.clone
+    end
+    
     # If no key was provided, turn the display label into one.      
     field_hash[:key] ||= field_hash[:display_label].downcase.gsub(/[^a-z0-9]+/,'_')
 

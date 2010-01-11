@@ -11,7 +11,9 @@ describe Blacklight::SearchFields do
       {:search_fields => [ {:display_label => 'All Fields'},
                            {:display_label => 'Title', :qt => 'title_search'},
                            {:display_label =>'Author', :qt => 'author_search'},
-                           {:display_label => 'Subject', :qt=> 'subject_search'}     ]  
+                           {:display_label => 'Subject', :qt=> 'subject_search'},
+                           ['Legacy Config', 'legacy_qt']
+                          ]
       }
     end
     
@@ -20,8 +22,16 @@ describe Blacklight::SearchFields do
   before(:all) do
     @search_field_obj = MockConfig.new
   end
+
+  it 'should convert legacy Array config to Hash properly' do
+    hash = @search_field_obj.search_field_def_for_key('legacy_qt')
+
+    hash.should be_kind_of(Hash)
+    hash[:key].should == hash[:qt]
+    hash[:display_label].should == 'Legacy Config'
+  end
   
-  it "should return search field list with supplied default :key" do
+  it "should return search field list with calculated default :key" do
      @search_field_obj.search_field_list.each do |hash|        
         hash[:key].should_not be_blank
      end
