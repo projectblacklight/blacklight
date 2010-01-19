@@ -47,6 +47,26 @@ Then you can apply their patch
 
   git am < their-patch-file.diff
 
+==GitHub Pull Requests
+You can also fork Blacklight using GitHub. After you've created a fork, made your changes and tests, you can send a "pull request" to the "projectblacklight" team. A good overview for how to do this can be found here: http://help.github.com/forking
+
+The steps for a core-developer to merge a fork goes something like this. Let's say we have a github user, "sam" and the fork/branch that "sam" wants us to pull from is called "superduper". Here are the basic steps to get that branch merged in to your local blacklight:
+
+  cd blacklight
+  git checkout master
+  git pull
+  git remote add -f sam git://github.com/sam/blacklight.git
+  git checkout -b sam/superduper
+  git pull sam superduper
+  rake solr:spec
+  rake solr:features
+  git commit
+  git checkout master
+  git merge sam/superduper
+  rake solr:spec
+  rake solr:features
+  # git push <- make sure all tests are passing, and the patch has been approved
+
 Once you have a working copy, you should take note of the following kinds of things:
 
 * Are you happy with the tests, can you follow what they're testing, is there anything missing
