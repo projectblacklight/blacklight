@@ -31,14 +31,8 @@ module CatalogHelper
 
   # Look up search field user-displayable label
   # based on params[:qt] and configuration.
-  # Return "Keyword" if not found. 
   def search_field_label(params)
-    if (  (! params[:qt].blank?)  &&   
-          pair = search_fields.find {|pair| pair[1] == params[:qt]  })
-      h(pair[0])     
-    else
-      "Keyword"
-    end
+    h( Blacklight.label_for_search_field(params[:search_field]) )
   end
   
 end

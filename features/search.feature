@@ -14,18 +14,18 @@ Feature: Search
   
   Scenario: Search Page's type of search ("fielded search") choices
     When I am on the home page
-    Then I should see select list "select#qt" with field labels "All Fields, Title, Author, Subject"
+    Then I should see select list "select#search_field" with field labels "All Fields, Title, Author, Subject"
   
   Scenario: Submitting a Search
     When I am on the home page
     And I fill in "q" with "history"
-    And I select "All Fields" from "qt"
+    And I select "All Fields" from "search_field"
     And I press "search"
     Then I should be on "the catalog page"
     And I should see "You searched for:"
     And I should see "All Fields"
     And I should see "history"
-    And I should see select list "select#qt" with "All Fields" selected
+    And I should see select list "select#search_field" with "All Fields" selected
     And I should see "per page"
     And I should see a selectable list with per page choices
     And I should see "1."
@@ -36,13 +36,13 @@ Feature: Search
   Scenario: Submitting a Search with specific field selected
     When I am on the home page
     And I fill in "q" with "inmul"
-    And I select "Title" from "qt"
+    And I select "Title" from "search_field"
     And I press "search"
     Then I should be on "the catalog page"
     And I should see "You searched for:"
     And I should see "Title"
     And I should see "inmul"
-    And I should see select list "select#qt" with "Title" selected
+    And I should see select list "select#search_field" with "Title" selected
     And I should see "1."
     And I should see "Displaying 1 item"
 

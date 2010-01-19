@@ -173,7 +173,7 @@ class CatalogController < ApplicationController
   # if the values are blank? (nil or empty string)
   # if the values aren't blank, they are saved to the session in the :search hash.
   def delete_or_assign_search_session_params
-    [:q, :qt, :f, :per_page, :page, :sort].each do |pname|
+    [:q, :qt, :search_field, :f, :per_page, :page, :sort].each do |pname|
       params[pname].blank? ? session[:search].delete(pname) : session[:search][pname] = params[pname]
     end
   end

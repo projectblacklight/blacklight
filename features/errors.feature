@@ -11,6 +11,6 @@ Feature: Errors
   Scenario: Submitting an invalid search 
     When I am on the home page
     And I fill in "q" with "+"
-    And I select "All Fields" from "qt"
+    And I select "All Fields" from "search_field"
     And I press "search"
     Then I should see a flash error "Sorry, I don't understand your search."

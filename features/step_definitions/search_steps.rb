@@ -4,7 +4,7 @@ Then /^I should see a search field$/ do
 end
 
 Then /^I should see a selectable list with field choices$/ do
-  response.should have_tag("select#qt")
+  response.should have_tag("select#search_field")
 end
 
 Then /^I should see a selectable list with per page choices$/ do
