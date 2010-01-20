@@ -1,5 +1,5 @@
 module Blacklight::Solr::Facets
-  
+
   # shortcut method for setting up a Paginator instance
   def self.paginate(params)
     params['facet.limit'] ||= 6
@@ -26,7 +26,7 @@ module Blacklight::Solr::Facets
       limit = limit.to_s.to_i
       total = all_facet_values.size
       @items = all_facet_values.slice(0, limit-1)
-      @has_next = total == limit
+      @has_next = total > limit
       @has_previous = offset > 0
       @next_offset = offset + (limit-1)
       @previous_offset = offset - (limit-1)
