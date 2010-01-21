@@ -1,4 +1,11 @@
 <% unless request.xml_http_request? %><% # dont display the pagination links when request is "ajax" based -%>
+
+  <div class="sort_options">
+    <%= @pagination.sort == 'index' ? 'A-Z Sort' : link_to("A-Z Sort", @pagination.params_for_resort_url('index', params)) %> 
+    |
+    <%= @pagination.sort == 'count' ?  'Numerical Sort' : link_to("Numerical Sort", @pagination.params_for_resort_url('count', params)) %>
+  </div>
+
   <div class="paging">
     <%= @pagination.has_previous? ? link_to('previous', catalog_facet_path( @pagination.params_for_previous_url( params) )) : 'previous' %> | 
         
