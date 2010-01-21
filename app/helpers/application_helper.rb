@@ -247,15 +247,6 @@ module ApplicationHelper
     params[:f] and params[:f][field] and params[:f][field].include?(value)
   end
   
-  # NOTE: as of 2009-04-20, this is only used for facet.html.erb, which
-  #  is facet pagination ... and it probably shouldn't be used there.
-  # creates a formatted label for a field (removes _facet and _display etc.)
-  def field_label(field)
-    @__field_label_cache ||= {}
-    @__field_label_cache[field] ||= field.to_s.sub(/_facet$|_display$|_[a-z]$/,'').gsub(/_/,' ')
-    @__field_label_cache[field]
-  end
-  
   #
   # shortcut for built-in Rails helper, "number_with_delimiter"
   #

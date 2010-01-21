@@ -2,7 +2,7 @@
   
   <%= render :partial=>'facet_pagination' %>
 
-  <h3><%= field_label params[:id] %></h3>
+  <h3><%= facet_field_labels[params[:id]] %></h3>
   
   <% @pagination.items.each do |item| %>
     <div class="facet"><%= item.value %> (<%= format_num item.hits %>)</div>
