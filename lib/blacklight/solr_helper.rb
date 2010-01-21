@@ -217,9 +217,13 @@ module Blacklight::SolrHelper
 
     # Make the solr call
     response = Blacklight.solr.find(solr_params)
-
+    
     # Actually create the paginator!
-    return     Blacklight::Solr::Facets::Paginator.new(response.facets.first.items, :offset => solr_params['facet.offset'], :limit => solr_params['facet.limit'])
+    return     Blacklight::Solr::Facets::Paginator.new(response.facets.first.items, 
+      :offset => solr_params['facet.offset'], 
+      :limit => solr_params['facet.limit'],
+      :sort => response["responseHeader"]["params"]["facet.sort"]
+    )
   end
   
   # a solr query method

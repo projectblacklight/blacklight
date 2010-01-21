@@ -30,4 +30,10 @@ describe 'Blacklight::Solr::Facets::Paginator' do
 
     paginator.should_not be_has_previous
   end
+  it 'should know a manually set sort, and produce proper sort url' do
+      paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, :offset => 0, :limit => @limit, :sort => 'index')
+
+      paginator.sort.should == 'index'
+      paginator.params_for_resort_url('count', {})[:sort].should == 'count'
+  end
 end
