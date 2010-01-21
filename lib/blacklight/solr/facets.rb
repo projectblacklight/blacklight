@@ -7,14 +7,26 @@ module Blacklight::Solr::Facets
   # the total values for a given facet field,
   # so we cannot know how many "pages" there are.
   #
-  class Paginator
+  class Paginator    
+    # What request keys will we use for the parameters need. Need to
+    # make sure they do NOT conflict with catalog/index request params,
+    # and need to make them accessible in a list so we can easily
+    # strip em out before redirecting to catalog/index.
+    # class variable (via class-level ivar)
+    @request_keys = {:sort => :'catalog_facet.sort', :offset => :'catalog_facet.offset', :limit => :'catalog_facet.limit'}
+    class << self; attr_accessor :request_keys end # create a class method
+    def request_keys ; self.class.request_keys ; end # shortcut
     
     attr_reader :total, :items, :offset, :limit, :sort
 
     def initialize(all_facet_values, arguments)
-      @offset = arguments[:offset].to_s.to_i # will default to 0 if nil
-      @limit = arguments[:limit] ? arguments[:limit].to_s.to_i : 6
-      @sort = arguments[:sort] || "count" # count is solr's default
+      # to_s.to_i will conveniently default to 0 if nil
+      @offset = arguments[:offset].to_s.to_i 
+      @limit = arguments[:limit] ?
+          arguments[:limit].to_s.to_i : 
+          6
+      # count is solr's default
+      @sort = arguments[:sort] || "count" 
       
       total = all_facet_values.size
       @items = all_facet_values.slice(0, limit-1)
@@ -33,7 +45,7 @@ module Blacklight::Solr::Facets
     def params_for_next_url(params)
       return nil unless has_next?
       
-      return params.merge(:offset => offset + (limit-1) )
+      return params.merge(request_keys[:offset] => offset + (limit-1) )
     end
 
     def has_previous?
@@ -47,7 +59,7 @@ module Blacklight::Solr::Facets
     def params_for_previous_url(params)
       return nil unless has_previous?
 
-      return params.merge(:offset => offset - (limit-1) )
+      return params.merge(request_keys[:offset] => offset - (limit-1) )
     end
 
    # Pass in a desired solr facet solr key ('count' or 'index', see
@@ -58,8 +70,8 @@ module Blacklight::Solr::Facets
    def params_for_resort_url(sort_method, params)
      # When resorting, we've got to reset the offset to start at beginning,
      # no way to make it make sense otherwise.
-     return params.merge(:sort => sort_method,
-                         :offset => 0)
+     return params.merge(request_keys[:sort] => sort_method,
+                         request_keys[:offset] => 0)
    end
     
   end

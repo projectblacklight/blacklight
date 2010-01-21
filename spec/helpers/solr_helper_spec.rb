@@ -212,6 +212,9 @@ describe 'Blacklight::SolrHelper' do
       before do
         @facet_field = 'format'
         @generated_solr_facet_params = @solr_helper.solr_facet_params(@facet_field)
+
+        @sort_key = Blacklight::Solr::Facets::Paginator.request_keys[:sort]
+        @offset_key = Blacklight::Solr::Facets::Paginator.request_keys[:offset]
       end
       it 'sets rows to 0' do
         @generated_solr_facet_params[:rows].should == 0
@@ -224,11 +227,11 @@ describe 'Blacklight::SolrHelper' do
         @generated_solr_facet_params['facet.offset'].should == 0
       end
       it 'uses offset manually set, and converts it to an integer' do
-        solr_params = @solr_helper.solr_facet_params(@facet_field, :offset => "100")
+        solr_params = @solr_helper.solr_facet_params(@facet_field, @offset_key => "100")
         solr_params['facet.offset'].should == 100
       end
       it 'uses sort set manually' do
-        solr_params = @solr_helper.solr_facet_params(@facet_field, :sort => "index")
+        solr_params = @solr_helper.solr_facet_params(@facet_field, @sort_key => "index")
         solr_params['facet.sort'].should == 'index'
       end
     end

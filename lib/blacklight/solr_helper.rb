@@ -187,10 +187,8 @@ module Blacklight::SolrHelper
   
   # returns a params hash for a single facet field solr query.
   # used primary by the get_facet_pagination method.
-  # The extra_controller_parameters match REQUEST parameters sent
-  # by Blacklight, so the request params can just be dropped in.
-  # for instance 'sort' or 'offset' instead of 'facet.sort' or 'facet.offset',
-  # Because that's what BL uses in request params. 
+  # Looks up Facet Paginator request params from current request
+  # params to figure out sort and offset. 
   def solr_facet_params(facet_field, extra_controller_params={})
     input = params.deep_merge(extra_controller_params)
     input[:rows] ||= 0 # We normally don't want any documents, just facet values
@@ -199,13 +197,13 @@ module Blacklight::SolrHelper
       :phrase_filters => input[:f],
       :q => input[:q],
       :facets => {:fields => facet_field},
-      :rows => input[:rows].to_i, # will defualt to - if nil
+      :rows => input[:rows].to_i, # will default to 0 if nil
       'facet.limit' => 6,
-      'facet.offset' => input[:offset].to_i, # will default to 0 if nil
+      'facet.offset' => input[  Blacklight::Solr::Facets::Paginator.request_keys[:offset]  ].to_i, # will default to 0 if nil
       #facet.sort can be 'count' or 'index' (or deprecated 'true'/'false') 
       # per solr.
       # http://wiki.apache.org/solr/SimpleFacetParameters#facet.sort
-      'facet.sort' => input[:sort] 
+      'facet.sort' => input[  Blacklight::Solr::Facets::Paginator.request_keys[:sort] ] 
     }
   end
   
