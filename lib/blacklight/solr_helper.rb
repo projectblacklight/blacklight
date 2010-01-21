@@ -189,12 +189,15 @@ module Blacklight::SolrHelper
   # used primary by the get_facet_pagination method
   def solr_facet_params(facet_field, extra_controller_params={})
     input = params.deep_merge(extra_controller_params)
+    input[:rows] ||= 0 # We normally don't want any documents, just facet values
+    
     {
       :phrase_filters => input[:f],
       :q => input[:q],
       :facets => {:fields => facet_field},
+      :rows => input[:rows],
       'facet.limit' => 6,
-      'facet.offset' => input[:offset].to_i
+      'facet.offset' => input[:offset].to_i # will default to 0 if nil
     }
   end
   
@@ -205,8 +208,7 @@ module Blacklight::SolrHelper
     solr_params = solr_facet_params(facet_field, extra_controller_params)
 
     # Required stuff, default or raise
-    solr_params['facet.limit'] ||= 6
-    solr_params[:rows] = 0 # We don't want any actual records, just facet values
+
 
     raise '[:facet][:fields] is required' if ! solr_params[:facets] or ! solr_params[:facets][:fields]    
     raise "['facet.offset'] is required" unless solr_params['facet.offset']
