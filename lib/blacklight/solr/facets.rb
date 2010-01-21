@@ -19,26 +19,46 @@ module Blacklight::Solr::Facets
   #
   class Paginator
     
-    attr_reader :total, :items, :previous_offset, :next_offset
+    attr_reader :total, :items, :offset, :limit
 
     def initialize(all_facet_values, offset, limit)
-      offset = offset.to_s.to_i
-      limit = limit.to_s.to_i
+      @offset = offset.to_s.to_i
+      @limit = limit.to_s.to_i
       total = all_facet_values.size
       @items = all_facet_values.slice(0, limit-1)
-      @has_next = total > limit
-      @has_previous = offset > 0
-      @next_offset = offset + (limit-1)
-      @previous_offset = offset - (limit-1)
+      @has_next = total > @limit
+      @has_previous = @offset > 0
     end
 
     def has_next?
       @has_next
     end
 
+    # Pass in your current request params, returns a param hash
+    # suitable to passing to an ActionHelper method (resource-based url_for, or
+    # link_to or url_for) navigating to the next facet value batch. Returns nil 
+    # if there is no has_next?
+    def params_for_next_url(params)
+      return nil unless has_next?
+      
+      return params.merge(:offset => offset + (limit-1) )
+    end
+
     def has_previous?
       @has_previous
     end
+    
+    # Pass in your current request params, returns a param hash
+    # suitable to passing to an ActionHelper method (resource-based url_for, or
+    # link_to or url_for) navigating to the previous facet value batch. Returns
+    # nil if there is no has_previous?
+    def params_for_previous_url(params)
+      return nil unless has_previous?
+
+      return params.merge(:offset => offset - (limit-1) )
+    end
+
+
     
   end
   
