@@ -201,7 +201,11 @@ module Blacklight::SolrHelper
       :facets => {:fields => facet_field},
       :rows => input[:rows].to_i, # will defualt to - if nil
       'facet.limit' => 6,
-      'facet.offset' => input[:offset].to_i # will default to 0 if nil
+      'facet.offset' => input[:offset].to_i, # will default to 0 if nil
+      #facet.sort can be 'count' or 'index' (or deprecated 'true'/'false') 
+      # per solr.
+      # http://wiki.apache.org/solr/SimpleFacetParameters#facet.sort
+      'facet.sort' => input[:sort] 
     }
   end
   

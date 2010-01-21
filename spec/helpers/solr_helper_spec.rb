@@ -227,6 +227,10 @@ describe 'Blacklight::SolrHelper' do
         solr_params = @solr_helper.solr_facet_params(@facet_field, :offset => "100")
         solr_params['facet.offset'].should == 100
       end
+      it 'uses sort set manually' do
+        solr_params = @solr_helper.solr_facet_params(@facet_field, :sort => "index")
+        solr_params['facet.sort'].should == 'index'
+      end
     end
 
  end
