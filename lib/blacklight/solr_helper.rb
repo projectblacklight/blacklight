@@ -202,7 +202,20 @@ module Blacklight::SolrHelper
   # used to paginate through a single facet field's values
   # /catalog/facet/language_facet
   def get_facet_pagination(facet_field, extra_controller_params={})
-    Blacklight::Solr::Facets.paginate solr_facet_params(facet_field, extra_controller_params)
+    solr_params = solr_facet_params(facet_field, extra_controller_params)
+
+    # Required stuff, default or raise
+    solr_params['facet.limit'] ||= 6
+    solr_params[:rows] = 0 # We don't want any actual records, just facet values
+
+    raise '[:facet][:fields] is required' if ! solr_params[:facets] or ! solr_params[:facets][:fields]    
+    raise "['facet.offset'] is required" unless solr_params['facet.offset']
+
+    # Make the solr call
+    response = Blacklight.solr.find(solr_params)
+
+    # Actually create the paginator!
+    return     Blacklight::Solr::Facets::Paginator.new(response.facets.first.items, solr_params['facet.offset'], solr_params['facet.limit'])
   end
   
   # a solr query method
