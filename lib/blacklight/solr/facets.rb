@@ -11,9 +11,9 @@ module Blacklight::Solr::Facets
     
     attr_reader :total, :items, :offset, :limit
 
-    def initialize(all_facet_values, offset, limit)
-      @offset = offset.to_s.to_i
-      @limit = limit.to_s.to_i
+    def initialize(all_facet_values, arguments)
+      @offset = arguments[:offset].to_s.to_i # will default to 0 if nil
+      @limit = arguments[:limit] ? arguments[:limit].to_s.to_i : 6
       total = all_facet_values.size
       @items = all_facet_values.slice(0, limit-1)
       @has_next = total > @limit
@@ -47,6 +47,8 @@ module Blacklight::Solr::Facets
 
       return params.merge(:offset => offset - (limit-1) )
     end
+
+ 
     
   end
   
