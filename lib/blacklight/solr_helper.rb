@@ -207,12 +207,6 @@ module Blacklight::SolrHelper
   def get_facet_pagination(facet_field, extra_controller_params={})
     solr_params = solr_facet_params(facet_field, extra_controller_params)
 
-    # Required stuff, default or raise
-
-
-    raise '[:facet][:fields] is required' if ! solr_params[:facets] or ! solr_params[:facets][:fields]    
-    raise "['facet.offset'] is required" unless solr_params['facet.offset']
-
     # Make the solr call
     response = Blacklight.solr.find(solr_params)
 
