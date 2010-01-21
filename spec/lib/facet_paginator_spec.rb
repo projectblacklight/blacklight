@@ -11,22 +11,22 @@ describe 'Blacklight::Solr::Facets::Paginator' do
   end
 
   it 'should have next when there are limit+1 results' do
-    paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, 0, @limit)
+    paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, :offset => 0, :limit => @limit)
     
     paginator.should be_has_next
   end
   it 'should not have next when there are fewer results' do
-    paginator = Blacklight::Solr::Facets::Paginator.new(@six_facet_values, 0, @limit)
+    paginator = Blacklight::Solr::Facets::Paginator.new(@six_facet_values, :offset => 0, :limit => @limit)
 
     paginator.should_not be_has_next
   end
   it 'should have previous when offset is greater than 0' do
-    paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, 10, @limit)
+    paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, :offset => 10, :limit => @limit)
 
     paginator.should be_has_previous
   end
   it 'should not have previous when offset is 0' do
-    paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, 0, @limit)
+    paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, :offset => 0, :limit => @limit)
 
     paginator.should_not be_has_previous
   end
