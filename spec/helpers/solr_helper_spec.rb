@@ -208,6 +208,26 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
+    describe "solr_facet_params" do
+      before do
+        @facet_field = 'format'
+        @generated_solr_facet_params = @solr_helper.solr_facet_params(@facet_field)
+      end
+      it 'sets rows to 0' do
+        @generated_solr_facet_params[:rows].should == 0
+      end
+      it 'sets facets requested to facet_field argument' do
+        @generated_solr_facet_params[:facets].should be_kind_of(Hash)
+        @generated_solr_facet_params[:facets][:fields].should == @facet_field
+      end
+      it 'defaults offset to 0' do
+        @generated_solr_facet_params['facet.offset'].should == 0
+      end
+      it 'uses offset manually set, and converts it to an integer' do
+        solr_params = @solr_helper.solr_facet_params(@facet_field, :offset => "100")
+        solr_params['facet.offset'].should == 100
+      end
+    end
 
  end
     
