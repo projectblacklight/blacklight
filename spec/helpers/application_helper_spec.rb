@@ -163,5 +163,52 @@ describe ApplicationHelper do
       end
     end
   end
+
+  describe "add_facet_params" do
+    before do
+      @params_no_existing_facet = {:q => "query", :search_field => "search_field", :per_page => "50"}
+      @params_existing_facets = {:q => "query", :search_field => "search_field", :per_page => "50", :f => {"facet_field_1" => ["value1"], "facet_field_2" => ["value2", "value2a"]}}
+    end
+
+    it "should add facet value for no pre-existing facets" do
+      helper.stub!(:params).and_return(@params_no_existing_facet)
+
+      result_params = helper.add_facet_params("facet_field", "facet_value")
+      result_params[:f].should be_a_kind_of(Hash)
+      result_params[:f]["facet_field"].should be_a_kind_of(Array)
+      result_params[:f]["facet_field"].should == ["facet_value"]
+    end
+
+    it "should add a facet param to existing facet constraints" do
+      helper.stub!(:params).and_return(@params_existing_facets)
+      
+      result_params = helper.add_facet_params("facet_field_2", "new_facet_value")
+
+      result_params[:f].should be_a_kind_of(Hash)
+
+      @params_existing_facets[:f].each_pair do |facet_field, value_list|
+        result_params[:f][facet_field].should be_a_kind_of(Array)
+        
+        if facet_field == 'facet_field_2'
+          result_params[:f][facet_field].should == (@params_existing_facets[:f][facet_field] | ["new_facet_value"])
+        else
+          result_params[:f][facet_field].should ==  @params_existing_facets[:f][facet_field]
+        end        
+      end
+    end
+    it "should leave non-facet params alone" do
+      [@params_existing_facets, @params_no_existing_facet].each do |params|
+        helper.stub!(:params).and_return(params)
+
+        result_params = helper.add_facet_params("facet_field_2", "new_facet_value")
+
+        params.each_pair do |key, value|
+          next if key == :f
+          result_params[key].should == params[key]
+        end        
+      end
+    end
+    
+  end
   
 end
