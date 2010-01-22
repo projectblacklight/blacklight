@@ -30,12 +30,15 @@
 <% if @document.marc %>
   <%= @document.marc.to_zotero(document_partial_name(@document)) %>
   <div class="lightboxContent" id="citation" style="display:none;">
-    <%= render :partial => 'citation' %>
+    <%= render 'citation' %>
   </div>
   <div class="lightboxContent" id="email" style="display:none;">
-    <%= render :partial => 'email_form' %>
+    <%= render 'email_form' %>
   </div>
   <div class="lightboxContent" id="sms" style="display:none;">
-    <%= render :partial => 'sms_form' %>
+    <%= render 'sms_form' %>
+  </div>
+  <div class="lightboxContent" id="librarian_view" style="display:none;">
+    <%= render "marc_view" %>	
   </div>
 <% end %>
