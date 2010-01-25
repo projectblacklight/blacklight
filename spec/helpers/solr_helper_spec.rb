@@ -234,6 +234,20 @@ describe 'Blacklight::SolrHelper' do
         solr_params = @solr_helper.solr_facet_params(@facet_field, @sort_key => "index")
         solr_params['facet.sort'].should == 'index'
       end
+      it "comes up with the same params as #solr_search_params to constrain context for facet list" do
+        search_params = {:q => 'tibetan history', :f=> {:format=>'Book', :language_facet=>'Tibetan'}}
+        solr_search_params = @solr_helper.solr_search_params( search_params )
+        solr_facet_params = @solr_helper.solr_facet_params('format', search_params)
+
+        solr_search_params.each_pair do |key, value|
+          # The specific params used for fetching the facet list we
+          # don't care about. 
+          next if [:facets, :rows, 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
+          # Everything else should match
+          solr_facet_params[key].should be value
+        end
+        
+      end
     end
 
  end
