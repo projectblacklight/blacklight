@@ -221,7 +221,24 @@ module ApplicationHelper
     p[:f][field].push(value)
     p
   end
-  
+
+  # Used in catalog/facet action, facets.rb view, for a click
+  # on a facet value. Add on the facet params to existing
+  # search constraints. Remove any paginator-specific request
+  # params. Change the action to 'index' to send them back to
+  # catalog/index with their new facet choice. 
+  def add_facet_limit_from_facet_action(field, value)
+    new_params = add_facet_params(field, value)
+    
+    Blacklight::Solr::Facets::Paginator.request_keys.values.each do |paginator_key| 
+      new_params.delete(paginator_key)
+    end
+    new_params.delete(:id)
+    
+    new_params[:action] = "index"
+
+    new_params
+  end
   # copies the current params (or whatever is passed in as the 3rd arg)
   # removes the field value from params[:f]
   # removes the field if there are no more values in params[:f][field]

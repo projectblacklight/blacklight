@@ -5,7 +5,7 @@
   <h3><%= facet_field_labels[params[:id]] %></h3>
   
   <% @pagination.items.each do |item| %>
-    <div class="facet"><%= item.value %> (<%= format_num item.hits %>)</div>
+    <div class="facet"><%= link_to(item.value, add_facet_limit_from_facet_action(params[:id], item.value)) %> (<%= format_num item.hits %>)</div>
   <% end %>
   
 </div>
