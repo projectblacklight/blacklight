@@ -191,20 +191,19 @@ module Blacklight::SolrHelper
   # params to figure out sort and offset. 
   def solr_facet_params(facet_field, extra_controller_params={})
     input = params.deep_merge(extra_controller_params)
-    input[:rows] ||= 0 # We normally don't want any documents, just facet values
+
+    # First start with a standard solr search params calculations,
+    # for any search context in our request params. 
+    solr_params = solr_search_params(extra_controller_params)
     
-    {
-      :phrase_filters => input[:f],
-      :q => input[:q],
-      :facets => {:fields => facet_field},
-      :rows => input[:rows].to_i, # will default to 0 if nil
-      'facet.limit' => 6,
-      'facet.offset' => input[  Blacklight::Solr::Facets::Paginator.request_keys[:offset]  ].to_i, # will default to 0 if nil
-      #facet.sort can be 'count' or 'index' (or deprecated 'true'/'false') 
-      # per solr.
-      # http://wiki.apache.org/solr/SimpleFacetParameters#facet.sort
-      'facet.sort' => input[  Blacklight::Solr::Facets::Paginator.request_keys[:sort] ] 
-    }
+    # Now override with our specific things for fetching facet values
+    solr_params[:facets] = {:fields => facet_field}
+    solr_params['facet.limit'] ||= 6
+    solr_params['facet.offset'] = input[  Blacklight::Solr::Facets::Paginator.request_keys[:offset]  ].to_i # will default to 0 if nil
+    solr_params['facet.sort'] = input[  Blacklight::Solr::Facets::Paginator.request_keys[:sort] ]     
+    solr_params[:rows] = 0
+
+    return solr_params
   end
   
   # a solr query method
