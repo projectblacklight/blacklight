@@ -105,6 +105,12 @@ dl.defList dd {text-align: left; margin: 0; padding: 2px 0;}
 
 /* Individual Result Listing */
 #document h1 {margin: 0px; padding: 0px 0px 1em 0px;}
+#marc_view {padding:5px;}
+#marc_view .ind1, #marc_view .ind2 {padding:0 5px; display:inline;}
+#marc_view .tag_ind {float:left;}
+#marc_view .subfields {padding-left:5em;}
+#marc_view .field {clear:both; border-bottom:1px solid #CCCCCC;}
+#librarian_view{top:10%;left:-17%;text-align:left;width:700px;} /* Lightbox element */
 
 /* FORMS */
 form div.row label {float:left; width:120px; text-align:right; margin-right: .5em;}
