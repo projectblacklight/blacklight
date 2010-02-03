@@ -5,5 +5,5 @@
 <%= "Author: #{@document.marc.marc['100']['a']}" unless @document.marc.marc['100']['a'].nil? %>
 <% end -%>
 Format: <%= @document['format'] %>
-URL: <%= catalog_path(@document.id, :only_path => false, :host => @host) %>
+URL: <%= catalog_path(@document[:id], :only_path => false, :host => @host) %>
 Message: <%= @message %>

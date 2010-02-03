@@ -4,4 +4,4 @@
 <%- if @document.marc.marc and ! @document.marc.marc['100'].nil? -%>
 <%= " by #{@document.marc.marc['100']['a']}" unless @document.marc.marc['100']['a'].nil? %>
 <% end -%>
-Link: <%= catalog_path(@document.id, :only_path => false, :host => @host) %>
+Link: <%= catalog_path(@document[:id], :only_path => false, :host => @host) %>

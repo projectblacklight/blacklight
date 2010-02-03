@@ -4,6 +4,8 @@
 #   - this will prevent users from having to install testing gems
 #
 
+config.gem "rails", :version=>'2.3.5'
+
 config.gem "authlogic", :version=>'2.1.2'
 
 config.gem 'marc', :version=>'0.3.0'
@@ -32,7 +34,4 @@ unless File.exists? File.join(Rails.root, 'config', 'initializers', 'blacklight_
   raise "Blacklight requires a config/initializers/blacklight_config.rb file."
 end
 
-# loading these here prevents Rails from reloading in development mode -- which erases Blacklight.config
-# because config/initializers/* are only loaded at boot time.
-require 'rsolr-ext'
 require 'blacklight'
