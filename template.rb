@@ -22,7 +22,7 @@ tag = nil
 # Example: git_export 'git://github.com/projectblacklight/blacklight.git', 'release-2.4'
 #
 def git_export repo, new_dir_name=nil, opts={}
-  if File.exists? 'vendor/plugins/blacklight'
+  if File.exists? 'vendor/plugins/blacklight' and (new_dir_name == 'vendor/plugins/blacklight')
     new_location = "vendor/#{Time.now.to_i}-previous-blacklight"
     puts "\n* Moving your current Blacklight installation to #{new_location}\n\n"
     FileUtils.mv 'vendor/plugins/blacklight', new_location
