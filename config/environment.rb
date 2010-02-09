@@ -71,21 +71,20 @@ Rails::Initializer.run do |config|
   # list test dependencies here...
   #
   
-  # these are used for testing
+  # these are used for testing (rake solr:spec, which ends up running in the "development" environment)
   config.gem 'rspec', :version=>'1.3.0', :lib=>false
   config.gem 'rspec-rails', :version=>'1.3.2', :lib=>false
-
+  
   config.gem 'webrat', :version=>'0.7.0'
   config.gem 'cucumber', :version=>'0.6.2'
   config.gem 'rcov', :version=>'0.9.7.1'
-  config.gem 'database_cleaner',  :version => '>= 0.4.3'
   
   # rdoc and haml are required by hana
   config.gem 'rdoc', :version=>'2.4.3'
-  config.gem 'haml', :version=>'2.2.6'
+  config.gem 'haml', :version=>'2.2.19'
   
-  # hanna is only needed for generating rdocs 
-  config.gem 'mislav-hanna', :lib=>'hanna/rdoctask', :source=>'http://gems.github.com', :version=>'0.1.11'
+  # hanna is only needed for generating rdocs
+  config.gem 'hanna', :lib=>'hanna/rdoctask', :source=>'http://gemcutter.org', :version=>'0.1.12'
   
   # got this idea from Rails' Initializer#load_environment()
   # it's reading the file and evaluating it in the context of this code
