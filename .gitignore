@@ -4,7 +4,7 @@ coverage/
 db/*.sqlite3
 db/schema.rb
 jetty/logs/*.log
-#jetty/solr/data/*
+jetty/solr/data/*
 log/*
 webrat-*
 public/
