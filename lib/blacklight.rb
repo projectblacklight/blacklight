@@ -53,7 +53,7 @@ module Blacklight
   
   # returns the full path the the blacklight plugin installation
   def self.root
-    @root ||= File.expand_path File.join(__FILE__, '..')
+    @root ||= File.expand_path File.join(__FILE__, '..', '..')
   end
   
   # Searches Rails.root then Blacklight.root for a valid path
