@@ -1,6 +1,3 @@
-[submodule "test-data"]
-	path = test-data
-	url = git://github.com/projectblacklight/blacklight-data.git
 [submodule "jetty"]
 	path = jetty
 	url = git://github.com/projectblacklight/blacklight-jetty.git
