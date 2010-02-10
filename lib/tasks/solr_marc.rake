@@ -15,7 +15,7 @@ namespace :solr do
     desc "Index the supplied test data into Solr; set NOOP to true to view output command."
     task :index_test_data do
       root = Rails.root
-      marc_records_path = File.join(root, "test-data", "test_data.utf8.mrc")
+      marc_records_path = File.join(root, "data", "test_data.utf8.mrc")
       solr_path = File.join(root, "jetty", "solr")
       solr_war_path = File.join(root, 'jetty', 'webapps', 'solr.war')
       solr_marc_jar_path = File.join(root, 'solr_marc', 'SolrMarc.jar')
@@ -25,7 +25,7 @@ namespace :solr do
       cmd << " -Dsolr.indexer.properties=#{indexer_properties_path} -Done-jar.class.path=#{solr_war_path} -Dsolr.path=#{solr_path}"
       cmd << " -jar #{solr_marc_jar_path} #{config_path} #{marc_records_path}"
       puts "\ncommand being executed:\n#{cmd}\n\n"
-      system cmd unless ENV.keys.any?{|k| k =~ /noop/i }
+      system cmd unless ENV.keys.any?{|k| k =~ /^noop/i }
     end
     
     desc "Index marc data using SolrMarc. Available environment variables: MARC_RECORDS_PATH, CONFIG_PATH, SOLR_MARC_MEM_ARGS, SOLR_WAR_PATH, SOLR_JAR_PATH"

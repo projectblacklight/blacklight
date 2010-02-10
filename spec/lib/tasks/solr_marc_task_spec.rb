@@ -26,7 +26,7 @@ describe 'solr:marc:index_test_data' do
   
   it 'should only print the java command when using NOOP=true' do
     root = Rails.root
-    expected = "java -Xmx512m -Dsolr.indexer.properties=#{root}/config/SolrMarc/index.properties -Done-jar.class.path=#{root}/jetty/webapps/solr.war -Dsolr.path=#{root}/jetty/solr -jar #{root}/solr_marc/SolrMarc.jar #{root}/config/SolrMarc/config.properties #{root}/test-data/test_data.utf8.mrc"
+    expected = "java -Xmx512m -Dsolr.indexer.properties=#{root}/config/SolrMarc/index.properties -Done-jar.class.path=#{root}/jetty/webapps/solr.war -Dsolr.path=#{root}/jetty/solr -jar #{root}/solr_marc/SolrMarc.jar #{root}/config/SolrMarc/config.properties #{root}/data/test_data.utf8.mrc"
     ENV['NOOP'] = "true"
     o = capture_stdout do
       puts 'BEFORE >>>'
