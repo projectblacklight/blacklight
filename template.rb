@@ -4,7 +4,6 @@ puts "\n* Blacklight Rails Template \n\n"
 # We do this because the repo name is "blacklight-plugin", which we don't want as the directory name.
 bl_dirname = 'blacklight'
 
-branch = nil
 tag = nil
 
 # install the blacklight plugin - remove this when the github move is complete!
