@@ -7,6 +7,28 @@ require 'fileutils'
 
 namespace :solr do
   namespace :marc do
+    
+    # shortcut to Blacklight.locate_path
+    def locate_path *args
+      require 'blacklight'
+      Blacklight.locate_path *args
+    end
+    
+    desc "Index the supplied test data into Solr; set NOOP to true to view output command."
+    task :index_test_data do
+      marc_records_path = locate_path("data", "test_data.utf8.mrc")
+      solr_path = locate_path("jetty", "solr")
+      solr_war_path = locate_path('jetty', 'webapps', 'solr.war')
+      solr_marc_jar_path = locate_path('solr_marc', 'SolrMarc.jar')
+      config_path = locate_path('config', 'SolrMarc', 'config.properties')
+      indexer_properties_path = locate_path('config', 'SolrMarc', 'index.properties')
+      cmd = "java -Xmx512m"
+      cmd << " -Dsolr.indexer.properties=#{indexer_properties_path} -Done-jar.class.path=#{solr_war_path} -Dsolr.path=#{solr_path}"
+      cmd << " -jar #{solr_marc_jar_path} #{config_path} #{marc_records_path}"
+      puts "\ncommand being executed:\n#{cmd}\n\n"
+      system cmd unless ENV.keys.any?{|k| k =~ /^noop/i }
+    end
+    
     desc "Index marc data using SolrMarc. Available environment variables: MARC_RECORDS_PATH, CONFIG_PATH, SOLR_MARC_MEM_ARGS, SOLR_WAR_PATH, SOLR_JAR_PATH"
     task :index => "index:work"
 

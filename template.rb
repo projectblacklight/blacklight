@@ -4,7 +4,6 @@ puts "\n* Blacklight Rails Template \n\n"
 # We do this because the repo name is "blacklight-plugin", which we don't want as the directory name.
 bl_dirname = 'blacklight'
 
-branch = nil
 tag = nil
 
 # install the blacklight plugin - remove this when the github move is complete!
@@ -22,6 +21,11 @@ tag = nil
 # Example: git_export 'git://github.com/projectblacklight/blacklight.git', 'release-2.4'
 #
 def git_export repo, new_dir_name=nil, opts={}
+  if File.exists? 'vendor/plugins/blacklight' and (new_dir_name == 'vendor/plugins/blacklight')
+    new_location = "vendor/#{Time.now.to_i}-previous-blacklight"
+    puts "\n* Moving your current Blacklight installation to #{new_location}\n\n"
+    FileUtils.mv 'vendor/plugins/blacklight', new_location
+  end
   dir_name = new_dir_name || File.basename(repo, '.git')
   run "git clone #{repo} #{new_dir_name}"
   if opts[:branch]
@@ -34,6 +38,10 @@ end
 
 git_export 'git://github.com/projectblacklight/blacklight.git', 'vendor/plugins/blacklight', :tag=>tag
 
+# read the environment.rb file into a string...
+# -- this allows the script to know if this is a fresh install or not
+ENV_DATA = File.read 'config/environment.rb'
+
 # mv the blacklight-plugin to #{bl_dirname}
 # uncomment next line when github move is complete!
 #FileUtils.mv("vendor/plugins/blacklight-plugin", "vendor/plugins/#{bl_dirname}")
@@ -41,19 +49,21 @@ git_export 'git://github.com/projectblacklight/blacklight.git', 'vendor/plugins/
 # modify_env_for_engines_boot! helper method
 # adds a line to the environment.rb file for properly loading the Engines plugin
 def modify_env_for_engines_boot!
-  # find this line in the environment.rb file...
-  rails_boot = "require File.join(File.dirname(__FILE__), 'boot')"
-  # convert it into a Regexp
-  rails_boot_regexp = /require File\.join\(File\.dirname\(__FILE__\), 'boot'\)/#Regexp.escape rails_boot
+  env_data = ENV_DATA.dup
   # create the line we want to add
   engines_boot = "require File.join(File.dirname(__FILE__), '../vendor/plugins/blacklight/vendor/plugins/engines/boot')"
-  # read the environment.rb file into a string...
-  env_data = File.read 'config/environment.rb'
-  # replace the "rails_boot" with itself, a new line and the "engines_boot"
-  env_data.sub! rails_boot_regexp, "#{rails_boot}\n#{engines_boot}"
-  puts "\n* Adding engines bootline to config/environment.rb"
-  # write the change to the file...
-  File.open('config/environment.rb', 'w') {|f| f.puts env_data }
+  # only add this if it doesn't already exist
+  if env_data.scan(engines_boot).empty?
+    # find this line in the environment.rb file...
+    rails_boot = "require File.join(File.dirname(__FILE__), 'boot')"
+    # convert it into a Regexp
+    rails_boot_regexp = /require File\.join\(File\.dirname\(__FILE__\), 'boot'\)/#Regexp.escape rails_boot
+    # replace the "rails_boot" with itself, a new line and the "engines_boot"
+    env_data.sub! rails_boot_regexp, "#{rails_boot}\n#{engines_boot}"
+    puts "\n* Adding engines bootline to config/environment.rb"
+    # write the change to the file...
+    File.open('config/environment.rb', 'w') {|f| f.puts env_data }
+  end
 end
 
 modify_env_for_engines_boot!
@@ -63,19 +73,31 @@ modify_env_for_engines_boot!
 # Having it in the blacklight init.rb doesn't cut it because
 # Authlogic needs to modify ActionController::Base at a particular point
 # within the boot process, and the init.rb file is loaded after that point.
-gem 'authlogic', :version=>'2.1.2'
+if ENV_DATA.scan("config.gem 'authlogic'").empty?
+  gem 'authlogic', :version=>'2.1.2'
+end
 
 # add BL's plugins directory to the applications config.plugin_paths
 # This makes it possible to not have to install the other plugins BL uses.
-environment 'config.plugin_paths += ["#{RAILS_ROOT}/vendor/plugins/blacklight/vendor/plugins"]'
+blacklight_plugins_path = 'config.plugin_paths += ["#{RAILS_ROOT}/vendor/plugins/blacklight/vendor/plugins"]'
+if ENV_DATA.scan(blacklight_plugins_path).empty?
+ environment blacklight_plugins_path
+end
 
 # don't need that irritating index page
 FileUtils.rm 'public/index.html'
 
 # copy the solr.yml from the plugin to the new app
-FileUtils.cp "vendor/plugins/#{bl_dirname}/install/solr.yml", "config/solr.yml"
+solr_config = "config/solr.yml"
+unless File.exists? solr_config
+  FileUtils.cp "vendor/plugins/#{bl_dirname}/install/solr.yml", solr_config
+end
+
 # cp the blacklight initializer file from the plugin up to the new app
-FileUtils.cp "vendor/plugins/#{bl_dirname}/config/initializers/blacklight_config.rb", "config/initializers/blacklight_config.rb"
+blacklight_config = "config/initializers/blacklight_config.rb"
+unless File.exists? blacklight_config
+  FileUtils.cp "vendor/plugins/#{bl_dirname}/config/initializers/blacklight_config.rb", blacklight_config
+end
 
 # make sure github and gemcutter are in the gem sources list
 gem_sources = run "gem sources"

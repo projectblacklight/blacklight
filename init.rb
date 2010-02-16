@@ -4,14 +4,16 @@
 #   - this will prevent users from having to install testing gems
 #
 
+config.gem "rails", :version=>'2.3.5'
+
 config.gem "authlogic", :version=>'2.1.2'
 
 config.gem 'marc', :version=>'0.3.0'
 
 config.gem 'will_paginate', :lib=>'will_paginate', :version=>'2.3.11', :source=>'http://gemcutter.org'
 
-config.gem 'rsolr', :lib=>'rsolr', :version=>'0.11.0', :source=>'http://gemcutter.org'
-config.gem 'rsolr-ext', :lib=>'rsolr-ext', :version=>'0.11.2', :source=>'http://gemcutter.org'
+config.gem 'rsolr', :lib=>'rsolr', :version=>'0.12.1', :source=>'http://gemcutter.org'
+config.gem 'rsolr-ext', :lib=>'rsolr-ext', :version=>'0.12.0', :source=>'http://gemcutter.org'
 
 if defined? JRUBY_VERSION
   config.gem 'activerecord-jdbc-adapter', :lib=>'jdbc_adapter', :version=>'0.9.2'
@@ -32,7 +34,4 @@ unless File.exists? File.join(Rails.root, 'config', 'initializers', 'blacklight_
   raise "Blacklight requires a config/initializers/blacklight_config.rb file."
 end
 
-# loading these here prevents Rails from reloading in development mode -- which erases Blacklight.config
-# because config/initializers/* are only loaded at boot time.
-require 'rsolr-ext'
 require 'blacklight'

@@ -86,9 +86,9 @@ module Blacklight::SolrHelper
     end
         
     # qt is handled different for legacy reasons; qt in HTTP param can not
-    # over-ride qt from solr_field_def defaults, it's only used if there
-    # was no qt from solr_field_def_defaults
-    unless params[:qt].blank? || ( solr_field_def && solr_field_def[:qt])
+    # over-ride qt from search_field_def defaults, it's only used if there
+    # was no qt from search_field_def_defaults
+    unless params[:qt].blank? || ( search_field_def && search_field_def[:qt])
       solr_parameters[:qt] = params[:qt]
     end
     

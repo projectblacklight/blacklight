@@ -4,8 +4,12 @@ coverage/
 db/*.sqlite3
 db/schema.rb
 jetty/logs/*.log
-#jetty/solr/data/*
+jetty/solr/data/*
 log/*
 webrat-*
 public/
 config/SolrMarc/*.log*
+
+solr_marc/solrmarc.log
+
+*.log

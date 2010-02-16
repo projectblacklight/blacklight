@@ -38,6 +38,7 @@ class TestSolrServer
       yield
     rescue
       error = $!
+      puts "*** Solr/Jetty Startup Error: #{error}"
     ensure
       puts "stopping solr server"
       solr_server.stop

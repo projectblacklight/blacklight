@@ -123,7 +123,7 @@ class CatalogController < ApplicationController
           end
       end
       RecordMailer.deliver(email) unless flash[:error]
-      redirect_to catalog_path(@document.id)
+      redirect_to catalog_path(@document[:id])
     else
       flash[:error] = "You must enter a recipient in order to send this message"
     end

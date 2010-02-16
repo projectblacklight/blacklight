@@ -143,7 +143,12 @@ describe 'Blacklight::SolrHelper' do
         params[:controller].should be_nil
       end
     end
-
+    describe "overriding of qt parameter" do
+      it "should return the correct overriden parameter" do
+        @solr_helper.params[:qt] = "overriden"
+        @solr_helper.solr_search_params[:qt].should == "overriden"
+      end
+    end
     describe "with a complex parameter environment" do
       before do
         # Add a custom search field def in so we can test it

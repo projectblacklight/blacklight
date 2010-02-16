@@ -1,11 +1,6 @@
-# require 'rake'
-# require 'rake/testtask'
-# require 'rake/rdoctask'
-
 require(File.join(File.dirname(__FILE__), 'config', 'boot'))
 
 require 'rake'
-#require 'rake/clean'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'tasks/rails'
@@ -16,30 +11,9 @@ task :default => "test"
 
 # run migrations and call solr:spec and solr:features
 desc 'run migrations and call solr:spec and solr:features'
-  task "test" => ["db:migrate", "solr:spec", "solr:features"] do
+task "test" => ["db:migrate", "solr:spec", "solr:features"] do
+  # ...
 end
-
-# Set constants used for publishing releases and rdocs
-
-# The name of your project 
-PROJECT = "Blacklight" 
-# Short summary of your project, used in packaging. 
-PROJECT_SUMMARY = "Blacklight is open source discovery software. Libraries (or anyone else) may use blacklight to enable searching and browsing of their collections online. Blacklight uses Solr to index and search text and/or metadata, and it has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and several kinds of XML documents, including TEI, EAD, and GDMS. Blacklight was developed at the University of Virginia Library and is made public under an Apache 2.0 license." 
-# The project's package name (as opposed to its display name). Used for 
-# RubyForge connectivity and packaging. 
-UNIX_NAME = "blacklight" 
-# Your RubyForge user name. 
-RUBYFORGE_USER = ENV["RUBYFORGE_USER"] || "eos8d" 
-# Directory on RubyForge where your website's files should be uploaded. 
-RUBYFORGE_PATH = "/var/www/gforge-projects/blacklight/" 
-# Output directory for the rdoc html files. 
-# If you don't have a custom homepage, and want to use the RDoc 
-# index.html as homepage, just set it to WEBSITE_DIR. 
-RDOC_HTML_DIR = "html" 
-# Additional RDoc formatted files, besides the Ruby source files. 
-RDOC_FILES = FileList["README.rdoc", "Changes.rdoc"]
-CURRENT_SVN_BRANCH = "http://blacklight.rubyforge.org/svn/trunk/"
-
 
 desc 'Generate documentation for the blacklight plugin.'
 Rake::RDocTask.new('rdoc') do |t| 
@@ -47,13 +21,4 @@ Rake::RDocTask.new('rdoc') do |t|
   t.main = 'README.rdoc' 
   t.title = "Blacklight API documentation" 
   t.options << '--line-numbers' << '--inline-source'
-end 
-
-desc "Upload website to RubyForge. scp will prompt for your RubyForge password." 
-task "publish-rdoc" => ["rdoc"] do 
-  rubyforge_path = "/var/www/gforge-projects/#{UNIX_NAME}/" 
-  sh "scp -r #{RDOC_HTML_DIR}/* " + 
-    "#{RUBYFORGE_USER}@rubyforge.org:#{RUBYFORGE_PATH}", 
-    :verbose => true 
 end
-
