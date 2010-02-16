@@ -13,7 +13,7 @@ Note: these instructions apply to releases 2.4.0 and above.
 Blacklight uses a new Rails feature called "templates". To install the Blacklight plugin into a new Rails application, run the following command (be sure to answer all of the installation questions):
 
 ===Installing Blacklight 2.4 (recommended):
-  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v2.4.0/template.rb
+  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v2.4.2/template.rb
 
 === Installing the "trunk", or master branch:
   rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/master/template.rb
@@ -49,3 +49,9 @@ then remove everything in that directory.
 
 You may also see messages to run refresh_spec when you run the ’’rake gems’’ command; go ahead and follow those instructions. (In at least one case, the refresh_spec command needed to be run many times before the error messages ceased.)
 
+==Indexing the test data
+The plugin ships with a test data set. To index this data, first be sure that Solr is running (see steps above). Now run this command to index:
+  
+  rake solr:marc:index_test_data
+
+You should then be able to load http://localhost:3000 in your browser (Rails must be running) and view the test data set working within Blacklight.

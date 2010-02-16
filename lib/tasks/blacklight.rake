@@ -51,7 +51,7 @@ namespace :solr do
   task :features do
     # wrap tests with a test-specific Solr server
     error = TestSolrServer.wrap(SOLR_PARAMS) do
-      Rake::Task["rake:features"].invoke 
+      Rake::Task["cucumber:all"].invoke 
       #puts `ps aux | grep start.jar` 
     end
     raise "test failures: #{error}" if error
