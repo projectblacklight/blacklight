@@ -1,13 +1,13 @@
 
 
   <div class="sort_options">
-    <%= @pagination.sort == 'index' ? 'A-Z Sort' : link_to("A-Z Sort", @pagination.params_for_resort_url('index', params)) %> 
+    <%=  link_to_unless(@pagination.sort == 'index', "A-Z Sort", @pagination.params_for_resort_url('index', params)) %> 
     |
-    <%= @pagination.sort == 'count' ?  'Numerical Sort' : link_to("Numerical Sort", @pagination.params_for_resort_url('count', params)) %>
+    <%= link_to_unless(@pagination.sort == 'count', "Numerical Sort", @pagination.params_for_resort_url('count', params)) %>
   </div>
 
   <div class="paging">
-    <%= @pagination.has_previous? ? link_to('previous', catalog_facet_path( @pagination.params_for_previous_url( params) )) : 'previous' %> | 
+    <%= link_to_if(@pagination.has_previous?, 'previous', catalog_facet_path( @pagination.params_for_previous_url( params) ))  %> | 
         
-    <%= @pagination.has_next? ? link_to('next', catalog_facet_path( @pagination.params_for_next_url(params)) ) : 'next' %>
+    <%= link_to_if(@pagination.has_next?, 'next', catalog_facet_path( @pagination.params_for_next_url(params)) ) %>
   </div>
