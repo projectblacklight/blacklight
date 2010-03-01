@@ -30,6 +30,20 @@ config.after_initialize do
   Mime::Type.register_alias "application/x-endnote-refer", :endnote
 end
 
+# the blacklight_config file configures objects, creates a config hash etc..
+# Rails will only load this file once.
+# Development mode (cache_classes = false) experiences problems though.
+# The most obvious symtom is where the application
+# works fine for the first request, but sub-sequent requests fail.
+# Using require_dependency inside of to_prepare
+# will load this file for every request,
+# when config.cache_classes == false.
+# if config.cache_classes == true (production mode)
+# then this file is not continously reloaded as the code is cached. 
+config.to_prepare do
+  require_dependency File.expand_path('config/initializers/blacklight_config.rb') unless config.cache_classes
+end
+
 unless File.exists? File.join(Rails.root, 'config', 'initializers', 'blacklight_config.rb')
   raise "Blacklight requires a config/initializers/blacklight_config.rb file."
 end
