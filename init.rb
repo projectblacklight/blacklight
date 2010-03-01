@@ -33,7 +33,7 @@ end
 # the blacklight_config file configures objects, creates a config hash etc..
 # Rails will only load this file once.
 # Development mode (cache_classes = false) experiences problems though.
-# The most obvious symtom is where the application
+# The most obvious symptom is where the application
 # works fine for the first request, but sub-sequent requests fail.
 # Using require_dependency inside of to_prepare
 # will load this file for every request,
