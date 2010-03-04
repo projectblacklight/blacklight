@@ -89,6 +89,7 @@ module BlacklightInstaller
       FileUtils.rm_rf Dir["#{install_path}/**/.git*", "#{install_path}/jetty/logs"]
     else
       git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>tag do
+        require "#{install_path}/lib/colorize.rb"
         output "Updating data and jetty directories/submodules"
         FileUtils.cd install_path do
           `git submodule init && git submodule update`
@@ -265,8 +266,6 @@ extend BlacklightInstaller
 error! "Halting... looks like Blacklight has been installed here..." if already_installed?
 
 install_base_plugin
-
-require "#{install_path}/lib/colorize.rb"
 
 modify_env_for_engines_boot!
 add_gem_dependencies_to_environment
