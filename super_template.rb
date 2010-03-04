@@ -80,14 +80,13 @@ module BlacklightInstaller
   
   def install_base_plugin
     output "Installing base plugin code..."
-    puts ARGV.inspect
     if source_arg = ARGV.detect{|v| v =~ /^blacklight-source/}
       installing_from = File.expand_path source_arg.split('=').last.strip
       output "Installing from #{installing_from}"
       FileUtils.cp_r installing_from, install_path
       FileUtils.rm_rf Dir["#{install_path}/**/.git*", "#{install_path}/jetty/logs"]
     else
-      #git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>tag
+      git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>tag
     end
   end
   
