@@ -89,6 +89,7 @@ module BlacklightInstaller
       FileUtils.rm_rf Dir["#{install_path}/**/.git*", "#{install_path}/jetty/logs"]
     else
       git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>tag do
+        output "Updating data and jetty directories/submodules"
         FileUtils.cd install_path do
           `git submodule init && git submodule update`
         end
