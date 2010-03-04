@@ -38,7 +38,8 @@ module BlacklightInstaller
   #
   # Example: git_export 'git://github.com/projectblacklight/blacklight.git', 'release-2.4'
   #
-  def git_export repo, new_dir_name=nil, opts={}
+  # if a block is given, yield is called before the .git dir is removed
+  def git_export repo, new_dir_name=nil, opts={}, &block
     if File.exists? install_path and (new_dir_name == install_path)
       new_location = "vendor/#{Time.now.to_i}-previous-blacklight"
       output "Moving your current Blacklight installation to #{new_location}", :red
@@ -51,7 +52,8 @@ module BlacklightInstaller
     elsif opts[:tag]
       run "cd #{dir_name} && git checkout #{opts[:tag]}"
     end
-    FileUtils.rm_r "#{dir_name}/.git", :force=>true
+    yield if block_given?
+    FileUtils.rm_r "#{dir_name}/**/.git*", :force=>true
   end
 
   # modify_env_for_engines_boot! helper method
@@ -86,7 +88,11 @@ module BlacklightInstaller
       FileUtils.cp_r installing_from, install_path
       FileUtils.rm_rf Dir["#{install_path}/**/.git*", "#{install_path}/jetty/logs"]
     else
-      git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>tag
+      git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>tag do
+        File.cd install_path do
+          `git submodule init && git submodule update`
+        end
+      end
     end
   end
   
