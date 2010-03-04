@@ -1,10 +1,10 @@
-# installing blacklight uses colorize library...
-# until the plugin has been installed, mock String #colorize
+# use the colorize library...
+# until the plugin has been installed/downloaded, mock String #colorize
 String.class_eval do
   def colorize color; self end
 end
 
-# this gets mixed into the template installer scope
+# this gets mixed into the template installer scope...
 module BlacklightInstaller
   
   # set a variable here for the directory that the plugin gets installed into.
@@ -91,6 +91,7 @@ module BlacklightInstaller
     end
   end
   
+  # does the blacklight plugin exist already?
   def already_installed?
     File.exists? install_path
   end
@@ -222,6 +223,7 @@ module BlacklightInstaller
     end
   end
   
+  # does what it says
   def remove_index_html
     output "Removing the default public/index.html file"
     FileUtils.rm 'public/index.html'
@@ -254,37 +256,23 @@ extend BlacklightInstaller
 @branch = nil
 @install_dir_name = 'blacklight'
 
-if already_installed?
-  require "#{install_path}/lib/colorize.rb"
-  error! "Halting... looks like Blacklight has been installed here..."
-end
+error! "Halting... looks like Blacklight has been installed here..." if already_installed?
 
 install_base_plugin
 
 require "#{install_path}/lib/colorize.rb"
 
 modify_env_for_engines_boot!
-
 add_gem_dependencies_to_environment
-
 register_plugin_dependencies
-
 remove_index_html
-
 copy_configs
-
 add_gem_repo_sources
-
 install_gem_dependencies?
-
 run_migrations?
-
 modify_application_controller
-
 modify_application_helper
-
 modify_routes
-
 install_solr?
 
 output "*********************************************************"
