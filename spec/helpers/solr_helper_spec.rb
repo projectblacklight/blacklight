@@ -8,13 +8,19 @@ class MockSolrHelperContainer
   
   include Blacklight::SolrHelper
   attr_accessor :params
+  attr_accessor :facet_limits
   
   # SolrHelper expects a method called #params,
   # within the class that's mixing it in
   def params
     @params ||= {}
   end
-  
+  def facet_limit_for(facet_field)    
+    facet_limit_hash[facet_field]
+  end
+  def facet_limit_hash
+    @facet_limits ||= {}
+  end
 end
 
 
@@ -255,7 +261,27 @@ describe 'Blacklight::SolrHelper' do
       
     end
   end
-
+  describe "for facet limit parameters config ed" do
+    before(:all) do
+       @solr_helper = MockSolrHelperContainer.new
+       @solr_helper.params = {:search_field => "test_field", :q => "test query"}
+       @solr_helper.facet_limits = {nil => 20, :subject_facet => 10}
+       @generated_params = @solr_helper.solr_search_params
+     end
+      
+     it "should include default limit+1 as facet.limit" do      
+       @generated_params[:"facet.limit"].should == (@solr_helper.facet_limit_for(nil) + 1) 
+     end
+     it "should include specifically configged facet limits" do
+      @solr_helper.facet_limit_hash.each_pair do |facet_field, limit|
+        next if facet_field.nil? # skip default nil key
+        @generated_params[:"f.#{facet_field}.facet.limit"].should == (limit +1)
+      end
+     end
+     it "should not include a facet limit for the 'nil' key in hash" do
+        @generated_params.should_not have_key(:"f..facet.limit")
+     end
+   end
 
 # SPECS FOR SEARCH RESULTS FOR QUERY
   describe 'Search Results' do

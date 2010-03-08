@@ -132,6 +132,16 @@ module Blacklight::SolrHelper
       solr_parameters[:phrase_filters] = solr_parameters.delete(:f)      
     end
 
+    # Facet 'more' limits. Add +1 to any configured facets limits,
+    # also include 'nil' default limit.
+    if ( default_limit = facet_limit_for(nil))
+      solr_parameters[:"facet.limit"] = (default_limit + 1)                                 
+    end
+    facet_limit_hash.each_pair do |field_name, limit|
+      next if field_name.nil? # skip the 'default' key      
+      solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
+    end
+    
     
     ###
     # Sanity/requirements checks.

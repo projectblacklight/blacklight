@@ -143,7 +143,7 @@ class CatalogController < ApplicationController
   # limit is configged, may drop down to default limit (nil key)
   # otherwise, returns nil for no limit config'ed. 
   def facet_limit_for(facet_field)
-    limits_hash = Blacklight.config[:facet][:limits]
+    limits_hash = facet_limit_hash
     return nil unless limits_hash
 
     limit = limits_hash[facet_field]
@@ -152,9 +152,13 @@ class CatalogController < ApplicationController
     return limit
   end
   helper_method :facet_limit_for
-
-                  
-  
+  # Returns complete hash of key=facet_field, value=limit.
+  # Used by SolrHelper#solr_search_params to add limits to solr
+  # request for all configured facet limits.
+  def facet_limit_hash
+    Blacklight.config[:facet][:limits]           
+  end
+  helper_method :facet_limit_hash
   protected
   
   #
