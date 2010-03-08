@@ -49,7 +49,7 @@ h1.site_title a:link, h1.site_title a:visited, h1.site_title a:hover, h1.site_ti
 h2.search {margin:0; display:inline;}
 
 /* Search Box */
-#search {position: absolute; top: -4em; left: 0; text-align: left; font-size: 120%;}
+#search {position: absolute; top: -2.5em; left: 0; text-align: left; font-size: 120%;}
 #search #q {width: 200px;}
 #search .submit {padding: 0px 0.25em; margin: 0 0.5em; text-transform: capitalize;}
 #search h2 {display: none;}

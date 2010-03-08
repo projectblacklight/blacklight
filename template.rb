@@ -173,7 +173,7 @@ begin
       properties_file.gsub! /^solr\.path.*/, 'solr.path = ../../jetty/solr'
       File.open('config/SolrMarc/config.properties', 'w'){|f|f.puts properties_file}
       puts "\n* To index the test data, make sure solr is running, then execute:
-    rake solr:marc:index MARC_FILE=data/test_data.utf8.mrc SOLR_WAR_PATH=jetty/webapps/solr.war
+    rake solr:marc:index_test_data
     "
     end
     

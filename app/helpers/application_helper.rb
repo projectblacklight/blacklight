@@ -10,10 +10,10 @@ module ApplicationHelper
   # Over-ride in local app if you want to specify your own
   # stylesheets. Want to add your own stylesheets onto the defaults
   # from plugin?
-  # alias_method_chain :render_stylesheet_includes :local
   # def render_stylesheet_includes_with_local
-  #   render_stylesheet_includes_without_local + stylesheet_link_tag "mine"
+  #   render_stylesheet_includes_without_local + stylesheet_link_tag("my_stylesheet")
   # end
+  # alias_method_chain :render_stylesheet_includes, :local
   def render_stylesheet_includes
     stylesheet_link_tag 'yui', 'application', :plugin=>:blacklight, :media=>'all' 
   end
@@ -21,10 +21,10 @@ module ApplicationHelper
   # Over-ride in local app if you want to specify your own
   # js. Want to add your own stylesheets onto the defaults
   # from plugin?
-  # alias_method_chain :render_js_includes :local
-  # def render_js_includes_with_local
-  #   render_js_includes_without_local + javascript_include_tag "mine"
-  # end
+  #def render_js_includes_with_local
+  #  render_js_includes_without_local + javascript_include_tag("my_javascript")
+  #end 
+  #alias_method_chain :render_js_includes, :local
   def render_js_includes
     javascript_include_tag 'jquery-1.3.1.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
   end
