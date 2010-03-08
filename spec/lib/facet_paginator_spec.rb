@@ -52,5 +52,19 @@ describe 'Blacklight::Solr::Facets::Paginator' do
     paginator = Blacklight::Solr::Facets::Paginator.new(@six_facet_values, :offset => 100, :limit => 6, :sort => 'index')
     paginator.items.length.should == 6
   end
+  describe "for a nil :limit" do
+    before(:all) do
+      @paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, :offset => 100, :limit => nil, :sort => 'index')
+    end
+    it 'should return all items' do
+      @paginator.items.should == @seven_facet_values      
+    end
+    it 'should not has_next?' do
+      @paginator.should_not be_has_next
+    end
+    it 'should not has_previous?' do
+      @paginator.should_not be_has_previous
+    end
+  end
   
 end

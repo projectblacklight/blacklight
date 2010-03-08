@@ -21,20 +21,31 @@ module Blacklight::Solr::Facets
     def request_keys ; self.class.request_keys ; end # shortcut
     
     attr_reader :total, :items, :offset, :limit, :sort
-
+    
+    # all_facet_values is a list of facet value objects returned by solr,
+    # asking solr for n+1 facet values.
+    # options:
+    # :limit =>  number to display per page, or (default) nil. Nil means
+    #            display all with no previous or next. 
+    # :offset => current item offset, default 0
+    # :sort => 'count' or 'index', solr tokens for facet value sorting, default 'count'. 
     def initialize(all_facet_values, arguments)
       # to_s.to_i will conveniently default to 0 if nil
       @offset = arguments[:offset].to_s.to_i 
-      @limit = arguments[:limit] ?
-          arguments[:limit].to_s.to_i : 
-          6
+      @limit =  arguments[:limit].to_s.to_i if arguments[:limit]           
       # count is solr's default
       @sort = arguments[:sort] || "count" 
       
       total = all_facet_values.size
-      @items = all_facet_values.slice(0, limit)
-      @has_next = total > @limit
-      @has_previous = @offset > 0
+      if (@limit)
+        @items = all_facet_values.slice(0, @limit)
+        @has_next = total > @limit
+        @has_previous = @offset > 0
+      else # nil limit
+        @items = all_facet_values
+        @has_next = false
+        @has_previous = false
+      end
     end
 
     def has_next?
