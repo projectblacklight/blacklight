@@ -65,7 +65,10 @@ Blacklight.configure(:shared) do |config|
   }
 
   # solr fields that will be treated as facets by the blacklight application
-  #   The ordering of the field names is the order of the display 
+  #   The ordering of the field names is the order of the display
+  # TODO: Reorganize facet data structures supplied in config to make simpler
+  # for human reading/writing, kind of like search_fields. Eg,
+  # config[:facet] << {:field_name => "format", :label => "Format", :limit => 10}
   config[:facet] = {
     :field_names => [
       "format",
@@ -84,6 +87,16 @@ Blacklight.configure(:shared) do |config|
       "lc_1letter_facet"    => "Call Number",
       "subject_era_facet"   => "Era",
       "subject_geo_facet"   => "Region"
+    },
+    # Setting a limit will trigger Blacklight's 'more' facet values link.
+    # If left unset, then all facet values returned by solr will be displayed.
+    # nil key can be used for a default limit applying to all facets otherwise
+    # unspecified. 
+    # limit value is the actual number of items you want _displayed_,
+    # #solr_search_params will do the "add one" itself, if neccesary.
+    :limits => {
+      nil => 2,
+      "subject_facet" => 10
     }
   }
 

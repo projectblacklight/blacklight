@@ -295,7 +295,14 @@ describe CatalogController do
     end
   end
 
-  
+  describe "facet_limit_for" do
+    it "should return default value for facet_field not specified" do
+      controller.facet_limit_for("zzz_unknown_facet_field").should == Blacklight.config[:facet][:limits][nil]
+    end
+    it "should return specified value for facet_field specified" do
+      controller.facet_limit_for("subject_facet").should == Blacklight.config[:facet][:limits]["subject_facet"]
+    end
+  end
 end
 
 
