@@ -210,11 +210,12 @@ describe ApplicationHelper do
     end    
   end
 
-  describe "add_facet_limit_from_facet_action" do
+  describe "add_facet_params_and_redirect" do
     before do
       catalog_facet_params = {:q => "query", 
                 :search_field => "search_field", 
-                :per_page => "50", 
+                :per_page => "50",
+                :page => "5",
                 :f => {"facet_field_1" => ["value1"], "facet_field_2" => ["value2", "value2a"]},
                 Blacklight::Solr::Facets::Paginator.request_keys[:offset] => "100",
                 Blacklight::Solr::Facets::Paginator.request_keys[:sort] => "index",
@@ -223,21 +224,26 @@ describe ApplicationHelper do
       helper.stub!(:params).and_return(catalog_facet_params)
     end
     it "should redirect to 'index' action" do
-      params = helper.add_facet_limit_from_facet_action("facet_field_2", "facet_value")
+      params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
       params[:action].should == "index"
     end
     it "should not include request parameters used by the facet paginator" do
-      params = helper.add_facet_limit_from_facet_action("facet_field_2", "facet_value")
+      params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
       bad_keys = Blacklight::Solr::Facets::Paginator.request_keys.values + [:id]
       bad_keys.each do |paginator_key|
         params.keys.should_not include(paginator_key)        
       end
     end
+    it 'should remove :page request key' do
+      params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
+
+      params.keys.should_not include(:page)
+    end
     it "should otherwise do the same thing as add_facet_params" do
       added_facet_params = helper.add_facet_params("facet_field_2", "facet_value")
-      added_facet_params_from_facet_action = helper.add_facet_limit_from_facet_action("facet_field_2", "facet_value")
+      added_facet_params_from_facet_action = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
       added_facet_params_from_facet_action.each_pair do |key, value|
         next if key == :action
