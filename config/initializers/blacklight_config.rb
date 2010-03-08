@@ -95,8 +95,8 @@ Blacklight.configure(:shared) do |config|
     # limit value is the actual number of items you want _displayed_,
     # #solr_search_params will do the "add one" itself, if neccesary.
     :limits => {
-      nil => 2,
-      "subject_facet" => 10
+      nil => 10,
+      "subject_facet" => 20
     }
   }
 
