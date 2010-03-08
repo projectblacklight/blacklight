@@ -15,7 +15,7 @@
               </li>
               <% else %>
               <li>
-                <%= link_to h(item.value), add_facet_params_and_redir(solr_fname, item.value) %> (<%= format_num item.hits %>)
+                <%= link_to h(item.value), add_facet_params_and_redirect(solr_fname, item.value) %> (<%= format_num item.hits %>)
               </li>
             <% end -%>
           <% end %>
