@@ -1,8 +1,11 @@
 module Blacklight::Solr::Facets
   
 
-  # Pagination for facet values -- works by setting the limit to (max + 1)
-  # If limit is 6, then the resulting facet value items.size==5
+  # Pagination for facet values -- works by setting the limit to max
+  # displayable. You have to ask Solr for limit+1, to get enough
+  # results to see if 'more' are available'. That is, the all_facet_values
+  # arg in constructor should be the result of asking solr for limit+1
+  # values. 
   # This is a workaround for the fact that Solr itself can't compute
   # the total values for a given facet field,
   # so we cannot know how many "pages" there are.
@@ -29,7 +32,7 @@ module Blacklight::Solr::Facets
       @sort = arguments[:sort] || "count" 
       
       total = all_facet_values.size
-      @items = all_facet_values.slice(0, limit-1)
+      @items = all_facet_values.slice(0, limit)
       @has_next = total > @limit
       @has_previous = @offset > 0
     end

@@ -44,4 +44,13 @@ describe 'Blacklight::Solr::Facets::Paginator' do
       click_params[ @sort_key ].should == 'count'
       click_params[ @offset_key ].to_s.should == "0"
   end
+  it 'should limit items to limit, if limit is smaller than items.length' do
+    paginator = Blacklight::Solr::Facets::Paginator.new(@seven_facet_values, :offset => 100, :limit => 6, :sort => 'index')
+    paginator.items.length.should == 6
+  end
+  it 'should return all items when limit is greater than items.length' do
+    paginator = Blacklight::Solr::Facets::Paginator.new(@six_facet_values, :offset => 100, :limit => 6, :sort => 'index')
+    paginator.items.length.should == 6
+  end
+  
 end
