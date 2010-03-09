@@ -295,6 +295,17 @@ describe 'Blacklight::SolrHelper' do
         @generated_params.should_not have_key(:"f..facet.limit")
      end
    end
+   describe "get_facet_pagination" do
+    before(:each) do
+      @facet_paginator = @solr_helper.get_facet_pagination(@facet_field)
+    end
+    it 'should return a facet paginator' do
+      @facet_paginator.should be_a_kind_of(Blacklight::Solr::FacetPaginator)
+    end
+    it 'with a limit set' do
+      @facet_paginator.limit.should_not be_nil
+    end    
+   end
 
 # SPECS FOR SEARCH RESULTS FOR QUERY
   describe 'Search Results' do
