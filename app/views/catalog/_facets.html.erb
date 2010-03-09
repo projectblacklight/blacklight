@@ -23,12 +23,13 @@
               </li>
             <% end -%>
           <% end %>
+          
           <% if(paginator.has_next?)  %>
-            <li class="more_facets_link"><%= link_to('more', catalog_facet_path(params.merge(:id => solr_fname))) %></li>
+            <li class="more_facets_link"><%= link_to('more', params.merge(:id => solr_fname, :action=>"facet")) %></li>
           <% end %>
-      <% end %>
+          
         </ul>
-
+      <% end %>
     </div>
   <% end %>
 </div>
