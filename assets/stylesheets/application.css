@@ -71,6 +71,8 @@ th, td {border: 0;}
 #facets li.more_facets_link {text-align: right;}
 ul.facet_extended_list { margin:0;}
 ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
+.facet_extended_list .sort_options {text-align: right}
+
 
 /* Solr Query */
 .solrQuery {padding: .5em; margin: 2em; background-color:#eee; border: 1px dotted #ccc; font-size:90%;}
