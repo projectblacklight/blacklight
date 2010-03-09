@@ -225,8 +225,8 @@ describe 'Blacklight::SolrHelper' do
       @facet_field = 'format'
       @generated_solr_facet_params = @solr_helper.solr_facet_params(@facet_field)
 
-      @sort_key = Blacklight::Solr::Facets::Paginator.request_keys[:sort]
-      @offset_key = Blacklight::Solr::Facets::Paginator.request_keys[:offset]
+      @sort_key = Blacklight::Solr::FacetPaginator.request_keys[:sort]
+      @offset_key = Blacklight::Solr::FacetPaginator.request_keys[:offset]
     end
     it 'sets rows to 0' do
       @generated_solr_facet_params[:rows].should == 0

@@ -239,7 +239,7 @@ module ApplicationHelper
 
     # Delete any request params from facet-specific action, needed
     # to redir to index action properly. 
-    Blacklight::Solr::Facets::Paginator.request_keys.values.each do |paginator_key| 
+    Blacklight::Solr::FacetPaginator.request_keys.values.each do |paginator_key| 
       new_params.delete(paginator_key)
     end
     new_params.delete(:id)

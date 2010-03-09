@@ -209,8 +209,8 @@ module Blacklight::SolrHelper
     # Now override with our specific things for fetching facet values
     solr_params[:facets] = {:fields => facet_field}
     solr_params['facet.limit'] ||= 6
-    solr_params['facet.offset'] = input[  Blacklight::Solr::Facets::Paginator.request_keys[:offset]  ].to_i # will default to 0 if nil
-    solr_params['facet.sort'] = input[  Blacklight::Solr::Facets::Paginator.request_keys[:sort] ]     
+    solr_params['facet.offset'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:offset]  ].to_i # will default to 0 if nil
+    solr_params['facet.sort'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]     
     solr_params[:rows] = 0
 
     return solr_params
@@ -226,7 +226,7 @@ module Blacklight::SolrHelper
     response = Blacklight.solr.find(solr_params)
     
     # Actually create the paginator!
-    return     Blacklight::Solr::Facets::Paginator.new(response.facets.first.items, 
+    return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
       :offset => solr_params['facet.offset'], 
       :limit => solr_params['facet.limit'],
       :sort => response["responseHeader"]["params"]["facet.sort"]

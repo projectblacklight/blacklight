@@ -1,4 +1,4 @@
-module Blacklight::Solr::Facets
+module Blacklight::Solr
   
 
   # Pagination for facet values -- works by setting the limit to max
@@ -10,7 +10,7 @@ module Blacklight::Solr::Facets
   # the total values for a given facet field,
   # so we cannot know how many "pages" there are.
   #
-  class Paginator    
+  class FacetPaginator    
     # What request keys will we use for the parameters need. Need to
     # make sure they do NOT conflict with catalog/index request params,
     # and need to make them accessible in a list so we can easily

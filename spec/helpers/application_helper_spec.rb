@@ -217,8 +217,8 @@ describe ApplicationHelper do
                 :per_page => "50",
                 :page => "5",
                 :f => {"facet_field_1" => ["value1"], "facet_field_2" => ["value2", "value2a"]},
-                Blacklight::Solr::Facets::Paginator.request_keys[:offset] => "100",
-                Blacklight::Solr::Facets::Paginator.request_keys[:sort] => "index",
+                Blacklight::Solr::FacetPaginator.request_keys[:offset] => "100",
+                Blacklight::Solr::FacetPaginator.request_keys[:sort] => "index",
                 :id => 'facet_field_name'
       }
       helper.stub!(:params).and_return(catalog_facet_params)
@@ -231,7 +231,7 @@ describe ApplicationHelper do
     it "should not include request parameters used by the facet paginator" do
       params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
-      bad_keys = Blacklight::Solr::Facets::Paginator.request_keys.values + [:id]
+      bad_keys = Blacklight::Solr::FacetPaginator.request_keys.values + [:id]
       bad_keys.each do |paginator_key|
         params.keys.should_not include(paginator_key)        
       end

@@ -8,7 +8,7 @@
         <h3><%= facet_field_labels[solr_fname] -%></h3>
         <ul>
           <% paginator =    
-              Blacklight::Solr::Facets::Paginator.new(display_facet.items,        
+              Blacklight::Solr::FacetPaginator.new(display_facet.items,        
                 :limit => facet_limit_for(solr_fname))
           %>
           <% paginator.items.each do |item| -%>
