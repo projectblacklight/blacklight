@@ -7,7 +7,11 @@
       <% if display_facet.items.length > 0 %>
         <h3><%= facet_field_labels[solr_fname] -%></h3>
         <ul>
-          <% display_facet.items.each do |item| -%>
+          <% paginator =    
+              Blacklight::Solr::Facets::Paginator.new(display_facet.items,        
+                :limit => facet_limit_for(solr_fname))
+          %>
+          <% paginator.items.each do |item| -%>
             <% if facet_in_params? solr_fname, item.value %>
               <li>
                 <span class="selected"><%= h(item.value) %> (<%= format_num item.hits %>)</span>
@@ -19,8 +23,12 @@
               </li>
             <% end -%>
           <% end %>
-        </ul>
+          <% if(paginator.has_next?)  %>
+            <li class="more_facets_link"><%= link_to('more', catalog_facet_path(params.merge(:id => solr_fname))) %></li>
+          <% end %>
       <% end %>
+        </ul>
+
     </div>
   <% end %>
 </div>
