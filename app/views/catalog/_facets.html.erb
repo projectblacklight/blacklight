@@ -25,7 +25,7 @@
           <% end %>
           
           <% if(paginator.has_next?)  %>
-            <li class="more_facets_link"><%= link_to('more', params.merge(:id => solr_fname, :action=>"facet")) %></li>
+            <li class="more_facets_link"><%= link_to('more >>', params.merge(:id => solr_fname, :action=>"facet")) %></li>
           <% end %>
           
         </ul>

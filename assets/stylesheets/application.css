@@ -68,6 +68,8 @@ th, td {border: 0;}
 #facets li a:hover {background-color: #eee;}
 #facets li a.remove {color: #666;}
 #facets span.selected {color: green;}
+#facets li.more_facets_link {text-align: right;}
+
 
 /* Solr Query */
 .solrQuery {padding: .5em; margin: 2em; background-color:#eee; border: 1px dotted #ccc; font-size:90%;}
