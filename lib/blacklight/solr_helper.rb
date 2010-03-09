@@ -240,7 +240,7 @@ module Blacklight::SolrHelper
     # Actually create the paginator!
     return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
       :offset => solr_params['facet.offset'], 
-      :limit => solr_params['facet.limit'],
+      :limit => solr_params[:"f.#{facet_field}.facet.limit"],
       :sort => response["responseHeader"]["params"]["facet.sort"]
     )
   end
