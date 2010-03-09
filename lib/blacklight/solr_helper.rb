@@ -215,11 +215,11 @@ module Blacklight::SolrHelper
     # override any field-specific default in the solr request handler. 
     solr_params[:"f.#{facet_field}.facet.limit"] = 
       if solr_params["facet.limit"] 
-        solr_params["facet.limit"]
+        solr_params["facet.limit"] + 1
       elsif respond_to?(:facet_list_limit)
-        facet_list_limit.to_s.to_i
+        facet_list_limit.to_s.to_i + 1
       else
-        20
+        20 + 1
       end
     solr_params['facet.offset'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:offset]  ].to_i # will default to 0 if nil
     solr_params['facet.sort'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]     
@@ -232,7 +232,6 @@ module Blacklight::SolrHelper
   # used to paginate through a single facet field's values
   # /catalog/facet/language_facet
   def get_facet_pagination(facet_field, extra_controller_params={})
-    debugger
     solr_params = solr_facet_params(facet_field, extra_controller_params)
 
     # Make the solr call
