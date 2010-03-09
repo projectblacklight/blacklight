@@ -1,4 +1,4 @@
-<div id="facetFieldValues">
+<div class="facet_extended_list">
   
   <% sidebar_items << capture do %>
   <p><%= link_back_to_catalog %></p>
@@ -8,8 +8,10 @@
 
   <h3><%= facet_field_labels[params[:id]] %></h3>
   
-  <% @pagination.items.each do |item| %>
-    <div class="facet"><%= link_to(item.value, add_facet_params_and_redirect(params[:id], item.value)) %> (<%= format_num item.hits %>)</div>
-  <% end %>
+  <ul class="facet_extended_list">
+    <% @pagination.items.each do |item| %>
+      <li><%= link_to(item.value, add_facet_params_and_redirect(params[:id], item.value)) %> (<%= format_num item.hits %>)</li>
+    <% end %>
+  </ul>
   
 </div>
