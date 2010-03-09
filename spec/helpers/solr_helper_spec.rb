@@ -242,6 +242,19 @@ describe 'Blacklight::SolrHelper' do
       solr_params = @solr_helper.solr_facet_params(@facet_field, @offset_key => "100")
       solr_params['facet.offset'].should == 100
     end
+    it 'defaults limit to 20' do
+      solr_params = @solr_helper.solr_facet_params(@facet_field)
+      solr_params['facet.limit'].should == 20
+    end
+    describe 'if facet_list_limit is defined in controller' do
+      before(:each) do
+        @solr_helper.stub!("facet_list_limit").and_return("1000")
+      end
+      it 'uses controller method for limit' do
+        solr_params = @solr_helper.solr_facet_params(@facet_field)
+        solr_params['facet.limit'].should == 1000
+      end
+    end
     it 'uses sort set manually' do
       solr_params = @solr_helper.solr_facet_params(@facet_field, @sort_key => "index")
       solr_params['facet.sort'].should == 'index'

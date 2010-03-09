@@ -198,7 +198,9 @@ module Blacklight::SolrHelper
   # returns a params hash for a single facet field solr query.
   # used primary by the get_facet_pagination method.
   # Looks up Facet Paginator request params from current request
-  # params to figure out sort and offset. 
+  # params to figure out sort and offset.
+  # Default limit for facet list can be specified by defining a controller
+  # method facet_list_limit, otherwise 20. 
   def solr_facet_params(facet_field, extra_controller_params={})
     input = params.deep_merge(extra_controller_params)
 
@@ -208,7 +210,7 @@ module Blacklight::SolrHelper
     
     # Now override with our specific things for fetching facet values
     solr_params[:facets] = {:fields => facet_field}
-    solr_params['facet.limit'] ||= 6
+    solr_params['facet.limit'] ||= (respond_to?(:facet_list_limit) ? facet_list_limit.to_s.to_i : 20)
     solr_params['facet.offset'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:offset]  ].to_i # will default to 0 if nil
     solr_params['facet.sort'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]     
     solr_params[:rows] = 0
