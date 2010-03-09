@@ -210,7 +210,17 @@ module Blacklight::SolrHelper
     
     # Now override with our specific things for fetching facet values
     solr_params[:facets] = {:fields => facet_field}
-    solr_params['facet.limit'] ||= (respond_to?(:facet_list_limit) ? facet_list_limit.to_s.to_i : 20)
+
+    # Need to set as f.facet_field.facet.limit to make sure we
+    # override any field-specific default in the solr request handler. 
+    solr_params["f.#{facet_field}.facet.limit"] = 
+      if solr_params["facet.limit"] 
+        solr_params["facet.limit"]
+      elsif respond_to?(:facet_list_limit)
+        facet_list_limit.to_s.to_i
+      else
+        20
+      end
     solr_params['facet.offset'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:offset]  ].to_i # will default to 0 if nil
     solr_params['facet.sort'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]     
     solr_params[:rows] = 0
