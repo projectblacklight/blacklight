@@ -1,5 +1,9 @@
 <div id="facetFieldValues">
   
+  <% sidebar_items << capture do %>
+  <p><%= link_back_to_catalog %></p>
+  <% end %>
+
   <%= render :partial=>'facet_pagination' %>
 
   <h3><%= facet_field_labels[params[:id]] %></h3>
