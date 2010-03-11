@@ -10,7 +10,13 @@
   
   <ul class="facet_extended_list">
     <% @pagination.items.each do |item| %>
-      <li><%= link_to(item.value, add_facet_params_and_redirect(params[:id], item.value)) %> (<%= format_num item.hits %>)</li>
+      <li>
+        <% if facet_in_params?( params[:id], item.value ) %>              
+          <%= render_selected_facet_value(params[:id], item) %>              
+        <% else %>              
+          <%= render_facet_value(params[:id], item) %>              
+        <% end -%>
+      </li>
     <% end %>
   </ul>
   
