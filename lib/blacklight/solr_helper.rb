@@ -236,11 +236,21 @@ module Blacklight::SolrHelper
 
     # Make the solr call
     response = Blacklight.solr.find(solr_params)
+
+    limit =       
+      if respond_to?(:facet_list_limit)
+        facet_list_limit.to_s.to_i
+      elsif solr_params[:"f.#{facet_field}.facet.limit"]
+        solr_params[:"f.#{facet_field}.facet.limit"] - 1
+      else
+        nil
+      end
+
     
     # Actually create the paginator!
     return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
       :offset => solr_params['facet.offset'], 
-      :limit => solr_params[:"f.#{facet_field}.facet.limit"],
+      :limit => limit,
       :sort => response["responseHeader"]["params"]["facet.sort"]
     )
   end
