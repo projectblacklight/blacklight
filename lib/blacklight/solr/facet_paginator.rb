@@ -59,7 +59,7 @@ module Blacklight::Solr
     def params_for_next_url(params)
       return nil unless has_next?
       
-      return params.merge(request_keys[:offset] => offset + (limit-1) )
+      return params.merge(request_keys[:offset] => offset + limit )
     end
 
     def has_previous?
@@ -73,7 +73,7 @@ module Blacklight::Solr
     def params_for_previous_url(params)
       return nil unless has_previous?
 
-      return params.merge(request_keys[:offset] => offset - (limit-1) )
+      return params.merge(request_keys[:offset] => offset - limit )
     end
 
    # Pass in a desired solr facet solr key ('count' or 'index', see

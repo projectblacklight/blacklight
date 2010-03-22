@@ -13,11 +13,20 @@ describe 'Blacklight::Solr::FacetPaginator' do
     @offset_key = Blacklight::Solr::FacetPaginator.request_keys[:offset]
     @limit_key = Blacklight::Solr::FacetPaginator.request_keys[:limit]
   end
+  context 'when there are limit+1 results' do
+    before(:each) do
+      @paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, @offset_key => 0, :limit => 6)
+    end
+    it 'should have next' do
+      @paginator.should be_has_next
+    end
+    it 'should generate proper next params' do
+      next_params = @paginator.params_for_next_url(:original1 => "original1", :original2 => "original2")
 
-  it 'should have next when there are limit+1 results' do
-    paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, @offset_key => 0, :limit => @limit)
-    
-    paginator.should be_has_next
+      next_params[:original1].should == "original1"
+      next_params[:original2].should == "original2"
+      next_params[@offset_key].should == 0 + @limit 
+    end
   end
   it 'should not have next when there are fewer results' do
     paginator = Blacklight::Solr::FacetPaginator.new(@six_facet_values, :offset => 0, :limit => @limit)
