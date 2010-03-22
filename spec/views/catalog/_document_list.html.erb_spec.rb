@@ -2,44 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe "/catalog/_document_list.html.erb" do  
   
-  include Blacklight::SolrHelper
-  
-  before(:each) do
-    # you must activate authlogic in order to test any authentication methods
-    activate_authlogic
-    # get actual solr response
-    all_docs_query = {}
-    (@solr_resp, @document_list) = get_search_results(all_docs_query)
-    @doc = @document_list.first
-    assigns[:response] = @solr_resp
-    assigns[:document_list] = @document_list
-    render :partial => 'catalog/document_list'
-  end
 
-# TODO: re-write this test --bess
-  it "should contain div tags with id 'documents' and 'document'" do
-    @solr_resp.should have_tag('div[id=documents]') do
-      with_tag('div[class=document]')
-    end
-  end 
 
-# TODO: re-write this test --bess
-  it "should have document links that aren't empty strings" do
-    @solr_resp.should have_tag('div[class=document]') do
-      with_tag('a[href]', {:text => /\S+/})
-    end
-  end
-  
-  describe "individual document" do
-    show_link_field = Blacklight.config[:index][:show_link]
-    it "should have show_link field indicated in the initializer: " + show_link_field do
-      @doc.get(show_link_field).should_not be_nil
-    end
-    
-    rec_disp_type_field = Blacklight.config[:index][:record_display_type]
-    it "should have record_display_type field indicated in the initializer: " + rec_disp_type_field do
-      @doc.get(rec_disp_type_field).should_not be_nil      
-    end
-  end
 
 end
