@@ -4,8 +4,10 @@
   <p><%= link_back_to_catalog %></p>
   <% end %>
 
-  <%= render :partial=>'facet_pagination' %>
-
+  <div class="pagination top">
+    <%= render :partial=>'facet_pagination' %>
+  </div>
+  
   <h3><%= facet_field_labels[params[:id]] %></h3>
   
   <ul class="facet_extended_list">
@@ -20,4 +22,7 @@
     <% end %>
   </ul>
   
+  <div class="pagination bottom">
+    <%= render :partial=>'facet_pagination' %>
+  </div>
 </div>
