@@ -33,10 +33,24 @@ describe 'Blacklight::Solr::FacetPaginator' do
 
     paginator.should_not be_has_next
   end
-  it 'should have previous when offset is greater than 0' do
-    paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 10, :limit => @limit)
+  context 'when offset is greater than 0' do
+    before(:each) do
+      @offset = 100
+      @paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => @offset, :limit => @limit)
+    end
+  
+    it 'should have previous' do    
+      @paginator.should be_has_previous
+    end
 
-    paginator.should be_has_previous
+    it 'should generate proper previous params' do
+      next_params = @paginator.params_for_previous_url(:original1 => "original1", :original2 => "original2")
+
+      next_params[:original1].should == "original1"
+      next_params[:original2].should == "original2"
+      next_params[@offset_key].should == @offset - @limit 
+    end
+
   end
   it 'should not have previous when offset is 0' do
     paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 0, :limit => @limit)
