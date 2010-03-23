@@ -273,7 +273,6 @@ module ApplicationHelper
   # removes the field if there are no more values in params[:f][field]
   # removes additional params (page, id, etc..)
   def remove_facet_params(field, value, source_params=params)
-    debugger
     p = source_params.dup.symbolize_keys!
     # need to dup the facet values too,
     # if the values aren't dup'd, then the values
