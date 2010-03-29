@@ -15,7 +15,7 @@ $(document).ready(function() {
  
 jQuery(document).ready(function($) {    
     
-     //Make sure more facet lists loaded in this dialog have
+    //Make sure more facet lists loaded in this dialog have
     //ajaxy behavior added to next/prev/sort                    
     function addBehaviorToMoreFacetDialog(dialog) {
       var dialog = $(dialog)
