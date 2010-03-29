@@ -7,6 +7,40 @@ module Blacklight::Solr::Document
   def self.included(base)
     base.send :include, RSolr::Ext::Model
     base.extend DefaultFinders
+    base.extend ExtendableClassMethods
+  end
+
+  # Need to hook into initialize() to make sure Extensions are applied
+  def initialize(*args)
+    super(*args)
+    apply_extensions
+  end
+
+
+  ##Extensions framework, allowing the addition of document extensions
+  # with behavior that only applies to certain specific extensions,
+  # based on conditions. 
+
+
+  # Needs to be called in initializer of class including this module, to
+  # apply all registered extensions on a per-document basis
+  def apply_extensions
+    registered_extensions.each do | registration|
+      self.extend( registration[:module_obj] ) if registration[:condition_proc].call( self )
+    end
+  end
+
+  # Certain class-level modules needed for the document-specific
+  # extendability architecture
+  module ExtendableClassMethods
+    attr_writer :registered_extensions
+    def registered_extensions
+      @registered_extensions ||= []
+    end
+
+    def use_extension( module_obj, &condition )
+      registered_extensions << {:module_obj => module_obj, :condition_proc => condition}    
+    end
   end
   
   # These methods get mixed into SolrDocument as class-level methods:
