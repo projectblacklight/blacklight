@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
           
       
       // Make next/prev/sort links load ajaxy
-      dialog.find(".next_link a, .prev_link a, .sort_options a").click( function() {     
+      dialog.find("a.next_page, a.prev_page, a.sort_change").click( function() {     
           $("body").css("cursor", "progress");
           dialog.load( this.href, 
               function() {  
