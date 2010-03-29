@@ -38,6 +38,15 @@ $(document).ready(function() {
       });
     }
 
+    function positionDialog(dialog) {
+      dialog = $(dialog);
+      
+      dialog.dialog("option", "height", $(window).height()-125);
+      dialog.dialog("option", "width", Math.max(  ($(window).width() /2), 45));
+      dialog.dialog("option", "position", ['center', 75]);
+      
+      dialog.dialog("open").dialog("moveToTop");
+    }
     
 
     $(".more_facets_link a").each(function() {
@@ -50,7 +59,7 @@ $(document).ready(function() {
       $(this).click( function() {     
         //lazy create of dialog
         if ( more_facets_dialog == "empty") {
-          more_facets_dialog = $('<div class="more_facets_dialog"></div>').dialog({ autoOpen: false, height: ($(window).height() - 125), width: Math.max(($(window).width() / 2), 450), position: [ 'center',  75], title: "start"});          
+          more_facets_dialog = $('<div class="more_facets_dialog"></div>').dialog({ autoOpen: false});          
         }
         // Load the original URL on the link into the dialog associated
         // with it. Rails app will give us an appropriate partial.
@@ -58,13 +67,8 @@ $(document).ready(function() {
         more_facets_dialog.load( this.href , function() {
           addBehaviorToMoreFacetDialog(more_facets_dialog);
         });
-        
-        
-        
-        
-        
-        // position it well (TO DO), 'open' it, and send it to front. 
-        more_facets_dialog.dialog("open").dialog("moveToTop");
+                
+        positionDialog(more_facets_dialog);                
                 
         return false; // do not execute default href visit
       });
