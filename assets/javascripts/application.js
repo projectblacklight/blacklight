@@ -14,13 +14,31 @@ $(document).ready(function() {
  */
 $(document).ready(function() {
     
-    //Make sure more facet lists loaded in this dialog have
+    
+     //Make sure more facet lists loaded in this dialog have
     //ajaxy behavior added to next/prev/sort                    
+    function addBehaviorToMoreFacetDialog(dialog) {
+      var dialog = $(dialog)
+      
+      // Remove first header from loaded content, and make it a dialog
+      // title instead
+      var heading = dialog.find("h1, h2, h3, h4, h5, h6").eq(0).remove();
+      dialog.dialog("option", "title", heading.text());
+          
+      
+      // Make next/prev/sort links load ajaxy
+      dialog.find(".next_link a, .prev_link a, .sort_options a").click( function() {                   
+          dialog.load( this.href, 
+              function() {  
+                addBehaviorToMoreFacetDialog(dialog);                
+              }
+          );
+          //don't follow original href
+          return false;
+      });
+    }
 
-    $(".more_facets_dialog .next_link a, .prev_link a, .sort_options a").live('click', function() {              
-        $(this).closest(".more_facets_dialog").load( this.href );
-        return false;
-    });
+    
 
     $(".more_facets_link a").each(function() {
       //We use each to let us make a Dialog object for each
@@ -38,8 +56,7 @@ $(document).ready(function() {
         // with it. Rails app will give us an appropriate partial.
         // pull dialog title out of first heading in contents. 
         more_facets_dialog.load( this.href , function() {
-          var heading = $(this).find("h1, h2, h3, h4, h5, h6").eq(0).remove();
-          $(this).dialog("option", "title", heading.text());
+          addBehaviorToMoreFacetDialog(more_facets_dialog);
         });
         
         
