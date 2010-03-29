@@ -27,10 +27,12 @@ $(document).ready(function() {
           
       
       // Make next/prev/sort links load ajaxy
-      dialog.find(".next_link a, .prev_link a, .sort_options a").click( function() {                   
+      dialog.find(".next_link a, .prev_link a, .sort_options a").click( function() {     
+          $("body").css("cursor", "progress");
           dialog.load( this.href, 
               function() {  
-                addBehaviorToMoreFacetDialog(dialog);                
+                addBehaviorToMoreFacetDialog(dialog);
+                $("body").css("cursor", "auto");                
               }
           );
           //don't follow original href
@@ -64,8 +66,10 @@ $(document).ready(function() {
         // Load the original URL on the link into the dialog associated
         // with it. Rails app will give us an appropriate partial.
         // pull dialog title out of first heading in contents. 
+        $("body").css("cursor", "progress");
         more_facets_dialog.load( this.href , function() {
           addBehaviorToMoreFacetDialog(more_facets_dialog);
+          $("body").css("cursor", "auto");
         });
                 
         positionDialog(more_facets_dialog);                
