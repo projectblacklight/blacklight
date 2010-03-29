@@ -12,8 +12,8 @@ $(document).ready(function() {
  * Facet more dialog. Uses JQuery UI Dialog. Use crazy closure technique. 
  * http://docs.jquery.com/UI/Dialog
  */
-$(document).ready(function() {
-    
+ 
+jQuery(document).ready(function($) {    
     
      //Make sure more facet lists loaded in this dialog have
     //ajaxy behavior added to next/prev/sort                    
@@ -79,7 +79,6 @@ $(document).ready(function() {
       
     });
 });
-
 
 
 
