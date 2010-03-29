@@ -71,7 +71,9 @@ th, td {border: 0;}
 #facets li.more_facets_link {text-align: right;}
 ul.facet_extended_list { margin:0;}
 ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
+.facet_extended_list {text-align: left;} /* for our ajaxy dialog to make sure we're overriding the yui global text-align: center */
 .facet_extended_list .sort_options {text-align: right}
+
 
 
 /* Solr Query */
