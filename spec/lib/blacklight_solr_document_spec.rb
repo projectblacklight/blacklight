@@ -11,6 +11,12 @@ describe "Blacklight::Solr::Document" do
         "my_extension_results"
       end
     end
+
+    module MockSecondExtension
+      def my_extension_method
+        "override"
+      end
+    end
    
 
     context "Extendability" do
@@ -49,6 +55,14 @@ describe "Blacklight::Solr::Document" do
         doc.methods.find {|name | name=="my_extension_method"}.should_not be_nil
         doc.my_extension_method.should == "my_extension_results"
       end
+      it "should let last extension applied override earlier extensions" do
+        MockDocument.use_extension(MockExtension)
+        MockDocument.use_extension(MockSecondExtension)
+
+        MockDocument.new({}).my_extension_method.should == "override"        
+      end
+
+      
     end
 
 end
