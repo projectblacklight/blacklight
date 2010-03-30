@@ -136,46 +136,7 @@ end
       
     end
 
-    # Actually logic from Blacklight::Solr::Document
-    context "Extendability" do
-      module MyExtension
-        def my_extension_method
-          "my_extension_results"
-        end
-      end
-
-      it "should let you register an extension" do
-        SolrDocument.use_extension(MyExtension) { |doc| true }
-        SolrDocument.registered_extensions.find {|a| a.module_obj == MyExtension}.should_not be_nil
-      end
-      it "should let you register an extension with a nil condition proc" do
-        SolrDocument.use_extension(MyExtension) { |doc| true }
-        SolrDocument.registered_extensions.find {|a| a.module_obj == MyExtension}.should_not be_nil
-      end
-      it "should apply an extension whose condition is met" do
-        SolrDocument.use_extension(MyExtension) {|doc| true}
-        doc = SolrDocument.new({})
-
-        doc.methods.find(:my_extension_method).should_not be_nil
-        doc.my_extension_method.should == "my_extension_results"
-      end
-      it "should not apply an extension whose condition is not met" do
-        SolrDocument.use_extension(MyExtension) {|doc| false}
-        doc = SolrDocument.new({})
-
-        doc.methods.find(:my_extension_method).should be_nil      
-      end
-      it "should treat a nil condition as always applyable" do
-        SolrDocument.use_extension(MyExtension)
-
-        doc = SolrDocument.new({})
-
-        doc.methods.find(:my_extension_method).should_not be_nil
-        doc.my_extension_method.should == "my_extension_results"
-      end
-      
-    end
-
+ 
     
     
 end
