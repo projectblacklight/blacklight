@@ -26,8 +26,8 @@ module Blacklight::Solr::Document
   # Needs to be called in initializer of class including this module, to
   # apply all registered extensions on a per-document basis
   def apply_extensions
-    registered_extensions.each do | registration|
-      self.extend( registration[:module_obj] ) if registration[:condition_proc].call( self )
+    self.class.registered_extensions.each do | registration|
+      self.extend( registration[:module_obj] ) if registration[:condition_proc].nil? || registration[:condition_proc].call( self )
     end
   end
 
