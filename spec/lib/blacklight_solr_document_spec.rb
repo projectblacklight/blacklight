@@ -36,21 +36,21 @@ describe "Blacklight::Solr::Document" do
       end
       it "should apply an extension whose condition is met" do
         MockDocument.use_extension(MockExtension) {|doc| true}
-        doc = MockDocument.new({})
+        doc = MockDocument.new()
   
         doc.methods.find {|name| name =="my_extension_method"}.should_not be_nil
         doc.my_extension_method.should == "my_extension_results"
       end
       it "should not apply an extension whose condition is not met" do
         MockDocument.use_extension(MockExtension) {|doc| false}
-        doc = MockDocument.new({})
+        doc = MockDocument.new()
   
         doc.methods.find {|name| name == "my_extension_method"}.should be_nil      
       end
       it "should treat a nil condition as always applyable" do
         MockDocument.use_extension(MockExtension)
   
-        doc = MockDocument.new({})
+        doc = MockDocument.new()
   
         doc.methods.find {|name | name=="my_extension_method"}.should_not be_nil
         doc.my_extension_method.should == "my_extension_results"
@@ -59,7 +59,7 @@ describe "Blacklight::Solr::Document" do
         MockDocument.use_extension(MockExtension)
         MockDocument.use_extension(MockSecondExtension)
 
-        MockDocument.new({}).my_extension_method.should == "override"        
+        MockDocument.new().my_extension_method.should == "override"        
       end
 
       
