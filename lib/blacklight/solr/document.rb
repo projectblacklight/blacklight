@@ -8,13 +8,14 @@ module Blacklight::Solr::Document
     base.send :include, RSolr::Ext::Model
     base.extend DefaultFinders
     base.extend ExtendableClassMethods
+
+    # after_initialize hook comes from RSolr::Ext::Model, I think.
+    # We need to make sure all extensions get applied.
+    base.after_initialize do 
+      apply_extensions 
+    end
   end
 
-  # Need to hook into initialize() to make sure Extensions are applied
-  def initialize(*args)
-    super(*args)
-    apply_extensions
-  end
 
 
   ##Extensions framework, allowing the addition of document extensions
