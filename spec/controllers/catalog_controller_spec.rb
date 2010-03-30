@@ -240,6 +240,32 @@ describe CatalogController do
       end
     end
 
+    describe "with dynamic export formats" do
+        module FakeExtension
+          def self.extended(document)
+            document.will_export_as(:mock, "application/mock")
+          end
+          
+          def export_as_mock
+            "mock_export"
+          end
+        end
+      before(:each) do
+        SolrDocument.use_extension(FakeExtension)        
+      end
+      
+      it "should respond to an extension-registered format properly" do
+         get :show, :id => doc_id, :format => "mock"
+         response.should be_success
+         response.should have_text("mock_export")         
+      end
+      
+      
+      after(:each) do
+        SolrDocument.registered_extensions = nil
+      end      
+    end # dynamic export formats
+
   end # describe show action
 
   describe "opensearch" do

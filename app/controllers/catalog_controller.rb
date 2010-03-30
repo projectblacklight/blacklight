@@ -1,5 +1,5 @@
 class CatalogController < ApplicationController
-  
+
   include Blacklight::SolrHelper
   
   before_filter :search_session, :history_session
@@ -42,6 +42,15 @@ class CatalogController < ApplicationController
       format.xml  {render :xml => @document.marc.to_xml}
       format.refworks
       format.endnote
+
+      # Add any dynamically added (such as by document extensions)
+      # export formats.
+      @document.exports_as.each_key do | format_name |
+        # It's important that the argument to send be a symbol;
+        # if it's a string, it makes Rails unhappy for unclear reasons. 
+        format.send(format_name.to_sym) { render :text => @document.export_as(format_name) }
+      end
+      
     end
   end
   
