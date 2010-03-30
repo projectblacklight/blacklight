@@ -14,6 +14,11 @@ describe "Blacklight::Solr::Document" do
    
 
     context "Extendability" do
+      before(:each) do
+        #Clear extensions
+        MockDocument.registered_extensions = []
+      end
+    
       it "should let you register an extension" do
         MockDocument.use_extension(MockExtension) { |doc| true }
   
