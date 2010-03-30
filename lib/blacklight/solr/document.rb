@@ -59,16 +59,16 @@ module Blacklight::Solr::Document
         content_type = type_const_name.constantize.to_s
       end    
     end    
-    exports_as << {short_name => content_type}
+    exports_as[short_name] =  {:content_type => content_type}
   end
 
   # Collects formats that this doc can export as.
-  # Returns array of hashes with one key/value each,
-  # shortname => mime content type
-  # Collection of exportable formats can be blanked out
-  # simply by calling doc.exports_as = nil
+  # Returns a hash, keys are format short-names that can
+  # be exported. Hash includes:
+  #  :content-type => mime-content-type
+  #  maybe more later
   def exports_as
-    @exports_as ||= []
+    @exports_as ||= {}
   end
 
   # Call with a format shortname, export_as(:marc), simply returns
