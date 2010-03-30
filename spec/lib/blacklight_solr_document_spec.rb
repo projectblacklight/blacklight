@@ -65,4 +65,33 @@ describe "Blacklight::Solr::Document" do
       
     end
 
+    context "Will export as" do
+      class MockDocument
+        include Blacklight::Solr::Document
+
+        def export_as_marc
+          "fake_marc"
+        end
+      end
+
+      it "reports it's exportable formats properly" do
+        doc = MockDocument.new
+        doc.will_export_as(:marc, "application/marc" )
+        doc.exports_as.should include( {:marc => "application/marc"} )
+      end
+
+      it "looks up content-type from Mime::Type if not given in arg" do
+        doc = MockDocument.new
+        doc.will_export_as(:html)
+        doc.exports_as.should include( {:html => "text/html"} )
+      end
+
+      it "export_as(:format) by calling export_as_format" do
+        doc = MockDocument.new
+        doc.will_export_as(:marc, "application/marc")
+        doc.export_as(:marc).should == "fake_marc"
+      end
+    
+    end
+
 end

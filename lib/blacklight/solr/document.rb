@@ -31,6 +31,43 @@ module Blacklight::Solr::Document
     end
   end
 
+  ## Exportable formats framework. TODO: Documentation note on relationship
+  # between short_name and Rails Mime::Type.  Ideally the short name
+  # should be registered there for conneg, but a Document Extension can't really
+  # take care of that itself. If you pass the content_type manually, everything
+  # except conneg should still work. 
+  #
+  def will_export_as(short_name, content_type = nil)
+    # if content_type is nil, look it up from Rails Mime::Type
+    if content_type.nil?
+      # Accurate lookup in Rails Mime::Type is kind of pain, it doesn't
+      # really provide the right API.
+      type_const_name = "Mime::#{short_name.to_s.upcase}"
+      if defined?(type_const_name)
+        content_type = type_const_name.constantize.to_s
+      end    
+    end    
+    exports_as << {short_name => content_type}
+  end
+
+  # Collects formats that this doc can export as.
+  # Returns array of hashes with one key/value each,
+  # shortname => mime content type
+  # Collection of exportable formats can be blanked out
+  # simply by calling doc.exports_as = nil
+  def exports_as
+    @exports_as ||= []
+  end
+
+  # Call with a format shortname, export_as(:marc), simply returns
+  # #export_as_marc . Later we may expand the design to allow you
+  # to register an arbitrary method name instead of insisting
+  # on the convention, so clients should call this method so
+  # they'll still keep working if we do that. 
+  def export_as(short_name)
+    send("export_as_#{short_name.to_s}")
+  end
+
   # Certain class-level modules needed for the document-specific
   # extendability architecture
   module ExtendableClassMethods
