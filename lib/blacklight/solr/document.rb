@@ -32,17 +32,29 @@ module Blacklight::Solr::Document
   end
 
   ## Exportable formats framework. TODO: Documentation note on relationship
-  # between short_name and Rails Mime::Type.  Ideally the short name
-  # should be registered there for conneg, but a Document Extension can't really
-  # take care of that itself. If you pass the content_type manually, everything
-  # except conneg should still work. 
+  # between short_name and Rails Mime::Type.  The short name HAS to be
+  # registered with Rails Mime::Type, so we register it here if not.
+  # But much better to register it yourself, somehow. 
   #
   def will_export_as(short_name, content_type = nil)
+    #Lookup in Rails Mime::Type, register if needed, otherwise take
+    # content-type from registration if needed. This uses
+    # some 'api' to Mime::Type that may or may not be entirely
+    # public, the fact that a Mime::CONST is registered for every
+    # type. But that's the only way to do the kind of check we need, sorry.
+    type_const_name = "Mime::#{short_name.to_s.upcase}"
+    if defined?(type_const_name)
+      content_type = type_const_name.constantize.to_s unless content_type      
+    else
+      # not registered, we need to register. Use register_alias to be least
+      # likely to interfere with host app. 
+      Mime::Type.register_alias(content_type, short_name)
+    end    
+  
     # if content_type is nil, look it up from Rails Mime::Type
     if content_type.nil?
       # Accurate lookup in Rails Mime::Type is kind of pain, it doesn't
       # really provide the right API.
-      type_const_name = "Mime::#{short_name.to_s.upcase}"
       if defined?(type_const_name)
         content_type = type_const_name.constantize.to_s
       end    
