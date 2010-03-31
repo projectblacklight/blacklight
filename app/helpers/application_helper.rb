@@ -28,6 +28,19 @@ module ApplicationHelper
   def render_js_includes
     javascript_include_tag 'jquery-1.3.1.min.js', 'jquery-ui-1.7.2.custom.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
   end
+
+  # Create <link rel="alternate"> links from a documents dynamically
+  # provided export formats.
+  def render_link_rel_alternates(document=@document)
+    return nil if document.nil?  
+
+    html = ""
+    document.exports_as.each_pair do |format, spec|
+      #html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> url_for(:action => "show", :id => document[:id], :format => format, :only_path => false) }) << "\n"
+      html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
+    end
+    return html
+  end
   
   # collection of items to be rendered in the @sidebar
   def sidebar_items

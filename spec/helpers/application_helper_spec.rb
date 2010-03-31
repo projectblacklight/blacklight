@@ -253,5 +253,47 @@ describe ApplicationHelper do
 
     
   end
+
+  describe "render_link_rel_alternates" do
+      class MockDocument
+        include Blacklight::Solr::Document        
+      end
+      module MockExtension
+         def self.extended(document)
+           document.will_export_as(:weird, "application/weird")
+           document.will_export_as(:weirder, "application/weirder")
+         end
+         def export_as_weird ; "weird" ; end
+         def export_as_weirder ; "weirder" ; end
+      end
+      MockDocument.use_extension(MockExtension)
+    before(:each) do
+      @doc_id = "MOCK_ID1"
+      @document = MockDocument.new(:id => @doc_id)
+    end
+    it "generates <link rel=alternate> tags" do
+      params[:controller] = "controller"
+      params[:action] = "action"
+
+      response = render_link_rel_alternates(@document)
+
+      response.should have_tag("link[type=application/weird]") do |matches|
+        matches.length.should == 1
+        tag = matches[0]
+        tag.attributes["rel"].should == "alternate"
+        tag.attributes["title"].should == "weird"
+        tag.attributes["href"].should == catalog_url(@doc_id, "weird")
+      end
+      response.should have_tag("link[type=application/weirder]") do |matches|
+        matches.length.should == 1
+        tag = matches[0]
+        tag.attributes["rel"].should == "alternate"
+        tag.attributes["title"].should == "weirder"
+        tag.attributes["href"].should == catalog_url(@doc_id, "weirder")
+      end    
+    end
+    
+  end
+  
   
 end
