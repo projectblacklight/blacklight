@@ -277,20 +277,15 @@ describe ApplicationHelper do
 
       response = render_link_rel_alternates(@document)
 
-      response.should have_tag("link[type=application/weird]") do |matches|
-        matches.length.should == 1
-        tag = matches[0]
-        tag.attributes["rel"].should == "alternate"
-        tag.attributes["title"].should == "weird"
-        tag.attributes["href"].should == catalog_url(@doc_id, "weird")
+      @document.exports_as.each_pair do |format, spec|
+        response.should have_tag("link[type=#{ spec[:content_type]  }]") do |matches|
+          matches.length.should == 1
+          tag = matches[0]
+          tag.attributes["rel"].should == "alternate"
+          tag.attributes["title"].should == format.to_s
+          tag.attributes["href"].should === catalog_url(@doc_id, format)
+        end        
       end
-      response.should have_tag("link[type=application/weirder]") do |matches|
-        matches.length.should == 1
-        tag = matches[0]
-        tag.attributes["rel"].should == "alternate"
-        tag.attributes["title"].should == "weirder"
-        tag.attributes["href"].should == catalog_url(@doc_id, "weirder")
-      end    
     end
     
   end
