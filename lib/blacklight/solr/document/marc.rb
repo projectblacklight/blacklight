@@ -1,5 +1,9 @@
+class UnsupportedMarcFormatType < RuntimeError; end
+
+
 # meant to be mixed into a SolrDocument (Hash/Mash based object)
 module Blacklight::Solr::Document::Marc
+  
   # From paramix gem, parameterized mix-ins, let's us refer to the module
   # as Marc[:marc_source_field => "some_field"], and then refer in code to
   # mixin_params[Marc][:marc_source_field]
