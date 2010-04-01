@@ -13,7 +13,8 @@ module Blacklight::Solr::Document
     base.class_eval do
       def self.extension_parameters
         @@extension_parameters ||= {}
-      end    
+      end
+
     end
 
     # after_initialize hook comes from RSolr::Ext::Model, I think.

@@ -4,15 +4,7 @@ class UnsupportedMarcFormatType < RuntimeError; end
 # meant to be mixed into a SolrDocument (Hash/Mash based object)
 module Blacklight::Solr::Document::Marc
   
-  # From paramix gem, parameterized mix-ins, let's us refer to the module
-  # as Marc[:marc_source_field => "some_field"], and then refer in code to
-  # mixin_params[Marc][:marc_source_field]
-  require 'paramix'
-  include Paramix
-
   include Blacklight::Solr::Document::MarcExport # All our export_as stuff based on to_marc. 
-
-
 
   def self.extended(document)
     # Register our exportable formats, we inherit these from MarcExport    
@@ -64,20 +56,13 @@ module Blacklight::Solr::Document::Marc
       Blacklight::Marc::Document.new fetch(_marc_source_field), _marc_format_type )
   end
 
-  def _marc_source_field
-    if (respond_to?(:mixin_params))
-      mixin_params[Blacklight::Solr::Document::Marc][:marc_source_field]
-    else    
-      raise TypeError.new("marc_source_field not defined. You must refer to module with parameters as Blacklight::Solr::Document::Marc[:marc_source_field => solr_field_name, :marc_format_type => format].")
-    end
+  def _marc_source_field    
+    self.class.extension_parameters[:marc_source_field]
   end
 
   def _marc_format_type
-    if (respond_to?(:mixin_params))
-      mixin_params[Blacklight::Solr::Document::Marc][:marc_format_type]
-    else
-      raise TypeError.new("marc_format_type not defined. You must refer to module with parameters as Blacklight::Solr::Document::Marc[:marc_source_field => solr_field_name, :marc_format_type => format] please.")   
-    end
+        #TODO: Raise if not present
+    self.class.extension_parameters[:marc_format_type]    
   end
   
 end
