@@ -39,11 +39,8 @@ class CatalogController < ApplicationController
     @response, @document = get_solr_response_for_doc_id
     respond_to do |format|
       format.html {setup_next_and_previous_documents}
-      format.xml  {render :xml => @document.marc.to_xml}
-      format.refworks
-      format.endnote
-
-      # Add any dynamically added (such as by document extensions)
+      
+      # Add all dynamically added (such as by document extensions)
       # export formats.
       @document.exports_as.each_key do | format_name |
         # It's important that the argument to send be a symbol;

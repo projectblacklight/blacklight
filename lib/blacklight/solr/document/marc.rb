@@ -6,21 +6,13 @@ module Blacklight::Solr::Document::Marc
   require 'paramix'
   include Paramix
 
-  # translation methods that take from #to_marc and export_as various
-  # things.
-  #include MarcExport
+  include Blacklight::Solr::Document::MarcExport # All our export_as stuff based on to_marc. 
+
 
 
   def self.extended(document)
-    # Register our exportable formats, we inherit these from MarcExport
-    document.will_export_as(:xml)
-    
-    document.will_export_as(:marc, "application/marc")
-    # marcxml content type: 
-    # http://tools.ietf.org/html/draft-denenberg-mods-etc-media-types-00
-    document.will_export_as(:marcxml, "application/marcxml+xml")
-
-    
+    # Register our exportable formats, we inherit these from MarcExport    
+    Blacklight::Solr::Document::MarcExport.register_export_formats( document )
   end
 
   # DEPRECATED. Here for legacy purposes, but use to_marc instead. Or
@@ -40,31 +32,26 @@ module Blacklight::Solr::Document::Marc
 
   # ruby-marc object
   def to_marc
-    _marc_helper.marc
+    @_ruby_marc_obj ||= load_marc
   end
 
-  # marc21 string
-  def export_as_marc
-    _marc_helper.marc.to_marc
-  end
-
-  # marcxml string
-  def export_as_marcxml
-    _marc_helper.marc.to_xml.to_s
-  end
-
-  # export marc xml as .xml, although for non-marc docs
-  # this might be something else, so now sure how useful it is
-  # for a client. 
-  def export_as_xml
-    export_as_marcxml
-  end
 
   protected
   def marc_source
     @_marc_source ||= fetch(_marc_source_field)
   end
-  
+
+  def load_marc
+      case @marc_type.to_s
+        when 'marcxml'
+          records = MARC::XMLReader.new(StringIO.new(@marc_data)).to_a
+          return records[0]
+        when 'marc21'
+          return MARC::Record.new_from_marc(@marc_data)          
+        else
+          raise UnsupportedMarcFormatType.new("Only marcxml and marc21 are supported.")
+      end      
+   end
 
 
   
