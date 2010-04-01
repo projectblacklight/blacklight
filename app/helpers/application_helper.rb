@@ -30,7 +30,8 @@ module ApplicationHelper
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
-  # provided export formats.
+  # provided export formats. Currently not used by standard BL layouts,
+  # but available for your custom layouts to provide link rel alternates.
   def render_link_rel_alternates(document=@document)
     return nil if document.nil?  
 
