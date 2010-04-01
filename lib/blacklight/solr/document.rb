@@ -9,6 +9,13 @@ module Blacklight::Solr::Document
     base.extend DefaultFinders
     base.extend ExtendableClassMethods
 
+    # Provide a class-level hash for extension parameters
+    base.class_eval do
+      def self.extension_parameters
+        @@extension_parameters ||= {}
+      end    
+    end
+
     # after_initialize hook comes from RSolr::Ext::Model, I think.
     # We need to make sure all extensions get applied.
     base.after_initialize do 

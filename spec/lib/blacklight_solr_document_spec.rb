@@ -62,6 +62,11 @@ describe "Blacklight::Solr::Document" do
         MockDocument.new().my_extension_method.should == "override"        
       end
 
+      it "should provide an extension_parameters hash at the class level" do
+        MockDocument.extension_parameters[:key] = "value"
+        MockDocument.extension_parameters[:key].should == "value"
+      end
+
       
     end
 
