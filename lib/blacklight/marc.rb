@@ -13,29 +13,31 @@ module Blacklight::Marc
     include Citation
     
     def initialize(marc_data, marc_type)
-      case marc_type.to_s
-        when 'marcxml'
-          reader = MARC::XMLReader.new(StringIO.new(marc_data)).to_a
-          @marc = reader[0]
-        when 'marc21'
-          reader = MARC::Record.new_from_marc(marc_data)
-          @marc = reader
-        else
-          raise UnsupportedMarcFormatType.new("Only marcxml and marc21 are supported.")
-      end
-    end
-    
-    def marc_xml
-      @marc.to_xml.to_s
+      @marc_data = marc_data
+      @marc_type = marc_type
     end
 
-    def to_xml
-      if @marc 
-        self.marc_xml
-      else
-        "<not-implemented/>"
+    def to_marc
+      @marc ||= load_marc  
+    end
+    # legacy way of calling:
+    alias_method :marc, :to_marc
+    
+    def marc_xml
+      marc.to_xml.to_s
+    end
+
+    def load_marc
+      case @marc_type.to_s
+        when 'marcxml'
+          records = MARC::XMLReader.new(StringIO.new(@marc_data)).to_a
+          return records[0]
+        when 'marc21'
+          return MARC::Record.new_from_marc(@marc_data)          
+        else
+          raise UnsupportedMarcFormatType.new("Only marcxml and marc21 are supported.")
+        end
       end
     end
-  end
   
 end
