@@ -45,7 +45,7 @@ class CatalogController < ApplicationController
 
       # Add any dynamically added (such as by document extensions)
       # export formats.
-      @document.exports_as.each_key do | format_name |
+      @document.export_formats.each_key do | format_name |
         # It's important that the argument to send be a symbol;
         # if it's a string, it makes Rails unhappy for unclear reasons. 
         format.send(format_name.to_sym) { render :text => @document.export_as(format_name) }

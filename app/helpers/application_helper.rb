@@ -36,7 +36,7 @@ module ApplicationHelper
     return nil if document.nil?  
 
     html = ""
-    document.exports_as.each_pair do |format, spec|
+    document.export_formats.each_pair do |format, spec|
       #html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> url_for(:action => "show", :id => document[:id], :format => format, :only_path => false) }) << "\n"
       html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
     end

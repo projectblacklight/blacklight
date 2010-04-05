@@ -82,14 +82,14 @@ describe "Blacklight::Solr::Document" do
       it "reports it's exportable formats properly" do
         doc = MockDocument.new
         doc.will_export_as(:marc, "application/marc" )
-        doc.exports_as.should have_key(:marc)
-        doc.exports_as[:marc][:content_type].should ==  "application/marc"
+        doc.export_formats.should have_key(:marc)
+        doc.export_formats[:marc][:content_type].should ==  "application/marc"
       end
 
       it "looks up content-type from Mime::Type if not given in arg" do
         doc = MockDocument.new
         doc.will_export_as(:html)
-        doc.exports_as.should have_key(:html)        
+        doc.export_formats.should have_key(:html)        
       end
 
       context "format not registered with Mime::Type" do

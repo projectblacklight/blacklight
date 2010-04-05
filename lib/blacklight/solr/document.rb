@@ -149,7 +149,7 @@ module Blacklight::Solr::Document
         content_type = type_const_name.constantize.to_s
       end    
     end    
-    exports_as[short_name] =  {:content_type => content_type}
+    export_formats[short_name] =  {:content_type => content_type}
   end
 
   # Collects formats that this doc can export as.
@@ -158,10 +158,10 @@ module Blacklight::Solr::Document
   #  :content-type => mime-content-type
   #  maybe more later
   # To see if a given export format is supported by this document,
-  # simply call document.exports_as.keys.include?(:my_format)
-  # Then call #export_as to do the export. 
-  def exports_as
-    @exports_as ||= {}
+  # simply call document.export_formats.keys.include?(:my_format)
+  # Then call #export_as! to do the export. 
+  def export_formats
+    @export_formats ||= {}
   end
 
   # Call with a format shortname, export_as(:marc), simply returns
