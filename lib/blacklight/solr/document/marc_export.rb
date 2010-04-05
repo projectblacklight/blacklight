@@ -91,7 +91,16 @@ module Blacklight::Solr::Document::MarcExport
     text
   end 
 
-  # TODO. What is this format really? Put a URL to where it's defined.
+  # Endnote Import Format. See the EndNote User Guide at:
+  # http://www.endnote.com/support/enx3man-terms-win.asp
+  # Chapter 7: Importing Reference Data into EndNote / Creating a Tagged “EndNote Import” File
+  #
+  # Note: This code is copied from what used to be in the previous version
+  # in ApplicationHelper#render_to_endnote.  It does NOT produce very good
+  # endnote import format; the %0 is likely to be entirely illegal, the
+  # rest of the data is barely correct but messy. TODO, a new version of this,
+  # or better yet just an export_as_ris instead, which will be more general
+  # purpose. 
   def export_as_endnote()
     end_note_format = {
       "%A" => "100.a",
@@ -112,11 +121,12 @@ module Blacklight::Solr::Document::MarcExport
     # but it wasn't actually clear that :display_type would
     # be used this way. This should be rewritten to guess
     # from actual Marc instead, probably.
-    format_str = self[Blacklight.config[:show][:display_type]]
+    format_str = Blacklight.config[:show][:display_type]
     format_str = format_str[0] if format_str.kind_of?(Array)
+    format_str = format_str.titlecase
     
     text = ''
-    text << "%0 #{  }\n"
+    text << "%0 #{ format_str }\n"
     # If there is some reliable way of getting the language of a record we can add it here
     #text << "%G #{record['language'].first}\n"
     end_note_format.each do |key,value|

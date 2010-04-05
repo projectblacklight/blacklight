@@ -357,5 +357,26 @@ describe Blacklight::Solr::Document::MarcExport do
       @music_record.export_as_refworks_marc_txt.should == "LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n"
     end
   end
-  
+
+  describe "export_as_endnote" do
+    it "should export_correctly" do
+      endnote_file = @music_record.export_as_endnote
+      # We have to parse it a bit to check it.
+      endnote_entries = Hash.new {|hash, key| hash[key] = Set.new }
+      endnote_file.each_line do |line|
+        line =~ /\%(..?) (.*)$/
+        endnote_entries[$1] << $2
+      end
+
+      endnote_entries["0"].should == Set.new("Format") # I have no idea WHY this is correct, it is definitely not legal, but taking from earlier test for render_endnote in applicationhelper, the previous version of this.  jrochkind.
+      endnote_entries["D"].should == Set.new("p2001. ")
+      endnote_entries["C"].should == Set.new("[United States] : ")
+      endnote_entries["E"].should == Set.new(["Greer, Lowell. ", "Lubin, Steven. ", "Chase, Stephanie, ", "Brahms, Johannes, ", "Beethoven, Ludwig van, ", "Krufft, Nikolaus von, "])
+      endnote_entries["I"].should == Set.new("Harmonia Mundi USA, ")
+      endnote_entries["T"].should == Set.new("Music for horn ")
+
+      #nothing extra
+      Set.new(endnote_entries.keys).should == Set.new(["0", "C", "D", "E", "I", "T"])      
+    end
+  end
 end
