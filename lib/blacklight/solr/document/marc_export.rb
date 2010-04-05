@@ -12,7 +12,7 @@ module Blacklight::Solr::Document::MarcExport
     # http://tools.ietf.org/html/draft-denenberg-mods-etc-media-types-00
     document.will_export_as(:marcxml, "application/marcxml+xml")
     document.will_export_as(:openurl_kev, "text/plain")
-    document.will_export_as(:refworks, "text/plain")
+    document.will_export_as(:refworks_marc_txt, "text/plain")
     document.will_export_as(:endnote, "application/x-endnote-refer")
   end
 
@@ -31,11 +31,11 @@ module Blacklight::Solr::Document::MarcExport
   # redesigned at some point to be more general purpose, but this
   # is in-line with what we had before, but at least now attached
   # to the document extension where it belongs. 
-  def export_as_apa_citation    
+  def export_as_apa_citation_txt
     apa_citation( to_marc )
   end
   
-  def export_as_mla_citation    
+  def export_as_mla_citation_txt
     mla_citation( to_marc )
   end
 
@@ -48,6 +48,14 @@ module Blacklight::Solr::Document::MarcExport
   # for now for backwards compatibilty, but should be replaced by
   # just ruby OpenURL. 
   def export_as_openurl_kev(format = nil)
+    title = to_marc.find{|field| field.tag == '245'}
+    author = to_marc.find{|field| field.tag == '100'}
+    publisher_info = to_marc.find{|field| field.tag == '260'}
+    edition = to_marc.find{|field| field.tag == '250'}
+    isbn = to_marc.find{|field| field.tag == '020'}
+    issn = to_marc.find{|field| field.tag == '022'}
+    format.is_a?(Array) ? format = format[0].downcase.strip : format = format.downcase.strip
+ 
       if format == 'book'
         return "title='ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rfr_id=info%3Asid%2Fblacklight.rubyforge.org%3Agenerator&amp;rft.genre=book&amp;rft.btitle=#{(title.nil? or title['a'].nil?) ? "" : CGI::escape(title['a'])}+#{(title.nil? or title['b'].nil?) ? "" : CGI::escape(title['b'])}&amp;rft.title=#{(title.nil? or title['a'].nil?) ? "" : CGI::escape(title['a'])}+#{(title.nil? or title['b'].nil?) ? "" : CGI::escape(title['b'])}&amp;rft.au=#{(author.nil? or author['a'].nil?) ? "" : CGI::escape(author['a'])}&amp;rft.date=#{(publisher_info.nil? or publisher_info['c'].nil?) ? "" : CGI::escape(publisher_info['c'])}&amp;rft.pub=#{(publisher_info.nil? or publisher_info['a'].nil?) ? "" : CGI::escape(publisher_info['a'])}&amp;rft.edition=#{(edition.nil? or edition['a'].nil?) ? "" : CGI::escape(edition['a'])}&amp;rft.isbn=#{(isbn.nil? or isbn['a'].nil?) ? "" : isbn['a']}'"
       elsif format.include?('journal') # checking using include because institutions may use formats like Journal or Journal/Magazine
@@ -58,9 +66,12 @@ module Blacklight::Solr::Document::MarcExport
   end
 
 
-  # TODO. This isn't really "refworks", it needs to be renamed as
-  # export_as_refworks_marc_txt
-  def export_as_refworks
+  # This format used to be called 'refworks', which wasn't really
+  # accurate, sounds more like 'refworks tagged format'. Which this
+  # is not, it's instead some weird under-documented Refworks 
+  # proprietary marc-ish in text/plain format. See
+  # http://robotlibrarian.billdueber.com/sending-marcish-data-to-refworks/
+  def export_as_refworks_marc_txt
     fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
     text = "LEADER #{to_marc.leader}"
     fields.each do |field|
@@ -363,23 +374,4 @@ module Blacklight::Solr::Document::MarcExport
     return temp_name.last + " " + temp_name.first
   end 
   
-  # Genrates a Z39.88 span element to pass the COinS metadata to Zotero
-  def z3988_span(record,format)
-    title = record.find{|field| field.tag == '245'}
-    author = record.find{|field| field.tag == '100'}
-    publisher_info = record.find{|field| field.tag == '260'}
-    edition = record.find{|field| field.tag == '250'}
-    isbn = record.find{|field| field.tag == '020'}
-    issn = record.find{|field| field.tag == '022'}
-    format.is_a?(Array) ? format = format[0].downcase.strip : format = format.downcase.strip
-    text = "<span class='Z3988' "
-      if format == 'book'
-        text << "title='ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rfr_id=info%3Asid%2Fblacklight.rubyforge.org%3Agenerator&amp;rft.genre=book&amp;rft.btitle=#{(title.nil? or title['a'].nil?) ? "" : CGI::escape(title['a'])}+#{(title.nil? or title['b'].nil?) ? "" : CGI::escape(title['b'])}&amp;rft.title=#{(title.nil? or title['a'].nil?) ? "" : CGI::escape(title['a'])}+#{(title.nil? or title['b'].nil?) ? "" : CGI::escape(title['b'])}&amp;rft.au=#{(author.nil? or author['a'].nil?) ? "" : CGI::escape(author['a'])}&amp;rft.date=#{(publisher_info.nil? or publisher_info['c'].nil?) ? "" : CGI::escape(publisher_info['c'])}&amp;rft.pub=#{(publisher_info.nil? or publisher_info['a'].nil?) ? "" : CGI::escape(publisher_info['a'])}&amp;rft.edition=#{(edition.nil? or edition['a'].nil?) ? "" : CGI::escape(edition['a'])}&amp;rft.isbn=#{(isbn.nil? or isbn['a'].nil?) ? "" : isbn['a']}'"
-      elsif format.include?('journal') # checking using include because institutions may use formats like Journal or Journal/Magazine
-        text << "title='ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rfr_id=info%3Asid%2Fblacklight.rubyforge.org%3Agenerator&amp;rft.genre=article&amp;rft.title=#{(title.nil? or title['a'].nil?) ? "" : CGI::escape(title['a'])}+#{(title.nil? or title['b'].nil?) ? "" : CGI::escape(title['b'])}&amp;rft.atitle=#{(title.nil? or title['a'].nil?) ? "" : CGI::escape(title['a'])}+#{(title.nil? or title['b'].nil?) ? "" : CGI::escape(title['b'])}&amp;rft.date=#{(publisher_info.nil? or publisher_info['c'].nil?) ? "" : CGI::escape(publisher_info['c'])}&amp;rft.issn=#{(issn.nil? or issn['a'].nil?) ? "" : issn['a']}'"
-      else
-        text << "title='ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rfr_id=info%3Asid%2Fblacklight.rubyforge.org%3Agenerator&amp;rft.title=#{(title.nil? or title['a'].nil?) ? "" : CGI::escape(title['a'])}+#{(title.nil? or title['b'].nil?) ? "" : CGI::escape(title['b'])}&amp;rft.creator=#{(author.nil? or author['a'].nil?) ? "" : CGI::escape(author['a'])}&amp;rft.date=#{(publisher_info.nil? or publisher_info['c'].nil?) ? "" : CGI::escape(publisher_info['c'])}&amp;rft.pub=#{(publisher_info.nil? or publisher_info['a'].nil?) ? "" : CGI::escape(publisher_info['a'])}&amp;rft.format=#{CGI::escape(format)}'"
-      end
-    text << "></span>"
-  end
 end
