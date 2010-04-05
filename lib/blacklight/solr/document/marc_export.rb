@@ -1,8 +1,8 @@
 # Written for use with Blacklight::Solr::Document::Marc, but you can use
 # it for your own custom Blacklight document Marc extension too -- just
-# include this module in an extension that provides a #to_marc returning
-# a ruby-marc object.  This module will add in export_as translation
-# methods for a variety of formats. 
+# include this module in any document extension (or any other class)
+# that provides a #to_marc returning a ruby-marc object.  This module will add
+# in export_as translation methods for a variety of formats. 
 module Blacklight::Solr::Document::MarcExport
 
   def self.register_export_formats(document)
