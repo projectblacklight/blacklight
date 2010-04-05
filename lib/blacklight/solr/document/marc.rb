@@ -38,7 +38,7 @@ module Blacklight::Solr::Document::Marc
   end
 
   def load_marc
-      case @marc_type.to_s
+      case _marc_format_type.to_s
         when 'marcxml'
           records = MARC::XMLReader.new(StringIO.new(@marc_data)).to_a
           return records[0]
