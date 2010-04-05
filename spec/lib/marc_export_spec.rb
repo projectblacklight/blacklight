@@ -272,4 +272,24 @@ describe Blacklight::Solr::Document::MarcExport do
       record.should_not match(/.*rft.issn=.*/)
     end
   end
+
+  describe "export_as_marc binary" do
+    it "should export_as_marc" do
+      @typical_record.export_as_marc.should == @typical_record.to_marc.to_marc
+    end
+  end
+
+  describe "export_as_marcxml" do
+    it "should export_as_marcxml" do
+      marc_from_xml(@typical_record.export_as_marcxml).should == marc_from_xml(@typical_record.to_marc.to_xml.to_s)
+    end
+  end
+
+  describe "export_as_xml" do
+    it "should export marcxml as xml" do
+      marc_from_xml(@typical_record.export_as_xml).should == marc_from_xml(@typical_record.export_as_marcxml)
+    end
+  end
+
+  
 end

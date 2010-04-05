@@ -22,7 +22,7 @@ module Blacklight::Solr::Document::MarcExport
   end
 
   def export_as_marcxml
-    to_marc.to_xml
+    to_marc.to_xml.to_s
   end
   alias_method :export_as_xml, :export_as_marcxml
   
