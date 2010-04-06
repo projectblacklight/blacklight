@@ -1,7 +1,22 @@
 class UnsupportedMarcFormatType < RuntimeError; end
 
 
-# meant to be mixed into a SolrDocument (Hash/Mash based object)
+# This is a document extension meant to be mixed into a
+# Blacklight::Solr::Document class, such as SolrDocument. It provides support
+# for restoration of MARC data (xml or binary) from a Solr stored field, and
+# then provides various transformations/exports of that Marc via the included
+# Blacklight::Solr::Document::MarcExport module.
+#
+# This extension would normally be registered using 
+# Blacklight::Solr::Document#use_extension.  eg:
+#
+# SolrDocument.use_extension( Blacklight::Solr::Document::Marc ) { |document| my_logic_for_document_has_marc?( document ) }
+#
+# This extension also expects a :marc_source_field and :marc_format_type to
+# be registered with the hosting classes extension_parameters. In an initializer
+# or other startup code:
+# SolrDocument.extension_paramters[:marc_source_field] = "name_of_solr_stored_field"
+# SolrDocument.extension_parameters[:marc_format_type] = :marc21 # or :marcxml
 module Blacklight::Solr::Document::Marc
   
   include Blacklight::Solr::Document::MarcExport # All our export_as stuff based on to_marc. 
