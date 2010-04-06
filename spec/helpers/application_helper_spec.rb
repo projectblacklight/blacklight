@@ -277,7 +277,7 @@ describe ApplicationHelper do
 
       response = render_link_rel_alternates(@document)
 
-      @document.exports_as.each_pair do |format, spec|
+      @document.export_formats.each_pair do |format, spec|
         response.should have_tag("link[type=#{ spec[:content_type]  }]") do |matches|
           matches.length.should == 1
           tag = matches[0]
