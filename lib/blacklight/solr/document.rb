@@ -85,9 +85,11 @@ module Blacklight::Solr::Document
     # Provide a class-level hash for extension parameters
     base.class_eval do
       def self.extension_parameters
-        @@extension_parameters ||= {}
-      end
-
+        ## This variable should NOT be @@, since we're in a class method,
+        # it's just @ to be a class variable. Confusing, but it
+        # passes the tests this way.       
+        @extension_parameters ||= {}
+      end    
     end
 
     # after_initialize hook comes from RSolr::Ext::Model, I think.

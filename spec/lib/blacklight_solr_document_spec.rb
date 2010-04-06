@@ -72,11 +72,26 @@ describe "Blacklight::Solr::Document" do
         MockDocument.new().my_extension_method.should == "override"        
       end
 
-      it "should provide an extension_parameters hash at the class level" do
-        MockDocument.extension_parameters[:key] = "value"
-        MockDocument.extension_parameters[:key].should == "value"
-      end
+      describe "extension_parameters class-level hash" do
+        it "should provide an extension_parameters hash at the class level" do
+          MockDocument.extension_parameters[:key] = "value"
+          MockDocument.extension_parameters[:key].should == "value"
+        end
+    
+        it "extension_parameters should not be shared between classes" do
+          class_one = Class.new do
+            include Blacklight::Solr::Document
+          end
+          class_two = Class.new do
+            include Blacklight::Solr::Document
+          end
 
+          class_one.extension_parameters[:key] = "class_one_value"
+          class_two.extension_parameters[:key] = "class_two_value"
+
+          class_one.extension_parameters[:key].should == "class_one_value"
+        end
+      end
       
     end
 
