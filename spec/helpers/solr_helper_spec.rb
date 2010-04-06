@@ -572,19 +572,7 @@ describe 'Blacklight::SolrHelper' do
       Blacklight.config[:show_fields][:field_names][0].should_not == nil
     end
 
-    # test whether stored marc is behaving properly
-    describe "raw record marc" do
-      
-      it "should have initializer values for raw marc" do
-        Blacklight.config[:raw_storage_field].should_not == nil
-      end
     
-      it "should have a non-nil value for raw_storage_field" do
-        # grab the marc value for this record
-        marc = @document.get(Blacklight.config[:raw_storage_field])
-        marc.should_not == nil
-      end
-    end
     
   end
 
