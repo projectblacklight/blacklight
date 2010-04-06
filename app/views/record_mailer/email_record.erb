@@ -1,9 +1,10 @@
-<%- if @document.marc.marc and ! @document.marc.marc['245'].nil? -%>
-<%= "Title: #{@document.marc.marc['245']['a']}" unless @document.marc.marc['245']['a'].nil? %> <%= @document.marc.marc['245']['b'] unless @document.marc.marc['245']['b'].nil? %>
+<%- if @document.respond_to?(:to_marc) and ! @document.to_marc['245'].nil? -%>
+<%= "Title: #{@document.to_marc['245']['a']}" unless @document.to_marc['245']['a'].nil? %> <%= @document.to_marc['245']['b'] unless @document.to_marc['245']['b'].nil? %>
 <%- end -%>
-<%- if @document.marc.marc and ! @document.marc.marc['100'].nil? -%>
-<%= "Author: #{@document.marc.marc['100']['a']}" unless @document.marc.marc['100']['a'].nil? %>
+<%- if @document.to_marc and ! @document.to_marc['100'].nil? -%>
+<%= "Author: #{@document.to_marc['100']['a']}" unless @document.to_marc['100']['a'].nil? %>
 <% end -%>
-Format: <%= @document['format'] %>
+Format: <%= @document[Blacklight.config[:show][:display_type]] %>
 URL: <%= catalog_path(@document[:id], :only_path => false, :host => @host) %>
+
 Message: <%= @message %>

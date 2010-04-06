@@ -6,12 +6,12 @@
 </div>
 
 
-<% unless @document.marc.to_mla.blank? %>
+<% if @document.respond_to?(:export_as_mla_citation_txt) %>
   <h4>MLA</h4>
-  <%= @document.marc.to_mla %><br/><br/>
+  <%= @document.send(:export_as_mla_citation_txt) %><br/><br/>
 <% end %>
 
-<% unless @document.marc.to_apa.blank? %>
+<% if @document.respond_to?(:export_as_apa_citation_txt) %>
   <h4>APA</h4>
-  <%= @document.marc.to_apa %>
+  <%= @document.send(:export_as_apa_citation_txt) %>
 <% end %>

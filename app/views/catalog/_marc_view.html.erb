@@ -5,8 +5,8 @@
   Librarian View
 </div>
 <div id="marc_view">
-  <% fields = @document.marc.marc.find_all{|f| ('000'..'999') === f.tag }  %>
-  <div class="field">LEADER <%= @document.marc.marc.leader %></div>
+  <% fields = @document.to_marc.find_all{|f| ('000'..'999') === f.tag }  %>
+  <div class="field">LEADER <%= @document.to_marc.leader %></div>
   <%- fields.each do |field| -%>
 	<%- unless field.tag.to_s == "940" -%>
 	  <div class="field">

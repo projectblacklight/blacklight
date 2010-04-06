@@ -1,22 +1,37 @@
-<% if @document.marc %>
+
   <ul class="tools">
-    <li>
-       <%= link_to "Cite This", citation_catalog_path(@document[:id]), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
-    </li>
-    <li>
-      <%= link_to "Export to RefWorks", "http://www.refworks.com/express/expressimport.asp?vendor=#{application_name}&filter=MARC%20Format&encoding=65001&url=#{catalog_path(@document[:id], :format => 'refworks', :only_path => false)}" %>
-    </li>
-    <li>
-      <%= link_to "Export to EndNote", catalog_path(@document[:id], :format => 'endnote') %>
-    </li>
-    <li>
-       <%= link_to "Email This", email_catalog_path(@document[:id]), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %>
-    </li>
-    <li>
-       <%= link_to "SMS This", sms_catalog_path(@document[:id]), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
-    </li>
-    <li>
-	  <%= link_to "Librarian View", catalog_path(@document[:id]) << "#", {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %>
-	</li>
+  
+    <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
+      <li class="cite">
+         <%= link_to "Cite This", citation_catalog_path(@document[:id]), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
+      </li>
+    <% end %>
+    
+    <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
+      <li class="refworks">
+        <%= link_to "Export to RefWorks", "http://www.refworks.com/express/expressimport.asp?vendor=#{application_name}&filter=MARC%20Format&encoding=65001&url=#{catalog_path(@document[:id], :format => 'refworks_marc_txt', :only_path => false)}" %>        
+      </li>
+    <% end %>
+    
+    <% if @document.export_formats.keys.include?( :endnote ) %>
+      <li class="endnote">
+        <%= link_to "Export to EndNote", catalog_path(@document[:id], :format => 'endnote') %>
+      </li>
+    <% end %>
+    
+    <% if @document.respond_to?(:to_marc) %>
+      <li class="email">
+         <%= link_to "Email This", email_catalog_path(@document[:id]), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %>
+      </li>
+      <li class="sms">
+         <%= link_to "SMS This", sms_catalog_path(@document[:id]), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
+      </li>
+    <% end %>
+    
+    <% if @document.respond_to?(:to_marc) %>
+      <li class="librarian_view">
+        <%= link_to "Librarian View", catalog_path(@document[:id]) << "#", {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %>
+      </li>
+    <% end %>
+    
   </ul>
-<% end %>

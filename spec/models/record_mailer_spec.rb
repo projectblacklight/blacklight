@@ -1,36 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-def record_xml
-  "<record>
-     <leader>01021cam a2200277 a 4500</leader>
-     <controlfield tag=\"001\">a1711966</controlfield>
-     <controlfield tag=\"003\">SIRSI</controlfield>
-     <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
 
-     <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
-       <subfield code=\"a\">Janetzky, Kurt.</subfield>
-     </datafield>
-
-     <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
-       <subfield code=\"a\">The horn /</subfield>
-       <subfield code=\"c\">Kurt Janetzky and Bernhard Bruchle ; translated from the German by James Chater.</subfield>
-     </datafield>
-
-     <datafield tag=\"260\" ind1=\" \" ind2=\" \">
-       <subfield code=\"a\">London :</subfield>
-       <subfield code=\"b\">Batsford,</subfield>
-       <subfield code=\"c\">1988.</subfield>
-     </datafield>
-
-     <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
-       <subfield code=\"a\">Brüchle, Bernhard.</subfield>
-     </datafield>
-  </record>"
-end
 
 describe RecordMailer do
   before(:all) do
-    @document = mock_model(SolrDocument, :id => '123456', :marc => Blacklight::Marc::Document.new(record_xml, :marcxml), :[] => 'book')
+    @document = mock_model(SolrDocument, :id => '123456', :to_marc => sample_marc, :[] => 'book')
   end
   describe "email" do
     before(:all) do
@@ -76,6 +50,39 @@ describe RecordMailer do
       @sms.body.should =~ /projectblacklight.org:300/
       
     end
+  end
+
+  def record_xml
+    "<record>
+       <leader>01021cam a2200277 a 4500</leader>
+       <controlfield tag=\"001\">a1711966</controlfield>
+       <controlfield tag=\"003\">SIRSI</controlfield>
+       <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
+  
+       <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
+         <subfield code=\"a\">Janetzky, Kurt.</subfield>
+       </datafield>
+  
+       <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
+         <subfield code=\"a\">The horn /</subfield>
+         <subfield code=\"c\">Kurt Janetzky and Bernhard Bruchle ; translated from the German by James Chater.</subfield>
+       </datafield>
+  
+       <datafield tag=\"260\" ind1=\" \" ind2=\" \">
+         <subfield code=\"a\">London :</subfield>
+         <subfield code=\"b\">Batsford,</subfield>
+         <subfield code=\"c\">1988.</subfield>
+       </datafield>
+  
+       <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
+         <subfield code=\"a\">Brüchle, Bernhard.</subfield>
+       </datafield>
+    </record>"
+  end
+  
+  def sample_marc
+    reader = MARC::XMLReader.new(StringIO.new( record_xml ))
+    reader.each {|rec| return rec}
   end
   
 end
