@@ -26,8 +26,18 @@ config.after_initialize do
   require 'will_paginate_link_renderer'   # in local ./lib
   require 'taggable_pagination'           # in local ./lib
   Blacklight.init
-  Mime::Type.register_alias "text/plain", :refworks
-  Mime::Type.register_alias "application/x-endnote-refer", :endnote
+
+  # Content types used by Marc Document extension, possibly among others.
+  # Registering a unique content type with 'register' (rather than
+  # register_alias) will allow content-negotiation for the format. 
+  Mime::Type.register_alias "text/plain", :refworks_marc_txt
+  Mime::Type.register_alias "text/plain", :openurl_kev
+  Mime::Type.register "application/x-endnote-refer", :endnote
+  Mime::Type.register "application/marc", :marc
+  Mime::Type.register "application/marcxml+xml", :marcxml, 
+        ["application/x-marc+xml", "application/x-marcxml+xml", 
+         "application/marc+xml"]
+  
 end
 
 # the blacklight_config file configures objects, creates a config hash etc..
