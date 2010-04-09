@@ -19,9 +19,17 @@ class CatalogController < ApplicationController
   # The index action will more than likely throw this one.
   # Example, when the standard query parser is used, and a user submits a "bad" query.
   rescue_from RSolr::RequestError, :with => lambda {
+    flash_notice = "Sorry, I don't understand your search."
+    # Set the notice flag if the flash[:notice] is already set to the RSolr::ReduestError
+    notice = flash[:notice] if flash[:notice] == flash_notice
     # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
-    flash[:notice] = "Sorry, I don't understand your search."
-    redirect_to catalog_index_path
+    unless notice
+      flash[:notice] = flash_notice
+      redirect_to catalog_index_path
+    else
+      flash[:notice] = "There is most likely a problem with either your solr or blacklight configurations.  Please make sure that you have a valid request handler."
+      render :text => "", :layout => true, :status => 500
+    end
   }
   
   # get search results from the solr index
