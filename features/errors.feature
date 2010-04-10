@@ -6,7 +6,7 @@ Feature: Errors
   
   Scenario: Invalid item id
     Given I am on the document page for id "2004310985"
-    Then I should see a flash error "Sorry, you seem to have encountered an error."
+    Then I should see a flash error "Sorry, you have requested a record that doesn't exist."
 
   Scenario: Submitting an invalid search 
     When I am on the home page
