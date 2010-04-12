@@ -232,7 +232,7 @@ class CatalogController < ApplicationController
       notice = flash[:notice] if flash[:notice] == flash_notice
       unless notice
         flash[:notice] = flash_notice
-        redirect_to root_path
+        redirect_to root_path, :status => 500
       else
         render :template => "public/500.html", :layout => false, :status => 500
       end
@@ -245,7 +245,7 @@ class CatalogController < ApplicationController
       render # will give us the stack trace
     else
       flash[:notice] = "Sorry, you have requested a record that doesn't exist."
-      redirect_to root_path
+      redirect_to root_path, :status => 404
     end
     
   end

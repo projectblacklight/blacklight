@@ -304,9 +304,27 @@ describe CatalogController do
     end
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
       controller.facet_limit_hash.should == Blacklight.config[:facet][:limits]
-    end
-      
+    end    
   end
+  
+  describe "errors" do
+    it "should return status 404 for a record that doesn't exist" do
+      get :show, :id=>"987654321"
+      response.redirected_to.should == root_path
+      response.flash[:notice].should == "Sorry, you have requested a record that doesn't exist."
+      response.should_not be_success
+      response.status.should == "404 Not Found"
+    end
+    it "should return a status 500 for a bad search" do
+      get :index, :q=>"+"
+      response.redirected_to.should == root_path
+      response.flash[:notice].should == "Sorry, I don't understand your search."
+      response.should_not be_success
+      response.status.should == "500 Internal Server Error"
+    end
+    
+  end
+  
 end
 
 
