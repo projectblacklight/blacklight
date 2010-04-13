@@ -415,8 +415,8 @@ module ApplicationHelper
     action = (href && url.size > 0) ? "'#{url}'" : 'this.href'
     submit_function =
       "var f = document.createElement('form'); f.style.display = 'none'; " +
-      "this.parentNode.appendChild(f); f.method = 'POST'; f.action = #{action};"
-
+      "this.parentNode.appendChild(f); f.method = 'POST'; f.action = #{action};"+
+      "if(event.metaKey || event.ctrlKey){f.target = '_blank';};" # if the command or control key is being held down while the link is clicked set the form's target to _blank
     if data
       data.each_pair do |key, value|
         submit_function << "var d = document.createElement('input'); d.setAttribute('type', 'hidden'); "
