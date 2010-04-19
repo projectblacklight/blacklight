@@ -12,7 +12,8 @@ describe Blacklight::SearchFields do
                            {:display_label => 'Title', :qt => 'title_search'},
                            {:display_label =>'Author', :qt => 'author_search'},
                            {:display_label => 'Subject', :qt=> 'subject_search'},
-                           ['Legacy Config', 'legacy_qt']
+                           ['Legacy Config', 'legacy_qt'],
+                           {:display_label => "No Display", :qt=>"something", :include_in_simple_select => false}
                           ]
       }
     end
@@ -53,6 +54,14 @@ describe Blacklight::SearchFields do
        argument[1].should == config_hash[:key]
     end    
   end
+
+  it "should not include fields in select if :display_in_simple_search=>false" do
+    select_arguments = @search_field_obj.search_field_options_for_select
+
+    select_arguments.should_not include(["No Display", "no_display"])
+  end
+
+  
 
   it "should lookup field definitions by key" do
     @search_field_obj.search_field_def_for_key("title")[:key].should == "title"

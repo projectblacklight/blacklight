@@ -109,6 +109,29 @@ describe ApplicationHelper do
     end
   end
 
+  describe "search_as_hidden_fields" do
+    def params
+      {:q => "query", :sort => "sort", :per_page => "20", :search_field => "search_field", :page => 100, :arbitrary_key => "arbitrary_value", :f => {"field" => ["value1", "value2"]}}
+    end
+    describe "for default arguments" do
+      it "should default to omitting :page" do
+        search_as_hidden_fields.should have_tag("input[type=hidden]", 7)
+        search_as_hidden_fields.should_not have_tag("input[name=page]") 
+      end
+      describe "for omit_keys parameter" do
+        it "should not include those keys" do
+           generated = search_as_hidden_fields(:omit_keys => [:per_page, :sort])
+           
+           generated.should_not have_tag("input[name=sort]")
+           generated.should_not have_tag("input[name=per_page]")
+
+           generated.should have_tag("input[name=page]")
+        end
+      end
+    end
+    
+ end
+
   describe "render_stylesheet_links" do
     it "should include link tags to yui and application stylesheets from blacklight plugin" do
       html = render_stylesheet_includes
@@ -253,5 +276,42 @@ describe ApplicationHelper do
 
     
   end
+
+  describe "render_link_rel_alternates" do
+      class MockDocument
+        include Blacklight::Solr::Document        
+      end
+      module MockExtension
+         def self.extended(document)
+           document.will_export_as(:weird, "application/weird")
+           document.will_export_as(:weirder, "application/weirder")
+         end
+         def export_as_weird ; "weird" ; end
+         def export_as_weirder ; "weirder" ; end
+      end
+      MockDocument.use_extension(MockExtension)
+    before(:each) do
+      @doc_id = "MOCK_ID1"
+      @document = MockDocument.new(:id => @doc_id)
+    end
+    it "generates <link rel=alternate> tags" do
+      params[:controller] = "controller"
+      params[:action] = "action"
+
+      response = render_link_rel_alternates(@document)
+
+      @document.export_formats.each_pair do |format, spec|
+        response.should have_tag("link[type=#{ spec[:content_type]  }]") do |matches|
+          matches.length.should == 1
+          tag = matches[0]
+          tag.attributes["rel"].should == "alternate"
+          tag.attributes["title"].should == format.to_s
+          tag.attributes["href"].should === catalog_url(@doc_id, format)
+        end        
+      end
+    end
+    
+  end
+  
   
 end

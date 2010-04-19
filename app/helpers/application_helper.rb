@@ -2,6 +2,7 @@
 # Methods added to this helper will be available to all templates in the application.
 #
 module ApplicationHelper
+  include HashAsHiddenFields
   
   def application_name
     'Blacklight'
@@ -27,6 +28,20 @@ module ApplicationHelper
   #alias_method_chain :render_js_includes, :local
   def render_js_includes
     javascript_include_tag 'jquery-1.3.1.min.js', 'jquery-ui-1.7.2.custom.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
+  end
+
+  # Create <link rel="alternate"> links from a documents dynamically
+  # provided export formats. Currently not used by standard BL layouts,
+  # but available for your custom layouts to provide link rel alternates.
+  def render_link_rel_alternates(document=@document)
+    return nil if document.nil?  
+
+    html = ""
+    document.export_formats.each_pair do |format, spec|
+      #html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> url_for(:action => "show", :id => document[:id], :format => format, :only_path => false) }) << "\n"
+      html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
+    end
+    return html
   end
   
   # collection of items to be rendered in the @sidebar
@@ -337,6 +352,23 @@ module ApplicationHelper
     link_url = catalog_index_path(query_params)
     link_to opts[:label], link_url
   end
+  
+  # Create form input type=hidden fields representing the entire search context,
+  # for inclusion in a form meant to change some aspect of it, like
+  # re-sort or change records per page. Can pass in params hash
+  # as :params => hash, otherwise defaults to #params. Can pass
+  # in certain top-level params keys to _omit_, defaults to :page
+  def search_as_hidden_fields(options={})
+    
+    options = {:params => params, :omit_keys => [:page]}.merge(options)
+    my_params = options[:params].dup
+    options[:omit_keys].each {|omit_key| my_params.delete(omit_key)}
+
+    # hash_as_hidden_fields in hash_as_hidden_fields.rb
+    return hash_as_hidden_fields(my_params)
+  end
+  
+    
 
   def link_to_previous_document(previous_document)
     return if previous_document == nil

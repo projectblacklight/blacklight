@@ -2,11 +2,10 @@
 	
 	<% form_tag catalog_index_path, :method=>:get, :class=>'per_page' do %>
 		<%= label_tag(:per_page, "Show " + select_tag(:per_page, options_for_select(['10', '20', '50', '100'], h(params[:per_page])), :title => "Number of results to display per page", :onchange => 'this.form.submit()') + " per page") %>
-		<%= hidden_field_tag :q, params[:q], :id => 'per_page_q' %>
-		<%= hidden_field_tag(:qt, params[:qt], :id => 'per_page_qt') %>
-		<%= hidden_field_tag(:sort, params[:sort], :id => 'per_page_sort') %>
-		<%= render 'catalog/hidden_filters' %>
-		<noscript><%= submit_tag 'update' %></noscript>
+
+    <%= search_as_hidden_fields(:omit_keys => [:page, :per_page]) %>
+		
+    <noscript><%= submit_tag 'update' %></noscript>
 	<% end %>
 
 	<h2 id="results_label">Sort by </h2>
@@ -14,10 +13,9 @@
 	<% unless @response.response['numFound'] < 2 %>
 		<% form_tag catalog_index_path, :method=>:get, :class=>'sort', :id => "sort_form" do %>
 			<%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort])), :onchange => 'this.form.submit()') %>
-			<%= hidden_field_tag :q, params[:q], :id => 'sort_q' %>
-			<%= hidden_field_tag(:qt, params[:qt], :id => 'sort_qt') %>
-			<%= hidden_field_tag(:per_page, params[:per_page], :id => 'sort_per_page') %>
-			<%= render 'catalog/hidden_filters' %>
+			      
+      <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>
+      
 			<noscript><%= submit_tag 'sort results' %></noscript>
 		<% end %>
 	<% end %>

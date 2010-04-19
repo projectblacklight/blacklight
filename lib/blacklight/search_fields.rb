@@ -7,7 +7,8 @@
 # = Search Field Configuration Hash =
 # { :display_label => "Title",  # user-displayable label
 #   :qt => "search", # Solr qt param, request handler, defaults to Blacklight.config[:default_qt] if left blank.
-#   :solr_parameters => {:qf => "something"} # optional hash of additional parameters to pass to solr for searches on this field. 
+#   :solr_parameters => {:qf => "something"} # optional hash of additional parameters to pass to solr for searches on this field.
+#   :include_in_simple_select => false.  Defaults to true, but you can set to false to have a search field defined for deep-links or BL extensions, but not actually included in the HTML select for simple search choice. 
 # }
 # Optionally you can supply a :key, which is what Blacklight will use
 # to identify this search field in HTTP query params. If no :key is
@@ -27,11 +28,12 @@ module Blacklight::SearchFields
   memoize :search_field_list
 
   # Returns suitable argument to options_for_select method, to create
-  # an html select based on #search_field_list
+  # an html select based on #search_field_list. Skips search_fields
+  # marked :include_in_simple_select => false
   def search_field_options_for_select
     search_field_list.collect do |field_def|
-      [field_def[:display_label],  field_def[:key]]
-    end
+      [field_def[:display_label],  field_def[:key]] unless field_def[:include_in_simple_select] == false
+    end.compact
   end
 
   # Looks up a search field config hash from search_field_list having
