@@ -89,7 +89,7 @@ describe 'Blacklight::SolrHelper' do
       it "should have default qt"  do
         @produced_params[:qt].should == "search"
       end
-      it "should have no phrase_filters" do
+      it "should have no fq" do
         @produced_params[:phrase_filters].should be_blank
         @produced_params[:fq].should be_blank
       end
@@ -151,6 +151,7 @@ describe 'Blacklight::SolrHelper' do
 
         params[:qt].should == "subject_search"
         params[:phrase_filters].should be_nil
+        params[:fq].should be_nil
         
         params[:q].should == "wome"
         params["spellcheck.q"].should == params[:q]
@@ -175,7 +176,7 @@ describe 'Blacklight::SolrHelper' do
 
         # Add some params
         @solr_helper_with_params = MockSolrHelperContainer.new
-        @solr_helper_with_params.params = {:search_field => "test_field", :q => "test query", "facet.field" => "extra_facet", "f" => "some_facet"}
+        @solr_helper_with_params.params = {:search_field => "test_field", :q => "test query", "facet.field" => "extra_facet"}
       end
       after do
         # restore search field list to how it was. 
@@ -218,9 +219,7 @@ describe 'Blacklight::SolrHelper' do
         end
 
         it "should add in extra facet.field from params" do
-          @produced_params[:facets][:fields].should include("extra_facet")
-          # translate 'f' to phrase_filter
-          @produced_params[:phrase_filters] = "some_facet"
+          @produced_params[:facets][:fields].should include("extra_facet")                    
         end
 
         it "should Overwrite request params sort with extra_params sort" do 
