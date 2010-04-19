@@ -36,7 +36,7 @@ module Blacklight::SolrHelper
   # spellcheck.q will be supplied with the [:q] value unless specifically
   # specified otherwise. 
   #
-  # Incoming parameter :f is mapped to :phrase_filter solr parameter.
+  # Incoming parameter :f is mapped to :fq solr parameter.
   def solr_search_params(extra_controller_params={})
     # Order of precedence for all the places solr params can come from,
     # start lowest, and keep over-riding with higher. 
@@ -112,7 +112,7 @@ module Blacklight::SolrHelper
     # seems to put arguments in here that aren't really expected to turn
     # into solr params. 
     ###
-    solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fl, :sort, :qf, :df )   )
+    solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df )   )
 
     
     ###
