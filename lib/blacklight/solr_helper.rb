@@ -127,9 +127,15 @@ module Blacklight::SolrHelper
     # And fix the 'facets' parameter to be the way the solr expects it.
     solr_parameters[:facets]= {:fields => solr_parameters[:facets]} if solr_parameters[:facets]
     
-    # phrase_filters, map from :f. 
+    # :fq, map from :f. 
     if ( solr_parameters[:f])
-      solr_parameters[:phrase_filters] = solr_parameters.delete(:f)      
+      f_request_params = solr_parameters.delete(:f)
+      solr_parameters[:fq] ||= []
+      f_request_params.each_pair do |facet_field, value_list|
+        value_list.each do |value|
+        solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
+        end              
+      end      
     end
 
     # Facet 'more' limits. Add +1 to any configured facets limits,

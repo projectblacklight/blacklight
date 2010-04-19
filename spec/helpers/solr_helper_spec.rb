@@ -91,6 +91,7 @@ describe 'Blacklight::SolrHelper' do
       end
       it "should have no phrase_filters" do
         @produced_params[:phrase_filters].should be_blank
+        @produced_params[:fq].should be_blank
       end
     end
 
@@ -111,25 +112,35 @@ describe 'Blacklight::SolrHelper' do
         params[:q].should be_blank
         params["spellcheck.q"].should be_blank
         params[:facets][:fields].should == Blacklight.config[:facet][:field_names]
-        
-        params[:phrase_filters].should == @single_facet
-      
+
+        @single_facet.each_value do |value|
+          params[:fq].should include("{!raw f=#{@single_facet.keys[0]}}#{value}")
+        end
       end
     end
 
     describe "with Multi Facets, No Query" do
-      it 'should have phrase_filters set properly' do
+      it 'should have fq set properly' do
         params = @solr_helper.solr_search_params(:f => @multi_facets)
 
-        params[:phrase_filters].should == @multi_facets
+        @multi_facets.each_pair do |facet_field, value_list|
+          value_list.each do |value|
+            params[:fq].should include("{!raw f=#{facet_field}}#{value}"  )
+          end
+        end
+                
       end
     end
 
     describe "with Multi Facets, Multi Word Query" do
-      it 'should have phrase_filters and q set properly' do
+      it 'should have fq and q set properly' do
         params = @solr_helper.solr_search_params(:q => @mult_word_query, :f => @multi_facets)
 
-        params[:phrase_filters].should == @multi_facets
+        @multi_facets.each_pair do |facet_field, value_list|
+          value_list.each do |value|
+            params[:fq].should include("{!raw f=#{facet_field}}#{value}"  )
+          end
+        end
         params[:q].should == @mult_word_query
       end
     end
@@ -269,7 +280,7 @@ describe 'Blacklight::SolrHelper' do
         # don't care about. 
         next if [:facets, :rows, 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
         # Everything else should match
-        solr_facet_params[key].should be value
+        solr_facet_params[key].should == value
       end
       
     end
