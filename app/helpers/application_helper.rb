@@ -46,10 +46,12 @@ module ApplicationHelper
   # <%  extra_head_content << capture do %>
   #       <%= tag :link, { :href => some_method_for_something, :rel => "alternate" } %> 
   # <%  end %>
-  def render_head_content  
+  def render_head_content
     render_stylesheet_includes +
     render_js_includes +
-    extra_head_content.join("\n")
+    ( respond_to?(:extra_head_content) ?
+        extra_head_content.join("\n") :
+      "")
   end
   
   ##
@@ -58,6 +60,8 @@ module ApplicationHelper
   # See #render_head_content for instructions on local code or plugins
   # adding stylesheets. 
   def render_stylesheet_includes
+    return "" unless respond_to?(:stylesheet_links)
+    
     stylesheet_links.collect do |args|
       stylesheet_link_tag(*args)
     end.join("\n")
@@ -69,7 +73,9 @@ module ApplicationHelper
   # element being a set of arguments for javsascript_include_tag.
   # See #render_head_content for instructions on local code or plugins
   # adding js files. 
-  def render_js_includes    
+  def render_js_includes
+    return "" unless respond_to?(:javascript_includes)    
+  
     javascript_includes.collect do |args|
       javascript_include_tag(*args)
     end.join("\n")
