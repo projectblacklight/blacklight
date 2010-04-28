@@ -1,7 +1,8 @@
 class CatalogController < ApplicationController
 
   include Blacklight::SolrHelper
-  
+
+  before_filter :default_html_head
   before_filter :search_session, :history_session
   before_filter :delete_or_assign_search_session_params,  :only=>:index
   after_filter :set_additional_search_session_values, :only=>:index
@@ -161,11 +162,38 @@ class CatalogController < ApplicationController
     Blacklight.config[:facet][:limits]           
   end
   helper_method :facet_limit_hash
+
+  ##
+  # Display-related methods. To be moved into their own module?
+
+  def extra_head_content
+    @extra_head_content ||= []
+  end
+  helper_method :extra_head_content
+  
+  def stylesheet_links
+    @stylesheet_links ||= []
+  end
+  helper_method :stylesheet_links
+
+  def javascript_includes
+    @javascript_includes ||= []
+  end
+  helper_method :javascript_includes
+  
+  
   protected
   
   #
   # non-routable methods ->
   #
+
+  # before filter to set up our default html HEAD content
+  def default_html_head
+    stylesheet_links << ['yui', 'jquery/ui-lightness/jquery-ui-1.7.2.custom.css', 'application', {:plugin=>:blacklight, :media=>'all'}]
+    
+    javascript_includes << ['jquery-1.3.1.min.js', 'jquery-ui-1.7.2.custom.min.js', 'blacklight', 'application', 'accordion', 'lightbox', { :plugin=>:blacklight } ]
+  end
   
   # calls setup_previous_document then setup_next_document.
   # used in the show action for single view pagination.

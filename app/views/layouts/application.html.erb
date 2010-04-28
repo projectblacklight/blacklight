@@ -8,8 +8,9 @@
     
     <title><%= h(@page_title || application_name) %></title>
     <link href="<%= url_for :controller=>'catalog',:action => 'opensearch', :format => 'xml', :only_path => false %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
-    <%= render_js_includes %>
-    <%= render_stylesheet_includes %>
+    
+    <%= render_head_content %>
+    
     
   </head>
   <% if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>

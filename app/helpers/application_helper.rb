@@ -8,26 +8,75 @@ module ApplicationHelper
     'Blacklight'
   end
 
-  # Over-ride in local app if you want to specify your own
-  # stylesheets. Want to add your own stylesheets onto the defaults
-  # from plugin?
-  # def render_stylesheet_includes_with_local
-  #   render_stylesheet_includes_without_local + stylesheet_link_tag("my_stylesheet")
+  ##
+  # This method should be included in any Blacklight layout, including
+  # custom ones. It will render #render_js_includes,
+  # render_stylesheet_includes, and all the content of 
+  # controller.extra_head_content. 
+  #
+  # By a layout outputting this in html HEAD, it provides an easy way for
+  # local config or extra plugins to add HEAD content. Eg, for arbitrary
+  # head content:
+  # CatalogController.before_filter :only => :show, lambda do |controller|
+  #   controller.extra_head_content << "<link rel='alternate' ...>"
   # end
-  # alias_method_chain :render_stylesheet_includes, :local
-  def render_stylesheet_includes
-    stylesheet_link_tag 'yui', 'jquery/ui-lightness/jquery-ui-1.7.2.custom.css', 'application', :plugin=>:blacklight, :media=>'all' 
+  def render_head_content  
+    render_stylesheet_includes +
+    render_js_includes +
+    extra_head_content.join("\n")
   end
   
-  # Over-ride in local app if you want to specify your own
-  # js. Want to add your own stylesheets onto the defaults
-  # from plugin?
-  #def render_js_includes_with_local
-  #  render_js_includes_without_local + javascript_include_tag("my_javascript")
-  #end 
-  #alias_method_chain :render_js_includes, :local
-  def render_js_includes
-    javascript_include_tag 'jquery-1.3.1.min.js', 'jquery-ui-1.7.2.custom.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
+  ##
+  # Assumes controller has a #stylesheet_links method, array with each
+  # element being a set of arguments for stylesheet_link_tag
+  # 
+  # Add your own css or remove the defaults by
+  # simply editing controller.stylesheet_links
+  #
+  # eg, in an initialzer file:
+  # CatalogController.before_filter :only => :action_name do |controller|
+  #   # remove default jquery-ui theme.
+  #   controller.stylesheet_links.each do |args|
+  #     args.delete_if {|a| a =~ /^|\/jquery-ui-[\d.]+\.custom\.css$/ }
+  #   end
+  #   # add in a different jquery-ui theme, or any other css or what have you
+  #   controller.stylesheet_links << 'my_css.css'
+  #
+  #   controller.javascript_includes << "my_local_behaviors.js"
+  #
+  #   controller.extra_head_content << '<link rel="something" href="something">'
+  # end
+  #
+  # Or in a view file that wants to add certain header content? no problem:
+  #
+  # <%  stylesheet_links << "mystylesheet.css" %>
+  # <%  javascript_includes << "my_js.js" %>
+  # <%  extra_head_content << capture do %>
+  #       <%= tag :link, { :href => some_method_for_something, :rel => "alternate" } %> 
+  # <%  end %>
+  def render_stylesheet_includes
+    stylesheet_links.collect do |args|
+      stylesheet_link_tag(*args)
+    end.join("\n")
+  end
+  
+
+  ##
+  # Assumes controller has a #js_includes method, array with each
+  # element being a set of arguments for javsascript_include_tag
+  # 
+  # Add your own js scripts or remove the defaults by
+  # simply editing controller.javascript_includes
+  #
+  # eg, in an initialzer file:
+  # CatalogController.before_filter :only => :action_name do |controller|
+  #   # remove example please
+  #   controller.javascript_includes << 'my_js_file.js'
+  # end
+  def render_js_includes    
+    javascript_includes.collect do |args|
+      javascript_include_tag(*args)
+    end.join("\n")
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
