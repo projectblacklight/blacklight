@@ -10,30 +10,22 @@ module ApplicationHelper
 
   ##
   # This method should be included in any Blacklight layout, including
-  # custom ones. It will render #render_js_includes,
-  # render_stylesheet_includes, and all the content of 
-  # controller.extra_head_content. 
+  # custom ones. It will call #render_js_includes,
+  # #render_stylesheet_includes, and all the content of 
+  # CatalogController#extra_head_content.
+  #
+  # Assumes that controller has #extra_head_content, #javascript_includes,
+  # and #stylesheet_links methods. 
   #
   # By a layout outputting this in html HEAD, it provides an easy way for
-  # local config or extra plugins to add HEAD content. Eg, for arbitrary
-  # head content:
-  # CatalogController.before_filter :only => :show, lambda do |controller|
-  #   controller.extra_head_content << "<link rel='alternate' ...>"
-  # end
-  def render_head_content  
-    render_stylesheet_includes +
-    render_js_includes +
-    extra_head_content.join("\n")
-  end
-  
-  ##
-  # Assumes controller has a #stylesheet_links method, array with each
-  # element being a set of arguments for stylesheet_link_tag
+  # local config or extra plugins to add HEAD content.
   # 
-  # Add your own css or remove the defaults by
-  # simply editing controller.stylesheet_links
+  # Add your own css or remove the defaults by simply editing
+  # controller.stylesheet_links, controller.javascript_includes,
+  # or controller.extra_head_content. Eg: 
   #
-  # eg, in an initialzer file:
+  # in an initialzer file:
+  # 
   # CatalogController.before_filter :only => :action_name do |controller|
   #   # remove default jquery-ui theme.
   #   controller.stylesheet_links.each do |args|
@@ -54,6 +46,17 @@ module ApplicationHelper
   # <%  extra_head_content << capture do %>
   #       <%= tag :link, { :href => some_method_for_something, :rel => "alternate" } %> 
   # <%  end %>
+  def render_head_content  
+    render_stylesheet_includes +
+    render_js_includes +
+    extra_head_content.join("\n")
+  end
+  
+  ##
+  # Assumes controller has a #stylesheet_link_tag method, array with
+  # each element being a set of arguments for stylesheet_link_tag
+  # See #render_head_content for instructions on local code or plugins
+  # adding stylesheets. 
   def render_stylesheet_includes
     stylesheet_links.collect do |args|
       stylesheet_link_tag(*args)
@@ -63,16 +66,9 @@ module ApplicationHelper
 
   ##
   # Assumes controller has a #js_includes method, array with each
-  # element being a set of arguments for javsascript_include_tag
-  # 
-  # Add your own js scripts or remove the defaults by
-  # simply editing controller.javascript_includes
-  #
-  # eg, in an initialzer file:
-  # CatalogController.before_filter :only => :action_name do |controller|
-  #   # remove example please
-  #   controller.javascript_includes << 'my_js_file.js'
-  # end
+  # element being a set of arguments for javsascript_include_tag.
+  # See #render_head_content for instructions on local code or plugins
+  # adding js files. 
   def render_js_includes    
     javascript_includes.collect do |args|
       javascript_include_tag(*args)

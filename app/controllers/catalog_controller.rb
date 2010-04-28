@@ -166,16 +166,24 @@ class CatalogController < ApplicationController
   ##
   # Display-related methods. To be moved into their own module?
 
+  # An array of strings to be added to HTML HEAD section of view.
+  # See ApplicationHelper#render_head_content for details. 
   def extra_head_content
     @extra_head_content ||= []
   end
   helper_method :extra_head_content
-  
+
+  # Array, where each element is an array of arguments to
+  # Rails stylesheet_link_tag helper. See
+  # ApplicationHelper#render_head_content for details. 
   def stylesheet_links
     @stylesheet_links ||= []
   end
   helper_method :stylesheet_links
 
+  # Array, where each element is an array of arguments to
+  # Rails javascript_include_tag helper. See
+  # ApplicationHelper#render_head_content for details. 
   def javascript_includes
     @javascript_includes ||= []
   end
