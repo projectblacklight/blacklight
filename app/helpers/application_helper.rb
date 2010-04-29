@@ -23,7 +23,9 @@ module ApplicationHelper
   # 
   # Add your own css or remove the defaults by simply editing
   # controller.stylesheet_links, controller.javascript_includes,
-  # or controller.extra_head_content. Eg: 
+  # or controller.extra_head_content. 
+  #
+  # 
   #
   # in an initializer or other startup file (plugin init.rb?):
   #
@@ -56,6 +58,14 @@ module ApplicationHelper
   #   <%  extra_head_content << capture do %>
   #       <%= tag :link, { :href => some_method_for_something, :rel => "alternate" } %> 
   #   <%  end %>
+  #
+  # == Full power of javascript_include_tag and stylesheet_link_tag
+  # Note that the elements added to stylesheet_links and javascript_links
+  # are arguments to Rails javascript_include_tag and stylesheet_link_tag
+  # respectively, you can pass complex arguments. eg:
+  #
+  # stylesheet_links << ["stylesheet1.css", "stylesheet2.css", {:cache => "mykey"}]
+  # javascript_includes << ["myjavascript.js", {:plugin => :myplugin} ]
   def render_head_content
     render_stylesheet_includes +
     render_js_includes +
