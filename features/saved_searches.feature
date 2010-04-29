@@ -11,6 +11,7 @@ Feature: Saved Searches Page
     Then I should see "Saved Searches"
     When I follow "Saved Searches"
     Then I should be on the saved searches page
+    And I should see a stylesheet
   
   Scenario: No Searches
     Given I am logged in as "user1"

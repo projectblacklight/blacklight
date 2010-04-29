@@ -11,6 +11,7 @@ Feature: Search
     And I should see a "search" button
     And I should not see the "startOverLink" element
     And I should see "Welcome!"
+    And I should see a stylesheet
   
   Scenario: Search Page's type of search ("fielded search") choices
     When I am on the home page
