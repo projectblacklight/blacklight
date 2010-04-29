@@ -14,8 +14,9 @@ module ApplicationHelper
   # #render_stylesheet_includes, and all the content of 
   # CatalogController#extra_head_content.
   #
-  # Assumes that controller has #extra_head_content, #javascript_includes,
-  # and #stylesheet_links methods. 
+  # Uses controller methods #extra_head_content, #javascript_includes,
+  # and #stylesheet_links to find content. Tolerates it if those
+  # methods don't exist, silently skipping. 
   #
   # By a layout outputting this in html HEAD, it provides an easy way for
   # local config or extra plugins to add HEAD content.
@@ -24,28 +25,37 @@ module ApplicationHelper
   # controller.stylesheet_links, controller.javascript_includes,
   # or controller.extra_head_content. Eg: 
   #
-  # in an initialzer file:
+  # in an initialzer or other startup file (plugin init.rb?):
+  #
+  # == Apply to all actions in all controllers:
   # 
-  # CatalogController.before_filter :only => :action_name do |controller|
-  #   # remove default jquery-ui theme.
-  #   controller.stylesheet_links.each do |args|
-  #     args.delete_if {|a| a =~ /^|\/jquery-ui-[\d.]+\.custom\.css$/ }
+  #   ApplicationController.before_filter do |controller|
+  #     # remove default jquery-ui theme.
+  #     controller.stylesheet_links.each do |args|
+  #       args.delete_if {|a| a =~ /^|\/jquery-ui-[\d.]+\.custom\.css$/ }
+  #     end
+  # 
+  #     # add in a different jquery-ui theme, or any other css or what have you
+  #     controller.stylesheet_links << 'my_css.css'
+  #
+  #     controller.javascript_includes << "my_local_behaviors.js"
+  #
+  #     controller.extra_head_content << '<link rel="something" href="something">'
   #   end
-  #   # add in a different jquery-ui theme, or any other css or what have you
-  #   controller.stylesheet_links << 'my_css.css'
   #
-  #   controller.javascript_includes << "my_local_behaviors.js"
+  # == Apply to a particular action in a particular controller:
   #
-  #   controller.extra_head_content << '<link rel="something" href="something">'
-  # end
+  #   CatalogController.before_filter :only => :show |controller|
+  #     controller.extra_head_content << '<link rel="something" href="something">'
+  #   end
   #
-  # Or in a view file that wants to add certain header content? no problem:
+  # == Or in a view file that wants to add certain header content? no problem:
   #
-  # <%  stylesheet_links << "mystylesheet.css" %>
-  # <%  javascript_includes << "my_js.js" %>
-  # <%  extra_head_content << capture do %>
+  #   <%  stylesheet_links << "mystylesheet.css" %>
+  #   <%  javascript_includes << "my_js.js" %>
+  #   <%  extra_head_content << capture do %>
   #       <%= tag :link, { :href => some_method_for_something, :rel => "alternate" } %> 
-  # <%  end %>
+  #   <%  end %>
   def render_head_content
     render_stylesheet_includes +
     render_js_includes +
