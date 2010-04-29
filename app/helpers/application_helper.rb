@@ -10,9 +10,9 @@ module ApplicationHelper
 
   ##
   # This method should be included in any Blacklight layout, including
-  # custom ones. It will call #render_js_includes,
+  # custom ones. It will output results of #render_js_includes,
   # #render_stylesheet_includes, and all the content of 
-  # CatalogController#extra_head_content.
+  # current_controller#extra_head_content.
   #
   # Uses controller methods #extra_head_content, #javascript_includes,
   # and #stylesheet_links to find content. Tolerates it if those
@@ -25,7 +25,7 @@ module ApplicationHelper
   # controller.stylesheet_links, controller.javascript_includes,
   # or controller.extra_head_content. Eg: 
   #
-  # in an initialzer or other startup file (plugin init.rb?):
+  # in an initializer or other startup file (plugin init.rb?):
   #
   # == Apply to all actions in all controllers:
   # 
