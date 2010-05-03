@@ -232,8 +232,10 @@ module BlacklightInstaller
   
   # does what it says
   def remove_index_html
-    output "Removing the default public/index.html file"
-    FileUtils.rm 'public/index.html'
+	  if File.exists?('public/index.html')
+      output "Removing the default public/index.html file"
+      FileUtils.rm 'public/index.html'
+	  end
   end
   
   # copy the solr.yml from the plugin to the new app
