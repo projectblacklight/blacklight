@@ -50,6 +50,7 @@ describe CatalogController do
     end
   end
 
+  
 
   # INDEX ACTION
   describe "index action" do
