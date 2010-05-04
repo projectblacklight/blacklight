@@ -24,6 +24,13 @@ module Blacklight
   # The configuration hash that gets used by RSolr.connect
   @solr_config ||= {}
   
+  # Just returning a string for the Blacklight version number.
+  # I've just put master here now, should it say when it's running under master?  (Master?)
+  # We need to find a better way of increasing this number automatically during releases, but this is a good way for now.
+  def self.version
+    "master"
+  end
+  
   def self.init
     
     solr_config = YAML::load(File.open("#{RAILS_ROOT}/config/solr.yml"))
@@ -40,7 +47,7 @@ module Blacklight
     
     # set the SolrDocument.connection to Blacklight.solr
     SolrDocument.connection = Blacklight.solr
-    
+    logger.info("BLACKLIGHT: running version #{Blacklight.version}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr_config: #{Blacklight.solr_config.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr: #{Blacklight.solr.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.config: #{Blacklight.config.inspect}")

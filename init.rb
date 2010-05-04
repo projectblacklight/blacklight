@@ -26,6 +26,7 @@ config.after_initialize do
   require 'will_paginate_link_renderer'   # in local ./lib
   require 'taggable_pagination'           # in local ./lib
   Blacklight.init
+  puts "This application has Blacklight version #{Blacklight.version} installed" if Blacklight.version
   Mime::Type.register_alias "text/plain", :refworks
   Mime::Type.register_alias "application/x-endnote-refer", :endnote
 end
