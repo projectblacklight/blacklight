@@ -305,7 +305,7 @@ module ApplicationHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value)) + " (" + format_num(item.hits) + ")" 
+    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select") + " (" + format_num(item.hits) + ")" 
   end
 
   # Standard display of a SELECTED facet value, no link, special span
