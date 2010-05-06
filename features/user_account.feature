@@ -61,3 +61,4 @@ Feature: User Account
     Then I should see "user1"
     When I follow "user1"
     Then I should be on the user profile page
+    And I should see a stylesheet
