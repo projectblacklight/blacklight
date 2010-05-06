@@ -36,7 +36,7 @@ module Blacklight::SolrHelper
   # spellcheck.q will be supplied with the [:q] value unless specifically
   # specified otherwise. 
   #
-  # Incoming parameter :f is mapped to :phrase_filter solr parameter.
+  # Incoming parameter :f is mapped to :fq solr parameter.
   def solr_search_params(extra_controller_params={})
     # Order of precedence for all the places solr params can come from,
     # start lowest, and keep over-riding with higher. 
@@ -112,7 +112,7 @@ module Blacklight::SolrHelper
     # seems to put arguments in here that aren't really expected to turn
     # into solr params. 
     ###
-    solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fl, :sort, :qf, :df )   )
+    solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df )   )
 
     
     ###
@@ -127,9 +127,15 @@ module Blacklight::SolrHelper
     # And fix the 'facets' parameter to be the way the solr expects it.
     solr_parameters[:facets]= {:fields => solr_parameters[:facets]} if solr_parameters[:facets]
     
-    # phrase_filters, map from :f. 
+    # :fq, map from :f. 
     if ( solr_parameters[:f])
-      solr_parameters[:phrase_filters] = solr_parameters.delete(:f)      
+      f_request_params = solr_parameters.delete(:f)
+      solr_parameters[:fq] ||= []
+      f_request_params.each_pair do |facet_field, value_list|
+        value_list.each do |value|
+        solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
+        end              
+      end      
     end
 
     # Facet 'more' limits. Add +1 to any configured facets limits,

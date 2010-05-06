@@ -2,31 +2,103 @@
 # Methods added to this helper will be available to all templates in the application.
 #
 module ApplicationHelper
+  include HashAsHiddenFields
   
   def application_name
     'Blacklight'
   end
 
-  # Over-ride in local app if you want to specify your own
-  # stylesheets. Want to add your own stylesheets onto the defaults
-  # from plugin?
-  # def render_stylesheet_includes_with_local
-  #   render_stylesheet_includes_without_local + stylesheet_link_tag("my_stylesheet")
-  # end
-  # alias_method_chain :render_stylesheet_includes, :local
-  def render_stylesheet_includes
-    stylesheet_link_tag 'yui', 'jquery/ui-lightness/jquery-ui-1.7.2.custom.css', 'application', :plugin=>:blacklight, :media=>'all' 
+  ##
+  # This method should be included in any Blacklight layout, including
+  # custom ones. It will output results of #render_js_includes,
+  # #render_stylesheet_includes, and all the content of 
+  # current_controller#extra_head_content.
+  #
+  # Uses controller methods #extra_head_content, #javascript_includes,
+  # and #stylesheet_links to find content. Tolerates it if those
+  # methods don't exist, silently skipping. 
+  #
+  # By a layout outputting this in html HEAD, it provides an easy way for
+  # local config or extra plugins to add HEAD content.
+  # 
+  # Add your own css or remove the defaults by simply editing
+  # controller.stylesheet_links, controller.javascript_includes,
+  # or controller.extra_head_content. 
+  #
+  # 
+  #
+  # in an initializer or other startup file (plugin init.rb?):
+  #
+  # == Apply to all actions in all controllers:
+  # 
+  #   ApplicationController.before_filter do |controller|
+  #     # remove default jquery-ui theme.
+  #     controller.stylesheet_links.each do |args|
+  #       args.delete_if {|a| a =~ /^|\/jquery-ui-[\d.]+\.custom\.css$/ }
+  #     end
+  # 
+  #     # add in a different jquery-ui theme, or any other css or what have you
+  #     controller.stylesheet_links << 'my_css.css'
+  #
+  #     controller.javascript_includes << "my_local_behaviors.js"
+  #
+  #     controller.extra_head_content << '<link rel="something" href="something">'
+  #   end
+  #
+  # == Apply to a particular action in a particular controller:
+  #
+  #   CatalogController.before_filter :only => :show |controller|
+  #     controller.extra_head_content << '<link rel="something" href="something">'
+  #   end
+  #
+  # == Or in a view file that wants to add certain header content? no problem:
+  #
+  #   <%  stylesheet_links << "mystylesheet.css" %>
+  #   <%  javascript_includes << "my_js.js" %>
+  #   <%  extra_head_content << capture do %>
+  #       <%= tag :link, { :href => some_method_for_something, :rel => "alternate" } %> 
+  #   <%  end %>
+  #
+  # == Full power of javascript_include_tag and stylesheet_link_tag
+  # Note that the elements added to stylesheet_links and javascript_links
+  # are arguments to Rails javascript_include_tag and stylesheet_link_tag
+  # respectively, you can pass complex arguments. eg:
+  #
+  # stylesheet_links << ["stylesheet1.css", "stylesheet2.css", {:cache => "mykey"}]
+  # javascript_includes << ["myjavascript.js", {:plugin => :myplugin} ]
+  def render_head_content
+    render_stylesheet_includes +
+    render_js_includes +
+    ( respond_to?(:extra_head_content) ?
+        extra_head_content.join("\n") :
+      "")
   end
   
-  # Over-ride in local app if you want to specify your own
-  # js. Want to add your own stylesheets onto the defaults
-  # from plugin?
-  #def render_js_includes_with_local
-  #  render_js_includes_without_local + javascript_include_tag("my_javascript")
-  #end 
-  #alias_method_chain :render_js_includes, :local
+  ##
+  # Assumes controller has a #stylesheet_link_tag method, array with
+  # each element being a set of arguments for stylesheet_link_tag
+  # See #render_head_content for instructions on local code or plugins
+  # adding stylesheets. 
+  def render_stylesheet_includes
+    return "" unless respond_to?(:stylesheet_links)
+    
+    stylesheet_links.collect do |args|
+      stylesheet_link_tag(*args)
+    end.join("\n")
+  end
+  
+
+  ##
+  # Assumes controller has a #js_includes method, array with each
+  # element being a set of arguments for javsascript_include_tag.
+  # See #render_head_content for instructions on local code or plugins
+  # adding js files. 
   def render_js_includes
-    javascript_include_tag 'jquery-1.3.1.min.js', 'jquery-ui-1.7.2.custom.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
+    return "" unless respond_to?(:javascript_includes)    
+  
+    javascript_includes.collect do |args|
+      javascript_include_tag(*args)
+    end.join("\n")
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
@@ -164,7 +236,7 @@ module ApplicationHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value)) + " (" + format_num(item.hits) + ")" 
+    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select") + " (" + format_num(item.hits) + ")" 
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -282,6 +354,23 @@ module ApplicationHelper
     link_url = catalog_index_path(query_params)
     link_to opts[:label], link_url
   end
+  
+  # Create form input type=hidden fields representing the entire search context,
+  # for inclusion in a form meant to change some aspect of it, like
+  # re-sort or change records per page. Can pass in params hash
+  # as :params => hash, otherwise defaults to #params. Can pass
+  # in certain top-level params keys to _omit_, defaults to :page
+  def search_as_hidden_fields(options={})
+    
+    options = {:params => params, :omit_keys => [:page]}.merge(options)
+    my_params = options[:params].dup
+    options[:omit_keys].each {|omit_key| my_params.delete(omit_key)}
+
+    # hash_as_hidden_fields in hash_as_hidden_fields.rb
+    return hash_as_hidden_fields(my_params)
+  end
+  
+    
 
   def link_to_previous_document(previous_document)
     return if previous_document == nil
@@ -346,8 +435,8 @@ module ApplicationHelper
     action = (href && url.size > 0) ? "'#{url}'" : 'this.href'
     submit_function =
       "var f = document.createElement('form'); f.style.display = 'none'; " +
-      "this.parentNode.appendChild(f); f.method = 'POST'; f.action = #{action};"
-
+      "this.parentNode.appendChild(f); f.method = 'POST'; f.action = #{action};"+
+      "if(event.metaKey || event.ctrlKey){f.target = '_blank';};" # if the command or control key is being held down while the link is clicked set the form's target to _blank
     if data
       data.each_pair do |key, value|
         submit_function << "var d = document.createElement('input'); d.setAttribute('type', 'hidden'); "

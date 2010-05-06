@@ -5,8 +5,12 @@
 <%# this should be in a partial -%>
 <div class="yui-g">
 	<div class="yui-u first">
-	  <%= render 'previous_next_doc' %>
-  </div>
+	  <script type="text/javascript">
+	    if(history.length > 1){
+	      document.write(<%= render 'previous_next_doc' %>);
+	    }
+      </script>
+    </div>
 	<div class="yui-u">
 		
 	</div>

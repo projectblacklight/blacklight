@@ -11,6 +11,7 @@ Feature: Bookmarks
     Then I should see "Your Bookmarks"
     When I follow "Your Bookmarks"
     Then I should be on the bookmarks page
+    And I should see a stylesheet
   
     Scenario: No Bookmarks
       Given I am logged in as "user1"

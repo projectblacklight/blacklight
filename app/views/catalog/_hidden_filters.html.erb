@@ -1,7 +1,0 @@
-<%- unless @filters.blank? -%>
-  <%- @filters.each do |filter| -%>
-    <%- filter.last.each do |value| -%>
-      <%= hidden_field_tag("f[#{filter.first}][]", value) %>
-    <%- end #each value -%>
-  <%- end #each filter -%>
-<%- end -%>

@@ -37,7 +37,8 @@ config.after_initialize do
   Mime::Type.register "application/marcxml+xml", :marcxml, 
         ["application/x-marc+xml", "application/x-marcxml+xml", 
          "application/marc+xml"]
-  
+
+  puts  "This application has Blacklight version #{Blacklight.version} installed" if Blacklight.version
 end
 
 # the blacklight_config file configures objects, creates a config hash etc..

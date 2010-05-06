@@ -22,6 +22,7 @@ describe 'solr:marc:index_test_data' do
     @rake = Rake::Application.new
     Rake.application = @rake
     Rake.application.rake_require "lib/tasks/solr_marc"
+    Rake::Task.define_task(:environment)
   end
   
   it 'should only print the java command when using NOOP=true' do
