@@ -9,7 +9,7 @@ class SolrDocument
 
   # DEPRECATED
   def marc
-    warn "[DEPRECATION] aDocument.marc is deprecated.  Please use aDocument.respond_to?(:to_marc) / aDocument.respond_to?(:marc),  or aDocument.will_export_as.keys.include?(:some_format) / aDocument.will_export_as(:some_format) instead."
+    warn "[DEPRECATION] aDocument.marc is deprecated.  Please use aDocument.respond_to?(:to_marc) / aDocument.respond_to?(:marc),  or aDocument.export_formats.keys.include?(:some_format) / aDocument.export_as(:some_format) instead."
 
     nil
   end
