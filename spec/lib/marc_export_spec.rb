@@ -102,6 +102,18 @@ def music_record
 </record>"
 end
 
+def utf8_decomposed_record_xml
+ "<record>
+    <leader>01341nam  2200301 a 450 </leader>
+    <controlfield tag=\"005\">19971120234400.0</controlfield>
+    <controlfield tag=\"008\">890316s1988    caua     b    101 0 eng  </controlfield>    
+    <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
+      <subfield code=\"a\">Sharīʻat and ambiguity in South Asian Islam /</subfield>
+      <subfield code=\"c\">edited by Katherine P. Ewing.</subfield>
+    </datafield>
+  </record>"
+end
+
 # 1:100,1:700,245a,0:245b,
 def record1_xml
   "<record>
@@ -269,6 +281,7 @@ describe Blacklight::Solr::Document::MarcExport do
     @record_without_authors             = dclass.new( record2_xml )
     @record_with_4plus_authors          = dclass.new( record3_xml )
     @record_without_citable_data        = dclass.new( no_good_data_xml )
+    @record_utf8_decomposed = dclass.new( utf8_decomposed_record_xml )
 
   end
   
@@ -355,6 +368,15 @@ describe Blacklight::Solr::Document::MarcExport do
   describe "export_as_refworks_marc_txt" do
     it "should export correctly" do
       @music_record.export_as_refworks_marc_txt.should == "LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n"
+    end
+    describe "for UTF-8 record" do
+      before do
+        @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
+      end
+      it "should export in Unicode normalized C form" do
+        @utf8_exported.should_not include("\314\204\312\273") # decomposed
+        @utf8_exported.should include("\304\253\312\273") # C-form normalized
+      end
     end
   end
 

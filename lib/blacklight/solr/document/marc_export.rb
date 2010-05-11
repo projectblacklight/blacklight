@@ -82,6 +82,13 @@ module Blacklight::Solr::Document::MarcExport
   # proprietary marc-ish in text/plain format. See
   # http://robotlibrarian.billdueber.com/sending-marcish-data-to-refworks/
   def export_as_refworks_marc_txt
+    # plugin/gem weirdness means we do need to manually require
+    # here.
+    # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
+    # it seems to want C form normalization, although RefWorks support
+    # couldn't tell me that. -jrochkind
+    require 'unicode'    
+  
     fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
     text = "LEADER #{to_marc.leader}"
     fields.each do |field|
@@ -98,7 +105,7 @@ module Blacklight::Solr::Document::MarcExport
        end
         end
     end
-    text
+    Unicode.normalize_C(text)
   end 
 
   # Endnote Import Format. See the EndNote User Guide at:
