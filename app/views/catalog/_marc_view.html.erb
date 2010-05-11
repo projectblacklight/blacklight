@@ -1,9 +1,4 @@
-<div class="lightboxTitle" style="text-align:center;">
-  <div class="lightboxBack">
-    <%= link_to "Close [X]", catalog_path(@document[:id]), {:class => "lightboxLink", :name => 'librarian_view'} %>
-  </div>
-  Librarian View
-</div>
+<h1>Librarian View</h1>
 <div id="marc_view">
   <% fields = @document.to_marc.find_all{|f| ('000'..'999') === f.tag }  %>
   <div class="field">LEADER <%= @document.to_marc.leader %></div>

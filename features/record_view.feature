@@ -26,10 +26,3 @@ Feature: Record View
     Then I should see a "dd" element containing "次按驟變"
     And I should see a "dd" element containing "林行止"
     And I should see a "dd" element containing "臺北縣板橋市"
-
-  Scenario: Librarian view
-    Given I am on the document page for id 2009373513
-    Then I should see a "div" element containing "LEADER 01213nam a22003614a 4500"
-    And I should see a "span" element containing "100"
-    And I should see a "div" element containing "Lin, Xingzhi."
-    And I should see a "span" element containing "6|"

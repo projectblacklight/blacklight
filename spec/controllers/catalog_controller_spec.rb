@@ -25,7 +25,9 @@ describe CatalogController do
     it "should map {:controller => 'catalog', :id => '222', :action => 'availability'} to /catalog/222/availability" do
       route_for(:controller => 'catalog', :action => 'availability', :id => '222').should == '/catalog/222/availability'
     end
-
+    #it "should map {:controller => 'catalog', :id => '111', :action => 'librarian_view'} to /catalog/111/librarian_view" do
+    #  route_for(:controller => 'catalog', :action => 'librarian_view', :id => '111').should == '/catalog/111/librarian_view'
+    #end
   end
 
   # parameters generated from routes
@@ -48,6 +50,9 @@ describe CatalogController do
     it "should map /catalog/222/availability to {:controller => 'catalog', :action => 'availability', :id => 222}" do
       params_from(:get, '/catalog/222/availability').should == {:controller => 'catalog', :action => 'availability', :id => '222'}
     end
+    #it "should map /catalog/111/librarian_view to {:controller => 'catalog', :action => 'librarian_view', :id => 111}" do
+    #  params_from(:get, '/catalog/111/librarian_view').should == {:controller => 'catalog', :action => 'librarian_view', :id => '111'}
+    #end
   end
 
   
