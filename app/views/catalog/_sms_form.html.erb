@@ -11,12 +11,7 @@
 'Cricket' => 'cricket'
 }
 %>
-<div class="lightboxTitle">
-  <div class="lightboxBack">
-    <%= link_to "Close [X]", catalog_path(@document[:id]), {:class => "lightboxLink", :name => 'sms'} %>
-  </div>
-  SMS This
-</div>
+<h1>SMS This</h1>
 <% form_tag url_for(:action => 'send_email_record', :style => 'sms'), :id => 'sms_form', :method => :post do %>
   <%= label_tag(:to, "Phone Number:") %><br/>
   <%= text_field_tag :to %><br/>

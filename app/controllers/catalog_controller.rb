@@ -96,6 +96,10 @@ class CatalogController < ApplicationController
     @response, @document = get_solr_response_for_doc_id
   end
   
+  def librarian_view
+    @response, @document = get_solr_response_for_doc_id
+  end
+  
   # action for sending email.  This is meant to post from the form and to do processing
   def send_email_record
     @response, @document = get_solr_response_for_doc_id

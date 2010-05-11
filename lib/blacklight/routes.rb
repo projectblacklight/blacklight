@@ -22,7 +22,7 @@ module Blacklight::Routes
       # /catalog/:id/image <- for ajax cover requests
       # /catalog/:id/status
       # /catalog/:id/availability
-      :member=>{:image=>:get, :status=>:get, :availability=>:get, :citation=>:get, :send_email_record=>:post, :email=>:get, :sms=>:get},
+      :member=>{:image=>:get, :status=>:get, :availability=>:get, :citation=>:get, :send_email_record=>:post, :email=>:get, :sms=>:get, :librarian_view=>:get},
       # /catalog/map
       :collection => {:map => :get, :opensearch=>:get}
     )
