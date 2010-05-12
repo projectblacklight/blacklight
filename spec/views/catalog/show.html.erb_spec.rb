@@ -14,10 +14,7 @@ describe "/catalog/show.html.erb" do
     
 # TODO:  should probably not have id field name hardcoded
     @div_doc_id = 'div[id=doc_' + @document[:id] + ']'
-    @document.stub!(:solr_id).and_return("123456")
-    @document.stub!(:storage).and_return("SolrDoc Storage")
-    @document.marc.stub!(:to_apa).and_return("APA Citation")
-    @document.marc.stub!(:to_mla).and_return("MLA Citation")
+
     assigns[:response] = @solr_resp
     assigns[:document_list] = @document_list
     assigns[:document] = @document
