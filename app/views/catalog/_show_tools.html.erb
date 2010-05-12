@@ -9,7 +9,7 @@
     
     <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
       <li class="refworks">
-        <%= link_to "Export to RefWorks", "http://www.refworks.com/express/expressimport.asp?vendor=#{application_name}&filter=MARC%20Format&encoding=65001&url=#{catalog_path(@document[:id], :format => 'refworks_marc_txt', :only_path => false)}" %>        
+        <%= link_to "Export to RefWorks", refworks_export_url(@document) %>        
       </li>
     <% end %>
     
