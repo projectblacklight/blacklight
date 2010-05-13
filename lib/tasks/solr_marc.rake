@@ -104,7 +104,7 @@ def compute_arguments
   arguments[:solrmarc_mem_arg] = ENV['SOLRMARC_MEM_ARGS'] || '-Xmx512m'
       
   # SolrMarc is embedded in the plugin, or could be a custom
-  # one in local app. 
+  # one in local app.  
   arguments[:solrmarc_jar_path] = ENV['SOLRMARC_JAR_PATH'] || locate_path("solr_marc", "SolrMarc.jar") 
   
 
@@ -131,7 +131,7 @@ end
 
 
 def locate_path(*subpath_fragments)
-    local_root = File.expand_path File.join(__FILE__, '..', '..')
+    local_root = File.expand_path File.join(File.dirname(__FILE__), '..', '..')
 
     subpath = subpath_fragments.join('/')
     base_match = [Rails.root, local_root].find do |base|
