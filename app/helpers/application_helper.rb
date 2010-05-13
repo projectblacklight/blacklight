@@ -365,7 +365,9 @@ module ApplicationHelper
     options = {:params => params, :omit_keys => [:page]}.merge(options)
     my_params = options[:params].dup
     options[:omit_keys].each {|omit_key| my_params.delete(omit_key)}
-
+    # removing action and controller from duplicate params so that we don't get hidden fields for them.
+    my_params.delete(:action)
+    my_params.delete(:controller)
     # hash_as_hidden_fields in hash_as_hidden_fields.rb
     return hash_as_hidden_fields(my_params)
   end
