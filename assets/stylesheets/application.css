@@ -20,7 +20,6 @@ hr {border:none; height:1px; background-color:#ccc;}
 .formElement {font: 8pt Verdana, Arial, sans-serif;}
 
 /* Links */
-a {outline: none;}
 a:link, a:visited, a:active {border-bottom: 1px dotted #aaa; color: #2e4f81; text-decoration: none;}
 a:hover {color: #029;}
 
@@ -112,7 +111,7 @@ dl.defList dd {text-align: left; margin: 0; padding: 2px 0;}
 
 /* Individual Result Listing */
 #document h1 {margin: 0px; padding: 0px 0px 1em 0px;}
-#marc_view {padding:5px;}
+#marc_view {padding:5px; text-align:left;}
 #marc_view .ind1, #marc_view .ind2 {padding:0 5px; display:inline;}
 #marc_view .tag_ind {float:left;}
 #marc_view .subfields {padding-left:5em;}

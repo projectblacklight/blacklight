@@ -41,6 +41,16 @@ describe "Blacklight::Solr::Document" do
         doc.methods.find {|name| name =="my_extension_method"}.should_not be_nil
         doc.my_extension_method.should == "my_extension_results"
       end
+      it "should apply an extension based on a Solr field" do
+        MockDocument.use_extension(MockExtension) {|doc| doc.key?(:required_key)}
+
+        with_extension = MockDocument.new(:required_key => "value")
+        with_extension.my_extension_method.should == "my_extension_results"
+
+        without_extension = MockDocument.new(:other_key => "value")
+        without_extension.methods.find {|name| name == "my_extension_method"}.should be_nil
+        
+      end
       it "should not apply an extension whose condition is not met" do
         MockDocument.use_extension(MockExtension) {|doc| false}
         doc = MockDocument.new()

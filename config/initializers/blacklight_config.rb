@@ -17,10 +17,14 @@
 # 
 
 Blacklight.configure(:shared) do |config|
-  
-  # FIXME: is this duplicated below?
-  SolrDocument.marc_source_field  = :marc_display
-  SolrDocument.marc_format_type   = :marc21
+
+  # Set up and register the default SolrDocument Marc extension
+  SolrDocument.extension_parameters[:marc_source_field] = :marc_display
+  SolrDocument.extension_parameters[:marc_format_type] = :marc21
+  SolrDocument.use_extension( Blacklight::Solr::Document::Marc) do |document|
+    document.key?( :marc_display  )
+  end
+
   
   # default params for the SolrDocument.search method
   SolrDocument.default_params[:search] = {
@@ -166,11 +170,6 @@ Blacklight.configure(:shared) do |config|
     }
   }
 
-# FIXME: is this now redundant with above?
-  # type of raw data in index.  Currently marcxml and marc21 are supported.
-  config[:raw_storage_type] = "marc21"
-  # name of solr field containing raw data
-  config[:raw_storage_field] = "marc_display"
 
   # "fielded" search configuration. Used by pulldown among other places.
   # For supported keys in hash, see rdoc for Blacklight::SearchFields

@@ -111,7 +111,7 @@ module BlacklightInstaller
   # This adds a require line to the application_controller
   def modify_application_controller
     output "Modifying your app/controllers/application_controller.rb file..."
-    app_controller_hack = "require '#{install_path}/app/controllers/application_controller.rb'"
+    app_controller_hack = "require_dependency( '#{install_path}/app/controllers/application_controller.rb')"
     app_controller = File.read('app/controllers/application_controller.rb')
     if app_controller.scan(app_controller_hack).empty?
       app_controller = "#{app_controller_hack}\n#{app_controller}"
@@ -232,8 +232,10 @@ module BlacklightInstaller
   
   # does what it says
   def remove_index_html
-    output "Removing the default public/index.html file"
-    FileUtils.rm 'public/index.html'
+	  if File.exists?('public/index.html')
+      output "Removing the default public/index.html file"
+      FileUtils.rm 'public/index.html'
+	  end
   end
   
   # copy the solr.yml from the plugin to the new app

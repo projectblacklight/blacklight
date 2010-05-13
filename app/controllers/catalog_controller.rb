@@ -32,11 +32,8 @@ class CatalogController < ApplicationController
     @response, @document = get_solr_response_for_doc_id
     respond_to do |format|
       format.html {setup_next_and_previous_documents}
-      format.xml  {render :xml => @document.marc.to_xml}
-      format.refworks
-      format.endnote
-
-      # Add any dynamically added (such as by document extensions)
+      
+      # Add all dynamically added (such as by document extensions)
       # export formats.
       @document.export_formats.each_key do | format_name |
         # It's important that the argument to send be a symbol;
@@ -96,6 +93,10 @@ class CatalogController < ApplicationController
   end
   # SMS action (this will only be accessed when the SMS link is clicked by a non javascript browser)
   def sms 
+    @response, @document = get_solr_response_for_doc_id
+  end
+  
+  def librarian_view
     @response, @document = get_solr_response_for_doc_id
   end
   
@@ -236,9 +237,9 @@ class CatalogController < ApplicationController
   
   
   # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
-  def rsolr_request_error
+  def rsolr_request_error(exception)
     if RAILS_ENV == "development"
-      render # will give us the stack trace
+      raise exception # Rails own code will catch and give usual Rails error page with stack trace
     else
       flash_notice = "Sorry, I don't understand your search."
       # Set the notice flag if the flash[:notice] is already set to the error that we are setting.

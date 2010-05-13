@@ -224,75 +224,6 @@ module ApplicationHelper
     link_to("#{query_part} #{facet_part}", catalog_index_path(params))
   end
   
-  #
-  # Export Helpers
-  #
-  def render_refworks_text(record)
-    if record.marc.marc
-      fields = record.marc.marc.find_all { |f| ('000'..'999') === f.tag }
-      text = "LEADER #{record.marc.marc.leader}"
-      fields.each do |field|
-        unless ["940","999"].include?(field.tag)
-          if field.is_a?(MARC::ControlField)
-            text << "#{field.tag}    #{field.value}\n"
-          else
-            text << "#{field.tag} "
-            text << (field.indicator1 ? field.indicator1 : " ")
-            text << (field.indicator2 ? field.indicator2 : " ")
-            text << " "
-            field.each {|s| s.code == 'a' ? text << "#{s.value}" : text << " |#{s.code}#{s.value}"}
-            text << "\n"
-          end
-        end
-      end
-      text
-    end 
-  end
-  def render_endnote_text(record)
-    end_note_format = {
-      "%A" => "100.a",
-      "%C" => "260.a",
-      "%D" => "260.c",
-      "%E" => "700.a",
-      "%I" => "260.b",
-      "%J" => "440.a",
-      "%@" => "020.a",
-      "%_@" => "022.a",
-      "%T" => "245.a,245.b",
-      "%U" => "856.u",
-      "%7" => "250.a"
-    }
-    marc = record.marc.marc
-    text = ''
-    text << "%0 #{document_partial_name(record)}\n"
-    # If there is some reliable way of getting the language of a record we can add it here
-    #text << "%G #{record['language'].first}\n"
-    end_note_format.each do |key,value|
-      values = value.split(",")
-      first_value = values[0].split('.')
-      if values.length > 1
-        second_value = values[1].split('.')
-      else
-        second_value = []
-      end
-      
-      if marc[first_value[0].to_s]
-        marc.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
-          if field[first_value[1]].to_s or field[second_value[1]].to_s
-            text << "#{key.gsub('_','')}"
-            if field[first_value[1]].to_s
-              text << " #{field[first_value[1]].to_s}"
-            end
-            if field[second_value[1]].to_s
-              text << " #{field[second_value[1]].to_s}"
-            end
-            text << "\n"
-          end
-        end
-      end
-    end
-    text
-  end
   
   #
   # facet param helpers ->
@@ -305,7 +236,7 @@ module ApplicationHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value)) + " (" + format_num(item.hits) + ")" 
+    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select") + " (" + format_num(item.hits) + ")" 
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -434,7 +365,9 @@ module ApplicationHelper
     options = {:params => params, :omit_keys => [:page]}.merge(options)
     my_params = options[:params].dup
     options[:omit_keys].each {|omit_key| my_params.delete(omit_key)}
-
+    # removing action and controller from duplicate params so that we don't get hidden fields for them.
+    my_params.delete(:action)
+    my_params.delete(:controller)
     # hash_as_hidden_fields in hash_as_hidden_fields.rb
     return hash_as_hidden_fields(my_params)
   end

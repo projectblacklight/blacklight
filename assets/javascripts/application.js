@@ -18,13 +18,7 @@ jQuery(document).ready(function($) {
     //Make sure more facet lists loaded in this dialog have
     //ajaxy behavior added to next/prev/sort                    
     function addBehaviorToMoreFacetDialog(dialog) {
-      var dialog = $(dialog)
-      
-      // Remove first header from loaded content, and make it a dialog
-      // title instead
-      var heading = dialog.find("h1, h2, h3, h4, h5, h6").eq(0).remove();
-      dialog.dialog("option", "title", heading.text());
-          
+      var dialog = $(dialog)      
       
       // Make next/prev/sort links load ajaxy
       dialog.find("a.next_page, a.prev_page, a.sort_change").click( function() {     
@@ -51,28 +45,34 @@ jQuery(document).ready(function($) {
     }
     
 
-    $("a.more_facets_link").each(function() {
+    $("a.more_facets_link,a.lightboxLink").each(function() {
       //We use each to let us make a Dialog object for each
       //a, tied to that a, through the miracle of closures. the second
       // arg to 'bind' is used to make sure the event handler gets it's
       // own dialog. 
-      var more_facets_dialog = "empty";
-      
+      var dialog_box = "empty";
+      var link = $(this);
       $(this).click( function() {     
         //lazy create of dialog
-        if ( more_facets_dialog == "empty") {
-          more_facets_dialog = $('<div class="more_facets_dialog"></div>').dialog({ autoOpen: false});          
+        if ( dialog_box == "empty") {
+          dialog_box = $('<div class="dialog_box"></div>').dialog({ autoOpen: false});          
         }
         // Load the original URL on the link into the dialog associated
         // with it. Rails app will give us an appropriate partial.
         // pull dialog title out of first heading in contents. 
         $("body").css("cursor", "progress");
-        more_facets_dialog.load( this.href , function() {
-          addBehaviorToMoreFacetDialog(more_facets_dialog);
+        dialog_box.load( this.href , function() {
+	        if(link.attr("class") == "more_facets_link"){
+            addBehaviorToMoreFacetDialog(dialog_box);
+				  }
+				  // Remove first header from loaded content, and make it a dialog
+		      // title instead
+		      var heading = dialog_box.find("h1, h2, h3, h4, h5, h6").eq(0).remove();
+		      dialog_box.dialog("option", "title", heading.text());
           $("body").css("cursor", "auto");
         });
-                
-        positionDialog(more_facets_dialog);                
+
+        positionDialog(dialog_box);                
                 
         return false; // do not execute default href visit
       });
