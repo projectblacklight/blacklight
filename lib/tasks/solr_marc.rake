@@ -5,27 +5,19 @@
 
 require 'fileutils'
 
+# Need Blacklight for it's path finders
+require File.expand_path(__FILE__ + '/../../blacklight.rb')
+
+
 namespace :solr do
   namespace :marc do
     
-    # shortcut to Blacklight.locate_path
-    def locate_path *args
-      Blacklight.locate_path *args
-    end
     
-    desc "Index the supplied test data into Solr; set NOOP to true to view output command."
-    task :index_test_data => :environment do
-      marc_records_path = locate_path("data", "test_data.utf8.mrc")
-      solr_path = locate_path("jetty", "solr")
-      solr_war_path = locate_path('jetty', 'webapps', 'solr.war')
-      solr_marc_jar_path = locate_path('solr_marc', 'SolrMarc.jar')
-      config_path = locate_path('config', 'SolrMarc', 'config.properties')
-      indexer_properties_path = locate_path('config', 'SolrMarc', 'index.properties')
-      cmd = "java -Xmx512m"
-      cmd << " -Dsolr.indexer.properties=#{indexer_properties_path} -Done-jar.class.path=#{solr_war_path} -Dsolr.path=#{solr_path}"
-      cmd << " -jar #{solr_marc_jar_path} #{config_path} #{marc_records_path}"
-      puts "\ncommand being executed:\n#{cmd}\n\n"
-      system cmd unless ENV.keys.any?{|k| k =~ /^noop/i }
+    desc "Index the supplied test data into Solr"
+    task :index_test_data do
+      ENV['MARC_FILE'] = locate_path("data", "test_data.utf8.mrc")
+
+      Rake::Task[ "solr:marc:index:work" ].invoke
     end
     
     desc "Index marc data using SolrMarc. Available environment variables: MARC_RECORDS_PATH, CONFIG_PATH, SOLR_MARC_MEM_ARGS, SOLR_WAR_PATH, SOLR_JAR_PATH"
@@ -33,95 +25,113 @@ namespace :solr do
 
     namespace :index do
 
-     # Calculate default args based on location of rake file itself,
-     # which we assume to be in the plugin, in a demo app, or an
-     # app set up like the demo app in relation to it's supporting tools.
-    
-      base_path = File.dirname(__FILE__)
-
-      # Config, we take from app config if present (env-specific
-      # if available) otherwise from config bundled with plugin
-      default_config_path = File.join(RAILS_ROOT, "config", "SolrMarc", "config-#{ENV['RAILS_ENV'] || "development"}.properties")
-      unless File.exists?(default_config_path)
-        default_config_path = File.join(RAILS_ROOT, "config", "SolrMarc", "config.properties")
-      end
-      unless File.exists?( default_config_path )
-        default_config_path = File.join(base_path, "../../config/SolrMarc/config.properties")              
-      end
-      default_config_path = File.expand_path(default_config_path)
-      
-      
-      default_solr_war_path      = File.expand_path(File.join(base_path, "../../../../../../jetty/webapps/solr.war"))
-      default_solr_marc_mem_args = '-Xmx512m'      
-      default_solr_marc_jar_path = File.expand_path(File.join(base_path, "../../solr_marc/SolrMarc.jar"))
-
-     # Take command line/env args if present, and turn everything into
-     # an absolute, rather than relative, file path, so we can do
-     # our working directory switching later to keep solrmarc happy. 
-      
-      solr_marc_jar_path = File.expand_path(ENV['SOLR_MARC_JAR_PATH'] || default_solr_marc_jar_path)
-      
-      solr_marc_mem_args = (ENV['SOLR_MARC_MEM_ARGS'] || default_solr_marc_mem_args)
-      
-      solr_war_path = File.expand_path(ENV['SOLR_WAR_PATH'] || default_solr_war_path)
-
-      config_path = File.expand_path(ENV['CONFIG_PATH'] || default_config_path)
-      
-      marc_records_path = ENV['MARC_FILE']
-      marc_records_path = File.expand_path(marc_records_path) if marc_records_path
-
 
       task :work do
-        # If no marc records given, display :info task
-        unless marc_records_path          
-          marc_records_path = "[marc records path needed]"
-          Rake::Task[ "solr:marc:index:info" ].execute
-          exit
-        end
-      
-      
-        # if relative path to solr.path and solr.inderxer.properties is given
-        # in the config.properties file, solrmarc will consider that relative
-        # to the working directory. We want to treat them as relative to
-        # to the config.properties file itself instead, so we will
-        # change our working directory to the parent of config.properties
-        # first. 
-        original_wd = Dir.pwd
-        Dir.chdir( File.dirname(config_path) )       
-        
-        commandStr = "java #{solr_marc_mem_args} -Done-jar.class.path=#{solr_war_path} -jar #{solr_marc_jar_path} #{config_path} #{marc_records_path}"
-        puts commandStr
-        puts
-        `#{commandStr}`
+        solrmarc_arguments = compute_arguments        
 
-        Dir.chdir(original_wd)
+        # If no marc records given, display :info task
+        if  (ENV["NOOP"] || (!solrmarc_arguments["MARC_FILE"]))                    
+          Rake::Task[ "solr:marc:index:info" ].execute
+        else        
+          commandStr = solrmarc_command_line( solrmarc_arguments )
+          puts commandStr
+          puts
+          `#{commandStr}`
+        end
         
       end # work
       
       desc "Shows more info about the solr:marc:index task."
-      task :info do 
+      task :info do
+        solrmarc_arguments = compute_arguments
         puts <<-EOS
-  Possible environment variables, with specified or default settings:
+  Possible environment variables, with settings as invoked. You can set these
+  variables on the command line, eg:
+        rake solr:marc:index MARC_FILE=/some/file.mrc
   
-  MARC_FILE: #{marc_records_path}
+  MARC_FILE: #{solrmarc_arguments["MARC_FILE"] || "[marc records path needed]"}
   
-  CONFIG_PATH: #{config_path}
-     config default looks first in:
-       RAILS_ROOT/config/SolrMarc/config-ENVIRONMENT.properties
-     and then in:  RAILS_ROOT/config/SolrMarc/config.properties
-     and then in: BLACKLIGHT_PLUGIN/config/SolrMarc/config.properties
+  CONFIG_PATH: #{solrmarc_arguments[:config_properties_path]}
+     Defaults to RAILS_ROOT/config/SolrMarc/config(-RAILS_ENV).properties
+     or else RAILS_ROOT/vendor/plugins/blacklight/SolrMarc/config ...
+
+     Note that SolrMarc search path includes directory of config_path,
+     so translation_maps and index_scripts dirs will be found there. 
   
-  SOLR_WAR_PATH: #{solr_war_path}
+  SOLRMARC_JAR_PATH: #{solrmarc_arguments[:solrmarc_jar_path]}
   
-  SOLR_MARC_JAR_PATH: #{solr_marc_jar_path}
-  
-  SOLR_MARC_MEM_ARGS: #{solr_marc_mem_args}
+  SOLRMARC_MEM_ARGS: #{solrmarc_arguments[:solrmarc_mem_arg]}
   
   SolrMarc command that will be run:
   
-  java #{solr_marc_mem_args} -Done-jar.class.path=#{solr_war_path} -jar #{solr_marc_jar_path} #{config_path} #{marc_records_path}
+  #{solrmarc_command_line(solrmarc_arguments)}
   EOS
       end
     end # index
   end # :marc
 end # :solr
+
+# Computes arguments to Solr, returns hash
+# Calculate default args based on location of rake file itself,
+# which we assume to be in the plugin, or in the Rails executing
+# this rake task, at RAILS_ROOT. 
+def compute_arguments
+  
+  arguments  = {}
+
+  arguments["MARC_FILE"] = ENV["MARC_FILE"]
+
+  
+  app_site_path = File.expand_path(File.join(Rails.root, "config", "SolrMarc"))
+  plugin_site_path = File.expand_path(File.join(Rails.root, "vendor", "plugins", "blacklight", "config", "SolrMarc"))
+
+
+  # Find config in local app or plugin, possibly based on our RAILS_ENV  
+  arguments[:config_properties_path] = ENV['CONFIG_PATH']
+  unless arguments[:config_properties_path]
+    [ File.join(app_site_path, "config-#{RAILS_ENV}.properties"  ),
+      File.join( app_site_path, "config.properties"),
+      File.join( plugin_site_path, "config-#{RAILS_ENV}.properties"),
+      File.join( plugin_site_path, "config.properties"),
+    ].each do |file_path|
+      if File.exists?(file_path)
+        arguments[:config_properties_path] = file_path
+        break
+      end
+    end
+  end
+  
+  #java mem arg is from env, or default
+
+  arguments[:solrmarc_mem_arg] = ENV['SOLRMARC_MEM_ARGS'] || '-Xmx512m'
+      
+  # SolrMarc is embedded in the plugin, or could be a custom
+  # one in local app. 
+  arguments[:solrmarc_jar_path] = ENV['SOLRMARC_JAR_PATH'] || locate_path("solr_marc", "SolrMarc.jar") 
+  
+
+      
+
+  # Solr URL, find from solr.yml, app or plugin
+  solr_yml_path = locate_path("config", "solr.yml")
+  if ( File.exists?( solr_yml_path ))
+    solr_config = YAML::load(File.open(solr_yml_path))
+    arguments[:solr_url] = solr_config[ RAILS_ENV ]['url'] if solr_config[RAILS_ENV]
+  end
+
+
+  return arguments
+end
+
+def solrmarc_command_line(arguments)
+  cmd = "java #{arguments[:solrmarc_mem_arg]}  -jar #{arguments[:solrmarc_jar_path]} #{arguments[:config_properties_path]} #{arguments["MARC_FILE"]}"
+
+  cmd += " -Dsolr.hosturl=#{arguments[:solr_url]}" unless arguments[:solr_url].blank?
+
+  return cmd  
+end
+
+def locate_path(*fragments)
+  Blacklight.locate_path(*fragments)
+end
+
