@@ -5,8 +5,6 @@
 
 require 'fileutils'
 
-# Need Blacklight for it's path finders
-require File.expand_path(__FILE__ + '/../../blacklight.rb')
 
 
 namespace :solr do
@@ -131,7 +129,14 @@ def solrmarc_command_line(arguments)
   return cmd  
 end
 
-def locate_path(*fragments)
-  Blacklight.locate_path(*fragments)
+
+def locate_path(*subpath_fragments)
+    local_root = File.expand_path File.join(__FILE__, '..', '..')
+
+    subpath = subpath_fragments.join('/')
+    base_match = [Rails.root, local_root].find do |base|
+      File.exists? File.join(base, subpath)
+    end
+    File.join(base_match.to_s, subpath) if base_match
 end
 
