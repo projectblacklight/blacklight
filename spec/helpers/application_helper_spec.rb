@@ -111,12 +111,16 @@ describe ApplicationHelper do
 
   describe "search_as_hidden_fields" do
     def params
-      {:q => "query", :sort => "sort", :per_page => "20", :search_field => "search_field", :page => 100, :arbitrary_key => "arbitrary_value", :f => {"field" => ["value1", "value2"]}}
+      {:q => "query", :sort => "sort", :per_page => "20", :search_field => "search_field", :page => 100, :arbitrary_key => "arbitrary_value", :f => {"field" => ["value1", "value2"]}, :controller => "catalog", :action => "index"}
     end
     describe "for default arguments" do
       it "should default to omitting :page" do
         search_as_hidden_fields.should have_tag("input[type=hidden]", 7)
         search_as_hidden_fields.should_not have_tag("input[name=page]") 
+      end
+      it "should not return action and controller hidden elements" do
+        search_as_hidden_fields.should_not have_tag("input[name=action]")
+        search_as_hidden_fields.should_not have_tag("input[name=controller]")
       end
       describe "for omit_keys parameter" do
         it "should not include those keys" do

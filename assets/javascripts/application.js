@@ -37,8 +37,8 @@ jQuery(document).ready(function($) {
     function positionDialog(dialog) {
       dialog = $(dialog);
       
-      dialog.dialog("option", "height", "auto");
-      dialog.dialog("option", "width", Math.max(  ($(window).width() /3), 45));
+      dialog.dialog("option", "height", $(window).height()-125);
+      dialog.dialog("option", "width", Math.max(  ($(window).width() /2), 45));
       dialog.dialog("option", "position", ['center', 75]);
       
       dialog.dialog("open").dialog("moveToTop");
