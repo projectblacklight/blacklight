@@ -49,9 +49,15 @@ then remove everything in that directory.
 
 You may also see messages to run refresh_spec when you run the ’’rake gems’’ command; go ahead and follow those instructions. (In at least one case, the refresh_spec command needed to be run many times before the error messages ceased.)
 
-==Indexing the test data
-The plugin ships with a test data set. To index this data, first be sure that Solr is running (see steps above). Now run this command to index:
+==Indexing data
+The plugin ships with a test data set if you choose to download it during installation. To index this data into the plugin's solr in order to run the plugin's tests run this command:
   
+  rake solr:marc:index_test_data RAILS_ENV=test
+
+If you would like to have the data indexed for you application level jetty then run this command:
+
   rake solr:marc:index_test_data
+
+Note that you can run this command from either the application root or the plugin root.
 
 You should then be able to load http://localhost:3000 in your browser (Rails must be running) and view the test data set working within Blacklight.
