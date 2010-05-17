@@ -88,7 +88,7 @@ module BlacklightInstaller
       FileUtils.cp_r installing_from, install_path
       FileUtils.rm_rf Dir["#{install_path}/**/.git*", "#{install_path}/jetty/logs"]
     else
-      git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>tag do
+      git_export 'git://github.com/projectblacklight/blacklight.git', install_path, :tag=>@tag, :branch=>@branch do
         require "#{install_path}/lib/colorize.rb"
         output "Updating data and jetty directories/submodules"
         FileUtils.cd install_path do
@@ -262,7 +262,7 @@ end
 extend BlacklightInstaller
 
 @tag = nil
-@branch = nil
+@branch = "2.5-frozen"
 @install_dir_name = 'blacklight'
 
 error! "Halting... looks like Blacklight has been installed here..." if already_installed?
