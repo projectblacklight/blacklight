@@ -153,9 +153,7 @@ module BlacklightInstaller
         FileUtils.cp_r "#{install_path}/data", 'data'
         output "Copying SolrMarc configs to config/SolrMarc"
         FileUtils.cp_r "#{install_path}/config/SolrMarc", 'config/SolrMarc'
-        properties_file = File.read 'config/SolrMarc/config.properties'
-        properties_file.gsub! /^solr\.path.*/, 'solr.path = ../../jetty/solr'
-        File.open('config/SolrMarc/config.properties', 'w'){|f|f.puts properties_file}
+
         output "To index the test data, make sure solr is running, then execute:", :yellow
         output "rake solr:marc:index_test_data".colorize(:mode => :swap)
       end
