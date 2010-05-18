@@ -139,7 +139,35 @@ describe "Blacklight::Solr::Document" do
       end
     end
 
-    
+    context "to_semantic_fields" do
+      class MockDocument
+          include Blacklight::Solr::Document                        
+      end
+      before do
+        MockDocument.field_semantics.merge!( :title => "title_field", :author => "author_field", :something => "something_field" )
+        
+        @doc1 = MockDocument.new( 
+           "title_field" => "doc1 title",
+           "something_field" => ["val1", "val2"],
+           "not_in_list_field" => "weird stuff" 
+         )
+      end
+
+      it "should return complete dictionary based on config'd fields" do        
+        @doc1.to_semantic_values.should == {:title => ["doc1 title"], :something => ["val1", "val2"]}
+      end      
+      it "should return nil for a key without a value" do
+        @doc1.to_semantic_values[:author].should be_nil
+        @doc1.to_semantic_values[:nonexistent_token].should be_nil
+      end
+      it "should return an array even for a single-value field" do
+        @doc1.to_semantic_values[:title].should be_kind_of(Array)
+      end
+      it "should return complete array for a multi-value field" do
+        @doc1.to_semantic_values[:something].should == ["val1", "val2"] 
+      end
+      
+    end
 
     
 end

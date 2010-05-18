@@ -46,7 +46,16 @@ Blacklight.configure(:shared) do |config|
   
   # default params for the SolrDocument.find_by_id method
   SolrDocument.default_params[:find_by_id] = {:qt => :document}
-  
+
+  # Semantic mappings of solr stored fields. Fields may be multi or
+  # single valued. See Blacklight::Solr::Document::ExtendableClassMethods#field_semantics
+  # and Blacklight::Solr::Document#to_semantic_values
+  SolrDocument.field_semantics.merge!(    
+    :title => "title_display",
+    :author => "author_display",
+    :language => "language_facet"  
+  )
+        
   
   ##############################
   

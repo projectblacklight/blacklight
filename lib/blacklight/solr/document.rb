@@ -79,7 +79,7 @@ module Blacklight::Solr::Document
     base.send :include, RSolr::Ext::Model
     base.extend DefaultFinders
     base.extend ExtendableClassMethods
-
+    
     # Provide a class-level hash for extension parameters
     base.class_eval do
       def self.extension_parameters
@@ -87,7 +87,7 @@ module Blacklight::Solr::Document
         # it's just @ to be a class variable. Confusing, but it
         # passes the tests this way.       
         @extension_parameters ||= {}
-      end    
+      end      
     end
 
     # after_initialize hook comes from RSolr::Ext::Model, I think.
@@ -174,6 +174,31 @@ module Blacklight::Solr::Document
     send("export_as_#{short_name.to_s}")
   end
 
+  # Returns a hash keyed by semantic tokens (see ExtendableClassMethods#semantic_fields), value is an array of
+  # strings. (Array to handle multi-value fields). Or nil if no value
+  # is available.
+  #
+  # Default implementation here uses ExtendableClassMethods#semantic_fields
+  # to just take values from Solr stored fields. 
+  # Extensions can over-ride this method to provide better/different lookup,
+  # but extensions should call super and modify hash returned, to avoid
+  # unintentionally erasing values provided by other extensions. 
+  def to_semantic_values
+    unless @semantic_value_hash
+      @semantic_value_hash = {}    
+      self.class.field_semantics.each_pair do |key, solr_field|
+        value = self[solr_field]
+        # Make single and multi-values all arrays, so clients
+        # don't have to know.
+        unless value.nil?
+          value = [value] unless value.kind_of?(Array)      
+          @semantic_value_hash[key] = value
+        end
+      end
+    end
+    return @semantic_value_hash
+  end
+
   # Certain class-level modules needed for the document-specific
   # extendability architecture
   module ExtendableClassMethods
@@ -199,6 +224,21 @@ module Blacklight::Solr::Document
     def use_extension( module_obj, &condition )
       registered_extensions << {:module_obj => module_obj, :condition_proc => condition}    
     end
+
+    # Class-level method for accessing/setting semantic mappings
+    # for solr stored fields. Can be set by local app, key is
+    # a symbol for a semantic, value is a solr _stored_ field.
+    #
+    # Stored field can be single or multi-value. In some cases
+    # clients may only use the first value from a multi-value field.
+    #
+    # Currently documented semantic tokens, not all may be
+    # used by core BL, but some may be used by plugins present
+    # or future. 
+    # :title, :author, :year, :language => User-presentable strings. 
+    def field_semantics
+      @field_semantics ||= {}
+    end    
   end
   
   # These methods get mixed into SolrDocument as class-level methods:
