@@ -148,17 +148,15 @@ module BlacklightInstaller
       output "To start Solr:", :yellow
       
       output "cd jetty && java -jar start.jar".colorize(:mode => :swap)
+            
+      output "Copying SolrMarc configs to config/SolrMarc"
+      FileUtils.cp_r "#{install_path}/config/SolrMarc", 'config/SolrMarc'
       
-      if yes? "Would you like to install a sample dataset to load into your Blacklight installation?"
-        FileUtils.cp_r "#{install_path}/data", 'data'
-        output "Copying SolrMarc configs to config/SolrMarc"
-        FileUtils.cp_r "#{install_path}/config/SolrMarc", 'config/SolrMarc'
-        properties_file = File.read 'config/SolrMarc/config.properties'
-        properties_file.gsub! /^solr\.path.*/, 'solr.path = ../../jetty/solr'
-        File.open('config/SolrMarc/config.properties', 'w'){|f|f.puts properties_file}
-        output "To index the test data, make sure solr is running, then execute:", :yellow
-        output "rake solr:marc:index_test_data".colorize(:mode => :swap)
-      end
+      output "To index the test data into the plugin level solr for testing purposes execute:", :yellow
+      output "rake solr:marc:index_test_data RAILS_ENV=test".colorize(:mode => :swap)
+      
+      output "To index the data for you application level solr for development purposes execute:", :yellow
+      output "rake solr:marc:index_test_data".colorize(:mode => :swap)
       
     else
       output "Skipping Solr installation..."

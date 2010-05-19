@@ -1,4 +1,6 @@
 <% @page_title = "#{document_show_html_title} - #{application_name}" %>
+<% extra_head_content << render_link_rel_alternates %>
+    
 
 <%= render 'constraints', :localized_params=>session[:search] %>
 

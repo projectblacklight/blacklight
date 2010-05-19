@@ -19,6 +19,8 @@ class CatalogController < ApplicationController
   
   # get search results from the solr index
   def index
+    extra_head_content << '<link rel="alternate" type="application/rss+xml" title="RSS for results" href="'+ url_for(params.merge("format" => "rss")) + '">'
+    
     (@response, @document_list) = get_search_results
     @filters = params[:f] || []
     respond_to do |format|
@@ -29,7 +31,7 @@ class CatalogController < ApplicationController
   
   # get single document from the solr index
   def show
-    @response, @document = get_solr_response_for_doc_id
+    @response, @document = get_solr_response_for_doc_id    
     respond_to do |format|
       format.html {setup_next_and_previous_documents}
       
