@@ -152,7 +152,10 @@ module BlacklightInstaller
       output "Copying SolrMarc configs to config/SolrMarc"
       FileUtils.cp_r "#{install_path}/config/SolrMarc", 'config/SolrMarc'
       
-      output "To index the test data, make sure solr is running, then execute:", :yellow
+      output "To index the test data into the plugin level solr for testing purposes execute:", :yellow
+      output "rake solr:marc:index_test_data RAILS_ENV=test".colorize(:mode => :swap)
+      
+      output "To index the data for you application level solr for development purposes execute:", :yellow
       output "rake solr:marc:index_test_data".colorize(:mode => :swap)
       
     else
