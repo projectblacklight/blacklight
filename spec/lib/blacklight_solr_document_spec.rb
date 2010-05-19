@@ -156,9 +156,9 @@ describe "Blacklight::Solr::Document" do
       it "should return complete dictionary based on config'd fields" do        
         @doc1.to_semantic_values.should == {:title => ["doc1 title"], :something => ["val1", "val2"]}
       end      
-      it "should return nil for a key without a value" do
-        @doc1.to_semantic_values[:author].should be_nil
-        @doc1.to_semantic_values[:nonexistent_token].should be_nil
+      it "should return empty array for a key without a value" do
+        @doc1.to_semantic_values[:author].should == []
+        @doc1.to_semantic_values[:nonexistent_token].should == []
       end
       it "should return an array even for a single-value field" do
         @doc1.to_semantic_values[:title].should be_kind_of(Array)

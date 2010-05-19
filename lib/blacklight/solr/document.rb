@@ -175,8 +175,8 @@ module Blacklight::Solr::Document
   end
 
   # Returns a hash keyed by semantic tokens (see ExtendableClassMethods#semantic_fields), value is an array of
-  # strings. (Array to handle multi-value fields). Or nil if no value
-  # is available.
+  # strings. (Array to handle multi-value fields). If no value(s)
+  # available, empty array is returned. 
   #
   # Default implementation here uses ExtendableClassMethods#semantic_fields
   # to just take values from Solr stored fields. 
@@ -185,7 +185,7 @@ module Blacklight::Solr::Document
   # unintentionally erasing values provided by other extensions. 
   def to_semantic_values
     unless @semantic_value_hash
-      @semantic_value_hash = {}    
+      @semantic_value_hash = Hash.new([]) # default to empty array   
       self.class.field_semantics.each_pair do |key, solr_field|
         value = self[solr_field]
         # Make single and multi-values all arrays, so clients
