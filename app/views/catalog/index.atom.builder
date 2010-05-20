@@ -2,16 +2,44 @@ require 'base64'
 
 xml.instruct!(:xml, :encoding => "UTF-8")
 
-xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
+xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
+         "xmlns:opensearch"=>"http://a9.com/-/spec/opensearch/1.1/") do
 
   xml.title   application_name + " Search Results"
   # an author is required, so we'll just use the app name
-  xml.author application_name
+  xml.author { xml.name application_name }
   
   xml.link    "rel" => "self", "href" => url_for(params.merge(:only_path => false))
   xml.link    "rel" => "alternate", "href" => url_for(params.merge(:only_path => false, :format => "html")), "type" => "text/html"
-  xml.id      url_for(params.merge(:only_path => false, :format => "html")), "type" => "text/html"
+  xml.id      url_for(params.merge(:only_path => false, :format => "html", :content_format => nil, "type" => "text/html"))
 
+  # Navigational and context links
+  
+  xml.link( "rel" => "next", 
+            "href" => url_for(params.merge(:only_path => false, :page => (@response.docs.current_page() + 1).to_s))
+           ) if  @response.docs.has_next?
+  
+  xml.link( "rel" => "previous", 
+            "href" => url_for(params.merge(:only_path => false, :page => (@response.docs.current_page() - 1).to_s))
+           ) if @response.docs.has_previous?
+           
+  xml.link ("rel" => "first", 
+            "href" => url_for(params.merge(:only_path => false, :page => "1")))
+  
+  xml.link( "rel" => "last",
+            "href" => url_for(params.merge(:only_path => false, :page => @response.docs.total_pages.to_s)))
+  
+  # "search" doesn't seem to actually be legal, but is very common, and
+  # used as an example in opensearch docs
+  xml.link( "rel" => "search", 
+            "href" =>  url_for(:controller=>'catalog',:action => 'opensearch', :format => 'xml', :only_path => false))
+
+  # opensearch response elements
+  xml.opensearch :totalResults, @response.docs.total.to_s
+  xml.opensearch :startIndex, @response.docs.start.to_s
+  xml.opensearch :itemsPerPage, @response.docs.per_page.to_s
+  
+  
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
   
@@ -38,7 +66,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       
       
       if doc.to_semantic_values[:author][0]   
-        xml.author(doc.to_semantic_values[:author][0])
+        xml.author { xml.name (doc.to_semantic_values[:author][0]) }
       end
       
       
