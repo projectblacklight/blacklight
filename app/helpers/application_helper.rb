@@ -384,6 +384,18 @@ module ApplicationHelper
     link_to_document next_document, :label=>'Next >', :counter => session[:search][:counter].to_i + 1
   end
 
+  # Use case, you want to render an html partial from an XML (say, atom)
+  # template. Rails API kind of lets us down, we need to hack Rails internals 
+  # a bit. code taken from:
+  # http://stackoverflow.com/questions/339130/how-do-i-render-a-partial-of-a-different-format-in-rails
+  def with_format(format, &block)
+    old_format = @template_format
+    @template_format = format
+    result = block.call
+    @template_format = old_format
+    return result
+  end
+  
 
   # This is an updated +link_to+ that allows you to pass a +data+ hash along with the +html_options+
   # which are then written to the generated form for non-GET requests. The key is the form element name

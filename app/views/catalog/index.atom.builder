@@ -69,11 +69,11 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
         xml.author { xml.name (doc.to_semantic_values[:author][0]) }
       end
       
-      
-      # xml.summary "type" => "html" do
-        # xml.text! render_document_partial(doc, :index)
-      # end
-
+      with_format("html") do
+        xml.summary "type" => "html" do
+            xml.text! render_document_partial(doc, :index)           
+        end
+      end
       #If they asked for a format, give it to them. 
       if (params["content_format"] &&
           doc.export_formats[params["content_format"].to_sym])
