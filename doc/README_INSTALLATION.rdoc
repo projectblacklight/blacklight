@@ -4,7 +4,7 @@ Please see {README_PROJECT.rdoc}[http://github.com/projectblacklight/blacklight/
 
 Please see {PRE-REQUISITES.rdoc}[http://github.com/projectblacklight/blacklight/blob/v2.5.0/doc/PRE-REQUISITES.rdoc] for pre-requisites Blacklight needs.
 
-Please see {README_SOLR.rdoc}[http://github.com/projectblacklight/blacklight/blob/v.2.5.0/doc/README_SOLR.rdoc] for information about setting up and configuring SOLR (http://lucene.apache.org/solr).
+Please see {README_SOLR.rdoc}[http://github.com/projectblacklight/blacklight/blob/v2.5.0/doc/README_SOLR.rdoc] for information about setting up and configuring SOLR (http://lucene.apache.org/solr).
 
 
 Note: these instructions apply to releases 2.5.0 and above.
@@ -13,7 +13,7 @@ Note: these instructions apply to releases 2.5.0 and above.
 Blacklight uses a new Rails feature called "templates". To install the Blacklight plugin into a new Rails application, run the following command (be sure to answer all of the installation questions):
 
 ===Installing Blacklight 2.5 (recommended):
-  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v.2.5.0/template.rb
+  rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/v2.5.0/template.rb
 
 === Installing the "trunk", or master branch:
   rails ./blacklight-app -m http://github.com/projectblacklight/blacklight/raw/master/template.rb
