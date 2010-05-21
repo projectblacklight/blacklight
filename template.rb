@@ -259,8 +259,8 @@ end
 
 extend BlacklightInstaller
 
-@tag = nil
-@branch = "2.5-frozen"
+@tag = "v2.5.0"
+@branch = nil
 @install_dir_name = 'blacklight'
 
 error! "Halting... looks like Blacklight has been installed here..." if already_installed?
