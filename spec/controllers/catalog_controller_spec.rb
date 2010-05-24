@@ -297,13 +297,15 @@ describe CatalogController do
         response.flash[:error].should == "You must enter a valid email address"
       end
       it "should not give error if no Message paramater is set" do
-        post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
-        response.flash[:error].should be_nil
+        pending() # see CODEBASE-227 
+        #post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
+        #response.flash[:error].should be_nil
       end
       it "should redirect back to the record upon success" do
-        post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
-        response.flash[:error].should be_nil
-        response.should redirect_to(catalog_path(doc_id))
+        pending() # see CODEBASE-227
+        #post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
+        #response.flash[:error].should be_nil
+        #response.should redirect_to(catalog_path(doc_id))
       end
     end
     describe "sms" do
@@ -320,9 +322,10 @@ describe CatalogController do
         response.flash[:error].should == "You must enter a valid 10 digit phone number"
       end
       it "should redirect back to the record upon success" do
-        post :send_email_record, :id => doc_id, :style => 'sms', :to => '5555555555', :carrier => 'att'
-        response.flash[:error].should be_nil
-        response.should redirect_to(catalog_path(doc_id))
+        pending() # see CODEBASE-227
+        #post :send_email_record, :id => doc_id, :style => 'sms', :to => '5555555555', :carrier => 'att'
+        #response.flash[:error].should be_nil
+        #response.should redirect_to(catalog_path(doc_id))
       end
     end
   end
