@@ -1,8 +1,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe "Atom feed view" do  
+  
+
 
   before(:all) do
+    SolrDocument.extension_parameters[:marc_format_type] = :marc21
+    SolrDocument.extension_parameters[:marc_source_field] = :marc_display
+  
     # Load sample responses from Solr to a sample request, to test against
     @data = YAML.load(File.open(File.dirname(__FILE__) + 
                                "/../../data/sample_docs.yml"))
