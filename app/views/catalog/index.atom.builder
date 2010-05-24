@@ -38,6 +38,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   xml.opensearch :totalResults, @response.docs.total.to_s
   xml.opensearch :startIndex, @response.docs.start.to_s
   xml.opensearch :itemsPerPage, @response.docs.per_page.to_s
+  xml.opensearch :Query, :role => "request", :searchTerms => params[:q], :startPage => @response.docs.current_page
   
   
   # updated is required, for now we'll just set it to now, sorry
