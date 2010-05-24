@@ -32,7 +32,7 @@ describe "Blacklight::Solr::Document::Marc" do
 
   it "should register all its export formats" do
     document = @mock_class.new
-    Set.new(document.export_formats.keys).should  be_superset(Set.new([:marc, :marcxml, :openurl_kev, :refworks_marc_txt, :endnote, :xml]))    
+    Set.new(document.export_formats.keys).should  be_superset(Set.new([:marc, :marcxml, :openurl_ctx_kev, :refworks_marc_txt, :endnote, :xml]))    
   end
 
   describe "For legacy API" do
