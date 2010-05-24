@@ -23,7 +23,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
             "href" => url_for(params.merge(:only_path => false, :page => (@response.docs.current_page() - 1).to_s))
            ) if @response.docs.has_previous?
            
-  xml.link ("rel" => "first", 
+  xml.link( "rel" => "first", 
             "href" => url_for(params.merge(:only_path => false, :page => "1")))
   
   xml.link( "rel" => "last",
