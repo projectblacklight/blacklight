@@ -11,7 +11,7 @@ module Blacklight::Solr::Document::MarcExport
     # marcxml content type: 
     # http://tools.ietf.org/html/draft-denenberg-mods-etc-media-types-00
     document.will_export_as(:marcxml, "application/marcxml+xml")
-    document.will_export_as(:openurl_kev, "text/plain")
+    document.will_export_as(:openurl_ctx_kev, "application/x-openurl-ctx-kev")
     document.will_export_as(:refworks_marc_txt, "text/plain")
     document.will_export_as(:endnote, "application/x-endnote-refer")
   end
@@ -47,7 +47,7 @@ module Blacklight::Solr::Document::MarcExport
   # call, but didn't neccesarily do what it thought it did anyway. Left in
   # for now for backwards compatibilty, but should be replaced by
   # just ruby OpenURL. 
-  def export_as_openurl_kev(format = nil)  
+  def export_as_openurl_ctx_kev(format = nil)  
     title = to_marc.find{|field| field.tag == '245'}
     author = to_marc.find{|field| field.tag == '100'}
     publisher_info = to_marc.find{|field| field.tag == '260'}
