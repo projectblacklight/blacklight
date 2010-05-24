@@ -3,10 +3,20 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "Atom feed view" do  
   
 
-
   before(:all) do
-    SolrDocument.extension_parameters[:marc_format_type] = :marc21
-    SolrDocument.extension_parameters[:marc_source_field] = :marc_display
+    class AtomMockDocument
+      include Blacklight::Solr::Document
+    end
+
+    AtomMockDocument.field_semantics.merge!(    
+      :title => "title_display",
+      :author => "author_display"        
+    )
+    AtomMockDocument.extension_parameters[:marc_format_type] = :marc21
+    AtomMockDocument.extension_parameters[:marc_source_field] = :marc_display
+    AtomMockDocument.use_extension( Blacklight::Solr::Document::Marc) do |document|
+      document.key?( :marc_display  )
+    end
   
     # Load sample responses from Solr to a sample request, to test against
     @data = YAML.load(File.open(File.dirname(__FILE__) + 
@@ -14,7 +24,7 @@ describe "Atom feed view" do
     @rsolr_response = RSolr::Ext::Response::Base.new(@data["solr_response"], nil, @data["params"])
     @params = @data["params"]
     @document_list = @data["document_list_mash"].collect do |d|   
-      SolrDocument.new(d)
+      AtomMockDocument.new(d)
     end
   end
   before(:each) do
