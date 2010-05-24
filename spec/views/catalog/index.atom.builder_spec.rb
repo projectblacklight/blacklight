@@ -2,17 +2,26 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe "Atom feed view" do  
 
-  before do
+  before(:all) do
     # Load sample responses from Solr to a sample request, to test against
-    data = YAML.load(File.open(File.dirname(__FILE__) + 
+    @data = YAML.load(File.open(File.dirname(__FILE__) + 
                                "/../../data/sample_docs.yml"))
-
+    @rsolr_response = RSolr::Ext::Response::Base.new(@data["solr_response"], nil, @data["params"])
+    @params = @data["params"]
+    @document_list = @data["document_list_mash"].collect do |d|   
+      SolrDocument.new(d)
+    end
+  end
+  before(:each) do
 
                                
-    assigns[:response] = RSolr::Ext::Response::Base.new(data["solr_response"], nil, data["params"])
-    assigns[:params] = data["params"]
-    assigns[:document_list] = data["document_list"]
+    assigns[:response] = @rsolr_response
+    # not sure why we can't use assigns for 'params', instead this weird way,
+    # but okay. 
+    params.merge!( @params )
     
+    assigns[:document_list] = @document_list
+
     render "catalog/index.atom.builder"
 
     # We need to use rexml to test certain things that have_tag wont' test    
@@ -88,5 +97,30 @@ describe "Atom feed view" do
       end
     end
   end
-end
+
+  describe "when content_format is specified" do
+    describe "for an entry with content available" do
+      before do
+        @entry = @response_xml.elements.to_a("/feed/entry")[0]
+      end
+      it "should include a link rel tag" do
+        @entry.to_s.should have_tag("link[rel=alternate][type=application/marc]")
+      end
+      it "should have content embedded" do
+        @entry.to_s.should have_tag("content")
+      end
+    end
+    describe "for an entry with NO content available" do
+      before do
+        @entry = @response_xml.elements.to_a("/feed/entry")[5]
+      end
+      it "should include content" do
+        @entry.to_s.should_not have_tag("content[type=application/marc]")
+      end
+    end
+  end
+
   
+end
+
+

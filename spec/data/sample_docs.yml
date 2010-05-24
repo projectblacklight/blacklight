@@ -1,7 +1,6 @@
 --- 
-document_list: 
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+document_list_mash: 
+  - !map:Mash 
     score: 1.0
     format: Book
     author_vern_display: "\xE2\x80\x8F\xD7\xA4\xD7\x99\xD7\xA0\xD7\xA7\xD7\x9C, \xD7\x97\xD7\x99\xD7\x99\xD7\x9D \xD7\x99\xD7\xA2\xD7\xA7\xD7\x91"
@@ -28,8 +27,8 @@ document_list:
     published_display: 
     - Yerushalayim
     subtitle_vern_display: "\xE2\x80\x8F\xD7\xA1\xD7\xA4\xD7\x95\xD7\xA8\xD7\x99\xD7\x9D \xD7\x9E\xD7\xA4\xD7\x9C\xD7\x99\xD7\x90\xD7\x99\xD7\x9D \xD7\x94\xD7\x9E\xD7\x91\xD7\x95\xD7\xA1\xD7\xA1\xD7\x99\xD7\x9D \xD7\xA2\xD7\x9C \xD7\xA2\xD7\x95\xD7\x91\xD7\x93\xD7\x95\xD7\xAA \xD7\x94\xD7\x99\xD7\xA1\xD7\x98\xD7\x95\xD7\xA8\xD7\x99\xD7\x95\xD7\xAA /\xE2\x80\x8F"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+    marc_display: "01657cam a2200337 a 4500001001300000003000400013005001700017008004100034010001700075035002600092040002800118042001400146043002100160050002000181066001100201100004900212245015200261246010000413246005600513260007400569300005100643504003500694650004700729650004300776650003900819880005300858880014800911880010201059880005901161880009901220   87931798 DLC20090121115059.0060428m19869999ir ah    b    000 0 per d  a   87931798   a(CStRLIN)DCLN06-B3656  aNjPcNjPdUkLSOAdDLC-R  alccopycat  aa------af------00aBP44b.M88 1986  c(3c(41 6880-01aMuvaḥḥid Abṭaḥī, Ḥujjat.106880-02aĀshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh /cbih qalam-i Ḥujjat Muvaḥḥid Abṭaḥī.3 6880-03aĀshnāyī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh306880-04aḤawzahʹhā-yi ʻilmīyah-ʼi Shīʻah  6880-05aIṣfahān :bḤawzah-i ʻIlmīyah,c1365-   [1986-      ]  av. <1> :bill. (some col.), facsims. ;c25 cm.  aBibliography: v. 1, p.451-455. 0aReligious institutionszIslamic countries. 0aShiitesxEducationzIslamic countries. 0aIslamic universities and colleges.1 6100-01/(3/r‏a‏موحد ابطحى، خجة.106245-02/(3/r‏a‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏c‏بقلم حجة موحد ابطحى.3 6246-03/(3/r‏a‏اشنايى با حوزه‌هاى علميۀ شيعه در طول تاريخ306246-04/(3/r‏a‏حوزه هاى علميۀ شيعه  6260-05/(3/r‏a‏اصفهان :‏b‏حوزۀ علميه،‏c‏‪1365- [1986-    ]‬."
+  - !map:Mash 
     score: 1.0
     format: Book
     material_type_display: 
@@ -53,8 +52,7 @@ document_list:
     title_display: "A\xCC\x84shna\xCC\x84\xCA\xBCi\xCC\x84 ba\xCC\x84 h\xCC\xA3awzah\xCA\xB9ha\xCC\x84-yi \xCA\xBBilmi\xCC\x84yah-\xCA\xBCi Shi\xCC\x84\xCA\xBBah dar t\xCC\xA3u\xCC\x84l-i ta\xCC\x84ri\xCC\x84kh"
     published_display: 
     - "Is\xCC\xA3faha\xCC\x84n"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     material_type_display: 
@@ -73,8 +71,7 @@ document_list:
     title_display: "Mrecvelobis mus\xCC\x8Cakis c\xCA\xBBxovrebis cesi"
     published_display: 
     - "T\xCA\xBBbilisi"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     material_type_display: 
@@ -101,8 +98,7 @@ document_list:
     title_display: "Pukhan po\xCC\x86mnyo\xCC\x86ngjip"
     published_display: 
     - "So\xCC\x86ul T\xCA\xBBu\xCC\x86kpyo\xCC\x86lsi"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     author_vern_display: "\xE2\x80\x8F\xD7\x99\xD7\xA9\xD7\xA8\xD7\x90\xD7\x9C \xD7\x9E\xD7\x90\xD7\x99\xD7\xA8,\xE2\x80\x8F \xE2\x80\x8F\xD7\x94\xD7\x9B\xD7\x94\xD7\x9F"
@@ -128,8 +124,7 @@ document_list:
     published_display: 
     - Jerusalem?
     subtitle_vern_display: "\xE2\x80\x8F\xD7\x95\xD7\x94\xD7\x95\xD7\x90 \xD7\xA4\xD7\x99\xD7\xA8\xD7\x95\xD7\xA9 \xD7\x99\xD7\xA4\xD7\x94 \xD7\x95\xD7\x9E\xD7\xA0\xD7\xA4\xD7\x94 \xD7\xA2\xD7\x9C \xD7\xA9\xD7\x9C\xD7\x97\xD7\x9F \xD7\xA2\xD7\xA8\xD7\x95\xD7\x9A \xD7\x90\xD7\xA8\xD7\x97 \xD7\x97\xD7\x99\xD7\x99\xD7\x9D \xD7\x90\xD7\xA9\xD7\xA8 \xD7\x97\xD7\x91\xD7\xA8 \xD7\x99\xD7\x95\xD7\xA1\xD7\xA3 \xD7\xA7\xD7\x90\xD7\xA8\xD7\x95 ... \xD7\xA2\xD7\x9D \xD7\x97\xD7\x99\xD7\x93\xD7\x95\xD7\xA9\xD7\x99 \xD7\x93\xD7\x99\xD7\xA0\xD7\x99\xD7\x9D \xD7\xA9\xD7\x94\xD7\xA9\xD7\x9E\xD7\x99\xD7\x98 \xD7\x94\xD7\x92\xD7\x90\xD7\x95\xD7\x9F ... \xD7\x95\xD7\x94\xD7\x9E\xD7\xA6\xD7\x99\xD7\x90\xD7\x9D \xD7\x9E\xD7\xA9\xD7\x94 \xD7\x90\xD7\x99\xD7\xA1\xD7\xA8\xD7\x9C\xD7\x99\xD7\xA9 /\xE2\x80\x8F"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     author_vern_display: "\xEA\xB9\x80\xE3\x80\x80\xED\x99\x8D\xEC\x8B\xA0, 1947-"
@@ -160,8 +155,7 @@ document_list:
     published_display: 
     - "So\xCC\x86ul"
     subtitle_vern_display: "\xEA\xB0\x95\xEB\x82\xA8\xE3\x80\x80\xEC\x97\xAC\xEC\x9D\xB8\xE3\x80\x80\xEA\xB3\xBC\xE3\x80\x80\xEC\x8B\xA0\xE3\x80\x80\xED\x8C\x94\xEB\xB6\x88\xEC\xB6\x9C : \xE9\x87\x91\xE3\x80\x80\xE6\xB4\xAA\xE4\xBF\xA1\xE3\x80\x80\xEC\x84\xB8\xED\x83\x9C\xE3\x80\x80\xEB\xA5\xB4\xED\x8F\xAC"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     author_vern_display: "\xE2\x80\x8F\xD8\xB1\xD8\xAC\xD8\xA7\xD9\x8A\xD9\x89\xD8\x8C \xD9\x81\xD8\xB1\xD9\x87\xD9\x86\xDA\xAF ."
@@ -188,8 +182,7 @@ document_list:
     published_display: 
     - "Tihra\xCC\x84n"
     subtitle_vern_display: "\xE2\x80\x8F\xD8\xAF\xD8\xB1 \xD8\xAE\xD8\xB1\xD8\xAF\xD9\x88\xD8\xB1\xD8\xB2\xD9\x89 \xD8\xB3\xD9\x8A\xD8\xA7\xD8\xB3\xD9\x89 \xD9\x88 \xD9\x87\xD9\x88\xD9\x8A\xD8\xAA \xD9\x85\xD8\xA7 \xD8\xA7\xD9\x8A\xD8\xB1\xD8\xA7\xD9\x86\xD9\x8A\xD8\xA7\xD9\x86 /\xE2\x80\x8F"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     material_type_display: 
@@ -207,8 +200,7 @@ document_list:
     title_display: "Sumadhvavijayah\xCC\xA3"
     published_display: 
     - Bangalore
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     author_vern_display: "\xD9\x88\xD9\x84\xD8\xAF \xD9\x85\xD9\x88\xD9\x84\xD8\xA7\xD9\x8A \xD8\xA7\xD9\x84\xD8\xB2\xD9\x8A\xD9\x86\xD8\x8C \xD8\xB3\xD9\x8A\xD8\xAF \xD9\x85\xD8\xAD\xD9\x85\xD8\xAF \xD9\x88\xD9\x84\xD8\xAF \xD8\xB3\xD9\x8A\xD8\xAF"
@@ -237,8 +229,7 @@ document_list:
     title_display: "al-H\xCC\xA3arb fi\xCC\x84 al-alfi\xCC\x84yah al-tha\xCC\x84lithah"
     published_display: 
     - "Nuwa\xCC\x84kshu\xCC\x84t\xCC\xA3"
-- !ruby/object:SolrDocument 
-  _source: !map:Mash 
+  - !map:Mash 
     score: 1.0
     format: Book
     material_type_display: 
@@ -259,6 +250,7 @@ document_list:
 params: !map:HashWithIndifferentAccess 
   format: atom
   action: index
+  content_format: "marc"
   f: !map:HashWithIndifferentAccess 
     format: 
     - Book
