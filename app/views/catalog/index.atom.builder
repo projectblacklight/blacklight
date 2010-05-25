@@ -55,14 +55,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
       xml.link    "rel" => "alternate", "type" => "text/html", "href" => catalog_url(doc[:id])
       # add other doc-specific formats, atom only lets us have one per
       # content type, so the first one in the list wins.
-      seen = Set.new
-      doc.export_formats.each_pair do |format, spec|
-        unless seen.include?( spec[:content_type] )      
-          xml.link "rel" => "alternate", "type" => spec[:content_type], :href => catalog_url(doc[:id], format)
-          seen.add( spec[:content_type])
-        end
-      end
-      
+      xml << render_link_rel_alternates(doc, :unique => true)      
       
       xml.id      catalog_url(doc[:id])
       

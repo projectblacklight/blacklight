@@ -312,23 +312,26 @@ describe ApplicationHelper do
          def self.extended(document)
            document.will_export_as(:weird, "application/weird")
            document.will_export_as(:weirder, "application/weirder")
+           document.will_export_as(:weird_dup, "application/weird")
          end
          def export_as_weird ; "weird" ; end
          def export_as_weirder ; "weirder" ; end
+         def export_as_weird_dup ; "weird_dup" ; end
       end
       MockDocument.use_extension(MockExtension)
     before(:each) do
       @doc_id = "MOCK_ID1"
       @document = MockDocument.new(:id => @doc_id)
-    end
-    it "generates <link rel=alternate> tags" do
       params[:controller] = "controller"
       params[:action] = "action"
+    end
+    it "generates <link rel=alternate> tags" do
+
 
       response = render_link_rel_alternates(@document)
 
       @document.export_formats.each_pair do |format, spec|
-        response.should have_tag("link[type=#{ spec[:content_type]  }]") do |matches|
+        response.should have_tag("link[href$=.#{ format  }]") do |matches|
           matches.length.should == 1
           tag = matches[0]
           tag.attributes["rel"].should == "alternate"
@@ -336,6 +339,15 @@ describe ApplicationHelper do
           tag.attributes["href"].should === catalog_url(@doc_id, format)
         end        
       end
+    end
+    it "respects :unique=>true" do
+      response = render_link_rel_alternates(@document, :unique => true)
+      response.should have_tag("link[type=application/weird]", :count => 1)
+    end
+    it "excludes formats from :exclude" do
+      response = render_link_rel_alternates(@document, :exclude => [:weird_dup])
+
+      response.should_not have_tag("link[href$=.weird_dup]")
     end
     
   end

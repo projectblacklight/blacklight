@@ -104,13 +104,28 @@ module ApplicationHelper
   # Create <link rel="alternate"> links from a documents dynamically
   # provided export formats. Currently not used by standard BL layouts,
   # but available for your custom layouts to provide link rel alternates.
-  def render_link_rel_alternates(document=@document)
+  #
+  # Returns empty string if no links available. 
+  #
+  # :unique => true, will ensure only one link is output for every
+  # content type, as required eg in atom. Which one 'wins' is arbitrary.
+  # :exclude => array of format shortnames, formats to not include at all.
+  def render_link_rel_alternates(document=@document, options = {})
+    options = {:unique => false, :exclude => []}.merge(options)  
+  
     return nil if document.nil?  
 
+    seen = Set.new
+    
     html = ""
     document.export_formats.each_pair do |format, spec|
-      #html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> url_for(:action => "show", :id => document[:id], :format => format, :only_path => false) }) << "\n"
-      html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
+      unless( options[:exclude].include?(format) ||
+             (options[:unique] && seen.include?(spec[:content_type]))
+             )
+        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
+        
+        seen.add(spec[:content_type]) if options[:unique]
+      end
     end
     return html
   end
