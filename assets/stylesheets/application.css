@@ -15,8 +15,8 @@ hr {border:none; height:1px; background-color:#ccc;}
 .right {float: right;}
 .clear-left {clear: left;}
 .clear-both {clear: both;}
-.topDottedBorder {border-top: 1px dotted #ccc;} 
-.bottomDottedBorder{border-bottom: 1px dotted #ccc;} 
+.topDottedBorder {border-top: 1px dotted #ccc;}
+.bottomDottedBorder{border-bottom: 1px dotted #ccc;}
 .formElement {font: 8pt Verdana, Arial, sans-serif;}
 
 /* Links */
@@ -41,7 +41,7 @@ a:hover {color: #029;}
 .yui-t2 .yui-b p {padding-top: 2em;}
 
 /* Top Banner */
-h1.site_title {background: transparent url('../images/logo.png') no-repeat top left; margin: 2em 0px 0px 1em; height: 35px; width: 120px;} 
+h1.site_title {background: transparent url('../images/logo.png') no-repeat top left; margin: 2em 0px 0px 1em; height: 35px; width: 120px;}
 .first h1 {margin: 0px; padding: 0px;}
 h1.site_title a {display:block; height: 35px; width:120px; text-indent: -9999px; overflow: hidden; text-decoration: none; border: 0px;}
 h1.site_title a:link, h1.site_title a:visited, h1.site_title a:hover, h1.site_title a:active {border: 0px;}
@@ -107,7 +107,7 @@ h3.index_title {clear: both; margin: 0px; padding: 0px; width: 460px;}
 dl {margin: 0px; padding: 0px;}
 dl.defList {overflow: auto; padding: 0.5em 0;}
 dl.defList dt {float:left; text-align: right; width: 20%; clear: both; color: #888; margin: 0; padding: 2px 1em 2px 0px;}
-dl.defList dd {text-align: left; margin: 0; padding: 2px 0;}
+dl.defList dd {float: left; text-align: left; margin: 0; padding: 2px 0; width: 450px;}
 
 /* Individual Result Listing */
 #document h1 {margin: 0px; padding: 0px 0px 1em 0px;}
@@ -207,3 +207,4 @@ ul#appliedFiltersList,
 #appliedParams a#startOverLink:hover{background-color:none;}
 #appliedParams a#startOverLink span{display:none;}
 .queryName, .filterName {padding-right:14px; background:url(../images/separator.gif) no-repeat right center;}
+
