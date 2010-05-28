@@ -1,4 +1,5 @@
 .DS_Store
+.svn
 coverage.data
 coverage/
 db/*.sqlite3
@@ -13,3 +14,4 @@ config/SolrMarc/*.log*
 solr_marc/solrmarc.log
 
 *.log
+
