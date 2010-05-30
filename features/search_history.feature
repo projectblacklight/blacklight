@@ -9,6 +9,7 @@ Feature: Search History Page
     Then I should see "Search History"
     When I follow "Search History"
     Then I should be on the search history page
+    And I should see a stylesheet
   
   Scenario: Have No Searches
     Given no previous searches

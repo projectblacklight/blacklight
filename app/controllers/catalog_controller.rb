@@ -1,7 +1,7 @@
 class CatalogController < ApplicationController
 
   include Blacklight::SolrHelper
-  
+
   before_filter :search_session, :history_session
   before_filter :delete_or_assign_search_session_params,  :only=>:index
   after_filter :set_additional_search_session_values, :only=>:index
@@ -19,24 +19,24 @@ class CatalogController < ApplicationController
   
   # get search results from the solr index
   def index
+    extra_head_content << '<link rel="alternate" type="application/rss+xml" title="RSS for results" href="'+ url_for(params.merge("format" => "rss")) + '">'
+    
     (@response, @document_list) = get_search_results
     @filters = params[:f] || []
     respond_to do |format|
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
+      format.atom { render :layout => false }
     end
   end
   
   # get single document from the solr index
   def show
-    @response, @document = get_solr_response_for_doc_id
+    @response, @document = get_solr_response_for_doc_id    
     respond_to do |format|
       format.html {setup_next_and_previous_documents}
-      format.xml  {render :xml => @document.marc.to_xml}
-      format.refworks
-      format.endnote
-
-      # Add any dynamically added (such as by document extensions)
+      
+      # Add all dynamically added (such as by document extensions)
       # export formats.
       @document.export_formats.each_key do | format_name |
         # It's important that the argument to send be a symbol;
@@ -96,6 +96,10 @@ class CatalogController < ApplicationController
   end
   # SMS action (this will only be accessed when the SMS link is clicked by a non javascript browser)
   def sms 
+    @response, @document = get_solr_response_for_doc_id
+  end
+  
+  def librarian_view
     @response, @document = get_solr_response_for_doc_id
   end
   
@@ -161,11 +165,16 @@ class CatalogController < ApplicationController
     Blacklight.config[:facet][:limits]           
   end
   helper_method :facet_limit_hash
+
+  
+  
   protected
   
   #
   # non-routable methods ->
   #
+
+  
   
   # calls setup_previous_document then setup_next_document.
   # used in the show action for single view pagination.
@@ -231,9 +240,9 @@ class CatalogController < ApplicationController
   
   
   # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
-  def rsolr_request_error
+  def rsolr_request_error(exception)
     if RAILS_ENV == "development"
-      render # will give us the stack trace
+      raise exception # Rails own code will catch and give usual Rails error page with stack trace
     else
       flash_notice = "Sorry, I don't understand your search."
       # Set the notice flag if the flash[:notice] is already set to the error that we are setting.

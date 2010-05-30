@@ -212,8 +212,9 @@ Documentation about the solrconfig.xml file is available at (http://wiki.apache.
 
 Blacklight provides schema.xml and solrconfig.xml files as starting points:
 
-  http://blacklight.rubyforge.org/svn/trunk/solr-templates/
+  http://github.com/projectblacklight/blacklight-jetty/blob/master/solr/conf/schema.xml
 
+  http://github.com/projectblacklight/blacklight-jetty/blob/master/solr/conf/solrconfig.xml
 
 =SolrMARC:  from Marc data to Solr documents
 

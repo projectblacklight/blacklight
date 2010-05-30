@@ -76,6 +76,10 @@ Then /^I should see the applied filter "([^\"]*)" with the value "([^\"]*)"$/ do
   end
 end
 
+Then /^I should see an rss discovery link/ do
+  response.should have_tag("link[rel=alternate][type=application/rss+xml]")
+end
+
 # Then /^I should see the applied filter "([^\"]*)" with the value
 # "([^\"]*)"$/ do |filter, text|
 #  response.should have_tag("div#facets div") do |node|

@@ -1,3 +1,8 @@
+## This module is DEPRECATED, and will go away. It has been replaced by
+# code using the new document extension framework. See
+# Blacklight::Solr::Document::Marc and Blacklight::Solr::Document::MarcExport
+# This code should not really be changed, or used anymore. It is frozen
+# and deprecated until removed. 
 module Blacklight::Marc::Citation
   
   def to_apa

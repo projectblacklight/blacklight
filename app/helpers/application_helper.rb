@@ -8,38 +8,124 @@ module ApplicationHelper
     'Blacklight'
   end
 
-  # Over-ride in local app if you want to specify your own
-  # stylesheets. Want to add your own stylesheets onto the defaults
-  # from plugin?
-  # def render_stylesheet_includes_with_local
-  #   render_stylesheet_includes_without_local + stylesheet_link_tag("my_stylesheet")
-  # end
-  # alias_method_chain :render_stylesheet_includes, :local
-  def render_stylesheet_includes
-    stylesheet_link_tag 'yui', 'jquery/ui-lightness/jquery-ui-1.7.2.custom.css', 'application', :plugin=>:blacklight, :media=>'all' 
+  ##
+  # This method should be included in any Blacklight layout, including
+  # custom ones. It will output results of #render_js_includes,
+  # #render_stylesheet_includes, and all the content of 
+  # current_controller#extra_head_content.
+  #
+  # Uses controller methods #extra_head_content, #javascript_includes,
+  # and #stylesheet_links to find content. Tolerates it if those
+  # methods don't exist, silently skipping. 
+  #
+  # By a layout outputting this in html HEAD, it provides an easy way for
+  # local config or extra plugins to add HEAD content.
+  # 
+  # Add your own css or remove the defaults by simply editing
+  # controller.stylesheet_links, controller.javascript_includes,
+  # or controller.extra_head_content. 
+  #
+  # 
+  #
+  # in an initializer or other startup file (plugin init.rb?):
+  #
+  # == Apply to all actions in all controllers:
+  # 
+  #   ApplicationController.before_filter do |controller|
+  #     # remove default jquery-ui theme.
+  #     controller.stylesheet_links.each do |args|
+  #       args.delete_if {|a| a =~ /^|\/jquery-ui-[\d.]+\.custom\.css$/ }
+  #     end
+  # 
+  #     # add in a different jquery-ui theme, or any other css or what have you
+  #     controller.stylesheet_links << 'my_css.css'
+  #
+  #     controller.javascript_includes << "my_local_behaviors.js"
+  #
+  #     controller.extra_head_content << '<link rel="something" href="something">'
+  #   end
+  #
+  # == Apply to a particular action in a particular controller:
+  #
+  #   CatalogController.before_filter :only => :show |controller|
+  #     controller.extra_head_content << '<link rel="something" href="something">'
+  #   end
+  #
+  # == Or in a view file that wants to add certain header content? no problem:
+  #
+  #   <%  stylesheet_links << "mystylesheet.css" %>
+  #   <%  javascript_includes << "my_js.js" %>
+  #   <%  extra_head_content << capture do %>
+  #       <%= tag :link, { :href => some_method_for_something, :rel => "alternate" } %> 
+  #   <%  end %>
+  #
+  # == Full power of javascript_include_tag and stylesheet_link_tag
+  # Note that the elements added to stylesheet_links and javascript_links
+  # are arguments to Rails javascript_include_tag and stylesheet_link_tag
+  # respectively, you can pass complex arguments. eg:
+  #
+  # stylesheet_links << ["stylesheet1.css", "stylesheet2.css", {:cache => "mykey"}]
+  # javascript_includes << ["myjavascript.js", {:plugin => :myplugin} ]
+  def render_head_content
+    render_stylesheet_includes +
+    render_js_includes +
+    ( respond_to?(:extra_head_content) ?
+        extra_head_content.join("\n") :
+      "")
   end
   
-  # Over-ride in local app if you want to specify your own
-  # js. Want to add your own stylesheets onto the defaults
-  # from plugin?
-  #def render_js_includes_with_local
-  #  render_js_includes_without_local + javascript_include_tag("my_javascript")
-  #end 
-  #alias_method_chain :render_js_includes, :local
+  ##
+  # Assumes controller has a #stylesheet_link_tag method, array with
+  # each element being a set of arguments for stylesheet_link_tag
+  # See #render_head_content for instructions on local code or plugins
+  # adding stylesheets. 
+  def render_stylesheet_includes
+    return "" unless respond_to?(:stylesheet_links)
+    
+    stylesheet_links.collect do |args|
+      stylesheet_link_tag(*args)
+    end.join("\n")
+  end
+  
+
+  ##
+  # Assumes controller has a #js_includes method, array with each
+  # element being a set of arguments for javsascript_include_tag.
+  # See #render_head_content for instructions on local code or plugins
+  # adding js files. 
   def render_js_includes
-    javascript_include_tag 'jquery-1.3.1.min.js', 'jquery-ui-1.7.2.custom.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
+    return "" unless respond_to?(:javascript_includes)    
+  
+    javascript_includes.collect do |args|
+      javascript_include_tag(*args)
+    end.join("\n")
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
   # provided export formats. Currently not used by standard BL layouts,
   # but available for your custom layouts to provide link rel alternates.
-  def render_link_rel_alternates(document=@document)
+  #
+  # Returns empty string if no links available. 
+  #
+  # :unique => true, will ensure only one link is output for every
+  # content type, as required eg in atom. Which one 'wins' is arbitrary.
+  # :exclude => array of format shortnames, formats to not include at all.
+  def render_link_rel_alternates(document=@document, options = {})
+    options = {:unique => false, :exclude => []}.merge(options)  
+  
     return nil if document.nil?  
 
+    seen = Set.new
+    
     html = ""
     document.export_formats.each_pair do |format, spec|
-      #html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> url_for(:action => "show", :id => document[:id], :format => format, :only_path => false) }) << "\n"
-      html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
+      unless( options[:exclude].include?(format) ||
+             (options[:unique] && seen.include?(spec[:content_type]))
+             )
+        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
+        
+        seen.add(spec[:content_type]) if options[:unique]
+      end
     end
     return html
   end
@@ -153,75 +239,6 @@ module ApplicationHelper
     link_to("#{query_part} #{facet_part}", catalog_index_path(params))
   end
   
-  #
-  # Export Helpers
-  #
-  def render_refworks_text(record)
-    if record.marc.marc
-      fields = record.marc.marc.find_all { |f| ('000'..'999') === f.tag }
-      text = "LEADER #{record.marc.marc.leader}"
-      fields.each do |field|
-        unless ["940","999"].include?(field.tag)
-          if field.is_a?(MARC::ControlField)
-            text << "#{field.tag}    #{field.value}\n"
-          else
-            text << "#{field.tag} "
-            text << (field.indicator1 ? field.indicator1 : " ")
-            text << (field.indicator2 ? field.indicator2 : " ")
-            text << " "
-            field.each {|s| s.code == 'a' ? text << "#{s.value}" : text << " |#{s.code}#{s.value}"}
-            text << "\n"
-          end
-        end
-      end
-      text
-    end 
-  end
-  def render_endnote_text(record)
-    end_note_format = {
-      "%A" => "100.a",
-      "%C" => "260.a",
-      "%D" => "260.c",
-      "%E" => "700.a",
-      "%I" => "260.b",
-      "%J" => "440.a",
-      "%@" => "020.a",
-      "%_@" => "022.a",
-      "%T" => "245.a,245.b",
-      "%U" => "856.u",
-      "%7" => "250.a"
-    }
-    marc = record.marc.marc
-    text = ''
-    text << "%0 #{document_partial_name(record)}\n"
-    # If there is some reliable way of getting the language of a record we can add it here
-    #text << "%G #{record['language'].first}\n"
-    end_note_format.each do |key,value|
-      values = value.split(",")
-      first_value = values[0].split('.')
-      if values.length > 1
-        second_value = values[1].split('.')
-      else
-        second_value = []
-      end
-      
-      if marc[first_value[0].to_s]
-        marc.find_all{|f| (first_value[0].to_s) === f.tag}.each do |field|
-          if field[first_value[1]].to_s or field[second_value[1]].to_s
-            text << "#{key.gsub('_','')}"
-            if field[first_value[1]].to_s
-              text << " #{field[first_value[1]].to_s}"
-            end
-            if field[second_value[1]].to_s
-              text << " #{field[second_value[1]].to_s}"
-            end
-            text << "\n"
-          end
-        end
-      end
-    end
-    text
-  end
   
   #
   # facet param helpers ->
@@ -234,7 +251,7 @@ module ApplicationHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value)) + " (" + format_num(item.hits) + ")" 
+    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select") + " (" + format_num(item.hits) + ")" 
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -363,7 +380,9 @@ module ApplicationHelper
     options = {:params => params, :omit_keys => [:page]}.merge(options)
     my_params = options[:params].dup
     options[:omit_keys].each {|omit_key| my_params.delete(omit_key)}
-
+    # removing action and controller from duplicate params so that we don't get hidden fields for them.
+    my_params.delete(:action)
+    my_params.delete(:controller)
     # hash_as_hidden_fields in hash_as_hidden_fields.rb
     return hash_as_hidden_fields(my_params)
   end
@@ -380,6 +399,18 @@ module ApplicationHelper
     link_to_document next_document, :label=>'Next >', :counter => session[:search][:counter].to_i + 1
   end
 
+  # Use case, you want to render an html partial from an XML (say, atom)
+  # template. Rails API kind of lets us down, we need to hack Rails internals 
+  # a bit. code taken from:
+  # http://stackoverflow.com/questions/339130/how-do-i-render-a-partial-of-a-different-format-in-rails
+  def with_format(format, &block)
+    old_format = @template_format
+    @template_format = format
+    result = block.call
+    @template_format = old_format
+    return result
+  end
+  
 
   # This is an updated +link_to+ that allows you to pass a +data+ hash along with the +html_options+
   # which are then written to the generated form for non-GET requests. The key is the form element name

@@ -1,40 +1,59 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 require "rake"
-
-describe 'solr:marc:index_test_data' do
-  
-  # saves original $stdout in variable
-  # set $stdout as local instance of StringIO
-  # yields to code execution
-  # returns the local instance of StringIO
-  # resets $stout to original value
-  def capture_stdout
-    out = StringIO.new
-    $stdout = out
-    yield
-    return out.string
-  ensure
-    $stdout = STDOUT
-  end
-  
-  before do
-    @rake = Rake::Application.new
-    Rake.application = @rake
-    Rake.application.rake_require "lib/tasks/solr_marc"
-    Rake::Task.define_task(:environment)
-  end
-  
-  it 'should only print the java command when using NOOP=true' do
-    root = Rails.root
-    expected = "java -Xmx512m -Dsolr.indexer.properties=#{root}/config/SolrMarc/index.properties -Done-jar.class.path=#{root}/jetty/webapps/solr.war -Dsolr.path=#{root}/jetty/solr -jar #{root}/solr_marc/SolrMarc.jar #{root}/config/SolrMarc/config.properties #{root}/data/test_data.utf8.mrc"
-    ENV['NOOP'] = "true"
-    o = capture_stdout do
-      puts 'BEFORE >>>'
-      @rake['solr:marc:index_test_data'].invoke
-      puts '<<< AFTER'
+describe "solr:marc:*" do
+    # saves original $stdout in variable
+    # set $stdout as local instance of StringIO
+    # yields to code execution
+    # returns the local instance of StringIO
+    # resets $stout to original value
+    def capture_stdout
+      out = StringIO.new
+      $stdout = out
+      yield
+      return out.string
+    ensure
+      $stdout = STDOUT
     end
-    o.should match(Regexp.escape(expected))
+    
+    before do
+      @rake = Rake::Application.new      
+      Rake.application = @rake
+      Rake.application.rake_require "lib/tasks/solr_marc"
+      Rake::Task.define_task(:environment)
+    end
+   
+
+  describe 'solr:marc:index_test_data' do        
+    it 'should print out usage using NOOP=true' do
+      root = Rails.root
+      ENV['NOOP'] = "true"
+      o = capture_stdout do      
+        @rake['solr:marc:index_test_data'].invoke      
+      end
+      
+      o.should match(Regexp.escape("SolrMarc command that will be run:"))
+    end    
   end
+
+  describe "solr:marc:index" do
+    it "should produce proper java command" do
+      # can NOT figure out how to actually run solr:marc:index and trap
+      # it's backtick system call. So we'll run solr:marc:index:info and
+      # just test it's dry run output
+      ENV["MARC_FILE"] = "dummy.mrc"
+      output = capture_stdout do
+        @rake['solr:marc:index:info'].invoke
+      end
+      output =~ /SolrMarc command that will be run:\n\s*\n\s*(.*)\n/
+      java_cmd = $1
+      
+      java_cmd.should_not be_nil
+      java_cmd.should == "java -Xmx512m  -jar #{Rails.root}/solr_marc/SolrMarc.jar #{Rails.root}/config/SolrMarc/config-test.properties dummy.mrc -Dsolr.hosturl=http://127.0.0.1:8888/solr"
+    end
+  
+  end
+
+  
   
 end

@@ -1,4 +1,6 @@
 <% @page_title = "#{document_show_html_title} - #{application_name}" %>
+<% extra_head_content << render_link_rel_alternates %>
+    
 
 <%= render 'constraints', :localized_params=>session[:search] %>
 
@@ -31,18 +33,12 @@
 
 <%= render :partial=>'solr_request' %>
 
-<% if @document.marc %>
-  <%= @document.marc.to_zotero(document_partial_name(@document)) %>
-  <div class="lightboxContent" id="citation" style="display:none;">
-    <%= render 'citation' %>
-  </div>
-  <div class="lightboxContent" id="email" style="display:none;">
-    <%= render 'email_form' %>
-  </div>
-  <div class="lightboxContent" id="sms" style="display:none;">
-    <%= render 'sms_form' %>
-  </div>
-  <div class="lightboxContent" id="librarian_view" style="display:none;">
-    <%= render "marc_view" %>	
-  </div>
-<% end %>
+
+  <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
+    <!-- 
+         // COinS, for Zotero among others. 
+         // This document_partial_name(@document) business is not quite right,
+         // but has been there for a while. 
+    -->
+    <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_partial_name(@document)) %>"></span>
+  <% end %>

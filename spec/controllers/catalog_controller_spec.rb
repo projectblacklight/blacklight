@@ -25,7 +25,9 @@ describe CatalogController do
     it "should map {:controller => 'catalog', :id => '222', :action => 'availability'} to /catalog/222/availability" do
       route_for(:controller => 'catalog', :action => 'availability', :id => '222').should == '/catalog/222/availability'
     end
-
+    it "should map {:controller => 'catalog', :id => '111', :action => 'librarian_view'} to /catalog/111/librarian_view" do
+      route_for(:controller => 'catalog', :action => 'librarian_view', :id => '111').should == '/catalog/111/librarian_view'
+    end
   end
 
   # parameters generated from routes
@@ -48,8 +50,12 @@ describe CatalogController do
     it "should map /catalog/222/availability to {:controller => 'catalog', :action => 'availability', :id => 222}" do
       params_from(:get, '/catalog/222/availability').should == {:controller => 'catalog', :action => 'availability', :id => '222'}
     end
+    it "should map /catalog/111/librarian_view to {:controller => 'catalog', :action => 'librarian_view', :id => 111}" do
+      params_from(:get, '/catalog/111/librarian_view').should == {:controller => 'catalog', :action => 'librarian_view', :id => '111'}
+    end
   end
 
+  
 
   # INDEX ACTION
   describe "index action" do
@@ -291,13 +297,15 @@ describe CatalogController do
         response.flash[:error].should == "You must enter a valid email address"
       end
       it "should not give error if no Message paramater is set" do
-        post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
-        response.flash[:error].should be_nil
+        pending() # see CODEBASE-227 
+        #post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
+        #response.flash[:error].should be_nil
       end
       it "should redirect back to the record upon success" do
-        post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
-        response.flash[:error].should be_nil
-        response.should redirect_to(catalog_path(doc_id))
+        pending() # see CODEBASE-227
+        #post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
+        #response.flash[:error].should be_nil
+        #response.should redirect_to(catalog_path(doc_id))
       end
     end
     describe "sms" do
@@ -314,9 +322,10 @@ describe CatalogController do
         response.flash[:error].should == "You must enter a valid 10 digit phone number"
       end
       it "should redirect back to the record upon success" do
-        post :send_email_record, :id => doc_id, :style => 'sms', :to => '5555555555', :carrier => 'att'
-        response.flash[:error].should be_nil
-        response.should redirect_to(catalog_path(doc_id))
+        pending() # see CODEBASE-227
+        #post :send_email_record, :id => doc_id, :style => 'sms', :to => '5555555555', :carrier => 'att'
+        #response.flash[:error].should be_nil
+        #response.should redirect_to(catalog_path(doc_id))
       end
     end
   end

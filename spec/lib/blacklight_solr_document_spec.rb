@@ -41,6 +41,16 @@ describe "Blacklight::Solr::Document" do
         doc.methods.find {|name| name =="my_extension_method"}.should_not be_nil
         doc.my_extension_method.should == "my_extension_results"
       end
+      it "should apply an extension based on a Solr field" do
+        MockDocument.use_extension(MockExtension) {|doc| doc.key?(:required_key)}
+
+        with_extension = MockDocument.new(:required_key => "value")
+        with_extension.my_extension_method.should == "my_extension_results"
+
+        without_extension = MockDocument.new(:other_key => "value")
+        without_extension.methods.find {|name| name == "my_extension_method"}.should be_nil
+        
+      end
       it "should not apply an extension whose condition is not met" do
         MockDocument.use_extension(MockExtension) {|doc| false}
         doc = MockDocument.new()
@@ -129,7 +139,35 @@ describe "Blacklight::Solr::Document" do
       end
     end
 
-    
+    context "to_semantic_fields" do
+      class MockDocument
+          include Blacklight::Solr::Document                        
+      end
+      before do
+        MockDocument.field_semantics.merge!( :title => "title_field", :author => "author_field", :something => "something_field" )
+        
+        @doc1 = MockDocument.new( 
+           "title_field" => "doc1 title",
+           "something_field" => ["val1", "val2"],
+           "not_in_list_field" => "weird stuff" 
+         )
+      end
+
+      it "should return complete dictionary based on config'd fields" do        
+        @doc1.to_semantic_values.should == {:title => ["doc1 title"], :something => ["val1", "val2"]}
+      end      
+      it "should return empty array for a key without a value" do
+        @doc1.to_semantic_values[:author].should == []
+        @doc1.to_semantic_values[:nonexistent_token].should == []
+      end
+      it "should return an array even for a single-value field" do
+        @doc1.to_semantic_values[:title].should be_kind_of(Array)
+      end
+      it "should return complete array for a multi-value field" do
+        @doc1.to_semantic_values[:something].should == ["val1", "val2"] 
+      end
+      
+    end
 
     
 end

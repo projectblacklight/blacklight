@@ -5,3 +5,7 @@ Then /^I (should|should not) see an? "([^\"]*)" element containing "([^\"]*)"$/ 
     response.should_not have_selector("#{elem}",:content => content)
   end
 end
+
+Then /^I should see link rel=alternate tags/ do
+  response.should have_tag("link[rel=alternate]")
+end

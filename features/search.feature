@@ -11,6 +11,7 @@ Feature: Search
     And I should see a "search" button
     And I should not see the "startOverLink" element
     And I should see "Welcome!"
+    And I should see a stylesheet
   
   Scenario: Search Page's type of search ("fielded search") choices
     When I am on the home page
@@ -22,6 +23,7 @@ Feature: Search
     And I select "All Fields" from "search_field"
     And I press "search"
     Then I should be on "the catalog page"
+    And I should see an rss discovery link
     And I should see "You searched for:"
     And I should see "All Fields"
     And I should see "history"
@@ -32,6 +34,7 @@ Feature: Search
     And I should see "2."
     And I should see "3."
     And I should see "Sort by"
+    
 
   Scenario: Submitting a Search with specific field selected
     When I am on the home page
