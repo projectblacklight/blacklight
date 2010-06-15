@@ -21,6 +21,18 @@ module Blacklight::SolrHelper
   # is not successful, raise this:
   class InvalidSolrID < RuntimeError; end
 
+  # A helper method used for generating solr LocalParams, put quotes
+  # around the term unless it's a bare-word. Escape internal quotes
+  # if needed. 
+  def solr_param_quote(val, options = {})
+    options[:quote] ||= '"'
+    unless val =~ /^[a-zA-Z$_\-\^]+$/
+      val = options[:quote] + 
+        val.gsub("'", "\\\'").gsub('"', "\\\"") + 
+        options[:quote]
+    end
+    return val
+  end
 
  # returns a params hash for searching solr.
   # The CatalogController #index action uses this.
@@ -52,7 +64,6 @@ module Blacklight::SolrHelper
     #   of the solr request handler OR in Blacklight. If you don't want them
     #   in blacklight, just leave don't fill out the config.
     ####
-
     solr_parameters = {
       :qt => Blacklight.config[:default_qt],
       :facets => Blacklight.config[:facet][:field_names].clone,
@@ -114,6 +125,9 @@ module Blacklight::SolrHelper
     ###
     solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df )   )
 
+
+
+
     
     ###
     # Defaults for otherwise blank values and normalization. 
@@ -146,6 +160,17 @@ module Blacklight::SolrHelper
     facet_limit_hash.each_pair do |field_name, limit|
       next if field_name.nil? # skip the 'default' key      
       solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
+    end
+
+    ##
+    # Merge in search-field-specified LocalParams into q param in
+    # solr LocalParams syntax
+    ##
+    if (search_field_def && hash = search_field_def[:solr_local_parameters])
+      local_params = hash.collect do |key, val|
+        key.to_s + "=" + solr_param_quote(val, :quote => "'")
+      end.join(" ")
+      solr_parameters[:q] = "{!#{local_params}} #{solr_parameters[:q]}"
     end
     
     
