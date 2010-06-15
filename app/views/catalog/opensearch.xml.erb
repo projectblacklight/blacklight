@@ -4,7 +4,8 @@
   <Description><%= application_name %> Search</Description>
   <Image height="16" width="16" type="image/x-icon">/favicon.ico</Image>
   <Contact/>
-  <Url type="text/html" method="get" template="<%= url_for :controller=>'catalog', :only_path => false %>?q={searchTerms}&amp;qt=search&amp;per_page=10"/>
+  <Url type="text/html" method="get" template="<%= url_for :controller=>'catalog', :only_path => false %>?q={searchTerms}"/>
   <Url type="application/rss+xml" method="get" template="<%= url_for :controller=>'catalog', :only_path => false %>.rss?q={searchTerms}"/>
+  <Url type="application/atom+xml" method="get" template="<%= url_for :controller=>'catalog', :only_path => false %>.atom?q={searchTerms}"/>
   <Url type="application/x-suggestions+json" method="get" template="<%= url_for :controller=>'catalog',:action => 'opensearch', :format=> 'json', :only_path => false %>?q={searchTerms}"/>
 </OpenSearchDescription>
