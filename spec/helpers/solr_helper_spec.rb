@@ -228,6 +228,52 @@ describe 'Blacklight::SolrHelper' do
         
       end
     end
+
+    describe "for :solr_local_parameters config" do
+      before do
+        # Hack to test with our own custom config specified here
+        @orig_blacklight = Blacklight
+        Object.instance_eval{ remove_const :Blacklight }
+        Blacklight = @orig_blacklight.clone
+        Blacklight.unmemoize_all
+        Blacklight.instance_variable_set("@config", {}.deep_merge(@orig_blacklight.config))
+        
+        Blacklight.config[:search_fields] = [       
+          { :display_label => "Author",
+            :qt => "author_qt",
+            :key => "author_key",
+            :solr_local_parameters => {
+              :qf => "$author_qf",
+              :pf => "you'll have \" to escape this"
+            },
+            :solr_parameters => {
+              :qf => "someField^1000",
+              :ps => "2"
+            }
+          }              
+        ]
+
+        @solr_helper = MockSolrHelperContainer.new
+        @solr_helper.params = {:search_field => "author_key", :q => "query"}
+        @result = @solr_helper.solr_search_params
+      end   
+         
+      it "should pass through ordinary params" do
+        @result[:qt].should == "author_qt"
+        @result[:ps].should == "2"
+        @result[:qf].should == "someField^1000"
+      end
+      
+      it "should include include local params with escaping" do
+        @result[:q].should == '{!qf=$author_qf pf=\'you\\\'ll have \\" to escape this\'} query'                        
+      end
+
+      after do
+        Object.instance_eval{ remove_const :Blacklight }
+        Blacklight = @orig_blacklight
+      end
+    end
+    
  end
     
   describe "solr_facet_params" do
