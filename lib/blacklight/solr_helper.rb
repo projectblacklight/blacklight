@@ -27,8 +27,9 @@ module Blacklight::SolrHelper
   def solr_param_quote(val, options = {})
     options[:quote] ||= '"'
     unless val =~ /^[a-zA-Z$_\-\^]+$/
-      val = options[:quote] + 
-        val.gsub("'", "\\\'").gsub('"', "\\\"") + 
+      val = options[:quote] +
+        # Yes, we need crazy escaping here, to deal with regexp esc too!
+        val.gsub("'", "\\\\\'").gsub('"', "\\\\\"") + 
         options[:quote]
     end
     return val
