@@ -182,6 +182,9 @@ Blacklight.configure(:shared) do |config|
 
   # "fielded" search configuration. Used by pulldown among other places.
   # For supported keys in hash, see rdoc for Blacklight::SearchFields
+  # Note additional solr_parameters on a per-search-field basis can be given
+  # with :solr_parameters and :solr_local_parameters (the latter for $param
+  # solr LocalParams that can reference other params). 
   config[:search_fields] ||= []
   config[:search_fields] << {:display_label => 'All Fields', :qt => 'search'}
   config[:search_fields] << {:display_label => 'Title', :qt => 'title_search'}
