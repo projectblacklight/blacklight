@@ -14,7 +14,8 @@ describe Blacklight::SearchFields do
                            {:display_label => 'Subject', :qt=> 'subject_search'},
                            ['Legacy Config', 'legacy_qt'],
                            {:display_label => "No Display", :qt=>"something", :include_in_simple_select => false}
-                          ]
+                          ],
+        :default_qt => "search"
       }
     end
     

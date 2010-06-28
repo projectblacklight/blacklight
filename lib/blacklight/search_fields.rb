@@ -52,7 +52,7 @@ module Blacklight::SearchFields
   # Returns default search field, used for simpler display in history, etc.
   # if not set in config, defaults to first field listed in #search_field_list
   def default_search_field
-    Blacklight.config[:default_search_field] || search_field_list[0]
+    config[:default_search_field] || search_field_list[0]
   end
   memoize :default_search_field
 
@@ -88,7 +88,7 @@ module Blacklight::SearchFields
     field_hash[:key] ||= field_hash[:display_label].downcase.gsub(/[^a-z0-9]+/,'_')
 
     # If no :qt was provided, take from config default
-    field_hash[:qt] ||= Blacklight.config[:default_qt]
+    field_hash[:qt] ||= config[:default_qt]
   
     field_hash
   end
