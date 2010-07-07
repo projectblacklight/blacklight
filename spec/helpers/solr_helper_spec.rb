@@ -265,7 +265,8 @@ describe 'Blacklight::SolrHelper' do
       end
       
       it "should include include local params with escaping" do
-        @result[:q].should == '{!qf=$author_qf pf=\'you\\\'ll have \\" to escape this\'} query'                        
+        @result[:q].should include('qf=$author_qf')
+        @result[:q].should include('pf=\'you\\\'ll have \\" to escape this\'')
       end
 
       after do
