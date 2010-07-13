@@ -2,31 +2,8 @@
 <div id="facets" class="facets">
   <h2>Limit your search</h2>
   <% facet_field_names.each do |solr_fname| %>
-    <div>
-      <% display_facet = @response.facets.detect {|f| f.name == solr_fname} -%>
-      <% if display_facet.items.length > 0 %>
-        <h3><%= facet_field_labels[solr_fname] -%></h3>
-        <ul>
-          <% paginator =    
-              Blacklight::Solr::FacetPaginator.new(display_facet.items,        
-                :limit => facet_limit_for(solr_fname))
-          %>
-          <% paginator.items.each do |item| -%>
-            <li>
-            <% if facet_in_params?( solr_fname, item.value ) %>              
-                <%= render_selected_facet_value(solr_fname, item) %>              
-              <% else %>              
-                <%= render_facet_value(solr_fname, item) %>              
-            <% end -%>
-            </li>
-          <% end %>
-          
-          <% if(paginator.has_next?)  %>
-            <li class="more_facets_link"><%= link_to('more »', params.merge(:id => solr_fname, :action=>"facet"), :class => "more_facets_link") %></li>
-          <% end %>
-          
-        </ul>
-      <% end %>
+    <div class="facet_limit">
+      <%= render_facet_limit(solr_fname) %>
     </div>
   <% end %>
 </div>

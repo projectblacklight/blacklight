@@ -148,6 +148,14 @@ module ApplicationHelper
   def facet_field_names
     Blacklight.config[:facet][:field_names]
   end
+
+  # used in the catalog/_facets partial and elsewhere
+  # Renders a single section for facet limit with a specified
+  # solr field used for faceting. Can be over-ridden for custom
+  # display on a per-facet basis. 
+  def render_facet_limit(solr_field)
+    render( :partial => "catalog/facet_limit", :locals => {:solr_field =>solr_field })
+  end
   
   # used in the catalog/_index_partials/_default view
   def index_field_names
