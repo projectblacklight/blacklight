@@ -1,5 +1,5 @@
 module CatalogHelper
-  
+  include RenderConstraintsHelper
   #
   	# shortcut for built-in Rails helper, "number_with_delimiter"
   	#

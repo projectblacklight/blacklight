@@ -1,0 +1,29 @@
+<%- # local params:
+    # label 
+    # value
+    # options =>
+    #   :remove => url for a remove constraint link
+    #   :classes => array of classes to add to container span
+    #   :check => false to not output checkmark. default true.
+    options ||= {}
+    options[:check] = true unless options.has_key?(:check)
+-%>
+
+<span class="appliedFilter constraint #{options[:classes].join}">
+      <%- unless label.blank? -%>
+        <span class="filterName"><%= h(label) %></span> 
+      <%- end -%>
+      <%- unless value.blank? -%>
+        <span class="filterValue"><%= h(value) %></span>
+      <%- end -%>
+      <%- unless options[:remove].blank? -%>
+        <%= link_to('',
+					options[:remove],
+					:class=>'btnRemove imgReplace',
+          :alt=>'remove'
+				) %>
+      <%- end -%>
+      <% if options[:check] %>
+        <%= image_tag("checkmark.gif", :alt=>"", :plugin=>'blacklight') %>
+      <% end %>
+</span>
