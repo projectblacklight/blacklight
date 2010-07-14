@@ -2,8 +2,7 @@
 
 	<h3>You searched for:<%= image_tag "magnifying_glass.gif", :alt=>"search icon", :plugin=>'blacklight' %></h3>
   
-  <%= render_constraints_query(localized_params) %>
-  <%= render_constraints_filters(localized_params) %>
+  <%= render_constraints(localized_params) %>  
 	
 	<div>
 		<% if params[:action] == 'index' %>
