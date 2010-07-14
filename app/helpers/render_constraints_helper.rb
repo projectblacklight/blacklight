@@ -1,5 +1,10 @@
+# All methods in here are 'api' that may be over-ridden by plugins and local
+# code, so method signatures and semantics should not be changed casually.
+# implementations can be of course. 
 module RenderConstraintsHelper
 
+  # Render actual constraints, not including header or footer
+  # info. 
   def render_constraints(localized_params = params)
     render_constraints_query(localized_params) + render_constraints_filters(localized_params)
   end
