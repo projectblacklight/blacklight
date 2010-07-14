@@ -210,12 +210,14 @@ class CatalogController < ApplicationController
     @searches = searches_from_history # <- in ApplicationController
   end
   
-  # This method will remove certain params from the session[:search] hash
-  # if the values are blank? (nil or empty string)
-  # if the values aren't blank, they are saved to the session in the :search hash.
+  # This method copies request params to session[:search], omitting certain
+  # known blacklisted params not part of search, omitting keys with blank
+  # values. All keys in session[:search] are as symbols rather than strings. 
   def delete_or_assign_search_session_params
-    [:q, :qt, :search_field, :f, :per_page, :page, :sort].each do |pname|
-      params[pname].blank? ? session[:search].delete(pname) : session[:search][pname] = params[pname]
+    session[:search] ||= {}
+    params.each_pair do |key, value|
+      session[:search][key.to_sym] = value unless ["commit", "counter"].include?(key.to_s) ||
+      value.blank?
     end
   end
   

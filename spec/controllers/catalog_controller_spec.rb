@@ -140,6 +140,13 @@ describe CatalogController do
         session[:search].keys.should include(:page)
         session[:search][:page].should == "2"
       end
+      it "should include search hash with random key" do
+        # cause a plugin might add an unpredictable one, we want to preserve it. 
+        get :index, :some_weird_key => "value"
+        session[:search].should_not be_nil
+        session[:search].keys.should include(:some_weird_key)
+        session[:search][:some_weird_key].should == "value"
+      end
     end
 
     # check with no user manipulation
