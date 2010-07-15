@@ -6,7 +6,7 @@
     <%= link_to "Clear Search History", clear_search_history_path, :method => :delete, :confirm => "Clear your search history?" %>
   </p>
   <h2>Your recent searches</h2>
-  <table class="zebra">
+  <table class="zebra search_history">
   <%-  @searches.each_with_index do |search,index| -%>
     <% content_tag :tr, :id => "document_#{index + 1}" do %>
       <td class="query"><%= link_to_previous_search(search.query_params) %></td>
