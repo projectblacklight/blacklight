@@ -149,6 +149,16 @@ describe CatalogController do
       end
     end
 
+    describe "with index action with arbitrary key" do
+      before(:each) do
+         session[:history] = []
+         get :index, :arbitrary_key_from_plugin => "value"
+      end
+      it "should save search history" do
+        session[:history].length.should_not == 0
+      end
+    end
+    
     # check with no user manipulation
     describe "for default query" do
       it "should get documents when no query" do

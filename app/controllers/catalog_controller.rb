@@ -223,8 +223,11 @@ class CatalogController < ApplicationController
   
   # Saves the current search (if it does not already exist) as a models/search object
   # then adds the id of the serach object to session[:history]
-  def save_current_search_params
-    return if search_session[:q].blank? && search_session[:f].blank?
+  def save_current_search_params    
+    # If it's got anything other than controller, action, total, we
+    # consider it an actual search to be saved. Can't predict exactly
+    # what the keys for a search will be, due to possible extra plugins. 
+    return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == [] 
     params_copy = search_session.clone # don't think we need a deep copy for this
     params_copy.delete(:page)
     unless @searches.collect { |search| search.query_params }.include?(params_copy)
