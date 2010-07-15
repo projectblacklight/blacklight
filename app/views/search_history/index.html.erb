@@ -15,7 +15,7 @@
       <%- else -%>
         <%= link_to "save", save_saved_search_path(search.id), :method => :put %>
       <%- end #search.saved? -%></td>
-      <td class="actions"><%= link_to "delete", search_history_path(index), :method => :delete, :confirm => "Delete item?" %></td>
+      <td class="actions"><%= link_to "delete", search_history_path(search.id), :method => :delete, :confirm => "Delete item?" %></td>
     <% end #content_tag %>
   <%- end -%>
   </table>

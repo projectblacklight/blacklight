@@ -26,4 +26,20 @@ describe SearchHistoryController do
     end
   end
 
+  describe "destroy" do
+    it "should delete the search by id from the search history not by array index" do
+      session[:history] = [1,2,2]
+      request.env["HTTP_REFERER"] = "/search_history"
+      get :destroy, :id=>1
+      session[:history].length.should == 2
+    end
+    it "should return a flash error if an id that is not in the users search history is deleted" do
+      session[:history] = [1,2,3]
+      request.env["HTTP_REFERER"] = "/search_history"
+      get :destroy, :id=>4
+      response.flash[:error].should_not == ""
+    end
+    
+  end
+
 end
