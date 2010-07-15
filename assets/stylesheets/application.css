@@ -62,7 +62,7 @@ th, td {border: 0;}
 #facets {font-size: 93%; padding: 1em 0 0 1em;}
 #facets h2 {color: #555;}
 #facets h3 {margin-bottom: 0; color:#555; font-weight:normal; text-align:justify; cursor: pointer;}
-#facets ul {border-bottom: 1px dotted #ccc; padding-bottom: 1em; margin:0;}
+#facets ul, #facets h3 +div {border-bottom: 1px dotted #ccc; padding-bottom: 1em; margin:0;}
 #facets li {list-style:none; margin: .3em 0;}
 #facets li a:hover {background-color: #eee;}
 #facets li a.remove {color: #666;}
