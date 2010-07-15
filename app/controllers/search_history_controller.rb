@@ -5,7 +5,7 @@ class SearchHistoryController < ApplicationController
   
   #TODO we may want to remove unsaved (those without user_id) items from the database when removed from history
   def destroy
-    if session[:history].delete_at(params[:id].to_i)
+    if session[:history].delete(params[:id].to_i)
       flash[:notice] = "Successfully removed that search history item."
     else
       flash[:error] = "Couldn't remove that search history item."
