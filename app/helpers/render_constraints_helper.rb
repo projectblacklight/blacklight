@@ -1,6 +1,11 @@
 # All methods in here are 'api' that may be over-ridden by plugins and local
 # code, so method signatures and semantics should not be changed casually.
-# implementations can be of course. 
+# implementations can be of course.
+#
+# Includes methods for rendering contraints graphically on the
+# search results page (render_constraints(_*)), and also
+# for rendering more textually on Search History page
+# (render_search_to_s(_*))
 module RenderConstraintsHelper
 
   # Render actual constraints, not including header or footer
@@ -53,6 +58,53 @@ module RenderConstraintsHelper
   #    can be an array of classes to add to container span for constraint. 
   def render_constraint_element(label, value, options = {})
     render(:partial => "catalog/constraints_element", :locals => {:label => label, :value => value, :options => options})    
+  end
+
+
+  # Simpler textual version of constraints, used on Search History page.
+  # Theoretically can may be DRY'd up with results page render_constraints,
+  # maybe even using the very same HTML with different CSS? 
+  # But too tricky for now, too many changes to existing CSS. TODO.  
+  def render_search_to_s(params)
+    render_search_to_s_q(params) +
+    render_search_to_s_filters(params)
+  end
+
+  def render_search_to_s_q(params)
+    return "" if params[:q].blank?
+    
+    label = (params[:search_field] == Blacklight.default_search_field[:key]) ? 
+      nil :
+      Blacklight.label_for_search_field(params[:search_field])
+    
+    render_search_to_s_element(label , params[:q] )        
+  end
+  def render_search_to_s_filters(params)
+    return "" unless params[:f]
+
+    params[:f].collect do |facet_field, value_list|
+      render_search_to_s_element(Blacklight.config[:facet][:labels][facet_field],
+        value_list.collect do |value|
+          "<span class='filterValue'>#{h(value)}</span>"
+        end.join(" <span class='label'>and</span> "),
+        :escape_value => false
+      )    
+    end.join(" \n ")    
+  end
+
+  # value can be Array, in which case elements are joined with
+  # 'and'.   Pass in option :escape_value => false to pass in pre-rendered
+  # html for value. key with escape_key if needed.  
+  def render_search_to_s_element(key, value, options = {})
+    options[:escape_value] = true unless options.has_key?(:escape_value)
+    options[:escape_key] = true unless options.has_key?(:escape_key)
+    
+    key = h(key) if options[:escape_key]
+    value = h(value) if options[:escape_value]
+    
+     "<span class='constraint'>" +
+     (key.blank? ? "" : "<span class='filterName'>#{key}:</span>")  +
+     "<span class='filterValue'>#{value}</span></span>"
   end
   
 end

@@ -3,6 +3,8 @@
 #
 module ApplicationHelper
   include HashAsHiddenFields
+  include RenderConstraintsHelper
+
   
   def application_name
     'Blacklight'
@@ -225,26 +227,7 @@ module ApplicationHelper
   
   # Search History and Saved Searches display
   def link_to_previous_search(params)
-    query_part = case
-                   when params[:q].blank?
-                     ""
-                   when (params[:search_field] == Blacklight.default_search_field[:key])
-                     params[:q]
-                   else
-                     "#{Blacklight.label_for_search_field(params[:search_field])}:(#{params[:q]})"
-                 end      
-    
-    facet_part = 
-    if params[:f]
-      tmp = 
-      params[:f].collect do |pair|
-        "#{Blacklight.config[:facet][:labels][pair.first]}:#{pair.last}"
-      end.join(" AND ")
-      "{#{tmp}}"
-    else
-      ""
-    end
-    link_to("#{query_part} #{facet_part}", catalog_index_path(params))
+    link_to(render_search_to_s(params), catalog_index_path(params))
   end
   
   
