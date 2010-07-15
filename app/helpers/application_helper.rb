@@ -3,6 +3,8 @@
 #
 module ApplicationHelper
   include HashAsHiddenFields
+  include RenderConstraintsHelper
+
   
   def application_name
     'Blacklight'
