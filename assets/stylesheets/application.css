@@ -118,6 +118,36 @@ dl.defList dd {float: left; text-align: left; margin: 0; padding: 2px 0; width: 
 #marc_view .field {clear:both; border-bottom:1px solid #CCCCCC;}
 #librarian_view{top:10%;left:-17%;text-align:left;width:700px;} /* Lightbox element */
 
+/* Search History */
+.search_history .query > a {
+  display: block;
+  border-bottom: none;
+}
+.search_history .constraint {
+  display: block;
+  text-indent: -2em;
+  padding-left: 2em;
+}
+
+.search_history .constraint .search {
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
+
+.search_history td {
+  vertical-align: top; 
+}
+
+.search_history .filterName, .search_history .label {
+  color: gray; 
+}
+.search_history .constraint {
+    margin-right: 2em;
+}
+.search_history .constraint:last-child {
+  margin-right: 0;
+}
+
 /* FORMS */
 form div.row label {float:left; width:120px; text-align:right; margin-right: .5em;}
 form div.row {clear:both; margin-bottom:.5em;}
@@ -206,5 +236,5 @@ ul#appliedFiltersList,
 #appliedParams a#startOverLink{display:block; position:absolute; top:50%; right:0px; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center;}
 #appliedParams a#startOverLink:hover{background-color:none;}
 #appliedParams a#startOverLink span{display:none;}
-.queryName, .filterName {padding-right:14px; background:url(../images/separator.gif) no-repeat right center;}
+.appliedFilter .queryName, .appliedFilter .filterName {padding-right:14px; background:url(../images/separator.gif) no-repeat right center;}
 
