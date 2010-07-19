@@ -5,7 +5,7 @@
     <%= label_tag(:search_field, " in ") %>
     <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => "Targeted search options", :class=>"search_field") %>
     
-    <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt]) %>        
+    <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]) %>        
     
     <%= submit_tag 'search', :class=>'submit' %>
   <% end %>
