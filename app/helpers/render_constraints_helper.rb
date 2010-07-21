@@ -48,14 +48,17 @@ module RenderConstraintsHelper
   # Can be over-ridden locally to render differently if desired,
   # although in most cases you can just change CSS instead.
   #
-  # label and value will be HTML-escaped, pass in raw.
   # Can pass in nil label if desired.
   #
   # options:
   # [:remove]
   #    url to execute for a 'remove' action  
   # [:classes] 
-  #    can be an array of classes to add to container span for constraint. 
+  #    can be an array of classes to add to container span for constraint.
+  # [:escape_label]
+  #    default true, HTML escape.
+  # [:escape_value]
+  #    default true, HTML escape. 
   def render_constraint_element(label, value, options = {})
     render(:partial => "catalog/constraints_element", :locals => {:label => label, :value => value, :options => options})    
   end

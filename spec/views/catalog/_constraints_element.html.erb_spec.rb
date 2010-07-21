@@ -50,4 +50,16 @@ describe "catalog/_constraints_element.html.erb" do
     end
   end
 
+  describe "with no escaping" do
+    before do
+      render( :partial => "catalog/constraints_element", :locals => {:label => "<span class='custom_label'>my label</span>", :value => "<span class='custom_value'>my value</span>", :options => {:escape_label => false, :escape_value => false}} )
+    end
+    it "should not escape key and value" do
+      response.should have_tag("span.appliedFilter.constraint span.filterName span.custom_label")
+      response.should have_tag("span.appliedFilter.constraint span.filterValue span.custom_value")
+    end
+
+  end
+ 
+
 end
