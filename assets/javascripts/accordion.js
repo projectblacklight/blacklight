@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#facets ul, #facets h3 + div').each(function(){
+    $('#facets h3').next("ul, div").each(function(){
    var f_content = $(this);
    // find all f_content's that don't have any span descendants with a class of "selected"
    if($('span.selected', f_content).length == 0){
