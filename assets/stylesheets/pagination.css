@@ -1,5 +1,5 @@
 .pagination {
-  background: white;
+/*  background: white;*/
   /* self-clearing method: */ }
   .pagination a, .pagination span {
     padding: .2em .5em;
@@ -43,4 +43,8 @@
     height: 1%; }
   *:first-child+html .pagination {
     overflow: hidden; }
+/*more facets */
+.sort_options {
+    float: right;
+}
 

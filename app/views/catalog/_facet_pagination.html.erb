@@ -1,15 +1,30 @@
   <% if @pagination.has_previous? || @pagination.has_next? %>
     <div class="prev_next_links">
-      <span class="prev_link"><%= link_to_if(@pagination.has_previous?, '« Previous', catalog_facet_path( @pagination.params_for_previous_url( params) ) , :class=>:"prev_page")  %></span> 
-          
-      <span class="next_link"><%= link_to_if(@pagination.has_next?, 'Next »', catalog_facet_path( @pagination.params_for_next_url(params)), :class => "next_page" ) %></span>
+      <% if @pagination.has_previous? -%>        
+        <%= link_to('« Previous', catalog_facet_path( @pagination.params_for_previous_url( params) ) , :class=>:prev_page)  %>
+      <% else -%>
+        <span class="disabled prev_page">« Previous</span> 
+      <% end -%>
+      
+      <% if @pagination.has_next? -%>
+        <%= link_to('Next »', catalog_facet_path( @pagination.params_for_next_url(params)), :class => :next_page ) %>
+      <% else -%>
+        <span class="disabled next_page">Next »</span> 
+      <% end -%>
+               
     </div>
   <% end %>
 
   <div class="sort_options">
-    <%=  link_to_unless(@pagination.sort == 'index', "A-Z Sort", @pagination.params_for_resort_url('index', params), :class => "sort_change") %> 
-    |
-    <%= link_to_unless(@pagination.sort == 'count', "Numerical Sort", @pagination.params_for_resort_url('count', params), :class => "sort_change") %>
+    <% if @pagination.sort == 'index' -%>
+      <span class="disabled">A-Z Sort</span>
+      <%= link_to_unless(@pagination.sort == 'count', "Numerical Sort", 
+        @pagination.params_for_resort_url('count', params), :class => "sort_change") %>
+    <% elsif @pagination.sort == 'count' -%>
+      <%=  link_to("A-Z Sort", @pagination.params_for_resort_url('index', params), 
+          :class => "sort_change") %>
+      <span class="disabled">Numerical Sort</span>
+    <% end -%>    
   </div>
 
 
