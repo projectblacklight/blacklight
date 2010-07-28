@@ -24,6 +24,7 @@ Feature: Search
     And I press "search"
     Then I should be on "the catalog page"
     And I should see an rss discovery link
+    And I should see an atom discovery link
     And I should see "You searched for:"
     And I should see "All Fields"
     And I should see "history"
