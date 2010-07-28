@@ -2,7 +2,7 @@
 -%>
    
    <% display_facet = @response.facets.detect {|f| f.name == solr_field} -%>
-      <% if display_facet.items.length > 0 %>
+      <% if display_facet && display_facet.items.length > 0 %>
         <h3><%= facet_field_labels[solr_field] -%></h3>
         <ul>
           <% paginator =    
