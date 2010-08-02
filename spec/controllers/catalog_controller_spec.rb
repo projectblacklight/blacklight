@@ -17,10 +17,10 @@ describe CatalogController do
       route_for(:controller => 'catalog', :action => 'show', :id => '666').should == '/catalog/666'
     end
     it "should map {:controller => 'catalog', :id = '444', :action => 'image'} to /catalog/444/image" do
-      route_for(:controller => 'catalog', :action => 'image', :id => '444').should == '/catalog/444/image'      
+      route_for(:controller => 'catalog', :action => 'image', :id => '444').should == '/catalog/444/image'
     end
     it "should map {:controller => 'catalog', :id = '333', :action => 'status'} to /catalog/333/status" do
-      route_for(:controller => 'catalog', :action => 'status', :id => '333').should == '/catalog/333/status'          
+      route_for(:controller => 'catalog', :action => 'status', :id => '333').should == '/catalog/333/status'
     end
     it "should map {:controller => 'catalog', :id => '222', :action => 'availability'} to /catalog/222/availability" do
       route_for(:controller => 'catalog', :action => 'availability', :id => '222').should == '/catalog/222/availability'
@@ -55,22 +55,22 @@ describe CatalogController do
     end
   end
 
-  
+
 
   # INDEX ACTION
   describe "index action" do
     before(:each) do
       @user_query = 'history'  # query that will get results
       @no_docs_query = 'sadfdsafasdfsadfsadfsadf' # query for no results
-      @facet_query = {"format" => 'Book'}      
+      @facet_query = {"format" => 'Book'}
     end
-    
+
     it "should have no search history if no search criteria" do
       session[:history] = []
       get :index
       session[:history].length.should == 0
     end
-    
+
     # check each user manipulated parameter
     it "should have docs and facets for query with results" do
       get :index, :q => @user_query
@@ -88,7 +88,7 @@ describe CatalogController do
       assigns[:response].docs.size.should == num_per_page
       assert_facets_have_values(assigns[:response].facets)
     end
-    
+
     it "should have docs and facets for second page" do
       page = 2
       get :index, :page => page
@@ -96,7 +96,7 @@ describe CatalogController do
       assigns[:response].params[:start].to_i.should == (page-1) * Blacklight.config[:index][:num_per_page]
       assert_facets_have_values(assigns[:response].facets)
     end
-    
+
     it "should have no docs or facet values for query without results" do
       get :index, :q => @no_docs_query
       assigns[:response].docs.size.should == 0
@@ -104,12 +104,13 @@ describe CatalogController do
         facet.items.size.should == 0
       end
     end
-    
+
     it "should have a spelling suggestion for an appropriately poor query" do
+      pending
       get :index, :q => 'boo'
-      assigns[:response].spelling.words.should_not be_nil      
+      assigns[:response].spelling.words.should_not be_nil
     end
-    
+
     describe "session" do
       it "should include :search key with hash" do
         get :index
@@ -141,7 +142,7 @@ describe CatalogController do
         session[:search][:page].should == "2"
       end
       it "should include search hash with random key" do
-        # cause a plugin might add an unpredictable one, we want to preserve it. 
+        # cause a plugin might add an unpredictable one, we want to preserve it.
         get :index, :some_weird_key => "value"
         session[:search].should_not be_nil
         session[:search].keys.should include(:some_weird_key)
@@ -158,7 +159,7 @@ describe CatalogController do
         session[:history].length.should_not == 0
       end
     end
-    
+
     # check with no user manipulation
     describe "for default query" do
       it "should get documents when no query" do
@@ -173,29 +174,29 @@ describe CatalogController do
 
     it "should get rss feed" do
       get :index, :format => 'rss'
-      response.should be_success      
+      response.should be_success
     end
 
     it "should render index.html.erb" do
       get :index
       response.should render_template(:index)
-    end    
+    end
     # NOTE: status code is always 200 in isolation mode ...
     it "HTTP status code for GET should be 200" do
       get :index
       response.should be_success
     end
-    
+
   end # describe index action
-  
+
   describe "update action" do
     doc_id = '2007020969'
-    
+
     it "should set counter value into session[:search]" do
       put :update, :id => doc_id, :counter => 3
       session[:search][:counter].should == "3"
     end
-    
+
     it "should redirect to show action for doc id" do
       put :update, :id => doc_id, :counter => 3
       assert_redirected_to(catalog_path(doc_id))
@@ -242,17 +243,17 @@ describe CatalogController do
       get :show, :id => doc_id
       assigns[:next_document].should be_nil
     end
-    
+
     # NOTE: status code is always 200 in isolation mode ...
     it "HTTP status code for GET should be 200" do
       get :show, :id => doc_id
       response.should be_success
-    end  
+    end
     it "should render show.html.erb" do
       get :show, :id => doc_id
       response.should render_template(:show)
     end
-    
+
     describe "@document" do
       before(:each) do
         get :show, :id => doc_id
@@ -268,25 +269,25 @@ describe CatalogController do
           def self.extended(document)
             document.will_export_as(:mock, "application/mock")
           end
-          
+
           def export_as_mock
             "mock_export"
           end
         end
       before(:each) do
-        SolrDocument.use_extension(FakeExtension)        
+        SolrDocument.use_extension(FakeExtension)
       end
-      
+
       it "should respond to an extension-registered format properly" do
          get :show, :id => doc_id, :format => "mock"
          response.should be_success
-         response.should have_text("mock_export")         
+         response.should have_text("mock_export")
       end
-      
-      
+
+
       after(:each) do
         SolrDocument.registered_extensions = nil
-      end      
+      end
     end # dynamic export formats
 
   end # describe show action
@@ -299,7 +300,7 @@ describe CatalogController do
     it "should return valid JSON" do
       get :opensearch,:format => 'json', :q => "a"
       response.should be_success
-    end    
+    end
   end
 #=end
   describe "send_email_record" do
@@ -314,7 +315,7 @@ describe CatalogController do
         response.flash[:error].should == "You must enter a valid email address"
       end
       it "should not give error if no Message paramater is set" do
-        pending() # see CODEBASE-227 
+        pending() # see CODEBASE-227
         #post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
         #response.flash[:error].should be_nil
       end
@@ -356,9 +357,9 @@ describe CatalogController do
     end
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
       controller.facet_limit_hash.should == Blacklight.config[:facet][:limits]
-    end    
+    end
   end
-  
+
   describe "errors" do
     it "should return status 404 for a record that doesn't exist" do
       get :show, :id=>"987654321"
@@ -374,9 +375,9 @@ describe CatalogController do
       response.should_not be_success
       response.status.should == "500 Internal Server Error"
     end
-    
+
   end
-  
+
 end
 
 
@@ -388,3 +389,4 @@ def assert_facets_have_values(facets)
     facet.items.size.should >= 1
   end
 end
+
