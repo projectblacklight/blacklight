@@ -19,6 +19,7 @@ class CatalogController < ApplicationController
   
   # get search results from the solr index
   def index
+
     extra_head_content << '<link rel="alternate" type="application/rss+xml" title="RSS for results" href="'+ url_for(params.merge("format" => "rss")) + '">'
     extra_head_content << '<link rel="alternate" type="application/atom+xml" title="Atom for results" href="'+ url_for(params.merge("format" => "atom")) + '">'
     
@@ -215,7 +216,7 @@ class CatalogController < ApplicationController
   # known blacklisted params not part of search, omitting keys with blank
   # values. All keys in session[:search] are as symbols rather than strings. 
   def delete_or_assign_search_session_params
-    session[:search] ||= {}
+    session[:search] = {}
     params.each_pair do |key, value|
       session[:search][key.to_sym] = value unless ["commit", "counter"].include?(key.to_s) ||
       value.blank?
