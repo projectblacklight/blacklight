@@ -1,9 +1,9 @@
-@did_you_mean
+@wip @did_you_mean
 Feature: Did You Mean
   As a user
   In order to get great search results
   I want to get "did you mean" suggestions for poor queries
-  
+
   Scenario: All Fields search - No Results with spelling suggestion
     When I am on the home page
     And I fill in "q" with "politica"
@@ -12,7 +12,7 @@ Feature: Did You Mean
     Then I should see "Did you mean"
     When I follow "policy"
     Then I should get results
-  
+
   Scenario: Title search - No Results with spelling suggestion
     When I am on the home page
     # yehudiyam is one letter away from a title word
@@ -26,7 +26,7 @@ Feature: Did You Mean
     #  (it works in the code)
     # TODO: false positive?
     # And I should see select list "select#search_field" with "Title" selected
-  
+
   Scenario: Author search - No Results with spelling suggestion
     When I am on the home page
     # shirma is one letter away from an author word
@@ -40,7 +40,7 @@ Feature: Did You Mean
     #  (it works in the code)
     # TODO: false positive?
     #And I should see select list "select#search_field" with "Author" selected
-  
+
   Scenario: Subject search - No Results with spelling suggestion
     When I am on the home page
     # shirma is one letter away from an author word
@@ -67,7 +67,7 @@ Feature: Did You Mean
     Then I should see "Did you mean"
     When I follow "policy"
     Then I should get results
-    
+
   Scenario: No Results - multiword query
     When I am on the home page
     And I fill in "q" with "politica boo"
@@ -77,7 +77,7 @@ Feature: Did You Mean
     When I follow "bon"
     Then I should get results
 
-# can't get this to work with 30 rec index: 
+# can't get this to work with 30 rec index:
 #    need something to give results and give suggestion with MORE results
 #  Scenario: Num Results low enough to warrant spelling suggestion
 #    Given I am on the home page
@@ -88,21 +88,21 @@ Feature: Did You Mean
 #    And I should see "Did you mean"
 #    When I follow "bya"
 #    Then I should get results
-  
+
   Scenario: Too many results for spelling suggestion
     Given I am on the home page
     # histori gives 9 results in 30 record demo index
     And I fill in "q" with "histori"
     And I press "search"
     Then I should not see "Did you mean"
-  
+
   Scenario: Exact Threshold number of results for spelling suggestion
     Given I am on the home page
     # polit gives 5 results in 30 record demo index - 5 is default cutoff
     And I fill in "q" with "polit"
     And I press "search"
     Then I should see "Did you mean"
-  
+
   Scenario: Same number of results as spelling suggestion
     Given I am on the home page
     # den gives 1 result in 30 record demo index - suggestion don is 1 result also
@@ -126,4 +126,4 @@ Feature: Did You Mean
     Then I should see "Did you mean"
     And I should see "bon"
     And I should not see "bon bon"
-  
+

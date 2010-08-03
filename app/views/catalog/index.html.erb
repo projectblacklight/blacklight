@@ -6,21 +6,22 @@
 	<% @page_title = application_name + " Search Results" %>
 
 	<%= render :partial => 'search_form' %>
-	
-	<%= render :partial => 'did_you_mean' %>
-	
+
+	<%#= FIXME: did_you_mean is disabled until rsolr-ext is fixed. see http://jira.projectblacklight.org/jira/browse/CODEBASE-241 %>
+	<%#= render :partial => 'did_you_mean' %>
+
 	<%= render 'constraints', :localized_params=>params %>
-	
+
 	<div class="pagination">
 	  <h2>Results navigation</h2>
 	  <%= will_paginate @response.docs, :page_links => false, :class => 'prev_next_links' %>
 	  <%= will_paginate @response.docs, :container => false %>
 	</div>
-	
+
 	<%= render 'sort_and_per_page' %>
-	
+
 	<%= render :partial=>'document_list' %>
-	
+
 	<% sidebar_items << capture do %>
 	  <%= render :partial=>'facets' %>
 	<% end %>
@@ -33,3 +34,4 @@
 	<%= render :partial=>'solr_request' %>
 
 <% end %>
+
