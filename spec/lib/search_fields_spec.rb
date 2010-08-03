@@ -8,12 +8,12 @@ describe Blacklight::SearchFields do
     # add in a #config method that includes search field config
     # that will be used by SearchFields
     def config
-      {:search_fields => [ {:display_label => 'All Fields'},
-                           {:display_label => 'Title', :qt => 'title_search'},
-                           {:display_label =>'Author', :qt => 'author_search'},
-                           {:display_label => 'Subject', :qt=> 'subject_search'},
+      @config ||= {:search_fields => [ {:display_label => 'All Fields', :key => "all_fields"},
+                           {:key => 'title', :qt => 'title_search'},
+                           {:key => 'author', :qt => 'author_search'},
+                           {:key => 'subject', :qt=> 'subject_search'},
                            ['Legacy Config', 'legacy_qt'],
-                           {:display_label => "No Display", :qt=>"something", :include_in_simple_select => false}
+                           {:key => "no_display", :qt=>"something", :include_in_simple_select => false}
                           ],
         :default_qt => "search"
       }
@@ -33,9 +33,9 @@ describe Blacklight::SearchFields do
     hash[:display_label].should == 'Legacy Config'
   end
   
-  it "should return search field list with calculated default :key" do
+  it "should return search field list with calculated :display_label when needed" do
      @search_field_obj.search_field_list.each do |hash|        
-        hash[:key].should_not be_blank
+        hash[:display_label].should_not be_blank
      end
   end
 
@@ -74,6 +74,32 @@ describe Blacklight::SearchFields do
 
   it "should supply default label for key not found" do
     @search_field_obj.label_for_search_field("non_existent_key").should == "Keyword"
+  end
+
+  describe "for unspecified :key" do
+    before do
+      @bad_config = MockConfig.new
+      @bad_config.config[:search_fields] = [ 
+        {:display_label => 'All Fields', :qt => "all_fields"},
+        {:key => 'title', :qt => 'title_search'}
+      ]
+    end
+    it "should raise exception on #search_field_list" do
+      lambda {@bad_config.search_field_list}.should raise_error
+    end
+  end
+
+  describe "for duplicate keys" do
+    before do
+      @bad_config = MockConfig.new
+      @bad_config.config[:search_fields] = [ 
+        {:display_label => 'All Fields', :key => "my_key"},
+        {:key => 'title', :key => 'my_key'}
+      ]
+    end
+    it "should raise on #search_field_list" do
+      lambda {@bad_config.search_field_list}.should raise_error
+    end
   end
   
 end

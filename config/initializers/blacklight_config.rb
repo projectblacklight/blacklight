@@ -186,10 +186,10 @@ Blacklight.configure(:shared) do |config|
   # with :solr_parameters and :solr_local_parameters (the latter for $param
   # solr LocalParams that can reference other params). 
   config[:search_fields] ||= []
-  config[:search_fields] << {:display_label => 'All Fields', :qt => 'search'}
-  config[:search_fields] << {:display_label => 'Title', :qt => 'title_search'}
-  config[:search_fields] << {:display_label =>'Author', :qt => 'author_search'}
-  config[:search_fields] << {:display_label => 'Subject', :qt=> 'subject_search'}
+  config[:search_fields] << {:key => "all_fields",  :display_label => 'All Fields', :qt => 'search'}
+  config[:search_fields] << {:key => 'title', :qt => 'title_search'}
+  config[:search_fields] << {:key =>'author', :qt => 'author_search'}
+  config[:search_fields] << {:key => 'subject', :qt=> 'subject_search'}
   
   # "sort results by" select (pulldown)
   # label in pulldown is followed by the name of the SOLR field to sort by and
