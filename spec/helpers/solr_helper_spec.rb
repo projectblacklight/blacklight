@@ -679,16 +679,16 @@ describe 'Blacklight::SolrHelper' do
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions" do
     it 'search results for just-poor-enough-query term should have (multiple) spelling suggestions' do
-      pending
       (solr_response, document_list) = @solr_helper.get_search_results({:q => 'boo'})
       solr_response.spelling.words.should include('bon')
-#      solr_response.spelling.words.should include('bod')  for multiple suggestions
+      solr_response.spelling.words.should include('bod')  #for multiple suggestions
     end
 
     it 'search results for just-poor-enough-query term should have multiple spelling suggestions' do
-      pending
       (solr_response, document_list) = @solr_helper.get_search_results({:q => 'politica'})
       solr_response.spelling.words.should include('policy') # less freq
+      solr_response.spelling.words.should include('politics') # more freq
+      solr_response.spelling.words.should include('political') # more freq
 =begin
       #  when we can have multiple suggestions
       solr_response.spelling.words.should_not include('policy') # less freq
@@ -698,25 +698,22 @@ describe 'Blacklight::SolrHelper' do
     end
 
     it "title search results for just-poor-enough query term should have spelling suggestions" do
-      pending
       (solr_response, document_list) = @solr_helper.get_search_results({:q => 'yehudiyam', :qt => 'title_search'})
       solr_response.spelling.words.should include('yehudiyim')
     end
 
     it "author search results for just-poor-enough-query term should have spelling suggestions" do
-      pending
       (solr_response, document_list) = @solr_helper.get_search_results({:q => 'shirma', :qt => 'author_search'})
       solr_response.spelling.words.should include('sharma')
     end
 
     it "subject search results for just-poor-enough-query term should have spelling suggestions" do
-      pending
       (solr_response, document_list) = @solr_helper.get_search_results({:q => 'wome', :qt => 'subject_search'})
       solr_response.spelling.words.should include('women')
     end
 
     it 'search results for multiple terms query with just-poor-enough-terms should have spelling suggestions for each term' do
-      pending
+     pending
 #     get_spelling_suggestion("histo politica").should_not be_nil
     end
 

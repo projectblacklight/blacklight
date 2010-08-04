@@ -1,4 +1,4 @@
-@wip @did_you_mean
+@did_you_mean
 Feature: Did You Mean
   As a user
   In order to get great search results
