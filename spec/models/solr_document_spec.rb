@@ -124,7 +124,8 @@ end
       
       it 'should return docs that are SolrDocument objects' do
         response = SolrDocument.search(:q=>'tibet')
-        response.docs.each{|d| d.should be_instance_of(SolrDocument) }
+        response.each{|d| d.should be_instance_of(SolrDocument) } # rsolr-ext-0.12.1
+        #response.docs.each{|d| d.should be_instance_of(SolrDocument) } # rsolr-ext-0.12.0 way of doing this
       end
       
     end

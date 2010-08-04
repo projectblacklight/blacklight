@@ -106,7 +106,6 @@ describe CatalogController do
     end
 
     it "should have a spelling suggestion for an appropriately poor query" do
-      pending
       get :index, :q => 'boo'
       assigns[:response].spelling.words.should_not be_nil
     end

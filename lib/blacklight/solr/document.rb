@@ -267,7 +267,8 @@ module Blacklight::Solr::Document
     
     # sends a request for searching (multiple docs)
     # yields the final param hash before sending to solr
-    # returns a RSolr::Ext::Response object
+    # (with rsolr-ext 0.12.0 it returned an RSolr::Ext::Response object)
+    # with rsolr-ext 0.12.1 it returns an Array of SolrDocuments
     def search(params, &blk)
       p = merge_defaults(:search, params)
       yield p if block_given?
