@@ -1,9 +1,14 @@
 <%-  # required to pass in local :solr_field
+     # optional :display_heading parameter, sometimes set to false
+     #     by plugins that might re-use this inside something else. 
+     display_heading = true unless local_assigns.has_key?(:display_heading)
 -%>
    
    <% display_facet = @response.facets.detect {|f| f.name == solr_field} -%>
       <% if display_facet && display_facet.items.length > 0 %>
-        <h3><%= facet_field_labels[solr_field] -%></h3>
+        <% if display_heading %>
+          <h3><%= facet_field_labels[solr_field] -%></h3>
+        <% end %>
         <ul>
           <% paginator =    
               Blacklight::Solr::FacetPaginator.new(display_facet.items,        
