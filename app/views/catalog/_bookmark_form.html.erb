@@ -1,0 +1,8 @@
+<% form_tag '/bookmarks', :name => "bookmarks" do %>
+  <% documents.each_with_index do |document, index| %>
+    <%= hidden_field_tag "bookmarks[#{index}][document_id]", document.get(:id)%>
+    <%= hidden_field_tag "bookmarks[#{index}][title]", h(document[document_show_link_field])%>
+  <% end %>
+  <%= link_to_function "Add to Bookmarks", "document.bookmarks.submit()" %>
+  <%= submit_tag 'Add to Bookmarks', :class => 'hide' %>
+<% end %>
