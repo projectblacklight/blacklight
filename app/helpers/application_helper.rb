@@ -182,6 +182,11 @@ module ApplicationHelper
     @document[Blacklight.config[:show][:html_title]]
   end
   
+  # Used in citation view for displaying the title
+  def citation_title(document)
+    document[Blacklight.config[:show][:html_title]]
+  end
+  
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
     Blacklight.config[:sort_fields]
@@ -338,8 +343,8 @@ module ApplicationHelper
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
   # Use the catalog_path RESTful route to create a link to the show page for a specific item. 
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
-  # so we only need the +counter+ param here.
-  def link_to_document(doc, opts={:label=>Blacklight.config[:index][:show_link].to_sym, :counter => nil})
+  # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
+  def link_to_document(doc, opts={:label=>Blacklight.config[:index][:show_link].to_sym, :counter => nil, :results_view => true})
     label = case opts[:label]
     when Symbol
       doc.get(opts[:label])
@@ -348,7 +353,7 @@ module ApplicationHelper
     else
       raise 'Invalid label argument'
     end
-    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :data => {:counter => opts[:counter]}})
+    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :data => {:counter => opts[:counter], :results_view => opts[:results_view]}})
   end
 
   # link_back_to_catalog(:label=>'Back to Search')
@@ -474,5 +479,32 @@ module ApplicationHelper
     end
     submit_function << "f.submit();"
   end
+  
+  # determines if the given document id is in the folder
+  def item_in_folder?(doc_id)
+    session[:folder_document_ids] && session[:folder_document_ids].include?(doc_id) ? true : false
+  end
+  
+  def render_refworks_texts(documents)
+    val = ''
+    documents.each do |doc|
+      if doc.respond_to?(:to_marc)
+        val += doc.export_as_refworks_marc_txt + "\n"
+      end
+    end
+    val
+  end
+  
+  def render_endnote_texts(documents)
+    val = ''
+    documents.each do |doc|
+      if doc.respond_to?(:to_marc)
+        val += doc.export_as_endnote + "\n"
+      end
+    end
+    val
+  end
+  
+  
   
 end

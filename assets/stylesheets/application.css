@@ -161,8 +161,14 @@ textarea {width:30em; height:15em;}
 .fieldWithErrors label {color:darkred;}
 
 /* Show Tools */
-ul.tools {margin: 0px; padding: 0px; text-align:right;}
+ul.tools {margin: 0px; padding: 0px;}
 ul.tools li {display: inline; margin: 0 10px;}
+
+/* Folder Tools */
+ul.folderTools {float:left;list-style-type: none inside; margin: 10px 0 0 0; padding:0;}
+ul.folderTools li {float:left; padding:0 20px 0 0;}
+ul.folderTools li.refworks form input.submit{display:none;}
+
 
 /* Lightbox */
 .lightboxTitle {background-color: #cccccc; width: 100%; color: black;}
@@ -238,3 +244,4 @@ ul#appliedFiltersList,
 #appliedParams a#startOverLink span{display:none;}
 .appliedFilter .queryName, .appliedFilter .filterName {padding-right:14px; background:url(../images/separator.gif) no-repeat right center;}
 
+.hide {display:none}

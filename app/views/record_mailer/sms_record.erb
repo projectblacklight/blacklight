@@ -1,7 +1,9 @@
-<%- if @document.respond_to?(:to_marc) and ! @document.to_marc['245'].nil? -%>
-<%= @document.to_marc['245']['a'] unless @document.to_marc['245']['a'].nil? -%>
+<% @documents.each do |document| -%>
+<%- if document.respond_to?(:to_marc) and ! document.to_marc['245'].nil? -%>
+<%= document.to_marc['245']['a'] unless document.to_marc['245']['a'].nil? -%>
 <%- end -%>
-<%- if @document.to_marc and ! @document.to_marc['100'].nil? -%>
-<%= " by #{@document.to_marc['100']['a']}" unless @document.to_marc['100']['a'].nil? %>
+<%- if document.to_marc and ! document.to_marc['100'].nil? -%>
+<%= " by #{document.to_marc['100']['a']}" unless document.to_marc['100']['a'].nil? %>
 <% end -%>
-Link: <%= catalog_path(@document[:id], :only_path => false, :host => @host) %>
+Link: <%= catalog_path(document[:id], :only_path => false, :host => @host) %>
+<% end %>

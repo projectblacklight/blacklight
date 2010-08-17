@@ -227,6 +227,16 @@ module Blacklight::SolrHelper
     [solr_response, document]
   end
   
+  # gets a list of documents based on the document ids provided
+  def get_solr_response_for_doc_ids(doc_ids=[], extra_controller_params={})
+    documents = []
+    doc_ids.each { |doc_id|
+      response, document = get_solr_response_for_doc_id(doc_id)
+      documents << document
+    }
+    documents
+  end
+  
   # returns a params hash for a single facet field solr query.
   # used primary by the get_facet_pagination method.
   # Looks up Facet Paginator request params from current request
@@ -296,7 +306,7 @@ module Blacklight::SolrHelper
     solr_params[:fl] = '*'
     Blacklight.solr.find(solr_params).docs.first
   end
-  
+    
   # returns a solr params hash
   # if field is nil, the value is fetched from Blacklight.config[:index][:show_link]
   # the :fl (solr param) is set to the "field" value.

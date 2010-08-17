@@ -4,6 +4,7 @@ class CatalogController < ApplicationController
 
   before_filter :search_session, :history_session
   before_filter :delete_or_assign_search_session_params,  :only=>:index
+  before_filter :adjust_for_results_view, :only=>:update
   after_filter :set_additional_search_session_values, :only=>:index
   
   # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
@@ -90,15 +91,22 @@ class CatalogController < ApplicationController
   
   # citation action
   def citation
-    @response, @document = get_solr_response_for_doc_id
+    @documents = get_solr_response_for_doc_ids(params[:id])
   end
   # Email Action (this will only be accessed when the Email link is clicked by a non javascript browser)
   def email
-    @response, @document = get_solr_response_for_doc_id
+    @documents = get_solr_response_for_doc_ids(params[:id])
   end
   # SMS action (this will only be accessed when the SMS link is clicked by a non javascript browser)
   def sms 
-    @response, @document = get_solr_response_for_doc_id
+    @documents = get_solr_response_for_doc_ids(params[:id])
+  end
+  # grabs a bunch of documents to export to endnote
+  def endnote
+    @documents = get_solr_response_for_doc_ids(params[:id])
+    respond_to do |format|
+      format.endnote
+    end
   end
   
   def librarian_view
@@ -107,7 +115,7 @@ class CatalogController < ApplicationController
   
   # action for sending email.  This is meant to post from the form and to do processing
   def send_email_record
-    @response, @document = get_solr_response_for_doc_id
+    @documents = get_solr_response_for_doc_ids(params[:id])    
     if params[:to]
       from = request.host # host w/o port for From address (from address cannot have port#)
       host = request.host
@@ -118,20 +126,24 @@ class CatalogController < ApplicationController
             if params[:to].length != 10
               flash[:error] = "You must enter a valid 10 digit phone number"
             else
-              email = RecordMailer.create_sms_record(@document, {:to => params[:to], :carrier => params[:carrier]}, from, host)
+              email = RecordMailer.create_sms_record(@documents, {:to => params[:to], :carrier => params[:carrier]}, from, host)
             end
           else
             flash[:error] = "You must select a carrier"
           end
         when 'email'
           if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-            email = RecordMailer.create_email_record(@document, {:to => params[:to], :message => params[:message]}, from, host)
+            email = RecordMailer.create_email_record(@documents, {:to => params[:to], :message => params[:message]}, from, host)
           else
             flash[:error] = "You must enter a valid email address"
           end
       end
       RecordMailer.deliver(email) unless flash[:error]
-      redirect_to catalog_path(@document[:id])
+      if @documents.size == 1
+        redirect_to catalog_path(@documents.first[:id])
+      else
+        redirect_to folder_index_path
+      end
     else
       flash[:error] = "You must enter a recipient in order to send this message"
     end
@@ -244,6 +256,17 @@ class CatalogController < ApplicationController
       search_session[:total] = @response.total
     end
   end
+  
+  # we need to know if we are viewing the item as part of search results so we know whether to
+  # include certain partials or not
+  def adjust_for_results_view
+    if params[:results_view] == "false"
+      session[:search][:results_view] = false
+    else
+      session[:search][:results_view] = true
+    end
+  end
+  
   
   
   # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.

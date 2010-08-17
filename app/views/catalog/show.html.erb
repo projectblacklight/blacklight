@@ -1,22 +1,25 @@
 <% @page_title = "#{document_show_html_title} - #{application_name}" %>
 <% extra_head_content << render_link_rel_alternates %>
     
+<% if session[:search][:results_view] %>
+  <%= render 'constraints', :localized_params=>session[:search] %>
 
-<%= render 'constraints', :localized_params=>session[:search] %>
-
-<%# this should be in a partial -%>
-<div class="yui-g">
-	<div class="yui-u first">
-	  <script type="text/javascript">
-	    if(history.length > 1){
-	      document.write(<%= render 'previous_next_doc' %>);
-	    }
-      </script>
+  <%# this should be in a partial -%>
+  <div class="yui-g">
+  	<div class="yui-u first">
+  	  <script type="text/javascript">
+  	    if(history.length > 1){
+  	      document.write(<%= render 'previous_next_doc' %>);
+  	    }
+        </script>
     </div>
-	<div class="yui-u">
+  	<div class="yui-u">
 		
-	</div>
-</div>
+  	</div>
+  </div>
+<% end %>
+
+
 <% sidebar_items << capture do %>
   <p><%= link_back_to_catalog %></p>
 <% end %>

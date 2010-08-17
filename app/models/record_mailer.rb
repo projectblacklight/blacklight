@@ -2,22 +2,26 @@
 class RecordMailer < ActionMailer::Base
 
   
-  def email_record(document, details, from_host, host)
-    raise ArgumentError.new("RecordMailer#email_record only works with documents with a #to_marc") unless document.respond_to?(:to_marc)
+  def email_record(documents, details, from_host, host)
+    #raise ArgumentError.new("RecordMailer#email_record only works with documents with a #to_marc") unless document.respond_to?(:to_marc)
     
     recipients details[:to]
-    subject "Item Record: #{document.to_marc['245']['a'] rescue 'N/A'}"
+    if documents.size == 1
+      subject "Item Record: #{documents.first.to_marc['245']['a'] rescue 'N/A'}"
+    else
+      subject "Item records"
+    end
     from "no-reply@" << from_host
-    body :document => document, :host => host, :message => details[:message]
+    body :documents => documents, :host => host, :message => details[:message]
   end
   
-  def sms_record(document, details, from_host, host)
+  def sms_record(documents, details, from_host, host)
     if sms_mapping[details[:carrier]]
       to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
     end
     recipients to
     from "no-reply@" << from_host
-    body :document => document, :host => host
+    body :documents => documents, :host => host
   end
 
   protected
