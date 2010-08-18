@@ -197,8 +197,8 @@ ul.tools li {display: inline; margin: 0 10px;}
 	#bd {padding: 0;}
 	#yui-main {position: relative; width: 100%;}
 	#yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 1em; position: relative; margin-left: 150px;}
-	.yui-t2 .yui-b {float: none; width: 130px;}
-	.yui-t2 .yui-b p {padding-top: 2em;}
+	.yui-b {float: none; width: 130px;}
+	.yui-b p {padding-top: 2em;}
 	#facets {padding: 1em 0 0 0;}
 	.solrQuery {display: none;}
 	/* IE 6 Adjustments */
