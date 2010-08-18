@@ -204,7 +204,7 @@ ul.tools li {display: inline; margin: 0 10px;}
 	#facets {padding: 1em 0 0 0;}
 	.solrQuery {display: none;}
 	/* IE 6 Adjustments */
-	* html .yui-t2 #yui-main .yui-b {position: absolute; top: 0px; left: 0px;}
+	* html #yui-main .yui-b {position: absolute; top: 0px; left: 0px;}
 	* html #search {position: absolute; top: -4em; left: 1em;}
 	* html #documents {width: 75%;}
 }
