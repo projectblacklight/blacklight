@@ -192,9 +192,8 @@ ul.tools li {display: inline; margin: 0 10px;}
 	html {background: #fff;}
 	body {background: none; padding: 0px;}
 	#hd {margin: 0; padding: 0 0 2em 0;}
-	.yui-t2 {background: none; border: 0px; margin: 0px;}
-	.first {margin: 2em 0px 0px 0px;}
-	#doc, #doc2, #doc1, #doc4 {width: 100%; margin: 0; padding: 0;}
+	.yui-u.first {margin: 2em 0px 0px 0px;}
+	#doc, #doc2, #doc1, #doc4 {width: 100%; margin: 0; padding: 0; background: none; border: 0px;}
 	#bd {padding: 0;}
 	#yui-main {position: relative; width: 100%;}
 	#yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 1em; position: relative; margin-left: 150px;}
