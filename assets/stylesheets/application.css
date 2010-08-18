@@ -198,7 +198,7 @@ ul.tools li {display: inline; margin: 0 10px;}
 	#doc1, #doc2, #doc1, #doc4 {width: 100%; margin: 0; padding: 0;}
 	#bd {padding: 0;}
 	#yui-main {position: relative; width: 100%;}
-	.yui-t2 #yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 1em; position: relative; margin-left: 150px;}
+	#yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 1em; position: relative; margin-left: 150px;}
 	.yui-t2 .yui-b {float: none; width: 130px;}
 	.yui-t2 .yui-b p {padding-top: 2em;}
 	#facets {padding: 1em 0 0 0;}
