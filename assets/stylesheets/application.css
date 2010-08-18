@@ -37,7 +37,7 @@ a:hover {color: #029;}
 .yui-t2 #yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 2em; position: relative; margin-left: 200px;}
 
 /* Left Sidebar Layout */
-.yui-t2 .yui-b p {padding-top: 2em;}
+.sidebar p {padding-top: 2em;}
 
 /* Top Banner */
 h1.site_title {background: transparent url('../images/logo.png') no-repeat top left; margin: 2em 0px 0px 1em; height: 35px; width: 120px;}
