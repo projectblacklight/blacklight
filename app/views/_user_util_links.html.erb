@@ -1,5 +1,3 @@
-<%= link_to "Folder", folder_index_path %>
-|
 <% if current_user %>
   <%= link_to "Log Out", logout_path %> [<%= link_to current_user.login, user_path %>]
   <% if current_user.last_search_url %>
@@ -10,4 +8,6 @@
   <%= link_to 'Login', login_path %>
 <% end %>
 | 
+<%= link_to "Folder", folder_index_path %>
+|
 <%= link_to "Search History", search_history_index_path %>
