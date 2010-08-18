@@ -34,7 +34,7 @@ a:hover {color: #029;}
 /* Body Container Layout */
 #bd {padding: 0 2em 2em 2em;}
 #yui-main {position: relative; width: 875px;}
-.yui-t2 #yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 2em; position: relative; margin-left: 200px;}
+#yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 2em; position: relative; margin-left: 200px;}
 
 /* Left Sidebar Layout */
 .sidebar p {padding-top: 2em;}
