@@ -5,18 +5,18 @@ Feature: User Folder
 
   Scenario: Ensure "Add to Folder" form is present in search results
 	  Given I am on the home page
-    When I fill in "q" with "strong medicine"
+    When I fill in "q" with "history"
     And I select "All Fields" from "search_field"
     And I press "search"
  	  Then I should see an add to folder form
- 	  
+      
  	Scenario: Ensure "Add to Folder" for is present on individual record
     Given I am on the document page for id 2007020969
  	  Then I should see an add to folder form
  	  
  	Scenario: Adding an item to the folder should produce a status message
     Given I am on the home page
-    When I fill in "q" with "strong medicine"
+    When I fill in "q" with "medicine"
     And I select "All Fields" from "search_field"
     And I press "search"
  	  And I add record 2007020969 to my folder
