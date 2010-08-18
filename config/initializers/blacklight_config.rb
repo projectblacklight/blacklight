@@ -24,29 +24,7 @@ Blacklight.configure(:shared) do |config|
   SolrDocument.use_extension( Blacklight::Solr::Document::Marc) do |document|
     document.key?( :marc_display  )
   end
-
-  
-  # default params for the SolrDocument.search method
-  SolrDocument.default_params[:search] = {
-    :qt=>:search,
-    :per_page => 10,
-    :facets => {:fields=>
-      ["format",
-        "language_facet",
-        "lc_1letter_facet",
-        "lc_alpha_facet",
-        "lc_b4cutter_facet",
-        "language_facet",
-        "pub_date",
-        "subject_era_facet",
-        "subject_geo_facet",
-        "subject_topic_facet"]
-    }  
-  }
-  
-  # default params for the SolrDocument.find_by_id method
-  SolrDocument.default_params[:find_by_id] = {:qt => :document}
-
+    
   # Semantic mappings of solr stored fields. Fields may be multi or
   # single valued. See Blacklight::Solr::Document::ExtendableClassMethods#field_semantics
   # and Blacklight::Solr::Document#to_semantic_values
