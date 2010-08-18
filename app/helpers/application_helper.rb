@@ -485,6 +485,7 @@ module ApplicationHelper
     session[:folder_document_ids] && session[:folder_document_ids].include?(doc_id) ? true : false
   end
   
+  # puts together a collection of documents into one refworks export string
   def render_refworks_texts(documents)
     val = ''
     documents.each do |doc|
@@ -495,6 +496,7 @@ module ApplicationHelper
     val
   end
   
+  # puts together a collection of documents into one endnote export string
   def render_endnote_texts(documents)
     val = ''
     documents.each do |doc|
