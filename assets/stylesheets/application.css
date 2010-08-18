@@ -165,7 +165,7 @@ ul.tools {margin: 0px; padding: 0px;}
 ul.tools li {display: inline; margin: 0 10px;}
 
 /* Folder Tools */
-ul.folderTools {float:left;list-style-type: none; margin: 10px 0 0 0; padding:0;}
+ul.folderTools {float:left;list-style-type: none; margin: 0 0 10px; padding:0;}
 ul.folderTools li {float:left; padding:0 20px 0 0;}
 ul.folderTools li.refworks form input.submit{display:none;}
 
