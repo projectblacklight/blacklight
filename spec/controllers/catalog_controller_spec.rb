@@ -93,7 +93,7 @@ describe CatalogController do
       page = 2
       get :index, :page => page
       assigns[:response].docs.size.should > 1
-      assigns[:response].params[:start].to_i.should == (page-1) * Blacklight.config[:index][:num_per_page]
+      assigns[:response].params[:start].to_i.should == (page-1) * Blacklight.config[:default_solr_params][:per_page]
       assert_facets_have_values(assigns[:response].facets)
     end
 

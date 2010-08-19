@@ -81,10 +81,10 @@ describe 'Blacklight::SolrHelper' do
         @produced_params[:per_page].should == 10
       end
       it 'should have default facet fields' do
-        @produced_params[:facets][:fields].should == Blacklight.config[:facet][:field_names]
+        @produced_params[:"facet.field"].should == Blacklight.config[:default_solr_params][:"facet.field"]
       end
       it 'should not use the exact facet array from config defaults' do
-        @produced_params[:facets][:fields].should_not be_equal(Blacklight.config[:facet][:field_names])
+        @produced_params[:"facet.field"].should_not be_equal(Blacklight.config[:facet][:field_names])
       end
       it "should have default qt"  do
         @produced_params[:qt].should == "search"
@@ -111,7 +111,7 @@ describe 'Blacklight::SolrHelper' do
 
         params[:q].should be_blank
         params["spellcheck.q"].should be_blank
-        params[:facets][:fields].should == Blacklight.config[:facet][:field_names]
+        params[:"facet.field"].should == Blacklight.config[:default_solr_params][:"facet.field"]
 
         @single_facet.each_value do |value|
           params[:fq].should include("{!raw f=#{@single_facet.keys[0]}}#{value}")
@@ -155,7 +155,7 @@ describe 'Blacklight::SolrHelper' do
 
         params[:q].should == "wome"
         params["spellcheck.q"].should == params[:q]
-        params[:facets][:fields].should == Blacklight.config[:facet][:field_names]
+        params[:"facet.field"].should == Blacklight.config[:default_solr_params][:"facet.field"]
         params[:commit].should be_nil
         params[:action].should be_nil
         params[:controller].should be_nil
@@ -199,6 +199,7 @@ describe 'Blacklight::SolrHelper' do
       describe "should respect proper precedence of settings, " do
         before do
           @produced_params = @solr_helper_with_params.solr_search_params(:sort => "extra_params_sort")
+          1+1
         end
 
 
@@ -207,7 +208,7 @@ describe 'Blacklight::SolrHelper' do
         end
 
         it "should fall through to BL general defaults for qt not otherwise specified " do
-          @produced_params[:qt].should == Blacklight.config[:default_qt]
+          @produced_params[:qt].should == Blacklight.config[:default_solr_params][:qt]
         end
 
         it "should take per_page from search field definition where specified" do
@@ -550,7 +551,7 @@ describe 'Blacklight::SolrHelper' do
     it 'should have number of results (per page) set in initializer, by default' do
       (solr_response, document_list) = @solr_helper.get_search_results(:q => @all_docs_query)
       solr_response.docs.size.should == document_list.size
-      solr_response.docs.size.should == Blacklight.config[:index][:num_per_page]
+      solr_response.docs.size.should == Blacklight.config[:default_solr_params][:per_page]
     end
 
     it 'should get number of results per page requested' do
@@ -563,7 +564,7 @@ describe 'Blacklight::SolrHelper' do
     it 'should skip appropriate number of results when requested - default per page' do
       page = 3
       (solr_response2, document_list2) = @solr_helper.get_search_results(:q => @all_docs_query, :page => page)
-      solr_response2.params[:start].to_i.should ==  Blacklight.config[:index][:num_per_page] * (page-1)
+      solr_response2.params[:start].to_i.should ==  Blacklight.config[:default_solr_params][:per_page] * (page-1)
     end
     it 'should skip appropriate number of results when requested - non-default per page' do
       page = 3

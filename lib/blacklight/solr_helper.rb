@@ -51,26 +51,15 @@ module Blacklight::SolrHelper
   #
   # Incoming parameter :f is mapped to :fq solr parameter.
   def solr_search_params(extra_controller_params={})
+    solr_parameters = {}
+    
+  
     # Order of precedence for all the places solr params can come from,
     # start lowest, and keep over-riding with higher. 
     ####
-    # Start with general defaults from BL config.
-    # TODO -- remove :facets
-    # when are we passing in "facets" here? just for tests? -- no, always.  
-    #   Bess prefers to pass in the desired facets this way.  
-    #   Naomi prefers it as part of the Solr request handler
-    # ** we need to be consistent about what is getting passed in:
-    # ** -- solr params or controller params that need to be mapped?
-    #   jrochkind 28-dec-09 likes it the way it is, where facets can be part
-    #   of the solr request handler OR in Blacklight. If you don't want them
-    #   in blacklight, just leave don't fill out the config.
-    ####
-    solr_parameters = {
-      :qt => Blacklight.config[:default_qt],
-      :facets => Blacklight.config[:facet][:field_names].clone,
-      :per_page => (Blacklight.config[:index][:num_per_page] rescue "10")
-    }
-
+    # Start with general defaults from BL config.    
+    solr_parameters.deep_merge!(Blacklight.config[:default_solr_params]) if Blacklight.config[:default_solr_params]
+    
     
     ###
     # Merge in search field configured values, if present, over-writing general
@@ -109,7 +98,11 @@ module Blacklight::SolrHelper
     #   (Stanford is doing faux "hierarchical" facets this way;  the 
     #    hierarchical facet code for SOLR isn't fully baked yet and won't be
     #    included until Solr 1.5)
+    # TODO: jrochkind asks why we need to copy "facet.field" to RSolr-specific
+    # :facets, can't we just use "facet.field" alone and ignore the duplicate
+    # confusing one?
     if params.has_key?("facet.field")
+      solr_parameters[:facets] ||= []    
       params["facet.field"].each do |ff|
         if !solr_parameters[:facets].include?(ff)
           solr_parameters[:facets] << ff

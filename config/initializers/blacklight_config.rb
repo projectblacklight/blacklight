@@ -36,9 +36,13 @@ Blacklight.configure(:shared) do |config|
         
   
   ##############################
+
+  config[:default_solr_params] = {
+    :qt => "search",
+    :per_page => 10 
+  }
   
   
-  config[:default_qt] = "search"
   
 
   # solr field values given special treatment in the show (single result) view
@@ -51,7 +55,6 @@ Blacklight.configure(:shared) do |config|
   # solr fld values given special treatment in the index (search results) view
   config[:index] = {
     :show_link => "title_display",
-    :num_per_page => 10,
     :record_display_type => "format"
   }
 
@@ -61,7 +64,7 @@ Blacklight.configure(:shared) do |config|
   # for human reading/writing, kind of like search_fields. Eg,
   # config[:facet] << {:field_name => "format", :label => "Format", :limit => 10}
   config[:facet] = {
-    :field_names => [
+    :field_names => (facet_fields = [
       "format",
       "pub_date",
       "subject_topic_facet",
@@ -69,7 +72,7 @@ Blacklight.configure(:shared) do |config|
       "lc_1letter_facet",
       "subject_geo_facet",
       "subject_era_facet"
-    ],
+    ]),
     :labels => {
       "format"              => "Format",
       "pub_date"            => "Publication Year",
@@ -90,6 +93,12 @@ Blacklight.configure(:shared) do |config|
       "subject_facet" => 20
     }
   }
+
+  # Have BL send all facet field names to Solr, which has been the default
+  # previously. Simply remove these lines if you'd rather use Solr request
+  # handler defaults, or have no facets.
+  config[:default_solr_params] ||= {}
+  config[:default_solr_params][:"facet.field"] = facet_fields
 
   # solr fields to be displayed in the index (search results) view
   #   The ordering of the field names is the order of the display 
