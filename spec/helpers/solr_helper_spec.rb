@@ -511,9 +511,9 @@ describe 'Blacklight::SolrHelper' do
     it 'should have more than one facet' do
       @facets.size.should > 1
     end
-    it 'should have all facets specified in initializer' do
-      @facets.each do |facet|
-        Blacklight.config[:facet][:field_names].should include(facet.name)
+    it 'should have all facets specified in initializer' do      
+      Blacklight.config[:default_solr_params][:"facet.field"].each do |field|
+        @facets.find {|f| f.name == field}.should_not be_nil        
       end
     end
     it 'should have at least one value for each facet' do
