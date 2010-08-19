@@ -57,8 +57,18 @@ module Blacklight::SolrHelper
     # Order of precedence for all the places solr params can come from,
     # start lowest, and keep over-riding with higher. 
     ####
-    # Start with general defaults from BL config.    
-    solr_parameters.deep_merge!(Blacklight.config[:default_solr_params]) if Blacklight.config[:default_solr_params]
+    # Start with general defaults from BL config. Need to use custom
+    # merge to dup values, to avoid later mutating the original by mistake.
+    if Blacklight.config[:default_solr_params]
+      Blacklight.config[:default_solr_params].each_pair do |key, value|
+        solr_parameters[key] = case value
+                                 when Hash then value.dup
+                                 when Array then value.dup
+                                 else value
+                               end
+      end
+    end
+    
     
     
     ###
