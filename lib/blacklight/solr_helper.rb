@@ -95,6 +95,14 @@ module Blacklight::SolrHelper
     [:q].each do |key|
       solr_parameters[key] = params[key] if params[key]
     end
+    # pass through any facet fields from request params["facet.field"] to
+    # solr params. Used by Stanford for it's "faux hierarchical facets".
+    if params.has_key?("facet.field")
+      solr_parameters[:"facet.field"] ||= []
+      solr_parameters[:"facet.field"].concat( [params["facet.field"]].flatten ).uniq!
+    end
+      
+    
         
     # qt is handled different for legacy reasons; qt in HTTP param can not
     # over-ride qt from search_field_def defaults, it's only used if there
@@ -102,24 +110,6 @@ module Blacklight::SolrHelper
     unless params[:qt].blank? || ( search_field_def && search_field_def[:qt])
       solr_parameters[:qt] = params[:qt]
     end
-    
-    # add any facet fields params["facet.field"] that aren't already included
-    #  for example, if a selected facet value means a *new* facet is desired
-    #   (Stanford is doing faux "hierarchical" facets this way;  the 
-    #    hierarchical facet code for SOLR isn't fully baked yet and won't be
-    #    included until Solr 1.5)
-    # TODO: jrochkind asks why we need to copy "facet.field" to RSolr-specific
-    # :facets, can't we just use "facet.field" alone and ignore the duplicate
-    # confusing one?
-    if params.has_key?("facet.field")
-      solr_parameters[:facets] ||= []    
-      params["facet.field"].each do |ff|
-        if !solr_parameters[:facets].include?(ff)
-          solr_parameters[:facets] << ff
-        end
-      end
-    end
-
     
     ###
     # Merge in any values from extra_params argument. It doesn't seem like

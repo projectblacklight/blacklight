@@ -220,7 +220,7 @@ describe 'Blacklight::SolrHelper' do
         end
 
         it "should add in extra facet.field from params" do
-          @produced_params[:facets][:fields].should include("extra_facet")
+          @produced_params[:"facet.field"].should include("extra_facet")
         end
 
         it "should Overwrite request params sort with extra_params sort" do
