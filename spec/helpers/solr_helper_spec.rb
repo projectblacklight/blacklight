@@ -336,21 +336,16 @@ describe 'Blacklight::SolrHelper' do
     before(:all) do
        @solr_helper = MockSolrHelperContainer.new
        @solr_helper.params = {:search_field => "test_field", :q => "test query"}
-       @solr_helper.facet_limits = {nil => 20, :subject_facet => 10}
+       @solr_helper.facet_limits = {:some_facet => nil, :subject_facet => 10}
        @generated_params = @solr_helper.solr_search_params
      end
 
-     it "should include default limit+1 as facet.limit" do
-       @generated_params[:"facet.limit"].should == (@solr_helper.facet_limit_for(nil) + 1)
+     it "should include specifically configged facet limits +1" do
+        @generated_params[:"f.subject_facet.facet.limit"].should == 11      
      end
-     it "should include specifically configged facet limits" do
-      @solr_helper.facet_limit_hash.each_pair do |facet_field, limit|
-        next if facet_field.nil? # skip default nil key
-        @generated_params[:"f.#{facet_field}.facet.limit"].should == (limit +1)
-      end
-     end
-     it "should not include a facet limit for the 'nil' key in hash" do
-        @generated_params.should_not have_key(:"f..facet.limit")
+     it "should not include a facet limit for a nil key in hash" do
+        @generated_params.should_not have_key(:"f.some_facet.facet.limit")
+        @generated_params.should_not have_key(:"facet.limit")
      end
    end
    describe "get_facet_pagination" do

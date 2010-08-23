@@ -348,14 +348,39 @@ describe CatalogController do
   end
 
   describe "facet_limit_for" do
-    it "should return default value for facet_field not specified" do
-      controller.facet_limit_for("zzz_unknown_facet_field").should == Blacklight.config[:facet][:limits][nil]
-    end
     it "should return specified value for facet_field specified" do
       controller.facet_limit_for("subject_facet").should == Blacklight.config[:facet][:limits]["subject_facet"]
     end
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
       controller.facet_limit_hash.should == Blacklight.config[:facet][:limits]
+    end    
+    describe "for 'true' configured values" do
+      it "should return nil if no @response available" do
+        controller.facet_limit_for("some_field").should be_nil
+      end
+      it "should get from @response facet.limit if available" do
+        # Sorry for lame instance_variable_set, but it seems to work
+        # to let us test what we want to test. 
+        controller.instance_variable_set("@response", {
+          "responseHeader" => {
+            "params" => {
+              "facet.limit" => 11
+            }
+          }
+        })
+        controller.facet_limit_for("language_facet").should == 10
+      end
+      it "should get from specific field in @response if available" do
+        controller.instance_variable_set("@response", {
+            "responseHeader" => {
+              "params" => {
+                "facet.limit" => 11,
+                "f.language_facet.facet.limit" => 16 
+              }
+            }
+          })
+        controller.facet_limit_for("language_facet").should == 15
+      end
     end
   end
 

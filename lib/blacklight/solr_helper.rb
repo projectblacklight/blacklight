@@ -147,12 +147,9 @@ module Blacklight::SolrHelper
     end
 
     # Facet 'more' limits. Add +1 to any configured facets limits,
-    # also include 'nil' default limit.
-    if ( default_limit = facet_limit_for(nil))
-      solr_parameters[:"facet.limit"] = (default_limit + 1)                                 
-    end
-    facet_limit_hash.each_pair do |field_name, limit|
-      next if field_name.nil? # skip the 'default' key      
+    facet_limit_hash.each_key do |field_name|
+      next if field_name.nil? # skip the 'default' key
+      next unless (limit = facet_limit_for(field_name))
       solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
     end
 

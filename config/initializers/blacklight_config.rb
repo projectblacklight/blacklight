@@ -83,14 +83,21 @@ Blacklight.configure(:shared) do |config|
       "subject_geo_facet"   => "Region"
     },
     # Setting a limit will trigger Blacklight's 'more' facet values link.
-    # If left unset, then all facet values returned by solr will be displayed.
-    # nil key can be used for a default limit applying to all facets otherwise
-    # unspecified. 
-    # limit value is the actual number of items you want _displayed_,
-    # #solr_search_params will do the "add one" itself, if neccesary.
+    # * If left unset, then all facet values returned by solr will be displayed.
+    # * If set to an integer, then "f.somefield.facet.limit" will be added to
+    # solr request, with actual solr request being +1 your configured limit --
+    # you configure the number of items you actually want _displayed_ in a page.    
+    # * If set to 'true', then no additional parameters will be sent to solr,
+    # but any 'sniffed' request limit parameters will be used for paging, with
+    # paging at requested limit -1. Can sniff from facet.limit or 
+    # f.specific_field.facet.limit solr request params. This 'true' config
+    # can be used if you set limits in :default_solr_params, or as defaults
+    # on the solr side in the request handler itself. Request handler defaults
+    # sniffing requires solr requests to be made with "echoParams=all", for
+    # app code to actually have it echo'd back to see it.     
     :limits => {
-      nil => 10,
-      "subject_facet" => 20
+      "subject_facet" => 20,
+      "language_facet" => true
     }
   }
 

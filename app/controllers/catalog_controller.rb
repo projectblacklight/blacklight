@@ -147,16 +147,31 @@ class CatalogController < ApplicationController
   # for info instead of in global Blacklight.config object!
   ###################
 
-  # Look up configged facet limit for given facet_field. If no
-  # limit is configged, may drop down to default limit (nil key)
-  # otherwise, returns nil for no limit config'ed. 
+  # Look up facet limit for given facet_field. Will look at config, and
+  # if config is 'true' will look up from Solr @response if available. If
+  # no limit is avaialble, returns nil. Used from #solr_search_params
+  # to supply f.fieldname.facet.limit values in solr request (no @response
+  # available), and used in display (with @response available) to create
+  # a facet paginator with the right limit. 
   def facet_limit_for(facet_field)
     limits_hash = facet_limit_hash
     return nil unless limits_hash
-
+    
     limit = limits_hash[facet_field]
-    limit = limits_hash[nil] unless limit
 
+    if ( limit == true && @response && 
+         @response["responseHeader"] && 
+         @response["responseHeader"]["params"])
+     limit =
+       @response["responseHeader"]["params"]["f.#{facet_field}.facet.limit"] || 
+       @response["responseHeader"]["params"]["facet.limit"]
+       limit = (limit.to_i() -1) if limit
+       limit = nil if limit == -2 # -1-1==-2, unlimited. 
+    elsif limit == true
+      limit = nil
+    end
+    
+    
     return limit
   end
   helper_method :facet_limit_for
