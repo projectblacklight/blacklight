@@ -290,8 +290,7 @@ describe 'Blacklight::SolrHelper' do
       @generated_solr_facet_params[:rows].should == 0
     end
     it 'sets facets requested to facet_field argument' do
-      @generated_solr_facet_params[:facets].should be_kind_of(Hash)
-      @generated_solr_facet_params[:facets][:fields].should == @facet_field
+      @generated_solr_facet_params["facet.field".to_sym].should == @facet_field
     end
     it 'defaults offset to 0' do
       @generated_solr_facet_params['facet.offset'].should == 0
@@ -325,7 +324,7 @@ describe 'Blacklight::SolrHelper' do
       solr_search_params.each_pair do |key, value|
         # The specific params used for fetching the facet list we
         # don't care about.
-        next if [:facets, :rows, 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
+        next if [:facets, "facet.field".to_sym, :rows, 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
         # Everything else should match
         solr_facet_params[key].should == value
       end

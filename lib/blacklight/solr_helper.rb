@@ -231,7 +231,7 @@ module Blacklight::SolrHelper
     solr_params = solr_search_params(extra_controller_params)
     
     # Now override with our specific things for fetching facet values
-    solr_params[:facets] = {:fields => facet_field}
+    solr_params[:"facet.field"] = facet_field
 
     # Need to set as f.facet_field.facet.limit to make sure we
     # override any field-specific default in the solr request handler. 
@@ -254,8 +254,9 @@ module Blacklight::SolrHelper
   # used to paginate through a single facet field's values
   # /catalog/facet/language_facet
   def get_facet_pagination(facet_field, extra_controller_params={})
+  
     solr_params = solr_facet_params(facet_field, extra_controller_params)
-
+    
     # Make the solr call
     response = Blacklight.solr.find(solr_params)
 
