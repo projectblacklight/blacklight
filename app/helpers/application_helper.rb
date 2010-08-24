@@ -242,16 +242,16 @@ module ApplicationHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select") + " (" + format_num(item.hits) + ")" 
+    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + content_tag("span", "(" + format_num(item.hits) + ")", :class => "count") 
   end
 
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
-    '<span class="selected">' +
+    '<span class="selected label">' +
     render_facet_value(facet_solr_field, item, :suppress_link => true) +
     '</span>' +
-    ' [' + link_to("remove", remove_facet_params(facet_solr_field, item.value, params), :class=>"remove") + ']'
+    link_to("[remove]", remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
   end
   
   # adds the value and/or field to params[:f]
