@@ -242,7 +242,7 @@ module ApplicationHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + content_tag("span", "(" + format_num(item.hits) + ")", :class => "count") 
+    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -252,6 +252,13 @@ module ApplicationHelper
     render_facet_value(facet_solr_field, item, :suppress_link => true) +
     '</span>' +
     link_to("[remove]", remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
+  end
+
+  # Renders a count value for facet limits. Can be over-ridden locally
+  # to change style, for instance not use parens. And can be called
+  # by plugins to get consistent display. 
+  def render_facet_count(num)
+    content_tag("span",  "(" + format_num(num) + ")", :class => "count") 
   end
   
   # adds the value and/or field to params[:f]
