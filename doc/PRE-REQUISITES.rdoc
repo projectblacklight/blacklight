@@ -58,11 +58,11 @@ Information on getting the git client installed can be found here:
 
 
 ===Install Blacklight's Ruby Gem dependencies:
-You will need Rails gem version 2.3.2.  You can check if you have it installed:
+You will need Rails gem version 2.3.5.  You can check if you have it installed:
   gem list
   
-If you need to install rails 2.3.4:
-  sudo gem install -v=2.3.4 rails
+If you need to install rails 2.3.5:
+  sudo gem install -v=2.3.5 rails
 	
 ===Database dependencies
 You can choose to use any database that has ruby on rails bindings, but sqlite and MySQL are used most commonly and are documented here. 
