@@ -4,7 +4,7 @@
   
   <%= render_constraints(localized_params) %>  
 	
-	<div>
+	<div class="pageEntriesInfo">
 		<% if params[:action] == 'index' %>
 			<%= page_entries_info @response.docs, :entry_name=>'item' %>
 		<% else %>
