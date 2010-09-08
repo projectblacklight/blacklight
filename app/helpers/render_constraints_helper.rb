@@ -22,7 +22,7 @@ module RenderConstraintsHelper
             :classes => ["query"], 
             :remove => catalog_index_path(localized_params.merge(:q=>nil, :action=>'index')))
     else
-      render_constraint_element(nil, "No Keywords", :classes => ["query"], :check => false)
+      render_constraint_element(nil, "No Keywords", :classes => ["query", "no_keywords"], :check => false)
     end
   end
 
