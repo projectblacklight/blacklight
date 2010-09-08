@@ -34,7 +34,7 @@ module RenderConstraintsHelper
            content << render_constraint_element( facet_field_labels[facet],
                   val, 
                   :remove => catalog_index_path(remove_facet_params(facet, val, localized_params)),
-                  :classes => ["filter"] 
+                  :classes => ["filter", "filter-" + facet.parameterize] 
                 ) + "\n"                 					            
 				end
      end 
