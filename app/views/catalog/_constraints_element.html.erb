@@ -17,7 +17,14 @@
         <span class="filterValue"><%= options[:escape_value] ? h(value) : value %></span>
       <%- end -%>
       <%- unless options[:remove].blank? -%>
-        <%= link_to('',
+        <% accessible_remove_label = 
+              case
+                when label.blank? then "Remove"
+                when options[:escape_label] then "Remove #{h(label)}"
+                else "Remove #{label}"
+              end
+        %>                
+        <%= link_to(accessible_remove_label,
 					options[:remove],
 					:class=>'btnRemove imgReplace',
           :alt=>'remove'

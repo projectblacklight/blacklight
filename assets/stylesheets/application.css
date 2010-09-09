@@ -257,6 +257,7 @@ Search Parameters
   background:url(../images/remove.gif) no-repeat center center; 
   border-left:1px solid #d0daea;
   border-bottom: none;
+  text-indent:-99999px; /* text there for screen readers, hidden visually */
 }
 .appliedFilter .queryName, .appliedFilter .filterName {
   /* ">" image */ 
