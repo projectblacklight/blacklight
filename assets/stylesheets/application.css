@@ -45,11 +45,21 @@ h1.site_title a:link, h1.site_title a:visited, h1.site_title a:hover, h1.site_ti
 h2.search {margin:0; display:inline;}
 
 /* Search Box */
-#search {position: absolute; top: -2.5em; left: 0; text-align: left; font-size: 120%;}
+#search  {
+  text-align: left; 
+  font-size: 120%;
+  border: 1px solid #AAAAAA;
+  border-radius: 4px 4px 0 0;  
+  -moz-border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px 4px 0 0;
+  padding: 1em;
+}
 #search #q {width: 200px;}
 #search .submit {padding: 0px 0.25em; margin: 0 0.5em; text-transform: capitalize;}
 #search h2 {display: none;}
 #search hr {display: none; margin:1em 0; margin-top: 2em;}
+
+
 
 /* Content */
 table.zebra .zebra_stripe, ul.zebra .zebra_stripe {background-color: #F1F5FA;}
@@ -210,27 +220,60 @@ ul.tools li {display: inline; margin: 0 10px;}
 /* ========================
 Search Parameters
 ======================== */
-#appliedParams{margin-bottom:0 !important;}
-#appliedQueries,
-#appliedFilters{}
-#appliedParams h3 {position:relative;padding:5px 5px 5px 23px; margin:0 0 3px 0;background:#fff7e5; border:1px solid #e0d9ca; overflow:visible; /*font:normal normal normal 15px/15px helvetica, arial, sans-serif; */ color: #555;}
-#appliedParams img {position:absolute; left:5px; bottom:-8px; z-index:5;}
-ul#appliedFiltersList,
-	ul#appliedQueriesList,
-	ul#appliedFiltersList li,
-	ul#appliedQueriesList li{list-style:none;margin:0;padding:0;display:inline;}
-.appliedFilter {display:block; position:relative; overflow:visible; position:relative; background:#e2edfe; padding:5px 5px 5px 25px; margin-bottom:3px; border:1px solid #c4dafe;}
+  /* current search criteria are rendered right under search box, and appear
+   as part of same section. */
+#appliedParams {
+  background-color: #F0F0F0;
+  border-right: 1px solid #AAAAAA;
+  border-left: 1px solid #AAAAAA;
+  border-bottom: 1px solid #AAAAAA;
+  padding: 1em 0.66em 0.33em 1em;
+  border-radius:0 0 4px 4px;  
+  -moz-border-radius:0 0 4px 4px;
+  -webkit-border-radius:0 0 4px 4px;
+  margin-bottom: 2em;
+}
+
+.appliedFilter {
+  position: relative;
+  display:inline-block;
+  padding:3px 3px 3px 1.5em; 
+  margin-bottom: 0.66em;
+  margin-right: 0.33em;
+  background:#e2edfe;  
+  border:1px solid #c4dafe;
+  -moz-border-radius:15px 15px 15px 15px;
+  -webkit-border-radius:15px 15px 15px 15px;
+  border-radius: 15px 15px 15px 15px;
+}
+.appliedFilter .btnRemove{
+  display:block;
+  position:absolute; 
+  z-index:5; 
+  right:0px; 
+  top:0; 
+  width:32px;
+  height:100%; 
+  background:url(../images/remove.gif) no-repeat center center; 
+  border-left:1px solid #d0daea;
+  border-bottom: none;
+}
+.appliedFilter .queryName, .appliedFilter .filterName {
+  /* ">" image */ 
+  padding-right:14px; 
+  background:url(../images/separator.gif) no-repeat right center;
+}
+
+.filterValue {
+  padding-right:37px; /* leave room for close button */ 
+}
+
+
 .pageEntriesInfo {position:relative; padding:10px; background:#c9d484;}
-.appliedFilter .btnRemove{display:block;position:absolute; z-index:5; right:0px; top:0; width:32px;height:100%; background:url(../images/remove.gif) no-repeat center center; border-left:1px solid #d0daea;}
-.appliedFilter span {}
-.appliedFilter span.first{}
-.appliedFilter span.first span{position:relative; }
-.appliedFilter span.first span.filterName{display:inline;border:0;}
-.appliedFilter span.first span.filterValue{border:0;}
-#appliedParams a:link{text-decoration:underline;}
-#appliedParams a:hover{}
+
+
+
 #startOverLink{display:block; position:absolute; top:50%; right:0px; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
-#startOverLink:hover{background-color:none;}
-#startOverLink span{display:none;}
-.appliedFilter .queryName, .appliedFilter .filterName {padding-right:14px; background:url(../images/separator.gif) no-repeat right center;}
+
+
 

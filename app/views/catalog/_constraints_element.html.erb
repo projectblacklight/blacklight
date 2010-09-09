@@ -4,9 +4,7 @@
     # options =>
     #   :remove => url for a remove constraint link
     #   :classes => array of classes to add to container span
-    #   :check => false to not output checkmark. default true.
     options ||= {}
-    options[:check] = true unless options.has_key?(:check)
     options[:escape_label] = true unless options.has_key?(:escape_label)
     options[:escape_value] = true unless options.has_key?(:escape_value)
 -%>
@@ -25,7 +23,4 @@
           :alt=>'remove'
 				) %>
       <%- end -%>
-      <% if options[:check] %>
-	 <%= image_tag("checkmark.gif", :alt=>"", :plugin=>'blacklight', :class => "checkmark") %>
-      <% end %>
 </span>
