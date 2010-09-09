@@ -12,11 +12,6 @@ describe "catalog/_constraints_element.html.erb" do
         with_tag("span.filterValue", :text => "my value")
       end
     end
-    it "should render checkmark" do      
-      response.should have_tag("span.appliedFilter") do
-        with_tag("img[src$=checkmark.gif][alt='']")
-      end
-    end
   end
 
   describe "with remove link" do
