@@ -3,14 +3,5 @@
 	<h3>You searched for:<%= image_tag "magnifying_glass.gif", :alt=>"search icon", :plugin=>'blacklight' %></h3>
   
   <%= render_constraints(localized_params) %>  
-	
-	<div class="pageEntriesInfo">
-		<% if params[:action] == 'index' %>
-			<%= page_entries_info @response.docs, :entry_name=>'item' %>
-		<% else %>
-			Showing <%= session[:search][:counter].to_i %> of <%= format_num(session[:search][:total]) %> items from your search.
-		<% end %>
-		<%=link_to "Start&nbsp;over&thinsp;", catalog_index_path, :id=>"startOverLink" %>
-	</div>
-	
+		
 </div>

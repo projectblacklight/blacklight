@@ -5,8 +5,11 @@ module CatalogHelper
   	def format_num(num); number_with_delimiter(num) end
 
   	#
-  	#
-  	#
+  	# Displays the "showing X through Y of N" message. Not sure
+    # why that's called "page_entries_info". Not entirely sure
+    # what collection argument is supposed to duck-type too, but
+    # an RSolr::Ext::Response works.  Perhaps it duck-types to something
+    # from will_paginate?
   	def page_entries_info(collection, options = {})
       start = collection.next_page == 2 ? 1 : collection.previous_page * collection.per_page + 1
       total_hits = @response.total
@@ -28,6 +31,14 @@ module CatalogHelper
       end
   end
 
+  # Like the mysteriously named #page_entry_info above, but for an individual
+  # item show page. Displays "showing X of Y items" message.
+  # Code should call this method rather than interrogating session directly,
+  # because implementation of where this data is stored/retrieved may change. 
+  def item_page_entry_info
+    "Showing #{session[:search][:counter].to_i} of #{format_num(session[:search][:total])} items from your search."
+  end
+  
   # Look up search field user-displayable label
   # based on params[:qt] and configuration.
   def search_field_label(params)

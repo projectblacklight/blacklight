@@ -220,7 +220,7 @@ ul#appliedFiltersList,
 	ul#appliedFiltersList li,
 	ul#appliedQueriesList li{list-style:none;margin:0;padding:0;display:inline;}
 .appliedFilter {display:block; position:relative; overflow:visible; position:relative; background:#e2edfe; padding:5px 5px 5px 25px; margin-bottom:3px; border:1px solid #c4dafe;}
-#appliedParams div {position:relative; padding:10px; background:#c9d484;}
+.pageEntriesInfo {position:relative; padding:10px; background:#c9d484;}
 .appliedFilter .btnRemove{display:block;position:absolute; z-index:5; right:0px; top:0; width:32px;height:100%; background:url(../images/remove.gif) no-repeat center center; border-left:1px solid #d0daea;}
 .appliedFilter span {}
 .appliedFilter span.first{}
@@ -229,8 +229,8 @@ ul#appliedFiltersList,
 .appliedFilter span.first span.filterValue{border:0;}
 #appliedParams a:link{text-decoration:underline;}
 #appliedParams a:hover{}
-#appliedParams a#startOverLink{display:block; position:absolute; top:50%; right:0px; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center;}
-#appliedParams a#startOverLink:hover{background-color:none;}
-#appliedParams a#startOverLink span{display:none;}
+#startOverLink{display:block; position:absolute; top:50%; right:0px; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
+#startOverLink:hover{background-color:none;}
+#startOverLink span{display:none;}
 .appliedFilter .queryName, .appliedFilter .filterName {padding-right:14px; background:url(../images/separator.gif) no-repeat right center;}
 
