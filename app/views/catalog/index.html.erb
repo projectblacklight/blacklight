@@ -18,8 +18,8 @@
 
 	<div class="pagination">
 	  <h2>Results navigation</h2>
-	  <%= will_paginate @response.docs, :page_links => false, :class => 'prev_next_links' %>
-	  <%= will_paginate @response.docs, :container => false %>
+	  <%= will_paginate @response.docs, :page_links => false, :container => false %>
+	  <%= will_paginate @response.docs, :next_label => "", :previous_label => "", :class => "page_links" %>
 	</div>
 
 	<%= render 'sort_and_per_page' %>

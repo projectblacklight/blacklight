@@ -93,14 +93,61 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
   background-color:#F0F0F0;
   border-left: 1px solid #AAAAAA;
   border-right: 1px solid #AAAAAA;    
+  position: relative; /* to allow abs positioning of buttons inside */
+  line-height: 2em;
 }
+
 .pagination h2 {display: none;}
+
+.pagination .prev_page {
+  position: absolute;
+  left: 0;
+  margin-left: 0.66em;
+  border-bottom: none;  
+}
+.pagination .next_page {
+  position: absolute;
+  right: 0;
+  margin-right: 0.66em;
+  border-bottom: none;
+  
+}
 #results_text {display: none;}
-.pagination a, .pagination span {padding: 0px 5px; border: 0px;}
-.pagination .prev_page, .pagination .next_page {display:none;}
-.prev_next_links .prev_page, .prev_next_links .next_page {display:inline;}
-.prev_next_links {float:left;}
-#previousNextDocument {margin:5px 0;}
+
+
+.page_links a, .page_links span {
+  margin-right:0.2em;
+  padding:0.2em 0.5em;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.page_links span.current {
+background:none repeat scroll 0 0 #2E4F81;
+border:1px solid #2E4F81;
+color:white;
+font-weight:bold;
+}
+.pagination span.disabled {
+    color: #999;
+}
+
+.pagination a {
+  /* leave room so when we show the box on hover, it won't nudge
+     everything all over the place. */
+  border: 1px solid transparent;  
+}
+.pagination a:hover, .pagination a:focus {
+  border:1px solid #000033;
+  text-decoration:none;
+}
+
+.page_links {
+  /* centering, taking account of absolutely positioned right/left buttons*/  
+  margin-right: 8em;
+  margin-left: 8em;
+  text-align: center;
+}
 
 .pageEntriesInfo {
   background-color:#F0F0F0;
