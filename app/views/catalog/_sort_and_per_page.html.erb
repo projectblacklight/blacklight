@@ -1,16 +1,19 @@
 <div id="sortAndPerPage">
 	
-	<% form_tag catalog_index_path, :method=>:get, :class=>'per_page' do %>
-		<%= label_tag(:per_page, "Show " + select_tag(:per_page, options_for_select(['10', '20', '50', '100'], h(params[:per_page])), :title => "Number of results to display per page", :onchange => 'this.form.submit()') + " per page") %>
 
-    <%= search_as_hidden_fields(:omit_keys => [:page, :per_page]) %>
-		
-    <noscript><%= submit_tag 'update' %></noscript>
-	<% end %>
-
-	<label for="sort">Sort by </label>
-
+    
 	<% unless @response.response['numFound'] < 2 %>
+  
+  	<% form_tag catalog_index_path, :method=>:get, :class=>'per_page' do %>
+      <%= label_tag(:per_page, "Show " + select_tag(:per_page, options_for_select(['10', '20', '50', '100'], h(params[:per_page])), :title => "Number of results to display per page", :onchange => 'this.form.submit()') + " per page") %>
+  
+      <%= search_as_hidden_fields(:omit_keys => [:page, :per_page]) %>
+      
+      <noscript><%= submit_tag 'update' %></noscript>
+    <% end %>
+
+    <label for="sort">Sort by </label>
+
 		<% form_tag catalog_index_path, :method=>:get, :class=>'sort', :id => "sort_form" do %>
 			<%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort])), :onchange => 'this.form.submit()') %>
 			      
