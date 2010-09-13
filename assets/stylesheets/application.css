@@ -175,7 +175,6 @@ font-weight:bold;
   -moz-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
-  
 }
 
 /* Search Results */
@@ -185,7 +184,6 @@ font-weight:bold;
 #documents .documentHeader {background-color: #fff; padding: 0px;}
 #documents .documentHeader .documentFunctions {text-align:right;}
 #documents .per_page {padding-right: 5px;}
-#documents #results_label {margin-left: 5px;}
 
 /* Result List (http://www.quirksmode.org/css/clearing.html) */
 h3.index_title {clear: both; margin: 0px; padding: 0px; width: 460px;}
@@ -239,8 +237,7 @@ form div.row label {float:left; width:120px; text-align:right; margin-right: .5e
 form div.row {clear:both; margin-bottom:.5em;}
 form div.row.submit {margin-left:130px;}
 form.per_page {float:right;}
-h2#results_label {font-size:100%;}
-h2#results_label, form.sort {display:inline;}
+form.sort {display:inline;}
 textarea {width:30em; height:15em;}
 
 .fieldWithErrors {display:inline;}
