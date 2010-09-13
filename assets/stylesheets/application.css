@@ -122,6 +122,12 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
   border-bottom: none;
 }
 
+.page_links .next_page, .page_links .prev_page {
+  /* we show these seperately, but can't get will_paginate to suppress
+  them entirely. */
+  display: none;
+}
+
 .page_links span.current {
 background:none repeat scroll 0 0 #2E4F81;
 border:1px solid #2E4F81;
