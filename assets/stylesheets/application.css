@@ -219,7 +219,7 @@ font-weight:bold;
 /* Search Results */
 .document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc;}
 
-#documents {background-color: #eee; color: #333; margin-top: 2em; }
+#documents {background-color: #eee; color: #333; margin-top: 2em; margin-bottom: 2em; }
 #documents .documentHeader {background-color: #fff; padding: 0px;}
 #documents .documentHeader .documentFunctions {text-align:right;}
 #documents .per_page {padding-right: 5px;}
