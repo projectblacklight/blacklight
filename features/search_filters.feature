@@ -6,8 +6,7 @@ Feature: Search Filters
   Scenario: Filter a blank search
     Given I am on the home page
     When I follow "Tibetan"
-    Then I should see "Displaying all 6 items"
-    And I should see "No Keywords"
+    Then I should see "Displaying all 6 items"    
     And I should see the applied filter "Language" with the value "Tibetan (6)"
     When I follow "India"
     Then I should see "Displaying all 2 items"
@@ -49,7 +48,6 @@ Feature: Search Filters
   Scenario: Apply and remove filters
     Given I am on the home page
     When I follow "Tibetan"
-    Then I should see "No Keywords"
     And I should see "Language"
     And I should see "Tibetan (6)"
     And I should see "[remove]"
