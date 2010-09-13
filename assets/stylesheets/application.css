@@ -32,7 +32,7 @@ a:hover {color: #029;}
 
 /* Body Container Layout */
 #bd {padding: 0 2em 2em 2em;}
-.yui-t1 #yui-main .yui-b, .yui-t2 #yui-main .yui-b, .yui-t3 #yui-main .yui-b {border-left: 1px dotted #ccc; padding: 2em 0 2em 2em; position: relative;}
+.yui-t1 #yui-main .yui-b, .yui-t2 #yui-main .yui-b, .yui-t3 #yui-main .yui-b {border-left: 1px dotted #ccc; padding: 1em 0 2em 2em; position: relative;}
 
 /* Left Sidebar Layout */
 .sidebar p {padding-top: 2em;}
