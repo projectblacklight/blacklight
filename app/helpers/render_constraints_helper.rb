@@ -17,7 +17,14 @@ module RenderConstraintsHelper
   def render_constraints_query(localized_params = params)
     # So simple don't need a view template, we can just do it here.
     if (!localized_params[:q].blank?)
-      render_constraint_element(search_field_label(localized_params),
+      label = 
+        if (params[:search_field] == Blacklight.default_search_field[:key] or params[:search_field].blank? )
+          nil
+        else
+          Blacklight.label_for_search_field(params[:search_field])
+        end
+    
+      render_constraint_element(label,
             localized_params[:q], 
             :classes => ["query"], 
             :remove => catalog_index_path(localized_params.merge(:q=>nil, :action=>'index')))
