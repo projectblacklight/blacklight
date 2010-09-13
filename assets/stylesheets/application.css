@@ -207,7 +207,7 @@ font-weight:bold;
   text-align: center;
 }
 
-#startOverLink{display:block; position:absolute; top:50%; right:0.66em; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
+#startOverLink{display:block; position:absolute; top:50%; right:0.66em; margin-top:-12px; padding:0 7px 3px 12px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
 
 
 #sortAndPerPage {
