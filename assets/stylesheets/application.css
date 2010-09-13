@@ -24,7 +24,7 @@ a:link, a:visited, a:active {border-bottom: 1px dotted #aaa; color: #2e4f81; tex
 a:hover {color: #029;}
 
 /* Header Container Layout */
-#hd {margin: 0em 2em 0 2em; padding: 2em 0 2em 0; border-bottom: 1px dotted #ccc;}
+#hd {margin: 0em 2em 0 2em; padding: 2em 0 2em 0; }
 #hd .yui-g {text-align: right;}
 #hd .yui-g .first {text-align: left;}
 #doc, #doc2, #doc3, #doc4 {background: #fff url('../images/border.png') repeat-x top left; border-bottom: 2px solid #555; margin: 0px auto;}
