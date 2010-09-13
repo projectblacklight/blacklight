@@ -128,7 +128,10 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
   background-color:#F0F0F0;
   border-style: solid;
   border-color: #AAAAAA;
-  border-width: 0 1px 1px 1px;
+  border-width: 0 1px 1px 1px;  
+  border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  -webkit-border-radius: 0 0 4px 4px;
   position: relative; /* to allow abs positioning of buttons inside */
   line-height: 2em;
 }
