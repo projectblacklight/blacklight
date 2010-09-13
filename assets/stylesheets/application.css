@@ -89,7 +89,7 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
 .constraints {margin: 0px; padding: 0px;}
 
 .pagination {
-  padding: 0.66em;
+  padding: 1em;
   background-color:#F0F0F0;
   border-left: 1px solid #AAAAAA;
   border-right: 1px solid #AAAAAA;    
@@ -102,13 +102,13 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
 .pagination .prev_page {
   position: absolute;
   left: 0;
-  margin-left: 0.66em;
+  margin-left: 1em;
   border-bottom: none;  
 }
 .pagination .next_page {
   position: absolute;
   right: 0;
-  margin-right: 0.66em;
+  margin-right: 1em;
   border-bottom: none;
   
 }
@@ -161,7 +161,7 @@ font-weight:bold;
   -moz-border-radius:4px 4px 0 0;
   border-radius:4px 4px 0 0;
   -webkit-border-radius:4px 4px 0 0;
-  padding: 0.66em;
+  padding: 1em;
   position:relative; /* so the absolutely positioned startOverLink does right */
 }
 
@@ -170,7 +170,7 @@ font-weight:bold;
 
 #sortAndPerPage {
   background-color: #eee;
-  padding: 0.66em;
+  padding: 1em;
   border: 1px solid #AAAAAA;
   -moz-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
