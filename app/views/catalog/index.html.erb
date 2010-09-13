@@ -16,6 +16,8 @@
     <%=link_to "Start&nbsp;over&thinsp;", catalog_index_path, :id=>"startOverLink" %>
   </div>
   
+	<%= render 'sort_and_per_page' %>
+  
   <% if @response.docs.total_pages > 1 %>
     <div class="pagination">
       <% # will_paginate is called oddly because we want next/prev together
@@ -27,8 +29,6 @@
       <%= will_paginate @response.docs, :next_label => '', :previous_label => '', :class => "page_links" %>
     </div>
   <% end %>
-
-	<%= render 'sort_and_per_page' %>
 
 	<%= render :partial=>'document_list' %>
 
