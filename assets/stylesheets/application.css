@@ -166,7 +166,7 @@ font-weight:bold;
   position:relative; /* so the absolutely positioned startOverLink does right */
 }
 
-#startOverLink{display:block; position:absolute; top:50%; right:0px; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
+#startOverLink{display:block; position:absolute; top:50%; right:1em; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
 
 
 #sortAndPerPage {
