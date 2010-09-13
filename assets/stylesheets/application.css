@@ -176,6 +176,9 @@ font-weight:bold;
   border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
 }
+#sortAndPerPage label {
+  font-weight: normal;
+}
 
 /* Search Results */
 .document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc;}
