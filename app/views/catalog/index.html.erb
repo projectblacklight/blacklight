@@ -15,16 +15,18 @@
     <%= page_entries_info @response.docs, :entry_name=>'item' %>
     <%=link_to "Start&nbsp;over&thinsp;", catalog_index_path, :id=>"startOverLink" %>
   </div>
-
-	<div class="pagination">
-    <% # will_paginate is called oddly because we want next/prev together
-       # at left for screen reader accessibility. We use CSS to restore
-       # a more conventional next-on-right. 
-    %>
-	  <h2>Results navigation</h2>
-	  <%= will_paginate @response.docs, :page_links => false, :container => false %>
-	  <%= will_paginate @response.docs, :next_label => '', :previous_label => '', :class => "page_links" %>
-	</div>
+  
+  <% if @response.docs.total_pages > 1 %>
+    <div class="pagination">
+      <% # will_paginate is called oddly because we want next/prev together
+         # at left for screen reader accessibility. We use CSS to restore
+         # a more conventional next-on-right. 
+      %>
+      <h2>Results navigation</h2>
+      <%= will_paginate @response.docs, :page_links => false, :container => false %>
+      <%= will_paginate @response.docs, :next_label => '', :previous_label => '', :class => "page_links" %>
+    </div>
+  <% end %>
 
 	<%= render 'sort_and_per_page' %>
 

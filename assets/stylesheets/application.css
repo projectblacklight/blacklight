@@ -91,8 +91,9 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
 .pagination {
   padding: 1em;
   background-color:#F0F0F0;
-  border-left: 1px solid #AAAAAA;
-  border-right: 1px solid #AAAAAA;    
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 0 1px 1px 1px;
   position: relative; /* to allow abs positioning of buttons inside */
   line-height: 2em;
 }
@@ -171,7 +172,9 @@ font-weight:bold;
 #sortAndPerPage {
   background-color: #eee;
   padding: 1em;
-  border: 1px solid #AAAAAA;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 0 1px 1px 1px;
   -moz-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
