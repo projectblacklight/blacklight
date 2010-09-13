@@ -88,7 +88,12 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
 /* Page Navigation */
 .constraints {margin: 0px; padding: 0px;}
 
-.pagination {text-align:right; padding-top: 1em; margin-bottom:.5em;}
+.pagination {
+  padding: 0.66em;
+  background-color:#F0F0F0;
+  border-left: 1px solid #AAAAAA;
+  border-right: 1px solid #AAAAAA;    
+}
 .pagination h2 {display: none;}
 #results_text {display: none;}
 .pagination a, .pagination span {padding: 0px 5px; border: 0px;}
@@ -97,12 +102,33 @@ ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
 .prev_next_links {float:left;}
 #previousNextDocument {margin:5px 0;}
 
-#sortAndPerPage {background-color: #eee;}
+.pageEntriesInfo {
+  background-color:#F0F0F0;
+  border: 1px solid #AAAAAA;
+  -moz-border-radius:4px 4px 0 0;
+  border-radius:4px 4px 0 0;
+  -webkit-border-radius:4px 4px 0 0;
+  padding: 0.66em;
+  position:relative; /* so the absolutely positioned startOverLink does right */
+}
+
+#startOverLink{display:block; position:absolute; top:50%; right:0px; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
+
+
+#sortAndPerPage {
+  background-color: #eee;
+  padding: 0.66em;
+  border: 1px solid #AAAAAA;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+  -webkit-border-radius: 0 0 4px 4px;
+  
+}
 
 /* Search Results */
 .document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc;}
 
-#documents {background-color: #eee; color: #333; }
+#documents {background-color: #eee; color: #333; margin-top: 2em; }
 #documents .documentHeader {background-color: #fff; padding: 0px;}
 #documents .documentHeader .documentFunctions {text-align:right;}
 #documents .per_page {padding-right: 5px;}
@@ -270,11 +296,6 @@ Search Parameters
 }
 
 
-.pageEntriesInfo {position:relative; padding:10px; background:#c9d484;}
-
-
-
-#startOverLink{display:block; position:absolute; top:50%; right:0px; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
 
 
 
