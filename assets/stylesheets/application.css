@@ -199,6 +199,7 @@ font-weight:bold;
   -webkit-border-radius:4px 4px 0 0;
   padding: 1em;
   position:relative; /* so the absolutely positioned startOverLink does right */
+  text-align: center;
 }
 
 #startOverLink{display:block; position:absolute; top:50%; right:1em; margin-top:-12px; padding:0 10px 3px 15px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/start_over.gif) no-repeat center center; border-bottom: none;}
