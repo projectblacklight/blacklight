@@ -10,11 +10,11 @@
 </div>
 
 <%# this should be in a partial -%>
-<script type="text/javascript">
-  if(history.length > 1){
-    document.write(<%= render 'previous_next_doc' %>);
-  }
-</script>
+  <script type="text/javascript">
+    if(history.length > 1){
+      document.write("<%= escape_javascript(render 'previous_next_doc') %>");
+    }
+    </script>
   
 	
 		
