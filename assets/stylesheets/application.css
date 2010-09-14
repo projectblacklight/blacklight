@@ -393,7 +393,14 @@ Search Parameters
   border-left:1px solid #d0daea;
   border-bottom: none;
   text-indent:-99999px; /* text there for screen readers, hidden visually */
+  outline: none; /* the screen reader text indent above will make weird outlines on link clicking, unless we turn em off. */
 }
+.appliedFilter .btnRemove:active, .appliedFilter .btnRemove:focus {
+  /* we took outline away above; add a border instead, for accesibility
+     so someone tabbing to the link knows what link is active */
+  border: 1px dotted #FFD27A;
+}
+
 .appliedFilter .queryName, .appliedFilter .filterName {
   /* ">" image */ 
   padding-right:14px; 
