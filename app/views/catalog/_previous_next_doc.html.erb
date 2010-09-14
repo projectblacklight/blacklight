@@ -1,7 +1,6 @@
 <% if @previous_document || @next_document %>
 	<div id="previousNextDocument">
 		<%= link_to_previous_document(@previous_document) %>
-		<% if @previous_document && @next_document %> | <% end %>
 		<%= link_to_next_document(@next_document)%>	
 	</div>
 <% end %>

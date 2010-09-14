@@ -229,6 +229,11 @@ font-weight:bold;
   border-radius: 0 0 4px 4px;
   -webkit-border-radius: 0 0 4px 4px;
   margin-bottom: 1.5em;
+  overflow: auto; /* to make it expand to hold floated children */
+}
+
+#previousNextDocument .next {
+  float: right;
 }
 
 /* Search Results */
