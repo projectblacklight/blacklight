@@ -16,7 +16,7 @@ describe ApplicationController do
         #  item == ["jquery-1.4.2.min.js", "jquery-ui-1.7.2.custom.min.js", "blacklight", "application", "accordion", "lightbox", {:plugin=>:blacklight}]
         #end
 
-        controller.stylesheet_links.should include(["yui", "jquery/ui-lightness/jquery-ui-1.8.1.custom.css", "application", "pagination", {:media=>"all", :plugin=>:blacklight}])
+        controller.stylesheet_links.should include(["yui", "jquery/ui-lightness/jquery-ui-1.8.1.custom.css", "application", {:media=>"all", :plugin=>:blacklight}])
       end
     end
   end
