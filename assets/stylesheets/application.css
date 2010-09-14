@@ -221,6 +221,16 @@ font-weight:bold;
   font-weight: normal;
 }
 
+#previousNextDocument { /* on item detail page, under paging info */
+  padding: 0.66em;
+  background-color: #F0F0F0;
+  border: 1px solid #AAAAAA;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+  -webkit-border-radius: 0 0 4px 4px;
+  margin-bottom: 1.5em;
+}
+
 /* Search Results */
 .document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc;}
 

@@ -10,18 +10,16 @@
 </div>
 
 <%# this should be in a partial -%>
-<div class="yui-g">
-	<div class="yui-u first">
-	  <script type="text/javascript">
-	    if(history.length > 1){
-	      document.write(<%= render 'previous_next_doc' %>);
-	    }
-      </script>
-    </div>
-	<div class="yui-u">
+<script type="text/javascript">
+  if(history.length > 1){
+    document.write(<%= render 'previous_next_doc' %>);
+  }
+</script>
+  
+	
 		
-	</div>
-</div>
+	
+
 <% sidebar_items << capture do %>
   <p><%= link_back_to_catalog %></p>
 <% end %>

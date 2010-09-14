@@ -36,7 +36,7 @@ module CatalogHelper
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change. 
   def item_page_entry_info
-    "Showing #{session[:search][:counter].to_i} of #{format_num(session[:search][:total])} items from your search."
+    "Showing item <b>#{session[:search][:counter].to_i} of #{format_num(session[:search][:total])}</b> from your search."
   end
   
   # Look up search field user-displayable label
