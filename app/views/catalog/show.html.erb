@@ -9,13 +9,8 @@
   <%=link_to "Start&nbsp;over&thinsp;", catalog_index_path, :id=>"startOverLink" %>
 </div>
 
-<%# this should be in a partial -%>
-  <script type="text/javascript">
-    if(history.length > 1){
-      document.write("<%= escape_javascript(render 'previous_next_doc') %>");
-    }
-    </script>
-  
+<%= render 'previous_next_doc' %>
+    
 	
 		
 	
