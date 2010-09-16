@@ -376,6 +376,19 @@ Search Parameters
   left: -100000000px;
 }
 
+/* but don't hide it on show page, where there is no actual search box. */
+.show #appliedParams .label {
+  position: static;
+  margin-top: 0;
+}
+.show #appliedParams {
+  /* it's the top, give it a top border with corners */
+  border-top: 1px solid #AAAAAA;
+  border-radius:4px 4px 4px 4px;  
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px 4px 4px 4px;
+}
+
 .appliedFilter {
   position: relative;
   display:inline-block;
