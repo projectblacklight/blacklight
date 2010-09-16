@@ -369,6 +369,13 @@ Search Parameters
   margin-bottom: 1.5em;
 }
 
+#appliedParams .label {
+  /* just here for screen-readers, attributes copied from Jquery-ui 
+     .ui-helper-hidden-accessible */
+  position: absolute;
+  left: -100000000px;
+}
+
 .appliedFilter {
   position: relative;
   display:inline-block;
