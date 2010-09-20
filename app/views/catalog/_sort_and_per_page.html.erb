@@ -12,9 +12,10 @@
       <noscript><%= submit_tag 'update' %></noscript>
     <% end %>
 
-    <label for="sort">Sort by </label>
+
 
 		<% form_tag catalog_index_path, :method=>:get, :class=>'sort', :id => "sort_form" do %>
+      <label for="sort">Sort by </label>
 			<%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort])), :onchange => 'this.form.submit()') %>
 			      
       <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>
