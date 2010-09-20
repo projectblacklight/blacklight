@@ -284,6 +284,7 @@ module Blacklight::SolrHelper
   def get_single_doc_via_search(extra_controller_params={})
     solr_params = solr_search_params(extra_controller_params)
     solr_params[:per_page] = 1
+    solr_params[:rows] = 1
     solr_params[:fl] = '*'
     Blacklight.solr.find(solr_params).docs.first
   end
