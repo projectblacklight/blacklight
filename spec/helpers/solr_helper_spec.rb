@@ -103,6 +103,18 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
+    describe "for request params also passed in as argument" do
+      before do
+        @req_params = HashWithIndifferentAccess.new({:q => "some query"})
+        params = @req_params
+      end
+      it "should only have one 'q' key, as symbol" do
+        solr_params = @solr_helper.solr_search_params( @req_params )
+        solr_params.keys.should include(:q)
+        solr_params.keys.should_not include("q")
+      end
+    end
+
 
     describe "for one facet, no query" do
       it "should have proper solr parameters" do
