@@ -254,7 +254,7 @@ module Blacklight::SolrHelper
   # used to paginate through a single facet field's values
   # /catalog/facet/language_facet
   def get_facet_pagination(facet_field, extra_controller_params={})
-  
+    
     solr_params = solr_facet_params(facet_field, extra_controller_params)
     
     # Make the solr call
@@ -271,10 +271,13 @@ module Blacklight::SolrHelper
 
     
     # Actually create the paginator!
+    # NOTE: The sniffing of the proper sort from the solr response is not
+    # currently tested for, tricky to figure out how to test, since the
+    # default setup we test against doesn't use this feature. 
     return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
       :offset => solr_params['facet.offset'], 
       :limit => limit,
-      :sort => response["responseHeader"]["params"]["facet.sort"]
+      :sort => response["responseHeader"]["params"]["f.#{facet_field}.facet.sort"] || response["responseHeader"]["params"]["facet.sort"]
     )
   end
   
