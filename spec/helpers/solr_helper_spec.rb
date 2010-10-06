@@ -157,20 +157,41 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
-    describe "for a field search in request parameters" do
-      it 'should look up qt from field definition' do
+    describe "solr parameters for a field search from config (subject)" do
+      before do
+        @solr_params = @solr_helper.solr_search_params( @subject_search_params )
+      end
+      it "should look up qt from field definition" do
+        @solr_params[:qt].should == "search"
+      end
+      it "should not include weird keys not in field definition" do
+        @solr_params[:phrase_filters].should be_nil
+        @solr_params[:fq].should be_nil
+        @solr_params[:commit].should be_nil
+        @solr_params[:action].should be_nil
+        @solr_params[:controller].should be_nil
+      end
+      it "should include proper 'q', possibly with LocalParams" do
+        @solr_params[:q].should match(/(\{[^}]+\})?( *)?wome/)
+      end
+      it "should include spellcheck.q, without LocalParams" do
+        @solr_params["spellcheck.q"].should == "wome"
+      end
+      it "should include facet.field from default_solr_params" do
+        @solr_params[:"facet.field"].should == Blacklight.config[:default_solr_params][:"facet.field"]
+      end
+      it "should include spellcheck.dictionary from field def solr_parameters" do
+        @solr_params[:"spellcheck.dictionary"].should == "subject"
+      end
+      it "should add on :solr_local_parameters using Solr LocalParams style" do
         params = @solr_helper.solr_search_params( @subject_search_params )
 
-        params[:qt].should == "subject_search"
-        params[:phrase_filters].should be_nil
-        params[:fq].should be_nil
-
-        params[:q].should == "wome"
-        params["spellcheck.q"].should == params[:q]
-        params[:"facet.field"].should == Blacklight.config[:default_solr_params][:"facet.field"]
-        params[:commit].should be_nil
-        params[:action].should be_nil
-        params[:controller].should be_nil
+        #q == "{!pf=$subject_pf $qf=subject_qf} wome", make sure
+        #the LocalParams are really there
+        params[:q] =~ /^\{!([^}]+)\}/
+        key_value_pairs = $1.split(" ")
+        key_value_pairs.should include("pf=$subject_pf")
+        key_value_pairs.should include("qf=$subject_qf")
       end
     end
     describe "overriding of qt parameter" do
@@ -705,17 +726,17 @@ describe 'Blacklight::SolrHelper' do
     end
 
     it "title search results for just-poor-enough query term should have spelling suggestions" do
-      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'yehudiyam', :qt => 'title_search'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'yehudiyam', :qt => 'search', :"spellcheck.dictionary" => "title"})
       solr_response.spelling.words.should include('yehudiyim')
     end
 
     it "author search results for just-poor-enough-query term should have spelling suggestions" do
-      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'shirma', :qt => 'author_search'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'shirma', :qt => 'search', :"spellcheck.dictionary" => "author"})
       solr_response.spelling.words.should include('sharma')
     end
 
     it "subject search results for just-poor-enough-query term should have spelling suggestions" do
-      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'wome', :qt => 'subject_search'})
+      (solr_response, document_list) = @solr_helper.get_search_results({:q => 'wome', :qt => 'search', :"spellcheck.dictionary" => "subject"})
       solr_response.spelling.words.should include('women')
     end
 
