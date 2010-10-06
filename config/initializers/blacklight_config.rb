@@ -176,14 +176,70 @@ Blacklight.configure(:shared) do |config|
 
   # "fielded" search configuration. Used by pulldown among other places.
   # For supported keys in hash, see rdoc for Blacklight::SearchFields
-  # Note additional solr_parameters on a per-search-field basis can be given
-  # with :solr_parameters and :solr_local_parameters (the latter for $param
-  # solr LocalParams that can reference other params). 
+  #
+  # Search fields will inherit the :qt solr request handler from
+  # config[:default_solr_parameters], OR can specify a different one
+  # with a :qt key/value. Below examples inherit, except for subject
+  # that specifies the same :qt as default for our own internal
+  # testing purposes.
+  #
+  # The :key is what will be used to identify this BL search field internally,
+  # as well as in URLs -- so changing it after deployment may break bookmarked
+  # urls.  A display label will be automatically calculated from the :key,
+  # or can be specified manually to be different. 
   config[:search_fields] ||= []
-  config[:search_fields] << {:key => "all_fields",  :display_label => 'All Fields', :qt => 'search'}
-  config[:search_fields] << {:key => 'title', :qt => 'title_search'}
-  config[:search_fields] << {:key =>'author', :qt => 'author_search'}
-  config[:search_fields] << {:key => 'subject', :qt=> 'subject_search'}
+
+  # This one uses all the defaults set by the solr request handler. Which
+  # solr request handler? The one set in config[:default_solr_parameters][:qt],
+  # since we aren't specifying it otherwise. 
+  config[:search_fields] << {
+    :key => "all_fields",  
+    :display_label => 'All Fields'   
+  }
+
+  # Now we see how to over-ride Solr request handler defaults, in this
+  # case for a BL "search field", which is really a dismax aggregate
+  # of Solr search fields. 
+  config[:search_fields] << {
+    :key => 'title',     
+    # solr_parameters hash are sent to Solr as ordinary url query params. 
+    :solr_parameters => {
+      :"spellcheck.dictionary" => "title"
+    },
+    # :solr_local_parameters will be sent using Solr LocalParams
+    # syntax, as eg {! qf=$title_qf }. This is neccesary to use
+    # Solr parameter de-referencing like $title_qf.
+    # See: http://wiki.apache.org/solr/LocalParams
+    :solr_local_parameters => {
+      :qf => "$title_qf",
+      :pf => "$title_pf"
+    }
+  }
+  config[:search_fields] << {
+    :key =>'author',     
+    :solr_parameters => {
+      :"spellcheck.dictionary" => "author" 
+    },
+    :solr_local_parameters => {
+      :qf => "$author_qf",
+      :pf => "$author_pf"
+    }
+  }
+
+  # Specifying a :qt only to show it's possible, and so our internal automated
+  # tests can test it. In this case it's the same as 
+  # config[:default_solr_parameters][:qt], so isn't actually neccesary. 
+  config[:search_fields] << {
+    :key => 'subject', 
+    :qt=> 'search',
+    :solr_parameters => {
+      :"spellcheck.dictionary" => "subject"
+    },
+    :solr_local_parameters => {
+      :qf => "$subject_qf",
+      :pf => "$subject_pf"
+    }
+  }
   
   # "sort results by" select (pulldown)
   # label in pulldown is followed by the name of the SOLR field to sort by and
