@@ -8,6 +8,6 @@
   <%= link_to 'Login', login_path %>
 <% end %>
 | 
-<%= link_to "Folder", folder_index_path %>
+<%= link_to "Folder", folder_index_path %> <span id="folder_number"><%= "(#{session[:folder_document_ids] ? session[:folder_document_ids].length : 0})" %></span>
 |
 <%= link_to "Search History", search_history_index_path %>
