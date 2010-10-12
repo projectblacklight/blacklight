@@ -8,6 +8,35 @@ $(document).ready(function() {
   $('ul.zebra li:even').addClass('zebra_stripe');
 });
 
+// function for adding items to your folder with Ajax
+$(document).ready(function() {
+	// each form for adding things into the folder.
+	$("form.addFolder").each(function() {
+		// when the form is submitted
+		$(this).submit(function() {
+			var form = $(this);
+			// make a post request to add the item to the users folder items
+			$.post('/folder?id=' + form.children("input[name=id]").attr("value"), function(data) {
+				// toggle the next element w/ a folder_note class
+			  form.next(".folder_note").toggle();
+			  // remove the form from the DOM
+			  form.remove();
+			  // increase the number of items in the folder 
+			  $("#folder_number").text(parseInt($("#folder_number").text()) + 1);
+			  // add in a fading notice that the item was added, then remove it from the DOM
+			  top = parseInt($(window).scrollTop()) + 100;
+				notice = "<div id='fading_notice' class='notice' style='position:absolute;top:" + top + "px;left:40%'>" + form.children("input[name=title]").attr("value") + " added to your folder.</div>";
+			  $("body").append(notice);
+			  $("#fading_notice").fadeOut(3500, function(){
+				  $("#fading_notice").remove();
+			  });
+			});
+			// do not submit the form
+			return false;
+		});
+	});
+});
+
 /*************  
  * Facet more dialog. Uses JQuery UI Dialog. Use crazy closure technique. 
  * http://docs.jquery.com/UI/Dialog
