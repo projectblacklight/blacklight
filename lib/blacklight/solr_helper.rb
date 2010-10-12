@@ -20,7 +20,13 @@ module Blacklight::SolrHelper
   # When a request for a single solr document by id
   # is not successful, raise this:
   class InvalidSolrID < RuntimeError; end
-
+  
+  def self.included(mod)
+    if mod.respond_to?(:helper_method)
+      mod.helper_method(:facet_limit_hash)
+      mod.helper_method(:facet_limit_for)
+    end
+  end
   # A helper method used for generating solr LocalParams, put quotes
   # around the term unless it's a bare-word. Escape internal quotes
   # if needed. 
@@ -335,5 +341,37 @@ module Blacklight::SolrHelper
     a = [solr_params[:q]]
     a << response.docs.map {|doc| doc[solr_params[:fl]].to_s }
   end
+  
+    ##################
+  # Config-lookup methods. Should be moved to a module of some kind, once
+  # all this stuff is modulized. But methods to look up config'ed values,
+  # so logic for lookup is centralized in case storage methods changes.
+  # Such methods need to be available from controller and helper sometimes,
+  # so they go in controller with helper_method added.
+  # TODO: Make method look inside the controller for info
+  # instead of in global Blacklight.config object!
+  ###################
+
+  # Look up configged facet limit for given facet_field. If no
+  # limit is configged, may drop down to default limit (nil key)
+  # otherwise, returns nil for no limit config'ed. 
+  def facet_limit_for(facet_field)
+    limits_hash = facet_limit_hash
+    return nil unless limits_hash
+
+    limit = limits_hash[facet_field]
+    limit = limits_hash[nil] unless limit
+
+    return limit
+  end
+  #helper_method :facet_limit_for
+  # Returns complete hash of key=facet_field, value=limit.
+  # Used by SolrHelper#solr_search_params to add limits to solr
+  # request for all configured facet limits.
+  def facet_limit_hash
+    Blacklight.config[:facet][:limits]           
+  end
+  #helper_method :facet_limit_hash
+  
   
 end
