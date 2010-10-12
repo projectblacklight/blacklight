@@ -2,8 +2,8 @@
   <div>This item is in your <%= link_to 'Folder', folder_index_path %></div>
 <% else %>
   <% form_tag("/folder", :name => "folder#{document[:id]}", :class=>'addFolder') do -%>
-    <%= hidden_field_tag(:id, h(document[:id])) %>
-    <%= hidden_field_tag(:title, h(document[document_show_link_field])) %>
+    <%= hidden_field_tag("id_#{document[:id]}".to_sym, h(document[:id]), :name=>"id") %>
+    <%= hidden_field_tag("title_#{document[:id]}".to_sym, h(document[document_show_link_field]), :name=>"title" ) %>
     <% if display == 'button' %>
       <%= submit_tag 'Add to Folder', :id => "folder_submit_#{document[:id]}" %>
     <% else %>
@@ -11,4 +11,5 @@
       <%= link_to_function "Add to Folder", "document.folder#{document[:id]}.submit();" %>
     <% end %>
   <% end %>
+  <div class="folder_note" style="display:none;">This item is in your <%= link_to 'Folder', folder_index_path %></div>
 <% end %>
