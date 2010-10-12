@@ -24,7 +24,7 @@
          <%= link_to "Email This", email_catalog_path(:id => @document[:id]), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %>
       </li>
       <li class="sms">
-         <%= link_to "SMS This", sms_catalog_path(@document[:id]), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
+         <%= link_to "SMS This", sms_catalog_path(:id => @document[:id]), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
       </li>
     <% end %>
     
