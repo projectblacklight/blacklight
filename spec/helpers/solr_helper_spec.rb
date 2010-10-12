@@ -15,12 +15,6 @@ class MockSolrHelperContainer
   def params
     @params ||= {}
   end
-  def facet_limit_for(facet_field)
-    facet_limit_hash[facet_field]
-  end
-  def facet_limit_hash
-    @facet_limits ||= {}
-  end
 end
 
 
@@ -717,6 +711,19 @@ describe 'Blacklight::SolrHelper' do
 #     get_spelling_suggestion("histo politica").should_not be_nil
     end
 
+  end
+
+  describe "facet_limit_for" do
+    include Blacklight::SolrHelper
+    it "should return default value for facet_field not specified" do
+      facet_limit_for("zzz_unknown_facet_field").should == Blacklight.config[:facet][:limits][nil]
+    end
+    it "should return specified value for facet_field specified" do
+      facet_limit_for("subject_facet").should == Blacklight.config[:facet][:limits]["subject_facet"]
+    end
+    it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
+      facet_limit_hash.should == Blacklight.config[:facet][:limits]
+    end
   end
 
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)
