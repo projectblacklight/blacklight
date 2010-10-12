@@ -4,14 +4,14 @@ class FolderController < ApplicationController
 
   # fetch the documents that match the ids in the folder
   def index
-    @documents = get_solr_response_for_doc_ids(session[:folder_document_ids] || [])
+    @response, @documents = get_solr_response_for_field_values("id",session[:folder_document_ids] || [])
   end
 
   # add a document_id to the folder
   def create
     session[:folder_document_ids] = session[:folder_document_ids] || []
     session[:folder_document_ids] << params[:id] 
-    flash[:notice] = "Item successfully added to Folder"
+    flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
     redirect_to :back
   end
  
