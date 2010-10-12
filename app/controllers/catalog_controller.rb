@@ -91,19 +91,19 @@ class CatalogController < ApplicationController
   
   # citation action
   def citation
-    @documents = get_solr_response_for_doc_ids(params[:id])
+    @response, @documents = get_solr_response_for_field_values("id",params[:id])
   end
   # Email Action (this will only be accessed when the Email link is clicked by a non javascript browser)
   def email
-    @documents = get_solr_response_for_doc_ids(params[:id])
+    @response, @documents = get_solr_response_for_field_values("id",params[:id])
   end
   # SMS action (this will only be accessed when the SMS link is clicked by a non javascript browser)
   def sms 
-    @documents = get_solr_response_for_doc_ids(params[:id])
+    @response, @documents = get_solr_response_for_field_values("id",params[:id])
   end
   # grabs a bunch of documents to export to endnote
   def endnote
-    @documents = get_solr_response_for_doc_ids(params[:id])
+    @response, @documents = get_solr_response_for_field_values("id",params[:id])
     respond_to do |format|
       format.endnote
     end
@@ -115,7 +115,7 @@ class CatalogController < ApplicationController
   
   # action for sending email.  This is meant to post from the form and to do processing
   def send_email_record
-    @documents = get_solr_response_for_doc_ids(params[:id])    
+    @response, @documents = get_solr_response_for_field_values("id",params[:id])
     if params[:to]
       from = request.host # host w/o port for From address (from address cannot have port#)
       host = request.host

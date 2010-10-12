@@ -227,14 +227,19 @@ module Blacklight::SolrHelper
     [solr_response, document]
   end
   
-  # gets a list of documents based on the document ids provided
-  def get_solr_response_for_doc_ids(doc_ids=[], extra_controller_params={})
-    documents = []
-    doc_ids.each { |doc_id|
-      response, document = get_solr_response_for_doc_id(doc_id)
-      documents << document
+  # given a field name and array of values, get the matching SOLR documents
+  def get_solr_response_for_field_values(field, values, extra_controller_params={})
+    value_str = "(\"" + values.to_a.join("\" OR \"") + "\")"
+    solr_params = {
+      :qt => "standard",   # need boolean for OR
+      :q => "#{field}:#{value_str}",
+      'fl' => "*",
+      'facet' => 'false',
+      'spellcheck' => 'false'
     }
-    documents
+    solr_response = Blacklight.solr.find( self.solr_search_params(solr_params.merge(extra_controller_params)) )
+    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc) }
+    [solr_response,document_list]
   end
   
   # returns a params hash for a single facet field solr query.
