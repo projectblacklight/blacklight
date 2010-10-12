@@ -1,6 +1,7 @@
 <h1>Folder</h1>
 
 <% unless @documents.empty? %>
+<%= render "catalog/sort_and_per_page" %>
 <div class="tools">
 <ul class="folderTools">
   <li class="cite">
@@ -13,10 +14,10 @@
     <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}, :format => 'endnote')%>
   </li>
   <li class="email">
-    <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)})%>
+    <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
   </li>
   <li class="sms">
-    <%= link_to "SMS", sms_catalog_path(:id => @documents.collect {|doc| doc.get(:id)})%>
+    <%= link_to "SMS", sms_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
   </li>
   <% if current_user %>  
     <li>
@@ -31,9 +32,8 @@
 <% end %>
 
 <div id="documents">
-  <% i = 0 %>
   
-  <% @documents.each do |document| %>
+  <% @documents.each_with_index do |document, i| %>
     <% # container for a single doc -%>
     <div class="document">
   
@@ -46,8 +46,14 @@
       
 	    <%= render_document_partial document, :index %>
 	    [<%= link_to 'remove', folder_path(document[:id]), :method => :delete, :confirm => 'Remove this item?' %>]
-      <% i+= 1%>
-
+	    <% if document.respond_to?(:export_as_openurl_ctx_kev) %>
+        <!-- 
+             // COinS, for Zotero among others. 
+             // This document_partial_name(@document) business is not quite right,
+             // but has been there for a while. 
+        -->
+        <span class="Z3988" title="<%= document.export_as_openurl_ctx_kev(document_partial_name(document)) %>"></span>
+      <% end %>
     </div>
   
   <% end %>
