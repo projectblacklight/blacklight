@@ -26,6 +26,9 @@
 <%# this should be in a partial -%>
 <div id="document">
   <div id="doc_<%= @document[:id] %>">
+    <div id="show_folder_control">
+      <%= render :partial=>'folder_control', :locals=>{:document=>@document} %>
+    </div>
     <%= render_document_heading %>
     <div class="tools"><%= render :partial => 'show_tools' %></div>
     <div class="document">

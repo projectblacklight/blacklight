@@ -28,12 +28,6 @@
       </li>
     <% end %>
     
-    <% unless item_in_folder?(@document[:id]) %>
-      <li>
-      <%= render :partial=>'folder_control', :locals=>{:document=>@document, :display=>'link'} %>
-      </li>
-    <% end %>
-    
     <% if @document.respond_to?(:to_marc) %>
       <li class="librarian_view">
         <%= link_to "Librarian View", librarian_view_catalog_path(@document[:id]), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %>
