@@ -18,8 +18,8 @@ class FolderController < ApplicationController
   # remove a document_id from the folder
   def destroy
     session[:folder_document_ids].delete(params[:id])
-    flash[:notice] = "Item successfully removed from Folder"
-    redirect_to folder_index_path
+    flash[:notice] = "#{params[:title] || "Item"} successfully removed from Folder"
+    redirect_to :back
   end
  
   # get rid of the items in the folder
