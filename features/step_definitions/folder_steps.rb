@@ -2,8 +2,12 @@ Then /^I should see an add to folder form$/ do
   response.should have_tag("form.addFolder")
 end
 
-When /^I add record (.+) to my folder$/ do |arg1|
-  click_button("folder_submit_#{arg1}")
+Then /^I should see a remove from folder form$/ do
+  response.should have_tag("form.deleteFolder")
+end
+
+When /^I (add|remove) record (.+) (to|from) my folder$/ do |add_or_remove, id, wording|
+  click_button("folder_submit_#{id}")
 end
 
 Given /^I have record (.+) in my folder$/ do |arg1|

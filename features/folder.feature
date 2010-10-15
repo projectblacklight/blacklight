@@ -50,3 +50,17 @@ Feature: User Folder
     Given I have record 2008308175 in my folder
  	  And I follow "Folder"
  	  Then I should see the Folder tools
+ 	  
+ 	Scenario: Controls on the record view
+ 	  When I am on the document page for id 2008308175
+ 	  Then I should see an add to folder form
+ 	  Given I have record 2008308175 in my folder
+ 	  When I am on the document page for id 2008308175
+ 	  Then I should see a remove from folder form
+ 	  
+ 	Scenario: Controls on the folder view
+    Given I have record 2008308175 in my folder
+    When I am on the folder page
+    Then I should see a remove from folder form
+    When I remove record 2008308175 from my folder
+    Then I should not see the Folder tools
