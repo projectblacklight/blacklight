@@ -1,9 +1,11 @@
 <h1>Email This</h1>
-
 <% form_tag url_for(:action => 'send_email_record', :style => 'email'), :id => 'email_form', :method => :post do %>
   <%= label_tag(:to, "Email:") %><br/>
   <%= text_field_tag :to %><br/>
   <%= label_tag(:message, "Message:") %><br/>
   <%= text_area_tag :message %><br/>
+  <% @documents.each do |doc| %>
+    <%=hidden_field_tag "id[]", doc.get(:id)%>
+  <% end %>
   <%= submit_tag "Send" %>
 <% end %>

@@ -56,4 +56,18 @@ Feature: Bookmarks
       And I press "search"
       When I press "Bookmark this item"
       Then I should see "Successfully added bookmark."
-    
+      
+    Scenario: Adding bookmarks from Folder
+      Given I am logged in as "user1"
+      And I have record 2007020969 in my folder
+      And I have record 2008308175 in my folder
+      And I follow "Folder"
+      And I press "Add to Bookmarks"
+      Then I should see "Successfully added bookmarks."
+      
+    Scenario: Adding bookmark from Folder
+       Given I am logged in as "user1"
+       And I have record 2007020969 in my folder
+       And I follow "Folder"
+       And I press "Add to Bookmarks"
+       Then I should see "Successfully added bookmark."

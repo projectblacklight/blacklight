@@ -1,11 +1,15 @@
-<h1><%= document_show_html_title %></h1>
+<% @documents.each do |document| %>
 
-<% if @document.respond_to?(:export_as_mla_citation_txt) %>
+<h1><%= citation_title(document) %></h1>
+
+<% if document.respond_to?(:export_as_mla_citation_txt) %>
   <h4>MLA</h4>
-  <%= @document.send(:export_as_mla_citation_txt) %><br/><br/>
+  <%= document.send(:export_as_mla_citation_txt) %><br/><br/>
 <% end %>
 
-<% if @document.respond_to?(:export_as_apa_citation_txt) %>
+<% if document.respond_to?(:export_as_apa_citation_txt) %>
   <h4>APA</h4>
-  <%= @document.send(:export_as_apa_citation_txt) %>
+  <%= document.send(:export_as_apa_citation_txt) %>
+<% end %>
+
 <% end %>

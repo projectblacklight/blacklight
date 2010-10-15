@@ -254,6 +254,7 @@ dl.defList dd {float: left; text-align: left; margin: 0; padding: 2px 0; width: 
 
 /* Individual Result Listing */
 #document h1 {margin: 0px; padding: 0px 0px 1em 0px;}
+#document .deleteFolder, #document .addFolder {float:right;}
 #marc_view {padding:5px; text-align:left;}
 #marc_view .ind1, #marc_view .ind2 {padding:0 5px; display:inline;}
 #marc_view .tag_ind {float:left;}
@@ -303,8 +304,14 @@ textarea {width:30em; height:15em;}
 .fieldWithErrors label {color:darkred;}
 
 /* Show Tools */
-ul.tools {margin: 0px; padding: 0px; text-align:right;}
+ul.tools {margin: 0px; padding: 0px;}
 ul.tools li {display: inline; margin: 0 10px;}
+
+/* Folder Tools */
+ul.folderTools {float:left;list-style-type: none; margin: 0 0 10px; padding:0;}
+ul.folderTools li {float:left; padding:0 20px 0 0;}
+ul.folderTools li.refworks form input.submit{display:none;}
+
 
 /* Lightbox */
 .lightboxTitle {background-color: #cccccc; width: 100%; color: black;}
@@ -435,3 +442,4 @@ Search Parameters
 
 
 
+.hide {display:none}

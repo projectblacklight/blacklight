@@ -21,6 +21,8 @@ class MockSolrHelperContainer
   def facet_limit_hash
     @facet_limits ||= {}
   end
+  
+  
 end
 
 
@@ -746,6 +748,30 @@ describe 'Blacklight::SolrHelper' do
     end
 
   end
+
+  describe "facet_limit_for" do
+    include Blacklight::SolrHelper
+    it "should return specified value for facet_field specified" do
+      facet_limit_for("subject_facet").should == Blacklight.config[:facet][:limits]["subject_facet"]
+    end
+    it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
+      facet_limit_hash.should == Blacklight.config[:facet][:limits]
+    end    
+    describe "for 'true' configured values" do
+      it "should return nil if no @response available" do
+        facet_limit_for("some_field").should be_nil
+      end
+      it "should get from @response facet.limit if available" do
+        @response = {"responseHeader" => {"params" => {"facet.limit" => 11}}}
+        facet_limit_for("language_facet").should == 10
+      end
+      it "should get from specific field in @response if available" do
+        @response = {"responseHeader" => {"params" => {"facet.limit" => 11,"f.language_facet.facet.limit" => 16}}}
+        facet_limit_for("language_facet").should == 15
+      end
+    end
+  end
+
 
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)
 #  search within query building (?)
