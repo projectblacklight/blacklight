@@ -13,6 +13,7 @@
         <% # list controls for items/docs -%>
         <div class="yui-u documentFunctions">
           <%= render :partial=>'bookmark_control', :locals=>{:document=>document} %>
+          <%= render :partial=>'folder_control', :locals=>{:document=>document, :display=>'button'} %>
         </div>
         
         <% # main title container for doc partial view -%>

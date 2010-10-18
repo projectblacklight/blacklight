@@ -17,5 +17,8 @@
   <%= text_field_tag :to %><br/>
   <%= label_tag(:carrier, "Carrier:") %><br/>
   <%= select_tag(:carrier, options_for_select(carriers, '')) %><br/>
+  <% @documents.each do |doc| %>
+     <%=hidden_field_tag "id[]", doc.get(:id)%>
+  <% end %>
   <%= submit_tag "Send" %>
 <% end %>
