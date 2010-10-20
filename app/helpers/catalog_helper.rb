@@ -51,6 +51,6 @@ module CatalogHelper
   end
   
   def render_document_class(document = @document)
-    'blacklight-' + document.get('format').parameterize 
+   'blacklight-' + document.get(Blacklight.config[:index][:record_display_type]).parameterize rescue nil
   end
 end
