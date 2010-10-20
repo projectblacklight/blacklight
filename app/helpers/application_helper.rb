@@ -131,6 +131,10 @@ module ApplicationHelper
     end
     return html
   end
+
+  def render_body_class
+    ['blacklight-' + @controller.controller_name, 'blacklight-' + [@controller.controller_name, @controller.action_name].join('-')].join " "
+  end
   
   # collection of items to be rendered in the @sidebar
   def sidebar_items

@@ -2,7 +2,7 @@
 <div id="facets" class="facets">
   <h2>Limit your search</h2>
   <% facet_field_names.each do |solr_fname| %>
-    <div class="facet_limit">
+	  <div class="facet_limit blacklight-<%= solr_fname.parameterize %>">
       <%= render_facet_limit(solr_fname) %>
     </div>
   <% end %>
