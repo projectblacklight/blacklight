@@ -26,6 +26,9 @@ module NavigationHelpers
       when /the login page/
         login_path
 
+      when /the folder page/
+         folder_index_path
+         
       when /the new user page/
         new_user_path
 

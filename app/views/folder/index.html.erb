@@ -1,0 +1,68 @@
+<% sidebar_items << capture do %>
+  <p><%= link_back_to_catalog %></p>
+<% end %>
+<h1>Folder</h1>
+
+<% unless @documents.empty? %>
+  <%- # just adding pageEntriedInfo div to get the proper rounded corners at the top -%>
+  <div class="pageEntriesInfo"></div>
+  <%= render "catalog/sort_and_per_page" %>
+  <%= render "catalog/results_pagination" %>
+  <div class="tools">
+    <ul class="folderTools">
+      <li class="cite">
+        <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.get(:id)}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
+      </li>
+      <li class="refworks">
+        <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@documents} %>
+      </li>
+      <li class="endnote">
+        <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}, :format => 'endnote')%>
+      </li>
+      <li class="email">
+        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
+      </li>
+      <li class="sms">
+        <%= link_to "SMS", sms_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
+      </li>
+      <% if current_user %>  
+        <li>
+          <%= render :partial=>'catalog/bookmark_form', :locals=>{:documents=>@documents} %>
+        </li>  
+      <% end %>
+      <li>
+        <%= link_to "Clear Folder", clear_folder_path, :method => :delete %>
+      </li>
+    </ul>
+  </div>
+<% end %>
+
+<div id="documents">  
+  <% @documents.each_with_index do |document, i| %>
+    <% # container for a single doc -%>
+    <div class="document">
+      <% # header bar for doc items in index view -%>
+      <div class="documentHeader yui-g">
+        <div class="yui-u documentFunctions">          
+          <div class="in_folder">
+            <%= render :partial=>'catalog/folder_control', :locals=>{:document=>document} %>
+          </div>
+        </div>
+        <div class="yui-u">
+          <h3 class="index_title"><%= i + 1 + @response.params[:start].to_i%>. <%= link_to_document document, :label => document_show_link_field, :results_view => false %></h3>
+        </div>
+      </div>
+      
+	    <%= render_document_partial document, :index %>
+	    <% if document.respond_to?(:export_as_openurl_ctx_kev) %>
+        <!-- 
+             // COinS, for Zotero among others. 
+             // This document_partial_name(@document) business is not quite right,
+             // but has been there for a while. 
+        -->
+        <span class="Z3988" title="<%= document.export_as_openurl_ctx_kev(document_partial_name(document)) %>"></span>
+      <% end %>
+    </div>
+  
+  <% end %>
+</div>

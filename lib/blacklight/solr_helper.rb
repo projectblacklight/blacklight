@@ -20,7 +20,13 @@ module Blacklight::SolrHelper
   # When a request for a single solr document by id
   # is not successful, raise this:
   class InvalidSolrID < RuntimeError; end
-
+  
+  def self.included(mod)
+    if mod.respond_to?(:helper_method)
+      mod.helper_method(:facet_limit_hash)
+      mod.helper_method(:facet_limit_for)
+    end
+  end
   # A helper method used for generating solr LocalParams, put quotes
   # around the term unless it's a bare-word. Escape internal quotes
   # if needed. 
@@ -150,6 +156,7 @@ module Blacklight::SolrHelper
     facet_limit_hash.each_key do |field_name|
       next if field_name.nil? # skip the 'default' key
       next unless (limit = facet_limit_for(field_name))
+
       solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
     end
 
@@ -215,6 +222,21 @@ module Blacklight::SolrHelper
     raise InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first)
     [solr_response, document]
+  end
+  
+  # given a field name and array of values, get the matching SOLR documents
+  def get_solr_response_for_field_values(field, values, extra_controller_params={})
+    value_str = "(\"" + values.to_a.join("\" OR \"") + "\")"
+    solr_params = {
+      :qt => "standard",   # need boolean for OR
+      :q => "#{field}:#{value_str}",
+      'fl' => "*",
+      'facet' => 'false',
+      'spellcheck' => 'false'
+    }
+    solr_response = Blacklight.solr.find( self.solr_search_params(solr_params.merge(extra_controller_params)) )
+    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc) }
+    [solr_response,document_list]
   end
   
   # returns a params hash for a single facet field solr query.
@@ -291,7 +313,7 @@ module Blacklight::SolrHelper
     solr_params[:fl] = '*'
     Blacklight.solr.find(solr_params).docs.first
   end
-  
+    
   # returns a solr params hash
   # if field is nil, the value is fetched from Blacklight.config[:index][:show_link]
   # the :fl (solr param) is set to the "field" value.
@@ -315,5 +337,42 @@ module Blacklight::SolrHelper
     a = [solr_params[:q]]
     a << response.docs.map {|doc| doc[solr_params[:fl]].to_s }
   end
+  
+  
+  
+  # Look up facet limit for given facet_field. Will look at config, and
+  # if config is 'true' will look up from Solr @response if available. If
+  # no limit is avaialble, returns nil. Used from #solr_search_params
+  # to supply f.fieldname.facet.limit values in solr request (no @response
+  # available), and used in display (with @response available) to create
+  # a facet paginator with the right limit. 
+  def facet_limit_for(facet_field)
+    limits_hash = facet_limit_hash
+    return nil unless limits_hash
+        
+    limit = limits_hash[facet_field]
+
+    if ( limit == true && @response && 
+         @response["responseHeader"] && 
+         @response["responseHeader"]["params"])
+     limit =
+       @response["responseHeader"]["params"]["f.#{facet_field}.facet.limit"] || 
+       @response["responseHeader"]["params"]["facet.limit"]
+       limit = (limit.to_i() -1) if limit
+       limit = nil if limit == -2 # -1-1==-2, unlimited. 
+    elsif limit == true
+      limit = nil
+    end
+
+    return limit
+  end
+
+  # Returns complete hash of key=facet_field, value=limit.
+  # Used by SolrHelper#solr_search_params to add limits to solr
+  # request for all configured facet limits.
+  def facet_limit_hash
+    Blacklight.config[:facet][:limits]           
+  end
+  
   
 end
