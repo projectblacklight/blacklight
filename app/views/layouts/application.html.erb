@@ -14,9 +14,9 @@
     
   </head>
   <% if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
-    <body onload="$('input#q').focus();">
+    <body onload="$('input#q').focus();" class="<%= render_body_class %>">
   <% else %>
-    <body>
+    <body class="<%= render_body_class %>">
   <% end %>
 	  <div id="doc4" class="yui-t2">
 	    
