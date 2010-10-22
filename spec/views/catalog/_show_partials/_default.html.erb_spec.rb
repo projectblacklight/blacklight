@@ -32,11 +32,13 @@ describe "/catalog/_show_partials/_default.html.erb" do
     response.should_not include_text(@fname_3)
   end
 
-  it "should display field labels, not raw solr field names, from initializer" do
+  it "should display field labels from initializer and raw solr field names in the class" do
+    # labels
     response.should include_text(@flabel_1)
-    response.should_not include_text(@fname_1)
     response.should include_text(@flabel_4)
-    response.should_not include_text(@fname_4)
+    # classes
+    response.should include_text("blacklight-#{@fname_1}")
+    response.should include_text("blacklight-#{@fname_4}")
   end
   
 # this test probably belongs in a Cucumber feature
