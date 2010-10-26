@@ -207,11 +207,10 @@ module Blacklight::SolrHelper
   def solr_doc_params(id=nil, extra_controller_params={})
     id ||= params[:id]
     # just to be consistent with the other solr param methods:
-    input = params.deep_merge(extra_controller_params)
     {
       :qt => :document,
       :id => id
-    }
+    }.deep_merge(extra_controller_params.symbolize_keys)
   end
   
   # a solr query method
