@@ -364,7 +364,7 @@ module ApplicationHelper
     else
       raise 'Invalid label argument'
     end
-    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => {:counter => opts[:counter], :results_view => opts[:results_view]}})
+    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => opts})
   end
 
   # link_back_to_catalog(:label=>'Back to Search')
