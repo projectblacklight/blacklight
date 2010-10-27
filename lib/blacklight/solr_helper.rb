@@ -178,7 +178,7 @@ module Blacklight::SolrHelper
     
     # limit to MaxPerPage (100). Tests want this to be a string not an integer,
     # not sure why. 
-    solr_parameters[:per_page] = solr_parameters[:per_page].to_i > MaxPerPage ? MaxPerPage.to_s : solr_parameters[:per_page]
+    solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]
 
     return solr_parameters
     
@@ -371,6 +371,10 @@ module Blacklight::SolrHelper
   # request for all configured facet limits.
   def facet_limit_hash
     Blacklight.config[:facet][:limits]           
+  end
+
+  def max_per_page
+    MaxPerPage
   end
   
   
