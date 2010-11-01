@@ -163,6 +163,10 @@ module ApplicationHelper
     render( :partial => "catalog/facet_limit", :locals => {:solr_field =>solr_field })
   end
   
+  def render_document_list_partial options={}
+    render :partial=>'catalog/document_list'
+  end
+  
   # used in the catalog/_index_partials/_default view
   def index_field_names
     Blacklight.config[:index_fields][:field_names]
@@ -220,7 +224,7 @@ module ApplicationHelper
   def document_partial_name(document)
     document[Blacklight.config[:show][:display_type]]
   end
-  
+
   # given a doc and action_name, this method attempts to render a partial template
   # based on the value of doc[:format]
   # if this value is blank (nil/empty) the "default" is used
