@@ -443,3 +443,7 @@ Search Parameters
 
 
 .hide {display:none}
+
+/* local implementations may define styles for open + closed "twiddles", e.g. disclosure triangles */ 
+.twiddle { }
+.twiddle-open { }
