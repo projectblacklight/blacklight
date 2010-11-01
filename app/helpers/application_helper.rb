@@ -351,19 +351,19 @@ module ApplicationHelper
     link_to(query, link_url)
   end
   
+  def render_document_index_label doc, opts
+    label = nil
+    label ||= doc.get(opts[:label]) if opts[:label].instance_of? Symbol
+    label ||= opts[:label] if opts[:label].instance_of? String
+    label ||= doc.id
+  end
+
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
   # Use the catalog_path RESTful route to create a link to the show page for a specific item. 
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>Blacklight.config[:index][:show_link].to_sym, :counter => nil, :results_view => true})
-    label = case opts[:label]
-    when Symbol
-      doc.get(opts[:label])
-    when String
-      opts[:label]
-    else
-      raise 'Invalid label argument'
-    end
+    label = render_document_index_label doc, opts
     link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => opts})
   end
 
