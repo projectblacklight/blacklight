@@ -27,5 +27,14 @@ describe FolderController do
     get :clear
     session[:folder_document_ids].length.should == 0
   end
+
+  it "should generate flash messages for normal requests" do
+    get :create, :id => "77826928"
+    flash[:notice].length.should_not == 0
+  end
+  it "should clear flash messages after xhr request" do
+    xhr :get, :create, :id => "77826928"
+    flash[:notice].should == nil
+  end
 end
 
