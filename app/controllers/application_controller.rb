@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :default_html_head # add JS/stylesheet stuff
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
+  after_filter :discard_flash_if_xhr
 
   def user_class; User; end
 
@@ -95,6 +96,10 @@ class ApplicationController < ActionController::Base
     def current_user
       return @current_user if defined?(@current_user)
       @current_user = current_user_session && current_user_session.user
+    end
+    
+    def discard_flash_if_xhr
+      flash.discard if request.xhr?
     end
 
 end
