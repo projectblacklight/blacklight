@@ -2,9 +2,9 @@
 <dl class="defList">
   
   <% index_field_names.each do |solr_fname| -%>
-    <% if document.get solr_fname %>
-        <dt><%= h index_field_labels[solr_fname]%></dt>
-        <dd><%= h document.get(solr_fname) %></dd>
+    <% if document.has? solr_fname %>
+	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
+	    <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document => document, :field => solr_fname %></dd>
     <% end -%>
   <% end -%>
 

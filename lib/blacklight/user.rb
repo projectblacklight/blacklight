@@ -1,0 +1,3 @@
+module Blacklight::User
+
+end

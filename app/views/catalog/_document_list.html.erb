@@ -5,7 +5,7 @@
   <% @document_list.each_with_index do |document,counter| %>
 
     <% # container for a single doc -%>
-    <div class="document">
+    <div class="document <%= render_document_class document %>">
       
       <% # header bar for doc items in index view -%>
       <div class="documentHeader yui-g">

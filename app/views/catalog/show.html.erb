@@ -17,7 +17,7 @@
   <p><%= link_back_to_catalog %></p>
 <% end %>
 <%# this should be in a partial -%>
-<div id="document">
+<div id="document" class="<%= render_document_class %>">
   <div id="doc_<%= @document[:id] %>">
     <div id="show_folder_control">
       <%= render :partial=>'folder_control', :locals=>{:document=>@document} %>

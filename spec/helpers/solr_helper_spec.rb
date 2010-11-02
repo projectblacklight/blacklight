@@ -772,6 +772,35 @@ describe 'Blacklight::SolrHelper' do
     end
   end
 
+    describe "with max per page enforced" do
+      before do
+        # Add some params
+        @solr_helper_with_params = MockSolrHelperContainer.new
+        @solr_helper_with_params.params = {:search_field => "test_field", :per_page => 12345, :q => "test query", "facet.field" => "extra_facet"}
+      end
+      after do
+      end
+
+      describe "should enforce MaxPerPage against user supplied parameters" do
+        before do
+          @produced_params = @solr_helper_with_params.solr_search_params
+          1+1
+        end
+        it "should take per_page from search field definition where specified" do
+          @produced_params[:per_page].should == "100"
+        end
+      end
+
+      describe "should enforce MaxPerPage against extra controller parameters" do
+        before do
+          @produced_params = @solr_helper_with_params.solr_search_params(:per_page => 98765)
+          1+1
+        end
+        it "should take per_page from search field definition where specified" do
+          @produced_params[:per_page].should == "100"
+        end
+      end
+    end
 
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)
 #  search within query building (?)

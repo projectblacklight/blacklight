@@ -131,6 +131,10 @@ module ApplicationHelper
     end
     return html
   end
+
+  def render_body_class
+    ['blacklight-' + @controller.controller_name, 'blacklight-' + [@controller.controller_name, @controller.action_name].join('-')].join " "
+  end
   
   # collection of items to be rendered in the @sidebar
   def sidebar_items
@@ -159,6 +163,10 @@ module ApplicationHelper
     render( :partial => "catalog/facet_limit", :locals => {:solr_field =>solr_field })
   end
   
+  def render_document_list_partial options={}
+    render :partial=>'catalog/document_list'
+  end
+  
   # used in the catalog/_index_partials/_default view
   def index_field_names
     Blacklight.config[:index_fields][:field_names]
@@ -167,6 +175,17 @@ module ApplicationHelper
   # used in the _index_partials/_default view
   def index_field_labels
     Blacklight.config[:index_fields][:labels]
+  end
+
+  def render_index_field_label args
+    field = args[:field]
+    html_escape index_field_labels[field]
+  end
+
+  def render_index_field_value args
+    value = args[:value]
+    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
+    html_escape value
   end
   
   # Used in the show view for displaying the main solr document heading
@@ -211,12 +230,24 @@ module ApplicationHelper
   def document_show_field_labels
     Blacklight.config[:show_fields][:labels]
   end
+
+  def render_document_show_field_label args 
+    field = args[:field]
+    html_escape document_show_field_labels[field]
+  end
+
+  def render_document_show_field_value args
+    value = args[:value]
+    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
+    return value.map { |v| html_escape v }.join "<br />" if value.is_a? Array
+    html_escape value
+  end
   
   # currently only used by the render_document_partial helper method (below)
   def document_partial_name(document)
     document[Blacklight.config[:show][:display_type]]
   end
-  
+
   # given a doc and action_name, this method attempts to render a partial template
   # based on the value of doc[:format]
   # if this value is blank (nil/empty) the "default" is used
@@ -347,20 +378,21 @@ module ApplicationHelper
     link_to(query, link_url)
   end
   
+  def render_document_index_label doc, opts
+    label = nil
+    label ||= doc.get(opts[:label]) if opts[:label].instance_of? Symbol
+    label ||= opts[:label] if opts[:label].instance_of? String
+    label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
+    label ||= doc.id
+  end
+
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
   # Use the catalog_path RESTful route to create a link to the show page for a specific item. 
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>Blacklight.config[:index][:show_link].to_sym, :counter => nil, :results_view => true})
-    label = case opts[:label]
-    when Symbol
-      doc.get(opts[:label])
-    when String
-      opts[:label]
-    else
-      raise 'Invalid label argument'
-    end
-    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => {:counter => opts[:counter], :results_view => opts[:results_view]}})
+    label = render_document_index_label doc, opts
+    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => opts})
   end
 
   # link_back_to_catalog(:label=>'Back to Search')
