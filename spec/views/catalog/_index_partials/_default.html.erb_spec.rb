@@ -19,6 +19,13 @@ describe "/catalog/_index_partials/_default.html.erb" do
     @document.should_receive(:get).with(@fname_2).any_number_of_times.and_return("val_2")
     @document.should_receive(:get).with(@fname_3).any_number_of_times.and_return(nil)
     @document.should_receive(:get).with(@fname_4).any_number_of_times.and_return("val_4")
+    
+    @document.should_receive(:'has?').with(@fname_1).any_number_of_times.and_return(true)
+    @document.should_receive(:'has?').with(@fname_2).any_number_of_times.and_return(true)
+    @document.should_receive(:'has?').with(@fname_3).any_number_of_times.and_return(false)
+    @document.should_receive(:'has?').with(@fname_4).any_number_of_times.and_return(true)
+    @document.should_receive(:'has?').with(anything()).any_number_of_times.and_return(true)
+    
     # cover any remaining fields in initalizer
     @document.should_receive(:get).with(anything()).any_number_of_times.and_return("bleah")
     @document.should_receive(:[]).any_number_of_times

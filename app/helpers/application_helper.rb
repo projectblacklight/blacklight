@@ -177,11 +177,14 @@ module ApplicationHelper
     Blacklight.config[:index_fields][:labels]
   end
 
-  def render_index_field_label solr_fname, document = nil
-    html_escape index_field_labels[solr_fname]
+  def render_index_field_label args
+    field = args[:field]
+    html_escape index_field_labels[field]
   end
 
-  def render_index_field_value value, solr_fname = nil, document = nil
+  def render_index_field_value args
+    value = args[:value]
+    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
     html_escape value
   end
   
@@ -228,11 +231,14 @@ module ApplicationHelper
     Blacklight.config[:show_fields][:labels]
   end
 
-  def render_document_show_field_label solr_fname, document = nil
-    html_escape document_show_field_labels[solr_fname]
+  def render_document_show_field_label args 
+    field = args[:field]
+    html_escape document_show_field_labels[field]
   end
 
-  def render_document_show_field_value value, solr_fname = nil, document = nil
+  def render_document_show_field_value args
+    value = args[:value]
+    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
     return value.map { |v| html_escape v }.join "<br />" if value.is_a? Array
     html_escape value
   end
