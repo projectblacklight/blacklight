@@ -13,9 +13,8 @@
 <%= render 'previous_next_doc' %>
 
 
-<% sidebar_items << capture do %>
-  <p><%= link_back_to_catalog %></p>
-<% end %>
+<% sidebar_items << render_document_sidebar_partial %>
+
 <%# this should be in a partial -%>
 <div id="document" class="<%= render_document_class %>">
   <div id="doc_<%= @document[:id] %>">
