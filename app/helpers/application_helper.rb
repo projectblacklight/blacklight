@@ -180,6 +180,17 @@ module ApplicationHelper
   def index_field_labels
     Blacklight.config[:index_fields][:labels]
   end
+
+  def render_index_field_label args
+    field = args[:field]
+    html_escape index_field_labels[field]
+  end
+
+  def render_index_field_value args
+    value = args[:value]
+    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
+    html_escape value
+  end
   
   # Used in the show view for displaying the main solr document heading
   def document_heading
@@ -222,6 +233,18 @@ module ApplicationHelper
   # used in the catalog/_show/_default partial
   def document_show_field_labels
     Blacklight.config[:show_fields][:labels]
+  end
+
+  def render_document_show_field_label args 
+    field = args[:field]
+    html_escape document_show_field_labels[field]
+  end
+
+  def render_document_show_field_value args
+    value = args[:value]
+    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
+    return value.map { |v| html_escape v }.join "<br />" if value.is_a? Array
+    html_escape value
   end
   
   # currently only used by the render_document_partial helper method (below)

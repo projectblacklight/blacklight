@@ -191,14 +191,18 @@ module Blacklight::SolrHelper
   # Returns a two-element array (aka duple) with first the solr response object,
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(extra_controller_params={})
-  
-  
-    solr_response = Blacklight.solr.find(  self.solr_search_params(extra_controller_params) )
 
-    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc)}
-
-    return [solr_response, document_list]
+    # In later versions of Rails, the #benchmark method can do timing
+    # better for us. 
+    bench_start = Time.now
     
+      solr_response = Blacklight.solr.find(  self.solr_search_params(extra_controller_params) )
+  
+      document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc)}  
+
+      Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
+    
+    return [solr_response, document_list]
   end
   
   # returns a params hash for finding a single solr document (CatalogController #show action)
