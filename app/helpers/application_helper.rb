@@ -166,6 +166,10 @@ module ApplicationHelper
   def render_document_list_partial options={}
     render :partial=>'catalog/document_list'
   end
+
+  def render_document_functions_partial document=@document, options={}
+    render :partial=>'catalog/document_functions', :locals => {:document => document }
+  end
   
   # used in the catalog/_index_partials/_default view
   def index_field_names
