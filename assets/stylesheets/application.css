@@ -1,6 +1,11 @@
 /* Global */
 html {background: #707070;}
 
+/* yui-grids sets text-align:center on body, which ends up centering
+   text in our jquery ui dialogs, which we don't actually want, it was
+   an accident. */
+.ui-dialog-content { text-align: left; }
+
 body {background: url('../images/bg.png') repeat-x top left; font: 0.7em Verdana, "Lucida Grande", "Lucida Sans Unicode", "Arial Unicode MS", Arial, sans-serif; line-height: 1.4; color:#333; margin: 0px; padding: 15px;}
 
 select,input,button,textarea {font: 1em Verdana, "Lucida Grande", "Lucida Sans Unicode", "Arial Unicode MS", Arial, sans-serif;}
