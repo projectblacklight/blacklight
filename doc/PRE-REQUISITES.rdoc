@@ -90,7 +90,7 @@ If you want to use sqlite, you will need to install sqlite3 and its ruby binding
 
 * ActsAsTaggableOnSteroids plugin docs: http://agilewebdevelopment.com/plugins/acts_as_taggable_on_steroids
 
-* Resource Controller: http://github.com/giraffesoft/resource_controller/tree/master There is a very good 
+* Resource Controller: https://github.com/giraffesoft/resource_controller/tree/master There is a very good 
 video tutorial on the resource_controller plugin: http://www.vimeo.com/637894
 
 * Additional gems are vendorized with blacklight and will be built locally by the ''rake gems:build'' command.  See the README in this same directory for more information (provided in the post installation instructions.
