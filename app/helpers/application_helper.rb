@@ -194,7 +194,7 @@ module ApplicationHelper
   
   # Used in the show view for displaying the main solr document heading
   def document_heading
-    @document[Blacklight.config[:show][:heading]]
+    @document[Blacklight.config[:show][:heading]] || @document.id
   end
   def render_document_heading
     '<h1>' + document_heading + '</h1>'
