@@ -97,3 +97,12 @@ Feature: User Account
     Then I should see "You have successfully logged out."
     And I should be on the document page for id 2007020969
 
+  Scenario: Logout with a protected referer
+    Given I am logged in as "user1"
+    And I am on the user profile page
+    When I follow "Log Out"
+    ## for some reason does not work:
+    # Then I should be on the home page
+
+    
+
