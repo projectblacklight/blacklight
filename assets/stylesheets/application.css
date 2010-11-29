@@ -333,10 +333,10 @@ ul.folderTools li.refworks form input.submit{display:none;}
 
 #login form {margin-bottom:1em;}
 
-.error, .notice, .errorExplanation {background-color:lightyellow; padding:1em; margin-bottom:1em; border:solid 1px #CDC;}
-.error, .notice {font-size: 1.5em;}
-.error, .errorExplanation {color: #C30;}
-.notice {color: #060;}
+.error, .notice, .errorExplanation { padding:1em; margin-bottom:1em;}
+.error, .notice { }
+.error, .errorExplanation { }
+.notice { }
 
 /* IE 6 Adjustments */
 * html #hd .yui-g .yui-u {margin-top: -5em;}
