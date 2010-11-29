@@ -2,5 +2,5 @@
   <div class="row"><%= f.label :login %> <%= f.text_field :login %></div>
   <div class="row"><%= f.label :password %> <%= f.password_field :password %></div>
   <div class="row submit"><%= f.submit 'Login' %></div>
-  <%= hidden_field_tag :referer, referer_url %>
+  <%= hidden_field_tag :referer, @referer %>
 <% end %>
