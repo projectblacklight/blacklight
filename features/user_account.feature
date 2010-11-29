@@ -62,6 +62,12 @@ Feature: User Account
     When I follow "user1"
     Then I should be on the user profile page
     And I should see a stylesheet
+    
+  Scenario: Link to Profile not logged in
+    When I go to the user profile page
+    Then I should see "Please log in to view your profile"
+    # for some reason does not work:
+    # Then I should be on the login page
   
   Scenario: Login with referer
     Given user with login "user1" and email "user1@foo.com" and password "password"
