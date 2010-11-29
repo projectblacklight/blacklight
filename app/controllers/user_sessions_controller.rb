@@ -28,7 +28,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:notice] = "Welcome #{@user_session.login}!"
-      redirect_to root_path
+      redirect_to redirect_path
     else
       flash.now[:error] =  "Couldn't locate a user with those credentials"
       render :action => :new
@@ -38,6 +38,16 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user_session.destroy
     flash[:notice] = "You have successfully logged out."
-    redirect_to root_path
+    redirect_to redirect_path
+  end
+
+  private 
+  def redirect_path
+    referer = params[:referer] if params[:referer]
+    referer ||= request.referer if request.referer
+    referer &&= referer.sub(Regexp.new("^http://#{request.env["HTTP_HOST"]}"), '') if request.env["HTTP_HOST"]
+
+    return referer if referer and referer =~ /^\// and not [login_path, logout_path].any? { |x| referer =~ Regexp.new("^#{x}") }
+    return root_path
   end
 end
