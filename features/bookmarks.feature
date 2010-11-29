@@ -20,9 +20,7 @@ Feature: Bookmarks
       
     Scenario: Bookmarks not logged in
       When I go to the bookmarks page
-      Then I should see "Please log in to see your bookmarks."
-      And I should not see "delete"
-      And I should not see "Clear bookmarks"
+      Then I should see "Please log in to manage and view your bookmarks."
   
     Scenario: User Has Bookmarks
       Given I am logged in as "user1"

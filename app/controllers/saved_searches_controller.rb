@@ -1,8 +1,8 @@
 class SavedSearchesController < ApplicationController
-  before_filter :verify_user, :except => :index
+  before_filter :verify_user 
   
   def index
-    @searches = current_user ? Search.find_all_by_user_id(current_user.id) : []
+    @searches = Search.find_all_by_user_id(current_user.id)
   end
   
   def save    
@@ -39,6 +39,6 @@ class SavedSearchesController < ApplicationController
 
   protected
   def verify_user
-    flash[:error] = "Please log in to manage and view your saved searches." and redirect_to :back unless current_user
+    flash[:error] = "Please log in to manage and view your saved searches." and redirect_to(login_url(:referer => request.request_uri)) unless current_user
   end
 end

@@ -21,9 +21,7 @@ Feature: Saved Searches Page
     
   Scenario: Saved Searches not logged in
     When I go to the saved searches page
-    Then I should see "Please log in to see your saved searches."
-    And I should not see "delete"
-    And I should not see "Clear Saved Searches"
+    Then I should see "Please log in to manage and view your saved searches."
     
   Scenario: Saved Searches
     Given I am logged in as "user1"

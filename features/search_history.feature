@@ -63,7 +63,6 @@ Feature: Search History Page
     Then I should see "save"
     When I follow "save"
     Then I should see "Please log in to manage and view your saved searches."
-    And I should be on the search history page
     And I should not see "[saved]"
 
   Scenario: Un-Saving a Search when logged in

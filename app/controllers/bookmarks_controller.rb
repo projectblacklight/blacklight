@@ -6,7 +6,7 @@ class BookmarksController < ApplicationController
    # acts_as_taggable_on_steroids plugin
   helper TagsHelper
   
-  before_filter :verify_user, :except => :index
+  before_filter :verify_user
   
   # overrides the ResourceController collection method
   # see vendor/plugins/resource_controller/
@@ -67,6 +67,6 @@ class BookmarksController < ApplicationController
   
   protected
   def verify_user
-    flash[:error] = "Please log in to manage and view your bookmarks." and redirect_to :back unless current_user
+    flash[:error] = "Please log in to manage and view your bookmarks." and redirect_to(login_url(:referer => request.request_uri)) unless current_user
   end
 end
