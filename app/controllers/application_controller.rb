@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user
   after_filter :discard_flash_if_xhr
 
+  rescue_from Blacklight::AccessDenied, :with => :access_denied
+
   def user_class; User; end
 
   helper_method [:request_is_for_user_resource?]#, :user_logged_in?]
@@ -100,6 +102,10 @@ class ApplicationController < ActionController::Base
     
     def discard_flash_if_xhr
       flash.discard if request.xhr?
+    end
+
+    def access_denied
+      redirect_to login_url(:referer => request.request_uri)
     end
 
 end

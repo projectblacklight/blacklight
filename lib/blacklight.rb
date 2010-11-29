@@ -14,6 +14,8 @@ module Blacklight
   autoload :SolrHelper, 'blacklight/solr_helper'
   
   autoload :Routes, 'blacklight/routes'
+
+  autoload :AccessDenied, 'blacklight/access_denied'
   
   extend Configurable
   extend SearchFields

@@ -39,6 +39,6 @@ class SavedSearchesController < ApplicationController
 
   protected
   def verify_user
-    flash[:error] = "Please log in to manage and view your saved searches." and redirect_to(login_url(:referer => request.request_uri)) unless current_user
+    flash[:error] = "Please log in to manage and view your saved searches." and raise Blacklight::AccessDenied unless current_user
   end
 end

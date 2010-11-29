@@ -67,6 +67,6 @@ class BookmarksController < ApplicationController
   
   protected
   def verify_user
-    flash[:error] = "Please log in to manage and view your bookmarks." and redirect_to(login_url(:referer => request.request_uri)) unless current_user
+    flash[:error] = "Please log in to manage and view your bookmarks." and raise Blacklight::AccessDenied  unless current_user
   end
 end
