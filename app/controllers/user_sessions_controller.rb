@@ -45,7 +45,14 @@ class UserSessionsController < ApplicationController
     referer ||= request.referer if request.referer
     referer &&= referer.sub(Regexp.new("^http://#{request.env["HTTP_HOST"]}"), '') if request.env["HTTP_HOST"]
 
-    return referer if referer and referer =~ /^\// and not [login_path, logout_path].any? { |x| referer =~ Regexp.new("^#{x}") }
+    return referer if referer and referer =~ /^\// and not referer_blacklist.any? { |x| referer =~ Regexp.new("^#{x}") }
     return root_path
+  end
+
+  ##
+  # Returns a list of urls that should /never/ be the redirect target for
+  # referer_url. 
+  def referer_blacklist
+    [login_path, logout_path]
   end
 end
