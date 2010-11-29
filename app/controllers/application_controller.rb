@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user
   after_filter :discard_flash_if_xhr
 
-  rescue_from Blacklight::AccessDenied, :with => :access_denied
+  # 
+  rescue_from Blacklight::Exceptions::AccessDenied, :with => :access_denied
 
   def user_class; User; end
 

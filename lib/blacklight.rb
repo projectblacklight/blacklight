@@ -15,7 +15,7 @@ module Blacklight
   
   autoload :Routes, 'blacklight/routes'
 
-  autoload :AccessDenied, 'blacklight/access_denied'
+  autoload :Exceptions, 'blacklight/exceptions'
   
   extend Configurable
   extend SearchFields
