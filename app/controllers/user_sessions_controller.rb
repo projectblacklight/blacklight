@@ -29,6 +29,7 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user_session.destroy rescue nil
     flash[:notice] = "You have successfully logged out."
+    session[:logout] = true
     redirect_to referer_url
   end
 

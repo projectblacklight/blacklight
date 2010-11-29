@@ -106,6 +106,7 @@ class ApplicationController < ActionController::Base
     end
 
     def access_denied
+      redirect_to root_url and flash.discard and return if session.delete(:logout)
       redirect_to login_url(:referer => request.request_uri)
     end
 
