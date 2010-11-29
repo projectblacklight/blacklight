@@ -45,4 +45,24 @@ describe UserSessionsController do
     end
   end
 
+  describe "destroy" do
+    before(:each) do
+      # you must activate authlogic in order to test any authentication methods
+      @user_session = UserSession.create!(:password => "password", :login => "foo")
+      activate_authlogic
+      request.env["HTTP_REFERER"] = "/"
+    end
+
+    it "should redirect user to root url" do
+      delete :destroy
+      response.redirected_to.should == root_path
+    end
+
+    it "should redirect user to referer url in HTTP_REFERER" do
+      request.env["HTTP_REFERER"] = '/catalog/1234'
+      delete :destroy
+      response.redirected_to.should =='/catalog/1234'
+    end
+  end
+
 end
