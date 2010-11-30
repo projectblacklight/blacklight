@@ -5,7 +5,7 @@ class UserSessionsController < ApplicationController
   #
   def new
     @user_session = UserSession.new
-    @referer = referer_url
+    @referer = post_auth_redirect_url
   end
 
   ##
@@ -15,7 +15,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:notice] = "Welcome #{@user_session.login}!"
-      redirect_to referer_url
+      redirect_to post_auth_redirect_url
     else
       flash.now[:error] =  "Couldn't locate a user with those credentials"
       render :action => :new
@@ -29,7 +29,7 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user_session.destroy rescue nil
     flash[:notice] = "You have successfully logged out."
-    redirect_to referer_url
+    redirect_to post_auth_redirect_url
   end
 
   private 
@@ -41,20 +41,20 @@ class UserSessionsController < ApplicationController
   #
   # `redirect_path` performs some basic checks to ensure the URL is internal
   #  and will not cause redirect loops.
-  def referer_url
+  def post_auth_redirect_url
     referer = params[:referer] || request.referer
     
     if referer && referer =~ %r|^https?://#{request.host}#{root_path}|
       #self-referencing absolute url, make it relative
       referer.sub!(%r|^https?://#{request.host}|, '')
     elsif referer && referer =~ %r|^(\w+:)?//|
-      Rails.logger.debug("#referer_url will NOT use third party url for post login redirect: #{referer}")
+      Rails.logger.debug("#post_auth_redirect_url will NOT use third party url for post login redirect: #{referer}")
       referer = nil
     elsif referer && referer_blacklist.any? {|blacklisted| referer.starts_with?(blacklisted)  }
-      Rails.logger.debug("#referer_url will NOT use a blacklisted url for post login redirect: #{referer}")
+      Rails.logger.debug("#post_auth_redirect_url will NOT use a blacklisted url for post login redirect: #{referer}")
       referer = nil
     elsif referer && referer[0,1] != '/'
-      Rails.logger.debug("#referer_url will NOT use partial path for post login redirect: #{referer}")
+      Rails.logger.debug("#post_auth_redirect_url will NOT use partial path for post login redirect: #{referer}")
       referer = nil
     end
       
@@ -63,7 +63,7 @@ class UserSessionsController < ApplicationController
 
   ##
   # Returns a list of urls that should /never/ be the redirect target for
-  # referer_url. 
+  # post_auth_redirect_url. 
   def referer_blacklist
     [login_path, logout_path]
   end
