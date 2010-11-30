@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   
   protected
   def verify_user
-    flash[:error] = "Please log in to view your profile." and raise Blacklight::Exceptions::AccessDenied  unless current_user
+    flash[:notice] = "Please log in to view your profile." and raise Blacklight::Exceptions::AccessDenied  unless current_user
   end
   
 end

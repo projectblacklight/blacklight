@@ -67,6 +67,6 @@ class BookmarksController < ApplicationController
   
   protected
   def verify_user
-    flash[:error] = "Please log in to manage and view your bookmarks." and raise Blacklight::Exceptions::AccessDenied  unless current_user
+    flash[:notice] = "Please log in to manage and view your bookmarks." and raise Blacklight::Exceptions::AccessDenied  unless current_user
   end
 end
