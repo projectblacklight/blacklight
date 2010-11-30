@@ -39,7 +39,7 @@ describe UserSessionsController do
       post :create, :user_session => { :password => "password", :login => "foo" }, :referer => 'http://other.server.example.org/catalog/asdf'
       response.redirected_to.should == root_path
       
-      request.env["HTTP_HOST"] = 'example.org'
+      request.host = 'example.org'
       post :create, :user_session => { :password => "password", :login => "foo" }, :referer => 'http://example.org/catalog/asdf'
       response.redirected_to.should == '/catalog/asdf' 
     end

@@ -34,19 +34,31 @@ class UserSessionsController < ApplicationController
 
   private 
   ##
-  # Returns a url (or the root path, by default) to the page from which a user
-  # began the login/logout process. It examines the referer (sic) HTTP param,
-  # as well as the request's referer to determine the correct page. 
+  # Returns a local URL path component to redirect to after login. 
+  # Will be taken from referer query param or referer HTTP header, in that
+  # order, but only used if allowable non-blacklisted internal URL, otherwise
+  # root_path is used.    
   #
   # `redirect_path` performs some basic checks to ensure the URL is internal
   #  and will not cause redirect loops.
   def referer_url
-    referer = params[:referer] if params[:referer]
-    referer ||= request.referer if request.referer
-    referer &&= referer.sub(Regexp.new("^http://#{request.env["HTTP_HOST"]}"), '') if request.env["HTTP_HOST"]
-
-    return referer if referer and referer =~ /^\// and not referer_blacklist.any? { |x| referer =~ Regexp.new("^#{x}") }
-    return root_path
+    referer = params[:referer] || request.referer
+    
+    if referer && referer =~ %r|^https?://#{request.host}#{root_path}|
+      #self-referencing absolute url, make it relative
+      referer.sub!(%r|^https?://#{request.host}|, '')
+    elsif referer && referer =~ %r|^(\w+:)?//|
+      Rails.logger.debug("#referer_url will NOT use third party url for post login redirect: #{referer}")
+      referer = nil
+    elsif referer && referer_blacklist.any? {|blacklisted| referer.starts_with?(blacklisted)  }
+      Rails.logger.debug("#referer_url will NOT use a blacklisted url for post login redirect: #{referer}")
+      referer = nil
+    elsif referer && referer[0,1] != '/'
+      Rails.logger.debug("#referer_url will NOT use partial path for post login redirect: #{referer}")
+      referer = nil
+    end
+      
+    return referer || root_path      
   end
 
   ##
