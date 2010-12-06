@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
       # send the user home if the access was previously denied by the same
       # request to avoid sending the user back to the login page
       #   (e.g. protected page -> logout -> returned to protected page -> home)
-      redirect_to root_url and flash.discard and return if request.referer =~ Regexp.new("#{request.request_uri}$")
+      redirect_to root_url and flash.discard and return if (request.referer =~ Regexp.new("#{request.request_uri}$") rescue false)
 
       redirect_to login_url(:referer => request.request_uri)
     end
