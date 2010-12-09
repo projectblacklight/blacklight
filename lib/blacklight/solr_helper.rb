@@ -351,7 +351,7 @@ module Blacklight::SolrHelper
   # a facet paginator with the right limit. 
   def facet_limit_for(facet_field)
     limits_hash = facet_limit_hash
-    return nil unless limits_hash
+    return nil if limits_hash.blank?
         
     limit = limits_hash[facet_field]
 
@@ -374,7 +374,7 @@ module Blacklight::SolrHelper
   # Used by SolrHelper#solr_search_params to add limits to solr
   # request for all configured facet limits.
   def facet_limit_hash
-    Blacklight.config[:facet][:limits]           
+    Blacklight.config[:facet][:limits] || {}
   end
 
   def max_per_page
