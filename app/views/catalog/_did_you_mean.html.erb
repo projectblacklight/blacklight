@@ -1,4 +1,4 @@
-<% if @response.response[:numFound] <= Blacklight.config[:spell_max] and @response.spelling.words.size > 0 %>
+<% if @response.response[:numFound] <= spell_check_max and @response.spelling.words.size > 0 %>
   <div id="spell">
     <h4 class="suggest"><i>Did you mean to type
       <% @response.spelling.words.each_with_index do |word,index| -%>

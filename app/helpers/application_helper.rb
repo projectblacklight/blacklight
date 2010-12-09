@@ -181,6 +181,10 @@ module ApplicationHelper
     Blacklight.config[:index_fields][:labels]
   end
 
+  def spell_check_max
+    Blacklight.config[:spell_max] || 0
+  end
+
   def render_index_field_label args
     field = args[:field]
     html_escape index_field_labels[field]
