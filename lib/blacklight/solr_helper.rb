@@ -40,6 +40,13 @@ module Blacklight::SolrHelper
     end
     return val
   end
+  
+  # returns an Array of parameter keys which are valid for passing from the 
+  # controller on to the solr search request. Used by #solr_search_params.
+  # This allows for overriding this method to add other parameters to the whitelist.
+  def extra_controller_params_whitelist
+    [:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df]
+  end
 
  # returns a params hash for searching solr.
   # The CatalogController #index action uses this.
@@ -123,7 +130,7 @@ module Blacklight::SolrHelper
     # seems to put arguments in here that aren't really expected to turn
     # into solr params. 
     ###
-    solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df ).symbolize_keys   )
+    solr_parameters.deep_merge!(extra_controller_params.slice( *extra_controller_params_whitelist).symbolize_keys   )
 
 
 
