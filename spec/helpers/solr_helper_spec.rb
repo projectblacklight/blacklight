@@ -756,7 +756,23 @@ describe 'Blacklight::SolrHelper' do
     end
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
       facet_limit_hash.should == Blacklight.config[:facet][:limits]
-    end    
+    end
+    it "should handle no facet_limits in config" do
+      Blacklight.config[:facet][:limits].has_key?("subject_facet").should be_true
+      facet_limit_for("subject_facet").should == 20
+      fl = Blacklight.config[:facet][:limits]
+      Blacklight.config[:facet][:limits] = nil
+      facet_limit_for("subject_facet").should be_nil
+      Blacklight.config[:facet][:limits] = fl
+    end
+    it "solr_search_params should handle no facet_limits in config" do
+      Blacklight.config[:facet][:limits].has_key?("subject_facet").should be_true
+      solr_search_params[:"f.subject_facet.facet.limit"].should == 21
+      fl = Blacklight.config[:facet][:limits]
+      Blacklight.config[:facet][:limits] = nil
+      solr_search_params.has_key?(:"f.subject_facet.facet.limit").should be_false
+      Blacklight.config[:facet][:limits] = fl
+    end
     describe "for 'true' configured values" do
       it "should return nil if no @response available" do
         facet_limit_for("some_field").should be_nil

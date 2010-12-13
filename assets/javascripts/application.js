@@ -36,7 +36,7 @@ $(document).ready(function() {
 				  $("#folder_number").text(folder_num);
 					form.attr("action",new_form_action);
 					form.children("input[type=submit]").attr("value",new_button_text);
-				});
+				}, "json");
 				return false;
 			});
 	  }

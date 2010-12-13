@@ -404,5 +404,13 @@ describe ApplicationHelper do
     
   end
   
-  
+  describe "convenience methods" do
+    it "should handle the case where we don't have a spellmax set in the config" do
+      spell_check_max.should == 5
+      sm = Blacklight.config[:spell_max]
+      Blacklight.config[:spell_max] = nil
+      spell_check_max.should == 0
+      Blacklight.config[:spell_max] = sm
+    end
+  end
 end

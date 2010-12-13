@@ -40,6 +40,13 @@ module Blacklight::SolrHelper
     end
     return val
   end
+  
+  # returns an Array of parameter keys which are valid for passing from the 
+  # controller on to the solr search request. Used by #solr_search_params.
+  # This allows for overriding this method to add other parameters to the whitelist.
+  def extra_controller_params_whitelist
+    [:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df]
+  end
 
  # returns a params hash for searching solr.
   # The CatalogController #index action uses this.
@@ -123,7 +130,7 @@ module Blacklight::SolrHelper
     # seems to put arguments in here that aren't really expected to turn
     # into solr params. 
     ###
-    solr_parameters.deep_merge!(extra_controller_params.slice(:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df ).symbolize_keys   )
+    solr_parameters.deep_merge!(extra_controller_params.slice( *extra_controller_params_whitelist).symbolize_keys   )
 
 
 
@@ -351,7 +358,7 @@ module Blacklight::SolrHelper
   # a facet paginator with the right limit. 
   def facet_limit_for(facet_field)
     limits_hash = facet_limit_hash
-    return nil unless limits_hash
+    return nil if limits_hash.blank?
         
     limit = limits_hash[facet_field]
 
@@ -374,7 +381,7 @@ module Blacklight::SolrHelper
   # Used by SolrHelper#solr_search_params to add limits to solr
   # request for all configured facet limits.
   def facet_limit_hash
-    Blacklight.config[:facet][:limits]           
+    Blacklight.config[:facet][:limits] || {}
   end
 
   def max_per_page

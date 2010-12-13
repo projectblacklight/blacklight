@@ -7,7 +7,7 @@ $(document).ready(function() {
       // hide it
       f_content.hide();
     } else {
-      $(this).addClass('twiddle-open');
+      $(this).prev('h3').addClass('twiddle-open');
     }
 
     // attach the toggle behavior to the h3 tag

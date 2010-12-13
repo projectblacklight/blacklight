@@ -12,21 +12,30 @@ class FolderController < ApplicationController
     session[:folder_document_ids] = session[:folder_document_ids] || []
     session[:folder_document_ids] << params[:id] 
     flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render :json => session[:folder_document_ids] }
+    end
   end
  
   # remove a document_id from the folder
   def destroy
     session[:folder_document_ids].delete(params[:id])
     flash[:notice] = "#{params[:title] || "Item"} successfully removed from Folder"
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render :json => session[:folder_document_ids] }
+    end
   end
  
   # get rid of the items in the folder
   def clear
     flash[:notice] = "Cleared Folder"
     session[:folder_document_ids] = []
-    redirect_to folder_index_path
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render :json => session[:folder_document_ids] }
+    end
   end
  
 end

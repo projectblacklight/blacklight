@@ -181,6 +181,10 @@ module ApplicationHelper
     Blacklight.config[:index_fields][:labels]
   end
 
+  def spell_check_max
+    Blacklight.config[:spell_max] || 0
+  end
+
   def render_index_field_label args
     field = args[:field]
     html_escape index_field_labels[field]
@@ -188,8 +192,8 @@ module ApplicationHelper
 
   def render_index_field_value args
     value = args[:value]
-    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
-    html_escape value
+    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    render_field_value value
   end
   
   # Used in the show view for displaying the main solr document heading
@@ -242,9 +246,17 @@ module ApplicationHelper
 
   def render_document_show_field_value args
     value = args[:value]
-    value ||= args[:document].get(args[:field]) if args[:document] and args[:field]
-    return value.map { |v| html_escape v }.join "<br />" if value.is_a? Array
-    html_escape value
+    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    render_field_value value
+  end
+
+  def render_field_value value=nil
+    value = [value] unless value.is_a? Array
+    return value.map { |v| html_escape v }.join field_value_separator 
+  end  
+
+  def field_value_separator
+    ', '
   end
   
   # currently only used by the render_document_partial helper method (below)

@@ -1,10 +1,5 @@
 module Blacklight
 
-  
-  autoload :CoreExt, 'blacklight/core_ext.rb'
-  # load up the CoreExt by referencing it:
-  CoreExt
-  
   autoload :Configurable, 'blacklight/configurable'
   autoload :SearchFields, 'blacklight/search_fields'
 
