@@ -44,13 +44,16 @@ class UserSessionsController < ApplicationController
   def post_auth_redirect_url
     referer = params[:referer] || request.referer
     
-    if referer && referer =~ %r|^https?://#{request.host}#{root_path}|
+    if referer && (referer =~ %r|^https?://#{request.host}#{root_path}| ||
+        referer =~ %r|^https?://#{request.host}:#{request.port}#{root_path}|)
       #self-referencing absolute url, make it relative
-      referer.sub!(%r|^https?://#{request.host}|, '')
+      referer.sub!(%r|^https?://#{request.host}(:#{request.port})?|, '')
     elsif referer && referer =~ %r|^(\w+:)?//|
       Rails.logger.debug("#post_auth_redirect_url will NOT use third party url for post login redirect: #{referer}")
       referer = nil
-    elsif referer && referer_blacklist.any? {|blacklisted| referer.starts_with?(blacklisted)  }
+    end
+    
+    if referer && referer_blacklist.any? {|blacklisted| referer.starts_with?(blacklisted)  }
       Rails.logger.debug("#post_auth_redirect_url will NOT use a blacklisted url for post login redirect: #{referer}")
       referer = nil
     elsif referer && referer[0,1] != '/'

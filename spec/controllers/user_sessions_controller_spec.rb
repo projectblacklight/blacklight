@@ -27,7 +27,7 @@ describe UserSessionsController do
       request.env["HTTP_REFERER"] = '/catalog/1234'
       post :create, :user_session => { :password => "password", :login => "foo" }
       response.redirected_to.should =='/catalog/1234'
-    end
+    end        
 
     it "should prefer params referer to request referer" do
       request.env["HTTP_REFERER"] = '/catalog/1234'
@@ -43,6 +43,27 @@ describe UserSessionsController do
       post :create, :user_session => { :password => "password", :login => "foo" }, :referer => 'http://example.org/catalog/asdf'
       response.redirected_to.should == '/catalog/asdf' 
     end
+    
+    it "should redirect even if port is in hostname" do
+      request.host = "example.org" 
+      request.port = "3000"
+      
+      request.env["HTTP_REFERER"] = "http://example.org:3000/catalog/asdf?foo=bar"
+      post :create, :user_session => { :password => "password", :login => "foo" }
+      response.redirected_to.should == '/catalog/asdf?foo=bar' 
+    end
+    
+    it "should not redirect to a third party host" do
+      request.host = "example.org"
+      request.env["HTTP_REFERER"] = "http://somewhere.else/catalog/foo"
+      post :create, :user_session => { :password => "password", :login => "foo" }
+      response.redirected_to.should == "/"
+    end
+    
+    it "should not accept a relative path URL" do
+      post :create, :user_session => { :password => "password", :login => "foo", :referer => "foobar" }
+      response.redirected_to.should == "/"
+    end      
   end
 
   describe "destroy" do
