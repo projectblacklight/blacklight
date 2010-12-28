@@ -1,0 +1,4 @@
+--protected
+-
+app/**/*.rb
+
