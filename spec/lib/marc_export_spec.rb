@@ -329,7 +329,7 @@ describe Blacklight::Solr::Document::MarcExport do
   describe "export_as_openurl_ctx_kev" do
     it "should create the appropriate context object for books" do
       record = @typical_record.export_as_openurl_ctx_kev('Book')
-      record.should match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.date=c2003.*rft.pub=Oxon%2C\+U.K.*rft.isbn=/) and
+      record.should match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.isbn=/) and
       record.should_not match(/.*rft.genre=article.*rft.issn=.*/)
     end
     it "should create the appropriate context object for journals" do
@@ -341,7 +341,7 @@ describe Blacklight::Solr::Document::MarcExport do
     end
     it "should create the appropriate context object for other content" do
       record = @typical_record.export_as_openurl_ctx_kev('NotARealFormat')
-      record.should match(/.*mtx%3Adc.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.creator=.*rft.date=c2003.*rft.pub=Oxon%2C\+U.K.*rft.format=notarealformat/) and
+      record.should match(/.*mtx%3Adc.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.creator=.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.format=notarealformat/) and
       record.should_not match(/.*rft.isbn=.*/) and
       record.should_not match(/.*rft.issn=.*/)
     end
