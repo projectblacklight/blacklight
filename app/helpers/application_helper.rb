@@ -137,12 +137,16 @@ module ApplicationHelper
   end
 
   def render_body_class
-    ['blacklight-' + @controller.controller_name, 'blacklight-' + [@controller.controller_name, @controller.action_name].join('-')].join " "
+    extra_body_classes.join " "
   end
   
   # collection of items to be rendered in the @sidebar
   def sidebar_items
     @sidebar_items ||= []
+  end
+
+  def extra_body_classes
+    @extra_body_classes ||= ['blacklight-' + @controller.controller_name, 'blacklight-' + [@controller.controller_name, @controller.action_name].join('-')]
   end
   
   #
