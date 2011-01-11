@@ -132,6 +132,10 @@ module ApplicationHelper
     return html
   end
 
+  def render_opensearch_response_metadata
+    render :partial => 'catalog/opensearch_response_metadata'
+  end
+
   def render_body_class
     ['blacklight-' + @controller.controller_name, 'blacklight-' + [@controller.controller_name, @controller.action_name].join('-')].join " "
   end

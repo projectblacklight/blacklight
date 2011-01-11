@@ -5,6 +5,8 @@
 
 	<% @page_title = application_name + " Search Results" %>
 
+        <% extra_head_content << render_opensearch_response_metadata %>
+
 	<%= render :partial => 'search_form' %>
 	
 	<%= render :partial => 'did_you_mean' %>
