@@ -64,4 +64,15 @@ namespace :solr do
     end
     raise "test failures: #{error}" if error
   end
+  
+  desc "Runs all features and specs"
+  task :all do
+    error = TestSolrServer.wrap(SOLR_PARAMS) do
+      rm_f "coverage.data"
+      Rake::Task["rake:spec"].invoke
+      Rake::Task["cucumber:all"].invoke
+    end
+    raise "test failures: #{error}" if error
+  end
+  
 end
