@@ -27,4 +27,18 @@ describe Search do
       @search.saved?.should_not be_true
     end
   end
+  
+  describe "delete_old_searches" do
+    it "should throw an ArgumentError if days_old is not a number" do
+      lambda { Search.delete_old_searches("blah") }.should raise_error(ArgumentError)
+    end
+    it "should throw an ArgumentError if days_old is equal to 0" do
+      lambda { Search.delete_old_searches(0) }.should raise_error(ArgumentError)
+    end
+    it "should throw an ArgumentError if days_old is less than 0" do
+      lambda { Search.delete_old_searches(-1) }.should raise_error(ArgumentError)
+    end
+    
+  end
+  
 end
