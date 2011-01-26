@@ -175,7 +175,7 @@ module Blacklight::SolrHelper
       local_params = hash.collect do |key, val|
         key.to_s + "=" + solr_param_quote(val, :quote => "'")
       end.join(" ")
-      solr_parameters[:q] = "{!#{local_params}} #{solr_parameters[:q]}"
+      solr_parameters[:q] = "{!#{local_params}}#{solr_parameters[:q]}"
     end
     
     

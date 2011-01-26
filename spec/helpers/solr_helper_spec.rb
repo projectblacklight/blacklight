@@ -174,7 +174,12 @@ describe 'Blacklight::SolrHelper' do
         @solr_params[:controller].should be_nil
       end
       it "should include proper 'q', possibly with LocalParams" do
-        @solr_params[:q].should match(/(\{[^}]+\})?( *)?wome/)
+        @solr_params[:q].should match(/(\{[^}]+\})?wome/)
+      end
+      it "should include proper 'q' when LocalParams are used" do
+        if @solr_params[:q] =~ /\{[^}]+\}/
+          @solr_params[:q].should match(/\{[^}]+\}wome/)
+        end
       end
       it "should include spellcheck.q, without LocalParams" do
         @solr_params["spellcheck.q"].should == "wome"
