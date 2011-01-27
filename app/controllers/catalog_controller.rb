@@ -36,15 +36,16 @@ class CatalogController < ApplicationController
   # get single document from the solr index
   def show
     @response, @document = get_solr_response_for_doc_id    
+
     respond_to do |format|
       format.html {setup_next_and_previous_documents}
-      
+
       # Add all dynamically added (such as by document extensions)
       # export formats.
       @document.export_formats.each_key do | format_name |
         # It's important that the argument to send be a symbol;
         # if it's a string, it makes Rails unhappy for unclear reasons. 
-        format.send(format_name.to_sym) { render :text => @document.export_as(format_name) }
+        format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
       end
       
     end
@@ -239,7 +240,7 @@ class CatalogController < ApplicationController
   
   # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
   def rsolr_request_error(exception)
-    if RAILS_ENV == "development"
+    if ::Rails.env == "development"
       raise exception # Rails own code will catch and give usual Rails error page with stack trace
     else
       flash_notice = "Sorry, I don't understand your search."
@@ -257,7 +258,7 @@ class CatalogController < ApplicationController
   
   # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
   def invalid_solr_id_error
-    if RAILS_ENV == "development"
+    if ::Rails.env == "development"
       render # will give us the stack trace
     else
       flash[:notice] = "Sorry, you have requested a record that doesn't exist."

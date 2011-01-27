@@ -11,10 +11,10 @@
 
 <span class="appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">
       <%- unless label.blank? -%>
-        <span class="filterName"><%= options[:escape_label] ? h(label) : label %></span> 
+        <span class="filterName"><%= options[:escape_label] ? h(label) : raw(label) %></span> 
       <%- end -%>
       <%- unless value.blank? -%>
-        <span class="filterValue"><%= options[:escape_value] ? h(value) : value %></span>
+        <span class="filterValue"><%= options[:escape_value] ? h(value) : raw(value) %></span>
       <%- end -%>
       <%- unless options[:remove].blank? -%>
         <% accessible_remove_label =               
