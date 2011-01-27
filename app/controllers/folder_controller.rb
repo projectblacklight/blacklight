@@ -11,9 +11,10 @@ class FolderController < ApplicationController
   def create
     session[:folder_document_ids] = session[:folder_document_ids] || []
     session[:folder_document_ids] << params[:id] 
-    flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
+    # Rails 3 uses a one line notation for setting the flash notice.
+    #    flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to :back, :notice =>  "#{params[:title] || "Item"} successfully added to Folder"}
       format.js { render :json => session[:folder_document_ids] }
     end
   end
