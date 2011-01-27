@@ -43,9 +43,8 @@ class UserSessionsController < ApplicationController
   #  and will not cause redirect loops.
   def post_auth_redirect_url
     referer = params[:referer] || request.referer
-    
     if referer && (referer =~ %r|^https?://#{request.host}#{root_path}| ||
-        referer =~ %r|^https?://#{request.host}:#{request.port}#{root_path}|)
+        referer =~ %r|^https?://#{request.raw_host_with_port}#{root_path}|)
       #self-referencing absolute url, make it relative
       referer.sub!(%r|^https?://#{request.host}(:#{request.port})?|, '')
     elsif referer && referer =~ %r|^(\w+:)?//|
