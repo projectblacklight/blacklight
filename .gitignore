@@ -14,4 +14,4 @@ rerun.txt
 solr_marc/solrmarc.log
 
 *.log
-
+.bundle
