@@ -7,21 +7,26 @@ class RecordMailer < ActionMailer::Base
     
     recipients details[:to]
     if documents.size == 1
-      subject "Item Record: #{documents.first.to_marc['245']['a'] rescue 'N/A'}"
+      subject = "Item Record: #{documents.first.to_marc['245']['a'] rescue 'N/A'}"
     else
-      subject "Item records"
+      subject = "Item records"
     end
-    from "no-reply@" << from_host
-    body :documents => documents, :host => host, :message => details[:message]
+
+    @documents = documents
+    @message   = details[:message]
+    @host      = host
+
+    mail(:to => details[:to],  :from => "no-reply@" << from_host, :subject => subject)
+
   end
   
   def sms_record(documents, details, from_host, host)
     if sms_mapping[details[:carrier]]
       to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
     end
-    recipients to
-    from "no-reply@" << from_host
-    body :documents => documents, :host => host
+    @documents = documents
+    @host      = host
+    mail(:to => to, :from => "no-reply@" << from_host, :subject => "")
   end
 
   protected
