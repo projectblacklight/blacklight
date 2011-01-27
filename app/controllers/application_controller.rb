@@ -5,7 +5,8 @@
 class ApplicationController < ActionController::Base
 
   before_filter :default_html_head # add JS/stylesheet stuff
-  filter_parameter_logging :password, :password_confirmation
+  # now in application.rb file under config.filter_parameters
+  # filter_parameter_logging :password, :password_confirmation 
   helper_method :current_user_session, :current_user
   after_filter :discard_flash_if_xhr
 
