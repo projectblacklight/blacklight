@@ -11,6 +11,7 @@ if defined?(JRUBY_VERSION)
  gem 'jdbc-sqlite3'
  gem 'jruby-openssl'
  gem 'jruby-rack'
+ gem 'nokogiri', "~>1.5.0.beta.3" # NOTE: this pre-release is only required if you want PURE java, current nokogiri works fine if you have libxml2 binaries installed.  See https://github.com/tenderlove/nokogiri/wiki/pure-java-nokogiri-for-jruby
  gem 'warbler'
 else
   gem 'sqlite3-ruby', :require => 'sqlite3'
