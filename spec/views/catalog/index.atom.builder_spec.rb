@@ -29,69 +29,71 @@ describe "Atom feed view" do
   end
   before(:each) do
 
-                               
-    assigns[:response] = @rsolr_response
+    # Not sure what Assigns was doing here ... dhf
+    #    assigns[:response] = @rsolr_response
+    #    assigns[:document_list] = @document_list
     # not sure why we can't use assigns for 'params', instead this weird way,
     # but okay. 
-    params.merge!( @params )
-    
-    assigns[:document_list] = @document_list
 
-    render "catalog/index.atom.builder"
+    params.merge!( @params )
+    @response = @rsolr_response
+ 
+    #    render "catalog/index.atom.builder"
+    # Default behavior in rails 3 is to assume you are rendering a partial,
+    # so you need to be a little more explicit with reder calls outside current scope.
+    render :file => "catalog/index.atom.builder", :content_type => "application/atom+xml", :object => @response 
 
     # We need to use rexml to test certain things that have_tag wont' test    
-    @response_xml = REXML::Document.new(response.body.to_s)   
+    # note that response is depricated rails 3, use "redered" instead. 
+    @response_xml = REXML::Document.new(rendered)   
   end
 
   it "should have contextual information" do
-    response.should have_tag("link[rel=self]")
-    response.should have_tag("link[rel=next]")
-    response.should have_tag("link[rel=previous]")
-    response.should have_tag("link[rel=first]")
-    response.should have_tag("link[rel=last]")
-    response.should have_tag("link[rel=alternate][type=text/html]")
-    response.should have_tag( "link[rel=search][type=application/opensearchdescription+xml]")    
+    rendered.should have_selector("link[rel=self]")
+    rendered.should have_selector("link[rel=next]")
+    rendered.should have_selector("link[rel=previous]")
+    rendered.should have_selector("link[rel=first]")
+    rendered.should have_selector("link[rel=last]")
+    rendered.should have_selector("link[rel='alternate'][type='text/html']")
+    rendered.should have_selector("link[rel=search][type='application/opensearchdescription+xml']") 
   end
-
+  
   it "should get paging data correctly from response" do
     # Can't use have_tag for namespaced elements, sorry.    
     @response_xml.elements["/feed/opensearch:totalResults"].text.should == "30"
     @response_xml.elements["/feed/opensearch:startIndex"].text.should == "10"
     @response_xml.elements["/feed/opensearch:itemsPerPage"].text.should == "10"        
   end
-
+  
   it "should include an opensearch Query role=request" do
-
-
-     @response_xml.elements.to_a("/feed/opensearch:itemsPerPage").length.should == 1
-     query_el = @response_xml.elements["/feed/opensearch:Query"]
-     query_el.should_not be_nil
-     query_el.attributes["role"].should == "request"
-     query_el.attributes["searchTerms"].should == ""
-     query_el.attributes["startPage"].should == "2"    
+        
+    @response_xml.elements.to_a("/feed/opensearch:itemsPerPage").length.should == 1
+    query_el = @response_xml.elements["/feed/opensearch:Query"]
+    query_el.should_not be_nil
+    query_el.attributes["role"].should == "request"
+    query_el.attributes["searchTerms"].should == ""
+    query_el.attributes["startPage"].should == "2"    
   end
   
   it "should have ten entries" do
-    response.should have_tag("entry", :count => 10)
+    rendered.should have_selector("entry", :count => 10)
   end
-
+  
   describe "entries" do
     it "should have a title" do
-      response.should have_tag("entry") { with_tag("title") }
+      rendered.should have_selector("entry > title")
     end
     it "should have an updated" do
-      response.should have_tag("entry") { with_tag("updated") }
+      rendered.should have_selector("entry > updated")
     end
     it "should have html link" do
-      response.should have_tag("entry") do
-        with_tag("link[rel=alternate][type=text/html]")
-      end
+      rendered.should have_selector("entry > link[rel=alternate][type='text/html']")
     end
     it "should have an id" do
-      response.should have_tag("entry") { with_tag("id") }
+      rendered.should have_selector("entry > id")
     end
     it "should have a summary" do
-      response.should have_tag("entry") { with_tag("summary") }
+      rendered.should have_selector("entry > summary") 
     end
     
     describe "with an author" do
@@ -102,7 +104,7 @@ describe "Atom feed view" do
         @entry.elements["author/name"].should_not be_nil              
       end
     end
-  
+    
     describe "without an author" do
       before do
         @entry = @response_xml.elements.to_a("/feed/entry")[1]
@@ -112,17 +114,17 @@ describe "Atom feed view" do
       end
     end
   end
-
+  
   describe "when content_format is specified" do
     describe "for an entry with content available" do
       before do
         @entry = @response_xml.elements.to_a("/feed/entry")[0]
       end
       it "should include a link rel tag" do
-        @entry.to_s.should have_tag("link[rel=alternate][type=application/marc]")
+        @entry.to_s.should have_selector("link[rel=alternate][type='application/marc']")
       end
       it "should have content embedded" do
-        @entry.to_s.should have_tag("content")
+        @entry.to_s.should have_selector("content")
       end
     end
     describe "for an entry with NO content available" do
@@ -130,12 +132,10 @@ describe "Atom feed view" do
         @entry = @response_xml.elements.to_a("/feed/entry")[5]
       end
       it "should include content" do
-        @entry.to_s.should_not have_tag("content[type=application/marc]")
+        @entry.to_s.should_not have_selector("content[type='application/marc']")
       end
     end
   end
-
-  
 end
 
 
