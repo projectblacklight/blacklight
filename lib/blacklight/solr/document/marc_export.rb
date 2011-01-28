@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 # Written for use with Blacklight::Solr::Document::Marc, but you can use
 # it for your own custom Blacklight document Marc extension too -- just
 # include this module in any document extension (or any other class)
 # that provides a #to_marc returning a ruby-marc object.  This module will add
 # in export_as translation methods for a variety of formats. 
 module Blacklight::Solr::Document::MarcExport
-
+  
   def self.register_export_formats(document)
     document.will_export_as(:xml)
     document.will_export_as(:marc, "application/marc")
@@ -99,7 +100,8 @@ module Blacklight::Solr::Document::MarcExport
     # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
     # it seems to want C form normalization, although RefWorks support
     # couldn't tell me that. -jrochkind
-    require 'unicode'    
+    # DHF: moved this require a little lower in the method.
+    # require 'unicode'    
   
     fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
     text = "LEADER #{to_marc.leader}"
@@ -117,7 +119,15 @@ module Blacklight::Solr::Document::MarcExport
        end
         end
     end
-    Unicode.normalize_C(text)
+
+    if Blacklight.jruby? 
+      require 'java'
+      java_import java.text.Normalizer
+      Normalizer.normalize(text, Normalizer::Form::NFC).to_s
+    else 
+      require 'unicode'
+      Unicode.normalize_C(text)
+    end
   end 
 
   # Endnote Import Format. See the EndNote User Guide at:

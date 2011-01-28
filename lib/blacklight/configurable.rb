@@ -27,10 +27,10 @@ module Blacklight::Configurable
     @configs ? @configs : (reset_configs! and @configs)
   end
   
-  # The main config accessor. It merges the current configs[RAILS_ENV] 
+  # The main config accessor. It merges the current configs[::Rails.env] 
   # with configs[:shared] and lazy-loads @config to the result.
   def config
-    @config ||= configs[:shared].merge(configs[RAILS_ENV] ||= {})
+    @config ||= configs[:shared].merge(configs[::Rails.env] ||= {})
   end
   
   # Accepts a value for the environment to configure and a block
