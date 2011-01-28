@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 # Rake tasks for the SolrMarc Java indexer.
 # Marc Record defaults to indexing lc_records.utf8.mrc
 # config.properties defaults to config/demo_config.properties (in the plugin, not the rails app)
@@ -13,7 +14,7 @@ namespace :solr do
     
     desc "Index the supplied test data into Solr"
     task :index_test_data do
-      ENV['MARC_FILE'] = locate_path("data", "test_data.utf8.mrc")
+      ENV['MARC_FILE'] = locate_path("spec", "data", "test_data.utf8.mrc")
 
       Rake::Task[ "solr:marc:index:work" ].invoke
     end
@@ -84,12 +85,12 @@ def compute_arguments
   plugin_site_path = File.expand_path(File.join(Rails.root, "vendor", "plugins", "blacklight", "config", "SolrMarc"))
 
 
-  # Find config in local app or plugin, possibly based on our RAILS_ENV  
+  # Find config in local app or plugin, possibly based on our RAILS_ENV (::Rails.env)
   arguments[:config_properties_path] = ENV['CONFIG_PATH']
   unless arguments[:config_properties_path]
-    [ File.join(app_site_path, "config-#{RAILS_ENV}.properties"  ),
+    [ File.join(app_site_path, "config-#{::Rails.env}.properties"  ),
       File.join( app_site_path, "config.properties"),
-      File.join( plugin_site_path, "config-#{RAILS_ENV}.properties"),
+      File.join( plugin_site_path, "config-#{::Rails.env}.properties"),
       File.join( plugin_site_path, "config.properties"),
     ].each do |file_path|
       if File.exists?(file_path)
@@ -114,7 +115,7 @@ def compute_arguments
   solr_yml_path = locate_path("config", "solr.yml")
   if ( File.exists?( solr_yml_path ))
     solr_config = YAML::load(File.open(solr_yml_path))
-    arguments[:solr_url] = solr_config[ RAILS_ENV ]['url'] if solr_config[RAILS_ENV]
+    arguments[:solr_url] = solr_config[ ::Rails.env ]['url'] if solr_config[::Rails.env]
   end
 
 
