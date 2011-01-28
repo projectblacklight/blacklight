@@ -49,7 +49,7 @@ describe "solr:marc:*" do
       java_cmd = $1
       
       java_cmd.should_not be_nil
-      java_cmd.should == "java -Xmx512m  -jar #{Rails.root}/solr_marc/SolrMarc.jar #{Rails.root}/config/SolrMarc/config-test.properties dummy.mrc -Dsolr.hosturl=http://127.0.0.1:8888/solr"
+        java_cmd.should match "java -Xmx512m  -jar #{Rails.root}/solr_marc/SolrMarc.jar #{Rails.root}/config/SolrMarc/config-test.properties dummy.mrc -Dsolr.hosturl=http://127.0.0.1:[0-9]{4}/solr"
     end
   
   end
