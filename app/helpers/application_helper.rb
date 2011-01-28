@@ -282,8 +282,7 @@ module ApplicationHelper
     begin
       render :partial=>"catalog/_#{action_name}_partials/#{format}", :locals=>{:document=>doc}
     rescue ActionView::MissingTemplate
-      # Note, Rails 3 will only look for default.html.erb if we add on the .html here.
-      render :partial=>"catalog/_#{action_name}_partials/default.html", :locals=>{:document=>doc}
+      render :partial=>"catalog/_#{action_name}_partials/default", :locals=>{:document=>doc}
     end
   end
   
