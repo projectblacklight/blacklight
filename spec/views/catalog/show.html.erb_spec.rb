@@ -53,19 +53,19 @@ describe "/catalog/show.html.erb" do
   end
   
   it "should have a div containing the document id" do
-    @solr_resp.should have_tag(@div_doc_id)
+    @solr_resp.should have_selector(@div_doc_id)
   end
 
 # TODO: re-write this. --bess
 # TODO:  should NOT have h2 hardcoded for document heading field.  
   it "should have an h2 matching contents of heading field specified in the initializer: " + doc_heading_field do
-    @solr_resp.should have_tag(@div_doc_id)
+    @solr_resp.should have_selector(@div_doc_id)
       with_tag('h2', {:text => @document[doc_heading_field]})
   end
 
 # TODO: re-write this. --bess
   it "should have some displayed field values" do
-    @solr_resp.should have_tag('div[class=row]')
+    @solr_resp.should have_selector('div[class=row]')
       with_tag('dt', {:text => /\S+/})
       with_tag('dd', {:text => /\S+/})
   end
@@ -73,7 +73,7 @@ describe "/catalog/show.html.erb" do
 
   # Previous and Next Links
   it "should have previousNextDocument div" do
-    response.should have_tag("div[id=previousNextDocument]")
+    response.should have_selector("div[id=previousNextDocument]")
   end  
 =end
 # TODO: tests that need writing?
