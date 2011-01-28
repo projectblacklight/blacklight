@@ -8,21 +8,14 @@ class MockSolrHelperContainer
 
   include Blacklight::SolrHelper
   attr_accessor :params
-  attr_accessor :facet_limits
+  attr_accessor :response
 
   # SolrHelper expects a method called #params,
   # within the class that's mixing it in
   def params
     @params ||= {}
   end
-  def facet_limit_for(facet_field)
-    facet_limit_hash[facet_field]
-  end
-  def facet_limit_hash
-    @facet_limits ||= {}
-  end
-  
-  
+
 end
 
 
@@ -96,6 +89,7 @@ describe 'Blacklight::SolrHelper' do
         @produced_params[:fq].should be_blank
       end
     end
+
 
     describe "for an empty string search" do
       it "should return empty string q in solr parameters" do
@@ -201,12 +195,15 @@ describe 'Blacklight::SolrHelper' do
         key_value_pairs.should include("qf=$subject_qf")
       end
     end
+
     describe "overriding of qt parameter" do
       it "should return the correct overriden parameter" do
         @solr_helper.params[:qt] = "overriden"
         @solr_helper.solr_search_params[:qt].should == "overriden"
+        @solr_helper.params[:qt] = nil
       end
     end
+
     describe "with a complex parameter environment" do
       before do
         # Add a custom search field def in so we can test it
@@ -372,21 +369,21 @@ describe 'Blacklight::SolrHelper' do
     end
   end
   describe "for facet limit parameters config ed" do
-    before(:all) do
-       @solr_helper = MockSolrHelperContainer.new
-       @solr_helper.params = {:search_field => "test_field", :q => "test query"}
-       @solr_helper.facet_limits = {:some_facet => nil, :subject_facet => 10}
-       @generated_params = @solr_helper.solr_search_params
-     end
-
-     it "should include specifically configged facet limits +1" do
-        @generated_params[:"f.subject_facet.facet.limit"].should == 11      
-     end
-     it "should not include a facet limit for a nil key in hash" do
-        @generated_params.should_not have_key(:"f.some_facet.facet.limit")
-        @generated_params.should_not have_key(:"facet.limit")
-     end
-   end
+    before(:each) do
+      @solr_helper_facet = MockSolrHelperContainer.new
+      @solr_helper_facet.params = {:search_field => "test_field", :q => "test query"}
+      @solr_helper_facet.stub!("facet_limit_hash").and_return({:some_facet => nil, :subject_facet => 10})
+      @generated_params = @solr_helper_facet.solr_search_params
+    end
+    
+    it "should include specifically configged facet limits +1" do
+      @generated_params[:"f.subject_facet.facet.limit"].should == 11      
+    end
+    it "should not include a facet limit for a nil key in hash" do
+      @generated_params.should_not have_key(:"f.some_facet.facet.limit")
+      @generated_params.should_not have_key(:"facet.limit")
+    end
+  end
    describe "get_facet_pagination" do
     before(:each) do
       @facet_paginator = @solr_helper.get_facet_pagination(@facet_field)
@@ -404,7 +401,7 @@ describe 'Blacklight::SolrHelper' do
 
     describe 'for a sample query returning results' do
 
-      before(:all) do
+      before(:all) do        
         (@solr_response, @document_list) = @solr_helper.get_search_results(:q => @all_docs_query)
       end
 
@@ -755,40 +752,40 @@ describe 'Blacklight::SolrHelper' do
   end
 
   describe "facet_limit_for" do
-    include Blacklight::SolrHelper
+
     it "should return specified value for facet_field specified" do
-      facet_limit_for("subject_facet").should == Blacklight.config[:facet][:limits]["subject_facet"]
+      @solr_helper.facet_limit_for("subject_facet").should == Blacklight.config[:facet][:limits]["subject_facet"]
     end
-    it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
-      facet_limit_hash.should == Blacklight.config[:facet][:limits]
+    it "@solr_helper.facet_limit_hash should return hash with key being facet_field and value being configured limit" do
+      @solr_helper.facet_limit_hash.should == Blacklight.config[:facet][:limits]
     end
     it "should handle no facet_limits in config" do
       Blacklight.config[:facet][:limits].has_key?("subject_facet").should be_true
-      facet_limit_for("subject_facet").should == 20
+      @solr_helper.facet_limit_for("subject_facet").should == 20
       fl = Blacklight.config[:facet][:limits]
       Blacklight.config[:facet][:limits] = nil
-      facet_limit_for("subject_facet").should be_nil
+      @solr_helper.facet_limit_for("subject_facet").should be_nil
       Blacklight.config[:facet][:limits] = fl
     end
     it "solr_search_params should handle no facet_limits in config" do
       Blacklight.config[:facet][:limits].has_key?("subject_facet").should be_true
-      solr_search_params[:"f.subject_facet.facet.limit"].should == 21
+      @solr_helper.solr_search_params[:"f.subject_facet.facet.limit"].should == 21
       fl = Blacklight.config[:facet][:limits]
       Blacklight.config[:facet][:limits] = nil
-      solr_search_params.has_key?(:"f.subject_facet.facet.limit").should be_false
+      @solr_helper.solr_search_params.has_key?(:"f.subject_facet.facet.limit").should be_false
       Blacklight.config[:facet][:limits] = fl
     end
     describe "for 'true' configured values" do
       it "should return nil if no @response available" do
-        facet_limit_for("some_field").should be_nil
+        @solr_helper.facet_limit_for("some_field").should be_nil
       end
       it "should get from @response facet.limit if available" do
-        @response = {"responseHeader" => {"params" => {"facet.limit" => 11}}}
-        facet_limit_for("language_facet").should == 10
+        @solr_helper.response = {"responseHeader" => {"params" => {"facet.limit" => 11}}}
+        @solr_helper.facet_limit_for("language_facet").should == 10
       end
       it "should get from specific field in @response if available" do
-        @response = {"responseHeader" => {"params" => {"facet.limit" => 11,"f.language_facet.facet.limit" => 16}}}
-        facet_limit_for("language_facet").should == 15
+        @solr_helper.response = {"responseHeader" => {"params" => {"facet.limit" => 11,"f.language_facet.facet.limit" => 16}}}
+        @solr_helper.facet_limit_for("language_facet").should == 15
       end
     end
   end
