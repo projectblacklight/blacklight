@@ -1,26 +1,26 @@
 # User added
 Then /^I should see a search field$/ do
-  response.should have_tag("input#q")
+  response.should have_selector("input#q")
 end
 
 Then /^I should see a selectable list with field choices$/ do
-  response.should have_tag("select#search_field")
+  response.should have_selector("select#search_field")
 end
 
 Then /^I should see a selectable list with per page choices$/ do
-  response.should have_tag("select#per_page")
+  response.should have_selector("select#per_page")
 end
 
 Then /^I should see a "([^\"]*)" button$/ do |label|
-  response.should have_tag("input[type=?][value=?]", 'submit', label)
+  response.should have_selector("input[type=?][value=?]", 'submit', label)
 end
 
 Then /^I should not see the "([^\"]*)" element$/ do |id|
-  response.should_not have_tag("##{id}")
+  response.should_not have_selector("##{id}")
 end
 
 Then /^I should see the "([^\"]*)" element$/ do |id|
-  response.should have_tag("##{id}")
+  response.should have_selector("##{id}")
 end
 
 Given /^the application is configured to have searchable fields "([^\"]*)" with values "([^\"]*)"$/ do |fields, values|
@@ -34,7 +34,7 @@ Given /^the application is configured to have searchable fields "([^\"]*)" with 
 end
 
 Then /^I should see select list "([^\"]*)" with field labels "([^\"]*)"$/ do |list_css, names|
-  response.should have_tag(list_css) do
+  response.should have_selector(list_css) do
     labels = names.split(", ")
     labels.each do |label|
       with_tag('option', label)
@@ -43,7 +43,7 @@ Then /^I should see select list "([^\"]*)" with field labels "([^\"]*)"$/ do |li
 end
 
 Then /^I should see select list "([^\"]*)" with "([^\"]*)" selected$/ do |list_css, label|
-  response.should have_tag(list_css) do |e|
+  response.should have_selector(list_css) do |e|
     with_tag("[selected=selected]", {:count => 1}) do
       with_tag("option", {:count => 1, :text => label})
     end

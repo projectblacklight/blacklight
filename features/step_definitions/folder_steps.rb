@@ -1,9 +1,9 @@
 Then /^I should see an add to folder form$/ do
-  response.should have_tag("form.addFolder")
+  response.should have_selector("form.addFolder")
 end
 
 Then /^I should see a remove from folder form$/ do
-  response.should have_tag("form.deleteFolder")
+  response.should have_selector("form.deleteFolder")
 end
 
 When /^I (add|remove) record (.+) (to|from) my folder$/ do |add_or_remove, id, wording|
@@ -19,8 +19,8 @@ end
 Then /^I (should|should not) see the Folder tools$/ do |comparator|
   case comparator
     when "should"
-      response.should have_tag("ul.folderTools")
+      response.should have_selector("ul.folderTools")
     when "should not"
-      response.should_not have_tag("ul.folderTools")
+      response.should_not have_selector("ul.folderTools")
     end
 end 

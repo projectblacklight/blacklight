@@ -7,5 +7,5 @@ Then /^I (should|should not) see an? "([^\"]*)" element containing "([^\"]*)"$/ 
 end
 
 Then /^I should see link rel=alternate tags/ do
-  response.should have_tag("link[rel=alternate]")
+  response.should have_selector("link[rel=alternate]")
 end

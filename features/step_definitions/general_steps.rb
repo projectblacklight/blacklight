@@ -3,5 +3,5 @@ When /^I follow "([^\"]*)" in "([^\"]*)"$/ do |link, scope|
 end
 
 Then /^I should see a stylesheet/ do
-  response.should have_tag("link[rel=stylesheet]")
+  response.should have_selector("link[rel=stylesheet]")
 end
