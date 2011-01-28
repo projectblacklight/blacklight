@@ -32,12 +32,12 @@ describe Blacklight::Configurable do
       TestConfig.configure do |config|
         config[:key] = ":shared value"
       end
-      TestConfig.configure(RAILS_ENV) do |config|
+      TestConfig.configure(::Rails.env) do |config|
         config[:key] = ":test value"
       end
       TestConfig.config[:key].should == ":test value"
       TestConfig.configs[:shared][:key].should == ":shared value"
-      TestConfig.configs[RAILS_ENV][:key].should == ":test value"
+      TestConfig.configs[::Rails.env][:key].should == ":test value"
     end
   end
   
@@ -62,12 +62,12 @@ describe Blacklight::Configurable do
         config[:app_id] = 'Blacklight'
         config[:mode] = :shared!
       end
-      TestConfig.configure(RAILS_ENV) do |config|
-        config[:mode] = RAILS_ENV
+      TestConfig.configure(::Rails.env) do |config|
+        config[:mode] = ::Rails.env
       end
       TestConfig.config[:app_id].should == 'Blacklight'
       TestConfig.config[:mode].should_not == :shared!
-      TestConfig.config[:mode].should == RAILS_ENV
+      TestConfig.config[:mode].should == ::Rails.env
     end
   end
   
