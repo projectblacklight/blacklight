@@ -9,21 +9,21 @@
     <title><%= h(@page_title || application_name) %></title>
     <link href="<%= url_for :controller=>'catalog',:action => 'opensearch', :format => 'xml', :only_path => false %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
     
-    <%= render_head_content %>
+    <%= raw(render_head_content) %>
     
     
   </head>
   <% if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
     <body onload="$('input#q').focus();" class="<%= render_body_class %>">
   <% else %>
-    <body class="<%= render_body_class %>">
+    <body class="<%= render_body_class.html_safe %>">
   <% end %>
 	  <div id="doc4" class="yui-t2">
 	    
 	    <div id="hd">
         <div class="yui-g">
           <div class="yui-u first">
-            <h1 class="site_title"><%= link_to application_name, root_path %><%= (params[:controller] == "catalog" and !params[:id]) ? "<span id='results_text'>Search Results</span>" : "" %></h1>
+            <h1 class="site_title"><%= link_to application_name, root_path %><%= (params[:controller] == "catalog" and !params[:id]) ? "<span id='results_text'>Search Results</span>".html_safe : "" %></h1>
           </div>
           <div class="yui-u">
             <%= render :partial=>'/user_util_links' %>
@@ -40,13 +40,11 @@
           </div>
         </div>
         
-        <div class="yui-b sidebar"><%= sidebar_items.join('') %></div>
+        <div class="yui-b sidebar"><%= sidebar_items.join('').html_safe %></div>
         
 	    </div>
-	    
-	    <div id="ft"><%= @footer %></div>
-	    
+	    <div id="ft"><%= raw(@footer) %></div>
 	  </div>
-  </body>
-  
-</html>
+    </body>
+    
+    </html>

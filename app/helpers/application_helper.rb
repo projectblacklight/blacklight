@@ -147,7 +147,7 @@ module ApplicationHelper
   end
 
   def extra_body_classes
-    @extra_body_classes ||= ['blacklight-' + @controller.controller_name, 'blacklight-' + [@controller.controller_name, @controller.action_name].join('-')]
+    @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end
   
   #

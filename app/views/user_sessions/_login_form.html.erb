@@ -1,4 +1,4 @@
-<% form_for @user_session do |f| %>
+<%= form_for @user_session do |f| %>
   <div class="row"><%= f.label :login %> <%= f.text_field :login %></div>
   <div class="row"><%= f.label :password %> <%= f.password_field :password %></div>
   <div class="row submit"><%= f.submit 'Login' %></div>

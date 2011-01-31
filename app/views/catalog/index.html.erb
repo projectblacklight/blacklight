@@ -1,3 +1,4 @@
+
 <% unless has_search_parameters? %>
 	<%# if there are no input/search related params, display the "home" partial -%>
 	<%= render 'home' %>
@@ -5,7 +6,7 @@
 
 	<% @page_title = application_name + " Search Results" %>
 
-        <% extra_head_content << render_opensearch_response_metadata %>
+        <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
 	<%= render :partial => 'search_form' %>
 	
@@ -14,13 +15,13 @@
 	<%= render 'constraints', :localized_params=>params %>
   
   <div class="pageEntriesInfo">
-    <%= page_entries_info @response.docs, :entry_name=>'item' %>
-    <%=link_to "Start&nbsp;over&thinsp;", catalog_index_path, :id=>"startOverLink" %>
+    <%= (page_entries_info @response.docs, :entry_name=>'item').html_safe %>
+    <%=link_to raw("Start&nbsp;over&thinsp;"), catalog_index_path, :id=>"startOverLink" %>
   </div>
   
 	<%= render 'sort_and_per_page' %>
   
-  <%= render 'results_pagination' %>
+        <%= render 'results_pagination' %>
   
 
 	<%= render_document_list_partial %>
