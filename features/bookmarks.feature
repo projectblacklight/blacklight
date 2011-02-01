@@ -63,6 +63,17 @@ Feature: Bookmarks
       Then I press "Remove bookmark"
       And I should see "Successfully removed bookmark."
       
+    Scenario: Adding and deleting bookmark from show page
+      Given I am logged in as "user1"
+      When I am on the document page for id 2007020969
+      Then I should see a "Bookmark" button
+      And I press "Bookmark"
+      #Then I should see "Successfully added bookmark"
+      And I should see a "Remove bookmark" button
+      And I press "Remove bookmark"
+      And I should see "Successfully removed bookmark"
+
+      
     Scenario: Adding bookmarks from Folder
       Given I am logged in as "user1"
       And I have record 2007020969 in my folder
