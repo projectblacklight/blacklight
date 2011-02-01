@@ -11,6 +11,11 @@ def standard_citation
   <controlfield tag=\"003\">SIRSI</controlfield>
   <controlfield tag=\"008\">020828s2003    enkaf    b    001 0 eng  </controlfield>
 
+  <datafield tag=\"110\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">Bobs</subfield>
+    <subfield code=\"b\">Your Uncle</subfield>
+  </datafield>
+
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Apples :</subfield>
     <subfield code=\"b\">botany, production, and uses /</subfield>
