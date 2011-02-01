@@ -1,12 +1,17 @@
-<% if current_user and current_user.document_is_bookmarked? document[:id] %>
-  <span>This item is in your <%= link_to 'bookmarks', bookmarks_path %></span>
-<% elsif current_user %>
-  <%- @bookmark ||= Bookmark.new -%>
-  <% form_for(@bookmark) do |f| %>
-    <%= f.hidden_field(:document_id, :value => h(document[:id])) %>
-    <%= f.hidden_field(:title, :value => h(document[document_show_link_field])) %>
-    <%= f.submit 'Bookmark this item', :id => "user_submit_#{document[:id]}" %>
-  <% end #form %>
+<% if current_user %>
+  <%- existing_bookmark = current_user.existing_bookmark_for(document[:id]) -%>
+      
+  <% unless existing_bookmark %>  
+      <% form_for( Bookmark.new, :html => {:class=>"add_bookmark"} ) do |f| %>
+        <%= f.hidden_field(:document_id, :value => h(document[:id])) %>
+        <%= f.hidden_field(:title, :value => h(document[document_show_link_field])) %>          
+        <%= f.submit('Bookmark', :id => "bookmark_toggle_#{document[:id]}" )%>        
+      <% end %>
+  <% else %>
+      <% form_for(existing_bookmark, :html => {:method => :delete, :class=>"remove_bookmark"}) do |f| %>
+        <%= f.submit('Remove bookmark', :id => "bookmark_toggle_#{document[:id]}") %>           
+      <% end %>
+  <% end %>
 <% else %>
   &nbsp;
 <% end %>

@@ -116,6 +116,15 @@ describe User do
     @user.bookmarks.push(get_bookmark)
     @user.should be_document_is_bookmarked('u001')  
   end
+  
+  it "should return Bookmark object for a document it has bookmarked" do
+    @user.bookmarks.push(get_bookmark)
+    @user.existing_bookmark_for('u001').should_not be_nil
+  end
+  
+  it "should return nil for a document it does not have bookmarked" do
+    @user.existing_bookmark_for('DOES_NOT_EXIST').should be_nil
+  end
 
   it "should be valid after saving" do
     @user.save

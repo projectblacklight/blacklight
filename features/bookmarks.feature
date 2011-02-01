@@ -35,7 +35,7 @@ Feature: Bookmarks
       And I am on the bookmarks page
       Then I should see "remove"
       When I follow "remove"
-      Then I should see "Successfully removed that bookmark."
+      Then I should see "Successfully removed bookmark."
 
     Scenario: Clearing Bookmarks
       Given I am logged in as "user1"
@@ -47,13 +47,21 @@ Feature: Bookmarks
       Then I should see "Cleared your bookmarks."
       And I should see "You have no bookmarks"
       
-    Scenario: Adding a bookmark from search results
+    Scenario: Adding and removing a bookmark from search results
       Given I am logged in as "user1"
       When I am on the home page
       And I fill in "q" with "book"
       And I press "search"
-      When I press "Bookmark this item"
+      When I press "Bookmark"
       Then I should see "Successfully added bookmark."
+      # We should be back on search results here, but due to
+      # what I believe is a bug in Cucumber with query strings
+      # and http Referer, we're not, we're on home page, so we'll
+      # navigate back, sorry. 
+      And I fill in "q" with "book"
+      And I press "search"
+      Then I press "Remove bookmark"
+      And I should see "Successfully removed bookmark."
       
     Scenario: Adding bookmarks from Folder
       Given I am logged in as "user1"

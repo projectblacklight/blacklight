@@ -49,9 +49,9 @@ class BookmarksController < ApplicationController
   
   def destroy
     if current_user.bookmarks.delete(Bookmark.find(params[:id]))
-      flash[:notice] = "Successfully removed that bookmark."
+      flash[:notice] = "Successfully removed bookmark."
     else
-      flash[:error] = "Couldn't remove that bookmark."
+      flash[:error] = "Sorry, there was a problem removing the bookmark."
     end
     redirect_to :back
   end
