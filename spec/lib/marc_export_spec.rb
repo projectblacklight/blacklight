@@ -15,6 +15,11 @@ def standard_citation
   <controlfield tag=\"003\">SIRSI</controlfield>
   <controlfield tag=\"008\">020828s2003    enkaf    b    001 0 eng  </controlfield>
 
+  <datafield tag=\"110\" ind1=\"1\" ind2=\" \">
+    <subfield code=\"a\">Bobs</subfield>
+    <subfield code=\"b\">Your Uncle</subfield>
+  </datafield>
+
   <datafield tag=\"245\" ind1=\"0\" ind2=\"0\">
     <subfield code=\"a\">Apples :</subfield>
     <subfield code=\"b\">botany, production, and uses /</subfield>
@@ -329,19 +334,19 @@ describe Blacklight::Solr::Document::MarcExport do
   describe "export_as_openurl_ctx_kev" do
     it "should create the appropriate context object for books" do
       record = @typical_record.export_as_openurl_ctx_kev('Book')
-      record.should match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.isbn=/) and
+      record.should match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.isbn=/) and
       record.should_not match(/.*rft.genre=article.*rft.issn=.*/)
     end
     it "should create the appropriate context object for journals" do
       record = @typical_record.export_as_openurl_ctx_kev('Journal')
       record_journal_other = @typical_record.export_as_openurl_ctx_kev('Journal/Magazine')
-      record.should match(/.*mtx%3Ajournal.*rft.genre=article.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.atitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.date=c2003.*rft.issn=/) and
+      record.should match(/.*mtx%3Ajournal.*rft.genre=article.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.atitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.issn=/) and
       record_journal_other.should == record and
       record.should_not match(/.*rft.genre=book.*rft.isbn=.*/)
     end
     it "should create the appropriate context object for other content" do
       record = @typical_record.export_as_openurl_ctx_kev('NotARealFormat')
-      record.should match(/.*mtx%3Adc.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.creator=.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.format=notarealformat/) and
+      record.should match(/.*mtx%3Adc.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.creator=.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.format=notarealformat/) and
       record.should_not match(/.*rft.isbn=.*/) and
       record.should_not match(/.*rft.issn=.*/)
     end
