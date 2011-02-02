@@ -265,6 +265,7 @@ dl.defList dt {float:left; text-align: right; width: 20%; clear: both; color: #8
 dl.defList dd {float: left; text-align: left; margin: 0; padding: 2px 0; width: 450px;}
 
 /* Individual Result Listing */
+#document {margin-top: 1em;}
 #document h1 {margin: 0px; padding: 0px 0px 1em 0px;}
 #marc_view {padding:5px; text-align:left;}
 #marc_view .ind1, #marc_view .ind2 {padding:0 5px; display:inline;}
