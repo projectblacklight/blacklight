@@ -241,12 +241,19 @@ font-weight:bold;
   float: right;
 }
 
+/* 'Document functions', Bookmark/Folder. Appear on both results/index and 
+   detail/show views. */
+.documentFunctions {text-align:right; float: right; margin-left: 0.5em; margin-bottom: 0.5em;}
+.documentFunctions .deleteFolder, .documentFunctions .addFolder, .documentFunctions .remove_bookmark, .documentFunctions .add_bookmark {float:right;}
+
+
 /* Search Results */
 .document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc; clear: both;}
 
 #documents {background-color: #eee; color: #333; margin-top: 1.5em; margin-bottom: 1.5em; }
 #documents .documentHeader {background-color: #fff; padding: 0px;}
-#documents .documentHeader .documentFunctions {text-align:right; float: right; margin-left: 0.5em; margin-bottom: 0.5em;}
+
+
 #documents .per_page {padding-right: 5px;}
 
 /* Result List (http://www.quirksmode.org/css/clearing.html) */
@@ -259,7 +266,6 @@ dl.defList dd {float: left; text-align: left; margin: 0; padding: 2px 0; width: 
 
 /* Individual Result Listing */
 #document h1 {margin: 0px; padding: 0px 0px 1em 0px;}
-.deleteFolder, .addFolder, .remove_bookmark, .add_bookmark {float:right;}
 #marc_view {padding:5px; text-align:left;}
 #marc_view .ind1, #marc_view .ind2 {padding:0 5px; display:inline;}
 #marc_view .tag_ind {float:left;}
