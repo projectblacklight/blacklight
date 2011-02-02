@@ -2,5 +2,5 @@
 <% form_tag("/folder#{item_in_folder?(document[:id]) ? '/destroy' : nil}", :name => "folder#{document[:id]}", :class=>"#{item_in_folder?(document[:id]) ? "delete" : "add"}Folder", :title=>h(document[document_show_link_field])) do -%>
   <%= hidden_field_tag("id_#{document[:id]}".to_sym, h(document[:id]), :name=>"id") %>
   <%= hidden_field_tag("title_#{document[:id]}".to_sym, h(document[document_show_link_field]), :name=>"title" ) %>
-  <%= submit_tag "#{item_in_folder?(document[:id]) ? "Remove from" : "Add to"} folder", :id => "folder_submit_#{document[:id]}" %>
+  <%= submit_tag "#{item_in_folder?(document[:id]) ? "Remove from" : "Add to"} folder", :class=>"folder_submit", :id => "folder_submit_#{document[:id]}" %>
 <% end %>

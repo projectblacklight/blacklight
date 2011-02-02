@@ -9,7 +9,7 @@
       <% end %>
   <% else %>
       <% form_for(existing_bookmark, :html => {:method => :delete, :class=>"remove_bookmark"}) do |f| %>
-        <%= f.submit('Remove bookmark', :id => "bookmark_toggle_#{document[:id]}") %>           
+        <%= f.submit('Remove bookmark', :class=>"bookmark_toggle", :id => "bookmark_toggle_#{document[:id]}") %>           
       <% end %>
   <% end %>
 <% else %>
