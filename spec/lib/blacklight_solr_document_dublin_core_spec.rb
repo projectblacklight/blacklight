@@ -20,18 +20,22 @@ describe "Blacklight::Solr::Document::DublinCore" do
 
   it "should export oai_dc with the proper namespaces" do
     document = @mock_class.new
-    document.export_as_oai_dc_xml.should == '<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></oai_dc:dc>'
+    expected = '<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></oai_dc:dc>'
+    Hash.from_xml(document.export_as_oai_dc_xml).should == Hash.from_xml(expected)
   end
 
   it "should include 'dc:'-prefixed semantic fields" do
-      data = {'id'=>'123456','title_display'=>['654321'] }
-      document = @mock_class.new(data)
-      document.export_as_oai_dc_xml.should ==  '<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>654321</dc:title></oai_dc:dc>'
+    data = {'id'=>'123456','title_display'=>['654321'] }
+    document = @mock_class.new(data)
+    expected = '<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>654321</dc:title></oai_dc:dc>'
+    Hash.from_xml(document.export_as_oai_dc_xml).should == Hash.from_xml(expected)
   end
+
   it "should work with multi-value fields" do
-      data = {'id'=>'123456','title_display'=>['654321', '987'] }
-      document = @mock_class.new(data)
-      document.export_as_oai_dc_xml.should ==  '<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>654321</dc:title><dc:title>987</dc:title></oai_dc:dc>'
+    data = {'id'=>'123456','title_display'=>['654321', '987'] }
+    document = @mock_class.new(data)
+    expected = '<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>654321</dc:title><dc:title>987</dc:title></oai_dc:dc>'
+    Hash.from_xml(document.export_as_oai_dc_xml).should == Hash.from_xml(expected)
   end
 end
 
