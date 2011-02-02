@@ -8,16 +8,14 @@
     <div class="document <%= render_document_class document %>">
       
       <% # header bar for doc items in index view -%>
-      <div class="documentHeader yui-g">
+      <div class="documentHeader">
         
         <% # list controls for items/docs -%>
-	<%= render_document_functions_partial document %>
+        <%= render_document_functions_partial document %>
         
         <% # main title container for doc partial view -%>
+        <h3 class="index_title"><%= counter + 1 + @response.params[:start].to_i %>. <%= link_to_document document, :label=>document_show_link_field, :counter => (counter + 1 + @response.params[:start].to_i) %></h3>
 
-        <div class="yui-u">
-          <h3 class="index_title"><%= counter + 1 + @response.params[:start].to_i %>. <%= link_to_document document, :label=>document_show_link_field, :counter => (counter + 1 + @response.params[:start].to_i) %></h3>
-        </div>
         
       </div>
       

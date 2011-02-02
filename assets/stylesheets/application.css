@@ -242,18 +242,18 @@ font-weight:bold;
 }
 
 /* Search Results */
-.document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc;}
+.document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc; clear: both;}
 
 #documents {background-color: #eee; color: #333; margin-top: 1.5em; margin-bottom: 1.5em; }
 #documents .documentHeader {background-color: #fff; padding: 0px;}
-#documents .documentHeader .documentFunctions {text-align:right;}
+#documents .documentHeader .documentFunctions {text-align:right; float: right; margin-left: 0.5em; margin-bottom: 0.5em;}
 #documents .per_page {padding-right: 5px;}
 
 /* Result List (http://www.quirksmode.org/css/clearing.html) */
-h3.index_title {clear: both; margin: 0px; padding: 0px; width: 460px;}
+h3.index_title { margin: 0px; padding: 0px; }
 
 dl {margin: 0px; padding: 0px;}
-dl.defList {overflow: auto; padding: 0.5em 0;}
+dl.defList {overflow: auto; padding: 0.5em 0; clear: both}
 dl.defList dt {float:left; text-align: right; width: 20%; clear: both; color: #888; margin: 0; padding: 2px 1em 2px 0px;}
 dl.defList dd {float: left; text-align: left; margin: 0; padding: 2px 0; width: 450px;}
 
