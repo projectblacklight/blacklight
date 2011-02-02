@@ -175,6 +175,11 @@ module ApplicationHelper
     render :partial=>'catalog/document_list'
   end
 
+  # Compare with the _show_tools partial. BL actually has two groups
+  # of document-related tools. "document functions" by default
+  # contains Bookmark/Folder functionality shown on both results and
+  # item view. While "document tools" contains external export type
+  # functions by default only on detail.
   def render_document_functions_partial document=@document, options={}
     render :partial=>'catalog/document_functions', :locals => {:document => document }
   end

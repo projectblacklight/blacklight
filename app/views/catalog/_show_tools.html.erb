@@ -1,4 +1,11 @@
-
+<%-
+  # Compare with render_document_functions_partial helper, and
+  # _document_functions partial. BL actually has two groups
+  # of document-related tools. "document functions" by default
+  # contains Bookmark/Folder functionality shown on both results and
+  # item view. While "document tools" contains external export type
+  # functions by default only on detail.
+-%>
   <ul class="tools">
   
     <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
