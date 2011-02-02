@@ -5,7 +5,7 @@
       <% form_for( Bookmark.new, :html => {:class=>"add_bookmark"} ) do |f| %>
         <%= f.hidden_field(:document_id, :value => h(document[:id])) %>
         <%= f.hidden_field(:title, :value => h(document[document_show_link_field])) %>          
-        <%= f.submit('Bookmark', :id => "bookmark_toggle_#{document[:id]}" )%>        
+        <%= f.submit('Bookmark', :id => "bookmark_toggle_#{document[:id]}", :class=>"bookmark_toggle" )%>        
       <% end %>
   <% else %>
       <% form_for(existing_bookmark, :html => {:method => :delete, :class=>"remove_bookmark"}) do |f| %>
