@@ -10,10 +10,9 @@
   
 <%- else -%>
 
-
   <% sidebar_items << capture do %>	  
 	  <h3>Search your Bookmarks</h3>
-	  <% form_tag bookmarks_path, :method=>:get do %>
+	  <%= form_tag bookmarks_path, :method=>:get do %>
 	    <%= text_field_tag 'q', params[:q] %>
       <%= submit_tag 'find', :name=>:a %>
 		<% end %>
@@ -34,7 +33,7 @@
 	  Show <%= link_to 'all', bookmarks_path %>.
 	<% end %>
 
-	<%= will_paginate(@bookmarks) %>
+	<%= will_paginate @bookmarks %>
 
 	<div id="userBookmarks">
   	<p>

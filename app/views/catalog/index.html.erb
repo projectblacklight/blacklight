@@ -16,14 +16,13 @@
   
   <div class="pageEntriesInfo">
     <%= (page_entries_info @response.docs, :entry_name=>'item').html_safe %>
-    <%=link_to raw("Start&nbsp;over&thinsp;"), catalog_index_path, :id=>"startOverLink" %>
+    <%=link_to "start over", catalog_index_path, :id=>"startOverLink" %>
   </div>
   
 	<%= render 'sort_and_per_page' %>
   
         <%= render 'results_pagination' %>
   
-
 	<%= render_document_list_partial %>
 
 	<% sidebar_items << capture do %>
@@ -32,8 +31,7 @@
 
   <%= render 'results_pagination' %>
 
-
-	<%= render :partial=>'solr_request' %>
+  <%= render :partial=>'solr_request' %>
 
 <% end %>
 

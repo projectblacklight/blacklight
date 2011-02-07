@@ -2,7 +2,7 @@
   <span>This item is in your <%= link_to 'bookmarks', bookmarks_path %></span>
 <% elsif current_user %>
   <%- @bookmark ||= Bookmark.new -%>
-  <% form_for(@bookmark) do |f| %>
+  <%= form_for(@bookmark) do |f| %>
     <%= f.hidden_field(:document_id, :value => h(document[:id])) %>
     <%= f.hidden_field(:title, :value => h(document[document_show_link_field])) %>
     <%= f.submit 'Bookmark this item', :id => "user_submit_#{document[:id]}" %>
