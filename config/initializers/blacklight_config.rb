@@ -20,7 +20,7 @@ Blacklight.configure(:shared) do |config|
 
   # Set up and register the default SolrDocument Marc extension
   SolrDocument.extension_parameters[:marc_source_field] = :marc_display
-  SolrDocument.extension_parameters[:marc_format_type] = :marc21
+  SolrDocument.extension_parameters[:marc_format_type] = :marcxml
   SolrDocument.use_extension( Blacklight::Solr::Document::Marc) do |document|
     document.key?( :marc_display  )
   end
