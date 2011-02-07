@@ -23,7 +23,8 @@ gem 'rails-upgrade'
 # Gems added from old init.rb
 gem 'authlogic', :git => 'git://github.com/binarylogic/authlogic.git'
 gem 'marc'
-gem 'will_paginate'
+gem 'will_paginate', "3.0.pre2"
+gem 'acts-as-taggable-on'
 
 source :gemcutter
 gem 'rsolr',  '0.12.1'
@@ -62,6 +63,7 @@ group :development, :test do
       gem 'rspec-rails'
       gem 'cucumber-rails'
       gem 'capybara' # needed for latest cucumber and Rails3
+      gem 'launchy' # For cucumber's "Then show me the page" functionality
       gem 'webrat'  # needed for view specs
       gem 'database_cleaner'
       gem 'jeweler'
