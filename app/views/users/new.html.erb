@@ -1,6 +1,15 @@
-<%= error_messages_for :user %>
+<%= form_for(@user, :url => user_path) do |f| %>
+  <% if @user.errors.any? %>
+  <div id="errorExplanation">
+    <h2>The following errors prohibited this form from being saved:</h2>
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
 
-<% form_for(@user, :url => user_path) do |f| %>
   <fieldset>
     <div class="row"><%= f.label :login %> <%= f.text_field :login %></div>
     <div class="row"><%= f.label :email %> <%= f.text_field :email %></div>
