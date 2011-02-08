@@ -37,7 +37,7 @@ describe SearchHistoryController do
       session[:history] = [1,2,3]
       request.env["HTTP_REFERER"] = "/search_history"
       get :destroy, :id=>4
-      response.flash[:error].should_not == ""
+      request.flash[:error].should_not == ""
     end
     
   end
