@@ -31,7 +31,7 @@ Feature: User Account
     And I fill in "Password" with "password"
     And I fill in "Confirm Password" with "wrong-password"
     And I press "Create Account"
-    Then I should see "There were problems with the following fields"
+    Then I should see "The following errors"
     
   Scenario: Login
     Given user with login "user1" and email "user1@foo.com" and password "password"

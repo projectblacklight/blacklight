@@ -1,7 +1,10 @@
 When /^I follow "([^\"]*)" in "([^\"]*)"$/ do |link, scope|
-  click_link_within(scope, link)
+  within(scope) do
+    click_link(link)
+  end
 end
 
 Then /^I should see a stylesheet/ do
-  response.should have_selector("link[rel=stylesheet]")
+  page.should have_selector("link[rel=stylesheet]")
 end
+

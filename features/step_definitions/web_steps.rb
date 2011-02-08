@@ -215,5 +215,9 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
 end
 
 Then /^show me the page$/ do
-  save_and_open_page
+  if (Blacklight.jruby?) 
+    puts page.body
+  else
+    save_and_open_page
+  end
 end

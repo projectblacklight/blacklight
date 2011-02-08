@@ -1,11 +1,11 @@
 Then /^I (should|should not) see an? "([^\"]*)" element containing "([^\"]*)"$/ do |bool,elem,content|
   if bool == "should"
-    response.should have_selector("#{elem}",:content => content)
+    page.should have_xpath("//#{elem}[text()='#{content}']")
   else
-    response.should_not have_selector("#{elem}",:content => content)
+    page.should have_no_xpath("//#{elem}[text()='#{content}']")
   end
-end
+end  
 
 Then /^I should see link rel=alternate tags/ do
-  response.should have_selector("link[rel=alternate]")
+  page.should have_selector("link[rel=alternate]")
 end

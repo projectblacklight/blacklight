@@ -4,11 +4,11 @@ Given /^I am logged in as "([^\"]*)"$/ do |login|
 #  visit user_sessions_path(:user_session => {:login => login, :password => "password"}), :post
 #  User.find(user.id).should_not be_nil
   visit "/login" 
-  fill_in("login", :with => login) 
-  fill_in("password", :with => "password") 
+  fill_in("user_session_login", :with => login) 
+  fill_in("user_session_password", :with => "password") 
   click_button("Login")
 #  response.body.should =~ /Logged/m  
-
+  Then 'I should see "Log Out"'
 end
 
 Given /^"([^\"]*)" has saved a search with term "([^\"]*)"$/ do |user, term|
