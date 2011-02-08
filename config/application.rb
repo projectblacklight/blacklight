@@ -51,8 +51,7 @@ module BlacklightApp
     config.session_store(:secret, '3e37cf3b7a9a3359f437aac207241fd25c2e2a107f85b2e6d32e0b5e3795e75fdb094b9d045d8c40e9ae2b38063c8926ef01b1e03946652eadf96c653d6effa9')
     
     config.after_initialize do
-      require 'will_paginate_link_renderer'   # in local ./lib
-      require 'taggable_pagination'           # in local ./lib
+      require 'will_paginate/comma_link_renderer'   # in local ./lib, for custom pagination links
       Blacklight.init
 
       # Content types used by Marc Document extension, possibly among others.

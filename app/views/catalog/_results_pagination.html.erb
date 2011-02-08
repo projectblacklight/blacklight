@@ -5,7 +5,7 @@
          # a more conventional next-on-right. 
       %>
       <h2>Results navigation</h2>
-      <%= will_paginate @response.docs, :page_links => false, :container => false %>
-      <%= will_paginate @response.docs, :next_label => '', :previous_label => '', :class => "page_links" %>
+      <%= will_paginate @response.docs, :page_links => false, :container => false, :renderer => CommaLinkRenderer %>
+      <%= will_paginate @response.docs, :next_label => '', :previous_label => '', :class => "page_links", :renderer => CommaLinkRenderer %>
     </div>
   <% end %>
