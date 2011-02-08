@@ -23,48 +23,41 @@ module Blacklight::Routes
       root :to => "catalog#index"
       
       # rails2: map.resources :bookmarks, :collection => {:clear => :delete}
-      resources :bookmarks, :collection => {:clear => :delete}
+      match "bookmarks/clear", :to => "bookmarks#clear", :as => "clear_bookmarks"
+      resources :bookmarks
       
       # rails2: map.resource :user
       resource :user
       
       # rails2: map.catalog_facet "catalog/facet/:id", :controller=>'catalog', :action=>'facet'
-      match 'catalog/facet/#id', :to => "catalog#facet"
+      match 'catalog/facet/:id', :to => "catalog#facet"
 
       
       # rails2: map.resources :search_history, :collection => {:clear => :delete}
       #        map.resources :saved_searches, :collection => {:clear => :delete}, :member => {:save => :put}
-      resources :search_history do
-        delete 'clear', :on => :collection      
-      end
+
+      match "search_history/clear", :to => "search_history#clear", :as => "clear_search_history"
+      resources :search_history
+
       resources :saved_searches do
         delete 'clear', :on => :collection 
         put    'save', :on => :member
       end
 
-      resources :catalog, :only => [:index, :show, :update] do
-        get 'image',          :on => :member
-        get 'status',         :on => :member
-        get 'availability',   :on => :member
-        get 'librarian_view', :on => :member
-        get 'map',               :on => :collection
-        get 'opensearch',        :on => :collection
-        get 'citation',          :on => :collection
-        get 'email',             :on => :collection
-        get 'sms',               :on => :collection
-        get 'endnote',           :on => :collection
-        get 'send_email_record', :on => :collection
-      end
-      
-      #    map.resources(:catalog,
-      # /catalog/:id/image <- for ajax cover requests
-      # /catalog/:id/status
-      # /catalog/:id/availability
-      #      :member=>{:image=>:get, :status=>:get, :availability=>:get, :librarian_view=>:get},
-      # /catalog/map
-      #  :collection => {:map => :get, :opensearch=>:get, :citation=>:get, :email=>:get, :sms=>:get, :endnote=>:get, :send_email_record=>:post}
-      # )
-      
+      # Catalog stuff.
+      match 'catalog/:id/image', :to => "catalog#image"
+      match 'catalog/:id/status', :to => "catalog#status"
+      match 'catalog/:id/availability', :to => "catalog#availability"
+      match 'catalog/:id/librarian_view', :to => "catalog#librarian_view", :as => "librarian_view_catalog"
+      match 'catalog/map', :as => "map_catalog"
+      match 'catalog/opensearch', :as => "opensearch_catalog"
+      match 'catalog/citation', :as => "citation_catalog"
+      match 'catalog/email', :as => "email_catalog"
+      match 'catalog/sms', :as => "sms_catalog"
+      match 'catalog/endnote', :as => "endnote_catalog"
+      match 'catalog/send_email_record', :as => "send_email_record_catalog"
+      resources :catalog, :only => [:index, :show, :update], :path => 'catalog'
+            
       # rails2: map.feedback 'feedback', :controller=>'feedback', :action=>'show'
       match "feedback", :to => "feedback#show"
 
@@ -72,10 +65,8 @@ module Blacklight::Routes
       match "feedback/complete", :to => "feedback#complete"
 
       # rails2: map.resources :folder, :only => [:index, :create, :destroy], :collection => {:clear => :delete }
-      resources :folder, :only => [:index, :create, :destroy] do
-        delete  "clear", :on => :collection
-      end
-      
+      match  "folder/clear", :as => "clear_folder"
+      resources :folder, :only => [:index, :create, :destroy]       
     end
   end
 end
