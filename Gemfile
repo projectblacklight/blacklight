@@ -15,6 +15,7 @@ if defined?(JRUBY_VERSION)
  gem 'warbler'
 else
   gem 'sqlite3-ruby', :require => 'sqlite3'
+  gem 'unicode'
 end
 
 # Add rails upgrade package

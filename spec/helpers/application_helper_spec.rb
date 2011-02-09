@@ -360,7 +360,7 @@ describe ApplicationHelper do
   end
 
   describe "render_link_rel_alternates" do
-      class MockDocument
+      class MockDocumentAppHlper
         include Blacklight::Solr::Document        
       end
       module MockExtension
@@ -373,10 +373,10 @@ describe ApplicationHelper do
          def export_as_weirder ; "weirder" ; end
          def export_as_weird_dup ; "weird_dup" ; end
       end
-      MockDocument.use_extension(MockExtension)
+      MockDocumentAppHlper.use_extension(MockExtension)
     before(:each) do
       @doc_id = "MOCK_ID1"
-      @document = MockDocument.new(:id => @doc_id)
+      @document = MockDocumentAppHlper.new(:id => @doc_id)
       render_params = {:controller => "controller", :action => "action"}
       helper.stub!(:params).and_return(render_params)
     end
@@ -396,6 +396,7 @@ describe ApplicationHelper do
     end
     it "respects :unique=>true" do
       response = render_link_rel_alternates(@document, :unique => true)
+      puts ("The response is: " + response)
       response.should have_selector("link[type='application/weird']", :count => 1)
     end
     it "excludes formats from :exclude" do

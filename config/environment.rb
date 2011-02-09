@@ -1,6 +1,14 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
-require 'arjdbc' 
+
+
+if RUBY_PLATFORM =~ /java/
+  require 'arjdbc' 
+#   require 'rubygems'
+#   gem 'activerecord-jdbc-adapter'
+#   require 'arjdbc'
+ end
+
 
 # Initialize the rails application
 BlacklightApp::Application.initialize!
