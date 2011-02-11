@@ -21,13 +21,6 @@ end
 
 # Rake tasks for Blacklight plugin
 
-desc "Runs db:migrate then spec for Cruise Control."
-task :ccspec => ["db:migrate:reset", "solr:spec"]
-
-desc "Runs db:migrate then features for Cruise Control."
-task :ccfeatures => ["db:migrate:reset", "solr:features"]
-
-
 # if you would like to see solr startup messages on STDERR
 # when starting solr test server during functional tests use:
 # 
@@ -68,7 +61,6 @@ namespace :solr do
   desc "Runs all features and specs"
   task :all do
     error = TestSolrServer.wrap(SOLR_PARAMS) do
-      rm_f "coverage.data"
       Rake::Task["rake:spec"].invoke
       Rake::Task["cucumber:all"].invoke
     end
