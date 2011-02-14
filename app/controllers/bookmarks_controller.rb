@@ -1,30 +1,19 @@
 class BookmarksController < ApplicationController
   
-  # see vendor/plugins/resource_controller/
-  resource_controller
-  
-   # acts_as_taggable_on_steroids plugin
+  # acts_as_taggable_on_steroids plugin
   helper TagsHelper
+  
   
   before_filter :verify_user
   
-  # overrides the ResourceController collection method
-  # see vendor/plugins/resource_controller/
-  def collection
-    user_id = current_user ? current_user.id : nil
-    assocations = nil
-    conditions = ['user_id = ?', user_id]
-    if params[:a] == 'find' && ! params[:q].blank?
-      q = "%#{params[:q]}%"
-      conditions.first << ' AND (tags.name LIKE ? OR title LIKE ? OR notes LIKE ?)'
-      conditions += [q, q, q]
-      assocations = [:tags]
-    end
-    Bookmark.paginate_by_tag(params[:tag], :per_page => 8, :page => params[:page], :order => 'bookmarks.id ASC', :conditions => conditions, :include => assocations)
+  def update
+    redirect_to :back
   end
-  
-  update.wants.html { redirect_to :back }
-  
+
+  def index
+    @bookmarks = current_user.bookmarks.paginate :page => params[:page]
+  end
+
   def create
     success = true
     @bookmarks = params[:bookmarks]
