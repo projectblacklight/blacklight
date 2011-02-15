@@ -1,8 +1,32 @@
+# note that while this is mostly restful routing, the #update and #destroy actions
+# take the Solr document ID as the :id, NOT the id of the actual Bookmark action. 
 class BookmarksController < ApplicationController
   
   
   before_filter :verify_user
   
+  # Beware, :id is the Solr document_id, not the actual Bookmark id.
+  # idempotent, as PUT is supposed to be. 
+  # you can also send a bookmark[title] param, which will be used for simplest case
+  # or fall through display of Bookmark in list. 
+  def update
+    bookmark = current_user.existing_bookmark_for(params[:id])
+    if bookmark
+      #update existing one with new values if present
+      bookmark.attributes = params[:bookmark] if params[:bookmark]
+    else
+      # create new one with values and document_id
+      bookmark = current_user.bookmarks.build(params[:bookmark].merge(:document_id => params[:id]))      
+    end
+    
+    if bookmark.save
+      flash[:notice] = "Successfully added bookmark."
+    else
+      flash[:error] = "Could not save bookmark."
+    end
+
+    redirect_to :back  
+  end
 
   def index
     @bookmarks = current_user.bookmarks.paginate :page => params[:page]
@@ -30,12 +54,17 @@ class BookmarksController < ApplicationController
     redirect_to :back
   end
   
+  # Beware, :id is the Solr document_id, not the actual Bookmark id.
+  # idempotent, as DELETE is supposed to be. 
   def destroy
-    if current_user.bookmarks.delete(Bookmark.find(params[:id]))
+    bookmark = current_user.existing_bookmark_for(params[:id])
+    
+    if bookmark && current_user.bookmarks.delete(bookmark)
       flash[:notice] = "Successfully removed bookmark."
     else
       flash[:error] = "Sorry, there was a problem removing the bookmark."
     end
+    
     redirect_to :back
   end
   

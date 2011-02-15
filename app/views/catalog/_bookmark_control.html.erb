@@ -1,16 +1,23 @@
 <% if current_user %>
   <%- existing_bookmark = current_user.existing_bookmark_for(document[:id]) -%>
-      
+  <%- 
+  # Note these two forms are pretty similar but for different :methods, classes, and labels. 
+  # but it was simpler to leave them seperate instead of DRYing them, got confusing trying that.
+  -%>  
   <% unless existing_bookmark %>  
-      <% form_for( Bookmark.new, :html => {:class=>"add_bookmark"} ) do |f| %>
-        <%= f.hidden_field(:document_id, :value => document[:id]) %>
-        <%= f.hidden_field(:title, :value => document[document_show_link_field]) %>          
-        <%= f.submit('Bookmark', :id => "bookmark_toggle_#{document[:id]}", :class=>"bookmark_toggle" )%>        
+
+      <% form_tag( bookmark_path( document[:id]), :method => :put, :class => "add_bookmark") do %>  
+        <%= hidden_field(:bookmark, :title, :value => document[document_show_link_field] ) %>
+        <%= submit_tag("Bookmark", :id => "bookmark_toggle_#{document[:id]}", :class => "bookmark_toggle") %>
       <% end %>
+  
   <% else %>
-      <% form_for(existing_bookmark, :html => {:method => :delete, :class=>"remove_bookmark"}) do |f| %>
-        <%= f.submit('Remove bookmark', :class=>"bookmark_toggle", :id => "bookmark_toggle_#{document[:id]}") %>           
+  
+      <% form_tag( bookmark_path( document[:id]), :method => :delete, :class => "remove_bookmark") do %>  
+        <%= hidden_field(:bookmark, :title, :value => document[document_show_link_field] ) %>
+        <%= submit_tag("Remove bookmark", :id => "bookmark_toggle_#{document[:id]}", :class => "bookmark_toggle") %>
       <% end %>
+      
   <% end %>
 <% else %>
   &nbsp;
