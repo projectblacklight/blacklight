@@ -17,15 +17,7 @@
 	    <%= text_field_tag 'q', params[:q] %>
       <%= submit_tag 'find', :name=>:a %>
 		<% end %>
-	
-		<h3>Bookmark Tags</h3>
-	
-		<% @tags=current_user.bookmarks.tag_counts %>
-	
-		<% tag_cloud @tags, %w(tagCloud1 tagCloud2 tagCloud3 tagCloud4) do |tag, css_class| %>
-			<%= link_to h(tag.name), "#{collection_path}?tag=#{h(tag.name)}", :class=>css_class %>
-		<% end %>
-	
+			
 	<% end %>
 	<% # END OF SIDEBAR CAPTURE -%>
   

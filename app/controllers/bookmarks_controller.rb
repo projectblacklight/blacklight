@@ -1,8 +1,5 @@
 class BookmarksController < ApplicationController
   
-  # acts_as_taggable_on_steroids plugin
-  helper TagsHelper
-  
   
   before_filter :verify_user
   
