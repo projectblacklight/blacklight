@@ -21,11 +21,6 @@
 	<% end %>
 	<% # END OF SIDEBAR CAPTURE -%>
   
-	<% if params[:tag] %>
-	  Showing "<%= h params[:tag] %>" tagged items.
-	  Show <%= link_to 'all', bookmarks_path %>.
-	<% end %>
-
 	<%= will_paginate(@bookmarks) %>
 
 	<div id="userBookmarks">
