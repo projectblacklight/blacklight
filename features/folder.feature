@@ -22,13 +22,13 @@ Feature: User Folder
 	  
 	Scenario: Do not show "Add to Favorites" when not logged in
 	  Given I have record 2007020969 in my folder
-	  When I follow "Folder"
+	  When I follow "Selected Items"
 	  Then I should not see "Add to Folder"
 	  
 	Scenario: Show "Add to Favorites" when logged in and viewing folder
     Given I am logged in as "user1"
 	  And I have record 2007020969 in my folder
-    When I follow "Folder"
+    When I follow "Selected Items"
     Then I should see "Add to Bookmarks"
     	  
 	Scenario: Do multiple citations when the folder has multiple items
@@ -48,7 +48,7 @@ Feature: User Folder
 
   Scenario: Show the tools if there are items in the folder
     Given I have record 2008308175 in my folder
- 	  And I follow "Folder"
+ 	  And I follow "Selected Items"
  	  Then I should see the Folder tools
  	  
  	Scenario: Controls on the record view

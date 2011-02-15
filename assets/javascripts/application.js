@@ -29,12 +29,12 @@ $(document).ready(function() {
 						folder_num = parseInt($("#folder_number").text()) - 1;
 						notice_text = title + " removed from your folder."
 						new_form_action = "/folder";
-						new_button_text = "Add to folder"
+						new_button_text = "Select"
 					}else{
 						folder_num = parseInt($("#folder_number").text()) + 1
 						notice_text = title + " added to your folder.";
 						new_form_action = "/folder/destroy";
-						new_button_text = "Remove from folder";
+						new_button_text = "Unselect";
 					}
 				  $("#folder_number").text(folder_num);
 					form.attr("action",new_form_action);
