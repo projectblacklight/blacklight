@@ -32,25 +32,28 @@ class BookmarksController < ApplicationController
     @bookmarks = current_user.bookmarks.paginate :page => params[:page]
   end
 
+  # For adding a single bookmark, suggest use PUT/#update to 
+  # /bookmarks/$docuemnt_id instead.
+  # But this method, accessed via POST to /bookmarks, can be used for
+  # creating multiple bookmarks at once, by posting with keys
+  # such as bookmarks[n][document_id], bookmarks[n][title]. 
+  # It can also be used for creating a single bookmark by including keys
+  # bookmark[title] and bookmark[document_id], but in that case #update
+  # is simpler. 
   def create
+    @bookmarks = params[:bookmarks] || []
+    @bookmarks << params[:bookmark] if params[:bookmark]
+    
     success = true
-    @bookmarks = params[:bookmarks]
-    if @bookmarks.nil?
-      sucess = current_user.bookmarks.create(params[:bookmark])
-    else
-      @bookmarks.each do |key, bookmark|
-        success = false unless current_user.bookmarks.create(bookmark)
-      end
+    @bookmarks.each do |key, bookmark|
+      success = false unless current_user.bookmarks.create(bookmark)
     end
-    if success
-      if @bookmarks.nil? || @bookmarks.size == 1
-        flash[:notice] = "Successfully added bookmark."
-      else
-        flash[:notice] = "Successfully added bookmarks."
-      end
-    else
-      flash[:error] = "There was a problem adding that bookmark."      
+    if @bookmarks.length > 0 && success
+      flash[:notice] = "Successfully added bookmarks."      
+    elsif @bookmarks.length > 0
+      flash[:error] = "There was a problem adding bookmarks"      
     end
+    
     redirect_to :back
   end
   
