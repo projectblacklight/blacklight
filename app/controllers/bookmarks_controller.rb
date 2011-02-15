@@ -3,9 +3,6 @@ class BookmarksController < ApplicationController
   
   before_filter :verify_user
   
-  def update
-    redirect_to :back
-  end
 
   def index
     @bookmarks = current_user.bookmarks.paginate :page => params[:page]

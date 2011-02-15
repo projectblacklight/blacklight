@@ -23,7 +23,6 @@
       <% @bookmarks.each do |bm| %>
     		<tr>
     		  <td><%= link_to h(bm.title), catalog_path(bm.document_id) %></td>
-    			<td><%= link_to 'edit', edit_bookmark_path(bm) %></td>
     			<td><%= link_to 'remove', bookmark_path(bm), :method => :delete, :confirm => 'Remove this bookmark?' %></td>
     		</tr>
     	<% end %>
