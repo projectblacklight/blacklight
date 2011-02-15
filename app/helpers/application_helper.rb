@@ -175,13 +175,23 @@ module ApplicationHelper
     render :partial=>'catalog/document_list'
   end
 
-  # Compare with the _show_tools partial. BL actually has two groups
-  # of document-related tools. "document functions" by default
-  # contains Bookmark/Folder functionality shown on both results and
-  # item view. While "document tools" contains external export type
-  # functions by default only on detail.
-  def render_document_functions_partial document=@document, options={}
-    render :partial=>'catalog/document_functions', :locals => {:document => document }
+  
+  # Save function area for search results 'index' view, normally
+  # renders next to title. Includes just 'Folder' by default.
+  def render_index_save_functions(document, options={})   
+    content_tag("div", :class=>"documentFunctions") do
+      render(:partial => 'folder_control', :locals => {:document=> document}.merge(options))
+    end
+  end
+  
+  # Save function area for item detail 'show' view, normally
+  # renders next to title. By default includes 'Folder' and 'Bookmarks'
+  def render_show_save_functions(document=@document, options={})
+    content_tag("div", :class=>"documentFunctions") do
+      render(:partial => 'folder_control', :locals => {:document=> document}.merge(options)) +
+        " " +
+        render(:partial => 'bookmark_control', :locals => {:document => document}.merge(options))
+    end
   end
   
   # used in the catalog/_index_partials/_default view
