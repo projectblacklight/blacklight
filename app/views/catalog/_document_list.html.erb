@@ -11,7 +11,7 @@
       <div class="documentHeader">
         
         <% # bookmark/folder functions for items/docs -%>
-        <%= render_index_save_functions document %>
+        <%= render_index_doc_actions document %>
         
         <% # main title container for doc partial view -%>
         <h3 class="index_title"><%= counter + 1 + @response.params[:start].to_i %>. <%= link_to_document document, :label=>document_show_link_field, :counter => (counter + 1 + @response.params[:start].to_i) %></h3>

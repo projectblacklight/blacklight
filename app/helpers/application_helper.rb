@@ -178,7 +178,7 @@ module ApplicationHelper
   
   # Save function area for search results 'index' view, normally
   # renders next to title. Includes just 'Folder' by default.
-  def render_index_save_functions(document, options={})   
+  def render_index_doc_actions(document, options={})   
     content_tag("div", :class=>"documentFunctions") do
       "#{render(:partial => 'folder_control', :locals => {:document=> document}.merge(options))}
        #{render(:partial => 'bookmark_control', :locals => {:document=> document}.merge(options))}"
@@ -187,7 +187,7 @@ module ApplicationHelper
   
   # Save function area for item detail 'show' view, normally
   # renders next to title. By default includes 'Folder' and 'Bookmarks'
-  def render_show_save_functions(document=@document, options={})
+  def render_show_doc_actions(document=@document, options={})
     content_tag("div", :class=>"documentFunctions") do
       render(:partial => 'folder_control', :locals => {:document=> document}.merge(options)) +
         " " +
