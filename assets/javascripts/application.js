@@ -71,7 +71,8 @@ $(document).ready(function() {
 	    .attr("id", options.css_class + "_" + unique_id);	  
 	  var label = $('<label>')
 	    .addClass( options.css_class )
-	    .attr("for", options.css_class + '_' + unique_id);
+	    .attr("for", options.css_class + '_' + unique_id)
+	    .attr("title", form.attr("title"));
 	    
 	    
     function update_state_for(state) {
