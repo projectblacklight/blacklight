@@ -18,7 +18,7 @@ namespace :solr do
       Rake::Task[ "solr:marc:index:work" ].invoke
     end
     
-    desc "Index marc data using SolrMarc. Available environment variables: MARC_RECORDS_PATH, CONFIG_PATH, SOLR_MARC_MEM_ARGS, SOLR_WAR_PATH, SOLR_JAR_PATH"
+    desc "Index marc data using SolrMarc. Available environment variables: MARC_RECORDS_PATH, CONFIG_PATH, SOLR_MARC_MEM_ARGS"
     task :index => "index:work"
 
     namespace :index do
@@ -43,6 +43,10 @@ namespace :solr do
       task :info do
         solrmarc_arguments = compute_arguments
         puts <<-EOS
+  Solr to write to is taken from current environment inconfig/solr.yml, 
+  key :replicate_master_url is supported, taking precedence over :url
+  for where to write to. 
+   
   Possible environment variables, with settings as invoked. You can set these
   variables on the command line, eg:
         rake solr:marc:index MARC_FILE=/some/file.mrc
@@ -111,10 +115,12 @@ def compute_arguments
       
 
   # Solr URL, find from solr.yml, app or plugin
+  # use :replicate_master_url for current env if present, otherwise :url
+  # for current env. 
   solr_yml_path = locate_path("config", "solr.yml")
   if ( File.exists?( solr_yml_path ))
     solr_config = YAML::load(File.open(solr_yml_path))
-    arguments[:solr_url] = solr_config[ RAILS_ENV ]['url'] if solr_config[RAILS_ENV]
+    arguments[:solr_url] = (solr_config[ RAILS_ENV ]['replicate_master_url'] || solr_config[ RAILS_ENV ]['url']) if solr_config[RAILS_ENV]
   end
 
 
