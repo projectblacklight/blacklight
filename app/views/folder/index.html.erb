@@ -8,7 +8,7 @@
   <div class="pageEntriesInfo"></div>
   <%= render "catalog/sort_and_per_page" %>
   <%= render "catalog/results_pagination" %>
-  <div class="tools">
+  
     <ul class="folderTools">
       <li class="cite">
         <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.get(:id)}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
@@ -34,7 +34,7 @@
         <%= link_to "Clear Folder", clear_folder_path, :method => :delete %>
       </li>
     </ul>
-  </div>
+  
 <% end %>
 
 <div id="documents">  
