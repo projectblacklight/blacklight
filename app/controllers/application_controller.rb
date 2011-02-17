@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   def default_html_head
     stylesheet_links << ['yui', 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css', 'application', {:plugin=>:blacklight, :media=>'all'}]
 
-    javascript_includes << ['jquery-1.4.2.min.js', 'jquery-ui-1.8.1.custom.min.js', 'application', 'accordion', { :plugin=>:blacklight } ]
+    javascript_includes << ['jquery-1.4.2.min.js', 'jquery-ui-1.8.1.custom.min.js', 'application', { :plugin=>:blacklight } ]
   end
 
 
