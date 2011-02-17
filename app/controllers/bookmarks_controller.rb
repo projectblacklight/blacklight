@@ -19,13 +19,19 @@ class BookmarksController < ApplicationController
       bookmark = current_user.bookmarks.build(params[:bookmark].merge(:document_id => params[:id]))      
     end
     
-    if bookmark.save
-      flash[:notice] = "Successfully added bookmark."
+    success = bookmark.save
+    
+    unless request.xhr?
+      if bookmark.save
+        flash[:notice] = "Successfully added bookmark."
+      else
+        flash[:error] = "Could not save bookmark."
+      end
+      redirect_to :back
     else
-      flash[:error] = "Could not save bookmark."
-    end
-
-    redirect_to :back  
+      #ajaxy request doesn't need a redirect and shouldn't have flash set
+      render :text => "", :status => (success ? "200" : "500" )
+    end    
   end
 
   def index
@@ -62,13 +68,19 @@ class BookmarksController < ApplicationController
   def destroy
     bookmark = current_user.existing_bookmark_for(params[:id])
     
-    if bookmark && current_user.bookmarks.delete(bookmark)
-      flash[:notice] = "Successfully removed bookmark."
-    else
-      flash[:error] = "Sorry, there was a problem removing the bookmark."
-    end
+    success = (!bookmark) || current_user.bookmarks.delete(bookmark)
     
-    redirect_to :back
+    unless request.xhr?
+      if success
+        flash[:notice] = "Successfully removed bookmark."
+      else
+        flash[:error] = "Sorry, there was a problem removing the bookmark."
+      end 
+      redirect_to :back
+    else
+      # ajaxy request needs no redirect and should not have flash set
+      render :text => "", :status => (success ? "200" : "500")
+    end        
   end
   
   def clear    

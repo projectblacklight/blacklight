@@ -244,7 +244,15 @@ font-weight:bold;
 /* 'Document functions', Bookmark/Folder. Appear on both results/index and 
    detail/show views. */
 .documentFunctions {text-align:right; float: right; margin-left: 0.5em; margin-bottom: 0.5em;}
-.documentFunctions .deleteFolder, .documentFunctions .addFolder, .documentFunctions .remove_bookmark, .documentFunctions .add_bookmark {float:right;}
+.documentFunctions .deleteFolder, .documentFunctions .addFolder, .documentFunctions .bookmark_toggle {float:right;}
+label.toggle_bookmark {
+  /* the ajaxy checkbox for toggle */
+  display: inline-block;
+  min-width: 9em;
+  text-align: left;
+  font-weight: inherit;
+  color: inherit;
+}
 
 
 /* Search Results */

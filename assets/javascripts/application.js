@@ -1,5 +1,5 @@
 $(function(){
-	var bl = new Blacklight();
+	Blacklight = new Blacklight();
 });
 
 
@@ -45,6 +45,85 @@ $(document).ready(function() {
 	  }
 	});	
 	//end folder actions
+	
+	//Change Bookmark form submit into am AJAX checkbox
+	$("form.bookmark_toggle").each(function(i, form) {
+	    options = {
+	      checked_label: "In Bookmarks",
+	      unchecked_label: "Bookmark",
+	      progress_label: "Saving...",
+	      //css_class is added to elements added, plus used for id base
+	      css_class: "toggle_bookmark" 
+	    }
+
+	    
+	  form = $(form);
+	  form.hide();
+	  //We're going to use the existing form to actually send our add/removes
+	  //This works conveneintly because the exact same action href is used
+	  //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
+	  //of the form to avoid any future confusion. 
+	  form.find("input.bookmark_add, input.bookmark_remove").remove();
+	  
+	  //View needs to set data-doc-id so we know a unique value
+	  //for making DOM id
+	  var unique_id = form.attr("data-doc-id") || Math.random();
+	  // if form is currently using method delete to change state, 
+	  // then checkbox is currently checked
+	  var checked = (form.find("input[name=_method][value=delete]").size() != 0);
+	  	  
+	  var checkbox = $('<input type="checkbox">')	    
+	    .addClass( options.css_class )
+	    .attr("id", options.css_class + "_" + unique_id);	  
+	  var label = $('<label>')
+	    .addClass( options.css_class )
+	    .attr("for", options.css_class + '_' + unique_id);
+	    
+	    
+    function update_state_for(state) {
+        checkbox.attr("checked", state);
+        if (state) {    
+           //Set the Rails hidden field that fakes an HTTP verb
+           //properly for current state action. 
+           form.find("input[name=_method]").val("delete");
+	         label.text(options.checked_label);
+	      } else {
+           form.find("input[name=_method]").val("put");
+	         label.text(options.unchecked_label);
+	      }
+	    }
+	  
+	  form.before(checkbox).before(" ").before(label);
+	  update_state_for(checked);
+	  
+	  checkbox.click(function() {
+	      label.text(options.progress_label).attr("disabled", "disabled");  
+	      checkbox.attr("disabled", "disabled");
+	      	      	      
+	      $.ajax({
+	          url: form.attr("action"),
+	          type: form.attr("method").toUpperCase(),
+	          data: form.serialize(),
+	          error: function() {
+	             alert("Error");
+	             update_state_for(checked);
+	             label.removeAttr("disabled");
+	             checkbox.removeAttr("disabled");
+	          },
+	          success: function() {	            
+	            checked = ! checked;
+	            update_state_for(checked);
+	            label.removeAttr("disabled");
+              checkbox.removeAttr("disabled");
+	          }
+	      });
+	      
+	      return false;
+    });
+	});
+	
+	
+	//end Bookmarks
 	
 	//add ajaxy dialogs to certain links, using the ajaxyDialog widget. 
     $("a.more_facets_link").ajaxyDialog({
