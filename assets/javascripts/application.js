@@ -1,9 +1,3 @@
-$(function(){
-	Blacklight = new Blacklight();
-});
-
-
-
 
 $(document).ready(function() {
   // adds classes for zebra striping table rows
