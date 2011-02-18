@@ -23,7 +23,7 @@
   
         <%= render 'results_pagination' %>
   
-	<%= render_document_list_partial %>
+	<%= render :partial => 'document_list' %>
 
 	<% sidebar_items << capture do %>
 	  <%= render :partial=>'facets' %>

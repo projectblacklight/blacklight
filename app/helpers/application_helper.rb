@@ -182,18 +182,14 @@ module ApplicationHelper
   def render_index_doc_actions(document, options={})   
     content_tag("div", :class=>"documentFunctions") do
       "#{render(:partial => 'folder_control', :locals => {:document=> document}.merge(options))}
-       #{render(:partial => 'bookmark_control', :locals => {:document=> document}.merge(options))}"
+       #{render(:partial => 'bookmark_control', :locals => {:document=> document}.merge(options))}".html_safe
     end
   end
   
   # Save function area for item detail 'show' view, normally
   # renders next to title. By default includes 'Folder' and 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
-    content_tag("div", :class=>"documentFunctions") do
-      render(:partial => 'folder_control', :locals => {:document=> document}.merge(options)) +
-        " " +
-        render(:partial => 'bookmark_control', :locals => {:document => document}.merge(options))
-    end
+    render_index_doc_actions
   end
   
   # used in the catalog/_index_partials/_default view
