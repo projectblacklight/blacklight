@@ -82,7 +82,7 @@ describe "/catalog/_facets.html.erb" do
 =begin
     
   it "should have div tag with id=facets" do
-    response.should have_tag('div[id=facets]')
+    response.should have_selector('div[id=facets]')
   end
   
   it "should not have facets that aren't specified in initializer" do
@@ -147,7 +147,7 @@ describe "/catalog/_facets.html.erb" do
 
   
   it "should have values for displayed facets" do
-    response.should have_tag("li") do
+    response.should have_selector("li") do
       with_tag("a", @solr_item00.value)
       with_tag("a", @solr_item01.value)
 #      with_tag("a", @solr_item10.value)  # this facet is selected
@@ -167,14 +167,14 @@ describe "/catalog/_facets.html.erb" do
   end
   
   it "should have links to include facet values in solr query" do
-    response.should have_tag("a", :text => @solr_item00.value)
+    response.should have_selector("a", :text => @solr_item00.value)
     response.should include_text("f%5B"+@solr_fname0 + "%5D%5B%5D=" + @solr_item00.value)
-    response.should have_tag("a", :text => @solr_item11.value)
+    response.should have_selector("a", :text => @solr_item11.value)
     response.should include_text("f%5B"+@solr_fname1 + "%5D%5B%5D=" + @solr_item11.value)
   end
 
   it "should display selected facets properly" do
-      response.should have_tag("span[class=selected]", :text => /#{@solr_item10.value}/)
+      response.should have_selector("span[class=selected]", :text => /#{@solr_item10.value}/)
   end
   
 =end

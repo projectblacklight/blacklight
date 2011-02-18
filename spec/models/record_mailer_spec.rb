@@ -5,14 +5,14 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 
 describe RecordMailer do
-  before(:all) do
+  before(:each) do
     @documents = []
-    @documents.push(mock_model(SolrDocument, :id => '123456', :to_marc => sample_marc, :[] => 'book'))
+    @documents.push(stub_model(SolrDocument, :id => '123456', :to_marc => sample_marc, :[] => 'book'))
   end
   describe "email" do
-    before(:all) do
+    before(:each) do
       details = {:to => 'test@test.com', :message => "This is my message"}
-      @email = RecordMailer.create_email_record(@documents,details,'projectblacklight.org','projectblacklight.org:3000')
+      @email = RecordMailer.email_record(@documents,details,'projectblacklight.org','projectblacklight.org:3000')
     end
     it "should receive the TO paramater and send the email to that address" do
       @email.to.should == ['test@test.com']
@@ -34,15 +34,15 @@ describe RecordMailer do
   end
   
   describe "SMS" do
-    before(:all) do
+    before(:each) do
       details = {:to => '5555555555', :carrier => 'att'}
-      @sms = RecordMailer.create_sms_record(@documents,details,'projectblacklight.org','projectblacklight.org:3000')
+      @sms = RecordMailer.sms_record(@documents,details,'projectblacklight.org','projectblacklight.org:3000')
     end
     it "should create the correct TO address for the SMS email" do
       @sms.to.should == ['5555555555@txt.att.net']
     end
     it "should not have a subject" do
-      @sms.subject.should == ""
+      @sms.subject.should == "" unless @sms.subject.nil?
     end
     it "should have the correct from address (w/o the port number)" do
       @sms.from.should == ["no-reply@projectblacklight.org"]

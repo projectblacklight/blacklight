@@ -1,19 +1,30 @@
-# Settings specified here will take precedence over those in config/environment.rb
+BlacklightApp::Application.configure do
 
-# In the development environment your application's code is reloaded on
-# every request.  This slows down response time but is perfect for development
-# since you don't have to restart the webserver when you make code changes.
-config.cache_classes = false
+  # Settings specified here will take precedence over those in config/application.rb
 
-# Log error messages when you accidentally call methods on nil.
-config.whiny_nils = true
+  # In the development environment your application's code is reloaded on
+  # every request.  This slows down response time but is perfect for development
+  # since you don't have to restart the webserver when you make code changes.
+  config.cache_classes = true
 
-# Show full error reports and disable caching
-config.action_controller.consider_all_requests_local = true
-config.action_view.debug_rjs                         = true
-config.action_controller.perform_caching             = false
+  # Log error messages when you accidentally call methods on nil.
+  config.whiny_nils = true
 
-# Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = false
+  # Show full error reports and disable caching
+  config.consider_all_requests_local       = true
+  config.action_view.debug_rjs             = true
+  config.action_controller.perform_caching = false
 
-SSL_ENABLED=false
+  # Don't care if the mailer can't send
+  config.action_mailer.raise_delivery_errors = false
+
+  # Print deprecation notices to the Rails logger
+  # Very noisy with this upgrade.
+  config.active_support.deprecation = :log
+
+  # Only use best-standards-support built into browsers
+  # Notes on http://edgeguides.rubyonrails.org/configuring.html - say something
+  # about making IE8 render elements correctly.
+  config.action_dispatch.best_standards_support = :builtin
+end
+

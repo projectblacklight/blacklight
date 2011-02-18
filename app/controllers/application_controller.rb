@@ -5,7 +5,8 @@
 class ApplicationController < ActionController::Base
 
   before_filter :default_html_head # add JS/stylesheet stuff
-  filter_parameter_logging :password, :password_confirmation
+  # now in application.rb file under config.filter_parameters
+  # filter_parameter_logging :password, :password_confirmation 
   helper_method :current_user_session, :current_user
   after_filter :discard_flash_if_xhr
 
@@ -115,9 +116,9 @@ class ApplicationController < ActionController::Base
       # send the user home if the access was previously denied by the same
       # request to avoid sending the user back to the login page
       #   (e.g. protected page -> logout -> returned to protected page -> home)
-      redirect_to root_url and flash.discard and return if request.referer and request.referer.ends_with? request.request_uri
+      redirect_to root_url and flash.discard and return if request.referer and request.referer.ends_with? request.fullpath
 
-      redirect_to login_url(:referer => request.request_uri)
+      redirect_to login_url(:referer => request.fullpath)
     end
 
 end

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # Methods added to this helper will be available to all templates in the application.
 #
@@ -146,7 +147,7 @@ module ApplicationHelper
   end
 
   def extra_body_classes
-    @extra_body_classes ||= ['blacklight-' + @controller.controller_name, 'blacklight-' + [@controller.controller_name, @controller.action_name].join('-')]
+    @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end
   
   #
@@ -276,7 +277,7 @@ module ApplicationHelper
 
   def render_field_value value=nil
     value = [value] unless value.is_a? Array
-    return value.map { |v| html_escape v }.join field_value_separator 
+    return value.map { |v| v.html_safe }.join field_value_separator 
   end  
 
   def field_value_separator
@@ -303,7 +304,7 @@ module ApplicationHelper
   
   # Search History and Saved Searches display
   def link_to_previous_search(params)
-    link_to(render_search_to_s(params), catalog_index_path(params))
+    link_to(raw(render_search_to_s(params)), catalog_index_path(params)).html_safe
   end
   
   
@@ -379,11 +380,11 @@ module ApplicationHelper
   # removes the field if there are no more values in params[:f][field]
   # removes additional params (page, id, etc..)
   def remove_facet_params(field, value, source_params=params)
-    p = source_params.dup.symbolize_keys!
+    p = source_params.dup
     # need to dup the facet values too,
     # if the values aren't dup'd, then the values
     # from the session will get remove in the show view...
-    p[:f] = p[:f].dup.symbolize_keys!
+    p[:f] = p[:f].dup
     p.delete :page
     p.delete :id
     p.delete :counter
@@ -432,7 +433,7 @@ module ApplicationHelper
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>Blacklight.config[:index][:show_link].to_sym, :counter => nil, :results_view => true})
     label = render_document_index_label doc, opts
-    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => opts})
+    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => opts}).html_safe
   end
 
   # link_back_to_catalog(:label=>'Back to Search')

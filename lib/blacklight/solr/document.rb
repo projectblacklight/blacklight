@@ -72,7 +72,11 @@
 # SolrDocument.extension_parameters[:marc_source_field] = "solr_stored_field_name"
 #
 module Blacklight::Solr::Document
-  
+
+  autoload :Marc, 'blacklight/solr/document/marc'
+  autoload :MarcExport, 'blacklight/solr/document/marc_export'
+  autoload :DublinCore, 'blacklight/solr/document/dublin_core'
+
   # When this module is included,
   # it includes the RSolr::Ext::Doc module (provides the #find method etc..)
   def self.included(base)
@@ -132,7 +136,7 @@ module Blacklight::Solr::Document
     # some 'api' to Mime::Type that may or may not be entirely
     # public, the fact that a Mime::CONST is registered for every
     # type. But that's the only way to do the kind of check we need, sorry.
-    begin
+    begin      
       mime_type = "Mime::#{short_name.to_s.upcase}".constantize
       content_type = mime_type.to_s unless content_type      
     rescue NameError

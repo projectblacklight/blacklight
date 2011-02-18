@@ -89,7 +89,7 @@ Feature: Search History Page
     Then I should see "Successfully saved your search."
     And I should be on the search history page
     And I should see "[saved]"
-    When I follow "log out"
+    When I follow "Log Out"
     Then I should see "Login"
     And I should not see "user1"
     When I follow "Search History"

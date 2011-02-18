@@ -8,13 +8,13 @@
   <h2>Your recent searches</h2>
   <table class="zebra search_history">
   <%-  @searches.each_with_index do |search,index| -%>
-    <% content_tag :tr, :id => "document_#{index + 1}" do %>
+    <%= content_tag :tr, :id => "document_#{index + 1}" do %>
       <td class="query"><%= link_to_previous_search(search.query_params) %></td>
       <td class="actions"><%- if current_user && search.saved? -%>
         <%= link_to "[saved]", saved_search_path(search.id), :method => :delete %>
       <%- else -%>
         <%= link_to "save", save_saved_search_path(search.id), :method => :put %>
-      <%- end #search.saved? -%></td>
+      <%- end -%></td>
       <td class="actions"><%= link_to "delete", search_history_path(search.id), :method => :delete, :confirm => "Delete item?" %></td>
     <% end #content_tag %>
   <%- end -%>

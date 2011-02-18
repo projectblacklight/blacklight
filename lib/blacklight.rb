@@ -3,17 +3,21 @@ module Blacklight
   autoload :Configurable, 'blacklight/configurable'
   autoload :SearchFields, 'blacklight/search_fields'
 
-  autoload :Solr, 'blacklight/solr.rb'
-  autoload :Marc, 'blacklight/marc.rb'
+  autoload :Solr, 'blacklight/solr'
+  autoload :Marc, 'blacklight/marc'
   
   autoload :SolrHelper, 'blacklight/solr_helper'
   
   autoload :Routes, 'blacklight/routes'
 
   autoload :Exceptions, 'blacklight/exceptions'
+
+  autoload :User, 'blacklight/user'
   
   extend Configurable
   extend SearchFields
+  
+  require 'blacklight/engine' if defined?(Rails)
   
   class << self
     attr_accessor :solr, :solr_config
@@ -28,13 +32,18 @@ module Blacklight
   def self.version
     "master"
   end
+
+  # Adding a little jruby support
+  def self.jruby?
+    defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby" 
+  end
   
   def self.init
     
-    solr_config = YAML::load(File.open("#{RAILS_ROOT}/config/solr.yml"))
-    raise "The #{RAILS_ENV} environment settings were not found in the solr.yml config" unless solr_config[RAILS_ENV]
+    solr_config = YAML::load(File.open("#{::Rails.root.to_s}/config/solr.yml"))
+    raise "The #{::Rails.env} environment settings were not found in the solr.yml config" unless solr_config[::Rails.env]
     
-    Blacklight.solr_config[:url] = solr_config[RAILS_ENV]['url']
+    Blacklight.solr_config[:url] = solr_config[::Rails.env]['url']
     
     if Gem.available? 'curb'
       require 'curb'
@@ -53,7 +62,7 @@ module Blacklight
   end
 
   def self.logger
-    RAILS_DEFAULT_LOGGER
+    ::Rails.logger
   end
 
   #############  

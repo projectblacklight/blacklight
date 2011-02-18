@@ -15,10 +15,10 @@
 		    </span>
 		  <%- else -%>
 		    <div class="ind1">
-		      <%= !field.indicator1.blank? ? field.indicator1 : "&nbsp;&nbsp;" -%>
+		      <%= !field.indicator1.blank? ? field.indicator1 : "&nbsp;&nbsp;".html_safe -%>
 		    </div>
 		    <div class="ind2">
-		      <%= !field.indicator2.blank? ? field.indicator2 : "&nbsp;&nbsp;" -%>
+		      <%= !field.indicator2.blank? ? field.indicator2 : "&nbsp;&nbsp;".html_safe -%>
 		    </div>
 		  </div>
 		  <div class="subfields">

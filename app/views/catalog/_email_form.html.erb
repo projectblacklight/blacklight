@@ -1,5 +1,5 @@
 <h1>Email This</h1>
-<% form_tag url_for(:action => 'send_email_record', :style => 'email'), :id => 'email_form', :method => :post do %>
+<%= form_tag url_for(:action => 'send_email_record', :style => 'email'), :id => 'email_form', :method => :post do %>
   <%= label_tag(:to, "Email:") %><br/>
   <%= text_field_tag :to %><br/>
   <%= label_tag(:message, "Message:") %><br/>

@@ -66,7 +66,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
       
       with_format("html") do
         xml.summary "type" => "html" do
-            xml.text! render_document_partial(doc, :index)           
+	            xml.text! render_document_partial(doc, :index)           
         end
       end
       

@@ -15,54 +15,55 @@ describe UserSessionsController do
 
     it "should redirect user to root url" do
       post :create, :user_session => { :password => "password", :login => "foo" }
-      response.redirected_to.should ==root_path
+      response.redirect_url.should == root_url
     end
 
     it "should redirect user to referer url in params" do
       post :create, :user_session => { :password => "password", :login => "foo"}, :referer => '/catalog/asdf' 
-      response.redirected_to.should =='/catalog/asdf'
+      response.redirect_url.should match '/catalog/asdf'
     end
 
     it "should redirect user to referer url in HTTP_REFERER" do
       request.env["HTTP_REFERER"] = '/catalog/1234'
       post :create, :user_session => { :password => "password", :login => "foo" }
-      response.redirected_to.should =='/catalog/1234'
+      response.redirect_url.should match '/catalog/1234'
     end        
 
     it "should prefer params referer to request referer" do
       request.env["HTTP_REFERER"] = '/catalog/1234'
       post :create, :user_session => { :password => "password", :login => "foo"}, :referer => '/catalog/asdf'
-      response.redirected_to.should =='/catalog/asdf'
+      response.redirect_url.should match '/catalog/asdf'
     end
 
     it "should filter referer urls" do
       post :create, :user_session => { :password => "password", :login => "foo" }, :referer => 'http://other.server.example.org/catalog/asdf'
-      response.redirected_to.should == root_path
+      response.redirect_url.should == root_url
       
       request.host = 'example.org'
       post :create, :user_session => { :password => "password", :login => "foo" }, :referer => 'http://example.org/catalog/asdf'
-      response.redirected_to.should == '/catalog/asdf' 
+      response.redirect_url.should match '/catalog/asdf' 
     end
     
     it "should redirect even if port is in hostname" do
       request.host = "example.org" 
       request.port = "3000"
-      
+      request.env['HTTP_HOST'] = "example.org:3000"
+
       request.env["HTTP_REFERER"] = "http://example.org:3000/catalog/asdf?foo=bar"
       post :create, :user_session => { :password => "password", :login => "foo" }
-      response.redirected_to.should == '/catalog/asdf?foo=bar' 
+      response.redirect_url.should == root_url + 'catalog/asdf?foo=bar' 
     end
     
     it "should not redirect to a third party host" do
       request.host = "example.org"
       request.env["HTTP_REFERER"] = "http://somewhere.else/catalog/foo"
       post :create, :user_session => { :password => "password", :login => "foo" }
-      response.redirected_to.should == "/"
+      response.redirect_url.should == root_url
     end
     
     it "should not accept a relative path URL" do
       post :create, :user_session => { :password => "password", :login => "foo", :referer => "foobar" }
-      response.redirected_to.should == "/"
+      response.redirect_url.should == root_url
     end      
   end
 
@@ -76,13 +77,13 @@ describe UserSessionsController do
 
     it "should redirect user to root url" do
       delete :destroy
-      response.redirected_to.should == root_path
+      response.redirect_url.should == root_url
     end
 
     it "should redirect user to referer url in HTTP_REFERER" do
       request.env["HTTP_REFERER"] = '/catalog/1234'
       delete :destroy
-      response.redirected_to.should =='/catalog/1234'
+      response.redirect_url.should == root_url + 'catalog/1234'
     end
   end
 

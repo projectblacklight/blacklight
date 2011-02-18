@@ -2,6 +2,7 @@
 # take the Solr document ID as the :id, NOT the id of the actual Bookmark action. 
 class BookmarksController < ApplicationController
   
+
   
   before_filter :verify_user
   

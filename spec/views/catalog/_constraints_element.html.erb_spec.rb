@@ -5,11 +5,10 @@ describe "catalog/_constraints_element.html.erb" do
     before do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value"}
     end
-
     it "should render label and value" do
-      response.should have_tag("span.appliedFilter.constraint") do
-        with_tag("span.filterName", :text => "my label")
-        with_tag("span.filterValue", :text => "my value")
+      rendered.should have_selector("span.appliedFilter.constraint") do |s|
+        s.should have_selector "span.filterName", :content => "my label"
+        s.should have_selector "span.filterValue", :content => "my value" 
       end
     end
   end
@@ -19,8 +18,8 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:remove => "http://remove"}}
     end
     it "should include remove link" do
-      response.should have_tag("span.appliedFilter") do
-        with_tag("a.btnRemove.imgReplace[href='http://remove']")
+      rendered.should have_selector("span.appliedFilter") do |s|
+        s.should have_selector("a.btnRemove.imgReplace[href='http://remove']")
       end    
     end
   end
@@ -30,8 +29,8 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:check => false}}
     end
     it "should not include checkmark" do
-      response.should have_tag("span.appliedFilter") do
-        without_tag("img[src$=checkmark.gif]")
+      rendered.should have_selector("span.appliedFilter") do |s|
+        s.should_not have_selector("img[src$='checkmark.gif']")
       end   
     end
   end
@@ -41,7 +40,7 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:classes => ["class1", "class2"]}}
     end
     it "should include them" do
-      response.should have_tag("span.appliedFilter.constraint.class1.class2")
+      rendered.should have_selector("span.appliedFilter.constraint.class1.class2")
     end
   end
 
@@ -50,8 +49,8 @@ describe "catalog/_constraints_element.html.erb" do
       render( :partial => "catalog/constraints_element", :locals => {:label => "<span class='custom_label'>my label</span>", :value => "<span class='custom_value'>my value</span>", :options => {:escape_label => false, :escape_value => false}} )
     end
     it "should not escape key and value" do
-      response.should have_tag("span.appliedFilter.constraint span.filterName span.custom_label")
-      response.should have_tag("span.appliedFilter.constraint span.filterValue span.custom_value")
+      rendered.should have_selector("span.appliedFilter.constraint span.filterName span.custom_label")
+      rendered.should have_selector("span.appliedFilter.constraint span.filterValue span.custom_value")
     end
 
   end

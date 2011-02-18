@@ -120,15 +120,15 @@ describe "Blacklight::Solr::Document" do
       context "format not registered with Mime::Type" do
         before(:all) do
           @doc = MockDocument.new
-          @doc.will_export_as(:mock, "application/mock" )
+          @doc.will_export_as(:mock2, "application/mock2" )
           # Mime::Type doesn't give us a good way to clean up our new
           # registration in an after, sorry. 
         end
         it "registers format" do
-          defined?("Mime::MOCK").should be_true
+          defined?("Mime::MOCK2").should be_true
         end
         it "registers as alias only" do
-          Mime::Type.lookup("application/mock").should_not equal(Mime::Type.lookup_by_extension("mock"))
+          Mime::Type.lookup("application/mock2").should_not equal(Mime::Type.lookup_by_extension("mock2"))
         end
       end
 
