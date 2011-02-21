@@ -18,7 +18,7 @@ Feature: User Folder
     Given I am on the home page
     And I follow "English"
  	  And I add record 2008308175 to my folder
- 	  Then I should see "Pluvial nectar of blessings successfully added to Folder"
+ 	  Then I should see "Pluvial nectar of blessings successfully selected"
 	  
 	Scenario: Do not show "Add to Favorites" when not logged in
 	  Given I have record 2007020969 in my folder

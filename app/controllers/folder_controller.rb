@@ -16,7 +16,7 @@ class FolderController < ApplicationController
     unless request.xhr?
       respond_to do |format|
         format.html do
-          flash[:notice] = "#{(params[:bookmark] && params[:bookmark][:title]) ? params[:bookmark][:title] : "Item"} successfully added to Folder"
+          flash[:notice] = "#{(params[:bookmark] && params[:bookmark][:title]) ? params[:bookmark][:title] : "Item"} successfully selected"
           redirect_to :back
         end
       end
@@ -32,7 +32,7 @@ class FolderController < ApplicationController
     unless request.xhr?      
       respond_to do |format|
         format.html do
-          flash[:notice] = "#{params[:title] || "Item"} successfully removed from Folder"
+          flash[:notice] = "#{params[:title] || "Item"} successfully removed from selected items"
           redirect_to :back
         end
       end
@@ -43,7 +43,7 @@ class FolderController < ApplicationController
  
   # get rid of the items in the folder
   def clear
-    flash[:notice] = "Cleared Folder"
+    flash[:notice] = "Cleared Selected Items"
     session[:folder_document_ids] = []
     respond_to do |format|
       format.html { redirect_to :back }
