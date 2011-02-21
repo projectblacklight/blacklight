@@ -33,8 +33,8 @@ Feature: Bookmarks
       Given I am logged in as "user1"
       And "user1" has bookmarked an item with title "foo bar"
       And I am on the bookmarks page
-      Then I should see "remove"
-      When I follow "remove"
+      Then I should see a "Remove" button
+      When I press "Remove"
       Then I should see "Successfully removed bookmark."
 
     Scenario: Clearing Bookmarks
@@ -72,7 +72,6 @@ Feature: Bookmarks
       And I should see a "Remove bookmark" button
       And I press "Remove bookmark"
       And I should see "Successfully removed bookmark"
-
       
     Scenario: Adding bookmarks from Folder
       Given I am logged in as "user1"

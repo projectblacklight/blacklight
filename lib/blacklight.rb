@@ -8,7 +8,6 @@ module Blacklight
   
   autoload :SolrHelper, 'blacklight/solr_helper'
   
-  autoload :Routes, 'blacklight/routes'
 
   autoload :Exceptions, 'blacklight/exceptions'
 

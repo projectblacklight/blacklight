@@ -7,8 +7,8 @@ Feature: User Folder
 	  Given I am on the home page
     When I fill in "q" with "history"
     And I select "All Fields" from "search_field"
-    And I press "search"
- 	  Then I should see an add to folder form
+    And I press "search" 
+	  Then I should see an add to folder form
       
  	Scenario: Ensure "Add to Folder" for is present on individual record
     Given I am on the document page for id 2007020969
@@ -18,8 +18,7 @@ Feature: User Folder
     Given I am on the home page
     And I follow "English"
  	  And I add record 2008308175 to my folder
- 	  Then I should see "Pluvial nectar of blessings successfully added to Folder"
-	  
+          Then I should see "Pluvial nectar of blessings successfully added to Folder"	  
 	Scenario: Do not show "Add to Favorites" when not logged in
 	  Given I have record 2007020969 in my folder
 	  When I follow "Selected Items"

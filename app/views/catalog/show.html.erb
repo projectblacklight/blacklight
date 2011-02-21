@@ -16,9 +16,10 @@
 <%# this should be in a partial -%>
 <div id="document" class="<%= render_document_class %>">
   <div id="doc_<%= @document[:id] %>">
-    <div id="show_folder_control">
-      <%= render :partial=>'folder_control', :locals=>{:document=>@document} %>
-    </div>
+
+    <% # bookmark/folder functions -%>
+    <%= render_show_doc_actions @document %>        
+
     <%= render_document_heading.html_safe %>
     <div class="tools"><%= render :partial => 'show_tools' %></div>
     <div class="document">

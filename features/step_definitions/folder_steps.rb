@@ -12,8 +12,8 @@ end
 
 Given /^I have record (.+) in my folder$/ do |arg1|
   visit catalog_path(arg1)
-  click_button("Add to folder")
-  click_link("Folder")
+  click_button("Select")
+  click_link("Selected Items")
 end
 
 Then /^I (should|should not) see the Folder tools$/ do |comparator|

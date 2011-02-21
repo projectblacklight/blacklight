@@ -189,7 +189,7 @@ module ApplicationHelper
   # Save function area for item detail 'show' view, normally
   # renders next to title. By default includes 'Folder' and 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
-    render_index_doc_actions
+    render_index_doc_actions(document, options)
   end
   
   # used in the catalog/_index_partials/_default view
