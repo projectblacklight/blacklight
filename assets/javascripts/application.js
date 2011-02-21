@@ -193,12 +193,12 @@ $(document).ready(function() {
                                   
           
         var form = $(this);
-        form.hide();
+        form.children().hide();
         //We're going to use the existing form to actually send our add/removes
         //This works conveneintly because the exact same action href is used
         //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
         //of the form to avoid any future confusion. 
-        form.find("input.bookmark_add, input.bookmark_remove").remove();
+        form.find("input[type=submit]").remove();
         
         //View needs to set data-doc-id so we know a unique value
         //for making DOM id
@@ -229,7 +229,7 @@ $(document).ready(function() {
             }
           }
         
-        form.before(checkbox).before(" ").before(label);
+        form.append(checkbox).append(" ").append(label);
         update_state_for(checked);
         
         checkbox.click(function() {
