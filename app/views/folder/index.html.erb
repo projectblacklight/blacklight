@@ -42,15 +42,16 @@
     <% # container for a single doc -%>
     <div class="document">
       <% # header bar for doc items in index view -%>
-      <div class="documentHeader yui-g">
-        <div class="yui-u documentFunctions">          
+      <div class="documentHeader">
+        <div class="documentFunctions">          
           <div class="in_folder">
             <%= render :partial=>'catalog/folder_control', :locals=>{:document=>document} %>
           </div>
-        </div>
-        <div class="yui-u">
-          <h3 class="index_title"><%= i + 1 + @response.params[:start].to_i%>. <%= link_to_document document, :label => document_show_link_field, :results_view => false %></h3>
-        </div>
+        </div>  
+      
+        <h3 class="index_title"><%= i + 1 + @response.params[:start].to_i%>. <%= link_to_document document, :label => document_show_link_field, :results_view => false %></h3>
+        
+              
       </div>
       
 	    <%= render_document_partial document, :index %>
