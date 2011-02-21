@@ -12,22 +12,33 @@ class FolderController < ApplicationController
   def update
     session[:folder_document_ids] = session[:folder_document_ids] || []
     session[:folder_document_ids] << params[:id]
-    
-    flash[:notice] = "#{(params[:bookmark] && params[:bookmark][:title]) ? params[:bookmark][:title] : "Item"} successfully added to Folder"
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js { render :json => session[:folder_document_ids] }
-    end
+            
+    unless request.xhr?
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "#{(params[:bookmark] && params[:bookmark][:title]) ? params[:bookmark][:title] : "Item"} successfully added to Folder"
+          redirect_to :back
+        end
+      end
+    else
+      render :text => "OK"
+    end        
   end
  
   # remove a document_id from the folder. :id of action is solr_doc_id
   def destroy
     session[:folder_document_ids].delete(params[:id])
-    flash[:notice] = "#{params[:title] || "Item"} successfully removed from Folder"
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js { render :json => session[:folder_document_ids] }
-    end
+    
+    unless request.xhr?      
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "#{params[:title] || "Item"} successfully removed from Folder"
+          redirect_to :back
+        end
+      end
+    else
+      render :text => "OK"
+    end        
   end
  
   # get rid of the items in the folder
