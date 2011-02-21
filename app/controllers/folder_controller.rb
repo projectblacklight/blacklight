@@ -11,8 +11,9 @@ class FolderController < ApplicationController
   # add a document_id to the folder. :id of action is solr doc id 
   def update
     session[:folder_document_ids] = session[:folder_document_ids] || []
-    session[:folder_document_ids] << params[:id] 
-    flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
+    session[:folder_document_ids] << params[:id]
+    
+    flash[:notice] = "#{(params[:bookmark] && params[:bookmark][:title]) ? params[:bookmark][:title] : "Item"} successfully added to Folder"
     respond_to do |format|
       format.html { redirect_to :back }
       format.js { render :json => session[:folder_document_ids] }
