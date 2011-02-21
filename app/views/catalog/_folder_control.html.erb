@@ -1,12 +1,13 @@
 <%-   
   # pass in local :document with a SolrDocument
   method = (item_in_folder?(document[:id]) ? "delete" : "put")
-  label = (item_in_folder?(document[:id]) ? "Unselecct" : "Select")    
+  label = (item_in_folder?(document[:id]) ? "Unselecct" : "Select")
+  cssClass = (item_in_folder?(document[:id]) ? "deleteFolder" : "addFolder")
 -%>
 
 
 
-<% form_tag( folder_path(document[:id]), :method => method, :class=> "folder_toggle", "data-doc-id" => document[:id], :title=>h(document[document_show_link_field])) do -%>  
+<% form_tag( folder_path(document[:id]), :method => method, :class=> "folder_toggle #{cssClass}", "data-doc-id" => document[:id], :title=>h(document[document_show_link_field])) do -%>  
   <%= hidden_field(:bookmark, :title, :value => document[document_show_link_field]) %>
-  <%= submit_tag (label, :class=>"folder_submit", :id => "folder_toggle_#{document[:id]}") %>
+  <%= submit_tag (label, :class=>"folder_submit", :id => "folder_submit_#{document[:id]}") %>
 <% end %>
