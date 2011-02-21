@@ -31,7 +31,7 @@ module Blacklight::Routes
     map.feedback 'feedback', :controller=>'feedback', :action=>'show'
     map.feedback_complete 'feedback/complete', :controller=>'feedback', :action=>'complete'
     
-    map.resources :folder, :only => [:index, :create, :destroy], :collection => {:clear => :delete }
+    map.resources :folder, :only => [:index, :update, :destroy], :collection => {:clear => :delete }
     
   end
   

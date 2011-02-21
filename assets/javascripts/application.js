@@ -98,11 +98,23 @@ $(document).ready(function() {
     Blacklight.do_bookmark_toggle_behavior.selector = "form.bookmark_toggle"; 
     
     Blacklight.do_folder_toggle_behavior = function() {
-      $( Blacklight.do_folder_toggle_behavior.selector ).each(
-      	  Blacklight.folder_submit_ajax
-      );	
+      $( Blacklight.do_folder_toggle_behavior.selector ).bl_checkbox_submit({
+          checked_label: "Selected",
+          unchecked_label: "Select",
+          css_class: "toggle_folder",
+          success: function(new_state) {
+            
+            if (new_state) {
+               $("#folder_number").text(parseInt($("#folder_number").text()) + 1);
+            }
+            else {
+               $("#folder_number").text(parseInt($("#folder_number").text()) - 1);
+            }
+          }
+      });
+      
     };
-    Blacklight.do_folder_toggle_behavior.selector = "form.addFolder, form.deleteFolder"; 
+    Blacklight.do_folder_toggle_behavior.selector = "form.folder_toggle"; 
     
     Blacklight.do_facet_expand_contract_behavior = function() {
       $( Blacklight.do_facet_expand_contract_behavior.selector ).each (
@@ -110,42 +122,7 @@ $(document).ready(function() {
        );
     }
     Blacklight.do_facet_expand_contract_behavior.selector = '#facets h3';
-    
-    /* function for adding items to your folder with Ajax */
-    //Behavior for making the select submit toggle be ajaxy, while
-    //still being a submit button. Perhaps should be made into
-    //an actual jQuery widget, but for now we just keep it here.
-    //Perhaps should be changed to use checkbox style like Bookmarks. 
-    Blacklight.folder_submit_ajax = function() {
-          var form = $(this);
-          // We wrap the control on the folder page w/ a special element classed so we know not to
-          // attach the jQuery function.  The reason is we want the solr response to refresh so that
-          // pagination as properly udpated.
-          if(form.parent(".in_folder").length == 0){
-            form.submit(function(){
-              $.post(form.attr("action") + '?id=' + form.children("input[name=id]").attr("value"), function(data) {
-                var title = form.attr("title");
-                var folder_num, notice_text, new_form_action, new_button_text
-                if(form.attr("action") == "/folder/destroy") {
-                  folder_num = parseInt($("#folder_number").text()) - 1;
-                  notice_text = title + " removed from your folder."
-                  new_form_action = "/folder";
-                  new_button_text = "Select"
-                }else{
-                  folder_num = parseInt($("#folder_number").text()) + 1
-                  notice_text = title + " added to your folder.";
-                  new_form_action = "/folder/destroy";
-                  new_button_text = "Unselect";
-                }
-                $("#folder_number").text(folder_num);
-                form.attr("action",new_form_action);
-                form.children("input[type=submit]").attr("value",new_button_text);
-              }, "json");
-              return false;
-            });
-          }
-	    };
-	    
+    	    
 	    /* Behavior that makes facet limit headings in sidebar expand/contract
 	       their contents. This is kind of fragile code targeted specifically
 	       at how we currently render facet HTML, which is why I put it in a function
@@ -202,7 +179,10 @@ $(document).ready(function() {
         unchecked_label: "Select",
         progress_label: "Saving...",
         //css_class is added to elements added, plus used for id base
-        css_class: "toggle_my_kinda_form"   
+        css_class: "toggle_my_kinda_form",
+        success: function(after_success_check_state) {
+          #optional callback
+        }
    });
 */
 (function($) {    
@@ -266,11 +246,12 @@ $(document).ready(function() {
                    label.removeAttr("disabled");
                    checkbox.removeAttr("disabled");
                 },
-                success: function() {	            
+                success: function(data, status, xhr) {                  
                   checked = ! checked;
                   update_state_for(checked);
                   label.removeAttr("disabled");
                   checkbox.removeAttr("disabled");
+                  options.success.call(form, checked);
                 }
             });
             
@@ -287,7 +268,8 @@ $(document).ready(function() {
             unchecked_label: "",
             progress_label: "Saving...",
             //css_class is added to elements added, plus used for id base
-            css_class: "bl_checkbox_submit" 
+            css_class: "bl_checkbox_submit",
+            success: function() {} //callback
   };
     
 })(jQuery);

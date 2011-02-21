@@ -6,9 +6,10 @@ class FolderController < ApplicationController
   def index
     @response, @documents = get_solr_response_for_field_values("id",session[:folder_document_ids] || [])
   end
+    
 
-  # add a document_id to the folder
-  def create
+  # add a document_id to the folder. :id of action is solr doc id 
+  def update
     session[:folder_document_ids] = session[:folder_document_ids] || []
     session[:folder_document_ids] << params[:id] 
     flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
@@ -18,7 +19,7 @@ class FolderController < ApplicationController
     end
   end
  
-  # remove a document_id from the folder
+  # remove a document_id from the folder. :id of action is solr_doc_id
   def destroy
     session[:folder_document_ids].delete(params[:id])
     flash[:notice] = "#{params[:title] || "Item"} successfully removed from Folder"
