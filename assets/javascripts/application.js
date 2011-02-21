@@ -247,12 +247,21 @@ $(document).ready(function() {
                    label.removeAttr("disabled");
                    checkbox.removeAttr("disabled");
                 },
-                success: function(data, status, xhr) {                  
-                  checked = ! checked;
-                  update_state_for(checked);
-                  label.removeAttr("disabled");
-                  checkbox.removeAttr("disabled");
-                  options.success.call(form, checked);
+                success: function(data, status, xhr) {
+                  //if app isn't running at all, xhr annoyingly
+                  //reports success with status 0. 
+                  if (xhr.status != 0) {
+                    checked = ! checked;
+                    update_state_for(checked);
+                    label.removeAttr("disabled");
+                    checkbox.removeAttr("disabled");
+                    options.success.call(form, checked);
+                  } else {
+                    alert("Error");
+                    update_state_for(checked);
+                    label.removeAttr("disabled");
+                    checkbox.removeAttr("disabled");
+                  }
                 }
             });
             
