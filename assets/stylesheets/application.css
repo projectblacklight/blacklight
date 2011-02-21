@@ -244,7 +244,7 @@ font-weight:bold;
 /* 'Document functions', Bookmark/Folder. Appear on both results/index and 
    detail/show views. */
 .documentFunctions {text-align:right; float: right; margin-left: 0.5em; margin-bottom: 0.5em;}
-.documentFunctions .folder_toggle, .documentFunctions .bookmark_toggle {float:right;}
+.documentFunctions .folder_toggle, .documentFunctions .bookmark_toggle { display: inline; }
 label.toggle_bookmark {
   /* the ajaxy checkbox for toggle */
   display: inline-block;
