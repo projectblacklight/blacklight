@@ -212,7 +212,7 @@ $(document).ready(function() {
         var options = $.extend({}, $.fn.bl_checkbox_submit.defaults, arg_opts);
                                   
           
-        form = $(this);
+        var form = $(this);
         form.hide();
         //We're going to use the existing form to actually send our add/removes
         //This works conveneintly because the exact same action href is used
