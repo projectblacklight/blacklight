@@ -128,10 +128,9 @@ def compute_arguments
 end
 
 def solrmarc_command_line(arguments)
-  cmd = "java #{arguments[:solrmarc_mem_arg]}  -jar #{arguments[:solrmarc_jar_path]} #{arguments[:config_properties_path]} #{arguments["MARC_FILE"]}"
-
-  cmd += " -Dsolr.hosturl=#{arguments[:solr_url]}" unless arguments[:solr_url].blank?
-
+  cmd = "java #{arguments[:solrmarc_mem_arg]} "
+  cmd += " -Dsolr.hosturl=#{arguments[:solr_url]} " unless arguments[:solr_url].blank?
+  cmd += " -jar #{arguments[:solrmarc_jar_path]} #{arguments[:config_properties_path]} #{arguments["MARC_FILE"]}"  
   return cmd  
 end
 
