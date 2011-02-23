@@ -60,7 +60,7 @@ group :development, :test do
       gem 'rdoc'
       gem 'hanna', '0.1.12', :require => 'hanna/rdoctask'
       gem 'gherkin'
-      gem 'rspec'
+
       gem 'rspec-rails'
       gem 'cucumber-rails'
       gem 'capybara' # needed for latest cucumber and Rails3

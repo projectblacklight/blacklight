@@ -7,6 +7,12 @@ gem 'rails', '3.0.4'
 
 gem 'sqlite3'
 
+# For testing
+gem 'rspec-rails'	
+gem 'cucumber-rails'
+gem 'webrat'    # still needed for rspec view tests
+gem 'capybara'  # used by latest cucumber
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
