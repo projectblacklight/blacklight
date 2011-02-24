@@ -1,14 +1,5 @@
 namespace :blacklight do
   
-  desc "Copies Blacklight's default images, css and javascript into your apps public/plugin_assets/blacklight directory."
-  task :copy_assets do
-    bl_root = File.join(File.dirname(__FILE__), '..', '..')
-    from = File.join(bl_root, 'assets', '*')
-    to = File.join(Rails.root, 'public', 'plugin_assets', 'blacklight')
-    mkdir_p to
-    cp_r Dir[from], to
-  end
-  
   # task to clean out old, unsaved searches
   # rake blacklight:delete_old_searches[days_old]
   # example cron entry to delete searches older than 7 days at 2:00 AM every day: 
@@ -16,7 +7,7 @@ namespace :blacklight do
   task :delete_old_searches, :days_old, :needs => :environment do |t, args|
     Search.delete_old_searches(args[:days_old].to_i)
   end
-
+  
 end
 
 # Rake tasks for Blacklight plugin
@@ -25,7 +16,7 @@ end
 # when starting solr test server during functional tests use:
 # 
 #    rake SOLR_CONSOLE=true
-require File.expand_path(File.dirname(__FILE__) + '/../../spec/lib/test_solr_server.rb')
+# require File.expand_path(File.dirname(__FILE__) + '/../../spec/lib/test_solr_server.rb')
 
 
 SOLR_PARAMS = {
