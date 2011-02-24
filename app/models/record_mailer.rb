@@ -2,7 +2,7 @@
 class RecordMailer < ActionMailer::Base
 
   
-  def email_record(documents, details, from_host, host)
+  def email_record(documents, details, from_host, url_gen_params)
     #raise ArgumentError.new("RecordMailer#email_record only works with documents with a #to_marc") unless document.respond_to?(:to_marc)
     
     recipients details[:to]
@@ -12,16 +12,16 @@ class RecordMailer < ActionMailer::Base
       subject "Item records"
     end
     from "no-reply@" << from_host
-    body :documents => documents, :host => host, :message => details[:message]
+    body :documents => documents, :url_gen_params => url_gen_params, :message => details[:message]
   end
   
-  def sms_record(documents, details, from_host, host)
+  def sms_record(documents, details, from_host, url_gen_params)
     if sms_mapping[details[:carrier]]
       to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
     end
     recipients to
     from "no-reply@" << from_host
-    body :documents => documents, :host => host
+    body :documents => documents, :url_gen_params => url_gen_params
   end
 
   protected

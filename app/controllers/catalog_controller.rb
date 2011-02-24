@@ -118,22 +118,22 @@ class CatalogController < ApplicationController
     @response, @documents = get_solr_response_for_field_values("id",params[:id])
     if params[:to]
       from = request.host # host w/o port for From address (from address cannot have port#)
-      host = request.host
-      host << ":#{request.port}" unless request.port.nil? # host w/ port for linking
+      url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
+      
       case params[:style]
         when 'sms'
           if !params[:carrier].blank?
             if params[:to].length != 10
               flash[:error] = "You must enter a valid 10 digit phone number"
             else
-              email = RecordMailer.create_sms_record(@documents, {:to => params[:to], :carrier => params[:carrier]}, from, host)
+              email = RecordMailer.create_sms_record(@documents, {:to => params[:to], :carrier => params[:carrier]}, from, url_gen_params)
             end
           else
             flash[:error] = "You must select a carrier"
           end
         when 'email'
           if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-            email = RecordMailer.create_email_record(@documents, {:to => params[:to], :message => params[:message]}, from, host)
+            email = RecordMailer.create_email_record(@documents, {:to => params[:to], :message => params[:message]}, from, url_gen_params)
           else
             flash[:error] = "You must enter a valid email address"
           end
