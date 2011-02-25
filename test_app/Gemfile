@@ -1,11 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.4'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'sqlite3'
+gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'blacklight', :path => '../'
 
 # For testing
 gem 'rspec-rails'	
@@ -35,3 +32,4 @@ gem 'capybara'  # used by latest cucumber
 # group :development, :test do
 #   gem 'webrat'
 # end
+gem "authlogic"

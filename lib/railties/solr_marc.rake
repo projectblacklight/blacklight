@@ -44,7 +44,7 @@ namespace :solr do
       task :info do
         solrmarc_arguments = compute_arguments
         puts <<-EOS
-  Solr to write to is taken from current environment inconfig/solr.yml, 
+  Solr to write to is taken from current environment in config/solr.yml, 
   key :replicate_master_url is supported, taking precedence over :url
   for where to write to. 
    
@@ -110,7 +110,7 @@ def compute_arguments
       
   # SolrMarc is embedded in the plugin, or could be a custom
   # one in local app.  
-  arguments[:solrmarc_jar_path] = ENV['SOLRMARC_JAR_PATH'] || locate_path("solr_marc", "SolrMarc.jar") 
+  arguments[:solrmarc_jar_path] = ENV['SOLRMARC_JAR_PATH'] || locate_path("lib", "SolrMarc.jar") 
   
 
       
@@ -132,18 +132,17 @@ def solrmarc_command_line(arguments)
   cmd = "java #{arguments[:solrmarc_mem_arg]}  -jar #{arguments[:solrmarc_jar_path]} #{arguments[:config_properties_path]} #{arguments["MARC_FILE"]}"
 
   cmd += " -Dsolr.hosturl=#{arguments[:solr_url]}" unless arguments[:solr_url].blank?
-
-  return cmd  
 end
 
 
 def locate_path(*subpath_fragments)
-    local_root = File.expand_path File.join(File.dirname(__FILE__), '..', '..')
-
-    subpath = subpath_fragments.join('/')
-    base_match = [Rails.root, local_root].find do |base|
-      File.exists? File.join(base, subpath)
-    end
-    File.join(base_match.to_s, subpath) if base_match
+  local_root = File.expand_path File.join(File.dirname(__FILE__), '..', '..')
+  puts "The local_root is #{local_root}"
+  subpath = subpath_fragments.join('/')
+  base_match = [Rails.root, local_root].find do |base|
+    File.exists? File.join(base, subpath)
+  end
+  File.join(base_match.to_s, subpath) if base_match
 end
+
 

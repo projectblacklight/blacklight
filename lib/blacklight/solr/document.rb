@@ -1,3 +1,5 @@
+require 'rsolr'
+require 'rsolr-ext'
 ##
 ##
 # = Introduction

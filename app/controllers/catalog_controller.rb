@@ -1,7 +1,6 @@
-class CatalogController < ApplicationController
+class CatalogController < BlacklightController
 
   include Blacklight::SolrHelper
-
   before_filter :search_session, :history_session
   before_filter :delete_or_assign_search_session_params,  :only=>:index
   before_filter :adjust_for_results_view, :only=>:update
@@ -190,7 +189,7 @@ class CatalogController < ApplicationController
   # assigns all Search objects (that match the searches in session[:history]) to a variable @searches.
   def history_session
     session[:history] ||= []
-    @searches = searches_from_history # <- in ApplicationController
+    @searches = searches_from_history # <- in BlacklightController
   end
   
   # This method copies request params to session[:search], omitting certain

@@ -1,4 +1,4 @@
-class SavedSearchesController < ApplicationController
+class SavedSearchesController < BlacklightController
   before_filter :verify_user 
   
   def index

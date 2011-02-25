@@ -1,4 +1,4 @@
-class SearchHistoryController < ApplicationController
+class SearchHistoryController < BlacklightController
   def index
     @searches = searches_from_history
   end

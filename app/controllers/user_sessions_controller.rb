@@ -1,4 +1,4 @@
-class UserSessionsController < ApplicationController
+class UserSessionsController < BlacklightController
 
   ##
   # The login form.

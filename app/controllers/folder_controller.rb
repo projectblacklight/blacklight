@@ -1,4 +1,4 @@
-class FolderController < ApplicationController
+class FolderController < BlacklightController
 
   include Blacklight::SolrHelper
 

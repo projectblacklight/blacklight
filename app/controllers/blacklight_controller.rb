@@ -2,7 +2,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 #
-class ApplicationController < ActionController::Base
+class BlacklightController < ActionController::Base
 
   before_filter :default_html_head # add JS/stylesheet stuff
   # now in application.rb file under config.filter_parameters
