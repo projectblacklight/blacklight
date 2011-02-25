@@ -92,12 +92,7 @@ describe CatalogHelper do
       @response = MockResponse.new :total => 47
       @collection = MockCollection.new :total => @response.total, :per_page => 10, :current_page => 5
 
-      pending("with a correct end count") do
-        page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>41 - 47</b> of <b>47</b>"
-      end
-
-      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>41 - 50</b> of <b>47</b>"
-
+      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>41 - 47</b> of <b>47</b>"
     end
 
   end

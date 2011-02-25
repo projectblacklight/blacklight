@@ -14,7 +14,7 @@ module CatalogHelper
       start = (collection.current_page - 1) * collection.per_page + 1
       total_hits = @response.total
       start_num = format_num(start)
-      end_num = format_num(start + collection.per_page - 1)
+      end_num = format_num(start + collection.size - 1)
       total_num = format_num(total_hits)
     #  end_num = total_num if total_hits < (start + collection.per_page - 1)
 
