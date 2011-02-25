@@ -11,11 +11,12 @@ This generator makes the following changes to your application:
  2. Adds additional mime types to you application in the file '/config/initializers/mime_types.rb'
  3. Creates config/initializers/blacklight_config.rb which you should then modify for your instance
  4. Creates config/solr.yml with a default solr configuration that should work with standard marc records
- 5. Creates user and user_session objects which can be modified and extended, but which currently
+ 6. Creates congig/SolrMarc/... with settings for SolrMarc
+ 7. Creates user and user_session objects which can be modified and extended, but which currently
     rely on Authlogic. 
- 6. Adds the authlogic gem to your Gemfile if it does not exist yet.
- 7. Creates a number of public assets, including images, stylesheets, and javascript
- 8. Adds a solr_marc.jar file to your lib/ directory 
+ 8. Adds the authlogic gem to your Gemfile if it does not exist yet.
+ 9. Creates a number of public assets, including images, stylesheets, and javascript
+10. Adds a solr_marc.jar file to your lib/ directory 
     (where it can be automatically loaded if you are using Jruby)
 Thank you for Installing Blacklight.
 
@@ -52,6 +53,7 @@ EOF
   def create_configuration_files
     copy_file "config/blacklight_config.rb", "config/initializers/blacklight_config.rb"
     copy_file "config/solr.yml", "config/solr.yml"
+    directory("config/SolrMarc")
   end
   
   # Create user session objects
