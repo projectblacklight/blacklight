@@ -55,7 +55,6 @@ describe CatalogHelper do
 
     it "with no results" do
       @response = MockResponse.new :total => 0
-     # @collection = mock_collection(:total => @response.total)
       @collection = MockCollection.new :total => @response.total
 
       page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "No entry_names found"
@@ -63,7 +62,6 @@ describe CatalogHelper do
 
     it "with a single result" do
       @response = MockResponse.new :total => 1
-      #@collection = mock_collection(:total => @response.total)
       @collection = MockCollection.new :total => @response.total
 
       page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying <b>1</b> entry_name"
@@ -71,7 +69,6 @@ describe CatalogHelper do
 
     it "with a single page of results" do
       @response = MockResponse.new :total => 7
-      #@collection = mock_collection(:total => @response.total)
       @collection = MockCollection.new :total => @response.total
 
       page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying <b>all 7</b> entry_names"
@@ -79,7 +76,6 @@ describe CatalogHelper do
 
     it "on the first page of multiple pages of results" do
       @response = MockResponse.new :total => 15
-      #@collection = mock_collection(:total => @response.total)
       @collection = MockCollection.new :total => @response.total, :per_page => 10
 
       page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>1 - 10</b> of <b>15</b>"
@@ -87,7 +83,6 @@ describe CatalogHelper do
 
     it "on the second page of multiple pages of results" do
       @response = MockResponse.new :total => 47
-      #@collection = mock_collection(:total => @response.total)
       @collection = MockCollection.new :total => @response.total, :per_page => 10, :current_page => 2
 
       page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>11 - 20</b> of <b>47</b>"
@@ -95,7 +90,6 @@ describe CatalogHelper do
 
     it "on the last page of results" do
       @response = MockResponse.new :total => 47
-      #@collection = mock_collection(:total => @response.total)
       @collection = MockCollection.new :total => @response.total, :per_page => 10, :current_page => 5
 
       pending("with a correct end count") do

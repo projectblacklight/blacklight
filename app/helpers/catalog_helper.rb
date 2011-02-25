@@ -11,11 +11,12 @@ module CatalogHelper
     # an RSolr::Ext::Response works.  Perhaps it duck-types to something
     # from will_paginate?
   	def page_entries_info(collection, options = {})
-      start = collection.next_page == 2 ? 1 : collection.previous_page * collection.per_page + 1
+      start = (collection.current_page - 1) * collection.per_page + 1
       total_hits = @response.total
       start_num = format_num(start)
       end_num = format_num(start + collection.per_page - 1)
       total_num = format_num(total_hits)
+    #  end_num = total_num if total_hits < (start + collection.per_page - 1)
 
       entry_name = options[:entry_name] ||
         (collection.empty?? 'entry' : collection.first.class.name.underscore.sub('_', ' '))
