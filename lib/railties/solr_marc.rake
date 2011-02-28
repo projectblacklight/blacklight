@@ -24,7 +24,6 @@ namespace :solr do
 
     namespace :index do
 
-
       task :work do
         solrmarc_arguments = compute_arguments        
 

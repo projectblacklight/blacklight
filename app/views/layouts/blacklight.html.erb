@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -14,16 +13,16 @@
     
   </head>
   <% if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
-    <body onload="$('input#q').focus();" class="<%= render_body_class %>">
-  <% else %>
-    <body class="<%= render_body_class.html_safe %>">
-  <% end %>
-	  <div id="doc4" class="yui-t2">
-	    
+  <body onload="$('input#q').focus();" class="<%= render_body_class %>">
+    <% else %>
+  <body class="<%= render_body_class.html_safe %>">
+    <% end %>
+      <div id="doc4" class="yui-t2">
+	
 	    <div id="hd">
         <div class="yui-g">
           <div class="yui-u first">
-            <h1 class="site_title"><%= link_to application_name, root_path %><%= (params[:controller] == "catalog" and !params[:id]) ? "<span id='results_text'>Search Results</span>".html_safe : "" %></h1>
+            <h1 class="site_title"><%= link_to application_name, "/" %><%= (params[:controller] == "catalog" and !params[:id]) ? "<span id='results_text'>Search Results</span>".html_safe : "" %></h1>
           </div>
           <div class="yui-u user_util_links">
             <%= render :partial=>'/user_util_links' %>

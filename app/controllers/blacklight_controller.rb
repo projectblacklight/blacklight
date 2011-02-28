@@ -1,5 +1,5 @@
 #
-# Filters added to this controller apply to all controllers in the application.
+# Filters added to this controller apply to all controllers in Blacklight
 # Likewise, all the methods added will be available for all controllers.
 #
 class BlacklightController < ActionController::Base
@@ -39,9 +39,9 @@ class BlacklightController < ActionController::Base
   # http://api.rubyonrails.org/classes/ActionController/Filters/ClassMethods.html
   # for how to turn off a filter in a sub-class and such.
   def default_html_head
-    stylesheet_links << ['yui', 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css', 'application', {:plugin=>:blacklight, :media=>'all'}]
+    stylesheet_links << ['yui', 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css', 'blacklight', {:plugin=>:blacklight, :media=>'all'}]
 
-    javascript_includes << ['jquery-1.4.2.min.js', 'jquery-ui-1.8.1.custom.min.js', 'application', { :plugin=>:blacklight } ]
+    javascript_includes << ['jquery-1.4.2.min.js', 'jquery-ui-1.8.1.custom.min.js', 'blacklight', { :plugin=>:blacklight } ]
   end
 
 
@@ -89,7 +89,7 @@ class BlacklightController < ActionController::Base
     # don't use a layout, otherwise use the "application.html.erb" layout
     #
     def choose_layout
-      'application' unless request.xml_http_request? || ! params[:no_layout].blank?
+      'blacklight' unless request.xml_http_request? || ! params[:no_layout].blank?
     end
 
     def current_user_session

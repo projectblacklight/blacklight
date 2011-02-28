@@ -7,16 +7,16 @@ namespace :blacklight do
   task :delete_old_searches, :days_old, :needs => :environment do |t, args|
     Search.delete_old_searches(args[:days_old].to_i)
   end
-  
-end
 
+end
+  
 # Rake tasks for Blacklight plugin
 
 # if you would like to see solr startup messages on STDERR
 # when starting solr test server during functional tests use:
 # 
 #    rake SOLR_CONSOLE=true
-# require File.expand_path(File.dirname(__FILE__) + '/../../spec/lib/test_solr_server.rb')
+require File.expand_path (File.join (File.dirname(__FILE__), 'test_solr_server.rb'))
 
 
 SOLR_PARAMS = {
@@ -26,10 +26,13 @@ SOLR_PARAMS = {
   :solr_home => ENV['SOLR_HOME'] || File.expand_path('./jetty/solr')
 }
 
+@error = "In order to use solr:spec, you much checkout Blacklight-jetty from our github repository, and place it in the root of your application under the directory /jetty. \n  prompt> git clone git@github.com:projectblacklight/blacklight-jetty.git jetty \n You will also need to pupulate your test instance of solr with test data.  You can do this with: \n prompt>  rake solr:marc:index_test_data RAILS_ENV=test" 
+
 namespace :solr do
   
   desc "Calls RSpec Examples wrapped in the test instance of Solr"
   task :spec do
+    raise NO_JETTY_MSG unless File.exists? SOLR_PARAMS[:jetty_home]
     # wrap tests with a test-specific Solr server
     error = TestSolrServer.wrap(SOLR_PARAMS) do
       rm_f "coverage.data"
@@ -38,7 +41,7 @@ namespace :solr do
     end
     raise "test failures: #{error}" if error
   end
-
+  
   desc "Calls Cucumber Features wrapped in the test instance of Solr"
   task :features do
     # wrap tests with a test-specific Solr server
@@ -59,3 +62,4 @@ namespace :solr do
   end
   
 end
+
