@@ -122,11 +122,12 @@ class CatalogController < ApplicationController
       host << ":#{request.port}" unless request.port.nil? # host w/ port for linking
       case params[:style]
         when 'sms'
+          phone_num = params[:to].gsub(/[^\d]/, '')
           if !params[:carrier].blank?
-            if params[:to].length != 10
+            if phone_num.length != 10
               flash[:error] = "You must enter a valid 10 digit phone number"
             else
-              email = RecordMailer.create_sms_record(@documents, {:to => params[:to], :carrier => params[:carrier]}, from, host)
+              email = RecordMailer.create_sms_record(@documents, {:to => phone_num, :carrier => params[:carrier]}, from, host)
             end
           else
             flash[:error] = "You must select a carrier"

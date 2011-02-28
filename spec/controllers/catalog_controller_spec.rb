@@ -338,6 +338,12 @@ describe CatalogController do
         post :send_email_record, :id => doc_id, :style => 'sms', :to => '555555555', :carrier => 'att'
         response.flash[:error].should == "You must enter a valid 10 digit phone number"
       end
+      it "should allow punctuation in phone number" do
+        pending() #CODEBASE-227
+        #post :send_email_record, :id => doc_id, :style => 'sms', :to => '(555) 555-5555', :carrier => 'att'
+        #response.flash[:error].should be_nil
+        #response.should redirect_to(catalog_path(doc_id))
+      end
       it "should redirect back to the record upon success" do
         pending() # see CODEBASE-227
         #post :send_email_record, :id => doc_id, :style => 'sms', :to => '5555555555', :carrier => 'att'
