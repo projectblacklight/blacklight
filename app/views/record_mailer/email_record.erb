@@ -6,7 +6,8 @@
 <%= "Author: #{document.to_marc['100']['a']}" unless document.to_marc['100']['a'].nil? %>
 <% end -%>
 Format: <%= document[Blacklight.config[:show][:display_type]] %>
-URL: <%= catalog_path(document[:id], :only_path => false, :host => @host) %>
+URL: <%= catalog_path(document[:id], {:only_path => false}.merge(@url_gen_params)) %>
+
 <% end %>
 
 Message: <%= @message %>
