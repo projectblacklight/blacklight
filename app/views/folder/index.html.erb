@@ -20,7 +20,7 @@
         <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}, :format => 'endnote')%>
       </li>
       <li class="email">
-        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
+        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink", :id => "emailLink" %>
       </li>
       <li class="sms">
         <%= link_to "SMS", sms_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
