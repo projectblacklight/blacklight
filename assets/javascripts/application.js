@@ -43,8 +43,6 @@ Blacklight = {};
 $(document).ready(function() {
   Blacklight.do_zebra_stripe();  
   
-  Blacklight.do_select_submit();
-  
   Blacklight.do_more_facets_behavior();
   
   Blacklight.do_lightbox_dialog();
@@ -76,20 +74,6 @@ $(document).ready(function() {
       });
     };
     Blacklight.do_more_facets_behavior.selector = "a.more_facets_link";
-    
-    // Used for sort-by and per-page controls, hide the submit button
-    // and make the select auto-submit
-    Blacklight.do_select_submit = function() {
-      $(Blacklight.do_select_submit.selector).each(function() {
-          var select = $(this);
-          select.closest("form").find("input[type=submit]").hide();
-          select.bind("change", function() {
-              this.form.submit();
-          });
-      });
-    };
-    Blacklight.do_select_submit.selector = "form.sort select, form.per_page select";
-    
     
     Blacklight.do_lightbox_dialog = function() {    
       $("a.lightboxLink").ajaxyDialog({
@@ -320,8 +304,7 @@ $(document).ready(function() {
               options: {
                   extractTitleSelector: "h1, h2, h3, h4, h5",
                   chainAjaxySelector: "a:not([target]), form:not([target])",
-                  closeDialogSelector: "a.dialog-close",
-                  beforeDisplay: jQuery.noop
+                  closeDialogSelector: "a.dialog-close"
               },
               
               _create: function() {
@@ -366,8 +349,14 @@ $(document).ready(function() {
                   $.ajax({
                       url: url,
                       dataType: "html",
-                      success: function(resp, status) {
-                        self._loadToDialog(resp);
+                      success: function(resp, status, xhr) {
+                        if (xhr.status != 0) {                          
+                          self._loadToDialog(resp);
+                        } else {
+                          //stupid jquery calling this 'success', it's
+                          //network unavailable.
+                          self._displayFailure(url, xhr, status); 
+                        }
                       },
                       error: function(xhr, msg) {
                         self._displayFailure(url, xhr, msg); 
@@ -388,8 +377,14 @@ $(document).ready(function() {
                       data: serialized,
                       type: form.attr("method").toUpperCase(),
                       dataType: "html",
-                      success: function(resp, status) {
-                        self._loadToDialog(resp);
+                      success: function(resp, status, xhr) {
+                        if (xhr.status != 0) {
+                          self._loadToDialog(resp);
+                        } else {
+                          //stupid jquery calling this 'success', it's
+                          //network unavailable.
+                          self._displayFailure(url, xhr, status); 
+                        }
                       },
                       error: function(xhr, msg) {
                         self._displayFailure(actionUri, xhr, msg); 
