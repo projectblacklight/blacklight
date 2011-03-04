@@ -3,14 +3,14 @@ Rails.application.routes.draw do
   # Root context
   root :to => "catalog#index"
   
-  # Login, Logout, UserSessions
-  scope :constraints => { 
-    :protocol => ((defined?(SSL_ENABLED) and SSL_ENABLED) ? 'https' : 'http')} do
-    resources :user_sessions
-  end
-  match "login", :to => "user_sessions#new", :as => "login"
-  match "logout", :to => "user_sessions#destroy", :as => "logout"
-  resource :user
+  # # Login, Logout, UserSessions
+  # scope :constraints => { 
+  #   :protocol => ((defined?(SSL_ENABLED) and SSL_ENABLED) ? 'https' : 'http')} do
+  #   resources :user_sessions
+  # end
+  # match "login", :to => "user_sessions#new", :as => "login"
+  # match "logout", :to => "user_sessions#destroy", :as => "logout"
+  # resources :users
   
   # Bookmarks 
   match "bookmarks/clear", :to => "bookmarks#clear", :as => "clear_bookmarks"
