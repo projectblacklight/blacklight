@@ -12,7 +12,8 @@ public/
 config/SolrMarc/*.log*
 rerun.txt
 solr_marc/solrmarc.log
-
 *.log
 .bundle
+tmp/*
 Gemfile.lock
+test_app/*
