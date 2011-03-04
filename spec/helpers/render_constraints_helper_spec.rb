@@ -25,7 +25,7 @@ describe RenderConstraintsHelper do
         end
       end
       it "should not escape with options set thus" do
-        response = helper.render_search_to_s_element("key>", "value>", :escape_key => false, :escape_value => false)
+        response = helper.render_search_to_s_element("key>".html_safe, "value>".html_safe)
         response.should have_tag("span.constraint") do
           with_tag("span.filterName", :text => "key>:")
           with_tag("span.filterValue", :text => "value>")
