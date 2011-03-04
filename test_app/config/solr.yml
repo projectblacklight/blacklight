@@ -1,6 +1,0 @@
-development:
-  url: http://127.0.0.1:8983/solr
-test:
-  url: http://127.0.0.1:8888/solr
-cucumber:
-  url: http://127.0.0.1:8888/solr
