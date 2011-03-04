@@ -21,8 +21,8 @@ class CatalogController < ApplicationController
   # get search results from the solr index
   def index
 
-    extra_head_content << '<link rel="alternate" type="application/rss+xml" title="RSS for results" href="'+ url_for(params.merge("format" => "rss")) + '">'
-    extra_head_content << '<link rel="alternate" type="application/atom+xml" title="Atom for results" href="'+ url_for(params.merge("format" => "atom")) + '">'
+    extra_head_content << @template.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')))
+    extra_head_content << @template.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')))
     
     (@response, @document_list) = get_search_results
     @filters = params[:f] || []
