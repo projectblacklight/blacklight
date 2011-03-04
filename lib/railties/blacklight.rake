@@ -26,7 +26,7 @@ SOLR_PARAMS = {
   :solr_home => ENV['SOLR_HOME'] || File.expand_path('./jetty/solr')
 }
 
-@error = "In order to use solr:spec, you much checkout Blacklight-jetty from our github repository, and place it in the root of your application under the directory /jetty. \n  prompt> git clone git@github.com:projectblacklight/blacklight-jetty.git jetty \n You will also need to pupulate your test instance of solr with test data.  You can do this with: \n prompt>  rake solr:marc:index_test_data RAILS_ENV=test" 
+NO_JETTY_MSG = "In order to use solr:spec, you much checkout Blacklight-jetty from our github repository, and place it in the root of your application under the directory /jetty. \n  prompt> git clone git@github.com:projectblacklight/blacklight-jetty.git jetty \n You will also need to pupulate your test instance of solr with test data.  You can do this with: \n prompt>  rake solr:marc:index_test_data RAILS_ENV=test" 
 
 namespace :solr do
   

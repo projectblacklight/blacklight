@@ -1,4 +1,4 @@
-require 'marc'
+
 ## This module and the ::Document class in it is DEPRECATED, and will go away.
 # It has been replaced by
 # code using the new document extension framework. See

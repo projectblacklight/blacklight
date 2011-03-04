@@ -1,3 +1,6 @@
+require 'will_paginate'
+require 'marc'
+
 module Blacklight
 
   autoload :Configurable, 'blacklight/configurable'
@@ -8,11 +11,12 @@ module Blacklight
   
   autoload :SolrHelper, 'blacklight/solr_helper'
   
-
   autoload :Exceptions, 'blacklight/exceptions'
 
   autoload :User, 'blacklight/user'
-  
+
+  autoload :CommaLinkRenderer, 'blacklight/comma_link_renderer'
+
   extend Configurable
   extend SearchFields
   
@@ -36,9 +40,15 @@ module Blacklight
   def self.jruby?
     defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby" 
   end
+
+  def self.solr_file
+    "#{::Rails.root.to_s}/config/solr.yml"
+  end
   
   def self.init
     
+
+    raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight\"?" unless File.exists?(solr_file) 
     solr_config = YAML::load(File.open("#{::Rails.root.to_s}/config/solr.yml"))
     raise "The #{::Rails.env} environment settings were not found in the solr.yml config" unless solr_config[::Rails.env]
     

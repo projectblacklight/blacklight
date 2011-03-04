@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Methods added to this helper will be available to all templates in the application.
+# Methods added to this helper will be available to all templates in the hosting application
 #
 module BlacklightHelper
   include HashAsHiddenFields
@@ -342,7 +342,7 @@ module BlacklightHelper
     p = params.dup
     p[:f]||={}
     p[:f][field] ||= []
-    p[:f][field].push(value)
+    p[:f][field].push(value) unless p[:f][field].include?(value)
     p
   end
 

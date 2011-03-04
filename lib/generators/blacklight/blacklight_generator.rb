@@ -3,24 +3,24 @@ require 'rails/generators/migration'
 
 class BlacklightGenerator < Rails::Generators::Base
   include Rails::Generators::Migration
-  
+
   source_root File.expand_path('../templates', __FILE__)
+  
+  argument     :model_name, :type => :string , :default => "user"
+  class_option :devise    , :type => :boolean, :default => false, :aliases => "-d", :desc => "Use Devise as authentication logic (this is default)."
+  
   desc """
 This generator makes the following changes to your application:
  1. Creates several database migrations if they do not exist in /db/migrate
  2. Adds additional mime types to you application in the file '/config/initializers/mime_types.rb'
  3. Creates config/initializers/blacklight_config.rb which you should then modify for your instance
  4. Creates config/solr.yml with a default solr configuration that should work with standard marc records
- 6. Creates congig/SolrMarc/... with settings for SolrMarc
- 7. Creates user and user_session objects which can be modified and extended, but which currently
-    rely on Authlogic. 
- 8. Adds the authlogic gem to your Gemfile if it does not exist yet.
- 9. Creates a number of public assets, including images, stylesheets, and javascript
-10. Adds a solr_marc.jar file to your lib/ directory 
-    (where it can be automatically loaded if you are using Jruby)
+ 5. Creates congig/SolrMarc/... with settings for SolrMarc
+ 6. Creates a number of public assets, including images, stylesheets, and javascript
+ 7. Adds a solr_marc.jar file to your lib/ directory 
+ 8. Modifies your view/layouts/application.html.erb file to support nested layouts.
 Thank you for Installing Blacklight.
-
-           """ 
+       """ 
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
   def self.next_migration_number(path)
@@ -56,13 +56,6 @@ EOF
     directory("config/SolrMarc")
   end
   
-  # Create user session objects
-  def create_user_session_objects
-    copy_file "app/user_session.rb", "app/models/user_session.rb"        
-    copy_file "app/user.rb", "app/models/user.rb"   
-    copy_file "app/users_controller.rb", "app/controller/users_controller.rb"   
-  end
-  
   # Copy all files in templates/public/ directory to public/
   def copy_public_assets 
     directory("public")
@@ -70,19 +63,12 @@ EOF
   
   # Setup the database migrations
   def copy_migrations
-    begin
-      better_migration_template 'migrations/create_users.rb', 'db/migrate/create_users.rb'
-      better_migration_template 'migrations/create_searches.rb', 'db/migrate/create_searches.rb'
-      better_migration_template 'migrations/create_bookmarks.rb', 'db/migrate/create_bookmarks.rb'
-      better_migration_template 'migrations/add_authlogic_fields_to_users.rb', 'db/migrate/add_authlogic_fields_to_users.rb'
-      better_migration_template 'migrations/acts_as_taggable_migration.rb', 'db/migrate/acts_as_taggable_migration.rb'
-      better_migration_template 'migrations/acts_as_taggable_on_migration.rb', 'db/migrate/acts_as_taggable_on_migration.rb'
-    end
-  end
-
-  # Add gem files
-  def add_gems    
-    gem("authlogic")
+    # Can't get this any more DRY, because we need this order.
+    better_migration_template "create_searches.rb"
+    better_migration_template "create_bookmarks.rb"
+    better_migration_template "remove_acts_as_taggable.rb"
+    better_migration_template "remove_editable_fields_from_bookmarks.rb"
+    better_migration_template "add_user_types_to_bookmarks_searches.rb"
   end
 
   # Copy ocver the solr_marc.jar file
@@ -90,14 +76,38 @@ EOF
     copy_file "SolrMarc.jar", "lib/SolrMarc.jar"
   end
 
+  # Install Devise? 
+  def generate_devise_assets
+    if options[:devise]
+      gem "devise"
+      run "bundle install"      
+      generate "devise:install"
+      generate "devise", model_name.classify
+      generate "devise:views"
+    end
+  end
+
+  # Add Blacklight to the user model
+  def inject_blacklight_user_behavior
+    file_path = "app/models/#{model_name.underscore}.rb"
+    if File.exists?(file_path) 
+      inject_into_class file_path, model_name.classify do 
+        "# Connects this user object to Blacklights Bookmarks and Folders. " +
+        "\n is_blacklight_user\n"        
+      end
+    else
+      puts "     \e[31mFailure\e[0m  Blacklight requires a user object in order to presist bookmarks and saved searches. This generators assumes that the model is defined in the file /app/models/user.rb, which does not exist.  If you used a different name, please re-run the migration and provide that name as an argument. Such as \b  rails -g blacklight client" 
+    end    
+  end
+
   private  
   
-  def better_migration_template (source, dest)
+  def better_migration_template (file)
     begin
-      migration_template source, dest
+      migration_template "migrations/#{file}", "db/migrate/#{file}"
       sleep 1 # ensure scripts have different time stamps
     rescue
-      p $!.message # rescue the error if the migration already exists, and just tell the user that it exists
+      puts "  \e[1m\e[34mMigrations\e[0m  " + $!.message
     end
   end
 
