@@ -11,7 +11,7 @@ module RenderConstraintsHelper
   # Render actual constraints, not including header or footer
   # info. 
   def render_constraints(localized_params = params)
-    render_constraints_query(localized_params) + render_constraints_filters(localized_params)
+    (render_constraints_query(localized_params) + render_constraints_filters(localized_params)).html_safe
   end
   
   def render_constraints_query(localized_params = params)
