@@ -1,0 +1,3 @@
+--exclude "spec/*,gems/*,features/*"
+--rails
+--aggregate coverage.data

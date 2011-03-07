@@ -1,0 +1,655 @@
+--- 
+document_list_mash: 
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    author_vern_display: "\xE2\x80\x8F\xD7\xA4\xD7\x99\xD7\xA0\xD7\xA7\xD7\x9C, \xD7\x97\xD7\x99\xD7\x99\xD7\x9D \xD7\x99\xD7\xA2\xD7\xA7\xD7\x91"
+    material_type_display: 
+    - 283 p.
+    title_vern_display: "\xE2\x80\x8F\xD7\xA9\xD7\x95\xD7\x93\xD7\x93\xD7\x99\xD6\xBE\xD7\x99\xD7\x9D \xD7\x99\xD7\x94\xD7\x95\xD7\x93\xD7\x99\xD7\x99\xD7\x9D :\xE2\x80\x8F"
+    isbn_t: 
+    - "9650101373"
+    pub_date: 
+    - "1984"
+    subtitle_display: "sipurim mafli\xCA\xBCim ha-mevusasim \xCA\xBBal \xCA\xBBuvdot hist\xCC\xA3oriyot"
+    id: "86207417"
+    lc_callnum_display: 
+    - G535 .F54 1984
+    author_display: Finkel, Chaim Jacob
+    language_facet: 
+    - Hebrew
+    published_vern_display: 
+    - "\xE2\x80\x8F\xD7\x99\xD7\xA8\xD7\x95\xD7\xA9\xD7\x9C\xD7\x99\xD7\x9D :\xE2\x80\x8F"
+    subject_topic_facet: 
+    - Jewish pirates
+    - Jewish criminals
+    title_display: Shodede-yam Yehudiyim
+    published_display: 
+    - Yerushalayim
+    subtitle_vern_display: "\xE2\x80\x8F\xD7\xA1\xD7\xA4\xD7\x95\xD7\xA8\xD7\x99\xD7\x9D \xD7\x9E\xD7\xA4\xD7\x9C\xD7\x99\xD7\x90\xD7\x99\xD7\x9D \xD7\x94\xD7\x9E\xD7\x91\xD7\x95\xD7\xA1\xD7\xA1\xD7\x99\xD7\x9D \xD7\xA2\xD7\x9C \xD7\xA2\xD7\x95\xD7\x91\xD7\x93\xD7\x95\xD7\xAA \xD7\x94\xD7\x99\xD7\xA1\xD7\x98\xD7\x95\xD7\xA8\xD7\x99\xD7\x95\xD7\xAA /\xE2\x80\x8F"
+    marc_display: "01657cam a2200337 a 4500001001300000003000400013005001700017008004100034010001700075035002600092040002800118042001400146043002100160050002000181066001100201100004900212245015200261246010000413246005600513260007400569300005100643504003500694650004700729650004300776650003900819880005300858880014800911880010201059880005901161880009901220   87931798 DLC20090121115059.0060428m19869999ir ah    b    000 0 per d  a   87931798   a(CStRLIN)DCLN06-B3656  aNjPcNjPdUkLSOAdDLC-R  alccopycat  aa------af------00aBP44b.M88 1986  c(3c(41 6880-01aMuvaḥḥid Abṭaḥī, Ḥujjat.106880-02aĀshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh /cbih qalam-i Ḥujjat Muvaḥḥid Abṭaḥī.3 6880-03aĀshnāyī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh306880-04aḤawzahʹhā-yi ʻilmīyah-ʼi Shīʻah  6880-05aIṣfahān :bḤawzah-i ʻIlmīyah,c1365-   [1986-      ]  av. <1> :bill. (some col.), facsims. ;c25 cm.  aBibliography: v. 1, p.451-455. 0aReligious institutionszIslamic countries. 0aShiitesxEducationzIslamic countries. 0aIslamic universities and colleges.1 6100-01/(3/r‏a‏موحد ابطحى، خجة.106245-02/(3/r‏a‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏c‏بقلم حجة موحد ابطحى.3 6246-03/(3/r‏a‏اشنايى با حوزه‌هاى علميۀ شيعه در طول تاريخ306246-04/(3/r‏a‏حوزه هاى علميۀ شيعه  6260-05/(3/r‏a‏اصفهان :‏b‏حوزۀ علميه،‏c‏‪1365- [1986-    ]‬."
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    material_type_display: 
+    - v. <1>
+    title_vern_display: "\xE2\x80\x8F\xD8\xA7\xD8\xB4\xD9\x86\xD8\xA7\xD8\xA6\xD9\x89 \xD8\xA8\xD8\xA7 \xD8\xAD\xD9\x88\xD8\xB2\xD9\x87\xE2\x80\x8C\xD9\x87\xD8\xA7\xD9\x89 \xD8\xB9\xD9\x84\xD9\x85\xD9\x8A\xDB\x80 \xD8\xB4\xD9\x8A\xD8\xB9\xD9\x87 \xD8\xAF\xD8\xB1 \xD8\xB7\xD9\x88\xD9\x84 \xD8\xAA\xD8\xA7\xD8\xB1\xD9\x8A\xD8\xAE /\xE2\x80\x8F"
+    subject_geo_facet: 
+    - Islamic countries
+    pub_date: 
+    - "1986"
+    id: "87931798"
+    lc_callnum_display: 
+    - BP44 .M88 1986
+    language_facet: 
+    - Persian
+    published_vern_display: 
+    - "\xE2\x80\x8F\xD8\xA7\xD8\xB5\xD9\x81\xD9\x87\xD8\xA7\xD9\x86 :\xE2\x80\x8F"
+    subject_topic_facet: 
+    - Religious institutions
+    - Shiites
+    - Islamic universities and colleges
+    title_display: "A\xCC\x84shna\xCC\x84\xCA\xBCi\xCC\x84 ba\xCC\x84 h\xCC\xA3awzah\xCA\xB9ha\xCC\x84-yi \xCA\xBBilmi\xCC\x84yah-\xCA\xBCi Shi\xCC\x84\xCA\xBBah dar t\xCC\xA3u\xCC\x84l-i ta\xCC\x84ri\xCC\x84kh"
+    published_display: 
+    - "Is\xCC\xA3faha\xCC\x84n"
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    material_type_display: 
+    - 65 p.
+    pub_date: 
+    - "1975"
+    subtitle_display: "t\xCA\xBBeoriul-met\xCA\xBBoduri narkvevi"
+    id: "90142413"
+    lc_callnum_display: 
+    - MLCSN 96/3906 (H)
+    author_display: "Lomt\xCA\xBBat\xCA\xBBiz\xCC\x87e, C\xCC\x8Cola, 1879-1915"
+    language_facet: 
+    - Georgian
+    subject_topic_facet: 
+    - Industrial workers; life style
+    title_display: "Mrecvelobis mus\xCC\x8Cakis c\xCA\xBBxovrebis cesi"
+    published_display: 
+    - "T\xCA\xBBbilisi"
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    material_type_display: 
+    - 5 v.
+    title_vern_display: !binary |
+      5YyX6Z+T44CA5rOV5Luk6ZuG44CA77yP
+
+    subject_geo_facet: 
+    - Korea (North)
+    pub_date: 
+    - "1990"
+    id: "92117465"
+    lc_callnum_display: 
+    - KPC13 .K67 1990
+    author_display: Korea (North)
+    language_facet: 
+    - Korean
+    published_vern_display: 
+    - !binary |
+      7ISc7Jq444CA5oyB5Yil5biC44CA77ya
+
+    subject_topic_facet: 
+    - Law
+    title_display: "Pukhan po\xCC\x86mnyo\xCC\x86ngjip"
+    published_display: 
+    - "So\xCC\x86ul T\xCA\xBBu\xCC\x86kpyo\xCC\x86lsi"
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    author_vern_display: "\xE2\x80\x8F\xD7\x99\xD7\xA9\xD7\xA8\xD7\x90\xD7\x9C \xD7\x9E\xD7\x90\xD7\x99\xD7\xA8,\xE2\x80\x8F \xE2\x80\x8F\xD7\x94\xD7\x9B\xD7\x94\xD7\x9F"
+    material_type_display: 
+    - v. <1-5>
+    title_vern_display: "\xE2\x80\x8F\xD7\xA1\xD7\xA4\xD7\xA8 \xD7\x9E\xD7\xA9\xD7\xA0\xD7\x94 \xD7\x91\xD7\xA8\xD7\x95\xD7\xA8\xD7\x94 :\xE2\x80\x8F"
+    pub_date: 
+    - "1992"
+    subtitle_display: "v\xCC\xA3e-hu perush yafeh u-menupeh \xCA\xBBal Shulh\xCC\xA3an \xCA\xBBarukh Orah\xCC\xA3 h\xCC\xA3ayim asher h\xCC\xA3iber Yosef K\xCC\xA3aro ... \xCA\xBBim h\xCC\xA3idushe dinim she-hishmit\xCC\xA3 ha-ga\xCA\xBCon ... v\xCC\xA3e-himtsi\xCA\xBCam ... Mosheh Iserlish"
+    id: "92828023"
+    lc_callnum_display: 
+    - BM520.88.A53 I88 1992b
+    author_display: Israel Meir, ha-Kohen, 1838-1933
+    language_facet: 
+    - Hebrew
+    published_vern_display: 
+    - "\xE2\x80\x8F[Jerusalem? :\xE2\x80\x8F"
+    subject_topic_facet: 
+    - Karo, Joseph ben Ephraim, 1488-1575
+    - Jewish law
+    - Judaism
+    title_display: Sefer Mishnah berurah
+    published_display: 
+    - Jerusalem?
+    subtitle_vern_display: "\xE2\x80\x8F\xD7\x95\xD7\x94\xD7\x95\xD7\x90 \xD7\xA4\xD7\x99\xD7\xA8\xD7\x95\xD7\xA9 \xD7\x99\xD7\xA4\xD7\x94 \xD7\x95\xD7\x9E\xD7\xA0\xD7\xA4\xD7\x94 \xD7\xA2\xD7\x9C \xD7\xA9\xD7\x9C\xD7\x97\xD7\x9F \xD7\xA2\xD7\xA8\xD7\x95\xD7\x9A \xD7\x90\xD7\xA8\xD7\x97 \xD7\x97\xD7\x99\xD7\x99\xD7\x9D \xD7\x90\xD7\xA9\xD7\xA8 \xD7\x97\xD7\x91\xD7\xA8 \xD7\x99\xD7\x95\xD7\xA1\xD7\xA3 \xD7\xA7\xD7\x90\xD7\xA8\xD7\x95 ... \xD7\xA2\xD7\x9D \xD7\x97\xD7\x99\xD7\x93\xD7\x95\xD7\xA9\xD7\x99 \xD7\x93\xD7\x99\xD7\xA0\xD7\x99\xD7\x9D \xD7\xA9\xD7\x94\xD7\xA9\xD7\x9E\xD7\x99\xD7\x98 \xD7\x94\xD7\x92\xD7\x90\xD7\x95\xD7\x9F ... \xD7\x95\xD7\x94\xD7\x9E\xD7\xA6\xD7\x99\xD7\x90\xD7\x9D \xD7\x9E\xD7\xA9\xD7\x94 \xD7\x90\xD7\x99\xD7\xA1\xD7\xA8\xD7\x9C\xD7\x99\xD7\xA9 /\xE2\x80\x8F"
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    author_vern_display: "\xEA\xB9\x80\xE3\x80\x80\xED\x99\x8D\xEC\x8B\xA0, 1947-"
+    material_type_display: 
+    - 289 p.
+    title_vern_display: !binary |
+      7JWE7KeB64+E44CA6re465+t44CA7KCA65+t44CA7IKs7Iut64uI6rmM
+
+    subject_geo_facet: 
+    - Seoul (Korea)
+    - Korea (South)
+    pub_date: 
+    - "1990"
+    subtitle_display: "kangnam yo\xCC\x86in kwa sin p\xCA\xBBalbulch\xCA\xBBul : Kim Hong-sin set\xCA\xBBae ru\xCC\x86p\xCA\xBBo"
+    id: "94120425"
+    lc_callnum_display: 
+    - HQ1765.5 .K46 1990
+    author_display: Kim, Hong-sin, 1947-
+    language_facet: 
+    - Korean
+    published_vern_display: 
+    - !binary |
+      7ISc7Jq4
+
+    subject_topic_facet: 
+    - Women
+    title_display: "Ajikto ku\xCC\x86ro\xCC\x86k cho\xCC\x86ro\xCC\x86k sasimnikka"
+    published_display: 
+    - "So\xCC\x86ul"
+    subtitle_vern_display: "\xEA\xB0\x95\xEB\x82\xA8\xE3\x80\x80\xEC\x97\xAC\xEC\x9D\xB8\xE3\x80\x80\xEA\xB3\xBC\xE3\x80\x80\xEC\x8B\xA0\xE3\x80\x80\xED\x8C\x94\xEB\xB6\x88\xEC\xB6\x9C : \xE9\x87\x91\xE3\x80\x80\xE6\xB4\xAA\xE4\xBF\xA1\xE3\x80\x80\xEC\x84\xB8\xED\x83\x9C\xE3\x80\x80\xEB\xA5\xB4\xED\x8F\xAC"
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    author_vern_display: "\xE2\x80\x8F\xD8\xB1\xD8\xAC\xD8\xA7\xD9\x8A\xD9\x89\xD8\x8C \xD9\x81\xD8\xB1\xD9\x87\xD9\x86\xDA\xAF ."
+    material_type_display: 
+    - 323 p.
+    title_vern_display: "\xE2\x80\x8F\xD9\x85\xD8\xB9\xD8\xB1\xD9\x83\xDB\x80 \xD8\xAC\xD9\x87\xD8\xA7\xD9\x86\xE2\x80\x8C\xD8\xA8\xD9\x8A\xD9\x86\xD9\x89\xD9\x87\xD8\xA7 :\xE2\x80\x8F"
+    subject_geo_facet: 
+    - Iran
+    pub_date: 
+    - "1994"
+    subtitle_display: "dar khiradvarzi\xCC\x84-i siya\xCC\x84si\xCC\x84 va huvi\xCC\x84yat-i ma\xCC\x84 I\xCC\x84ra\xCC\x84ni\xCC\x84ya\xCC\x84n"
+    id: "96933325"
+    lc_callnum_display: 
+    - DS274 .R327 1994
+    author_display: "Raja\xCC\x84yi\xCC\x84, Farhang, 1952 or 3-"
+    language_facet: 
+    - Persian
+    published_vern_display: 
+    - "\xE2\x80\x8F\xD8\xAA\xD9\x87\xD8\xB1\xD8\xA7\xD9\x86 :\xE2\x80\x8F"
+    subject_topic_facet: 
+    - Political science
+    - Iranians
+    title_display: "Ma\xCA\xBBrakah-\xCA\xBCi jaha\xCC\x84n\xCA\xB9bi\xCC\x84ni\xCC\x84\xCA\xB9ha\xCC\x84"
+    published_display: 
+    - "Tihra\xCC\x84n"
+    subtitle_vern_display: "\xE2\x80\x8F\xD8\xAF\xD8\xB1 \xD8\xAE\xD8\xB1\xD8\xAF\xD9\x88\xD8\xB1\xD8\xB2\xD9\x89 \xD8\xB3\xD9\x8A\xD8\xA7\xD8\xB3\xD9\x89 \xD9\x88 \xD9\x87\xD9\x88\xD9\x8A\xD8\xAA \xD9\x85\xD8\xA7 \xD8\xA7\xD9\x8A\xD8\xB1\xD8\xA7\xD9\x86\xD9\x8A\xD8\xA7\xD9\x86 /\xE2\x80\x8F"
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    material_type_display: 
+    - v. <1   >
+    pub_date: 
+    - "2000"
+    id: "2001417245"
+    lc_callnum_display: 
+    - PK3798.N313 S87 2000
+    author_display: "Na\xCC\x84ra\xCC\x84yan\xCC\xA3a Pan\xCC\xA3d\xCC\xA3ita\xCC\x84ca\xCC\x84rya, 13th cent"
+    language_facet: 
+    - Sanskrit
+    subject_topic_facet: 
+    - Madhva, 13th cent
+    title_display: "Sumadhvavijayah\xCC\xA3"
+    published_display: 
+    - Bangalore
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    author_vern_display: "\xD9\x88\xD9\x84\xD8\xAF \xD9\x85\xD9\x88\xD9\x84\xD8\xA7\xD9\x8A \xD8\xA7\xD9\x84\xD8\xB2\xD9\x8A\xD9\x86\xD8\x8C \xD8\xB3\xD9\x8A\xD8\xAF \xD9\x85\xD8\xAD\xD9\x85\xD8\xAF \xD9\x88\xD9\x84\xD8\xAF \xD8\xB3\xD9\x8A\xD8\xAF"
+    material_type_display: 
+    - 128 p.
+    title_vern_display: "\xD8\xA7\xD9\x84\xD8\xAD\xD8\xB1\xD8\xA8 \xD9\x81\xD9\x8A \xD8\xA7\xD9\x84\xD8\xA3\xD9\x84\xD9\x81\xD9\x8A\xD8\xA9 \xD8\xA7\xD9\x84\xD8\xAB\xD8\xA7\xD9\x84\xD8\xAB\xD8\xA9"
+    pub_date: 
+    - "2003"
+    id: "2003546302"
+    subject_era_facet: 
+    - 21st century
+    lc_callnum_display: 
+    - U21.2 .W85 2003
+    author_display: "Wuld Mawla\xCC\x84y al-Zayn, Sayyid Muh\xCC\xA3ammad wuld Sayyid"
+    language_facet: 
+    - Arabic
+    published_vern_display: 
+    - !binary |
+      2YbZiNin2YPYtNmI2Lc=
+
+    subject_topic_facet: 
+    - War
+    - Military art and science
+    - Warfare, Conventional
+    - Military weapons
+    title_display: "al-H\xCC\xA3arb fi\xCC\x84 al-alfi\xCC\x84yah al-tha\xCC\x84lithah"
+    published_display: 
+    - "Nuwa\xCC\x84kshu\xCC\x84t\xCC\xA3"
+  - !map:Mash 
+    score: 1.0
+    format: Book
+    material_type_display: 
+    - 149 p.
+    subject_geo_facet: 
+    - Bon-brgya (China)
+    pub_date: 
+    - "2004"
+    id: "2004310986"
+    lc_callnum_display: 
+    - DS797.82.B663 B75 2004
+    author_display: "Bstan-\xCA\xBCdzin-mkhas-grub, 1967-"
+    language_facet: 
+    - Tibetan
+    title_display: "Bon-brgya\xCA\xBCi lo rgyus lugs gn\xCC\x83is gsal ba\xCA\xBCi me lon\xCC\x87 z\xCC\x81es bya ba bz\xCC\x81ugs so"
+    published_display: 
+    - Lha-sa
+params: !map:HashWithIndifferentAccess 
+  format: atom
+  action: index
+  content_format: "marc"
+  f: !map:HashWithIndifferentAccess 
+    format: 
+    - Book
+  controller: catalog
+  page: "2"
+solr_response: 
+  response: 
+    maxScore: 1.0
+    docs: 
+    - score: 1.0
+      format: Book
+      author_vern_display: "\xE2\x80\x8F\xD7\xA4\xD7\x99\xD7\xA0\xD7\xA7\xD7\x9C, \xD7\x97\xD7\x99\xD7\x99\xD7\x9D \xD7\x99\xD7\xA2\xD7\xA7\xD7\x91"
+      material_type_display: 
+      - 283 p.
+      title_vern_display: "\xE2\x80\x8F\xD7\xA9\xD7\x95\xD7\x93\xD7\x93\xD7\x99\xD6\xBE\xD7\x99\xD7\x9D \xD7\x99\xD7\x94\xD7\x95\xD7\x93\xD7\x99\xD7\x99\xD7\x9D :\xE2\x80\x8F"
+      isbn_t: 
+      - "9650101373"
+      pub_date: 
+      - "1984"
+      subtitle_display: "sipurim mafli\xCA\xBCim ha-mevusasim \xCA\xBBal \xCA\xBBuvdot hist\xCC\xA3oriyot"
+      id: "86207417"
+      lc_callnum_display: 
+      - G535 .F54 1984
+      author_display: Finkel, Chaim Jacob
+      language_facet: 
+      - Hebrew
+      published_vern_display: 
+      - "\xE2\x80\x8F\xD7\x99\xD7\xA8\xD7\x95\xD7\xA9\xD7\x9C\xD7\x99\xD7\x9D :\xE2\x80\x8F"
+      subject_topic_facet: 
+      - Jewish pirates
+      - Jewish criminals
+      title_display: Shodede-yam Yehudiyim
+      published_display: 
+      - Yerushalayim
+      subtitle_vern_display: "\xE2\x80\x8F\xD7\xA1\xD7\xA4\xD7\x95\xD7\xA8\xD7\x99\xD7\x9D \xD7\x9E\xD7\xA4\xD7\x9C\xD7\x99\xD7\x90\xD7\x99\xD7\x9D \xD7\x94\xD7\x9E\xD7\x91\xD7\x95\xD7\xA1\xD7\xA1\xD7\x99\xD7\x9D \xD7\xA2\xD7\x9C \xD7\xA2\xD7\x95\xD7\x91\xD7\x93\xD7\x95\xD7\xAA \xD7\x94\xD7\x99\xD7\xA1\xD7\x98\xD7\x95\xD7\xA8\xD7\x99\xD7\x95\xD7\xAA /\xE2\x80\x8F"
+    - score: 1.0
+      format: Book
+      author_vern_display: "\xE2\x80\x8F\xD9\x85\xD9\x88\xD8\xAD\xD8\xAF \xD8\xA7\xD8\xA8\xD8\xB7\xD8\xAD\xD9\x89\xD8\x8C \xD8\xAE\xD8\xAC\xD8\xA9"
+      material_type_display: 
+      - v. <1>
+      title_vern_display: "\xE2\x80\x8F\xD8\xA7\xD8\xB4\xD9\x86\xD8\xA7\xD8\xA6\xD9\x89 \xD8\xA8\xD8\xA7 \xD8\xAD\xD9\x88\xD8\xB2\xD9\x87\xE2\x80\x8C\xD9\x87\xD8\xA7\xD9\x89 \xD8\xB9\xD9\x84\xD9\x85\xD9\x8A\xDB\x80 \xD8\xB4\xD9\x8A\xD8\xB9\xD9\x87 \xD8\xAF\xD8\xB1 \xD8\xB7\xD9\x88\xD9\x84 \xD8\xAA\xD8\xA7\xD8\xB1\xD9\x8A\xD8\xAE /\xE2\x80\x8F"
+      subject_geo_facet: 
+      - Islamic countries
+      pub_date: 
+      - "1986"
+      id: "87931798"
+      lc_callnum_display: 
+      - BP44 .M88 1986
+      author_display: "Muvah\xCC\xA3h\xCC\xA3id Abt\xCC\xA3ah\xCC\xA3i\xCC\x84, H\xCC\xA3ujjat"
+      language_facet: 
+      - Persian
+      published_vern_display: 
+      - "\xE2\x80\x8F\xD8\xA7\xD8\xB5\xD9\x81\xD9\x87\xD8\xA7\xD9\x86 :\xE2\x80\x8F"
+      subject_topic_facet: 
+      - Religious institutions
+      - Shiites
+      - Islamic universities and colleges
+      title_display: "A\xCC\x84shna\xCC\x84\xCA\xBCi\xCC\x84 ba\xCC\x84 h\xCC\xA3awzah\xCA\xB9ha\xCC\x84-yi \xCA\xBBilmi\xCC\x84yah-\xCA\xBCi Shi\xCC\x84\xCA\xBBah dar t\xCC\xA3u\xCC\x84l-i ta\xCC\x84ri\xCC\x84kh"
+      published_display: 
+      - "Is\xCC\xA3faha\xCC\x84n"
+    - score: 1.0
+      format: Book
+      material_type_display: 
+      - 65 p.
+      pub_date: 
+      - "1975"
+      subtitle_display: "t\xCA\xBBeoriul-met\xCA\xBBoduri narkvevi"
+      id: "90142413"
+      lc_callnum_display: 
+      - MLCSN 96/3906 (H)
+      author_display: "Lomt\xCA\xBBat\xCA\xBBiz\xCC\x87e, C\xCC\x8Cola, 1879-1915"
+      language_facet: 
+      - Georgian
+      subject_topic_facet: 
+      - Industrial workers; life style
+      title_display: "Mrecvelobis mus\xCC\x8Cakis c\xCA\xBBxovrebis cesi"
+      published_display: 
+      - "T\xCA\xBBbilisi"
+    - score: 1.0
+      format: Book
+      material_type_display: 
+      - 5 v.
+      title_vern_display: !binary |
+        5YyX6Z+T44CA5rOV5Luk6ZuG44CA77yP
+
+      subject_geo_facet: 
+      - Korea (North)
+      pub_date: 
+      - "1990"
+      id: "92117465"
+      lc_callnum_display: 
+      - KPC13 .K67 1990
+      author_display: Korea (North)
+      language_facet: 
+      - Korean
+      published_vern_display: 
+      - !binary |
+        7ISc7Jq444CA5oyB5Yil5biC44CA77ya
+
+      subject_topic_facet: 
+      - Law
+      title_display: "Pukhan po\xCC\x86mnyo\xCC\x86ngjip"
+      published_display: 
+      - "So\xCC\x86ul T\xCA\xBBu\xCC\x86kpyo\xCC\x86lsi"
+    - score: 1.0
+      format: Book
+      author_vern_display: "\xE2\x80\x8F\xD7\x99\xD7\xA9\xD7\xA8\xD7\x90\xD7\x9C \xD7\x9E\xD7\x90\xD7\x99\xD7\xA8,\xE2\x80\x8F \xE2\x80\x8F\xD7\x94\xD7\x9B\xD7\x94\xD7\x9F"
+      material_type_display: 
+      - v. <1-5>
+      title_vern_display: "\xE2\x80\x8F\xD7\xA1\xD7\xA4\xD7\xA8 \xD7\x9E\xD7\xA9\xD7\xA0\xD7\x94 \xD7\x91\xD7\xA8\xD7\x95\xD7\xA8\xD7\x94 :\xE2\x80\x8F"
+      pub_date: 
+      - "1992"
+      subtitle_display: "v\xCC\xA3e-hu perush yafeh u-menupeh \xCA\xBBal Shulh\xCC\xA3an \xCA\xBBarukh Orah\xCC\xA3 h\xCC\xA3ayim asher h\xCC\xA3iber Yosef K\xCC\xA3aro ... \xCA\xBBim h\xCC\xA3idushe dinim she-hishmit\xCC\xA3 ha-ga\xCA\xBCon ... v\xCC\xA3e-himtsi\xCA\xBCam ... Mosheh Iserlish"
+      id: "92828023"
+      lc_callnum_display: 
+      - BM520.88.A53 I88 1992b
+      author_display: Israel Meir, ha-Kohen, 1838-1933
+      language_facet: 
+      - Hebrew
+      published_vern_display: 
+      - "\xE2\x80\x8F[Jerusalem? :\xE2\x80\x8F"
+      subject_topic_facet: 
+      - Karo, Joseph ben Ephraim, 1488-1575
+      - Jewish law
+      - Judaism
+      title_display: Sefer Mishnah berurah
+      published_display: 
+      - Jerusalem?
+      subtitle_vern_display: "\xE2\x80\x8F\xD7\x95\xD7\x94\xD7\x95\xD7\x90 \xD7\xA4\xD7\x99\xD7\xA8\xD7\x95\xD7\xA9 \xD7\x99\xD7\xA4\xD7\x94 \xD7\x95\xD7\x9E\xD7\xA0\xD7\xA4\xD7\x94 \xD7\xA2\xD7\x9C \xD7\xA9\xD7\x9C\xD7\x97\xD7\x9F \xD7\xA2\xD7\xA8\xD7\x95\xD7\x9A \xD7\x90\xD7\xA8\xD7\x97 \xD7\x97\xD7\x99\xD7\x99\xD7\x9D \xD7\x90\xD7\xA9\xD7\xA8 \xD7\x97\xD7\x91\xD7\xA8 \xD7\x99\xD7\x95\xD7\xA1\xD7\xA3 \xD7\xA7\xD7\x90\xD7\xA8\xD7\x95 ... \xD7\xA2\xD7\x9D \xD7\x97\xD7\x99\xD7\x93\xD7\x95\xD7\xA9\xD7\x99 \xD7\x93\xD7\x99\xD7\xA0\xD7\x99\xD7\x9D \xD7\xA9\xD7\x94\xD7\xA9\xD7\x9E\xD7\x99\xD7\x98 \xD7\x94\xD7\x92\xD7\x90\xD7\x95\xD7\x9F ... \xD7\x95\xD7\x94\xD7\x9E\xD7\xA6\xD7\x99\xD7\x90\xD7\x9D \xD7\x9E\xD7\xA9\xD7\x94 \xD7\x90\xD7\x99\xD7\xA1\xD7\xA8\xD7\x9C\xD7\x99\xD7\xA9 /\xE2\x80\x8F"
+    - score: 1.0
+      format: Book
+      author_vern_display: "\xEA\xB9\x80\xE3\x80\x80\xED\x99\x8D\xEC\x8B\xA0, 1947-"
+      material_type_display: 
+      - 289 p.
+      title_vern_display: !binary |
+        7JWE7KeB64+E44CA6re465+t44CA7KCA65+t44CA7IKs7Iut64uI6rmM
+
+      subject_geo_facet: 
+      - Seoul (Korea)
+      - Korea (South)
+      pub_date: 
+      - "1990"
+      subtitle_display: "kangnam yo\xCC\x86in kwa sin p\xCA\xBBalbulch\xCA\xBBul : Kim Hong-sin set\xCA\xBBae ru\xCC\x86p\xCA\xBBo"
+      id: "94120425"
+      lc_callnum_display: 
+      - HQ1765.5 .K46 1990
+      author_display: Kim, Hong-sin, 1947-
+      language_facet: 
+      - Korean
+      published_vern_display: 
+      - !binary |
+        7ISc7Jq4
+
+      subject_topic_facet: 
+      - Women
+      title_display: "Ajikto ku\xCC\x86ro\xCC\x86k cho\xCC\x86ro\xCC\x86k sasimnikka"
+      published_display: 
+      - "So\xCC\x86ul"
+      subtitle_vern_display: "\xEA\xB0\x95\xEB\x82\xA8\xE3\x80\x80\xEC\x97\xAC\xEC\x9D\xB8\xE3\x80\x80\xEA\xB3\xBC\xE3\x80\x80\xEC\x8B\xA0\xE3\x80\x80\xED\x8C\x94\xEB\xB6\x88\xEC\xB6\x9C : \xE9\x87\x91\xE3\x80\x80\xE6\xB4\xAA\xE4\xBF\xA1\xE3\x80\x80\xEC\x84\xB8\xED\x83\x9C\xE3\x80\x80\xEB\xA5\xB4\xED\x8F\xAC"
+    - score: 1.0
+      format: Book
+      author_vern_display: "\xE2\x80\x8F\xD8\xB1\xD8\xAC\xD8\xA7\xD9\x8A\xD9\x89\xD8\x8C \xD9\x81\xD8\xB1\xD9\x87\xD9\x86\xDA\xAF ."
+      material_type_display: 
+      - 323 p.
+      title_vern_display: "\xE2\x80\x8F\xD9\x85\xD8\xB9\xD8\xB1\xD9\x83\xDB\x80 \xD8\xAC\xD9\x87\xD8\xA7\xD9\x86\xE2\x80\x8C\xD8\xA8\xD9\x8A\xD9\x86\xD9\x89\xD9\x87\xD8\xA7 :\xE2\x80\x8F"
+      subject_geo_facet: 
+      - Iran
+      pub_date: 
+      - "1994"
+      subtitle_display: "dar khiradvarzi\xCC\x84-i siya\xCC\x84si\xCC\x84 va huvi\xCC\x84yat-i ma\xCC\x84 I\xCC\x84ra\xCC\x84ni\xCC\x84ya\xCC\x84n"
+      id: "96933325"
+      lc_callnum_display: 
+      - DS274 .R327 1994
+      author_display: "Raja\xCC\x84yi\xCC\x84, Farhang, 1952 or 3-"
+      language_facet: 
+      - Persian
+      published_vern_display: 
+      - "\xE2\x80\x8F\xD8\xAA\xD9\x87\xD8\xB1\xD8\xA7\xD9\x86 :\xE2\x80\x8F"
+      subject_topic_facet: 
+      - Political science
+      - Iranians
+      title_display: "Ma\xCA\xBBrakah-\xCA\xBCi jaha\xCC\x84n\xCA\xB9bi\xCC\x84ni\xCC\x84\xCA\xB9ha\xCC\x84"
+      published_display: 
+      - "Tihra\xCC\x84n"
+      subtitle_vern_display: "\xE2\x80\x8F\xD8\xAF\xD8\xB1 \xD8\xAE\xD8\xB1\xD8\xAF\xD9\x88\xD8\xB1\xD8\xB2\xD9\x89 \xD8\xB3\xD9\x8A\xD8\xA7\xD8\xB3\xD9\x89 \xD9\x88 \xD9\x87\xD9\x88\xD9\x8A\xD8\xAA \xD9\x85\xD8\xA7 \xD8\xA7\xD9\x8A\xD8\xB1\xD8\xA7\xD9\x86\xD9\x8A\xD8\xA7\xD9\x86 /\xE2\x80\x8F"
+    - score: 1.0
+      format: Book
+      material_type_display: 
+      - v. <1   >
+      pub_date: 
+      - "2000"
+      id: "2001417245"
+      lc_callnum_display: 
+      - PK3798.N313 S87 2000
+      author_display: "Na\xCC\x84ra\xCC\x84yan\xCC\xA3a Pan\xCC\xA3d\xCC\xA3ita\xCC\x84ca\xCC\x84rya, 13th cent"
+      language_facet: 
+      - Sanskrit
+      subject_topic_facet: 
+      - Madhva, 13th cent
+      title_display: "Sumadhvavijayah\xCC\xA3"
+      published_display: 
+      - Bangalore
+    - score: 1.0
+      format: Book
+      author_vern_display: "\xD9\x88\xD9\x84\xD8\xAF \xD9\x85\xD9\x88\xD9\x84\xD8\xA7\xD9\x8A \xD8\xA7\xD9\x84\xD8\xB2\xD9\x8A\xD9\x86\xD8\x8C \xD8\xB3\xD9\x8A\xD8\xAF \xD9\x85\xD8\xAD\xD9\x85\xD8\xAF \xD9\x88\xD9\x84\xD8\xAF \xD8\xB3\xD9\x8A\xD8\xAF"
+      material_type_display: 
+      - 128 p.
+      title_vern_display: "\xD8\xA7\xD9\x84\xD8\xAD\xD8\xB1\xD8\xA8 \xD9\x81\xD9\x8A \xD8\xA7\xD9\x84\xD8\xA3\xD9\x84\xD9\x81\xD9\x8A\xD8\xA9 \xD8\xA7\xD9\x84\xD8\xAB\xD8\xA7\xD9\x84\xD8\xAB\xD8\xA9"
+      pub_date: 
+      - "2003"
+      id: "2003546302"
+      subject_era_facet: 
+      - 21st century
+      lc_callnum_display: 
+      - U21.2 .W85 2003
+      author_display: "Wuld Mawla\xCC\x84y al-Zayn, Sayyid Muh\xCC\xA3ammad wuld Sayyid"
+      language_facet: 
+      - Arabic
+      published_vern_display: 
+      - !binary |
+        2YbZiNin2YPYtNmI2Lc=
+
+      subject_topic_facet: 
+      - War
+      - Military art and science
+      - Warfare, Conventional
+      - Military weapons
+      title_display: "al-H\xCC\xA3arb fi\xCC\x84 al-alfi\xCC\x84yah al-tha\xCC\x84lithah"
+      published_display: 
+      - "Nuwa\xCC\x84kshu\xCC\x84t\xCC\xA3"
+    - score: 1.0
+      format: Book
+      material_type_display: 
+      - 149 p.
+      subject_geo_facet: 
+      - Bon-brgya (China)
+      pub_date: 
+      - "2004"
+      id: "2004310986"
+      lc_callnum_display: 
+      - DS797.82.B663 B75 2004
+      author_display: "Bstan-\xCA\xBCdzin-mkhas-grub, 1967-"
+      language_facet: 
+      - Tibetan
+      title_display: "Bon-brgya\xCA\xBCi lo rgyus lugs gn\xCC\x83is gsal ba\xCA\xBCi me lon\xCC\x87 z\xCC\x81es bya ba bz\xCC\x81ugs so"
+      published_display: 
+      - Lha-sa
+    start: 10
+    numFound: 30
+  facet_counts: 
+    facet_dates: {}
+
+    facet_queries: {}
+
+    facet_fields: 
+      format: 
+      - Book
+      - 30
+      subject_geo_facet: 
+      - India
+      - 2
+      - Iran
+      - 2
+      - Japan
+      - 2
+      - Bon-brgya (China)
+      - 1
+      - Bridgeton
+      - 1
+      - China
+      - 1
+      - Economic history
+      - 1
+      - Hong Kong (China)
+      - 1
+      - Islamic countries
+      - 1
+      - Israel
+      - 1
+      - Kazakhstan
+      - 1
+      pub_date: 
+      - "2008"
+      - 4
+      - "1976"
+      - 2
+      - "1986"
+      - 2
+      - "1990"
+      - 2
+      - "1997"
+      - 2
+      - "2000"
+      - 2
+      - "1941"
+      - 1
+      - "1946"
+      - 1
+      - "1952"
+      - 1
+      - "1962"
+      - 1
+      - "1975"
+      - 1
+      subject_era_facet: 
+      - 20th century
+      - 3
+      - 1997-
+      - 2
+      - 21st century
+      - 2
+      - 1990-
+      - 1
+      - 2005-2015
+      - 1
+      - "Koryo\xCC\x86 period, 935-1392"
+      - 1
+      lc_1letter_facet: 
+      - B - Philosophy, Psychology, Religion
+      - 6
+      - D - World History
+      - 6
+      - H - Social Sciences
+      - 4
+      - P - Language & Literature
+      - 4
+      - M - Music
+      - 3
+      - K - Law
+      - 2
+      - E - History of the Americas (General)
+      - 1
+      - G - Geography, Anthropology, Recreation
+      - 1
+      - U - Military Science
+      - 1
+      language_facet: 
+      - Tibetan
+      - 6
+      - Hebrew
+      - 3
+      - Korean
+      - 3
+      - Persian
+      - 3
+      - Sanskrit
+      - 3
+      - Urdu
+      - 3
+      - Arabic
+      - 2
+      - English
+      - 2
+      - Japanese
+      - 2
+      - Russian
+      - 2
+      - Chinese
+      - 1
+      subject_topic_facet: 
+      - Japanese drama
+      - 2
+      - Kubo, Sakae, 1901-1958
+      - 2
+      - Political plays, Japanese
+      - 2
+      - Theater
+      - 2
+      - Women
+      - 2
+      - Accident insurance
+      - 1
+      - Buddhism
+      - 1
+      - Delaware Indians
+      - 1
+      - Delaware women
+      - 1
+      - Education and state
+      - 1
+      - Family allowances
+      - 1
+  responseHeader: 
+    status: 0
+    QTime: 6
+    params: 
+      fq: "{!raw f=format}Book"
+      f.subject_facet.facet.limit: "21"
+      qt: search
+      facet.field: 
+      - format
+      - pub_date
+      - subject_topic_facet
+      - language_facet
+      - lc_1letter_facet
+      - subject_geo_facet
+      - subject_era_facet
+      facet.limit: "11"
+      facet: "true"
+      start: "10"
+      rows: "10"
+      wt: ruby
