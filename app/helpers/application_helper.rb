@@ -69,11 +69,11 @@ module ApplicationHelper
   # stylesheet_links << ["stylesheet1.css", "stylesheet2.css", {:cache => "mykey"}]
   # javascript_includes << ["myjavascript.js", {:plugin => :myplugin} ]
   def render_head_content
-    (render_stylesheet_includes +
+    render_stylesheet_includes +
     render_js_includes +
     ( respond_to?(:extra_head_content) ?
-        extra_head_content.join("\n") :
-      "")).html_safe
+        extra_head_content.join("\n").html_safe :
+      "")
   end
   
   ##
