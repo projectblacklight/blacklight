@@ -171,6 +171,19 @@ describe BlacklightHelper do
     end
    end
 
+  describe "render_extra_head_content" do
+    def extra_head_content
+      ['<link rel="a">', '<link rel="b">']
+    end
+
+    it "should include content specified in controller#extra_head_content" do
+      html = render_extra_head_content
+
+      html.should have_tag("link[rel=a]")
+      html.should have_tag("link[rel=b]")
+    end
+  end
+
    describe "render_head_content" do
     describe "with no methods defined" do
       it "should return empty string without complaint" do
