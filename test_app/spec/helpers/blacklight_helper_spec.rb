@@ -262,6 +262,10 @@ describe BlacklightHelper do
      it "should handle multi-valued fields correctly" do
        document_partial_name({"format" => ["My Format", "My OtherFormat"]}).should == "my_format_my_otherformat"
      end
+     it "should remove - characters because they will throw errors" do
+       document_partial_name({"format" => "My-Format"}).should == "my_format"
+       document_partial_name({"format" => ["My-Format",["My Other-Format"]]}).should == "my_format_my_other_format"
+     end
    end
 
    describe "link_to_document" do

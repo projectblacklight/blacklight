@@ -282,14 +282,18 @@ I  end
     ', '
   end
   
-  # currently only used by the render_document_partial helper method (below)
+  # Return a normalized partial name that can be used to contruct view partial path
   def document_partial_name(document)
     # .to_s is necessary otherwise the default return value is not always a string
     # using "_" as sep. to more closely follow the views file naming conventions
-    if document[Blacklight.config[:show][:display_type]].respond_to?(:join)
-      "#{document[Blacklight.config[:show][:display_type]].join(" ")}".parameterize("_").to_s
-    else
-      "#{document[Blacklight.config[:show][:display_type]]}".parameterize("_").to_s
+    # parameterize uses "-" as the default sep. which throws errors
+    display_type = document[Blacklight.config[:show][:display_type]]
+    if display_type
+      if display_type.respond_to?(:join)
+        "#{display_type.join(" ").gsub("-"," ")}".parameterize("_").to_s
+      else
+        "#{display_type.gsub("-"," ")}".parameterize("_").to_s
+      end
     end
   end
 
