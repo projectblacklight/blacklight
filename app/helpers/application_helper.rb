@@ -71,9 +71,7 @@ module ApplicationHelper
   def render_head_content
     render_stylesheet_includes +
     render_js_includes +
-    ( respond_to?(:extra_head_content) ?
-        extra_head_content.join("\n").html_safe :
-      "")
+    render_extra_head_content
   end
   
   ##
@@ -101,6 +99,15 @@ module ApplicationHelper
     javascript_includes.collect do |args|
       javascript_include_tag(*args)
     end.join("\n").html_safe
+  end
+
+  ## 
+  # Assumes controller has a #extra_head_content method
+  #
+  def render_extra_head_content
+    return "" unless respond_to?(:extra_head_content)
+
+    extra_head_content.join("\n").html_safe
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
