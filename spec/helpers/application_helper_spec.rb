@@ -243,6 +243,24 @@ describe ApplicationHelper do
      end
    end
 
+   describe "document_partial_name" do
+     it "should handle normal formats correctly" do
+       document_partial_name({"format" => "myformat"}).should == "myformat"
+     end
+     it "should handle spaces correctly" do
+       document_partial_name({"format" => "my format"}).should == "my_format"
+     end
+     it "should handle capitalization correctly" do
+       document_partial_name({"format" => "MyFormat"}).should == "myformat"
+     end
+     it "should handle puncuation correctly" do
+       document_partial_name({"format" => "My.Format"}).should == "my_format"
+     end
+     it "should handle multi-valued fields correctly" do
+       document_partial_name({"format" => ["My Format", "My OtherFormat"]}).should == "my_format_my_otherformat"
+     end
+   end
+
    describe "link_to_document" do
      it "should consist of the document title wrapped in a <a>" do
       data = {'id'=>'123456','title_display'=>['654321'] }

@@ -284,7 +284,13 @@ module ApplicationHelper
   
   # currently only used by the render_document_partial helper method (below)
   def document_partial_name(document)
-    document[Blacklight.config[:show][:display_type]]
+    # .to_s is necessary otherwise the default return value is not always a string
+    # using "_" as sep. to more closely follow the views file naming conventions
+    if document[Blacklight.config[:show][:display_type]].respond_to?(:join)
+      "#{document[Blacklight.config[:show][:display_type]].join(" ")}".parameterize("_").to_s
+    else
+      "#{document[Blacklight.config[:show][:display_type]]}".parameterize("_").to_s
+    end
   end
 
   # given a doc and action_name, this method attempts to render a partial template
