@@ -7,8 +7,8 @@
 </div>
 
 <div class="pageEntriesInfo">
-  <%= raw(item_page_entry_info) %>
-  <%=link_to raw("start over"), catalog_index_path, :id=>"startOverLink" %>
+  <%= item_page_entry_info %>
+  <%=link_to "start over", catalog_index_path, :id=>"startOverLink" %>
 </div>
 
 <%= render 'previous_next_doc' %>
