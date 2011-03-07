@@ -129,7 +129,7 @@ module ApplicationHelper
         seen.add(spec[:content_type]) if options[:unique]
       end
     end
-    return html
+    return html.html_safe
   end
 
   def render_opensearch_response_metadata
