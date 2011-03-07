@@ -34,7 +34,7 @@ module RenderConstraintsHelper
   end
 
   def render_constraints_filters(localized_params = params)
-     return "" unless localized_params[:f]
+     return "".html_safe unless localized_params[:f]
      content = ""
      localized_params[:f].each_pair do |facet,values|
         values.each do |val|
@@ -81,7 +81,7 @@ module RenderConstraintsHelper
   end
 
   def render_search_to_s_q(params)
-    return "" if params[:q].blank?
+    return "".html_safe if params[:q].blank?
     
     label = (params[:search_field] == Blacklight.default_search_field[:key]) ? 
       nil :
@@ -96,7 +96,7 @@ module RenderConstraintsHelper
       render_search_to_s_element(Blacklight.config[:facet][:labels][facet_field],
         value_list.collect do |value|
           render_filter_value(value)
-        end.join(content_tag(:span, 'and', :class =>'label'))
+        end.join(content_tag(:span, 'and', :class =>'label')).html_safe
       )    
     end.join(" \n ").html_safe    
   end
@@ -109,7 +109,7 @@ module RenderConstraintsHelper
   end
 
   def render_filter_name name
-    return "" if name.blank?
+    return "".html_safe if name.blank?
     content_tag(:span, h(name) + ":", :class => 'filterName')
   end
 
