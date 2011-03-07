@@ -242,7 +242,7 @@ module BlacklightHelper
   # Used in citation view for displaying the title
   def citation_title(document)
     document[Blacklight.config[:show][:html_title]]
-I  end
+  end
   
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
