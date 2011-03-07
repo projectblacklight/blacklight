@@ -69,11 +69,11 @@ module ApplicationHelper
   # stylesheet_links << ["stylesheet1.css", "stylesheet2.css", {:cache => "mykey"}]
   # javascript_includes << ["myjavascript.js", {:plugin => :myplugin} ]
   def render_head_content
-    render_stylesheet_includes +
+    (render_stylesheet_includes +
     render_js_includes +
     ( respond_to?(:extra_head_content) ?
         extra_head_content.join("\n") :
-      "")
+      "")).html_safe
   end
   
   ##
@@ -86,7 +86,7 @@ module ApplicationHelper
     
     stylesheet_links.collect do |args|
       stylesheet_link_tag(*args)
-    end.join("\n")
+    end.join("\n").html_safe
   end
   
 
@@ -100,7 +100,7 @@ module ApplicationHelper
   
     javascript_includes.collect do |args|
       javascript_include_tag(*args)
-    end.join("\n")
+    end.join("\n").html_safe
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
