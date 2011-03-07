@@ -16,13 +16,13 @@ class CatalogController < ApplicationController
   # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
   # The index action will more than likely throw this one.
   # Example, when the standard query parser is used, and a user submits a "bad" query.
-  rescue_from RSolr::RequestError, :with => :rsolr_request_error
+  rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   
   # get search results from the solr index
   def index
 
-    extra_head_content << '<link rel="alternate" type="application/rss+xml" title="RSS for results" href="'+ url_for(params.merge("format" => "rss")) + '">'
-    extra_head_content << '<link rel="alternate" type="application/atom+xml" title="Atom for results" href="'+ url_for(params.merge("format" => "atom")) + '">'
+    extra_head_content << @template.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => "RSS for results")
+    extra_head_content << @template.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => "Atom for results")
     
     (@response, @document_list) = get_search_results
     @filters = params[:f] || []

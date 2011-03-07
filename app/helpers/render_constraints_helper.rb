@@ -95,26 +95,26 @@ module RenderConstraintsHelper
     params[:f].collect do |facet_field, value_list|
       render_search_to_s_element(Blacklight.config[:facet][:labels][facet_field],
         value_list.collect do |value|
-          "<span class='filterValue'>#{h(value)}</span>"
-        end.join(" <span class='label'>and</span> "),
-        :escape_value => false
+          render_filter_value(value)
+        end.join(content_tag(:span, 'and', :class =>'label'))
       )    
-    end.join(" \n ")    
+    end.join(" \n ").html_safe    
   end
 
   # value can be Array, in which case elements are joined with
   # 'and'.   Pass in option :escape_value => false to pass in pre-rendered
   # html for value. key with escape_key if needed.  
   def render_search_to_s_element(key, value, options = {})
-    options[:escape_value] = true unless options.has_key?(:escape_value)
-    options[:escape_key] = true unless options.has_key?(:escape_key)
-    
-    key = h(key) if options[:escape_key]
-    value = h(value) if options[:escape_value]
-    
-     "<span class='constraint'>" +
-     (key.blank? ? "" : "<span class='filterName'>#{key}:</span>")  +
-     "<span class='filterValue'>#{value}</span></span>"
+    content_tag(:span, render_filter_name(key) + render_filter_value(value), :class => 'constraint')
+  end
+
+  def render_filter_name name
+    return "" if name.blank?
+    content_tag(:span, h(name) + ":", :class => 'filterName')
+  end
+
+  def render_filter_value value
+    content_tag(:span, h(value), :class => 'filterValue')
   end
   
 end

@@ -224,7 +224,7 @@ module ApplicationHelper
     @document[Blacklight.config[:show][:heading]] || @document.id
   end
   def render_document_heading
-    '<h1>' + document_heading + '</h1>'
+    content_tag(:h1, document_heading)
   end
   
   # Used in the show view for setting the main html document title
@@ -275,7 +275,7 @@ module ApplicationHelper
 
   def render_field_value value=nil
     value = [value] unless value.is_a? Array
-    return value.map { |v| html_escape v }.join field_value_separator 
+    return value.map { |v| html_escape v }.join(field_value_separator).html_safe
   end  
 
   def field_value_separator
@@ -317,16 +317,14 @@ module ApplicationHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)
+    (link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)).html_safe
   end
 
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
-    '<span class="selected label">' +
-    render_facet_value(facet_solr_field, item, :suppress_link => true) +
-    '</span>' +
-    link_to("[remove]", remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
+    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected label") +
+      link_to("[remove]", remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
   end
 
   # Renders a count value for facet limits. Can be over-ridden locally
@@ -513,7 +511,7 @@ module ApplicationHelper
       end
 
       href_attr = "href=\"#{url}\"" unless href
-      "<a #{href_attr}#{tag_options}>#{h(name) || h(url)}</a>"
+      "<a #{href_attr}#{tag_options}>#{h(name) || h(url)}</a>".html_safe
     end
   end
 
