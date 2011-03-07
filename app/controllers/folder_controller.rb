@@ -6,9 +6,10 @@ class FolderController < BlacklightController
   def index
     @response, @documents = get_solr_response_for_field_values("id",session[:folder_document_ids] || [])
   end
+    
 
-  # add a document_id to the folder
-  def create
+  # add a document_id to the folder. :id of action is solr doc id 
+  def update
     session[:folder_document_ids] = session[:folder_document_ids] || []
     session[:folder_document_ids] << params[:id] 
     # Rails 3 uses a one line notation for setting the flash notice.
@@ -19,19 +20,25 @@ class FolderController < BlacklightController
     end
   end
  
-  # remove a document_id from the folder
+  # remove a document_id from the folder. :id of action is solr_doc_id
   def destroy
     session[:folder_document_ids].delete(params[:id])
-    flash[:notice] = "#{params[:title] || "Item"} successfully removed from Folder"
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js { render :json => session[:folder_document_ids] }
-    end
+    
+    unless request.xhr?      
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "#{params[:title] || "Item"} successfully removed from selected items"
+          redirect_to :back
+        end
+      end
+    else
+      render :text => "OK"
+    end        
   end
  
   # get rid of the items in the folder
   def clear
-    flash[:notice] = "Cleared Folder"
+    flash[:notice] = "Cleared Selected Items"
     session[:folder_document_ids] = []
     respond_to do |format|
       format.html { redirect_to :back }

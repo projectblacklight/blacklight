@@ -66,7 +66,6 @@ EOF
     # Can't get this any more DRY, because we need this order.
     better_migration_template "create_searches.rb"
     better_migration_template "create_bookmarks.rb"
-    better_migration_template "remove_acts_as_taggable.rb"
     better_migration_template "remove_editable_fields_from_bookmarks.rb"
     better_migration_template "add_user_types_to_bookmarks_searches.rb"
   end

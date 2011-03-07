@@ -754,25 +754,27 @@ describe 'Blacklight::SolrHelper' do
   describe "facet_limit_for" do
 
     it "should return specified value for facet_field specified" do
-      @solr_helper.facet_limit_for("subject_facet").should == Blacklight.config[:facet][:limits]["subject_facet"]
+      @solr_helper.facet_limit_for("subject_topic_facet").should == Blacklight.config[:facet][:limits]["subject_topic_facet"]
     end
     it "@solr_helper.facet_limit_hash should return hash with key being facet_field and value being configured limit" do
       @solr_helper.facet_limit_hash.should == Blacklight.config[:facet][:limits]
     end
     it "should handle no facet_limits in config" do
-      Blacklight.config[:facet][:limits].has_key?("subject_facet").should be_true
-      @solr_helper.facet_limit_for("subject_facet").should == 20
+      Blacklight.config[:facet][:field_names].include?("subject_topic_facet").should be_true
+      Blacklight.config[:facet][:limits].has_key?("subject_topic_facet").should be_true
+      @solr_helper.facet_limit_for("subject_topic_facet").should == 20
       fl = Blacklight.config[:facet][:limits]
       Blacklight.config[:facet][:limits] = nil
-      @solr_helper.facet_limit_for("subject_facet").should be_nil
+      @solr_helper.facet_limit_for("subject_topic_facet").should be_nil
       Blacklight.config[:facet][:limits] = fl
     end
     it "solr_search_params should handle no facet_limits in config" do
-      Blacklight.config[:facet][:limits].has_key?("subject_facet").should be_true
-      @solr_helper.solr_search_params[:"f.subject_facet.facet.limit"].should == 21
+      Blacklight.config[:facet][:field_names].include?("subject_topic_facet").should be_true
+      Blacklight.config[:facet][:limits].has_key?("subject_topic_facet").should be_true
+      @solr_helper.solr_search_params[:"f.subject_topic_facet.facet.limit"].should == 21
       fl = Blacklight.config[:facet][:limits]
       Blacklight.config[:facet][:limits] = nil
-      @solr_helper.solr_search_params.has_key?(:"f.subject_facet.facet.limit").should be_false
+      @solr_helper.solr_search_params.has_key?(:"f.subject_topic_facet.facet.limit").should be_false
       Blacklight.config[:facet][:limits] = fl
     end
     describe "for 'true' configured values" do

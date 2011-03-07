@@ -11,23 +11,24 @@ module CatalogHelper
     # an RSolr::Ext::Response works.  Perhaps it duck-types to something
     # from will_paginate?
   	def page_entries_info(collection, options = {})
-      start = collection.next_page == 2 ? 1 : collection.previous_page * collection.per_page + 1
+      start = (collection.current_page - 1) * collection.per_page + 1
       total_hits = @response.total
       start_num = format_num(start)
-      end_num = format_num(start + collection.per_page - 1)
+      end_num = format_num(start + collection.size - 1)
       total_num = format_num(total_hits)
+    #  end_num = total_num if total_hits < (start + collection.per_page - 1)
 
       entry_name = options[:entry_name] ||
         (collection.empty?? 'entry' : collection.first.class.name.underscore.sub('_', ' '))
 
       if collection.total_pages < 2
         case collection.size
-        when 0; "No #{entry_name.pluralize} found"
-        when 1; "Displaying <b>1</b> #{entry_name}"
-        else;   "Displaying <b>all #{total_num}</b> #{entry_name.pluralize}"
+        when 0; "No #{h(entry_name.pluralize)} found".html_safe
+        when 1; "Displaying <b>1</b> #{h(entry_name)}".html_safe
+        else;   "Displaying <b>all #{total_num}</b> #{entry_name.pluralize}".html_safe
         end
       else
-        "Displaying #{entry_name.pluralize} <b>#{start_num} - #{end_num}</b> of <b>#{total_num}</b>"
+        "Displaying #{h(entry_name.pluralize)} <b>#{start_num} - #{end_num}</b> of <b>#{total_num}</b>".html_safe
       end
   end
 
@@ -36,7 +37,7 @@ module CatalogHelper
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change. 
   def item_page_entry_info
-    "Showing item <b>#{session[:search][:counter].to_i} of #{format_num(session[:search][:total])}</b> from your search."
+    "Showing item <b>#{session[:search][:counter].to_i} of #{format_num(session[:search][:total])}</b> from your search.".html_safe
   end
   
   # Look up search field user-displayable label

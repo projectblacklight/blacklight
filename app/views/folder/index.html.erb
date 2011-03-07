@@ -10,7 +10,7 @@
   <%= render "catalog/results_pagination" %>
     <ul class="folderTools">
       <li class="cite">
-        <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.get(:id)}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
+        <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.get(:id)}), {:id => 'citeLink', :name => 'citation'} %>
       </li>
       <li class="refworks">
         <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@documents} %>
@@ -19,7 +19,7 @@
         <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}, :format => 'endnote')%>
       </li>
       <li class="email">
-        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
+        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink", :id => "emailLink" %>
       </li>
       <li class="sms">
         <%= link_to "SMS", sms_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
@@ -40,15 +40,16 @@
     <% # container for a single doc -%>
     <div class="document">
       <% # header bar for doc items in index view -%>
-      <div class="documentHeader yui-g">
-        <div class="yui-u documentFunctions">          
+      <div class="documentHeader">
+        <div class="documentFunctions">          
           <div class="in_folder">
             <%= render :partial=>'catalog/folder_control', :locals=>{:document=>document} %>
           </div>
-        </div>
-        <div class="yui-u">
-          <h3 class="index_title"><%= i + 1 + @response.params[:start].to_i%>. <%= link_to_document document, :label => document_show_link_field, :results_view => false %></h3>
-        </div>
+        </div>  
+      
+        <h3 class="index_title"><%= i + 1 + @response.params[:start].to_i%>. <%= link_to_document document, :label => document_show_link_field, :results_view => false %></h3>
+        
+              
       </div>
       
 	    <%= render_document_partial document, :index %>

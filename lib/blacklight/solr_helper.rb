@@ -205,7 +205,7 @@ module Blacklight::SolrHelper
     
       solr_response = Blacklight.solr.find(  self.solr_search_params(extra_controller_params) )
   
-      document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc)}  
+      document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
 
       Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
@@ -230,7 +230,7 @@ module Blacklight::SolrHelper
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_response = Blacklight.solr.find solr_doc_params(id, extra_controller_params)
     raise InvalidSolrID.new if solr_response.docs.empty?
-    document = SolrDocument.new(solr_response.docs.first)
+    document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
   end
   
@@ -245,7 +245,7 @@ module Blacklight::SolrHelper
       'spellcheck' => 'false'
     }
     solr_response = Blacklight.solr.find( self.solr_search_params(solr_params.merge(extra_controller_params)) )
-    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc) }
+    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
     [solr_response,document_list]
   end
   

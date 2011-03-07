@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # folder_path helper method is created automatically and sets an action of "delete" 
   match "folder/clear", :to => "folder#clear", :as => "clear_folder"
   match "folder/destroy", :to => "folder#destroy"
-  resources :folder, :only => [:index, :create, :destroy] 
+  resources :folder, :only => [:index, :update, :destroy] 
   
   # Search History
   match "search_history/clear", :to => "search_history#clear", :as => "clear_search_history"

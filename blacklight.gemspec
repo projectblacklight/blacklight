@@ -41,8 +41,8 @@ Gem::Specification.new do |s|
   s.add_dependency "acts-as-taggable-on"
   s.add_dependency "paperclip"
   s.add_dependency "capistrano"
-  s.add_dependency "rsolr",  '0.12.1' # source :gemcutter
-  s.add_dependency "rsolr-ext", '0.12.1' # source :gemcutter
+  s.add_dependency "rsolr",  '1.0.0' # source :gemcutter
+  s.add_dependency "rsolr-ext", '1.0.0' # source :gemcutter
 
   # For testing the generators
   s.add_dependency "rspec-rails", "~>2.3.0"

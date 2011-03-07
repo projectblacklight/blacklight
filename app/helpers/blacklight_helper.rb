@@ -130,7 +130,7 @@ module BlacklightHelper
         seen.add(spec[:content_type]) if options[:unique]
       end
     end
-    return html
+    return html.html_safe
   end
 
   def render_opensearch_response_metadata
@@ -175,21 +175,23 @@ module BlacklightHelper
   def render_document_list_partial options={}
     render :partial=>'catalog/document_list'
   end
-
   
   # Save function area for search results 'index' view, normally
   # renders next to title. Includes just 'Folder' by default.
   def render_index_doc_actions(document, options={})   
     content_tag("div", :class=>"documentFunctions") do
-      "#{render(:partial => 'folder_control', :locals => {:document=> document}.merge(options))}
-       #{render(:partial => 'bookmark_control', :locals => {:document=> document}.merge(options))}".html_safe
+      raw("#{render(:partial => 'bookmark_control', :locals => {:document=> document}.merge(options))}
+       #{render(:partial => 'folder_control', :locals => {:document=> document}.merge(options))}")
     end
   end
   
   # Save function area for item detail 'show' view, normally
   # renders next to title. By default includes 'Folder' and 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
-    render_index_doc_actions(document, options)
+    content_tag("div", :class=>"documentFunctions") do
+      raw("#{render(:partial => 'bookmark_control', :locals => {:document=> document}.merge(options))}
+       #{render(:partial => 'folder_control', :locals => {:document=> document}.merge(options))}")
+    end
   end
   
   # used in the catalog/_index_partials/_default view
@@ -222,7 +224,7 @@ module BlacklightHelper
     @document[Blacklight.config[:show][:heading]] || @document.id
   end
   def render_document_heading
-    '<h1>' + document_heading + '</h1>'
+    content_tag(:h1, document_heading)
   end
   
   # Used in the show view for setting the main html document title
@@ -233,7 +235,7 @@ module BlacklightHelper
   # Used in citation view for displaying the title
   def citation_title(document)
     document[Blacklight.config[:show][:html_title]]
-  end
+I  end
   
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
@@ -273,7 +275,7 @@ module BlacklightHelper
 
   def render_field_value value=nil
     value = [value] unless value.is_a? Array
-    return value.map { |v| v.html_safe }.join field_value_separator 
+    return value.map { |v| html_escape v }.join(field_value_separator).html_safe
   end  
 
   def field_value_separator
@@ -315,16 +317,14 @@ module BlacklightHelper
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)
+    (link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)).html_safe
   end
 
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
-    '<span class="selected label">' +
-    render_facet_value(facet_solr_field, item, :suppress_link => true) +
-    '</span>' +
-    link_to("[remove]", remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
+    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected label") +
+      link_to("[remove]", remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
   end
 
   # Renders a count value for facet limits. Can be over-ridden locally
@@ -418,8 +418,8 @@ module BlacklightHelper
   def render_document_index_label doc, opts
     label = nil
     label ||= doc.get(opts[:label]) if opts[:label].instance_of? Symbol
-    label ||= opts[:label] if opts[:label].instance_of? String
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
+    label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
   end
 
@@ -511,7 +511,7 @@ module BlacklightHelper
       end
 
       href_attr = "href=\"#{url}\"" unless href
-      "<a #{href_attr}#{tag_options}>#{h(name) || h(url)}</a>"
+      "<a #{href_attr}#{tag_options}>#{h(name) || h(url)}</a>".html_safe
     end
   end
 

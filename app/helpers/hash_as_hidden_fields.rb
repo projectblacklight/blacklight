@@ -23,7 +23,7 @@ module HashAsHiddenFields
       end
     end
     
-    hidden_fields.join("\n")
+    hidden_fields.join("\n").html_safe
   end
 
   protected

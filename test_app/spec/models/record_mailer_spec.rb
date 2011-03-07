@@ -5,14 +5,15 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 
 describe RecordMailer do
-  before(:each) do
+
+  before do
     @documents = []
     @documents.push(stub_model(SolrDocument, :id => '123456', :to_marc => sample_marc, :[] => 'book'))
   end
   describe "email" do
     before(:each) do
       details = {:to => 'test@test.com', :message => "This is my message"}
-      @email = RecordMailer.email_record(@documents,details,'projectblacklight.org','projectblacklight.org:3000')
+      @email = RecordMailer.email_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org', :protocol => 'https'}) 
     end
     it "should receive the TO paramater and send the email to that address" do
       @email.to.should == ['test@test.com']
@@ -31,12 +32,17 @@ describe RecordMailer do
       @email.body.should =~ /Author: Janetzky, Kurt/
       @email.body.should =~ /projectblacklight.org:3000/
     end
+    it "should use https URLs when protocol is set" do
+      details = {:to => 'test@test.com', :message => "This is my message"}
+      @https_email = RecordMailer.create_email_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org', :protocol => 'https'})
+      @https_email.body.should =~ %r|https://projectblacklight.org/|
+    end
   end
   
   describe "SMS" do
     before(:each) do
       details = {:to => '5555555555', :carrier => 'att'}
-      @sms = RecordMailer.sms_record(@documents,details,'projectblacklight.org','projectblacklight.org:3000')
+      @sms = RecordMailer.sms_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org:3000'})
     end
     it "should create the correct TO address for the SMS email" do
       @sms.to.should == ['5555555555@txt.att.net']
@@ -50,8 +56,12 @@ describe RecordMailer do
     it "should print out the correct body" do
       @sms.body.should =~ /The horn/
       @sms.body.should =~ /by Janetzky, Kurt/
-      @sms.body.should =~ /projectblacklight.org:300/
-      
+      @sms.body.should =~ /projectblacklight.org:300/      
+    end
+    it "should use https URL when protocol is set" do
+      details = {:to => '5555555555', :carrier => 'att'}
+      @https_sms = RecordMailer.create_sms_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org', :protocol => 'https'})
+      @https_sms.body.should =~ %r|https://projectblacklight.org/|
     end
   end
 

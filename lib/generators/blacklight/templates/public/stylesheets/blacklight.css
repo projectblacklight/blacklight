@@ -243,16 +243,18 @@ font-weight:bold;
 
 /* 'Document functions', Bookmark/Folder. Appear on both results/index and 
    detail/show views. */
-.documentFunctions {text-align:right; float: right; margin-left: 0.5em; margin-bottom: 0.5em;}
-.documentFunctions .deleteFolder, .documentFunctions .addFolder, .documentFunctions .bookmark_toggle {float:right;}
-label.toggle_bookmark {
+.documentFunctions { float: right; margin-left: 1em; margin-bottom: 0.5em;}
+.documentFunctions .folder_toggle, .documentFunctions .bookmark_toggle { display: inline; }
+label.toggle_bookmark, label.toggle_folder {
   /* the ajaxy checkbox for toggle */
   display: inline-block;
-  min-width: 9em;
+  min-width: 8.5em;
   text-align: left;
   font-weight: inherit;
   color: inherit;
 }
+label.toggle_folder { min-width: 6em; }
+label.checked { font-weight: bold; }
 
 
 /* Search Results */

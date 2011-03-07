@@ -5,5 +5,5 @@
 <%- if document.to_marc and ! document.to_marc['100'].nil? -%>
 <%= " by #{document.to_marc['100']['a']}" unless document.to_marc['100']['a'].nil? %>
 <% end -%>
-Link: <%= catalog_path(document[:id], :only_path => false, :host => @host) %>
+Link: <%= catalog_path(document[:id], {:only_path => false}.merge(@url_gen_params) ) %>
 <% end %>
