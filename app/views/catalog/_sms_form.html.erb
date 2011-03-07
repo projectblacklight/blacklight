@@ -1,6 +1,5 @@
 <% carriers = 
 {
-'Please select your carrier' => '',
 'AT&T' => 'att',
 'Verizon' => 'verizon',
 'T Mobile' => 'tmobile',
@@ -16,7 +15,7 @@
   <%= label_tag(:to, "Phone Number:") %><br/>
   <%= text_field_tag :to %><br/>
   <%= label_tag(:carrier, "Carrier:") %><br/>
-  <%= select_tag(:carrier, options_for_select(carriers, '')) %><br/>
+  <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift(["Please select your carrier",'']), '')) %><br/>
   <% @documents.each do |doc| %>
      <%=hidden_field_tag "id[]", doc.get(:id)%>
   <% end %>

@@ -70,11 +70,11 @@ module BlacklightHelper
   # stylesheet_links << ["stylesheet1.css", "stylesheet2.css", {:cache => "mykey"}]
   # javascript_includes << ["myjavascript.js", {:plugin => :myplugin} ]
   def render_head_content
-    render_stylesheet_includes +
+    (render_stylesheet_includes +
     render_js_includes +
     ( respond_to?(:extra_head_content) ?
         extra_head_content.join("\n") :
-      "")
+      "")).html_safe
   end
   
   ##
@@ -87,7 +87,7 @@ module BlacklightHelper
     
     stylesheet_links.collect do |args|
       stylesheet_link_tag(*args)
-    end.join("\n")
+    end.join("\n").html_safe
   end
   
 
@@ -101,7 +101,7 @@ module BlacklightHelper
   
     javascript_includes.collect do |args|
       javascript_include_tag(*args)
-    end.join("\n")
+    end.join("\n").html_safe
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
@@ -284,7 +284,13 @@ I  end
   
   # currently only used by the render_document_partial helper method (below)
   def document_partial_name(document)
-    document[Blacklight.config[:show][:display_type]]
+    # .to_s is necessary otherwise the default return value is not always a string
+    # using "_" as sep. to more closely follow the views file naming conventions
+    if document[Blacklight.config[:show][:display_type]].respond_to?(:join)
+      "#{document[Blacklight.config[:show][:display_type]].join(" ")}".parameterize("_").to_s
+    else
+      "#{document[Blacklight.config[:show][:display_type]]}".parameterize("_").to_s
+    end
   end
 
   # given a doc and action_name, this method attempts to render a partial template

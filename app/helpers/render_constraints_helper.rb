@@ -46,7 +46,7 @@ module RenderConstraintsHelper
 				end
      end 
 
-     return content    
+     return content.html_safe    
   end
 
   # Render a label/value constraint on the screen. Can be called
