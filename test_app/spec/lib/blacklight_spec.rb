@@ -19,7 +19,7 @@ describe Blacklight do
   context 'root' do
     
     it 'should return the full path to the BL plugin' do
-      blroot = File.expand_path(File.join(__FILE__, '..', '..', '..'))
+      blroot = File.expand_path(File.join(__FILE__, '..', '..', '..', '..'))
       Blacklight.root.should == blroot
     end
     

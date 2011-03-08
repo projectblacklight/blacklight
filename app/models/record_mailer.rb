@@ -23,7 +23,7 @@ class RecordMailer < ActionMailer::Base
       to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
     end
     @documents      = documents
-    @host           = host
+    @host           = from_host
     @url_gen_params = url_gen_params
     mail(:to => to, :from => "no-reply@" << from_host, :subject => "")
   end

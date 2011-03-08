@@ -14,11 +14,11 @@ describe BlacklightController do
         controller.send(:default_html_head)
       end
       it "should setup js and css defaults" do
-        controller.javascript_includes.should include(["jquery-1.4.2.min.js", "jquery-ui-1.8.1.custom.min.js", "application", {:plugin=>:blacklight}])#find do |item|
+        controller.javascript_includes.should include(["jquery-1.4.2.min.js", "jquery-ui-1.8.1.custom.min.js", "blacklight", {:plugin=>:blacklight}])#find do |item|
         #  item == ["jquery-1.4.2.min.js", "jquery-ui-1.7.2.custom.min.js", "blacklight", "application", "accordion", "lightbox", {:plugin=>:blacklight}]
         #end
 
-        controller.stylesheet_links.should include(["yui", "jquery/ui-lightness/jquery-ui-1.8.1.custom.css", "application", {:media=>"all", :plugin=>:blacklight}])
+        controller.stylesheet_links.should include(["yui", "jquery/ui-lightness/jquery-ui-1.8.1.custom.css", "blacklight", {:media=>"all", :plugin=>:blacklight}])
       end
     end
   end

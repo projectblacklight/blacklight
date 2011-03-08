@@ -30,7 +30,7 @@ describe RecordMailer do
     it "should print out the correct body" do
       @email.body.should =~ /Title: The horn /
       @email.body.should =~ /Author: Janetzky, Kurt/
-      @email.body.should =~ /projectblacklight.org:3000/
+      @email.body.should =~ /projectblacklight.org/
     end
     it "should use https URLs when protocol is set" do
       details = {:to => 'test@test.com', :message => "This is my message"}
