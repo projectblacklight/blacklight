@@ -16,6 +16,7 @@ describe RenderConstraintsHelper do
           span.should have_selector("span.filterName", :content => "key:")
           span.should have_selector("span.filterValue", :content => "value")
         end
+        response.html_safe?.should == true
       end
       it "should escape them that need escaping" do
         response = helper.render_search_to_s_element("key>", "value>")
@@ -30,6 +31,7 @@ describe RenderConstraintsHelper do
             s3.to_s.should match(/value&gt;/)
           end
         end
+        response.html_safe?.should == true
       end
       it "should not escape with options set thus" do
         response = helper.render_search_to_s_element("key>", "value>", :escape_key => false, :escape_value => false)
@@ -37,6 +39,7 @@ describe RenderConstraintsHelper do
           span.should have_selector("span.filterName", :content => "key>:")
           span.should have_selector("span.filterValue", :content => "value>")
         end
+        response.html_safe?.should == true
       end
     end
 
@@ -50,6 +53,7 @@ describe RenderConstraintsHelper do
 
         response.should include( helper.render_search_to_s_q(@params))
         response.should include( helper.render_search_to_s_filters(@params))
+        response.html_safe?.should == true
       end
     end
     

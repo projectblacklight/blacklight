@@ -17,7 +17,7 @@ end
 # when starting solr test server during functional tests use:
 # 
 #    rake SOLR_CONSOLE=true
-require File.expand_path (File.join (File.dirname(__FILE__), 'test_solr_server.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'test_solr_server.rb'))
 
 
 SOLR_PARAMS = {

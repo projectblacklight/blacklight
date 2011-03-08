@@ -34,7 +34,7 @@ describe RecordMailer do
     end
     it "should use https URLs when protocol is set" do
       details = {:to => 'test@test.com', :message => "This is my message"}
-      @https_email = RecordMailer.create_email_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org', :protocol => 'https'})
+      @https_email = RecordMailer.email_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org', :protocol => 'https'})
       @https_email.body.should =~ %r|https://projectblacklight.org/|
     end
   end
@@ -60,7 +60,7 @@ describe RecordMailer do
     end
     it "should use https URL when protocol is set" do
       details = {:to => '5555555555', :carrier => 'att'}
-      @https_sms = RecordMailer.create_sms_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org', :protocol => 'https'})
+      @https_sms = RecordMailer.sms_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org', :protocol => 'https'})
       @https_sms.body.should =~ %r|https://projectblacklight.org/|
     end
   end
