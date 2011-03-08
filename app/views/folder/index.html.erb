@@ -8,31 +8,8 @@
   <div class="pageEntriesInfo"></div>
   <%= render "catalog/sort_and_per_page" %>
   <%= render "catalog/results_pagination" %>
-    <ul class="folderTools">
-      <li class="cite">
-        <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.get(:id)}), {:id => 'citeLink', :name => 'citation'} %>
-      </li>
-      <li class="refworks">
-        <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@documents} %>
-      </li>
-      <li class="endnote">
-        <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}, :format => 'endnote')%>
-      </li>
-      <li class="email">
-        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink", :id => "emailLink" %>
-      </li>
-      <li class="sms">
-        <%= link_to "SMS", sms_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink" %>
-      </li>
-      <% if current_user %>  
-        <li>
-          <%= render :partial=>'catalog/bookmark_form', :locals=>{:documents=>@documents} %>
-        </li>  
-      <% end %>
-      <li>
-        <%= link_to "Clear Selected Items", clear_folder_path, :method => :delete %>
-      </li>
-    </ul>
+  
+  <%= render 'tools' %>  
 <% end %>
 
 <div id="documents">  
