@@ -84,6 +84,9 @@ describe BlacklightHelper do
         link_to_with_data("Foo", "http://www.example.com", :method => :put, :data => {:key => "value"})
       )
     end
+    it "should be html_safe" do
+      link_to_with_data("Foo", "http://www.example.com", :method => :put, :data => {:key => "value"}).html_safe?.should == true
+    end
   end
   
   describe "link_to_query" do
@@ -107,6 +110,11 @@ describe BlacklightHelper do
       tag = link_to_query(query)
       tag.should =~ /qt=author_search/
       tag.should_not =~ /page/
+    end
+    it "should be html_safe" do
+      query = "brilliant"
+      tag = link_to_query(query)
+      tag.html_safe?.should == true
     end
   end
 
@@ -151,6 +159,7 @@ describe BlacklightHelper do
       html.should have_tag("link[href=/plugin_assets/blacklight/stylesheets/my_stylesheet.css][rel=stylesheet][type=text/css]")
       end
       html.should have_tag("link[href=/stylesheets/other_stylesheet.css][rel=stylesheet][type=text/css]")
+      html.html_safe?.should == true
     end
   end
   
@@ -168,6 +177,8 @@ describe BlacklightHelper do
       end
       
       html.should have_selector("script[src='/javascripts/other_js.js'][type='text/javascript']")      
+
+      html.html_safe?.should == true
     end
    end
 
@@ -181,6 +192,8 @@ describe BlacklightHelper do
 
       html.should have_tag("link[rel=a]")
       html.should have_tag("link[rel=b]")
+
+      html.html_safe?.should == true
     end
   end
 
@@ -189,6 +202,7 @@ describe BlacklightHelper do
       it "should return empty string without complaint" do
       lambda {render_head_content}.should_not raise_error
       render_head_content.should be_blank
+      render_head_content.html_safe?.should == true
       end
     end
     describe "with methods defined" do
@@ -256,6 +270,7 @@ describe BlacklightHelper do
       @document = SolrDocument.new(Blacklight.config[:show][:heading] => "A Fake Document")
 
       render_document_heading.should have_selector("h1", :content => document_heading, :count => 1)
+      render_document_heading.html_safe?.should == true
      end
    end
 
@@ -301,6 +316,12 @@ describe BlacklightHelper do
       data = {'id'=>'123456'}
       @document = SolrDocument.new(data)
       link_to_document(@document, { :label => :title_display }).should have_selector("a", :content => '123456', :count => 1)
+     end
+
+     it "should be html safe" do
+      data = {'id'=>'123456'}
+      @document = SolrDocument.new(data)
+      link_to_document(@document, { :label => :title_display }).html_safe?.should == true
      end
    end
 
@@ -438,6 +459,11 @@ describe BlacklightHelper do
       response = render_link_rel_alternates(@document, :exclude => [:weird_dup])
 
       response.should_not have_selector("link[href$='.weird_dup']")
+    end
+
+    it "should be html safe" do
+      response = render_link_rel_alternates(@document)
+      response.html_safe?.should == true
     end
     
   end
