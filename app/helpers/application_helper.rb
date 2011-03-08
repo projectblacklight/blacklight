@@ -80,7 +80,7 @@ module ApplicationHelper
   # See #render_head_content for instructions on local code or plugins
   # adding stylesheets. 
   def render_stylesheet_includes
-    return "" unless respond_to?(:stylesheet_links)
+    return "".html_safe unless respond_to?(:stylesheet_links)
     
     stylesheet_links.collect do |args|
       stylesheet_link_tag(*args)
@@ -94,7 +94,7 @@ module ApplicationHelper
   # See #render_head_content for instructions on local code or plugins
   # adding js files. 
   def render_js_includes
-    return "" unless respond_to?(:javascript_includes)    
+    return "".html_safe unless respond_to?(:javascript_includes)    
   
     javascript_includes.collect do |args|
       javascript_include_tag(*args)
@@ -105,7 +105,7 @@ module ApplicationHelper
   # Assumes controller has a #extra_head_content method
   #
   def render_extra_head_content
-    return "" unless respond_to?(:extra_head_content)
+    return "".html_safe unless respond_to?(:extra_head_content)
 
     extra_head_content.join("\n").html_safe
   end

@@ -57,42 +57,54 @@ describe CatalogHelper do
       @response = MockResponse.new :total => 0
       @collection = MockCollection.new :total => @response.total
 
-      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "No entry_names found"
+      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html.should == "No entry_names found"
+      html.html_safe?.should == true
     end
 
     it "with a single result" do
       @response = MockResponse.new :total => 1
       @collection = MockCollection.new :total => @response.total
 
-      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying <b>1</b> entry_name"
+      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html.should == "Displaying <b>1</b> entry_name"
+      html.html_safe?.should == true
     end
 
     it "with a single page of results" do
       @response = MockResponse.new :total => 7
       @collection = MockCollection.new :total => @response.total
 
-      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying <b>all 7</b> entry_names"
+      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html.should == "Displaying <b>all 7</b> entry_names"
+      html.html_safe?.should == true
     end
 
     it "on the first page of multiple pages of results" do
       @response = MockResponse.new :total => 15
       @collection = MockCollection.new :total => @response.total, :per_page => 10
 
-      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>1 - 10</b> of <b>15</b>"
+      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html.should == "Displaying entry_names <b>1 - 10</b> of <b>15</b>"
+      html.html_safe?.should == true
     end
 
     it "on the second page of multiple pages of results" do
       @response = MockResponse.new :total => 47
       @collection = MockCollection.new :total => @response.total, :per_page => 10, :current_page => 2
 
-      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>11 - 20</b> of <b>47</b>"
+      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html.should == "Displaying entry_names <b>11 - 20</b> of <b>47</b>"
+      html.html_safe?.should == true
     end
 
     it "on the last page of results" do
       @response = MockResponse.new :total => 47
       @collection = MockCollection.new :total => @response.total, :per_page => 10, :current_page => 5
 
-      page_entries_info(@collection, { :entry_name => 'entry_name' }).should == "Displaying entry_names <b>41 - 47</b> of <b>47</b>"
+      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html.should == "Displaying entry_names <b>41 - 47</b> of <b>47</b>"
+      html.html_safe?.should == true
     end
 
   end

@@ -16,6 +16,7 @@ describe RenderConstraintsHelper do
           with_tag("span.filterName", :text => "key:")
           with_tag("span.filterValue", :text => "value")
         end
+        response.html_safe?.should == true
       end
       it "should escape them that need escaping" do
         response = helper.render_search_to_s_element("key>", "value>")
@@ -23,6 +24,7 @@ describe RenderConstraintsHelper do
           with_tag("span.filterName", :text => "key&gt;:")
           with_tag("span.filterValue", :text => "value&gt;")
         end
+        response.html_safe?.should == true
       end
       it "should not escape with options set thus" do
         response = helper.render_search_to_s_element("key>".html_safe, "value>".html_safe)
@@ -30,6 +32,7 @@ describe RenderConstraintsHelper do
           with_tag("span.filterName", :text => "key>:")
           with_tag("span.filterValue", :text => "value>")
         end
+        response.html_safe?.should == true
       end
     end
 
@@ -43,6 +46,7 @@ describe RenderConstraintsHelper do
 
         response.should include( helper.render_search_to_s_q(params))
         response.should include( helper.render_search_to_s_filters(params))
+        response.html_safe?.should == true
       end
     end
     
