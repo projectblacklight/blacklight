@@ -71,9 +71,7 @@ module ApplicationHelper
   def render_head_content
     render_stylesheet_includes +
     render_js_includes +
-    ( respond_to?(:extra_head_content) ?
-        extra_head_content.join("\n") :
-      "")
+    render_extra_head_content
   end
   
   ##
@@ -82,11 +80,11 @@ module ApplicationHelper
   # See #render_head_content for instructions on local code or plugins
   # adding stylesheets. 
   def render_stylesheet_includes
-    return "" unless respond_to?(:stylesheet_links)
+    return "".html_safe unless respond_to?(:stylesheet_links)
     
     stylesheet_links.collect do |args|
       stylesheet_link_tag(*args)
-    end.join("\n")
+    end.join("\n").html_safe
   end
   
 
@@ -96,11 +94,20 @@ module ApplicationHelper
   # See #render_head_content for instructions on local code or plugins
   # adding js files. 
   def render_js_includes
-    return "" unless respond_to?(:javascript_includes)    
+    return "".html_safe unless respond_to?(:javascript_includes)    
   
     javascript_includes.collect do |args|
       javascript_include_tag(*args)
-    end.join("\n")
+    end.join("\n").html_safe
+  end
+
+  ## 
+  # Assumes controller has a #extra_head_content method
+  #
+  def render_extra_head_content
+    return "".html_safe unless respond_to?(:extra_head_content)
+
+    extra_head_content.join("\n").html_safe
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
@@ -129,7 +136,7 @@ module ApplicationHelper
         seen.add(spec[:content_type]) if options[:unique]
       end
     end
-    return html
+    return html.html_safe
   end
 
   def render_opensearch_response_metadata
@@ -282,9 +289,19 @@ module ApplicationHelper
     ', '
   end
   
-  # currently only used by the render_document_partial helper method (below)
+  # Return a normalized partial name that can be used to contruct view partial path
   def document_partial_name(document)
-    document[Blacklight.config[:show][:display_type]]
+    # .to_s is necessary otherwise the default return value is not always a string
+    # using "_" as sep. to more closely follow the views file naming conventions
+    # parameterize uses "-" as the default sep. which throws errors
+    display_type = document[Blacklight.config[:show][:display_type]]
+    if display_type
+      if display_type.respond_to?(:join)
+        "#{display_type.join(" ").gsub("-"," ")}".parameterize("_").to_s
+      else
+        "#{display_type.gsub("-"," ")}".parameterize("_").to_s
+      end
+    end
   end
 
   # given a doc and action_name, this method attempts to render a partial template

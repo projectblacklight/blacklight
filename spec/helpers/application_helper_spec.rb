@@ -84,6 +84,9 @@ describe ApplicationHelper do
         link_to_with_data("Foo", "http://www.example.com", :method => :put, :data => {:key => "value"})
       )
     end
+    it "should be html_safe" do
+      link_to_with_data("Foo", "http://www.example.com", :method => :put, :data => {:key => "value"}).html_safe?.should == true
+    end
   end
   
   describe "link_to_query" do
@@ -106,6 +109,11 @@ describe ApplicationHelper do
       tag = link_to_query(query)
       tag.should =~ /qt=author_search/
       tag.should_not =~ /page/
+    end
+    it "should be html_safe" do
+      query = "brilliant"
+      tag = link_to_query(query)
+      tag.html_safe?.should == true
     end
   end
 
@@ -149,6 +157,7 @@ describe ApplicationHelper do
       html.should have_tag("link[href=/plugin_assets/blacklight/stylesheets/my_stylesheet.css][rel=stylesheet][type=text/css]")
 
       html.should have_tag("link[href=/stylesheets/other_stylesheet.css][rel=stylesheet][type=text/css]")
+      html.html_safe?.should == true
     end
   end
 
@@ -165,14 +174,32 @@ describe ApplicationHelper do
       html.should have_tag("script[src=/plugin_assets/blacklight/javascripts/some_js.js][type=text/javascript]")
 
       html.should have_tag("script[src=/javascripts/other_js.js][type=text/javascript]")      
+
+      html.html_safe?.should == true
     end
    end
+
+  describe "render_extra_head_content" do
+    def extra_head_content
+      ['<link rel="a">', '<link rel="b">']
+    end
+
+    it "should include content specified in controller#extra_head_content" do
+      html = render_extra_head_content
+
+      html.should have_tag("link[rel=a]")
+      html.should have_tag("link[rel=b]")
+
+      html.html_safe?.should == true
+    end
+  end
 
    describe "render_head_content" do
     describe "with no methods defined" do
       it "should return empty string without complaint" do
       lambda {render_head_content}.should_not raise_error
       render_head_content.should be_blank
+      render_head_content.html_safe?.should == true
       end
     end
     describe "with methods defined" do
@@ -240,6 +267,29 @@ describe ApplicationHelper do
       @document = SolrDocument.new(Blacklight.config[:show][:heading] => "A Fake Document")
 
       render_document_heading.should have_tag("h1", :text => document_heading, :count => 1)
+      render_document_heading.html_safe?.should == true
+     end
+   end
+
+   describe "document_partial_name" do
+     it "should handle normal formats correctly" do
+       document_partial_name({"format" => "myformat"}).should == "myformat"
+     end
+     it "should handle spaces correctly" do
+       document_partial_name({"format" => "my format"}).should == "my_format"
+     end
+     it "should handle capitalization correctly" do
+       document_partial_name({"format" => "MyFormat"}).should == "myformat"
+     end
+     it "should handle puncuation correctly" do
+       document_partial_name({"format" => "My.Format"}).should == "my_format"
+     end
+     it "should handle multi-valued fields correctly" do
+       document_partial_name({"format" => ["My Format", "My OtherFormat"]}).should == "my_format_my_otherformat"
+     end
+     it "should remove - characters because they will throw errors" do
+       document_partial_name({"format" => "My-Format"}).should == "my_format"
+       document_partial_name({"format" => ["My-Format",["My Other-Format"]]}).should == "my_format_my_other_format"
      end
    end
 
@@ -263,6 +313,12 @@ describe ApplicationHelper do
       data = {'id'=>'123456'}
       @document = SolrDocument.new(data)
       link_to_document(@document, { :label => :title_display }).should have_tag("a", :text => '123456', :count => 1)
+     end
+
+     it "should be html safe" do
+      data = {'id'=>'123456'}
+      @document = SolrDocument.new(data)
+      link_to_document(@document, { :label => :title_display }).html_safe?.should == true
      end
    end
 
@@ -400,6 +456,11 @@ describe ApplicationHelper do
       response = render_link_rel_alternates(@document, :exclude => [:weird_dup])
 
       response.should_not have_tag("link[href$=.weird_dup]")
+    end
+
+    it "should be html safe" do
+      response = render_link_rel_alternates(@document)
+      response.html_safe?.should == true
     end
     
   end
