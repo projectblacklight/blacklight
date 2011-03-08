@@ -35,7 +35,6 @@ Gem::Specification.new do |s|
   end  
 
   # Required Gems
-  s.add_dependency "authlogic" #, :git => 'git://github.com/binarylogic/authlogic.git'
   s.add_dependency "marc"
   s.add_dependency "will_paginate", "3.0.pre2"
   s.add_dependency "acts-as-taggable-on"
@@ -45,11 +44,12 @@ Gem::Specification.new do |s|
   s.add_dependency "rsolr-ext", '1.0.0' # source :gemcutter
 
   # For testing the generators
-  s.add_dependency "rspec-rails", "~>2.3.0"
   s.add_dependency "cucumber-rails"
-  s.add_dependency "database_cleaner"
   s.add_dependency "capybara"
-  s.add_dependency "webrat"
   s.add_dependency "aruba"
+
+#  s.add_dependency "rspec-rails", "~>2.3.0"
+#  s.add_dependency "webrat"
+#  s.add_dependency "database_cleaner"
 
 end

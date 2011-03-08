@@ -19,11 +19,10 @@ describe "solr:marc:*" do
     before do
       @rake = Rake::Application.new      
       Rake.application = @rake
-      Rake.application.rake_require "lib/tasks/solr_marc"
+      Rake.application.rake_require "../lib/railties/solr_marc"
       Rake::Task.define_task(:environment)
     end
-    
-    
+        
     describe 'solr:marc:index_test_data' do        
       it 'should print out usage using NOOP=true' do
         root = Rails.root
@@ -50,11 +49,11 @@ describe "solr:marc:*" do
         
         java_cmd.should_not be_nil
         java_cmd.should match "java -Xmx512m"
-        java_cmd.should match "-jar #{Rails.root}/solr_marc/SolrMarc.jar"
+        java_cmd.should match "-jar #{Rails.root}/lib/SolrMarc.jar"
         java_cmd.should match "#{Rails.root}/config/SolrMarc/config-test.properties dummy.mrc"
         java_cmd.should match "-Dsolr.hosturl=http://127.0.0.1:[0-9]{4}/solr"
       end
       
     end  
   end
-end
+

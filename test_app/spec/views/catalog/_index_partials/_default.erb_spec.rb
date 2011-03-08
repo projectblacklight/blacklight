@@ -5,7 +5,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../../spec_helper')
 
 describe "/catalog/_index_partials/_default.erb" do
   
-  include ApplicationHelper
+  include BlacklightHelper
   include CatalogHelper
   
   before(:each) do

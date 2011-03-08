@@ -113,6 +113,7 @@ describe BlacklightHelper do
     end
     it "should be html_safe" do
       query = "brilliant"
+      self.should_receive(:params).and_return({:page => "2", :qt => "author_search"})
       tag = link_to_query(query)
       tag.html_safe?.should == true
     end
@@ -190,8 +191,8 @@ describe BlacklightHelper do
     it "should include content specified in controller#extra_head_content" do
       html = render_extra_head_content
 
-      html.should have_tag("link[rel=a]")
-      html.should have_tag("link[rel=b]")
+      html.should have_selector("link[rel=a]")
+      html.should have_selector("link[rel=b]")
 
       html.html_safe?.should == true
     end
@@ -452,7 +453,6 @@ describe BlacklightHelper do
     end
     it "respects :unique=>true" do
       response = render_link_rel_alternates(@document, :unique => true)
-      puts ("The response is: " + response)
       response.should have_selector("link[type='application/weird']", :count => 1)
     end
     it "excludes formats from :exclude" do

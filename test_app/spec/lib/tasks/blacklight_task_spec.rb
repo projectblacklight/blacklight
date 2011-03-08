@@ -7,7 +7,7 @@ describe "blacklight:delete_old_searches" do
   before do
     @rake = Rake::Application.new      
     Rake.application = @rake
-    Rake.application.rake_require "lib/tasks/blacklight"
+    Rake.application.rake_require "../lib/railties/blacklight"
     Rake::Task.define_task(:environment)
     @task_name = "blacklight:delete_old_searches"
   end
