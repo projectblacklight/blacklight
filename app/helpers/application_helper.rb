@@ -255,8 +255,8 @@ module ApplicationHelper
   end
   
   # Used in the search form partial for building a select tag
-  def search_fields
-    Blacklight.search_field_options_for_select
+  def search_fields    
+    Blacklight.search_field_options_for_select(params[:search_field])
   end
   
   # used in the catalog/_show/_default partial
