@@ -30,9 +30,9 @@ Feature: Search History Page
   Scenario: Deleting a Search
     Given I have done a search with term "book"
     And I am on the search history page
-    Then I should see "delete"
+    Then I should see a "delete" button
     And I should see "book"
-    When I follow "delete" in "#document_1"
+    When I press "delete"
     Then I should see "Successfully removed that search history item."    
     Then I should not see "book"
 
@@ -51,48 +51,46 @@ Feature: Search History Page
     Given I am logged in as "user1"
     And I have done a search with term "book"
     And I am on the search history page
-    Then I should see "save"
-    When I follow "save"
+    Then I should see a "save" button
+    When I press "save"
     Then I should see "Successfully saved your search."
     And I should be on the search history page
-    And I should see "[saved]"
+    And I should see a "forget" button
 
   Scenario: Saving a Search when not logged in
     Given I have done a search with term "book"
     And I am on the search history page
-    Then I should see "save"
-    When I follow "save"
-    Then I should see "Please log in to manage and view your saved searches."
-    And I should not see "[saved]"
+    Then I should see a "save" button
+    When I press "save"
+    Then I should see "Sign in"
 
   Scenario: Un-Saving a Search when logged in
     Given I am logged in as "user1"
     And I have done a search with term "book"
     And I am on the search history page
-    Then I should see "save"
-    When I follow "save"
+    Then I should see a "save" button
+    When I press "save"
     Then I should see "Successfully saved your search."
     And I should be on the search history page
-    And I should see "[saved]"
-    When I follow "[saved]"
+    And I should see a "forget" button
+    When I press "forget"
     Then I should see "Successfully removed that saved search."
     And I should be on the search history page
-    And I should not see "[saved]"
-    And I should see "save"
+    And I should see a "save" button
 
   Scenario: Visiting Search History with saved searches after logging out
     Given I am logged in as "user1"
     And I have done a search with term "book"
     And I am on the search history page
-    Then I should see "save"
-    When I follow "save"
+    Then I should see a "save" button
+    When I press "save"
     Then I should see "Successfully saved your search."
     And I should be on the search history page
-    And I should see "[saved]"
+    And I should see a "forget" button
     When I follow "Log Out"
     Then I should see "Login"
     And I should not see "user1"
     When I follow "Search History"
     Then I should see "book"
-    And I should not see "[saved]"
+    And I should see a "save" button
       

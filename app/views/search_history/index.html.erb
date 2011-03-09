@@ -11,11 +11,11 @@
     <%= content_tag :tr, :id => "document_#{index + 1}" do %>
       <td class="query"><%= link_to_previous_search(search.query_params) %></td>
       <td class="actions"><%- if current_user && search.saved? -%>
-        <%= link_to "[saved]", saved_search_path(search.id), :method => :delete %>
+        <%= button_to "forget", forget_search_path(search.id) %>
       <%- else -%>
-        <%= link_to "save", save_saved_search_path(search.id), :method => :put %>
+        <%= button_to "save", save_search_path(search.id), :method => :put %>
       <%- end -%></td>
-      <td class="actions"><%= link_to "delete", search_history_path(search.id), :method => :delete, :confirm => "Delete item?" %></td>
+      <td class="actions"><%= button_to "delete", delete_search_path(search.id), :confirm => "Delete item?" %></td>
     <% end #content_tag %>
   <%- end -%>
   </table>

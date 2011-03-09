@@ -1,6 +1,5 @@
 class SolrDocument
   include Blacklight::Solr::Document
-
   
   # DEPRECATED 
   cattr_accessor :marc_format_type

@@ -6,7 +6,6 @@ Feature: Saved Searches Page
     
   Scenario: Menu Link
     Given I am logged in as "user1"
-    Then I should see "Welcome user1!"
     When I am on the home page
     Then I should see "Saved Searches"
     When I follow "Saved Searches"
@@ -21,7 +20,7 @@ Feature: Saved Searches Page
     
   Scenario: Saved Searches not logged in
     When I go to the saved searches page
-    Then I should see "Please log in to manage and view your saved searches."
+    Then I should see "Sign in"
     
   Scenario: Saved Searches
     Given I am logged in as "user1"
@@ -34,8 +33,8 @@ Feature: Saved Searches Page
     Given I am logged in as "user1"
     And "user1" has saved a search with term "book"
     And I am on the saved searches page
-    Then I should see "delete"
-    When I follow "delete"
+    Then I should see a "delete" button
+    When I press "delete"
     Then I should see "Successfully removed that saved search."
 
   Scenario: Clearing Saved Searches

@@ -60,7 +60,8 @@ module Blacklight::Solr::Document::Marc
     when 'marc21'
       return MARC::Record.new_from_marc( fetch(_marc_source_field) )          
     else
-      raise UnsupportedMarcFormatType.new("Only marcxml and marc21 are supported, this documents format is #{_marc_format_type}")
+
+      raise UnsupportedMarcFormatType.new("Only marcxml and marc21 are supported, this documents format is #{_marc_format_type} and the current extension parameters are #{self.class.extension_parameters.inspect}")
     end      
   end
   

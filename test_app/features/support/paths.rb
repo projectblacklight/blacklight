@@ -11,6 +11,19 @@ module NavigationHelpers
     when /the home\s?page/
       '/'
 
+      
+    when /the catalog page/
+      catalog_index_path
+      
+    when /the folder page/
+      folder_index_path
+         
+    when /the document page for id (.+)/ 
+      catalog_path($1)
+      
+    when /the facet page for "([^\"]*)"/
+      catalog_facet_path($1)
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

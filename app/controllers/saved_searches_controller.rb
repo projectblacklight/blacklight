@@ -2,11 +2,12 @@ class SavedSearchesController < BlacklightController
   before_filter :verify_user 
   
   def index
-    @searches = Search.find_all_by_user_id(current_user.id)
+    @searches = current_user.searches
   end
   
   def save    
-    if Search.update(params[:id], :user_id => current_user.id)
+    current_user.searches << Search.find(params[:id])
+    if current_user.save
       flash[:notice] = "Successfully saved your search."
     else
       flash[:error] = "The was a problem saving your search."
@@ -16,7 +17,7 @@ class SavedSearchesController < BlacklightController
 
   # Only dereferences the user rather than removing the item in case it
   # is in the session[:history]
-  def destroy
+  def forget
     if current_user.search_ids.include?(params[:id].to_i) && Search.update(params[:id].to_i, :user_id => nil)
       flash[:notice] = "Successfully removed that saved search."
     else

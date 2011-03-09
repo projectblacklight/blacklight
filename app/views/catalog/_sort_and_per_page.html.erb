@@ -10,7 +10,7 @@
     <% end %>
 
     <%-# kind of hacky way to get this to work on catalog and folder controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
-		<% form_tag params[:controller] == "folder" ? folder_index_path : catalog_index_path, :method=>:get, :class=>'sort', :id => "sort_form" do %>
+		<%= form_tag params[:controller] == "folder" ? folder_index_path : catalog_index_path, :method=>:get, :class=>'sort', :id => "sort_form" do %>
       <%= label_tag(:sort, "Sort by ") %>
 			<%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort]))) %>			      
       <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>

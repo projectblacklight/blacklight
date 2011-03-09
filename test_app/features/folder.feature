@@ -34,7 +34,7 @@ Feature: User Folder
     Given I have record 2007020969 in my folder
     And I have record 2008308175 in my folder
     And I follow "Cite"
-    Then I should see "Pluvial Nectar of Blessings : a Supplication to the Noble Lama Mahaguru Padmasambhava. Dharamsala: Library of Tibetan Works and Archives, 2002."
+    Then I should see "Pluvial nectar of blessings : a Supplication to the Noble Lama Mahaguru Padmasambhava. Dharamsala: Library of Tibetan Works and Archives, 2002."
     And I should see "a Native American elder has her say : an oral history. 1st Atria Books hardcover ed. New York: Atria Books."
  	  
   Scenario: Make sure the folder page doesn't bomb if there is no search session

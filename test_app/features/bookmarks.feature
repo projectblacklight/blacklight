@@ -6,7 +6,6 @@ Feature: Bookmarks
   
   Scenario: Bookmarks Menu Link
     Given I am logged in as "user1"
-    Then I should see "Welcome user1!"
     When I am on the home page
     Then I should see "Your Bookmarks"
     When I follow "Your Bookmarks"
@@ -20,7 +19,7 @@ Feature: Bookmarks
       
     Scenario: Bookmarks not logged in
       When I go to the bookmarks page
-      Then I should see "Please log in to manage and view your bookmarks."
+      Then I should see "Sign in"
   
     Scenario: User Has Bookmarks
       Given I am logged in as "user1"
