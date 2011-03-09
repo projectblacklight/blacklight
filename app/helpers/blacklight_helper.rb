@@ -321,8 +321,7 @@ module BlacklightHelper
   def link_to_previous_search(params)
     link_to(raw(render_search_to_s(params)), catalog_index_path(params)).html_safe
   end
-  
-  
+    
   #
   # facet param helpers ->
   #
@@ -357,9 +356,9 @@ module BlacklightHelper
   # add_facet_params_and_redirect
   def add_facet_params(field, value)
     p = params.dup
-    p[:f]||={}
+    p[:f] = params[:f].nil? ? {} : params[:f].dup  # the command above is not deep in rails3, !@#$!@#$
     p[:f][field] ||= []
-    p[:f][field].push(value) unless p[:f][field].include?(value)
+    p[:f][field].push(value)
     p
   end
 
@@ -385,8 +384,7 @@ module BlacklightHelper
 
     # Force action to be index. 
     new_params[:action] = "index"
-
-    new_params
+    new_params    
   end
   # copies the current params (or whatever is passed in as the 3rd arg)
   # removes the field value from params[:f]

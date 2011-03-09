@@ -51,7 +51,6 @@ Feature: Search
     And I should see "1."
     And I should see "Displaying 1 item"
 
-  @wip
   Scenario: Results Page Shows Vernacular (Linked 880) Fields
     Given I am on the home page
     And I fill in "q" with "history"

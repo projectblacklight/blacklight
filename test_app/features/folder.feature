@@ -18,7 +18,8 @@ Feature: User Folder
     Given I am on the home page
     And I follow "English"
     And I add record 2008308175 to my folder
-    Then I should see "Pluvial nectar of blessings successfully selected"
+    Then I should see "Selected Items (1)"
+
   Scenario: Do not show "Add to Favorites" when not logged in
     Given I have record 2007020969 in my folder
     When I follow "Selected Items"
@@ -33,8 +34,9 @@ Feature: User Folder
   Scenario: Do multiple citations when the folder has multiple items
     Given I have record 2007020969 in my folder
     And I have record 2008308175 in my folder
+    When I follow "Selected Items"
     And I follow "Cite"
-    Then I should see "Pluvial nectar of blessings : a Supplication to the Noble Lama Mahaguru Padmasambhava. Dharamsala: Library of Tibetan Works and Archives, 2002."
+    Then I should see "Pluvial Nectar of Blessings : a Supplication to the Noble Lama Mahaguru Padmasambhava. Dharamsala: Library of Tibetan Works and Archives, 2002."
     And I should see "a Native American elder has her say : an oral history. 1st Atria Books hardcover ed. New York: Atria Books."
  	  
   Scenario: Make sure the folder page doesn't bomb if there is no search session
