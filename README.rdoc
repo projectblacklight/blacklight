@@ -6,23 +6,106 @@ Please note: The main Blacklight website is http://projectblacklight.org
 
 Blacklight is open source discovery software. Libraries (or anyone else) can use Blacklight to enable searching and browsing of their collections online. Blacklight uses the Apache SOLR ( http://lucene.apache.org/solr ) search engine to index and search full text and/or metadata, and Blacklight has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and EAD XML files, and support is planned for Dublin Core and MODS as well. Blacklight was originally developed at the University of Virginia Library and is made public under an Apache 2.0 license. As of version 2.3.0 (released July 31, 2009), Blacklight is distributed as a rails engines plugin and also as a demo rails application that uses an engines Blacklight plugin.
 
-== Which one should I install? 
-There are two ways of installing Blacklight. You can either install a pre-configured demo app, which already has the Blacklight plugin installed and integrated, or you can install the plugin into an existing rails application. 
+== Install & Use
 
-If you're just getting started with Blacklight and want to get something up and running 
-relatively quickly, start by installing the demo app. This will give you a good introduction 
-to the pieces of the Blacklight system before you start customizing your own installation.
+* Coming soon
 
-If you want to integrate Blacklight search and discovery into another rails app, or if you already have a customized copy of Blacklight and you only want to upgrade the plugin, you'll want the plugin installation instructions. 
- 
+== Setting up a development environment
+
+Checkout the code:
+
+  $ git clone git@github.com:projectblacklight/blacklight.git blacklight
+  $ cd blacklight
+
+Now create a test bed application inside of Blacklight that will allow you
+to include Blacklight as a gem.
+The test_app directory already exists, and contains a .gitignore file that
+will mean all of the generated code is ingored.  - There are a few directories
+already in palce in test_app that WILL be included in the git repository.  These
+include:
+* test_app/features - which contains cucumber tests for blacklight
+* test_app/spec - rspec tests
+* test_app/jetty - The blacklight Jetty module (discussed later)
+* test_app/data - Another remote module.
+
+To create the rails application:
+
+  $ rails new test_app --skip-test-unit --skip-git
+
+Or if you are using Jruby:
+
+  $ jruby -S rails new test_app -m http://jruby.org/rails3.rb --skip-test-unit --skip-git
+
+Add gem 'blacklight' and 'devise' to the test applications Gem File:
+Devise provides user authentication, but can be easily replaced with your own custom user model and authentication scheme, see the section on user authenticaion lower in the documentation.
+
+  $ gem 'devise'
+  $ gem 'blacklight', :path => '../'
+
+Run bundle install in the test app
+  $ bundle install
+
+Install and configure devise for the test application (see user authentication below for more information)
+  $ rails generate devise:install
+  $ rails generate devise user
+  $ rails generate devise:views
+
+Install and configure blacklight
+  $ rails generate blacklight
+
+Remove index.html - which will allow the routes to take you directly to the catalog page.
+  $ rm public/index.html  (allow us to redirect to catalog)
+
+Migrate your database
+  $ rake db:migrate
+
+Get Solr running somewhere.  If you don't have Solr installed, blacklight comes with a default setup.
+  $ cd blacklight
+  $ git submodule init
+  $ git submodule update
+  $ cd test_app
+  $ rake solr:marc:index_test_data RAILS_ENV=test
+  $ cd jetty
+  $ java -jar start.jar
+
+Start up your Server, and take a test run. (from blacklight/test_app)
+  $ rails server
+  
+Now go check it out, should be running.
+
+== Running the tests
+
+You will need to add some gems to your test_app's gem file
+
+   group :development, :test do 
+      gem "rspec"
+      gem "rspec-rails", "~>2.3.0"       
+      gem "cucumber-rails"
+      gem "database_cleaner"  
+      gem "capybara"
+      gem "webrat"
+      gem "aruba"
+   end
+
+Run bundle install
+  
+  $ bundle install
+
+Install cucumber
+
+  $ rails generate cucumber:install
+
+Load in the test data
+
+  $ rake solr:marc:index_test_data RAILS_ENV=test
+
+Run the tests
+  
+  $ rake solr:spec 
+  $ rake solr:features
+
 ==Pre-requisites
 Whichever method you choose for installation, be sure you have all the pre-requisites in place. You can find these detailed in {PRE-REQUISITES}[https://github.com/projectblacklight/blacklight/wiki/PRE-REQUISITES]
-
-==Installing the demo app
-Instructions for installing the demo app are contained in the file  {README_INSTALLATION}[https://github.com/projectblacklight/blacklight/wiki/README_INSTALLATION]
-
-==Installing the plugin into an existing rails app
-Instructions for installing the demo app are contained in the plugin's  {README_INSTALLATION}[https://github.com/projectblacklight/blacklight/wiki/README_INSTALLATION]
 
 ==Running solr
 You'll also want some information about how Blacklight expects Apache SOLR ( http://lucene.apache.org/solr ) to run, which you can find in {README_SOLR}[https://github.com/projectblacklight/blacklight/wiki/README_SOLR]
