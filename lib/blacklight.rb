@@ -83,8 +83,25 @@ module Blacklight
   
   # returns the full path the the blacklight plugin installation
   def self.root
-    @root ||= File.expand_path File.join(__FILE__, '..', '..')
+    @root ||= File.expand_path(File.dirname(File.dirname(__FILE__)))
   end
+
+  # This is useful for modifying Blacklight models.
+  # In the main app you can then do this:
+  # require "#{MyEngine.models_dir}/bookmark"
+  # class Bookmark
+  # ...
+  # end
+  # BE AWARE - When you do this, you are monkey patching Blacklight
+  # we should eventually find a better way - such as the acts_as pattern
+  def self.models_dir
+    "#{root}/app/models"
+  end
+  
+  def self.controllers_dir
+    "#{root}/app/controllers"
+  end
+
   
   # Searches Rails.root then Blacklight.root for a valid path
   # returns a full path if a valid path is found
