@@ -6,9 +6,9 @@ class FeedbackController < BlacklightController
   # show the feedback form
   def show
     @errors=[]
-    if request.method==:post
+    if request.post?
       if validate
-        Notifier.deliver_feedback(params)
+        Notifier.feedback(params)
         redirect_to feedback_complete_path
       end
     end
