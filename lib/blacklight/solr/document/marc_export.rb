@@ -277,7 +277,7 @@ module Blacklight::Solr::Document::MarcExport
     #setup formatted author list
     authors = get_author_list(record)
     authors.each do |l|
-      authors_list.push(abbreviate_name(l)) unless l.nil?
+      authors_list.push(abbreviate_name(l)) unless l.blank?
     end
     authors_list.each do |l|
       if l == authors_list.first #first
@@ -399,7 +399,7 @@ module Blacklight::Solr::Document::MarcExport
   def get_author_list(record)
     author_list = []
     authors_primary = record.find{|f| f.tag == '100'}
-    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil?
+    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
     author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
     authors_secondary = record.find_all{|f| ('700') === f.tag}
     if !authors_secondary.nil?

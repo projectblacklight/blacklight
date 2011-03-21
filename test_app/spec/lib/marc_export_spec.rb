@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'rubygems'
 require 'marc'
@@ -269,6 +270,35 @@ def no_good_data_xml
 </record>"
 end
 
+# Bad author name
+def bad_author_xml
+  "<record>
+     <leader>01021cam a2200277 a 4500</leader>
+     <controlfield tag=\"001\">a1711966</controlfield>
+     <controlfield tag=\"003\">SIRSI</controlfield>
+     <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
+
+     <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
+       <subfield code=\"a\"></subfield>
+     </datafield>
+
+     <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
+       <subfield code=\"a\">The horn /</subfield>
+       <subfield code=\"c\">Kurt Janetzky and Bernhard Bruchle ; translated from the German by James Chater.</subfield>
+     </datafield>
+
+     <datafield tag=\"260\" ind1=\" \" ind2=\" \">
+       <subfield code=\"a\">London :</subfield>
+       <subfield code=\"b\">Batsford,</subfield>
+       <subfield code=\"c\">1988.</subfield>
+     </datafield>
+
+     <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
+       <subfield code=\"a\">Brüchle, Bernhard.</subfield>
+     </datafield>
+  </record>"
+end
+
 describe Blacklight::Solr::Document::MarcExport do
   
   before(:all) do
@@ -286,6 +316,7 @@ describe Blacklight::Solr::Document::MarcExport do
     @record_without_authors             = dclass.new( record2_xml )
     @record_with_4plus_authors          = dclass.new( record3_xml )
     @record_without_citable_data        = dclass.new( no_good_data_xml )
+    @record_with_bad_author             = dclass.new( bad_author_xml )
     @record_utf8_decomposed = dclass.new( utf8_decomposed_record_xml )
 
   end
@@ -305,6 +336,10 @@ describe Blacklight::Solr::Document::MarcExport do
     
     it "should not fail if there is no citation data" do
       @record_without_citable_data.export_as_apa_citation_txt.should == ""
+    end
+
+    it "should not bomb with a null pointer if there if author data is empty" do
+      @record_with_bad_author.export_as_apa_citation_txt.should == "Brüchle, B. (1988). <i>The horn.</i> London: Batsford."
     end
     
   end
