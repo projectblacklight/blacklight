@@ -44,13 +44,9 @@ module Blacklight::SearchFields
   # Returns suitable argument to options_for_select method, to create
   # an html select based on #search_field_list. Skips search_fields
   # marked :include_in_simple_select => false
-  # If you pass in a currently_selected search_field value, then it will
-  # be included in the select EVEN IF it's marked :include_in_simple_select=>false.
-  # this is useful for deep-linking to searches you don't ordinarily offer
-  # in the menu, with reasonably consistent display. 
-  def search_field_options_for_select(currently_selected=nil)
+  def search_field_options_for_select
     search_field_list.collect do |field_def|
-      [field_def[:display_label],  field_def[:key]] unless (field_def[:include_in_simple_select] == false && field_def[:key] != currently_selected)
+      [field_def[:display_label],  field_def[:key]] unless field_def[:include_in_simple_select] == false
     end.compact
   end
 

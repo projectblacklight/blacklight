@@ -55,11 +55,6 @@ describe Blacklight::SearchFields do
        argument[1].should == config_hash[:key]
     end    
   end
-  
-  it "should include the current search option in select, even if not otherwise exposed" do
-    select_options = @search_field_obj.search_field_options_for_select("no_display")
-    select_options.should include(["No Display", "no_display"])
-  end
 
   it "should not include fields in select if :display_in_simple_search=>false" do
     select_arguments = @search_field_obj.search_field_options_for_select
