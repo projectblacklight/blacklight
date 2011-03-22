@@ -97,8 +97,8 @@ end
         @solrdoc_without_marc = SolrDocument.new(@hash_without_marcxml)
         @solrdoc_without_marc.should_not respond_to(:to_marc)
         # legacy check
-        @solrdoc_without_marc.should respond_to(:marc)
-        @solrdoc_without_marc.marc.should == nil
+      #        @solrdoc_without_marc.should respond_to(:marc)
+      #        @solrdoc_without_marc.marc.should == nil
       end
     end
     

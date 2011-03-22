@@ -79,7 +79,7 @@ You will need to add some gems to your test_app's gem file
 
    group :development, :test do 
       gem "rspec"
-      gem "rspec-rails", "~>2.3.0"       
+      gem "rspec-rails", "~>2.5.0"       
       gem "cucumber-rails"
       gem "database_cleaner"  
       gem "capybara"

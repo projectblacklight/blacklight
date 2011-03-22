@@ -1,5 +1,7 @@
 require 'will_paginate'
 require 'marc'
+require 'rsolr'
+require 'rsolr-ext'
 
 module Blacklight
 
@@ -60,7 +62,7 @@ module Blacklight
       Blacklight.solr = RSolr::Ext.connect(Blacklight.solr_config)
     end
     
-    # set the SolrDocument.connection to Blacklight.solr
+    # set the SolrDocument connection to Blacklight.solr
     SolrDocument.connection = Blacklight.solr
     logger.info("BLACKLIGHT: running version #{Blacklight.version}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr_config: #{Blacklight.solr_config.inspect}")

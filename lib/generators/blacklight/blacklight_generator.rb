@@ -19,6 +19,9 @@ This generator makes the following changes to your application:
  6. Creates a number of public assets, including images, stylesheets, and javascript
  7. Adds a solr_marc.jar file to your lib/ directory 
  8. Modifies your view/layouts/application.html.erb file to support nested layouts.
+ 9. Injects behavior into your user model
+10. Creates a blacklight controller in your /app/controllers directory
+11. Creates a blacklight document   in your /app/models directory
 Thank you for Installing Blacklight.
        """ 
   # Implement the required interface for Rails::Generators::Migration.
@@ -92,11 +95,17 @@ EOF
     if File.exists?(file_path) 
       inject_into_class file_path, model_name.classify do 
         "# Connects this user object to Blacklights Bookmarks and Folders. " +
-        "\n is_blacklight_user\n"        
+        "\n include Blacklight::User\n"        
       end
     else
       puts "     \e[31mFailure\e[0m  Blacklight requires a user object in order to presist bookmarks and saved searches. This generators assumes that the model is defined in the file /app/models/user.rb, which does not exist.  If you used a different name, please re-run the migration and provide that name as an argument. Such as \b  rails -g blacklight client" 
     end    
+  end
+
+  # Generate blacklight catalog controller and document
+  def create_blacklight_catalog_and_document
+    copy_file "solr_document.rb", "app/models/solr_document.rb"
+    copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
   end
 
   private  

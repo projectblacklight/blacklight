@@ -22,11 +22,6 @@ module Blackight
       Blacklight.init if File.exists?(Blacklight.solr_file)      
     end
 
-    # This allows us to say "is_blacklight_user" inside the hosting applications models.
-    config.to_prepare do
-      ActiveRecord::Base.extend Blacklight::User
-    end
-
     # This makes our rake tasks visible.
     rake_tasks do
       load "railties/blacklight.rake"

@@ -18,37 +18,11 @@
 
 Blacklight.configure(:shared) do |config|
 
-  # Set up and register the default SolrDocument Marc extension
-  SolrDocument.extension_parameters[:marc_source_field] = :marc_display
-  SolrDocument.extension_parameters[:marc_format_type] = :marcxml
-  SolrDocument.use_extension( Blacklight::Solr::Document::Marc) do |document|
-    document.key?( :marc_display  )
-  end
-
-  # DublinCore uses the semantic field mappings below to assemble an OAI-compliant Dublin Core document
-  SolrDocument.use_extension( Blacklight::Solr::Document::DublinCore)
-    
-  # Semantic mappings of solr stored fields. Fields may be multi or
-  # single valued. See Blacklight::Solr::Document::ExtendableClassMethods#field_semantics
-  # and Blacklight::Solr::Document#to_semantic_values
-  # Recommendation: Use field names from Dublin Core
-  SolrDocument.field_semantics.merge!(    
-    :title => "title_display",
-    :author => "author_display",
-    :language => "language_facet"  
-  )
-        
-  
-  ##############################
-
   config[:default_solr_params] = {
     :qt => "search",
     :per_page => 10 
   }
-  
-  
-  
-
+ 
   # solr field values given special treatment in the show (single result) view
   config[:show] = {
     :html_title => "title_display",
