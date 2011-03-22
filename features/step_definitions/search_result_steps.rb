@@ -75,6 +75,18 @@ Then /^I should get id "([^\"]+)" and id "([^\"]+)" within (\d+) positions? of e
   (pos1 - pos2).abs.should <= limit.to_i
 end
 
+Then /I should see a "(.*)" element with "(.*)" = "(.*)" (at least|at most|exactly) (.*) times?$/i do |target, type, selector,comparator, expected_num|
+  actual_num = response.body.scan(/<#{target}[^>]* #{type}="#{selector}"[^>]*>/).length
+  case comparator
+    when "at least"
+      actual_num.should >= expected_num.to_i
+    when "at most"
+      actual_num.should <= expected_num.to_i
+    when "exactly"
+      actual_num.should == expected_num.to_i
+  end
+end
+
 def get_position_in_result_page(response, id)
   i = -1
   response.should have_tag(".index_title a") do |links|

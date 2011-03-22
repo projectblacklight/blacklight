@@ -84,6 +84,10 @@ Then /^I should see an atom discovery link/ do
   response.should have_tag("link[rel=alternate][type=application/atom+xml]")
 end
 
+Then /^I should see an unAPI discovery link/ do
+  response.should have_tag("link[rel=unapi-server][type=application/xml]")
+end
+
 Then /^I should see opensearch response metadata tags/ do
   response.should have_tag("meta[name=totalResults]")
   response.should have_tag("meta[name=startIndex]")
