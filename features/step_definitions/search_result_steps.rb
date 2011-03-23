@@ -7,13 +7,7 @@ end
 
 
 Then /^I should get (at least|at most|exactly) (\d+) results?$/i do |comparator, comparison_num|
-
-  number_of_records = -1
-  response.should have_tag("meta[name=totalResults]") do |node|
-    number_of_records = node.first.attributes['content'].to_i
-  end
-
-  return false if number_of_records == -1
+  number_of_records = get_number_of_results_from_response(response)
 
   case comparator
     when "at least"
@@ -26,11 +20,9 @@ Then /^I should get (at least|at most|exactly) (\d+) results?$/i do |comparator,
 end
 
 
-Then /^I should have (the same number of|fewer|more) results (?:than|as) a(?:n?) search for "(.+?)"$/i do |comparator, query|
+Then /^I should have (the same number of|fewer|more) results (?:than|as) a(?:n?) search for "(.*)"$/i do |comparator, query|
   query.gsub!(/\\"/, '"')
-  response.body =~ /(\d+) results?/
-
-  number_of_records = $1.to_i
+  number_of_records = get_number_of_results_from_response(response)
 
   case comparator
     when "the same number of"
@@ -116,7 +108,14 @@ def get_number_of_results_for_query(query)
   visit root_path
   fill_in "q", :with => query
   click_button "search"
-  response.body =~ /(\d+) results?/
+  get_number_of_results_from_response(response)
+end
 
-  $i.to_i
+def get_number_of_results_from_response(response)
+  number_of_records = 0
+  response.should have_tag("meta[name=totalResults]") do |node|
+    number_of_records = node.first.attributes['content'].to_i
+  end
+
+  number_of_records  
 end
