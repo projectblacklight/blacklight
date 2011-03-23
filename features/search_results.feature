@@ -33,5 +33,17 @@ Feature: Search Results
         And I should get id "77826928" before id "94120425"
         And I should get id "77826928" and id "94120425" within 5 positions of each other
 
+    Scenario: Excluded items
+        Given I am on the catalog page
+        When I fill in the search box with "Korea"
+        And I press "search"
+        Then I should not get id "94120425" in the first 1 result
+    Scenario: Top 5 results
+        Given I am on the catalog page
+        When I fill in the search box with "Korea"
+        And I press "search"
+        Then I should get at least 1 of these ids in the first 5 results: "77826928,94120425"
+
+
 
         

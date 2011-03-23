@@ -56,6 +56,17 @@ Then /^I should get id "([^\"]+)" in the first (\d+) results?$/i do |id, max_num
   pos.should < max_num.to_i
 end
 
+Then /^I should not get id "([^\"]+)" in the first (\d+) results?$/i do |id, max_num|
+  pos = get_position_in_result_page(response, id)
+  pos.should_not == -1
+
+  if pos > 0
+    pos.should >= max_num.to_i 
+  else
+    pos.should == -1 if pos == -1 
+  end
+end
+
 Then /^I should get id "([^\"]+)" before id "([^\"]+)"$/i do |id1, id2|
   pos1 = get_position_in_result_page(response, id1)
   pos2 = get_position_in_result_page(response, id2)
@@ -74,6 +85,22 @@ Then /^I should get id "([^\"]+)" and id "([^\"]+)" within (\d+) positions? of e
 
   (pos1 - pos2).abs.should <= limit.to_i
 end
+
+Then /^I should get at least (\d+) of these ids in the first (\d+) results: "([^\"]+)"$/i do |how_many, limit, id_string|
+  id_string.split(/,/).select do |id|
+    pos = get_position_in_result_page(response, id)
+    pos != -1 and pos < limit.to_i
+  end.length.should >= how_many.to_i 
+end
+
+Then /^I (should not|should) see an? "([^\"]*)" element with an? "([^\"]*)" attribute of "([^\"]*)"$/ do |bool,elem,attribute,value|
+  if bool == "should not"
+    response.should_not have_selector("#{elem}[#{attribute}=#{value}]")
+  else
+    response.should have_selector("#{elem}[#{attribute}=#{value}]")
+  end
+end
+
 
 def get_position_in_result_page(response, id)
   i = -1
