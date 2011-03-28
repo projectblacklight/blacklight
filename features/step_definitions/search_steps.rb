@@ -69,13 +69,6 @@ Then /^I should not get results$/ do
   response.should_not have_selector("div.document")
 end
 
-Then /^I should see the applied filter "([^\"]*)" with the value "([^\"]*)"$/ do |filter, text|
-  response.should have_tag("div#facets div") do |node|
-    node.should have_selector("h3", :content => filter)
-    node.should have_selector("span.selected", :content => text)
-  end
-end
-
 Then /^I should see an rss discovery link/ do
   response.should have_tag("link[rel=alternate][type=application/rss+xml]")
 end
