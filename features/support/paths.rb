@@ -41,6 +41,14 @@ module NavigationHelpers
       when /the facet page for "([^\"]*)"/
         catalog_facet_path($1)
 
+      when /the unAPI endpoint/
+        unapi_path
+
+      when /the unAPI endpoint for ""/
+
+      when /the unAPI endpoint for "" with format ""/
+
+
       # Add more page name => path mappings here
 
       else

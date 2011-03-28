@@ -93,7 +93,6 @@ Then /^I (should not|should) see an? "([^\"]*)" element with an? "([^\"]*)" attr
   end
 end
 
-
 def get_position_in_result_page(response, id)
   i = -1
   response.should have_tag(".index_title a") do |links|

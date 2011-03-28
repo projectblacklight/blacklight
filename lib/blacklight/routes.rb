@@ -17,6 +17,8 @@ module Blacklight::Routes
     map.resources :search_history, :collection => {:clear => :delete}
     map.resources :saved_searches, :collection => {:clear => :delete}, :member => {:save => :put}
 
+    map.unapi "catalog/unapi", :controller => 'catalog', :action => 'unapi'
+
     map.resources(:catalog,
       :only => [:index, :show, :update],
       # /catalog/:id/image <- for ajax cover requests
@@ -26,6 +28,7 @@ module Blacklight::Routes
       # /catalog/map
       :collection => {:map => :get, :opensearch=>:get, :citation=>:get, :email=>:get, :sms=>:get, :endnote=>:get, :send_email_record=>:post}
     )
+
     
 
     map.feedback 'feedback', :controller=>'feedback', :action=>'show'

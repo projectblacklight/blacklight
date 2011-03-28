@@ -599,7 +599,10 @@ module ApplicationHelper
     end
     val
   end
-  
-  
-  
+
+
+  def render_document_unapi_microformat(document, options={})
+    render(:partial=>'catalog/unapi_microformat',  :locals => {:document=> document}.merge(options))
+  end
+
 end

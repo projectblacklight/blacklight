@@ -23,6 +23,7 @@ class CatalogController < ApplicationController
 
     extra_head_content << @template.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => "RSS for results")
     extra_head_content << @template.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => "Atom for results")
+    extra_head_content << @template.auto_discovery_link_tag('application/xml', unapi_url, {:rel => 'unapi-server', :title => 'unAPI' })
     
     (@response, @document_list) = get_search_results
     @filters = params[:f] || []
@@ -35,6 +36,8 @@ class CatalogController < ApplicationController
   
   # get single document from the solr index
   def show
+    extra_head_content << @template.auto_discovery_link_tag('application/xml', unapi_url, {:rel => 'unapi-server', :title => 'unAPI' })
+
     @response, @document = get_solr_response_for_doc_id    
     respond_to do |format|
       format.html {setup_next_and_previous_documents}
@@ -47,6 +50,25 @@ class CatalogController < ApplicationController
         format.send(format_name.to_sym) { render :text => @document.export_as(format_name) }
       end
       
+    end
+  end
+
+  def unapi
+    @export_formats = Blacklight.config[:unapi] || {}
+    @format = params[:format]
+    if params[:id]
+      @response, @document = get_solr_response_for_doc_id
+      @export_formats = @document.export_formats
+    end
+
+    unless @format
+      render 'unapi.xml.builder', :layout => false and return
+    end
+
+    respond_to do |format|
+      format.all do
+        send_data @document.export_as(@format), :type => @document.export_formats[@format][:content_type], :disposition => 'inline' if @document.will_export_as @format
+      end
     end
   end
   
