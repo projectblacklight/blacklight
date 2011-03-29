@@ -16,10 +16,6 @@
 # end
 #
 
-# When a request for a single solr document by id
-# is not successful, raise this:
-class Blacklight::InvalidSolrID < RuntimeError; end
-
 module Blacklight::SolrHelper
   MaxPerPage = 100
   
@@ -231,7 +227,7 @@ module Blacklight::SolrHelper
   # TODO: shouldn't hardcode id field;  should be setable to unique_key field in schema.xml
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_response = Blacklight.solr.find solr_doc_params(id, extra_controller_params)
-    raise Blacklight::InvalidSolrID.new if solr_response.docs.empty?
+    raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
   end

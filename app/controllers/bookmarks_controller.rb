@@ -1,9 +1,7 @@
 # note that while this is mostly restful routing, the #update and #destroy actions
 # take the Solr document ID as the :id, NOT the id of the actual Bookmark action. 
-class BookmarksController < BlacklightController
-  
-
-  
+class BookmarksController < ApplicationController
+    
   before_filter :verify_user
   
   # Beware, :id is the Solr document_id, not the actual Bookmark id.

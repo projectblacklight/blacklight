@@ -8,7 +8,36 @@ Blacklight is open source discovery software. Libraries (or anyone else) can use
 
 == Install & Use
 
-* Coming soon
+Blacklight 3 requires Rails 3.0 or greater.
+
+Add the blacklight gem to your gemfile
+
+  gem 'blacklight'
+
+Blacklight no longer provides user authentication or a user model of any sort.  However, Blacklight works out of the box with Devise. Please see https://github.com/plataformatec/devise for more information on Devise.  If you want to just push forward, then just add  "gem 'devise'" to your Gemfile, and execute do the following:
+
+  $ bundle install
+  $ rails generate devise:install
+  $ rails generate devise user
+  $ rails generate devise:views
+
+If you have a user model already, the Blacklight generator will connect to it automatically during installation.  However, you will need to make sure the following named routes are included in your /config/routes.rb file:
+
+   match 'new_user_session',          :to => 'Your User Session Controller # Log in action'
+   match 'destroy_user_session',      :to => 'Your User Session Controller # Log Out action'
+
+And you will need to make sure the following helper methods are available:
+
+  corrent_user   - Which should return a user object that include Blacklight::User
+  user_session   - Which should return a user session
+
+Once these are in place, you can run the Blacklight Installation Generator:
+
+  rails generate blacklight
+
+Execute your migrations, and you should be good to go.
+
+  rake db:migrate
 
 == Setting up a development environment
 

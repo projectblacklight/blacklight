@@ -1,4 +1,4 @@
-class FeedbackController < BlacklightController
+class FeedbackController < ApplicationController
   
   # http://expressica.com/simple_captcha/
   # include SimpleCaptcha::ControllerHelpers

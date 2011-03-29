@@ -19,6 +19,8 @@ module Blacklight
 
   autoload :CommaLinkRenderer, 'blacklight/comma_link_renderer'
 
+  autoload :Controller, 'blacklight/controller'
+
   extend Configurable
   extend SearchFields
   

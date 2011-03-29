@@ -637,7 +637,7 @@ describe 'Blacklight::SolrHelper' do
     it "should raise Blacklight::InvalidSolrID for an unknown id" do
       lambda {
         @solr_helper.get_solr_response_for_doc_id(@bad_id)
-      }.should raise_error(Blacklight::InvalidSolrID)
+      }.should raise_error(Blacklight::Exceptions::InvalidSolrID)
     end
 
     it "should have a non-nil result for a known id" do

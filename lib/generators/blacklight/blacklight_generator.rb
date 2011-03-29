@@ -18,9 +18,8 @@ This generator makes the following changes to your application:
  5. Creates congig/SolrMarc/... with settings for SolrMarc
  6. Creates a number of public assets, including images, stylesheets, and javascript
  7. Adds a solr_marc.jar file to your lib/ directory 
- 8. Modifies your view/layouts/application.html.erb file to support nested layouts.
+ 9. Injects behavior into your user application_controller.rb
  9. Injects behavior into your user model
-10. Creates a blacklight controller in your /app/controllers directory
 11. Creates a blacklight document   in your /app/models directory
 Thank you for Installing Blacklight.
        """ 
@@ -102,10 +101,20 @@ EOF
     end    
   end
 
-  # Generate blacklight catalog controller and document
-  def create_blacklight_catalog_and_document
+  # Add Blacklight to the application controller
+  def inject_blacklight_controller_behavior    
+#    prepend_file("app/controllers/application_controller.rb", "require 'blacklight/controller'\n\n")
+    inject_into_class "app/controllers/application_controller.rb", "ApplicationController" do
+      "  # Adds a few additional behaviors into the application controller \n " +        
+        "  include Blacklight::Controller\n" + 
+        "  # Please be sure to impelement current_user and user_session. Blacklight depends on \n" +
+        "  # these methods in order to perform user specific actions. \n\n"
+    end
+  end
+  
+  # Generate blacklight document
+  def create_blacklight_document
     copy_file "solr_document.rb", "app/models/solr_document.rb"
-    copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
   end
 
   private  
