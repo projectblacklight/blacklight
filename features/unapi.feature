@@ -18,9 +18,12 @@ Feature: unAPI
 
   Scenario: unAPI endpoint with no parameters
     When I go to the unAPI endpoint
+    Then I should see a "format" element with "name" = "oai_dc_xml" exactly 1 time
 
   Scenario: Request list of formats for an object
     When I go to the unAPI endpoint for "2007020969"
+    Then I should see a "format" element with "name" = "oai_dc_xml" exactly 1 time
 
   Scenario: Request format of object
     When I go to the unAPI endpoint for "2007020969" with format "oai_dc_xml"
+    Then I should see "Strong Medicine speaks"
