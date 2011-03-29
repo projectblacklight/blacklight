@@ -22,6 +22,7 @@ Feature: unAPI
 
   Scenario: Request list of formats for an object
     When I go to the unAPI endpoint for "2007020969"
+    Then I should see a "format" element with "name" = "marc" exactly 1 time
     Then I should see a "format" element with "name" = "oai_dc_xml" exactly 1 time
 
   Scenario: Request format of object
