@@ -7,23 +7,23 @@
 	  <div class="field">
 	  	<div class="tag_ind">
 	      <span class="tag">
-	        <%= field.tag %>
+	        <%= h(field.tag) %>
 	  	  </span>
 		  <%- if field.is_a?(MARC::ControlField) -%>
 		    <span class="control_field_values">
-		      <%= field.value %>
+		      <%= h(field.value) %>
 		    </span>
 		  <%- else -%>
 		    <div class="ind1">
-		      <%= !field.indicator1.blank? ? field.indicator1 : "&nbsp;&nbsp;" -%>
+		      <%= !field.indicator1.blank? ? h(field.indicator1) : "&nbsp;&nbsp;" -%>
 		    </div>
 		    <div class="ind2">
-		      <%= !field.indicator2.blank? ? field.indicator2 : "&nbsp;&nbsp;" -%>
+		      <%= !field.indicator2.blank? ? h(field.indicator2) : "&nbsp;&nbsp;" -%>
 		    </div>
 		  </div>
 		  <div class="subfields">
 		    <%- field.each do |sub| -%>
-			  <span class="sub_code"><%= sub.code %>|</span> <%= sub.value %>
+			  <span class="sub_code"><%= h(sub.code) %>|</span> <%= h(sub.value) %>
 			<%- end -%>
 		  <%- end -%>
 	    </div>
