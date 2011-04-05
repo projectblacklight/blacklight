@@ -48,6 +48,12 @@ module Blacklight::SolrHelper
     [:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df]
   end
 
+    # Order of precedence for all the places solr params can come from,
+    # start lowest, and keep over-riding with higher. 
+  def solr_search_params_logic
+    @solr_search_params_logic ||= [:default_solr_parameters, :default_solr_parameters_for_search_field , :convert_url_parameters_to_solr_parameters, :copy_q_to_spellcheck_q, :convert_facets_config_to_solr_params, :add_search_field_local_query_params, :limit_to_max_per_page]
+  end
+
  # returns a params hash for searching solr.
   # The CatalogController #index action uses this.
   # Solr parameters can come from a number of places. From lowest
@@ -63,22 +69,24 @@ module Blacklight::SolrHelper
   # specified otherwise. 
   #
   # Incoming parameter :f is mapped to :fq solr parameter.
-  def solr_search_params(extra_controller_params={})
+  def solr_search_params(user_params = params || {})
     solr_parameters = {}
+    solr_search_params_logic.each do |method_name|
+      send(method_name, solr_parameters, user_params)
+    end
+
+    return solr_parameters
+  end
     
   
-    # Order of precedence for all the places solr params can come from,
-    # start lowest, and keep over-riding with higher. 
     ####
     # Start with general defaults from BL config. Need to use custom
     # merge to dup values, to avoid later mutating the original by mistake.
-    if Blacklight.config[:default_solr_params]
-      Blacklight.config[:default_solr_params].each_pair do |key, value|
-        solr_parameters[key] = case value
-                                 when Hash then value.dup
-                                 when Array then value.dup
-                                 else value
-                               end
+    def default_solr_parameters(solr_parameters, user_params = nil)
+      if Blacklight.config[:default_solr_params]
+        Blacklight.config[:default_solr_params].each_pair do |key, value|
+          solr_parameters[key] = value.dup rescue value
+        end
       end
     end
     
@@ -88,11 +96,12 @@ module Blacklight::SolrHelper
     # Merge in search field configured values, if present, over-writing general
     # defaults
     ###
-    search_field_def = Blacklight.search_field_def_for_key(params[:search_field] || extra_controller_params[:search_field])
+    def default_solr_parameters_for_search_field(solr_parameters, user_params)
+      search_field_def = Blacklight.search_field_def_for_key(user_params[:search_field])
+      return unless search_field_def
     
-    solr_parameters[:qt] = search_field_def[:qt] if search_field_def
-    
-    if ( search_field_def && search_field_def[:solr_parameters])
+      solr_parameters[:qt] = search_field_def[:qt]
+      search_field_def[:solr_parameters] ||= {}
       solr_parameters.merge!( search_field_def[:solr_parameters])
     end
 
@@ -100,41 +109,29 @@ module Blacklight::SolrHelper
     ###
     # Merge in certain values from HTTP query itelf
     ###
-    # Omit empty strings and nil values. 
-    [:facets, :f, :page, :sort, :per_page].each do |key|
-      solr_parameters[key] = params[key] unless params[key].blank?      
-    end
-    # :q is meaningful as an empty string, should be used unless nil!
-    [:q].each do |key|
-      solr_parameters[key] = params[key] if params[key]
-    end
-    # pass through any facet fields from request params["facet.field"] to
-    # solr params. Used by Stanford for it's "faux hierarchical facets".
-    if params.has_key?("facet.field")
-      solr_parameters[:"facet.field"] ||= []
-      solr_parameters[:"facet.field"].concat( [params["facet.field"]].flatten ).uniq!
+    def convert_url_parameters_to_solr_parameters solr_parameters, user_params
+      # Omit empty strings and nil values. 
+      [:facets, :f, :page, :sort, :per_page].each do |key|
+        solr_parameters[key] = user_params[key] unless user_params[key].blank?      
+      end
+      # :q is meaningful as an empty string, should be used unless nil!
+      [:q].each do |key|
+        solr_parameters[key] = user_params[key] if user_params[key]
+      end
+      # pass through any facet fields from request user_params["facet.field"] to
+      # solr user_params. Used by Stanford for it's "faux hierarchical facets".
+      if user_params.has_key?("facet.field")
+        solr_parameters[:"facet.field"] ||= []
+        solr_parameters[:"facet.field"].concat( [user_params["facet.field"]].flatten ).uniq!
+      end
+      # qt is handled different for legacy reasons; qt in HTTP param can not
+      # over-ride qt from search_field_def defaults, it's only used if there
+      # was no qt from search_field_def_defaults
+      solr_parameters[:qt] = user_params[:qt] if user_params[:qt]
+
     end
       
     
-        
-    # qt is handled different for legacy reasons; qt in HTTP param can not
-    # over-ride qt from search_field_def defaults, it's only used if there
-    # was no qt from search_field_def_defaults
-    unless params[:qt].blank? || ( search_field_def && search_field_def[:qt])
-      solr_parameters[:qt] = params[:qt]
-    end
-    
-    ###
-    # Merge in any values from extra_params argument. It doesn't seem like
-    # we should have to take a slice of just certain keys, but legacy code
-    # seems to put arguments in here that aren't really expected to turn
-    # into solr params. 
-    ###
-    solr_parameters.deep_merge!(extra_controller_params.slice( *extra_controller_params_whitelist).symbolize_keys   )
-
-
-
-
     
     ###
     # Defaults for otherwise blank values and normalization. 
@@ -143,10 +140,13 @@ module Blacklight::SolrHelper
     # TODO: Change calling code to expect this as a symbol instead of
     # a string, for consistency? :'spellcheck.q' is a symbol. Right now
     # callers assume a string. 
-    solr_parameters["spellcheck.q"] = solr_parameters[:q] unless solr_parameters["spellcheck.q"]
+    def copy_q_to_spellcheck_q solr_parameters, user_params = nil
+      solr_parameters["spellcheck.q"] = solr_parameters[:q] unless solr_parameters["spellcheck.q"]
+    end
 
+    def convert_facets_config_to_solr_params solr_parameters, user_params
     # And fix the 'facets' parameter to be the way the solr expects it.
-    solr_parameters[:facets]= {:fields => solr_parameters[:facets]} if solr_parameters[:facets]
+    solr_parameters[:facets] &&= {:fields => solr_parameters[:facets]} 
     
     # :fq, map from :f. 
     if ( solr_parameters[:f])
@@ -167,15 +167,21 @@ module Blacklight::SolrHelper
       solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
     end
 
+    end
+
     ##
     # Merge in search-field-specified LocalParams into q param in
     # solr LocalParams syntax
     ##
-    if (search_field_def && hash = search_field_def[:solr_local_parameters])
-      local_params = hash.collect do |key, val|
-        key.to_s + "=" + solr_param_quote(val, :quote => "'")
-      end.join(" ")
-      solr_parameters[:q] = "{!#{local_params}}#{solr_parameters[:q]}"
+    def add_search_field_local_query_params solr_parameters, user_params
+      search_field_def = Blacklight.search_field_def_for_key(user_params[:search_field])
+      return unless search_field_def
+      if (search_field_def && hash = search_field_def[:solr_local_parameters])
+        local_params = hash.collect do |key, val|
+          key.to_s + "=" + solr_param_quote(val, :quote => "'")
+        end.join(" ")
+        solr_parameters[:q] = "{!#{local_params}}#{solr_parameters[:q]}"
+      end
     end
     
     
@@ -185,11 +191,10 @@ module Blacklight::SolrHelper
     
     # limit to MaxPerPage (100). Tests want this to be a string not an integer,
     # not sure why. 
-    solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]
+    def limit_to_max_per_page solr_parameters, user_params
+      solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]
+    end
 
-    return solr_parameters
-    
-  end
   
   # a solr query method
   # given a user query, return a solr response containing both result docs and facets
@@ -197,13 +202,13 @@ module Blacklight::SolrHelper
   #   - the response will have a spelling_suggestions method
   # Returns a two-element array (aka duple) with first the solr response object,
   # and second an array of SolrDocuments representing the response.docs
-  def get_search_results(extra_controller_params={})
+  def get_search_results(user_params = params || {}, extra_controller_params = {})
 
     # In later versions of Rails, the #benchmark method can do timing
     # better for us. 
     bench_start = Time.now
     
-      solr_response = Blacklight.solr.find(  self.solr_search_params(extra_controller_params) )
+      solr_response = Blacklight.solr.find(  self.solr_search_params(user_params).merge(extra_controller_params))
   
       document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
 
@@ -215,27 +220,27 @@ module Blacklight::SolrHelper
   # returns a params hash for finding a single solr document (CatalogController #show action)
   # If the id arg is nil, then the value is fetched from params[:id]
   # This method is primary called by the get_solr_response_for_doc_id method.
-  def solr_doc_params(id=nil, extra_controller_params={})
+  def solr_doc_params(id=nil)
     id ||= params[:id]
     # just to be consistent with the other solr param methods:
     {
       :qt => :document,
       :id => id
-    }.deep_merge(extra_controller_params.symbolize_keys)
+    }
   end
   
   # a solr query method
   # retrieve a solr document, given the doc id
   # TODO: shouldn't hardcode id field;  should be setable to unique_key field in schema.xml
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
-    solr_response = Blacklight.solr.find solr_doc_params(id, extra_controller_params)
+    solr_response = Blacklight.solr.find solr_doc_params(id).merge(extra_controller_params)
     raise InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
   end
   
   # given a field name and array of values, get the matching SOLR documents
-  def get_solr_response_for_field_values(field, values, extra_controller_params={})
+  def get_solr_response_for_field_values(field, values)
     value_str = "(\"" + values.to_a.join("\" OR \"") + "\")"
     solr_params = {
       :qt => "standard",   # need boolean for OR
@@ -244,7 +249,7 @@ module Blacklight::SolrHelper
       'facet' => 'false',
       'spellcheck' => 'false'
     }
-    solr_response = Blacklight.solr.find( self.solr_search_params(solr_params.merge(extra_controller_params)) )
+    solr_response = Blacklight.solr.find( self.solr_search_params().merge(solr_params) )
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
     [solr_response,document_list]
   end
@@ -255,12 +260,12 @@ module Blacklight::SolrHelper
   # params to figure out sort and offset.
   # Default limit for facet list can be specified by defining a controller
   # method facet_list_limit, otherwise 20. 
-  def solr_facet_params(facet_field, extra_controller_params={})
-    input = params.deep_merge(extra_controller_params)
+  def solr_facet_params(facet_field, user_params=params || {}, extra_controller_params={})
+    input = user_params.deep_merge(extra_controller_params)
 
     # First start with a standard solr search params calculations,
     # for any search context in our request params. 
-    solr_params = solr_search_params(extra_controller_params)
+    solr_params = solr_search_params(user_params).merge(extra_controller_params)
     
     # Now override with our specific things for fetching facet values
     solr_params[:"facet.field"] = facet_field
@@ -287,7 +292,7 @@ module Blacklight::SolrHelper
   # /catalog/facet/language_facet
   def get_facet_pagination(facet_field, extra_controller_params={})
     
-    solr_params = solr_facet_params(facet_field, extra_controller_params)
+    solr_params = solr_facet_params(facet_field, params, extra_controller_params)
     
     # Make the solr call
     response = Blacklight.solr.find(solr_params)
@@ -317,7 +322,7 @@ module Blacklight::SolrHelper
   # this is used when selecting a search result: we have a query and a 
   # position in the search results and possibly some facets
   def get_single_doc_via_search(extra_controller_params={})
-    solr_params = solr_search_params(extra_controller_params)
+    solr_params = solr_search_params().merge(extra_controller_params)
     solr_params[:per_page] = 1
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
@@ -328,8 +333,8 @@ module Blacklight::SolrHelper
   # if field is nil, the value is fetched from Blacklight.config[:index][:show_link]
   # the :fl (solr param) is set to the "field" value.
   # per_page is set to 10
-  def solr_opensearch_params(field, extra_controller_params={})
-    solr_params = solr_search_params(extra_controller_params)
+  def solr_opensearch_params(field=nil)
+    solr_params = solr_search_params
     solr_params[:per_page] = 10
     solr_params[:fl] = Blacklight.config[:index][:show_link]
     solr_params
@@ -342,7 +347,7 @@ module Blacklight::SolrHelper
   # all of the field values for each of the documents...
   # where the field is the "field" argument passed in.
   def get_opensearch_response(field=nil, extra_controller_params={})
-    solr_params = solr_opensearch_params(extra_controller_params)
+    solr_params = solr_opensearch_params().merge(extra_controller_params)
     response = Blacklight.solr.find(solr_params)
     a = [solr_params[:q]]
     a << response.docs.map {|doc| doc[solr_params[:fl]].to_s }

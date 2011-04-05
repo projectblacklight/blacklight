@@ -238,7 +238,7 @@ describe 'Blacklight::SolrHelper' do
 
       describe "should respect proper precedence of settings, " do
         before do
-          @produced_params = @solr_helper_with_params.solr_search_params(:sort => "extra_params_sort")
+          @produced_params = @solr_helper_with_params.solr_search_params().merge(:sort => "extra_params_sort")
           1+1
         end
 
@@ -360,6 +360,10 @@ describe 'Blacklight::SolrHelper' do
       search_params = {:q => 'tibetan history', :f=> {:format=>'Book', :language_facet=>'Tibetan'}}
       solr_search_params = @solr_helper.solr_search_params( search_params )
       solr_facet_params = @solr_helper.solr_facet_params('format', search_params)
+
+      print solr_search_params.inspect
+      print "\n"
+      print solr_facet_params.inspect
 
       solr_search_params.each_pair do |key, value|
         # The specific params used for fetching the facet list we
