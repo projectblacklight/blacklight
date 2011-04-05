@@ -7,7 +7,7 @@ class RecordMailer < ActionMailer::Base
     
     recipients details[:to]
     if documents.size == 1
-      subject "Item Record: #{documents.first.to_marc['245']['a'] rescue 'N/A'}"
+      subject "Item Record: #{documents.first.to_semantic_values[:title] rescue 'N/A'}"
     else
       subject "Item records"
     end
