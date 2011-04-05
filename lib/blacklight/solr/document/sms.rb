@@ -7,7 +7,9 @@ module Blacklight::Solr::Document::Sms
   # Return a text string that will be the body of the email
   def export_as_sms_text
     semantics = self.to_semantic_values
-    body = [semantics[:title].first, semantics[:author].first].join(" by ")
+    body = ""
+    body << semantics[:title].first unless semantics[:title].blank?
+    body << " by #{semantics[:author].first}" unless semantics[:author].blank?
     return body unless body.blank?
   end
 
