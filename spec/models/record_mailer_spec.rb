@@ -2,15 +2,15 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-
-
 describe RecordMailer do
-  before do
-    @documents = []
-    @documents.push(mock_model(SolrDocument, :id => '123456', :to_marc => sample_marc, :[] => 'book'))
+  before(:each) do
+    SolrDocument.use_extension( Blacklight::Solr::Document::Email )
+    SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
+    document = SolrDocument.new({:id=>"123456", :format=>["book"], :title_display => "The horn", :language_facet => "English", :author_display => "Janetzky, Kurt"})
+    @documents = [document]
   end
   describe "email" do
-    before do
+    before(:each) do
       details = {:to => 'test@test.com', :message => "This is my message"}
       @email = RecordMailer.create_email_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org:3000'})
     end
@@ -27,7 +27,7 @@ describe RecordMailer do
       @email.from.should == ["no-reply@projectblacklight.org"]
     end
     it "should print out the correct body" do
-      @email.body.should =~ /Title: The horn /
+      @email.body.should =~ /Title: The horn/
       @email.body.should =~ /Author: Janetzky, Kurt/
       @email.body.should =~ /projectblacklight.org:3000/
     end
@@ -39,7 +39,7 @@ describe RecordMailer do
   end
   
   describe "SMS" do
-    before do
+    before(:each) do
       details = {:to => '5555555555', :carrier => 'att'}
       @sms = RecordMailer.create_sms_record(@documents,details,'projectblacklight.org',{:host =>'projectblacklight.org:3000'})
     end
@@ -64,37 +64,4 @@ describe RecordMailer do
     end
   end
 
-  def record_xml
-    "<record>
-       <leader>01021cam a2200277 a 4500</leader>
-       <controlfield tag=\"001\">a1711966</controlfield>
-       <controlfield tag=\"003\">SIRSI</controlfield>
-       <controlfield tag=\"008\">890421s1988    enka          001 0 eng d</controlfield>
-  
-       <datafield tag=\"100\" ind1=\"1\" ind2=\" \">
-         <subfield code=\"a\">Janetzky, Kurt.</subfield>
-       </datafield>
-  
-       <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">
-         <subfield code=\"a\">The horn /</subfield>
-         <subfield code=\"c\">Kurt Janetzky and Bernhard Bruchle ; translated from the German by James Chater.</subfield>
-       </datafield>
-  
-       <datafield tag=\"260\" ind1=\" \" ind2=\" \">
-         <subfield code=\"a\">London :</subfield>
-         <subfield code=\"b\">Batsford,</subfield>
-         <subfield code=\"c\">1988.</subfield>
-       </datafield>
-  
-       <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
-         <subfield code=\"a\">Brüchle, Bernhard.</subfield>
-       </datafield>
-    </record>"
-  end
-  
-  def sample_marc
-    reader = MARC::XMLReader.new(StringIO.new( record_xml ))
-    reader.each {|rec| return rec}
-  end
-  
 end
