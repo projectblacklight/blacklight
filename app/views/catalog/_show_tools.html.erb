@@ -26,14 +26,16 @@
       </li>
     <% end %>
     
-    <% if @document.respond_to?(:to_marc) %>
+    <% if @document.export_formats.keys.include?( :email_text ) %>
       <li class="email">
          <%= link_to "Email This", email_catalog_path(:id => @document[:id]), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %>
       </li>
+    <%- end -%>
+    <%- if @document.export_formats.keys.include?( :sms_text ) -%>
       <li class="sms">
          <%= link_to "SMS This", sms_catalog_path(:id => @document[:id]), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
       </li>
-    <% end %>
+    <%- end -%>
     
     <% if @document.respond_to?(:to_marc) %>
       <li class="librarian_view">
