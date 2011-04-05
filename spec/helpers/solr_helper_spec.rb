@@ -361,10 +361,6 @@ describe 'Blacklight::SolrHelper' do
       solr_search_params = @solr_helper.solr_search_params( search_params )
       solr_facet_params = @solr_helper.solr_facet_params('format', search_params)
 
-      print solr_search_params.inspect
-      print "\n"
-      print solr_facet_params.inspect
-
       solr_search_params.each_pair do |key, value|
         # The specific params used for fetching the facet list we
         # don't care about.
