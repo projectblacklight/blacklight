@@ -39,7 +39,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic << :new_method
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    klass.solr_search_params_logic = [:default_solr_parameters, :default_solr_parameters_for_search_field , :convert_url_parameters_to_solr_parameters, :copy_q_to_spellcheck_q, :convert_facets_config_to_solr_params, :add_search_field_local_query_params, :limit_to_max_per_page]
+    klass.solr_search_params_logic = [:default_solr_parameters, :default_solr_parameters_for_search_field , :whitelist_user_parameters, :handle_q_param, :handle_facet_params, :enforce_max_per_page_limit]
   end
   
   
@@ -93,7 +93,7 @@ module Blacklight::SolrHelper
     ####
     # Start with general defaults from BL config. Need to use custom
     # merge to dup values, to avoid later mutating the original by mistake.
-    def default_solr_parameters(solr_parameters, user_params = nil)
+    def default_solr_parameters(solr_parameters, user_params)
       if Blacklight.config[:default_solr_params]
         Blacklight.config[:default_solr_params].each_pair do |key, value|
           solr_parameters[key] = value.dup rescue value
@@ -120,15 +120,12 @@ module Blacklight::SolrHelper
     ###
     # Merge in certain values from HTTP query itelf
     ###
-    def convert_url_parameters_to_solr_parameters solr_parameters, user_params
+    def whitelist_user_parameters solr_parameters, user_params
       # Omit empty strings and nil values. 
       [:facets, :f, :page, :sort, :per_page].each do |key|
         solr_parameters[key] = user_params[key] unless user_params[key].blank?      
       end
-      # :q is meaningful as an empty string, should be used unless nil!
-      [:q].each do |key|
-        solr_parameters[key] = user_params[key] if user_params[key]
-      end
+
       # pass through any facet fields from request user_params["facet.field"] to
       # solr user_params. Used by Stanford for it's "faux hierarchical facets".
       if user_params.has_key?("facet.field")
@@ -141,21 +138,29 @@ module Blacklight::SolrHelper
       solr_parameters[:qt] = user_params[:qt] if user_params[:qt]
 
     end
-      
-    
-    
-    ###
-    # Defaults for otherwise blank values and normalization. 
-    ###
-    
-    # TODO: Change calling code to expect this as a symbol instead of
-    # a string, for consistency? :'spellcheck.q' is a symbol. Right now
-    # callers assume a string. 
-    def copy_q_to_spellcheck_q solr_parameters, user_params = nil
+
+    def handle_q_param solr_parameters, user_params
+      # :q is meaningful as an empty string, should be used unless nil!
+      [:q].each do |key|
+        solr_parameters[key] = user_params[key] if user_params[key]
+      end
+
+      # TODO: Change calling code to expect this as a symbol instead of
+      # a string, for consistency? :'spellcheck.q' is a symbol. Right now
+      # callers assume a string. 
       solr_parameters["spellcheck.q"] = solr_parameters[:q] unless solr_parameters["spellcheck.q"]
+
+      search_field_def = Blacklight.search_field_def_for_key(user_params[:search_field])
+      if (search_field_def && hash = search_field_def[:solr_local_parameters])
+        local_params = hash.collect do |key, val|
+          key.to_s + "=" + solr_param_quote(val, :quote => "'")
+        end.join(" ")
+        solr_parameters[:q] = "{!#{local_params}}#{solr_parameters[:q]}"
+      end
     end
 
-    def convert_facets_config_to_solr_params solr_parameters, user_params
+    def handle_facet_params solr_parameters, user_params
+
     # And fix the 'facets' parameter to be the way the solr expects it.
     solr_parameters[:facets] &&= {:fields => solr_parameters[:facets]} 
     
@@ -177,24 +182,8 @@ module Blacklight::SolrHelper
 
       solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
     end
-
     end
 
-    ##
-    # Merge in search-field-specified LocalParams into q param in
-    # solr LocalParams syntax
-    ##
-    def add_search_field_local_query_params solr_parameters, user_params
-      search_field_def = Blacklight.search_field_def_for_key(user_params[:search_field])
-      return unless search_field_def
-      if (search_field_def && hash = search_field_def[:solr_local_parameters])
-        local_params = hash.collect do |key, val|
-          key.to_s + "=" + solr_param_quote(val, :quote => "'")
-        end.join(" ")
-        solr_parameters[:q] = "{!#{local_params}}#{solr_parameters[:q]}"
-      end
-    end
-    
     
     ###
     # Sanity/requirements checks.
@@ -202,7 +191,7 @@ module Blacklight::SolrHelper
     
     # limit to MaxPerPage (100). Tests want this to be a string not an integer,
     # not sure why. 
-    def limit_to_max_per_page solr_parameters, user_params
+    def enforce_max_per_page_limit solr_parameters, user_params
       solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]
     end
 
