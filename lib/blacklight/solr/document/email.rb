@@ -1,11 +1,8 @@
 # This module provides the body of an email export based on the document's semantic values
 module Blacklight::Solr::Document::Email
-  def self.extended(document)
-    document.will_export_as(:email_text, "text")
-  end
 
   # Return a text string that will be the body of the email
-  def export_as_email_text
+  def to_email_text
     semantics = self.to_semantic_values
     body = ""
     body << "Title: #{semantics[:title].join(" ")}\n" unless semantics[:title].blank?

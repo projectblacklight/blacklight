@@ -6,18 +6,18 @@ describe "Blacklight::Solr::Document::Email" do
   end
   it "should only return values that are available in the field semantics" do
     doc = SolrDocument.new({:id=>"1234", :title_display=>"My Title", :author_display=>"Joe Schmoe"})
-    sms_text = doc.export_as_sms_text
+    sms_text = doc.to_sms_text
     sms_text.should match(/My Title by Joe Schmoe/)
   end
   it "should handle multi-values fields correctly and only take the first" do
     doc = SolrDocument.new({:id=>"1234", :title_display=>["My Title", "My Alt. Title"]})
-    sms_text = doc.export_as_sms_text
+    sms_text = doc.to_sms_text
     sms_text.should match(/My Title/)
     sms_text.should_not match(/My Alt\. Title/)
   end
   it "should return nil if there are no valid field semantics to build the email body from" do
     doc = SolrDocument.new({:id=>"1234"})
-    doc.export_as_sms_text.should be_nil
+    doc.to_sms_text.should be_nil
   end
 end
 
