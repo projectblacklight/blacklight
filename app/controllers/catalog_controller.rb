@@ -164,6 +164,7 @@ class CatalogController < ApplicationController
     end
   end
   
+  # DEPRECATED backwards compatible method that will just redirect to the appropriate action.  It will return a 404 if a bad action is supplied (just in case).
   def send_email_record
     warn "[DEPRECATION] CatalogController#send_email_record is deprecated.  Please use the email or sms controller action instead."
     if ["sms","email"].include?(params[:style])
