@@ -71,6 +71,25 @@ describe 'Blacklight::SolrHelper' do
 
   # SPECS for actual search parameter generation
   describe "solr_search_params" do
+    it "allows customization of solr_search_params_logic" do
+        # Normally you'd include a new module into (eg) your CatalogController
+        # but a sub-class defininig it directly is simpler for test. 
+        class CustomizableHelper < MockSolrHelperContainer          
+            def add_foo_to_solr_params(solr_params, user_params)
+              solr_params[:foo] = "TESTING"
+            end
+        end 
+                         
+        CustomizableHelper.solr_search_params_logic << :add_foo_to_solr_params
+        
+        
+        obj = CustomizableHelper.new
+        params = obj.solr_search_params
+        
+        params[:foo].should == "TESTING"
+    end
+    
+    
     describe 'for an entirely empty search' do
       before do
         @produced_params = @solr_helper.solr_search_params

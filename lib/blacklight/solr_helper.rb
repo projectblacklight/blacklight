@@ -21,12 +21,28 @@ module Blacklight::SolrHelper
   # is not successful, raise this:
   class InvalidSolrID < RuntimeError; end
   
-  def self.included(mod)
-    if mod.respond_to?(:helper_method)
-      mod.helper_method(:facet_limit_hash)
-      mod.helper_method(:facet_limit_for)
+  def self.included(klass)
+    if klass.respond_to?(:helper_method)
+      klass.helper_method(:facet_limit_hash)
+      klass.helper_method(:facet_limit_for)
     end
+    
+    # We want to install a class-level place to keep 
+    # solr_search_params_logic method names. Compare to before_filter,
+    # similar design. Since we're a module, we have to add it in here.
+    # There are too many different semantic choices in ruby 'class variables',
+    # we choose this one for now, supplied by Rails. 
+    klass.class_inheritable_accessor :solr_search_params_logic
+    # Set defaults. Each symbol identifies a _method_ that must be in
+    # this class, taking two parameters (solr_parameters, user_parameters)
+    # Can be changed in local apps or by plugins, eg:
+    # CatalogController.include ModuleDefiningNewMethod
+    # CatalogController.solr_search_params_logic << :new_method
+    # CatalogController.solr_search_params_logic.delete(:we_dont_want)
+    klass.solr_search_params_logic = [:default_solr_parameters, :default_solr_parameters_for_search_field , :convert_url_parameters_to_solr_parameters, :copy_q_to_spellcheck_q, :convert_facets_config_to_solr_params, :add_search_field_local_query_params, :limit_to_max_per_page]
   end
+  
+  
   # A helper method used for generating solr LocalParams, put quotes
   # around the term unless it's a bare-word. Escape internal quotes
   # if needed. 
@@ -47,12 +63,7 @@ module Blacklight::SolrHelper
   def extra_controller_params_whitelist
     [:qt, :q, :facets,  :page, :per_page, :phrase_filters, :f, :fq, :fl, :sort, :qf, :df]
   end
-
-    # Order of precedence for all the places solr params can come from,
-    # start lowest, and keep over-riding with higher. 
-  def solr_search_params_logic
-    @solr_search_params_logic ||= [:default_solr_parameters, :default_solr_parameters_for_search_field , :convert_url_parameters_to_solr_parameters, :copy_q_to_spellcheck_q, :convert_facets_config_to_solr_params, :add_search_field_local_query_params, :limit_to_max_per_page]
-  end
+    
 
  # returns a params hash for searching solr.
   # The CatalogController #index action uses this.
