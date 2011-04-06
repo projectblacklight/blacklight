@@ -164,6 +164,15 @@ class CatalogController < ApplicationController
     end
   end
   
+  def send_email_record
+    warn "[DEPRECATION] CatalogController#send_email_record is deprecated.  Please use the email or sms controller action instead."
+    if ["sms","email"].include?(params[:style])
+      redirect_to :action => params[:style] 
+    else
+      render :template => "public/404.html", :layout => false, :status => 404
+    end
+  end
+  
   # grabs a bunch of documents to export to endnote
   def endnote
     @response, @documents = get_solr_response_for_field_values("id",params[:id])

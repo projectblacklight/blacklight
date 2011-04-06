@@ -398,6 +398,20 @@ describe CatalogController do
         response.should redirect_to(catalog_path(doc_id))
       end
     end
+    describe "backwards compatbile send_record_email" do
+      it "should redirect to the sms action when the sms style param is passed" do
+        post :send_email_record, :style=>"sms"
+        response.should redirect_to(sms_catalog_path)
+      end
+      it "should redirect to the email action when the email style param is passed" do
+        post :send_email_record, :style=>"email"
+        response.should redirect_to(email_catalog_path)
+      end
+      it "should not do anything if a bad style is sent" do
+        post :send_email_record, :style=>"bad-style"
+        response.status.should == "404 Not Found"
+      end
+    end
   end
 
   describe "errors" do
