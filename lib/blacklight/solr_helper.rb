@@ -39,7 +39,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic << :new_method
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    klass.solr_search_params_logic = [:default_solr_parameters, :default_solr_parameters_for_search_field , :whitelist_user_parameters, :handle_q_param, :handle_facet_params, :enforce_max_per_page_limit]
+    klass.solr_search_params_logic = [:default_solr_parameters , :whitelist_user_parameters, :add_query_to_solr, :handle_facet_params, :enforce_max_per_page_limit]
   end
   
   
@@ -101,22 +101,6 @@ module Blacklight::SolrHelper
       end
     end
     
-    
-    
-    ###
-    # Merge in search field configured values, if present, over-writing general
-    # defaults
-    ###
-    def default_solr_parameters_for_search_field(solr_parameters, user_params)
-      search_field_def = Blacklight.search_field_def_for_key(user_params[:search_field])
-      return unless search_field_def
-    
-      solr_parameters[:qt] = search_field_def[:qt]
-      search_field_def[:solr_parameters] ||= {}
-      solr_parameters.merge!( search_field_def[:solr_parameters])
-    end
-
-    
     ###
     # Merge in certain values from HTTP query itelf
     ###
@@ -139,24 +123,47 @@ module Blacklight::SolrHelper
 
     end
 
-    def handle_q_param solr_parameters, user_params
-      # :q is meaningful as an empty string, should be used unless nil!
-      [:q].each do |key|
-        solr_parameters[key] = user_params[key] if user_params[key]
+    ##
+    # Take the user-entered query, and put it in the solr params, 
+    # including config's "search field" params for current search field. 
+    # also include setting spellcheck.q. 
+    def add_query_to_solr(solr_parameters, user_parameters)
+      ###
+      # Merge in search field configured values, if present, over-writing general
+      # defaults
+      ###
+      search_field_def = Blacklight.search_field_def_for_key(user_parameters[:search_field])
+      if (search_field_def)     
+        solr_parameters[:qt] = search_field_def[:qt] if search_field_def[:qt]      
+        solr_parameters.merge!( search_field_def[:solr_parameters]) if search_field_def[:solr_parameters]
       end
-
-      # TODO: Change calling code to expect this as a symbol instead of
-      # a string, for consistency? :'spellcheck.q' is a symbol. Right now
-      # callers assume a string. 
-      solr_parameters["spellcheck.q"] = solr_parameters[:q] unless solr_parameters["spellcheck.q"]
-
-      search_field_def = Blacklight.search_field_def_for_key(user_params[:search_field])
+      
+      ##
+      # Create Solr 'q' including the user-entered q, prefixed by any
+      # solr LocalParams in config, using solr LocalParams syntax. 
+      # http://wiki.apache.org/solr/LocalParams
+      ##         
       if (search_field_def && hash = search_field_def[:solr_local_parameters])
         local_params = hash.collect do |key, val|
           key.to_s + "=" + solr_param_quote(val, :quote => "'")
         end.join(" ")
-        solr_parameters[:q] = "{!#{local_params}}#{solr_parameters[:q]}"
+        solr_parameters[:q] = "{!#{local_params}}#{user_parameters[:q]}"
+      else
+        solr_parameters[:q] = user_parameters[:q] if user_parameters[:q]
       end
+            
+
+      ##
+      # Set Solr spellcheck.q to be original user-entered query, without
+      # our local params, otherwise it'll try and spellcheck the local
+      # params! Unless spellcheck.q has already been set by someone,
+      # respect that.
+      #
+      # TODO: Change calling code to expect this as a symbol instead of
+      # a string, for consistency? :'spellcheck.q' is a symbol. Right now
+      # rspec tests for a string, and can't tell if other code may
+      # insist on a string. 
+      solr_parameters["spellcheck.q"] = user_parameters[:q] unless solr_parameters["spellcheck.q"]
     end
 
     def handle_facet_params solr_parameters, user_params
