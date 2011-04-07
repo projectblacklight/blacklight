@@ -99,21 +99,13 @@ module Blacklight::SolrHelper
     ###
     def whitelist_user_parameters solr_parameters, user_params
       # Omit empty strings and nil values. 
-      [:facets, :f, :page, :sort, :per_page].each do |key|
+      [:f, :page, :sort, :per_page].each do |key|
         solr_parameters[key] = user_params[key] unless user_params[key].blank?      
       end
       
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
       # not sure why.     
-      solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]
-    
-
-      # pass through any facet fields from request user_params["facet.field"] to
-      # solr user_params. Used by Stanford for it's "faux hierarchical facets".
-      if user_params.has_key?("facet.field")
-        solr_parameters[:"facet.field"] ||= []
-        solr_parameters[:"facet.field"].concat( [user_params["facet.field"]].flatten ).uniq!
-      end      
+      solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]      
     end
 
     ##
@@ -179,10 +171,34 @@ module Blacklight::SolrHelper
     end
     
     def add_facetting_to_solr(solr_parameters, user_params)
-      # And fix the 'facets' parameter to be the way the solr expects it.
-      solr_parameters[:facets] &&= {:fields => solr_parameters[:facets]} 
+      # Okay, first we have some not entirely clear behavior which as of
+      # this writing, when I'm doing a refactor, does not seem to be covered
+      # by rspec, but nevertheless trying to keep semantics the same. 
+      #
+      # Apparently the BL app itself could accept incoming parameters in
+      # either "facet.field" or "facets[]" form, and either way
+      # should be sent to Solr facet.field.  Which apparently can be
+      # done by sending a facet[:field][:fields] argument to Rsolr. And maybe
+      # RSolr also accepts "facet.fields" somehow? And... who knows how
+      # it merges together. 
+      # 
+      # I don't think any core BL functionality uses this, but Stanford/UVa
+      # may be, and in this refactor trying not to change semantics. 
+      
+      # pass through any facet fields from request user_params["facet.field"] to
+      # solr user_params. Used by Stanford for it's "faux hierarchical facets".
+      if user_params.has_key?("facet.field")
+        solr_parameters[:"facet.field"] ||= []
+        solr_parameters[:"facet.field"].concat( [user_params["facet.field"]].flatten ).uniq!
+      end          
+      unless user_params[:facets].blank?
+        solr_parameters[:facets] ||= {}
+        solr_parameters[:facets][:fields] = user_params[:facets]         
+      end
   
-      # Facet 'more' limits. Add +1 to any configured facets limits,
+      # Much more straightforward, support facet paging and 'more'
+      # links, by sending a facet.limit one more than what we
+      # want to page at, according to configured facet limits.       
       facet_limit_hash.each_key do |field_name|
         next if field_name.nil? # skip the 'default' key
         next unless (limit = facet_limit_for(field_name))
