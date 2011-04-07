@@ -115,12 +115,7 @@ module Blacklight::SolrHelper
       if user_params.has_key?("facet.field")
         solr_parameters[:"facet.field"] ||= []
         solr_parameters[:"facet.field"].concat( [user_params["facet.field"]].flatten ).uniq!
-      end
-      # qt is handled different for legacy reasons; qt in HTTP param can not
-      # over-ride qt from search_field_def defaults, it's only used if there
-      # was no qt from search_field_def_defaults
-      solr_parameters[:qt] = user_params[:qt] if user_params[:qt]
-
+      end      
     end
 
     ##
@@ -132,6 +127,12 @@ module Blacklight::SolrHelper
       # Merge in search field configured values, if present, over-writing general
       # defaults
       ###
+      # legacy behavior of user param :qt is passed through, but over-ridden
+      # by actual search field config if present. We might want to remove
+      # this legacy behavior at some point. It does not seem to be currently
+      # rspec'd. 
+      solr_parameters[:qt] = user_parameters[:qt] if user_parameters[:qt]
+      
       search_field_def = Blacklight.search_field_def_for_key(user_parameters[:search_field])
       if (search_field_def)     
         solr_parameters[:qt] = search_field_def[:qt] if search_field_def[:qt]      
