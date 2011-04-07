@@ -39,7 +39,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic << :new_method
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    klass.solr_search_params_logic = [:default_solr_parameters , :whitelist_user_parameters, :add_query_to_solr, :handle_facet_params]
+    klass.solr_search_params_logic = [:default_solr_parameters , :whitelist_user_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr]
   end
   
   
@@ -165,10 +165,7 @@ module Blacklight::SolrHelper
       solr_parameters["spellcheck.q"] = user_parameters[:q] unless solr_parameters["spellcheck.q"]
     end
 
-    def handle_facet_params solr_parameters, user_params
-      # And fix the 'facets' parameter to be the way the solr expects it.
-      solr_parameters[:facets] &&= {:fields => solr_parameters[:facets]} 
-      
+    def add_facet_fq_to_solr(solr_parameters, user_params)
       # :fq, map from :f. 
       if ( solr_parameters[:f])
         f_request_params = solr_parameters.delete(:f)
@@ -179,6 +176,11 @@ module Blacklight::SolrHelper
           end              
         end      
       end
+    end
+    
+    def add_facetting_to_solr(solr_parameters, user_params)
+      # And fix the 'facets' parameter to be the way the solr expects it.
+      solr_parameters[:facets] &&= {:fields => solr_parameters[:facets]} 
   
       # Facet 'more' limits. Add +1 to any configured facets limits,
       facet_limit_hash.each_key do |field_name|
