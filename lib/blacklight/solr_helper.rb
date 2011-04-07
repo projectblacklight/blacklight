@@ -99,7 +99,7 @@ module Blacklight::SolrHelper
     ###
     def whitelist_user_parameters solr_parameters, user_params
       # Omit empty strings and nil values. 
-      [:f, :page, :sort, :per_page].each do |key|
+      [:page, :sort, :per_page].each do |key|
         solr_parameters[key] = user_params[key] unless user_params[key].blank?      
       end
       
@@ -157,14 +157,15 @@ module Blacklight::SolrHelper
       solr_parameters["spellcheck.q"] = user_parameters[:q] unless solr_parameters["spellcheck.q"]
     end
 
-    def add_facet_fq_to_solr(solr_parameters, user_params)
+    def add_facet_fq_to_solr(solr_parameters, user_params)      
       # :fq, map from :f. 
-      if ( solr_parameters[:f])
-        f_request_params = solr_parameters.delete(:f)
+      if ( user_params[:f])
+        f_request_params = user_params[:f] 
+        
         solr_parameters[:fq] ||= []
         f_request_params.each_pair do |facet_field, value_list|
           value_list.each do |value|
-          solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
+            solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
           end              
         end      
       end
