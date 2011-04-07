@@ -39,7 +39,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic << :new_method
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    klass.solr_search_params_logic = [:default_solr_parameters , :whitelist_user_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr]
+    klass.solr_search_params_logic = [:default_solr_parameters , :add_sorting_paging_to_solr, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr]
   end
   
   
@@ -95,10 +95,12 @@ module Blacklight::SolrHelper
     end
     
     ###
-    # Merge in certain values from HTTP query itelf
-    ###
-    def whitelist_user_parameters solr_parameters, user_params
-      # Omit empty strings and nil values. 
+    # copy paging and sorting params from BL app over to solr, with
+    # fairly little transformation. 
+    def add_sorting_paging_to_solr(solr_parameters, user_params)
+      # Omit empty strings and nil values.             
+      # Apparently RSolr takes :per_page and converts it to Solr :rows,
+      # so we let it. 
       [:page, :sort, :per_page].each do |key|
         solr_parameters[key] = user_params[key] unless user_params[key].blank?      
       end
