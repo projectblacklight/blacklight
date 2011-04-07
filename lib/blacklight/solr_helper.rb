@@ -39,7 +39,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic << :new_method
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    klass.solr_search_params_logic = [:default_solr_parameters , :whitelist_user_parameters, :add_query_to_solr, :handle_facet_params, :enforce_max_per_page_limit]
+    klass.solr_search_params_logic = [:default_solr_parameters , :whitelist_user_parameters, :add_query_to_solr, :handle_facet_params]
   end
   
   
@@ -102,6 +102,11 @@ module Blacklight::SolrHelper
       [:facets, :f, :page, :sort, :per_page].each do |key|
         solr_parameters[key] = user_params[key] unless user_params[key].blank?      
       end
+      
+      # limit to MaxPerPage (100). Tests want this to be a string not an integer,
+      # not sure why.     
+      solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]
+    
 
       # pass through any facet fields from request user_params["facet.field"] to
       # solr user_params. Used by Stanford for it's "faux hierarchical facets".
@@ -161,40 +166,29 @@ module Blacklight::SolrHelper
     end
 
     def handle_facet_params solr_parameters, user_params
-
-    # And fix the 'facets' parameter to be the way the solr expects it.
-    solr_parameters[:facets] &&= {:fields => solr_parameters[:facets]} 
-    
-    # :fq, map from :f. 
-    if ( solr_parameters[:f])
-      f_request_params = solr_parameters.delete(:f)
-      solr_parameters[:fq] ||= []
-      f_request_params.each_pair do |facet_field, value_list|
-        value_list.each do |value|
-        solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
-        end              
-      end      
+      # And fix the 'facets' parameter to be the way the solr expects it.
+      solr_parameters[:facets] &&= {:fields => solr_parameters[:facets]} 
+      
+      # :fq, map from :f. 
+      if ( solr_parameters[:f])
+        f_request_params = solr_parameters.delete(:f)
+        solr_parameters[:fq] ||= []
+        f_request_params.each_pair do |facet_field, value_list|
+          value_list.each do |value|
+          solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
+          end              
+        end      
+      end
+  
+      # Facet 'more' limits. Add +1 to any configured facets limits,
+      facet_limit_hash.each_key do |field_name|
+        next if field_name.nil? # skip the 'default' key
+        next unless (limit = facet_limit_for(field_name))
+  
+        solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
+      end
     end
 
-    # Facet 'more' limits. Add +1 to any configured facets limits,
-    facet_limit_hash.each_key do |field_name|
-      next if field_name.nil? # skip the 'default' key
-      next unless (limit = facet_limit_for(field_name))
-
-      solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
-    end
-    end
-
-    
-    ###
-    # Sanity/requirements checks.
-    ###
-    
-    # limit to MaxPerPage (100). Tests want this to be a string not an integer,
-    # not sure why. 
-    def enforce_max_per_page_limit solr_parameters, user_params
-      solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]
-    end
 
   
   # a solr query method
