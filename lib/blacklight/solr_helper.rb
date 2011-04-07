@@ -159,6 +159,9 @@ module Blacklight::SolrHelper
       solr_parameters["spellcheck.q"] = user_parameters[:q] unless solr_parameters["spellcheck.q"]
     end
 
+    ##
+    # Add any existing facet limits, stored in app-level HTTP query
+    # as :f, to solr as appropriate :fq query. 
     def add_facet_fq_to_solr(solr_parameters, user_params)      
       # :fq, map from :f. 
       if ( user_params[:f])
@@ -173,6 +176,10 @@ module Blacklight::SolrHelper
       end
     end
     
+    ##
+    # Add appropriate Solr facetting directives in, including
+    # taking account of our facet paging/'more'.  This is not
+    # about solr 'fq', this is about solr facet.* params. 
     def add_facetting_to_solr(solr_parameters, user_params)
       # Okay, first we have some not entirely clear behavior which as of
       # this writing, when I'm doing a refactor, does not seem to be covered
