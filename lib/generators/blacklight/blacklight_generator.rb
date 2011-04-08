@@ -114,7 +114,7 @@ EOF
   end
   
   # Generate blacklight document and the catalog controller
-  def create_blacklight_document
+  def create_blacklight_catalog_and_document
     copy_file "solr_document.rb", "app/models/solr_document.rb"
     copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
   end
