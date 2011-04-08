@@ -17,36 +17,31 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
-  
-  s.add_dependency "rails", ">= 3.0.3"
-  
+
+  # PRODUCTION GEM REQUIREMENTS
+  # ---------------------------------------    
   # JRuby Specific Gems - and their counterparts
   if defined?(JRUBY_VERSION)
-    s.add_dependency "jdbc-sqlite3"
-    s.add_dependency "activerecord"
-    s.add_dependency "activerecord-jdbc-adapter"
-    s.add_dependency "jruby-openssl"
-    s.add_dependency "jruby-rack"
-    s.add_dependency "nokogiri", "~>1.5.0.beta.3" # NOTE: this pre-release is only required if you want PURE java, current nokogiri works fine if you have libxml2 binaries installed.  See https://github.com/tenderlove/nokogiri/wiki/pure-java-nokogiri-for-jruby
-    s.add_dependency "warbler"    
+    # Jruby specific gems should go here.
   else
-    s.add_dependency "sqlite3-ruby" #, :require => 'sqlite3'
-    s.add_dependency "unicode"
+    s.add_dependency "unicode" # provides C-form normalization of unicode characters, as required by refworks.
   end  
 
   # Required Gems
-  s.add_dependency "marc"
-  s.add_dependency "will_paginate", "3.0.pre2"
-  s.add_dependency "acts-as-taggable-on"
-  s.add_dependency "paperclip"
-  s.add_dependency "capistrano"
-  s.add_dependency "rsolr",  '1.0.0' # source :gemcutter
-  s.add_dependency "rsolr-ext", '1.0.0' # source :gemcutter
+  s.add_dependency "rails", "= 3.0.6"
+  s.add_dependency "nokogiri", "~>1.5.0.beta.3"   # XML Parser
+  s.add_dependency "marc"  # Marc record parser
+  s.add_dependency "rsolr",  '1.0.0' # Library for interacting with rSolr.
+  s.add_dependency "rsolr-ext", '1.0.0' # extension to the above for some rails-ish behaviors - currently imbeded in our solr document ojbect.
+  s.add_dependency "will_paginate", "3.0.pre2" # the pagination (page 1,2,3, etc..) of our search results
 
+
+  # TESTING GEM REQUIREMENTS
+  # -------------------------------------------
   # For testing the generators
-  s.add_dependency "cucumber-rails"
-  s.add_dependency "capybara"
-  s.add_dependency "aruba"
+#  s.add_dependency "cucumber-rails"
+#  s.add_dependency "capybara"
+#  s.add_dependency "aruba"
 
 #  s.add_dependency "rspec-rails", "~>2.3.0"
 #  s.add_dependency "webrat"
