@@ -453,7 +453,7 @@ module BlacklightHelper
     query_params = session[:search] ? session[:search].dup : {}
     query_params.delete :counter
     query_params.delete :total
-    link_url = catalog_index_path(query_params)
+    link_url = catalog_index_path + "?" + query_params.to_query
     link_to opts[:label], link_url
   end
   
