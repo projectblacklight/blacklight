@@ -1,7 +1,8 @@
 require 'blacklight/catalog'
 
-class CatalogController < BlacklightController  
+class CatalogController < ApplicationController  
 
+  include Blacklight::SolrHelper
   include Blacklight::Catalog
 
 end 

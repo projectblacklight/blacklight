@@ -20,7 +20,8 @@ This generator makes the following changes to your application:
  7. Adds a solr_marc.jar file to your lib/ directory 
  9. Injects behavior into your user application_controller.rb
  9. Injects behavior into your user model
-11. Creates a blacklight document   in your /app/models directory
+10. Creates a blacklight catalog controller in your /app/controllers directory
+11. Creates a blacklight document in your /app/models directory
 Thank you for Installing Blacklight.
        """ 
   # Implement the required interface for Rails::Generators::Migration.
@@ -112,9 +113,10 @@ EOF
     end
   end
   
-  # Generate blacklight document
+  # Generate blacklight document and the catalog controller
   def create_blacklight_document
     copy_file "solr_document.rb", "app/models/solr_document.rb"
+    copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
   end
 
   private  
