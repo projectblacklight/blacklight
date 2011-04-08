@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root :to => "catalog#index"
 
   # A Note on User Sessions:
-  # Blacklight expects the following named routes to be defined:
+  # Blacklight expects the following named routes or at least the associated path helper methods to be defined.
   # new_user_session   (for logging in) - pages that require a log in will redirect users here.
   # destroy_user_session (for logging out)
 
@@ -30,11 +30,6 @@ Rails.application.routes.draw do
   match "saved_searches/forget/:id",  :to => "saved_searches#forget",  :as => "forget_search"
   
   # Catalog stuff.
-  match 'catalog/facet/:id', :to => "catalog#facet"
-  match 'catalog/:id/image', :to => "catalog#image"
-  match 'catalog/:id/status', :to => "catalog#status"
-  match 'catalog/:id/availability', :to => "catalog#availability"
-  match 'catalog/:id/librarian_view', :to => "catalog#librarian_view", :as => "librarian_view_catalog"
   match 'catalog/map', :as => "map_catalog"
   match 'catalog/opensearch', :as => "opensearch_catalog"
   match 'catalog/citation', :as => "citation_catalog"
@@ -42,7 +37,13 @@ Rails.application.routes.draw do
   match 'catalog/sms', :as => "sms_catalog"
   match 'catalog/endnote', :as => "endnote_catalog"
   match 'catalog/send_email_record', :as => "send_email_record_catalog"
+  match "catalog/facet/:id", :to => 'catalog#facet', :as => 'catalog_facet'
   resources :catalog, :only => [:index, :show, :update]
+  match 'catalog/:id/image', :to => "catalog#image"
+  match 'catalog/:id/status', :to => "catalog#status"
+  match 'catalog/:id/availability', :to => "catalog#availability"
+  match 'catalog/:id/librarian_view', :to => "catalog#librarian_view", :as => "librarian_view_catalog"
+
   
   # Feedback
   match "feedback", :to => "feedback#show"    
