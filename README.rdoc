@@ -4,7 +4,7 @@ Please note: The main Blacklight website is http://projectblacklight.org
 
 == Some background information
 
-Blacklight is open source discovery software. Libraries (or anyone else) can use Blacklight to enable searching and browsing of their collections online. Blacklight uses the Apache SOLR ( http://lucene.apache.org/solr ) search engine to index and search full text and/or metadata, and Blacklight has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and EAD XML files, and support is planned for Dublin Core and MODS as well. Blacklight was originally developed at the University of Virginia Library and is made public under an Apache 2.0 license. As of version 2.3.0 (released July 31, 2009), Blacklight is distributed as a rails engines plugin and also as a demo rails application that uses an engines Blacklight plugin.
+Blacklight is open source discovery software. Libraries (or anyone else) can use Blacklight to enable searching and browsing of their collections online. Blacklight uses the Apache SOLR ( http://lucene.apache.org/solr ) search engine to index and search full text and/or metadata, and Blacklight has a highly configurable Ruby on Rails front-end. Blacklight was originally developed at the University of Virginia Library and is made public under an Apache 2.0 license. 
 
 == Install & Use
 
