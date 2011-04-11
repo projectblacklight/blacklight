@@ -181,32 +181,18 @@ module Blacklight::SolrHelper
     # taking account of our facet paging/'more'.  This is not
     # about solr 'fq', this is about solr facet.* params. 
     def add_facetting_to_solr(solr_parameters, user_params)
-      # Okay, first we have some not entirely clear behavior which as of
-      # this writing, when I'm doing a refactor, does not seem to be covered
-      # by rspec, but nevertheless trying to keep semantics the same. 
-      #
-      # Apparently the BL app itself could accept incoming parameters in
-      # either "facet.field" or "facets[]" form, and either way
-      # should be sent to Solr facet.field.  Which apparently can be
-      # done by sending a facet[:field][:fields] argument to Rsolr. And maybe
-      # RSolr also accepts "facet.fields" somehow? And... who knows how
-      # it merges together. 
-      # 
-      # I don't think any core BL functionality uses this, but Stanford/UVa
-      # may be, and in this refactor trying not to change semantics. 
-      
-      # pass through any facet fields from request user_params["facet.field"] to
-      # solr user_params. Used by Stanford for it's "faux hierarchical facets".
-      if user_params.has_key?("facet.field")
+      # While not used by BL core behavior, legacy behavior seemed to be
+      # to accept incoming params as "facet.field" or "facets", and add them
+      # on to any existing facet.field sent to Solr. Legacy behavior seemed
+      # to be accepting these incoming params as arrays (in Rails URL with []
+      # on end), or single values. At least one of these is used by
+      # Stanford for "faux hieararchial facets". 
+      if user_params.has_key?("facet.field") || user_params.has_key?("facets")
         solr_parameters[:"facet.field"] ||= []
-        solr_parameters[:"facet.field"].concat( [user_params["facet.field"]].flatten ).uniq!
-      end          
-      unless user_params[:facets].blank?
-        solr_parameters[:facets] ||= {}
-        solr_parameters[:facets][:fields] = user_params[:facets]         
-      end
+        solr_parameters[:"facet.field"].concat( [user_params["facet.field"], user_params["facets"]].flatten.compact ).uniq!
+      end                
   
-      # Much more straightforward, support facet paging and 'more'
+      # Support facet paging and 'more'
       # links, by sending a facet.limit one more than what we
       # want to page at, according to configured facet limits.       
       facet_limit_hash.each_key do |field_name|

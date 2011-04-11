@@ -334,6 +334,26 @@ describe 'Blacklight::SolrHelper' do
         Blacklight = @orig_blacklight
       end
     end
+    
+    describe "mapping facet.field" do
+      it "should add single additional facet.field from app" do
+        solr_params = @solr_helper.solr_search_params( "facet.field" => "additional_facet" )
+        solr_params[:"facet.field"].should include("additional_facet")
+        solr_params[:"facet.field"].length.should > 1
+      end
+      it "should map multiple facet.field to additional facet.field" do
+        solr_params = @solr_helper.solr_search_params( "facet.field" => ["add_facet1", "add_facet2"] )
+        solr_params[:"facet.field"].should include("add_facet1")
+        solr_params[:"facet.field"].should include("add_facet2")
+        solr_params[:"facet.field"].length.should > 2
+      end
+      it "should map facets[fields][] to additional facet.field" do
+        solr_params = @solr_helper.solr_search_params( "facets" => ["add_facet1", "add_facet2"] )
+        solr_params[:"facet.field"].should include("add_facet1")
+        solr_params[:"facet.field"].should include("add_facet2")
+        solr_params[:"facet.field"].length.should > 2
+      end
+    end
 
  end
 
