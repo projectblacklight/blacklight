@@ -28,7 +28,7 @@ If you have a user model already, the Blacklight generator will connect to it au
 
 And you will need to make sure the following helper methods are available:
 
-  corrent_user   - Which should return a user object that include Blacklight::User
+  current_user   - Which should return a user object that include Blacklight::User
   user_session   - Which should return a user session
 
 Once these are in place, you can run the Blacklight Installation Generator:
