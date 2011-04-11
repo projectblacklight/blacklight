@@ -249,7 +249,7 @@ module Blacklight::SolrHelper
   end
   
   # given a field name and array of values, get the matching SOLR documents
-  def get_solr_response_for_field_values(field, values)
+  def get_solr_response_for_field_values(field, values, extra_solr_params = {})
     value_str = "(\"" + values.to_a.join("\" OR \"") + "\")"
     solr_params = {
       :qt => "standard",   # need boolean for OR
@@ -257,7 +257,8 @@ module Blacklight::SolrHelper
       'fl' => "*",
       'facet' => 'false',
       'spellcheck' => 'false'
-    }
+    }.merge(extra_solr_params)
+    
     solr_response = Blacklight.solr.find( self.solr_search_params().merge(solr_params) )
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
     [solr_response,document_list]
