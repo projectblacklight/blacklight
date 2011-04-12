@@ -252,9 +252,14 @@ module Blacklight::SolrHelper
   def get_solr_response_for_field_values(field, values, extra_solr_params = {})
     value_str = "(\"" + values.to_a.join("\" OR \"") + "\")"
     solr_params = {
-      :qt => "standard",   # need boolean for OR
+      :defType => "lucene",   # need boolean for OR
       :q => "#{field}:#{value_str}",
-      'fl' => "*",
+      # not sure why fl * is neccesary, why isn't default solr_search_params
+      # sufficient, like it is for any other search results solr request? 
+      # But tests fail without this. I think because some functionality requires
+      # this to actually get solr_doc_params, not solr_search_params. Confused
+      # semantics again. 
+      'fl' => "*",  
       'facet' => 'false',
       'spellcheck' => 'false'
     }.merge(extra_solr_params)
