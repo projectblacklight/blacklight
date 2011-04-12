@@ -259,9 +259,9 @@ module Blacklight::SolrHelper
       # But tests fail without this. I think because some functionality requires
       # this to actually get solr_doc_params, not solr_search_params. Confused
       # semantics again. 
-      'fl' => "*",  
-      'facet' => 'false',
-      'spellcheck' => 'false'
+      :fl => "*",  
+      :facet => 'false',
+      :spellcheck => 'false'
     }.merge(extra_solr_params)
     
     solr_response = Blacklight.solr.find( self.solr_search_params().merge(solr_params) )
