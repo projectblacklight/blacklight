@@ -336,8 +336,11 @@ module Blacklight::SolrHelper
   # a solr query method
   # this is used when selecting a search result: we have a query and a 
   # position in the search results and possibly some facets
-  def get_single_doc_via_search(extra_controller_params={})
-    solr_params = solr_search_params().merge(extra_controller_params)
+  # Pass in an index where 1 is the first document in the list, and
+  # the Blacklight app-level request params that define the search. 
+  def get_single_doc_via_search(index, request_params)
+    solr_params = solr_search_params(request_params)
+    solr_params[:start] = index - 1 # start at 0 to get 1st doc, 1 to get 2nd. 
     solr_params[:per_page] = 1
     solr_params[:rows] = 1
     solr_params[:fl] = '*'

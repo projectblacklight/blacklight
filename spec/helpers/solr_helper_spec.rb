@@ -715,7 +715,7 @@ describe 'Blacklight::SolrHelper' do
   describe "Get Document Via Search" do
     before(:all) do
       @doc_row = 3
-      @doc = @solr_helper.get_single_doc_via_search(:q => @all_docs_query, :page => @doc_row)
+      @doc = @solr_helper.get_single_doc_via_search(@doc_row, :q => @all_docs_query)
     end
 =begin
 # can't test these here, because the method only returns the document
@@ -744,7 +744,7 @@ describe 'Blacklight::SolrHelper' do
     end
 
     it "should limit search result by facets when supplied" do
-      doc2 = @solr_helper.get_single_doc_via_search(:q => @all_docs_query, :page => @doc_row, :f => @multi_facets)
+      doc2 = @solr_helper.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
       doc2.get(:id).should_not == nil
     end
 

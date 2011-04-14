@@ -205,7 +205,7 @@ class CatalogController < ApplicationController
   def setup_document_by_counter(counter)
     return if counter < 1 || session[:search].blank?
     search = session[:search] || {}
-    get_single_doc_via_search(search.merge({:page => counter}))
+    get_single_doc_via_search(counter, search)
   end
   
   def setup_previous_document
