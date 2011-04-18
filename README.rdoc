@@ -127,6 +127,10 @@ Install cucumber
 
   $ rails generate cucumber:install
 
+If you haven't yet done this to load the bundled jetty/solr environment and test data in your blacklight checkout, from the blacklight checkout dir:
+  git submodule init
+  git submodule update
+
 Load in the test data
 
   $ rake solr:marc:index_test_data RAILS_ENV=test
