@@ -68,7 +68,7 @@ Or if you are using Jruby:
 
   $ jruby -S rails new test_app -m http://jruby.org/rails3.rb --skip-test-unit --skip-git
 
-Add gem 'blacklight' and 'devise' to the test applications Gem File:
+Add gem 'blacklight' and 'devise' to the test applications Gemfile:
 Devise provides user authentication, but can be easily replaced with your own custom user model and authentication scheme, see the section on user authenticaion lower in the documentation.
 
   gem 'devise'
@@ -107,7 +107,7 @@ Now go check it out, should be running.
 
 == Running the tests
 
-You will need to add some gems to your test_app's gem file
+You will need to add some gems to your test_app's Gemfile
 
    group :development, :test do 
       gem "rspec"
