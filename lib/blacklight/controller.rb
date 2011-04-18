@@ -4,8 +4,6 @@
 module Blacklight::Controller 
 
   def self.included(base)
-    base.send :include, InstanceMethods
-
     base.send :before_filter, :default_html_head # add JS/stylesheet stuff
     # now in application.rb file under config.filter_parameters
     # filter_parameter_logging :password, :password_confirmation 
@@ -25,7 +23,6 @@ module Blacklight::Controller
     base.send :helper_method, :javascript_includes
   end
 
-  module InstanceMethods
   
     # test for exception notifier plugin
     def error
@@ -119,6 +116,6 @@ module Blacklight::Controller
 
       redirect_to new_user_session_url(:referer => request.fullpath)
     end
-  end
+  
 end
 
