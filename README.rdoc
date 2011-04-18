@@ -10,7 +10,7 @@ Blacklight is open source discovery software. Libraries (or anyone else) can use
 
 Blacklight 3 requires Rails 3.0 or greater.
 
-Add the blacklight gem to your gemfile
+Add the blacklight gem to your ./Gemfile
 
   gem 'blacklight'
 
