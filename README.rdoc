@@ -46,6 +46,9 @@ Checkout the code:
   $ git clone git@github.com:projectblacklight/blacklight.git blacklight
   $ cd blacklight
 
+(While the rails3 branch is still a seperate branch called 'rails3':)
+  $ git checkout -t origin/rails3
+
 Now create a test bed application inside of Blacklight that will allow you
 to include Blacklight as a gem.
 The test_app directory already exists, and contains a .gitignore file that
