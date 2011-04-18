@@ -71,8 +71,8 @@ Or if you are using Jruby:
 Add gem 'blacklight' and 'devise' to the test applications Gem File:
 Devise provides user authentication, but can be easily replaced with your own custom user model and authentication scheme, see the section on user authenticaion lower in the documentation.
 
-  $ gem 'devise'
-  $ gem 'blacklight', :path => '../'
+  gem 'devise'
+  gem 'blacklight', :path => '../'
 
 Run bundle install in the test app
   $ bundle install
