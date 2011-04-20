@@ -78,10 +78,8 @@ module Blacklight::Solr::Document
   autoload :MarcExport, 'blacklight/solr/document/marc_export'
   autoload :DublinCore, 'blacklight/solr/document/dublin_core'
   
-  def self.included(base)
-      
+  def self.included(base)      
     base.send :include, RSolr::Ext::Model
-    base.send :include, InstanceMethods
     base.send :extend,  ClassMethods
    
     # after_initialize hook comes from RSolr::Ext::Model, I think.
@@ -91,7 +89,6 @@ module Blacklight::Solr::Document
     end
   end    
     
-  module InstanceMethods
 
     # Needs to be called in initializer of class including this module, to
     # apply all registered extensions on a per-document basis
@@ -187,7 +184,7 @@ module Blacklight::Solr::Document
       end
       return @semantic_value_hash
     end
-  end
+  
     
   # Certain class-level methods needed for the document-specific
   # extendability architecture

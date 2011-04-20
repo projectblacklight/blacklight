@@ -4,7 +4,7 @@ Please note: The main Blacklight website is http://projectblacklight.org
 
 == Some background information
 
-Blacklight is open source discovery software. Libraries (or anyone else) can use Blacklight to enable searching and browsing of their collections online. Blacklight uses the Apache SOLR ( http://lucene.apache.org/solr ) search engine to index and search full text and/or metadata, and Blacklight has a highly configurable Ruby on Rails front-end. Currently, Blacklight can index, search, and provide faceted browsing for MaRC records and EAD XML files, and support is planned for Dublin Core and MODS as well. Blacklight was originally developed at the University of Virginia Library and is made public under an Apache 2.0 license. As of version 2.3.0 (released July 31, 2009), Blacklight is distributed as a rails engines plugin and also as a demo rails application that uses an engines Blacklight plugin.
+Blacklight is open source discovery software. Libraries (or anyone else) can use Blacklight to enable searching and browsing of their collections online. Blacklight uses the Apache SOLR ( http://lucene.apache.org/solr ) search engine to index and search full text and/or metadata, and Blacklight has a highly configurable Ruby on Rails front-end. Blacklight was originally developed at the University of Virginia Library and is made public under an Apache 2.0 license. 
 
 == Install & Use (With Devise)
 
@@ -37,7 +37,7 @@ Visit the catalog at:  http://localhost/catalog
 
 Blacklight 3 requires Rails 3.0 or greater.
 
-Add the blacklight gem to your gemfile
+Add the blacklight gem to your ./Gemfile
 
   gem 'blacklight'
 
@@ -50,7 +50,7 @@ If you have a user model already, the Blacklight generator will connect to it au
 
 And you will need to make sure the following helper methods are available:
 
-  corrent_user   - Which should return a user object that include Blacklight::User
+  current_user   - Which should return a user object that include Blacklight::User
   user_session   - Which should return a user session
 
 Once these are in place, you can run the Blacklight Installation Generator:
@@ -74,6 +74,9 @@ Checkout the code:
   $ git clone git@github.com:projectblacklight/blacklight.git blacklight
   $ cd blacklight
 
+(While the rails3 branch is still a seperate branch called 'rails3':)
+  $ git checkout -t origin/rails3
+
 Now create a test bed application inside of Blacklight that will allow you
 to include Blacklight as a gem.
 The test_app directory already exists, and contains a .gitignore file that
@@ -93,10 +96,9 @@ Or if you are using Jruby:
 
   $ jruby -S rails new test_app -m http://jruby.org/rails3.rb --skip-test-unit --skip-git
 
-Add gem 'blacklight' and 'devise' to the test applications Gem File:
-Devise provides user authentication, but can be easily replaced with your own custom user model and authentication scheme, see the section on user authenticaion lower in the documentation.
+Add gem 'blacklight' to the test applications Gemfile:
 
-  $ gem 'blacklight', :path => '../'
+  gem 'blacklight', :path => '../'
 
 Run bundle install in the test app
   $ bundle install
@@ -126,7 +128,7 @@ Now go check it out, should be running.
 
 == Running the tests
 
-You will need to add some gems to your test_app's gem file
+You will need to add some gems to your test_app's Gemfile
 
    group :development, :test do 
       gem "rspec"
@@ -145,6 +147,10 @@ Run bundle install
 Install cucumber
 
   $ rails generate cucumber:install
+
+If you haven't yet done this to load the bundled jetty/solr environment and test data in your blacklight checkout, from the blacklight checkout dir:
+  git submodule init
+  git submodule update
 
 Load in the test data
 

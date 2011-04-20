@@ -3,8 +3,6 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   def self.included(base)
-    base.send :include, InstanceMethods
-
     # These two helper methods are provided by the blacklight solr::helper
     base.send :helper_method, :facet_limit_hash
     base.send :helper_method, :facet_limit_for
@@ -23,7 +21,6 @@ module Blacklight::Catalog
     base.send :rescue_from, RSolr::Error::Http, :with => :rsolr_request_error
   end
   
-  module InstanceMethods
 
     # get search results from the solr index
     def index
@@ -275,5 +272,5 @@ module Blacklight::Catalog
       end
       
     end
-  end
+  
 end
