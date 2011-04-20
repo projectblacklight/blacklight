@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'marc'
 def exportable_record
@@ -154,12 +155,9 @@ describe BlacklightHelper do
       ]
     end
     it "should render stylesheets specified in controller #stylesheet_links" do
-      html = render_stylesheet_includes
-      
-      pending("We are about to move to a proper rails engine and this will change - so not delving into it now, we should fix this test (and add few more) once the engine is working properly.") do
-      html.should have_tag("link[href=/plugin_assets/blacklight/stylesheets/my_stylesheet.css][rel=stylesheet][type=text/css]")
-      end
-      html.should have_tag("link[href=/stylesheets/other_stylesheet.css][rel=stylesheet][type=text/css]")
+      html = render_stylesheet_includes      
+      html.should have_selector("link[href='/stylesheets/my_stylesheet.css'][rel='stylesheet'][type='text/css']")
+      html.should have_selector("link[href='/stylesheets/other_stylesheet.css'][rel='stylesheet'][type='text/css']")
       html.html_safe?.should == true
     end
   end
@@ -173,10 +171,7 @@ describe BlacklightHelper do
     end
     it "should include script tags specified in controller#javascript_includes" do
       html = render_js_includes
-      pending("We are about to move to a proper rails engine and this will change - so not delving into it now, we should fix this test (and add few more) once the engine is working properly.") do     
-        html.should have_selector("script[src='/javascripts/blacklight/some_js.js'][type='text/javascript']")
-      end
-      
+      html.should have_selector("script[src='/javascripts/some_js.js'][type='text/javascript']")
       html.should have_selector("script[src='/javascripts/other_js.js'][type='text/javascript']")      
 
       html.html_safe?.should == true
