@@ -52,6 +52,17 @@ EOF
     end     
   end
 
+  # Install Devise? 
+  def generate_devise_assets
+    if options[:devise]
+      gem "devise"
+      run "bundle install"      
+      generate "devise:install"
+      generate "devise", model_name.classify
+      generate "devise:views"
+    end
+  end
+
   # Copy all files in templates/config directory to host config
   def create_configuration_files
     copy_file "config/blacklight_config.rb", "config/initializers/blacklight_config.rb"
@@ -76,17 +87,6 @@ EOF
   # Copy ocver the solr_marc.jar file
   def copy_solr_marc 
     copy_file "SolrMarc.jar", "lib/SolrMarc.jar"
-  end
-
-  # Install Devise? 
-  def generate_devise_assets
-    if options[:devise]
-      gem "devise"
-      run "bundle install"      
-      generate "devise:install"
-      generate "devise", model_name.classify
-      generate "devise:views"
-    end
   end
 
   # Add Blacklight to the user model
