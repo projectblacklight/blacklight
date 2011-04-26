@@ -64,7 +64,11 @@ begin
       end
       
       # Blacklight. Solr wrapper. for now just for blacklight:spec, plan to
-      # provide it for all variants eventually.      
+      # provide it for all variants eventually.
+      # if you would like to see solr startup messages on STDERR
+      # when starting solr test server during functional tests use:
+      # 
+      #    rake SOLR_CONSOLE=true      
       require File.expand_path('../jetty_solr_server.rb', __FILE__)
       desc "blacklight:solr with jetty/solr launch"
       task :with_solr do      
