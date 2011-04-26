@@ -7,11 +7,11 @@
 	  <div class="field">
 	  	<div class="tag_ind">
 	      <span class="tag">
-	        <%= field.tag %>
+	        <%= h(field.tag) %>
 	  	  </span>
 		  <%- if field.is_a?(MARC::ControlField) -%>
 		    <span class="control_field_values">
-		      <%= field.value %>
+		      <%= h(field.value) %>
 		    </span>
 		  <%- else -%>
 		    <div class="ind1">
@@ -23,7 +23,7 @@
 		  </div>
 		  <div class="subfields">
 		    <%- field.each do |sub| -%>
-			  <span class="sub_code"><%= sub.code %>|</span> <%= sub.value %>
+			  <span class="sub_code"><%= h(sub.code) %>|</span> <%= h(sub.value) %>
 			<%- end -%>
 		  <%- end -%>
 	    </div>

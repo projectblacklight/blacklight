@@ -18,10 +18,10 @@ module RenderConstraintsHelper
     # So simple don't need a view template, we can just do it here.
     if (!localized_params[:q].blank?)
       label = 
-        if (params[:search_field] == Blacklight.default_search_field[:key] or params[:search_field].blank? )
+        if (localized_params[:search_field] == Blacklight.default_search_field[:key] or localized_params[:search_field].blank? )
           nil
         else
-          Blacklight.label_for_search_field(params[:search_field])
+          Blacklight.label_for_search_field(localized_params[:search_field])
         end
     
       render_constraint_element(label,
@@ -29,7 +29,7 @@ module RenderConstraintsHelper
             :classes => ["query"], 
             :remove => catalog_index_path(localized_params.merge(:q=>nil, :action=>'index')))
     else
-      ""
+      "".html_safe
     end
   end
 
@@ -90,7 +90,7 @@ module RenderConstraintsHelper
     render_search_to_s_element(label , params[:q] )        
   end
   def render_search_to_s_filters(params)
-    return "" unless params[:f]
+    return "".html_safe unless params[:f]
 
     params[:f].collect do |facet_field, value_list|
       render_search_to_s_element(Blacklight.config[:facet][:labels][facet_field],

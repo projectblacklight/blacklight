@@ -7,11 +7,11 @@ Feature: Search Filters
     Given I am on the home page
     When I follow "Tibetan"
     Then I should see "Displaying all 6 items"    
-    And I should see the applied filter "Language" with the value "Tibetan (6)"
+    And I should see the applied facet "Language" with the value "Tibetan (6)"
     When I follow "India"
     Then I should see "Displaying all 2 items"
-    And I should see the applied filter "Language" with the value "Tibetan (2)"
-    And I should see the applied filter "Region" with the value "India (2)"
+    And I should see the applied facet "Language" with the value "Tibetan (2)"
+    And I should see the applied facet "Region" with the value "India (2)"
   
   Scenario: Search with no filters applied
     When I am on the home page
@@ -36,14 +36,14 @@ Feature: Search Filters
     And I should see "history"
     When I follow "Tibetan"
     Then I should see "Displaying all 2 items"
-    And I should see the applied filter "Language" with the value "Tibetan (2)"
+    And I should see the applied facet "Language" with the value "Tibetan (2)"
     And I should see "All Fields"
     And I should see "history"
     When I follow "2004"
     Then I should see "Displaying 1 item"
     And I should see "You searched for:"
-    And I should see the applied filter "Language" with the value "Tibetan (1)"
-    And I should see the applied filter "Publication Year" with the value "2004 (1)"
+    And I should see the applied facet "Language" with the value "Tibetan (1)"
+    And I should see the applied facet "Publication Year" with the value "2004 (1)"
   
   Scenario: Apply and remove filters
     Given I am on the home page
@@ -66,19 +66,19 @@ Feature: Search Filters
     When I follow "Tibetan"
     Then I should see "You searched for:"
  	And I should see "history"
-    And I should see the applied filter "Language" with the value "Tibetan (2)"
+    And I should see the applied facet "Language" with the value "Tibetan (2)"
     When I follow "2004"
     And I should see "You searched for:"
 	And I should see "history"
-    And I should see the applied filter "Language" with the value "Tibetan (1)"
-    And I should see the applied filter "Publication Year" with the value "2004 (1)"
+    And I should see the applied facet "Language" with the value "Tibetan (1)"
+    And I should see the applied facet "Publication Year" with the value "2004 (1)"
     When I fill in "q" with "china"
     And I press "search"
     Then I should be on "the catalog page"
     And I should see "All Fields"
 	And I should see "china"
-    And I should see the applied filter "Language" with the value "Tibetan (1)"
-    And I should see the applied filter "Publication Year" with the value "2004 (1)"
+    And I should see the applied facet "Language" with the value "Tibetan (1)"
+    And I should see the applied facet "Publication Year" with the value "2004 (1)"
 
   
   Scenario: Sorting results should retain filters
@@ -91,13 +91,13 @@ Feature: Search Filters
     When I follow "Tibetan"
     And I should see "You searched for:"
  	And I should see "history"
-    And I should see the applied filter "Language" with the value "Tibetan (2)"
+    And I should see the applied facet "Language" with the value "Tibetan (2)"
     When I select "title" from "sort"
     And I press "sort results" 
     Then I should be on "the catalog page"
     And I should see "You searched for:"
  	And I should see "history"
-    And I should see the applied filter "Language" with the value "Tibetan (2)"
+    And I should see the applied facet "Language" with the value "Tibetan (2)"
 
   
   Scenario: Changing per page number should retain filters
@@ -111,11 +111,11 @@ Feature: Search Filters
     And I should see "You searched for:"
  	And I should see "All Fields"
 	And I should see "history"
-    And I should see the applied filter "Language" with the value "Tibetan (2)"
+    And I should see the applied facet "Language" with the value "Tibetan (2)"
     When I select "20" from "per_page"
     And I press "update" 
     Then I should be on "the catalog page"
     And I should see "You searched for:"
  	And I should see "history"
-    And I should see the applied filter "Language" with the value "Tibetan (2)"
+    And I should see the applied facet "Language" with the value "Tibetan (2)"
 

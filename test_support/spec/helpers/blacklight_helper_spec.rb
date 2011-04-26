@@ -303,6 +303,13 @@ describe BlacklightHelper do
       @document = SolrDocument.new(data)
       link_to_document(@document, { :label => "title_display" }).should have_selector("a", :content => 'title_display', :count => 1)
      end
+     it "should properly javascript escape the label value" do
+       data = {'id'=>'123456','title_display'=>['654321'] }
+       @document = SolrDocument.new(data)
+       link = link_to_document(@document, { :label => "Apple's Oranges" })
+       link.should match(/'Apple\\'s Oranges'/)
+       link.should_not match(/'Apple's Oranges'/)
+     end
      it "should accept and return a Proc" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)

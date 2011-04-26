@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   end  
 
   # Required Gems
-  s.add_dependency "rails", "= 3.0.6"
+  s.add_dependency "rails", "~> 3.0"
   s.add_dependency "nokogiri", "~>1.5.0.beta.3"   # XML Parser
   s.add_dependency "marc"  # Marc record parser
   s.add_dependency "rsolr",  '1.0.0' # Library for interacting with rSolr.

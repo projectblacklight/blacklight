@@ -77,6 +77,8 @@ module Blacklight::Solr::Document
   autoload :Marc, 'blacklight/solr/document/marc'
   autoload :MarcExport, 'blacklight/solr/document/marc_export'
   autoload :DublinCore, 'blacklight/solr/document/dublin_core'
+  autoload :Email, 'blacklight/solr/document/email'
+  autoload :Sms, 'blacklight/solr/document/sms'
   
   def self.included(base)      
     base.send :include, RSolr::Ext::Model
@@ -122,7 +124,7 @@ module Blacklight::Solr::Document
       begin      
         mime_type = "Mime::#{short_name.to_s.upcase}".constantize
         content_type = mime_type.to_s unless content_type      
-      rescue NameError
+      rescue NameError,LoadError
         # not registered, we need to register. Use register_alias to be least
         # likely to interfere with host app. 
         Mime::Type.register_alias(content_type, short_name)

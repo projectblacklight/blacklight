@@ -556,7 +556,7 @@ module BlacklightHelper
     if data
       data.each_pair do |key, value|
         submit_function << "var d = document.createElement('input'); d.setAttribute('type', 'hidden'); "
-        submit_function << "d.setAttribute('name', '#{key}'); d.setAttribute('value', '#{value}'); f.appendChild(d);"
+        submit_function << "d.setAttribute('name', '#{key}'); d.setAttribute('value', '#{escape_javascript(value.to_s)}'); f.appendChild(d);"
       end
     end
     unless method == :post
@@ -597,7 +597,10 @@ module BlacklightHelper
     end
     val
   end
-  
-  
-  
+
+
+  def render_document_unapi_microformat(document, options={})
+    render(:partial=>'catalog/unapi_microformat',  :locals => {:document=> document}.merge(options))
+  end
+
 end

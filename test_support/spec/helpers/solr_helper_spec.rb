@@ -64,6 +64,25 @@ describe 'Blacklight::SolrHelper' do
 
   # SPECS for actual search parameter generation
   describe "solr_search_params" do
+    it "allows customization of solr_search_params_logic" do
+        # Normally you'd include a new module into (eg) your CatalogController
+        # but a sub-class defininig it directly is simpler for test. 
+        class CustomizableHelper < MockSolrHelperContainer          
+            def add_foo_to_solr_params(solr_params, user_params)
+              solr_params[:foo] = "TESTING"
+            end
+        end 
+                         
+        CustomizableHelper.solr_search_params_logic << :add_foo_to_solr_params
+        
+        
+        obj = CustomizableHelper.new
+        params = obj.solr_search_params
+        
+        params[:foo].should == "TESTING"
+    end
+    
+    
     describe 'for an entirely empty search' do
       before do
         @produced_params = @solr_helper.solr_search_params
@@ -235,7 +254,7 @@ describe 'Blacklight::SolrHelper' do
 
       describe "should respect proper precedence of settings, " do
         before do
-          @produced_params = @solr_helper_with_params.solr_search_params(:sort => "extra_params_sort")
+          @produced_params = @solr_helper_with_params.solr_search_params().merge(:sort => "extra_params_sort")
           1+1
         end
 
@@ -310,6 +329,26 @@ describe 'Blacklight::SolrHelper' do
       after do
         Object.instance_eval{ remove_const :Blacklight }
         Blacklight = @orig_blacklight
+      end
+    end
+    
+    describe "mapping facet.field" do
+      it "should add single additional facet.field from app" do
+        solr_params = @solr_helper.solr_search_params( "facet.field" => "additional_facet" )
+        solr_params[:"facet.field"].should include("additional_facet")
+        solr_params[:"facet.field"].length.should > 1
+      end
+      it "should map multiple facet.field to additional facet.field" do
+        solr_params = @solr_helper.solr_search_params( "facet.field" => ["add_facet1", "add_facet2"] )
+        solr_params[:"facet.field"].should include("add_facet1")
+        solr_params[:"facet.field"].should include("add_facet2")
+        solr_params[:"facet.field"].length.should > 2
+      end
+      it "should map facets[fields][] to additional facet.field" do
+        solr_params = @solr_helper.solr_search_params( "facets" => ["add_facet1", "add_facet2"] )
+        solr_params[:"facet.field"].should include("add_facet1")
+        solr_params[:"facet.field"].should include("add_facet2")
+        solr_params[:"facet.field"].length.should > 2
       end
     end
 
@@ -673,7 +712,7 @@ describe 'Blacklight::SolrHelper' do
   describe "Get Document Via Search" do
     before(:all) do
       @doc_row = 3
-      @doc = @solr_helper.get_single_doc_via_search(:q => @all_docs_query, :page => @doc_row)
+      @doc = @solr_helper.get_single_doc_via_search(@doc_row, :q => @all_docs_query)
     end
 =begin
 # can't test these here, because the method only returns the document
@@ -702,7 +741,7 @@ describe 'Blacklight::SolrHelper' do
     end
 
     it "should limit search result by facets when supplied" do
-      doc2 = @solr_helper.get_single_doc_via_search(:q => @all_docs_query, :page => @doc_row, :f => @multi_facets)
+      doc2 = @solr_helper.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
       doc2.get(:id).should_not == nil
     end
 

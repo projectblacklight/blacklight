@@ -82,6 +82,10 @@ Then /^I should see an atom discovery link/ do
   page.should have_selector("link[rel=alternate][type='application/atom+xml']")
 end
 
+Then /^I should see an unAPI discovery link/ do
+  page.should have_selector("link[rel=unapi-server][type='application/xml']")
+end
+
 Then /^I should see opensearch response metadata tags/ do
   page.should have_selector("meta[name=totalResults]")
   page.should have_selector("meta[name=startIndex]")

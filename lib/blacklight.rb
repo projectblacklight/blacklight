@@ -31,14 +31,11 @@ module Blacklight
     attr_accessor :solr, :solr_config
   end
   
-  # The configuration hash that gets used by RSolr.connect
-  @solr_config ||= {}
-  
   # Just returning a string for the Blacklight version number.
   # I've just put master here now, should it say when it's running under master?  (Master?)
   # We need to find a better way of increasing this number automatically during releases, but this is a good way for now.
   def self.version
-    "master"
+    "2.8.0"
   end
 
   # Adding a little jruby support
@@ -51,27 +48,24 @@ module Blacklight
   end
   
   def self.init
-    
-    raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight\"?" unless File.exists?(solr_file) 
-    solr_config = YAML::load(File.open("#{::Rails.root.to_s}/config/solr.yml"))
-    raise "The #{::Rails.env} environment settings were not found in the solr.yml config" unless solr_config[::Rails.env]
-    
-    Blacklight.solr_config[:url] = solr_config[::Rails.env]['url']
-    
-    if Gem.available? 'curb'
-      require 'curb'
-      Blacklight.solr = RSolr::Ext.connect(Blacklight.solr_config.merge(:adapter=>:curb))
-    else
-      Blacklight.solr = RSolr::Ext.connect(Blacklight.solr_config)
-    end
-    
-    # set the SolrDocument connection to Blacklight.solr
     SolrDocument.connection = Blacklight.solr
     logger.info("BLACKLIGHT: running version #{Blacklight.version}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr_config: #{Blacklight.solr_config.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr: #{Blacklight.solr.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.config: #{Blacklight.config.inspect}")
-    
+  end
+
+  def self.solr
+    @solr ||=  RSolr::Ext.connect(Blacklight.solr_config)
+  end
+
+  def self.solr_config
+    @solr_config ||= begin
+        raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight\"?" unless File.exists?(solr_file) 
+        solr_config = YAML::load(File.open(solr_file))
+        raise "The #{RAILS_ENV} environment settings were not found in the solr.yml config" unless solr_config[RAILS_ENV]
+        solr_config[RAILS_ENV].symbolize_keys
+      end
   end
 
   def self.logger
