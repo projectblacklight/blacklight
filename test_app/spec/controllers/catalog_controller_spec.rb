@@ -325,6 +325,52 @@ describe CatalogController do
 
   end # describe show action
 
+  describe "unapi" do
+      doc_id = '2007020969'
+        module FakeExtension
+          def self.extended(document)
+            document.will_export_as(:mock, "application/mock")
+            document.will_export_as(:mockxml, "text/xml")
+          end
+
+          def export_as_mock
+            "mock_export"
+          end
+
+          def export_as_mockxml
+            "<a><mock xml='document' /></a>"
+          end
+        end
+      before(:each) do
+        SolrDocument.registered_extensions = nil
+        SolrDocument.use_extension(FakeExtension)
+      end
+
+    it "should return an unapi formats list from config[:unapi]" do
+      Blacklight.config[:unapi] = { :mock => { :content_type => "application/mock" } }
+      get :unapi
+      response.should be_success
+      assigns[:export_formats][:mock][:content_type].should == "application/mock"
+    end
+
+
+    it "should return an unapi formats list for document" do
+      get :unapi, :id => doc_id
+      response.should be_success
+      assigns[:document].should be_kind_of(SolrDocument)
+      assigns[:export_formats].should_not be_nil
+      assigns[:export_formats].should be_kind_of(Hash) 
+      assigns[:export_formats][:mock] == { :content_type => "application/mock" }
+      assigns[:export_formats][:mockxml] = { :content_type => 'text/xml' }
+    end
+
+    it "should return an unapi format export for document" do
+      get :unapi, :id => doc_id, :format => 'mock'
+      response.should be_success
+      response.should contain("mock_export")
+    end
+  end
+
   describe "opensearch" do
     it "should return an opensearch description" do
       get :opensearch, :format => 'xml'
