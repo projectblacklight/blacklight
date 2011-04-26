@@ -67,99 +67,87 @@ Start up your application
 
 Visit the catalog at:  http://localhost/catalog
 
-== Setting up a development environment
+== Using Blacklight source checkout as gem for development
+
+The ordinary install instructions install the BL gem (which is not
+full source code) in wherever your system installs gems. 
+
+Sometimes, especially for development, it's useful to check out
+a complete copy of the blacklight source code, and link your app
+to that as a 'gem' instead. 
 
 Checkout the code:
 
-  $ git clone git@github.com:projectblacklight/blacklight.git blacklight
-  $ cd blacklight
+  $ git clone git@github.com:projectblacklight/blacklight.git  
 
-(While the rails3 branch is still a seperate branch called 'rails3':)
+(While the rails3 branch is still a seperate branch called 'rails3', 
+if you'd like to checkout the rails3 branch, or any other particular
+branch/tag using ordinary git commands:
+  $ cd blacklight
   $ git checkout -t origin/rails3
-
-Now create a test bed application inside of Blacklight that will allow you
-to include Blacklight as a gem.
-The test_app directory already exists, and contains a .gitignore file that
-will mean all of the generated code is ingored.  - There are a few directories
-already in palce in test_app that WILL be included in the git repository.  These
-include:
-* test_app/features - which contains cucumber tests for blacklight
-* test_app/spec - rspec tests
-* test_app/jetty - The blacklight Jetty module (discussed later)
-* test_app/data - Another remote module.
-
-To create the rails application:
-
-  $ rails new test_app --skip-test-unit --skip-git
-
-Or if you are using Jruby:
-
-  $ jruby -S rails new test_app -m http://jruby.org/rails3.rb --skip-test-unit --skip-git
-
-Add gem 'blacklight' to the test applications Gemfile:
-
-  gem 'blacklight', :path => '../'
-
-Run bundle install in the test app
-  $ bundle install
-
-Install and configure blacklight (with devise setting)
-  $ rails generate blacklight --devise
-
-Remove index.html - which will allow the routes to take you directly to the catalog page.
-  $ rm public/index.html  (allow us to redirect to catalog)
-
-Migrate your database
-  $ rake db:migrate
-
-Get Solr running somewhere.  If you don't have Solr installed, blacklight comes with a default setup.
-  $ cd blacklight
-  $ git submodule init
-  $ git submodule update
-  $ cd test_app
-  $ rake solr:marc:index_test_data RAILS_ENV=test
-  $ cd jetty
-  $ java -jar start.jar
-
-Start up your Server, and take a test run. (from blacklight/test_app)
-  $ rails server
+)
   
-Now go check it out, should be running.
+Now, in your local app's Gemfile, simply specify that it should find
+the Blacklight gem at this source checkout location:
 
-== Running the tests
+   gem 'blacklight', :path=>"./relative/path/to/blacklight_checkout"
+   
+You can have the blacklight source checkout anywhere you want, referred
+to by absolute or relative path. You can have it inside your local app's
+directory if you want, or you can have it outside using a relative path
+beginning with "../".  If you have it inside your app's root, you can
+even use 'git submodule' techniques to link your app to a particular
+git commit, like some of us did in Rails2 Blacklight. (But you probably
+don't want it in your local apps ./vendor/plugins, that'll likely
+confuse Rails, since it's already being referred to in your Gemfile). 
 
-You will need to add some gems to your test_app's Gemfile
+== Running Blacklight's own tests
 
-   group :development, :test do 
-      gem "rspec"
-      gem "rspec-rails", "~>2.5.0"       
-      gem "cucumber-rails"
-      gem "database_cleaner"  
-      gem "capybara"
-      gem "webrat"
-      gem "aruba"
-   end
+Any application that refers to a Blacklight gem using a source checkout
+(see above) can run the automated tests (cucumber and rspec) that
+come with Blacklight source. 
 
-Run bundle install
-  
-  $ bundle install
+Of course, if you've customized the app quite a bit, the tests may not
+pass, as they test expected default behavior in some cases. So ordinarily
+tests are run against a pretty basic stub app. The tests also
+test authentication features, so expect the app to have auth features
+installed, for instance with a Devise install.
 
-Install cucumber
+To run the tests:
+  * Create a stub app with BL with devise, following the ordinary instructions for
+    installing blacklight, but linking to a source checkout of Blacklight
+    following the instructions above in "Using Blacklight source checkout
+    as gem for development"
+  * You also need to include some gems in your test app's Gemfile needed for
+    running our tests:
+         group :development, :test do 
+            gem "rspec"
+            gem "rspec-rails", "~>2.5.0"       
+            gem "cucumber-rails"
+            gem "database_cleaner"  
+            gem "capybara"
+            gem "webrat"
+            gem "aruba"
+         end
+  * run `bundle install` in the test app, and don't forget `rake db:migrate`
+  * From the blacklight source checkout directory, you'll need to install
+    a test Solr and load it with the expected test data. A test jetty
+    install and test data are linked to Blacklight source with git
+    submodule. 
+    * git submodule init
+    * git submodule update
+    * rake solr:marc:index_test_data RAILS_ENV=test
+  * Now use some rake tasks that come with Blacklight to actually run the tests. 
+    Run these from your stub app:
+    * rake blacklight:cucumber:with_solr -- run tests in BL, start and stop the test jetty/solr around tests
+    * rake blacklight:cucumber -- run tests in BL, no jetty/solr. (Tests will fail unless you start it yourself)
+    * rake blacklight:rspec:with_solr
+    * rake blacklight:rspec
+    * the standard rails tasks for cucumber/rspec are all included with 
+      blacklight: prefix, and should work as expected, but using
+      specs/features defined in BL plugin instead of in your local
+      app. (Not every variant has a :with_solr yet). 
 
-  $ rails generate cucumber:install
-
-If you haven't yet done this to load the bundled jetty/solr environment and test data in your blacklight checkout, from the blacklight checkout dir:
-  git submodule init
-  git submodule update
-
-Load in the test data
-
-  $ rake solr:marc:index_test_data RAILS_ENV=test
-
-Run the tests
-  
-  $ rake solr:spec 
-  $ rake solr:features
 
 ==Pre-requisites
 Whichever method you choose for installation, be sure you have all the pre-requisites in place. You can find these detailed in {PRE-REQUISITES}[https://github.com/projectblacklight/blacklight/wiki/PRE-REQUISITES]
