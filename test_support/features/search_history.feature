@@ -91,6 +91,5 @@ Feature: Search History Page
     Then I should see "Login"
     And I should not see "user1"
     When I follow "Search History"
-    Then I should see "book"
-    And I should see a "save" button
+    Then I should not see "book"
       

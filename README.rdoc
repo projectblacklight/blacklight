@@ -130,6 +130,8 @@ To run the tests:
             gem "aruba"
          end
   * run `bundle install` in the test app, and don't forget `rake db:migrate`
+  * complete the install of cucumber:  'rails g cucumber:install'
+  * remove /public/index.html (blacklight tests expect / to map to catalog)
   * From the blacklight source checkout directory, you'll need to install
     a test Solr and load it with the expected test data. A test jetty
     install and test data are linked to Blacklight source with git

@@ -68,7 +68,7 @@ Then /^I should get id "([^\"]+)" before id "([^\"]+)"$/i do |id1, id2|
   pos1.should < pos2
 end
 
-Then /^I should get id "([^\"]+)" and id "([^\"]+)" within (\d+) positions? of each other$/i do |id1, id2, limit|
+Then /^I should get id "([^\"]+)" and id "([^\"]+)" no more than (\d+) positions? from each other$/i do |id1, id2, limit|
 
   pos1 = get_position_in_result_page(page, id1)
   pos2 = get_position_in_result_page(page, id2)

@@ -42,7 +42,7 @@ Feature: Search Results
         And I press "search"
         Then I should get id "77826928" in the first 5 results
         And I should get id "77826928" before id "94120425"
-        And I should get id "77826928" and id "94120425" within 5 positions of each other
+        And I should get id "77826928" and id "94120425" no more than 5 positions from each other
 
     Scenario: Excluded items
         Given I am on the catalog page
