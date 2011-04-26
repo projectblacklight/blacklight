@@ -29,6 +29,7 @@ module Blacklight::Catalog
       
       extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => "RSS for results")
       extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => "Atom for results")
+      extra_head_content << view_context.auto_discovery_link_tag(:unapi, unapi_url, {:type => 'application/xml',  :rel => 'unapi-server', :title => 'unAPI' })
       
       (@response, @document_list) = get_search_results
       @filters = params[:f] || []
@@ -43,6 +44,7 @@ module Blacklight::Catalog
     
     # get single document from the solr index
     def show
+      extra_head_content << view_context.auto_discovery_link_tag(:unapi, unapi_url, {:type => 'application/xml',  :rel => 'unapi-server', :title => 'unAPI' })
       @response, @document = get_solr_response_for_doc_id    
 
       respond_to do |format|
@@ -58,6 +60,26 @@ module Blacklight::Catalog
         
       end
     end
+
+    def unapi
+      @export_formats = Blacklight.config[:unapi] || {}
+      @format = params[:format]
+      if params[:id]
+        @response, @document = get_solr_response_for_doc_id
+        @export_formats = @document.export_formats
+      end
+  
+      unless @format
+        render 'unapi.xml.builder', :layout => false and return
+      end
+  
+      respond_to do |format|
+        format.all do
+          send_data @document.export_as(@format), :type => @document.export_formats[@format][:content_type], :disposition => 'inline' if @document.will_export_as @format
+        end
+      end
+    end
+  
     
     # updates the search counter (allows the show view to paginate)
     def update

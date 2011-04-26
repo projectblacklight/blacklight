@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   match 'catalog/endnote', :as => "endnote_catalog"
   match 'catalog/send_email_record', :as => "send_email_record_catalog"
   match "catalog/facet/:id", :to => 'catalog#facet', :as => 'catalog_facet'
+  match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi'
   resources :catalog, :only => [:index, :show, :update]
   match 'catalog/:id/image', :to => "catalog#image"
   match 'catalog/:id/status', :to => "catalog#status"

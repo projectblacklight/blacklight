@@ -24,6 +24,15 @@ module NavigationHelpers
     when /the facet page for "([^\"]*)"/
       catalog_facet_path($1)
 
+    when /the unAPI endpoint for "([^\"]+)" with format "([^\"]+)"/
+      unapi_path(:id => $1, :format => $2)
+
+    when /the unAPI endpoint for "([^\"]+)"/
+      unapi_path(:id => $1)
+
+    when /the unAPI endpoint/
+      unapi_path
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
