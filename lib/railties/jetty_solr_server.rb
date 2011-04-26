@@ -14,37 +14,27 @@
 # The behavior of TestSolrServer can be modified prior to start() by changing 
 # port, solr_home, and quiet properties.
 
-class TestSolrServer
-  require 'singleton'
-  include Singleton
-  attr_accessor :port, :jetty_home, :solr_home, :quiet
+class JettySolrServer
+  attr_accessor :port, :jetty_home, :solr_home, :quiet, :sleep_after_start
 
   # configure the singleton with some defaults
-  def initialize
+  def initialize(params = {})
     @pid = nil
+    self.quiet = params[:quiet] || true
+    self.jetty_home = params[:jetty_home]
+    self.solr_home = params[:solr_home] || File.expand_path("./solr", self.jetty_home)
+    self.port = params[:jetty_port] || 8888
   end
 
-  def self.wrap(params = {})
-    error = false
-    solr_server = self.instance
-    solr_server.quiet = params[:quiet] || true
-    solr_server.jetty_home = params[:jetty_home]
-    solr_server.solr_home = params[:solr_home]
-    solr_server.port = params[:jetty_port] || 8888
+  def wrap        
+    puts "JettySolrServer: starting server on #{RUBY_PLATFORM}"
+    self.start
     begin
-      puts "starting solr server on #{RUBY_PLATFORM}"
-      solr_server.start
-      sleep params[:startup_wait] || 5
       yield
-    rescue
-      error = $!
-      puts "*** Solr/Jetty Startup Error: #{error}"
-    ensure
-      puts "stopping solr server"
-      solr_server.stop
+    ensure      
+      puts "JettySolrServer: stopping solr server"
+      self.stop
     end
-
-    return error
   end
   
   def jetty_command
@@ -54,8 +44,14 @@ class TestSolrServer
   def start
     puts "jetty_home: #{@jetty_home}"
     puts "solr_home: #{@solr_home}"
-    puts "jetty_command: #{jetty_command}"
+    puts "executing: #{jetty_command}"
+    
     platform_specific_start
+    
+    if self.sleep_after_start
+      puts "sleeping #{self.sleep_after_start}s waiting for startup."
+      sleep self.sleep_after_start
+    end
   end
   
   def stop

@@ -24,8 +24,12 @@ module Blackight
 
     # This makes our rake tasks visible.
     rake_tasks do
+      # To do, maybe: Automatically load anything in railties/*.rake, so
+      # this doesn't have to be edited?
       load "railties/blacklight.rake"
       load "railties/solr_marc.rake"
+      load "railties/blacklight_cucumber.rake"
+      load "railties/blacklight_rspec.rake"
     end
 
   end

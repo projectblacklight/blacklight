@@ -1,6 +1,6 @@
-[submodule "test_app/jetty"]
-	path = test_app/jetty
+[submodule "test_support/jetty"]
+	path = test_support/jetty
 	url = git://github.com/projectblacklight/blacklight-jetty.git
-[submodule "test_app/data"]
-	path = test_app/data
+[submodule "test_support/data"]
+	path = test_support/data
 	url = git://github.com/projectblacklight/blacklight-data.git

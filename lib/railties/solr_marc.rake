@@ -14,8 +14,14 @@ namespace :solr do
     
     desc "Index the supplied test data into Solr"
     task :index_test_data do
-      ENV['MARC_FILE'] = locate_path("spec", "data", "test_data.utf8.mrc")
-
+      # for now we are assuming test data is located in BL source checkout. 
+      ENV['MARC_FILE'] = File.expand_path("./test_support/data/test_data.utf8.mrc", Blacklight.root )
+      # and just for now, temporary thing as I continue to work on Rails3 migration,
+      # assume that the jetty/solr install we want to write to is in the
+      # BL source checkout too, and point there, forcing the issue. 
+      ENV['SOLR_WAR_PATH'] = File.expand_path("./test_support/jetty/webapps/solr.war", Blacklight.root)
+      ENV['SOLR_PATH'] = File.expand_path("./test_support/jetty/solr", Blacklight.root)
+      
       Rake::Task[ "solr:marc:index:work" ].invoke
     end
     
@@ -122,6 +128,11 @@ def compute_arguments
     solr_config = YAML::load(File.open(solr_yml_path))
     arguments[:solr_url] = solr_config[ ::Rails.env ]['url'] if solr_config[::Rails.env]
   end
+  
+  # solrmarc.solr.war.path and solr.path, for now pull out of ENV
+  # if present. In progress. jrochkind 25 Apr 2011. 
+  arguments[:solr_war_path] = ENV["SOLR_WAR_PATH"] if ENV["SOLR_WAR_PATH"]
+  arguments[:solr_path] = ENV['SOLR_PATH'] if ENV['SOLR_PATH']
 
 
   return arguments
@@ -130,6 +141,10 @@ end
 def solrmarc_command_line(arguments)
   cmd = "java #{arguments[:solrmarc_mem_arg]} "
   cmd += " -Dsolr.hosturl=#{arguments[:solr_url]} " unless arguments[:solr_url].blank?
+  
+  cmd += " -Dsolrmarc.solr.war.path=#{arguments[:solr_war_path]}" unless arguments[:solr_war_path].blank?
+  cmd += " -Dsolr.path=#{arguments[:solr_path]}" unless arguments[:solr_path].blank?
+  
   cmd += " -jar #{arguments[:solrmarc_jar_path]} #{arguments[:config_properties_path]} #{arguments["MARC_FILE"]}"  
   return cmd  
 end
