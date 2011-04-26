@@ -382,53 +382,68 @@ describe CatalogController do
     end
   end
 #=end
-  describe "send_email_record" do
+  describe "email/sms" do
     doc_id = '2007020969'
+    before(:each) do
+      request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
+      SolrDocument.use_extension( Blacklight::Solr::Document::Email )
+      SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
+    end
     describe "email" do
       it "should give error if no TO paramater" do
-        post :send_email_record, :id => doc_id, :style => 'email'
+        post :email, :id => doc_id
         request.flash[:error].should == "You must enter a recipient in order to send this message"
       end
       it "should give an error if the email address is not valid" do
-        post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_bad_email'
+        post :email, :id => doc_id, :to => 'test_bad_email'
         request.flash[:error].should == "You must enter a valid email address"
       end
       it "should not give error if no Message paramater is set" do
-        pending() # see CODEBASE-227
-        #post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
-        #request.flash[:error].should be_nil
+        post :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
+        request.flash[:error].should be_nil
       end
       it "should redirect back to the record upon success" do
-        pending() # see CODEBASE-227
-        #post :send_email_record, :id => doc_id, :style => 'email', :to => 'test_email@projectblacklight.org'
-        #request.flash[:error].should be_nil
-        #response.should redirect_to(catalog_path(doc_id))
+        post :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
+        request.flash[:error].should be_nil
+        request.should redirect_to(catalog_path(doc_id))
       end
     end
     describe "sms" do
       it "should give error if no phone number is given" do
-        post :send_email_record, :id => doc_id, :style => 'sms', :carrier => 'att'
-        request.flash[:error].should == "You must enter a recipient in order to send this message"
+        post :sms, :id => doc_id, :carrier => 'att'
+        request.flash[:error].should == "You must enter a recipient's phone number in order to send this message"
       end
       it "should give an error when a carrier is not provided" do
-        post :send_email_record, :id => doc_id, :style => 'sms', :to => '5555555555', :carrier => ''
+        post :sms, :id => doc_id, :to => '5555555555', :carrier => ''
         request.flash[:error].should == "You must select a carrier"
       end
       it "should give an error when the phone number is not 10 digits" do
-        post :send_email_record, :id => doc_id, :style => 'sms', :to => '555555555', :carrier => 'att'
+        post :sms, :id => doc_id, :to => '555555555', :carrier => 'att'
         request.flash[:error].should == "You must enter a valid 10 digit phone number"
       end
       it "should allow punctuation in phone number" do
-        pending() #CODEBASE-227
-        #post :send_email_record, :id => doc_id, :style => 'sms', :to => '(555) 555-5555', :carrier => 'att'
-        #response.flash[:error].should be_nil
-        #response.should redirect_to(catalog_path(doc_id))
+        post :sms, :id => doc_id, :to => '(555) 555-5555', :carrier => 'att'
+        request.flash[:error].should be_nil
+        request.should redirect_to(catalog_path(doc_id))
       end
       it "should redirect back to the record upon success" do
-        pending() # see CODEBASE-227
-        #post :send_email_record, :id => doc_id, :style => 'sms', :to => '5555555555', :carrier => 'att'
-        #request.flash[:error].should be_nil
-        #response.should redirect_to(catalog_path(doc_id))
+        post :sms, :id => doc_id, :to => '5555555555', :carrier => 'att'
+        request.flash[:error].should be_nil
+        request.should redirect_to(catalog_path(doc_id))
+      end
+    end
+    describe "backwards compatbile send_record_email" do
+      it "should redirect to the sms action when the sms style param is passed" do
+        post :send_email_record, :style=>"sms"
+        request.should redirect_to(sms_catalog_path)
+      end
+      it "should redirect to the email action when the email style param is passed" do
+        post :send_email_record, :style=>"email"
+        request.should redirect_to(email_catalog_path)
+      end
+      it "should not do anything if a bad style is sent" do
+        post :send_email_record, :style=>"bad-style"
+        response.status.should == 404
       end
     end
   end

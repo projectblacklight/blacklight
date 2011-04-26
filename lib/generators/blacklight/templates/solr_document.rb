@@ -9,6 +9,12 @@ class SolrDocument
     document.key?( :marc_display  )
   end
   
+  # Email uses the semantic field mappings below to generate the body of an email.
+  SolrDocument.use_extension( Blacklight::Solr::Document::Email )
+  
+  # SMS uses the semantic field mappings below to generate the body of an SMS email.
+  SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
+
   # DublinCore uses the semantic field mappings below to assemble an OAI-compliant Dublin Core document
   # Semantic mappings of solr stored fields. Fields may be multi or
   # single valued. See Blacklight::Solr::Document::ExtendableClassMethods#field_semantics
@@ -18,6 +24,7 @@ class SolrDocument
   field_semantics.merge!(    
                          :title => "title_display",
                          :author => "author_display",
-                         :language => "language_facet"  
+                         :language => "language_facet",
+                         :format => "format"
                          )
 end
