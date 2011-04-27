@@ -16,11 +16,9 @@ namespace :solr do
     task :index_test_data do
       # for now we are assuming test data is located in BL source checkout. 
       ENV['MARC_FILE'] = File.expand_path("./test_support/data/test_data.utf8.mrc", Blacklight.root )
-      # and just for now, temporary thing as I continue to work on Rails3 migration,
-      # assume that the jetty/solr install we want to write to is in the
-      # BL source checkout too, and point there, forcing the issue. 
-      ENV['SOLR_WAR_PATH'] = File.expand_path("./test_support/jetty/webapps/solr.war", Blacklight.root)
-      ENV['SOLR_PATH'] = File.expand_path("./test_support/jetty/solr", Blacklight.root)
+      
+      # solr_path and solr_war_path will be picked up from 
+      # jetty_path in solr.yml by main work task. 
       
       Rake::Task[ "solr:marc:index:work" ].invoke
     end
@@ -123,10 +121,17 @@ def compute_arguments
   # Solr URL, find from solr.yml, app or plugin
   # use :replicate_master_url for current env if present, otherwise :url
   # for current env. 
+  # Also take jetty_path from there if present. 
   solr_yml_path = locate_path("config", "solr.yml")
   if ( File.exists?( solr_yml_path ))
     solr_config = YAML::load(File.open(solr_yml_path))
-    arguments[:solr_url] = solr_config[ ::Rails.env ]['url'] if solr_config[::Rails.env]
+    if c = solr_config[::Rails.env]
+      arguments[:solr_url] = c['url']    
+      if c['jetty_path']
+        arguments[:solr_path] = File.expand_path(File.join(c['jetty_path'], "solr"), Rails.root)
+        arguments[:solr_war_path] = File.expand_path(File.join(c['jetty_path'], "webapps", "solr.war"), Rails.root)
+      end
+    end
   end
   
   # solrmarc.solr.war.path and solr.path, for now pull out of ENV

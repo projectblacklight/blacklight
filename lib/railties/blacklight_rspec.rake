@@ -71,10 +71,22 @@ begin
       #    rake SOLR_CONSOLE=true      
       require File.expand_path('../jetty_solr_server.rb', __FILE__)
       desc "blacklight:solr with jetty/solr launch"
-      task :with_solr do      
+      task :with_solr do    
+        # wrap tests with a test-specific Solr server
+        # Need to look  up where the test jetty is located
+        # from solr.yml, we don't hardcode it anymore. 
+
+        solr_yml_path = locate_path("config", "solr.yml")
+        jetty_path = if ( File.exists?( solr_yml_path ))
+            solr_config = YAML::load(File.open(solr_yml_path))
+            solr_config["test"]["jetty_path"] if solr_config["test"]
+        end   
+        raise Exception.new("Can't find jetty path to start test jetty. Expect a jetty_path key in config/solr.yml for test environment.") unless jetty_path 
+
+        
         # wrap tests with a test-specific Solr server
         JettySolrServer.new(
-          :jetty_home => File.expand_path("./test_support/jetty", Blacklight.root), 
+          :jetty_home => File.expand_path(jetty_path, Rails.root), 
           :sleep_after_start => 2).wrap do          
             Rake::Task["blacklight:spec"].invoke 
         end             
