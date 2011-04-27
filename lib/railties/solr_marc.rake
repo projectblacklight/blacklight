@@ -156,8 +156,7 @@ end
 
 
 def locate_path(*subpath_fragments)
-  local_root = File.expand_path File.join(File.dirname(__FILE__), '..', '..')
-  puts "The local_root is #{local_root}"
+  local_root = File.expand_path File.join(File.dirname(__FILE__), '..', '..')  
   subpath = subpath_fragments.join('/')
   base_match = [Rails.root, local_root].find do |base|
     File.exists? File.join(base, subpath)
