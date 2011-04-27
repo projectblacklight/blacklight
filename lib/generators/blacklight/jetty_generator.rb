@@ -4,11 +4,13 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
     
     
+    argument :save_location, :aliases => "-o", :type=>"string", :desc => "where to install the jetty", :default => "./jetty"
+    class_option :environment, :aliases => "-e", :type=>"string", :desc => "environment to use jetty with. Will insert into solr.yml, and also offer to index test data in test environment.", :default => Rails.env
     # change this to a different download if you want to peg to a different
-    # tagged version of our known-good jetty/solr. 
+    # tagged version of our known-good jetty/solr.
     class_option :download_url, :aliases => "-u", :type=>"string", :default =>"https://github.com/projectblacklight/blacklight-jetty/zipball/v1.4.1-1" , :desc=>"location of zip file including a jetty with solr setup for blacklight."
-    class_option :save_location, :aliases => "-o", :type=>"string", :desc => "where to install the jetty", :default => "./jetty"
-    class_option :environment, :aliases => "-e", :type=>"string", :desc => "environment to use jetty with. Will insert into solr.yml, and also offer to index test data in test environment.", :default => Rails.env 
+    
+     
     
     desc """ 
 Installs a jetty container with a solr installed in it. A solr setup known 
@@ -40,12 +42,12 @@ Requires system('unzip... ') to work, probably won't work on Windows.
         # in the tmp dir, sadly. 
         expanded_dir = Dir[File.join(tmp_save_dir, "projectblacklight-blacklight-jetty-*")].first        
 
-        if File.exists?(options[:save_location]) && ! options[:force]
-          raise Thor::Error.new("cancelled by user") unless [nil, "", "Y", "y"].include? ask("Copy over existing #{options[:save_location]}? [Yn]")
+        if File.exists?( save_location ) && ! options[:force]
+          raise Thor::Error.new("cancelled by user") unless [nil, "", "Y", "y"].include? ask("Copy over existing #{save_location}? [Yn]")
         end
         
-        directory(expanded_dir, options[:save_location], :verbose => false)
-        say_status("installed", options[:save_location])
+        directory(expanded_dir, save_location, :verbose => false)
+        say_status("installed", save_location )
       ensure
         remove_dir(tmp_save_dir)
       end                  
@@ -60,7 +62,7 @@ Requires system('unzip... ') to work, probably won't work on Windows.
     # If we later install Solr from somewhere other than BL jetty repo, we'd
     # still want to write these on top, just like this. 
     def install_conf_files
-      generate("blacklight:solr_conf", "#{File.join(options[:save_location], 'solr', 'conf')} --force")
+      generate("blacklight:solr_conf", "#{File.join(save_location, 'solr', 'conf')} --force")
     end
     
     # adds a jetty_path key to solr.yml for the current environment, so
@@ -79,7 +81,7 @@ Requires system('unzip... ') to work, probably won't work on Windows.
         say_status("skipped", "#{config_file} '#{options[:environment]}' block already has jetty_path, not overwriting.", :red)        
       else
         inject_into_file config_file, :verbose => false, :after => after_hook do
-          "  jetty_path: '#{options[:save_location]}'\n"
+          "  jetty_path: '#{save_location}'\n"
         end
         say_status("insert", "#{config_file}: jetty_path key for '#{options[:environment]}' block")
       end                    
