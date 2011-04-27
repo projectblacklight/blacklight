@@ -71,11 +71,11 @@ Requires system('unzip... ') to work, probably won't work on Windows.
       # want to be noisy. 
       config_file = "config/solr.yml"
       config_file_full_path = File.expand_path(config_file, destination_root)
-      after_hook = "#{options[:environment]}:\n"
+      after_hook = /#{Regexp.escape(options[:environment])}\:[^\n]*\n/
             
-      if !(File.exists?(config_file_full_path) && File.binread( config_file_full_path  ).include?(after_hook))
+      if !(File.exists?(config_file_full_path) && File.binread( config_file_full_path ) =~ after_hook)
         say_status("skipped", "Could not find '#{options[:environment]}' block in #{config_file} to add jetty_path to.", :red)
-      elsif File.binread( config_file_full_path  ) =~ /#{Regexp.escape(after_hook)}[^\n\n]*jetty_path\:/
+      elsif File.binread( config_file_full_path  ) =~ /#{Regexp.escape(options[:environment])}\:[^\n]*\n.*(?!\n\n).*jetty_path\:/
         say_status("skipped", "#{config_file} '#{options[:environment]}' block already has jetty_path, not overwriting.", :red)        
       else
         inject_into_file config_file, :verbose => false, :after => after_hook do
