@@ -1,3 +1,0 @@
-[submodule "test_support/data"]
-	path = test_support/data
-	url = git://github.com/projectblacklight/blacklight-data.git
