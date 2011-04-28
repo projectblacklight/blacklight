@@ -25,7 +25,18 @@ Install blacklight
 Run your database migrations
 
   $ rake db:migrate
+  
+You will need a Solr setup, referred to in your config/solr.yml. You can install
+an example jetty container with Solr, that has Solr configured to work with
+Blacklight's defaults, like:
+  $ rails generate blacklight:jetty
 
+You can also install your own Solr or use an existing install. But Blacklight
+configuration needs to match your Solr setup, and there are certain things
+in a Solr setup that Blacklight requires. To generate some Solr config files
+that match what default Blacklight expects:
+  $ rails generate blacklight:solr_conf path/to/output/directory/
+  
 Start up your application
 
   $ rails server
@@ -114,41 +125,39 @@ test authentication features, so expect the app to have auth features
 installed, for instance with a Devise install.
 
 To run the tests:
-  * Create a stub app with BL with devise, following the ordinary instructions for
-    installing blacklight, but linking to a source checkout of Blacklight
-    following the instructions above in "Using Blacklight source checkout
-    as gem for development"
-  * You also need to include some gems in your test app's Gemfile needed for
-    running our tests:
-         group :development, :test do 
-            gem "rspec"
-            gem "rspec-rails", "~>2.5.0"       
-            gem "cucumber-rails"
-            gem "database_cleaner"  
-            gem "capybara"
-            gem "webrat"
-            gem "aruba"
-         end
-  * run `bundle install` in the test app, and don't forget `rake db:migrate`
-  * complete the install of cucumber:  'rails g cucumber:install'
-  * remove /public/index.html (blacklight tests expect / to map to catalog)
-  * From the blacklight source checkout directory, you'll need to install
-    a test Solr and load it with the expected test data. A test jetty
-    install and test data are linked to Blacklight source with git
-    submodule. 
-    * git submodule init
-    * git submodule update
-    * rake solr:marc:index_test_data RAILS_ENV=test
-  * Now use some rake tasks that come with Blacklight to actually run the tests. 
-    Run these from your stub app:
-    * rake blacklight:cucumber:with_solr -- run tests in BL, start and stop the test jetty/solr around tests
-    * rake blacklight:cucumber -- run tests in BL, no jetty/solr. (Tests will fail unless you start it yourself)
-    * rake blacklight:rspec:with_solr
-    * rake blacklight:rspec
-    * the standard rails tasks for cucumber/rspec are all included with 
-      blacklight: prefix, and should work as expected, but using
-      specs/features defined in BL plugin instead of in your local
-      app. (Not every variant has a :with_solr yet). 
+
+* Create a stub app with BL with devise, following the ordinary instructions for
+  installing blacklight, but linking to a source checkout of Blacklight
+  following the instructions above in "Using Blacklight source checkout
+  as gem for development"
+* You also need to include some gems in your test app's Gemfile needed for
+  running our tests:
+       group :development, :test do 
+          gem "rspec"
+          gem "rspec-rails", "~>2.5.0"       
+          gem "cucumber-rails"
+          gem "database_cleaner"  
+          gem "capybara"
+          gem "webrat"
+          gem "aruba"
+       end
+* run `bundle install` in the test app, and don't forget `rake db:migrate`
+* complete the install of cucumber:  'rails g cucumber:install'
+* remove /public/index.html (blacklight tests expect / to map to catalog)
+* You need to install a jetty/solr with test data for testing. You can do that
+  like this (from your stub app home directory):
+      rails generate blacklight:jetty test_jetty -e test
+      rake solr:marc:index_test_data RAILS_ENV=test
+* Now use some rake tasks that come with Blacklight to actually run the tests. 
+  Run these from your stub app:
+  * rake blacklight:cucumber:with_solr -- run tests in BL, start and stop the test jetty/solr around tests
+  * rake blacklight:cucumber -- run tests in BL, no jetty/solr. (Tests will fail unless you start it yourself)
+  * rake blacklight:rspec:with_solr
+  * rake blacklight:rspec
+  * the standard rails tasks for cucumber/rspec are all included with 
+    blacklight: prefix, and should work as expected, but using
+    specs/features defined in BL plugin instead of in your local
+    app. (Not every variant has a :with_solr yet). 
 
 
 ==Pre-requisites
