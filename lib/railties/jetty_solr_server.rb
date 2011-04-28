@@ -42,8 +42,6 @@ class JettySolrServer
   end
   
   def start
-    puts "jetty_home: #{@jetty_home}"
-    puts "solr_home: #{@solr_home}"
     puts "executing: #{jetty_command}"
     
     platform_specific_start
