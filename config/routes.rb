@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   # Saved Searches
   match "saved_searches/clear",       :to => "saved_searches#clear",   :as => "clear_saved_searches"
-  match "saved_searches/index",       :to => "saved_searches#index",   :as => "saved_searches"
+  match "saved_searches",       :to => "saved_searches#index",   :as => "saved_searches"
   match "saved_searches/save/:id",    :to => "saved_searches#save",    :as => "save_search"
   match "saved_searches/forget/:id",  :to => "saved_searches#forget",  :as => "forget_search"
   
