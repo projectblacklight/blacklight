@@ -63,8 +63,8 @@ module Blacklight
     @solr_config ||= begin
         raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight\"?" unless File.exists?(solr_file) 
         solr_config = YAML::load(File.open(solr_file))
-        raise "The #{RAILS_ENV} environment settings were not found in the solr.yml config" unless solr_config[RAILS_ENV]
-        solr_config[RAILS_ENV].symbolize_keys
+        raise "The #{::Rails.env} environment settings were not found in the solr.yml config" unless solr_config[::Rails.env]
+        solr_config[::Rails.env].symbolize_keys
       end
   end
 
