@@ -281,7 +281,7 @@ module Blacklight::Catalog
        
     # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
     def rsolr_request_error(exception)
-      if RAILS_ENV == "development"
+      if Rails.env == "development"
         raise exception # Rails own code will catch and give usual Rails error page with stack trace
       else
         flash_notice = "Sorry, I don't understand your search."
@@ -299,7 +299,7 @@ module Blacklight::Catalog
     
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
     def invalid_solr_id_error
-      if RAILS_ENV == "development"
+      if Rails.env == "development"
         render # will give us the stack trace
       else
         flash[:notice] = "Sorry, you have requested a record that doesn't exist."
