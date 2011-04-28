@@ -35,14 +35,6 @@ describe "Blacklight::Solr::Document::Marc" do
     Set.new(document.export_formats.keys).should  be_superset(Set.new([:marc, :marcxml, :openurl_ctx_kev, :refworks_marc_txt, :endnote, :xml]))    
   end
 
-  describe "For legacy API" do
-    it "should provide a marc method returning a legacy Marc helper object" do
-      @mock_class.extension_parameters[:marc_format_type] = :marcxml
-      document = @mock_class.new(:marc => sample_marc_xml)
-      document.marc.should be_kind_of(Blacklight::Marc::Document)
-      document.marc.marc.should == document.to_marc
-    end
-  end
 
 
     def sample_marc_xml

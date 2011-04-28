@@ -25,22 +25,7 @@ module Blacklight::Solr::Document::Marc
     # Register our exportable formats, we inherit these from MarcExport    
     Blacklight::Solr::Document::MarcExport.register_export_formats( document )
   end
-
-  # DEPRECATED. Here for legacy purposes, but use to_marc instead. Or
-  # internally, use the protected _marc_helper method to get the
-  # (somewhat confusingly named)  Blacklight::Marc::Document helper object.
-  #
-  # This method gets attached to a SolrDocument.
-  # it uses the marc_source_field and marc_format_type
-  # class attributes to create the Blacklight::Marc::Document instance.
-  # Only returns a Blacklight::Marc::Document instance if
-  # the self.class.marc_source_field key exists.
-  def marc
-    warn "[DEPRECATION] aDocument.marc is deprecated.  Please use aDocument.respond_to?(:to_marc) / aDocument.respond_to?(:marc),  or aDocument.exports_as.keys.include?(:some_format) / aDocument.export_as(:some_format) instead."
-
-    _marc_helper
-  end  
-
+  
   # ruby-marc object
   def to_marc
     @_ruby_marc_obj ||= load_marc

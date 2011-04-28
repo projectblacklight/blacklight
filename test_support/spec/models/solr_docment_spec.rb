@@ -84,10 +84,7 @@ end
         @solrdoc = SolrDocument.new(@hash_with_marcxml)
 
         @solrdoc.should respond_to(:to_marc)
-        @solrdoc.to_marc.should be_kind_of(MARC::Record)
-
-        #Legacy
-        @solrdoc.marc.should be_instance_of(Blacklight::Marc::Document)
+        @solrdoc.to_marc.should be_kind_of(MARC::Record)        
       end
       
       it "should not try to create marc for objects w/out stored marc (marcxml test only at this time)" do
