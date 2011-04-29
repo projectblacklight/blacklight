@@ -39,6 +39,10 @@ module Blacklight::Solr::Document::MarcExport
   def export_as_mla_citation_txt
     mla_citation( to_marc )
   end
+  
+  def export_as_chicago_citation_txt
+    chicago_citation( to_marc )
+  end
 
   # Exports as an OpenURL KEV (key-encoded value) query string.
   # For use to create COinS, among other things. COinS are
@@ -220,6 +224,129 @@ module Blacklight::Solr::Document::MarcExport
 
   protected
   
+  # Main method for defining chicago style citation.  If we don't end up converting to using a citation formatting service
+  # we should make this receive a semantic document and not MARC so we can use this with other formats.
+  def chicago_citation(marc)
+    authors = get_all_authors(marc)    
+    author_text = ""
+    unless authors[:primary_authors].blank?
+      if authors[:primary_authors].length > 10
+        authors[:primary_authors].each_with_index do |author,index|
+          if index < 7
+            if index == 0
+              author_text << "#{author}"
+              if author.ends_with?(",")
+                author_text << " "
+              else
+                author_text << ", "
+              end
+            else
+              author_text << "#{name_reverse(author)}, "
+            end
+          end
+        end
+        author_text << " et al."
+      elsif authors[:primary_authors].length > 1
+        authors[:primary_authors].each_with_index do |author,index|
+          if index == 0
+            author_text << "#{author}"
+            if author.ends_with?(",")
+              author_text << " "
+            else
+              author_text << ", "
+            end
+          elsif index + 1 == authors[:primary_authors].length
+            author_text << "and #{name_reverse(author)}."
+          else
+            author_text << "#{name_reverse(author)}, "
+          end 
+        end
+      else
+        author_text << authors[:primary_authors].first
+      end
+    else
+      temp_authors = []
+      authors[:translators].each do |translator|
+        temp_authors << [translator, "trans."]
+      end
+      authors[:editors].each do |editor|
+        temp_authors << [editor, "ed."]
+      end
+      authors[:compilers].each do |compiler|
+        temp_authors << [compiler, "comp."]
+      end
+      
+      unless temp_authors.blank?
+        if temp_authors.length > 10
+          temp_authors.each_with_index do |author,index|
+            if index < 7
+              author_text << "#{author.first} #{author.last} "
+            end
+          end
+          author_text << " et al."
+        elsif temp_authors.length > 1
+          temp_authors.each_with_index do |author,index|
+            if index == 0
+              author_text << "#{author.first} #{author.last}, "
+            elsif index + 1 == temp_authors.length
+              author_text << "and #{name_reverse(author.first)} #{author.last}"
+            else
+              author_text << "#{name_reverse(author.first)} #{author.last}, "
+            end
+          end
+        else
+          author_text << "#{temp_authors.first.first} #{temp_authors.first.last}"
+        end
+      end
+    end
+    title = ""
+    additional_title = ""
+    section_title = ""
+    if marc["245"] and (marc["245"]["a"] or marc["245"]["b"])
+      title << citation_title(clean_end_punctuation(marc["245"]["a"]).strip) if marc["245"]["a"]
+      title << ": #{citation_title(clean_end_punctuation(marc["245"]["b"]).strip)}" if marc["245"]["b"]
+    end
+    if marc["245"] and (marc["245"]["n"] or marc["245"]["p"])
+      section_title << citation_title(clean_end_punctuation(marc["245"]["n"])) if marc["245"]["n"]
+      if marc["245"]["p"]
+        section_title << ", <i>#{citation_title(clean_end_punctuation(marc["245"]["p"]))}.</i>"
+      elsif marc["245"]["n"]
+        section_title << "."
+      end
+    end
+    
+    if !authors[:primary_authors].blank? and (!authors[:translators].blank? or !authors[:editors].blank? or !authors[:compilers].blank?)
+        additional_title << "Translated by #{authors[:translators].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:translators].blank?
+        additional_title << "Edited by #{authors[:editors].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:editors].blank?
+        additional_title << "Compiled by #{authors[:compilers].collect{|name| name_reverse(name)}.join(" and ")}. " unless authors[:compilers].blank?
+    end
+    
+    edition = ""
+    edition << setup_edition(marc) unless setup_edition(marc).nil?
+    
+    pub_info = ""
+    if marc["260"] and (marc["260"]["a"] or marc["260"]["b"]) 
+      pub_info << clean_end_punctuation(marc["260"]["a"]).strip if marc["260"]["a"]
+      pub_info << ": #{clean_end_punctuation(marc["260"]["b"]).strip}" if marc["260"]["b"]
+      pub_info << ", #{setup_pub_date(marc)}" if marc["260"]["c"]
+    elsif marc["502"] and marc["502"]["a"] # MARC 502 is the Dissertation Note.  This holds the correct pub info for these types of records.
+      pub_info << marc["502"]["a"]
+    elsif marc["502"] and (marc["502"]["b"] or marc["502"]["c"] or marc["502"]["d"]) #sometimes the dissertation note is encoded in pieces in the $b $c and $d sub fields instead of lumped into the $a
+      pub_info << "#{marc["502"]["b"]}, #{marc["502"]["c"]}, #{clean_end_punctuation(marc["502"]["d"])}"
+    end
+    
+    citation = ""
+    citation << "#{author_text} " unless author_text.blank?
+    citation << "<i>#{title}.</i> " unless title.blank?
+    citation << "#{section_title} " unless section_title.blank?
+    citation << "#{additional_title} " unless additional_title.blank?
+    citation << "#{edition} " unless edition.blank?
+    citation << "#{pub_info}." unless pub_info.blank?
+    citation
+  end
+  
+  
+  
   def mla_citation(record)
     text = ''
     authors_final = []
@@ -320,11 +447,11 @@ module Blacklight::Solr::Document::MarcExport
     if !record.find{|f| f.tag == '260'}.nil?
       pub_date = record.find{|f| f.tag == '260'}
       if pub_date.find{|s| s.code == 'c'}
-        date_value = pub_date.find{|s| s.code == 'c'}.value.gsub(/[^0-9]/, "") unless pub_date.find{|s| s.code == 'c'}.value.gsub(/[^0-9]/, "").blank?
+        date_value = pub_date.find{|s| s.code == 'c'}.value.gsub(/[^0-9|n\.d\.]/, "")[0,4] unless pub_date.find{|s| s.code == 'c'}.value.gsub(/[^0-9|n\.d\.]/, "")[0,4].blank?
       end
-      return nil unless !date_value.nil?
+      return nil if date_value.nil?
     end
-    date_value
+    clean_end_punctuation(date_value) if date_value
   end
   def setup_pub_info(record)
     text = ''
@@ -353,6 +480,22 @@ module Blacklight::Solr::Document::MarcExport
         new_text.push(w.capitalize)
       else
         new_text.push(w)
+      end
+    end
+    new_text.join(" ")
+  end
+  
+  # This will replace the mla_citation_title method with a better understanding of how MLA and Chicago citation titles are formatted.
+  # This method will take in a string and capitalize all of the non-prepositions.
+  def citation_title(title_text)
+    prepositions = ["a","about","across","an","and","before","but","by","for","it","of","the","to","with","without"]
+    new_text = []
+    title_text.split(" ").each_with_index do |word,index|
+      if (index == 0 and word != word.upcase) or (word.length > 1 and word != word.upcase and !prepositions.include?(word))
+        # the split("-") will handle the capitalization of hyphenated words
+        new_text << word.split("-").map!{|w| w.capitalize }.join("-")
+      else
+        new_text << word
       end
     end
     new_text.join(" ")
@@ -407,9 +550,35 @@ module Blacklight::Solr::Document::MarcExport
         author_list.push(clean_end_punctuation(l.find{|s| s.code == 'a'}.value)) unless l.find{|s| s.code == 'a'}.value.nil?
       end
     end
-
+    
     author_list.uniq!
     author_list
+  end
+  
+  # This is a replacement method for the get_author_list method.  This new method will break authors out into primary authors, translators, editors, and compilers
+  def get_all_authors(record)
+    translator_code = "trl"; editor_code = "edt"; compiler_code = "com"
+    primary_authors = []; translators = []; editors = []; compilers = []
+    record.find_all{|f| f.tag === "100" }.each do |field|
+      primary_authors << field["a"] if field["a"]
+    end
+    record.find_all{|f| f.tag === "700" }.each do |field|
+      if field["a"]
+        relators = []
+        relators << clean_end_punctuation(field["e"]) if field["e"]
+        relators << clean_end_punctuation(field["4"]) if field["4"]
+        if relators.include?(translator_code)
+          translators << field["a"]
+        elsif relators.include?(editor_code)
+          editors << field["a"]
+        elsif relators.include?(compiler_code)
+          compilers << field["a"]
+        else
+          primary_authors << field["a"]
+        end
+      end
+    end
+    {:primary_authors => primary_authors, :translators => translators, :editors => editors, :compilers => compilers}
   end
   
   def abbreviate_name(name)
@@ -423,6 +592,7 @@ module Blacklight::Solr::Document::MarcExport
 
   def name_reverse(name)
     name = clean_end_punctuation(name)
+    return name unless name =~ /,/
     temp_name = name.split(", ")
     return temp_name.last + " " + temp_name.first
   end 
