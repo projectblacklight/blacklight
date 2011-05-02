@@ -15,12 +15,12 @@
 # port, solr_home, and quiet properties.
 
 class JettySolrServer
-  attr_accessor :port, :jetty_home, :solr_home, :quiet, :sleep_after_start
+  attr_accessor :port, :jetty_home, :solr_home, :quiet, :sleep_after_start, :pid
 
   # configure the singleton with some defaults
   def initialize(params = {})
     @pid = nil
-    self.quiet = params[:quiet] || true
+    self.quiet = params.has_key?(:quiet) ? !!params[:quiet] : true
     self.jetty_home = params[:jetty_home]
     self.solr_home = params[:solr_home] || File.expand_path("./solr", self.jetty_home)
     self.port = params[:jetty_port] || 8888
@@ -80,7 +80,7 @@ class JettySolrServer
   else # Not Windows
     
     def jruby_raise_error?
-      raise 'JRuby requires that you start solr manually, then run "rake spec" or "rake features"' if defined?(JRUBY_VERSION)
+      raise 'JRuby requires that you start solr manually."' if defined?(JRUBY_VERSION)
     end
     
     # start the solr server
@@ -106,19 +106,3 @@ class JettySolrServer
   end
 
 end
-# 
-# puts "hello"
-# SOLR_PARAMS = {
-#   :quiet => ENV['SOLR_CONSOLE'] ? false : true,
-#   :jetty_home => ENV['SOLR_JETTY_HOME'] || File.expand_path('../../jetty'),
-#   :jetty_port => ENV['SOLR_JETTY_PORT'] || 8888,
-#   :solr_home => ENV['SOLR_HOME'] || File.expand_path('test')
-# }
-# 
-# # wrap functional tests with a test-specific Solr server
-# got_error = TestSolrServer.wrap(SOLR_PARAMS) do
-#   puts `ps aux | grep start.jar` 
-# end
-# 
-# raise "test failures" if got_error
-# 

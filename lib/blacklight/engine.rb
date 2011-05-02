@@ -30,6 +30,8 @@ module Blackight
       load "railties/solr_marc.rake"
       load "railties/blacklight_cucumber.rake"
       load "railties/blacklight_rspec.rake"
+      load "railties/blacklight_jetty.rake"
+      load "railties/all_tests.rake"
     end
 
   end
