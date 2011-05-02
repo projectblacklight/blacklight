@@ -7,7 +7,6 @@
 # 
 #   class CatalogController < ActionController::Base
 #   
-#     include Blacklight::SolrHelper
 #     include Blacklight::Catalog
 #   
 #     def solr_search_params
@@ -22,7 +21,6 @@
 #
 #   class CatalogController < ActionController::Base
 #   
-#     include Blacklight::SolrHelper
 #     include Blacklight::Catalog
 #     include LocalSolrHelperExtension
 #   

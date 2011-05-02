@@ -1,24 +1,22 @@
 module Blacklight::Catalog 
+  extend ActiveSupport::Concern
+  include Blacklight::SolrHelper
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
-  def self.included(base)
-    # These two helper methods are provided by the blacklight solr::helper
-    base.send :helper_method, :facet_limit_hash
-    base.send :helper_method, :facet_limit_for
-
-    base.send :before_filter, :search_session, :history_session
-    base.send :before_filter, :delete_or_assign_search_session_params, :only => :index
-    base.send :after_filter, :set_additional_search_session_values, :only=>:index
+  included do  
+    before_filter :search_session, :history_session
+    before_filter :delete_or_assign_search_session_params, :only => :index
+    after_filter :set_additional_search_session_values, :only=>:index
 
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
-    base.send :rescue_from, Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
+    rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
     # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
     # The index action will more than likely throw this one.
     # Example, when the standard query parser is used, and a user submits a "bad" query.
-    base.send :rescue_from, RSolr::Error::Http, :with => :rsolr_request_error
+    rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
   
 
