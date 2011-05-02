@@ -59,6 +59,7 @@ namespace :solr do
   
   CONFIG_PATH: #{solrmarc_arguments[:config_properties_path]}
      Defaults to RAILS_ROOT/config/SolrMarc/config(-RAILS_ENV).properties
+     or else RAILS_ROOT/vendor/plugins/blacklight/SolrMarc/config ...
 
      Note that SolrMarc search path includes directory of config_path,
      so translation_maps and index_scripts dirs will be found there. 
@@ -88,12 +89,16 @@ def compute_arguments
 
   
   app_site_path = File.expand_path(File.join(Rails.root, "config", "SolrMarc"))
+  plugin_site_path = File.expand_path(File.join(Rails.root, "vendor", "plugins", "blacklight", "config", "SolrMarc"))
+
 
   # Find config in local app or plugin, possibly based on our RAILS_ENV (::Rails.env)
   arguments[:config_properties_path] = ENV['CONFIG_PATH']
   unless arguments[:config_properties_path]
     [ File.join(app_site_path, "config-#{::Rails.env}.properties"  ),
-      File.join( app_site_path, "config.properties")
+      File.join( app_site_path, "config.properties"),
+      File.join( plugin_site_path, "config-#{::Rails.env}.properties"),
+      File.join( plugin_site_path, "config.properties"),
     ].each do |file_path|
       if File.exists?(file_path)
         arguments[:config_properties_path] = file_path
@@ -106,13 +111,9 @@ def compute_arguments
 
   arguments[:solrmarc_mem_arg] = ENV['SOLRMARC_MEM_ARGS'] || '-Xmx512m'
       
-  # Currently expect to find SolrMarc embedded in local app, although
-  # ideally we'd like to use one in the plugin if the local app
-  # doesn't have one, SolrMarc is not cooperating. 
-  arguments[:solrmarc_jar_path] = ENV['SOLRMARC_JAR_PATH'] || File.join(Rails.root, "lib", "SolrMarc.jar")
-        
-      
-       
+  # SolrMarc is embedded in the plugin, or could be a custom
+  # one in local app.  
+  arguments[:solrmarc_jar_path] = ENV['SOLRMARC_JAR_PATH'] || locate_path("lib", "SolrMarc.jar") 
   
 
       
@@ -121,8 +122,7 @@ def compute_arguments
   # use :replicate_master_url for current env if present, otherwise :url
   # for current env. 
   # Also take jetty_path from there if present. 
-  solr_yml_path = File.join(Rails.root, "config", "solr.yml")
-  
+  solr_yml_path = locate_path("config", "solr.yml")
   if ( File.exists?( solr_yml_path ))
     solr_config = YAML::load(File.open(solr_yml_path))
     if c = solr_config[::Rails.env]
@@ -155,6 +155,13 @@ def solrmarc_command_line(arguments)
 end
 
 
-
+def locate_path(*subpath_fragments)
+  local_root = File.expand_path File.join(File.dirname(__FILE__), '..', '..')  
+  subpath = subpath_fragments.join('/')
+  base_match = [Rails.root, local_root].find do |base|
+    File.exists? File.join(base, subpath)
+  end
+  File.join(base_match.to_s, subpath) if base_match
+end
 
 
