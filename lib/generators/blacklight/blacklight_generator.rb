@@ -70,9 +70,12 @@ EOF
     directory("config/SolrMarc")
   end
   
+  require File.expand_path('../assets_generator.rb', __FILE__)  
   # Copy all files in templates/public/ directory to public/
+  # Call external generator in AssetsGenerator, so we can
+  # leave that callable seperately too. 
   def copy_public_assets 
-    directory("public")
+    Blacklight::AssetsGenerator.start()    
   end
   
   # Setup the database migrations
