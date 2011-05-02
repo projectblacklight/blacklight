@@ -4,12 +4,12 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
     
     
-    argument :save_location, :aliases => "-o", :type=>"string", :desc => "where to install the jetty", :default => "./jetty"
+    argument :save_location, :type=>"string", :desc => "where to install the jetty", :default => "./jetty"
     class_option :environment, :aliases => "-e", :type=>"string", :desc => "environment to use jetty with. Will insert into solr.yml, and also offer to index test data in test environment.", :default => Rails.env
     # change this to a different download if you want to peg to a different
     # tagged version of our known-good jetty/solr.
     class_option :download_url, :aliases => "-u", :type=>"string", :default =>"https://github.com/projectblacklight/blacklight-jetty/zipball/v1.4.1-1" , :desc=>"location of zip file including a jetty with solr setup for blacklight."
-    
+    class_option :downloaded_package, :aliases => "-d", :type=>"string", :desc => "manual download of BL-jetty zip file"
      
     
     desc """ 
@@ -29,10 +29,19 @@ Requires system('unzip... ') to work, probably won't work on Windows.
       empty_directory(tmp_save_dir)
       
       begin
-        say_status("fetching", options[:download_url])
-        zip_file = File.join(tmp_save_dir, "bl_jetty.zip")                
-        get(options[:download_url], zip_file)
-      
+        unless options[:downloaded_package]
+          begin        
+            say_status("fetching", options[:download_url])
+            zip_file = File.join(tmp_save_dir, "bl_jetty.zip")                
+            get(options[:download_url]+"adf.adf", zip_file)
+          rescue Exception => e
+            say_status("error", "Could not download #{options[:download_url]} : #{e}", :red)
+            raise Thor::Error.new("Try downloading manually and then using '-d' option?")
+          end
+        else
+          zip_file = options[:downloaded_package]
+        end
+        
         
         say_status("unzipping", zip_file)
         "unzip -d #{tmp_save_dir} -qo #{zip_file}".tap do |command|          
