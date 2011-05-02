@@ -33,7 +33,7 @@ Requires system('unzip... ') to work, probably won't work on Windows.
           begin        
             say_status("fetching", options[:download_url])
             zip_file = File.join(tmp_save_dir, "bl_jetty.zip")                
-            get(options[:download_url]+"adf.adf", zip_file)
+            get(options[:download_url], zip_file)
           rescue Exception => e
             say_status("error", "Could not download #{options[:download_url]} : #{e}", :red)
             raise Thor::Error.new("Try downloading manually and then using '-d' option?")
