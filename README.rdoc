@@ -59,7 +59,15 @@ If you have a user model already, the Blacklight generator will connect to it au
    match 'new_user_session',          :to => 'Your User Session Controller # Log in action'
    match 'destroy_user_session',      :to => 'Your User Session Controller # Log Out action'
 
-And you will need to make sure the following helper methods are available:
+One blacklight view uses #to_s on your user model to get a user-displayable
+account name/identifier for the currently logged in account, you probably
+want to have such a method. 
+
+(TODO: Instructions on how to tell BL the name of your user model if it's
+not User?)
+
+And you will need to make sure the following methods are available both
+on controllers and as helpers:
 
   current_user   - Which should return a user object that include Blacklight::User
   user_session   - Which should return a user session
