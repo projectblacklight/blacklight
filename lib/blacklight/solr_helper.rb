@@ -5,41 +5,72 @@
 #
 # Override these methods in your own controller for customizations:
 # 
-# class CatalogController < ActionController::Base
+#   class CatalogController < ActionController::Base
 #   
-#   include Blacklight::SolrHelper
+#     include Blacklight::SolrHelper
+#     include Blacklight::Catalog
 #   
-#   def solr_search_params
-#     super.merge :per_page=>10
+#     def solr_search_params
+#       super.merge :per_page=>10
+#     end
 #   end
-#   
-# end
 #
+# Or by including in local extensions:
+#   module LocalSolrHelperExtension
+#     [ local overrides ]
+#   end
+#
+#   class CatalogController < ActionController::Base
+#   
+#     include Blacklight::SolrHelper
+#     include Blacklight::Catalog
+#     include LocalSolrHelperExtension
+#   
+#     def solr_search_params
+#       super.merge :per_page=>10
+#     end
+#   end
+#
+# Or by using ActiveSupport::Concern:
+#
+#   module LocalSolrHelperExtension
+#     extend ActiveSupport::Concern
+#     include Blacklight::SolrHelper
+#
+#     [ local overrides ]
+#   end
+#
+#   class CatalogController < ApplicationController
+#     include LocalSolrHelperExtension
+#     include Blacklight::Catalog
+#   end  
 
 module Blacklight::SolrHelper
+  extend ActiveSupport::Concern
+
   MaxPerPage = 100
-  
-  def self.included(klass)
-    if klass.respond_to?(:helper_method)
-      klass.helper_method(:facet_limit_hash)
-      klass.helper_method(:facet_limit_for)
+
+  included do
+    if self.respond_to?(:helper_method)
+      helper_method(:facet_limit_hash)
+      helper_method(:facet_limit_for)
     end
-    
+
     # We want to install a class-level place to keep 
     # solr_search_params_logic method names. Compare to before_filter,
     # similar design. Since we're a module, we have to add it in here.
     # There are too many different semantic choices in ruby 'class variables',
     # we choose this one for now, supplied by Rails. 
-    klass.class_inheritable_accessor :solr_search_params_logic
+    class_inheritable_accessor :solr_search_params_logic
+
     # Set defaults. Each symbol identifies a _method_ that must be in
     # this class, taking two parameters (solr_parameters, user_parameters)
     # Can be changed in local apps or by plugins, eg:
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic << :new_method
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    klass.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_sorting_paging_to_solr ]
+    self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_sorting_paging_to_solr ]
   end
-  
   
   # A helper method used for generating solr LocalParams, put quotes
   # around the term unless it's a bare-word. Escape internal quotes
