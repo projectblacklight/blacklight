@@ -152,8 +152,8 @@ To run the tests:
   Run these from your stub app:
   * rake blacklight:cucumber:with_solr -- run tests in BL, start and stop the test jetty/solr around tests
   * rake blacklight:cucumber -- run tests in BL, no jetty/solr. (Tests will fail unless you start it yourself)
-  * rake blacklight:rspec:with_solr
-  * rake blacklight:rspec
+  * rake blacklight:spec:with_solr
+  * rake blacklight:spec
   * the standard rails tasks for cucumber/rspec are all included with 
     blacklight: prefix, and should work as expected, but using
     specs/features defined in BL plugin instead of in your local

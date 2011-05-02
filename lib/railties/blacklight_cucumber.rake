@@ -31,7 +31,7 @@ begin
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'default'
       end
-  
+
       Cucumber::Rake::Task.new({:wip => 'db:test:prepare'}, 'Run features that are being worked on') do |t|
         # Blacklight customization, call features from external location, pass
         # in feature location wtih cucumber_opts, yeah it's weird but that's how.
@@ -52,6 +52,20 @@ begin
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'rerun'
       end
+
+      Cucumber::Rake::Task.new({:rcov => 'db:test:prepare'}, 'Run features with rcov') do |t|
+        # Blacklight customization, call features from external location, pass
+        # in feature location wtih cucumber_opts, yeah it's weird but that's how.
+        t.cucumber_opts = blacklight_features
+        
+        t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
+        t.fork = true # You may get faster startup if you set this to false
+        t.profile = 'default'
+        t.rcov = true
+        t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
+        t.rcov_opts << %[-o "blacklight-coverage"]
+      end
+  
   
       desc 'Run all features'
       task :all => [:ok, :wip]
