@@ -33,12 +33,21 @@ begin
       end
 
       Cucumber::Rake::Task.new({:wip => 'db:test:prepare'}, 'Run features that are being worked on') do |t|
+        # Blacklight customization, call features from external location, pass
+        # in feature location wtih cucumber_opts, yeah it's weird but that's how.
+        t.cucumber_opts = blacklight_features
+        
+        
         t.binary = vendored_cucumber_bin
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'wip'
       end
   
       Cucumber::Rake::Task.new({:rerun => 'db:test:prepare'}, 'Record failing features and run only them if any exist') do |t|
+        # Blacklight customization, call features from external location, pass
+        # in feature location wtih cucumber_opts, yeah it's weird but that's how.
+        t.cucumber_opts = blacklight_features
+        
         t.binary = vendored_cucumber_bin
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'rerun'
