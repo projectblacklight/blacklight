@@ -23,7 +23,7 @@ module Blacklight
   # I've just put master here now, should it say when it's running under master?  (Master?)
   # We need to find a better way of increasing this number automatically during releases, but this is a good way for now.
   def self.version
-    "2.8.0"
+    "2.9.0"
   end
   
   def self.init
