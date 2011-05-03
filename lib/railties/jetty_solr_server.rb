@@ -42,8 +42,8 @@ class JettySolrServer
   end
   
   def start
-    puts "executing: #{jetty_command}"
-    
+    puts "\nexecuting: #{jetty_command}\n\n"
+    require 'ruby-debug'
     platform_specific_start
     
     if self.sleep_after_start
@@ -85,10 +85,8 @@ class JettySolrServer
     
     # start the solr server
     def platform_specific_start
-      
       jruby_raise_error?
       
-      puts self.inspect
       Dir.chdir(@jetty_home) do
         @pid = fork do
           STDERR.close if @quiet
