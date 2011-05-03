@@ -24,6 +24,7 @@ class JettySolrServer
     self.jetty_home = params[:jetty_home]
     self.solr_home = params[:solr_home] || File.expand_path("./solr", self.jetty_home)
     self.port = params[:jetty_port] || 8888
+    self.sleep_after_start = params[:sleep_after_start]
   end
 
   def wrap        
@@ -43,7 +44,7 @@ class JettySolrServer
   
   def start
     puts "\nexecuting: #{jetty_command}\n\n"
-    require 'ruby-debug'
+    
     platform_specific_start
     
     if self.sleep_after_start
