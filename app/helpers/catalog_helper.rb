@@ -12,7 +12,12 @@ module CatalogHelper
     # from will_paginate?
   	def page_entries_info(collection, options = {})
       start = (collection.current_page - 1) * collection.per_page + 1
-      total_hits = @response.total
+      
+      # actual WillPaginate::Collection's have #total_entries. RSolr::Ext::Response
+      # has #total instead. We want this to work for both, to do what we want
+      # for RSolr, but not break WillPaginate's usual use. 
+      total_hits = collection.respond_to?(:total_entries) ? collection.total_entries : collection.total
+
       start_num = format_num(start)
       end_num = format_num(start + collection.size - 1)
       total_num = format_num(total_hits)
