@@ -4,7 +4,7 @@ Feature:
   I would like to use the blacklight generator.
 
   Scenario: The Blacklight generators create all the correct files and file modifications when executed with defaults
-    When I run "rails new test_app"
+    When I run `rails new test_app`
     And I cd to "test_app"
     And a file named "Gemfile" with:
     """
@@ -13,34 +13,32 @@ Feature:
     gem 'sqlite3-ruby', :require => 'sqlite3'
     gem 'blacklight', :path => '../../../'
     """  
-    And I run "bundle install --local"
+    And I run `bundle install --local`
 
     When I write to "app/models/user.rb" with:
     """
     class User < ActiveRecord::Base
     end
     """
-    And I run "rails generate blacklight"
+    And I run `rails generate blacklight`
     Then the following files should exist:
        | config/initializers/blacklight_config.rb         |
        | config/solr.yml                                  |
        | public/images/blacklight/bg.png                  |
-       | public/javascripts/blacklight.js                 |
-       | public/javascripts/jquery-1.4.2.min.js           |
-       | public/javascripts/jquery-ui-1.8.1.custom.min.js |
-       | public/stylesheets/blacklight.css                |
-       | public/stylesheets/yui.css                       | 
-    And a directory named "public/stylesheets/jquery" should exist
-    And the file "app/models/user.rb" should contain "is_blacklight_user"
+       | public/javascripts/blacklight/blacklight.js      |
+       | public/javascripts/blacklight/jquery-1.4.2.min.js |
+       | public/javascripts/blacklight/jquery-ui-1.8.1.custom.min.js |
+       | public/stylesheets/blacklight/blacklight.css     |
+       | public/stylesheets/blacklight/yui.css            | 
+    And a directory named "public/stylesheets/blacklight/jquery" should exist
+    And the file "app/models/user.rb" should contain "include Blacklight::User"
     
     # Devise should next exist in thie scenerio
     And a directory named "app/views/devise" should not exist
     And the file "app/models/user.rb" should not contain "devise"
 
-
-  @really_slow_process
-  Scenario: The Blacklight generator installs devise when given the -d option
-    When I run "rails new test_app"
+  Scenario: The Blacklight generator functions correctly when specifying an alternate user model
+    When I run `rails new test_app`
     And I cd to "test_app"
     And a file named "Gemfile" with:
     """
@@ -48,30 +46,13 @@ Feature:
     gem 'rails', '>=3.0.4'
     gem 'sqlite3-ruby', :require => 'sqlite3'
     gem 'blacklight', :path => '../../../'
-
-    # For testing
-    gem 'rspec-rails'	
-    gem 'cucumber-rails'
-    gem 'webrat'    # still needed for rspec view tests
-    gem 'capybara'  # used by latest cucumber
-
     """  
-    And I run "bundle install --local"
-
-    Then the file "app/models/user.rb" should not exist
-    And I run "rails generate blacklight -d"    
-
-    # Devise should now be installed.
-    Then a file named "app/models/user.rb" should exist
-    Then a directory named "app/views/devise" should exist
-    Then the file "app/models/user.rb" should contain "devise"
+    And I run `bundle install --local`
+    And I run `rails generate model person`
+    And I run `rails generate blacklight person`
+    And the file "app/models/person.rb" should contain "include Blacklight::User"
     
-    # And the user model should be setup with Blacklight
-    And the file "app/models/user.rb" should contain "is_blacklight_user"
+    # Devise should not exist in thie scenerio
+    And a directory named "app/views/devise" should not exist
+    And the file "app/models/person.rb" should not contain "devise"
 
-    # And I copy over the rspec and feature tests, just in case I want to test them.
-    And I run "cp -r ../../../test_app/spec ."
-    And I run "cp -r ../../../test_app/features ."
-    And I run "cp    ../../../test_app/Rakefile ."
-    And I run "cp -r ../../../test_app/jetty ."
- 
