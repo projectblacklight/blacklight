@@ -14,11 +14,6 @@ module Blacklight::User
   # that calls "is_blacklight_user"
   module InstanceMethods
 
-    # fixme:  This needs to be re-implemented
-    def last_search_url
-      return self.searches.last
-    end
-    
     def has_bookmarks?
       bookmarks.count > 0
     end

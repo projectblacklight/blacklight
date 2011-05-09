@@ -58,13 +58,11 @@ If you have a user model already, the Blacklight generator will connect to it au
 
    match 'new_user_session',          :to => 'Your User Session Controller # Log in action'
    match 'destroy_user_session',      :to => 'Your User Session Controller # Log Out action'
+   match 'edit_user_registration',    :to => 'Your User Session Controller # Account edit action'
 
 One blacklight view uses #to_s on your user model to get a user-displayable
 account name/identifier for the currently logged in account, you probably
 want to have such a method. 
-
-(TODO: Instructions on how to tell BL the name of your user model if it's
-not User?)
 
 And you will need to make sure the following methods are available both
 on controllers and as helpers:
@@ -74,7 +72,9 @@ on controllers and as helpers:
 
 Once these are in place, you can run the Blacklight Installation Generator:
 
-  rails generate blacklight
+  rails generate blacklight [MODEL NAME]
+
+Where model name is the name of your user model.
 
 Execute your migrations, and you should be good to go.
 
