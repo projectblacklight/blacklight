@@ -289,7 +289,7 @@ module Blacklight::SolrHelper
     # override any field-specific default in the solr request handler. 
     solr_params[:"f.#{facet_field}.facet.limit"] = 
       if solr_params["facet.limit"] 
-        solr_params["facet.limit"] + 1
+        solr_params["facet.limit"].to_i + 1
       elsif respond_to?(:facet_list_limit)
         facet_list_limit.to_s.to_i + 1
       else
