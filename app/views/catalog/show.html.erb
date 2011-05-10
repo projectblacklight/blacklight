@@ -8,7 +8,7 @@
 
 <div class="pageEntriesInfo">
   <%= item_page_entry_info %>
-  <%=link_to "Start&nbsp;over&thinsp;", catalog_index_path, :id=>"startOverLink" %>
+  <%=link_to "start over", catalog_index_path, :id=>"startOverLink" %>
 </div>
 
 <%= render 'previous_next_doc' %>
@@ -16,12 +16,11 @@
 <%# this should be in a partial -%>
 <div id="document" class="<%= render_document_class %>">
   <div id="doc_<%= @document[:id] %>">
-  
-      <% # bookmark/folder functions -%>
-      <%= render_show_doc_actions @document %>
-        
 
-    <%= render_document_heading %>
+    <% # bookmark/folder functions -%>
+    <%= render_show_doc_actions @document %>        
+
+    <%= render_document_heading.html_safe %>
     <div class="tools"><%= render :partial => 'show_tools' %></div>
     <div class="document">
       <%= render_document_partial @document, :show %>

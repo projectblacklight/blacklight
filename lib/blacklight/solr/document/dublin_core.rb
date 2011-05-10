@@ -1,3 +1,5 @@
+require 'builder'
+
 # This module provide Dublin Core export based on the document's semantic values
 module Blacklight::Solr::Document::DublinCore
   def self.extended(document)

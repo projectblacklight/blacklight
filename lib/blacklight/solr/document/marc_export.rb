@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 # Written for use with Blacklight::Solr::Document::Marc, but you can use
 # it for your own custom Blacklight document Marc extension too -- just
 # include this module in any document extension (or any other class)
 # that provides a #to_marc returning a ruby-marc object.  This module will add
 # in export_as translation methods for a variety of formats. 
 module Blacklight::Solr::Document::MarcExport
-
+  
   def self.register_export_formats(document)
     document.will_export_as(:xml)
     document.will_export_as(:marc, "application/marc")
@@ -103,7 +104,8 @@ module Blacklight::Solr::Document::MarcExport
     # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
     # it seems to want C form normalization, although RefWorks support
     # couldn't tell me that. -jrochkind
-    require 'unicode'    
+    # DHF: moved this require a little lower in the method.
+    # require 'unicode'    
   
     fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
     text = "LEADER #{to_marc.leader}"
@@ -121,7 +123,15 @@ module Blacklight::Solr::Document::MarcExport
        end
         end
     end
-    Unicode.normalize_C(text)
+
+    if Blacklight.jruby? 
+      require 'java'
+      java_import java.text.Normalizer
+      Normalizer.normalize(text, Normalizer::Form::NFC).to_s
+    else 
+      require 'unicode'
+      Unicode.normalize_C(text)
+    end
   end 
 
   # Endnote Import Format. See the EndNote User Guide at:
@@ -267,7 +277,7 @@ module Blacklight::Solr::Document::MarcExport
     #setup formatted author list
     authors = get_author_list(record)
     authors.each do |l|
-      authors_list.push(abbreviate_name(l)) unless l.nil?
+      authors_list.push(abbreviate_name(l)) unless l.blank?
     end
     authors_list.each do |l|
       if l == authors_list.first #first
@@ -389,7 +399,7 @@ module Blacklight::Solr::Document::MarcExport
   def get_author_list(record)
     author_list = []
     authors_primary = record.find{|f| f.tag == '100'}
-    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil?
+    author_primary = authors_primary.find{|s| s.code == 'a'}.value unless authors_primary.nil? rescue ''
     author_list.push(clean_end_punctuation(author_primary)) unless author_primary.nil?
     authors_secondary = record.find_all{|f| ('700') === f.tag}
     if !authors_secondary.nil?

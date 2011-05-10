@@ -14,9 +14,9 @@
         <%= render_index_doc_actions document %>
         
         <% # main title container for doc partial view -%>
-        <h3 class="index_title"><%= counter + 1 + @response.params[:start].to_i %>. <%= link_to_document document, :label=>document_show_link_field, :counter => (counter + 1 + @response.params[:start].to_i) %></h3>
-
-        
+        <div class="yui-u">
+          <h3 class="index_title"><%= counter + 1 + @response.params[:start].to_i %>. <%= link_to_document document, :label=>document_show_link_field, :counter => (counter + 1 + @response.params[:start].to_i) %></h3>
+        </div>
       </div>
       
       <% # main container for doc partial view -%>

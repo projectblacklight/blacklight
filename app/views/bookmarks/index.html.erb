@@ -9,23 +9,25 @@
   <h2>You have no bookmarks</h2>
   
 <%- else -%>
-  
-	<%= will_paginate(@bookmarks) %>
 
-	<div id="userBookmarks">
-  	<p>
+  <%= will_paginate @bookmarks %>
+  <div id="userBookmarks">
+    <p>
       <%= link_to "Clear Bookmarks", clear_bookmarks_path, :method => :delete, :confirm => "Clear your bookmarks?" %>
     </p>
-  
+    
     <h2>Your Bookmarks</h2>
-  
+    
     <table class="zebra">
       <% @bookmarks.each do |bm| %>
-    		<tr>
-    		  <td><%= link_to h(bm.title), catalog_path(bm.document_id) %></td>
-    			<td><%= link_to 'remove', bookmark_path(bm.document_id), :method => :delete, :confirm => 'Remove this bookmark?' %></td>
-    		</tr>
-    	<% end %>
-  	</table>
-	</div>
+      <tr>
+    	<td><%= link_to h(bm.title), catalog_path(bm.document_id) %></td>
+    	<td><%= button_to 'Remove', {:controller => "bookmarks", :action => "destroy", :id => bm.document_id}, 
+	  :method => :delete, :confirm => 'Remove this bookmark?' %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+
 <% end %>
+  

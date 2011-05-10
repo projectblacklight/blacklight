@@ -9,7 +9,7 @@
   </ul>
 <% end %>
 
-<% form_tag do %>
+<%= form_tag do %>
   <fieldset>
     <div class="row"><%= label_tag 'Your Name' %> <%= text_field_tag :name, params[:name] %></div>
     <div class="row"><%= label_tag 'Your Email' %> <%= text_field_tag :email, params[:email] %></div>

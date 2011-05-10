@@ -11,18 +11,13 @@ class FolderController < ApplicationController
   # add a document_id to the folder. :id of action is solr doc id 
   def update
     session[:folder_document_ids] = session[:folder_document_ids] || []
-    session[:folder_document_ids] << params[:id]
-            
-    unless request.xhr?
-      respond_to do |format|
-        format.html do
-          flash[:notice] = "#{(params[:bookmark] && params[:bookmark][:title]) ? params[:bookmark][:title] : "Item"} successfully selected"
-          redirect_to :back
-        end
-      end
-    else
-      render :text => "OK"
-    end        
+    session[:folder_document_ids] << params[:id] 
+    # Rails 3 uses a one line notation for setting the flash notice.
+    #    flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
+    respond_to do |format|
+      format.html { redirect_to :back, :notice =>  "#{params[:title] || "Item"} successfully added to Folder"}
+      format.js { render :json => session[:folder_document_ids] }
+    end
   end
  
   # remove a document_id from the folder. :id of action is solr_doc_id

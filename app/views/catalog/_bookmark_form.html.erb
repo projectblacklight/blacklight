@@ -1,9 +1,4 @@
-<%- 
- #used for adding a LIST of documents to Bookmarks all at once, eg in Folder. 
- # compare to _bookmark_control used for adding a single document.
- # pass in local variable 'documents'
--%> 
-<% form_tag '/bookmarks', :name => "bookmarks" do %>
+<%= form_tag '/bookmarks', :name => "bookmarks" do %>
   <% documents.each_with_index do |document, index| %>
     <%= hidden_field_tag "bookmarks[#{index}][document_id]", document.get(:id)%>
     <%= hidden_field_tag "bookmarks[#{index}][title]", h(document[document_show_link_field])%>

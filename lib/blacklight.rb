@@ -1,19 +1,31 @@
+require 'will_paginate'
+require 'marc'
+require 'rsolr'
+require 'rsolr-ext'
+
 module Blacklight
 
   autoload :Configurable, 'blacklight/configurable'
   autoload :SearchFields, 'blacklight/search_fields'
 
-  autoload :Solr, 'blacklight/solr.rb'
-  autoload :Marc, 'blacklight/marc.rb'
+  autoload :Solr, 'blacklight/solr'
+  autoload :Marc, 'blacklight/marc'
   
   autoload :SolrHelper, 'blacklight/solr_helper'
   
-  autoload :Routes, 'blacklight/routes'
-
   autoload :Exceptions, 'blacklight/exceptions'
-  
+
+  autoload :User, 'blacklight/user'
+
+  autoload :CommaLinkRenderer, 'blacklight/comma_link_renderer'
+
+  autoload :Controller, 'blacklight/controller'
+  autoload :Catalog,    'blacklight/catalog'
+
   extend Configurable
   extend SearchFields
+  
+  require 'blacklight/engine' if defined?(Rails)
   
   class << self
     attr_accessor :solr, :solr_config
@@ -25,9 +37,17 @@ module Blacklight
   def self.version
     "2.8.0"
   end
+
+  # Adding a little jruby support
+  def self.jruby?
+    defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby" 
+  end
+
+  def self.solr_file
+    "#{::Rails.root.to_s}/config/solr.yml"
+  end
   
   def self.init
-    # set the SolrDocument.connection to Blacklight.solr
     SolrDocument.connection = Blacklight.solr
     logger.info("BLACKLIGHT: running version #{Blacklight.version}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr_config: #{Blacklight.solr_config.inspect}")
@@ -41,14 +61,15 @@ module Blacklight
 
   def self.solr_config
     @solr_config ||= begin
-        solr_config = YAML::load(File.open("#{RAILS_ROOT}/config/solr.yml"))
-        raise "The #{RAILS_ENV} environment settings were not found in the solr.yml config" unless solr_config[RAILS_ENV]
-        solr_config[RAILS_ENV].symbolize_keys
+        raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight\"?" unless File.exists?(solr_file) 
+        solr_config = YAML::load(File.open(solr_file))
+        raise "The #{::Rails.env} environment settings were not found in the solr.yml config" unless solr_config[::Rails.env]
+        solr_config[::Rails.env].symbolize_keys
       end
   end
 
   def self.logger
-    RAILS_DEFAULT_LOGGER
+    ::Rails.logger
   end
 
   #############  
@@ -61,8 +82,25 @@ module Blacklight
   
   # returns the full path the the blacklight plugin installation
   def self.root
-    @root ||= File.expand_path File.join(__FILE__, '..', '..')
+    @root ||= File.expand_path(File.dirname(File.dirname(__FILE__)))
   end
+
+  # This is useful for modifying Blacklight models.
+  # In the main app you can then do this:
+  # require "#{MyEngine.models_dir}/bookmark"
+  # class Bookmark
+  # ...
+  # end
+  # BE AWARE - When you do this, you are monkey patching Blacklight
+  # we should eventually find a better way - such as the acts_as pattern
+  def self.models_dir
+    "#{root}/app/models"
+  end
+  
+  def self.controllers_dir
+    "#{root}/app/controllers"
+  end
+
   
   # Searches Rails.root then Blacklight.root for a valid path
   # returns a full path if a valid path is found

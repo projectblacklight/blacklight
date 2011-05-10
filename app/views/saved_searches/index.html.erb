@@ -18,7 +18,7 @@
   <%- @searches.each do |search| -%>
     <tr>
       <td><%= link_to_previous_search(search.query_params) %></td>
-      <td><%= link_to "delete", saved_search_path(search), :method => :delete, :confirm => "Delete item?" %></td>
+      <td><%= button_to "delete", forget_search_path(search.id) %></td>
     </tr>
   <%- end -%>
   </table>
