@@ -31,13 +31,6 @@ module Blacklight
     attr_accessor :solr, :solr_config
   end
   
-  # Just returning a string for the Blacklight version number.
-  # I've just put master here now, should it say when it's running under master?  (Master?)
-  # We need to find a better way of increasing this number automatically during releases, but this is a good way for now.
-  def self.version
-    "master"
-  end
-
   # Adding a little jruby support
   def self.jruby?
     defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby" 
