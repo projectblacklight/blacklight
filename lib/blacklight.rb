@@ -25,6 +25,7 @@ module Blacklight
   extend Configurable
   extend SearchFields
   
+  require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
   
   class << self
