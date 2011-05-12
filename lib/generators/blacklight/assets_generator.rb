@@ -16,9 +16,9 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
   
     def assets
-      directory("public/images", "public/images/blacklight")
-      directory("public/stylesheets", "public/stylesheets/blacklight")
-      directory("public/javascripts", "public/javascripts/blacklight")
+      directory("public/images")
+      directory("public/stylesheets") 
+      directory("public/javascripts") 
     end
     
   end

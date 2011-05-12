@@ -39,9 +39,9 @@ module Blacklight::Controller
     # http://api.rubyonrails.org/classes/ActionController/Filters/ClassMethods.html
     # for how to turn off a filter in a sub-class and such.
     def default_html_head
-      stylesheet_links << ['blacklight/yui', 'blacklight/jquery/ui-lightness/jquery-ui-1.8.1.custom.css', 'blacklight/blacklight', {:media=>'all'}]
+      stylesheet_links << ['yui', 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css', 'blacklight/blacklight', {:media=>'all'}]
       
-      javascript_includes << ['blacklight/jquery-1.4.2.min.js', 'blacklight/jquery-ui-1.8.1.custom.min.js', 'blacklight/blacklight' ]
+      javascript_includes << ['jquery-1.4.2.min.js', 'jquery-ui-1.8.1.custom.min.js', 'blacklight/blacklight' ]
     end
     
     
