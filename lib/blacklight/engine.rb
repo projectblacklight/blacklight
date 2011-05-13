@@ -15,11 +15,11 @@ module Blackight
     # innitilization process.  
     # See: http://www.cowboycoded.com/2010/08/02/hooking-in-your-rails-3-engine-or-railtie-initializer-in-the-right-place/
     initializer 'blacklight.init', :after=> :disable_dependency_loading do |app|
-      # Note, check for configuration files before calling init, 
-      # otherwise we can't generate these files with the Generator
-      # and we can't tell at this point if we are begin run as a generator
-      # or not (at least, I didn't see a way)
-      Blacklight.init if File.exists?(Blacklight.solr_file)      
+      # Check for a blacklight_install envrionment variable - if set then blacklight
+      # is actively being installed and we should not attempt an init at this time.
+      if defined?(Rails::Server)
+        Blacklight.init
+      end      
     end
 
     # This makes our rake tasks visible.
