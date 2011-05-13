@@ -1,10 +1,11 @@
 module Blacklight::Catalog 
   extend ActiveSupport::Concern
-  include Blacklight::SolrHelper
+
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do  
+    include Blacklight::SolrHelper
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     after_filter :set_additional_search_session_values, :only=>:index
