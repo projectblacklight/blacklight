@@ -22,6 +22,8 @@ module Blacklight
   autoload :Controller, 'blacklight/controller'
   autoload :Catalog,    'blacklight/catalog'
 
+  autoload :Routes, 'blacklight/routes'
+
   extend Configurable
   extend SearchFields
   
@@ -47,6 +49,10 @@ module Blacklight
     logger.info("BLACKLIGHT: initialized with Blacklight.solr_config: #{Blacklight.solr_config.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr: #{Blacklight.solr.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.config: #{Blacklight.config.inspect}")
+  end
+
+  def self.add_routes(router, options = {})
+    Blacklight::Routes.new(router, options).draw
   end
 
   def self.solr
