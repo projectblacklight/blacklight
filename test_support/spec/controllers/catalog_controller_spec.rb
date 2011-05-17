@@ -20,18 +20,6 @@ describe CatalogController do
       # RSpec <1.2.9: route_for(:controller => 'catalog', :action => 'show', :id => '666').should == '/catalog/666'
       { :get => "/catalog/666" }.should route_to(:controller => 'catalog', :action => 'show', :id => "666")
     end
-    it "should map {:controller => 'catalog', :id = '444', :action => 'image'} to /catalog/444/image" do
-      # RSpec <1.2.9: route_for(:controller => 'catalog', :action => 'image', :id => '444').should == '/catalog/444/image'
-      { :get => "/catalog/444/image" }.should route_to(:controller => "catalog", :action => "image", :id => "444")
-    end
-    it "should map {:controller => 'catalog', :id = '333', :action => 'status'} to /catalog/333/status" do
-      # RSpec <1.2.9: route_for(:controller => 'catalog', :action => 'status', :id => '333').should == '/catalog/333/status'
-      { :get => "/catalog/333/status" }.should route_to(:controller => 'catalog', :action => 'status', :id => "333")
-    end
-    it "should map {:controller => 'catalog', :id => '222', :action => 'availability'} to /catalog/222/availability" do
-      # RSpec <1.2.9: route_for(:controller => 'catalog', :action => 'availability', :id => '222').should == '/catalog/222/availability'
-      { :get => "/catalog/222/availability" }.should route_to(:controller => 'catalog', :action => 'availability', :id => "222")
-    end
     it "should map {:controller => 'catalog', :id => '111', :action => 'librarian_view'} to /catalog/111/librarian_view" do
       # RSpec <1.2.9: route_for(:controller => 'catalog', :action => 'librarian_view', :id => '111').should == '/catalog/111/librarian_view'
       { :get => "/catalog/111/librarian_view" }.should route_to(:controller => 'catalog', :action => 'librarian_view', :id => "111")
@@ -51,18 +39,6 @@ describe CatalogController do
     it "should map /catalog/666 to {:controller => 'catalog', :action => 'show', :id => 666}" do
       #RSPEC <1.2.9  params_from(:get, '/catalog/666').should == {:controller => 'catalog', :action => 'show', :id => '666'}
       { :get => "/catalog/666" }.should route_to(:controller => 'catalog', :action => 'show', :id => "666")
-    end
-    it "should map /catalog/444/image to {:controller => 'catalog', :action => 'image', :id => 444}" do
-     # params_from(:get, '/catalog/444/image').should == {:controller => 'catalog', :action => 'image', :id => '444'}
-      { :get => "/catalog/444/image" }.should route_to(:controller => 'catalog', :action => 'image', :id => "444")
-    end
-    it "should map /catalog/333/status to {:controller => 'catalog', :action => 'status', :id => 333}" do
-      #params_from(:get, '/catalog/333/status').should == {:controller => 'catalog', :action => 'status', :id => '333'}
-      { :get => "/catalog/333/status" }.should route_to(:controller => 'catalog', :action => 'status', :id => "333")
-    end
-    it "should map /catalog/222/availability to {:controller => 'catalog', :action => 'availability', :id => 222}" do
-#      params_from(:get, '/catalog/222/availability').should == {:controller => 'catalog', :action => 'availability', :id => '222'}
-      { :get => "/catalog/222/availability" }.should route_to(:controller => 'catalog', :action => 'availability', :id => "222")
     end
     it "should map /catalog/111/librarian_view to {:controller => 'catalog', :action => 'librarian_view', :id => 111}" do
 #      params_from(:get, '/catalog/111/librarian_view').should == {:controller => 'catalog', :action => 'librarian_view', :id => '111'}

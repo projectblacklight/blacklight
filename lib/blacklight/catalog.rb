@@ -91,22 +91,6 @@ module Blacklight::Catalog
       @pagination = get_facet_pagination(params[:id], params)
     end
     
-    # single document image resource
-    def image
-    end
-    
-    # single document availability status (true/false)
-    def status
-    end
-    
-    # single document availability info
-    def availability
-    end
-    
-    # collection/search UI via Google maps
-    def map
-    end
-    
     # method to serve up XML OpenSearch description and JSON autocomplete response
     def opensearch
       respond_to do |format|
