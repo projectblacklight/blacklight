@@ -44,6 +44,10 @@ module Blacklight
   end
   
   def self.init
+    # I know this looks like a bunch of logger statements, but in fact, the act of inspecting on these
+    # configuration elements will cuase them to be loaded, and in turn rails errors if the configuration
+    # file sare missing.  For this reason, init should NOT be called when running rails generate or
+    # rails rake tasks - because those very tasks may be trying to create these configuration files.
     logger.info("BLACKLIGHT: running version #{Blacklight.version}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr_config: #{Blacklight.solr_config.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr: #{Blacklight.solr.inspect}")
