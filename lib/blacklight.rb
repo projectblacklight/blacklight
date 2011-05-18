@@ -44,7 +44,6 @@ module Blacklight
   end
   
   def self.init
-    SolrDocument.connection = Blacklight.solr
     logger.info("BLACKLIGHT: running version #{Blacklight.version}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr_config: #{Blacklight.solr_config.inspect}")
     logger.info("BLACKLIGHT: initialized with Blacklight.solr: #{Blacklight.solr.inspect}")

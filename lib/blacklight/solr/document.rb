@@ -192,6 +192,10 @@ module Blacklight::Solr::Document
   # extendability architecture
   module ClassMethods
     attr_writer :registered_extensions
+
+     def connection
+      @connection ||= Blacklight.solr
+     end
     
     # Returns array of hashes of registered extensions. Each hash
     # has a :module_obj key and a :condition_proc key. Usually this
