@@ -15,10 +15,12 @@ module Blackight
     # innitilization process.  
     # See: http://www.cowboycoded.com/2010/08/02/hooking-in-your-rails-3-engine-or-railtie-initializer-in-the-right-place/
     initializer 'blacklight.init', :after=> :disable_dependency_loading do |app|
-      # Check for a blacklight_install envrionment variable - if set then blacklight
-      # is actively being installed and we should not attempt an init at this time.
-      if defined?(Rails::Server)
-        Blacklight.init
+      # Only initialize blacklight if we are running as a server (not a generate or rake or console)
+      # http://stackoverflow.com/questions/1900037/determine-if-script-server-is-being-started
+      if defined? ActionController::Dispatcher
+        ActionController::Dispatcher.to_prepare do
+          Blacklight.init
+        end
       end      
     end
 
