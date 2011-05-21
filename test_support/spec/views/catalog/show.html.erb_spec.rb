@@ -13,16 +13,16 @@ describe "/catalog/show.html.erb" do
     
     
 # TODO:  should probably not have id field name hardcoded
-    @div_doc_id = 'div[id=doc_' + @document[:id] + ']'
+    @div_doc_id = 'div[id=doc_' + @document.id + ']'
 
     assigns[:response] = @solr_resp
     assigns[:document_list] = @document_list
     assigns[:document] = @document
     
     @previousDocument = mock("prev_doc")
-    @previousDocument.should_receive(:[]).with(:id).and_return("abc")
+    @previousDocument.should_receive(:id).and_return("abc")
     @nextDocument = mock("next_doc")
-    @nextDocument.should_receive(:[]).with(:id).and_return("xyz")
+    @nextDocument.should_receive(:id).and_return("xyz")
     assigns[:previous_document] = @previousDocument
     assigns[:next_document] = @nextDocument
 

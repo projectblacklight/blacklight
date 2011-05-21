@@ -261,13 +261,12 @@ module Blacklight::SolrHelper
     # just to be consistent with the other solr param methods:
     {
       :qt => :document,
-      :id => id
+      :id => id # this assumes the document request handler will map the 'id' param to the unique key field
     }
   end
   
   # a solr query method
   # retrieve a solr document, given the doc id
-  # TODO: shouldn't hardcode id field;  should be setable to unique_key field in schema.xml
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_response = Blacklight.solr.find solr_doc_params(id).merge(extra_controller_params)
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?

@@ -686,7 +686,7 @@ describe 'Blacklight::SolrHelper' do
       @response2.docs.size.should == 1
     end
     it 'should have the expected value in the id field' do
-      @document.get(:id).should == @doc_id
+      @document.id.should == @doc_id
     end
     it 'should have non-nil values for required fields set in initializer' do
       @document.get(Blacklight.config[:show][:html_title]).should_not == nil
@@ -731,7 +731,7 @@ describe 'Blacklight::SolrHelper' do
 =end
 
     it 'should have a doc id field' do
-      @doc.get(:id).should_not == nil
+      @doc.id.should_not == nil
     end
 
     it 'should have non-nil values for required fields set in initializer' do
@@ -742,7 +742,7 @@ describe 'Blacklight::SolrHelper' do
 
     it "should limit search result by facets when supplied" do
       doc2 = @solr_helper.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
-      doc2.get(:id).should_not == nil
+      doc2.id.should_not == nil
     end
 
   end

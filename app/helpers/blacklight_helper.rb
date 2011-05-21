@@ -132,7 +132,7 @@ module BlacklightHelper
       unless( options[:exclude].include?(format) ||
              (options[:unique] && seen.include?(spec[:content_type]))
              )
-        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document[:id],  format)}) << "\n"
+        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document.id,  format)}) << "\n"
         
         seen.add(spec[:content_type]) if options[:unique]
       end
@@ -444,7 +444,7 @@ module BlacklightHelper
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>Blacklight.config[:index][:show_link].to_sym, :counter => nil, :results_view => true})
     label = render_document_index_label doc, opts
-    link_to_with_data(label, catalog_path(doc[:id]), {:method => :put, :class => label.parameterize, :data => opts}).html_safe
+    link_to_with_data(label, catalog_path(doc.id), {:method => :put, :class => label.parameterize, :data => opts}).html_safe
   end
 
   # link_back_to_catalog(:label=>'Back to Search')
