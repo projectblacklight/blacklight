@@ -82,6 +82,7 @@ module Blacklight::Solr::Document
   
   def self.included(base)      
     base.send :include, RSolr::Ext::Model
+    base.send :include, InstanceMethods
     base.send :extend,  ClassMethods
    
     # after_initialize hook comes from RSolr::Ext::Model, I think.
@@ -90,7 +91,13 @@ module Blacklight::Solr::Document
        apply_extensions 
     end
   end    
-    
+
+  module InstanceMethods
+    def id
+      self[self.class.unique_key]
+    end
+  end
+
 
     # Needs to be called in initializer of class including this module, to
     # apply all registered extensions on a per-document basis
@@ -192,6 +199,10 @@ module Blacklight::Solr::Document
   # extendability architecture
   module ClassMethods
     attr_writer :registered_extensions
+
+     def unique_key
+       Blacklight.config[:unique_key] || 'id'
+     end
 
      def connection
       @connection ||= Blacklight.solr

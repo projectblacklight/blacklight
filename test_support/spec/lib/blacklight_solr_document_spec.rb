@@ -18,6 +18,13 @@ describe "Blacklight::Solr::Document" do
       end
     end
    
+    context "Unique Key" do
+      it "should use a configuration-defined document unique key" do
+        MockDocument.should_receive(:unique_key).and_return(:my_unique_key)
+        @document = MockDocument.new :id => 'asdf', :my_unique_key => '1234'
+        @document.id.should == '1234'
+      end
+    end
 
     context "Extendability" do
       before(:each) do

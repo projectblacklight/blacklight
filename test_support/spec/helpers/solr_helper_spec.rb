@@ -699,9 +699,22 @@ describe 'Blacklight::SolrHelper' do
       Blacklight.config[:show_fields][:field_names].length.should > 0
       Blacklight.config[:show_fields][:field_names][0].should_not == nil
     end
+  end
 
-
-
+  describe "Get Document by custom unique id" do
+=begin    
+    # Can't test this properly without updating the "document" request handler in solr
+    it "should respect the configuration-supplied unique id" do
+      SolrDocument.should_receive(:unique_key).and_return("title_display")
+      @response, @document = @solr_helper.get_solr_response_for_doc_id('"Strong Medicine speaks"')
+      @document.id.should == '"Strong Medicine speaks"'
+      @document.get(:id).should == 2007020969
+    end
+=end
+    it "should respect the configuration-supplied unique id" do
+      doc_params = @solr_helper.solr_doc_params('"Strong Medicine speaks"')
+      doc_params[:id].should == '"Strong Medicine speaks"'
+    end
   end
 
 # NOTE: some of these repeated fields could be in a shared behavior, but the

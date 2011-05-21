@@ -105,11 +105,11 @@ module Blacklight::Catalog
     
     # citation action
     def citation
-      @response, @documents = get_solr_response_for_field_values("id",params[:id])
+      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
     end
     # grabs a bunch of documents to export to endnote
     def endnote
-      @response, @documents = get_solr_response_for_field_values("id",params[:id])
+      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
         format.endnote
       end
@@ -117,7 +117,7 @@ module Blacklight::Catalog
     
     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def email
-      @response, @documents = get_solr_response_for_field_values("id",params[:id])
+      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         if params[:to]
           from = request.host # host w/o port for From address (from address cannot have port#)
@@ -138,7 +138,7 @@ module Blacklight::Catalog
     
     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def sms 
-      @response, @documents = get_solr_response_for_field_values("id",params[:id])
+      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         from = request.host # host w/o port for From address (from address cannot have port#)
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
