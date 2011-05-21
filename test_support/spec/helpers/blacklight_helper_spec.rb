@@ -419,7 +419,7 @@ describe BlacklightHelper do
   end
 
   describe "render_link_rel_alternates" do
-      class MockDocumentAppHlper
+      class MockDocumentAppHelper
         include Blacklight::Solr::Document        
       end
       module MockExtension
@@ -432,10 +432,10 @@ describe BlacklightHelper do
          def export_as_weirder ; "weirder" ; end
          def export_as_weird_dup ; "weird_dup" ; end
       end
-      MockDocumentAppHlper.use_extension(MockExtension)
+      MockDocumentAppHelper.use_extension(MockExtension)
     before(:each) do
       @doc_id = "MOCK_ID1"
-      @document = MockDocumentAppHlper.new(:id => @doc_id)
+      @document = MockDocumentAppHelper.new(:id => @doc_id)
       render_params = {:controller => "controller", :action => "action"}
       helper.stub!(:params).and_return(render_params)
     end
