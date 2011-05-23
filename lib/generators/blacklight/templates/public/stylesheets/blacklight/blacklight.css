@@ -218,7 +218,7 @@ font-weight:bold;
   text-align: center;
 }
 
-#startOverLink{display:block; position:absolute; top:50%; right:0.66em; margin-top:-12px; padding:0 7px 3px 12px; line-height:22px; text-decoration:none; color:#fff; background:url(../images/blacklight/start_over.gif) no-repeat center center; border-bottom: none;}
+#startOverLink{display:block; position:absolute; top:50%; right:0.66em; margin-top:-12px; padding:0 7px 3px 12px; line-height:22px; text-decoration:none; color:#fff; background:url(../../images/blacklight/start_over.gif) no-repeat center center; border-bottom: none;}
 
 
 #sortAndPerPage {
@@ -460,7 +460,7 @@ Search Parameters
   top:0; 
   width:32px;
   height:100%; 
-  background:url(../images/blacklight/remove.gif) no-repeat center center; 
+  background:url(../../images/blacklight/remove.gif) no-repeat center center; 
   border-left:1px solid #d0daea;
   border-bottom: none;
   text-indent:-99999px; /* text there for screen readers, hidden visually */
@@ -475,7 +475,7 @@ Search Parameters
 .appliedFilter .queryName, .appliedFilter .filterName {
   /* ">" image */ 
   padding-right:14px; 
-  background:url(../images/blacklight/separator.gif) no-repeat right center;
+  background:url(../../images/blacklight/separator.gif) no-repeat right center;
 }
 
 .filterValue {
