@@ -83,7 +83,7 @@ module BlacklightHelper
   def render_stylesheet_includes
     return "".html_safe unless respond_to?(:stylesheet_links)
     
-    stylesheet_links.collect do |args|
+    stylesheet_links.uniq.collect do |args|
       stylesheet_link_tag(*args)
     end.join("\n").html_safe
   end
@@ -97,7 +97,7 @@ module BlacklightHelper
   def render_js_includes
     return "".html_safe unless respond_to?(:javascript_includes)    
   
-    javascript_includes.collect do |args|
+    javascript_includes.uniq.collect do |args|
       javascript_include_tag(*args)
     end.join("\n").html_safe
   end
