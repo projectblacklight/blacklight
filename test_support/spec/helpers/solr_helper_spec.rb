@@ -151,6 +151,8 @@ describe 'Blacklight::SolrHelper' do
         params = @solr_helper.solr_search_params(:f => @multi_facets)
 
         @multi_facets.each_pair do |facet_field, value_list|
+          value_list ||= []
+          value_list = [value_list] unless value_list.kind_of? Array
           value_list.each do |value|
             params[:fq].should include("{!raw f=#{facet_field}}#{value}"  )
           end
@@ -164,6 +166,8 @@ describe 'Blacklight::SolrHelper' do
         params = @solr_helper.solr_search_params(:q => @mult_word_query, :f => @multi_facets)
 
         @multi_facets.each_pair do |facet_field, value_list|
+          value_list ||= []
+          value_list = [value_list] unless value_list.kind_of? Array
           value_list.each do |value|
             params[:fq].should include("{!raw f=#{facet_field}}#{value}"  )
           end
