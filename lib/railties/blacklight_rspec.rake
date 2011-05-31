@@ -23,7 +23,7 @@ begin
   # since we allow spec_dir to be in a remote location. spec_helper.rb
   # needs it before Rails.root is defined there, even though we can
   # oddly get it here, i dunno. 
-  ENV['RAILS_ROOT'] = Rails.root
+  ENV['RAILS_ROOT'] = Rails.root.to_s
   
   namespace :blacklight do
     
