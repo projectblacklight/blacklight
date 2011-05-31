@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require "lib/blacklight/version"
+require File.join(File.dirname(__FILE__), "lib/blacklight/version")
 
 Gem::Specification.new do |s|
   s.name        = "blacklight"
