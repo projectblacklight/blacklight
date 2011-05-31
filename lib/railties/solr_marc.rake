@@ -1,4 +1,4 @@
-# -*- coding: undecided -*-
+# -*- coding: UTF-8 -*-
 # Rake tasks for the SolrMarc Java indexer.
 # Marc Record defaults to indexing lc_records.utf8.mrc
 # config.properties defaults to config/demo_config.properties (in the plugin, not the rails app)
