@@ -196,8 +196,8 @@ module Blacklight::SolrHelper
         
         solr_parameters[:fq] ||= []
         f_request_params.each_pair do |facet_field, value_list|
-          value_list ||= nil
-          value_list = [value_list] unless value_list.kind_of? Array
+          value_list ||= []
+          value_list = [value_list] unless value_list.respond_to? :each
           value_list.each do |value|
             solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
           end              
@@ -279,7 +279,7 @@ module Blacklight::SolrHelper
   # given a field name and array of values, get the matching SOLR documents
   def get_solr_response_for_field_values(field, values, extra_solr_params = {})
     values ||= []
-    values = [values] unless values.kind_of? Array
+    values = [values] unless values.respond_to? :each
     value_str = "(\"" + values.to_a.join("\" OR \"") + "\")"
     solr_params = {
       :defType => "lucene",   # need boolean for OR
