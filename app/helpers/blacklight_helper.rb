@@ -282,6 +282,7 @@ module BlacklightHelper
 
   def render_field_value value=nil
     value = [value] unless value.is_a? Array
+    value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x}
     return value.map { |v| html_escape v }.join(field_value_separator).html_safe
   end  
 

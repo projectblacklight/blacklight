@@ -7,7 +7,7 @@
 # Blacklight customization, trick Cucumber into looking in our current
 # location for Rails.root, even though we're going to give it features
 # from elsewhere. 
-ENV['RAILS_ROOT'] = Rails.root
+ENV['RAILS_ROOT'] = Rails.root.to_s
 
 # blacklight_features, where to find features inside blacklight source?
 blacklight_features = File.expand_path("./test_support/features", Blacklight.root)

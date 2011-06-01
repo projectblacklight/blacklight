@@ -20,7 +20,7 @@ describe "Atom feed view" do
   
     # Load sample responses from Solr to a sample request, to test against
     @data = YAML.load(File.open(File.dirname(__FILE__) + 
-                               "/../../data/sample_docs.yml"))
+                               "/../../data/sample_docs.yml", "r:UTF-8"))
     @rsolr_response = RSolr::Ext::Response::Base.new(@data["solr_response"], nil, @data["params"])
     @params = @data["params"]
     @document_list = @data["document_list_mash"].collect do |d|   

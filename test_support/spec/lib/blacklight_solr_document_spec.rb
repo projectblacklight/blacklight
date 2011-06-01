@@ -34,7 +34,7 @@ describe "Blacklight::Solr::Document" do
     
       it "should let you register an extension" do
         MockDocument.use_extension(MockExtension) { |doc| true }
-  
+
         MockDocument.registered_extensions.find {|a| a[:module_obj] == MockExtension}.should_not be_nil
       end
       it "should let you register an extension with a nil condition proc" do
@@ -44,39 +44,39 @@ describe "Blacklight::Solr::Document" do
       it "should apply an extension whose condition is met" do
         MockDocument.use_extension(MockExtension) {|doc| true}
         doc = MockDocument.new()
-  
-        doc.methods.find {|name| name =="my_extension_method"}.should_not be_nil
-        doc.my_extension_method.should == "my_extension_results"
+
+        doc.methods.find {|name| name.to_s == "my_extension_method"}.should_not be_nil
+        doc.my_extension_method.to_s.should == "my_extension_results"
       end
       it "should apply an extension based on a Solr field" do
         MockDocument.use_extension(MockExtension) {|doc| doc.key?(:required_key)}
 
         with_extension = MockDocument.new(:required_key => "value")
-        with_extension.my_extension_method.should == "my_extension_results"
+        with_extension.my_extension_method.to_s.should == "my_extension_results"
 
         without_extension = MockDocument.new(:other_key => "value")
-        without_extension.methods.find {|name| name == "my_extension_method"}.should be_nil
+        without_extension.methods.find {|name| name.to_s == "my_extension_method"}.should be_nil
         
       end
       it "should not apply an extension whose condition is not met" do
         MockDocument.use_extension(MockExtension) {|doc| false}
         doc = MockDocument.new()
   
-        doc.methods.find {|name| name == "my_extension_method"}.should be_nil      
+        doc.methods.find {|name| name.to_s == "my_extension_method"}.should be_nil      
       end
       it "should treat a nil condition as always applyable" do
         MockDocument.use_extension(MockExtension)
   
         doc = MockDocument.new()
   
-        doc.methods.find {|name | name=="my_extension_method"}.should_not be_nil
+        doc.methods.find {|name | name.to_s =="my_extension_method"}.should_not be_nil
         doc.my_extension_method.should == "my_extension_results"
       end
       it "should let last extension applied override earlier extensions" do
         MockDocument.use_extension(MockExtension)
         MockDocument.use_extension(MockSecondExtension)
 
-        MockDocument.new().my_extension_method.should == "override"        
+        MockDocument.new().my_extension_method.to_s.should == "override"        
       end
 
       describe "extension_parameters class-level hash" do

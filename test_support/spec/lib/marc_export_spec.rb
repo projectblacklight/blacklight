@@ -695,12 +695,12 @@ describe Blacklight::Solr::Document::MarcExport do
         endnote_entries[$1] << $2
       end
 
-      endnote_entries["0"].should == Set.new("Format") # I have no idea WHY this is correct, it is definitely not legal, but taking from earlier test for render_endnote in applicationhelper, the previous version of this.  jrochkind.
-      endnote_entries["D"].should == Set.new("p2001. ")
-      endnote_entries["C"].should == Set.new("[United States] : ")
+      endnote_entries["0"].should == Set.new(["Format"]) # I have no idea WHY this is correct, it is definitely not legal, but taking from earlier test for render_endnote in applicationhelper, the previous version of this.  jrochkind.
+      endnote_entries["D"].should == Set.new(["p2001. "])
+      endnote_entries["C"].should == Set.new(["[United States] : "])
       endnote_entries["E"].should == Set.new(["Greer, Lowell. ", "Lubin, Steven. ", "Chase, Stephanie, ", "Brahms, Johannes, ", "Beethoven, Ludwig van, ", "Krufft, Nikolaus von, "])
-      endnote_entries["I"].should == Set.new("Harmonia Mundi USA, ")
-      endnote_entries["T"].should == Set.new("Music for horn ")
+      endnote_entries["I"].should == Set.new(["Harmonia Mundi USA, "])
+      endnote_entries["T"].should == Set.new(["Music for horn "])
 
       #nothing extra
       Set.new(endnote_entries.keys).should == Set.new(["0", "C", "D", "E", "I", "T"])      
