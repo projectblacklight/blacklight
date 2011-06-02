@@ -86,7 +86,13 @@ module Blacklight::Controller
     # don't use a layout, otherwise use the "application.html.erb" layout
     #
     def choose_layout
-      'blacklight' unless request.xml_http_request? || ! params[:no_layout].blank?
+      layout_name unless request.xml_http_request? || ! params[:no_layout].blank?
+    end
+    
+    #over-ride this one locally to change what layout BL controllers use, usually
+    #by defining it in your own application_controller.rb
+    def layout_name
+      'blacklight'
     end
 
     def current_user_session
