@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency "marc", "~> 0.4.3"  # Marc record parser
   s.add_dependency "rsolr",  '~> 1.0' # Library for interacting with rSolr.
   s.add_dependency "rsolr-ext", '~> 1.0' # extension to the above for some rails-ish behaviors - currently embedded in our solr document ojbect.
-  s.add_dependency "will_paginate", "~> 3.0.pre2" # the pagination (page 1,2,3, etc..) of our search results
+  s.add_dependency "kaminari" # the pagination (page 1,2,3, etc..) of our search results
 
 
   # TESTING GEM REQUIREMENTS

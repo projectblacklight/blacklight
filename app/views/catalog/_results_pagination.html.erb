@@ -1,11 +1,6 @@
-  <% if @response.docs.total_pages > 1 %>
+  <% if @response.total > 1 %>
     <div class="pagination">
-      <% # will_paginate is called oddly because we want next/prev together
-         # at left for screen reader accessibility. We use CSS to restore
-         # a more conventional next-on-right. 
-      %>
       <h2>Results navigation</h2>
-      <%= will_paginate @response.docs, :page_links => false, :container => false, :renderer => Blacklight::CommaLinkRenderer %>
-      <%= will_paginate @response.docs, :next_label => '', :previous_label => '', :class => "page_links", :renderer => Blacklight::CommaLinkRenderer %>
+      <%= paginate_rsolr_response @response, :theme => 'blacklight' %>
     </div>
   <% end %>
