@@ -16,7 +16,7 @@ describe "solr:marc:*" do
       $stdout = STDOUT
     end
     
-    before do
+    before(:all) do
       @rake = Rake::Application.new      
       Rake.application = @rake
       Rake.application.rake_require "../lib/railties/solr_marc"
