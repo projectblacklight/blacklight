@@ -11,18 +11,6 @@ module Blackight
       ActionView::Base.send :include, BlacklightHelper
     end
 
-    # Go ahead and innitialize Blacklight at the very end of the rails 
-    # innitilization process.
-    # See: http://guides.rubyonrails.org/configuring.html
-    # http://www.cowboycoded.com/2010/08/02/hooking-in-your-rails-3-engine-or-railtie-initializer-in-the-right-place/    
-    config.after_initialize do      
-      # Only initialize blacklight if we are running as a server (not a generate or rake or console)
-      # http://stackoverflow.com/questions/1900037/determine-if-script-server-is-being-started
-      if defined? ActionController::Dispatcher
-          Blacklight.init
-      end      
-    end
-
     # This makes our rake tasks visible.
     rake_tasks do
       Dir.chdir(File.expand_path(File.join(File.dirname(__FILE__), '..'))) do
