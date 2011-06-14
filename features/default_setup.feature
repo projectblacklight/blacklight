@@ -28,6 +28,7 @@ Feature:
 
     Then the file "app/models/user.rb" should not exist
     And I run `rails generate blacklight -d`
+    Then the exit status should be 0
 
     # Devise should now be installed.
     Then a file named "app/models/user.rb" should exist
@@ -48,4 +49,4 @@ Feature:
     Then the output should contain "0 failures"
     And I remove the file "public/index.html"
     And I run `rake blacklight:cucumber:with_solr`
-    Then the output should contain "81 passed"
+    Then the exit status should be 0
