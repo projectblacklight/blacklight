@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.name        = "blacklight"
   s.version     = Blacklight::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Jonathan Rochkind", "Matt Mitchell", "Chris Beer", "Jessie Keck", "Jason Ronallo", "Vernon Chapman", "Marck A. Matienzo", "Dan Funk"]
+  s.authors     = ["Jonathan Rochkind", "Matt Mitchell", "Chris Beer", "Jessie Keck", "Jason Ronallo", "Vernon Chapman", "Mark A. Matienzo", "Dan Funk"]
   s.email       = ["blacklight-development@googlegroups.com"]
   s.homepage    = "http://projectblacklight.org/"
   s.summary     = "A next-geration Library Catalag for Universities"
