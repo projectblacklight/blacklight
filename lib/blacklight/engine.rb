@@ -5,8 +5,6 @@ require "rails"
 module Blackight
   class Engine < Rails::Engine
 
-    config.paths["config/locales"] = "config/locales"
-
     # BlacklightHelper is needed by all helpers, so we inject it
     # into action view base here. 
     initializer 'blacklight.helpers' do |app|
