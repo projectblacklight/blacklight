@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class FeedbackController < ApplicationController
   
   # http://expressica.com/simple_captcha/

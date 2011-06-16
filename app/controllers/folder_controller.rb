@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class FolderController < ApplicationController
   include Blacklight::SolrHelper
   helper CatalogHelper

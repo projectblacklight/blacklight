@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Given /^I am logged in as "([^\"]*)"$/ do |login|
   email = "#{login}@#{login}.com"
   user = User.create(:login => login, :email => email, :password => "password", :password_confirmation => "password")

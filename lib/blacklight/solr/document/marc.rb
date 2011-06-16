@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 # This is a document extension meant to be mixed into a
 # Blacklight::Solr::Document class, such as SolrDocument. It provides support

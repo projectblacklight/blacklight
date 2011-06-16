@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class SavedSearchesController < ApplicationController
   before_filter :verify_user 
   

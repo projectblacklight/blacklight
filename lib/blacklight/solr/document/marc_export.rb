@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # -*- coding: utf-8 -*-
 # Written for use with Blacklight::Solr::Document::Marc, but you can use
 # it for your own custom Blacklight document Marc extension too -- just

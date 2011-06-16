@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Added from http://www.arctickiwi.com/blog/upgrading-to-rspec-2-with-ruby-on-rails-3
 module RSpec::Rails
   module Matchers

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Blacklight
   class SolrConf < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)

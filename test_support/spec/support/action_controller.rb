@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Added based on http://www.arctickiwi.com/blog/upgrading-to-rspec-2-with-ruby-on-rails-3
 # God bless you Jonathon Horsman 
 module ActionController

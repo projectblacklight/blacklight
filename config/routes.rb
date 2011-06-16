@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Rails.application.routes.draw do
   # A Note on User Sessions:
   # Blacklight expects the following named routes or at least the associated path helper methods to be defined.

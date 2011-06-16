@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # == colorize
 #     http://colorize.rubyforge.org
 #     http://fazibear.prv.pl

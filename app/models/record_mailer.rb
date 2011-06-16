@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Only works for documents with a #to_marc right now. 
 class RecordMailer < ActionMailer::Base
   

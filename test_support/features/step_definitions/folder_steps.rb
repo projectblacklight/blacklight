@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Then /^I should see an add to folder form$/ do
   page.should have_selector("form.addFolder")
 end

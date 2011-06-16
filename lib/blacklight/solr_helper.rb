@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # SolrHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
 # 
 # NOTE: Be careful when creating variables here as they may be overriding something that already exists.

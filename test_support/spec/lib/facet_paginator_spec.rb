@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Spec tests for Paginator class found in lib/blacklight/solr/facet_paginator.rb
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')

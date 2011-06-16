@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'builder'
 
 # This module provide Dublin Core export based on the document's semantic values

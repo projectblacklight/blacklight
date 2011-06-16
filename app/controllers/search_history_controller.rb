@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class SearchHistoryController < ApplicationController
   def index
     @searches = searches_from_history

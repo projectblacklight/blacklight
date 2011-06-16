@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Blacklight::Configurable
   
   # The config environment name used by the #config method

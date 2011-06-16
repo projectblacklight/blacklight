@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module CatalogHelper
 
   def paginate_rsolr_response(response, options = {}, &block)

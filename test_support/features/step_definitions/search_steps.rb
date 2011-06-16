@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # User added
 Then /^I should see a search field$/ do
   page.should have_selector("input#q")

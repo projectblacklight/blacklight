@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Blacklight::Solr
   
   autoload :Facets, 'blacklight/solr/facets'

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 #include Blacklight::SolrHelper
 
 When /^I fill in the search box with "(.*?)"$/ do |query|

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Then /^I (should|should not) see an? "([^\"]*)" element containing "([^\"]*)"$/ do |bool,elem,content|
   if bool == "should"
     page.should have_xpath("//#{elem}[text()='#{content}']")

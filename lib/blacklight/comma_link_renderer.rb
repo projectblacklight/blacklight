@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'will_paginate/view_helpers/link_renderer'
 
 # Custom link renderer for WillPaginate

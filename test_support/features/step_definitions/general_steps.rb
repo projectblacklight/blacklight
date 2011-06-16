@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 When /^I follow "([^\"]*)" in "([^\"]*)"$/ do |link, scope|
   within(scope) do
     click_link(link)

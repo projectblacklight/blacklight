@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Given /^no previous searches$/ do
   # nothing to do
 end

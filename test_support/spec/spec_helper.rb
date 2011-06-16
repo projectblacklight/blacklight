@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 # Has been customized by Blacklight to work when application is in one place,
 # and actual spec/ stuff is in another (the blacklight gem checkout).  

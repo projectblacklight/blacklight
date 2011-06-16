@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # deprecated
 Then /^I should see the applied filter "([^\"]*)" with the value "([^\"]*)"$/ do |filter, text|
   page.should have_selector(".facet_limit") do |node|

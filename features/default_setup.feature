@@ -24,7 +24,7 @@ Feature:
     end
 
     """  
-    And I run `bundle install --local`
+    And I run `bundle install`
 
     Then the file "app/models/user.rb" should not exist
     And I run `rails generate blacklight -d`

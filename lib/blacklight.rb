@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'marc'
 require 'rsolr'
