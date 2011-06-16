@@ -15,9 +15,8 @@ module CatalogHelper
   	def format_num(num); number_with_delimiter(num) end
 
   	#
-  	# Displays the "showing X through Y of N" message. Not sure
-    # why that's called "page_entries_info". 
-    def page_entries_info(response, options = {})
+  	# Displays the "showing X through Y of N" message. 
+    def render_pagination_info(response, options = {})
       start = response.start + 1
       per_page = response.rows
       current_page = (response.start / per_page).ceil + 1

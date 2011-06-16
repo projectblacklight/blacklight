@@ -17,14 +17,14 @@ describe CatalogHelper do
     mock_response
   end
   
-  describe "page_entries_info" do
+  describe "render_pagination_info" do
     before(:all) do
     end
 
     it "with no results" do
       @response = mock_response :total => 0
 
-      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "No entry_names found"
       html.html_safe?.should == true
     end
@@ -32,7 +32,7 @@ describe CatalogHelper do
     it "with a single result" do
       @response = mock_response :total => 1
 
-      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying <b>1</b> entry_name"
       html.html_safe?.should == true
     end
@@ -40,7 +40,7 @@ describe CatalogHelper do
     it "with a single page of results" do
       @response = mock_response :total => 7
 
-      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying <b>all 7</b> entry_names"
       html.html_safe?.should == true
     end
@@ -48,7 +48,7 @@ describe CatalogHelper do
     it "on the first page of multiple pages of results" do
       @response = mock_response :total => 15, :per_page => 10
 
-      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying entry_names <b>1 - 10</b> of <b>15</b>"
       html.html_safe?.should == true
     end
@@ -56,7 +56,7 @@ describe CatalogHelper do
     it "on the second page of multiple pages of results" do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 2
 
-      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying entry_names <b>11 - 20</b> of <b>47</b>"
       html.html_safe?.should == true
     end
@@ -64,7 +64,7 @@ describe CatalogHelper do
     it "on the last page of results" do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 5
 
-      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying entry_names <b>41 - 47</b> of <b>47</b>"
       html.html_safe?.should == true
     end
