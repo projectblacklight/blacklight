@@ -1,4 +1,4 @@
-require 'will_paginate'
+require 'kaminari'
 require 'marc'
 require 'rsolr'
 require 'rsolr-ext'

@@ -15,7 +15,7 @@
 	<%= render 'constraints', :localized_params=>params %>
   
   <div class="pageEntriesInfo">
-    <%= (page_entries_info @response.docs, :entry_name=>'item').html_safe %>
+    <%= render_pagination_info @response, :entry_name=>'item' %>
     <%=link_to "start over", catalog_index_path, :id=>"startOverLink" %>
   </div>
   

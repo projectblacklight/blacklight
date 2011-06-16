@@ -10,7 +10,7 @@
   
 <%- else -%>
 
-  <%= will_paginate @bookmarks %>
+<%= paginate @bookmarks, :theme => 'blacklight' %>
   <div id="userBookmarks">
     <p>
       <%= link_to "Clear Bookmarks", clear_bookmarks_path, :method => :delete, :confirm => "Clear your bookmarks?" %>

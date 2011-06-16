@@ -1,6 +1,6 @@
 class FolderController < ApplicationController
-
   include Blacklight::SolrHelper
+  helper CatalogHelper
 
   # fetch the documents that match the ids in the folder
   def index

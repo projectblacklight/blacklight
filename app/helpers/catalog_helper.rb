@@ -1,33 +1,37 @@
 module CatalogHelper
+
+  def paginate_rsolr_response(response, options = {}, &block)
+    per_page = response.rows
+    per_page = 1 if per_page < 1
+    current_page = (response.start / per_page).ceil + 1
+    num_pages = (response.total / per_page.to_f).ceil
+
+    paginate Struct.new(:current_page, :num_pages, :limit_value).new(current_page, num_pages, per_page), options, &block
+  end
+
   #
   	# shortcut for built-in Rails helper, "number_with_delimiter"
   	#
   	def format_num(num); number_with_delimiter(num) end
 
   	#
-  	# Displays the "showing X through Y of N" message. Not sure
-    # why that's called "page_entries_info". Not entirely sure
-    # what collection argument is supposed to duck-type too, but
-    # an RSolr::Ext::Response works.  Perhaps it duck-types to something
-    # from will_paginate?
-  	def page_entries_info(collection, options = {})
-      start = (collection.current_page - 1) * collection.per_page + 1
-      
-      # actual WillPaginate::Collection's have #total_entries. RSolr::Ext::Response
-      # has #total instead. We want this to work for both, to do what we want
-      # for RSolr, but not break WillPaginate's usual use. 
-      total_hits = collection.respond_to?(:total_entries) ? collection.total_entries : collection.total
+  	# Displays the "showing X through Y of N" message. 
+    def render_pagination_info(response, options = {})
+      start = response.start + 1
+      per_page = response.rows
+      current_page = (response.start / per_page).ceil + 1
+      num_pages = (response.total / per_page.to_f).ceil
+      total_hits = response.total
 
       start_num = format_num(start)
-      end_num = format_num(start + collection.size - 1)
+      end_num = format_num(start + response.docs.length - 1)
       total_num = format_num(total_hits)
-    #  end_num = total_num if total_hits < (start + collection.per_page - 1)
 
       entry_name = options[:entry_name] ||
-        (collection.empty?? 'entry' : collection.first.class.name.underscore.sub('_', ' '))
+        (response.empty?? 'entry' : response.docs.first.class.name.underscore.sub('_', ' '))
 
-      if collection.total_pages < 2
-        case collection.size
+      if num_pages < 2
+        case response.docs.length
         when 0; "No #{h(entry_name.pluralize)} found".html_safe
         when 1; "Displaying <b>1</b> #{h(entry_name)}".html_safe
         else;   "Displaying <b>all #{total_num}</b> #{entry_name.pluralize}".html_safe

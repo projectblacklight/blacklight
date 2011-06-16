@@ -34,7 +34,7 @@ class BookmarksController < ApplicationController
   end
 
   def index
-    @bookmarks = current_user.bookmarks.paginate :page => params[:page]
+    @bookmarks = current_user.bookmarks.page(params[:page])
   end
 
   # For adding a single bookmark, suggest use PUT/#update to 

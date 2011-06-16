@@ -2,65 +2,69 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe CatalogHelper do
   include CatalogHelper
 
-  def mock_collection args
+  def mock_response args
     current_page = args[:current_page] || 1
     per_page = args[:per_page] || 10
     total = args[:total]
-    arr = (1..total).to_a
+    start = (current_page - 1) * per_page
 
-    page_results = WillPaginate::Collection.create(current_page, per_page, total) do |pager|
-      pager.replace(arr.slice(pager.offset, pager.per_page))
-    end
+    mock_response = mock("RSolr::Ext::Response")
+    mock_response.stub!(:total).and_return(total)
+    mock_response.stub!(:rows).and_return(per_page)
+    mock_response.stub!(:start).and_return(start)
+    mock_response.stub!(:docs).and_return((1..total).to_a.slice(start, per_page))
+
+    mock_response
   end
   
-  describe "page_entries_info" do
+  describe "render_pagination_info" do
     before(:all) do
     end
 
     it "with no results" do
-      @collection = mock_collection :total => 0
+      @response = mock_response :total => 0
 
-      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "No entry_names found"
       html.html_safe?.should == true
     end
 
     it "with a single result" do
-      @collection = mock_collection :total => 1
+      @response = mock_response :total => 1
 
-      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying <b>1</b> entry_name"
       html.html_safe?.should == true
     end
 
     it "with a single page of results" do
-      @collection = mock_collection :total => 7
+      @response = mock_response :total => 7
 
-      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying <b>all 7</b> entry_names"
       html.html_safe?.should == true
     end
 
     it "on the first page of multiple pages of results" do
-      @collection = mock_collection :total => 15, :per_page => 10
+      @response = mock_response :total => 15, :per_page => 10
 
-      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying entry_names <b>1 - 10</b> of <b>15</b>"
       html.html_safe?.should == true
     end
 
     it "on the second page of multiple pages of results" do
-      @collection = mock_collection :total => 47, :per_page => 10, :current_page => 2
+      @response = mock_response :total => 47, :per_page => 10, :current_page => 2
 
-      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying entry_names <b>11 - 20</b> of <b>47</b>"
       html.html_safe?.should == true
     end
 
     it "on the last page of results" do
-      @collection = mock_collection :total => 47, :per_page => 10, :current_page => 5
+      @response = mock_response :total => 47, :per_page => 10, :current_page => 5
 
-      html = page_entries_info(@collection, { :entry_name => 'entry_name' })
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "Displaying entry_names <b>41 - 47</b> of <b>47</b>"
       html.html_safe?.should == true
     end
