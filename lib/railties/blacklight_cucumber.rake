@@ -53,6 +53,7 @@ begin
         t.profile = 'rerun'
       end
 
+      if (RUBY_VERSION.to_f < 1.9)  then      
       Cucumber::Rake::Task.new({:rcov => 'db:test:prepare'}, 'Run features with rcov') do |t|
         # Blacklight customization, call features from external location, pass
         # in feature location wtih cucumber_opts, yeah it's weird but that's how.
@@ -65,7 +66,7 @@ begin
         t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
         t.rcov_opts << %[-o "blacklight-coverage"]
       end
-  
+      end	
   
       desc 'Run all features'
       task :all => [:ok, :wip]
