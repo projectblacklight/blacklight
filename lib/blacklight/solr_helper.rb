@@ -70,6 +70,23 @@ module Blacklight::SolrHelper
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
     self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_sorting_paging_to_solr ]
   end
+
+  def force_to_utf8(value)
+    case value
+    when Hash
+      value.each { |k, v| value[k] = force_to_utf8(v) }
+    when Array
+      value.each { |v| force_to_utf8(v) }
+    when String
+      value.force_encoding("utf-8")  if value.respond_to?(:force_encoding) 
+    end
+    value
+  end
+  
+  def find(params) 
+    response = force_to_utf8(Blacklight.solr.find(params))
+  end
+    
   
   # A helper method used for generating solr LocalParams, put quotes
   # around the term unless it's a bare-word. Escape internal quotes
@@ -247,11 +264,9 @@ module Blacklight::SolrHelper
     # better for us. 
     bench_start = Time.now
     
-      solr_response = Blacklight.solr.find(  self.solr_search_params(user_params).merge(extra_controller_params))
-  
-      document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
-
-      Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
+    solr_response = find(self.solr_search_params(user_params).merge(extra_controller_params))  
+    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
+    Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
     return [solr_response, document_list]
   end
@@ -271,7 +286,7 @@ module Blacklight::SolrHelper
   # a solr query method
   # retrieve a solr document, given the doc id
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
-    solr_response = Blacklight.solr.find solr_doc_params(id).merge(extra_controller_params)
+    solr_response = find solr_doc_params(id).merge(extra_controller_params)
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
@@ -295,7 +310,7 @@ module Blacklight::SolrHelper
       :spellcheck => 'false'
     }.merge(extra_solr_params)
     
-    solr_response = Blacklight.solr.find( self.solr_search_params().merge(solr_params) )
+    solr_response = find( self.solr_search_params().merge(solr_params) )
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
     [solr_response,document_list]
   end
@@ -341,7 +356,7 @@ module Blacklight::SolrHelper
     solr_params = solr_facet_params(facet_field, params, extra_controller_params)
     
     # Make the solr call
-    response = Blacklight.solr.find(solr_params)
+    response =find(solr_params)
 
     limit =       
       if respond_to?(:facet_list_limit)
@@ -377,7 +392,7 @@ module Blacklight::SolrHelper
     solr_params[:per_page] = 1
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
-    Blacklight.solr.find(solr_params).docs.first
+    solr_response = find(solr_params).docs.first
   end
     
   # returns a solr params hash
@@ -399,7 +414,7 @@ module Blacklight::SolrHelper
   # where the field is the "field" argument passed in.
   def get_opensearch_response(field=nil, extra_controller_params={})
     solr_params = solr_opensearch_params().merge(extra_controller_params)
-    response = Blacklight.solr.find(solr_params)
+    response = find(solr_params)
     a = [solr_params[:q]]
     a << response.docs.map {|doc| doc[solr_params[:fl]].to_s }
   end

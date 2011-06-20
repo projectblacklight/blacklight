@@ -749,18 +749,18 @@ describe 'Blacklight::SolrHelper' do
 =end
 
     it 'should have a doc id field' do
-      @doc.id.should_not == nil
+      @doc[:id].should_not == nil
     end
 
     it 'should have non-nil values for required fields set in initializer' do
-      @doc.get(Blacklight.config[:show][:html_title]).should_not == nil
-      @doc.get(Blacklight.config[:show][:heading]).should_not == nil
-      @doc.get(Blacklight.config[:show][:display_type]).should_not == nil
+      @doc[Blacklight.config[:show][:html_title]].should_not == nil
+      @doc[Blacklight.config[:show][:heading]].should_not == nil
+      @doc[Blacklight.config[:show][:display_type]].should_not == nil
     end
 
     it "should limit search result by facets when supplied" do
       doc2 = @solr_helper.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
-      doc2.id.should_not == nil
+      doc2[:id].should_not == nil
     end
 
   end
