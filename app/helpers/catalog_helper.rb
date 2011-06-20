@@ -1,13 +1,16 @@
 # -*- encoding : utf-8 -*-
 module CatalogHelper
 
-  def paginate_rsolr_response(response, options = {}, &block)
+  def paginate_params(response)
     per_page = response.rows
     per_page = 1 if per_page < 1
     current_page = (response.start / per_page).ceil + 1
     num_pages = (response.total / per_page.to_f).ceil
+    Struct.new(:current_page, :num_pages, :limit_value).new(current_page, num_pages, per_page)
+  end    
 
-    paginate Struct.new(:current_page, :num_pages, :limit_value).new(current_page, num_pages, per_page), options, &block
+  def paginate_rsolr_response(response, options = {}, &block)
+    paginate paginate_params(response), options, &block
   end
 
   #
