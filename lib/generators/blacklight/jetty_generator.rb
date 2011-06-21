@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+require 'openssl'
 
 module Blacklight
   class Jetty < Rails::Generators::Base
@@ -9,6 +10,7 @@ module Blacklight
     class_option :environment, :aliases => "-e", :type=>"string", :desc => "environment to use jetty with. Will insert into solr.yml, and also offer to index test data in test environment.", :default => Rails.env
     # change this to a different download if you want to peg to a different
     # tagged version of our known-good jetty/solr.
+    OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE # (Required by jruby)
     class_option :download_url, :aliases => "-u", :type=>"string", :default =>"https://github.com/projectblacklight/blacklight-jetty/zipball/v1.4.1-1" , :desc=>"location of zip file including a jetty with solr setup for blacklight."
     class_option :downloaded_package, :aliases => "-d", :type=>"string", :desc => "manual download of BL-jetty zip file"
      
