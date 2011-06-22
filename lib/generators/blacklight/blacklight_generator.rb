@@ -26,6 +26,7 @@ This generator makes the following changes to your application:
 12. Adds Blacklight routes to your ./config/routes.rb
 Thank you for Installing Blacklight.
        """ 
+
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
   def self.next_migration_number(path)
@@ -36,6 +37,14 @@ Thank you for Installing Blacklight.
     end
     @prev_migration_nr.to_s
   end
+
+  def check_arguments
+    if File.exists?("app/models/#{model_name}.rb") and options[:devise]
+      puts "Because you have selected \"#{model_name}\", which is an existing class, you will need to install devise manually and then run this generator without the Devise option.  You can find additional information here: https://github.com/plataformatec/devise.  \n Please be sure to include a to_s method in #{model_name} that returns the users name or email, as this will be used by Blacklight to provide a link to user specific information."
+      exit
+    end
+  end
+
 
   # Content types used by Marc Document extension, possibly among others.
   # Registering a unique content type with 'register' (rather than
