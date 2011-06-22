@@ -13,6 +13,7 @@ check_errs()
   fi
 }
 
+
 # Make sure we are in the blacklight directory
 if [ ! -f "blacklight.gemspec" ]
 then
@@ -20,18 +21,20 @@ then
   exit 1
 fi
 
+before="$(date +%s)"
+
 # Clear out the tmp/ directory.
 rm -rf tmp/test_app
 mkdir -p tmp/test_app
 cd tmp
 
 # Make certain rvn will work correctly.
-\# Load RVM into a shell session *as a function*
+# Load RVM into a shell session *as a function*
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
-  \# First try to load from a user install
+  # First try to load from a user install
   source "$HOME/.rvm/scripts/rvm"
 elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
-  \# Then try to load from a root install
+  # Then try to load from a root install
   source "/usr/local/rvm/scripts/rvm"
 else
   printf "ERROR: An RVM installation was not found.\n"
@@ -44,7 +47,7 @@ case "$@" in
     "jruby")
 	echo "running Jruby Tests"	
 	rvm jruby-1.6.2
-	check_errs $? "rvm failed.  try rvm install jruby-1.6.2, and then re-run these tests." 
+	check_errs $? "rvm failed.  please run rvm install jruby-1.6.2, and then re-run these tests." 
 	jruby -S rails new test_app -m http://jruby.org/rails3.rb
 	;;
 
@@ -68,7 +71,6 @@ case "$@" in
 esac
 
 cd test_app
-rm Gemfile
 echo "
 source 'http://rubygems.org'
 
@@ -87,15 +89,16 @@ gem 'blacklight', :path => '../../../'
 group :development, :test do 
        gem 'rspec'
        gem 'rspec-rails', '~>2.5.0'       
+       gem 'generator_spec'
        gem 'cucumber-rails'
        gem 'database_cleaner'  
        gem 'capybara'
        gem 'webrat'
        gem 'aruba'
 end
-" >> Gemfile
+" > Gemfile
 
-bundle install --local
+bundle install --local &> /dev/null 
 # If a local install fails, try a full install.
 if [ "$?" -ne "0" ]
 then
@@ -106,8 +109,15 @@ rails generate blacklight -d
 check_errs $?  "Blacklight generator failed" 
 rake db:migrate
 check_errs $? "Rake Migration failed" 
-rails g cucumber:install
-rails g blacklight:jetty test_jetty -e test
+rails g cucumber:install &> /dev/null 
+jetty_zip="/tmp/bl_jetty.zip"
+if [ ! -f $jetty_zip ]
+then
+  curl -L https://github.com/projectblacklight/blacklight-jetty/zipball/v1.4.1-1 > $jetty_zip
+  check_errs $? "Jetty file does not exist, and cannot be downloaded."
+fi
+rails g blacklight:jetty test_jetty -e test -d $jetty_zip
+  check_errs $? "Jetty setup failed."
 rm public/index.html
 rake solr:marc:index_test_data RAILS_ENV=test
 cd test_jetty
@@ -115,8 +125,14 @@ java -Djetty.port=8888 -Dsolr.solr.home=./solr -jar start.jar &> /dev/null &
 jetty_pid=$!
 cd ..
 rake blacklight:spec
-check_errs $? "rspec tests failed" 
+spec_failure=$?
 rake blacklight:cucumber
-check_errs $? "Cucumber tests failed"
-# Shutdown jetty
+cucumber_failure=$?
 kill $jetty_pid
+
+after="$(date +%s)"
+elapsed_seconds="$(expr $after - $before)"
+echo "Total Time: ${elapsed_seconds}"
+
+check_errs $spec_failure     "Rpec Tests failed." 
+check_errs $cucumber_failure "Cucumber Tests failed." 
