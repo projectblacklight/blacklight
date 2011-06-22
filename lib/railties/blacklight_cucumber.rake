@@ -25,7 +25,7 @@ begin
       Cucumber::Rake::Task.new({:ok => 'db:test:prepare'}, 'Run features that should pass') do |t|
         # Blacklight customization, call features from external location, pass
         # in feature location wtih cucumber_opts, yeah it's weird but that's how.
-        t.cucumber_opts = blacklight_features
+        t.cucumber_opts = blacklight_features + " --format progress"
         
         t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
         t.fork = true # You may get faster startup if you set this to false
