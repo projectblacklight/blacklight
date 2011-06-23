@@ -24,17 +24,17 @@ class FolderController < ApplicationController
   # remove a document_id from the folder. :id of action is solr_doc_id
   def destroy
     session[:folder_document_ids].delete(params[:id])
-    
-    unless request.xhr?      
-      respond_to do |format|
-        format.html do
-          flash[:notice] = "#{params[:title] || "Item"} successfully removed from selected items"
-          redirect_to :back
-        end
+          
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "#{params[:title] || "Item"} successfully removed from selected items"
+        redirect_to :back
       end
-    else
-      render :text => "OK"
-    end        
+      format.js do
+        render :json => {"OK" => "OK"}
+      end
+    end
+          
   end
  
   # get rid of the items in the folder
