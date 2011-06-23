@@ -292,9 +292,24 @@ describe 'Blacklight::SolrHelper' do
     end
 
     describe "sorting" do
-      it "should not send a sort parameter to solr by default" do
+      it "should send the default sort parameter to solr" do
+        test_sort_field = ['test', 'solr_test_field asc'] 
+        Blacklight.config[:sort_fields].unshift(test_sort_field)
+
         produced_params = @solr_helper.solr_search_params
-        produced_params[:sort].should be_nil
+        produced_params[:sort].should == 'solr_test_field asc'
+
+        Blacklight.config[:sort_fields].delete(test_sort_field)
+      end
+
+      it "should not send a sort parameter to solr if the sort value is blank" do
+        test_sort_field = ['test', nil] 
+        Blacklight.config[:sort_fields].unshift(test_sort_field)
+
+        produced_params = @solr_helper.solr_search_params
+        produced_params.should_not have_key(:sort)
+
+        Blacklight.config[:sort_fields].delete(test_sort_field)
       end
 
       it "should pass through user sort parameters" do

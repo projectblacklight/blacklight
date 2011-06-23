@@ -11,7 +11,7 @@ Feature: Search Results
       Then I should get at least 30 results
       And I should get exactly 30 results
       And I should get at most 30 results
-      And I should get id "00282214" in the results
+      And I should get id "2007020969" in the results
       And I should have more results than a search for "korea"
 
     Scenario: "inmul" query
