@@ -42,7 +42,7 @@ else
 fi
 
 
-rvm use "$@"@blacklight_rails3 --create
+rvm use "$@" --create
 check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests." 
 gem install 'rails'
 gem install 'bundler'
@@ -61,7 +61,7 @@ end
 platforms :ruby do
  gem 'sqlite3-ruby', :require => 'sqlite3'
 end
-gem 'blacklight', :path => '../../../'
+gem 'blacklight', :path => '../../'
 
 # For testing
 group :development, :test do 
@@ -110,7 +110,7 @@ kill $jetty_pid
 
 after="$(date +%s)"
 elapsed_seconds="$(expr $after - $before)"
-echo "Total Time: ${elapsed_seconds}"
+echo "Total Time: ${elapsed_seconds} sec"
 
 check_errs $spec_failure     "Rpec Tests failed." 
 check_errs $cucumber_failure "Cucumber Tests failed." 
