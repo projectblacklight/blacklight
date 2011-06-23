@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 module CatalogHelper
 
+  # Pass in an RSolr::Response (or duck-typed similar) object, 
+  # it translates to a Kaminari-paginatable
+  # object, with the keys Kaminari views expect. 
   def paginate_params(response)
     per_page = response.rows
     per_page = 1 if per_page < 1
@@ -9,18 +12,23 @@ module CatalogHelper
     Struct.new(:current_page, :num_pages, :limit_value).new(current_page, num_pages, per_page)
   end    
 
+  # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument. 
+  # Will convert it to something kaminari can deal with (using #paginate_params), and
+  # then call kaminari paginate with that. Other arguments (options and block) same as
+  # kaminari paginate, passed on through. 
+  # will output HTML pagination controls. 
   def paginate_rsolr_response(response, options = {}, &block)
     paginate paginate_params(response), options, &block
   end
 
   #
-  	# shortcut for built-in Rails helper, "number_with_delimiter"
-  	#
-  	def format_num(num); number_with_delimiter(num) end
+  # shortcut for built-in Rails helper, "number_with_delimiter"
+  #
+  def format_num(num); number_with_delimiter(num) end
 
-  	#
-  	# Displays the "showing X through Y of N" message. 
-    def render_pagination_info(response, options = {})
+  #
+  # Pass in an RSolr::Response. Displays the "showing X through Y of N" message. 
+  def render_pagination_info(response, options = {})
       start = response.start + 1
       per_page = response.rows
       current_page = (response.start / per_page).ceil + 1
@@ -45,8 +53,9 @@ module CatalogHelper
       end
   end
 
-  # Like the mysteriously named #page_entry_info above, but for an individual
-  # item show page. Displays "showing X of Y items" message.
+  # Like  #render_pagination_info above, but for an individual
+  # item show page. Displays "showing X of Y items" message. Actually takes
+  # data from session though (not a great design). 
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change. 
   def item_page_entry_info
