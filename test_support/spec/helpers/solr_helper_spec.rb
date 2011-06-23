@@ -291,6 +291,33 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
+    describe "sorting" do
+      it "should send the default sort parameter to solr" do
+        test_sort_field = ['test', 'solr_test_field asc'] 
+        Blacklight.config[:sort_fields].unshift(test_sort_field)
+
+        produced_params = @solr_helper.solr_search_params
+        produced_params[:sort].should == 'solr_test_field asc'
+
+        Blacklight.config[:sort_fields].delete(test_sort_field)
+      end
+
+      it "should not send a sort parameter to solr if the sort value is blank" do
+        test_sort_field = ['test', nil] 
+        Blacklight.config[:sort_fields].unshift(test_sort_field)
+
+        produced_params = @solr_helper.solr_search_params
+        produced_params.should_not have_key(:sort)
+
+        Blacklight.config[:sort_fields].delete(test_sort_field)
+      end
+
+      it "should pass through user sort parameters" do
+        produced_params = @solr_helper.solr_search_params :sort => 'solr_test_field desc'
+        produced_params[:sort].should == 'solr_test_field desc'
+      end
+    end
+
     describe "for :solr_local_parameters config" do
       before do
         # Hack to test with our own custom config specified here
