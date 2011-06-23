@@ -8,11 +8,19 @@ check_errs()
   # Para. 2 is text to display on failure.
   if [ "${1}" -ne "0" ]; then
     echo "ERROR # ${1} : ${2}"
+
+    # Attempt to shut down jetty, if set.
+    if [ $jetty_pid ] 
+    then
+	kill $jetty_pid
+    fi
+    after="$(date +%s)"
+    elapsed_seconds="$(expr $after - $before)"
+    echo "Total Time: ${elapsed_seconds} sec"
     # as a bonus, make our script exit with the right error code.
     exit ${1}
   fi
 }
-
 
 # Make sure we are in the blacklight directory
 if [ ! -f "blacklight.gemspec" ]
@@ -42,11 +50,11 @@ else
 fi
 
 
-rvm use "$@"@blacklight_rails3 --create
+rvm use "$@" --create
 check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests." 
-gem install 'rails'
-gem install 'bundler'
-gem install 'devise'
+gem install --no-rdoc --no-ri 'rails'
+gem install --no-rdoc --no-ri 'bundler'
+gem install --no-rdoc --no-ri 'devise'
 rails new test_app
 cd test_app
 echo "
@@ -61,7 +69,7 @@ end
 platforms :ruby do
  gem 'sqlite3-ruby', :require => 'sqlite3'
 end
-gem 'blacklight', :path => '../../../'
+gem 'blacklight', :path => '../../'
 
 # For testing
 group :development, :test do 
@@ -102,15 +110,12 @@ cd test_jetty
 java -Djetty.port=8888 -Dsolr.solr.home=./solr -jar start.jar &> /dev/null &
 jetty_pid=$!
 cd ..
-rake blacklight:spec
-spec_failure=$?
-rake blacklight:cucumber
-cucumber_failure=$?
-kill $jetty_pid
+bundle exec rake blacklight:spec
+check_errs $? "Rpec Tests failed." 
+bundle exec rake blacklight:cucumber
+check_errs $? "Cucumber Tests failed." 
 
-after="$(date +%s)"
-elapsed_seconds="$(expr $after - $before)"
-echo "Total Time: ${elapsed_seconds}"
 
-check_errs $spec_failure     "Rpec Tests failed." 
-check_errs $cucumber_failure "Cucumber Tests failed." 
+
+
+

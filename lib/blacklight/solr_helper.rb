@@ -146,8 +146,13 @@ module Blacklight::SolrHelper
       # Omit empty strings and nil values.             
       # Apparently RSolr takes :per_page and converts it to Solr :rows,
       # so we let it. 
-      [:page, :sort, :per_page].each do |key|
+      [:page, :per_page, :sort].each do |key|
         solr_parameters[key] = user_params[key] unless user_params[key].blank?      
+      end
+
+      if solr_parameters[:sort].blank?
+        default_sort_field = Blacklight.config[:sort_fields].first || [nil, nil]
+        solr_parameters[:sort] = default_sort_field.last unless default_sort_field.last.blank?
       end
       
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
