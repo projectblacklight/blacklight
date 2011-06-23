@@ -41,35 +41,13 @@ else
   exit 1
 fi
 
-# Switch over to the currect ruby version
-case "$@" in
 
-    "jruby")
-	echo "running Jruby Tests"	
-	rvm jruby-1.6.2
-	check_errs $? "rvm failed.  please run rvm install jruby-1.6.2, and then re-run these tests." 
-	jruby -S rails new test_app -m http://jruby.org/rails3.rb
-	;;
-
-    "1.9.2")
-	echo "running tests in 1.9.2"
-	rvm 1.9.2
-	check_errs $? "rvm failed.  try rvm install 1.9.2, and then re-run these tests." 
-	rails new test_app
-	;;
-
-    "1.8.7")
-	echo "running tests in 1.8.7"
-	rvm 1.8.7
-	check_errs $? "rvm failed.  try rvm install 1.8.7, and then re-run these tests." 
-	rails new test_app
-	;;
-
-    * )
-	echo "unknown test type.  Please specify jruby, 1.9.2, or 1.8.7"
-	exit 1
-esac
-
+rvm use "$@"@blacklight_rails3 --create
+check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests." 
+gem install 'rails'
+gem install 'bundler'
+gem install 'devise'
+rails new test_app
 cd test_app
 echo "
 source 'http://rubygems.org'
