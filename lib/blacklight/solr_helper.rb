@@ -397,7 +397,8 @@ module Blacklight::SolrHelper
     solr_params[:per_page] = 1
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
-    solr_response = find(solr_params).docs.first
+    solr_response = find(solr_params)
+    SolrDocument.new(solr_response.docs.first, solr_response) unless solr_response.docs.empty?
   end
     
   # returns a solr params hash
