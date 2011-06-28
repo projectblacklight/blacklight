@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "Atom feed view" do  
+describe "catalog/index.atom.builder" do  
   
 
   before(:all) do
@@ -39,10 +39,7 @@ describe "Atom feed view" do
     params.merge!( @params )
     @response = @rsolr_response
  
-    #    render "catalog/index.atom.builder"
-    # Default behavior in rails 3 is to assume you are rendering a partial,
-    # so you need to be a little more explicit with reder calls outside current scope.
-    render :file => "catalog/index.atom.builder", :content_type => "application/atom+xml", :object => @response 
+    render 
 
     # We need to use rexml to test certain things that have_tag wont' test    
     # note that response is depricated rails 3, use "redered" instead. 
