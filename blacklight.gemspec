@@ -19,33 +19,13 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # PRODUCTION GEM REQUIREMENTS
-  # ---------------------------------------    
-  # JRuby Specific Gems - and their counterparts
-  if defined?(JRUBY_VERSION)
-    # Jruby specific gems should go here.
-      s.add_dependency "nokogiri", "~>1.5.0.beta.3"   # XML Parser
-  else
-      s.add_dependency "unicode" # provides C-form normalization of unicode characters, as required by refworks.
-      s.add_dependency "nokogiri" # only jruby versions need the beta, windows systems are not supported by the beta yet
-  end  
-
-  # Required Gems
+  # ---------------------------------------   
   s.add_dependency "rails", "~> 3.0"
-
+  s.add_dependency "nokogiri", "~>1.5.0.beta.3"   # XML Parser
+  s.add_dependency "unicode" # provides C-form normalization of unicode characters, as required by refworks.
   s.add_dependency "marc", "~> 0.4.3"  # Marc record parser
   s.add_dependency "rsolr",  '~> 1.0' # Library for interacting with rSolr.
   s.add_dependency "rsolr-ext", '~> 1.0' # extension to the above for some rails-ish behaviors - currently embedded in our solr document ojbect.
   s.add_dependency "kaminari" # the pagination (page 1,2,3, etc..) of our search results
-
-  # TESTING GEM REQUIREMENTS
-  # -------------------------------------------
-  # For testing the generators
-#  s.add_dependency "cucumber-rails"
-#  s.add_dependency "capybara"
-#  s.add_dependency "aruba"
-
-#  s.add_dependency "rspec-rails", "~>2.3.0"
-#  s.add_dependency "webrat"
-#  s.add_dependency "database_cleaner"
 
 end
