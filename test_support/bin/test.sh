@@ -2,6 +2,15 @@
 # test.sh
 # Create a default rails appliaction, install blacklight, and run all the tests.
 
+before="$(date +%s)"
+benchmark() 
+{
+    after="$(date +%s)"
+    elapsed_seconds="$(expr $after - $before)"
+    echo "Total Time: ${elapsed_seconds} sec"
+    # as a bonus, make our script exit with the right error code.
+}
+
 check_errs()
 {
   # Function. Parameter 1 is the return code
@@ -14,11 +23,8 @@ check_errs()
     then
 	kill $jetty_pid
     fi
-    after="$(date +%s)"
-    elapsed_seconds="$(expr $after - $before)"
-    echo "Total Time: ${elapsed_seconds} sec"
-    # as a bonus, make our script exit with the right error code.
-    exit ${1}
+     benchmark
+     exit 1
   fi
 }
 
@@ -28,8 +34,6 @@ then
   echo "You must execute test.sh from the root of your blacklight checkout."
   exit 1
 fi
-
-before="$(date +%s)"
 
 # Clear out the tmp/ directory.
 rm -rf tmp/test_app
@@ -114,8 +118,4 @@ bundle exec rake blacklight:spec
 check_errs $? "Rpec Tests failed." 
 bundle exec rake blacklight:cucumber
 check_errs $? "Cucumber Tests failed." 
-
-
-
-
-
+benchmark
