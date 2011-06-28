@@ -23,13 +23,15 @@ Gem::Specification.new do |s|
   # JRuby Specific Gems - and their counterparts
   if defined?(JRUBY_VERSION)
     # Jruby specific gems should go here.
+      s.add_dependency "nokogiri", "~>1.5.0.beta.3"   # XML Parser
   else
-    s.add_dependency "unicode" # provides C-form normalization of unicode characters, as required by refworks.
+      s.add_dependency "unicode" # provides C-form normalization of unicode characters, as required by refworks.
+      s.add_dependency "nokogiri" # only jruby versions need the beta, windows systems are not supported by the beta yet
   end  
 
   # Required Gems
   s.add_dependency "rails", "~> 3.0"
-  s.add_dependency "nokogiri", "~>1.5.0.beta.3"   # XML Parser
+
   s.add_dependency "marc", "~> 0.4.3"  # Marc record parser
   s.add_dependency "rsolr",  '~> 1.0' # Library for interacting with rSolr.
   s.add_dependency "rsolr-ext", '~> 1.0' # extension to the above for some rails-ish behaviors - currently embedded in our solr document ojbect.
