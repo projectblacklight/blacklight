@@ -7,3 +7,4 @@ rescue LoadError
 end
 
 require 'rake'
+Bundler::GemHelper.install_tasks
