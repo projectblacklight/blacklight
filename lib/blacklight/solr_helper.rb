@@ -391,9 +391,9 @@ module Blacklight::SolrHelper
   # the Blacklight app-level request params that define the search. 
   def get_single_doc_via_search(index, request_params)
     solr_params = solr_search_params(request_params)
-    solr_params[:start] = index - 1 # start at 0 to get 1st doc, 1 to get 2nd. 
+    # solr_params[:start] = index - 1 # start at 0 to get 1st doc, 1 to get 2nd. 
     # FIXME: we must set page because of a  bug posted here: https://github.com/mwmitchell/rsolr-ext/issues/16
-    solr_params[:page] = index - 1 # start at 0 to get 1st doc, 1 to get 2nd. 
+    solr_params[:page] = index # start at 0 to get 1st doc, 1 to get 2nd. 
     solr_params[:per_page] = 1
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
