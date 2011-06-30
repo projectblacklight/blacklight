@@ -27,15 +27,6 @@ Feature: Search History Page
     Then I should see "dang"
     And I should see "book"
 
-  Scenario: Deleting a Search
-    Given I have done a search with term "book"
-    And I am on the search history page
-    Then I should see a "delete" button
-    And I should see "book"
-    When I press "delete"
-    Then I should see "Successfully removed that search history item."    
-    Then I should not see "book"
-
   Scenario: Clearing Search History
     Given I have done a search with term "book"
     And I have done a search with term "dang"

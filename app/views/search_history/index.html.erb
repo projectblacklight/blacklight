@@ -15,7 +15,6 @@
       <%- else -%>
         <%= button_to "save", save_search_path(search.id), :method => :put %>
       <%- end -%></td>
-      <td class="actions"><%= button_to "delete", delete_search_path(search.id), :confirm => "Delete item?" %></td>
     <% end #content_tag %>
   <%- end -%>
   </table>

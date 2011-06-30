@@ -47,8 +47,7 @@ module Blacklight
       def search_history
         add_routes do |options|
           match "search_history",             :to => "search_history#index",   :as => "search_history"
-          match "search_history/clear",       :to => "search_history#clear",   :as => "clear_search_history"
-          match "search_history/destroy/:id", :to => "search_history#destroy", :as => "delete_search"
+          match "search_history/clear",       :to => "search_history#clear",   :as => "clear_search_history"          
         end
       end
   
