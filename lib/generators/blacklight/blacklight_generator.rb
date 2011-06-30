@@ -83,6 +83,7 @@ EOF
   end
 }
       end
+      gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
     end
   end
 
