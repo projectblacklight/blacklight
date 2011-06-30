@@ -2,6 +2,8 @@
 module Blacklight::Catalog 
   extend ActiveSupport::Concern
   include Blacklight::SolrHelper
+  
+  SearchHistoryWindow = 12 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
@@ -234,13 +236,18 @@ module Blacklight::Catalog
     def save_current_search_params    
       # If it's got anything other than controller, action, total, we
       # consider it an actual search to be saved. Can't predict exactly
-      # what the keys for a search will be, due to possible extra plugins. 
+      # what the keys for a search will be, due to possible extra plugins.
       return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == [] 
       params_copy = search_session.clone # don't think we need a deep copy for this
       params_copy.delete(:page)
+      
       unless @searches.collect { |search| search.query_params }.include?(params_copy)
+        
         new_search = Search.create(:query_params => params_copy)
         session[:history].unshift(new_search.id)
+        # Only keep most recent X searches in history, for performance. 
+        # both database (fetching em all), and cookies (session is in cookie)
+        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
       end
     end
           
