@@ -472,6 +472,9 @@ module BlacklightHelper
     # removing action and controller from duplicate params so that we don't get hidden fields for them.
     my_params.delete(:action)
     my_params.delete(:controller)
+    # commit is just an artifact of submit button, we don't need it, and
+    # don't want it to pile up with another every time we press submit again!
+    my_params.delete(:commit)
     # hash_as_hidden_fields in hash_as_hidden_fields.rb
     return hash_as_hidden_fields(my_params)
   end
