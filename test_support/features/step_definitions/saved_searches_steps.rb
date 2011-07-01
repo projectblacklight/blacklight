@@ -7,7 +7,7 @@ Given /^I am logged in as "([^\"]*)"$/ do |login|
   visit new_user_session_path
   fill_in("user_email", :with => email) 
   fill_in("user_password", :with => "password") 
-  click_button("user_submit")
+  click_button("Sign in")
 #  response.body.should =~ /Logged/m  
   Then 'I should see "Log Out"'
 end
