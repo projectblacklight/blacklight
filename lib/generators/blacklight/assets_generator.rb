@@ -13,7 +13,7 @@
 require 'rails/generators'
 require 'rails/generators/base'
 module Blacklight
-  class AssetsGenerator < Rails::Generators::Base
+  class Assets < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
   
     def assets
