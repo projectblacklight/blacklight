@@ -63,6 +63,7 @@ def exportable_record
 </record>"
 end
 describe BlacklightHelper do
+  include ERB::Util
   include BlacklightHelper
   
   describe "link_back_to_catalog" do
