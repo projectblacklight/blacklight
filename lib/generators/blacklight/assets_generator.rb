@@ -5,7 +5,7 @@
 # generally you'd only want to do this in 'development', and can
 # add it to environments/development.rb:
 #       require File.join(Blacklight.root, "lib", "generators", "blacklight", "assets_generator.rb")
-#       Blacklight::AssetsGenerator.start(["--force", "--quiet"])
+#       Blacklight::Assets.start(["--force", "--quiet"])
 
 
 # Need the requires here so we can call the generator from environment.rb
@@ -17,9 +17,35 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
   
     def assets
-      directory("public/images")
-      directory("public/stylesheets") 
-      directory("public/javascripts") 
+      if use_asset_pipeline?
+        insert_into_file "app/assets/stylesheets/application.css", :after => " *= require_self" do
+%q{
+ *
+ * Required by Blacklight
+ * *= require 'yui'
+ * *= require 'jquery-ui-1.8.1.custom.css
+ * *= require 'blacklight'         
+}
+        end
+
+        insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
+%q{
+// Required by Blacklight
+//= require jquery-ui
+//= require blacklight          
+}          
+        end
+      else
+        # directories are relative to the source_root 
+        directory("../../../../app/assets/images/blacklight", "public/images/blacklight")
+        directory("../../../../app/assets/stylesheets", "public/stylesheets") 
+        directory("../../../../app/assets/javascripts", "public/javascripts") 
+      end
+    end
+
+    private
+    def use_asset_pipeline?
+      (Rails::VERSION::MAJOR >= 3 and Rails::VERSION::MINOR >= 1) and Rails.application.config.assets.enabled
     end
     
   end
