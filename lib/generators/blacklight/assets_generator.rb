@@ -24,7 +24,7 @@ module Blacklight
  * Required by Blacklight
  * *= require 'yui'
  * *= require 'jquery-ui-1.8.1.custom.css
- * *= require 'blacklight'         
+ * *= require 'blacklight/blacklight'         
 }
         end
 
@@ -32,9 +32,10 @@ module Blacklight
 %q{
 // Required by Blacklight
 //= require jquery-ui
-//= require blacklight          
+//= require blacklight/blacklight          
 }          
         end
+        directory("../../../../app/assets/images/blacklight", "public/images/blacklight")
       else
         # directories are relative to the source_root 
         directory("../../../../app/assets/images/blacklight", "public/images/blacklight")
