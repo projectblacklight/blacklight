@@ -297,13 +297,11 @@ module BlacklightHelper
     # using "_" as sep. to more closely follow the views file naming conventions
     # parameterize uses "-" as the default sep. which throws errors
     display_type = document[Blacklight.config[:show][:display_type]]
-    if display_type
-      if display_type.respond_to?(:join)
-        "#{display_type.join(" ").gsub("-"," ")}".parameterize("_").to_s
-      else
-        "#{display_type.gsub("-"," ")}".parameterize("_").to_s
-      end
-    end
+
+    return 'default' unless display_type
+    display_type = display_type.join(" ") if display_type.respond_to?(:join)
+
+    "#{display_type.gsub("-"," ")}".parameterize("_").to_s
   end
 
   # given a doc and action_name, this method attempts to render a partial template
