@@ -22,9 +22,9 @@ module Blacklight
 %q{
  *
  * Required by Blacklight
- * *= require 'yui'
- * *= require 'jquery-ui-1.8.1.custom.css
- * *= require 'blacklight/blacklight'         
+ *= require 'yui'
+ *= require 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css'
+ *= require 'blacklight/blacklight'         
 }
         end
 
