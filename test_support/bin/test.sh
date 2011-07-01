@@ -78,7 +78,7 @@ gem 'blacklight', :path => '../../'
 # For testing
 group :development, :test do 
        gem 'rspec'
-       gem 'rspec-rails', '~>2.5.0'       
+       gem 'rspec-rails', '>=2.5.0'       
        gem 'generator_spec'
        gem 'cucumber-rails'
        gem 'database_cleaner'  
