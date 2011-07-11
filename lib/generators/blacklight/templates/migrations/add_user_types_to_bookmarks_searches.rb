@@ -3,12 +3,10 @@ class AddUserTypesToBookmarksSearches < ActiveRecord::Migration
   def self.up
     add_column :searches, :user_type, :string
     add_column :bookmarks, :user_type, :string
-    execute <<-SQL
-       UPDATE searches set user_type="<%=model_name%>"
-    SQL
-    execute <<-SQL
-       UPDATE bookmarks set user_type="<%=model_name%>"
-    SQL
+    Search.reset_column_information
+    Bookmark.reset_column_information
+    Search.update_all("user_type = '<%=model_name%>'")
+    Bookmark.update_all("user_type = '<%=model_name%>'")
   end
 
   def self.down
