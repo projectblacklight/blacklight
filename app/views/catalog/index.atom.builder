@@ -1,4 +1,5 @@
 require 'base64'
+page_info = paginate_params(@response)
 
 xml.instruct!(:xml, :encoding => "UTF-8")
 
@@ -16,18 +17,18 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # Navigational and context links
   
   xml.link( "rel" => "next", 
-            "href" => url_for(params.merge(:only_path => false, :page => (@response.docs.current_page() + 1).to_s))
-           ) if  @response.docs.has_next?
+            "href" => url_for(params.merge(:only_path => false, :page => (page_info.current_page + 1).to_s))
+           ) if  page_info.num_pages > page_info.current_page
   
   xml.link( "rel" => "previous", 
-            "href" => url_for(params.merge(:only_path => false, :page => (@response.docs.current_page() - 1).to_s))
-           ) if @response.docs.has_previous?
+            "href" => url_for(params.merge(:only_path => false, :page => (page_info.current_page - 1).to_s))
+           ) if page_info.current_page > 1
            
   xml.link( "rel" => "first", 
             "href" => url_for(params.merge(:only_path => false, :page => "1")))
   
   xml.link( "rel" => "last",
-            "href" => url_for(params.merge(:only_path => false, :page => @response.docs.total_pages.to_s)))
+            "href" => url_for(params.merge(:only_path => false, :page => page_info.num_pages.to_s)))
   
   # "search" doesn't seem to actually be legal, but is very common, and
   # used as an example in opensearch docs
@@ -38,8 +39,8 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # opensearch response elements
   xml.opensearch :totalResults, @response.docs.total.to_s
   xml.opensearch :startIndex, @response.docs.start.to_s
-  xml.opensearch :itemsPerPage, @response.docs.per_page.to_s
-  xml.opensearch :Query, :role => "request", :searchTerms => params[:q], :startPage => @response.docs.current_page
+  xml.opensearch :itemsPerPage, page_info.limit_value
+  xml.opensearch :Query, :role => "request", :searchTerms => params[:q], :startPage => page_info.current_page
   
   
   # updated is required, for now we'll just set it to now, sorry
