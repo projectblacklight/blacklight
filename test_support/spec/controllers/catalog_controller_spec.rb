@@ -65,6 +65,16 @@ describe CatalogController do
       @controller.instance_variable_get("@response")
     end
     
+    it "should respect @extra_controller_params" do
+      # This can be removed once HYDRA-564 is closed
+      expected_params = {:q=>"sample query"}
+      controller.instance_variable_set(:@extra_controller_params, expected_params)
+      controller.stub(:params).and_return({:action=>:index})
+      controller.stub(:enforce_access_controls)
+      controller.should_receive(:get_search_results).with(controller.params, expected_params)
+      get :index
+    end
+    
     it "should have no search history if no search criteria" do
       session[:history] = []
       get :index
