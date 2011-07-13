@@ -129,10 +129,10 @@ module Blacklight::Solr::Document
       # some 'api' to Mime::Type that may or may not be entirely
       # public, the fact that a Mime::CONST is registered for every
       # type. But that's the only way to do the kind of check we need, sorry.
-      begin      
+      if defined?(Mime) && Mime.const_defined?(short_name.to_s.upcase)      
         mime_type = "Mime::#{short_name.to_s.upcase}".constantize
         content_type = mime_type.to_s unless content_type      
-      rescue NameError,LoadError
+      else
         # not registered, we need to register. Use register_alias to be least
         # likely to interfere with host app. 
         Mime::Type.register_alias(content_type, short_name)
