@@ -395,13 +395,12 @@ module BlacklightHelper
     # need to dup the facet values too,
     # if the values aren't dup'd, then the values
     # from the session will get remove in the show view...
-    p[:f] = p[:f].dup
-    p[:f][field] = p[:f][field].nil? ? [] : p[:f][field].dup
+    p[:f] = (p[:f] || {}).dup
+    p[:f][field] = (p[:f][field] || []).dup
     p.delete :page
     p.delete :id
     p.delete :counter
     p.delete :commit
-    #return p unless p[field]
     p[:f][field] = p[:f][field] - [value]
     p[:f].delete(field) if p[:f][field].size == 0
     p
