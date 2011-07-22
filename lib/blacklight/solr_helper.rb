@@ -60,13 +60,13 @@ module Blacklight::SolrHelper
     # similar design. Since we're a module, we have to add it in here.
     # There are too many different semantic choices in ruby 'class variables',
     # we choose this one for now, supplied by Rails. 
-    class_attribute :solr_search_params_logic
+    class_inheritable_accessor :solr_search_params_logic
 
     # Set defaults. Each symbol identifies a _method_ that must be in
     # this class, taking two parameters (solr_parameters, user_parameters)
     # Can be changed in local apps or by plugins, eg:
     # CatalogController.include ModuleDefiningNewMethod
-    # CatalogController.solr_search_params_logic += [:new_method]
+    # CatalogController.solr_search_params_logic << :new_method
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
     self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_sorting_paging_to_solr ]
   end
