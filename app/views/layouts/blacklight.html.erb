@@ -7,10 +7,10 @@
     
     <title><%= h(@page_title || application_name) %></title>
     <link href="<%= opensearch_catalog_path %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
-
-    <% content_for(:head) { raw(render_head_content) } %>
     
-    <%= yield(:head) %>
+    <%= raw(render_head_content) %>
+    
+    
   </head>
   <% if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
   <body onload="$('input#q').focus();" class="<%= render_body_class %>">
