@@ -74,7 +74,7 @@ describe 'Blacklight::SolrHelper' do
             end
         end 
                          
-        CustomizableHelper.solr_search_params_logic << :add_foo_to_solr_params
+        CustomizableHelper.solr_search_params_logic += [:add_foo_to_solr_params]
         
         
         obj = CustomizableHelper.new
