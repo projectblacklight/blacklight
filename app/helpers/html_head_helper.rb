@@ -2,8 +2,9 @@ module HtmlHeadHelper
   ##
   # This method should be included in any Blacklight layout, including
   # custom ones. It will output results of #render_js_includes,
-  # #render_stylesheet_includes, and all the content of 
-  # current_controller#extra_head_content.
+  # #render_stylesheet_includes, all the content of 
+  # current_controller#extra_head_content as well as any content passed 
+  # in any content_for(:head) blocks.
   #
   # Uses controller methods #extra_head_content, #javascript_includes,
   # and #stylesheet_links to find content. Tolerates it if those
@@ -60,7 +61,8 @@ module HtmlHeadHelper
   def render_head_content
     render_stylesheet_includes +
     render_js_includes +
-    render_extra_head_content
+    render_extra_head_content +
+    content_for(:head)
   end
   
   ##
