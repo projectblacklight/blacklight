@@ -133,8 +133,13 @@ module BlacklightHelper
   def document_heading
     @document[Blacklight.config[:show][:heading]] || @document.id
   end
+
   def render_document_heading
-    content_tag(:h1, document_heading)
+    begin
+      render :partial=>"catalog/_header_partials/#{document_partial_name(@document)}"  
+    rescue ActionView::MissingTemplate
+      render :partial=>"catalog/_header_partials/default"
+    end
   end
   
   # Used in the show view for setting the main html document title
