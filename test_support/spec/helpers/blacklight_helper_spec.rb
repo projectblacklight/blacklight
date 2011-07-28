@@ -183,10 +183,15 @@ describe BlacklightHelper do
 
    describe "render_document_heading" do
      it "should consist of #document_heading wrapped in a <h1>" do
-      @document = SolrDocument.new(Blacklight.config[:show][:heading] => "A Fake Document")
+       @document = SolrDocument.new(Blacklight.config[:show][:heading] => "A Fake Document", 'format'=>'fake')
 
-      render_document_heading.should have_selector("h1", :content => document_heading, :count => 1)
-      render_document_heading.html_safe?.should == true
+       render_document_heading.should have_selector("h1", :content => document_heading, :count => 1)
+       render_document_heading.html_safe?.should == true
+       
+       helper.stub!(:render).with({:partial=>'catalog/_header_partials/fake'}, {}).and_raise(ActionView::MissingTemplate.new([], nil, nil, nil))
+       helper.stub!(:render).with({:partial=>'catalog/_header_partials/default'}, {}).and_return('<h1>hi</h1')
+       render_document_heading
+       
      end
    end
 
