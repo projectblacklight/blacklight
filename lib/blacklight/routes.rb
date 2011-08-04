@@ -71,7 +71,6 @@ module Blacklight
           match 'catalog/endnote', :as => "endnote_catalog"
           match 'catalog/send_email_record', :as => "send_email_record_catalog"
           match "catalog/facet/:id", :to => 'catalog#facet', :as => 'catalog_facet'
-          match 'catalog/unapi', :to => "catalog#unapi", :as => 'unapi'
           resources :catalog, :only => [:index, :show, :update]
           match 'catalog/:id/librarian_view', :to => "catalog#librarian_view", :as => "librarian_view_catalog"
         end
