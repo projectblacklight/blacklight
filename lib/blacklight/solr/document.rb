@@ -49,7 +49,7 @@ require 'rsolr-ext'
 # If an extension advertises what export formats it can provide, than those
 # formats will automatically be delivered by the Blacklight catalog/show
 # controller, and potentially automatically advertised in various places
-# that advertise available formats. (UnAPI; HTML link rel=alternate; Atom 
+# that advertise available formats. (HTML link rel=alternate; Atom 
 # link rel=alterate; etc).
 #
 # Export formats are 'registered' by calling the #will_export_as method
