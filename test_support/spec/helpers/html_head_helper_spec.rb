@@ -12,8 +12,13 @@ describe HtmlHeadHelper do
     end
     it "should include script tags specified in controller#javascript_includes" do
       html = helper.render_js_includes
-      html.should have_selector("script[src='/javascripts/some_js.js'][type='text/javascript']")
-      html.should have_selector("script[src='/javascripts/other_js.js'][type='text/javascript']")      
+      if use_asset_pipeline?
+        html.should have_selector("script[src='/assets/some_js.js'][type='text/javascript']")
+        html.should have_selector("script[src='/assets/other_js.js'][type='text/javascript']")
+      else
+        html.should have_selector("script[src='/javascripts/some_js.js'][type='text/javascript']")
+        html.should have_selector("script[src='/javascripts/other_js.js'][type='text/javascript']")      
+      end
 
       html.html_safe?.should == true
     end
@@ -30,8 +35,13 @@ describe HtmlHeadHelper do
     end
     it "should render stylesheets specified in controller #stylesheet_links" do
       html = helper.render_stylesheet_includes      
-      html.should have_selector("link[href='/stylesheets/my_stylesheet.css'][rel='stylesheet'][type='text/css']")
-      html.should have_selector("link[href='/stylesheets/other_stylesheet.css'][rel='stylesheet'][type='text/css']")
+      if use_asset_pipeline?
+        html.should have_selector("link[href='/assets/my_stylesheet.css'][rel='stylesheet'][type='text/css']")
+        html.should have_selector("link[href='/assets/other_stylesheet.css'][rel='stylesheet'][type='text/css']")
+      else
+        html.should have_selector("link[href='/stylesheets/my_stylesheet.css'][rel='stylesheet'][type='text/css']")
+        html.should have_selector("link[href='/stylesheets/other_stylesheet.css'][rel='stylesheet'][type='text/css']")
+      end
       html.html_safe?.should == true
     end
   end
@@ -70,6 +80,11 @@ describe HtmlHeadHelper do
         helper.render_head_content.should be_html_safe
       end
     end
+  end
+
+  private
+  def use_asset_pipeline?
+    (Rails::VERSION::MAJOR >= 3 and Rails::VERSION::MINOR >= 1) and Rails.application.config.assets.enabled
   end
 
 end
