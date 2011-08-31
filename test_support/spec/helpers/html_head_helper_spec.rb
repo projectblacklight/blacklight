@@ -62,36 +62,12 @@ describe HtmlHeadHelper do
       end
     end
     describe "with methods defined" do
-      helper do 
-        def javascript_includes
-          [["my_js"]]
-        end
-        def stylesheet_links
-          [["my_css"]]
-        end
-        def extra_head_content
-          [
-            "<madeup_tag></madeup_tag>",
-            '<link rel="rel" type="type" href="href">' 
-          ]
-        end
-      end
-      before(:each) do
-        helper.should_receive(:content_for).with(:head).and_return("<meta keywords=\"foo bar\"/>".html_safe)
-        @output = helper.render_head_content
-      end
-      it "should include extra_head_content" do
-        @output.should have_selector("madeup_tag")
-        @output.should have_selector("link[rel=rel][type=type][href=href]")
-      end
-      it "should include render_javascript_includes" do
-        @output.index( render_js_includes ).should_not be_nil
-      end
-      it "should include render_stylesheet_links" do
-        @output.index( render_stylesheet_includes ).should_not be_nil
-      end
-      it "should include content_for :head" do
-        @output.should have_selector("meta[keywords]")
+      it "should include all head content" do
+        helper.should_receive(:render_extra_head_content).and_return("".html_safe)
+        helper.should_receive(:render_js_includes).and_return("".html_safe)
+        helper.should_receive(:render_stylesheet_includes).and_return("".html_safe)
+        helper.should_receive(:content_for).with(:head).and_return("".html_safe)
+        helper.render_head_content.should be_html_safe
       end
     end
   end
