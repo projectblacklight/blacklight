@@ -56,9 +56,15 @@ fi
 
 rvm use "$@" --create
 check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests." 
-gem install --no-rdoc --no-ri 'rails'
-gem install --no-rdoc --no-ri 'bundler'
-gem install --no-rdoc --no-ri 'devise'
+
+if ! gem query -n rails -v "~>3.0" --installed > /dev/null; then
+  gem install --no-rdoc --no-ri 'rails'
+fi
+
+if ! gem query -n bundler -v ">=1.0" --installed > /dev/null; then
+  gem install --no-rdoc --no-ri 'bundler'
+fi
+
 rails new test_app
 cd test_app
 echo "
@@ -87,6 +93,8 @@ group :development, :test do
        gem 'webrat'
        gem 'aruba'
 end
+
+gem 'devise'
 " > Gemfile
 
 bundle install --local &> /dev/null 
