@@ -24,18 +24,19 @@ Blacklight.configure(:shared) do |config|
     :per_page => 10 
   }
  
-  # solr field values given special treatment in the show (single result) view
+  # solr field configuration for search results/index views
+  config[:index] = {
+    :show_link => "title_display",
+    :record_display_type => "format"
+  }
+  
+  # solr field configuration for document/show views
   config[:show] = {
     :html_title => "title_display",
     :heading => "title_display",
     :display_type => "format"
   }
 
-  # solr fld values given special treatment in the index (search results) view
-  config[:index] = {
-    :show_link => "title_display",
-    :record_display_type => "format"
-  }
 
   # solr fields that will be treated as facets by the blacklight application
   #   The ordering of the field names is the order of the display
