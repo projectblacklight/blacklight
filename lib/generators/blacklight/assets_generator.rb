@@ -18,7 +18,7 @@ module Blacklight
   
     def assets
       if use_asset_pipeline?
-        insert_into_file "app/assets/stylesheets/application.css", :after => " *= require_self" do
+        insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
 %q{
  *
  * Required by Blacklight
