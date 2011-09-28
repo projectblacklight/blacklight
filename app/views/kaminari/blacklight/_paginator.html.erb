@@ -11,7 +11,7 @@
     <%= prev_page_tag %>
     <%= next_page_tag  %>
     <div class="page_links">
-    <% each_page do |page| -%>
+    <% each_relevant_page do |page| -%>
       <% if page.left_outer? || page.right_outer? || page.inside_window? -%>
         <%= page_tag page %>
       <% elsif !page.was_truncated? -%>
