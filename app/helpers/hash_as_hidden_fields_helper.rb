@@ -1,0 +1,3 @@
+module HashAsHiddenFieldsHelper
+  include Blacklight::HashAsHiddenFieldsHelperBehavior
+end

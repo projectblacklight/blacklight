@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe HashAsHiddenFields do
-  include HashAsHiddenFields
+describe HashAsHiddenFieldsHelper do
+  include HashAsHiddenFieldsHelper
   before(:each) do
     @hash = {:q => "query", :search_field => "search_field", :per_page=>10, :page=>5, :extra_arbitrary_key=>"arbitrary_value", :f=> {:field1 => ["a", "b"], :field2=> ["z"]}}
   end
