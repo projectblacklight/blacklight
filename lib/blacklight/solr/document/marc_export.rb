@@ -165,13 +165,9 @@ module Blacklight::Solr::Document::MarcExport
     }
     marc_obj = to_marc
 
-    # TODO. This was inherited functionality (although refactored),
-    # but it wasn't actually clear that :display_type would
-    # be used this way. This should be rewritten to guess
+    # TODO. This should be rewritten to guess
     # from actual Marc instead, probably.
-    format_str = Blacklight.config[:show][:display_type]
-    format_str = format_str[0] if format_str.kind_of?(Array)
-    format_str = format_str.titlecase
+    format_str = 'Generic'
     
     text = ''
     text << "%0 #{ format_str }\n"
