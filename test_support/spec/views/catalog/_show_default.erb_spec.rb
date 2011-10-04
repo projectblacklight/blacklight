@@ -1,19 +1,19 @@
 # -*- encoding : utf-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../../../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 # spec for default partial to display solr document fields 
-#  in catalog INDEX view
+#  in catalog show view
 
-describe "/catalog/_index_partials/_default.erb" do
+describe "/catalog/_show_default.html.erb" do
   
   include BlacklightHelper
   include CatalogHelper
   
   before(:each) do
-    @fname_1 = Blacklight.config[:index_fields][:field_names].last
+    @fname_1 = Blacklight.config[:show_fields][:field_names].last
     @fname_2 = "solr_field_not_in_initializer"
-    @fname_3 = Blacklight.config[:index_fields][:field_names][1]
-    @fname_4 = Blacklight.config[:index_fields][:field_names][0]
+    @fname_3 = Blacklight.config[:show_fields][:field_names][2]
+    @fname_4 = Blacklight.config[:show_fields][:field_names][0]
     
     @document = mock("solr_doc")
     @document.should_receive(:get).with(@fname_1, hash_including(:sep => nil)).any_number_of_times.and_return("val_1")
@@ -28,15 +28,15 @@ describe "/catalog/_index_partials/_default.erb" do
     @document.should_receive(:'has?').with(anything()).any_number_of_times.and_return(true)
     
     # cover any remaining fields in initalizer
-    @document.should_receive(:get).with(anything(), hash_including(:sep => nil)).any_number_of_times.and_return("bleah")
+    @document.should_receive(:get).with(any_args()).any_number_of_times.and_return("bleah")
     @document.should_receive(:[]).any_number_of_times
     
-    @flabel_1 = Blacklight.config[:index_fields][:labels][@fname_1]
-    @flabel_3 = Blacklight.config[:index_fields][:labels][@fname_3]
-    @flabel_4 = Blacklight.config[:index_fields][:labels][@fname_4]
+    @flabel_1 = Blacklight.config[:show_fields][:labels][@fname_1]
+    @flabel_3 = Blacklight.config[:show_fields][:labels][@fname_3]
+    @flabel_4 = Blacklight.config[:show_fields][:labels][@fname_4]
 
     assigns[:document] = @document
-    render_document_partial @document, :index
+    render_document_partial @document, :show
   end
 
   it "should only display fields listed in the initializer" do
