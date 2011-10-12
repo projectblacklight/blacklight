@@ -7,7 +7,7 @@ Blacklight is open source discovery software. Libraries (or anyone else) can use
 
 * [Project Homepage](http://projectblacklight.org)
 * [Developer Documentation](https://github.com/projectblacklight/blacklight/wiki)
-* [Quickstart Guide](https://github.com/projectblacklight/blacklight/wiki/Blacklight-3.x-Quickstart)
+* [Quickstart Guide](https://github.com/projectblacklight/blacklight/wiki/Quickstart)
 * [JIRA Issue Tracker](http://jira.projectblacklight.org/jira/secure/Dashboard.jspa)
 * [Support](http://projectblacklight.org/support.html)
 
