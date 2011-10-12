@@ -3,7 +3,7 @@
 require "blacklight"
 require "rails"
 
-module Blackight
+module Blacklight
   class Engine < Rails::Engine
 
     # BlacklightHelper is needed by all helpers, so we inject it
