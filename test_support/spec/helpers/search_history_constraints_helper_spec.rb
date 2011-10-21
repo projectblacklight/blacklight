@@ -1,13 +1,7 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-# This is NOT currently spec'ing render_constraints_* methods, becuase
-# inflexibility in rspec makes it really hard to do so effectively. It would be
-# nice, the specs that are there for render_search_to_s could be a model. 
-#
-# We ARE spec'ing render_search_to_s* versions, which is feasible since they
-# don't call any template partials. 
-describe RenderConstraintsHelper do
+describe SearchHistoryConstraintsHelper do
 
   describe "render_search_to_s_*" do
     describe "render_search_to_s_element" do
