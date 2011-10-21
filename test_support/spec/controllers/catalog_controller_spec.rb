@@ -407,7 +407,7 @@ describe CatalogController do
 
     it "should not show user util links" do
       get :index
-      response.body.should_not =~ /Sign in/
+      response.body.should_not =~ /Login/
     end
   end
 end
