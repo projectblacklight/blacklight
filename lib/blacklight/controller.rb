@@ -22,6 +22,7 @@ module Blacklight::Controller
     base.send :helper_method, :extra_head_content
     base.send :helper_method, :stylesheet_links
     base.send :helper_method, :javascript_includes
+    base.send :helper_method, :has_user_authentication_provider?
   end
 
   
@@ -117,6 +118,16 @@ module Blacklight::Controller
       flash.discard if request.xhr?
     end
 
+    ##
+    #
+    #
+    def has_user_authentication_provider?
+      respond_to? :current_user
+    end           
+
+    def require_user_authentication_provider
+      raise ActionController::RoutingError.new('Not Found') unless has_user_authentication_provider?
+    end
     ##
     # To handle failed authorization attempts, redirect the user to the 
     # login form and persist the current request uri as a parameter

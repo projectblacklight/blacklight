@@ -398,6 +398,18 @@ describe CatalogController do
 
   end
 
+  context "without a user authentication provider", :blah => true do
+    render_views
+
+    before do
+      controller.stub(:has_user_authentication_provider?) { false }
+    end
+
+    it "should not show user util links" do
+      get :index
+      response.body.should_not =~ /Sign in/
+    end
+  end
 end
 
 

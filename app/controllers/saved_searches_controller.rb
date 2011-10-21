@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SavedSearchesController < ApplicationController
+  before_filter :require_user_authentication_provider
   before_filter :verify_user 
   
   def index

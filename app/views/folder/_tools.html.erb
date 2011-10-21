@@ -11,7 +11,7 @@
       <li class="email">
         <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink", :id => "emailLink" %>
       </li>
-      <% if current_user %>  
+      <% if has_user_authentication_provider? and current_user %>  
         <li>
           <%= render :partial=>'catalog/bookmark_form', :locals=>{:documents=>@documents} %>
         </li>  
