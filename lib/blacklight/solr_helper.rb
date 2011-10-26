@@ -222,9 +222,24 @@ module Blacklight::SolrHelper
           value_list ||= []
           value_list = [value_list] unless value_list.respond_to? :each
           value_list.each do |value|
-            solr_parameters[:fq] << "{!raw f=#{facet_field}}#{value}"
+            solr_parameters[:fq] << facet_value_to_fq_string(facet_field, value)
           end              
         end      
+      end
+    end
+
+    ##
+    # Convert a facet/value pair into a solr fq parameter
+    def facet_value_to_fq_string(facet_field, value) 
+      case
+        when (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i))
+          "#{facet_field}:#{value}"
+        when (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
+          "#{facet_field}:#{value}"
+        when value.is_a?(Range)
+          "#{facet_field}:[#{value.first} TO #{value.last}]"
+        else
+          "{!raw f=#{facet_field}}#{value}"
       end
     end
     

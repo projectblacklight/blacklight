@@ -177,6 +177,32 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
+    describe "facet_value_to_fq_string", :focus => true do
+      it "should use the raw handler for strings" do
+        @solr_helper.facet_value_to_fq_string("facet_name", "my value").should  == "{!raw f=facet_name}my value" 
+      end
+
+      it "should pass integers through" do
+        @solr_helper.facet_value_to_fq_string("facet_name", 1).should  == "facet_name:1"
+      end
+
+      it "should pass integer-like strings through" do
+        @solr_helper.facet_value_to_fq_string("facet_name", "1").should  == "facet_name:1"
+      end
+
+      it "should pass floats through" do
+        @solr_helper.facet_value_to_fq_string("facet_name", 1.11).should  == "facet_name:1.11"
+      end
+
+      it "should pass floats through" do
+        @solr_helper.facet_value_to_fq_string("facet_name", "1.11").should  == "facet_name:1.11"
+      end
+
+      it "should handle range requests" do
+        @solr_helper.facet_value_to_fq_string("facet_name", 1..5).should  == "facet_name:[1 TO 5]"
+      end
+    end
+
     describe "solr parameters for a field search from config (subject)" do
       before do
         @solr_params = @solr_helper.solr_search_params( @subject_search_params )
