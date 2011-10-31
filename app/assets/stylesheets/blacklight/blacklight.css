@@ -372,10 +372,11 @@ ul.folderTools li.refworks form input.submit{display:none;}*/
 
 #login form {margin-bottom:1em;}
 
-.error, .notice, .errorExplanation { padding:1em; margin-bottom:1em;}
-.error, .notice { }
+.error, .notice, .alert, .errorExplanation { padding:1em; margin-bottom:1em;}
+.error, .notice, .alert { }
 .error, .errorExplanation { }
 .notice { }
+.alert { }
 
 /* IE 6 Adjustments */
 * html #hd .yui-g .yui-u {margin-top: -5em;}
