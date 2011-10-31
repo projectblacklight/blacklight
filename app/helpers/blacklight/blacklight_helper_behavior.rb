@@ -87,22 +87,27 @@ module Blacklight::BlacklightHelperBehavior
   end
   
   # used in the catalog/_index_partials/_default view
-  def index_field_names
-    Blacklight.config[:index_fields][:field_names]
-  end
-  
-  # used in the _index_partials/_default view
-  def index_field_labels
-    Blacklight.config[:index_fields][:labels]
+  def index_fields
+    blacklight_config.index_fields
   end
 
+  def index_field_names
+    index_fields.keys
+  end
+
+  # used in the catalog/_index_partials/_default partial
+  def index_field_labels
+    # XXX DEPRECATED
+    Hash[*index_fields.map { |key, field| [key, field.label] }.flatten]
+  end
+  
   def spell_check_max
-    Blacklight.config[:spell_max] || 0
+    blacklight_config.spell_max
   end
 
   def render_index_field_label args
     field = args[:field]
-    html_escape index_field_labels[field]
+    html_escape index_fields[field].label
   end
 
   def render_index_field_value args
@@ -113,7 +118,7 @@ module Blacklight::BlacklightHelperBehavior
   
   # Used in the show view for displaying the main solr document heading
   def document_heading
-    @document[Blacklight.config[:show][:heading]] || @document.id
+    @document[blacklight_config.show.heading] || @document.id
   end
   def render_document_heading
     content_tag(:h1, document_heading)
@@ -121,42 +126,43 @@ module Blacklight::BlacklightHelperBehavior
   
   # Used in the show view for setting the main html document title
   def document_show_html_title
-    @document[Blacklight.config[:show][:html_title]]
+    @document[blacklight_config.show.html_title]
   end
   
   # Used in citation view for displaying the title
   def citation_title(document)
-    document[Blacklight.config[:show][:html_title]]
+    document[blacklight_config.show.html_title]
   end
   
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
-    Blacklight.config[:sort_fields]
+    blacklight_config.sort_fields.map { |key, x| [x.label, x.sort] }
   end
   
   # Used in the document list partial (search view) for creating a link to the document show action
   def document_show_link_field
-    Blacklight.config[:index][:show_link].to_sym
+    blacklight_config.index.show_link.to_sym
   end
   
   # Used in the search form partial for building a select tag
   def search_fields
-    Blacklight.search_field_options_for_select
+    search_field_options_for_select
   end
   
   # used in the catalog/_show/_default partial
   def document_show_fields
-    Blacklight.config[:show_fields][:field_names]
+    blacklight_config.show_fields.keys
   end
   
   # used in the catalog/_show/_default partial
   def document_show_field_labels
-    Blacklight.config[:show_fields][:labels]
+    # XXX DEPRECATED
+    Hash[*blacklight_config.show_fields.map { |key, field| [key, field.label] }.flatten]
   end
 
   def render_document_show_field_label args 
     field = args[:field]
-    html_escape document_show_field_labels[field]
+    html_escape blacklight_config.show_fields[field].label
   end
 
   def render_document_show_field_value args
@@ -180,7 +186,7 @@ module Blacklight::BlacklightHelperBehavior
     # .to_s is necessary otherwise the default return value is not always a string
     # using "_" as sep. to more closely follow the views file naming conventions
     # parameterize uses "-" as the default sep. which throws errors
-    display_type = document[Blacklight.config[:show][:display_type]]
+    display_type = document[blacklight_config.show.display_type]
 
     return 'default' unless display_type
     display_type = display_type.join(" ") if display_type.respond_to?(:join)
@@ -256,7 +262,8 @@ module Blacklight::BlacklightHelperBehavior
   # Use the catalog_path RESTful route to create a link to the show page for a specific item. 
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
-  def link_to_document(doc, opts={:label=>Blacklight.config[:index][:show_link].to_sym, :counter => nil, :results_view => true})
+  def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
+    label ||= blacklight_config.index.show_link.to_sym
     label = render_document_index_label doc, opts
     link_to_with_data(label, catalog_path(doc.id), {:method => :put, :class => label.parameterize, :data => opts}).html_safe
   end
@@ -347,7 +354,7 @@ module Blacklight::BlacklightHelperBehavior
     end
   end
 
-  # This is derived from +convert_options_to_javascript+ from module Blacklight::+UrlHelperBehavior+ in +url_helper.rb+
+  # This is derived from +convert_options_to_javascript+ from module +UrlHelper+ in +url_helper.rb+
   def convert_options_to_javascript_with_data!(html_options, url = '')
     confirm, popup = html_options.delete("confirm"), html_options.delete("popup")
 
@@ -363,7 +370,7 @@ module Blacklight::BlacklightHelperBehavior
     end
   end
 
-  # This is derived from +method_javascript_function+ from module Blacklight::+UrlHelperBehavior+ in +url_helper.rb+
+  # This is derived from +method_javascript_function+ from module +UrlHelper+ in +url_helper.rb+
   def method_javascript_function_with_data(method, url = '', href = nil, data=nil)
     action = (href && url.size > 0) ? "'#{url}'" : 'this.href'
     submit_function =
@@ -414,5 +421,6 @@ module Blacklight::BlacklightHelperBehavior
     end
     val
   end
+
 
 end

@@ -19,9 +19,9 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   def render_search_to_s_q(params)
     return "".html_safe if params[:q].blank?
     
-    label = (params[:search_field] == Blacklight.default_search_field[:key]) ? 
+    label = (params[:search_field] == default_search_field[:key]) ? 
       nil :
-      Blacklight.label_for_search_field(params[:search_field])
+      label_for_search_field(params[:search_field])
     
     render_search_to_s_element(label , params[:q] )        
   end
@@ -29,7 +29,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     return "".html_safe unless params[:f]
 
     params[:f].collect do |facet_field, value_list|
-      render_search_to_s_element(Blacklight.config[:facet][:labels][facet_field],
+      render_search_to_s_element(blacklight_config.facet_fields[facet_field].label,
         value_list.collect do |value|
           render_filter_value(value)
         end.join(content_tag(:span, 'and', :class =>'label')).html_safe
@@ -52,5 +52,5 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   def render_filter_value value
     content_tag(:span, h(value), :class => 'filterValue')
   end
-  
+
 end

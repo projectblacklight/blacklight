@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
 class FolderController < ApplicationController
+  include Blacklight::Configurable
   include Blacklight::SolrHelper
+
+  copy_blacklight_config_from(CatalogController)
+
   helper CatalogHelper
 
   # fetch the documents that match the ids in the folder

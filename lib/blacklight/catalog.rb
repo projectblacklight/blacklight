@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
-module Blacklight::Catalog 
+module Blacklight::Catalog   
   extend ActiveSupport::Concern
+  
+  include Blacklight::Configurable
   include Blacklight::SolrHelper
   
   SearchHistoryWindow = 12 # how many searches to save in session history

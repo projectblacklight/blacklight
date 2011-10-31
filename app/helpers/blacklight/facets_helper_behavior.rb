@@ -1,17 +1,18 @@
 module Blacklight::FacetsHelperBehavior
 
   #
-  # Blacklight.config based helpers ->
+  # blacklight_config based helpers ->
   #
   
   # used in the catalog/_facets partial
   def facet_field_labels
-    Blacklight.config[:facet][:labels]
+    # DEPRECATED
+    Hash[*blacklight_config.facet_fields.map { |key, facet| [key, facet.label] }.flatten]
   end
   
   # used in the catalog/_facets partial
   def facet_field_names
-    Blacklight.config[:facet][:field_names]
+    blacklight_config.facet_fields.keys
   end
 
   # used in the catalog/_facets partial and elsewhere

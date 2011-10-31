@@ -1,47 +1,62 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::Configurable
-  
-  # The config environment name used by the #config method
-  #
-  # Example:
-  #   class MyThing
-  #     extend Blacklight::Configurable
-  #   end
-  # 
-  # Now MyThing.config will be the result of:
-  #   MyThing.configure(:production) {|config|}
-  #
-  # You set shared attributes by leaving the first argument blank or passing the :shared value:
-  #   MyThing.configure {|config|} 
-  # or
-  #   MyThing.cofigure(:shared) {|config|}
-  
-  # sets the @configs variable to a new Hash with empty Hash for :shared key and @config to nil
-  def reset_configs!
-    @config = nil
-    @configs = {:shared=>{}}
+  extend ActiveSupport::Concern
+
+  included do
+    helper_method :blacklight_config if respond_to? :helper_method
   end
   
-  # A hash of all environment configs
-  # The key is the environment name, the value a Hash
-  def configs
-    @configs ? @configs : (reset_configs! and @configs)
+  #instance methods for blacklight_config, default to class
+  # version unless set specifically on instance
+  def blacklight_config
+    @blacklight_config || self.class.blacklight_config
   end
-  
-  # The main config accessor. It merges the current configs[::Rails.env] 
-  # with configs[:shared] and lazy-loads @config to the result.
-  def config
-    @config ||= configs[:shared].merge(configs[::Rails.env] ||= {})
+  attr_writer :blacklight_config
+
+  module ClassMethods   
+    def copy_blacklight_config_from(other_class)
+      self.blacklight_config = other_class.blacklight_config.inheritable_copy
+    end
+    
+    # lazy load a deep_copy of superclass if present, else
+    # a default_configuration, which will be legacy load or new empty config. 
+    # note the @blacklight_config variable is a ruby 'instance method on class
+    # object' that won't be automatically available to subclasses, that's why
+    # we lazy load to 'inherit' how we want. 
+    def blacklight_config
+      unless (defined? @blacklight_config)
+        if superclass.respond_to?(:blacklight_config)
+          @blacklight_config = superclass.blacklight_config.deep_copy
+        else
+          @blacklight_config = default_configuration
+        end
+      end
+      
+      return @blacklight_config
+    end
+    attr_writer :blacklight_config
+    
+    #simply a convenience method for blacklight_config.configure
+    def configure_blacklight(*args, &block)
+      blacklight_config.configure(*args, &block)
+    end
+
+    ##
+    # The default configuration object, by default it reads from Blacklight.config for backwards
+    # compatibility with Blacklight <= 3.1
+    def default_configuration
+      Blacklight::Configurable.default_configuration
+    end
   end
-  
-  # Accepts a value for the environment to configure and a block
-  # A hash is yielded to the block
-  # If the "env" != :shared,
-  # the hash is created by deep cloning the :shared environment config.
-  # This makes it possible to create defaults in the :shared config
-  def configure(env = :shared, &blk)
-    configs[env] = {}
-    yield configs[env]
+
+  def self.default_configuration
+      @default_configuration ||= Blacklight::Configuration.from_legacy_configuration(Blacklight.config) if Blacklight.respond_to?(:config) and not Blacklight.config.empty?
+      @default_configuration ||= Blacklight::Configuration.new
+
+      @default_configuration
   end
-  
+
+  def self.default_configuration= config
+    @default_configuration = config
+  end
 end

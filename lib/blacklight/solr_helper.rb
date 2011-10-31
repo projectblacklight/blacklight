@@ -46,12 +46,12 @@
 
 module Blacklight::SolrHelper
   extend ActiveSupport::Concern
+  include Blacklight::SearchFields
 
   MaxPerPage = 100
 
   included do
     if self.respond_to?(:helper_method)
-      helper_method(:facet_limit_hash)
       helper_method(:facet_limit_for)
     end
 
@@ -132,10 +132,8 @@ module Blacklight::SolrHelper
     # Start with general defaults from BL config. Need to use custom
     # merge to dup values, to avoid later mutating the original by mistake.
     def default_solr_parameters(solr_parameters, user_params)
-      if Blacklight.config[:default_solr_params]
-        Blacklight.config[:default_solr_params].each_pair do |key, value|
-          solr_parameters[key] = value.dup rescue value
-        end
+      blacklight_config.default_solr_params.each do |key, value|
+        solr_parameters[key] = value.dup rescue value
       end
     end
     
@@ -151,8 +149,8 @@ module Blacklight::SolrHelper
       end
 
       if solr_parameters[:sort].blank?
-        default_sort_field = Blacklight.config[:sort_fields].first || [nil, nil]
-        solr_parameters[:sort] = default_sort_field.last unless default_sort_field.last.blank?
+        default_sort_field = blacklight_config.sort_fields.first.try(:last)
+        solr_parameters[:sort] = default_sort_field.sort if default_sort_field && ! default_sort_field.sort.blank?
       end
       
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
@@ -175,10 +173,10 @@ module Blacklight::SolrHelper
       # rspec'd. 
       solr_parameters[:qt] = user_parameters[:qt] if user_parameters[:qt]
       
-      search_field_def = Blacklight.search_field_def_for_key(user_parameters[:search_field])
+      search_field_def = search_field_def_for_key(user_parameters[:search_field])
       if (search_field_def)     
-        solr_parameters[:qt] = search_field_def[:qt] if search_field_def[:qt]      
-        solr_parameters.merge!( search_field_def[:solr_parameters]) if search_field_def[:solr_parameters]
+        solr_parameters[:qt] = search_field_def.qt
+        solr_parameters.merge!( search_field_def.solr_parameters) if search_field_def.solr_parameters
       end
       
       ##
@@ -186,7 +184,7 @@ module Blacklight::SolrHelper
       # solr LocalParams in config, using solr LocalParams syntax. 
       # http://wiki.apache.org/solr/LocalParams
       ##         
-      if (search_field_def && hash = search_field_def[:solr_local_parameters])
+      if (search_field_def && hash = search_field_def.solr_local_parameters)
         local_params = hash.collect do |key, val|
           key.to_s + "=" + solr_param_quote(val, :quote => "'")
         end.join(" ")
@@ -262,8 +260,7 @@ module Blacklight::SolrHelper
       # Support facet paging and 'more'
       # links, by sending a facet.limit one more than what we
       # want to page at, according to configured facet limits.       
-      facet_limit_hash.each_key do |field_name|
-        next if field_name.nil? # skip the 'default' key
+      blacklight_config.facet_fields.each do |field_name, facet|
         next unless (limit = facet_limit_for(field_name))
   
         solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
@@ -417,13 +414,13 @@ module Blacklight::SolrHelper
   end
     
   # returns a solr params hash
-  # if field is nil, the value is fetched from Blacklight.config[:index][:show_link]
+  # if field is nil, the value is fetched from blacklight_config[:index][:show_link]
   # the :fl (solr param) is set to the "field" value.
   # per_page is set to 10
   def solr_opensearch_params(field=nil)
     solr_params = solr_search_params
     solr_params[:per_page] = 10
-    solr_params[:fl] = Blacklight.config[:index][:show_link]
+    solr_params[:fl] = blacklight_config.index.show_link
     solr_params
   end
   
@@ -449,10 +446,10 @@ module Blacklight::SolrHelper
   # available), and used in display (with @response available) to create
   # a facet paginator with the right limit. 
   def facet_limit_for(facet_field)
-    limits_hash = facet_limit_hash
-    return nil if limits_hash.blank?
+    facet = blacklight_config.facet_fields[facet_field]
+    return nil if facet.blank?
         
-    limit = limits_hash[facet_field]
+    limit = facet.limit
 
     if ( limit == true && @response && 
          @response["responseHeader"] && 
@@ -467,13 +464,6 @@ module Blacklight::SolrHelper
     end
 
     return limit
-  end
-
-  # Returns complete hash of key=facet_field, value=limit.
-  # Used by SolrHelper#solr_search_params to add limits to solr
-  # request for all configured facet limits.
-  def facet_limit_hash
-    Blacklight.config[:facet][:limits] || {}
   end
 
   def max_per_page

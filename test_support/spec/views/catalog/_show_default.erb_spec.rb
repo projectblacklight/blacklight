@@ -8,12 +8,30 @@ describe "/catalog/_show_default.html.erb" do
   
   include BlacklightHelper
   include CatalogHelper
-  
+
+
   before(:each) do
-    @fname_1 = Blacklight.config[:show_fields][:field_names].last
-    @fname_2 = "solr_field_not_in_initializer"
-    @fname_3 = Blacklight.config[:show_fields][:field_names][2]
-    @fname_4 = Blacklight.config[:show_fields][:field_names][0]
+    @config = Blacklight::Configuration.from_legacy_configuration({
+      :show => {
+        :display_type => 'asdf'
+      },
+      :show_fields => {
+        :field_names => [
+          'one_field',
+          'empty_field',
+          'four_field'
+        ],
+        :labels => {
+          'one_field' => 'One:',
+          'empty_field' => 'Three:',
+          'four_field' => 'Four:'
+        }
+      }
+    })
+    @fname_1 = "one_field"
+    @fname_2 = "solr_field_not_in_config"
+    @fname_3 = "empty_field"
+    @fname_4 = "four_field"
     
     @document = mock("solr_doc")
     @document.should_receive(:get).with(@fname_1, hash_including(:sep => nil)).any_number_of_times.and_return("val_1")
@@ -31,30 +49,31 @@ describe "/catalog/_show_default.html.erb" do
     @document.should_receive(:get).with(any_args()).any_number_of_times.and_return("bleah")
     @document.should_receive(:[]).any_number_of_times
     
-    @flabel_1 = Blacklight.config[:show_fields][:labels][@fname_1]
-    @flabel_3 = Blacklight.config[:show_fields][:labels][@fname_3]
-    @flabel_4 = Blacklight.config[:show_fields][:labels][@fname_4]
+    @flabel_1 = "One:"
+    @flabel_3 = "Two:"
+    @flabel_4 = "Four:"
 
+    view.stub!(:blacklight_config).and_return(@config)
     assigns[:document] = @document
-    render_document_partial @document, :show
+    @rendered = view.render_document_partial @document, :show
   end
 
   it "should only display fields listed in the initializer" do
-    rendered.should_not include_text("val_2")
-    rendered.should_not include_text(@fname_2)
+    @rendered.should_not include_text("val_2")
+    @rendered.should_not include_text(@fname_2)
   end
   
   it "should skip over fields listed in initializer that are not in solr response" do
-    rendered.should_not include_text(@fname_3)
+    @rendered.should_not include_text(@fname_3)
   end
 
   it "should display field labels from initializer and raw solr field names in the class" do
     # labels
-    rendered.should include_text(@flabel_1)
-    rendered.should include_text(@flabel_4)
+    @rendered.should include_text(@flabel_1)
+    @rendered.should include_text(@flabel_4)
     # classes    
-    rendered.should include_text("blacklight-#{@fname_1}")
-    rendered.should include_text("blacklight-#{@fname_4}")
+    @rendered.should include_text("blacklight-#{@fname_1}")
+    @rendered.should include_text("blacklight-#{@fname_4}")
   end
   
 # this test probably belongs in a Cucumber feature
@@ -63,9 +82,9 @@ describe "/catalog/_show_default.html.erb" do
 #  end
 
   it "should have values for displayed fields" do
-    rendered.should include_text("val_1")
-    rendered.should include_text("val_4")
-    rendered.should_not include_text("val_2")
+    @rendered.should include_text("val_1")
+    @rendered.should include_text("val_4")
+    @rendered.should_not include_text("val_2")
   end
 
 end

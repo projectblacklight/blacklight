@@ -28,9 +28,9 @@ Given /^the application is configured to have searchable fields "([^\"]*)" with 
   labels = fields.split(", ")
   values = values.split(", ")
   combined = labels.zip(values)
-  Blacklight.config[:search_fields] = []
+  CatalogController.blacklight_config[:search_fields] = []
   combined.each do |pair|
-    Blacklight.config[:search_fields] << pair
+    CatalogController.blacklight_config[:search_fields] << pair
   end
 end
 
@@ -56,9 +56,9 @@ Given /^the application is configured to have sort fields "([^\"]*)" with values
   labels = fields.split(", ")
   values = values.split(", ")
   combined = labels.zip(values)
-  Blacklight.config[:sort_fields] = []
+  CatalogController.blacklight_config[:sort_fields] = []
   combined.each do |pair|
-    Blacklight.config[:sort_fields] << pair
+    CatalogController.blacklight_config[:sort_fields] << pair
   end
 end
 

@@ -1,7 +1,7 @@
 <%# default partial to display solr document fields in catalog index view -%>
 <dl class="defList">
   
-  <% index_field_names.each do |solr_fname| -%>
+  <% index_fields.each do |solr_fname, field| -%>
     <% if document.has? solr_fname %>
 	    <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
 	    <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document => document, :field => solr_fname %></dd>

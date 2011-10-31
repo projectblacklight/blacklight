@@ -2,9 +2,26 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe "catalog/index.atom.builder" do  
-  
+
 
   before(:all) do
+    @config ||= Blacklight::Configuration.from_legacy_configuration({
+      :show => {
+        :display_type => 'asdf'
+      },
+      :index_fields => {
+        :field_names => [],
+        :labels => {}
+      }
+    })
+  
+    @mock_configuration_module = Module.new do 
+      # Just test against our default config for now. 
+      def blacklight_config
+        @config ||= Blacklight::Config.new
+      end
+    end
+    
     class AtomMockDocument
       include Blacklight::Solr::Document
     end
@@ -39,6 +56,7 @@ describe "catalog/index.atom.builder" do
     params.merge!( @params )
     @response = @rsolr_response
  
+    view.stub!(:blacklight_config).and_return(@config)
     render 
 
     # We need to use rexml to test certain things that have_tag wont' test    

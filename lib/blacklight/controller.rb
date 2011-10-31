@@ -5,6 +5,8 @@
 module Blacklight::Controller 
 
   def self.included(base)
+    base.send :include, Blacklight::SearchFields
+
     base.send :before_filter, :default_html_head # add JS/stylesheet stuff
     # now in application.rb file under config.filter_parameters
     # filter_parameter_logging :password, :password_confirmation 
@@ -25,7 +27,6 @@ module Blacklight::Controller
     base.send :helper_method, :has_user_authentication_provider?
   end
 
-  
     # test for exception notifier plugin
     def error
       raise RuntimeError, "Generating a test error..."

@@ -8,6 +8,8 @@ require 'rsolr-ext'
 module Blacklight
 
   autoload :Configurable, 'blacklight/configurable'
+  autoload :Configuration, 'blacklight/configuration'
+  autoload :GlobalConfigurable, 'blacklight/global_configurable'
   autoload :SearchFields, 'blacklight/search_fields'
 
   autoload :Solr, 'blacklight/solr'
@@ -26,7 +28,9 @@ module Blacklight
 
   autoload :Routes, 'blacklight/routes'
 
-  extend Configurable
+  autoload :OpenStructWithHashAccess, 'blacklight/utils'
+
+  extend GlobalConfigurable
   extend SearchFields
   
   require 'blacklight/version'

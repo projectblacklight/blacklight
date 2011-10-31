@@ -63,9 +63,9 @@ module Blacklight::CatalogHelperBehavior
   end
   
   # Look up search field user-displayable label
-  # based on params[:qt] and configuration.
+  # based on params[:qt] and blacklight_configuration.
   def search_field_label(params)
-    h( Blacklight.label_for_search_field(params[:search_field]) )
+    h( label_for_search_field(params[:search_field]) )
   end
 
   # Export to Refworks URL, called in _show_tools
@@ -74,7 +74,7 @@ module Blacklight::CatalogHelperBehavior
   end
   
   def render_document_class(document = @document)
-   'blacklight-' + document.get(Blacklight.config[:index][:record_display_type]).parameterize rescue nil
+   'blacklight-' + document.get(blacklight_config.index.record_display_type).parameterize rescue nil
   end
 
   def render_document_sidebar_partial(document = @document)
