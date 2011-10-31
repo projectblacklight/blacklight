@@ -150,6 +150,22 @@ EOF
     route('Blacklight.add_routes(self)')
   end
 
+  def add_sass_configuration
+    if use_asset_pipeline?
+
+      insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
+    
+    # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
+    config.assets.compress = !Rails.env.development?
+    config.sass.line_comments = Rails.env.development?
+
+EOF
+      end     
+      
+      copy_file "config/sass.rb", "config/initializers/sass.rb"
+    end
+  end
+
   private  
   
   def better_migration_template (file)
@@ -161,5 +177,8 @@ EOF
     end
   end
 
+  def use_asset_pipeline?
+    (Rails::VERSION::MAJOR >= 3 and Rails::VERSION::MINOR >= 1) and Rails.application.config.assets.enabled
+  end
 end  
 

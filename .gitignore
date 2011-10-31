@@ -11,8 +11,9 @@ webrat-*
 config/SolrMarc/*.log*
 rerun.txt
 solr_marc/solrmarc.log
-
+tmp/*
 *.log
 .bundle
 Gemfile.lock
 tmp/test_app
+.rvmrc

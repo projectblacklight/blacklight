@@ -21,7 +21,7 @@ describe ApplicationController do
         controller.should_receive(:use_asset_pipeline?).any_number_of_times.and_return(true)
         controller.send(:default_html_head)
         controller.javascript_includes.should include(["application"])
-        controller.stylesheet_links.should include(["application"])
+        controller.stylesheet_links.should include(["application",{:media => 'all'}])
       end
     end
   end

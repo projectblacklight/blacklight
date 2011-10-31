@@ -1,0 +1,56 @@
+/* Facets */
+
+#facets {font-size: 93%; padding: 1em 0 0 1em;}
+#facets h2 {color: #555;}
+#facets h3 {margin-bottom: 0; color:#555; font-weight:normal; text-align:justify; cursor: pointer;}
+#facets ul, #facets h3 +div {border-bottom: 1px dotted #ccc; padding-bottom: 1em; margin:0;}
+#facets li {list-style:none; margin: .3em 0;}
+#facets li a:hover {background-color: #eee;}
+#facets li a.remove {color: #666;}
+#facets span.selected {color: green;}
+#facets li.more_facets_link {text-align: right;}
+ul.facet_extended_list { margin:0; clear: both; margin: 1.5em 0 1.5em 0;}
+ul.facet_extended_list li {list-style:none; margin: 0.5em 0;}
+.facet_extended_list .sort_options {
+  text-align: right
+}
+.facet_extended_list .prev_next_links { float: left; }
+
+/* jquery-ui-like buttonsets, but without actually using jquery-ui */
+.facet_extended_list .sort_options .az, .facet_extended_list .sort_options .numeric, .facet_extended_list .next_page, .facet_extended_list .prev_page {
+  display: inline-block;
+  background: #F6F6F6;  
+  border: 1px solid #CCCCCC;
+  padding: 0.2em 1em;
+  font-weight: bold;
+}
+.facet_extended_list .next_page, .facet_extended_list .sort_options .numeric {
+  border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  -webkit-border-radius: 0 4px 4px 0;
+}
+.facet_extended_list .prev_page, .facet_extended_list .sort_options .az {
+  border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  -webkit-border-radius: 4px 0 0 4px;
+}
+.facet_extended_list .prev_next_links .disabled {
+  background: none;
+  color: gray;
+  font-weight: normal;
+}
+.facet_extended_list .sort_options .disabled {
+  /* in this case disabled really means selected */
+  background-color: #E2EDFE;
+  border:1px solid #C4DAFE;
+}
+.facet_extended_list .sort_options a:hover, .facet_extended_list .prev_next_links a:hover {
+  border: 1px solid #999999; 
+  background: #dadada;  
+  color: #212121; 
+}
+
+
+/* local implementations may define styles for open + closed "twiddles", e.g. disclosure triangles */ 
+.twiddle { }
+.twiddle-open { }

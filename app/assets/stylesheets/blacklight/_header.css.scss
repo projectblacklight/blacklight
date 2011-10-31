@@ -1,0 +1,9 @@
+/* Top Banner */
+h1.site_title {background: transparent
+  asset_url($logo-url,image) no-repeat top left; margin: 0; height: 35px; width: 120px;}
+.first h1 {margin: 0px; padding: 0px;}
+h1.site_title a {display:block; height: 35px; width:120px; text-indent: -9999px; overflow: hidden; text-decoration: none; border: 0px;}
+h1.site_title a:link, h1.site_title a:visited, h1.site_title a:hover, h1.site_title a:active {border: 0px;}
+h2.search {margin:0; display:inline;}
+
+

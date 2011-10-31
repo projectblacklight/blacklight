@@ -57,7 +57,7 @@ fi
 rvm use "$@" --create
 check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests." 
 
-if ! gem query -n rails -v "~>3.0" --installed > /dev/null; then
+if ! gem query -n rails -v ">=3.1.1" --installed > /dev/null; then
   gem install --no-rdoc --no-ri 'rails'
 fi
 
@@ -69,8 +69,8 @@ rails new test_app
 cd test_app
 echo "
 source 'http://rubygems.org'
-
-gem 'rails', '>=3.0.4'
+gem 'rack', '1.3.3'
+gem 'rails', '~> 3.1.1'
 platforms :jruby do
   gem 'jruby-openssl'
   gem 'activerecord-jdbcsqlite3-adapter'
@@ -81,6 +81,14 @@ platforms :ruby do
 end
 gem 'blacklight', :path => '../../'
 gem 'jquery-rails'
+
+group :assets do
+  gem 'sass-rails', '~> 3.1.1'
+  gem 'coffee-rails', '~> 3.1.1'
+  gem 'uglifier'
+  gem 'compass', '0.12.alpha.0'
+end
+
 
 # For testing
 group :development, :test do 
@@ -98,6 +106,7 @@ gem 'devise'
 " > Gemfile
 
 bundle install --local &> /dev/null 
+bundle update
 # If a local install fails, try a full install.
 if [ "$?" -ne "0" ]
 then
@@ -106,7 +115,7 @@ fi
 check_errs $? "Bundle install failed." 
 rails generate blacklight -d
 check_errs $?  "Blacklight generator failed" 
-rake db:migrate
+bundle exec rake db:migrate
 check_errs $? "Rake Migration failed" 
 rails g cucumber:install &> /dev/null 
 jetty_zip="/tmp/bl_jetty.zip"
@@ -118,7 +127,7 @@ fi
 rails g blacklight:jetty test_jetty -e test -d $jetty_zip
   check_errs $? "Jetty setup failed."
 rm public/index.html
-rake solr:marc:index_test_data RAILS_ENV=test
+bundle exec rake solr:marc:index_test_data RAILS_ENV=test
 cd test_jetty
 java -Djetty.port=8888 -Dsolr.solr.home=./solr -jar start.jar &> /dev/null &
 jetty_pid=$!

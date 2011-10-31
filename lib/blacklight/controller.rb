@@ -43,7 +43,7 @@ module Blacklight::Controller
     # for how to turn off a filter in a sub-class and such.
     def default_html_head
       if use_asset_pipeline?
-        stylesheet_links  << ["application"]
+        stylesheet_links  << ["application", {:media => 'all'}]
         javascript_includes << ["application"]
       else
         stylesheet_links << ['yui', 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css', 'blacklight/blacklight', {:media=>'all'}]
