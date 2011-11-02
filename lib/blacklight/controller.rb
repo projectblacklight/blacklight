@@ -138,6 +138,8 @@ module Blacklight::Controller
       #   (e.g. protected page -> logout -> returned to protected page -> home)
       redirect_to root_url and flash.discard and return if request.referer and request.referer.ends_with? request.fullpath
 
+      redirect_to root_url and return unless has_user_authentication_provider?
+
       redirect_to new_user_session_url(:referer => request.fullpath)
     end
   
