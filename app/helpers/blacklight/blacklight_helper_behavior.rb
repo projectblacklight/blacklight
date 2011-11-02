@@ -287,7 +287,20 @@ module Blacklight::BlacklightHelperBehavior
     
     options = {:params => params, :omit_keys => [:page]}.merge(options)
     my_params = options[:params].dup
-    options[:omit_keys].each {|omit_key| my_params.delete(omit_key)}
+    options[:omit_keys].each do |omit_key|
+      case omit_key
+        when Hash
+          omit_key.each do |key, values|
+            next unless my_params[key]
+            my_params[key] = my_params[key].dup
+
+            values = [values] unless values.respond_to? :each
+            values.each { |v| my_params[key].delete(v) }
+          end
+        else
+          my_params.delete(omit_key)
+      end
+    end
     # removing action and controller from duplicate params so that we don't get hidden fields for them.
     my_params.delete(:action)
     my_params.delete(:controller)

@@ -136,13 +136,13 @@ describe BlacklightHelper do
     end
   end
 
-  describe "search_as_hidden_fields" do
+  describe "search_as_hidden_fields", :asdf => true do
     def params
-      {:q => "query", :sort => "sort", :per_page => "20", :search_field => "search_field", :page => 100, :arbitrary_key => "arbitrary_value", :f => {"field" => ["value1", "value2"]}, :controller => "catalog", :action => "index", :commit => "search"}
+      {:q => "query", :sort => "sort", :per_page => "20", :search_field => "search_field", :page => 100, :arbitrary_key => "arbitrary_value", :f => {"field" => ["value1", "value2"], "other_field" => ['asdf']}, :controller => "catalog", :action => "index", :commit => "search"}
     end
     describe "for default arguments" do
       it "should default to omitting :page" do
-        search_as_hidden_fields.should have_selector("input[type='hidden']", :count =>7)
+        search_as_hidden_fields.should have_selector("input[type='hidden']", :count =>8)
         search_as_hidden_fields.should_not have_selector("input[name='page']") 
       end
       it "should not return blacklisted elements" do
@@ -158,6 +158,12 @@ describe BlacklightHelper do
            generated.should_not have_selector("input[name=per_page]")
 
            generated.should have_selector("input[name=page]")
+        end
+
+        it "should support hash-based deleting" do
+           generated = search_as_hidden_fields(:omit_keys => [{:f => 'field' }])
+           generated.should have_selector("input[name='f[other_field][]']")
+           generated.should_not have_selector("input[name='f[field][]']")
         end
       end
     end
