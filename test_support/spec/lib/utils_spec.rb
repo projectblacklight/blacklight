@@ -30,6 +30,29 @@ describe 'Blacklight::Utils' do
       h["symbol"].should == "value"
       h.symbol.should == "value"      
     end
-    
+
+    describe "internal hash table" do
+      before do
+        @h = Blacklight::OpenStructWithHashAccess.new
+
+        @h[:a] = 1
+        @h[:b] = 2
+
+
+      end
+      it "should expose the internal hash table" do
+        @h.to_h.should be_a_kind_of(Hash)
+        @h.to_h[:a].should == 1
+      end
+
+      it "should expose keys" do
+        @h.keys.should include(:a, :b)
+      end
+
+      it "should expose merge" do
+        @h.merge(:a => 'a')[:a].should == 'a'
+      end
+
+    end
   end
 end
