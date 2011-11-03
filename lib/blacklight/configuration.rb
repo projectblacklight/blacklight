@@ -54,6 +54,16 @@ module Blacklight
       field
     end
 
+    # Returns default sort field, used for simpler display in history, etc.
+    # if not set, defaults to first defined sort field
+    def default_sort_field
+      field = nil
+      field ||= sort_fields.values.select { |field| field.default == true }.first
+      field ||= sort_fields.values.first
+
+      field
+    end
+
     ##
     # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting
     # the original Blacklight::Configuration instance.
