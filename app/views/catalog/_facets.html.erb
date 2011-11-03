@@ -1,4 +1,5 @@
 <% # main container for facets/limits menu -%>
+<% unless facet_field_names.empty? %>
 <div id="facets" class="facets">
   <h2>Limit your search</h2>
   <% facet_field_names.each do |solr_fname| %>
@@ -7,3 +8,4 @@
     </div>
   <% end %>
 </div>
+<% end %>
