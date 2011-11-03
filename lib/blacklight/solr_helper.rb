@@ -149,8 +149,10 @@ module Blacklight::SolrHelper
       end
 
       if solr_parameters[:sort].blank? and blacklight_config.default_sort_field
-        solr_parameters[:sort] = blacklighT_config.default_sort_field.sort
+        solr_parameters[:sort] = blacklight_config.default_sort_field.sort
       end
+
+      solr_parameters.delete(:sort) if solr_parameters[:sort].blank?
       
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
       # not sure why.     
