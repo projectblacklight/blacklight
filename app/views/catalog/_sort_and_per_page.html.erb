@@ -15,7 +15,7 @@
 			<%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort]))) %>			      
       <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>
 			<%= submit_tag 'sort results' %>
-		<% end %>
+		<% end unless sort_fields.empty? %>
 	<% end %>
   <div class="clear-both"></div>
 </div>
