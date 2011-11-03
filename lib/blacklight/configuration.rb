@@ -9,7 +9,6 @@ module Blacklight
     class << self; attr_accessor :default_values; end
     @default_values = {
       :default_solr_params => {},
-      :default_search_field => nil,
       :show => OpenStructWithHashAccess.new,
       :index => OpenStructWithHashAccess.new,
       :spell_max => 5
@@ -43,6 +42,16 @@ module Blacklight
       Marshal.load(Marshal.dump(self.class.default_values)).each do |k, v|
         self[k] ||=  v
       end
+    end
+
+    # Returns default search field, used for simpler display in history, etc.
+    # if not set, defaults to first defined search field
+    def default_search_field
+      field = nil
+      field ||= search_fields.values.select { |field| field.default == true }.first
+      field ||= search_fields.values.first
+
+      field
     end
 
     ##

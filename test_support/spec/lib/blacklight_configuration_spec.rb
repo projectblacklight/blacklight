@@ -283,5 +283,13 @@ describe "Blacklight::Configuration" do
     end
   end
   
+  describe "#default_search_field" do
+    it "should use the field with a :default key" do
+      @config.add_search_field('search_field_1')
+      @config.add_search_field('search_field_2', :default => true)
+
+      @config.default_search_field.key.should == 'search_field_2'
+    end
+  end
   
 end
