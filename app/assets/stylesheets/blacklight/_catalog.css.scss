@@ -111,6 +111,7 @@ font-weight:bold;
 
 
 #sortAndPerPage {
+  @include clearfix;
   background-color: #F0F0F0;
   padding: 0.66em;
   border-style: solid;

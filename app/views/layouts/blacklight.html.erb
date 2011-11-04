@@ -7,12 +7,16 @@
 
     <title><%= h(@page_title || application_name) %></title>
     <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
+   <%= stylesheet_link_tag    "application" %>
+   <%= javascript_include_tag "application" %>
+   <%= csrf_meta_tags %>
+    
     <%= raw(render_head_content) %>
 
 
   </head>
   <% onload_text = "$('input#q').focus();" if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
-  <body onload="#{onload_text}" class="<%= render_body_class.html_safe %>">
+  <body onload="<%= onload_text %>" class="<%= render_body_class.html_safe %>">
     <div id="page">
       <div id="hd">
         <div id="logo">
@@ -20,8 +24,6 @@
         </div>
         <div id="user_util_links">
           <%= render :partial=>'/user_util_links' %>
-        </div>
-        <div class="clear-both"></div>
         </div>
       </div>
       <div id="bd">
@@ -36,12 +38,9 @@
 
         </div>
         <div id="sidebar"><%= sidebar_items.join('').html_safe %></div>
-        <div class="clear-both"></div>
         </div>
         <div id="ft">
           <%= raw(@footer) %>
-          <div class="clear-both"></div>
-
           </div>
         </div>
       </body>
