@@ -136,7 +136,7 @@ module Blacklight::BlacklightHelperBehavior
   
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
-    blacklight_config.sort_fields.map { |key, x| [x.label, x.sort] }
+    blacklight_config.sort_fields.map { |key, x| [x.label, x.key] }
   end
   
   # Used in the document list partial (search view) for creating a link to the document show action

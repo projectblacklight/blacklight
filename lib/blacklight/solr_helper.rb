@@ -68,7 +68,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic += [:new_method]
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_sorting_paging_to_solr ]
+    self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_paging_to_solr, :add_sorting_to_solr ]
   end
 
   def force_to_utf8(value)
@@ -138,25 +138,34 @@ module Blacklight::SolrHelper
     end
     
     ###
-    # copy paging and sorting params from BL app over to solr, with
+    # copy paging params from BL app over to solr, with
     # fairly little transformation. 
-    def add_sorting_paging_to_solr(solr_parameters, user_params)
+    def add_paging_to_solr(solr_parameters, user_params)
       # Omit empty strings and nil values.             
       # Apparently RSolr takes :per_page and converts it to Solr :rows,
       # so we let it. 
-      [:page, :per_page, :sort].each do |key|
+      [:page, :per_page].each do |key|
         solr_parameters[key] = user_params[key] unless user_params[key].blank?      
       end
 
-      if solr_parameters[:sort].blank? and blacklight_config.default_sort_field
-        solr_parameters[:sort] = blacklight_config.default_sort_field.sort
-      end
-
-      solr_parameters.delete(:sort) if solr_parameters[:sort].blank?
-      
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
       # not sure why.     
       solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]      
+    end
+
+    ###
+    # copy sorting params from BL app over to solr
+    def add_sorting_to_solr(solr_parameters, user_params)
+      if user_params[:sort].blank? and sort_field = blacklight_config.default_sort_field
+        # no sort param provided, use default
+        solr_parameters[:sort] = sort_field.sort unless sort_field.sort.blank?
+      elsif sort_field = blacklight_config.sort_fields[user_params[:sort]]
+        # check for sort field key  
+        solr_parameters[:sort] = sort_field.sort unless sort_field.sort.blank?
+      else 
+        # just pass the key through
+        solr_parameters[:sort] = user_params[:sort]
+      end
     end
 
     ##

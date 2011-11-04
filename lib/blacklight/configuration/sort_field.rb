@@ -1,8 +1,13 @@
 module Blacklight
   class Configuration::SortField < Configuration::SolrField
-    def self.normalize! field_config, blacklight_config
-      field_config.field ||= field_config.sort
-      field_config.sort ||= field_config.field
+    def normalize! blacklight_config
+      self.sort ||= self.field
+
+      self.field ||= self.key
+      self.field ||= self.label.try(:parameterize)
+      self.field ||= self.sort
+
+      self.key ||= self.field
     end
 
     def validate!
