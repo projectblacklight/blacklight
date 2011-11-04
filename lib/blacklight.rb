@@ -21,8 +21,6 @@ module Blacklight
 
   autoload :User, 'blacklight/user'
 
-  autoload :CommaLinkRenderer, 'blacklight/comma_link_renderer'
-
   autoload :Controller, 'blacklight/controller'
   autoload :Catalog,    'blacklight/catalog'
 
