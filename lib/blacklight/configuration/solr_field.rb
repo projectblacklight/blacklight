@@ -1,11 +1,7 @@
 module Blacklight
   class Configuration::SolrField < OpenStructWithHashAccess
-    def self.normalize!(field_config, blacklight_config)
-      field_config.label ||= field_config.field.try(:titleize)
-    end
-
-    def normalize! *args
-      self.class.normalize! self, *args
+    def normalize! blacklight_config
+      self.label ||= self.field.try(:titleize)
     end
   
     def validate!
