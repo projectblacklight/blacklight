@@ -66,30 +66,31 @@ describe CatalogController do
     end
     
     it "should have no search history if no search criteria" do
+      controller.should_receive(:get_search_results) 
       session[:history] = []
       get :index
       session[:history].length.should == 0
     end
 
     # check each user manipulated parameter
-    it "should have docs and facets for query with results" do
+    it "should have docs and facets for query with results", :integration => true do
       get :index, :q => @user_query
       assigns_response.docs.size.should > 1
       assert_facets_have_values(assigns_response.facets)
     end
-    it "should have docs and facets for existing facet value" do
+    it "should have docs and facets for existing facet value", :integration => true do
       get :index, :f => @facet_query
       assigns_response.docs.size.should > 1
       assert_facets_have_values(assigns_response.facets)
     end
-    it "should have docs and facets for non-default results per page" do
+    it "should have docs and facets for non-default results per page", :integration => true do
       num_per_page = 7
       get :index, :per_page => num_per_page
       assigns_response.docs.size.should == num_per_page
       assert_facets_have_values(assigns_response.facets)
     end
 
-    it "should have docs and facets for second page" do
+    it "should have docs and facets for second page", :integration => true do
       page = 2
       get :index, :page => page
       assigns_response.docs.size.should > 1
@@ -97,7 +98,7 @@ describe CatalogController do
       assert_facets_have_values(assigns_response.facets)
     end
 
-    it "should have no docs or facet values for query without results" do
+    it "should have no docs or facet values for query without results", :integration => true do
       get :index, :q => @no_docs_query
 
       assigns_response.docs.size.should == 0
@@ -106,12 +107,15 @@ describe CatalogController do
       end
     end
 
-    it "should have a spelling suggestion for an appropriately poor query" do
+    it "should have a spelling suggestion for an appropriately poor query", :integration => true do
       get :index, :q => 'boo'
       assigns_response.spelling.words.should_not be_nil
     end
 
     describe "session" do
+      before do
+        controller.stub(:get_search_results) 
+      end
       it "should include :search key with hash" do
         get :index
         session[:search].should_not be_nil
@@ -150,39 +154,30 @@ describe CatalogController do
       end
     end
 
-    describe "with index action with arbitrary key" do
-      before(:each) do
-         session[:history] = []
-         get :index, :arbitrary_key_from_plugin => "value"
-      end
-      it "should save search history" do
-        session[:history].length.should_not == 0
-      end
-    end
-
     # check with no user manipulation
     describe "for default query" do
-      it "should get documents when no query" do
+      it "should get documents when no query", :integration => true do
         get :index
         assigns_response.docs.size.should > 1
       end
-      it "should get facets when no query" do
+      it "should get facets when no query", :integration => true do
         get :index
         assert_facets_have_values(assigns_response.facets)
       end
     end
 
-    it "should get rss feed" do
+    it "should get rss feed", :integration => true do
       get :index, :format => 'rss'
       response.should be_success
     end
 
     it "should render index.html.erb" do
+      controller.stub(:get_search_results)
       get :index
       response.should render_template(:index)
     end
     # NOTE: status code is always 200 in isolation mode ...
-    it "HTTP status code for GET should be 200" do
+    it "HTTP status code for GET should be 200", :integration => true do
       get :index
       response.should be_success
     end
@@ -208,10 +203,19 @@ describe CatalogController do
 
     doc_id = '2007020969'
 
-    it "should get document" do
+    it "should get document", :integration => true do
       get :show, :id => doc_id
       assigns[:document].should_not be_nil
     end
+    
+    describe "previous/next documents" do
+      before do
+        @mock_response = mock()
+        @mock_document = mock()
+        @mock_document.stub(:export_formats => {})
+        controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
+                        :get_single_doc_via_search => @mock_document)
+      end
     it "should set previous document if counter present in session" do
       session[:search] = {:q => "", :counter => 2}
       get :show, :id => doc_id
@@ -239,22 +243,36 @@ describe CatalogController do
       assigns[:next_document].should_not be_nil
     end
     it "should not set next document if counter is >= number of docs" do
+      controller.stub(:get_single_doc_via_search => nil)
       session[:search] = {:counter => 66666666}
       get :show, :id => doc_id
       assigns[:next_document].should be_nil
     end
+    end
 
     # NOTE: status code is always 200 in isolation mode ...
-    it "HTTP status code for GET should be 200" do
+    it "HTTP status code for GET should be 200", :integration => true do
       get :show, :id => doc_id
       response.should be_success
     end
     it "should render show.html.erb" do
+      @mock_response = mock()
+      @mock_document = mock()
+      @mock_document.stub(:export_formats => {})
+      controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
+                      :get_single_doc_via_search => @mock_document)
       get :show, :id => doc_id
       response.should render_template(:show)
     end
 
     describe "@document" do
+      before do
+        @mock_response = mock()
+        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
+        @mock_document = mock()
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
+      end
       before(:each) do
         get :show, :id => doc_id
         @document = assigns[:document]
@@ -274,6 +292,14 @@ describe CatalogController do
         def export_as_mock
           "mock_export"
         end
+      end
+      before do
+        @mock_response = mock()
+        @mock_document = mock()
+        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
+        @mock_document = mock()
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
       end
 
        before(:each) do
@@ -303,6 +329,14 @@ describe CatalogController do
   end # describe show action
 
   describe "opensearch" do
+      before do
+        @mock_response = mock()
+        @mock_document = mock()
+        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
+        @mock_document = mock()
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
+      end
     it "should return an opensearch description" do
       get :opensearch, :format => 'xml'
       response.should be_success
@@ -315,6 +349,14 @@ describe CatalogController do
 #=end
   describe "email/sms" do
     doc_id = '2007020969'
+      before do
+        @mock_response = mock()
+        @mock_document = mock()
+        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
+        @mock_document = mock()
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
+      end
     before(:each) do
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
       SolrDocument.use_extension( Blacklight::Solr::Document::Email )
@@ -381,6 +423,12 @@ describe CatalogController do
 
   describe "errors" do
     it "should return status 404 for a record that doesn't exist" do
+        @mock_response = mock()
+        @mock_document = mock()
+        @mock_response.stub(:docs => [])
+        @mock_document = mock()
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
       get :show, :id=>"987654321"
       response.redirect_url.should == root_url
       request.flash[:notice].should == "Sorry, you have requested a record that doesn't exist."
@@ -388,6 +436,7 @@ describe CatalogController do
       response.status.should == 404
     end
     it "should return a status 500 for a bad search" do
+      controller.stub(:get_search_results) { |*args| raise RSolr::Error::Http.new(nil, nil) }
       get :index, :q=>"+"
       response.redirect_url.should == root_url
       request.flash[:notice].should == "Sorry, I don't understand your search."
@@ -402,6 +451,12 @@ describe CatalogController do
 
     before do
       controller.stub(:has_user_authentication_provider?) { false }
+        @mock_response = mock()
+        @mock_document = mock()
+        @mock_response.stub(:docs => [], :total => 1, :facets => [])
+        @mock_document = mock()
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
     end
 
     it "should not show user util links" do
