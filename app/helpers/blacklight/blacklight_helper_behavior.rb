@@ -11,6 +11,8 @@ module Blacklight::BlacklightHelperBehavior
 
   
   def application_name
+    return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
+
     'Blacklight'
   end
 

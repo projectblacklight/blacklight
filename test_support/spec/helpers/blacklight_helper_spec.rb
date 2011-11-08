@@ -80,6 +80,17 @@ describe BlacklightHelper do
     #@config ||= {:show => {:html_title => 'title_display', :heading => 'title_display', :display_type => 'format'}, :index => { :show_link => 'title_display', :record_display_type => 'format' } }   
   end
 
+  describe "#application_name", :test => true do
+    it "should use the Rails application config application_name if available" do
+      Rails.application.config.stub(:application_name => 'asdf')
+      Rails.application.config.should_receive(:respond_to?).with(:application_name).and_return(true)
+      application_name.should == 'asdf'
+    end
+    it "should default to 'Blacklight'" do
+      application_name.should == "Blacklight"
+    end
+  end
+
   describe "link_back_to_catalog" do
     before(:all) do
       @query_params = {:q => "query", :f => "facets", :per_page => "10", :page => "2"}
