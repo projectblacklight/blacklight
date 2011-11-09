@@ -323,10 +323,17 @@ module Blacklight::SolrHelper
   def get_solr_response_for_field_values(field, values, extra_solr_params = {})
     values ||= []
     values = [values] unless values.respond_to? :each
-    value_str = "(\"" + values.to_a.join("\" OR \"") + "\")"
+
+    q = nil
+    if values.empty?
+      q = "NOT *:*"
+    else
+      q = "#{field}:(#{ values.to_a.map { |x| solr_param_quote(x)}.join(" OR ")})"
+    end
+
     solr_params = {
       :defType => "lucene",   # need boolean for OR
-      :q => "#{field}:#{value_str}",
+      :q => q,
       # not sure why fl * is neccesary, why isn't default solr_search_params
       # sufficient, like it is for any other search results solr request? 
       # But tests fail without this. I think because some functionality requires

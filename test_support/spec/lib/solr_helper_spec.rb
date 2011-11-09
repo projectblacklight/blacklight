@@ -867,6 +867,27 @@ describe 'Blacklight::SolrHelper' do
       end              
     end
 
+    describe "#get_solr_response_for_field_values", :test => true do
+      before do
+        @mock_response = mock()
+        @mock_response.stub(:docs => [])
+      end
+      it "should contruct a solr query based on the field and value pair" do
+        self.should_receive(:find).with(hash_including(:q => "field_name:(value)")).and_return(@mock_response)
+        get_solr_response_for_field_values('field_name', 'value')
+      end
+
+      it "should OR multiple values together" do
+        self.should_receive(:find).with(hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
+        get_solr_response_for_field_values('field_name', ['a', 'b'])
+      end
+
+      it "should escape crazy identifiers" do
+        self.should_receive(:find).with(hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
+        get_solr_response_for_field_values('field_name', 'h://"\'')
+      end
+    end
+
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)
 #  search within query building (?)
 #  search + facets (search done first; facet selected first, both selected)
