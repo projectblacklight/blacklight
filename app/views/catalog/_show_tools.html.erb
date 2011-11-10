@@ -10,13 +10,13 @@
   
     <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
       <li class="cite">
-         <%= link_to "Cite This", citation_catalog_path(:id => @document.id), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
+      <%= link_to "Cite This", citation_catalog_path(:id => @document), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
       </li>
     <% end %>
     
     <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
       <li class="refworks">
-        <%= link_to "Export to RefWorks", refworks_export_url(@document) %>        
+      <%= link_to "Export to RefWorks", refworks_export_url(:id => @document) %>        
       </li>
     <% end %>
     
@@ -28,18 +28,18 @@
     
     <% if @document.respond_to?( :to_email_text ) %>
       <li class="email">
-         <%= link_to "Email This", email_catalog_path(:id => @document.id), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %>
+      <%= link_to "Email This", email_catalog_path(:id => @document), {:id => 'emailLink', :name => 'email', :class => 'lightboxLink'} %>
       </li>
     <%- end -%>
     <%- if @document.respond_to?( :to_sms_text ) -%>
       <li class="sms">
-         <%= link_to "SMS This", sms_catalog_path(:id => @document.id), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
+      <%= link_to "SMS This", sms_catalog_path(:id => @document), {:id => 'smsLink', :name => 'sms', :class => 'lightboxLink'} %>
       </li>
     <%- end -%>
     
     <% if @document.respond_to?(:to_marc) %>
       <li class="librarian_view">
-        <%= link_to "Librarian View", librarian_view_catalog_path(@document.id), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %>
+        <%= link_to "Librarian View", librarian_view_catalog_path(@document), {:id => 'librarianLink', :name => 'librarian_view', :class => 'lightboxLink'} %>
       </li>
     <% end %>
     

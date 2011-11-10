@@ -1,15 +1,15 @@
     <ul class="folderTools">
       <li class="cite">
-        <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.get(:id)}), {:id => 'citeLink', :name => 'citation'} %>
+        <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.id}), {:id => 'citeLink', :name => 'citation'} %>
       </li>
       <li class="refworks">
         <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@documents} %>
       </li>
       <li class="endnote">
-        <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}, :format => 'endnote')%>
+        <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.id}, :format => 'endnote')%>
       </li>
       <li class="email">
-        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.get(:id)}), :class=>"lightboxLink", :id => "emailLink" %>
+        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.id}), :class=>"lightboxLink", :id => "emailLink" %>
       </li>
       <% if has_user_authentication_provider? and current_user %>  
         <li>
