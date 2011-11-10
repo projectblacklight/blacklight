@@ -9,7 +9,7 @@ Given /^I am logged in as "([^\"]*)"$/ do |login|
   fill_in("user_password", :with => "password") 
   click_button("Sign in")
 #  response.body.should =~ /Logged/m  
-  Then 'I should see "Log Out"'
+  step 'I should see "Log Out"'
 end
 
 Given /^"([^\"]*)" has saved a search with term "([^\"]*)"$/ do |user, term|
