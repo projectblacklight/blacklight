@@ -1,5 +1,5 @@
 <% @documents.each do |document| %>
 <%= document.to_email_text %>
-URL: <%= catalog_path(document[:id], {:only_path => false}.merge(@url_gen_params)) %>
+URL: <%= catalog_path(document, {:only_path => false}.merge(@url_gen_params)) %>
 <% end %>
 Message: <%= @message %>

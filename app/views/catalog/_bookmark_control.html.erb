@@ -1,5 +1,5 @@
 <% if has_user_authentication_provider? and current_user %>
-  <%- existing_bookmark = current_user.existing_bookmark_for(document[:id]) -%>
+  <%- existing_bookmark = current_user.existing_bookmark_for(document.id) -%>
   <%- 
   # Note these two forms are pretty similar but for different :methods, classes, and labels. 
   # but it was simpler to leave them seperate instead of DRYing them, got confusing trying that.
@@ -7,16 +7,16 @@
   -%>  
   <% unless existing_bookmark %>  
 
-      <%= form_tag( bookmark_path( document[:id]), :method => :put, :class => "bookmark_toggle", "data-doc-id" => document[:id], :title=> document[document_show_link_field] ) do %>        
+      <%= form_tag( bookmark_path( document ), :method => :put, :class => "bookmark_toggle", "data-doc-id" => document.id, :title=> document[document_show_link_field] ) do %>        
         <%= hidden_field(:bookmark, :title, :value => document[document_show_link_field] ) %>
-        <%= submit_tag("Bookmark", :id => "bookmark_toggle_#{document[:id]}", :class => "bookmark_add") %>
+        <%= submit_tag("Bookmark", :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_add") %>
       <% end %>
   
   <% else %>
   
-      <%= form_tag( bookmark_path( document[:id]), :method => :delete, :class => "bookmark_toggle", "data-doc-id" => document[:id], :title=> document[document_show_link_field]) do %>  
+      <%= form_tag( bookmark_path( document ), :method => :delete, :class => "bookmark_toggle", "data-doc-id" => document.id, :title=> document[document_show_link_field]) do %>  
         <%= hidden_field(:bookmark, :title, :value => document[document_show_link_field] ) %>
-        <%= submit_tag("Remove bookmark", :id => "bookmark_toggle_#{document[:id]}", :class => "bookmark_remove") %>
+        <%= submit_tag("Remove bookmark", :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_remove") %>
       <% end %>
       
   <% end %>

@@ -47,6 +47,18 @@ describe CatalogController do
     end
   end
 
+  describe "catalog_url for SolrDocument", :test => true do
+    it "should route correctly" do
+      { :get => catalog_url(SolrDocument.new(:id => 'asdf')) }.should route_to(:controller => 'catalog', :action => 'show', :id => 'asdf')
+    end
+
+    it "should escape solr document ids" do
+      catalog_path(SolrDocument.new(:id => 'http://example.com')).should == "/catalog/http%3A%2F%2Fexample%2Ecom"
+      { :get => catalog_url(SolrDocument.new(:id => 'http://example.com'))}.should route_to(:controller => 'catalog', :action => 'show', :id => 'http://example.com')
+    end
+
+  end
+
 
 
   # INDEX ACTION

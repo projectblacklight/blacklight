@@ -38,7 +38,7 @@ module Blacklight::BlacklightHelperBehavior
       unless( options[:exclude].include?(format) ||
              (options[:unique] && seen.include?(spec[:content_type]))
              )
-        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document.id,  format)}) << "\n"
+        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document,  format)}) << "\n"
         
         seen.add(spec[:content_type]) if options[:unique]
       end
@@ -267,7 +267,7 @@ module Blacklight::BlacklightHelperBehavior
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
     label ||= blacklight_config.index.show_link.to_sym
     label = render_document_index_label doc, opts
-    link_to_with_data(label, catalog_path(doc.id), {:method => :put, :class => label.parameterize, :data => opts}).html_safe
+    link_to_with_data(label, catalog_path(doc), {:method => :put, :class => label.parameterize, :data => opts}).html_safe
   end
 
   # link_back_to_catalog(:label=>'Back to Search')

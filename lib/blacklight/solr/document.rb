@@ -97,6 +97,10 @@ module Blacklight::Solr::Document
     def id
       self[self.class.unique_key]
     end
+
+    def to_param
+      URI.escape(CGI.escape(id), '.')
+    end
   end
 
 

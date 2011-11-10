@@ -1,4 +1,4 @@
 <% @documents.each do |document| %>
 <%= document.to_sms_text %>
-Link: <%= catalog_path(document[:id], {:only_path => false}.merge(@url_gen_params) ) %>
+Link: <%= catalog_path(document, {:only_path => false}.merge(@url_gen_params) ) %>
 <% end %>
