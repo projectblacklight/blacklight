@@ -121,7 +121,7 @@ rails g cucumber:install &> /dev/null
 jetty_zip="/tmp/bl_jetty.zip"
 if [ ! -f $jetty_zip ]
 then
-  curl -L https://github.com/projectblacklight/blacklight-jetty/zipball/v1.4.1-1 > $jetty_zip
+  curl -L https://github.com/projectblacklight/blacklight-jetty/zipball/master > $jetty_zip
   check_errs $? "Jetty file does not exist, and cannot be downloaded."
 fi
 rails g blacklight:jetty test_jetty -e test -d $jetty_zip
