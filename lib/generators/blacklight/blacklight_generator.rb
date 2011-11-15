@@ -120,7 +120,7 @@ EOF
         "\n include Blacklight::User\n"        
       end
     else
-      puts "     \e[31mFailure\e[0m  Blacklight requires a user object in order to presist bookmarks and saved searches. This generators assumes that the model is defined in the file /app/models/user.rb, which does not exist.  If you used a different name, please re-run the migration and provide that name as an argument. Such as \b  rails -g blacklight client" 
+      say_status("warning", "Blacklight authenticated user functionality not installed, as a user model could not be found at /app/models/user.rb. If you used a different name, please re-run the migration and provide that name as an argument. Such as `rails -g blacklight client`", :yellow)       
     end    
   end
 
