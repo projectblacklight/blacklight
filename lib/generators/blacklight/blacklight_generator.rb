@@ -110,10 +110,6 @@ EOF
     better_migration_template "add_user_types_to_bookmarks_searches.rb"
   end
 
-  # Copy ocver the solr_marc.jar file
-  def copy_solr_marc 
-    copy_file "SolrMarc.jar", "lib/SolrMarc.jar"
-  end
 
   # Add Blacklight to the user model
   def inject_blacklight_user_behavior
