@@ -151,8 +151,6 @@ EOF
   end
 
   def add_sass_configuration
-    if use_asset_pipeline?
-
       insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
     
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
@@ -160,10 +158,9 @@ EOF
     config.sass.line_comments = Rails.env.development?
 
 EOF
-      end     
-      
+      end
+
       copy_file "config/sass.rb", "config/initializers/sass.rb"
-    end
   end
 
   private  
@@ -175,10 +172,6 @@ EOF
     rescue
       puts "  \e[1m\e[34mMigrations\e[0m  " + $!.message
     end
-  end
-
-  def use_asset_pipeline?
-    (Rails::VERSION::MAJOR >= 3 and Rails::VERSION::MINOR >= 1) and Rails.application.config.assets.enabled
   end
 end  
 

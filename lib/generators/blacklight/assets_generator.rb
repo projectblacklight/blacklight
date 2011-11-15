@@ -17,33 +17,23 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
   
     def assets
-      if use_asset_pipeline?
-        insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
+      insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
 %q{
  *
  * Required by Blacklight
  *= require 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css'
  *= require 'blacklight/blacklight_standard'         
 }
-        end
+      end
 
-        insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
+      insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
 %q{
 // Required by Blacklight
 //= require jquery-ui
 //= require blacklight/blacklight
 }          
-        end
-        directory("../../../../app/assets/images/blacklight", "app/assets/images/blacklight")
-      else
-        raise "Starting with blacklight 3.1, you must be using rails 3.1 with assets turned on to use the generators."
       end
+      directory("../../../../app/assets/images/blacklight", "app/assets/images/blacklight")
     end
-
-    private
-    def use_asset_pipeline?
-      (Rails::VERSION::MAJOR >= 3 and Rails::VERSION::MINOR >= 1) and Rails.application.config.assets.enabled
-    end
-    
   end
 end

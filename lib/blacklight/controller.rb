@@ -136,10 +136,5 @@ module Blacklight::Controller
       redirect_to new_user_session_url(:referer => request.fullpath)
     end
   
-    private
-    # Detect if the Rails asset pipeline is enabled
-    def use_asset_pipeline?
-      Rails.application.config.respond_to?(:assets) and Rails.application.config.assets.enabled
-    end
 end
 
