@@ -1,19 +1,13 @@
-
 <html xmlns="http://www.w3.org/1999/xhtml">
-
   <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
     <title><%= h(@page_title || application_name) %></title>
     <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
-   <%= stylesheet_link_tag    "application" %>
-   <%= javascript_include_tag "application" %>
-   <%= csrf_meta_tags %>
-    
+    <%= favicon_link_tag asset_path('blacklight/favicon.ico') %>
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
     <%= raw(render_head_content) %>
-
-
   </head>
   <% onload_text = "$('input#q').focus();" if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
   <body onload="<%= onload_text %>" class="<%= render_body_class.html_safe %>">
@@ -32,17 +26,13 @@
           <div id="main_container">
             <%= render :partial=>'/flash_msg' %>
             <%= yield %>
-
           </div>
-
-
         </div>
         <div id="sidebar"><%= sidebar_items.join('').html_safe %></div>
-        </div>
-        <div id="ft">
-          <%= raw(@footer) %>
-          </div>
-        </div>
-      </body>
-
-    </html>
+      </div>
+      <div id="ft">
+        <%= raw(@footer) %>
+      </div>
+    </div>
+  </body>
+</html>
