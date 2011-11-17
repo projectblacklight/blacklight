@@ -16,6 +16,10 @@ module Blacklight::BlacklightHelperBehavior
     'Blacklight'
   end
 
+  # Provide the full, absolute url for an image
+  def asset_url(*args) 
+    "#{request.protocol}#{request.host_with_port}#{asset_path(*args)}" 
+  end
 
   # Create <link rel="alternate"> links from a documents dynamically
   # provided export formats. Currently not used by standard BL layouts,
