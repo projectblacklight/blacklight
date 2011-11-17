@@ -133,7 +133,7 @@ java -Djetty.port=8888 -Dsolr.solr.home=./solr -jar start.jar &> /dev/null &
 jetty_pid=$!
 cd ..
 bundle exec rake blacklight:spec
-check_errs $? "Rpec Tests failed." 
+check_errs $? "Rspec Tests failed."
 bundle exec rake blacklight:cucumber
 check_errs $? "Cucumber Tests failed." 
 benchmark
