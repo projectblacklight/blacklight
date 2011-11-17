@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Jonathan Rochkind", "Matt Mitchell", "Chris Beer", "Jessie Keck", "Jason Ronallo", "Vernon Chapman", "Mark A. Matienzo", "Dan Funk"]
   s.email       = ["blacklight-development@googlegroups.com"]
   s.homepage    = "http://projectblacklight.org/"
-  s.summary     = "A next-geration Library Catalag for Universities"
+  s.summary     = "A next-generation Library Catalag for Universities"
   s.description = %q{Blacklight is a free and open source ruby-on-rails based discovery interface (a.k.a. “next-generation catalog”) especially optimized for heterogeneous collections. You can use it as a library catalog, as a front end for a digital repository, or as a single-search interface to aggregate digital content that would otherwise be siloed.}
   
   s.rubyforge_project = "blacklight"
