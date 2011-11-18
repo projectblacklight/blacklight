@@ -6,6 +6,12 @@ describe FolderController do
   end
   
   it "should add items to list" do
+    @mock_response = mock()
+    @mock_document = mock()
+    @mock_document2 = mock()
+    @mock_document.stub(:export_formats => {})
+    controller.stub(:get_solr_response_for_field_values => [@mock_response, [@mock_document, @mock_document2]])
+
     get :update, :id =>"77826928"
     session[:folder_document_ids].length.should == 1
     get :update, :id => "94120425"
@@ -13,7 +19,7 @@ describe FolderController do
     session[:folder_document_ids].should include("77826928")
     get :index
     assigns[:documents].length.should == 2
-    assigns[:documents].first.should be_instance_of(SolrDocument)
+    assigns[:documents].first.should == @mock_document
   end
   it "should delete an item from list" do
     get :update, :id =>"77826928"
