@@ -443,7 +443,7 @@ describe 'Blacklight::SolrHelper' do
     end
   end
   
-   describe "get_facet_pagination" do
+   describe "get_facet_pagination", :integration => true do
     before(:each) do
       @facet_paginator = get_facet_pagination(@facet_field)
     end
@@ -456,7 +456,7 @@ describe 'Blacklight::SolrHelper' do
    end
 
 # SPECS FOR SEARCH RESULTS FOR QUERY
-  describe 'Search Results' do
+  describe 'Search Results', :integration => true do
 
     describe 'for a sample query returning results' do
 
@@ -584,7 +584,7 @@ describe 'Blacklight::SolrHelper' do
 
 
 # SPECS FOR SEARCH RESULTS FOR FACETS
-  describe 'Facets in Search Results for All Docs Query' do
+  describe 'Facets in Search Results for All Docs Query', :integration => true do
 
     before(:all) do
       (solr_response, document_list) = get_search_results(:q => @all_docs_query)
@@ -625,7 +625,7 @@ describe 'Blacklight::SolrHelper' do
 
 
 # SPECS FOR SEARCH RESULTS FOR PAGING
-  describe 'Paging' do
+  describe 'Paging', :integration => true do
 
     it 'should start with first results by default' do
       (solr_response, document_list) = get_search_results(:q => @all_docs_query)
@@ -679,7 +679,7 @@ describe 'Blacklight::SolrHelper' do
   end # page specs
 
   # SPECS FOR SINGLE DOCUMENT REQUESTS
-  describe 'Get Document By Id' do
+  describe 'Get Document By Id', :integration => true do
     before(:all) do
       @doc_id = '2007020969'
       @bad_id = "redrum"
@@ -727,7 +727,7 @@ describe 'Blacklight::SolrHelper' do
 
 
 # SPECS FOR SINGLE DOCUMENT VIA SEARCH
-  describe "Get Document Via Search" do
+  describe "Get Document Via Search", :integration => true do
     before(:all) do
       @doc_row = 3
       @doc = get_single_doc_via_search(@doc_row, :q => @all_docs_query)
@@ -766,7 +766,7 @@ describe 'Blacklight::SolrHelper' do
   end
 
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
-  describe "Searches should return spelling suggestions" do
+  describe "Searches should return spelling suggestions", :integration => true do
     it 'search results for just-poor-enough-query term should have (multiple) spelling suggestions' do
       (solr_response, document_list) = get_search_results({:q => 'boo'})
       solr_response.spelling.words.should include('bon')
