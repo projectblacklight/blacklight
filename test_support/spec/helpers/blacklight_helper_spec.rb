@@ -105,18 +105,6 @@ describe BlacklightHelper do
     end
   end
   
-  describe "link_to_with_data" do
-    it "should generate proper tag for :put and with single :data key and value" do
-      assert_dom_equal(
-        "<a href='http://www.example.com' onclick=\"var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;if(event.metaKey || event.ctrlKey){f.target = '_blank';};var d = document.createElement('input'); d.setAttribute('type', 'hidden'); d.setAttribute('name', 'key'); d.setAttribute('value', 'value'); f.appendChild(d);var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;\">Foo</a>",
-        link_to_with_data("Foo", "http://www.example.com", :method => :put, :data => {:key => "value"})
-      )
-    end
-    it "should be html_safe" do
-      link_to_with_data("Foo", "http://www.example.com", :method => :put, :data => {:key => "value"}).html_safe?.should == true
-    end
-  end
-  
   describe "link_to_query" do
     it "should build a link tag to catalog using query string (no other params)" do
       query = "brilliant"
@@ -255,13 +243,7 @@ describe BlacklightHelper do
       @document = SolrDocument.new(data)
       link_to_document(@document, { :label => "title_display" }).should have_selector("a", :content => 'title_display', :count => 1)
      end
-     it "should properly javascript escape the label value" do
-       data = {'id'=>'123456','title_display'=>['654321'] }
-       @document = SolrDocument.new(data)
-       link = link_to_document(@document, { :label => "Apple's Oranges" })
-       link.should match(/'Apple\\'s Oranges'/)
-       link.should_not match(/'Apple's Oranges'/)
-     end
+   
      it "should accept and return a Proc" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
@@ -277,6 +259,12 @@ describe BlacklightHelper do
       data = {'id'=>'123456'}
       @document = SolrDocument.new(data)
       link_to_document(@document, { :label => :title_display }).html_safe?.should == true
+     end
+
+     it "should convert the counter parameter into a data- attribute" do
+      data = {'id'=>'123456','title_display'=>['654321']}
+      @document = SolrDocument.new(data)
+      link_to_document(@document, { :label => :title_display, :counter => 5  }).should =~ /data-counter="5"/
      end
    end
 

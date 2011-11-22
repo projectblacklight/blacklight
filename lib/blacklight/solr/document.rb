@@ -85,6 +85,7 @@ module Blacklight::Solr::Document
     base.send :include, RSolr::Ext::Model
     base.send :include, InstanceMethods
     base.send :extend,  ClassMethods
+    base.send :extend, ActiveModel::Naming
    
     # after_initialize hook comes from RSolr::Ext::Model, I think.
     # We need to make sure all extensions get applied.
