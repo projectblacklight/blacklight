@@ -17,12 +17,6 @@ check_errs()
   # Para. 2 is text to display on failure.
   if [ "${1}" -ne "0" ]; then
     echo "ERROR # ${1} : ${2}"
-
-    # Attempt to shut down jetty, if set.
-    if [ $jetty_pid ] 
-    then
-	kill $jetty_pid
-    fi
      benchmark
      exit 1
   fi
@@ -102,7 +96,8 @@ group :development, :test do
        gem 'aruba'
 end
 
-gem 'devise'
+gem \"jettywrapper\"
+gem \"devise\"
 " > Gemfile
 
 bundle install --local &> /dev/null 
@@ -128,12 +123,6 @@ rails g blacklight:jetty test_jetty -e test -d $jetty_zip
   check_errs $? "Jetty setup failed."
 rm public/index.html
 bundle exec rake solr:marc:index_test_data RAILS_ENV=test
-cd test_jetty
-java -Djetty.port=8888 -Dsolr.solr.home=./solr -jar start.jar &> /dev/null &
-jetty_pid=$!
-cd ..
-bundle exec rake blacklight:spec
-check_errs $? "Rspec Tests failed."
-bundle exec rake blacklight:cucumber
-check_errs $? "Cucumber Tests failed." 
+bundle exec rake blacklight:hudson
+check_errs $? "Tests failed." 
 benchmark

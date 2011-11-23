@@ -72,14 +72,14 @@ begin
       # when starting solr test server during functional tests use:
       # 
       #    rake SOLR_CONSOLE=true      
-      require File.expand_path('../jetty_solr_server.rb', __FILE__)
       desc "blacklight:solr with jetty/solr launch"
       task :with_solr do    
+        require 'jettywrapper'
         # wrap tests with a test-specific Solr server
         # Need to look  up where the test jetty is located
         # from solr.yml, we don't hardcode it anymore. 
 
-        solr_yml_path = locate_path("config", "solr.yml")
+        solr_yml_path = Blacklight.locate_path("config", "solr.yml")
         jetty_path = if ( File.exists?( solr_yml_path ))
             solr_config = YAML::load(File.open(solr_yml_path))
             solr_config["test"]["jetty_path"] if solr_config["test"]
@@ -88,11 +88,12 @@ begin
 
         
         # wrap tests with a test-specific Solr server
-        JettySolrServer.new(
+        error = Jettywrapper.wrap(
           :jetty_home => File.expand_path(jetty_path, Rails.root), 
-          :sleep_after_start => 2).wrap do          
+          :sleep_after_start => 2) do          
             Rake::Task["blacklight:spec"].invoke 
         end             
+        raise "test failures: #{error}" if error
       end
       
     

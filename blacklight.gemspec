@@ -29,4 +29,5 @@ Gem::Specification.new do |s|
   s.add_dependency "kaminari" # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "sass-rails", "~> 3.1.1"
   s.add_dependency "compass", ">= 0.12.alpha.a"
+  s.add_development_dependency "jettywrapper"
 end
