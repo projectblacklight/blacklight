@@ -69,6 +69,7 @@ platforms :jruby do
   gem 'jruby-openssl'
   gem 'activerecord-jdbcsqlite3-adapter'
   gem 'jdbc-sqlite3'
+  gem 'mediashelf-loggable', '>= 0.4.8'
 end
 platforms :ruby do
  gem 'sqlite3-ruby', :require => 'sqlite3'
@@ -96,7 +97,7 @@ group :development, :test do
        gem 'aruba'
 end
 
-gem \"jettywrapper\"
+gem 'jettywrapper', '>= 1.2.0'
 gem \"devise\"
 " > Gemfile
 
