@@ -11,7 +11,7 @@ module Blacklight
     # change this to a different download if you want to peg to a different
     # tagged version of our known-good jetty/solr.
     OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE # (Required by jruby)
-    class_option :download_url, :aliases => "-u", :type=>"string", :default =>"https://github.com/projectblacklight/blacklight-jetty/zipball/v3.4.0" , :desc=>"location of zip file including a jetty with solr setup for blacklight."
+    class_option :download_url, :aliases => "-u", :type=>"string", :default =>"https://github.com/projectblacklight/blacklight-jetty/zipball/v3.5.0" , :desc=>"location of zip file including a jetty with solr setup for blacklight."
     class_option :downloaded_package, :aliases => "-d", :type=>"string", :desc => "manual download of BL-jetty zip file"
      
     

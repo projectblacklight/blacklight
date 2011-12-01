@@ -114,10 +114,10 @@ check_errs $?  "Blacklight generator failed"
 bundle exec rake db:migrate
 check_errs $? "Rake Migration failed" 
 rails g cucumber:install &> /dev/null 
-jetty_zip="/tmp/bl_jetty_3_4_0.zip"
+jetty_zip="/tmp/bl_jetty_3_5_0.zip"
 if [ ! -f $jetty_zip ]
 then
-  curl -L https://github.com/projectblacklight/blacklight-jetty/zipball/v3.4.0 > $jetty_zip
+  curl -L https://github.com/projectblacklight/blacklight-jetty/zipball/v3.5.0 > $jetty_zip
   check_errs $? "Jetty file does not exist, and cannot be downloaded."
 fi
 rails g blacklight:jetty test_jetty -e test -d $jetty_zip

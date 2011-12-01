@@ -47,7 +47,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>LUCENE_33</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_35</luceneMatchVersion>
 
   <!-- lib directives can be used to instruct Solr to load an Jars
        identified and use them to resolve any "plugins" specified in
@@ -63,11 +63,19 @@
        
               <lib dir="./lib" />
     -->
+
   <!-- A dir option by itself adds any files found in the directory to
        the classpath, this is useful for including all jars in a
        directory.
     -->
   <lib dir="../../contrib/extraction/lib" />
+  <lib dir="../../contrib/clustering/lib/" />
+  <lib dir="../../contrib/velocity/lib" />
+
+  <lib dir="./contrib/analysis-extras/lib" />
+  <lib dir="./contrib/analysis-extras/lucene-libs" />
+  <lib dir="./contrib/velocity/lib" />
+
   <!-- When a regex is specified in addition to a directory, only the
        files in that directory which completely match the regex
        (anchored on both ends) will be included.
@@ -75,12 +83,15 @@
   <lib dir="../../dist/" regex="apache-solr-cell-\d.*\.jar" />
   <lib dir="../../dist/" regex="apache-solr-clustering-\d.*\.jar" />
   <lib dir="../../dist/" regex="apache-solr-dataimporthandler-\d.*\.jar" />
+  <lib dir="../../dist/" regex="apache-solr-langid-\d.*\.jar" />
+  <lib dir="../../dist/" regex="apache-solr-velocity-\d.*\.jar" />
 
   <!-- If a dir option (with or without a regex) is used and nothing
        is found that matches, it will be ignored
     -->
   <lib dir="../../contrib/clustering/lib/" />
-  <lib dir="/total/crap/dir/ignored" /> 
+  <lib dir="/total/crap/dir/ignored" />
+
   <!-- an exact path can be used to specify a specific file.  This
        will cause a serious error to be logged if it can't be loaded.
     -->
@@ -132,7 +143,6 @@
 
     <maxFieldLength>10000</maxFieldLength>
     <writeLockTimeout>1000</writeLockTimeout>
-    <commitLockTimeout>10000</commitLockTimeout>
 
     <!-- Expert: Merge Policy 
 
@@ -1668,6 +1678,27 @@
           <str name="hl.tag.post"><![CDATA[</b>]]></str>
         </lst>
       </fragmentsBuilder>
+      
+      <boundaryScanner name="default" 
+                       default="true"
+                       class="solr.highlight.SimpleBoundaryScanner">
+        <lst name="defaults">
+          <str name="hl.bs.maxScan">10</str>
+          <str name="hl.bs.chars">.,!? &#9;&#10;&#13;</str>
+        </lst>
+      </boundaryScanner>
+      
+      <boundaryScanner name="breakIterator" 
+                       class="solr.highlight.BreakIteratorBoundaryScanner">
+        <lst name="defaults">
+          <!-- type should be one of CHARACTER, WORD(default), LINE and SENTENCE -->
+          <str name="hl.bs.type">WORD</str>
+          <!-- language and country are used when constructing Locale object.  -->
+          <!-- And the Locale object will be used when getting instance of BreakIterator -->
+          <str name="hl.bs.language">en</str>
+          <str name="hl.bs.country">US</str>
+        </lst>
+      </boundaryScanner>
     </highlighting>
   </searchComponent>
 
@@ -1703,6 +1734,27 @@
      </updateRequestProcessorChain>
     -->
 
+    <!--
+       This example update chain identifies the language of the incoming
+       documents using the langid contrib. The detected language is
+       written to field language_s. No field name mapping is done.
+       The fields used for detection are text, title, subject and description,
+       making this example suitable for detecting languages form full-text
+       rich documents injected via ExtractingRequestHandler.
+       See more about langId at http://wiki.apache.org/solr/LanguageDetection
+    -->
+    <!--
+     <updateRequestProcessorChain name="langid">
+       <processor class="org.apache.solr.update.processor.TikaLanguageIdentifierUpdateProcessorFactory">
+         <str name="langid.fl">text,title,subject,description</str>
+         <str name="langid.langField">language_s</str>
+         <str name="langid.fallback">en</str>
+       </processor>
+       <processor class="solr.LogUpdateProcessorFactory" />
+       <processor class="solr.RunUpdateProcessorFactory" />
+     </updateRequestProcessorChain>
+    -->
+ 
   <!-- Response Writers
 
        http://wiki.apache.org/solr/QueryResponseWriter
@@ -1726,15 +1778,24 @@
      <queryResponseWriter name="ruby" class="solr.RubyResponseWriter"/>
      <queryResponseWriter name="php" class="solr.PHPResponseWriter"/>
      <queryResponseWriter name="phps" class="solr.PHPSerializedResponseWriter"/>
-     <queryResponseWriter name="velocity" class="solr.VelocityResponseWriter"/>
      <queryResponseWriter name="csv" class="solr.CSVResponseWriter"/>
     -->
+
+  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+     <!-- For the purposes of the tutorial, JSON responses are written as
+      plain text so that they are easy to read in *any* browser.
+      If you expect a MIME type of "application/json" just remove this override.
+     -->
+    <str name="content-type">text/plain; charset=UTF-8</str>
+  </queryResponseWriter>
+  
   <!--
      Custom response writers can be declared as needed...
     -->
-  <!--
-     <queryResponseWriter name="custom" class="com.example.MyResponseWriter"/>
-    -->
+    <!-- The solr.velocity.enabled flag is used by Solr's test cases so that this response writer is not
+         loaded (causing an error if contrib/velocity has not been built fully) -->
+    <queryResponseWriter name="velocity" class="solr.VelocityResponseWriter" enable="${solr.velocity.enabled:true}"/>
+  
 
   <!-- XSLT response writer transforms the XML output by any xslt file found
        in Solr's conf/xslt directory.  Changes to xslt files are checked for
