@@ -81,7 +81,7 @@ group :assets do
   gem 'sass-rails', '~> 3.1.1'
   gem 'coffee-rails', '~> 3.1.1'
   gem 'uglifier'
-  gem 'compass', '0.12.alpha.0'
+  gem 'compass', '0.12.alpha.2'
 end
 
 

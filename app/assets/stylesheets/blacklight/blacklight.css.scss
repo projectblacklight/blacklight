@@ -4,18 +4,21 @@
    which over-rides things in this file. Or of course you can choose
    not to use the Blacklight CSS file at all in your local app. */
 
+
 @import "compass";
 @import "compass/reset";
 
+@import 'blacklight/blacklight_defaults';
+
 /* Import this to maintain the old YUI font styles */
-@import "layout";
-@import "formatting";
-@import "header";
-@import "catalog";
-@import "facets";
-@import "folder";
-@import "search_history";
-@import "print";
+@import "blacklight/layout";
+@import "blacklight/formatting";
+@import "blacklight/header";
+@import "blacklight/catalog";
+@import "blacklight/facets";
+@import "blacklight/folder";
+@import "blacklight/search_history";
+@import "blacklight/print";
 
 
 /* IE 6 Adjustments */

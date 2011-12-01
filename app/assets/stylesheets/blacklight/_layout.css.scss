@@ -1,61 +1,73 @@
-@import "susy_framework";
+@import "blacklight/susy_framework";
 @import "compass/utilities";
 
 /* Generic layout stuff */
-.hide {display:none}
+.hide 
+{
+  display:none
+}
 
 /* Global */
-html {background: #707070;}
-
-body {
+body 
+{
   background: asset_url('blacklight/bg.png',image) repeat-x top left; 
+  background-color: #707070;
   font: 0.7em Verdana, "Lucida Grande", "Lucida Sans Unicode", "Arial Unicode MS", Arial, sans-serif; 
   line-height: 1.4; 
-  color:#333; 
   margin: 0px; 
   padding: 15px;
 }
 
 /* Header Container Layout */
-#page { 
+#page 
+{ 
   @include container;
   background: #fff asset_url('blacklight/border.png',image) repeat-x top left; 
-  border-bottom: 2px solid #555; 
   margin: 0px auto;
 }
 
-#hd {
+#hd 
+{
   @include full;
   @include clearfix;
   padding: 2em 0 2em 0;
 
 
-  #logo {
+  #logo 
+  {
     @include columns(12,24);
   }
-  #user_util_links { 
+  
+  #user_util_links 
+  { 
     text-align: right;
     @include columns(12,24);
     @include omega(24);
   }
 }
 
-#bd {
+#bd 
+{
   @include full;
   @include clearfix;
   margin-bottom: 2em;
 
-  #main {
+  #main 
+  {
     @include prefix(1,24);
     @include columns(18,24);
     @include omega(24);
   }
 
-  #sidebar {
+  #sidebar 
+  {
     @include columns(5,24);
     @include clearfix;
     
-    p { padding-top: 2em;}
+    p 
+    { 
+      padding-top: 2em;
+    }
   }
 }
 

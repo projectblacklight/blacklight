@@ -1,22 +1,38 @@
+ul.folderTools
+{
+  @include border-radius(0 0 4px 4px);
+	background-color: $search_ui_bg_color;
+	border-color: $search_ui_border_color;
+	border-style:solid;
+	border-width:0 1px 1px;
+	margin:0;
+	padding:0.66em;
 
-/* Show Tools */
-ul.tools {margin: 0px; padding: 0px;}
-ul.tools li {display: inline; margin: 0 10px;}
+  li
+  {
+    display:inline-block;
+    margin:0 10px;
+  }
 
-/* Folder Tools */
-ul.folderTools {
-    -moz-border-radius: 0 0 4px 4px;
-    border-radius: 0 0 4px 4px;
-    background-color: #F0F0F0;
-    border-color: #AAAAAA;
-    border-style: solid;
-    border-width: 0 1px 1px 1px;
-    margin: 0;
-    padding: 0.66em;
+  li form
+  {
+    display:inline;
+  }
+
+  li.refworks form input.submit
+  {
+    display:none;
+  }
 }
-ul.folderTools li {
-  display: inline-block;
-  margin: 0 10px;
+
+ul.tools
+{
+  margin:0;
+  padding:0;
+
+  li
+  {
+    display:inline;
+    margin:0 10px;
+  }
 }
-ul.folderTools li form { display: inline; }
-ul.folderTools li.refworks form input.submit{display:none;}

@@ -17,22 +17,30 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
   
     def assets
-      insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
-%q{
- *
- * Required by Blacklight
+      unless IO.read("app/assets/stylesheets/application.css").include?("Blacklight")
+        copy_file('assets/standard.css.scss', 'app/assets/stylesheets/blacklight_themes/standard.css.scss')
+        insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
+  %q{
+ * Required by Blacklight:
  *= require 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css'
- *= require 'blacklight/blacklight_standard'         
-}
+ * This is the standard blacklight theme.
+ *= require 'blacklight/blacklight'         
+ *
+ * If you'd like to modify the default theme, please instead require 'blacklight_themes/standard', which
+ * is in your local install at app/assets/stylesheets/blacklight_themes/ }
+        end
       end
 
-      insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
-%q{
+      unless IO.read("app/assets/javascripts/application.js").include?('blacklight/blacklight')
+        insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
+  %q{
+//
 // Required by Blacklight
 //= require jquery-ui
-//= require blacklight/blacklight
-}          
+//= require blacklight/blacklight}          
+        end
       end
+
       directory("../../../../app/assets/images/blacklight", "app/assets/images/blacklight")
     end
   end

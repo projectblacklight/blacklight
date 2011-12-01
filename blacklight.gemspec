@@ -28,6 +28,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rsolr-ext", '1.0.3' # extension to the above for some rails-ish behaviors - currently embedded in our solr document ojbect.
   s.add_dependency "kaminari" # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "sass-rails", "~> 3.1.1"
-  s.add_dependency "compass", ">= 0.12.alpha.a"
   s.add_development_dependency "jettywrapper", ">= 1.2.0"
+  s.add_dependency "compass", ">= 0.12.alpha.2"
 end

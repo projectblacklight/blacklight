@@ -3,33 +3,42 @@
 
 
 /* Search History */
-.search_history .query > a {
-  display: block;
-  border-bottom: none;
-}
-.search_history .constraint {
-  display: block;
-  text-indent: -2em;
-  padding-left: 2em;
-}
+.search_history
+{
 
-.search_history .constraint .search {
-  padding-right: 0.5em;
-  padding-left: 0.5em;
-}
+  .query > a 
+  {
+    display: block;
+    border-bottom: none;
+  }
 
-.search_history td {
-  vertical-align: top; 
-}
-
-.search_history .filterName, .search_history .label {
-  color: gray; 
-}
-.search_history .constraint {
+  .constraint 
+  {
+    display: block;
+    text-indent: -2em;
+    padding-left: 2em;
     margin-right: 2em;
-}
-.search_history .constraint:last-child {
-  margin-right: 0;
-}
 
+    .search 
+    {
+      padding-right: 0.5em;
+      padding-left: 0.5em;
+    }
+
+    &:last-child 
+    {
+      margin-right: 0;
+    }
+  }
+
+  td 
+  {
+    vertical-align: top; 
+  }
+
+  .filterName, .label 
+  {
+    color: gray; 
+  }
+}
 

@@ -1,16 +1,54 @@
+@media print  {
+	#bd
+	{
+		padding:0;
+		position:relative;
+		width:100%;
+	}
 
-/********** PRINT ***********/
-@media print {
-	html {background: #fff;}
-	body {background: none; padding: 0px; margin: 0;}
-  #hd {margin: 0; padding: 0 0 2em 0;}
-  #page {width: 100%; margin: 0; padding: 0; background: none; border: 0px;}
-  #bd {padding: 0;}
-  #bd {position: relative; width: 100%;}
-  /*#main {border-left: 1px dotted #ccc; padding: 2em 0 2em 1em; position: relative; margin-left: 150px;}*/
-	/*.solrQuery {display: none;}*/
-	/* IE 6 Adjustments */
-	* html #page {position: absolute; top: 0px; left: 0px;}
-	* html #search {position: absolute; top: -4em; left: 1em;}
-	* html #documents {width: 75%;}
+	#hd
+	{
+		margin:0;
+		padding:0 0 2em;
+	}
+
+	#page
+	{
+		background:none;
+		border:0;
+		margin:0;
+		padding:0;
+		width:100%;
+	}
+
+	* html #documents
+	{
+		width:75%;
+	}
+
+	* html #page
+	{
+		left:0;
+		position:absolute;
+		top:0;
+	}
+
+	* html #search
+	{
+		left:1em;
+		position:absolute;
+		top:-4em;
+	}
+
+	body
+	{
+		background:none;
+		margin:0;
+		padding:0;
+	}
+
+	html
+	{
+		background:#fff;
+	}
 }

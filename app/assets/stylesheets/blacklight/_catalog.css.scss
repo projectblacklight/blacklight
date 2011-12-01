@@ -1,261 +1,369 @@
+#appliedParams
+{
+	background-color:$search_ui_bg_color;
+	border-bottom:1px solid $search_ui_border_color;
+	border-left:1px solid $search_ui_border_color;
+	border-right:1px solid $search_ui_border_color;
+	margin-bottom:1.5em;
+	padding:1em 0.66em 0 1em;
 
-/* Search Box */
-#search  {
-  text-align: left; 
-  font-size: 120%;
-  border: 1px solid #AAAAAA;
-  border-radius: 4px 4px 0 0;  
-  -moz-border-radius: 4px 4px 0 0;
-  -webkit-border-radius: 4px 4px 0 0;
-  padding: 0.66em;
-}
-#search #q {width: 200px;}
-#search .submit {padding: 0px 0.25em; margin: 0 0.5em; text-transform: capitalize;}
-#search h2 {display: none;}
-#search hr {display: none; margin:1em 0; margin-top: 2em;}
-
-/* Solr Query */
-.solrQuery {padding: .5em; margin: 2em; background-color:#eee; border: 1px dotted #ccc; font-size:90%;}
-
-/* Page Navigation */
-.constraints {margin: 0px; padding: 0px;}
-
-.pagination {
-  padding: 0.66em;
-  background-color:#F0F0F0;
-  border-style: solid;
-  border-color: #AAAAAA;
-  border-width: 0 1px 1px 1px;  
-  border-radius: 0 0 4px 4px;
-  -moz-border-radius: 0 0 4px 4px;
-  -webkit-border-radius: 0 0 4px 4px;
-  position: relative; /* to allow abs positioning of buttons inside */
-  line-height: 2em;
+  .label
+  {
+    left:-100000000px;
+    position:absolute;
+  }
 }
 
-.pagination h2 {display: none;}
-
-.pagination .prev_page {
-  position: absolute;
-  left: 0;
-  margin-left: 0.66em;
-  border-bottom: none;  
-}
-.pagination .next_page {
-  position: absolute;
-  right: 0;
-  margin-right: 0.66em;
-  border-bottom: none;
-  
-}
-#results_text {display: none;}
+#document
+{
+	margin-top:1em;
 
 
-span.page a, span.page.current {
-  margin-right:0.2em;
-  padding:0.2em 0.5em;
-  text-decoration: none;
-  border-bottom: none;
+  h1
+  {
+    margin:0;
+    padding:0 0 1em;
+  }
 }
 
-.page_links .next_page, .page_links .prev_page {
-  /* we show these seperately, but can't get will_paginate to suppress
-  them entirely. */
-  display: none;
+#documents
+{
+	margin-bottom:1.5em;
+	margin-top:1.5em;
+
+
+  .documentHeader
+  {
+    padding:0;
+  }
+
+  .per_page
+  {
+    padding-right:5px;
+  }
 }
 
-.page_links span.current {
-background:none repeat scroll 0 0 #2E4F81;
-border:1px solid #2E4F81;
-color:white;
-font-weight:bold;
-}
-.pagination span.disabled {
-    color: #999;
+#librarian_view
+{
+	left:-17%;
+	text-align:left;
+	top:10%;
+	width:700px;
 }
 
-.pagination a {
-  /* leave room so when we show the box on hover, it won't nudge
-     everything all over the place. */
-  border: 1px solid transparent;  
-}
-.pagination a:hover, .pagination a:focus {
-  border:1px solid #000033;
-  text-decoration:none;
-}
+#marc_view
+{
+	padding:5px;
+	text-align:left;
 
-.page_links {
-  /* centering, taking account of absolutely positioned right/left buttons*/  
-  margin-right: 8em;
-  margin-left: 8em;
-  text-align: center;
-}
+  .field
+  {
+    border-bottom: $marc_item_separator;
+    clear:both;
+  }
 
-.pageEntriesInfo {
-  background-color:#F0F0F0;
-  border-style: solid;
-  border-color: #AAAAAA;
-  border-width: 1px 1px 0 1px;
-  -moz-border-radius:4px 4px 0 0;
-  border-radius:4px 4px 0 0;
-  -webkit-border-radius:4px 4px 0 0;
-  padding: 0.66em;
-  position:relative; /* so the absolutely positioned startOverLink does right */
-  text-align: center;
+  .ind1, .ind2
+  {
+    display:inline;
+    padding:0 5px;
+  }
+
+  .subfields
+  {
+    padding-left:5em;
+  }
+
+  .tag_ind
+  {
+    float:left;
+  }
 }
 
-#startOverLink{display:block; position:absolute; top:50%; right:0.66em;
-  margin-top:-12px; padding:0 7px 3px 12px; line-height:22px;
-  text-decoration:none; color:#fff;
-  background:asset_url('blacklight/start_over.gif', image) no-repeat center center; border-bottom: none;}
+#previousNextDocument
+{
+	background-color:$search_ui_bg_color;
+	border:1px solid $search_ui_border_color;
+	margin-bottom:1.5em;
+	overflow:auto;
+	padding:0.66em;
 
-
-#sortAndPerPage {
-  @include clearfix;
-  background-color: #F0F0F0;
-  padding: 0.66em;
-  border-style: solid;
-  border-color: #AAAAAA;
-  border-width: 0 1px 1px 1px;
-}
-#sortAndPerPage label {
-  font-weight: normal;
+  .next
+  {
+    float:right;
+  }
 }
 
-#previousNextDocument { /* on item detail page, under paging info */
-  padding: 0.66em;
-  background-color: #F0F0F0;
-  border: 1px solid #AAAAAA;
-  -moz-border-radius: 0 0 4px 4px;
-  border-radius: 0 0 4px 4px;
-  -webkit-border-radius: 0 0 4px 4px;
-  margin-bottom: 1.5em;
-  overflow: auto; /* to make it expand to hold floated children */
+#search
+{
+  @include border-radius(4px 4px 0 0);
+	border:1px solid $search_ui_border_color;
+	font-size:120%;
+	padding:0.66em;
+	text-align:left;
+
+  #q
+  {
+    width:200px;
+  }
+
+  .submit
+  {
+    margin:0 0.5em;
+    padding:0 0.25em;
+    text-transform:capitalize;
+  }
+
+  hr
+  {
+    display: none;
+    margin: 2em 0 1em;
+  }
 }
 
-#previousNextDocument .next {
-  float: right;
+#search h2,.pagination h2,#results_text,.page_links .next_page,.page_links .prev_page
+{
+	display:none;
 }
 
-/* 'Document functions', Bookmark/Folder. Appear on both results/index and 
-   detail/show views. */
-.documentFunctions { float: right; margin-left: 1em; margin-bottom: 0.5em;}
-.documentFunctions .folder_toggle, .documentFunctions .bookmark_toggle { display: inline; }
-label.toggle_bookmark, label.toggle_folder {
-  /* the ajaxy checkbox for toggle */
-  display: inline-block;
-  min-width: 8.5em;
-  text-align: left;
-  font-weight: inherit;
-  color: inherit;
-}
-label.toggle_folder { min-width: 6em; }
-label.checked { font-weight: bold; }
+
+#sortAndPerPage
+{
+	background-color:$search_ui_bg_color;
+	border-color:$search_ui_border_color;
+	border-style:solid;
+	border-width:0 1px 1px 1px;
+	padding:0.66em;
 
 
-/* Search Results */
-.document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc; clear: both;}
-
-#documents {background-color: #eee; color: #333; margin-top: 1.5em; margin-bottom: 1.5em; }
-#documents .documentHeader {background-color: #fff; padding: 0px;}
-
-
-#documents .per_page {padding-right: 5px;}
-
-/* Result List (http://www.quirksmode.org/css/clearing.html) */
-h3.index_title { margin: 0px; padding: 0px; }
-
-dl {margin: 0px; padding: 0px;}
-dl.defList {overflow: auto; padding: 0.5em 0; clear: both}
-dl.defList dt {float:left; text-align: right; width: 20%; clear: both; color: #888; margin: 0; padding: 2px 1em 2px 0px;}
-dl.defList dd {float: left; text-align: left; margin: 0; padding: 2px 0; width: 450px;}
-
-/* Individual Result Listing */
-#document {margin-top: 1em;}
-#document h1 {margin: 0px; padding: 0px 0px 1em 0px;}
-#marc_view {padding:5px; text-align:left;}
-#marc_view .ind1, #marc_view .ind2 {padding:0 5px; display:inline;}
-#marc_view .tag_ind {float:left;}
-#marc_view .subfields {padding-left:5em;}
-#marc_view .field {clear:both; border-bottom:1px solid #CCCCCC;}
-#librarian_view{top:10%;left:-17%;text-align:left;width:700px;} /* Lightbox element */
-
-/* search constraints/filter block */
-/* ========================
-Search Parameters
-======================== */
-  /* current search criteria are rendered right under search box, and appear
-   as part of same section. */
-#appliedParams {
-  background-color: #F0F0F0;
-  border-right: 1px solid #AAAAAA;
-  border-left: 1px solid #AAAAAA;
-  border-bottom: 1px solid #AAAAAA;
-  padding: 1em 0.66em 0em 1em;
-  border-radius:0 0 4px 4px;  
-  -moz-border-radius:0 0 4px 4px;
-  -webkit-border-radius:0 0 4px 4px;
-  margin-bottom: 1.5em;
+  label
+  {
+    font-weight:400;
+  }
 }
 
-#appliedParams .label {
-  /* just here for screen-readers, attributes copied from Jquery-ui 
-     .ui-helper-hidden-accessible */
-  position: absolute;
-  left: -100000000px;
+#startOverLink
+{
+	background:asset_url('blacklight/start_over.gif', image) no-repeat center center;
+	border-bottom:none;
+	color:#fff;
+	display:block;
+	line-height:22px;
+	margin-top:-12px;
+	padding:0 7px 3px 12px;
+	position:absolute;
+	right:0.66em;
+	text-decoration:none;
+	top:50%;
 }
 
-/* but don't hide it on show page, where there is no actual search box. */
-.show #appliedParams .label {
-  position: static;
-  margin-top: 0;
-}
-.show #appliedParams {
-  /* it's the top, give it a top border with corners */
-  border-top: 1px solid #AAAAAA;
-  border-radius:4px 4px 4px 4px;  
-  -moz-border-radius:4px 4px 4px 4px;
-  -webkit-border-radius:4px 4px 4px 4px;
+.appliedFilter
+{
+	background: $constraint_bg_color;
+	border:1px solid $constraint_border_color;
+	display:inline-block;
+	margin-bottom:0.66em;
+	margin-right:0.33em;
+	padding:3px 3px 3px 1.5em;
+	position:relative;
+  @include border-radius(15px 15px 15px 15px);
+
+  .btnRemove
+  {
+    background:asset_url('blacklight/remove.gif', image) no-repeat center center;
+    border-bottom:none;
+    border-left:1px solid $constraint_border_color;
+    display:block;
+    height:100%;
+    outline:none;
+    position:absolute;
+    right:0;
+    text-indent:-99999px;
+    top:0;
+    width:32px;
+    z-index:5;
+  }
+
+  .btnRemove:active,.btnRemove:focus
+  {
+    border:1px dotted $constraint_border_active_color;
+  }
+
+  .queryName,.filterName
+  {
+    background:asset_url('blacklight/separator.gif',image) no-repeat right center;
+    padding-right:14px;
+  }
 }
 
-.appliedFilter {
-  position: relative;
-  display:inline-block;
-  padding:3px 3px 3px 1.5em; 
-  margin-bottom: 0.66em;
-  margin-right: 0.33em;
-  background:#e2edfe;  
-  border:1px solid #c4dafe;
-  -moz-border-radius:15px 15px 15px 15px;
-  -webkit-border-radius:15px 15px 15px 15px;
-  border-radius: 15px 15px 15px 15px;
-}
-.appliedFilter .btnRemove{
-  display:block;
-  position:absolute; 
-  z-index:5; 
-  right:0px; 
-  top:0; 
-  width:32px;
-  height:100%; 
-  background:asset_url('blacklight/remove.gif', image) no-repeat center center; 
-  border-left:1px solid #d0daea;
-  border-bottom: none;
-  text-indent:-99999px; /* text there for screen readers, hidden visually */
-  outline: none; /* the screen reader text indent above will make weird outlines on link clicking, unless we turn em off. */
-}
-.appliedFilter .btnRemove:active, .appliedFilter .btnRemove:focus {
-  /* we took outline away above; add a border instead, for accesibility
-     so someone tabbing to the link knows what link is active */
-  border: 1px dotted #FFD27A;
+.constraints,h3.index_title,dl
+{
+	margin:0;
+	padding:0;
 }
 
-.appliedFilter .queryName, .appliedFilter .filterName {
-  /* ">" image */ 
-  padding-right:14px; 
-  background:asset_url('blacklight/separator.gif',image) no-repeat right center;
+.document
+{
+	border-bottom:1px dotted $dotted_border_color; 
+	clear:both;
+	padding:0.5em 0 0;
 }
 
-.filterValue {
-  padding-right:37px; /* leave room for close button */ 
+.documentFunctions
+{
+	float:right;
+	margin-bottom:0.5em;
+	margin-left:1em;
+
+  .folder_toggle,.bookmark_toggle
+  {
+    display:inline;
+  }
+}
+
+
+.filterValue
+{
+	padding-right:37px;
+}
+
+.pageEntriesInfo
+{
+	background-color:$search_ui_bg_color;
+	border-color:$search_ui_border_color;
+	border-style:solid;
+	border-width:1px 1px 0;
+	padding:0.66em;
+	position:relative;
+	text-align:center;
+}
+
+.page_links
+{
+	margin-left:8em;
+	margin-right:8em;
+	text-align:center;
+
+  span.current
+  {
+    background:none repeat scroll 0 0 $page_bg_color;
+    border:1px solid $page_bg_color;
+    color:#FFF;
+    font-weight:700;
+  }
+}
+.pagination
+{
+	background-color:$search_ui_bg_color;
+	border-color:$search_ui_border_color;
+	border-style:solid;
+	border-width:0 1px 1px;
+	line-height:2em;
+	padding:0.66em;
+	position:relative;
+
+  .next_page
+  {
+    border-bottom:none;
+    margin-right:0.66em;
+    position:absolute;
+    right:0;
+  }
+
+  .prev_page
+  {
+    border-bottom:none;
+    left:0;
+    margin-left:0.66em;
+    position:absolute;
+  }
+
+  a
+  {
+    border:1px solid transparent;
+  }
+
+  a:hover,a:focus
+  {
+    border:1px solid #003;
+    text-decoration:none;
+  }
+
+  span.disabled
+  {
+    color:#999;
+  }
+
+}
+.show #appliedParams
+{
+	border-top:1px solid $search_ui_border_color;
+
+  .label
+  {
+    margin-top:0;
+    position:static;
+  }
+}
+
+.solrQuery
+{
+	background-color: $search_ui_bg_color;
+	border:1px dotted $dotted_border_color;
+	font-size:90%;
+	margin:2em;
+	padding:.5em;
+}
+
+dl.defList
+{
+	clear:both;
+	overflow:auto;
+	padding:0.5em 0;
+
+  dd
+  {
+    float:left;
+    margin:0;
+    padding:2px 0;
+    text-align:left;
+    width:450px;
+  }
+
+  dt
+  {
+    clear:both;
+    color: $field_name_color;
+    float:left;
+    margin:0;
+    padding:2px 1em 2px 0;
+    text-align:right;
+    width:20%;
+  }
+}
+
+label.checked
+{
+	font-weight:700;
+}
+
+label.toggle_bookmark,label.toggle_folder
+{
+	color:inherit;
+	display:inline-block;
+	font-weight:inherit;
+	min-width:8.5em;
+	text-align:left;
+}
+
+label.toggle_folder
+{
+	min-width:6em;
+}
+
+span.page a,span.page.current
+{
+	border-bottom:none;
+	margin-right:0.2em;
+	padding:0.2em 0.5em;
+	text-decoration:none;
 }

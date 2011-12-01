@@ -1,0 +1,48 @@
+/* Warning! If you want to change these, just copy them into your own theme css. But you want to remove the !default, which only will set them if not already set. */
+
+/* Grid parameters */
+/* changing total cols is not recommended unless you're going to redo blacklight/_layout.css.sass */
+$total-cols: 24 !default;
+
+/* But the widths are changeable to px, em. */
+$col-width: 2.5em !default;
+$gutter-width: .5em !default;
+$side-gutter-width: 2em !default;
+
+
+$logo_url: 'blacklight/logo.png' !default;
+
+/* Various elements of search customization share these colors */
+
+$search_ui_border_color: #AAAAAA !default;
+$search_ui_bg_color: #F0F0F0 !default;
+
+/* separates documents, facets */
+$dotted_border_color: #CCC !default;
+
+/* background color of page */
+$page_bg_color: #2E4F81 !default;
+
+
+/* label (field names) */
+$field_name_color: #888 !default;
+
+
+/* constraint (you searched for:) details: */
+
+$constraint_bg_color: #E2EDFE !default;
+
+$constraint_border_color: #C4DAFE !default;
+$constraint_border_active_color: #FFD27A !default;
+
+/* dialog that pops up when you pick more on facets */
+$facet_extended_button_bg_color: #F6F6F6 !default;
+$facet_extended_button_border_color: #CCC !default;
+$facet_extended_disabled_button_bg_color: #E2EDFE !default;
+$facet_extended_disabled_border_color: #C4DAFE !default;
+$facet_extended_button_hover_bg_color: #DADADA !default;
+$facet_extended_button_hover_border_color: #999 !default;
+$facet_extended_button_hover_color: #212121 !default;
+
+/* border between items on marc view */
+$marc_item_separator: 1px solid #CCC !default;
