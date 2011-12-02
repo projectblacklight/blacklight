@@ -87,6 +87,10 @@ group :assets do
     gem 'execjs'
     gem 'therubyracer'
   end
+
+  platforms :jruby do
+    gem 'therubyrhino'
+  end
 end
 
 
