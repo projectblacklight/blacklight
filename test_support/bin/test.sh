@@ -82,6 +82,8 @@ group :assets do
   gem 'coffee-rails', '~> 3.1.1'
   gem 'uglifier'
   gem 'compass', '0.12.alpha.2'
+  gem 'execjs'
+  gem 'therubyracer'
 end
 
 
