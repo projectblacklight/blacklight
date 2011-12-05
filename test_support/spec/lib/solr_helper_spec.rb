@@ -42,7 +42,7 @@ describe 'Blacklight::SolrHelper' do
     @single_facet = {:format=>'Book'}
     @multi_facets = {:format=>'Book', :language_facet=>'Tibetan'}
     @bad_facet = {:format=>'666'}
-    @subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"per_page"=>"10", :"q"=>"wome"}
+    @subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"rows"=>"10", :"q"=>"wome"}
   end
 
   
@@ -75,8 +75,8 @@ describe 'Blacklight::SolrHelper' do
         @produced_params[:q].should be_nil
         @produced_params["spellcheck.q"].should be_nil
       end
-      it 'should have default per_page' do
-        @produced_params[:per_page].should == 10
+      it 'should have default rows' do
+        @produced_params[:rows].should == 10
       end
       it 'should have default facet fields' do
         @produced_params[:"facet.field"].should == blacklight_config[:default_solr_params][:"facet.field"]
@@ -239,7 +239,7 @@ describe 'Blacklight::SolrHelper' do
         config.add_search_field("test_field",
                              :display_label => "Test", 
                              :key=>"test_field", 
-                             :solr_parameters => {:qf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :pf => "", :spellcheck => 'false', :per_page => "55", :sort => "request_params_sort" }
+                             :solr_parameters => {:qf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :pf => "", :spellcheck => 'false', :rows => "55", :sort => "request_params_sort" }
                             )
         return config
       end
@@ -271,8 +271,8 @@ describe 'Blacklight::SolrHelper' do
           @produced_params[:qt].should == blacklight_config[:default_solr_params][:qt]
         end
 
-        it "should take per_page from search field definition where specified" do
-          @produced_params[:per_page].should == "55"
+        it "should take rows from search field definition where specified" do
+          @produced_params[:rows].should == "55"
         end
 
         it "should take q from request params" do
@@ -634,7 +634,7 @@ describe 'Blacklight::SolrHelper' do
     it 'should have number of results (per page) set in initializer, by default' do
       (solr_response, document_list) = get_search_results(:q => @all_docs_query)
       solr_response.docs.size.should == document_list.size
-      solr_response.docs.size.should == blacklight_config[:default_solr_params][:per_page]
+      solr_response.docs.size.should == blacklight_config[:default_solr_params][:rows]
     end
 
     it 'should get number of results per page requested' do
@@ -647,7 +647,7 @@ describe 'Blacklight::SolrHelper' do
     it 'should skip appropriate number of results when requested - default per page' do
       page = 3
       (solr_response2, document_list2) = get_search_results(:q => @all_docs_query, :page => page)
-      solr_response2.params[:start].to_i.should ==  blacklight_config[:default_solr_params][:per_page] * (page-1)
+      solr_response2.params[:start].to_i.should ==  blacklight_config[:default_solr_params][:rows] * (page-1)
     end
     it 'should skip appropriate number of results when requested - non-default per page' do
       page = 3
@@ -658,7 +658,7 @@ describe 'Blacklight::SolrHelper' do
 
     it 'should have no results when prompted for page after last result' do
       big = 5000
-      (solr_response3, document_list3) = get_search_results(:q => @all_docs_query, :per_page => big, :page => big)
+      (solr_response3, document_list3) = get_search_results(:q => @all_docs_query, :rows => big, :page => big)
       solr_response3.docs.size.should == document_list3.size
       solr_response3.docs.size.should == 0
     end
@@ -671,7 +671,7 @@ describe 'Blacklight::SolrHelper' do
     end
     it 'should have results available when asked for more than are in response' do
       big = 5000
-      (solr_response5, document_list5) = get_search_results(:q => @all_docs_query, :per_page => big, :page => 1)
+      (solr_response5, document_list5) = get_search_results(:q => @all_docs_query, :rows => big, :page => 1)
       solr_response5.docs.size.should == document_list5.size
       solr_response5.docs.size.should > 0
     end
@@ -859,11 +859,11 @@ describe 'Blacklight::SolrHelper' do
       end      
 
       it "should enforce MaxPerPage against user supplied parameters" do                
-        solr_search_params[:per_page].should == "100"        
+        solr_search_params[:rows].should == "100"        
       end
 
       it "should enforce MaxPerPage against extra controller parameters" do
-        solr_search_params(:per_page => 98765)[:per_page].should == "100"
+        solr_search_params(:per_page => 98765)[:rows].should == "100"
       end              
     end
 

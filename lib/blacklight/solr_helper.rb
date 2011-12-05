@@ -138,19 +138,41 @@ module Blacklight::SolrHelper
     end
     
     ###
-    # copy paging params from BL app over to solr, with
-    # fairly little transformation. 
-    def add_paging_to_solr(solr_parameters, user_params)
-      # Omit empty strings and nil values.             
-      # Apparently RSolr takes :per_page and converts it to Solr :rows,
-      # so we let it. 
-      [:page, :per_page].each do |key|
-        solr_parameters[key] = user_params[key] unless user_params[key].blank?      
+    # copy paging params from BL app over to solr, changing
+    # app level per_page and page to Solr rows and start. 
+    def add_paging_to_solr(solr_params, user_params)
+      # Deprecated behavior was to pass :per_page to RSolr, and we
+      # generated blacklight_config.default_solr_params with that
+      # value. Move it over to rows.
+      if solr_params.has_key?(:per_page)
+        per_page = solr_params.delete(:per_page)
+        solr_params[:rows] ||= per_page
+      end
+
+      # Now any over-rides from current URL?
+      solr_params[:rows] = user_params[:per_page] unless user_params[:per_page].blank?
+      
+      # Do we need to translate :page to Solr :start?      
+      unless user_params[:page].blank?
+        # already set solr_params["rows"] might not be the one we just set,
+        # could have been from app defaults too. But we need one.
+        # raising is consistent with prior RSolr magic keys behavior.
+        # We could change this to default to 10, or to raise on startup
+        # from config instead of at runtime.
+        if solr_params[:rows].blank?
+          raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
+        end
+        
+        solr_params[:start] = solr_params[:rows].to_i * (user_params[:page].to_i - 1)
+        
+        # Solr throws error for negative start. Existing specs say
+        # we say start at 1 in this case. 
+        solr_params[:start] = 0 if solr_params[:start].to_i < 0
       end
 
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
       # not sure why.     
-      solr_parameters[:per_page] = solr_parameters[:per_page].to_i > self.max_per_page ? self.max_per_page.to_s : solr_parameters[:per_page]      
+      solr_params[:rows] = solr_params[:rows].to_i > self.max_per_page ? self.max_per_page.to_s : solr_params[:rows]      
     end
 
     ###
