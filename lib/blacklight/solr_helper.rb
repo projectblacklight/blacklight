@@ -312,7 +312,7 @@ module Blacklight::SolrHelper
     # In later versions of Rails, the #benchmark method can do timing
     # better for us. 
     bench_start = Time.now
-    
+
     solr_response = find(self.solr_search_params(user_params).merge(extra_controller_params))  
     document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
     Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
@@ -442,10 +442,8 @@ module Blacklight::SolrHelper
   # the Blacklight app-level request params that define the search. 
   def get_single_doc_via_search(index, request_params)
     solr_params = solr_search_params(request_params)
-    # solr_params[:start] = index - 1 # start at 0 to get 1st doc, 1 to get 2nd. 
-    # FIXME: we must set page because of a  bug posted here: https://github.com/mwmitchell/rsolr-ext/issues/16
-    solr_params[:page] = index # start at 1 to get 1st 1-doc page with RSolr::Ext :page
-    solr_params[:per_page] = 1
+
+    solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.    
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
     solr_response = find(solr_params)
