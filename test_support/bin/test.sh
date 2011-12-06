@@ -103,7 +103,6 @@ group :development, :test do
        gem 'database_cleaner'  
        gem 'capybara'
        gem 'webrat'
-       gem 'aruba'
 end
 
 gem 'jettywrapper', '>= 1.2.0'
