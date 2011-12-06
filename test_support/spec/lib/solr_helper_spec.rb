@@ -854,20 +854,19 @@ describe 'Blacklight::SolrHelper' do
   end
 
     describe "with max per page enforced" do
-      def params
-        {:search_field => "test_field", :per_page => 12345, :q => "test query", "facet.field" => "extra_facet"}
-      end      
-
-      it "should enforce MaxPerPage against user supplied parameters" do                
-        solr_search_params[:rows].should == "100"        
+      def blacklight_config          
+        config = Blacklight::Configuration.new
+        config.max_per_page = 123
+        return config
       end
 
-      it "should enforce MaxPerPage against extra controller parameters" do
-        solr_search_params(:per_page => 98765)[:rows].should == "100"
+      it "should enforce max_per_page against all parameters" do
+        blacklight_config.max_per_page.should == 123
+        solr_search_params(:per_page => 98765)[:rows].should == 123
       end              
     end
 
-    describe "#get_solr_response_for_field_values", :test => true do
+    describe "#get_solr_response_for_field_values" do
       before do
         @mock_response = mock()
         @mock_response.stub(:docs => [])

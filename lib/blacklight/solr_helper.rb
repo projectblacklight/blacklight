@@ -48,8 +48,6 @@ module Blacklight::SolrHelper
   extend ActiveSupport::Concern
   include Blacklight::SearchFields
 
-  MaxPerPage = 100
-
   included do
     if self.respond_to?(:helper_method)
       helper_method(:facet_limit_for)
@@ -172,7 +170,7 @@ module Blacklight::SolrHelper
 
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
       # not sure why.     
-      solr_params[:rows] = solr_params[:rows].to_i > self.max_per_page ? self.max_per_page.to_s : solr_params[:rows]      
+      solr_params[:rows] = solr_params[:rows].to_i > blacklight_config.max_per_page ? blacklight_config.max_per_page : solr_params[:rows]      
     end
 
     ###
@@ -503,9 +501,4 @@ module Blacklight::SolrHelper
     return limit
   end
 
-  def max_per_page
-    MaxPerPage
-  end
-  
-  
 end

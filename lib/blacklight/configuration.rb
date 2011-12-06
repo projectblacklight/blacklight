@@ -11,7 +11,8 @@ module Blacklight
       :default_solr_params => {},
       :show => OpenStructWithHashAccess.new,
       :index => OpenStructWithHashAccess.new,
-      :spell_max => 5
+      :spell_max => 5,
+      :max_per_page => 100
     }
 
 
