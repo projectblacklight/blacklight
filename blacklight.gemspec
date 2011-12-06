@@ -24,8 +24,8 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri", "~>1.5"   # XML Parser
   s.add_dependency "unicode" # provides C-form normalization of unicode characters, as required by refworks.
   s.add_dependency "marc", "~> 0.4.3"  # Marc record parser
-  s.add_dependency "rsolr",  '~> 1.0' # Library for interacting with rSolr.
-  s.add_dependency "rsolr-ext", '~> 1.0' # extension to the above for some rails-ish behaviors - currently embedded in our solr document ojbect.
+  s.add_dependency "rsolr",  '1.0.2' # Library for interacting with rSolr.
+  s.add_dependency "rsolr-ext", '1.0.3' # extension to the above for some rails-ish behaviors - currently embedded in our solr document ojbect.
   s.add_dependency "kaminari" # the pagination (page 1,2,3, etc..) of our search results
 
 end
