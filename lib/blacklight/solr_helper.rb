@@ -143,6 +143,7 @@ module Blacklight::SolrHelper
       # generated blacklight_config.default_solr_params with that
       # value. Move it over to rows.
       if solr_params.has_key?(:per_page)
+        $stderr.puts "DEPRECATION WARNING: Blacklight::SolrHelper#solr_search_params: magic :per_page key deprecated, use :rows instead. (Check default_solr_params in blacklight config?)"
         per_page = solr_params.delete(:per_page)
         solr_params[:rows] ||= per_page
       end
