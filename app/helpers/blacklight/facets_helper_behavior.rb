@@ -4,6 +4,10 @@ module Blacklight::FacetsHelperBehavior
   # blacklight_config based helpers ->
   #
   
+  def facet_configuration_for_field(field)
+    blacklight_config.facet_fields[field] || Blacklight::Configuration::FacetField.new(:field => field)
+  end
+
   # used in the catalog/_facets partial
   def facet_field_labels
     # DEPRECATED
@@ -15,12 +19,54 @@ module Blacklight::FacetsHelperBehavior
     blacklight_config.facet_fields.keys
   end
 
+  # Render a collection of facet fields
+  def render_facet_partials fields = facet_field_names, options = {}
+    solr_fields = fields.map do |solr_field|
+      case solr_field
+        when String, Symbol
+          @response.facet_by_field_name(solr_field)
+        when Blacklight::Configuration::FacetField
+          @response.facet_by_field_name(solr_field.field)
+        else
+          solr_field
+        end
+    end.compact
+
+    solr_fields.map do |display_facet|
+      next if display_facet.items.blank?
+      render_facet_limit(display_facet, options)
+    end.compact.join("\n").html_safe
+  end
+
   # used in the catalog/_facets partial and elsewhere
   # Renders a single section for facet limit with a specified
   # solr field used for faceting. Can be over-ridden for custom
   # display on a per-facet basis. 
-  def render_facet_limit(solr_field)
-    render( :partial => "catalog/facet_limit", :locals => {:solr_field =>solr_field })
+  #
+  # @param [RSolr::Ext::Response::Facets::FacetField] facet_field
+  # @param [Hash] options parameters to use for rendering the facet limit partial
+  #
+  def render_facet_limit(display_facet, options = {})
+    if display_facet.is_a? String or display_facet.is_a? Symbol
+      $stderr.puts "DEPRECATION WARNING: Blacklight::FacetsHelper#render_facet_limit: use #render_facet_partials to render facets by field name"
+      return render_facet_partials([display_facet])
+    end
+    options = options.dup
+    options[:partial] ||= facet_partial_name(display_facet)
+    options[:layout] ||= "facet_layout"
+    options[:locals] ||= {}
+    options[:locals][:solr_field] ||= display_facet.name 
+    options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
+    options[:locals][:display_facet] ||= display_facet 
+
+    render(options)
+  end
+
+  # the name of the partial to use to render a facet field. Can be over-ridden for custom
+  # display on a per-facet basis. 
+  def facet_partial_name(display_facet = nil)
+    name = facet_configuration_for_field(display_facet.name).try(:partial)
+    name ||= "facet_limit"
   end
 
   #
