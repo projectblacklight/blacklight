@@ -203,6 +203,12 @@ describe "Blacklight::Configuration" do
   describe "add_search_field" do
     it "should accept hash form" do
       c = Blacklight::Configuration.new
+      c.add_search_field(:key => "my_search_key")
+      c.search_fields["my_search_key"].should_not be_nil
+    end
+
+    it "should accept two-arg hash form" do
+      c = Blacklight::Configuration.new
       
       c.add_search_field("my_search_type",
           :key => "my_search_type",
@@ -260,6 +266,12 @@ describe "Blacklight::Configuration" do
   
   describe "add_sort_field" do
     it "should take a hash" do
+      c = Blacklight::Configuration.new
+      c.add_sort_field(:key => "my_sort_key", :sort => "score desc")
+      c.sort_fields["my_sort_key"].should_not be_nil
+    end
+
+    it "should take a two-arg form with a hash" do
       @config.add_sort_field("score desc, pub_date_sort desc, title_sort asc", :label => "relevance") 
 
       
