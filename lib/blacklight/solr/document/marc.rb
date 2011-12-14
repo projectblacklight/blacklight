@@ -17,6 +17,7 @@
 # SolrDocument.extension_paramters[:marc_source_field] = "name_of_solr_stored_field"
 # SolrDocument.extension_parameters[:marc_format_type] = :marc21 # or :marcxml
 module Blacklight::Solr::Document::Marc
+  require 'marc'
 
   include Blacklight::Solr::Document::MarcExport # All our export_as stuff based on to_marc. 
   

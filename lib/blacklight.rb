@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'blacklight/kaminari_relevant_pages_patch' 
-require 'marc'
 require 'rsolr'
 require 'rsolr-ext'
 
