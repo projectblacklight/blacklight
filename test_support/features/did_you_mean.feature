@@ -22,10 +22,7 @@ Feature: Did You Mean
     Then I should see "Did you mean"
     When I follow "yehudiyim"
     Then I should get results
-    # TODO:  it should be an title search, but I can't get step def right
-    #  (it works in the code)
-    # TODO: false positive?
-    # And I should see select list "select#search_field" with "Title" selected
+    And I should see select list "select#search_field" with "Title" selected
 
   Scenario: Author search - No Results with spelling suggestion
     When I am on the home page
@@ -36,10 +33,7 @@ Feature: Did You Mean
     Then I should see "Did you mean"
     When I follow "sharma"
     Then I should get results
-    # TODO:  it should be an author search, but I can't get step def right
-    #  (it works in the code)
-    # TODO: false positive?
-    #And I should see select list "select#search_field" with "Author" selected
+    And I should see select list "select#search_field" with "Author" selected
 
   Scenario: Subject search - No Results with spelling suggestion
     When I am on the home page
@@ -50,8 +44,7 @@ Feature: Did You Mean
     Then I should see "Did you mean"
     When I follow "women"
     Then I should get results
-    # TODO:  it should be an author search, but I can't get step def right
-    #  (it works in the code)
+    And I should see select list "select#search_field" with "Subject" selected
 
   Scenario: No Results - and no close spelling suggestions
     When I am on the home page
@@ -77,17 +70,15 @@ Feature: Did You Mean
     When I follow "bon"
     Then I should get results
 
-# can't get this to work with 30 rec index:
-#    need something to give results and give suggestion with MORE results
-#  Scenario: Num Results low enough to warrant spelling suggestion
-#    Given I am on the home page
-    # aya gives a single results;  bya gives more
-#    And I fill in "q" with "aya"
-#    And I press "search"
-#    Then I should get results
-#    And I should see "Did you mean"
-#    When I follow "bya"
-#    Then I should get results
+  Scenario: Num Results low enough to warrant spelling suggestion
+    Given I am on the home page
+    # ayaz gives a single results;  bya gives more
+    And I fill in "q" with "ayaz"
+    And I press "search"
+    Then I should get results
+    And I should see "Did you mean"
+    When I follow "bya"
+    Then I should get results
 
   Scenario: Too many results for spelling suggestion
     Given I am on the home page
@@ -96,14 +87,16 @@ Feature: Did You Mean
     And I press "search"
     Then I should not see "Did you mean"
 
-## can't get these to work with solr 3.4
-#  Scenario: Exact Threshold number of results for spelling suggestion
-#    Given I am on the home page
-#    # polit gives 5 results in 30 record demo index - 5 is default cutoff
-#    And I fill in "q" with "polit"
-#    And I press "search"
-#    Then I should see "Did you mean"
-#
+  Scenario: Exact Threshold number of results for spelling suggestion
+    Given I am on the home page
+    # polit gives 5 results in 30 record demo index - 5 is default cutoff
+    And I fill in "q" with "polit"
+    And I press "search"
+    Then I should see "Did you mean"
+
+## can't get this to work with solr 3.4
+## (something to do with the stemming for search fields vs dictionary fields)
+## rsolr-ext doesn't expose enough of the solr return to filter within Blacklight either
 #  Scenario: Same number of results as spelling suggestion
 #    Given I am on the home page
 #    # den gives 1 result in 30 record demo index - suggestion don is 1 result also
