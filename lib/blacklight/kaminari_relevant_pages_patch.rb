@@ -34,4 +34,7 @@ module Blacklight
   end
 end
 
-Kaminari::Helpers::Paginator.send(:include, Blacklight::KaminariRelevantPagesPatch)
+require 'kaminari'
+if Gem.loaded_specs['kaminari'].version <= Gem::Version.create('0.12.4')
+  Kaminari::Helpers::Paginator.send(:include, Blacklight::KaminariRelevantPagesPatch)
+end
