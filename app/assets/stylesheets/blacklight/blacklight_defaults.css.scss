@@ -1,16 +1,9 @@
 /* Warning! If you want to change these, just copy them into your own theme css. But you want to remove the !default, which only will set them if not already set. */
 
-/* Grid parameters */
-/* changing total cols is not recommended unless you're going to redo blacklight/_layout.css.sass */
-$total-cols: 24 !default;
-
-/* But the widths are changeable to px, em. */
-$col-width: 2.5em !default;
-$gutter-width: .5em !default;
-$side-gutter-width: 2em !default;
 
 
-$logo_url: 'blacklight/logo.png' !default;
+$background_image: 'blacklight/bg.png' !default;
+$logo_image: 'blacklight/logo.png' !default;
 
 /* Various elements of search customization share these colors */
 

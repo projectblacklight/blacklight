@@ -23,11 +23,11 @@ module Blacklight
   %q{
  * Required by Blacklight:
  *= require 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css'
- * This is the standard blacklight theme.
- *= require 'blacklight/blacklight'         
  *
- * If you'd like to modify the default theme, please instead require 'blacklight_themes/standard', which
- * is in your local install at app/assets/stylesheets/blacklight_themes/ }
+ * This is the default theme. You can modify many of the settings 
+ * by going into app/assets/stylesheets/blacklight_themes/
+ *= require 'blacklight_themes/standard'         
+ *}
         end
       end
 
