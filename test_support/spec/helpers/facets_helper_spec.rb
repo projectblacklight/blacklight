@@ -1,6 +1,74 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe FacetsHelper do
 
+  describe "render_facet_partials" do
+    it "should only render facets with items" do
+      a = mock(:items => [1,2])
+      b = mock(:items => ['b','c'])
+      empty = mock(:items => [])
+
+      fields = [a,b,empty]
+
+      helper.should_receive(:render_facet_limit).with(a, {})
+      helper.should_receive(:render_facet_limit).with(b, {})
+      helper.should_not_receive(:render_facet_limit).with(empty, {})
+      helper.render_facet_partials fields
+    end
+
+    it "should look up facet fields in the response when given strings or symbols" do
+
+      a = mock(:name => 'a', :items => [1,2])
+
+      @response = mock()
+      @response.should_receive(:facet_by_field_name).with('a') { a }
+      helper.should_receive(:render_facet_limit).with(a, {})
+
+      helper.render_facet_partials ['a']
+    end
+  end
+
+  describe "render_facet_limit" do
+    before do
+
+      @config = Blacklight::Configuration.new do |config|
+        config.add_facet_field 'basic_field'
+        config.add_facet_field 'my_facet_field_with_custom_partial', :partial => 'custom_facet_partial'
+      end
+
+      helper.stub(:blacklight_config => @config)
+      @response = mock()
+    end
+
+    it "should set basic local variables" do
+      @mock_facet = mock(:name => 'basic_field')
+      helper.should_receive(:render).with(hash_including(:partial => 'facet_limit', 
+                                                         :locals => { 
+                                                            :solr_field => 'basic_field', 
+                                                            :facet_field => helper.blacklight_config.facet_fields['basic_field'],
+                                                            :display_facet => @mock_facet  }
+                                                        ))
+      helper.render_facet_limit(@mock_facet)
+    end
+
+    it "should send a deprecation warning if the method is called using the old-style signature" do
+      helper.should_receive(:render_facet_partials).with(['asdf'])
+      $stderr.should_receive(:puts)
+      helper.render_facet_limit('asdf')
+    end
+
+    it "should render a facet _not_ declared in the configuration" do
+      @mock_facet = mock(:name => 'asdf')
+      helper.should_receive(:render).with(hash_including(:partial => 'facet_limit'))
+      helper.render_facet_limit(@mock_facet)
+    end
+
+    it "should get the partial name from the configuration" do
+      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial')
+      helper.should_receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
+      helper.render_facet_limit(@mock_facet)
+    end 
+  end
+
   describe "add_facet_params" do
     before do
       @params_no_existing_facet = {:q => "query", :search_field => "search_field", :per_page => "50"}
