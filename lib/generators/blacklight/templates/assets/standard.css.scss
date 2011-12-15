@@ -14,10 +14,6 @@
 
 @import 'blacklight/grids/susy';
 
-// Currently unused, but this import handles mixins common to blacklight
-@import 'blacklight/mixins';
-
-
 // $background_image: 'blacklight/bg.png';
 // $logo_image: 'blacklight/logo.png';
 
@@ -56,6 +52,8 @@
 /* border between items on marc view */
 // $marc_item_separator: 1px solid #CCC;
 
+// Currently unused, but this import handles mixins common to blacklight
+@import 'blacklight/mixins';
 
 // And then this imports the base blacklight stylesheet.
 @import 'blacklight/blacklight_base';

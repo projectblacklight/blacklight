@@ -25,7 +25,7 @@ module Blacklight
  *= require 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css'
  *
  * This is the default theme. You can modify many of the settings 
- * by going into app/assets/stylesheets/blacklight_themes/
+ * by editing your local app/assets/stylesheets/blacklight_themes/standard.css
  *= require 'blacklight_themes/standard'         
  *}
         end
