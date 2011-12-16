@@ -44,6 +44,7 @@ describe FacetsHelper do
       helper.should_receive(:render).with(hash_including(:partial => 'facet_limit', 
                                                          :locals => { 
                                                             :solr_field => 'basic_field', 
+                                                            :solr_fname => 'basic_field',
                                                             :facet_field => helper.blacklight_config.facet_fields['basic_field'],
                                                             :display_facet => @mock_facet  }
                                                         ))
