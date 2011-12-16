@@ -53,7 +53,7 @@ module Blacklight::FacetsHelperBehavior
     end
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
-    options[:layout] ||= "facet_layout"
+    options[:layout] ||= "facet_layout" unless options.has_key?(:layout)
     options[:locals] ||= {}
     options[:locals][:solr_field] ||= display_facet.name 
     options[:locals][:solr_fname] ||= display_facet.name # DEPRECATED

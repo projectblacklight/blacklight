@@ -68,6 +68,18 @@ describe FacetsHelper do
       helper.should_receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
       helper.render_facet_limit(@mock_facet)
     end 
+
+    it "should use a partial layout for rendering the facet frame" do
+      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial')
+      helper.should_receive(:render).with(hash_including(:layout => 'facet_layout'))
+      helper.render_facet_limit(@mock_facet)
+    end
+
+    it "should allow the caller to opt-out of facet layouts" do
+      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial')
+      helper.should_receive(:render).with(hash_including(:layout => nil))
+      helper.render_facet_limit(@mock_facet, :layout => nil)
+    end
   end
 
   describe "add_facet_params" do
