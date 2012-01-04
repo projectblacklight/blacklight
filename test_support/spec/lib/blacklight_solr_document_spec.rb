@@ -21,7 +21,8 @@ describe "Blacklight::Solr::Document" do
    
     context "Unique Key" do
       it "should use a configuration-defined document unique key" do
-        MockDocument.should_receive(:unique_key).and_return(:my_unique_key)
+        MockDocument.unique_key = 'my_unique_key'
+
         @document = MockDocument.new :id => 'asdf', :my_unique_key => '1234'
         @document.id.should == '1234'
       end
