@@ -1,8 +1,30 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe FacetsHelper do
 
+  describe "should_render_facet?" do
+    it "should render facets with items" do
+      a = mock(:items => [1,2])
+      helper.should_render_facet?(a).should == true
+    end
+    it "should not render facets without items" do
+      empty = mock(:items => [])
+      helper.should_render_facet?(empty).should ==  false
+    end
+  end
+
+  describe "facet_by_field_name" do
+    it "should retrieve the facet from the response given a string" do
+      a = mock(:name => 'a', :items => [1,2])
+
+      @response = mock()
+      @response.should_receive(:facet_by_field_name).with('a') { a }
+
+      helper.facet_by_field_name('a').should == a
+    end
+  end
+
   describe "render_facet_partials" do
-    it "should only render facets with items" do
+    it "should try to render all provided facets " do
       a = mock(:items => [1,2])
       b = mock(:items => ['b','c'])
       empty = mock(:items => [])
@@ -11,20 +33,22 @@ describe FacetsHelper do
 
       helper.should_receive(:render_facet_limit).with(a, {})
       helper.should_receive(:render_facet_limit).with(b, {})
-      helper.should_not_receive(:render_facet_limit).with(empty, {})
+      helper.should_receive(:render_facet_limit).with(empty, {})
+
       helper.render_facet_partials fields
     end
 
-    it "should look up facet fields in the response when given strings or symbols" do
+    it "should default to the configured facets" do
+      a = mock(:items => [1,2])
+      b = mock(:items => ['b','c'])
+      helper.should_receive(:facet_field_names) { [a,b] }
 
-      a = mock(:name => 'a', :items => [1,2])
-
-      @response = mock()
-      @response.should_receive(:facet_by_field_name).with('a') { a }
       helper.should_receive(:render_facet_limit).with(a, {})
+      helper.should_receive(:render_facet_limit).with(b, {})
 
-      helper.render_facet_partials ['a']
+      helper.render_facet_partials
     end
+
   end
 
   describe "render_facet_limit" do
@@ -40,7 +64,7 @@ describe FacetsHelper do
     end
 
     it "should set basic local variables" do
-      @mock_facet = mock(:name => 'basic_field')
+      @mock_facet = mock(:name => 'basic_field', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'facet_limit', 
                                                          :locals => { 
                                                             :solr_field => 'basic_field', 
@@ -58,25 +82,25 @@ describe FacetsHelper do
     end
 
     it "should render a facet _not_ declared in the configuration" do
-      @mock_facet = mock(:name => 'asdf')
+      @mock_facet = mock(:name => 'asdf', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'facet_limit'))
       helper.render_facet_limit(@mock_facet)
     end
 
     it "should get the partial name from the configuration" do
-      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial')
+      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
       helper.render_facet_limit(@mock_facet)
     end 
 
     it "should use a partial layout for rendering the facet frame" do
-      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial')
+      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:layout => 'facet_layout'))
       helper.render_facet_limit(@mock_facet)
     end
 
     it "should allow the caller to opt-out of facet layouts" do
-      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial')
+      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:layout => nil))
       helper.render_facet_limit(@mock_facet, :layout => nil)
     end

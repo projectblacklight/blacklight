@@ -21,21 +21,23 @@ module Blacklight::FacetsHelperBehavior
 
   # Render a collection of facet fields
   def render_facet_partials fields = facet_field_names, options = {}
-    solr_fields = fields.map do |solr_field|
-      case solr_field
-        when String, Symbol
-          @response.facet_by_field_name(solr_field)
-        when Blacklight::Configuration::FacetField
-          @response.facet_by_field_name(solr_field.field)
-        else
-          solr_field
-        end
-    end.compact
+    solr_fields = fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
 
     solr_fields.map do |display_facet|
-      next if display_facet.items.blank?
       render_facet_limit(display_facet, options)
     end.compact.join("\n").html_safe
+  end
+
+  # Get a FacetField object from the @response
+  def facet_by_field_name solr_field
+    case solr_field
+      when String, Symbol
+        @response.facet_by_field_name(solr_field)
+      when Blacklight::Configuration::FacetField
+        @response.facet_by_field_name(solr_field.field)
+      else
+        solr_field
+      end
   end
 
   # used in the catalog/_facets partial and elsewhere
@@ -43,7 +45,7 @@ module Blacklight::FacetsHelperBehavior
   # solr field used for faceting. Can be over-ridden for custom
   # display on a per-facet basis. 
   #
-  # @param [RSolr::Ext::Response::Facets::FacetField] facet_field
+  # @param [RSolr::Ext::Response::Facets::FacetField] display_facet 
   # @param [Hash] options parameters to use for rendering the facet limit partial
   #
   def render_facet_limit(display_facet, options = {})
@@ -51,6 +53,7 @@ module Blacklight::FacetsHelperBehavior
       $stderr.puts "DEPRECATION WARNING: Blacklight::FacetsHelper#render_facet_limit: use #render_facet_partials to render facets by field name"
       return render_facet_partials([display_facet])
     end
+    return if not should_render_facet?(display_facet)
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.has_key?(:layout)
@@ -61,6 +64,15 @@ module Blacklight::FacetsHelperBehavior
     options[:locals][:display_facet] ||= display_facet 
 
     render(options)
+  end
+
+  ##
+  # Determine if Blacklight should render the display_facet or not
+  #
+  # By default, only render facets with items.
+  # @param [RSolr::Ext::Response::Facets::FacetField] display_facet 
+  def should_render_facet? display_facet
+    return !display_facet.items.blank?
   end
 
   # the name of the partial to use to render a facet field. Can be over-ridden for custom
