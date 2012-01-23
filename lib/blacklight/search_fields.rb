@@ -26,7 +26,6 @@
 #
 ##
 module Blacklight::SearchFields
-  extend ActiveSupport::Memoizable
   extend ActiveSupport::Concern
 
   included do
@@ -35,7 +34,6 @@ module Blacklight::SearchFields
 
   # Looks up search field config list from blacklight_config[:search_fields], and
   # 'normalizes' all field config hashes using normalize_config method. 
-  # Memoized for efficiency of normalization. 
   def search_field_list
     blacklight_config.search_fields.values
   end
