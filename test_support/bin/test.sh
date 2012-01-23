@@ -3,7 +3,7 @@
 # Create a default rails appliaction, install blacklight, and run all the tests.
 
 #If null or empty, use default value
-RAILS_VERSION=${RAILS_VERSION:-3.2}
+RAILS_VERSION=${RAILS_VERSION:-"~> 3.2"}
 JETTY_URL=${JETTY_URL:-"https://github.com/projectblacklight/blacklight-jetty/zipball/v3.5.0"}
 
 before="$(date +%s)"
@@ -54,8 +54,8 @@ fi
 rvm use "$@" --create
 check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests." 
 
-if ! gem query -n rails -v $RAILS_VERSION --installed > /dev/null; then
-  gem install --no-rdoc --no-ri 'rails' -v $RAILS_VERSION
+if ! gem query -n rails -v "$RAILS_VERSION" --installed > /dev/null; then
+  gem install --no-rdoc --no-ri 'rails' -v "$RAILS_VERSION"
 fi
 
 if ! gem query -n bundler -v ">=1.0" --installed > /dev/null; then
