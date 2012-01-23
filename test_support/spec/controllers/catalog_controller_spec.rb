@@ -329,7 +329,7 @@ describe CatalogController do
       it "should respond to an extension-registered format properly" do
         get :show, :id => doc_id, :format => "mock" # This no longer works: :format => "mock"
         response.should be_success
-        response.should contain("mock_export")
+        response.body.should =~ /mock_export/
       end
       
 
