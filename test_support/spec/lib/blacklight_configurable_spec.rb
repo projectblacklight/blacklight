@@ -86,6 +86,19 @@ describe "Blacklight::Configurable" do
       instance.blacklight_config.foo.should be_nil
       klass.blacklight_config.foo.should == "bar"
     end
+
+    it "configurable classes should not mutate the default configuration object" do
+      klass = Class.new
+      klass.send(:include, Blacklight::Configurable)
+      klass.blacklight_config.foo = "bar"
+
+      klass2 = Class.new
+      klass2.send(:include, Blacklight::Configurable)
+      klass2.blacklight_config.foo = "asdf"
+
+      klass.blacklight_config.foo.should == "bar"
+      klass2.blacklight_config.foo.should == "asdf"
+    end
     
   end
 end
