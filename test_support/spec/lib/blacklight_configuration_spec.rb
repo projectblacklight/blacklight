@@ -125,6 +125,12 @@ describe "Blacklight::Configuration" do
         
       @config.facet_fields["publication_date"].label.should == "Publication Date"
     end
+
+    it "should allow you to not show the facet in the facet bar" do
+      @config.add_facet_field("publication_date", :show=>false)
+        
+      @config.facet_fields["publication_date"]['show'].should be_false
+    end
     
     it "should raise on nil solr field name" do
       lambda { @config.add_facet_field(nil) }.should raise_error ArgumentError

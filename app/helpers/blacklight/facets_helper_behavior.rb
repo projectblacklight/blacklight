@@ -72,7 +72,9 @@ module Blacklight::FacetsHelperBehavior
   # By default, only render facets with items.
   # @param [RSolr::Ext::Response::Facets::FacetField] display_facet 
   def should_render_facet? display_facet
-    return !display_facet.items.blank?
+    # display when show is nil or true
+    display = facet_configuration_for_field(display_facet.name).show != false
+    return display && display_facet.items.present?
   end
 
   # the name of the partial to use to render a facet field. Can be over-ridden for custom
