@@ -1,8 +1,7 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "catalog/index.atom.builder" do  
-
+describe "catalog/index" do  
 
   before(:all) do
     @config ||= Blacklight::Configuration.from_legacy_configuration({
@@ -57,7 +56,8 @@ describe "catalog/index.atom.builder" do
     @response = @rsolr_response
  
     view.stub!(:blacklight_config).and_return(@config)
-    render 
+    view.stub!(:search_field_options_for_select).and_return([])
+    render :template => 'catalog/index.atom' 
 
     # We need to use rexml to test certain things that have_tag wont' test    
     # note that response is depricated rails 3, use "redered" instead. 

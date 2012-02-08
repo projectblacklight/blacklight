@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "catalog/_facets.html.erb" do
+describe "catalog/_facets" do
   before do
     @mock_config = Blacklight::Configuration.new
     view.stub(:blacklight_config => @mock_config)
