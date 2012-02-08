@@ -57,7 +57,13 @@ describe "catalog/index" do
  
     view.stub!(:blacklight_config).and_return(@config)
     view.stub!(:search_field_options_for_select).and_return([])
-    render :template => 'catalog/index.atom' 
+
+    if Rails.version >= "3.2.0"
+      render :template => 'catalog/index', :formats => [:atom] 
+    else
+      render :template => 'catalog/index.atom'
+    end
+
 
     # We need to use rexml to test certain things that have_tag wont' test    
     # note that response is depricated rails 3, use "redered" instead. 
