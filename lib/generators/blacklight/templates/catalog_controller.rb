@@ -36,6 +36,9 @@ class CatalogController < ApplicationController
     # on the solr side in the request handler itself. Request handler defaults
     # sniffing requires solr requests to be made with "echoParams=all", for
     # app code to actually have it echo'd back to see it.  
+    #
+    # :show may be set to false if you don't want the facet to be drawn in the 
+    # facet bar
     config.add_facet_field 'format', :label => 'Format' 
     config.add_facet_field 'pub_date', :label => 'Publication Year' 
     config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20 
@@ -48,6 +51,9 @@ class CatalogController < ApplicationController
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
     config.default_solr_params[:'facet.field'] = config.facet_fields.keys
+    #use this instead if you don't want to query facets marked :show=>false
+    #config.default_solr_params[:'facet.field'] = config.facet_fields.select{ |k, v| v[:show] != false}.keys
+
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display 

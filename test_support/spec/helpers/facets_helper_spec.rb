@@ -2,13 +2,26 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe FacetsHelper do
 
   describe "should_render_facet?" do
+    before do
+      @config = Blacklight::Configuration.new do |config|
+        config.add_facet_field 'basic_field'
+        config.add_facet_field 'no_show', :show=>false
+      end
+
+      helper.stub(:blacklight_config => @config)
+    end
     it "should render facets with items" do
-      a = mock(:items => [1,2])
+      a = mock(:items => [1,2], :name=>'basic_field')
       helper.should_render_facet?(a).should == true
     end
     it "should not render facets without items" do
-      empty = mock(:items => [])
+      empty = mock(:items => [], :name=>'basic_field')
       helper.should_render_facet?(empty).should ==  false
+    end
+
+    it "should not render facets where show is set to false" do
+      a = mock(:items => [1,2], :name=>'no_show')
+      helper.should_render_facet?(a).should ==  false
     end
   end
 

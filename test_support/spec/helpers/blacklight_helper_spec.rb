@@ -318,7 +318,39 @@ describe BlacklightHelper do
       response = render_link_rel_alternates(@document)
       response.html_safe?.should == true
     end
-    
   end
+
+  describe "with a config" do
+    before do
+      @config = Blacklight::Configuration.new.configure do |config| 
+        config.show.html_title = "title_display"
+        config.show.heading = "title_display"
+        config.show.display_type = 'format'
+        
+        config.index.show_link = 'title_display'
+        config.index.record_display_type = 'format'   
+      end
+
+      @document = SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8')
+      helper.stub(:blacklight_config).and_return(@config)
+      helper.stub(:has_user_authentication_provider?).and_return(true)
+      helper.stub(:current_user).and_return(User.new)
+    end
+    describe "render_index_doc_actions" do
+      it "should render partials" do
+        response = helper.render_index_doc_actions(@document)
+        response.should have_selector(".bookmark_toggle")
+        response.should have_selector(".folder_toggle")
+      end
+    end
+    describe "render_show_doc_actions" do
+      it "should render partials" do
+        response = helper.render_show_doc_actions(@document)
+        response.should have_selector(".bookmark_toggle")
+        response.should have_selector(".folder_toggle")
+      end
+    end
+  end
+
   
 end
