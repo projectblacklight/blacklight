@@ -204,14 +204,14 @@ module Blacklight::BlacklightHelperBehavior
   # based on the value of doc[:format]
   # if this value is blank (nil/empty) the "default" is used
   # if the partial is not found, the "default" partial is rendered instead
-  def render_document_partial(doc, action_name)
+  def render_document_partial(doc, action_name, locals = {})
     format = document_partial_name(doc)
 
     document_partial_path_templates.each do |str|
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
       # for determining if a partial template exists..
       begin
-        return render :partial => (str % [action_name, format]), :locals=>{:document=>doc}  
+        return render :partial => (str % [action_name, format]), :locals=>locals.merge({:document=>doc})  
       rescue ActionView::MissingTemplate 
         nil
       end
