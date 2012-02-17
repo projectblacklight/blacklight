@@ -26,7 +26,7 @@ module Blacklight::RenderConstraintsHelperBehavior
       render_constraint_element(label,
             localized_params[:q], 
             :classes => ["query"], 
-            :remove => catalog_index_path(localized_params.merge(:q=>nil, :action=>'index')))
+            :remove => url_for(localized_params.merge(:q=>nil, :action=>'index')))
     else
       "".html_safe
     end
@@ -46,7 +46,7 @@ module Blacklight::RenderConstraintsHelperBehavior
     values.map do |val|
       render_constraint_element( facet_field_labels[facet],
                   val, 
-                  :remove => catalog_index_path(remove_facet_params(facet, val, localized_params)),
+                  :remove => url_for(remove_facet_params(facet, val, localized_params)),
                   :classes => ["filter", "filter-" + facet.parameterize] 
                 ) + "\n"                 					            
     end
