@@ -69,7 +69,7 @@ $(document).ready(function() {
 //page load, and later called on document ready. 
 (function($) {
     Blacklight.do_search_context_behavior = function() {
-      $('a[data-counter]').click(function() {
+      $('a[data-counter]').click(function(event) {
       var f = document.createElement('form'); f.style.display = 'none'; 
       this.parentNode.appendChild(f); 
       f.method = 'POST'; 
