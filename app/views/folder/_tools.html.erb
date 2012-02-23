@@ -1,16 +1,24 @@
     <ul class="folderTools">
-      <li class="cite">
-        <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.id}), {:id => 'citeLink', :name => 'citation'} %>
-      </li>
-      <li class="refworks">
-        <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@documents} %>
-      </li>
-      <li class="endnote">
-        <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.id}, :format => 'endnote')%>
-      </li>
-      <li class="email">
-        <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.id}), :class=>"lightboxLink", :id => "emailLink" %>
-      </li>
+      <% if @documents.any? {|doc| doc.respond_to?(:export_as_mla_citation_txt) || doc.respond_to?(:export_as_apa_citation_txt)} -%>
+        <li class="cite">
+          <%= link_to "Cite", citation_catalog_path(:id => @documents.collect{|doc| doc.id}), {:id => 'citeLink', :name => 'citation'} %>
+        </li>
+      <%- end %>
+      <% if @documents.any? {|doc| doc.export_formats.keys.include?( :refworks_marc_txt )} -%>
+        <li class="refworks">
+          <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@documents} %>
+        </li>
+      <%- end %>
+      <% if @documents.any? {|doc| doc.export_formats.keys.include?( :endnote )} -%>
+        <li class="endnote">
+          <%= link_to "Export to EndNote", endnote_catalog_path(:id => @documents.collect {|doc| doc.id}, :format => 'endnote')%>
+        </li>
+      <%- end %>
+      <% if @documents.any? {|doc| doc.respond_to?( :to_email_text )} -%>
+        <li class="email">
+          <%= link_to "Email", email_catalog_path(:id => @documents.collect {|doc| doc.id}), :class=>"lightboxLink", :id => "emailLink" %>
+        </li>
+      <%- end %>
       <% if has_user_authentication_provider? and current_user %>  
         <li>
           <%= render :partial=>'catalog/bookmark_form', :locals=>{:documents=>@documents} %>
