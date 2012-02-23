@@ -261,6 +261,8 @@ module Blacklight::SolrHelper
     # Convert a facet/value pair into a solr fq parameter
     def facet_value_to_fq_string(facet_field, value) 
       case
+        when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false')
+          "#{facet_field}:#{value}"
         when (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i))
           "#{facet_field}:#{value}"
         when (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
