@@ -19,7 +19,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   def render_search_to_s_q(params)
     return "".html_safe if params[:q].blank?
     
-    if default_search_field && params[:search_field] == default_search_field[:key]
+    if default_search_field && params[:search_field] != default_search_field[:key]
       label = label_for_search_field(params[:search_field])
     end
 
