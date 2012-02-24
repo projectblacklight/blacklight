@@ -159,6 +159,14 @@ describe 'Blacklight::SolrHelper' do
         facet_value_to_fq_string("facet_name", "my value").should  == "{!raw f=facet_name}my value" 
       end
 
+      it "should pass booleans through" do
+        facet_value_to_fq_string("facet_name", true).should  == "facet_name:true"
+      end
+
+      it "should pass boolean-like strings through" do
+        facet_value_to_fq_string("facet_name", "true").should  == "facet_name:true"
+      end
+
       it "should pass integers through" do
         facet_value_to_fq_string("facet_name", 1).should  == "facet_name:1"
       end
