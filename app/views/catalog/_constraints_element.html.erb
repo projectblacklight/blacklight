@@ -21,7 +21,7 @@
                 if label.blank?
                   "Remove constraint #{options[:escape_value] ? h(value) : value}"
                 else
-                  "Remove constraint #{options[:escape_value] ? h(label) : label}: #{options[:escape_value] ? h(value) : value}"
+                  "Remove constraint #{options[:escape_label] ? h(label) : label}: #{options[:escape_value] ? h(value) : value}"
                 end              
         %>                
         <%= link_to(accessible_remove_label,
