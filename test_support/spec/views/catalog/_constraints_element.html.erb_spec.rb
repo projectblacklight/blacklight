@@ -23,6 +23,12 @@ describe "catalog/_constraints_element.html.erb" do
         s.should have_selector("a.btnRemove.imgReplace[href='http://remove']")
       end    
     end
+
+    it "should have an accessible remove label" do
+      rendered.should have_selector("a.imgReplace") do |s|
+        s.should have_content("Remove constraint my label: my value")
+      end
+    end
   end
 
   describe "with checkmark suppressed" do
