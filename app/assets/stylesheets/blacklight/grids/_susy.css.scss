@@ -8,7 +8,7 @@ $col-width: 2.5em !default;
 $gutter-width: .5em !default;
 $side-gutter-width: 2em !default;
 
-@import "blacklight/grids/susy_framework";
+@import "susy";
 @import "compass/utilities";
 
 /* Header Container Layout */

@@ -147,6 +147,9 @@ EOF
   end
 
   def add_sass_configuration
+    gem 'compass-rails', '~> 1.0.0', :group => :assets
+    gem 'compass-susy-plugin', '~> 0.9.0', :group => :assets
+    run "bundle install"
       insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
     
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
@@ -156,7 +159,7 @@ EOF
 EOF
       end
 
-      copy_file "config/sass.rb", "config/initializers/sass.rb"
+      copy_file "config/compass.rb", "config/compass.rb"
   end
 
   private  

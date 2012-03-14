@@ -85,7 +85,8 @@ gem 'blacklight', :path => '../../'
 gem 'jquery-rails'
 
 group :assets do
-  gem 'compass', '0.12.alpha.2'
+  gem 'compass-rails', '~> 1.0.0'
+  gem 'compass-susy-plugin', '~> 0.9.0'
 end
 
 
