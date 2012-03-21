@@ -255,11 +255,12 @@ module Blacklight::Catalog
         # Set the notice flag if the flash[:notice] is already set to the error that we are setting.
         # This is intended to stop the redirect loop error
         notice = flash[:notice] if flash[:notice] == flash_notice
+        logger.error exception
         unless notice
           flash[:notice] = flash_notice
           redirect_to root_path, :status => 500
         else
-          render :template => "public/500.html", :layout => false, :status => 500
+          render :file => "#{Rails.root}/public/500.html", :status => 500
         end
       end
     end

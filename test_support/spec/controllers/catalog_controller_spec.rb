@@ -448,12 +448,15 @@ describe CatalogController do
       response.status.should == 404
     end
     it "should return a status 500 for a bad search" do
-      controller.stub(:get_search_results) { |*args| raise RSolr::Error::Http.new(nil, nil) }
+      fake_error = RSolr::Error::Http.new(nil, nil) 
+      controller.stub(:get_search_results) { |*args| raise fake_error }
+      controller.logger.should_receive(:error).with(fake_error)
       get :index, :q=>"+"
       response.redirect_url.should == root_url
       request.flash[:notice].should == "Sorry, I don't understand your search."
       response.should_not be_success
       response.status.should == 500
+      response.should render_template(:file=>"#{Rails.root}/public/500.html")
     end
 
   end
