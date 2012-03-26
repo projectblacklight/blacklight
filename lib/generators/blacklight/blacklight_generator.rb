@@ -154,7 +154,6 @@ EOF
     
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
     config.assets.compress = !Rails.env.development?
-    config.sass.line_comments = Rails.env.development?
 
 EOF
       end
