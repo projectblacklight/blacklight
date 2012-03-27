@@ -442,7 +442,6 @@ describe CatalogController do
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
       get :show, :id=>"987654321"
-      response.redirect_url.should == root_url
       request.flash[:notice].should == "Sorry, you have requested a record that doesn't exist."
       response.should_not be_success
       response.status.should == 404

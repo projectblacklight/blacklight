@@ -271,9 +271,9 @@ module Blacklight::Catalog
         render # will give us the stack trace
       else
         flash[:notice] = "Sorry, you have requested a record that doesn't exist."
-        redirect_to root_path, :status => 404
+        params.delete(:id)
+        index
+        render "index", :status => 404
       end
-      
     end
-  
 end

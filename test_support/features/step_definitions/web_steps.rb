@@ -210,3 +210,8 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+Then  /^I should get a status code (\d+)/ do |http_status|
+  page.driver.status_code.should == http_status.to_i
+end
+

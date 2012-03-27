@@ -32,3 +32,9 @@ Feature: Record View
     Then I should see /次按驟變/
     And I should see /林行止/
     And I should see /臺北縣板橋市/
+
+  Scenario: a document is requested doesn't exist in solr
+    Given I am on the document page for id this_id_does_not_exist
+    Then I should get a status code 404
+    And I should see "Sorry, you have requested a record that doesn't exist."
+    
