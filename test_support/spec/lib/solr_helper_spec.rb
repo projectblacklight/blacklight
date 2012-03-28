@@ -716,6 +716,29 @@ describe 'Blacklight::SolrHelper' do
     end
   end
 
+  describe "solr_doc_params" do
+    it "should default to using the 'document' requestHandler" do
+      doc_params = solr_doc_params('asdfg')
+      doc_params[:qt].should == 'document'
+    end
+
+
+    describe "blacklight config's default_document_solr_parameters" do
+      def blacklight_config          
+        config = Blacklight::Configuration.new
+        config.default_document_solr_params = { :qt => 'my_custom_handler', :asdf => '1234' }
+        config
+      end
+
+      it "should use parameters from the controller's default_document_solr_parameters" do
+        doc_params = solr_doc_params('asdfg')
+        doc_params[:qt].should == 'my_custom_handler'
+        doc_params[:asdf].should == '1234'
+      end
+    end
+
+  end
+
   describe "Get Document by custom unique id" do
 =begin    
     # Can't test this properly without updating the "document" request handler in solr

@@ -326,11 +326,14 @@ module Blacklight::SolrHelper
   # This method is primary called by the get_solr_response_for_doc_id method.
   def solr_doc_params(id=nil)
     id ||= params[:id]
-    # just to be consistent with the other solr param methods:
-    {
-      :qt => :document,
+
+    p = blacklight_config.default_document_solr_params.merge({
       :id => id # this assumes the document request handler will map the 'id' param to the unique key field
-    }
+    })
+
+    p[:qt] ||= 'document'
+
+    p
   end
   
   # a solr query method
