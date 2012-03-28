@@ -1,6 +1,6 @@
 <% if paginate_params(@response).num_pages > 1 %>
     <div class="pagination">
-      <h2>Results navigation</h2>
+      <h2><%= t('search.pagination.title') %></h2>
       <%= paginate_rsolr_response @response, :outer_window => 2, :theme => 'blacklight' %>
     </div>
 <% end %>

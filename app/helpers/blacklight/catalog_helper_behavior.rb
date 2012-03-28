@@ -39,17 +39,14 @@ module Blacklight::CatalogHelperBehavior
       end_num = format_num(start + response.docs.length - 1)
       total_num = format_num(total_hits)
 
+   # TODO: i18n the entry_name
       entry_name = options[:entry_name] ||
-        (response.empty?? 'entry' : response.docs.first.class.name.underscore.sub('_', ' '))
+        (response.empty?? t('entry_name.default') : response.docs.first.class.name.underscore.sub('_', ' '))
 
-      if num_pages < 2
-        case response.docs.length
-        when 0; "No #{h(entry_name.pluralize)} found".html_safe
-        when 1; "Displaying <b>1</b> #{h(entry_name)}".html_safe
-        else;   "Displaying <b>all #{total_num}</b> #{entry_name.pluralize}".html_safe
-        end
-      else
-        "Displaying #{h(entry_name.pluralize)} <b>#{start_num} - #{end_num}</b> of <b>#{total_num}</b>".html_safe
+      case response.docs.length
+        when 0; t('search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
+        when 1; t('search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+        else; t('search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => current_page, :num_pages => num_pages, :start_num => start_num, :end_num => end_num, :total_num => total_num, :count => num_pages).html_safe
       end
   end
 
@@ -59,7 +56,7 @@ module Blacklight::CatalogHelperBehavior
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change. 
   def item_page_entry_info
-    "Showing item <b>#{session[:search][:counter].to_i} of #{format_num(session[:search][:total])}</b> from your search.".html_safe
+    t('catalog.entry_pagination_info', :current => format_num(session[:search][:counter]), :total => format_num(session[:search][:total]), :count => session[:search][:total].to_i)
   end
   
   # Look up search field user-displayable label

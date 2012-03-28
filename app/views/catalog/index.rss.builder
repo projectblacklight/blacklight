@@ -3,9 +3,9 @@ xml.rss(:version=>"2.0") {
         
   xml.channel {
           
-    xml.title(application_name + " Search Results")
+    xml.title(t('catalog.title', :application_name => application_name))
     xml.link(catalog_index_url(params))
-    xml.description(application_name + " Search Results")
+    xml.description(t('catalog.title', :application_name => application_name))
     xml.language('en-us')
     @document_list.each do |doc|
       xml.item do  

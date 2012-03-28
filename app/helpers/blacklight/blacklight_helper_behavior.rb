@@ -13,7 +13,7 @@ module Blacklight::BlacklightHelperBehavior
   def application_name
     return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
 
-    'Blacklight'
+    t('application_name')
   end
 
   # Provide the full, absolute url for an image
@@ -280,7 +280,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # link_back_to_catalog(:label=>'Back to Search')
   # Create a link back to the index screen, keeping the user's facet, query and paging choices intact by using session.
-  def link_back_to_catalog(opts={:label=>'Back to Search'})
+  def link_back_to_catalog(opts={:label=>t('back_to_search')})
     query_params = session[:search] ? session[:search].dup : {}
     query_params.delete :counter
     query_params.delete :total
@@ -325,12 +325,12 @@ module Blacklight::BlacklightHelperBehavior
 
   def link_to_previous_document(previous_document)
     return if previous_document == nil
-    link_to '« Previous', previous_document, :class => "previous", :'data-counter' => session[:search][:counter].to_i - 1
+    link_to t('pagination.previous'), previous_document, :class => "previous", :'data-counter' => session[:search][:counter].to_i - 1
   end
 
   def link_to_next_document(next_document)
     return if next_document == nil
-    link_to 'Next »', next_document, :class => "next", :'data-counter' => session[:search][:counter].to_i + 1
+    link_to t('pagination.next'), next_document, :class => "next", :'data-counter' => session[:search][:counter].to_i + 1
   end
 
   # Use case, you want to render an html partial from an XML (say, atom)

@@ -1,29 +1,29 @@
-<h1>Bookmarks</h1>
+<h1><%= t('bookmarks.title') %></h1>
 
 <%- if current_user.blank? -%>
   
-  <h2>Please log in to see your bookmarks.</h2>
+  <h2><%= t('bookmarks.need_login') %></h2>
   
 <%- elsif @bookmarks.blank? -%>
   
-  <h2>You have no bookmarks</h2>
+  <h2><%= t('bookmarks.no_bookmarks') %></h2>
   
 <%- else -%>
 
 <%= paginate @bookmarks, :theme => 'blacklight' %>
   <div id="userBookmarks">
     <p>
-      <%= link_to "Clear Bookmarks", clear_bookmarks_path, :method => :delete, :confirm => "Clear your bookmarks?" %>
+      <%= link_to t('bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :confirm => t('bookmarks.clear.action_confirm')%>
     </p>
     
-    <h2>Your Bookmarks</h2>
+    <h2><%= t('bookmarks.list_title') %></h2>
     
     <table class="zebra">
       <% @bookmarks.each do |bm| %>
       <tr>
     	<td><%= link_to h(bm.title), catalog_path(CGI.escape(bm.document_id)) %></td>
-    	<td><%= button_to 'Remove', {:controller => "bookmarks", :action => "destroy", :id => CGI.escape(bm.document_id)}, 
-	  :method => :delete, :confirm => 'Remove this bookmark?' %></td>
+    	<td><%= button_to t('bookmarks.delete'), {:controller => "bookmarks", :action => "destroy", :id => CGI.escape(bm.document_id)}, 
+	  :method => :delete, :confirm => t('bookmarks.remove.action_confirm') %></td>
       </tr>
       <% end %>
     </table>

@@ -1,11 +1,11 @@
-<h1>Email This</h1>
+<h1><%= t('search.email.form.title') %></h1>
 <%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :method => :post do %>
-  <%= label_tag(:to, "Email:") %><br/>
+  <%= label_tag(:to, t('search.email.form.to')) %><br/>
   <%= text_field_tag :to %><br/>
-  <%= label_tag(:message, "Message:") %><br/>
+  <%= label_tag(:message, t('search.email.form.message')) %><br/>
   <%= text_area_tag :message %><br/>
   <% @documents.each do |doc| %>
     <%=hidden_field_tag "id[]", doc.get(:id)%>
   <% end %>
-  <%= submit_tag "Send" %>
+  <%= submit_tag t('search.email.form.submit') %>
 <% end %>

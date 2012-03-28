@@ -1,0 +1,226 @@
+en:
+    welcome: "Welcome!"
+    and: "and"
+    or: "or"
+    active_record:
+        models:
+            feedback: "Feedback"
+        attributes:
+            feedback:
+                name: "Your Name"
+                email: "Your Email"
+                message: "Your Message"
+    bookmarks:
+        add_many:
+            button: 'Add to Bookmarks'
+        title: "Bookmarks"
+        no_bookmarks: "You have no bookmarks"
+        add:
+            button: 'Bookmark'
+            success: 
+              one: 'Successfully added bookmark.'
+              other: 'Successfully added bookmarks.'
+            failure:  'Sorry, there was a problem saving the bookmarks.'
+        remove:
+            button: 'Remove bookmark'
+            success: 'Successfully removed bookmark.'
+            failure: 'Sorry, there was a problem removing the bookmarks.'
+            action_confirm: 'Remove this bookmark?'
+        clear:
+            action_title: "Clear Bookmarks"
+            action_confirm: "Clear your bookmarks?"
+            success: "Cleared your bookmarks."
+            failure: 'Sorry, there was a problem clearing your bookmarks.'
+        need_login: 'Please log in to manage and view your bookmarks.'
+        list_title: "Your Bookmarks"
+        delete: "Remove"
+        
+    feedback:
+        valid_name: 'A valid name is required'
+        valid_email: 'A valid email address is required'
+        need_message: 'A message is required'
+        
+    folder:
+        title: "Selected Items"
+        add:
+            success: "%{title} successfully added to selected items"
+        remove:
+            success: "%{title} successfully removed from selected items"
+        clear:
+            success: "Selected items cleared."
+    tools:
+        cite: "Cite"
+        endnote: "Export to EndNote"
+        refworks: "Export to Refworks"
+        email: "Email"
+        sms: "SMS This"
+        librarian_view: "Librarian View"
+        clear: "Clear"
+            
+    
+    saved_searches:
+        add:
+            success: "Successfully saved your search."
+            failure: "There was a problem saving your search."
+        remove:
+            success: "Successfully removed that saved search."
+            failure: "There was a problem removing your search."
+        clear:
+            action_title: 'Clear Saved Searches'
+            action_confirm: 'Clear your saved searches?'
+            success: "Cleared your saved searches."
+            failure: "There was a problem clearing your searches."
+        title: "Saved Searches"
+        need_login: "Please log in to manage and view your saved searches."
+        no_searches: "You have no saved searches"
+        list_title: "Your saved searches"
+        delete: "delete"
+        
+    search_history:
+        clear:
+            action_title: 'Clear Search History'
+            action_confirm: 'Clear your search history?'
+            success: "Cleared your search history."
+            failure: "There was a problem clearing your search history."
+        title: 'Search History'
+        no_history: 'You have no search history'
+        recent: ' Your recent searches'
+        forget: 'forget'
+        save: 'save'
+
+    record_mailer:
+        item_record:
+            singular: 'Item Record'
+            plural: 'Item Records'
+
+    header_links:
+        login: 'Login'
+        logout: 'Log Out'
+        bookmarks: 'Your Bookmarks'
+        saved_searches: 'Saved Searches'
+        selected_items: 'Selected Items'
+        search_history: 'Search History'
+        
+    application_name: "Blacklight"
+    back_to_search: "Back to Search"
+    # Does Kaminari provide anything for us?
+    pagination:
+        previous: '« Previous'
+        next: 'Next »'
+        
+    search:
+        title: "%{application_name} Search Results"
+        search_results: "Search Results"
+        errors:
+            request_error: "Sorry, I don't understand your search."
+            invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
+        per_page: 
+            label: "Show %{select} per page"
+            title: "Number of results to display per page"
+            submit: "update"
+        sort: 
+            label: "Sort by %{select}"
+            submit: "sort results"
+        form:
+            search_field:
+                label: "in"
+                title: "Targeted search options"
+            q: "Search "
+            submit: "search"
+        pagination:
+            title: "Results navigation"
+        pagination_info:
+            no_items_found: "No %{entry_name} found"
+            single_item_found: "Displaying <b>1</b> %{entry_name}"
+            pages:
+                one: "Displaying <b>all %{total_num}</b> %{entry_name}"
+                other: "Displaying %{entry_name} <b>%{start_num} - %{end_num}</b> of <b>%{total_num}</b>"   
+        entry_pagination_info:
+            one: "Showing the only item from your search."
+            other: "Showing item <b>%{current} of %{total}</b> from your search."
+        documents:
+            counter: "%{counter}. "
+        folder:
+            select: "Select"
+            unselect: "Unselect"    
+        facets:
+            title: "Limit your search"
+            sort:
+              count: "Numerical Sort"
+              index: "A-Z Sort"
+            count: "(%{number})"
+            more: "more »"
+            selected:
+                remove: "[remove]"
+        email:
+            form:
+                title: "Email This"
+                to: "Email:"
+                message: "Message:"
+                submit: "Send"
+            text:
+                title: "Title: %{value}"
+                author: "Author: %{value}"
+                format: "Format: %{value}"
+                language: "Language: %{value}"
+            errors:
+                to: 
+                    invalid: "You must enter a valid email address"
+                    blank: "You must enter a recipient in order to send this message"
+        sms:
+            form:
+                title: "SMS This"
+                to: "Phone Number:"
+                carrier: "Carrier"
+                carrier_prompt: "Please select your carrier"
+                submit: "Send"
+            text:
+                title: "%{value}"
+                author: " by %{value}"
+            errors:
+                to:
+                    invalid: "You must enter a valid 10 digit phone number"
+                    blank: "You must enter a recipient's phone number in order to send this message"
+                carrier:
+                    blank: "You must select a carrier"
+        filters:
+            title: "You searched for:"
+            label: "%{label}:"
+            remove:
+                value: "Remove constraint %{value}"
+                label_value: "Remove constraint %{label}: %{value}"
+        librarian_view:
+            title: "Librarian View"
+            leader: "LEADER %{leader}"
+        start_over: "start over"
+        show:
+            title: "%{document_title} - %{application_name}"
+        rss_feed: "RSS for results"
+        atom_feed: "Atom for results"
+        fields:
+            default: "Keyword"
+    entry_name:
+      default: 'entry'
+      
+    citation:
+        format:
+            mla: "MLA"
+            apa: "APA"
+            chicago: "Chicago"
+    did_you_mean: "Did you mean to type: %{options}?"
+    feedback:
+        submit: "Send!"
+        errors:
+            title: "Please fix the following form errors:"
+        complete:
+            title: "Thank-you for your feedback"
+            
+    record_mailer:
+        email:
+            subject:
+                one: "Item Record: %{title}"
+                other: "Item records"
+            url: "URL: %{url}"
+            message: "Message: %{message}"
+        sms:
+            url: "Link: %{url}"

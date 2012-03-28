@@ -1,15 +1,15 @@
   <% if @pagination.has_previous? || @pagination.has_next? %>
     <div class="prev_next_links">
       <% if @pagination.has_previous? -%>        
-        <%= link_to('« Previous', catalog_facet_path( @pagination.params_for_previous_url( params) ) , :class=>:prev_page)  %>
+        <%= link_to(t('pagination.previous'), catalog_facet_path( @pagination.params_for_previous_url( params) ) , :class=>:prev_page)  %>
       <% else -%>
-        <span class="disabled ui-state-active prev_page">« Previous</span> 
+        <span class="disabled ui-state-active prev_page"><%= t('pagination.previous') %></span> 
       <% end -%>
       
       <% if @pagination.has_next? -%>
-        <%= link_to('Next »', catalog_facet_path( @pagination.params_for_next_url(params)), :class => :next_page ) %>
+        <%= link_to(t('pagination.next'), catalog_facet_path( @pagination.params_for_next_url(params)), :class => :next_page ) %>
       <% else -%>
-        <span class="disabled ui-state-active next_page">Next »</span> 
+        <span class="disabled ui-state-active next_page"><%= t('pagination.next') %></span> 
       <% end -%>
                
     </div>
@@ -17,11 +17,11 @@
 
   <div class="sort_options">
     <% if @pagination.sort == 'index' -%>
-      <span class="disabled az">A-Z Sort</span><%= link_to_unless(@pagination.sort == 'count', "Numerical Sort", 
+      <span class="disabled az"><%= t('search.facets.sort.index') %></span><%= link_to_unless(@pagination.sort == 'count', t('search.facets.sort.count'), 
         @pagination.params_for_resort_url('count', params), :class => "sort_change numeric") %>
     <% elsif @pagination.sort == 'count' -%>
-      <%=  link_to("A-Z Sort", @pagination.params_for_resort_url('index', params), 
-          :class => "sort_change az") %><span class="disabled numeric">Numerical Sort</span>
+      <%=  link_to(t('search.facets.sort.index'), @pagination.params_for_resort_url('index', params), 
+        :class => "sort_change az") %><span class="disabled numeric"><%= t('search.facets.sort.count') %></span>
     <% end -%>    
   </div>
 
