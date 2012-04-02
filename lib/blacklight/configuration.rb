@@ -9,7 +9,7 @@ module Blacklight
     class << self; attr_accessor :default_values; end
     @default_values = {
       :default_solr_params => {},
-      :default_show_solr_params => {},
+      :default_document_solr_params => {},
       :show => OpenStructWithHashAccess.new,
       :index => OpenStructWithHashAccess.new,
       :spell_max => 5,
