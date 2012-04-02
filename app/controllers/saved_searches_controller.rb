@@ -23,7 +23,11 @@ class SavedSearchesController < ApplicationController
   # Only dereferences the user rather than removing the item in case it
   # is in the session[:history]
   def forget
-    if current_user.search_ids.include?(params[:id].to_i) && Search.update(params[:id].to_i, :user_id => nil)
+    if current_user.search_ids.include?(params[:id].to_i) 
+      search = Search.find(params[:id])
+      search.user_id = nil
+      search.save
+
       flash[:notice] = "Successfully removed that saved search."
     else
       flash[:error] = "Couldn't remove that saved search."
