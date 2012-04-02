@@ -18,7 +18,7 @@ describe Bookmark do
   end
   
   it "should be valid" do
-    @bookmark.attributes = valid_bookmark_attributes
+    @bookmark.assign_attributes valid_bookmark_attributes, :without_protection => true
     @bookmark.should be_valid
   end
    
@@ -31,7 +31,7 @@ describe Bookmark do
   end
 
   it "should be valid after saving" do
-    @bookmark.attributes = valid_bookmark_attributes
+    @bookmark.assign_attributes valid_bookmark_attributes, :without_protection => true
     @bookmark.save
     @bookmark.should be_valid
   end
