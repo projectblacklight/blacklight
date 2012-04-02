@@ -266,12 +266,13 @@ describe BlacklightHelper do
       @document = SolrDocument.new(data)
       link_to_document(@document, { :label => :title_display, :counter => 5  }).should =~ /data-counter="5"/
      end
+
      it "passes on the title attribute to the link_to_with_data method" do
-       link_to_document(@mock_doc,:label=>"Some crazy long label...",:title=>"Some crazy longer label").should match(/title=\"Some crazy longer label\"/)
+       link_to_document(@document,:label=>"Some crazy long label...",:title=>"Some crazy longer label").should match(/title=\"Some crazy longer label\"/)
      end
 
      it "doesn't add an erroneous title attribute if one isn't provided" do
-       link_to_document(@mock_doc,:label=>"Some crazy long label...").should_not match(/title=/)
+       link_to_document(@document,:label=>"Some crazy long label...").should_not match(/title=/)
      end
    end
 
