@@ -5,11 +5,11 @@ Gem::Specification.new do |s|
   s.name        = "blacklight"
   s.version     = Blacklight::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Jonathan Rochkind", "Matt Mitchell", "Chris Beer", "Jessie Keck", "Jason Ronallo", "Vernon Chapman", "Mark A. Matienzo", "Dan Funk"]
+  s.authors     = ["Jonathan Rochkind", "Matt Mitchell", "Chris Beer", "Jessie Keck", "Jason Ronallo", "Vernon Chapman", "Mark A. Matienzo", "Dan Funk", "Naomi Dushay"]
   s.email       = ["blacklight-development@googlegroups.com"]
   s.homepage    = "http://projectblacklight.org/"
-  s.summary     = "A next-generation Library Catalag for Universities"
-  s.description = %q{Blacklight is a free and open source ruby-on-rails based discovery interface (a.k.a. “next-generation catalog”) especially optimized for heterogeneous collections. You can use it as a library catalog, as a front end for a digital repository, or as a single-search interface to aggregate digital content that would otherwise be siloed.}
+  s.summary     = "Blacklight provides a discovery interface for any Solr (http://lucene.apache.org/solr) index."
+  s.description = %q{Blacklight is an open source Solr user interface discovery platform. You can use Blacklight to enable searching and browsing of your collections. Blacklight uses the Apache Solr search engine to search full text and/or metadata.}
   
   s.rubyforge_project = "blacklight"
   
