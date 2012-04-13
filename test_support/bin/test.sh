@@ -38,7 +38,7 @@ rm -rf tmp/test_app
 mkdir -p tmp/test_app
 cd tmp
 
-# Make certain rvn will work correctly.
+# Make certain rvm will work correctly.
 # Load RVM into a shell session *as a function*
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
   # First try to load from a user install
