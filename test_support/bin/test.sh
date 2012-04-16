@@ -94,6 +94,7 @@ end
 group :development, :test do 
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'journey'
   gem 'generator_spec'
   gem 'cucumber-rails'
   gem 'database_cleaner'
