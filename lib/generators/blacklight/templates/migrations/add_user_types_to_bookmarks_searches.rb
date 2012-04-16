@@ -10,7 +10,7 @@ class AddUserTypesToBookmarksSearches < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :searches, :user_type, :string
-    remove_column :bookmarks, :user_type, :string
+    remove_column :searches, :user_type
+    remove_column :bookmarks, :user_type
   end
 end
