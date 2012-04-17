@@ -447,7 +447,9 @@ describe CatalogController do
       response.status.should == 404
     end
     it "should return a status 500 for a bad search" do
-      fake_error = RSolr::Error::Http.new(nil, nil) 
+      req = {}
+      res = {}
+      fake_error = RSolr::Error::Http.new(req, res) 
       controller.stub(:get_search_results) { |*args| raise fake_error }
       controller.logger.should_receive(:error).with(fake_error)
       get :index, :q=>"+"
