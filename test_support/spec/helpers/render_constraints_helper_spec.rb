@@ -3,8 +3,14 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe RenderConstraintsHelper do
 
   before do
-    ## Pretend that we're in a controller at /advanced_search
-    Journey::Route.any_instance.stub(:format).and_return('/advanced_search')
+
+    # Set up another catalog-like controller to test that the helpers are controller-independent.
+    class DummyAlternateCatalogController < CatalogController; end
+    TestApp::Application.routes.draw do
+      match 'advanced_search', :to => 'dummy_alternate_catalog_controller#index'
+    end
+    
+    controller.request.path_parameters["controller"] = 'dummy_alternate_catalog_controller'
   end
   describe '#render_constraints_query' do
     it "should have a link relative to the current url" do
