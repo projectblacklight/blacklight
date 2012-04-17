@@ -3,18 +3,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe RenderConstraintsHelper do
 
   before do
-
-    # Set up another catalog-like controller to test that the helpers are controller-independent.
-    class DummyAlternateCatalogController < CatalogController; end
-    TestApp::Application.routes.draw do
-      match 'advanced_search', :to => 'dummy_alternate_catalog_controller#index'
-    end
-    
-    controller.request.path_parameters["controller"] = 'dummy_alternate_catalog_controller'
+    # the helper methods below infer paths from the current route
+    controller.request.path_parameters["controller"] = 'catalog'
   end
+
   describe '#render_constraints_query' do
     it "should have a link relative to the current url" do
-      helper.render_constraints_query(:q=>'foobar', :f=>{:type=>'journal'}).should have_selector "a[href='/advanced_search?f%5Btype%5D=journal']"
+      helper.render_constraints_query(:q=>'foobar', :f=>{:type=>'journal'}).should have_selector "a[href='/catalog?f%5Btype%5D=journal']"
     end
   end
 
@@ -29,7 +24,7 @@ describe RenderConstraintsHelper do
       result = helper.render_filter_element('type', ['journal'], {:q=>'biz'})
       result.size.should == 1
       # I'm not certain how the ampersand gets in there. It's not important.
-      result.first.should have_selector "a[href='/advanced_search?&q=biz']"
+      result.first.should have_selector "a[href='/catalog?&q=biz']"
     end
   end
 
