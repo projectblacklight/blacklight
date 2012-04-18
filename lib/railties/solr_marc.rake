@@ -88,13 +88,14 @@ def compute_arguments
   arguments["MARC_FILE"] = ENV["MARC_FILE"]
 
   
-  app_site_path = File.expand_path(File.join(Rails.root, "config", "SolrMarc"))
-  plugin_site_path = File.expand_path(File.join(Rails.root, "vendor", "plugins", "blacklight", "config", "SolrMarc"))
+  arguments[:config_properties_path] = ENV['CONFIG_PATH']
 
 
   # Find config in local app or plugin, possibly based on our RAILS_ENV (::Rails.env)
-  arguments[:config_properties_path] = ENV['CONFIG_PATH']
   unless arguments[:config_properties_path]
+    app_site_path = File.expand_path(File.join(Rails.root, "config", "SolrMarc"))
+    plugin_site_path = File.expand_path(File.join(Rails.root, "vendor", "plugins", "blacklight", "config", "SolrMarc"))
+
     [ File.join(app_site_path, "config-#{::Rails.env}.properties"  ),
       File.join( app_site_path, "config.properties"),
       File.join( plugin_site_path, "config-#{::Rails.env}.properties"),
@@ -117,6 +118,10 @@ def compute_arguments
   
 
       
+  # solrmarc.solr.war.path and solr.path, for now pull out of ENV
+  # if present. In progress. jrochkind 25 Apr 2011. 
+  arguments[:solr_war_path] = ENV["SOLR_WAR_PATH"] if ENV["SOLR_WAR_PATH"]
+  arguments[:solr_path] = ENV['SOLR_PATH'] if ENV['SOLR_PATH']
 
   # Solr URL, find from solr.yml, app or plugin
   # use :replicate_master_url for current env if present, otherwise :url
@@ -128,16 +133,12 @@ def compute_arguments
     if c = solr_config[::Rails.env]
       arguments[:solr_url] = c['url']    
       if c['jetty_path']
-        arguments[:solr_path] = File.expand_path(File.join(c['jetty_path'], "solr"), Rails.root)
-        arguments[:solr_war_path] = File.expand_path(File.join(c['jetty_path'], "webapps", "solr.war"), Rails.root)
+        arguments[:solr_path] ||= File.expand_path(File.join(c['jetty_path'], "solr"), Rails.root)
+        arguments[:solr_war_path] ||= File.expand_path(File.join(c['jetty_path'], "webapps", "solr.war"), Rails.root)
       end
     end
   end
   
-  # solrmarc.solr.war.path and solr.path, for now pull out of ENV
-  # if present. In progress. jrochkind 25 Apr 2011. 
-  arguments[:solr_war_path] = ENV["SOLR_WAR_PATH"] if ENV["SOLR_WAR_PATH"]
-  arguments[:solr_path] = ENV['SOLR_PATH'] if ENV['SOLR_PATH']
 
 
   return arguments
