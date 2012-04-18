@@ -1,7 +1,18 @@
 en:
+    application_name: "Blacklight"
+
+    header_links:
+        login: 'Login'
+        logout: 'Log Out'
+        bookmarks: 'Your Bookmarks'
+        saved_searches: 'Saved Searches'
+        selected_items: 'Selected Items'
+        search_history: 'Search History'
+
     welcome: "Welcome!"
     and: "and"
     or: "or"
+
     active_record:
         models:
             feedback: "Feedback"
@@ -10,6 +21,7 @@ en:
                 name: "Your Name"
                 email: "Your Email"
                 message: "Your Message"
+
     bookmarks:
         add_many:
             button: 'Add to Bookmarks'
@@ -39,6 +51,11 @@ en:
         valid_name: 'A valid name is required'
         valid_email: 'A valid email address is required'
         need_message: 'A message is required'
+        submit: "Send!"
+        errors:
+            title: "Please fix the following form errors:"
+        complete:
+            title: "Thank-you for your feedback"
         
     folder:
         title: "Selected Items"
@@ -48,16 +65,7 @@ en:
             success: "%{title} successfully removed from selected items"
         clear:
             success: "Selected items cleared."
-    tools:
-        cite: "Cite"
-        endnote: "Export to EndNote"
-        refworks: "Export to Refworks"
-        email: "Email"
-        sms: "SMS This"
-        librarian_view: "Librarian View"
-        clear: "Clear"
-            
-    
+
     saved_searches:
         add:
             success: "Successfully saved your search."
@@ -88,25 +96,21 @@ en:
         forget: 'forget'
         save: 'save'
 
-    record_mailer:
-        item_record:
-            singular: 'Item Record'
-            plural: 'Item Records'
-
-    header_links:
-        login: 'Login'
-        logout: 'Log Out'
-        bookmarks: 'Your Bookmarks'
-        saved_searches: 'Saved Searches'
-        selected_items: 'Selected Items'
-        search_history: 'Search History'
+    tools:
+        cite: "Cite"
+        citation:
+          format:
+            mla: "MLA"
+            apa: "APA"
+            chicago: "Chicago"
+        endnote: "Export to EndNote"
+        refworks: "Export to Refworks"
+        email: "Email"
+        sms: "SMS This"
+        librarian_view: "Librarian View"
+        clear: "Clear"
         
-    application_name: "Blacklight"
     back_to_search: "Back to Search"
-    # Does Kaminari provide anything for us?
-    pagination:
-        previous: '« Previous'
-        next: 'Next »'
         
     search:
         title: "%{application_name} Search Results"
@@ -202,18 +206,7 @@ en:
     entry_name:
       default: 'entry'
       
-    citation:
-        format:
-            mla: "MLA"
-            apa: "APA"
-            chicago: "Chicago"
     did_you_mean: "Did you mean to type: %{options}?"
-    feedback:
-        submit: "Send!"
-        errors:
-            title: "Please fix the following form errors:"
-        complete:
-            title: "Thank-you for your feedback"
             
     record_mailer:
         email:
@@ -224,3 +217,10 @@ en:
             message: "Message: %{message}"
         sms:
             url: "Link: %{url}"
+    views:
+      pagination:
+        first: "&laquo; First"
+        last: "Last &raquo;"
+        previous: "&laquo; Previous"
+        next: "Next &raquo;"
+        truncate: "…"
