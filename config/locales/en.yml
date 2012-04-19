@@ -92,7 +92,7 @@ en:
             failure: "There was a problem clearing your search history."
         title: 'Search History'
         no_history: 'You have no search history'
-        recent: ' Your recent searches'
+        recent: 'Your recent searches'
         forget: 'forget'
         save: 'save'
 
