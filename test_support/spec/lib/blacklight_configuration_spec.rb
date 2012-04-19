@@ -35,9 +35,16 @@ describe "Blacklight::Configuration" do
     it "should have a hash of default rsolr query parameters" do
       @config.default_solr_params.should be_a_kind_of Hash
     end
+
     it "should have openstruct values for show and index parameters" do
       @config.show.should be_a_kind_of OpenStruct
       @config.index.should be_a_kind_of OpenStruct
+    end
+
+    it "should introspect SolrDocument for sensible defaults  for show + index" do
+      @config.show.html_title.should == 'id'
+      @config.show.heading.should == 'id'
+      @config.index.show_link.should == 'id'
     end
 
     it "should have ordered hashes for field configuration" do

@@ -10,8 +10,8 @@ module Blacklight
     @default_values = {
       :default_solr_params => {},
       :default_document_solr_params => {},
-      :show => OpenStructWithHashAccess.new,
-      :index => OpenStructWithHashAccess.new,
+      :show => OpenStructWithHashAccess.new(:html_title => SolrDocument.unique_key, :heading => SolrDocument.unique_key),
+      :index => OpenStructWithHashAccess.new(:show_link => SolrDocument.unique_key),
       :spell_max => 5,
       :max_per_page => 100
     }
