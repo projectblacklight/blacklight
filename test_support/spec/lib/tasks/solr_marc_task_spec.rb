@@ -52,7 +52,7 @@ describe "solr:marc:*" do
         java_cmd.should match "java -Xmx512m"
         java_cmd.should match /-jar .*\/SolrMarc\.jar/
         java_cmd.should match "#{Rails.root}/config/SolrMarc/config-test.properties dummy.mrc"
-        java_cmd.should match "-Dsolr.hosturl=http://127.0.0.1:[0-9]{4}/solr"
+        java_cmd.should match "-Dsolr.hosturl=http://127.0.0.1:[0-9]{2,5}/solr"
       end
       
     end  
