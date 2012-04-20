@@ -127,20 +127,14 @@ def compute_arguments
   # use :replicate_master_url for current env if present, otherwise :url
   # for current env. 
   # Also take jetty_path from there if present. 
-  solr_yml_path = locate_path("config", "solr.yml")
-  if ( File.exists?( solr_yml_path ))
-    solr_config = YAML::load(File.open(solr_yml_path))
-    if c = solr_config[::Rails.env]
-      arguments[:solr_url] = c['url']    
-      if c['jetty_path']
-        arguments[:solr_path] ||= File.expand_path(File.join(c['jetty_path'], "solr"), Rails.root)
-        arguments[:solr_war_path] ||= File.expand_path(File.join(c['jetty_path'], "webapps", "solr.war"), Rails.root)
+    if c = Blacklight.solr_config
+      arguments[:solr_url] = c[:url]    
+      if c[:jetty_path]
+        arguments[:solr_path] ||= File.expand_path(File.join(c[:jetty_path], "solr"), Rails.root)
+        arguments[:solr_war_path] ||= File.expand_path(File.join(c[:jetty_path], "webapps", "solr.war"), Rails.root)
       end
-    end
   end
   
-
-
   return arguments
 end
 

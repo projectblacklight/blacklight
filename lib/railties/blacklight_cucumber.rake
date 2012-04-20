@@ -81,20 +81,18 @@ begin
       desc "blacklight:cucumber with jetty/solr launch"
       task :with_solr do      
         require 'jettywrapper'
-        # wrap tests with a test-specific Solr server
-        # Need to look  up where the test jetty is located
-        # from solr.yml, we don't hardcode it anymore. 
-
-        solr_yml_path = Blacklight.locate_path("config", "solr.yml")
-        jetty_path = if ( File.exists?( solr_yml_path ))
-            solr_config = YAML::load(File.open(solr_yml_path))
-            solr_config["test"]["jetty_path"] if solr_config["test"]
+        solr_config = Blacklight.solr_yml["test"]
+        if solr_config
+          jetty_path = solr_config["jetty_path"] 
+          uri = URI(solr_config["url"])
+          jetty_port = uri.port if ['127.0.0.1', 'localhost'].include? uri.host
         end   
         raise Exception.new("Can't find jetty path to start test jetty. Expect a jetty_path key in config/solr.yml for test environment.") unless jetty_path 
-        
+
         error = Jettywrapper.wrap(
+          :jetty_port => jetty_port,
           :jetty_home => File.expand_path(jetty_path, Rails.root), 
-          :sleep_after_start => 2) do 
+          :sleep_after_start => 2) do        
             Rake::Task["blacklight:cucumber"].invoke 
         end     
 

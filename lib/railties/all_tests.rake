@@ -9,14 +9,16 @@ namespace :blacklight do
 
     desc "Run Blacklight cucumber and rspec, with test solr"
     task :hudson do
-        solr_yml_path = Blacklight.locate_path("config", "solr.yml")
-        jetty_path = if ( File.exists?( solr_yml_path ))
-            solr_config = YAML::load(File.open(solr_yml_path))
-            solr_config["test"]["jetty_path"] if solr_config["test"]
-        end   
-        raise Exception.new("Can't find jetty path to start test jetty. Expect a jetty_path key in config/solr.yml for test environment.") unless jetty_path 
+      solr_config = Blacklight.solr_yml["test"]
+      if solr_config
+        jetty_path = solr_config["jetty_path"] 
+        uri = URI(solr_config["url"])
+        jetty_port = uri.port if ['127.0.0.1', 'localhost'].include? uri.host
+      end   
+      raise Exception.new("Can't find jetty path to start test jetty. Expect a jetty_path key in config/solr.yml for test environment.") unless jetty_path 
 
       error = Jettywrapper.wrap(
+        :jetty_port => jetty_port,
         :jetty_home => File.expand_path(jetty_path, Rails.root), 
         :sleep_after_start => 2) do          
           Rake::Task["blacklight:spec"].invoke 
@@ -29,15 +31,17 @@ namespace :blacklight do
     namespace :all_tests do
       task :rcov do
       desc "Run Blacklight rspec and cucumber tests with rcov"
-        solr_yml_path = Blacklight.locate_path("config", "solr.yml")
-        jetty_path = if ( File.exists?( solr_yml_path ))
-            solr_config = YAML::load(File.open(solr_yml_path))
-            solr_config["test"]["jetty_path"] if solr_config["test"]
-        end   
-        raise Exception.new("Can't find jetty path to start test jetty. Expect a jetty_path key in config/solr.yml for test environment.") unless jetty_path 
+      solr_config = Blacklight.solr_yml["test"]
+      if solr_config
+        jetty_path = solr_config["jetty_path"] 
+        uri = URI(solr_config["url"])
+        jetty_port = uri.port if ['127.0.0.1', 'localhost'].include? uri.host
+      end   
+      raise Exception.new("Can't find jetty path to start test jetty. Expect a jetty_path key in config/solr.yml for test environment.") unless jetty_path 
 
       rm "blacklight-coverage.data" if File.exist?("blacklight-coverage.data")
       error = Jettywrapper.wrap(
+        :jetty_port => jetty_port,
         :jetty_home => File.expand_path(jetty_path, Rails.root), 
         :sleep_after_start => 2) do          
           Rake::Task["blacklight:spec:rcov"].invoke 

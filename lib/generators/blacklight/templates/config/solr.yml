@@ -13,6 +13,6 @@
 development:
   url: http://127.0.0.1:8983/solr
 test: &test
-  url: http://127.0.0.1:8888/solr
+  url: <%= "http://127.0.0.1:#{ENV['TEST_JETTY_PORT'] || 8888}/solr" %>
 cucumber:
   <<: *test
