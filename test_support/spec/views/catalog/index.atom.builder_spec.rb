@@ -4,48 +4,25 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "catalog/index" do  
 
   before(:all) do
-    @config ||= Blacklight::Configuration.from_legacy_configuration({
-      :show => {
-        :display_type => 'asdf'
-      },
-      :index_fields => {
-        :field_names => [],
-        :labels => {}
+    @config = Blacklight::Configuration.new.configure do |config|
+      config.default_solr_params = {
+        :fl => '*',
+        :rows => 10
       }
-    })
-  
-    @mock_configuration_module = Module.new do 
-      # Just test against our default config for now. 
-      def blacklight_config
-        @config ||= Blacklight::Config.new
-      end
     end
     
-    class AtomMockDocument
-      include Blacklight::Solr::Document
-    end
+    @params = { 'content_format' => 'marc', :f => { :format => ['Book'] }, :page => 2 }
 
-    AtomMockDocument.field_semantics.merge!(    
-      :title => "title_display",
-      :author => "author_display"        
-    )
-    AtomMockDocument.extension_parameters[:marc_format_type] = :marc21
-    AtomMockDocument.extension_parameters[:marc_source_field] = :marc_display
-    AtomMockDocument.use_extension( Blacklight::Solr::Document::Marc) do |document|
-      document.key?( :marc_display  )
-    end
-  
-    # Load sample responses from Solr to a sample request, to test against
-    @data = YAML.load(File.open(File.dirname(__FILE__) + 
-                               "/../../data/sample_docs.yml", "r:UTF-8"))
-    @rsolr_response = RSolr::Ext::Response::Base.new(@data["solr_response"], nil, @data["params"])
-    @params = @data["params"]
-    @document_list = @data["document_list_mash"].collect do |d|   
-      AtomMockDocument.new(d)
-    end
+    # run a solr query to get our data
+    c = CatalogController.new
+    c.blacklight_config = @config
+    @response, @document_list = c.get_search_results(@params)
+
+    # munge the solr response to match test expectations
+    @document_list[1] = SolrDocument.new(@document_list[1].to_mash.reject! { |k,v| k == "author_display" })
+    @document_list[5] = SolrDocument.new(@document_list[1].to_mash.reject! { |k,v| k == "marc_display" })
   end
   before(:each) do
-
     # Not sure what Assigns was doing here ... dhf
     #    assigns[:response] = @rsolr_response
     #    assigns[:document_list] = @document_list
@@ -53,8 +30,6 @@ describe "catalog/index" do
     # but okay. 
 
     params.merge!( @params )
-    @response = @rsolr_response
- 
     view.stub!(:blacklight_config).and_return(@config)
     view.stub!(:search_field_options_for_select).and_return([])
 
@@ -63,7 +38,6 @@ describe "catalog/index" do
     else
       render :template => 'catalog/index.atom'
     end
-
 
     # We need to use rexml to test certain things that have_tag wont' test    
     # note that response is depricated rails 3, use "redered" instead. 
