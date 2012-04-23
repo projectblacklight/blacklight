@@ -23,8 +23,9 @@ en:
                 message: "Your Message"
 
     bookmarks:
-        add_many:
-            button: 'Add to Bookmarks'
+        collection:
+            add:
+                button: 'Add to Bookmarks'
         title: "Bookmarks"
         no_bookmarks: "You have no bookmarks"
         add:
