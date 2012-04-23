@@ -362,5 +362,70 @@ describe BlacklightHelper do
     end
   end
 
+  describe "render_index_field_value" do
+    before do
+      @config = Blacklight::Configuration.new.configure do |config|
+        config.add_index_field 'qwer'
+        config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
+      end
+      helper.stub(:blacklight_config).and_return(@config)
+    end
+
+    it "should check for an explicit value" do
+      doc = mock()
+      doc.should_not_receive(:get).with('asdf', :sep => nil)
+      value = helper.render_index_field_value :value => 'asdf', :document => doc, :field => 'asdf'
+      value.should == 'asdf'
+    end
+
+    it "should check for a helper method to call" do
+      doc = mock()
+      doc.should_not_receive(:get).with('asdf', :sep => nil)
+      helper.stub(:render_asdf_index_field).and_return('custom asdf value')
+      value = helper.render_index_field_value :document => doc, :field => 'asdf'
+      value.should == 'custom asdf value'
+    end
+
+    it "should check the document field value" do
+      doc = mock()
+      doc.should_receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
+      value = helper.render_index_field_value :document => doc, :field => 'qwer'
+      value.should == 'document qwer value'
+    end
+  end
+  
+
+  describe "render_document_show_field_value" do
+    before do
+      @config = Blacklight::Configuration.new.configure do |config|
+        config.add_show_field 'qwer'
+        config.add_show_field 'asdf', :helper_method => :render_asdf_document_show_field
+      end
+      helper.stub(:blacklight_config).and_return(@config)
+    end
+
+    it "should check for an explicit value" do
+      doc = mock()
+      doc.should_not_receive(:get).with('asdf', :sep => nil)
+      helper.should_not_receive(:render_asdf_document_show_field)
+      value = helper.render_document_show_field_value :value => 'asdf', :document => doc, :field => 'asdf'
+      value.should == 'asdf'
+    end
+
+    it "should check for a helper method to call" do
+      doc = mock()
+      doc.should_not_receive(:get).with('asdf', :sep => nil)
+      helper.stub(:render_asdf_document_show_field).and_return('custom asdf value')
+      value = helper.render_document_show_field_value :document => doc, :field => 'asdf'
+      value.should == 'custom asdf value'
+    end
+
+    it "should check the document field value" do
+      doc = mock()
+      doc.should_receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
+      value = helper.render_document_show_field_value :document => doc, :field => 'qwer'
+      value.should == 'document qwer value'
+    end
+  end
   
 end
