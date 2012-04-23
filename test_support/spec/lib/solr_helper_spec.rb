@@ -925,6 +925,10 @@ describe 'Blacklight::SolrHelper' do
 # TODO: maybe eventually check other types of solr requests
 #  more like this
 #  nearby on shelf
+  it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
+    Blacklight.solr.stub!(:find).and_raise(Errno::ECONNREFUSED)
+    expect { find(:a) }.to raise_exception(Blacklight::Exceptions::ECONNREFUSED, /Unable to connect to Solr instance using/)
+  end
 
 end
 

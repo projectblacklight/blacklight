@@ -83,6 +83,8 @@ module Blacklight::SolrHelper
   
   def find(params) 
     response = force_to_utf8(Blacklight.solr.find(params))
+  rescue Errno::ECONNREFUSED => e
+    raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{Blacklight.solr.inspect}")
   end
     
   

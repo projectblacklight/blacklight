@@ -10,5 +10,7 @@ module Blacklight
     class InvalidSolrID < RuntimeError
     end
 
+    class ECONNREFUSED < ::Errno::ECONNREFUSED; end
+
   end
 end
