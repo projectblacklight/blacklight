@@ -472,6 +472,13 @@ describe 'Blacklight::SolrHelper' do
         (@solr_response, @document_list) = get_search_results(:q => @all_docs_query)
       end
 
+      it "should use the configured request handler " do
+        require 'ostruct'
+        blacklight_config.stub(:solr_request_handler => 'custom_request_handler')
+        self.should_receive(:find).with('custom_request_handler', anything).and_return(OpenStruct.new( :docs => [{}] ))
+        get_search_results(:q => @all_docs_query)
+      end
+
       it 'should have a @response.docs list of the same size as @document_list' do
         @solr_response.docs.length.should == @document_list.length
       end
@@ -700,6 +707,13 @@ describe 'Blacklight::SolrHelper' do
       }.should raise_error(Blacklight::Exceptions::InvalidSolrID)
     end
 
+    it "should use a provided document request handler " do
+      require 'ostruct'
+      blacklight_config.stub(:document_solr_request_handler => 'document')
+      self.should_receive(:find).with('document', anything).and_return(OpenStruct.new( :docs => [{}] ))
+      get_solr_response_for_doc_id(@doc_id)
+    end
+
     it "should have a non-nil result for a known id" do
       @document.should_not == nil
     end
@@ -903,17 +917,17 @@ describe 'Blacklight::SolrHelper' do
         @mock_response.stub(:docs => [])
       end
       it "should contruct a solr query based on the field and value pair" do
-        self.should_receive(:find).with(hash_including(:q => "field_name:(value)")).and_return(@mock_response)
+        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(value)")).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', 'value')
       end
 
       it "should OR multiple values together" do
-        self.should_receive(:find).with(hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
+        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', ['a', 'b'])
       end
 
       it "should escape crazy identifiers" do
-        self.should_receive(:find).with(hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
+        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', 'h://"\'')
       end
     end
@@ -929,6 +943,5 @@ describe 'Blacklight::SolrHelper' do
     Blacklight.solr.stub!(:find).and_raise(Errno::ECONNREFUSED)
     expect { find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
   end
-
 end
 
