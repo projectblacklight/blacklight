@@ -1,5 +1,5 @@
 <% @documents.each do |document| %>
 <%= document.to_email_text %>
-URL: <%= catalog_path(document, {:only_path => false}.merge(@url_gen_params)) %>
+<%= t('record_mailer.email.url', :url =>catalog_path(document, {:only_path => false}.merge(@url_gen_params))) %>
 <% end %>
-Message: <%= @message %>
+<%= t('record_mailer.email.message', :message => @message) %>

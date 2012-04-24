@@ -28,8 +28,8 @@ module Blacklight::Catalog
     # get search results from the solr index
     def index
       
-      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => "RSS for results")
-      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => "Atom for results")
+      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('search.rss_feed') )
+      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('search.atom_feed') )
       
       (@response, @document_list) = get_search_results
       @filters = params[:f] || []
@@ -106,12 +106,12 @@ module Blacklight::Catalog
           if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
             email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, from, url_gen_params)
           else
-            flash[:error] = "You must enter a valid email address"
+            flash[:error] = I18n.t('search.email.errors.to.invalid', :to => params[:to])
           end
           email.deliver unless flash[:error]
           redirect_to :back
         else
-          flash[:error] = "You must enter a recipient in order to send this message"
+          flash[:error] = I18n.t('search.email.errors.to.blank')
         end
       end
     end
@@ -127,17 +127,17 @@ module Blacklight::Catalog
           phone_num = params[:to].gsub(/[^\d]/, '')
           unless params[:carrier].blank?
             if phone_num.length != 10
-              flash[:error] = "You must enter a valid 10 digit phone number"
+              flash[:error] = I18n.t('search.sms.errors.to.invalid', :to => params[:to])
             else
               email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier]}, from, url_gen_params)
             end
             email.deliver unless flash[:error]
             redirect_to :back
           else
-            flash[:error] = "You must select a carrier"
+            flash[:error] = I18n.t('search.sms.errors.carrier.blank')
           end
         else
-          flash[:error] = "You must enter a recipient's phone number in order to send this message"
+          flash[:error] = I18n.t('search.sms.errors.to.blank')
         end
         
       end
@@ -251,7 +251,7 @@ module Blacklight::Catalog
       if Rails.env == "development"
         raise exception # Rails own code will catch and give usual Rails error page with stack trace
       else
-        flash_notice = "Sorry, I don't understand your search."
+        flash_notice = I18n.t('search.errors.request_error')
         # Set the notice flag if the flash[:notice] is already set to the error that we are setting.
         # This is intended to stop the redirect loop error
         notice = flash[:notice] if flash[:notice] == flash_notice
@@ -270,7 +270,7 @@ module Blacklight::Catalog
       if Rails.env == "development"
         render # will give us the stack trace
       else
-        flash[:notice] = "Sorry, you have requested a record that doesn't exist."
+        flash[:notice] = I18n.t('search.errors.invalid_solr_id')
         params.delete(:id)
         index
         render "index", :status => 404

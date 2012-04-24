@@ -1,10 +1,5 @@
 <% if @response.response[:numFound] <= spell_check_max and @response.spelling.words.size > 0 %>
   <div id="spell">
-    <h4 class="suggest"><i>Did you mean to type
-      <% @response.spelling.words.each_with_index do |word,index| -%>
-        <% if index > 0 -%>, or <% end -%>
-        <%= link_to_query(word) -%>
-      <% end -%>
-      ?</i></h4>
+    <h4 class="suggest"><i><%= t('did_you_mean', :options =>  @response.spelling.words.map { |word| link_to_query(word) }.join(" #{t('or')} ")).html_safe %></i></h4>
   </div>
 <% end %>

@@ -24,6 +24,8 @@ This generator makes the following changes to your application:
 10. Creates a blacklight catalog controller in your /app/controllers directory
 11. Creates a blacklight document in your /app/models directory
 12. Adds Blacklight routes to your ./config/routes.rb
+13. Enables internationalization.
+
 Thank you for Installing Blacklight.
        """ 
 
@@ -171,5 +173,6 @@ EOF
       puts "  \e[1m\e[34mMigrations\e[0m  " + $!.message
     end
   end
+
 end  
 

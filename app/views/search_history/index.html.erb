@@ -1,11 +1,11 @@
-<h1>Search History</h1>
+<h1><%=t('search_history.title')%></h1>
 <%- if @searches.blank? -%>
-  <h2>You have no search history</h2>
+  <h2><%=t('search_history.no_history')%></h2>
 <%- else -%>
   <p>
-    <%= link_to "Clear Search History", clear_search_history_path, :method => :delete, :confirm => "Clear your search history?" %>
+    <%= link_to t('search_history.clear.action_title'), clear_search_history_path, :method => :delete, :confirm => t('search_history.clear.action_confirm') %>
   </p>
-  <h2>Your recent searches</h2>
+  <h2><%=t('search_history.recent')%></h2>
   <table class="zebra search_history">
   <%-  @searches.each_with_index do |search,index| -%>
     <%= content_tag :tr, :id => "document_#{index + 1}" do %>
@@ -13,9 +13,9 @@
       <%- if has_user_authentication_provider? -%>
         <td class="actions">
           <%- if current_user && search.saved? -%>
-            <%= button_to "forget", forget_search_path(search.id) %>
+            <%= button_to t('search_history.forget'), forget_search_path(search.id) %>
           <%- else -%>
-            <%= button_to "save", save_search_path(search.id), :method => :put %>
+            <%= button_to t('search_history.save'), save_search_path(search.id), :method => :put %>
           <%- end -%>
         </td>
       <%- end -%>

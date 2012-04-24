@@ -24,9 +24,9 @@ class BookmarksController < ApplicationController
     
     unless request.xhr?
       if bookmark.save
-        flash[:notice] = "Successfully added bookmark."
+        flash[:notice] = I18n.t('bookmarks.add.success')
       else
-        flash[:error] = "Could not save bookmark."
+        flash[:error] = I18n.t('bookmarks.add.failure') 
       end
       redirect_to :back
     else
@@ -56,9 +56,9 @@ class BookmarksController < ApplicationController
       success = false unless current_user.bookmarks.create(bookmark)
     end
     if @bookmarks.length > 0 && success
-      flash[:notice] = "Successfully added bookmarks."      
+      flash[:notice] = I18n.t('bookmarks.add.success', :count => @bookmarks.length)
     elsif @bookmarks.length > 0
-      flash[:error] = "There was a problem adding bookmarks"      
+      flash[:error] = I18n.t('bookmarks.add.failure', :count => @bookmarks.length)
     end
     
     redirect_to :back
@@ -73,9 +73,9 @@ class BookmarksController < ApplicationController
     
     unless request.xhr?
       if success
-        flash[:notice] = "Successfully removed bookmark."
+        flash[:notice] =  I18n.t('bookmarks.remove.success')
       else
-        flash[:error] = "Sorry, there was a problem removing the bookmark."
+        flash[:error] = I18n.t('bookmarks.remove.failure')
       end 
       redirect_to :back
     else
@@ -86,15 +86,15 @@ class BookmarksController < ApplicationController
   
   def clear    
     if current_user.bookmarks.clear
-      flash[:notice] = "Cleared your bookmarks."
+      flash[:notice] = I18n.t('bookmarks.clear.success') 
     else
-      flash[:error] = "There was a problem clearing your bookmarks."
+      flash[:error] = I18n.t('bookmarks.clear.failure') 
     end
     redirect_to :action => "index"
   end
   
   protected
   def verify_user
-    flash[:notice] = "Please log in to manage and view your bookmarks." and raise Blacklight::Exceptions::AccessDenied  unless current_user
+    flash[:notice] = I18n.t('bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_user
   end
 end

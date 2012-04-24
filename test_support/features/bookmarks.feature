@@ -85,4 +85,4 @@ Feature: Bookmarks
        And I have record 2007020969 in my folder
        And I follow "Selected Items"
        And I press "Add to Bookmarks"
-       Then I should see "Successfully added bookmarks."
+       Then I should see "Successfully added bookmark."

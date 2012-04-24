@@ -4,7 +4,7 @@
 	<%= render 'home' %>
 <% else %>
 
-	<% @page_title = application_name + " Search Results" %>
+  <% @page_title = t('catalog.title', :application_name => application_name) %>
 
         <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
@@ -16,7 +16,7 @@
   
   <div class="pageEntriesInfo">
     <%= render_pagination_info @response, :entry_name=>'item' %>
-    <%=link_to "start over", catalog_index_path, :id=>"startOverLink" %>
+    <%=link_to t('search.start_over'), catalog_index_path, :id=>"startOverLink" %>
   </div>
   
 	<%= render 'sort_and_per_page' %>
