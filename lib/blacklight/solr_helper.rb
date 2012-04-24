@@ -342,7 +342,7 @@ module Blacklight::SolrHelper
   # a solr query method
   # retrieve a solr document, given the doc id
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
-    solr_response = find (blacklight_config.document_solr_request_handler || blacklight_config.solr_request_handler), solr_doc_params(id).merge(extra_controller_params)
+    solr_response = find((blacklight_config.document_solr_request_handler || blacklight_config.solr_request_handler), solr_doc_params(id).merge(extra_controller_params))
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
