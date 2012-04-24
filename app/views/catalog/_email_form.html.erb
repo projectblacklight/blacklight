@@ -7,5 +7,11 @@
   <% @documents.each do |doc| %>
     <%=hidden_field_tag "id[]", doc.get(:id)%>
   <% end %>
+  <%- if params[:sort] -%>
+    <%= hidden_field_tag "sort", params[:sort] %>
+  <%- end -%>
+  <%- if params[:per_page] -%>
+    <%= hidden_field_tag "per_page", params[:per_page] %>
+  <%- end -%>
   <%= submit_tag "Send" %>
 <% end %>
