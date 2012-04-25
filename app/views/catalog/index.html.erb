@@ -4,7 +4,7 @@
 	<%= render 'home' %>
 <% else %>
 
-  <% @page_title = t('catalog.title', :application_name => application_name) %>
+  <% @page_title = t('search.title', :application_name => application_name) %>
 
         <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
