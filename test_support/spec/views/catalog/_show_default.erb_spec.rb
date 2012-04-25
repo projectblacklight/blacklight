@@ -11,23 +11,13 @@ describe "/catalog/_show_default.html.erb" do
 
 
   before(:each) do
-    @config = Blacklight::Configuration.from_legacy_configuration({
-      :show => {
-        :display_type => 'asdf'
-      },
-      :show_fields => {
-        :field_names => [
-          'one_field',
-          'empty_field',
-          'four_field'
-        ],
-        :labels => {
-          'one_field' => 'One:',
-          'empty_field' => 'Three:',
-          'four_field' => 'Four:'
-        }
-      }
-    })
+     @config = Blacklight::Configuration.new do |config|
+      config.show.display_type = 'asdf'
+      config.add_show_field 'one_field', :label => 'One:'
+      config.add_show_field 'empty_field', :label => 'Three:'
+      config.add_show_field 'four_field', :label => 'Four:'
+    end
+
     @fname_1 = "one_field"
     @fname_2 = "solr_field_not_in_config"
     @fname_3 = "empty_field"

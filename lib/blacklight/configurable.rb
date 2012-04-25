@@ -50,10 +50,7 @@ module Blacklight::Configurable
   end
 
   def self.default_configuration
-      @default_configuration ||= Blacklight::Configuration.from_legacy_configuration(Blacklight.config) if Blacklight.respond_to?(:config) and not Blacklight.config.empty?
       @default_configuration ||= Blacklight::Configuration.new
-
-      @default_configuration
   end
 
   def self.default_configuration= config

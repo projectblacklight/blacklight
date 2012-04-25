@@ -4,24 +4,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe SearchHistoryConstraintsHelper do
 
   before(:all) do
-    @config = Blacklight::Configuration.from_legacy_configuration({ 
-      :default_search_field => {
-       :key => 'default_search_field',
-       :display_label => "Default"
-     },
-     :facet => {
-       :field_names => [
-         'some_facet',
-         'other_facet'
-        ],
-        :labels => { 
-          'some_facet' => 'Some',
-          'other_facet' => 'Other'
-        },
-        :limits => {
-        }
-      }
-    })
+    @config = Blacklight::Configuration.new do |config|
+      config.add_search_field 'default_search_field', :label => 'Default'
+
+      config.add_facet_field 'some_facet', :label => 'Some'
+      config.add_facet_field 'other_facet', :label => 'Other'
+    end
   end
 
 

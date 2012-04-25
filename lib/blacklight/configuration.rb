@@ -83,47 +83,5 @@ module Blacklight
       yield self if block_given?
       self
     end
-
-    ##
-    # Helper method for loading a legacy blacklight configuration into the new style Blacklight::Configuration
-    def self.from_legacy_configuration config
-      config = Marshal.load(Marshal.dump(config))
-  
-      Blacklight::Configuration.new  do |blacklight_config|
-        # SolrHelper#default_solr_parameters needs to iterate over the keys, so this can't be a Struct
-        blacklight_config.default_solr_params = config[:default_solr_params]
-    
-        config[:facet][:field_names].each do |x|
-          blacklight_config.add_facet_field x, :limit => config[:facet][:limits][x], :label => config[:facet][:labels][x]
-        end if config[:facet] and config[:facet][:field_names]
-    
-        config[:index_fields][:field_names].each do |x|
-          blacklight_config.add_index_field x, :label => config[:index_fields][:labels][x]
-        end if config[:index_fields]
-    
-        config[:show_fields][:field_names].each do |x|
-          blacklight_config.add_show_field x, :label => config[:show_fields][:labels][x]
-        end if config[:show_fields]
-    
-        config[:search_fields].each do |x|
-          unless x.is_a? Hash
-            x = { :label => x[0], :key => x[1], :qt => x[1]}
-          end
-
-          x[:label] ||= x.delete(:display_label)
-    
-          blacklight_config.add_search_field x[:key], x
-        end if config[:search_fields]
-    
-        config[:sort_fields].each do |field|
-          label, sort = field
-          blacklight_config.add_sort_field sort, :label => label
-        end if config[:sort_fields]
-    
-        config.reject { |key, value| [:default_solr_params, :facet, :index_fields, :show_fields, :search_fields, :sort_fields].include? key }.each do |key,value|
-          blacklight_config.send("#{key}=", (Blacklight::OpenStructWithHashAccess.new(value) if value.is_a? Hash) || value)
-        end
-      end                  
-    end
   end
 end

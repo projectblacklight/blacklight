@@ -9,23 +9,12 @@ describe "/catalog/_index_default.erb" do
   include CatalogHelper
 
   before(:each) do
-    @config = Blacklight::Configuration.from_legacy_configuration({
-      :show => {
-        :display_type => 'asdf'
-      },
-      :index_fields => {
-        :field_names => [
-          'one_field',
-          'empty_field',
-          'four_field'
-        ],
-        :labels => {
-          'one_field' => 'One:',
-          'empty_field' => 'Three:',
-          'four_field' => 'Four:'
-        }
-      }
-    })
+    @config = Blacklight::Configuration.new do |config|
+      config.show.display_type = 'asdf'
+      config.add_index_field 'one_field', :label => 'One:'
+      config.add_index_field 'empty_field', :label => 'Three:'
+      config.add_index_field 'four_field', :label => 'Four:'
+    end
 
     @fname_1 = "one_field"
     @fname_2 = "solr_field_not_in_config"

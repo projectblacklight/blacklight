@@ -8,15 +8,15 @@ describe Blacklight::SearchFields do
   end
 
   before(:all) do
-    @config = Blacklight::Configuration.from_legacy_configuration({:search_fields => [ {:label => 'All Fields', :key => "all_fields"},
-                           {:key => 'title', :qt => 'title_search'},
-                           {:key => 'author', :qt => 'author_search'},
-                           {:key => 'subject', :qt=> 'subject_search'},
-                           ['Legacy Config', 'legacy_qt'],
-                           {:key => "no_display", :qt=>"something", :include_in_simple_select => false}
-                          ],
-                           :default_solr_params => { :qt => "search" }
-    })
+    @config = Blacklight::Configuration.new do |config|
+      config.default_solr_params = { :qt => 'search' }
+      
+      config.add_search_field 'all_fields', :label => 'All Fields'
+      config.add_search_field 'title', :qt => 'title_search'
+      config.add_search_field 'author', :qt => 'author_search'
+      config.add_search_field 'subject', :qt => 'subject_search'
+      config.add_search_field 'no_display', :qt => 'something', :include_in_simple_select => false
+    end
   end
 
   before(:each) do  
@@ -24,14 +24,6 @@ describe Blacklight::SearchFields do
     @search_field_obj.stub!(:blacklight_config).and_return(@config)
   end
 
-  it 'should convert legacy Array config to Hash properly' do
-    hash = @search_field_obj.search_field_def_for_key('legacy_qt')
-
-    hash.should be_kind_of(Blacklight::Configuration::SearchField)
-    hash.key.should == hash.qt
-    hash.label.should == 'Legacy Config'
-  end
-  
   it "should return search field list with calculated :label when needed" do
      @search_field_obj.search_field_list.each do |hash|        
         hash.label.should_not be_blank
@@ -81,10 +73,10 @@ describe Blacklight::SearchFields do
       @bad_config = MockConfig.new
     end
     it "should raise exception on #search_field_list" do
-      lambda { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.from_legacy_configuration({:search_fields => [ 
-        {:label => 'All Fields', :qt => "all_fields"},
-        {:key => 'title', :qt => 'title_search'}
-      ]}))   }.should raise_error
+      lambda { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
+           config.add_search_field :label => 'All Fields', :qt => 'all_fields'
+           config.add_search_field 'title', :qt => 'title_search'
+      })   }.should raise_error
     end
   end
 
@@ -93,10 +85,11 @@ describe Blacklight::SearchFields do
       @bad_config = MockConfig.new
     end
     it "should raise on #search_field_list" do
-      lambda { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.from_legacy_configuration({:search_fields => [ 
-        {:label => 'All Fields', :qt => "my_key"},
-        {:key => 'title', :qt => 'my_key'}
-      ]})) }.should raise_error
+      lambda { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
+        config.add_search_field 'my_key', :label => 'All Fields'
+        config.add_search_field 'my_key', :label => 'title'
+
+      }) }.should raise_error
     end
   end
   

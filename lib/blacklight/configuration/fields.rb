@@ -87,6 +87,8 @@ module Blacklight
         field_config.normalize!(self)
         field_config.validate!
 
+        raise "A #{config_key} with the key #{field_config.field} already exists." if self[config_key.pluralize][field_config.field].present?
+
         self[config_key.pluralize][ field_config.field ] = field_config            
       end
 
