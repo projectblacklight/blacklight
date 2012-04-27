@@ -100,11 +100,10 @@ module Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
         if params[:to]
-          from = request.host # host w/o port for From address (from address cannot have port#)
           url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
           
           if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-            email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, from, url_gen_params)
+            email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
           else
             flash[:error] = I18n.t('search.email.errors.to.invalid', :to => params[:to])
           end
@@ -120,7 +119,6 @@ module Blacklight::Catalog
     def sms 
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       if request.post?
-        from = request.host # host w/o port for From address (from address cannot have port#)
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
         
         if params[:to]
@@ -129,7 +127,7 @@ module Blacklight::Catalog
             if phone_num.length != 10
               flash[:error] = I18n.t('search.sms.errors.to.invalid', :to => params[:to])
             else
-              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier]}, from, url_gen_params)
+              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier]}, url_gen_params)
             end
             email.deliver unless flash[:error]
             redirect_to :back
