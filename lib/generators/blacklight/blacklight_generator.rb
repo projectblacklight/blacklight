@@ -144,8 +144,11 @@ EOF
   end
 
   def inject_blacklight_routes
-    route('root :to => "catalog#index"')
+    # These will end up in routes.rb file in reverse order
+    # we add em, since each is added at the top of file. 
+    # we want "root" to be FIRST for optimal url generation. 
     route('Blacklight.add_routes(self)')
+    route('root :to => "catalog#index"')
   end
 
   def add_sass_configuration
