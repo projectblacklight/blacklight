@@ -52,9 +52,29 @@ describe CatalogController do
       { :get => catalog_url(SolrDocument.new(:id => 'asdf')) }.should route_to(:controller => 'catalog', :action => 'show', :id => 'asdf')
     end
 
-    it "should escape solr document ids" do
-      catalog_path(SolrDocument.new(:id => 'http://example.com')).should == "/catalog/http%3A%2F%2Fexample%2Ecom"
-      { :get => catalog_url(SolrDocument.new(:id => 'http://example.com'))}.should route_to(:controller => 'catalog', :action => 'show', :id => 'http://example.com')
+    context "should escape solr document ids" do
+
+      it "should pass-through url-valid ids" do
+        { :get => catalog_url(SolrDocument.new(:id => 'qwerty'))}.should route_to(:controller => 'catalog', :action => 'show', :id => 'qwerty')
+      end
+
+      it "should route url-like ids" do
+        pending "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
+        { :get => catalog_url(SolrDocument.new(:id => 'http://example.com'))}.should route_to(:controller => 'catalog', :action => 'show', :id => 'http://example.com')
+      end
+
+      it "should route ids with whitespace" do
+        { :get => catalog_url(SolrDocument.new(:id => 'mm 123')) }.should route_to(:controller => 'catalog', :action => 'show', :id => 'mm 123')
+      end
+
+      it "should route ids with a literal '+'" do
+        { :get => catalog_url(SolrDocument.new(:id => 'this+that')) }.should route_to(:controller => 'catalog', :action => 'show', :id => 'this+that')
+      end
+
+      it "should route ids with a literal '/" do
+        pending "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
+        { :get => catalog_url(SolrDocument.new(:id => 'and/or')) }.should route_to(:controller => 'catalog', :action => 'show', :id => 'and/or')
+      end
     end
 
   end
