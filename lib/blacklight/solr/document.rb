@@ -100,7 +100,7 @@ module Blacklight::Solr::Document
     end
 
     def to_param
-      URI.escape(CGI.escape(id), '.')
+      id
     end
   end
 
