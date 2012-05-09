@@ -56,7 +56,7 @@ module Blacklight::CatalogHelperBehavior
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change. 
   def item_page_entry_info
-    t('catalog.entry_pagination_info', :current => format_num(session[:search][:counter]), :total => format_num(session[:search][:total]), :count => session[:search][:total].to_i)
+    t('search.entry_pagination_info.other', :current => format_num(session[:search][:counter]), :total => format_num(session[:search][:total]), :count => session[:search][:total].to_i).html_safe
   end
   
   # Look up search field user-displayable label

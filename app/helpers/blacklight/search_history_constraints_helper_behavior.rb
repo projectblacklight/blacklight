@@ -46,7 +46,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
 
   def render_filter_name name
     return "".html_safe if name.blank?
-    content_tag(:span, t("catalog.filters.label", :label => name), :class => 'filterName')
+    content_tag(:span, t("search.filters.label", :label => name), :class => 'filterName')
   end
 
   def render_filter_value value

@@ -10,14 +10,14 @@
 'Cricket' => 'cricket'
 }
 %>
-<h1><%= t('catalog.sms.form.title') %></h1>
+<h1><%= t('search.sms.form.title') %></h1>
 <%= form_tag url_for(:controller => "catalog", :action => "sms"), :id => 'sms_form', :method => :post do %>
-  <%= label_tag(:to, t("catalog.sms.form.to")) %><br/>
+  <%= label_tag(:to, t("search.sms.form.to")) %><br/>
   <%= text_field_tag :to %><br/>
-  <%= label_tag(:carrier, t("catalog.sms.form.carrier")) %><br/>
-  <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift([t('catalog.sms.form.carrier_prompt'),'']), '')) %><br/>
+  <%= label_tag(:carrier, t("search.sms.form.carrier")) %><br/>
+  <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift([t('search.sms.form.carrier_prompt'),'']), '')) %><br/>
   <% @documents.each do |doc| %>
      <%=hidden_field_tag "id[]", doc.get(:id)%>
   <% end %>
-  <%= submit_tag t("catalog.sms.form.submit") %>
+  <%= submit_tag t("search.sms.form.submit") %>
 <% end %>
