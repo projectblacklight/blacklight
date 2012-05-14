@@ -24,7 +24,7 @@ module Blacklight
     end
 
     def default_route_sets
-      [:bookmarks, :folders, :search_history, :saved_searches, :catalog, :feedback]
+      [:bookmarks, :folders, :search_history, :saved_searches, :catalog, :solr_document, :feedback]
     end
 
     module RouteSets
@@ -71,8 +71,20 @@ module Blacklight
           match 'catalog/endnote', :as => "endnote_catalog"
           match 'catalog/send_email_record', :as => "send_email_record_catalog"
           match "catalog/facet/:id", :to => 'catalog#facet', :as => 'catalog_facet'
-          resources :catalog, :only => [:index, :show, :update]
+
+
+          match "catalog", :to => 'catalog#index', :as => 'catalog_index'
+
           match 'catalog/:id/librarian_view', :to => "catalog#librarian_view", :as => "librarian_view_catalog"
+        end
+      end
+
+      def solr_document
+        add_routes do |options|
+          resources :solr_document,  :path => 'catalog', :controller => 'catalog', :only => [:show, :update] 
+
+          # :show and :update are for backwards-compatibility with catalog_url named routes
+          resources :catalog, :only => [:show, :update]
         end
       end
   

@@ -266,10 +266,6 @@ module Blacklight::BlacklightHelperBehavior
     label ||= doc.id
   end
 
-
-  def solr_document_path(*args); catalog_path(*args); end
-  def solr_document_url(*args); catalog_url(*args); end
-
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
   # Use the catalog_path RESTful route to create a link to the show page for a specific item. 
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
