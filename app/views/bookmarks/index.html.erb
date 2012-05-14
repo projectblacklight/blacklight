@@ -21,7 +21,7 @@
     <table class="zebra">
       <% @bookmarks.each do |bm| %>
       <tr>
-    	<td><%= link_to h(bm.title), catalog_path(CGI.escape(bm.document_id)) %></td>
+    	<td><%= link_to h(bm.title), polymorphic_path(bm.document) %></td>
     	<td><%= button_to t('bookmarks.delete'), {:controller => "bookmarks", :action => "destroy", :id => CGI.escape(bm.document_id)}, 
 	  :method => :delete, :confirm => t('bookmarks.remove.action_confirm') %></td>
       </tr>

@@ -42,7 +42,7 @@ module Blacklight::BlacklightHelperBehavior
       unless( options[:exclude].include?(format) ||
              (options[:unique] && seen.include?(spec[:content_type]))
              )
-        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> catalog_url(document,  format)}) << "\n"
+        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> polymorphic_url(document, :format => format)}) << "\n"
         
         seen.add(spec[:content_type]) if options[:unique]
       end

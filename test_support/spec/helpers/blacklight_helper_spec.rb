@@ -294,6 +294,9 @@ describe BlacklightHelper do
          def export_as_weird_dup ; "weird_dup" ; end
       end
       MockDocumentAppHelper.use_extension(MockExtension)
+      def mock_document_app_helper_url *args
+        solr_document_url(*args)
+      end
     before(:each) do
       @doc_id = "MOCK_ID1"
       @document = MockDocumentAppHelper.new(:id => @doc_id)
@@ -310,7 +313,7 @@ describe BlacklightHelper do
           tag = matches[0]
           tag.attributes["rel"].value.should == "alternate"
           tag.attributes["title"].value.should == format.to_s
-          tag.attributes["href"].value.should === catalog_url(@doc_id, format)
+          tag.attributes["href"].value.should === mock_document_app_helper_url(@document, :format =>format)
         end        
       end
     end

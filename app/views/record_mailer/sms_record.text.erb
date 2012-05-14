@@ -1,4 +1,4 @@
 <% @documents.each do |document| %>
 <%= document.to_sms_text %>
-<%= t('record_mailer.sms.url', :url => catalog_path(document, {:only_path => false}.merge(@url_gen_params)) ) %>
+<%= t('record_mailer.sms.url', :url => polymorphic_path(document, {:only_path => false}.merge(@url_gen_params)) ) %>
 <% end %>
