@@ -54,6 +54,12 @@ begin
           
           # pattern directory name defaults to ./**/*_spec.rb, but has a more concise command line echo
           t.pattern = "#{blacklight_spec}/#{sub}" 
+
+          if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.8/
+            t.rcov = true
+            t.rcov_opts = %w{--rails -I../../app -I../../lib --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
+            t.rcov_opts << %[-o "../../coverage/rcov"]
+          end
         end
       end
     
@@ -62,8 +68,8 @@ begin
         t.rcov = true
         # pattern directory name defaults to ./**/*_spec.rb, but has a more concise command line echo
         t.pattern = File.join(blacklight_spec, "/**/*_spec.rb")
-          t.rspec_opts = "--colour"
-        t.rcov_opts = '-o "blacklight-coverage" --exclude /gems/,/Library/,/usr/,lib/tasks,.bundle,config,/lib/rspec/,/lib/rspec-'
+        t.rspec_opts = "--colour"
+        t.rcov_opts = '-o "../../coverage/rcov" --exclude /gems/,/Library/,/usr/,lib/tasks,.bundle,config,/lib/rspec/,/lib/rspec-'
       end
       
       # Blacklight. Solr wrapper. for now just for blacklight:spec, plan to

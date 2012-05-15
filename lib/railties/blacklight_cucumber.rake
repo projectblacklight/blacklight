@@ -30,6 +30,11 @@ begin
         t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'default'
+        if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.8/
+          t.rcov = true
+          t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
+          t.rcov_opts << %[-o "../../coverage/rcov"]
+        end
       end
 
       Cucumber::Rake::Task.new({:wip => 'db:test:prepare'}, 'Run features that are being worked on') do |t|
@@ -62,9 +67,11 @@ begin
         t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'default'
-        t.rcov = true
-        t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
-        t.rcov_opts << %[-o "blacklight-coverage"]
+        if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.8/
+          t.rcov = true
+          t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
+          t.rcov_opts << %[-o "../../coverage/rcov"]
+        end
       end
       end	
   
