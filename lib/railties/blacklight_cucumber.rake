@@ -30,7 +30,8 @@ begin
         t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'default'
-        if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.8/
+        ruby_engine = defined?(RUBY_ENGINE) ? RUBY_ENGINE : "ruby"
+        if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.8/ and ruby_engine != "jruby"
           t.rcov = true
           t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
           t.rcov_opts << %[-o "../../coverage/rcov"]
@@ -67,7 +68,8 @@ begin
         t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'default'
-        if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.8/
+        ruby_engine = defined?(RUBY_ENGINE) ? RUBY_ENGINE : "ruby"
+        if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.8/ and ruby_engine != "jruby"
           t.rcov = true
           t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/,features\/ --aggregate blacklight-coverage.data}
           t.rcov_opts << %[-o "../../coverage/rcov"]

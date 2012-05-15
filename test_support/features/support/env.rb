@@ -19,7 +19,8 @@
 # * http://elabs.se/blog/15-you-re-cuking-it-wrong 
 
 
-if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.9/
+ruby_engine = defined?(RUBY_ENGINE) ? RUBY_ENGINE : "ruby"
+if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.9/ and ruby_engine != "jruby"
   require 'simplecov'
   require 'simplecov-rcov'
 
