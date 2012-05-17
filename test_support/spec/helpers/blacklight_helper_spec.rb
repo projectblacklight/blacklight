@@ -392,6 +392,13 @@ describe BlacklightHelper do
       value = helper.render_index_field_value :document => doc, :field => 'qwer'
       value.should == 'document qwer value'
     end
+
+    it "should work with index fields that aren't explicitly defined" do
+      doc = mock()
+      doc.should_receive(:get).with('mnbv', :sep => nil).and_return('document mnbv value')
+      value = helper.render_index_field_value :document => doc, :field => 'mnbv'
+      value.should == 'document mnbv value'
+    end
   end
   
 
@@ -425,6 +432,13 @@ describe BlacklightHelper do
       doc.should_receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
       value = helper.render_document_show_field_value :document => doc, :field => 'qwer'
       value.should == 'document qwer value'
+    end
+
+    it "should work with show fields that aren't explicitly defined" do
+      doc = mock()
+      doc.should_receive(:get).with('mnbv', :sep => nil).and_return('document mnbv value')
+      value = helper.render_document_show_field_value :document => doc, :field => 'mnbv'
+      value.should == 'document mnbv value'
     end
   end
   
