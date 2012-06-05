@@ -251,9 +251,7 @@ module Blacklight::SolrHelper
         
         solr_parameters[:fq] ||= []
         f_request_params.each_pair do |facet_field, value_list|
-          value_list ||= []
-          value_list = [value_list] unless value_list.respond_to? :each
-          value_list.each do |value|
+          Array(value_list).each do |value|
             solr_parameters[:fq] << facet_value_to_fq_string(facet_field, value)
           end              
         end      
