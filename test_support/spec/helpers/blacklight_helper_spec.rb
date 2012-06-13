@@ -93,7 +93,7 @@ describe BlacklightHelper do
 
   describe "link_back_to_catalog" do
     before(:all) do
-      @query_params = {:q => "query", :f => "facets", :per_page => "10", :page => "2", :controller=>'alternative'}
+      @query_params = {:q => "query", :f => "facets", :per_page => "10", :page => "2", :controller=>'catalog'}
     end
     it "should build a link tag to catalog using session[:search] for query params" do
       session[:search] = @query_params
