@@ -16,7 +16,7 @@
   
   <div class="pageEntriesInfo">
     <%= render_pagination_info @response, :entry_name=>'item' %>
-    <%=link_to t('search.start_over'), catalog_index_path, :id=>"startOverLink" %>
+    <%=link_to t('search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
   </div>
   
 	<%= render 'sort_and_per_page' %>

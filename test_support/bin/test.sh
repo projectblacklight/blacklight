@@ -63,6 +63,7 @@ if ! gem query -n bundler -v ">=1.0" --installed > /dev/null; then
 fi
 
 rails new test_app
+
 cd test_app
 rm public/index.html
 
@@ -118,6 +119,14 @@ check_errs $? "Rake Migration failed"
 
 rails g cucumber:install &> /dev/null 
 
+cp ../../test_support/alternate_controller.rb app/controllers/
+# add routing for the alternate_controller:
+# resources :alternate do
+#   member do
+#     get :facet
+#   end
+# end
+ruby -pi.bak -e 'gsub(/devise_for :users/, "devise_for :users\n  resources :alternate do\n    member do\n      get :facet\n    end\n  end")' config/routes.rb
 
 jetty_zip=$( echo $JETTY_URL | awk '{split($0,a,"/"); print "/tmp/blacklight_jetty_"a[length(a)]}')
 if [ ! -f $jetty_zip ]
