@@ -16,4 +16,7 @@
       });
     };
     Blacklight.do_folder_toggle_behavior.selector = "form.folder_toggle"; 
+$(document).ready(function() {
+  Blacklight.do_folder_toggle_behavior();  
+});
 })(jQuery);

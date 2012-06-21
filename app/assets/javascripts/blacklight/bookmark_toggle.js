@@ -11,5 +11,9 @@
     };
     Blacklight.do_bookmark_toggle_behavior.selector = "form.bookmark_toggle"; 
 
+$(document).ready(function() {
+  Blacklight.do_bookmark_toggle_behavior();  
+});
+  
 
 })(jQuery);

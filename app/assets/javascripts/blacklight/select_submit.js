@@ -11,4 +11,7 @@
       });
     };
     Blacklight.do_select_submit.selector = "form.sort select, form.per_page select";
+$(document).ready(function() {
+  Blacklight.do_select_submit();  
+});
     })(jQuery);

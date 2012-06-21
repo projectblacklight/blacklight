@@ -8,4 +8,7 @@ Blacklight.do_lightbox_dialog = function() {
       //And the email one too needs to be wider to fit the textarea
       $("a.lightboxLink#emailLink").ajaxyDialog("option", "width", 500);
     };
+$(document).ready(function() {
+  Blacklight.do_lightbox_dialog();  
+});
 })(jQuery);

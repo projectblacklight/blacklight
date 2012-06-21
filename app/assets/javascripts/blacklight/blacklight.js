@@ -53,24 +53,3 @@
           });
         };
 */
-
-
-$(document).ready(function() {
-  Blacklight.do_zebra_stripe();  
-  
-  Blacklight.do_select_submit();
-  
-  Blacklight.do_more_facets_behavior();
-  
-  Blacklight.do_lightbox_dialog();
-  
-  Blacklight.do_bookmark_toggle_behavior();
-  
-  Blacklight.do_folder_toggle_behavior();       
-  
-  Blacklight.do_facet_expand_contract_behavior();
-
-  Blacklight.do_search_context_behavior();
-});
-
-

@@ -19,4 +19,7 @@
       });
 
     };  
+$(document).ready(function() {
+  Blacklight.do_search_context_behavior();  
+});
 })(jQuery);

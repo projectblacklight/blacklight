@@ -8,4 +8,7 @@
     };
     Blacklight.do_more_facets_behavior.selector = "a.more_facets_link";
     
+$(document).ready(function() {
+  Blacklight.do_more_facets_behavior();  
+});
 })(jQuery);

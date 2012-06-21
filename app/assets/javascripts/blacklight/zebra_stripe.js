@@ -6,4 +6,7 @@
     Blacklight.do_zebra_stripe.selector = "table.zebra tr:even, ul.zebra li:even"; 
     
  
+$(document).ready(function() {
+  Blacklight.do_zebra_stripe();  
+});
     })(jQuery);
