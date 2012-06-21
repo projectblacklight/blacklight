@@ -3,7 +3,7 @@
   <h2><%=t('blacklight.search_history.no_history')%></h2>
 <%- else -%>
   <p>
-    <%= link_to t('blacklight.search_history.clear.action_title'), clear_search_history_path, :method => :delete, :confirm => t('blacklight.search_history.clear.action_confirm') %>
+  <%= link_to t('blacklight.search_history.clear.action_title'), clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') } %>
   </p>
   <h2><%=t('blacklight.search_history.recent')%></h2>
   <table class="zebra search_history">

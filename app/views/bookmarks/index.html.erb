@@ -13,7 +13,7 @@
 <%= paginate @bookmarks, :theme => 'blacklight' %>
   <div id="userBookmarks">
     <p>
-      <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :confirm => t('blacklight.bookmarks.clear.action_confirm')%>
+    <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') } %>
     </p>
     
     <h2><%= t('blacklight.bookmarks.list_title') %></h2>
