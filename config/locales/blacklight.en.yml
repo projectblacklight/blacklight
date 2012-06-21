@@ -107,17 +107,17 @@ en:
 
     tools:
       cite: "Cite"
-      citation:
-        format:
-          mla: "MLA"
-          apa: "APA"
-          chicago: "Chicago"
       endnote: "Export to EndNote"
       refworks: "Export to Refworks"
       email: "Email"
       sms: "SMS This"
       librarian_view: "Librarian View"
       clear: "Clear"
+
+    citation:
+      mla: "MLA"
+      apa: "APA"
+      chicago: "Chicago"
 
     email:
       form:
