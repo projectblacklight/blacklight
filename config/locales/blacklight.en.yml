@@ -38,7 +38,7 @@ en:
       no_bookmarks: "You have no bookmarks"
       add:
         button: 'Bookmark'
-        success: 
+        success:
           one: 'Successfully added bookmark.'
           other: 'Successfully added bookmarks.'
         failure:  'Sorry, there was a problem saving the bookmarks.'
@@ -159,11 +159,11 @@ en:
       errors:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
-      per_page: 
+      per_page:
         label: "Show %{select} per page"
         title: "Number of results to display per page"
         submit: "update"
-      sort: 
+      sort:
         label: "Sort by %{select}"
         submit: "sort results"
       form:
@@ -179,7 +179,7 @@ en:
         single_item_found: "Displaying <b>1</b> %{entry_name}"
         pages:
           one: "Displaying <b>all %{total_num}</b> %{entry_name}"
-          other: "Displaying %{entry_name} <b>%{start_num} - %{end_num}</b> of <b>%{total_num}</b>"   
+          other: "Displaying %{entry_name} <b>%{start_num} - %{end_num}</b> of <b>%{total_num}</b>"
       entry_pagination_info:
         one: "Showing the only item from your search."
         other: "Showing item <b>%{current} of %{total}</b> from your search."
@@ -187,7 +187,7 @@ en:
         counter: "%{counter}. "
       folder:
         select: "Select"
-        unselect: "Unselect"    
+        unselect: "Unselect"
       facets:
         title: "Limit your search"
         sort:
