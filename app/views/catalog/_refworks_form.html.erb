@@ -1,7 +1,7 @@
 <%= form_tag "http://www.refworks.com/express/expressimport.asp?vendor=#{application_name}&filter=MARC%20Format&encoding=65001", :name => "refworks", :target => "_blank" do %>
 
 <%= hidden_field_tag "ImportData", render_refworks_texts(documents) %>
-<%= submit_tag t('tools.refworks'), :class => 'submit'%>
-<%= link_to_function t('tools.refworks'), "document.refworks.submit();" %>
+<%= submit_tag t('blacklight.tools.refworks'), :class => 'submit'%>
+<%= link_to_function t('blacklight.tools.refworks'), "document.refworks.submit();" %>
 <% end %>
 

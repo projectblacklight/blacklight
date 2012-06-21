@@ -41,12 +41,12 @@ module Blacklight::CatalogHelperBehavior
 
    # TODO: i18n the entry_name
       entry_name = options[:entry_name] ||
-        (response.empty?? t('entry_name.default') : response.docs.first.class.name.underscore.sub('_', ' '))
+        (response.empty?? t('blacklight.entry_name.default') : response.docs.first.class.name.underscore.sub('_', ' '))
 
       case response.docs.length
-        when 0; t('search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
-        when 1; t('search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-        else; t('search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => current_page, :num_pages => num_pages, :start_num => start_num, :end_num => end_num, :total_num => total_num, :count => num_pages).html_safe
+        when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
+        when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => current_page, :num_pages => num_pages, :start_num => start_num, :end_num => end_num, :total_num => total_num, :count => num_pages).html_safe
       end
   end
 
@@ -56,7 +56,7 @@ module Blacklight::CatalogHelperBehavior
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change. 
   def item_page_entry_info
-    t('search.entry_pagination_info.other', :current => format_num(session[:search][:counter]), :total => format_num(session[:search][:total]), :count => session[:search][:total].to_i).html_safe
+    t('blacklight.search.entry_pagination_info.other', :current => format_num(session[:search][:counter]), :total => format_num(session[:search][:total]), :count => session[:search][:total].to_i).html_safe
   end
   
   # Look up search field user-displayable label

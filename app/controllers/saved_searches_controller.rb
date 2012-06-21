@@ -13,9 +13,9 @@ class SavedSearchesController < ApplicationController
   def save    
     current_user.searches << Search.find(params[:id])
     if current_user.save
-      flash[:notice] = I18n.t('saved_searches.add.success')
+      flash[:notice] = I18n.t('blacklight.saved_searches.add.success')
     else
-      flash[:error] = I18n.t('saved_searches.add.failure')
+      flash[:error] = I18n.t('blacklight.saved_searches.add.failure')
     end
     redirect_to :back
   end
@@ -28,9 +28,9 @@ class SavedSearchesController < ApplicationController
       search.user_id = nil
       search.save
 
-      flash[:notice] =I18n.t('saved_searches.remove.success')
+      flash[:notice] =I18n.t('blacklight.saved_searches.remove.success')
     else
-      flash[:error] = I18n.t('saved_searches.remove.failure')
+      flash[:error] = I18n.t('blacklight.saved_searches.remove.failure')
     end
     redirect_to :back
   end
@@ -39,9 +39,9 @@ class SavedSearchesController < ApplicationController
   # are in the session[:history]
   def clear    
     if Search.update_all("user_id = NULL", "user_id = #{current_user.id}")
-      flash[:notice] = I18n.t('saved_searches.clear.success')
+      flash[:notice] = I18n.t('blacklight.saved_searches.clear.success')
     else
-      flash[:error] = I18n.t('saved_searches.clear.failure') 
+      flash[:error] = I18n.t('blacklight.saved_searches.clear.failure') 
     end
     redirect_to :action => "index"
   end
@@ -49,6 +49,6 @@ class SavedSearchesController < ApplicationController
 
   protected
   def verify_user
-    flash[:notice] = I18n.t('saved_searches.need_login') and raise Blacklight::Exceptions::AccessDenied unless current_user
+    flash[:notice] = I18n.t('blacklight.saved_searches.need_login') and raise Blacklight::Exceptions::AccessDenied unless current_user
   end
 end

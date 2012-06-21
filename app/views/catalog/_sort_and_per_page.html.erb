@@ -2,16 +2,16 @@
 	<% unless @response.response['numFound'] < 2 %>
 	  <%-# kind of hacky way to get this to work on catalog and folder controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
   	<%= form_tag params[:controller] == "folder" ? folder_index_path : url_for(:action=>'index'), :method=>:get, :class=>'per_page' do %>
-      <%= label_tag(:per_page, t('search.per_page.label', :select => select_tag(:per_page, options_for_select(['10', '20', '50', '100'], h(params[:per_page])), :title => t('search.per_page.title'))).html_safe) %>
+      <%= label_tag(:per_page, t('blacklight.search.per_page.label', :select => select_tag(:per_page, options_for_select(['10', '20', '50', '100'], h(params[:per_page])), :title => t('blacklight.search.per_page.title'))).html_safe) %>
       <%= search_as_hidden_fields(:omit_keys => [:page, :per_page]) %>
-      <%= submit_tag t('search.per_page.submit') %>
+      <%= submit_tag t('blacklight.search.per_page.submit') %>
     <% end %>
 
     <%-# kind of hacky way to get this to work on catalog and folder controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
 		<%= form_tag params[:controller] == "folder" ? folder_index_path : url_for(:action=>'index'), :method=>:get, :class=>'sort', :id => "sort_form" do %>
-      <%= label_tag(:sort, t('search.sort.label', :select => select_tag(:sort, options_for_select(sort_fields, h(params[:sort])))).html_safe) %>
+      <%= label_tag(:sort, t('blacklight.search.sort.label', :select => select_tag(:sort, options_for_select(sort_fields, h(params[:sort])))).html_safe) %>
       <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>
-			<%= submit_tag t('search.sort.submit') %>
+			<%= submit_tag t('blacklight.search.sort.submit') %>
 		<% end unless sort_fields.empty? %>
 	<% end %>
 </div>

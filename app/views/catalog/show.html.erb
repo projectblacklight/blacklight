@@ -1,4 +1,4 @@
-<% @page_title = t('search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
+<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
 <% extra_head_content << render_link_rel_alternates %>
 <% sidebar_items << render_document_sidebar_partial %>
 
@@ -8,7 +8,7 @@
 
 <div class="pageEntriesInfo">
   <%= item_page_entry_info %>
-  <%=link_to t('search.start_over'), catalog_index_path, :id=>"startOverLink" %>
+  <%=link_to t('blacklight.search.start_over'), catalog_index_path, :id=>"startOverLink" %>
 </div>
 
 <%= render 'previous_next_doc' %>

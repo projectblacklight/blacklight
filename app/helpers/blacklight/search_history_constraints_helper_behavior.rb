@@ -32,7 +32,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
       render_search_to_s_element(blacklight_config.facet_fields[facet_field].label,
         value_list.collect do |value|
           render_filter_value(value)
-        end.join(content_tag(:span, t('and'), :class =>'label')).html_safe
+        end.join(content_tag(:span, t('blacklight.and'), :class =>'label')).html_safe
       )    
     end.join(" \n ").html_safe    
   end
@@ -46,7 +46,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
 
   def render_filter_name name
     return "".html_safe if name.blank?
-    content_tag(:span, t("search.filters.label", :label => name), :class => 'filterName')
+    content_tag(:span, t('blacklight.search.filters.label', :label => name), :class => 'filterName')
   end
 
   def render_filter_value value

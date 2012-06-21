@@ -1,15 +1,15 @@
 <% if has_user_authentication_provider? %>
   <% if current_user%>
-  <%= link_to t('header_links.logout'), destroy_user_session_path %> [<%= link_to current_user, edit_user_registration_path %>]
+  <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path %> [<%= link_to current_user, edit_user_registration_path %>]
     | 
-    <%= link_to t('header_links.bookmarks'), bookmarks_path %>
+    <%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %>
     |
-    <%= link_to t('header_links.saved_searches'), saved_searches_path %>
+    <%= link_to t('blacklight.header_links.saved_searches'), saved_searches_path %>
 <% else %>
-  <%= link_to t('header_links.login'), new_user_session_path %>
+  <%= link_to t('blacklight.header_links.login'), new_user_session_path %>
 <% end %>
 | 
 <% end %>
-<%= link_to t('header_links.selected_items'), folder_index_path %> (<span id="folder_number"><%= "#{session[:folder_document_ids] ? session[:folder_document_ids].length : 0}" %></span>)
+<%= link_to t('blacklight.header_links.selected_items'), folder_index_path %> (<span id="folder_number"><%= "#{session[:folder_document_ids] ? session[:folder_document_ids].length : 0}" %></span>)
 |
-<%= link_to t('header_links.search_history'), search_history_path %>
+<%= link_to t('blacklight.header_links.search_history'), search_history_path %>

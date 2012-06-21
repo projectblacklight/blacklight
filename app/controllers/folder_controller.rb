@@ -20,7 +20,7 @@ class FolderController < ApplicationController
     # Rails 3 uses a one line notation for setting the flash notice.
     #    flash[:notice] = "#{params[:title] || "Item"} successfully added to Folder"
     respond_to do |format|
-      format.html { redirect_to :back, :notice =>  I18n.t('folder.add.success', :title => params[:title] || 'Item') }
+      format.html { redirect_to :back, :notice =>  I18n.t('blacklight.folder.add.success', :title => params[:title] || 'Item') }
       format.js { render :json => session[:folder_document_ids] }
     end
   end
@@ -31,7 +31,7 @@ class FolderController < ApplicationController
           
     respond_to do |format|
       format.html do
-        flash[:notice] = I18n.t('folder.remove.success', :title => params[:title] || 'Item')
+        flash[:notice] = I18n.t('blacklight.folder.remove.success', :title => params[:title] || 'Item')
         redirect_to :back
       end
       format.js do
@@ -43,7 +43,7 @@ class FolderController < ApplicationController
  
   # get rid of the items in the folder
   def clear
-    flash[:notice] = I18n.t('folder.clear.success')
+    flash[:notice] = I18n.t('blacklight.folder.clear.success')
     session[:folder_document_ids] = []
     respond_to do |format|
       format.html { redirect_to :back }

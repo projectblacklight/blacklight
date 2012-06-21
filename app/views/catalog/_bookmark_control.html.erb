@@ -9,14 +9,14 @@
 
       <%= form_tag( bookmark_path( document ), :method => :put, :class => "bookmark_toggle", "data-doc-id" => document.id, :title=> document[document_show_link_field] ) do %>        
         <%= hidden_field(:bookmark, :title, :value => document[document_show_link_field] ) %>
-        <%= submit_tag(t('bookmarks.add.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_add") %>
+        <%= submit_tag(t('blacklight.bookmarks.add.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_add") %>
       <% end %>
   
   <% else %>
   
       <%= form_tag( bookmark_path( document ), :method => :delete, :class => "bookmark_toggle", "data-doc-id" => document.id, :title=> document[document_show_link_field]) do %>  
         <%= hidden_field(:bookmark, :title, :value => document[document_show_link_field] ) %>
-        <%= submit_tag(t('bookmarks.remove.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_remove") %>
+        <%= submit_tag(t('blacklight.bookmarks.remove.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_remove") %>
       <% end %>
       
   <% end %>

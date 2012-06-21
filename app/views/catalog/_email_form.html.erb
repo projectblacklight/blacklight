@@ -1,8 +1,8 @@
-<h1><%= t('search.email.form.title') %></h1>
+<h1><%= t('blacklight.email.form.title') %></h1>
 <%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :method => :post do %>
-  <%= label_tag(:to, t('search.email.form.to')) %><br/>
+  <%= label_tag(:to, t('blacklight.email.form.to')) %><br/>
   <%= text_field_tag :to %><br/>
-  <%= label_tag(:message, t('search.email.form.message')) %><br/>
+  <%= label_tag(:message, t('blacklight.email.form.message')) %><br/>
   <%= text_area_tag :message %><br/>
   <% @documents.each do |doc| %>
     <%=hidden_field_tag "id[]", doc.get(:id)%>
@@ -13,5 +13,5 @@
   <%- if params[:per_page] -%>
     <%= hidden_field_tag "per_page", params[:per_page] %>
   <%- end -%>
-  <%= submit_tag t('search.email.form.submit') %>
+  <%= submit_tag t('blacklight.email.form.submit') %>
 <% end %>

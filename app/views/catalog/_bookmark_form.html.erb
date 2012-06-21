@@ -3,6 +3,6 @@
     <%= hidden_field_tag "bookmarks[#{index}][document_id]", document.get(:id)%>
     <%= hidden_field_tag "bookmarks[#{index}][title]", h(document[document_show_link_field])%>
   <% end %>
-  <%= link_to_function t('bookmarks.collection.add.button'), "document.bookmarks.submit()" %>
-  <%= submit_tag t('bookmarks.collection.add.button'), :class => 'hide' %>
+  <%= link_to_function t('blacklight.bookmarks.collection.add.button'), "document.bookmarks.submit()" %>
+  <%= submit_tag t('blacklight.bookmarks.collection.add.button'), :class => 'hide' %>
 <% end %>

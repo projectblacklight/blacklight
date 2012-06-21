@@ -10,14 +10,14 @@
 'Cricket' => 'cricket'
 }
 %>
-<h1><%= t('search.sms.form.title') %></h1>
+<h1><%= t('blacklight.sms.form.title') %></h1>
 <%= form_tag url_for(:controller => "catalog", :action => "sms"), :id => 'sms_form', :method => :post do %>
-  <%= label_tag(:to, t("search.sms.form.to")) %><br/>
+  <%= label_tag(:to, t('blacklight.sms.form.to')) %><br/>
   <%= text_field_tag :to %><br/>
-  <%= label_tag(:carrier, t("search.sms.form.carrier")) %><br/>
-  <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift([t('search.sms.form.carrier_prompt'),'']), '')) %><br/>
+  <%= label_tag(:carrier, t('blacklight.sms.form.carrier')) %><br/>
+  <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift([t('blacklight.sms.form.carrier_prompt'),'']), '')) %><br/>
   <% @documents.each do |doc| %>
      <%=hidden_field_tag "id[]", doc.get(:id)%>
   <% end %>
-  <%= submit_tag t("search.sms.form.submit") %>
+  <%= submit_tag t('blacklight.sms.form.submit') %>
 <% end %>

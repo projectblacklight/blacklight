@@ -1,14 +1,14 @@
 <div id="search" class="search">
   <%= form_tag url_for(:action=>'index'), :method => :get do %>
-    <h2 class="search"><%= label_tag(:q, t('search.form.q')) %></h2>
+    <h2 class="search"><%= label_tag(:q, t('blacklight.search.form.q')) %></h2>
     <%= text_field_tag :q, params[:q], :class => "q" %>
     <% unless search_fields.empty? %>
-      <%= label_tag(:search_field, " #{t('search.form.search_field.label')} ") %>
-      <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('search.form.search_field.title'), :class=>"search_field") %>
+      <%= label_tag(:search_field, " #{t('blacklight.search.form.search_field.label')} ") %>
+      <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search_field") %>
     <% end %>
     <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>        
     
-    <%= submit_tag t('search.form.submit'), :class=>'submit' %>
+    <%= submit_tag t('blacklight.search.form.submit'), :class=>'submit' %>
   <% end %>
 
   <hr/>

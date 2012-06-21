@@ -67,7 +67,7 @@ module Blacklight::SearchFields
     if field_def && field_def.label
        field_def.label
     else
-       I18n.t('search.fields.default')
+       I18n.t('blacklight.search.fields.default')
     end            
   end
 end

@@ -6,8 +6,8 @@ module Blacklight::Solr::Document::Sms
   def to_sms_text
     semantics = self.to_semantic_values
     body = []
-    body << I18n.t('search.sms.text.title', :value => semantics[:title].first) unless semantics[:title].blank?
-    body << I18n.t('search.sms.text.author', :value => semantics[:author].first) unless semantics[:author].blank?
+    body << I18n.t('blacklight.sms.text.title', :value => semantics[:title].first) unless semantics[:title].blank?
+    body << I18n.t('blacklight.sms.text.author', :value => semantics[:author].first) unless semantics[:author].blank?
     return body.join unless body.empty?
   end
 

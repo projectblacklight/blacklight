@@ -19,9 +19,9 @@
       <%- unless options[:remove].blank? -%>
         <% accessible_remove_label =               
                 if label.blank?
-                  t('search.filters.remove.value', :value => (options[:escape_value] ? h(value) : value))
+                  t('blacklight.search.filters.remove.value', :value => (options[:escape_value] ? h(value) : value))
                 else
-                  t('search.filters.remove.label_value', :label => (options[:escape_label] ? h(label) : label), :value => (options[:escape_value] ? h(value) : value))
+                  t('blacklight.search.filters.remove.label_value', :label => (options[:escape_label] ? h(label) : label), :value => (options[:escape_value] ? h(value) : value))
                 end              
         %>                
         <%= link_to(accessible_remove_label,

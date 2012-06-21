@@ -1,4 +1,14 @@
 en:
+  active_record:
+      models:
+          feedback: "Feedback"
+      attributes:
+          feedback:
+              name: "Your Name"
+              email: "Your Email"
+              message: "Your Message"
+
+  blacklight:
     application_name: "Blacklight"
 
     header_links:
@@ -12,15 +22,6 @@ en:
     welcome: "Welcome!"
     and: "and"
     or: "or"
-
-    active_record:
-        models:
-            feedback: "Feedback"
-        attributes:
-            feedback:
-                name: "Your Name"
-                email: "Your Email"
-                message: "Your Message"
 
     bookmarks:
         collection:
@@ -111,6 +112,38 @@ en:
         librarian_view: "Librarian View"
         clear: "Clear"
         
+    email:
+        form:
+            title: "Email This"
+            to: "Email:"
+            message: "Message:"
+            submit: "Send"
+        text:
+            title: "Title: %{value}"
+            author: "Author: %{value}"
+            format: "Format: %{value}"
+            language: "Language: %{value}"
+        errors:
+            to: 
+                invalid: "You must enter a valid email address"
+                blank: "You must enter a recipient in order to send this message"
+    sms:
+        form:
+            title: "SMS This"
+            to: "Phone Number:"
+            carrier: "Carrier"
+            carrier_prompt: "Please select your carrier"
+            submit: "Send"
+        text:
+            title: "%{value}"
+            author: " by %{value}"
+        errors:
+            to:
+                invalid: "You must enter a valid 10 digit phone number"
+                blank: "You must enter a recipient's phone number in order to send this message"
+            carrier:
+                blank: "You must select a carrier"
+
     back_to_search: "Back to Search"
         
     search:
@@ -157,37 +190,6 @@ en:
             more: "more »"
             selected:
                 remove: "[remove]"
-        email:
-            form:
-                title: "Email This"
-                to: "Email:"
-                message: "Message:"
-                submit: "Send"
-            text:
-                title: "Title: %{value}"
-                author: "Author: %{value}"
-                format: "Format: %{value}"
-                language: "Language: %{value}"
-            errors:
-                to: 
-                    invalid: "You must enter a valid email address"
-                    blank: "You must enter a recipient in order to send this message"
-        sms:
-            form:
-                title: "SMS This"
-                to: "Phone Number:"
-                carrier: "Carrier"
-                carrier_prompt: "Please select your carrier"
-                submit: "Send"
-            text:
-                title: "%{value}"
-                author: " by %{value}"
-            errors:
-                to:
-                    invalid: "You must enter a valid 10 digit phone number"
-                    blank: "You must enter a recipient's phone number in order to send this message"
-                carrier:
-                    blank: "You must select a carrier"
         filters:
             title: "You searched for:"
             label: "%{label}:"
@@ -206,9 +208,9 @@ en:
             default: "Keyword"
     entry_name:
       default: 'entry'
-      
+
     did_you_mean: "Did you mean to type: %{options}?"
-            
+
     record_mailer:
         email:
             subject:
@@ -218,6 +220,7 @@ en:
             message: "Message: %{message}"
         sms:
             url: "Link: %{url}"
+
     views:
       pagination:
         first: "&laquo; First"

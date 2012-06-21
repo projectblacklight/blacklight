@@ -1,7 +1,7 @@
 <%-   
   # pass in local :document with a SolrDocument
   method = (item_in_folder?(document.id) ? "delete" : "put")
-  label = (item_in_folder?(document.id) ? t('search.folder.unselect') : t('search.folder.select'))
+  label = (item_in_folder?(document.id) ? t('blacklight.search.folder.unselect') : t('blacklight.search.folder.select'))
   cssClass = (item_in_folder?(document.id) ? "deleteFolder" : "addFolder")
 -%>
 

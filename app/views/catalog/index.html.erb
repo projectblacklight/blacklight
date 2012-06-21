@@ -4,7 +4,7 @@
 	<%= render 'home' %>
 <% else %>
 
-  <% @page_title = t('search.title', :application_name => application_name) %>
+  <% @page_title = t('blacklight.search.title', :application_name => application_name) %>
 
         <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
@@ -16,7 +16,7 @@
   
   <div class="pageEntriesInfo">
     <%= render_pagination_info @response, :entry_name=>'item' %>
-    <%=link_to t('search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
+    <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
   </div>
   
 	<%= render 'sort_and_per_page' %>

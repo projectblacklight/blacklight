@@ -24,9 +24,9 @@ class BookmarksController < ApplicationController
     
     unless request.xhr?
       if bookmark.save
-        flash[:notice] = I18n.t('bookmarks.add.success')
+        flash[:notice] = I18n.t('blacklight.bookmarks.add.success')
       else
-        flash[:error] = I18n.t('bookmarks.add.failure') 
+        flash[:error] = I18n.t('blacklight.bookmarks.add.failure') 
       end
       redirect_to :back
     else
@@ -56,9 +56,9 @@ class BookmarksController < ApplicationController
       success = false unless current_user.bookmarks.create(bookmark)
     end
     if @bookmarks.length > 0 && success
-      flash[:notice] = I18n.t('bookmarks.add.success', :count => @bookmarks.length)
+      flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
     elsif @bookmarks.length > 0
-      flash[:error] = I18n.t('bookmarks.add.failure', :count => @bookmarks.length)
+      flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
     end
     
     redirect_to :back
@@ -73,9 +73,9 @@ class BookmarksController < ApplicationController
     
     unless request.xhr?
       if success
-        flash[:notice] =  I18n.t('bookmarks.remove.success')
+        flash[:notice] =  I18n.t('blacklight.bookmarks.remove.success')
       else
-        flash[:error] = I18n.t('bookmarks.remove.failure')
+        flash[:error] = I18n.t('blacklight.bookmarks.remove.failure')
       end 
       redirect_to :back
     else
@@ -86,15 +86,15 @@ class BookmarksController < ApplicationController
   
   def clear    
     if current_user.bookmarks.clear
-      flash[:notice] = I18n.t('bookmarks.clear.success') 
+      flash[:notice] = I18n.t('blacklight.bookmarks.clear.success') 
     else
-      flash[:error] = I18n.t('bookmarks.clear.failure') 
+      flash[:error] = I18n.t('blacklight.bookmarks.clear.failure') 
     end
     redirect_to :action => "index"
   end
   
   protected
   def verify_user
-    flash[:notice] = I18n.t('bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_user
+    flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_user
   end
 end
