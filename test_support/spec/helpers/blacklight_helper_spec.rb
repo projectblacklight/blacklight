@@ -211,6 +211,9 @@ describe BlacklightHelper do
    end
 
    describe "document_partial_name" do
+     it "should default to 'default' when a format blank" do
+       document_partial_name({}).should == "default"
+     end
      it "should handle normal formats correctly" do
        document_partial_name({"format" => "myformat"}).should == "myformat"
      end
