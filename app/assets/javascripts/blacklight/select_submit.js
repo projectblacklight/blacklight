@@ -1,3 +1,4 @@
+//= require blacklight/core
 (function($) {
 // Used for sort-by and per-page controls, hide the submit button
     // and make the select auto-submit

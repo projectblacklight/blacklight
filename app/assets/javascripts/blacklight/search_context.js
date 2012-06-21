@@ -1,3 +1,4 @@
+//= require blacklight/core
 (function($) {
   Blacklight.do_search_context_behavior = function() {
       $('a[data-counter]').click(function(event) {

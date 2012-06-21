@@ -1,3 +1,4 @@
+//= require blacklight/core
 (function($) {
 //add ajaxy dialogs to certain links, using the ajaxyDialog widget.
     Blacklight.do_more_facets_behavior = function () {

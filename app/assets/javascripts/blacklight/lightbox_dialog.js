@@ -1,3 +1,4 @@
+//= require blacklight/core
 (function($) {
 Blacklight.do_lightbox_dialog = function() {    
       $("a.lightboxLink").ajaxyDialog({

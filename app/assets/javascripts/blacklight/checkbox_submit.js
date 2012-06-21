@@ -123,7 +123,4 @@
             css_class: "bl_checkbox_submit",
             success: function() {} //callback
   };
-$(document).ready(function() {
-  Blacklight.bl_checkbox_submit();  
-});
 })(jQuery);

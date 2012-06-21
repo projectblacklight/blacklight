@@ -1,3 +1,4 @@
+//= require blacklight/core
 (function($) {
 Blacklight.do_facet_expand_contract_behavior = function() {
       $( Blacklight.do_facet_expand_contract_behavior.selector ).each (

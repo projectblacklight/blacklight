@@ -1,3 +1,5 @@
+//= require blacklight/core
+//= require blacklight/checkbox_submit
 (function($) {
     Blacklight.do_folder_toggle_behavior = function() {
       $( Blacklight.do_folder_toggle_behavior.selector ).bl_checkbox_submit({

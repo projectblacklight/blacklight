@@ -1,3 +1,4 @@
+//= require blacklight/core
 (function($) {
     // adds classes for zebra striping table rows
     Blacklight.do_zebra_stripe = function() {  

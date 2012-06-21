@@ -1,3 +1,5 @@
+//= require blacklight/core
+//= require blacklight/checkbox_submit
 (function($) {
 //change form submit toggle to checkbox
     Blacklight.do_bookmark_toggle_behavior = function() {
