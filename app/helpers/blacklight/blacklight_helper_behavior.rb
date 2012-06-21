@@ -323,12 +323,12 @@ module Blacklight::BlacklightHelperBehavior
 
   def link_to_previous_document(previous_document)
     return if previous_document == nil
-    link_to raw(t('blacklight.views.pagination.previous')), previous_document, :class => "previous", :'data-counter' => session[:search][:counter].to_i - 1
+    link_to raw(t('views.pagination.previous')), previous_document, :class => "previous", :'data-counter' => session[:search][:counter].to_i - 1
   end
 
   def link_to_next_document(next_document)
     return if next_document == nil
-    link_to raw(t('blacklight.views.pagination.next')), next_document, :class => "next", :'data-counter' => session[:search][:counter].to_i + 1
+    link_to raw(t('views.pagination.next')), next_document, :class => "next", :'data-counter' => session[:search][:counter].to_i + 1
   end
 
   # Use case, you want to render an html partial from an XML (say, atom)

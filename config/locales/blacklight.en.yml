@@ -6,7 +6,13 @@ en:
           feedback:
               name: "Your Name"
               email: "Your Email"
-              message: "Your Message"
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "&laquo; Previous"
+      next: "Next &raquo;"
+      truncate: "…"         message: "Your Message"
 
   blacklight:
     application_name: "Blacklight"
@@ -221,10 +227,3 @@ en:
         sms:
             url: "Link: %{url}"
 
-    views:
-      pagination:
-        first: "&laquo; First"
-        last: "Last &raquo;"
-        previous: "&laquo; Previous"
-        next: "Next &raquo;"
-        truncate: "…"
