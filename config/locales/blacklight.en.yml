@@ -130,6 +130,12 @@ en:
         author: "Author: %{value}"
         format: "Format: %{value}"
         language: "Language: %{value}"
+        subject:
+          one: "Item Record: %{title}"
+          other: "Item records"
+        url: "URL: %{url}"
+        message: "Message: %{message}"
+
       errors:
         to:
           invalid: "You must enter a valid email address"
@@ -144,6 +150,7 @@ en:
       text:
         title: "%{value}"
         author: " by %{value}"
+        url: "Link: %{url}"
       errors:
         to:
           invalid: "You must enter a valid 10 digit phone number"
@@ -218,13 +225,3 @@ en:
       default: 'entry'
 
     did_you_mean: "Did you mean to type: %{options}?"
-
-    record_mailer:
-      email:
-        subject:
-          one: "Item Record: %{title}"
-          other: "Item records"
-        url: "URL: %{url}"
-        message: "Message: %{message}"
-      sms:
-        url: "Link: %{url}"
