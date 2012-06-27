@@ -1,8 +1,0 @@
-production:
-    url: http://127.0.0.1:8983/solr
-development:
-    url: http://127.0.0.1:8983/solr
-test: &TEST
-    url: http://127.0.0.1:8983/solr
-cucumber:
-    <<: *TEST
