@@ -1,4 +1,4 @@
 <% # container for all documents in index view -%>
 <div id="documents">
-  <%= render :partial => 'document', :collection => @document_list, :as => :document %>
+  <%= render @document_list, :as => :document %>
 </div>

@@ -47,6 +47,10 @@ module Blacklight::Solr::Document
     end
   end
 
+  def to_partial_path
+    'catalog/document'
+  end
+
    
   # Returns a hash keyed by semantic tokens (see ExtendableClassMethods#semantic_fields), value is an array of
   # strings. (Array to handle multi-value fields). If no value(s)
