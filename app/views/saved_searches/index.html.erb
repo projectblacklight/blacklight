@@ -10,7 +10,7 @@
   
 <%- else -%>
   <p>
-    <%= link_to t('blacklight.saved_searches.clear.action_title'), clear_saved_searches_path, :method => :delete, :confirm => t('blacklight.saved_searches.clear.action_confirm') %>
+  <%= link_to t('blacklight.saved_searches.clear.action_title'), clear_saved_searches_path, :method => :delete, :data => { :confirm => t('blacklight.saved_searches.clear.action_confirm') } %>
   </p>
 
   <h2><%= t('blacklight.saved_searches.list_title') %></h2>

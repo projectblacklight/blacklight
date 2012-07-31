@@ -23,7 +23,7 @@
       <tr>
     	<td><%= link_to h(bm.title), polymorphic_path(bm.document) %></td>
     	<td><%= button_to t('blacklight.bookmarks.delete'), {:controller => "bookmarks", :action => "destroy", :id => CGI.escape(bm.document_id)}, 
-	  :method => :delete, :confirm => t('blacklight.bookmarks.remove.action_confirm') %></td>
+        :method => :delete, :data => { :confirm => t('blacklight.bookmarks.remove.action_confirm') } %></td>
       </tr>
       <% end %>
     </table>
