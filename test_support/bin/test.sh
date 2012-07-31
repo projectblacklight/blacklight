@@ -39,7 +39,7 @@ mkdir -p tmp/test_app
 cd tmp
 
 
-if [[ -d $1 ]]
+if [[  $# -gt 0 ]]
 then
 # Make certain rvm will work correctly.
 # Load RVM into a shell session *as a function*
@@ -50,7 +50,7 @@ elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
   # Then try to load from a root install
   source "/usr/local/rvm/scripts/rvm"
 else
-  print "WARNING: An RVM installation was not found.\n"
+  echo "WARNING: An RVM installation was not found.\n"
   exit 1
 fi
 
