@@ -315,13 +315,23 @@ module Blacklight::SolrHelper
     # better for us. 
     bench_start = Time.now
 
-    solr_response = find(blacklight_config.solr_request_handler, self.solr_search_params(user_params).merge(extra_controller_params))  
+    solr_response = get_solr_response(user_params, extra_controller_params)
     document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
     Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
     return [solr_response, document_list]
   end
-  
+
+  # a solr query method
+  # given a user query,
+  # Returns a solr response object
+  def get_solr_response(user_params = params || {}, extra_controller_params = {})
+    find(
+      blacklight_config.solr_request_handler,
+      self.solr_search_params(user_params).merge(extra_controller_params)
+    )
+  end
+
   # returns a params hash for finding a single solr document (CatalogController #show action)
   # If the id arg is nil, then the value is fetched from params[:id]
   # This method is primary called by the get_solr_response_for_doc_id method.
