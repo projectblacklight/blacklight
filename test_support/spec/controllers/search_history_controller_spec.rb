@@ -2,6 +2,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe SearchHistoryController do
+  include Devise::TestHelpers
+
   describe "index" do
     before(:all) do
       @one = Search.create
