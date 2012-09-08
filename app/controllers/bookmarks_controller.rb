@@ -23,7 +23,7 @@ class BookmarksController < ApplicationController
     success = bookmark.save
     
     unless request.xhr?
-      if bookmark.save
+      if success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success')
       else
         flash[:error] = I18n.t('blacklight.bookmarks.add.failure') 
