@@ -1,5 +1,5 @@
-<% if has_user_authentication_provider? and current_user %>
-  <%- existing_bookmark = current_user.existing_bookmark_for(document.id) -%>
+<% if has_user_authentication_provider? and current_or_guest_user %>
+  <%- existing_bookmark = current_or_guest_user.existing_bookmark_for(document.id) -%>
   <%- 
   # Note these two forms are pretty similar but for different :methods, classes, and labels. 
   # but it was simpler to leave them seperate instead of DRYing them, got confusing trying that.

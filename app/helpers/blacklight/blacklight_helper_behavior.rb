@@ -73,21 +73,19 @@ module Blacklight::BlacklightHelperBehavior
   end
   
   # Save function area for search results 'index' view, normally
-  # renders next to title. Includes just 'Folder' by default.
+  # renders next to title. 
   def render_index_doc_actions(document, options={})   
     content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_user
-    content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
+    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
 
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
   
   # Save function area for item detail 'show' view, normally
-  # renders next to title. By default includes 'Folder' and 'Bookmarks'
+  # renders next to title. By default includes 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
     content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_user
-    content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
+    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
 
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
@@ -342,11 +340,6 @@ module Blacklight::BlacklightHelperBehavior
     result = block.call
     @template_format = old_format
     return result
-  end
-  
-  # determines if the given document id is in the folder
-  def item_in_folder?(doc_id)
-    session[:folder_document_ids] && session[:folder_document_ids].include?(doc_id) ? true : false
   end
   
   # puts together a collection of documents into one refworks export string

@@ -16,11 +16,7 @@ Feature: Bookmarks
       Given I am logged in as "user1"
       When I go to the bookmarks page
       Then I should see "You have no bookmarks"
-      
-    Scenario: Bookmarks not logged in
-      When I go to the bookmarks page
-      Then I should see "Sign in"
-  
+        
     Scenario: User Has Bookmarks
       Given I am logged in as "user1"
       And "user1" has bookmarked an item with title "foo bar"
@@ -72,17 +68,11 @@ Feature: Bookmarks
       And I press "Remove bookmark"
       And I should see "Successfully removed bookmark"
       
-    Scenario: Adding bookmarks from Folder
-      Given I am logged in as "user1"
-      And I have record 2007020969 in my folder
-      And I have record 2008308175 in my folder
-      And I follow "Selected Items"
-      And I press "Add to Bookmarks"
-      Then I should see "Successfully added bookmarks."
+    Scenario: Adding bookmarks after a user logs in
+      Given I am on the document page for id 2007020969
+      Then I should see a "Bookmark" button
+      And I press "Bookmark"
+      And I am logged in as "user1"
+      When I go to the bookmarks page
+      Then I should see a "Remove" button
       
-    Scenario: Adding bookmark from Folder
-       Given I am logged in as "user1"
-       And I have record 2007020969 in my folder
-       And I follow "Selected Items"
-       And I press "Add to Bookmarks"
-       Then I should see "Successfully added bookmark."

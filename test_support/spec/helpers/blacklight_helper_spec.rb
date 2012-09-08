@@ -66,6 +66,7 @@ end
 describe BlacklightHelper do
   include ERB::Util
   include BlacklightHelper
+  include Devise::TestHelpers
   def blacklight_config
     @config ||= Blacklight::Configuration.new.configure do |config| 
       config.show.html_title = "title_display"
@@ -356,14 +357,12 @@ describe BlacklightHelper do
       it "should render partials" do
         response = helper.render_index_doc_actions(@document)
         response.should have_selector(".bookmark_toggle")
-        response.should have_selector(".folder_toggle")
       end
     end
     describe "render_show_doc_actions" do
       it "should render partials" do
         response = helper.render_show_doc_actions(@document)
         response.should have_selector(".bookmark_toggle")
-        response.should have_selector(".folder_toggle")
       end
     end
   end

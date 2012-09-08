@@ -24,7 +24,7 @@ module Blacklight
     end
 
     def default_route_sets
-      [:bookmarks, :folders, :search_history, :saved_searches, :catalog, :solr_document, :feedback]
+      [:bookmarks, :search_history, :saved_searches, :catalog, :solr_document, :feedback]
     end
 
     module RouteSets
@@ -35,15 +35,6 @@ module Blacklight
         end
       end
   
-  
-      def folders
-        add_routes do |options|
-           match "folder/clear", :to => "folder#clear", :as => "clear_folder"
-          match "folder/destroy", :to => "folder#destroy"
-          resources :folder, :only => [:index, :update, :destroy] 
-        end
-      end
-    
       def search_history
         add_routes do |options|
           match "search_history",             :to => "search_history#index",   :as => "search_history"

@@ -69,6 +69,7 @@ EOF
   def generate_devise_assets
     if options[:devise]
       gem "devise"
+      gem "devise-guests"
       run "bundle install"      
       generate "devise:install"
       generate "devise", model_name.classify

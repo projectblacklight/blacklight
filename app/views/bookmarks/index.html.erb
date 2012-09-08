@@ -1,6 +1,6 @@
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
-<%- if current_user.blank? -%>
+<%- if current_or_guest_user.blank? -%>
   
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
   
