@@ -263,20 +263,28 @@ module Blacklight::SolrHelper
     def facet_value_to_fq_string(facet_field, value) 
       facet_config = blacklight_config.facet_fields[facet_field]
 
-      case
+      local_params = []
+      local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
+
+      prefix = ""
+      prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
+
+      fq = case
         when (facet_config and facet_config.query)
           facet_config.query[value][:fq]
         when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false')
-          "#{facet_field}:#{value}"
+          "#{prefix}#{facet_field}:#{value}"
         when (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i))
-          "#{facet_field}:#{value}"
+          "#{prefix}#{facet_field}:#{value}"
         when (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
-          "#{facet_field}:#{value}"
+          "#{prefix}#{facet_field}:#{value}"
         when value.is_a?(Range)
-          "#{facet_field}:[#{value.first} TO #{value.last}]"
+          "#{prefix}#{facet_field}:[#{value.first} TO #{value.last}]"
         else
-          "{!raw f=#{facet_field}}#{value}"
+          "{!raw f=#{facet_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
       end
+
+
     end
     
     ##
@@ -308,9 +316,12 @@ module Blacklight::SolrHelper
       blacklight_config.facet_fields.each do |field_name, facet|
 
         case 
-          when facet[:query]
-            solr_parameters[:'facet.query'] += facet[:query].map { |k, x| x[:fq] } if blacklight_config.add_facet_fields_to_solr_request
+          when facet.query
+            solr_parameters[:'facet.query'] += facet.query.map { |k, x| x[:fq] } if blacklight_config.add_facet_fields_to_solr_request
    
+          when facet.ex
+            idx = solr_parameters[:'facet.field'].index(facet.field)
+            solr_parameters[:'facet.field'][idx] = "{!ex=#{facet.ex}}#{solr_parameters[:'facet.field'][idx]}" unless idx.nil?
         end
       
         # Support facet paging and 'more'

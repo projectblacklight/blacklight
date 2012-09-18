@@ -118,9 +118,18 @@ module Blacklight::FacetsHelperBehavior
   # is suitable for a redirect. See
   # add_facet_params_and_redirect
   def add_facet_params(field, value)
+    facet_config = facet_configuration_for_field(field)
+
+ 
+
     p = params.dup
     p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
     p[:f][field] = (p[:f][field] || []).dup
+
+    if facet_config.single and not p[:f][field].empty?
+      p[:f][field] = []
+    end
+    
     p[:f][field].push(value)
     p
   end

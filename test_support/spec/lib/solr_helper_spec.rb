@@ -79,7 +79,8 @@ describe 'Blacklight::SolrHelper' do
         @produced_params[:rows].should == 10
       end
       it 'should have default facet fields' do
-        @produced_params[:"facet.field"].should == blacklight_config.facet_fields_to_add_to_solr
+        # remove local params from the facet.field
+        @produced_params[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }.should == blacklight_config.facet_fields_to_add_to_solr
       end
       
       it "should have default qt"  do
@@ -116,7 +117,6 @@ describe 'Blacklight::SolrHelper' do
 
         solr_params[:q].should be_blank
         solr_params["spellcheck.q"].should be_blank
-        solr_params[:"facet.field"].should == blacklight_config.facet_fields_to_add_to_solr
 
         @single_facet.each_value do |value|
           solr_params[:fq].should include("{!raw f=#{@single_facet.keys[0]}}#{value}")
@@ -154,7 +154,12 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
-    describe "facet_value_to_fq_string", :focus => true do
+    describe "facet_value_to_fq_string" do
+
+      let :blacklight_config do
+         Blacklight::Configuration.new
+      end
+
       it "should use the raw handler for strings" do
         facet_value_to_fq_string("facet_name", "my value").should  == "{!raw f=facet_name}my value" 
       end
@@ -186,6 +191,13 @@ describe 'Blacklight::SolrHelper' do
       it "should handle range requests" do
         facet_value_to_fq_string("facet_name", 1..5).should  == "facet_name:[1 TO 5]"
       end
+
+      it "should add tag local parameters" do
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:query => nil, :tag => 'asdf'))
+
+        facet_value_to_fq_string("facet_name", true).should  == "{!tag=asdf}facet_name:true"
+        facet_value_to_fq_string("facet_name", "my value").should  == "{!raw f=facet_name tag=asdf}my value"
+      end
     end
 
     describe "solr parameters for a field search from config (subject)" do
@@ -213,9 +225,7 @@ describe 'Blacklight::SolrHelper' do
       it "should include spellcheck.q, without LocalParams" do
         @solr_params["spellcheck.q"].should == "wome"
       end
-      it "should include facet.field from default_solr_params" do
-        @solr_params[:"facet.field"].should == blacklight_config.facet_fields_to_add_to_solr
-      end
+
       it "should include spellcheck.dictionary from field def solr_parameters" do
         @solr_params[:"spellcheck.dictionary"].should == "subject"
       end
@@ -869,7 +879,7 @@ describe 'Blacklight::SolrHelper' do
     end
     it "should handle no facet_limits in config" do
       def blacklight_config
-        config = super.inheritable_copy
+        config = Blacklight::Configuration.new
         config.facet_fields = {}
         return config
       end

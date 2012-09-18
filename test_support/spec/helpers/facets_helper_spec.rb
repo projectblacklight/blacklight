@@ -1,6 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe FacetsHelper do
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
+  before(:each) do
+    helper.stub(:blacklight_config).and_return blacklight_config
+  end
+  
   describe "should_render_facet?" do
     before do
       @config = Blacklight::Configuration.new do |config|
@@ -212,6 +217,18 @@ describe FacetsHelper do
         end        
       end
     end    
+
+    it "should replace facets for facets configured as single" do
+      helper.should_receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(mock(:single => true))
+      params = { :f => { 'single_value_facet_field' => 'other_value'}}
+      helper.stub!(:params).and_return params
+
+      result_params = helper.add_facet_params('single_value_facet_field', 'my_value')
+
+
+      result_params[:f]['single_value_facet_field'].length.should == 1
+      result_params[:f]['single_value_facet_field'].first.should == 'my_value'
+    end
   end
 
   describe "add_facet_params_and_redirect" do
