@@ -290,6 +290,12 @@ module Blacklight::SolrHelper
         solr_parameters[:"facet.field"] ||= []
         solr_parameters[:"facet.field"].concat( [user_params["facet.field"], user_params["facets"]].flatten.compact ).uniq!
       end                
+
+
+      if blacklight_config.add_facet_fields_to_solr_request
+        solr_parameters[:'facet.field'] ||= []
+        solr_parameters[:'facet.field'] += blacklight_config.facet_fields.keys
+      end
   
       # Support facet paging and 'more'
       # links, by sending a facet.limit one more than what we

@@ -15,7 +15,8 @@ module Blacklight
       :show => OpenStructWithHashAccess.new(:html_title => SolrDocument.unique_key, :heading => SolrDocument.unique_key),
       :index => OpenStructWithHashAccess.new(:show_link => SolrDocument.unique_key),
       :spell_max => 5,
-      :max_per_page => 100
+      :max_per_page => 100,
+      :add_facet_fields_to_solr_request => false
     }
 
 
@@ -66,6 +67,11 @@ module Blacklight
       field ||= sort_fields.values.first
 
       field
+    end
+
+    # Add any configured facet fields to the default solr parameters hash
+    def add_facet_fields_to_solr_request!
+      self.add_facet_fields_to_solr_request = true
     end
 
     ##
