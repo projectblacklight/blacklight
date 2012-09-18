@@ -172,5 +172,8 @@ module Blacklight::FacetsHelperBehavior
   def facet_in_params?(field, value)
     params[:f] and params[:f][field] and params[:f][field].include?(value)
   end
-  
+
+  def facet_display_value field, value
+    value
+  end
 end
