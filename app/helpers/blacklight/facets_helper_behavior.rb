@@ -204,7 +204,8 @@ module Blacklight::FacetsHelperBehavior
     salient_facet_queries = facet_field.query.map { |k, x| x[:fq] }
     items = []
     @response.facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits == 0 }.map do |value,hits|
-      key = facet_field.query.select { |key, val| val[:fq] == value }.keys.first
+      salient_fields = facet_field.query.select { |key, val| val[:fq] == value }
+      key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
       items << OpenStruct.new(:value => key, :hits => hits, :label => facet_field.query[key][:label])
     end
  
