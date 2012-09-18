@@ -12,6 +12,9 @@ describe SearchHistoryConstraintsHelper do
     end
   end
 
+  before(:each) do
+    helper.stub(:blacklight_config).and_return(@config)
+  end
 
   describe "render_search_to_s_*" do
     describe "render_search_to_s_element" do

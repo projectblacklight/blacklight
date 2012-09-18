@@ -489,7 +489,7 @@ describe CatalogController do
       controller.stub(:has_user_authentication_provider?) { false }
         @mock_response = mock()
         @mock_document = mock()
-        @mock_response.stub(:docs => [], :total => 1, :facets => [], :facet_by_field_name => nil)
+        @mock_response.stub(:docs => [], :total => 1, :facets => [], :facet_queries => {}, :facet_by_field_name => nil)
         @mock_document = mock()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)

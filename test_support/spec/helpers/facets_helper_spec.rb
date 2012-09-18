@@ -27,14 +27,63 @@ describe FacetsHelper do
 
   describe "facet_by_field_name" do
     it "should retrieve the facet from the response given a string" do
-      a = mock(:name => 'a', :items => [1,2])
+      facet_config = mock(:query => nil)
+      facet_field = mock()
+      helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
 
       @response = mock()
-      @response.should_receive(:facet_by_field_name).with('a') { a }
+      @response.should_receive(:facet_by_field_name).with('a').and_return(facet_field)
 
-      helper.facet_by_field_name('a').should == a
+      helper.facet_by_field_name('a').should == facet_field
+    end
+
+    it "should also work for facet query fields" do
+      facet_config = mock(:query => {})
+      helper.should_receive(:facet_configuration_for_field).with('a_query_facet_field').and_return(facet_config)
+      helper.should_receive(:create_rsolr_facet_field_response_for_query_facet_field).with('a_query_facet_field', facet_config)
+
+      helper.facet_by_field_name 'a_query_facet_field'
+    end
+
+    describe "query facets" do
+      let(:facet_config) { 
+        mock(
+          :query => {
+             'a_simple_query' => { :fq => 'field:search', :label => 'A Human Readable label'},
+             'another_query' => { :fq => 'field:different_search', :label => 'Label'},
+             'without_results' => { :fq => 'field:without_results', :label => 'No results for this facet'}
+             }
+        )
+      }
+
+      before(:each) do
+        helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
+
+        @response = mock(:facet_queries => {
+          'field:search' => 10,
+          'field:different_search' => 2,
+          'field:not_appearing_in_the_config' => 50,
+          'field:without_results' => 0
+        })
+      end
+
+      it"should convert the query facets into a mock RSolr FacetField" do
+        field = helper.facet_by_field_name('my_query_facet_field')
+        field.should be_a_kind_of RSolr::Ext::Response::Facets::FacetField
+
+        field.name.should == 'my_query_facet_field'
+        field.items.length.should == 2
+        field.items.map { |x| x.value }.should_not include 'field:not_appearing_in_the_config'
+
+        facet_item = field.items.select { |x| x.value == 'a_simple_query' }.first
+
+        facet_item.value.should == 'a_simple_query'
+        facet_item.hits.should == 10
+        facet_item.label.should == 'A Human Readable label'
+      end
     end
   end
+
 
   describe "render_facet_partials" do
     it "should try to render all provided facets " do
@@ -214,5 +263,16 @@ describe FacetsHelper do
   describe "facet_in_params?" do
 
   end
-  
+
+  describe "#facet_display_value" do
+    it "should just be the facet value for an ordinary facet" do
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil))
+      helper.facet_display_value('simple_field', 'asdf').should == 'asdf'
+    end
+
+    it "should extract the configuration label for a query facet" do
+      helper.stub(:facet_configuration_for_field).with('query_facet').and_return(mock('query' => { 'query_key' => { :label => 'XYZ'}}))
+      helper.facet_display_value('query_facet', 'query_key').should == 'XYZ'
+    end
+  end
 end

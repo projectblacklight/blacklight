@@ -59,13 +59,18 @@ class CatalogController < ApplicationController
     config.add_facet_field 'subject_geo_facet', :label => 'Region' 
     config.add_facet_field 'subject_era_facet', :label => 'Era'  
 
+
+    config.add_facet_field 'example_query_facet_field', :label => 'Publish Date', :query => {
+       :years_5 => { :label => 'within 5 Years', :fq => "pub_date:[#{Time.now.year - 5 } TO *]" },
+       :years_10 => { :label => 'within 10 Years', :fq => "pub_date:[#{Time.now.year - 10 } TO *]" },
+       :years_25 => { :label => 'within 25 Years', :fq => "pub_date:[#{Time.now.year - 25 } TO *]" }
+    }
+
+
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
-    config.default_solr_params[:'facet.field'] = config.facet_fields.keys
-    #use this instead if you don't want to query facets marked :show=>false
-    #config.default_solr_params[:'facet.field'] = config.facet_fields.select{ |k, v| v[:show] != false}.keys
-
+    config.add_facet_fields_to_solr_request!
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display 

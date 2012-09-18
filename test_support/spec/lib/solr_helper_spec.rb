@@ -79,7 +79,7 @@ describe 'Blacklight::SolrHelper' do
         @produced_params[:rows].should == 10
       end
       it 'should have default facet fields' do
-        @produced_params[:"facet.field"].should == blacklight_config.facet_fields.keys
+        @produced_params[:"facet.field"].should == blacklight_config.facet_fields_to_add_to_solr
       end
       
       it "should have default qt"  do
@@ -116,7 +116,7 @@ describe 'Blacklight::SolrHelper' do
 
         solr_params[:q].should be_blank
         solr_params["spellcheck.q"].should be_blank
-        solr_params[:"facet.field"].should == blacklight_config.facet_fields.keys
+        solr_params[:"facet.field"].should == blacklight_config.facet_fields_to_add_to_solr
 
         @single_facet.each_value do |value|
           solr_params[:fq].should include("{!raw f=#{@single_facet.keys[0]}}#{value}")
@@ -214,7 +214,7 @@ describe 'Blacklight::SolrHelper' do
         @solr_params["spellcheck.q"].should == "wome"
       end
       it "should include facet.field from default_solr_params" do
-        @solr_params[:"facet.field"].should == blacklight_config.facet_fields.keys
+        @solr_params[:"facet.field"].should == blacklight_config.facet_fields_to_add_to_solr
       end
       it "should include spellcheck.dictionary from field def solr_parameters" do
         @solr_params[:"spellcheck.dictionary"].should == "subject"
@@ -610,7 +610,7 @@ describe 'Blacklight::SolrHelper' do
       @facets.size.should > 1
     end
     it 'should have all facets specified in initializer' do      
-      blacklight_config.facet_fields.keys.each do |field|
+      blacklight_config.facet_fields_to_add_to_solr.each do |field|
         @facets.find {|f| f.name == field}.should_not be_nil        
       end
     end

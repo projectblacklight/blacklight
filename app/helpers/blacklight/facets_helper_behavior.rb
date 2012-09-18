@@ -32,13 +32,14 @@ module Blacklight::FacetsHelperBehavior
   def facet_by_field_name solr_field
     case solr_field
       when String, Symbol
-        @response.facet_by_field_name(solr_field)
+        extract_solr_facet_by_field_name(solr_field)
       when Blacklight::Configuration::FacetField
-        @response.facet_by_field_name(solr_field.field)
+        extract_solr_facet_by_field_name(solr_field.field)
       else
         solr_field
       end
   end
+
 
   # used in the catalog/_facets partial and elsewhere
   # Renders a single section for facet limit with a specified
@@ -95,7 +96,7 @@ module Blacklight::FacetsHelperBehavior
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    (link_to_unless(options[:suppress_link], item.value, add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)).html_safe
+    (link_to_unless(options[:suppress_link], ((item.label if item.respond_to?(:label)) || item.value), add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)).html_safe
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -174,6 +175,39 @@ module Blacklight::FacetsHelperBehavior
   end
 
   def facet_display_value field, value
-    value
+
+    facet_config = facet_configuration_for_field(field)
+
+    display_label = value
+
+    if facet_config.query and facet_config.query[value]
+      display_label = facet_config.query[value][:label]     
+    end
+
+    display_label
+  end
+
+  private
+
+  # Get the solr response for the solr field :field
+  def extract_solr_facet_by_field_name facet_name
+    facet_field = facet_configuration_for_field(facet_name)
+    case 
+      when facet_field.query
+        create_rsolr_facet_field_response_for_query_facet_field facet_name, facet_field     
+      else
+        @response.facet_by_field_name(facet_name)
+    end
+  end
+
+  def create_rsolr_facet_field_response_for_query_facet_field facet_name, facet_field
+    salient_facet_queries = facet_field.query.map { |k, x| x[:fq] }
+    items = []
+    @response.facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits == 0 }.map do |value,hits|
+      key = facet_field.query.select { |key, val| val[:fq] == value }.keys.first
+      items << OpenStruct.new(:value => key, :hits => hits, :label => facet_field.query[key][:label])
+    end
+ 
+    RSolr::Ext::Response::Facets::FacetField.new facet_name, items
   end
 end

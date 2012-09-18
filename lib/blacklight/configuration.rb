@@ -24,6 +24,7 @@ module Blacklight
     require 'blacklight/configuration/fields'
     require 'blacklight/configuration/solr_field'
     require 'blacklight/configuration/search_field'
+    require 'blacklight/configuration/facet_field'
     require 'blacklight/configuration/sort_field'
     include Fields
 
@@ -72,6 +73,12 @@ module Blacklight
     # Add any configured facet fields to the default solr parameters hash
     def add_facet_fields_to_solr_request!
       self.add_facet_fields_to_solr_request = true
+    end
+
+    def facet_fields_to_add_to_solr
+      return facet_fields.reject { |k,v| v[:query] }.map { |k,v| v.field } if self.add_facet_fields_to_solr_request
+
+      []
     end
 
     ##

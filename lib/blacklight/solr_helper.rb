@@ -261,7 +261,11 @@ module Blacklight::SolrHelper
     ##
     # Convert a facet/value pair into a solr fq parameter
     def facet_value_to_fq_string(facet_field, value) 
+      facet_config = blacklight_config.facet_fields[facet_field]
+
       case
+        when (facet_config and facet_config.query)
+          facet_config.query[value][:fq]
         when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false')
           "#{facet_field}:#{value}"
         when (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i))
@@ -294,16 +298,25 @@ module Blacklight::SolrHelper
 
       if blacklight_config.add_facet_fields_to_solr_request
         solr_parameters[:'facet.field'] ||= []
-        solr_parameters[:'facet.field'] += blacklight_config.facet_fields.keys
+        solr_parameters[:'facet.field'] += blacklight_config.facet_fields_to_add_to_solr
+        
+        if blacklight_config.facet_fields.any? { |k,v| v[:query] }
+          solr_parameters[:'facet.query'] ||= []
+        end
       end
-  
-      # Support facet paging and 'more'
-      # links, by sending a facet.limit one more than what we
-      # want to page at, according to configured facet limits.       
+         
       blacklight_config.facet_fields.each do |field_name, facet|
-        next unless (limit = facet_limit_for(field_name))
-  
-        solr_parameters[:"f.#{field_name}.facet.limit"] = (limit + 1)
+
+        case 
+          when facet[:query]
+            solr_parameters[:'facet.query'] += facet[:query].map { |k, x| x[:fq] } if blacklight_config.add_facet_fields_to_solr_request
+   
+        end
+      
+        # Support facet paging and 'more'
+        # links, by sending a facet.limit one more than what we
+        # want to page at, according to configured facet limits.
+        solr_parameters[:"f.#{facet.field}.facet.limit"] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
       end
     end
 
