@@ -1,6 +1,6 @@
 <%= form_tag bookmarks_url, :name => "bookmarks" do %>
   <% documents.each_with_index do |document, index| %>
-    <%= hidden_field_tag "bookmarks[#{index}][document_id]", document.get(:id)%>
+    <%= hidden_field_tag "bookmarks[#{index}][document_id]", document.id %>
     <%= hidden_field_tag "bookmarks[#{index}][title]", h(document[document_show_link_field])%>
   <% end %>
   <%= link_to_function t('blacklight.bookmarks.collection.add.button'), "document.bookmarks.submit()" %>
