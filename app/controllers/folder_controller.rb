@@ -9,7 +9,7 @@ class FolderController < ApplicationController
 
   # fetch the documents that match the ids in the folder
   def index
-    @response, @documents = get_solr_response_for_field_values("id",session[:folder_document_ids] || [])
+    @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,session[:folder_document_ids] || [])
   end
     
 

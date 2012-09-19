@@ -7,7 +7,7 @@ class Bookmark < ActiveRecord::Base
 
 
   def document
-    SolrDocument.new :id => document_id
+    SolrDocument.new SolrDocument.unique_key => document_id
   end
   
 end
