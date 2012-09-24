@@ -110,6 +110,7 @@ end
 
 gem 'jettywrapper', '>= 1.2.0'
 gem \"devise\"
+gem \"devise-guests\"
 " >> Gemfile
 
 bundle install
