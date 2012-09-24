@@ -26,19 +26,18 @@ module Blacklight::Controller
     base.send :helper_method, :javascript_includes
     base.send :helper_method, :has_user_authentication_provider?
 
-    # Provide a #current_or_guest_user helper if one isn't provided for us.
-    base.class_eval do 
-      helper_method :current_or_guest_user
-
-      def current_or_guest_user
-        blacklight_current_or_guest_user
-      end
-
-    end unless base.instance_methods.include? :current_or_guest_user
 
     # This callback runs when a user first logs in
     base.set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user rescue nil
 
+  end
+
+  def method_missing(meth, *args, &block)
+    if meth.to_s == "current_or_guest_user"
+      define_method(meth) { blacklight_current_or_guest_user }
+    else
+      super
+    end
   end
 
     # test for exception notifier plugin
