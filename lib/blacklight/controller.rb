@@ -34,7 +34,10 @@ module Blacklight::Controller
 
   def method_missing(meth, *args, &block)
     if meth.to_s == "current_or_guest_user"
+      # Add the method
       define_method(meth) { blacklight_current_or_guest_user }
+
+      blacklight_current_or_guest_user
     else
       super
     end
