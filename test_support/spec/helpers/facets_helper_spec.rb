@@ -283,13 +283,23 @@ describe FacetsHelper do
 
   describe "#facet_display_value" do
     it "should just be the facet value for an ordinary facet" do
-      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil))
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil))
       helper.facet_display_value('simple_field', 'asdf').should == 'asdf'
     end
 
     it "should extract the configuration label for a query facet" do
-      helper.stub(:facet_configuration_for_field).with('query_facet').and_return(mock('query' => { 'query_key' => { :label => 'XYZ'}}))
+      helper.stub(:facet_configuration_for_field).with('query_facet').and_return(mock(:query => { 'query_key' => { :label => 'XYZ'}}, :date => nil))
       helper.facet_display_value('query_facet', 'query_key').should == 'XYZ'
+    end
+
+    it "should localize the label for date-type facets" do
+      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(mock('date' => true, :query => nil))
+      helper.facet_display_value('date_facet', '2012-01-01').should == 'Sun, 01 Jan 2012 00:00:00 +0000'
+    end
+
+    it "should localize the label for date-type facets with the supplied localization options" do
+      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(mock('date' => { :format => :short }, :query => nil))
+      helper.facet_display_value('date_facet', '2012-01-01').should == '01 Jan 00:00'
     end
   end
 end

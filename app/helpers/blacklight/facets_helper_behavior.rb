@@ -193,6 +193,12 @@ module Blacklight::FacetsHelperBehavior
       display_label = facet_config.query[value][:label]     
     end
 
+    if facet_config.date
+      localization_options = {}
+      localization_options = facet_config.date unless facet_config.date === true
+      display_label = l(value.to_datetime, localization_options)
+    end
+
     display_label
   end
 

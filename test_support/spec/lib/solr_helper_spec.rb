@@ -188,6 +188,12 @@ describe 'Blacklight::SolrHelper' do
         facet_value_to_fq_string("facet_name", "1.11").should  == "facet_name:1.11"
       end
 
+      it "should pass date-type fields through" do
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:date => true))
+
+        facet_value_to_fq_string("facet_name", "2012-01-01").should  == "facet_name:2012-01-01"
+      end
+
       it "should handle range requests" do
         facet_value_to_fq_string("facet_name", 1..5).should  == "facet_name:[1 TO 5]"
       end
