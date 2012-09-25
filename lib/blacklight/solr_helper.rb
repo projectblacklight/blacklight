@@ -244,12 +244,19 @@ module Blacklight::SolrHelper
     ##
     # Add any existing facet limits, stored in app-level HTTP query
     # as :f, to solr as appropriate :fq query. 
-    def add_facet_fq_to_solr(solr_parameters, user_params)      
+    def add_facet_fq_to_solr(solr_parameters, user_params)   
+
+      # convert a String value into an Array
+      if solr_parameters[:fq].is_a? String
+        solr_parameters[:fq] = [solr_parameters[:fq]]
+      end
+
       # :fq, map from :f. 
       if ( user_params[:f])
         f_request_params = user_params[:f] 
         
         solr_parameters[:fq] ||= []
+
         f_request_params.each_pair do |facet_field, value_list|
           Array(value_list).each do |value|
             solr_parameters[:fq] << facet_value_to_fq_string(facet_field, value)

@@ -251,6 +251,16 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
+    describe "converts a String fq into anm Array" do
+      it "should return the correct overriden parameter" do
+        solr_parameters = {:fq => 'a string' }
+        
+        add_facet_fq_to_solr(solr_parameters, {})
+
+        solr_parameters[:fq].should be_a_kind_of Array
+      end
+    end
+
     describe "with a complex parameter environment" do
       def blacklight_config          
         config = Blacklight::Configuration.new
