@@ -251,13 +251,35 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
-    describe "converts a String fq into anm Array" do
+    describe "converts a String fq into an Array" do
       it "should return the correct overriden parameter" do
         solr_parameters = {:fq => 'a string' }
         
         add_facet_fq_to_solr(solr_parameters, {})
 
         solr_parameters[:fq].should be_a_kind_of Array
+      end
+    end
+
+    describe "Allow passing :sort when defining facet" do
+
+      let(:blacklight_config) do
+         config = Blacklight::Configuration.new
+
+         config.add_facet_field 'test_field', :sort => 'count'
+         config.add_facet_fields_to_solr_request!
+
+         config
+      end
+
+      it "should return the correct solr parameters" do
+
+        solr_parameters = { }
+        
+        add_facetting_to_solr(solr_parameters, {})
+
+        solr_parameters[:'facet.field'].should include('test_field')
+        solr_parameters[:'f.test_field.facet.sort'].should == 'count'
       end
     end
 

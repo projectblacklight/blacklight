@@ -322,15 +322,21 @@ module Blacklight::SolrHelper
          
       blacklight_config.facet_fields.each do |field_name, facet|
 
-        case 
-          when facet.query
-            solr_parameters[:'facet.query'] += facet.query.map { |k, x| x[:fq] } if blacklight_config.add_facet_fields_to_solr_request
+        if blacklight_config.add_facet_fields_to_solr_request
+          case 
+            when facet.query
+              solr_parameters[:'facet.query'] += facet.query.map { |k, x| x[:fq] } 
    
-          when facet.ex
-            idx = solr_parameters[:'facet.field'].index(facet.field)
-            solr_parameters[:'facet.field'][idx] = "{!ex=#{facet.ex}}#{solr_parameters[:'facet.field'][idx]}" unless idx.nil?
+            when facet.ex
+              idx = solr_parameters[:'facet.field'].index(facet.field)
+              solr_parameters[:'facet.field'][idx] = "{!ex=#{facet.ex}}#{solr_parameters[:'facet.field'][idx]}" unless idx.nil?
+          end
+
+          if facet.sort
+            solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
+          end
         end
-      
+
         # Support facet paging and 'more'
         # links, by sending a facet.limit one more than what we
         # want to page at, according to configured facet limits.
