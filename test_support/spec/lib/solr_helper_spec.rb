@@ -189,7 +189,7 @@ describe 'Blacklight::SolrHelper' do
       end
 
       it "should pass date-type fields through" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:date => true))
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:date => true, :query => nil, :tag => nil))
 
         facet_value_to_fq_string("facet_name", "2012-01-01").should  == "facet_name:2012-01-01"
       end
@@ -199,7 +199,7 @@ describe 'Blacklight::SolrHelper' do
       end
 
       it "should add tag local parameters" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:query => nil, :tag => 'asdf'))
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:query => nil, :tag => 'asdf', :date => nil))
 
         facet_value_to_fq_string("facet_name", true).should  == "{!tag=asdf}facet_name:true"
         facet_value_to_fq_string("facet_name", "my value").should  == "{!raw f=facet_name tag=asdf}my value"
