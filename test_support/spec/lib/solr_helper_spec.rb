@@ -434,6 +434,12 @@ describe 'Blacklight::SolrHelper' do
 
       @sort_key = Blacklight::Solr::FacetPaginator.request_keys[:sort]
       @offset_key = Blacklight::Solr::FacetPaginator.request_keys[:offset]
+      @config = Blacklight::Configuration.new do |config|
+        config.add_facet_fields_to_solr_request!
+        config.add_facet_field 'format'
+        config.add_facet_field 'format_ordered', :sort => :count
+
+      end
     end
     it 'sets rows to 0' do
       @generated_solr_facet_params[:rows].should == 0
@@ -442,16 +448,17 @@ describe 'Blacklight::SolrHelper' do
       @generated_solr_facet_params["facet.field".to_sym].should == @facet_field
     end
     it 'defaults offset to 0' do
-      @generated_solr_facet_params['facet.offset'].should == 0
+      @generated_solr_facet_params[:"f.#{@facet_field}.facet.offset"].should == 0
     end
     it 'uses offset manually set, and converts it to an integer' do
       solr_params = solr_facet_params(@facet_field, @offset_key => "100")
-      solr_params['facet.offset'].should == 100
+      solr_params[:"f.#{@facet_field}.facet.offset"].should == 100
     end
     it 'defaults limit to 20' do
       solr_params = solr_facet_params(@facet_field)
       solr_params[:"f.#{@facet_field}.facet.limit"].should == 21
     end
+
     describe 'if facet_list_limit is defined in controller' do
       def facet_list_limit
         1000
@@ -461,9 +468,20 @@ describe 'Blacklight::SolrHelper' do
         solr_params[:"f.#{@facet_field}.facet.limit"].should == 1001
       end
     end
-    it 'uses sort set manually' do
+    it 'uses the default sort' do
+      solr_params = solr_facet_params(@facet_field)
+      solr_params[:"f.#{@facet_field}.facet.sort"].should be_blank
+    end
+
+    it "uses the field-specific sort" do
+      @facet_field = 'format_ordered'
+      solr_params = solr_facet_params(@facet_field)
+      solr_params[:"f.#{@facet_field}.facet.sort"].should == :count
+    end
+
+    it 'uses sort provided in the parameters' do
       solr_params = solr_facet_params(@facet_field, @sort_key => "index")
-      solr_params['facet.sort'].should == 'index'
+      solr_params[:"f.#{@facet_field}.facet.sort"].should == 'index'
     end
     it "comes up with the same params as #solr_search_params to constrain context for facet list" do
       search_params = {:q => 'tibetan history', :f=> {:format=>'Book', :language_facet=>'Tibetan'}}
