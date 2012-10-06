@@ -446,6 +446,13 @@ module Blacklight::SolrHelper
       else
         20 + 1
       end
+
+    # TODO: Fix this properly.
+    # This is an ugly hack to make paginated facet sort order
+    # work correctly.
+    solr_params["catalog_facet.offset"] = solr_params["f.#{facet_field}.facet.limit".to_sym]
+    solr_params["catalog_facet.sort"] = solr_params["f.#{facet_field}.facet.sort".to_sym]
+
     solr_params['facet.offset'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:offset]  ].to_i # will default to 0 if nil
     solr_params['facet.sort'] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]     
     solr_params[:rows] = 0
