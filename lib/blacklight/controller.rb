@@ -109,7 +109,11 @@ module Blacklight::Controller
 
     # Here's a stub implementation we'll add if it isn't provided for us
     def current_or_guest_user
-      current_user if has_user_authentication_provider?
+      if defined? super
+        super
+      else
+        current_user if has_user_authentication_provider?
+      end
     end
     alias_method :blacklight_current_or_guest_user, :current_or_guest_user
 
