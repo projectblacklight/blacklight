@@ -70,7 +70,11 @@ EOF
     if options[:devise]
       gem "devise"
       gem "devise-guests"
-      run "bundle install"      
+
+      Bundler.with_clean_env do
+       run "bundle install"
+      end
+      
       generate "devise:install"
       generate "devise", model_name.classify
       generate "devise:views"
@@ -155,8 +159,12 @@ EOF
   def add_sass_configuration
     gem 'compass-rails', '~> 1.0.0', :group => :assets
     gem 'compass-susy-plugin', '~> 0.9.0', :group => :assets
-    run "bundle install"
-      insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
+    
+    Bundler.with_clean_env do
+     run "bundle install"
+    end
+
+    insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
     
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
     config.assets.compress = !Rails.env.development?
