@@ -563,6 +563,13 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
+    describe '#get_solr_response' do
+      it 'should have results' do
+        solr_response = get_solr_response(:q => @single_word_query)
+        solr_response.docs.size.should > 0
+      end
+    end
+
     describe 'for All Docs Query, No Facets' do
       it 'should have non-nil values for required doc fields set in initializer' do
         (solr_response, document_list) = get_search_results(:q => @all_docs_query)
@@ -576,6 +583,11 @@ describe 'Blacklight::SolrHelper' do
 
 
     describe "Single Word Query with no Facets" do
+      it 'should have results' do
+        solr_response = get_solr_response(:q => @single_word_query)
+        solr_response.docs.size.should > 0
+      end
+
       it 'should have results' do
         (solr_response, document_list) = get_search_results(:q => @single_word_query)
         solr_response.docs.size.should == document_list.size
