@@ -438,6 +438,7 @@ describe 'Blacklight::SolrHelper' do
         config.add_facet_fields_to_solr_request!
         config.add_facet_field 'format'
         config.add_facet_field 'format_ordered', :sort => :count
+        config.add_facet_field 'format_limited', :limit => 5
 
       end
     end
@@ -467,7 +468,13 @@ describe 'Blacklight::SolrHelper' do
         solr_params = solr_facet_params(@facet_field)
         solr_params[:"f.#{@facet_field}.facet.limit"].should == 1001
       end
+
+      it 'uses controller method for limit when a ordinary limit is set' do
+        solr_params = solr_facet_params(@facet_field)
+        solr_params[:"f.#{@facet_field}.facet.limit"].should == 1001
+      end
     end
+
     it 'uses the default sort' do
       solr_params = solr_facet_params(@facet_field)
       solr_params[:"f.#{@facet_field}.facet.sort"].should be_blank
