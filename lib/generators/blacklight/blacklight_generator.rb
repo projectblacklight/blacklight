@@ -69,7 +69,7 @@ EOF
   def generate_devise_assets
     if options[:devise]
       gem "devise"
-      gem "devise-guests"
+      gem "devise-guests", "~> 0.2"
 
       Bundler.with_clean_env do
        run "bundle install"
