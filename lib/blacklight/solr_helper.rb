@@ -470,9 +470,9 @@ module Blacklight::SolrHelper
     # currently tested for, tricky to figure out how to test, since the
     # default setup we test against doesn't use this feature. 
     return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
-      :offset => solr_params['facet.offset'], 
+      :offset => solr_params[:"f.#{facet_field}.facet.offset"], 
       :limit => limit,
-      :sort => response["responseHeader"]["params"]["f.#{facet_field}.facet.sort"] || response["responseHeader"]["params"]["facet.sort"]
+      :sort => response["responseHeader"]["params"][:"f.#{facet_field}.facet.sort"] || response["responseHeader"]["params"]["facet.sort"]
     )
   end
   
