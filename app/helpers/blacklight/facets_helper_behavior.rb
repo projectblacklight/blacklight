@@ -19,6 +19,11 @@ module Blacklight::FacetsHelperBehavior
     blacklight_config.facet_fields.keys
   end
 
+  def has_facet_values? fields = facet_field_names, options = {}
+    solr_fields = fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
+    solr_fields.any? { |display_facet| !display_facet.items.empty? }
+  end
+
   # Render a collection of facet fields
   def render_facet_partials fields = facet_field_names, options = {}
     solr_fields = fields.map { |solr_field| facet_by_field_name(solr_field) }.compact

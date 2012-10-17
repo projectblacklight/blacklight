@@ -7,6 +7,10 @@
 # search results page (render_constraints(_*))
 module Blacklight::RenderConstraintsHelperBehavior
 
+  def query_has_constraints?(localized_params = params)
+    !(localized_params[:q].blank? and localized_params[:f].blank?)
+  end
+
   # Render actual constraints, not including header or footer
   # info. 
   def render_constraints(localized_params = params)
