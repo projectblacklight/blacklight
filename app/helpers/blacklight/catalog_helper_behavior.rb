@@ -67,6 +67,10 @@ module Blacklight::CatalogHelperBehavior
   def search_field_label(params)
     h( label_for_search_field(params[:search_field]) )
   end
+  
+  def current_sort_field
+    blacklight_config.sort_fields[params[:sort]] || blacklight_config.sort_fields.first.last
+  end
 
   # Export to Refworks URL, called in _show_tools
   def refworks_export_url(document = @document)
