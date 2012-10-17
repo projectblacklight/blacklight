@@ -17,7 +17,7 @@ module Blacklight::Solr
     # and need to make them accessible in a list so we can easily
     # strip em out before redirecting to catalog/index.
     # class variable (via class-level ivar)
-    @request_keys = {:sort => :'catalog_facet.sort', :offset => :'catalog_facet.offset', :limit => :'catalog_facet.limit'}
+    @request_keys = {:sort => :'facet.sort', :page => :'facet.page'}
     class << self; attr_accessor :request_keys end # create a class method
     def request_keys ; self.class.request_keys ; end # shortcut
     
@@ -49,33 +49,26 @@ module Blacklight::Solr
       end
     end
 
+    def current_page
+      1 + @offset/@limit
+    end
+   
     def has_next?
       @has_next
-    end
-
-    # Pass in your current request params, returns a param hash
-    # suitable to passing to an ActionHelper method (resource-based url_for, or
-    # link_to or url_for) navigating to the next facet value batch. Returns nil 
-    # if there is no has_next?
-    def params_for_next_url(params)
-      return nil unless has_next?
-      
-      return params.merge(request_keys[:offset] => offset + limit )
     end
 
     def has_previous?
       @has_previous
     end
-    
-    # Pass in your current request params, returns a param hash
-    # suitable to passing to an ActionHelper method (resource-based url_for, or
-    # link_to or url_for) navigating to the previous facet value batch. Returns
-    # nil if there is no has_previous?
-    def params_for_previous_url(params)
-      return nil unless has_previous?
 
-      return params.merge(request_keys[:offset] => offset - limit )
+    def last_page?
+      !has_next?
     end
+
+    def first_page?
+      !has_previous?
+    end
+
 
    # Pass in a desired solr facet solr key ('count' or 'index', see
    # http://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
@@ -85,8 +78,7 @@ module Blacklight::Solr
    def params_for_resort_url(sort_method, params)
      # When resorting, we've got to reset the offset to start at beginning,
      # no way to make it make sense otherwise.
-     return params.merge(request_keys[:sort] => sort_method,
-                         request_keys[:offset] => 0)
+     return params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
    end
     
   end

@@ -436,17 +436,20 @@ module Blacklight::SolrHelper
     # Now override with our specific things for fetching facet values
     solr_params[:"facet.field"] = facet_field
 
-    # Need to set as f.facet_field.facet.limit to make sure we
-    # override any field-specific default in the solr request handler. 
-    solr_params[:"f.#{facet_field}.facet.limit"] = 
+
+    limit =  
       if respond_to?(:facet_list_limit)
-        facet_list_limit.to_s.to_i + 1  
+        facet_list_limit.to_s.to_i
       elsif solr_params["facet.limit"] 
-        solr_params["facet.limit"].to_i + 1
+        solr_params["facet.limit"].to_i
       else
-        20 + 1
+        20
       end
-    solr_params[:"f.#{facet_field}.facet.offset"] = input[  Blacklight::Solr::FacetPaginator.request_keys[:offset]  ].to_i # will default to 0 if nil
+
+    # Need to set as f.facet_field.facet.* to make sure we
+    # override any field-specific default in the solr request handler. 
+    solr_params[:"f.#{facet_field}.facet.limit"]  = limit + 1
+    solr_params[:"f.#{facet_field}.facet.offset"] = ( input.fetch(Blacklight::Solr::FacetPaginator.request_keys[:page] , 1).to_i - 1 ) * ( limit )
     solr_params[:"f.#{facet_field}.facet.sort"] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]   
     solr_params[:rows] = 0
 

@@ -433,7 +433,7 @@ describe 'Blacklight::SolrHelper' do
       @generated_solr_facet_params = solr_facet_params(@facet_field)
 
       @sort_key = Blacklight::Solr::FacetPaginator.request_keys[:sort]
-      @offset_key = Blacklight::Solr::FacetPaginator.request_keys[:offset]
+      @page_key = Blacklight::Solr::FacetPaginator.request_keys[:page]
       @config = Blacklight::Configuration.new do |config|
         config.add_facet_fields_to_solr_request!
         config.add_facet_field 'format'
@@ -452,8 +452,8 @@ describe 'Blacklight::SolrHelper' do
       @generated_solr_facet_params[:"f.#{@facet_field}.facet.offset"].should == 0
     end
     it 'uses offset manually set, and converts it to an integer' do
-      solr_params = solr_facet_params(@facet_field, @offset_key => "100")
-      solr_params[:"f.#{@facet_field}.facet.offset"].should == 100
+      solr_params = solr_facet_params(@facet_field, @page_key => 2)
+      solr_params[:"f.#{@facet_field}.facet.offset"].should == 20
     end
     it 'defaults limit to 20' do
       solr_params = solr_facet_params(@facet_field)

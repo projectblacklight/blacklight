@@ -11,23 +11,16 @@ describe 'Blacklight::Solr::FacetPaginator' do
     @limit = 6
 
     @sort_key = Blacklight::Solr::FacetPaginator.request_keys[:sort]
-    @offset_key = Blacklight::Solr::FacetPaginator.request_keys[:offset]
-    @limit_key = Blacklight::Solr::FacetPaginator.request_keys[:limit]
+    @page_key = Blacklight::Solr::FacetPaginator.request_keys[:page]
   end
   context 'when there are limit+1 results' do
     before(:each) do
-      @paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, @offset_key => 0, :limit => 6)
+      @paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :limit => 6)
     end
     it 'should have next' do
       @paginator.should be_has_next
     end
-    it 'should generate proper next params' do
-      next_params = @paginator.params_for_next_url(:original1 => "original1", :original2 => "original2")
 
-      next_params[:original1].should == "original1"
-      next_params[:original2].should == "original2"
-      next_params[@offset_key].should == 0 + @limit 
-    end
   end
   it 'should not have next when there are fewer results' do
     paginator = Blacklight::Solr::FacetPaginator.new(@six_facet_values, :offset => 0, :limit => @limit)
@@ -44,14 +37,6 @@ describe 'Blacklight::Solr::FacetPaginator' do
       @paginator.should be_has_previous
     end
 
-    it 'should generate proper previous params' do
-      next_params = @paginator.params_for_previous_url(:original1 => "original1", :original2 => "original2")
-
-      next_params[:original1].should == "original1"
-      next_params[:original2].should == "original2"
-      next_params[@offset_key].should == @offset - @limit 
-    end
-
   end
   it 'should not have previous when offset is 0' do
     paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 0, :limit => @limit)
@@ -66,7 +51,7 @@ describe 'Blacklight::Solr::FacetPaginator' do
       click_params = paginator.params_for_resort_url('count', {})
 
       click_params[ @sort_key ].should == 'count'
-      click_params[ @offset_key ].to_s.should == "0"
+      click_params[ @page_key ].should be_nil
   end
   it 'should limit items to limit, if limit is smaller than items.length' do
     paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 100, :limit => 6, :sort => 'index')
