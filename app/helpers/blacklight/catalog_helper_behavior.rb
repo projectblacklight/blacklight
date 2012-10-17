@@ -9,8 +9,9 @@ module Blacklight::CatalogHelperBehavior
     per_page = 1 if per_page < 1
     current_page = (response.start / per_page).ceil + 1
     num_pages = (response.total / per_page.to_f).ceil
-    Struct.new(:current_page, :num_pages, :limit_value).new(current_page, num_pages, per_page)
-  end    
+
+    Struct.new(:current_page, :num_pages, :limit_value, :total_count, :first_page?, :last_page?).new(current_page, num_pages, per_page, response.total, current_page > 1, current_page < num_pages)
+  end
 
   # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument. 
   # Will convert it to something kaminari can deal with (using #paginate_params), and
