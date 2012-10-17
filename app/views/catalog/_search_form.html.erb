@@ -1,5 +1,5 @@
 <div id="search" class="search">
-  <%= form_tag url_for(:action=>'index'), :method => :get do %>
+  <%= form_tag search_action_url, :method => :get do %>
     <h2 class="search"><%= label_tag(:q, t('blacklight.search.form.q')) %></h2>
     <%= text_field_tag :q, params[:q], :class => "q" %>
     <% unless search_fields.empty? %>
