@@ -17,26 +17,10 @@ Feature: Bookmarks
       When I go to the bookmarks page
       Then I should see "You have no bookmarks"
         
-    Scenario: User Has Bookmarks
-      Given I am logged in as "user1"
-      And "user1" has bookmarked an item with title "foo bar"
-      When I go to the bookmarks page
-      Then I should see "Your Bookmarks"
-      And I should see "foo bar"
-
-    Scenario: Deleting a Bookmark
-      Given I am logged in as "user1"
-      And "user1" has bookmarked an item with title "foo bar"
-      And I am on the bookmarks page
-      Then I should see a "Remove" button
-      When I press "Remove"
-      Then I should see "Successfully removed bookmark."
-
     Scenario: Clearing Bookmarks
-      Given I am logged in as "user1"
-      And "user1" has bookmarked an item with title "foo bar"
-      And "user1" has bookmarked an item with title "boo baz"
-      And I am on the bookmarks page
+      Given I am on the document page for id 2007020969
+      And I press "Bookmark"
+      When I am on the bookmarks page
       Then I should see "Clear Bookmarks"
       When I follow "Clear Bookmarks"
       Then I should see "Cleared your bookmarks."
@@ -74,5 +58,5 @@ Feature: Bookmarks
       And I press "Bookmark"
       And I am logged in as "user1"
       When I go to the bookmarks page
-      Then I should see a "Remove" button
+      Then I should see a "Remove bookmark" button
       

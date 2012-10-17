@@ -1,3 +1,7 @@
+<% sidebar_items << capture do %>
+  <p><%= link_back_to_catalog %></p>
+<% end %>
+
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
 <%- if current_or_guest_user.blank? -%>
@@ -6,28 +10,11 @@
   
 <%- elsif @bookmarks.blank? -%>
   
-  <h2><%= t('blacklight.bookmarks.no_bookmarks') %></h2>
-  
-<%- else -%>
-
-<%= paginate @bookmarks, :theme => 'blacklight' %>
-  <div id="userBookmarks">
-    <p>
-    <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') } %>
-    </p>
-    
-    <h2><%= t('blacklight.bookmarks.list_title') %></h2>
-    
-    <table class="zebra">
-      <% @bookmarks.each do |bm| %>
-      <tr>
-    	<td><%= link_to h(bm.title), polymorphic_path(bm.document) %></td>
-    	<td><%= button_to t('blacklight.bookmarks.delete'), {:controller => "bookmarks", :action => "destroy", :id => CGI.escape(bm.document_id)}, 
-        :method => :delete, :data => { :confirm => t('blacklight.bookmarks.remove.action_confirm') } %></td>
-      </tr>
-      <% end %>
-    </table>
-  </div>
-
+  <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% end %>
-  
+
+<% unless @document_list.empty? %>
+  <%= render 'tools' %>  
+  <%= render :partial => 'catalog/document_list' %>
+<% end %>
+
