@@ -1,17 +1,7 @@
 <div id="sortAndPerPage">  
 	<% unless @response.total < 2 %>
-	  <%-# kind of hacky way to get this to work on catalog and folder controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
-  	<%= form_tag params[:controller] == "folder" ? folder_index_path : url_for(:action=>'index'), :method=>:get, :class=>'per_page' do %>
-      <%= label_tag(:per_page, t('blacklight.search.per_page.label', :select => select_tag(:per_page, options_for_select(blacklight_config.per_page, h(params[:per_page])), :title => t('blacklight.search.per_page.title'))).html_safe) %>
-      <%= search_as_hidden_fields(:omit_keys => [:page, :per_page]) %>
-      <%= submit_tag t('blacklight.search.per_page.submit') %>
-    <% end %>
+    <%= render :partial => 'sort_widget' %>
 
-    <%-# kind of hacky way to get this to work on catalog and folder controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
-		<%= form_tag params[:controller] == "folder" ? folder_index_path : url_for(:action=>'index'), :method=>:get, :class=>'sort', :id => "sort_form" do %>
-      <%= label_tag(:sort, t('blacklight.search.sort.label', :select => select_tag(:sort, options_for_select(sort_fields, h(params[:sort])))).html_safe) %>
-      <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>
-			<%= submit_tag t('blacklight.search.sort.submit') %>
-		<% end unless sort_fields.empty? %>
+    <%= render :partial => 'per_page_widget' %>
 	<% end %>
 </div>
