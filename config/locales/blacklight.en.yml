@@ -193,7 +193,7 @@ en:
         sort:
           count: 'Numerical Sort'
           index: 'A-Z Sort'
-        count: '(%{number})'
+        count: '%{number}'
         more: 'more »'
         selected:
           remove: '[remove]'
