@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+require File.join(File.dirname(__FILE__), 'mash') unless defined?(Mash)
 # SolrHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
 # 
 # NOTE: Be careful when creating variables here as they may be overriding something that already exists.
@@ -82,7 +83,7 @@ module Blacklight::SolrHelper
   end
   
   def find(*args)
-    response = Blacklight.solr.find(*args)
+    response = Blacklight.solr.get('select', :params=> args[1])
     force_to_utf8(response)
   rescue Errno::ECONNREFUSED => e
     raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{Blacklight.solr.inspect}")
@@ -165,11 +166,7 @@ module Blacklight::SolrHelper
           raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
         end
         
-        solr_params[:start] = solr_params[:rows].to_i * (user_params[:page].to_i - 1)
-        
-        # Solr throws error for negative start. Existing specs say
-        # we say start at 1 in this case. 
-        solr_params[:start] = 0 if solr_params[:start].to_i < 0
+        solr_params[:page] = user_params[:page]
       end
 
       # limit to MaxPerPage (100). Tests want this to be a string not an integer,
@@ -358,7 +355,14 @@ module Blacklight::SolrHelper
     # better for us. 
     bench_start = Time.now
 
-    solr_response = find(blacklight_config.solr_request_handler, self.solr_search_params(user_params).merge(extra_controller_params))  
+    params = self.solr_search_params(user_params).merge(extra_controller_params)
+    params[:qt] = blacklight_config.solr_request_handler
+    raise "don't set start, use page and rows instead" if params['start'] || params[:start]
+    rows = params.delete(:rows) #only transmit rows once
+    res = Blacklight.solr.paginate(params[:page] || 1, rows, 'select', :params=>params)
+    solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
+
+    #solr_response = find(self.solr_search_params(user_params).merge(extra_controller_params))  
     document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
     Rails.logger.debug("Solr response: #{solr_response.inspect}")
     Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
@@ -384,7 +388,9 @@ module Blacklight::SolrHelper
   # a solr query method
   # retrieve a solr document, given the doc id
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
-    solr_response = find((blacklight_config.document_solr_request_handler || blacklight_config.solr_request_handler), solr_doc_params(id).merge(extra_controller_params))
+    solr_params = solr_doc_params(id).merge(extra_controller_params)
+    result = find((blacklight_config.document_solr_request_handler || blacklight_config.solr_request_handler), solr_params)
+    solr_response = Blacklight::SolrResponse.new(result, solr_params)
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
@@ -461,7 +467,8 @@ module Blacklight::SolrHelper
     solr_params = solr_facet_params(facet_field, params, extra_controller_params)
     
     # Make the solr call
-    response =find(blacklight_config.solr_request_handler, solr_params)
+    result =find(blacklight_config.solr_request_handler, solr_params)
+    response = Blacklight::SolrResponse.new(result, solr_params )
 
     limit =       
       if respond_to?(:facet_list_limit)
@@ -495,7 +502,8 @@ module Blacklight::SolrHelper
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.    
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
-    solr_response = find(blacklight_config.solr_request_handler, solr_params)
+    result = find(blacklight_config.solr_request_handler, solr_params)
+    solr_response = Blacklight::SolrResponse.new(result, solr_params )
     SolrDocument.new(solr_response.docs.first, solr_response) unless solr_response.docs.empty?
   end
     

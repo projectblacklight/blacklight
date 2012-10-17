@@ -10,7 +10,7 @@ describe CatalogHelper do
     total = args[:total]
     start = (current_page - 1) * per_page
 
-    mock_response = mock("RSolr::Ext::Response")
+    mock_response = mock("Blacklight::SolrResponse")
     mock_response.stub!(:total).and_return(total)
     mock_response.stub!(:rows).and_return(per_page)
     mock_response.stub!(:start).and_return(start)

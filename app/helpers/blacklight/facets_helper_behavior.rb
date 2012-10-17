@@ -46,7 +46,7 @@ module Blacklight::FacetsHelperBehavior
   # solr field used for faceting. Can be over-ridden for custom
   # display on a per-facet basis. 
   #
-  # @param [RSolr::Ext::Response::Facets::FacetField] display_facet 
+  # @param [Blacklight::SolrResponse::Facets::FacetField] display_facet 
   # @param [Hash] options parameters to use for rendering the facet limit partial
   #
   def render_facet_limit(display_facet, options = {})
@@ -71,7 +71,7 @@ module Blacklight::FacetsHelperBehavior
   # Determine if Blacklight should render the display_facet or not
   #
   # By default, only render facets with items.
-  # @param [RSolr::Ext::Response::Facets::FacetField] display_facet 
+  # @param [Blacklight::SolrResponse::Facets::FacetField] display_facet 
   def should_render_facet? display_facet
     # display when show is nil or true
     display = facet_configuration_for_field(display_facet.name).show != false
@@ -224,6 +224,6 @@ module Blacklight::FacetsHelperBehavior
       items << OpenStruct.new(:value => key, :hits => hits, :label => facet_field.query[key][:label])
     end
  
-    RSolr::Ext::Response::Facets::FacetField.new facet_name, items
+    Blacklight::SolrResponse::Facets::FacetField.new facet_name, items
   end
 end

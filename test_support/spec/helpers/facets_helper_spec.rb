@@ -74,7 +74,7 @@ describe FacetsHelper do
 
       it"should convert the query facets into a mock RSolr FacetField" do
         field = helper.facet_by_field_name('my_query_facet_field')
-        field.should be_a_kind_of RSolr::Ext::Response::Facets::FacetField
+        field.should be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
 
         field.name.should == 'my_query_facet_field'
         field.items.length.should == 2

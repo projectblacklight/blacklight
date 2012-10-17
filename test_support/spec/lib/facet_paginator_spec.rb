@@ -6,7 +6,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe 'Blacklight::Solr::FacetPaginator' do
   before(:all) do
     require 'yaml'
-    @seven_facet_values = YAML::load("--- \n- !ruby/object:RSolr::Ext::Response::Facets::FacetItem \n  hits: 792\n  value: Book\n- !ruby/object:RSolr::Ext::Response::Facets::FacetItem \n  hits: 65\n  value: Musical Score\n- !ruby/object:RSolr::Ext::Response::Facets::FacetItem \n  hits: 58\n  value: Serial\n- !ruby/object:RSolr::Ext::Response::Facets::FacetItem \n  hits: 48\n  value: Musical Recording\n- !ruby/object:RSolr::Ext::Response::Facets::FacetItem \n  hits: 37\n  value: Microform\n- !ruby/object:RSolr::Ext::Response::Facets::FacetItem \n  hits: 27\n  value: Thesis\n- !ruby/object:RSolr::Ext::Response::Facets::FacetItem \n  hits: 0\n  value: \n")
+    @seven_facet_values = YAML::load("--- \n- !ruby/object:Blacklight::SolrResponse::Facets::FacetItem \n  hits: 792\n  value: Book\n- !ruby/object:Blacklight::SolrResponse::Facets::FacetItem \n  hits: 65\n  value: Musical Score\n- !ruby/object:Blacklight::SolrResponse::Facets::FacetItem \n  hits: 58\n  value: Serial\n- !ruby/object:Blacklight::SolrResponse::Facets::FacetItem \n  hits: 48\n  value: Musical Recording\n- !ruby/object:Blacklight::SolrResponse::Facets::FacetItem \n  hits: 37\n  value: Microform\n- !ruby/object:Blacklight::SolrResponse::Facets::FacetItem \n  hits: 27\n  value: Thesis\n- !ruby/object:Blacklight::SolrResponse::Facets::FacetItem \n  hits: 0\n  value: \n")
     @six_facet_values = @seven_facet_values.slice(1,6)
     @limit = 6
 

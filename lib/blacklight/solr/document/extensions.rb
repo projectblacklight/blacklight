@@ -20,14 +20,6 @@
 module Blacklight::Solr::Document::Extensions
   extend ActiveSupport::Concern
 
-  included do
-    # after_initialize hook comes from RSolr::Ext::Model, I think.
-    # We need to make sure all extensions get applied.
-    after_initialize do 
-       apply_extensions 
-    end
-  end
-
   # Needs to be called in initializer of class including this module, to
   # apply all registered extensions on a per-document basis
   def apply_extensions
