@@ -66,15 +66,6 @@ en:
       complete:
         title: 'Thank-you for your feedback'
 
-    folder:
-      title: 'Selected Items'
-      add:
-        success: '%{title} successfully added to selected items'
-      remove:
-        success: '%{title} successfully removed from selected items'
-      clear:
-        success: 'Selected items cleared.'
-
     saved_searches:
       add:
         success: 'Successfully saved your search.'
@@ -192,9 +183,6 @@ en:
         other: 'Showing item <b>%{current} of %{total}</b> from your search.'
       documents:
         counter: '%{counter}. '
-      folder:
-        select: 'Select'
-        unselect: 'Unselect'
       facets:
         title: 'Limit your search'
         sort:

@@ -1,6 +1,6 @@
 /* A JQuery plugin (should this be implemented as a widget instead? not sure)
    that will convert a "toggle" form, with single submit button to add/remove
-   something, like used for Bookmarks/Folder, into an AJAXy checkbox instead. 
+   something, like used for Bookmarks, into an AJAXy checkbox instead. 
    
    Apply to a form. Does require certain assumption about the form:
     1) The same form 'action' href must be used for both ADD and REMOVE

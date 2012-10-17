@@ -17,8 +17,8 @@ module NavigationHelpers
       #catalog_index_path
       root_path
       
-    when /the folder page/
-      folder_index_path
+    when /the bookmarks page/
+      bookmarks_path
          
     when /the document page for id (.+)/ 
       catalog_path($1)

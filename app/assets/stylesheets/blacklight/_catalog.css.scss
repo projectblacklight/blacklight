@@ -217,7 +217,7 @@
 	margin-bottom:0.5em;
 	margin-left:1em;
 
-  .folder_toggle,.bookmark_toggle
+  .bookmark_toggle
   {
     display:inline;
   }
@@ -349,7 +349,7 @@ label.checked
 	font-weight:700;
 }
 
-label.toggle_bookmark,label.toggle_folder
+label.toggle_bookmark
 {
 	color:inherit;
 	display:inline-block;
@@ -358,10 +358,6 @@ label.toggle_bookmark,label.toggle_folder
 	text-align:left;
 }
 
-label.toggle_folder
-{
-	min-width:6em;
-}
 
 span.page a,span.page.current
 {

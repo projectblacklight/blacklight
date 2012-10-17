@@ -123,7 +123,7 @@ EOF
     file_path = "app/models/#{model_name.underscore}.rb"
     if File.exists?(file_path) 
       inject_into_class file_path, model_name.classify do 
-        "# Connects this user object to Blacklights Bookmarks and Folders. " +
+        "# Connects this user object to Blacklights Bookmarks. " +
         "\n include Blacklight::User\n"        
       end
     else
