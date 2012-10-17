@@ -1,5 +1,7 @@
 <% [:notice, :error, :alert].each do |type| %>
   <% if flash[type] %>
-    <div class="ui-state-<%= type == :error ? 'error' : 'highlight' %> ui-corner-all <%= type.to_s %>"><%= flash[type] %></div>
+    <div class="alert alert-<%= type == :error ? 'error' : 'info' %>"><%= flash[type] %>
+       <a class="close" data-dismiss="alert" href="#">x</a>
+    </div>
   <% end %>
 <% end %>

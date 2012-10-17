@@ -5,7 +5,7 @@
 	border-left:1px solid $search_ui_border_color;
 	border-right:1px solid $search_ui_border_color;
 	margin-bottom:1.5em;
-	padding:1em 0.66em 0 1em;
+	padding:1em 0 0 0em;
 
   .label
   {
@@ -15,6 +15,10 @@
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
   }
+}
+
+#sort-dropdown {
+  padding-left: 1em;
 }
 
 #document
@@ -31,16 +35,15 @@
 
 #documents
 {
-	margin-bottom:1.5em;
-	margin-top:1.5em;
-
+	margin-bottom:1em;
+	margin-top:1em;
 
   .documentHeader
   {
-    padding:0;
+     padding: 5px 0 0;
   }
 
-  .per_page
+  .per_page-form
   {
     padding-right:5px;
   }
@@ -82,81 +85,64 @@
   }
 }
 
-#previousNextDocument
-{
-	background-color:$search_ui_bg_color;
-	border:1px solid $search_ui_border_color;
-	margin-bottom:1.5em;
-	overflow:auto;
-	padding:0.66em;
 
-  .next
-  {
-    float:right;
-  }
-}
-
-#search
-{
-  @include border-radius(4px 4px 0 0);
-	border:1px solid $search_ui_border_color;
-	font-size:120%;
-	padding:0.66em;
-	text-align:left;
-
-  #q
-  {
-    width:200px;
-  }
-
-  .submit
-  {
-    margin:0 0.5em;
-    padding:0 0.25em;
-    text-transform:capitalize;
-  }
-
-  hr
-  {
-    display: none;
-    margin: 2em 0 1em;
-  }
-}
-
-#search h2,.pagination h2,#results_text,.page_links .next_page,.page_links .prev_page
-{
-	display:none;
+#previousNextDocument {
+   ul {
+    margin: 0;
+   }
+   .next {
+    border: 1px solid #DDDDDD;
+   }
+   .previous {
+    margin-right: -1px;
+    border: 1px solid #DDDDDD;
+   }
 }
 
 
-#sortAndPerPage
-{
-	background-color:$search_ui_bg_color;
-	border-color:$search_ui_border_color;
-	border-style:solid;
-	border-width:0 1px 1px 1px;
-	padding:0.66em;
 
+.constraints-row {
+  margin-top:1em;
+  margin-bottom:1em;
+}
+span.constraints-label {
+  font-weight:bold;
+}
 
-  label
-  {
-    font-weight:400;
+li.pill-with-label {
+  padding-top: 3px;
+  padding-right: 6px;
+  padding-left: 6px;
+  padding-bottom: 3px;
+  a.dropdown-toggle {
+    padding-left: 3px;
+    padding-right: 3px;
+    display: inline;
+
   }
 }
 
-#startOverLink
+#sortAndPerPage {
+  background-color: #F3F9FF;
+  margin-right: 0em;
+  padding: 0.5em;
+  li.per_page {
+    display:none;
+  }
+
+  #sort-dropdown {
+    display:none;
+  }
+}
+.show-document-title 
 {
-	background:asset_url('blacklight/start_over.gif', image) no-repeat center center;
-	border-bottom:none;
-	color:#fff;
-	display:block;
-	line-height:22px;
-	margin-top:-12px;
-	padding:0 7px 3px 12px;
-	position:absolute;
-	right:0.66em;
-	text-decoration:none;
-	top:50%;
+  padding-top: 0.5em;
+
+}
+
+.show-document > #document
+{
+  margin-top: 0;
 }
 
 .appliedFilter
@@ -208,12 +194,17 @@
 {
 	border-bottom:1px dotted $dotted_border_color; 
 	clear:both;
-	padding:0.5em 0 0;
+  padding-bottom: 1em;
+
+  dd {
+    padding-bottom:0.5em;
+  }
 }
 
-.documentFunctions
+#documents .documentFunctions
 {
 	float:right;
+  margin-top: 0.25em;
 	margin-bottom:0.5em;
 	margin-left:1em;
 
@@ -223,22 +214,26 @@
   }
 }
 
+#sidebar form {
+  margin: 0;
+}
 
 .filterValue
 {
 	padding-right:37px;
 }
 
+
 .pageEntriesInfo
 {
-	background-color:$search_ui_bg_color;
+  background-color:$search_ui_bg_color;
 	border-color:$search_ui_border_color;
-	border-style:solid;
+  border-style:solid;
 	border-width:1px 1px 0;
-	padding:0.66em;
+	padding:0 0.66em 0.66em 0;
 	position:relative;
-	text-align:center;
 }
+
 
 .page_links
 {
@@ -254,49 +249,12 @@
     font-weight:700;
   }
 }
-.pagination
-{
-	background-color:$search_ui_bg_color;
-	border-color:$search_ui_border_color;
-	border-style:solid;
-	border-width:0 1px 1px;
-	line-height:2em;
-	padding:0.66em;
-	position:relative;
 
-  .next_page
-  {
-    border-bottom:none;
-    margin-right:0.66em;
-    position:absolute;
-    right:0;
-  }
-
-  .prev_page
-  {
-    border-bottom:none;
-    left:0;
-    margin-left:0.66em;
-    position:absolute;
-  }
-
-  a
-  {
-    border:1px solid transparent;
-  }
-
-  a:hover,a:focus
-  {
-    border:1px solid #003;
-    text-decoration:none;
-  }
-
-  span.disabled
-  {
-    color:#999;
-  }
-
+.pagination {
+  text-align: center ;
 }
+
+
 .show #appliedParams
 {
 	border-top:1px solid $search_ui_border_color;
@@ -317,30 +275,10 @@
 	padding:.5em;
 }
 
-dl.defList
-{
-	clear:both;
-	overflow:auto;
-	padding:0.5em 0;
-
-  dd
-  {
-    float:left;
-    margin:0;
-    padding:2px 0;
-    text-align:left;
-    width:450px;
-  }
-
-  dt
-  {
-    clear:both;
-    color: $field_name_color;
-    float:left;
-    margin:0;
-    padding:2px 1em 2px 0;
-    text-align:right;
-    width:20%;
+.dl-invert {
+  dt {
+    font-weight: normal;
+    color: #888;
   }
 }
 
@@ -365,4 +303,18 @@ span.page a,span.page.current
 	margin-right:0.2em;
 	padding:0.2em 0.5em;
 	text-decoration:none;
+}
+
+
+#sidebar-nav
+{
+  padding: 8px 0;
+
+}
+
+.show-document
+{
+  .document {
+    border: none;
+  }
 }

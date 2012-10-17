@@ -1,6 +1,13 @@
+<% #Using the Bootstrap Pagination class  -%>
 <% if @previous_document || @next_document %>
-	<div id="previousNextDocument">
-		<%= link_to_previous_document(@previous_document) %>
-		<%= link_to_next_document(@next_document) %>	
+	<div class="pagination" id="previousNextDocument">
+    <ul>
+      <li>
+		    <%= link_to_previous_document(@previous_document) %>
+      </li>
+      <li>
+		    <%= link_to_next_document(@next_document) %>
+      </li>
+	  </ul>
 	</div>
 <% end %>

@@ -1,7 +1,9 @@
-<div id="appliedParams">
-
-	<h3 class="label"><%= t('blacklight.search.filters.title') %></h3>
+<% if query_has_constraints? %>
+      <div class="well">
+        <span class="constraints-label"><%= t('blacklight.search.filters.title') %></span>
   
-  <%= render_constraints(localized_params) %>  
-		
-</div>
+        <%= render_constraints(params) %>  
+
+        <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
+      </div>
+<% end %>

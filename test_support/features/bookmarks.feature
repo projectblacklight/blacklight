@@ -7,8 +7,8 @@ Feature: Bookmarks
   Scenario: Bookmarks Menu Link
     Given I am logged in as "user1"
     When I am on the home page
-    Then I should see "Your Bookmarks"
-    When I follow "Your Bookmarks"
+    Then I should see "Bookmarks"
+    When I follow "Bookmarks"
     Then I should be on the bookmarks page
     And I should see a stylesheet
   
@@ -59,4 +59,3 @@ Feature: Bookmarks
       And I am logged in as "user1"
       When I go to the bookmarks page
       Then I should see a "Remove bookmark" button
-      

@@ -63,11 +63,23 @@ module Blacklight::BlacklightHelperBehavior
     @sidebar_items ||= []
   end
 
+  # collection of items to be rendered in the @topbar
+  def topbar_items
+    @topbar_items ||= []
+  end
+
+  def render_search_bar
+    render :partial=>'catalog/search_form'
+  end
+
+  def search_action_url
+    catalog_index_url
+  end
+
   def extra_body_classes
     @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end
-  
-  
+
   def render_document_list_partial options={}
     render :partial=>'catalog/document_list'
   end
@@ -75,15 +87,18 @@ module Blacklight::BlacklightHelperBehavior
   # Save function area for search results 'index' view, normally
   # renders next to title. 
   def render_index_doc_actions(document, options={})   
+    wrapping_class = options.delete(:wrapping_class) || "documentFunctions" 
+
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
 
-    content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
+    content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
   end
   
   # Save function area for item detail 'show' view, normally
   # renders next to title. By default includes 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
+    wrapping_class = options.delete(:documentFunctions) || "documentFunctions" 
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
 
@@ -126,7 +141,7 @@ module Blacklight::BlacklightHelperBehavior
     @document[blacklight_config.show.heading] || @document.id
   end
   def render_document_heading
-    content_tag(:h1, document_heading)
+    content_tag(:h4, document_heading, :class => "show-document-title")
   end
   
   # Used in the show view for setting the main html document title

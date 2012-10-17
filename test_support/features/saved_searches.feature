@@ -18,9 +18,9 @@ Feature: Saved Searches Page
     When I go to the saved searches page
     Then I should see "You have no saved searches"
     
-  Scenario: Saved Searches not logged in
-    When I go to the saved searches page
-    Then I should see "Sign in"
+  # Scenario: Saved Searches not logged in
+  #   When I go to the saved searches page
+  #   Then I should see "Sign in"
     
   Scenario: Saved Searches
     Given I am logged in as "user1"

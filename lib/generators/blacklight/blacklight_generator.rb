@@ -175,6 +175,11 @@ EOF
       copy_file "config/compass.rb", "config/compass.rb"
   end
 
+  def add_bootstrap_gem
+    gem 'bootstrap-sass', '~> 2.1.0.0'
+  end 
+
+
   private  
   
   def better_migration_template (file)

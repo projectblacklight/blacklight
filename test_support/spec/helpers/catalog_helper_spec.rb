@@ -35,7 +35,7 @@ describe CatalogHelper do
       @response = mock_response :total => 1
 
       html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "Displaying <b>1</b> entry_name"
+      html.should == "<b>1</b> to <b>1</b> of <b>1</b>"
       html.html_safe?.should == true
     end
 
@@ -43,7 +43,7 @@ describe CatalogHelper do
       @response = mock_response :total => 7
 
       html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "Displaying <b>all 7</b> entry_names"
+      html.should == "<b>1</b> - <b>7</b> of <b>7</b>"
       html.html_safe?.should == true
     end
 
@@ -51,7 +51,7 @@ describe CatalogHelper do
       @response = mock_response :total => 15, :per_page => 10
 
       html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "Displaying entry_names <b>1 - 10</b> of <b>15</b>"
+      html.should == "<b>1</b> - <b>10</b> of <b>15</b>"
       html.html_safe?.should == true
     end
 
@@ -59,7 +59,7 @@ describe CatalogHelper do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 2
 
       html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "Displaying entry_names <b>11 - 20</b> of <b>47</b>"
+      html.should == "<b>11</b> - <b>20</b> of <b>47</b>"
       html.html_safe?.should == true
     end
 
@@ -67,7 +67,7 @@ describe CatalogHelper do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 5
 
       html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "Displaying entry_names <b>41 - 47</b> of <b>47</b>"
+      html.should == "<b>41</b> - <b>47</b> of <b>47</b>"
       html.html_safe?.should == true
     end
 

@@ -21,9 +21,6 @@ module Blacklight
         copy_file('assets/standard.css.scss', 'app/assets/stylesheets/blacklight_themes/standard.css.scss')
         insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
   %q{
- * Required by Blacklight:
- *= require 'jquery/ui-lightness/jquery-ui-1.8.1.custom.css'
- *
  * This is the default theme. You can modify many of the settings 
  * by editing your local app/assets/stylesheets/blacklight_themes/standard.css
  *= require 'blacklight_themes/standard'         
@@ -36,7 +33,6 @@ module Blacklight
   %q{
 //
 // Required by Blacklight
-//= require jquery-ui
 //= require blacklight/blacklight}          
         end
       end

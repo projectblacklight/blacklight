@@ -1,3 +1,27 @@
+ul.bookmarkTools
+{
+  @include border-radius(0 0 4px 4px);
+	background-color: $well_bg_color;
+	border-color: $well_bg_color;
+	margin:0;
+
+  li
+  {
+    display:inline-block;
+  }
+
+  li form
+  {
+    display:inline;
+  }
+
+  li.refworks form input.submit
+  {
+    display:none;
+  }
+}
+
+
 ul.tools
 {
   margin:0;
@@ -9,3 +33,4 @@ ul.tools
     margin:0 10px;
   }
 }
+

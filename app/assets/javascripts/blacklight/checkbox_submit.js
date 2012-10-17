@@ -40,6 +40,7 @@
         //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
         //of the form to avoid any future confusion. 
         form.find("input[type=submit]").remove();
+        form.addClass('form-inline');
         
         //View needs to set data-doc-id so we know a unique value
         //for making DOM id
@@ -53,9 +54,14 @@
           .attr("id", options.css_class + "_" + unique_id);	  
         var label = $('<label>')
           .addClass( options.css_class )
+          .addClass('checkbox')
           .attr("for", options.css_class + '_' + unique_id)
           .attr("title", form.attr("title") || "");
-          
+        var span = $('<span>');
+
+        label.append(checkbox);
+        label.append(" ");
+        label.append(span);  
           
         function update_state_for(state) {
             checkbox.attr("checked", state);
@@ -64,18 +70,19 @@
                //Set the Rails hidden field that fakes an HTTP verb
                //properly for current state action. 
                form.find("input[name=_method]").val("delete");
-               label.text(options.checked_label);
+               span.text(options.checked_label);
             } else {
                form.find("input[name=_method]").val("put");
-               label.text(options.unchecked_label);
+               span.text(options.unchecked_label);
             }
           }
         
-        form.append(checkbox).append(" ").append(label);
+        form.append(label);
         update_state_for(checked);
         
         checkbox.click(function() {
-            label.text(options.progress_label).attr("disabled", "disabled");  
+            span.text(options.progress_label);
+            label.attr("disabled", "disabled");  
             checkbox.attr("disabled", "disabled");
                             
             $.ajax({
