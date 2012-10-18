@@ -32,6 +32,4 @@ Gem::Specification.new do |s|
   s.add_dependency "sass-rails"
   s.add_dependency "bootstrap-sass", "~> 2.1.0"
   s.add_development_dependency "jettywrapper", ">= 1.2.0"
-  s.add_dependency "compass-rails", "~> 1.0.0"
-  s.add_dependency "compass-susy-plugin", ">= 0.9.0"
 end

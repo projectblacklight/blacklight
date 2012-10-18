@@ -18,12 +18,9 @@ module Blacklight
   
     def assets
       unless IO.read("app/assets/stylesheets/application.css").include?("Blacklight")
-        copy_file('assets/standard.css.scss', 'app/assets/stylesheets/blacklight_themes/standard.css.scss')
         insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
   %q{
- * This is the default theme. You can modify many of the settings 
- * by editing your local app/assets/stylesheets/blacklight_themes/standard.css
- *= require 'blacklight_themes/standard'         
+ *= require 'blacklight/blacklight'         
  *}
         end
       end
