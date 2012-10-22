@@ -11,10 +11,10 @@ class BookmarksController < CatalogController
   before_filter :verify_user
 
   def index
-    bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
+    @bookmarks = current_or_guest_user.bookmarks
+    bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
   
     @response, @document_list = get_solr_response_for_field_values("id", bookmark_ids)
-    @bookmarks = current_or_guest_user.bookmarks.page(params[:page])
   end
 
   def update

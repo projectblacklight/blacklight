@@ -8,13 +8,22 @@
   
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
   
-<%- elsif @bookmarks.blank? -%>
+<%- elsif @document_list.blank? -%>
   
   <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
-<% end %>
-
-<% unless @document_list.empty? %>
-  <%= render 'tools' %>  
+<% else %>
+  
+  <div class="pageEntriesInfo">
+    <%= render_pagination_info @response, :entry_name=>'item' %>
+    <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
+  </div>
+	<%= render 'sort_and_per_page' %>
+  <%= render 'results_pagination' %>
+  
+	<% sidebar_items << capture do %>
+  <%= render 'tools' %>
+	<% end %>  
   <%= render :partial => 'catalog/document_list' %>
+  <%= render 'results_pagination' %>
 <% end %>
 
