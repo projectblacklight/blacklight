@@ -1,9 +1,9 @@
   <% if @pagination.has_previous? || @pagination.has_next? %>
     <div class="prev_next_links">
-      <%= link_to_previous_page @pagination, raw(t('views.pagination.previous')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page] do %>
+      <%= link_to_previous_page @pagination, raw(t('views.pagination.previous')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page], :class => 'ui-state-active next_page'  do %>
        <span class="disabled ui-state-active prev_page"><%= raw(t('views.pagination.previous')) %></span>
      <% end %>
-      <%= link_to_next_page @pagination, raw(t('views.pagination.next')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page] do %>
+     <%= link_to_next_page @pagination, raw(t('views.pagination.next')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page], :class => 'ui-state-active prev_page' do %>
        
        <span class="disabled ui-state-active next_page"><%= raw(t('views.pagination.next')) %></span>
       <% end %>
