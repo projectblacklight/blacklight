@@ -1,15 +1,5 @@
 <div class="well" id="sidebar-nav">
   <ul class="nav nav-list">
-    <li>
-      <%= item_page_entry_info %>
-      <%= render 'previous_next_doc' %>
-      <div>
-      <%= link_back_to_catalog %>
-      |
-      <%=link_to "#{t('blacklight.search.start_over')}", catalog_index_path, :id=>"startOverLink" %>
-      </div>
-    </li>
-    <li class="divider"/>
     <%= render :partial => 'show_tools' %>
   </ul>
 </div><!--/well -->

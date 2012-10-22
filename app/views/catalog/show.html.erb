@@ -1,6 +1,9 @@
 <div class="row">
 
   <div id="content" class="span9 show-document">
+
+    <%= render 'previous_next_doc' %>
+
      
   <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
   <% extra_head_content << render_link_rel_alternates %>
@@ -21,7 +24,6 @@
      
     </div>
   </div>
-
 
 
 

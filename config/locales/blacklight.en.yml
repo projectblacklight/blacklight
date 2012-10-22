@@ -184,8 +184,8 @@ en:
           one: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
           other: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
       entry_pagination_info:
-        one: 'Item <b>1 of 1</b>'
-        other: 'Item <b>%{current} of %{total}</b>'
+        one: '<b>1 of 1</b>'
+        other: '<b>%{current}</b> of <b>%{total}</b>'
       documents:
         counter: '%{counter}. '
       facets:
