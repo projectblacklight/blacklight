@@ -4,6 +4,7 @@
     Blacklight.do_more_facets_behavior = function () {
       $( Blacklight.do_more_facets_behavior.selector ).ajaxyDialog({
           width: $(window).width() / 2,  
+          position: ['center', 50],
           chainAjaxySelector: "a.next_page, a.prev_page, a.sort_change"        
       });
     };
