@@ -171,8 +171,9 @@ en:
         submit: 'sort results'
       form:
         search_field:
-          label: 'in'
+          label: 'Search in'
           title: 'Targeted search options'
+          post_label: 'for'
         q: 'Search...'
         submit: 'Search'
       pagination:
