@@ -6,7 +6,15 @@ ul.tools
 
   li
   {
-  list-style: none;
-    margin:0;
+  	display: inline;
+    list-style: none;
+    margin: 0;
+    margin-right: 10px;
+  }
+}
+
+#sidebar .tools {
+  li {
+  	display: block;
   }
 }
