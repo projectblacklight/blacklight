@@ -8,7 +8,9 @@
   li
     {
       list-style:none;
-
+      margin-right:1em;
+      padding-bottom:0.3em;
+ 
     a.remove
     {
       color:#666;
@@ -24,6 +26,10 @@
     &.more_facets_link
     {
       text-align:right;
+    }
+
+    .count {
+      float:right;
     }
   }
 
@@ -63,6 +69,10 @@ ul.facet_extended_list
     list-style:none;
     margin:0.5em 0;
   }
+
+   .count {
+     float:right;
+   }
 }
 
 

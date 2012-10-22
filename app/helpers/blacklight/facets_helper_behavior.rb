@@ -115,7 +115,7 @@ module Blacklight::FacetsHelperBehavior
   # Renders a count value for facet limits. Can be over-ridden locally
   # to change style. And can be called by plugins to get consistent display. 
   def render_facet_count(num)
-    content_tag("span", t('blacklight.search.facets.count', :number => num), :class => "badge") 
+    content_tag("span", t('blacklight.search.facets.count', :number => num), :class => "count") 
   end
   
   # adds the value and/or field to params[:f]
