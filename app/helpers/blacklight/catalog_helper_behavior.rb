@@ -47,7 +47,7 @@ module Blacklight::CatalogHelperBehavior
       entry_name = options[:entry_name] ||
         (response.empty?? t('blacklight.entry_name.default') : response.docs.first.class.name.underscore.sub('_', ' '))
 
-      case response.docs.length
+      case response.total
         when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
         when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
         else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => current_page, :num_pages => num_pages, :start_num => start_num, :end_num => end_num, :total_num => total_num, :count => num_pages).html_safe
