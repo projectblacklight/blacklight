@@ -11,6 +11,7 @@
       margin-right:1em;
       padding-bottom:0.3em;
       padding-right: 50px;
+      clear: right;
  
     a.remove
     {
@@ -24,12 +25,8 @@
       background-color:#eee;
     }
 
-    &.more_facets_link
-    {
+    .count, &.more_facets_link {
       text-align:right;
-    }
-
-    .count {
       float:right;
       margin-right: -50px;
     }
