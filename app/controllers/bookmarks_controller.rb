@@ -30,12 +30,11 @@ class BookmarksController < CatalogController
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler. 
   def create
-    @bookmarks = params[:bookmarks] || []
-
-    if params[:bookmark]
-      params[:bookmark][:document_id] ||= params[:id]
-      @bookmarks << params[:bookmark] if params[:bookmark]
-     end
+    if params[:bookmarks]
+      @bookmarks = params[:bookmarks]
+    else
+      @bookmarks = [{ :document_id => params[:id] }]
+    end
 
     success = @bookmarks.all? do |bookmark|
       current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
