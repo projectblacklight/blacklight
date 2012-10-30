@@ -1,20 +1,17 @@
-<% sidebar_items << capture do %>
-  <p><%= link_back_to_catalog %></p>
-<% end %>
-
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
 <%- if current_or_guest_user.blank? -%>
   
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
   
-<%- elsif @bookmarks.blank? -%>
+<%- elsif @document_list.blank? -%>
   
   <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
-<% end %>
+<% else %>
+  <%= render 'sort_and_per_page' %>
 
-<% unless @document_list.empty? %>
-  <%= render 'tools' %>  
+  <%= render 'tools' %>
   <%= render :partial => 'catalog/document_list' %>
+  <%= render 'results_pagination' %>
 <% end %>
 

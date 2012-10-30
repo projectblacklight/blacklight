@@ -459,9 +459,9 @@ module Blacklight::SolrHelper
   # a solr query method
   # used to paginate through a single facet field's values
   # /catalog/facet/language_facet
-  def get_facet_pagination(facet_field, extra_controller_params={})
+  def get_facet_pagination(facet_field, user_params=params || {}, extra_controller_params={})
     
-    solr_params = solr_facet_params(facet_field, params, extra_controller_params)
+    solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
     
     # Make the solr call
     response =find(blacklight_config.solr_request_handler, solr_params)
