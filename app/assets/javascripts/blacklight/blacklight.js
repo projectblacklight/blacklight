@@ -13,7 +13,7 @@
 //= require blacklight/select_submit
 //= require blacklight/zebra_stripe
 //= require blacklight/bootstrap_dropdowns
-
+//
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap-transition
 //= require bootstrap-collapse
