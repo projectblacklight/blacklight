@@ -184,6 +184,10 @@ ul.facet_extended_list
       overflow: hidden;
       height: 0;
     }
+
+    &.collapse.in {
+      height: auto !important;
+    }
   }
 }
 
