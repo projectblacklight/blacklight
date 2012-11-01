@@ -1,6 +1,6 @@
 <h1><%= t('blacklight.saved_searches.title') %></h1>
 
-<%- if current_user.blank? -%>
+<%- if current_or_guest_user.blank? -%>
   
   <h2><%= t('blacklight.saved_searches.need_login') %></h2>
   
@@ -14,7 +14,7 @@
   </p>
 
   <h2><%= t('blacklight.saved_searches.list_title') %></h2>
-  <table class="zebra">
+  <table class="table table-striped">
   <%- @searches.each do |search| -%>
     <tr>
       <td><%= link_to_previous_search(search.query_params) %></td>

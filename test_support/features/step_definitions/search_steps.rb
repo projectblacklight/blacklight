@@ -9,11 +9,41 @@ Then /^I should see a selectable list with field choices$/ do
 end
 
 Then /^I should see a selectable list with per page choices$/ do
-  page.should have_selector("select#per_page")
+  page.should have_selector("#per_page-dropdown")
+end
+
+
+When /^I show (\d+) per page$/ do |value|
+  page.should have_selector('#per_page-dropdown') do
+    click_link(value)
+  end
+end
+
+Then /^I should see the sort dropdown$/ do
+  page.should have_selector("#sort-dropdown")
+end
+
+Then /^I should see the sort dropdown with values "([^\"]*)"$/ do |values|
+  page.should have_selector('#sort-dropdown') do
+    labels = values.split(", ")
+    labels.each do |label|
+      with_tag('li', label)
+    end
+  end
+end
+
+Then /^I should see the sort list with "([^\"]*)" selected$/ do |value|
+  page.should have_selector('#sort-dropdown .dropdown-toggle', :content => value)
+end
+
+When /^I sort by "([^\"]*)"$/ do |value|
+  page.should have_selector('#sort-dropdown') do
+    click_link(value)
+  end
 end
 
 Then /^I should see a "([^\"]*)" button$/ do |label|
-  page.should have_selector("input[type='submit'][value='#{label}']")
+  page.should have_selector("button[type='submit'] .submit-search-text")
 end
 
 Then /^I should not see the "([^\"]*)" element$/ do |id|
