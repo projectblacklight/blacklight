@@ -25,10 +25,16 @@
       background-color:#eee;
     }
 
-    .count, &.more_facets_link {
+    .count {
       text-align:right;
       float:right;
       margin-right: -50px;
+    }
+
+    &.more_facets_link {
+      text-align:right;
+      float:right;
+      margin-right: -35px;
     }
   }
 
