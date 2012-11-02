@@ -38,7 +38,7 @@ describe Blacklight::SolrResponse do
     field_names.include?('cat').should == true
     field_names.include?('manu').should == true
 
-    first_facet = r.facets.first
+    first_facet = r.facets.select { |x| x.name == 'cat'}.first
     first_facet.name.should == 'cat'
 
     first_facet.items.size.should == 10
