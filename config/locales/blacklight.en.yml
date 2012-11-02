@@ -154,6 +154,7 @@ en:
           blank: 'You must select a carrier'
 
     back_to_search: 'Back to Search'
+    back_to_bookmarks: 'Back to Bookmarks'
 
     search:
       title: '%{application_name} Search Results'

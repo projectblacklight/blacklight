@@ -2,11 +2,20 @@
 # note that while this is mostly restful routing, the #update and #destroy actions
 # take the Solr document ID as the :id, NOT the id of the actual Bookmark action. 
 class BookmarksController < CatalogController
+
+  ##
+  # Give Bookmarks access to the CatalogController configuration
   include Blacklight::Configurable
   include Blacklight::SolrHelper
 
   copy_blacklight_config_from(CatalogController)
-
+ 
+  # Blacklight uses #search_action_url to figure out the right URL for
+  # the global search box
+  def search_action_url
+    catalog_index_url
+  end
+  helper_method :search_action_url
 
   before_filter :verify_user
 
