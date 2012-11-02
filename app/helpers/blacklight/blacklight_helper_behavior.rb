@@ -95,6 +95,11 @@ module Blacklight::BlacklightHelperBehavior
     blacklight_config.index_fields
   end
 
+  def should_display_index_field? document, solr_field
+    document.has?(solr_field.field) ||
+      (document.has_highlight_field? solr_field.field if solr_field.highlight)
+  end
+
   def index_field_names
     index_fields.keys
   end
@@ -156,7 +161,7 @@ module Blacklight::BlacklightHelperBehavior
   
   # used in the catalog/_show/_default partial
   def document_show_fields
-    blacklight_config.show_fields.keys
+    blacklight_config.show_fields
   end
   
   # used in the catalog/_show/_default partial
@@ -175,6 +180,11 @@ module Blacklight::BlacklightHelperBehavior
     value ||= send(blacklight_config.show_fields[args[:field]][:helper_method], args) if args[:field] and blacklight_config.show_fields[args[:field]] and blacklight_config.show_fields[args[:field]][:helper_method]
     value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
     render_field_value value
+  end
+
+  def should_display_show_field? document, solr_field
+    document.has?(solr_field.field) ||
+      (document.has_highlight_field? solr_field.field if solr_field.highlight)
   end
 
   def render_field_value value=nil
