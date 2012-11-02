@@ -18,7 +18,8 @@ module Blacklight
       :spell_max => 5,
       :max_per_page => 100,
       :per_page => [10,20,50,100],
-      :add_facet_fields_to_solr_request => false
+      :add_facet_fields_to_solr_request => false,
+      :add_field_configuration_to_solr_request => false
     }
 
 
@@ -75,6 +76,11 @@ module Blacklight
     # Add any configured facet fields to the default solr parameters hash
     def add_facet_fields_to_solr_request!
       self.add_facet_fields_to_solr_request = true
+    end
+
+    # Add any configured facet fields to the default solr parameters hash
+    def add_field_configuration_to_solr_request!
+      self.add_field_configuration_to_solr_request = true
     end
 
     def facet_fields_to_add_to_solr

@@ -66,6 +66,17 @@ module Blacklight::Solr::Document
     end
   end
 
+  def has_highlight_field? k
+    return false if @solr_response['highlighting'].blank? or @solr_response['highlighting'][self.id].blank?
+    
+    @solr_response['highlighting'][self.id].key? k
+  end
+
+  def highlight_field k
+    @solr_response['highlighting'][self.id][k]
+
+  end
+
   # helper
   # key is the name of the field
   # opts is a hash with the following valid keys:

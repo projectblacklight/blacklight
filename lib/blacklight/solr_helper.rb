@@ -67,7 +67,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic += [:new_method]
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_paging_to_solr, :add_sorting_to_solr ]
+    self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr ]
   end
 
   def force_to_utf8(value)
@@ -343,6 +343,17 @@ module Blacklight::SolrHelper
       end
     end
 
+    def add_solr_fields_to_query solr_parameters, user_parameters
+      return unless blacklight_config.add_field_configuration_to_solr_request
+      blacklight_config.index_fields.each do |field_name, field|
+        if field.highlight
+          solr_parameters[:hl] ||= true
+          solr_parameters[:'hl.fl'] ||= []
+          solr_parameters[:'hl.fl'] << field.field
+        end
+      end
+    end
+
 
   
   # a solr query method
@@ -366,7 +377,8 @@ module Blacklight::SolrHelper
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
 
     #solr_response = find(self.solr_search_params(user_params).merge(extra_controller_params))  
-    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
+    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)} 
+    Rails.logger.debug("Solr query: #{params.inspect}") 
     Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
     Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
