@@ -385,7 +385,8 @@ describe CatalogController do
         @mock_document = mock()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
         @mock_document = mock()
-        controller.stub(:find => @mock_response, 
+        Blacklight::SolrResponse.stub(:new =>@mock_response)
+        controller.stub(:find => mock(), 
                         :get_single_doc_via_search => @mock_document)
       end
     before(:each) do

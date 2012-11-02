@@ -988,17 +988,20 @@ describe 'Blacklight::SolrHelper' do
         @mock_response.stub(:docs => [])
       end
       it "should contruct a solr query based on the field and value pair" do
-        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(value)")).and_return(@mock_response)
+        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(value)"))
+        Blacklight::SolrResponse.should_receive(:new).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', 'value')
       end
 
       it "should OR multiple values together" do
-        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
+        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(a OR b)"))
+        Blacklight::SolrResponse.should_receive(:new).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', ['a', 'b'])
       end
 
       it "should escape crazy identifiers" do
-        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
+        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(\"h://\\\"\\\'\")"))
+        Blacklight::SolrResponse.should_receive(:new).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', 'h://"\'')
       end
     end

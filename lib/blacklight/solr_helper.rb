@@ -423,7 +423,8 @@ module Blacklight::SolrHelper
       :spellcheck => 'false'
     }.merge(extra_solr_params)
     
-    solr_response = find(blacklight_config.solr_request_handler, self.solr_search_params().merge(solr_params) )
+    result = find(blacklight_config.solr_request_handler, self.solr_search_params().merge(solr_params) )
+    solr_response = Blacklight::SolrResponse.new(result, solr_params )
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
     [solr_response,document_list]
   end
