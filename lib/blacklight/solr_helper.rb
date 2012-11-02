@@ -360,7 +360,7 @@ module Blacklight::SolrHelper
 
     solr_response = find(blacklight_config.solr_request_handler, self.solr_search_params(user_params).merge(extra_controller_params))  
     document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)}  
-    Rails.logger.debug("Solr response: #{solr_response.inspect}")
+    Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
     Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
     return [solr_response, document_list]
