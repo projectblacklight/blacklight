@@ -169,7 +169,8 @@ EOF
   end
 
   def add_bootstrap_gem
-    gem 'bootstrap-sass', '~> 2.1.0.0'
+    # Don't need a version here, because we specify the version in blacklight.gemspec
+    gem 'bootstrap-sass'
   end 
 
 
