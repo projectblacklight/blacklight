@@ -300,8 +300,8 @@ describe CatalogController do
 
     describe "@document" do
       before do
-        @mock_response = mock()
-        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
+        @mock_response = {'response' => { 'docs' => [{ :id => 'my_fake_doc' }]}}
+        #@mock_response.stub(docs => [{ :id => 'my_fake_doc' }])
         @mock_document = mock()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
@@ -327,9 +327,7 @@ describe CatalogController do
         end
       end
       before do
-        @mock_response = mock()
-        @mock_document = mock()
-        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
+        @mock_response = {'response' => { 'docs' => [{ :id => 'my_fake_doc' }]}}
         @mock_document = mock()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
@@ -387,7 +385,8 @@ describe CatalogController do
         @mock_document = mock()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
         @mock_document = mock()
-        controller.stub(:find => @mock_response, 
+        Blacklight::SolrResponse.stub(:new =>@mock_response)
+        controller.stub(:find => mock(), 
                         :get_single_doc_via_search => @mock_document)
       end
     before(:each) do
@@ -456,9 +455,7 @@ describe CatalogController do
 
   describe "errors" do
     it "should return status 404 for a record that doesn't exist" do
-        @mock_response = mock()
-        @mock_document = mock()
-        @mock_response.stub(:docs => [])
+        @mock_response = {'response' => { 'docs' => []}}
         @mock_document = mock()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)

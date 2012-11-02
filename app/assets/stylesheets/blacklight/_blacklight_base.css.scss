@@ -6,21 +6,30 @@
    not to use the Blacklight CSS file at all in your local app. */
 
 
-@import "compass";
-@import "compass/reset";
+
+$btnInfoBackground: #9ad0fe;
+
+@import "bootstrap";
+@import "bootstrap-responsive";
+
 
 @import 'blacklight/blacklight_defaults';
 
 /* Import this to maintain the old YUI font styles */
 @import "blacklight/layout";
-@import "blacklight/formatting";
 @import "blacklight/header";
+@import "blacklight/footer";
 @import "blacklight/catalog";
 @import "blacklight/bookmark";
 @import "blacklight/facets";
 @import "blacklight/search_history";
 @import "blacklight/print";
 
-
-/* IE 6 Adjustments */
-* html #search {left: -1.8em;}
+.hide-text {
+  width: 1px;
+  position: absolute;
+  display: inline-block;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}

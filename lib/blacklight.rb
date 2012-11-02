@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'rsolr'
-require 'rsolr-ext'
 
 module Blacklight
 
@@ -24,6 +23,7 @@ module Blacklight
   autoload :Routes, 'blacklight/routes'
 
   autoload :OpenStructWithHashAccess, 'blacklight/utils'
+  autoload :SolrResponse, 'blacklight/solr_response'
 
   extend SearchFields
   
@@ -48,7 +48,7 @@ module Blacklight
   end
 
   def self.solr
-    @solr ||=  RSolr::Ext.connect(Blacklight.solr_config)
+    @solr ||=  RSolr.connect(Blacklight.solr_config)
   end
 
   def self.solr_config

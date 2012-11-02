@@ -15,16 +15,19 @@ en:
       next: 'Next &raquo;'
       truncate: '…'
 
+    pagination_compact:
+      previous: '&laquo; Previous'
+      next: 'Next &raquo;'
+
   blacklight:
     application_name: 'Blacklight'
 
     header_links:
       login: 'Login'
       logout: 'Log Out'
-      bookmarks: 'Your Bookmarks'
+      bookmarks: 'Bookmarks'
       saved_searches: 'Saved Searches'
-      selected_items: 'Selected Items'
-      search_history: 'Search History'
+      search_history: 'History'
 
     welcome: 'Welcome!'
     and: 'and'
@@ -97,6 +100,7 @@ en:
       save: 'save'
 
     tools:
+      title: 'Tools'
       cite: 'Cite'
       endnote: 'Export to EndNote'
       refworks: 'Export to Refworks'
@@ -158,29 +162,31 @@ en:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
       per_page:
+        post_label: 'per page'
         label: 'Show %{select} per page'
         title: 'Number of results to display per page'
-        submit: 'update'
+        submit: 'Update'
       sort:
-        label: 'Sort by %{select}'
+        label: 'Sort by'
         submit: 'sort results'
       form:
         search_field:
-          label: 'in'
+          label: 'Search in'
           title: 'Targeted search options'
-        q: 'Search '
-        submit: 'search'
+          post_label: 'for'
+        q: 'Search...'
+        submit: 'Search'
       pagination:
         title: 'Results navigation'
       pagination_info:
         no_items_found: 'No %{entry_name} found'
-        single_item_found: 'Displaying <b>1</b> %{entry_name}'
+        single_item_found: '<b>1</b> to <b>1</b> of <b>1</b>'
         pages:
-          one: 'Displaying <b>all %{total_num}</b> %{entry_name}'
-          other: 'Displaying %{entry_name} <b>%{start_num} - %{end_num}</b> of <b>%{total_num}</b>'
+          one: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
+          other: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
       entry_pagination_info:
-        one: 'Showing the only item from your search.'
-        other: 'Showing item <b>%{current} of %{total}</b> from your search.'
+        one: '<b>1 of 1</b>'
+        other: '<b>%{current}</b> of <b>%{total}</b>'
       documents:
         counter: '%{counter}. '
       facets:
@@ -188,7 +194,7 @@ en:
         sort:
           count: 'Numerical Sort'
           index: 'A-Z Sort'
-        count: '(%{number})'
+        count: '%{number}'
         more: 'more »'
         selected:
           remove: '[remove]'
@@ -201,7 +207,7 @@ en:
       librarian_view:
         title: 'Librarian View'
         leader: 'LEADER %{leader}'
-      start_over: 'start over'
+      start_over: 'Start Over'
       show:
         title: '%{document_title} - %{application_name}'
       rss_feed: 'RSS for results'

@@ -3,7 +3,8 @@
 
 When /^I fill in the search box with "(.*?)"$/ do |query|
   query.gsub!(/\\"/, '"')
-  fill_in(:q, :with => query)
+#  fill_in(:q, :with => query)
+  find('#q').set(query)
 end
 
 

@@ -5,19 +5,19 @@
     per_page:      number of items to fetch per page
     remote:        data-remote
     paginator:     the paginator that renders the pagination tags inside
+
+   Paginator now using the Bootstrap paginator class
 -%>
 <%= paginator.render do -%>
-  <nav class="pagination-container">
+  <ul>
     <%= prev_page_tag %>
     <%= next_page_tag  %>
-    <div class="page_links">
     <% each_relevant_page do |page| -%>
       <% if page.left_outer? || page.right_outer? || page.inside_window? -%>
         <%= page_tag page %>
       <% elsif !page.was_truncated? -%>
         <%= gap_tag %>
       <% end -%>
-    <% end -%>
-  </div>
-  </nav>
+    <% end -%>  
+  </ul>
 <% end -%>

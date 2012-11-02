@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'rsolr'
-require 'rsolr-ext'
 ##
 ##
 # = Introduction
@@ -10,8 +9,7 @@ require 'rsolr-ext'
 # provided for you which is pretty much a blank class "include"ing
 # Blacklight::Solr::Document.
 #
-# Blacklight::Solr::Document mixes in Rsolr::Ext::Model to the calling class.
-# It also provides some DefaultFinders.
+# Blacklight::Solr::Document provides some DefaultFinders.
 #
 # It also provides support for Document Extensions, which advertise supported
 # transformation formats.
@@ -31,20 +29,64 @@ module Blacklight::Solr::Document
 
   included do
     extend ActiveModel::Naming
-    include RSolr::Ext::Model
-    include RSolrExtOverrides
     include Blacklight::Solr::Document::Extensions
-
   end    
 
-  module RSolrExtOverrides
-    def id
-      self[self.class.unique_key]
-    end
+  def initialize(source_doc={}, solr_response=nil)
+    @_source = source_doc.with_indifferent_access
+    @solr_response = solr_response
+    apply_extensions
+  end
 
-    def to_param
-      id
+  # the wrapper method to the @_source object.
+  # If a method is missing, it gets sent to @_source
+  # with all of the original params and block
+  def method_missing(m, *args, &b)
+    @_source.send(m, *args, &b)
+  end
+
+  # Helper method to check if value/multi-values exist for a given key.
+  # The value can be a string, or a RegExp
+  # Multiple "values" can be given; only one needs to match.
+  # 
+  # Example:
+  # doc.has?(:location_facet)
+  # doc.has?(:location_facet, 'Clemons')
+  # doc.has?(:id, 'h009', /^u/i)
+  def has?(k, *values)
+    return if @_source[k].nil?
+    return true if @_source.key?(k) and values.empty?
+    target = @_source[k]
+    if target.is_a?(Array)
+      values.each do |val|
+        return target.any?{|tv| val.is_a?(Regexp) ? (tv =~ val) : (tv==val)}
+      end
+    else
+      return values.any? {|val| val.is_a?(Regexp) ? (target =~ val) : (target == val)}
     end
+  end
+
+  # helper
+  # key is the name of the field
+  # opts is a hash with the following valid keys:
+  #  - :sep - a string used for joining multivalued field values
+  #  - :default - a value to return when the key doesn't exist
+  # if :sep is nil and the field is a multivalued field, the array is returned
+  def get(key, opts={:sep=>', ', :default=>nil})
+    if @_source.key? key
+      val = @_source[key]
+      (val.is_a?(Array) and opts[:sep]) ? val.join(opts[:sep]) : val
+    else
+      opts[:default]
+    end
+  end
+
+  def id
+    self[self.class.unique_key]
+  end
+
+  def to_param
+    id
   end
 
   def to_partial_path

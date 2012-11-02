@@ -1,7 +1,9 @@
-<div id="sortAndPerPage">  
-	<% unless @response.total < 2 %>
+<div class="well">
+
+    <%= render :partial => "paginate_compact" %> 
+      
     <%= render :partial => 'sort_widget' %>
 
     <%= render :partial => 'per_page_widget' %>
-	<% end %>
+
 </div>

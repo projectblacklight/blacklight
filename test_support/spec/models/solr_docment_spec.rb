@@ -9,9 +9,6 @@ require 'marc'
 # values in an after() block so other tests get expected results. 
 # Blacklight is a Singleton for application configuration.
 
-# NOTE the helper methods below that return hashes and call to_mash.
-# this will NOT be needed if using RSolr::Ext >= version 0.9.6.3
-
 ## TODO: ALL these specs probably really ought to be on the modules
 # being tested, not on the bare SolrDocument class that has no logic
 # of it's own, it just includes modules. No? jrochkind 29 Mar 2010
@@ -47,7 +44,7 @@ end
       # count on the initializer to register the extension, need to re-register
       # it.
       SolrDocument.registered_extensions = nil
-      SolrDocument.use_extension( Blacklight::Solr::Document::Marc ) { |document| document.key?(:marc_display)}
+      SolrDocument.use_extension( Blacklight::Solr::Document::Marc ) { |document| document.has_key?(:marc_display)}
       
       @solrdoc = SolrDocument.new(@hash_with_marcxml)
 

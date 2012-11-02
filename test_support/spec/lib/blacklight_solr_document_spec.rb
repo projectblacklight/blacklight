@@ -18,6 +18,21 @@ describe "Blacklight::Solr::Document" do
         "override"
       end
     end
+
+    context "Hashy methods" do
+      it 'should create a doc with hashy methods' do
+        doc = SolrDocument.new({'id'=>'SP2514N','inStock'=>true,'manu'=>'Samsung Electronics Co. Ltd.','name'=>'Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133','popularity'=>6,'price'=>92.0,'sku'=>'SP2514N','timestamp'=>'2009-03-20T14:42:49.795Z','cat'=>['electronics','hard drive'],'spell'=>['Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133'],'features'=>['7200RPM, 8MB cache, IDE Ultra ATA-133','NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor']})
+
+        doc.has?(:cat, /^elec/).should == true
+        doc.has?(:cat, 'elec').should_not == true
+        doc.has?(:cat, 'electronics').should == true
+
+        doc.get(:cat).should == 'electronics, hard drive'
+        doc.get(:xyz).should == nil
+        doc.get(:xyz, :default=>'def').should == 'def'
+      end
+    end
+
    
     context "Unique Key" do
       it "should use a configuration-defined document unique key" do

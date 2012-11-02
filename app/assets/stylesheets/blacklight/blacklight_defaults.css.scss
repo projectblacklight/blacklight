@@ -4,11 +4,18 @@
 
 $background_image: 'blacklight/bg.png' !default;
 $logo_image: 'blacklight/logo.png' !default;
+$header_background_border: 'blacklight/border.png' !default;
+
+$navbar_background_color: #000000 !default;
 
 /* Various elements of search customization share these colors */
 
-$search_ui_border_color: #AAAAAA !default;
-$search_ui_bg_color: #F0F0F0 !default;
+$well_bg_color: #F5F5F5 !default;
+
+$search_ui_border_color: #FFFFFF !default;
+$search_ui_bg_color: #FFFFFF !default;
+
+$main_container_bg_color: #FFFFFF !default;
 
 /* separates documents, facets */
 $dotted_border_color: #CCC !default;

@@ -1,18 +1,18 @@
-    <ul class="tools">
+    <ul class="bookmarkTools">
       <li class="cite">
-        <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink'} %>
+        <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn'} %>
       </li>
       <li class="refworks">
-        <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@bookmarks.collect{|doc| doc.document_id}} %>
+        <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@bookmarks} %>
       </li>
 
       <li class="endnote">
-        <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote')%>
+        <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.id}, :format => 'endnote'), {:class => 'btn'}%>
       </li>
       <li class="email">
-        <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink", :id => "emailLink" %>
+        <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.id}), :class=>"lightboxLink btn", :id => "emailLink" %>
       </li>
       <li>
-        <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') } %>
+        <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'btn' %>
       </li>
 </ul>
