@@ -110,7 +110,7 @@ module Blacklight::BlacklightHelperBehavior
     blacklight_config.index_fields
   end
 
-  def should_display_index_field? document, solr_field
+  def should_render_index_field? document, solr_field
     document.has?(solr_field.field) ||
       (document.has_highlight_field? solr_field.field if solr_field.highlight)
   end
@@ -140,7 +140,7 @@ module Blacklight::BlacklightHelperBehavior
     if args[:field] and blacklight_config.index_fields[args[:field]]
       field_config = blacklight_config.index_fields[args[:field]]
       value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]).map { |x| x.html_safe } if field_config.highlight
+      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
     end
 
     value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
@@ -209,7 +209,7 @@ module Blacklight::BlacklightHelperBehavior
     render_field_value value
   end
 
-  def should_display_show_field? document, solr_field
+  def should_render_show_field? document, solr_field
     document.has?(solr_field.field) ||
       (document.has_highlight_field? solr_field.field if solr_field.highlight)
   end

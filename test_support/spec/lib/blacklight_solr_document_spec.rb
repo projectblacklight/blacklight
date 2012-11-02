@@ -35,9 +35,14 @@ describe "Blacklight::Solr::Document" do
 
    
     context "Unique Key" do
-      it "should use a configuration-defined document unique key" do
+      before(:each) do
         MockDocument.unique_key = 'my_unique_key'
+      end
 
+      after(:each) do
+        MockDocument.unique_key = 'id'
+      end
+      it "should use a configuration-defined document unique key" do
         @document = MockDocument.new :id => 'asdf', :my_unique_key => '1234'
         @document.id.should == '1234'
       end
@@ -193,5 +198,38 @@ describe "Blacklight::Solr::Document" do
       
     end
 
+    context "highlighting" do
+
+      before(:all) do
+        @document = MockDocument.new({'id' => 'doc1', 'title_field' => 'doc1 title'}, {'highlighting' => { 'doc1' => { 'title_text' => ['doc <em>1</em>']}, 'doc2' => { 'title_text' => ['doc 2']}}})
+
+      end
+
+      describe "#has_highlight_field?" do
+        it "should be true if the highlight field is in the solr response" do
+          @document.should have_highlight_field 'title_text'
+          @document.should have_highlight_field :title_text
+        end
+
+        it "should be false if the highlight field isn't in the solr response" do
+           @document.should_not have_highlight_field 'nonexisting_field'
+        end
+      end
+
+      describe "#highlight_field" do
+        it "should return a value" do
+          @document.highlight_field('title_text').should include('doc <em>1</em>')
+        end
+
+
+        it "should return a value that is html safe" do
+          @document.highlight_field('title_text').first.should be_html_safe
+        end
+
+        it "should return nil when the field doesn't exist" do
+          @document.highlight_field('nonexisting_field').should be_nil
+        end
+      end
+    end
     
 end

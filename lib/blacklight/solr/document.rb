@@ -32,6 +32,8 @@ module Blacklight::Solr::Document
     include Blacklight::Solr::Document::Extensions
   end    
 
+  attr_reader :solr_response
+
   def initialize(source_doc={}, solr_response=nil)
     @_source = source_doc.with_indifferent_access
     @solr_response = solr_response
@@ -43,6 +45,10 @@ module Blacklight::Solr::Document
   # with all of the original params and block
   def method_missing(m, *args, &b)
     @_source.send(m, *args, &b)
+  end
+
+  def [] *args
+    @_source.send :[], *args
   end
 
   # Helper method to check if value/multi-values exist for a given key.
@@ -69,11 +75,12 @@ module Blacklight::Solr::Document
   def has_highlight_field? k
     return false if @solr_response['highlighting'].blank? or @solr_response['highlighting'][self.id].blank?
     
-    @solr_response['highlighting'][self.id].key? k
+    @solr_response['highlighting'][self.id].key? k.to_s
   end
 
   def highlight_field k
-    @solr_response['highlighting'][self.id][k]
+    return nil unless has_highlight_field? k
+    @solr_response['highlighting'][self.id][k.to_s].map { |x| x.html_safe }
 
   end
 

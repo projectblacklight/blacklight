@@ -380,8 +380,9 @@ describe BlacklightHelper do
   describe "render_index_field_value" do
     before do
       @config = Blacklight::Configuration.new.configure do |config|
-        config.add_index_field 'qwer'
+        config.add_index_field 'qwer' 
         config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
+        config.add_index_field 'highlight', :highlight => true
       end
       helper.stub(:blacklight_config).and_return(@config)
     end
@@ -399,6 +400,14 @@ describe BlacklightHelper do
       helper.stub(:render_asdf_index_field).and_return('custom asdf value')
       value = helper.render_index_field_value :document => doc, :field => 'asdf'
       value.should == 'custom asdf value'
+    end
+
+    it "should check for a highlighted field" do
+      doc = mock()
+      doc.should_not_receive(:get)
+      doc.should_receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
+      value = helper.render_index_field_value :document => doc, :field => 'highlight'
+      value.should == '<em>highlight</em>'
     end
 
     it "should check the document field value" do
@@ -422,6 +431,7 @@ describe BlacklightHelper do
       @config = Blacklight::Configuration.new.configure do |config|
         config.add_show_field 'qwer'
         config.add_show_field 'asdf', :helper_method => :render_asdf_document_show_field
+        config.add_show_field 'highlight', :highlight => true
       end
       helper.stub(:blacklight_config).and_return(@config)
     end
@@ -442,6 +452,16 @@ describe BlacklightHelper do
       value.should == 'custom asdf value'
     end
 
+
+    it "should check for a highlighted field" do
+      doc = mock()
+      doc.should_not_receive(:get)
+      doc.should_receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
+      value = helper.render_document_show_field_value :document => doc, :field => 'highlight'
+      value.should == '<em>highlight</em>'
+    end
+
+
     it "should check the document field value" do
       doc = mock()
       doc.should_receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
@@ -454,6 +474,41 @@ describe BlacklightHelper do
       doc.should_receive(:get).with('mnbv', :sep => nil).and_return('document mnbv value')
       value = helper.render_document_show_field_value :document => doc, :field => 'mnbv'
       value.should == 'document mnbv value'
+    end
+  end
+
+  describe "#should_render_index_field?" do
+    it "should if the document has the field value" do
+      doc = mock()
+      doc.stub(:has?).with('asdf').and_return(true)
+      field_config = mock(:field => 'asdf')
+      helper.should_render_index_field?(doc, field_config).should == true
+    end
+
+    it "should if the document has a highlight field value" do
+      doc = mock()
+      doc.stub(:has?).with('asdf').and_return(false)
+      doc.stub(:has_highlight_field?).with('asdf').and_return(true)
+      field_config = mock(:field => 'asdf', :highlight => true)
+      helper.should_render_index_field?(doc, field_config).should == true
+    end
+  end
+
+
+  describe "#should_render_show_field?" do
+    it "should if the document has the field value" do
+      doc = mock()
+      doc.stub(:has?).with('asdf').and_return(true)
+      field_config = mock(:field => 'asdf')
+      helper.should_render_show_field?(doc, field_config).should == true
+    end
+
+    it "should if the document has a highlight field value" do
+      doc = mock()
+      doc.stub(:has?).with('asdf').and_return(false)
+      doc.stub(:has_highlight_field?).with('asdf').and_return(true)
+      field_config = mock(:field => 'asdf', :highlight => true)
+      helper.should_render_show_field?(doc, field_config).should == true
     end
   end
   
