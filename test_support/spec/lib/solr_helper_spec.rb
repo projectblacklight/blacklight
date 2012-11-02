@@ -547,7 +547,12 @@ describe 'Blacklight::SolrHelper' do
 
       it "should use the configured request handler " do
         blacklight_config.stub(:solr_request_handler => 'custom_request_handler')
-        Blacklight.solr.should_receive(:paginate).with(1, 10, 'select', {:params=>{:qt=>"custom_request_handler", :q=>"", "spellcheck.q"=>"", :"facet.field"=>["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"], :"facet.query"=>["pub_date:[2007 TO *]", "pub_date:[2002 TO *]", "pub_date:[1987 TO *]"], :"f.subject_topic_facet.facet.limit"=>21, :sort=>"score desc, pub_date_sort desc, title_sort asc"}}).and_return({'response'=>{'docs'=>[]}})
+        Blacklight.solr.should_receive(:paginate) do |page, rows, path, params|
+          page.should == 1
+          rows.should == 10
+          path.should == 'select'
+          params[:params].should include(:qt=>"custom_request_handler", :q=>"", "spellcheck.q"=>"", :"facet.field"=>["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"], :"facet.query"=>["pub_date:[2007 TO *]", "pub_date:[2002 TO *]", "pub_date:[1987 TO *]"], :"f.subject_topic_facet.facet.limit"=>21, :sort=>"score desc, pub_date_sort desc, title_sort asc")
+        end.and_return({'response'=>{'docs'=>[]}})
         get_search_results(:q => @all_docs_query)
       end
 
