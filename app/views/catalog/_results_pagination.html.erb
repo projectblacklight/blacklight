@@ -1,6 +1,9 @@
 <% if paginate_params(@response).num_pages > 1 %>
+ <div class="row record-padding">
+  <div class="span8 offset1"> 
     <div class="pagination">
-      <h2><%= t('blacklight.search.pagination.title') %></h2>
       <%= paginate_rsolr_response @response, :outer_window => 2, :theme => 'blacklight' %>
     </div>
+  </div>
+ </div>
 <% end %>

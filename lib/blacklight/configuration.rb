@@ -17,6 +17,7 @@ module Blacklight
       :index => OpenStructWithHashAccess.new(:show_link => SolrDocument.unique_key),
       :spell_max => 5,
       :max_per_page => 100,
+      :per_page => [10,20,50,100],
       :add_facet_fields_to_solr_request => false
     }
 

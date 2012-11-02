@@ -1,0 +1,17 @@
+
+  <div id="sort-dropdown" class="dropdown pull-right hidden-phone">
+            <%= t('blacklight.search.sort.label') %>
+           <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+              <%= current_sort_field.label %>
+              <b class="caret"></b>
+            </a>
+            &nbsp;
+            <ul id="menu2" class="dropdown-menu">
+              <%- blacklight_config.sort_fields.each do |sort_key, field| %>
+                <li>
+                  <%= link_to field.label, url_for(params_for_search.merge(:sort => sort_key) ) %>
+                </li>
+              <%- end %>
+            </ul>
+
+    </div>

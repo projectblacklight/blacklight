@@ -1,2 +1,2 @@
-//= require jquery.uiExt.ajaxyDialog.js
+//= require bootstrap-ajaxmodal
 Blacklight = {};

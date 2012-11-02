@@ -1,28 +1,24 @@
-  <% if @pagination.has_previous? || @pagination.has_next? %>
-    <div class="prev_next_links">
-      <% if @pagination.has_previous? -%>        
-        <%= link_to(raw(t('views.pagination.previous')), catalog_facet_path( @pagination.params_for_previous_url( params) ) , :class=>:prev_page)  %>
-      <% else -%>
-        <span class="disabled ui-state-active prev_page"><%= raw(t 'views.pagination.previous') %></span> 
-      <% end -%>
-      
-      <% if @pagination.has_next? -%>
-        <%= link_to(raw(t('views.pagination.next')), catalog_facet_path( @pagination.params_for_next_url(params)), :class => :next_page ) %>
-      <% else -%>
-        <span class="disabled ui-state-active next_page"><%= raw(t 'views.pagination.next') %></span> 
-      <% end -%>
-               
+<div class="row">
+    <div class="prev_next_links btn-group pull-left">
+      <%= link_to_previous_page @pagination, raw(t('views.pagination.previous')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page], :class => 'btn' do %>
+       <span class="disabled btn"><%= raw(t('views.pagination.previous')) %></span>
+     <% end %>
+      <%= link_to_next_page @pagination, raw(t('views.pagination.next')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page], :class => 'btn' do %>
+       
+       <span class="disabled btn"><%= raw(t('views.pagination.next')) %></span>
+      <% end %>
+     
     </div>
-  <% end %>
-
-  <div class="sort_options">
+ 
+  <div class="sort_options btn-group pull-right">
     <% if @pagination.sort == 'index' -%>
-      <span class="disabled az"><%= t('blacklight.search.facets.sort.index') %></span><%= link_to_unless(@pagination.sort == 'count', t('blacklight.search.facets.sort.count'), 
-        @pagination.params_for_resort_url('count', params), :class => "sort_change numeric") %>
+      <span class="active az btn"><%= t('blacklight.search.facets.sort.index') %></span><%= link_to_unless(@pagination.sort == 'count', t('blacklight.search.facets.sort.count'), 
+        @pagination.params_for_resort_url('count', params), :class => "sort_change numeric btn") %>
     <% elsif @pagination.sort == 'count' -%>
       <%=  link_to(t('blacklight.search.facets.sort.index'), @pagination.params_for_resort_url('index', params), 
-        :class => "sort_change az") %><span class="disabled numeric"><%= t('blacklight.search.facets.sort.count') %></span>
+        :class => "sort_change az btn") %><span class="active numeric btn"><%= t('blacklight.search.facets.sort.count') %></span>
     <% end -%>    
   </div>
 
 
+</div>

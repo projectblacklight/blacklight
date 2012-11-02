@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rsolr",     "~> 1.0.6"  # Library for interacting with rSolr.
   s.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "sass-rails"
+  s.add_dependency "bootstrap-sass", "~> 2.1.0"
   s.add_development_dependency "jettywrapper", ">= 1.2.0"
-  s.add_dependency "compass-rails", "~> 1.0.0"
-  s.add_dependency "compass-susy-plugin", ">= 0.9.0"
 end

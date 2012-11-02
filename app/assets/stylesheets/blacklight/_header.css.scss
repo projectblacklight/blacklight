@@ -4,33 +4,108 @@
 	padding:0;
 }
 
-h1.site_title
-{
-	background:transparent asset_url($logo_image,image) no-repeat top left;
-	height:35px;
-	margin:0;
-	width:120px;
-
-  a
-  {
-    border:0;
-    display:block;
-    height:35px;
-    overflow:hidden;
-    text-decoration:none;
-    text-indent:-9999px;
-    width:120px;
-  }
-}
-
-h1.site_title a:link,h1.site_title a:visited,h1.site_title a:hover,h1.site_title a:active
-{
-	border:0;
-}
-
 h2.search
 {
 	display:inline;
 	margin:0;
 }
+
+
+
+/*
+ The main logo image for the Blacklight instance
+*/
+
+
+.brand {
+   background:transparent asset_url($logo_image,image) no-repeat top left;
+  width: 120px;
+  display: inline-block;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+/*
+  Header bar at top (Bootstrap nav-bar)
+*/
+
+/* This ensures that any tool pop-up goes infront of the header */
+.navbar-fixed-top {
+  z-index:1000;
+}
+
+
+#header-navbar-fixed-top {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+  .navbar-inner {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
+
+  /*
+    Search form is in the header...
+  */
+  .desktop-search-bar {
+    opacity: 1 !important;
+    padding-top: 0.5em;
+
+  }
+}
+
+#searchbar {
+  padding-top:7px;
+}
+
+
+@media (max-width: 979px) {
+  .submit-search-text {
+    display: none;
+  }
+
+  #search_field {
+    width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  #search_field {
+    display: none;
+  }
+}
+.btn.search-btn {
+  margin-top: 0;
+}
+
+.search_field {
+  margin-right: 0.5em;
+}
+
+.user-util-links {
+  text-align: right;
+  font-size: 0.9em;
+}
+
+
+/*
+  Selected items needs special css to deal with number of selected items
+*/
+#selected-items {
+  #desktop-folder-link { 
+      float:left;
+      padding-right:5px;
+  }
+  #folder  {
+    float: right;
+    padding: 9px 10px 0 0;
+ }
+}
+ 
+
+
+
+
 

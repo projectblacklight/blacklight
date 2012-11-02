@@ -206,7 +206,7 @@ describe BlacklightHelper do
      it "should consist of #document_heading wrapped in a <h1>" do
       @document = SolrDocument.new('title_display' => "A Fake Document")
 
-      render_document_heading.should have_selector("h1", :content => document_heading, :count => 1)
+      render_document_heading.should have_selector("h4", :content => document_heading, :count => 1)
       render_document_heading.html_safe?.should == true
      end
    end
@@ -351,7 +351,7 @@ describe BlacklightHelper do
       @document = SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8')
       helper.stub(:blacklight_config).and_return(@config)
       helper.stub(:has_user_authentication_provider?).and_return(true)
-      helper.stub(:current_user).and_return(User.new)
+      helper.stub(:current_or_guest_user).and_return(User.new)
     end
     describe "render_index_doc_actions" do
       it "should render partials" do

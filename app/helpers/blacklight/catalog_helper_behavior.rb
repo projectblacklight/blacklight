@@ -9,8 +9,9 @@ module Blacklight::CatalogHelperBehavior
     per_page = 1 if per_page < 1
     current_page = (response.start / per_page).ceil + 1
     num_pages = (response.total / per_page.to_f).ceil
-    Struct.new(:current_page, :num_pages, :limit_value).new(current_page, num_pages, per_page)
-  end    
+
+    Struct.new(:current_page, :num_pages, :limit_value, :total_count, :first_page?, :last_page?).new(current_page, num_pages, per_page, response.total, current_page > 1, current_page < num_pages)
+  end
 
   # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument. 
   # Will convert it to something kaminari can deal with (using #paginate_params), and
@@ -46,7 +47,7 @@ module Blacklight::CatalogHelperBehavior
       entry_name = options[:entry_name] ||
         (response.empty?? t('blacklight.entry_name.default') : response.docs.first.class.name.underscore.sub('_', ' '))
 
-      case response.docs.length
+      case response.total
         when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
         when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
         else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => current_page, :num_pages => num_pages, :start_num => start_num, :end_num => end_num, :total_num => total_num, :count => num_pages).html_safe
@@ -66,6 +67,10 @@ module Blacklight::CatalogHelperBehavior
   # based on params[:qt] and blacklight_configuration.
   def search_field_label(params)
     h( label_for_search_field(params[:search_field]) )
+  end
+  
+  def current_sort_field
+    blacklight_config.sort_fields[params[:sort]] || blacklight_config.sort_fields.first.last
   end
 
   # Export to Refworks URL, called in _show_tools

@@ -1,0 +1,20 @@
+/* This ensures that any tool pop-up goes infront of the header */
+.navbar-fixed-bottom {
+ z-index:1000;
+}
+
+.navbar-fixed-bottom {
+  margin-right:0px;
+  position: relative;
+  margin-top: 0;
+}
+
+
+
+#footer-title {
+  padding-bottom:10px;
+}
+
+#footer-row {
+  margin-top: 1em;
+}

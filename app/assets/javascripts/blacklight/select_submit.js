@@ -2,17 +2,35 @@
 (function($) {
 // Used for sort-by and per-page controls, hide the submit button
     // and make the select auto-submit
-    Blacklight.do_select_submit = function() {
-      $(Blacklight.do_select_submit.selector).each(function() {
-          var select = $(this);
-          select.closest("form").find("input[type=submit]").hide();
-          select.bind("change", function() {
-              this.form.submit();
-          });
-      });
-    };
-    Blacklight.do_select_submit.selector = "form.sort select, form.per_page select";
+    Blacklight.bind_dropdown_submit = function(form, dropdown, auto_submit) {
+        $(dropdown).find('ul.dropdown-menu a').click( function () {
+          selection = $(this).attr('data-value');
+          selection_key = $(this).text();
+
+          $(dropdown).find('a.dropdown-toggle').html(selection_key + ' <b class="caret"></b>');
+
+          $(form).find('select').val(selection);
+          if (auto_submit) {
+           $(form).submit();
+          }
+
+        });
+      }
+
+
 $(document).ready(function() {
-  Blacklight.do_select_submit();  
+  $('#sort-form').hide();
+  $('#sort-dropdown').show();
+  Blacklight.bind_dropdown_submit('#sort-form', '#sort-dropdown' , true);
+
+  $('#per_page-form').hide();
+  $('#per_page-dropdown').show();
+  Blacklight.bind_dropdown_submit('#per_page-form', '#per_page-dropdown', true );
+
+  $('.search-options-select').hide();
+  $('.search-options-dropdown').show();
+  Blacklight.bind_dropdown_submit('.search-query-form', '.search-box-options', false );
+
+
 });
     })(jQuery);

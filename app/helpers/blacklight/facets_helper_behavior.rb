@@ -19,6 +19,11 @@ module Blacklight::FacetsHelperBehavior
     blacklight_config.facet_fields.keys
   end
 
+  def has_facet_values? fields = facet_field_names, options = {}
+    solr_fields = fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
+    solr_fields.any? { |display_facet| !display_facet.items.empty? }
+  end
+
   # Render a collection of facet fields
   def render_facet_partials fields = facet_field_names, options = {}
     solr_fields = fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
@@ -84,7 +89,7 @@ module Blacklight::FacetsHelperBehavior
     name = facet_configuration_for_field(display_facet.name).try(:partial)
     name ||= "facet_limit"
   end
-
+ 
   #
   # facet param helpers ->
   #
@@ -96,19 +101,19 @@ module Blacklight::FacetsHelperBehavior
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    (link_to_unless(options[:suppress_link], ((item.label if item.respond_to?(:label)) || item.value), add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select label") + " " + render_facet_count(item.hits)).html_safe
+    (link_to_unless(options[:suppress_link], ((item.label if item.respond_to?(:label)) || item.value), add_facet_params_and_redirect(facet_solr_field, item.value), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
   end
 
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
-    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected label") +
-      link_to(t('blacklight.search.facets.selected.remove'), remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
+    #Updated class for Bootstrap Blacklight 
+    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
+      link_to(content_tag(:i, '', :class => "icon-remove") + content_tag(:span, '[remove]', :class => 'hide-text'), remove_facet_params(facet_solr_field, item.value, params), :class=>"remove")
   end
 
   # Renders a count value for facet limits. Can be over-ridden locally
-  # to change style, for instance not use parens. And can be called
-  # by plugins to get consistent display. 
+  # to change style. And can be called by plugins to get consistent display. 
   def render_facet_count(num)
     content_tag("span", t('blacklight.search.facets.count', :number => num), :class => "count") 
   end

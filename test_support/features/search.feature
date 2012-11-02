@@ -50,7 +50,7 @@ Feature: Search
     And I should see "inmul"
     And I should see select list "select#search_field" with "Title" selected
     And I should see "1."
-    And I should see "Displaying 1 item"
+    And I should see "1 to 1 of 1"
 
   Scenario: Results Page Shows Vernacular (Linked 880) Fields
     Given I am on the home page
@@ -69,7 +69,7 @@ Feature: Search
     Given I am on the home page
     And I fill in "q" with "history"
     When I press "search"
-    Then I should see select list "select#sort" with field labels "relevance, year, author, title"
+    Then I should see the sort dropdown with values "relevance, year, author, title"
   
   Scenario: Can clear a search
     When I am on the home page
@@ -80,7 +80,7 @@ Feature: Search
     And I should see "All Fields"
     And I should see "history"
     And the "q" field should contain "history"
-    When I follow "start over"
+    When I follow "Start Over"
     Then I should be on "the catalog page"
     And I should see "Welcome!"
     And the "q" field should not contain "history"

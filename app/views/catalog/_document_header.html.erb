@@ -2,12 +2,10 @@
       <% # header bar for doc items in index view -%>
       <div class="documentHeader">
         
-        <% # bookmark/folder functions for items/docs -%>
-        <%= render_index_doc_actions document %>
+        <% # bookmark functions for items/docs -%>
+        <%= render_index_doc_actions document, :wrapping_class => "documentFunctions hidden-phone" %>
         
         <% # main title container for doc partial view -%>
-        <div class="yui-u">
-          <h3 class="index_title"><%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %><%= link_to_document document, :label=>document_show_link_field, :counter => (document_counter + 1 + @response.params[:start].to_i) %></h3>
-        </div>
+          <h5 class="index_title"><%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %><%= link_to_document document, :label=>document_show_link_field, :counter => (document_counter + 1 + @response.params[:start].to_i) %></h5>
       </div>
       

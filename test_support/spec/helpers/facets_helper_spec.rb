@@ -6,6 +6,26 @@ describe FacetsHelper do
     helper.stub(:blacklight_config).and_return blacklight_config
   end
   
+  describe "has_facet_values?" do
+    it "should be true if there are any facets to display" do
+
+      a = mock(:items => [1,2])
+      b = mock(:items => ['b','c'])
+      empty = mock(:items => [])
+
+      fields = [a,b,empty]
+      helper.has_facet_values?(fields).should be_true
+    end
+
+    it "should be false if all facets are empty" do
+
+      empty = mock(:items => [])
+
+      fields = [empty]
+      helper.has_facet_values?(fields).should_not be_true
+    end
+  end
+
   describe "should_render_facet?" do
     before do
       @config = Blacklight::Configuration.new do |config|

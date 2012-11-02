@@ -25,11 +25,20 @@ module Blacklight::Controller
     base.send :helper_method, :stylesheet_links
     base.send :helper_method, :javascript_includes
     base.send :helper_method, :has_user_authentication_provider?
+    base.send :helper_method, :blacklight_config
 
 
     # This callback runs when a user first logs in
     base.set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user rescue nil
 
+  end
+
+  def default_catalog_controller
+    CatalogController
+  end
+
+  def blacklight_config
+    default_catalog_controller.blacklight_config
   end
 
     # test for exception notifier plugin

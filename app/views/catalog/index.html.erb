@@ -1,35 +1,33 @@
 
-<% unless has_search_parameters? %>
-	<%# if there are no input/search related params, display the "home" partial -%>
-	<%= render 'home' %>
-<% else %>
+  <div id="sidebar" class="span3">
+   <%= render :partial=>'facets' %>
+  </div><!--/well -->
 
-  <% @page_title = t('blacklight.search.title', :application_name => application_name) %>
+<div id="content" class="span9">   
 
-        <% extra_head_content << render_opensearch_response_metadata.html_safe %>
+    <% unless has_search_parameters? %>
+	    <%# if there are no input/search related params, display the "home" partial -%>
+	    <%= render 'home' %>
+    <% else %>
 
-	<%= render :partial => 'search_form' %>
-	
-	<%= render :partial => 'did_you_mean' %>
+      <% @page_title = t('blacklight.search.title', :application_name => application_name) %>
 
-	<%= render 'constraints', :localized_params=>params %>
-  
-  <div class="pageEntriesInfo">
-    <%= render_pagination_info @response, :entry_name=>'item' %>
-    <%=link_to t('blacklight.search.start_over'), url_for(:action=>'index'), :id=>"startOverLink" %>
-  </div>
-  
-	<%= render 'sort_and_per_page' %>
-  
-        <%= render 'results_pagination' %>
-  
-	<%= render :partial => 'document_list' %>
 
-	<% sidebar_items << capture do %>
-	  <%= render :partial=>'facets' %>
-	<% end %>
+      <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
-  <%= render 'results_pagination' %>
+	    <%= render :partial => 'did_you_mean' %>
 
-<% end %>
+      <%= render :partial => 'constraints' %>
 
+	    <%= render 'sort_and_per_page' %> 
+
+      <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
+	    <%= render :partial => 'document_list' %>
+
+
+	    <%= render 'results_pagination' %>
+
+
+    <% end %>
+
+</div>

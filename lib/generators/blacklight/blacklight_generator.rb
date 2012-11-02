@@ -69,7 +69,7 @@ EOF
   def generate_devise_assets
     if options[:devise]
       gem "devise"
-      gem "devise-guests"
+      gem "devise-guests", "~> 0.2"
 
       Bundler.with_clean_env do
        run "bundle install"
@@ -123,7 +123,7 @@ EOF
     file_path = "app/models/#{model_name.underscore}.rb"
     if File.exists?(file_path) 
       inject_into_class file_path, model_name.classify do 
-        "# Connects this user object to Blacklights Bookmarks and Folders. " +
+        "# Connects this user object to Blacklights Bookmarks. " +
         "\n include Blacklight::User\n"        
       end
     else
@@ -157,12 +157,6 @@ EOF
   end
 
   def add_sass_configuration
-    gem 'compass-rails', '~> 1.0.0', :group => :assets
-    gem 'compass-susy-plugin', '~> 0.9.0', :group => :assets
-    
-    Bundler.with_clean_env do
-     run "bundle install"
-    end
 
     insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
     
@@ -172,8 +166,12 @@ EOF
 EOF
       end
 
-      copy_file "config/compass.rb", "config/compass.rb"
   end
+
+  def add_bootstrap_gem
+    gem 'bootstrap-sass', '~> 2.1.0.0'
+  end 
+
 
   private  
   

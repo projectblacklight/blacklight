@@ -1,12 +1,20 @@
 # -*- encoding : utf-8 -*-
 # note that while this is mostly restful routing, the #update and #destroy actions
 # take the Solr document ID as the :id, NOT the id of the actual Bookmark action. 
-class BookmarksController < ApplicationController
+class BookmarksController < CatalogController
+  include Blacklight::Configurable
+  include Blacklight::SolrHelper
+
+  copy_blacklight_config_from(CatalogController)
+
 
   before_filter :verify_user
 
   def index
-    @bookmarks = current_or_guest_user.bookmarks.page(params[:page])
+    @bookmarks = current_or_guest_user.bookmarks
+    bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
+  
+    @response, @document_list = get_solr_response_for_field_values("id", bookmark_ids)
   end
 
   def update
@@ -22,12 +30,11 @@ class BookmarksController < ApplicationController
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler. 
   def create
-    @bookmarks = params[:bookmarks] || []
-
-    if params[:bookmark]
-      params[:bookmark][:document_id] ||= params[:id]
-      @bookmarks << params[:bookmark] if params[:bookmark]
-     end
+    if params[:bookmarks]
+      @bookmarks = params[:bookmarks]
+    else
+      @bookmarks = [{ :document_id => params[:id] }]
+    end
 
     success = @bookmarks.all? do |bookmark|
       current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])

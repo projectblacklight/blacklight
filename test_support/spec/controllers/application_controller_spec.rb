@@ -15,6 +15,14 @@ describe ApplicationController do
         controller.stylesheet_links.should be_empty
       end
     end
+
+    describe "#blacklight_config" do
+
+      it "should provide a default blacklight_config everywhere" do
+        controller.blacklight_config.should == CatalogController.blacklight_config
+      end
+    end
+
   end
 
 end
