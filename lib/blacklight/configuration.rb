@@ -8,6 +8,7 @@ module Blacklight
     # the basic, required Blacklight fields
     class << self; attr_accessor :default_values; end
     @default_values = {
+      :solr_path => 'select',
       :solr_request_handler => 'search',
       :default_solr_params => {},
       :document_solr_request_handler => nil,

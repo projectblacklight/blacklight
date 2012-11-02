@@ -83,7 +83,8 @@ module Blacklight::SolrHelper
   end
   
   def find(*args)
-    response = Blacklight.solr.get('select', :params=> args[1])
+    path = blacklight_config.solr_path
+    response = Blacklight.solr.get(path, :params=> args[1])
     force_to_utf8(response)
   rescue Errno::ECONNREFUSED => e
     raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{Blacklight.solr.inspect}")
@@ -357,9 +358,10 @@ module Blacklight::SolrHelper
 
     params = self.solr_search_params(user_params).merge(extra_controller_params)
     params[:qt] = blacklight_config.solr_request_handler
+    path = blacklight_config.solr_path
     raise "don't set start, use page and rows instead" if params['start'] || params[:start]
     rows = params.delete(:rows) #only transmit rows once
-    res = Blacklight.solr.paginate(params[:page] || 1, rows, 'select', :params=>params)
+    res = Blacklight.solr.paginate(params[:page] || 1, rows, path, :params=>params)
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
 
     #solr_response = find(self.solr_search_params(user_params).merge(extra_controller_params))  
