@@ -111,6 +111,8 @@ end
 gem 'jettywrapper', '>= 1.2.0'
 " >> Gemfile
 
+export BUNDLE_GEMFILE=`pwd`/Gemfile
+
 bundle install
 check_errs $? "Bundle install failed." 
 
@@ -131,7 +133,7 @@ cp ../../test_support/alternate_controller.rb app/controllers/
 # end
 ruby -pi.bak -e 'gsub(/devise_for :users/, "devise_for :users\n  resources :alternate do\n    member do\n      get :facet\n    end\n  end")' config/routes.rb
 
-jetty_zip=$( echo $JETTY_URL | awk '{split($0,a,"/"); print "/tmp/blacklight_jetty_"a[length(a)]}')
+jetty_zip=$( JETTY_URL=$JETTY_URL ruby -e 'puts "/tmp/blacklight_jetty_#{ENV["JETTY_URL"].split("/").last}"')
 if [ ! -f $jetty_zip ]
 then
   curl -L $JETTY_URL -o $jetty_zip
