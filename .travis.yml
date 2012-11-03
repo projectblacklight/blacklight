@@ -1,0 +1,14 @@
+notifications:
+  email: false
+  
+rvm:
+  # - 1.8.7
+  - 1.9.3
+  # - rbx-2.0
+  # - jruby
+
+env:
+  - RAILS_VERISON=3.2.8
+
+script:
+  - test_support/bin/test.sh
