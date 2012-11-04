@@ -6,21 +6,28 @@ module Blacklight
 
     # Set up Blacklight::Configuration.default_values to contain 
     # the basic, required Blacklight fields
-    class << self; attr_accessor :default_values; end
-    @default_values = {
-      :solr_path => 'select',
-      :solr_request_handler => 'search',
-      :default_solr_params => {},
-      :document_solr_request_handler => nil,
-      :default_document_solr_params => {},
-      :show => OpenStructWithHashAccess.new(:html_title => SolrDocument.unique_key, :heading => SolrDocument.unique_key),
-      :index => OpenStructWithHashAccess.new(:show_link => SolrDocument.unique_key),
-      :spell_max => 5,
-      :max_per_page => 100,
-      :per_page => [10,20,50,100],
-      :add_facet_fields_to_solr_request => false,
-      :add_field_configuration_to_solr_request => false
-    }
+    class << self
+      def default_values
+        @default_values ||= begin
+          unique_key = ((SolrDocument.unique_key if defined?(SolrDocument)) || 'id')
+          
+          {
+          :solr_path => 'select',
+          :solr_request_handler => 'search',
+          :default_solr_params => {},
+          :document_solr_request_handler => nil,
+          :default_document_solr_params => {},
+          :show => OpenStructWithHashAccess.new(:html_title => unique_key, :heading => unique_key),
+          :index => OpenStructWithHashAccess.new(:show_link => unique_key),
+          :spell_max => 5,
+          :max_per_page => 100,
+          :per_page => [10,20,50,100],
+          :add_facet_fields_to_solr_request => false,
+          :add_field_configuration_to_solr_request => false
+          }
+        end
+      end
+    end
 
 
     # XXX this isn't very pretty, but it works.
