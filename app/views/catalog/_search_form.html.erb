@@ -1,9 +1,9 @@
-  <%= form_tag search_action_url, :method => :get, :class => 'search-query-form' do %>
+  <%= form_tag search_action_url, :method => :get, :class => 'search-query-form form-inline clearfix' do %>
     <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %> 
 
     <% unless search_fields.empty? %>
       <div class="pull-left">
-        <label id="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
+        <label for="search_field" class="hide-text"><%= t('blacklight.search.form.search_field.label') %></label>
         <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search_field input-small") %>
         <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
       </div>
