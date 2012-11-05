@@ -386,13 +386,13 @@ module Blacklight::BlacklightHelperBehavior
   # Use case, you want to render an html partial from an XML (say, atom)
   # template. Rails API kind of lets us down, we need to hack Rails internals 
   # a bit. code taken from:
-  # http://stackoverflow.com/questions/339130/how-do-i-render-a-partial-of-a-different-format-in-rails
+  # http://stackoverflow.com/questions/339130/how-do-i-render-a-partial-of-a-different-format-in-rails (zgchurch)
   def with_format(format, &block)
-    old_format = @template_format
-    @template_format = format
-    result = block.call
-    @template_format = old_format
-    return result
+    old_formats = formats
+    self.formats = [format]
+    block.call
+    self.formats = old_formats
+    nil
   end
 
   # puts together a collection of documents into one refworks export string
