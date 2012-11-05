@@ -59,3 +59,10 @@ Feature: Bookmarks
       And I am logged in as "user1"
       When I go to the bookmarks page
       Then I should see a "Remove bookmark" button
+
+    Scenario: Citing items in bookmarks
+      Given I am on the document page for id 2007020969
+      And I press "Bookmark"
+      When I go to the bookmarks page
+      And I follow "Cite"
+      Then I should see "Strong Medicine speaks"
