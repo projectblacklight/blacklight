@@ -17,13 +17,16 @@ h2.search
 */
 
 
-.brand {
-   background:transparent asset_url($logo_image,image) no-repeat top left;
+.navbar .brand {
+  background:transparent asset_url($logo_image,image) no-repeat top left;
   width: 120px;
   display: inline-block;
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
+  padding-right:0;
+  margin-right:20px;
+  padding-left: 0;
 }
 
 
