@@ -13,7 +13,7 @@ module Blacklight
           
           {
           :solr_path => 'select',
-          :solr_request_handler => 'search',
+          :qt => 'search',
           :default_solr_params => {},
           :document_solr_request_handler => nil,
           :default_document_solr_params => {},

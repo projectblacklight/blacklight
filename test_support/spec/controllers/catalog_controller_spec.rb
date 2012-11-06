@@ -300,7 +300,6 @@ describe CatalogController do
 
     describe "@document" do
       before do
-        #@mock_response = {'response' => { 'docs' => [{ :id => 'my_fake_doc' }]}}
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = mock()
         controller.stub(:find => @mock_response, 
@@ -327,9 +326,6 @@ describe CatalogController do
         end
       end
       before do
-        # @mock_response = {'response' => { 'docs' => [{ :id => 'my_fake_doc' }]}}
-        # @mock_document = mock()
-
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = mock()
         controller.stub(:find => @mock_response, 

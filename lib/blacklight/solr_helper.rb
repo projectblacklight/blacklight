@@ -85,7 +85,6 @@ module Blacklight::SolrHelper
   def find(*args)
     path = blacklight_config.solr_path
     response = Blacklight.solr.get(path, :params=> args[1])
-    force_to_utf8(response)
     Blacklight::SolrResponse.new(force_to_utf8(response), args[1])
   rescue Errno::ECONNREFUSED => e
     raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{Blacklight.solr.inspect}")
@@ -369,7 +368,7 @@ module Blacklight::SolrHelper
     bench_start = Time.now
 
     params = self.solr_search_params(user_params).merge(extra_controller_params)
-    params[:qt] = blacklight_config.solr_request_handler
+    params[:qt] ||= blacklight_config.qt
     path = blacklight_config.solr_path
     raise "don't set start, use page and rows instead" if params['start'] || params[:start]
     rows = params.delete(:rows) #only transmit rows once
@@ -404,7 +403,7 @@ module Blacklight::SolrHelper
   # retrieve a solr document, given the doc id
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_params = solr_doc_params(id).merge(extra_controller_params)
-    solr_response = find((blacklight_config.document_solr_request_handler || blacklight_config.solr_request_handler), solr_params)
+    solr_response = find((blacklight_config.document_solr_request_handler || blacklight_config.qt), solr_params)
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
@@ -435,7 +434,7 @@ module Blacklight::SolrHelper
       :spellcheck => 'false'
     }.merge(extra_solr_params)
     
-    solr_response = find(blacklight_config.solr_request_handler, self.solr_search_params().merge(solr_params) )
+    solr_response = find(blacklight_config.qt, self.solr_search_params().merge(solr_params) )
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
     [solr_response,document_list]
   end
@@ -484,7 +483,7 @@ module Blacklight::SolrHelper
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
     
     # Make the solr call
-    response =find(blacklight_config.solr_request_handler, solr_params)
+    response =find(blacklight_config.qt, solr_params)
 
     limit = solr_params[:"f.#{facet_field}.facet.limit"] -1
         
@@ -510,7 +509,7 @@ module Blacklight::SolrHelper
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.    
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
-    solr_response = find(blacklight_config.solr_request_handler, solr_params)
+    solr_response = find(blacklight_config.qt, solr_params)
     SolrDocument.new(solr_response.docs.first, solr_response) unless solr_response.docs.empty?
   end
     
@@ -533,7 +532,7 @@ module Blacklight::SolrHelper
   # where the field is the "field" argument passed in.
   def get_opensearch_response(field=nil, extra_controller_params={})
     solr_params = solr_opensearch_params().merge(extra_controller_params)
-    response = find(blacklight_config.solr_request_handler, solr_params)
+    response = find(blacklight_config.qt, solr_params)
     a = [solr_params[:q]]
     a << response.docs.map {|doc| doc[solr_params[:fl]].to_s }
   end
