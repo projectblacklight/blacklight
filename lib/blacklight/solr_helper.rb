@@ -362,11 +362,19 @@ module Blacklight::SolrHelper
   # Returns a two-element array (aka duple) with first the solr response object,
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(user_params = params || {}, extra_controller_params = {})
+    solr_response = query_solr(user_params, extra_controller_params)
+    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)} 
+    return [solr_response, document_list]
+  end
 
+  	
+  # a solr query method
+  # given a user query,
+  # Returns a solr response object
+  def query_solr(user_params = params || {}, extra_controller_params = {})
     # In later versions of Rails, the #benchmark method can do timing
     # better for us. 
     bench_start = Time.now
-
     params = self.solr_search_params(user_params).merge(extra_controller_params)
     params[:qt] ||= blacklight_config.qt
     path = blacklight_config.solr_path
@@ -374,14 +382,12 @@ module Blacklight::SolrHelper
     rows = params.delete(:rows) #only transmit rows once
     res = Blacklight.solr.paginate(params[:page] || 1, rows, path, :params=>params)
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
-
-    #solr_response = find(self.solr_search_params(user_params).merge(extra_controller_params))  
-    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)} 
     Rails.logger.debug("Solr query: #{params.inspect}") 
     Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
-    Rails.logger.debug("Solr fetch: #{self.class}#get_search_results (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
+    Rails.logger.debug("Solr fetch: #{self.class}#get_solr_response (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
-    return [solr_response, document_list]
+
+    solr_response
   end
   
   # returns a params hash for finding a single solr document (CatalogController #show action)
