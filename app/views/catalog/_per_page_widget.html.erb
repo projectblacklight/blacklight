@@ -6,7 +6,7 @@
               <b class="caret"></b>
             </a>
             <%= t('blacklight.search.per_page.post_label') %>        
-            <ul id="menu1" class="dropdown-menu">
+            <ul class="dropdown-menu">
               <%- blacklight_config.per_page.each do |count| %>
               <li>
                 <%= link_to(("#{count} ".html_safe + content_tag(:span, t('blacklight.search.per_page.post_label'), :class =>'hide-text')), url_for(params_for_search.merge(:per_page => count))) %>

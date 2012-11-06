@@ -115,18 +115,6 @@ li.pill-with-label {
   }
 }
 
-#sortAndPerPage {
-  background-color: #F3F9FF;
-  margin-right: 0em;
-  padding: 0.5em;
-  li.per_page {
-    display:none;
-  }
-
-  #sort-dropdown {
-    display:none;
-  }
-}
 .show-document-title 
 {
   padding-top: 0.5em;
@@ -310,4 +298,23 @@ span.page a,span.page.current
   .document {
     border: none;
   }
+}
+
+#sortAndPerPage .dropdown-toggle {
+  cursor: pointer;
+}
+
+.no-js #sortAndPerPage {
+  & {
+    @extend .clearfix;
+  }
+  .dropdown-menu {
+    background: none;
+    box-shadow: none;
+    border: none;
+    position: relative;
+    display: block;
+    float: none;
+  }
+
 }

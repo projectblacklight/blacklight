@@ -58,3 +58,5 @@
           });
         };
 */
+
+$('.no-js').removeClass('no-js')

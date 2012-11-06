@@ -189,6 +189,11 @@ ul.facet_extended_list
       height: auto !important;
     }
   }
+
+  .no-js .facets-collapse, .no-js .facets-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
 }
 
 @media (min-width: 768px) {
