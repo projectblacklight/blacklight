@@ -31,6 +31,14 @@ describe CatalogHelper do
       html.html_safe?.should == true
     end
 
+    it "with no results (and no entry_name provided)" do
+      @response = mock_response :total => 0
+
+      html = render_pagination_info(@response)
+      html.should == "No entries found"
+      html.html_safe?.should == true
+    end
+
     it "with a single result" do
       @response = mock_response :total => 1
 
