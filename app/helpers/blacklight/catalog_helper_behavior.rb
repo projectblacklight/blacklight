@@ -44,8 +44,10 @@ module Blacklight::CatalogHelperBehavior
       total_num = format_num(total_hits)
 
    # TODO: i18n the entry_name
-      entry_name = options[:entry_name] ||
-        (response.empty?? t('blacklight.entry_name.default') : response.docs.first.class.name.underscore.sub('_', ' '))
+      entry_name = options[:entry_name] 
+      entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
+      entry_name ||= t('blacklight.entry_name.default')
+
 
       case response.total
         when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
