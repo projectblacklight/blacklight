@@ -73,6 +73,11 @@ module Blacklight::Catalog
     # displays values and pagination links for a single facet field
     def facet
       @pagination = get_facet_pagination(params[:id], params)
+
+      respond_to do |format|
+        format.html 
+        format.js { render :layout => "modal_layout" }
+      end
     end
     
     # method to serve up XML OpenSearch description and JSON autocomplete response
@@ -111,10 +116,21 @@ module Blacklight::Catalog
           else
             flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
           end
-          email.deliver unless flash[:error]
-          redirect_to :back
         else
           flash[:error] = I18n.t('blacklight.email.errors.to.blank')
+        end
+
+        unless flash[:error]
+          email.deliver 
+          flash[:success] = "Email sent"
+          redirect_to catalog_path(params['id']) unless request.xhr?
+        end
+      end
+
+      unless !request.xhr? && flash[:success]
+        respond_to do |format|
+          format.js { render :layout => "modal_layout" }
+          format.html
         end
       end
     end
@@ -133,30 +149,36 @@ module Blacklight::Catalog
             else
               email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier]}, url_gen_params)
             end
-            email.deliver unless flash[:error]
-            redirect_to :back
+
           else
             flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
           end
         else
           flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
         end
+
+        unless flash[:error]
+          email.deliver 
+          flash[:success] = "SMS sent"
+          redirect_to catalog_path(params['id']) unless request.xhr?
+        end
+      end
         
+      unless !request.xhr? && flash[:success]
+        respond_to do |format|
+          format.js { render :layout => "modal_layout" }
+          format.html
+        end
       end
     end
     
-    # DEPRECATED backwards compatible method that will just redirect to the appropriate action.  It will return a 404 if a bad action is supplied (just in case).
-    def send_email_record
-      warn "[DEPRECATION] CatalogController#send_email_record is deprecated.  Please use the email or sms controller action instead."
-      if ["sms","email"].include?(params[:style])
-        redirect_to :action => params[:style] 
-      else
-        render :file => "#{::Rails.root}/public/404.html", :layout => false, :status => 404
-      end
-    end
-
     def librarian_view
       @response, @document = get_solr_response_for_doc_id
+
+      respond_to do |format|
+        format.html
+        format.js { render :layout => "modal_layout"}
+      end
     end
     
     

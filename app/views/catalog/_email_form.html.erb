@@ -1,9 +1,23 @@
 <h1><%= t('blacklight.email.form.title') %></h1>
-<%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :method => :post do %>
-  <%= label_tag(:to, t('blacklight.email.form.to')) %><br/>
-  <%= text_field_tag :to %><br/>
-  <%= label_tag(:message, t('blacklight.email.form.message')) %><br/>
-  <%= text_area_tag :message %><br/>
+<%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :class => "form-horizontal", :method => :post do %>
+    <div class="control-group">
+      <label class="control-label" for="to">
+        <%= t('blacklight.email.form.to') %>
+      </label>
+      <div class="controls">
+
+        <%= text_field_tag :to, params[:to] %><br/>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="message">
+        <%= t('blacklight.email.form.message') %>
+      </label>
+      <div class="controls">
+      <%= text_area_tag :message, params[:message] %>
+       </div>
+    </div>
+
   <% @documents.each do |doc| %>
     <%=hidden_field_tag "id[]", doc.get(:id)%>
   <% end %>

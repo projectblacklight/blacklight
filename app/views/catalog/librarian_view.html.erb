@@ -1,3 +1,4 @@
 <%- if @document.respond_to?(:to_marc) -%>
+<h1><%= t('blacklight.search.librarian_view.title') %></h1>
   <%= render "marc_view" %>
 <%- end -%>

@@ -8,7 +8,6 @@
 //= require blacklight/bookmark_toggle
 //= require blacklight/facet_expand_contract
 //= require blacklight/lightbox_dialog
-//= require blacklight/more_facets
 //= require blacklight/search_context
 //= require blacklight/select_submit
 //= require blacklight/zebra_stripe
@@ -19,6 +18,9 @@
 //= require bootstrap-collapse
 //= require bootstrap-alert
 //= require bootstrap-dropdown
+//= require bootstrap-modal
+//= require improved-modal/bootstrap-modalmanager.js
+//= require improved-modal/bootstrap-modal.js
 
 /* Blacklight has a Javascript setup meant to support local disabling, 
   modification, and use of Blacklight behaviors. 

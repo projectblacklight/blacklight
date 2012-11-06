@@ -10,12 +10,24 @@
 'Cricket' => 'cricket'
 }
 %>
-<h1><%= t('blacklight.sms.form.title') %></h1>
-<%= form_tag url_for(:controller => "catalog", :action => "sms"), :id => 'sms_form', :method => :post do %>
-  <%= label_tag(:to, t('blacklight.sms.form.to')) %><br/>
-  <%= text_field_tag :to %><br/>
-  <%= label_tag(:carrier, t('blacklight.sms.form.carrier')) %><br/>
-  <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift([t('blacklight.sms.form.carrier_prompt'),'']), '')) %><br/>
+<%= form_tag url_for(:controller => "catalog", :action => "sms"), :id => 'sms_form', :class => "form-horizontal ajax_form", :method => :post do %>
+  <div class="control-group">
+    <label class="control-label" for="to"> 
+      <%= t('blacklight.sms.form.to') %>
+    </label>
+    <div class="controls">
+      <%= text_field_tag :to, params[:to] %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="carrier">
+      <%= t('blacklight.sms.form.carrier') %> 
+    </label>
+    <div class="controls">
+        <%= select_tag(:carrier, options_for_select(carriers.to_a.sort.unshift([t('blacklight.sms.form.carrier_prompt'),'']), params[:carrier])) %><br/>
+    </div>
+
+  </div>
   <% @documents.each do |doc| %>
      <%=hidden_field_tag "id[]", doc.get(:id)%>
   <% end %>

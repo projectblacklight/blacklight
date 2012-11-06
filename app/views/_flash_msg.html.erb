@@ -1,7 +1,10 @@
-<% [:notice, :error, :alert].each do |type| %>
-  <% if flash[type] %>
-    <div class="alert alert-<%= type == :error ? 'error' : 'info' %>"><%= flash[type] %>
-       <a class="close" data-dismiss="alert" href="#">x</a>
-    </div>
+<div class="flash_messages">
+  <% [:success, :notice, :error, :alert].each do |type| %>
+    <%- alert_class = type == :notice ? 'info' : type %>
+    <% if flash[type] %>
+      <div class="alert alert-<%=alert_class%>"><%= flash[type] %>
+         <a class="close" data-dismiss="alert" href="#">x</a>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

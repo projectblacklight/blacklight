@@ -1,4 +1,3 @@
-<h1><%= t('blacklight.search.librarian_view.title') %></h1>
 <div id="marc_view">
   <% fields = @document.to_marc.find_all{|f| ('000'..'999') === f.tag }  %>
   <div class="field"><%= t('blacklight.search.librarian_view.leader', :leader => @document.to_marc.leader) %></div>
