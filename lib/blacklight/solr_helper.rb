@@ -384,7 +384,7 @@ module Blacklight::SolrHelper
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
     Rails.logger.debug("Solr query: #{params.inspect}") 
     Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
-    Rails.logger.debug("Solr fetch: #{self.class}#get_solr_response (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
+    Rails.logger.debug("Solr fetch: #{self.class}#query_solr (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
 
     solr_response
