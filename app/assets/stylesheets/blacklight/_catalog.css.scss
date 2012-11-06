@@ -185,9 +185,7 @@ li.pill-with-label {
 #documents .documentFunctions
 {
 	float:right;
-  margin-top: 0.25em;
-	margin-bottom:0.5em;
-	margin-left:1em;
+  margin: 10px 0;
 
   .bookmark_toggle
   {
@@ -317,4 +315,16 @@ span.page a,span.page.current
     float: none;
   }
 
+}
+
+.index_title {
+  float: left;
+  max-width: 414px; //span7; figure out how to calculate this correctly?
+}
+
+
+@media (max-width: 767px) {
+  #documents .documentFunctions {
+    margin-top: 0;
+  }
 }

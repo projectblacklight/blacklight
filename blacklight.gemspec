@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   # PRODUCTION GEM REQUIREMENTS
   # ---------------------------------------   
-  s.add_dependency "rails",     "~> 3.1"
+  s.add_dependency "rails",     "~> 3.2"
   s.add_dependency "nokogiri",  "~>1.5"     # XML Parser
   s.add_dependency "unicode"                # provides C-form normalization of unicode characters, as required by refworks.
   # Let's allow future versions of marc, count on
