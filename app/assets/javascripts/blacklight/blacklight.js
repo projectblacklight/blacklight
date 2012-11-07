@@ -18,7 +18,6 @@
 //= require bootstrap-collapse
 //= require bootstrap-alert
 //= require bootstrap-dropdown
-//= require bootstrap-modal
 //= require improved-modal/bootstrap-modalmanager.js
 //= require improved-modal/bootstrap-modal.js
 
