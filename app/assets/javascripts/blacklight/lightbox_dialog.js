@@ -28,7 +28,6 @@ Blacklight.setup_modal = function(link_selector, form_selector, launch_modal) {
 
 
     $(form_selector).submit(function(e) {
-      console.log('hey');
       var jqxhr = $.ajax({
         url: $(this).attr('action'),
         data: $(this).serialize(),
