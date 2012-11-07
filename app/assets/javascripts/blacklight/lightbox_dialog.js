@@ -54,7 +54,6 @@ Blacklight.setup_modal = function(link_selector, form_selector, launch_modal) {
 Blacklight.check_close_ajax_modal = function() {
   if ($('#ajax-modal span.ajax-close-modal').length) {
     modal_flashes = $('#ajax-modal .flash_messages');
-    console.log(modal_flashes);
 
     main_flashes = $('#main-flashes .flash_messages:nth-of-type(1)');
     $('#ajax-modal *[data-dismiss="modal"]:nth-of-type(1)').trigger('click');
