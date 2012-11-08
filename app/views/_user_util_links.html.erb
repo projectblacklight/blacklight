@@ -11,7 +11,9 @@
   <% end %>
 
   <div class="util-links-other">
-    <%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %>
+    <% if current_or_guest_user %>
+      <%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %>
+    <% end %>
     <% if current_user %>
       |
       <%= link_to t('blacklight.header_links.saved_searches'), saved_searches_path %>

@@ -1,4 +1,4 @@
-<% if has_user_authentication_provider? and current_or_guest_user %>
+<% if current_or_guest_user %>
   <%- existing_bookmark = current_or_guest_user.existing_bookmark_for(document.id) -%>
   <%- 
   # Note these two forms are pretty similar but for different :methods, classes, and labels. 
