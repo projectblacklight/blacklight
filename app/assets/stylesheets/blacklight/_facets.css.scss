@@ -109,18 +109,6 @@ ul.facet_extended_list
 		cursor: pointer;
 	  border-top: 1px solid #e5e5e5;
 	}
-  
-  h4:first-child {
-	  -webkit-border-radius: 6px 6px 0 0;
-	     -moz-border-radius: 6px 6px 0 0;
-	          border-radius: 6px 6px 0 0;
-	}
-
-  & > .facet_limit:last-child > h5 {
-	  -webkit-border-radius: 0 0 6px 6px;
-	     -moz-border-radius: 0 0 6px 6px;
-	          border-radius: 0 0 6px 6px;
-	}
 	
   /* Chevrons */
 	.icon-chevron {
