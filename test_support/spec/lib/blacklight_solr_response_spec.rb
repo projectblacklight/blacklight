@@ -122,7 +122,7 @@ describe Blacklight::SolrResponse do
   it "should provide MoreLikeThis suggestions" do
     raw_response = eval(mock_response_with_more_like_this)
     r = Blacklight::SolrResponse.new(raw_response, {})
-    r.more_like(OpenStruct.new :id => '79930185').should have(2).items
+    r.more_like(mock(:id => '79930185')).should have(2).items
   end
 
   def mock_query_response
