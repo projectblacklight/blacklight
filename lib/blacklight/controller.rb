@@ -6,6 +6,7 @@ module Blacklight::Controller
 
   def self.included(base)
     base.send :include, Blacklight::SearchFields
+    base.send :include, ActiveSupport::Callbacks
 
     base.send :before_filter, :default_html_head # add JS/stylesheet stuff
     # now in application.rb file under config.filter_parameters
@@ -29,7 +30,9 @@ module Blacklight::Controller
 
 
     # This callback runs when a user first logs in
-    base.set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user rescue nil
+
+    base.define_callbacks :logging_in_user
+    base.set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user
 
   end
 
