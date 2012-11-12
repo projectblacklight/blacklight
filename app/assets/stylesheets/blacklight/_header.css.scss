@@ -19,7 +19,6 @@ h2.search
 
 .navbar .brand {
   background:transparent asset_url($logo_image,image) no-repeat top left;
-  width: 120px;
   display: inline-block;
   text-indent: 100%;
   white-space: nowrap;
@@ -74,6 +73,11 @@ h2.search
     display: none;
   }
 
+
+  .navbar .brand {
+    width: 120px;
+  }
+
   #search_field {
     width: 50px;
   }
@@ -82,6 +86,10 @@ h2.search
 @media (max-width: 480px) {
   #search_field {
     display: none;
+  }
+
+  .navbar .brand {
+    width: 35px;
   }
 }
 .btn.search-btn {
