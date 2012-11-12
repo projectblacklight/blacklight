@@ -289,10 +289,13 @@ span.page a,span.page.current
 }
 
 
-#sidebar-nav
+#sidebar .well
 {
   padding: 8px 0;
+}
 
+#sidebar-mlt li {
+  padding-bottom: 0.5em;
 }
 
 .show-document
