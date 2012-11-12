@@ -2,6 +2,7 @@ class Blacklight::SolrResponse < Mash
 
   autoload :Spelling, 'blacklight/solr_response/spelling'
   autoload :Facets, 'blacklight/solr_response/facets'
+  autoload :MoreLikeThis, 'blacklight/solr_response/more_like_this'
 
   attr_reader :request_params
   def initialize(data, request_params)
@@ -10,6 +11,7 @@ class Blacklight::SolrResponse < Mash
     extend Spelling
     extend Facets
     extend Response
+    extend MoreLikeThis
   end
 
   def header

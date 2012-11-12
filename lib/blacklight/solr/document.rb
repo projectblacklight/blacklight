@@ -23,9 +23,11 @@ module Blacklight::Solr::Document
   autoload :Sms, 'blacklight/solr/document/sms'
   autoload :Extensions, 'blacklight/solr/document/extensions'
   autoload :Export, 'blacklight/solr/document/export'
+  autoload :MoreLikeThis, 'blacklight/solr/document/more_like_this'
 
   extend ActiveSupport::Concern
   include Blacklight::Solr::Document::Export
+  include Blacklight::Solr::Document::MoreLikeThis
 
   included do
     extend ActiveModel::Naming
