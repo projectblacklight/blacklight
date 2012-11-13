@@ -143,7 +143,10 @@ fi
 rails g blacklight:jetty test_jetty -e test -d $jetty_zip
 check_errs $? "Jetty setup failed."
 
+ln -s test_jetty jetty
+rake jetty:start RAILS_ENV=test
 bundle exec rake solr:marc:index_test_data RAILS_ENV=test
+rake jetty:stop
 
 bundle exec rake blacklight:hudson
 check_errs $? "Tests failed." 

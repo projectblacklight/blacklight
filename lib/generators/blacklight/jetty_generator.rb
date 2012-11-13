@@ -64,29 +64,7 @@ Requires system('unzip... ') to work, probably won't work on Windows.
         remove_dir(tmp_save_dir)
       end                  
     end
-    
-    # adds a jetty_path key to solr.yml for the current environment, so
-    # rake tasks for automatically starting jetty/solr (as well as
-    # for indexing with solrmarc) can find it. 
-    def add_jetty_path_to_solr_yml        
-      # inject_into_file no-ops silently if the :after isn't found, we
-      # want to be noisy. 
-      config_file = "config/solr.yml"
-      config_file_full_path = File.expand_path(config_file, destination_root)
-      after_hook = /#{Regexp.escape(options[:environment])}\:[^\n]*\n/
-            
-      if !(File.exists?(config_file_full_path) && File.binread( config_file_full_path ) =~ after_hook)
-        say_status("skipped", "Could not find '#{options[:environment]}' block in #{config_file} to add jetty_path to.", :red)
-      elsif File.binread( config_file_full_path  ) =~ /#{Regexp.escape(options[:environment])}\:[^\n]*\n.*(?!\n\n).*jetty_path\:/
-        say_status("skipped", "#{config_file} '#{options[:environment]}' block already has jetty_path, not overwriting.", :red)        
-      else
-        inject_into_file config_file, :verbose => false, :after => after_hook do
-          "  jetty_path: '#{save_location}'\n"
-        end
-        say_status("insert", "#{config_file}: jetty_path key for '#{options[:environment]}' block")
-      end                    
-    end
-    
+   
     
   end
 end

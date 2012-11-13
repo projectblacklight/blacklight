@@ -98,6 +98,7 @@ EOF
   def create_configuration_files
     copy_file "config/blacklight_config.rb", "config/initializers/blacklight_config.rb"
     copy_file "config/solr.yml", "config/solr.yml"
+    copy_file "config/jetty.yml", "config/jetty.yml"
     directory("config/SolrMarc")
   end
   
