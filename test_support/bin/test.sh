@@ -145,7 +145,7 @@ check_errs $? "Jetty setup failed."
 
 rake jetty:start RAILS_ENV=test
 bundle exec rake solr:marc:index_test_data RAILS_ENV=test
-rake jetty:stop
+rake jetty:stop RAILS_ENV=test
 sleep 2
 
 bundle exec rake blacklight:hudson RAILS_ENV=test
