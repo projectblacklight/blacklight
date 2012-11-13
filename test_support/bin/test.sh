@@ -119,7 +119,7 @@ check_errs $? "Bundle install failed."
 rails generate blacklight -d
 check_errs $?  "Blacklight generator failed" 
 
-bundle exec rake db:migrate
+bundle exec rake db:migrate RAILS_ENV=test
 check_errs $? "Rake Migration failed" 
 
 rails g cucumber:install &> /dev/null 
