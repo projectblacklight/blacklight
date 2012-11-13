@@ -33,7 +33,7 @@ Then /^I should see the sort dropdown with values "([^\"]*)"$/ do |values|
 end
 
 Then /^I should see the sort list with "([^\"]*)" selected$/ do |value|
-  page.should have_selector('#sort-dropdown .dropdown-toggle', :content => value)
+  page.should have_selector('#sort-dropdown .css-dropdown a', :content => value)
 end
 
 When /^I sort by "([^\"]*)"$/ do |value|
