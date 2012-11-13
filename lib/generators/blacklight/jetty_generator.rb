@@ -65,18 +65,6 @@ Requires system('unzip... ') to work, probably won't work on Windows.
       end                  
     end
     
-    # the only thing that's REALLY BL-specific is these conf files
-    # installed by another generator. We write em on top of the solr we
-    # just installed. We "force" it because we're usually writing on top of files
-    # we just installed anyway. The user should have said 'no' to overwriting
-    # their dir if they already had one!  
-    #
-    # If we later install Solr from somewhere other than BL jetty repo, we'd
-    # still want to write these on top, just like this. 
-    def install_conf_files
-      generate("blacklight:solr_conf", "#{File.join(save_location, 'solr', 'conf')} --force")
-    end
-    
     # adds a jetty_path key to solr.yml for the current environment, so
     # rake tasks for automatically starting jetty/solr (as well as
     # for indexing with solrmarc) can find it. 
