@@ -51,6 +51,6 @@ check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these t
 fi
 
 cd tmp/test_app
-bundle exec rake blacklight:hudson
+bundle exec rake blacklight:hudson RAILS_ENV=test
 check_errs $? "Tests failed." 
 benchmark

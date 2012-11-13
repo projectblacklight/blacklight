@@ -9,11 +9,12 @@ namespace :blacklight do
 
     desc "Run Blacklight cucumber and rspec, with test solr"
     task :hudson do
-   
-      error = Jettywrapper.wrap(Jettywrapper.load_config) do          
+      Rails.env = 'test' unless ENV['RAILS_ENV']
+
+      error = Jettywrapper.wrap(Jettywrapper.load_config) do
           Rake::Task["blacklight:spec"].invoke 
           Rake::Task["blacklight:cucumber"].invoke 
-      end             
+      end
 
       raise "test failures: #{error}" if error
     end
@@ -23,6 +24,7 @@ namespace :blacklight do
       desc "Run Blacklight rspec and cucumber tests with rcov"
 
       rm "blacklight-coverage.data" if File.exist?("blacklight-coverage.data")
+      Rails.env = 'test' unless ENV['RAILS_ENV']
       error = Jettywrapper.wrap(Jettywrapper.load_config) do          
           Rake::Task["blacklight:spec:rcov"].invoke 
           Rake::Task["blacklight:cucumber:rcov"].invoke 

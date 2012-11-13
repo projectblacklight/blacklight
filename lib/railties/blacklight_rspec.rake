@@ -86,6 +86,7 @@ begin
         # Need to look  up where the test jetty is located
         # from solr.yml, we don't hardcode it anymore. 
 
+        Rails.env = 'test' unless ENV['RAILS_ENV']
         error = Jettywrapper.wrap(Jettywrapper.load_config) do              
             Rake::Task["blacklight:spec"].invoke 
         end             

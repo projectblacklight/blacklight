@@ -66,7 +66,7 @@ if ! gem query -n bundler -v ">=1.0" --installed > /dev/null; then
   gem install --no-rdoc --no-ri 'bundler'
 fi
 
-rails "_${RAILS_VERSION}_" new test_app
+rails new test_app
 
 cd test_app
 rm public/index.html
@@ -148,7 +148,7 @@ rake jetty:start RAILS_ENV=test
 bundle exec rake solr:marc:index_test_data RAILS_ENV=test
 rake jetty:stop
 
-bundle exec rake blacklight:hudson
+bundle exec rake blacklight:hudson RAILS_ENV=test
 check_errs $? "Tests failed." 
 
 benchmark

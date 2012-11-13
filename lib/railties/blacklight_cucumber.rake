@@ -91,6 +91,7 @@ begin
       task :with_solr do      
         require 'jettywrapper'
 
+        Rails.env = 'test' unless ENV['RAILS_ENV']
         error = Jettywrapper.wrap(Jettywrapper.load_config) do        
             Rake::Task["blacklight:cucumber"].invoke 
         end     
