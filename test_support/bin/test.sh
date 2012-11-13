@@ -4,7 +4,7 @@
 
 #If null or empty, use default value
 RAILS_VERSION=${RAILS_VERSION:-"~> 3.2"}
-JETTY_URL=${JETTY_URL:-"https://github.com/projectblacklight/blacklight-jetty/zipball/v3.5.0"}
+JETTY_URL=${JETTY_URL:-"https://github.com/projectblacklight/blacklight-jetty/zipball/v4.0.0"}
 
 before="$(date +%s)"
 benchmark() 
