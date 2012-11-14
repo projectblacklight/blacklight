@@ -11,13 +11,6 @@ body {
   padding-top: 6em;
 }
 
-@media (max-width: 979px) {
-  body {
-  	padding-top: 0;
-  }
-
-}
-
 /* prevent search bar space from collapsing when there's no search bar */
 .desktop-search-bar, .tablet-search-bar {
   min-height: 1em

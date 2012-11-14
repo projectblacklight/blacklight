@@ -1,0 +1,77 @@
+/* Header */
+@media (max-width: 979px) {
+  body {
+  	padding-top: 0;
+  }
+
+}
+@media (max-width: 979px) {
+  .submit-search-text {
+    display: none;
+  }
+
+
+  .navbar .brand {
+    width: 120px;
+  }
+
+  #search_field {
+    width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  #search_field {
+    display: none;
+  }
+
+  .navbar .brand {
+    width: 35px;
+  }
+}
+
+/* Documents */
+@media (max-width: 767px) {
+  #documents .documentFunctions {
+    margin-top: 0;
+  }
+}
+
+/* Facets */
+@media (max-width: 767px) {
+  #facets .btn-navbar {
+    display: block;
+  } 
+  .facets-collapse {
+    clear: both;
+    
+    &.in {
+
+    }
+
+    &, &.collapse {
+      overflow: hidden;
+      height: 0;
+    }
+
+    &.collapse.in {
+      height: auto !important;
+    }
+  }
+
+  .no-js .facets-collapse, .no-js .facets-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .facets-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .facet-collapse-toggle {
+    display: none;
+  }
+}
