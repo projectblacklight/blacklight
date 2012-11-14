@@ -11,7 +11,6 @@ Feature: Search
     And I should see a "search" button
     And I should not see the "startOverLink" element
     And I should see "Welcome!"
-    And the page title should be "Blacklight Search Results"
     And I should see a stylesheet
   
   Scenario: Search Page's type of search ("fielded search") choices
