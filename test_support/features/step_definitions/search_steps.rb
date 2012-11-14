@@ -71,8 +71,8 @@ Then /^I should not get results$/ do
 end
 
 Then /^I should see the applied filter "([^\"]*)" with the value "([^\"]*)"$/ do |filter, text|
-  page.should have_selector("div#facets div h3", :content => filter)
-  page.should have_selector("div#facets div span.selected", :content => text)
+  page.should have_selector("div#facets div h3", :text => filter)
+  page.should have_selector("div#facets div span.selected", :text => text)
 end
 
 Then /^I should see an rss discovery link/ do

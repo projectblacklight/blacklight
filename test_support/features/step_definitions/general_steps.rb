@@ -10,7 +10,7 @@ Then /^I should see a stylesheet/ do
 end
 
 Then /^the page title should be "([^"]*)"$/i do |title|
-  page.should have_selector("title", :content => title)
+  page.should have_selector("title", :text => title)
 end
 
 Then /I should see "(.*)" (at least|at most|exactly) (.*) times?$/i do |target, comparator, expected_num|
