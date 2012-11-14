@@ -22,7 +22,6 @@ Feature: Record View
     And I should see "Call number:"
     And I should see "E99.D2 H437 2008"
     And I should see link rel=alternate tags
-    And the page title should be "&quot;Strong Medicine speaks&quot; - Blacklight"
 
   Scenario: Blank titles do not show up
     Given I am on the document page for id 2008305903

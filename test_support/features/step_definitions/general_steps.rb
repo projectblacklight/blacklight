@@ -9,10 +9,6 @@ Then /^I should see a stylesheet/ do
   page.should have_selector("link[rel=stylesheet]")
 end
 
-Then /^the page title should be "([^"]*)"$/i do |title|
-  page.should have_selector("title", :text => title)
-end
-
 Then /I should see "(.*)" (at least|at most|exactly) (.*) times?$/i do |target, comparator, expected_num|
   actual_num = page.split(target).length - 1
   case comparator

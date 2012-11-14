@@ -7,8 +7,7 @@ Feature: Search History Page
   Scenario: Menu Link
     When I am on the home page
     Then I should see "History"
-    When I follow "History"
-    Then I should be on the search history page
+    When I go to the search history page
     And I should see a stylesheet
   
   Scenario: Have No Searches
@@ -81,6 +80,6 @@ Feature: Search History Page
     When I follow "Log Out"
     Then I should see "Login"
     And I should not see "user1"
-    When I follow "History"
+    When I go to the search history page
     Then I should not see "book"
       
