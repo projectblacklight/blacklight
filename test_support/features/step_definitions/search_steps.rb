@@ -33,7 +33,7 @@ Then /^I should see the sort dropdown with values "([^\"]*)"$/ do |values|
 end
 
 Then /^I should see the sort list with "([^\"]*)" selected$/ do |value|
-  page.should have_selector('#sort-dropdown .css-dropdown a', :content => value)
+  page.should have_selector('#sort-dropdown .css-dropdown a', :text => value)
 end
 
 When /^I sort by "([^\"]*)"$/ do |value|
@@ -101,8 +101,8 @@ Then /^I should not get results$/ do
 end
 
 Then /^I should see the applied filter "([^\"]*)" with the value "([^\"]*)"$/ do |filter, text|
-  page.should have_selector("div#facets div h3", :content => filter)
-  page.should have_selector("div#facets div span.selected", :content => text)
+  page.should have_selector("div#facets div h3", :text => filter)
+  page.should have_selector("div#facets div span.selected", :text => text)
 end
 
 Then /^I should see an rss discovery link/ do
