@@ -17,13 +17,7 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
   
     def assets
-      unless IO.read("app/assets/stylesheets/application.css").include?("Blacklight")
-        insert_into_file "app/assets/stylesheets/application.css", :after => "/*" do
-  %q{
- *= require 'blacklight/blacklight'         
- *}
-        end
-      end
+      copy_file "blacklight.css.scss", "app/assets/stylesheets/blacklight.css.scss"
 
       unless IO.read("app/assets/javascripts/application.js").include?('blacklight/blacklight')
         insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
