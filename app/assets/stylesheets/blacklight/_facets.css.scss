@@ -130,7 +130,14 @@ ul.facet_extended_list
 	.twiddle-open .icon-chevron {
 	  @extend .icon-chevron-down;
 	  opacity: 1;
+    padding-right:2px;
 	}
+  
+  /* hide the chevron when js isn't supported */
+  .no-js & .icon-chevron {
+    @extend .icon-chevron-down;
+    padding-right:2px;
+  }
 
 	h5:hover .icon-chevron,
 	.twiddle-open .icon-chevron {
