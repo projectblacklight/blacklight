@@ -206,7 +206,7 @@ describe BlacklightHelper do
      it "should consist of #document_heading wrapped in a <h1>" do
       @document = SolrDocument.new('title_display' => "A Fake Document")
 
-      render_document_heading.should have_selector("h1", :content => document_heading, :count => 1)
+      render_document_heading.should have_selector("h1", :text => document_heading, :count => 1)
       render_document_heading.html_safe?.should == true
      end
    end
@@ -240,23 +240,23 @@ describe BlacklightHelper do
      it "should consist of the document title wrapped in a <a>" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
-      link_to_document(@document, { :label => :title_display }).should have_selector("a", :content => '654321', :count => 1)
+      link_to_document(@document, { :label => :title_display }).should have_selector("a", :text => '654321', :count => 1)
      end
      it "should accept and return a string label" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
-      link_to_document(@document, { :label => "title_display" }).should have_selector("a", :content => 'title_display', :count => 1)
+      link_to_document(@document, { :label => "title_display" }).should have_selector("a", :text => 'title_display', :count => 1)
      end
    
      it "should accept and return a Proc" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
-      link_to_document(@document, { :label => Proc.new { |doc, opts| doc.get(:id) + ": " + doc.get(:title_display) } }).should have_selector("a", :content => '123456: 654321', :count => 1)
+      link_to_document(@document, { :label => Proc.new { |doc, opts| doc.get(:id) + ": " + doc.get(:title_display) } }).should have_selector("a", :text => '123456: 654321', :count => 1)
      end
      it "should return id when label is missing" do
       data = {'id'=>'123456'}
       @document = SolrDocument.new(data)
-      link_to_document(@document, { :label => :title_display }).should have_selector("a", :content => '123456', :count => 1)
+      link_to_document(@document, { :label => :title_display }).should have_selector("a", :text => '123456', :count => 1)
      end
 
      it "should be html safe" do
