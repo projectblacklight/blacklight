@@ -18,7 +18,7 @@ the University of Virginia Library and is made public under an Apache 2.0 licens
 
 ## Dependencies
 
-* ruby v1.8.7 or higher 
+* ruby v1.9.3 or higher 
 * git
 * java 1.5 or higher
 * access to a command prompt on the machine to install
