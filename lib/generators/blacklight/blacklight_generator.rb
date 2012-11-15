@@ -14,17 +14,16 @@ class BlacklightGenerator < Rails::Generators::Base
 This generator makes the following changes to your application:
  1. Creates several database migrations if they do not exist in /db/migrate
  2. Adds additional mime types to you application in the file '/config/initializers/mime_types.rb'
- 3. Creates config/initializers/blacklight_config.rb which you should then modify for your instance
- 4. Creates config/solr.yml with a default solr configuration that should work with standard marc records
- 5. Creates congig/SolrMarc/... with settings for SolrMarc
- 6. Creates a number of public assets, including images, stylesheets, and javascript
- 7. Adds a solr_marc.jar file to your lib/ directory 
- 9. Injects behavior into your user application_controller.rb
- 9. Injects behavior into your user model
-10. Creates a blacklight catalog controller in your /app/controllers directory
-11. Creates a blacklight document in your /app/models directory
-12. Adds Blacklight routes to your ./config/routes.rb
-13. Enables internationalization.
+ 3. Creates config/solr.yml with a default solr configuration that should work with standard marc records
+ 4. Creates congig/SolrMarc/... with settings for SolrMarc
+ 5. Creates a number of public assets, including images, stylesheets, and javascript
+ 6. Adds a solr_marc.jar file to your lib/ directory 
+ 7. Injects behavior into your user application_controller.rb
+ 8. Injects behavior into your user model
+ 9. Creates a blacklight catalog controller in your /app/controllers directory
+10. Creates a blacklight document in your /app/models directory
+11. Adds Blacklight routes to your ./config/routes.rb
+12. Enables internationalization.
 
 Thank you for Installing Blacklight.
        """ 
@@ -96,7 +95,6 @@ EOF
 
   # Copy all files in templates/config directory to host config
   def create_configuration_files
-    copy_file "config/blacklight_config.rb", "config/initializers/blacklight_config.rb"
     copy_file "config/solr.yml", "config/solr.yml"
     copy_file "config/jetty.yml", "config/jetty.yml"
     directory("config/SolrMarc")
