@@ -1,0 +1,37 @@
+@media (max-width: 767px) {
+  #facets .btn-navbar {
+    display: block;
+  } 
+  .facets-collapse {
+    clear: both;
+    
+    &.in {
+
+    }
+
+    &, &.collapse {
+      overflow: hidden;
+      height: 0;
+    }
+
+    &.collapse.in {
+      height: auto !important;
+    }
+  }
+
+  .no-js .facets-collapse, .no-js .facets-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .facets-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .facet-collapse-toggle {
+    display: none;
+  }
+}
