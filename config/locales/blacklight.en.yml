@@ -158,6 +158,7 @@ en:
 
     search:
       title: '%{application_name} Search Results'
+      search_results_header: 'Search'
       search_results: 'Search Results'
       errors:
         request_error: "Sorry, I don't understand your search."
