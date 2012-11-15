@@ -108,8 +108,17 @@ ul.facet_extended_list
 	h5 {
 		cursor: pointer;
 	  border-top: 1px solid $navbarBorder;
+
 	}
 	
+  .facet_limit:last-child > h5 {
+
+    &.twiddle-open {
+      @include border-bottom-radius(0px); 
+    }
+    
+    @include border-bottom-radius(6px);  
+    }
   /* Chevrons */
 	.icon-chevron {
 	  float: right;
