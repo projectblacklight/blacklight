@@ -16,7 +16,7 @@ Blacklight.setup_modal = function(link_selector, form_selector, launch_modal) {
       jqxhr.always( function (data) {
           if (data.statusText == "OK") {
             $('#ajax-modal').html(data.responseText);
-            Blacklight.setup_modal('#ajax-modal .ajax_reload_link', '#ajax-modal form.ajax_form', false);
+            Blacklight.setup_modal('.modal-footer a', '#ajax-modal form.ajax_form', false);
 
             if (launch_modal) {
               $('#ajax-modal').modal();
