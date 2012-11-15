@@ -94,7 +94,8 @@
   }
 }
 
-.well.well-constraints {
+.constraints-container {
+  @extend .well;
   padding-bottom: 9px;
 }
 
@@ -303,6 +304,10 @@ span.page a,span.page.current
   .document {
     border: none;
   }
+}
+
+#sortAndPerPage {
+  @extend .well;
 }
 
 #sortAndPerPage .dropdown-toggle {
