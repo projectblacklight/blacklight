@@ -7,7 +7,7 @@ RAILS_VERSION=${RAILS_VERSION:-"~> 3.2"}
 JETTY_URL=${JETTY_URL:-"https://github.com/projectblacklight/blacklight-jetty/zipball/v4.0.0"}
 
 before="$(date +%s)"
-benchmark() 
+benchmark()
 {
     after="$(date +%s)"
     elapsed_seconds="$(expr $after - $before)"
@@ -55,7 +55,7 @@ else
 fi
 
 rvm use "$@" --create
-check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests." 
+check_errs $? "rvm failed.  please run 'rvm install $@', and then re-run these tests."
 fi
 
 if ! gem query -n rails -v "$RAILS_VERSION" --installed > /dev/null; then
@@ -96,13 +96,17 @@ end
 
 
 # For testing
-group :development, :test do 
+group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'generator_spec'
   gem 'cucumber-rails'
   gem 'database_cleaner'
-  gem 'capybara'
+  if defined? :JRUBY_VERSION
+    gem 'capybara', '~> 1.0'
+  else
+    gem 'capybara'
+  end
 gem 'rcov', :platform => :mri_18
 gem 'simplecov', :platform => :mri_19
 gem 'simplecov-rcov', :platform => :mri_19
@@ -114,15 +118,15 @@ gem 'jettywrapper', '>= 1.2.0'
 export BUNDLE_GEMFILE=`pwd`/Gemfile
 
 bundle install
-check_errs $? "Bundle install failed." 
+check_errs $? "Bundle install failed."
 
 rails generate blacklight -d
-check_errs $?  "Blacklight generator failed" 
+check_errs $?  "Blacklight generator failed"
 
 bundle exec rake db:migrate RAILS_ENV=test
-check_errs $? "Rake Migration failed" 
+check_errs $? "Rake Migration failed"
 
-rails g cucumber:install &> /dev/null 
+rails g cucumber:install &> /dev/null
 
 rails g blacklight:test_support
 
@@ -142,6 +146,6 @@ rake jetty:stop RAILS_ENV=test
 sleep 2
 
 bundle exec rake blacklight:hudson RAILS_ENV=test
-check_errs $? "Tests failed." 
+check_errs $? "Tests failed."
 
 benchmark
