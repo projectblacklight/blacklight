@@ -124,14 +124,7 @@ check_errs $? "Rake Migration failed"
 
 rails g cucumber:install &> /dev/null 
 
-cp ../../test_support/alternate_controller.rb app/controllers/
-# add routing for the alternate_controller:
-# resources :alternate do
-#   member do
-#     get :facet
-#   end
-# end
-ruby -pi.bak -e 'gsub(/devise_for :users/, "devise_for :users\n  resources :alternate do\n    member do\n      get :facet\n    end\n  end")' config/routes.rb
+rails g blacklight:test_support
 
 jetty_zip=$( JETTY_URL=$JETTY_URL ruby -e 'puts "/tmp/blacklight_jetty_#{ENV["JETTY_URL"].split("/").last}"')
 if [ ! -f $jetty_zip ]
