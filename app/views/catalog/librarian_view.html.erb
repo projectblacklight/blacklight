@@ -5,7 +5,6 @@
 </div>
 <%- if @document.respond_to?(:to_marc) -%>
   <%= render "marc_view" %>
-  <%- else %>
+<%- else %>
       No MARC data found.
-  <%- end -%>
 <%- end -%>
