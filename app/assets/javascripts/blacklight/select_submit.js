@@ -2,34 +2,25 @@
 (function($) {
 // Used for sort-by and per-page controls, hide the submit button
     // and make the select auto-submit
-    Blacklight.bind_dropdown_submit = function(form, dropdown, auto_submit) {
-        $(dropdown).find('ul.dropdown-menu a').click( function () {
-          selection = $(this).attr('data-value');
-          selection_key = $(this).text();
+    Blacklight.update_css_dropdown = function(dropdown, prefix, suffix) {
+      $(dropdown).find('ul.css-dropdown ul a').click (function (e) {
+        selection_key = $(this).text();
+        
+        $(dropdown).find('ul.css-dropdown li.btn>a').html(prefix + selection_key + suffix);
+      });
 
-          $(dropdown).find('a.dropdown-toggle').html(selection_key + ' <b class="caret"></b>');
-
-          $(form).find('select').val(selection);
-          if (auto_submit) {
-           $(form).submit();
-          }
-
-        });
-      }
-
+    }
 
 $(document).ready(function() {
   $('#sort-form').hide();
   $('#sort-dropdown').show();
-  Blacklight.bind_dropdown_submit('#sort-form', '#sort-dropdown' , true);
+  Blacklight.update_css_dropdown('#sort-dropdown', "Sort by ", "")
+  
 
   $('#per_page-form').hide();
   $('#per_page-dropdown').show();
-  Blacklight.bind_dropdown_submit('#per_page-form', '#per_page-dropdown', true );
+  Blacklight.update_css_dropdown('#per_page-dropdown', '', '')
 
-  $('.search-options-select').hide();
-  $('.search-options-dropdown').show();
-  Blacklight.bind_dropdown_submit('.search-query-form', '.search-box-options', false );
 
 
 });
