@@ -72,7 +72,7 @@ module Blacklight::CatalogHelperBehavior
   end
   
   def current_sort_field
-    blacklight_config.sort_fields[params[:sort]] || blacklight_config.sort_fields.first.last
+    blacklight_config.sort_fields[params[:sort]] || (blacklight_config.sort_fields.first ? blacklight_config.sort_fields.first.last : nil )
   end
 
   # Export to Refworks URL, called in _show_tools
