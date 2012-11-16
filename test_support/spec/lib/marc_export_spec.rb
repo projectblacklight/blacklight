@@ -681,7 +681,7 @@ describe Blacklight::Solr::Document::MarcExport do
         begin
           require 'unicode'
         rescue LoadError
-          Blacklight.logger.should_receive(:warn)
+          Blacklight.logger.should_receive(:warn) unless defined? :JRUBY_VERSION
         end
 
         @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
