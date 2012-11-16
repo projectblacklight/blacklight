@@ -134,8 +134,13 @@ module Blacklight::Solr::Document::MarcExport
       java_import java.text.Normalizer
       Normalizer.normalize(text, Normalizer::Form::NFC).to_s
     else 
-      require 'unicode'
-      Unicode.normalize_C(text)
+      begin
+        require 'unicode'
+        Unicode.normalize_C(text)
+      rescue LoadError
+        Blacklight.logger.warn "Unable to load unicode library in #export_as_refworks_marc_txt; skipping unicode normalization"
+        text
+      end
     end
   end 
 

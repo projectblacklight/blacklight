@@ -64,6 +64,10 @@ EOF
     end     
   end
 
+  def add_unicode_gem
+    gem "unicode", :platforms => [:mri_18, :mri_19] unless defined?(:RUBY_VERSION) and RUBY_VERSION == '2.0.0'
+  end
+
   # Install Devise? 
   def generate_devise_assets
     if options[:devise]
