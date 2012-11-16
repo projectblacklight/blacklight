@@ -334,3 +334,8 @@ span.page a,span.page.current
   max-width: 414px; //span7; figure out how to calculate this correctly?
 }
 
+#email_form {
+  @extend .span6;
+}
+
+

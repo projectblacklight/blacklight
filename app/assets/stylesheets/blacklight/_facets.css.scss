@@ -179,10 +179,8 @@ ul.facet_extended_list
 
 }
 
-.modal-footer {
-  .row {
-    margin-left:0;
-  }
+.facet_pagination {
+  @extend .clearfix;
 }
 
 

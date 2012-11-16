@@ -76,7 +76,7 @@ module Blacklight::Catalog
 
       respond_to do |format|
         format.html 
-        format.js { render :layout => "modal_layout" }
+        format.js { render :layout => false }
       end
     end
     
@@ -129,7 +129,7 @@ module Blacklight::Catalog
 
       unless !request.xhr? && flash[:success]
         respond_to do |format|
-          format.js { render :layout => "modal_layout" }
+          format.js { render :layout => false }
           format.html
         end
       end
@@ -166,7 +166,7 @@ module Blacklight::Catalog
         
       unless !request.xhr? && flash[:success]
         respond_to do |format|
-          format.js { render :layout => "modal_layout" }
+          format.js { render :layout => false }
           format.html
         end
       end
@@ -177,7 +177,7 @@ module Blacklight::Catalog
 
       respond_to do |format|
         format.html
-        format.js { render :layout => "modal_layout"}
+        format.js { render :layout => false }
       end
     end
     

@@ -1,0 +1,23 @@
+.modal-header {
+	h1 {
+		font-size: 24px; line-height: 40px;
+	}
+}
+
+#ajax-modal {
+  #email_form {
+    width: auto;
+  }
+
+  .facet_pagination.top {
+  	display: none;
+  }
+
+  button.close {
+	display: block;
+  }
+}
+
+button.close {
+	display: none;
+}
