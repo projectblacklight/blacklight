@@ -23,7 +23,7 @@ class BookmarksController < CatalogController
     @bookmarks = current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
   
-    @response, @document_list = get_solr_response_for_field_values("id", bookmark_ids)
+    @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, bookmark_ids)
   end
 
   def update
