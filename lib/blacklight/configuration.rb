@@ -4,13 +4,13 @@ module Blacklight
   # fields to display, facets to show, sort options, and search fields.
   class Configuration < OpenStructWithHashAccess
 
-    # Set up Blacklight::Configuration.default_values to contain 
+    # Set up Blacklight::Configuration.default_values to contain
     # the basic, required Blacklight fields
     class << self
       def default_values
         @default_values ||= begin
           unique_key = ((SolrDocument.unique_key if defined?(SolrDocument)) || 'id')
-          
+
           {
           :solr_path => 'select',
           :qt => 'search',
@@ -22,6 +22,7 @@ module Blacklight
           :spell_max => 5,
           :max_per_page => 100,
           :per_page => [10,20,50,100],
+          :document_index_view_types => ['list'],
           :add_facet_fields_to_solr_request => false,
           :add_field_configuration_to_solr_request => false
           }
@@ -107,7 +108,7 @@ module Blacklight
 
     ##
     # DSL helper
-    def configure 
+    def configure
       yield self if block_given?
       self
     end

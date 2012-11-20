@@ -227,8 +227,12 @@ describe BlacklightHelper do
      end
 
      it "should pluck values out of params" do
+       blacklight_config.stub(:document_index_view_types) { ['list', 'asdf'] }
        params[:view] = 'asdf'
        document_index_view_type.should == 'asdf'
+
+       params[:view] = 'not_in_list'
+       document_index_view_type.should == 'list'
      end
    end
 

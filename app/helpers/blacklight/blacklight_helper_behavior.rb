@@ -225,7 +225,11 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   def document_index_view_type
-    params.fetch(:view, 'list')
+    if blacklight_config.document_index_view_types.include? params[:view]
+      params[:view]
+    else
+      blacklight_config.document_index_view_types.first
+    end
   end
 
   def render_document_index documents = nil, locals = {}
