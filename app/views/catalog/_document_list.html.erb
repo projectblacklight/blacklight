@@ -1,10 +1,4 @@
 <% # container for all documents in index view -%>
 <div id="documents">
-  <% if Rails.version > "3.2.0" %>
-    <%= render @document_list, :as => :document %>
-  <% else %>
-    <% @document_list.each_with_index do |document, document_counter| %>
-      <%= render :partial => document.to_partial_path, :locals => { :document => document, :document_counter => document_counter } %>
-    <% end %>
-  <% end %>
+  <%= render documents, :as => :document %>
 </div>

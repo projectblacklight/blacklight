@@ -24,7 +24,7 @@ def exportable_record
 
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Greer, Lowell.</subfield>
-  </datafield>                                                
+  </datafield>
 
   <datafield tag=\"700\" ind1=\"1\" ind2=\" \">
     <subfield code=\"a\">Lubin, Steven.</subfield>
@@ -68,17 +68,17 @@ describe BlacklightHelper do
   include BlacklightHelper
   include Devise::TestHelpers
   def blacklight_config
-    @config ||= Blacklight::Configuration.new.configure do |config| 
+    @config ||= Blacklight::Configuration.new.configure do |config|
       config.show.html_title = "title_display"
       config.show.heading = "title_display"
       config.show.display_type = 'format'
-      
+
       config.index.show_link = 'title_display'
-      config.index.record_display_type = 'format'   
+      config.index.record_display_type = 'format'
     end
-    
+
     #CatalogController.blacklight_config
-    #@config ||= {:show => {:html_title => 'title_display', :heading => 'title_display', :display_type => 'format'}, :index => { :show_link => 'title_display', :record_display_type => 'format' } }   
+    #@config ||= {:show => {:html_title => 'title_display', :heading => 'title_display', :display_type => 'format'}, :index => { :show_link => 'title_display', :record_display_type => 'format' } }
   end
 
   describe "#application_name", :test => true do
@@ -115,7 +115,7 @@ describe BlacklightHelper do
       tag.should =~ /page=2/
     end
   end
-  
+
   describe "link_to_query" do
     it "should build a link tag to catalog using query string (no other params)" do
       query = "brilliant"
@@ -153,7 +153,7 @@ describe BlacklightHelper do
     describe "for default arguments" do
       it "should default to omitting :page" do
         search_as_hidden_fields.should have_selector("input[type='hidden']", :count =>8)
-        search_as_hidden_fields.should_not have_selector("input[name='page']") 
+        search_as_hidden_fields.should_not have_selector("input[name='page']")
       end
       it "should not return blacklisted elements" do
         search_as_hidden_fields.should_not have_selector("input[name='action']")
@@ -163,7 +163,7 @@ describe BlacklightHelper do
       describe "for omit_keys parameter" do
         it "should not include those keys" do
            generated = search_as_hidden_fields(:omit_keys => [:per_page, :sort])
-           
+
            generated.should_not have_selector("input[name=sort]")
            generated.should_not have_selector("input[name=per_page]")
 
@@ -197,7 +197,7 @@ describe BlacklightHelper do
 	render_body_class.split(' ').should include('blacklight-123456-abcdef')
       end
    end
-   
+
    describe "document_heading" do
 
      it "should consist of the show heading field when available" do
@@ -218,6 +218,37 @@ describe BlacklightHelper do
 
       render_document_heading.should have_selector("h4", :text => document_heading, :count => 1)
       render_document_heading.html_safe?.should == true
+     end
+   end
+
+   describe "document_index_view_type" do
+     it "should default to 'list'" do
+       document_index_view_type.should == 'list'
+     end
+
+     it "should pluck values out of params" do
+       params[:view] = 'asdf'
+       document_index_view_type.should == 'asdf'
+     end
+   end
+
+   describe "render_document_index" do
+     it "should render the document_list" do
+       @document_list = ['a', 'b']
+       self.stub!(:document_index_view_type) { "gallery" }
+       self.should_receive(:render).with(hash_including(:partial => 'document_gallery'))
+       render_document_index
+     end
+
+     it "should fall back on more specific templates" do
+       @document_list = ['a', 'b']
+       self.stub!(:document_index_view_type) { "gallery" }
+
+       ex = ActionView::MissingTemplate.new [], '', '', '',''
+       self.should_receive(:render).with(hash_including(:partial => 'document_gallery')).and_raise(ex)
+       self.should_receive(:render).with(hash_including(:partial => 'catalog/document_gallery')).and_raise(ex)
+       self.should_receive(:render).with(hash_including(:partial => 'catalog/document_list'))
+       render_document_index
      end
    end
 
@@ -257,7 +288,7 @@ describe BlacklightHelper do
       @document = SolrDocument.new(data)
       link_to_document(@document, { :label => "title_display" }).should have_selector("a", :text => 'title_display', :count => 1)
      end
-   
+
      it "should accept and return a Proc" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
@@ -295,7 +326,7 @@ describe BlacklightHelper do
 
   describe "render_link_rel_alternates" do
       class MockDocumentAppHelper
-        include Blacklight::Solr::Document        
+        include Blacklight::Solr::Document
       end
       module MockExtension
          def self.extended(document)
@@ -328,7 +359,7 @@ describe BlacklightHelper do
           tag.attributes["rel"].value.should == "alternate"
           tag.attributes["title"].value.should == format.to_s
           tag.attributes["href"].value.should === mock_document_app_helper_url(@document, :format =>format)
-        end        
+        end
       end
     end
     it "respects :unique=>true" do
@@ -349,13 +380,13 @@ describe BlacklightHelper do
 
   describe "with a config" do
     before do
-      @config = Blacklight::Configuration.new.configure do |config| 
+      @config = Blacklight::Configuration.new.configure do |config|
         config.show.html_title = "title_display"
         config.show.heading = "title_display"
         config.show.display_type = 'format'
-        
+
         config.index.show_link = 'title_display'
-        config.index.record_display_type = 'format'   
+        config.index.record_display_type = 'format'
       end
 
       @document = SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8')
@@ -380,7 +411,7 @@ describe BlacklightHelper do
   describe "render_index_field_value" do
     before do
       @config = Blacklight::Configuration.new.configure do |config|
-        config.add_index_field 'qwer' 
+        config.add_index_field 'qwer'
         config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
         config.add_index_field 'highlight', :highlight => true
       end
@@ -424,7 +455,7 @@ describe BlacklightHelper do
       value.should == 'document mnbv value'
     end
   end
-  
+
 
   describe "render_document_show_field_value" do
     before do
@@ -511,5 +542,5 @@ describe BlacklightHelper do
       helper.should_render_show_field?(doc, field_config).should == true
     end
   end
-  
+
 end

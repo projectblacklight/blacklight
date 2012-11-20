@@ -3,7 +3,7 @@
    <%= render :partial=>'facets' %>
   </div><!--/well -->
 
-<div id="content" class="span9">   
+<div id="content" class="span9">
 
     <% unless has_search_parameters? %>
 	    <%# if there are no input/search related params, display the "home" partial -%>
@@ -21,10 +21,10 @@
 
       <%= render :partial => 'constraints' %>
 
-	    <%= render 'sort_and_per_page' %> 
+	    <%= render 'sort_and_per_page' %>
 
       <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
-	    <%= render :partial => 'document_list' %>
+	    <%= render_document_index %>
 
 
 	    <%= render 'results_pagination' %>

@@ -9,7 +9,7 @@ module Blacklight::BlacklightHelperBehavior
   include HtmlHeadHelper
   include FacetsHelper
 
-  
+
   def application_name
     return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
 
@@ -17,33 +17,33 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # Provide the full, absolute url for an image
-  def asset_url(*args) 
-    "#{request.protocol}#{request.host_with_port}#{asset_path(*args)}" 
+  def asset_url(*args)
+    "#{request.protocol}#{request.host_with_port}#{asset_path(*args)}"
   end
 
   # Create <link rel="alternate"> links from a documents dynamically
   # provided export formats. Currently not used by standard BL layouts,
   # but available for your custom layouts to provide link rel alternates.
   #
-  # Returns empty string if no links available. 
+  # Returns empty string if no links available.
   #
   # :unique => true, will ensure only one link is output for every
   # content type, as required eg in atom. Which one 'wins' is arbitrary.
   # :exclude => array of format shortnames, formats to not include at all.
   def render_link_rel_alternates(document=@document, options = {})
-    options = {:unique => false, :exclude => []}.merge(options)  
-  
-    return nil if document.nil?  
+    options = {:unique => false, :exclude => []}.merge(options)
+
+    return nil if document.nil?
 
     seen = Set.new
-    
+
     html = ""
     document.export_formats.each_pair do |format, spec|
       unless( options[:exclude].include?(format) ||
              (options[:unique] && seen.include?(spec[:content_type]))
              )
         html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> polymorphic_url(document, :format => format)}) << "\n"
-        
+
         seen.add(spec[:content_type]) if options[:unique]
       end
     end
@@ -57,7 +57,7 @@ module Blacklight::BlacklightHelperBehavior
   def render_body_class
     extra_body_classes.join " "
   end
-  
+
   # collection of items to be rendered in the @sidebar
   def sidebar_items
     @sidebar_items ||= []
@@ -83,28 +83,28 @@ module Blacklight::BlacklightHelperBehavior
   def render_document_list_partial options={}
     render :partial=>'catalog/document_list'
   end
-  
+
   # Save function area for search results 'index' view, normally
-  # renders next to title. 
-  def render_index_doc_actions(document, options={})   
-    wrapping_class = options.delete(:wrapping_class) || "documentFunctions" 
+  # renders next to title.
+  def render_index_doc_actions(document, options={})
+    wrapping_class = options.delete(:wrapping_class) || "documentFunctions"
 
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
 
     content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
   end
-  
+
   # Save function area for item detail 'show' view, normally
   # renders next to title. By default includes 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
-    wrapping_class = options.delete(:documentFunctions) || "documentFunctions" 
+    wrapping_class = options.delete(:documentFunctions) || "documentFunctions"
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
 
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
-  
+
   # used in the catalog/_index_partials/_default view
   def index_fields
     blacklight_config.index_fields
@@ -124,7 +124,7 @@ module Blacklight::BlacklightHelperBehavior
     # XXX DEPRECATED
     Hash[*index_fields.map { |key, field| [key, field.label] }.flatten]
   end
-  
+
   def spell_check_max
     blacklight_config.spell_max
   end
@@ -136,7 +136,7 @@ module Blacklight::BlacklightHelperBehavior
 
   def render_index_field_value args
     value = args[:value]
-    
+
     if args[:field] and blacklight_config.index_fields[args[:field]]
       field_config = blacklight_config.index_fields[args[:field]]
       value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
@@ -146,7 +146,7 @@ module Blacklight::BlacklightHelperBehavior
     value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
     render_field_value value
   end
-  
+
   # Used in the show view for displaying the main solr document heading
   def document_heading
     @document[blacklight_config.show.heading] || @document.id
@@ -154,51 +154,51 @@ module Blacklight::BlacklightHelperBehavior
   def render_document_heading
     content_tag(:h4, document_heading, :class => "show-document-title")
   end
-  
+
   # Used in the show view for setting the main html document title
   def document_show_html_title
     @document[blacklight_config.show.html_title]
   end
-  
+
   # Used in citation view for displaying the title
   def citation_title(document)
     document[blacklight_config.show.html_title]
   end
-  
+
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
     blacklight_config.sort_fields.map { |key, x| [x.label, x.key] }
   end
-  
+
   # Used in the document list partial (search view) for creating a link to the document show action
   def document_show_link_field
     blacklight_config.index.show_link.to_sym
   end
-  
+
   # Used in the search form partial for building a select tag
   def search_fields
     search_field_options_for_select
   end
-  
+
   # used in the catalog/_show/_default partial
   def document_show_fields
     blacklight_config.show_fields
   end
-  
+
   # used in the catalog/_show/_default partial
   def document_show_field_labels
     # XXX DEPRECATED
     Hash[*blacklight_config.show_fields.map { |key, field| [key, field.label] }.flatten]
   end
 
-  def render_document_show_field_label args 
+  def render_document_show_field_label args
     field = args[:field]
     html_escape blacklight_config.show_fields[field].label
   end
 
   def render_document_show_field_value args
     value = args[:value]
-      
+
     if args[:field] and blacklight_config.show_fields[args[:field]]
       field_config = blacklight_config.show_fields[args[:field]]
       value ||= send(blacklight_config.show_fields[args[:field]][:helper_method], args) if field_config.helper_method
@@ -218,12 +218,40 @@ module Blacklight::BlacklightHelperBehavior
     value = [value] unless value.is_a? Array
     value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x}
     return value.map { |v| html_escape v }.join(field_value_separator).html_safe
-  end  
+  end
 
   def field_value_separator
     ', '
   end
-  
+
+  def document_index_view_type
+    params.fetch(:view, 'list')
+  end
+
+  def render_document_index documents = nil, locals = {}
+    documents ||= @document_list
+
+    document_index_path_templates.each do |str|
+      # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
+      # for determining if a partial template exists..
+      begin
+        return render(:partial => (str % [document_index_view_type]), :locals => { :documents => documents })
+      rescue ActionView::MissingTemplate
+        nil
+      end
+    end
+
+    return ""
+  end
+
+  # a list of document partial templates to try to render for #render_document_index
+  def document_index_path_templates
+    # first, the legacy template names for backwards compatbility
+    # followed by the new, inheritable style
+    # finally, a controller-specific path for non-catalog subclasses
+    @document_index_path_templates ||= ["document_%s", "catalog/document_%s", "catalog/document_list"]
+  end
+
   # Return a normalized partial name that can be used to contruct view partial path
   def document_partial_name(document)
     # .to_s is necessary otherwise the default return value is not always a string
@@ -248,8 +276,8 @@ module Blacklight::BlacklightHelperBehavior
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
       # for determining if a partial template exists..
       begin
-        return render :partial => (str % [action_name, format]), :locals=>locals.merge({:document=>doc})  
-      rescue ActionView::MissingTemplate 
+        return render :partial => (str % [action_name, format]), :locals=>locals.merge({:document=>doc})
+      rescue ActionView::MissingTemplate
         nil
       end
     end
@@ -259,7 +287,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # a list of document partial templates to try to render for #render_document_partial
   #
-  # (NOTE: I suspect #document_partial_name, #render_document_partial and #document_partial_path_templates 
+  # (NOTE: I suspect #document_partial_name, #render_document_partial and #document_partial_path_templates
   # should be more succinctly refactored in the future)
   def document_partial_path_templates
     # first, the legacy template names for backwards compatbility
@@ -268,21 +296,21 @@ module Blacklight::BlacklightHelperBehavior
     @partial_path_templates ||= ["catalog/_%s_partials/%s", "catalog/_%s_partials/default", "%s_%s", "%s_default", "catalog/%s_%s", "catalog/%s_default"]
   end
 
-  
+
   # Search History and Saved Searches display
   def link_to_previous_search(params)
     link_to(raw(render_search_to_s(params)), catalog_index_path(params)).html_safe
   end
-    
+
   #
   # shortcut for built-in Rails helper, "number_with_delimiter"
   #
   def format_num(num); number_with_delimiter(num) end
-  
+
   #
   # link based helpers ->
   #
-  
+
   # create link to query (e.g. spelling suggestion)
   def link_to_query(query)
     p = params.dup
@@ -292,7 +320,7 @@ module Blacklight::BlacklightHelperBehavior
     link_url = catalog_index_path(p)
     link_to(query, link_url)
   end
-  
+
   def render_document_index_label doc, opts
     label = nil
     label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
@@ -303,7 +331,7 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
-  # Use the catalog_path RESTful route to create a link to the show page for a specific item. 
+  # Use the catalog_path RESTful route to create a link to the show page for a specific item.
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
@@ -345,7 +373,7 @@ module Blacklight::BlacklightHelperBehavior
         else
           my_params.delete(omit_key)
       end
-    end    
+    end
 
     # removing action and controller from duplicate params so that we don't get hidden fields for them.
     my_params.delete(:action)
@@ -356,7 +384,7 @@ module Blacklight::BlacklightHelperBehavior
 
     my_params
   end
-  
+
   # Create form input type=hidden fields representing the entire search context,
   # for inclusion in a form meant to change some aspect of it, like
   # re-sort or change records per page. Can pass in params hash
@@ -368,8 +396,8 @@ module Blacklight::BlacklightHelperBehavior
     # hash_as_hidden_fields in hash_as_hidden_fields.rb
     return hash_as_hidden_fields(my_params)
   end
-  
-    
+
+
 
   def link_to_previous_document(previous_document)
     link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, :class => "previous", :rel => 'prev', :'data-counter' => session[:search][:counter].to_i - 1 do
@@ -380,11 +408,11 @@ module Blacklight::BlacklightHelperBehavior
   def link_to_next_document(next_document)
     link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, :class => "next", :rel => 'next', :'data-counter' => session[:search][:counter].to_i + 1 do
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
-    end 
+    end
   end
 
   # Use case, you want to render an html partial from an XML (say, atom)
-  # template. Rails API kind of lets us down, we need to hack Rails internals 
+  # template. Rails API kind of lets us down, we need to hack Rails internals
   # a bit. code taken from:
   # http://stackoverflow.com/questions/339130/how-do-i-render-a-partial-of-a-different-format-in-rails (zgchurch)
   def with_format(format, &block)
@@ -405,7 +433,7 @@ module Blacklight::BlacklightHelperBehavior
     end
     val
   end
-  
+
   # puts together a collection of documents into one endnote export string
   def render_endnote_texts(documents)
     val = ''

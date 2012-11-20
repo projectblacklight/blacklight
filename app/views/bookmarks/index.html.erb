@@ -1,17 +1,17 @@
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
 <%- if current_or_guest_user.blank? -%>
-  
+
   <h2><%= t('blacklight.bookmarks.need_login') %></h2>
-  
+
 <%- elsif @document_list.blank? -%>
-  
+
   <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% else %>
   <%= render 'sort_and_per_page' %>
 
   <%= render 'tools' %>
-  <%= render :partial => 'catalog/document_list' %>
+  <%= render_document_index %>
   <%= render 'results_pagination' %>
 <% end %>
 
