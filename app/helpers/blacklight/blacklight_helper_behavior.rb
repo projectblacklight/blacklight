@@ -280,7 +280,7 @@ module Blacklight::BlacklightHelperBehavior
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
       # for determining if a partial template exists..
       begin
-        return render :partial => (str % [action_name, format]), :locals=>locals.merge({:document=>doc})
+        return render :partial => (str % { :action_name => action_name, :format => format, :index_view_type => document_index_view_type }), :locals=>locals.merge({:document=>doc})
       rescue ActionView::MissingTemplate
         nil
       end
@@ -290,14 +290,11 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # a list of document partial templates to try to render for #render_document_partial
-  #
-  # (NOTE: I suspect #document_partial_name, #render_document_partial and #document_partial_path_templates
-  # should be more succinctly refactored in the future)
   def document_partial_path_templates
     # first, the legacy template names for backwards compatbility
     # followed by the new, inheritable style
     # finally, a controller-specific path for non-catalog subclasses
-    @partial_path_templates ||= ["catalog/_%s_partials/%s", "catalog/_%s_partials/default", "%s_%s", "%s_default", "catalog/%s_%s", "catalog/%s_default"]
+    @partial_path_templates ||= ["%{action_name}_%{index_view_type}_%{format}", "%{action_name}_%{index_view_type}_default", "%{action_name}_%{format}", "%{action_name}_default", "catalog/%{action_name}_%{format}", "catalog/_%{action_name}_partials/%{format}", "catalog/_%{action_name}_partials/default"]
   end
 
 
