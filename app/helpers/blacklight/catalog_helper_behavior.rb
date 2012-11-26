@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::CatalogHelperBehavior
 
-  # Pass in an RSolr::Response (or duck-typed similar) object, 
+  # Pass in an RSolr::Response (or duck-typed similar) object,
   # it translates to a Kaminari-paginatable
-  # object, with the keys Kaminari views expect. 
+  # object, with the keys Kaminari views expect.
   def paginate_params(response)
     per_page = response.rows
     per_page = 1 if per_page < 1
@@ -13,11 +13,11 @@ module Blacklight::CatalogHelperBehavior
     Struct.new(:current_page, :num_pages, :limit_value, :total_count, :first_page?, :last_page?).new(current_page, num_pages, per_page, response.total, current_page > 1, current_page < num_pages)
   end
 
-  # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument. 
+  # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument.
   # Will convert it to something kaminari can deal with (using #paginate_params), and
   # then call kaminari paginate with that. Other arguments (options and block) same as
-  # kaminari paginate, passed on through. 
-  # will output HTML pagination controls. 
+  # kaminari paginate, passed on through.
+  # will output HTML pagination controls.
   def paginate_rsolr_response(response, options = {}, &block)
     per_page = response.rows
     per_page = 1 if per_page < 1
@@ -31,12 +31,16 @@ module Blacklight::CatalogHelperBehavior
   def format_num(num); number_with_delimiter(num) end
 
   #
-  # Pass in an RSolr::Response. Displays the "showing X through Y of N" message. 
+  # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
   def render_pagination_info(response, options = {})
       start = response.start + 1
+
       per_page = response.rows
+      per_page = 1 if per_page < 1
+
       current_page = (response.start / per_page).ceil + 1
       num_pages = (response.total / per_page.to_f).ceil
+
       total_hits = response.total
 
       start_num = format_num(start)
@@ -44,7 +48,7 @@ module Blacklight::CatalogHelperBehavior
       total_num = format_num(total_hits)
 
    # TODO: i18n the entry_name
-      entry_name = options[:entry_name] 
+      entry_name = options[:entry_name]
       entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
       entry_name ||= t('blacklight.entry_name.default')
 
@@ -58,28 +62,28 @@ module Blacklight::CatalogHelperBehavior
 
   # Like  #render_pagination_info above, but for an individual
   # item show page. Displays "showing X of Y items" message. Actually takes
-  # data from session though (not a great design). 
+  # data from session though (not a great design).
   # Code should call this method rather than interrogating session directly,
-  # because implementation of where this data is stored/retrieved may change. 
+  # because implementation of where this data is stored/retrieved may change.
   def item_page_entry_info
     t('blacklight.search.entry_pagination_info.other', :current => format_num(session[:search][:counter]), :total => format_num(session[:search][:total]), :count => session[:search][:total].to_i).html_safe
   end
-  
+
   # Look up search field user-displayable label
   # based on params[:qt] and blacklight_configuration.
   def search_field_label(params)
     h( label_for_search_field(params[:search_field]) )
   end
-  
+
   def current_sort_field
     blacklight_config.sort_fields[params[:sort]] || (blacklight_config.sort_fields.first ? blacklight_config.sort_fields.first.last : nil )
   end
 
   # Export to Refworks URL, called in _show_tools
   def refworks_export_url(document = @document)
-    "http://www.refworks.com/express/expressimport.asp?vendor=#{CGI.escape(application_name)}&filter=MARC%20Format&encoding=65001&url=#{CGI.escape(polymorphic_path(document, :format => 'refworks_marc_txt', :only_path => false))}"        
+    "http://www.refworks.com/express/expressimport.asp?vendor=#{CGI.escape(application_name)}&filter=MARC%20Format&encoding=65001&url=#{CGI.escape(polymorphic_path(document, :format => 'refworks_marc_txt', :only_path => false))}"
   end
-  
+
   def render_document_class(document = @document)
    'blacklight-' + document.get(blacklight_config.index.record_display_type).parameterize rescue nil
   end
@@ -91,4 +95,10 @@ module Blacklight::CatalogHelperBehavior
   def has_search_parameters?
     !params[:q].blank? or !params[:f].blank? or !params[:search_field].blank?
   end
+
+  def show_sort_and_per_page? response = nil
+    response ||= @response
+    response.response['numFound'] > 1
+  end
+
 end
