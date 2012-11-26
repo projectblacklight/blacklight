@@ -15,7 +15,7 @@
       padding-bottom:0.3em;
       padding-right: 50px;
       clear: right;
- 
+
     a.remove
     {
       color:#666;
@@ -54,8 +54,8 @@
 
 .facet_extended_list
 {
-  .sort_options 
-  { 
+  .sort_options
+  {
     text-align:right;
   }
 
@@ -84,7 +84,7 @@ ul.facet_extended_list
 }
 
 
-/* Sidenav 
+/* Sidenav
 -------------------------------------------------- */
 
 .sidenav {
@@ -98,7 +98,7 @@ ul.facet_extended_list
   -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
      -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
           box-shadow: 0 1px 4px rgba(0,0,0,.065);
-  
+
 	h5, h4 {
 	  display: block;
 	  *width: 190px;
@@ -106,52 +106,18 @@ ul.facet_extended_list
 	  padding: 8px 14px;
 	}
 	h5 {
-		cursor: pointer;
 	  border-top: 1px solid $navbarBorder;
-
 	}
-	
+
   .facet_limit:last-child > h5 {
 
     &.twiddle-open {
-      @include border-bottom-radius(0px); 
+      @include border-bottom-radius(0px);
     }
-    
-    @include border-bottom-radius(6px);  
-    }
-  /* Chevrons */
-	.icon-chevron {
-	  float: right;
-	  margin-top: 2px;
-	  margin-right: -6px;
-	  opacity: .25;
-	}	
-	
-  .facet_limit h5:hover {
-	  background-color: darken($bodyBackground, 10%);
-	}
-	
-	.icon-chevron {
-	  @extend .icon-chevron-right;
-	  opacity: .5;
-	}
-	
-	.twiddle-open .icon-chevron {
-	  @extend .icon-chevron-down;
-	  opacity: 1;
-    padding-right:2px;
-	}
-  
-  /* hide the chevron when js isn't supported */
-  .no-js & .icon-chevron {
-    @extend .icon-chevron-down;
-    padding-right:2px;
-  }
 
-	h5:hover .icon-chevron,
-	.twiddle-open .icon-chevron {
-	  opacity: 1;
-	}
+    @include border-bottom-radius(6px);
+    }
+
 }
 
 
@@ -177,6 +143,45 @@ ul.facet_extended_list
   margin-top: 3px;
 }
 
+}
+
+.facets-collapse {
+  h5 {
+    cursor: pointer;
+  }
+  /* Chevrons */
+  .icon-chevron {
+    float: right;
+    margin-top: 2px;
+    margin-right: -6px;
+    opacity: .25;
+  }
+
+  .facet_limit h5:hover {
+    background-color: darken($bodyBackground, 10%);
+  }
+
+  .icon-chevron {
+    @extend .icon-chevron-right;
+    opacity: .5;
+  }
+
+  .twiddle-open .icon-chevron {
+    @extend .icon-chevron-down;
+    opacity: 1;
+    padding-right:2px;
+  }
+
+  /* hide the chevron when js isn't supported */
+  .no-js & .icon-chevron {
+    @extend .icon-chevron-down;
+    padding-right:2px;
+  }
+
+  h5:hover .icon-chevron,
+  .twiddle-open .icon-chevron {
+    opacity: 1;
+  }
 }
 
 .facet_pagination {
