@@ -216,8 +216,21 @@ describe BlacklightHelper do
      it "should consist of #document_heading wrapped in a <h1>" do
       @document = SolrDocument.new('title_display' => "A Fake Document")
 
-      render_document_heading.should have_selector("h4", :text => document_heading, :count => 1)
+      render_document_heading.should have_selector("h4", :text => "A Fake Document", :count => 1)
       render_document_heading.html_safe?.should == true
+     end
+     it "should join the values if it is an array" do
+      @document = SolrDocument.new('title_display' => ["A Fake Document", 'Something Else'])
+
+      render_document_heading.should have_selector("h4", :text => "A Fake Document, Something Else", :count => 1)
+      render_document_heading.html_safe?.should == true
+     end
+   end
+
+   describe "document_show_html_title" do
+     it "should join the values if it is an array" do
+      @document = SolrDocument.new('title_display' => ["A Fake Document", 'Something Else'])
+      document_show_html_title.should == "A Fake Document, Something Else"
      end
    end
 

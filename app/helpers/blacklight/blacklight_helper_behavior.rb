@@ -151,13 +151,14 @@ module Blacklight::BlacklightHelperBehavior
   def document_heading
     @document[blacklight_config.show.heading] || @document.id
   end
+
   def render_document_heading
-    content_tag(:h4, document_heading, :class => "show-document-title")
+    content_tag(:h4, render_field_value(document_heading), :class => "show-document-title")
   end
 
   # Used in the show view for setting the main html document title
   def document_show_html_title
-    @document[blacklight_config.show.html_title]
+    render_field_value(@document[blacklight_config.show.html_title])
   end
 
   # Used in citation view for displaying the title
@@ -336,7 +337,7 @@ module Blacklight::BlacklightHelperBehavior
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
-    label ||= blacklight_config.index.show_link.to_sym
+    opts[:label] ||= blacklight_config.index.show_link.to_sym
     label = render_document_index_label doc, opts
     link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
   end
