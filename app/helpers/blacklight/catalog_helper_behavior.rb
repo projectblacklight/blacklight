@@ -5,12 +5,28 @@ module Blacklight::CatalogHelperBehavior
   # it translates to a Kaminari-paginatable
   # object, with the keys Kaminari views expect.
   def paginate_params(response)
+
     per_page = response.rows
     per_page = 1 if per_page < 1
+
     current_page = (response.start / per_page).ceil + 1
     num_pages = (response.total / per_page.to_f).ceil
 
-    Struct.new(:current_page, :num_pages, :limit_value, :total_count, :first_page?, :last_page?).new(current_page, num_pages, per_page, response.total, current_page > 1, current_page < num_pages)
+    total_count = response.total
+
+    start_num = response.start + 1
+    end_num = start_num + response.docs.length - 1
+
+    OpenStruct.new(:start => start_num,
+                   :end => end_num,
+                   :per_page => per_page,
+                   :current_page => current_page,
+                   :num_pages => num_pages,
+                   :limit_value => per_page, # backwards compatibility
+                   :total_count => total_count,
+                   :first_page? => current_page > 1,
+                   :last_page? => current_page < num_pages
+      )
   end
 
   # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument.
@@ -19,10 +35,8 @@ module Blacklight::CatalogHelperBehavior
   # kaminari paginate, passed on through.
   # will output HTML pagination controls.
   def paginate_rsolr_response(response, options = {}, &block)
-    per_page = response.rows
-    per_page = 1 if per_page < 1
-    current_page = (response.start / per_page).ceil + 1
-    paginate Kaminari.paginate_array(response.docs, :total_count => response.total).page(current_page).per(per_page), options, &block
+    pagination_info = paginate_params(response)
+    paginate Kaminari.paginate_array(response.docs, :total_count => pagination_info.total_count).page(pagination_info.current_page).per(pagination_info.per_page), options, &block
   end
 
   #
@@ -33,19 +47,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
   def render_pagination_info(response, options = {})
-      start = response.start + 1
-
-      per_page = response.rows
-      per_page = 1 if per_page < 1
-
-      current_page = (response.start / per_page).ceil + 1
-      num_pages = (response.total / per_page.to_f).ceil
-
-      total_hits = response.total
-
-      start_num = format_num(start)
-      end_num = format_num(start + response.docs.length - 1)
-      total_num = format_num(total_hits)
+      pagination_info = paginate_params(response)
 
    # TODO: i18n the entry_name
       entry_name = options[:entry_name]
@@ -53,10 +55,10 @@ module Blacklight::CatalogHelperBehavior
       entry_name ||= t('blacklight.entry_name.default')
 
 
-      case response.total
+      case pagination_info.total_count
         when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
         when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => current_page, :num_pages => num_pages, :start_num => start_num, :end_num => end_num, :total_num => total_num, :count => num_pages).html_safe
+        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => pagination_info.current_page, :num_pages => pagination_info.num_pages, :start_num => format_num(pagination_info.start), :end_num => format_num(pagination_info.end), :total_num => pagination_info.total_count, :count => pagination_info.num_pages).html_safe
       end
   end
 
