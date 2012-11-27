@@ -3,10 +3,10 @@
   <span class="hide-text"><%= t('blacklight.search.per_page.title') %></span>
   <ul class="css-dropdown">
     <li class="btn">
-      <%= link_to(t('blacklight.search.sort.per_page.label', :count => current_per_page), "#") %> <span class="caret"></span>
+      <%= link_to(t(:'blacklight.search.per_page.button_label', :count => current_per_page), "#") %> <span class="caret"></span>
       <ul>
         <%- blacklight_config.per_page.each do |count| %>
-          <li><%= link_to("#{count} #{content_tag(:span, t('blacklight.search.per_page.post_label'), :class =>'hide-text')}".html_safe, url_for(params_for_search.merge(:per_page => count))) %></li>
+          <li><%= link_to(t(:'blacklight.search.per_page.label', :count => count).html_safe, url_for(params_for_search.merge(:per_page => count))) %></li>
         <%- end -%>
       </ul>
     </li>

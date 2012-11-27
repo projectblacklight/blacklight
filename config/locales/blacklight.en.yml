@@ -164,11 +164,12 @@ en:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
       per_page:
-        label: '%{count} per page'
+        label: '%{count}<span class="hide-text"> per page</span>'
+        button_label: '%{count} per page'
         title: 'Number of results to display per page'
         submit: 'Update'
       sort:
-        label: 'Sort by'
+        label: 'Sort by %{field}'
         submit: 'sort results'
       form:
         search_field:
