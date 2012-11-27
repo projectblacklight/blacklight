@@ -154,9 +154,9 @@ module Blacklight::SolrHelper
       end
 
       # Now any over-rides from current URL?
-      solr_params[:rows] = user_params[:per_page] unless user_params[:per_page].blank?
-      
-      # Do we need to translate :page to Solr :start?      
+      solr_params[:rows] = user_params[:per_page].to_i  unless user_params[:per_page].blank?
+
+      # Do we need to translate :page to Solr :start?
       unless user_params[:page].blank?
         # already set solr_params["rows"] might not be the one we just set,
         # could have been from app defaults too. But we need one.
@@ -166,13 +166,13 @@ module Blacklight::SolrHelper
         if solr_params[:rows].blank?
           raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
         end
-        
-        solr_params[:page] = user_params[:page]
+
+        solr_params[:page] = user_params[:page].to_i
       end
 
-      # limit to MaxPerPage (100). Tests want this to be a string not an integer,
-      # not sure why.     
-      solr_params[:rows] = solr_params[:rows].to_i > blacklight_config.max_per_page ? blacklight_config.max_per_page : solr_params[:rows]      
+      solr_params[:rows] ||= blacklight_config.per_page.first unless blacklight_config.per_page.blank?
+
+      solr_params[:rows] = blacklight_config.max_per_page if solr_params[:rows].to_i > blacklight_config.max_per_page
     end
 
     ###
