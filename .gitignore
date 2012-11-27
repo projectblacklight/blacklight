@@ -18,4 +18,4 @@ Gemfile.lock
 tmp/test_app
 .rvmrc
 pkg/*
-*.swp
+*.sw[pon]
