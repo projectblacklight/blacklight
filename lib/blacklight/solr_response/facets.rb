@@ -55,4 +55,9 @@ module Blacklight::SolrResponse::Facets
     @facet_queries ||= facet_counts['facet_queries'] || {}
   end
   
+  # Returns all of the facet queries
+  def facet_pivot
+    @facet_pivot ||= facet_counts['facet_pivot'] || {}
+  end
+  
 end # end Facets
