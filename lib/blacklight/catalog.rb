@@ -100,7 +100,7 @@ module Blacklight::Catalog
     def endnote
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
-        format.endnote
+        format.endnote :layout => false
       end
     end
     
