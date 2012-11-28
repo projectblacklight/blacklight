@@ -19,8 +19,6 @@ module Blacklight::Controller
     
     base.send :helper_method, [:request_is_for_user_resource?]#, :user_logged_in?]
     
-    base.send :layout, :choose_layout
-
     # extra head content
     base.send :helper_method, :extra_head_content
     base.send :helper_method, :stylesheet_links
