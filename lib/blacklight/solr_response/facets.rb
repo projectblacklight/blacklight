@@ -1,10 +1,25 @@
+require 'ostruct'
+
 module Blacklight::SolrResponse::Facets
   
   # represents a facet value; which is a field value and its hit count
-  class FacetItem
-    attr_reader :value, :hits
-    def initialize value, hits
-      @value, @hits = value, hits
+  class FacetItem < OpenStruct
+    def initialize *args
+
+      if args.length > 2
+        value, hits, other = args
+        other ||= {}
+
+        super(other.merge(:value => value, :hits => hits))
+      end
+
+      if args.length == 1
+        super
+      end
+    end
+
+    def label
+      super || value
     end
   end
   
@@ -26,7 +41,7 @@ module Blacklight::SolrResponse::Facets
       facet_fields.map do |(facet_field_name,values_and_hits)|
         items = []
         values_and_hits.each_slice(2) do |k,v|
-          items << FacetItem.new(k, v)
+          items << FacetItem.new(:value => k, :hits => v)
         end
         FacetField.new(facet_field_name, items)
       end

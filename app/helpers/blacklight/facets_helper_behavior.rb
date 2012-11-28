@@ -103,7 +103,7 @@ module Blacklight::FacetsHelperBehavior
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    (link_to_unless(options[:suppress_link], ((item.label if item.respond_to?(:label)) || item.value), add_facet_params_and_redirect(facet_solr_field, item.value, item), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
+    (link_to_unless(options[:suppress_link], item.label, add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -111,7 +111,7 @@ module Blacklight::FacetsHelperBehavior
   def render_selected_facet_value(facet_solr_field, item)
     #Updated class for Bootstrap Blacklight 
     content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "icon-remove") + content_tag(:span, '[remove]', :class => 'hide-text'), remove_facet_params(facet_solr_field, item.value, params, item), :class=>"remove")
+      link_to(content_tag(:i, '', :class => "icon-remove") + content_tag(:span, '[remove]', :class => 'hide-text'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
   end
 
   # Renders a count value for facet limits. Can be over-ridden locally
@@ -124,8 +124,10 @@ module Blacklight::FacetsHelperBehavior
   # Does NOT remove request keys and otherwise ensure that the hash
   # is suitable for a redirect. See
   # add_facet_params_and_redirect
-  def add_facet_params(field, value, source_params = params)
+  def add_facet_params(field, item, source_params = params)
     facet_config = facet_configuration_for_field(field)
+
+    value = facet_value_for_facet_item(item)
 
     p = source_params.dup
     p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
@@ -147,8 +149,12 @@ module Blacklight::FacetsHelperBehavior
   # for a 'fresh' display. 
   # Change the action to 'index' to send them back to
   # catalog/index with their new facet choice. 
-  def add_facet_params_and_redirect(field, value, item = nil)
-    new_params = add_facet_params((item.field if item and item.respond_to? :field) || field, value)
+  def add_facet_params_and_redirect(field, item)
+    if item.respond_to? :field
+      field = item.field
+    end
+
+    new_params = add_facet_params(field, item)
 
     if item and item.respond_to?(:fq) and item.fq
       item.fq.each do |f,v|
@@ -174,10 +180,13 @@ module Blacklight::FacetsHelperBehavior
   # removes the field value from params[:f]
   # removes the field if there are no more values in params[:f][field]
   # removes additional params (page, id, etc..)
-  def remove_facet_params(field, value, source_params=params, item=nil)
-    if item and item.respond_to? :field
+  def remove_facet_params(field, item, source_params=params)
+    if item.respond_to? :field
       field = item.field
     end
+
+    value = facet_value_for_facet_item(item)
+
     p = source_params.dup
     # need to dup the facet values too,
     # if the values aren't dup'd, then the values
@@ -194,15 +203,19 @@ module Blacklight::FacetsHelperBehavior
   end
   
   # true or false, depending on whether the field and value is in params[:f]
-  def facet_in_params?(field, value, item = nil)
+  def facet_in_params?(field, item)
     if item and item.respond_to? :field
       field = item.field
     end
 
+    value = facet_value_for_facet_item(item)
+
     params[:f] and params[:f][field] and params[:f][field].include?(value)
   end
 
-  def facet_display_value field, value
+  def facet_display_value field, item
+    
+    value = facet_value_for_facet_item(item)
 
     facet_config = facet_configuration_for_field(field)
 
@@ -223,13 +236,21 @@ module Blacklight::FacetsHelperBehavior
 
   private
 
+  def facet_value_for_facet_item item
+    if item.respond_to? :value
+      value = item.value
+    else
+      value = item
+    end
+  end
+
   # Get the solr response for the solr field :field
   def extract_solr_facet_by_field_name facet_name
     facet_field = facet_configuration_for_field(facet_name)
     case 
-      when facet_field.query
+      when (facet_field.respond_to?(:query) and facet_field.query)
         create_rsolr_facet_field_response_for_query_facet_field facet_name, facet_field 
-      when facet_field.pivot
+      when (facet_field.respond_to?(:pivot) and facet_field.pivot)
         create_rsolr_facet_field_response_for_pivot_facet_field facet_name, facet_field   
       else
         @response.facet_by_field_name(facet_name)
@@ -242,7 +263,7 @@ module Blacklight::FacetsHelperBehavior
     @response.facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits == 0 }.map do |value,hits|
       salient_fields = facet_field.query.select { |key, val| val[:fq] == value }
       key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
-      items << OpenStruct.new(:value => key, :hits => hits, :label => facet_field.query[key][:label])
+      items << Blacklight::SolrResponse::Facets::FacetItem.new(:value => key, :hits => hits, :label => facet_field.query[key][:label])
     end
  
     Blacklight::SolrResponse::Facets::FacetField.new facet_name, items
@@ -265,7 +286,7 @@ module Blacklight::FacetsHelperBehavior
       items << construct_pivot_field(i, parent_fq.merge({ lst[:field] => lst[:value] }))
     end if lst[:pivot]
 
-    OpenStruct.new(:value => lst[:value], :hits => lst[:count], :field => lst[:field], :items => items, :fq => parent_fq)
+    Blacklight::SolrResponse::Facets::FacetItem.new(:value => lst[:value], :hits => lst[:count], :field => lst[:field], :items => items, :fq => parent_fq)
 
   end
 
