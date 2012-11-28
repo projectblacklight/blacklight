@@ -92,7 +92,7 @@ module Blacklight
     end
 
     def facet_fields_to_add_to_solr
-      return facet_fields.reject { |k,v| v[:query] }.map { |k,v| v.field } if self.add_facet_fields_to_solr_request
+      return facet_fields.reject { |k,v| v[:query] || v[:pivot] }.map { |k,v| v.field } if self.add_facet_fields_to_solr_request
 
       []
     end

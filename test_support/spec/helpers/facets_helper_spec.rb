@@ -107,6 +107,32 @@ describe FacetsHelper do
         facet_item.label.should == 'A Human Readable label'
       end
     end
+
+    describe "pivot facets" do
+      let(:facet_config) {
+        mock(:pivot => ['field_a', 'field_b'])
+      }
+
+      before(:each) do 
+        helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
+      
+        @response = mock(:facet_pivot => { 'field_a,field_b' => [{:field => 'field_a', :value => 'a', :count => 10, :pivot => [{:field => 'field_b', :value => 'b', :count => 2}]}]})
+      end
+
+      it "should convert the pivot facet into a mock RSolr FacetField" do
+        field = helper.facet_by_field_name('my_pivot_facet_field')
+        field.should be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
+
+        field.name.should == 'my_pivot_facet_field'
+
+        field.items.length.should == 1
+
+        field.items.first.should respond_to(:items)
+
+        field.items.first.items.length.should == 1
+        field.items.first.items.first.fq.should == { 'field_a' => 'a' }
+      end
+    end
   end
 
 
@@ -143,6 +169,8 @@ describe FacetsHelper do
 
       @config = Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
+        config.add_facet_field 'pivot_facet_field', :pivot => ['a', 'b']
+        config.add_facet_field 'my_pivot_facet_field_with_custom_partial', :partial => 'custom_facet_partial', :pivot => ['a', 'b']
         config.add_facet_field 'my_facet_field_with_custom_partial', :partial => 'custom_facet_partial'
       end
 
@@ -191,6 +219,18 @@ describe FacetsHelper do
       helper.should_receive(:render).with(hash_including(:layout => nil))
       helper.render_facet_limit(@mock_facet, :layout => nil)
     end
+
+    it "should render the facet_pivot partial for pivot facets" do
+      @mock_facet = mock(:name => 'pivot_facet_field', :items => [1,2,3])
+      helper.should_receive(:render).with(hash_including(:partial => 'facet_pivot'))
+      helper.render_facet_limit(@mock_facet)
+    end 
+
+    it "should let you override the rendered partial for pivot facets" do
+      @mock_facet = mock(:name => 'my_pivot_facet_field_with_custom_partial', :items => [1,2,3])
+      helper.should_receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
+      helper.render_facet_limit(@mock_facet)
+    end 
   end
 
   describe "add_facet_params" do
@@ -248,6 +288,29 @@ describe FacetsHelper do
 
       result_params[:f]['single_value_facet_field'].length.should == 1
       result_params[:f]['single_value_facet_field'].first.should == 'my_value'
+    end
+
+    it "should accept a FacetItem instead of a plain facet value" do
+          
+      result_params = helper.add_facet_params('facet_field_1', mock(:value => 123))
+
+      result_params[:f]['facet_field_1'].should include(123)
+    end
+
+    it "should defer to the field set on a FacetItem" do
+          
+      result_params = helper.add_facet_params('facet_field_1', mock(:field => 'facet_field_2', :value => 123))
+
+      result_params[:f]['facet_field_1'].should be_blank
+      result_params[:f]['facet_field_2'].should include(123)
+    end
+
+    it "should add any extra fq parameters from the FacetItem" do
+          
+      result_params = helper.add_facet_params('facet_field_1', mock(:value => 123, :fq => {'facet_field_2' => 'abc'}))
+
+      result_params[:f]['facet_field_1'].should include(123)
+      result_params[:f]['facet_field_2'].should include('abc')
     end
   end
 

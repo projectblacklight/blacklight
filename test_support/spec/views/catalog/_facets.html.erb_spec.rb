@@ -15,7 +15,7 @@ describe "catalog/_facets" do
 
       @mock_field_1 = mock(:field => 'facet_field_1',
                        :label => 'label')
-      @mock_display_facet_1 = mock(:name => 'facet_field_1', :items => [mock(:value => 'Value', :hits => 1234)])
+      @mock_display_facet_1 = mock(:name => 'facet_field_1', :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
       view.stub(:facet_field_names => [:facet_field_1],
                 :facet_limit_for => 10 )
 
@@ -31,7 +31,7 @@ describe "catalog/_facets" do
     before do
       @mock_field_1 = mock(:field => 'facet_field_1',
                        :label => 'label')
-      @mock_display_facet_1 = mock(:name => 'facet_field_1', :items => [mock(:value => 'Value', :hits => 1234)])
+      @mock_display_facet_1 = mock(:name => 'facet_field_1', :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
       view.stub(:facet_field_names => [:facet_field_1],
                 :facet_limit_for => 10 )
 

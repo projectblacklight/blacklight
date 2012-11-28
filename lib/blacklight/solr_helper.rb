@@ -316,12 +316,18 @@ module Blacklight::SolrHelper
         if blacklight_config.facet_fields.any? { |k,v| v[:query] }
           solr_parameters[:'facet.query'] ||= []
         end
+
+        if blacklight_config.facet_fields.any? { |k,v| v[:pivot] }
+          solr_parameters[:'facet.pivot'] ||= []
+        end
       end
          
       blacklight_config.facet_fields.each do |field_name, facet|
 
         if blacklight_config.add_facet_fields_to_solr_request
           case 
+            when facet.pivot
+              solr_parameters[:'facet.pivot'] << facet.pivot.join(",")
             when facet.query
               solr_parameters[:'facet.query'] += facet.query.map { |k, x| x[:fq] } 
    
