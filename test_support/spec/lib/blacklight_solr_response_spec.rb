@@ -60,6 +60,41 @@ describe Blacklight::SolrResponse do
 
   end
 
+  describe "FacetItem" do
+    it "should work with a field,value tuple" do
+      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', 15)
+      item.value.should == 'value'
+      item.hits.should == 15
+    end
+
+    it "should work with a field,value + hash triple" do
+      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', 15, :a => 1, :value => 'ignored')
+      item.value.should == 'value'
+      item.hits.should == 15
+      item.a.should == 1
+    end
+
+    it "should work like an openstruct" do
+      item = Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'value', :hits => 15)
+      
+      item.hits.should == 15
+      item.value.should == 'value'
+      item.should be_a_kind_of(OpenStruct)
+    end
+
+    it "should provide a label accessor" do
+      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', :hits => 15)
+      item.label.should == 'value'
+    end
+
+    it "should use a provided label" do
+      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', 15, :label => 'custom label')
+      item.label.should == 'custom label'
+
+    end
+
+  end
+
   it 'should return the correct value when calling facet_by_field_name' do
     r = create_response
     facet = r.facet_by_field_name('cat')

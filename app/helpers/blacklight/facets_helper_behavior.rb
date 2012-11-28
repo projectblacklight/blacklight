@@ -125,6 +125,11 @@ module Blacklight::FacetsHelperBehavior
   # is suitable for a redirect. See
   # add_facet_params_and_redirect
   def add_facet_params(field, item, source_params = params)
+
+    if item.respond_to? :field
+      field = item.field
+    end
+
     facet_config = facet_configuration_for_field(field)
 
     value = facet_value_for_facet_item(item)
@@ -139,6 +144,12 @@ module Blacklight::FacetsHelperBehavior
     
     p[:f][field].push(value)
 
+    if item and item.respond_to?(:fq) and item.fq
+      item.fq.each do |f,v|
+        p = add_facet_params(f, v, p)
+      end
+    end
+
     p
   end
 
@@ -150,17 +161,7 @@ module Blacklight::FacetsHelperBehavior
   # Change the action to 'index' to send them back to
   # catalog/index with their new facet choice. 
   def add_facet_params_and_redirect(field, item)
-    if item.respond_to? :field
-      field = item.field
-    end
-
     new_params = add_facet_params(field, item)
-
-    if item and item.respond_to?(:fq) and item.fq
-      item.fq.each do |f,v|
-        new_params = add_facet_params(f, v, new_params)
-      end
-    end
 
     # Delete page, if needed. 
     new_params.delete(:page)

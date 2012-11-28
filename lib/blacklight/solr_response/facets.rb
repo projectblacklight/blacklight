@@ -5,17 +5,16 @@ module Blacklight::SolrResponse::Facets
   # represents a facet value; which is a field value and its hit count
   class FacetItem < OpenStruct
     def initialize *args
+      options = args.extract_options!
 
-      if args.length > 2
-        value, hits, other = args
-        other ||= {}
+      # Backwards-compat method signature
+      value = args.shift
+      hits = args.shift
 
-        super(other.merge(:value => value, :hits => hits))
-      end
-
-      if args.length == 1
-        super
-      end
+      options[:value] = value if value
+      options[:hits] = hits if hits
+      
+      super(options)
     end
 
     def label
