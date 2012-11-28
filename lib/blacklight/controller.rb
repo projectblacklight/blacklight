@@ -19,8 +19,6 @@ module Blacklight::Controller
     
     base.send :helper_method, [:request_is_for_user_resource?]#, :user_logged_in?]
     
-    base.send :layout, :choose_layout
-
     # extra head content
     base.send :helper_method, :extra_head_content
     base.send :helper_method, :stylesheet_links
@@ -96,21 +94,6 @@ module Blacklight::Controller
     #
     def request_is_for_user_resource?
       request.env['PATH_INFO'] =~ /\/?users\/?/
-    end
-
-    #
-    # If a param[:no_layout] is set OR
-    # request.env['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest'
-    # don't use a layout, otherwise use the "application.html.erb" layout
-    #
-    def choose_layout
-      layout_name unless request.xml_http_request? || ! params[:no_layout].blank?
-    end
-    
-    #over-ride this one locally to change what layout BL controllers use, usually
-    #by defining it in your own application_controller.rb
-    def layout_name
-      'blacklight'
     end
 
     # Should be provided by authentication provider

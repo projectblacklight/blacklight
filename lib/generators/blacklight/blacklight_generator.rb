@@ -141,7 +141,8 @@ EOF
       "  # Adds a few additional behaviors into the application controller \n " +        
         "  include Blacklight::Controller\n" + 
         "  # Please be sure to impelement current_user and user_session. Blacklight depends on \n" +
-        "  # these methods in order to perform user specific actions. \n\n"
+        "  # these methods in order to perform user specific actions. \n\n" +
+        "  layout 'blacklight'\n\n"
     end
   end
   
