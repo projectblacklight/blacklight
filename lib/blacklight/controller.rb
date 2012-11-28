@@ -4,33 +4,32 @@
 # as this module is mixed-in to the application controller in the hosting app on installation.
 module Blacklight::Controller 
 
-  def self.included(base)
-    base.send :include, Blacklight::SearchFields
-    base.send :include, ActiveSupport::Callbacks
+  extend ActiveSupport::Concern
+  include Blacklight::LegacyControllerMethods
+  
+  included do
+    include Blacklight::SearchFields
+    include ActiveSupport::Callbacks
 
-    base.send :before_filter, :default_html_head # add JS/stylesheet stuff
     # now in application.rb file under config.filter_parameters
     # filter_parameter_logging :password, :password_confirmation 
-    base.send :helper_method, :current_user_session, :current_user, :current_or_guest_user
-    base.send :after_filter, :discard_flash_if_xhr    
+    helper_method :current_user_session, :current_user, :current_or_guest_user
+    after_filter :discard_flash_if_xhr    
 
     # handle basic authorization exception with #access_denied
-    base.send :rescue_from, Blacklight::Exceptions::AccessDenied, :with => :access_denied
+    rescue_from Blacklight::Exceptions::AccessDenied, :with => :access_denied
     
-    base.send :helper_method, [:request_is_for_user_resource?]#, :user_logged_in?]
+    helper_method :request_is_for_user_resource?
     
     # extra head content
-    base.send :helper_method, :extra_head_content
-    base.send :helper_method, :stylesheet_links
-    base.send :helper_method, :javascript_includes
-    base.send :helper_method, :has_user_authentication_provider?
-    base.send :helper_method, :blacklight_config
+    helper_method :has_user_authentication_provider?
+    helper_method :blacklight_config
 
 
     # This callback runs when a user first logs in
 
-    base.define_callbacks :logging_in_user
-    base.set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user
+    define_callbacks :logging_in_user
+    set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user
 
   end
 
@@ -41,47 +40,7 @@ module Blacklight::Controller
   def blacklight_config
     default_catalog_controller.blacklight_config
   end
-
-    # test for exception notifier plugin
-    def error
-      raise RuntimeError, "Generating a test error..."
-    end
-    
-    #############
-    # Display-related methods.
-    #############
-    
-    # before filter to set up our default html HEAD content. Sub-class
-    # controllers can over-ride this method, or instead turn off the before_filter
-    # if they like. See:
-    # http://api.rubyonrails.org/classes/ActionController/Filters/ClassMethods.html
-    # for how to turn off a filter in a sub-class and such.
-    def default_html_head
- 
-    end
-    
-    
-    # An array of strings to be added to HTML HEAD section of view.
-    # See ApplicationHelper#render_head_content for details.
-    def extra_head_content
-      @extra_head_content ||= []
-    end
-
-    
-    # Array, where each element is an array of arguments to
-    # Rails stylesheet_link_tag helper. See
-    # ApplicationHelper#render_head_content for details.
-    def stylesheet_links
-      @stylesheet_links ||= []
-    end
-    
-    # Array, where each element is an array of arguments to
-    # Rails javascript_include_tag helper. See
-    # ApplicationHelper#render_head_content for details.
-    def javascript_includes
-      @javascript_includes ||= []
-    end
-    
+   
     protected
 
     # Returns a list of Searches from the ids in the user's history.
@@ -96,20 +55,7 @@ module Blacklight::Controller
       request.env['PATH_INFO'] =~ /\/?users\/?/
     end
 
-    #
-    # If a param[:no_layout] is set OR
-    # request.env['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest'
-    # don't use a layout, otherwise use the "application.html.erb" layout
-    #
-    def choose_layout
-      layout_name unless request.xml_http_request? || ! params[:no_layout].blank?
-    end
-    
-    #over-ride this one locally to change what layout BL controllers use, usually
-    #by defining it in your own application_controller.rb
-    def layout_name
-      'blacklight'
-    end
+
 
     # Should be provided by authentication provider
     # def current_user
