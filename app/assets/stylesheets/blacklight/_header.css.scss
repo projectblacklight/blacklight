@@ -1,17 +1,3 @@
-.first h1
-{
-	margin:0;
-	padding:0;
-}
-
-h2.search
-{
-	display:inline;
-	margin:0;
-}
-
-
-
 /*
  The main logo image for the Blacklight instance
 */
@@ -81,24 +67,3 @@ h2.search
 .util-links-login, .util-links-other {
   font-size: 0.9em;
 }
-
-
-/*
-  Selected items needs special css to deal with number of selected items
-*/
-#selected-items {
-  #desktop-folder-link { 
-      float:left;
-      padding-right:5px;
-  }
-  #folder  {
-    float: right;
-    padding: 9px 10px 0 0;
- }
-}
- 
-
-
-
-
-

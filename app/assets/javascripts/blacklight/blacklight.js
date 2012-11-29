@@ -11,14 +11,12 @@
 //= require blacklight/search_context
 //= require blacklight/select_submit
 //= require blacklight/zebra_stripe
-//= require blacklight/bootstrap_dropdowns
 //= require blacklight/css_dropdowns
 //
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap-transition
 //= require bootstrap-collapse
 //= require bootstrap-alert
-//= require bootstrap-dropdown
 //= require improved-modal/bootstrap-modalmanager.js
 //= require improved-modal/bootstrap-modal.js
 

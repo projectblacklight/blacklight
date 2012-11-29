@@ -1,19 +1,10 @@
-
 /* Generic layout stuff */
 .hide 
 {
   display:none
 }
   
-
 /* This provides a fixed distance between the header and the main content */
 body {
   padding-top: 6em;
 }
-
-/* prevent search bar space from collapsing when there's no search bar */
-.desktop-search-bar, .tablet-search-bar {
-  min-height: 1em
-}
-
-

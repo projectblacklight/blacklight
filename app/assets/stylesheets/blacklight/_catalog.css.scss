@@ -1,24 +1,5 @@
-#appliedParams
-{
-	background-color:$search_ui_bg_color;
-	border-bottom:1px solid $search_ui_border_color;
-	border-left:1px solid $search_ui_border_color;
-	border-right:1px solid $search_ui_border_color;
-	margin-bottom:1.5em;
-	padding:1em 0 0 0em;
-
-  .label
-  {
- position: absolute !important;
-  height: 1px; width: 1px;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-  clip: rect(1px, 1px, 1px, 1px);
-  }
-}
-
 .catalog_startOverLink {
-  padding-top: 0.5em;
+  padding-top: 0.3em;
   float: right;
 }
 
@@ -47,12 +28,8 @@
   {
      padding: 5px 0 0;
   }
-
-  .per_page-form
-  {
-    padding-right:5px;
-  }
 }
+
 .ajax_form
 {
   margin-bottom: 0;
@@ -99,36 +76,8 @@
   padding-bottom: 9px;
 }
 
-.constraints-row {
-  margin-top:1em;
-  margin-bottom:1em;
-}
 span.constraints-label {
   font-weight:bold;
-}
-
-li.pill-with-label {
-  padding-top: 3px;
-  padding-right: 6px;
-  padding-left: 6px;
-  padding-bottom: 3px;
-  a.dropdown-toggle {
-    padding-left: 3px;
-    padding-right: 3px;
-    display: inline;
-
-  }
-}
-
-.show-document-title
-{
-  padding-top: 0.5em;
-
-}
-
-.show-document > #document
-{
-  margin-top: 0;
 }
 
 .appliedFilter
@@ -139,6 +88,7 @@ li.pill-with-label {
 	margin-bottom:0.66em;
 	margin-right:0.33em;
 	padding:3px 3px 3px 1.5em;
+  padding-right:50px;
 	position:relative;
   @include border-radius(15px 15px 15px 15px);
 
@@ -163,17 +113,11 @@ li.pill-with-label {
     border:1px dotted $constraint_border_active_color;
   }
 
-  .queryName,.filterName
+  .filterName
   {
     background:asset_url('blacklight/separator.gif',image) no-repeat right center;
     padding-right:14px;
   }
-}
-
-.constraints,h3.index_title,dl
-{
-	margin:0;
-	padding:0;
 }
 
 .document
@@ -202,53 +146,15 @@ li.pill-with-label {
   margin: 0;
 }
 
-.filterValue
-{
-	padding-right:37px;
-}
-
-
-.pageEntriesInfo
-{
-  background-color:$search_ui_bg_color;
-	border-color:$search_ui_border_color;
-  border-style:solid;
-	border-width:1px 1px 0;
-	padding:0 0.66em 0.66em 0;
-	position:relative;
-}
-
-
 .page_links
 {
-	margin-left:8em;
-	margin-right:8em;
-	text-align:center;
-
-  span.current
-  {
-    background:none repeat scroll 0 0 $page_bg_color;
-    border:1px solid $page_bg_color;
-    color:#FFF;
-    font-weight:700;
-  }
+	display: inline-block;
 }
 
 .pagination {
   text-align: center ;
 }
 
-
-.show #appliedParams
-{
-	border-top:1px solid $search_ui_border_color;
-
-  .label
-  {
-    margin-top:0;
-    position:static;
-  }
-}
 
 .solrQuery
 {
@@ -337,5 +243,3 @@ span.page a,span.page.current
 #email_form {
   @extend .span6;
 }
-
-
