@@ -37,6 +37,8 @@ class BookmarksController < CatalogController
       @bookmarks << params[:bookmark] if params[:bookmark]
      end
 
+    current_or_guest_user.save! unless current_or_guest_user.persisted?
+
     success = @bookmarks.all? do |bookmark|
       current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
     end
