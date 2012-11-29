@@ -15,7 +15,7 @@
   h1
   {
     margin:0;
-    padding:0 0 1em;
+    padding:0 0 0.4em;
   }
 }
 
@@ -163,6 +163,11 @@ span.constraints-label {
 	font-size:90%;
 	margin:2em;
 	padding:.5em;
+}
+
+.document dl {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .dl-invert {
