@@ -69,7 +69,7 @@ EOF
   def generate_devise_assets
     if options[:devise]
       gem "devise"
-      gem "devise-guests", "~> 0.2"
+      gem "devise-guests", "~> 0.3"
 
       Bundler.with_clean_env do
        run "bundle install"
@@ -77,6 +77,7 @@ EOF
       
       generate "devise:install"
       generate "devise", model_name.classify
+      generate "devise_guests", model_name.classify
       generate "devise:views"
       
       # add the #to_s to the model.      
