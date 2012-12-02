@@ -96,6 +96,7 @@ module Blacklight::Catalog
     def citation
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       respond_to do |format|
+        format.html
         format.js { render :layout => false }
       end
     end
