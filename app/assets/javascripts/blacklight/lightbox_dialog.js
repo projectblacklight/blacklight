@@ -4,9 +4,6 @@ Blacklight.setup_modal = function(link_selector, form_selector, launch_modal) {
       link = $(this)
       
       e.preventDefault();
-      if (launch_modal) {
-        GlobalModalManager.loading();
-      }
 
       var jqxhr = $.ajax({
         url: link.attr('href'),
