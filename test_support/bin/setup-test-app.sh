@@ -83,7 +83,7 @@ end
 platforms :ruby do
  gem 'sqlite3'
  gem 'execjs'
- gem 'therubyracer'
+ gem 'therubyracer', '~> 0.10.2'
 end
 
 gem 'blacklight', :path => '../../'
