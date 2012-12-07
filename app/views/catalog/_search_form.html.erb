@@ -1,5 +1,5 @@
   <%= form_tag search_action_url, :method => :get, :class => 'search-query-form form-inline clearfix' do %>
-    <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %> 
+    <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
 
     <% unless search_fields.empty? %>
       <div class="pull-left">
@@ -13,7 +13,7 @@
          <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search_q q", :id => "q"%>
         <button type="submit" class="btn btn-primary search-btn" id="search">
           <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
-          <i class="icon-search icon-white"></i>
+          <em class="icon-search icon-white"></em>
         </button>
 
        </div>
