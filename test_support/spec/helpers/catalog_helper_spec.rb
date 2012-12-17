@@ -6,7 +6,7 @@ describe CatalogHelper do
 
   def mock_response args
     current_page = args[:current_page] || 1
-    per_page = args[:per_page] || 10
+    per_page = args[:rows] || args[:per_page] || 10
     total = args[:total]
     start = (current_page - 1) * per_page
 
@@ -76,6 +76,13 @@ describe CatalogHelper do
 
       html = render_pagination_info(@response, { :entry_name => 'entry_name' })
       html.should == "<strong>41</strong> - <strong>47</strong> of <strong>47</strong>"
+      html.html_safe?.should == true
+    end
+    it "should work with rows the same as per_page" do
+      @response = mock_response :total => 47, :rows => 20, :current_page => 2
+
+      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
+      html.should == "<strong>21</strong> - <strong>40</strong> of <strong>47</strong>"
       html.html_safe?.should == true
     end
 

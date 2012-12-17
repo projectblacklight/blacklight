@@ -749,6 +749,13 @@ describe 'Blacklight::SolrHelper' do
       solr_response1.docs.size.should == num_results
     end
 
+    it 'should get number of rows requested' do
+      num_results = 4  # non-default value
+      (solr_response1, document_list1) = get_search_results(:q => @all_docs_query, :rows => num_results)
+      solr_response1.docs.size.should == document_list1.size
+      solr_response1.docs.size.should == num_results
+    end
+
     it 'should skip appropriate number of results when requested - default per page' do
       page = 3
       (solr_response2, document_list2) = get_search_results(:q => @all_docs_query, :page => page)

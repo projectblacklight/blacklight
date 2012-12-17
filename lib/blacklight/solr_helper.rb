@@ -154,6 +154,7 @@ module Blacklight::SolrHelper
       end
 
       # Now any over-rides from current URL?
+      solr_params[:rows] = user_params[:rows].to_i  unless user_params[:rows].blank?
       solr_params[:rows] = user_params[:per_page].to_i  unless user_params[:per_page].blank?
 
       # Do we need to translate :page to Solr :start?
