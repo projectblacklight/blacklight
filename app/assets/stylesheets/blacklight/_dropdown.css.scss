@@ -25,6 +25,7 @@
 	ul {
 		list-style: none;
 		position: absolute;
+    z-index: $zindexDropdown;
 		top: 100%;
 		left: 0;
 		right: 0;
