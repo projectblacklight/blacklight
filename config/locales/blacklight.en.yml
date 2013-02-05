@@ -58,6 +58,9 @@ en:
       need_login: 'Please log in to manage and view your bookmarks.'
       list_title: 'Your Bookmarks'
       delete: 'Remove'
+      form:
+         checked_label: "In bookmark"
+         progress_label: "Saving..."
 
     feedback:
       valid_name: 'A valid name is required'

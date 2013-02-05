@@ -9,12 +9,18 @@
 
       <%= form_tag( bookmark_path( document ), :method => :put, :class => "bookmark_toggle", "data-doc-id" => document.id) do %>   
         <%= submit_tag(t('blacklight.bookmarks.add.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_add") %>
+        <%= hidden_field_tag "checked_label", t('blacklight.bookmarks.form.checked_label') %>
+        <%= hidden_field_tag "unchecked_label", t('blacklight.bookmarks.collection.add.button') %>
+        <%= hidden_field_tag "progress_label",  t('blacklight.bookmarks.form.progress_label') %>
       <% end %>
   
   <% else %>
   
       <%= form_tag( bookmark_path( document ), :method => :delete, :class => "bookmark_toggle", "data-doc-id" => document.id) do %>  
         <%= submit_tag(t('blacklight.bookmarks.remove.button'), :id => "bookmark_toggle_#{document.id.to_s.parameterize}", :class => "bookmark_remove") %>
+        <%= hidden_field_tag "checked_label", t('blacklight.bookmarks.form.checked_label') %>
+        <%= hidden_field_tag "unchecked_label", t('blacklight.bookmarks.collection.add.button') %>
+        <%= hidden_field_tag "progress_label",  t('blacklight.bookmarks.form.progress_label') %>
       <% end %>
       
   <% end %>
