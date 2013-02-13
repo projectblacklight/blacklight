@@ -8,17 +8,6 @@ Then /^I should see a selectable list with field choices$/ do
   page.should have_selector("select#search_field")
 end
 
-Then /^I should see a selectable list with per page choices$/ do
-  page.should have_selector("#per_page-dropdown")
-end
-
-
-When /^I show (\d+) per page$/ do |value|
-  page.should have_selector('#per_page-dropdown') do
-    click_link(value)
-  end
-end
-
 Then /^I should see the sort dropdown$/ do
   page.should have_selector("#sort-dropdown")
 end
