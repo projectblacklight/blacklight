@@ -97,8 +97,8 @@ end
 
 # For testing
 group :development, :test do
-  gem 'rspec'
-  gem 'rspec-rails'
+  gem 'rspec', '~> 2.12.0'
+  gem 'rspec-rails', '~> 2.12.0'
   gem 'generator_spec'
   gem 'cucumber-rails'
   gem 'database_cleaner'
