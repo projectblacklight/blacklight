@@ -6,10 +6,9 @@ module Blacklight::Configurable
     helper_method :blacklight_config if respond_to? :helper_method
   end
   
-  #instance methods for blacklight_config, default to class
-  # version unless set specifically on instance
+  #instance methods for blacklight_config, so get a deep copy of the class-level config
   def blacklight_config
-    @blacklight_config || self.class.blacklight_config
+    @blacklight_config ||= self.class.blacklight_config.deep_copy
   end
   attr_writer :blacklight_config
 

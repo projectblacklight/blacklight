@@ -69,6 +69,18 @@ describe "Blacklight::Configurable" do
       
       klass.blacklight_config.my_key.should == 'value'
     end
+
+    it "allows the instance to set a radically different config from the class" do
+      klass = Class.new
+      klass.send(:include, Blacklight::Configurable)
+      klass.blacklight_config.foo = "bar"
+
+      instance = klass.new
+      instance.blacklight_config = Blacklight::Configuration.new
+      
+      instance.blacklight_config.should_not == klass.blacklight_config
+      instance.blacklight_config.foo.should be_nil
+    end
     
     it "allows instance to set it's own config seperate from class" do
       # this is built into class_attribute; we spec it both to document it,
@@ -77,14 +89,16 @@ describe "Blacklight::Configurable" do
       klass = Class.new
       klass.send(:include, Blacklight::Configurable)
       klass.blacklight_config.foo = "bar"
+      klass.blacklight_config.bar = []
+      klass.blacklight_config.bar << "asd"
       
       instance = klass.new
-      
-      instance.blacklight_config = Blacklight::Configuration.new
-      
+      instance.blacklight_config.bar << "123"
       instance.blacklight_config.should_not == klass.blacklight_config
-      instance.blacklight_config.foo.should be_nil
       klass.blacklight_config.foo.should == "bar"
+      instance.blacklight_config.foo.should == "bar"
+      klass.blacklight_config.bar.should_not include("123")
+      instance.blacklight_config.bar.should include("asd", "123")
     end
 
     it "configurable classes should not mutate the default configuration object" do
