@@ -11,3 +11,8 @@ env:
 
 script:
   - test_support/bin/test.sh
+
+notifications:
+  irc: "irc.freenode.org#blacklight"
+  email:
+      - blacklight-commits@googlegroups.com
