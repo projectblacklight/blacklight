@@ -5,9 +5,10 @@
     <li class="btn">
       <%= link_to(t(:'blacklight.search.per_page.button_label', :count => current_per_page), "#") %> <span class="caret"></span>
       <ul>
-        <%- blacklight_config.per_page.each do |count| %>
-          <li><%= link_to(t(:'blacklight.search.per_page.label', :count => count).html_safe, url_for(params_for_search.merge(:per_page => count))) %></li>
-        <%- end -%>
+	<%- blacklight_config.per_page.each do |count| %>
+	  <li><span><%= link_to_unless(count == current_per_page, t(:'blacklight.search.per_page.label', :count => count).html_safe,
+				       url_for(params_for_search.merge(:per_page => count, :page => 1))) %></span></li>
+	<%- end -%>
       </ul>
     </li>
   </ul>
