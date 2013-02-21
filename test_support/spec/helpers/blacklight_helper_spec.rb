@@ -146,35 +146,88 @@ describe BlacklightHelper do
     end
   end
 
-  describe "search_as_hidden_fields", :asdf => true do
+  describe "params_for_search" do
+    def params
+      { 'default' => 'params'}
+    end
+
+    it "should default to using the controller's params" do
+      result = params_for_search
+      result.should == params
+      params.object_id.should_not == result.object_id
+    end
+
+    it "should let you pass in params to use" do
+      source_params = { :q => 'query'}
+      result = params_for_search(:params => source_params )
+      source_params.should == result
+      source_params.object_id.should_not == result.object_id
+    end
+
+    it "should not return blacklisted elements" do
+      source_params = { :action => 'action', :controller => 'controller', :commit => 'commit'}
+      result = params_for_search(:params => source_params )
+      result.keys.should_not include(:action, :controller, :commit)
+
+    end
+
+    it "should adjust the current page if the per_page changes" do
+      source_params = { :per_page => 20, :page => 5}
+      result = params_for_search(:params => source_params, :per_page => 100)
+      result[:page].should == 1
+    end
+
+    it "should not adjust the current page if the per_page is the same as it always was" do
+      source_params = { :per_page => 20, :page => 5}
+      result = params_for_search(:params => source_params, :per_page => 20)
+      result[:page].should == 5
+    end
+
+    it "should adjust the current page if the sort changes" do
+      source_params = { :sort => 'field_a', :page => 5}
+      result = params_for_search(:params => source_params, :sort => 'field_b')
+      result[:page].should == 1
+    end
+
+    it "should not adjust the current page if the sort is the same as it always was" do
+      source_params = { :sort => 'field_a', :page => 5}
+      result = params_for_search(:params => source_params, :sort => 'field_a')
+      result[:page].should == 5
+    end
+
+    describe "omit keys parameter" do
+      it "should omit keys by key name" do
+        source_params = { :a => 1, :b => 2, :c => 3}
+        result = params_for_search(:params => source_params, :omit_keys => [:a, :b] )
+
+        result.keys.should_not include(:a, :b)
+        result[:c].should == 3
+      end
+
+      it "should remove keys if a key/value pair was passed and no values are left for that key" do
+        source_params = { :f => ['a']}
+        result = params_for_search(:params => source_params, :omit_keys => [{:f => 'a' }])
+        result.keys.should_not include(:f)
+      end
+
+      it "should only remove keys when a key/value pair is based that are in that pair" do
+
+        source_params = { :f => ['a', 'b']}
+        result = params_for_search(:params => source_params, :omit_keys => [{:f => 'a' }])
+        result[:f].should_not include('a')
+        result[:f].should include('b')
+      end
+    end
+
+  end
+
+  describe "search_as_hidden_fields" do
     def params
       {:q => "query", :sort => "sort", :per_page => "20", :search_field => "search_field", :page => 100, :arbitrary_key => "arbitrary_value", :f => {"field" => ["value1", "value2"], "other_field" => ['asdf']}, :controller => "catalog", :action => "index", :commit => "search"}
     end
     describe "for default arguments" do
       it "should default to omitting :page" do
-        search_as_hidden_fields.should have_selector("input[type='hidden']", :count =>8)
         search_as_hidden_fields.should_not have_selector("input[name='page']")
-      end
-      it "should not return blacklisted elements" do
-        search_as_hidden_fields.should_not have_selector("input[name='action']")
-        search_as_hidden_fields.should_not have_selector("input[name='controller']")
-        search_as_hidden_fields.should_not have_selector("input[name='commit']")
-      end
-      describe "for omit_keys parameter" do
-        it "should not include those keys" do
-           generated = search_as_hidden_fields(:omit_keys => [:per_page, :sort])
-
-           generated.should_not have_selector("input[name=sort]")
-           generated.should_not have_selector("input[name=per_page]")
-
-           generated.should have_selector("input[name=page]")
-        end
-
-        it "should support hash-based deleting" do
-           generated = search_as_hidden_fields(:omit_keys => [{:f => 'field' }])
-           generated.should have_selector("input[name='f[other_field][]']")
-           generated.should_not have_selector("input[name='f[field][]']")
-        end
       end
     end
  end
