@@ -80,6 +80,34 @@ describe "Blacklight::Configuration" do
       @config.facet_fields.should_not include(@mock_facet)
     end
   end
+
+  describe "add alternative solr fields" do
+    it "should let you define any arbitrary solr field" do
+      Blacklight::Configuration.define_field_access :my_custom_field
+
+      config = Blacklight::Configuration.new do |config|
+        config.add_my_custom_field 'qwerty', :label => "asdf"
+      end
+
+      
+
+      config.my_custom_fields.keys.should include('qwerty')
+    end
+
+    it "should let you define a field accessor that uses an existing field-type" do
+
+      Blacklight::Configuration.define_field_access :my_custom_facet_field, :class => Blacklight::Configuration::FacetField
+
+      config = Blacklight::Configuration.new do |config|
+        config.add_my_custom_facet_field 'qwerty', :label => "asdf"
+      end
+
+      
+
+      config.my_custom_facet_fields['qwerty'].should be_a_kind_of(Blacklight::Configuration::FacetField)
+    end
+
+  end
   
   describe "add_facet_field" do
     it "should accept field name and hash form arg" do
