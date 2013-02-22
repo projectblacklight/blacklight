@@ -105,8 +105,9 @@ module Blacklight::BlacklightHelperBehavior
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
 
-  # used in the catalog/_index_partials/_default view
-  def index_fields
+  ##
+  # Index fields to display for a type of document
+  def index_fields document=nil
     blacklight_config.index_fields
   end
 
@@ -115,50 +116,125 @@ module Blacklight::BlacklightHelperBehavior
       (document.has_highlight_field? solr_field.field if solr_field.highlight)
   end
 
-  def index_field_names
-    index_fields.keys
+  ##
+  # Field keys for the index fields
+  # @deprecated
+  def index_field_names document=nil
+    index_fields(document).keys
   end
 
-  # used in the catalog/_index_partials/_default partial
-  def index_field_labels
+  ##
+  # Labels for the index fields
+  # @deprecated
+  def index_field_labels document=nil
     # XXX DEPRECATED
-    Hash[*index_fields.map { |key, field| [key, field.label] }.flatten]
+    Hash[*index_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
   def spell_check_max
     blacklight_config.spell_max
   end
 
-  def render_index_field_label args
-    field = args[:field]
-    html_escape index_fields[field].label
+  ##
+  # Render the index field label for a document
+  #
+  # @overload render_index_field_label(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  # @overload render_index_field_label(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field    
+  def render_index_field_label *args
+    options = args.extract_options!
+    document = args.first
+
+    field = options[:field]
+    html_escape index_fields(document)[field].label
   end
 
-  def render_index_field_value args
-    value = args[:value]
+  ##
+  # Render the index field label for a document
+  #
+  # @overload render_index_field_value(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  #   @options opts [String] :value
+  #   @options opts [String] :document
+  # @overload render_index_field_value(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field 
+  #   @options opts [String] :value
+  # @overload render_index_field_value(document, field, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [String] field
+  #   @param [Hash] opts
+  #   @options opts [String] :value
+  def render_index_field_value *args
+    options = args.extract_options!
+    document = args.shift || options[:document]
 
-    if args[:field] and blacklight_config.index_fields[args[:field]]
-      field_config = blacklight_config.index_fields[args[:field]]
-      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
+    field = args.shift || options[:field]
+    value = options[:value]
+
+
+    field_config = index_fields(document)[field]
+
+    value ||= case 
+      when value
+        value
+      when (field_config and field_config.helper_method)
+        send(field_config.helper_method, options.merge(:document => document, :field => field))
+      when (field_config and field_config.highlight)
+        document.highlight_field(field_config.field).map { |x| x.html_safe }
+      else
+        document.get(field, :sep => nil) if field
     end
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
     render_field_value value
   end
 
   # Used in the show view for displaying the main solr document heading
-  def document_heading
-    @document[blacklight_config.show.heading] || @document.id
+  def document_heading document=nil
+    document ||= @document
+    document[blacklight_config.show.heading] || document.id
   end
 
-  def render_document_heading(tag = :h4)
-    content_tag(tag, render_field_value(document_heading))
+  ##
+  # Render the document "heading" (title) in a content tag
+  # @overload render_document_heading(tag)
+  # @overload render_document_heading(document, options)
+  #   @params [SolrDocument] document
+  #   @params [Hash] options
+  #   @options options [Symbol] :tag
+  def render_document_heading(*args)
+    options = args.extract_options!
+    if args.first.is_a? SolrDocument
+      document = args.shift
+      tag = options[:tag]
+    else
+      document = nil
+      tag = args.first || options[:tag]
+    end
+
+    tag ||= :h4
+
+    content_tag(tag, render_field_value(document_heading(document)))
   end
 
   # Used in the show view for setting the main html document title
-  def document_show_html_title
-    render_field_value(@document[blacklight_config.show.html_title])
+  def document_show_html_title document=nil
+    document ||= @document
+    render_field_value(document[blacklight_config.show.html_title])
   end
 
   # Used in citation view for displaying the title
@@ -172,7 +248,7 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # Used in the document list partial (search view) for creating a link to the document show action
-  def document_show_link_field
+  def document_show_link_field document=nil
     blacklight_config.index.show_link.to_sym
   end
 
@@ -182,31 +258,84 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # used in the catalog/_show/_default partial
-  def document_show_fields
+  def document_show_fields document=nil
     blacklight_config.show_fields
   end
 
   # used in the catalog/_show/_default partial
-  def document_show_field_labels
+  # @deprecated
+  def document_show_field_labels document=nil
     # XXX DEPRECATED
-    Hash[*blacklight_config.show_fields.map { |key, field| [key, field.label] }.flatten]
+    Hash[*document_show_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
-  def render_document_show_field_label args
-    field = args[:field]
-    html_escape blacklight_config.show_fields[field].label
+  ##
+  # Render the show field label for a document
+  #
+  # @overload render_document_show_field_label(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  # @overload render_document_show_field_label(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field   
+  def render_document_show_field_label *args
+    options = args.extract_options!
+    document = args.first
+
+    field = options[:field]
+
+    html_escape document_show_fields(document)[field].label
   end
 
-  def render_document_show_field_value args
-    value = args[:value]
+  ##
+  # Render the index field label for a document
+  #
+  # @overload render_document_show_field_value(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  #   @options opts [String] :value
+  #   @options opts [String] :document
+  # @overload render_document_show_field_value(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field 
+  #   @options opts [String] :value
+  # @overload render_document_show_field_value(document, field, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [String] field
+  #   @param [Hash] opts
+  #   @options opts [String] :value
+  def render_document_show_field_value *args
 
-    if args[:field] and blacklight_config.show_fields[args[:field]]
-      field_config = blacklight_config.show_fields[args[:field]]
-      value ||= send(blacklight_config.show_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]).map { |x| x.html_safe } if field_config.highlight
+    options = args.extract_options!
+    document = args.shift || options[:document]
+
+    field = args.shift || options[:field]
+    value = options[:value]
+
+
+    field_config = document_show_fields(document)[field]
+
+    value ||= case 
+      when value
+        value
+      when (field_config and field_config.helper_method)
+        send(field_config.helper_method, options.merge(:document => document, :field => field))
+      when (field_config and field_config.highlight)
+        document.highlight_field(field_config.field).map { |x| x.html_safe }
+      else
+        document.get(field, :sep => nil) if field
     end
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
     render_field_value value
   end
 
