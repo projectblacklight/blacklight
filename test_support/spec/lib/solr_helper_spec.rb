@@ -31,6 +31,10 @@ describe 'Blacklight::SolrHelper' do
     @config = config
   end
 
+  def blacklight_solr
+    Blacklight.solr
+  end
+
   include Blacklight::SolrHelper
 
   before(:each) do

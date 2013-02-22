@@ -304,4 +304,12 @@ module Blacklight::Catalog
         render "index", :status => 404
       end
     end
+
+    def blacklight_solr
+      @solr ||=  RSolr.connect(blacklight_solr_config)
+    end
+
+    def blacklight_solr_config
+      Blacklight.solr_config
+    end
 end

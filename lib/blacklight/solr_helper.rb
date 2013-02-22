@@ -84,10 +84,10 @@ module Blacklight::SolrHelper
   
   def find(*args)
     path = blacklight_config.solr_path
-    response = Blacklight.solr.get(path, :params=> args[1])
+    response = blacklight_solr.get(path, :params=> args[1])
     Blacklight::SolrResponse.new(force_to_utf8(response), args[1])
   rescue Errno::ECONNREFUSED => e
-    raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{Blacklight.solr.inspect}")
+    raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{blacklight_solr.inspect}")
   end
     
   
@@ -387,7 +387,7 @@ module Blacklight::SolrHelper
     path = blacklight_config.solr_path
     raise "don't set start, use page and rows instead" if params['start'] || params[:start]
     rows = params.delete(:rows) #only transmit rows once
-    res = Blacklight.solr.paginate(params[:page] || 1, rows, path, :params=>params)
+    res = blacklight_solr.paginate(params[:page] || 1, rows, path, :params=>params)
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
     Rails.logger.debug("Solr query: #{params.inspect}") 
     Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
