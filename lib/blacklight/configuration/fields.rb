@@ -70,7 +70,7 @@ module Blacklight
           when String
             field_config_from_key_and_hash(config_key, *args)
           when Symbol
-            args.first = args.first.to_s
+            args[0] = args[0].to_s
             field_config_from_key_and_hash(config_key, *args)
           when Array
             field_config_from_array(config_key, *args)
