@@ -19,8 +19,8 @@ describe "catalog/index" do
     @response, @document_list = c.get_search_results(@params)
 
     # munge the solr response to match test expectations
-    @document_list[1] = SolrDocument.new(@document_list[1].to_mash.reject! { |k,v| k == "author_display" })
-    @document_list[5] = SolrDocument.new(@document_list[1].to_mash.reject! { |k,v| k == "marc_display" })
+    @document_list[1] = SolrDocument.new(@document_list[1].with_indifferent_access.reject! { |k,v| k == "author_display" })
+    @document_list[5] = SolrDocument.new(@document_list[1].with_indifferent_access.reject! { |k,v| k == "marc_display" })
   end
   before(:each) do
     # Not sure what Assigns was doing here ... dhf

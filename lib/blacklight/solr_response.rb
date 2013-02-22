@@ -1,4 +1,4 @@
-class Blacklight::SolrResponse < Mash
+class Blacklight::SolrResponse < HashWithIndifferentAccess
 
   autoload :Spelling, 'blacklight/solr_response/spelling'
   autoload :Facets, 'blacklight/solr_response/facets'
