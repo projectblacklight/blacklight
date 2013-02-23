@@ -6,15 +6,41 @@ module Blacklight::Configurable
     helper_method :blacklight_config if respond_to? :helper_method
   end
   
+  attr_writer :blacklight_config
+  
   #instance methods for blacklight_config, so get a deep copy of the class-level config
   def blacklight_config
-    @blacklight_config ||= self.class.blacklight_config.deep_copy
+    @blacklight_config ||= begin
+      c = self.class.default_configuration
+      self.class.blacklight_config_procs.each do |block|
+        c.configure &block
+      end 
+      c
+    end
   end
-  attr_writer :blacklight_config
 
   module ClassMethods   
+    attr_writer :blacklight_config
+
+    def blacklight_config_procs
+      @blacklight_config_procs ||= begin
+        p = []
+
+        if superclass.respond_to?(:blacklight_config_procs)
+          p += superclass.blacklight_config_procs
+        end
+
+        p
+      end
+    end
+
+    def blacklight_config_procs= procs
+      @blacklight_config_procs ||= procs
+      @blacklight_config = nil
+    end
+
     def copy_blacklight_config_from(other_class)
-      self.blacklight_config = other_class.blacklight_config.inheritable_copy
+      self.blacklight_config_procs += other_class.blacklight_config_procs
     end
     
     # lazy load a deep_copy of superclass if present, else
@@ -23,26 +49,23 @@ module Blacklight::Configurable
     # object' that won't be automatically available to subclasses, that's why
     # we lazy load to 'inherit' how we want. 
     def blacklight_config
-      unless (defined? @blacklight_config)
-        if superclass.respond_to?(:blacklight_config)
-          @blacklight_config = superclass.blacklight_config.deep_copy
-        else
-          @blacklight_config = default_configuration
-        end
+      @blacklight_config ||= begin
+        c = default_configuration
+        self.blacklight_config_procs.each do |block|
+          c.configure &block
+        end 
+        c
       end
-      
-      return @blacklight_config
     end
-    attr_writer :blacklight_config
-    
+
     #simply a convenience method for blacklight_config.configure
     def configure_blacklight(*args, &block)
-      blacklight_config.configure(*args, &block)
+      self.blacklight_config_procs << block
+      @blacklight_config = nil
     end
 
     ##
-    # The default configuration object, by default it reads from Blacklight.config for backwards
-    # compatibility with Blacklight <= 3.1
+    # The default configuration object
     def default_configuration
       Blacklight::Configurable.default_configuration.inheritable_copy
     end

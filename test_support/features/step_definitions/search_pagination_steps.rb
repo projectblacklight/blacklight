@@ -1,11 +1,10 @@
 # -*- encoding : utf-8 -*-
 Given /^the application is configured to have per page with values "([^\"]*)"$/ do |values|
   values = values.split(", ")
-  CatalogController.blacklight_config[:per_page] = []
-  values.each do |value|
-    CatalogController.blacklight_config[:per_page] << value
+  CatalogController.configure_blacklight do |config|
+    config.default_solr_params[:rows] = values.first
+    config.per_page = values
   end
-  CatalogController.blacklight_config[:default_solr_params][:rows] = values[0]
 end
 
 
