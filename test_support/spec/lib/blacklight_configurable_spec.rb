@@ -10,7 +10,7 @@ describe "Blacklight::Configurable" do
         class Parent
           include Blacklight::Configurable
 
-          blacklight_config.configure do |config|
+          configure_blacklight do |config|
             config.list = [1,2,3]
           end
         end
@@ -82,24 +82,6 @@ describe "Blacklight::Configurable" do
       instance.blacklight_config.foo.should be_nil
     end
     
-    it "allows instance to set it's own config seperate from class" do
-      # this is built into class_attribute; we spec it both to document it,
-      # and to ensure we preserve this feature if we change implementation
-      # to not use class_attribute
-      klass = Class.new
-      klass.send(:include, Blacklight::Configurable)
-      klass.blacklight_config.foo = "bar"
-      klass.blacklight_config.bar = []
-      klass.blacklight_config.bar << "asd"
-      
-      instance = klass.new
-      instance.blacklight_config.bar << "123"
-      instance.blacklight_config.should_not == klass.blacklight_config
-      klass.blacklight_config.foo.should == "bar"
-      instance.blacklight_config.foo.should == "bar"
-      klass.blacklight_config.bar.should_not include("123")
-      instance.blacklight_config.bar.should include("asd", "123")
-    end
 
     it "configurable classes should not mutate the default configuration object" do
       klass = Class.new
