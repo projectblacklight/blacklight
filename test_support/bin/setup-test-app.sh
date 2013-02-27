@@ -91,15 +91,17 @@ gem 'jquery-rails'
 
 # For testing
 group :development, :test do 
-  gem 'rspec', '~> 2.12.0'
   gem 'rspec-rails', '~> 2.12.0'
+end
+
+group :test do
+  gem 'cucumber-rails', :require => false
   gem 'generator_spec'
-  gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'capybara'
-gem 'rcov', :platform => :mri_18
-gem 'simplecov', :platform => :mri_19
-gem 'simplecov-rcov', :platform => :mri_19
+  gem 'rcov', :platform => :mri_18
+  gem 'simplecov', :platform => :mri_19
+  gem 'simplecov-rcov', :platform => :mri_19
 end
 
 gem 'jettywrapper', '>= 1.2.0'
