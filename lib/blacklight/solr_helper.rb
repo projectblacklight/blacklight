@@ -167,8 +167,8 @@ module Blacklight::SolrHelper
         if solr_params[:rows].blank?
           raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
         end
-
-        solr_params[:page] = user_params[:page].to_i
+        solr_params[:start] = solr_params[:rows].to_i * (user_params[:page].to_i - 1)
+        solr_params[:start] = 0 if solr_params[:start].to_i < 0
       end
 
       solr_params[:rows] ||= blacklight_config.per_page.first unless blacklight_config.per_page.blank?
@@ -386,12 +386,9 @@ module Blacklight::SolrHelper
     solr_params[:qt] ||= blacklight_config.qt
     path = blacklight_config.solr_path
 
-    raise "don't set start, use page and rows instead" if solr_params['start'] || solr_params[:start]
-
     # delete these parameters, otherwise rsolr will pass them through.
-    rows = solr_params.delete(:rows)
-    page = solr_params.delete(:page) || 1
-    res = blacklight_solr.paginate(page, rows, path, :params=>solr_params)
+    res = blacklight_solr.send_and_receive(path, :params=>solr_params)
+    
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
 
     Rails.logger.debug("Solr query: #{solr_params.inspect}")
