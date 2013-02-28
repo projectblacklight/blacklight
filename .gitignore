@@ -19,3 +19,4 @@ tmp/test_app
 .rvmrc
 pkg/*
 *.sw[pon]
+gemfiles/*.gemfile.lock
