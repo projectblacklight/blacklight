@@ -104,7 +104,7 @@ module Blacklight::CatalogHelperBehavior
 
   def show_sort_and_per_page? response = nil
     response ||= @response
-    response.response['numFound'] > 1
+    response.total > 1
   end
 
 end
