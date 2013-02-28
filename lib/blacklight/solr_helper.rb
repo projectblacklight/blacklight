@@ -382,14 +382,19 @@ module Blacklight::SolrHelper
     # In later versions of Rails, the #benchmark method can do timing
     # better for us. 
     bench_start = Time.now
-    params = self.solr_search_params(user_params).merge(extra_controller_params)
-    params[:qt] ||= blacklight_config.qt
+    solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
+    solr_params[:qt] ||= blacklight_config.qt
     path = blacklight_config.solr_path
-    raise "don't set start, use page and rows instead" if params['start'] || params[:start]
-    rows = params.delete(:rows) #only transmit rows once
-    res = blacklight_solr.paginate(params[:page] || 1, rows, path, :params=>params)
-    solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
-    Rails.logger.debug("Solr query: #{params.inspect}") 
+
+    raise "don't set start, use page and rows instead" if solr_params['start'] || solr_params[:start]
+
+    # delete these parameters, otherwise rsolr will pass them through.
+    rows = solr_params.delete(:rows)
+    page = solr_params.delete(:page) || 1
+    res = blacklight_solr.paginate(page, rows, path, :params=>solr_params)
+    solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
+
+    Rails.logger.debug("Solr query: #{solr_params.inspect}")
     Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
     Rails.logger.debug("Solr fetch: #{self.class}#query_solr (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     

@@ -583,6 +583,23 @@ describe 'Blacklight::SolrHelper' do
         solr_response = query_solr(:q => @single_word_query)
         solr_response.docs.size.should > 0
       end
+
+      describe "interaction with solr" do
+        def blacklight_solr
+          @asdfg ||= mock()
+        end
+        it "should not send page/rows parameters as parameters" do
+          blacklight_solr.should_receive(:paginate)  do |page, rows, path, query|
+            page.should == 1
+            rows.should == 5
+            query[:params].should include(:q => "Hi")
+            query[:params].should_not include(:page => 1)
+            query[:params].should_not include(:rows => 5)
+          end
+
+          query_solr(:page => 1, :rows => 5, :q => "Hi")
+        end
+      end
     end
 
     describe 'for All Docs Query, No Facets' do
