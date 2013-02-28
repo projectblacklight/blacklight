@@ -17,3 +17,6 @@ notifications:
   irc: "irc.freenode.org#blacklight"
   email:
       - blacklight-commits@googlegroups.com
+
+before_install:
+  - gem install bundler
