@@ -78,7 +78,9 @@ EOF
       end
       
       gem "devise-guests", "~> 0.3"
-      gem 'protected_attributes' # Required for devise
+      if Rails::VERSION::MAJOR == 4
+        gem 'protected_attributes' # Required for devise
+      end
 
       Bundler.with_clean_env do
        run "bundle install"
