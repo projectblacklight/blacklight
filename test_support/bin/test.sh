@@ -37,11 +37,6 @@ rm -rf tmp/test_app
 mkdir -p tmp/test_app
 cd tmp
 
-if [[ "${TRAVIS}" = "true" ]]; then
-  echo "Dumping environment under travis:"
-  env
-fi
-
 if [[  $# -gt 0 ]]
 then
 # Make certain rvm will work correctly.
@@ -69,6 +64,12 @@ if [ -e public/index.html ]; then
   rm public/index.html
 fi
 
+
+if [ "${TRAVIS}" = "true" ]; then
+  echo "adding utf-8 header for the css under travis"
+  echo '@charset "UTF-8";'|cat - app/assets/stylesheets/application.css > app/assets/stylesheets/application.css.utf8 && mv app/assets/stylesheets/application.css.utf8 app/assets/stylesheets/application.css
+fi
+exit
 echo "
 platforms :jruby do
   gem 'jruby-openssl'
