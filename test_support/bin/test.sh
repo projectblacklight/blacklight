@@ -37,6 +37,10 @@ rm -rf tmp/test_app
 mkdir -p tmp/test_app
 cd tmp
 
+if [[ "${TRAVIS}" = "true" ]]; then
+  echo "Dumping environment under travis:"
+  env
+fi
 
 if [[  $# -gt 0 ]]
 then
