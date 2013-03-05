@@ -69,7 +69,8 @@ if [ "${TRAVIS}" = "true" ]; then
   echo "adding utf-8 header for the css under travis"
   echo '@charset "UTF-8";'|cat - app/assets/stylesheets/application.css > app/assets/stylesheets/application.css.utf8 && mv app/assets/stylesheets/application.css.utf8 app/assets/stylesheets/application.css
 fi
-exit
+
+
 echo "
 platforms :jruby do
   gem 'jruby-openssl'
