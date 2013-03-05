@@ -97,7 +97,7 @@ end
 group :test do
   gem 'generator_spec'
   gem 'cucumber-rails', :require => false
-  gem 'database_cleaner'
+  gem 'database_cleaner', '>= 1.0.0.RC1'
   if defined? :JRUBY_VERSION
     gem 'capybara', '~> 1.0'
   else
