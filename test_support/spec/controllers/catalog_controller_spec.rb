@@ -375,18 +375,30 @@ describe CatalogController do
       response.should_not be_success
       response.status.should == 404
     end
-    it "should return a status 500 for a bad search" do
+    it "should redirect the user to the root url for a bad search" do
       req = {}
       res = {}
       fake_error = RSolr::Error::Http.new(req, res) 
       controller.stub(:get_search_results) { |*args| raise fake_error }
       controller.logger.should_receive(:error).with(fake_error)
       get :index, :q=>"+"
+
       response.redirect_url.should == root_url
       request.flash[:notice].should == "Sorry, I don't understand your search."
       response.should_not be_success
-      response.status.should == 500
-      response.should render_template(:file=>"#{Rails.root}/public/500.html")
+      response.status.should == 302
+    end
+    it "should return status 500 if the catalog path is raising an exception" do
+
+      req = {}
+      res = {}
+      fake_error = RSolr::Error::Http.new(req, res) 
+      controller.stub(:get_search_results) { |*args| raise fake_error }
+      controller.flash.stub!(:sweep)
+      controller.stub(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
+      expect {
+      get :index, :q=>"+"
+      }.to raise_error 
     end
 
   end
