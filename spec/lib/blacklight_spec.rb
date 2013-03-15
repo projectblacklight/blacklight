@@ -20,7 +20,7 @@ describe Blacklight do
   context 'root' do
 
     before(:all) do
-      @blroot = File.expand_path(File.join(__FILE__, '..', '..', '..', '..'))
+      @blroot = File.expand_path(File.join(__FILE__, '..', '..', '..' ))
     end
 
     it 'should return the full path to the BL plugin' do
