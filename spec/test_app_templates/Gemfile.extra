@@ -1,0 +1,38 @@
+platforms :jruby do
+  gem 'jruby-openssl'
+  gem 'activerecord-jdbcsqlite3-adapter'
+  gem 'jdbc-sqlite3'
+  gem 'mediashelf-loggable', '>= 0.4.8'
+  gem 'therubyrhino'
+end
+
+platforms :ruby do
+ gem 'sqlite3'
+ gem 'execjs'
+ gem 'therubyracer', '~> 0.10.2'
+end
+
+gem 'blacklight', :path => '../../'
+gem 'jquery-rails'
+
+# For testing
+group :development, :test do
+  gem 'rspec-rails', '~> 2.12.0'
+end
+
+group :test do
+  gem 'generator_spec'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner', '>= 1.0.0.RC1'
+  if defined? :JRUBY_VERSION
+    gem 'capybara', '~> 1.0'
+  else
+    gem 'capybara'
+  end
+  gem 'rcov', :platform => :mri_18
+  gem 'simplecov', :platform => :mri_19
+  gem 'simplecov-rcov', :platform => :mri_19
+end
+
+gem 'jettywrapper', '>= 1.2.0'
+

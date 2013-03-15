@@ -10,7 +10,7 @@
 ENV['RAILS_ROOT'] = Rails.root.to_s
 
 # blacklight_features, where to find features inside blacklight source?
-blacklight_features = File.expand_path("./test_support/features", Blacklight.root)
+blacklight_features = File.expand_path("features", Blacklight.root)
 
 unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:* tasks
 
