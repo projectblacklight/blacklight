@@ -364,6 +364,25 @@ describe FacetsHelper do
 
   end
 
+  describe "render_facet_value" do
+    it "should use facet_display_value" do
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil, :helper_method => nil, :single => false))
+ 
+      helper.should_receive(:facet_display_value).and_return('Z')
+      helper.should_receive(:add_facet_params_and_redirect).and_return('link')
+      helper.render_facet_value('simple_field', mock(:value => 'A', :hits => 10)).should == "<a href=\"link\" class=\"facet_select\">Z</a> <span class=\"count\">10</span>"
+    end
+
+
+    it "should suppress the link" do
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil, :helper_method => nil, :single => false))
+ 
+      helper.should_receive(:facet_display_value).and_return('Z')
+      helper.should_receive(:add_facet_params_and_redirect).and_return('link')
+      helper.render_facet_value('simple_field', mock(:value => 'A', :hits => 10), :suppress_link => true).should == "Z <span class=\"count\">10</span>"
+    end
+  end
+ 
   describe "#facet_display_value" do
     it "should just be the facet value for an ordinary facet" do
       helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil, :helper_method => nil))
@@ -374,7 +393,7 @@ describe FacetsHelper do
       helper.stub(:facet_configuration_for_field).with('helper_field').and_return(mock(:query => nil, :date => nil, :helper_method => :my_facet_value_renderer))
     
       helper.should_receive(:my_facet_value_renderer).with('qwerty').and_return('abc')
-      
+
       helper.facet_display_value('helper_field', 'qwerty').should == 'abc'
     end
 

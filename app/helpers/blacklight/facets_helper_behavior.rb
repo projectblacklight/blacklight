@@ -103,7 +103,7 @@ module Blacklight::FacetsHelperBehavior
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    (link_to_unless(options[:suppress_link], item.label, add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
+    (link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -217,7 +217,11 @@ module Blacklight::FacetsHelperBehavior
   def facet_display_value field, item
     facet_config = facet_configuration_for_field(field)
     
-    value = facet_value_for_facet_item(item)
+    value = if item.respond_to? :label
+      value = item.label
+    else
+      facet_value_for_facet_item(item)
+    end
 
     display_label = case
       when facet_config.helper_method
