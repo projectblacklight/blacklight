@@ -215,24 +215,22 @@ module Blacklight::FacetsHelperBehavior
   end
 
   def facet_display_value field, item
+    facet_config = facet_configuration_for_field(field)
     
     value = facet_value_for_facet_item(item)
 
-    facet_config = facet_configuration_for_field(field)
-
-    display_label = value
-
-    if facet_config.query and facet_config.query[value]
-      display_label = facet_config.query[value][:label]     
+    display_label = case
+      when facet_config.helper_method
+        display_label = send facet_config.helper_method, value 
+      when (facet_config.query and facet_config.query[value])
+        display_label = facet_config.query[value][:label]     
+      when facet_config.date
+        localization_options = {}
+        localization_options = facet_config.date unless facet_config.date === true
+        display_label = l(value.to_datetime, localization_options)
+      else
+        value
     end
-
-    if facet_config.date
-      localization_options = {}
-      localization_options = facet_config.date unless facet_config.date === true
-      display_label = l(value.to_datetime, localization_options)
-    end
-
-    display_label
   end
 
   private
