@@ -4,7 +4,7 @@
       <div class="documentHeader clearfix">
 
         <% # main title container for doc partial view -%>
-        <h5 class="index_title"><%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %><%= link_to_document document, :label=>document_show_link_field(document), :counter => (document_counter + 1 + @response.params[:start].to_i, :results_view => performing_a_search) %></h5>
+        <h5 class="index_title"><%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %><%= link_to_document document, :label=>document_show_link_field(document), :counter => (document_counter + 1 + @response.params[:start].to_i), :results_view => performing_a_search %></h5>
 
 				<% # bookmark functions for items/docs -%>
         <%= render_index_doc_actions document, :wrapping_class => "documentFunctions span2" %>
