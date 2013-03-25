@@ -71,8 +71,16 @@ EOF
   # Install Devise? 
   def generate_devise_assets
     if options[:devise]
-      gem "devise"
+      if Rails::VERSION::MAJOR == 4
+        gem "devise", github:'plataformatec/devise', branch: 'rails4'
+      else
+        gem "devise"
+      end
+      
       gem "devise-guests", "~> 0.3"
+      if Rails::VERSION::MAJOR == 4
+        gem 'protected_attributes' # Required for devise
+      end
 
       Bundler.with_clean_env do
        run "bundle install"

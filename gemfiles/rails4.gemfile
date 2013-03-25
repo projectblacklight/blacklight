@@ -1,8 +1,10 @@
 source 'http://rubygems.org'
 
 # Please see blacklight.gemspec for dependency information.
-gemspec
+gemspec :path=>"../"
 
 gem 'simplecov', :platform => :mri
 gem 'simplecov-rcov', :platform => :mri
 
+gem 'rails', '4.0.0.beta1'
+gem 'sass-rails', '4.0.0.beta1'

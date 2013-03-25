@@ -13,10 +13,15 @@ describe HtmlHeadHelper do
     it "should include script tags specified in controller#javascript_includes" do
       html = helper.render_js_includes
 
-      if use_asset_pipeline?
+      if Rails::VERSION::MAJOR == 4 
+        html.should have_selector("script[src='/javascripts/some_js.js']")
+        html.should have_selector("script[src='/javascripts/other_js.js']")      
+      elsif use_asset_pipeline?
+        # only for rails 3 with asset pipeline enabled
         html.should have_selector("script[src='/assets/some_js.js'][type='text/javascript']")
         html.should have_selector("script[src='/assets/other_js.js'][type='text/javascript']")
       else
+        # rails 3 with asset pipeline disabled
         html.should have_selector("script[src='/javascripts/some_js.js'][type='text/javascript']")
         html.should have_selector("script[src='/javascripts/other_js.js'][type='text/javascript']")      
       end
@@ -37,7 +42,10 @@ describe HtmlHeadHelper do
     it "should render stylesheets specified in controller #stylesheet_links" do
       html = helper.render_stylesheet_includes      
 
-      if use_asset_pipeline?
+      if Rails::VERSION::MAJOR == 4 
+        html.should have_selector("link[href='/stylesheets/my_stylesheet.css'][rel='stylesheet']")
+        html.should have_selector("link[href='/stylesheets/other_stylesheet.css'][rel='stylesheet']")
+      elsif use_asset_pipeline?
         html.should have_selector("link[href='/assets/my_stylesheet.css'][rel='stylesheet'][type='text/css']")
         html.should have_selector("link[href='/assets/other_stylesheet.css'][rel='stylesheet'][type='text/css']")
       else
@@ -98,12 +106,18 @@ describe HtmlHeadHelper do
         @output.should have_selector("link[rel=rel][type=type][href=href]")
       end
       it "should include render_javascript_includes" do
-        @output.should have_selector("script[src='/assets/my_js.js'][type='text/javascript']")
-        #@output.index( render_js_includes ).should_not be_nil
+        if Rails::VERSION::MAJOR == 4 
+          @output.should have_selector("script[src='/javascripts/my_js.js']")
+        else
+          @output.should have_selector("script[src='/assets/my_js.js'][type='text/javascript']")
+        end
       end
       it "should include render_stylesheet_links" do
-        @output.should have_selector("link[href='/assets/my_css.css'][type='text/css']")
-        #@output.index( render_stylesheet_includes ).should_not be_nil
+        if Rails::VERSION::MAJOR == 4 
+          @output.should have_selector("link[href='/stylesheets/my_css.css']")
+        else
+          @output.should have_selector("link[href='/assets/my_css.css'][type='text/css']")
+        end
       end
       it "should include content_for :head" do
         @output.should have_selector("meta[keywords]")
@@ -121,7 +135,7 @@ describe HtmlHeadHelper do
 
   private
   def use_asset_pipeline?
-    (Rails::VERSION::MAJOR >= 3 and Rails::VERSION::MINOR >= 1) and Rails.application.config.assets.enabled
+    Rails::VERSION::MAJOR == 4 || ((Rails::VERSION::MAJOR == 3 and Rails::VERSION::MINOR >= 1) and Rails.application.config.assets.enabled)
   end
 
 end

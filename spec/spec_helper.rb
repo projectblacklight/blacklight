@@ -16,10 +16,10 @@ if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.9/ and ruby_engine != "jruby"
   end
 end
 
-#require File.expand_path("../../config/environment", __FILE__)
 # version that works with our blacklight:spec stuff that calls specs
 # in a remote directory. 
-require File.expand_path("config/environment", ENV['RAILS_ROOT'] || File.expand_path("../..", __FILE__))
+require File.expand_path("config/environment", ENV['RAILS_ROOT'] || File.expand_path("../internal", __FILE__))
+
 require 'rspec/rails'
 require 'capybara/rspec'
 
@@ -27,7 +27,6 @@ require 'capybara/rspec'
 # in spec/support/ and its subdirectories.
 # Blacklight, again, make sure we're looking in the right place for em. 
 # Relative to HERE, NOT to Rails.root, which is off somewhere else. 
-#Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Pathname.new(File.expand_path("../support/**/*.rb", __FILE__))].each {|f| require f}
 
 

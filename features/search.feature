@@ -30,13 +30,10 @@ Feature: Search
     And I should see "All Fields"
     And I should see "history"
     And I should see select list "select#search_field" with "All Fields" selected
-    And I should see "per page"
-    And I should see a selectable list with per page choices
     And I should see "1."
     And I should see "2."
     And I should see "3."
     And I should see "Sort by"
-    
 
   Scenario: Submitting a Search with specific field selected
     When I am on the home page

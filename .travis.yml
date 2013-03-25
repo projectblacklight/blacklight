@@ -1,14 +1,22 @@
 notifications:
   email: false
-  
+
 rvm:
-  # - 1.8.7
   - 1.9.3
-  # - rbx-2.0
-  # - jruby
+  - jruby-19mode
+  - 2.0.0
 
-env:
-  - RAILS_VERISON=3.2.8
+gemfile:
+  - gemfiles/rails3.gemfile
+  - gemfiles/rails4.gemfile
 
-script:
-  - test_support/bin/test.sh
+# script:
+#   - test_support/bin/test.sh
+
+notifications:
+  irc: "irc.freenode.org#blacklight"
+  email:
+      - blacklight-commits@googlegroups.com
+
+# before_install:
+#   - gem install bundler

@@ -19,8 +19,8 @@ describe "catalog/index" do
     @response, @document_list = c.get_search_results(@params)
 
     # munge the solr response to match test expectations
-    @document_list[1] = SolrDocument.new(@document_list[1].to_mash.reject! { |k,v| k == "author_display" })
-    @document_list[5] = SolrDocument.new(@document_list[1].to_mash.reject! { |k,v| k == "marc_display" })
+    @document_list[1] = SolrDocument.new(@document_list[1].with_indifferent_access.reject! { |k,v| k == "author_display" })
+    @document_list[5] = SolrDocument.new(@document_list[1].with_indifferent_access.reject! { |k,v| k == "marc_display" })
   end
   before(:each) do
     # Not sure what Assigns was doing here ... dhf
@@ -33,11 +33,7 @@ describe "catalog/index" do
     view.stub!(:blacklight_config).and_return(@config)
     view.stub!(:search_field_options_for_select).and_return([])
 
-    if Rails.version >= "3.2.0"
-      render :template => 'catalog/index', :formats => [:atom] 
-    else
-      render :template => 'catalog/index.atom'
-    end
+    render :template => 'catalog/index', :formats => [:atom] 
 
     # We need to use rexml to test certain things that have_tag wont' test    
     # note that response is depricated rails 3, use "redered" instead. 

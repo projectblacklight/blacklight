@@ -64,7 +64,7 @@
         label.append(span);  
           
         function update_state_for(state) {
-            checkbox.attr("checked", state);
+            checkbox.prop("checked", state);
             label.toggleClass("checked", state);
             if (state) {    
                //Set the Rails hidden field that fakes an HTTP verb

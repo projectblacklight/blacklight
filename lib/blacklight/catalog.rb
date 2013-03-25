@@ -298,20 +298,24 @@ module Blacklight::Catalog
 
     # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
     def rsolr_request_error(exception)
-      if Rails.env == "development"
+      
+      if Rails.env.development?
         raise exception # Rails own code will catch and give usual Rails error page with stack trace
       else
+
         flash_notice = I18n.t('blacklight.search.errors.request_error')
-        # Set the notice flag if the flash[:notice] is already set to the error that we are setting.
-        # This is intended to stop the redirect loop error
-        notice = flash[:notice] if flash[:notice] == flash_notice
-        logger.error exception
-        unless notice
-          flash[:notice] = flash_notice
-          redirect_to root_path, :status => 500
-        else
-          render :file => "#{Rails.root}/public/500.html", :status => 500
+
+        # If there are errors coming from the index page, we want to trap those sensibly
+
+        if flash[:notice] == flash_notice
+          logger.error "Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception"
+          raise exception
         end
+
+        logger.error exception
+
+        flash[:notice] = flash_notice 
+        redirect_to root_path
       end
     end
 
@@ -325,5 +329,13 @@ module Blacklight::Catalog
         index
         render "index", :status => 404
       end
+    end
+
+    def blacklight_solr
+      @solr ||=  RSolr.connect(blacklight_solr_config)
+    end
+
+    def blacklight_solr_config
+      Blacklight.solr_config
     end
 end

@@ -1,6 +1,5 @@
 module Blacklight
   class Configuration
-
     # This mixin provides Blacklight::Configuration with generic
     # solr fields configuration
     module Fields
@@ -9,14 +8,16 @@ module Blacklight
       module ClassMethods
 
         # Add a configuration block for a collection of solr fields
-        def define_field_access(key)
+        def define_field_access(key, options = {})
           key = key.to_s if respond_to? :to_s
 
           self.default_values[key.pluralize.to_sym] = ActiveSupport::OrderedHash.new
 
+          base_class_name = options.fetch(:class, SolrField)
+
           unless self.const_defined? key.camelcase
             class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
-              class #{key.camelcase} < SolrField; end
+              class #{key.camelcase} < #{base_class_name}; end
             END_EVAL
           end
     
@@ -70,7 +71,7 @@ module Blacklight
           when String
             field_config_from_key_and_hash(config_key, *args)
           when Symbol
-            args.first = args.first.to_s
+            args[0] = args[0].to_s
             field_config_from_key_and_hash(config_key, *args)
           when Array
             field_config_from_array(config_key, *args)

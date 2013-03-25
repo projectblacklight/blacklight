@@ -31,5 +31,20 @@ Requires system('unzip... ') to work, probably won't work on Windows.
 
 
     end
+
+    def configure_action_mailer
+
+      if Rails::VERSION::MAJOR == 4
+        insert_into_file "config/environments/test.rb", :after => "config.action_mailer.delivery_method = :test\n" do <<-EOF
+           config.action_mailer.default_options = {from: 'no-reply@example.org'}
+        EOF
+        end
+      else
+        insert_into_file "config/environments/test.rb", :after => "config.action_mailer.delivery_method = :test\n" do <<-EOF
+          ActionMailer::Base.default(from: 'no-reply@example.org')
+        EOF
+        end
+      end
+    end
   end
 end

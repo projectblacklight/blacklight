@@ -84,10 +84,10 @@ module Blacklight::SolrHelper
   
   def find(*args)
     path = blacklight_config.solr_path
-    response = Blacklight.solr.get(path, :params=> args[1])
+    response = blacklight_solr.get(path, :params=> args[1])
     Blacklight::SolrResponse.new(force_to_utf8(response), args[1])
   rescue Errno::ECONNREFUSED => e
-    raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{Blacklight.solr.inspect}")
+    raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{blacklight_solr.inspect}")
   end
     
   
@@ -167,8 +167,8 @@ module Blacklight::SolrHelper
         if solr_params[:rows].blank?
           raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
         end
-
-        solr_params[:page] = user_params[:page].to_i
+        solr_params[:start] = solr_params[:rows].to_i * (user_params[:page].to_i - 1)
+        solr_params[:start] = 0 if solr_params[:start].to_i < 0
       end
 
       solr_params[:rows] ||= blacklight_config.per_page.first unless blacklight_config.per_page.blank?
@@ -382,14 +382,16 @@ module Blacklight::SolrHelper
     # In later versions of Rails, the #benchmark method can do timing
     # better for us. 
     bench_start = Time.now
-    params = self.solr_search_params(user_params).merge(extra_controller_params)
-    params[:qt] ||= blacklight_config.qt
+    solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
+    solr_params[:qt] ||= blacklight_config.qt
     path = blacklight_config.solr_path
-    raise "don't set start, use page and rows instead" if params['start'] || params[:start]
-    rows = params.delete(:rows) #only transmit rows once
-    res = Blacklight.solr.paginate(params[:page] || 1, rows, path, :params=>params)
-    solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), params)
-    Rails.logger.debug("Solr query: #{params.inspect}") 
+
+    # delete these parameters, otherwise rsolr will pass them through.
+    res = blacklight_solr.send_and_receive(path, :params=>solr_params)
+    
+    solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
+
+    Rails.logger.debug("Solr query: #{solr_params.inspect}")
     Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
     Rails.logger.debug("Solr fetch: #{self.class}#query_solr (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
     
