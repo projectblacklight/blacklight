@@ -3,18 +3,18 @@ Feature: Search History Page
   As a user
   In order see searches I've used and reuse them
   I want a page that shows my (unique) search history from this session
-  
+
   Scenario: Menu Link
     When I am on the home page
     Then I should see "History"
     When I go to the search history page
     And I should see a stylesheet
-  
+
   Scenario: Have No Searches
     Given no previous searches
     When I go to the search history page
     Then I should see "You have no search history"
-    
+
   Scenario: Have Searches
     Given I have done a search with term "book"
     When I go to the search history page
@@ -34,9 +34,10 @@ Feature: Search History Page
     When I follow "Clear Search History"
     Then I should see "Cleared your search history."
     And I should see "You have no search history"
+    Then print the page html
     Then I should not see "book"
     And I should not see "dang"
-    
+
   Scenario: Saving a Search when logged in
     Given I am logged in as "user1"
     And I have done a search with term "book"
@@ -82,4 +83,3 @@ Feature: Search History Page
     And I should not see "user1"
     When I go to the search history page
     Then I should not see "book"
-      

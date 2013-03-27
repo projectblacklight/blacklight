@@ -31,7 +31,7 @@ Then /I should see a "(.*)" element with "(.*)" = "(.*)" (at least|at most|exact
     when "exactly"
       actual_num.should == expected_num.to_i
   end
-end          
+end
 
 Then /^I (should not|should) see an? "([^\"]*)" element with an? "([^\"]*)" attribute of "([^\"]*)"$/ do |bool,elem,attribute,value|
   if bool == "should not"
@@ -47,4 +47,8 @@ Then /^I (should not|should) see an? "([^\"]*)" element with an? "([^\"]*)" attr
   else
     page.should have_selector("#{elem}[#{attribute}=#{value}][#{attribute2}=#{value2}]")
   end
+end
+
+Then /^print the page html$/ do
+  puts page.html
 end

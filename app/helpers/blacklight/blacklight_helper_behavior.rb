@@ -147,7 +147,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field    
+  #   @options opts [String] :field
   def render_index_field_label *args
     options = args.extract_options!
     document = args.first
@@ -170,7 +170,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field 
+  #   @options opts [String] :field
   #   @options opts [String] :value
   # @overload render_index_field_value(document, field, options)
   #   Allow an extention point where information in the document
@@ -189,7 +189,7 @@ module Blacklight::BlacklightHelperBehavior
 
     field_config = index_fields(document)[field]
 
-    value ||= case 
+    value ||= case
       when value
         value
       when (field_config and field_config.helper_method)
@@ -281,7 +281,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field   
+  #   @options opts [String] :field
   def render_document_show_field_label *args
     options = args.extract_options!
     document = args.first
@@ -305,7 +305,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field 
+  #   @options opts [String] :field
   #   @options opts [String] :value
   # @overload render_document_show_field_value(document, field, options)
   #   Allow an extention point where information in the document
@@ -325,7 +325,7 @@ module Blacklight::BlacklightHelperBehavior
 
     field_config = document_show_fields(document)[field]
 
-    value ||= case 
+    value ||= case
       when value
         value
       when (field_config and field_config.helper_method)
@@ -596,6 +596,27 @@ module Blacklight::BlacklightHelperBehavior
       end
     end
     val
+  end
+
+  def content_for_multi_tab_support
+
+      # Get current response total
+      if ((params[:controller] == 'catalog' || params[:controller] == 'bookmarks') && params[:action] == 'index')
+        latest_total = @response.total
+      else
+        if(session[:search].nil? || session[:search][:total].nil?)
+        latest_total = 1
+        else
+        latest_total = session[:search][:total]
+        end
+      end
+
+      # Most recent search
+      string_to_output = '<script type="text/javascript">' +
+                          'Blacklight.last_known_search_json_string = "' + escape_javascript((session[:search].merge(:total => latest_total).to_json)) + '";' +
+                          '</script>'
+
+      return (session[:search].nil? ? '' : string_to_output.html_safe)
   end
 
 
