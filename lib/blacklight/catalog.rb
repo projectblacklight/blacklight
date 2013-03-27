@@ -48,22 +48,9 @@ module Blacklight::Catalog
     # get single document from the solr index
     def show
 
-      puts 'Calling SHOW action!'
-
       @response, @document = get_solr_response_for_doc_id
 
-      if(params[:last_known_search_json_string].nil?)
-        session[:search][:results_view] = false
-        puts 'last_known_search_json_string NIL!'
-      else
-        puts 'last_known_search_json_string is NOT nil!'
-        last_known_search_hash = ActiveSupport::JSON.decode(params[:last_known_search_json_string])
-        last_known_search_hash['counter'] = params[:counter]
-        last_known_search_hash['results_view'] = true
-        last_known_search_hash.symbolize_keys!
-        session[:search] = last_known_search_hash
-        session[:search][:results_view] = true
-      end
+      update_last_known_search_json_string
 
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
@@ -82,14 +69,13 @@ module Blacklight::Catalog
     # updates the search counter (allows the show view to paginate)
     def update
 
-      puts 'Caling UPDATE action!'
-
       adjust_for_results_view
       session[:search][:counter] = params[:counter]
 
-      # Call show action manually, don't redirect to it.  Then manually render show view. We want to preserve current post variables.
-      show
-      render 'show'
+      update_last_known_search_json_string
+
+      redirect_to :action => "show"
+
     end
 
     # displays values and pagination links for a single facet field
@@ -338,4 +324,20 @@ module Blacklight::Catalog
     def blacklight_solr_config
       Blacklight.solr_config
     end
+
+    def update_last_known_search_json_string
+      if(params[:last_known_search_json_string].nil?)
+        session[:search][:results_view] = false
+        #puts 'last_known_search_json_string NIL!'
+      else
+        #puts 'last_known_search_json_string is NOT nil!'
+        last_known_search_hash = ActiveSupport::JSON.decode(params[:last_known_search_json_string])
+        last_known_search_hash['counter'] = params[:counter]
+        last_known_search_hash['results_view'] = true
+        last_known_search_hash.symbolize_keys!
+        session[:search] = last_known_search_hash
+        session[:search][:results_view] = true
+      end
+    end
+
 end
