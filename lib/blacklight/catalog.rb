@@ -326,11 +326,10 @@ module Blacklight::Catalog
     end
 
     def update_last_known_search_json_string
+
       if(params[:last_known_search_json_string].nil?)
         session[:search][:results_view] = false
-        #puts 'last_known_search_json_string NIL!'
       else
-        #puts 'last_known_search_json_string is NOT nil!'
         last_known_search_hash = ActiveSupport::JSON.decode(params[:last_known_search_json_string])
         last_known_search_hash['counter'] = params[:counter]
         last_known_search_hash['results_view'] = true
