@@ -19,27 +19,7 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application" %>
 
-    <% content_for :multi_tab_support do %>
-      <script type="text/javascript">
-        <%
-        # Get correct response total
-        if ((params[:controller] == 'catalog' || params[:controller] == 'bookmarks') && params[:action] == 'index')
-          latest_total = @response.total
-        else
-          if(session[:search].nil? || session[:search][:total].nil?)
-          latest_total = 1
-          else
-          latest_total = session[:search][:total]
-          end
-        end
-        %>
-        <%
-          # Most recent search
-          %><%= 'Blacklight.last_known_search_json_string = "'.html_safe + escape_javascript((session[:search].merge(:total => latest_total).to_json).html_safe) + '";'.html_safe unless session[:search].nil? %><%
-        %>
-      </script>
-    <% end %>
-    <%=  yield :multi_tab_support %>
+    <%= render :partial=>'shared/head_tag_multi_tab_support' %>
 
     <%= csrf_meta_tags %>
     <%= raw(render_head_content) %>
