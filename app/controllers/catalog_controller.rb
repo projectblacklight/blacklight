@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
-class CatalogController < ApplicationController  
+class CatalogController < ApplicationController
 
   include Blacklight::Catalog
 
-end 
+end

@@ -16,7 +16,7 @@
 #
 # * http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html
 # * http://dannorth.net/2011/01/31/whose-domain-is-it-anyway/
-# * http://elabs.se/blog/15-you-re-cuking-it-wrong 
+# * http://elabs.se/blog/15-you-re-cuking-it-wrong
 #
 
 
@@ -139,6 +139,38 @@ Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
   end
 end
 
+Then /^the body tag should contain "([^"]*)"$/ do |text|
+  if page.respond_to? :should
+    find('body').should have_content(text)
+  else
+    assert find('body').has_content?(text)
+  end
+end
+
+Then /^the body tag should not contain "([^"]*)"$/ do |text|
+  if page.respond_to? :should
+    find('body').should have_no_content(text)
+  else
+    assert find('body').has_no_content?(text)
+  end
+end
+
+Then /^the head tag should contain "([^"]*)"$/ do |text|
+  if page.respond_to? :should
+    find('head').should have_content(text)
+  else
+    assert find('head').has_content?(text)
+  end
+end
+
+Then /^the head tag should not contain "([^"]*)"$/ do |text|
+  if page.respond_to? :should
+    find('head').should have_no_content(text)
+  else
+    assert find('head').has_no_content?(text)
+  end
+end
+
 Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
@@ -184,7 +216,7 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label
     end
   end
 end
- 
+
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
   if current_path.respond_to? :should
@@ -198,8 +230,8 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query
   actual_params = query ? CGI.parse(query) : {}
   expected_params = {}
-  expected_pairs.rows_hash.each_pair{|k,v| expected_params[k] = v.split(',')} 
-  
+  expected_pairs.rows_hash.each_pair{|k,v| expected_params[k] = v.split(',')}
+
   if actual_params.respond_to? :should
     actual_params.should == expected_params
   else
@@ -214,4 +246,3 @@ end
 Then  /^I should get a status code (\d+)/ do |http_status|
   page.driver.status_code.should == http_status.to_i
 end
-
