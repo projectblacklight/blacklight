@@ -370,7 +370,7 @@ describe FacetsHelper do
  
       helper.should_receive(:facet_display_value).and_return('Z')
       helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', mock(:value => 'A', :hits => 10)).should == "<a href=\"link\" class=\"facet_select\">Z</a> <span class=\"count\">10</span>"
+      helper.render_facet_value('simple_field', mock(:value => 'A', :hits => 10)).should == (helper.link_to("Z", "link", :class => "facet_select") + " " + (helper.content_tag :span, 10, :class => 'count')).html_safe
     end
 
 
