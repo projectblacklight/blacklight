@@ -19,4 +19,4 @@ notifications:
 matrix:
   allow_failures:
     - rvm: jruby-19mode
-    - gemfile: gemfiles/rails4.gemfile
+      gemfile: gemfiles/rails4.gemfile
