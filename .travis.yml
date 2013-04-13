@@ -18,5 +18,5 @@ notifications:
 # jruby 1.9 + rails 4.0.0.beta1 don't work well together
 matrix:
   allow_failures:
-    rvm: jruby-19mode
-    gemfile: gemfiles/rails4.gemfile
+    - rvm: jruby-19mode
+    - gemfile: gemfiles/rails4.gemfile
