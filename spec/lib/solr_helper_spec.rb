@@ -550,10 +550,12 @@ describe 'Blacklight::SolrHelper' do
       end
 
       it "should use the configured request handler " do
-        blacklight_config.stub(:solr_request_handler => 'custom_request_handler')
+        blacklight_config.stub(:default_solr_params).and_return({:qt => 'custom_request_handler'})
         Blacklight.solr.should_receive(:send_and_receive) do |path, params|
           path.should == 'select'
-          params[:params].should include(:start => 0, :rows => 10, :qt=>"custom_request_handler", :q=>"", "spellcheck.q"=>"", :"facet.field"=>["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"], :"facet.query"=>["pub_date:[2007 TO *]", "pub_date:[2002 TO *]", "pub_date:[1987 TO *]"], :"f.subject_topic_facet.facet.limit"=>21, :sort=>"score desc, pub_date_sort desc, title_sort asc")
+          params[:params][:'facet.field'].should == ["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
+          params[:params][:"facet.query"].should == ["pub_date:[#{5.years.ago.year} TO *]", "pub_date:[#{10.years.ago.year} TO *]", "pub_date:[#{25.years.ago.year} TO *]"]
+          params[:params].should include(:rows => 10, :qt=>"custom_request_handler", :q=>"", "spellcheck.q"=>"", :"f.subject_topic_facet.facet.limit"=>21, :sort=>"score desc, pub_date_sort desc, title_sort asc")
         end.and_return({'response'=>{'docs'=>[]}})
         get_search_results(:q => @all_docs_query)
       end
