@@ -1,24 +1,15 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-module BookmarkSpecHelper
-  def valid_bookmark_attributes
-    {
-      :id => 1,
-      :user_id => 1,
-      :document_id => 'u001'
-    }
-  end
-end
-
 describe Bookmark do
-  include BookmarkSpecHelper
   before(:each) do
     @bookmark = Bookmark.new
   end
   
   it "should be valid" do
-    @bookmark.assign_attributes valid_bookmark_attributes, :without_protection => true
+    @bookmark.id = 1
+    @bookmark.user_id = 1
+    @bookmark.document_id = 'u001'
     @bookmark.should be_valid
   end
    
@@ -31,7 +22,9 @@ describe Bookmark do
   end
 
   it "should be valid after saving" do
-    @bookmark.assign_attributes valid_bookmark_attributes, :without_protection => true
+    @bookmark.id = 1
+    @bookmark.user_id = 1
+    @bookmark.document_id = 'u001'
     @bookmark.save
     @bookmark.should be_valid
   end
