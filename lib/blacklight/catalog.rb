@@ -11,6 +11,7 @@ module Blacklight::Catalog
   # own controller.
   included do  
     helper_method :search_action_url
+    helper_method :get_search_id
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     after_filter :set_additional_search_session_values, :only=>:index
@@ -27,6 +28,10 @@ module Blacklight::Catalog
   
   def search_action_url
     url_for(:action => 'index', :only_path => true)
+  end
+
+  def get_search_id
+    @search_id ||= nil
   end
 
     # get search results from the solr index
