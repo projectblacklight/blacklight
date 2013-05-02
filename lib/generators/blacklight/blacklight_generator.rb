@@ -127,6 +127,7 @@ EOF
     better_migration_template "create_bookmarks.rb"
     better_migration_template "remove_editable_fields_from_bookmarks.rb"
     better_migration_template "add_user_types_to_bookmarks_searches.rb"
+	better_migration_template "create_search_logs.rb"
   end
 
 
