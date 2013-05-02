@@ -1,10 +1,13 @@
-# -*- encoding : utf-8 -*-
+﻿# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 require 'blacklight/catalog'
 
 class CatalogController < ApplicationController  
 
   include Blacklight::Catalog
 
+  after_filter :writeLog
+  
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = { 
@@ -51,20 +54,20 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
-    config.add_facet_field 'format', :label => 'Format'
-    config.add_facet_field 'pub_date', :label => 'Publication Year', :single => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20 
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => true 
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number' 
-    config.add_facet_field 'subject_geo_facet', :label => 'Region' 
-    config.add_facet_field 'subject_era_facet', :label => 'Era'  
+    config.add_facet_field 'format', :label => 'פורמט'
+    config.add_facet_field 'pub_date', :label => 'תאריך פירסום', :single => true
+    config.add_facet_field 'subject_topic_facet', :label => 'נושא', :limit => 20 
+    config.add_facet_field 'language_facet', :label => 'שפה', :limit => true 
+    config.add_facet_field 'lc_1letter_facet', :label => 'מספר טלפון' 
+    config.add_facet_field 'subject_geo_facet', :label => 'תרבות' 
+    config.add_facet_field 'subject_era_facet', :label => 'שנתון'  
 
     config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
 
-    config.add_facet_field 'example_query_facet_field', :label => 'Publish Date', :query => {
-       :years_5 => { :label => 'within 5 Years', :fq => "pub_date:[#{Time.now.year - 5 } TO *]" },
-       :years_10 => { :label => 'within 10 Years', :fq => "pub_date:[#{Time.now.year - 10 } TO *]" },
-       :years_25 => { :label => 'within 25 Years', :fq => "pub_date:[#{Time.now.year - 25 } TO *]" }
+    config.add_facet_field 'example_query_facet_field', :label => 'תאריך פירסום', :query => {
+       :years_5 => { :label => 'תוך 5 שנים', :fq => "pub_date:[#{Time.now.year - 5 } TO *]" },
+       :years_10 => { :label => 'תוך 10 שנים', :fq => "pub_date:[#{Time.now.year - 10 } TO *]" },
+       :years_25 => { :label => 'תוך 25 שנים', :fq => "pub_date:[#{Time.now.year - 25 } TO *]" }
     }
 
 
@@ -75,31 +78,31 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display 
-    config.add_index_field 'title_display', :label => 'Title:' 
-    config.add_index_field 'title_vern_display', :label => 'Title:' 
-    config.add_index_field 'author_display', :label => 'Author:' 
-    config.add_index_field 'author_vern_display', :label => 'Author:' 
-    config.add_index_field 'format', :label => 'Format:' 
-    config.add_index_field 'language_facet', :label => 'Language:'
-    config.add_index_field 'published_display', :label => 'Published:'
-    config.add_index_field 'published_vern_display', :label => 'Published:'
-    config.add_index_field 'lc_callnum_display', :label => 'Call number:'
+    config.add_index_field 'title_display', :label => 'כותרת:' 
+    #config.add_index_field 'title_vern_display', :label => 'כותרת:' 
+    config.add_index_field 'author_display', :label => 'מחבר:' 
+    #config.add_index_field 'author_vern_display', :label => 'מחבר:' 
+    config.add_index_field 'format', :label => 'פורמט:' 
+    config.add_index_field 'language_facet', :label => 'שפה:'
+    config.add_index_field 'published_display', :label => 'פורסם ב:'
+    #config.add_index_field 'published_vern_display', :label => 'פורסם ב:'
+    config.add_index_field 'lc_callnum_display', :label => 'מספר טלפון:'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 
-    config.add_show_field 'title_display', :label => 'Title:' 
-    config.add_show_field 'title_vern_display', :label => 'Title:' 
-    config.add_show_field 'subtitle_display', :label => 'Subtitle:' 
-    config.add_show_field 'subtitle_vern_display', :label => 'Subtitle:' 
-    config.add_show_field 'author_display', :label => 'Author:' 
-    config.add_show_field 'author_vern_display', :label => 'Author:' 
-    config.add_show_field 'format', :label => 'Format:' 
-    config.add_show_field 'url_fulltext_display', :label => 'URL:'
-    config.add_show_field 'url_suppl_display', :label => 'More Information:'
-    config.add_show_field 'language_facet', :label => 'Language:'
-    config.add_show_field 'published_display', :label => 'Published:'
-    config.add_show_field 'published_vern_display', :label => 'Published:'
-    config.add_show_field 'lc_callnum_display', :label => 'Call number:'
+    config.add_show_field 'title_display', :label => 'כותרת:' 
+    #config.add_show_field 'title_vern_display', :label => 'Title:' 
+    config.add_show_field 'subtitle_display', :label => 'תקציר:' 
+    #config.add_show_field 'subtitle_vern_display', :label => 'Subtitle:' 
+    config.add_show_field 'author_display', :label => 'מחבר:' 
+    #config.add_show_field 'author_vern_display', :label => 'Author:' 
+    config.add_show_field 'format', :label => 'פורמט:' 
+    config.add_show_field 'url_fulltext_display', :label => 'קישור:'
+    config.add_show_field 'url_suppl_display', :label => 'עוד מידע:'
+    config.add_show_field 'language_facet', :label => 'שפה:'
+    config.add_show_field 'published_display', :label => 'פורסם ב:'
+    #config.add_show_field 'published_vern_display', :label => 'Published:'
+    config.add_show_field 'lc_callnum_display', :label => 'מספר טלפון:'
     config.add_show_field 'isbn_t', :label => 'ISBN:'
 
     # "fielded" search configuration. Used by pulldown among other places.
@@ -120,14 +123,14 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise. 
     
-    config.add_search_field 'all_fields', :label => 'All Fields'
+    config.add_search_field 'all_fields', :label => 'כל השדות'
     
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields. 
     
-    config.add_search_field('title') do |field|
+    config.add_search_field('title', :label => 'כותרת') do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params. 
       field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
 
@@ -141,7 +144,7 @@ class CatalogController < ApplicationController
       }
     end
     
-    config.add_search_field('author') do |field|
+    config.add_search_field('author', :label => 'מחבר') do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
       field.solr_local_parameters = { 
         :qf => '$author_qf',
@@ -152,7 +155,7 @@ class CatalogController < ApplicationController
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as 
     # config[:default_solr_parameters][:qt], so isn't actually neccesary. 
-    config.add_search_field('subject') do |field|
+    config.add_search_field('subject', :label => 'נושא') do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
       field.qt = 'search'
       field.solr_local_parameters = { 
@@ -165,16 +168,36 @@ class CatalogController < ApplicationController
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', :label => 'relevance'
-    config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'year'
-    config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author'
-    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title'
+    config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', :label => 'רלוונטיות'
+    config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'תאריך'
+    config.add_sort_field 'author_sort asc, title_sort asc', :label => 'מחבר'
+    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'כותרת'
 
     # If there are more than this many search results, no spelling ("did you 
     # mean") suggestion is offered.
     config.spell_max = 5
   end
 
+  def writeLog
+	
+	current_user_id = nil
+	unless current_or_guest_user.nil?
+		current_user_id = current_or_guest_user[:id]
+	end
+	
+	#current_user_id = 1 # for test
+	search_id = get_search_id
+	
+	#if defined? search_id and current_user
+	unless search_id.nil? or current_user_id.nil?
+		res = SearchLog.where(:search_id => search_id, :user_id => current_user_id)
+		if res.empty?
+			new_search = SearchLog.create :search_id => search_id, :user_id => current_user_id
+		end
+	end
+	
+	
+  end
 
 
 end 
