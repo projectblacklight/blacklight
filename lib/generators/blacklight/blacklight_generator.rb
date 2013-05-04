@@ -159,7 +159,8 @@ EOF
   # Generate blacklight document and the catalog controller
   def create_blacklight_catalog_and_document
     copy_file "solr_document.rb", "app/models/solr_document.rb"
-    copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
+    copy_file "autocomplete_view_helpers.rb", "app/lib/autocomplete_view_helpers.rb"
+	copy_file "sunspot_autocomplete.rb", "app/lib/sunspot_autocomplete.rb"
   end
 
   def inject_blacklight_routes
