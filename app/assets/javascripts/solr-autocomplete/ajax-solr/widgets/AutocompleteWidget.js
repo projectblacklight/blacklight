@@ -5,7 +5,7 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
     $(this.target).find('input').unbind().removeData('events').val('');
 
     var self = this;
-
+    
     var callback = function (response) {
       var list = [];
       for (var i = 0; i < self.fields.length; i++) {
@@ -14,14 +14,19 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
           list.push({
             field: field,
             value: facet,
-            label: facet + ' (' + response.facet_counts.facet_fields[field][facet] + ') - ' + field
+//          label: facet + ' (' + response.facet_counts.facet_fields[field][facet] + ') - ' + field
+            label: facet + '(' + response.facet_counts.facet_fields[field][facet] + ')'
           });
         }
       }
 
       self.requestSent = false;
       $(self.target).find('input').autocomplete('destroy').autocomplete({
-        source: list,
+        source: function(request, response) {
+        var results = $.ui.autocomplete.filter(list, request.term);
+        response(results.slice(0, 15));
+},
+        minLength:1,
         select: function(event, ui) {
           if (ui.item) {
             self.requestSent = true;
@@ -43,7 +48,7 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
       });
     } // end callback
 
-    var params = [ 'rows=0&facet=true&facet.limit=-1&facet.mincount=1&json.nl=map' ];
+    var params = [ 'rows=0&facet=true&facet.limit=-1&facet.mincount=1&json.nl=map&facet.sort=count' ];
     for (var i = 0; i < this.fields.length; i++) {
       params.push('facet.field=' + this.fields[i]);
     }
