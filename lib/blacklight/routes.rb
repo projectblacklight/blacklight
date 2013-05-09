@@ -59,6 +59,7 @@ module Blacklight
           get 'catalog/opensearch', :as => "opensearch_catalog"
           get 'catalog/citation', :as => "citation_catalog"
           get 'catalog/email', :as => "email_catalog"
+          post 'catalog/email'
           get 'catalog/sms', :as => "sms_catalog"
           get 'catalog/endnote', :as => "endnote_catalog"
           get 'catalog/send_email_record', :as => "send_email_record_catalog"
