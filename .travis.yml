@@ -15,7 +15,7 @@ notifications:
   email:
       - blacklight-commits@googlegroups.com
 
-env: JRUBY_OPTS="--server -Xcompile.invokedynamic=true -J-Xms512m -J-Xmx1024m"        
+env: JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"        
 # jruby 1.9 + rails 4.0.0.beta1 don't work well together
 matrix:
   allow_failures:
