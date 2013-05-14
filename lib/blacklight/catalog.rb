@@ -299,14 +299,10 @@ module Blacklight::Catalog
     
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
     def invalid_solr_id_error
-      if Rails.env == "development"
-        render # will give us the stack trace
-      else
-        flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')
-        params.delete(:id)
-        index
-        render "index", :status => 404
-      end
+      flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')
+      params.delete(:id)
+      index
+      render "index", :status => 404
     end
 
     def blacklight_solr
