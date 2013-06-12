@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   # PRODUCTION GEM REQUIREMENTS
   # ---------------------------------------   
-  s.add_dependency "rails",     ">= 3.2"
+  s.add_dependency "rails",     ">= 3.2.6", "< 5"
   s.add_dependency "nokogiri",  "~>1.5"     # XML Parser
   # Let's allow future versions of marc, count on
   # them to be backwards compat until 1.1
