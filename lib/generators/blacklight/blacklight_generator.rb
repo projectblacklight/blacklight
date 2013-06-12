@@ -72,7 +72,7 @@ EOF
   def generate_devise_assets
     if options[:devise]
       if Rails::VERSION::MAJOR == 4
-        gem "devise", github:'plataformatec/devise', branch: 'rails4'
+        gem "devise", '3.0.0.rc'
       else
         gem "devise"
       end
