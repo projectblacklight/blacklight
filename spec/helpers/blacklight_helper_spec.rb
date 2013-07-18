@@ -503,9 +503,18 @@ describe BlacklightHelper do
       value.should == 'custom asdf value'
     end
 
+    it "should gracefully handle when no highlight field is available" do
+      doc = mock()
+      doc.should_not_receive(:get)
+      doc.should_receive(:has_highlight_field?).and_return(false)
+      value = helper.render_index_field_value :document => doc, :field => 'highlight'
+      value.should be_blank
+    end
+
     it "should check for a highlighted field" do
       doc = mock()
       doc.should_not_receive(:get)
+      doc.should_receive(:has_highlight_field?).and_return(true)
       doc.should_receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
       value = helper.render_index_field_value :document => doc, :field => 'highlight'
       value.should == '<em>highlight</em>'
@@ -553,10 +562,18 @@ describe BlacklightHelper do
       value.should == 'custom asdf value'
     end
 
+    it "should gracefully handle when no highlight field is available" do
+      doc = mock()
+      doc.should_not_receive(:get)
+      doc.should_receive(:has_highlight_field?).and_return(false)
+      value = helper.render_index_field_value :document => doc, :field => 'highlight'
+      value.should be_blank
+    end
 
     it "should check for a highlighted field" do
       doc = mock()
       doc.should_not_receive(:get)
+      doc.should_receive(:has_highlight_field?).and_return(true)
       doc.should_receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
       value = helper.render_document_show_field_value :document => doc, :field => 'highlight'
       value.should == '<em>highlight</em>'
