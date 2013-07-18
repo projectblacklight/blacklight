@@ -372,7 +372,7 @@ describe CatalogController do
                         :get_single_doc_via_search => @mock_document)
       get :show, :id=>"987654321"
       request.flash[:notice].should == "Sorry, you have requested a record that doesn't exist."
-      response.should_not be_success
+      response.should render_template('index')
       response.status.should == 404
     end
     it "should redirect the user to the root url for a bad search" do
