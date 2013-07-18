@@ -59,7 +59,9 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # collection of items to be rendered in the @sidebar
+  # @deprecated
   def sidebar_items
+    ActiveSupport::Deprecation.warn("#sidebar_items helper is deprecated, and should be replaced by overriding the appropriate partial")
     @sidebar_items ||= []
   end
 

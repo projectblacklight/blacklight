@@ -1,8 +1,4 @@
-<% sidebar_items << capture do %>
-  <p><%= link_back_to_catalog %></p>
-<% end %>
-
-
+<div id="content" class="span9">
 <h1><%=t('blacklight.search_history.title')%></h1>
 <%- if @searches.blank? -%>
   <h2><%=t('blacklight.search_history.no_history')%></h2>
@@ -28,4 +24,4 @@
   <%- end -%>
   </table>
 <%- end -%>
-
+</div>
