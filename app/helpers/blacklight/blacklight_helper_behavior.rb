@@ -194,7 +194,7 @@ module Blacklight::BlacklightHelperBehavior
         value
       when (field_config and field_config.helper_method)
         send(field_config.helper_method, options.merge(:document => document, :field => field))
-      when (field_config and field_config.highlight)
+      when (field_config and field_config.highlight and document.highlight_field(field_config.field))
         document.highlight_field(field_config.field).map { |x| x.html_safe }
       else
         document.get(field, :sep => nil) if field
@@ -330,7 +330,7 @@ module Blacklight::BlacklightHelperBehavior
         value
       when (field_config and field_config.helper_method)
         send(field_config.helper_method, options.merge(:document => document, :field => field))
-      when (field_config and field_config.highlight)
+      when (field_config and field_config.highlight and document.highlight_field(field_config.field))
         document.highlight_field(field_config.field).map { |x| x.html_safe }
       else
         document.get(field, :sep => nil) if field

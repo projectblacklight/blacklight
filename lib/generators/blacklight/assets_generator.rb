@@ -22,9 +22,23 @@ module Blacklight
       unless IO.read("app/assets/javascripts/application.js").include?('blacklight/blacklight')
         insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
   %q{
+//= require jquery-1.9.1.js
+//= require jquery-ui.min.js
 //
 // Required by Blacklight
-//= require blacklight/blacklight}          
+//= require blacklight/blacklight
+//
+// Require for Autocomplete
+//= require solr-config.js
+//= require ./solr-autocomplete/ajax-solr/core/Core.js
+//= require ./solr-autocomplete/ajax-solr/core/AbstractManager.js
+//= require ./solr-autocomplete/ajax-solr/managers/Manager.jquery.js
+//= require ./solr-autocomplete/ajax-solr/core/Parameter.js
+//= require ./solr-autocomplete/ajax-solr/core/ParameterStore.js
+//= require ./solr-autocomplete/ajax-solr/core/AbstractWidget.js
+//= require ./solr-autocomplete/ajax-solr/core/AbstractTextWidget.js
+//= require ./solr-autocomplete/ajax-solr/widgets/AutocompleteWidget.js}  
+        
         end
       end
 

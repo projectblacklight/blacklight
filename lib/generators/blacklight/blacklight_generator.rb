@@ -124,6 +124,7 @@ EOF
     better_migration_template "create_bookmarks.rb"
     better_migration_template "remove_editable_fields_from_bookmarks.rb"
     better_migration_template "add_user_types_to_bookmarks_searches.rb"
+	better_migration_template "create_search_logs.rb"
   end
 
 
@@ -155,7 +156,6 @@ EOF
   # Generate blacklight document and the catalog controller
   def create_blacklight_catalog_and_document
     copy_file "solr_document.rb", "app/models/solr_document.rb"
-    copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
   end
 
   def inject_blacklight_routes

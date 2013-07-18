@@ -8,7 +8,7 @@
         <span class="hide-text"><%= t('blacklight.search.form.search_field.post_label') %></span>
       </div>
       <% end %>
-       <div class="input-append pull-left">
+       <div id="search" class="input-append pull-left">
         <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
          <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search_q q", :id => "q"%>
         <button type="submit" class="btn btn-primary search-btn" id="search">
