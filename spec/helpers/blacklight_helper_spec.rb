@@ -566,7 +566,7 @@ describe BlacklightHelper do
       doc = mock()
       doc.should_not_receive(:get)
       doc.should_receive(:has_highlight_field?).and_return(false)
-      value = helper.render_index_field_value :document => doc, :field => 'highlight'
+      value = helper.render_document_show_field_value :document => doc, :field => 'highlight'
       value.should be_blank
     end
 
