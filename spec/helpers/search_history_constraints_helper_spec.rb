@@ -68,6 +68,17 @@ describe SearchHistoryConstraintsHelper do
       end
     end
     
+    describe "render_search_to_s_filters" do
+      it "should render a constraint for a selected facet in the config" do
+        response = helper.render_search_to_s_filters(:f => {"some_facet" => ["value1", "value2"]})
+        expect(response).to eq("<span class=\"constraint\"><span class=\"filterName\">Some:</span><span class=\"filterValues\"><span class=\"filterValue\">value1</span><span class=\"filterSeparator\"> and </span><span class=\"filterValue\">value2</span></span></span>")
+      end
+
+      it "should render a constraint for a selected facet not in the config" do
+        response = helper.render_search_to_s_filters(:f => {"undefined_facet" => ["value1", "value2"]})
+        expect(response).to eq("<span class=\"constraint\"><span class=\"filterName\">Undefined Facet:</span><span class=\"filterValues\"><span class=\"filterValue\">value1</span><span class=\"filterSeparator\"> and </span><span class=\"filterValue\">value2</span></span></span>")
+      end
+    end
 
   
   end

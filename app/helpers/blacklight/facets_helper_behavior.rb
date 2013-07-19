@@ -5,7 +5,7 @@ module Blacklight::FacetsHelperBehavior
   #
   
   def facet_configuration_for_field(field)
-    blacklight_config.facet_fields[field] || Blacklight::Configuration::FacetField.new(:field => field)
+    blacklight_config.facet_fields[field] || Blacklight::Configuration::FacetField.new(:field => field).normalize!
   end
 
   # used in the catalog/_facets partial

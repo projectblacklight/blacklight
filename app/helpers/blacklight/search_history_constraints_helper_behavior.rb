@@ -30,7 +30,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     return "".html_safe unless params[:f]
 
     params[:f].collect do |facet_field, value_list|
-      render_search_to_s_element(blacklight_config.facet_fields[facet_field].label,
+      render_search_to_s_element(facet_configuration_for_field(facet_field).label,
         value_list.collect do |value|
           render_filter_value(value, facet_field)
         end.join(content_tag(:span, " #{t('blacklight.and')} ", :class =>'filterSeparator')).html_safe
