@@ -17,7 +17,10 @@ notifications:
 
 env: JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"        
 # jruby 1.9 + rails 4.0.0.beta1 don't work well together
+# 1.9.3 and minitest, pulled in by travis, don't work well together
 matrix:
   allow_failures:
     - rvm: jruby-19mode
+      gemfile: gemfiles/rails4.gemfile
+    - rvm: 1.9.3
       gemfile: gemfiles/rails4.gemfile
