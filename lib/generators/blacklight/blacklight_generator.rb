@@ -72,7 +72,7 @@ EOF
   def generate_devise_assets
     if options[:devise]
       if Rails::VERSION::MAJOR == 4
-        gem "devise", '3.0.0.rc'
+        gem "devise", '~> 3.0'
       else
         gem "devise"
       end
@@ -132,8 +132,9 @@ EOF
     file_path = "app/models/#{model_name.underscore}.rb"
     if File.exists?(file_path) 
       inject_into_class file_path, model_name.classify do 
+        "\n  attr_accessible :email, :password, :password_confirmation if Rails::VERSION::MAJOR < 4\n" +
         "# Connects this user object to Blacklights Bookmarks. " +
-        "\n include Blacklight::User\n"        
+        "\n  include Blacklight::User\n"
       end
     else
       say_status("warning", "Blacklight authenticated user functionality not installed, as a user model could not be found at /app/models/user.rb. If you used a different name, please re-run the migration and provide that name as an argument. Such as `rails -g blacklight client`", :yellow)       
