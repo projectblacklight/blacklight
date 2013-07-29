@@ -94,7 +94,7 @@ span.constraints-label {
 
   .btnRemove
   {
-    background:asset_url('blacklight/remove.gif', image) no-repeat center center;
+    background: image_url('blacklight/remove.gif') no-repeat center center;
     border-bottom:none;
     border-left:1px solid $constraint_border_color;
     display:block;
@@ -115,7 +115,7 @@ span.constraints-label {
 
   .filterName
   {
-    background:asset_url('blacklight/separator.gif',image) no-repeat right center;
+    background: image_url('blacklight/separator.gif') no-repeat right center;
     padding-right:14px;
   }
 }

@@ -10,7 +10,7 @@
 
   .brand {  /* The main logo image for the Blacklight instance */
   	  width: 150px;
-	  background:transparent asset_url($logo_image,image) no-repeat top left;
+	  background:transparent image_url($logo_image) no-repeat top left;
 	  display: inline-block;
 	  text-indent: 100%;
 	  white-space: nowrap;
