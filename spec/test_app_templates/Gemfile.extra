@@ -7,7 +7,6 @@ end
 
 platforms :ruby do
  gem 'sqlite3'
- gem 'therubyracer'
 end
 
 gem 'blacklight', :path => '../../'
