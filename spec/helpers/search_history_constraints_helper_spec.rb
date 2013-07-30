@@ -56,9 +56,9 @@ describe SearchHistoryConstraintsHelper do
         @params = {:q => "history", :f => {"some_facet" => ["value1", "value1"],  "other_facet" => ["other1"]}}        
       end
       it "should call lesser methods" do
-        helper.stub!(:blacklight_config).and_return(@config)
-        helper.stub!(:default_search_field).and_return(Blacklight::Configuration::SearchField.new(:key => 'default_search_field', :display_label => 'Default'))
-        helper.should_receive(:label_for_search_field).with(nil).any_number_of_times.and_return('')
+        helper.stub(:blacklight_config).and_return(@config)
+        helper.stub(:default_search_field).and_return(Blacklight::Configuration::SearchField.new(:key => 'default_search_field', :display_label => 'Default'))
+        helper.stub(:label_for_search_field).with(nil).and_return('')
         # API hooks expect this to be so
         response = helper.render_search_to_s(@params)
 

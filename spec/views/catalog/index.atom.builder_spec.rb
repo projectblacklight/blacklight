@@ -30,8 +30,8 @@ describe "catalog/index" do
     # but okay. 
 
     params.merge!( @params )
-    view.stub!(:blacklight_config).and_return(@config)
-    view.stub!(:search_field_options_for_select).and_return([])
+    view.stub(:blacklight_config).and_return(@config)
+    view.stub(:search_field_options_for_select).and_return([])
 
     render :template => 'catalog/index', :formats => [:atom] 
 

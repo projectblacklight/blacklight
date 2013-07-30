@@ -8,7 +8,7 @@ describe Blacklight::Solr::Document::MoreLikeThis do
   end
   
   it "should pluck the MoreLikeThis results from the Solr Response" do
-    mock_solr_response = mock(:more_like => [{'id' => 'abc'}])
+    mock_solr_response = double(:more_like => [{'id' => 'abc'}])
     result = @mock_class.new({:id => '123'}, mock_solr_response).more_like_this
     result.should have(1).item
     result.first.should be_a_kind_of(SolrDocument)

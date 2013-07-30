@@ -21,27 +21,25 @@ describe "/catalog/_index_default.erb" do
     @fname_3 = "empty_field"
     @fname_4 = "four_field"
     
-    @document = mock("solr_doc")
-    @document.should_receive(:get).with(@fname_1, hash_including(:sep => nil)).any_number_of_times.and_return("val_1")
-    @document.should_receive(:get).with(@fname_2, hash_including(:sep => nil)).any_number_of_times.and_return("val_2")
-    @document.should_receive(:get).with(@fname_3, hash_including(:sep => nil)).any_number_of_times.and_return(nil)
-    @document.should_receive(:get).with(@fname_4, hash_including(:sep => nil)).any_number_of_times.and_return("val_4")
+    @document = double("solr_doc")
+    @document.stub(:get).with(@fname_1, hash_including(:sep => nil)).and_return("val_1")
+    @document.stub(:get).with(@fname_2, hash_including(:sep => nil)).and_return("val_2")
+    @document.stub(:get).with(@fname_3, hash_including(:sep => nil)).and_return(nil)
+    @document.stub(:get).with(@fname_4, hash_including(:sep => nil)).and_return("val_4")
     
-    @document.should_receive(:'has?').with(@fname_1).any_number_of_times.and_return(true)
-    @document.should_receive(:'has?').with(@fname_2).any_number_of_times.and_return(true)
-    @document.should_receive(:'has?').with(@fname_3).any_number_of_times.and_return(false)
-    @document.should_receive(:'has?').with(@fname_4).any_number_of_times.and_return(true)
-    @document.should_receive(:'has?').with(anything()).any_number_of_times.and_return(true)
+    @document.stub(:has?).with(@fname_1).and_return(true)
+    @document.stub(:has?).with(@fname_2).and_return(true)
+    @document.stub(:has?).with(@fname_3).and_return(false)
+    @document.stub(:has?).with(@fname_4).and_return(true)
     
     # cover any remaining fields in initalizer
-    @document.should_receive(:get).with(anything(), hash_including(:sep => nil)).any_number_of_times.and_return("bleah")
-    @document.should_receive(:[]).any_number_of_times
+    @document.stub(:[])
     
     @flabel_1 = "One:"
     @flabel_3 = "Three:"
     @flabel_4 = "Four:"
 
-    view.stub!(:blacklight_config).and_return(@config)
+    view.stub(:blacklight_config).and_return(@config)
     assigns[:document] = @document
     @rendered = view.render_document_partial @document, :index
   end

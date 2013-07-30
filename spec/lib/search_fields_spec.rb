@@ -21,7 +21,7 @@ describe Blacklight::SearchFields do
 
   before(:each) do  
     @search_field_obj = MockConfig.new
-    @search_field_obj.stub!(:blacklight_config).and_return(@config)
+    @search_field_obj.stub(:blacklight_config).and_return(@config)
   end
 
   it "should return search field list with calculated :label when needed" do

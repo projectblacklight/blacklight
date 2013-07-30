@@ -166,8 +166,8 @@ describe CatalogController do
     
     describe "previous/next documents" do
       before do
-        @mock_response = mock()
-        @mock_document = mock()
+        @mock_response = double()
+        @mock_document = double()
         @mock_document.stub(:export_formats => {})
         controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
                         :get_single_doc_via_search => @mock_document)
@@ -212,8 +212,8 @@ describe CatalogController do
       response.should be_success
     end
     it "should render show.html.erb" do
-      @mock_response = mock()
-      @mock_document = mock()
+      @mock_response = double()
+      @mock_document = double()
       @mock_document.stub(:export_formats => {})
       controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
                       :get_single_doc_via_search => @mock_document)
@@ -224,7 +224,7 @@ describe CatalogController do
     describe "@document" do
       before do
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
-        @mock_document = mock()
+        @mock_document = double()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
       end
@@ -250,7 +250,7 @@ describe CatalogController do
       end
       before do
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
-        @mock_document = mock()
+        @mock_document = double()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
 
@@ -262,7 +262,7 @@ describe CatalogController do
 
         # Rails3 needs this to propertly setup a new mime type and
         # render the results. 
-        ActionController.add_renderer :mock do |template, options|
+        ActionController.add_renderer :double do |template, options|
           send_data "mock_export", :type => Mime::MOCK
         end
         Mime::Type.register "application/mock", :mock
@@ -286,10 +286,10 @@ describe CatalogController do
 
   describe "opensearch" do
       before do
-        @mock_response = mock()
-        @mock_document = mock()
+        @mock_response = double()
+        @mock_document = double()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
-        @mock_document = mock()
+        @mock_document = double()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
       end
@@ -306,10 +306,10 @@ describe CatalogController do
   describe "email/sms" do
     doc_id = '2007020969'
       before do
-        @mock_response = mock()
-        @mock_document = mock()
+        @mock_response = double()
+        @mock_document = double()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
-        @mock_document = mock()
+        @mock_document = double()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
       end
@@ -365,9 +365,9 @@ describe CatalogController do
 
   describe "errors" do
     it "should return status 404 for a record that doesn't exist" do
-        @mock_response = mock()
+        @mock_response = double()
         @mock_response.stub(:docs => [])
-        @mock_document = mock()
+        @mock_document = double()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
       get :show, :id=>"987654321"
@@ -394,7 +394,7 @@ describe CatalogController do
       res = {}
       fake_error = RSolr::Error::Http.new(req, res) 
       controller.stub(:get_search_results) { |*args| raise fake_error }
-      controller.flash.stub!(:sweep)
+      controller.flash.stub(:sweep)
       controller.stub(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
       expect {
       get :index, :q=>"+"
@@ -408,10 +408,10 @@ describe CatalogController do
 
     before do
       controller.stub(:has_user_authentication_provider?) { false }
-        @mock_response = mock()
-        @mock_document = mock()
+        @mock_response = double()
+        @mock_document = double()
         @mock_response.stub(:docs => [], :total => 1, :facets => [], :facet_queries => {}, :facet_by_field_name => nil)
-        @mock_document = mock()
+        @mock_document = double()
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
     end

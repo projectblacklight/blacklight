@@ -193,7 +193,7 @@ describe 'Blacklight::SolrHelper' do
       end
 
       it "should pass date-type fields through" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:date => true, :query => nil, :tag => nil))
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
 
         facet_value_to_fq_string("facet_name", "2012-01-01").should  == "facet_name:2012-01-01"
       end
@@ -203,7 +203,7 @@ describe 'Blacklight::SolrHelper' do
       end
 
       it "should add tag local parameters" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(mock(:query => nil, :tag => 'asdf', :date => nil))
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:query => nil, :tag => 'asdf', :date => nil))
 
         facet_value_to_fq_string("facet_name", true).should  == "{!tag=asdf}facet_name:true"
         facet_value_to_fq_string("facet_name", "my value").should  == "{!raw f=facet_name tag=asdf}my value"
@@ -1014,7 +1014,7 @@ describe 'Blacklight::SolrHelper' do
 
     describe "#get_solr_response_for_field_values" do
       before do
-        @mock_response = mock()
+        @mock_response = double()
         @mock_response.stub(:docs => [])
       end
       it "should contruct a solr query based on the field and value pair" do
@@ -1041,7 +1041,7 @@ describe 'Blacklight::SolrHelper' do
 #  more like this
 #  nearby on shelf
   it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
-    Blacklight.solr.stub!(:get).and_raise(Errno::ECONNREFUSED)
+    Blacklight.solr.stub(:get).and_raise(Errno::ECONNREFUSED)
     expect { find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
   end
 end

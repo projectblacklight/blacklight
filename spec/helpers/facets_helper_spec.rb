@@ -9,9 +9,9 @@ describe FacetsHelper do
   describe "has_facet_values?" do
     it "should be true if there are any facets to display" do
 
-      a = mock(:items => [1,2])
-      b = mock(:items => ['b','c'])
-      empty = mock(:items => [])
+      a = double(:items => [1,2])
+      b = double(:items => ['b','c'])
+      empty = double(:items => [])
 
       fields = [a,b,empty]
       helper.has_facet_values?(fields).should be_true
@@ -19,7 +19,7 @@ describe FacetsHelper do
 
     it "should be false if all facets are empty" do
 
-      empty = mock(:items => [])
+      empty = double(:items => [])
 
       fields = [empty]
       helper.has_facet_values?(fields).should_not be_true
@@ -36,34 +36,34 @@ describe FacetsHelper do
       helper.stub(:blacklight_config => @config)
     end
     it "should render facets with items" do
-      a = mock(:items => [1,2], :name=>'basic_field')
+      a = double(:items => [1,2], :name=>'basic_field')
       helper.should_render_facet?(a).should == true
     end
     it "should not render facets without items" do
-      empty = mock(:items => [], :name=>'basic_field')
+      empty = double(:items => [], :name=>'basic_field')
       helper.should_render_facet?(empty).should ==  false
     end
 
     it "should not render facets where show is set to false" do
-      a = mock(:items => [1,2], :name=>'no_show')
+      a = double(:items => [1,2], :name=>'no_show')
       helper.should_render_facet?(a).should ==  false
     end
   end
 
   describe "facet_by_field_name" do
     it "should retrieve the facet from the response given a string" do
-      facet_config = mock(:query => nil)
-      facet_field = mock()
+      facet_config = double(:query => nil)
+      facet_field = double()
       helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
 
-      @response = mock()
+      @response = double()
       @response.should_receive(:facet_by_field_name).with('a').and_return(facet_field)
 
       helper.facet_by_field_name('a').should == facet_field
     end
 
     it "should also work for facet query fields" do
-      facet_config = mock(:query => {})
+      facet_config = double(:query => {})
       helper.should_receive(:facet_configuration_for_field).with('a_query_facet_field').and_return(facet_config)
       helper.should_receive(:create_rsolr_facet_field_response_for_query_facet_field).with('a_query_facet_field', facet_config)
 
@@ -72,7 +72,7 @@ describe FacetsHelper do
 
     describe "query facets" do
       let(:facet_config) { 
-        mock(
+        double(
           :query => {
              'a_simple_query' => { :fq => 'field:search', :label => 'A Human Readable label'},
              'another_query' => { :fq => 'field:different_search', :label => 'Label'},
@@ -84,7 +84,7 @@ describe FacetsHelper do
       before(:each) do
         helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
 
-        @response = mock(:facet_queries => {
+        @response = double(:facet_queries => {
           'field:search' => 10,
           'field:different_search' => 2,
           'field:not_appearing_in_the_config' => 50,
@@ -92,7 +92,7 @@ describe FacetsHelper do
         })
       end
 
-      it"should convert the query facets into a mock RSolr FacetField" do
+      it"should convert the query facets into a double RSolr FacetField" do
         field = helper.facet_by_field_name('my_query_facet_field')
         field.should be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
 
@@ -110,16 +110,16 @@ describe FacetsHelper do
 
     describe "pivot facets" do
       let(:facet_config) {
-        mock(:pivot => ['field_a', 'field_b'])
+        double(:pivot => ['field_a', 'field_b'])
       }
 
       before(:each) do 
         helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
       
-        @response = mock(:facet_pivot => { 'field_a,field_b' => [{:field => 'field_a', :value => 'a', :count => 10, :pivot => [{:field => 'field_b', :value => 'b', :count => 2}]}]})
+        @response = double(:facet_pivot => { 'field_a,field_b' => [{:field => 'field_a', :value => 'a', :count => 10, :pivot => [{:field => 'field_b', :value => 'b', :count => 2}]}]})
       end
 
-      it "should convert the pivot facet into a mock RSolr FacetField" do
+      it "should convert the pivot facet into a double RSolr FacetField" do
         field = helper.facet_by_field_name('my_pivot_facet_field')
         field.should be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
 
@@ -138,9 +138,9 @@ describe FacetsHelper do
 
   describe "render_facet_partials" do
     it "should try to render all provided facets " do
-      a = mock(:items => [1,2])
-      b = mock(:items => ['b','c'])
-      empty = mock(:items => [])
+      a = double(:items => [1,2])
+      b = double(:items => ['b','c'])
+      empty = double(:items => [])
 
       fields = [a,b,empty]
 
@@ -152,8 +152,8 @@ describe FacetsHelper do
     end
 
     it "should default to the configured facets" do
-      a = mock(:items => [1,2])
-      b = mock(:items => ['b','c'])
+      a = double(:items => [1,2])
+      b = double(:items => ['b','c'])
       helper.should_receive(:facet_field_names) { [a,b] }
 
       helper.should_receive(:render_facet_limit).with(a, {})
@@ -175,11 +175,11 @@ describe FacetsHelper do
       end
 
       helper.stub(:blacklight_config => @config)
-      @response = mock()
+      @response = double()
     end
 
     it "should set basic local variables" do
-      @mock_facet = mock(:name => 'basic_field', :items => [1,2,3])
+      @mock_facet = double(:name => 'basic_field', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'facet_limit', 
                                                          :locals => { 
                                                             :solr_field => 'basic_field', 
@@ -197,37 +197,37 @@ describe FacetsHelper do
     end
 
     it "should render a facet _not_ declared in the configuration" do
-      @mock_facet = mock(:name => 'asdf', :items => [1,2,3])
+      @mock_facet = double(:name => 'asdf', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'facet_limit'))
       helper.render_facet_limit(@mock_facet)
     end
 
     it "should get the partial name from the configuration" do
-      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
+      @mock_facet = double(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
       helper.render_facet_limit(@mock_facet)
     end 
 
     it "should use a partial layout for rendering the facet frame" do
-      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
+      @mock_facet = double(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:layout => 'facet_layout'))
       helper.render_facet_limit(@mock_facet)
     end
 
     it "should allow the caller to opt-out of facet layouts" do
-      @mock_facet = mock(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
+      @mock_facet = double(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:layout => nil))
       helper.render_facet_limit(@mock_facet, :layout => nil)
     end
 
     it "should render the facet_pivot partial for pivot facets" do
-      @mock_facet = mock(:name => 'pivot_facet_field', :items => [1,2,3])
+      @mock_facet = double(:name => 'pivot_facet_field', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'facet_pivot'))
       helper.render_facet_limit(@mock_facet)
     end 
 
     it "should let you override the rendered partial for pivot facets" do
-      @mock_facet = mock(:name => 'my_pivot_facet_field_with_custom_partial', :items => [1,2,3])
+      @mock_facet = double(:name => 'my_pivot_facet_field_with_custom_partial', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
       helper.render_facet_limit(@mock_facet)
     end 
@@ -240,7 +240,7 @@ describe FacetsHelper do
     end
 
     it "should add facet value for no pre-existing facets" do
-      helper.stub!(:params).and_return(@params_no_existing_facet)
+      helper.stub(:params).and_return(@params_no_existing_facet)
 
       result_params = helper.add_facet_params("facet_field", "facet_value")
       result_params[:f].should be_a_kind_of(Hash)
@@ -249,7 +249,7 @@ describe FacetsHelper do
     end
 
     it "should add a facet param to existing facet constraints" do
-      helper.stub!(:params).and_return(@params_existing_facets)
+      helper.stub(:params).and_return(@params_existing_facets)
       
       result_params = helper.add_facet_params("facet_field_2", "new_facet_value")
 
@@ -267,7 +267,7 @@ describe FacetsHelper do
     end
     it "should leave non-facet params alone" do
       [@params_existing_facets, @params_no_existing_facet].each do |params|
-        helper.stub!(:params).and_return(params)
+        helper.stub(:params).and_return(params)
 
         result_params = helper.add_facet_params("facet_field_2", "new_facet_value")
 
@@ -279,9 +279,9 @@ describe FacetsHelper do
     end    
 
     it "should replace facets for facets configured as single" do
-      helper.should_receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(mock(:single => true))
+      helper.should_receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(double(:single => true))
       params = { :f => { 'single_value_facet_field' => 'other_value'}}
-      helper.stub!(:params).and_return params
+      helper.stub(:params).and_return params
 
       result_params = helper.add_facet_params('single_value_facet_field', 'my_value')
 
@@ -292,14 +292,14 @@ describe FacetsHelper do
 
     it "should accept a FacetItem instead of a plain facet value" do
           
-      result_params = helper.add_facet_params('facet_field_1', mock(:value => 123))
+      result_params = helper.add_facet_params('facet_field_1', double(:value => 123))
 
       result_params[:f]['facet_field_1'].should include(123)
     end
 
     it "should defer to the field set on a FacetItem" do
           
-      result_params = helper.add_facet_params('facet_field_1', mock(:field => 'facet_field_2', :value => 123))
+      result_params = helper.add_facet_params('facet_field_1', double(:field => 'facet_field_2', :value => 123))
 
       result_params[:f]['facet_field_1'].should be_blank
       result_params[:f]['facet_field_2'].should include(123)
@@ -307,7 +307,7 @@ describe FacetsHelper do
 
     it "should add any extra fq parameters from the FacetItem" do
           
-      result_params = helper.add_facet_params('facet_field_1', mock(:value => 123, :fq => {'facet_field_2' => 'abc'}))
+      result_params = helper.add_facet_params('facet_field_1', double(:value => 123, :fq => {'facet_field_2' => 'abc'}))
 
       result_params[:f]['facet_field_1'].should include(123)
       result_params[:f]['facet_field_2'].should include('abc')
@@ -325,7 +325,7 @@ describe FacetsHelper do
                 Blacklight::Solr::FacetPaginator.request_keys[:sort] => "index",
                 :id => 'facet_field_name'
       }
-      helper.stub!(:params).and_return(catalog_facet_params)
+      helper.stub(:params).and_return(catalog_facet_params)
     end
     it "should redirect to 'index' action" do
       params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
@@ -366,31 +366,31 @@ describe FacetsHelper do
 
   describe "render_facet_value" do
     it "should use facet_display_value" do
-      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil, :helper_method => nil, :single => false))
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false))
  
       helper.should_receive(:facet_display_value).and_return('Z')
       helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', mock(:value => 'A', :hits => 10)).should == (helper.link_to("Z", "link", :class => "facet_select") + " " + (helper.content_tag :span, 10, :class => 'count')).html_safe
+      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10)).should == (helper.link_to("Z", "link", :class => "facet_select") + " " + (helper.content_tag :span, 10, :class => 'count')).html_safe
     end
 
 
     it "should suppress the link" do
-      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil, :helper_method => nil, :single => false))
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false))
  
       helper.should_receive(:facet_display_value).and_return('Z')
       helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', mock(:value => 'A', :hits => 10), :suppress_link => true).should == "Z <span class=\"count\">10</span>"
+      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10), :suppress_link => true).should == "Z <span class=\"count\">10</span>"
     end
   end
  
   describe "#facet_display_value" do
     it "should just be the facet value for an ordinary facet" do
-      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil, :helper_method => nil))
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil))
       helper.facet_display_value('simple_field', 'asdf').should == 'asdf'
     end
 
     it "should allow you to pass in a :helper_method argument to the configuration" do
-      helper.stub(:facet_configuration_for_field).with('helper_field').and_return(mock(:query => nil, :date => nil, :helper_method => :my_facet_value_renderer))
+      helper.stub(:facet_configuration_for_field).with('helper_field').and_return(double(:query => nil, :date => nil, :helper_method => :my_facet_value_renderer))
     
       helper.should_receive(:my_facet_value_renderer).with('qwerty').and_return('abc')
 
@@ -398,17 +398,17 @@ describe FacetsHelper do
     end
 
     it "should extract the configuration label for a query facet" do
-      helper.stub(:facet_configuration_for_field).with('query_facet').and_return(mock(:query => { 'query_key' => { :label => 'XYZ'}}, :date => nil, :helper_method => nil))
+      helper.stub(:facet_configuration_for_field).with('query_facet').and_return(double(:query => { 'query_key' => { :label => 'XYZ'}}, :date => nil, :helper_method => nil))
       helper.facet_display_value('query_facet', 'query_key').should == 'XYZ'
     end
 
     it "should localize the label for date-type facets" do
-      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(mock('date' => true, :query => nil, :helper_method => nil))
+      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(double('date' => true, :query => nil, :helper_method => nil))
       helper.facet_display_value('date_facet', '2012-01-01').should == 'Sun, 01 Jan 2012 00:00:00 +0000'
     end
 
     it "should localize the label for date-type facets with the supplied localization options" do
-      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(mock('date' => { :format => :short }, :query => nil, :helper_method => nil))
+      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(double('date' => { :format => :short }, :query => nil, :helper_method => nil))
       helper.facet_display_value('date_facet', '2012-01-01').should == '01 Jan 00:00'
     end
   end

@@ -81,7 +81,7 @@ end
       end
       
       it "should not try to create marc for objects w/out stored marc (marcxml test only at this time)" do
-        # TODO: Create another mock object that does not have marc-xml in it and make
+        # TODO: Create another double object that does not have marc-xml in it and make
         # sure everything fails gracefully
         @hash_without_marcxml = get_hash_without_marcxml['response']['docs'][0]
         @solrdoc_without_marc = SolrDocument.new(@hash_without_marcxml)

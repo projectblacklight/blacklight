@@ -29,7 +29,7 @@ describe BookmarksController do
     end
 
    it "has a 500 status code when delete is not success" do
-      bm = mock(Bookmark)
+      bm = double(Bookmark)
       @controller.stub_chain(:current_or_guest_user, :existing_bookmark_for).and_return(bm)
       @controller.stub_chain(:current_or_guest_user, :bookmarks, :delete).and_return(false)
      

@@ -13,13 +13,13 @@ describe "catalog/_facets" do
 
   it "should have a header" do
 
-      @mock_field_1 = mock(:field => 'facet_field_1',
+      @mock_field_1 = double(:field => 'facet_field_1',
                        :label => 'label')
-      @mock_display_facet_1 = mock(:name => 'facet_field_1', :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
+      @mock_display_facet_1 = double(:name => 'facet_field_1', :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
       view.stub(:facet_field_names => [:facet_field_1],
                 :facet_limit_for => 10 )
 
-      @response = mock()
+      @response = double()
       @response.stub(:facet_by_field_name).with(:facet_field_1) { @mock_display_facet_1 }
 
     view.stub(:render_facet_partials => '')
@@ -29,13 +29,13 @@ describe "catalog/_facets" do
 
   describe "facet display" do
     before do
-      @mock_field_1 = mock(:field => 'facet_field_1',
+      @mock_field_1 = double(:field => 'facet_field_1',
                        :label => 'label')
-      @mock_display_facet_1 = mock(:name => 'facet_field_1', :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
+      @mock_display_facet_1 = double(:name => 'facet_field_1', :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
       view.stub(:facet_field_names => [:facet_field_1],
                 :facet_limit_for => 10 )
 
-      @response = mock()
+      @response = double()
       @response.stub(:facet_by_field_name).with(:facet_field_1) { @mock_display_facet_1 }
 
     end 
