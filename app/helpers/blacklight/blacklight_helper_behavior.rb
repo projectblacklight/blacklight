@@ -366,12 +366,15 @@ module Blacklight::BlacklightHelperBehavior
 
   def render_document_index documents = nil, locals = {}
     documents ||= @document_list
+    render_document_index_with_view(document_index_view_type, documents)
+  end
 
+  def render_document_index_with_view view, documents, locals = {}
     document_index_path_templates.each do |str|
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
       # for determining if a partial template exists..
       begin
-        return render(:partial => (str % { :index_view_type => document_index_view_type }), :locals => { :documents => documents })
+        return render(:partial => (str % { :index_view_type => view }), :locals => { :documents => documents })
       rescue ActionView::MissingTemplate
         nil
       end

@@ -305,20 +305,16 @@ describe BlacklightHelper do
    describe "render_document_index" do
      it "should render the document_list" do
        @document_list = ['a', 'b']
-       self.stub!(:document_index_view_type) { "gallery" }
        self.should_receive(:render).with(hash_including(:partial => 'document_gallery'))
-       render_document_index
+       render_document_index_with_view 'gallery', @document_list
      end
 
      it "should fall back on more specific templates" do
-       @document_list = ['a', 'b']
-       self.stub!(:document_index_view_type) { "gallery" }
-
        ex = ActionView::MissingTemplate.new [], '', '', '',''
        self.should_receive(:render).with(hash_including(:partial => 'document_gallery')).and_raise(ex)
        self.should_receive(:render).with(hash_including(:partial => 'catalog/document_gallery')).and_raise(ex)
        self.should_receive(:render).with(hash_including(:partial => 'catalog/document_list'))
-       render_document_index
+       render_document_index_with_view 'gallery', @document_list
      end
    end
 
