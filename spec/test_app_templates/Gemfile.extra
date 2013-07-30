@@ -14,7 +14,7 @@ gem 'jquery-rails'
 
 # For testing
 group :development, :test do
-  gem 'rspec-rails', '~> 2.13.1'
+  gem 'rspec-rails', '~> 2.13'
 end
 
 group :test do
