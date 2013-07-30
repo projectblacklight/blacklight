@@ -71,12 +71,7 @@ EOF
   # Install Devise? 
   def generate_devise_assets
     if options[:devise]
-      if Rails::VERSION::MAJOR == 4
-        gem "devise", '~> 3.0'
-      else
-        gem "devise"
-      end
-      
+      gem "devise"
       gem "devise-guests", "~> 0.3"
 
       Bundler.with_clean_env do
