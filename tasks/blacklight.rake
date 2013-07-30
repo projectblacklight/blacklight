@@ -40,9 +40,9 @@ namespace :blacklight do
 
   desc "Run specs"
   task :spec => [:generate] do |t|
-    focused_spec = ENV['SPEC'] ? " SPEC=#{File.join(GEM_ROOT, ENV['SPEC'])}" : ''
+    spec_options = ENV['SPEC'] ? " SPEC=#{File.join(GEM_ROOT, ENV['SPEC'])}" : ''
     within_test_app do
-      system "rake myspec#{focused_spec}"
+      system "rake blacklight_test_app:spec#{spec_options}"
       abort "Error running spec" unless $?.success?
     end
   end
@@ -50,7 +50,7 @@ namespace :blacklight do
   desc "Run cucumber features"
   task :cucumber => [:generate] do |t|
     within_test_app do
-      system "rake blacklight:cucumber"
+      system "CUCUMBER_OPTS='../../features' rake blacklight_test_app:cucumber"
       abort "Error running cucumber" unless $?.success?
     end
   end

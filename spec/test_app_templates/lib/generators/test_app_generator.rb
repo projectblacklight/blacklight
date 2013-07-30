@@ -11,8 +11,8 @@ class TestAppGenerator < Rails::Generators::Base
     end
   end
 
-  def copy_rspec_rake_task
-    copy_file "lib/tasks/rspec.rake"
+  def copy_blacklight_test_app_rake_task
+    copy_file "lib/tasks/blacklight_test_app.rake"
   end
 
   def remove_index 
