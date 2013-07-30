@@ -68,7 +68,10 @@ namespace :blacklight do
       puts "Generating rails app"
       `rails new #{TEST_APP}`
       puts "Copying gemfile"
-      `cat #{TEST_APP_TEMPLATES}/Gemfile.extra >> #{TEST_APP}/Gemfile`
+      open("#{TEST_APP}/Gemfile", 'a') do |f|
+        f.write File.read(TEST_APP_TEMPLATES + "/Gemfile.extra")
+        f.write "gem 'blacklight', :path => '../../'" 
+      end
       puts "Copying generator"
       `cp -r #{TEST_APP_TEMPLATES}/lib/generators #{TEST_APP}/lib`
       within_test_app do

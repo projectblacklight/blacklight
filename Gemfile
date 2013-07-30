@@ -6,8 +6,6 @@ gemspec
 gem 'simplecov', :platform => :mri
 gem 'simplecov-rcov', :platform => :mri
 
-group :test do
-  gem 'devise'
-  gem 'sqlite3'
-  gem 'capybara'
+if File.exists?('spec/test_app_templates/Gemfile.extra')
+  eval File.read('spec/test_app_templates/Gemfile.extra'), nil, 'spec/test_app_templates/Gemfile.extra'
 end
