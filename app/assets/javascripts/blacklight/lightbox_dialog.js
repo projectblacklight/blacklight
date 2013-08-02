@@ -1,5 +1,11 @@
 //= require blacklight/core
 Blacklight.setup_modal = function(link_selector, form_selector, launch_modal) {
+
+	// Event indicating blacklight is setting up a modal link
+	var e = $.Event('lightbox.setup_modal');
+	$(link_selector).trigger(e);
+	if (e.isDefaultPrevented()) return;
+
     $(link_selector).click(function(e) {
       link = $(this)
       
