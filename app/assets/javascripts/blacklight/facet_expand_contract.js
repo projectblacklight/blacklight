@@ -31,6 +31,13 @@ Blacklight.do_facet_expand_contract_behavior = function() {
                $(this).toggleClass('twiddle-open');
                $(f_content).slideToggle();
            });
+           $('h3', f_content.parent()).keypress(function(e){
+               if (e.keyCode == 13) {
+                   // toggle the content
+                   $(this).toggleClass('twiddle-open');
+                   $(f_content).slideToggle();
+               }
+           });
        });
    };
 $(document).ready(function() {
