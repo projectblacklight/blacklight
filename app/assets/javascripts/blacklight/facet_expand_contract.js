@@ -26,6 +26,11 @@ Blacklight.do_facet_expand_contract_behavior = function() {
            }
 
            // attach the toggle behavior to the h3 tag
+           $('h5', f_content.parent()).click(function(){
+               // toggle the content
+               $(this).toggleClass('twiddle-open');
+               $(f_content).slideToggle();
+           });
            $('a', f_content.parent()).click(function(){
                // toggle the content
                $(this).toggleClass('twiddle-open');
