@@ -75,7 +75,9 @@ module Blacklight::Catalog
       @pagination = get_facet_pagination(params[:id], params)
 
       respond_to do |format|
+        # Draw the facet selector for users who have javascript disabled:
         format.html 
+
         # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
       end
