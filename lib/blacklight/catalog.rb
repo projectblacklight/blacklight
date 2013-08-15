@@ -76,6 +76,7 @@ module Blacklight::Catalog
 
       respond_to do |format|
         format.html 
+        # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
       end
     end
