@@ -165,9 +165,9 @@ describe BlacklightHelper do
     end
 
     it "should not return blacklisted elements" do
-      source_params = { :action => 'action', :controller => 'controller', :commit => 'commit'}
+      source_params = { :action => 'action', :controller => 'controller', :id => "id", :commit => 'commit'}
       result = params_for_search(:params => source_params )
-      result.keys.should_not include(:action, :controller, :commit)
+      result.keys.should_not include(:action, :controller, :commit, :id)
 
     end
 

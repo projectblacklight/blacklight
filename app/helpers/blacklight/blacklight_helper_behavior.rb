@@ -533,9 +533,10 @@ module Blacklight::BlacklightHelperBehavior
 
     my_params.reject! { |k,v| v.nil? }
 
-    # removing action and controller from duplicate params so that we don't get hidden fields for them.
+    # removing action, controller, and id from duplicate params so that we don't get hidden fields for them.
     my_params.delete(:action)
     my_params.delete(:controller)
+    my_params.delete(:id)
     # commit is just an artifact of submit button, we don't need it, and
     # don't want it to pile up with another every time we press submit again!
     my_params.delete(:commit)
