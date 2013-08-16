@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.name        = "blacklight"
   s.version     = Blacklight::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Jonathan Rochkind", "Matt Mitchell", "Chris Beer", "Jessie Keck", "Jason Ronallo", "Vernon Chapman", "Mark A. Matienzo", "Dan Funk", "Naomi Dushay"]
+  s.authors     = ["Jonathan Rochkind", "Matt Mitchell", "Chris Beer", "Jessie Keck", "Jason Ronallo", "Vernon Chapman", "Mark A. Matienzo", "Dan Funk", "Naomi Dushay", "Justin Coyne"]
   s.email       = ["blacklight-development@googlegroups.com"]
   s.homepage    = "http://projectblacklight.org/"
   s.summary     = "Blacklight provides a discovery interface for any Solr (http://lucene.apache.org/solr) index."
