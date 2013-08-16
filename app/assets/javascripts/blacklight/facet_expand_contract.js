@@ -33,8 +33,9 @@ Blacklight.do_facet_expand_contract_behavior = function() {
            });
        });
    };
-$(document).ready(function() {
-  Blacklight.do_facet_expand_contract_behavior();  
-});
+
+  Blacklight.onLoad(function() {
+    Blacklight.do_facet_expand_contract_behavior();  
+  });
 })(jQuery);
 

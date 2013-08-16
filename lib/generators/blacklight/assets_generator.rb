@@ -20,7 +20,9 @@ module Blacklight
       copy_file "blacklight.css.scss", "app/assets/stylesheets/blacklight.css.scss"
 
       unless IO.read("app/assets/javascripts/application.js").include?('blacklight/blacklight')
-        insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs" do
+        marker = IO.read("app/assets/javascripts/application.js").include?('turbolinks') ?
+          '//= require turbolinks' : "//= require jquery_ujs"
+        insert_into_file "app/assets/javascripts/application.js", :after => marker do
   %q{
 //
 // Required by Blacklight
