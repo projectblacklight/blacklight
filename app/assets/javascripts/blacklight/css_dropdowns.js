@@ -4,7 +4,7 @@
 			$(this).toggleClass("hovering");
 		});
 	};
-	$(document).ready(function() {
+  Blacklight.onLoad(function() {
 	  Blacklight.add_css_dropdown_click_support();
 	});
 })(jQuery);
