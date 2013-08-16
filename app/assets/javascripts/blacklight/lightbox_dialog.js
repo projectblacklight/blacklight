@@ -65,6 +65,6 @@ Blacklight.check_close_ajax_modal = function() {
 
 }
 
-$(document).ready( function() {
+Blacklight.onLoad(function() {
   Blacklight.setup_modal("a.lightboxLink,a.more_facets_link,.ajax_modal_launch", "#ajax-modal form.ajax_form", true);
 });

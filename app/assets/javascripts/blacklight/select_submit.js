@@ -11,7 +11,7 @@
 
     }
 
-$(document).ready(function() {
+Blacklight.onLoad(function() {
   $('#sort-form').hide();
   $('#sort-dropdown').show();
   Blacklight.update_css_dropdown('#sort-dropdown', "Sort by ", "")
