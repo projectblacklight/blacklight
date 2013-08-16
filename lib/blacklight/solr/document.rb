@@ -109,6 +109,10 @@ module Blacklight::Solr::Document
     id
   end
 
+  def as_json(options = nil)
+    @_source.as_json(options)
+  end
+
   def to_partial_path
     'catalog/document'
   end

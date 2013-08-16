@@ -20,6 +20,10 @@ module Blacklight::SolrResponse::Facets
     def label
       super || value
     end
+
+    def as_json(props = nil)
+      table.as_json(props)
+    end
   end
   
   # represents a facet; which is a field and its values

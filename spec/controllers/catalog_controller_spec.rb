@@ -21,121 +21,141 @@ describe CatalogController do
       @controller.instance_variable_get("@response")
     end
     
-    it "should have no search history if no search criteria" do
-      controller.should_receive(:get_search_results) 
-      session[:history] = []
-      get :index
-      session[:history].length.should == 0
-    end
-
-    # check each user manipulated parameter
-    it "should have docs and facets for query with results", :integration => true do
-      get :index, :q => @user_query
-      assigns_response.docs.size.should > 1
-      assert_facets_have_values(assigns_response.facets)
-    end
-    it "should have docs and facets for existing facet value", :integration => true do
-      get :index, :f => @facet_query
-      assigns_response.docs.size.should > 1
-      assert_facets_have_values(assigns_response.facets)
-    end
-    it "should have docs and facets for non-default results per page", :integration => true do
-      num_per_page = 7
-      get :index, :per_page => num_per_page
-      assigns_response.docs.size.should == num_per_page
-      assert_facets_have_values(assigns_response.facets)
-    end
-
-    it "should have docs and facets for second page", :integration => true do
-      page = 2
-      get :index, :page => page
-      assigns_response.docs.size.should > 1
-      assigns_response.params[:start].to_i.should == (page-1) * @controller.blacklight_config[:default_solr_params][:rows]
-      assert_facets_have_values(assigns_response.facets)
-    end
-
-    it "should have no docs or facet values for query without results", :integration => true do
-      get :index, :q => @no_docs_query
-
-      assigns_response.docs.size.should == 0
-      assigns_response.facets.each do |facet|
-        facet.items.size.should == 0
-      end
-    end
-
-    it "should have a spelling suggestion for an appropriately poor query", :integration => true do
-      get :index, :q => 'boo'
-      assigns_response.spelling.words.should_not be_nil
-    end
-
-    describe "session" do
-      before do
-        controller.stub(:get_search_results) 
-      end
-      it "should include :search key with hash" do
+    describe "with format :html" do
+      it "should have no search history if no search criteria" do
+        controller.should_receive(:get_search_results) 
+        session[:history] = []
         get :index
-        session[:search].should_not be_nil
-        session[:search].should be_kind_of(Hash)
+        session[:history].length.should == 0
       end
-      it "should include search hash with key :q" do
+
+      # check each user manipulated parameter
+      it "should have docs and facets for query with results", :integration => true do
         get :index, :q => @user_query
-        session[:search].should_not be_nil
-        session[:search].keys.should include(:q)
-        session[:search][:q].should == @user_query
-      end
-      it "should include search hash with key :f" do
-        get :index, :f => @facet_query
-        session[:search].should_not be_nil
-        session[:search].keys.should include(:f)
-        session[:search][:f].should == @facet_query
-      end
-      it "should include search hash with key :per_page" do
-        get :index, :per_page => 10
-        session[:search].should_not be_nil
-        session[:search].keys.should include(:per_page)
-        session[:search][:per_page].should == "10"
-      end
-      it "should include search hash with key :page" do
-        get :index, :page => 2
-        session[:search].should_not be_nil
-        session[:search].keys.should include(:page)
-        session[:search][:page].should == "2"
-      end
-      it "should include search hash with random key" do
-        # cause a plugin might add an unpredictable one, we want to preserve it.
-        get :index, :some_weird_key => "value"
-        session[:search].should_not be_nil
-        session[:search].keys.should include(:some_weird_key)
-        session[:search][:some_weird_key].should == "value"
-      end
-    end
-
-    # check with no user manipulation
-    describe "for default query" do
-      it "should get documents when no query", :integration => true do
-        get :index
         assigns_response.docs.size.should > 1
-      end
-      it "should get facets when no query", :integration => true do
-        get :index
         assert_facets_have_values(assigns_response.facets)
       end
+      it "should have docs and facets for existing facet value", :integration => true do
+        get :index, :f => @facet_query
+        assigns_response.docs.size.should > 1
+        assert_facets_have_values(assigns_response.facets)
+      end
+      it "should have docs and facets for non-default results per page", :integration => true do
+        num_per_page = 7
+        get :index, :per_page => num_per_page
+        assigns_response.docs.size.should == num_per_page
+        assert_facets_have_values(assigns_response.facets)
+      end
+
+      it "should have docs and facets for second page", :integration => true do
+        page = 2
+        get :index, :page => page
+        assigns_response.docs.size.should > 1
+        assigns_response.params[:start].to_i.should == (page-1) * @controller.blacklight_config[:default_solr_params][:rows]
+        assert_facets_have_values(assigns_response.facets)
+      end
+
+      it "should have no docs or facet values for query without results", :integration => true do
+        get :index, :q => @no_docs_query
+
+        assigns_response.docs.size.should == 0
+        assigns_response.facets.each do |facet|
+          facet.items.size.should == 0
+        end
+      end
+
+      it "should have a spelling suggestion for an appropriately poor query", :integration => true do
+        get :index, :q => 'boo'
+        assigns_response.spelling.words.should_not be_nil
+      end
+
+      describe "session" do
+        before do
+          controller.stub(:get_search_results) 
+        end
+        it "should include :search key with hash" do
+          get :index
+          session[:search].should_not be_nil
+          session[:search].should be_kind_of(Hash)
+        end
+        it "should include search hash with key :q" do
+          get :index, :q => @user_query
+          session[:search].should_not be_nil
+          session[:search].keys.should include(:q)
+          session[:search][:q].should == @user_query
+        end
+        it "should include search hash with key :f" do
+          get :index, :f => @facet_query
+          session[:search].should_not be_nil
+          session[:search].keys.should include(:f)
+          session[:search][:f].should == @facet_query
+        end
+        it "should include search hash with key :per_page" do
+          get :index, :per_page => 10
+          session[:search].should_not be_nil
+          session[:search].keys.should include(:per_page)
+          session[:search][:per_page].should == "10"
+        end
+        it "should include search hash with key :page" do
+          get :index, :page => 2
+          session[:search].should_not be_nil
+          session[:search].keys.should include(:page)
+          session[:search][:page].should == "2"
+        end
+        it "should include search hash with random key" do
+          # cause a plugin might add an unpredictable one, we want to preserve it.
+          get :index, :some_weird_key => "value"
+          session[:search].should_not be_nil
+          session[:search].keys.should include(:some_weird_key)
+          session[:search][:some_weird_key].should == "value"
+        end
+      end
+
+      # check with no user manipulation
+      describe "for default query" do
+        it "should get documents when no query", :integration => true do
+          get :index
+          assigns_response.docs.size.should > 1
+        end
+        it "should get facets when no query", :integration => true do
+          get :index
+          assert_facets_have_values(assigns_response.facets)
+        end
+      end
+
+      it "should render index.html.erb" do
+        controller.stub(:get_search_results)
+        get :index
+        response.should render_template(:index)
+      end
+
+      # NOTE: status code is always 200 in isolation mode ...
+      it "HTTP status code for GET should be 200", :integration => true do
+        get :index
+        response.should be_success
+      end
     end
 
-    it "should get rss feed", :integration => true do
-      get :index, :format => 'rss'
-      response.should be_success
+    describe "with format :rss" do
+      it "should get the feed", :integration => true do
+        get :index, :format => 'rss'
+        response.should be_success
+      end
     end
 
-    it "should render index.html.erb" do
-      controller.stub(:get_search_results)
-      get :index
-      response.should render_template(:index)
-    end
-    # NOTE: status code is always 200 in isolation mode ...
-    it "HTTP status code for GET should be 200", :integration => true do
-      get :index
-      response.should be_success
+    describe "with format :json" do
+      it "should get the feed" do
+        get :index, :format => 'json'
+        response.should be_success
+        json = JSON.parse response.body
+        json["response"]["pages"]["total_count"].should == 30 
+        json["response"]["pages"]["current_page"].should == 1
+        json["response"]["pages"]["total_pages"].should == 3
+        json["response"]["docs"].size.should == 10
+        json["response"]["docs"].first.keys.should == ["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "score"]
+        json["response"]["facets"].length.should == 9
+        json["response"]["facets"].first.should == {"name"=>"format", "items"=>[{"value"=>"Book", "hits"=>30}]}
+      end
     end
 
   end # describe index action
@@ -159,9 +179,20 @@ describe CatalogController do
 
     doc_id = '2007020969'
 
-    it "should get document", :integration => true do
-      get :show, :id => doc_id
-      assigns[:document].should_not be_nil
+    describe "with format :html" do
+      it "should get document", :integration => true do
+        get :show, :id => doc_id
+        assigns[:document].should_not be_nil
+      end
+    end
+
+    describe "with format :json" do
+      it "should get the feed" do
+        get :show, id: doc_id, format: 'json'
+        response.should be_success
+        json = JSON.parse response.body
+        json["response"]["document"].keys.should == ["author_t", "opensearch_display", "marc_display", "published_display", "author_display", "lc_callnum_display", "title_t", "pub_date", "pub_date_sort", "subtitle_display", "format", "url_suppl_display", "material_type_display", "title_display", "subject_addl_t", "subject_t", "isbn_t", "id", "title_addl_t", "subject_geo_facet", "subject_topic_facet", "author_addl_t", "language_facet", "subtitle_t", "timestamp"]
+      end
     end
     
     describe "previous/next documents" do
@@ -286,14 +317,14 @@ describe CatalogController do
   end # describe show action
 
   describe "opensearch" do
-      before do
-        @mock_response = double()
-        @mock_document = double()
-        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
-        @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
-      end
+    before do
+      @mock_response = double()
+      @mock_document = double()
+      @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
+      @mock_document = double()
+      controller.stub(:find => @mock_response, 
+                      :get_single_doc_via_search => @mock_document)
+    end
     it "should return an opensearch description" do
       get :opensearch, :format => 'xml'
       response.should be_success
@@ -420,6 +451,30 @@ describe CatalogController do
     it "should not show user util links" do
       get :index
       response.body.should_not =~ /Login/
+    end
+  end
+
+  describe "facet" do
+    describe "requesting js" do
+      it "should be successful" do
+        xhr :get, :facet, id: 'format'
+        response.should be_successful
+      end
+    end
+    describe "requesting html" do
+      it "should be successful" do
+        get :facet, id: 'format'
+        response.should be_successful
+        assigns[:pagination].should be_kind_of Blacklight::Solr::FacetPaginator
+      end
+    end
+    describe "requesting json" do
+      it "should be successful" do
+        get :facet, id: 'format', format: 'json'
+        response.should be_successful
+        json = JSON.parse(response.body)
+        json["response"]["facets"]["items"].first["value"].should == 'Book'
+      end
     end
   end
 end

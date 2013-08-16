@@ -1,12 +1,6 @@
 module Blacklight::FacetsHelperBehavior
 
-  #
-  # blacklight_config based helpers ->
-  #
-  
-  def facet_configuration_for_field(field)
-    blacklight_config.facet_fields[field] || Blacklight::Configuration::FacetField.new(:field => field).normalize!
-  end
+  include Blacklight::Facet
 
   # used in the catalog/_facets partial
   def facet_field_labels
@@ -14,35 +8,16 @@ module Blacklight::FacetsHelperBehavior
     Hash[*blacklight_config.facet_fields.map { |key, facet| [key, facet.label] }.flatten]
   end
   
-  # used in the catalog/_facets partial
-  def facet_field_names
-    blacklight_config.facet_fields.keys
-  end
 
   def has_facet_values? fields = facet_field_names, options = {}
-    solr_fields = fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
-    solr_fields.any? { |display_facet| !display_facet.items.empty? }
+    facets_from_request(fields).any? { |display_facet| !display_facet.items.empty? }
   end
 
   # Render a collection of facet fields
   def render_facet_partials fields = facet_field_names, options = {}
-    solr_fields = fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
-
-    solr_fields.map do |display_facet|
+    facets_from_request(fields).map do |display_facet|
       render_facet_limit(display_facet, options)
     end.compact.join("\n").html_safe
-  end
-
-  # Get a FacetField object from the @response
-  def facet_by_field_name solr_field
-    case solr_field
-      when String, Symbol
-        extract_solr_facet_by_field_name(solr_field)
-      when Blacklight::Configuration::FacetField
-        extract_solr_facet_by_field_name(solr_field.field)
-      else
-        solr_field
-      end
   end
 
 
@@ -237,6 +212,7 @@ module Blacklight::FacetsHelperBehavior
     end
   end
 
+
   private
 
   def facet_value_for_facet_item item
@@ -245,52 +221,6 @@ module Blacklight::FacetsHelperBehavior
     else
       value = item
     end
-  end
-
-  # Get the solr response for the solr field :field
-  def extract_solr_facet_by_field_name facet_name
-    facet_field = facet_configuration_for_field(facet_name)
-    case 
-      when (facet_field.respond_to?(:query) and facet_field.query)
-        create_rsolr_facet_field_response_for_query_facet_field facet_name, facet_field 
-      when (facet_field.respond_to?(:pivot) and facet_field.pivot)
-        create_rsolr_facet_field_response_for_pivot_facet_field facet_name, facet_field   
-      else
-        @response.facet_by_field_name(facet_name)
-    end
-  end
-
-  def create_rsolr_facet_field_response_for_query_facet_field facet_name, facet_field
-    salient_facet_queries = facet_field.query.map { |k, x| x[:fq] }
-    items = []
-    @response.facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits == 0 }.map do |value,hits|
-      salient_fields = facet_field.query.select { |key, val| val[:fq] == value }
-      key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
-      items << Blacklight::SolrResponse::Facets::FacetItem.new(:value => key, :hits => hits, :label => facet_field.query[key][:label])
-    end
- 
-    Blacklight::SolrResponse::Facets::FacetField.new facet_name, items
-  end
-
-
-  def create_rsolr_facet_field_response_for_pivot_facet_field facet_name, facet_field
-    items = []
-    (@response.facet_pivot[facet_field.pivot.join(",")] || []).map do |lst|
-      items << construct_pivot_field(lst)
-    end
- 
-    Blacklight::SolrResponse::Facets::FacetField.new facet_name, items
-  end
-
-  def construct_pivot_field lst, parent_fq = {}
-    items = []
-
-    lst[:pivot].each do |i|
-      items << construct_pivot_field(i, parent_fq.merge({ lst[:field] => lst[:value] }))
-    end if lst[:pivot]
-
-    Blacklight::SolrResponse::Facets::FacetItem.new(:value => lst[:value], :hits => lst[:count], :field => lst[:field], :items => items, :fq => parent_fq)
-
   end
 
 end
