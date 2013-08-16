@@ -278,7 +278,8 @@ describe CatalogController do
       
 
       after(:each) do
-        SolrDocument.registered_extensions = nil
+        # remove the fake extension
+        SolrDocument.registered_extensions.pop
       end
     end # dynamic export formats
 

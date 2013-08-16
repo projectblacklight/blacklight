@@ -29,7 +29,6 @@ require 'capybara/rspec'
 # Relative to HERE, NOT to Rails.root, which is off somewhere else. 
 Dir[Pathname.new(File.expand_path("../support/**/*.rb", __FILE__))].each {|f| require f}
 
-
 RSpec.configure do |config|
   # == Mock Framework
   #
