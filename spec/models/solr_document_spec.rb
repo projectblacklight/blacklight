@@ -52,7 +52,7 @@ end
     
     describe "new" do
       it "should take a Hash as the argument" do
-        lambda { SolrDocument.new(@hash_with_marcxml) }.should_not raise_error(ArgumentError)
+        lambda { SolrDocument.new(@hash_with_marcxml) }.should_not raise_error
       end
     end
     
