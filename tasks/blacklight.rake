@@ -15,7 +15,6 @@ task :ci => 'jetty:clean' do
   error = Jettywrapper.wrap(jetty_params) do
     Rake::Task["blacklight:fixtures"].invoke
     Rake::Task['blacklight:coverage'].invoke
-    Rake::Task['blacklight:cucumber'].invoke
   end
   raise "test failures: #{error}" if error
   # Only create documentation if the tests have passed
@@ -46,15 +45,6 @@ namespace :blacklight do
       abort "Error running spec" unless $?.success?
     end
   end
-
-  desc "Run cucumber features"
-  task :cucumber => [:generate] do |t|
-    within_test_app do
-      system "CUCUMBER_OPTS='../../features' rake blacklight_test_app:cucumber"
-      abort "Error running cucumber" unless $?.success?
-    end
-  end
-  
 
   desc "Clean out the test rails app"
   task :clean do

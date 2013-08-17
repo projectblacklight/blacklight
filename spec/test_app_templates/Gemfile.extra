@@ -14,9 +14,6 @@ gem 'jquery-rails'
 group :test do
   gem 'rspec-rails', '~> 2.13'
   gem 'generator_spec'
-  gem 'cucumber'
-  gem 'cucumber-rails', :git => 'https://github.com/cucumber/cucumber-rails.git', :branch => 'master_rails4_test',  :require => false
-  gem 'database_cleaner', '>= 1.0.1'
   if defined? :JRUBY_VERSION
     gem 'capybara', '~> 1.0'
   else

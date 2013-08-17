@@ -26,12 +26,6 @@ class TestAppGenerator < Rails::Generators::Base
     generate 'blacklight', '--devise'
   end
 
-  def run_cucumber_generator
-    say_status("warning", "GENERATING cucumber", :yellow)       
-
-    generate 'cucumber:install'
-  end
-
   def run_test_support_generator
     say_status("warning", "GENERATING test_support", :yellow)       
 
