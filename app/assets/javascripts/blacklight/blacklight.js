@@ -5,6 +5,7 @@
 //
 // These javascript files are compiled in via the Rails asset pipeline:
 //= require blacklight/core
+//= require blacklight/autofocus
 //= require blacklight/bookmark_toggle
 //= require blacklight/facet_expand_contract
 //= require blacklight/lightbox_dialog

@@ -10,7 +10,7 @@
       <% end %>
        <div class="input-append pull-left">
         <label for="q" class="hide-text"><%= t('blacklight.search.form.q') %></label>
-         <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search_q q", :id => "q"%>
+         <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :class => "search_q q", :id => "q", :autofocus => should_autofocus_on_search_box? %>
         <button type="submit" class="btn btn-primary search-btn" id="search">
           <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
           <i class="icon-search icon-white"></i>
