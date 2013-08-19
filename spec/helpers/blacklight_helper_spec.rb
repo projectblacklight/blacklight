@@ -479,6 +479,8 @@ describe BlacklightHelper do
       @config = Blacklight::Configuration.new.configure do |config|
         config.add_index_field 'qwer'
         config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
+        config.add_index_field 'link_to_search_true', :link_to_search => true
+        config.add_index_field 'link_to_search_named', :link_to_search => :some_field
         config.add_index_field 'highlight', :highlight => true
       end
       helper.stub(:blacklight_config).and_return(@config)
@@ -497,6 +499,20 @@ describe BlacklightHelper do
       helper.stub(:render_asdf_index_field).and_return('custom asdf value')
       value = helper.render_index_field_value :document => doc, :field => 'asdf'
       value.should == 'custom asdf value'
+    end
+
+    it "should check for a link_to_search" do
+      doc = double()
+      doc.should_receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
+      value = helper.render_index_field_value :document => doc, :field => 'link_to_search_true'
+      value.should == helper.link_to("x", helper.search_action_url(:f => { :link_to_search_true => ['x'] }))
+    end
+
+    it "should check for a link_to_search with a field name" do
+      doc = double()
+      doc.should_receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
+      value = helper.render_index_field_value :document => doc, :field => 'link_to_search_named'
+      value.should == helper.link_to("x", helper.search_action_url(:f => { :some_field => ['x'] }))
     end
 
     it "should gracefully handle when no highlight field is available" do
@@ -537,6 +553,8 @@ describe BlacklightHelper do
       @config = Blacklight::Configuration.new.configure do |config|
         config.add_show_field 'qwer'
         config.add_show_field 'asdf', :helper_method => :render_asdf_document_show_field
+        config.add_show_field 'link_to_search_true', :link_to_search => true
+        config.add_show_field 'link_to_search_named', :link_to_search => :some_field
         config.add_show_field 'highlight', :highlight => true
       end
       helper.stub(:blacklight_config).and_return(@config)
@@ -556,6 +574,20 @@ describe BlacklightHelper do
       helper.stub(:render_asdf_document_show_field).and_return('custom asdf value')
       value = helper.render_document_show_field_value :document => doc, :field => 'asdf'
       value.should == 'custom asdf value'
+    end
+
+    it "should check for a link_to_search" do
+      doc = double()
+      doc.should_receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
+      value = helper.render_document_show_field_value :document => doc, :field => 'link_to_search_true'
+      value.should == helper.link_to("x", helper.search_action_url(:f => { :link_to_search_true => ['x'] }))
+    end
+
+    it "should check for a link_to_search with a field name" do
+      doc = double()
+      doc.should_receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
+      value = helper.render_document_show_field_value :document => doc, :field => 'link_to_search_named'
+      value.should == helper.link_to("x", helper.search_action_url(:f => { :some_field => ['x'] }))
     end
 
     it "should gracefully handle when no highlight field is available" do

@@ -25,8 +25,8 @@ module Blacklight::Catalog
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
   
-  def search_action_url
-    url_for(:action => 'index', :only_path => true)
+  def search_action_url options = {}
+    url_for(options.merge(:action => 'index', :only_path => true))
   end
 
     # get search results from the solr index

@@ -12,8 +12,8 @@ class BookmarksController < CatalogController
  
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
-  def search_action_url
-    catalog_index_url
+  def search_action_url *args
+    catalog_index_url *args
   end
   helper_method :search_action_url
 
