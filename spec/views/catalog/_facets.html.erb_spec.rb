@@ -40,9 +40,10 @@ describe "catalog/_facets" do
 
     end 
 
-    it "should have a header" do
+    it "should have a(n accessible) header" do
       render
       rendered.should have_selector('h5')
+      rendered.should have_selector('h5 > a')
     end
 
     it "should list values" do
