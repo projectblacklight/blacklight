@@ -81,7 +81,6 @@ EOF
       generate "devise:install"
       generate "devise", model_name.classify
       generate "devise_guests", model_name.classify
-      generate "devise:views"
       
       # add the #to_s to the model.      
       insert_into_file("app/models/#{model_name}.rb", :before => /end(\n| )*$/) do 
