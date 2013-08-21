@@ -8,21 +8,19 @@ describe Blacklight::SolrResponse do
     Blacklight::SolrResponse.new(raw_response, raw_response['params'])
   end
 
+  let(:r) { create_response }
+
   it 'should create a valid response' do
-    r = create_response
     r.should respond_to(:header)
   end
 
   it 'should have accurate pagination numbers' do
-    r = create_response
     r.rows.should == 11
     r.total.should == 26
     r.start.should == 0
   end
 
   it 'should create a valid response class' do
-    r = create_response
-
     r.should respond_to(:response)
     r.docs.size.should == 11
     r.params[:echoParams].should == 'EXPLICIT'
@@ -31,7 +29,6 @@ describe Blacklight::SolrResponse do
   end
 
   it 'should provide facet helpers' do
-    r = create_response
     r.facets.size.should == 2
 
     field_names = r.facets.collect{|facet|facet.name}
@@ -58,6 +55,15 @@ describe Blacklight::SolrResponse do
       end
     end
 
+  end
+
+  it "should provide kaminari pagination helpers" do
+    expect(r.limit_value).to eq(r.rows)
+    expect(r.offset_value).to eq(r.start)
+    expect(r.total_count).to eq(r.total)
+    expect(r.next_page).to eq(r.current_page + 1)
+    expect(r.prev_page).to eq(nil)
+    expect(r).to be_a_kind_of Kaminari::PageScopeMethods
   end
 
   describe "FacetItem" do
