@@ -1,5 +1,5 @@
 <%# default partial to display solr document fields in catalog index view -%>
-<dl class="dl-horizontal dl-invert">
+<dl class="document-metadata dl-horizontal dl-invert">
   
   <% index_fields(document).each do |solr_fname, field| -%>
     <% if should_render_index_field? document, field %>

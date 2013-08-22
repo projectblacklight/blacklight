@@ -88,4 +88,26 @@ module Blacklight::CatalogHelperBehavior
       params[:q].to_s.empty? and
       params[:f].to_s.empty?
   end
+
+  def has_thumbnail? document
+    blacklight_config.index.thumbnail_method or
+      blacklight_config.index.thumbnail_field && document.has_field?(blacklight_config.index.thumbnail_field)
+  end
+
+  def render_thumbnail_tag document, image_options = {}, url_options = {}
+    value = if blacklight_config.index.thumbnail_method
+      send(blacklight_config.index.thumbnail_method, document, image_options)
+    elsif blacklight_config.index.thumbnail_field
+      image_tag thumbnail_url(document), image_options
+    end
+
+    if value
+      link_to_document document, url_options.merge(:label => value)
+    end
+  end
+
+  def thumbnail_url document
+    document.get(blacklight_config.index.thumbnail_field, :sep => nil).first if document.has_field?(blacklight_config.index.thumbnail_field)
+  end
+
 end
