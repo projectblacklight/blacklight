@@ -82,4 +82,10 @@ module Blacklight::CatalogHelperBehavior
     response.total > 1
   end
 
+  def should_autofocus_on_search_box?
+    controller.is_a? Blacklight::Catalog and
+      action_name == "index" and
+      params[:q].to_s.empty? and
+      params[:f].to_s.empty?
+  end
 end
