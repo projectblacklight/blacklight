@@ -1,8 +1,41 @@
+require 'kaminari'
+
 class Blacklight::SolrResponse < HashWithIndifferentAccess
 
   autoload :Spelling, 'blacklight/solr_response/spelling'
   autoload :Facets, 'blacklight/solr_response/facets'
   autoload :MoreLikeThis, 'blacklight/solr_response/more_like_this'
+
+  include Kaminari::PageScopeMethods
+  
+
+  module PaginationMethods
+
+    def limit_value #:nodoc:
+      rows
+    end
+
+    def offset_value #:nodoc:
+      start
+    end
+
+    def total_count #:nodoc:
+      total
+    end
+
+    ## Methods in kaminari master that we'd like to use today.
+    # Next page number in the collection
+    def next_page
+      current_page + 1 unless last_page?
+    end
+
+    # Previous page number in the collection
+    def prev_page
+      current_page - 1 unless first_page?
+    end
+  end
+
+  include PaginationMethods
 
   attr_reader :request_params
   def initialize(data, request_params)
@@ -18,7 +51,6 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
     self['responseHeader']
   end
   
-
   def update(other_hash) 
     other_hash.each_pair { |key, value| self[key] = value } 
     self 

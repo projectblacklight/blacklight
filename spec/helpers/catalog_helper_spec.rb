@@ -11,7 +11,9 @@ describe CatalogHelper do
     start = (current_page - 1) * per_page
 
     mock_response = double("Blacklight::SolrResponse")
-    mock_response.stub(:total).and_return(total)
+    mock_response.stub(:total_count).and_return(total)
+    mock_response.stub(:current_page).and_return(current_page)
+    mock_response.stub(:total_pages).and_return((total / per_page).to_i + 1)
     mock_response.stub(:rows).and_return(per_page)
     mock_response.stub(:start).and_return(start)
     mock_response.stub(:docs).and_return((1..total).to_a.slice(start, per_page))
