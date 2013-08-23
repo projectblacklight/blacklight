@@ -1,9 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'rails/generators'
-require 'rails/generators/migration'     
 
 class BlacklightGenerator < Rails::Generators::Base
-  include Rails::Generators::Migration
 
   source_root File.expand_path('../templates', __FILE__)
   
@@ -12,131 +10,40 @@ class BlacklightGenerator < Rails::Generators::Base
   
   desc """
 This generator makes the following changes to your application:
- 1. Creates several database migrations if they do not exist in /db/migrate
- 2. Adds additional mime types to you application in the file '/config/initializers/mime_types.rb'
- 3. Creates config/solr.yml with a default solr configuration that should work with standard marc records
- 4. Creates congig/SolrMarc/... with settings for SolrMarc
- 5. Creates a number of public assets, including images, stylesheets, and javascript
- 6. Adds a solr_marc.jar file to your lib/ directory 
- 7. Injects behavior into your user application_controller.rb
- 8. Injects behavior into your user model
- 9. Creates a blacklight catalog controller in your /app/controllers directory
-10. Creates a blacklight document in your /app/models directory
-11. Adds Blacklight routes to your ./config/routes.rb
-12. Enables internationalization.
+ 1. Generates blacklight:models
+ 2. Creates a number of public assets, including images, stylesheets, and javascript
+ 3. Injects behavior into your user application_controller.rb
+ 4. Adds example configurations for dealing with MARC-like data
+ 5. Adds Blacklight routes to your ./config/routes.rb
+
 
 Thank you for Installing Blacklight.
        """ 
-
-  # Implement the required interface for Rails::Generators::Migration.
-  # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
-  def self.next_migration_number(path)
-    if @prev_migration_nr
-      @prev_migration_nr += 1
-    else
-      if last_migration = Dir[File.join(path, '*.rb')].sort.last
-        @prev_migration_nr = last_migration.sub(File.join(path, '/'), '').to_i + 1
-      else
-        @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
-      end
-    end
-    @prev_migration_nr.to_s
-  end
-
-  def check_arguments
-    if File.exists?("app/models/#{model_name}.rb") and options[:devise]
-      puts "Because you have selected \"#{model_name}\", which is an existing class, you will need to install devise manually and then run this generator without the Devise option.  You can find additional information here: https://github.com/plataformatec/devise.  \n Please be sure to include a to_s method in #{model_name} that returns the users name or email, as this will be used by Blacklight to provide a link to user specific information."
-      exit
-    end
-  end
-
-
-  # Content types used by Marc Document extension, possibly among others.
-  # Registering a unique content type with 'register' (rather than
-  # register_alias) will allow content-negotiation for the format. 
-  def add_mime_types
-    puts "Updating Mime Types"
-    insert_into_file "config/initializers/mime_types.rb", :after => "# Be sure to restart your server when you modify this file." do <<EOF
-Mime::Type.register_alias "text/plain", :refworks_marc_txt
-Mime::Type.register_alias "text/plain", :openurl_kev
-Mime::Type.register "application/x-endnote-refer", :endnote
-Mime::Type.register "application/marc", :marc
-Mime::Type.register "application/marcxml+xml", :marcxml, 
-      ["application/x-marc+xml", "application/x-marcxml+xml", 
-       "application/marc+xml"]
-EOF
-    end     
-  end
 
   def add_unicode_gem
     gem "unicode", :platforms => [:mri_18, :mri_19] unless defined?(:RUBY_VERSION) and RUBY_VERSION == '2.0.0'
   end
 
-  # Install Devise? 
-  def generate_devise_assets
-    if options[:devise]
-      gem "devise"
-      gem "devise-guests", "~> 0.3"
+  def add_bootstrap_gem
+    # Don't need a version here, because we specify the version in blacklight.gemspec
+    gem 'bootstrap-sass'
+  end 
 
-      Bundler.with_clean_env do
-       run "bundle install"
-      end
-      
-      generate "devise:install"
-      generate "devise", model_name.classify
-      generate "devise_guests", model_name.classify
-      
-      # add the #to_s to the model.      
-      insert_into_file("app/models/#{model_name}.rb", :before => /end(\n| )*$/) do 
-      %{
-  # Method added by Blacklight; Blacklight uses #to_s on your
-  # user class to get a user-displayable login/identifier for
-  # the account. 
-  def to_s
-    email
-  end
-}
-      end
-      gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
-    end
-  end
-
-  # Copy all files in templates/config directory to host config
-  def create_configuration_files
-    copy_file "config/solr.yml", "config/solr.yml"
-    copy_file "config/jetty.yml", "config/jetty.yml"
-    directory("config/SolrMarc")
-  end
-  
   # Copy all files in templates/public/ directory to public/
   # Call external generator in AssetsGenerator, so we can
   # leave that callable seperately too. 
   def copy_public_assets 
     generate "blacklight:assets"
   end
-  
-  # Setup the database migrations
-  def copy_migrations
-    # Can't get this any more DRY, because we need this order.
-    better_migration_template "create_searches.rb"
-    better_migration_template "create_bookmarks.rb"
-    better_migration_template "remove_editable_fields_from_bookmarks.rb"
-    better_migration_template "add_user_types_to_bookmarks_searches.rb"
-  end
 
+  def generate_blacklight_models
 
-  # Add Blacklight to the user model
-  def inject_blacklight_user_behavior
-    file_path = "app/models/#{model_name.underscore}.rb"
-    if File.exists?(file_path) 
-      inject_into_class file_path, model_name.classify do 
-        "\n  attr_accessible :email, :password, :password_confirmation if Rails::VERSION::MAJOR < 4\n" +
-        "# Connects this user object to Blacklights Bookmarks. " +
-        "\n  include Blacklight::User\n"
-      end
-    else
-      say_status("warning", "Blacklight authenticated user functionality not installed, as a user model could not be found at /app/models/user.rb. If you used a different name, please re-run the migration and provide that name as an argument. Such as `rails -g blacklight client`", :yellow)       
-    end    
+    generator_args = []
+    if options[:devise]
+      generator_args << "--devise #{options[:devise]}"
+    end
+    
+    generate 'blacklight:models', generator_args.join(" ")
   end
 
   # Add Blacklight to the application controller
@@ -151,10 +58,14 @@ EOF
     end
   end
   
-  # Generate blacklight document and the catalog controller
-  def create_blacklight_catalog_and_document
-    copy_file "solr_document.rb", "app/models/solr_document.rb"
-    copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
+  # TODO
+  # def generate_stub_catalog_controller
+  ## see blacklight:marc generator
+  ##copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
+  #end 
+
+  def generate_blacklight_marc_demo
+    generate 'blacklight:marc'
   end
 
   def inject_blacklight_routes
@@ -175,22 +86,6 @@ EOF
 EOF
       end
 
-  end
-
-  def add_bootstrap_gem
-    # Don't need a version here, because we specify the version in blacklight.gemspec
-    gem 'bootstrap-sass'
-  end 
-
-
-  private  
-  
-  def better_migration_template (file)
-    begin
-      migration_template "migrations/#{file}", "db/migrate/#{file}"
-    rescue
-      puts "  \e[1m\e[34mMigrations\e[0m  " + $!.message
-    end
   end
 
 end  
