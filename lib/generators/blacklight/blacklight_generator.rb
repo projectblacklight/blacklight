@@ -31,10 +31,14 @@ Thank you for Installing Blacklight.
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
   def self.next_migration_number(path)
-    unless @prev_migration_nr
-      @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
-    else
+    if @prev_migration_nr
       @prev_migration_nr += 1
+    else
+      if last_migration = Dir[File.join(path, '*.rb')].sort.last
+        @prev_migration_nr = last_migration.sub(File.join(path, '/'), '').to_i + 1
+      else
+        @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
+      end
     end
     @prev_migration_nr.to_s
   end
@@ -184,7 +188,6 @@ EOF
   def better_migration_template (file)
     begin
       migration_template "migrations/#{file}", "db/migrate/#{file}"
-      sleep 1 # ensure scripts have different time stamps
     rescue
       puts "  \e[1m\e[34mMigrations\e[0m  " + $!.message
     end
