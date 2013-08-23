@@ -8,6 +8,13 @@ gem 'simplecov-rcov', :platform => :mri
 
 gem 'rails', '~> 4.0.0'
 
+group :test do
+  gem 'devise'
+  gem "bootstrap-sass"
+  gem 'turbolinks'
+  gem "unicode", :platforms => [:mri_18, :mri_19]
+end
+
 f = File.expand_path(File.dirname(__FILE__) + '/../spec/test_app_templates/Gemfile.extra')
 if File.exists?(f)
   eval File.read(f), nil, f
