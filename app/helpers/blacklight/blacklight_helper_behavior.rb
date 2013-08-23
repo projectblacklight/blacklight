@@ -74,8 +74,8 @@ module Blacklight::BlacklightHelperBehavior
     render :partial=>'catalog/search_form'
   end
 
-  def search_action_url
-    catalog_index_url
+  def search_action_url *args
+    catalog_index_url *args
   end
 
   def extra_body_classes
@@ -186,21 +186,9 @@ module Blacklight::BlacklightHelperBehavior
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    value = options[:value]
-
-
     field_config = index_fields(document)[field]
+    value = options[:value] || get_field_values(document, field, field_config, options)
 
-    value ||= case 
-      when value
-        value
-      when (field_config and field_config.helper_method)
-        send(field_config.helper_method, options.merge(:document => document, :field => field))
-      when (field_config and field_config.highlight)
-        document.highlight_field(field_config.field).map { |x| x.html_safe } if document.has_highlight_field? field_config.field
-      else
-        document.get(field, :sep => nil) if field
-    end
 
     render_field_value value
   end
@@ -322,23 +310,39 @@ module Blacklight::BlacklightHelperBehavior
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    value = options[:value]
-
-
     field_config = document_show_fields(document)[field]
+    value = options[:value] || get_field_values(document, field, field_config, options)
 
-    value ||= case 
-      when value
-        value
+    render_field_value value
+  end
+
+  ##
+  # Get the value of a document's field after applying any value lookups, e.g.:
+  #   - helper_method
+  #   - link_to_search
+  #   - highlight
+  # TODO : maybe this should be merged with render_field_value, and the ugly signature 
+  # simplified by pushing some of this logic into the "model"
+  def get_field_values document, field, field_config, options = {}
+
+    case
       when (field_config and field_config.helper_method)
         send(field_config.helper_method, options.merge(:document => document, :field => field))
+      when (field_config and field_config.link_to_search)
+        link_field = if field_config.link_to_search === true
+          field_config.field
+        else
+          field_config.link_to_search
+        end
+
+        Array(document.get(field, :sep => nil)).map do |v|
+          link_to render_field_value(v), search_action_url(add_facet_params(link_field, v, {}))
+        end if field
       when (field_config and field_config.highlight)
         document.highlight_field(field_config.field).map { |x| x.html_safe } if document.has_highlight_field? field_config.field
       else
         document.get(field, :sep => nil) if field
     end
-
-    render_field_value value
   end
 
   def should_render_show_field? document, solr_field
