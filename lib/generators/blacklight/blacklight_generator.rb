@@ -29,6 +29,12 @@ Thank you for Installing Blacklight.
     gem 'bootstrap-sass'
   end 
 
+  def bundle_install
+    Bundler.with_clean_env do
+      run "bundle install"
+    end
+  end
+
   # Copy all files in templates/public/ directory to public/
   # Call external generator in AssetsGenerator, so we can
   # leave that callable seperately too. 
