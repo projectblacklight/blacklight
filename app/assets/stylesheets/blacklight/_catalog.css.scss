@@ -248,3 +248,8 @@ span.page a,span.page.current
 #email_form {
   @extend .span6;
 }
+
+.document-thumbnail {
+  float: right;
+  padding-left: 20px;
+}
