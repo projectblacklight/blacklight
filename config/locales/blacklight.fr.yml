@@ -20,7 +20,7 @@ fr:
       next: 'Suivante &raquo;'
 
   blacklight:
-    application_name: 'Blacklight BCU'
+    application_name: 'Blacklight'
 
     header_links:
       login: 'Mon compte'
