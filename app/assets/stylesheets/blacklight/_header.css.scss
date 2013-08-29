@@ -1,45 +1,31 @@
 /*
- The main logo image for the Blacklight instance
-*/
-
-
-.navbar .brand {
-  width: 150px;
-  background:transparent asset_url($logo_image,image) no-repeat top left;
-  display: inline-block;
-  text-indent: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  padding-right:0;
-  margin-right:20px;
-  padding-left: 0;
-}
-
-
-/*
   Header bar at top (Bootstrap nav-bar)
 */
-
-/* This ensures that any tool pop-up goes infront of the header */
-.navbar-fixed-top {
-  z-index:1000;
-}
-
 
 #header-navbar-fixed-top {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   min-width: 395px;
+  /* This ensures that any tool pop-up goes infront of the header */
+  z-index:1000; 
+
+  .brand {  /* The main logo image for the Blacklight instance */
+  	  width: 150px;
+	  background:transparent image_url($logo_image) no-repeat top left;
+	  display: inline-block;
+	  text-indent: 100%;
+	  white-space: nowrap;
+	  overflow: hidden;
+	  padding-right:0;
+	  margin-right:20px;
+	  padding-left: 0;
+  }
 
   .navbar-inner {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
   }
 
-
-  /*
-    Search form is in the header...
-  */
-  .desktop-search-bar {
+  .desktop-search-bar { /* Search form is in the header */
     opacity: 1 !important;
     padding-top: 0.5em;
 
@@ -53,8 +39,6 @@
 .search-query-form {
   margin-bottom: 0;
 }
-
-
 
 .btn.search-btn {
   margin-top: 0;

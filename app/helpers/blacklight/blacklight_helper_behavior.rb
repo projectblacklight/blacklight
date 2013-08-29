@@ -59,7 +59,9 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # collection of items to be rendered in the @sidebar
+  # @deprecated
   def sidebar_items
+    ActiveSupport::Deprecation.warn("#sidebar_items helper is deprecated, and should be replaced by overriding the appropriate partial")
     @sidebar_items ||= []
   end
 
@@ -72,8 +74,8 @@ module Blacklight::BlacklightHelperBehavior
     render :partial=>'catalog/search_form'
   end
 
-  def search_action_url
-    catalog_index_url
+  def search_action_url *args
+    catalog_index_url *args
   end
 
   def extra_body_classes
@@ -105,8 +107,9 @@ module Blacklight::BlacklightHelperBehavior
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
 
-  # used in the catalog/_index_partials/_default view
-  def index_fields
+  ##
+  # Index fields to display for a type of document
+  def index_fields document=nil
     blacklight_config.index_fields
   end
 
@@ -115,50 +118,113 @@ module Blacklight::BlacklightHelperBehavior
       (document.has_highlight_field? solr_field.field if solr_field.highlight)
   end
 
-  def index_field_names
-    index_fields.keys
+  ##
+  # Field keys for the index fields
+  # @deprecated
+  def index_field_names document=nil
+    index_fields(document).keys
   end
 
-  # used in the catalog/_index_partials/_default partial
-  def index_field_labels
+  ##
+  # Labels for the index fields
+  # @deprecated
+  def index_field_labels document=nil
     # XXX DEPRECATED
-    Hash[*index_fields.map { |key, field| [key, field.label] }.flatten]
+    Hash[*index_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
   def spell_check_max
     blacklight_config.spell_max
   end
 
-  def render_index_field_label args
-    field = args[:field]
-    html_escape index_fields[field].label
+  ##
+  # Render the index field label for a document
+  #
+  # @overload render_index_field_label(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  # @overload render_index_field_label(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field    
+  def render_index_field_label *args
+    options = args.extract_options!
+    document = args.first
+
+    field = options[:field]
+    html_escape index_fields(document)[field].label
   end
 
-  def render_index_field_value args
-    value = args[:value]
+  ##
+  # Render the index field label for a document
+  #
+  # @overload render_index_field_value(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  #   @options opts [String] :value
+  #   @options opts [String] :document
+  # @overload render_index_field_value(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field 
+  #   @options opts [String] :value
+  # @overload render_index_field_value(document, field, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [String] field
+  #   @param [Hash] opts
+  #   @options opts [String] :value
+  def render_index_field_value *args
+    options = args.extract_options!
+    document = args.shift || options[:document]
 
-    if args[:field] and blacklight_config.index_fields[args[:field]]
-      field_config = blacklight_config.index_fields[args[:field]]
-      value ||= send(blacklight_config.index_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]) if field_config.highlight
-    end
+    field = args.shift || options[:field]
+    field_config = index_fields(document)[field]
+    value = options[:value] || get_field_values(document, field, field_config, options)
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+
     render_field_value value
   end
 
   # Used in the show view for displaying the main solr document heading
-  def document_heading
-    @document[blacklight_config.show.heading] || @document.id
+  def document_heading document=nil
+    document ||= @document
+    document[blacklight_config.show.heading] || document.id
   end
 
-  def render_document_heading(tag = :h4)
-    content_tag(tag, render_field_value(document_heading))
+  ##
+  # Render the document "heading" (title) in a content tag
+  # @overload render_document_heading(tag)
+  # @overload render_document_heading(document, options)
+  #   @params [SolrDocument] document
+  #   @params [Hash] options
+  #   @options options [Symbol] :tag
+  def render_document_heading(*args)
+    options = args.extract_options!
+    if args.first.is_a? SolrDocument
+      document = args.shift
+      tag = options[:tag]
+    else
+      document = nil
+      tag = args.first || options[:tag]
+    end
+
+    tag ||= :h4
+
+    content_tag(tag, render_field_value(document_heading(document)))
   end
 
   # Used in the show view for setting the main html document title
-  def document_show_html_title
-    render_field_value(@document[blacklight_config.show.html_title])
+  def document_show_html_title document=nil
+    document ||= @document
+    render_field_value(document[blacklight_config.show.html_title])
   end
 
   # Used in citation view for displaying the title
@@ -172,7 +238,7 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # Used in the document list partial (search view) for creating a link to the document show action
-  def document_show_link_field
+  def document_show_link_field document=nil
     blacklight_config.index.show_link.to_sym
   end
 
@@ -182,32 +248,101 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   # used in the catalog/_show/_default partial
-  def document_show_fields
+  def document_show_fields document=nil
     blacklight_config.show_fields
   end
 
   # used in the catalog/_show/_default partial
-  def document_show_field_labels
+  # @deprecated
+  def document_show_field_labels document=nil
     # XXX DEPRECATED
-    Hash[*blacklight_config.show_fields.map { |key, field| [key, field.label] }.flatten]
+    Hash[*document_show_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
-  def render_document_show_field_label args
-    field = args[:field]
-    html_escape blacklight_config.show_fields[field].label
+  ##
+  # Render the show field label for a document
+  #
+  # @overload render_document_show_field_label(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  # @overload render_document_show_field_label(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field   
+  def render_document_show_field_label *args
+    options = args.extract_options!
+    document = args.first
+
+    field = options[:field]
+
+    html_escape document_show_fields(document)[field].label
   end
 
-  def render_document_show_field_value args
-    value = args[:value]
+  ##
+  # Render the index field label for a document
+  #
+  # @overload render_document_show_field_value(options)
+  #   Use the default, document-agnostic configuration
+  #   @param [Hash] opts
+  #   @options opts [String] :field
+  #   @options opts [String] :value
+  #   @options opts [String] :document
+  # @overload render_document_show_field_value(document, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [Hash] opts
+  #   @options opts [String] :field 
+  #   @options opts [String] :value
+  # @overload render_document_show_field_value(document, field, options)
+  #   Allow an extention point where information in the document
+  #   may drive the value of the field
+  #   @param [SolrDocument] doc
+  #   @param [String] field
+  #   @param [Hash] opts
+  #   @options opts [String] :value
+  def render_document_show_field_value *args
 
-    if args[:field] and blacklight_config.show_fields[args[:field]]
-      field_config = blacklight_config.show_fields[args[:field]]
-      value ||= send(blacklight_config.show_fields[args[:field]][:helper_method], args) if field_config.helper_method
-      value ||= args[:document].highlight_field(args[:field]).map { |x| x.html_safe } if field_config.highlight
-    end
+    options = args.extract_options!
+    document = args.shift || options[:document]
 
-    value ||= args[:document].get(args[:field], :sep => nil) if args[:document] and args[:field]
+    field = args.shift || options[:field]
+    field_config = document_show_fields(document)[field]
+    value = options[:value] || get_field_values(document, field, field_config, options)
+
     render_field_value value
+  end
+
+  ##
+  # Get the value of a document's field after applying any value lookups, e.g.:
+  #   - helper_method
+  #   - link_to_search
+  #   - highlight
+  # TODO : maybe this should be merged with render_field_value, and the ugly signature 
+  # simplified by pushing some of this logic into the "model"
+  def get_field_values document, field, field_config, options = {}
+
+    case
+      when (field_config and field_config.helper_method)
+        send(field_config.helper_method, options.merge(:document => document, :field => field))
+      when (field_config and field_config.link_to_search)
+        link_field = if field_config.link_to_search === true
+          field_config.field
+        else
+          field_config.link_to_search
+        end
+
+        Array(document.get(field, :sep => nil)).map do |v|
+          link_to render_field_value(v), search_action_url(add_facet_params(link_field, v, {}))
+        end if field
+      when (field_config and field_config.highlight)
+        document.highlight_field(field_config.field).map { |x| x.html_safe } if document.has_highlight_field? field_config.field
+      else
+        document.get(field, :sep => nil) if field
+    end
   end
 
   def should_render_show_field? document, solr_field
@@ -235,12 +370,15 @@ module Blacklight::BlacklightHelperBehavior
 
   def render_document_index documents = nil, locals = {}
     documents ||= @document_list
+    render_document_index_with_view(document_index_view_type, documents)
+  end
 
+  def render_document_index_with_view view, documents, locals = {}
     document_index_path_templates.each do |str|
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
       # for determining if a partial template exists..
       begin
-        return render(:partial => (str % { :index_view_type => document_index_view_type }), :locals => { :documents => documents })
+        return render(:partial => (str % { :index_view_type => view }), :locals => { :documents => documents })
       rescue ActionView::MissingTemplate
         nil
       end
@@ -359,27 +497,50 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   def params_for_search(options={})
-    my_params = (options[:params] || params).dup
-    options[:omit_keys] ||= []
+    # special keys
+    # params hash to mutate
+    source_params = options.delete(:params) || params
+    omit_keys = options.delete(:omit_keys) || []
 
-    options[:omit_keys].each do |omit_key|
+    # params hash we'll return
+    my_params = source_params.dup.merge(options.dup)
+
+
+    # remove items from our params hash that match:
+    #   - a key
+    #   - a key and a value
+    omit_keys.each do |omit_key|
       case omit_key
         when Hash
           omit_key.each do |key, values|
-            next unless my_params[key]
+            next unless my_params.has_key? key
+
+            # make sure to dup the source key, we don't want to accidentally alter the original
             my_params[key] = my_params[key].dup
 
             values = [values] unless values.respond_to? :each
             values.each { |v| my_params[key].delete(v) }
+
+            if my_params[key].empty?
+              my_params.delete(key)
+            end
           end
+
         else
           my_params.delete(omit_key)
       end
     end
 
-    # removing action and controller from duplicate params so that we don't get hidden fields for them.
+    if my_params[:page] and (my_params[:per_page] != source_params[:per_page] or my_params[:sort] != source_params[:sort] )
+      my_params[:page] = 1
+    end
+
+    my_params.reject! { |k,v| v.nil? }
+
+    # removing action, controller, and id from duplicate params so that we don't get hidden fields for them.
     my_params.delete(:action)
     my_params.delete(:controller)
+    my_params.delete(:id)
     # commit is just an artifact of submit button, we don't need it, and
     # don't want it to pile up with another every time we press submit again!
     my_params.delete(:commit)

@@ -1,14 +1,24 @@
 notifications:
   email: false
-  
+
 rvm:
-  # - 1.8.7
   - 1.9.3
-  # - rbx-2.0
-  # - jruby
+  - jruby-19mode
+  - 2.0.0
 
-env:
-  - RAILS_VERISON=3.2.8
+gemfile:
+  - gemfiles/rails3.gemfile
+  - gemfiles/rails4.gemfile
 
-script:
-  - test_support/bin/test.sh
+notifications:
+  irc: "irc.freenode.org#blacklight"
+  email:
+      - blacklight-commits@googlegroups.com
+
+env: JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"        
+# jruby + rails 4.0.0 don't work well together
+# jruby and rails 3.2.14 don't work well together either: 
+# https://github.com/rails/rails/issues/11595
+matrix:
+  allow_failures:
+    - rvm: jruby-19mode

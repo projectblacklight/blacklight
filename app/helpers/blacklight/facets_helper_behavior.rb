@@ -5,7 +5,7 @@ module Blacklight::FacetsHelperBehavior
   #
   
   def facet_configuration_for_field(field)
-    blacklight_config.facet_fields[field] || Blacklight::Configuration::FacetField.new(:field => field)
+    blacklight_config.facet_fields[field] || Blacklight::Configuration::FacetField.new(:field => field).normalize!
   end
 
   # used in the catalog/_facets partial
@@ -103,7 +103,7 @@ module Blacklight::FacetsHelperBehavior
   # options consist of:
   # :suppress_link => true # do not make it a link, used for an already selected value for instance
   def render_facet_value(facet_solr_field, item, options ={})    
-    (link_to_unless(options[:suppress_link], item.label, add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
+    (link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
   end
 
   # Standard display of a SELECTED facet value, no link, special span
@@ -215,24 +215,26 @@ module Blacklight::FacetsHelperBehavior
   end
 
   def facet_display_value field, item
-    
-    value = facet_value_for_facet_item(item)
-
     facet_config = facet_configuration_for_field(field)
-
-    display_label = value
-
-    if facet_config.query and facet_config.query[value]
-      display_label = facet_config.query[value][:label]     
+    
+    value = if item.respond_to? :label
+      value = item.label
+    else
+      facet_value_for_facet_item(item)
     end
 
-    if facet_config.date
-      localization_options = {}
-      localization_options = facet_config.date unless facet_config.date === true
-      display_label = l(value.to_datetime, localization_options)
+    display_label = case
+      when facet_config.helper_method
+        display_label = send facet_config.helper_method, value 
+      when (facet_config.query and facet_config.query[value])
+        display_label = facet_config.query[value][:label]     
+      when facet_config.date
+        localization_options = {}
+        localization_options = facet_config.date unless facet_config.date === true
+        display_label = l(value.to_datetime, localization_options)
+      else
+        value
     end
-
-    display_label
   end
 
   private

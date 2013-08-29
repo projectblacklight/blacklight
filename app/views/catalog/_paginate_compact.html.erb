@@ -1,4 +1,4 @@
-<% if paginate_params(@response).num_pages > 1 %>
+<% if @response.total_pages > 1 %>
 <%= paginate_rsolr_response @response, :theme => :blacklight_compact %>
 <% else %>
 <%= render_pagination_info(@response) %>

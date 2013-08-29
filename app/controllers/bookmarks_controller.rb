@@ -12,8 +12,8 @@ class BookmarksController < CatalogController
  
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
-  def search_action_url
-    catalog_index_url
+  def search_action_url *args
+    catalog_index_url *args
   end
   helper_method :search_action_url
 
@@ -52,7 +52,7 @@ class BookmarksController < CatalogController
     end
 
     if request.xhr?
-      render :text => "", :status => (success ? "200" : "500" )
+      success ? head(:no_content) : render(:text => "", :status => "500")
     else
       if @bookmarks.length > 0 && success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
@@ -80,7 +80,7 @@ class BookmarksController < CatalogController
       redirect_to :back
     else
       # ajaxy request needs no redirect and should not have flash set
-      render :text => "", :status => (success ? "200" : "500")
+      success ? head(:no_content) : render(:text => "", :status => "500")
     end        
   end
   

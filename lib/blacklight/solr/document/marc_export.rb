@@ -94,7 +94,7 @@ module Blacklight::Solr::Document::MarcExport
          export_text << "&amp;rft.pub=" + ((publisher_info.nil? or publisher_info['b'].nil?) ? "" : CGI::escape(publisher_info['b']))
          export_text << "&amp;rft.format=" + (format.nil? ? "" : CGI::escape(format))
      end
-     export_text unless export_text.blank?
+     export_text.html_safe unless export_text.blank?
   end
 
 

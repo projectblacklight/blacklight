@@ -1,5 +1,7 @@
 # Blacklight
 
+[![Build Status](https://travis-ci.org/projectblacklight/blacklight.png?branch=master)](https://travis-ci.org/projectblacklight/blacklight)
+
 Blacklight is an open source Solr user interface discovery platform.
 You can use Blacklight to enable searching and browsing of your collections.
 Blacklight uses the [Apache Solr](http://lucene.apache.org/solr) search engine
@@ -13,7 +15,7 @@ the University of Virginia Library and is made public under an Apache 2.0 licens
 * [Project Homepage](http://projectblacklight.org)
 * [Developer Documentation](https://github.com/projectblacklight/blacklight/wiki)
 * [Quickstart Guide](https://github.com/projectblacklight/blacklight/wiki/Quickstart)
-* [JIRA Issue Tracker](http://jira.projectblacklight.org/jira/secure/Dashboard.jspa)
+* [Issue Tracker](https://github.com/projectblacklight/blacklight/issues)
 * [Support](http://projectblacklight.org/support.html)
 
 ## Dependencies

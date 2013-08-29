@@ -4,8 +4,7 @@ coverage.data
 coverage/
 db/*.sqlite3
 db/schema.rb
-jetty/logs/*.log
-jetty/solr/data/*
+jetty
 log/*
 webrat-*
 config/SolrMarc/*.log*
@@ -15,7 +14,8 @@ tmp/*
 *.log
 .bundle
 Gemfile.lock
-tmp/test_app
+spec/internal
 .rvmrc
 pkg/*
 *.sw[pon]
+gemfiles/*.gemfile.lock

@@ -25,8 +25,8 @@ module Blacklight::Catalog
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
   
-  def search_action_url
-    url_for(:action => 'index', :only_path => true)
+  def search_action_url options = {}
+    url_for(options.merge(:action => 'index', :only_path => true))
   end
 
     # get search results from the solr index
@@ -75,7 +75,10 @@ module Blacklight::Catalog
       @pagination = get_facet_pagination(params[:id], params)
 
       respond_to do |format|
+        # Draw the facet selector for users who have javascript disabled:
         format.html 
+
+        # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
       end
     end
@@ -276,32 +279,40 @@ module Blacklight::Catalog
        
     # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
     def rsolr_request_error(exception)
-      if Rails.env == "development"
+      
+      if Rails.env.development?
         raise exception # Rails own code will catch and give usual Rails error page with stack trace
       else
+
         flash_notice = I18n.t('blacklight.search.errors.request_error')
-        # Set the notice flag if the flash[:notice] is already set to the error that we are setting.
-        # This is intended to stop the redirect loop error
-        notice = flash[:notice] if flash[:notice] == flash_notice
-        logger.error exception
-        unless notice
-          flash[:notice] = flash_notice
-          redirect_to root_path, :status => 500
-        else
-          render :file => "#{Rails.root}/public/500.html", :status => 500
+
+        # If there are errors coming from the index page, we want to trap those sensibly
+
+        if flash[:notice] == flash_notice
+          logger.error "Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception"
+          raise exception
         end
+
+        logger.error exception
+
+        flash[:notice] = flash_notice 
+        redirect_to root_path
       end
     end
     
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
     def invalid_solr_id_error
-      if Rails.env == "development"
-        render # will give us the stack trace
-      else
-        flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')
-        params.delete(:id)
-        index
-        render "index", :status => 404
-      end
+      flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')
+      params.delete(:id)
+      index
+      render "index", :status => 404
+    end
+
+    def blacklight_solr
+      @solr ||=  RSolr.connect(blacklight_solr_config)
+    end
+
+    def blacklight_solr_config
+      Blacklight.solr_config
     end
 end

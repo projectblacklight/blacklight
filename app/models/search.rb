@@ -4,7 +4,7 @@ class Search < ActiveRecord::Base
   belongs_to :user
   
   serialize :query_params
-  attr_accessible :query_params
+  attr_accessible :query_params if Rails::VERSION::MAJOR < 4
   
   # A Search instance is considered a saved search if it has a user_id.
   def saved?

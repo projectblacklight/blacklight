@@ -20,7 +20,7 @@
       });
 
     };  
-$(document).ready(function() {
+Blacklight.onLoad(function() {
   Blacklight.do_search_context_behavior();  
 });
 })(jQuery);

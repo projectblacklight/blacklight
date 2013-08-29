@@ -23,15 +23,16 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
       nil :
       label_for_search_field(params[:search_field])
     
-    render_search_to_s_element(label , params[:q] )        
+    render_search_to_s_element(label , render_filter_value(params[:q]) )
   end
+
   def render_search_to_s_filters(params)
     return "".html_safe unless params[:f]
 
     params[:f].collect do |facet_field, value_list|
-      render_search_to_s_element(blacklight_config.facet_fields[facet_field].label,
+      render_search_to_s_element(facet_configuration_for_field(facet_field).label,
         value_list.collect do |value|
-          render_filter_value(value)
+          render_filter_value(value, facet_field)
         end.join(content_tag(:span, " #{t('blacklight.and')} ", :class =>'filterSeparator')).html_safe
       )    
     end.join(" \n ").html_safe    
@@ -41,7 +42,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # 'and'.   Pass in option :escape_value => false to pass in pre-rendered
   # html for value. key with escape_key if needed.  
   def render_search_to_s_element(key, value, options = {})
-    content_tag(:span, render_filter_name(key) + render_filter_value(value, key), :class => 'constraint')
+    content_tag(:span, render_filter_name(key) + content_tag(:span, value, :class => 'filterValues'), :class => 'constraint')
   end
 
   def render_filter_name name

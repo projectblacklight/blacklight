@@ -1,6 +1,6 @@
 module Blacklight
   class Configuration::SortField < OpenStructWithHashAccess
-    def normalize! blacklight_config
+    def normalize! blacklight_config = nil
       self.sort ||= self.field
 
       self.field ||= self.key
