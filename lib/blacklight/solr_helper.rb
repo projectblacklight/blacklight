@@ -47,6 +47,7 @@
 module Blacklight::SolrHelper
   extend ActiveSupport::Concern
   include Blacklight::SearchFields
+  include Blacklight::Facet
 
   included do
     if self.respond_to?(:helper_method)
