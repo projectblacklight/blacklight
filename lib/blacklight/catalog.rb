@@ -32,17 +32,33 @@ module Blacklight::Catalog
     # get search results from the solr index
     def index
       
-      extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-      extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-      
       (@response, @document_list) = get_search_results
       @filters = params[:f] || []
       
       respond_to do |format|
-        format.html { save_current_search_params }
+        format.html { 
+          extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+          extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+          save_current_search_params
+        }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
+
+        
+        format.json { render json: {response: {docs: @document_list, facets: facets_from_request, pages: pagination_info(@response)}}}
       end
+    end
+
+    def pagination_info response
+      h = {}
+
+      [:current_page, :next_page, :prev_page, :total_pages,
+       :limit_value, :offset_value, :total_count,
+       :first_page?, :last_page?].each do |k|
+        h[k] = response.send(k)
+      end
+
+      h
     end
     
     # get single document from the solr index
@@ -51,6 +67,8 @@ module Blacklight::Catalog
 
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
+
+        format.json { render json: {response: {document: @document}}}
 
         # Add all dynamically added (such as by document extensions)
         # export formats.
@@ -77,6 +95,7 @@ module Blacklight::Catalog
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:
         format.html 
+        format.json { render json: {response: {facets: @pagination }}}
 
         # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
