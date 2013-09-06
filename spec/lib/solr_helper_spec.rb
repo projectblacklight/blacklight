@@ -578,6 +578,40 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
+    describe "for a query returning a grouped response" do
+      before(:all) do
+        (@solr_response, @document_list) = get_search_results({:q => @all_docs_query}, :group => true, :'group.field' => 'pub_date_sort')
+      end
+
+      it "should have an empty document list" do
+        expect(@document_list).to be_empty
+      end
+
+      it "should return a grouped response" do
+        expect(@solr_response).to be_a_kind_of Blacklight::SolrResponse::GroupResponse
+
+      end
+    end
+
+    describe "for a query returning multiple groups" do
+      before(:all) do
+        (@solr_response, @document_list) = get_search_results({:q => @all_docs_query}, :group => true, :'group.field' => ['pub_date_sort', 'title_sort'])
+      end
+
+      def grouped_key_for_results
+        'title_sort'
+      end
+
+      it "should have an empty document list" do
+        expect(@document_list).to be_empty
+      end
+
+      it "should return a grouped response" do
+        expect(@solr_response).to be_a_kind_of Blacklight::SolrResponse::GroupResponse
+        expect(@solr_response.group_field).to eq "title_sort"
+      end
+    end
+
     describe '#query_solr' do
       it 'should have results' do
         solr_response = query_solr(:q => @single_word_query)
@@ -1044,5 +1078,17 @@ describe 'Blacklight::SolrHelper' do
     Blacklight.solr.stub(:get).and_raise(Errno::ECONNREFUSED)
     expect { find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
   end
+
+  describe "grouped_key_for_results" do
+    let :blacklight_config do
+      Blacklight::Configuration.new
+    end
+
+    it "should pull the grouped key out of the config" do
+      blacklight_config.index.group = 'xyz'
+      expect(self.grouped_key_for_results).to eq('xyz')
+    end 
+  end
+
 end
 

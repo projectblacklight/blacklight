@@ -30,10 +30,17 @@ module Blacklight::CatalogHelperBehavior
       entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
       entry_name ||= t('blacklight.entry_name.default')
 
+
+      end_num = if render_grouped_response?
+        format_num(response.start + response.groups.length)
+      else
+        format_num(response.start + response.docs.length)
+      end
+      
       case response.total_count
         when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
         when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => response.current_page, :num_pages => response.total_pages, :start_num => format_num(response.start + 1) , :end_num => format_num(response.start + response.docs.length), :total_num => response.total_count, :count => response.total_pages).html_safe
+        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => response.current_page, :num_pages => response.total_pages, :start_num => format_num(response.start + 1) , :end_num => end_num, :total_num => response.total_count, :count => response.total_pages).html_safe
       end
   end
 
@@ -108,6 +115,10 @@ module Blacklight::CatalogHelperBehavior
 
   def thumbnail_url document
     document.get(blacklight_config.index.thumbnail_field, :sep => nil).first if document.has_field?(blacklight_config.index.thumbnail_field)
+  end
+
+  def add_group_facet_params_and_redirect group
+    add_facet_params_and_redirect(group.field, group.key)
   end
 
 end

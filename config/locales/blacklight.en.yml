@@ -200,6 +200,8 @@ en:
         more: 'more »'
         selected:
           remove: '[remove]'
+      group:
+        more: 'more »'
       filters:
         title: 'You searched for:'
         label: '%{label}:'

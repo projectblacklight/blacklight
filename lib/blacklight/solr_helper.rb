@@ -67,7 +67,7 @@ module Blacklight::SolrHelper
     # CatalogController.include ModuleDefiningNewMethod
     # CatalogController.solr_search_params_logic += [:new_method]
     # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-    self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr ]
+    self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
   end
 
   def force_to_utf8(value)
@@ -360,6 +360,13 @@ module Blacklight::SolrHelper
       end
     end
 
+    # Remove the group parameter if we've faceted on the group field (e.g. for the full results for a group)
+    def add_group_config_to_solr solr_parameters, user_parameters
+      if user_parameters[:f] and user_parameters[:f][grouped_key_for_results]
+        solr_parameters[:group] = false
+      end
+    end
+
 
   
   # a solr query method
@@ -370,8 +377,16 @@ module Blacklight::SolrHelper
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(user_params = params || {}, extra_controller_params = {})
     solr_response = query_solr(user_params, extra_controller_params)
-    document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)} 
-    return [solr_response, document_list]
+
+    case
+    when (solr_response.grouped? && grouped_key_for_results)
+      [solr_response.group(grouped_key_for_results), []]
+    when (solr_response.grouped? && solr_response.grouped.length == 1)
+      [solr_response.grouped.first, []]
+    else
+      document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)} 
+      [solr_response, document_list]
+    end
   end
 
   	
@@ -579,6 +594,12 @@ module Blacklight::SolrHelper
     end
 
     return limit
+  end
+
+  ##
+  # The key to use to retrieve the grouped field to display 
+  def grouped_key_for_results
+    blacklight_config.index.group
   end
 
 end

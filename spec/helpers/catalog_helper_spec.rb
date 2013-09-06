@@ -20,6 +20,11 @@ describe CatalogHelper do
 
     mock_response
   end
+
+  def render_grouped_response?
+    false
+  end
+  
   
   describe "render_pagination_info" do
     before(:all) do
