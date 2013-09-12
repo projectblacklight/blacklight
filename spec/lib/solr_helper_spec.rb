@@ -379,7 +379,8 @@ describe 'Blacklight::SolrHelper' do
           :key => "custom_author_key",
           :solr_local_parameters => {
             :qf => "$author_qf",
-            :pf => "you'll have \" to escape this"
+            :pf => "you'll have \" to escape this",
+            :pf2 => "$pf2_do_not_escape_or_quote"
           },
           :solr_parameters => {
             :qf => "someField^1000",
@@ -406,6 +407,7 @@ describe 'Blacklight::SolrHelper' do
       it "should include include local params with escaping" do
         @result[:q].should include('qf=$author_qf')
         @result[:q].should include('pf=\'you\\\'ll have \\" to escape this\'')
+        @result[:q].should include('pf2=$pf2_do_not_escape_or_quote')
       end
     end
     
