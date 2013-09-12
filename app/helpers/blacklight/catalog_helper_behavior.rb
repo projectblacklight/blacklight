@@ -44,6 +44,12 @@ module Blacklight::CatalogHelperBehavior
       end
   end
 
+  def document_counter_with_offset idx 
+    unless render_grouped_response? 
+      idx + 1 + @response.params[:start].to_i
+    end
+  end
+
   # Like  #render_pagination_info above, but for an individual
   # item show page. Displays "showing X of Y items" message. Actually takes
   # data from session though (not a great design).

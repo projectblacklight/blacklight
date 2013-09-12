@@ -200,4 +200,24 @@ describe CatalogHelper do
       expect(helper.thumbnail_url document).to be_nil
     end
   end
+
+  describe "document_counter_with_offset" do
+    it "should render the document index with the appropriate offset" do
+      assign(:response, double(:params => { :start => 0 }, :grouped? => false))
+      expect(helper.document_counter_with_offset(0)).to be(1)
+      expect(helper.document_counter_with_offset(1)).to be(2)
+    end
+
+    it "should render the document index with the appropriate offset" do
+      assign(:response, double(:params => { :start => 10 }, :grouped? => false))
+      expect(helper.document_counter_with_offset(0)).to be(11)
+      expect(helper.document_counter_with_offset(1)).to be(12)
+    end
+
+    it "should not provide a counter for grouped responses" do
+      assign(:response, double(:params => { :start => 10 }, :grouped? => true))
+      expect(helper.document_counter_with_offset(0)).to be_nil
+    end
+  end
+
 end
