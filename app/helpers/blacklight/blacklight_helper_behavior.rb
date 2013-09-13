@@ -149,7 +149,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field    
+  #   @options opts [String] :field
   def render_index_field_label *args
     options = args.extract_options!
     document = args.first
@@ -172,7 +172,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field 
+  #   @options opts [String] :field
   #   @options opts [String] :value
   # @overload render_index_field_value(document, field, options)
   #   Allow an extention point where information in the document
@@ -271,7 +271,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field   
+  #   @options opts [String] :field
   def render_document_show_field_label *args
     options = args.extract_options!
     document = args.first
@@ -295,7 +295,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field 
+  #   @options opts [String] :field
   #   @options opts [String] :value
   # @overload render_document_show_field_value(document, field, options)
   #   Allow an extention point where information in the document
@@ -321,7 +321,7 @@ module Blacklight::BlacklightHelperBehavior
   #   - helper_method
   #   - link_to_search
   #   - highlight
-  # TODO : maybe this should be merged with render_field_value, and the ugly signature 
+  # TODO : maybe this should be merged with render_field_value, and the ugly signature
   # simplified by pushing some of this logic into the "model"
   def get_field_values document, field, field_config, options = {}
 
@@ -477,7 +477,7 @@ module Blacklight::BlacklightHelperBehavior
   def link_to_document(doc, opts={:label=>nil, :counter => nil, :results_view => true})
     opts[:label] ||= blacklight_config.index.show_link.to_sym
     label = render_document_index_label doc, opts
-    link_to label, doc, { :'data-counter' => opts[:counter] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
+    link_to label, doc, { :'data-counter' => opts[:counter], :'data-results_view' => opts[:results_view] }.merge(opts.reject { |k,v| [:label, :counter, :results_view].include? k  })
   end
 
   # link_back_to_catalog(:label=>'Back to Search')
