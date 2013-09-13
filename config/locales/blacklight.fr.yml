@@ -213,6 +213,8 @@ fr:
         more: 'plus »'
         selected:
           remove: '[ X ]'
+      group:
+        more: 'plus »'
       filters:
         title: 'Vous avez demandé :'
         label: '%{label}:'

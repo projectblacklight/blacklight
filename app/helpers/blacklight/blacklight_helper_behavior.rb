@@ -608,5 +608,17 @@ module Blacklight::BlacklightHelperBehavior
     val
   end
 
+  ##
+  # Should we render a grouped response (because the response 
+  # contains a grouped response instead of the normal response) 
+  def render_grouped_response?
+    return @response.grouped?
+  end
+
+  ##
+  # Render the grouped response
+  def render_grouped_document_index grouped_key = nil
+    render :partial => 'catalog/group_default'
+  end
 
 end

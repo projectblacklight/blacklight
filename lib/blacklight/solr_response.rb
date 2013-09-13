@@ -2,38 +2,13 @@ require 'kaminari'
 
 class Blacklight::SolrResponse < HashWithIndifferentAccess
 
+  require  'blacklight/solr_response/pagination_methods'
+
   autoload :Spelling, 'blacklight/solr_response/spelling'
   autoload :Facets, 'blacklight/solr_response/facets'
   autoload :MoreLikeThis, 'blacklight/solr_response/more_like_this'
-
-  include Kaminari::PageScopeMethods
-  
-
-  module PaginationMethods
-
-    def limit_value #:nodoc:
-      rows
-    end
-
-    def offset_value #:nodoc:
-      start
-    end
-
-    def total_count #:nodoc:
-      total
-    end
-
-    ## Methods in kaminari master that we'd like to use today.
-    # Next page number in the collection
-    def next_page
-      current_page + 1 unless last_page?
-    end
-
-    # Previous page number in the collection
-    def prev_page
-      current_page - 1 unless first_page?
-    end
-  end
+  autoload :GroupResponse, 'blacklight/solr_response/group_response'
+  autoload :Group, 'blacklight/solr_response/group'
 
   include PaginationMethods
 
@@ -66,7 +41,7 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
 
   def docs
     @docs ||= begin
-      response['docs']
+      response['docs'] || []
     end
   end
 
@@ -74,9 +49,34 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
     self['spelling']
   end
 
+  def grouped
+    @groups ||= self["grouped"].map do |field, group|
+      # grouped responses can either be grouped by:
+      #   - field, where this key is the field name, and there will be a list
+      #        of documents grouped by field value, or:
+      #   - function, where the key is the function, and the documents will be
+      #        further grouped by function value, or:
+      #   - query, where the key is the query, and the matching documents will be
+      #        in the doclist on THIS object
+      if group["groups"] # field or function
+        GroupResponse.new field, group, self
+      else # query
+        Group.new field, group, self
+      end
+    end
+  end
+
+  def group key
+    grouped.select { |x| x.key == key }.first
+  end
+
+  def grouped?
+    self.has_key? "grouped"
+  end
+
   module Response
     def response
-      self[:response]
+      self[:response] || {}
     end
     
     # short cut to response['numFound']

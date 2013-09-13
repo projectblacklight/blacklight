@@ -10,6 +10,7 @@ webrat-*
 config/SolrMarc/*.log*
 rerun.txt
 solr_marc/solrmarc.log
+lib/solrmarc.log.*
 tmp/*
 *.log
 .bundle

@@ -177,6 +177,10 @@ module Blacklight::FacetsHelperBehavior
     p[:f].delete(field) if p[:f][field].size == 0
     p
   end
+
+  def facet_field_in_params? field
+    params[:f] and params[:f][field]
+  end
   
   # true or false, depending on whether the field and value is in params[:f]
   def facet_in_params?(field, item)
@@ -186,7 +190,7 @@ module Blacklight::FacetsHelperBehavior
 
     value = facet_value_for_facet_item(item)
 
-    params[:f] and params[:f][field] and params[:f][field].include?(value)
+    facet_field_in_params?(field) and params[:f][field].include?(value)
   end
 
   def facet_display_value field, item

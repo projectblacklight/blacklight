@@ -658,4 +658,15 @@ describe BlacklightHelper do
     end
   end
 
+
+  describe "render_grouped_response?" do
+    it "should check if the response contains grouped data" do
+      assign(:response, double("SolrResponse", :grouped? => true))
+      expect(helper.render_grouped_response?).to be_true
+    end
+  end
+
+  describe "render_grouped_document_index" do
+
+  end
 end
