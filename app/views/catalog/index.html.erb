@@ -20,11 +20,14 @@
 
       <%= render :partial => 'constraints' %>
 
-	    <%= render 'sort_and_per_page' %>
-
+      <%= render :partial => 'sort_and_per_page' %>
       <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
-	    <%= render_document_index %>
 
+      <%- if render_grouped_response? %>
+        <%= render_grouped_document_index %>
+      <%- else %>
+        <%= render_document_index %>
+      <%- end %>
 
 	    <%= render 'results_pagination' %>
 

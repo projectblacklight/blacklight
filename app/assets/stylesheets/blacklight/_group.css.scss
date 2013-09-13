@@ -1,0 +1,14 @@
+.group-key {
+  border-bottom: 1px solid $dark_border_color;
+  clear: right;
+}
+
+.grouped-documents {
+  .document {
+    border-bottom: 0;
+  }
+}
+
+.more-in-group {
+  float: right;
+}

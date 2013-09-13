@@ -360,6 +360,14 @@ describe FacetsHelper do
 
   end
 
+  describe "facet_field_in_params?" do
+    it "should check if the facet field is selected in the user params" do
+      helper.stub(:params => { :f => { "some-field" => ["x"]}})
+      expect(helper.facet_field_in_params?("some-field")).to be_true
+      expect(helper.facet_field_in_params?("other-field")).to_not be_true
+    end
+  end
+
   describe "facet_in_params?" do
 
   end
