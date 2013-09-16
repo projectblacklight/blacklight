@@ -99,14 +99,17 @@ module Blacklight::Controller
       current_user_bookmarks = current_user.bookmarks.all.collect(&:document_id)
 
       guest_user.searches.all.reject { |s| current_user_searches.include?(s.query_params)}.each do |s| 
-        s.user_id = current_user.id 
-        s.save 
+        current_user.searches << s
+        s.save!
       end
 
       guest_user.bookmarks.all.reject { |b| current_user_bookmarks.include?(b.document_id)}.each do |b| 
-        b.user_id = current_user.id 
-        b.save
+        current_user.bookmarks << b
+        b.save!
       end
+
+      # let guest_user know we've moved some bookmarks from under it
+      guest_user.reload
     end
 
     ##

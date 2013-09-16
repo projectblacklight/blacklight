@@ -40,13 +40,12 @@ describe "Bookmarks" do
   end
       
   it "should add bookmarks after a user logs in" do
-    pending "https://github.com/projectblacklight/blacklight/issues/590 bad test"
     visit catalog_path('2007020969')
     click_button 'Bookmark'
     sign_in 'user1'
     visit bookmarks_path
-    # click_link 'Bookmarks'
     expect(page).to have_button("Remove bookmark")
+    expect(page).to have_content("Strong Medicine speaks")
   end
 
   it "should cite items in bookmarks" do

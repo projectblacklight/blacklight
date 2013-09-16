@@ -8,6 +8,7 @@ gem 'simplecov-rcov', :platform => :mri
 
 group :test do
   gem 'devise'
+  gem 'devise-guests'
   gem "bootstrap-sass"
   gem 'turbolinks'
   gem "unicode", :platforms => [:mri_18, :mri_19]
