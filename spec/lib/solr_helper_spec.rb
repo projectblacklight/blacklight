@@ -1,11 +1,6 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'marc'
 
-
-
-
-=begin
 # check the methods that do solr requests. Note that we are not testing if
 #  solr gives "correct" responses, as that's out of scope (it's a part of
 #  testing the solr code itself).  We *are* testing if blacklight code sends
@@ -13,7 +8,7 @@ require 'marc'
 #  do we get data back from solr (i.e. did we properly configure blacklight code
 #  to talk with solr and get results)? when we do a document request, does
 #  blacklight code get a single document returned?)
-=end
+#
 describe 'Blacklight::SolrHelper' do
 
   # SolrHelper is a controller layer mixin, which depends

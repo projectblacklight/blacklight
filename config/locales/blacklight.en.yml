@@ -103,7 +103,6 @@ en:
       refworks: 'Export to Refworks'
       email: 'Email'
       sms: 'SMS This'
-      librarian_view: 'Librarian View'
       clear: 'Clear'
 
     citation:
@@ -209,10 +208,6 @@ en:
         remove:
           value: 'Remove constraint %{value}'
           label_value: 'Remove constraint %{label}: %{value}'
-      librarian_view:
-        title: 'Librarian View'
-        leader: 'LEADER %{leader}'
-        empty: 'No MARC data found.'
       start_over: 'Start Over'
       show:
         title: '%{document_title} - %{application_name}'
