@@ -4,9 +4,9 @@
 //change form submit toggle to checkbox
     Blacklight.do_bookmark_toggle_behavior = function() {
       $(Blacklight.do_bookmark_toggle_behavior.selector).bl_checkbox_submit({          
-          checked_label: "In Bookmarks",
-          unchecked_label: "Bookmark",
-          progress_label: "Saving...",
+          checked_label: $('#checked_label').val(),
+          unchecked_label: $('#unchecked_label').val(),
+          progress_label: $('#progress_label').val(),
           //css_class is added to elements added, plus used for id base
           css_class: "toggle_bookmark"    
       }); 
