@@ -1,3 +1,4 @@
+<div id="content" class="span9">
 <h1>Send Us Feedback</h1>
 
 <% unless @errors.empty? %>
@@ -11,10 +12,11 @@
 
 <%= form_tag do %>
   <fieldset>
-    <div class="row"><%= label_tag t('active_record.attributes.feedback.name') %> <%= text_field_tag :name, params[:name] %></div>
-    <div class="row"><%= label_tag t('active_record.attributes.feedback.email') %> <%= text_field_tag :email, params[:email] %></div>
-    <div class="row"><%= label_tag t('active_record.attributes.feedback.message')  %> <%= text_area_tag :message, params[:message] %></div>
-    <%#= show_simple_captcha(:image_style => 'random', :label => "Enter the characters you see into the text field") %>
-    <div class="row"><%= label_tag '' %><%= submit_tag t('blacklight.feedback.submit') %></div>
+    <%= label_tag t('active_record.attributes.feedback.name') %> <%= text_field_tag :name, params[:name] %>
+    <%= label_tag t('active_record.attributes.feedback.email') %> <%= text_field_tag :email, params[:email] %>
+    <%= label_tag t('active_record.attributes.feedback.message')  %> <%= text_area_tag :message, params[:message] %>
+
+    <%= label_tag '' %><%= submit_tag t('blacklight.feedback.submit') %>
   </fieldset>
 <% end %>
+</div>

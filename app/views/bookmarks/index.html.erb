@@ -1,3 +1,4 @@
+<div id="content" class="span12">
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
 <%- if current_or_guest_user.blank? -%>
@@ -14,4 +15,5 @@
   <%= render_document_index %>
   <%= render 'results_pagination' %>
 <% end %>
+</div>
 
