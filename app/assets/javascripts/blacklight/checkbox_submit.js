@@ -70,10 +70,10 @@
                //Set the Rails hidden field that fakes an HTTP verb
                //properly for current state action. 
                form.find("input[name=_method]").val("delete");
-               span.text(options.checked_label);
+               span.text(form.attr('data-present'));
             } else {
                form.find("input[name=_method]").val("put");
-               span.text(options.unchecked_label);
+               span.text(form.attr('data-absent'));
             }
           }
         
@@ -81,7 +81,7 @@
         update_state_for(checked);
         
         checkbox.click(function() {
-            span.text(options.progress_label);
+            span.text(form.attr('data-inprogress'));
             label.attr("disabled", "disabled");  
             checkbox.attr("disabled", "disabled");
                             
@@ -123,9 +123,6 @@
     };
 	
   $.fn.bl_checkbox_submit.defaults =  {
-            checked_label: "",
-            unchecked_label: "",
-            progress_label: "Saving...",
             //css_class is added to elements added, plus used for id base
             css_class: "bl_checkbox_submit",
             success: function() {} //callback

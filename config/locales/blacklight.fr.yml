@@ -231,6 +231,10 @@ fr:
       atom_feed: 'Atom pour les résultats'
       fields:
         default: 'Keyword'
+      bookmarks:
+        present: "Dans panier"
+        absent: "Ajouter au panier"
+        inprogress: "En cours"
 
     entry_name:
       default: 'résultat'
