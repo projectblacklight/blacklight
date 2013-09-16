@@ -109,7 +109,7 @@ module Blacklight::Controller
       end
 
       # let guest_user know we've moved some bookmarks from under it
-      guest_user.reload
+      guest_user.reload if guest_user.persisted?
     end
 
     ##
