@@ -328,13 +328,14 @@ module Blacklight::SolrHelper
         if blacklight_config.add_facet_fields_to_solr_request
           case 
             when facet.pivot
-              solr_parameters[:'facet.pivot'] << facet.pivot.join(",")
+              solr_parameters[:'facet.pivot'] << with_ex_local_param(facet.ex, facet.pivot.join(","))
             when facet.query
-              solr_parameters[:'facet.query'] += facet.query.map { |k, x| x[:fq] } 
+              solr_parameters[:'facet.query'] += facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
    
             when facet.ex
-              idx = solr_parameters[:'facet.field'].index(facet.field)
-              solr_parameters[:'facet.field'][idx] = "{!ex=#{facet.ex}}#{solr_parameters[:'facet.field'][idx]}" unless idx.nil?
+              if idx = solr_parameters[:'facet.field'].index(facet.field)
+                solr_parameters[:'facet.field'][idx] = with_ex_local_param(facet.ex, solr_parameters[:'facet.field'][idx])
+              end
           end
 
           if facet.sort
@@ -346,6 +347,14 @@ module Blacklight::SolrHelper
         # links, by sending a facet.limit one more than what we
         # want to page at, according to configured facet limits.
         solr_parameters[:"f.#{facet.field}.facet.limit"] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
+      end
+    end
+
+    def with_ex_local_param(ex, value)
+      if ex
+        "{!ex=#{ex}}#{value}"
+      else
+        value
       end
     end
 

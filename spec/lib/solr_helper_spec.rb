@@ -277,6 +277,8 @@ describe 'Blacklight::SolrHelper' do
          config = Blacklight::Configuration.new
 
          config.add_facet_field 'test_field', :sort => 'count'
+         config.add_facet_field 'some-query', :query => {'x' => {:fq => 'some:query' }}, :ex => 'xyz'
+         config.add_facet_field 'some-pivot', :pivot => ['a','b'], :ex => 'xyz'
          config.add_facet_fields_to_solr_request!
 
          config
@@ -290,6 +292,15 @@ describe 'Blacklight::SolrHelper' do
 
         solr_parameters[:'facet.field'].should include('test_field')
         solr_parameters[:'f.test_field.facet.sort'].should == 'count'
+      end
+
+      it "should add facet exclusions" do
+        solr_parameters = { }
+
+        add_facetting_to_solr(solr_parameters, {})
+
+        solr_parameters[:'facet.query'].should include('{!ex=xyz}some:query')
+        solr_parameters[:'facet.pivot'].should include('{!ex=xyz}a,b')
       end
     end
 
@@ -1090,6 +1101,19 @@ describe 'Blacklight::SolrHelper' do
       blacklight_config.index.group = 'xyz'
       expect(self.grouped_key_for_results).to eq('xyz')
     end 
+  end
+
+  describe "#with_tag_ex" do
+    it "should add an !ex local parameter if the facet configuration requests it" do
+      expect(self.with_ex_local_param("xyz", "some-value")).to eq "{!ex=xyz}some-value"
+    end
+
+    it "should not add an !ex local parameter if it isn't configured" do
+      mock_field = double()
+      expect(self.with_ex_local_param(nil, "some-value")).to eq "some-value"
+    end
+
+
   end
 
 end
