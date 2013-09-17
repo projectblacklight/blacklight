@@ -231,6 +231,7 @@ fr:
       librarian_view:
         title: 'Vue UNIMARC'
         leader: 'LABEL %{leader}'
+        empty: 'Pas MARC trouvé.'
       start_over: 'Accueil'
       show:
         title: '%{document_title} - %{application_name}'

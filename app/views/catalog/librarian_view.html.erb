@@ -6,5 +6,5 @@
 <%- if @document.respond_to?(:to_marc) -%>
   <%= render "marc_view" %>
 <%- else %>
-      No MARC data found.
+  <%= t('blacklight.search.librarian_view.empty') %>
 <%- end -%>

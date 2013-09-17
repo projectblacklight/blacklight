@@ -215,6 +215,7 @@ en:
       librarian_view:
         title: 'Librarian View'
         leader: 'LEADER %{leader}'
+        empty: 'No MARC data found.'
       start_over: 'Start Over'
       show:
         title: '%{document_title} - %{application_name}'
