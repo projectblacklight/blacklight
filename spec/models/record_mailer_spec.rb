@@ -41,7 +41,7 @@ describe RecordMailer do
   
   describe "SMS" do
     before(:each) do
-      details = {:to => '5555555555', :carrier => 'att'}
+      details = {:to => '5555555555@txt.att.net'}
       @sms = RecordMailer.sms_record(@documents,details,{:host =>'projectblacklight.org:3000'})
     end
     it "should create the correct TO address for the SMS email" do
@@ -56,10 +56,10 @@ describe RecordMailer do
     it "should print out the correct body" do
       @sms.body.should =~ /The horn/
       @sms.body.should =~ /by Janetzky, Kurt/
-      @sms.body.should =~ /projectblacklight.org:300/      
+      @sms.body.should =~ /projectblacklight.org:3000/      
     end
     it "should use https URL when protocol is set" do
-      details = {:to => '5555555555', :carrier => 'att'}
+      details = {:to => '5555555555@txt.att.net'}
       @https_sms = RecordMailer.sms_record(@documents,details,{:host =>'projectblacklight.org', :protocol => 'https'})
       @https_sms.body.should =~ %r|https://projectblacklight.org/|
     end

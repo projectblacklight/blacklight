@@ -141,10 +141,13 @@ fr:
         url: 'URL : %{url}'
         message: 'Message : %{message}'
 
+      success: "Message envoyé"
+
       errors:
         to:
           invalid: 'Vous devez saisir une adresse correcte.'
           blank: 'Vous devez saisir l''adresse de votre destinataire.'
+
     sms:
       form:
         title: 'Envoyer par SMS'
@@ -156,12 +159,16 @@ fr:
         title: '%{value}'
         author: ' by %{value}'
         url: 'Lien : %{url}'
+
+      success: "SMS envoyé"
+
       errors:
         to:
           invalid: 'Vous devez saisir un numéro de téléphone à 10 chiffres.'
           blank: "Vous devez saisir le numéro de téléphone de votre destinataire."
         carrier:
           blank: 'Vous devez choisir un opérateur.'
+          invalid: "Vous devez saisir le opérateur."
 
     back_to_search: 'Retour aux résultats'
     back_to_bookmarks: 'Retour aux favoris'

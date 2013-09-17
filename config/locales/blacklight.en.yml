@@ -131,6 +131,8 @@ en:
         url: 'URL: %{url}'
         message: 'Message: %{message}'
 
+      success: "Email Sent"
+
       errors:
         to:
           invalid: 'You must enter a valid email address'
@@ -146,12 +148,14 @@ en:
         title: '%{value}'
         author: ' by %{value}'
         url: 'Link: %{url}'
+      success: "SMS Sent"
       errors:
         to:
           invalid: 'You must enter a valid 10 digit phone number'
           blank: "You must enter a recipient's phone number in order to send this message"
         carrier:
           blank: 'You must select a carrier'
+          invalid: "You must enter a valid carrier"
 
     back_to_search: 'Back to Search'
     back_to_bookmarks: 'Back to Bookmarks'
