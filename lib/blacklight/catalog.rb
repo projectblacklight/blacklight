@@ -25,10 +25,6 @@ module Blacklight::Catalog
     rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
   
-  def search_action_url options = {}
-    url_for(options.merge(:action => 'index', :only_path => true))
-  end
-
     # get search results from the solr index
     def index
       
@@ -47,18 +43,6 @@ module Blacklight::Catalog
         
         format.json { render json: {response: {docs: @document_list, facets: facets_from_request, pages: pagination_info(@response)}}}
       end
-    end
-
-    def pagination_info response
-      h = {}
-
-      [:current_page, :next_page, :prev_page, :total_pages,
-       :limit_value, :offset_value, :total_count,
-       :first_page?, :last_page?].each do |k|
-        h[k] = response.send(k)
-      end
-
-      h
     end
     
     # get single document from the solr index
@@ -213,6 +197,11 @@ module Blacklight::Catalog
     # non-routable methods ->
     #
 
+    def search_action_url options = {}
+      url_for(options.merge(:action => 'index', :only_path => true))
+    end
+
+
     # calls setup_previous_document then setup_next_document.
     # used in the show action for single view pagination.
     def setup_next_and_previous_documents
@@ -317,6 +306,19 @@ module Blacklight::Catalog
         flash[:notice] = flash_notice 
         redirect_to root_path
       end
+    end
+
+    # extract the pagination info from the response object
+    def pagination_info response
+      h = {}
+
+      [:current_page, :next_page, :prev_page, :total_pages,
+       :limit_value, :offset_value, :total_count,
+       :first_page?, :last_page?].each do |k|
+        h[k] = response.send(k)
+      end
+
+      h
     end
     
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
