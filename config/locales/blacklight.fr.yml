@@ -168,7 +168,7 @@ fr:
           blank: "Vous devez saisir le numéro de téléphone de votre destinataire."
         carrier:
           blank: 'Vous devez choisir un opérateur.'
-          invalid: "Vous devez saisir le opérateur."
+          invalid: "Vous devez choisir le opérateur valide."
 
     back_to_search: 'Retour aux résultats'
     back_to_bookmarks: 'Retour aux favoris'
