@@ -62,7 +62,6 @@ module Blacklight
           post 'catalog/email'
           get 'catalog/sms', :as => "sms_catalog"
           get 'catalog/endnote', :as => "endnote_catalog"
-          get 'catalog/send_email_record', :as => "send_email_record_catalog"
           get "catalog/facet/:id", :to => 'catalog#facet', :as => 'catalog_facet'
 
 
