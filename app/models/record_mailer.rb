@@ -14,24 +14,9 @@ class RecordMailer < ActionMailer::Base
   end
   
   def sms_record(documents, details, url_gen_params)
-    if sms_mapping[details[:carrier]]
-      to = "#{details[:to]}@#{sms_mapping[details[:carrier]]}"
-    end
     @documents      = documents
     @url_gen_params = url_gen_params
-    mail(:to => to, :subject => "")
+    mail(:to => details[:to], :subject => "")
   end
 
-  protected
-  
-  def sms_mapping
-    {'virgin' => 'vmobl.com',
-    'att' => 'txt.att.net',
-    'verizon' => 'vtext.com',
-    'nextel' => 'messaging.nextel.com',
-    'sprint' => 'messaging.sprintpcs.com',
-    'tmobile' => 'tmomail.net',
-    'alltel' => 'message.alltel.com',
-    'cricket' => 'mms.mycricket.com'}
-  end
 end
