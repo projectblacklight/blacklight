@@ -1,4 +1,3 @@
-<%- unless flash[:success] %>
 <%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :class => "form-horizontal ajax_form", :method => :post do %>
 
   <div class="modal-body">
@@ -35,9 +34,3 @@
   <button type="submit" class="btn btn-primary"> <%= t('blacklight.sms.form.submit') %></button>
   </div>
 <% end %>
-<%- else %>
-<div class="modal-body">
-  <%= render :partial=>'/flash_msg' %>
-    <span class="ajax-close-modal"/>
-    </div>
-<%- end %>

@@ -11,6 +11,7 @@ module Blacklight::Catalog
   # own controller.
   included do  
     helper_method :search_action_url
+    helper_method :sms_mappings
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
     after_filter :set_additional_search_session_values, :only=>:index
@@ -117,68 +118,51 @@ module Blacklight::Catalog
     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def email
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-      if request.post?
-        if params[:to]
-          url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
+      
+      if request.post? and validate_email_params
+        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
           
-          if params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-            email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)
-          else
-            flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
-          end
-        else
-          flash[:error] = I18n.t('blacklight.email.errors.to.blank')
-        end
+        email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)        
+        email.deliver 
 
-        unless flash[:error]
-          email.deliver 
-          flash[:success] = "Email sent"
-          redirect_to catalog_path(params['id']) unless request.xhr?
-        end
+        flash[:success] = I18n.t("blacklight.email.success")
+
+        respond_to do |format|
+          format.html { redirect_to catalog_path(params['id']) }
+          format.js { render 'email_sent' }
+        end and return
       end
 
-      unless !request.xhr? && flash[:success]
-        respond_to do |format|
-          format.js { render :layout => false }
-          format.html
-        end
+      respond_to do |format|
+        format.html
+        format.js { render :layout => false }
       end
     end
+
     
     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def sms 
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-      if request.post?
+      
+      if request.post? and validate_sms_params
         url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-        
-        if params[:to]
-          phone_num = params[:to].gsub(/[^\d]/, '')
-          unless params[:carrier].blank?
-            if phone_num.length != 10
-              flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
-            else
-              email = RecordMailer.sms_record(@documents, {:to => phone_num, :carrier => params[:carrier]}, url_gen_params)
-            end
 
-          else
-            flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
-          end
-        else
-          flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
-        end
+        to = "#{params[:to].gsub(/[^\d]/, '')}@#{sms_mappings[params[:carrier]]}"
 
-        unless flash[:error]
-          email.deliver 
-          flash[:success] = "SMS sent"
-          redirect_to catalog_path(params['id']) unless request.xhr?
-        end
+        sms = RecordMailer.sms_record(@documents, { :to => to }, url_gen_params)
+        sms.deliver
+
+        flash[:success] = I18n.t("blacklight.sms.success")
+
+        respond_to do |format|
+          format.html { redirect_to catalog_path(params['id']) }
+          format.js { render 'sms_sent' }
+        end and return
       end
         
-      unless !request.xhr? && flash[:success]
-        respond_to do |format|
-          format.js { render :layout => false }
-          format.html
-        end
+      respond_to do |format|
+        format.js { render :layout => false }
+        format.html
       end
     end
     
@@ -321,6 +305,43 @@ module Blacklight::Catalog
       h
     end
     
+    def validate_sms_params
+      case
+      when params[:to].blank?
+        flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
+      when params[:carrier].blank?
+        flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
+      when params[:to].gsub(/[^\d]/, '').length != 10
+        flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
+      when !sms_mappings.values.include?(params[:carrier])
+        flash[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
+      end
+
+      flash[:error].blank?
+    end
+
+    def sms_mappings
+      {'Virgin' => 'vmobl.com',
+      'AT&T' => 'txt.att.net',
+      'Verizon' => 'vtext.com',
+      'Nextel' => 'messaging.nextel.com',
+      'Sprint' => 'messaging.sprintpcs.com',
+      'T Mobile' => 'tmomail.net',
+      'Alltel' => 'message.alltel.com',
+      'Cricket' => 'mms.mycricket.com'}
+    end
+
+    def validate_email_params
+      case
+      when params[:to].blank?
+        flash[:error] = I18n.t('blacklight.email.errors.to.blank')
+      when !params[:to].match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+        flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+      end
+
+      flash[:error].blank?
+    end
+
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
     def invalid_solr_id_error
       flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')

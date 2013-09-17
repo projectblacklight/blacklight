@@ -368,6 +368,12 @@ describe CatalogController do
         request.flash[:error].should be_nil
         request.should redirect_to(catalog_path(doc_id))
       end
+
+      it "should render email_sent for XHR requests" do
+        xhr :post, :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
+        expect(request).to render_template 'email_sent'
+        expect(request.flash[:success]).to eq "Email Sent"
+      end
     end
     describe "sms" do
       it "should give error if no phone number is given" do
@@ -379,18 +385,28 @@ describe CatalogController do
         request.flash[:error].should == "You must select a carrier"
       end
       it "should give an error when the phone number is not 10 digits" do
-        post :sms, :id => doc_id, :to => '555555555', :carrier => 'att'
+        post :sms, :id => doc_id, :to => '555555555', :carrier => 'txt.att.net'
         request.flash[:error].should == "You must enter a valid 10 digit phone number"
       end
+      it "should give an error when the carrier is not in our list of carriers" do
+        post :sms, :id => doc_id, :to => '5555555555', :carrier => 'no-such-carrier'
+        request.flash[:error].should == "You must enter a valid carrier"
+      end
       it "should allow punctuation in phone number" do
-        post :sms, :id => doc_id, :to => '(555) 555-5555', :carrier => 'att'
+        post :sms, :id => doc_id, :to => '(555) 555-5555', :carrier => 'txt.att.net'
         request.flash[:error].should be_nil
         request.should redirect_to(catalog_path(doc_id))
       end
       it "should redirect back to the record upon success" do
-        post :sms, :id => doc_id, :to => '5555555555', :carrier => 'att'
+        post :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
         request.flash[:error].should be_nil
         request.should redirect_to(catalog_path(doc_id))
+      end
+
+      it "should render sms_sent template for XHR requests" do
+        xhr :post, :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
+        expect(request).to render_template 'sms_sent'
+        expect(request.flash[:success]).to eq "SMS Sent"
       end
     end
   end
