@@ -42,7 +42,16 @@ module Blacklight::Catalog
         format.atom { render :layout => false }
 
         
-        format.json { render json: {response: {docs: @document_list, facets: facets_from_request, pages: pagination_info(@response)}}}
+        format.json do
+          facet = facets_from_request.as_json.each do |f|
+            f["label"] = facet_configuration_for_field(f["name"]).label
+            f["items"] = f["items"].as_json.each do |i|
+              i['label'] ||= i['value']
+            end
+          end 
+
+          render json: {response: {docs: @document_list, facets: facet, pages: pagination_info(@response)}}
+        end
       end
     end
     

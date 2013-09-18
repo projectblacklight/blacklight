@@ -144,17 +144,40 @@ describe CatalogController do
     end
 
     describe "with format :json" do
-      it "should get the feed" do
+      before do
         get :index, :format => 'json'
         response.should be_success
-        json = JSON.parse response.body
-        json["response"]["pages"]["total_count"].should == 30 
-        json["response"]["pages"]["current_page"].should == 1
-        json["response"]["pages"]["total_pages"].should == 3
-        json["response"]["docs"].size.should == 10
-        json["response"]["docs"].first.keys.should == ["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "score"]
-        json["response"]["facets"].length.should == 9
-        json["response"]["facets"].first.should == {"name"=>"format", "items"=>[{"value"=>"Book", "hits"=>30}]}
+      end
+      let(:json) { JSON.parse(response.body)['response'] }
+      let(:pages) { json["pages"] }
+      let(:docs) { json["docs"] }
+      let(:facets) { json["facets"] }
+
+      it "should get the pages" do
+        pages["total_count"].should == 30 
+        pages["current_page"].should == 1
+        pages["total_pages"].should == 3
+      end
+
+      it "should get the documents" do
+        docs.size.should == 10
+        docs.first.keys.should == ["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "score"]
+      end
+
+      it "should get the facets" do
+        facets.length.should == 9
+        facets.first.should == {"name"=>"format", "label" => "Format", "items"=>[{"value"=>"Book", "hits"=>30, "label"=>"Book"}]}
+      end
+
+      describe "facets" do
+        let(:query_facet_items) { facets.last['items'] }
+        let(:regular_facet_items) { facets.first['items'] }
+        it "should have items with labels and values" do
+          query_facet_items.first['label'].should == 'within 5 Years'
+          query_facet_items.first['value'].should == 'years_5'
+          regular_facet_items.first['label'].should == "Book"
+          regular_facet_items.first['value'].should == "Book"
+        end
       end
     end
 
