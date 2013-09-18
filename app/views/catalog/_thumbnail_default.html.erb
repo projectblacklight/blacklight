@@ -1,4 +1,4 @@
-<%- if has_thumbnail?(document) && tn = render_thumbnail_tag(document, nil, :counter => document_counter + 1 + @response.params[:start].to_i) %>
+<%- if has_thumbnail?(document) && tn = render_thumbnail_tag(document, {}, :counter => document_counter + 1 + @response.params[:start].to_i) %>
 <div class="document-thumbnail">
   <%= tn %>
 </div>  
