@@ -290,6 +290,8 @@ describe 'Blacklight::SolrHelper' do
         
         add_facetting_to_solr(solr_parameters, {})
 
+        expect(solr_parameters[:facet]).to be_true
+
         solr_parameters[:'facet.field'].should include('test_field')
         solr_parameters[:'f.test_field.facet.sort'].should == 'count'
       end

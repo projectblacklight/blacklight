@@ -311,6 +311,7 @@ module Blacklight::SolrHelper
 
 
       if blacklight_config.add_facet_fields_to_solr_request
+        solr_parameters[:facet] = true
         solr_parameters[:'facet.field'] ||= []
         solr_parameters[:'facet.field'] += blacklight_config.facet_fields_to_add_to_solr
         
