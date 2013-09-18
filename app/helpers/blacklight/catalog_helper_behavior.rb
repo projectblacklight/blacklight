@@ -120,7 +120,9 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def thumbnail_url document
-    document.get(blacklight_config.index.thumbnail_field, :sep => nil).first if document.has?(blacklight_config.index.thumbnail_field)
+    if document.has? blacklight_config.index.thumbnail_field
+      document.first(blacklight_config.index.thumbnail_field)
+    end
   end
 
   def add_group_facet_params_and_redirect group

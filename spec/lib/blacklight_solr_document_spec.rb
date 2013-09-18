@@ -231,5 +231,18 @@ describe "Blacklight::Solr::Document" do
         end
       end
     end
+
+  describe "#first" do
+    it "should get the first value from a multi-valued field" do
+      doc = SolrDocument.new :multi => ['a', 'b']
+      expect(doc.first :multi).to eq("a")
+    end
+
+    it "should get the value from a single-valued field" do
+      doc = SolrDocument.new :single => 'a'
+      expect(doc.first :single).to eq("a")
+
+    end
+  end
     
 end

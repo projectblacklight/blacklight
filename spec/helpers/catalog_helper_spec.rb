@@ -162,7 +162,7 @@ describe CatalogHelper do
       document = double()
 
       document.stub(:has?).with(:xyz).and_return(true)
-      document.stub(:get).with(:xyz, :sep => nil).and_return(["http://example.com/some.jpg"])
+      document.stub(:first).with(:xyz).and_return("http://example.com/some.jpg")
 
       helper.should_receive(:link_to_document).with(document, :label => image_tag("http://example.com/some.jpg"))
       helper.render_thumbnail_tag document
@@ -189,7 +189,7 @@ describe CatalogHelper do
       helper.stub(:blacklight_config => double(:index => double(:thumbnail_field => "xyz")))
       document = double()
       document.stub(:has?).with("xyz").and_return(true)
-      document.stub(:get).with("xyz", :sep => nil).and_return(["asdf"])
+      document.stub(:first).with("xyz").and_return("asdf")
       expect(helper.thumbnail_url document).to eq("asdf")
     end
 

@@ -62,9 +62,9 @@ module Blacklight::Solr::Document
   # doc.has?(:location_facet, 'Clemons')
   # doc.has?(:id, 'h009', /^u/i)
   def has?(k, *values)
-    return if @_source[k].nil?
-    return true if @_source.key?(k) and values.empty?
-    target = @_source[k]
+    return true if key?(k) and values.empty?
+    return false if self[k].nil?
+    target = self[k]
     if target.is_a?(Array)
       values.each do |val|
         return target.any?{|tv| val.is_a?(Regexp) ? (tv =~ val) : (tv==val)}
@@ -72,6 +72,10 @@ module Blacklight::Solr::Document
     else
       return values.any? {|val| val.is_a?(Regexp) ? (target =~ val) : (target == val)}
     end
+  end
+
+  def key? k
+    @_source.key? k
   end
 
   def has_highlight_field? k
@@ -93,12 +97,16 @@ module Blacklight::Solr::Document
   #  - :default - a value to return when the key doesn't exist
   # if :sep is nil and the field is a multivalued field, the array is returned
   def get(key, opts={:sep=>', ', :default=>nil})
-    if @_source.key? key
-      val = @_source[key]
+    if key? key
+      val = self[key]
       (val.is_a?(Array) and opts[:sep]) ? val.join(opts[:sep]) : val
     else
       opts[:default]
     end
+  end
+
+  def first key
+    Array(self[key]).first
   end
 
   def id
