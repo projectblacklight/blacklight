@@ -104,7 +104,7 @@ module Blacklight::CatalogHelperBehavior
 
   def has_thumbnail? document
     blacklight_config.index.thumbnail_method or
-      blacklight_config.index.thumbnail_field && document.has_field?(blacklight_config.index.thumbnail_field)
+      blacklight_config.index.thumbnail_field && document.has?(blacklight_config.index.thumbnail_field)
   end
 
   def render_thumbnail_tag document, image_options = {}, url_options = {}
@@ -120,7 +120,7 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def thumbnail_url document
-    document.get(blacklight_config.index.thumbnail_field, :sep => nil).first if document.has_field?(blacklight_config.index.thumbnail_field)
+    document.get(blacklight_config.index.thumbnail_field, :sep => nil).first if document.has?(blacklight_config.index.thumbnail_field)
   end
 
   def add_group_facet_params_and_redirect group

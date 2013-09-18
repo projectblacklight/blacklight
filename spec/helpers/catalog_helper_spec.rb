@@ -131,13 +131,13 @@ describe CatalogHelper do
 
     it "should have a thumbnail if a thumbnail_field is configured and it exists in the document" do
       helper.stub(:blacklight_config => OpenStruct.new(:index => OpenStruct.new(:thumbnail_field => :xyz) ))
-      document = double(:has_field? => true)
+      document = double(:has? => true)
       expect(helper.has_thumbnail? document).to be_true
     end
     
     it "should not have a thumbnail if the thumbnail_field is missing from the document" do
       helper.stub(:blacklight_config => OpenStruct.new(:index => OpenStruct.new(:thumbnail_field => :xyz) ))
-      document = double(:has_field? => false)
+      document = double(:has? => false)
       expect(helper.has_thumbnail? document).to be_false
     end
 
@@ -161,7 +161,7 @@ describe CatalogHelper do
       helper.stub(:blacklight_config => double(:index => OpenStruct.new(:thumbnail_field => :xyz)))
       document = double()
 
-      document.stub(:has_field?).with(:xyz).and_return(true)
+      document.stub(:has?).with(:xyz).and_return(true)
       document.stub(:get).with(:xyz, :sep => nil).and_return(["http://example.com/some.jpg"])
 
       helper.should_receive(:link_to_document).with(document, :label => image_tag("http://example.com/some.jpg"))
@@ -188,7 +188,7 @@ describe CatalogHelper do
     it "should pull the configured thumbnail field out of the document" do
       helper.stub(:blacklight_config => double(:index => double(:thumbnail_field => "xyz")))
       document = double()
-      document.stub(:has_field?).with("xyz").and_return(true)
+      document.stub(:has?).with("xyz").and_return(true)
       document.stub(:get).with("xyz", :sep => nil).and_return(["asdf"])
       expect(helper.thumbnail_url document).to eq("asdf")
     end
@@ -196,7 +196,7 @@ describe CatalogHelper do
     it "should return nil if the thumbnail field doesn't exist" do
       helper.stub(:blacklight_config => double(:index => double(:thumbnail_field => "xyz")))
       document = double()
-      document.stub(:has_field?).with("xyz").and_return(false)
+      document.stub(:has?).with("xyz").and_return(false)
       expect(helper.thumbnail_url document).to be_nil
     end
   end
