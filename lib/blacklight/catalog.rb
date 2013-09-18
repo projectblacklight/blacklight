@@ -120,9 +120,7 @@ module Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       
       if request.post? and validate_email_params
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-          
-        email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_gen_params)        
+        email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_options)
         email.deliver 
 
         flash[:success] = I18n.t("blacklight.email.success")
@@ -145,11 +143,9 @@ module Blacklight::Catalog
       @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
       
       if request.post? and validate_sms_params
-        url_gen_params = {:host => request.host_with_port, :protocol => request.protocol}
-
         to = "#{params[:to].gsub(/[^\d]/, '')}@#{sms_mappings[params[:carrier]]}"
 
-        sms = RecordMailer.sms_record(@documents, { :to => to }, url_gen_params)
+        sms = RecordMailer.sms_record(@documents, { :to => to }, url_options)
         sms.deliver
 
         flash[:success] = I18n.t("blacklight.sms.success")

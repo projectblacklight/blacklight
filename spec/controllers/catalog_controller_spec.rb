@@ -364,7 +364,11 @@ describe CatalogController do
         request.flash[:error].should be_nil
       end
       it "should redirect back to the record upon success" do
-        post :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
+        mock_mailer = double
+        mock_mailer.should_receive(:deliver)
+        RecordMailer.should_receive(:email_record).with(anything, { :to => 'test_email@projectblacklight.org', :message => 'xyz' }, hash_including(:host => 'test.host')).and_return mock_mailer
+
+        post :email, :id => doc_id, :to => 'test_email@projectblacklight.org', :message => 'xyz'
         request.flash[:error].should be_nil
         request.should redirect_to(catalog_path(doc_id))
       end
