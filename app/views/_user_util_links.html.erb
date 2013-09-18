@@ -10,7 +10,7 @@
   <% end %>
 
   <div class="util-links-other">
-    <% if current_or_guest_user %>
+    <% if render_bookmarks_control? %>
       <%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %>
     <% end %>
     <% if has_user_authentication_provider? and current_user %>

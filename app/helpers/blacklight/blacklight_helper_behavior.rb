@@ -92,7 +92,7 @@ module Blacklight::BlacklightHelperBehavior
     wrapping_class = options.delete(:wrapping_class) || "documentFunctions"
 
     content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
+    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
 
     content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
   end
@@ -100,11 +100,14 @@ module Blacklight::BlacklightHelperBehavior
   # Save function area for item detail 'show' view, normally
   # renders next to title. By default includes 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
-    wrapping_class = options.delete(:documentFunctions) || "documentFunctions"
-    content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
+    # I'm not sure why this key is documentFunctions and #render_index_doc_actions uses wrapping_class.
+    # TODO: remove documentFunctions key in Blacklight 5.x
+    wrapping_class = options.delete(:documentFunctions) || options.delete(:wrapping_class) || "documentFunctions"
 
-    content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
+    content = []
+    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
+
+    content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
   end
 
   ##
@@ -619,6 +622,10 @@ module Blacklight::BlacklightHelperBehavior
   # Render the grouped response
   def render_grouped_document_index grouped_key = nil
     render :partial => 'catalog/group_default'
+  end
+
+  def render_bookmarks_control?
+    has_user_authentication_provider? and current_or_guest_user.present?
   end
 
 end
