@@ -227,6 +227,12 @@ en:
         present: "In Bookmarks"
         absent: "Bookmark"
         inprogress: "Saving..."
+      zero_results:
+        title: "No results found for your search"
+        modify_search: "Try modifying your search"
+        use_fewer_keywords: "Use fewer keywords to start, then refine your search using the links on the left."
+        search_fields: "you searched by %{search_fields}"
+        search_everything: "try searching everything"
 
     entry_name:
       default: 'entry'
