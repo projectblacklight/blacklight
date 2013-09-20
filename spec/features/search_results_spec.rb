@@ -44,6 +44,12 @@ describe "Search Results" do
     
   end
 
+  it "should have an opensearch description document" do
+    visit root_path
+    page.should have_xpath("//link[contains(@rel, 'search')]")
+    expect(page.find(:xpath, "//link[contains(@rel, 'search')]")[:href]).to eq "http://www.example.com/catalog/opensearch.xml"
+  end
+
 end
 
 
