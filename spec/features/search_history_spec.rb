@@ -41,10 +41,12 @@ describe "Search History Page" do
     end
     it "should be able to clear the history" do
       click_link "Clear Search History"
-      expect(page).to have_content 'Cleared your search history.'
-      expect(page).to have_content 'You have no search history'
-      expect(page).to_not have_content 'book'
-      expect(page).to_not have_content 'dang'
+      within ("#main-container") do
+        expect(page).to have_content 'Cleared your search history.'
+        expect(page).to have_content 'You have no search history'
+        expect(page).to_not have_content 'book'
+        expect(page).to_not have_content 'dang'
+      end
     end
   end
 

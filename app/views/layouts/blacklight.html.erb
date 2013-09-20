@@ -19,8 +19,6 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application" %>
 
-    <%= render :partial=>'shared/head_tag_multi_tab_support' %>
-
     <%= csrf_meta_tags %>
     <%= raw(render_head_content) %>
 
@@ -31,6 +29,9 @@
 
   </head>
   <body class="<%= render_body_class %>">
+
+  <%= render :partial=>'shared/head_tag_multi_tab_support' %>
+
   <%= render :partial => 'shared/header_navbar' %>
 
   <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
