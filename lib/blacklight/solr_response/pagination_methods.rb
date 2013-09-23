@@ -18,10 +18,16 @@ module Blacklight::SolrResponse::PaginationMethods
   # Next page number in the collection
   def next_page
     current_page + 1 unless last_page?
-    end
+  end
 
   # Previous page number in the collection
   def prev_page
     current_page - 1 unless first_page?
   end
+
+  # kaminari expects a method of :max_pages; if it is nil it handles calculation
+  def max_pages #:nodoc:
+    nil
+  end
+
 end
