@@ -17,7 +17,7 @@ describe "catalog/_thumbnail_default" do
   end
 
   before do
-    assign :response, mock(:params => {})
+    assign :response, double(:params => {})
     view.stub(:render_grouped_response?).and_return false
     view.stub(:blacklight_config).and_return(blacklight_config)
   end

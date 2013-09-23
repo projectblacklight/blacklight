@@ -277,6 +277,7 @@ describe CatalogController do
 
     describe "@document" do
       before do
+        @mock_response = double()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = double()
         controller.stub(:find => @mock_response, 
@@ -303,6 +304,7 @@ describe CatalogController do
         end
       end
       before do
+        @mock_response = double()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = double()
         controller.stub(:find => @mock_response, 
