@@ -38,7 +38,7 @@ class SavedSearchesController < ApplicationController
   # Only dereferences the user rather than removing the items in case they
   # are in the session[:history]
   def clear    
-    if Search.update_all("user_id = NULL", "user_id = #{current_user.id}")
+    if current_user.searches.update_all("user_id = NULL")
       flash[:notice] = I18n.t('blacklight.saved_searches.clear.success')
     else
       flash[:error] = I18n.t('blacklight.saved_searches.clear.failure') 

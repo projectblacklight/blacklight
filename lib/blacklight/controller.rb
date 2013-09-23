@@ -95,15 +95,15 @@ module Blacklight::Controller
     # When a user logs in, transfer any saved searches or bookmarks to the current_user
     def transfer_guest_user_actions_to_current_user
       return unless respond_to? :current_user and respond_to? :guest_user and current_user and guest_user
-      current_user_searches = current_user.searches.all.collect(&:query_params)
-      current_user_bookmarks = current_user.bookmarks.all.collect(&:document_id)
+      current_user_searches = current_user.searches.pluck(:query_params)
+      current_user_bookmarks = current_user.bookmarks.pluck(:document_id)
 
-      guest_user.searches.all.reject { |s| current_user_searches.include?(s.query_params)}.each do |s| 
+      guest_user.searches.reject { |s| current_user_searches.include?(s.query_params)}.each do |s|
         current_user.searches << s
         s.save!
       end
 
-      guest_user.bookmarks.all.reject { |b| current_user_bookmarks.include?(b.document_id)}.each do |b| 
+      guest_user.bookmarks.reject { |b| current_user_bookmarks.include?(b.document_id)}.each do |b|
         current_user.bookmarks << b
         b.save!
       end
