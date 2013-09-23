@@ -81,33 +81,10 @@ describe CatalogController do
         it "should include search hash with key :q" do
           get :index, :q => @user_query
           session[:search].should_not be_nil
-          session[:search].keys.should include(:q)
-          session[:search][:q].should == @user_query
-        end
-        it "should include search hash with key :f" do
-          get :index, :f => @facet_query
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:f)
-          session[:search][:f].should == @facet_query
-        end
-        it "should include search hash with key :per_page" do
-          get :index, :per_page => 10
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:per_page)
-          session[:search][:per_page].should == "10"
-        end
-        it "should include search hash with key :page" do
-          get :index, :page => 2
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:page)
-          session[:search][:page].should == "2"
-        end
-        it "should include search hash with random key" do
-          # cause a plugin might add an unpredictable one, we want to preserve it.
-          get :index, :some_weird_key => "value"
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:some_weird_key)
-          session[:search][:some_weird_key].should == "value"
+          session[:search].keys.should include(:id)
+          
+          search = Search.find(session[:search][:id])
+          expect(search.query_params[:q]).to eq @user_query
         end
       end
 
@@ -225,14 +202,20 @@ describe CatalogController do
         @mock_document.stub(:export_formats => {})
         controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
                         :get_single_doc_via_search => @mock_document)
+
+        current_search = Search.create(:query_params => { :q => ""})
+        controller.stub(:current_search_session => current_search)
+
+        @search_session = { :id => current_search.id }
       end
     it "should set previous document if counter present in session" do
-      session[:search] = {:q => "", :counter => 2}
+      session[:search] = @search_session.merge(:counter => 2)
       get :show, :id => doc_id
       assigns[:previous_document].should_not be_nil
     end
     it "should not set previous document if counter is 1" do
-      session[:search] = {:counter => 1}
+
+      session[:search] = @search_session.merge(:counter => 1)
       get :show, :id => doc_id
       assigns[:previous_document].should be_nil
     end
@@ -242,19 +225,19 @@ describe CatalogController do
       assigns[:next_document].should be_nil
     end
     it "should not set previous or next document if session[:search][:counter] is nil" do
-      session[:search] = {:q => ""}
+      session[:search] = {}
       get :show, :id => doc_id
       assigns[:previous_document].should be_nil
       assigns[:next_document].should be_nil
     end
     it "should set next document if counter present in session" do
-      session[:search] = {:q => "", :counter => 2}
+      session[:search] = @search_session.merge(:counter => 2)
       get :show, :id => doc_id
       assigns[:next_document].should_not be_nil
     end
     it "should not set next document if counter is >= number of docs" do
       controller.stub(:get_single_doc_via_search => nil)
-      session[:search] = {:counter => 66666666}
+      session[:search] = @search_session.merge(:counter => 66666666)
       get :show, :id => doc_id
       assigns[:next_document].should be_nil
     end

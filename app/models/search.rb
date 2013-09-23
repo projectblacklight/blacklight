@@ -1,11 +1,16 @@
 # -*- encoding : utf-8 -*-
 class Search < ActiveRecord::Base
-  
+
   belongs_to :user
-  
+
   serialize :query_params
-  attr_accessible :query_params if Rails::VERSION::MAJOR < 4
+
+  if Rails::VERSION::MAJOR < 4
+    attr_accessible :query_params 
   
+    scope :none, where(:id => nil).where("id IS NOT ?", nil)
+  end
+
   # A Search instance is considered a saved search if it has a user_id.
   def saved?
     self.user_id?

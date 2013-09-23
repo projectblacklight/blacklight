@@ -87,6 +87,10 @@ describe BlacklightHelper do
     end
   end
 
+  def current_search_session
+
+  end
+
   describe "#application_name", :test => true do
     it "should use the Rails application config application_name if available" do
       Rails.application.config.stub(:application_name => 'asdf')
@@ -105,8 +109,8 @@ describe BlacklightHelper do
     end
 
     it "should build a link tag to catalog using session[:search] for query params" do
-      session[:search] = @query_params
-      tag = link_back_to_catalog
+      helper.stub(:current_search_session).and_return double(:query_params => @query_params)
+      tag = helper.link_back_to_catalog
       tag.should =~ /q=query/
       tag.should =~ /f=facets/
       tag.should =~ /per_page=10/
@@ -114,8 +118,8 @@ describe BlacklightHelper do
     end
 
     it "should build a link tag to bookmarks using session[:search] for query params" do
-      session[:search] = @bookmarks_query_params
-      tag = link_back_to_catalog
+      helper.stub(:current_search_session).and_return double(:query_params => @bookmarks_query_params)
+      tag = helper.link_back_to_catalog
       tag.should =~ /Back to Bookmarks/
       tag.should =~ /\/bookmarks/
       tag.should =~ /page=2/
