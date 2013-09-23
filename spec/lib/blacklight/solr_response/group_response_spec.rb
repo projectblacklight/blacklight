@@ -58,6 +58,12 @@ describe Blacklight::SolrResponse::GroupResponse do
       expect(group.group_limit).to eq 5
     end
   end
+
+  describe "max_pages" do
+    it "should get maximum number of pages" do
+      expect(group.max_pages).to be_nil
+    end
+  end
 end
 
 def create_response(response, params = {})
