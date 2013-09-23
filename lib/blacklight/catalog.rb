@@ -77,7 +77,6 @@ module Blacklight::Catalog
 
     # updates the search counter (allows the show view to paginate)
     def update
-      adjust_for_results_view
       session[:search][:counter] = params[:counter]
       redirect_to :action => "show"
     end
@@ -266,13 +265,9 @@ module Blacklight::Catalog
     # we need to know if we are viewing the item as part of search results so we know whether to
     # include certain partials or not
     def adjust_for_results_view
-      if params[:results_view] == "false"
-        session[:search][:results_view] = false
-      else
-        session[:search][:results_view] = true
-      end
+      # deprecated in blacklight 4.x
+      ActiveSupport::Deprecation.warn("#adjust_for_results_view helper was deprecated in Blacklight 4.x")
     end
-    
        
     # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
     def rsolr_request_error(exception)
