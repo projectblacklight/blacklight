@@ -201,22 +201,31 @@ module Blacklight::Catalog
     # calls setup_previous_document then setup_next_document.
     # used in the show action for single view pagination.
     def setup_next_and_previous_documents
-      setup_previous_document
-      setup_next_document
+      if search_session[:counter] and current_search_session
+        index = search_session[:counter].to_i - 1
+        response, documents = get_previous_and_next_documents_for_search index, current_search_session.query_params
+
+        search_session[:total] = response.total
+        @search_context_response = response
+        @previous_document = documents.first
+        @next_document = documents.last
+      end
     end
     
     # gets a document based on its position within a resultset  
     def setup_document_by_counter(counter)
+      ActiveSupport::Deprecation.warn("#setup_document_by_counter helper is deprecated in Blacklight 4.x and will be removed")
+
       return if counter < 1 or current_search_session.nil?
       get_single_doc_via_search(counter, current_search_session.query_params)
     end
     
     def setup_previous_document
-      @previous_document = search_session[:counter] ? setup_document_by_counter(search_session[:counter].to_i - 1) : nil
+      ActiveSupport::Deprecation.warn("#setup_previous_document helper was deprecated in Blacklight 4.x; now happens automatically as part of #setup_next_and_previous_documents")
     end
     
     def setup_next_document
-      @next_document = search_session[:counter] ? setup_document_by_counter(search_session[:counter].to_i + 1) : nil
+      ActiveSupport::Deprecation.warn("#setup_next_document helper was deprecated in Blacklight 4.x; now happens automatically as part of #setup_next_and_previous_documents")
     end
     
     # sets up the session[:history] hash if it doesn't already exist.
@@ -263,7 +272,7 @@ module Blacklight::Catalog
           s
         end
       elsif params[:search_id] and !params[:search_id].blank?
-        searches_from_history.find(params[:id]) rescue nil
+        searches_from_history.find(params[:search_id]) rescue nil
       elsif search_session[:id]
         searches_from_history.find(search_session[:id]) rescue nil
       end
@@ -290,9 +299,7 @@ module Blacklight::Catalog
 
     # sets some additional search metadata so that the show view can display it.
     def set_additional_search_session_values
-      unless @response.nil?
-        search_session[:total] = @response.total
-      end
+      ActiveSupport::Deprecation.warn("#set_additional_search_session_values helper was deprecated in Blacklight 4.x")
     end
     
     # we need to know if we are viewing the item as part of search results so we know whether to

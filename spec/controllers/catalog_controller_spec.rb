@@ -201,7 +201,7 @@ describe CatalogController do
         @mock_document = double()
         @mock_document.stub(:export_formats => {})
         controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
-                        :get_single_doc_via_search => @mock_document)
+                        :get_previous_and_next_documents_for_search => [double(:total => 5), [double("a"), @mock_document, double("b")]])
 
         current_search = Search.create(:query_params => { :q => ""})
         controller.stub(:current_search_session => current_search)
@@ -212,12 +212,6 @@ describe CatalogController do
       session[:search] = @search_session.merge(:counter => 2)
       get :show, :id => doc_id
       assigns[:previous_document].should_not be_nil
-    end
-    it "should not set previous document if counter is 1" do
-
-      session[:search] = @search_session.merge(:counter => 1)
-      get :show, :id => doc_id
-      assigns[:previous_document].should be_nil
     end
     it "should not set previous or next document if session is blank" do
       get :show, :id => doc_id
@@ -234,12 +228,6 @@ describe CatalogController do
       session[:search] = @search_session.merge(:counter => 2)
       get :show, :id => doc_id
       assigns[:next_document].should_not be_nil
-    end
-    it "should not set next document if counter is >= number of docs" do
-      controller.stub(:get_single_doc_via_search => nil)
-      session[:search] = @search_session.merge(:counter => 66666666)
-      get :show, :id => doc_id
-      assigns[:next_document].should be_nil
     end
     end
 
