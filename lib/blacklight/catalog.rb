@@ -285,9 +285,9 @@ module Blacklight::Catalog
 
       session[:history].unshift(search.id)
 
-      if session[:history].length > Blacklight::Catalog::SearchHistoryWindow
+      if session[:history].length > blacklight_config.search_history_window
 
-        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
+        session[:history] = session[:history].slice(0, blacklight_config.search_history_window )
         
       end
     end

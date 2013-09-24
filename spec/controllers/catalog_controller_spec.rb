@@ -522,6 +522,29 @@ describe CatalogController do
        )
     end
   end
+
+  describe "#add_to_search_history" do
+    it "should prepend the current search to the list" do
+      session[:history] = []
+      controller.send(:add_to_search_history, double(:id => 1))
+      expect(session[:history]).to have(1).item
+
+      controller.send(:add_to_search_history, double(:id => 2))
+      expect(session[:history]).to have(2).items
+      expect(session[:history].first).to eq 2
+    end
+
+    it "should remove searches from the list when the list gets too big" do
+      session[:history] = (0..9).to_a.reverse
+
+      expect(session[:history]).to have(10).items
+      controller.send(:add_to_search_history, double(:id => 10))
+      controller.send(:add_to_search_history, double(:id => 11))
+      controller.send(:add_to_search_history, double(:id => 12))
+      expect(session[:history]).to include(*(1..12).to_a)
+
+    end
+  end
 end
 
 
