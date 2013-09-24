@@ -11,6 +11,7 @@ group :test do
   gem 'devise-guests'
   gem "bootstrap-sass"
   gem 'turbolinks'
+  gem 'poltergeist'
   gem "unicode", :platforms => [:mri_18, :mri_19]
 end
 
