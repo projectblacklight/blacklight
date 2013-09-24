@@ -535,13 +535,14 @@ describe CatalogController do
     end
 
     it "should remove searches from the list when the list gets too big" do
-      session[:history] = (0..9).to_a.reverse
+      controller.stub(:blacklight_config).and_return(double(:search_history_window => 5))
+      session[:history] = (0..4).to_a.reverse
 
-      expect(session[:history]).to have(10).items
-      controller.send(:add_to_search_history, double(:id => 10))
-      controller.send(:add_to_search_history, double(:id => 11))
-      controller.send(:add_to_search_history, double(:id => 12))
-      expect(session[:history]).to include(*(1..12).to_a)
+      expect(session[:history]).to have(5).items
+      controller.send(:add_to_search_history, double(:id => 5))
+      controller.send(:add_to_search_history, double(:id => 6))
+      controller.send(:add_to_search_history, double(:id => 7))
+      expect(session[:history]).to include(*(3..7).to_a)
 
     end
   end

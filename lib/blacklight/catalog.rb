@@ -7,7 +7,7 @@ module Blacklight::Catalog
   require 'blacklight/catalog/search_context'
   include Blacklight::Catalog::SearchContext
 
-  SearchHistoryWindow = 12 # how many searches to save in session history
+  SearchHistoryWindow = 100 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
