@@ -476,7 +476,11 @@ module Blacklight::BlacklightHelperBehavior
   def link_to_document(doc, opts={:label=>nil, :counter => nil})
     opts[:label] ||= blacklight_config.index.show_link.to_sym
     label = render_document_index_label doc, opts
-    link_to label, doc, { :'data-counter' => opts[:counter], :'data-search_id' => current_search_session.try(:id) }.merge(opts.reject { |k,v| [:label, :counter].include? k  })
+    link_to label, doc, search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
+  end
+
+  def search_session_params counter
+    { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
   end
 
   # link_back_to_catalog(:label=>'Back to Search')
@@ -557,16 +561,14 @@ module Blacklight::BlacklightHelperBehavior
     return hash_as_hidden_fields(my_params)
   end
 
-
-
   def link_to_previous_document(previous_document)
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, :class => "previous", :rel => 'prev', :'data-counter' => search_session[:counter].to_i - 1, :'data-search_id' => current_search_session.try(:id) do
+    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, search_session_params(search_session[:counter].to_i - 1).merge(:class => "previous", :rel => 'prev')  do
       content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
     end
   end
 
   def link_to_next_document(next_document)
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, :class => "next", :rel => 'next', :'data-counter' => search_session[:counter].to_i + 1, :'data-search_id' => current_search_session.try(:id) do
+    link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, search_session_params(search_session[:counter].to_i + 1).merge(:class => "next", :rel => 'next') do
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
     end
   end

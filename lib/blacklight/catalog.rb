@@ -4,15 +4,15 @@ module Blacklight::Catalog
   
   include Blacklight::Base
   
+  require 'blacklight/catalog/search_context'
+  include Blacklight::Catalog::SearchContext
+
   SearchHistoryWindow = 12 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
-    helper_method :current_search_session, :search_session
     helper_method :sms_mappings
-    before_filter :search_session, :history_session
-    before_filter :add_current_search_to_session, :only => :index
 
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -63,7 +63,6 @@ module Blacklight::Catalog
 
     # updates the search counter (allows the show view to paginate)
     def update
-      search_session[:id] = params[:search_id]
       search_session[:counter] = params[:counter]
       redirect_to :action => "show"
     end
@@ -198,110 +197,6 @@ module Blacklight::Catalog
       url_for(options.merge(:action => 'index', :only_path => true))
     end
 
-    # calls setup_previous_document then setup_next_document.
-    # used in the show action for single view pagination.
-    def setup_next_and_previous_documents
-      if search_session[:counter] and current_search_session
-        index = search_session[:counter].to_i - 1
-        response, documents = get_previous_and_next_documents_for_search index, current_search_session.query_params
-
-        search_session[:total] = response.total
-        @search_context_response = response
-        @previous_document = documents.first
-        @next_document = documents.last
-      end
-    end
-    
-    # gets a document based on its position within a resultset  
-    def setup_document_by_counter(counter)
-      ActiveSupport::Deprecation.warn("#setup_document_by_counter helper is deprecated in Blacklight 4.x and will be removed")
-
-      return if counter < 1 or current_search_session.nil?
-      get_single_doc_via_search(counter, current_search_session.query_params)
-    end
-    
-    def setup_previous_document
-      ActiveSupport::Deprecation.warn("#setup_previous_document helper was deprecated in Blacklight 4.x; now happens automatically as part of #setup_next_and_previous_documents")
-    end
-    
-    def setup_next_document
-      ActiveSupport::Deprecation.warn("#setup_next_document helper was deprecated in Blacklight 4.x; now happens automatically as part of #setup_next_and_previous_documents")
-    end
-    
-    # sets up the session[:history] hash if it doesn't already exist.
-    # assigns all Search objects (that match the searches in session[:history]) to a variable @searches.
-    def history_session
-      session[:history] ||= []
-      @searches = searches_from_history # <- in BlacklightController
-    end
-
-    def delete_or_assign_search_session_params
-     # deprecated in blacklight 4.x
-      ActiveSupport::Deprecation.warn("#delete_or_assign_search_session_params helper was deprecated in Blacklight 4.x; now happens automatically as part of #current_search_session")
-    end
-    
-    def save_current_search_params    
-     # deprecated in blacklight 4.x
-      ActiveSupport::Deprecation.warn("#save_current_search_params helper was deprecated in Blacklight 4.x; now happens automatically as part of #current_search_session")
-    end
-
-    # sets up the session[:search] hash if it doesn't already exist
-    def search_session
-      session[:search] ||= {}
-    end
-
-    def add_current_search_to_session
-      if current_search_session
-        search_session[:id] = current_search_session.id
-      end
-    end
-    
-    # The current search session 
-    def current_search_session
-
-      if action_name == "index"
-        params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) or v.blank? }
-
-        return if params_copy.reject { |k,v| [:action, :controller].include? k.to_sym }.blank?
-        
-        saved_search = searches_from_history.select { |x| x.query_params == params_copy }.first
-
-        saved_search ||= begin
-          s = Search.create(:query_params => params_copy)
-          add_to_search_history(s)
-          s
-        end
-      elsif params[:search_id] and !params[:search_id].blank?
-        searches_from_history.find(params[:search_id]) rescue nil
-      elsif search_session[:id]
-        searches_from_history.find(search_session[:id]) rescue nil
-      end
-
-    end
-    
-    # Add a search to the in-session search history list
-    def add_to_search_history search
-      session[:history] ||= []
-
-      session[:history].unshift(search.id)
-
-      if session[:history].length > blacklight_config.search_history_window
-
-        session[:history] = session[:history].slice(0, blacklight_config.search_history_window )
-        
-      end
-    end
-
-    # A list of query parameters that should not be persisted for a search      
-    def blacklisted_search_session_params
-      [:commit, :counter, :total, :search_id]
-    end
-
-    # sets some additional search metadata so that the show view can display it.
-    def set_additional_search_session_values
-      ActiveSupport::Deprecation.warn("#set_additional_search_session_values helper was deprecated in Blacklight 4.x")
-    end
-    
     # we need to know if we are viewing the item as part of search results so we know whether to
     # include certain partials or not
     def adjust_for_results_view
