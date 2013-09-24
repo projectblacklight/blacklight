@@ -1,6 +1,7 @@
 module Blacklight::SolrResponse::PaginationMethods
 
   include Kaminari::PageScopeMethods
+  include Kaminari::ConfigurationMethods::ClassMethods
 
   def limit_value #:nodoc:
     rows
