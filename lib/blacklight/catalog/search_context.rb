@@ -27,19 +27,12 @@ module Blacklight::Catalog::SearchContext
   def current_search_session
 
     @current_search_session ||= if action_name == "index"
-      params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) or v.blank? }
-
-      return if params_copy.reject { |k,v| [:action, :controller].include? k.to_sym }.blank?
-      
-      saved_search = searches_from_history.select { |x| x.query_params == params_copy }.first
-
-      saved_search ||= begin
-        s = Search.create(:query_params => params_copy)
-        add_to_search_history(s)
-        s
-      end
+      find_or_initialize_search_session_from_params params
+    elsif params[:search_context] and !params[:search_context].blank?
+      find_or_initialize_search_session_from_params JSON.load(params[:search_context])
     elsif params[:search_id] and !params[:search_id].blank?
-      find_or_initialize_search_session_by_search_context_params params[:search_id]
+      # TODO : check the search id signature.
+      searches_from_history.find(params[:search_id]) rescue nil
     elsif search_session[:id]
       searches_from_history.find(search_session[:id]) rescue nil
     end
@@ -50,9 +43,19 @@ module Blacklight::Catalog::SearchContext
 
     @current_search_session
   end
-  
-  def find_or_initialize_search_session_by_search_context_params search_id
-    searches_from_history.find(search_id) rescue nil
+
+  def find_or_initialize_search_session_from_params params
+    params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) or v.blank? }
+
+    return if params_copy.reject { |k,v| [:action, :controller].include? k.to_sym }.blank?
+
+    saved_search = searches_from_history.select { |x| x.query_params == params_copy }.first
+
+    saved_search ||= begin
+      s = Search.create(:query_params => params_copy)
+      add_to_search_history(s)
+      s
+    end
   end
 
   # Add a search to the in-session search history list
@@ -70,7 +73,7 @@ module Blacklight::Catalog::SearchContext
 
   # A list of query parameters that should not be persisted for a search      
   def blacklisted_search_session_params
-    [:commit, :counter, :total, :search_id]
+    [:commit, :counter, :total, :search_id, :page, :per_page]
   end
 
   # calls setup_previous_document then setup_next_document.

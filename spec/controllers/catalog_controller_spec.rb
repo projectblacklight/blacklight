@@ -546,6 +546,43 @@ describe CatalogController do
 
     end
   end
+
+  describe "current_search_session" do
+    it "should create a session if we're on an search action" do
+      controller.stub(:action_name => "index")
+      controller.stub(:params => { :q => "x", :page => 5})
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include(:q => "x")
+      expect(session.query_params).to_not include(:page => 5)
+    end
+
+    it "should create a session if a search context was provided" do
+      controller.stub(:params => { :search_context => JSON.dump(:q => "x")})
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include("q" => "x")
+    end
+
+    it "should use an existing session if a search id was provided" do
+      s = Search.create(:query_params => { :q => "x" })
+      session[:history] ||= []
+      session[:history] << s.id
+      controller.stub(:params => { :search_id => s.id})
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include(:q => "x")
+      expect(session).to eq(s)
+    end
+
+    it "should use an existing search session if the search is in the uri" do
+      s = Search.create(:query_params => { :q => "x" })
+      session[:search] ||= {}
+      session[:search][:id] = s.id
+      session[:history] ||= []
+      session[:history] << s.id
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include(:q => "x")
+      expect(session).to eq(s)
+    end
+  end
 end
 
 
