@@ -11,7 +11,7 @@ class SavedSearchesController < ApplicationController
   end
   
   def save    
-    current_user.searches << Search.find(params[:id])
+    current_user.searches << searches_from_history.find(params[:id])
     if current_user.save
       flash[:notice] = I18n.t('blacklight.saved_searches.add.success')
     else
