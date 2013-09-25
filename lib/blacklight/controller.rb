@@ -24,6 +24,7 @@ module Blacklight::Controller
     # extra head content
     helper_method :has_user_authentication_provider?
     helper_method :blacklight_config
+    helper_method :search_action_url
 
 
     # This callback runs when a user first logs in
@@ -42,6 +43,13 @@ module Blacklight::Controller
   end
    
     protected
+
+    # Default route to the search action (used e.g. in global partials). Override this method
+    # in a controller or in your ApplicationController to introduce custom logic for choosing
+    # which action the search form should use
+    def search_action_url *args
+      catalog_index_url *args
+    end
 
     # Returns a list of Searches from the ids in the user's history.
     def searches_from_history
