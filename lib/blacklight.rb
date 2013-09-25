@@ -19,6 +19,7 @@ module Blacklight
 
   autoload :Controller, 'blacklight/controller'
   autoload :LegacyControllerMethods, 'blacklight/legacy_controller_methods'
+  autoload :Base, 'blacklight/base'
   autoload :Catalog,    'blacklight/catalog'
 
   autoload :Routes, 'blacklight/routes'
