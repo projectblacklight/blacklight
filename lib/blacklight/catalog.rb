@@ -10,7 +10,6 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do  
-    helper_method :search_action_url
     helper_method :sms_mappings
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
@@ -184,11 +183,6 @@ module Blacklight::Catalog
     #
     # non-routable methods ->
     #
-
-    def search_action_url options = {}
-      url_for(options.merge(:action => 'index', :only_path => true))
-    end
-
 
     # calls setup_previous_document then setup_next_document.
     # used in the show action for single view pagination.
