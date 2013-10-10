@@ -45,7 +45,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
   
-  @document_list.each do |doc|
+  @document_list.each_with_index do |doc, document_counter|
     xml.entry do
       xml.title   doc.to_semantic_values[:title][0] || doc.id
 
@@ -68,7 +68,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
         xml.summary "type" => "html" do
           xml.text! render_document_partial(doc,
                                             :index,
-                                            :document_counter => @document_list.index(doc))
+                                            :document_counter => document_counter)
         end
       end
       
