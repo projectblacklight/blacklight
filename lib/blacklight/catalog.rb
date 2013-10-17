@@ -37,14 +37,7 @@ module Blacklight::Catalog
 
         
         format.json do
-          facet = facets_from_request.as_json.each do |f|
-            f["label"] = facet_configuration_for_field(f["name"]).label
-            f["items"] = f["items"].as_json.each do |i|
-              i['label'] ||= i['value']
-            end
-          end 
-
-          render json: {response: {docs: @document_list, facets: facet, pages: pagination_info(@response)}}
+          render json: render_search_results_as_json
         end
       end
     end
@@ -82,7 +75,7 @@ module Blacklight::Catalog
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:
         format.html 
-        format.json { render json: {response: {facets: @pagination }}}
+        format.json { render json: render_facet_list_as_json }
 
         # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
@@ -178,6 +171,25 @@ module Blacklight::Catalog
     #
     # non-routable methods ->
     #
+
+    # override this method to change the JSON response from #index 
+    def render_search_results_as_json
+      {response: {docs: @document_list, facets: search_facets_as_json, pages: pagination_info(@response)}}
+    end
+
+    def search_facets_as_json
+      facets_from_request.as_json.each do |f|
+        f["label"] = facet_configuration_for_field(f["name"]).label
+        f["items"] = f["items"].as_json.each do |i|
+          i['label'] ||= i['value']
+        end
+      end 
+    end
+
+    # override this method to change the JSON response from #facet 
+    def render_facet_list_as_json
+      {response: {facets: @pagination }}
+    end
 
     # Overrides the Blacklight::Controller provided #search_action_url.
     # By default, any search action from a Blacklight::Catalog controller
