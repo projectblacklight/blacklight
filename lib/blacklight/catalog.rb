@@ -2,15 +2,13 @@
 module Blacklight::Catalog   
   extend ActiveSupport::Concern
   
-  include Blacklight::Configurable
-  include Blacklight::SolrHelper
+  include Blacklight::Base
   
   SearchHistoryWindow = 12 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do  
-    helper_method :search_action_url
     helper_method :sms_mappings
     before_filter :search_session, :history_session
     before_filter :delete_or_assign_search_session_params, :only => :index
@@ -20,10 +18,6 @@ module Blacklight::Catalog
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
     rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
-    # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
-    # The index action will more than likely throw this one.
-    # Example, when the standard query parser is used, and a user submits a "bad" query.
-    rescue_from RSolr::Error::Http, :with => :rsolr_request_error
   end
   
     # get search results from the solr index
@@ -185,10 +179,12 @@ module Blacklight::Catalog
     # non-routable methods ->
     #
 
+    # Overrides the Blacklight::Controller provided #search_action_url.
+    # By default, any search action from a Blacklight::Catalog controller
+    # should use the current controller when constructing the route.
     def search_action_url options = {}
       url_for(options.merge(:action => 'index', :only_path => true))
     end
-
 
     # calls setup_previous_document then setup_next_document.
     # used in the show action for single view pagination.
@@ -267,29 +263,6 @@ module Blacklight::Catalog
     def adjust_for_results_view
       # deprecated in blacklight 4.x
       ActiveSupport::Deprecation.warn("#adjust_for_results_view helper was deprecated in Blacklight 4.x")
-    end
-       
-    # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
-    def rsolr_request_error(exception)
-      
-      if Rails.env.development?
-        raise exception # Rails own code will catch and give usual Rails error page with stack trace
-      else
-
-        flash_notice = I18n.t('blacklight.search.errors.request_error')
-
-        # If there are errors coming from the index page, we want to trap those sensibly
-
-        if flash[:notice] == flash_notice
-          logger.error "Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception"
-          raise exception
-        end
-
-        logger.error exception
-
-        flash[:notice] = flash_notice 
-        redirect_to root_path
-      end
     end
 
     # extract the pagination info from the response object

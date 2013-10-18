@@ -74,10 +74,6 @@ module Blacklight::BlacklightHelperBehavior
     render :partial=>'catalog/search_form'
   end
 
-  def search_action_url *args
-    catalog_index_url *args
-  end
-
   def extra_body_classes
     @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end

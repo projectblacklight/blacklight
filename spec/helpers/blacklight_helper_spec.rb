@@ -81,6 +81,12 @@ describe BlacklightHelper do
     #@config ||= {:show => {:html_title => 'title_display', :heading => 'title_display', :display_type => 'format'}, :index => { :show_link => 'title_display', :record_display_type => 'format' } }
   end
 
+  before(:each) do
+    helper.stub(:search_action_url) do |*args|
+      catalog_index_url *args
+    end
+  end
+
   describe "#application_name", :test => true do
     it "should use the Rails application config application_name if available" do
       Rails.application.config.stub(:application_name => 'asdf')
