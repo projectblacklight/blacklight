@@ -243,6 +243,12 @@ fr:
         present: "Dans panier"
         absent: "Ajouter au panier"
         inprogress: "En cours"
+      zero_results:
+        title: "Votre recherche ne correspond à aucune ressource."
+        modify_search: "Essayez de modifier votre requête de recherche"
+        use_fewer_keywords: "Utilisez moins de mots-clés pour commencer, puis affiner votre recherche."
+        search_fields: "vous avez cherché par %{search_fields}"
+        search_everything: "essayez de rechercher tout"
 
     entry_name:
       default: 'résultat'

@@ -16,14 +16,17 @@
 
       <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
-	    <%= render :partial => 'did_you_mean' %>
+	    <%= render 'did_you_mean' %>
 
-      <%= render :partial => 'constraints' %>
+      <%= render 'constraints' %>
 
-      <%= render :partial => 'sort_and_per_page' %>
+      <%= render 'sort_and_per_page' %>
+
       <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
 
-      <%- if render_grouped_response? %>
+      <%- if response_has_no_search_results? %>
+        <%= render "zero_results" %>
+      <%- elsif render_grouped_response? %>
         <%= render_grouped_document_index %>
       <%- else %>
         <%= render_document_index %>
