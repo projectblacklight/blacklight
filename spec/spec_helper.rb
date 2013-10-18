@@ -22,6 +22,18 @@ require File.expand_path("config/environment", ENV['RAILS_ROOT'] || File.expand_
 
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
+
+
+Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+  options = {}
+
+  options[:timeout] = 120 if RUBY_PLATFORM == "java"
+
+  Capybara::Poltergeist::Driver.new(app, options)
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

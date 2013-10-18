@@ -552,6 +552,32 @@ module Blacklight::SolrHelper
     solr_response = find(blacklight_config.qt, solr_params)
     SolrDocument.new(solr_response.docs.first, solr_response) unless solr_response.docs.empty?
   end
+
+  # Get the previous and next document from a search result
+  def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
+
+    solr_params = solr_search_params(request_params).merge(extra_controller_params)
+
+    if index > 0
+      solr_params[:start] = index - 1 # get one before
+      solr_params[:rows] = 3 # and one after
+    else
+      solr_params[:start] = 0 # there is no previous doc
+      solr_params[:rows] = 2 # but there should be one after
+    end
+
+    solr_params[:fl] = '*'
+    solr_params[:facet] = false
+    solr_response = find(blacklight_config.qt, solr_params)
+
+    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
+
+    # only get the previous doc if there is one
+    prev_doc = document_list.first if index > 0
+    next_doc = document_list.last if (index + 1) < solr_response.total
+
+    [solr_response, [prev_doc, next_doc]]
+  end
     
   # returns a solr params hash
   # if field is nil, the value is fetched from blacklight_config[:index][:show_link]

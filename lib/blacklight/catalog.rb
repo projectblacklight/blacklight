@@ -4,15 +4,15 @@ module Blacklight::Catalog
   
   include Blacklight::Base
   
-  SearchHistoryWindow = 12 # how many searches to save in session history
+  require 'blacklight/catalog/search_context'
+  include Blacklight::Catalog::SearchContext
+
+  SearchHistoryWindow = 100 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
-  included do  
+  included do
     helper_method :sms_mappings
-    before_filter :search_session, :history_session
-    before_filter :delete_or_assign_search_session_params, :only => :index
-    after_filter :set_additional_search_session_values, :only=>:index
 
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -30,7 +30,6 @@ module Blacklight::Catalog
         format.html { 
           extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
           extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-          save_current_search_params
         }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
@@ -64,7 +63,7 @@ module Blacklight::Catalog
 
     # updates the search counter (allows the show view to paginate)
     def update
-      session[:search][:counter] = params[:counter]
+      search_session[:counter] = params[:counter]
       redirect_to :action => "show"
     end
     
@@ -198,78 +197,6 @@ module Blacklight::Catalog
       url_for(options.merge(:action => 'index', :only_path => true))
     end
 
-    # calls setup_previous_document then setup_next_document.
-    # used in the show action for single view pagination.
-    def setup_next_and_previous_documents
-      setup_previous_document
-      setup_next_document
-    end
-    
-    # gets a document based on its position within a resultset  
-    def setup_document_by_counter(counter)
-      return if counter < 1 || session[:search].blank?
-      search = session[:search] || {}
-      get_single_doc_via_search(counter, search)
-    end
-    
-    def setup_previous_document
-      @previous_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i - 1) : nil
-    end
-    
-    def setup_next_document
-      @next_document = session[:search][:counter] ? setup_document_by_counter(session[:search][:counter].to_i + 1) : nil
-    end
-    
-    # sets up the session[:search] hash if it doesn't already exist
-    def search_session
-      session[:search] ||= {}
-    end
-    
-    # sets up the session[:history] hash if it doesn't already exist.
-    # assigns all Search objects (that match the searches in session[:history]) to a variable @searches.
-    def history_session
-      session[:history] ||= []
-      @searches = searches_from_history # <- in BlacklightController
-    end
-    
-    # This method copies request params to session[:search], omitting certain
-    # known blacklisted params not part of search, omitting keys with blank
-    # values. All keys in session[:search] are as symbols rather than strings. 
-    def delete_or_assign_search_session_params
-      session[:search] = {}
-      params.each_pair do |key, value|
-        session[:search][key.to_sym] = value unless ["commit", "counter"].include?(key.to_s) ||
-          value.blank?
-      end
-    end
-    
-    # Saves the current search (if it does not already exist) as a models/search object
-    # then adds the id of the serach object to session[:history]
-    def save_current_search_params    
-      # If it's got anything other than controller, action, total, we
-      # consider it an actual search to be saved. Can't predict exactly
-      # what the keys for a search will be, due to possible extra plugins.
-      return if (search_session.keys - [:controller, :action, :total, :counter, :commit ]) == [] 
-      params_copy = search_session.clone # don't think we need a deep copy for this
-      params_copy.delete(:page)
-      
-      unless @searches.collect { |search| search.query_params }.include?(params_copy)
-        
-        new_search = Search.create(:query_params => params_copy)
-        session[:history].unshift(new_search.id)
-        # Only keep most recent X searches in history, for performance. 
-        # both database (fetching em all), and cookies (session is in cookie)
-        session[:history] = session[:history].slice(0, Blacklight::Catalog::SearchHistoryWindow )
-      end
-    end
-          
-    # sets some additional search metadata so that the show view can display it.
-    def set_additional_search_session_values
-      unless @response.nil?
-        search_session[:total] = @response.total
-      end
-    end
-    
     # we need to know if we are viewing the item as part of search results so we know whether to
     # include certain partials or not
     def adjust_for_results_view

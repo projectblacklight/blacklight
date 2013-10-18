@@ -81,33 +81,10 @@ describe CatalogController do
         it "should include search hash with key :q" do
           get :index, :q => @user_query
           session[:search].should_not be_nil
-          session[:search].keys.should include(:q)
-          session[:search][:q].should == @user_query
-        end
-        it "should include search hash with key :f" do
-          get :index, :f => @facet_query
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:f)
-          session[:search][:f].should == @facet_query
-        end
-        it "should include search hash with key :per_page" do
-          get :index, :per_page => 10
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:per_page)
-          session[:search][:per_page].should == "10"
-        end
-        it "should include search hash with key :page" do
-          get :index, :page => 2
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:page)
-          session[:search][:page].should == "2"
-        end
-        it "should include search hash with random key" do
-          # cause a plugin might add an unpredictable one, we want to preserve it.
-          get :index, :some_weird_key => "value"
-          session[:search].should_not be_nil
-          session[:search].keys.should include(:some_weird_key)
-          session[:search][:some_weird_key].should == "value"
+          session[:search].keys.should include(:id)
+          
+          search = Search.find(session[:search][:id])
+          expect(search.query_params[:q]).to eq @user_query
         end
       end
 
@@ -224,17 +201,17 @@ describe CatalogController do
         @mock_document = double()
         @mock_document.stub(:export_formats => {})
         controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
-                        :get_single_doc_via_search => @mock_document)
+                        :get_previous_and_next_documents_for_search => [double(:total => 5), [double("a"), @mock_document, double("b")]])
+
+        current_search = Search.create(:query_params => { :q => ""})
+        controller.stub(:current_search_session => current_search)
+
+        @search_session = { :id => current_search.id }
       end
     it "should set previous document if counter present in session" do
-      session[:search] = {:q => "", :counter => 2}
+      session[:search] = @search_session.merge(:counter => 2)
       get :show, :id => doc_id
       assigns[:previous_document].should_not be_nil
-    end
-    it "should not set previous document if counter is 1" do
-      session[:search] = {:counter => 1}
-      get :show, :id => doc_id
-      assigns[:previous_document].should be_nil
     end
     it "should not set previous or next document if session is blank" do
       get :show, :id => doc_id
@@ -242,21 +219,15 @@ describe CatalogController do
       assigns[:next_document].should be_nil
     end
     it "should not set previous or next document if session[:search][:counter] is nil" do
-      session[:search] = {:q => ""}
+      session[:search] = {}
       get :show, :id => doc_id
       assigns[:previous_document].should be_nil
       assigns[:next_document].should be_nil
     end
     it "should set next document if counter present in session" do
-      session[:search] = {:q => "", :counter => 2}
+      session[:search] = @search_session.merge(:counter => 2)
       get :show, :id => doc_id
       assigns[:next_document].should_not be_nil
-    end
-    it "should not set next document if counter is >= number of docs" do
-      controller.stub(:get_single_doc_via_search => nil)
-      session[:search] = {:counter => 66666666}
-      get :show, :id => doc_id
-      assigns[:next_document].should be_nil
     end
     end
 
@@ -549,6 +520,67 @@ describe CatalogController do
        expect(controller.send(:render_facet_list_as_json)).to eq (
          {response: {facets: {items: [{value: 'Book'}]}}}
        )
+    end
+  end
+
+  describe "#add_to_search_history" do
+    it "should prepend the current search to the list" do
+      session[:history] = []
+      controller.send(:add_to_search_history, double(:id => 1))
+      expect(session[:history]).to have(1).item
+
+      controller.send(:add_to_search_history, double(:id => 2))
+      expect(session[:history]).to have(2).items
+      expect(session[:history].first).to eq 2
+    end
+
+    it "should remove searches from the list when the list gets too big" do
+      controller.stub(:blacklight_config).and_return(double(:search_history_window => 5))
+      session[:history] = (0..4).to_a.reverse
+
+      expect(session[:history]).to have(5).items
+      controller.send(:add_to_search_history, double(:id => 5))
+      controller.send(:add_to_search_history, double(:id => 6))
+      controller.send(:add_to_search_history, double(:id => 7))
+      expect(session[:history]).to include(*(3..7).to_a)
+
+    end
+  end
+
+  describe "current_search_session" do
+    it "should create a session if we're on an search action" do
+      controller.stub(:action_name => "index")
+      controller.stub(:params => { :q => "x", :page => 5})
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include(:q => "x")
+      expect(session.query_params).to_not include(:page => 5)
+    end
+
+    it "should create a session if a search context was provided" do
+      controller.stub(:params => { :search_context => JSON.dump(:q => "x")})
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include("q" => "x")
+    end
+
+    it "should use an existing session if a search id was provided" do
+      s = Search.create(:query_params => { :q => "x" })
+      session[:history] ||= []
+      session[:history] << s.id
+      controller.stub(:params => { :search_id => s.id})
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include(:q => "x")
+      expect(session).to eq(s)
+    end
+
+    it "should use an existing search session if the search is in the uri" do
+      s = Search.create(:query_params => { :q => "x" })
+      session[:search] ||= {}
+      session[:search][:id] = s.id
+      session[:history] ||= []
+      session[:history] << s.id
+      session = controller.send(:current_search_session)
+      expect(session.query_params).to include(:q => "x")
+      expect(session).to eq(s)
     end
   end
 end

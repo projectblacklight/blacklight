@@ -22,6 +22,7 @@ module Blacklight
           :spell_max => 5,
           :max_per_page => 100,
           :per_page => [10,20,50,100],
+          :search_history_window => Blacklight::Catalog::SearchHistoryWindow,
           :document_index_view_types => ['list'],
           :add_facet_fields_to_solr_request => false,
           :add_field_configuration_to_solr_request => false

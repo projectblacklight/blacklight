@@ -1118,5 +1118,37 @@ describe 'Blacklight::SolrHelper' do
 
   end
 
+  describe "#get_previous_and_next_documents_for_search" do
+    before(:all) do
+      @full_response, @all_docs = get_search_results({:q => ''}, :rows => 1000)
+    end
+
+    it "should return the previous and next documents for a search" do
+      response, docs = get_previous_and_next_documents_for_search(4, :q => '')
+
+      expect(docs.first.id).to eq @all_docs[3].id
+      expect(docs.last.id).to eq @all_docs[5].id
+    end
+
+    it "should return only the next document if the counter is 0" do
+      response, docs = get_previous_and_next_documents_for_search(0, :q => '')
+
+      expect(docs.first).to eq nil
+      expect(docs.last.id).to eq @all_docs[1].id
+    end
+
+    it "should return only the previous document if the counter is the total number of documents" do
+      response, docs = get_previous_and_next_documents_for_search(@full_response.total - 1, :q => '')
+      expect(docs.first.id).to eq @all_docs.slice(-2).id
+      expect(docs.last).to eq nil
+    end
+
+    it "should return an array of nil values if there is only one result" do
+      response, docs = get_previous_and_next_documents_for_search(0, :q => 'id:2007020969')
+      expect(docs.last).to be_nil
+      expect(docs.first).to be_nil
+    end
+  end
+
 end
 

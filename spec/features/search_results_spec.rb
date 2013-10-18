@@ -45,6 +45,24 @@ describe "Search Results" do
     expect(page).to have_content "No results found for your search"
   end
 
+  it "should pass the current search id through", :js => true do
+    visit root_path
+    fill_in "q", with: ''
+    click_button 'search'
+    search_id =  Search.last.id.to_s
+    click_on 'Pluvial nectar of blessings'
+    expect(page).to have_content "« Previous | 10 of 30 | Next »"
+    prev = page.find("#previousNextDocument .previous")
+    expect(prev['data-counter']).to eq "9"
+    expect(prev['data-search_id']).to eq search_id
+
+    click_on "« Previous"
+
+    prev = page.find("#previousNextDocument .previous")
+    expect(prev['data-counter']).to eq "8"
+    expect(prev['data-search_id']).to eq search_id
+  end
+
 end
 
 

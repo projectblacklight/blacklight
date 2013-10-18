@@ -11,7 +11,7 @@ class SavedSearchesController < ApplicationController
   end
   
   def save    
-    current_user.searches << Search.find(params[:id])
+    current_user.searches << searches_from_history.find(params[:id])
     if current_user.save
       flash[:notice] = I18n.t('blacklight.saved_searches.add.success')
     else
@@ -23,8 +23,7 @@ class SavedSearchesController < ApplicationController
   # Only dereferences the user rather than removing the item in case it
   # is in the session[:history]
   def forget
-    if current_user.search_ids.include?(params[:id].to_i) 
-      search = Search.find(params[:id])
+    if search = current_user.searches.find(params[:id])
       search.user_id = nil
       search.save
 
