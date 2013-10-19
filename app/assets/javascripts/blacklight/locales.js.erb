@@ -1,0 +1,8 @@
+//= require blacklight/core
+Blacklight.load_locales = function() {
+	Blacklight.locales = <%=I18n.t('blacklight').to_json%>;
+}
+
+$(document).ready( function() {
+  Blacklight.load_locales();
+});
