@@ -189,7 +189,7 @@ module Blacklight::BlacklightHelperBehavior
     value = options[:value] || get_field_values(document, field, field_config, options)
 
 
-    render_field_value value
+    render_field_value value, field_config
   end
 
   # Used in the show view for displaying the main solr document heading
@@ -312,7 +312,7 @@ module Blacklight::BlacklightHelperBehavior
     field_config = document_show_fields(document)[field]
     value = options[:value] || get_field_values(document, field, field_config, options)
 
-    render_field_value value
+    render_field_value value, field_config
   end
 
   ##
@@ -335,7 +335,7 @@ module Blacklight::BlacklightHelperBehavior
         end
 
         Array(document.get(field, :sep => nil)).map do |v|
-          link_to render_field_value(v), search_action_url(add_facet_params(link_field, v, {}))
+          link_to render_field_value(v, field_config), search_action_url(add_facet_params(link_field, v, {}))
         end if field
       when (field_config and field_config.highlight)
         document.highlight_field(field_config.field).map { |x| x.html_safe } if document.has_highlight_field? field_config.field
@@ -349,10 +349,9 @@ module Blacklight::BlacklightHelperBehavior
       (document.has_highlight_field? solr_field.field if solr_field.highlight)
   end
 
-  def render_field_value value=nil
-    value = [value] unless value.is_a? Array
-    value = value.collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x}
-    return value.map { |v| html_escape v }.join(field_value_separator).html_safe
+  def render_field_value value=nil, field_config=nil
+    safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
+    safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
   end
 
   def field_value_separator
