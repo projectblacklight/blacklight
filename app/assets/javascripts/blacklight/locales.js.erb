@@ -3,6 +3,6 @@ Blacklight.load_locales = function() {
 	Blacklight.locales = <%=I18n.t('blacklight').to_json%>;
 }
 
-$(document).ready( function() {
+Blacklight.onLoad(function() {
   Blacklight.load_locales();
 });
