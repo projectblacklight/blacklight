@@ -679,4 +679,19 @@ describe BlacklightHelper do
   describe "render_grouped_document_index" do
 
   end
+
+  describe "render_field_value" do
+    it "should join and html-safe values" do
+      expect(helper.render_field_value(['a', 'b'])).to eq "a, b"
+    end
+
+    it "should join values using the field_value_separator" do
+      helper.stub(:field_value_separator).and_return(" -- ")
+      expect(helper.render_field_value(['a', 'b'])).to eq "a -- b"
+    end
+
+    it "should use the separator from the Blacklight field configuration by default" do
+      expect(helper.render_field_value(['c', 'd'], double(:separator => '; '))).to eq "c; d"
+    end
+  end
 end
