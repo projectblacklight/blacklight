@@ -31,4 +31,5 @@ Gem::Specification.new do |s|
   s.add_dependency "bootstrap-sass", ">= 2.2.0", "< 2.4"
   s.add_development_dependency "jettywrapper", ">= 1.4.1"
   s.add_development_dependency "rspec-rails"
+  s.add_development_dependency 'engine_cart', ">= 0.1.0"
 end

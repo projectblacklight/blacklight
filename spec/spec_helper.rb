@@ -16,9 +16,8 @@ if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.9/ and ruby_engine != "jruby"
   end
 end
 
-# version that works with our blacklight:spec stuff that calls specs
-# in a remote directory. 
-require File.expand_path("config/environment", ENV['RAILS_ROOT'] || File.expand_path("../internal", __FILE__))
+require 'engine_cart'
+EngineCart.load_application!
 
 require 'rspec/rails'
 require 'capybara/rspec'

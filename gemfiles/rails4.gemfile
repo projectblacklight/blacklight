@@ -8,10 +8,14 @@ gem 'simplecov-rcov', :platform => :mri
 
 gem 'rails', '~> 4.0.0'
 
+gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
+
 group :test do
   gem 'devise'
+  gem 'devise-guests'
   gem "bootstrap-sass"
   gem 'turbolinks'
+  gem 'poltergeist'
   gem "unicode", :platforms => [:mri_18, :mri_19]
 end
 
