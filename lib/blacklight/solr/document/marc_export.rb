@@ -104,14 +104,6 @@ module Blacklight::Solr::Document::MarcExport
   # proprietary marc-ish in text/plain format. See
   # http://robotlibrarian.billdueber.com/sending-marcish-data-to-refworks/
   def export_as_refworks_marc_txt
-    # plugin/gem weirdness means we do need to manually require
-    # here.
-    # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
-    # it seems to want C form normalization, although RefWorks support
-    # couldn't tell me that. -jrochkind
-    # DHF: moved this require a little lower in the method.
-    # require 'unicode'    
-  
     fields = to_marc.find_all { |f| ('000'..'999') === f.tag }
     text = "LEADER #{to_marc.leader}"
     fields.each do |field|
@@ -129,19 +121,12 @@ module Blacklight::Solr::Document::MarcExport
         end
     end
 
-    if Blacklight.jruby? 
-      require 'java'
-      java_import java.text.Normalizer
-      Normalizer.normalize(text, Normalizer::Form::NFC).to_s
-    else 
-      begin
-        require 'unicode'
-        Unicode.normalize_C(text)
-      rescue LoadError
-        Blacklight.logger.warn "Unable to load unicode library in #export_as_refworks_marc_txt; skipping unicode normalization"
-        text
-      end
-    end
+    # As of 11 May 2010, Refworks has a problem with UTF-8 if it's decomposed,
+    # it seems to want C form normalization, although RefWorks support
+    # couldn't tell me that. -jrochkind
+    text = ActiveSupport::Multibyte::Unicode.normalize(text, :c)
+    
+    return text
   end 
 
   # Endnote Import Format. See the EndNote User Guide at:

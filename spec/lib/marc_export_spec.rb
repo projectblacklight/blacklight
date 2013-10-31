@@ -676,14 +676,7 @@ describe Blacklight::Solr::Document::MarcExport do
       @music_record.export_as_refworks_marc_txt.should == "LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n"
     end
     describe "for UTF-8 record" do
-      it "should export in Unicode normalized C form" do
-
-        begin
-          require 'unicode'
-        rescue LoadError
-          Blacklight.logger.should_receive(:warn) unless defined? :JRUBY_VERSION
-        end
-
+      it "should export in Unicode normalized C form" do        
         @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
 
         if defined? Unicode

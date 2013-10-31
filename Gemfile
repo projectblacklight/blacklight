@@ -12,7 +12,6 @@ group :test do
   gem "bootstrap-sass"
   gem 'turbolinks'
   gem 'poltergeist'
-  gem "unicode", :platforms => [:mri_18, :mri_19]
 end
 
 if File.exists?('spec/test_app_templates/Gemfile.extra')
