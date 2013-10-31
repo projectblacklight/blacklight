@@ -20,10 +20,6 @@ This generator makes the following changes to your application:
 Thank you for Installing Blacklight.
        """ 
 
-  def add_unicode_gem
-    gem "unicode", :platforms => [:mri_18, :mri_19] unless defined?(:RUBY_VERSION) and RUBY_VERSION == '2.0.0'
-  end
-
   def add_bootstrap_gem
     # Don't need a version here, because we specify the version in blacklight.gemspec
     gem 'bootstrap-sass'
