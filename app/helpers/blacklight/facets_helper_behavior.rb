@@ -140,6 +140,7 @@ module Blacklight::FacetsHelperBehavior
 
     # Delete page, if needed. 
     new_params.delete(:page)
+    new_params.delete(:prefix)
 
     # Delete any request params from facet-specific action, needed
     # to redir to index action properly. 
@@ -170,6 +171,7 @@ module Blacklight::FacetsHelperBehavior
     p[:f] = (p[:f] || {}).dup
     p[:f][field] = (p[:f][field] || []).dup
     p.delete :page
+    p.delete :prefix
     p.delete :id
     p.delete :counter
     p.delete :commit

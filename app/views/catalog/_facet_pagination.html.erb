@@ -19,3 +19,16 @@
         :class => "sort_change az btn") %><span class="active numeric btn"><%= t('blacklight.search.facets.sort.count') %></span>
     <% end -%>    
   </div>
+  
+  <script>
+  
+function myFunction()
+{
+document.getElementById('prefix').value
+}
+</script>
+  
+  <div class="prefix pull-center">
+  	<input type="text" name="prefix" id="prefix" onkeyup="myFunction()" Value="I"></input>
+  	<%= link_to "Filter", @pagination.params_for_filter_url('I', params) , :class => 'btn' %>
+  </div>
