@@ -35,7 +35,8 @@ module Blacklight::Solr
       @offset = arguments[:offset].to_s.to_i 
       @limit =  arguments[:limit].to_s.to_i if arguments[:limit]           
       # count is solr's default
-      @sort = arguments[:sort] || "count" 
+      @sort = arguments[:sort] || "count"
+      @can_filter  = arguments[:can_filter] || false
       
       total = all_facet_values.size
       if (@limit)
@@ -69,6 +70,9 @@ module Blacklight::Solr
       !has_previous?
     end
 
+    def can_filter?
+      @can_filter
+    end
 
    # Pass in a desired solr facet solr key ('count' or 'index', see
    # http://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
