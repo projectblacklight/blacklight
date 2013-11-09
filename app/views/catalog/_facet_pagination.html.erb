@@ -20,11 +20,17 @@
     <% end -%>    
   </div>
     
-  <div class="prefix pull-center">
+  <div class="btn-group pull-left bottom">
       	<%= form_tag( {:controller => "catalog", :action => "facet"} , :method => "get",  :id => "filter_facet", :remote => true, :class => "ajax_form" ) do %>
-		<%= text_field_tag(:'facet.prefix', params[:'facet.prefix'].to_s ) %>
-	        <%= submit_tag "Filter" %>
+      		<div class="pull-left">
+      		<%= label_tag :'facet.prefix', 'Press Enter to Filter: ' %>
+      		</div>
+      		<div class="pull-right">
+		<%= text_field_tag(:'facet.prefix', params[:'facet.prefix'].to_s, :autofocus=>true ) %>
+		</div>
         <% end %>
 
   </div>
+  
+
   
