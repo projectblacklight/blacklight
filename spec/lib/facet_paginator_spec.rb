@@ -12,6 +12,7 @@ describe 'Blacklight::Solr::FacetPaginator' do
 
     @sort_key = Blacklight::Solr::FacetPaginator.request_keys[:sort]
     @page_key = Blacklight::Solr::FacetPaginator.request_keys[:page]
+    @prefix_key = Blacklight::Solr::FacetPaginator.request_keys[:prefix]
   end
   context 'when there are limit+1 results' do
     before(:each) do
@@ -74,6 +75,17 @@ describe 'Blacklight::Solr::FacetPaginator' do
     it 'should not has_previous?' do
       @paginator.should_not be_has_previous
     end
+  end
+  
+  it 'should know a filter, and produce proper filter url' do
+      paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 100, :limit => @limit, :sort => 'index', :can_filter => true)
+
+      paginator.can_filter?.should == true
+      
+      click_params = paginator.params_for_filter_url('M', {})
+
+      click_params[ @prefix_key ].should == 'M'
+      click_params[ @page_key ].should be_nil
   end
   
 end

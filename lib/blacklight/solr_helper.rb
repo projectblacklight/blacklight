@@ -528,7 +528,10 @@ module Blacklight::SolrHelper
 
     limit = solr_params[:"f.#{facet_field}.facet.limit"] -1
     
-    can_filter = blacklight_config[:facet_fields][facet_field].can_filter || false
+    can_filter = false
+    unless blacklight_config[:facet_fields][facet_field].nil?
+    	can_filter = blacklight_config[:facet_fields][facet_field].can_filter
+    end
     
     # Actually create the paginator!
     # NOTE: The sniffing of the proper sort from the solr response is not
