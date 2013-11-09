@@ -63,6 +63,7 @@ module Blacklight
           get 'catalog/sms', :as => "sms_catalog"
           get 'catalog/endnote', :as => "endnote_catalog"
           get "catalog/facet/:id", :to => 'catalog#facet', :as => 'catalog_facet'
+          post "catalog/facet/:id", :to => 'catalog#facet', :as => 'catalog_facet_form'
 
 
           get "catalog", :to => 'catalog#index', :as => 'catalog_index'
