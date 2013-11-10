@@ -475,7 +475,8 @@ module Blacklight::BlacklightHelperBehavior
   def link_to_document(doc, opts={:label=>nil, :counter => nil})
     opts[:label] ||= blacklight_config.index.show_link.to_sym
     label = render_document_index_label doc, opts
-    link_to label, doc, search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
+    link_to label, {:controller => 'catalog' , :action => 'show', :id => doc} , search_session_params(opts[:counter]).merge(
+	opts.reject { |k,v| [:label, :counter].include? k  })
   end
 
   def search_session_params counter
