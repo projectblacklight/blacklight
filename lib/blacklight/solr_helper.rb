@@ -510,7 +510,7 @@ module Blacklight::SolrHelper
     solr_params[:"f.#{facet_field}.facet.limit"]  = limit + 1
     solr_params[:"f.#{facet_field}.facet.offset"] = ( input.fetch(Blacklight::Solr::FacetPaginator.request_keys[:page] , 1).to_i - 1 ) * ( limit )
     solr_params[:"f.#{facet_field}.facet.sort"] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]
-    solr_params[:"f.#{facet_field}.facet.prefix"] = input.fetch(Blacklight::Solr::FacetPaginator.request_keys[:prefix] , "") 
+    solr_params[:"f.#{facet_field}.facet.prefix"] = input [ Blacklight::Solr::FacetPaginator.request_keys[:prefix] ] if input[ Blacklight::Solr::FacetPaginator.request_keys[:prefix] ]
     solr_params[:rows] = 0
 
     return solr_params
