@@ -23,7 +23,7 @@
     
   <% if(@pagination.can_filter?)  %>
     <div class="btn-group pull-left bottom">
-      <%= form_tag( {:controller => "catalog", :action => "facet"} , :method => "get",  :id => "filter_facet", :remote => true, :class => "ajax_form" ) do %>
+      <%= form_tag( {:controller => "catalog", :action => "facet", :id => params[:id]} , :method => "get",  :id => "filter_facet", :remote => true, :class => "ajax_form" ) do %>
         <div class="pull-left">
           <%= label_tag :'facet.prefix', 'Press Enter to Filter: ' %>
         </div>
