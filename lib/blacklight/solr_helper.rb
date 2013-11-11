@@ -530,7 +530,7 @@ module Blacklight::SolrHelper
     
     can_filter = false
     unless blacklight_config[:facet_fields][facet_field].nil?
-    	can_filter = blacklight_config[:facet_fields][facet_field].can_filter
+    	can_filter = blacklight_config.facet_fields[facet_field].can_filter
     end
     
     # Actually create the paginator!
