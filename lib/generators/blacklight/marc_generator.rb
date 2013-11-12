@@ -17,7 +17,7 @@ module Blacklight
     # register_alias) will allow content-negotiation for the format. 
     def add_mime_types
       puts "Updating Mime Types"
-      insert_into_file "config/initializers/mime_types.rb", :after => "# Be sure to restart your server when you modify this file." do <<EOF
+      insert_into_file "config/initializers/mime_types.rb", :after => "# Be sure to restart your server when you modify this file.\n" do <<EOF
 Mime::Type.register_alias "text/plain", :refworks_marc_txt
 Mime::Type.register_alias "text/plain", :openurl_kev
 Mime::Type.register "application/x-endnote-refer", :endnote
