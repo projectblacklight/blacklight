@@ -21,7 +21,7 @@ def get_hash_without_marcxml
 end
 
 def get_hash_with_marc21
-  reader = MARC::Reader.new(File.dirname(__FILE__) + '/../data/test_data.utf8.mrc')
+  reader = MARC::Reader.new(File.dirname(__FILE__) + '/../blacklight-core/data/test_data.utf8.mrc')
   # doing weird i= stuff to get only first record.  reader.first, or i = 0, i+1 didn't work and this was the only way I could get it working.  Needs refactoring.
   i = "1st"
   for record in reader

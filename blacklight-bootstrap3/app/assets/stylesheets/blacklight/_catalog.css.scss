@@ -1,0 +1,254 @@
+.catalog_startOverLink {
+  padding-top: 0.3em;
+  float: right;
+}
+
+#sort-dropdown {
+  padding-left: 1em;
+}
+
+#document
+{
+	margin-top:1em;
+
+
+  h1
+  {
+    margin:0;
+    padding:0 0 0.4em;
+  }
+}
+
+#documents
+{
+	margin-bottom:1em;
+	margin-top:1em;
+
+  .documentHeader
+  {
+     padding: 5px 0 0;
+  }
+}
+
+.ajax_form
+{
+  margin-bottom: 0;
+}
+
+#librarian_view
+{
+	left:-17%;
+	text-align:left;
+	top:10%;
+	width:700px;
+}
+
+#marc_view
+{
+	padding:5px;
+	text-align:left;
+
+  .field
+  {
+    border-bottom: $marc_item_separator;
+    clear:both;
+  }
+
+  .ind1, .ind2
+  {
+    display:inline;
+    padding:0 5px;
+  }
+
+  .subfields
+  {
+    padding-left:5em;
+  }
+
+  .tag_ind
+  {
+    float:left;
+  }
+}
+
+.constraints-container {
+  @extend .well;
+  padding-bottom: 9px;
+}
+
+span.constraints-label {
+  font-weight:bold;
+}
+
+.appliedFilter
+{
+	background: $constraint_bg_color;
+	border:1px solid $constraint_border_color;
+	display:inline-block;
+	margin-bottom:0.66em;
+	margin-right:0.33em;
+	padding:3px 3px 3px 1.5em;
+  padding-right:50px;
+	position:relative;
+  border-radius: 15px 15px 15px 15px;
+
+  .btnRemove
+  {
+    background: image_url('blacklight/remove.gif') no-repeat center center;
+    border-bottom:none;
+    border-left:1px solid $constraint_border_color;
+    display:block;
+    height:100%;
+    outline:none;
+    position:absolute;
+    right:0;
+    text-indent:-99999px;
+    top:0;
+    width:32px;
+    z-index:5;
+  }
+
+  .btnRemove:active,.btnRemove:focus
+  {
+    border:1px dotted $constraint_border_active_color;
+  }
+
+  .filterName
+  {
+    background: image_url('blacklight/separator.gif') no-repeat right center;
+    padding-right:14px;
+  }
+}
+
+.document
+{
+	border-bottom:1px dotted $dotted_border_color;
+	clear:both;
+  padding-bottom: 1em;
+
+  dd {
+    padding-bottom:0.5em;
+  }
+}
+
+#documents .documentFunctions
+{
+	float:right;
+  margin: 10px 0;
+
+  .bookmark_toggle
+  {
+    display:inline;
+  }
+}
+
+#sidebar form {
+  margin: 0;
+}
+
+.page_links
+{
+	display: inline-block;
+}
+
+.pagination {
+  text-align: center ;
+}
+
+
+.solrQuery
+{
+	background-color: $search_ui_bg_color;
+	border:1px dotted $dotted_border_color;
+	font-size:90%;
+	margin:2em;
+	padding:.5em;
+}
+
+.document dl {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.dl-invert {
+  dt {
+    font-weight: normal;
+    color: #888;
+  }
+}
+
+label.checked
+{
+	font-weight:700;
+}
+
+label.toggle_bookmark
+{
+	color:inherit;
+	display:inline-block;
+	font-weight:inherit;
+	min-width:8.5em;
+	text-align:left;
+}
+
+
+span.page a,span.page.current
+{
+	border-bottom:none;
+	margin-right:0.2em;
+	padding:0.2em 0.5em;
+	text-decoration:none;
+}
+
+
+#sidebar .well
+{
+  padding: 8px 0;
+}
+
+#sidebar-mlt li {
+  padding-bottom: 0.5em;
+}
+
+.show-document
+{
+  .document {
+    border: none;
+  }
+}
+
+#sortAndPerPage {
+  @extend .well;
+}
+
+#sortAndPerPage .dropdown-toggle {
+  cursor: pointer;
+}
+
+.no-js #sortAndPerPage {
+  & {
+    @extend .clearfix;
+  }
+  .dropdown-menu {
+    background: none;
+    box-shadow: none;
+    border: none;
+    position: relative;
+    display: block;
+    float: none;
+  }
+
+}
+
+.index_title {
+  float: left;
+  max-width: 414px; //col-md-7; figure out how to calculate this correctly?
+}
+
+#email_form {
+}
+
+.document-thumbnail {
+  float: right;
+  padding-left: 20px;
+}
