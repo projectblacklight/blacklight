@@ -1,12 +1,10 @@
-<div class="well" id="sidebar-nav">
-  <%= render :partial => 'show_tools' %>
-</div><!--/well -->
+<%= render :partial => 'show_tools' %>
   
 <% unless @document.more_like_this.empty? %>
-<div class="well" id="sidebar-mlt">
-  <ul class="nav nav-list">
-  <li class="nav-header">More Like This</li>
-    <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
-  </ul>
-</div><!--/well -->
+  <div class="panel panel-default">
+    <div class="panel-heading">More Like This</div>
+    <div class="panel-body">
+      <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
+    </div>
+  </div>
 <% end %>

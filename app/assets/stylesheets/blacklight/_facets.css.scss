@@ -1,60 +1,59 @@
-#facets
-{
-  div.facet_limit {
-    clear: both;
+#sidebar, #facets {
+  @extend .clearfix;
+  padding-bottom: $padding-large-vertical;
+}
+
+.no-js {
+  #sidebar .collapse {
+    @extend .in;
+  }  
+}
+
+.facet_limit-active {
+  @extend .panel-success;
+}
+
+#facet-panel-collapse {
+  @extend .navbar-collapse;
+  padding-left: 0;
+  padding-right: 0;
+  border-top: none;
+  box-shadow: none;
+  max-height: none;
+}
+
+.facets-toggle {
+  @extend .navbar-toggle;
+  @extend .btn;
+  @extend .btn-default;
+
+  border-color: $navbar-default-toggle-border-color;
+
+  .icon-bar {
+    background-color: $navbar-default-toggle-icon-bar-bg;
+  }
+}
+
+.facet-values li {
+  padding-bottom: $padding-base-vertical; 
+  padding-right: 51px;
+
+  text-indent: -$padding-large-horizontal;
+  padding-left: $padding-large-horizontal;
+
+  .selected {
+    @extend .text-success;
   }
 
-  h5 a {
-    color: inherit;
-    text-decoration: none;
-
-    &:hover
-    {
-      background-color:#eee;
-    }
+  .remove {
+    @extend .text-muted;
+    text-indent: $padding-base-horizontal;
   }
 
-  ul {
-    padding-top:0.5em;
-    margin-left: 14px;
-  }
-
-  li
-    {
-      list-style:none;
-      margin-right:1em;
-      padding-bottom:0.3em;
-      padding-right: 50px;
-      clear: right;
-
-    a.remove
-    {
-      color:#666;
-      margin-left: 0px;
-      padding: 3px 5px;
-    }
-
-    .count {
-      text-align:right;
-      float:right;
-      margin-right: -50px;
-    }
-
-    &.more_facets_link {
-      text-align:right;
-      float:right;
-      margin-right: -35px;
-    }
-  }
-
-  span.selected
-  {
-    color:green;
-  }
-
-  ul,h5 +div
-  {
-    padding-bottom:1em;
+  .count {
+    @extend .pull-right;
+    text-align: right;
+    margin-right: -50px;
   }
 }
 
@@ -75,123 +74,61 @@
 
 ul.facet_extended_list
 {
-	clear:both;
-	margin:1.5em 0;
+  @extend .list-unstyled;
 
-  li
-  {
-    list-style:none;
-    margin:0.5em 0;
-  }
-
-   .count {
-     float:right;
-   }
 }
 
+.collapse-toggle {
+  cursor: pointer;
+}
+
+.panel-heading .collapse-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+    font-size: 0.8em;
+    line-height: normal;
+}
+.panel-heading .collapse-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
 
 /* Sidenav
 -------------------------------------------------- */
-
-.sidenav {
-  margin-bottom:1em;
-  padding: 0;
-  background-color: transparent;
-  border: 1px solid $navbarBorder;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-          box-shadow: 0 1px 4px rgba(0,0,0,.065);
-
-	h5, h4 {
-	  display: block;
-	  *width: 190px;
-	  margin: 0 0 -1px;
-	  padding: 8px 14px;
-	}
-	h5 {
-	  border-top: 1px solid $navbarBorder;
-	}
-
-  .facet_limit:last-child > h5 {
-
-    &.twiddle-open {
-      @include border-bottom-radius(0px);
-    }
-
-    @include border-bottom-radius(6px);
-    }
-
-}
-
-
-#facets .btn-navbar {
-// Navbar button for toggling navbar items in responsive layouts
-// These definitions need to come after '.navbar .btn'
-  display: none;
-  float: right;
-  padding: 7px 10px;
-  margin-left: 5px;
-  margin-right: 5px;
-  @include buttonBackground(darken($navbarBackgroundHighlight, 5%), darken($navbarBackground, 5%));
-  @include box-shadow(#{inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075)});
-& .icon-bar {
-  display: block;
-  width: 18px;
-  height: 2px;
-  background-color: #f5f5f5;
-  @include border-radius(1px);
-  @include box-shadow(0 1px 0 rgba(0,0,0,.25));
-}
-& .icon-bar + .icon-bar {
-  margin-top: 3px;
-}
-
-}
-
-.facets-collapse {
-  h5 {
-    cursor: pointer;
-  }
-  /* Chevrons */
-  .icon-chevron {
-    float: right;
-    margin-top: 2px;
-    margin-right: -6px;
-    opacity: .25;
-  }
-
-  .facet_limit h5:hover {
-    background-color: darken($bodyBackground, 10%);
-  }
-
-  .icon-chevron {
-    @extend .icon-chevron-right;
-    opacity: .5;
-  }
-
-  .twiddle-open .icon-chevron {
-    @extend .icon-chevron-down;
-    opacity: 1;
-    padding-right:2px;
-  }
-
-  /* hide the chevron when js isn't supported */
-  .no-js & .icon-chevron {
-    @extend .icon-chevron-down;
-    padding-right:2px;
-  }
-
-  h5:hover .icon-chevron,
-  .twiddle-open .icon-chevron {
-    opacity: 1;
-  }
-}
 
 .facet_pagination {
   @extend .clearfix;
 }
 
 
+@media (max-width: $grid-float-breakpoint) {
+
+  .facets-toggle {
+    margin-top: 3px;
+  }
+
+  #facets .top-panel-heading {
+    border: 1px solid #ccc;
+    margin-bottom: 1em;
+    @include border-bottom-radius($panel-border-radius - 1);
+  }
+}
+
+/* style for pivot facet's nested list */
+
+.pivot-facet {
+  @extend .list-unstyled;
+
+  li {
+    padding-bottom: $padding-base-vertical;
+  }
+
+  ul, .pivot-facet {
+    @extend .list-unstyled;
+    padding-top: $padding-base-vertical;
+    padding-left: $padding-large-horizontal;
+  }
+}

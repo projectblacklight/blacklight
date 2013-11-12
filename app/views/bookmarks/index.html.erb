@@ -1,4 +1,4 @@
-<div id="content" class="span12">
+<div id="content" class="col-md-12">
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
 <%- if current_or_guest_user.blank? -%>
@@ -9,9 +9,10 @@
 
   <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% else %>
+  <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'btn btn-danger pull-right' %>
   <%= render 'sort_and_per_page' %>
-
   <%= render 'tools' %>
+
   <%= render_document_index %>
   <%= render 'results_pagination' %>
 <% end %>

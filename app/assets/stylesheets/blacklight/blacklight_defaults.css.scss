@@ -1,49 +1,14 @@
 /* Warning! If you want to change these, just copy them into your own theme css. But you want to remove the !default, which only will set them if not already set. */
 
-
-
-$background_image: 'blacklight/bg.png' !default;
 $logo_image: 'blacklight/logo.png' !default;
-$header_background_border: 'blacklight/border.png' !default;
-
-$navbar_background_color: #000000 !default;
 
 /* Various elements of search customization share these colors */
-
-$well_bg_color: #F5F5F5 !default;
 
 $search_ui_border_color: #FFFFFF !default;
 $search_ui_bg_color: #FFFFFF !default;
 
-$main_container_bg_color: #FFFFFF !default;
-
-/* separates documents, facets */
-$dotted_border_color: #CCC !default;
-$dark_border_color: #333 !default;
-
-/* background color of page */
-$page_bg_color: #2E4F81 !default;
-
-
 /* label (field names) */
-$field_name_color: #888 !default;
-
-
-/* constraint (you searched for:) details: */
-
-$constraint_bg_color: #E2EDFE !default;
-
-$constraint_border_color: #C4DAFE !default;
-$constraint_border_active_color: #FFD27A !default;
-
-/* dialog that pops up when you pick more on facets */
-$facet_extended_button_bg_color: #F6F6F6 !default;
-$facet_extended_button_border_color: #CCC !default;
-$facet_extended_disabled_button_bg_color: #E2EDFE !default;
-$facet_extended_disabled_border_color: #C4DAFE !default;
-$facet_extended_button_hover_bg_color: #DADADA !default;
-$facet_extended_button_hover_border_color: #999 !default;
-$facet_extended_button_hover_color: #212121 !default;
+$field_name_color: $text-muted !default;
 
 /* border between items on marc view */
-$marc_item_separator: 1px solid #CCC !default;
+$marc_item_separator: 1px solid $text-muted !default;

@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require 'spec_helper'
 
 describe "catalog/_constraints_element.html.erb" do
   describe "for simple display" do
@@ -20,12 +20,12 @@ describe "catalog/_constraints_element.html.erb" do
     end
     it "should include remove link" do
       rendered.should have_selector("span.appliedFilter") do |s|
-        s.should have_selector("a.btnRemove.imgReplace[href='http://remove']")
+        s.should have_selector(".remove[href='http://remove']")
       end    
     end
 
     it "should have an accessible remove label" do
-      rendered.should have_selector("a.imgReplace") do |s|
+      rendered.should have_selector(".remove") do |s|
         s.should have_content("Remove constraint my label: my value")
       end
     end

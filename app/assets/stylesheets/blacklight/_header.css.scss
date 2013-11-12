@@ -2,14 +2,9 @@
   Header bar at top (Bootstrap nav-bar)
 */
 
-#header-navbar-fixed-top {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  min-width: 395px;
-  /* This ensures that any tool pop-up goes infront of the header */
-  z-index:1000; 
-
-  .brand {  /* The main logo image for the Blacklight instance */
-  	  width: 150px;
+#header-navbar {
+  .navbar-brand {  /* The main logo image for the Blacklight instance */
+  	width: 150px;
 	  background:transparent image_url($logo_image) no-repeat top left;
 	  display: inline-block;
 	  text-indent: 100%;
@@ -19,35 +14,11 @@
 	  margin-right:20px;
 	  padding-left: 0;
   }
+}
 
-  .navbar-inner {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+#search-navbar {
+  .search-query-form {
+    @extend .col-md-8;
+    padding-left: 0;
   }
-
-  .desktop-search-bar { /* Search form is in the header */
-    opacity: 1 !important;
-    padding-top: 0.5em;
-
-  }
-}
-
-#searchbar {
-  padding-top:5px;
-}
-
-.search-query-form {
-  margin-bottom: 0;
-}
-
-.btn.search-btn {
-  margin-top: 0;
-}
-
-.search_field {
-  margin-right: 0.5em;
-}
-
-.util-links-login, .util-links-other {
-  font-size: 0.9em;
 }

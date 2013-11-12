@@ -1,18 +1,15 @@
-    <ul class="bookmarkTools">
+    <ul class="bookmarkTools nav nav-pills">
       <li class="cite">
-        <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn'} %>
+        <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'lightboxLink btn btn-default'} %>
       </li>
       <li class="refworks">
         <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@document_list} %>
       </li>
 
       <li class="endnote">
-        <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => 'btn'}%>
+        <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => 'btn btn-default'}%>
       </li>
       <li class="email">
-        <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink btn", :id => "emailLink" %>
-      </li>
-      <li>
-        <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'btn' %>
+        <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"lightboxLink btn btn-default", :id => "emailLink" %>
       </li>
 </ul>

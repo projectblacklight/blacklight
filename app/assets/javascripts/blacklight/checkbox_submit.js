@@ -40,7 +40,7 @@
         //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
         //of the form to avoid any future confusion. 
         form.find("input[type=submit]").remove();
-        form.addClass('form-inline');
+        form.addClass('form-horizontal');
         
         //View needs to set data-doc-id so we know a unique value
         //for making DOM id

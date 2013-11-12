@@ -7,6 +7,10 @@ describe "Facets" do
     within ("#sortAndPerPage") do
       expect(page).to have_content "1 - 6 of 6"
     end
+
+    expect(page).to have_selector(".blacklight-language_facet")
+    expect(page).to have_selector(".blacklight-language_facet.facet_limit-active")
+    
     within(".blacklight-language_facet") do 
       expect(page).to have_selector("span.selected", :text => "Tibetan 6")
     end

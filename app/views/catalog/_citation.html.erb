@@ -1,7 +1,7 @@
 
 <% @documents.each do |document| %>
 
-  <h3><%= citation_title(document) %></h3>
+  <h3 class="modal-title"><%= citation_title(document) %></h3>
 
 <% if document.respond_to?(:export_as_mla_citation_txt) %>
   <h4><%= t('blacklight.citation.mla') %></h4>
