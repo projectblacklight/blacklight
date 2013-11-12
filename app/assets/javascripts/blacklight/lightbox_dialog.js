@@ -17,11 +17,11 @@ Blacklight.setup_modal = function(link_selector, form_selector, launch_modal) {
       });
 
       jqxhr.always( function (data) {
-            $('#ajax-modal').html(data.responseText);
+            $('#ajax-modal .modal-content').html(data.responseText);
             Blacklight.setup_modal('.modal-footer a', '#ajax-modal form.ajax_form', false);
 
             if (launch_modal) {
-              $('#ajax-modal').modal();
+              $('#ajax-modal').modal('show');
             }
             Blacklight.check_close_ajax_modal();
       });
@@ -58,11 +58,7 @@ Blacklight.check_close_ajax_modal = function() {
     $('#ajax-modal *[data-dismiss="modal"]:nth-of-type(1)').trigger('click');
     main_flashes.append(modal_flashes);
     modal_flashes.fadeIn(500);
-
-
-
   }
-
 }
 
 Blacklight.onLoad(function() {

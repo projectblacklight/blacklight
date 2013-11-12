@@ -20,11 +20,6 @@ This generator makes the following changes to your application:
 Thank you for Installing Blacklight.
        """ 
 
-  def add_bootstrap_gem
-    # Don't need a version here, because we specify the version in blacklight.gemspec
-    gem 'bootstrap-sass'
-  end 
-
   def bundle_install
     Bundler.with_clean_env do
       run "bundle install"

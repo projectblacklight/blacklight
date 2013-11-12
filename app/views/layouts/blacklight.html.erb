@@ -30,17 +30,22 @@
   <body class="<%= render_body_class %>">
   <%= render :partial => 'shared/header_navbar' %>
 
-  <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
+  <div id="ajax-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal menu" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
 
 <!-- /container -->
   <div id="main-container" class="container">
             <!-- Top bar -->
-            <div id="search-found" class="row hidden-phone">
+            <div id="search-found" class="row hidden-xs">
               <%= topbar_items.join('').html_safe %>
             </div>
             <!-- /Top bar -->
                   <div class="row">
-                      <div class="span12">
+                      <div class="col-md-12">
                         <div id="main-flashes">
                           <%= render :partial=>'/flash_msg' %>
                         </div>

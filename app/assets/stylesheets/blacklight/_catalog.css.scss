@@ -82,41 +82,25 @@ span.constraints-label {
 
 .appliedFilter
 {
-	background: $constraint_bg_color;
-	border:1px solid $constraint_border_color;
-	display:inline-block;
-	margin-bottom:0.66em;
-	margin-right:0.33em;
-	padding:3px 3px 3px 1.5em;
-  padding-right:50px;
-	position:relative;
-  @include border-radius(15px 15px 15px 15px);
-
-  .btnRemove
-  {
-    background: image_url('blacklight/remove.gif') no-repeat center center;
-    border-bottom:none;
-    border-left:1px solid $constraint_border_color;
-    display:block;
-    height:100%;
-    outline:none;
-    position:absolute;
-    right:0;
-    text-indent:-99999px;
-    top:0;
-    width:32px;
-    z-index:5;
+  .constraint-value {
+    cursor: default;
+    
+    &:hover, &:active {
+      background-color: $btn-default-bg;
+      border-color: $btn-default-border;
+    }
   }
 
-  .btnRemove:active,.btnRemove:focus
+  .filterName:after
   {
-    border:1px dotted $constraint_border_active_color;
+    @extend .text-muted;
+    content: "\276F";
+    padding-left: 3px;
   }
 
-  .filterName
-  {
-    background: image_url('blacklight/separator.gif') no-repeat right center;
-    padding-right:14px;
+  .remove:hover, .remove:active {
+    @extend .btn-danger;
+
   }
 }
 
@@ -148,7 +132,9 @@ span.constraints-label {
 
 .page_links
 {
-	display: inline-block;
+  @extend .btn;
+  cursor: inherit;
+  padding-left: 0;
 }
 
 .pagination {
@@ -191,19 +177,12 @@ label.toggle_bookmark
 	text-align:left;
 }
 
-
 span.page a,span.page.current
 {
 	border-bottom:none;
 	margin-right:0.2em;
 	padding:0.2em 0.5em;
 	text-decoration:none;
-}
-
-
-#sidebar .well
-{
-  padding: 8px 0;
 }
 
 #sidebar-mlt li {
@@ -218,7 +197,9 @@ span.page a,span.page.current
 }
 
 #sortAndPerPage {
-  @extend .well;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
 }
 
 #sortAndPerPage .dropdown-toggle {
@@ -242,14 +223,15 @@ span.page a,span.page.current
 
 .index_title {
   float: left;
-  max-width: 414px; //span7; figure out how to calculate this correctly?
-}
-
-#email_form {
-  @extend .span6;
+  max-width: 414px; //col-md-7; figure out how to calculate this correctly?
 }
 
 .document-thumbnail {
   float: right;
   padding-left: 20px;
+}
+
+#previousNextDocument {
+  padding-top: 4px;
+  padding-bottom: 4px;
 }

@@ -1,6 +1,6 @@
 ul.bookmarkTools
 {
-  @include border-radius(0 0 4px 4px);
+  border-radius: 0 0 4px 4px;
 	background-color: $well_bg_color;
 	border-color: $well_bg_color;
 	margin:0;

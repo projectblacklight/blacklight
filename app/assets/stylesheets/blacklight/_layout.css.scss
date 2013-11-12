@@ -1,10 +1,7 @@
 /* Generic layout stuff */
-.hide 
-{
-  display:none
-}
-  
-/* This provides a fixed distance between the header and the main content */
 body {
-  padding-top: 6em;
+}
+
+.navbar + .navbar {
+  margin-top: -20px;
 }

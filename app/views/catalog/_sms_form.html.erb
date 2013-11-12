@@ -1,20 +1,20 @@
   <%= form_tag url_for(:controller => "catalog", :action => "sms"), :id => 'sms_form', :class => "form-horizontal ajax_form", :method => :post do %>
 <div class="modal-body">
   <%= render :partial=>'/flash_msg' %>
-    <div class="control-group">
-      <label class="control-label" for="to"> 
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="to"> 
         <%= t('blacklight.sms.form.to') %>
       </label>
-      <div class="controls">
-        <%= text_field_tag :to, params[:to] %>
+      <div class="col-sm-10">
+        <%= text_field_tag :to, params[:to], class: 'form-control' %>
       </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="carrier">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="carrier">
         <%= t('blacklight.sms.form.carrier') %> 
       </label>
-      <div class="controls">
-          <%= select_tag(:carrier, options_for_select(sms_mappings.to_a.sort.unshift([t('blacklight.sms.form.carrier_prompt'),'']), params[:carrier])) %><br/>
+      <div class="col-sm-10">
+          <%= select_tag(:carrier, options_for_select(sms_mappings.to_a.sort.unshift([t('blacklight.sms.form.carrier_prompt'),'']), params[:carrier]), class: 'form-control') %><br/>
       </div>
 
     </div>

@@ -9,7 +9,7 @@
    Paginator now using the Bootstrap paginator class
 -%>
 <%= paginator.render do -%>
-  <ul>
+  <ul class="pagination">
     <%= prev_page_tag %>
     <%= next_page_tag  %>
     <% each_relevant_page do |page| -%>

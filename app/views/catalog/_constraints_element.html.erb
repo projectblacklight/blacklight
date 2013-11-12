@@ -9,24 +9,28 @@
     options[:escape_value] = true unless options.has_key?(:escape_value)
 -%>
 
-<span class="appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">
+<span class="btn-group appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">
+<a href="#" class="constraint-value btn btn-default btn-disabled">
       <%- unless label.blank? -%>
         <span class="filterName"><%= options[:escape_label] ? h(label) : raw(label) %></span> 
       <%- end -%>
       <%- unless value.blank? -%>
         <span class="filterValue"><%= options[:escape_value] ? h(value) : raw(value) %></span>
-      <%- end -%>
+      <%- end -%>          
+        </a>
+
       <%- unless options[:remove].blank? -%>
-        <% accessible_remove_label =               
+        <% accessible_remove_label = content_tag :span, :class => 'sr-only' do               
                 if label.blank?
                   t('blacklight.search.filters.remove.value', :value => (options[:escape_value] ? h(value) : value))
                 else
                   t('blacklight.search.filters.remove.label_value', :label => (options[:escape_label] ? h(label) : label), :value => (options[:escape_value] ? h(value) : value))
-                end              
-        %>                
-        <%= link_to(accessible_remove_label.html_safe,
-					options[:remove],
-					:class=>'btnRemove imgReplace'
+                end 
+                end             
+        %>    
+
+        <%= link_to(content_tag(:span, '', :class => 'glyphicon glyphicon-remove') + accessible_remove_label,
+					options[:remove], :class => 'btn btn-default remove dropdown-toggle'
 				) %>
       <%- end -%>
 </span>

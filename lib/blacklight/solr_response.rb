@@ -1,5 +1,3 @@
-require 'kaminari'
-
 class Blacklight::SolrResponse < HashWithIndifferentAccess
 
   require  'blacklight/solr_response/pagination_methods'

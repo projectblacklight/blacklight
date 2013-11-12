@@ -2,22 +2,22 @@
 
   <div class="modal-body">
     <%= render :partial=>'/flash_msg' %>
-    <div class="control-group">
-      <label class="control-label" for="to">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="to">
         <%= t('blacklight.email.form.to') %>
       </label>
-      <div class="controls">
-
-        <%= text_field_tag :to, params[:to] %><br/>
+      <div class="col-sm-10">
+        <%= text_field_tag :to, params[:to], class: 'form-control' %>
       </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="message">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="message">
         <%= t('blacklight.email.form.message') %>
       </label>
-      <div class="controls">
-      <%= text_area_tag :message, params[:message] %>
-       </div>
+      <div class="col-sm-10">
+        <%= text_area_tag :message, params[:message], class: 'form-control' %>
+      </div>
     </div>
 
     <% @documents.each do |doc| %>

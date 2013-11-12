@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.summary     = "Blacklight provides a discovery interface for any Solr (http://lucene.apache.org/solr) index."
   s.description = %q{Blacklight is an open source Solr user interface discovery platform. You can use Blacklight to enable searching and browsing of your collections. Blacklight uses the Apache Solr search engine to search full text and/or metadata.}
   s.license     = "Apache 2.0"
-  s.rubyforge_project = "blacklight"
   
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -24,11 +23,11 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri",  "~>1.6"     # XML Parser
   # Let's allow future versions of marc, count on
   # them to be backwards compat until 1.1
+  s.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "marc",      ">= 0.4.3", "< 1.1"  # Marc record parser.
   s.add_dependency "rsolr",     "~> 1.0.6"  # Library for interacting with rSolr.
-  s.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "sass-rails"
-  s.add_dependency "bootstrap-sass", ">= 2.2.0", "< 2.4"
+  s.add_dependency "bootstrap-sass", "~> 3.0"
   s.add_development_dependency "jettywrapper", ">= 1.4.1"
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency 'engine_cart', ">= 0.1.0"

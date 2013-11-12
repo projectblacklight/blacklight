@@ -15,4 +15,7 @@ notifications:
   email:
       - blacklight-commits@googlegroups.com
 
-env: JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"        
+env:
+  global:
+    - JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true

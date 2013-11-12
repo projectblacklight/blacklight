@@ -46,9 +46,7 @@ describe "Search Results" do
   end
 
   it "should pass the current search id through", :js => true do
-    visit root_path
-    fill_in "q", with: ''
-    click_button 'search'
+    search_for ''
     search_id =  Search.last.id.to_s
     click_on 'Pluvial nectar of blessings'
     expect(page).to have_content "« Previous | 10 of 30 | Next »"
