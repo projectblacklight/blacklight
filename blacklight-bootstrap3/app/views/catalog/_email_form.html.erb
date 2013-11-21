@@ -1,0 +1,35 @@
+<%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :class => "form-horizontal ajax_form col-md-6", :method => :post do %>
+
+  <div class="modal-body">
+    <%= render :partial=>'/flash_msg' %>
+    <div class="form-group">
+      <label class="control-label" for="to">
+        <%= t('blacklight.email.form.to') %>
+      </label>
+      <div class="col-sm-10">
+        <%= text_field_tag :to, params[:to], class: 'form-control' %><br/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="message">
+        <%= t('blacklight.email.form.message') %>
+      </label>
+      <div class="col-sm-10">
+        <%= text_area_tag :message, params[:message], class: 'form-control' %>
+      </div>
+    </div>
+
+    <% @documents.each do |doc| %>
+      <%=hidden_field_tag "id[]", doc.get(:id)%>
+    <% end %>
+    <%- if params[:sort] -%>
+      <%= hidden_field_tag "sort", params[:sort] %>
+    <%- end -%>
+    <%- if params[:per_page] -%>
+      <%= hidden_field_tag "per_page", params[:per_page] %>
+    <%- end -%>
+  </div>
+  <div class="modal-footer">
+  <button type="submit" class="btn btn-primary"> <%= t('blacklight.sms.form.submit') %></button>
+  </div>
+<% end %>

@@ -19,20 +19,18 @@ describe Blacklight do
   
   context 'root' do
 
-    before(:all) do
-      @blroot = File.expand_path(File.join(__FILE__, '..', '..', '..' ))
-    end
+    let(:blroot) { File.expand_path(File.join(__FILE__, '..', '..', '..', 'blacklight-core' )) }
 
     it 'should return the full path to the BL plugin' do
-      Blacklight.root.should == @blroot
+      Blacklight.root.should == blroot
     end
     
     it 'should return the full path to the model directory' do
-      Blacklight.models_dir.should == @blroot + "/app/models"
+      Blacklight.models_dir.should == blroot + "/app/models"
     end
 
     it 'should return the full path to the controllers directory' do
-      Blacklight.controllers_dir.should == @blroot + "/app/controllers"
+      Blacklight.controllers_dir.should == blroot + "/app/controllers"
     end
 
   end
