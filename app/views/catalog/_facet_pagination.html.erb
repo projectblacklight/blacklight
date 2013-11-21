@@ -19,3 +19,20 @@
         :class => "sort_change az btn") %><span class="active numeric btn"><%= t('blacklight.search.facets.sort.count') %></span>
     <% end -%>    
   </div>
+    
+    
+  <% if(@pagination.can_filter?)  %>
+    <div class="btn-group pull-left bottom">
+      <%= form_tag( {:controller => "catalog", :action => "facet", :id => params[:id]} , :method => "get",  :id => "filter_facet", :remote => true, :class => "ajax_form" ) do %>
+        <div class="pull-left">
+          <%= label_tag :'facet.prefix', 'Press Enter to Filter: ' %>
+        </div>
+        <div class="pull-right">
+	  <%= text_field_tag(:'facet.prefix', params[:'facet.prefix'].to_s, :autofocus=>true ) %>
+	</div>
+      <% end %>
+    </div>
+  <% end %>
+  
+
+  

@@ -17,7 +17,7 @@ module Blacklight::Solr
     # and need to make them accessible in a list so we can easily
     # strip em out before redirecting to catalog/index.
     # class variable (via class-level ivar)
-    @request_keys = {:sort => :'facet.sort', :page => :'facet.page'}
+    @request_keys = {:sort => :'facet.sort', :page => :'facet.page', :prefix => :'facet.prefix'}
     class << self; attr_accessor :request_keys end # create a class method
     def request_keys ; self.class.request_keys ; end # shortcut
     
@@ -35,7 +35,8 @@ module Blacklight::Solr
       @offset = arguments[:offset].to_s.to_i 
       @limit =  arguments[:limit].to_s.to_i if arguments[:limit]           
       # count is solr's default
-      @sort = arguments[:sort] || "count" 
+      @sort = arguments[:sort] || "count"
+      @can_filter  = arguments[:can_filter] || false
       
       total = all_facet_values.size
       if (@limit)
@@ -69,6 +70,9 @@ module Blacklight::Solr
       !has_previous?
     end
 
+    def can_filter?
+      @can_filter
+    end
 
    # Pass in a desired solr facet solr key ('count' or 'index', see
    # http://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
@@ -79,6 +83,12 @@ module Blacklight::Solr
      # When resorting, we've got to reset the offset to start at beginning,
      # no way to make it make sense otherwise.
      return params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
+   end
+   
+   def params_for_filter_url(filter_str, params)
+     # When filtering, we've got to reset the offset to start at beginning,
+     # no way to make it make sense otherwise.
+     return params.merge(request_keys[:prefix] => filter_str, request_keys[:page] => nil)
    end
     
   end

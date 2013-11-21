@@ -509,7 +509,8 @@ module Blacklight::SolrHelper
     # override any field-specific default in the solr request handler. 
     solr_params[:"f.#{facet_field}.facet.limit"]  = limit + 1
     solr_params[:"f.#{facet_field}.facet.offset"] = ( input.fetch(Blacklight::Solr::FacetPaginator.request_keys[:page] , 1).to_i - 1 ) * ( limit )
-    solr_params[:"f.#{facet_field}.facet.sort"] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]   
+    solr_params[:"f.#{facet_field}.facet.sort"] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]
+    solr_params[:"f.#{facet_field}.facet.prefix"] = input [ Blacklight::Solr::FacetPaginator.request_keys[:prefix] ] if input[ Blacklight::Solr::FacetPaginator.request_keys[:prefix] ]
     solr_params[:rows] = 0
 
     return solr_params
@@ -526,7 +527,12 @@ module Blacklight::SolrHelper
     response =find(blacklight_config.qt, solr_params)
 
     limit = solr_params[:"f.#{facet_field}.facet.limit"] -1
-        
+    
+    can_filter = false
+    unless blacklight_config.facet_fields[facet_field].nil?
+    	can_filter = blacklight_config.facet_fields[facet_field].can_filter
+    end
+    
     # Actually create the paginator!
     # NOTE: The sniffing of the proper sort from the solr response is not
     # currently tested for, tricky to figure out how to test, since the
@@ -534,7 +540,9 @@ module Blacklight::SolrHelper
     return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items, 
       :offset => solr_params[:"f.#{facet_field}.facet.offset"], 
       :limit => limit,
-      :sort => response["responseHeader"]["params"][:"f.#{facet_field}.facet.sort"] || response["responseHeader"]["params"]["facet.sort"]
+      :sort => response["responseHeader"]["params"][:"f.#{facet_field}.facet.sort"] || response["responseHeader"]["params"]["facet.sort"],
+      :prefix => solr_params[:"f.#{facet_field}.facet.prefix"],
+      :can_filter => can_filter
     )
   end
   

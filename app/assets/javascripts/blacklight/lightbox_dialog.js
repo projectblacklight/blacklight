@@ -39,7 +39,7 @@ Blacklight.setup_modal = function(link_selector, form_selector, launch_modal) {
 
      jqxhr.always (function (data) {
           $('#ajax-modal').html(data.responseText);
-          Blacklight.setup_modal('#ajax-modal .ajax_reload_link', '#ajax-modal form.ajax_form', false);
+          Blacklight.setup_modal('#ajax-modal .ajax_reload_link, .modal-footer a', '#ajax-modal form.ajax_form', false);
           Blacklight.check_close_ajax_modal();
      });
 
