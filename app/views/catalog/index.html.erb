@@ -16,11 +16,7 @@
 
       <% extra_head_content << render_opensearch_response_metadata.html_safe %>
 
-	    <%= render 'did_you_mean' %>
-
-      <%= render 'constraints' %>
-
-      <%= render 'sort_and_per_page' %>
+      <%= render 'search_header' %>
 
       <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
 
