@@ -84,6 +84,10 @@ ul.facet_extended_list
    }
 }
 
+.collapse-toggle {
+  cursor: pointer;
+}
+
 .panel-heading .collapse-toggle:after {
     /* symbol for "opening" panels */
     font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
