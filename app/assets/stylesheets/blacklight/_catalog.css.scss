@@ -117,8 +117,7 @@ span.constraints-label {
 
 #documents .documentFunctions
 {
-	float:right;
-  margin: 10px 0;
+  @extend .pull-right;
 
   .bookmark_toggle
   {
