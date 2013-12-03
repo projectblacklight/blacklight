@@ -10,7 +10,7 @@
 -%>
 
 <span class="btn-group appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">
-<a href="#" class="constraint-value btn btn-default btn-disabled">
+<a href="#" class="constraint-value btn btn-sm btn-default btn-disabled">
       <%- unless label.blank? -%>
         <span class="filterName"><%= options[:escape_label] ? h(label) : raw(label) %></span> 
       <%- end -%>
@@ -30,7 +30,7 @@
         %>    
 
         <%= link_to(content_tag(:span, '', :class => 'glyphicon glyphicon-remove') + accessible_remove_label,
-					options[:remove], :class => 'btn btn-default remove dropdown-toggle'
+					options[:remove], :class => 'btn btn-default btn-sm remove dropdown-toggle'
 				) %>
       <%- end -%>
 </span>
