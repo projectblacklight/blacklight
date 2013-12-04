@@ -503,7 +503,7 @@ module Blacklight::BlacklightHelperBehavior
     omit_keys = options.delete(:omit_keys) || []
 
     # params hash we'll return
-    my_params = source_params.dup.merge(options.dup)
+    my_params = source_params.dup
 
 
     # remove items from our params hash that match:
