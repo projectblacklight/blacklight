@@ -8,12 +8,12 @@
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h3><%= facet_field_labels[params[:id]] %></h3>
+  <h3 class="modal-title"><%= facet_field_labels[params[:id]] %></h3>
 </div>
 <div class="modal-body">
   <div class="facet_extended_list">
 
-    <ul class="facet_extended_list">
+    <ul class="facet_extended_list facet-values">
       <% @pagination.items.each do |item| %>
         <li>
           <% if facet_in_params?( params[:id], item.value ) %>              

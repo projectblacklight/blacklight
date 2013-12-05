@@ -1,5 +1,5 @@
 .group-key {
-  border-bottom: 1px solid $dark_border_color;
+  border-bottom: 1px solid darken($table-border-color, 60%);
   clear: right;
 }
 

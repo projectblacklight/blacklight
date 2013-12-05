@@ -487,13 +487,15 @@ module Blacklight::BlacklightHelperBehavior
   def link_back_to_catalog(opts={:label=>nil})
     query_params = current_search_session.try(:query_params) || {}
     link_url = url_for(query_params)
+    label = opts.delete(:label)
+
     if link_url =~ /bookmarks/
-      opts[:label] ||= t('blacklight.back_to_bookmarks')
+      label ||= t('blacklight.back_to_bookmarks')
     end
 
-    opts[:label] ||= t('blacklight.back_to_search')
+    label ||= t('blacklight.back_to_search')
 
-    link_to opts[:label], link_url
+    link_to label, link_url, opts
   end
 
   def params_for_search(options={})

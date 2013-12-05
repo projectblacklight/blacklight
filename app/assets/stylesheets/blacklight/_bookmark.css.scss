@@ -1,33 +1,4 @@
-ul.bookmarkTools
-{
-  @include border-radius(0 0 4px 4px);
-	background-color: $well_bg_color;
-	border-color: $well_bg_color;
-	margin:0;
-
-  li
-  {
-    display:inline-block;
-  }
-
-  li form
-  {
-    display:inline;
-  }
-}
-
-
-ul.tools
-{
-  margin:0;
-  padding:0;
-  list-style: none;
-
-  li
-  {
-  	display: inline;
-    list-style: none;
-    margin: 0;
-    margin-right: 10px;
-  }
+/* refworks uses a form; we need to give it some additional padding to make it look like a link */
+#refworks-form .btn {
+  padding: $nav-link-padding;
 }

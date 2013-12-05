@@ -86,13 +86,13 @@ module Blacklight::FacetsHelperBehavior
   def render_selected_facet_value(facet_solr_field, item)
     #Updated class for Bootstrap Blacklight 
     content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
-      link_to(content_tag(:i, '', :class => "icon-remove") + content_tag(:span, '[remove]', :class => 'hide-text'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
+      link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
   end
 
   # Renders a count value for facet limits. Can be over-ridden locally
   # to change style. And can be called by plugins to get consistent display. 
   def render_facet_count(num)
-    content_tag("span", t('blacklight.search.facets.count', :number => num), :class => "count") 
+    content_tag("span", t('blacklight.search.facets.count', :number => num), :class => "count pull-right") 
   end
   
   # adds the value and/or field to params[:f]

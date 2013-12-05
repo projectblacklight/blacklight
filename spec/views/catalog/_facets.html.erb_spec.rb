@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require 'spec_helper'
 
 describe "catalog/_facets" do
   before do
@@ -43,7 +43,6 @@ describe "catalog/_facets" do
     it "should have a(n accessible) header" do
       render
       rendered.should have_selector('h5')
-      rendered.should have_selector('h5 > a')
     end
 
     it "should list values" do

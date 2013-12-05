@@ -1,33 +1,6 @@
 .catalog_startOverLink {
-  padding-top: 0.3em;
-  float: right;
-}
-
-#sort-dropdown {
-  padding-left: 1em;
-}
-
-#document
-{
-	margin-top:1em;
-
-
-  h1
-  {
-    margin:0;
-    padding:0 0 0.4em;
-  }
-}
-
-#documents
-{
-	margin-bottom:1em;
-	margin-top:1em;
-
-  .documentHeader
-  {
-     padding: 5px 0 0;
-  }
+  @extend .pull-right;
+  padding: $padding-base-vertical $padding-base-horizontal ;
 }
 
 .ajax_form
@@ -73,74 +46,52 @@
 
 .constraints-container {
   @extend .well;
-  padding-bottom: 9px;
 }
 
 span.constraints-label {
-  font-weight:bold;
+  @extend .h5;
 }
 
 .appliedFilter
 {
-	background: $constraint_bg_color;
-	border:1px solid $constraint_border_color;
-	display:inline-block;
-	margin-bottom:0.66em;
-	margin-right:0.33em;
-	padding:3px 3px 3px 1.5em;
-  padding-right:50px;
-	position:relative;
-  @include border-radius(15px 15px 15px 15px);
-
-  .btnRemove
-  {
-    background: image_url('blacklight/remove.gif') no-repeat center center;
-    border-bottom:none;
-    border-left:1px solid $constraint_border_color;
-    display:block;
-    height:100%;
-    outline:none;
-    position:absolute;
-    right:0;
-    text-indent:-99999px;
-    top:0;
-    width:32px;
-    z-index:5;
+  .constraint-value {
+    cursor: default;
+    
+    &:hover, &:active {
+      background-color: $btn-default-bg;
+      border-color: $btn-default-border;
+    }
   }
 
-  .btnRemove:active,.btnRemove:focus
+  .filterName:after
   {
-    border:1px dotted $constraint_border_active_color;
+    @extend .text-muted;
+    content: "\276F";
+    padding-left: $caret-width-base;
   }
 
-  .filterName
-  {
-    background: image_url('blacklight/separator.gif') no-repeat right center;
-    padding-right:14px;
+  .remove:hover, .remove:active {
+    @extend .btn-danger;
+
   }
 }
 
-.document
-{
-	border-bottom:1px dotted $dotted_border_color;
-	clear:both;
-  padding-bottom: 1em;
-
-  dd {
-    padding-bottom:0.5em;
+#documents {
+  .document {
+    margin-top: $padding-base-vertical;
+    padding-top: $padding-base-vertical;
+    border-bottom:1px dotted $table-border-color;
   }
-}
 
-#documents .documentFunctions
-{
-	float:right;
-  margin: 10px 0;
+  .documentFunctions {
+    @extend .pull-right;
 
-  .bookmark_toggle
-  {
-    display:inline;
+    .bookmark_toggle
+    {
+      display:inline;
+    }
   }
-}
+} 
 
 #sidebar form {
   margin: 0;
@@ -148,7 +99,10 @@ span.constraints-label {
 
 .page_links
 {
-	display: inline-block;
+  display: inline-block;
+  border: 1px solid transparent;
+  padding: $padding-base-vertical $padding-base-horizontal;
+  padding-left: 0;
 }
 
 .pagination {
@@ -159,66 +113,45 @@ span.constraints-label {
 .solrQuery
 {
 	background-color: $search_ui_bg_color;
-	border:1px dotted $dotted_border_color;
+	border:1px dotted $search_ui_border_color;
 	font-size:90%;
 	margin:2em;
 	padding:.5em;
 }
 
-.document dl {
-  margin-top: 0;
-  margin-bottom: 0;
+.dl-horizontal
+{
+  dd {
+    margin-bottom: $padding-base-vertical;
+  }
 }
 
 .dl-invert {
   dt {
     font-weight: normal;
-    color: #888;
+    color: $field_name_color;
   }
-}
-
-label.checked
-{
-	font-weight:700;
 }
 
 label.toggle_bookmark
 {
-	color:inherit;
-	display:inline-block;
-	font-weight:inherit;
-	min-width:8.5em;
-	text-align:left;
-}
-
-
-span.page a,span.page.current
-{
-	border-bottom:none;
-	margin-right:0.2em;
-	padding:0.2em 0.5em;
-	text-decoration:none;
-}
-
-
-#sidebar .well
-{
-  padding: 8px 0;
+	font-weight: inherit;
+	min-width: 8.5em;
 }
 
 #sidebar-mlt li {
-  padding-bottom: 0.5em;
+  padding-bottom: $padding-base-vertical;
 }
 
-.show-document
-{
-  .document {
-    border: none;
-  }
+#sortAndPerPage, #previousNextDocument {
+  border-bottom: 1px solid $pagination-border;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
 }
 
-#sortAndPerPage {
-  @extend .well;
+#previousNextDocument {
+  padding-top: 1px;
+  padding-bottom: $padding-base-vertical;
 }
 
 #sortAndPerPage .dropdown-toggle {
@@ -242,11 +175,6 @@ span.page a,span.page.current
 
 .index_title {
   float: left;
-  max-width: 414px; //span7; figure out how to calculate this correctly?
-}
-
-#email_form {
-  @extend .span6;
 }
 
 .document-thumbnail {

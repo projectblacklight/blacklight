@@ -1,15 +1,15 @@
-<div id="sidebar" class="span3">
+<div id="sidebar" class="col-md-3">
  <%= render 'search_sidebar' %>
 </div>
 
-<div id="content" class="span9">
+<div id="content" class="col-md-9">
 
     <% unless has_search_parameters? %>
 	    <%# if there are no input/search related params, display the "home" partial -%>
 	    <%= render 'home' %>
     <% else %>
 
-      <h2 class="hide-text top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
+      <h2 class="sr-only top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
 
       <% @page_title = t('blacklight.search.title', :application_name => application_name) %>
 
@@ -18,7 +18,7 @@
 
       <%= render 'search_header' %>
 
-      <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
+      <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
 
       <%- if response_has_no_search_results? %>
         <%= render "zero_results" %>

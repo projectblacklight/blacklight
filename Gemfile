@@ -12,6 +12,7 @@ group :test do
   gem "bootstrap-sass"
   gem 'turbolinks'
   gem 'poltergeist'
+  gem 'sass-rails'
 end
 
 if File.exists?('spec/test_app_templates/Gemfile.extra')
