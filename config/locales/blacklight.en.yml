@@ -34,9 +34,6 @@ en:
     or: 'or'
 
     bookmarks:
-      collection:
-        add:
-          button: 'Add to Bookmarks'
       title: 'Bookmarks'
       no_bookmarks: 'You have no bookmarks'
       add:

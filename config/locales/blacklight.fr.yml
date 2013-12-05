@@ -34,9 +34,6 @@ fr:
     or: 'ou'
 
     bookmarks:
-      collection:
-        add:
-          button: 'Panier'
       title: 'Favoris'
       no_bookmarks: 'Accédez à votre compte pour conserver des références dans votre panier'
       add:
