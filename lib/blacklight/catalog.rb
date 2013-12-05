@@ -27,10 +27,7 @@ module Blacklight::Catalog
       @filters = params[:f] || []
       
       respond_to do |format|
-        format.html { 
-          extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-          extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
-        }
+        format.html { }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
 
@@ -195,13 +192,6 @@ module Blacklight::Catalog
     # should use the current controller when constructing the route.
     def search_action_url options = {}
       url_for(options.merge(:action => 'index', :only_path => true))
-    end
-
-    # we need to know if we are viewing the item as part of search results so we know whether to
-    # include certain partials or not
-    def adjust_for_results_view
-      # deprecated in blacklight 4.x
-      ActiveSupport::Deprecation.warn("#adjust_for_results_view helper was deprecated in Blacklight 4.x")
     end
 
     # extract the pagination info from the response object

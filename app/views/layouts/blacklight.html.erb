@@ -19,11 +19,11 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
-    <%= raw(render_head_content) %> 
+    <%= content_for(:head) %> 
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
   </head>
@@ -39,24 +39,19 @@
 
 <!-- /container -->
   <div id="main-container" class="container">
-            <!-- Top bar -->
-            <div id="search-found" class="row hidden-xs">
-              <%= topbar_items.join('').html_safe %>
-            </div>
-            <!-- /Top bar -->
-                  <div class="row">
-                      <div class="col-md-12">
-                        <div id="main-flashes">
-                          <%= render :partial=>'/flash_msg' %>
-                        </div>
-                      </div>    
-                  </div>              
+    <div class="row">
+      <div class="col-md-12">
+        <div id="main-flashes">
+          <%= render :partial=>'/flash_msg' %>
+        </div>
+      </div>
+    </div>
 
-                  <div class="row">
-                       <%= yield %>
-                       </div>   
-</div>
+    <div class="row">
+      <%= yield %>
+    </div>
+  </div>
 
-<%= render :partial => 'shared/footer' %>
-    </body>
+  <%= render :partial => 'shared/footer' %>
+  </body>
 </html>

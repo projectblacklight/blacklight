@@ -144,14 +144,6 @@ module Blacklight::SolrHelper
     # copy paging params from BL app over to solr, changing
     # app level per_page and page to Solr rows and start. 
     def add_paging_to_solr(solr_params, user_params)
-      # Deprecated behavior was to pass :per_page to RSolr, and we
-      # generated blacklight_config.default_solr_params with that
-      # value. Move it over to rows.
-      if solr_params.has_key?(:per_page)
-        $stderr.puts "DEPRECATION WARNING: Blacklight::SolrHelper#solr_search_params: magic :per_page key deprecated, use :rows instead. (Check default_solr_params in blacklight config?)"
-        per_page = solr_params.delete(:per_page)
-        solr_params[:rows] ||= per_page
-      end
 
       # Now any over-rides from current URL?
       solr_params[:rows] = user_params[:rows].to_i  unless user_params[:rows].blank?

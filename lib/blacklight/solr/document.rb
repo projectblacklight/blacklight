@@ -158,11 +158,7 @@ module Blacklight::Solr::Document
 
     attr_writer :unique_key
     def unique_key
-      # XXX Blacklight.config[:unique_key] should be deprecated soon
-      @unique_key ||= Blacklight.config[:unique_key] if Blacklight.respond_to?(:config) and Blacklight.config[:unique_key]
       @unique_key ||= 'id' 
-
-      @unique_key
     end
 
      def connection

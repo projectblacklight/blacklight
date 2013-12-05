@@ -6,49 +6,6 @@
 # in here, but you may find them useful. 
 module Blacklight
   module LegacyControllerMethods 
-  	extend ActiveSupport::Concern
-
-    included do
-
-      before_filter :default_html_head # add JS/stylesheet stuff
-
-      helper_method :extra_head_content, :stylesheet_links, :javascript_includes
-    end
-
-    #############
-    # Display-related methods.
-    #############
-    
-    # before filter to set up our default html HEAD content. Sub-class
-    # controllers can over-ride this method, or instead turn off the before_filter
-    # if they like. See:
-    # http://api.rubyonrails.org/classes/ActionController/Filters/ClassMethods.html
-    # for how to turn off a filter in a sub-class and such.
-    def default_html_head
- 
-    end
-    
-    
-    # An array of strings to be added to HTML HEAD section of view.
-    # See ApplicationHelper#render_head_content for details.
-    def extra_head_content
-      @extra_head_content ||= []
-    end
-
-    
-    # Array, where each element is an array of arguments to
-    # Rails stylesheet_link_tag helper. See
-    # ApplicationHelper#render_head_content for details.
-    def stylesheet_links
-      @stylesheet_links ||= []
-    end
-    
-    # Array, where each element is an array of arguments to
-    # Rails javascript_include_tag helper. See
-    # ApplicationHelper#render_head_content for details.
-    def javascript_includes
-      @javascript_includes ||= []
-    end
     
     protected
     #

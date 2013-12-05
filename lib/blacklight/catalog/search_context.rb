@@ -90,35 +90,4 @@ module Blacklight::Catalog::SearchContext
     end
   end
 
-  # gets a document based on its position within a resultset  
-  def setup_document_by_counter(counter)
-    ActiveSupport::Deprecation.warn("#setup_document_by_counter helper is deprecated in Blacklight 4.x and will be removed")
-
-    return if counter < 1 or current_search_session.nil?
-    get_single_doc_via_search(counter, current_search_session.query_params)
-  end
-
-  def setup_previous_document
-    ActiveSupport::Deprecation.warn("#setup_previous_document helper was deprecated in Blacklight 4.x; now happens automatically as part of #setup_next_and_previous_documents")
-  end
-  
-  def setup_next_document
-    ActiveSupport::Deprecation.warn("#setup_next_document helper was deprecated in Blacklight 4.x; now happens automatically as part of #setup_next_and_previous_documents")
-  end
-
-  def delete_or_assign_search_session_params
-   # deprecated in blacklight 4.x
-    ActiveSupport::Deprecation.warn("#delete_or_assign_search_session_params helper was deprecated in Blacklight 4.x; now happens automatically as part of #current_search_session")
-  end
-  
-  def save_current_search_params    
-   # deprecated in blacklight 4.x
-    ActiveSupport::Deprecation.warn("#save_current_search_params helper was deprecated in Blacklight 4.x; now happens automatically as part of #current_search_session")
-  end
-
-  # sets some additional search metadata so that the show view can display it.
-  def set_additional_search_session_values
-    ActiveSupport::Deprecation.warn("#set_additional_search_session_values helper was deprecated in Blacklight 4.x")
-  end
-
 end

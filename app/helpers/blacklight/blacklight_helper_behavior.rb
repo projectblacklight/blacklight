@@ -6,7 +6,6 @@
 module Blacklight::BlacklightHelperBehavior
   include HashAsHiddenFieldsHelper
   include RenderConstraintsHelper
-  include HtmlHeadHelper
   include FacetsHelper
 
 
@@ -58,18 +57,6 @@ module Blacklight::BlacklightHelperBehavior
     extra_body_classes.join " "
   end
 
-  # collection of items to be rendered in the @sidebar
-  # @deprecated
-  def sidebar_items
-    ActiveSupport::Deprecation.warn("#sidebar_items helper is deprecated, and should be replaced by overriding the appropriate partial")
-    @sidebar_items ||= []
-  end
-
-  # collection of items to be rendered in the @topbar
-  def topbar_items
-    @topbar_items ||= []
-  end
-
   def render_search_bar
     render :partial=>'catalog/search_form'
   end
@@ -115,21 +102,6 @@ module Blacklight::BlacklightHelperBehavior
   def should_render_index_field? document, solr_field
     document.has?(solr_field.field) ||
       (document.has_highlight_field? solr_field.field if solr_field.highlight)
-  end
-
-  ##
-  # Field keys for the index fields
-  # @deprecated
-  def index_field_names document=nil
-    index_fields(document).keys
-  end
-
-  ##
-  # Labels for the index fields
-  # @deprecated
-  def index_field_labels document=nil
-    # XXX DEPRECATED
-    Hash[*index_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
   def spell_check_max
@@ -249,13 +221,6 @@ module Blacklight::BlacklightHelperBehavior
   # used in the catalog/_show/_default partial
   def document_show_fields document=nil
     blacklight_config.show_fields
-  end
-
-  # used in the catalog/_show/_default partial
-  # @deprecated
-  def document_show_field_labels document=nil
-    # XXX DEPRECATED
-    Hash[*document_show_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
   ##
