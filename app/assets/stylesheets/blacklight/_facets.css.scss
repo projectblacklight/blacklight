@@ -82,7 +82,7 @@ ul.facet_extended_list
   cursor: pointer;
 }
 
-.panel-heading .collapse-toggle:after {
+.panel-heading.collapse-toggle .panel-title:after {
     /* symbol for "opening" panels */
     font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
     content: "\e114";    /* adjust as needed, taken from bootstrap.css */
@@ -91,7 +91,7 @@ ul.facet_extended_list
     font-size: 0.8em;
     line-height: normal;
 }
-.panel-heading .collapse-toggle.collapsed:after {
+.panel-heading.collapse-toggle.collapsed .panel-title:after {
     /* symbol for "collapsed" panels */
     content: "\e080";    /* adjust as needed, taken from bootstrap.css */
 }
