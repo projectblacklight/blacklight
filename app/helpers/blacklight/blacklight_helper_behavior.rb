@@ -496,6 +496,21 @@ module Blacklight::BlacklightHelperBehavior
     link_to opts[:label], link_url
   end
 
+  # Outputs a hash of Rails params that specify the current search, suitable
+  # for reproducing the current search with url_for. 
+  #
+  #  By default
+  # will use current Rails controller #params to determine current search,
+  # or pass in your own hash as options :params. 
+  #
+  # By default will exclude certain keys, but can pass in custom keys
+  # to exclude with :omit_keys. 
+  #
+  # Examples:
+  #
+  # params_for_search
+  # params_for_search(:params => {:search_field => "foo"})
+  # params_for_search(:params => params.merge(:page => 1), :omit_keys => ["sort"])
   def params_for_search(options={})
     # special keys
     # params hash to mutate
@@ -550,7 +565,10 @@ module Blacklight::BlacklightHelperBehavior
 
   # Create form input type=hidden fields representing the entire search context,
   # for inclusion in a form meant to change some aspect of it, like
-  # re-sort or change records per page. Can pass in params hash
+  # re-sort or change records per page. 
+  #
+  #
+  # Can pass in query params hash
   # as :params => hash, otherwise defaults to #params. Can pass
   # in certain top-level params keys to _omit_, defaults to :page
   def search_as_hidden_fields(options={})
