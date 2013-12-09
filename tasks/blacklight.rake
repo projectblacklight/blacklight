@@ -8,7 +8,8 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern =  'spec/**/*_spec.rb'
 end
 
-task :ci => 'jetty:clean' do
+desc "Run test suite"
+task :ci => 'blacklight:clean' do
   ENV['environment'] = "test"
   jetty_params = Jettywrapper.load_config
   jetty_params[:startup_wait]= 60
@@ -37,7 +38,7 @@ namespace :blacklight do
   end
 
   desc "Clean out the test rails app"
-  task :clean => ['engine_cart:clean'] do
+  task :clean => ['engine_cart:clean', 'jetty:clean'] do
   end
 
   desc "Create the test rails app"
