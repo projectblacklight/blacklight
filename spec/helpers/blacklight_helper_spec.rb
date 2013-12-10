@@ -103,13 +103,11 @@ describe BlacklightHelper do
   end
 
   describe "link_back_to_catalog" do
-    before(:all) do
-      @query_params = {:q => "query", :f => "facets", :per_page => "10", :page => "2", :controller=>'catalog'}
-      @bookmarks_query_params = { :page => "2", :controller=>'bookmarks'}
-    end
+    let(:query_params)  {{:q => "query", :f => "facets", :per_page => "10", :page => "2", :controller=>'catalog'}}
+    let(:bookmarks_query_params) {{ :page => "2", :controller=>'bookmarks'}}
 
     it "should build a link tag to catalog using session[:search] for query params" do
-      helper.stub(:current_search_session).and_return double(:query_params => @query_params)
+      helper.stub(:current_search_session).and_return double(:query_params => query_params)
       tag = helper.link_back_to_catalog
       tag.should =~ /q=query/
       tag.should =~ /f=facets/
@@ -118,11 +116,26 @@ describe BlacklightHelper do
     end
 
     it "should build a link tag to bookmarks using session[:search] for query params" do
-      helper.stub(:current_search_session).and_return double(:query_params => @bookmarks_query_params)
+      helper.stub(:current_search_session).and_return double(:query_params => bookmarks_query_params)
       tag = helper.link_back_to_catalog
       tag.should =~ /Back to Bookmarks/
       tag.should =~ /\/bookmarks/
       tag.should =~ /page=2/
+    end
+
+    describe "when an alternate scope is passed in" do
+      let(:my_engine) { double("Engine") }
+
+      it "should call url_for on the engine scope" do
+        helper.stub(:current_search_session).and_return double(:query_params => query_params)
+        expect(my_engine).to receive(:url_for).and_return(url_for(query_params))
+        tag = helper.link_back_to_catalog(route_set: my_engine)
+        tag.should =~ /Back to Search/
+        tag.should =~ /q=query/
+        tag.should =~ /f=facets/
+        tag.should =~ /per_page=10/
+        tag.should =~ /page=2/
+      end
     end
   end
 

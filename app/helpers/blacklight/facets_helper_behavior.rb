@@ -77,9 +77,12 @@ module Blacklight::FacetsHelperBehavior
   # first arg item is a facet value item from rsolr-ext.
   # options consist of:
   # :suppress_link => true # do not make it a link
+  # :route_set => my_engine # call link_to on engine routes.
   def render_facet_value(facet_solr_field, item, options ={})    
+    scope = options.delete(:route_set) || self
+    path = scope.url_for(add_facet_params_and_redirect(facet_solr_field, item).merge(only_path: true))
     content_tag(:span, :class => "facet-label") do
-      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select")
+      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
   end
 
