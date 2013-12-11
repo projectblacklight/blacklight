@@ -34,26 +34,37 @@
   }
 }
 
-.facet-values li {
-  padding-bottom: $padding-base-vertical; 
-  padding-right: 51px;
+.facet-values {
+  display: table;
+  width: 100%;
 
-  text-indent: -$padding-large-horizontal;
-  padding-left: $padding-large-horizontal;
+  li {
 
-  .selected {
-    @extend .text-success;
+    display: table-row;
+
+    .selected {
+      @extend .text-success;
+    }
+
+    .remove {
+      @extend .text-muted;
+      text-indent: $padding-base-horizontal;
+    }
   }
 
-  .remove {
-    @extend .text-muted;
-    text-indent: $padding-base-horizontal;
+  .facet-label {
+    display: table-cell;
+    padding-right: 1em;
+
+    text-indent: -15px;
+    padding-left: 15px;
+    padding-bottom: $padding-base-vertical;
   }
 
-  .count {
-    @extend .pull-right;
+  .facet-count {
+    display: table-cell;
+    vertical-align: top;
     text-align: right;
-    margin-right: -50px;
   }
 }
 
