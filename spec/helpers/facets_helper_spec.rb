@@ -1,4 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+
+require 'nokogiri'
+require 'equivalent-xml'
+
 describe FacetsHelper do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
@@ -378,7 +382,10 @@ describe FacetsHelper do
  
       helper.should_receive(:facet_display_value).and_return('Z')
       helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10)).should == (helper.link_to("Z", "link", :class => "facet_select") + " " + (helper.content_tag :span, 10, :class => 'count')).html_safe
+      expected  = Nokogiri::HTML "<a class=\"facet_select\" href=\"link\">Z</a> <span class=\"count\">10</span>"
+      rendered  = Nokogiri::HTML helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10))
+
+      rendered.should be_equivalent_to(expected).respecting_element_order
     end
 
 
