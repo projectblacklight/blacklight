@@ -34,12 +34,29 @@
   }
 }
 
+.facet-values {
+  display: table;
+  width: 100%;
+}
+
 .facet-values li {
   padding-bottom: $padding-base-vertical; 
-  padding-right: 51px;
 
-  text-indent: -$padding-large-horizontal;
-  padding-left: $padding-large-horizontal;
+  display: table-row;
+
+  .facet-label {
+    display: table-cell;
+    padding-right: 1em;
+
+    text-indent: -15px;
+    padding-left: 15px;
+  }
+
+  .facet-count {
+    display: table-cell;
+    vertical-align: top;
+    text-align: right;
+  }
 
   .selected {
     @extend .text-success;
@@ -50,11 +67,6 @@
     text-indent: $padding-base-horizontal;
   }
 
-  .count {
-    @extend .pull-right;
-    text-align: right;
-    margin-right: -50px;
-  }
 }
 
 .facet_extended_list

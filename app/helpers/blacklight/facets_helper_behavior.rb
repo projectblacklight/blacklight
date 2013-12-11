@@ -76,23 +76,30 @@ module Blacklight::FacetsHelperBehavior
   # a link to add that to your restrictions, with count in parens. 
   # first arg item is a facet value item from rsolr-ext.
   # options consist of:
-  # :suppress_link => true # do not make it a link, used for an already selected value for instance
+  # :suppress_link => true # do not make it a link
   def render_facet_value(facet_solr_field, item, options ={})    
-    (link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select") + " " + render_facet_count(item.hits)).html_safe
+    content_tag(:span, :class => "facet-label") do
+      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select")
+    end + render_facet_count(item.hits)
   end
 
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
-    #Updated class for Bootstrap Blacklight 
-    content_tag(:span, render_facet_value(facet_solr_field, item, :suppress_link => true), :class => "selected") +
+    content_tag(:span, :class => "facet-label") do
+      content_tag(:span, facet_display_value(facet_solr_field, item), :class => "selected") +
+      # remove link
       link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
+    end + render_facet_count(item.hits, :classes => ["selected"])
   end
 
   # Renders a count value for facet limits. Can be over-ridden locally
   # to change style. And can be called by plugins to get consistent display. 
-  def render_facet_count(num)
-    content_tag("span", t('blacklight.search.facets.count', :number => num), :class => "count pull-right") 
+  #
+  # option :class takes an array of classes to add to count span.
+  def render_facet_count(num, options = {})
+    classes = (options[:classes] || []) << "facet-count"
+    content_tag("span", t('blacklight.search.facets.count', :number => num), :class => classes)
   end
   
   # adds the value and/or field to params[:f]
