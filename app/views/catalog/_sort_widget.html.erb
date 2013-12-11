@@ -5,7 +5,7 @@
       <%= link_to(t('blacklight.search.sort.label', :field =>current_sort_field.label), "#") %> <span class="caret"></span>
       <ul>
         <%- blacklight_config.sort_fields.each do |sort_key, field| %>
-          <li><%= link_to(field.label, params_for_search(params.merge(:sort => sort_key))) %></li>
+          <li><%= link_to(field.label, params_for_search(:merge_params => {:sort => sort_key}, :omit_keys => [:page])) %></li>
         <%- end -%>
       </ul>
     </li>

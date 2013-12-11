@@ -6,7 +6,8 @@
       <%= link_to(t(:'blacklight.search.per_page.button_label', :count => current_per_page), "#") %> <span class="caret"></span>
       <ul>
         <%- blacklight_config.per_page.each do |count| %>
-          <li><%= link_to(t(:'blacklight.search.per_page.label', :count => count).html_safe, params_for_search(params.merge(:per_page => count))) %></li>
+          <li><%= link_to(t(:'blacklight.search.per_page.label', :count => count).html_safe, 
+                          params_for_search(:merge_params => {:per_page => count}, :omit_keys => [:page])) %></li>
         <%- end -%>
       </ul>
     </li>

@@ -158,7 +158,7 @@ describe BlacklightHelper do
 
   describe "params_for_search" do
     def params
-      { 'default' => 'params'}
+      { 'default1' => 'value1', 'default2' => 'value2'}
     end
 
     it "should default to using the controller's params" do
@@ -183,26 +183,40 @@ describe BlacklightHelper do
 
     it "should adjust the current page if the per_page changes" do
       source_params = { :per_page => 20, :page => 5}
-      result = params_for_search(:params => source_params, :per_page => 100)
+      result = params_for_search(:params => source_params, :merge_params => {:per_page => 100})
       result[:page].should == 1
     end
 
     it "should not adjust the current page if the per_page is the same as it always was" do
       source_params = { :per_page => 20, :page => 5}
-      result = params_for_search(:params => source_params, :per_page => 20)
+      result = params_for_search(:params => source_params, :merge_params => {:per_page => 20})
       result[:page].should == 5
     end
 
     it "should adjust the current page if the sort changes" do
       source_params = { :sort => 'field_a', :page => 5}
-      result = params_for_search(:params => source_params, :sort => 'field_b')
+      result = params_for_search(:params => source_params, :merge_params => {:sort => 'field_b'})
       result[:page].should == 1
     end
 
     it "should not adjust the current page if the sort is the same as it always was" do
       source_params = { :sort => 'field_a', :page => 5}
-      result = params_for_search(:params => source_params, :sort => 'field_a')
+      result = params_for_search(:params => source_params, :merge_params => {:sort => 'field_a'})
       result[:page].should == 5
+    end
+
+    it "should not pass even unrecognized options to query params" do
+      result = params_for_search(:some_made_up_option => "foo")
+
+      result.should_not have_key(:some_made_up_option)
+    end
+
+    describe "merge_params parameter" do
+      it "should merge merge_params" do
+        result = params_for_search(:merge_params => {'default1' => 'new', 'extra' => 'new'})
+
+        result.should == {'default1' => 'new', 'extra' => 'new', 'default2' => 'value2'}
+      end
     end
 
     describe "omit keys parameter" do

@@ -499,9 +499,12 @@ module Blacklight::BlacklightHelperBehavior
   # Outputs a hash of Rails params that specify the current search, suitable
   # for reproducing the current search with url_for. 
   #
-  #  By default
+  # By default
   # will use current Rails controller #params to determine current search,
-  # or pass in your own hash as options :params. 
+  # or pass in your own hash as options :params. OR pass in keys to override
+  # in current params with :merge_params -- merge_params also has a bit of
+  # smarts to know it should reset certain params when other params change (eg
+  # reset page to 1 when sort or per_page changes)
   #
   # By default will exclude certain keys, but can pass in custom keys
   # to exclude with :omit_keys. 
@@ -511,15 +514,21 @@ module Blacklight::BlacklightHelperBehavior
   # params_for_search
   # params_for_search(:params => {:search_field => "foo"})
   # params_for_search(:params => params.merge(:page => 1), :omit_keys => ["sort"])
+  # params_for_search(:merge_params => {:page => 1})
   def params_for_search(options={})
     # special keys
     # params hash to mutate
-    source_params = options.delete(:params) || params
+    my_params = (options.delete(:params) || params).dup
+
+    if options.has_key? :merge_params
+      merge_params = options[:merge_params]
+      if my_params[:page] and (my_params[:per_page] != merge_params[:per_page] or my_params[:sort] != merge_params[:sort] )
+        my_params[:page] = 1
+      end
+      my_params = my_params.merge(merge_params)
+    end
+
     omit_keys = options.delete(:omit_keys) || []
-
-    # params hash we'll return
-    my_params = source_params.dup
-
 
     # remove items from our params hash that match:
     #   - a key
@@ -546,10 +555,6 @@ module Blacklight::BlacklightHelperBehavior
       end
     end
 
-    if my_params[:page] and (my_params[:per_page] != source_params[:per_page] or my_params[:sort] != source_params[:sort] )
-      my_params[:page] = 1
-    end
-
     my_params.reject! { |k,v| v.nil? }
 
     # removing action, controller, and id from duplicate params so that we don't get hidden fields for them.
@@ -567,10 +572,13 @@ module Blacklight::BlacklightHelperBehavior
   # for inclusion in a form meant to change some aspect of it, like
   # re-sort or change records per page. 
   #
+  # For option arguments, see #params_for_search.
   #
-  # Can pass in query params hash
-  # as :params => hash, otherwise defaults to #params. Can pass
-  # in certain top-level params keys to _omit_, defaults to :page
+  # Examples:
+  #
+  #     <%= search_as_hidden_fields %>
+  #     <%= search_as_hidden_fields( :merge_params => {:sort => new_sort}, :omit_keys => [:page] ) %>
+  #     <%= search_as_hidden_fields( :params => stored_context_params ) %>
   def search_as_hidden_fields(options={})
     my_params = params_for_search({:omit_keys => [:page]}.merge(options))
 
