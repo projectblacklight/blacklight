@@ -6,7 +6,7 @@
 
     <%- if params[:q] and params[:search_field] and params[:search_field] != blacklight_config.default_search_field -%>
       <li><%= t 'blacklight.search.zero_results.search_fields', :search_fields => search_field_label(params) %> - 
-      <%= link_to t('blacklight.search.zero_results.search_everything'), params_for_search(:params => params.merge(:search_field=>blacklight_config.default_search_field.key)) %>
+      <%= link_to t('blacklight.search.zero_results.search_everything'), params_for_search(:merge_params => {:search_field=>blacklight_config.default_search_field.key}, :omit_keys => [:page]) %>
       </li>
     <%- end %>
 
