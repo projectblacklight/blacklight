@@ -138,4 +138,41 @@ describe "Facets" do
       expect(page).to have_content "history"
     end
   end
+  it "should be collapsed when not selected", :js => true do
+    pending("Test passes locally but not on Travis.")
+    visit root_path
+    within(".blacklight-subject_topic_facet") do
+      expect(page).not_to have_selector(".panel-collapse", :visible => true)
+    end
+  end
+  it "should expand when the heading is clicked", :js => true do
+    pending("Test passes locally but not on Travis.")
+    visit root_path
+    within(".blacklight-subject_topic_facet") do
+      expect(page).not_to have_selector(".panel-collapse", :visible => true)
+      find(".panel-heading").click
+      expect(page).to     have_selector(".panel-collapse", :visible => true)
+    end
+  end
+  it "should expand when the anchor is clicked", :js => true do
+    pending("Test passes locally but not on Travis.")
+    visit root_path
+    within(".blacklight-subject_topic_facet") do
+      expect(page).not_to have_selector(".panel-collapse", :visible => true)
+      click_link "Topic"
+      expect(page).to     have_selector(".panel-collapse", :visible => true)
+    end
+  end
+  it "should keep selected facets expanded on page load", :js => true do
+    pending("Test passes locally but not on Travis.")
+    visit root_path
+    within(".blacklight-subject_topic_facet") do
+      click_link "Topic"
+      expect(page).to have_selector(".panel-collapse", :visible => true)
+      click_link "Japanese drama"
+    end
+    within(".blacklight-subject_topic_facet") do
+      expect(page).to have_selector(".panel-collapse", :visible => true)
+    end
+  end
 end
