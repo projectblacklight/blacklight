@@ -1,8 +1,15 @@
 <div class="flash_messages">
   <% [:success, :notice, :error, :alert].each do |type| %>
-    <%- alert_class = type == :notice ? 'info' : type %>
+    <%- alert_class = case type
+      when :success then "alert-success"
+      when :notice  then "alert-info"
+      when :alert   then "alert-warning"
+      when :error   then "alert-danger"
+      else "alert-#{type}"
+      end
+    -%>
     <% if flash[type] %>
-      <div class="alert alert-<%=alert_class%>"><%= flash[type] %>
+      <div class="alert <%=alert_class %>"><%= flash[type] %>
          <a class="close" data-dismiss="alert" href="#">&times;</a>
       </div>
     <% end %>
