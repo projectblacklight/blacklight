@@ -172,6 +172,11 @@ describe CatalogController do
       put :update, :id => doc_id, :counter => 3
       assert_redirected_to(catalog_path(doc_id))
     end
+
+    it "HTTP status code for redirect should be 303" do
+      put :update, :id => doc_id, :counter => 3
+      response.status.should == 303
+    end
   end
 
   # SHOW ACTION
