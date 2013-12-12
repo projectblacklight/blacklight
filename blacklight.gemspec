@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rsolr",     "~> 1.0.6"  # Library for interacting with rSolr.
   s.add_dependency "sass-rails"
   s.add_dependency "bootstrap-sass", "~> 3.0"
+  s.add_dependency "deprecation"
   s.add_development_dependency "jettywrapper", ">= 1.4.1"
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency 'engine_cart', ">= 0.1.0"

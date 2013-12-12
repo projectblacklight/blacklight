@@ -69,7 +69,7 @@ Thank you for Installing Blacklight.
     # These will end up in routes.rb file in reverse order
     # we add em, since each is added at the top of file. 
     # we want "root" to be FIRST for optimal url generation. 
-    route('Blacklight.add_routes(self)')
+    route('blacklight_for :catalog')
     route('root :to => "catalog#index"')
   end
 
