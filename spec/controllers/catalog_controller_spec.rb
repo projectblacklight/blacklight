@@ -172,6 +172,11 @@ describe CatalogController do
       put :update, :id => doc_id, :counter => 3
       assert_redirected_to(catalog_path(doc_id))
     end
+
+    it "HTTP status code for redirect should be 303" do
+      put :update, :id => doc_id, :counter => 3
+      response.status.should == 303
+    end
   end
 
   # SHOW ACTION
@@ -201,34 +206,34 @@ describe CatalogController do
         @mock_document = double()
         @mock_document.stub(:export_formats => {})
         controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
-                        :get_previous_and_next_documents_for_search => [double(:total => 5), [double("a"), @mock_document, double("b")]])
+          :get_previous_and_next_documents_for_search => [double(:total => 5), [double("a"), @mock_document, double("b")]])
 
         current_search = Search.create(:query_params => { :q => ""})
         controller.stub(:current_search_session => current_search)
 
         @search_session = { :id => current_search.id }
       end
-    it "should set previous document if counter present in session" do
-      session[:search] = @search_session.merge(:counter => 2)
-      get :show, :id => doc_id
-      assigns[:previous_document].should_not be_nil
-    end
-    it "should not set previous or next document if session is blank" do
-      get :show, :id => doc_id
-      assigns[:previous_document].should be_nil
-      assigns[:next_document].should be_nil
-    end
-    it "should not set previous or next document if session[:search][:counter] is nil" do
-      session[:search] = {}
-      get :show, :id => doc_id
-      assigns[:previous_document].should be_nil
-      assigns[:next_document].should be_nil
-    end
-    it "should set next document if counter present in session" do
-      session[:search] = @search_session.merge(:counter => 2)
-      get :show, :id => doc_id
-      assigns[:next_document].should_not be_nil
-    end
+      it "should set previous document if counter present in session" do
+        session[:search] = @search_session.merge(:counter => 2)
+        get :show, :id => doc_id
+        assigns[:previous_document].should_not be_nil
+      end
+      it "should not set previous or next document if session is blank" do
+        get :show, :id => doc_id
+        assigns[:previous_document].should be_nil
+        assigns[:next_document].should be_nil
+      end
+      it "should not set previous or next document if session[:search][:counter] is nil" do
+        session[:search] = {}
+        get :show, :id => doc_id
+        assigns[:previous_document].should be_nil
+        assigns[:next_document].should be_nil
+      end
+      it "should set next document if counter present in session" do
+        session[:search] = @search_session.merge(:counter => 2)
+        get :show, :id => doc_id
+        assigns[:next_document].should_not be_nil
+      end
     end
 
     # NOTE: status code is always 200 in isolation mode ...
@@ -241,7 +246,7 @@ describe CatalogController do
       @mock_document = double()
       @mock_document.stub(:export_formats => {})
       controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
-                      :get_single_doc_via_search => @mock_document)
+        :get_single_doc_via_search => @mock_document)
       get :show, :id => doc_id
       response.should render_template(:show)
     end
@@ -252,7 +257,7 @@ describe CatalogController do
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = double()
         controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+          :get_single_doc_via_search => @mock_document)
       end
       before(:each) do
         get :show, :id => doc_id
@@ -279,13 +284,13 @@ describe CatalogController do
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = double()
         controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+          :get_single_doc_via_search => @mock_document)
 
         controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+          :get_single_doc_via_search => @mock_document)
       end
 
-       before(:each) do
+      before(:each) do
 
         # Rails3 needs this to propertly setup a new mime type and
         # render the results. 
@@ -319,7 +324,7 @@ describe CatalogController do
       @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
       @mock_document = double()
       controller.stub(:find => @mock_response, 
-                      :get_single_doc_via_search => @mock_document)
+        :get_single_doc_via_search => @mock_document)
     end
     it "should return an opensearch description" do
       get :opensearch, :format => 'xml'
@@ -331,120 +336,120 @@ describe CatalogController do
     end
   end
 #=end
-  describe "email/sms" do
-    doc_id = '2007020969'
-      before do
-        @mock_response = double()
-        @mock_document = double()
-        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
-        @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
-      end
-    before(:each) do
-      request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
-      SolrDocument.use_extension( Blacklight::Solr::Document::Email )
-      SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
+describe "email/sms" do
+  doc_id = '2007020969'
+  before do
+    @mock_response = double()
+    @mock_document = double()
+    @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
+    @mock_document = double()
+    controller.stub(:find => @mock_response, 
+      :get_single_doc_via_search => @mock_document)
+  end
+  before(:each) do
+    request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
+    SolrDocument.use_extension( Blacklight::Solr::Document::Email )
+    SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
+  end
+  describe "email" do
+    it "should give error if no TO paramater" do
+      post :email, :id => doc_id
+      request.flash[:error].should == "You must enter a recipient in order to send this message"
     end
-    describe "email" do
-      it "should give error if no TO paramater" do
-        post :email, :id => doc_id
-        request.flash[:error].should == "You must enter a recipient in order to send this message"
-      end
-      it "should give an error if the email address is not valid" do
-        post :email, :id => doc_id, :to => 'test_bad_email'
-        request.flash[:error].should == "You must enter a valid email address"
-      end
-      it "should not give error if no Message paramater is set" do
-        post :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
-        request.flash[:error].should be_nil
-      end
-      it "should redirect back to the record upon success" do
-        mock_mailer = double
-        mock_mailer.should_receive(:deliver)
-        RecordMailer.should_receive(:email_record).with(anything, { :to => 'test_email@projectblacklight.org', :message => 'xyz' }, hash_including(:host => 'test.host')).and_return mock_mailer
-
-        post :email, :id => doc_id, :to => 'test_email@projectblacklight.org', :message => 'xyz'
-        request.flash[:error].should be_nil
-        request.should redirect_to(catalog_path(doc_id))
-      end
-
-      it "should render email_sent for XHR requests" do
-        xhr :post, :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
-        expect(request).to render_template 'email_sent'
-        expect(request.flash[:success]).to eq "Email Sent"
-      end
+    it "should give an error if the email address is not valid" do
+      post :email, :id => doc_id, :to => 'test_bad_email'
+      request.flash[:error].should == "You must enter a valid email address"
     end
-    describe "sms" do
-      it "should give error if no phone number is given" do
-        post :sms, :id => doc_id, :carrier => 'att'
-        request.flash[:error].should == "You must enter a recipient's phone number in order to send this message"
-      end
-      it "should give an error when a carrier is not provided" do
-        post :sms, :id => doc_id, :to => '5555555555', :carrier => ''
-        request.flash[:error].should == "You must select a carrier"
-      end
-      it "should give an error when the phone number is not 10 digits" do
-        post :sms, :id => doc_id, :to => '555555555', :carrier => 'txt.att.net'
-        request.flash[:error].should == "You must enter a valid 10 digit phone number"
-      end
-      it "should give an error when the carrier is not in our list of carriers" do
-        post :sms, :id => doc_id, :to => '5555555555', :carrier => 'no-such-carrier'
-        request.flash[:error].should == "You must enter a valid carrier"
-      end
-      it "should allow punctuation in phone number" do
-        post :sms, :id => doc_id, :to => '(555) 555-5555', :carrier => 'txt.att.net'
-        request.flash[:error].should be_nil
-        request.should redirect_to(catalog_path(doc_id))
-      end
-      it "should redirect back to the record upon success" do
-        post :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
-        request.flash[:error].should be_nil
-        request.should redirect_to(catalog_path(doc_id))
-      end
+    it "should not give error if no Message paramater is set" do
+      post :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
+      request.flash[:error].should be_nil
+    end
+    it "should redirect back to the record upon success" do
+      mock_mailer = double
+      mock_mailer.should_receive(:deliver)
+      RecordMailer.should_receive(:email_record).with(anything, { :to => 'test_email@projectblacklight.org', :message => 'xyz' }, hash_including(:host => 'test.host')).and_return mock_mailer
 
-      it "should render sms_sent template for XHR requests" do
-        xhr :post, :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
-        expect(request).to render_template 'sms_sent'
-        expect(request.flash[:success]).to eq "SMS Sent"
-      end
+      post :email, :id => doc_id, :to => 'test_email@projectblacklight.org', :message => 'xyz'
+      request.flash[:error].should be_nil
+      request.should redirect_to(catalog_path(doc_id))
+    end
+
+    it "should render email_sent for XHR requests" do
+      xhr :post, :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
+      expect(request).to render_template 'email_sent'
+      expect(request.flash[:success]).to eq "Email Sent"
     end
   end
-
-  describe "errors" do
-    it "should return status 404 for a record that doesn't exist" do
-        @mock_response = double()
-        @mock_response.stub(:docs => [])
-        @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
-      get :show, :id=>"987654321"
-      request.flash[:notice].should == "Sorry, you have requested a record that doesn't exist."
-      response.should render_template('index')
-      response.status.should == 404
+  describe "sms" do
+    it "should give error if no phone number is given" do
+      post :sms, :id => doc_id, :carrier => 'att'
+      request.flash[:error].should == "You must enter a recipient's phone number in order to send this message"
     end
-    it "should redirect the user to the root url for a bad search" do
-      req = {}
-      res = {}
-      fake_error = RSolr::Error::Http.new(req, res) 
-      controller.stub(:get_search_results) { |*args| raise fake_error }
-      controller.logger.should_receive(:error).with(fake_error)
-      get :index, :q=>"+"
-
-      response.redirect_url.should == root_url
-      request.flash[:notice].should == "Sorry, I don't understand your search."
-      response.should_not be_success
-      response.status.should == 302
+    it "should give an error when a carrier is not provided" do
+      post :sms, :id => doc_id, :to => '5555555555', :carrier => ''
+      request.flash[:error].should == "You must select a carrier"
     end
-    it "should return status 500 if the catalog path is raising an exception" do
+    it "should give an error when the phone number is not 10 digits" do
+      post :sms, :id => doc_id, :to => '555555555', :carrier => 'txt.att.net'
+      request.flash[:error].should == "You must enter a valid 10 digit phone number"
+    end
+    it "should give an error when the carrier is not in our list of carriers" do
+      post :sms, :id => doc_id, :to => '5555555555', :carrier => 'no-such-carrier'
+      request.flash[:error].should == "You must enter a valid carrier"
+    end
+    it "should allow punctuation in phone number" do
+      post :sms, :id => doc_id, :to => '(555) 555-5555', :carrier => 'txt.att.net'
+      request.flash[:error].should be_nil
+      request.should redirect_to(catalog_path(doc_id))
+    end
+    it "should redirect back to the record upon success" do
+      post :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
+      request.flash[:error].should be_nil
+      request.should redirect_to(catalog_path(doc_id))
+    end
 
-      req = {}
-      res = {}
-      fake_error = RSolr::Error::Http.new(req, res) 
-      controller.stub(:get_search_results) { |*args| raise fake_error }
-      controller.flash.stub(:sweep)
-      controller.stub(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
-      expect {
+    it "should render sms_sent template for XHR requests" do
+      xhr :post, :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
+      expect(request).to render_template 'sms_sent'
+      expect(request.flash[:success]).to eq "SMS Sent"
+    end
+  end
+end
+
+describe "errors" do
+  it "should return status 404 for a record that doesn't exist" do
+    @mock_response = double()
+    @mock_response.stub(:docs => [])
+    @mock_document = double()
+    controller.stub(:find => @mock_response, 
+      :get_single_doc_via_search => @mock_document)
+    get :show, :id=>"987654321"
+    request.flash[:notice].should == "Sorry, you have requested a record that doesn't exist."
+    response.should render_template('index')
+    response.status.should == 404
+  end
+  it "should redirect the user to the root url for a bad search" do
+    req = {}
+    res = {}
+    fake_error = RSolr::Error::Http.new(req, res) 
+    controller.stub(:get_search_results) { |*args| raise fake_error }
+    controller.logger.should_receive(:error).with(fake_error)
+    get :index, :q=>"+"
+
+    response.redirect_url.should == root_url
+    request.flash[:notice].should == "Sorry, I don't understand your search."
+    response.should_not be_success
+    response.status.should == 302
+  end
+  it "should return status 500 if the catalog path is raising an exception" do
+
+    req = {}
+    res = {}
+    fake_error = RSolr::Error::Http.new(req, res) 
+    controller.stub(:get_search_results) { |*args| raise fake_error }
+    controller.flash.stub(:sweep)
+    controller.stub(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
+    expect {
       get :index, :q=>"+"
       }.to raise_error 
     end
@@ -456,12 +461,12 @@ describe CatalogController do
 
     before do
       controller.stub(:has_user_authentication_provider?) { false }
-        @mock_response = double()
-        @mock_document = double()
-        @mock_response.stub(:docs => [], :total => 1, :facets => [], :facet_queries => {}, :facet_by_field_name => nil)
-        @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+      @mock_response = double()
+      @mock_document = double()
+      @mock_response.stub(:docs => [], :total => 1, :facets => [], :facet_queries => {}, :facet_by_field_name => nil)
+      @mock_document = double()
+      controller.stub(:find => @mock_response, 
+        :get_single_doc_via_search => @mock_document)
     end
 
     it "should not show user util links" do
@@ -499,90 +504,90 @@ describe CatalogController do
       controller.instance_variable_set :@document_list, [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}]
       controller.stub(:pagination_info).and_return({current_page: 1, next_page: 2, prev_page: nil})
       controller.stub(:search_facets_as_json).and_return(
-          [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}])
+        [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}])
     end
 
     it "should be a hash" do
-       expect(controller.send(:render_search_results_as_json)).to eq (
-         {response: {docs: [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}],
-                     facets: [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}],
-                     pages: {current_page: 1, next_page: 2, prev_page: nil}}}
+     expect(controller.send(:render_search_results_as_json)).to eq (
+       {response: {docs: [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}],
+       facets: [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}],
+       pages: {current_page: 1, next_page: 2, prev_page: nil}}}
        )
-    end
+   end
+ end
+
+ describe 'render_facet_list_as_json' do
+  before do
+    controller.instance_variable_set :@pagination, {items: [{value: 'Book'}]}
   end
 
-  describe 'render_facet_list_as_json' do
-    before do
-      controller.instance_variable_set :@pagination, {items: [{value: 'Book'}]}
-    end
+  it "should be a hash" do
+   expect(controller.send(:render_facet_list_as_json)).to eq (
+     {response: {facets: {items: [{value: 'Book'}]}}}
+     )
+ end
+end
 
-    it "should be a hash" do
-       expect(controller.send(:render_facet_list_as_json)).to eq (
-         {response: {facets: {items: [{value: 'Book'}]}}}
-       )
-    end
+describe "#add_to_search_history" do
+  it "should prepend the current search to the list" do
+    session[:history] = []
+    controller.send(:add_to_search_history, double(:id => 1))
+    expect(session[:history]).to have(1).item
+
+    controller.send(:add_to_search_history, double(:id => 2))
+    expect(session[:history]).to have(2).items
+    expect(session[:history].first).to eq 2
   end
 
-  describe "#add_to_search_history" do
-    it "should prepend the current search to the list" do
-      session[:history] = []
-      controller.send(:add_to_search_history, double(:id => 1))
-      expect(session[:history]).to have(1).item
+  it "should remove searches from the list when the list gets too big" do
+    controller.stub(:blacklight_config).and_return(double(:search_history_window => 5))
+    session[:history] = (0..4).to_a.reverse
 
-      controller.send(:add_to_search_history, double(:id => 2))
-      expect(session[:history]).to have(2).items
-      expect(session[:history].first).to eq 2
-    end
+    expect(session[:history]).to have(5).items
+    controller.send(:add_to_search_history, double(:id => 5))
+    controller.send(:add_to_search_history, double(:id => 6))
+    controller.send(:add_to_search_history, double(:id => 7))
+    expect(session[:history]).to include(*(3..7).to_a)
 
-    it "should remove searches from the list when the list gets too big" do
-      controller.stub(:blacklight_config).and_return(double(:search_history_window => 5))
-      session[:history] = (0..4).to_a.reverse
+  end
+end
 
-      expect(session[:history]).to have(5).items
-      controller.send(:add_to_search_history, double(:id => 5))
-      controller.send(:add_to_search_history, double(:id => 6))
-      controller.send(:add_to_search_history, double(:id => 7))
-      expect(session[:history]).to include(*(3..7).to_a)
-
-    end
+describe "current_search_session" do
+  it "should create a session if we're on an search action" do
+    controller.stub(:action_name => "index")
+    controller.stub(:params => { :q => "x", :page => 5})
+    session = controller.send(:current_search_session)
+    expect(session.query_params).to include(:q => "x")
+    expect(session.query_params).to_not include(:page => 5)
   end
 
-  describe "current_search_session" do
-    it "should create a session if we're on an search action" do
-      controller.stub(:action_name => "index")
-      controller.stub(:params => { :q => "x", :page => 5})
-      session = controller.send(:current_search_session)
-      expect(session.query_params).to include(:q => "x")
-      expect(session.query_params).to_not include(:page => 5)
-    end
-
-    it "should create a session if a search context was provided" do
-      controller.stub(:params => { :search_context => JSON.dump(:q => "x")})
-      session = controller.send(:current_search_session)
-      expect(session.query_params).to include("q" => "x")
-    end
-
-    it "should use an existing session if a search id was provided" do
-      s = Search.create(:query_params => { :q => "x" })
-      session[:history] ||= []
-      session[:history] << s.id
-      controller.stub(:params => { :search_id => s.id})
-      session = controller.send(:current_search_session)
-      expect(session.query_params).to include(:q => "x")
-      expect(session).to eq(s)
-    end
-
-    it "should use an existing search session if the search is in the uri" do
-      s = Search.create(:query_params => { :q => "x" })
-      session[:search] ||= {}
-      session[:search][:id] = s.id
-      session[:history] ||= []
-      session[:history] << s.id
-      session = controller.send(:current_search_session)
-      expect(session.query_params).to include(:q => "x")
-      expect(session).to eq(s)
-    end
+  it "should create a session if a search context was provided" do
+    controller.stub(:params => { :search_context => JSON.dump(:q => "x")})
+    session = controller.send(:current_search_session)
+    expect(session.query_params).to include("q" => "x")
   end
+
+  it "should use an existing session if a search id was provided" do
+    s = Search.create(:query_params => { :q => "x" })
+    session[:history] ||= []
+    session[:history] << s.id
+    controller.stub(:params => { :search_id => s.id})
+    session = controller.send(:current_search_session)
+    expect(session.query_params).to include(:q => "x")
+    expect(session).to eq(s)
+  end
+
+  it "should use an existing search session if the search is in the uri" do
+    s = Search.create(:query_params => { :q => "x" })
+    session[:search] ||= {}
+    session[:search][:id] = s.id
+    session[:history] ||= []
+    session[:history] << s.id
+    session = controller.send(:current_search_session)
+    expect(session.query_params).to include(:q => "x")
+    expect(session).to eq(s)
+  end
+end
 end
 
 
