@@ -7,7 +7,7 @@
 //= require blacklight/core
 //= require blacklight/autofocus
 //= require blacklight/bookmark_toggle
-//= require blacklight/lightbox_dialog
+//= require blacklight/ajax_modal
 //= require blacklight/search_context
 //
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
