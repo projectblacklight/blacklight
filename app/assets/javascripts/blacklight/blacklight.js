@@ -9,7 +9,6 @@
 //= require blacklight/bookmark_toggle
 //= require blacklight/lightbox_dialog
 //= require blacklight/search_context
-//= require blacklight/zebra_stripe
 //
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap/transition
@@ -36,13 +35,7 @@
   comes along. 
   
   Examples, in your application's own JS:
-  
-    Change what items zebra_striping gets applied to:
-    
-        Blacklight.do_zebra_stripe.selector = ".my_class .even";
-        //Or even add on to existing:
-        Blacklight.do_zebra_stripe.selector = Blacklight.do_zebra_stripe.selector + " .my_class .even";
-      
+        
     Turn off adding of behavior to facet 'more' links, using a no-op function:
     
         Blacklight.do_more_facets_behavior = function() {};
