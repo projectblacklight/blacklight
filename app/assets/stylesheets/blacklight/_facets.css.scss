@@ -133,13 +133,9 @@ ul.facet_extended_list
 .pivot-facet {
   @extend .list-unstyled;
 
-  li {
-    padding-bottom: $padding-base-vertical;
-  }
-
   ul, .pivot-facet {
     @extend .list-unstyled;
-    padding-top: $padding-base-vertical;
+    padding-bottom: $padding-base-vertical;
     padding-left: $padding-large-horizontal;
   }
 }
