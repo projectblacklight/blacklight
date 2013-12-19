@@ -1,4 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+
+require 'nokogiri'
+require 'equivalent-xml'
+
 describe FacetsHelper do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
@@ -378,16 +382,19 @@ describe FacetsHelper do
  
       helper.should_receive(:facet_display_value).and_return('Z')
       helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10)).should == (helper.link_to("Z", "link", :class => "facet_select") + " " + (helper.content_tag :span, 10, :class => 'count pull-right')).html_safe
-    end
 
+      expected  = Nokogiri::HTML "<span class=\"facet-label\"><a class=\"facet_select\" href=\"link\">Z</a></span><span class=\"facet-count\">10</span>"
+      rendered  = Nokogiri::HTML helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10))
+
+      rendered.should be_equivalent_to(expected).respecting_element_order
+    end
 
     it "should suppress the link" do
       helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false))
  
       helper.should_receive(:facet_display_value).and_return('Z')
       helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10), :suppress_link => true).should == "Z <span class=\"count pull-right\">10</span>"
+      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10), :suppress_link => true).should == "<span class=\"facet-label\">Z</span><span class=\"facet-count\">10</span>"
     end
   end
  
