@@ -48,6 +48,7 @@ module Blacklight::SolrHelper
   extend ActiveSupport::Concern
   include Blacklight::SearchFields
   include Blacklight::Facet
+  require 'json'
 
   included do
     if self.respond_to?(:helper_method)
@@ -84,7 +85,10 @@ module Blacklight::SolrHelper
   
   def find(*args)
     path = blacklight_config.solr_path
-    response = blacklight_solr.get(path, :params=> args[1])
+    solr_params = args[1]
+    solr_params[:wt] = 'json'
+    response = blacklight_solr.get(path, :params => solr_params)
+    response = response ? JSON.parse(response) : response
     Blacklight::SolrResponse.new(force_to_utf8(response), args[1])
   rescue Errno::ECONNREFUSED => e
     raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{blacklight_solr.inspect}")
@@ -401,10 +405,12 @@ module Blacklight::SolrHelper
     bench_start = Time.now
     solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
     solr_params[:qt] ||= blacklight_config.qt
+    solr_params[:wt] = 'json'
     path = blacklight_config.solr_path
 
     # delete these parameters, otherwise rsolr will pass them through.
     res = blacklight_solr.send_and_receive(path, :params=>solr_params)
+    res = res ? JSON.parse(res) : res
     
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
 
