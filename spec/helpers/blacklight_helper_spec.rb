@@ -1,7 +1,7 @@
 #ste -*- encoding : utf-8 -*-
 # -*- coding: UTF-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'marc'
+require 'spec_helper'
+
 def exportable_record
 "<record>
   <leader>01828cjm a2200409 a 4500</leader>
@@ -229,7 +229,7 @@ describe BlacklightHelper do
       expect(source_params).to eq(result)
       expect(source_params.object_id).not_to eq(result.object_id)
     end
-    
+
 
     it "should let you pass in params to merge into the controller's params" do
       source_params = { :q => 'query'}
@@ -295,7 +295,7 @@ describe BlacklightHelper do
      describe "params_for_search with a block" do
       it "should evalute the block and allow it to add or remove keys" do
         result = params_for_search({:a => 1, :b => 2}, :c => 3) do |params|
-          params.except! :a, :b 
+          params.except! :a, :b
           params[:d] = 'd'
         end
 
@@ -527,6 +527,8 @@ describe BlacklightHelper do
 
       response = render_link_rel_alternates(@document)
 
+      tmp_value = Capybara.ignore_hidden_elements
+      Capybara.ignore_hidden_elements = false
       @document.export_formats.each_pair do |format, spec|
         expect(response).to have_selector("link[href$='.#{ format  }']") do |matches|
           expect(matches.length).to eq(1)
@@ -536,15 +538,22 @@ describe BlacklightHelper do
           expect(tag.attributes["href"].value).to be === mock_document_app_helper_url(@document, :format =>format)
         end
       end
+      Capybara.ignore_hidden_elements = tmp_value
     end
     it "respects :unique=>true" do
       response = render_link_rel_alternates(@document, :unique => true)
-      expect(response).to have_selector("link[type='application/weird']", :count => 1)
+      tmp_value = Capybara.ignore_hidden_elements
+      Capybara.ignore_hidden_elements = false
+      response.should have_selector("link[type='application/weird']", :count => 1)
+      Capybara.ignore_hidden_elements = tmp_value
     end
     it "excludes formats from :exclude" do
       response = render_link_rel_alternates(@document, :exclude => [:weird_dup])
 
-      expect(response).not_to have_selector("link[href$='.weird_dup']")
+      tmp_value = Capybara.ignore_hidden_elements
+      Capybara.ignore_hidden_elements = false
+      response.should_not have_selector("link[href$='.weird_dup']")
+      Capybara.ignore_hidden_elements = tmp_value
     end
 
     it "should be html safe" do

@@ -7,7 +7,9 @@ describe "Alternate Controller Behaviors" do
     fill_in "q", :with=>"history"
     click_button 'search'
     expect(current_path).to match /#{alternate_index_path}/
-    click_on '10 per page'
+    within ("#per_page-dropdown") do
+      click_link '20 per page'
+    end
     expect(current_path).to match /#{alternate_index_path}/
   end
 

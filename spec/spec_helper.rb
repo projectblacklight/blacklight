@@ -23,7 +23,7 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
-
+Capybara.server = :webrick
 Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
