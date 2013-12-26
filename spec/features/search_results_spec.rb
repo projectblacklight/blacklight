@@ -36,8 +36,11 @@ describe "Search Results" do
 
   it "should have an opensearch description document" do
     visit root_path
+    tmp_value = Capybara.ignore_hidden_elements
+    Capybara.ignore_hidden_elements = false
     page.should have_xpath("//link[contains(@rel, 'search')]")
     expect(page.find(:xpath, "//link[contains(@rel, 'search')]")[:href]).to eq "http://www.example.com/catalog/opensearch.xml"
+    Capybara.ignore_hidden_elements = tmp_value
   end
 
   it "should provide search hints if there are no results" do
@@ -86,5 +89,9 @@ def number_of_results_for_query(query)
 end
 
 def number_of_results_from_page(page)
-  page.find("meta[name=totalResults]")['content'].to_i rescue 0
+  tmp_value = Capybara.ignore_hidden_elements
+  Capybara.ignore_hidden_elements = false
+  val = page.find("meta[name=totalResults]")['content'].to_i rescue 0
+  Capybara.ignore_hidden_elements = tmp_value
+  val
 end

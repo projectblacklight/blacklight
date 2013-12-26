@@ -1,7 +1,7 @@
 #ste -*- encoding : utf-8 -*-
 # -*- coding: UTF-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'marc'
+require 'spec_helper'
+
 def exportable_record
 "<record>
   <leader>01828cjm a2200409 a 4500</leader>
@@ -428,6 +428,8 @@ describe BlacklightHelper do
 
       response = render_link_rel_alternates(@document)
 
+      tmp_value = Capybara.ignore_hidden_elements
+      Capybara.ignore_hidden_elements = false
       @document.export_formats.each_pair do |format, spec|
         response.should have_selector("link[href$='.#{ format  }']") do |matches|
           matches.length.should == 1
@@ -437,15 +439,22 @@ describe BlacklightHelper do
           tag.attributes["href"].value.should === mock_document_app_helper_url(@document, :format =>format)
         end
       end
+      Capybara.ignore_hidden_elements = tmp_value
     end
     it "respects :unique=>true" do
       response = render_link_rel_alternates(@document, :unique => true)
+      tmp_value = Capybara.ignore_hidden_elements
+      Capybara.ignore_hidden_elements = false
       response.should have_selector("link[type='application/weird']", :count => 1)
+      Capybara.ignore_hidden_elements = tmp_value
     end
     it "excludes formats from :exclude" do
       response = render_link_rel_alternates(@document, :exclude => [:weird_dup])
 
+      tmp_value = Capybara.ignore_hidden_elements
+      Capybara.ignore_hidden_elements = false
       response.should_not have_selector("link[href$='.weird_dup']")
+      Capybara.ignore_hidden_elements = tmp_value
     end
 
     it "should be html safe" do
