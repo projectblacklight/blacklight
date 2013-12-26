@@ -7,6 +7,10 @@ rvm:
   - 1.9.3
   - jruby-19mode
 
+matrix:
+  allow_failures:
+    - rvm: 2.1.0
+
 gemfile:
   - gemfiles/rails3.gemfile
   - gemfiles/rails4.gemfile

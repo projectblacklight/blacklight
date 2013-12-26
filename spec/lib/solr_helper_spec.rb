@@ -57,14 +57,14 @@ describe 'Blacklight::SolrHelper' do
         # Normally you'd include a new module into (eg) your CatalogController
         # but a sub-class defininig it directly is simpler for test.             
         def add_foo_to_solr_params(solr_params, user_params)
-          solr_params[:foo] = "TESTING"
+          solr_params[:wt] = "TESTING"
         end
  
                          
         self.solr_search_params_logic += [:add_foo_to_solr_params]
         
         
-        self.solr_search_params[:foo].should == "TESTING"                
+        self.solr_search_params[:wt].should == "TESTING"                
     end
     
     
@@ -106,10 +106,10 @@ describe 'Blacklight::SolrHelper' do
     end
 
     describe "for request params also passed in as argument" do      
-      it "should only have one 'q' key, as symbol" do        
-        solr_params = solr_search_params( :q => "some query" )
-        solr_params.keys.should include(:q)
-        solr_params.keys.should_not include("q")
+      it "should only have one value for the key 'q' regardless if a symbol or string" do        
+        solr_params = solr_search_params( :q => "some query", 'q' => 'another value' )
+        solr_params[:q].should == 'some query'
+        solr_params['q'].should == 'some query'
       end
     end
 
@@ -211,33 +211,34 @@ describe 'Blacklight::SolrHelper' do
     end
 
     describe "solr parameters for a field search from config (subject)" do
-      before do
-        @solr_params = solr_search_params( @subject_search_params )
-      end
+      let(:solr_params) { solr_search_params @subject_search_params }
+
       it "should look up qt from field definition" do
-        @solr_params[:qt].should == "search"
+        solr_params[:qt].should == "search"
       end
       it "should not include weird keys not in field definition" do
-        @solr_params[:phrase_filters].should be_nil
-        @solr_params[:fq].should be_nil
-        @solr_params[:commit].should be_nil
-        @solr_params[:action].should be_nil
-        @solr_params[:controller].should be_nil
+        solr_params.to_hash.tap do |h|
+          h[:phrase_filters].should be_nil
+          h[:fq].should be_nil
+          h[:commit].should be_nil
+          h[:action].should be_nil
+          h[:controller].should be_nil
+        end
       end
       it "should include proper 'q', possibly with LocalParams" do
-        @solr_params[:q].should match(/(\{[^}]+\})?wome/)
+        solr_params[:q].should match(/(\{[^}]+\})?wome/)
       end
       it "should include proper 'q' when LocalParams are used" do
-        if @solr_params[:q] =~ /\{[^}]+\}/
-          @solr_params[:q].should match(/\{[^}]+\}wome/)
+        if solr_params[:q] =~ /\{[^}]+\}/
+          solr_params[:q].should match(/\{[^}]+\}wome/)
         end
       end
       it "should include spellcheck.q, without LocalParams" do
-        @solr_params["spellcheck.q"].should == "wome"
+        solr_params["spellcheck.q"].should == "wome"
       end
 
       it "should include spellcheck.dictionary from field def solr_parameters" do
-        @solr_params[:"spellcheck.dictionary"].should == "subject"
+        solr_params[:"spellcheck.dictionary"].should == "subject"
       end
       it "should add on :solr_local_parameters using Solr LocalParams style" do
         params = solr_search_params( @subject_search_params )
@@ -286,7 +287,7 @@ describe 'Blacklight::SolrHelper' do
 
       it "should return the correct solr parameters" do
 
-        solr_parameters = { }
+        solr_parameters = Blacklight::Solr::Request.new
         
         add_facetting_to_solr(solr_parameters, {})
 
@@ -297,7 +298,7 @@ describe 'Blacklight::SolrHelper' do
       end
 
       it "should add facet exclusions" do
-        solr_parameters = { }
+        solr_parameters = Blacklight::Solr::Request.new
 
         add_facetting_to_solr(solr_parameters, {})
 
@@ -517,7 +518,7 @@ describe 'Blacklight::SolrHelper' do
       solr_search_params.each_pair do |key, value|
         # The specific params used for fetching the facet list we
         # don't care about.
-        next if [:facets, "facet.field".to_sym, :rows, 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
+        next if ['facets', "facet.field", 'rows', 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
         # Everything else should match
         solr_facet_params[key].should == value
       end
