@@ -74,7 +74,7 @@ describe "Search Page" do
       expect(page).to have_content "1."
     end
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 to 1 of 1"
+      expect(page).to have_content "1 entry found"
     end
   end
 

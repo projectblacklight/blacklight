@@ -26,7 +26,7 @@ describe "Did You Mean" do
       expect(page).to have_content("Did you mean")
       click_link 'yehudiyim'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 to 1 of 1"
+        expect(page).to have_content "1 entry found"
       end
       within ("select#search_field") do
         expect(page).to have_selector("option[selected]", text: "Title")
@@ -44,7 +44,7 @@ describe "Did You Mean" do
       expect(page).to have_content("Did you mean")
       click_link 'sharma'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 to 1 of 1"
+        expect(page).to have_content "1 entry found"
       end
       within ("select#search_field") do
         expect(page).to have_selector("option[selected]", text: "Author")
@@ -91,7 +91,7 @@ describe "Did You Mean" do
       
       click_link 'bon'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 to 1 of 1"
+        expect(page).to have_content "1 entry found"
       end
     end
     

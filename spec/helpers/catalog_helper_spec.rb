@@ -55,9 +55,9 @@ describe CatalogHelper do
     end
 
     it "with a single page of results" do
-      @response = mock_response :total => 7
+      response = mock_response :total => 7
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(response, { :entry_name => 'entry_name' })
       html.should == "<strong>1</strong> - <strong>7</strong> of <strong>7</strong>"
       html.html_safe?.should == true
     end

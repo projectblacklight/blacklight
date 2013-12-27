@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::CatalogHelperBehavior
 
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight 5.x'
+
   # Pass in an RSolr::Response (or duck-typed similar) object,
   # it translates to a Kaminari-paginatable
   # object, with the keys Kaminari views expect.
@@ -43,6 +46,7 @@ module Blacklight::CatalogHelperBehavior
         else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => response.current_page, :num_pages => response.total_pages, :start_num => format_num(response.start + 1) , :end_num => end_num, :total_num => response.total_count, :count => response.total_pages).html_safe
       end
   end
+
 
   def document_counter_with_offset idx 
     unless render_grouped_response? 
