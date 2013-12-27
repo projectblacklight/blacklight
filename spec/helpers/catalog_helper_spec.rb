@@ -10,15 +10,15 @@ describe CatalogHelper do
     total = args[:total]
     start = (current_page - 1) * per_page
 
-    mock_response = double("Blacklight::SolrResponse")
-    mock_response.stub(:total_count).and_return(total)
-    mock_response.stub(:current_page).and_return(current_page)
-    mock_response.stub(:total_pages).and_return((total / per_page).to_i + 1)
-    mock_response.stub(:rows).and_return(per_page)
-    mock_response.stub(:start).and_return(start)
-    mock_response.stub(:docs).and_return((1..total).to_a.slice(start, per_page))
-
-    mock_response
+    double("Blacklight::SolrResponse").tap do |mock_response|
+      mock_response.stub(:total_count).and_return(total)
+      mock_response.stub(:current_page).and_return(current_page)
+      mock_response.stub(:total_pages).and_return((total / per_page).to_i + 1)
+      mock_response.stub(:rows).and_return(per_page)
+      mock_response.stub(:start).and_return(start)
+      mock_docs = (1..total).to_a.slice(start, per_page).map { {}.with_indifferent_access }
+      mock_response.stub(:docs).and_return(mock_docs)
+    end
   end
 
   def render_grouped_response?
@@ -46,18 +46,28 @@ describe CatalogHelper do
       html.html_safe?.should == true
     end
 
-    it "with a single result" do
-      @response = mock_response :total => 1
+    describe "with a single result" do
+      it "should use the provided entry name" do
+        response = mock_response :total => 1
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>1</strong> to <strong>1</strong> of <strong>1</strong>"
-      html.html_safe?.should == true
+        html = render_pagination_info(response, { :entry_name => 'entry_name' })
+        html.should == "<strong>1</strong> entry_name found"
+        html.html_safe?.should == true
+      end
+
+      it "should infer a name" do
+        response = mock_response :total => 1
+
+        html = render_pagination_info(response)
+        html.should == "<strong>1</strong> entry found"
+        html.html_safe?.should == true
+      end
     end
 
     it "with a single page of results" do
-      @response = mock_response :total => 7
+      response = mock_response :total => 7
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
+      html = render_pagination_info(response, { :entry_name => 'entry_name' })
       html.should == "<strong>1</strong> - <strong>7</strong> of <strong>7</strong>"
       html.html_safe?.should == true
     end

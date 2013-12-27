@@ -58,7 +58,7 @@ describe "Facets" do
     click_link "2004"
 
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 to 1 of 1"
+      expect(page).to have_content "1 entry found"
     end
     within "#facet-language" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
