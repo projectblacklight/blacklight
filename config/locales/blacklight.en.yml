@@ -183,7 +183,7 @@ en:
         title: 'Results navigation'
       pagination_info:
         no_items_found: 'No %{entry_name} found'
-        single_item_found: '<strong>1</strong> to <strong>1</strong> of <strong>1</strong>'
+        single_item_found: '<strong>1</strong> %{entry_name} found'
         pages:
           one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
           other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'

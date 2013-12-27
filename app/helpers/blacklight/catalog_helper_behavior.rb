@@ -25,10 +25,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
   def render_pagination_info(response, options = {})
-   # TODO: i18n the entry_name
-      entry_name = options[:entry_name]
-      entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
-      entry_name ||= t('blacklight.entry_name.default')
+      entry_name = options[:entry_name] || t('blacklight.entry_name.default')
 
 
       end_num = if render_grouped_response?
