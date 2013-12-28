@@ -77,20 +77,24 @@ module Blacklight::FacetsHelperBehavior
   # first arg item is a facet value item from rsolr-ext.
   # options consist of:
   # :suppress_link => true # do not make it a link
-  def render_facet_value(facet_solr_field, item, options ={})    
+  def render_facet_value(facet_solr_field, item, options ={})
+    facet_config = facet_configuration_for_field(facet_solr_field)
+    facet_count_value = facet_config.hide_counter ? "" : render_facet_count(item.hits)
     content_tag(:span, :class => "facet-label") do
       link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select")
-    end + render_facet_count(item.hits)
+    end + facet_count_value
   end
 
   # Standard display of a SELECTED facet value, no link, special span
   # with class, and 'remove' button.
   def render_selected_facet_value(facet_solr_field, item)
+    facet_config = facet_configuration_for_field(facet_solr_field)
+    facet_count_value = facet_config.hide_counter ? "" : render_facet_count(item.hits, :classes => ["selected"])
     content_tag(:span, :class => "facet-label") do
       content_tag(:span, facet_display_value(facet_solr_field, item), :class => "selected") +
       # remove link
       link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
-    end + render_facet_count(item.hits, :classes => ["selected"])
+    end + facet_count_value
   end
 
   # Renders a count value for facet limits. Can be over-ridden locally
