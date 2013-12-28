@@ -1,6 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
-require 'nokogiri'
 require 'equivalent-xml'
 
 describe FacetsHelper do
@@ -377,24 +376,37 @@ describe FacetsHelper do
   end
 
   describe "render_facet_value" do
-    it "should use facet_display_value" do
+    let (:item) { double(:value => 'A', :hits => 10) }
+    before do
       helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false))
- 
       helper.should_receive(:facet_display_value).and_return('Z')
-      helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-
-      expected  = Nokogiri::HTML "<span class=\"facet-label\"><a class=\"facet_select\" href=\"link\">Z</a></span><span class=\"facet-count\">10</span>"
-      rendered  = Nokogiri::HTML helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10))
-
-      rendered.should be_equivalent_to(expected).respecting_element_order
+      helper.should_receive(:add_facet_params_and_redirect).and_return({controller:'catalog'})
+    end
+    describe "simple case" do
+      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/\">Z</a></span><span class=\"facet-count\">10</span>" }
+      it "should use facet_display_value" do
+        result = helper.render_facet_value('simple_field', item)
+        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+      end
     end
 
-    it "should suppress the link" do
-      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false))
- 
-      helper.should_receive(:facet_display_value).and_return('Z')
-      helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10), :suppress_link => true).should == "<span class=\"facet-label\">Z</span><span class=\"facet-count\">10</span>"
+    describe "when :suppress_link is set" do
+      let(:expected_html) { "<span class=\"facet-label\">Z</span><span class=\"facet-count\">10</span>" }
+      it "should suppress the link" do
+        result = helper.render_facet_value('simple_field', item, :suppress_link => true)
+        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+      end
+    end
+
+    describe "when a route_set is passed" do
+      let(:my_engine) { double("Engine") }
+      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/\">Z</a></span><span class=\"facet-count\">10</span>" }
+
+      it "should use the engine scope" do
+        expect(my_engine).to receive(:url_for).and_return({controller: 'catalog'})
+        result = helper.render_facet_value('simple_field', item, route_set: my_engine)
+        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+      end
     end
   end
  

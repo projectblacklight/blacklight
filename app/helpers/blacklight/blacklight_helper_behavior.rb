@@ -447,11 +447,14 @@ module Blacklight::BlacklightHelperBehavior
     { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
   end
 
-  # link_back_to_catalog(:label=>'Back to Search')
   # Create a link back to the index screen, keeping the user's facet, query and paging choices intact by using session.
+  # @example
+  #   link_back_to_catalog(label: 'Back to Search')
+  #   link_back_to_catalog(label: 'Back to Search', route_set: my_engine)
   def link_back_to_catalog(opts={:label=>nil})
+    scope = opts.delete(:route_set) || self
     query_params = current_search_session.try(:query_params) || {}
-    link_url = url_for(query_params)
+    link_url = scope.url_for(query_params)
     label = opts.delete(:label)
 
     if link_url =~ /bookmarks/
