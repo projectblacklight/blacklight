@@ -92,6 +92,14 @@ span.constraints-label {
   }
 } 
 
+// Tools link on documetn show page
+.show-tools {
+  .bookmark_toggle {
+    padding: $nav-link-padding;
+  }
+}
+
+
 #sidebar form {
   margin: 0;
 }
