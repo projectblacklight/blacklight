@@ -5,11 +5,6 @@
       <%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %>
     </li>
     <% end %>
-    <% if has_user_authentication_provider? and current_user %>
-      <li>
-      <%= link_to t('blacklight.header_links.saved_searches'), saved_searches_path %>
-      </li>
-    <% end %>
     <li>
     <%= link_to t('blacklight.header_links.search_history'), search_history_path %>
     </li>

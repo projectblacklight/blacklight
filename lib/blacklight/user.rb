@@ -8,7 +8,6 @@ module Blacklight::User
   def self.included(base)
     if base.respond_to? :has_many
       base.send :has_many, :bookmarks, :dependent => :destroy, :as => :user
-      base.send :has_many, :searches,  :dependent => :destroy, :as => :user
     end
   end
 
@@ -20,10 +19,6 @@ module Blacklight::User
 
   def has_bookmarks?
     bookmarks.any?
-  end
-    
-  def has_searches?
-    searches.any?
   end
     
   def bookmarked_document_ids

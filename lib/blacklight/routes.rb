@@ -37,7 +37,7 @@ module Blacklight
 
     def default_route_sets
       # Order is important here.  (e.g. /catalog/email precedes /catalog/:id)
-      [:bookmarks, :search_history, :saved_searches, :export, :solr_document, :feedback]
+      [:bookmarks, :search_history, :export, :solr_document, :feedback]
     end
 
     module RouteSets
@@ -55,17 +55,6 @@ module Blacklight
         end
       end
   
-  
-      def saved_searches(_)
-        add_routes do |options|
-          delete "saved_searches/clear",       :to => "saved_searches#clear",   :as => "clear_saved_searches"
-          get "saved_searches",       :to => "saved_searches#index",   :as => "saved_searches"
-          put "saved_searches/save/:id",    :to => "saved_searches#save",    :as => "save_search"
-          delete "saved_searches/forget/:id",  :to => "saved_searches#forget",  :as => "forget_search"
-          post "saved_searches/forget/:id",  :to => "saved_searches#forget"
-        end
-      end
-    
       def catalog(_=nil)
         Deprecation.warn(Blacklight::Routes, "Blacklight::Routes.catalog is deprecated and will be removed in Blacklight 6.0.  Use Blacklight::Routes.map_resource(:catalog) instead.")
         map_resource(:catalog)

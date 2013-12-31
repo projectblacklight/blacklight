@@ -18,20 +18,6 @@ describe Search do
     end
   end
   
-  describe "saved?" do
-    it "should be true when user_id is not NULL and greater than 0" do
-      @search = Search.new
-      @search.user_id = 1
-      @search.save
-
-      @search.saved?.should be_true
-    end
-    it "should be false when user_id is NULL or less than 1" do
-      @search = Search.create
-      @search.saved?.should_not be_true
-    end
-  end
-  
   describe "delete_old_searches" do
     it "should throw an ArgumentError if days_old is not a number" do
       lambda { Search.delete_old_searches("blah") }.should raise_error(ArgumentError)
@@ -42,28 +28,16 @@ describe Search do
     it "should throw an ArgumentError if days_old is less than 0" do
       lambda { Search.delete_old_searches(-1) }.should raise_error(ArgumentError)
     end
-    it "should destroy searches with no user_id that are older than X days" do
+    it "should destroy searches that are older than X days" do
       Search.destroy_all
       days_old = 7
       unsaved_search_today = Search.new
-      unsaved_search_today.user_id = nil
       unsaved_search_today.created_at = Date.today
       unsaved_search_today.save
 
       unsaved_search_past = Search.new
-      unsaved_search_past.user_id = nil
       unsaved_search_past.created_at = Date.today - (days_old + 1).days
       unsaved_search_past.save
-
-      saved_search_today = Search.new
-      saved_search_today.user_id = 1
-      saved_search_today.created_at = Date.today
-      saved_search_today.save
-
-      saved_search_past = Search.new
-      saved_search_past.user_id = 1
-      saved_search_past.created_at = Date.today - (days_old + 1).days
-      saved_search_past.save
 
       lambda do
         Search.delete_old_searches(days_old)

@@ -47,29 +47,4 @@ describe "Search History Page" do
       expect(page).to_not have_content 'dang'
     end
   end
-
-  describe "when logged in" do
-    before do
-      sign_in 'user1'
-      fill_in "q", with: 'book'
-      click_button 'search'
-      click_link 'History'
-    end
-
-    it "should save and forget the search" do
-      click_button 'save'
-      expect(page).to have_content 'Successfully saved your search.'
-      click_button 'forget'
-      expect(page).to have_content 'Successfully removed that saved search.'
-      expect(page).to have_button 'save'
-    end
-
-    it "should not show results after logging out" do
-      click_button 'save'
-      expect(page).to have_content 'Successfully saved your search.'
-      click_link 'Log Out'
-      click_link 'History'
-      expect(page).to_not have_content 'book'
-    end
-  end
 end

@@ -45,14 +45,4 @@ describe "Blacklight::User" do
     subject.bookmarks.push(mock_bookmark(1))
     subject.documents_to_bookmark=[@md1]
   end
-
-  it "should know if it doesn't have a search" do
-    subject.has_searches?.should == false
-  end
-
-  it "should know if it has a search" do
-    subject.searches << Search.new
-    subject.has_searches?.should == true
-  end
-
 end    
