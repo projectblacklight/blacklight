@@ -7,9 +7,29 @@
     paginator:     the paginator that renders the pagination tags inside
 
    Paginator now using the Bootstrap paginator class
--%>
-<%- pagination_info_cache = render_pagination_info @response %>
 
-<%= paginator.render do -%>
-  <%= prev_page_tag %> |  <%= pagination_info_cache %> |  <%= next_page_tag %>
-<% end -%>
+   page_entries_info is passed into the paginate call, e.g. :
+
+   > paginate collection, :page_entries_info => page_entries_info(collection), :theme => :blacklight_compact
+
+   As of Kaminari 0.15, this paginator doesn't have access to the original collection/scope, so it can't render the page entries info directly.
+-%>
+<% if total_pages > 1 -%>
+  <%# #render checks if total_pages > 1, so we can't put our fallback 
+  in here .. -%>
+  <%= paginator.render do -%>
+    <div class="page_links">
+      <%= prev_page_tag %> | 
+      <div class="page_entries">
+        <%= page_entries_info %>
+      </div> | 
+      <%= next_page_tag %>
+    </div>
+  <% end -%>
+<% else -%>
+    <div class="page_links">
+      <div class="page_entries">
+        <%= page_entries_info %>
+      </div>
+    </div> 
+<% end -%> 
