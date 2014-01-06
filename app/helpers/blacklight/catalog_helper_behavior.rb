@@ -28,7 +28,7 @@ module Blacklight::CatalogHelperBehavior
       entry_name = options[:entry_name] || t('blacklight.entry_name.default')
 
 
-      end_num = if render_grouped_response?
+      end_num = if render_grouped_response? response
         format_num(response.start + response.groups.length)
       else
         format_num(response.start + response.docs.length)
