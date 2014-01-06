@@ -8,7 +8,7 @@
 
    Paginator now using the Bootstrap paginator class
 -%>
-<%- pagination_info_cache = render_pagination_info @response %>
+<%- pagination_info_cache = page_entries_info @response %>
 
 <%= paginator.render do -%>
   <%= prev_page_tag %> |  <%= pagination_info_cache %> |  <%= next_page_tag %>

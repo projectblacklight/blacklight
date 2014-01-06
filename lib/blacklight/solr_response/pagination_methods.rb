@@ -15,6 +15,12 @@ module Blacklight::SolrResponse::PaginationMethods
     total
   end
 
+  def model_name
+    if !docs.empty? and docs.first.respond_to? :model_name
+      docs.first.model_name
+    end
+  end
+
   ## Methods in kaminari master that we'd like to use today.
   # Next page number in the collection
   def next_page
