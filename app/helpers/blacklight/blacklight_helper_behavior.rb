@@ -609,8 +609,8 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Should we render a grouped response (because the response 
   # contains a grouped response instead of the normal response) 
-  def render_grouped_response?
-    return @response.grouped?
+  def render_grouped_response? response = @response
+    return response.grouped?
   end
 
   ##

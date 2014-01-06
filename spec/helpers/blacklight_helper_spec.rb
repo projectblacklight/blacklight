@@ -670,9 +670,15 @@ describe BlacklightHelper do
 
 
   describe "render_grouped_response?" do
-    it "should check if the response contains grouped data" do
+    it "should check if the response ivar contains grouped data" do
       assign(:response, double("SolrResponse", :grouped? => true))
       expect(helper.render_grouped_response?).to be_true
+    end
+
+
+    it "should check if the response param contains grouped data" do
+      response = double("SolrResponse", :grouped? => true)
+      expect(helper.render_grouped_response?(response)).to be_true
     end
   end
 
