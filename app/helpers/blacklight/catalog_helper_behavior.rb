@@ -25,6 +25,25 @@ module Blacklight::CatalogHelperBehavior
   #
   def format_num(num); number_with_delimiter(num) end
 
+  #
+  # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
+  def render_pagination_info(response, options = {})
+      entry_name = options[:entry_name] || t('blacklight.entry_name.default')
+
+      end_num = if render_grouped_response?
+        format_num(response.start + response.groups.length)
+      else
+        format_num(response.start + response.docs.length)
+      end
+      
+      case response.total_count
+        when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
+        when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => response.current_page, :num_pages => response.total_pages, :start_num => format_num(response.start + 1) , :end_num => end_num, :total_num => response.total_count, :count => response.total_pages).html_safe
+      end
+  end
+  deprecation_deprecate :render_pagination_info
+
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
   # implementation
   #

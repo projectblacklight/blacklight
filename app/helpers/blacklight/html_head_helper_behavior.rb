@@ -1,4 +1,7 @@
 module Blacklight::HtmlHeadHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight 5.x'
+
   ##
   # This method should be included in any Blacklight layout, including
   # custom ones. It will output results of #render_js_includes,
@@ -59,11 +62,15 @@ module Blacklight::HtmlHeadHelperBehavior
   # stylesheet_links << ["stylesheet1.css", "stylesheet2.css", {:cache => "mykey"}]
   # javascript_includes << ["myjavascript.js", {:plugin => :myplugin} ]
   def render_head_content
-    render_stylesheet_includes +
-    render_js_includes +
-    render_extra_head_content +
+    Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+      render_stylesheet_includes +
+      render_js_includes +
+      render_extra_head_content
+    end +
     content_for(:head)
   end
+  
+  deprecation_deprecate :render_head_content
   
   ##
   # Assumes controller has a #stylesheet_link_tag method, array with
@@ -72,11 +79,13 @@ module Blacklight::HtmlHeadHelperBehavior
   # adding stylesheets. 
   def render_stylesheet_includes
     return "".html_safe unless respond_to?(:stylesheet_links)
-    
-    stylesheet_links.uniq.collect do |args|
-      stylesheet_link_tag(*args)
-    end.join("\n").html_safe
+    Deprecation.silence(Blacklight::LegacyControllerMethods) do
+      stylesheet_links.uniq.collect do |args|
+        stylesheet_link_tag(*args)
+      end.join("\n").html_safe
+    end
   end
+  deprecation_deprecate :render_stylesheet_includes
   
 
   ##
@@ -85,12 +94,15 @@ module Blacklight::HtmlHeadHelperBehavior
   # See #render_head_content for instructions on local code or plugins
   # adding js files. 
   def render_js_includes
-    return "".html_safe unless respond_to?(:javascript_includes)    
-  
-    javascript_includes.uniq.collect do |args|
-      javascript_include_tag(*args)
-    end.join("\n").html_safe
+    return "".html_safe unless respond_to?(:javascript_includes) 
+
+    Deprecation.silence(Blacklight::LegacyControllerMethods) do
+      javascript_includes.uniq.collect do |args|
+        javascript_include_tag(*args)
+      end.join("\n").html_safe
+    end
   end
+  deprecation_deprecate :render_js_includes
 
   ## 
   # Assumes controller has a #extra_head_content method
@@ -98,6 +110,9 @@ module Blacklight::HtmlHeadHelperBehavior
   def render_extra_head_content
     return "".html_safe unless respond_to?(:extra_head_content)
 
-    extra_head_content.join("\n").html_safe
+    Deprecation.silence(Blacklight::LegacyControllerMethods) do
+      extra_head_content.join("\n").html_safe
+    end
   end
+  deprecation_deprecate :render_extra_head_content
 end

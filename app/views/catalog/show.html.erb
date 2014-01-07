@@ -4,7 +4,7 @@
 
    
 <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) %>
-<% extra_head_content << render_link_rel_alternates %>
+<% Deprecation.silence(Blacklight::LegacyControllerMethods) { extra_head_content << render_link_rel_alternates } %>
 
 <%# this should be in a partial -%>
 <div id="document" class="<%= render_document_class %>">

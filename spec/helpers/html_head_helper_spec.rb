@@ -11,7 +11,10 @@ describe HtmlHeadHelper do
       end
     end
     it "should include script tags specified in controller#javascript_includes" do
-      html = helper.render_js_includes
+
+      html = Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+        helper.render_js_includes
+      end
 
       if Rails::VERSION::MAJOR == 4 
         html.should have_selector("script[src='/javascripts/some_js.js']")
@@ -40,7 +43,10 @@ describe HtmlHeadHelper do
       end
     end
     it "should render stylesheets specified in controller #stylesheet_links" do
-      html = helper.render_stylesheet_includes      
+
+      html = Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+        helper.render_stylesheet_includes
+      end
 
       if Rails::VERSION::MAJOR == 4 
         html.should have_selector("link[href='/stylesheets/my_stylesheet.css'][rel='stylesheet']")
@@ -65,7 +71,10 @@ describe HtmlHeadHelper do
     end
 
     it "should include content specified in controller#extra_head_content" do
-      html = helper.render_extra_head_content
+
+      html = Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+        helper.render_extra_head_content
+      end
 
       html.should have_selector("link[rel=a]")
       html.should have_selector("link[rel=b]")
@@ -77,9 +86,11 @@ describe HtmlHeadHelper do
   describe "render_head_content" do
     describe "with no methods defined" do
       it "should return empty string without complaint" do
-      lambda {helper.render_head_content}.should_not raise_error
-      helper.render_head_content.should be_blank
-      helper.render_head_content.html_safe?.should == true
+        Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+          lambda {helper.render_head_content}.should_not raise_error
+          helper.render_head_content.should be_blank
+          helper.render_head_content.html_safe?.should == true
+        end
       end
     end
     describe "with methods defined" do
@@ -99,7 +110,10 @@ describe HtmlHeadHelper do
       end
       before(:each) do
         helper.should_receive(:content_for).with(:head).and_return("<meta keywords=\"foo bar\"/>".html_safe)
-        @output = helper.render_head_content
+
+        @output = Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+          helper.render_head_content
+        end
       end
       it "should include extra_head_content" do
         @output.should have_selector("madeup_tag")
@@ -128,7 +142,10 @@ describe HtmlHeadHelper do
         helper.should_receive(:render_js_includes).and_return("".html_safe)
         helper.should_receive(:render_stylesheet_includes).and_return("".html_safe)
         helper.should_receive(:content_for).with(:head).and_return("".html_safe)
-        helper.render_head_content.should be_html_safe
+
+        Deprecation.silence(Blacklight::HtmlHeadHelperBehavior) do
+          helper.render_head_content.should be_html_safe
+        end
       end
     end
   end

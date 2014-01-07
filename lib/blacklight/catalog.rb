@@ -1,5 +1,8 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::Catalog   
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight 5.x'
+
   extend ActiveSupport::Concern
   
   include Blacklight::Base
@@ -28,8 +31,10 @@ module Blacklight::Catalog
       
       respond_to do |format|
         format.html { 
-          extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
-          extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+          Deprecation.silence(Blacklight::LegacyControllerMethods) do
+            extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') )
+            extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') )
+          end
         }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
@@ -201,7 +206,7 @@ module Blacklight::Catalog
     # include certain partials or not
     def adjust_for_results_view
       # deprecated in blacklight 4.x
-      ActiveSupport::Deprecation.warn("#adjust_for_results_view helper was deprecated in Blacklight 4.x")
+      Deprecation.warn(self, "#adjust_for_results_view helper was deprecated in Blacklight 4.x")
     end
 
     # extract the pagination info from the response object

@@ -14,7 +14,7 @@
       <% @page_title = t('blacklight.search.title', :application_name => application_name) %>
 
 
-      <% extra_head_content << render_opensearch_response_metadata.html_safe %>
+      <% Deprecation.silence(Blacklight::LegacyControllerMethods) { extra_head_content << render_opensearch_response_metadata.html_safe } %>
 
       <%= render 'search_header' %>
 

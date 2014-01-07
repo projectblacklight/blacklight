@@ -4,6 +4,10 @@
 # Methods added to this helper will be available to all templates in the hosting application
 #
 module Blacklight::BlacklightHelperBehavior
+
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight 5.x'
+
   include HashAsHiddenFieldsHelper
   include RenderConstraintsHelper
   include HtmlHeadHelper
@@ -61,14 +65,15 @@ module Blacklight::BlacklightHelperBehavior
   # collection of items to be rendered in the @sidebar
   # @deprecated
   def sidebar_items
-    ActiveSupport::Deprecation.warn("#sidebar_items helper is deprecated, and should be replaced by overriding the appropriate partial")
     @sidebar_items ||= []
   end
+  deprecation_deprecate :sidebar_items
 
   # collection of items to be rendered in the @topbar
   def topbar_items
     @topbar_items ||= []
   end
+  deprecation_deprecate :topbar_items
 
   def render_search_bar
     render :partial=>'catalog/search_form'
@@ -121,6 +126,7 @@ module Blacklight::BlacklightHelperBehavior
   # Field keys for the index fields
   # @deprecated
   def index_field_names document=nil
+    Deprecation.warn(self, "#index_field_names helper is deprecated, and should be replaced by overriding the appropriate partial")
     index_fields(document).keys
   end
 
@@ -129,6 +135,8 @@ module Blacklight::BlacklightHelperBehavior
   # @deprecated
   def index_field_labels document=nil
     # XXX DEPRECATED
+    Deprecation.warn(self, "#index_field_labels helper is deprecated, and should be replaced by overriding the appropriate partial")
+  
     Hash[*index_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
@@ -255,6 +263,8 @@ module Blacklight::BlacklightHelperBehavior
   # @deprecated
   def document_show_field_labels document=nil
     # XXX DEPRECATED
+    Deprecation.warn(self, "#document_show_field_labels helper is deprecated, and should be replaced by overriding the appropriate partial")
+    
     Hash[*document_show_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
