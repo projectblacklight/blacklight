@@ -2,13 +2,6 @@ module Blacklight::FacetsHelperBehavior
 
   include Blacklight::Facet
 
-  # used in the catalog/_facets partial
-  def facet_field_labels
-    # DEPRECATED
-    Hash[*blacklight_config.facet_fields.map { |key, facet| [key, facet.label] }.flatten]
-  end
-  
-
   def has_facet_values? fields = facet_field_names, options = {}
     facets_from_request(fields).any? { |display_facet| !display_facet.items.empty? }
   end
@@ -30,17 +23,12 @@ module Blacklight::FacetsHelperBehavior
   # @param [Hash] options parameters to use for rendering the facet limit partial
   #
   def render_facet_limit(display_facet, options = {})
-    if display_facet.is_a? String or display_facet.is_a? Symbol
-      $stderr.puts "DEPRECATION WARNING: Blacklight::FacetsHelper#render_facet_limit: use #render_facet_partials to render facets by field name"
-      return render_facet_partials([display_facet])
-    end
     return if not should_render_facet?(display_facet)
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.has_key?(:layout)
     options[:locals] ||= {}
     options[:locals][:solr_field] ||= display_facet.name 
-    options[:locals][:solr_fname] ||= display_facet.name # DEPRECATED
     options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
     options[:locals][:display_facet] ||= display_facet 
 

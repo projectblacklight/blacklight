@@ -190,25 +190,6 @@ module Blacklight::Solr::Document::MarcExport
     text
   end
 
-  ## DEPRECATED stuff left in for backwards compatibility, but should
-  # be gotten rid of eventually.
-
-  def to_zotero(format)
-    warn("[DEPRECATION]  Simply call document.export_as_openurl_kev to get an openURL kev context object suitable for including in a COinS; then have view code make the span for the COinS. ")
-    "<span class=\"Z3988\" title=\"#{export_as_openurl_kev(format)}\"></span>"
-  end
-
-  def to_apa
-    warn("[DEPRECATION] Call document.export_as_apa_citation instead.")
-    export_as_apa_citation
-  end
-
-  def to_mla
-    warn("[DEPRECATION] Call document.export_as_mla_citation instead.")
-  end
-  
-  
-
   protected
   
   # Main method for defining chicago style citation.  If we don't end up converting to using a citation formatting service
