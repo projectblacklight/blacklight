@@ -158,6 +158,7 @@ label.toggle_bookmark
 }
 
 #previousNextDocument {
+  @extend .clearfix;
   padding-top: 1px;
   padding-bottom: $padding-base-vertical;
 }
