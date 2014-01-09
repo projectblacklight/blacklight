@@ -150,8 +150,8 @@ describe CatalogController do
         let(:query_facet_items) { facets.last['items'] }
         let(:regular_facet_items) { facets.first['items'] }
         it "should have items with labels and values" do
-          query_facet_items.first['label'].should == 'within 5 Years'
-          query_facet_items.first['value'].should == 'years_5'
+          query_facet_items.first['label'].should == 'within 10 Years'
+          query_facet_items.first['value'].should == 'years_10'
           regular_facet_items.first['label'].should == "Book"
           regular_facet_items.first['value'].should == "Book"
         end
