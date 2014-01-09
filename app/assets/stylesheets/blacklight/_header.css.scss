@@ -21,4 +21,20 @@
     @extend .col-md-8;
     padding-left: 0;
   }
+  .submit-search-text {
+    // hide 'search' label at very small screens, magnifying glass
+    // icon should still be there. 
+    @media screen and (max-width: $screen-xs-min ) {      
+      // copied from .sr-only, sadly can't seem to use @extend in a media
+      // query like this, have to copy. 
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;    
+    }    
+  }
 }
