@@ -1,9 +1,7 @@
 <div id="sortAndPerPage" class="clearfix">
-   <%= render :partial => "paginate_compact", :object => @response %>
-   <div class="pull-right hidden-xs">
+  <%= render :partial => "paginate_compact", :object => @response %>
+  <div class="search-widgets pull-right">
     <%= render :partial => 'sort_widget' %>
-
     <%= render :partial => 'per_page_widget' %>
-    </div>
-
+  </div>
 </div>
