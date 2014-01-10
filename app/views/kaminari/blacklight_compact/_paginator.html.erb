@@ -20,7 +20,7 @@
   <%= paginator.render do -%>
     <div class="page_links">
       <%= prev_page_tag %> | 
-      <div class="page_entries">
+      <span class="page_entries">
         <%= page_entries_info %>
       </div> | 
       <%= next_page_tag %>
@@ -28,7 +28,7 @@
   <% end -%>
 <% else -%>
     <div class="page_links">
-      <div class="page_entries">
+      <span class="page_entries">
         <%= page_entries_info %>
       </div>
     </div> 
