@@ -185,18 +185,11 @@ describe FacetsHelper do
       @mock_facet = double(:name => 'basic_field', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'facet_limit', 
                                                          :locals => { 
-                                                            :solr_field => 'basic_field', 
-                                                            :solr_fname => 'basic_field',
+                                                            :solr_field => 'basic_field',
                                                             :facet_field => helper.blacklight_config.facet_fields['basic_field'],
                                                             :display_facet => @mock_facet  }
                                                         ))
       helper.render_facet_limit(@mock_facet)
-    end
-
-    it "should send a deprecation warning if the method is called using the old-style signature" do
-      helper.should_receive(:render_facet_partials).with(['asdf'])
-      $stderr.should_receive(:puts)
-      helper.render_facet_limit('asdf')
     end
 
     it "should render a facet _not_ declared in the configuration" do
