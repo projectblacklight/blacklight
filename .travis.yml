@@ -10,10 +10,6 @@ rvm:
 before_install:
   - gem install bundler 
 
-matrix:
-  allow_failures:
-    - rvm: 2.1.0
-
 gemfile:
   - gemfiles/rails3.gemfile
   - gemfiles/rails4.gemfile
