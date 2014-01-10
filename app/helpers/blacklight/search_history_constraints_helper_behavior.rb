@@ -29,13 +29,13 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   def render_search_to_s_filters(params)
     return "".html_safe unless params[:f]
 
-    params[:f].collect do |facet_field, value_list|
+    safe_join(params[:f].collect do |facet_field, value_list|
       render_search_to_s_element(facet_configuration_for_field(facet_field).label,
-        value_list.collect do |value|
+        safe_join(value_list.collect do |value|
           render_filter_value(value, facet_field)
-        end.join(content_tag(:span, " #{t('blacklight.and')} ", :class =>'filterSeparator')).html_safe
+        end, content_tag(:span, " #{t('blacklight.and')} ", :class =>'filterSeparator'))
       )    
-    end.join(" \n ").html_safe    
+    end, " \n ".html_safe)
   end
 
   # value can be Array, in which case elements are joined with

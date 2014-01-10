@@ -22,9 +22,8 @@ describe RenderConstraintsHelper do
     end
     it "should have a link relative to the current url" do
       result = helper.render_filter_element('type', ['journal'], {:q=>'biz'})
-      result.size.should == 1
       # I'm not certain how the ampersand gets in there. It's not important.
-      result.first.should have_selector "a[href='/?&q=biz']"
+      result.should have_selector "a[href='/?&q=biz']"
     end
   end
 
