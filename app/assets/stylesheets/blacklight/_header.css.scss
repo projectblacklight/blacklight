@@ -21,6 +21,10 @@
     @extend .col-md-8;
     padding-left: 0;
   }
+
+  .search-query-form {
+    border: 0;
+  }
   .submit-search-text {
     // hide 'search' label at very small screens, magnifying glass
     // icon should still be there. 
