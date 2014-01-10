@@ -19,6 +19,8 @@ describe "catalog/_document" do
     expect(rendered).to match /document_header/
     expect(rendered).to match /thumbnail_default/
     expect(rendered).to match /index_default/
+    expect(rendered).to have_selector('div.document[@itemscope]')
+    expect(rendered).to have_selector('div.document[@itemtype="http://schema.org/Thing"]')
   end
 
 

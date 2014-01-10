@@ -292,13 +292,20 @@ describe BlacklightHelper do
       @document = SolrDocument.new('title_display' => "A Fake Document")
 
       render_document_heading.should have_selector("h4", :text => "A Fake Document", :count => 1)
-      render_document_heading.html_safe?.should == true
+      expect(render_document_heading).to be_html_safe
      end
+
+     it "should have a schema.org itemprop for name" do
+      @document = SolrDocument.new('title_display' => "A Fake Document")
+
+      render_document_heading.should have_selector("h4[@itemprop='name']", :text => "A Fake Document")
+     end
+
      it "should join the values if it is an array" do
       @document = SolrDocument.new('title_display' => ["A Fake Document", 'Something Else'])
 
       render_document_heading.should have_selector("h4", :text => "A Fake Document, Something Else", :count => 1)
-      render_document_heading.html_safe?.should == true
+      expect(render_document_heading).to be_html_safe
      end
    end
 
@@ -718,7 +725,11 @@ describe BlacklightHelper do
     end
 
     it "should use the separator from the Blacklight field configuration by default" do
-      expect(helper.render_field_value(['c', 'd'], double(:separator => '; '))).to eq "c; d"
+      expect(helper.render_field_value(['c', 'd'], double(:separator => '; ', :itemprop => nil))).to eq "c; d"
+    end
+
+    it "should include schema.org itemprop attributes" do
+      expect(helper.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a") 
     end
   end
 end
