@@ -16,6 +16,9 @@ if ENV['COVERAGE'] and RUBY_VERSION =~ /^1.9/ and ruby_engine != "jruby"
   end
 end
 
+require 'blacklight'
+require 'blacklight_marc'
+
 require 'engine_cart'
 EngineCart.load_application!
 

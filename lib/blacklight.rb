@@ -9,7 +9,6 @@ module Blacklight
   autoload :SearchFields, 'blacklight/search_fields'
 
   autoload :Solr, 'blacklight/solr'
-  autoload :Marc, 'blacklight/marc'
   
   autoload :SolrHelper, 'blacklight/solr_helper'
   

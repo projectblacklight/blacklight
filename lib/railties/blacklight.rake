@@ -10,6 +10,15 @@ namespace :blacklight do
     Search.delete_old_searches(args[:days_old].to_i)
   end
 
+  namespace :solr do
+    desc "Put sample data into solr"
+    task :seed do
+      docs = YAML::load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
+      Blacklight.solr.add docs
+      Blacklight.solr.commit
+    end
+  end
+
 end
   
 

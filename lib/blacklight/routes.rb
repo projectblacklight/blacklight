@@ -98,11 +98,7 @@ module Blacklight
           resources :solr_document, args.merge(path: primary_resource, controller: primary_resource)
 
           # :show and :update are for backwards-compatibility with catalog_url named routes
-          resources primary_resource, args do
-            member do
-              get 'librarian_view', :to => "catalog#librarian_view", :as => "librarian_view"
-            end
-          end
+          resources primary_resource, args
         end
       end
   
