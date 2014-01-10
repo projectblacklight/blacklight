@@ -14,8 +14,7 @@ group :test do
   gem 'rspec-rails', '~> 2.13'
   gem 'generator_spec'
   gem 'poltergeist'
-  gem 'simplecov', :platform => :mri_19
-  gem 'simplecov-rcov', :platform => :mri_19
+  gem 'simplecov'
 end
 
 gem 'jettywrapper', '>= 1.2.0'
