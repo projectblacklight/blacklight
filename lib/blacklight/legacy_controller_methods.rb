@@ -6,11 +6,15 @@
 # in here, but you may find them useful. 
 module Blacklight
   module LegacyControllerMethods 
-  	extend ActiveSupport::Concern
+    extend ActiveSupport::Concern
+
+    extend Deprecation
+    self.deprecation_horizon = 'Blacklight 5.x'
+
 
     included do
 
-      before_filter :default_html_head # add JS/stylesheet stuff
+      before_filter :default_html_head_without_deprecation # add JS/stylesheet stuff
 
       helper_method :extra_head_content, :stylesheet_links, :javascript_includes
     end
@@ -25,21 +29,29 @@ module Blacklight
     # http://api.rubyonrails.org/classes/ActionController/Filters/ClassMethods.html
     # for how to turn off a filter in a sub-class and such.
     def default_html_head
- 
+      Deprecation.warn Blacklight::LegacyControllerMethods, "#default_html_head is deprecated"
     end
     
+    def default_html_head_without_deprecation
+      Deprecation.silence(Blacklight::LegacyControllerMethods) do
+        default_html_head
+      end
+    end
     
     # An array of strings to be added to HTML HEAD section of view.
     # See ApplicationHelper#render_head_content for details.
     def extra_head_content
+      Deprecation.warn Blacklight::LegacyControllerMethods, "#extra_head_content is deprecated"
+
       @extra_head_content ||= []
     end
 
-    
     # Array, where each element is an array of arguments to
     # Rails stylesheet_link_tag helper. See
     # ApplicationHelper#render_head_content for details.
     def stylesheet_links
+      Deprecation.warn Blacklight::LegacyControllerMethods, "#stylesheet_links is deprecated"
+
       @stylesheet_links ||= []
     end
     
@@ -47,6 +59,8 @@ module Blacklight
     # Rails javascript_include_tag helper. See
     # ApplicationHelper#render_head_content for details.
     def javascript_includes
+      Deprecation.warn Blacklight::LegacyControllerMethods, "#javascript_includes is deprecated"
+
       @javascript_includes ||= []
     end
     

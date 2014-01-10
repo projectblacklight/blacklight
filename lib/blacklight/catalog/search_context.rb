@@ -30,11 +30,19 @@ module Blacklight::Catalog::SearchContext
       find_or_initialize_search_session_from_params params
     elsif params[:search_context] and !params[:search_context].blank?
       find_or_initialize_search_session_from_params JSON.load(params[:search_context])
-    elsif params[:search_id] and !params[:search_id].blank?
-      # TODO : check the search id signature.
-      searches_from_history.find(params[:search_id]) rescue nil
+    elsif params[:search_id].present?
+      begin
+        # TODO : check the search id signature.      
+        searches_from_history.find(params[:search_id])
+      rescue ActiveRecord::RecordNotFound
+        nil
+      end
     elsif search_session[:id]
-      searches_from_history.find(search_session[:id]) rescue nil
+      begin
+        searches_from_history.find(search_session[:id])
+      rescue ActiveRecord::RecordNotFound
+        nil
+      end
     end
 
     if @current_search_session

@@ -16,6 +16,9 @@ require 'rsolr'
 #
 
 module Blacklight::Solr::Document
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight 5.x'
+
   autoload :Marc, 'blacklight/solr/document/marc'
   autoload :MarcExport, 'blacklight/solr/document/marc_export'
   autoload :DublinCore, 'blacklight/solr/document/dublin_core'
@@ -159,7 +162,10 @@ module Blacklight::Solr::Document
     attr_writer :unique_key
     def unique_key
       # XXX Blacklight.config[:unique_key] should be deprecated soon
-      @unique_key ||= Blacklight.config[:unique_key] if Blacklight.respond_to?(:config) and Blacklight.config[:unique_key]
+      if Blacklight.respond_to?(:config) and Blacklight.config[:unique_key]
+        Deprecation.warn(self, "Setting the unique key using Blacklight.config[:unique_key] has been deprecated. Use the SolrDocument.unique_key= setter instead")
+        @unique_key ||= Blacklight.config[:unique_key] 
+      end
       @unique_key ||= 'id' 
 
       @unique_key

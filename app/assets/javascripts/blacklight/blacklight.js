@@ -60,4 +60,4 @@
         };
 */
 
-$('.no-js').removeClass('no-js')
+$('.no-js').removeClass('no-js').addClass('js');
