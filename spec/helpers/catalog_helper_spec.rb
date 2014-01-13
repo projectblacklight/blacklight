@@ -109,6 +109,13 @@ describe CatalogHelper do
       html.html_safe?.should == true
     end
 
+    it "uses delimiters with large numbers" do
+      @response = mock_response :total => 5000, :rows => 10, :current_page => 101
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+
+      html.should == "<strong>1,001</strong> - <strong>1,010</strong> of <strong>5,000</strong>"
+    end
+
   end
 
   describe "should_autofocus_on_search_box?" do
