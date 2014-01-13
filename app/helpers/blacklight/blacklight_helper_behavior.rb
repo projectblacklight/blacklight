@@ -371,6 +371,12 @@ module Blacklight::BlacklightHelperBehavior
     "#{display_type.gsub("-"," ")}".parameterize("_").to_s
   end
 
+  def render_document_partials(doc, actions = [], locals ={})
+    safe_join(actions.map do |action_name|
+      render_document_partial(doc, action_name, locals)
+    end, "\n")
+  end
+
   # given a doc and action_name, this method attempts to render a partial template
   # based on the value of doc[:format]
   # if this value is blank (nil/empty) the "default" is used
