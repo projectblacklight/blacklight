@@ -24,7 +24,7 @@ module Blacklight::HashAsHiddenFieldsHelperBehavior
       end
     end
     
-    safe_join(hidden_fields, "\n".html_safe)
+    safe_join(hidden_fields, "\n")
   end
 
   protected

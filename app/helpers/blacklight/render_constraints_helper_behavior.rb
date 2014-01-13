@@ -43,7 +43,7 @@ module Blacklight::RenderConstraintsHelperBehavior
        content << render_filter_element(facet, values, localized_params)
      end
 
-     safe_join(content.flatten, "\n".html_safe)    
+     safe_join(content.flatten, "\n")    
   end
 
   def render_filter_element(facet, values, localized_params)
@@ -55,7 +55,7 @@ module Blacklight::RenderConstraintsHelperBehavior
                   :remove => url_for(remove_facet_params(facet, val, localized_params)),
                   :classes => ["filter", "filter-" + facet.parameterize]
                 )
-    end, "\n".html_safe)
+    end, "\n")
   end
 
   # Render a label/value constraint on the screen. Can be called

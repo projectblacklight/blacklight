@@ -35,7 +35,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
           render_filter_value(value, facet_field)
         end, content_tag(:span, " #{t('blacklight.and')} ", :class =>'filterSeparator'))
       )    
-    end, " \n ".html_safe)
+    end, " \n ")
   end
 
   # value can be Array, in which case elements are joined with

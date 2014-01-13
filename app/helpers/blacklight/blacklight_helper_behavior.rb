@@ -77,7 +77,7 @@ module Blacklight::BlacklightHelperBehavior
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
 
-    content_tag("div", safe_join(content, "\n".html_safe), :class=> wrapping_class)
+    content_tag("div", safe_join(content, "\n"), :class=> wrapping_class)
   end
 
   # Save function area for item detail 'show' view, normally
@@ -90,7 +90,7 @@ module Blacklight::BlacklightHelperBehavior
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
 
-    content_tag("div", safe_join(content, "\n".html_safe), :class=> wrapping_class)
+    content_tag("div", safe_join(content, "\n"), :class=> wrapping_class)
   end
 
   ##
