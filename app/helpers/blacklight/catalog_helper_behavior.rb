@@ -25,17 +25,21 @@ module Blacklight::CatalogHelperBehavior
   #
   # shortcut for built-in Rails helper, "number_with_delimiter"
   #
-  def format_num(num); number_with_delimiter(num) end
+  def format_num(num)
+    Deprecation.warn self, "#format_num is deprecated; use e.g. #number_with_delimiter directly"
+    number_with_delimiter(num)
+  end
 
   #
   # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
   def render_pagination_info(response, options = {})
+    Deprecation.silence(Blacklight::CatalogHelperBehavior) do 
       entry_name = options[:entry_name] || t('blacklight.entry_name.default')
 
       end_num = if render_grouped_response?
-        format_num(response.start + response.groups.length)
+        number_with_delimiter(response.start + response.groups.length)
       else
-        format_num(response.start + response.docs.length)
+        number_with_delimiter(response.start + response.docs.length)
       end
       
       case response.total_count
@@ -43,6 +47,7 @@ module Blacklight::CatalogHelperBehavior
         when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
         else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => response.current_page, :num_pages => response.total_pages, :start_num => format_num(response.start + 1) , :end_num => end_num, :total_num => response.total_count, :count => response.total_pages).html_safe
       end
+    end
   end
   deprecation_deprecate :render_pagination_info
 
@@ -74,15 +79,15 @@ module Blacklight::CatalogHelperBehavior
     end
 
     end_num = if collection.offset_value + end_num <= collection.total_count
-      format_num(collection.offset_value + end_num)
+      collection.offset_value + end_num
     else
-      format_num(collection.total_count)
+      collection.total_count
     end
       
     case collection.total_count
       when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name ).html_safe
       when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-      else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name, :current_page => collection.current_page, :num_pages => collection.total_pages, :start_num => format_num(collection.offset_value + 1) , :end_num => end_num, :total_num => format_num(collection.total_count), :count => collection.total_pages).html_safe
+      else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name, :current_page => collection.current_page, :num_pages => collection.total_pages, :start_num => number_with_delimiter(collection.offset_value + 1) , :end_num => number_with_delimiter(end_num), :total_num => number_with_delimiter(collection.total_count), :count => collection.total_pages).html_safe
     end
   end
 
@@ -99,7 +104,7 @@ module Blacklight::CatalogHelperBehavior
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change.
   def item_page_entry_info
-    t('blacklight.search.entry_pagination_info.other', :current => format_num(search_session[:counter]), :total => format_num(search_session[:total]), :count => search_session[:total].to_i).html_safe
+    t('blacklight.search.entry_pagination_info.other', :current => number_with_delimiter(search_session[:counter]), :total => number_with_delimiter(search_session[:total]), :count => search_session[:total].to_i).html_safe
   end
 
   # Look up search field user-displayable label
