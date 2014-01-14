@@ -12,12 +12,6 @@ module Blacklight::User
     end
   end
 
-  # This is left for backwards-compatibility
-  # Remove this in Blacklight 5.x
-  module InstanceMethods
-    include Blacklight::User
-  end
-
   def has_bookmarks?
     bookmarks.any?
   end
