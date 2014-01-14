@@ -97,14 +97,13 @@ module Blacklight::CatalogHelperBehavior
 
   def show_sort_and_per_page? response = nil
     response ||= @response
-    response.total > 1
+    !response.empty?
   end
 
   def should_autofocus_on_search_box?
     controller.is_a? Blacklight::Catalog and
       action_name == "index" and
-      params[:q].to_s.empty? and
-      params[:f].to_s.empty?
+      !has_search_parameters?
   end
 
   def has_thumbnail? document
