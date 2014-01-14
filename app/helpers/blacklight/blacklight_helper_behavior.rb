@@ -417,11 +417,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   #
-  # shortcut for built-in Rails helper, "number_with_delimiter"
-  #
-  def format_num(num); number_with_delimiter(num) end
-
-  #
   # link based helpers ->
   #
 
