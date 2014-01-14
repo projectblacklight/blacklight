@@ -117,7 +117,7 @@ describe CatalogHelper do
     end
 
     it "should work with an activerecord collection" do
-      50.times { Bookmark.create! :user_id => 1}
+      50.times { b = Bookmark.new;  b.user_id = 1; b.save! }
       html = helper.page_entries_info(Bookmark.page(1).per(25))
       expect(html).to eq "<strong>1</strong> - <strong>25</strong> of <strong>50</strong>"
     end

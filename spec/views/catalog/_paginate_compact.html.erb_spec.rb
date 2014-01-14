@@ -36,7 +36,7 @@ describe "catalog/_paginate_compact.html.erb" do
   end
 
   it "should render ActiveRecord collections" do
-    50.times { Bookmark.create! :user_id => 1}
+    50.times { b = Bookmark.new;  b.user_id = 1; b.save! }
     assign :response, Bookmark.page(1).per(25)
     render :partial => 'catalog/paginate_compact'
     expect(rendered).to have_selector "a[@rel=next]"
