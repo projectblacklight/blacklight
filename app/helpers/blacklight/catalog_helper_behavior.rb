@@ -178,6 +178,7 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def response_has_no_search_results?
-    @response.total == 0 
+    Deprecation.warn(self, "#response_has_no_search_results? is deprecated; use Response#empty? to check instead")
+    @response.empty?
   end
 end

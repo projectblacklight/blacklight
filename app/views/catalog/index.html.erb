@@ -20,7 +20,7 @@
 
       <h2 class="hide-text"><%= t('blacklight.search.search_results') %></h2>
 
-      <%- if response_has_no_search_results? %>
+      <%- if @response.empty? %>
         <%= render "zero_results" %>
       <%- elsif render_grouped_response? %>
         <%= render_grouped_document_index %>
