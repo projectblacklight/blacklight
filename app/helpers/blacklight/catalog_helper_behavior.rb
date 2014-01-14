@@ -133,8 +133,4 @@ module Blacklight::CatalogHelperBehavior
   def add_group_facet_params_and_redirect group
     add_facet_params_and_redirect(group.field, group.key)
   end
-
-  def response_has_no_search_results?
-    @response.total == 0 
-  end
 end
