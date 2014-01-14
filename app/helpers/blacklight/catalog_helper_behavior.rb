@@ -53,9 +53,9 @@ module Blacklight::CatalogHelperBehavior
     entry_name = if options[:entry_name]
       options[:entry_name]
     elsif collection.respond_to? :model  # DataMapper
-        collection.model.model_name.humanize.downcase
+        collection.model.model_name.human.downcase
     elsif collection.respond_to? :model_name and !collection.model_name.nil? # AR, Blacklight::PaginationMethods
-        collection.model_name.humanize.downcase
+        collection.model_name.human.downcase
     elsif collection.is_a?(::Kaminari::PaginatableArray)
       'entry'
     else
@@ -80,7 +80,7 @@ module Blacklight::CatalogHelperBehavior
     case collection.total_count
       when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name ).html_safe
       when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-      else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name, :current_page => collection.current_page, :num_pages => collection.total_pages, :start_num => format_num(collection.offset_value + 1) , :end_num => end_num, :total_num => collection.total_count, :count => collection.total_pages).html_safe
+      else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name, :current_page => collection.current_page, :num_pages => collection.total_pages, :start_num => format_num(collection.offset_value + 1) , :end_num => end_num, :total_num => format_num(collection.total_count), :count => collection.total_pages).html_safe
     end
   end
 

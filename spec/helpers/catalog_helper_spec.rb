@@ -62,7 +62,7 @@ describe CatalogHelper do
 
       it "should use the model_name from the response" do
         response = mock_response :total => 1
-        response.stub(:model_name).and_return('thingy')
+        response.stub(:model_name).and_return(double(:human => 'thingy'))
 
         html = page_entries_info(response)
         expect(html).to eq "<strong>1</strong> thingy found"
@@ -107,6 +107,13 @@ describe CatalogHelper do
       html = page_entries_info(@response, { :entry_name => 'entry_name' })
       html.should == "<strong>21</strong> - <strong>40</strong> of <strong>47</strong>"
       html.html_safe?.should == true
+    end
+
+    it "uses delimiters with large numbers" do
+      @response = mock_response :total => 5000, :rows => 10, :current_page => 101
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+
+      html.should == "<strong>1,001</strong> - <strong>1,010</strong> of <strong>5,000</strong>"
     end
 
   end
