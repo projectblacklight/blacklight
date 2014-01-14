@@ -5,7 +5,6 @@
 module Blacklight::Controller 
 
   extend ActiveSupport::Concern
-  include Blacklight::LegacyControllerMethods
   
   included do
     include Blacklight::SearchFields
