@@ -1,13 +1,6 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::CatalogHelperBehavior
 
-  # Pass in an RSolr::Response (or duck-typed similar) object,
-  # it translates to a Kaminari-paginatable
-  # object, with the keys Kaminari views expect.
-  def paginate_params(response)
-    response
-  end
-
   # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument.
   # Will convert it to something kaminari can deal with (using #paginate_params), and
   # then call kaminari paginate with that. Other arguments (options and block) same as
