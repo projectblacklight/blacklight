@@ -116,6 +116,12 @@ describe CatalogHelper do
       html.should == "<strong>1,001</strong> - <strong>1,010</strong> of <strong>5,000</strong>"
     end
 
+    it "should work with an activerecord collection" do
+      50.times { Bookmark.create! :user_id => 1}
+      html = helper.page_entries_info(Bookmark.page(1).per(25))
+      expect(html).to eq "<strong>1</strong> - <strong>25</strong> of <strong>50</strong>"
+    end
+
   end
 
   describe "should_autofocus_on_search_box?" do
