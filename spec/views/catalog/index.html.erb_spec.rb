@@ -23,7 +23,7 @@ describe "catalog/index.html.erb" do
     view.stub(:blacklight_config).and_return(Blacklight::Configuration.new)
     view.stub(:has_search_parameters?).and_return(true)
     view.stub(:render_opensearch_response_metadata).and_return("")
-    view.stub(:response_has_no_search_results?).and_return(true)
+    assign(:response, double(:empty? => true))
     render
     expect(rendered).to match /header_content/
   end
