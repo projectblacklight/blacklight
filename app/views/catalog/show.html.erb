@@ -5,9 +5,9 @@
    
 <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) -%>
 <% content_for(:head) { render_link_rel_alternates } -%>
-
 <%# this should be in a partial -%>
-<div id="document" class="document <%= render_document_class %>">
+
+<div id="document" class="document <%= render_document_class %>" itemscope  itemtype="<%= @document.itemtype %>">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
   
     <% # bookmark/folder functions -%>

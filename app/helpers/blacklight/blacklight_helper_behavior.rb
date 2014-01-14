@@ -189,7 +189,7 @@ module Blacklight::BlacklightHelperBehavior
 
     tag ||= :h4
 
-    content_tag(tag, render_field_value(document_heading(document)))
+    content_tag(tag, render_field_value(document_heading(document)), :itemprop => "name")
   end
 
   # Used in the show view for setting the main html document title
@@ -316,6 +316,11 @@ module Blacklight::BlacklightHelperBehavior
 
   def render_field_value value=nil, field_config=nil
     safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
+
+    if field_config and field_config.itemprop
+      safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
+    end
+
     safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
   end
 
