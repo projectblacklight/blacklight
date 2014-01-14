@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe Blacklight::Solr::Document::MoreLikeThis do
   before(:all) do
@@ -10,9 +10,9 @@ describe Blacklight::Solr::Document::MoreLikeThis do
   it "should pluck the MoreLikeThis results from the Solr Response" do
     mock_solr_response = double(:more_like => [{'id' => 'abc'}])
     result = @mock_class.new({:id => '123'}, mock_solr_response).more_like_this
-    result.should have(1).item
-    result.first.should be_a_kind_of(SolrDocument)
-    result.first.id.should == 'abc'
-    result.first.solr_response.should == mock_solr_response
+    expect(result).to have(1).item
+    expect(result.first).to be_a_kind_of(SolrDocument)
+    expect(result.first.id).to eq 'abc'
+    expect(result.first.solr_response).to eq mock_solr_response
   end 
 end

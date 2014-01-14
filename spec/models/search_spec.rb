@@ -24,23 +24,23 @@ describe Search do
       @search.user_id = 1
       @search.save
 
-      @search.saved?.should be_true
+      expect(@search).to be_saved
     end
     it "should be false when user_id is NULL or less than 1" do
       @search = Search.create
-      @search.saved?.should_not be_true
+      expect(@search).not_to be_saved
     end
   end
   
   describe "delete_old_searches" do
     it "should throw an ArgumentError if days_old is not a number" do
-      lambda { Search.delete_old_searches("blah") }.should raise_error(ArgumentError)
+      expect { Search.delete_old_searches("blah") }.to raise_error(ArgumentError)
     end
     it "should throw an ArgumentError if days_old is equal to 0" do
-      lambda { Search.delete_old_searches(0) }.should raise_error(ArgumentError)
+      expect { Search.delete_old_searches(0) }.to raise_error(ArgumentError)
     end
     it "should throw an ArgumentError if days_old is less than 0" do
-      lambda { Search.delete_old_searches(-1) }.should raise_error(ArgumentError)
+      expect { Search.delete_old_searches(-1) }.to raise_error(ArgumentError)
     end
     it "should destroy searches with no user_id that are older than X days" do
       Search.destroy_all
@@ -65,9 +65,9 @@ describe Search do
       saved_search_past.created_at = Date.today - (days_old + 1).days
       saved_search_past.save
 
-      lambda do
+      expect do
         Search.delete_old_searches(days_old)
-      end.should change(Search, :count).by(-1)
+      end.to change(Search, :count).by(-1)
     end
     
   end

@@ -1,5 +1,5 @@
-# -*- encoding : utf-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
+
 describe CatalogHelper do
   include ERB::Util
   include CatalogHelper
@@ -31,16 +31,16 @@ describe CatalogHelper do
       @response = mock_response :total => 0
 
       html = page_entries_info(@response, { :entry_name => 'entry_name' })
-      html.should == "No entry_names found"
-      html.html_safe?.should == true
+      expect(html).to eq "No entry_names found"
+      expect(html).to be_html_safe
     end
 
     it "with no results (and no entry_name provided)" do
       @response = mock_response :total => 0
 
       html = page_entries_info(@response)
-      html.should == "No entries found"
-      html.html_safe?.should == true
+      expect(html).to eq "No entries found"
+      expect(html).to be_html_safe
     end
 
     describe "with a single result" do
@@ -48,16 +48,16 @@ describe CatalogHelper do
         response = mock_response :total => 1
 
         html = page_entries_info(response, { :entry_name => 'entry_name' })
-        html.should == "<strong>1</strong> entry_name found"
-        html.html_safe?.should == true
+        expect(html).to eq "<strong>1</strong> entry_name found"
+        expect(html).to be_html_safe
       end
 
       it "should infer a name" do
         response = mock_response :total => 1
 
         html = page_entries_info(response)
-        html.should == "<strong>1</strong> entry found"
-        html.html_safe?.should == true
+        expect(html).to eq "<strong>1</strong> entry found"
+        expect(html).to be_html_safe
       end
 
       it "should use the model_name from the response" do
@@ -74,46 +74,46 @@ describe CatalogHelper do
       response = mock_response :total => 7
 
       html = page_entries_info(response, { :entry_name => 'entry_name' })
-      html.should == "<strong>1</strong> - <strong>7</strong> of <strong>7</strong>"
-      html.html_safe?.should == true
+      expect(html).to eq "<strong>1</strong> - <strong>7</strong> of <strong>7</strong>"
+      expect(html).to be_html_safe
     end
 
     it "on the first page of multiple pages of results" do
       @response = mock_response :total => 15, :per_page => 10
 
       html = page_entries_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>1</strong> - <strong>10</strong> of <strong>15</strong>"
-      html.html_safe?.should == true
+      expect(html).to eq "<strong>1</strong> - <strong>10</strong> of <strong>15</strong>"
+      expect(html).to be_html_safe
     end
 
     it "on the second page of multiple pages of results" do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 2
 
       html = page_entries_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>11</strong> - <strong>20</strong> of <strong>47</strong>"
-      html.html_safe?.should == true
+      expect(html).to eq "<strong>11</strong> - <strong>20</strong> of <strong>47</strong>"
+      expect(html).to be_html_safe
     end
 
     it "on the last page of results" do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 5
 
       html = page_entries_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>41</strong> - <strong>47</strong> of <strong>47</strong>"
-      html.html_safe?.should == true
+      expect(html).to eq "<strong>41</strong> - <strong>47</strong> of <strong>47</strong>"
+      expect(html).to be_html_safe
     end
     it "should work with rows the same as per_page" do
       @response = mock_response :total => 47, :rows => 20, :current_page => 2
 
       html = page_entries_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>21</strong> - <strong>40</strong> of <strong>47</strong>"
-      html.html_safe?.should == true
+      expect(html).to eq "<strong>21</strong> - <strong>40</strong> of <strong>47</strong>"
+      expect(html).to be_html_safe
     end
 
     it "uses delimiters with large numbers" do
       @response = mock_response :total => 5000, :rows => 10, :current_page => 101
       html = page_entries_info(@response, { :entry_name => 'entry_name' })
 
-      html.should == "<strong>1,001</strong> - <strong>1,010</strong> of <strong>5,000</strong>"
+      expect(html).to eq "<strong>1,001</strong> - <strong>1,010</strong> of <strong>5,000</strong>"
     end
 
     it "should work with an activerecord collection" do

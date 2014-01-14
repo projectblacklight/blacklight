@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 describe ApplicationController do
@@ -7,7 +6,7 @@ describe ApplicationController do
   describe "#blacklight_config" do
 
     it "should provide a default blacklight_config everywhere" do
-      controller.blacklight_config.should == CatalogController.blacklight_config
+      expect(controller.blacklight_config).to eq CatalogController.blacklight_config
     end
   end
 

@@ -1,7 +1,4 @@
-# -*- encoding : utf-8 -*-
-# Spec tests for Paginator class found in lib/blacklight/solr/facet_paginator.rb
-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe 'Blacklight::Solr::FacetPaginator' do
   before(:all) do
@@ -18,14 +15,14 @@ describe 'Blacklight::Solr::FacetPaginator' do
       @paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :limit => 6)
     end
     it 'should have next' do
-      @paginator.should be_has_next
+      expect(@paginator).to have_next
     end
 
   end
   it 'should not have next when there are fewer results' do
     paginator = Blacklight::Solr::FacetPaginator.new(@six_facet_values, :offset => 0, :limit => @limit)
 
-    paginator.should_not be_has_next
+    expect(paginator).not_to have_next
   end
   context 'when offset is greater than 0' do
     before(:each) do
@@ -34,45 +31,45 @@ describe 'Blacklight::Solr::FacetPaginator' do
     end
   
     it 'should have previous' do    
-      @paginator.should be_has_previous
+      expect(@paginator).to have_previous
     end
 
   end
   it 'should not have previous when offset is 0' do
     paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 0, :limit => @limit)
 
-    paginator.should_not be_has_previous
+    expect(paginator).not_to have_previous
   end
   it 'should know a manually set sort, and produce proper sort url' do
       paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 100, :limit => @limit, :sort => 'index')
 
-      paginator.sort.should == 'index'
+      expect(paginator.sort).to eq 'index'
       
       click_params = paginator.params_for_resort_url('count', {})
 
-      click_params[ @sort_key ].should == 'count'
-      click_params[ @page_key ].should be_nil
+      expect(click_params[ @sort_key ]).to eq 'count'
+      expect(click_params[ @page_key ]).to be_nil
   end
   it 'should limit items to limit, if limit is smaller than items.length' do
     paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 100, :limit => 6, :sort => 'index')
-    paginator.items.length.should == 6
+    expect(paginator.items).to have(6).items
   end
   it 'should return all items when limit is greater than items.length' do
     paginator = Blacklight::Solr::FacetPaginator.new(@six_facet_values, :offset => 100, :limit => 6, :sort => 'index')
-    paginator.items.length.should == 6
+    expect(paginator.items).to have(6).items
   end
   describe "for a nil :limit" do
     before(:all) do
       @paginator = Blacklight::Solr::FacetPaginator.new(@seven_facet_values, :offset => 100, :limit => nil, :sort => 'index')
     end
     it 'should return all items' do
-      @paginator.items.should == @seven_facet_values      
+      expect(@paginator.items).to eq @seven_facet_values      
     end
     it 'should not has_next?' do
-      @paginator.should_not be_has_next
+      expect(@paginator).not_to have_next
     end
     it 'should not has_previous?' do
-      @paginator.should_not be_has_previous
+      expect(@paginator).not_to have_previous
     end
   end
   

@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 describe "catalog/_constraints_element.html.erb" do
@@ -7,9 +6,9 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value"}
     end
     it "should render label and value" do
-      rendered.should have_selector("span.appliedFilter.constraint") do |s|
-        s.should have_selector "span.filterName", :content => "my label"
-        s.should have_selector "span.filterValue", :content => "my value" 
+      expect(rendered).to have_selector("span.appliedFilter.constraint") do |s|
+        expect(s).to have_selector "span.filterName", :content => "my label"
+        expect(s).to have_selector "span.filterValue", :content => "my value" 
       end
     end
   end
@@ -19,14 +18,14 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:remove => "http://remove"}}
     end
     it "should include remove link" do
-      rendered.should have_selector("span.appliedFilter") do |s|
-        s.should have_selector(".remove[href='http://remove']")
+      expect(rendered).to have_selector("span.appliedFilter") do |s|
+        expect(s).to have_selector(".remove[href='http://remove']")
       end    
     end
 
     it "should have an accessible remove label" do
-      rendered.should have_selector(".remove") do |s|
-        s.should have_content("Remove constraint my label: my value")
+      expect(rendered).to have_selector(".remove") do |s|
+        expect(s).to have_content("Remove constraint my label: my value")
       end
     end
   end
@@ -36,8 +35,8 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:check => false}}
     end
     it "should not include checkmark" do
-      rendered.should have_selector("span.appliedFilter") do |s|
-        s.should_not have_selector("img[src$='checkmark.gif']")
+      expect(rendered).to have_selector("span.appliedFilter") do |s|
+        expect(s).to_not have_selector("img[src$='checkmark.gif']")
       end   
     end
   end
@@ -47,7 +46,7 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:classes => ["class1", "class2"]}}
     end
     it "should include them" do
-      rendered.should have_selector("span.appliedFilter.constraint.class1.class2")
+      expect(rendered).to have_selector("span.appliedFilter.constraint.class1.class2")
     end
   end
 
@@ -56,8 +55,8 @@ describe "catalog/_constraints_element.html.erb" do
       render( :partial => "catalog/constraints_element", :locals => {:label => "<span class='custom_label'>my label</span>", :value => "<span class='custom_value'>my value</span>", :options => {:escape_label => false, :escape_value => false}} )
     end
     it "should not escape key and value" do
-      rendered.should have_selector("span.appliedFilter.constraint span.filterName span.custom_label")
-      rendered.should have_selector("span.appliedFilter.constraint span.filterValue span.custom_value")
+      expect(rendered).to have_selector("span.appliedFilter.constraint span.filterName span.custom_label")
+      expect(rendered).to have_selector("span.appliedFilter.constraint span.filterValue span.custom_value")
     end
 
   end
