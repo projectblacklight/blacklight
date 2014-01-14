@@ -53,9 +53,9 @@ module Blacklight::CatalogHelperBehavior
     entry_name = if options[:entry_name]
       options[:entry_name]
     elsif collection.respond_to? :model  # DataMapper
-        collection.model.model_name.humanize.downcase
+        collection.model.model_name.human.downcase
     elsif collection.respond_to? :model_name and !collection.model_name.nil? # AR, Blacklight::PaginationMethods
-        collection.model_name.humanize.downcase
+        collection.model_name.human.downcase
     elsif collection.is_a?(::Kaminari::PaginatableArray)
       'entry'
     else

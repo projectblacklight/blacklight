@@ -70,12 +70,11 @@ describe Blacklight::SolrResponse do
   end
 
   it "should provide a model name helper" do
-    first_doc_model_name = 'xyz'
+    first_doc_model_name = double(:human => 'xyz')
 
     r.docs.first.stub(:model_name).and_return first_doc_model_name
 
     expect(r.model_name).to eq first_doc_model_name
-
   end
 
   describe "FacetItem" do

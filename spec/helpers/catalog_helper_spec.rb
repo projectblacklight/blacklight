@@ -62,7 +62,7 @@ describe CatalogHelper do
 
       it "should use the model_name from the response" do
         response = mock_response :total => 1
-        response.stub(:model_name).and_return('thingy')
+        response.stub(:model_name).and_return(double(:human => 'thingy'))
 
         html = page_entries_info(response)
         expect(html).to eq "<strong>1</strong> thingy found"
