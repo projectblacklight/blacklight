@@ -9,7 +9,7 @@
 
   <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% else %>
-  <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'btn btn-danger pull-right' %>
+  <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks btn btn-danger pull-right' %>
   <%= render 'sort_and_per_page' %>
   <%= render 'tools' %>
 
