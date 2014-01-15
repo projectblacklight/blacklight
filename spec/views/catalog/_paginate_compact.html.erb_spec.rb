@@ -29,6 +29,11 @@ describe "catalog/_paginate_compact.html.erb" do
     end
   end
 
+  it "should use Blacklight 5.x style rendering" do
+    render :partial => 'catalog/paginate_compact', :object => Kaminari.paginate_array([], total_count: 145).page(1).per(10)
+    expect(rendered).to have_selector "a[@rel=next]"
+  end
+
   it "should render paginatable arrays" do
     assign :response, Kaminari.paginate_array([], total_count: 145).page(1).per(10)
     render :partial => 'catalog/paginate_compact'
