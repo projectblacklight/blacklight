@@ -2,14 +2,17 @@
       <% # header bar for doc items in index view -%>
       <div class="documentHeader row">
         
-        <%- # main title container for doc partial view -%>
-         <h5 class="index_title col-sm-10">
+        <%# main title container for doc partial view 
+            How many bootstrap columns need to be reserved
+            for bookmarks control depends on size. 
+        -%>
+         <h5 class="index_title col-sm-9 col-lg-10">
          <% counter = document_counter_with_offset(document_counter) %>
          <%= t('blacklight.search.documents.counter', :counter => counter) if counter %>
          <%= link_to_document document, :label=>document_show_link_field(document), :counter => counter %>
         </h5>
 
         <% # bookmark functions for items/docs -%>
-        <%= render_index_doc_actions document, :wrapping_class => "documentFunctions col-sm-2" %>
+        <%= render_index_doc_actions document, :wrapping_class => "index-document-functions col-sm-3 col-lg-2" %>
       </div>
       

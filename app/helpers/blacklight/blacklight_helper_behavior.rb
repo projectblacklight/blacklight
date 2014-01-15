@@ -72,7 +72,7 @@ module Blacklight::BlacklightHelperBehavior
   # Save function area for search results 'index' view, normally
   # renders next to title.
   def render_index_doc_actions(document, options={})
-    wrapping_class = options.delete(:wrapping_class) || "documentFunctions"
+    wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
 
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
