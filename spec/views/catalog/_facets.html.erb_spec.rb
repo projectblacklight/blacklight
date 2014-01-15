@@ -8,7 +8,7 @@ describe "catalog/_facets" do
   it "should not have a header if no facets are displayed" do
     view.stub(:render_facet_partials => '')
     render
-    rendered.should_not have_selector('h4')
+    expect(rendered).to_not have_selector('h4')
   end
 
   it "should have a header" do
@@ -24,7 +24,7 @@ describe "catalog/_facets" do
 
     view.stub(:render_facet_partials => '')
     render
-    rendered.should have_selector('h4')
+    expect(rendered).to have_selector('h4')
   end
 
   describe "facet display" do
@@ -42,13 +42,13 @@ describe "catalog/_facets" do
 
     it "should have a(n accessible) header" do
       render
-      rendered.should have_selector('h5')
+      expect(rendered).to have_selector('h5')
     end
 
     it "should list values" do
       render
-      rendered.should have_selector('a.facet_select')
-      rendered.should have_selector('.facet-count')
+      expect(rendered).to have_selector('a.facet_select')
+      expect(rendered).to have_selector('.facet-count')
     end
 
   end

@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 # spec for sidebar partial in catalog show view
@@ -20,7 +19,7 @@ describe "/catalog/_show_sidebar.html.erb" do
   	@document = SolrDocument.new :id => 1, :title_s => 'abc', :format => 'default'
   	@document.stub(:more_like_this).and_return([SolrDocument.new({ 'id' => '2', 'title_display' => 'Title of MLT Document' })])
     render
-    rendered.should include_text("More Like This")
-    rendered.should include_text("Title of MLT Document")
+    expect(rendered).to include_text("More Like This")
+    expect(rendered).to include_text("Title of MLT Document")
   end
 end

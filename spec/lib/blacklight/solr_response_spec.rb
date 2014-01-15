@@ -1,5 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'blacklight'
+require 'spec_helper'
 
 describe Blacklight::SolrResponse do
 
@@ -11,21 +10,21 @@ describe Blacklight::SolrResponse do
   let(:r) { create_response }
 
   it 'should create a valid response' do
-    r.should respond_to(:header)
+    expect(r).to respond_to(:header)
   end
 
   it 'should have accurate pagination numbers' do
-    r.rows.should == 11
-    r.total.should == 26
-    r.start.should == 0
+    expect(r.rows).to eq 11
+    expect(r.total).to eq 26
+    expect(r.start).to eq 0
   end
 
   it 'should create a valid response class' do
-    r.should respond_to(:response)
-    r.docs.size.should == 11
-    r.params[:echoParams].should == 'EXPLICIT'
+    expect(r).to respond_to(:response)
+    expect(r.docs).to have(11).docs
+    expect(r.params[:echoParams]).to eq 'EXPLICIT'
     
-    r.should be_a(Blacklight::SolrResponse::Facets)
+    expect(r).to be_a(Blacklight::SolrResponse::Facets)
   end
 
   it 'should provide facet helpers' do
@@ -45,13 +44,13 @@ describe Blacklight::SolrResponse do
       item.value + ' - ' + item.hits.to_s
     end.join(', ')
 
-    received.should == expected
+    expect(received).to eq expected
 
     r.facets.each do |facet|
-      facet.respond_to?(:name).should == true
+      expect(facet).to respond_to :name
       facet.items.each do |item|
-        item.respond_to?(:value).should == true
-        item.respond_to?(:hits).should == true
+        expect(item).to respond_to :value
+        expect(item).to respond_to :hits
       end
     end
 

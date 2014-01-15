@@ -1,6 +1,4 @@
-#ste -*- encoding : utf-8 -*-
-# -*- coding: UTF-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe "Blacklight::Configurable" do
 
@@ -56,7 +54,7 @@ describe "Blacklight::Configurable" do
       Blacklight::Configurable.default_configuration = Blacklight::Configuration.new :a => 1
 
       a.send(:include, Blacklight::Configurable)
-      a.blacklight_config.a.should == 1
+      expect(a.blacklight_config.a).to eq 1
     end
     
     it "has configure_blacklight convenience method" do
@@ -67,7 +65,7 @@ describe "Blacklight::Configurable" do
         config.my_key = 'value'
       end 
       
-      klass.blacklight_config.my_key.should == 'value'
+      expect(klass.blacklight_config.my_key).to eq 'value'
     end
 
     it "allows the instance to set a radically different config from the class" do
@@ -78,8 +76,8 @@ describe "Blacklight::Configurable" do
       instance = klass.new
       instance.blacklight_config = Blacklight::Configuration.new
       
-      instance.blacklight_config.should_not == klass.blacklight_config
-      instance.blacklight_config.foo.should be_nil
+      expect(instance.blacklight_config).to_not eq klass.blacklight_config
+      expect(instance.blacklight_config.foo).to be_nil
     end
     
     it "allows instance to set it's own config seperate from class" do
@@ -94,11 +92,11 @@ describe "Blacklight::Configurable" do
       
       instance = klass.new
       instance.blacklight_config.bar << "123"
-      instance.blacklight_config.should_not == klass.blacklight_config
-      klass.blacklight_config.foo.should == "bar"
-      instance.blacklight_config.foo.should == "bar"
-      klass.blacklight_config.bar.should_not include("123")
-      instance.blacklight_config.bar.should include("asd", "123")
+      expect(instance.blacklight_config).to_not eq klass.blacklight_config
+      expect(klass.blacklight_config.foo).to eq "bar"
+      expect(instance.blacklight_config.foo).to eq  "bar"
+      expect(klass.blacklight_config.bar).to_not include("123")
+      expect(instance.blacklight_config.bar).to include("asd", "123")
     end
 
     it "configurable classes should not mutate the default configuration object" do
@@ -110,8 +108,8 @@ describe "Blacklight::Configurable" do
       klass2.send(:include, Blacklight::Configurable)
       klass2.blacklight_config.foo = "asdf"
 
-      klass.blacklight_config.foo.should == "bar"
-      klass2.blacklight_config.foo.should == "asdf"
+      expect(klass.blacklight_config.foo).to eq "bar"
+      expect(klass2.blacklight_config.foo).to eq "asdf"
     end
     
   end

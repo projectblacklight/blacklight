@@ -1,5 +1,4 @@
-# -*- encoding : utf-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe "Blacklight::User" do
 
@@ -47,12 +46,12 @@ describe "Blacklight::User" do
   end
 
   it "should know if it doesn't have a search" do
-    subject.has_searches?.should == false
+    expect(subject.has_searches?).to be_false
   end
 
   it "should know if it has a search" do
     subject.searches << Search.new
-    subject.has_searches?.should == true
+    expect(subject.has_searches?).to be_true
   end
 
 end    

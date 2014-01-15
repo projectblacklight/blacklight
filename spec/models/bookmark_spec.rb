@@ -10,15 +10,15 @@ describe Bookmark do
     @bookmark.id = 1
     @bookmark.user_id = 1
     @bookmark.document_id = 'u001'
-    @bookmark.should be_valid
+    expect(@bookmark).to be_valid
   end
    
   it "should require user_id" do
-    @bookmark.should have(1).error_on(:user_id)
+    expect(@bookmark).to have(1).error_on(:user_id)
   end
 
   it "should belong to user" do
-    Bookmark.reflect_on_association(:user).should_not be_nil
+    expect(Bookmark.reflect_on_association(:user)).not_to be_nil
   end
 
   it "should be valid after saving" do
@@ -26,6 +26,6 @@ describe Bookmark do
     @bookmark.user_id = 1
     @bookmark.document_id = 'u001'
     @bookmark.save
-    @bookmark.should be_valid
+    expect(@bookmark).to be_valid
   end
 end

@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 # spec for default partial to display solr document fields 
@@ -45,21 +44,21 @@ describe "/catalog/_index_default.erb" do
   end
 
   it "should only display fields listed in the initializer" do
-    @rendered.should_not include_text("val_2")
-    @rendered.should_not include_text(@fname_2)
+    expect(@rendered).to_not include_text("val_2")
+    expect(@rendered).to_not include_text(@fname_2)
   end
   
   it "should skip over fields listed in initializer that are not in solr response" do
-    @rendered.should_not include_text(@fname_3)
+    expect(@rendered).to_not include_text(@fname_3)
   end
 
   it "should display field labels from initializer and raw solr field names in the class" do
     # labels
-    @rendered.should include_text(@flabel_1)
-    @rendered.should include_text(@flabel_4)
+    expect(@rendered).to include_text(@flabel_1)
+    expect(@rendered).to include_text(@flabel_4)
     # classes    
-    @rendered.should include_text("blacklight-#{@fname_1}")
-    @rendered.should include_text("blacklight-#{@fname_4}")
+    expect(@rendered).to include_text("blacklight-#{@fname_1}")
+    expect(@rendered).to include_text("blacklight-#{@fname_4}")
   end
   
 # this test probably belongs in a Cucumber feature
@@ -68,9 +67,9 @@ describe "/catalog/_index_default.erb" do
 #  end
 
   it "should have values for displayed fields" do
-    @rendered.should include_text("val_1")
-    @rendered.should include_text("val_4")
-    @rendered.should_not include_text("val_2")
+    expect(@rendered).to include_text("val_1")
+    expect(@rendered).to include_text("val_4")
+    expect(@rendered).to_not include_text("val_2")
   end
 
 end
