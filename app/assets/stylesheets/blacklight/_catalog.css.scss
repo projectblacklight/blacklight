@@ -82,21 +82,21 @@ span.constraints-label {
     padding-top: $padding-base-vertical;
     border-bottom:1px dotted $table-border-color;
   }
-
-  .documentFunctions {
-    @extend .pull-right;
-
-    .bookmark_toggle
-    {
-      display:inline;
-    }
-  }
 } 
 
 // Tools link on documetn show page
 .show-tools {
   .bookmark_toggle {
     padding: $nav-link-padding;
+  }
+}
+
+// bookmarks checkbox on index, give it some
+// lower margin when it collapses
+.index-document-functions {
+  margin-bottom: ($line-height-computed / 2);
+  @media (min-width: $screen-sm-min) {
+    margin-bottom: 0;
   }
 }
 
@@ -180,10 +180,6 @@ label.toggle_bookmark
     float: none;
   }
 
-}
-
-.index_title {
-  float: left;
 }
 
 .document-thumbnail {
