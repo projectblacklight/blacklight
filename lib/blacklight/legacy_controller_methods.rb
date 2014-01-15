@@ -71,12 +71,18 @@ module Blacklight
     # don't use a layout, otherwise use the "application.html.erb" layout
     #
     def choose_layout
-      layout_name unless request.xml_http_request? || ! params[:no_layout].blank?
+      Deprecation.warn Blacklight::LegacyControllerMethods, "#choose_layout is deprecated"
+
+      Deprecation.silence(Blacklight::LegacyControllerMethods) do
+        layout_name unless request.xml_http_request? || ! params[:no_layout].blank?
+      end
     end
     
     #over-ride this one locally to change what layout BL controllers use, usually
     #by defining it in your own application_controller.rb
     def layout_name
+      Deprecation.warn Blacklight::LegacyControllerMethods, "#layout_name is deprecated"
+
       'blacklight'
     end
   end
