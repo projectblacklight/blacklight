@@ -8,6 +8,8 @@ module Blacklight::CatalogHelperBehavior
   # it translates to a Kaminari-paginatable
   # object, with the keys Kaminari views expect.
   def paginate_params(response)
+    Deprecation.warn self, "#paginate_params is deprecated; the original response object is Kaminari-compatible"
+
     response
   end
 
