@@ -90,6 +90,30 @@ describe BlacklightHelper do
   def current_search_session
 
   end
+  
+  describe "deprecated methods" do
+    describe "#index_field_names" do
+      it "should warn" do
+        expect(Blacklight::BlacklightHelperBehavior.deprecation_behavior.first).to receive(:call)
+        helper.stub(:index_fields => {})
+        helper.index_field_names
+      end
+    end
+    describe "#index_field_labels" do
+      it "should warn" do
+        expect(Blacklight::BlacklightHelperBehavior.deprecation_behavior.first).to receive(:call)
+        helper.stub(:index_fields => {})
+        helper.index_field_labels
+      end
+    end
+    describe "#document_show_field_labels" do
+      it "should warn" do
+        expect(Blacklight::BlacklightHelperBehavior.deprecation_behavior.first).to receive(:call)
+        helper.stub(:document_show_fields => {})
+        helper.document_show_field_labels
+      end
+    end
+  end
 
   describe "#application_name", :test => true do
     it "should use the Rails application config application_name if available" do

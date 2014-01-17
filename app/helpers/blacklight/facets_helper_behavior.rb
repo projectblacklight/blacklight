@@ -35,7 +35,7 @@ module Blacklight::FacetsHelperBehavior
   #
   def render_facet_limit(display_facet, options = {})
     if display_facet.is_a? String or display_facet.is_a? Symbol
-      Deprecation.warn(self, "Blacklight::FacetsHelper#render_facet_limit: use #render_facet_partials to render facets by field name")
+      Deprecation.warn(Blacklight::FacetsHelperBehavior, "Blacklight::FacetsHelper#render_facet_limit: use #render_facet_partials to render facets by field name")
       return render_facet_partials([display_facet])
     end
     return if not should_render_facet?(display_facet)

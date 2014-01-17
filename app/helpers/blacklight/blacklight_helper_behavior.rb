@@ -126,7 +126,7 @@ module Blacklight::BlacklightHelperBehavior
   # Field keys for the index fields
   # @deprecated
   def index_field_names document=nil
-    Deprecation.warn(self, "#index_field_names helper is deprecated, and should be replaced by overriding the appropriate partial")
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#index_field_names helper is deprecated, and should be replaced by overriding the appropriate partial")
     index_fields(document).keys
   end
 
@@ -135,7 +135,7 @@ module Blacklight::BlacklightHelperBehavior
   # @deprecated
   def index_field_labels document=nil
     # XXX DEPRECATED
-    Deprecation.warn(self, "#index_field_labels helper is deprecated, and should be replaced by overriding the appropriate partial")
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#index_field_labels helper is deprecated, and should be replaced by overriding the appropriate partial")
   
     Hash[*index_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
@@ -263,7 +263,7 @@ module Blacklight::BlacklightHelperBehavior
   # @deprecated
   def document_show_field_labels document=nil
     # XXX DEPRECATED
-    Deprecation.warn(self, "#document_show_field_labels helper is deprecated, and should be replaced by overriding the appropriate partial")
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#document_show_field_labels helper is deprecated, and should be replaced by overriding the appropriate partial")
     
     Hash[*document_show_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
