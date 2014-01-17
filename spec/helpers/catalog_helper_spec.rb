@@ -21,7 +21,33 @@ describe CatalogHelper do
   def render_grouped_response?
     false
   end
-  
+
+  describe "deprecated methods" do
+    describe "response_has_no_search_results?" do
+      it "should be deprecated" do
+        expect(Blacklight::CatalogHelperBehavior.deprecation_behavior.first).to receive(:call)
+        assign(:response, double(:empty? => false))
+        expect(helper.response_has_no_search_results?).to be_false
+      end
+    end
+    
+    describe "paginate_params" do
+      let(:response) { double }
+      it "should be deprecated" do
+        expect(Blacklight::CatalogHelperBehavior.deprecation_behavior.first).to receive(:call)
+        assign(:response, response)
+        expect(helper.paginate_params(response)).to eq response
+      end
+    end
+
+    describe "format_num" do
+      it "should be deprecated" do
+        expect(Blacklight::CatalogHelperBehavior.deprecation_behavior.first).to receive(:call)
+        expect(format_num(10000)).to eq '10,000'
+      end
+    end
+
+  end
   
   describe "page_entries_info" do
     before(:all) do

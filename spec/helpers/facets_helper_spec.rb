@@ -229,6 +229,13 @@ describe FacetsHelper do
       helper.should_receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
       helper.render_facet_limit(@mock_facet)
     end 
+
+    it "should be deprecated when a string is passed" do
+      expect(@response).to receive(:facet_by_field_name)
+      expect(Blacklight::FacetsHelperBehavior.deprecation_behavior.first).to receive(:call)
+      helper.render_facet_limit('basic_field')
+    end
+
   end
 
   describe "add_facet_params" do

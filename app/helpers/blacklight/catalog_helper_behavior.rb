@@ -8,7 +8,7 @@ module Blacklight::CatalogHelperBehavior
   # it translates to a Kaminari-paginatable
   # object, with the keys Kaminari views expect.
   def paginate_params(response)
-    Deprecation.warn self, "#paginate_params is deprecated; the original response object is Kaminari-compatible"
+    Deprecation.warn Blacklight::CatalogHelperBehavior, "#paginate_params is deprecated; the original response object is Kaminari-compatible"
 
     response
   end
@@ -26,7 +26,7 @@ module Blacklight::CatalogHelperBehavior
   # shortcut for built-in Rails helper, "number_with_delimiter"
   #
   def format_num(num)
-    Deprecation.warn self, "#format_num is deprecated; use e.g. #number_with_delimiter directly"
+    Deprecation.warn Blacklight::CatalogHelperBehavior, "#format_num is deprecated; use e.g. #number_with_delimiter directly"
     number_with_delimiter(num)
   end
 
@@ -178,7 +178,7 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def response_has_no_search_results?
-    Deprecation.warn(self, "#response_has_no_search_results? is deprecated; use Response#empty? to check instead")
+    Deprecation.warn(Blacklight::CatalogHelperBehavior, "#response_has_no_search_results? is deprecated; use Response#empty? to check instead")
     @response.empty?
   end
 end
