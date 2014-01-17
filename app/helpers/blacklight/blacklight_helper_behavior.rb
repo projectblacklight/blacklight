@@ -101,7 +101,8 @@ module Blacklight::BlacklightHelperBehavior
 
   def should_render_index_field? document, solr_field
     document.has?(solr_field.field) ||
-      (document.has_highlight_field? solr_field.field if solr_field.highlight)
+      (document.has_highlight_field? solr_field.field if solr_field.highlight) ||
+      solr_field.accessor
   end
 
   def spell_check_max
@@ -281,17 +282,44 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Get the value of a document's field after applying any value lookups, e.g.:
+  # Get the value for a document's field, and prepare to render it.
+  # - highlight_field
+  # - accessor
+  # - solr field
+  #
+  # Rendering:
   #   - helper_method
   #   - link_to_search
-  #   - highlight
   # TODO : maybe this should be merged with render_field_value, and the ugly signature 
   # simplified by pushing some of this logic into the "model"
   def get_field_values document, field, field_config, options = {}
+    # valuyes
+    value = case    
+      when (field_config and field_config.highlight)
+        # retrieve the document value from the highlighting response
+        document.highlight_field(field_config.field).map { |x| x.html_safe } if document.has_highlight_field? field_config.field
+      when (field_config and field_config.accessor)
+        # implicit method call
+        if field_config.accessor === true
+          document.send(field)
+        # arity-1 method call (include the field name in the call)
+        elsif !field_config.accessor.is_a?(Array) && document.method(field_config.accessor).arity != 0
+          document.send(field_config.accessor, field)
+        # chained method calls
+        else
+          Array(field_config.accessor).inject(document) do |result, method|
+            result.send(method)
+          end
+        end
+      else
+        # regular solr
+        document.get(field, :sep => nil) if field
+    end
 
+    # rendering
     case
       when (field_config and field_config.helper_method)
-        send(field_config.helper_method, options.merge(:document => document, :field => field))
+        send(field_config.helper_method, options.merge(:document => document, :field => field, :value => value))
       when (field_config and field_config.link_to_search)
         link_field = if field_config.link_to_search === true
           field_config.field
@@ -299,19 +327,18 @@ module Blacklight::BlacklightHelperBehavior
           field_config.link_to_search
         end
 
-        Array(document.get(field, :sep => nil)).map do |v|
+        Array(value).map do |v|
           link_to render_field_value(v, field_config), search_action_url(add_facet_params(link_field, v, {}))
         end if field
-      when (field_config and field_config.highlight)
-        document.highlight_field(field_config.field).map { |x| x.html_safe } if document.has_highlight_field? field_config.field
       else
-        document.get(field, :sep => nil) if field
-    end
+        value
+      end
   end
 
   def should_render_show_field? document, solr_field
     document.has?(solr_field.field) ||
-      (document.has_highlight_field? solr_field.field if solr_field.highlight)
+      (document.has_highlight_field? solr_field.field if solr_field.highlight) ||
+      solr_field.accessor
   end
 
   def render_field_value value=nil, field_config=nil
