@@ -519,6 +519,9 @@ describe BlacklightHelper do
         config.add_index_field 'link_to_search_true', :link_to_search => true
         config.add_index_field 'link_to_search_named', :link_to_search => :some_field
         config.add_index_field 'highlight', :highlight => true
+        config.add_index_field 'solr_doc_accessor', :accessor => true
+        config.add_index_field 'explicit_accessor', :accessor => :solr_doc_accessor
+        config.add_index_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
       end
       helper.stub(:blacklight_config).and_return(@config)
     end
@@ -532,7 +535,7 @@ describe BlacklightHelper do
 
     it "should check for a helper method to call" do
       doc = double()
-      doc.should_not_receive(:get).with('asdf', :sep => nil)
+      doc.should_receive(:get).with('asdf', :sep => nil)
       helper.stub(:render_asdf_index_field).and_return('custom asdf value')
       value = helper.render_index_field_value :document => doc, :field => 'asdf'
       expect(value).to eq 'custom asdf value'
@@ -582,6 +585,25 @@ describe BlacklightHelper do
       value = helper.render_index_field_value :document => doc, :field => 'mnbv'
       expect(value).to eq 'document mnbv value'
     end
+
+    it "should call an accessor on the solr document" do
+      doc = double(:solr_doc_accessor => "123")
+      value = helper.render_index_field_value :document => doc, :field => 'solr_doc_accessor'
+      expect(value).to eq "123"
+    end
+
+    it "should call an explicit accessor on the solr document" do
+      doc = double(:solr_doc_accessor => "123")
+      value = helper.render_index_field_value :document => doc, :field => 'explicit_accessor'
+      expect(value).to eq "123"
+    end
+
+    it "should call an implicit accessor on the solr document" do
+      doc = double()
+      expect(doc).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
+      value = helper.render_index_field_value :document => doc, :field => 'explicit_accessor_with_arg'
+      expect(value).to eq "123"
+    end
   end
 
 
@@ -593,7 +615,12 @@ describe BlacklightHelper do
         config.add_show_field 'link_to_search_true', :link_to_search => true
         config.add_show_field 'link_to_search_named', :link_to_search => :some_field
         config.add_show_field 'highlight', :highlight => true
+        config.add_show_field 'solr_doc_accessor', :accessor => true
+        config.add_show_field 'explicit_accessor', :accessor => :solr_doc_accessor
+        config.add_show_field 'explicit_array_accessor', :accessor => [:solr_doc_accessor, :some_method]
+        config.add_show_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
       end
+
       helper.stub(:blacklight_config).and_return(@config)
     end
 
@@ -607,7 +634,7 @@ describe BlacklightHelper do
 
     it "should check for a helper method to call" do
       doc = double()
-      doc.should_not_receive(:get).with('asdf', :sep => nil)
+      doc.should_receive(:get).with('asdf', :sep => nil)
       helper.stub(:render_asdf_document_show_field).and_return('custom asdf value')
       value = helper.render_document_show_field_value :document => doc, :field => 'asdf'
       expect(value).to eq 'custom asdf value'
@@ -658,6 +685,31 @@ describe BlacklightHelper do
       value = helper.render_document_show_field_value :document => doc, :field => 'mnbv'
       expect(value).to eq 'document mnbv value'
     end
+
+    it "should call an accessor on the solr document" do
+      doc = double(:solr_doc_accessor => "123")
+      value = helper.render_document_show_field_value :document => doc, :field => 'solr_doc_accessor'
+      expect(value).to eq "123"
+    end
+
+    it "should call an explicit accessor on the solr document" do
+      doc = double(:solr_doc_accessor => "123")
+      value = helper.render_document_show_field_value :document => doc, :field => 'explicit_accessor'
+      expect(value).to eq "123"
+    end
+
+    it "should call an explicit array-style accessor on the solr document" do
+      doc = double(:solr_doc_accessor => double(:some_method => "123"))
+      value = helper.render_document_show_field_value :document => doc, :field => 'explicit_array_accessor'
+      expect(value).to eq "123"
+    end
+
+    it "should call an accessor on the solr document with the field as an argument" do
+      doc = double()
+      expect(doc).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
+      value = helper.render_document_show_field_value :document => doc, :field => 'explicit_accessor_with_arg'
+      expect(value).to eq "123"
+    end
   end
 
   describe "#should_render_index_field?" do
@@ -673,6 +725,14 @@ describe BlacklightHelper do
       doc.stub(:has?).with('asdf').and_return(false)
       doc.stub(:has_highlight_field?).with('asdf').and_return(true)
       field_config = double(:field => 'asdf', :highlight => true)
+      helper.should_render_index_field?(doc, field_config).should == true
+    end
+
+    it "should if the field has a model accessor" do
+      doc = double()
+      doc.stub(:has?).with('asdf').and_return(false)
+      doc.stub(:has_highlight_field?).with('asdf').and_return(false)
+      field_config = double(:field => 'asdf', :highlight => true, :accessor => true)
       helper.should_render_index_field?(doc, field_config).should == true
     end
   end
@@ -692,6 +752,14 @@ describe BlacklightHelper do
       doc.stub(:has_highlight_field?).with('asdf').and_return(true)
       field_config = double(:field => 'asdf', :highlight => true)
       expect(helper.should_render_show_field?(doc, field_config)).to be_true
+    end
+
+    it "should if the field has a model accessor" do
+      doc = double()
+      doc.stub(:has?).with('asdf').and_return(false)
+      doc.stub(:has_highlight_field?).with('asdf').and_return(false)
+      field_config = double(:field => 'asdf', :highlight => true, :accessor => true)
+      helper.should_render_show_field?(doc, field_config).should == true
     end
   end
 
