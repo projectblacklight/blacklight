@@ -567,7 +567,7 @@ describe 'Blacklight::SolrHelper' do
           expect(params[:params][:'facet.field']).to eq ["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
           expect(params[:params][:"facet.query"]).to eq ["pub_date:[#{5.years.ago.year} TO *]", "pub_date:[#{10.years.ago.year} TO *]", "pub_date:[#{25.years.ago.year} TO *]"]
           expect(params[:params]).to include(:rows => 10, :qt=>"custom_request_handler", :q=>"", "spellcheck.q"=>"", :"f.subject_topic_facet.facet.limit"=>21, :sort=>"score desc, pub_date_sort desc, title_sort asc")
-        end.and_return({'response'=>{'docs'=>[]}})
+        end.and_return('{"response": {"docs": []}}')
         get_search_results(:q => @all_docs_query)
       end
 
@@ -856,7 +856,7 @@ describe 'Blacklight::SolrHelper' do
 
     it "should use a provided document request handler " do
       blacklight_config.stub(:document_solr_request_handler => 'document')
-      Blacklight.solr.should_receive(:get).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
+      Blacklight.solr.should_receive(:get).with('select', kind_of(Hash)).and_return('{"response": {"docs": []}}')
       expect { get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
     end
 
@@ -1087,7 +1087,7 @@ describe 'Blacklight::SolrHelper' do
 #  nearby on shelf
   it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
     Blacklight.solr.stub(:get).and_raise(Errno::ECONNREFUSED)
-    expect { find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
+    expect { find({:a => 123}, {}) }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
   describe "grouped_key_for_results" do
