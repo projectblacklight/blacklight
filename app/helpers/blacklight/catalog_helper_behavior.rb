@@ -1,15 +1,6 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::CatalogHelperBehavior
 
-  # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument.
-  # Will convert it to something kaminari can deal with (using #paginate_params), and
-  # then call kaminari paginate with that. Other arguments (options and block) same as
-  # kaminari paginate, passed on through.
-  # will output HTML pagination controls.
-  def paginate_rsolr_response(response, options = {}, &block)
-    paginate response, options, &block
-  end
-
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
   # implementation
   #
