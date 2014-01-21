@@ -9,7 +9,6 @@ module Blacklight
   autoload :SearchFields, 'blacklight/search_fields'
 
   autoload :Solr, 'blacklight/solr'
-  autoload :Marc, 'blacklight/marc'
   
   autoload :SolrHelper, 'blacklight/solr_helper'
   
@@ -18,7 +17,6 @@ module Blacklight
   autoload :User, 'blacklight/user'
 
   autoload :Controller, 'blacklight/controller'
-  autoload :LegacyControllerMethods, 'blacklight/legacy_controller_methods'
   autoload :Base, 'blacklight/base'
   autoload :Catalog,    'blacklight/catalog'
 

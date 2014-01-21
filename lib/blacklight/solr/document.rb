@@ -16,8 +16,7 @@ require 'rsolr'
 #
 
 module Blacklight::Solr::Document
-  autoload :Marc, 'blacklight/solr/document/marc'
-  autoload :MarcExport, 'blacklight/solr/document/marc_export'
+  autoload :SchemaOrg, 'blacklight/solr/document/schema_org'
   autoload :DublinCore, 'blacklight/solr/document/dublin_core'
   autoload :Email, 'blacklight/solr/document/email'
   autoload :Sms, 'blacklight/solr/document/sms'
@@ -26,6 +25,7 @@ module Blacklight::Solr::Document
   autoload :MoreLikeThis, 'blacklight/solr/document/more_like_this'
 
   extend ActiveSupport::Concern
+  include Blacklight::Solr::Document::SchemaOrg
   include Blacklight::Solr::Document::Export
   include Blacklight::Solr::Document::MoreLikeThis
 

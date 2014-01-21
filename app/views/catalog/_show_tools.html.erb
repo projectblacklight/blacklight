@@ -7,7 +7,7 @@
   # functions by default only on detail.
 
 -%>
-<div class="panel panel-default">
+<div class="panel panel-default show-tools">
   <div class="panel-heading">
     <%= t('blacklight.tools.title') %>
   </div>
@@ -19,7 +19,7 @@
       </li>
       <% if (@document.respond_to?(:export_as_mla_citation_txt) || @document.respond_to?(:export_as_apa_citation_txt)) %>
         <li class="cite">
-         <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:id => @document), {:id => 'citeLink', :class => 'lightboxLink'} %>
+         <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:id => @document), {:id => 'citeLink', :data => {:ajax_modal => "trigger"}} %>
         </li>
       <% end %>
       <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
@@ -34,18 +34,18 @@
     <% end %>
     <% if @document.respond_to?( :to_email_text ) %>
       <li class="email">
-      <%= link_to t('blacklight.tools.email'), email_catalog_path(:id => @document), {:id => 'emailLink', :class => 'lightboxLink'} %>
+      <%= link_to t('blacklight.tools.email'), email_catalog_path(:id => @document), {:id => 'emailLink', :data => {:ajax_modal => "trigger"}} %>
       </li>
     <%- end -%>
     <%- if @document.respond_to?( :to_sms_text ) -%>
       <li class="sms">
-      <%= link_to t('blacklight.tools.sms'), sms_catalog_path(:id => @document), {:id => 'smsLink', :class => 'lightboxLink'} %>
+      <%= link_to t('blacklight.tools.sms'), sms_catalog_path(:id => @document), {:id => 'smsLink', :data => {:ajax_modal => "trigger"}} %>
       </li>
     <%- end -%>
     
-    <% if @document.respond_to?(:to_marc) %>
+    <% if respond_to? :librarian_view_catalog_path and @document.respond_to?(:to_marc) %>
       <li class="librarian_view">
-        <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :class => 'lightboxLink'} %>
+        <%= link_to t('blacklight.tools.librarian_view'), librarian_view_catalog_path(@document), {:id => 'librarianLink', :data => {:ajax_modal => "trigger"}} %>
       </li>
     <% end %>
   </ul>

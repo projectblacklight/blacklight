@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+
 require 'spec_helper'
 
 describe "Search Pagination" do
@@ -16,12 +17,14 @@ describe "Search Pagination" do
       end
 
     end
-    click_link "Next »"
-    within ("#sortAndPerPage") do
-      expect(page).to have_content "11 - 20 of "
+    within '#sortAndPerPage' do
+      click_link "Next »"
     end
-    click_link "« Previous"
-    within ("#sortAndPerPage") do
+    within "#sortAndPerPage" do
+      expect(page).to have_content "11 - 20 of "
+      click_link "« Previous"
+    end
+    within "#sortAndPerPage" do
       expect(page).to have_content "1 - 10 of "
     end
   end
@@ -77,14 +80,16 @@ describe "Search Pagination" do
     visit root_path
     fill_in "q", with: ''
     click_button 'search'
-    click_link "Next »"
-    within ("#sortAndPerPage") do
+    within "#sortAndPerPage" do
+      click_link "Next »"
+    end
+    within "#sortAndPerPage" do
       expect(page).to have_content "11 - 20 of "
     end
     within ("#per_page-dropdown") do
       click_link '20'
     end
-    within ("#sortAndPerPage") do
+    within "#sortAndPerPage" do
       expect(page).to have_content "1 - 20 of "
     end
   end

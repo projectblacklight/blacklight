@@ -1,5 +1,5 @@
-# -*- encoding : utf-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
+
 describe CatalogHelper do
   include ERB::Util
   include CatalogHelper
@@ -10,14 +10,11 @@ describe CatalogHelper do
     total = args[:total]
     start = (current_page - 1) * per_page
 
-    mock_response = double("Blacklight::SolrResponse")
-    mock_response.stub(:total_count).and_return(total)
-    mock_response.stub(:current_page).and_return(current_page)
-    mock_response.stub(:total_pages).and_return((total / per_page).to_i + 1)
-    mock_response.stub(:rows).and_return(per_page)
-    mock_response.stub(:start).and_return(start)
-    mock_response.stub(:docs).and_return((1..total).to_a.slice(start, per_page))
+    mock_docs = (1..total).to_a.map { {}.with_indifferent_access }
+    
+    mock_response = Kaminari.paginate_array(mock_docs).page(current_page).per(per_page)
 
+    mock_response.stub(:docs).and_return(mock_docs.slice(start, per_page))
     mock_response
   end
 
@@ -26,71 +23,103 @@ describe CatalogHelper do
   end
   
   
-  describe "render_pagination_info" do
+  describe "page_entries_info" do
     before(:all) do
     end
 
     it "with no results" do
       @response = mock_response :total => 0
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "No entry_names found"
-      html.html_safe?.should == true
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      expect(html).to eq "No entry_names found"
+      expect(html).to be_html_safe
     end
 
     it "with no results (and no entry_name provided)" do
       @response = mock_response :total => 0
 
-      html = render_pagination_info(@response)
-      html.should == "No entries found"
-      html.html_safe?.should == true
+      html = page_entries_info(@response)
+      expect(html).to eq "No entries found"
+      expect(html).to be_html_safe
     end
 
-    it "with a single result" do
-      @response = mock_response :total => 1
+    describe "with a single result" do
+      it "should use the provided entry name" do
+        response = mock_response :total => 1
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>1</strong> to <strong>1</strong> of <strong>1</strong>"
-      html.html_safe?.should == true
+        html = page_entries_info(response, { :entry_name => 'entry_name' })
+        expect(html).to eq "<strong>1</strong> entry_name found"
+        expect(html).to be_html_safe
+      end
+
+      it "should infer a name" do
+        response = mock_response :total => 1
+
+        html = page_entries_info(response)
+        expect(html).to eq "<strong>1</strong> entry found"
+        expect(html).to be_html_safe
+      end
+
+      it "should use the model_name from the response" do
+        response = mock_response :total => 1
+        response.stub(:model_name).and_return(double(:human => 'thingy'))
+
+        html = page_entries_info(response)
+        expect(html).to eq "<strong>1</strong> thingy found"
+        expect(html).to be_html_safe
+      end
     end
 
     it "with a single page of results" do
-      @response = mock_response :total => 7
+      response = mock_response :total => 7
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>1</strong> - <strong>7</strong> of <strong>7</strong>"
-      html.html_safe?.should == true
+      html = page_entries_info(response, { :entry_name => 'entry_name' })
+      expect(html).to eq "<strong>1</strong> - <strong>7</strong> of <strong>7</strong>"
+      expect(html).to be_html_safe
     end
 
     it "on the first page of multiple pages of results" do
       @response = mock_response :total => 15, :per_page => 10
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>1</strong> - <strong>10</strong> of <strong>15</strong>"
-      html.html_safe?.should == true
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      expect(html).to eq "<strong>1</strong> - <strong>10</strong> of <strong>15</strong>"
+      expect(html).to be_html_safe
     end
 
     it "on the second page of multiple pages of results" do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 2
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>11</strong> - <strong>20</strong> of <strong>47</strong>"
-      html.html_safe?.should == true
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      expect(html).to eq "<strong>11</strong> - <strong>20</strong> of <strong>47</strong>"
+      expect(html).to be_html_safe
     end
 
     it "on the last page of results" do
       @response = mock_response :total => 47, :per_page => 10, :current_page => 5
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>41</strong> - <strong>47</strong> of <strong>47</strong>"
-      html.html_safe?.should == true
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      expect(html).to eq "<strong>41</strong> - <strong>47</strong> of <strong>47</strong>"
+      expect(html).to be_html_safe
     end
     it "should work with rows the same as per_page" do
       @response = mock_response :total => 47, :rows => 20, :current_page => 2
 
-      html = render_pagination_info(@response, { :entry_name => 'entry_name' })
-      html.should == "<strong>21</strong> - <strong>40</strong> of <strong>47</strong>"
-      html.html_safe?.should == true
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+      expect(html).to eq "<strong>21</strong> - <strong>40</strong> of <strong>47</strong>"
+      expect(html).to be_html_safe
+    end
+
+    it "uses delimiters with large numbers" do
+      @response = mock_response :total => 5000, :rows => 10, :current_page => 101
+      html = page_entries_info(@response, { :entry_name => 'entry_name' })
+
+      expect(html).to eq "<strong>1,001</strong> - <strong>1,010</strong> of <strong>5,000</strong>"
+    end
+
+    it "should work with an activerecord collection" do
+      50.times { b = Bookmark.new;  b.user_id = 1; b.save! }
+      html = helper.page_entries_info(Bookmark.page(1).per(25))
+      expect(html).to eq "<strong>1</strong> - <strong>25</strong> of <strong>50</strong>"
     end
 
   end

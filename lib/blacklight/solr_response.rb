@@ -85,6 +85,10 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
     def start
       response[:start].to_s.to_i
     end
+
+    def empty?
+      total == 0
+    end
     
   end
 end

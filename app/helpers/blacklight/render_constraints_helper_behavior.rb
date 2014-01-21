@@ -14,7 +14,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # Render actual constraints, not including header or footer
   # info. 
   def render_constraints(localized_params = params)
-    (render_constraints_query(localized_params) + render_constraints_filters(localized_params)).html_safe
+    render_constraints_query(localized_params) + render_constraints_filters(localized_params)
   end
   
   def render_constraints_query(localized_params = params)
@@ -41,22 +41,21 @@ module Blacklight::RenderConstraintsHelperBehavior
      content = []
      localized_params[:f].each_pair do |facet,values|
        content << render_filter_element(facet, values, localized_params)
-     end 
+     end
 
-     return content.flatten.join("\n").html_safe    
+     safe_join(content.flatten, "\n")    
   end
 
   def render_filter_element(facet, values, localized_params)
     facet_config = facet_configuration_for_field(facet)
 
-    values.map do |val|
-
-      render_constraint_element( facet_field_labels[facet],
-                  facet_display_value(facet, val), 
+    safe_join(values.map do |val|
+      render_constraint_element( blacklight_config.facet_fields[facet].label,
+                  facet_display_value(facet, val),
                   :remove => url_for(remove_facet_params(facet, val, localized_params)),
-                  :classes => ["filter", "filter-" + facet.parameterize] 
-                ) + "\n"                 					            
-    end
+                  :classes => ["filter", "filter-" + facet.parameterize]
+                )
+    end, "\n")
   end
 
   # Render a label/value constraint on the screen. Can be called

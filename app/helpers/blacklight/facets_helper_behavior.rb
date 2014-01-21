@@ -2,22 +2,15 @@ module Blacklight::FacetsHelperBehavior
 
   include Blacklight::Facet
 
-  # used in the catalog/_facets partial
-  def facet_field_labels
-    # DEPRECATED
-    Hash[*blacklight_config.facet_fields.map { |key, facet| [key, facet.label] }.flatten]
-  end
-  
-
   def has_facet_values? fields = facet_field_names, options = {}
     facets_from_request(fields).any? { |display_facet| !display_facet.items.empty? }
   end
 
   # Render a collection of facet fields
   def render_facet_partials fields = facet_field_names, options = {}
-    facets_from_request(fields).map do |display_facet|
+    safe_join(facets_from_request(fields).map do |display_facet|
       render_facet_limit(display_facet, options)
-    end.compact.join("\n").html_safe
+    end.compact, "\n")
   end
 
 
@@ -30,17 +23,12 @@ module Blacklight::FacetsHelperBehavior
   # @param [Hash] options parameters to use for rendering the facet limit partial
   #
   def render_facet_limit(display_facet, options = {})
-    if display_facet.is_a? String or display_facet.is_a? Symbol
-      $stderr.puts "DEPRECATION WARNING: Blacklight::FacetsHelper#render_facet_limit: use #render_facet_partials to render facets by field name"
-      return render_facet_partials([display_facet])
-    end
     return if not should_render_facet?(display_facet)
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.has_key?(:layout)
     options[:locals] ||= {}
     options[:locals][:solr_field] ||= display_facet.name 
-    options[:locals][:solr_fname] ||= display_facet.name # DEPRECATED
     options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
     options[:locals][:display_facet] ||= display_facet 
 
@@ -77,9 +65,12 @@ module Blacklight::FacetsHelperBehavior
   # first arg item is a facet value item from rsolr-ext.
   # options consist of:
   # :suppress_link => true # do not make it a link
+  # :route_set => my_engine # call link_to on engine routes.
   def render_facet_value(facet_solr_field, item, options ={})    
+    scope = options.delete(:route_set) || self
+    path = scope.url_for(add_facet_params_and_redirect(facet_solr_field, item).merge(only_path: true))
     content_tag(:span, :class => "facet-label") do
-      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), add_facet_params_and_redirect(facet_solr_field, item), :class=>"facet_select")
+      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
   end
 

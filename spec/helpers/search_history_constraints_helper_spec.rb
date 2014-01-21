@@ -1,5 +1,4 @@
-# -*- encoding : utf-8 -*-
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe SearchHistoryConstraintsHelper do
 
@@ -21,10 +20,10 @@ describe SearchHistoryConstraintsHelper do
       it "should render basic element" do
         response = helper.render_search_to_s_element("key", "value")
         response.should have_selector("span.constraint")  do |span|
-          span.should have_selector("span.filterName", :content => "key:")
-          span.should have_selector("span.filterValue", :content => "value")
+          expect(span).to have_selector("span.filterName", :content => "key:")
+          expect(span).to have_selector("span.filterValue", :content => "value")
         end
-        response.html_safe?.should == true
+        expect(response).to be_html_safe
       end
       it "should escape them that need escaping" do
         response = helper.render_search_to_s_element("key>", "value>")
@@ -33,21 +32,21 @@ describe SearchHistoryConstraintsHelper do
             # Note: nokogiri's gettext will unescape the inner html
             # which seems to be what rspecs "contains" method calls on 
             # text nodes - thus the to_s inserted below.
-            s2.to_s.should match(/key&gt;:/)
+            expect(s2).to match(/key&gt;:/)
           end
           span.should have_selector("span.filterValue") do |s3|            
-            s3.to_s.should match(/value&gt;/)
+            expect(s3).to match(/value&gt;/)
           end
         end
-        response.html_safe?.should == true
+        expect(response).to be_html_safe
       end
       it "should not escape with options set thus" do
         response = helper.render_search_to_s_element("key>", "value>", :escape_key => false, :escape_value => false)
         response.should have_selector("span.constraint") do |span|
-          span.should have_selector("span.filterName", :content => "key>:")
-          span.should have_selector("span.filterValue", :content => "value>")
+          expect(span).to have_selector("span.filterName", :content => "key>:")
+          expect(span).to have_selector("span.filterValue", :content => "value>")
         end
-        response.html_safe?.should == true
+        expect(response).to be_html_safe
       end
     end
 
@@ -62,9 +61,9 @@ describe SearchHistoryConstraintsHelper do
         # API hooks expect this to be so
         response = helper.render_search_to_s(@params)
 
-        response.should include( helper.render_search_to_s_q(@params))
-        response.should include( helper.render_search_to_s_filters(@params))
-        response.html_safe?.should == true
+        expect(response).to include( helper.render_search_to_s_q(@params))
+        expect(response).to include( helper.render_search_to_s_filters(@params))
+        expect(response).to be_html_safe
       end
     end
     

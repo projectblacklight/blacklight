@@ -1,6 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
-require 'nokogiri'
 require 'equivalent-xml'
 
 describe FacetsHelper do
@@ -18,7 +17,7 @@ describe FacetsHelper do
       empty = double(:items => [])
 
       fields = [a,b,empty]
-      helper.has_facet_values?(fields).should be_true
+      expect(helper.has_facet_values?(fields)).to be_true
     end
 
     it "should be false if all facets are empty" do
@@ -26,7 +25,7 @@ describe FacetsHelper do
       empty = double(:items => [])
 
       fields = [empty]
-      helper.has_facet_values?(fields).should_not be_true
+      expect(helper.has_facet_values?(fields)).to be_false
     end
   end
 
@@ -41,16 +40,16 @@ describe FacetsHelper do
     end
     it "should render facets with items" do
       a = double(:items => [1,2], :name=>'basic_field')
-      helper.should_render_facet?(a).should == true
+      expect(helper.should_render_facet?(a)).to be_true
     end
     it "should not render facets without items" do
       empty = double(:items => [], :name=>'basic_field')
-      helper.should_render_facet?(empty).should ==  false
+      expect(helper.should_render_facet?(empty)).to be_false
     end
 
     it "should not render facets where show is set to false" do
       a = double(:items => [1,2], :name=>'no_show')
-      helper.should_render_facet?(a).should ==  false
+      expect(helper.should_render_facet?(a)).to be_false
     end
   end
 
@@ -63,7 +62,7 @@ describe FacetsHelper do
       @response = double()
       @response.should_receive(:facet_by_field_name).with('a').and_return(facet_field)
 
-      helper.facet_by_field_name('a').should == facet_field
+      expect(helper.facet_by_field_name('a')).to eq facet_field
     end
 
     it "should also work for facet query fields" do
@@ -100,15 +99,15 @@ describe FacetsHelper do
         field = helper.facet_by_field_name('my_query_facet_field')
         field.should be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
 
-        field.name.should == 'my_query_facet_field'
-        field.items.length.should == 2
-        field.items.map { |x| x.value }.should_not include 'field:not_appearing_in_the_config'
+        expect(field.name).to eq'my_query_facet_field'
+        expect(field.items).to have(2).items
+        expect(field.items.map { |x| x.value }).to_not include 'field:not_appearing_in_the_config'
 
         facet_item = field.items.select { |x| x.value == 'a_simple_query' }.first
 
-        facet_item.value.should == 'a_simple_query'
-        facet_item.hits.should == 10
-        facet_item.label.should == 'A Human Readable label'
+        expect(facet_item.value).to eq 'a_simple_query'
+        expect(facet_item.hits).to eq 10
+        expect(facet_item.label).to eq 'A Human Readable label'
       end
     end
 
@@ -127,14 +126,14 @@ describe FacetsHelper do
         field = helper.facet_by_field_name('my_pivot_facet_field')
         field.should be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
 
-        field.name.should == 'my_pivot_facet_field'
+        expect(field.name).to eq 'my_pivot_facet_field'
 
-        field.items.length.should == 1
+        expect(field.items).to have(1).item
 
-        field.items.first.should respond_to(:items)
+        expect(field.items.first).to respond_to(:items)
 
-        field.items.first.items.length.should == 1
-        field.items.first.items.first.fq.should == { 'field_a' => 'a' }
+        expect(field.items.first.items).to have(1).item
+        expect(field.items.first.items.first.fq).to eq({ 'field_a' => 'a' })
       end
     end
   end
@@ -186,18 +185,11 @@ describe FacetsHelper do
       @mock_facet = double(:name => 'basic_field', :items => [1,2,3])
       helper.should_receive(:render).with(hash_including(:partial => 'facet_limit', 
                                                          :locals => { 
-                                                            :solr_field => 'basic_field', 
-                                                            :solr_fname => 'basic_field',
+                                                            :solr_field => 'basic_field',
                                                             :facet_field => helper.blacklight_config.facet_fields['basic_field'],
                                                             :display_facet => @mock_facet  }
                                                         ))
       helper.render_facet_limit(@mock_facet)
-    end
-
-    it "should send a deprecation warning if the method is called using the old-style signature" do
-      helper.should_receive(:render_facet_partials).with(['asdf'])
-      $stderr.should_receive(:puts)
-      helper.render_facet_limit('asdf')
     end
 
     it "should render a facet _not_ declared in the configuration" do
@@ -247,9 +239,9 @@ describe FacetsHelper do
       helper.stub(:params).and_return(@params_no_existing_facet)
 
       result_params = helper.add_facet_params("facet_field", "facet_value")
-      result_params[:f].should be_a_kind_of(Hash)
-      result_params[:f]["facet_field"].should be_a_kind_of(Array)
-      result_params[:f]["facet_field"].should == ["facet_value"]
+      expect(result_params[:f]).to be_a_kind_of(Hash)
+      expect(result_params[:f]["facet_field"]).to be_a_kind_of(Array)
+      expect(result_params[:f]["facet_field"]).to eq ["facet_value"]
     end
 
     it "should add a facet param to existing facet constraints" do
@@ -257,15 +249,15 @@ describe FacetsHelper do
       
       result_params = helper.add_facet_params("facet_field_2", "new_facet_value")
 
-      result_params[:f].should be_a_kind_of(Hash)
+      expect(result_params[:f]).to be_a_kind_of(Hash)
 
       @params_existing_facets[:f].each_pair do |facet_field, value_list|
-        result_params[:f][facet_field].should be_a_kind_of(Array)
+        expect(result_params[:f][facet_field]).to be_a_kind_of(Array)
         
         if facet_field == 'facet_field_2'
-          result_params[:f][facet_field].should == (@params_existing_facets[:f][facet_field] | ["new_facet_value"])
+          expect(result_params[:f][facet_field]).to eq (@params_existing_facets[:f][facet_field] | ["new_facet_value"])
         else
-          result_params[:f][facet_field].should ==  @params_existing_facets[:f][facet_field]
+          expect(result_params[:f][facet_field]).to eq @params_existing_facets[:f][facet_field]
         end        
       end
     end
@@ -277,7 +269,7 @@ describe FacetsHelper do
 
         params.each_pair do |key, value|
           next if key == :f
-          result_params[key].should == params[key]
+          expect(result_params[key]).to eq params[key]
         end        
       end
     end    
@@ -290,31 +282,31 @@ describe FacetsHelper do
       result_params = helper.add_facet_params('single_value_facet_field', 'my_value')
 
 
-      result_params[:f]['single_value_facet_field'].length.should == 1
-      result_params[:f]['single_value_facet_field'].first.should == 'my_value'
+      expect(result_params[:f]['single_value_facet_field']).to have(1).item
+      expect(result_params[:f]['single_value_facet_field'].first).to eq 'my_value'
     end
 
     it "should accept a FacetItem instead of a plain facet value" do
           
       result_params = helper.add_facet_params('facet_field_1', double(:value => 123))
 
-      result_params[:f]['facet_field_1'].should include(123)
+      expect(result_params[:f]['facet_field_1']).to include(123)
     end
 
     it "should defer to the field set on a FacetItem" do
           
       result_params = helper.add_facet_params('facet_field_1', double(:field => 'facet_field_2', :value => 123))
 
-      result_params[:f]['facet_field_1'].should be_blank
-      result_params[:f]['facet_field_2'].should include(123)
+      expect(result_params[:f]['facet_field_1']).to be_blank
+      expect(result_params[:f]['facet_field_2']).to include(123)
     end
 
     it "should add any extra fq parameters from the FacetItem" do
           
       result_params = helper.add_facet_params('facet_field_1', double(:value => 123, :fq => {'facet_field_2' => 'abc'}))
 
-      result_params[:f]['facet_field_1'].should include(123)
-      result_params[:f]['facet_field_2'].should include('abc')
+      expect(result_params[:f]['facet_field_1']).to include(123)
+      expect(result_params[:f]['facet_field_2']).to include('abc')
     end
   end
 
@@ -334,20 +326,20 @@ describe FacetsHelper do
     it "should redirect to 'index' action" do
       params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
-      params[:action].should == "index"
+      expect(params[:action]).to eq "index"
     end
     it "should not include request parameters used by the facet paginator" do
       params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
       bad_keys = Blacklight::Solr::FacetPaginator.request_keys.values + [:id]
       bad_keys.each do |paginator_key|
-        params.keys.should_not include(paginator_key)        
+        expect(params.keys).to_not include(paginator_key)        
       end
     end
     it 'should remove :page request key' do
       params = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
-      params.keys.should_not include(:page)
+      expect(params.keys).to_not include(:page)
     end
     it "should otherwise do the same thing as add_facet_params" do
       added_facet_params = helper.add_facet_params("facet_field_2", "facet_value")
@@ -355,7 +347,7 @@ describe FacetsHelper do
 
       added_facet_params_from_facet_action.each_pair do |key, value|
         next if key == :action
-        value.should == added_facet_params[key]
+        expect(value).to eq added_facet_params[key]
       end      
     end
   end
@@ -377,31 +369,44 @@ describe FacetsHelper do
   end
 
   describe "render_facet_value" do
-    it "should use facet_display_value" do
+    let (:item) { double(:value => 'A', :hits => 10) }
+    before do
       helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false))
- 
       helper.should_receive(:facet_display_value).and_return('Z')
-      helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-
-      expected  = Nokogiri::HTML "<span class=\"facet-label\"><a class=\"facet_select\" href=\"link\">Z</a></span><span class=\"facet-count\">10</span>"
-      rendered  = Nokogiri::HTML helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10))
-
-      rendered.should be_equivalent_to(expected).respecting_element_order
+      helper.should_receive(:add_facet_params_and_redirect).and_return({controller:'catalog'})
+    end
+    describe "simple case" do
+      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/\">Z</a></span><span class=\"facet-count\">10</span>" }
+      it "should use facet_display_value" do
+        result = helper.render_facet_value('simple_field', item)
+        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+      end
     end
 
-    it "should suppress the link" do
-      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false))
- 
-      helper.should_receive(:facet_display_value).and_return('Z')
-      helper.should_receive(:add_facet_params_and_redirect).and_return('link')
-      helper.render_facet_value('simple_field', double(:value => 'A', :hits => 10), :suppress_link => true).should == "<span class=\"facet-label\">Z</span><span class=\"facet-count\">10</span>"
+    describe "when :suppress_link is set" do
+      let(:expected_html) { "<span class=\"facet-label\">Z</span><span class=\"facet-count\">10</span>" }
+      it "should suppress the link" do
+        result = helper.render_facet_value('simple_field', item, :suppress_link => true)
+        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+      end
+    end
+
+    describe "when a route_set is passed" do
+      let(:my_engine) { double("Engine") }
+      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/\">Z</a></span><span class=\"facet-count\">10</span>" }
+
+      it "should use the engine scope" do
+        expect(my_engine).to receive(:url_for).and_return({controller: 'catalog'})
+        result = helper.render_facet_value('simple_field', item, route_set: my_engine)
+        expect(result).to be_equivalent_to(expected_html).respecting_element_order
+      end
     end
   end
  
   describe "#facet_display_value" do
     it "should just be the facet value for an ordinary facet" do
       helper.stub(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil))
-      helper.facet_display_value('simple_field', 'asdf').should == 'asdf'
+      expect(helper.facet_display_value('simple_field', 'asdf')).to eq 'asdf'
     end
 
     it "should allow you to pass in a :helper_method argument to the configuration" do
@@ -409,22 +414,22 @@ describe FacetsHelper do
     
       helper.should_receive(:my_facet_value_renderer).with('qwerty').and_return('abc')
 
-      helper.facet_display_value('helper_field', 'qwerty').should == 'abc'
+      expect(helper.facet_display_value('helper_field', 'qwerty')).to eq 'abc'
     end
 
     it "should extract the configuration label for a query facet" do
       helper.stub(:facet_configuration_for_field).with('query_facet').and_return(double(:query => { 'query_key' => { :label => 'XYZ'}}, :date => nil, :helper_method => nil))
-      helper.facet_display_value('query_facet', 'query_key').should == 'XYZ'
+      expect(helper.facet_display_value('query_facet', 'query_key')).to eq 'XYZ'
     end
 
     it "should localize the label for date-type facets" do
       helper.stub(:facet_configuration_for_field).with('date_facet').and_return(double('date' => true, :query => nil, :helper_method => nil))
-      helper.facet_display_value('date_facet', '2012-01-01').should == 'Sun, 01 Jan 2012 00:00:00 +0000'
+      expect(helper.facet_display_value('date_facet', '2012-01-01')).to eq 'Sun, 01 Jan 2012 00:00:00 +0000'
     end
 
     it "should localize the label for date-type facets with the supplied localization options" do
       helper.stub(:facet_configuration_for_field).with('date_facet').and_return(double('date' => { :format => :short }, :query => nil, :helper_method => nil))
-      helper.facet_display_value('date_facet', '2012-01-01').should == '01 Jan 00:00'
+      expect(helper.facet_display_value('date_facet', '2012-01-01')).to eq '01 Jan 00:00'
     end
   end
 end

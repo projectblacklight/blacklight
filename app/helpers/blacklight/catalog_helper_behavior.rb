@@ -1,47 +1,43 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::CatalogHelperBehavior
 
-  # Pass in an RSolr::Response (or duck-typed similar) object,
-  # it translates to a Kaminari-paginatable
-  # object, with the keys Kaminari views expect.
-  def paginate_params(response)
-    response
-  end
-
-  # Equivalent to kaminari "paginate", but takes an RSolr::Response as first argument.
-  # Will convert it to something kaminari can deal with (using #paginate_params), and
-  # then call kaminari paginate with that. Other arguments (options and block) same as
-  # kaminari paginate, passed on through.
-  # will output HTML pagination controls.
-  def paginate_rsolr_response(response, options = {}, &block)
-    paginate response, options, &block
-  end
-
-  #
-  # shortcut for built-in Rails helper, "number_with_delimiter"
-  #
-  def format_num(num); number_with_delimiter(num) end
-
+  # Override the Kaminari page_entries_info helper with our own, blacklight-aware
+  # implementation
   #
   # Pass in an RSolr::Response. Displays the "showing X through Y of N" message.
-  def render_pagination_info(response, options = {})
-   # TODO: i18n the entry_name
-      entry_name = options[:entry_name]
-      entry_name ||= response.docs.first.class.name.underscore.sub('_', ' ') unless response.docs.empty?
-      entry_name ||= t('blacklight.entry_name.default')
+  def page_entries_info(collection, options = {})
+    entry_name = if options[:entry_name]
+      options[:entry_name]
+    elsif collection.respond_to? :model  # DataMapper
+        collection.model.model_name.human.downcase
+    elsif collection.respond_to? :model_name and !collection.model_name.nil? # AR, Blacklight::PaginationMethods
+        collection.model_name.human.downcase
+    elsif collection.is_a?(::Kaminari::PaginatableArray)
+      'entry'
+    else
+      t('blacklight.entry_name.default')
+    end
 
+    entry_name = entry_name.pluralize unless collection.total_count == 1
 
-      end_num = if render_grouped_response?
-        format_num(response.start + response.groups.length)
-      else
-        format_num(response.start + response.docs.length)
-      end
+    # grouped response objects need special handling
+    end_num = if collection.respond_to? :groups and render_grouped_response? collection
+      collection.groups.length
+    else
+      collection.limit_value
+    end
+
+    end_num = if collection.offset_value + end_num <= collection.total_count
+      collection.offset_value + end_num
+    else
+      collection.total_count
+    end
       
-      case response.total_count
-        when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name.pluralize ).html_safe
-        when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
-        else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name.pluralize, :current_page => response.current_page, :num_pages => response.total_pages, :start_num => format_num(response.start + 1) , :end_num => end_num, :total_num => response.total_count, :count => response.total_pages).html_safe
-      end
+    case collection.total_count
+      when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name ).html_safe
+      when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+      else; t('blacklight.search.pagination_info.pages', :entry_name => entry_name, :current_page => collection.current_page, :num_pages => collection.total_pages, :start_num => number_with_delimiter(collection.offset_value + 1) , :end_num => number_with_delimiter(end_num), :total_num => number_with_delimiter(collection.total_count), :count => collection.total_pages).html_safe
+    end
   end
 
   def document_counter_with_offset idx 
@@ -50,13 +46,13 @@ module Blacklight::CatalogHelperBehavior
     end
   end
 
-  # Like  #render_pagination_info above, but for an individual
+  # Like  #page_entries_info above, but for an individual
   # item show page. Displays "showing X of Y items" message. Actually takes
   # data from session though (not a great design).
   # Code should call this method rather than interrogating session directly,
   # because implementation of where this data is stored/retrieved may change.
   def item_page_entry_info
-    t('blacklight.search.entry_pagination_info.other', :current => format_num(search_session[:counter]), :total => format_num(search_session[:total]), :count => search_session[:total].to_i).html_safe
+    t('blacklight.search.entry_pagination_info.other', :current => number_with_delimiter(search_session[:counter]), :total => number_with_delimiter(search_session[:total]), :count => search_session[:total].to_i).html_safe
   end
 
   # Look up search field user-displayable label
@@ -92,14 +88,13 @@ module Blacklight::CatalogHelperBehavior
 
   def show_sort_and_per_page? response = nil
     response ||= @response
-    response.total > 1
+    !response.empty?
   end
 
   def should_autofocus_on_search_box?
     controller.is_a? Blacklight::Catalog and
       action_name == "index" and
-      params[:q].to_s.empty? and
-      params[:f].to_s.empty?
+      !has_search_parameters?
   end
 
   def has_thumbnail? document
@@ -127,9 +122,5 @@ module Blacklight::CatalogHelperBehavior
 
   def add_group_facet_params_and_redirect group
     add_facet_params_and_redirect(group.field, group.key)
-  end
-
-  def response_has_no_search_results?
-    @response.total == 0 
   end
 end

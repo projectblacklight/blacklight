@@ -126,7 +126,7 @@ module Blacklight::SolrHelper
   #
   # Incoming parameter :f is mapped to :fq solr parameter.
   def solr_search_params(user_params = params || {})
-    solr_parameters = {}
+    solr_parameters = Blacklight::Solr::Request.new
     solr_search_params_logic.each do |method_name|
       send(method_name, solr_parameters, user_params)
     end
@@ -250,11 +250,9 @@ module Blacklight::SolrHelper
       if ( user_params[:f])
         f_request_params = user_params[:f] 
         
-        solr_parameters[:fq] ||= []
-
         f_request_params.each_pair do |facet_field, value_list|
           Array(value_list).each do |value|
-            solr_parameters[:fq] << facet_value_to_fq_string(facet_field, value)
+            solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
           end              
         end      
       end
@@ -301,23 +299,13 @@ module Blacklight::SolrHelper
       # on end), or single values. At least one of these is used by
       # Stanford for "faux hieararchial facets". 
       if user_params.has_key?("facet.field") || user_params.has_key?("facets")
-        solr_parameters[:"facet.field"] ||= []
         solr_parameters[:"facet.field"].concat( [user_params["facet.field"], user_params["facets"]].flatten.compact ).uniq!
       end                
 
 
       if blacklight_config.add_facet_fields_to_solr_request
         solr_parameters[:facet] = true
-        solr_parameters[:'facet.field'] ||= []
-        solr_parameters[:'facet.field'] += blacklight_config.facet_fields_to_add_to_solr
-        
-        if blacklight_config.facet_fields.any? { |k,v| v[:query] }
-          solr_parameters[:'facet.query'] ||= []
-        end
-
-        if blacklight_config.facet_fields.any? { |k,v| v[:pivot] }
-          solr_parameters[:'facet.pivot'] ||= []
-        end
+        solr_parameters.append_facet_fields blacklight_config.facet_fields_to_add_to_solr
       end
          
       blacklight_config.facet_fields.each do |field_name, facet|
@@ -325,9 +313,9 @@ module Blacklight::SolrHelper
         if blacklight_config.add_facet_fields_to_solr_request
           case 
             when facet.pivot
-              solr_parameters[:'facet.pivot'] << with_ex_local_param(facet.ex, facet.pivot.join(","))
+              solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
             when facet.query
-              solr_parameters[:'facet.query'] += facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
+              solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
    
             when facet.ex
               if idx = solr_parameters[:'facet.field'].index(facet.field)
@@ -359,9 +347,8 @@ module Blacklight::SolrHelper
       return unless blacklight_config.add_field_configuration_to_solr_request
       blacklight_config.index_fields.each do |field_name, field|
         if field.highlight
-          solr_parameters[:hl] ||= true
-          solr_parameters[:'hl.fl'] ||= []
-          solr_parameters[:'hl.fl'] << field.field
+          solr_parameters[:hl] = true
+          solr_parameters.append_highlight_field field.field
         end
       end
     end
@@ -409,7 +396,7 @@ module Blacklight::SolrHelper
     path = blacklight_config.solr_path
 
     # delete these parameters, otherwise rsolr will pass them through.
-    res = blacklight_solr.send_and_receive(path, :params=>solr_params)
+    res = blacklight_solr.send_and_receive(path, params: solr_params.to_hash)
     res = res ? JSON.parse(res) : res
     
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
@@ -449,14 +436,12 @@ module Blacklight::SolrHelper
   
   # given a field name and array of values, get the matching SOLR documents
   def get_solr_response_for_field_values(field, values, extra_solr_params = {})
-    values ||= []
-    values = [values] unless values.respond_to? :each
+    values = Array(values) unless values.respond_to? :each
 
-    q = nil
-    if values.empty?
-      q = "NOT *:*"
+    q = if values.empty?
+      "NOT *:*"
     else
-      q = "#{field}:(#{ values.to_a.map { |x| solr_param_quote(x)}.join(" OR ")})"
+      "#{field}:(#{ values.to_a.map { |x| solr_param_quote(x)}.join(" OR ")})"
     end
 
     solr_params = {

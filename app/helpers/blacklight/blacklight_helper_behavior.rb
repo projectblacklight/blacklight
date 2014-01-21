@@ -72,12 +72,12 @@ module Blacklight::BlacklightHelperBehavior
   # Save function area for search results 'index' view, normally
   # renders next to title.
   def render_index_doc_actions(document, options={})
-    wrapping_class = options.delete(:wrapping_class) || "documentFunctions"
+    wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
 
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
 
-    content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
+    content_tag("div", safe_join(content, "\n"), :class=> wrapping_class)
   end
 
   # Save function area for item detail 'show' view, normally
@@ -90,7 +90,7 @@ module Blacklight::BlacklightHelperBehavior
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
 
-    content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
+    content_tag("div", safe_join(content, "\n"), :class=> wrapping_class)
   end
 
   ##
@@ -189,7 +189,7 @@ module Blacklight::BlacklightHelperBehavior
 
     tag ||= :h4
 
-    content_tag(tag, render_field_value(document_heading(document)))
+    content_tag(tag, render_field_value(document_heading(document)), :itemprop => "name")
   end
 
   # Used in the show view for setting the main html document title
@@ -316,6 +316,11 @@ module Blacklight::BlacklightHelperBehavior
 
   def render_field_value value=nil, field_config=nil
     safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
+
+    if field_config and field_config.itemprop
+      safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
+    end
+
     safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
   end
 
@@ -371,6 +376,12 @@ module Blacklight::BlacklightHelperBehavior
     "#{display_type.gsub("-"," ")}".parameterize("_").to_s
   end
 
+  def render_document_partials(doc, actions = [], locals ={})
+    safe_join(actions.map do |action_name|
+      render_document_partial(doc, action_name, locals)
+    end, "\n")
+  end
+
   # given a doc and action_name, this method attempts to render a partial template
   # based on the value of doc[:format]
   # if this value is blank (nil/empty) the "default" is used
@@ -404,11 +415,6 @@ module Blacklight::BlacklightHelperBehavior
   def link_to_previous_search(params)
     link_to(raw(render_search_to_s(params)), catalog_index_path(params)).html_safe
   end
-
-  #
-  # shortcut for built-in Rails helper, "number_with_delimiter"
-  #
-  def format_num(num); number_with_delimiter(num) end
 
   #
   # link based helpers ->
@@ -447,11 +453,14 @@ module Blacklight::BlacklightHelperBehavior
     { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
   end
 
-  # link_back_to_catalog(:label=>'Back to Search')
   # Create a link back to the index screen, keeping the user's facet, query and paging choices intact by using session.
+  # @example
+  #   link_back_to_catalog(label: 'Back to Search')
+  #   link_back_to_catalog(label: 'Back to Search', route_set: my_engine)
   def link_back_to_catalog(opts={:label=>nil})
+    scope = opts.delete(:route_set) || self
     query_params = current_search_session.try(:query_params) || {}
-    link_url = url_for(query_params)
+    link_url = scope.url_for(query_params)
     label = opts.delete(:label)
 
     if link_url =~ /bookmarks/
@@ -576,8 +585,8 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Should we render a grouped response (because the response 
   # contains a grouped response instead of the normal response) 
-  def render_grouped_response?
-    return @response.grouped?
+  def render_grouped_response? response = @response
+    return response.grouped?
   end
 
   ##

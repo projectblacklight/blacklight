@@ -1,5 +1,6 @@
-<% if @response.total_pages > 1 %>
-<%= paginate @response, :theme => :blacklight_compact %>
-<% else %>
-<%= render_pagination_info(@response) %>
-<% end %>
+<%# Call with a Blacklight::SolrResponse or any other kaminari-compatible collection
+    to render Blacklight's compact pagination info component:
+
+        <%= render :partial => "paginate_compact", :object => @response
+-%>
+<%= paginate paginate_compact, :page_entries_info => page_entries_info(paginate_compact), :theme => :blacklight_compact %>
