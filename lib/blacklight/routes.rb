@@ -6,6 +6,26 @@ module Blacklight
 
     attr_reader :resources 
 
+    # adds as class and instance level accessors, default_route_sets
+    # returns an array of symbols for method names that define routes. 
+    # Order is important:.  (e.g. /catalog/email precedes /catalog/:id)
+    #
+    # Add-ons that want to add routes into default routing might
+    # monkey-patch Blacklight::Routes, say:
+    #
+    #     module MyWidget::Routes
+    #       extend ActiveSupport::Concern
+    #       included do |klass|
+    #         klass.default_route_sets += [:widget_routing]
+    #       end
+    #       def widget_routing(primary_resource)
+    #         get "#{primary_resource}/widget", "#{primary_resource}#widget"
+    #       end
+    #     end
+    #     Blacklight::Routes.send(:include, MyWidget::Routes)
+    class_attribute :default_route_sets
+    self.default_route_sets = [:bookmarks, :search_history, :saved_searches, :export, :solr_document, :feedback]
+
     def initialize(router, options)
       @router = router
       @options = options
@@ -35,10 +55,7 @@ module Blacklight
       (@options[:only] || default_route_sets) - (@options[:except] || [])
     end
 
-    def default_route_sets
-      # Order is important here.  (e.g. /catalog/email precedes /catalog/:id)
-      [:bookmarks, :search_history, :saved_searches, :export, :solr_document, :feedback]
-    end
+
 
     module RouteSets
       def bookmarks(_)
