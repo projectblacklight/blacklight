@@ -47,8 +47,12 @@ describe "catalog/_facets" do
 
     it "should list values" do
       render
-      expect(rendered).to have_selector('a.facet_select')
-      expect(rendered).to have_selector('.facet-count')
+
+      # The .facet-content class is used by blacklight_range_limit js, and
+      # should be applied to the .panel-collapse div that contains the collapsible
+      # facet content. Please make sure it remains if possible. 
+      expect(rendered).to have_selector('.facet-content a.facet_select')
+      expect(rendered).to have_selector('.facet-content .facet-count')    
     end
 
   end

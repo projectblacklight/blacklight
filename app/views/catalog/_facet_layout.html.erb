@@ -4,7 +4,7 @@
       <%= link_to facet_field.label, "#", :"data-no-turbolink" => true %>
     </h5>
   </div>
-  <div id="facet-<%= facet_field.label.parameterize %>" class="panel-collapse <%=  facet_field_in_params?(facet_field.field) ? 'in' : 'collapse' %>">
+  <div id="facet-<%= facet_field.label.parameterize %>" class="panel-collapse facet-content <%=  facet_field_in_params?(facet_field.field) ? 'in' : 'collapse' %>">
     <div class="panel-body">
       <%= yield %>
     </div>
