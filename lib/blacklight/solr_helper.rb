@@ -391,7 +391,8 @@ module Blacklight::SolrHelper
     path = blacklight_config.solr_path
 
     # delete these parameters, otherwise rsolr will pass them through.
-    res = blacklight_solr.send_and_receive(path, params: solr_params.to_hash)
+    key = blacklight_config.http_method == :post ? :data : :params
+    res = blacklight_solr.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
     
     solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
 

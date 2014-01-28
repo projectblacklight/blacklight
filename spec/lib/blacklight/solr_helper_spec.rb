@@ -1146,5 +1146,40 @@ describe 'Blacklight::SolrHelper' do
     end
   end
 
+  describe "http_method configuration" do
+    describe "using default" do
+      let (:blacklight_config) {Blacklight::Configuration.new}
+
+      it "defaults to get" do
+        expect(blacklight_config.http_method).to eq :get
+        Blacklight.solr.should_receive(:send_and_receive) do |path, params|
+          expect(path).to eq 'select'
+          expect(params[:method]).to eq :get
+          expect(params[:params]).to include(:q)
+        end.and_return({'response'=>{'docs'=>[]}})
+        get_search_results(:q => @all_docs_query)
+      end
+    end
+
+    describe "setting to post" do
+      let (:blacklight_config) {config = Blacklight::Configuration.new; config.http_method=:post; config}
+
+      it "keep value set to post" do
+        expect(blacklight_config.http_method).to eq :post
+        Blacklight.solr.should_receive(:send_and_receive) do |path, params|
+          expect(path).to eq 'select'
+          expect(params[:method]).to eq :post
+          expect(params[:data]).to include(:q)
+        end.and_return({'response'=>{'docs'=>[]}})
+        get_search_results(:q => @all_docs_query)
+      end
+
+      it "should send a post request to solr", :integration => true do
+        response, docs = get_search_results(:q => @all_docs_query)
+        expect(docs.length).to be >= 1
+     end
+    end
+  end
+
 end
 
