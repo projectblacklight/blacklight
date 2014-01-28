@@ -1,12 +1,4 @@
 fr:
-  active_record:
-    models:
-      feedback: 'Vos réactions'
-    attributes:
-      feedback:
-        name: 'Votre nom'
-        email: 'Votre courriel'
-        message: 'Votre message'
   views:
     pagination:
       first: '&laquo; Première'
@@ -55,16 +47,6 @@ fr:
       need_login: 'Veuillez vous connecter pour accéder à vos favoris.'
       list_title: 'Vos favoris'
       delete: 'Supprimer'
-
-    feedback:
-      valid_name: 'Vous devez saisir votre nom.'
-      valid_email: 'Vous devez saisir votre courriel.'
-      need_message: 'Vous devez saisir un message.'
-      submit: 'Envoyer'
-      errors:
-        title: 'Veuillez corriger les erreurs suivantes :'
-      complete:
-        title: 'Merci pour vos remarques.'
 
     folder:
       title: 'Panier'

@@ -24,7 +24,7 @@ module Blacklight
     #     end
     #     Blacklight::Routes.send(:include, MyWidget::Routes)
     class_attribute :default_route_sets
-    self.default_route_sets = [:bookmarks, :search_history, :saved_searches, :export, :solr_document, :feedback]
+    self.default_route_sets = [:bookmarks, :search_history, :saved_searches, :export, :solr_document]
 
     def initialize(router, options)
       @router = router
@@ -116,15 +116,6 @@ module Blacklight
 
           # :show and :update are for backwards-compatibility with catalog_url named routes
           resources primary_resource, args
-        end
-      end
-  
-    
-      # Feedback
-      def feedback(_)
-        add_routes do |options|
-          get "feedback", :to => "feedback#show"    
-          get "feedback/complete", :to => "feedback#complete"
         end
       end
     end
