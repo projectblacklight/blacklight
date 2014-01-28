@@ -25,7 +25,8 @@ module Blacklight
           :search_history_window => Blacklight::Catalog::SearchHistoryWindow,
           :document_index_view_types => ['list'],
           :add_facet_fields_to_solr_request => false,
-          :add_field_configuration_to_solr_request => false
+          :add_field_configuration_to_solr_request => false,
+          :http_method => :get
           }
         end
       end
