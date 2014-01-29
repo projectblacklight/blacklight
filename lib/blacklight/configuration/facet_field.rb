@@ -9,6 +9,7 @@ module Blacklight
       end
 
       self.collapse = true if self.collapse.nil?
+      self.show = true if self.show.nil?
 
       super
     end
