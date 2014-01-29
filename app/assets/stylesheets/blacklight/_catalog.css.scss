@@ -182,3 +182,11 @@ label.toggle_bookmark
   float: right;
   padding-left: 20px;
 }
+
+.view-type {
+  display: inline-block;
+
+  .caption {
+    @extend .sr-only;
+  }
+}

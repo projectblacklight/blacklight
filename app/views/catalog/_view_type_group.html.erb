@@ -1,0 +1,13 @@
+<% if blacklight_config.document_index_view_types.length > 1 -%>
+<div class="view-type">
+  <span class="sr-only"><%= t('blacklight.search.view_title') %></span>
+  <div class="view-type-group btn-group">
+    <%  blacklight_config.document_index_view_types.each do |view| %>
+    <%= link_to url_for(params.merge(:view => view)), :title => t("blacklight.search.view_title.#{view}", default: t("blacklight.search.view.#{view}", default: "")), :class => "btn btn-default view-type-#{ view.parameterize } #{"active" if document_index_view_type == view}" do %>
+        <span class="glyphicon glyphicon-<%= view.parameterize %> view-icon-<%= view.parameterize %>"></span>
+        <span class="caption"><%= t("blacklight.search.view.#{view}") %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<% end -%>

@@ -207,6 +207,9 @@ en:
         use_fewer_keywords: "Use fewer keywords to start, then refine your search using the links on the left."
         search_fields: "you searched by %{search_fields}"
         search_everything: "try searching everything"
+      view_title: "View results as: "
+      view:
+        list: "List"
 
     entry_name:
       default: 'entry'
