@@ -42,7 +42,23 @@ module Blacklight::FacetsHelperBehavior
   # @param [Blacklight::SolrResponse::Facets::FacetField] display_facet 
   def should_render_facet? display_facet
     # display when show is nil or true
-    display = facet_configuration_for_field(display_facet.name).show != false
+    facet_config = facet_configuration_for_field(display_facet.name)
+
+    display = case facet_config.show
+    when Symbol
+      arity = method(facet_config.show).arity
+
+      if arity == 0
+        send(facet_config.show)
+      else 
+        send(facet_config.show, display_facet)
+      end
+    when Proc
+      facet_config.show.call self, facet_config, display_facet
+    else
+      facet_config.show
+    end
+
     return display && display_facet.items.present?
   end
 
