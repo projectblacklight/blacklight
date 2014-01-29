@@ -46,6 +46,14 @@ module Blacklight::FacetsHelperBehavior
     return display && display_facet.items.present?
   end
 
+  ##
+  # if the facet is 'active', don't collapse
+  # if the facet is configured to collapse (the default), collapse
+  # if the facet is configured not to collapse, don't collapse
+  def should_collapse_facet? facet_field
+    !facet_field_in_params?(facet_field.field) && facet_field.collapse
+  end
+
   # the name of the partial to use to render a facet field. Can be over-ridden for custom
   # display on a per-facet basis. 
   def facet_partial_name(display_facet = nil)
