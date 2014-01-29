@@ -327,6 +327,26 @@ describe BlacklightHelper do
        params[:view] = 'not_in_list'
        expect(document_index_view_type).to eq 'list'
      end
+
+     it "should pluck values from supplied params" do
+       blacklight_config.stub(:document_index_view_types) { ['list', 'asdf'] }
+       params[:view] = 'asdf'
+       expect(document_index_view_type(:view => 'list')).to eq 'list'
+     end
+   end
+
+   describe "start_over_path" do
+    it 'should be the catalog path with the current view type' do
+      blacklight_config.stub(:document_index_view_types) { ['list', 'abc'] }
+      helper.stub(:blacklight_config => blacklight_config)
+      expect(helper.start_over_path(:view => 'abc')).to eq catalog_index_url(:view => 'abc')
+    end
+
+    it 'should not include the current view type if it is the default' do
+      blacklight_config.stub(:document_index_view_types) { ['list', 'abc'] }
+      helper.stub(:blacklight_config => blacklight_config)
+      expect(helper.start_over_path(:view => 'list')).to eq catalog_index_url
+    end
    end
 
    describe "render_document_index" do
