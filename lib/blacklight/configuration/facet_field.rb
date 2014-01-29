@@ -7,6 +7,9 @@ module Blacklight
         self.tag = "#{self.field}_single"
         self.ex = "#{self.field}_single"
       end
+
+      self.collapse = true if self.collapse.nil?
+
       super
     end
   end

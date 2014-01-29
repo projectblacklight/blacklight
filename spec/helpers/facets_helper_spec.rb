@@ -53,6 +53,32 @@ describe FacetsHelper do
     end
   end
 
+  describe "should_collapse_facet?" do
+    before do
+      @config = Blacklight::Configuration.new do |config|
+        config.add_facet_field 'basic_field'
+        config.add_facet_field 'no_collapse', collapse: false
+      end
+
+      helper.stub(blacklight_config: @config)
+    end
+
+    it "should be collapsed by default" do
+      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be_true
+    end
+
+    it "should not be collapsed if the configuration says so" do
+      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be_false
+    end
+
+    it "should not be collapsed if it is in the params" do
+      params[:f] = { basic_field: [1], no_collapse: [2] }.with_indifferent_access
+      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be_false
+      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be_false
+    end
+
+  end
+
   describe "facet_by_field_name" do
     it "should retrieve the facet from the response given a string" do
       facet_config = double(:query => nil)
