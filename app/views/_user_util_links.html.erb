@@ -23,7 +23,7 @@
       </li>
       <% unless current_user.to_s.blank? -%>
       <li>
-        [<%= link_to current_user, edit_user_registration_path %>]
+        <%= link_to current_user, edit_user_registration_path %>
       </li>
       <% end %>
       <% else %>

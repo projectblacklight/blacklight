@@ -17,6 +17,8 @@
 }
 
 #search-navbar {
+  z-index: 1;
+
   .search-query-form {
     @extend .col-md-8;
     padding-left: 0;
