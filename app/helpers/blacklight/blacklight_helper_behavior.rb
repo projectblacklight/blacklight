@@ -355,12 +355,16 @@ module Blacklight::BlacklightHelperBehavior
     ', '
   end
 
-  def document_index_view_type
-    if blacklight_config.document_index_view_types.include? params[:view]
-      params[:view]
+  def document_index_view_type query_params=params
+    if blacklight_config.document_index_view_types.include? query_params[:view]
+      query_params[:view]
     else
-      blacklight_config.document_index_view_types.first
+      default_document_index_view_type
     end
+  end
+
+  def default_document_index_view_type
+    blacklight_config.document_index_view_types.first
   end
 
   def render_document_index documents = nil, locals = {}
@@ -455,6 +459,17 @@ module Blacklight::BlacklightHelperBehavior
     p[:q]=query
     link_url = catalog_index_path(p)
     link_to(query, link_url)
+  end
+
+  ##
+  # Get the path to the search action with any parameters (e.g. view type)
+  # that should be persisted across search sessions.
+  def start_over_path query_params = params
+    h = { }
+    current_index_view_type = document_index_view_type(query_params)
+    h[:view] = current_index_view_type unless current_index_view_type == default_document_index_view_type
+
+    search_action_url(h)
   end
 
   def render_document_index_label doc, opts
