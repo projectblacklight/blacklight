@@ -77,6 +77,7 @@ span.constraints-label {
     margin-top: $padding-base-vertical;
     padding-top: $padding-base-vertical;
     border-bottom:1px dotted $table-border-color;
+    @extend .clearfix;
   }
 } 
 
@@ -127,6 +128,10 @@ span.constraints-label {
 {
   dd {
     margin-bottom: $padding-base-vertical;
+
+    &:after {
+      clear: none;
+    }
   }
 }
 
@@ -181,4 +186,13 @@ label.toggle_bookmark
 .document-thumbnail {
   float: right;
   padding-left: 20px;
+  margin-bottom: $line-height-computed;
+}
+
+.view-type {
+  display: inline-block;
+
+  .caption {
+    @extend .sr-only;
+  }
 }

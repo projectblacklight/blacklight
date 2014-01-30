@@ -223,6 +223,10 @@ fr:
         use_fewer_keywords: "Utilisez moins de mots-clés pour commencer, puis affiner votre recherche."
         search_fields: "vous avez cherché par %{search_fields}"
         search_everything: "essayez de rechercher tout"
+      view_title: "Affichage: "
+      view:
+        list: "Liste"
+
 
     entry_name:
       default: 'résultat'
