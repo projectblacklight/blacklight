@@ -7,6 +7,8 @@ module Blacklight
         self.tag = "#{self.field}_single"
         self.ex = "#{self.field}_single"
       end
+
+      self.show = true if self.show.nil?
       super
     end
   end

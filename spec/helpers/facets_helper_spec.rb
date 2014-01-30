@@ -34,11 +34,16 @@ describe FacetsHelper do
     before do
       @config = Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
-        config.add_facet_field 'no_show', :show=>false
+        config.add_facet_field 'no_show', :show => false
+        config.add_facet_field 'helper_show', :show => :my_helper
+        config.add_facet_field 'helper_with_an_arg_show', :show => :my_helper_with_an_arg
+        config.add_facet_field 'lambda_show', :show => lambda { |context, config, field| true }
+        config.add_facet_field 'lambda_no_show', :show => lambda { |context, config, field| false }
       end
 
       helper.stub(:blacklight_config => @config)
     end
+
     it "should render facets with items" do
       a = double(:items => [1,2], :name=>'basic_field')
       helper.should_render_facet?(a).should == true
@@ -51,6 +56,27 @@ describe FacetsHelper do
     it "should not render facets where show is set to false" do
       a = double(:items => [1,2], :name=>'no_show')
       helper.should_render_facet?(a).should ==  false
+    end
+
+    it "should call a helper to determine if it should render a field" do
+      helper.stub(:my_helper => true)
+      a = double(:items => [1,2], :name=>'helper_show')
+      expect(helper.should_render_facet?(a)).to be_true
+    end
+
+    it "should call a helper to determine if it should render a field" do
+      a = double(:items => [1,2], :name=>'helper_with_an_arg_show')
+      helper.should_receive(:my_helper_with_an_arg).with(a).and_return(true)
+      expect(helper.should_render_facet?(a)).to be_true
+    end
+
+
+    it "should evaluate a Proc to determine if it should render a field" do
+      a = double(:items => [1,2], :name=>'lambda_show')
+      expect(helper.should_render_facet?(a)).to be_true
+
+      a = double(:items => [1,2], :name=>'lambda_no_show')
+      expect(helper.should_render_facet?(a)).to be_false
     end
   end
 

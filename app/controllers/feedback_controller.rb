@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 class FeedbackController < ApplicationController
   
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight 5.x'
+
   # http://expressica.com/simple_captcha/
   # include SimpleCaptcha::ControllerHelpers
   
@@ -14,6 +17,7 @@ class FeedbackController < ApplicationController
       end
     end
   end
+  deprecation_deprecate :show
   
   protected
   
