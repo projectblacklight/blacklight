@@ -10,9 +10,7 @@ end
 
 desc "Run test suite"
 task :ci => 'blacklight:clean' do
-  ENV['environment'] = "test"
-  jetty_params = Jettywrapper.load_config
-  jetty_params[:startup_wait]= 60
+  jetty_params = Jettywrapper.load_config('test')
   error = Jettywrapper.wrap(jetty_params) do
     Rake::Task["blacklight:fixtures"].invoke
     Rake::Task['blacklight:coverage'].invoke
