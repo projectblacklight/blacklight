@@ -19,6 +19,7 @@ module Blacklight::CatalogHelperBehavior
   # kaminari paginate, passed on through.
   # will output HTML pagination controls.
   def paginate_rsolr_response(response, options = {}, &block)
+    Deprecation.warn Blacklight::CatalogHelperBehavior, "#paginate_rsolr_response is deprecated; the original response object is Kaminari-compatible"
     paginate response, options, &block
   end
 
