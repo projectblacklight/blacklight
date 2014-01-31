@@ -211,7 +211,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # Used in the document list partial (search view) for creating a link to the document show action
   def document_show_link_field document=nil
-    blacklight_config.index.show_link.to_sym
+    blacklight_config.view_config(document_index_view_type).show_link.to_sym
   end
 
   # Used in the search form partial for building a select tag
@@ -356,15 +356,15 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   def document_index_view_type query_params=params
-    if blacklight_config.document_index_view_types.include? query_params[:view]
-      query_params[:view]
+    if query_params[:view] and blacklight_config.view.keys.include? query_params[:view].to_sym
+      query_params[:view].to_sym
     else
       default_document_index_view_type
     end
   end
 
   def default_document_index_view_type
-    blacklight_config.document_index_view_types.first
+    blacklight_config.view.keys.first
   end
 
   def render_document_index documents = nil, locals = {}
@@ -486,7 +486,7 @@ module Blacklight::BlacklightHelperBehavior
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>nil, :counter => nil})
-    opts[:label] ||= blacklight_config.index.show_link.to_sym
+    opts[:label] ||= blacklight_config.view_config(document_index_view_type).show_link.to_sym
     label = render_document_index_label doc, opts
     link_to label, doc, search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
   end

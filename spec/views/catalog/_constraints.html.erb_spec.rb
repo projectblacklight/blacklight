@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe "catalog/constraints" do
   let :blacklight_config do
-    Blacklight::Configuration.new :document_index_view_types => ['list', 'xyz']
+    Blacklight::Configuration.new do |config|
+      config.view.xyz
+    end
   end
 
   it "should render nothing if no constraints are set" do
@@ -21,7 +23,7 @@ describe "catalog/constraints" do
   end
 
   it "should render a start over link with the current view type" do
-    view.should_receive(:search_action_url).with(view: 'xyz').and_return('http://xyz?view=xyz')
+    view.should_receive(:search_action_url).with(view: :xyz).and_return('http://xyz?view=xyz')
     view.stub(query_has_constraints?: true)
     params[:view] = 'xyz'
     view.stub(:blacklight_config).and_return(blacklight_config)

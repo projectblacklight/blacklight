@@ -564,7 +564,7 @@ module Blacklight::SolrHelper
   def solr_opensearch_params(field=nil)
     solr_params = solr_search_params
     solr_params[:per_page] = 10
-    solr_params[:fl] = blacklight_config.index.show_link
+    solr_params[:fl] = blacklight_config.view_config('opensearch').show_link
     solr_params
   end
   

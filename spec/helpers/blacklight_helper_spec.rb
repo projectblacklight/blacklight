@@ -316,34 +316,34 @@ describe BlacklightHelper do
 
    describe "document_index_view_type" do
      it "should default to 'list'" do
-       expect(document_index_view_type).to eq 'list'
+       expect(document_index_view_type).to eq :list
      end
 
      it "should pluck values out of params" do
-       blacklight_config.stub(:document_index_view_types) { ['list', 'asdf'] }
+       blacklight_config.stub(:view) { { list: nil, asdf: nil} }
        params[:view] = 'asdf'
-       expect(document_index_view_type).to eq 'asdf'
+       expect(document_index_view_type).to eq :asdf
 
        params[:view] = 'not_in_list'
-       expect(document_index_view_type).to eq 'list'
+       expect(document_index_view_type).to eq :list
      end
 
      it "should pluck values from supplied params" do
-       blacklight_config.stub(:document_index_view_types) { ['list', 'asdf'] }
+       blacklight_config.stub(:view) { { list: nil, asdf: nil} }
        params[:view] = 'asdf'
-       expect(document_index_view_type(:view => 'list')).to eq 'list'
+       expect(document_index_view_type(:view => 'list')).to eq :list
      end
    end
 
    describe "start_over_path" do
     it 'should be the catalog path with the current view type' do
-      blacklight_config.stub(:document_index_view_types) { ['list', 'abc'] }
+      blacklight_config.stub(:view) { { list: nil, abc: nil} }
       helper.stub(:blacklight_config => blacklight_config)
       expect(helper.start_over_path(:view => 'abc')).to eq catalog_index_url(:view => 'abc')
     end
 
     it 'should not include the current view type if it is the default' do
-      blacklight_config.stub(:document_index_view_types) { ['list', 'abc'] }
+      blacklight_config.stub(:view) { { list: nil, asdf: nil} }
       helper.stub(:blacklight_config => blacklight_config)
       expect(helper.start_over_path(:view => 'list')).to eq catalog_index_url
     end

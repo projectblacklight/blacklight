@@ -11,13 +11,17 @@ describe "catalog/_view_type_group" do
   end
 
   it "should not display the group when there's only one option" do
-    blacklight_config.stub document_index_view_types: ['a']
     render partial: 'catalog/view_type_group'
     expect(rendered).to be_empty
   end
 
   it "should display the group" do
-    blacklight_config.stub document_index_view_types: ['a', 'b', 'c']
+    blacklight_config.configure do |config|
+      config.view.delete(:list)
+      config.view.a 
+      config.view.b
+      config.view.c
+    end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.btn-group.view-type-group')
     expect(rendered).to have_selector('.view-type-a', :text => 'A')
@@ -27,7 +31,11 @@ describe "catalog/_view_type_group" do
 
 
   it "should set the current view to 'active'" do
-    blacklight_config.stub document_index_view_types: ['a', 'b']
+    blacklight_config.configure do |config|
+      config.view.delete(:list)
+      config.view.a 
+      config.view.b
+    end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.active', :text => 'A')
     expect(rendered).to_not have_selector('.active', :text => 'B')

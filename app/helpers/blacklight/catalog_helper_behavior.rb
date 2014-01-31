@@ -75,7 +75,7 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def render_document_class(document = @document)
-   'blacklight-' + document.get(blacklight_config.index.record_display_type).parameterize rescue nil
+    'blacklight-' + document.get(blacklight_config.view_config(document_index_view_type).record_display_type).parameterize rescue nil
   end
 
   def render_document_sidebar_partial(document = @document)
@@ -98,14 +98,14 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def has_thumbnail? document
-    blacklight_config.index.thumbnail_method or
-      blacklight_config.index.thumbnail_field && document.has?(blacklight_config.index.thumbnail_field)
+    blacklight_config.view_config(document_index_view_type).thumbnail_method or
+      blacklight_config.view_config(document_index_view_type).thumbnail_field && document.has?(blacklight_config.view_config(document_index_view_type).thumbnail_field)
   end
 
   def render_thumbnail_tag document, image_options = {}, url_options = {}
-    value = if blacklight_config.index.thumbnail_method
-      send(blacklight_config.index.thumbnail_method, document, image_options)
-    elsif blacklight_config.index.thumbnail_field
+    value = if blacklight_config.view_config(document_index_view_type).thumbnail_method
+      send(blacklight_config.view_config(document_index_view_type).thumbnail_method, document, image_options)
+    elsif blacklight_config.view_config(document_index_view_type).thumbnail_field
       image_tag thumbnail_url(document), image_options
     end
 
@@ -115,12 +115,24 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def thumbnail_url document
-    if document.has? blacklight_config.index.thumbnail_field
-      document.first(blacklight_config.index.thumbnail_field)
+    if document.has? blacklight_config.view_config(document_index_view_type).thumbnail_field
+      document.first(blacklight_config.view_config(document_index_view_type).thumbnail_field)
     end
   end
 
   def add_group_facet_params_and_redirect group
     add_facet_params_and_redirect(group.field, group.key)
+  end
+
+  def has_alternative_views?
+    blacklight_config.view.keys.length > 1
+  end
+
+  def render_view_type_group_icon view
+    content_tag :span, '', class: "glyphicon #{blacklight_config.view[view].icon_class || default_view_type_group_icon_classes(view) }"
+  end
+
+  def default_view_type_group_icon_classes view
+    "glyphicon-#{view.to_s.parameterize } view-icon-#{view.to_s.parameterize}"
   end
 end
