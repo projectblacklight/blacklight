@@ -22,6 +22,8 @@
 }
 
 
-button.close {
+/* app/views/catalog/facet.html.erb may be rendered as a modal or a whole page.
+   When it's a whole page, don't show the close button. */
+button.ajax-modal-close.close {
 	display: none;
 }
