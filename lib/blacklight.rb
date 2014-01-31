@@ -30,6 +30,7 @@ module Blacklight
   autoload :Facet, 'blacklight/facet'
 
   extend SearchFields
+  extend Deprecation
   
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
@@ -52,6 +53,7 @@ module Blacklight
   end
 
   def self.solr
+    Deprecation.warn Blacklight, "Blacklight.solr is deprecated and will be removed in Blacklight 5.0"
     @solr ||=  RSolr.connect(Blacklight.solr_config)
   end
 
