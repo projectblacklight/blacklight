@@ -97,4 +97,8 @@ class BookmarksController < CatalogController
   def verify_user
     flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_or_guest_user
   end
+
+  def start_new_search_session?
+    action_name == "index"
+  end
 end
