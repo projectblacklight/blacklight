@@ -11,10 +11,6 @@ describe "catalog/_paginate_compact.html.erb" do
       @config = config
     end
 
-    def blacklight_solr
-      Blacklight.solr
-    end
-
     def facet_limit_for *args
       0
     end

@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'rsolr'
-
 module Blacklight
 
   autoload :Configurable, 'blacklight/configurable'
