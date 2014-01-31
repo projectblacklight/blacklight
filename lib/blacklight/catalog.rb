@@ -3,9 +3,6 @@ module Blacklight::Catalog
   extend ActiveSupport::Concern
   
   include Blacklight::Base
-  
-  require 'blacklight/catalog/search_context'
-  include Blacklight::Catalog::SearchContext
 
   SearchHistoryWindow = 100 # how many searches to save in session history
 
@@ -240,6 +237,10 @@ module Blacklight::Catalog
       params.delete(:id)
       index
       render "index", :status => 404
+    end
+
+    def start_new_search_session?
+      action_name == "index"
     end
 
     def blacklight_solr

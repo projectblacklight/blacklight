@@ -26,7 +26,7 @@ module Blacklight::Catalog::SearchContext
   # The current search session 
   def current_search_session
 
-    @current_search_session ||= if action_name == "index"
+    @current_search_session ||= if start_new_search_session?
       find_or_initialize_search_session_from_params params
     elsif params[:search_context].present?
       find_or_initialize_search_session_from_params JSON.load(params[:search_context])
@@ -48,6 +48,13 @@ module Blacklight::Catalog::SearchContext
     search_session[:id] = @current_search_session.id if @current_search_session
 
     @current_search_session
+  end
+
+  ##
+  # If the current action should start a new search session, this should be
+  # set to true
+  def start_new_search_session?
+    false
   end
 
   def find_or_initialize_search_session_from_params params

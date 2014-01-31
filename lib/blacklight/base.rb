@@ -5,6 +5,8 @@ module Blacklight::Base
   include Blacklight::Configurable
   include Blacklight::SolrHelper
 
+  require 'blacklight/catalog/search_context'
+  include Blacklight::Catalog::SearchContext
 
   included do  
     # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
