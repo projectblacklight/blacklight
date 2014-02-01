@@ -3,6 +3,10 @@ source 'https://rubygems.org'
 # Please see blacklight.gemspec for dependency information.
 gemspec
 
+
+gem 'simplecov', require: false
+gem 'coveralls', require: false
+
 group :test do
   gem 'devise'
   gem 'devise-guests'

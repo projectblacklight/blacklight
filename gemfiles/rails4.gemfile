@@ -8,6 +8,8 @@ gem 'rails', '~> 4.0.0'
 gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
 
 group :test do
+  gem 'simplecov', require: false
+  gem 'coveralls', require: false
   gem 'devise'
   gem 'devise-guests'
   gem "bootstrap-sass"
