@@ -236,6 +236,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # Used in citation view for displaying the title
   def citation_title(document)
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#citation_title is deprecated; use #document_heading instead")
     document[blacklight_config.show.html_title]
   end
 
