@@ -4,6 +4,8 @@ module Blacklight
   # fields to display, facets to show, sort options, and search fields.
   class Configuration < OpenStructWithHashAccess
 
+    require 'blacklight/configuration/view_config'
+
     # Set up Blacklight::Configuration.default_values to contain
     # the basic, required Blacklight fields
     class << self
@@ -17,13 +19,13 @@ module Blacklight
           :default_solr_params => {},
           :document_solr_request_handler => nil,
           :default_document_solr_params => {},
-          :show => OpenStructWithHashAccess.new(:partials => [:show_header, :show], :html_title => unique_key, :heading => unique_key),
-          :index => OpenStructWithHashAccess.new(:partials => [:index_header, :thumbnail, :index], :show_link => unique_key, :record_display_type => 'format', :group => false),
+          :show => ViewConfig::Show.new(:partials => [:show_header, :show]),
+          :index => ViewConfig::Index.new(:partials => [:index_header, :thumbnail, :index], :title_field => unique_key, :display_type_field => 'format', :group => false),
+          :view => NestedOpenStructWithHashAccess.new(ViewConfig, 'list'),
           :spell_max => 5,
           :max_per_page => 100,
           :per_page => [10,20,50,100],
           :search_history_window => Blacklight::Catalog::SearchHistoryWindow,
-          :document_index_view_types => ['list'],
           :add_facet_fields_to_solr_request => false,
           :add_field_configuration_to_solr_request => false,
           :http_method => :get
@@ -113,6 +115,14 @@ module Blacklight
     def configure
       yield self if block_given?
       self
+    end
+
+    def view_config view_type
+      if view_type == :show
+        self.index.merge self.show
+      else
+        self.index.merge view.fetch(view_type, {})
+      end
     end
   end
 end

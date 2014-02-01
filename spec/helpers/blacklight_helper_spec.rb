@@ -67,16 +67,9 @@ describe BlacklightHelper do
   include Devise::TestHelpers
   def blacklight_config
     @config ||= Blacklight::Configuration.new.configure do |config|
-      config.show.html_title = "title_display"
-      config.show.heading = "title_display"
-      config.show.display_type = 'format'
-
-      config.index.show_link = 'title_display'
-      config.index.record_display_type = 'format'
+      config.index.title_field = 'title_display'
+      config.index.display_type_field = 'format'
     end
-
-    #CatalogController.blacklight_config
-    #@config ||= {:show => {:html_title => 'title_display', :heading => 'title_display', :display_type => 'format'}, :index => { :show_link => 'title_display', :record_display_type => 'format' } }
   end
 
   before(:each) do
@@ -316,34 +309,34 @@ describe BlacklightHelper do
 
    describe "document_index_view_type" do
      it "should default to 'list'" do
-       expect(document_index_view_type).to eq 'list'
+       expect(document_index_view_type).to eq :list
      end
 
      it "should pluck values out of params" do
-       blacklight_config.stub(:document_index_view_types) { ['list', 'asdf'] }
+       blacklight_config.stub(:view) { { list: nil, asdf: nil} }
        params[:view] = 'asdf'
-       expect(document_index_view_type).to eq 'asdf'
+       expect(document_index_view_type).to eq :asdf
 
        params[:view] = 'not_in_list'
-       expect(document_index_view_type).to eq 'list'
+       expect(document_index_view_type).to eq :list
      end
 
      it "should pluck values from supplied params" do
-       blacklight_config.stub(:document_index_view_types) { ['list', 'asdf'] }
+       blacklight_config.stub(:view) { { list: nil, asdf: nil} }
        params[:view] = 'asdf'
-       expect(document_index_view_type(:view => 'list')).to eq 'list'
+       expect(document_index_view_type(:view => 'list')).to eq :list
      end
    end
 
    describe "start_over_path" do
     it 'should be the catalog path with the current view type' do
-      blacklight_config.stub(:document_index_view_types) { ['list', 'abc'] }
+      blacklight_config.stub(:view) { { list: nil, abc: nil} }
       helper.stub(:blacklight_config => blacklight_config)
       expect(helper.start_over_path(:view => 'abc')).to eq catalog_index_url(:view => 'abc')
     end
 
     it 'should not include the current view type if it is the default' do
-      blacklight_config.stub(:document_index_view_types) { ['list', 'abc'] }
+      blacklight_config.stub(:view) { { list: nil, asdf: nil} }
       helper.stub(:blacklight_config => blacklight_config)
       expect(helper.start_over_path(:view => 'list')).to eq catalog_index_url
     end
@@ -504,12 +497,8 @@ describe BlacklightHelper do
   describe "with a config" do
     before do
       @config = Blacklight::Configuration.new.configure do |config|
-        config.show.html_title = "title_display"
-        config.show.heading = "title_display"
-        config.show.display_type = 'format'
-
-        config.index.show_link = 'title_display'
-        config.index.record_display_type = 'format'
+        config.index.title_field = 'title_display'
+        config.index.display_type_field = 'format'
       end
 
       @document = SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8')

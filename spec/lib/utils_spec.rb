@@ -33,12 +33,10 @@ describe 'Blacklight::Utils' do
     describe "internal hash table" do
       before do
         @h = Blacklight::OpenStructWithHashAccess.new
-
         @h[:a] = 1
         @h[:b] = 2
-
-
       end
+
       it "should expose the internal hash table" do
         expect(@h.to_h).to be_a_kind_of(Hash)
         expect(@h.to_h[:a]).to eq 1
@@ -48,10 +46,43 @@ describe 'Blacklight::Utils' do
         expect(@h.keys).to include(:a, :b)
       end
 
-      it "should expose merge" do
+    end
+
+    describe "#merge" do
+
+      before do
+        @h = Blacklight::OpenStructWithHashAccess.new
+        @h[:a] = 1
+        @h[:b] = 2
+      end
+      
+      it "should merge the object with a hash" do
         expect(@h.merge(:a => 'a')[:a]).to eq 'a'
       end
 
+      it "should merge the object with another struct" do
+        expect(@h.merge(Blacklight::OpenStructWithHashAccess.new(:a => 'a'))[:a]).to eq 'a'
+      end
+    end
+
+
+    describe "#merge!" do
+      
+      before do
+        @h = Blacklight::OpenStructWithHashAccess.new
+        @h[:a] = 1
+        @h[:b] = 2
+      end
+      
+      it "should merge the object with a hash" do
+        @h.merge!(:a => 'a')
+        expect(@h[:a]).to eq 'a'
+      end
+
+      it "should merge the object with another struct" do
+        @h.merge!(Blacklight::OpenStructWithHashAccess.new(:a => 'a'))
+        expect(@h[:a]).to eq 'a'
+      end
     end
   end
 end

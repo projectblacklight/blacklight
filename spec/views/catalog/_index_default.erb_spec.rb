@@ -9,7 +9,7 @@ describe "/catalog/_index_default.erb" do
 
   before(:each) do
     @config = Blacklight::Configuration.new do |config|
-      config.show.display_type = 'asdf'
+      config.show.display_type_field = 'asdf'
       config.add_index_field 'one_field', :label => 'One:'
       config.add_index_field 'empty_field', :label => 'Three:'
       config.add_index_field 'four_field', :label => 'Four:'

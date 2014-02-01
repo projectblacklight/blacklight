@@ -11,7 +11,7 @@
   <div id="doc_<%= @document.id.to_s.parameterize %>">
   
     <% # bookmark/folder functions -%>
-    <%= render_document_partials @document, blacklight_config.show.partials %>
+    <%= render_document_partials @document, blacklight_config.view_config(:show).partials %>
  
   </div>
 </div>

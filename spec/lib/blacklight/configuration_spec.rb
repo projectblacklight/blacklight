@@ -40,9 +40,8 @@ describe "Blacklight::Configuration" do
     end
 
     it "should introspect SolrDocument for sensible defaults  for show + index" do
-      expect(@config.show.html_title).to eq'id'
-      expect(@config.show.heading).to eq 'id'
-      expect(@config.index.show_link).to eq'id'
+      expect(@config.view_config(:show).title_field).to eq 'id'
+      expect(@config.index.title_field).to eq 'id'
     end
 
     it "should have ordered hashes for field configuration" do
