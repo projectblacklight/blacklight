@@ -161,10 +161,6 @@ module Blacklight::Solr::Document
       @unique_key ||= 'id' 
     end
 
-     def connection
-      @connection ||= Blacklight.solr
-     end
-    
     # Returns array of hashes of registered extensions. Each hash
     # has a :module_obj key and a :condition_proc key. Usually this
     # method is only used internally in #apply_extensions, but if you
