@@ -172,7 +172,8 @@ module Blacklight::Solr::Document
     end
 
      def connection
-      @connection ||= Blacklight.solr
+       Deprecation.warn(self, "Document.connection is deprecated and will be removed in Blacklight 5.0")
+       @connection ||= Blacklight.solr
      end
     
     # Returns array of hashes of registered extensions. Each hash
