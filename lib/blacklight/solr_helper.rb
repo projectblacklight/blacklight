@@ -642,4 +642,12 @@ module Blacklight::SolrHelper
     blacklight_config.index.group
   end
 
+  def blacklight_solr
+    @solr ||= RSolr.connect(blacklight_solr_config)
+  end
+
+  def blacklight_solr_config
+    Blacklight.solr_config
+  end
+
 end
