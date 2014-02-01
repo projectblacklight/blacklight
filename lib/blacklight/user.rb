@@ -12,19 +12,10 @@ module Blacklight::User
     end
   end
 
-  def has_bookmarks?
-    bookmarks.any?
-  end
-    
-  def has_searches?
-    searches.any?
-  end
-    
   def bookmarked_document_ids
     self.bookmarks.pluck(:document_id)
   end
-    
-  # see #current_bookmark_for, is easier
+
   def document_is_bookmarked?(document_id)
     bookmarked_document_ids.include? document_id.to_s
   end
@@ -33,11 +24,5 @@ module Blacklight::User
   # nil. 
   def existing_bookmark_for(document_id)
     self.bookmarks.where(:document_id => document_id).first
-  end
-    
-  def documents_to_bookmark=(docs)
-    docs.reject { |doc| document_is_bookmarked?(doc[:document_id]) }.each do |doc|
-      self.bookmarks.create(doc) 
-    end
   end
 end

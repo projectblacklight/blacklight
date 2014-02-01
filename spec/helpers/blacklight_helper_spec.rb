@@ -819,4 +819,32 @@ describe BlacklightHelper do
       expect(helper.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a") 
     end
   end
+
+  describe "link_to_previous_search" do
+    it "should link to the given search parameters" do
+      params = {}
+      helper.should_receive(:render_search_to_s).with(params).and_return "link text"
+      expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", catalog_index_path)
+    end
+  end
+
+  describe "should_show_spellcheck_suggestions?" do
+    before :each do
+      helper.stub spell_check_max: 5
+    end
+    it "should not show suggestions if there are enough results" do
+      response = double(total: 10)
+      expect(helper.should_show_spellcheck_suggestions? response).to be_false
+    end
+
+    it "should only show suggestions if there are very few results" do
+      response = double(total: 4, spelling: double(words: [1]))
+      expect(helper.should_show_spellcheck_suggestions? response).to be_true
+    end
+
+    it "should show suggestions only if there are spelling suggestions available" do
+      response = double(total: 4, spelling: double(words: []))
+      expect(helper.should_show_spellcheck_suggestions? response).to be_false
+    end
+  end
 end

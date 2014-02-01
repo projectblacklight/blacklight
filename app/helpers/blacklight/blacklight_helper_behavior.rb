@@ -105,8 +105,8 @@ module Blacklight::BlacklightHelperBehavior
       solr_field.accessor
   end
 
-  def spell_check_max
-    blacklight_config.spell_max
+  def should_show_spellcheck_suggestions? response
+    response.total <= spell_check_max and response.spelling.words.size > 0
   end
 
   ##
@@ -444,7 +444,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # Search History and Saved Searches display
   def link_to_previous_search(params)
-    link_to(raw(render_search_to_s(params)), catalog_index_path(params)).html_safe
+    link_to(render_search_to_s(params), catalog_index_path(params))
   end
 
   #
@@ -639,6 +639,10 @@ module Blacklight::BlacklightHelperBehavior
 
   def render_bookmarks_control?
     has_user_authentication_provider? and current_or_guest_user.present?
+  end
+
+  def spell_check_max
+    blacklight_config.spell_max
   end
 
 end
