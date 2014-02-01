@@ -819,4 +819,24 @@ describe BlacklightHelper do
       expect(helper.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a") 
     end
   end
+
+  describe "should_show_spellcheck_suggestions?" do
+    before :each do
+      helper.stub spell_check_max: 5
+    end
+    it "should not show suggestions if there are enough results" do
+      response = double(total: 10)
+      expect(helper.should_show_spellcheck_suggestions? response).to be_false
+    end
+
+    it "should only show suggestions if there are very few results" do
+      response = double(total: 4, spelling: double(words: [1]))
+      expect(helper.should_show_spellcheck_suggestions? response).to be_true
+    end
+
+    it "should show suggestions only if there are spelling suggestions available" do
+      response = double(total: 4, spelling: double(words: []))
+      expect(helper.should_show_spellcheck_suggestions? response).to be_false
+    end
+  end
 end
