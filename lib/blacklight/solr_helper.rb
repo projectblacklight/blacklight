@@ -558,13 +558,12 @@ module Blacklight::SolrHelper
   end
     
   # returns a solr params hash
-  # if field is nil, the value is fetched from blacklight_config[:index][:show_link]
   # the :fl (solr param) is set to the "field" value.
   # per_page is set to 10
   def solr_opensearch_params(field=nil)
     solr_params = solr_search_params
     solr_params[:per_page] = 10
-    solr_params[:fl] = blacklight_config.view_config('opensearch').show_link
+    solr_params[:fl] = field || blacklight_config.view_config('opensearch').title_field
     solr_params
   end
   

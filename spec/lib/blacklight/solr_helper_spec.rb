@@ -636,8 +636,8 @@ describe 'Blacklight::SolrHelper' do
         (solr_response, document_list) = get_search_results(:q => @all_docs_query)
         result_docs = document_list
         document = result_docs.first
-        expect(document.get(blacklight_config.index.show_link)).not_to be_nil
-        expect(document.get(blacklight_config.index.record_display_type)).not_to be_nil
+        expect(document.get(blacklight_config.index.title_field)).not_to be_nil
+        expect(document.get(blacklight_config.index.display_type_field)).not_to be_nil
       end
     end
 
@@ -870,9 +870,8 @@ describe 'Blacklight::SolrHelper' do
       expect(@document.id).to eq @doc_id
     end
     it 'should have non-nil values for required fields set in initializer' do
-      expect(@document.get(blacklight_config[:show][:html_title])).not_to be_nil
-      expect(@document.get(blacklight_config[:show][:heading])).not_to be_nil
-      expect(@document.get(blacklight_config[:show][:display_type])).not_to be_nil
+      expect(@document.get(blacklight_config.view_config(:show).title_field)).not_to be_nil
+      expect(@document.get(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
     end
   end
 
@@ -944,9 +943,8 @@ describe 'Blacklight::SolrHelper' do
     end
 
     it 'should have non-nil values for required fields set in initializer' do
-      expect(@doc[blacklight_config.show.html_title]).not_to be_nil
-      expect(@doc[blacklight_config.show.heading]).not_to be_nil
-      expect(@doc[blacklight_config.show.display_type]).not_to be_nil
+      expect(@doc[blacklight_config.view_config(:show).title_field]).not_to be_nil
+      expect(@doc[blacklight_config.view_config(:show).display_type_field]).not_to be_nil
     end
 
     it "should limit search result by facets when supplied" do

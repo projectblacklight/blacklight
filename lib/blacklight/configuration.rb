@@ -19,8 +19,8 @@ module Blacklight
           :default_solr_params => {},
           :document_solr_request_handler => nil,
           :default_document_solr_params => {},
-          :show => OpenStructWithHashAccess.new(:partials => [:show_header, :show], :html_title => unique_key, :heading => unique_key),
-          :index => OpenStructWithHashAccess.new(:partials => [:index_header, :thumbnail, :index], :show_link => unique_key, :record_display_type => 'format', :group => false),
+          :show => ViewConfig::Show.new(:partials => [:show_header, :show]),
+          :index => ViewConfig::Index.new(:partials => [:index_header, :thumbnail, :index], :title_field => unique_key, :display_type_field => 'format', :group => false),
           :view => NestedOpenStructWithHashAccess.new(ViewConfig, 'list'),
           :spell_max => 5,
           :max_per_page => 100,
@@ -118,7 +118,11 @@ module Blacklight
     end
 
     def view_config view_type
-      self.index.merge view.fetch(view_type, {})
+      if view_type == :show
+        self.index.merge self.show
+      else
+        self.index.merge view.fetch(view_type, {})
+      end
     end
   end
 end

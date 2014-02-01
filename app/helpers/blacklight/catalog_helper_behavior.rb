@@ -75,7 +75,7 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def render_document_class(document = @document)
-    'blacklight-' + document.get(blacklight_config.view_config(document_index_view_type).record_display_type).parameterize rescue nil
+    'blacklight-' + document.get(blacklight_config.view_config(document_index_view_type_field).display_type_field).parameterize rescue nil
   end
 
   def render_document_sidebar_partial(document = @document)

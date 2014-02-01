@@ -67,16 +67,9 @@ describe BlacklightHelper do
   include Devise::TestHelpers
   def blacklight_config
     @config ||= Blacklight::Configuration.new.configure do |config|
-      config.show.html_title = "title_display"
-      config.show.heading = "title_display"
-      config.show.display_type = 'format'
-
-      config.index.show_link = 'title_display'
-      config.index.record_display_type = 'format'
+      config.index.title_field = 'title_display'
+      config.index.display_type_field = 'format'
     end
-
-    #CatalogController.blacklight_config
-    #@config ||= {:show => {:html_title => 'title_display', :heading => 'title_display', :display_type => 'format'}, :index => { :show_link => 'title_display', :record_display_type => 'format' } }
   end
 
   before(:each) do
@@ -504,12 +497,8 @@ describe BlacklightHelper do
   describe "with a config" do
     before do
       @config = Blacklight::Configuration.new.configure do |config|
-        config.show.html_title = "title_display"
-        config.show.heading = "title_display"
-        config.show.display_type = 'format'
-
-        config.index.show_link = 'title_display'
-        config.index.record_display_type = 'format'
+        config.index.title_field = 'title_display'
+        config.index.display_type_field = 'format'
       end
 
       @document = SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8')

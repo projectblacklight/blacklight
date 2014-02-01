@@ -168,7 +168,18 @@ module Blacklight::BlacklightHelperBehavior
   # Used in the show view for displaying the main solr document heading
   def document_heading document=nil
     document ||= @document
-    document[blacklight_config.show.heading] || document.id
+    render_field_value document[blacklight_config.view_config(:show).title_field] || document.id
+  end
+
+  # Used in the show view for setting the main html document title
+  def document_show_html_title document=nil
+    document ||= @document
+
+    if blacklight_config.view_config(:show).html_title_field
+      render_field_value(document[blacklight_config.view_config(:show).html_title_field])
+    else
+      document_heading document
+    end
   end
 
   ##
@@ -193,17 +204,6 @@ module Blacklight::BlacklightHelperBehavior
     content_tag(tag, render_field_value(document_heading(document)), :itemprop => "name")
   end
 
-  # Used in the show view for setting the main html document title
-  def document_show_html_title document=nil
-    document ||= @document
-    render_field_value(document[blacklight_config.show.html_title])
-  end
-
-  # Used in citation view for displaying the title
-  def citation_title(document)
-    document[blacklight_config.show.html_title]
-  end
-
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
     blacklight_config.sort_fields.map { |key, x| [x.label, x.key] }
@@ -211,7 +211,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # Used in the document list partial (search view) for creating a link to the document show action
   def document_show_link_field document=nil
-    blacklight_config.view_config(document_index_view_type).show_link.to_sym
+    blacklight_config.view_config(document_index_view_type).title_field.to_sym
   end
 
   # Used in the search form partial for building a select tag
@@ -399,7 +399,7 @@ module Blacklight::BlacklightHelperBehavior
     # .to_s is necessary otherwise the default return value is not always a string
     # using "_" as sep. to more closely follow the views file naming conventions
     # parameterize uses "-" as the default sep. which throws errors
-    display_type = document[blacklight_config.show.display_type]
+    display_type = document[blacklight_config.view_config(:show).display_type_field]
 
     return 'default' unless display_type
     display_type = display_type.join(" ") if display_type.respond_to?(:join)
@@ -486,7 +486,7 @@ module Blacklight::BlacklightHelperBehavior
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, opts={:label=>nil, :counter => nil})
-    opts[:label] ||= blacklight_config.view_config(document_index_view_type).show_link.to_sym
+    opts[:label] ||= document_show_link_field(doc)
     label = render_document_index_label doc, opts
     link_to label, doc, search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
   end

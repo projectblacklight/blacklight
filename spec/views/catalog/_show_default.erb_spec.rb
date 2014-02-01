@@ -11,7 +11,7 @@ describe "/catalog/_show_default.html.erb" do
 
   before(:each) do
      @config = Blacklight::Configuration.new do |config|
-      config.show.display_type = 'asdf'
+      config.show.display_type_field = 'asdf'
       config.add_show_field 'one_field', :label => 'One:'
       config.add_show_field 'empty_field', :label => 'Three:'
       config.add_show_field 'four_field', :label => 'Four:'
