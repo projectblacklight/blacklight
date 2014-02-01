@@ -32,7 +32,9 @@ describe 'Blacklight::SolrHelper' do
   end
 
   def blacklight_solr
-    Blacklight.solr
+    Deprecation.silence(Blacklight) {
+      Blacklight.solr
+    }
   end
 
   include Blacklight::SolrHelper
@@ -566,7 +568,7 @@ describe 'Blacklight::SolrHelper' do
 
       it "should use the configured request handler " do
         blacklight_config.stub(:default_solr_params).and_return({:qt => 'custom_request_handler'})
-        Blacklight.solr.should_receive(:send_and_receive) do |path, params|
+        blacklight_solr.should_receive(:send_and_receive) do |path, params|
           path.should == 'select'
           params[:params][:'facet.field'].should == ["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
           params[:params][:"facet.query"].should == ["pub_date:[#{5.years.ago.year} TO *]", "pub_date:[#{10.years.ago.year} TO *]", "pub_date:[#{25.years.ago.year} TO *]"]
@@ -860,7 +862,7 @@ describe 'Blacklight::SolrHelper' do
 
     it "should use a provided document request handler " do
       blacklight_config.stub(:document_solr_request_handler => 'document')
-      Blacklight.solr.should_receive(:get).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
+      blacklight_solr.should_receive(:get).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
       lambda { get_solr_response_for_doc_id(@doc_id)}.should raise_error Blacklight::Exceptions::InvalidSolrID
     end
 
@@ -1090,7 +1092,7 @@ describe 'Blacklight::SolrHelper' do
 #  more like this
 #  nearby on shelf
   it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
-    Blacklight.solr.stub(:get).and_raise(Errno::ECONNREFUSED)
+    blacklight_solr.stub(:get).and_raise(Errno::ECONNREFUSED)
     expect { find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
@@ -1156,7 +1158,7 @@ describe 'Blacklight::SolrHelper' do
 
       it "defaults to get" do
         expect(blacklight_config.http_method).to eq :get
-        Blacklight.solr.should_receive(:send_and_receive) do |path, params|
+        blacklight_solr.should_receive(:send_and_receive) do |path, params|
           expect(path).to eq 'select'
           expect(params[:method]).to eq :get
           expect(params[:params]).to include(:q)
@@ -1170,7 +1172,7 @@ describe 'Blacklight::SolrHelper' do
 
       it "keep value set to post" do
         expect(blacklight_config.http_method).to eq :post
-        Blacklight.solr.should_receive(:send_and_receive) do |path, params|
+        blacklight_solr.should_receive(:send_and_receive) do |path, params|
           expect(path).to eq 'select'
           expect(params[:method]).to eq :post
           expect(params[:data]).to include(:q)

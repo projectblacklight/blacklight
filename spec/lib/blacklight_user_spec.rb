@@ -4,6 +4,10 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe "Blacklight::User" do
 
   subject { User.create! :email => 'xyz@example.com', :password => 'xyz12345' }
+  
+  around(:each) do |example|
+    Deprecation.silence(Blacklight::User) { example.run }
+  end
 
   def mock_bookmark document_id
     Bookmark.new :document_id => document_id

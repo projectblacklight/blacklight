@@ -12,7 +12,7 @@ describe "catalog/_paginate_compact.html.erb" do
     end
 
     def blacklight_solr
-      Blacklight.solr
+      Deprecation.silence(Blacklight) { Blacklight.solr }
     end
 
     def facet_limit_for *args
