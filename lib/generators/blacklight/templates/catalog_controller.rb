@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'blacklight/catalog'
-
+#
 class CatalogController < ApplicationController  
 
   include Blacklight::Catalog
@@ -174,7 +173,5 @@ class CatalogController < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
   end
-
-
 
 end 

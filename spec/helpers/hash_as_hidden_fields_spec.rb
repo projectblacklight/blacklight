@@ -9,7 +9,7 @@ describe HashAsHiddenFieldsHelper do
 
   it "should convert a hash with nested complex data to Rails-style hidden form fields" do
 
-    generated = hash_as_hidden_fields(@hash)
+    generated = render_hash_as_hidden_fields(@hash)
 
     generated.should have_selector("input[type='hidden'][name='q'][value='query']")
     generated.should have_selector("input[type='hidden'][name='per_page'][value='10']")

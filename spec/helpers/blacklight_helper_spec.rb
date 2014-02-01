@@ -180,7 +180,24 @@ describe BlacklightHelper do
     end
   end
 
+  describe "sanitize_search_params" do
+    it "should strip nil values" do
+      result = sanitize_search_params(:a => nil, :b => 1)
+      expect(result).to_not have_key(:a)
+      expect(result[:b]).to eq 1
+    end
+
+    it "should remove blacklisted keys" do
+      result = sanitize_search_params(:action => true, :controller => true, :id => true, :commit => true, :utf8 => true)
+      expect(result).to be_empty
+    end
+  end
+
   describe "params_for_search" do
+    around(:each) do |example|
+      Deprecation.silence(Blacklight::BlacklightHelperBehavior) { example.run }
+    end
+
     def params
       { 'default' => 'params'}
     end
@@ -193,46 +210,60 @@ describe BlacklightHelper do
 
     it "should let you pass in params to use" do
       source_params = { :q => 'query'}
-      result = params_for_search(:params => source_params )
+      result = params_for_search(source_params, {})
       source_params.should == result
       source_params.object_id.should_not == result.object_id
     end
 
+    it "should let you pass in params to use (the deprecated way)" do
+      source_params = { :q => 'query'}
+      result = params_for_search(:params => source_params )
+      source_params.should == result
+      source_params.object_id.should_not == result.object_id
+    end
+    
+
+    it "should let you pass in params to merge into the controller's params" do
+      source_params = { :q => 'query'}
+      result = params_for_search( source_params )
+      expect(result).to include(:q => 'query', 'default' => 'params')
+    end
+
     it "should not return blacklisted elements" do
       source_params = { :action => 'action', :controller => 'controller', :id => "id", :commit => 'commit'}
-      result = params_for_search(:params => source_params )
+      result = params_for_search(source_params, {} )
       result.keys.should_not include(:action, :controller, :commit, :id)
 
     end
 
     it "should adjust the current page if the per_page changes" do
       source_params = { :per_page => 20, :page => 5}
-      result = params_for_search(:params => source_params, :per_page => 100)
+      result = params_for_search(source_params, :per_page => 100)
       result[:page].should == 1
     end
 
     it "should not adjust the current page if the per_page is the same as it always was" do
       source_params = { :per_page => 20, :page => 5}
-      result = params_for_search(:params => source_params, :per_page => 20)
+      result = params_for_search(source_params, :per_page => 20)
       result[:page].should == 5
     end
 
     it "should adjust the current page if the sort changes" do
       source_params = { :sort => 'field_a', :page => 5}
-      result = params_for_search(:params => source_params, :sort => 'field_b')
+      result = params_for_search(source_params, :sort => 'field_b')
       result[:page].should == 1
     end
 
     it "should not adjust the current page if the sort is the same as it always was" do
       source_params = { :sort => 'field_a', :page => 5}
-      result = params_for_search(:params => source_params, :sort => 'field_a')
+      result = params_for_search(source_params, :sort => 'field_a')
       result[:page].should == 5
     end
 
     describe "omit keys parameter" do
       it "should omit keys by key name" do
         source_params = { :a => 1, :b => 2, :c => 3}
-        result = params_for_search(:params => source_params, :omit_keys => [:a, :b] )
+        result = params_for_search(source_params, :omit_keys => [:a, :b] )
 
         result.keys.should_not include(:a, :b)
         result[:c].should == 3
@@ -240,17 +271,31 @@ describe BlacklightHelper do
 
       it "should remove keys if a key/value pair was passed and no values are left for that key" do
         source_params = { :f => ['a']}
-        result = params_for_search(:params => source_params, :omit_keys => [{:f => 'a' }])
+        result = params_for_search(source_params, :omit_keys => [{:f => 'a' }])
         result.keys.should_not include(:f)
       end
 
       it "should only remove keys when a key/value pair is based that are in that pair" do
 
         source_params = { :f => ['a', 'b']}
-        result = params_for_search(:params => source_params, :omit_keys => [{:f => 'a' }])
+        result = params_for_search(source_params, :omit_keys => [{:f => 'a' }])
         result[:f].should_not include('a')
         result[:f].should include('b')
       end
+    end
+
+     describe "params_for_search with a block" do
+      it "should evalute the block and allow it to add or remove keys" do
+        result = params_for_search({:a => 1, :b => 2}, :c => 3) do |params|
+          params.except! :a, :b 
+          params[:d] = 'd'
+        end
+
+        result.keys.should_not include(:a, :b)
+        expect(result[:c]).to eq 3
+        expect(result[:d]).to eq 'd'
+      end
+
     end
 
   end
@@ -261,7 +306,9 @@ describe BlacklightHelper do
     end
     describe "for default arguments" do
       it "should default to omitting :page" do
-        search_as_hidden_fields.should_not have_selector("input[name='page']")
+        Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
+          search_as_hidden_fields.should_not have_selector("input[name='page']")
+        end
       end
     end
  end
@@ -742,6 +789,34 @@ describe BlacklightHelper do
 
     it "should use the separator from the Blacklight field configuration by default" do
       expect(helper.render_field_value(['c', 'd'], double(:separator => '; '))).to eq "c; d"
+    end
+  end
+
+  describe "link_to_previous_search" do
+    it "should link to the given search parameters" do
+      params = {}
+      helper.should_receive(:render_search_to_s).with(params).and_return "link text"
+      expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", catalog_index_path)
+    end
+  end
+
+  describe "should_show_spellcheck_suggestions?" do
+    before :each do
+      helper.stub spell_check_max: 5
+    end
+    it "should not show suggestions if there are enough results" do
+      response = double(total: 10)
+      expect(helper.should_show_spellcheck_suggestions? response).to be_false
+    end
+
+    it "should only show suggestions if there are very few results" do
+      response = double(total: 4, spelling: double(words: [1]))
+      expect(helper.should_show_spellcheck_suggestions? response).to be_true
+    end
+
+    it "should show suggestions only if there are spelling suggestions available" do
+      response = double(total: 4, spelling: double(words: []))
+      expect(helper.should_show_spellcheck_suggestions? response).to be_false
     end
   end
 end

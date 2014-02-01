@@ -41,8 +41,7 @@ module Blacklight::Configurable
     end
 
     ##
-    # The default configuration object, by default it reads from Blacklight.config for backwards
-    # compatibility with Blacklight <= 3.1
+    # The default configuration object
     def default_configuration
       Blacklight::Configurable.default_configuration.inheritable_copy
     end

@@ -140,8 +140,8 @@ module Blacklight::BlacklightHelperBehavior
     Hash[*index_fields(document).map { |key, field| [key, field.label] }.flatten]
   end
 
-  def spell_check_max
-    blacklight_config.spell_max
+  def should_show_spellcheck_suggestions? response
+    response.total <= spell_check_max and response.spelling.words.size > 0
   end
 
   ##
@@ -162,7 +162,7 @@ module Blacklight::BlacklightHelperBehavior
     document = args.first
 
     field = options[:field]
-    html_escape index_fields(document)[field].label
+    html_escape t(:'blacklight.search.index.label', label: index_fields(document)[field].label)
   end
 
   ##
@@ -236,6 +236,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # Used in citation view for displaying the title
   def citation_title(document)
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#citation_title is deprecated; use #document_heading instead")
     document[blacklight_config.show.html_title]
   end
 
@@ -287,7 +288,7 @@ module Blacklight::BlacklightHelperBehavior
 
     field = options[:field]
 
-    html_escape document_show_fields(document)[field].label
+    html_escape t(:'blacklight.search.show.label', label: document_show_fields(document)[field].label)
   end
 
   ##
@@ -451,7 +452,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # Search History and Saved Searches display
   def link_to_previous_search(params)
-    link_to(raw(render_search_to_s(params)), catalog_index_path(params)).html_safe
+    link_to(render_search_to_s(params), catalog_index_path(params))
   end
 
   #
@@ -516,15 +517,60 @@ module Blacklight::BlacklightHelperBehavior
     link_to opts[:label], link_url
   end
 
-  def params_for_search(options={})
-    # special keys
-    # params hash to mutate
-    source_params = options.delete(:params) || params
-    omit_keys = options.delete(:omit_keys) || []
+  # @overload params_for_search(source_params, params_to_merge)
+  #   Merge the source params with the params_to_merge hash
+  #   @param [Hash] Hash 
+  #   @param [Hash] Hash to merge into above
+  # @overload params_for_search(params_to_merge)
+  #   Merge the current search parameters with the 
+  #      parameters provided. 
+  #   @param [Hash] Hash to merge into the parameters
+  # @overload params_for_search
+  #   Returns the current search parameters after being sanitized by #sanitize_search_params
+  # @overload legacy_method
+  #   @params [Hash] Hash of params to merge, may include:
+  #      - :omit_keys
+  #      - :params
+  # @yield [params] The merged parameters hash before being sanitized
+  def params_for_search(*args, &block)
+
+    omit_keys = []
+    
+    source_params, params_to_merge = case args.length
+    when 0
+      [params, {}]
+    when 1
+      options = args.first
+
+      if options.has_key? :omit_keys
+        Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#params_for_search with :omit_keys is deprecated; use params_for_search to generate the hash, and either provide a block or clean up the params after the fact")
+        omit_keys = options.delete(:omit_keys)
+      end
+
+      if options.has_key? :params
+        Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#params_for_search with :params option is deprecated; use the 2-arg form of #params_for_search(params, params_to_merge)")
+      end
+
+      [options.delete(:params) || params, options]
+    when 2
+      options = args.last
+
+      if options.has_key? :omit_keys
+        Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#params_for_search with :omit_keys is deprecated; use params_for_search to generate the hash, and either provide a block or clean up the params after the fact")
+        omit_keys = options.delete(:omit_keys)
+      end
+
+      [args.first, options]
+    else
+      raise ArgumentError.new "wrong number of arguments (#{args.length} for 0..2)"
+    end
 
     # params hash we'll return
-    my_params = source_params.dup.merge(options.dup)
+    my_params = source_params.dup.merge(params_to_merge.dup)
 
+    if block_given?
+      yield my_params
+    end
 
     # remove items from our params hash that match:
     #   - a key
@@ -555,18 +601,21 @@ module Blacklight::BlacklightHelperBehavior
       my_params[:page] = 1
     end
 
-    my_params.reject! { |k,v| v.nil? }
-
-    # removing action, controller, and id from duplicate params so that we don't get hidden fields for them.
-    my_params.delete(:action)
-    my_params.delete(:controller)
-    my_params.delete(:id)
-    # commit is just an artifact of submit button, we don't need it, and
-    # don't want it to pile up with another every time we press submit again!
-    my_params.delete(:commit)
-
-    my_params
+    sanitize_search_params(my_params)
   end
+
+  ##
+  # Sanitize the search parameters by removing unnecessary parameters
+  # from the provided parameters
+  # @param [Hash] Hash of parameters
+  def sanitize_search_params source_params
+
+    my_params = source_params.reject { |k,v| v.nil? }
+
+    my_params.except(:action, :controller, :id, :commit, :utf8)
+
+  end
+
 
   # Create form input type=hidden fields representing the entire search context,
   # for inclusion in a form meant to change some aspect of it, like
@@ -574,10 +623,12 @@ module Blacklight::BlacklightHelperBehavior
   # as :params => hash, otherwise defaults to #params. Can pass
   # in certain top-level params keys to _omit_, defaults to :page
   def search_as_hidden_fields(options={})
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#search_as_hidden_fields is deprecated; use render_hash_as_hidden_fields(params_for_search(..)..) instead")
+    
     my_params = params_for_search({:omit_keys => [:page]}.merge(options))
 
     # hash_as_hidden_fields in hash_as_hidden_fields.rb
-    return hash_as_hidden_fields(my_params)
+    return render_hash_as_hidden_fields(my_params)
   end
 
   def link_to_previous_document(previous_document)
@@ -641,6 +692,10 @@ module Blacklight::BlacklightHelperBehavior
 
   def render_bookmarks_control?
     has_user_authentication_provider? and current_or_guest_user.present?
+  end
+
+  def spell_check_max
+    blacklight_config.spell_max
   end
 
 end
