@@ -745,6 +745,14 @@ describe BlacklightHelper do
     end
   end
 
+  describe "link_to_previous_search" do
+    it "should link to the given search parameters" do
+      params = {}
+      helper.should_receive(:render_search_to_s).with(params).and_return "link text"
+      expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", catalog_index_path)
+    end
+  end
+
   describe "should_show_spellcheck_suggestions?" do
     before :each do
       helper.stub spell_check_max: 5
