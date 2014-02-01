@@ -207,8 +207,11 @@ fr:
           value: 'Supprimer la restriction %{value}'
           label_value: 'Supprimer la restriction %{label}: %{value}'
       start_over: 'Accueil'
+      index:
+        label: '%{label}:'
       show:
         title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
       rss_feed: 'RSS pour les résultats'
       atom_feed: 'Atom pour les résultats'
       fields:

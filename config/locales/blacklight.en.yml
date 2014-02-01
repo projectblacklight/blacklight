@@ -191,8 +191,11 @@ en:
           value: 'Remove constraint %{value}'
           label_value: 'Remove constraint %{label}: %{value}'
       start_over: 'Start Over'
+      index:
+        label: '%{label}:'
       show:
         title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
       rss_feed: 'RSS for results'
       atom_feed: 'Atom for results'
       fields:
