@@ -159,16 +159,11 @@ module Blacklight::FacetsHelperBehavior
   # catalog/index with their new facet choice. 
   def add_facet_params_and_redirect(field, item)
     new_params = add_facet_params(field, item)
-
-    # Delete page, if needed. 
-    new_params.delete(:page)
+    new_params.except! :page, :id
 
     # Delete any request params from facet-specific action, needed
     # to redir to index action properly. 
-    Blacklight::Solr::FacetPaginator.request_keys.values.each do |paginator_key| 
-      new_params.delete(paginator_key)
-    end
-    new_params.delete(:id)
+    new_params.except! *Blacklight::Solr::FacetPaginator.request_keys.values
 
     # Force action to be index. 
     new_params[:action] = "index"
@@ -191,10 +186,7 @@ module Blacklight::FacetsHelperBehavior
     # from the session will get remove in the show view...
     p[:f] = (p[:f] || {}).dup
     p[:f][field] = (p[:f][field] || []).dup
-    p.delete :page
-    p.delete :id
-    p.delete :counter
-    p.delete :commit
+    p.except! :page, :id, :counter, :commit
     p[:f][field] = p[:f][field] - [value]
     p[:f].delete(field) if p[:f][field].size == 0
     p

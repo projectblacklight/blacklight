@@ -453,9 +453,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # create link to query (e.g. spelling suggestion)
   def link_to_query(query)
-    p = params.dup
-    p.delete :page
-    p.delete :action
+    p = params.except(:page, :action)
     p[:q]=query
     link_url = catalog_index_path(p)
     link_to(query, link_url)
@@ -514,68 +512,54 @@ module Blacklight::BlacklightHelperBehavior
     link_to label, link_url, opts
   end
 
-  def params_for_search(options={})
-    # special keys
-    # params hash to mutate
-    source_params = options.delete(:params) || params
-    omit_keys = options.delete(:omit_keys) || []
+  # @overload params_for_search(source_params, params_to_merge)
+  #   Merge the source params with the params_to_merge hash
+  #   @param [Hash] Hash 
+  #   @param [Hash] Hash to merge into above
+  # @overload params_for_search(params_to_merge)
+  #   Merge the current search parameters with the 
+  #      parameters provided. 
+  #   @param [Hash] Hash to merge into the parameters
+  # @overload params_for_search
+  #   Returns the current search parameters after being sanitized by #sanitize_search_params
+  # @yield [params] The merged parameters hash before being sanitized
+  def params_for_search(*args, &block)
+
+    source_params, params_to_merge = case args.length
+    when 0
+      [params, {}]
+    when 1
+      [params, args.first]
+    when 2
+      [args.first, args.last]
+    else
+      raise ArgumentError.new "wrong number of arguments (#{args.length} for 0..2)"
+    end
 
     # params hash we'll return
-    my_params = source_params.dup.merge(options.dup)
+    my_params = source_params.dup.merge(params_to_merge.dup)
 
-
-    # remove items from our params hash that match:
-    #   - a key
-    #   - a key and a value
-    omit_keys.each do |omit_key|
-      case omit_key
-        when Hash
-          omit_key.each do |key, values|
-            next unless my_params.has_key? key
-
-            # make sure to dup the source key, we don't want to accidentally alter the original
-            my_params[key] = my_params[key].dup
-
-            values = [values] unless values.respond_to? :each
-            values.each { |v| my_params[key].delete(v) }
-
-            if my_params[key].empty?
-              my_params.delete(key)
-            end
-          end
-
-        else
-          my_params.delete(omit_key)
-      end
+    if block_given?
+      yield my_params
     end
 
     if my_params[:page] and (my_params[:per_page] != source_params[:per_page] or my_params[:sort] != source_params[:sort] )
       my_params[:page] = 1
     end
 
-    my_params.reject! { |k,v| v.nil? }
-
-    # removing action, controller, and id from duplicate params so that we don't get hidden fields for them.
-    my_params.delete(:action)
-    my_params.delete(:controller)
-    my_params.delete(:id)
-    # commit is just an artifact of submit button, we don't need it, and
-    # don't want it to pile up with another every time we press submit again!
-    my_params.delete(:commit)
-
-    my_params
+    sanitize_search_params(my_params)
   end
 
-  # Create form input type=hidden fields representing the entire search context,
-  # for inclusion in a form meant to change some aspect of it, like
-  # re-sort or change records per page. Can pass in params hash
-  # as :params => hash, otherwise defaults to #params. Can pass
-  # in certain top-level params keys to _omit_, defaults to :page
-  def search_as_hidden_fields(options={})
-    my_params = params_for_search({:omit_keys => [:page]}.merge(options))
+  ##
+  # Sanitize the search parameters by removing unnecessary parameters
+  # from the provided parameters
+  # @param [Hash] Hash of parameters
+  def sanitize_search_params source_params
 
-    # hash_as_hidden_fields in hash_as_hidden_fields.rb
-    return hash_as_hidden_fields(my_params)
+    my_params = source_params.reject { |k,v| v.nil? }
+
+    my_params.except(:action, :controller, :id, :commit, :utf8)
+
   end
 
   def link_to_previous_document(previous_document)

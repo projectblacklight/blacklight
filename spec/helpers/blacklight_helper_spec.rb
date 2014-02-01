@@ -160,6 +160,19 @@ describe BlacklightHelper do
     end
   end
 
+  describe "sanitize_search_params" do
+    it "should strip nil values" do
+      result = sanitize_search_params(:a => nil, :b => 1)
+      expect(result).to_not have_key(:a)
+      expect(result[:b]).to eq 1
+    end
+
+    it "should remove blacklisted keys" do
+      result = sanitize_search_params(:action => true, :controller => true, :id => true, :commit => true, :utf8 => true)
+      expect(result).to be_empty
+    end
+  end
+
   describe "params_for_search" do
     def params
       { 'default' => 'params'}
@@ -171,80 +184,57 @@ describe BlacklightHelper do
       expect(params.object_id).to_not eq result.object_id
     end
 
-    it "should let you pass in params to use" do
+    it "should let you pass in params to merge into the controller's params" do
       source_params = { :q => 'query'}
-      result = params_for_search(:params => source_params )
-      expect(source_params).to eq result
-      expect(source_params.object_id).to_not eq result.object_id
+      result = params_for_search( source_params )
+      expect(result).to include(:q => 'query', 'default' => 'params')
     end
 
     it "should not return blacklisted elements" do
       source_params = { :action => 'action', :controller => 'controller', :id => "id", :commit => 'commit'}
-      result = params_for_search(:params => source_params )
+      result = params_for_search(source_params)
       expect(result.keys).to_not include(:action, :controller, :commit, :id)
     end
 
     it "should adjust the current page if the per_page changes" do
       source_params = { :per_page => 20, :page => 5}
-      result = params_for_search(:params => source_params, :per_page => 100)
+      result = params_for_search(source_params, :per_page => 100)
       expect(result[:page]).to eq 1
     end
 
     it "should not adjust the current page if the per_page is the same as it always was" do
       source_params = { :per_page => 20, :page => 5}
-      result = params_for_search(:params => source_params, :per_page => 20)
+      result = params_for_search(source_params, :per_page => 20)
       expect(result[:page]).to eq 5
     end
 
     it "should adjust the current page if the sort changes" do
       source_params = { :sort => 'field_a', :page => 5}
-      result = params_for_search(:params => source_params, :sort => 'field_b')
+      result = params_for_search(source_params, :sort => 'field_b')
       expect(result[:page]).to eq 1
     end
 
     it "should not adjust the current page if the sort is the same as it always was" do
       source_params = { :sort => 'field_a', :page => 5}
-      result = params_for_search(:params => source_params, :sort => 'field_a')
+      result = params_for_search(source_params, :sort => 'field_a')
       expect(result[:page]).to eq 5
     end
 
-    describe "omit keys parameter" do
-      it "should omit keys by key name" do
-        source_params = { :a => 1, :b => 2, :c => 3}
-        result = params_for_search(:params => source_params, :omit_keys => [:a, :b] )
+    describe "params_for_search with a block" do
+      it "should evalute the block and allow it to add or remove keys" do
+        result = params_for_search({:a => 1, :b => 2}, :c => 3) do |params|
+          params.except! :a, :b 
+          params[:d] = 'd'
+        end
 
         result.keys.should_not include(:a, :b)
         expect(result[:c]).to eq 3
+        expect(result[:d]).to eq 'd'
       end
 
-      it "should remove keys if a key/value pair was passed and no values are left for that key" do
-        source_params = { :f => ['a']}
-        result = params_for_search(:params => source_params, :omit_keys => [{:f => 'a' }])
-        expect(result.keys).to_not include(:f)
-      end
-
-      it "should only remove keys when a key/value pair is based that are in that pair" do
-
-        source_params = { :f => ['a', 'b']}
-        result = params_for_search(:params => source_params, :omit_keys => [{:f => 'a' }])
-        expect(result[:f]).to_not include('a')
-        expect(result[:f]).to include('b')
-      end
     end
 
   end
-
-  describe "search_as_hidden_fields" do
-    def params
-      {:q => "query", :sort => "sort", :per_page => "20", :search_field => "search_field", :page => 100, :arbitrary_key => "arbitrary_value", :f => {"field" => ["value1", "value2"], "other_field" => ['asdf']}, :controller => "catalog", :action => "index", :commit => "search"}
-    end
-    describe "for default arguments" do
-      it "should default to omitting :page" do
-        expect(search_as_hidden_fields).to_not have_selector("input[name='page']")
-      end
-    end
- end
-
 
    describe "render body class" do
       it "should include a serialization of the current controller name" do
