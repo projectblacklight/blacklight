@@ -29,8 +29,7 @@ module Blacklight::User
   def bookmarked_document_ids
     self.bookmarks.pluck(:document_id)
   end
-    
-  # see #current_bookmark_for, is easier
+
   def document_is_bookmarked?(document_id)
     bookmarked_document_ids.include? document_id.to_s
   end
