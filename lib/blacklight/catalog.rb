@@ -95,13 +95,7 @@ module Blacklight::Catalog
         format.js { render :layout => false }
       end
     end
-    # grabs a bunch of documents to export to endnote
-    def endnote
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
-      respond_to do |format|
-        format.endnote { render :layout => false }
-      end
-    end
+
     
     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def email

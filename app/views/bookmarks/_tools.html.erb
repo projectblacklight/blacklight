@@ -2,13 +2,10 @@
       <li class="cite">
         <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect{|doc| doc.document_id}), {:id => 'citeLink', :name => 'citation', :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
       </li>
-      <li class="refworks">
-        <%= render :partial => 'catalog/refworks_form', :locals => {:documents=>@document_list} %>
-      </li>
-
-      <li class="endnote">
-        <%= link_to t('blacklight.tools.endnote'), endnote_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}, :format => 'endnote'), {:class => 'btn btn-default'}%>
-      </li>
+      <% if defined? BlacklightMarc %>
+        <%= render partial: 'bookmarks/refworks' %>
+        <%= render partial: 'bookmarks/endnote' %>
+      <% end %>
       <li class="email">
         <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"btn btn-default", :id => "emailLink", :data => {:ajax_modal => "trigger"} %>
       </li>

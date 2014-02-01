@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "bootstrap-sass", "~> 3.0"
   s.add_dependency "deprecation"
   s.add_development_dependency "jettywrapper", ">= 1.5.2"
-  s.add_development_dependency "blacklight_marc", "0.0.6"
+  s.add_development_dependency "blacklight_marc", "0.0.9"
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency 'engine_cart', ">= 0.1.0"
   s.add_development_dependency "equivalent-xml"
