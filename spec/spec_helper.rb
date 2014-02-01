@@ -5,12 +5,13 @@
 
 ENV["RAILS_ENV"] ||= 'test'
 
-ruby_engine = defined?(RUBY_ENGINE) ? RUBY_ENGINE : "ruby"
-if ENV['COVERAGE'] and ruby_engine != "jruby"
+if ENV["COVERAGE"] or ENV["CI"]
   require 'simplecov'
+  require 'coveralls'
 
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
   SimpleCov.start do
-    root File.expand_path(File.dirname(__FILE__) + "../../..")
+    add_filter "/spec/"
   end
 end
 
