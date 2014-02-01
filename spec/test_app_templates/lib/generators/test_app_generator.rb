@@ -28,7 +28,7 @@ class TestAppGenerator < Rails::Generators::Base
       run "bundle install"
     end
 
-    generate 'blacklight', '--devise --marc'
+    generate 'blacklight:install', '--devise --marc'
   end
 
   def run_test_support_generator

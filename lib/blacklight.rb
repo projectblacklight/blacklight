@@ -59,7 +59,7 @@ module Blacklight
 
     return @solr_yml if @solr_yml
     unless File.exists?(solr_file)
-      raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight\"?"  
+      raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight:install\"?"  
     end
 
     begin
