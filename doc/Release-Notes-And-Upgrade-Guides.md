@@ -1,0 +1,20 @@
+This is for upgrade guides for each version.
+* [Blacklight 4.5 Release Notes and Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.5.0) (???)
+* [Blacklight 4.4 Release Notes And Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.4.0) (September 17, 2013)
+* [Blacklight 4.3 Release Notes And Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.3.0) (July 30, 2013)
+* [Blacklight 4.2.2 Release Notes And Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.2.2) (2013)
+* [Blacklight 4.2.1 Release Notes And Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.2.1) (2013)
+* [Blacklight 4.2.0 Release Notes And Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.2.0) (Mar 29, 2013)
+* [Blacklight 4.1 Release Notes And Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.1.0) (Mar 7, 2013)
+* [Blacklight 4.0 Release Notes And Upgrade Guide](https://github.com/projectblacklight/blacklight/releases/tag/v4.0.0) (Nov 29, 2012)
+* [[Blacklight 3.8 Release Notes And Upgrade Guide]] (Nov 2, 2012)
+* [[Blacklight 3.7 Release Notes And Upgrade Guide]] (Sep 25, 2012)
+* [[Blacklight 3.6 Release Notes And Upgrade Guide]] (Sep 10, 2012)
+* [[Blacklight 3.5 Release Notes And Upgrade Guide]] (Jun 25, 2012)
+* [[Blacklight 3.4 Release Notes And Upgrade Guide]] (Apr 24, 2012)
+* [[Blacklight 3.3 Release Notes And Upgrade Guide]] (Mar 19, 2012)
+* [[Blacklight 3.2 Release Notes And Upgrade Guide]] (Dec 15, 2011)
+* [[Blacklight 3.1 Release Notes And Upgrade Guide]] (Sep 28, 2011)
+* [[Blacklight 3.0 Release Notes And Upgrade Guide]] (July 11, 2011)
+
+Unreleased
