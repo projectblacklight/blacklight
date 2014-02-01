@@ -16,8 +16,6 @@ task :ci => 'blacklight:clean' do
     Rake::Task['blacklight:coverage'].invoke
   end
   raise "test failures: #{error}" if error
-  # Only create documentation if the tests have passed
-  #Rake::Task["active_fedora:doc"].invoke
 end
 
 namespace :blacklight do
