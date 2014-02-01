@@ -453,9 +453,7 @@ module Blacklight::BlacklightHelperBehavior
 
   # create link to query (e.g. spelling suggestion)
   def link_to_query(query)
-    p = params.dup
-    p.delete :page
-    p.delete :action
+    p = params.except(:page, :action)
     p[:q]=query
     link_url = catalog_index_path(p)
     link_to(query, link_url)
