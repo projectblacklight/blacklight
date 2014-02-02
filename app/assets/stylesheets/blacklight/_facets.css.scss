@@ -122,7 +122,7 @@ ul.facet_extended_list
   }
 
   #facets .top-panel-heading {
-    border: 1px solid #ccc;
+    border: 1px solid $breadcrumb-color;
     margin-bottom: 1em;
     @include border-bottom-radius($panel-border-radius - 1);
   }

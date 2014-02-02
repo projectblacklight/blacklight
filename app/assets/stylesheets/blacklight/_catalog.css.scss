@@ -24,7 +24,7 @@
   .ind1, .ind2
   {
     display:inline;
-    padding:0 5px;
+    padding:0 $padding-xs-horizontal;
   }
 
   .subfields
@@ -114,16 +114,6 @@ span.constraints-label {
   text-align: center ;
 }
 
-
-.solrQuery
-{
-	background-color: $search_ui_bg_color;
-	border:1px dotted $search_ui_border_color;
-	font-size:90%;
-	margin:2em;
-	padding:.5em;
-}
-
 .dl-horizontal
 {
   dd {
@@ -185,7 +175,7 @@ label.toggle_bookmark
 
 .document-thumbnail {
   float: right;
-  padding-left: 20px;
+  padding-left: $line-height-computed;
   margin-bottom: $line-height-computed;
 }
 
