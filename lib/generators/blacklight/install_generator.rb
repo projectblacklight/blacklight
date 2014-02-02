@@ -61,7 +61,7 @@ module Blacklight
 
     def generate_blacklight_marc_demo
       if options[:marc]
-        gem "blacklight_marc"
+        gem "blacklight_marc", ">= 0.0.9"
 
         Bundler.with_clean_env do
           run "bundle install"
