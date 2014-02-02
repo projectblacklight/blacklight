@@ -17,20 +17,6 @@ This generator makes the following changes to your application:
  3. Injects behavior into your user model
  4. Creates a blacklight document in your /app/models directory
 """
-    # Implement the required interface for Rails::Generators::Migration.
-    # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
-    def self.next_migration_number(path)
-      if @prev_migration_nr
-        @prev_migration_nr += 1
-      else
-        if last_migration = Dir[File.join(path, '*.rb')].sort.last
-          @prev_migration_nr = last_migration.sub(File.join(path, '/'), '').to_i + 1
-        else
-          @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
-        end
-      end
-      @prev_migration_nr.to_s
-    end
 
     def check_arguments
       if File.exists?("app/models/#{model_name}.rb") and options[:devise]
@@ -77,11 +63,7 @@ This generator makes the following changes to your application:
 
     # Setup the database migrations
     def copy_migrations
-      # Can't get this any more DRY, because we need this order.
-      better_migration_template "create_searches.rb"
-      better_migration_template "create_bookmarks.rb"
-      better_migration_template "remove_editable_fields_from_bookmarks.rb"
-      better_migration_template "add_user_types_to_bookmarks_searches.rb"
+      rake "blacklight:install:migrations"
     end
 
 
@@ -101,12 +83,6 @@ This generator makes the following changes to your application:
 
     def create_solr_document
       copy_file "solr_document.rb", "app/models/solr_document.rb"
-    end
-
-    private
-
-    def better_migration_template(file)
-      migration_template "migrations/#{file}", "db/migrate/#{file}"
     end
 
   end
