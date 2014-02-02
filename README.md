@@ -9,6 +9,20 @@ to search full text and/or metadata.  Blacklight has a highly
 configurable Ruby on Rails front-end. Blacklight was originally developed at
 the University of Virginia Library and is made public under an Apache 2.0 license. 
 
+## Installation
+
+Add Blacklight to your `Gemfile`:
+
+```ruby
+gem "blacklight"
+```
+
+Run the install generator which will copy over some initial templates, migrations, routes, and configuration:
+
+```
+rails generate blacklight:install
+```
+
 
 ## Documentation, Information and Support
 
@@ -16,7 +30,7 @@ the University of Virginia Library and is made public under an Apache 2.0 licens
 * [Developer Documentation](https://github.com/projectblacklight/blacklight/wiki)
 * [Quickstart Guide](https://github.com/projectblacklight/blacklight/wiki/Quickstart)
 * [Issue Tracker](https://github.com/projectblacklight/blacklight/issues)
-* [Support](http://projectblacklight.org/support.html)
+* [Support](https://github.com/projectblacklight/blacklight/wiki/Support)
 
 ## Dependencies
 
