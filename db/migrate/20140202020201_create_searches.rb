@@ -4,9 +4,11 @@ class CreateSearches < ActiveRecord::Migration
     create_table :searches do |t|
       t.text  :query_params
       t.integer :user_id
+      t.string :user_type
 
       t.timestamps
     end
+
     add_index :searches, :user_id
   end
 

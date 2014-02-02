@@ -1,5 +1,6 @@
 module Blacklight
   class Engine < Rails::Engine
+    engine_name "blacklight"
 
     require 'bootstrap-sass'
     require 'blacklight/rails/routes'
