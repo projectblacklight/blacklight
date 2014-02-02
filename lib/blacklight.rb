@@ -41,6 +41,7 @@ module Blacklight
   
   # Adding a little jruby support
   def self.jruby?
+    Deprecation.warn(Blacklight, "Blacklight.jruby? is deprecated")
     defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby" 
   end
 
@@ -118,10 +119,12 @@ module Blacklight
   # BE AWARE - When you do this, you are monkey patching Blacklight
   # we should eventually find a better way - such as the acts_as pattern
   def self.models_dir
+    Deprecation.warn(Blacklight, "Blacklight.models_dir is deprecated")
     "#{root}/app/models"
   end
   
   def self.controllers_dir
+    Deprecation.warn(Blacklight, "Blacklight.controllers_dir is deprecated")
     "#{root}/app/controllers"
   end
 
@@ -135,6 +138,7 @@ module Blacklight
   # full_path_to_solr_marc_jar = Blacklight.locate_path 'solr_marc', 'SolrMarc.jar'
   
   def self.locate_path(*subpath_fragments)
+    Deprecation.warn(Blacklight, "Blacklight.locate_path is deprecated")
     subpath = subpath_fragments.join('/')
     base_match = [Rails.root, self.root].find do |base|
       File.exists? File.join(base, subpath)

@@ -2,6 +2,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Blacklight do
+
+  around :each do |example|
+    Deprecation.silence(Blacklight) do
+      example.run
+    end
+  end
   
   context "locate_path" do
     
