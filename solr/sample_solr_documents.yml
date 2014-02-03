@@ -1,35 +1,125 @@
 ---
-- published_display:
+- lc_1letter_facet:
+  - P - Language & Literature
+  author_t:
+  - Ayaz, Shaikh,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00799cam
+    a2200241 a 4500</leader><controlfield tag=\"001\">   00282214 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090120022042.0</controlfield><controlfield
+    tag=\"008\">000417s1998    pk            000 0 urdo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   00282214 </subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">P-U-00282214; 05; 06</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"041\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">urd</subfield><subfield
+    code=\"h\">snd</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lcode</subfield></datafield><datafield tag=\"050\" ind1=\"0\"
+    ind2=\"0\"><subfield code=\"a\">PK2788.9.A9</subfield><subfield code=\"b\">F55
+    1998</subfield></datafield><datafield tag=\"100\" ind1=\"1\" ind2=\" \"><subfield
+    code=\"a\">Ayaz, Shaikh,</subfield><subfield code=\"d\">1923-1997.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Fikr-i Ayāz /</subfield><subfield
+    code=\"c\">murattibīn, Āṣif Farruk̲h̲ī, Shāh Muḥammad Pīrzādah.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Karācī :</subfield><subfield
+    code=\"b\">Dāniyāl,</subfield><subfield code=\"c\">[1998]</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">375 p. ;</subfield><subfield
+    code=\"c\">23 cm.</subfield></datafield><datafield tag=\"546\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">In Urdu.</subfield></datafield><datafield tag=\"520\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Selected poems and articles from the
+    works of renowned Sindhi poet; chiefly translated from Sindhi.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Farruk̲h̲ī, Āṣif,</subfield><subfield
+    code=\"d\">1959-</subfield></datafield><datafield tag=\"700\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"a\">Pīrzādah, Shāh Muḥammad.</subfield></datafield></record></collection>"
+  published_display:
   - Karācī
   author_display: Ayaz, Shaikh, 1923-1997
   lc_callnum_display:
   - PK2788.9.A9 F55 1998
+  title_t:
+  - Fikr-i Ayāz /
   pub_date:
   - '1998'
+  pub_date_sort: 1998
   format: Book
   material_type_display:
   - 375 p.
+  lc_b4cutter_facet:
+  - PK2788.9.A9
   title_display: Fikr-i Ayāz
+  title_sort: fikr-i ayāz
   id: 00282214
+  author_sort: Ayaz Shaikh 19231997 Fikri Ayāz
+  title_addl_t:
+  - Fikr-i Ayāz /
+  author_addl_t:
+  - Farruk̲h̲ī, Āṣif,
+  - Pīrzādah, Shāh Muḥammad.
+  lc_alpha_facet:
+  - PK
   language_facet:
   - Urdu
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - M - Music
+  author_t:
+  - Ayaz, Shaikh,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00778cam
+    a22002417a 4500</leader><controlfield tag=\"001\">   00282371 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090120021204.0</controlfield><controlfield
+    tag=\"008\">000509s1986    pk            000 0 urdo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   00282371 </subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">P-U-00282371; 08</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"041\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">urd</subfield><subfield
+    code=\"h\">snd</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lcode</subfield></datafield><datafield tag=\"050\" ind1=\"0\"
+    ind2=\"0\"><subfield code=\"a\">MLCME 2002/02660 (D)</subfield></datafield><datafield
+    tag=\"100\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Ayaz, Shaikh,</subfield><subfield
+    code=\"d\">1923-1997.</subfield></datafield><datafield tag=\"245\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"a\">Sāhivāl jail kī ḍāʼirī /</subfield><subfield
+    code=\"c\">Shaik̲h̲ Ayāz; tarjumah, Kiran Singh.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Karācī :</subfield><subfield
+    code=\"b\">Maktabah-yi Dāniyāl,</subfield><subfield code=\"c\">1986.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">232 p. ;</subfield><subfield
+    code=\"c\">23 cm.</subfield></datafield><datafield tag=\"546\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">In Urdu.</subfield></datafield><datafield tag=\"500\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Translated from Sindhi.</subfield></datafield><datafield
+    tag=\"520\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Author's memoirs during
+    his imprisonment in Sahiwal District jail during late 1960s.</subfield></datafield><datafield
+    tag=\"504\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Includes bibliographical
+    references.</subfield></datafield></record></collection>"
+  published_display:
   - Karācī
   author_display: Ayaz, Shaikh, 1923-1997
   lc_callnum_display:
   - MLCME 2002/02660 (D)
+  title_t:
+  - Sāhivāl jail kī ḍāʼirī /
   pub_date:
   - '1986'
+  pub_date_sort: 1986
   format: Book
   material_type_display:
   - 232 p.
+  lc_b4cutter_facet:
+  - MLCME 2002/02660 (D)
   title_display: Sāhivāl jail kī ḍāʼirī
+  title_sort: sāhivāl jail kī ḍāʼirī
   id: 00282371
+  author_sort: Ayaz Shaikh 19231997 Sāhivāl jail kī ḍāʼirī
+  title_addl_t:
+  - Sāhivāl jail kī ḍāʼirī /
   language_facet:
   - Urdu
+  timestamp: '2014-02-03T18:42:53.056Z'
 - subtitle_display: 'guft va gū-yi Akbar Ganjī bā ʻAbd Allāh Nūrī : bih payvast-i
     matn-i istīz̤āḥ-i ʻAbd Allāh Nūrī dar Majlis-i panjum'
-  author_vern_display: ‏نورى، عبد الله
+  author_vern_display: "‏نورى، عبد الله"
+  subject_addl_t:
+  - Interviews
+  - Trials, litigation, etc
+  - Officials and employees Interviews
+  - Politics and government 1997-
   title_display: Naqdī barā-yi tamām-i fuṣūl
   subject_era_facet:
   - 1997-
@@ -41,39 +131,195 @@
   subject_topic_facet:
   - Nūrī, ʻAbd Allāh, 1949-
   - Iran. Vizārat-i Kishvar
+  lc_alpha_facet:
+  - DS
+  title_series_t:
+  - Farhang-i ʻumūmī
+  - "‏فرهنگ  عمومى"
+  subtitle_t:
+  - 'guft va gū-yi Akbar Ganjī bā ʻAbd Allāh Nūrī : bih payvast-i matn-i istīz̤āḥ-i
+    ʻAbd Allāh Nūrī dar Majlis-i panjum.'
+  - "‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن استيضاح عبد الله نورى در
+    مجلس پنجم"
+  lc_1letter_facet:
+  - D - World History
+  author_t:
+  - Nūrī, ʻAbd Allāh,
+  - "‏نورى، عبد الله"
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01988cam
+    a2200421 a 4500</leader><controlfield tag=\"001\">   00313831 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121100001.0</controlfield><controlfield
+    tag=\"008\">010611s2000    ir       b    001 0dper d</controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   00313831 </subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">9645625963</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLN01-B3014</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">MH</subfield><subfield
+    code=\"c\">MH</subfield><subfield code=\"d\">CStRLIN</subfield><subfield code=\"d\">DLC-R</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lccopycat</subfield><subfield
+    code=\"a\">lcode</subfield></datafield><datafield tag=\"043\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">a-ir---</subfield></datafield><datafield tag=\"050\" ind1=\"0\"
+    ind2=\"0\"><subfield code=\"a\">DS318.84.N87</subfield><subfield code=\"b\">N87
+    2000</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\" \"><subfield
+    code=\"c\">(3</subfield><subfield code=\"c\">(4</subfield></datafield><datafield
+    tag=\"100\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield
+    code=\"a\">Nūrī, ʻAbd Allāh,</subfield><subfield code=\"d\">1949-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Naqdī barā-yi tamām-i fuṣūl :</subfield><subfield code=\"b\">guft
+    va gū-yi Akbar Ganjī bā ʻAbd Allāh Nūrī : bih payvast-i matn-i istīz̤āḥ-i
+    ʻAbd Allāh Nūrī dar Majlis-i panjum.</subfield></datafield><datafield tag=\"246\"
+    ind1=\"1\" ind2=\"5\"><subfield code=\"a\">Critique for all seasons :</subfield><subfield
+    code=\"b\">Akbar Ganji's conversation with Abdullah Nuri</subfield></datafield><datafield
+    tag=\"250\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield
+    code=\"a\">Chāp-i 1.</subfield></datafield><datafield tag=\"260\" ind1=\" \"
+    ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield code=\"a\">Tihrān
+    :</subfield><subfield code=\"b\">Ṭarḥ-i Naw,</subfield><subfield code=\"c\">2000.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">245 p. ;</subfield><subfield
+    code=\"c\">22 cm.</subfield></datafield><datafield tag=\"440\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"6\">880-05</subfield><subfield code=\"a\">Farhang-i ʻumūmī</subfield></datafield><datafield
+    tag=\"504\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Includes bibliographical
+    references and index.</subfield></datafield><datafield tag=\"600\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">880-06</subfield><subfield code=\"a\">Nūrī,
+    ʻAbd Allāh,</subfield><subfield code=\"d\">1949-</subfield><subfield code=\"v\">Interviews.</subfield></datafield><datafield
+    tag=\"610\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Iran.</subfield><subfield
+    code=\"b\">Vizārat-i Kishvar</subfield><subfield code=\"x\">Officials and employees</subfield><subfield
+    code=\"v\">Interviews.</subfield></datafield><datafield tag=\"600\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">880-07</subfield><subfield code=\"a\">Nūrī,
+    ʻAbd Allāh,</subfield><subfield code=\"d\">1949-</subfield><subfield code=\"v\">Trials,
+    litigation, etc.</subfield></datafield><datafield tag=\"651\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Iran</subfield><subfield code=\"x\">Politics and government</subfield><subfield
+    code=\"y\">1997-</subfield></datafield><datafield tag=\"700\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"6\">880-08</subfield><subfield code=\"a\">Ganjī, Akbar.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">100-01/(3/r‏</subfield><subfield
+    code=\"a\">‏نورى، عبد الله.</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">245-02/(3/r‏</subfield><subfield code=\"a\">‏نقدى
+    براى تمام فصول :‏</subfield><subfield code=\"b\">‏گفت و گوى اکبر گنجى با عبد الله
+    نورى : به پيوست  متن استيضاح عبد الله نورى در مجلس پنجم.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">250-03/(4/r‏</subfield><subfield
+    code=\"a\">‏چاپ 1.</subfield></datafield><datafield tag=\"880\" ind1=\" \" ind2=\"
+    \"><subfield code=\"6\">260-04/(3/r‏</subfield><subfield code=\"a\">‏تهران :‏</subfield><subfield
+    code=\"b\">‏طرح نو،‏</subfield><subfield code=\"c\">‏‪2000‬.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\"0\"><subfield code=\"6\">440-05/(3/r‏</subfield><subfield
+    code=\"a\">‏فرهنگ  عمومى</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"4\"><subfield code=\"6\">600-06/(3/r‏</subfield><subfield code=\"a\">‏نورى،
+    عبد الله.</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"4\"><subfield
+    code=\"6\">600-07/(3/r‏</subfield><subfield code=\"a\">‏نورى، عبد الله.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">700-08/(3/r‏</subfield><subfield
+    code=\"a\">‏گنجى، اكبر.</subfield></datafield></record></collection>"
   published_display:
   - Tihrān
   author_display: Nūrī, ʻAbd Allāh, 1949-
-  title_vern_display: ‏نقدى براى تمام فصول :‏
+  title_vern_display: "‏نقدى براى تمام فصول :‏"
   lc_callnum_display:
   - DS318.84.N87 N87 2000
+  title_t:
+  - 'Naqdī barā-yi tamām-i fuṣūl :'
+  - "‏نقدى براى تمام فصول :‏"
   pub_date:
   - '2000'
+  pub_date_sort: 2000
   published_vern_display:
-  - ‏تهران :‏
+  - "‏تهران :‏"
   format: Book
-  subtitle_vern_display: '‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن استيضاح
-    عبد الله نورى در مجلس پنجم'
+  subtitle_vern_display: "‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن استيضاح
+    عبد الله نورى در مجلس پنجم"
   material_type_display:
   - 245 p.
+  lc_b4cutter_facet:
+  - DS318.84.N87
+  subject_t:
+  - Nūrī, ʻAbd Allāh, 1949-
+  - Iran. Vizārat-i Kishvar
+  - Iran
+  - "‏نورى، عبد الله"
+  title_sort: 'naqdī barā-yi tamām-i fuṣūl :guft va gū-yi akbar ganjī bā ʻabd
+    allāh nūrī : bih payvast-i matn-i istīz̤āḥ-i ʻabd allāh nūrī dar majlis-i
+    panjum'
+  author_sort: Nūrī ʻAbd Allāh 1949 Naqdī barāyi tamāmi fuṣūl guft va gūyi
+    Akbar Ganjī bā ʻAbd Allāh Nūrī  bih payvasti matni istīz̤āḥi ʻAbd Allāh
+    Nūrī dar Majlisi panjum
+  title_addl_t:
+  - 'Naqdī barā-yi tamām-i fuṣūl : guft va gū-yi Akbar Ganjī bā ʻAbd Allāh
+    Nūrī : bih payvast-i matn-i istīz̤āḥ-i ʻAbd Allāh Nūrī dar Majlis-i panjum.'
+  - 'Critique for all seasons : Akbar Ganji''s conversation with Abdullah Nuri'
+  - "‏نقدى براى تمام فصول :‏ ‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن
+    استيضاح عبد الله نورى در مجلس پنجم"
+  author_addl_t:
+  - Ganjī, Akbar.
+  - "‏گنجى، اكبر"
   language_facet:
   - Persian
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- author_t:
+  - Yoshida, Hajime,
+  - "吉田一"
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00956dam
+    a22002655a 4500</leader><controlfield tag=\"001\">   00314247 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126095911.0</controlfield><controlfield
+    tag=\"008\">000214s1997    ja            000 0 jpn  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   00314247 </subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLP00-B1931</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC-R</subfield><subfield
+    code=\"c\">DLC-R</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"066\" ind1=\" \" ind2=\" \"><subfield code=\"c\">$1</subfield></datafield><datafield
+    tag=\"100\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield
+    code=\"a\">Yoshida, Hajime,</subfield><subfield code=\"d\">1934-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Kubo Sakae \"Kazanbaichi\" o yomu /</subfield><subfield code=\"c\">Yoshida
+    Hajime cho.</subfield></datafield><datafield tag=\"260\" ind1=\" \" ind2=\" \"><subfield
+    code=\"6\">880-03</subfield><subfield code=\"a\">Tōkyō :</subfield><subfield
+    code=\"b\">Hōsei Daigaku Shuppankyoku,</subfield><subfield code=\"c\">1997.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">480 p. ;</subfield><subfield
+    code=\"c\">19 cm.</subfield></datafield><datafield tag=\"600\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"6\">880-04</subfield><subfield code=\"a\">Kubo, Sakae,</subfield><subfield
+    code=\"d\">1901-1958.</subfield><subfield code=\"t\">Kazanbaichi.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Japanese drama</subfield><subfield
+    code=\"y\">20th century.</subfield></datafield><datafield tag=\"650\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">Political plays, Japanese.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Theater</subfield><subfield
+    code=\"z\">Japan</subfield><subfield code=\"x\">History.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">100-01/$1</subfield><subfield
+    code=\"a\">吉田一,</subfield><subfield code=\"d\">1934-</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">245-02/$1</subfield><subfield
+    code=\"a\">久保栄 「火山灰地」 を読む /</subfield><subfield code=\"c\">吉田一著.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-03/$1</subfield><subfield
+    code=\"a\">東京 :</subfield><subfield code=\"b\">法政大学出版局,</subfield><subfield code=\"c\">1997.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\"4\"><subfield code=\"6\">600-04/$1</subfield><subfield
+    code=\"a\">久保栄,</subfield><subfield code=\"d\">1901-1958.</subfield><subfield
+    code=\"t\">火山灰地.</subfield></datafield></record></collection>"
+  published_display:
   - Tōkyō
-  title_vern_display: 久保栄 「火山灰地」 を読む
+  title_vern_display: "久保栄 「火山灰地」 を読む"
   author_display: Yoshida, Hajime, 1934-
+  title_t:
+  - Kubo Sakae "Kazanbaichi" o yomu /
+  - "久保栄 「火山灰地」 を読む"
   pub_date:
   - '1997'
+  pub_date_sort: 1997
   published_vern_display:
-  - 東京
+  - "東京"
   format: Book
-  author_vern_display: 吉田一, 1934-
+  author_vern_display: "吉田一, 1934-"
   material_type_display:
   - 480 p.
   title_display: Kubo Sakae "Kazanbaichi" o yomu
+  subject_addl_t:
+  - 20th century
+  - Japan History
+  subject_t:
+  - Kubo, Sakae, 1901-1958. Kazanbaichi
+  - Japanese drama
+  - Political plays, Japanese
+  - Theater
+  - "久保栄, 1901-1958. 火山灰地"
   subject_era_facet:
   - 20th century
+  title_sort: kubo sakae "kazanbaichi" o yomu
   id: '00314247'
+  author_sort: Yoshida Hajime 1934 Kubo Sakae Kazanbaichi o yomu
+  title_addl_t:
+  - Kubo Sakae "Kazanbaichi" o yomu /
+  - "久保栄 「火山灰地」 を読む"
   subject_geo_facet:
   - Japan
   subject_topic_facet:
@@ -83,109 +329,428 @@
   - Theater
   language_facet:
   - Japanese
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - D - World History
+  author_t:
+  - Vi︠a︡tkin, M. P. (Mikhail Porfirʹevich),
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00987cam
+    a22002531  4500</leader><controlfield tag=\"001\">   43037890 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126171234.0</controlfield><controlfield
+    tag=\"008\">810731m19419999ru b     b    000 0 ruso </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   43037890 </subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(OCoLC)28783996</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">ICU</subfield><subfield code=\"d\">OCoLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">e-ur-kz</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">DK861.K3</subfield><subfield
+    code=\"b\">V5</subfield></datafield><datafield tag=\"100\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"a\">Vi︠a︡tkin, M. P.</subfield><subfield code=\"q\">(Mikhail
+    Porfirʹevich),</subfield><subfield code=\"d\">1895-1967.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Ocherki po istorii Kazakhskoĭ
+    SSR.</subfield></datafield><datafield tag=\"260\" ind1=\" \" ind2=\" \"><subfield
+    code=\"a\">[Moskva],</subfield><subfield code=\"b\">Ogiz, Gospolitizdat,</subfield><subfield
+    code=\"c\">1941-</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">v.</subfield><subfield code=\"b\">fold. map.</subfield><subfield
+    code=\"c\">20 cm.</subfield></datafield><datafield tag=\"500\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">At head of title: Akademii︠a︡ nauk SSSR.  Institut istorii
+    i Kazakhstanskiĭ filial.  M. Vi︠a︡tkin.</subfield></datafield><datafield tag=\"504\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">\"Obzor literatury i istochnikov\":
+    v. 1, p. 5-[19]. \"Bibliograficheskiĭ ukazatelʹ\": v. 1, p. 356-364.</subfield></datafield><datafield
+    tag=\"505\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">t. 1. S drevneĭshikh vremen
+    po 1870 g.</subfield></datafield><datafield tag=\"651\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Kazakhstan</subfield><subfield code=\"x\">History.</subfield></datafield><datafield
+    tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Institut istorii (Akademii︠a︡
+    nauk SSSR)</subfield></datafield><datafield tag=\"710\" ind1=\"2\" ind2=\" \"><subfield
+    code=\"a\">Akademii︠a︡ nauk Kazakhskoĭ SSR, Alma Ata.</subfield></datafield></record></collection>"
+  published_display:
   - Moskva
   author_display: Vi︠a︡tkin, M. P. (Mikhail Porfirʹevich), 1895-1967
   lc_callnum_display:
   - DK861.K3 V5
+  title_t:
+  - Ocherki po istorii Kazakhskoĭ SSR.
   pub_date:
   - '1941'
+  pub_date_sort: 1941
   format: Book
   material_type_display:
   - v.
+  lc_b4cutter_facet:
+  - DK861.K3
   title_display: Ocherki po istorii Kazakhskoĭ SSR
+  subject_addl_t:
+  - History
+  subject_t:
+  - Kazakhstan
+  title_sort: ocherki po istorii kazakhskoĭ ssr
   id: '43037890'
+  author_sort: Vi︠a︡tkin M P Mikhail Porfirʹevich 18951967 Ocherki po istorii Kazakhskoĭ
+    SSR
+  title_addl_t:
+  - Ocherki po istorii Kazakhskoĭ SSR.
   subject_geo_facet:
   - Kazakhstan
+  author_addl_t:
+  - Institut istorii (Akademii︠a︡ nauk SSSR)
+  - Akademii︠a︡ nauk Kazakhskoĭ SSR, Alma Ata.
+  lc_alpha_facet:
+  - DK
   language_facet:
   - Russian
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - K - Law
+  author_t:
+  - Korea (North)
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00955cam
+    a22002411  4500</leader><controlfield tag=\"001\">   53029833 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126171326.0</controlfield><controlfield
+    tag=\"008\">860911s1952    ru           f000 0 rus  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   53029833 </subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(OCoLC)14207259</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">CU</subfield><subfield code=\"d\">CU</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">premarc</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">a-kn---</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">KPC13</subfield><subfield
+    code=\"b\">1952</subfield></datafield><datafield tag=\"110\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"a\">Korea (North)</subfield></datafield><datafield tag=\"240\"
+    ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Laws, etc. (Konstitut︠s︡ii︠a︡ i osnovnye
+    zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ Respubliki)</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Konstitut︠s︡ii︠a︡ i osnovnye
+    zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ Respubliki.</subfield><subfield
+    code=\"c\">Perevod s koreĭskogo I︠U︡.N. Mazura i Khan Dyk Pona. Pod red. i s
+    vstup. statʹeĭ G. Tavrova.</subfield></datafield><datafield tag=\"260\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">Moskva,</subfield><subfield code=\"b\">Izd-vo
+    inostrannoĭ lit-ry,</subfield><subfield code=\"c\">1952.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">396 p.</subfield><subfield
+    code=\"c\">21 cm.</subfield></datafield><datafield tag=\"490\" ind1=\"0\" ind2=\"
+    \"><subfield code=\"a\">Zakonodatelʹstvo stran narodnoĭ demokratii</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Mazur, I︠U︡. N.</subfield></datafield><datafield
+    tag=\"710\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Korea (North)</subfield><subfield
+    code=\"t\">Constitution.</subfield></datafield></record></collection>"
+  published_display:
   - Moskva
   author_display: Korea (North)
   lc_callnum_display:
   - KPC13 1952
+  title_t:
+  - Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
+    Respubliki.
   pub_date:
   - '1952'
+  pub_date_sort: 1952
   format: Book
   material_type_display:
   - 396 p.
+  lc_b4cutter_facet:
+  - KPC13
   title_display: Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
     Respubliki
+  title_sort: konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty koreĭskoĭ narodno-demokraticheskoĭ
+    respubliki
   id: '53029833'
+  author_sort: Korea North Laws etc Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty
+    Koreĭskoĭ NarodnoDemokraticheskoĭ Respubliki Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye
+    akty Koreĭskoĭ NarodnoDemokraticheskoĭ Respubliki
+  title_addl_t:
+  - Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
+    Respubliki.
+  - Laws, etc. (Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
+    Respubliki)
+  author_addl_t:
+  - Mazur, I︠U︡. N.
+  - Korea (North)
+  title_added_entry_t:
+  - Constitution
+  title_series_t:
+  - Zakonodatelʹstvo stran narodnoĭ demokratii
+  lc_alpha_facet:
+  - KPC
   language_facet:
   - Russian
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - D - World History
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01062cam
+    a2200301 a 4500</leader><controlfield tag=\"001\">   77826928 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122103906.0</controlfield><controlfield
+    tag=\"008\">070816s1976    ko            000 0ckor  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   77826928 </subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLP07-B11425</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">*BZV*</subfield><subfield code=\"d\">MH-HY</subfield><subfield code=\"d\">OCoLC</subfield><subfield
+    code=\"d\">CU</subfield><subfield code=\"d\">CStRLIN</subfield><subfield code=\"d\">DLC-R</subfield><subfield
+    code=\"d\">DLC</subfield></datafield><datafield tag=\"043\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">a-kr---</subfield></datafield><datafield tag=\"050\" ind1=\"0\"
+    ind2=\"0\"><subfield code=\"a\">DS912.38</subfield><subfield code=\"b\">.K982
+    1976</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\" \"><subfield
+    code=\"c\">$1</subfield></datafield><datafield tag=\"130\" ind1=\"0\" ind2=\"
+    \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Koryŏsa.</subfield><subfield
+    code=\"p\">Yŏlchŏn.</subfield><subfield code=\"k\">Selections.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Koryŏ inmul yŏlchŏn /</subfield><subfield code=\"c\">Yi Min-su pʻyŏnyŏk.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield
+    code=\"a\">Sŏul :</subfield><subfield code=\"b\">Sŏmundang,</subfield><subfield
+    code=\"c\">1976.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">255 p. ;</subfield><subfield code=\"c\">19 cm.</subfield></datafield><datafield
+    tag=\"490\" ind1=\"0\" ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Sŏmun munʼgo ;</subfield><subfield code=\"v\">237</subfield></datafield><datafield
+    tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Korea</subfield><subfield
+    code=\"x\">History</subfield><subfield code=\"y\">Koryŏ period, 935-1392</subfield><subfield
+    code=\"v\">Biography.</subfield></datafield><datafield tag=\"651\" ind1=\" \"
+    ind2=\"0\"><subfield code=\"a\">Korea</subfield><subfield code=\"v\">Biography.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-05</subfield><subfield
+    code=\"a\">Yi, Min-su,</subfield><subfield code=\"d\">1916-</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\" \"><subfield code=\"6\">130-01/$1</subfield><subfield
+    code=\"a\">高麗史.</subfield><subfield code=\"p\">列傅.</subfield><subfield code=\"k\">Selections.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">245-02/$1</subfield><subfield
+    code=\"a\">高麗 人物 列傅 /</subfield><subfield code=\"c\">李 民樹 編譯.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-03/$1</subfield><subfield
+    code=\"a\">서울 :</subfield><subfield code=\"b\">瑞文堂,</subfield><subfield code=\"c\">1976.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\" \"><subfield code=\"6\">490-04/$1</subfield><subfield
+    code=\"a\">瑞文 文庫 ;</subfield><subfield code=\"v\">237</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">700-05/$1</subfield><subfield
+    code=\"a\">李 民樹,</subfield><subfield code=\"d\">1916-</subfield></datafield></record></collection>"
+  published_display:
   - Sŏul
-  title_vern_display: 高麗 人物 列傅
+  title_vern_display: "高麗 人物 列傅"
   lc_callnum_display:
   - DS912.38 .K982 1976
+  title_t:
+  - Koryŏ inmul yŏlchŏn /
+  - "高麗 人物 列傅"
   pub_date:
   - '1976'
+  pub_date_sort: 1976
   published_vern_display:
-  - 서울
+  - "서울"
   format: Book
   material_type_display:
   - 255 p.
+  lc_b4cutter_facet:
+  - DS912.38
   title_display: Koryŏ inmul yŏlchŏn
+  subject_addl_t:
+  - History Koryŏ period, 935-1392 Biography
+  - Biography
+  subject_t:
+  - Korea
   subject_era_facet:
   - Koryŏ period, 935-1392
+  title_sort: koryŏ inmul yŏlchŏn
   id: '77826928'
+  author_sort: "\U0010FFFF Koryŏ inmul yŏlchŏn"
+  title_addl_t:
+  - Koryŏ inmul yŏlchŏn /
+  - Koryŏsa. Yŏlchŏn. Selections
+  - "高麗 人物 列傅"
+  - "高麗史. 列傅. Selections"
   subject_geo_facet:
   - Korea
+  author_addl_t:
+  - Yi, Min-su,
+  - "李 民樹"
+  title_series_t:
+  - Sŏmun munʼgo ; 237
+  - "瑞文 文庫 ; 237"
+  lc_alpha_facet:
+  - DS
   language_facet:
   - Korean
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - P - Language & Literature
+  author_t:
+  - Parikshit Sharma, Ogeti,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00813cam
+    a2200217 i 4500</leader><controlfield tag=\"001\">   78908283 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121104206.0</controlfield><controlfield
+    tag=\"008\">790619s1976    ii            000 0 sano </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   78908283 </subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">PK3799.P29</subfield><subfield
+    code=\"b\">Y3</subfield></datafield><datafield tag=\"100\" ind1=\"2\" ind2=\"
+    \"><subfield code=\"a\">Parikshit Sharma, Ogeti,</subfield><subfield code=\"d\">1930-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Yaśodharā-mahākāvyam
+    /</subfield><subfield code=\"c\">Ogeṭi Parīkṣitśarmā.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Puṇyapattanam :</subfield><subfield
+    code=\"b\">Śāradā-Gaurava-Grantha-Mālā ;</subfield><subfield code=\"a\">Haidrābāda
+    :</subfield><subfield code=\"b\">prāptisthalam O. Acyutarāmaśāstrī,</subfield><subfield
+    code=\"c\">1976.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">24, 128, 2 p. ;</subfield><subfield code=\"c\">22 cm.</subfield></datafield><datafield
+    tag=\"490\" ind1=\"0\" ind2=\" \"><subfield code=\"a\">Śāradā-gaurava-grantha-mālā
+    ; 37</subfield></datafield><datafield tag=\"500\" ind1=\" \" ind2=\" \"><subfield
+    code=\"a\">In Sanskrit; introductory matter in English or Sanskrit.</subfield></datafield><datafield
+    tag=\"500\" ind1=\" \" ind2=\" \"><subfield code=\"a\">A poem.</subfield></datafield><datafield
+    tag=\"600\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Gautama Buddha</subfield><subfield
+    code=\"v\">Poetry.</subfield></datafield><datafield tag=\"600\" ind1=\"0\" ind2=\"0\"><subfield
+    code=\"a\">Yaśodharā</subfield><subfield code=\"c\">(Wife of Gautama Buddha)</subfield><subfield
+    code=\"v\">Poetry.</subfield></datafield></record></collection>"
+  published_display:
   - Puṇyapattanam
   - Haidrābāda
   author_display: Parikshit Sharma, Ogeti, 1930-
   lc_callnum_display:
   - PK3799.P29 Y3
+  title_t:
+  - Yaśodharā-mahākāvyam /
   pub_date:
   - '1976'
+  pub_date_sort: 1976
   format: Book
   material_type_display:
   - 24, 128, 2 p.
+  lc_b4cutter_facet:
+  - PK3799.P29
   title_display: Yaśodharā-mahākāvyam
+  subject_addl_t:
+  - Poetry
+  subject_t:
+  - Gautama Buddha
+  - Yaśodharā (Wife of Gautama Buddha)
+  title_sort: yaśodharā-mahākāvyam
   id: '78908283'
+  author_sort: Parikshit Sharma Ogeti 1930 Yaśodharāmahākāvyam
+  title_addl_t:
+  - Yaśodharā-mahākāvyam /
   subject_topic_facet:
   - Gautama Buddha
   - Yaśodharā (Wife of Gautama Buddha)
+  title_series_t:
+  - Śāradā-gaurava-grantha-mālā ; 37
+  lc_alpha_facet:
+  - PK
   language_facet:
   - Sanskrit
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - H - Social Sciences
+  author_t:
+  - Iṣlāḥī, Amīn Aḥsan,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00729cam
+    a2200229 i 4500</leader><controlfield tag=\"001\">   79930185 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123080110.0</controlfield><controlfield
+    tag=\"008\">791203r19781950pk            000 0 urdo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   79930185 </subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"c\">Rs10.00</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">a-pk---</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">HQ1745.5</subfield><subfield
+    code=\"b\">.I83 1978</subfield></datafield><datafield tag=\"100\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"a\">Iṣlāḥī, Amīn Aḥsan,</subfield><subfield code=\"d\">1904-1997.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Pākistānī ʻaurat dorāhe
+    par /</subfield><subfield code=\"c\">tālīf Amīn Aḥsan Iṣlāḥī.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Lāhaur :</subfield><subfield
+    code=\"b\">Maktabah-yi Markazī Anjuman-i K̲h̲uddāmulqurʼān,</subfield><subfield
+    code=\"c\">1978.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">8, 174 p. ;</subfield><subfield code=\"c\">22 cm.</subfield></datafield><datafield
+    tag=\"500\" ind1=\" \" ind2=\" \"><subfield code=\"a\">In Urdu.</subfield></datafield><datafield
+    tag=\"500\" ind1=\" \" ind2=\" \"><subfield code=\"a\">First published in 1950.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Women</subfield><subfield
+    code=\"z\">Pakistan.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Women</subfield><subfield code=\"z\">Pakistan</subfield><subfield code=\"x\">Social
+    conditions.</subfield></datafield></record></collection>"
+  published_display:
   - Lāhaur
   author_display: Iṣlāḥī, Amīn Aḥsan, 1904-1997
   lc_callnum_display:
   - HQ1745.5 .I83 1978
+  title_t:
+  - Pākistānī ʻaurat dorāhe par /
   pub_date:
   - '1978'
+  pub_date_sort: 1978
   format: Book
   material_type_display:
   - 8, 174 p.
+  lc_b4cutter_facet:
+  - HQ1745.5
   title_display: Pākistānī ʻaurat dorāhe par
+  subject_addl_t:
+  - Pakistan
+  - Pakistan Social conditions
+  subject_t:
+  - Women
+  title_sort: pākistānī ʻaurat dorāhe par
   id: '79930185'
+  author_sort: Iṣlāḥī Amīn Aḥsan 19041997 Pākistānī ʻaurat dorāhe par
+  title_addl_t:
+  - Pākistānī ʻaurat dorāhe par /
   subject_geo_facet:
   - Pakistan
   subject_topic_facet:
   - Women
+  lc_alpha_facet:
+  - HQ
   language_facet:
   - Urdu
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - M - Music
+  author_t:
+  - Nārāyaṇapaṇḍita,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01012cam
+    a22002657a 4500</leader><controlfield tag=\"001\">   85910001 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121023106.0</controlfield><controlfield
+    tag=\"007\">heuamb---baca</controlfield><controlfield tag=\"007\">heubmb---baaa</controlfield><controlfield
+    tag=\"008\">860321r19851946dcu     bb   s001 0 sano </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   85910001 </subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">LC San A 616</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Microfiche 90/61328 (P)</subfield></datafield><datafield
+    tag=\"100\" ind1=\"0\" ind2=\" \"><subfield code=\"a\">Nārāyaṇapaṇḍita,</subfield><subfield
+    code=\"d\">17th cent.</subfield></datafield><datafield tag=\"245\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"a\">Āśleṣāśataka of Nārāyaṇa Paṇḍita</subfield><subfield
+    code=\"h\">[microform].</subfield></datafield><datafield tag=\"260\" ind1=\" \"
+    ind2=\" \"><subfield code=\"a\">Trivandrum :</subfield><subfield code=\"b\">University
+    MSS. Library, University of Travancore,</subfield><subfield code=\"c\">1946.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">xii, 24 p. ;</subfield><subfield
+    code=\"c\">24 cm.</subfield></datafield><datafield tag=\"500\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">Poem.</subfield></datafield><datafield tag=\"500\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">In Sanskrit; introd. in English.</subfield></datafield><datafield
+    tag=\"500\" ind1=\" \" ind2=\" \"><subfield code=\"a\">\"Reprint from the Journal
+    of the Travancore University Oriental Manuscripts Library, no. 7.\"</subfield></datafield><datafield
+    tag=\"504\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Includes bibliographical
+    references and index.</subfield></datafield><datafield tag=\"500\" ind1=\" \"
+    ind2=\" \"><subfield code=\"a\">Master microform held by: DLC.</subfield></datafield><datafield
+    tag=\"533\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Microfiche.</subfield><subfield
+    code=\"b\">Washington, D.C. :</subfield><subfield code=\"c\">Library of Congress
+    Photoduplication Service,</subfield><subfield code=\"d\">1985.</subfield><subfield
+    code=\"e\">1 microfiche ; 11 x 15 cm.</subfield></datafield></record></collection>"
+  published_display:
   - Trivandrum
   author_display: Nārāyaṇapaṇḍita, 17th cent
   lc_callnum_display:
   - Microfiche 90/61328 (P)
+  title_t:
+  - Āśleṣāśataka of Nārāyaṇa Paṇḍita
   pub_date:
   - '1946'
+  pub_date_sort: 1946
   format: Book
   material_type_display:
   - xii, 24 p.
+  lc_b4cutter_facet:
+  - Microfiche 90/61328 (P)
   title_display: Āśleṣāśataka of Nārāyaṇa Paṇḍita
+  title_sort: āśleṣāśataka of nārāyaṇa paṇḍita
   id: '85910001'
+  author_sort: Nārāyaṇapaṇḍita 17th cent Āśleṣāśataka of Nārāyaṇa Paṇḍita
+    microform
+  title_addl_t:
+  - Āśleṣāśataka of Nārāyaṇa Paṇḍita
   language_facet:
   - Sanskrit
+  timestamp: '2014-02-03T18:42:53.056Z'
 - subtitle_display: sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
-  author_vern_display: ‏פינקל, חיים יעקב
+  author_vern_display: "‏פינקל, חיים יעקב"
+  subject_addl_t:
+  - Anecdotes
   title_display: Shodede-yam Yehudiyim
   id: '86207417'
   isbn_t:
@@ -193,113 +758,501 @@
   subject_topic_facet:
   - Jewish pirates
   - Jewish criminals
+  lc_alpha_facet:
+  - G
+  subtitle_t:
+  - sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot /
+  - "‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏"
+  author_t:
+  - Finkel, Chaim Jacob.
+  - "‏פינקל, חיים יעקב"
+  lc_1letter_facet:
+  - G - Geography, Anthropology, Recreation
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01258cam
+    a2200301 a 4500</leader><controlfield tag=\"001\">   86207417 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123161900.0</controlfield><controlfield
+    tag=\"008\">930810s1984    is a          000 0 heb  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   86207417 </subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">9650101373</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLH93-B1897</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC-R</subfield><subfield
+    code=\"c\">DLC-R</subfield></datafield><datafield tag=\"041\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"a\">heb</subfield><subfield code=\"h\">eng</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">G535</subfield><subfield
+    code=\"b\">.F54 1984</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\"
+    \"><subfield code=\"c\">(2</subfield></datafield><datafield tag=\"100\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Finkel,
+    Chaim Jacob.</subfield></datafield><datafield tag=\"240\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"a\">Jewish pirates.</subfield><subfield code=\"l\">Hebrew</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Shodede-yam Yehudiyim :</subfield><subfield code=\"b\">sipurim mafliʼim
+    ha-mevusasim ʻal ʻuvdot hisṭoriyot /</subfield><subfield code=\"c\">Ḥayim Yaʻaḳov
+    Finḳel ; me-Anglit, Ofirah Rahaṭ.</subfield></datafield><datafield tag=\"260\"
+    ind1=\" \" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield code=\"a\">Yerushalayim
+    :</subfield><subfield code=\"b\">Devir,</subfield><subfield code=\"c\">c1984.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">283 p. :</subfield><subfield
+    code=\"b\">ill. ;</subfield><subfield code=\"c\">22 cm.</subfield></datafield><datafield
+    tag=\"500\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Title on t.p. verso: Jewish
+    pirates.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Jewish pirates</subfield><subfield code=\"v\">Anecdotes.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Jewish criminals</subfield><subfield
+    code=\"v\">Anecdotes.</subfield></datafield><datafield tag=\"740\" ind1=\"0\"
+    ind2=\" \"><subfield code=\"a\">Jewish pirates.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">100-01/(2/r‏</subfield><subfield
+    code=\"a\">‏פינקל, חיים יעקב.</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">245-02/(2/r‏</subfield><subfield code=\"a\">‏שודדי־ים
+    יהודיים :‏</subfield><subfield code=\"b\">‏ספורים מפליאים המבוססים על עובדות היסטוריות
+    /‏</subfield><subfield code=\"c\">‏חיים יעקב פינקל ; מאנגלית, אופירה רהט.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-03/(2/r‏</subfield><subfield
+    code=\"a\">‏ירושלים :‏</subfield><subfield code=\"b\">‏דביר,‏</subfield><subfield
+    code=\"c\">‏‪c1984‬.</subfield></datafield></record></collection>"
   published_display:
   - Yerushalayim
   author_display: Finkel, Chaim Jacob
-  title_vern_display: ‏שודדי־ים יהודיים :‏
+  title_vern_display: "‏שודדי־ים יהודיים :‏"
   lc_callnum_display:
   - G535 .F54 1984
+  title_t:
+  - 'Shodede-yam Yehudiyim :'
+  - "‏שודדי־ים יהודיים :‏"
   pub_date:
   - '1984'
+  pub_date_sort: 1984
   published_vern_display:
-  - ‏ירושלים :‏
+  - "‏ירושלים :‏"
   format: Book
-  subtitle_vern_display: ‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏
+  subtitle_vern_display: "‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏"
+  lc_b4cutter_facet:
+  - G535
   material_type_display:
   - 283 p.
+  subject_t:
+  - Jewish pirates
+  - Jewish criminals
+  title_sort: shodede-yam yehudiyim :sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
+  author_sort: Finkel Chaim Jacob Jewish pirates Hebrew Shodedeyam Yehudiyim sipurim
+    mafliʼim hamevusasim ʻal ʻuvdot hisṭoriyot
+  title_addl_t:
+  - 'Shodede-yam Yehudiyim : sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
+    /'
+  - Jewish pirates. Hebrew
+  - "‏שודדי־ים יהודיים :‏ ‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏"
+  title_added_entry_t:
+  - Jewish pirates.
   language_facet:
   - Hebrew
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - B - Philosophy, Psychology, Religion
+  author_t:
+  - Muvaḥḥid Abṭaḥī, Ḥujjat.
+  - "‏موحد ابطحى، خجة"
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01657cam
+    a2200337 a 4500</leader><controlfield tag=\"001\">   87931798 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121115059.0</controlfield><controlfield
+    tag=\"008\">060428m19869999ir ah    b    000 0 per d</controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   87931798 </subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLN06-B3656</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">NjP</subfield><subfield
+    code=\"c\">NjP</subfield><subfield code=\"d\">UkLSOA</subfield><subfield code=\"d\">DLC-R</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lccopycat</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">a------</subfield><subfield
+    code=\"a\">f------</subfield></datafield><datafield tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield
+    code=\"a\">BP44</subfield><subfield code=\"b\">.M88 1986</subfield></datafield><datafield
+    tag=\"066\" ind1=\" \" ind2=\" \"><subfield code=\"c\">(3</subfield><subfield
+    code=\"c\">(4</subfield></datafield><datafield tag=\"100\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Muvaḥḥid Abṭaḥī,
+    Ḥujjat.</subfield></datafield><datafield tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"6\">880-02</subfield><subfield code=\"a\">Āshnāʼī bā ḥawzahʹhā-yi
+    ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh /</subfield><subfield code=\"c\">bih
+    qalam-i Ḥujjat Muvaḥḥid Abṭaḥī.</subfield></datafield><datafield tag=\"246\"
+    ind1=\"3\" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield code=\"a\">Āshnāyī
+    bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh</subfield></datafield><datafield
+    tag=\"246\" ind1=\"3\" ind2=\"0\"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-05</subfield><subfield
+    code=\"a\">Iṣfahān :</subfield><subfield code=\"b\">Ḥawzah-i ʻIlmīyah,</subfield><subfield
+    code=\"c\">1365-   [1986-      ]</subfield></datafield><datafield tag=\"300\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">v. &lt;1&gt; :</subfield><subfield
+    code=\"b\">ill. (some col.), facsims. ;</subfield><subfield code=\"c\">25 cm.</subfield></datafield><datafield
+    tag=\"504\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Bibliography: v. 1, p.451-455.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Religious institutions</subfield><subfield
+    code=\"z\">Islamic countries.</subfield></datafield><datafield tag=\"650\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">Shiites</subfield><subfield code=\"x\">Education</subfield><subfield
+    code=\"z\">Islamic countries.</subfield></datafield><datafield tag=\"650\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">Islamic universities and colleges.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">100-01/(3/r‏</subfield><subfield
+    code=\"a\">‏موحد ابطحى، خجة.</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">245-02/(3/r‏</subfield><subfield code=\"a\">‏اشنائى
+    با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏</subfield><subfield code=\"c\">‏بقلم حجة
+    موحد ابطحى.</subfield></datafield><datafield tag=\"880\" ind1=\"3\" ind2=\" \"><subfield
+    code=\"6\">246-03/(3/r‏</subfield><subfield code=\"a\">‏اشنايى با حوزه‌هاى علميۀ
+    شيعه در طول تاريخ</subfield></datafield><datafield tag=\"880\" ind1=\"3\" ind2=\"0\"><subfield
+    code=\"6\">246-04/(3/r‏</subfield><subfield code=\"a\">‏حوزه هاى علميۀ شيعه</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-05/(3/r‏</subfield><subfield
+    code=\"a\">‏اصفهان :‏</subfield><subfield code=\"b\">‏حوزۀ علميه،‏</subfield><subfield
+    code=\"c\">‏‪1365- [1986-    ]‬.</subfield></datafield></record></collection>"
+  published_display:
   - Iṣfahān
-  title_vern_display: ‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏
+  title_vern_display: "‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏"
   author_display: Muvaḥḥid Abṭaḥī, Ḥujjat
   lc_callnum_display:
   - BP44 .M88 1986
+  title_t:
+  - Āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh /
+  - "‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏"
   pub_date:
   - '1986'
+  pub_date_sort: 1986
   published_vern_display:
-  - ‏اصفهان :‏
+  - "‏اصفهان :‏"
   format: Book
-  author_vern_display: ‏موحد ابطحى، خجة
+  author_vern_display: "‏موحد ابطحى، خجة"
   material_type_display:
   - v. <1>
+  lc_b4cutter_facet:
+  - BP44
   title_display: Āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh
+  subject_addl_t:
+  - Islamic countries
+  - Education Islamic countries
+  subject_t:
+  - Religious institutions
+  - Shiites
+  - Islamic universities and colleges
+  title_sort: āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi shīʻah dar ṭūl-i tārīkh
   id: '87931798'
+  author_sort: Muvaḥḥid Abṭaḥī Ḥujjat Āshnāʼī bā ḥawzahʹhāyi ʻilmīyahʼi
+    Shīʻah dar ṭūli tārīkh
+  title_addl_t:
+  - Āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh /
+  - Āshnāyī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh
+  - Ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah
+  - "‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏"
+  - "‏اشنايى با حوزه‌هاى علميۀ شيعه در طول تاريخ"
+  - "‏حوزه هاى علميۀ شيعه"
   subject_geo_facet:
   - Islamic countries
   subject_topic_facet:
   - Religious institutions
   - Shiites
   - Islamic universities and colleges
+  lc_alpha_facet:
+  - BP
   language_facet:
   - Persian
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - M - Music
+  author_t:
+  - Lomtʻatʻiże, Čola,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00610cam
+    a22001817a 4500</leader><controlfield tag=\"001\">   90142413 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126150928.0</controlfield><controlfield
+    tag=\"008\">900409s1975    gs            000 0 geo  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   90142413 </subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield></datafield><datafield tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield
+    code=\"a\">MLCSN 96/3906 (H)</subfield></datafield><datafield tag=\"100\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"a\">Lomtʻatʻiże, Čola,</subfield><subfield code=\"d\">1879-1915.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Mrecvelobis mušakis cʻxovrebis
+    cesi :</subfield><subfield code=\"b\">tʻeoriul-metʻoduri narkvevi /</subfield><subfield
+    code=\"c\">Čola Lomtʻatʻiże.</subfield></datafield><datafield tag=\"246\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"i\">Title in colophon:</subfield><subfield code=\"a\">Obraz
+    zhizni rabotnika promyshlennosti</subfield></datafield><datafield tag=\"260\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Tʻbilisi :</subfield><subfield code=\"b\">Mecʻniereba,</subfield><subfield
+    code=\"c\">1975.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">65 p. ;</subfield><subfield code=\"c\">22 cm.</subfield></datafield><datafield
+    tag=\"653\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Industrial workers;</subfield><subfield
+    code=\"a\">life style</subfield></datafield></record></collection>"
+  published_display:
   - Tʻbilisi
   author_display: Lomtʻatʻiże, Čola, 1879-1915
   lc_callnum_display:
   - MLCSN 96/3906 (H)
+  title_t:
+  - 'Mrecvelobis mušakis cʻxovrebis cesi :'
   pub_date:
   - '1975'
+  pub_date_sort: 1975
   subtitle_display: tʻeoriul-metʻoduri narkvevi
   format: Book
   material_type_display:
   - 65 p.
+  lc_b4cutter_facet:
+  - MLCSN 96/3906 (H)
   title_display: Mrecvelobis mušakis cʻxovrebis cesi
+  subject_t:
+  - Industrial workers; life style
+  title_sort: mrecvelobis mušakis cʻxovrebis cesi :tʻeoriul-metʻoduri narkvevi
   id: '90142413'
+  author_sort: Lomtʻatʻiże Čola 18791915 Mrecvelobis mušakis cʻxovrebis cesi tʻeoriulmetʻoduri
+    narkvevi
+  title_addl_t:
+  - 'Mrecvelobis mušakis cʻxovrebis cesi : tʻeoriul-metʻoduri narkvevi /'
+  - Obraz zhizni rabotnika promyshlennosti
   subject_topic_facet:
   - Industrial workers; life style
   language_facet:
   - Georgian
-- published_display:
+  subtitle_t:
+  - tʻeoriul-metʻoduri narkvevi /
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - K - Law
+  author_t:
+  - Korea (North)
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01106cam
+    a2200325 a 4500</leader><controlfield tag=\"001\">   92117465 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126171556.0</controlfield><controlfield
+    tag=\"008\">920805s1990    ko       l    000 0 kor  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   92117465 </subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"c\">W300000 (set)</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLP92-B14190</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC-R</subfield><subfield
+    code=\"c\">DLC-R</subfield></datafield><datafield tag=\"043\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">a-kn---</subfield></datafield><datafield tag=\"050\" ind1=\"0\"
+    ind2=\"0\"><subfield code=\"a\">KPC13</subfield><subfield code=\"b\">.K67 1990</subfield></datafield><datafield
+    tag=\"066\" ind1=\" \" ind2=\" \"><subfield code=\"c\">$1</subfield></datafield><datafield
+    tag=\"110\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Korea (North)</subfield></datafield><datafield
+    tag=\"240\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Laws, etc.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-01</subfield><subfield
+    code=\"a\">Pukhan pŏmnyŏngjip /</subfield><subfield code=\"c\">chʻaegim pʻyŏnjip
+    Chŏng Kyŏng-mo, Chʻoe Tal-gon.</subfield></datafield><datafield tag=\"250\"
+    ind1=\" \" ind2=\" \"><subfield code=\"6\">880-02</subfield><subfield code=\"a\">Chaepʻan.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield
+    code=\"a\">Sŏul Tʻŭkpyŏlsi :</subfield><subfield code=\"b\">Taeryuk Yŏnʼguso,</subfield><subfield
+    code=\"c\">1990.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">5 v. ;</subfield><subfield code=\"c\">27 cm.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Law</subfield><subfield
+    code=\"z\">Korea (North)</subfield></datafield><datafield tag=\"700\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield code=\"a\">Chŏng,
+    Kyŏng-mo,</subfield><subfield code=\"d\">1937-</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-05</subfield><subfield
+    code=\"a\">Chʻoe, Tal-gon.</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">245-01/$1</subfield><subfield code=\"a\">北韓　法令集　／</subfield><subfield
+    code=\"c\">責任　編輯　鄭　慶謨，　崔　逹坤．</subfield></datafield><datafield tag=\"880\" ind1=\"
+    \" ind2=\" \"><subfield code=\"6\">250-02/$1</subfield><subfield code=\"a\">再版．</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-03/$1</subfield><subfield
+    code=\"a\">서울　持別市　：</subfield><subfield code=\"b\">大陸　研究所，</subfield><subfield
+    code=\"c\">1990.</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"6\">700-04/$1</subfield><subfield code=\"a\">鄭　慶謨，</subfield><subfield
+    code=\"d\">1937-</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"6\">700-05/$1</subfield><subfield code=\"a\">崔　逹坤．</subfield></datafield></record></collection>"
+  published_display:
   - Sŏul Tʻŭkpyŏlsi
-  title_vern_display: 北韓　法令集　／
+  title_vern_display: "北韓　法令集　／"
   author_display: Korea (North)
   lc_callnum_display:
   - KPC13 .K67 1990
+  title_t:
+  - Pukhan pŏmnyŏngjip /
+  - "北韓　法令集　／"
   pub_date:
   - '1990'
+  pub_date_sort: 1990
   published_vern_display:
-  - 서울　持別市　：
+  - "서울　持別市　："
   format: Book
   material_type_display:
   - 5 v.
+  lc_b4cutter_facet:
+  - KPC13
   title_display: Pukhan pŏmnyŏngjip
+  subject_addl_t:
+  - Korea (North)
+  subject_t:
+  - Law
+  title_sort: pukhan pŏmnyŏngjip
   id: '92117465'
+  author_sort: Korea North Laws etc Pukhan pŏmnyŏngjip
+  title_addl_t:
+  - Pukhan pŏmnyŏngjip /
+  - Laws, etc
+  - "北韓　法令集　／"
   subject_geo_facet:
   - Korea (North)
   subject_topic_facet:
   - Law
+  author_addl_t:
+  - Chŏng, Kyŏng-mo,
+  - Chʻoe, Tal-gon.
+  - "鄭　慶謨，"
+  - "崔　逹坤．"
+  lc_alpha_facet:
+  - KPC
   language_facet:
   - Korean
+  timestamp: '2014-02-03T18:42:53.056Z'
 - subtitle_display: ṿe-hu perush yafeh u-menupeh ʻal Shulḥan ʻarukh Oraḥ ḥayim
     asher ḥiber Yosef Ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon ... ṿe-himtsiʼam
     ... Mosheh Iserlish
-  author_vern_display: ‏ישראל מאיר,‏ ‏הכהן
+  author_vern_display: "‏ישראל מאיר,‏ ‏הכהן"
+  subject_addl_t:
+  - Customs and practices
   title_display: Sefer Mishnah berurah
   id: '92828023'
   subject_topic_facet:
   - Karo, Joseph ben Ephraim, 1488-1575
   - Jewish law
   - Judaism
+  lc_alpha_facet:
+  - BM
+  subtitle_t:
+  - ṿe-hu perush yafeh u-menupeh ʻal Shulḥan ʻarukh Oraḥ ḥayim asher ḥiber Yosef
+    Ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon ... ṿe-himtsiʼam ... Mosheh
+    Iserlish /
+  - "‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף קארו ... עם חידושי דינים
+    שהשמיט הגאון ... והמציאם משה איסרליש /‏"
+  author_t:
+  - Israel Meir, ha-Kohen,
+  - "‏ישראל מאיר,‏ ‏הכהן"
+  lc_1letter_facet:
+  - B - Philosophy, Psychology, Religion
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>03361cam
+    a2200493 a 4500</leader><controlfield tag=\"001\">   92828023 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122150744.0</controlfield><controlfield
+    tag=\"008\">921008m19929999is            000 0 heb  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   92828023 </subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLH92-B2385</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC-R</subfield><subfield
+    code=\"c\">DLC-R</subfield><subfield code=\"d\">DLC-R</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">BM520.88.A53</subfield><subfield
+    code=\"b\">I88 1992b</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\"
+    \"><subfield code=\"c\">(2</subfield></datafield><datafield tag=\"100\" ind1=\"0\"
+    ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Israel Meir,</subfield><subfield
+    code=\"c\">ha-Kohen,</subfield><subfield code=\"d\">1838-1933.</subfield></datafield><datafield
+    tag=\"240\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Mishnah berurah</subfield></datafield><datafield tag=\"245\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">880-03</subfield><subfield code=\"a\">Sefer Mishnah
+    berurah :</subfield><subfield code=\"b\">ṿe-hu perush yafeh u-menupeh ʻal Shulḥan
+    ʻarukh Oraḥ ḥayim asher ḥiber Yosef Ḳaro ... ʻim ḥidushe dinim she-hishmiṭ
+    ha-gaʼon ... ṿe-himtsiʼam ... Mosheh Iserlish /</subfield><subfield code=\"c\">kol
+    eleh ḥibarti [z.o. asafti ṿe-ʻarakhti] Yiśraʼel Meʼir b.R. Aryeh Zeʼev ha-Kohen.</subfield></datafield><datafield
+    tag=\"250\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Hotsaʼah ḥadashah, menuḳedet u-mefuseḳet uve-fiʻnuaḥ rashe-tevot
+    uve-hagahah meduḳdeḳet.</subfield></datafield><datafield tag=\"260\" ind1=\"
+    \" ind2=\" \"><subfield code=\"6\">880-05</subfield><subfield code=\"a\">[Jerusalem?
+    :</subfield><subfield code=\"b\">ḥ. mo. l. ],</subfield><subfield code=\"c\">752-&lt;[768]&gt;
+    [1992-&lt;2007 or 2008&gt;]</subfield><subfield code=\"e\">(Yerushalayim :</subfield><subfield
+    code=\"f\">Nidpas ʻa. y. Makhon le-hotsaʼat sefarim ʻA. L.B.)</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">v. &lt;1-5&gt; ;</subfield><subfield
+    code=\"c\">29 cm.</subfield></datafield><datafield tag=\"500\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">Title on cover &lt;v. 2-3, 5&gt;: Sefer Mishnah berurah
+    ha-menuḳad.</subfield></datafield><datafield tag=\"500\" ind1=\" \" ind2=\" \"><subfield
+    code=\"a\">Vol. 4- has ed. statement: Mahadura meyuḥedet ʻim hagahot ṿe-heʻarot
+    \"Ish matsliaḥ\" la-Sefaradim ṿa-ʻadot ha-Mizraḥ.</subfield></datafield><datafield
+    tag=\"500\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Vol. 4- published: Bene
+    Beraḳ : \"Mekhon ha-Rav Matsliaḥ\" she-ʻa. y. Mosdot Yeshivat \"Kise Raḥamim\"
+    Sefaradit.</subfield></datafield><datafield tag=\"500\" ind1=\" \" ind2=\" \"><subfield
+    code=\"a\">Includes text of Shulḥan ʻarukh, Oraḥ ḥayim.</subfield></datafield><datafield
+    tag=\"500\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Includes Beʼer ha-Golah
+    by Mosheh Ravḳash, Baʼer heṭev by Judah ben Simon Ashkenazi, Shaʻare teshuvah
+    by Ḥayim Mordekhai Margaliyot.</subfield></datafield><datafield tag=\"600\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"a\">Karo, Joseph ben Ephraim,</subfield><subfield
+    code=\"d\">1488-1575.</subfield><subfield code=\"t\">Oraḥ ḥayim.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Jewish law.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Judaism</subfield><subfield
+    code=\"x\">Customs and practices.</subfield></datafield><datafield tag=\"700\"
+    ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-06</subfield><subfield code=\"a\">Isserles,
+    Moses ben Israel,</subfield><subfield code=\"d\">ca. 1525-1572.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\"2\"><subfield code=\"6\">880-07</subfield><subfield
+    code=\"a\">Karo, Joseph ben Ephraim,</subfield><subfield code=\"d\">1488-1575.</subfield><subfield
+    code=\"t\">Oraḥ ḥayim.</subfield></datafield><datafield tag=\"740\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">880-08</subfield><subfield code=\"a\">Mishnah
+    berurah.</subfield></datafield><datafield tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">880-09</subfield><subfield code=\"a\">Sefer Mishnah berurah ha-menuḳad.</subfield></datafield><datafield
+    tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-10</subfield><subfield
+    code=\"a\">Ish matsliaḥ.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
+    ind2=\" \"><subfield code=\"6\">100-01/(2/r‏</subfield><subfield code=\"a\">‏ישראל
+    מאיר,‏</subfield><subfield code=\"c\">‏הכהן.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">240-02/(2/r‏</subfield><subfield
+    code=\"a\">‏משנה ברורה</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">245-03/(2/r‏</subfield><subfield code=\"a\">‏ספר
+    משנה ברורה :‏</subfield><subfield code=\"b\">‏והוא פירוש יפה ומנפה על שלחן ערוך
+    ארח חיים אשר חבר יוסף קארו ... עם חידושי דינים שהשמיט הגאון ... והמציאם משה איסרליש
+    /‏</subfield><subfield code=\"c\">‏כל אלה חיברתי [ז״א אספתי וערכתי] ישראל מאיר
+    בר׳ אריה זאב הכהן.</subfield></datafield><datafield tag=\"880\" ind1=\" \" ind2=\"
+    \"><subfield code=\"6\">250-04/(2/r‏</subfield><subfield code=\"a\">‏הוצאה חדשה,
+    מנקדת ומפסקת ובפענוח ראשי־תבות ובהגהה מדקדקת.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-05/(2/r‏</subfield><subfield
+    code=\"a\">‏[Jerusalem? :‏</subfield><subfield code=\"b\">‏חמו״ל,‏</subfield><subfield
+    code=\"c\">‏‪752-&lt;[768]&gt; [1992-&lt;2007 or 2008&gt;]‏</subfield><subfield
+    code=\"e\">‏(ירושלים :‏</subfield><subfield code=\"f\">‏נדפס ע״י מכון להוצאת ספרים
+    ע.ל.ב.)‬</subfield></datafield><datafield tag=\"880\" ind1=\"0\" ind2=\"4\"><subfield
+    code=\"6\">630-00/(2/r‏</subfield><subfield code=\"a\">‏שלחן ערוך.‏</subfield><subfield
+    code=\"p\">‏ארח חיים.</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"6\">700-06/(2/r‏</subfield><subfield code=\"a\">‏איסרליש,
+    משה.</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"2\"><subfield
+    code=\"6\">700-07/(2/r‏</subfield><subfield code=\"a\">‏קארו, יוסף.‏</subfield><subfield
+    code=\"t\">‏אורח חיים.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">740-08/(2/r‏</subfield><subfield code=\"a\">‏משנה
+    ברורה.</subfield></datafield><datafield tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">740-09/(2/r‏</subfield><subfield code=\"a\">‏ספר משנה ברורה המנקד.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">740-10/(2/r</subfield><subfield
+    code=\"a\">איש מצליח.</subfield></datafield></record></collection>"
   published_display:
   - Jerusalem?
   author_display: Israel Meir, ha-Kohen, 1838-1933
-  title_vern_display: ‏ספר משנה ברורה :‏
+  title_vern_display: "‏ספר משנה ברורה :‏"
   lc_callnum_display:
   - BM520.88.A53 I88 1992b
+  title_t:
+  - 'Sefer Mishnah berurah :'
+  - "‏ספר משנה ברורה :‏"
   pub_date:
   - '1992'
+  pub_date_sort: 1992
   published_vern_display:
-  - ‏[Jerusalem? :‏
+  - "‏[Jerusalem? :‏"
   format: Book
-  subtitle_vern_display: ‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף
-    קארו ... עם חידושי דינים שהשמיט הגאון ... והמציאם משה איסרליש /‏
+  subtitle_vern_display: "‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף
+    קארו ... עם חידושי דינים שהשמיט הגאון ... והמציאם משה איסרליש /‏"
+  lc_b4cutter_facet:
+  - BM520.88.A53
   material_type_display:
   - v. <1-5>
+  subject_t:
+  - Karo, Joseph ben Ephraim, 1488-1575. Oraḥ ḥayim
+  - Jewish law
+  - Judaism
+  - "‏שלחן ערוך.‏ ‏ארח חיים"
+  title_sort: sefer mishnah berurah :ṿe-hu perush yafeh u-menupeh ʻal shulḥan ʻarukh
+    oraḥ ḥayim asher ḥiber yosef ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon
+    ... ṿe-himtsiʼam ... mosheh iserlish
+  author_sort: Israel Meir haKohen 18381933 Mishnah berurah Sefer Mishnah berurah
+    ṿehu perush yafeh umenupeh ʻal Shulḥan ʻarukh Oraḥ ḥayim asher ḥiber Yosef
+    Ḳaro  ʻim ḥidushe dinim shehishmiṭ hagaʼon  ṿehimtsiʼam  Mosheh Iserlish
+  title_addl_t:
+  - 'Sefer Mishnah berurah : ṿe-hu perush yafeh u-menupeh ʻal Shulḥan ʻarukh Oraḥ
+    ḥayim asher ḥiber Yosef Ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon ...
+    ṿe-himtsiʼam ... Mosheh Iserlish /'
+  - Mishnah berurah
+  - "‏ספר משנה ברורה :‏ ‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף קארו
+    ... עם חידושי דינים שהשמיט הגאון ... והמציאם משה איסרליש /‏"
+  - "‏משנה ברורה"
+  author_addl_t:
+  - Isserles, Moses ben Israel,
+  - Karo, Joseph ben Ephraim,
+  - "‏איסרליש, משה"
+  - "‏קארו, יוסף.‏"
+  title_added_entry_t:
+  - Oraḥ ḥayim
+  - Mishnah berurah.
+  - Sefer Mishnah berurah ha-menuḳad.
+  - Ish matsliaḥ.
+  - "‏אורח חיים"
+  - "‏משנה ברורה"
+  - "‏ספר משנה ברורה המנקד"
+  - "איש מצליח"
   language_facet:
   - Hebrew
+  timestamp: '2014-02-03T18:42:53.056Z'
 - subtitle_display: 'kangnam yŏin kwa sin pʻalbulchʻul : Kim Hong-sin setʻae rŭpʻo'
-  author_vern_display: 김　홍신, 1947-
+  author_vern_display: "김　홍신, 1947-"
+  subject_addl_t:
+  - Korea (South) Social conditions
+  - Social conditions
   title_display: Ajikto kŭrŏk chŏrŏk sasimnikka
   id: '94120425'
   subject_geo_facet:
@@ -307,24 +1260,95 @@
   - Korea (South)
   subject_topic_facet:
   - Women
+  lc_alpha_facet:
+  - HQ
+  subtitle_t:
+  - 'kangnam yŏin kwa sin pʻalbulchʻul : Kim Hong-sin setʻae rŭpʻo.'
+  - "강남　여인　과　신　팔불출 : 金　洪信　세태　르포"
+  author_t:
+  - Kim, Hong-sin,
+  - "김　홍신"
+  lc_1letter_facet:
+  - H - Social Sciences
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01149cam
+    a2200301 a 4500</leader><controlfield tag=\"001\">   94120425 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123075708.0</controlfield><controlfield
+    tag=\"008\">940328s1990    ko            000 0 kor d</controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   94120425 </subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"c\">W3800</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLP94-B5791</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">CLASIA</subfield><subfield
+    code=\"c\">CLASIA</subfield><subfield code=\"d\">DLC</subfield><subfield code=\"d\">CStRLIN</subfield><subfield
+    code=\"d\">DLC-R</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lccopycat</subfield></datafield><datafield tag=\"043\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">a-ko---</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">HQ1765.5</subfield><subfield
+    code=\"b\">.K46 1990</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\"
+    \"><subfield code=\"c\">$1</subfield></datafield><datafield tag=\"100\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Kim, Hong-sin,</subfield><subfield
+    code=\"d\">1947-</subfield></datafield><datafield tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"6\">880-02</subfield><subfield code=\"a\">Ajikto kŭrŏk chŏrŏk sasimnikka
+    :</subfield><subfield code=\"b\">kangnam yŏin kwa sin pʻalbulchʻul : Kim Hong-sin
+    setʻae rŭpʻo.</subfield></datafield><datafield tag=\"250\" ind1=\" \" ind2=\"
+    \"><subfield code=\"6\">880-03</subfield><subfield code=\"a\">Chʻopʻan.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Sŏul :</subfield><subfield code=\"b\">Yŏwŏn Chʻulpʻanʼguk,</subfield><subfield
+    code=\"c\">1990</subfield><subfield code=\"g\">(1992 printing)</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">289 p. ;</subfield><subfield
+    code=\"c\">22 cm.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Women</subfield><subfield code=\"z\">Korea (South)</subfield><subfield
+    code=\"x\">Social conditions.</subfield></datafield><datafield tag=\"651\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">Seoul (Korea)</subfield><subfield code=\"x\">Social
+    conditions.</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\" \"><subfield
+    code=\"6\">100-01/$1</subfield><subfield code=\"a\">김　홍신,</subfield><subfield
+    code=\"d\">1947-</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"6\">245-02/$1</subfield><subfield code=\"a\">아직도　그럭　저럭　사십니까 :</subfield><subfield
+    code=\"b\">강남　여인　과　신　팔불출 : 金　洪信　세태　르포.</subfield></datafield><datafield tag=\"880\"
+    ind1=\" \" ind2=\" \"><subfield code=\"6\">250-03/$1</subfield><subfield code=\"a\">초판.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-04/$1</subfield><subfield
+    code=\"a\">서울 :</subfield><subfield code=\"b\">女苑　出版局,</subfield><subfield code=\"c\">1990</subfield><subfield
+    code=\"g\">(1992 printing)</subfield></datafield></record></collection>"
   published_display:
   - Sŏul
   author_display: Kim, Hong-sin, 1947-
-  title_vern_display: 아직도　그럭　저럭　사십니까
+  title_vern_display: "아직도　그럭　저럭　사십니까"
   lc_callnum_display:
   - HQ1765.5 .K46 1990
+  title_t:
+  - 'Ajikto kŭrŏk chŏrŏk sasimnikka :'
+  - "아직도　그럭　저럭　사십니까"
   pub_date:
   - '1990'
+  pub_date_sort: 1990
   published_vern_display:
-  - 서울
+  - "서울"
   format: Book
-  subtitle_vern_display: '강남　여인　과　신　팔불출 : 金　洪信　세태　르포'
+  subtitle_vern_display: "강남　여인　과　신　팔불출 : 金　洪信　세태　르포"
+  lc_b4cutter_facet:
+  - HQ1765.5
   material_type_display:
   - 289 p.
+  subject_t:
+  - Women
+  - Seoul (Korea)
+  title_sort: 'ajikto kŭrŏk chŏrŏk sasimnikka :kangnam yŏin kwa sin pʻalbulchʻul
+    : kim hong-sin setʻae rŭpʻo'
+  author_sort: Kim Hongsin 1947 Ajikto kŭrŏk chŏrŏk sasimnikka kangnam yŏin kwa
+    sin pʻalbulchʻul  Kim Hongsin setʻae rŭpʻo
+  title_addl_t:
+  - 'Ajikto kŭrŏk chŏrŏk sasimnikka : kangnam yŏin kwa sin pʻalbulchʻul : Kim
+    Hong-sin setʻae rŭpʻo.'
+  - "아직도　그럭　저럭　사십니까 : 강남　여인　과　신　팔불출 : 金　洪信　세태　르포"
   language_facet:
   - Korean
+  timestamp: '2014-02-03T18:42:53.056Z'
 - subtitle_display: dar khiradvarzī-i siyāsī va huvīyat-i mā Īrānīyān
-  author_vern_display: ‏رجايى، فرهنگ .
+  author_vern_display: "‏رجايى، فرهنگ ."
+  subject_addl_t:
+  - Iran
+  - Ethnic identity
+  - Politics and government
+  - Civilization
   title_display: Maʻrakah-ʼi jahānʹbīnīʹhā
   id: '96933325'
   subject_geo_facet:
@@ -332,82 +1356,350 @@
   subject_topic_facet:
   - Political science
   - Iranians
+  lc_alpha_facet:
+  - DS
+  title_series_t:
+  - Sipihr-i farhang va jāmiʻah ; 1
+  - "‏سپهر فرهنگ و جامعه ؛‏ ‏1"
+  subtitle_t:
+  - dar khiradvarzī-i siyāsī va huvīyat-i mā Īrānīyān /
+  - "‏در خردورزى سياسى و هويت ما ايرانيان /‏"
+  author_t:
+  - Rajāyī, Farhang,
+  - "‏رجايى، فرهنگ ."
+  lc_1letter_facet:
+  - D - World History
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01484cam
+    a2200349 a 4500</leader><controlfield tag=\"001\">   96933325 </controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121112252.0</controlfield><controlfield
+    tag=\"008\">040115s1994    ir       b    001 0 per  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">   96933325 </subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLN04-B274</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC-R</subfield><subfield
+    code=\"c\">DLC-R</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lcode</subfield></datafield><datafield tag=\"043\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">a-ir---</subfield></datafield><datafield tag=\"050\"
+    ind1=\"0\" ind2=\"0\"><subfield code=\"a\">DS274</subfield><subfield code=\"b\">.R327
+    1994</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\" \"><subfield
+    code=\"c\">(3</subfield><subfield code=\"c\">(4</subfield></datafield><datafield
+    tag=\"100\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield
+    code=\"a\">Rajāyī, Farhang,</subfield><subfield code=\"d\">1952 or 3-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Maʻrakah-ʼi jahānʹbīnīʹhā :</subfield><subfield code=\"b\">dar
+    khiradvarzī-i siyāsī va huvīyat-i mā Īrānīyān /</subfield><subfield code=\"c\">Farhang
+    Rajāʼī.</subfield></datafield><datafield tag=\"250\" ind1=\" \" ind2=\" \"><subfield
+    code=\"6\">880-03</subfield><subfield code=\"a\">Chāp-i 1.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Tihrān :</subfield><subfield code=\"b\">Iḥyā-yi Kitāb,</subfield><subfield
+    code=\"c\">1373 [1994 or 1995]</subfield></datafield><datafield tag=\"300\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">323 p. ;</subfield><subfield code=\"c\">22
+    cm.</subfield></datafield><datafield tag=\"440\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"6\">880-05</subfield><subfield code=\"a\">Sipihr-i farhang va jāmiʻah
+    ;</subfield><subfield code=\"v\">1</subfield></datafield><datafield tag=\"504\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Includes bibliographical references
+    (p.287-320) and index.</subfield></datafield><datafield tag=\"651\" ind1=\" \"
+    ind2=\"0\"><subfield code=\"a\">Iran</subfield><subfield code=\"x\">Politics and
+    government.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Political science</subfield><subfield code=\"z\">Iran.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Iranians</subfield><subfield
+    code=\"x\">Ethnic identity.</subfield></datafield><datafield tag=\"651\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">Iran</subfield><subfield code=\"x\">Civilization.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">100-01/(4/r‏</subfield><subfield
+    code=\"a\">‏رجايى، فرهنگ .</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">245-02/(3/r‏</subfield><subfield code=\"a\">‏معركۀ
+    جهان‌بينىها :‏</subfield><subfield code=\"b\">‏در خردورزى سياسى و هويت ما ايرانيان
+    /‏</subfield><subfield code=\"c\">‏فرهنگ رجائى.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">250-03/(4/r‏</subfield><subfield
+    code=\"a\">‏چاپ 1.</subfield></datafield><datafield tag=\"880\" ind1=\" \" ind2=\"
+    \"><subfield code=\"6\">260-04/(3/r‏</subfield><subfield code=\"a\">‏تهران :‏</subfield><subfield
+    code=\"b\">‏احياء كتاب،‏</subfield><subfield code=\"c\">‏‪1373 [1994 or 1995]‬.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\"0\"><subfield code=\"6\">440-05/(3/r‏</subfield><subfield
+    code=\"a\">‏سپهر فرهنگ و جامعه ؛‏</subfield><subfield code=\"v\">‏1</subfield></datafield></record></collection>"
   published_display:
   - Tihrān
   author_display: Rajāyī, Farhang, 1952 or 3-
-  title_vern_display: ‏معركۀ جهان‌بينىها :‏
+  title_vern_display: "‏معركۀ جهان‌بينىها :‏"
   lc_callnum_display:
   - DS274 .R327 1994
+  title_t:
+  - 'Maʻrakah-ʼi jahānʹbīnīʹhā :'
+  - "‏معركۀ جهان‌بينىها :‏"
   pub_date:
   - '1994'
+  pub_date_sort: 1994
   published_vern_display:
-  - ‏تهران :‏
+  - "‏تهران :‏"
   format: Book
-  subtitle_vern_display: ‏در خردورزى سياسى و هويت ما ايرانيان /‏
+  subtitle_vern_display: "‏در خردورزى سياسى و هويت ما ايرانيان /‏"
   material_type_display:
   - 323 p.
+  lc_b4cutter_facet:
+  - DS274
+  subject_t:
+  - Political science
+  - Iranians
+  - Iran
+  title_sort: maʻrakah-ʼi jahānʹbīnīʹhā :dar khiradvarzī-i siyāsī va huvīyat-i
+    mā īrānīyān
+  author_sort: Rajāyī Farhang 1952 or 3 Maʻrakahʼi jahānʹbīnīʹhā dar khiradvarzīi
+    siyāsī va huvīyati mā Īrānīyān
+  title_addl_t:
+  - 'Maʻrakah-ʼi jahānʹbīnīʹhā : dar khiradvarzī-i siyāsī va huvīyat-i mā
+    Īrānīyān /'
+  - "‏معركۀ جهان‌بينىها :‏ ‏در خردورزى سياسى و هويت ما ايرانيان /‏"
   language_facet:
   - Persian
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - P - Language & Literature
+  author_t:
+  - Nārāyaṇa Paṇḍitācārya,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01588cam
+    a2200313 a 4500</leader><controlfield tag=\"001\">  2001417245</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121030347.0</controlfield><controlfield
+    tag=\"008\">011001m20009999ii            001 0 sano </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2001417245</subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">I-San-2001-417245; 11</subfield></datafield><datafield
+    tag=\"037\" ind1=\" \" ind2=\" \"><subfield code=\"b\">Library of Congress --
+    New Delhi Overseas Office</subfield><subfield code=\"c\">Rs200.00 (v. 1)</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"041\" ind1=\"0\" ind2=\" \"><subfield code=\"a\">sanengkan</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lcode</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">PK3798.N313</subfield><subfield
+    code=\"b\">S87 2000</subfield></datafield><datafield tag=\"100\" ind1=\"0\" ind2=\"
+    \"><subfield code=\"a\">Nārāyaṇa Paṇḍitācārya,</subfield><subfield code=\"d\">13th
+    cent.</subfield></datafield><datafield tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"a\">Sumadhvavijayaḥ /</subfield><subfield code=\"c\">Nārāyaṇapaṇḍitācāryaviracitaḥ
+    ; Nārāyaṇapaṇḍitācāryaviracitabhāvaprakāśikā, Viśvapatitīrthaviracitapadārthadīpikodbodhikā,
+    Chalārīśeṣācāryaviracitamandopakāriṇī iti vyākhyānatrayasametaḥ ;
+    edited by A.B. Shyamachar and S.R. Pandurangi.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Bangalore :</subfield><subfield
+    code=\"b\">Dvaita Vedanta Studies and Research Foundation,</subfield><subfield
+    code=\"c\">2000-</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">v. &lt;1   &gt; ;</subfield><subfield code=\"c\">25 cm.</subfield></datafield><datafield
+    tag=\"546\" ind1=\" \" ind2=\" \"><subfield code=\"a\">In Sanskrit; prefatory
+    matter in English and Kannada.</subfield></datafield><datafield tag=\"520\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">Verse work on Madhva, 13th cent. Vaishnava
+    religious leader and exponent of dualistic philosophy; includes autocommentary
+    and two classical commentaries.</subfield></datafield><datafield tag=\"500\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">Includes indexes.</subfield></datafield><datafield
+    tag=\"600\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Madhva,</subfield><subfield
+    code=\"d\">13th cent.</subfield><subfield code=\"v\">Poetry.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"0\" ind2=\"2\"><subfield code=\"a\">Nārāyaṇa Paṇḍitācārya,</subfield><subfield
+    code=\"d\">17th cent.</subfield><subfield code=\"t\">Bhāvaprakāśikā.</subfield><subfield
+    code=\"f\">2000.</subfield></datafield><datafield tag=\"700\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"a\">Viśvapatitīrtha,</subfield><subfield code=\"d\">16th cent.</subfield><subfield
+    code=\"t\">Padārthadīpikodbodhikā.</subfield><subfield code=\"f\">2000.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"0\" ind2=\"2\"><subfield code=\"a\">Chalāriśeṣācārya.</subfield><subfield
+    code=\"t\">Mandopakāriṇī.</subfield><subfield code=\"f\">2000.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Shyamachar, A. B.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Pandurangi, S. R.</subfield></datafield></record></collection>"
+  published_display:
   - Bangalore
   author_display: Nārāyaṇa Paṇḍitācārya, 13th cent
   lc_callnum_display:
   - PK3798.N313 S87 2000
+  title_t:
+  - Sumadhvavijayaḥ /
   pub_date:
   - '2000'
+  pub_date_sort: 2000
   format: Book
   material_type_display:
   - v. <1   >
+  lc_b4cutter_facet:
+  - PK3798.N313
   title_display: Sumadhvavijayaḥ
+  subject_addl_t:
+  - Poetry
+  subject_t:
+  - Madhva, 13th cent
+  title_sort: sumadhvavijayaḥ
   id: '2001417245'
+  author_sort: Nārāyaṇa Paṇḍitācārya 13th cent Sumadhvavijayaḥ
+  title_addl_t:
+  - Sumadhvavijayaḥ /
   subject_topic_facet:
   - Madhva, 13th cent
+  author_addl_t:
+  - Nārāyaṇa Paṇḍitācārya,
+  - Viśvapatitīrtha,
+  - Chalāriśeṣācārya.
+  - Shyamachar, A. B.
+  - Pandurangi, S. R.
+  title_added_entry_t:
+  - Bhāvaprakāśikā
+  - Padārthadīpikodbodhikā
+  - Mandopakāriṇī
+  lc_alpha_facet:
+  - PK
   language_facet:
   - Sanskrit
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - U - Military Science
+  author_t:
+  - Wuld Mawlāy al-Zayn, Sayyid Muḥammad wuld Sayyid.
+  - "ولد مولاي الزين، سيد محمد ولد سيد"
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01197cam
+    a22003014a 4500</leader><controlfield tag=\"001\">  2003546302</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123173626.0</controlfield><controlfield
+    tag=\"008\">030922s2003    mu            000 0 ara  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2003546302</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLN03-B4961</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC-R</subfield><subfield
+    code=\"c\">DLC-R</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lcode</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">U21.2</subfield><subfield
+    code=\"b\">.W85 2003</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\"
+    \"><subfield code=\"c\">(3</subfield></datafield><datafield tag=\"100\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Wuld Mawlāy
+    al-Zayn, Sayyid Muḥammad wuld Sayyid.</subfield></datafield><datafield tag=\"245\"
+    ind1=\"1\" ind2=\"3\"><subfield code=\"6\">880-02</subfield><subfield code=\"a\">al-Ḥarb
+    fī al-alfīyah al-thālithah /</subfield><subfield code=\"c\">bi-qalam Sayyid
+    Muḥammad wuld Sayyid wuld Mawlāy al-Zayn.</subfield></datafield><datafield tag=\"260\"
+    ind1=\" \" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield code=\"a\">Nuwākshūṭ
+    :</subfield><subfield code=\"b\">[s.n.],</subfield><subfield code=\"c\">2003.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">128 p. ;</subfield><subfield
+    code=\"c\">20 cm.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">War</subfield><subfield code=\"x\">History</subfield><subfield code=\"y\">21st
+    century.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Military art and science</subfield><subfield code=\"x\">History</subfield><subfield
+    code=\"y\">21st century.</subfield></datafield><datafield tag=\"650\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">War</subfield><subfield code=\"x\">Forecasting.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Military art and science</subfield><subfield
+    code=\"x\">Forecasting.</subfield></datafield><datafield tag=\"650\" ind1=\" \"
+    ind2=\"0\"><subfield code=\"a\">Warfare, Conventional.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Military weapons.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">100-01/(3/r</subfield><subfield
+    code=\"a\">ولد مولاي الزين، سيد محمد ولد سيد.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\"2\"><subfield code=\"6\">245-02/(3/r</subfield><subfield
+    code=\"a\">الحرب في الألفية الثالثة /</subfield><subfield code=\"c\">بقلم سيد
+    محمد ولد سيد ولد مولاي الزين.</subfield></datafield><datafield tag=\"880\" ind1=\"
+    \" ind2=\" \"><subfield code=\"6\">260-03/(3/r</subfield><subfield code=\"a\">نواكشوط
+    :</subfield><subfield code=\"b\">[s.n.]،</subfield><subfield code=\"c\">2003.</subfield></datafield></record></collection>"
+  published_display:
   - Nuwākshūṭ
-  title_vern_display: الحرب في الألفية الثالثة
+  title_vern_display: "الحرب في الألفية الثالثة"
   author_display: Wuld Mawlāy al-Zayn, Sayyid Muḥammad wuld Sayyid
   lc_callnum_display:
   - U21.2 .W85 2003
+  title_t:
+  - al-Ḥarb fī al-alfīyah al-thālithah /
+  - "الحرب في الألفية الثالثة"
   pub_date:
   - '2003'
+  pub_date_sort: 2003
   published_vern_display:
-  - نواكشوط
+  - "نواكشوط"
   format: Book
-  author_vern_display: ولد مولاي الزين، سيد محمد ولد سيد
+  author_vern_display: "ولد مولاي الزين، سيد محمد ولد سيد"
   material_type_display:
   - 128 p.
+  lc_b4cutter_facet:
+  - U21.2
   title_display: al-Ḥarb fī al-alfīyah al-thālithah
+  subject_addl_t:
+  - History 21st century
+  - Forecasting
+  subject_t:
+  - War
+  - Military art and science
+  - Warfare, Conventional
+  - Military weapons
   subject_era_facet:
   - 21st century
+  title_sort: ḥarb fī al-alfīyah al-thālithah
   id: '2003546302'
+  author_sort: Wuld Mawlāy alZayn Sayyid Muḥammad wuld Sayyid Ḥarb fī alalfīyah
+    althālithah
+  title_addl_t:
+  - al-Ḥarb fī al-alfīyah al-thālithah /
+  - "الحرب في الألفية الثالثة"
   subject_topic_facet:
   - War
   - Military art and science
   - Warfare, Conventional
   - Military weapons
+  lc_alpha_facet:
+  - U
   language_facet:
   - Arabic
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - D - World History
+  author_t:
+  - Bstan-ʼdzin-mkhas-grub,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00875cam
+    a22002534a 4500</leader><controlfield tag=\"001\">  2004310986</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123105515.0</controlfield><controlfield
+    tag=\"008\">040812s2004    cc a          000 0 tibo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2004310986</subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Ch-Tib-2004-310986; 16</subfield></datafield><datafield
+    tag=\"037\" ind1=\" \" ind2=\" \"><subfield code=\"b\">Library of Congress --
+    New Delhi Overseas Office</subfield><subfield code=\"c\">Rs154.00</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lcode</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">a-cc-ti</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">DS797.82.B663</subfield><subfield
+    code=\"b\">B75 2004</subfield></datafield><datafield tag=\"100\" ind1=\"0\" ind2=\"
+    \"><subfield code=\"a\">Bstan-ʼdzin-mkhas-grub,</subfield><subfield code=\"d\">1967-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Bon-brgyaʼi lo rgyus lugs
+    gñis gsal baʼi me loṅ źes bya ba bźugs so /</subfield><subfield code=\"c\">Bstan-ʼdzin-mkhas-grub
+    kyis brtsams.</subfield></datafield><datafield tag=\"260\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">[Lha-sa :</subfield><subfield code=\"b\">s.n.,</subfield><subfield
+    code=\"c\">2004]</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">149 p. :</subfield><subfield code=\"b\">ill. ;</subfield><subfield
+    code=\"c\">21 cm.</subfield></datafield><datafield tag=\"546\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">In Tibetan.</subfield></datafield><datafield tag=\"520\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Historical account of Bon-brgya in
+    Tibet during 7th-9th cent.</subfield></datafield><datafield tag=\"651\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">Bon-brgya (China)</subfield><subfield code=\"x\">History.</subfield></datafield><datafield
+    tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Bon-brgya (China)</subfield><subfield
+    code=\"x\">Kings and rulers.</subfield></datafield></record></collection>"
+  published_display:
   - Lha-sa
   author_display: Bstan-ʼdzin-mkhas-grub, 1967-
   lc_callnum_display:
   - DS797.82.B663 B75 2004
+  title_t:
+  - Bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs so /
   pub_date:
   - '2004'
+  pub_date_sort: 2004
   format: Book
   material_type_display:
   - 149 p.
+  lc_b4cutter_facet:
+  - DS797.82.B663
   title_display: Bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs
     so
+  subject_addl_t:
+  - History
+  - Kings and rulers
+  subject_t:
+  - Bon-brgya (China)
+  title_sort: bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs
+    so
   id: '2004310986'
+  author_sort: Bstanʼdzinmkhasgrub 1967 Bonbrgyaʼi lo rgyus lugs gñis gsal baʼi me
+    loṅ źes bya ba bźugs so
+  title_addl_t:
+  - Bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs so /
   subject_geo_facet:
   - Bon-brgya (China)
+  lc_alpha_facet:
+  - DS
   language_facet:
   - Tibetan
+  timestamp: '2014-02-03T18:42:53.056Z'
 - subtitle_display: min jald al-dhāt ilá ṣidq al-sharḥ
-  author_vern_display: أبو الخير، علي عبد الحميد
+  author_vern_display: "أبو الخير، علي عبد الحميد"
+  subject_addl_t:
+  - 20th century
+  - 21st century
   title_display: Thuqūb fī ʻaql al-ummah
   subject_era_facet:
   - 20th century
@@ -415,34 +1707,214 @@
   id: '2005461726'
   subject_topic_facet:
   - Islam
+  lc_alpha_facet:
+  - BP
+  subtitle_t:
+  - min jald al-dhāt ilá ṣidq al-sharḥ.
+  - "من جلد الذات إلى صدق الشرح"
+  author_t:
+  - Abū al-Khayr, ʻAlī ʻAbd al-Ḥamīd.
+  - "أبو الخير، علي عبد الحميد"
+  lc_1letter_facet:
+  - B - Philosophy, Psychology, Religion
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01127nam
+    a2200277 a 4500</leader><controlfield tag=\"001\">  2005461726</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126155550.0</controlfield><controlfield
+    tag=\"008\">070712s2006    ua            000 0 ara d</controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2005461726</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLN07-B4171</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">EMU</subfield><subfield
+    code=\"c\">EMU</subfield><subfield code=\"d\">CUY</subfield><subfield code=\"d\">DLC-R</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lccopycat</subfield><subfield
+    code=\"a\">lcode</subfield></datafield><datafield tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield
+    code=\"a\">BP161.3</subfield><subfield code=\"b\">.A27 2006</subfield></datafield><datafield
+    tag=\"066\" ind1=\" \" ind2=\" \"><subfield code=\"c\">(3</subfield></datafield><datafield
+    tag=\"100\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield
+    code=\"a\">Abū al-Khayr, ʻAlī ʻAbd al-Ḥamīd.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Thuqūb fī ʻaql al-ummah :</subfield><subfield code=\"b\">min jald
+    al-dhāt ilá ṣidq al-sharḥ.</subfield></datafield><datafield tag=\"250\" ind1=\"
+    \" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield code=\"a\">al-Ṭabʻah
+    1.</subfield></datafield><datafield tag=\"260\" ind1=\" \" ind2=\" \"><subfield
+    code=\"6\">880-04</subfield><subfield code=\"a\">al-Maʻādī, al-Qāhirah :</subfield><subfield
+    code=\"b\">Markaz Yāfā lil-Dirāsāt wa-al-Abḥāth,</subfield><subfield code=\"c\">2006.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">85 p. ;</subfield><subfield
+    code=\"c\">24 cm.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Islam</subfield><subfield code=\"y\">20th century.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Islam</subfield><subfield
+    code=\"y\">21st century.</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"6\">100-01/(3/r</subfield><subfield code=\"a\">أبو
+    الخير، علي عبد الحميد.</subfield></datafield><datafield tag=\"880\" ind1=\"1\"
+    ind2=\"0\"><subfield code=\"6\">245-02/(3/r</subfield><subfield code=\"a\">ثقوب
+    في عقل الأمة :</subfield><subfield code=\"b\">من جلد الذات إلى صدق الشرح.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">250-03/(3/r</subfield><subfield
+    code=\"a\">الطبعة 1.</subfield></datafield><datafield tag=\"880\" ind1=\" \" ind2=\"
+    \"><subfield code=\"6\">260-04/(3/r</subfield><subfield code=\"a\">المعادي، القاهرة
+    :</subfield><subfield code=\"b\">مركز يافا للدراسات والأبحاث،</subfield><subfield
+    code=\"c\">2006.</subfield></datafield></record></collection>"
   published_display:
   - al-Maʻādī, al-Qāhirah
   author_display: Abū al-Khayr, ʻAlī ʻAbd al-Ḥamīd
-  title_vern_display: ثقوب في عقل الأمة
+  title_vern_display: "ثقوب في عقل الأمة"
   lc_callnum_display:
   - BP161.3 .A27 2006
+  title_t:
+  - 'Thuqūb fī ʻaql al-ummah :'
+  - "ثقوب في عقل الأمة"
   pub_date:
   - '2006'
+  pub_date_sort: 2006
   published_vern_display:
-  - المعادي، القاهرة
+  - "المعادي، القاهرة"
   format: Book
-  subtitle_vern_display: من جلد الذات إلى صدق الشرح
+  subtitle_vern_display: "من جلد الذات إلى صدق الشرح"
+  lc_b4cutter_facet:
+  - BP161.3
   material_type_display:
   - 85 p.
+  subject_t:
+  - Islam
+  title_sort: thuqūb fī ʻaql al-ummah :min jald al-dhāt ilá ṣidq al-sharḥ
+  author_sort: Abū alKhayr ʻAlī ʻAbd alḤamīd Thuqūb fī ʻaql alummah min jald
+    aldhāt ilá ṣidq alsharḥ
+  title_addl_t:
+  - 'Thuqūb fī ʻaql al-ummah : min jald al-dhāt ilá ṣidq al-sharḥ.'
+  - "ثقوب في عقل الأمة : من جلد الذات إلى صدق الشرح"
   language_facet:
   - Arabic
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - H - Social Sciences
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>03730cam
+    a22006257a 4500</leader><controlfield tag=\"001\">  2005553155</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121104139.0</controlfield><controlfield
+    tag=\"008\">051007m19659999is     | l    000 0 heb  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2005553155</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(CStRLIN)DCLH05-B11400</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC-R</subfield><subfield
+    code=\"c\">DLC-R</subfield></datafield><datafield tag=\"043\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">a-is---</subfield></datafield><datafield tag=\"050\" ind1=\"0\"
+    ind2=\"0\"><subfield code=\"a\">HG8695.2</subfield><subfield code=\"b\">.B57 1962</subfield></datafield><datafield
+    tag=\"066\" ind1=\" \" ind2=\" \"><subfield code=\"c\">(2</subfield></datafield><datafield
+    tag=\"245\" ind1=\"0\" ind2=\"0\"><subfield code=\"6\">880-01</subfield><subfield
+    code=\"a\">[Bituaḥ u-viṭaḥon sotsyali].</subfield></datafield><datafield tag=\"260\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">[Israel ,</subfield><subfield code=\"c\">1962-&lt;2001&gt;]</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">items 1-&lt;13&gt; of &lt;13&gt;
+    ;</subfield><subfield code=\"c\">22-25 cm.</subfield></datafield><datafield tag=\"505\"
+    ind1=\"1\" ind2=\" \"><subfield code=\"a\">[1] Megamot be-mesheḳ ha-biṭuaḥ
+    ṿeha-piḳuaḥ ʻal ʻisḳe biṭuaḥ bi-shenat 1965. 1966. 52 leaves ; 25 cm. --
+    [2] Biṭuaḥ ziḳnah : meʻudkan le-Yuli 2001. 24 p. ; 22 cm. -- [3] Biṭuaḥ sheʼirim
+    : meʻudkan le-Yuli 2001. 2001. 24 p. ; 22 cm.  -- [4] Gimlah le-yeled nekheh :
+    meʻudkan le-Yuni 2001. 2001. 16 p. 22 cm. -- [5] Biṭuaḥ imahut : meʻudkan le-Yuli
+    2002. 24 p. ; 22 cm. -- [6] Biṭuaḥ siʻud :  meʻudkan le-Februʼar 2001. 2001.
+    12 p. ; 22 cm. -- [7] Medaʻ le-ʻoved ʻatsmaʼi :  meʻudkan le-Februʼar 2000. 2000.
+    18 p. ; 22 cm. -- [8] Biṭuaḥ nifgeʻe teʻunot. 1999. 1 folded leaflet ; 22 cm.
+    -- [9] ha-Ḳeren le-nifgeʻe ṭeror -- [10] Teluyim be-nifgeʻe ʻavodah :  meʻudkan
+    le-Februʼar 2001. 2001. 24 p. ; 22 cm. -- [11] Sherut miluʼim :  meʻudkan le-Yuli
+    2002. 2002. 16 p. ; 22 cm. -- [12] Ḳitsbah le-sherutim meyuhadim le-nekhim ḳashim
+    :  meʻudkan le-Detsember 2002. 2002. 16 p. ; 22 cm. -- [13] Mumḥim benleʼumiyim
+    ʻal medukat ha-biṭaḥon ha-sotsyali / Yitsḥaḳ Ḳanev. 1962. 10  p. ; 24 cm.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Insurance</subfield><subfield
+    code=\"z\">Israel.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Social security</subfield><subfield code=\"z\">Israel.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Family allowances</subfield><subfield
+    code=\"z\">Israel.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Maternity insurance</subfield><subfield code=\"z\">Israel.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Accident insurance</subfield><subfield
+    code=\"z\">Israel.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Old age</subfield><subfield code=\"x\">Economic aspects.</subfield></datafield><datafield
+    tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Israel</subfield><subfield
+    code=\"x\">Social policy.</subfield></datafield><datafield tag=\"651\" ind1=\"
+    \" ind2=\"0\"><subfield code=\"a\">Israel</subfield><subfield code=\"x\">Armed
+    Forces</subfield><subfield code=\"x\">Reserves</subfield><subfield code=\"x\">Pay,
+    allowances, etc.</subfield><subfield code=\"x\">Law and legislation</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Social security</subfield><subfield
+    code=\"x\">Law and legislation</subfield><subfield code=\"z\">Israel.</subfield></datafield><datafield
+    tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Megamot be-mesheḳ ha-biṭuaḥ ṿeha-piḳuaḥ ʻal ʻisḳe biṭuaḥ bi-shenat
+    1965.</subfield></datafield><datafield tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">880-03</subfield><subfield code=\"a\">Biṭuaḥ ziḳnah.</subfield></datafield><datafield
+    tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Biṭuaḥ sheʼirim.</subfield></datafield><datafield tag=\"740\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">880-05</subfield><subfield code=\"a\">Gimlah le-yeled
+    nekheh.</subfield></datafield><datafield tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">880-06</subfield><subfield code=\"a\">Biṭuaḥ imahut.</subfield></datafield><datafield
+    tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-07</subfield><subfield
+    code=\"a\">Biṭuaḥ siʻud.</subfield></datafield><datafield tag=\"740\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">880-08</subfield><subfield code=\"a\">Medaʻ le-ʻoved
+    ʻatsmaʼi.</subfield></datafield><datafield tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">880-09</subfield><subfield code=\"a\">Biṭuaḥ nifgeʻe teʻunot.</subfield></datafield><datafield
+    tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-10</subfield><subfield
+    code=\"a\">Ḳeren le-nifgeʻe ṭeror.</subfield></datafield><datafield tag=\"740\"
+    ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-11</subfield><subfield code=\"a\">Teluyim
+    be-nifgeʻe ʻavodah.</subfield></datafield><datafield tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">880-12</subfield><subfield code=\"a\">Sherut miluʼim.</subfield></datafield><datafield
+    tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-13</subfield><subfield
+    code=\"a\">Ḳitsbah le-sherutim meyuḥadim le-nekhim ḳashim.</subfield></datafield><datafield
+    tag=\"740\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">880-14</subfield><subfield
+    code=\"a\">Mumḥim benleʼumiyim ʻal medukat ha-biṭaḥon ha-sotsyali.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\"0\"><subfield code=\"6\">245-01/(2/r</subfield><subfield
+    code=\"a\">[ביטוח וביטחון סוציאלי].</subfield></datafield><datafield tag=\"880\"
+    ind1=\"0\" ind2=\"2\"><subfield code=\"6\">740-02/(2/r</subfield><subfield code=\"a\">מגמות
+    במשק הביטוח והפיקוח על עסקי ביטוח בשנת 1965.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">740-03/(2/r</subfield><subfield
+    code=\"a\">ביטוח זקנה.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">740-04/(2/r</subfield><subfield code=\"a\">ביטוח
+    שאירים.</subfield></datafield><datafield tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">740-05/(2/r</subfield><subfield code=\"a\">גמלה לילד נכה.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">740-06/(2/r</subfield><subfield
+    code=\"a\">ביטוח אמהות.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">740-07/(2/r</subfield><subfield code=\"a\">ביטוח
+    סיעוד.</subfield></datafield><datafield tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">740-08/(2/r</subfield><subfield code=\"a\">מדע לעובד עצמאי.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">740-09/(2/r</subfield><subfield
+    code=\"a\">ביטוח נפגעי תעונות.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">740-10/(2/r</subfield><subfield code=\"a\">קרן
+    לנפגעי טרור.</subfield></datafield><datafield tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield
+    code=\"6\">740-11/(2/r</subfield><subfield code=\"a\">תלויים בניפגעי תעונה.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">740-12/(2/r</subfield><subfield
+    code=\"a\">שירות מילואים.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">740-13/(2/r</subfield><subfield code=\"a\">קצבה
+    לשירותים מיוחדים לנכים קשים.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
+    ind2=\"2\"><subfield code=\"6\">740-14/(2/r</subfield><subfield code=\"a\">מומחים
+    בינלאומיים על מדוכת הביטחון הסוציאלי.</subfield></datafield></record></collection>"
+  published_display:
   - Israel
-  title_vern_display: ביטוח וביטחון סוציאלי
+  title_vern_display: "ביטוח וביטחון סוציאלי"
   lc_callnum_display:
   - HG8695.2 .B57 1962
+  title_t:
+  - "[Bituaḥ u-viṭaḥon sotsyali]."
+  - "ביטוח וביטחון סוציאלי"
   pub_date:
   - '1962'
+  pub_date_sort: 1962
   format: Book
   material_type_display:
   - items 1-<13> of <13>
+  lc_b4cutter_facet:
+  - HG8695.2
   title_display: Bituaḥ u-viṭaḥon sotsyali
+  subject_addl_t:
+  - Israel
+  - Economic aspects
+  - Law and legislation Israel
+  - Social policy
+  - Armed Forces Reserves Pay, allowances, etc. Law and legislation
+  subject_t:
+  - Insurance
+  - Social security
+  - Family allowances
+  - Maternity insurance
+  - Accident insurance
+  - Old age
+  - Israel
+  title_sort: bituaḥ u-viṭaḥon sotsyali
   id: '2005553155'
+  author_sort: "\U0010FFFF Bituaḥ uviṭaḥon sotsyali"
+  title_addl_t:
+  - "[Bituaḥ u-viṭaḥon sotsyali]."
+  - "ביטוח וביטחון סוציאלי"
   subject_geo_facet:
   - Israel
   subject_topic_facet:
@@ -452,15 +1924,99 @@
   - Maternity insurance
   - Accident insurance
   - Old age
+  title_added_entry_t:
+  - Megamot be-mesheḳ ha-biṭuaḥ ṿeha-piḳuaḥ ʻal ʻisḳe biṭuaḥ bi-shenat 1965.
+  - Biṭuaḥ ziḳnah.
+  - Biṭuaḥ sheʼirim.
+  - Gimlah le-yeled nekheh.
+  - Biṭuaḥ imahut.
+  - Biṭuaḥ siʻud.
+  - Medaʻ le-ʻoved ʻatsmaʼi.
+  - Biṭuaḥ nifgeʻe teʻunot.
+  - Ḳeren le-nifgeʻe ṭeror.
+  - Teluyim be-nifgeʻe ʻavodah.
+  - Sherut miluʼim.
+  - Ḳitsbah le-sherutim meyuḥadim le-nekhim ḳashim.
+  - Mumḥim benleʼumiyim ʻal medukat ha-biṭaḥon ha-sotsyali.
+  - "מגמות במשק הביטוח והפיקוח על עסקי ביטוח בשנת 1965"
+  - "ביטוח זקנה"
+  - "ביטוח שאירים"
+  - "גמלה לילד נכה"
+  - "ביטוח אמהות"
+  - "ביטוח סיעוד"
+  - "מדע לעובד עצמאי"
+  - "ביטוח נפגעי תעונות"
+  - "קרן לנפגעי טרור"
+  - "תלויים בניפגעי תעונה"
+  - "שירות מילואים"
+  - "קצבה לשירותים מיוחדים לנכים קשים"
+  - "מומחים בינלאומיים על מדוכת הביטחון הסוציאלי"
+  lc_alpha_facet:
+  - HG
   language_facet:
   - Hebrew
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - E - History of the Americas (General)
+  author_t:
+  - Hearth, Amy Hill,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01490cam
+    a2200361 a 4500</leader><controlfield tag=\"001\">  2007020969</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126093447.0</controlfield><controlfield
+    tag=\"008\">070522s2008    nyua     b    000 0beng  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2007020969</subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">9780743297790 (alk. paper)</subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">0743297792 (alk. paper)</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(OCoLC)ocn137335139</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(OCoLC)137335139</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield><subfield code=\"d\">BAKER</subfield><subfield code=\"d\">BTCTA</subfield><subfield
+    code=\"d\">YDXCP</subfield><subfield code=\"d\">C#P</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">n-us-nj</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">E99.D2</subfield><subfield
+    code=\"b\">H437 2008</subfield></datafield><datafield tag=\"082\" ind1=\"0\" ind2=\"0\"><subfield
+    code=\"a\">974.004/97345</subfield><subfield code=\"a\">B</subfield><subfield
+    code=\"2\">22</subfield></datafield><datafield tag=\"100\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"a\">Hearth, Amy Hill,</subfield><subfield code=\"d\">1958-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">\"Strong Medicine speaks\"
+    :</subfield><subfield code=\"b\">a Native American elder has her say : an oral
+    history /</subfield><subfield code=\"c\">Amy Hill Hearth.</subfield></datafield><datafield
+    tag=\"250\" ind1=\" \" ind2=\" \"><subfield code=\"a\">1st Atria Books hardcover
+    ed.</subfield></datafield><datafield tag=\"260\" ind1=\" \" ind2=\" \"><subfield
+    code=\"a\">New York :</subfield><subfield code=\"b\">Atria Books,</subfield><subfield
+    code=\"c\">2008.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">xvii, 267 p. :</subfield><subfield code=\"b\">ill. ;</subfield><subfield
+    code=\"c\">23 cm.</subfield></datafield><datafield tag=\"504\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">Includes bibliographical references (p. 261-266).</subfield></datafield><datafield
+    tag=\"600\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Strong Medicine,</subfield><subfield
+    code=\"d\">1922-</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Delaware women</subfield><subfield code=\"z\">New Jersey</subfield><subfield
+    code=\"z\">Bridgeton</subfield><subfield code=\"v\">Biography.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Indian women shamans</subfield><subfield
+    code=\"z\">New Jersey</subfield><subfield code=\"z\">Bridgeton</subfield><subfield
+    code=\"v\">Biography.</subfield></datafield><datafield tag=\"650\" ind1=\" \"
+    ind2=\"0\"><subfield code=\"a\">Delaware Indians</subfield><subfield code=\"z\">New
+    Jersey</subfield><subfield code=\"z\">Bridgeton</subfield><subfield code=\"v\">Biography.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Delaware Indians</subfield><subfield
+    code=\"z\">New Jersey</subfield><subfield code=\"z\">Bridgeton</subfield><subfield
+    code=\"x\">History.</subfield></datafield><datafield tag=\"700\" ind1=\"0\" ind2=\"
+    \"><subfield code=\"a\">Strong Medicine,</subfield><subfield code=\"d\">1922-</subfield></datafield><datafield
+    tag=\"856\" ind1=\"4\" ind2=\"1\"><subfield code=\"3\">Table of contents only</subfield><subfield
+    code=\"u\">http://www.loc.gov/catdir/toc/ecip0719/2007020969.html</subfield></datafield><datafield
+    tag=\"856\" ind1=\"4\" ind2=\"2\"><subfield code=\"3\">Publisher description</subfield><subfield
+    code=\"u\">http://www.loc.gov/catdir/enhancements/fy0808/2007020969-d.html</subfield></datafield><datafield
+    tag=\"856\" ind1=\"4\" ind2=\"1\"><subfield code=\"3\">Sample text</subfield><subfield
+    code=\"u\">http://www.loc.gov/catdir/enhancements/fy0808/2007020969-s.html</subfield></datafield></record></collection>"
+  published_display:
   - New York
   author_display: Hearth, Amy Hill, 1958-
   lc_callnum_display:
   - E99.D2 H437 2008
+  title_t:
+  - "\"Strong Medicine speaks\" :"
   pub_date:
   - '2008'
+  pub_date_sort: 2008
   subtitle_display: 'a Native American elder has her say : an oral history'
   format: Book
   url_suppl_display:
@@ -469,11 +2025,28 @@
   - http://www.loc.gov/catdir/enhancements/fy0808/2007020969-s.html
   material_type_display:
   - xvii, 267 p.
-  title_display: '"Strong Medicine speaks"'
+  lc_b4cutter_facet:
+  - E99.D2
+  title_display: "\"Strong Medicine speaks\""
+  subject_addl_t:
+  - New Jersey Bridgeton Biography
+  - New Jersey Bridgeton History
+  subject_t:
+  - Strong Medicine, 1922-
+  - Delaware women
+  - Indian women shamans
+  - Delaware Indians
+  title_sort: "\"strong medicine speaks\" :a native american elder has her say : an
+    oral history"
   isbn_t:
   - '9780743297790'
   - 0743297792
   id: '2007020969'
+  author_sort: Hearth Amy Hill 1958 Strong Medicine speaks a Native American elder
+    has her say  an oral history
+  title_addl_t:
+  - "\"Strong Medicine speaks\" : a Native American elder has her say : an oral history
+    /"
   subject_geo_facet:
   - New Jersey
   - Bridgeton
@@ -482,27 +2055,99 @@
   - Delaware women
   - Indian women shamans
   - Delaware Indians
+  author_addl_t:
+  - Strong Medicine,
+  lc_alpha_facet:
+  - E
   language_facet:
   - English
-- published_display:
-  - ʼPhags-yul Dhe-ra-dhun
+  subtitle_t:
+  - 'a Native American elder has her say : an oral history /'
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - B - Philosophy, Psychology, Religion
+  author_t:
+  - Dkon-mchog-rgya-mtsho, Ra-se,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01099cam
+    a22002534a 4500</leader><controlfield tag=\"001\">  2008305903</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122162012.0</controlfield><controlfield
+    tag=\"008\">080602s2008    ii a          000 0 tibo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2008305903</subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">I-Tib-2008-305903; 01;
+    05-01</subfield></datafield><datafield tag=\"037\" ind1=\" \" ind2=\" \"><subfield
+    code=\"b\">Library of Congress -- New Delhi Overseas Office</subfield><subfield
+    code=\"c\">Rs400.00</subfield></datafield><datafield tag=\"040\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">DLC</subfield><subfield code=\"c\">DLC</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lcode</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">BQ7684.4</subfield><subfield
+    code=\"b\">.D564 2008</subfield></datafield><datafield tag=\"100\" ind1=\"0\"
+    ind2=\" \"><subfield code=\"a\">Dkon-mchog-rgya-mtsho,</subfield><subfield code=\"c\">Ra-se,</subfield><subfield
+    code=\"d\">1968-</subfield></datafield><datafield tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"a\">Dris lan don gcig ma :</subfield><subfield code=\"b\">dam paʼi chos
+    dgoṅs pa gcig paʼi dri ba legs bśad bsu baʼi pho ñaʼi dris lan Dgoṅs-gcig
+    smra baʼi mdzes rgyan źes bya ba bźugs so /</subfield><subfield code=\"c\">Dwags-po
+    Spyan-sṅa-ba Dkon-mchog-rgya-mtshos brtsams.</subfield></datafield><datafield
+    tag=\"250\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Par theṅ 2.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">[ʼPhags-yul Dhe-ra-dhun
+    :</subfield><subfield code=\"b\">Sroṅ-btsan dpe mdzod khaṅ nas grems spel byas,</subfield><subfield
+    code=\"c\">2008]</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">208 p. :</subfield><subfield code=\"b\">1 col. ill. ;</subfield><subfield
+    code=\"c\">24 cm.</subfield></datafield><datafield tag=\"546\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">In Tibetan.</subfield></datafield><datafield tag=\"520\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">On the Dgoṅs-gcig teaching of Drikung
+    Kagyudpa sect in questions/answers format.</subfield></datafield><datafield tag=\"650\"
+    ind1=\" \" ind2=\"0\"><subfield code=\"a\">ʼBri-guṅ-pa (Sect)</subfield><subfield
+    code=\"x\">Doctrines</subfield><subfield code=\"v\">Miscellanea.</subfield></datafield><datafield
+    tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Sroṅ-btsan dpe mdzod khaṅ.</subfield></datafield></record></collection>"
+  published_display:
+  - "ʼPhags-yul Dhe-ra-dhun"
   author_display: Dkon-mchog-rgya-mtsho, Ra-se, 1968-
   lc_callnum_display:
   - BQ7684.4 .D564 2008
+  title_t:
+  - 'Dris lan don gcig ma :'
   pub_date:
   - '2008'
+  pub_date_sort: 2008
   subtitle_display: dam paʼi chos dgoṅs pa gcig paʼi dri ba legs bśad bsu baʼi pho
     ñaʼi dris lan Dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba bźugs so
   format: Book
   material_type_display:
   - 208 p.
+  lc_b4cutter_facet:
+  - BQ7684.4
   title_display: Dris lan don gcig ma
+  subject_addl_t:
+  - Doctrines Miscellanea
+  subject_t:
+  - "ʼBri-guṅ-pa (Sect)"
+  title_sort: dris lan don gcig ma :dam paʼi chos dgoṅs pa gcig paʼi dri ba legs
+    bśad bsu baʼi pho ñaʼi dris lan dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba
+    bźugs so
   id: '2008305903'
+  author_sort: Dkonmchogrgyamtsho Rase 1968 Dris lan don gcig ma dam paʼi chos dgoṅs
+    pa gcig paʼi dri ba legs bśad bsu baʼi pho ñaʼi dris lan Dgoṅsgcig smra baʼi
+    mdzes rgyan źes bya ba bźugs so
+  title_addl_t:
+  - 'Dris lan don gcig ma : dam paʼi chos dgoṅs pa gcig paʼi dri ba legs bśad bsu
+    baʼi pho ñaʼi dris lan Dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba bźugs so
+    /'
   subject_topic_facet:
-  - ʼBri-guṅ-pa (Sect)
+  - "ʼBri-guṅ-pa (Sect)"
+  author_addl_t:
+  - Sroṅ-btsan dpe mdzod khaṅ.
+  lc_alpha_facet:
+  - BQ
   language_facet:
   - Tibetan
+  subtitle_t:
+  - dam paʼi chos dgoṅs pa gcig paʼi dri ba legs bśad bsu baʼi pho ñaʼi dris lan
+    Dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba bźugs so /
+  timestamp: '2014-02-03T18:42:53.056Z'
 - subtitle_display: a supplication to the noble Lama Mahaguru Padmasambhava
+  subject_addl_t:
+  - Prayers and devotions
+  - India Prayers and devotions
   title_display: Pluvial nectar of blessings
   id: '2008308175'
   isbn_t:
@@ -512,63 +2157,315 @@
   subject_topic_facet:
   - Padma Sambhava, ca. 717-ca. 762
   - Priests, Buddhist
+  lc_alpha_facet:
+  - BQ
+  subtitle_t:
+  - a supplication to the noble Lama Mahaguru Padmasambhava /
+  author_t:
+  - Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho, Dalai Lama V,
+  lc_1letter_facet:
+  - B - Philosophy, Psychology, Religion
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01582cam
+    a2200325 a 4500</leader><controlfield tag=\"001\">  2008308175</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123091532.0</controlfield><controlfield
+    tag=\"008\">080718s2002    ii       b    000 0 eng  </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2008308175</subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">8186470336</subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">I-E-2008-308175; 59-13</subfield></datafield><datafield
+    tag=\"037\" ind1=\" \" ind2=\" \"><subfield code=\"b\">Library of Congress --
+    New Delhi Overseas Office</subfield><subfield code=\"c\">Rs185.00</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield></datafield><datafield tag=\"041\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"a\">eng</subfield><subfield code=\"a\">tib</subfield><subfield
+    code=\"h\">tib</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lcode</subfield></datafield><datafield tag=\"043\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">a-ii---</subfield></datafield><datafield tag=\"050\"
+    ind1=\"0\" ind2=\"0\"><subfield code=\"a\">BQ5593.P3</subfield><subfield code=\"b\">N3313
+    2002</subfield></datafield><datafield tag=\"100\" ind1=\"0\" ind2=\" \"><subfield
+    code=\"a\">Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho,</subfield><subfield code=\"c\">Dalai
+    Lama V,</subfield><subfield code=\"d\">1617-1682.</subfield></datafield><datafield
+    tag=\"240\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Rje btsun bla ma ma hā
+    gu ru Padma-ʼbyuṅ-gnas la gsol ba ʼdebs pa byin rlabs bdud rtsiʼi char rgyun.</subfield><subfield
+    code=\"l\">English &amp; Tibetan</subfield></datafield><datafield tag=\"245\"
+    ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Pluvial nectar of blessings :</subfield><subfield
+    code=\"b\">a supplication to the noble Lama Mahaguru Padmasambhava /</subfield><subfield
+    code=\"c\">by His Holiness Ngag-dbang-blo-bzang-rgya-mtsho, the fifth Dalai Lama
+    ; translated from the Tibetan with commentary by Dennis Cordell.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Dharamsala :</subfield><subfield
+    code=\"b\">Library of Tibetan Works and Archives,</subfield><subfield code=\"c\">2002.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">viii, 101 p. ;</subfield><subfield
+    code=\"c\">22 cm.</subfield></datafield><datafield tag=\"546\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">English and Tibetan</subfield><subfield code=\"b\">(Tibetan
+    also in roman).</subfield></datafield><datafield tag=\"504\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">Includes bibliographical references (p. [97]-101).</subfield></datafield><datafield
+    tag=\"600\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Padma Sambhava,</subfield><subfield
+    code=\"d\">ca. 717-ca. 762</subfield><subfield code=\"v\">Prayers and devotions.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Priests, Buddhist</subfield><subfield
+    code=\"z\">India</subfield><subfield code=\"v\">Prayers and devotions.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Cordell, Dennis.</subfield></datafield><datafield
+    tag=\"700\" ind1=\"0\" ind2=\"2\"><subfield code=\"a\">Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho,</subfield><subfield
+    code=\"c\">Dalai Lama V,</subfield><subfield code=\"d\">1617-1682</subfield><subfield
+    code=\"t\">Rje btsun bla ma ma hā gu ru Padma-ʼbyuṅ-gnas la gsol ba ʼdebs pa
+    byin rlabs bdud rtsiʼi char rgyun.</subfield><subfield code=\"f\">2002</subfield></datafield><datafield
+    tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Library of Tibetan Works
+    &amp; Archives.</subfield></datafield></record></collection>"
   published_display:
   - Dharamsala
   author_display: Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho, Dalai Lama V, 1617-1682
   lc_callnum_display:
   - BQ5593.P3 N3313 2002
+  title_t:
+  - 'Pluvial nectar of blessings :'
   pub_date:
   - '2002'
+  pub_date_sort: 2002
   format: Book
+  lc_b4cutter_facet:
+  - BQ5593.P3
   material_type_display:
   - viii, 101 p.
+  subject_t:
+  - Padma Sambhava, ca. 717-ca. 762
+  - Priests, Buddhist
+  title_sort: pluvial nectar of blessings :a supplication to the noble lama mahaguru
+    padmasambhava
+  author_sort: Ṅagdbaṅblobzaṅrgyamtsho Dalai Lama V 16171682 Rje btsun bla ma ma
+    hā gu ru Padmaʼbyuṅgnas la gsol ba ʼdebs pa byin rlabs bdud rtsiʼi char rgyun
+    English  Tibetan Pluvial nectar of blessings a supplication to the noble Lama
+    Mahaguru Padmasambhava
+  title_addl_t:
+  - 'Pluvial nectar of blessings : a supplication to the noble Lama Mahaguru Padmasambhava
+    /'
+  - Rje btsun bla ma ma hā gu ru Padma-ʼbyuṅ-gnas la gsol ba ʼdebs pa byin rlabs
+    bdud rtsiʼi char rgyun. English & Tibetan
+  author_addl_t:
+  - Cordell, Dennis.
+  - Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho, Dalai Lama V,
+  - Library of Tibetan Works & Archives.
+  title_added_entry_t:
+  - Rje btsun bla ma ma hā gu ru Padma-ʼbyuṅ-gnas la gsol ba ʼdebs pa byin rlabs
+    bdud rtsiʼi char rgyun
   language_facet:
   - English
   - Tibetan
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - B - Philosophy, Psychology, Religion
+  author_t:
+  - Bstan-ʼdzin-rgya-mtsho, Dalai Lama XIV,
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01221cam
+    a22002534a 4500</leader><controlfield tag=\"001\">  2008308201</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122162646.0</controlfield><controlfield
+    tag=\"008\">080721s2008    ii            000 0 tibo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2008308201</subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">I-Tib-2008-308201; 27</subfield></datafield><datafield
+    tag=\"037\" ind1=\" \" ind2=\" \"><subfield code=\"b\">Library of Congress --
+    New Delhi Overseas Office</subfield><subfield code=\"c\">Rs150.00</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lcode</subfield></datafield><datafield tag=\"050\" ind1=\"0\"
+    ind2=\"0\"><subfield code=\"a\">BQ4036</subfield><subfield code=\"b\">.B78 2008</subfield></datafield><datafield
+    tag=\"100\" ind1=\"0\" ind2=\" \"><subfield code=\"a\">Bstan-ʼdzin-rgya-mtsho,</subfield><subfield
+    code=\"c\">Dalai Lama XIV,</subfield><subfield code=\"d\">1935-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Bod kyi naṅ chos ṅo sprod
+    sñiṅ bsdus :</subfield><subfield code=\"b\">goṅ sa skyabs mgon chen po mchog
+    nas deṅ dus Bod rigs na gźon rnams la naṅ chos ṅo sprod bstsal ba bźugs so.</subfield></datafield><datafield
+    tag=\"250\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Par theṅs 2.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Dharamsala, H.P. :</subfield><subfield
+    code=\"b\">Sku-bcar Rnam-par-rgyal-ba Phan-bde-legs-bśad-gliṅ Grwa-tshaṅ gi
+    Śes-yon Lhan-tshogs,</subfield><subfield code=\"c\">2008.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">4, iv, 254 p. ;</subfield><subfield
+    code=\"c\">23 cm.</subfield></datafield><datafield tag=\"546\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">In Tibetan.</subfield></datafield><datafield tag=\"520\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Series of lectures delivered by His
+    Holiness the Dali Lama to younger generation of Tibetan studying in different
+    colleges and universities in India and students from schools in Dharamsala on
+    the introduction of Buddhist teaching.</subfield></datafield><datafield tag=\"650\"
+    ind1=\" \" ind2=\"0\"><subfield code=\"a\">Buddhism</subfield><subfield code=\"x\">Essence,
+    genius, nature.</subfield></datafield><datafield tag=\"710\" ind1=\"2\" ind2=\"
+    \"><subfield code=\"a\">Rnam-rgyal Grwa-tshaṅ.</subfield><subfield code=\"b\">Śes-yon
+    Lhan-tshogs.</subfield></datafield></record></collection>"
+  published_display:
   - Dharamsala, H.P.
   author_display: Bstan-ʼdzin-rgya-mtsho, Dalai Lama XIV, 1935-
   lc_callnum_display:
   - BQ4036 .B78 2008
+  title_t:
+  - 'Bod kyi naṅ chos ṅo sprod sñiṅ bsdus :'
   pub_date:
   - '2008'
+  pub_date_sort: 2008
   subtitle_display: goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon
     rnams la naṅ chos ṅo sprod bstsal ba bźugs so
   format: Book
   material_type_display:
   - 4, iv, 254 p.
+  lc_b4cutter_facet:
+  - BQ4036
   title_display: Bod kyi naṅ chos ṅo sprod sñiṅ bsdus
+  subject_addl_t:
+  - Essence, genius, nature
+  subject_t:
+  - Buddhism
+  title_sort: bod kyi naṅ chos ṅo sprod sñiṅ bsdus :goṅ sa skyabs mgon chen po
+    mchog nas deṅ dus bod rigs na gźon rnams la naṅ chos ṅo sprod bstsal ba bźugs
+    so
   id: '2008308201'
+  author_sort: Bstanʼdzinrgyamtsho Dalai Lama XIV 1935 Bod kyi naṅ chos ṅo sprod
+    sñiṅ bsdus goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon
+    rnams la naṅ chos ṅo sprod bstsal ba bźugs so
+  title_addl_t:
+  - 'Bod kyi naṅ chos ṅo sprod sñiṅ bsdus : goṅ sa skyabs mgon chen po mchog
+    nas deṅ dus Bod rigs na gźon rnams la naṅ chos ṅo sprod bstsal ba bźugs so.'
   subject_topic_facet:
   - Buddhism
+  author_addl_t:
+  - Rnam-rgyal Grwa-tshaṅ. Śes-yon Lhan-tshogs.
+  lc_alpha_facet:
+  - BQ
   language_facet:
   - Tibetan
-- published_display:
+  subtitle_t:
+  - goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon rnams la naṅ
+    chos ṅo sprod bstsal ba bźugs so.
+  timestamp: '2014-02-03T18:42:53.056Z'
+- lc_1letter_facet:
+  - D - World History
+  author_t:
+  - Thub-bstan-yar-ʼphel, Rnam-grwa.
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01111cam
+    a2200289 a 4500</leader><controlfield tag=\"001\">  2008308202</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121092141.0</controlfield><controlfield
+    tag=\"008\">080721s2005    ii b     b    000 0 tibo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2008308202</subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">I-Tib-2008-308202; 16</subfield></datafield><datafield
+    tag=\"037\" ind1=\" \" ind2=\" \"><subfield code=\"b\">Library of Congress --
+    New Delhi Overseas Office</subfield><subfield code=\"c\">Rs150.00</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield
+    code=\"c\">DLC</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lcode</subfield></datafield><datafield tag=\"043\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">a-cc-ti</subfield></datafield><datafield tag=\"050\"
+    ind1=\"0\" ind2=\"0\"><subfield code=\"a\">DS785</subfield><subfield code=\"b\">.T475
+    2005</subfield></datafield><datafield tag=\"100\" ind1=\"0\" ind2=\" \"><subfield
+    code=\"a\">Thub-bstan-yar-ʼphel,</subfield><subfield code=\"c\">Rnam-grwa.</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"a\">Bod gaṅs can gyi rgyal
+    rabs mdor bsdus dris lan brgya pa rab gsal śel gyi me loṅ źes bya ba bźugs
+    so /</subfield><subfield code=\"c\">Rnam-grwa Thub-bstan-yar-ʼphel.</subfield></datafield><datafield
+    tag=\"246\" ind1=\"1\" ind2=\"8\"><subfield code=\"a\">Rgyal rabs dris lan brgya
+    pa rab gsal śel gyi me loṅ</subfield></datafield><datafield tag=\"250\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">1st ed.</subfield></datafield><datafield tag=\"260\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Dharamsala, H.P. :</subfield><subfield
+    code=\"b\">Sku-bcar Rnam-rgyal Grwa-tshaṅ nas ʼgrems spel źus,</subfield><subfield
+    code=\"c\">2005.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">a-e, iv, ii, 407 p. :</subfield><subfield code=\"b\">maps
+    ;</subfield><subfield code=\"c\">23 cm.</subfield></datafield><datafield tag=\"546\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">In Tibetan.</subfield></datafield><datafield
+    tag=\"520\" ind1=\" \" ind2=\" \"><subfield code=\"a\">History of Tibet in questions/answers
+    format.</subfield></datafield><datafield tag=\"504\" ind1=\" \" ind2=\" \"><subfield
+    code=\"a\">Includes bibliographical references (p. 406-407).</subfield></datafield><datafield
+    tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Tibet (China)</subfield><subfield
+    code=\"x\">History</subfield><subfield code=\"v\">Miscellanea.</subfield></datafield><datafield
+    tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Rnam-rgyal Grwa-tshaṅ.</subfield></datafield></record></collection>"
+  published_display:
   - Dharamsala, H.P.
   author_display: Thub-bstan-yar-ʼphel, Rnam-grwa
   lc_callnum_display:
   - DS785 .T475 2005
+  title_t:
+  - Bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal śel gyi me
+    loṅ źes bya ba bźugs so /
   pub_date:
   - '2005'
+  pub_date_sort: 2005
   format: Book
   material_type_display:
   - a-e, iv, ii, 407 p.
+  lc_b4cutter_facet:
+  - DS785
   title_display: Bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal
     śel gyi me loṅ źes bya ba bźugs so
+  subject_addl_t:
+  - History Miscellanea
+  subject_t:
+  - Tibet (China)
+  title_sort: bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal śel
+    gyi me loṅ źes bya ba bźugs so
   id: '2008308202'
+  author_sort: Thubbstanyarʼphel Rnamgrwa Bod gaṅs can gyi rgyal rabs mdor bsdus
+    dris lan brgya pa rab gsal śel gyi me loṅ źes bya ba bźugs so
+  title_addl_t:
+  - Bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal śel gyi me
+    loṅ źes bya ba bźugs so /
+  - Rgyal rabs dris lan brgya pa rab gsal śel gyi me loṅ
   subject_geo_facet:
   - Tibet (China)
+  author_addl_t:
+  - Rnam-rgyal Grwa-tshaṅ.
+  lc_alpha_facet:
+  - DS
   language_facet:
   - Tibetan
-- published_display:
+  timestamp: '2014-02-03T18:42:53.056Z'
+- marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01127cam
+    a22002895a 4500</leader><controlfield tag=\"001\">  2008308478</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123131001.0</controlfield><controlfield
+    tag=\"008\">080728s2007    ii            000 0 tibo </controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2008308478</subfield></datafield><datafield
+    tag=\"025\" ind1=\" \" ind2=\" \"><subfield code=\"a\">I-Tib-2008-308478; 23</subfield></datafield><datafield
+    tag=\"037\" ind1=\" \" ind2=\" \"><subfield code=\"b\">Library of Congress --
+    New Delhi Overseas Office</subfield></datafield><datafield tag=\"040\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">DLC</subfield><subfield code=\"c\">DLC</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lcode</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">a-cc-ti</subfield><subfield
+    code=\"a\">a-ii---</subfield></datafield><datafield tag=\"245\" ind1=\"0\" ind2=\"0\"><subfield
+    code=\"a\">Śes yon.</subfield></datafield><datafield tag=\"250\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">1st ed.</subfield></datafield><datafield tag=\"260\" ind1=\"
+    \" ind2=\" \"><subfield code=\"a\">Dharamsala, Distt. Kangra, H.P. :</subfield><subfield
+    code=\"b\">Skabs bźi paʼi ʼbriṅ rim dge ʼos slob thon pa thun moṅ gis ʼgrems
+    spel źus,</subfield><subfield code=\"c\">2007.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">xii, 419 p. ;</subfield><subfield
+    code=\"c\">22 cm.</subfield></datafield><datafield tag=\"546\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">In Tibetan.</subfield></datafield><datafield tag=\"500\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">Copyright: College for Higher Tibetan
+    Studies.</subfield></datafield><datafield tag=\"520\" ind1=\" \" ind2=\" \"><subfield
+    code=\"a\">Contributed articles reflecting new educational policy for development
+    of Tibetan education system in exile Tibetan community and Tibetan language teaching
+    method etc.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Education and state</subfield><subfield code=\"z\">China</subfield><subfield
+    code=\"z\">Tibet.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Tibetans</subfield><subfield code=\"x\">Education</subfield><subfield
+    code=\"z\">India.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Tibetan language</subfield><subfield code=\"x\">Study and teaching</subfield><subfield
+    code=\"z\">India.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">Teaching</subfield><subfield code=\"x\">Methodology.</subfield></datafield><datafield
+    tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Sa-rā Bod kyi mtho rim
+    slob gñer khaṅ.</subfield></datafield></record></collection>"
+  published_display:
   - Dharamsala, Distt. Kangra, H.P.
+  title_t:
+  - Śes yon.
   pub_date:
   - '2007'
+  pub_date_sort: 2007
   format: Book
   title_display: Śes yon
+  subject_addl_t:
+  - China Tibet
+  - Education India
+  - Study and teaching India
+  - Methodology
   material_type_display:
   - xii, 419 p.
+  subject_t:
+  - Education and state
+  - Tibetans
+  - Tibetan language
+  - Teaching
+  title_sort: śes yon
   id: '2008308478'
+  author_sort: "\U0010FFFF Śes yon"
+  title_addl_t:
+  - Śes yon.
   subject_geo_facet:
   - China
   - Tibet
@@ -578,9 +2475,16 @@
   - Tibetans
   - Tibetan language
   - Teaching
+  author_addl_t:
+  - Sa-rā Bod kyi mtho rim slob gñer khaṅ.
   language_facet:
   - Tibetan
-- author_vern_display: 吉田一, 1934-
+  timestamp: '2014-02-03T18:42:53.056Z'
+- author_vern_display: "吉田一, 1934-"
+  subject_addl_t:
+  - 20th century History and criticism
+  - History and criticism
+  - Japan History
   title_display: Kubo Sakae 'Kazanbaichi' o yomu
   subject_era_facet:
   - 20th century
@@ -595,22 +2499,98 @@
   - Japanese drama
   - Political plays, Japanese
   - Theater
+  lc_alpha_facet:
+  - PL
+  author_t:
+  - Yoshida, Hajime,
+  - "吉田一"
+  lc_1letter_facet:
+  - P - Language & Literature
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01230nam
+    a22003494a 4500</leader><controlfield tag=\"001\">  2008543486</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126101044.0</controlfield><controlfield
+    tag=\"008\">081217s1997    ja            000 0 jpn d</controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2008543486</subfield><subfield
+    code=\"z\">  2000314247</subfield></datafield><datafield tag=\"020\" ind1=\" \"
+    ind2=\" \"><subfield code=\"a\">9784588460050</subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">4588460056</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(OCoLC)ocm40868083</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">UIU</subfield><subfield
+    code=\"c\">UIU</subfield><subfield code=\"d\">TRCLS</subfield><subfield code=\"d\">OCLCG</subfield><subfield
+    code=\"d\">DLC</subfield></datafield><datafield tag=\"042\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">lccopycat</subfield></datafield><datafield tag=\"043\"
+    ind1=\" \" ind2=\" \"><subfield code=\"a\">a-ja---</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">PL832.U25</subfield><subfield
+    code=\"b\">Z96 1997</subfield></datafield><datafield tag=\"066\" ind1=\" \" ind2=\"
+    \"><subfield code=\"c\">$1</subfield></datafield><datafield tag=\"100\" ind1=\"1\"
+    ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Yoshida,
+    Hajime,</subfield><subfield code=\"d\">1934-</subfield></datafield><datafield
+    tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-02</subfield><subfield
+    code=\"a\">Kubo Sakae 'Kazanbaichi' o yomu /</subfield><subfield code=\"c\">Yoshida
+    Hajime cho.</subfield></datafield><datafield tag=\"250\" ind1=\" \" ind2=\" \"><subfield
+    code=\"6\">880-03</subfield><subfield code=\"a\">Shohan.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Tōkyō :</subfield><subfield code=\"b\">Hōsei Daigaku Shuppankyoku,</subfield><subfield
+    code=\"c\">1997.</subfield></datafield><datafield tag=\"300\" ind1=\" \" ind2=\"
+    \"><subfield code=\"a\">480 p. ;</subfield><subfield code=\"c\">19 cm.</subfield></datafield><datafield
+    tag=\"600\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">880-05</subfield><subfield
+    code=\"a\">Kubo, Sakae,</subfield><subfield code=\"d\">1901-1958.</subfield><subfield
+    code=\"t\">Kazanbaichi.</subfield></datafield><datafield tag=\"650\" ind1=\" \"
+    ind2=\"0\"><subfield code=\"a\">Japanese drama</subfield><subfield code=\"y\">20th
+    century</subfield><subfield code=\"x\">History and criticism.</subfield></datafield><datafield
+    tag=\"650\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Political plays, Japanese</subfield><subfield
+    code=\"x\">History and criticism.</subfield></datafield><datafield tag=\"650\"
+    ind1=\" \" ind2=\"0\"><subfield code=\"a\">Theater</subfield><subfield code=\"z\">Japan</subfield><subfield
+    code=\"x\">History.</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"
+    \"><subfield code=\"6\">100-01/$1</subfield><subfield code=\"a\">吉田一,</subfield><subfield
+    code=\"d\">1934-</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"6\">245-02/$1</subfield><subfield code=\"a\">久保栄「火山灰地」を読む /</subfield><subfield
+    code=\"c\">吉田一著.</subfield></datafield><datafield tag=\"880\" ind1=\" \" ind2=\"
+    \"><subfield code=\"6\">250-03/$1</subfield><subfield code=\"a\">初版.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-04/$1</subfield><subfield
+    code=\"a\">東京 :</subfield><subfield code=\"b\">法政大学出版局,</subfield><subfield code=\"c\">1997.</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">600-05/$1</subfield><subfield
+    code=\"a\">久保栄,</subfield><subfield code=\"d\">1901-1958.</subfield><subfield
+    code=\"t\">Kazanbaichi.</subfield></datafield></record></collection>"
   published_display:
   - Tōkyō
   author_display: Yoshida, Hajime, 1934-
-  title_vern_display: 久保栄「火山灰地」を読む
+  title_vern_display: "久保栄「火山灰地」を読む"
   lc_callnum_display:
   - PL832.U25 Z96 1997
+  title_t:
+  - Kubo Sakae 'Kazanbaichi' o yomu /
+  - "久保栄「火山灰地」を読む"
   pub_date:
   - '1997'
+  pub_date_sort: 1997
   published_vern_display:
-  - 東京
+  - "東京"
   format: Book
+  lc_b4cutter_facet:
+  - PL832.U25
   material_type_display:
   - 480 p.
+  subject_t:
+  - Kubo, Sakae, 1901-1958. Kazanbaichi
+  - Japanese drama
+  - Political plays, Japanese
+  - Theater
+  - "久保栄, 1901-1958. Kazanbaichi"
+  title_sort: kubo sakae 'kazanbaichi' o yomu
+  author_sort: Yoshida Hajime 1934 Kubo Sakae Kazanbaichi o yomu
+  title_addl_t:
+  - Kubo Sakae 'Kazanbaichi' o yomu /
+  - "久保栄「火山灰地」を読む"
   language_facet:
   - Japanese
-- author_vern_display: 林行止
+  timestamp: '2014-02-03T18:42:53.056Z'
+- author_vern_display: "林行止"
+  subject_addl_t:
+  - 1990-
+  - 2005-2015
+  - Economic conditions 1997-
+  - Politics and government 1997-
   title_display: Ci an zhou bian
   subject_era_facet:
   - 1990-
@@ -624,18 +2604,88 @@
   - Economic history
   - World politics
   - Hong Kong (China)
+  lc_alpha_facet:
+  - HC
+  title_series_t:
+  - Lin Xingzhi zuo pin ji ; 51
+  - "林行止作品集 ; 51"
+  author_t:
+  - Lin, Xingzhi.
+  - "林行止"
+  lc_1letter_facet:
+  - H - Social Sciences
+  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01213nam
+    a22003614a 4500</leader><controlfield tag=\"001\">  2009373513</controlfield><controlfield
+    tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121153231.0</controlfield><controlfield
+    tag=\"008\">090114s2008    ch            000 0 chi d</controlfield><datafield
+    tag=\"010\" ind1=\" \" ind2=\" \"><subfield code=\"a\">  2009373513</subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">9789573908678</subfield></datafield><datafield
+    tag=\"020\" ind1=\" \" ind2=\" \"><subfield code=\"a\">9573908670</subfield></datafield><datafield
+    tag=\"035\" ind1=\" \" ind2=\" \"><subfield code=\"a\">(OCoLC)ocn268619391</subfield></datafield><datafield
+    tag=\"040\" ind1=\" \" ind2=\" \"><subfield code=\"a\">HUA</subfield><subfield
+    code=\"c\">HUA</subfield><subfield code=\"d\">HKP</subfield><subfield code=\"d\">DLC</subfield></datafield><datafield
+    tag=\"042\" ind1=\" \" ind2=\" \"><subfield code=\"a\">lccopycat</subfield></datafield><datafield
+    tag=\"043\" ind1=\" \" ind2=\" \"><subfield code=\"a\">a-cc-hk</subfield></datafield><datafield
+    tag=\"050\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">HC59.15</subfield><subfield
+    code=\"b\">.L533 2008</subfield></datafield><datafield tag=\"066\" ind1=\" \"
+    ind2=\" \"><subfield code=\"c\">$1</subfield></datafield><datafield tag=\"100\"
+    ind1=\"1\" ind2=\" \"><subfield code=\"6\">880-01</subfield><subfield code=\"a\">Lin,
+    Xingzhi.</subfield></datafield><datafield tag=\"245\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"6\">880-02</subfield><subfield code=\"a\">Ci an zhou bian /</subfield><subfield
+    code=\"c\">Lin Xingzhi zhu.</subfield></datafield><datafield tag=\"250\" ind1=\"
+    \" ind2=\" \"><subfield code=\"6\">880-03</subfield><subfield code=\"a\">Chu ban.</subfield></datafield><datafield
+    tag=\"260\" ind1=\" \" ind2=\" \"><subfield code=\"6\">880-04</subfield><subfield
+    code=\"a\">Taibei Xian Banqiao Shi :</subfield><subfield code=\"b\">Yuan jing
+    chu ban shi ye you xian gong si,</subfield><subfield code=\"c\">2008.</subfield></datafield><datafield
+    tag=\"300\" ind1=\" \" ind2=\" \"><subfield code=\"a\">5, 300 p. ;</subfield><subfield
+    code=\"c\">21 cm.</subfield></datafield><datafield tag=\"490\" ind1=\"0\" ind2=\"
+    \"><subfield code=\"6\">880-05</subfield><subfield code=\"a\">Lin Xingzhi zuo
+    pin ji ;</subfield><subfield code=\"v\">51</subfield></datafield><datafield tag=\"651\"
+    ind1=\" \" ind2=\"0\"><subfield code=\"a\">Economic history</subfield><subfield
+    code=\"y\">1990-</subfield></datafield><datafield tag=\"651\" ind1=\" \" ind2=\"0\"><subfield
+    code=\"a\">World politics</subfield><subfield code=\"y\">2005-2015.</subfield></datafield><datafield
+    tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Hong Kong (China)</subfield><subfield
+    code=\"x\">Economic conditions</subfield><subfield code=\"y\">1997-</subfield></datafield><datafield
+    tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Hong Kong (China)</subfield><subfield
+    code=\"x\">Politics and government</subfield><subfield code=\"y\">1997-</subfield></datafield><datafield
+    tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">100-01/$1</subfield><subfield
+    code=\"a\">林行止.</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield
+    code=\"6\">245-02/$1</subfield><subfield code=\"a\">次按驟變 /</subfield><subfield
+    code=\"c\">林行止著.</subfield></datafield><datafield tag=\"880\" ind1=\" \" ind2=\"
+    \"><subfield code=\"6\">250-03/$1</subfield><subfield code=\"a\">初版.</subfield></datafield><datafield
+    tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-04/$1</subfield><subfield
+    code=\"a\">臺北縣板橋市 :</subfield><subfield code=\"b\">遠景出版事業有限公司,</subfield><subfield
+    code=\"c\">2008.</subfield></datafield><datafield tag=\"880\" ind1=\"0\" ind2=\"
+    \"><subfield code=\"6\">490-05/$1</subfield><subfield code=\"a\">林行止作品集 ;</subfield><subfield
+    code=\"v\">51</subfield></datafield></record></collection>"
   published_display:
   - Taibei Xian Banqiao Shi
   author_display: Lin, Xingzhi
-  title_vern_display: 次按驟變
+  title_vern_display: "次按驟變"
   lc_callnum_display:
   - HC59.15 .L533 2008
+  title_t:
+  - Ci an zhou bian /
+  - "次按驟變"
   pub_date:
   - '2008'
+  pub_date_sort: 2008
   published_vern_display:
-  - 臺北縣板橋市
+  - "臺北縣板橋市"
   format: Book
+  lc_b4cutter_facet:
+  - HC59.15
   material_type_display:
   - 5, 300 p.
+  subject_t:
+  - Economic history
+  - World politics
+  - Hong Kong (China)
+  title_sort: ci an zhou bian
+  author_sort: Lin Xingzhi Ci an zhou bian
+  title_addl_t:
+  - Ci an zhou bian /
+  - "次按驟變"
   language_facet:
   - Chinese
+  timestamp: '2014-02-03T18:42:53.056Z'
