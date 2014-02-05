@@ -5,26 +5,24 @@
     #   :remove => url for a remove constraint link
     #   :classes => array of classes to add to container span
     options ||= {}
-    options[:escape_label] = true unless options.has_key?(:escape_label)
-    options[:escape_value] = true unless options.has_key?(:escape_value)
 -%>
 
 <span class="btn-group appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">
 <a href="#" class="constraint-value btn btn-sm btn-default btn-disabled">
       <%- unless label.blank? -%>
-        <span class="filterName"><%= options[:escape_label] ? h(label) : raw(label) %></span> 
+        <span class="filterName"><%= label %></span> 
       <%- end -%>
       <%- unless value.blank? -%>
-        <span class="filterValue"><%= options[:escape_value] ? h(value) : raw(value) %></span>
+        <span class="filterValue"><%= value %></span>
       <%- end -%>          
         </a>
 
       <%- unless options[:remove].blank? -%>
         <% accessible_remove_label = content_tag :span, :class => 'sr-only' do               
                 if label.blank?
-                  t('blacklight.search.filters.remove.value', :value => (options[:escape_value] ? h(value) : value))
+                  t('blacklight.search.filters.remove.value', :value => value)
                 else
-                  t('blacklight.search.filters.remove.label_value', :label => (options[:escape_label] ? h(label) : label), :value => (options[:escape_value] ? h(value) : value))
+                  t('blacklight.search.filters.remove.label_value', :label => label, :value => value)
                 end 
                 end             
         %>    
