@@ -88,5 +88,9 @@ module Blacklight
 EOF
       end
     end
+
+    def inject_blacklight_i18n_strings
+      copy_file "blacklight.en.yml", "config/locales/blacklight.en.yml"
+    end
   end
 end
