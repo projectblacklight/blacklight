@@ -75,12 +75,18 @@ module Blacklight::BlacklightHelperBehavior
     content_tag("div", safe_join(content, "\n"), :class=> wrapping_class)
   end
 
-  # Save function area for item detail 'show' view, normally
-  # renders next to title. By default includes 'Bookmarks'
+  ##
+  # Render "docuemnt actions" for the item detail 'show' view.
+  # (this normally renders next to title)
+  #
+  # By default includes 'Bookmarks'
+  # 
+  # @param [SolrDocument] document
+  # @param [Hash] options
+  # @option options [String] :wrapping_class
+  # @return [String]
   def render_show_doc_actions(document=@document, options={})
-    # I'm not sure why this key is documentFunctions and #render_index_doc_actions uses wrapping_class.
-    # TODO: remove documentFunctions key in Blacklight 5.x
-    wrapping_class = options.delete(:documentFunctions) || options.delete(:wrapping_class) || "documentFunctions"
+    wrapping_class = options.delete(:wrapping_class) || "documentFunctions"
 
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
