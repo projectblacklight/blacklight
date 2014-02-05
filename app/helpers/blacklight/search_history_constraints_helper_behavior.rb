@@ -16,6 +16,8 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     render_search_to_s_filters(params)
   end
 
+  ##
+  # Render the search query constraint
   def render_search_to_s_q(params)
     return "".html_safe if params[:q].blank?
     
@@ -26,6 +28,8 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     render_search_to_s_element(label , render_filter_value(params[:q]) )
   end
 
+  ##
+  # Render the search facet constraints
   def render_search_to_s_filters(params)
     return "".html_safe unless params[:f]
 
@@ -45,11 +49,15 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     content_tag(:span, render_filter_name(key) + content_tag(:span, value, :class => 'filterValues'), :class => 'constraint')
   end
 
+  ##
+  # Render the name of the facet
   def render_filter_name name
     return "".html_safe if name.blank?
     content_tag(:span, t('blacklight.search.filters.label', :label => name), :class => 'filterName')
   end
 
+  ##
+  # Render the value of the facet
   def render_filter_value value, key = nil
     display_value = value
     display_value = facet_display_value(key, value) if key

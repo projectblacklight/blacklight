@@ -44,6 +44,14 @@ describe "Blacklight::Solr::Document" do
         @document = MockDocument.new :id => 'asdf', :my_unique_key => '1234'
         expect(@document.id).to eq '1234'
       end
+
+    end
+
+    describe "#to_param" do
+      it "should be a string" do
+        @document = MockDocument.new :id => 1234
+        expect(@document.to_param).to eq '1234'
+      end
     end
 
     context "Extendability" do

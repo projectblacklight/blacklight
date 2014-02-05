@@ -1,0 +1,3 @@
+module BlacklightConfigurationHelper
+  include Blacklight::ConfigurationHelperBehavior
+end

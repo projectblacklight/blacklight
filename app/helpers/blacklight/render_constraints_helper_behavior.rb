@@ -7,16 +7,30 @@
 # search results page (render_constraints(_*))
 module Blacklight::RenderConstraintsHelperBehavior
 
+  ##
+  # Check if the query has any constraints defined (a query, facet, etc)
+  # 
+  # @param [Hash] query parameters
+  # @return [Boolean]
   def query_has_constraints?(localized_params = params)
     !(localized_params[:q].blank? and localized_params[:f].blank?)
   end
 
-  # Render actual constraints, not including header or footer
+  ##
+  # Render the actual constraints, not including header or footer
   # info. 
+  # 
+  # @param [Hash] query parameters
+  # @return [String]
   def render_constraints(localized_params = params)
     render_constraints_query(localized_params) + render_constraints_filters(localized_params)
   end
   
+  ##
+  # Render the query constraints
+  # 
+  # @param [Hash] query parameters
+  # @return [String]
   def render_constraints_query(localized_params = params)
     # So simple don't need a view template, we can just do it here.
     if (!localized_params[:q].blank?)
@@ -36,6 +50,11 @@ module Blacklight::RenderConstraintsHelperBehavior
     end
   end
 
+  ##
+  # Render the facet constraints
+  # 
+  # @param [Hash] query parameters
+  # @return [String]
   def render_constraints_filters(localized_params = params)
      return "".html_safe unless localized_params[:f]
      content = []
@@ -46,6 +65,13 @@ module Blacklight::RenderConstraintsHelperBehavior
      safe_join(content.flatten, "\n")    
   end
 
+  ##
+  # Render a single facet's constraint
+  # 
+  # @param [String] facet field
+  # @param [Array<String>] selected facet values
+  # @param [Hash] query parameters
+  # @return [String]
   def render_filter_element(facet, values, localized_params)
     facet_config = facet_configuration_for_field(facet)
 
@@ -66,15 +92,12 @@ module Blacklight::RenderConstraintsHelperBehavior
   #
   # Can pass in nil label if desired.
   #
-  # options:
-  # [:remove]
-  #    url to execute for a 'remove' action  
-  # [:classes] 
-  #    can be an array of classes to add to container span for constraint.
-  # [:escape_label]
-  #    default true, HTML escape.
-  # [:escape_value]
-  #    default true, HTML escape. 
+  # @param [String] label to display
+  # @param [String] value to display
+  # @param [Hash] options
+  # @option options [String] :remove url to execute for a 'remove' action
+  # @option options [Array<String>] :classes an array of classes to add to container span for constraint.
+  # @return [String]
   def render_constraint_element(label, value, options = {})
     render(:partial => "catalog/constraints_element", :locals => {:label => label, :value => value, :options => options})    
   end
