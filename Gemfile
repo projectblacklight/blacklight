@@ -13,7 +13,7 @@ group :test do
   gem "bootstrap-sass"
   gem 'turbolinks'
   gem 'sass-rails'
-  gem 'blacklight_marc', :github => 'projectblacklight/blacklight_marc'
+  gem 'blacklight-marc', :github => 'projectblacklight/blacklight_marc'
 end
 
 if File.exists?('spec/test_app_templates/Gemfile.extra')
