@@ -86,6 +86,7 @@ module Blacklight::BlacklightHelperBehavior
   def render_document_list_partial options={}
     render :partial=>'catalog/document_list'
   end
+  deprecation_deprecate :render_document_list_partial
 
   # Save function area for search results 'index' view, normally
   # renders next to title.
@@ -103,6 +104,10 @@ module Blacklight::BlacklightHelperBehavior
   def render_show_doc_actions(document=@document, options={})
     # I'm not sure why this key is documentFunctions and #render_index_doc_actions uses wrapping_class.
     # TODO: remove documentFunctions key in Blacklight 5.x
+    if options.has_key? :documentFunctions
+      Deprecation.warn(Blacklight::BlacklightHelperBehavior, "Calling #render_show_doc_actions with the :documentFunctions option is deprecated; use :wrapping_class instead")
+    end
+
     wrapping_class = options.delete(:documentFunctions) || options.delete(:wrapping_class) || "documentFunctions"
 
     content = []
