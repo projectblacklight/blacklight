@@ -10,18 +10,24 @@ module Blacklight::UrlHelperBehavior
     link_to label, doc, search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
   end
 
+  ##
+  # Link to the previous document in the current search context
   def link_to_previous_document(previous_document)
     link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, search_session_params(search_session[:counter].to_i - 1).merge(:class => "previous", :rel => 'prev')  do
       content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
     end
   end
 
+  ##
+  # Link to the next document in the current search context
   def link_to_next_document(next_document)
     link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, search_session_params(search_session[:counter].to_i + 1).merge(:class => "next", :rel => 'next') do
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
     end
   end
 
+  ##
+  # Current search context parameters
   def search_session_params counter
     { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
   end
@@ -175,6 +181,7 @@ module Blacklight::UrlHelperBehavior
     new_params[:action] = "index"
     new_params    
   end
+
   # copies the current params (or whatever is passed in as the 3rd arg)
   # removes the field value from params[:f]
   # removes the field if there are no more values in params[:f][field]

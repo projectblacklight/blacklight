@@ -11,9 +11,12 @@
 # to form fields used for sort and change per-page
 module Blacklight::HashAsHiddenFieldsHelperBehavior
 
+  ##
   # Writes out zero or more <input type="hidden"> elements, completely
   # representing a hash passed in using Rails-style request parameters
-  # for hashes nested with arrays and other hashes. 
+  # for hashes nested with arrays and other hashes.
+  # @param [Hash]
+  # @return [String] 
   def render_hash_as_hidden_fields(hash)
     
     hidden_fields = []

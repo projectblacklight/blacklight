@@ -5,25 +5,35 @@
 #
 module Blacklight::BlacklightHelperBehavior
   include BlacklightUrlHelper
+  include BlacklightConfigurationHelper
   include HashAsHiddenFieldsHelper
   include RenderConstraintsHelper
   include FacetsHelper
 
+  ##
+  # Get the name of this application, from either:
+  #  - the Rails configuration
+  #  - an i18n string (key: blacklight.application_name; preferred)
+  # 
+  # @return [String] the application named
   def application_name
     return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
 
     t('blacklight.application_name')
   end
 
+  ##
   # Create <link rel="alternate"> links from a documents dynamically
   # provided export formats. Currently not used by standard BL layouts,
   # but available for your custom layouts to provide link rel alternates.
   #
   # Returns empty string if no links available.
   #
-  # :unique => true, will ensure only one link is output for every
-  # content type, as required eg in atom. Which one 'wins' is arbitrary.
-  # :exclude => array of format shortnames, formats to not include at all.
+  # @params [SolrDocument] document
+  # @params [Hash] options
+  # @option options [Boolean] :unique ensures only one link is output for every
+  #     content type, e.g. as required by atom
+  # @option options [Array<String>] :exclude array of format shortnames to not include in the output 
   def render_link_rel_alternates(document=@document, options = {})
     options = {:unique => false, :exclude => []}.merge(options)
 
@@ -44,28 +54,43 @@ module Blacklight::BlacklightHelperBehavior
     return html.html_safe
   end
 
+  ##
+  # Render OpenSearch headers for this search 
+  # @return [String]
   def render_opensearch_response_metadata
     render :partial => 'catalog/opensearch_response_metadata'
   end
 
+  ##
+  # Render classes for the <body> element
+  # @return [String]
   def render_body_class
     extra_body_classes.join " "
   end
 
-  def render_search_bar
-    render :partial=>'catalog/search_form'
-  end
-
+  ##
+  # List of classes to be applied to the <body> element
+  # @see render_body_class
+  # @return [Array<String>]
   def extra_body_classes
     @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end
 
-  def render_document_list_partial options={}
-    render :partial=>'catalog/document_list'
+  ##
+  # Render the search navbar
+  # @return [String]
+  def render_search_bar
+    render :partial=>'catalog/search_form'
   end
 
-  # Save function area for search results 'index' view, normally
-  # renders next to title.
+  ##
+  # Render "docuemnt actions" area for search results view
+  # (normally renders next to title in the list view)
+  #
+  # @param [SolrDocument] document
+  # @param [Hash] options
+  # @option options [String] :wrapping_class
+  # @return [String]
   def render_index_doc_actions(document, options={})
     wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
 
@@ -95,17 +120,34 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Index fields to display for a type of document
-  def index_fields document=nil
-    blacklight_config.index_fields
-  end
-
+  # Determine whether to render a given field in the index view.
+  #  
+  # @param [SolrDocument] document
+  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @return [Boolean]
   def should_render_index_field? document, solr_field
     document.has?(solr_field.field) ||
       (document.has_highlight_field? solr_field.field if solr_field.highlight) ||
       solr_field.accessor
   end
 
+  ##
+  # Determine whether to render a given field in the show view
+  #
+  # @param [SolrDocument] document
+  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @return [Boolean]
+  def should_render_show_field? document, solr_field
+    document.has?(solr_field.field) ||
+      (document.has_highlight_field? solr_field.field if solr_field.highlight) ||
+      solr_field.accessor
+  end
+
+  ##
+  # Determine whether to display spellcheck suggestions
+  #
+  # @param [Blacklight::SolrResponse] response
+  # @return [Boolean]
   def should_show_spellcheck_suggestions? response
     response.total <= spell_check_max and response.spelling.words.size > 0
   end
@@ -162,67 +204,7 @@ module Blacklight::BlacklightHelperBehavior
     field_config = index_fields(document)[field]
     value = options[:value] || get_field_values(document, field, field_config, options)
 
-
     render_field_value value, field_config
-  end
-
-  # Used in the show view for displaying the main solr document heading
-  def document_heading document=nil
-    document ||= @document
-    render_field_value document[blacklight_config.view_config(:show).title_field] || document.id
-  end
-
-  # Used in the show view for setting the main html document title
-  def document_show_html_title document=nil
-    document ||= @document
-
-    if blacklight_config.view_config(:show).html_title_field
-      render_field_value(document[blacklight_config.view_config(:show).html_title_field])
-    else
-      document_heading document
-    end
-  end
-
-  ##
-  # Render the document "heading" (title) in a content tag
-  # @overload render_document_heading(tag)
-  # @overload render_document_heading(document, options)
-  #   @params [SolrDocument] document
-  #   @params [Hash] options
-  #   @options options [Symbol] :tag
-  def render_document_heading(*args)
-    options = args.extract_options!
-    if args.first.is_a? SolrDocument
-      document = args.shift
-      tag = options[:tag]
-    else
-      document = nil
-      tag = args.first || options[:tag]
-    end
-
-    tag ||= :h4
-
-    content_tag(tag, render_field_value(document_heading(document)), :itemprop => "name")
-  end
-
-  # Used in the document_list partial (search view) for building a select element
-  def sort_fields
-    blacklight_config.sort_fields.map { |key, x| [x.label, x.key] }
-  end
-
-  # Used in the document list partial (search view) for creating a link to the document show action
-  def document_show_link_field document=nil
-    blacklight_config.view_config(document_index_view_type).title_field.to_sym
-  end
-
-  # Used in the search form partial for building a select tag
-  def search_fields
-    search_field_options_for_select
-  end
-
-  # used in the catalog/_show/_default partial
-  def document_show_fields document=nil
-    blacklight_config.show_fields
   end
 
   ##
@@ -271,7 +253,6 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [Hash] opts
   #   @options opts [String] :value
   def render_document_show_field_value *args
-
     options = args.extract_options!
     document = args.shift || options[:document]
 
@@ -280,6 +261,56 @@ module Blacklight::BlacklightHelperBehavior
     value = options[:value] || get_field_values(document, field, field_config, options)
 
     render_field_value value, field_config
+  end
+
+  ##
+  # Get the value of the document's "title" field, or a placeholder
+  # value (if empty)
+  #
+  # @param [SolrDocument] document
+  # @return [String]
+  def document_heading document=nil
+    document ||= @document
+    render_field_value(document[blacklight_config.view_config(:show).title_field] || document.id)
+  end
+
+  ##
+  # Get the document's "title" to display in the <title> element.
+  # (by default, use the #document_heading)
+  #
+  # @see #document_heading
+  # @param [SolrDocument] document
+  # @return [String]
+  def document_show_html_title document=nil
+    document ||= @document
+
+    if blacklight_config.view_config(:show).html_title_field
+      render_field_value(document[blacklight_config.view_config(:show).html_title_field])
+    else
+      document_heading document
+    end
+  end
+
+  ##
+  # Render the document "heading" (title) in a content tag
+  # @overload render_document_heading(tag)
+  # @overload render_document_heading(document, options)
+  #   @params [SolrDocument] document
+  #   @params [Hash] options
+  #   @options options [Symbol] :tag
+  def render_document_heading(*args)
+    options = args.extract_options!
+    if args.first.is_a? SolrDocument
+      document = args.shift
+      tag = options[:tag]
+    else
+      document = nil
+      tag = args.first || options[:tag]
+    end
+
+    tag ||= :h4
+
+    content_tag(tag, render_field_value(document_heading(document)), :itemprop => "name")
   end
 
   ##
@@ -293,8 +324,12 @@ module Blacklight::BlacklightHelperBehavior
   #   - link_to_search
   # TODO : maybe this should be merged with render_field_value, and the ugly signature 
   # simplified by pushing some of this logic into the "model"
+  # @param [SolrDocument] document
+  # @param [String] field name
+  # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
+  # @param [Hash] options additional options to pass to the rendering helpers
   def get_field_values document, field, field_config, options = {}
-    # valuyes
+    # retrieving values
     value = case    
       when (field_config and field_config.highlight)
         # retrieve the document value from the highlighting response
@@ -317,7 +352,7 @@ module Blacklight::BlacklightHelperBehavior
         document.get(field, :sep => nil) if field
     end
 
-    # rendering
+    # rendering values
     case
       when (field_config and field_config.helper_method)
         send(field_config.helper_method, options.merge(:document => document, :field => field, :value => value))
@@ -336,12 +371,12 @@ module Blacklight::BlacklightHelperBehavior
       end
   end
 
-  def should_render_show_field? document, solr_field
-    document.has?(solr_field.field) ||
-      (document.has_highlight_field? solr_field.field if solr_field.highlight) ||
-      solr_field.accessor
-  end
-
+  ##
+  # Render a value (or array of values) from a field
+  #
+  # @param [String] value or list of values to display
+  # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
+  # @return [String]
   def render_field_value value=nil, field_config=nil
     safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
 
@@ -352,10 +387,19 @@ module Blacklight::BlacklightHelperBehavior
     safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
   end
 
+  ##
+  # Default separator to use in #render_field_value
+  #
+  # @return [String]
   def field_value_separator
     ', '
   end
 
+  ##
+  # Get the current "view type" (and ensure it is a valid type)
+  # 
+  # @param [Hash] the query parameters to check
+  # @return [Symbol]
   def document_index_view_type query_params=params
     if query_params[:view] and blacklight_config.view.keys.include? query_params[:view].to_sym
       query_params[:view].to_sym
@@ -364,15 +408,36 @@ module Blacklight::BlacklightHelperBehavior
     end
   end
 
-  def default_document_index_view_type
-    blacklight_config.view.keys.first
-  end
-
+  ##
+  # Render the document index view
+  #
+  # @param [Array<SolrDocument>] list of documents to render
+  # @param [Hash] locals to pass to the render call
+  # @return [String]
   def render_document_index documents = nil, locals = {}
     documents ||= @document_list
     render_document_index_with_view(document_index_view_type, documents)
   end
 
+  ##
+  # Render the document index for a grouped response
+  def render_grouped_document_index
+    render :partial => 'catalog/group_default'
+  end
+
+  ##
+  # Render the document index for the given view type with the 
+  # list of documents.
+  # 
+  # This method will interpolate the list of templates with
+  # the current view, and gracefully handles missing templates.
+  # 
+  # @see #document_index_path_templates
+  #
+  # @param [String] view type
+  # @param [Array<SolrDocument>] list of documents to render
+  # @param [Hash] locals to pass to the render call
+  # @return [String]
   def render_document_index_with_view view, documents, locals = {}
     document_index_path_templates.each do |str|
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
@@ -387,7 +452,11 @@ module Blacklight::BlacklightHelperBehavior
     return ""
   end
 
-  # a list of document partial templates to try to render for #render_document_index
+  ##
+  # A list of document partial templates to attempt to render
+  #
+  # @see #render_document_index_with_view
+  # @return [Array<String>]
   def document_index_path_templates
     # first, the legacy template names for backwards compatbility
     # followed by the new, inheritable style
@@ -395,37 +464,53 @@ module Blacklight::BlacklightHelperBehavior
     @document_index_path_templates ||= ["document_%{index_view_type}", "catalog/document_%{index_view_type}", "catalog/document_list"]
   end
 
-  # Return a normalized partial name that can be used to contruct view partial path
+  ##
+  # Return a normalized partial name for rendering a single document
+  # 
+  # @param [SolrDocument]
+  # @return [String]
   def document_partial_name(document)
-    # .to_s is necessary otherwise the default return value is not always a string
-    # using "_" as sep. to more closely follow the views file naming conventions
-    # parameterize uses "-" as the default sep. which throws errors
     display_type = document[blacklight_config.view_config(:show).display_type_field]
 
     return 'default' unless display_type
     display_type = display_type.join(" ") if display_type.respond_to?(:join)
 
+    # .to_s is necessary otherwise the default return value is not always a string
+    # using "_" as sep. to more closely follow the views file naming conventions
+    # parameterize uses "-" as the default sep. which throws errors
     "#{display_type.gsub("-"," ")}".parameterize("_").to_s
   end
 
-  def render_document_partials(doc, actions = [], locals ={})
-    safe_join(actions.map do |action_name|
+  ##
+  # Return the list of partials for a given solr document
+  # @param [SolrDocument]
+  # @return [String] 
+  def render_document_partials(doc, partials = [], locals ={})
+    safe_join(partials.map do |action_name|
       render_document_partial(doc, action_name, locals)
     end, "\n")
   end
 
-  # given a doc and action_name, this method attempts to render a partial template
-  # based on the value of doc[:format]
-  # if this value is blank (nil/empty) the "default" is used
-  # if the partial is not found, the "default" partial is rendered instead
-  def render_document_partial(doc, action_name, locals = {})
+  ##
+  # Given a doc and a base name for a partial, this method will attempt to render
+  # an appropriate partial based on the document format and view type.
+  # 
+  # If a partial that matches the document format is not found, 
+  # render a default partial for the base name.
+  #
+  # @see #document_partial_path_templates
+  # 
+  # @param [SolrDocument] doc
+  # @param [String] base name for the partial
+  # @param [Hash] locales to pass through to the partials
+  def render_document_partial(doc, base_name, locals = {})
     format = document_partial_name(doc)
 
     document_partial_path_templates.each do |str|
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
       # for determining if a partial template exists..
       begin
-        return render :partial => (str % { :action_name => action_name, :format => format, :index_view_type => document_index_view_type }), :locals=>locals.merge({:document=>doc})
+        return render :partial => (str % { :action_name => base_name, :format => format, :index_view_type => document_index_view_type }), :locals=>locals.merge(:document=>doc)
       rescue ActionView::MissingTemplate
         nil
       end
@@ -434,7 +519,15 @@ module Blacklight::BlacklightHelperBehavior
     return ''
   end
 
-  # a list of document partial templates to try to render for #render_document_partial
+  ##
+  # A list of document partial templates to try to render for a document
+  #
+  # The partial names will be interpolated with the following variables:
+  #   - action_name: (e.g. index, show)
+  #   - index_view_type: (the current view type, e.g. list, gallery)
+  #   - format: the document's format (e.g. book) 
+  #
+  # @see #render_document_partial
   def document_partial_path_templates
     # first, the legacy template names for backwards compatbility
     # followed by the new, inheritable style
@@ -442,9 +535,15 @@ module Blacklight::BlacklightHelperBehavior
     @partial_path_templates ||= ["%{action_name}_%{index_view_type}_%{format}", "%{action_name}_%{index_view_type}_default", "%{action_name}_%{format}", "%{action_name}_default", "catalog/%{action_name}_%{format}", "catalog/_%{action_name}_partials/%{format}", "catalog/_%{action_name}_partials/default"]
   end
 
-
-
-  def render_document_index_label doc, opts
+  ##
+  # Render the document index heading
+  #
+  # @param [SolrDocument] doc
+  # @param [Hash] opts
+  # @option opts [Symbol] :label Render the given field from the document
+  # @option opts [Proc] :label Evaluate the given proc
+  # @option opts [String] :label Render the given string
+  def render_document_index_label doc, opts = {}
     label = nil
     label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
@@ -453,10 +552,15 @@ module Blacklight::BlacklightHelperBehavior
     render_field_value label
   end
 
-  # Use case, you want to render an html partial from an XML (say, atom)
-  # template. Rails API kind of lets us down, we need to hack Rails internals
-  # a bit. code taken from:
+  ##
+  # Render a partial of an arbitrary format inside a
+  # template of a different format. (e.g. render an HTML
+  # partial from an XML template)
+  # code taken from:
   # http://stackoverflow.com/questions/339130/how-do-i-render-a-partial-of-a-different-format-in-rails (zgchurch)
+  #
+  # @param [String] format suffix
+  # @yield
   def with_format(format, &block)
     old_formats = formats
     self.formats = [format]
@@ -473,17 +577,9 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render the grouped response
-  def render_grouped_document_index grouped_key = nil
-    render :partial => 'catalog/group_default'
-  end
-
+  # Determine whether to render the bookmarks control 
   def render_bookmarks_control?
     has_user_authentication_provider? and current_or_guest_user.present?
-  end
-
-  def spell_check_max
-    blacklight_config.spell_max
   end
 
 end
