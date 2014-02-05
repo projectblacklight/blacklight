@@ -16,7 +16,7 @@ if ENV["COVERAGE"] or ENV["CI"]
 end
 
 require 'blacklight'
-require 'blacklight_marc'
+require 'blacklight/marc'
 
 require 'engine_cart'
 EngineCart.load_application!
