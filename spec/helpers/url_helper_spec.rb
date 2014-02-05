@@ -225,6 +225,13 @@ describe BlacklightHelper do
       @document = SolrDocument.new('id'=>'123456')
       expect(link_to_document(@document,:label=>"Some crazy long label...")).to_not match(/title=/)
     end
+
+    it "should  work with integer ids" do
+      data = {'id'=> 123456 }
+      @document = SolrDocument.new(data)
+      expect(link_to_document(@document)).to have_selector("a")
+    end
+
   end
 
   describe "link_to_previous_search" do
