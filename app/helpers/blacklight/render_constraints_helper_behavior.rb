@@ -77,6 +77,10 @@ module Blacklight::RenderConstraintsHelperBehavior
   # [:escape_value]
   #    default true, HTML escape. 
   def render_constraint_element(label, value, options = {})
+    if (options[:escape_label] and !label.html_safe?) or (options.has_key?(:escape_value) and !value.html_safe?)
+      Deprecation.warn(Blacklight::RenderConstraintsHelperBehavior, "Calling #render_constraint_element with :escape_label or :escape_value parameters is deprecated; make sure your values are #html_safe instead")
+    end
+
     render(:partial => "catalog/constraints_element", :locals => {:label => label, :value => value, :options => options})    
   end
 

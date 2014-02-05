@@ -10,6 +10,13 @@ namespace :blacklight do
     Search.delete_old_searches(args[:days_old].to_i)
   end
 
+  namespace :solr do
+    desc "Put sample data into solr"
+    task :seed do
+      Rake::Task["solr:marc:index_test_data"].invoke
+    end
+  end
+
 end
   
 

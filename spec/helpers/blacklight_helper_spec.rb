@@ -90,7 +90,7 @@ describe BlacklightHelper do
   def current_search_session
 
   end
-  
+
   describe "deprecated methods" do
     describe "#index_field_names" do
       it "should warn" do
@@ -111,6 +111,14 @@ describe BlacklightHelper do
         expect(Blacklight::BlacklightHelperBehavior.deprecation_behavior.first).to receive(:call)
         helper.stub(:document_show_fields => {})
         helper.document_show_field_labels
+      end
+    end
+
+    describe "#render_document_list_partial" do
+      it "should warn" do
+        expect(Blacklight::BlacklightHelperBehavior.deprecation_behavior.first).to receive(:call)
+        helper.stub(:render)
+        helper.render_document_list_partial
       end
     end
   end
