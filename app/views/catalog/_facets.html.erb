@@ -1,22 +1,3 @@
-<% # main container for facets/limits menu -%>
-<% if has_facet_values?  %>
-<div id="facets" class="facets sidenav">
-
-  <div class="top-panel-heading panel-heading">
-    <button type="button" class="facets-toggle" data-toggle="collapse" data-target="#facet-panel-collapse">
-      <span class="sr-only">Toggle facets</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-
-  <h4>
-  	<%= t('blacklight.search.facets.title') %>
-  </h4>
-    </div>
-
-  <div id="facet-panel-collapse" class="collapse panel-group">
-  <%= render_facet_partials %>
-</div>
-</div>
+<% facet_group_names.each do |groupname| %>
+  <%= render partial: "facet_group", locals: {groupname: groupname} %>
 <% end %>
