@@ -155,6 +155,49 @@ describe CatalogController do
       end
     end
 
+    describe "with additional formats from configuration" do
+      let(:blacklight_config) { Blacklight::Configuration.new }
+
+      before :each do
+        @controller.stub blacklight_config: blacklight_config
+        @controller.stub get_search_results: [double, double]
+      end
+
+      it "should not render when the config is false" do
+        blacklight_config.index.respond_to.yaml = false
+        expect { get :index, format: 'yaml' }.to raise_error ActionController::RoutingError
+      end
+
+      it "should render the default when the config is true" do
+        # TODO: this should really stub a template and see if it gets rendered,
+        # but how to do that is non-obvious..
+        blacklight_config.index.respond_to.yaml = true
+        expect { get :index, format: 'yaml' }.to raise_error ActionView::MissingTemplate
+      end
+
+      it "should pass a hash to the render call" do
+        blacklight_config.index.respond_to.yaml = { nothing: true, layout: false }
+        get :index, format: 'yaml'
+        expect(response.body).to be_blank
+      end
+
+      it "should evaluate a proc" do
+        blacklight_config.index.respond_to.yaml = lambda { render text: "" }
+        get :index, format: 'yaml'
+        expect(response.body).to be_empty
+      end
+
+      it "with a symbol, it should call a controller method" do
+        subject.should_receive(:render_some_yaml) do
+          subject.render nothing: true, layout: false
+        end
+
+        blacklight_config.index.respond_to.yaml = :render_some_yaml
+        get :index, format: 'yaml'
+        expect(response.body).to be_blank
+      end
+    end
+
   end # describe index action
 
   describe "update action" do

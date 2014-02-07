@@ -55,6 +55,18 @@ describe "Blacklight::Configuration" do
     end
   end
 
+  describe "config.index.respond_to" do
+    it "should have a list of additional formats for index requests to respond to" do
+      @config.index.respond_to.xml = true
+
+      @config.index.respond_to.csv = { :layout => false }
+
+      @config.index.respond_to.yaml = lambda { render text: "" }
+
+      expect(@config.index.respond_to.keys).to eq [:xml, :csv, :yaml]
+    end
+  end
+
   describe "spell_max" do
     it "should default to 5" do
       expect(Blacklight::Configuration.new.spell_max).to eq 5
