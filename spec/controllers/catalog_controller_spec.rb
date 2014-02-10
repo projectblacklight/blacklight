@@ -464,10 +464,21 @@ describe CatalogController do
         controller.stub(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
       get :show, :id=>"987654321"
-      expect(request.flash[:notice]).to eq "Sorry, you have requested a record that doesn't exist."
-      expect(response).to render_template('index')
       expect(response.status).to eq 404
+      expect(response.content_type).to eq Mime::HTML
     end
+    it "should return status 404 for a record that doesn't exist even for non-html format" do
+      @mock_response = double()
+      @mock_response.stub(:docs => [])
+      @mock_document = double()
+      controller.stub(:find => @mock_response,
+                      :get_single_doc_via_search => @mock_document)
+
+      get :show, :id=>"987654321", :format => "xml"
+      expect(response.status).to eq 404
+      expect(response.content_type).to eq Mime::XML
+    end
+
     it "should redirect the user to the root url for a bad search" do
       req = {}
       res = {}

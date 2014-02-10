@@ -245,12 +245,31 @@ module Blacklight::Catalog
       flash[:error].blank?
     end
 
-    # when a request for /catalog/BAD_SOLR_ID is made, this method is executed...
-    def invalid_solr_id_error
-      flash[:notice] = I18n.t('blacklight.search.errors.invalid_solr_id')
-      params.delete(:id)
-      index
-      render "index", :status => 404
+    # when a request for /catalog/BAD_SOLR_ID is made, this method is executed.
+    # Just returns a 404 response, but you can override locally in your own
+    # CatalogController to do something else -- older BL displayed a Catalog#inde
+    # page with a flash message and a 404 status.
+    def invalid_solr_id_error(exception)
+      error_info = {
+        "status" => "404",
+        "error"  => "#{exception.class}: #{exception.message}"
+      }
+
+      respond_to do |format|
+        format.xml  { render :xml  => error_info, :status => 404 }
+        format.json { render :json => error_info, :status => 404 }
+
+        # default to HTML response, even for other non-HTML formats we don't
+        # neccesarily know about, seems to be consistent with what Rails4 does
+        # by default with uncaught ActiveRecord::RecordNotFound in production
+        format.any do
+          # use standard, possibly locally overridden, 404.html file. Even for
+          # possibly non-html formats, this is consistent with what Rails does
+          # on raising an ActiveRecord::RecordNotFound. Rails.root IS needed
+          # for it to work under testing, without worrying about CWD.
+          render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false, :content_type => 'text/html'
+        end
+      end
     end
 
     def start_new_search_session?
