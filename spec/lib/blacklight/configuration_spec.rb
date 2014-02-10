@@ -167,7 +167,18 @@ describe "Blacklight::Configuration" do
     it "should raise on nil solr field name" do
       expect { @config.add_facet_field(nil) }.to raise_error ArgumentError
     end
-    
+
+    it "should take wild-carded field names and dereference them to solr fields" do
+      @config.stub(luke_fields: { 
+        "some_field_facet" => {}, 
+        "another_field_facet" => {},
+        "a_facet_field" => {},
+        })
+      @config.add_index_field "*_facet"
+
+      expect(@config.index_fields.keys).to eq ["some_field_facet", "another_field_facet"]
+    end
+
   end
   
   describe "add_index_field" do
@@ -199,6 +210,17 @@ describe "Blacklight::Configuration" do
     
     it "should raise on nil solr field name" do
       expect { @config.add_index_field(nil) }.to raise_error ArgumentError
+    end
+
+    it "should take wild-carded field names and dereference them to solr fields" do
+      @config.stub(luke_fields: { 
+        "some_field_display" => {}, 
+        "another_field_display" => {},
+        "a_facet_field" => {},
+        })
+      @config.add_index_field "*_display"
+
+      expect(@config.index_fields.keys).to eq ["some_field_display", "another_field_display"]
     end
 
   end
@@ -235,6 +257,17 @@ describe "Blacklight::Configuration" do
       expect { @config.add_show_field(nil) }.to raise_error ArgumentError
     end
        
+    it "should take wild-carded field names and dereference them to solr fields" do
+      @config.stub(luke_fields: { 
+        "some_field_display" => {}, 
+        "another_field_display" => {},
+        "a_facet_field" => {},
+        })
+      @config.add_show_field "*_display"
+
+      expect(@config.show_fields.keys).to eq ["some_field_display", "another_field_display"]
+    end
+
   end
     
   
