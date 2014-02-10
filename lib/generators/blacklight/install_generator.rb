@@ -61,7 +61,7 @@ module Blacklight
 
     def generate_blacklight_marc_demo
       if options[:marc]
-        gem "blacklight_marc", ">= 0.0.9"
+        gem "blacklight-marc", "~> 5.0"
 
         Bundler.with_clean_env do
           run "bundle install"
@@ -87,6 +87,10 @@ module Blacklight
       config.assets.compress = !Rails.env.development?
 EOF
       end
+    end
+
+    def inject_blacklight_i18n_strings
+      copy_file "blacklight.en.yml", "config/locales/blacklight.en.yml"
     end
   end
 end

@@ -114,7 +114,7 @@ module Blacklight::Solr::Document
   end
 
   def to_param
-    id
+    id.to_s
   end
 
   def as_json(options = nil)

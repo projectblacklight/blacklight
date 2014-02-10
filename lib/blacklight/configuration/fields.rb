@@ -74,12 +74,30 @@ module Blacklight
             args[0] = args[0].to_s
             field_config_from_key_and_hash(config_key, *args)
           when Array
-            field_config_from_array(config_key, *args)
+            field_config_from_array(config_key, *args, &block)
+            return # we've iterated over the array above.
           else
             field_config_from_field_or_hash(config_key, *args)
         end
 
-        return if field_config.is_a? Array
+        # look up any dynamic fields
+        if field_config.field.to_s =~ /\*/ and luke_fields
+          salient_fields = luke_fields.select do |k,v| 
+            k =~ Regexp.new("^" + field_config.field.to_s.gsub('*', '.+') + "$")
+          end
+
+          salient_fields.each do |field, luke_config|
+            config = field_config.dup
+            config.field = field
+            if self[config_key.pluralize][ config.field ]
+              self[config_key.pluralize][ config.field ] = config.merge(self[config_key.pluralize][ config.field ])
+            else
+              add_solr_field(config_key, config, &block)
+            end
+          end
+
+          return
+        end
   
         if block_given?
           yield field_config
@@ -94,6 +112,22 @@ module Blacklight
       end
 
       protected
+      def luke_fields
+        if @table[:luke_fields] === false
+          return nil
+        end
+
+        @table[:luke_fields] ||= begin
+          if has_key? :blacklight_solr
+            blacklight_solr.get('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
+          end
+        rescue
+          false
+        end
+
+        @table[:luke_fields] || nil
+      end
+
       # Add a solr field by a solr field name and hash 
       def field_config_from_key_and_hash config_key, solr_field, field_or_hash = {}
         field_config = field_config_from_field_or_hash(config_key, field_or_hash)
@@ -103,9 +137,9 @@ module Blacklight
       end
 
       # Add multiple solr fields using a hash or Field instance
-      def field_config_from_array config_key, array_of_fields_or_hashes
+      def field_config_from_array config_key, array_of_fields_or_hashes, &block
         array_of_fields_or_hashes.map do |field_or_hash| 
-          add_solr_field(config_key, field_or_hash)
+          add_solr_field(config_key, field_or_hash, &block)
         end
       end
 

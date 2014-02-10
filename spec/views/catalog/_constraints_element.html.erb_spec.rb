@@ -52,7 +52,7 @@ describe "catalog/_constraints_element.html.erb" do
 
   describe "with no escaping" do
     before do
-      render( :partial => "catalog/constraints_element", :locals => {:label => "<span class='custom_label'>my label</span>", :value => "<span class='custom_value'>my value</span>", :options => {:escape_label => false, :escape_value => false}} )
+      render( :partial => "catalog/constraints_element", :locals => {:label => "<span class='custom_label'>my label</span>".html_safe, :value => "<span class='custom_value'>my value</span>".html_safe} )
     end
     it "should not escape key and value" do
       expect(rendered).to have_selector("span.appliedFilter.constraint span.filterName span.custom_label")
