@@ -63,7 +63,8 @@ module Blacklight::Catalog
     
     # displays values and pagination links for a single facet field
     def facet
-      @pagination = get_facet_pagination(params[:id], params)
+      @facet = blacklight_config.facet_fields[params[:id]]
+      @pagination = get_facet_pagination(@facet.field, params)
 
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:

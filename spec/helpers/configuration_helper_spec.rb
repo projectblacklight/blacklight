@@ -58,4 +58,46 @@ describe BlacklightConfigurationHelper do
       expect(helper.spell_check_max).to eq config_value
     end
   end
+
+  describe "#index_field_label" do
+    let(:document) { double }
+    it "should look up the label to display for the given document and field" do
+      helper.stub(:index_fields).and_return({ "my_field" => double(label: "some label") })
+      helper.should_receive(:solr_field_label).with("some label", :"blacklight.search.fields.index.my_field", :"blacklight.search.fields.my_field")
+      helper.index_field_label document, "my_field"
+    end
+  end
+
+  describe "#document_show_field_label" do
+    let(:document) { double }
+    it "should look up the label to display for the given document and field" do
+      helper.stub(:document_show_fields).and_return({ "my_field" => double(label: "some label") })
+      helper.should_receive(:solr_field_label).with("some label", :"blacklight.search.fields.show.my_field", :"blacklight.search.fields.my_field")
+      helper.document_show_field_label document, "my_field"
+    end
+  end
+
+  describe "#facet_field_label" do
+    let(:document) { double }
+    it "should look up the label to display for the given document and field" do
+      blacklight_config.stub(:facet_fields).and_return({ "my_field" => double(label: "some label") })
+      helper.should_receive(:solr_field_label).with("some label", :"blacklight.search.fields.facet.my_field", :"blacklight.search.fields.my_field")
+      helper.facet_field_label "my_field"
+    end
+  end
+
+  describe "#solr_field_label" do
+    it "should look up the label as an i18n string" do
+      helper.should_receive(:t).with(:some_key).and_return "my label"
+      label = helper.solr_field_label :some_key
+
+      expect(label).to eq "my label"
+    end
+
+    it "should pass the provided i18n keys to I18n.t" do
+      helper.should_receive(:t).with(:key_a, default: [:key_b, "default text"])
+
+      label = helper.solr_field_label "default text", :key_a, :key_b
+    end
+  end
 end

@@ -25,6 +25,66 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   ##
+  # Look up the label for the index field
+  def index_field_label document, field
+    label = index_fields(document)[field].label
+
+    solr_field_label(
+      label, 
+      :"blacklight.search.fields.index.#{field}",
+      :"blacklight.search.fields.#{field}"
+    )
+  end
+
+  ##
+  # Look up the label for the show field
+  def document_show_field_label document, field
+    label = document_show_fields(document)[field].label
+    
+    solr_field_label(
+      label, 
+      :"blacklight.search.fields.show.#{field}",
+      :"blacklight.search.fields.#{field}"
+    )
+  end
+
+  ##
+  # Look up the label for the facet field
+  def facet_field_label field
+    label = blacklight_config.facet_fields[field].label
+
+    solr_field_label(
+      label, 
+      :"blacklight.search.fields.facet.#{field}",
+      :"blacklight.search.fields.#{field}"
+    )
+  end
+
+  ##
+  # Look up the label for a solr field.
+  #
+  # @overload
+  #   @param [Symbol] an i18n key 
+  #
+  # @overload
+  #   @param [String] default label to display if the i18n look up fails
+  #   @param [Symbol] i18n keys to attempt to look up 
+  #     before falling  back to the label
+  #   @param [Symbol] any number of additional keys
+  #   @param [Symbol] ...
+  def solr_field_label label, *i18n_keys
+    if label.is_a? Symbol
+      return t(label)
+    end
+
+    first, *rest = i18n_keys
+
+    rest << label
+
+    t(first, default: rest)
+  end
+  
+  ##
   # Get the default index view type
   def default_document_index_view_type
     blacklight_config.view.keys.first
