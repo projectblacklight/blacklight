@@ -3,7 +3,9 @@ require 'spec_helper'
 describe "catalog/facet_layout" do
 
   let :blacklight_config do
-    Blacklight::Configuration.new
+    Blacklight::Configuration.new do |config|
+      config.facet_fields[facet_field.field] = facet_field
+    end
   end
 
   let :facet_field do

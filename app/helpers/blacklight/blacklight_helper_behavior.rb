@@ -170,7 +170,7 @@ module Blacklight::BlacklightHelperBehavior
     document = args.first
 
     field = options[:field]
-    html_escape t(:'blacklight.search.index.label', label: index_fields(document)[field].label)
+    html_escape t(:"blacklight.search.index.#{document_index_view_type}.label", default: :'blacklight.search.index.label', label: index_field_label(document, field))
   end
 
   ##
@@ -226,7 +226,7 @@ module Blacklight::BlacklightHelperBehavior
 
     field = options[:field]
 
-    html_escape t(:'blacklight.search.show.label', label: document_show_fields(document)[field].label)
+    html_escape t(:'blacklight.search.show.label', label: document_show_field_label(document, field))
   end
 
   ##

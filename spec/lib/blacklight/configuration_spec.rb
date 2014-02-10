@@ -152,6 +152,13 @@ describe "Blacklight::Configuration" do
       expect(@config.facet_fields).to have(2).fields
     end
 
+    it "should accept array form with a block" do
+      expect do |b|
+        @config.add_facet_field([{ :field => 'format', :label => 'Format'}, { :field => 'publication_date', :label => 'Publication Date' }], &b)
+      end.to yield_control.twice
+    end
+
+
     it "should create default label from titleized solr field" do
       @config.add_facet_field("publication_date")
         
@@ -167,7 +174,18 @@ describe "Blacklight::Configuration" do
     it "should raise on nil solr field name" do
       expect { @config.add_facet_field(nil) }.to raise_error ArgumentError
     end
-    
+
+    it "should take wild-carded field names and dereference them to solr fields" do
+      @config.stub(luke_fields: { 
+        "some_field_facet" => {}, 
+        "another_field_facet" => {},
+        "a_facet_field" => {},
+        })
+      expect { |b| @config.add_index_field "*_facet", &b }.to yield_control.twice
+
+      expect(@config.index_fields.keys).to eq ["some_field_facet", "another_field_facet"]
+    end
+
   end
   
   describe "add_index_field" do
@@ -199,6 +217,17 @@ describe "Blacklight::Configuration" do
     
     it "should raise on nil solr field name" do
       expect { @config.add_index_field(nil) }.to raise_error ArgumentError
+    end
+
+    it "should take wild-carded field names and dereference them to solr fields" do
+      @config.stub(luke_fields: { 
+        "some_field_display" => {}, 
+        "another_field_display" => {},
+        "a_facet_field" => {},
+        })
+      @config.add_index_field "*_display"
+
+      expect(@config.index_fields.keys).to eq ["some_field_display", "another_field_display"]
     end
 
   end
@@ -235,6 +264,17 @@ describe "Blacklight::Configuration" do
       expect { @config.add_show_field(nil) }.to raise_error ArgumentError
     end
        
+    it "should take wild-carded field names and dereference them to solr fields" do
+      @config.stub(luke_fields: { 
+        "some_field_display" => {}, 
+        "another_field_display" => {},
+        "a_facet_field" => {},
+        })
+      @config.add_show_field "*_display"
+
+      expect(@config.show_fields.keys).to eq ["some_field_display", "another_field_display"]
+    end
+
   end
     
   
