@@ -322,6 +322,13 @@ module Blacklight::SolrHelper
           if facet.sort
             solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
           end
+
+          if facet.solr_params
+            facet.solr_params.each do |k, v|
+              solr_parameters[:"f.#{facet.field}.#{k}"] = v
+            end
+          end
+
         end
 
         # Support facet paging and 'more'
@@ -341,10 +348,25 @@ module Blacklight::SolrHelper
 
     def add_solr_fields_to_query solr_parameters, user_parameters
       return unless blacklight_config.add_field_configuration_to_solr_request
+
+      blacklight_config.show_fields.each do |field_name, field|
+        if field.solr_params
+          field.solr_params.each do |k, v|
+            solr_parameters[:"f.#{field.field}.#{k}"] = v
+          end
+        end
+      end
+
       blacklight_config.index_fields.each do |field_name, field|
         if field.highlight
           solr_parameters[:hl] = true
           solr_parameters.append_highlight_field field.field
+        end
+
+        if field.solr_params
+          field.solr_params.each do |k, v|
+            solr_parameters[:"f.#{field.field}.#{k}"] = v
+          end
         end
       end
     end

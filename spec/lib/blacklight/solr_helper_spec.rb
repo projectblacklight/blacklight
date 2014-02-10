@@ -263,7 +263,31 @@ describe 'Blacklight::SolrHelper' do
       end
     end
 
-    describe "Allow passing :sort when defining facet" do
+    describe "#add_solr_fields_to_query" do
+      let(:blacklight_config) do
+        config = Blacklight::Configuration.new do |config|
+
+          config.add_index_field 'an_index_field', solr_params: { 'hl.alternativeField' => 'field_x'}
+          config.add_show_field 'a_show_field', solr_params: { 'hl.alternativeField' => 'field_y'}
+          config.add_field_configuration_to_solr_request!
+        end
+      end
+
+      subject do
+        solr_parameters = Blacklight::Solr::Request.new
+        
+        add_solr_fields_to_query(solr_parameters, {})
+
+        solr_parameters
+      end
+
+      it "should add any extra solr parameters from index and show fields" do
+        expect(subject[:'f.an_index_field.hl.alternativeField']).to eq "field_x"
+        expect(subject[:'f.a_show_field.hl.alternativeField']).to eq "field_y"
+      end
+    end
+
+    describe "#add_facetting_to_solr" do
 
       let(:blacklight_config) do
          config = Blacklight::Configuration.new
@@ -271,12 +295,13 @@ describe 'Blacklight::SolrHelper' do
          config.add_facet_field 'test_field', :sort => 'count'
          config.add_facet_field 'some-query', :query => {'x' => {:fq => 'some:query' }}, :ex => 'xyz'
          config.add_facet_field 'some-pivot', :pivot => ['a','b'], :ex => 'xyz'
+         config.add_facet_field 'some-field', solr_params: { 'facet.mincount' => 15 }
          config.add_facet_fields_to_solr_request!
 
          config
       end
 
-      it "should return the correct solr parameters" do
+      it "should add sort parameters" do
 
         solr_parameters = Blacklight::Solr::Request.new
         
@@ -295,6 +320,14 @@ describe 'Blacklight::SolrHelper' do
 
         expect(solr_parameters[:'facet.query']).to include('{!ex=xyz}some:query')
         expect(solr_parameters[:'facet.pivot']).to include('{!ex=xyz}a,b')
+      end
+
+      it "should add any additional solr_params" do
+        solr_parameters = Blacklight::Solr::Request.new
+
+        add_facetting_to_solr(solr_parameters, {})
+
+        expect(solr_parameters[:'f.some-field.facet.mincount']).to eq 15
       end
     end
 
