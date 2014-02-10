@@ -20,7 +20,12 @@ module Blacklight
           :document_solr_request_handler => nil,
           :default_document_solr_params => {},
           :show => ViewConfig::Show.new(:partials => [:show_header, :show]),
-          :index => ViewConfig::Index.new(:partials => [:index_header, :thumbnail, :index], :title_field => unique_key, :display_type_field => 'format', :group => false),
+          :index => ViewConfig::Index.new(:partials => [:index_header, :thumbnail, :index],
+            :title_field => unique_key,
+            :display_type_field => 'format',
+            :group => false,
+            :respond_to => OpenStructWithHashAccess.new()
+            ),
           :view => NestedOpenStructWithHashAccess.new(ViewConfig, 'list'),
           :spell_max => 5,
           :max_per_page => 100,
