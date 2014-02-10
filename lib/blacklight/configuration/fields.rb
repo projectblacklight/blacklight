@@ -74,7 +74,7 @@ module Blacklight
             args[0] = args[0].to_s
             field_config_from_key_and_hash(config_key, *args)
           when Array
-            field_config_from_array(config_key, *args)
+            field_config_from_array(config_key, *args, &block)
             return # we've iterated over the array above.
           else
             field_config_from_field_or_hash(config_key, *args)
@@ -92,7 +92,7 @@ module Blacklight
             if self[config_key.pluralize][ config.field ]
               self[config_key.pluralize][ config.field ] = config.merge(self[config_key.pluralize][ config.field ])
             else
-              add_solr_field(config_key, config)
+              add_solr_field(config_key, config, &block)
             end
           end
 
@@ -137,9 +137,9 @@ module Blacklight
       end
 
       # Add multiple solr fields using a hash or Field instance
-      def field_config_from_array config_key, array_of_fields_or_hashes
+      def field_config_from_array config_key, array_of_fields_or_hashes, &block
         array_of_fields_or_hashes.map do |field_or_hash| 
-          add_solr_field(config_key, field_or_hash)
+          add_solr_field(config_key, field_or_hash, &block)
         end
       end
 

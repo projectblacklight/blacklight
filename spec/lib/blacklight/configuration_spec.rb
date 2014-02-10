@@ -152,6 +152,13 @@ describe "Blacklight::Configuration" do
       expect(@config.facet_fields).to have(2).fields
     end
 
+    it "should accept array form with a block" do
+      expect do |b|
+        @config.add_facet_field([{ :field => 'format', :label => 'Format'}, { :field => 'publication_date', :label => 'Publication Date' }], &b)
+      end.to yield_control.twice
+    end
+
+
     it "should create default label from titleized solr field" do
       @config.add_facet_field("publication_date")
         
@@ -174,7 +181,7 @@ describe "Blacklight::Configuration" do
         "another_field_facet" => {},
         "a_facet_field" => {},
         })
-      @config.add_index_field "*_facet"
+      expect { |b| @config.add_index_field "*_facet", &b }.to yield_control.twice
 
       expect(@config.index_fields.keys).to eq ["some_field_facet", "another_field_facet"]
     end
