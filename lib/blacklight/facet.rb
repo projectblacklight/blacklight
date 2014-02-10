@@ -7,8 +7,12 @@ module Blacklight
       fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
     end
 
-    def facet_field_names
-      blacklight_config.facet_fields.keys
+    def facet_field_names group=nil
+      blacklight_config.facet_fields.select {|facet,opts| group == opts[:group]}.keys
+    end
+
+    def facet_group_names
+      blacklight_config.facet_fields.map {|facet,opts| opts[:group]}.uniq
     end
 
     def facet_configuration_for_field(field)
