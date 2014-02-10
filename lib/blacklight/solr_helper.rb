@@ -306,23 +306,7 @@ module Blacklight::SolrHelper
          
       blacklight_config.facet_fields.each do |field_name, facet|
 
-        if blacklight_config.add_facet_fields_to_solr_request
-          case 
-            when facet.pivot
-              solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
-            when facet.query
-              solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
-   
-            when facet.ex
-              if idx = solr_parameters[:'facet.field'].index(facet.field)
-                solr_parameters[:'facet.field'][idx] = with_ex_local_param(facet.ex, solr_parameters[:'facet.field'][idx])
-              end
-          end
-
-          if facet.sort
-            solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
-          end
-        end
+        handle_advanced_facets(solr_parameters, facet)
 
         # Support facet paging and 'more'
         # links, by sending a facet.limit one more than what we
@@ -339,6 +323,28 @@ module Blacklight::SolrHelper
       end
     end
 
+	##
+	# Advanced facets (pivot facet, query facet, facet with ex param...) need special params attached.
+	def handle_advanced_facets(solr_parameters, facet)
+		if blacklight_config.add_facet_fields_to_solr_request
+          case 
+            when facet.pivot
+              solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
+            when facet.query
+              solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
+   
+            when facet.ex
+              if idx = solr_parameters[:'facet.field'].index(facet.field)
+                solr_parameters[:'facet.field'][idx] = with_ex_local_param(facet.ex, solr_parameters[:'facet.field'][idx])
+              end
+          end
+
+          if facet.sort
+            solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
+          end
+        end
+	end
+	
     def add_solr_fields_to_query solr_parameters, user_parameters
       return unless blacklight_config.add_field_configuration_to_solr_request
       blacklight_config.index_fields.each do |field_name, field|
@@ -471,8 +477,10 @@ module Blacklight::SolrHelper
     solr_params = solr_search_params(user_params).merge(extra_controller_params)
     
     # Now override with our specific things for fetching facet values
-    solr_params[:"facet.field"] = facet_field
+    solr_params[:"facet.field"] = [facet_field]
 
+	# After overriding the facet values we need to handle advanced facets like we do in :add_facetting_to_solr
+	handle_advanced_facets(solr_params, blacklight_config.facet_fields[facet_field])
 
     limit =  
       if respond_to?(:facet_list_limit)
