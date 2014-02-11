@@ -490,7 +490,7 @@ describe 'Blacklight::SolrHelper' do
       expect(@generated_solr_facet_params[:rows]).to eq 0
     end
     it 'sets facets requested to facet_field argument' do
-      expect(@generated_solr_facet_params["facet.field".to_sym]).to eq @facet_field
+      expect(@generated_solr_facet_params["facet.field".to_sym]).to eq [@facet_field]
     end
     it 'defaults offset to 0' do
       expect(@generated_solr_facet_params[:"f.#{@facet_field}.facet.offset"]).to eq 0
@@ -549,7 +549,7 @@ describe 'Blacklight::SolrHelper' do
 
     end
   end
-  describe "for facet limit parameters config ed" do              
+  describe "for facet limit parameters config ed" do
     def params
       {:search_field => "test_field", :q => "test query"}
     end
@@ -568,7 +568,15 @@ describe 'Blacklight::SolrHelper' do
     end
   end
   
-   describe "get_facet_pagination", :integration => true do
+  describe "get_facet_pagination", :integration => true do
+    before do
+      @facet_field = 'format'
+      @config = Blacklight::Configuration.new do |config|
+        config.add_facet_fields_to_solr_request!
+        config.add_facet_field 'format'
+      end
+    end
+  
     before(:each) do
       @facet_paginator = get_facet_pagination(@facet_field)
     end
@@ -673,7 +681,7 @@ describe 'Blacklight::SolrHelper' do
 
 
     describe "Single Word Query with no Facets" do
-    	
+      
       it 'should have results' do
         solr_response = query_solr(:q => @single_word_query)
         expect(solr_response.docs).to have_at_least(1).result
