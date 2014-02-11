@@ -34,25 +34,6 @@ module Blacklight::Catalog
         additional_response_formats(format)
       end
     end
-
-    def additional_response_formats format
-      blacklight_config.index.respond_to.each do |key, config|
-        format.send key do
-          case config
-          when false
-            raise ActionController::RoutingError.new('Not Found')
-          when Hash
-            render config
-          when Proc
-            instance_exec &config
-          when Symbol, String
-            send config
-          else
-            # no-op, just render the page
-          end
-        end
-      end
-    end
     
     # get single document from the solr index
     def show
@@ -168,6 +149,25 @@ module Blacklight::Catalog
     #
     # non-routable methods ->
     #
+
+    def additional_response_formats format
+      blacklight_config.index.respond_to.each do |key, config|
+        format.send key do
+          case config
+          when false
+            raise ActionController::RoutingError.new('Not Found')
+          when Hash
+            render config
+          when Proc
+            instance_exec &config
+          when Symbol, String
+            send config
+          else
+            # no-op, just render the page
+          end
+        end
+      end
+    end
 
     # override this method to change the JSON response from #index 
     def render_search_results_as_json
