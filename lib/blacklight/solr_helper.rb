@@ -131,258 +131,257 @@ module Blacklight::SolrHelper
   end
     
   
-    ####
-    # Start with general defaults from BL config. Need to use custom
-    # merge to dup values, to avoid later mutating the original by mistake.
-    def default_solr_parameters(solr_parameters, user_params)
-      blacklight_config.default_solr_params.each do |key, value|
-        solr_parameters[key] = value.dup rescue value
-      end
+  ####
+  # Start with general defaults from BL config. Need to use custom
+  # merge to dup values, to avoid later mutating the original by mistake.
+  def default_solr_parameters(solr_parameters, user_params)
+    blacklight_config.default_solr_params.each do |key, value|
+      solr_parameters[key] = value.dup rescue value
     end
+  end
+  
+  ###
+  # copy paging params from BL app over to solr, changing
+  # app level per_page and page to Solr rows and start. 
+  def add_paging_to_solr(solr_params, user_params)
+
+    # Now any over-rides from current URL?
+    solr_params[:rows] = user_params[:rows].to_i  unless user_params[:rows].blank?
+    solr_params[:rows] = user_params[:per_page].to_i  unless user_params[:per_page].blank?
+
+    # Do we need to translate :page to Solr :start?
+    unless user_params[:page].blank?
+      # already set solr_params["rows"] might not be the one we just set,
+      # could have been from app defaults too. But we need one.
+      # raising is consistent with prior RSolr magic keys behavior.
+      # We could change this to default to 10, or to raise on startup
+      # from config instead of at runtime.
+      if solr_params[:rows].blank?
+        raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
+      end
+      solr_params[:start] = solr_params[:rows].to_i * (user_params[:page].to_i - 1)
+      solr_params[:start] = 0 if solr_params[:start].to_i < 0
+    end
+
+    solr_params[:rows] ||= blacklight_config.per_page.first unless blacklight_config.per_page.blank?
+
+    solr_params[:rows] = blacklight_config.max_per_page if solr_params[:rows].to_i > blacklight_config.max_per_page
+  end
+
+  ###
+  # copy sorting params from BL app over to solr
+  def add_sorting_to_solr(solr_parameters, user_params)
+    if user_params[:sort].blank? and sort_field = blacklight_config.default_sort_field
+      # no sort param provided, use default
+      solr_parameters[:sort] = sort_field.sort unless sort_field.sort.blank?
+    elsif sort_field = blacklight_config.sort_fields[user_params[:sort]]
+      # check for sort field key  
+      solr_parameters[:sort] = sort_field.sort unless sort_field.sort.blank?
+    else 
+      # just pass the key through
+      solr_parameters[:sort] = user_params[:sort]
+    end
+  end
+
+  ##
+  # Take the user-entered query, and put it in the solr params, 
+  # including config's "search field" params for current search field. 
+  # also include setting spellcheck.q. 
+  def add_query_to_solr(solr_parameters, user_parameters)
+    ###
+    # Merge in search field configured values, if present, over-writing general
+    # defaults
+    ###
+    # legacy behavior of user param :qt is passed through, but over-ridden
+    # by actual search field config if present. We might want to remove
+    # this legacy behavior at some point. It does not seem to be currently
+    # rspec'd. 
+    solr_parameters[:qt] = user_parameters[:qt] if user_parameters[:qt]
     
-    ###
-    # copy paging params from BL app over to solr, changing
-    # app level per_page and page to Solr rows and start. 
-    def add_paging_to_solr(solr_params, user_params)
-
-      # Now any over-rides from current URL?
-      solr_params[:rows] = user_params[:rows].to_i  unless user_params[:rows].blank?
-      solr_params[:rows] = user_params[:per_page].to_i  unless user_params[:per_page].blank?
-
-      # Do we need to translate :page to Solr :start?
-      unless user_params[:page].blank?
-        # already set solr_params["rows"] might not be the one we just set,
-        # could have been from app defaults too. But we need one.
-        # raising is consistent with prior RSolr magic keys behavior.
-        # We could change this to default to 10, or to raise on startup
-        # from config instead of at runtime.
-        if solr_params[:rows].blank?
-          raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
-        end
-        solr_params[:start] = solr_params[:rows].to_i * (user_params[:page].to_i - 1)
-        solr_params[:start] = 0 if solr_params[:start].to_i < 0
-      end
-
-      solr_params[:rows] ||= blacklight_config.per_page.first unless blacklight_config.per_page.blank?
-
-      solr_params[:rows] = blacklight_config.max_per_page if solr_params[:rows].to_i > blacklight_config.max_per_page
-    end
-
-    ###
-    # copy sorting params from BL app over to solr
-    def add_sorting_to_solr(solr_parameters, user_params)
-      if user_params[:sort].blank? and sort_field = blacklight_config.default_sort_field
-        # no sort param provided, use default
-        solr_parameters[:sort] = sort_field.sort unless sort_field.sort.blank?
-      elsif sort_field = blacklight_config.sort_fields[user_params[:sort]]
-        # check for sort field key  
-        solr_parameters[:sort] = sort_field.sort unless sort_field.sort.blank?
-      else 
-        # just pass the key through
-        solr_parameters[:sort] = user_params[:sort]
-      end
-    end
-
-    ##
-    # Take the user-entered query, and put it in the solr params, 
-    # including config's "search field" params for current search field. 
-    # also include setting spellcheck.q. 
-    def add_query_to_solr(solr_parameters, user_parameters)
-      ###
-      # Merge in search field configured values, if present, over-writing general
-      # defaults
-      ###
-      # legacy behavior of user param :qt is passed through, but over-ridden
-      # by actual search field config if present. We might want to remove
-      # this legacy behavior at some point. It does not seem to be currently
-      # rspec'd. 
-      solr_parameters[:qt] = user_parameters[:qt] if user_parameters[:qt]
-      
-      search_field_def = search_field_def_for_key(user_parameters[:search_field])
-      if (search_field_def)     
-        solr_parameters[:qt] = search_field_def.qt
-        solr_parameters.merge!( search_field_def.solr_parameters) if search_field_def.solr_parameters
-      end
-      
-      ##
-      # Create Solr 'q' including the user-entered q, prefixed by any
-      # solr LocalParams in config, using solr LocalParams syntax. 
-      # http://wiki.apache.org/solr/LocalParams
-      ##         
-      if (search_field_def && hash = search_field_def.solr_local_parameters)
-        local_params = hash.collect do |key, val|
-          key.to_s + "=" + solr_param_quote(val, :quote => "'")
-        end.join(" ")
-        solr_parameters[:q] = "{!#{local_params}}#{user_parameters[:q]}"
-      else
-        solr_parameters[:q] = user_parameters[:q] if user_parameters[:q]
-      end
-            
-
-      ##
-      # Set Solr spellcheck.q to be original user-entered query, without
-      # our local params, otherwise it'll try and spellcheck the local
-      # params! Unless spellcheck.q has already been set by someone,
-      # respect that.
-      #
-      # TODO: Change calling code to expect this as a symbol instead of
-      # a string, for consistency? :'spellcheck.q' is a symbol. Right now
-      # rspec tests for a string, and can't tell if other code may
-      # insist on a string. 
-      solr_parameters["spellcheck.q"] = user_parameters[:q] unless solr_parameters["spellcheck.q"]
-    end
-
-    ##
-    # Add any existing facet limits, stored in app-level HTTP query
-    # as :f, to solr as appropriate :fq query. 
-    def add_facet_fq_to_solr(solr_parameters, user_params)   
-
-      # convert a String value into an Array
-      if solr_parameters[:fq].is_a? String
-        solr_parameters[:fq] = [solr_parameters[:fq]]
-      end
-
-      # :fq, map from :f. 
-      if ( user_params[:f])
-        f_request_params = user_params[:f] 
-        
-        f_request_params.each_pair do |facet_field, value_list|
-          Array(value_list).each do |value|
-            solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
-          end              
-        end      
-      end
-    end
-
-    ##
-    # Convert a facet/value pair into a solr fq parameter
-    def facet_value_to_fq_string(facet_field, value) 
-      facet_config = blacklight_config.facet_fields[facet_field]
-
-      local_params = []
-      local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
-
-      prefix = ""
-      prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
-
-      fq = case
-        when (facet_config and facet_config.query)
-          facet_config.query[value][:fq]
-        when (facet_config and facet_config.date),
-             (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
-             (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i)),
-             (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
-             (value.is_a?(DateTime) or value.is_a?(Date) or value.is_a?(Time))
-          "#{prefix}#{facet_field}:#{value}"
-        when value.is_a?(Range)
-          "#{prefix}#{facet_field}:[#{value.first} TO #{value.last}]"
-        else
-          "{!raw f=#{facet_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
-      end
-
-
+    search_field_def = search_field_def_for_key(user_parameters[:search_field])
+    if (search_field_def)     
+      solr_parameters[:qt] = search_field_def.qt
+      solr_parameters.merge!( search_field_def.solr_parameters) if search_field_def.solr_parameters
     end
     
     ##
-    # Add appropriate Solr facetting directives in, including
-    # taking account of our facet paging/'more'.  This is not
-    # about solr 'fq', this is about solr facet.* params. 
-    def add_facetting_to_solr(solr_parameters, user_params)
-      # While not used by BL core behavior, legacy behavior seemed to be
-      # to accept incoming params as "facet.field" or "facets", and add them
-      # on to any existing facet.field sent to Solr. Legacy behavior seemed
-      # to be accepting these incoming params as arrays (in Rails URL with []
-      # on end), or single values. At least one of these is used by
-      # Stanford for "faux hieararchial facets". 
-      if user_params.has_key?("facet.field") || user_params.has_key?("facets")
-        solr_parameters[:"facet.field"].concat( [user_params["facet.field"], user_params["facets"]].flatten.compact ).uniq!
-      end                
+    # Create Solr 'q' including the user-entered q, prefixed by any
+    # solr LocalParams in config, using solr LocalParams syntax. 
+    # http://wiki.apache.org/solr/LocalParams
+    ##         
+    if (search_field_def && hash = search_field_def.solr_local_parameters)
+      local_params = hash.collect do |key, val|
+        key.to_s + "=" + solr_param_quote(val, :quote => "'")
+      end.join(" ")
+      solr_parameters[:q] = "{!#{local_params}}#{user_parameters[:q]}"
+    else
+      solr_parameters[:q] = user_parameters[:q] if user_parameters[:q]
+    end
+          
 
+    ##
+    # Set Solr spellcheck.q to be original user-entered query, without
+    # our local params, otherwise it'll try and spellcheck the local
+    # params! Unless spellcheck.q has already been set by someone,
+    # respect that.
+    #
+    # TODO: Change calling code to expect this as a symbol instead of
+    # a string, for consistency? :'spellcheck.q' is a symbol. Right now
+    # rspec tests for a string, and can't tell if other code may
+    # insist on a string. 
+    solr_parameters["spellcheck.q"] = user_parameters[:q] unless solr_parameters["spellcheck.q"]
+  end
 
-      if blacklight_config.add_facet_fields_to_solr_request
-        solr_parameters[:facet] = true
-        solr_parameters.append_facet_fields blacklight_config.facet_fields_to_add_to_solr
-      end
-         
-      blacklight_config.facet_fields.each do |field_name, facet|
+  ##
+  # Add any existing facet limits, stored in app-level HTTP query
+  # as :f, to solr as appropriate :fq query. 
+  def add_facet_fq_to_solr(solr_parameters, user_params)   
 
-		# Adds params required for advanced facets
-        handle_advanced_facets(solr_parameters, facet)
-
-        # Support facet paging and 'more'
-        # links, by sending a facet.limit one more than what we
-        # want to page at, according to configured facet limits.
-        solr_parameters[:"f.#{facet.field}.facet.limit"] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
-      end
+    # convert a String value into an Array
+    if solr_parameters[:fq].is_a? String
+      solr_parameters[:fq] = [solr_parameters[:fq]]
     end
 
-    def with_ex_local_param(ex, value)
-      if ex
-        "{!ex=#{ex}}#{value}"
+    # :fq, map from :f. 
+    if ( user_params[:f])
+      f_request_params = user_params[:f] 
+      
+      f_request_params.each_pair do |facet_field, value_list|
+        Array(value_list).each do |value|
+          solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
+        end              
+      end      
+    end
+  end
+
+  ##
+  # Convert a facet/value pair into a solr fq parameter
+  def facet_value_to_fq_string(facet_field, value) 
+    facet_config = blacklight_config.facet_fields[facet_field]
+
+    local_params = []
+    local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
+
+    prefix = ""
+    prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
+
+    fq = case
+      when (facet_config and facet_config.query)
+        facet_config.query[value][:fq]
+      when (facet_config and facet_config.date),
+           (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
+           (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i)),
+           (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
+           (value.is_a?(DateTime) or value.is_a?(Date) or value.is_a?(Time))
+        "#{prefix}#{facet_field}:#{value}"
+      when value.is_a?(Range)
+        "#{prefix}#{facet_field}:[#{value.first} TO #{value.last}]"
       else
-        value
+        "{!raw f=#{facet_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
+    end
+
+
+  end
+  
+  ##
+  # Add appropriate Solr facetting directives in, including
+  # taking account of our facet paging/'more'.  This is not
+  # about solr 'fq', this is about solr facet.* params. 
+  def add_facetting_to_solr(solr_parameters, user_params)
+    # While not used by BL core behavior, legacy behavior seemed to be
+    # to accept incoming params as "facet.field" or "facets", and add them
+    # on to any existing facet.field sent to Solr. Legacy behavior seemed
+    # to be accepting these incoming params as arrays (in Rails URL with []
+    # on end), or single values. At least one of these is used by
+    # Stanford for "faux hieararchial facets". 
+    if user_params.has_key?("facet.field") || user_params.has_key?("facets")
+      solr_parameters[:"facet.field"].concat( [user_params["facet.field"], user_params["facets"]].flatten.compact ).uniq!
+    end                
+
+
+    if blacklight_config.add_facet_fields_to_solr_request
+      solr_parameters[:facet] = true
+      solr_parameters.append_facet_fields blacklight_config.facet_fields_to_add_to_solr
+    end
+       
+    blacklight_config.facet_fields.each do |field_name, facet|
+
+      # Adds params required for advanced facets
+      handle_advanced_facets(solr_parameters, facet)
+
+      # Support facet paging and 'more'
+      # links, by sending a facet.limit one more than what we
+      # want to page at, according to configured facet limits.
+      solr_parameters[:"f.#{facet.field}.facet.limit"] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
+    end
+  end
+
+  def with_ex_local_param(ex, value)
+    if ex
+      "{!ex=#{ex}}#{value}"
+    else
+      value
+    end
+  end
+
+  ##
+  # Advanced facets (pivot facet, query facet, facet with ex param...) need special params attached.
+  def handle_advanced_facets(solr_parameters, facet)
+    if blacklight_config.add_facet_fields_to_solr_request
+      case 
+        when facet.pivot
+          solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
+        when facet.query
+          solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) }  
+        when facet.ex
+          if idx = solr_parameters[:'facet.field'].index(facet.field)
+            solr_parameters[:'facet.field'][idx] = with_ex_local_param(facet.ex, solr_parameters[:'facet.field'][idx])
+          end
+        end
+
+      if facet.sort
+        solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
+      end
+      
+      if facet.solr_params
+        facet.solr_params.each do |k, v|
+          solr_parameters[:"f.#{facet.field}.#{k}"] = v
+        end
+      end
+    end
+  end
+  
+  def add_solr_fields_to_query solr_parameters, user_parameters
+    return unless blacklight_config.add_field_configuration_to_solr_request
+
+    blacklight_config.show_fields.each do |field_name, field|
+      if field.solr_params
+        field.solr_params.each do |k, v|
+          solr_parameters[:"f.#{field.field}.#{k}"] = v
+        end
       end
     end
 
-	##
-	# Advanced facets (pivot facet, query facet, facet with ex param...) need special params attached.
-	def handle_advanced_facets(solr_parameters, facet)
-		if blacklight_config.add_facet_fields_to_solr_request
-          case 
-            when facet.pivot
-              solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
-            when facet.query
-              solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
-   
-            when facet.ex
-              if idx = solr_parameters[:'facet.field'].index(facet.field)
-                solr_parameters[:'facet.field'][idx] = with_ex_local_param(facet.ex, solr_parameters[:'facet.field'][idx])
-              end
-          end
-
-          if facet.sort
-            solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
-          end
-		  
-		  if facet.solr_params
-            facet.solr_params.each do |k, v|
-              solr_parameters[:"f.#{facet.field}.#{k}"] = v
-            end
-          end
-        end
-	end
-	
-    def add_solr_fields_to_query solr_parameters, user_parameters
-      return unless blacklight_config.add_field_configuration_to_solr_request
-
-      blacklight_config.show_fields.each do |field_name, field|
-        if field.solr_params
-          field.solr_params.each do |k, v|
-            solr_parameters[:"f.#{field.field}.#{k}"] = v
-          end
-        end
+    blacklight_config.index_fields.each do |field_name, field|
+      if field.highlight
+        solr_parameters[:hl] = true
+        solr_parameters.append_highlight_field field.field
       end
 
-      blacklight_config.index_fields.each do |field_name, field|
-        if field.highlight
-          solr_parameters[:hl] = true
-          solr_parameters.append_highlight_field field.field
-        end
-
-        if field.solr_params
-          field.solr_params.each do |k, v|
-            solr_parameters[:"f.#{field.field}.#{k}"] = v
-          end
+      if field.solr_params
+        field.solr_params.each do |k, v|
+          solr_parameters[:"f.#{field.field}.#{k}"] = v
         end
       end
     end
+  end
 
-    # Remove the group parameter if we've faceted on the group field (e.g. for the full results for a group)
-    def add_group_config_to_solr solr_parameters, user_parameters
-      if user_parameters[:f] and user_parameters[:f][grouped_key_for_results]
-        solr_parameters[:group] = false
-      end
+  # Remove the group parameter if we've faceted on the group field (e.g. for the full results for a group)
+  def add_group_config_to_solr solr_parameters, user_parameters
+    if user_parameters[:f] and user_parameters[:f][grouped_key_for_results]
+      solr_parameters[:group] = false
     end
+  end
 
 
   
@@ -406,7 +405,7 @@ module Blacklight::SolrHelper
     end
   end
 
-  	
+    
   # a solr query method
   # given a user query,
   # Returns a solr response object
@@ -501,8 +500,8 @@ module Blacklight::SolrHelper
     # Now override with our specific things for fetching facet values
     solr_params[:"facet.field"] = [facet_field]
 
-	# After overriding the facet values we need to handle advanced facets like we do in :add_facetting_to_solr
-	handle_advanced_facets(solr_params, blacklight_config.facet_fields[facet_field])
+    # After overriding the facet values we need to handle advanced facets like we do in :add_facetting_to_solr
+    handle_advanced_facets(solr_params, blacklight_config.facet_fields[facet_field])
 
     limit =  
       if respond_to?(:facet_list_limit)
@@ -531,7 +530,7 @@ module Blacklight::SolrHelper
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
     
     # Make the solr call
-    response =find(blacklight_config.qt, solr_params)
+    response = find(blacklight_config.qt, solr_params)
 
     limit = solr_params[:"f.#{facet_field}.facet.limit"] -1
         
