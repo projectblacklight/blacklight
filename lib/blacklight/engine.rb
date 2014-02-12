@@ -5,9 +5,15 @@ module Blacklight
     require 'bootstrap-sass'
     require 'blacklight/rails/routes'
 
+    config.inject_blacklight_helpers = true
+
     # BlacklightHelper is needed by all helpers, so we inject it
     # into action view base here. 
     initializer 'blacklight.helpers' do |app|
+      Blacklight::Engine.add_blacklight_helper! if Blacklight::Engine.config.inject_blacklight_helpers
+    end
+
+    def self.add_blacklight_helper!
       ActionView::Base.send :include, BlacklightHelper
     end
 
