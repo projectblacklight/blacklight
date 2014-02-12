@@ -167,7 +167,11 @@ module Blacklight::CatalogHelperBehavior
     end
 
     if value
-      link_to_document document, url_options.merge(:label => value)
+      if url_options === false || url_options[:suppress_link]
+        value
+      else
+        link_to_document document, url_options.merge(:label => value)
+      end
     end
   end
 
