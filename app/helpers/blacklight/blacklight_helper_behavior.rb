@@ -364,7 +364,7 @@ module Blacklight::BlacklightHelperBehavior
         end
 
         Array(value).map do |v|
-          link_to render_field_value(v, field_config), search_action_url(add_facet_params(link_field, v, {}))
+          link_to render_field_value(v, field_config), search_action_path(add_facet_params(link_field, v, {}))
         end if field
       else
         value

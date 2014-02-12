@@ -192,7 +192,7 @@ module Blacklight::Catalog
     # By default, any search action from a Blacklight::Catalog controller
     # should use the current controller when constructing the route.
     def search_action_url options = {}
-      url_for(options.merge(:action => 'index', :only_path => true))
+      url_for(options.merge(:action => 'index'))
     end
 
     # extract the pagination info from the response object

@@ -111,11 +111,9 @@ module Blacklight::FacetsHelperBehavior
   # @param [String] facet item
   # @param [Hash] options
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
-  # @option options [Rails::Engine] :route_set route set to use to render the link
   # @return [String]
-  def render_facet_value(facet_solr_field, item, options ={})    
-    scope = options.delete(:route_set) || self
-    path = scope.url_for(add_facet_params_and_redirect(facet_solr_field, item).merge(only_path: true))
+  def render_facet_value(facet_solr_field, item, options ={})
+    path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
     content_tag(:span, :class => "facet-label") do
       link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
@@ -128,7 +126,7 @@ module Blacklight::FacetsHelperBehavior
     content_tag(:span, :class => "facet-label") do
       content_tag(:span, facet_display_value(facet_solr_field, item), :class => "selected") +
       # remove link
-      link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), remove_facet_params(facet_solr_field, item, params), :class=>"remove")
+      link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), search_action_path(remove_facet_params(facet_solr_field, item, params)), :class=>"remove")
     end + render_facet_count(item.hits, :classes => ["selected"])
   end
 

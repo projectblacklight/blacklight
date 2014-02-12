@@ -12,7 +12,7 @@ describe BlacklightHelper do
   end
 
   before(:each) do
-    helper.stub(:search_action_url) do |*args|
+    helper.stub(:search_action_path) do |*args|
       catalog_index_url *args
     end
   end
@@ -155,14 +155,14 @@ describe BlacklightHelper do
       doc = double()
       doc.should_receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
       value = helper.render_index_field_value :document => doc, :field => 'link_to_search_true'
-      expect(value).to eq helper.link_to("x", helper.search_action_url(:f => { :link_to_search_true => ['x'] }))
+      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :link_to_search_true => ['x'] }))
     end
 
     it "should check for a link_to_search with a field name" do
       doc = double()
       doc.should_receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
       value = helper.render_index_field_value :document => doc, :field => 'link_to_search_named'
-      expect(value).to eq helper.link_to("x", helper.search_action_url(:f => { :some_field => ['x'] }))
+      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :some_field => ['x'] }))
     end
 
     it "should gracefully handle when no highlight field is available" do
@@ -253,14 +253,14 @@ describe BlacklightHelper do
       doc = double()
       doc.should_receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
       value = helper.render_document_show_field_value :document => doc, :field => 'link_to_search_true'
-      expect(value).to eq helper.link_to("x", helper.search_action_url(:f => { :link_to_search_true => ['x'] }))
+      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :link_to_search_true => ['x'] }))
     end
 
     it "should check for a link_to_search with a field name" do
       doc = double()
       doc.should_receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
       value = helper.render_document_show_field_value :document => doc, :field => 'link_to_search_named'
-      expect(value).to eq helper.link_to("x", helper.search_action_url(:f => { :some_field => ['x'] }))
+      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :some_field => ['x'] }))
     end
 
     it "should gracefully handle when no highlight field is available" do

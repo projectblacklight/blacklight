@@ -5,6 +5,9 @@ describe RenderConstraintsHelper do
   before do
     # the helper methods below infer paths from the current route
     controller.request.path_parameters["controller"] = 'catalog'
+    helper.stub(:search_action_path) do |*args|
+      catalog_index_path *args
+    end
   end
 
   describe '#render_constraints_query' do
@@ -23,7 +26,7 @@ describe RenderConstraintsHelper do
     it "should have a link relative to the current url" do
       result = helper.render_filter_element('type', ['journal'], {:q=>'biz'})
       # I'm not certain how the ampersand gets in there. It's not important.
-      expect(result).to have_selector "a[href='/?&q=biz']"
+      expect(result).to have_link "Remove constraint Type: journal", href: "/catalog?&q=biz"
     end
   end
 

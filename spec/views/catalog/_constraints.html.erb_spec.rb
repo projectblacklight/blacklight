@@ -14,7 +14,7 @@ describe "catalog/constraints" do
   end
 
   it "should render a start over link" do
-    view.should_receive(:search_action_url).with({}).and_return('http://xyz')
+    view.should_receive(:search_action_path).with({}).and_return('http://xyz')
     view.stub(query_has_constraints?: true)
     view.stub(:blacklight_config).and_return(blacklight_config)
     render partial: "catalog/constraints"
@@ -23,7 +23,7 @@ describe "catalog/constraints" do
   end
 
   it "should render a start over link with the current view type" do
-    view.should_receive(:search_action_url).with(view: :xyz).and_return('http://xyz?view=xyz')
+    view.should_receive(:search_action_path).with(view: :xyz).and_return('http://xyz?view=xyz')
     view.stub(query_has_constraints?: true)
     params[:view] = 'xyz'
     view.stub(:blacklight_config).and_return(blacklight_config)
