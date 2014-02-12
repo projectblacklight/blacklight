@@ -64,7 +64,12 @@ module Blacklight::Catalog
     # displays values and pagination links for a single facet field
     def facet
       @facet = blacklight_config.facet_fields[params[:id]]
-      @pagination = get_facet_pagination(@facet.field, params)
+      @response = get_facet_field_response(@facet.field, params)
+      @display_facet = @response.facets.first
+
+      # @pagination was deprecated in Blacklight 5.1
+      @pagination = facet_paginator(@facet, @display_facet)
+
 
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:
@@ -176,6 +181,7 @@ module Blacklight::Catalog
 
     def search_facets_as_json
       facets_from_request.as_json.each do |f|
+        f.delete "options"
         f["label"] = facet_configuration_for_field(f["name"]).label
         f["items"] = f["items"].as_json.each do |i|
           i['label'] ||= i['value']

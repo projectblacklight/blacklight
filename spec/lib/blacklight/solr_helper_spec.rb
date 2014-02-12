@@ -1061,11 +1061,11 @@ describe 'Blacklight::SolrHelper' do
         # Okay, this is cheesy, since we included SolrHelper directly
         # into our example groups, we need to set an iVar here, so it will
         # use it. 
-        @response = {"responseHeader" => {"params" => {"facet.limit" => 11}}}        
+        @response = double(params:{"facet.limit" => 11})      
         expect(facet_limit_for("language_facet")).to eq 10
       end
       it "should get from specific field in @response if available" do
-        @response = {"responseHeader" => {"params" => {"facet.limit" => 11,"f.language_facet.facet.limit" => 16}}}
+        @response = double(params: {"facet.limit" => 11,"f.language_facet.facet.limit" => 16})
         expect(facet_limit_for("language_facet")).to eq 15
       end
     end
