@@ -5,6 +5,9 @@ describe "catalog/_facets" do
 
   before do
     view.stub(blacklight_config: blacklight_config)
+    view.stub(:search_action_path) do |*args|
+      catalog_index_url *args
+    end
   end
 
   context "without any facet fields" do

@@ -78,7 +78,7 @@ module Blacklight::RenderConstraintsHelperBehavior
     safe_join(values.map do |val|
       render_constraint_element( blacklight_config.facet_fields[facet].label,
                   facet_display_value(facet, val),
-                  :remove => url_for(remove_facet_params(facet, val, localized_params)),
+                  :remove => search_action_path(remove_facet_params(facet, val, localized_params)),
                   :classes => ["filter", "filter-" + facet.parameterize]
                 )
     end, "\n")

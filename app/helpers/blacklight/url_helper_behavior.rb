@@ -1,5 +1,13 @@
 module Blacklight::UrlHelperBehavior
 
+  ##
+  # Extension point for downstream applications
+  # to provide more interesting routing to 
+  # documents
+  def url_for_document doc
+    doc
+  end
+
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
   # Use the catalog_path RESTful route to create a link to the show page for a specific item.
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
@@ -7,13 +15,13 @@ module Blacklight::UrlHelperBehavior
   def link_to_document(doc, opts={:label=>nil, :counter => nil})
     opts[:label] ||= document_show_link_field(doc)
     label = render_document_index_label doc, opts
-    link_to label, doc, search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
+    link_to label, url_for_document(doc), search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
   end
 
   ##
   # Link to the previous document in the current search context
   def link_to_previous_document(previous_document)
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, search_session_params(search_session[:counter].to_i - 1).merge(:class => "previous", :rel => 'prev')  do
+    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), search_session_params(search_session[:counter].to_i - 1).merge(:class => "previous", :rel => 'prev')  do
       content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
     end
   end
@@ -21,7 +29,7 @@ module Blacklight::UrlHelperBehavior
   ##
   # Link to the next document in the current search context
   def link_to_next_document(next_document)
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, search_session_params(search_session[:counter].to_i + 1).merge(:class => "next", :rel => 'next') do
+    link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), search_session_params(search_session[:counter].to_i + 1).merge(:class => "next", :rel => 'next') do
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
     end
   end
@@ -40,7 +48,7 @@ module Blacklight::UrlHelperBehavior
   def link_to_query(query)
     p = params.except(:page, :action)
     p[:q]=query
-    link_url = catalog_index_path(p)
+    link_url = search_action_path(p)
     link_to(query, link_url)
   end
 
@@ -52,7 +60,7 @@ module Blacklight::UrlHelperBehavior
     current_index_view_type = document_index_view_type(query_params)
     h[:view] = current_index_view_type unless current_index_view_type == default_document_index_view_type
 
-    search_action_url(h)
+    search_action_path(h)
   end
 
   # Create a link back to the index screen, keeping the user's facet, query and paging choices intact by using session.
@@ -76,7 +84,7 @@ module Blacklight::UrlHelperBehavior
 
   # Search History and Saved Searches display
   def link_to_previous_search(params)
-    link_to(render_search_to_s(params), catalog_index_path(params))
+    link_to(render_search_to_s(params), search_action_path(params))
   end
 
   # @overload params_for_search(source_params, params_to_merge)
@@ -126,7 +134,13 @@ module Blacklight::UrlHelperBehavior
     my_params = source_params.reject { |k,v| v.nil? }
 
     my_params.except(:action, :controller, :id, :commit, :utf8)
+  end
 
+  ##
+  # Reset any search parameters that store search context
+  # and need to be reset when e.g. constraints change
+  def reset_search_params source_params
+    sanitize_search_params(source_params).except :page, :counter
   end
 
   # adds the value and/or field to params[:f]
@@ -143,7 +157,7 @@ module Blacklight::UrlHelperBehavior
 
     value = facet_value_for_facet_item(item)
 
-    p = source_params.dup
+    p = reset_search_params(source_params)
     p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
     p[:f][field] = (p[:f][field] || []).dup
 
@@ -171,15 +185,12 @@ module Blacklight::UrlHelperBehavior
   # catalog/index with their new facet choice. 
   def add_facet_params_and_redirect(field, item)
     new_params = add_facet_params(field, item)
-    new_params.except! :page, :id
 
     # Delete any request params from facet-specific action, needed
     # to redir to index action properly. 
     new_params.except! *Blacklight::Solr::FacetPaginator.request_keys.values
 
-    # Force action to be index. 
-    new_params[:action] = "index"
-    new_params    
+    new_params 
   end
 
   # copies the current params (or whatever is passed in as the 3rd arg)
@@ -193,13 +204,12 @@ module Blacklight::UrlHelperBehavior
 
     value = facet_value_for_facet_item(item)
 
-    p = source_params.dup
+    p = reset_search_params(source_params)
     # need to dup the facet values too,
     # if the values aren't dup'd, then the values
     # from the session will get remove in the show view...
     p[:f] = (p[:f] || {}).dup
     p[:f][field] = (p[:f][field] || []).dup
-    p.except! :page, :id, :counter, :commit
     p[:f][field] = p[:f][field] - [value]
     p[:f].delete(field) if p[:f][field].size == 0
     p

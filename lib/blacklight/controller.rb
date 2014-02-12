@@ -23,7 +23,7 @@ module Blacklight::Controller
     # extra head content
     helper_method :has_user_authentication_provider?
     helper_method :blacklight_config
-    helper_method :search_action_url
+    helper_method :search_action_url, :search_action_path
 
 
     # This callback runs when a user first logs in
@@ -48,6 +48,15 @@ module Blacklight::Controller
     # which action the search form should use
     def search_action_url *args
       catalog_index_url *args
+    end
+
+    def search_action_path *args
+
+      if args.first.is_a? Hash
+        args.first[:only_path] = true
+      end
+
+      search_action_url *args
     end
 
     # Returns a list of Searches from the ids in the user's history.

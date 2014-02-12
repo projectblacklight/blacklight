@@ -15,7 +15,6 @@ class BookmarksController < CatalogController
   def search_action_url *args
     catalog_index_url *args
   end
-  helper_method :search_action_url
 
   before_filter :verify_user
 
