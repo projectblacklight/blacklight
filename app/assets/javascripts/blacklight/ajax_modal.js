@@ -152,12 +152,17 @@ Blacklight.ajaxModal.setup_modal = function() {
 	$("body").trigger(e);
 	if (e.isDefaultPrevented()) return;
 
-  $("body").on("click", Blacklight.ajaxModal.triggerLinkSelector, Blacklight.ajaxModal.modalAjaxLinkClick);
-  $("body").on("submit", Blacklight.ajaxModal.triggerFormSelector, Blacklight.ajaxModal.modalAjaxFormSubmit);
-
   // preserve selectors apply just within the existing modal
-  $("body").on("click", Blacklight.ajaxModal.modalSelector + " " + Blacklight.ajaxModal.preserveLinkSelector, Blacklight.ajaxModal.modalAjaxLinkClick);
-  $("body").on("submit", Blacklight.ajaxModal.modalSelector + " " + Blacklight.ajaxModal.preserveFormSelector, Blacklight.ajaxModal.modalAjaxFormSubmit);
+  var nestedPreserveLinkSelector = Blacklight.ajaxModal.modalSelector + " " + Blacklight.ajaxModal.preserveLinkSelector;
+  var nestedPreserveFormSlector  = Blacklight.ajaxModal.modalSelector + " " + Blacklight.ajaxModal.preserveFormSelector;
+
+  // Register both trigger and preserve selectors in ONE event handler, combining
+  // into one selector with a comma, so if something matches BOTH selectors, it
+  // still only gets the event handler called once. 
+  $("body").on("click", Blacklight.ajaxModal.triggerLinkSelector  + ", " + nestedPreserveLinkSelector, 
+    Blacklight.ajaxModal.modalAjaxLinkClick);
+  $("body").on("submit", Blacklight.ajaxModal.triggerFormSelector + ", " + nestedPreserveFormSlector , 
+    Blacklight.ajaxModal.modalAjaxFormSubmit);
 
   // Catch our own custom loaded event to implement data-ajax-modal=closed
   $("body").on("loaded.blacklight.ajax-modal", Blacklight.ajaxModal.check_close_ajax_modal);
