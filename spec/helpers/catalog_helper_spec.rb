@@ -177,9 +177,9 @@ describe CatalogHelper do
   end
 
   describe "render_thumbnail_tag" do
+    let(:document) { double }
     it "should call the provided thumbnail method" do
       helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
-      document = double()
       helper.stub(:xyz => "some-thumbnail")
 
       helper.should_receive(:link_to_document).with(document, :label => "some-thumbnail")
@@ -188,8 +188,7 @@ describe CatalogHelper do
 
     it "should create an image tag from the given field" do
       helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
-      document = double()
-
+      
       document.stub(:has?).with(:xyz).and_return(true)
       document.stub(:first).with(:xyz).and_return("http://example.com/some.jpg")
 
@@ -197,18 +196,32 @@ describe CatalogHelper do
       helper.render_thumbnail_tag document
     end
 
+    it "should not link to the document if the url options are false" do
+      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      helper.stub(:xyz => "some-thumbnail")
+
+      result = helper.render_thumbnail_tag document, {}, false
+      expect(result).to eq "some-thumbnail"
+    end
+
+    it "should not link to the document if the url options have :suppress_link" do
+      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      helper.stub(:xyz => "some-thumbnail")
+
+      result = helper.render_thumbnail_tag document, {}, suppress_link: true
+      expect(result).to eq "some-thumbnail"
+    end
+    
+
     it "should return nil if no thumbnail is available" do
       helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
-
-      document = double()
       expect(helper.render_thumbnail_tag document).to be_nil
     end
 
     it "should return nil if no thumbnail is returned from the thumbnail method" do
       helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
       helper.stub(:xyz => nil)
-      document = double()
-
+      
       expect(helper.render_thumbnail_tag document).to be_nil
     end
   end
