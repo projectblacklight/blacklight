@@ -447,7 +447,7 @@ module Blacklight::SolrHelper
     solr_params = solr_doc_params(id).merge(extra_controller_params)
     solr_response = find((blacklight_config.document_solr_request_handler || blacklight_config.qt), solr_params)
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
-    document = SolrDocument.new(solr_response.docs.first, solr_response)
+    document = wrap_solr_document_response(solr_response.docs.first, solr_response)
     [solr_response, document]
   end
   
@@ -475,7 +475,7 @@ module Blacklight::SolrHelper
     }.merge(extra_solr_params)
     
     solr_response = find(blacklight_config.qt, self.solr_search_params().merge(solr_params) )
-    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
+    document_list = solr_response.docs.collect{|doc| wrap_solr_document_response(doc, solr_response) }
     [solr_response,document_list]
   end
   
@@ -570,7 +570,7 @@ module Blacklight::SolrHelper
     solr_params[:facet] = false
     solr_response = find(blacklight_config.qt, solr_params)
 
-    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
+    document_list = solr_response.docs.collect{|doc| wrap_solr_document_response(doc, solr_response) }
 
     # only get the previous doc if there is one
     prev_doc = document_list.first if index > 0
@@ -643,5 +643,9 @@ module Blacklight::SolrHelper
 
   def blacklight_solr_config
     Blacklight.solr_config
+  end
+
+  def wrap_solr_document_response doc, solr_response
+    SolrDocument.new doc, solr_response
   end
 end
