@@ -2,8 +2,7 @@
 
   <%= render 'previous_next_doc' %>
 
-   
-<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name) -%>
+  <% @page_title = document_page_title %>
 <% content_for(:head) { render_link_rel_alternates } -%>
 <%# this should be in a partial -%>
 

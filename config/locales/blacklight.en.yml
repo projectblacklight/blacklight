@@ -194,7 +194,7 @@ en:
       index:
         label: '%{label}:'
       show:
-        title: '%{document_title} - %{application_name}'
+        title_html: '%{document_title} - %{application_name}'
         label: '%{label}:'
       rss_feed: 'RSS for results'
       atom_feed: 'Atom for results'

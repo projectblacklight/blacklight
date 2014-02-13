@@ -275,6 +275,13 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
+  # Assign the @page_title instance variable to its default value
+  def document_page_title
+    t('blacklight.search.show.title_html', :document_title => document_show_html_title, :application_name => application_name) 
+  end
+
+
+  ##
   # Get the document's "title" to display in the <title> element.
   # (by default, use the #document_heading)
   #

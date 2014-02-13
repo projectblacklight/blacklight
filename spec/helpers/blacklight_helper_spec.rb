@@ -216,6 +216,15 @@ describe BlacklightHelper do
     end
   end
 
+  describe "document_page_title" do
+    before do
+      helper.stub(:document_show_html_title => 'Document title')
+    end
+    subject { helper.document_page_title }
+    it { should == "Document title - Blacklight" }
+    it { should be_html_safe }
+  end
+
   describe "render_document_show_field_value" do
     before do
       @config = Blacklight::Configuration.new.configure do |config|
