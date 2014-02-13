@@ -3,6 +3,14 @@
 #
 module Blacklight
   module Facet
+
+    def facet_paginator field_config, display_facet
+      Blacklight::Solr::FacetPaginator.new(display_facet.items, 
+        sort: display_facet.sort,
+        offset: display_facet.offset,     
+        limit: facet_limit_for(field_config.field))
+    end
+
     def facets_from_request(fields = facet_field_names)
       fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
     end

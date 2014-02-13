@@ -26,7 +26,7 @@ describe "catalog/_facets" do
     before do
       blacklight_config.facet_fields['facet_field_1'] = facet_field
 
-        @mock_display_facet_1 = double(:name => 'facet_field_1', :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
+        @mock_display_facet_1 = double(:name => 'facet_field_1', sort: nil, offset: nil, :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
         view.stub(:facet_field_names => [:facet_field_1],
                   :facet_limit_for => 10 )
 

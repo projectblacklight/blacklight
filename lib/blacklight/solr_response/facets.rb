@@ -29,8 +29,21 @@ module Blacklight::SolrResponse::Facets
   # represents a facet; which is a field and its values
   class FacetField
     attr_reader :name, :items
-    def initialize name, items
+    def initialize name, items, options = {}
       @name, @items = name, items
+      @options = options
+    end
+
+    def limit
+      @options[:limit]
+    end
+
+    def sort
+      @options[:sort] || 'index'
+    end
+
+    def offset
+      @options[:offset] || 0
     end
   end
   
@@ -40,15 +53,20 @@ module Blacklight::SolrResponse::Facets
   # end
   # "caches" the result in the @facets instance var
   def facets
-    @facets ||= (
+    @facets ||= begin
       facet_fields.map do |(facet_field_name,values_and_hits)|
         items = []
+        options = {}
         values_and_hits.each_slice(2) do |k,v|
           items << FacetItem.new(:value => k, :hits => v)
         end
-        FacetField.new(facet_field_name, items)
+
+        options[:sort] = params[:"f.#{facet_field_name}.facet.sort"] || params['facet.sort']
+        options[:offset] = params[:"f.#{facet_field_name}.facet.offset"].to_i
+
+        FacetField.new(facet_field_name, items, options)
       end
-    )
+    end
   end
   
   # pass in a facet field name and get back a Facet instance
