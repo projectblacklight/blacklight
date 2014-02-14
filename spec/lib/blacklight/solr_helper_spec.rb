@@ -490,7 +490,7 @@ describe 'Blacklight::SolrHelper' do
       expect(@generated_solr_facet_params[:rows]).to eq 0
     end
     it 'sets facets requested to facet_field argument' do
-      expect(@generated_solr_facet_params["facet.field".to_sym]).to eq @facet_field
+      expect(@generated_solr_facet_params["facet.field".to_sym]).to eq [@facet_field]
     end
     it 'defaults offset to 0' do
       expect(@generated_solr_facet_params[:"f.#{@facet_field}.facet.offset"]).to eq 0
@@ -542,7 +542,7 @@ describe 'Blacklight::SolrHelper' do
       solr_search_params.each_pair do |key, value|
         # The specific params used for fetching the facet list we
         # don't care about.
-        next if ['facets', "facet.field", 'rows', 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
+        next if ['facets', 'facet.field', 'rows', 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
         # Everything else should match
         expect(solr_facet_params[key]).to eq value
       end

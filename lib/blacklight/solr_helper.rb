@@ -298,13 +298,21 @@ module Blacklight::SolrHelper
         solr_parameters[:"facet.field"].concat( [user_params["facet.field"], user_params["facets"]].flatten.compact ).uniq!
       end                
 
+      # Add all facets to solr_parameters defined by blacklight_config,
+      # unless 'facet.fields' is set - if yes, return only those facet fields.
+      if user_params.has_key?(:'facet.fields')
+        required_facets_names = user_params[:'facet.fields']
+        required_facet_fields = blacklight_config.facet_fields.select { |k,v| required_facets_names.include?(k) }
+      else
+        required_facet_fields = blacklight_config.facet_fields
+      end
 
       if blacklight_config.add_facet_fields_to_solr_request
         solr_parameters[:facet] = true
-        solr_parameters.append_facet_fields blacklight_config.facet_fields_to_add_to_solr
+        solr_parameters.append_facet_fields blacklight_config.facet_fields_to_add_to_solr(required_facet_fields)
       end
          
-      blacklight_config.facet_fields.each do |field_name, facet|
+      required_facet_fields.each do |field_name, facet|
 
         if blacklight_config.add_facet_fields_to_solr_request
           case 
@@ -488,14 +496,13 @@ module Blacklight::SolrHelper
   def solr_facet_params(facet_field, user_params=params || {}, extra_controller_params={})
     input = user_params.deep_merge(extra_controller_params)
     facet_config = blacklight_config.facet_fields[facet_field]
-
+    
+    # Will make :add_facetting_to_solr return only facets in this array
+    user_params[:'facet.fields'] = [facet_field]
+    
     # First start with a standard solr search params calculations,
     # for any search context in our request params. 
     solr_params = solr_search_params(user_params).merge(extra_controller_params)
-    
-    # Now override with our specific things for fetching facet values
-    solr_params[:"facet.field"] = with_ex_local_param((facet_config.ex if facet_config.respond_to?(:ex)), facet_field)
-
 
     limit =  
       if respond_to?(:facet_list_limit)
