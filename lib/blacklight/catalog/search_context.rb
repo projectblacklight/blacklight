@@ -6,17 +6,10 @@ module Blacklight::Catalog::SearchContext
   # own controller.
   included do  
     helper_method :current_search_session, :search_session
-    before_filter :search_session, :history_session, :current_search_session
+    before_filter :current_search_session
   end
   
   protected
-
-  # sets up the session[:history] hash if it doesn't already exist.
-  # assigns all Search objects (that match the searches in session[:history]) to a variable @searches.
-  def history_session
-    session[:history] ||= []
-    @searches = searches_from_history # <- in BlacklightController
-  end
 
   # sets up the session[:search] hash if it doesn't already exist
   def search_session

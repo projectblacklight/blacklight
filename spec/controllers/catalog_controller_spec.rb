@@ -70,11 +70,6 @@ describe CatalogController do
         before do
           controller.stub(:get_search_results) 
         end
-        it "should include :search key with hash" do
-          get :index
-          expect(session[:search]).to_not be_nil
-          expect(session[:search]).to be_kind_of(Hash)
-        end
         it "should include search hash with key :q" do
           get :index, :q => @user_query
           expect(session[:search]).to_not be_nil
