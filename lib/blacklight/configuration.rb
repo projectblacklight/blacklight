@@ -100,8 +100,8 @@ module Blacklight
       self.add_field_configuration_to_solr_request = true
     end
 
-    def facet_fields_to_add_to_solr
-      return facet_fields.reject { |k,v| v[:query] || v[:pivot] }.map { |k,v| v.field } if self.add_facet_fields_to_solr_request
+    def facet_fields_to_add_to_solr required_facet_fields = facet_fields
+      return required_facet_fields.reject { |k,v| v[:query] || v[:pivot] }.map { |k,v| v.field } if self.add_facet_fields_to_solr_request
 
       []
     end
