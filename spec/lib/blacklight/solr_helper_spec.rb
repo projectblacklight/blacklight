@@ -543,6 +543,9 @@ describe 'Blacklight::SolrHelper' do
         # The specific params used for fetching the facet list we
         # don't care about.
         next if ['facets', 'facet.field', 'rows', 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
+        # The specific params for other facet fields than 'format' (like f.facet_ordered.facet.sort = 'count')
+        # we don't care about, they will return in #solr_search_params but not in #solr_facet_params
+        next if (key.include?('format_ordered') || key.include?('format_limited'))
         # Everything else should match
         expect(solr_facet_params[key]).to eq value
       end
