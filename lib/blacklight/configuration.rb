@@ -31,8 +31,15 @@ module Blacklight
           :max_per_page => 100,
           :per_page => [10,20,50,100],
           :search_history_window => Blacklight::Catalog::SearchHistoryWindow,
-          :add_facet_fields_to_solr_request => false,
-          :add_field_configuration_to_solr_request => false,
+          ## deprecated; use add_facet_field :include_in_request instead;
+          # if this is configured true, all facets will be included in the solr request
+          # unless explicitly disabled.
+          :add_facet_fields_to_solr_request => false, 
+
+          ## deprecated; use add_index_field :include_in_request instead;
+          # if this is configured true, all show and index will be included in the solr request
+          # unless explicitly disabled.
+          :add_field_configuration_to_solr_request => false, # deprecated
           :http_method => :get
           }
         end
@@ -91,19 +98,40 @@ module Blacklight
     end
 
     # Add any configured facet fields to the default solr parameters hash
-    def add_facet_fields_to_solr_request!
-      self.add_facet_fields_to_solr_request = true
+    def add_facet_fields_to_solr_request! *fields
+      if fields.empty?
+        self.add_facet_fields_to_solr_request = true
+      else
+        facet_fields.slice(*fields).each do |k,v|
+          v.include_in_request = true
+        end
+      end
     end
 
     # Add any configured facet fields to the default solr parameters hash
-    def add_field_configuration_to_solr_request!
-      self.add_field_configuration_to_solr_request = true
+    def add_field_configuration_to_solr_request! *fields
+      if fields.empty?
+        self.add_field_configuration_to_solr_request = true
+      else
+        index_fields.slice(*fields).each do |k,v|
+          v.include_in_request = true
+        end
+
+        show_fields.slice(*fields).each do |k,v|
+          v.include_in_request = true
+        end
+        facet_fields.slice(*fields).each do |k,v|
+          v.include_in_request = true
+        end
+      end
     end
 
+    ##
+    # Deprecated.
     def facet_fields_to_add_to_solr
-      return facet_fields.reject { |k,v| v[:query] || v[:pivot] }.map { |k,v| v.field } if self.add_facet_fields_to_solr_request
-
-      []
+      facet_fields.select { |k,v| v.include_in_request }
+                  .reject { |k,v| v[:query] || v[:pivot] }
+                  .map { |k,v| v.field }
     end
 
     ##
