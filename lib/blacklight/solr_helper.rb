@@ -298,37 +298,28 @@ module Blacklight::SolrHelper
         solr_parameters[:"facet.field"].concat( [user_params["facet.field"], user_params["facets"]].flatten.compact ).uniq!
       end                
 
+      blacklight_config.facet_fields.select { |field_name,facet|
+        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
+      }.each do |field_name, facet|
+        solr_parameters[:facet] ||= true
 
-      if blacklight_config.add_facet_fields_to_solr_request
-        solr_parameters[:facet] = true
-        solr_parameters.append_facet_fields blacklight_config.facet_fields_to_add_to_solr
-      end
-         
-      blacklight_config.facet_fields.each do |field_name, facet|
+        case 
+          when facet.pivot
+            solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
+          when facet.query
+            solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
+          else
+            solr_parameters.append_facet_fields with_ex_local_param(facet.ex, facet.field)
+        end
 
-        if blacklight_config.add_facet_fields_to_solr_request
-          case 
-            when facet.pivot
-              solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
-            when facet.query
-              solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) } 
-   
-            when facet.ex
-              if idx = solr_parameters[:'facet.field'].index(facet.field)
-                solr_parameters[:'facet.field'][idx] = with_ex_local_param(facet.ex, solr_parameters[:'facet.field'][idx])
-              end
+        if facet.sort
+          solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
+        end
+
+        if facet.solr_params
+          facet.solr_params.each do |k, v|
+            solr_parameters[:"f.#{facet.field}.#{k}"] = v
           end
-
-          if facet.sort
-            solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
-          end
-
-          if facet.solr_params
-            facet.solr_params.each do |k, v|
-              solr_parameters[:"f.#{facet.field}.#{k}"] = v
-            end
-          end
-
         end
 
         # Support facet paging and 'more'
@@ -347,9 +338,7 @@ module Blacklight::SolrHelper
     end
 
     def add_solr_fields_to_query solr_parameters, user_parameters
-      return unless blacklight_config.add_field_configuration_to_solr_request
-
-      blacklight_config.show_fields.each do |field_name, field|
+      blacklight_config.show_fields.select(&method(:should_add_to_solr)).each do |field_name, field|
         if field.solr_params
           field.solr_params.each do |k, v|
             solr_parameters[:"f.#{field.field}.#{k}"] = v
@@ -357,7 +346,7 @@ module Blacklight::SolrHelper
         end
       end
 
-      blacklight_config.index_fields.each do |field_name, field|
+      blacklight_config.index_fields.select(&method(:should_add_to_solr)).each do |field_name, field|
         if field.highlight
           solr_parameters[:hl] = true
           solr_parameters.append_highlight_field field.field
@@ -495,7 +484,6 @@ module Blacklight::SolrHelper
     
     # Now override with our specific things for fetching facet values
     solr_params[:"facet.field"] = with_ex_local_param((facet_config.ex if facet_config.respond_to?(:ex)), facet_field)
-
 
     limit =  
       if respond_to?(:facet_list_limit)
@@ -649,5 +637,11 @@ module Blacklight::SolrHelper
 
   def blacklight_solr_config
     Blacklight.solr_config
+  end
+
+  private
+
+  def should_add_to_solr field_name, field
+    field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
   end
 end

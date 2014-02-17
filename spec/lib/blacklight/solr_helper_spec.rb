@@ -64,7 +64,7 @@ describe 'Blacklight::SolrHelper' do
           {}
         end
       before do
-        @produced_params = self.solr_search_params
+        @produced_params = self.solr_search_params.with_indifferent_access
       end
       it 'should not have a q param' do
         expect(@produced_params[:q]).to be_nil
@@ -75,7 +75,7 @@ describe 'Blacklight::SolrHelper' do
       end
       it 'should have default facet fields' do
         # remove local params from the facet.field
-        expect(@produced_params[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to eq blacklight_config.facet_fields_to_add_to_solr
+        expect(@produced_params[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array ["format", "subject_topic_facet", "pub_date", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
       end
       
       it "should have default qt"  do
@@ -329,6 +329,74 @@ describe 'Blacklight::SolrHelper' do
 
         expect(solr_parameters[:'f.some-field.facet.mincount']).to eq 15
       end
+
+      describe ":include_in_request" do
+        let(:blacklight_config) do
+          Blacklight::Configuration.new
+        end
+
+        let(:solr_parameters) do
+          Blacklight::Solr::Request.new
+        end
+
+        it "should respect the include_in_request parameter" do
+          blacklight_config.add_facet_field 'yes_facet', include_in_request: true
+          blacklight_config.add_facet_field 'no_facet', include_in_request: false
+          add_facetting_to_solr(solr_parameters, {})
+          expect(solr_parameters[:'facet.field']).to include('yes_facet')
+          expect(solr_parameters[:'facet.field']).not_to include('no_facet')
+        end
+
+        it "should default to including facets if add_facet_fields_to_solr_request! was called" do
+          blacklight_config.add_facet_field 'yes_facet'
+          blacklight_config.add_facet_field 'no_facet', include_in_request: false
+          blacklight_config.add_facet_fields_to_solr_request!
+          add_facetting_to_solr(solr_parameters, {})
+          expect(solr_parameters[:'facet.field']).to include('yes_facet')
+          expect(solr_parameters[:'facet.field']).not_to include('no_facet')
+        end
+      end
+
+      describe ":add_facet_fields_to_solr_request!" do
+
+        let(:blacklight_config) do
+          config = Blacklight::Configuration.new
+          config.add_facet_field 'yes_facet', include_in_request: true
+          config.add_facet_field 'no_facet', include_in_request: false
+          config.add_facet_field 'maybe_facet'
+          config.add_facet_field 'another_facet'
+          config
+        end
+
+        let(:solr_parameters) do
+          Blacklight::Solr::Request.new
+        end
+
+        it "should add facets to the solr request" do
+          blacklight_config.add_facet_fields_to_solr_request!
+          add_facetting_to_solr(solr_parameters, {})
+          expect(solr_parameters[:'facet.field']).to match_array ['yes_facet', 'maybe_facet', 'another_facet']
+        end
+
+        it "should not override field-specific configuration by default" do
+          blacklight_config.add_facet_fields_to_solr_request!
+          add_facetting_to_solr(solr_parameters, {})
+          expect(solr_parameters[:'facet.field']).to_not include 'no_facet'
+        end
+
+        it "should allow white-listing facets" do
+          blacklight_config.add_facet_fields_to_solr_request! 'maybe_facet'
+          add_facetting_to_solr(solr_parameters, {})
+          expect(solr_parameters[:'facet.field']).to include 'maybe_facet'
+          expect(solr_parameters[:'facet.field']).not_to include 'another_facet'
+        end
+
+        it "should allow white-listed facets to override any field-specific include_in_request configuration" do
+          blacklight_config.add_facet_fields_to_solr_request! 'no_facet'
+          add_facetting_to_solr(solr_parameters, {})
+          expect(solr_parameters[:'facet.field']).to include 'no_facet'
+        end
+      end
     end
 
     describe "with a complex parameter environment" do
@@ -525,9 +593,8 @@ describe 'Blacklight::SolrHelper' do
     end
 
     it "uses the field-specific sort" do
-      @facet_field = 'format_ordered'
-      solr_params = solr_facet_params(@facet_field)
-      expect(solr_params[:"f.#{@facet_field}.facet.sort"]).to eq :count
+      solr_params = solr_facet_params('format_ordered')
+      expect(solr_params[:"f.format_ordered.facet.sort"]).to eq :count
     end
 
     it 'uses sort provided in the parameters' do
@@ -778,9 +845,11 @@ describe 'Blacklight::SolrHelper' do
     it 'should have more than one facet' do
       expect(@facets).to have_at_least(1).facet
     end
-    it 'should have all facets specified in initializer' do      
-      blacklight_config.facet_fields_to_add_to_solr.each do |field|
-        expect(@facets.find {|f| f.name == field}).not_to be_nil        
+    it 'should have all facets specified in initializer' do
+      fields = blacklight_config.facet_fields.reject { |k,v| v.query || v.pivot }
+      expect(@facets.map { |f| f.name }).to match_array fields.map { |k, v| v.field }
+      fields.each do |key, field|
+        expect(@facets.find {|f| f.name == field.field}).not_to be_nil        
       end
     end
     it 'should have at least one value for each facet' do
