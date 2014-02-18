@@ -39,7 +39,7 @@ class Blacklight::Solr::Request < HashWithIndifferentAccess
   end
 
   def to_hash
-    reject {|key, value| ARRAY_KEYS.include?(key) && value.empty?}
+    reject {|key, value| ARRAY_KEYS.include?(key) && value.blank?}
   end
 
 end

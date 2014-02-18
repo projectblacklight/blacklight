@@ -45,6 +45,7 @@
 #   end  
 
 module Blacklight::SolrHelper
+  extend ActiveSupport::Benchmarkable
   extend ActiveSupport::Concern
   include Blacklight::SearchFields
   include Blacklight::Facet
@@ -82,10 +83,32 @@ module Blacklight::SolrHelper
     value
   end
   
+  ##
+  # Execute a solr query
+  # @see [RSolr::Client#send_and_receive]
+  # @overload find(solr_path, params)
+  #   Execute a solr query at the given path with the parameters
+  #   @param [String] solr path (defaults to blacklight_config.solr_path)
+  #   @param [Hash] parameters for RSolr::Client#send_and_receive
+  # @overload find(params)
+  #   @param [Hash] parameters for RSolr::Client#send_and_receive
   def find(*args)
-    path = blacklight_config.solr_path
-    response = blacklight_solr.get(path, :params=> args[1])
-    Blacklight::SolrResponse.new(force_to_utf8(response), args[1])
+    # In later versions of Rails, the #benchmark method can do timing
+    # better for us. 
+    Blacklight::SolrHelper.benchmark("Solr fetch", level: :debug) do
+      solr_params = args.extract_options!
+      path = args.first || blacklight_config.solr_path
+      solr_params[:qt] ||= blacklight_config.qt
+      # delete these parameters, otherwise rsolr will pass them through.
+      key = blacklight_config.http_method == :post ? :data : :params
+      res = blacklight_solr.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
+      
+      solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
+
+      Rails.logger.debug("Solr query: #{solr_params.inspect}")
+      Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
+      solr_response
+    end
   rescue Errno::ECONNREFUSED => e
     raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{blacklight_solr.inspect}")
   end
@@ -394,25 +417,9 @@ module Blacklight::SolrHelper
   # given a user query,
   # Returns a solr response object
   def query_solr(user_params = params || {}, extra_controller_params = {})
-    # In later versions of Rails, the #benchmark method can do timing
-    # better for us. 
-    bench_start = Time.now
     solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
-    solr_params[:qt] ||= blacklight_config.qt
-    path = blacklight_config.solr_path
 
-    # delete these parameters, otherwise rsolr will pass them through.
-    key = blacklight_config.http_method == :post ? :data : :params
-    res = blacklight_solr.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
-    
-    solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
-
-    Rails.logger.debug("Solr query: #{solr_params.inspect}")
-    Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
-    Rails.logger.debug("Solr fetch: #{self.class}#query_solr (#{'%.1f' % ((Time.now.to_f - bench_start.to_f)*1000)}ms)")
-    
-
-    solr_response
+    find(solr_params)
   end
   
   # returns a params hash for finding a single solr document (CatalogController #show action)
@@ -434,7 +441,7 @@ module Blacklight::SolrHelper
   # retrieve a solr document, given the doc id
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_params = solr_doc_params(id).merge(extra_controller_params)
-    solr_response = find((blacklight_config.document_solr_request_handler || blacklight_config.qt), solr_params)
+    solr_response = find(blacklight_config.document_solr_request_handler, solr_params)
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
@@ -463,7 +470,7 @@ module Blacklight::SolrHelper
       :spellcheck => 'false'
     }.merge(extra_solr_params)
     
-    solr_response = find(blacklight_config.qt, self.solr_search_params().merge(solr_params) )
+    solr_response = find(self.solr_search_params().merge(solr_params) )
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
     [solr_response,document_list]
   end
@@ -509,7 +516,7 @@ module Blacklight::SolrHelper
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
     # Make the solr call
-    find(blacklight_config.qt, solr_params)
+    find(solr_params)
   end
 
   # a solr query method
@@ -543,7 +550,7 @@ module Blacklight::SolrHelper
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.    
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
-    solr_response = find(blacklight_config.qt, solr_params)
+    solr_response = find(solr_params)
     SolrDocument.new(solr_response.docs.first, solr_response) unless solr_response.docs.empty?
   end
 
@@ -562,7 +569,7 @@ module Blacklight::SolrHelper
 
     solr_params[:fl] = '*'
     solr_params[:facet] = false
-    solr_response = find(blacklight_config.qt, solr_params)
+    solr_response = find(solr_params)
 
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
 
@@ -591,7 +598,7 @@ module Blacklight::SolrHelper
   # where the field is the "field" argument passed in.
   def get_opensearch_response(field=nil, extra_controller_params={})
     solr_params = solr_opensearch_params().merge(extra_controller_params)
-    response = find(blacklight_config.qt, solr_params)
+    response = find(solr_params)
     a = [solr_params[:q]]
     a << response.docs.map {|doc| doc[solr_params[:fl]].to_s }
   end
