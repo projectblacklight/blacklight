@@ -32,6 +32,28 @@ describe BlacklightHelper do
     end
   end
 
+  describe "#render_page_title" do
+    it "should look in content_for(:page_title)" do
+      helper.content_for(:page_title) { "xyz" }
+      expect(helper.render_page_title).to eq "xyz"
+    end
+
+    it "should look in the @page_title ivar" do
+      assign(:page_title, "xyz")
+      expect(helper.render_page_title).to eq "xyz"
+    end
+
+    it "should default to the application name" do
+      expect(helper.render_page_title).to eq helper.application_name
+    end
+
+    it "should be html safe and without any markup" do
+      assign(:page_title, "<a>&</a>")
+      expect(helper.render_page_title).to be_html_safe
+      expect(helper.render_page_title).to eq "&"
+    end
+  end
+
   describe "render_link_rel_alternates" do
       class MockDocumentAppHelper
         include Blacklight::Solr::Document
