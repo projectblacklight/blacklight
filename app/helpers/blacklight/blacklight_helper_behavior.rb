@@ -201,10 +201,7 @@ module Blacklight::BlacklightHelperBehavior
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    field_config = index_fields(document)[field]
-    value = options[:value] || get_field_values(document, field, field_config, options)
-
-    render_field_value value, field_config
+    presenter(document).render_index_field_value field, options
   end
 
   ##
@@ -257,10 +254,7 @@ module Blacklight::BlacklightHelperBehavior
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    field_config = document_show_fields(document)[field]
-    value = options[:value] || get_field_values(document, field, field_config, options)
-
-    render_field_value value, field_config
+    presenter(document).render_document_show_field_value field, options
   end
 
   ##
@@ -271,7 +265,7 @@ module Blacklight::BlacklightHelperBehavior
   # @return [String]
   def document_heading document=nil
     document ||= @document
-    render_field_value(document[blacklight_config.view_config(:show).title_field] || document.id)
+    presenter(document).document_heading
   end
 
   ##
@@ -284,11 +278,7 @@ module Blacklight::BlacklightHelperBehavior
   def document_show_html_title document=nil
     document ||= @document
 
-    if blacklight_config.view_config(:show).html_title_field
-      render_field_value(document[blacklight_config.view_config(:show).html_title_field])
-    else
-      document_heading document
-    end
+    presenter(document).document_show_html_title
   end
 
   ##
@@ -310,7 +300,7 @@ module Blacklight::BlacklightHelperBehavior
 
     tag ||= :h4
 
-    content_tag(tag, render_field_value(document_heading(document)), :itemprop => "name")
+    content_tag(tag, presenter(document).document_heading, :itemprop => "name")
   end
 
   ##
@@ -329,55 +319,18 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
   # @param [Hash] options additional options to pass to the rendering helpers
   def get_field_values document, field, field_config, options = {}
-    # retrieving values
-    value = case    
-      when (field_config and field_config.highlight)
-        # retrieve the document value from the highlighting response
-        document.highlight_field(field_config.field).map { |x| x.html_safe } if document.has_highlight_field? field_config.field
-      when (field_config and field_config.accessor)
-        # implicit method call
-        if field_config.accessor === true
-          document.send(field)
-        # arity-1 method call (include the field name in the call)
-        elsif !field_config.accessor.is_a?(Array) && document.method(field_config.accessor).arity != 0
-          document.send(field_config.accessor, field)
-        # chained method calls
-        else
-          Array(field_config.accessor).inject(document) do |result, method|
-            result.send(method)
-          end
-        end
-      else
-        # regular solr
-        document.get(field, :sep => nil) if field
-    end
-
-    # rendering values
-    case
-      when (field_config and field_config.helper_method)
-        send(field_config.helper_method, options.merge(:document => document, :field => field, :value => value))
-      when (field_config and field_config.link_to_search)
-        link_field = if field_config.link_to_search === true
-          field_config.field
-        else
-          field_config.link_to_search
-        end
-
-        Array(value).map do |v|
-          link_to render_field_value(v, field_config), search_action_path(add_facet_params(link_field, v, {}))
-        end if field
-      else
-        value
-      end
+    presenter(document).get_field_values field, field_config, options
   end
 
   ##
   # Render a value (or array of values) from a field
   #
+  # @deprecated Use DocumentPresenter instead
   # @param [String] value or list of values to display
   # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
   # @return [String]
   def render_field_value value=nil, field_config=nil
+    Deprecation.warn self, "render_field_value is deprecated. Use DocumentPresenter.render_field_value instead"
     safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
 
     if field_config and field_config.itemprop
@@ -392,6 +345,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @return [String]
   def field_value_separator
+    Deprecation.warn self, "field_value_separator is deprecated. Use DocumentPresenter.field_value_separator instead"
     ', '
   end
 
@@ -544,12 +498,7 @@ module Blacklight::BlacklightHelperBehavior
   # @option opts [Proc] :label Evaluate the given proc
   # @option opts [String] :label Render the given string
   def render_document_index_label doc, opts = {}
-    label = nil
-    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
-    label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
-    label ||= opts[:label] if opts[:label].is_a? String
-    label ||= doc.id
-    render_field_value label
+    presenter(doc).render_document_index_label opts
   end
 
   ##
@@ -582,4 +531,15 @@ module Blacklight::BlacklightHelperBehavior
     has_user_authentication_provider? and current_or_guest_user.present?
   end
 
+  ##
+  # Returns a document presenter for the given document
+  def presenter(document)
+    presenter_class.new(document, self)
+  end
+
+  ##
+  # Override this method if you want to use a different presenter class
+  def presenter_class
+    Blacklight::DocumentPresenter
+  end
 end
