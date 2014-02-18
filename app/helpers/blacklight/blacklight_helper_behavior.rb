@@ -15,11 +15,19 @@ module Blacklight::BlacklightHelperBehavior
   #  - the Rails configuration
   #  - an i18n string (key: blacklight.application_name; preferred)
   # 
-  # @return [String] the application named
+  # @return [String] the application name
   def application_name
     return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
 
     t('blacklight.application_name')
+  end
+
+  ##
+  # Get the page's HTML title
+  #
+  # @return [String]
+  def render_page_title
+    strip_tags((content_for(:page_title) if content_for?(:page_title)) || @page_title || application_name).html_safe
   end
 
   ##
