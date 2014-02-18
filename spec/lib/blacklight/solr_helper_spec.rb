@@ -40,7 +40,77 @@ describe 'Blacklight::SolrHelper' do
     @subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"rows"=>"10", :"q"=>"wome"}
   end
 
+  describe "#find" do
+    let(:blacklight_config) { Blacklight::Configuration.new }
+    let(:response) { double }
+    let(:blacklight_solr) { double }
+
+    before do
+      double(blacklight_solr: blacklight_solr)
+    end
+    
+    it "should use the configured solr path" do
+      blacklight_config.solr_path = 'xyz'
+      blacklight_solr.should_receive(:send_and_receive).with('xyz', anything).and_return("{}".to_json)
+      expect(find({})).to be_a_kind_of Blacklight::SolrResponse
+    end
+
+    it "should override the configured solr path" do
+      blacklight_config.solr_path = 'xyz'
+      blacklight_solr.should_receive(:send_and_receive).with('abc', anything).and_return("{}".to_json)
+      expect(find('abc', {})).to be_a_kind_of Blacklight::SolrResponse
+    end
+
+    it "should use a default :qt param" do
+      blacklight_config.qt = 'xyz'
+      blacklight_solr.should_receive(:send_and_receive).with('select', hash_including(params: { qt: 'xyz'})).and_return("{}".to_json)
+      expect(find({})).to be_a_kind_of Blacklight::SolrResponse
+    end
+
+    it "should use the provided :qt param" do
+      blacklight_config.qt = 'xyz'
+      blacklight_solr.should_receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc'})).and_return("{}".to_json)
+      expect(find({qt: 'abc'})).to be_a_kind_of Blacklight::SolrResponse
+    end
+
+    describe "http_method configuration" do
+      describe "using default" do
+
+        it "defaults to get" do
+          expect(blacklight_config.http_method).to eq :get
+          blacklight_solr.should_receive(:send_and_receive) do |path, params|
+            expect(path).to eq 'select'
+            expect(params[:method]).to eq :get
+            expect(params[:params]).to include(:q)
+          end.and_return({'response'=>{'docs'=>[]}})
+          find(:q => @all_docs_query)
+        end
+      end
+
+      describe "setting to post" do
+        let (:blacklight_config) {config = Blacklight::Configuration.new; config.http_method=:post; config}
+
+        it "keep value set to post" do
+          expect(blacklight_config.http_method).to eq :post
+          blacklight_solr.should_receive(:send_and_receive) do |path, params|
+            expect(path).to eq 'select'
+            expect(params[:method]).to eq :post
+            expect(params[:data]).to include(:q)
+          end.and_return({'response'=>{'docs'=>[]}})
+          find(:q => @all_docs_query)
+        end
+      end
+    end
+  end
   
+  describe "http_method configuration", :integration => true do
+    let (:blacklight_config) {config = Blacklight::Configuration.new; config.http_method=:post; config}
+
+    it "should send a post request to solr and get a response back" do
+      response = find(:q => @all_docs_query)
+      expect(response.docs.length).to be >= 1
+    end
+  end
 
   # SPECS for actual search parameter generation
   describe "solr_search_params" do
@@ -954,7 +1024,7 @@ describe 'Blacklight::SolrHelper' do
 
     it "should use a provided document request handler " do
       blacklight_config.stub(:document_solr_request_handler => 'document')
-      blacklight_solr.should_receive(:get).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
+      blacklight_solr.should_receive(:send_and_receive).with('document', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
       expect { get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
     end
 
@@ -1159,17 +1229,17 @@ describe 'Blacklight::SolrHelper' do
         @mock_response.stub(:docs => [])
       end
       it "should contruct a solr query based on the field and value pair" do
-        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(value)")).and_return(@mock_response)
+        self.should_receive(:find).with(hash_including(:q => "field_name:(value)")).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', 'value')
       end
 
       it "should OR multiple values together" do
-        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
+        self.should_receive(:find).with(hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', ['a', 'b'])
       end
 
       it "should escape crazy identifiers" do
-        self.should_receive(:find).with(an_instance_of(String), hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
+        self.should_receive(:find).with(hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
         get_solr_response_for_field_values('field_name', 'h://"\'')
       end
     end
@@ -1182,7 +1252,7 @@ describe 'Blacklight::SolrHelper' do
 #  more like this
 #  nearby on shelf
   it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
-    blacklight_solr.stub(:get).and_raise(Errno::ECONNREFUSED)
+    blacklight_solr.stub(:send_and_receive).and_raise(Errno::ECONNREFUSED)
     expect { find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
@@ -1241,41 +1311,5 @@ describe 'Blacklight::SolrHelper' do
       expect(docs.first).to be_nil
     end
   end
-
-  describe "http_method configuration" do
-    describe "using default" do
-      let (:blacklight_config) {Blacklight::Configuration.new}
-
-      it "defaults to get" do
-        expect(blacklight_config.http_method).to eq :get
-        blacklight_solr.should_receive(:send_and_receive) do |path, params|
-          expect(path).to eq 'select'
-          expect(params[:method]).to eq :get
-          expect(params[:params]).to include(:q)
-        end.and_return({'response'=>{'docs'=>[]}})
-        get_search_results(:q => @all_docs_query)
-      end
-    end
-
-    describe "setting to post" do
-      let (:blacklight_config) {config = Blacklight::Configuration.new; config.http_method=:post; config}
-
-      it "keep value set to post" do
-        expect(blacklight_config.http_method).to eq :post
-        blacklight_solr.should_receive(:send_and_receive) do |path, params|
-          expect(path).to eq 'select'
-          expect(params[:method]).to eq :post
-          expect(params[:data]).to include(:q)
-        end.and_return({'response'=>{'docs'=>[]}})
-        get_search_results(:q => @all_docs_query)
-      end
-
-      it "should send a post request to solr", :integration => true do
-        response, docs = get_search_results(:q => @all_docs_query)
-        expect(docs.length).to be >= 1
-     end
-    end
-  end
-
 end
 

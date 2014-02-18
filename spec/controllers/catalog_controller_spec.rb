@@ -509,10 +509,7 @@ describe CatalogController do
       controller.stub(:has_user_authentication_provider?) { false }
         @mock_response = double()
         @mock_document = double()
-        @mock_response.stub(:docs => [], :total => 1, :facets => [], :facet_queries => {}, :facet_by_field_name => nil)
-        @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+        controller.stub(:get_single_doc_via_search => @mock_document)
     end
 
     it "should not show user util links" do
