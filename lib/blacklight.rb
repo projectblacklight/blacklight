@@ -15,9 +15,10 @@ module Blacklight
 
   autoload :User, 'blacklight/user'
 
-  autoload :Controller, 'blacklight/controller'
-  autoload :Base, 'blacklight/base'
-  autoload :Catalog,    'blacklight/catalog'
+  autoload :Controller,        'blacklight/controller'
+  autoload :Base,              'blacklight/base'
+  autoload :Catalog,           'blacklight/catalog'
+  autoload :DocumentPresenter, 'blacklight/document_presenter'
 
   autoload :Routes, 'blacklight/routes'
 

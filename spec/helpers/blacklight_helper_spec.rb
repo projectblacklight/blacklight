@@ -411,6 +411,9 @@ describe BlacklightHelper do
   end
 
   describe "render_field_value" do
+    before do
+      Deprecation.stub(:warn)
+    end
     it "should join and html-safe values" do
       expect(helper.render_field_value(['a', 'b'])).to eq "a, b"
     end
