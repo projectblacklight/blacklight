@@ -45,10 +45,10 @@
 #   end  
 
 module Blacklight::SolrHelper
-  extend ActiveSupport::Benchmarkable
   extend ActiveSupport::Concern
   include Blacklight::SearchFields
   include Blacklight::Facet
+  include ActiveSupport::Benchmarkable
 
   included do
     if self.respond_to?(:helper_method)
@@ -83,7 +83,7 @@ module Blacklight::SolrHelper
   def find(*args)
     # In later versions of Rails, the #benchmark method can do timing
     # better for us. 
-    Blacklight::SolrHelper.benchmark("Solr fetch", level: :debug) do
+    benchmark("Solr fetch", level: :debug) do
       solr_params = args.extract_options!
       path = args.first || blacklight_config.solr_path
       solr_params[:qt] ||= blacklight_config.qt
