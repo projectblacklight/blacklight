@@ -46,12 +46,6 @@ describe BlacklightHelper do
     it "should default to the application name" do
       expect(helper.render_page_title).to eq helper.application_name
     end
-
-    it "should be html safe and without any markup" do
-      assign(:page_title, "<a>&</a>")
-      expect(helper.render_page_title).to be_html_safe
-      expect(helper.render_page_title).to eq "&"
-    end
   end
 
   describe "render_link_rel_alternates" do
