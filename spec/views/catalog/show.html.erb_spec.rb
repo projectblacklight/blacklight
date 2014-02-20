@@ -17,6 +17,14 @@ describe "catalog/show.html.erb" do
     view.stub(:blacklight_config).and_return(blacklight_config)
   end
 
+  it "should set the @page_title" do
+    view.stub(:document_show_html_title).and_return("Heading")
+    render
+    page_title = view.instance_variable_get(:@page_title)
+    expect(page_title).to eq "Heading - Blacklight"
+    expect(page_title).to be_html_safe
+  end
+
   it "should include schema.org itemscope/type properties" do
     view.stub(:document_show_html_title).and_return("Heading")
     document.stub(:itemtype => 'some-item-type-uri')

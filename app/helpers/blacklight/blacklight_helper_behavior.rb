@@ -27,7 +27,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @return [String]
   def render_page_title
-    strip_tags((content_for(:page_title) if content_for?(:page_title)) || @page_title || application_name).html_safe
+    (content_for(:page_title) if content_for?(:page_title)) || @page_title || application_name
   end
 
   ##
