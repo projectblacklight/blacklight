@@ -231,7 +231,7 @@ module Blacklight::BlacklightHelperBehavior
 
     field = options[:field]
 
-    html_escape t(:'blacklight.search.show.label', label: document_show_field_label(document, field))
+    t(:'blacklight.search.show.label', label: document_show_field_label(document, field))
   end
 
   ##
