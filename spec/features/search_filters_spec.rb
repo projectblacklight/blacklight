@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Facets" do
   it "should work without a search term" do
     visit root_path
-    within '#facet-language' do
+    within "#facet-language_facet" do
       click_link "Tibetan"
     end
     within "#sortAndPerPage" do
