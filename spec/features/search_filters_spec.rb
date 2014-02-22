@@ -26,7 +26,7 @@ describe "Facets" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
       expect(page).to have_selector("span.facet-count.selected", :text => "2")
     end
-    within "#facet-region" do
+    within "#facet-subject_geo_facet" do
       expect(page).to have_selector("span.selected", :text => "India")
       expect(page).to have_selector("span.facet-count.selected", :text => "2")
     end
