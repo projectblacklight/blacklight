@@ -1,7 +1,7 @@
 require 'ostruct'
 module Blacklight
   class OpenStructWithHashAccess < OpenStruct
-    delegate :keys, :each, :map, :has_key?, :empty?, :delete, :length, :reject!, :select!, :include, :fetch, :to => :to_h
+    delegate :keys, :each, :map, :has_key?, :empty?, :delete, :length, :reject!, :select!, :include, :fetch, :to_json, :as_json, :to => :to_h
 
     def []=(key, value)
       send "#{key}=", value

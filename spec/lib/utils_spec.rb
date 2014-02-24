@@ -84,5 +84,13 @@ describe 'Blacklight::Utils' do
         expect(@h[:a]).to eq 'a'
       end
     end
+
+    describe "#to_json" do
+      subject { Blacklight::OpenStructWithHashAccess.new a: 1, b: 2}
+
+      it "should serialize as json" do
+        expect(subject.to_json).to eq ({a: 1, b:2}).to_json
+      end
+    end
   end
 end
