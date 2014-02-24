@@ -76,7 +76,7 @@ describe CatalogController do
           expect(session[:search].keys).to include :id
           
           search = Search.find(session[:search][:id])
-          expect(search.query_params[:q]).to eq @user_query
+          expect(search.query_params['q']).to eq @user_query
         end
       end
 
