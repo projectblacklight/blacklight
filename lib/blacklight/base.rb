@@ -20,7 +20,7 @@ module Blacklight::Base
   # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
   def rsolr_request_error(exception)
 
-    if Rails.env.development?
+    if Rails.env.development? || Rails.env.test?
       raise exception # Rails own code will catch and give usual Rails error page with stack trace
     else
 

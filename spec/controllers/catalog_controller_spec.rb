@@ -478,6 +478,7 @@ describe CatalogController do
       req = {}
       res = {}
       fake_error = RSolr::Error::Http.new(req, res) 
+      Rails.env.stub(:test? => false)
       controller.stub(:get_search_results) { |*args| raise fake_error }
       controller.logger.should_receive(:error).with(fake_error)
       get :index, :q=>"+"
