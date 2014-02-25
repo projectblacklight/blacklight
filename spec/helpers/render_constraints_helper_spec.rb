@@ -25,8 +25,7 @@ describe RenderConstraintsHelper do
     end
     it "should have a link relative to the current url" do
       result = helper.render_filter_element('type', ['journal'], {:q=>'biz'})
-      # I'm not certain how the ampersand gets in there. It's not important.
-      expect(result).to have_link "Remove constraint Type: journal", href: "/catalog?&q=biz"
+      expect(result).to have_link "Remove constraint Type: journal", href: "/catalog?q=biz"
     end
   end
 
