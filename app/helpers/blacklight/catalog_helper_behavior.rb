@@ -61,7 +61,7 @@ module Blacklight::CatalogHelperBehavior
   # @see #page_entries_info
   # @return [String]
   def item_page_entry_info
-    t('blacklight.search.entry_pagination_info.other', :current => number_with_delimiter(search_session[:counter]), :total => number_with_delimiter(search_session[:total]), :count => search_session[:total].to_i).html_safe
+    t('blacklight.search.entry_pagination_info.other', :current => number_with_delimiter(search_session['counter']), :total => number_with_delimiter(search_session['total']), :count => search_session['total'].to_i).html_safe
   end
 
   ##

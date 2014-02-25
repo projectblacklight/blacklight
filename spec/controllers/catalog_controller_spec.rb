@@ -73,9 +73,9 @@ describe CatalogController do
         it "should include search hash with key :q" do
           get :index, :q => @user_query
           expect(session[:search]).to_not be_nil
-          expect(session[:search].keys).to include :id
+          expect(session[:search].keys).to include 'id'
           
-          search = Search.find(session[:search][:id])
+          search = Search.find(session[:search]['id'])
           expect(search.query_params['q']).to eq @user_query
         end
       end
@@ -200,7 +200,7 @@ describe CatalogController do
 
     it "should set counter value into session[:search]" do
       put :update, :id => doc_id, :counter => 3
-      expect(session[:search][:counter]).to eq "3"
+      expect(session[:search]['counter']).to eq "3"
     end
 
     it "should redirect to show action for doc id" do
@@ -249,7 +249,7 @@ describe CatalogController do
         @search_session = { :id => current_search.id }
       end
     it "should set previous document if counter present in session" do
-      session[:search] = @search_session.merge(:counter => 2)
+      session[:search] = @search_session.merge('counter' => 2)
       get :show, :id => doc_id
       expect(assigns[:previous_document]).to_not be_nil
     end
@@ -258,14 +258,14 @@ describe CatalogController do
       expect(assigns[:previous_document]).to be_nil
       expect(assigns[:next_document]).to be_nil
     end
-    it "should not set previous or next document if session[:search][:counter] is nil" do
+    it "should not set previous or next document if session[:search]['counter'] is nil" do
       session[:search] = {}
       get :show, :id => doc_id
       expect(assigns[:previous_document]).to be_nil
       expect(assigns[:next_document]).to be_nil
     end
     it "should set next document if counter present in session" do
-      session[:search] = @search_session.merge(:counter => 2)
+      session[:search] = @search_session.merge('counter' => 2)
       get :show, :id => doc_id
       expect(assigns[:next_document]).to_not be_nil
     end
@@ -627,7 +627,7 @@ describe CatalogController do
     it "should use an existing search session if the search is in the uri" do
       s = Search.create(:query_params => { :q => "x" })
       session[:search] ||= {}
-      session[:search][:id] = s.id
+      session[:search]['id'] = s.id
       session[:history] ||= []
       session[:history] << s.id
       session = controller.send(:current_search_session)
@@ -646,4 +646,3 @@ def assert_facets_have_values(facets)
     expect(facet.items).to have_at_least(1).item
   end
 end
-
