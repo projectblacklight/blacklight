@@ -140,7 +140,7 @@ module Blacklight::UrlHelperBehavior
   # Reset any search parameters that store search context
   # and need to be reset when e.g. constraints change
   def reset_search_params source_params
-    sanitize_search_params(source_params).except :page, :counter
+    sanitize_search_params(source_params).except(:page, :counter).with_indifferent_access
   end
 
   # adds the value and/or field to params[:f]
