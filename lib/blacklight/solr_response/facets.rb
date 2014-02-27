@@ -60,10 +60,14 @@ module Blacklight::SolrResponse::Facets
         values_and_hits.each_slice(2) do |k,v|
           items << FacetItem.new(:value => k, :hits => v)
         end
+        options[:sort] = (params[:"f.#{facet_field_name}.facet.sort"] || params[:'facet.sort'])
+        if params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]
+          options[:limit] = (params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]).to_i
+        end
 
-        options[:sort] = params[:"f.#{facet_field_name}.facet.sort"] || params['facet.sort']
-        options[:offset] = params[:"f.#{facet_field_name}.facet.offset"].to_i
-
+        if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
+          options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
+        end
         FacetField.new(facet_field_name, items, options)
       end
     end

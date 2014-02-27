@@ -48,12 +48,14 @@ describe Blacklight::SolrResponse do
 
     r.facets.each do |facet|
       expect(facet).to respond_to :name
+      expect(facet).to respond_to :sort
+      expect(facet).to respond_to :offset
+      expect(facet).to respond_to :limit
       facet.items.each do |item|
         expect(item).to respond_to :value
         expect(item).to respond_to :hits
       end
     end
-
   end
 
   it "should provide kaminari pagination helpers" do
