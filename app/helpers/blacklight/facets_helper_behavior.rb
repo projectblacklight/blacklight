@@ -166,7 +166,7 @@ module Blacklight::FacetsHelperBehavior
 
     value = facet_value_for_facet_item(item)
 
-    facet_field_in_params?(field) and params[:f][field].include?(value)
+    params[:f] and params[:f][field] and params[:f][field].include?(value)
   end
 
   ##
