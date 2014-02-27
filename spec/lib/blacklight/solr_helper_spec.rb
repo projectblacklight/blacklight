@@ -1193,18 +1193,23 @@ describe 'Blacklight::SolrHelper' do
     end
     
     describe "for 'true' configured values" do
+      let(:blacklight_config) do
+        config = Blacklight::Configuration.new
+        config.add_facet_field "language_facet", limit: true
+        config
+      end
       it "should return nil if no @response available" do
         expect(facet_limit_for("some_unknown_field")).to be_nil
       end
       it "should get from @response facet.limit if available" do        
-        # Okay, this is cheesy, since we included SolrHelper directly
-        # into our example groups, we need to set an iVar here, so it will
-        # use it. 
-        @response = double(params:{"facet.limit" => 11})      
+        @response = double()
+        @response.stub(:facet_by_field_name).with("language_facet").and_return(double(limit: nil))
+        blacklight_config.facet_fields['language_facet'].limit = 10
         expect(facet_limit_for("language_facet")).to eq 10
       end
-      it "should get from specific field in @response if available" do
-        @response = double(params: {"facet.limit" => 11,"f.language_facet.facet.limit" => 16})
+      it "should get the limit from the facet field in @response" do
+        @response = double()
+        @response.stub(:facet_by_field_name).with("language_facet").and_return(double(limit: 16))
         expect(facet_limit_for("language_facet")).to eq 15
       end
     end

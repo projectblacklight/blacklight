@@ -337,14 +337,12 @@ module Blacklight::SolrHelper
   # a facet paginator with the right limit. 
   def facet_limit_for(facet_field)
     facet = blacklight_config.facet_fields[facet_field]
-
     return if facet.blank?
 
-    if facet.limit and @response
-      limit = @response.params["f.#{facet_field}.facet.limit"] || 
-          @response.params["facet.limit"]
+    if facet.limit and @response and @response.facet_by_field_name(facet_field)
+      limit = @response.facet_by_field_name(facet_field).limit
 
-      if limit.blank? # we didn't get or a set a limit, so infer one.
+      if limit.nil? # we didn't get or a set a limit, so infer one.
         facet.limit if facet.limit != true
       elsif limit == -1 # limit -1 is solr-speak for unlimited
         nil
