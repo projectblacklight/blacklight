@@ -6,7 +6,9 @@ module Blacklight::Catalog::SearchContext
   # own controller.
   included do  
     helper_method :current_search_session, :search_session
-    before_filter :current_search_session
+
+    # Save the submitted search parameters in the search session
+    before_filter :current_search_session, only: :index
   end
   
   protected
