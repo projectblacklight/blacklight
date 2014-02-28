@@ -350,4 +350,10 @@ describe FacetsHelper do
       expect(helper.facet_display_value('date_facet', '2012-01-01')).to eq '01 Jan 00:00'
     end
   end
+
+  describe "#facet_field_id" do
+    it "should be the parameterized version of the facet field" do
+      expect(helper.facet_field_id double(field: 'some field')).to eq "facet-some-field"
+    end
+  end
 end
