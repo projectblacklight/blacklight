@@ -7,8 +7,13 @@ module Blacklight::Catalog::SearchContext
   included do  
     helper_method :current_search_session, :search_session
 
+  end
+
+  module ClassMethods
     # Save the submitted search parameters in the search session
-    before_filter :current_search_session, only: :index
+    def record_search_parameters opts = { only: :index}
+      before_filter :current_search_session, opts
+    end
   end
   
   protected
