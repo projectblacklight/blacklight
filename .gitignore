@@ -11,5 +11,5 @@ log/*
 solr_marc/solrmarc.log
 lib/solrmarc.log.*
 tmp/*
-spec/internal/
 pkg/*
+spec/internal

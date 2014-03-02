@@ -1,23 +1,9 @@
 source 'http://rubygems.org'
 
-# Please see blacklight.gemspec for dependency information.
-gemspec :path=>"../"
-
-gem 'rails', "~> 3.2"
-
-gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
-
-group :test do
-  gem 'simplecov', require: false
-  gem 'coveralls', require: false
-  gem 'devise'
-  gem 'devise-guests'
-  gem "bootstrap-sass"
-  gem 'turbolinks'
-  gem 'uglifier'
+file = File.expand_path("../../Gemfile", __FILE__)
+if File.exists?(file)
+  puts "Loading #{file} ..." if $DEBUG # `ruby -d` or `bundle -v`
+  instance_eval File.read(file)
 end
 
-f = File.expand_path(File.dirname(__FILE__) + '/../spec/test_app_templates/Gemfile.extra')
-if File.exists?(f)
-  eval File.read(f), nil, f
-end
+gem 'rails', "3.2.17"
