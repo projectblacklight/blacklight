@@ -11,13 +11,8 @@ class TestAppGenerator < Rails::Generators::Base
     end
   end
 
-  def copy_blacklight_test_app_rake_task
-    copy_file "lib/tasks/blacklight_test_app.rake"
-  end
-
   def remove_index 
     remove_file "public/index.html"
-    remove_file 'app/assets/images/rails.png'
   end
 
   def run_blacklight_generator
