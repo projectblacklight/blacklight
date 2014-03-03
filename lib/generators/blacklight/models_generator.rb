@@ -57,7 +57,6 @@ This generator makes the following changes to your application:
     # Copy all files in templates/config directory to host config
     def create_configuration_files
       copy_file "config/solr.yml", "config/solr.yml"
-      copy_file "config/jetty.yml", "config/jetty.yml"
     end
 
 
