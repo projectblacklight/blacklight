@@ -199,17 +199,17 @@ describe CatalogController do
     doc_id = '2007020969'
 
     it "should set counter value into session[:search]" do
-      put :update, :id => doc_id, :counter => 3
+      put :track, :id => doc_id, :counter => 3
       expect(session[:search]['counter']).to eq "3"
     end
 
     it "should redirect to show action for doc id" do
-      put :update, :id => doc_id, :counter => 3
+      put :track, :id => doc_id, :counter => 3
       assert_redirected_to(catalog_path(doc_id))
     end
 
     it "HTTP status code for redirect should be 303" do
-      put :update, :id => doc_id, :counter => 3
+      put :track, :id => doc_id, :counter => 3
       expect(response.status).to eq 303
     end
   end

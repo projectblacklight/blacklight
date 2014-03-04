@@ -57,7 +57,7 @@ module Blacklight::Catalog
     end
 
     # updates the search counter (allows the show view to paginate)
-    def update
+    def track
       search_session['counter'] = params[:counter]
       redirect_to :action => "show", :status => 303
     end
