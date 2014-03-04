@@ -1,19 +1,15 @@
 //= require blacklight/core
 (function($) {
   Blacklight.do_search_context_behavior = function() {
-      function track(link) {
-        link.href = link.href + "/track?counter="+ link.getAttribute('data-counter')+'&search_id='+link.getAttribute('data-search_id')
-        link.setAttribute('data-method', 'post')
+      function track(event) {
+        this.href = this.getAttribute('data-context-href');
+        this.setAttribute('data-method', 'post');
+        if(event.metaKey || event.ctrlKey) {
+          this.setAttribute('target', '_blank');
+        };
       }
 
-      $('a[data-counter]').on('mousedown', function(e) {
-        track(this);
-      });
-      $('a[data-counter]').on('keydown', function(e) {
-        if(e.keyCode == 13){
-          track(this);
-        }
-      });
+      $('a[data-context-href]').on('click', track);
     };  
 Blacklight.onLoad(function() {
   Blacklight.do_search_context_behavior();  

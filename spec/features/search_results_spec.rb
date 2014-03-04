@@ -55,14 +55,19 @@ describe "Search Results" do
     click_on 'Pluvial nectar of blessings'
     expect(page).to have_content "« Previous | 10 of 30 | Next »"
     prev = page.find("#previousNextDocument .previous")
-    expect(prev['data-counter']).to eq "9"
-    expect(prev['data-search_id']).to eq search_id
+    expect(prev['data-context-href']).to eq "/catalog/2003546302/track?counter=9&search_id=#{search_id}"
 
     click_on "« Previous"
 
     prev = page.find("#previousNextDocument .previous")
-    expect(prev['data-counter']).to eq "8"
-    expect(prev['data-search_id']).to eq search_id
+    expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&search_id=#{search_id}"
+  end
+  
+  it "should redirect context urls to the original url", :js => true do
+    search_for ''
+    first('.index_title a').click
+    expect(page).to have_content "« Previous | 1 of 30 | Next »"
+    expect(page.current_url).to_not have_content "/track"
   end
 
 end

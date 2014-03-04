@@ -210,7 +210,7 @@ describe BlacklightUrlHelper do
     it "should convert the counter parameter into a data- attribute" do
       data = {'id'=>'123456','title_display'=>['654321']}
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, { :label => :title_display, :counter => 5  })).to match /data-counter="5"/
+      expect(helper.link_to_document(@document, { :label => :title_display, :counter => 5  })).to match /\/catalog\/123456\/track\?counter=5/
     end
 
     it "passes on the title attribute to the link_to_with_data method" do
