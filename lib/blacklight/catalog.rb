@@ -15,6 +15,8 @@ module Blacklight::Catalog
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
     rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
+
+    record_search_parameters
   end
   
     # get search results from the solr index
