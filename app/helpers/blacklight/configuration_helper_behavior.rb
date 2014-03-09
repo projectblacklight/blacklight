@@ -116,6 +116,14 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # The default value for search results per page
   def default_per_page
-    blacklight_config.per_page.first unless blacklight_config.per_page.blank?
+    blacklight_config.default_per_page || blacklight_config.per_page.first
+  end
+  
+  ##
+  # The available options for results per page, in the style of #options_for_select
+  def per_page_options_for_select
+    blacklight_config.per_page.map do |count|
+      [t(:'blacklight.search.per_page.label', :count => count).html_safe, count]
+    end
   end
 end

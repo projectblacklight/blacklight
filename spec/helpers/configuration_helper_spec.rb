@@ -100,4 +100,25 @@ describe BlacklightConfigurationHelper do
       label = helper.solr_field_label "default text", :key_a, :key_b
     end
   end
+  
+  describe "#default_per_page" do
+    it "should be the configured default per page" do
+      helper.stub(blacklight_config: double(default_per_page: 42))
+      expect(helper.default_per_page).to eq 42
+    end
+    
+    it "should be the first per-page value if a default isn't set" do
+      helper.stub(blacklight_config: double(default_per_page: nil, per_page: [11, 22]))
+      expect(helper.default_per_page).to eq 11
+    end
+  end
+  
+  describe "#per_page_options_for_select" do
+    it "should be the per-page values formatted as options_for_select" do
+      helper.stub(blacklight_config: double(per_page: [11, 22, 33]))
+      expect(helper.per_page_options_for_select).to include ["11<span class=\"sr-only\"> per page</span>", 11]
+      expect(helper.per_page_options_for_select).to include ["22<span class=\"sr-only\"> per page</span>", 22]
+      expect(helper.per_page_options_for_select).to include ["33<span class=\"sr-only\"> per page</span>", 33]
+    end
+  end
 end

@@ -70,6 +70,7 @@ module Blacklight
           :max_per_page => 100,
           # Options for the user for number of results to show per page
           :per_page => [10,20,50,100],
+          :default_per_page => nil,
           # how many searches to save in session history
           # (TODO: move the value into the configuration?)
           :search_history_window => Blacklight::Catalog::SearchHistoryWindow,
