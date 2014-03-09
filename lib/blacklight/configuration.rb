@@ -31,7 +31,10 @@ module Blacklight
           # Default values of parameters to send with every search request
           :default_solr_params => {},
           # The solr rqeuest handler to use when requesting only a single document 
-          :document_solr_request_handler => nil,
+          :document_solr_request_handler => 'document',
+          # THe path to send single document requests to solr
+          :document_solr_path => nil,
+          :document_unique_id_param => :id,
           # Default values of parameters to send when requesting a single document
           :default_document_solr_params => {
             ## Blacklight provides these settings in the /document request handler

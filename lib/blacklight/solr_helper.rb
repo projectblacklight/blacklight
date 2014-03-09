@@ -152,11 +152,15 @@ module Blacklight::SolrHelper
   def solr_doc_params(id=nil)
     id ||= params[:id]
 
+    # add our document id to the document_unique_id_param query parameter
     p = blacklight_config.default_document_solr_params.merge({
-      :id => id # this assumes the document request handler will map the 'id' param to the unique key field
+      # this assumes the request handler will map the unique id param
+      # to the unique key field using either solr local params, the 
+      # real-time get handler, etc.
+      blacklight_config.document_unique_id_param => id
     })
 
-    p[:qt] ||= 'document'
+    p[:qt] ||= blacklight_config.document_solr_request_handler
 
     p
   end
@@ -165,7 +169,7 @@ module Blacklight::SolrHelper
   # retrieve a solr document, given the doc id
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_params = solr_doc_params(id).merge(extra_controller_params)
-    solr_response = find(blacklight_config.document_solr_request_handler, solr_params)
+    solr_response = find(blacklight_config.document_solr_path, solr_params)
     raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
     document = SolrDocument.new(solr_response.docs.first, solr_response)
     [solr_response, document]
