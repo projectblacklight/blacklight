@@ -1022,7 +1022,13 @@ describe Blacklight::SolrHelper do
 
     it "should use a provided document request handler " do
       blacklight_config.stub(:document_solr_request_handler => 'document')
-      blacklight_solr.should_receive(:send_and_receive).with('document', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
+      blacklight_solr.should_receive(:send_and_receive).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
+      expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
+    end
+
+    it "should use a provided document solr path " do
+      blacklight_config.stub(:document_solr_path => 'get')
+      blacklight_solr.should_receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
       expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
     end
 
@@ -1047,6 +1053,16 @@ describe Blacklight::SolrHelper do
       expect(doc_params[:qt]).to eq 'document'
     end
 
+    it "should default to using the id parameter when sending solr queries" do
+      doc_params = subject.solr_doc_params('asdfg')
+      expect(doc_params[:id]).to eq 'asdfg'
+    end
+
+    it "should use the document_unique_id_param configuration" do
+      blacklight_config.stub(document_unique_id_param: :ids)
+      doc_params = subject.solr_doc_params('asdfg')
+      expect(doc_params[:ids]).to eq 'asdfg'
+    end
 
     describe "blacklight config's default_document_solr_parameters" do
       it "should use parameters from the controller's default_document_solr_parameters" do
@@ -1305,4 +1321,3 @@ describe Blacklight::SolrHelper do
     end
   end
 end
-
