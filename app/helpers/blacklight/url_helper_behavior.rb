@@ -215,4 +215,9 @@ module Blacklight::UrlHelperBehavior
     p
   end
 
+  if ::Rails.version < "4.0"
+    def asset_url *args
+      "#{request.protocol}#{request.host_with_port}#{asset_path(*args)}"
+    end
+  end
 end
