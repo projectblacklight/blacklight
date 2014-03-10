@@ -124,7 +124,7 @@ es:
         submit: 'Enviar'
       text:
         title: '%{value}'
-        author: 'por' '%{value}'
+        author: 'por %{value}'
         url: 'Link: %{url}'
       success: "SMS enviado"
       errors:
