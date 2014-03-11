@@ -114,13 +114,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Check if any search parameters have been set
-  # @return [Boolean] 
-  def has_search_parameters?
-    !params[:q].blank? or !params[:f].blank? or !params[:search_field].blank?
-  end
-
-  ##
   # Should we display the sort and per page widget?
   # 
   # @param [Blacklight::SolrResponse]

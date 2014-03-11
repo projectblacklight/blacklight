@@ -635,6 +635,23 @@ describe CatalogController do
       expect(session).to eq(s)
     end
   end
+
+  describe "#has_search_parameters?" do
+    subject { controller.has_search_parameters? }
+    describe "none" do
+      before { controller.stub(params: { }) }
+      it { should be_false }
+    end
+    describe "with a query" do
+      before { controller.stub(params: { q: 'hello' }) }
+      it { should be_true }
+    end
+    describe "with a facet" do
+      before { controller.stub(params: { f: { "field" => ["value"]} }) }
+      it { should be_true }
+    end
+  end
+
 end
 
 

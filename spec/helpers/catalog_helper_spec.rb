@@ -126,27 +126,22 @@ describe CatalogHelper do
 
   describe "should_autofocus_on_search_box?" do
     it "should be focused if we're on a catalog-like index page without query or facet parameters" do
-      helper.stub(:controller => CatalogController.new, :action_name => "index", :params => { })
+      helper.stub(controller: CatalogController.new, action_name: "index", has_search_parameters?: false)
       expect(helper.should_autofocus_on_search_box?).to be_true
     end
 
     it "should not be focused if we're not on a catalog controller" do
-      helper.stub(:controller => ApplicationController.new)
+      helper.stub(controller: ApplicationController.new)
       expect(helper.should_autofocus_on_search_box?).to be_false
     end
 
     it "should not be focused if we're not on a catalog controller index" do
-      helper.stub(:controller => CatalogController.new, :action_name => "show")
+      helper.stub(controller: CatalogController.new, action_name: "show")
       expect(helper.should_autofocus_on_search_box?).to be_false
     end
 
-    it "should not be focused if a search string is provided" do
-      helper.stub(:controller => CatalogController.new, :action_name => "index", :params => { :q => "hello"})
-      expect(helper.should_autofocus_on_search_box?).to be_false
-    end
-
-    it "should not be focused if a facet is selected" do
-      helper.stub(:controller => CatalogController.new, :action_name => "index", :params => { :f => { "field" => ["value"]}})
+    it "should not be focused if a search parameters are provided" do
+      helper.stub(controller: CatalogController.new, action_name: "index", has_search_parameters?: true)
       expect(helper.should_autofocus_on_search_box?).to be_false
     end
   end
