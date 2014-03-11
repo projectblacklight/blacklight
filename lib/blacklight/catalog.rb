@@ -9,7 +9,7 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
-    helper_method :sms_mappings
+    helper_method :sms_mappings, :has_search_parameters?
 
     # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
     # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
@@ -149,6 +149,13 @@ module Blacklight::Catalog
         format.js { render :layout => false }
         format.html
       end
+    end
+
+    ##
+    # Check if any search parameters have been set
+    # @return [Boolean] 
+    def has_search_parameters?
+      !params[:q].blank? or !params[:f].blank? or !params[:search_field].blank?
     end
     
     protected    
