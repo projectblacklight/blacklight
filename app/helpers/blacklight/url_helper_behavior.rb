@@ -5,10 +5,15 @@ module Blacklight::UrlHelperBehavior
 
   ##
   # Extension point for downstream applications
-  # to provide more interesting routing to 
+  # to provide more interesting routing to
   # documents
   def url_for_document doc
-    doc
+    if controller.is_a? Blacklight::Catalog and doc.is_a? SolrDocument and
+        (!doc.respond_to?(:to_model) or doc.to_model.is_a? SolrDocument)
+      { controller: controller_name, action: :show, id: doc }
+    else
+      doc
+    end
   end
 
   # link_to_document(doc, :label=>'VIEW', :counter => 3)

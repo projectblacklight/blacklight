@@ -18,6 +18,41 @@ describe BlacklightUrlHelper do
     helper.stub(current_search_session: nil)
   end
 
+  describe "url_for_document" do
+    let(:controller_class) { ::CatalogController.new }
+
+    before do
+      helper.stub(controller: controller_class)
+      helper.stub(controller_name: controller_class.controller_name)
+    end
+
+    it "should be a polymorphic routing-ready object" do
+      doc = double
+      expect(helper.url_for_document(doc)).to eq doc
+    end
+
+    it "should be a catalog controller-specific route" do
+      doc = SolrDocument.new
+      expect(helper.url_for_document(doc)).to eq({controller: 'catalog', action: :show, id: doc})
+    end
+
+    context "within an alternative catalog controller" do
+      let(:controller_class) { ::AlternateController.new }
+
+      it "should be a catalog controller-specific route" do
+        doc = SolrDocument.new
+        expect(helper.url_for_document(doc)).to eq({controller: 'alternate', action: :show, id: doc})
+      end
+    end
+
+    it "should be a polymorphic route if the solr document responds to #to_model with a non-SolrDocument" do
+      some_model = double
+      doc = SolrDocument.new
+      doc.stub(to_model: some_model)
+      expect(helper.url_for_document(doc)).to eq doc
+    end
+  end
+
   describe "link_back_to_catalog" do
     let(:query_params)  {{:q => "query", :f => "facets", :per_page => "10", :page => "2", :controller=>'catalog'}}
     let(:bookmarks_query_params) {{ :page => "2", :controller=>'bookmarks'}}
