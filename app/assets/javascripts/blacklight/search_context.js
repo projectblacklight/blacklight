@@ -16,7 +16,8 @@
       csrfToken = $('meta[name=csrf-token]').attr('content'),
       csrfParam = $('meta[name=csrf-param]').attr('content'),
       form = $('<form method="post" action="' + href + '"></form>'),
-      metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
+      metadataInput = '<input name="_method" value="' + method + '" type="hidden" />',
+      redirectHref = '<input name="redirect" value="' + link.attr('href') + '" type="hidden" />';
 
     // check for meta keys.. if set, we should open in a new tab
     if(event.metaKey || event.ctrlKey) {
@@ -29,7 +30,7 @@
 
     if (target) { form.attr('target', target); }
 
-    form.hide().append(metadataInput).appendTo('body');
+    form.hide().append(metadataInput).append(redirectHref).appendTo('body');
     form.submit();
 
     return false;
