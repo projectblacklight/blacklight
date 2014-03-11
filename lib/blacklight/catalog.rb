@@ -23,7 +23,6 @@ module Blacklight::Catalog
     def index
       
       (@response, @document_list) = get_search_results
-      @filters = params[:f] || []
       
       respond_to do |format|
         format.html { }
