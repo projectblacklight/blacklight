@@ -5,7 +5,7 @@ module Blacklight
     
     argument     :model_name  , type: :string , default: "user"
     class_option :devise      , type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
-    class_option :jettywrapper, type: :boolean, default: false, aliases: "-d", desc: "Use jettywrapper to download and control Jetty"
+    class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
     class_option :marc        , type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo ."
 
     desc """
@@ -18,12 +18,15 @@ module Blacklight
 
 
   Thank you for Installing Blacklight.
-         """ 
+         """
 
     def install_jettywrapper
       return unless options[:jettywrapper]
       gem "jettywrapper", "~> 1.7"
-      append_to_file "Rakefile", 
+
+      copy_file "config/jetty.yml"
+
+      append_to_file "Rakefile",
         "\nZIP_URL = \"https://github.com/projectblacklight/blacklight-jetty/archive/v4.6.0.zip\"\n" +
         "require 'jettywrapper'\n"
     end
