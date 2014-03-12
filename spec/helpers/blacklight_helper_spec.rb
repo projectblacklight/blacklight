@@ -445,6 +445,27 @@ describe BlacklightHelper do
       expect(helper.should_show_spellcheck_suggestions? response).to be_false
     end
   end
+  
+  describe "#render_document_partials" do
+    let(:doc) { double }
+    before do
+      helper.stub(document_partial_path_templates: [])
+    end
+    
+    it "should get the document format from document_partial_name" do
+      helper.should_receive(:document_partial_name).with(doc, :xyz)
+      helper.render_document_partial(doc, :xyz)    
+    end
+    
+    context "with a 1-arg form of document_partial_name" do
+      it "should only call the 1-arg form of the document_partial_name" do
+        helper.should_receive(:method).with(:document_partial_name).and_return(double(arity: 1))
+        helper.should_receive(:document_partial_name).with(doc)
+        Deprecation.should_receive(:warn)
+        helper.render_document_partial(doc, nil)
+      end
+    end
+  end
 
   describe "#document_partial_name" do
     let(:blacklight_config) { Blacklight::Configuration.new }
