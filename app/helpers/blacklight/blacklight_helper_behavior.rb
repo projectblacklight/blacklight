@@ -428,19 +428,25 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Return a normalized partial name for rendering a single document
-  # 
+  #
   # @param [SolrDocument]
+  # @param [Symbol] base name for the partial
   # @return [String]
-  def document_partial_name(document)
-    display_type = document[blacklight_config.view_config(:show).display_type_field]
+  def document_partial_name(document, base_name = nil)
+    view_config = blacklight_config.view_config(:show)
 
-    return 'default' unless display_type
-    display_type = display_type.join(" ") if display_type.respond_to?(:join)
+    display_type = if base_name and view_config.has_key? :"#{base_name}_display_type_field"
+      document[view_config[:"#{base_name}_display_type_field"]]
+    end
+
+    display_type ||= document[view_config.display_type_field]
+
+    display_type ||= 'default'
 
     # .to_s is necessary otherwise the default return value is not always a string
     # using "_" as sep. to more closely follow the views file naming conventions
     # parameterize uses "-" as the default sep. which throws errors
-    "#{display_type.gsub("-"," ")}".parameterize("_").to_s
+    Array(display_type).join(" ").gsub("-","_").parameterize("_")
   end
 
   ##
@@ -466,7 +472,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [String] base name for the partial
   # @param [Hash] locales to pass through to the partials
   def render_document_partial(doc, base_name, locals = {})
-    format = document_partial_name(doc)
+    format = document_partial_name(doc, base_name)
 
     document_partial_path_templates.each do |str|
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method

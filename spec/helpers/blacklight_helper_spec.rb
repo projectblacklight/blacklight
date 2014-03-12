@@ -445,4 +445,51 @@ describe BlacklightHelper do
       expect(helper.should_show_spellcheck_suggestions? response).to be_false
     end
   end
+
+  describe "#document_partial_name" do
+    let(:blacklight_config) { Blacklight::Configuration.new }
+
+    before do
+      helper.stub(blacklight_config: blacklight_config)
+    end
+
+    context "with a solr document with empty fields" do
+      let(:document) { SolrDocument.new }
+      it "should be the default value" do
+        expect(helper.document_partial_name(document)).to eq 'default'
+      end
+    end
+
+    context "with a solr document with the display type field set" do
+      let(:document) { SolrDocument.new 'my_field' => 'xyz'}
+
+      before do
+        blacklight_config.show.display_type_field = 'my_field'
+      end
+
+      it "should use the value in the configured display type field" do
+        expect(helper.document_partial_name(document)).to eq 'xyz'
+      end
+
+      it "should use the value in the configured display type field if the action-specific field is empty" do
+        expect(helper.document_partial_name(document, :some_action)).to eq 'xyz'
+      end
+    end
+
+    context "with a solr doucment with an action-specific field set" do
+
+      let(:document) { SolrDocument.new 'my_field' => 'xyz', 'other_field' => 'abc' }
+
+      before do
+        blacklight_config.show.media_display_type_field = 'my_field'
+        blacklight_config.show.metadata_display_type_field = 'other_field'
+      end
+
+      it "should use the value in the action-specific fields" do
+        expect(helper.document_partial_name(document, :media)).to eq 'xyz'
+        expect(helper.document_partial_name(document, :metadata)).to eq 'abc'
+      end
+
+    end
+  end
 end
