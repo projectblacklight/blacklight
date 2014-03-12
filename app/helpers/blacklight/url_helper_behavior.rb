@@ -1,11 +1,19 @@
+require 'deprecation'
 module Blacklight::UrlHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 6.0'
 
   ##
   # Extension point for downstream applications
-  # to provide more interesting routing to 
+  # to provide more interesting routing to
   # documents
   def url_for_document doc
-    doc
+    if controller.is_a? Blacklight::Catalog and doc.is_a? SolrDocument and
+        (!doc.respond_to?(:to_model) or doc.to_model.is_a? SolrDocument)
+      { controller: controller_name, action: :show, id: doc }
+    else
+      doc
+    end
   end
 
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
@@ -15,13 +23,19 @@ module Blacklight::UrlHelperBehavior
   def link_to_document(doc, opts={:label=>nil, :counter => nil})
     opts[:label] ||= document_show_link_field(doc)
     label = render_document_index_label doc, opts
-    link_to label, url_for_document(doc), search_session_params(opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
+    link_to label, url_for_document(doc), document_link_params(doc, opts)
   end
+
+  def document_link_params(doc, opts)
+    session_tracking_params(doc, opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
+  end
+  protected :document_link_params
 
   ##
   # Link to the previous document in the current search context
   def link_to_previous_document(previous_document)
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), search_session_params(search_session['counter'].to_i - 1).merge(:class => "previous", :rel => 'prev')  do
+    link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(:class => "previous", :rel => 'prev')
+    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
       content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
     end
   end
@@ -29,16 +43,35 @@ module Blacklight::UrlHelperBehavior
   ##
   # Link to the next document in the current search context
   def link_to_next_document(next_document)
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), search_session_params(search_session['counter'].to_i + 1).merge(:class => "next", :rel => 'next') do
+    link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(:class => "next", :rel => 'next')
+    link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
     end
   end
 
   ##
   # Current search context parameters
-  def search_session_params counter
+  def search_session_params counter 
     { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
   end
+  deprecation_deprecate :search_session_params
+
+  ##
+  # Attributes for a link that gives a URL we can use to track clicks for the current search session
+  # @param [SolrDocument] document
+  # @param [Integer] counter
+  # @example
+  #   session_tracking_params(SolrDocument.new(id: 123), 7)
+  #   => { data: { :'tracker-href' => '/catalog/123/track?counter=7&search_id=999' } }
+  def session_tracking_params document, counter
+    if document.nil?
+      return {}
+    end
+  
+    { :data => {:'context-href' => track_solr_document_path(document, counter: counter, search_id: current_search_session.try(:id))}}
+  end
+  protected :session_tracking_params
+  
 
   #
   # link based helpers ->

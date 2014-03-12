@@ -29,7 +29,7 @@ describe "Alternate Controller Behaviors" do
     fill_in "q", :with=>"history"
     click_button 'search'
     expect(page).to have_selector ".document-thumbnail"
-    expect(page).to have_selector ".document-thumbnail a[data-counter]"
+    expect(page).to have_selector ".document-thumbnail a[data-context-href]"
     expect(page).to have_selector ".document-thumbnail a img"
 
   end

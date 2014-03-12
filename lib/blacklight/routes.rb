@@ -108,10 +108,14 @@ module Blacklight
       def solr_document(primary_resource)
         add_routes do |options|
 
-          args = {only: [:show, :update]}
+          args = {only: [:show]}
           args[:constraints] = options[:constraints] if options[:constraints]
 
-          resources :solr_document, args.merge(path: primary_resource, controller: primary_resource)
+          resources :solr_document, args.merge(path: primary_resource, controller: primary_resource) do
+            member do
+              post "track"
+            end
+          end
 
           # :show and :update are for backwards-compatibility with catalog_url named routes
           resources primary_resource, args

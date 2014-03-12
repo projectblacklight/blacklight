@@ -1,28 +1,42 @@
 //= require blacklight/core
 (function($) {
   Blacklight.do_search_context_behavior = function() {
-      $('a[data-counter]').click(function(event) {
-      var f = document.createElement('form'); f.style.display = 'none'; 
-      this.parentNode.appendChild(f); 
-      f.method = 'POST'; 
-      f.action = $(this).attr('href');
-      if(event.metaKey || event.ctrlKey){f.target = '_blank';};
-      var d = document.createElement('input'); d.setAttribute('type', 'hidden'); 
-      d.setAttribute('name', 'counter'); d.setAttribute('value', $(this).data('counter')); f.appendChild(d);
-      var id = document.createElement('input'); id.setAttribute('type', 'hidden');
-      id.setAttribute('name', 'search_id'); id.setAttribute('value', $(this).data('search_id')); f.appendChild(id);
-      var m = document.createElement('input'); m.setAttribute('type', 'hidden'); 
-      m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);
-      var m = document.createElement('input'); m.setAttribute('type', 'hidden'); 
-      m.setAttribute('name', $('meta[name="csrf-param"]').attr('content')); m.setAttribute('value', $('meta[name="csrf-token"]').attr('content')); f.appendChild(m);
+    $('a[data-context-href]').on('click.search-context', Blacklight.handleSearchContextMethod);
+  };
 
-      f.submit();
-        
-      return false;
-      });
+  // this is the $.rails.handleMethod with a couple adjustments, described inline:
+  // first, we're attaching this directly to the event handler, so we can check for meta-keys
+  Blacklight.handleSearchContextMethod = function(event) {
+    var link = $(this);
 
-    };  
-Blacklight.onLoad(function() {
-  Blacklight.do_search_context_behavior();  
-});
+    // instead of using the normal href, we need to use the context href instead
+    var href = link.data('context-href'),
+      method = 'post',
+      target = link.attr('target'),
+      csrfToken = $('meta[name=csrf-token]').attr('content'),
+      csrfParam = $('meta[name=csrf-param]').attr('content'),
+      form = $('<form method="post" action="' + href + '"></form>'),
+      metadataInput = '<input name="_method" value="' + method + '" type="hidden" />',
+      redirectHref = '<input name="redirect" value="' + link.attr('href') + '" type="hidden" />';
+
+    // check for meta keys.. if set, we should open in a new tab
+    if(event.metaKey || event.ctrlKey) {
+      target = '_blank';
+    }
+
+    if (csrfParam !== undefined && csrfToken !== undefined) {
+      metadataInput += '<input name="' + csrfParam + '" value="' + csrfToken + '" type="hidden" />';
+    }
+
+    if (target) { form.attr('target', target); }
+
+    form.hide().append(metadataInput).append(redirectHref).appendTo('body');
+    form.submit();
+
+    return false;
+  };
+
+  Blacklight.onLoad(function() {
+    Blacklight.do_search_context_behavior();
+  });
 })(jQuery);
