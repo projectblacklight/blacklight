@@ -248,6 +248,14 @@ describe BlacklightUrlHelper do
       expect(helper.link_to_document(@document, { :label => :title_display, :counter => 5  })).to match /\/catalog\/123456\/track\?counter=5/
     end
 
+    it "should merge the data- attributes from the options with the counter params" do
+      data = {'id'=>'123456','title_display'=>['654321']}
+      @document = SolrDocument.new(data)
+      link = helper.link_to_document @document, { data: { x: 1 }  }
+      expect(link).to have_selector '[data-x]'
+      expect(link).to have_selector '[data-context-href]'
+    end
+
     it "passes on the title attribute to the link_to_with_data method" do
       @document = SolrDocument.new('id'=>'123456')
       expect(helper.link_to_document(@document,:label=>"Some crazy long label...",:title=>"Some crazy longer label")).to match(/title=\"Some crazy longer label\"/)
