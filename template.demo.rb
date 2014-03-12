@@ -1,8 +1,5 @@
 gem "blacklight"
 
-# copy the blacklight jetty.yml into their app
-create_file "config/jetty.yml", File.read(File.expand_path('../config/jetty.yml', __FILE__))
-
 run "bundle install"
 
 # run the blacklight install generator
