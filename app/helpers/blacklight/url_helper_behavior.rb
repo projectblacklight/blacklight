@@ -27,7 +27,7 @@ module Blacklight::UrlHelperBehavior
   end
 
   def document_link_params(doc, opts)
-    session_tracking_params(doc, opts[:counter]).merge(opts.reject { |k,v| [:label, :counter].include? k  })
+    session_tracking_params(doc, opts[:counter]).deep_merge(opts.except(:label, :counter))
   end
   protected :document_link_params
 
