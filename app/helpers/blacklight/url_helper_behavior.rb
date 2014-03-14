@@ -8,9 +8,12 @@ module Blacklight::UrlHelperBehavior
   # to provide more interesting routing to
   # documents
   def url_for_document doc
-    if controller.is_a? Blacklight::Catalog and doc.is_a? SolrDocument and
+    if respond_to?(:blacklight_config) and
+        blacklight_config.show.route and
         (!doc.respond_to?(:to_model) or doc.to_model.is_a? SolrDocument)
-      { controller: controller_name, action: :show, id: doc }
+      route = blacklight_config.show.route.merge(action: :show, id: doc)
+      route[:controller] = controller_name if route[:controller] == :current
+      route
     else
       doc
     end

@@ -61,7 +61,15 @@ module Blacklight
             :respond_to => OpenStructWithHashAccess.new()
             ),
           # Additional configuration when displaying a single document
-          :show => ViewConfig::Show.new(:partials => [:show_header, :show]),
+          :show => ViewConfig::Show.new(
+            # default route parameters for 'show' requests
+            # set this to a hash with additional arguments to merge into 
+            # the route, or set `controller: :current` to route to the 
+            # current controller.
+            route: nil,
+            # partials to render for each document(see #render_document_partials) 
+            partials: [:show_header, :show]
+          ),
           # Configurations for specific types of index views
           :view => NestedOpenStructWithHashAccess.new(ViewConfig, 'list'),
           # Maxiumum number of spelling suggestions to offer

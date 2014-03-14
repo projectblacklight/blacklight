@@ -27,19 +27,31 @@ describe BlacklightUrlHelper do
     end
 
     it "should be a polymorphic routing-ready object" do
-      doc = double
+      doc = SolrDocument.new
       expect(helper.url_for_document(doc)).to eq doc
     end
 
-    it "should be a catalog controller-specific route" do
+    it "should allow for custom show routes" do
       doc = SolrDocument.new
+      helper.blacklight_config.show.route = { controller: 'catalog' }
       expect(helper.url_for_document(doc)).to eq({controller: 'catalog', action: :show, id: doc})
+    end
+
+    context "within bookmarks" do
+      let(:controller_class) { ::BookmarksController.new }
+
+      it "should use polymorphic routing" do
+        doc = SolrDocument.new
+        expect(helper.url_for_document(doc)).to eq doc
+      end
     end
 
     context "within an alternative catalog controller" do
       let(:controller_class) { ::AlternateController.new }
-
-      it "should be a catalog controller-specific route" do
+      before do
+        helper.blacklight_config.show.route = { controller: :current }
+      end
+      it "should support the :current controller configuration" do
         doc = SolrDocument.new
         expect(helper.url_for_document(doc)).to eq({controller: 'alternate', action: :show, id: doc})
       end
