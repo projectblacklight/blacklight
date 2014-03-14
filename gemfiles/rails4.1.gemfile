@@ -8,3 +8,4 @@ if File.exists?(file)
 end
 
 gem 'rails', '4.1.0.rc1'
+gem 'sass-rails', '~> 4.0.1'
