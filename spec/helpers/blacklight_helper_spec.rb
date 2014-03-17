@@ -513,4 +513,23 @@ describe BlacklightHelper do
 
     end
   end
+  describe "#type_field_to_partial_name" do
+    let(:document) { double }
+    context "with default value" do
+      subject { helper.type_field_to_partial_name(document, 'default') }
+      it { should eq 'default' } 
+    end
+    context "with spaces" do
+      subject { helper.type_field_to_partial_name(document, 'one two three') }
+      it { should eq 'one_two_three' } 
+    end
+    context "with hyphens" do
+      subject { helper.type_field_to_partial_name(document, 'one-two-three') }
+      it { should eq 'one_two_three' } 
+    end
+    context "an array" do
+      subject { helper.type_field_to_partial_name(document, ['one', 'two', 'three']) }
+      it { should eq 'one_two_three' } 
+    end
+  end
 end

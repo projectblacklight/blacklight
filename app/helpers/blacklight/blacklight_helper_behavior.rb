@@ -443,7 +443,21 @@ module Blacklight::BlacklightHelperBehavior
 
     display_type ||= 'default'
 
-    # .to_s is necessary otherwise the default return value is not always a string
+    type_field_to_partial_name(document, display_type)
+  end
+
+  ##
+  # Return a partial name for rendering a document
+  # this method can be overridden in order to transform the value
+  #   (e.g. 'PdfBook' => 'pdf_book')
+  #
+  # @param [SolrDocument] document
+  # @param [String, Array] display_type a value suggestive of a partial
+  # @return [String] the name of the partial to render
+  # @example
+  #  type_field_to_partial_name(['a book-article'])
+  #  => 'a_book_article'
+  def type_field_to_partial_name(document, display_type)
     # using "_" as sep. to more closely follow the views file naming conventions
     # parameterize uses "-" as the default sep. which throws errors
     Array(display_type).join(" ").gsub("-","_").parameterize("_")
