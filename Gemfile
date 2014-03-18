@@ -12,6 +12,7 @@ gem 'engine_cart', '~> 0.3.0'
 group :test do
   gem "blacklight-marc", "~> 5.0", github: "projectblacklight/blacklight_marc"
   gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
+  gem 'sass-rails', '~> 4.0.1'
 end
 
 file = File.expand_path("Gemfile", ENV['ENGINE_CART_DESTINATION'] || ENV['RAILS_ROOT'] || File.expand_path("../spec/internal", __FILE__))
