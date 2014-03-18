@@ -96,7 +96,7 @@ Blacklight.ajaxModal.triggerFormSelector  = "form[data-ajax-modal~=trigger], for
 // be preserved. MUST be manually prefixed with the modal selector,
 // so they only apply to things inside a modal.
 Blacklight.ajaxModal.preserveLinkSelector = Blacklight.ajaxModal.modalSelector + ' a[data-ajax-modal~=preserve]';
-Blacklight.ajaxModal.preserveFormSelector = Blacklight.ajaxModal.modalSelector + 'form[data-ajax-modal~=preserve]'
+Blacklight.ajaxModal.preserveFormSelector = Blacklight.ajaxModal.modalSelector + ' form[data-ajax-modal~=preserve]'
 
 Blacklight.ajaxModal.containerSelector    = "[data-ajax-modal~=container]";
 
