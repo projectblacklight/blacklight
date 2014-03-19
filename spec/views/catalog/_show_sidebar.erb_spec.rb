@@ -3,16 +3,13 @@ require 'spec_helper'
 # spec for sidebar partial in catalog show view
 
 describe "/catalog/_show_sidebar.html.erb" do
-  
-  include BlacklightHelper
-  include CatalogHelper
-
 
   before(:each) do
 
     view.stub(:blacklight_config).and_return(CatalogController.blacklight_config)
     view.stub(:has_user_authentication_provider?).and_return(false)
     view.stub(:current_search_session).and_return nil
+    view.stub(:search_session).and_return({})
   end
 
   it "should show more-like-this titles in the sidebar" do
