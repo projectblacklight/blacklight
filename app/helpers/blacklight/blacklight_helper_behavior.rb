@@ -575,4 +575,10 @@ module Blacklight::BlacklightHelperBehavior
   def presenter_class
     Blacklight::DocumentPresenter
   end
+  
+  ##
+  # Open Search discovery tag for HTML <head> links
+  def opensearch_description_tag title, href
+    tag :link, href: href, title: title, type: "application/opensearchdescription+xml", rel: "search"
+  end
 end

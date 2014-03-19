@@ -532,4 +532,24 @@ describe BlacklightHelper do
       it { should eq 'one_two_three' } 
     end
   end
+  
+  describe "#opensearch_description_tag" do
+    subject { helper.opensearch_description_tag 'title', 'href' }
+    
+    it "should have a search rel" do
+      expect(subject).to have_selector "link[rel='search']", visible: false
+    end
+    
+    it "should have the correct mime type" do
+      expect(subject).to have_selector "link[type='application/opensearchdescription+xml']", visible: false
+    end
+    
+    it "should have a title attribute" do
+      expect(subject).to have_selector "link[title='title']", visible: false
+    end
+    
+    it "should have an href attribute" do
+      expect(subject).to have_selector "link[href='href']", visible: false
+    end
+  end
 end
