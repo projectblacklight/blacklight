@@ -16,6 +16,7 @@ describe BlacklightUrlHelper do
 
     helper.stub(blacklight_config: blacklight_config)
     helper.stub(current_search_session: nil)
+    helper.stub(:search_session).and_return({})
   end
 
   describe "url_for_document" do
@@ -66,16 +67,16 @@ describe BlacklightUrlHelper do
   end
 
   describe "link_back_to_catalog" do
-    let(:query_params)  {{:q => "query", :f => "facets", :per_page => "10", :page => "2", :controller=>'catalog'}}
-    let(:bookmarks_query_params) {{ :page => "2", :controller=>'bookmarks'}}
+    let(:query_params)  {{:q => "query", :f => "facets", :controller=>'catalog'}}
+    let(:bookmarks_query_params) {{ :controller=>'bookmarks'}}
 
     it "should build a link tag to catalog using session[:search] for query params" do
       helper.stub(:current_search_session).and_return double(:query_params => query_params)
       tag = helper.link_back_to_catalog
       expect(tag).to match /q=query/
       expect(tag).to match /f=facets/
-      expect(tag).to match /per_page=10/
-      expect(tag).to match /page=2/
+      expect(tag).to_not match /page=/
+      expect(tag).to_not match /per_page=/
     end
 
     it "should build a link tag to bookmarks using session[:search] for query params" do
@@ -83,7 +84,25 @@ describe BlacklightUrlHelper do
       tag = helper.link_back_to_catalog
       expect(tag).to match /Back to Bookmarks/
       expect(tag).to match /\/bookmarks/
-      expect(tag).to match /page=2/
+    end
+
+    context "with a search context" do
+
+      it "should use the current search session counter and per page information to construct the appropriate pagination context" do
+        helper.stub(current_search_session: double(query_params: query_params))
+        helper.stub(search_session: { 'per_page' => 15, 'counter' => 31 })
+        tag = helper.link_back_to_catalog
+        expect(tag).to match /page=3/
+        expect(tag).to match /per_page=15/
+      end
+      
+      it "should omit per_page if the value is the same as the default" do
+        helper.stub(current_search_session: double(query_params: query_params))
+        helper.stub(search_session: { 'per_page' => 10, 'counter' => 31 })
+        tag = helper.link_back_to_catalog
+        expect(tag).to match /page=4/
+        expect(tag).to_not match /per_page=/
+      end
     end
 
     describe "when an alternate scope is passed in" do
@@ -96,8 +115,6 @@ describe BlacklightUrlHelper do
         expect(tag).to match /Back to Search/
         expect(tag).to match /q=query/
         expect(tag).to match /f=facets/
-        expect(tag).to match /per_page=10/
-        expect(tag).to match /page=2/
       end
     end
   end

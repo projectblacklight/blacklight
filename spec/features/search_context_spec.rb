@@ -1,0 +1,46 @@
+# -*- encoding : utf-8 -*-
+
+require 'spec_helper'
+
+describe "Search Results context", js: true do
+  it "should pass the current search id through" do
+    search_for ''
+    search_id =  Search.last.id.to_s
+    click_on 'Pluvial nectar of blessings'
+    expect(page).to have_content "« Previous | 10 of 30 | Next »"
+    prev = page.find("#previousNextDocument .previous")
+    expect(prev['data-context-href']).to eq "/catalog/2003546302/track?counter=9&search_id=#{search_id}"
+
+    click_on "« Previous"
+
+    prev = page.find("#previousNextDocument .previous")
+    expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&search_id=#{search_id}"
+  end
+  
+  it "should redirect context urls to the original url" do
+    search_for ''
+    first('.index_title a').click
+    expect(page).to have_content "« Previous | 1 of 30 | Next »"
+    expect(page.current_url).to_not have_content "/track"
+  end
+  
+  context "navigating between search results using context pagination" do
+    it "should update the back to search link with the current search pagination context" do
+      search_for ''
+      first('.index_title a').click
+      10.times do
+        click_on "Next »"
+      end
+      
+      click_on "Back to Search"
+      expect(page).to have_content "11 - 20"
+    end
+  end
+end
+
+
+def search_for q
+  visit root_path
+  fill_in "q", with: q
+  click_button 'search'
+end

@@ -12,6 +12,7 @@ describe "catalog/_index_header_default" do
   it "should render the document header" do
     assign :response, double(:params => {})
     view.stub(:current_search_session).and_return nil
+    view.stub(:search_session).and_return({})
     view.stub(:render_grouped_response?).and_return false
     view.stub(:blacklight_config).and_return(blacklight_config)
     view.stub(:render_bookmarks_control?).and_return false
