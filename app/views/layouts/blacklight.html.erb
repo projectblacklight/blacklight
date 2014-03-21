@@ -14,7 +14,7 @@
     <![endif]-->
 
     <title><%= render_page_title %></title>
-    <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
+    <%= opensearch_description_tag application_name, opensearch_catalog_path(:format => 'xml', :only_path => false) %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application" %>
@@ -30,22 +30,10 @@
   <body class="<%= render_body_class %>">
   <%= render :partial => 'shared/header_navbar' %>
 
-  <div id="ajax-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal menu" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      </div>
-    </div>
-  </div>
+  <%= render partial: 'shared/ajax_modal' %>
 
-<!-- /container -->
   <div id="main-container" class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div id="main-flashes">
-          <%= render :partial=>'/flash_msg' %>
-        </div>
-      </div>
-    </div>
+    <%= render :partial=>'/flash_msg', layout: 'shared/flash_messages' %>
 
     <div class="row">
       <%= yield %>

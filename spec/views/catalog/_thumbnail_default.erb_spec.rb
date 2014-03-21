@@ -21,6 +21,7 @@ describe "catalog/_thumbnail_default" do
     view.stub(:render_grouped_response?).and_return false
     view.stub(:blacklight_config).and_return(blacklight_config)
     view.stub(:current_search_session).and_return nil
+    view.stub(:search_session).and_return({})
   end
 
   it "should render the thumbnail if the document has one" do

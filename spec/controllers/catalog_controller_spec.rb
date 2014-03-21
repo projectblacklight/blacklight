@@ -202,6 +202,11 @@ describe CatalogController do
       put :track, :id => doc_id, :counter => 3
       expect(session[:search]['counter']).to eq "3"
     end
+    
+    it "should record the current per_page setting" do
+      put :track, :id => doc_id, :counter => 3, :per_page => 15
+      expect(session[:search]['per_page']).to eq "15"
+    end
 
     it "should redirect to show action for doc id" do
       put :track, :id => doc_id, :counter => 3

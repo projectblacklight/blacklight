@@ -201,27 +201,25 @@ module Blacklight
     # app level per_page and page to Solr rows and start. 
     def add_paging_to_solr(solr_params, user_params)
 
-      # Now any over-rides from current URL?
-      solr_params[:rows] = user_params[:rows].to_i  unless user_params[:rows].blank?
-      solr_params[:rows] = user_params[:per_page].to_i  unless user_params[:per_page].blank?
+      # user-provided parameters should override any default row
+      solr_params[:rows] = user_params[:rows].to_i unless user_params[:rows].blank?
+      solr_params[:rows] = user_params[:per_page].to_i unless user_params[:per_page].blank?
+      
+      # configuration defaults should only set a default value, not override a value set elsewhere (e.g. search field parameters)
+      solr_params[:rows] ||= blacklight_config.default_per_page unless blacklight_config.default_per_page.blank?
+      solr_params[:rows] ||= blacklight_config.per_page.first unless blacklight_config.per_page.blank?
+      
+      # set a reasonable default
+      Rails.logger.info "Solr :rows parameter not set (by the user, configuration, or default solr parameters); using 10 rows by default"
+      solr_params[:rows] ||= 10
 
-      # Do we need to translate :page to Solr :start?
+      # ensure we don't excede the max page size
+      solr_params[:rows] = blacklight_config.max_per_page if solr_params[:rows].to_i > blacklight_config.max_per_page
       unless user_params[:page].blank?
-        # already set solr_params["rows"] might not be the one we just set,
-        # could have been from app defaults too. But we need one.
-        # raising is consistent with prior RSolr magic keys behavior.
-        # We could change this to default to 10, or to raise on startup
-        # from config instead of at runtime.
-        if solr_params[:rows].blank?
-          raise Exception.new("To use pagination when no :per_page is supplied in the URL, :rows must be configured in blacklight_config default_solr_params")
-        end
         solr_params[:start] = solr_params[:rows].to_i * (user_params[:page].to_i - 1)
         solr_params[:start] = 0 if solr_params[:start].to_i < 0
       end
 
-      solr_params[:rows] ||= blacklight_config.per_page.first unless blacklight_config.per_page.blank?
-
-      solr_params[:rows] = blacklight_config.max_per_page if solr_params[:rows].to_i > blacklight_config.max_per_page
     end
 
     ###
