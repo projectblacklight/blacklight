@@ -463,7 +463,12 @@ describe Blacklight::SolrHelper do
         config.add_search_field("test_field",
                              :display_label => "Test", 
                              :key=>"test_field", 
-                             :solr_parameters => {:qf => "fieldOne^2.3 fieldTwo fieldThree^0.4", :pf => "", :spellcheck => 'false', :rows => "55", :sort => "request_params_sort" }
+                             :solr_parameters => {
+                               :qf => "fieldOne^2.3 fieldTwo fieldThree^0.4", 
+                               :pf => "", 
+                               :spellcheck => 'false', 
+                               :rows => "55", 
+                               :sort => "request_params_sort" }
                             )
         return config
       end
