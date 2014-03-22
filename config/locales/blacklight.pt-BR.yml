@@ -1,0 +1,224 @@
+pt-BR:
+  active_record:
+    models:
+      feedback: 'Feedback'
+    attributes:
+      feedback:
+        name: 'Seu Nome'
+        email: 'Seu Email'
+        message: 'Sua Mensagem'
+  views:
+    pagination:
+      first: '&laquo; primeiro'
+      last: 'último &raquo;'
+      previous: '&laquo; anterior'
+      next: 'próximo &raquo;'
+      truncate: '…'
+
+    pagination_compact:
+      previous: '&laquo; ant'
+      next: 'próx &raquo;'
+
+  blacklight:
+    application_name: 'Zupy!'
+
+    header_links:
+      login: 'Acessar'
+      logout: 'Sair'
+      bookmarks: 'Favoritos'
+      saved_searches: 'Buscas Salvas'
+      search_history: 'Histórico'
+
+    welcome: 'Bem-Vindo!'
+    and: 'e'
+    or: 'ou'
+
+    bookmarks:
+      collection:
+        add:
+          button: 'Adicionar aos Favoritos'
+      title: 'Favoritos'
+      no_bookmarks: 'Você não salvou nenhum Favorito'
+      add:
+        button: 'Favorito'
+        success:
+          one: 'Favorito Adicionado.'
+          other: 'Favoritos Adicionados.'
+        failure:  'Xiii, ocorreu um erro ao salvar o favorito.'
+      remove:
+        button: 'Remover favorito'
+        success: 'Favorito removido.'
+        failure: 'Xiii, ocorreu um erro a remover o favorito.'
+        action_confirm: 'Remover este favorito?'
+      clear:
+        action_title: 'Limpar favoritos'
+        action_confirm: 'Deseja limpar seus favoritos?'
+        success: 'Seus favoritos está limpo.'
+        failure: 'Xiii, ocorreu um erro ao limpar seus favoritos.'
+      need_login: 'Faça o login para ver ou modificar seus favoritos.'
+      list_title: 'Seus Favoritos'
+      delete: 'Excluir'
+
+    feedback:
+      valid_name: 'Preencha o Nome'
+      valid_email: 'Verifique seu endereço de email'
+      need_message: 'Escreva uma mensagem'
+      submit: 'Enviar!'
+      errors:
+        title: 'Por favor corrija os seguintes erros no formulário:'
+      complete:
+        title: 'Obrigado por seu contato'
+
+    saved_searches:
+      add:
+        success: 'Sua busca foi salva.'
+        failure: 'Xiii, ocorreu um erro ao salvar sua pesquisa.'
+      remove:
+        success: 'A busca salva foi excluída.'
+        failure: 'Xiii, ocorreu um erro ao excluir sua pesquisa.'
+      clear:
+        action_title: 'Limpar Buscas Salvas'
+        action_confirm: 'Deseja Excluir as Buscas Salvas?'
+        success: 'As buscas foram removidas.'
+        failure: 'Xiii, ocorreu um erro ao remover suas pesquisas.'
+      title: 'Pesquisas Salvas'
+      need_login: 'Por favor faça o login para gerenciar suas buscas salvas.'
+      no_searches: 'Você não salvou nenhuma busca'
+      list_title: 'Suas Buscas'
+      delete: 'excluir'
+
+    search_history:
+      clear:
+        action_title: 'Limpar Histórico de Busca'
+        action_confirm: 'Deseja limpar o histórico de Busca?'
+        success: 'Histórico de Busca removido.'
+        failure: 'Xiii, ocorreu um erro ao remover o histórico de busca.'
+      title: 'Histórico de Busca'
+      no_history: 'Não existe nada em seu histórico'
+      recent: 'Buscas Recentes'
+      forget: 'limpar'
+      save: 'salvar'
+
+    tools:
+      title: 'Ferramentas'
+      cite: 'Citar'
+      endnote: 'Exportar para EndNote'
+      refworks: 'Exportar para Refworks'
+      email: 'Email'
+      sms: 'SMS'
+      librarian_view: 'Librarian View'
+      clear: 'Limpar'
+
+    citation:
+      mla: 'MLA'
+      apa: 'APA'
+      chicago: 'Chicago'
+
+    email:
+      form:
+        title: 'Enviar por Email'
+        to: 'Email:'
+        message: 'Mensagem:'
+        submit: 'Enviar'
+      text:
+        title: 'Título: %{value}'
+        author: 'Autor: %{value}'
+        format: 'Formato: %{value}'
+        language: 'Idioma: %{value}'
+        subject:
+          one: 'Item: %{title}'
+          other: 'Itens'
+        url: 'URL: %{url}'
+        message: 'Mensagem: %{message}'
+
+      errors:
+        to:
+          invalid: 'Verifique seu endereço de email'
+          blank: 'Você precisa especificar um destinaário para enviar esta mensagem'
+    sms:
+      form:
+        title: 'Enviar por SMS'
+        to: 'Celular:'
+        carrier: 'Operadora'
+        carrier_prompt: 'Selecione a Operadora'
+        submit: 'Enviar'
+      text:
+        title: '%{value}'
+        author: ' por %{value}'
+        url: 'Link: %{url}'
+      errors:
+        to:
+          invalid: 'Você precisa digitar um número de telefone válido'
+          blank: "Você precisa digitar o número de telefone do destinatário para enviar uma mensagem"
+        carrier:
+          blank: 'Você precisa selecionar a operadora'
+
+    back_to_search: 'Voltar a busca'
+    back_to_bookmarks: 'Voltar aos Favoritos'
+
+    search:
+      title: '%{application_name} Resultado da Busca'
+      search_results_header: 'Busca'
+      search_results: 'Resultados da Busca'
+      errors:
+        request_error: "Desculpe, Eu não compreendi sua busca."
+        invalid_solr_id: "Desculpe, você solicitou um cadastro que não existe."
+      per_page:
+        label: '%{count}<span class="hide-text"> por página</span>'
+        button_label: '%{count} por página'
+        title: 'Número de resultados para mostrar por página'
+        submit: 'Atualizar'
+      sort:
+        label: 'Ordenar por %{field}'
+        submit: 'ordenar resultados'
+      form:
+        search_field:
+          label: 'Procurar em'
+          title: 'Opções da Busca'
+          post_label: 'por'
+        q: 'Busca...'
+        submit: 'Buscar'
+      pagination:
+        title: 'Navegação nos Resultados'
+      pagination_info:
+        no_items_found: 'Nenhum resultado encontrado para %{entry_name}'
+        single_item_found: '<strong>1</strong> para <strong>1</strong> de <strong>1</strong>'
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 de 1</strong>'
+        other: '<strong>%{current}</strong> de <strong>%{total}</strong>'
+      documents:
+        counter: '%{counter}. '
+      facets:
+        title: 'Filtre sua busca'
+        sort:
+          count: 'Ordenar por Número'
+          index: 'Ordem Alfabética A-Z'
+        count: '%{number}'
+        more: 'mais »'
+        selected:
+          remove: '[remover]'
+      filters:
+        title: 'Sua busca por:'
+        label: '%{label}:'
+        remove:
+          value: 'Remover filtro %{value}'
+          label_value: 'Remover %{label}: %{value}'
+      librarian_view:
+        title: 'Librarian View'
+        leader: 'LEADER %{leader}'
+      start_over: 'refazer busca'
+      show:
+        title: '%{document_title} - %{application_name}'
+      rss_feed: 'RSS para resultadoss'
+      atom_feed: 'Atom para resultados'
+      fields:
+        default: 'Palavra-chave'
+
+    entry_name:
+      default: 'registro'
+
+    did_you_mean: 'Você quis dizer: %{options}?'
+
