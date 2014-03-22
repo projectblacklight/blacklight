@@ -10,10 +10,6 @@ rake "db:migrate"
 
 # index some data
 rake "jetty:clean"
-
-require 'rails'
-require 'jettywrapper'
-
 rake "jetty:start"
 rake "blacklight:solr:seed"
 rake "jetty:stop"
