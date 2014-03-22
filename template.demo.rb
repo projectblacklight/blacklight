@@ -14,7 +14,6 @@ rake "jetty:clean"
 require 'rails'
 require 'jettywrapper'
 
-jetty_params = Jettywrapper.load_config('development')
-Jettywrapper.wrap(jetty_params) do
-  rake "blacklight:solr:seed"
-end
+rake "jetty:start"
+rake "blacklight:solr:seed"
+rake "jetty:stop"
