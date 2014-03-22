@@ -1,4 +1,4 @@
-gem "blacklight"
+gem "blacklight", ">= 5.3.0"
 
 run "bundle install"
 
