@@ -23,6 +23,16 @@ class BookmarksController < CatalogController
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
   
     @response, @document_list = get_solr_response_for_document_ids(bookmark_ids)
+
+    respond_to do |format|
+      format.html { }
+      format.endnote do 
+        # Just concatenate individual endnote exports with blank lines. Not
+        # every record can be exported as endnote -- only include those that
+        # can.
+        render :text => @document_list.collect {|d| d.export_as(:endnote) if d.export_formats.keys.include? :endnote}.join("\n"), :layout => false
+      end
+    end
   end
 
   def update
