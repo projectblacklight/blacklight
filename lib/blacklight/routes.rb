@@ -61,6 +61,7 @@ module Blacklight
       def bookmarks(_)
         add_routes do |options|
           delete "bookmarks/clear", :to => "bookmarks#clear", :as => "clear_bookmarks"
+          get "bookmarks/export/:encrypted_user_id", :to => "bookmarks#export", :as => "export_bookmarks_callback"
           resources :bookmarks
         end
       end
