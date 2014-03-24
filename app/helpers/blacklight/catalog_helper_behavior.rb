@@ -88,15 +88,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Export to Refworks URL
-  # 
-  # @param [SolrDocument]
-  # @return [String]
-  def refworks_export_url(document = @document)
-    "http://www.refworks.com/express/expressimport.asp?vendor=#{CGI.escape(application_name)}&filter=MARC%20Format&encoding=65001&url=#{CGI.escape(polymorphic_path(document, :format => 'refworks_marc_txt', :only_path => false))}"
-  end
-
-  ##
   # Get the classes to add to a document's div
   # 
   # @return [String]
@@ -209,5 +200,17 @@ module Blacklight::CatalogHelperBehavior
   def current_bookmarks response = nil
     response ||= @response
     @current_bookmarks ||= current_or_guest_user.bookmarks_for_documents(response.documents).to_a
+  end
+  
+  def render_marc_tools
+    return unless defined? Blacklight::Marc
+    
+    begin
+      # blacklight-marc 5.4+
+      render 'marc_tools'
+    rescue ActionView::MissingTemplate
+      # blacklight-marc 5.0+
+      render('endnote') + render('refworks')
+    end
   end
 end

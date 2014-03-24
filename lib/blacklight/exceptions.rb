@@ -9,6 +9,9 @@ module Blacklight
     # is not successful, raise this:
     class InvalidSolrID < RuntimeError
     end
+    
+    class ExpiredSessionToken < Exception
+    end
 
     class ECONNREFUSED < ::Errno::ECONNREFUSED; end
 
