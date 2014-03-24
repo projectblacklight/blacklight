@@ -9,4 +9,11 @@
       <li class="email">
         <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @bookmarks.collect {|doc| doc.document_id}), :class=>"btn btn-default", :id => "emailLink", :data => {:ajax_modal => "trigger"} %>
       </li>
+
+      <% if @document_list.any? {|d| d.export_formats.keys.include? :endnote } %>
+        <li class="endnote">
+          <%= link_to t('blacklight.tools.endnote'), bookmarks_path(:endnote, params_for_search), :class => "btn btn-default", :id => "endnoteLink" %>
+        </li>
+      <% end %>
+
 </ul>
