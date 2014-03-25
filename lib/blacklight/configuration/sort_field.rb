@@ -1,5 +1,5 @@
 module Blacklight
-  class Configuration::SortField < OpenStructWithHashAccess
+  class Configuration::SortField < Blacklight::Configuration::SolrField
     def normalize! blacklight_config = nil
       self.sort ||= self.field
 
@@ -8,6 +8,7 @@ module Blacklight
       self.field ||= self.sort
 
       self.key ||= self.field
+      super
     end
 
     def validate!

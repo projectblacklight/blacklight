@@ -32,28 +32,6 @@ describe Blacklight::SearchFields do
   it "should fill in default qt where needed" do
     expect(@search_field_obj.search_field_def_for_key("all_fields").qt).to eq @config.default_solr_params[:qt]
   end
-  
-  it "should return proper options_for_select arguments" do
-
-    select_arguments = @search_field_obj.search_field_options_for_select
-
-    select_arguments.each_index do |index|
-       argument = select_arguments[index]
-       config_hash = @search_field_obj.search_field_list[index]
-
-       expect(argument).to have(2).items
-       expect(argument[0]).to eq config_hash.label
-       expect(argument[1]).to eq config_hash.key
-    end    
-  end
-
-  it "should not include fields in select if :display_in_simple_search=>false" do
-    select_arguments = @search_field_obj.search_field_options_for_select
-
-    expect(select_arguments).not_to include(["No Display", "no_display"])
-  end
-
-  
 
   it "should lookup field definitions by key" do
     expect(@search_field_obj.search_field_def_for_key("title").key).to eq "title"

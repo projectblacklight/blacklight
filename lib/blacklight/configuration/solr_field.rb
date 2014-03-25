@@ -2,6 +2,8 @@ module Blacklight
   class Configuration::SolrField < OpenStructWithHashAccess
     def normalize! blacklight_config = nil
       self.label ||= default_label
+      self.if = true if self.if.nil?
+      self.unless = false if self.unless.nil?
       self
     end
   
@@ -18,4 +20,3 @@ module Blacklight
     end
   end
 end
-

@@ -60,22 +60,7 @@ module Blacklight::FacetsHelperBehavior
   def should_render_facet? display_facet
     # display when show is nil or true
     facet_config = facet_configuration_for_field(display_facet.name)
-
-    display = case facet_config.show
-    when Symbol
-      arity = method(facet_config.show).arity
-
-      if arity == 0
-        send(facet_config.show)
-      else 
-        send(facet_config.show, display_facet)
-      end
-    when Proc
-      facet_config.show.call self, facet_config, display_facet
-    else
-      facet_config.show
-    end
-
+    display = should_render_field?(facet_config, display_facet)
     return display && display_facet.items.present?
   end
 
