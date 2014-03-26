@@ -42,6 +42,10 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
       response['docs'] || []
     end
   end
+  
+  def documents
+    docs.collect{|doc| SolrDocument.new(doc, self) }
+  end
 
   def spelling
     self['spelling']
