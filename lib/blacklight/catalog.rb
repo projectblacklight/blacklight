@@ -38,7 +38,7 @@ module Blacklight::Catalog
     
     # get single document from the solr index
     def show
-      @response, @document = get_solr_response_for_doc_id    
+      @response, @document = get_solr_response_for_doc_id   
 
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
@@ -103,7 +103,7 @@ module Blacklight::Catalog
     
     # citation action
     def citation
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      @response, @documents = get_solr_response_for_document_ids(params[:id])
       respond_to do |format|
         format.html
         format.js { render :layout => false }
@@ -113,7 +113,7 @@ module Blacklight::Catalog
     
     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def email
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      @response, @documents = get_solr_response_for_document_ids(params[:id])
       
       if request.post? and validate_email_params
         email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_options)
@@ -136,7 +136,7 @@ module Blacklight::Catalog
     
     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
     def sms 
-      @response, @documents = get_solr_response_for_field_values(SolrDocument.unique_key,params[:id])
+      @response, @documents = get_solr_response_for_document_ids(params[:id])
       
       if request.post? and validate_sms_params
         to = "#{params[:to].gsub(/[^\d]/, '')}@#{sms_mappings[params[:carrier]]}"

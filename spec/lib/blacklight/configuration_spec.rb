@@ -39,11 +39,6 @@ describe "Blacklight::Configuration" do
       expect(@config.index).to be_a_kind_of OpenStruct
     end
 
-    it "should introspect SolrDocument for sensible defaults  for show + index" do
-      expect(@config.view_config(:show).title_field).to eq 'id'
-      expect(@config.index.title_field).to eq 'id'
-    end
-
     it "should have ordered hashes for field configuration" do
       expect(@config.facet_fields).to be_a_kind_of ActiveSupport::OrderedHash
       expect(@config.index_fields).to be_a_kind_of ActiveSupport::OrderedHash

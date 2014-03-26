@@ -2,22 +2,25 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
 
   require  'blacklight/solr_response/pagination_methods'
 
-  autoload :Spelling, 'blacklight/solr_response/spelling'
-  autoload :Facets, 'blacklight/solr_response/facets'
-  autoload :MoreLikeThis, 'blacklight/solr_response/more_like_this'
+  require 'blacklight/solr_response/response'
+  require 'blacklight/solr_response/spelling'
+  require 'blacklight/solr_response/facets'
+  require 'blacklight/solr_response/more_like_this'
   autoload :GroupResponse, 'blacklight/solr_response/group_response'
   autoload :Group, 'blacklight/solr_response/group'
 
   include PaginationMethods
+  include Spelling
+  include Facets
+  include Response
+  include MoreLikeThis
 
   attr_reader :request_params
-  def initialize(data, request_params)
+  attr_accessor :solr_document_model
+  def initialize(data, request_params, options = {})
     super(data)
     @request_params = request_params
-    extend Spelling
-    extend Facets
-    extend Response
-    extend MoreLikeThis
+    self.solr_document_model = options[:solr_document_model] || SolrDocument
   end
 
   def header
@@ -44,11 +47,7 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
   end
   
   def documents
-    docs.collect{|doc| SolrDocument.new(doc, self) }
-  end
-
-  def spelling
-    self['spelling']
+    docs.collect{|doc| solr_document_model.new(doc, self) }
   end
 
   def grouped
@@ -76,23 +75,4 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
     self.has_key? "grouped"
   end
 
-  module Response
-    def response
-      self[:response] || {}
-    end
-    
-    # short cut to response['numFound']
-    def total
-      response[:numFound].to_s.to_i
-    end
-    
-    def start
-      response[:start].to_s.to_i
-    end
-
-    def empty?
-      total == 0
-    end
-    
-  end
 end

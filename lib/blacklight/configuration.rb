@@ -1,3 +1,5 @@
+require 'solr_document'
+
 module Blacklight
   ##
   # Blacklight::Configuration holds the configuration for a Blacklight::Controller, including
@@ -18,8 +20,6 @@ module Blacklight
     class << self
       def default_values
         @default_values ||= begin
-          unique_key = ((SolrDocument.unique_key if defined?(SolrDocument)) || 'id')
-
           {
           # HTTP method to use when making requests to solr; valid
           # values are :get and :post.
@@ -30,6 +30,7 @@ module Blacklight
           :solr_path => 'select',
           # Default values of parameters to send with every search request
           :default_solr_params => {},
+          :solr_document_model => SolrDocument,
           # The solr rqeuest handler to use when requesting only a single document 
           :document_solr_request_handler => 'document',
           # THe path to send single document requests to solr
@@ -50,7 +51,7 @@ module Blacklight
           # General configuration for all views
           :index => ViewConfig::Index.new(
             # solr field to use to render a document title
-            :title_field => unique_key,
+            :title_field => nil,
             # solr field to use to render format-specific partials
             :display_type_field => 'format',
             # partials to render for each document(see #render_document_partials)
@@ -159,6 +160,10 @@ module Blacklight
       field ||= sort_fields.values.first
 
       field
+    end
+    
+    def default_title_field
+      solr_document_model.unique_key || 'id'
     end
 
     ##

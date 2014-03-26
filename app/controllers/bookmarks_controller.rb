@@ -22,7 +22,7 @@ class BookmarksController < CatalogController
     @bookmarks = current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
   
-    @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, bookmark_ids)
+    @response, @document_list = get_solr_response_for_document_ids(bookmark_ids)
   end
 
   def update
@@ -41,13 +41,13 @@ class BookmarksController < CatalogController
     if params[:bookmarks]
       @bookmarks = params[:bookmarks]
     else
-      @bookmarks = [{ :document_id => params[:id] }]
+      @bookmarks = [{ document_id: params[:id], document_type: blacklight_config.solr_document_model.to_s }]
     end
 
     current_or_guest_user.save! unless current_or_guest_user.persisted?
 
     success = @bookmarks.all? do |bookmark|
-      current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
+      current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.bookmarks.where(bookmark).exists?
     end
 
     if request.xhr?
@@ -66,10 +66,10 @@ class BookmarksController < CatalogController
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be. 
   def destroy
-    bookmark = current_or_guest_user.existing_bookmark_for(params[:id])
-    
-    success = (!bookmark) || current_or_guest_user.bookmarks.delete(bookmark)
-    
+    bookmark = current_or_guest_user.bookmarks.where(document_id: params[:id], document_type: blacklight_config.solr_document_model).first
+
+    success = bookmark && bookmark.delete && bookmark.destroyed?
+
     unless request.xhr?
       if success
         flash[:notice] =  I18n.t('blacklight.bookmarks.remove.success')
