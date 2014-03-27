@@ -46,6 +46,7 @@
 
 module Blacklight::SolrHelper
   extend ActiveSupport::Concern
+  extend Deprecation
   include Blacklight::SearchFields
   include Blacklight::Facet
   include ActiveSupport::Benchmarkable
@@ -281,6 +282,7 @@ module Blacklight::SolrHelper
     solr_response = find(solr_params)
     SolrDocument.new(solr_response.docs.first, solr_response) unless solr_response.docs.empty?
   end
+  deprecation_deprecate :get_single_doc_via_search
 
   # Get the previous and next document from a search result
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})

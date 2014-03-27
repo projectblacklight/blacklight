@@ -295,8 +295,7 @@ describe CatalogController do
       @mock_response = double()
       @mock_document = double()
       @mock_document.stub(:export_formats => {})
-      controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
-                      :get_single_doc_via_search => @mock_document)
+      controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document])
       get :show, :id => doc_id
       response.should render_template(:show)
     end
@@ -306,8 +305,7 @@ describe CatalogController do
         @mock_response = double()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+        controller.stub(:find => @mock_response )
       end
       before(:each) do
         get :show, :id => doc_id
@@ -333,11 +331,7 @@ describe CatalogController do
         @mock_response = double()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
-
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+        controller.stub(find: @mock_response)
       end
 
        before(:each) do
@@ -373,8 +367,8 @@ describe CatalogController do
       @mock_document = double()
       @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
       @mock_document = double()
-      controller.stub(:find => @mock_response, 
-                      :get_single_doc_via_search => @mock_document)
+      controller.stub(find: @mock_response)
+                      
     end
     it "should return an opensearch description" do
       get :opensearch, :format => 'xml'
@@ -388,15 +382,9 @@ describe CatalogController do
 
   describe "email/sms" do
     doc_id = '2007020969'
-      before do
-        @mock_response = double()
-        @mock_document = double()
-        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
-        @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
-      end
-    before(:each) do
+    let(:mock_response) { double(docs: [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}]) }
+    before do
+      controller.stub(find: mock_response)
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
       SolrDocument.use_extension( Blacklight::Solr::Document::Email )
       SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
@@ -468,21 +456,15 @@ describe CatalogController do
 
   describe "errors" do
     it "should return status 404 for a record that doesn't exist" do
-        @mock_response = double()
-        @mock_response.stub(:docs => [])
-        @mock_document = double()
-        controller.stub(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
+      @mock_response = double(docs: [])
+      controller.stub(find: @mock_response)
       get :show, :id=>"987654321"
       expect(response.status).to eq 404
       expect(response.content_type).to eq Mime::HTML
     end
     it "should return status 404 for a record that doesn't exist even for non-html format" do
-      @mock_response = double()
-      @mock_response.stub(:docs => [])
-      @mock_document = double()
-      controller.stub(:find => @mock_response,
-                      :get_single_doc_via_search => @mock_document)
+      @mock_response = double(docs: [])
+      controller.stub(find: @mock_response)
 
       get :show, :id=>"987654321", :format => "xml"
       expect(response.status).to eq 404
@@ -523,9 +505,6 @@ describe CatalogController do
 
     before do
       controller.stub(:has_user_authentication_provider?) { false }
-        @mock_response = double()
-        @mock_document = double()
-        controller.stub(:get_single_doc_via_search => @mock_document)
     end
 
     it "should not show user util links" do
