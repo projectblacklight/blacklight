@@ -65,7 +65,7 @@ describe FacetsHelper do
 
     it "should call a helper to determine if it should render a field" do
       a = double(:items => [1,2], :name=>'helper_with_an_arg_show')
-      helper.should_receive(:my_helper_with_an_arg).with(a).and_return(true)
+      helper.should_receive(:my_helper_with_an_arg).with(@config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
       expect(helper.should_render_facet?(a)).to be_true
     end
 

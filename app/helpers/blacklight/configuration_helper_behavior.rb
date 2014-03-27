@@ -18,6 +18,15 @@ module Blacklight::ConfigurationHelperBehavior
   def search_fields
     search_field_options_for_select
   end
+  
+  # Returns suitable argument to options_for_select method, to create
+  # an html select based on #search_field_list. Skips search_fields
+  # marked :include_in_simple_select => false
+  def search_field_options_for_select
+    blacklight_config.search_fields.collect do |key, field_def|
+      [field_def.label,  field_def.key] if should_render_field?(field_def)
+    end.compact
+  end
 
   # used in the catalog/_show/_default partial
   def document_show_fields document=nil
@@ -124,6 +133,37 @@ module Blacklight::ConfigurationHelperBehavior
   def per_page_options_for_select
     blacklight_config.per_page.map do |count|
       [t(:'blacklight.search.per_page.label', :count => count).html_safe, count]
+    end
+  end
+  
+  ##
+  # Determine whether to render a field by evaluating :if and :unless conditions
+  #
+  # @param [SolrDocument] document
+  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @return [Boolean]
+  def should_render_field? field_config, *args
+    if_value = evaluate_configuration_conditional(field_config.if, field_config, *args)
+    
+    unless_value = field_config.unless.nil? || !evaluate_configuration_conditional(field_config.unless, field_config, *args)
+
+    if_value && unless_value
+  end
+  
+  def evaluate_configuration_conditional proc_helper_or_boolean, *args_for_procs_and_methods
+    case proc_helper_or_boolean
+    when Symbol
+      arity = method(proc_helper_or_boolean).arity
+
+      if arity == 0
+        send(proc_helper_or_boolean)
+      else 
+        send(proc_helper_or_boolean, *args_for_procs_and_methods)
+      end
+    when Proc
+      proc_helper_or_boolean.call self, *args_for_procs_and_methods
+    else
+      proc_helper_or_boolean
     end
   end
 end

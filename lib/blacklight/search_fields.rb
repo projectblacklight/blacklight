@@ -38,15 +38,6 @@ module Blacklight::SearchFields
     blacklight_config.search_fields.values
   end
 
-  # Returns suitable argument to options_for_select method, to create
-  # an html select based on #search_field_list. Skips search_fields
-  # marked :include_in_simple_select => false
-  def search_field_options_for_select
-    blacklight_config.search_fields.collect do |key, field_def|
-      [field_def.label,  field_def.key] unless field_def.include_in_simple_select == false
-    end.compact
-  end
-
   # Looks up a search field blacklight_config hash from search_field_list having
   # a certain supplied :key. 
   def search_field_def_for_key(key)

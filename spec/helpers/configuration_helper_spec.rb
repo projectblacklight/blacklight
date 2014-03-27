@@ -121,4 +121,87 @@ describe BlacklightConfigurationHelper do
       expect(helper.per_page_options_for_select).to include ["33<span class=\"sr-only\"> per page</span>", 33]
     end
   end
+  
+  describe "#should_render_field?" do
+    let(:field_config) { double('field config', if: true, unless: false) }
+    
+    before do
+      helper.stub(document_has_value?: true)
+    end
+
+    it "should be true" do
+      expect(helper.should_render_field?(field_config)).to be_true
+    end
+    
+    it "should be false if the :if condition is false" do
+      field_config.stub(if: false)
+      expect(helper.should_render_field?(field_config)).to be_false
+    end
+    
+    it "should be false if the :unless condition is true" do
+      field_config.stub(unless: true)
+      expect(helper.should_render_field?(field_config)).to be_false
+    end
+  end
+  
+  describe "#evaluate_configuration_conditional" do
+    it "should pass through regular values" do
+      val = double
+      expect(helper.evaluate_configuration_conditional(val)).to eq val
+    end
+
+    it "should execute a helper method" do
+      helper.stub(:my_helper => true)
+      expect(helper.evaluate_configuration_conditional(:my_helper)).to be_true
+    end
+
+    it "should call a helper to determine if it should render a field" do
+      a = double
+      helper.should_receive(:my_helper_with_an_arg).with(a).and_return(true)
+      expect(helper.evaluate_configuration_conditional(:my_helper_with_an_arg, a)).to be_true
+    end
+
+    it "should evaluate a Proc to determine if it should render a field" do
+      one_arg_lambda = lambda { |context, a| true }
+      two_arg_lambda = lambda { |context, a, b| true }
+      expect(helper.evaluate_configuration_conditional(one_arg_lambda, 1)).to be_true
+      expect(helper.evaluate_configuration_conditional(two_arg_lambda, 1, 2)).to be_true
+    end
+  end
+  
+  describe "#search_field_options_for_select" do
+    
+    before do
+    
+      @config = Blacklight::Configuration.new do |config|
+        config.default_solr_params = { :qt => 'search' }
+        
+        config.add_search_field 'all_fields', :label => 'All Fields'
+        config.add_search_field 'title', :qt => 'title_search'
+        config.add_search_field 'author', :qt => 'author_search'
+        config.add_search_field 'subject', :qt => 'subject_search'
+        config.add_search_field 'no_display', :qt => 'something', :include_in_simple_select => false
+      end
+
+      helper.stub(blacklight_config: @config)
+    end
+    
+    it "should return proper options_for_select arguments" do
+
+      select_arguments = helper.search_field_options_for_select
+
+      select_arguments.each do |(label, key)|
+         config_hash = @config.search_fields[key]
+
+         expect(label).to eq config_hash.label
+         expect(key).to eq config_hash.key
+      end    
+    end
+
+    it "should not include fields in select if :display_in_simple_search=>false" do
+      select_arguments = helper.search_field_options_for_select
+
+      expect(select_arguments).not_to include(["No Display", "no_display"])
+    end
+  end
 end

@@ -134,9 +134,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Configuration::SolrField] solr_field
   # @return [Boolean]
   def should_render_index_field? document, solr_field
-    document.has?(solr_field.field) ||
-      (document.has_highlight_field? solr_field.field if solr_field.highlight) ||
-      solr_field.accessor
+    should_render_field?(solr_field, document) && document_has_value?(document, solr_field)
   end
 
   ##
@@ -146,9 +144,19 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Configuration::SolrField] solr_field
   # @return [Boolean]
   def should_render_show_field? document, solr_field
-    document.has?(solr_field.field) ||
-      (document.has_highlight_field? solr_field.field if solr_field.highlight) ||
-      solr_field.accessor
+    should_render_field?(solr_field, document) && document_has_value?(document, solr_field)
+  end
+  
+  ##
+  # Check if a document has (or, might have, in the case of accessor methods) a value for
+  # the given solr field
+  # @param [SolrDocument] document
+  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @return [Boolean]
+  def document_has_value? document, field_config
+    document.has?(field_config.field) ||
+      (document.has_highlight_field? field_config.field if field_config.highlight) ||
+      field_config.accessor
   end
 
   ##

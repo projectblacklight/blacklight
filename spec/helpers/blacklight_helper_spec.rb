@@ -136,6 +136,48 @@ describe BlacklightHelper do
       end
     end
   end
+  
+  describe "#should_render_index_field?" do
+    before do
+      helper.stub(should_render_field?: true, document_has_value?: true)
+    end
+    
+    it "should be true" do
+      expect(helper.should_render_index_field?(double, double)).to be_true
+    end
+    
+    it "should be false if the document doesn't have a value for the field" do
+      helper.stub(document_has_value?: false)
+      expect(helper.should_render_index_field?(double, double)).to be_false
+      
+    end
+    
+    it "should be false if the configuration has the field disabled" do
+      helper.stub(should_render_field?: false)
+      expect(helper.should_render_index_field?(double, double)).to be_false
+    end
+  end
+
+  describe "#should_render_show_field?" do
+    before do
+      helper.stub(should_render_field?: true, document_has_value?: true)
+    end
+    
+    it "should be true" do
+      expect(helper.should_render_show_field?(double, double)).to be_true
+    end
+    
+    it "should be false if the document doesn't have a value for the field" do
+      helper.stub(document_has_value?: false)
+      expect(helper.should_render_show_field?(double, double)).to be_false
+      
+    end
+    
+    it "should be false if the configuration has the field disabled" do
+      helper.stub(should_render_field?: false)
+      expect(helper.should_render_show_field?(double, double)).to be_false
+    end
+  end
 
   describe "render_index_field_value" do
     before do
@@ -336,13 +378,13 @@ describe BlacklightHelper do
       expect(value).to eq "123"
     end
   end
-
-  describe "#should_render_index_field?" do
+  
+  describe "#document_has_value?" do
     it "should if the document has the field value" do
       doc = double()
       doc.stub(:has?).with('asdf').and_return(true)
       field_config = double(:field => 'asdf')
-      helper.should_render_index_field?(doc, field_config).should == true
+      helper.document_has_value?(doc, field_config).should == true
     end
 
     it "should if the document has a highlight field value" do
@@ -350,7 +392,7 @@ describe BlacklightHelper do
       doc.stub(:has?).with('asdf').and_return(false)
       doc.stub(:has_highlight_field?).with('asdf').and_return(true)
       field_config = double(:field => 'asdf', :highlight => true)
-      helper.should_render_index_field?(doc, field_config).should == true
+      helper.document_has_value?(doc, field_config).should == true
     end
 
     it "should if the field has a model accessor" do
@@ -358,32 +400,7 @@ describe BlacklightHelper do
       doc.stub(:has?).with('asdf').and_return(false)
       doc.stub(:has_highlight_field?).with('asdf').and_return(false)
       field_config = double(:field => 'asdf', :highlight => true, :accessor => true)
-      helper.should_render_index_field?(doc, field_config).should == true
-    end
-  end
-
-  describe "#should_render_show_field?" do
-    it "should if the document has the field value" do
-      doc = double()
-      doc.stub(:has?).with('asdf').and_return(true)
-      field_config = double(:field => 'asdf')
-      expect(helper.should_render_show_field?(doc, field_config)).to be_true
-    end
-
-    it "should if the document has a highlight field value" do
-      doc = double()
-      doc.stub(:has?).with('asdf').and_return(false)
-      doc.stub(:has_highlight_field?).with('asdf').and_return(true)
-      field_config = double(:field => 'asdf', :highlight => true)
-      expect(helper.should_render_show_field?(doc, field_config)).to be_true
-    end
-
-    it "should if the field has a model accessor" do
-      doc = double()
-      doc.stub(:has?).with('asdf').and_return(false)
-      doc.stub(:has_highlight_field?).with('asdf').and_return(false)
-      field_config = double(:field => 'asdf', :highlight => true, :accessor => true)
-      helper.should_render_show_field?(doc, field_config).should == true
+      helper.document_has_value?(doc, field_config).should == true
     end
   end
 
