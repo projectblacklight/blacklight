@@ -706,8 +706,10 @@ describe Blacklight::SolrHelper do
   end
   
    describe "get_facet_pagination", :integration => true do
-    before(:each) do
-      @facet_paginator = subject.get_facet_pagination(@facet_field)
+    before do
+      Deprecation.silence(Blacklight::SolrHelper) do
+        @facet_paginator = subject.get_facet_pagination(@facet_field)
+      end
     end
     it 'should return a facet paginator' do
       expect(@facet_paginator).to be_a_kind_of(Blacklight::Solr::FacetPaginator)
