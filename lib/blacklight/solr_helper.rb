@@ -81,6 +81,7 @@ module Blacklight::SolrHelper
   #   @param [Hash] parameters for RSolr::Client#send_and_receive
   # @overload find(params)
   #   @param [Hash] parameters for RSolr::Client#send_and_receive
+  # @return [Blacklight::SolrResponse] the solr response object
   def find(*args)
     # In later versions of Rails, the #benchmark method can do timing
     # better for us. 
@@ -140,7 +141,7 @@ module Blacklight::SolrHelper
   	
   # a solr query method
   # given a user query,
-  # Returns a solr response object
+  # @return [Blacklight::SolrResponse] the solr response object
   def query_solr(user_params = params || {}, extra_controller_params = {})
     solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
 
@@ -168,6 +169,7 @@ module Blacklight::SolrHelper
   
   # a solr query method
   # retrieve a solr document, given the doc id
+  # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_params = solr_doc_params(id).merge(extra_controller_params)
     solr_response = find(blacklight_config.document_solr_path, solr_params)
@@ -177,6 +179,7 @@ module Blacklight::SolrHelper
   end
   
   # given a field name and array of values, get the matching SOLR documents
+  # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
   def get_solr_response_for_field_values(field, values, extra_solr_params = {})
     values = Array(values) unless values.respond_to? :each
 
@@ -201,7 +204,7 @@ module Blacklight::SolrHelper
     
     solr_response = find(self.solr_search_params().merge(solr_params) )
     document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
-    [solr_response,document_list]
+    [solr_response, document_list]
   end
   
   # returns a params hash for a single facet field solr query.
@@ -242,6 +245,7 @@ module Blacklight::SolrHelper
   
   ##
   # Get the solr response when retrieving only a single facet field
+  # @return [Blacklight::SolrResponse] the solr response
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
     # Make the solr call
@@ -274,6 +278,7 @@ module Blacklight::SolrHelper
   # position in the search results and possibly some facets
   # Pass in an index where 1 is the first document in the list, and
   # the Blacklight app-level request params that define the search. 
+  # @return [Blacklight::SolrDocument, nil] the found document or nil if not found
   def get_single_doc_via_search(index, request_params)
     solr_params = solr_search_params(request_params)
 
@@ -286,6 +291,7 @@ module Blacklight::SolrHelper
   deprecation_deprecate :get_single_doc_via_search
 
   # Get the previous and next document from a search result
+  # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
 
     solr_params = solr_search_params(request_params).merge(extra_controller_params)
