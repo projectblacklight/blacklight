@@ -1104,7 +1104,9 @@ describe Blacklight::SolrHelper do
   describe "Get Document Via Search", :integration => true do
     before do
       @doc_row = 3
-      @doc = subject.get_single_doc_via_search(@doc_row, :q => @all_docs_query)
+      Deprecation.silence(Blacklight::SolrHelper) do
+        @doc = subject.get_single_doc_via_search(@doc_row, :q => @all_docs_query)
+      end
     end
 =begin
 # can't test these here, because the method only returns the document
@@ -1132,8 +1134,10 @@ describe Blacklight::SolrHelper do
     end
 
     it "should limit search result by facets when supplied" do
-      doc2 = subject.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
-      expect(doc2[:id]).not_to be_nil
+      Deprecation.silence(Blacklight::SolrHelper) do
+        doc2 = subject.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
+        expect(doc2[:id]).not_to be_nil
+      end
     end
 
   end
