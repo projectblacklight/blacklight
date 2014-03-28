@@ -46,6 +46,7 @@
 
 module Blacklight::SolrHelper
   extend ActiveSupport::Concern
+  extend Deprecation
   include Blacklight::SearchFields
   include Blacklight::Facet
   include ActiveSupport::Benchmarkable
@@ -266,6 +267,7 @@ module Blacklight::SolrHelper
       :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"]
     )
   end
+  deprecation_deprecate :get_facet_pagination
   
   # a solr query method
   # this is used when selecting a search result: we have a query and a 
