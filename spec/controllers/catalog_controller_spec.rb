@@ -303,7 +303,7 @@ describe CatalogController do
     describe "@document" do
       before do
         @mock_response = double()
-        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
+        @mock_response.stub(documents: [SolrDocument.new(id: 'my_fake_doc')])
         @mock_document = double()
         controller.stub(:find => @mock_response )
       end
@@ -327,6 +327,7 @@ describe CatalogController do
           "mock_export"
         end
       end
+      
       before do
         @mock_response = double()
         @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
@@ -334,7 +335,7 @@ describe CatalogController do
         controller.stub(find: @mock_response)
       end
 
-       before(:each) do
+      before(:each) do
 
         # Rails3 needs this to propertly setup a new mime type and
         # render the results. 
@@ -346,8 +347,19 @@ describe CatalogController do
         SolrDocument.use_extension(FakeExtension)
       end
       
+      before do
+        @mock_response = double()
+        @mock_response.stub(:documents => [SolrDocument.new(id: 'my_fake_doc')])
+        @mock_document = double()
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
+
+        controller.stub(:find => @mock_response, 
+                        :get_single_doc_via_search => @mock_document)
+      end
+
       it "should respond to an extension-registered format properly" do
-        get :show, :id => doc_id, :format => "mock" # This no longer works: :format => "mock"
+        get :show, :id => doc_id, :format => "mock"
         expect(response).to be_success
         expect(response.body).to match /mock_export/
       end
@@ -365,7 +377,7 @@ describe CatalogController do
     before do
       @mock_response = double()
       @mock_document = double()
-      @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}])
+      @mock_response.stub(documents:  [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')])
       @mock_document = double()
       controller.stub(find: @mock_response)
                       
@@ -382,7 +394,7 @@ describe CatalogController do
 
   describe "email/sms" do
     doc_id = '2007020969'
-    let(:mock_response) { double(docs: [{ :id => 'my_fake_doc' }, { :id => 'my_other_doc'}]) }
+    let(:mock_response) { double(documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
       controller.stub(find: mock_response)
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
@@ -456,15 +468,15 @@ describe CatalogController do
 
   describe "errors" do
     it "should return status 404 for a record that doesn't exist" do
-      @mock_response = double(docs: [])
-      controller.stub(find: @mock_response)
+      @mock_response = double(documents: [])
+      controller.stub(:find => @mock_response)
       get :show, :id=>"987654321"
       expect(response.status).to eq 404
       expect(response.content_type).to eq Mime::HTML
     end
     it "should return status 404 for a record that doesn't exist even for non-html format" do
-      @mock_response = double(docs: [])
-      controller.stub(find: @mock_response)
+      @mock_response = double(documents: [])
+      controller.stub(:find => @mock_response)
 
       get :show, :id=>"987654321", :format => "xml"
       expect(response.status).to eq 404

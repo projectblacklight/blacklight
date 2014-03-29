@@ -122,6 +122,7 @@ describe BlacklightHelper do
       helper.stub(:blacklight_config).and_return(@config)
       helper.stub(:has_user_authentication_provider?).and_return(true)
       helper.stub(:current_or_guest_user).and_return(User.new)
+      helper.stub(current_bookmarks: [])
     end
     describe "render_index_doc_actions" do
       it "should render partials" do

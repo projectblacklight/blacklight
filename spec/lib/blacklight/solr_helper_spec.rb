@@ -1049,7 +1049,6 @@ describe Blacklight::SolrHelper do
       expect(@document.id).to eq @doc_id
     end
     it 'should have non-nil values for required fields set in initializer' do
-      expect(@document.get(blacklight_config.view_config(:show).title_field)).not_to be_nil
       expect(@document.get(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
     end
   end
@@ -1129,7 +1128,6 @@ describe Blacklight::SolrHelper do
     end
 
     it 'should have non-nil values for required fields set in initializer' do
-      expect(@doc[blacklight_config.view_config(:show).title_field]).not_to be_nil
       expect(@doc[blacklight_config.view_config(:show).display_type_field]).not_to be_nil
     end
 
@@ -1250,7 +1248,7 @@ describe Blacklight::SolrHelper do
     describe "#get_solr_response_for_field_values" do
       before do
         @mock_response = double()
-        @mock_response.stub(:docs => [])
+        @mock_response.stub(documents: [])
       end
       it "should contruct a solr query based on the field and value pair" do
         subject.should_receive(:find).with(hash_including(:q => "field_name:(value)")).and_return(@mock_response)

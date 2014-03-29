@@ -205,4 +205,9 @@ module Blacklight::CatalogHelperBehavior
   def default_view_type_group_icon_classes view
     "glyphicon-#{view.to_s.parameterize } view-icon-#{view.to_s.parameterize}"
   end
+  
+  def current_bookmarks response = nil
+    response ||= @response
+    @current_bookmarks ||= current_or_guest_user.bookmarks_for_documents(response.documents).to_a
+  end
 end

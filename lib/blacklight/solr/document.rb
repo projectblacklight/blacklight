@@ -151,7 +151,14 @@ module Blacklight::Solr::Document
     return @semantic_value_hash
   end
   
+  def destroyed?
+    false
+  end
   
+  def new_record?
+    false
+  end
+
   # Certain class-level methods needed for the document-specific
   # extendability architecture
   module ClassMethods
@@ -159,6 +166,14 @@ module Blacklight::Solr::Document
     attr_writer :unique_key
     def unique_key
       @unique_key ||= 'id' 
+    end
+    
+    def primary_key
+      'id'
+    end
+    
+    def base_class
+      self
     end
 
     # Returns array of hashes of registered extensions. Each hash

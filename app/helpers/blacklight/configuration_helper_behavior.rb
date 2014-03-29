@@ -113,7 +113,7 @@ module Blacklight::ConfigurationHelperBehavior
 
   # Used in the document list partial (search view) for creating a link to the document show action
   def document_show_link_field document=nil
-    blacklight_config.view_config(document_index_view_type).title_field.to_sym
+    blacklight_config.view_config(document_index_view_type).title_field.try(:to_sym) || document.id
   end
 
   ##

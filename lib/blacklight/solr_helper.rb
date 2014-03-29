@@ -93,7 +93,7 @@ module Blacklight::SolrHelper
       key = blacklight_config.http_method == :post ? :data : :params
       res = blacklight_solr.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
       
-      solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params)
+      solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params, solr_document_model: blacklight_config.solr_document_model)
 
       Rails.logger.debug("Solr query: #{solr_params.inspect}")
       Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
@@ -133,8 +133,7 @@ module Blacklight::SolrHelper
     when (solr_response.grouped? && solr_response.grouped.length == 1)
       [solr_response.grouped.first, []]
     else
-      document_list = solr_response.docs.collect {|doc| SolrDocument.new(doc, solr_response)} 
-      [solr_response, document_list]
+      [solr_response, solr_response.documents]
     end
   end
 
@@ -173,20 +172,21 @@ module Blacklight::SolrHelper
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     solr_params = solr_doc_params(id).merge(extra_controller_params)
     solr_response = find(blacklight_config.document_solr_path, solr_params)
-    raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.docs.empty?
-    document = SolrDocument.new(solr_response.docs.first, solr_response)
-    [solr_response, document]
+    raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.documents.empty?
+    [solr_response, solr_response.documents.first]
+  end
+  
+  def get_solr_response_for_document_ids(ids=[], extra_solr_params = {})
+    get_solr_response_for_field_values(blacklight_config.solr_document_model.unique_key, ids, extra_solr_params)
   end
   
   # given a field name and array of values, get the matching SOLR documents
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
   def get_solr_response_for_field_values(field, values, extra_solr_params = {})
-    values = Array(values) unless values.respond_to? :each
-
-    q = if values.empty?
+    q = if Array(values).empty?
       "NOT *:*"
     else
-      "#{field}:(#{ values.to_a.map { |x| solr_param_quote(x)}.join(" OR ")})"
+      "#{field}:(#{ Array(values).map { |x| solr_param_quote(x)}.join(" OR ")})"
     end
 
     solr_params = {
@@ -203,8 +203,7 @@ module Blacklight::SolrHelper
     }.merge(extra_solr_params)
     
     solr_response = find(self.solr_search_params().merge(solr_params) )
-    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
-    [solr_response, document_list]
+    [solr_response, solr_response.documents]
   end
   
   # returns a params hash for a single facet field solr query.
@@ -286,7 +285,7 @@ module Blacklight::SolrHelper
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
     solr_response = find(solr_params)
-    SolrDocument.new(solr_response.docs.first, solr_response) unless solr_response.docs.empty?
+    solr_response.documents.first
   end
   deprecation_deprecate :get_single_doc_via_search
 
@@ -308,7 +307,7 @@ module Blacklight::SolrHelper
     solr_params[:facet] = false
     solr_response = find(solr_params)
 
-    document_list = solr_response.docs.collect{|doc| SolrDocument.new(doc, solr_response) }
+    document_list = solr_response.documents
 
     # only get the previous doc if there is one
     prev_doc = document_list.first if index > 0
@@ -337,7 +336,7 @@ module Blacklight::SolrHelper
     solr_params = solr_opensearch_params().merge(extra_controller_params)
     response = find(solr_params)
     a = [solr_params[:q]]
-    a << response.docs.map {|doc| doc[solr_params[:fl]].to_s }
+    a << response.documents.map {|doc| doc[solr_params[:fl]].to_s }
   end
   
   
@@ -386,4 +385,5 @@ module Blacklight::SolrHelper
   def should_add_to_solr field_name, field
     field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
   end
+
 end
