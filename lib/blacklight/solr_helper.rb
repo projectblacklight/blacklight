@@ -60,18 +60,6 @@ module Blacklight::SolrHelper
 
   end
 
-  def force_to_utf8(value)
-    case value
-    when Hash
-      value.each { |k, v| value[k] = force_to_utf8(v) }
-    when Array
-      value.each { |v| force_to_utf8(v) }
-    when String
-      value.force_encoding("utf-8")  if value.respond_to?(:force_encoding) 
-    end
-    value
-  end
-  
   ##
   # Execute a solr query
   # @see [RSolr::Client#send_and_receive]
@@ -93,7 +81,7 @@ module Blacklight::SolrHelper
       key = blacklight_config.http_method == :post ? :data : :params
       res = blacklight_solr.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
       
-      solr_response = Blacklight::SolrResponse.new(force_to_utf8(res), solr_params, solr_document_model: blacklight_config.solr_document_model)
+      solr_response = Blacklight::SolrResponse.new(res, solr_params, solr_document_model: blacklight_config.solr_document_model)
 
       Rails.logger.debug("Solr query: #{solr_params.inspect}")
       Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
