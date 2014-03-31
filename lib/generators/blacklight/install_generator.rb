@@ -105,8 +105,8 @@ EOF
       copy_file "blacklight.en.yml", "config/locales/blacklight.en.yml"
     end
 
-    def add_bookmarks_export_secret_token_initializer
-      template "config/initializers/blacklight_export_secret_token.rb"
+    def add_blacklight_initializer
+      template "config/initializers/blacklight_initializer.rb"
     end
   end
 end
