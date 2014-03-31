@@ -20,41 +20,31 @@ class BookmarksController < CatalogController
     catalog_index_url *args
   end
 
-  before_filter :verify_user, :except => :export
+  before_filter :verify_user
 
   def index
-    @bookmarks = current_or_guest_user.bookmarks
+    @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
   
     @response, @document_list = get_solr_response_for_document_ids(bookmark_ids)
 
     respond_to do |format|
       format.html { }
+      format.rss  { render :layout => false }
+      format.atom { render :layout => false }
+      format.json do
+        render json: render_search_results_as_json
+      end
+
+      additional_response_formats(format)
+      
       format.endnote do 
         # Just concatenate individual endnote exports with blank lines. Not
         # every record can be exported as endnote -- only include those that
         # can.
         render :text => @document_list.collect {|d| d.export_as(:endnote) if d.export_formats.keys.include? :endnote}.join("\n"), :layout => false
       end
-    end
-  end
 
-  # Much like #index, but does NOT require authentication, instead
-  # gets an _encrypted and signed_ user_id in params, and it delivers
-  # that users bookmarks, in some export format.
-  #
-  # Used for third party services requiring callback urls, such as refworks,
-  # that need to export a certain users bookmarks without being auth'd as
-  # that user.
-  def export
-    user_id = decrypt_user_id params[:encrypted_user_id]
-
-    @bookmarks = User.find(user_id).bookmarks
-    bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
-
-    @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, bookmark_ids)
-
-    respond_to do |format|
       format.refworks_marc_txt do        
         # Just concatenate individual refworks_marc_txt exports with blank lines. Not
         # every record can be exported as refworks_marc_txt -- only include those that
@@ -134,7 +124,9 @@ class BookmarksController < CatalogController
   
   protected
   def verify_user
-    flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_or_guest_user
+    unless current_or_guest_user or (action == "index" and token_or_current_or_guest_user)
+      flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied
+    end
   end
 
   def start_new_search_session?
@@ -170,5 +162,18 @@ class BookmarksController < CatalogController
   def message_encryptor
     derived_secret = bookmarks_export_secret_token("bookmarks session key")
     ActiveSupport::MessageEncryptor.new(derived_secret)
+  end
+  
+  def token_or_current_or_guest_user
+    token_user || current_or_guest_user
+  end
+  
+  def token_user
+    @token_user ||= if params[:encrypted_user_id]
+      user_id = decrypt_user_id params[:encrypted_user_id]
+      User.find(user_id)
+    else
+      nil
+    end
   end
 end
