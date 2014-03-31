@@ -9,6 +9,10 @@ class BookmarksController < CatalogController
   include Blacklight::SolrHelper
 
   copy_blacklight_config_from(CatalogController)
+
+  rescue_from Blacklight::Exceptions::ExpiredSessionToken do
+    head :unauthorized
+  end
  
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
@@ -139,34 +143,33 @@ class BookmarksController < CatalogController
 
   # Used for #export action, with encrypted user_id.
   def decrypt_user_id(encrypted_user_id)
-    encrypter = ActiveSupport::MessageEncryptor.new( bookmarks_export_secret_token )
-    return encrypter.decrypt_and_verify(encrypted_user_id)
+    user_id, timestamp = message_encryptor.decrypt_and_verify(encrypted_user_id)
+
+    if timestamp < 1.hour.ago
+      raise Blacklight::Exceptions::ExpiredSessionToken.new
+    end
+
+    user_id
   end
 
   # Used for #export action with encrypted user_id, available
   # as a helper method for views.
   def encrypt_user_id(user_id)
-    encrypter = ActiveSupport::MessageEncryptor.new( bookmarks_export_secret_token )
-    return encrypter.encrypt_and_sign(user_id)
+    message_encryptor.encrypt_and_sign([user_id, Time.now])
   end
   helper_method :encrypt_user_id
-
-  # Secret token used for encrypting user_id in export action?
-  # Use our special config blacklight_export_secret_token if defined (recommended for security),
-  # otherwise the app's config.secret_key_base if defined (Rails4) otherwise
-  # the app's config.secret_key_token if defined (Rails3) otherwise raise.
-  def bookmarks_export_secret_token
-    if Rails.application.config.respond_to? :blacklight_export_secret_token
-      return Rails.application.config.blacklight_export_secret_token
-    else      
-      # Dynamically set a temporary one. Definitely a bad way to do it,
-      # confusing and prob not thread-safe, but probably better than
-      # raising an error in old apps that upgraded without setting the
-      # export secret token.
-      Deprecation.warn(self.class, "You didn't set config.blacklight_export_secret_token. First randomly generate a secret value:\n    $ rake secret\nThen take that value and put it in config/initializers/blacklight_secret_token.rb:\n    Rails.application.config.secret_key_base = $secret\n")
-      Rails.application.config.blacklight_export_secret_token = SecureRandom.hex(64)
-      return Rails.application.config.blacklight_export_secret_token
-    end
+  
+  ##
+  # This method provides Rails 3 compatibility to our message encryptor.
+  # When we drop support for Rails 3, we can just use the AS::KeyGenerator
+  # directly instead of this helper.
+  def bookmarks_export_secret_token salt
+    OpenSSL::PKCS5.pbkdf2_hmac_sha1(Blacklight.secret_key, salt, 1000, 64)
   end
-
+  
+  def message_encryptor
+    derived_secret = bookmarks_export_secret_token("bookmarks session key")
+    sign_secret = bookmarks_export_secret_token("bookmarks session signing key")
+    ActiveSupport::MessageEncryptor.new(derived_secret, sign_secret)
+  end
 end
