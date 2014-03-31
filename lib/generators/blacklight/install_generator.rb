@@ -104,5 +104,9 @@ EOF
     def inject_blacklight_i18n_strings
       copy_file "blacklight.en.yml", "config/locales/blacklight.en.yml"
     end
+
+    def add_blacklight_initializer
+      template "config/initializers/blacklight_initializer.rb"
+    end
   end
 end
