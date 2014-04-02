@@ -39,17 +39,11 @@ class BookmarksController < CatalogController
       additional_response_formats(format)
       
       format.endnote do 
-        # Just concatenate individual endnote exports with blank lines. Not
-        # every record can be exported as endnote -- only include those that
-        # can.
-        render :text => @document_list.collect {|d| d.export_as(:endnote) if d.export_formats.keys.include? :endnote}.join("\n"), :layout => false
+        render :text => @response.to_endnote, :layout => false
       end
 
       format.refworks_marc_txt do        
-        # Just concatenate individual refworks_marc_txt exports with blank lines. Not
-        # every record can be exported as refworks_marc_txt -- only include those that
-        # can.
-        render :text => @document_list.collect {|d| d.export_as(:refworks_marc_txt) if d.export_formats.keys.include? :refworks_marc_txt}.join("\n"), :layout => false
+        render :text => @response.to_refworks_marc_txt, :layout => false
       end
     end
   end

@@ -76,6 +76,22 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
     self.has_key? "grouped"
   end
 
+  # Exports the entire list of #documents as an EndNote document;
+  # that is, the individual endnote documents separated by newlines. 
+  #
+  # Only documents that can be exported to endnote format are included. 
+  def to_endnote
+    documents.select {|d| d.export_formats.keys.include?(:endnote)}.collect {|d| d.export_as(:endnote)}.join("\n")
+  end
+
+  # Exports the entire list of #documents as "Refworks tagged MARC" format,
+  # that is individual documents separated by newlines. 
+  #
+  # Only documents that can be exported in this format are included. 
+  def to_refworks_marc_txt
+    documents.select {|d| d.export_formats.keys.include?(:refworks_marc_txt)}.collect {|d| d.export_as(:refworks_marc_txt)}.join("\n")
+  end
+
   private
 
     def force_to_utf8(value)
