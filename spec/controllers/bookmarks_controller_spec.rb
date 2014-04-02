@@ -32,7 +32,7 @@ describe BookmarksController do
     end
   end
 
-  describe "export" do
+  describe ".refworks format" do
     render_views
 
     before(:all) do
@@ -52,7 +52,7 @@ describe BookmarksController do
         
         User.should_receive(:find).with(user_id).and_return(@user_with_3)
 
-        get :export, :format => :refworks_marc_txt, :encrypted_user_id => encrypted_user_id
+        get :index, :format => :refworks_marc_txt, :encrypted_user_id => encrypted_user_id
 
         expect(response.code).to eq "200"
         # For some reason having trouble getting actual doc.export_as(:refworks_marc_txt)
