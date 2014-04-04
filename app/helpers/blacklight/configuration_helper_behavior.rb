@@ -93,16 +93,22 @@ module Blacklight::ConfigurationHelperBehavior
     t(first, default: rest)
   end
   
+  def document_index_views
+    blacklight_config.view.select do |k, config|
+      should_render_field? config
+    end
+  end
+  
   ##
   # Get the default index view type
   def default_document_index_view_type
-    blacklight_config.view.keys.first
+    document_index_views.select { |k,config| config.respond_to? :default and config.default }.keys.first || document_index_views.keys.first
   end
 
   ##
   # Check if there are alternative views configuration
   def has_alternative_views?
-    blacklight_config.view.keys.length > 1
+    document_index_views.keys.length > 1
   end
 
   ##
@@ -143,9 +149,11 @@ module Blacklight::ConfigurationHelperBehavior
   # @param [Blacklight::Solr::Configuration::SolrField] solr_field
   # @return [Boolean]
   def should_render_field? field_config, *args
-    if_value = evaluate_configuration_conditional(field_config.if, field_config, *args)
+    return field_config if field_config === true or field_config === false
     
-    unless_value = field_config.unless.nil? || !evaluate_configuration_conditional(field_config.unless, field_config, *args)
+    if_value = !field_config.respond_to?(:if) || field_config.if.nil? || evaluate_configuration_conditional(field_config.if, field_config, *args)
+    
+    unless_value = !field_config.respond_to?(:unless) ||  field_config.unless.nil? || !evaluate_configuration_conditional(field_config.unless, field_config, *args)
 
     if_value && unless_value
   end

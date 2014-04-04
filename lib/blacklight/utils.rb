@@ -21,6 +21,10 @@ module Blacklight
     def to_h
       @table
     end
+    
+    def select *args, &block
+      self.class.new to_h.select(*args, &block)
+    end
 
     ##
     # Merge the values of this OpenStruct with another OpenStruct or Hash
@@ -54,7 +58,7 @@ module Blacklight
       hashes_and_keys = args.flatten
       lazy_configs = hashes_and_keys.extract_options!
 
-      args.each do |v|
+      hashes_and_keys.each do |v|
         if v.is_a? Hash
           key = v.first
           value = v[key]
@@ -66,7 +70,11 @@ module Blacklight
       end
 
       lazy_configs.each do |k,v|
-        hash[k] = nested_class.new v
+        if v.is_a? nested_class
+          hash[k] = v
+        else
+          hash[k] = nested_class.new v
+        end
       end
 
       super hash
@@ -110,6 +118,26 @@ module Blacklight
       super x.last
       set_default_proc!
     end
+
+    def select *args, &block
+      self.class.new nested_class, to_h.select(*args, &block)
+    end
+
+    ##
+    # Merge the values of this OpenStruct with another OpenStruct or Hash
+    # @param [Hash,#to_h]
+    # @return [OpenStructWithHashAccess] a new instance of an OpenStructWithHashAccess
+    def merge other_hash
+      self.class.new nested_class, to_h.merge((other_hash if other_hash.is_a? Hash) || other_hash.to_h)
+    end
+
+    ##
+    # Merge the values of another OpenStruct or Hash into this object
+    # @param [Hash,#to_h]
+    # @return [OpenStructWithHashAccess] a new instance of an OpenStructWithHashAccess
+    def merge! other_hash
+      @table.merge!(nested_class, (other_hash if other_hash.is_a? Hash) || other_hash.to_h)
+    end 
 
     private
     def set_default_proc!
