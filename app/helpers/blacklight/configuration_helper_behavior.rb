@@ -72,10 +72,10 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Look up the label for a solr field.
   #
-  # @overload
+  # @overload label
   #   @param [Symbol] an i18n key 
   #
-  # @overload
+  # @overload label, i18n_key, another_i18n_key, and_another_i18n_key
   #   @param [String] default label to display if the i18n look up fails
   #   @param [Symbol] i18n keys to attempt to look up 
   #     before falling  back to the label
