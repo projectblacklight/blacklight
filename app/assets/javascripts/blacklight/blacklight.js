@@ -9,6 +9,7 @@
 //= require blacklight/bookmark_toggle
 //= require blacklight/ajax_modal
 //= require blacklight/search_context
+//= require blacklight/collapsable
 //
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap/transition
