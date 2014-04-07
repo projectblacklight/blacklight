@@ -254,7 +254,19 @@ describe Blacklight::SolrHelper do
       it "should pass date-type fields through" do
         blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
 
-        expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq "facet_name:2012-01-01"
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq "facet_name:2012\\-01\\-01"
+      end
+
+      it "should escape datetime-type fields" do
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
+
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", "2003-04-09T00:00:00Z")).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"
+      end
+      
+      it "should format Date objects correctly" do
+        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil))
+        d = DateTime.parse("2003-04-09T00:00:00")
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", d)).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"      
       end
 
       it "should handle range requests" do
