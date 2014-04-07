@@ -30,9 +30,31 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#default_document_index_view_type" do
-    it "should be the first configured index view" do
-      blacklight_config.stub(view: { 'a' => true, 'b' => true})
-      expect(helper.default_document_index_view_type).to eq 'a'
+    it "should use the first view with default set to true" do
+      blacklight_config.view.a
+      blacklight_config.view.b
+      blacklight_config.view.b.default = true
+      expect(helper.default_document_index_view_type).to eq :b
+    end
+    
+    it "should default to the first configured index view" do
+      blacklight_config.stub(view: { a: true, b: true})
+      expect(helper.default_document_index_view_type).to eq :a
+    end
+  end
+  
+  describe "#document_index_views" do
+    before do
+      blacklight_config.view.abc = false
+      blacklight_config.view.def.if = false
+      blacklight_config.view.xyz.unless = true
+    end
+
+    it "should filter views using :if/:unless configuration" do
+      helper.document_index_views.should have_key :list
+      helper.document_index_views.should_not have_key :abc
+      helper.document_index_views.should_not have_key :def
+      helper.document_index_views.should_not have_key :xyz
     end
   end
 
