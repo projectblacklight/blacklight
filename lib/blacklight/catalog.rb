@@ -21,7 +21,6 @@ module Blacklight::Catalog
   
     # get search results from the solr index
     def index
-      
       (@response, @document_list) = get_search_results
       
       respond_to do |format|
@@ -33,6 +32,7 @@ module Blacklight::Catalog
         end
 
         additional_response_formats(format)
+        document_export_formats(format)
       end
     end
     
@@ -170,6 +170,8 @@ module Blacklight::Catalog
     # non-routable methods ->
     #
 
+    ##
+    # Render additional response formats, as provided by the blacklight configuration
     def additional_response_formats format
       blacklight_config.index.respond_to.each do |key, config|
         format.send key do
@@ -187,6 +189,32 @@ module Blacklight::Catalog
           end
         end
       end
+    end
+
+    ##
+    # Try to render a response from the document export formats available
+    def document_export_formats format
+      format.any do
+        format_name = params.fetch(:format, '').to_sym
+
+        if @response.export_formats.include? format_name
+          render_document_export_format format_name
+        else
+          raise ActionController::UnknownFormat.new
+        end
+      end
+    end
+
+    ##
+    # Render the document export formats for a response
+    # First, try to render an appropriate template (e.g. index.endnote.erb)
+    # If that fails, just concatenate the document export responses with a newline. 
+    def render_document_export_format format_name
+      begin
+        render
+      rescue ActionView::MissingTemplate
+        render text: @response.documents.map { |x| x.export_as(format_name) }.join("\n"), layout: false
+      end    
     end
 
     # override this method to change the JSON response from #index 

@@ -76,6 +76,10 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
     self.has_key? "grouped"
   end
 
+  def export_formats
+    documents.map { |x| x.export_formats.keys }.flatten.uniq
+  end
+
   private
 
     def force_to_utf8(value)
