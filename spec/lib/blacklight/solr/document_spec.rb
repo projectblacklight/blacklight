@@ -172,6 +172,12 @@ describe "Blacklight::Solr::Document" do
         doc.will_export_as(:marc, "application/marc")
         expect(doc.export_as(:marc)).to eq "fake_marc"
       end
+      
+      it "should know if a document is exportable" do
+        doc = MockDocument.new
+        doc.will_export_as(:marc, "application/marc")
+        expect(doc.exports_as?(:marc)).to be_true
+      end
     end
 
     context "to_semantic_fields" do
