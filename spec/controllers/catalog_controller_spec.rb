@@ -3,21 +3,24 @@ require 'spec_helper'
 describe CatalogController do
 
   describe "index action" do
-    before(:each) do
-      @user_query = 'history'  # query that will get results
-      @no_docs_query = 'sadfdsafasdfsadfsadfsadf' # query for no results
-      @facet_query = {"format" => 'Book'}
-    end
     
-    # in rails3, the assigns method within ActionDispathc::TestProcess 
-    # kindly converts anything that desends from hash to a hash_With_indifferent_access
-    # which means that our solr resposne object gets replaced if we call
-    # assigns(:response) - so we can't do that anymore.
-    def assigns_response
-      @controller.instance_variable_get("@response")
+    # In Rails 3 ActionDispatch::TestProcess#assigns() converts anything that 
+    # descends from Hash to a HashWithIndifferentAccess. Therefore our Solr
+    # response object gets replaced if we call assigns(:response)
+    # Fixed by https://github.com/rails/rails/commit/185c3dbc6ab845edfc94e8d38ef5be11c417dd81
+    if ::Rails.version < "4.0"
+      def assigns_response
+        controller.instance_variable_get("@response")
+      end
+    else
+      def assigns_response
+        assigns(:response)
+      end
     end
     
     describe "with format :html" do
+      let(:user_query) { 'history' } # query that will get results
+
       it "should have no search history if no search criteria" do
         controller.should_receive(:get_search_results) 
         session[:history] = []
@@ -27,12 +30,12 @@ describe CatalogController do
 
       # check each user manipulated parameter
       it "should have docs and facets for query with results", :integration => true do
-        get :index, :q => @user_query
+        get :index, q: user_query
         expect(assigns_response.docs).to_not be_empty
         assert_facets_have_values(assigns_response.facets)
       end
       it "should have docs and facets for existing facet value", :integration => true do
-        get :index, :f => @facet_query
+        get :index, f: {"format" => 'Book'}
         expect(assigns_response.docs).to_not be_empty
         assert_facets_have_values(assigns_response.facets)
       end
@@ -52,7 +55,7 @@ describe CatalogController do
       end
 
       it "should have no docs or facet values for query without results", :integration => true do
-        get :index, :q => @no_docs_query
+        get :index, q: 'sadfdsafasdfsadfsadfsadf' # query for no results
 
         expect(assigns_response.docs).to be_empty
         assigns_response.facets.each do |facet|
@@ -70,12 +73,12 @@ describe CatalogController do
           controller.stub(:get_search_results) 
         end
         it "should include search hash with key :q" do
-          get :index, :q => @user_query
+          get :index, q: user_query
           expect(session[:search]).to_not be_nil
           expect(session[:search].keys).to include 'id'
           
           search = Search.find(session[:search]['id'])
-          expect(search.query_params['q']).to eq @user_query
+          expect(search.query_params['q']).to eq user_query
         end
       end
 
