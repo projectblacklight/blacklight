@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe ApplicationController do
-  include Devise::TestHelpers
 
   describe "#blacklight_config" do
 

@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe CatalogController do
-  include Devise::TestHelpers
-  # INDEX ACTION
+
   describe "index action" do
     before(:each) do
       @user_query = 'history'  # query that will get results

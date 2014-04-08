@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe BookmarksController do
-  include Devise::TestHelpers
   
   # jquery 1.9 ajax does error callback if 200 returns empty body. so use 204 instead. 
   describe "update" do
