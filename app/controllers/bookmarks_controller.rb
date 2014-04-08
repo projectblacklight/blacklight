@@ -9,6 +9,10 @@ class BookmarksController < CatalogController
   include Blacklight::SolrHelper
 
   copy_blacklight_config_from(CatalogController)
+
+  rescue_from Blacklight::Exceptions::ExpiredSessionToken do
+    head :unauthorized
+  end
  
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
@@ -19,11 +23,24 @@ class BookmarksController < CatalogController
   before_filter :verify_user
 
   def index
-    @bookmarks = current_or_guest_user.bookmarks
+    @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
   
     @response, @document_list = get_solr_response_for_document_ids(bookmark_ids)
+
+    respond_to do |format|
+      format.html { }
+      format.rss  { render :layout => false }
+      format.atom { render :layout => false }
+      format.json do
+        render json: render_search_results_as_json
+      end
+
+      additional_response_formats(format)
+      document_export_formats(format)
+    end
   end
+
 
   def update
     create
@@ -94,10 +111,56 @@ class BookmarksController < CatalogController
   
   protected
   def verify_user
-    flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_or_guest_user
+    unless current_or_guest_user or (action == "index" and token_or_current_or_guest_user)
+      flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied
+    end
   end
 
   def start_new_search_session?
     action_name == "index"
+  end
+
+  # Used for #export action, with encrypted user_id.
+  def decrypt_user_id(encrypted_user_id)
+    user_id, timestamp = message_encryptor.decrypt_and_verify(encrypted_user_id)
+
+    if timestamp < 1.hour.ago
+      raise Blacklight::Exceptions::ExpiredSessionToken.new
+    end
+
+    user_id
+  end
+
+  # Used for #export action with encrypted user_id, available
+  # as a helper method for views.
+  def encrypt_user_id(user_id)
+    message_encryptor.encrypt_and_sign([user_id, Time.now])
+  end
+  helper_method :encrypt_user_id
+  
+  ##
+  # This method provides Rails 3 compatibility to our message encryptor.
+  # When we drop support for Rails 3, we can just use the AS::KeyGenerator
+  # directly instead of this helper.
+  def bookmarks_export_secret_token salt
+    OpenSSL::PKCS5.pbkdf2_hmac_sha1(Blacklight.secret_key, salt, 1000, 64)
+  end
+  
+  def message_encryptor
+    derived_secret = bookmarks_export_secret_token("bookmarks session key")
+    ActiveSupport::MessageEncryptor.new(derived_secret)
+  end
+  
+  def token_or_current_or_guest_user
+    token_user || current_or_guest_user
+  end
+  
+  def token_user
+    @token_user ||= if params[:encrypted_user_id]
+      user_id = decrypt_user_id params[:encrypted_user_id]
+      User.find(user_id)
+    else
+      nil
+    end
   end
 end

@@ -213,7 +213,7 @@ module Blacklight::Catalog
       begin
         render
       rescue ActionView::MissingTemplate
-        render text: @response.documents.map { |x| x.export_as(format_name) }.join("\n"), layout: false
+        render text: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
       end    
     end
 

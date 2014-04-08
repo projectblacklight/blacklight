@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe BookmarksController do
-  
   # jquery 1.9 ajax does error callback if 200 returns empty body. so use 204 instead. 
   describe "update" do
     it "has a 204 status code when creating a new one" do

@@ -100,4 +100,8 @@ module Blacklight::Solr::Document::Export
   def export_as(short_name)
     send("export_as_#{short_name.to_s}")
   end
+  
+  def exports_as? short_name
+    respond_to? "export_as_#{short_name.to_s}"
+  end
 end

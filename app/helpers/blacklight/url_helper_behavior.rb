@@ -7,11 +7,11 @@ module Blacklight::UrlHelperBehavior
   # Extension point for downstream applications
   # to provide more interesting routing to
   # documents
-  def url_for_document doc
+  def url_for_document doc, options = {}
     if respond_to?(:blacklight_config) and
         blacklight_config.show.route and
         (!doc.respond_to?(:to_model) or doc.to_model.is_a? SolrDocument)
-      route = blacklight_config.show.route.merge(action: :show, id: doc)
+      route = blacklight_config.show.route.merge(action: :show, id: doc).merge(options)
       route[:controller] = controller_name if route[:controller] == :current
       route
     else
@@ -259,6 +259,25 @@ module Blacklight::UrlHelperBehavior
     p[:f].delete(field) if p[:f][field].size == 0
     p.delete(:f) if p[:f].empty?
     p
+  end
+  
+  # A URL to refworks export, with an embedded callback URL to this app. 
+  # the callback URL is to bookmarks#export, which delivers a list of 
+  # user's bookmarks in 'refworks marc txt' format -- we tell refworks
+  # to expect that format. 
+  def bookmarks_export_url(format, params = {})
+    bookmarks_url(params.merge(format: :format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id) ))
+  end
+  
+  # This method should move to BlacklightMarc in Blacklight 6.x
+  def refworks_export_url params = {}
+    if params.is_a? ::SolrDocument or (params.nil? and instance_variable_defined? :@document)
+      Deprecation.warn self, "#refworks_export_url with a SolrDocument is deprecated. Pass in { url: url_for_document(@document) } instead"
+      url = url_for_document(params || @document, format: :refworks_marc_txt, only_path: false)
+      params = { url: url }
+    end
+    
+    "http://www.refworks.com/express/expressimport.asp?vendor=#{CGI.escape(params[:vendor] || application_name)}&filter=#{CGI.escape(params[:filter] || "MARC Format")}&encoding=65001" + (("&url=#{CGI.escape(params[:url])}" if params[:url]) || "")
   end
 
   if ::Rails.version < "4.0"

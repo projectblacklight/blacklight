@@ -19,6 +19,14 @@ module Blacklight
         end
       end
     end
+    
+    initializer "blacklight.secret_key" do |app|
+      if app.respond_to?(:secrets)
+        Blacklight.secret_key ||= app.secrets.secret_key_base
+      elsif app.config.respond_to?(:secret_key_base)
+        Blacklight.secret_key ||= app.config.secret_key_base
+      end
+    end
 
   end
 end
