@@ -386,7 +386,7 @@ module Blacklight::BlacklightHelperBehavior
   # @return [String]
   def render_document_index documents = nil, locals = {}
     documents ||= @document_list
-    render_document_index_with_view(document_index_view_type, documents)
+    render_document_index_with_view(document_index_view_type, documents, locals)
   end
 
   ##

@@ -570,4 +570,27 @@ describe BlacklightHelper do
       expect(subject).to have_selector "link[href='href']", visible: false
     end
   end
+  
+  describe "#render_document_index" do
+    it "should render the document index with the current view type" do
+      helper.stub(document_index_view_type: :current_view)
+      helper.should_receive(:render_document_index_with_view).with(:current_view, [], a: 1, b: 2)
+      helper.render_document_index [], a: 1, b: 2
+    end
+  end
+  
+  describe "#render_document_index_with_view" do
+    it "should ignore missing templates" do
+      helper.stub(:render) do |options|
+        if options[:partial] == "document_view_type"
+          raise ActionView::MissingTemplate.new [], '', '', '', ''
+        else
+          options[:partial]
+        end
+      end
+      
+      response = helper.render_document_index_with_view :view_type, [double, double]
+      expect(response).to eq "catalog/document_view_type"
+    end
+  end
 end
