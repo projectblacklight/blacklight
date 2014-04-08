@@ -1,14 +1,11 @@
 require 'spec_helper'
 
 describe SavedSearchesController do
-  include Devise::TestHelpers
 
   before(:all) do
     @one = Search.create
     @two = Search.create
     @three = Search.create
-
-
   end
 
   before(:each) do

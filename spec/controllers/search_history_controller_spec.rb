@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe SearchHistoryController do
-  include Devise::TestHelpers
 
   describe "index" do
     before(:all) do
