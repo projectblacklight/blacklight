@@ -11,7 +11,11 @@ module Blacklight::ConfigurationHelperBehavior
 
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
-    blacklight_config.sort_fields.map { |key, x| [x.label, x.key] }
+    active_sort_fields.map { |key, x| [x.label, x.key] }
+  end
+  
+  def active_sort_fields
+    blacklight_config.sort_fields.select { |sort_key, field_config| should_render_field?(field_config) }
   end
 
   # Used in the search form partial for building a select tag
@@ -125,7 +129,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Default sort field
   def default_sort_field
-    blacklight_config.sort_fields.first.last if blacklight_config.sort_fields.first
+    (active_sort_fields.select { |k,config| config.respond_to? :default and config.default }.first || active_sort_fields.first).try(:last)
   end
 
   ##

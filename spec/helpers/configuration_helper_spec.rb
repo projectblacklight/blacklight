@@ -17,8 +17,15 @@ describe BlacklightConfigurationHelper do
 
   describe "#sort_fields" do
     it "should convert the sort fields to select-ready values" do
-      blacklight_config.stub(sort_fields: { 'a' => double(key: 'a', label: 'a'), 'b' => double(key: 'b', label: 'b'),  })
+      blacklight_config.stub(sort_fields: { 'a' => double(key: 'a', label: 'a'), 'b' => double(key: 'b', label: 'b'), c: double(key: 'c', if: false)  })
       expect(helper.sort_fields).to eq [['a', 'a'], ['b', 'b']]
+    end
+  end
+
+  describe "#active_sort_fields" do
+    it "should restrict the configured sort fields to only those that should be displayed" do
+      blacklight_config.stub(sort_fields: { a: double(if: false, unless: false), b: double(if:true, unless: true) })
+      expect(helper.active_sort_fields).to be_empty
     end
   end
 
@@ -132,6 +139,18 @@ describe BlacklightConfigurationHelper do
     it "should be the first per-page value if a default isn't set" do
       helper.stub(blacklight_config: double(default_per_page: nil, per_page: [11, 22]))
       expect(helper.default_per_page).to eq 11
+    end
+  end
+  
+  describe "#default_sort_field" do
+    it "should be the configured default field" do
+      helper.stub(blacklight_config: double(sort_fields: { a: double(default: nil), b: double(key: 'b', default: true) }))
+      expect(helper.default_sort_field.key).to eq 'b'
+    end
+    
+    it "should be the first per-page value if a default isn't set" do
+      helper.stub(blacklight_config: double(sort_fields: { a: double(key: 'a', default: nil), b: double(key: 'b', default: nil) }))
+      expect(helper.default_sort_field.key).to eq 'a'
     end
   end
   

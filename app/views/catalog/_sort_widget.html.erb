@@ -1,11 +1,11 @@
-<% if show_sort_and_per_page? and !blacklight_config.sort_fields.blank? %>
+<% if show_sort_and_per_page? and !active_sort_fields.blank? %>
 <div id="sort-dropdown" class="btn-group">
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
       <%= link_to(t('blacklight.search.sort.label', :field =>current_sort_field.label), "#") %> <span class="caret"></span>
   </button>
 
   <ul class="dropdown-menu">
-      <%- blacklight_config.sort_fields.select { |sort_key, field_config| evaluate_configuration_conditional(field_config) }.each do |sort_key, field_config| %>
+      <%- active_sort_fields.each do |sort_key, field_config| %>
         <li><%= link_to(field_config.label, url_for(params_for_search(:sort => sort_key))) %></li>
       <%- end -%>
   </ul>
