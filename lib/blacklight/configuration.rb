@@ -1,5 +1,3 @@
-require 'solr_document'
-
 module Blacklight
   ##
   # Blacklight::Configuration holds the configuration for a Blacklight::Controller, including
@@ -19,6 +17,7 @@ module Blacklight
     # the basic, required Blacklight fields
     class << self
       def default_values
+
         @default_values ||= begin
           {
           # HTTP method to use when making requests to solr; valid
@@ -30,7 +29,8 @@ module Blacklight
           :solr_path => 'select',
           # Default values of parameters to send with every search request
           :default_solr_params => {},
-          :solr_document_model => SolrDocument,
+          # the model to load solr response documents into; set below in #initialize_default_values
+          :solr_document_model => nil,
           # The solr rqeuest handler to use when requesting only a single document 
           :document_solr_request_handler => 'document',
           # THe path to send single document requests to solr
@@ -131,6 +131,10 @@ module Blacklight
       Marshal.load(Marshal.dump(self.class.default_values)).each do |k, v|
         self[k] ||=  v
       end
+    end
+    
+    def solr_document_model
+      self[:solr_document_model] || SolrDocument
     end
 
     ##
