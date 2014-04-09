@@ -151,14 +151,14 @@ module Blacklight::ConfigurationHelperBehavior
   def should_render_field? field_config, *args
     return field_config if field_config === true or field_config === false
     
-    if_value = !field_config.respond_to?(:if) || field_config.if.nil? || evaluate_configuration_conditional(field_config.if, field_config, *args)
+    if_value = !field_config.respond_to?(:if) || field_config.if.nil? || evaluate_configuration_conditional(:if, field_config.if, field_config, *args)
     
-    unless_value = !field_config.respond_to?(:unless) ||  field_config.unless.nil? || !evaluate_configuration_conditional(field_config.unless, field_config, *args)
+    unless_value = !field_config.respond_to?(:unless) ||  field_config.unless.nil? || !evaluate_configuration_conditional(:unless, field_config.unless, field_config, *args)
 
     if_value && unless_value
   end
   
-  def evaluate_configuration_conditional proc_helper_or_boolean, *args_for_procs_and_methods
+  def evaluate_configuration_conditional type, proc_helper_or_boolean, *args_for_procs_and_methods
     case proc_helper_or_boolean
     when Symbol
       arity = method(proc_helper_or_boolean).arity
@@ -170,6 +170,12 @@ module Blacklight::ConfigurationHelperBehavior
       end
     when Proc
       proc_helper_or_boolean.call self, *args_for_procs_and_methods
+    when Array
+      if type == :if
+        proc_helper_or_boolean.all? { |sub| evaluate_configuration_conditional(type, sub, *args_for_procs_and_methods) }
+      else
+        proc_helper_or_boolean.any? { |sub| evaluate_configuration_conditional(type, sub, *args_for_procs_and_methods) }
+      end
     else
       proc_helper_or_boolean
     end

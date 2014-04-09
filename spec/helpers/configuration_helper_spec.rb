@@ -169,25 +169,49 @@ describe BlacklightConfigurationHelper do
   describe "#evaluate_configuration_conditional" do
     it "should pass through regular values" do
       val = double
-      expect(helper.evaluate_configuration_conditional(val)).to eq val
+      expect(helper.evaluate_configuration_conditional(:if, val)).to eq val
     end
 
     it "should execute a helper method" do
       helper.stub(:my_helper => true)
-      expect(helper.evaluate_configuration_conditional(:my_helper)).to be_true
+      expect(helper.evaluate_configuration_conditional(:if, :my_helper)).to be_true
     end
 
     it "should call a helper to determine if it should render a field" do
       a = double
       helper.should_receive(:my_helper_with_an_arg).with(a).and_return(true)
-      expect(helper.evaluate_configuration_conditional(:my_helper_with_an_arg, a)).to be_true
+      expect(helper.evaluate_configuration_conditional(:if, :my_helper_with_an_arg, a)).to be_true
     end
 
     it "should evaluate a Proc to determine if it should render a field" do
       one_arg_lambda = lambda { |context, a| true }
       two_arg_lambda = lambda { |context, a, b| true }
-      expect(helper.evaluate_configuration_conditional(one_arg_lambda, 1)).to be_true
-      expect(helper.evaluate_configuration_conditional(two_arg_lambda, 1, 2)).to be_true
+      expect(helper.evaluate_configuration_conditional(:if, one_arg_lambda, 1)).to be_true
+      expect(helper.evaluate_configuration_conditional(:if, two_arg_lambda, 1, 2)).to be_true
+    end
+    
+    context "evaluating an Array for an if statement" do
+      it "should be true if all the results must be true" do
+        helper.stub(my_helper: true, my_other_helper: true)
+        expect(helper.evaluate_configuration_conditional(:if, [:my_helper, :my_other_helper])).to be_true
+      end
+      
+      it "should be false if any of the results are false" do
+        helper.stub(my_helper: true, my_other_helper: false)
+        expect(helper.evaluate_configuration_conditional(:if, [:my_helper, :my_other_helper])).to be_false
+      end  
+    end
+    
+    context "evaluating an Array for an unless statement" do
+      it "should be true if any of the results are true" do
+        helper.stub(my_helper: true, my_other_helper: false)
+        expect(helper.evaluate_configuration_conditional(:unless, [:my_helper, :my_other_helper])).to be_true
+      end
+      
+      it "should be false if all of the results are false" do
+        helper.stub(my_helper: false, my_other_helper: false)
+        expect(helper.evaluate_configuration_conditional(:unless, [:my_helper, :my_other_helper])).to be_false
+      end  
     end
   end
   
