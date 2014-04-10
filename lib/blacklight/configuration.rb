@@ -134,7 +134,7 @@ module Blacklight
     end
     
     def solr_document_model
-      self[:solr_document_model] || SolrDocument
+      super || SolrDocument
     end
 
     ##
