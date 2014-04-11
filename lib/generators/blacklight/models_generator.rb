@@ -40,15 +40,13 @@ This generator makes the following changes to your application:
         generate "devise_guests", model_name.classify
 
         # add the #to_s to the model.
-        insert_into_file("app/models/#{model_name}.rb", :before => /end(\n| )*$/) do
-          %{
-            # Method added by Blacklight; Blacklight uses #to_s on your
-            # user class to get a user-displayable login/identifier for
-            # the account.
-            def to_s
-              email
-            end
-          }
+        insert_into_file("app/models/#{model_name}.rb", before: /end(\n| )*$/) do
+          "\n  # Method added by Blacklight; Blacklight uses #to_s on your\n" +
+          "  # user class to get a user-displayable login/identifier for\n" +
+          "  # the account.\n" +
+          "  def to_s\n" +
+          "    email\n" +
+          "  end\n"
         end
         gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
       end
