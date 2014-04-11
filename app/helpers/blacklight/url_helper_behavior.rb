@@ -266,7 +266,7 @@ module Blacklight::UrlHelperBehavior
   # user's bookmarks in 'refworks marc txt' format -- we tell refworks
   # to expect that format. 
   def bookmarks_export_url(format, params = {})
-    bookmarks_url(params.merge(format: :format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id) ))
+    bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id) ))
   end
   
   # This method should move to BlacklightMarc in Blacklight 6.x

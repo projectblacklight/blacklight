@@ -424,4 +424,12 @@ describe BlacklightUrlHelper do
       expect(added_facet_params_from_facet_action).to eq added_facet_params.except(Blacklight::Solr::FacetPaginator.request_keys[:page], Blacklight::Solr::FacetPaginator.request_keys[:sort])     
     end
   end
+  
+  describe "#bookmarks_export_url" do
+    it "should be the bookmark url with an encrypted user token" do
+      helper.stub(encrypt_user_id: 'xyz', current_or_guest_user: double(id: 123))
+      url = helper.bookmarks_export_url(:html)
+      expect(url).to eq helper.bookmarks_url(format: :html, encrypted_user_id: 'xyz')
+    end
+  end
 end
