@@ -1,12 +1,11 @@
 source 'https://rubygems.org'
 
-# Please see blacklight.gemspec for dependency information.
-gemspec :path=>"../"
+gemspec path: "../"
 
-gem 'simplecov', platform: :mri
-gem 'simplecov-rcov', platform: :mri
+gem 'simplecov', :platform => :mri
+gem 'simplecov-rcov', :platform => :mri
 
-gem 'rails', '~> 4.0.0'
+gem 'rails', '4.1.0'
 
 gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
 
