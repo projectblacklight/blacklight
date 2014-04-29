@@ -4,7 +4,7 @@
       <%= link_to(t('blacklight.search.sort.label', :field =>current_sort_field.label), "#") %> <span class="caret"></span>
   </button>
 
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu" role="menu">
       <%- active_sort_fields.each do |sort_key, field_config| %>
         <li><%= link_to(field_config.label, url_for(params_for_search(:sort => sort_key))) %></li>
       <%- end -%>
