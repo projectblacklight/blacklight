@@ -637,13 +637,13 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   def link_to_previous_document(previous_document)
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, search_session_params(search_session[:counter].to_i - 1).merge(:class => "previous", :rel => 'prev')  do
+    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), previous_document, search_session_params(search_session['counter'].to_i - 1).merge(:class => "previous", :rel => 'prev')  do
       content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
     end
   end
 
   def link_to_next_document(next_document)
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, search_session_params(search_session[:counter].to_i + 1).merge(:class => "next", :rel => 'next') do
+    link_to_unless next_document.nil?, raw(t('views.pagination.next')), next_document, search_session_params(search_session['counter'].to_i + 1).merge(:class => "next", :rel => 'next') do
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
     end
   end

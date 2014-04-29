@@ -65,7 +65,7 @@ module Blacklight::Catalog
 
     # updates the search counter (allows the show view to paginate)
     def update
-      search_session[:counter] = params[:counter]
+      search_session['counter'] = params[:counter]
       redirect_to :action => "show"
     end
     
