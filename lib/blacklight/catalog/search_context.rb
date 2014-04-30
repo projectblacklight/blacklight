@@ -37,16 +37,16 @@ module Blacklight::Catalog::SearchContext
       rescue ActiveRecord::RecordNotFound
         nil
       end
-    elsif search_session[:id]
+    elsif search_session['id']
       begin
-        searches_from_history.find(search_session[:id])
+        searches_from_history.find(search_session['id'])
       rescue ActiveRecord::RecordNotFound
         nil
       end
     end
 
     if @current_search_session
-      search_session[:id] = @current_search_session.id
+      search_session['id'] = @current_search_session.id
     end
 
     @current_search_session
@@ -94,11 +94,11 @@ module Blacklight::Catalog::SearchContext
   # calls setup_previous_document then setup_next_document.
   # used in the show action for single view pagination.
   def setup_next_and_previous_documents
-    if search_session[:counter] and current_search_session
-      index = search_session[:counter].to_i - 1
+    if search_session['counter'] and current_search_session
+      index = search_session['counter'].to_i - 1
       response, documents = get_previous_and_next_documents_for_search index, current_search_session.query_params
 
-      search_session[:total] = response.total
+      search_session['total'] = response.total
       @search_context_response = response
       @previous_document = documents.first
       @next_document = documents.last

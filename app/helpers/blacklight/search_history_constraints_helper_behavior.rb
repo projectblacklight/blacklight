@@ -17,13 +17,13 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   end
 
   def render_search_to_s_q(params)
-    return "".html_safe if params[:q].blank?
+    return "".html_safe if params['q'].blank?
     
     label = (default_search_field && params[:search_field] == default_search_field[:key]) ? 
       nil :
       label_for_search_field(params[:search_field])
     
-    render_search_to_s_element(label , render_filter_value(params[:q]) )
+    render_search_to_s_element(label , render_filter_value(params['q']) )
   end
 
   def render_search_to_s_filters(params)

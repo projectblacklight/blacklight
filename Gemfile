@@ -9,7 +9,7 @@ gem 'simplecov-rcov', :platform => :mri
 group :test do
   gem 'devise'
   gem 'devise-guests'
-  gem "bootstrap-sass"
+  gem 'bootstrap-sass'
   gem 'turbolinks'
   gem 'poltergeist'
 end

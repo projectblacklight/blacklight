@@ -195,6 +195,7 @@ module Blacklight::FacetsHelperBehavior
     p.delete :commit
     p[:f][field] = p[:f][field] - [value]
     p[:f].delete(field) if p[:f][field].size == 0
+    p.delete(:f) if p[:f].empty?
     p
   end
 
