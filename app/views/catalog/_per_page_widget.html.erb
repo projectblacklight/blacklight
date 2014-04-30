@@ -3,7 +3,7 @@
   <span class="sr-only"><%= t('blacklight.search.per_page.title') %></span>
 <div id="per_page-dropdown" class="btn-group">
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= link_to(t(:'blacklight.search.per_page.button_label', :count => current_per_page), "#") %> <span class="caret"></span></button>
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu" role="menu">
     <%- per_page_options_for_select.each do |(label, count)| %>
       <li><%= link_to(label, url_for(params_for_search(:per_page => count))) %></li>
     <%- end -%>
