@@ -9,7 +9,7 @@
       end
     -%>
     <% if flash[type] %>
-      <div class="alert <%=alert_class %>"><%= flash[type] %>
+      <div class="alert <%=alert_class %>"><%= flash[type].html_safe %>
          <a class="close" data-dismiss="alert" href="#">&times;</a>
       </div>
     <% end %>
