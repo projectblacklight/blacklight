@@ -1,41 +1,12 @@
 <div id="sidebar" class="col-md-3">
- <%= render 'search_sidebar' %>
+  <%= render 'search_sidebar' %>
 </div>
 
 <div id="content" class="col-md-9">
-
-    <% unless has_search_parameters? %>
-	    <%# if there are no input/search related params, display the "home" partial -%>
-	    <%= render 'home' %>
-    <% else %>
-
-      <h2 class="sr-only top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
-
-      <% @page_title = t('blacklight.search.title', :application_name => application_name) %>
-
-
-      <% content_for(:head) do -%>
-        <%= render_opensearch_response_metadata %>
-        <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
-        <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
-      <% end -%>
-
-
-      <%= render 'search_header' %>
-
-      <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
-
-      <%- if @response.empty? %>
-        <%= render "zero_results" %>
-      <%- elsif render_grouped_response? %>
-        <%= render_grouped_document_index %>
-      <%- else %>
-        <%= render_document_index %>
-      <%- end %>
-
-	    <%= render 'results_pagination' %>
-
-
-    <% end %>
-
+  <% unless has_search_parameters? %>
+    <%# if there are no input/search related params, display the "home" partial -%>
+    <%= render 'home' %>
+  <% else %>
+    <%= render 'search_results' %>
+  <% end %>
 </div>
