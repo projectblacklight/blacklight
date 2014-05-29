@@ -121,6 +121,7 @@ module Blacklight
         
         f_request_params.each_pair do |facet_field, value_list|
           Array(value_list).each do |value|
+            next if value.blank? # skip empty strings
             solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
           end              
         end      

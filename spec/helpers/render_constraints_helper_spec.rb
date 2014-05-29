@@ -29,4 +29,18 @@ describe RenderConstraintsHelper do
     end
   end
 
+  describe "#render_constraints_filters" do
+    before do
+      @config = Blacklight::Configuration.new do |config|
+        config.add_facet_field 'type'
+      end
+      helper.stub(:blacklight_config => @config)
+    end
+
+    it "should render nothing for empty facet limit param" do
+      rendered = helper.render_constraints_filters(:f=>{'type'=>['']})
+      expect(rendered).to be_blank
+    end
+  end
+
 end
