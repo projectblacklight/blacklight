@@ -76,6 +76,7 @@ module Blacklight::RenderConstraintsHelperBehavior
     facet_config = facet_configuration_for_field(facet)
 
     safe_join(values.map do |val|
+      next if val.blank? # skip empty string
       render_constraint_element( blacklight_config.facet_fields[facet].label,
                   facet_display_value(facet, val),
                   :remove => search_action_path(remove_facet_params(facet, val, localized_params)),

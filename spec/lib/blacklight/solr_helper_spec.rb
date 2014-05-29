@@ -191,6 +191,14 @@ describe Blacklight::SolrHelper do
       end
     end
 
+    describe "for an empty facet limit param" do
+      it "should not add any fq to solr" do
+        solr_params = subject.solr_search_params(:f => {"format" => [""]})
+
+        expect(solr_params[:fq]).to be_blank
+      end
+    end
+
     describe "with Multi Facets, No Query" do
       it 'should have fq set properly' do
         solr_params = subject.solr_search_params(:f => @multi_facets)
