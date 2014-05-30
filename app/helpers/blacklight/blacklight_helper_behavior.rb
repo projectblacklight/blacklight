@@ -505,7 +505,9 @@ module Blacklight::BlacklightHelperBehavior
       # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
       # for determining if a partial template exists..
       begin
-        return render :partial => (str % { :action_name => base_name, :format => format, :index_view_type => document_index_view_type }), :locals=>locals.merge(:document=>doc)
+        partial = str % { action_name: base_name, format: format, index_view_type: document_index_view_type }
+        logger.debug "Looking for document partial #{partial}"
+        return render partial: partial, locals: locals.merge(document: doc)
       rescue ActionView::MissingTemplate
         nil
       end
