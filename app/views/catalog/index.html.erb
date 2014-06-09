@@ -1,8 +1,8 @@
-<div id="sidebar" class="col-md-3">
+<div id="sidebar" class="col-md-3 col-sm-4">
   <%= render 'search_sidebar' %>
 </div>
 
-<div id="content" class="col-md-9">
+<div id="content" class="col-md-9 col-sm-8">
   <% unless has_search_parameters? %>
     <%# if there are no input/search related params, display the "home" partial -%>
     <%= render 'home' %>
