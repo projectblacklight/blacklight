@@ -26,7 +26,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "jettywrapper", ">= 1.7.0"
   s.add_development_dependency "blacklight-marc", "~> 5.0"
-  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "rspec-rails", "~> 2.99"
+  s.add_development_dependency "rspec-its"
   s.add_development_dependency "capybara"
   s.add_development_dependency "poltergeist"
   s.add_development_dependency 'engine_cart', ">= 0.1.0"
