@@ -1,18 +1,9 @@
 <ul class="facet-values list-unstyled">
-  <% paginator = facet_paginator(facet_field, display_facet)
-  %>
-  <% paginator.items.each do |item| -%>
-    <li>
-    <% if facet_in_params?( solr_field, item.value ) %>              
-        <%= render_selected_facet_value(solr_field, item) %>              
-      <% else %>              
-        <%= render_facet_value(solr_field, item) %>              
-    <% end -%>
-    </li>
-  <% end %>
+  <% paginator = facet_paginator(facet_field, display_facet) %>
+  <%= render_facet_limit_list paginator, solr_field %>
 
   <% unless paginator.last_page? || params[:action] == "facet" %>
-    <li class="more_facets_link"><%= link_to(t('blacklight.search.facets.more'), params.merge(:id => solr_field, :action=>"facet", :page => nil), :class => "more_facets_link") %></li>
+    <li class="more_facets_link"><%= link_to t('blacklight.search.facets.more'), 
+       params.merge(id: solr_field, action: "facet", page: nil), class: "more_facets_link" %></li>
   <% end %>
-
 </ul>
