@@ -102,27 +102,44 @@ Blacklight.ajaxModal.containerSelector    = "[data-ajax-modal~=container]";
 
 Blacklight.ajaxModal.modalCloseSelector   = "[data-ajax-modal~=close], span.ajax-close-modal";
 
-Blacklight.ajaxModal.receiveAjax = function (data) {
-      var contents = data.responseText;
+// Called on fatal failure of ajax load, function returns content
+// to show to user in modal.  Right now called only for extreme
+// network errors. 
+Blacklight.ajaxModal.onFailure = function(data) {
+  var contents =  "<div class='modal-header'>" +
+           "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>" +
+           "Network Error</div>";
+  $(Blacklight.ajaxModal.modalSelector).find('.modal-content').html(contents);
+  $(Blacklight.ajaxModal.modalSelector).modal('show'); 
+}
 
-      // does it have a data- selector for container?
-      // important we don't execute script tags, we shouldn't. 
-      // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
-      var container =  $("<div>").
-        append( jQuery.parseHTML(contents) ).find( Blacklight.ajaxModal.containerSelector ).first();
-      if (container.size() !== 0) {
-        contents = container.html();
+Blacklight.ajaxModal.receiveAjax = function (data) {      
+      if (data.readyState == 0) {
+        // Network error, could not contact server. 
+        Blacklight.ajaxModal.onFailure(data)
       }
+      else {
+        var contents = data.responseText;
+      
+        // does it have a data- selector for container?
+        // important we don't execute script tags, we shouldn't. 
+        // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
+        var container =  $("<div>").
+          append( jQuery.parseHTML(contents) ).find( Blacklight.ajaxModal.containerSelector ).first();
+        if (container.size() !== 0) {
+          contents = container.html();
+        }
 
-      $(Blacklight.ajaxModal.modalSelector).find('.modal-content').html(contents);
+        $(Blacklight.ajaxModal.modalSelector).find('.modal-content').html(contents);
 
-      // send custom event with the modal dialog div as the target
-      var e    = $.Event('loaded.blacklight.ajax-modal')
-      $(Blacklight.ajaxModal.modalSelector).trigger(e);
-      // if they did preventDefault, don't show the dialog
-      if (e.isDefaultPrevented()) return;
+        // send custom event with the modal dialog div as the target
+        var e    = $.Event('loaded.blacklight.ajax-modal')
+        $(Blacklight.ajaxModal.modalSelector).trigger(e);
+        // if they did preventDefault, don't show the dialog
+        if (e.isDefaultPrevented()) return;
 
-      $(Blacklight.ajaxModal.modalSelector).modal('show');      
+        $(Blacklight.ajaxModal.modalSelector).modal('show');      
+      }
 };
 
 
