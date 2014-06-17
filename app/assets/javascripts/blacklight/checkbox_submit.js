@@ -13,6 +13,8 @@
        attribute (HTML5-style doc-*) that contains the id/primary key
        of the object in question -- used by plugin for a unique value for
        DOM id's. 
+
+  Uses HTML for a checkbox compatible with Bootstrap 3. 
        
    Pass in options for your class name and labels:
    $("form.something").bl_checkbox_submit({    
@@ -54,7 +56,6 @@
           .attr("id", options.css_class + "_" + unique_id);	  
         var label = $('<label>')
           .addClass( options.css_class )
-          .addClass('checkbox')
           .attr("for", options.css_class + '_' + unique_id)
           .attr("title", form.attr("title") || "");
         var span = $('<span>');
@@ -62,6 +63,10 @@
         label.append(checkbox);
         label.append(" ");
         label.append(span);  
+
+        var checkbox_div = $("<div class='checkbox' />")
+          .addClass(options.css_class)
+          .append(label);
           
         function update_state_for(state) {
             checkbox.prop("checked", state);
@@ -77,7 +82,7 @@
             }
           }
         
-        form.append(label);
+        form.append(checkbox_div);
         update_state_for(checked);
         
         checkbox.click(function() {
