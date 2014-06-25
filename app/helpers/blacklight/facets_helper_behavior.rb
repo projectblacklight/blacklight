@@ -51,6 +51,27 @@ module Blacklight::FacetsHelperBehavior
   end
 
   ##
+  # Renders the list of values 
+  # removes any elements where render_facet_item returns a nil value. This enables an application
+  # to filter undesireable facet items so they don't appear in the UI
+  def render_facet_limit_list(paginator, solr_field, wrapping_element=:li)
+    safe_join(paginator.items.
+      map { |item| render_facet_item(solr_field, item) }.compact.
+      map { |item| content_tag(wrapping_element,item)}
+    )
+  end
+
+  ##
+  # Renders a single facet item
+  def render_facet_item(solr_field, item)
+    if facet_in_params?( solr_field, item.value )
+      render_selected_facet_value(solr_field, item)          
+    else
+      render_facet_value(solr_field, item)
+    end
+  end
+
+  ##
   # Determine if Blacklight should render the display_facet or not
   #
   # By default, only render facets with items.
@@ -77,7 +98,10 @@ module Blacklight::FacetsHelperBehavior
   end
 
   ##
-  # the name of the partial to use to render a facet field.
+  # The name of the partial to use to render a facet field.
+  # uses the value of the "partial" field if set in the facet configuration
+  # otherwise uses "facet_pivot" if this facet is a pivot facet 
+  # defaults to 'facet_limit'
   #
   # @return [String]
   def facet_partial_name(display_facet = nil)

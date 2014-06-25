@@ -17,7 +17,7 @@ describe FacetsHelper do
       empty = double(:items => [])
 
       fields = [a,b,empty]
-      expect(helper.has_facet_values?(fields)).to be_true
+      expect(helper.has_facet_values?(fields)).to be true
     end
 
     it "should be false if all facets are empty" do
@@ -25,7 +25,7 @@ describe FacetsHelper do
       empty = double(:items => [])
 
       fields = [empty]
-      expect(helper.has_facet_values?(fields)).to be_false
+      expect(helper.has_facet_values?(fields)).to be false
     end
   end
 
@@ -45,37 +45,37 @@ describe FacetsHelper do
 
     it "should render facets with items" do
       a = double(:items => [1,2], :name=>'basic_field')
-      expect(helper.should_render_facet?(a)).to be_true
+      expect(helper.should_render_facet?(a)).to be true
     end
     it "should not render facets without items" do
       empty = double(:items => [], :name=>'basic_field')
-      expect(helper.should_render_facet?(empty)).to be_false
+      expect(helper.should_render_facet?(empty)).to be false
     end
 
     it "should not render facets where show is set to false" do
       a = double(:items => [1,2], :name=>'no_show')
-      expect(helper.should_render_facet?(a)).to be_false
+      expect(helper.should_render_facet?(a)).to be false
     end
 
     it "should call a helper to determine if it should render a field" do
       helper.stub(:my_helper => true)
       a = double(:items => [1,2], :name=>'helper_show')
-      expect(helper.should_render_facet?(a)).to be_true
+      expect(helper.should_render_facet?(a)).to be true
     end
 
     it "should call a helper to determine if it should render a field" do
       a = double(:items => [1,2], :name=>'helper_with_an_arg_show')
       helper.should_receive(:my_helper_with_an_arg).with(@config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
-      expect(helper.should_render_facet?(a)).to be_true
+      expect(helper.should_render_facet?(a)).to be true
     end
 
 
     it "should evaluate a Proc to determine if it should render a field" do
       a = double(:items => [1,2], :name=>'lambda_show')
-      expect(helper.should_render_facet?(a)).to be_true
+      expect(helper.should_render_facet?(a)).to be true
 
       a = double(:items => [1,2], :name=>'lambda_no_show')
-      expect(helper.should_render_facet?(a)).to be_false
+      expect(helper.should_render_facet?(a)).to be false
     end
   end
 
@@ -90,17 +90,17 @@ describe FacetsHelper do
     end
 
     it "should be collapsed by default" do
-      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be_true
+      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be true
     end
 
     it "should not be collapsed if the configuration says so" do
-      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be_false
+      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be false
     end
 
     it "should not be collapsed if it is in the params" do
       params[:f] = { basic_field: [1], no_collapse: [2] }.with_indifferent_access
-      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be_false
-      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be_false
+      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be false
+      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be false
     end
 
   end
@@ -152,7 +152,7 @@ describe FacetsHelper do
         field.should be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
 
         expect(field.name).to eq'my_query_facet_field'
-        expect(field.items).to have(2).items
+        expect(field.items.size).to eq 2
         expect(field.items.map { |x| x.value }).to_not include 'field:not_appearing_in_the_config'
 
         facet_item = field.items.select { |x| x.value == 'a_simple_query' }.first
@@ -180,11 +180,11 @@ describe FacetsHelper do
 
         expect(field.name).to eq 'my_pivot_facet_field'
 
-        expect(field.items).to have(1).item
+        expect(field.items.size).to eq 1
 
         expect(field.items.first).to respond_to(:items)
 
-        expect(field.items.first.items).to have(1).item
+        expect(field.items.first.items.size).to eq 1
         expect(field.items.first.items.first.fq).to eq({ 'field_a' => 'a' })
       end
     end
@@ -281,11 +281,40 @@ describe FacetsHelper do
     end 
   end
 
+  describe "render_facet_limit_list" do
+    let(:f1) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '792', value: 'Book') }
+    let(:f2) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
+    let(:paginator) { Blacklight::Solr::FacetPaginator.new([f1, f2], limit: 10) }
+    subject { helper.render_facet_limit_list(paginator, 'type_solr_field') }
+    before do
+      allow(helper).to receive(:search_action_path) do |*args|
+        catalog_index_path *args
+      end
+    end
+    it "should draw a list of elements" do
+      expect(subject).to have_selector 'li', count: 2
+      expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book' 
+      expect(subject).to have_selector 'li:nth-child(2) a.facet_select', text: 'Musical Score' 
+    end
+
+    context "when one of the facet items is rendered as nil" do
+      # An app may override render_facet_item to filter out some undesired facet items by returning nil.
+      
+      before { allow(helper).to receive(:render_facet_item).and_return("<a class=\"facet_select\">Book</a>".html_safe, nil) }
+
+      it "should draw a list of elements" do
+        expect(subject).to have_selector 'li', count: 1
+        expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book' 
+      end
+
+    end
+  end
+
   describe "facet_field_in_params?" do
     it "should check if the facet field is selected in the user params" do
       helper.stub(:params => { :f => { "some-field" => ["x"]}})
-      expect(helper.facet_field_in_params?("some-field")).to be_true
-      expect(helper.facet_field_in_params?("other-field")).to_not be_true
+      expect(helper.facet_field_in_params?("some-field")).to be_truthy
+      expect(helper.facet_field_in_params?("other-field")).to_not be true
     end
   end
 
@@ -300,7 +329,7 @@ describe FacetsHelper do
       helper.should_receive(:facet_display_value).and_return('Z')
       helper.should_receive(:add_facet_params_and_redirect).and_return({controller:'catalog'})
       
-      helper.stub(:search_action_path) do |*args|
+      allow(helper).to receive(:search_action_path) do |*args|
         catalog_index_path *args
       end
     end
