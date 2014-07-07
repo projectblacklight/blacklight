@@ -7,8 +7,10 @@ describe "catalog/_constraints_element.html.erb" do
     end
     it "should render label and value" do
       expect(rendered).to have_selector("span.appliedFilter.constraint") do |s|
+        expect(s).to have_css("span.constraint-value")
+        expect(s).to_not have_css("a.constraint-value")
         expect(s).to have_selector "span.filterName", :content => "my label"
-        expect(s).to have_selector "span.filterValue", :content => "my value" 
+        expect(s).to have_selector "span.filterValue", :content => "my value"
       end
     end
   end
@@ -20,7 +22,7 @@ describe "catalog/_constraints_element.html.erb" do
     it "should include remove link" do
       expect(rendered).to have_selector("span.appliedFilter") do |s|
         expect(s).to have_selector(".remove[href='http://remove']")
-      end    
+      end
     end
 
     it "should have an accessible remove label" do
@@ -37,7 +39,7 @@ describe "catalog/_constraints_element.html.erb" do
     it "should not include checkmark" do
       expect(rendered).to have_selector("span.appliedFilter") do |s|
         expect(s).to_not have_selector("img[src$='checkmark.gif']")
-      end   
+      end
     end
   end
 
@@ -60,6 +62,6 @@ describe "catalog/_constraints_element.html.erb" do
     end
 
   end
- 
+
 
 end

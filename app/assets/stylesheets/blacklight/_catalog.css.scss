@@ -56,6 +56,7 @@ span.constraints-label {
     &:hover, &:active {
       background-color: $btn-default-bg;
       border-color: $btn-default-border;
+      box-shadow: none;
     }
   }
 
