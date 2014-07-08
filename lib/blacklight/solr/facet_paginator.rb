@@ -101,8 +101,9 @@ module Blacklight::Solr
 
     private
       # setting limit to 0 implies no limit
+      # @return an array of facets on the page
       def items_for_limit(values)
-        limit != 0 ? values.slice(offset, limit) : values
+        limit == 0 ? values : values.take(limit)
       end
   end
 end
