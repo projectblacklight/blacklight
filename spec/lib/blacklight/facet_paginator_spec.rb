@@ -26,7 +26,7 @@ describe 'Blacklight::Solr::FacetPaginator' do
   end
 
   context 'on the last page of two pages' do
-    subject { Blacklight::Solr::FacetPaginator.new(seven_facet_values, offset: 6, limit: limit) }
+    subject { Blacklight::Solr::FacetPaginator.new([f7], offset: 6, limit: limit) }
     it { should_not be_first_page }
     it { should be_last_page }
     its(:current_page) { should eq 2 }
@@ -46,12 +46,12 @@ describe 'Blacklight::Solr::FacetPaginator' do
   describe "params_for_resort_url" do
     let(:sort_key) { Blacklight::Solr::FacetPaginator.request_keys[:sort] }
     let(:page_key) { Blacklight::Solr::FacetPaginator.request_keys[:page] }
-    let(:paginator) { Blacklight::Solr::FacetPaginator.new(seven_facet_values, offset: 100, limit: limit, sort: 'index') }
+    subject { Blacklight::Solr::FacetPaginator.new([], offset: 100, limit: limit, sort: 'index') }
 
     it 'should know a manually set sort, and produce proper sort url' do
-        expect(paginator.sort).to eq 'index'
+        expect(subject.sort).to eq 'index'
         
-        click_params = paginator.params_for_resort_url('count', {})
+        click_params = subject.params_for_resort_url('count', {})
 
         expect(click_params[ sort_key ]).to eq 'count'
         expect(click_params[ page_key ]).to be_nil
@@ -64,5 +64,5 @@ describe 'Blacklight::Solr::FacetPaginator' do
       expect(subject.items).to eq seven_facet_values
     end
   end
-  
+
 end
