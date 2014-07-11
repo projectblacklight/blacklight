@@ -580,17 +580,18 @@ describe BlacklightHelper do
   end
   
   describe "#render_document_index_with_view" do
+    let(:obj1) { SolrDocument.new }
+
+    before do
+      helper.stub(:blacklight_config).and_return(CatalogController.blacklight_config)
+      assign(:response, double("SolrResponse", grouped?: false, params: {}))
+      helper.stub(:link_to_document).and_return('<a/>')
+      helper.stub(:render_index_doc_actions).and_return('<div/>')
+    end
+
     it "should ignore missing templates" do
-      helper.stub(:render) do |options|
-        if options[:partial] == "document_view_type"
-          raise ActionView::MissingTemplate.new [], '', '', '', ''
-        else
-          options[:partial]
-        end
-      end
-      
-      response = helper.render_document_index_with_view :view_type, [double, double]
-      expect(response).to eq "catalog/document_view_type"
+      response = helper.render_document_index_with_view :view_type, [obj1, obj1]
+      expect(response).to match /<div id="documents">/
     end
   end
 end
