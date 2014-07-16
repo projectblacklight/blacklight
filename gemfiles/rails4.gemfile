@@ -10,4 +10,4 @@ end
 gem 'sass', '~> 3.2.15'
 gem 'sprockets', '~> 2.11.0'
 
-gem 'rails', '4.0.3'
+gem 'rails', '4.0.8'

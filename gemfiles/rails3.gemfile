@@ -6,4 +6,4 @@ if File.exists?(file)
   instance_eval File.read(file)
 end
 
-gem 'rails', "3.2.17"
+gem 'rails', "3.2.19"
