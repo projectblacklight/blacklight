@@ -8,6 +8,7 @@ describe "catalog/_view_type_group" do
 
   before do
     view.stub(blacklight_config: blacklight_config)
+    view.stub(:show_sort_and_per_page? => true)
   end
 
   it "should not display the group when there's only one option" do
