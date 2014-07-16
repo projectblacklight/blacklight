@@ -17,8 +17,13 @@ describe RenderConstraintsHelper do
   end
 
   describe '#render_constraints_query' do
+    let(:my_engine) { double("Engine") }
     it "should have a link relative to the current url" do
       expect(helper.render_constraints_query(:q=>'foobar', :f=>{:type=>'journal'})).to have_selector "a[href='/?f%5Btype%5D=journal']"
+    end
+    it "should accept an optional route set" do
+      expect(my_engine).to receive(:url_for).and_return('/?f%5Btype%5D=journal')
+      expect(helper.render_constraints_query(:q=>'foobar', :f=>{:type=>'journal'}, :route_set => my_engine)).to have_selector "a[href='/?f%5Btype%5D=journal']"
     end
   end
 
