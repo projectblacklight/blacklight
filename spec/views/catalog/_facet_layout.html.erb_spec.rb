@@ -13,7 +13,7 @@ describe "catalog/facet_layout" do
   end
 
   before do
-    view.stub(blacklight_config: blacklight_config)
+    allow(view).to receive_messages(blacklight_config: blacklight_config)
   end
 
   it "should have a facet-specific class" do
@@ -33,7 +33,7 @@ describe "catalog/facet_layout" do
   end
 
   it "should be configured to be open by default" do
-    facet_field.stub(collapse: false)
+    allow(facet_field).to receive_messages(collapse: false)
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to_not have_selector '.panel-heading.collapsed'
     expect(rendered).to have_selector '.in .panel-body'

@@ -4,15 +4,15 @@ describe "catalog/_facets" do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
-    view.stub(blacklight_config: blacklight_config)
-    view.stub(:search_action_path) do |*args|
+    allow(view).to receive_messages(blacklight_config: blacklight_config)
+    allow(view).to receive(:search_action_path) do |*args|
       catalog_index_url *args
     end
   end
 
   context "without any facet fields" do
     it "should not have a header if no facets are displayed" do
-      view.stub(:render_facet_partials => '')
+      allow(view).to receive_messages(:render_facet_partials => '')
       render
       expect(rendered).to_not have_selector('h4')
     end
@@ -27,15 +27,15 @@ describe "catalog/_facets" do
       blacklight_config.facet_fields['facet_field_1'] = facet_field
 
         @mock_display_facet_1 = double(:name => 'facet_field_1', sort: nil, offset: nil, :items => [Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
-        view.stub(:facet_field_names => [:facet_field_1],
+        allow(view).to receive_messages(:facet_field_names => [:facet_field_1],
                   :facet_limit_for => 10 )
 
         @response = double()
-        @response.stub(:facet_by_field_name).with(:facet_field_1) { @mock_display_facet_1 }
+        allow(@response).to receive(:facet_by_field_name).with(:facet_field_1) { @mock_display_facet_1 }
     end
 
     it "should have a header" do
-      view.stub(:render_facet_partials => '')
+      allow(view).to receive_messages(:render_facet_partials => '')
       render
       expect(rendered).to have_selector('h4')
     end

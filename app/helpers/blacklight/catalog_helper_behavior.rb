@@ -131,7 +131,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [SolrDocument]
   # @return [Boolean]
   def has_thumbnail? document
-    blacklight_config.view_config(document_index_view_type).thumbnail_method or
+    blacklight_config.view_config(document_index_view_type).thumbnail_method.present? or
       blacklight_config.view_config(document_index_view_type).thumbnail_field && document.has?(blacklight_config.view_config(document_index_view_type).thumbnail_field)
   end
 

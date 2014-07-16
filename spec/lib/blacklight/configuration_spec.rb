@@ -15,7 +15,7 @@ describe "Blacklight::Configuration" do
 
   describe "initialization" do
     it "should be an OpenStructWithHashAccess" do
-      @config.should be_a_kind_of Blacklight::OpenStructWithHashAccess
+      expect(@config).to be_a_kind_of Blacklight::OpenStructWithHashAccess
     end
 
     it "should accept a block for configuration" do
@@ -119,7 +119,7 @@ describe "Blacklight::Configuration" do
       
       expect(@config.facet_fields["format"]).to_not be_nil
       expect(@config.facet_fields["format"]["label"]).to eq "Format"
-      expect(@config.facet_fields["format"]["limit"]).to be_true
+      expect(@config.facet_fields["format"]["limit"]).to be true
     end
 
     it "should accept FacetField obj arg" do
@@ -136,7 +136,7 @@ describe "Blacklight::Configuration" do
       end
       
       expect(@config.facet_fields["format"]).to_not be_nil
-      expect(@config.facet_fields["format"].limit).to be_true
+      expect(@config.facet_fields["format"].limit).to be true
     end
 
     it "should accept block form" do
@@ -175,7 +175,7 @@ describe "Blacklight::Configuration" do
     it "should allow you to not show the facet in the facet bar" do
       @config.add_facet_field("publication_date", :show=>false)
         
-      expect(@config.facet_fields["publication_date"]['show']).to be_false
+      expect(@config.facet_fields["publication_date"]['show']).to be false
     end
     
     it "should raise on nil solr field name" do
@@ -183,7 +183,7 @@ describe "Blacklight::Configuration" do
     end
 
     it "should take wild-carded field names and dereference them to solr fields" do
-      @config.stub(luke_fields: { 
+      allow(@config).to receive_messages(luke_fields: { 
         "some_field_facet" => {}, 
         "another_field_facet" => {},
         "a_facet_field" => {},
@@ -227,7 +227,7 @@ describe "Blacklight::Configuration" do
     end
 
     it "should take wild-carded field names and dereference them to solr fields" do
-      @config.stub(luke_fields: { 
+      allow(@config).to receive_messages(luke_fields: { 
         "some_field_display" => {}, 
         "another_field_display" => {},
         "a_facet_field" => {},
@@ -272,7 +272,7 @@ describe "Blacklight::Configuration" do
     end
        
     it "should take wild-carded field names and dereference them to solr fields" do
-      @config.stub(luke_fields: { 
+      allow(@config).to receive_messages(luke_fields: { 
         "some_field_display" => {}, 
         "another_field_display" => {},
         "a_facet_field" => {},
@@ -289,7 +289,7 @@ describe "Blacklight::Configuration" do
     it "should accept hash form" do
       c = Blacklight::Configuration.new
       c.add_search_field(:key => "my_search_key")
-      c.search_fields["my_search_key"].should_not be_nil
+      expect(c.search_fields["my_search_key"]).to_not be_nil
     end
 
     it "should accept two-arg hash form" do

@@ -14,7 +14,7 @@ describe Search do
     it "should return a Hash as the value" do
       @search.query_params = @query_params
       assert @search.save
-      Search.find(@search.id).query_params.should == @query_params
+      expect(Search.find(@search.id).query_params).to eq @query_params
     end
   end
   

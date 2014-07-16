@@ -34,7 +34,7 @@ describe "Record View" do
   end
   it "should not display 404" do
     visit catalog_path('this_id_does_not_exist')
-    page.driver.status_code.should == 404
+    expect(page.driver.status_code).to eq 404
     expect(page).to have_content "The page you were looking for doesn't exist." 
   end
 end

@@ -10,10 +10,10 @@ describe BookmarksController do
     end
     
     it "has a 500 status code when fails is success" do
-      @controller.stub_chain(:current_or_guest_user, :existing_bookmark_for).and_return(false)
-      @controller.stub_chain(:current_or_guest_user, :persisted?).and_return(true)
-      @controller.stub_chain(:current_or_guest_user, :bookmarks, :where, :exists?).and_return(false)  
-      @controller.stub_chain(:current_or_guest_user, :bookmarks, :create).and_return(false)  
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :existing_bookmark_for).and_return(false)
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :persisted?).and_return(true)
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :where, :exists?).and_return(false)  
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :create).and_return(false)  
       xhr :put, :update, :id => 'iamabooboo', :format => :js
       expect(response.code).to eq "500"
     end
@@ -33,8 +33,8 @@ describe BookmarksController do
 
    it "has a 500 status code when delete is not success" do
       bm = double(Bookmark)
-      @controller.stub_chain(:current_or_guest_user, :existing_bookmark_for).and_return(bm)
-      @controller.stub_chain(:current_or_guest_user, :bookmarks, :where, :first).and_return(double('bookmark', delete: nil, destroyed?: false)) 
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :existing_bookmark_for).and_return(bm)
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :where, :first).and_return(double('bookmark', delete: nil, destroyed?: false)) 
      
       xhr :delete, :destroy, :id => 'pleasekillme', :format => :js
 

@@ -34,7 +34,7 @@ describe "Routing" do
       end
 
       it "should route url-like ids" do
-        pending "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
+        skip "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
         expect(:get => catalog_path(SolrDocument.new(:id => 'http://example.com'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'http://example.com')
       end
 
@@ -47,7 +47,7 @@ describe "Routing" do
       end
 
       it "should route ids with a literal '/" do
-        pending "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
+        skip "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
         expect(:get => catalog_path(SolrDocument.new(:id => 'and/or'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'and/or')
       end
     end
