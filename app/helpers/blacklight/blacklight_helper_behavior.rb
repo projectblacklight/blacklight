@@ -410,13 +410,10 @@ module Blacklight::BlacklightHelperBehavior
   # @return [String]
   def render_document_index_with_view view, documents, locals = {}
     document_index_path_templates.each do |str|
-      # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
-      # for determining if a partial template exists..
-      begin
-        return render(:partial => (str % { :index_view_type => view }), :locals => locals.merge(:documents => documents) )
-      rescue ActionView::MissingTemplate
-        nil
-      end
+      partial = str % { index_view_type: view }
+      logger.debug "Looking for document index partial #{partial}"
+      template = lookup_context.find_all(partial, lookup_context.prefixes, true, locals.keys + [:documents], {}).first
+      return template.render(self, locals.merge(documents: documents)) if template
     end
 
     return ""
@@ -502,15 +499,10 @@ module Blacklight::BlacklightHelperBehavior
     end
 
     document_partial_path_templates.each do |str|
-      # XXX rather than handling this logic through exceptions, maybe there's a Rails internals method
-      # for determining if a partial template exists..
-      begin
-        partial = str % { action_name: base_name, format: format, index_view_type: document_index_view_type }
-        logger.debug "Looking for document partial #{partial}"
-        return render partial: partial, locals: locals.merge(document: doc)
-      rescue ActionView::MissingTemplate
-        nil
-      end
+      partial = str % { action_name: base_name, format: format, index_view_type: document_index_view_type }
+      logger.debug "Looking for document partial #{partial}"
+      template = lookup_context.find_all(partial, lookup_context.prefixes, true, locals.keys + [:document], {}).first
+      return template.render(self, locals.merge(document: doc)) if template
     end
 
     return ''
