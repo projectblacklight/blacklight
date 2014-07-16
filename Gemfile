@@ -9,7 +9,7 @@ gemspec path: File.expand_path('..', __FILE__)
 gem 'simplecov', '~> 0.7.1', require: false
 gem 'coveralls', require: false
 
-gem 'engine_cart', '~> 0.3.0'
+gem 'engine_cart', '~> 0.4'
 
 group :test do
   gem "blacklight-marc", "~> 5.0", github: "projectblacklight/blacklight_marc"
