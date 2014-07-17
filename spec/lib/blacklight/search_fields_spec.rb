@@ -20,7 +20,7 @@ describe Blacklight::SearchFields do
 
   before(:each) do  
     @search_field_obj = MockConfig.new
-    @search_field_obj.stub(:blacklight_config).and_return(@config)
+    allow(@search_field_obj).to receive(:blacklight_config).and_return(@config)
   end
 
   it "should return search field list with calculated :label when needed" do
@@ -50,7 +50,7 @@ describe Blacklight::SearchFields do
       @bad_config = MockConfig.new
     end
     it "should raise exception on #search_field_list" do
-      expect { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
+      expect { allow(@bad_config).to receive(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
            config.add_search_field :label => 'All Fields', :qt => 'all_fields'
            config.add_search_field 'title', :qt => 'title_search'
       })   }.to raise_error
@@ -62,7 +62,7 @@ describe Blacklight::SearchFields do
       @bad_config = MockConfig.new
     end
     it "should raise on #search_field_list" do
-      expect { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
+      expect { allow(@bad_config).to receive(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
         config.add_search_field 'my_key', :label => 'All Fields'
         config.add_search_field 'my_key', :label => 'title'
 

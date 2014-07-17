@@ -7,7 +7,7 @@ describe "catalog/_sort_and_per_page" do
   end
 
   before do
-    view.stub(blacklight_config: blacklight_config)
+    allow(view).to receive_messages(blacklight_config: blacklight_config)
   end
 
   it "should render the pagination, sort, per page and view type controls" do

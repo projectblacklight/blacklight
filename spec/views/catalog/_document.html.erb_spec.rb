@@ -10,8 +10,8 @@ describe "catalog/_document" do
   end
 
   it "should render the header, thumbnail and index by default" do
-    view.stub(:render_grouped_response?).and_return(false)
-    view.stub(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive(:render_grouped_response?).and_return(false)
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     stub_template "catalog/_index_header_default.html.erb" => "document_header"
     stub_template "catalog/_thumbnail_default.html.erb" => "thumbnail_default"
     stub_template "catalog/_index_default.html.erb" => "index_default"
@@ -25,8 +25,8 @@ describe "catalog/_document" do
 
 
   it "should use the index.partials parameter to determine the partials to render" do
-    view.stub(:render_grouped_response?).and_return(false)
-    view.stub(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive(:render_grouped_response?).and_return(false)
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     blacklight_config.index.partials = ['a', 'b', 'c']
     stub_template "catalog/_a_default.html.erb" => "a_partial"
     stub_template "catalog/_b_default.html.erb" => "b_partial"

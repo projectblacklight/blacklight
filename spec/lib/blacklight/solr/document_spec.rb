@@ -160,7 +160,7 @@ describe "Blacklight::Solr::Document" do
           # registration in an after, sorry. 
         end
         it "registers format" do
-          expect(defined?("Mime::MOCK2")).to be_true
+          expect(defined?("Mime::MOCK2")).to be_truthy
         end
         it "registers as alias only" do
           expect(Mime::Type.lookup("application/mock2")).not_to equal Mime::Type.lookup_by_extension("mock2")
@@ -176,7 +176,7 @@ describe "Blacklight::Solr::Document" do
       it "should know if a document is exportable" do
         doc = MockDocument.new
         doc.will_export_as(:marc, "application/marc")
-        expect(doc.exports_as?(:marc)).to be_true
+        expect(doc.exports_as?(:marc)).to be true
       end
     end
 

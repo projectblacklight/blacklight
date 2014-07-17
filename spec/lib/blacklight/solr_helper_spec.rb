@@ -55,25 +55,25 @@ describe Blacklight::SolrHelper do
   describe "#find" do  
     it "should use the configured solr path" do
       blacklight_config.solr_path = 'xyz'
-      blacklight_solr.should_receive(:send_and_receive).with('xyz', anything).and_return("{}".to_json)
+      allow(blacklight_solr).to receive(:send_and_receive).with('xyz', anything).and_return("{}".to_json)
       expect(subject.find({})).to be_a_kind_of Blacklight::SolrResponse
     end
 
     it "should override the configured solr path" do
       blacklight_config.solr_path = 'xyz'
-      blacklight_solr.should_receive(:send_and_receive).with('abc', anything).and_return("{}".to_json)
+      allow(blacklight_solr).to receive(:send_and_receive).with('abc', anything).and_return("{}".to_json)
       expect(subject.find('abc', {})).to be_a_kind_of Blacklight::SolrResponse
     end
 
     it "should use a default :qt param" do
       blacklight_config.qt = 'xyz'
-      blacklight_solr.should_receive(:send_and_receive).with('select', hash_including(params: { qt: 'xyz'})).and_return("{}".to_json)
+      allow(blacklight_solr).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'xyz'})).and_return("{}".to_json)
       expect(subject.find({})).to be_a_kind_of Blacklight::SolrResponse
     end
 
     it "should use the provided :qt param" do
       blacklight_config.qt = 'xyz'
-      blacklight_solr.should_receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc'})).and_return("{}".to_json)
+      allow(blacklight_solr).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc'})).and_return("{}".to_json)
       expect(subject.find({qt: 'abc'})).to be_a_kind_of Blacklight::SolrResponse
     end
 
@@ -82,7 +82,7 @@ describe Blacklight::SolrHelper do
 
         it "defaults to get" do
           expect(blacklight_config.http_method).to eq :get
-          blacklight_solr.should_receive(:send_and_receive) do |path, params|
+          allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
             expect(path).to eq 'select'
             expect(params[:method]).to eq :get
             expect(params[:params]).to include(:q)
@@ -96,7 +96,7 @@ describe Blacklight::SolrHelper do
 
         it "keep value set to post" do
           expect(blacklight_config.http_method).to eq :post
-          blacklight_solr.should_receive(:send_and_receive) do |path, params|
+          allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
             expect(path).to eq 'select'
             expect(params[:method]).to eq :post
             expect(params[:data]).to include(:q)
@@ -121,7 +121,7 @@ describe Blacklight::SolrHelper do
     it "allows customization of solr_search_params_logic" do
         # Normally you'd include a new module into (eg) your CatalogController
         # but a sub-class defininig it directly is simpler for test.             
-        subject.stub(:add_foo_to_solr_params) do |solr_params, user_params|
+        allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
           solr_params[:wt] = "TESTING"
         end
                          
@@ -260,19 +260,19 @@ describe Blacklight::SolrHelper do
       end
 
       it "should pass date-type fields through" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
+        allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
 
         expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq "facet_name:2012\\-01\\-01"
       end
 
       it "should escape datetime-type fields" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
+        allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
 
         expect(subject.send(:facet_value_to_fq_string, "facet_name", "2003-04-09T00:00:00Z")).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"
       end
       
       it "should format Date objects correctly" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil))
+        allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil))
         d = DateTime.parse("2003-04-09T00:00:00")
         expect(subject.send(:facet_value_to_fq_string, "facet_name", d)).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"      
       end
@@ -282,7 +282,7 @@ describe Blacklight::SolrHelper do
       end
 
       it "should add tag local parameters" do
-        blacklight_config.facet_fields.stub(:[]).with('facet_name').and_return(double(:query => nil, :tag => 'asdf', :date => nil))
+        allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:query => nil, :tag => 'asdf', :date => nil))
 
         expect(subject.send(:facet_value_to_fq_string, "facet_name", true)).to eq "{!tag=asdf}facet_name:true"
         expect(subject.send(:facet_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name tag=asdf}my value"
@@ -334,7 +334,7 @@ describe Blacklight::SolrHelper do
 
     describe "overriding of qt parameter" do
       it "should return the correct overriden parameter" do
-        subject.stub(params: { qt: 'overridden' })
+        allow(subject).to receive_messages(params: { qt: 'overridden' })
         
         expect(subject.solr_search_params[:qt]).to eq "overridden"        
       end
@@ -397,7 +397,7 @@ describe Blacklight::SolrHelper do
       end
 
       it "should add sort parameters" do
-        expect(solr_parameters[:facet]).to be_true
+        expect(solr_parameters[:facet]).to be true
 
         expect(solr_parameters[:'facet.field']).to include('test_field')
         expect(solr_parameters[:'f.test_field.facet.sort']).to eq 'count'
@@ -494,7 +494,7 @@ describe Blacklight::SolrHelper do
       end
 
       before do
-        subject.stub params: {:search_field => "test_field", :q => "test query", "facet.field" => "extra_facet"}
+        allow(subject).to receive_messages params: {:search_field => "test_field", :q => "test query", "facet.field" => "extra_facet"}
       end
       
       it "should merge parameters from search_field definition" do
@@ -579,7 +579,7 @@ describe Blacklight::SolrHelper do
       end
       
       before do        
-        subject.stub params: {:search_field => "custom_author_key", :q => "query"}
+        allow(subject).to receive_messages params: {:search_field => "custom_author_key", :q => "query"}
       end
       
       before do
@@ -666,7 +666,7 @@ describe Blacklight::SolrHelper do
 
     describe 'if facet_list_limit is defined in controller' do
       before do
-        subject.stub facet_list_limit: 1000
+        allow(subject).to receive_messages facet_list_limit: 1000
       end
       it 'uses controller method for limit' do
         solr_params = subject.solr_facet_params(@facet_field)
@@ -710,7 +710,7 @@ describe Blacklight::SolrHelper do
   end
   describe "for facet limit parameters config ed" do                
     before do   
-      subject.stub params: {:search_field => "test_field", :q => "test query"}
+      allow(subject).to receive_messages params: {:search_field => "test_field", :q => "test query"}
       @generated_params = subject.solr_search_params
     end
 
@@ -750,8 +750,8 @@ describe Blacklight::SolrHelper do
       end
 
       it "should use the configured request handler " do
-        blacklight_config.stub(:default_solr_params).and_return({:qt => 'custom_request_handler'})
-        blacklight_solr.should_receive(:send_and_receive) do |path, params|
+        allow(blacklight_config).to receive(:default_solr_params).and_return({:qt => 'custom_request_handler'})
+        allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
           expect(path).to eq 'select'
           expect(params[:params]['facet.field']).to eq ["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
           expect(params[:params]["facet.query"]).to eq ["pub_date:[#{5.years.ago.year} TO *]", "pub_date:[#{10.years.ago.year} TO *]", "pub_date:[#{25.years.ago.year} TO *]"]
@@ -797,7 +797,7 @@ describe Blacklight::SolrHelper do
       let(:blacklight_config) { copy_of_catalog_config }
 
       before do
-        subject.stub grouped_key_for_results: 'title_sort'
+        allow(subject).to receive_messages grouped_key_for_results: 'title_sort'
         (@solr_response, @document_list) = subject.get_search_results({:q => @all_docs_query}, :group => true, :'group.field' => ['pub_date_sort', 'title_sort'])
       end
 
@@ -1048,14 +1048,14 @@ describe Blacklight::SolrHelper do
     end
 
     it "should use a provided document request handler " do
-      blacklight_config.stub(:document_solr_request_handler => 'document')
-      blacklight_solr.should_receive(:send_and_receive).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
+      allow(blacklight_config).to receive_messages(:document_solr_request_handler => 'document')
+      allow(blacklight_solr).to receive(:send_and_receive).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
       expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
     end
 
     it "should use a provided document solr path " do
-      blacklight_config.stub(:document_solr_path => 'get')
-      blacklight_solr.should_receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
+      allow(blacklight_config).to receive_messages(:document_solr_path => 'get')
+      allow(blacklight_solr).to receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
       expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
     end
 
@@ -1085,7 +1085,7 @@ describe Blacklight::SolrHelper do
     end
 
     it "should use the document_unique_id_param configuration" do
-      blacklight_config.stub(document_unique_id_param: :ids)
+      allow(blacklight_config).to receive_messages(document_unique_id_param: :ids)
       doc_params = subject.solr_doc_params('asdfg')
       expect(doc_params[:ids]).to eq 'asdfg'
     end
@@ -1105,7 +1105,7 @@ describe Blacklight::SolrHelper do
 =begin    
     # Can't test this properly without updating the "document" request handler in solr
     it "should respect the configuration-supplied unique id" do
-      SolrDocument.should_receive(:unique_key).and_return("title_display")
+      allow(SolrDocument).to receive(:unique_key).and_return("title_display")
       @response, @document = @solr_helper.get_solr_response_for_doc_id('"Strong Medicine speaks"')
       @document.id).to eq '"Strong Medicine speaks"'
       @document.get(:id)).to eq 2007020969
@@ -1135,7 +1135,7 @@ describe Blacklight::SolrHelper do
 
     doc2 = get_single_doc_via_search(@all_docs_query, nil, @doc_row, @multi_facets)
     it "should limit search result by facets when supplied" do
-      response2.docs.numFound.should_be < response.docs.numFound
+      response2expect(.docs.numFound).to_be < response.docs.numFound
     end
 
     it "should not have facets in the response" do
@@ -1175,7 +1175,7 @@ describe Blacklight::SolrHelper do
       expect(solr_response.spelling.words).to include('political') # more freq
 =begin
       #  when we can have multiple suggestions
-      solr_response.spelling.words.should_not include('policy') # less freq
+      expect(solr_response.spelling.words).to_not include('policy') # less freq
       solr_response.spelling.words).to include('politics') # more freq
       solr_response.spelling.words).to include('political') # more freq
 =end
@@ -1197,7 +1197,7 @@ describe Blacklight::SolrHelper do
     end
 
     it 'search results for multiple terms query with just-poor-enough-terms should have spelling suggestions for each term' do
-     pending
+     skip
 #     get_spelling_suggestion("histo politica").should_not be_nil
     end
 
@@ -1215,7 +1215,7 @@ describe Blacklight::SolrHelper do
     
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
       # facet_limit_hash has been removed from solrhelper in refactor. should it go back?
-      pending "facet_limit_hash has been removed from solrhelper in refactor. should it go back?"
+      skip "facet_limit_hash has been removed from solrhelper in refactor. should it go back?"
       expect(subject.facet_limit_hash).to eq blacklight_config[:facet][:limits]
     end
     it "should handle no facet_limits in config" do
@@ -1238,14 +1238,14 @@ describe Blacklight::SolrHelper do
       end
       it "should get from @response facet.limit if available" do        
         @response = double()
-        @response.stub(:facet_by_field_name).with("language_facet").and_return(double(limit: nil))
+        allow(@response).to receive(:facet_by_field_name).with("language_facet").and_return(double(limit: nil))
         subject.instance_variable_set(:@response, @response)
         blacklight_config.facet_fields['language_facet'].limit = 10
         expect(subject.facet_limit_for("language_facet")).to eq 10
       end
       it "should get the limit from the facet field in @response" do
         @response = double()
-        @response.stub(:facet_by_field_name).with("language_facet").and_return(double(limit: 16))
+        allow(@response).to receive(:facet_by_field_name).with("language_facet").and_return(double(limit: 16))
         subject.instance_variable_set(:@response, @response)
         expect(subject.facet_limit_for("language_facet")).to eq 15
       end
@@ -1268,20 +1268,20 @@ describe Blacklight::SolrHelper do
     describe "#get_solr_response_for_field_values" do
       before do
         @mock_response = double()
-        @mock_response.stub(documents: [])
+        allow(@mock_response).to receive_messages(documents: [])
       end
       it "should contruct a solr query based on the field and value pair" do
-        subject.should_receive(:find).with(hash_including(:q => "field_name:(value)")).and_return(@mock_response)
+        allow(subject).to receive(:find).with(hash_including(:q => "field_name:(value)")).and_return(@mock_response)
         subject.get_solr_response_for_field_values('field_name', 'value')
       end
 
       it "should OR multiple values together" do
-        subject.should_receive(:find).with(hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
+        allow(subject).to receive(:find).with(hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
         subject.get_solr_response_for_field_values('field_name', ['a', 'b'])
       end
 
       it "should escape crazy identifiers" do
-        subject.should_receive(:find).with(hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
+        allow(subject).to receive(:find).with(hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
         subject.get_solr_response_for_field_values('field_name', 'h://"\'')
       end
     end
@@ -1294,7 +1294,7 @@ describe Blacklight::SolrHelper do
 #  more like this
 #  nearby on shelf
   it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
-    blacklight_solr.stub(:send_and_receive).and_raise(Errno::ECONNREFUSED)
+    allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
     expect { subject.find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
   end
 

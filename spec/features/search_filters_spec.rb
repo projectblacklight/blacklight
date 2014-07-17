@@ -167,14 +167,14 @@ describe "Facets" do
     end
   end
   it "should be collapsed when not selected", :js => true do
-    pending("Test passes locally but not on Travis.") if ENV['TRAVIS']
+    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
       expect(page).not_to have_selector(".panel-collapse", :visible => true)
     end
   end
   it "should expand when the heading is clicked", :js => true do
-    pending("Test passes locally but not on Travis.") if ENV['TRAVIS']
+    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
       expect(page).not_to have_selector(".panel-collapse", :visible => true)
@@ -183,7 +183,7 @@ describe "Facets" do
     end
   end
   it "should expand when the anchor is clicked", :js => true do
-    pending("Test passes locally but not on Travis.") if ENV['TRAVIS']
+    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
       expect(page).not_to have_selector(".panel-collapse", :visible => true)
@@ -192,7 +192,7 @@ describe "Facets" do
     end
   end
   it "should keep selected facets expanded on page load", :js => true do
-    pending("Test passes locally but not on Travis.") if ENV['TRAVIS']
+    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
       click_link "Topic"

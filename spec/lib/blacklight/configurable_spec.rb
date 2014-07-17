@@ -18,17 +18,17 @@ describe "Blacklight::Configurable" do
       end
     end
     it "should inherit the configuration when subclassed" do            
-      TestCaseInheritence::Child.blacklight_config.list.should include(1,2,3)
+      expect(TestCaseInheritence::Child.blacklight_config.list).to include(1,2,3)
     end
     
     it "inherited version should be a deep copy, not original" do      
-      TestCaseInheritence::Child.blacklight_config.should_not  be(TestCaseInheritence::Parent.blacklight_config)
+      expect(TestCaseInheritence::Child.blacklight_config).to_not  be(TestCaseInheritence::Parent.blacklight_config)
     
       TestCaseInheritence::Child.blacklight_config.list << "child_only"
 
 
-      TestCaseInheritence::Child.blacklight_config.list.should include("child_only")      
-      TestCaseInheritence::Parent.blacklight_config.list.should_not include("child_only")
+      expect(TestCaseInheritence::Child.blacklight_config.list).to include("child_only")      
+      expect(TestCaseInheritence::Parent.blacklight_config.list).to_not include("child_only")
     end    
   end
 
@@ -45,7 +45,7 @@ describe "Blacklight::Configurable" do
       a = Class.new
       a.send(:include, Blacklight::Configurable)
 
-      a.blacklight_config.default_solr_params.should be_empty
+      expect(a.blacklight_config.default_solr_params).to be_empty
     end
 
     it "should allow the user to provide a default configuration" do

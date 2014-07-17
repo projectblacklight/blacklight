@@ -14,7 +14,7 @@ describe CatalogHelper do
     
     mock_response = Kaminari.paginate_array(mock_docs).page(current_page).per(per_page)
 
-    mock_response.stub(:docs).and_return(mock_docs.slice(start, per_page))
+    allow(mock_response).to receive(:docs).and_return(mock_docs.slice(start, per_page))
     mock_response
   end
 
@@ -62,7 +62,7 @@ describe CatalogHelper do
 
       it "should use the model_name from the response" do
         response = mock_response :total => 1
-        response.stub(:model_name).and_return(double(:human => 'thingy'))
+        allow(response).to receive(:model_name).and_return(double(:human => 'thingy'))
 
         html = page_entries_info(response)
         expect(html).to eq "<strong>1</strong> thingy found"
@@ -126,82 +126,82 @@ describe CatalogHelper do
 
   describe "should_autofocus_on_search_box?" do
     it "should be focused if we're on a catalog-like index page without query or facet parameters" do
-      helper.stub(controller: CatalogController.new, action_name: "index", has_search_parameters?: false)
-      expect(helper.should_autofocus_on_search_box?).to be_true
+      allow(helper).to receive_messages(controller: CatalogController.new, action_name: "index", has_search_parameters?: false)
+      expect(helper.should_autofocus_on_search_box?).to be true
     end
 
     it "should not be focused if we're not on a catalog controller" do
-      helper.stub(controller: ApplicationController.new)
-      expect(helper.should_autofocus_on_search_box?).to be_false
+      allow(helper).to receive_messages(controller: ApplicationController.new)
+      expect(helper.should_autofocus_on_search_box?).to be false
     end
 
     it "should not be focused if we're not on a catalog controller index" do
-      helper.stub(controller: CatalogController.new, action_name: "show")
-      expect(helper.should_autofocus_on_search_box?).to be_false
+      allow(helper).to receive_messages(controller: CatalogController.new, action_name: "show")
+      expect(helper.should_autofocus_on_search_box?).to be false
     end
 
     it "should not be focused if a search parameters are provided" do
-      helper.stub(controller: CatalogController.new, action_name: "index", has_search_parameters?: true)
-      expect(helper.should_autofocus_on_search_box?).to be_false
+      allow(helper).to receive_messages(controller: CatalogController.new, action_name: "index", has_search_parameters?: true)
+      expect(helper.should_autofocus_on_search_box?).to be false
     end
   end
 
   describe "has_thumbnail?" do
     it "should have a thumbnail if a thumbnail_method is configured" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
       document = double()
-      expect(helper.has_thumbnail? document).to be_true
+      expect(helper.has_thumbnail? document).to be true
     end
 
     it "should have a thumbnail if a thumbnail_field is configured and it exists in the document" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       document = double(:has? => true)
-      expect(helper.has_thumbnail? document).to be_true
+      expect(helper.has_thumbnail? document).to be true
     end
     
     it "should not have a thumbnail if the thumbnail_field is missing from the document" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       document = double(:has? => false)
-      expect(helper.has_thumbnail? document).to be_false
+      expect(helper.has_thumbnail? document).to be false
     end
 
     it "should not have a thumbnail if none of the fields are configured" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
-      expect(helper.has_thumbnail? double()).to be_false
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
+      expect(helper.has_thumbnail? double()).to be_falsey
     end
   end
 
   describe "render_thumbnail_tag" do
     let(:document) { double }
     it "should call the provided thumbnail method" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
-      helper.stub(:xyz => "some-thumbnail")
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:xyz => "some-thumbnail")
 
-      helper.should_receive(:link_to_document).with(document, :label => "some-thumbnail")
+      allow(helper).to receive(:link_to_document).with(document, :label => "some-thumbnail")
       helper.render_thumbnail_tag document
     end
 
     it "should create an image tag from the given field" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       
-      document.stub(:has?).with(:xyz).and_return(true)
-      document.stub(:first).with(:xyz).and_return("http://example.com/some.jpg")
+      allow(document).to receive(:has?).with(:xyz).and_return(true)
+      allow(document).to receive(:first).with(:xyz).and_return("http://example.com/some.jpg")
 
-      helper.should_receive(:link_to_document).with(document, :label => image_tag("http://example.com/some.jpg"))
+      allow(helper).to receive(:link_to_document).with(document, :label => image_tag("http://example.com/some.jpg"))
       helper.render_thumbnail_tag document
     end
 
     it "should not link to the document if the url options are false" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
-      helper.stub(:xyz => "some-thumbnail")
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:xyz => "some-thumbnail")
 
       result = helper.render_thumbnail_tag document, {}, false
       expect(result).to eq "some-thumbnail"
     end
 
     it "should not link to the document if the url options have :suppress_link" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
-      helper.stub(:xyz => "some-thumbnail")
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:xyz => "some-thumbnail")
 
       result = helper.render_thumbnail_tag document, {}, suppress_link: true
       expect(result).to eq "some-thumbnail"
@@ -209,13 +209,13 @@ describe CatalogHelper do
     
 
     it "should return nil if no thumbnail is available" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
       expect(helper.render_thumbnail_tag document).to be_nil
     end
 
     it "should return nil if no thumbnail is returned from the thumbnail method" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
-      helper.stub(:xyz => nil)
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:xyz => nil)
       
       expect(helper.render_thumbnail_tag document).to be_nil
     end
@@ -223,17 +223,17 @@ describe CatalogHelper do
 
   describe "thumbnail_url" do
     it "should pull the configured thumbnail field out of the document" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       document = double()
-      document.stub(:has?).with(:xyz).and_return(true)
-      document.stub(:first).with(:xyz).and_return("asdf")
+      allow(document).to receive(:has?).with(:xyz).and_return(true)
+      allow(document).to receive(:first).with(:xyz).and_return("asdf")
       expect(helper.thumbnail_url document).to eq("asdf")
     end
 
     it "should return nil if the thumbnail field doesn't exist" do
-      helper.stub(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       document = double()
-      document.stub(:has?).with(:xyz).and_return(false)
+      allow(document).to receive(:has?).with(:xyz).and_return(false)
       expect(helper.thumbnail_url document).to be_nil
     end
   end

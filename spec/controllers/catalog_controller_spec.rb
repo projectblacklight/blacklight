@@ -22,7 +22,7 @@ describe CatalogController do
       let(:user_query) { 'history' } # query that will get results
 
       it "should have no search history if no search criteria" do
-        controller.should_receive(:get_search_results) 
+        allow(controller).to receive(:get_search_results) 
         session[:history] = []
         get :index
         expect(session[:history]).to be_empty
@@ -70,7 +70,7 @@ describe CatalogController do
 
       describe "session" do
         before do
-          controller.stub(:get_search_results) 
+          allow(controller).to receive(:get_search_results) 
         end
         it "should include search hash with key :q" do
           get :index, q: user_query
@@ -95,7 +95,7 @@ describe CatalogController do
       end
 
       it "should render index.html.erb" do
-        controller.stub(:get_search_results)
+        allow(controller).to receive(:get_search_results)
         get :index
         expect(response).to render_template(:index)
       end
@@ -156,8 +156,8 @@ describe CatalogController do
       let(:blacklight_config) { Blacklight::Configuration.new }
 
       before :each do
-        @controller.stub blacklight_config: blacklight_config
-        @controller.stub get_search_results: [double, double]
+        allow(@controller).to receive_messages blacklight_config: blacklight_config
+        allow(@controller).to receive_messages get_search_results: [double, double]
       end
 
       it "should not render when the config is false" do
@@ -185,7 +185,7 @@ describe CatalogController do
       end
 
       it "with a symbol, it should call a controller method" do
-        subject.should_receive(:render_some_yaml) do
+        expect(subject).to receive(:render_some_yaml) do
           subject.render nothing: true, layout: false
         end
 
@@ -256,12 +256,12 @@ describe CatalogController do
       before do
         @mock_response = double()
         @mock_document = double()
-        @mock_document.stub(:export_formats => {})
-        controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
+        allow(@mock_document).to receive_messages(:export_formats => {})
+        allow(controller).to receive_messages(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
                         :get_previous_and_next_documents_for_search => [double(:total => 5), [double("a"), @mock_document, double("b")]])
 
         current_search = Search.create(:query_params => { :q => ""})
-        controller.stub(:current_search_session => current_search)
+        allow(controller).to receive_messages(:current_search_session => current_search)
 
         @search_session = { :id => current_search.id }
       end
@@ -296,18 +296,18 @@ describe CatalogController do
     it "should render show.html.erb" do
       @mock_response = double()
       @mock_document = double()
-      @mock_document.stub(:export_formats => {})
-      controller.stub(:get_solr_response_for_doc_id => [@mock_response, @mock_document])
+      allow(@mock_document).to receive_messages(:export_formats => {})
+      allow(controller).to receive_messages(:get_solr_response_for_doc_id => [@mock_response, @mock_document])
       get :show, :id => doc_id
-      response.should render_template(:show)
+      expect(response).to render_template(:show)
     end
 
     describe "@document" do
       before do
         @mock_response = double()
-        @mock_response.stub(documents: [SolrDocument.new(id: 'my_fake_doc')])
+        allow(@mock_response).to receive_messages(documents: [SolrDocument.new(id: 'my_fake_doc')])
         @mock_document = double()
-        controller.stub(:find => @mock_response )
+        allow(controller).to receive_messages(:find => @mock_response )
       end
       before(:each) do
         get :show, :id => doc_id
@@ -332,9 +332,9 @@ describe CatalogController do
       
       before do
         @mock_response = double()
-        @mock_response.stub(:docs => [{ :id => 'my_fake_doc' }])
+        allow(@mock_response).to receive_messages(:docs => [{ :id => 'my_fake_doc' }])
         @mock_document = double()
-        controller.stub(find: @mock_response)
+        allow(controller).to receive_messages(find: @mock_response)
       end
 
       before(:each) do
@@ -351,12 +351,12 @@ describe CatalogController do
       
       before do
         @mock_response = double()
-        @mock_response.stub(:documents => [SolrDocument.new(id: 'my_fake_doc')])
+        allow(@mock_response).to receive_messages(:documents => [SolrDocument.new(id: 'my_fake_doc')])
         @mock_document = double()
-        controller.stub(:find => @mock_response, 
+        allow(controller).to receive_messages(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
 
-        controller.stub(:find => @mock_response, 
+        allow(controller).to receive_messages(:find => @mock_response, 
                         :get_single_doc_via_search => @mock_document)
       end
 
@@ -379,9 +379,9 @@ describe CatalogController do
     before do
       @mock_response = double()
       @mock_document = double()
-      @mock_response.stub(documents:  [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')])
+      allow(@mock_response).to receive_messages(documents:  [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')])
       @mock_document = double()
-      controller.stub(find: @mock_response)
+      allow(controller).to receive_messages(find: @mock_response)
                       
     end
     it "should return an opensearch description" do
@@ -398,7 +398,7 @@ describe CatalogController do
     doc_id = '2007020969'
     let(:mock_response) { double(documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
-      controller.stub(find: mock_response)
+      allow(controller).to receive_messages(find: mock_response)
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
       SolrDocument.use_extension( Blacklight::Solr::Document::Email )
       SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
@@ -418,8 +418,8 @@ describe CatalogController do
       end
       it "should redirect back to the record upon success" do
         mock_mailer = double
-        mock_mailer.should_receive(:deliver)
-        RecordMailer.should_receive(:email_record).with(anything, { :to => 'test_email@projectblacklight.org', :message => 'xyz' }, hash_including(:host => 'test.host')).and_return mock_mailer
+        allow(mock_mailer).to receive(:deliver)
+        allow(RecordMailer).to receive(:email_record).with(anything, { :to => 'test_email@projectblacklight.org', :message => 'xyz' }, hash_including(:host => 'test.host')).and_return mock_mailer
 
         post :email, :id => doc_id, :to => 'test_email@projectblacklight.org', :message => 'xyz'
         expect(request.flash[:error]).to be_nil
@@ -456,8 +456,8 @@ describe CatalogController do
       end
       it "should redirect back to the record upon success" do
         post :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
-        request.flash[:error].should be_nil
-        request.should redirect_to(catalog_path(doc_id))
+        expect(request.flash[:error]).to eq nil
+        expect(request).to redirect_to(catalog_path(doc_id))
       end
 
       it "should render sms_sent template for XHR requests" do
@@ -471,14 +471,14 @@ describe CatalogController do
   describe "errors" do
     it "should return status 404 for a record that doesn't exist" do
       @mock_response = double(documents: [])
-      controller.stub(:find => @mock_response)
+      allow(controller).to receive_messages(:find => @mock_response)
       get :show, :id=>"987654321"
       expect(response.status).to eq 404
       expect(response.content_type).to eq Mime::HTML
     end
     it "should return status 404 for a record that doesn't exist even for non-html format" do
       @mock_response = double(documents: [])
-      controller.stub(:find => @mock_response)
+      allow(controller).to receive_messages(:find => @mock_response)
 
       get :show, :id=>"987654321", :format => "xml"
       expect(response.status).to eq 404
@@ -489,9 +489,9 @@ describe CatalogController do
       req = {}
       res = {}
       fake_error = RSolr::Error::Http.new(req, res) 
-      Rails.env.stub(:test? => false)
-      controller.stub(:get_search_results) { |*args| raise fake_error }
-      controller.logger.should_receive(:error).with(fake_error)
+      allow(Rails.env).to receive_messages(:test? => false)
+      allow(controller).to receive(:get_search_results) { |*args| raise fake_error }
+      expect(controller.logger).to receive(:error).with(fake_error)
       get :index, :q=>"+"
 
       expect(response.redirect_url).to eq root_url
@@ -504,9 +504,9 @@ describe CatalogController do
       req = {}
       res = {}
       fake_error = RSolr::Error::Http.new(req, res) 
-      controller.stub(:get_search_results) { |*args| raise fake_error }
-      controller.flash.stub(:sweep)
-      controller.stub(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
+      allow(controller).to receive(:get_search_results) { |*args| raise fake_error }
+      allow(controller.flash).to receive(:sweep)
+      allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
       expect {
       get :index, :q=>"+"
       }.to raise_error 
@@ -518,7 +518,7 @@ describe CatalogController do
     render_views
 
     before do
-      controller.stub(:has_user_authentication_provider?) { false }
+      allow(controller).to receive(:has_user_authentication_provider?) { false }
     end
 
     it "should not show user util links" do
@@ -557,8 +557,8 @@ describe CatalogController do
   describe 'render_search_results_as_json' do
     before do
       controller.instance_variable_set :@document_list, [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}]
-      controller.stub(:pagination_info).and_return({current_page: 1, next_page: 2, prev_page: nil})
-      controller.stub(:search_facets_as_json).and_return(
+      allow(controller).to receive(:pagination_info).and_return({current_page: 1, next_page: 2, prev_page: nil})
+      allow(controller).to receive(:search_facets_as_json).and_return(
           [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}])
     end
 
@@ -595,7 +595,7 @@ describe CatalogController do
     end
 
     it "should remove searches from the list when the list gets too big" do
-      controller.stub(:blacklight_config).and_return(double(:search_history_window => 5))
+      allow(controller).to receive(:blacklight_config).and_return(double(:search_history_window => 5))
       session[:history] = (0..4).to_a.reverse
 
       expect(session[:history]).to have(5).items
@@ -609,15 +609,15 @@ describe CatalogController do
 
   describe "current_search_session" do
     it "should create a session if we're on an search action" do
-      controller.stub(:action_name => "index")
-      controller.stub(:params => { :q => "x", :page => 5})
+      allow(controller).to receive_messages(:action_name => "index")
+      allow(controller).to receive_messages(:params => { :q => "x", :page => 5})
       session = controller.send(:current_search_session)
       expect(session.query_params).to include(:q => "x")
       expect(session.query_params).to_not include(:page => 5)
     end
 
     it "should create a session if a search context was provided" do
-      controller.stub(:params => { :search_context => JSON.dump(:q => "x")})
+      allow(controller).to receive_messages(:params => { :search_context => JSON.dump(:q => "x")})
       session = controller.send(:current_search_session)
       expect(session.query_params).to include("q" => "x")
     end
@@ -626,7 +626,7 @@ describe CatalogController do
       s = Search.create(:query_params => { :q => "x" })
       session[:history] ||= []
       session[:history] << s.id
-      controller.stub(:params => { :search_id => s.id})
+      allow(controller).to receive_messages(:params => { :search_id => s.id})
       session = controller.send(:current_search_session)
       expect(session.query_params).to include(:q => "x")
       expect(session).to eq(s)
@@ -647,16 +647,16 @@ describe CatalogController do
   describe "#has_search_parameters?" do
     subject { controller.has_search_parameters? }
     describe "none" do
-      before { controller.stub(params: { }) }
-      it { should be_false }
+      before { allow(controller).to receive_messages(params: { }) }
+      it { should be false }
     end
     describe "with a query" do
-      before { controller.stub(params: { q: 'hello' }) }
-      it { should be_true }
+      before { allow(controller).to receive_messages(params: { q: 'hello' }) }
+      it { should be true }
     end
     describe "with a facet" do
-      before { controller.stub(params: { f: { "field" => ["value"]} }) }
-      it { should be_true }
+      before { allow(controller).to receive_messages(params: { f: { "field" => ["value"]} }) }
+      it { should be true }
     end
   end
 

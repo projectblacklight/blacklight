@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe RecordMailer do
   before(:each) do
-    RecordMailer.stub(:default) { { :from => 'no-reply@projectblacklight.org' } }
+    allow(RecordMailer).to receive(:default) { { :from => 'no-reply@projectblacklight.org' } }
     SolrDocument.use_extension( Blacklight::Solr::Document::Email )
     SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
     document = SolrDocument.new({:id=>"123456", :format=>["book"], :title_display => "The horn", :language_facet => "English", :author_display => "Janetzky, Kurt"})

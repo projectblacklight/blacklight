@@ -11,14 +11,14 @@ describe "catalog/show.html.erb" do
   end
 
   before :each do
-    view.stub(:has_user_authentication_provider? => false)
-    view.stub(:render_document_sidebar_partial => "Sidebar")
+    allow(view).to receive_messages(:has_user_authentication_provider? => false)
+    allow(view).to receive_messages(:render_document_sidebar_partial => "Sidebar")
     assign :document, document
-    view.stub(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
   it "should set the @page_title" do
-    view.stub(:document_show_html_title).and_return("Heading")
+    allow(view).to receive(:document_show_html_title).and_return("Heading")
     render
     page_title = view.instance_variable_get(:@page_title)
     expect(page_title).to eq "Heading - Blacklight"
@@ -26,8 +26,8 @@ describe "catalog/show.html.erb" do
   end
 
   it "should include schema.org itemscope/type properties" do
-    view.stub(:document_show_html_title).and_return("Heading")
-    document.stub(:itemtype => 'some-item-type-uri')
+    allow(view).to receive(:document_show_html_title).and_return("Heading")
+    allow(document).to receive_messages(:itemtype => 'some-item-type-uri')
     render
 
     expect(rendered).to have_selector('div#document[@itemscope]')
@@ -35,7 +35,7 @@ describe "catalog/show.html.erb" do
   end
 
   it "should render the show_header and show partials by default" do
-    view.stub(:render_grouped_response?).and_return(false)
+    allow(view).to receive(:render_grouped_response?).and_return(false)
     stub_template "catalog/_show_header_default.html.erb" => "document_header"
     stub_template "catalog/_show_default.html.erb" => "show_default"
     
@@ -47,7 +47,7 @@ describe "catalog/show.html.erb" do
 
 
   it "should use the show.partials parameter to determine the partials to render" do
-    view.stub(:render_grouped_response?).and_return(false)
+    allow(view).to receive(:render_grouped_response?).and_return(false)
     blacklight_config.show.partials = ['a', 'b', 'c']
     stub_template "catalog/_a_default.html.erb" => "a_partial"
     stub_template "catalog/_b_default.html.erb" => "b_partial"

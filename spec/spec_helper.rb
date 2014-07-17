@@ -23,6 +23,7 @@ EngineCart.load_application!
 
 require 'rspec/rails'
 require 'rspec/its'
+require 'rspec/collection_matchers'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
