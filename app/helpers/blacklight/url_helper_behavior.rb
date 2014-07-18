@@ -115,7 +115,11 @@ module Blacklight::UrlHelperBehavior
       query_params[:page] = ((counter - 1)/ per_page) + 1
     end
 
-    link_url = scope.url_for(query_params)
+    link_url = if query_params.empty?
+      search_action_path(only_path: true)
+    else
+      scope.url_for(query_params)
+    end
     label = opts.delete(:label)
 
     if link_url =~ /bookmarks/
