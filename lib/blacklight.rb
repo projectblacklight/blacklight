@@ -3,29 +3,7 @@ require 'kaminari'
 require 'rsolr'
 module Blacklight
 
-  autoload :Configurable, 'blacklight/configurable'
-  autoload :Configuration, 'blacklight/configuration'
-  autoload :SearchFields, 'blacklight/search_fields'
-
-  autoload :Solr, 'blacklight/solr'
-  
-  autoload :SolrHelper, 'blacklight/solr_helper'
-  autoload :RequestBuilders, 'blacklight/request_builders'
-  
-  autoload :Exceptions, 'blacklight/exceptions'
-
-  autoload :User, 'blacklight/user'
-
-  autoload :Controller,        'blacklight/controller'
-  autoload :Base,              'blacklight/base'
-  autoload :Catalog,           'blacklight/catalog'
-  autoload :DocumentPresenter, 'blacklight/document_presenter'
-
-  autoload :Routes, 'blacklight/routes'
-
   autoload :OpenStructWithHashAccess, 'blacklight/utils'
-  autoload :SolrResponse, 'blacklight/solr_response'
-  autoload :Facet, 'blacklight/facet'
 
   extend SearchFields
   

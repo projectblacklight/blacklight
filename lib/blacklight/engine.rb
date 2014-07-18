@@ -4,6 +4,10 @@ module Blacklight
 
     require 'bootstrap-sass'
     require 'blacklight/rails/routes'
+    config.autoload_paths += %W(
+      #{config.root}/lib
+    )
+    
 
     # BlacklightHelper is needed by all helpers, so we inject it
     # into action view base here. 
