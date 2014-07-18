@@ -75,7 +75,6 @@ module Blacklight::Catalog
       @response = get_facet_field_response(@facet.field, params)
       @display_facet = @response.facets.first
 
-      # @pagination was deprecated in Blacklight 5.1
       @pagination = facet_paginator(@facet, @display_facet)
 
 
