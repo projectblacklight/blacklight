@@ -3,13 +3,13 @@ require 'spec_helper'
 describe BlacklightUrlHelper do
 
   let(:blacklight_config) do
-    @config ||= Blacklight::Configuration.new.configure do |config|
+    Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_display'
       config.index.display_type_field = 'format'
     end
   end
 
-  before(:each) do
+  before do
     allow(helper).to receive(:search_action_path) do |*args|
       catalog_index_url *args
     end
@@ -21,6 +21,7 @@ describe BlacklightUrlHelper do
 
   describe "url_for_document" do
     let(:controller_class) { ::CatalogController.new }
+    let(:doc) { SolrDocument.new }
 
     before do
       allow(helper).to receive_messages(controller: controller_class)
@@ -28,12 +29,10 @@ describe BlacklightUrlHelper do
     end
 
     it "should be a polymorphic routing-ready object" do
-      doc = SolrDocument.new
       expect(helper.url_for_document(doc)).to eq doc
     end
 
     it "should allow for custom show routes" do
-      doc = SolrDocument.new
       helper.blacklight_config.show.route = { controller: 'catalog' }
       expect(helper.url_for_document(doc)).to eq({controller: 'catalog', action: :show, id: doc})
     end
@@ -42,7 +41,6 @@ describe BlacklightUrlHelper do
       let(:controller_class) { ::BookmarksController.new }
 
       it "should use polymorphic routing" do
-        doc = SolrDocument.new
         expect(helper.url_for_document(doc)).to eq doc
       end
     end
@@ -53,7 +51,6 @@ describe BlacklightUrlHelper do
         helper.blacklight_config.show.route = { controller: :current }
       end
       it "should support the :current controller configuration" do
-        doc = SolrDocument.new
         expect(helper.url_for_document(doc)).to eq({controller: 'alternate', action: :show, id: doc})
       end
     end
@@ -105,7 +102,20 @@ describe BlacklightUrlHelper do
       end
     end
 
-    describe "when an alternate scope is passed in" do
+    context "without current search context" do
+      before do
+        controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', id: '123')
+        allow(helper).to receive_messages(current_search_session: nil)
+      end
+
+      subject { helper.link_back_to_catalog }
+
+      it "should link to the catalog" do
+        expect(subject).to eq '<a href="/catalog">Back to Search</a>'
+      end
+    end
+
+    context "when an alternate scope is passed in" do
       let(:my_engine) { double("Engine") }
 
       it "should call url_for on the engine scope" do
