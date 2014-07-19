@@ -37,6 +37,18 @@ describe 'Blacklight::Solr::FacetPaginator' do
     end
   end
 
+  context 'on the second page of three pages' do
+    subject { Blacklight::Solr::FacetPaginator.new(seven_facet_values, offset: 6, limit: limit) }
+    it { should_not be_first_page }
+    it { should_not be_last_page }
+    its(:current_page) { should eq 2 }
+    its(:prev_page) { should eq 1 }
+    its(:next_page) { should eq 3 }
+    it 'should limit items to limit, if limit is smaller than items.length' do
+      expect(subject.items.size).to eq 6
+    end
+  end
+
   context 'on the first page of one page' do
     subject { Blacklight::Solr::FacetPaginator.new(six_facet_values, offset: 0, limit: limit) }
     it { should be_first_page }
@@ -65,4 +77,17 @@ describe 'Blacklight::Solr::FacetPaginator' do
     end
   end
 
+  describe "#as_json" do
+    subject { Blacklight::Solr::FacetPaginator.new([f1], offset: 0, limit: nil).as_json }
+    it "should be well structured" do
+      expect(subject).to eq("items" => [{"hits"=>"792", "value"=>"Book"}], "limit" => 0,
+       "offset" => 0, "sort" => "count")
+    end
+  end
+
+  describe "#total_pages" do
+    # this method is just for API compatability with kaminari 0.16.1
+    subject { Blacklight::Solr::FacetPaginator.new([f1], offset: 0, limit: nil).total_pages }
+    it { should eq -1 }
+  end
 end

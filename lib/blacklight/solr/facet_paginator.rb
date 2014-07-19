@@ -25,7 +25,7 @@ module Blacklight::Solr
     class << self; attr_accessor :request_keys end # create a class method
     def request_keys ; self.class.request_keys ; end # shortcut
     
-    attr_reader :total_count, :items, :offset, :limit, :sort
+    attr_reader :offset, :limit, :sort
     
     # all_facet_values is a list of facet value objects returned by solr,
     # asking solr for n+1 facet values.
@@ -40,8 +40,17 @@ module Blacklight::Solr
       @limit =  arguments[:limit].to_s.to_i
       # count is solr's default
       @sort = arguments[:sort] || "count" 
-      @total_count = all_facet_values.size
-      @items = items_for_limit(all_facet_values)
+
+      @all = all_facet_values
+    end
+
+    # The number of records solr gave us when we asked for limit + 1 records at the current offset
+    def total_count
+      @all.size
+    end
+
+    def items
+      items_for_limit(@all)
     end
 
     def prev_page
@@ -73,20 +82,19 @@ module Blacklight::Solr
     deprecation_deprecate :has_next?
 
     def last_page?
-      current_page >= total_pages
+      total_count <= limit
     end
 
     def first_page?
       current_page == 1
     end
 
+    # We're implementing total_pages so that this matches the API from kaminari, even though we can't
+    # know the total number of pages.
+    # https://github.com/amatsuda/kaminari/blob/v0.16.1/lib/kaminari/models/page_scope_methods.rb#L21
     def total_pages
-      if limit == 0 #check for divide by zero
-        1
-      else
-        (total_count.to_f / limit).ceil
-      end
-    end      
+      -1
+    end
 
     # Pass in a desired solr facet solr key ('count' or 'index', see
     # http://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
@@ -97,6 +105,10 @@ module Blacklight::Solr
       # When resorting, we've got to reset the offset to start at beginning,
       # no way to make it make sense otherwise.
       params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
+    end
+
+    def as_json(_ = nil)
+      { 'items' => items.as_json, 'limit' => limit, 'offset' => offset, 'sort' => sort }
     end
 
     private
