@@ -141,6 +141,42 @@ module Blacklight::Controller
 
       redirect_to new_user_session_url(:referer => request.fullpath)
     end
-  
+
+    public
+    def url_for(options = nil)
+      array_params= []
+     
+      case options
+      when nil
+        _routes.url_for(url_options.symbolize_keys)
+      when Hash 
+        if(!options.nil? && !options[:f].nil?) 
+          options[:f].each do|key,value|
+            array_params << "f[#{CGI.escape(key)}][]=#{CGI.escape(value.first)}"
+	      end
+          options.each do|key,value|
+            array_params << "#{CGI.escape(key)}=#{CGI.escape(value)}" if (key != "f" && key != "action" && key != "only_path")  
+	      end	      
+		
+		  search_url = ""
+		  if(!url_options.nil? and !options[:f].nil?) 
+			search_url += "#{url_options[:protocol]}#{url_options[:host]}" 
+			search_url += (!url_options[:port].nil?) ? ":#{url_options[:port]}" : ""
+			search_url += (!url_options[:_recall].nil? && !url_options[:_recall][:controller].nil?) ? "/#{url_options[:_recall][:controller]}" : ""
+			search_url += (!url_options[:_path_segments].nil? && !url_options[:_path_segments][:controller].nil?) ? "/#{url_options[:_path_segments][:controller]}" : ""
+			search_url += (!options[:action].nil? && options[:action].to_s != "index") ? "/#{options[:action]}": ""
+		  end
+	
+		  "#{search_url}?#{array_params.join('&')}"
+		else
+		  _routes.url_for(options.symbolize_keys.reverse_merge!(url_options))
+		end 
+      when String
+        options
+      else       
+        polymorphic_url(options)
+      end
+    end
+
 end
 

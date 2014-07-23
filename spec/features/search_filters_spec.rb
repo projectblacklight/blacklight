@@ -203,4 +203,42 @@ describe "Facets" do
       expect(page).to have_selector(".panel-collapse", :visible => true)
     end
   end
+  it "should display the constraints in the order in which they were selected" do
+    visit root_path
+    within "#facet-pub_date" do
+      click_link "2008"
+    end 
+    within "#sortAndPerPage" do
+      expect(page).to have_content "1 - 4 of 4"
+    end
+    within "#facet-pub_date" do
+      expect(page).to have_selector("span.selected", :text => "2008")
+      expect(page).to have_selector("span.facet-count.selected", :text => "4")
+    end
+    within "#appliedParams" do
+      expect(page).to have_content "You searched for:"
+      expect(page).to have_content "Publication Year"
+      expect(page).to have_content "2008"
+    end    
+    
+    click_link "within 10 Years"
+    within ("#sortAndPerPage") do
+      expect(page).to have_content "1 - 4 of 4"
+    end
+    within "#facet-pub_date" do
+      expect(page).to have_selector("span.selected", :text => "2008")
+      expect(page).to have_selector("span.facet-count.selected", :text => "4")
+    end    
+    within "#facet-example_query_facet_field" do
+      expect(page).to have_selector("span.selected", :text => "within 10 Years")
+      expect(page).to have_selector("span.facet-count.selected", :text => "4")
+    end
+    within "#appliedParams" do
+      expect(page).to have_content "You searched for:"
+      expect(page).to have_content "Publication Year"
+      expect(page).to have_content "2008"      
+      expect(page).to have_content "Publish Date"
+      expect(page).to have_content "within 10 Years" 
+    end       
+  end  
 end
