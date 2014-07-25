@@ -412,7 +412,7 @@ module Blacklight::BlacklightHelperBehavior
     document_index_path_templates.each do |str|
       partial = str % { index_view_type: view }
       logger.debug "Looking for document index partial #{partial}"
-      template = lookup_context.find_all(partial, lookup_context.prefixes, true, locals.keys + [:documents], {}).first
+      template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:documents], {}).first
       return template.render(self, locals.merge(documents: documents)) if template
     end
 
@@ -501,7 +501,7 @@ module Blacklight::BlacklightHelperBehavior
     document_partial_path_templates.each do |str|
       partial = str % { action_name: base_name, format: format, index_view_type: document_index_view_type }
       logger.debug "Looking for document partial #{partial}"
-      template = lookup_context.find_all(partial, lookup_context.prefixes, true, locals.keys + [:document], {}).first
+      template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:document], {}).first
       return template.render(self, locals.merge(document: doc)) if template
     end
 
