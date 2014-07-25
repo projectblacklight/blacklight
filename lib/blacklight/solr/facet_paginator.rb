@@ -82,7 +82,7 @@ module Blacklight::Solr
     deprecation_deprecate :has_next?
 
     def last_page?
-      total_count <= limit
+      current_page >= total_pages
     end
 
     def first_page?
@@ -93,7 +93,11 @@ module Blacklight::Solr
     # know the total number of pages.
     # https://github.com/amatsuda/kaminari/blob/v0.16.1/lib/kaminari/models/page_scope_methods.rb#L21
     def total_pages
-      -1
+      if limit == 0 #check for divide by zero
+         1
+      else
+        (total_count.to_f / limit).ceil
+       end
     end
 
     # Pass in a desired solr facet solr key ('count' or 'index', see
