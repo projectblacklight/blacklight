@@ -260,7 +260,7 @@ module Blacklight::Catalog
 		end 
 		   
 		if(!options.nil? and !options[:f].nil?)
-		  "#{request.protocol}#{request.host_with_port}/?#{array_params.join('&')}"
+		  "#{catalog_index_url}?#{array_params.join('&')}"
 		else
 		  _routes.url_for(options.symbolize_keys.reverse_merge!(url_options))
 		end 

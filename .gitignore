@@ -13,4 +13,3 @@ lib/solrmarc.log.*
 tmp/*
 pkg/*
 spec/internal
-.project
