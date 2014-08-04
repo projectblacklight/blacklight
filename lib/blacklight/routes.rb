@@ -102,6 +102,7 @@ module Blacklight
           get "#{primary_resource}/email", :as => "email_#{primary_resource}"
           post "#{primary_resource}/email"
           get "#{primary_resource}/sms", :as => "sms_#{primary_resource}"
+          post "#{primary_resource}/sms"
         end
       end
 
