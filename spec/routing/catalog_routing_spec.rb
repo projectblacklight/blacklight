@@ -9,8 +9,11 @@ describe "Routing" do
     it "should have a path for sending the email" do
       expect(:post => "/catalog/email").to route_to(:controller => 'catalog', :action => 'email')
     end
-    it "should map {:controller => 'catalog', :action => 'sms'} to /catalog/sms" do
+    it "should map GET {:controller => 'catalog', :action => 'sms'} to /catalog/sms" do
       expect(:get => "/catalog/sms").to route_to(:controller => 'catalog', :action => 'sms')
+    end
+    it "should map POST {:controller => 'catalog', :action => 'sms'} to /catalog/sms" do
+      expect(:post => "/catalog/sms").to route_to(:controller => 'catalog', :action => 'sms')
     end
     it "should map { :controller => 'catalog', :action => 'show', :id => 666 } to /catalog/666" do
       expect(:get => "/catalog/666").to route_to(:controller => 'catalog', :action => 'show', :id => "666")
