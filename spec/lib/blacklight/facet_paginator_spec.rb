@@ -75,12 +75,13 @@ describe 'Blacklight::Solr::FacetPaginator' do
     it "should return all the items" do
       expect(subject.items).to eq seven_facet_values
     end
+    it { should be_last_page }
   end
 
   describe "#as_json" do
     subject { Blacklight::Solr::FacetPaginator.new([f1], offset: 0, limit: nil).as_json }
     it "should be well structured" do
-      expect(subject).to eq("items" => [{"hits"=>"792", "value"=>"Book"}], "limit" => 0,
+      expect(subject).to eq("items" => [{"hits"=>"792", "value"=>"Book"}], "limit" => nil,
        "offset" => 0, "sort" => "count")
     end
   end

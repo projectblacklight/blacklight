@@ -1224,9 +1224,8 @@ describe Blacklight::SolrHelper do
       expect(subject.facet_limit_for("subject_topic_facet")).to be_nil
       
       expect(subject.solr_search_params).not_to have_key(:"f.subject_topic_facet.facet.limit")
-      
     end
-    
+
     describe "for 'true' configured values" do
       let(:blacklight_config) do
         config = Blacklight::Configuration.new
@@ -1248,6 +1247,9 @@ describe Blacklight::SolrHelper do
         allow(@response).to receive(:facet_by_field_name).with("language_facet").and_return(double(limit: 16))
         subject.instance_variable_set(:@response, @response)
         expect(subject.facet_limit_for("language_facet")).to eq 15
+      end
+      it "should default to 10" do
+        expect(subject.facet_limit_for("language_facet")).to eq 10
       end
     end
   end

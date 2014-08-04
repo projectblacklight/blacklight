@@ -37,7 +37,7 @@ module Blacklight::Solr
     def initialize(all_facet_values, arguments)
       # to_s.to_i will conveniently default to 0 if nil
       @offset = arguments[:offset].to_s.to_i 
-      @limit =  arguments[:limit].to_s.to_i
+      @limit = arguments[:limit]
       # count is solr's default
       @sort = arguments[:sort] || "count" 
 
@@ -82,7 +82,7 @@ module Blacklight::Solr
     deprecation_deprecate :has_next?
 
     def last_page?
-      total_count <= limit
+      limit.nil? || total_count <= limit
     end
 
     def first_page?
@@ -112,10 +112,10 @@ module Blacklight::Solr
     end
 
     private
-      # setting limit to 0 implies no limit
+      # setting limit to nil implies no limit
       # @return an array of facets on the page
       def items_for_limit(values)
-        limit == 0 ? values : values.take(limit)
+        limit.nil? ? values : values.take(limit)
       end
   end
 end
