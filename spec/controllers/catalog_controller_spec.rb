@@ -404,7 +404,7 @@ describe CatalogController do
       SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
     end
     describe "email" do
-      it "should give error if no TO paramater" do
+      it "should give error if no TO parameter" do
         post :email, :id => doc_id
         expect(request.flash[:error]).to eq "You must enter a recipient in order to send this message"
       end
@@ -412,7 +412,7 @@ describe CatalogController do
         post :email, :id => doc_id, :to => 'test_bad_email'
         expect(request.flash[:error]).to eq "You must enter a valid email address"
       end
-      it "should not give error if no Message paramater is set" do
+      it "should not give error if no Message parameter is set" do
         post :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
         expect(request.flash[:error]).to be_nil
       end
@@ -425,7 +425,6 @@ describe CatalogController do
         expect(request.flash[:error]).to be_nil
         expect(request).to redirect_to(catalog_path(doc_id))
       end
-
       it "should render email_sent for XHR requests" do
         xhr :post, :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
         expect(request).to render_template 'email_sent'
@@ -453,6 +452,12 @@ describe CatalogController do
         post :sms, :id => doc_id, :to => '(555) 555-5555', :carrier => 'txt.att.net'
         expect(request.flash[:error]).to be_nil
         expect(request).to redirect_to(catalog_path(doc_id))
+      end
+      it "should send to the appropriate carrier email address" do
+        mock_mailer = double
+        allow(mock_mailer).to receive(:deliver)
+        expect(RecordMailer).to receive(:sms_record).with(anything, { to: '5555555555@txt.att.net' }, hash_including(:host => 'test.host')).and_return mock_mailer
+        post :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
       end
       it "should redirect back to the record upon success" do
         post :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
