@@ -138,7 +138,7 @@ module Blacklight::Catalog
       @response, @documents = get_solr_response_for_document_ids(params[:id])
       
       if request.post? and validate_sms_params
-        to = "#{params[:to].gsub(/[^\d]/, '')}@#{sms_mappings[params[:carrier]]}"
+        to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
 
         sms = RecordMailer.sms_record(@documents, { :to => to }, url_options)
         sms.deliver
