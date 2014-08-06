@@ -327,8 +327,8 @@ module Blacklight::SolrHelper
     a << response.documents.map {|doc| doc[solr_params[:fl]].to_s }
   end
   
-  
-  
+  DEFAULT_FACET_LIMIT = 10
+
   # Look up facet limit for given facet_field. Will look at config, and
   # if config is 'true' will look up from Solr @response if available. If
   # no limit is avaialble, returns nil. Used from #solr_search_params
@@ -349,8 +349,8 @@ module Blacklight::SolrHelper
       else
         limit.to_i - 1 # we added 1 to find out if we needed to paginate
       end
-    elsif (facet.limit and facet.limit != true)
-      facet.limit
+    elsif facet.limit
+      facet.limit == true ? DEFAULT_FACET_LIMIT : facet.limit
     end
   end
 
