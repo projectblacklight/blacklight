@@ -52,6 +52,22 @@
     }
   }
 
+  @mixin hyphens-auto {
+    // breaks long words apart so they don't cause the containing div to
+    // be too big
+    // from http://kenneth.io/blog/2012/03/04/word-wrapping-hypernation-using-css/
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+    // Non standard for webkit
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+
   .facet-label {
     display: table-cell;
     padding-right: 1em;
@@ -59,6 +75,8 @@
     text-indent: -15px;
     padding-left: 15px;
     padding-bottom: $padding-base-vertical;
+
+    @include hyphens-auto;
   }
 
   .facet-count {
