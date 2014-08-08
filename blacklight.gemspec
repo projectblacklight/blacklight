@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = "Blacklight provides a discovery interface for any Solr (http://lucene.apache.org/solr) index."
   s.description = %q{Blacklight is an open source Solr user interface discovery platform. You can use Blacklight to enable searching and browsing of your collections. Blacklight uses the Apache Solr search engine to search full text and/or metadata.}
   s.license     = "Apache 2.0"
-  
+
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri",  "~>1.6"     # XML Parser
   s.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "rsolr",     "~> 1.0.6"  # Library for interacting with rSolr.
-  s.add_dependency "bootstrap-sass", "~> 3.0"
+  s.add_dependency "bootstrap-sass", "~> 3.2"
   s.add_dependency "deprecation"
 
   s.add_development_dependency "jettywrapper", ">= 1.7.0"
