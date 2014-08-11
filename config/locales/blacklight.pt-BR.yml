@@ -200,6 +200,8 @@ pt-BR:
         more: 'mais »'
         selected:
           remove: '[remover]'
+        sr:
+          label: 'Refine sua busca'
       filters:
         title: 'Sua busca por:'
         label: '%{label}:'

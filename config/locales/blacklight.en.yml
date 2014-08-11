@@ -182,6 +182,8 @@ en:
         more: 'more »'
         selected:
           remove: '[remove]'
+        sr:
+          label: 'Filter your results by'
       group:
         more: 'more »'
       filters:

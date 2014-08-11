@@ -198,6 +198,8 @@ fr:
         more: 'plus »'
         selected:
           remove: '[ X ]'
+        sr:
+          label: 'Filtrez vos résultats par'
       group:
         more: 'plus »'
       filters:
