@@ -16,7 +16,14 @@ module Features
       visit new_user_session_path
       fill_in("user_email", :with => email) 
       fill_in("user_password", :with => "password") 
-      click_button("Sign in")
+      
+      if has_button? "Sign in"
+        click_button("Sign in")
+      elsif has_button? "Log in"
+        click_button("Log in")
+      else
+        raise "Unable to find sign in button"
+      end
     end
   end
 end
