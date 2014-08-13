@@ -1,7 +1,10 @@
 <div class="panel panel-default facet_limit blacklight-<%= facet_field.field.parameterize %> <%= 'facet_limit-active' if facet_field_in_params?(facet_field.field) %>">
   <div class="<%= "collapsed" if should_collapse_facet?(facet_field) %> collapse-toggle panel-heading" data-toggle="collapse" data-target="#<%= facet_field_id(facet_field) %>">
     <h5 class="panel-title">
-      <%= link_to facet_field_label(facet_field.field), "#", :"data-no-turbolink" => true %>
+      <%= link_to("#", :"data-no-turbolink" => true) do %>
+          <span class="sr-only"><%= t("blacklight.search.facets.sr.label")%></span>
+          <%= facet_field_label(facet_field.field) %>
+      <% end %>
     </h5>
   </div>
   <div id="<%= facet_field_id(facet_field) %>" class="panel-collapse facet-content <%= should_collapse_facet?(facet_field) ? 'collapse' : 'in' %>">

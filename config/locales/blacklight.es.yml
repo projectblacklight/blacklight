@@ -182,6 +182,8 @@ es:
         more: 'más »'
         selected:
           remove: '[borrar]'
+        sr:
+          label: 'Filtre sus resultados'
       group:
         more: 'más »'
       filters:
