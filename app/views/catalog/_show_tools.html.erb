@@ -24,7 +24,7 @@
       <% end %>
       <% if @document.export_formats.keys.include?( :refworks_marc_txt ) %>
         <li class="refworks">
-        <%= link_to t('blacklight.tools.refworks'), refworks_export_url(:id => @document)  %>        
+        <%= link_to t('blacklight.tools.refworks'), refworks_export_url(url: polymorphic_url(url_for_document(@document), format: :refworks_marc_txt, only_path: false))  %>        
         </li>
      <% end %>
      <% if @document.export_formats.keys.include?( :endnote ) %>
