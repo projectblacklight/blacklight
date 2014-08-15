@@ -233,12 +233,10 @@ describe "Facets" do
       expect(page).to have_selector("span.selected", :text => "within 10 Years")
       expect(page).to have_selector("span.facet-count.selected", :text => "4")
     end
-    within "#appliedParams" do
-      expect(page).to have_content "You searched for:"
-      expect(page).to have_content "Publication Year"
-      expect(page).to have_content "2008"      
-      expect(page).to have_content "Publish Date"
-      expect(page).to have_content "within 10 Years" 
-    end       
+    
+    page.all(:css, '.appliedFilter').size.should eq(2)
+    page.all('.appliedFilter')[0].text.should include 'Publication Year 2008'
+    page.all('.appliedFilter')[1].text.should include 'Publish Date within 10 Years'
+      
   end  
 end
