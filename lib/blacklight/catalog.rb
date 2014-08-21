@@ -244,33 +244,6 @@ module Blacklight::Catalog
       url_for(options.merge(:action => 'index'))
     end
 
-    def url_for(options = nil)
-      array_params= []       
-      case options
-      when nil
-        _routes.url_for(url_options.symbolize_keys)
-      when Hash 
-        if(!options.nil? and !options[:f].nil?)
-          options[:f].each do|key,value|
-            array_params << "f[#{CGI.escape(key)}][]=#{CGI.escape(value.first)}"
-	      end
-          options.each do|key,value|
-            array_params << "#{CGI.escape(key)}=#{CGI.escape(value)}" if (key != "f" and key != "action" and key != "only_path")  
-	      end	      
-		end 
-		   
-		if(!options.nil? and !options[:f].nil?)
-		  "#{catalog_index_url}?#{array_params.join('&')}"
-		else
-		  _routes.url_for(options.symbolize_keys.reverse_merge!(url_options))
-		end 
-      when String
-        options
-      else         
-        polymorphic_url(options)
-      end
-    end
-    
     # extract the pagination info from the response object
     def pagination_info response
       h = {}

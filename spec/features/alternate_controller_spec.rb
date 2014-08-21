@@ -33,4 +33,13 @@ describe "Alternate Controller Behaviors" do
     expect(page).to have_selector ".document-thumbnail a img"
 
   end
+
+  it "should have the correct order facet value links" do
+    visit alternate_index_path
+    within ".blacklight-example_pivot_field" do
+      expect(page).to have_link("Book", :href => "http://www.example.com/alternate?f[format][]=Book")
+      expect(page).to have_link("Tibetan",:href => "http://www.example.com/alternate?f[language_facet][]=Tibetan&f[format][]=Book")
+      expect(page).to have_link("Hebrew", :href => "http://www.example.com/alternate?f[language_facet][]=Hebrew&f[format][]=Book")
+    end
+  end  
 end
