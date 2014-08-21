@@ -663,6 +663,10 @@ describe Blacklight::SolrHelper do
       solr_params = subject.solr_facet_params(@facet_field)
       expect(solr_params[:"f.#{@facet_field}.facet.limit"]).to eq 21
     end
+    it "defaults sort to index" do
+      solr_params = subject.solr_facet_params(@facet_field)
+      expect(solr_params[:"f.#{@facet_field}.facet.sort"]).to eq "index"
+    end
 
     describe 'if facet_list_limit is defined in controller' do
       before do
