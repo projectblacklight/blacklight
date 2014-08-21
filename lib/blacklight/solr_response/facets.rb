@@ -35,16 +35,37 @@ module Blacklight::SolrResponse::Facets
     end
 
     def limit
-      @options[:limit]
+      @options[:limit] || solr_default_limit
     end
 
     def sort
-      @options[:sort] || 'index'
+      @options[:sort] || solr_default_sort
     end
 
     def offset
-      @options[:offset] || 0
+      @options[:offset] || solr_default_offset
     end
+    
+    private
+    # Per https://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
+    def solr_default_limit
+      100
+    end
+    
+    # Per https://wiki.apache.org/solr/SimpleFacetParameters#facet.sort
+    def solr_default_sort
+      if limit > 0
+        'count'
+      else
+        'index'
+      end
+    end
+    
+    # Per https://wiki.apache.org/solr/SimpleFacetParameters#facet.offset
+    def solr_default_offset
+      0
+    end
+    
   end
   
   # @response.facets.each do |facet|
