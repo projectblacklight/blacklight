@@ -21,13 +21,14 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri",  "~>1.6"     # XML Parser
   s.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "rsolr",     "~> 1.0.6"  # Library for interacting with rSolr.
-  s.add_dependency "bootstrap-sass", "~> 3.1.1.1"
+  s.add_dependency "bootstrap-sass", "~> 3.2"
   s.add_dependency "deprecation"
 
   s.add_development_dependency "jettywrapper", ">= 1.7.0"
   s.add_development_dependency "blacklight-marc", "~> 5.0"
   s.add_development_dependency "rspec-rails", "~> 2.99"
   s.add_development_dependency "rspec-its"
+  s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency "capybara"
   s.add_development_dependency "poltergeist"
   s.add_development_dependency 'engine_cart', ">= 0.1.0"
