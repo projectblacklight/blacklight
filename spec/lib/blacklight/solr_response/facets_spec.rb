@@ -7,8 +7,8 @@ describe Blacklight::SolrResponse::Facets do
       subject { Blacklight::SolrResponse::Facets::FacetField.new "my_field", [] }
 
       its(:name) { should eq "my_field" }
-      its(:limit) { should eq nil }
-      its(:sort) { should eq 'index' }
+      its(:limit) { should eq 100 }
+      its(:sort) { should eq 'count' }
       its(:offset) { should eq 0 }
     end
 
@@ -40,8 +40,8 @@ describe Blacklight::SolrResponse::Facets do
         expect(subject.facet_by_field_name('my_field').limit).to eq 15
       end
 
-      it "should be nil if no value is found" do
-        expect(subject.facet_by_field_name('my_field').limit).to be_nil
+      it "should be the solr default limit if no value is found" do
+        expect(subject.facet_by_field_name('my_field').limit).to eq 100
       end
     end
 
@@ -74,7 +74,12 @@ describe Blacklight::SolrResponse::Facets do
         expect(subject.facet_by_field_name('my_field').sort).to eq 'alpha'
       end
 
-      it "should default to index if no value is found" do
+      it "should default to count if no value is found and the default limit is used" do
+        expect(subject.facet_by_field_name('my_field').sort).to eq 'count'
+      end
+      
+      it "should default to index if no value is found and the limit is unlimited" do
+        request_params['facet.limit'] = -1
         expect(subject.facet_by_field_name('my_field').sort).to eq 'index'
       end
     end
