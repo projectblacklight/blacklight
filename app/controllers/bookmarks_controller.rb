@@ -64,11 +64,11 @@ class BookmarksController < CatalogController
     current_or_guest_user.save! unless current_or_guest_user.persisted?
 
     success = @bookmarks.all? do |bookmark|
-      current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.bookmarks.where(bookmark).exists?
+       current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark) 
     end
 
     if request.xhr?
-      success ? head(:no_content) : render(:text => "", :status => "500")
+      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
     else
       if @bookmarks.length > 0 && success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
@@ -96,10 +96,10 @@ class BookmarksController < CatalogController
       redirect_to :back
     else
       # ajaxy request needs no redirect and should not have flash set
-      success ? head(:no_content) : render(:text => "", :status => "500")
+      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
     end        
   end
-  
+
   def clear    
     if current_or_guest_user.bookmarks.clear
       flash[:notice] = I18n.t('blacklight.bookmarks.clear.success') 
