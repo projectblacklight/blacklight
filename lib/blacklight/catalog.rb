@@ -24,7 +24,7 @@ module Blacklight::Catalog
       (@response, @document_list) = get_search_results
       
       respond_to do |format|
-        format.html { }
+        format.html { preferred_view }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
         format.json do
@@ -178,6 +178,16 @@ module Blacklight::Catalog
     #
     # non-routable methods ->
     #
+
+    ##
+    # If the params specify a view, then store it in the session. If the params
+    # do not specifiy the view, set the view parameter to the value stored in the
+    # session. This enables a user with a session to do subsequent searches and have
+    # them default to the last used view.
+    def preferred_view
+      session[:preferred_view] = params[:view] if params[:view]
+      params[:view] ||= session[:preferred_view]
+    end
 
     ##
     # Render additional response formats, as provided by the blacklight configuration

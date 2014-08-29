@@ -28,6 +28,33 @@ describe CatalogController do
         expect(session[:history]).to be_empty
       end
 
+      describe "preferred view" do
+        it "should save the view choice" do
+          get :index, q: 'foo', view: 'gallery'
+          expect(session[:preferred_view]).to eq 'gallery'
+        end
+
+        context "when they have a preferred view" do
+          before do
+            session[:preferred_view] = 'gallery'
+          end
+
+          context "and no view is specified" do
+            it "should use the saved preference" do
+              get :index, q: 'foo'
+              expect(controller.params[:view]).to eq 'gallery'
+            end
+          end
+
+          context "and a view is specified" do
+            it "should use the saved preference" do
+              get :index, q: 'foo', view: 'list'
+              expect(controller.params[:view]).to eq 'list'
+            end
+          end
+        end
+      end
+
       # check each user manipulated parameter
       it "should have docs and facets for query with results", :integration => true do
         get :index, q: user_query
