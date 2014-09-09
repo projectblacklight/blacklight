@@ -58,36 +58,39 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Look up the label for the index field
   def index_field_label document, field
-    label = index_fields(document)[field].label
+    field_config = index_fields(document)[field]
 
     solr_field_label(
-      label, 
       :"blacklight.search.fields.index.#{field}",
-      :"blacklight.search.fields.#{field}"
+      :"blacklight.search.fields.#{field}",
+      (field_config.label if field_config),
+      field.to_s.humanize
     )
   end
 
   ##
   # Look up the label for the show field
   def document_show_field_label document, field
-    label = document_show_fields(document)[field].label
-    
+    field_config = document_show_fields(document)[field]
+
     solr_field_label(
-      label, 
       :"blacklight.search.fields.show.#{field}",
-      :"blacklight.search.fields.#{field}"
+      :"blacklight.search.fields.#{field}",
+      (field_config.label if field_config),
+      field.to_s.humanize
     )
   end
 
   ##
   # Look up the label for the facet field
   def facet_field_label field
-    label = blacklight_config.facet_fields[field].label
+    field_config = blacklight_config.facet_fields[field]
 
     solr_field_label(
-      label, 
       :"blacklight.search.fields.facet.#{field}",
-      :"blacklight.search.fields.#{field}"
+      :"blacklight.search.fields.#{field}",
+      (field_config.label if field_config),
+      field.to_s.humanize
     )
   end
 
@@ -103,14 +106,8 @@ module Blacklight::ConfigurationHelperBehavior
   #     before falling  back to the label
   #   @param [Symbol] any number of additional keys
   #   @param [Symbol] ...
-  def solr_field_label label, *i18n_keys
-    if label.is_a? Symbol
-      return t(label)
-    end
-
+  def solr_field_label *i18n_keys
     first, *rest = i18n_keys
-
-    rest << label
 
     t(first, default: rest)
   end

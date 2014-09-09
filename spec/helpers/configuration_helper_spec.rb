@@ -92,7 +92,7 @@ describe BlacklightConfigurationHelper do
     let(:document) { double }
     it "should look up the label to display for the given document and field" do
       allow(helper).to receive(:index_fields).and_return({ "my_field" => double(label: "some label") })
-      allow(helper).to receive(:solr_field_label).with("some label", :"blacklight.search.fields.index.my_field", :"blacklight.search.fields.my_field")
+      allow(helper).to receive(:solr_field_label).with(:"blacklight.search.fields.index.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
       helper.index_field_label document, "my_field"
     end
   end
@@ -101,7 +101,7 @@ describe BlacklightConfigurationHelper do
     let(:document) { double }
     it "should look up the label to display for the given document and field" do
       allow(helper).to receive(:document_show_fields).and_return({ "my_field" => double(label: "some label") })
-      allow(helper).to receive(:solr_field_label).with("some label", :"blacklight.search.fields.show.my_field", :"blacklight.search.fields.my_field")
+      allow(helper).to receive(:solr_field_label).with(:"blacklight.search.fields.show.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
       helper.document_show_field_label document, "my_field"
     end
   end
@@ -110,14 +110,14 @@ describe BlacklightConfigurationHelper do
     let(:document) { double }
     it "should look up the label to display for the given document and field" do
       allow(blacklight_config).to receive(:facet_fields).and_return({ "my_field" => double(label: "some label") })
-      allow(helper).to receive(:solr_field_label).with("some label", :"blacklight.search.fields.facet.my_field", :"blacklight.search.fields.my_field")
+      allow(helper).to receive(:solr_field_label).with(:"blacklight.search.fields.facet.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
       helper.facet_field_label "my_field"
     end
   end
 
   describe "#solr_field_label" do
     it "should look up the label as an i18n string" do
-      allow(helper).to receive(:t).with(:some_key).and_return "my label"
+      allow(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
       label = helper.solr_field_label :some_key
 
       expect(label).to eq "my label"
@@ -126,7 +126,7 @@ describe BlacklightConfigurationHelper do
     it "should pass the provided i18n keys to I18n.t" do
       allow(helper).to receive(:t).with(:key_a, default: [:key_b, "default text"])
 
-      label = helper.solr_field_label "default text", :key_a, :key_b
+      label = helper.solr_field_label :key_a, :key_b, "default text"
     end
   end
   
