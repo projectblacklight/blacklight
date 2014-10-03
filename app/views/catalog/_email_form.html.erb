@@ -1,4 +1,4 @@
-<%= form_tag url_for(:controller => "catalog", :action => "email"), :id => 'email_form', :class => "form-horizontal ajax_form", :method => :post do %>
+<%= form_tag url_for(:controller => controller_name, :action => "email"), :id => 'email_form', :class => "form-horizontal ajax_form", :method => :post do %>
 
   <div class="modal-body">
     <%= render :partial=>'/flash_msg' %>

@@ -61,6 +61,11 @@ module Blacklight
       def bookmarks(_)
         add_routes do |options|
           delete "bookmarks/clear", :to => "bookmarks#clear", :as => "clear_bookmarks"
+          get "bookmarks/email", :as => "email_bookmarks"
+          post "bookmarks/email"
+          get "bookmarks/sms", :as => "sms_bookmarks"
+          post "bookmarks/sms"
+          get "bookmarks/citation", :as => "citation_bookmarks"
           resources :bookmarks
         end
       end

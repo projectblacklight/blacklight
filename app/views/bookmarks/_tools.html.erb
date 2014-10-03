@@ -1,11 +1,9 @@
 <ul class="bookmarkTools nav nav-pills">
-  <li class="cite">
-    <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @response.documents.map {|doc| doc.id}), {:id => 'citeLink', :name => 'citation', :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
-  </li>
-
-  <li class="email">
-    <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @response.documents.map {|doc| doc.id}), :class=>"btn btn-default", :id => "emailLink", :data => {:ajax_modal => "trigger"} %>
-  </li>
+  <% BookmarksController.document_actions.each do |action| %>
+    <li class="#{action}">
+      <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_bookmarks_path"), {:id => "#{action}Link", :name => action, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
+    </li>
+  <% end %>
   
   <%= render_marc_tools %>
 </ul>
