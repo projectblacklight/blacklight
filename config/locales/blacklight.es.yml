@@ -80,7 +80,7 @@ es:
 
     tools:
       title: 'Herramientas'
-      cite: 'Cité'
+      citation: 'Cité'
       endnote: 'Exportar a EndNote'
       refworks: 'Exportar a Refworks'
       email: 'Correo electrónico'

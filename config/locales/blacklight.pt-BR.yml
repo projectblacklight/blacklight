@@ -101,7 +101,7 @@ pt-BR:
 
     tools:
       title: 'Ferramentas'
-      cite: 'Citar'
+      citation: 'Citar'
       endnote: 'Exportar para EndNote'
       refworks: 'Exportar para Refworks'
       email: 'Email'

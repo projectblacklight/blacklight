@@ -425,9 +425,9 @@ describe CatalogController do
         expect(request.flash[:error]).to be_nil
         expect(request).to redirect_to(catalog_path(doc_id))
       end
-      it "should render email_sent for XHR requests" do
+      it "should render email_success for XHR requests" do
         xhr :post, :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
-        expect(request).to render_template 'email_sent'
+        expect(request).to render_template 'email_success'
         expect(request.flash[:success]).to eq "Email Sent"
       end
     end
@@ -465,9 +465,9 @@ describe CatalogController do
         expect(request).to redirect_to(catalog_path(doc_id))
       end
 
-      it "should render sms_sent template for XHR requests" do
+      it "should render sms_success template for XHR requests" do
         xhr :post, :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
-        expect(request).to render_template 'sms_sent'
+        expect(request).to render_template 'sms_success'
         expect(request.flash[:success]).to eq "SMS Sent"
       end
     end
@@ -665,6 +665,47 @@ describe CatalogController do
     end
   end
 
+  describe "#add_action" do
+    before do
+      CatalogController.add_action(:like, :perform_like, validator: :validate_like_params)
+      allow(controller).to receive(:perform_like)
+      allow(controller).to receive(:catalog_path).and_return('catalog/1')
+      Rails.application.routes.draw do
+        get 'catalog/like', as: :catalog_like
+      end
+    end
+ 
+    after do
+      CatalogController.document_actions -= [:like]
+      Rails.application.reload_routes!
+    end
+
+    it "should add the action to a list" do
+      expect(CatalogController.document_actions).to include(:like)
+    end
+    it "should define the action method" do
+      expect(controller.respond_to?(:like)).to be true
+    end
+    describe "when posting to the action" do
+      describe "with success" do
+        before do
+          allow(controller).to receive(:validate_like_params).and_return(true)
+          post :like
+        end
+        it "should call the supplied method on post" do
+          expect(controller).to have_received(:perform_like) 
+        end
+      end
+      describe "with failure" do
+	describe "with invalid params" do
+	  before { allow(controller).to receive(:validate_like_params).and_return(false) }
+	  it "should not call the supplied method if validation failed" do
+	    expect(controller).not_to have_received(:perform_like)
+	  end
+	end
+      end
+    end
+  end
 end
 
 
