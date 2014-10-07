@@ -19,6 +19,7 @@ module Blacklight::Catalog
     record_search_parameters
 
     class_attribute :document_actions 
+    helper_method :document_actions
 
     def self.add_action name, action_body = nil, opts = {}
       self.document_actions ||= []

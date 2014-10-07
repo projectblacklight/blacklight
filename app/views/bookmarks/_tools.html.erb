@@ -1,7 +1,7 @@
-<ul class="bookmarkTools nav nav-pills">
-  <% BookmarksController.document_actions.each do |action| %>
-    <li class="#{action}">
-      <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_bookmarks_path"), {:id => "#{action}Link", :name => action, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
+<ul class="<%= controller_name %>Tools nav nav-pills">
+  <% document_actions.each do |action| %>
+    <li class="<%= action %>">
+      <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_#{controller_name}_path"), {:id => "#{action}Link", :name => action, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
     </li>
   <% end %>
   
