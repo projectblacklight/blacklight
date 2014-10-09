@@ -1,0 +1,220 @@
+de:
+  views:
+    pagination:
+      first: '&laquo; Erste'
+      last: 'Letzte &raquo;'
+      previous: '&laquo; Vorig'
+      next: 'Nächste &raquo;'
+      truncate: '…'
+
+    pagination_compact:
+      previous: '&laquo; Vorig'
+      next: 'Nächste &raquo;'
+
+  blacklight:
+    application_name: 'Blacklight'
+
+    header_links:
+      login: 'Anmelden'
+      logout: 'Ausloggen'
+      bookmarks: 'Lesezeichen'
+      saved_searches: 'Gespeicherte Suchen'
+      search_history: 'Geschichte'
+
+    welcome: 'Wilkommen!'
+    and: 'und'
+    or: 'oder'
+
+    bookmarks:
+      title: 'Lesezeichen'
+      no_bookmarks: 'Sie haben keine Lesezeichen'
+      add:
+        button: 'Lesezeichen'
+        success:
+          one: 'Lesezeichen erfolgreich hinzugefügt.'
+          other: 'Lesezeichen erfolgreich hinzugefügt.'
+        failure:  'Entschuldigung, es gab ein Problem beim speichern von Lesezeichen.'
+      remove:
+        button: 'Lesezeichen entfernen'
+        success: 'Lesezeichen erfolgreich gelöscht.'
+        failure: 'Entschuldigung, es gab ein Problem bein löschen von Lesezeichen.'
+        action_confirm: 'Entfernen dieses Lesezeichen?'
+      clear:
+        action_title: 'Lesezeichen löschen'
+        action_confirm: 'Löschen deine Lesezeichen?'
+        success: 'Dein Lesezeichen sind gelöscht gewesen.'
+        failure: 'Entschuldigung, es gab ein Problem beim löschen von Lesezeichen.'
+      need_login: 'Bitte melden Sie sich an, um Ihre Lesezeichen verwalten und ansehen.'
+      list_title: 'Dein Lesezeichen'
+      delete: 'Löschen'
+
+    saved_searches:
+      add:
+        success: 'Suche erfolgreich gespeichert.'
+        failure: 'Es gab ein Problem bein speichern von Lesezeichen.'
+      remove:
+        success: 'Suche erfolgreich gelöscht.'
+        failure: 'Es gab ein Problem bein löschen von Lesezeichen.'
+      clear:
+        action_title: 'Löschen gespeicherte Suchen'
+        action_confirm: 'Löschen dein gespeicherte Suchen?'
+        success: 'Dein gespeicherte Suchen gab gelöscht.'
+        failure: 'Es gab ein Problem beim löschen von Suchen.'
+      title: 'Gespeicherte Suchen'
+      need_login: 'Bitte melden Sie sich an, um dein gespeicherte Suchen anschauen und wervalten.'
+      no_searches: 'Sie haben keine gespeicherte Suchen'
+      list_title: 'Dein gespeicherte Suchen'
+      delete: 'Löschen'
+
+    search_history:
+      clear:
+        action_title: 'Löschen Suchverlauf'
+        action_confirm: 'Löschen dein Suchverlauf?'
+        success: 'Suchverlauf gelöscht.'
+        failure: 'Es gab ein Problem beim löschen von Suchverlauf.'
+      title: 'Suchverlauf'
+      no_history: 'Sie haben keine Suchverlauf'
+      recent: 'Deine neueste Suchen'
+      forget: 'vergessen'
+      save: 'speichern'
+
+    tools:
+      title: 'Werkzeuge'
+      cite: 'Zitieren'
+      endnote: 'Export nach EndNote'
+      refworks: 'Export nach Refworks'
+      email: 'Email'
+      sms: 'SMS dieses'
+      clear: 'Löschen'
+
+    citation:
+      mla: 'MLA'
+      apa: 'APA'
+      chicago: 'Chicago'
+
+    email:
+      form:
+        title: 'Email dieses'
+        to: 'Email:'
+        message: 'Meldung:'
+        submit: 'Abgeben'
+      text:
+        title: 'Titel: %{value}'
+        author: 'Autor: %{value}'
+        format: 'Format: %{value}'
+        language: 'Sprache: %{value}'
+        subject:
+          one: 'Artikeldatensatz: %{title}'
+          other: 'Artikeldatensätze'
+        url: 'URL: %{url}'
+        message: 'Mitteilung: %{message}'
+
+      success: "Email Verschickt"
+
+      errors:
+        to:
+          invalid: 'Sie müssen ein gültige E-Mail-Addresse eingeben'
+          blank: 'Sie müssen ein Empfänger eingeben, um dieses Mitteilung schicken'
+    sms:
+      form:
+        title: 'SMS dieses'
+        to: 'Telefonnummer:'
+        carrier: 'Netzbetrieber'
+        carrier_prompt: 'Bitte auswählen dein Netzbetrieber'
+        submit: 'Schicken'
+      text:
+        title: '%{value}'
+        author: ' von %{value}'
+        url: 'Link: %{url}'
+      success: "SMS Verschicht"
+      errors:
+        to:
+          invalid: 'Sie müssen ein gültig 10 Stelle Telefonnummer wählen'
+          blank: "Sie müssen die Telefonnummer eines Empfängers eingeben, um dieses Mitteilung schicken"
+        carrier:
+          blank: 'Sie müssen ein Netzbetrieber wählen'
+          invalid: "Sie müssen ein gültig Netzbetrieber wählen"
+
+    back_to_search: 'Zurück nach suchen'
+    back_to_bookmarks: 'Zuruch nach Lesezeichen'
+
+    search:
+      title: '%{application_name} Suchergebnisse'
+      search_results_header: 'Suchen'
+      search_results: 'Suchergebnisse'
+      errors:
+        request_error: "Entschuldigung, Ich habe dein Suche nicht verstanden."
+        invalid_solr_id: "Entschuldigung, Sie einen nicht vorhandenen Datensatz angefordert haben."
+      per_page:
+        label: '%{count}<span class="sr-only"> pro Seite</span>'
+        button_label: '%{count} pro Seite'
+        title: 'Anzahl der Ergebnisse pro Seite angezeigt werden'
+        submit: 'Aktualisieren'
+      sort:
+        label: 'Ordnen bei %{field}'
+        submit: 'Ergebnisse ordnen'
+      form:
+        search_field:
+          label: 'Suchen in'
+          title: 'gezeilte Suchoptionen'
+          post_label: 'für'
+        q: 'Suchen...'
+        submit: 'Suchen'
+      pagination:
+        title: 'Ergebnisse Navigation'
+      pagination_info:
+        no_items_found: 'Kein %{entry_name} gefunden'
+        single_item_found: '<strong>1</strong> %{entry_name} gefunden'
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> von <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> von <strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 von 1</strong>'
+        other: '<strong>%{current}</strong> von <strong>%{total}</strong>'
+      documents:
+        counter: '%{counter}. '
+      facets:
+        title: 'Beschränken dein Suche'
+        sort:
+          count: 'Numerisch ordnen'
+          index: 'A-Z Ordnen'
+        count: '%{number}'
+        more: 'mehr »'
+        selected:
+          remove: '[entfernen]'
+      group:
+        more: 'mehr »'
+      filters:
+        title: 'Sie suchte nach:'
+        label: '%{label}:'
+        remove:
+          value: 'Entfernen Zwang %{value}'
+          label_value: 'Entfernen Zwang %{label}: %{value}'
+      start_over: 'Wieder anfangen'
+      index:
+        label: '%{label}:'
+      show:
+        title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
+      rss_feed: 'RSS für Ergebnisse'
+      atom_feed: 'Atom für Ergebnisse'
+      fields:
+        default: 'Stichwort'
+      bookmarks:
+        present: "Im Lesezeichen"
+        absent: "Lesezeichen"
+        inprogress: "Speichern..."
+      zero_results:
+        title: "Kein Ergebnisse für Ihere Suche gefunden"
+        modify_search: "Änderen Sie Ihere Suche"
+        use_fewer_keywords: "Benutzen Sie weniger Stichworten am anfang, danach verfeinen Sie dein Suche mit die links an der Linken Seite."
+        search_fields: "Sie haben bei %{search_fields} gesucht"
+        search_everything: "Suchen Sie von allem"
+      view_title: "Anschauen Ergebnisse als: "
+      view:
+        list: "Liste"
+
+    entry_name:
+      default: 'eintrag'
+
+    did_you_mean: 'Meinten Sie geben: %{options}?'
