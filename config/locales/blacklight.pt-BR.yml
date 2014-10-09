@@ -130,7 +130,9 @@ pt-BR:
           other: 'Itens'
         url: 'URL: %{url}'
         message: 'Mensagem: %{message}'
-
+      
+      success: "Email Enviado"
+      
       errors:
         to:
           invalid: 'Verifique seu endereço de email'
