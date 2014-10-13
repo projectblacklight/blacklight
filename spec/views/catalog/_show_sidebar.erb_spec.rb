@@ -10,6 +10,7 @@ describe "/catalog/_show_sidebar.html.erb" do
     allow(view).to receive(:has_user_authentication_provider?).and_return(false)
     allow(view).to receive(:current_search_session).and_return nil
     allow(view).to receive(:search_session).and_return({})
+    allow(view).to receive(:document_actions).and_return([])
   end
 
   it "should show more-like-this titles in the sidebar" do
