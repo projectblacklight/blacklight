@@ -42,6 +42,14 @@ module Blacklight::Solr::Document
     apply_extensions
   end
 
+  def to_model
+    self
+  end
+
+  def persisted?
+    true
+  end
+
   # the wrapper method to the @_source object.
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
