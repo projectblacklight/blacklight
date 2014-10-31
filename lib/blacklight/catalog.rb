@@ -116,7 +116,12 @@ module Blacklight::Catalog
       
       if request.post? and validate_email_params
         email = RecordMailer.email_record(@documents, {:to => params[:to], :message => params[:message]}, url_options)
-        email.deliver 
+
+        if email.respond_to? :deliver_now
+          email.deliver_now
+        else
+          email.deliver
+        end
 
         flash[:success] = I18n.t("blacklight.email.success")
 
@@ -141,7 +146,12 @@ module Blacklight::Catalog
         to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
 
         sms = RecordMailer.sms_record(@documents, { :to => to }, url_options)
-        sms.deliver
+
+        if sms.respond_to? :deliver_now
+          sms.deliver_now
+        else
+          sms.deliver
+        end
 
         flash[:success] = I18n.t("blacklight.sms.success")
 

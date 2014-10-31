@@ -1,5 +1,5 @@
 <% @documents.each do |document| %>
 <%= document.to_email_text %>
-<%= t('blacklight.email.text.url', :url =>polymorphic_path(document, {:only_path => false}.merge(@url_gen_params))) %>
+<%= t('blacklight.email.text.url', :url =>polymorphic_url(document, @url_gen_params)) %>
 <% end %>
 <%= t('blacklight.email.text.message', :message => @message) %>

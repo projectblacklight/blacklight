@@ -14,7 +14,7 @@
     <![endif]-->
 
     <title><%= render_page_title %></title>
-    <%= opensearch_description_tag application_name, opensearch_catalog_path(:format => 'xml', :only_path => false) %>
+    <%= opensearch_description_tag application_name, opensearch_catalog_url(:format => 'xml') %>
     <%= favicon_link_tag 'favicon.ico' %>
     <%= stylesheet_link_tag "application", media: "all" %>
     <%= javascript_include_tag "application" %>
