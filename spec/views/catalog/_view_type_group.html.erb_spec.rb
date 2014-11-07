@@ -26,9 +26,9 @@ describe "catalog/_view_type_group" do
     end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.btn-group.view-type-group')
-    expect(rendered).to have_selector('.view-type-a', :text => 'A')
-    expect(rendered).to have_selector('.view-type-b', :text => 'B')
-    expect(rendered).to have_selector('.view-type-c', :text => 'C')
+    expect(rendered).to have_selector('.view-type-a', :text => 'a')
+    expect(rendered).to have_selector('.view-type-b', :text => 'b')
+    expect(rendered).to have_selector('.view-type-c', :text => 'c')
   end
 
 
@@ -40,9 +40,9 @@ describe "catalog/_view_type_group" do
       config.view.b
     end
     render partial: 'catalog/view_type_group'
-    expect(rendered).to have_selector('.active', :text => 'A')
-    expect(rendered).to_not have_selector('.active', :text => 'B')
-    expect(rendered).to have_selector('.btn', :text => 'B')
+    expect(rendered).to have_selector('.active', :text => 'a')
+    expect(rendered).to_not have_selector('.active', :text => 'b')
+    expect(rendered).to have_selector('.btn', :text => 'b')
   end
 
 end
