@@ -92,7 +92,17 @@ module Blacklight::CatalogHelperBehavior
   # 
   # @return [String]
   def render_document_class(document = @document)
-    'blacklight-' + document.get(blacklight_config.view_config(document_index_view_type_field).display_type_field).parameterize rescue nil
+    types = document[blacklight_config.view_config(document_index_view_type).display_type_field]
+
+    return if types.blank?
+
+    Array(types).map do |t|
+      document_class_prefix + t.parameterize rescue nil
+    end.join(' ')
+  end
+
+  def document_class_prefix
+    'blacklight-'
   end
 
   ##
