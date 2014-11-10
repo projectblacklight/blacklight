@@ -9,6 +9,8 @@ module Blacklight::CatalogHelperBehavior
   # @param [RSolr::Resource] (or other Kaminari-compatible objects)
   # @return [String]
   def page_entries_info(collection, options = {})
+    return unless show_pagination? collection
+
     entry_name = if options[:entry_name]
       options[:entry_name]
     elsif collection.respond_to? :model  # DataMapper
@@ -112,6 +114,16 @@ module Blacklight::CatalogHelperBehavior
   def show_sort_and_per_page? response = nil
     response ||= @response
     !response.empty?
+  end
+
+  ##
+  # Should we display the pagination controls?
+  #
+  # @param [Blacklight::SolrResponse]
+  # @return [Boolean]
+  def show_pagination? response = nil
+    response ||= @response
+    response.limit_value > 0
   end
 
   ##
