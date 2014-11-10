@@ -277,7 +277,7 @@ module Blacklight
         when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
              (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i)),
              (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
-          "#{prefix}#{facet_field}:#{value}"
+          "#{prefix}#{facet_field}:#{RSolr.escape(value.to_s)}"
         when value.is_a?(Range)
           "#{prefix}#{facet_field}:[#{value.first} TO #{value.last}]"
         else

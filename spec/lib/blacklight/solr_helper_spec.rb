@@ -252,11 +252,15 @@ describe Blacklight::SolrHelper do
       end
 
       it "should pass floats through" do
-        expect(subject.send(:facet_value_to_fq_string, "facet_name", 1.11)).to eq "facet_name:1.11"
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", 1.11)).to eq "facet_name:1\\.11"
       end
 
       it "should pass floats through" do
-        expect(subject.send(:facet_value_to_fq_string, "facet_name", "1.11")).to eq "facet_name:1.11"
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", "1.11")).to eq "facet_name:1\\.11"
+      end
+
+      it "should escape negative integers" do
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", -1)).to eq "facet_name:\\-1"
       end
 
       it "should pass date-type fields through" do
