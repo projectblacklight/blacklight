@@ -190,3 +190,11 @@ label.toggle_bookmark
     @extend .sr-only;
   }
 }
+
+#sort-dropdown .dropdown-toggle, #per_page-dropdown .dropdown-toggle {
+  color: $link-color;
+
+  .caret {
+    color: $text-color;
+  }
+}
