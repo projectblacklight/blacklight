@@ -43,6 +43,13 @@ describe CatalogHelper do
       expect(html).to be_html_safe
     end
 
+    it "with an empty page of results" do
+      @response = double(limit_value: -1)
+
+      html = page_entries_info(@response)
+      expect(html).to be_blank
+    end
+
     describe "with a single result" do
       it "should use the provided entry name" do
         response = mock_response :total => 1
