@@ -8,6 +8,10 @@
     remote:        data-remote
 -%>
 <li class="<%= 'active' if page.current? %>">
- <%= link_to number_with_delimiter(page.to_s), url, opts = {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil} %>
+  <% if page.current? %>
+    <span><%= number_with_delimiter(page.to_s) %></span>
+  <% else %>
+    <%= link_to number_with_delimiter(page.to_s), url, opts = {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil} %>
+  <% end %>
 </li>
 
