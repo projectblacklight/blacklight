@@ -48,6 +48,17 @@ describe "Search Results" do
     search_for 'asdfghj'
     expect(page).to have_content "No results found for your search"
   end
+
+  it "should provide search hints if there are no results" do
+    visit root_path
+    fill_in "q", with: "inmul"
+    select "Author", from: "search_field"
+    click_button 'search'
+    expect(page).to have_content "No results found for your search"
+    expect(page).to have_content "you searched by Author"
+    click_on "try searching everything"
+    expect(page).to have_xpath("//a[contains(@href, #{77826928})]")
+  end
 end
 
 
