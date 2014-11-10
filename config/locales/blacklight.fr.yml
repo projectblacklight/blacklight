@@ -90,7 +90,7 @@ fr:
 
     tools:
       title: 'Outils'
-      cite: 'Citer'
+      citation: 'Citer'
       endnote: 'Exporter vers EndNote ou Zotero'
       refworks: 'Exporter vers Refworks'
       email: 'Envoyer'
