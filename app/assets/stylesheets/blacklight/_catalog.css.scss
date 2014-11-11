@@ -198,3 +198,14 @@ label.toggle_bookmark
     color: $text-color;
   }
 }
+
+
+.search-input-group {
+  width: 80%;
+}
+
+@media (max-width: $screen-sm-min) {
+  .search-input-group {
+    width: auto;
+  }
+}
