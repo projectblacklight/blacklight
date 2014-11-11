@@ -264,4 +264,45 @@ describe CatalogHelper do
     end
   end
 
+  describe "render_document_class" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
+    let :blacklight_config do
+      Blacklight::Configuration.new
+    end
+
+    it "should pull data out of a document's field" do
+      blacklight_config.index.display_type_field = :type
+      doc = { :type => 'book' }
+      expect(helper.render_document_class(doc)).to eq "blacklight-book"
+    end
+
+    it "should support multivalued fields" do
+      blacklight_config.index.display_type_field = :type
+      doc = { :type => ['book', 'mss'] }
+      expect(helper.render_document_class(doc)).to eq "blacklight-book blacklight-mss"
+    end
+
+    it "should support empty fields" do
+      blacklight_config.index.display_type_field = :type
+      doc = { :type => [] }
+      expect(helper.render_document_class(doc)).to be_blank
+    end
+
+    it "should support missing fields" do
+      blacklight_config.index.display_type_field = :type
+      doc = { }
+      expect(helper.render_document_class(doc)).to be_blank
+    end
+
+    it "should support view-specific field configuration" do
+      allow(helper).to receive(:document_index_view_type).and_return(:some_view_type)
+      blacklight_config.view.some_view_type.display_type_field = :other_type
+      doc = { other_type: "document"}
+      expect(helper.render_document_class(doc)).to eq "blacklight-document"
+    end
+  end
+
 end
