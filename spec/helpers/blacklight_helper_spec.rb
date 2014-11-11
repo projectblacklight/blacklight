@@ -593,4 +593,27 @@ describe BlacklightHelper do
       expect(response).to match /<div id="documents">/
     end
   end
+
+  describe "#presenter_class" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
+    let :blacklight_config do
+      Blacklight::Configuration.new
+    end
+
+    let :presenter_class do
+      double
+    end
+
+    it "should use the value defined in the blacklight configuration" do
+      blacklight_config.document_presenter_class = presenter_class
+      expect(helper.presenter_class).to eq presenter_class
+    end
+
+    it "should default to Blacklight::DocumentPresenter" do
+      expect(helper.presenter_class).to eq Blacklight::DocumentPresenter
+    end
+  end
 end
