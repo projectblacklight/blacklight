@@ -49,6 +49,16 @@
     .remove {
       @extend .text-muted;
       text-indent: $padding-base-horizontal;
+
+      .glyphicon {
+        top: 0;
+        vertical-align: text-bottom;
+      }
+
+      &:hover {
+        color: $brand-danger;
+      }
+
     }
   }
 
