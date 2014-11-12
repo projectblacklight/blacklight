@@ -40,4 +40,26 @@ namespace :blacklight do
   desc "Create the test rails app"
   task :generate => ['engine_cart:generate'] do
   end
+
+  task :server do
+    if File.exists? 'spec/internal'
+      within_test_app do
+        system "bundle update"
+      end
+    end
+
+    unless File.exists? 'jetty'
+      Rake::Task['jetty:clean'].invoke
+    end
+
+    jetty_params = Jettywrapper.load_config
+    jetty_params[:startup_wait]= 60
+
+    Jettywrapper.wrap(jetty_params) do
+      within_test_app do
+        system "rake solr:marc:index_test_data"
+        system "bundle exec rails s"
+      end
+    end
+  end
 end
