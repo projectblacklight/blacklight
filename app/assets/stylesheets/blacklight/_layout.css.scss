@@ -3,3 +3,9 @@
 .navbar + .navbar {
   margin-top: -$navbar-margin-bottom;
 }
+
+.navbar-inverse .navbar-toggle {
+  &:focus, &:hover {
+    border-color: $gray-light;
+  }
+}
