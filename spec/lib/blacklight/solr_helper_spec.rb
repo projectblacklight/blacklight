@@ -28,10 +28,6 @@ describe Blacklight::SolrHelper do
     def params
       {}
     end
-
-    def logger
-      Rails.logger
-    end
   end
 
   subject { SolrHelperTestClass.new blacklight_config, blacklight_solr }

@@ -58,6 +58,12 @@ module Blacklight::SolrHelper
 
     include Blacklight::RequestBuilders
 
+    # ActiveSupport::Benchmarkable requires a logger method
+    unless instance_methods.include? :logger
+      def logger
+        nil
+      end
+    end
   end
 
   ##
