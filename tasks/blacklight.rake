@@ -46,6 +46,8 @@ namespace :blacklight do
       within_test_app do
         system "bundle update"
       end
+    else
+      Rake::Task['engine_cart:generate'].invoke
     end
 
     unless File.exists? 'jetty'
