@@ -1,4 +1,4 @@
-ZIP_URL = "https://github.com/projectblacklight/blacklight-jetty/archive/v4.9.0.zip"
+ZIP_URL = "https://github.com/projectblacklight/blacklight-jetty/archive/v4.10.2.zip"
 
 require 'jettywrapper'
 require 'engine_cart/rake_task'
