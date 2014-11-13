@@ -51,8 +51,8 @@
       text-indent: $padding-base-horizontal;
 
       .glyphicon {
-        top: 0;
-        vertical-align: text-bottom;
+        top: 0.1em;
+        vertical-align: text-top;
       }
 
       &:hover {
