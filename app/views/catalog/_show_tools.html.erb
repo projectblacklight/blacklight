@@ -27,9 +27,9 @@
       <%= link_to t('blacklight.tools.endnote'), catalog_path(@document, :format => 'endnote') %>
       </li>
     <% end %>
-    <% document_actions.each do |action| %>
-      <li class="#{action}">
-      <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_#{controller_name}_path", :id => @document), {:id => "#{action}Link", :data => {:ajax_modal => "trigger"}} %>
+    <% document_actions.each do |name, opts| %>
+      <li class="#{name}">
+        <%= link_to action_label(name, opts), self.send("#{name}_#{controller_name}_path", :id => @document), {:id => "#{name}Link", :data => {:ajax_modal => "trigger"}} %>
       </li>
     <% end %>
     

@@ -694,7 +694,7 @@ describe CatalogController do
 
   describe "#add_action" do
     before do
-      CatalogController.add_action(:like, :perform_like, validator: :validate_like_params)
+      CatalogController.add_action(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:perform_like)
       allow(controller).to receive(:catalog_path).and_return('catalog/1')
       Rails.application.routes.draw do
@@ -703,16 +703,18 @@ describe CatalogController do
     end
  
     after do
-      CatalogController.document_actions -= [:like]
+      CatalogController.document_actions.delete(:like)
       Rails.application.reload_routes!
     end
 
     it "should add the action to a list" do
       expect(CatalogController.document_actions).to include(:like)
     end
+
     it "should define the action method" do
       expect(controller.respond_to?(:like)).to be true
     end
+
     describe "when posting to the action" do
       describe "with success" do
         before do
@@ -723,13 +725,14 @@ describe CatalogController do
           expect(controller).to have_received(:perform_like) 
         end
       end
+
       describe "with failure" do
-	describe "with invalid params" do
-	  before { allow(controller).to receive(:validate_like_params).and_return(false) }
-	  it "should not call the supplied method if validation failed" do
-	    expect(controller).not_to have_received(:perform_like)
-	  end
-	end
+        describe "with invalid params" do
+          before { allow(controller).to receive(:validate_like_params).and_return(false) }
+          it "should not call the supplied method if validation failed" do
+            expect(controller).not_to have_received(:perform_like)
+          end
+        end
       end
     end
   end

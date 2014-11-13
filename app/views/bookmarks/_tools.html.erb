@@ -1,7 +1,7 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
-  <% document_actions.each do |action| %>
-    <li class="<%= action %>">
-      <%= link_to t("blacklight.tools.#{action}"), self.send("#{action}_#{controller_name}_path"), {:id => "#{action}Link", :name => action, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
+  <% document_actions.each do |name, opts| %>
+    <li class="<%= name %>">
+      <%= link_to action_label(name, opts), self.send("#{name}_#{controller_name}_path"), {:id => "#{name}Link", :name => name, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
     </li>
   <% end %>
   

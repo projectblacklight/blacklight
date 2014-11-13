@@ -235,4 +235,8 @@ module Blacklight::CatalogHelperBehavior
       render('endnote') + render('refworks')
     end
   end
+
+  def action_label action, opts
+    t("blacklight.tools.#{action}", default: opts[:label] || action.to_s.humanize)
+  end
 end
