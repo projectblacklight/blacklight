@@ -1,7 +1,7 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
   <% document_actions.each do |name, opts| %>
     <li class="<%= name %>">
-      <%= render_document_action_partial name, opts %>
+      <%= render_document_action_partial name, opts, id: @document %>
     </li>
   <% end %>
   

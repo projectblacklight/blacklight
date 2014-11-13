@@ -244,7 +244,7 @@ module Blacklight::CatalogHelperBehavior
     self.send(action_opts[:path] ||"#{name}_#{controller_name}_path", url_opts)
   end
 
-  def render_document_action_partial name, opts
-    render(opts[:tool_partial] || 'document_action', locals: { name: name, opts: opts })
+  def render_document_action_partial name, opts, path_options = {}
+    render(partial: opts[:tool_partial] || 'document_action', locals: { name: name, opts: opts, path_options: path_options })
   end
 end
