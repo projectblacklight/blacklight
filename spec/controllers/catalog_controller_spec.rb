@@ -692,9 +692,9 @@ describe CatalogController do
     end
   end
 
-  describe "#add_action" do
+  describe "#add_document_action" do
     before do
-      CatalogController.add_action(:like, callback: :perform_like, validator: :validate_like_params)
+      CatalogController.add_document_action(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:perform_like)
       allow(controller).to receive(:catalog_path).and_return('catalog/1')
       Rails.application.routes.draw do

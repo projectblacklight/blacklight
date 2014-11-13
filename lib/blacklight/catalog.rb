@@ -21,13 +21,23 @@ module Blacklight::Catalog
     class_attribute :document_actions 
     helper_method :document_actions
 
-    add_action(:email, callback: :email_action, validator: :validate_email_params)
-    add_action(:sms, callback: :sms_action, validator: :validate_sms_params)
-    add_action(:citation)
+    add_document_action(:email, callback: :email_action, validator: :validate_email_params)
+    add_document_action(:sms, callback: :sms_action, validator: :validate_sms_params)
+    add_document_action(:citation)
   end
 
   module ClassMethods
-    def add_action name, opts = {}
+    ##
+    # @param name [Symbol] the name of the document action and is used to calculate
+    #                           partial names, path helpers, and other defaults
+    # @param opts [Hash]
+    # @option opts [Symbol] :callback If this action accepts POST requests, the name of a method to invoke
+    # @option opts [Symbol] :validator If this action accepts POST requests, the name of a method to invoke before the callback to validate the parameters
+    # @option opts [String] :tool_partial a partial to use to render this action in the relevant tool bars
+    # @option opts [String] :label (for the default tool partial) a label to use for this action
+    # @option opts [String] :path (for the default tool partial) a path helper to give a route for this action
+    #
+    def add_document_action name, opts = {}
       self.document_actions ||= {}
       self.document_actions[name] = opts
       define_method name do
