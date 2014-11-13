@@ -239,4 +239,8 @@ module Blacklight::CatalogHelperBehavior
   def action_label action, opts
     t("blacklight.tools.#{action}", default: opts[:label] || action.to_s.humanize)
   end
+
+  def action_path name, action_opts, url_opts = nil
+    self.send(action_opts[:path] ||"#{name}_#{controller_name}_path", url_opts)
+  end
 end

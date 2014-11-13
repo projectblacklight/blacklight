@@ -1,7 +1,7 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
   <% document_actions.each do |name, opts| %>
     <li class="<%= name %>">
-      <%= link_to action_label(name, opts), self.send("#{name}_#{controller_name}_path"), {:id => "#{name}Link", :name => name, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
+      <%= link_to action_label(name, opts), action_path(name, opts), {:id => "#{name}Link", :name => name, :class => 'btn btn-default', :data => {:ajax_modal => "trigger"}} %>
     </li>
   <% end %>
   
