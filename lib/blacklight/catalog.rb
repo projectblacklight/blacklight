@@ -38,8 +38,15 @@ module Blacklight::Catalog
     # @option opts [String] :path (for the default tool partial) a path helper to give a route for this action
     #
     def add_document_action name, opts = {}
+      config = Blacklight::Configuration::ToolConfig.new opts
+      config.name = name
+
+      if block_given?
+        yield config
+      end
+
       self.document_actions ||= {}
-      self.document_actions[name] = opts
+      self.document_actions[name] = config
       define_method name do
         @response, @documents = action_documents
         if request.post? and

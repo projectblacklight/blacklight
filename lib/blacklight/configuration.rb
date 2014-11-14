@@ -5,6 +5,7 @@ module Blacklight
   class Configuration < OpenStructWithHashAccess
 
     require 'blacklight/configuration/view_config'
+    require 'blacklight/configuration/tool_config'
     # XXX this isn't very pretty, but it works.
     require 'blacklight/configuration/fields'
     require 'blacklight/configuration/solr_field'
