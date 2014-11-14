@@ -19,7 +19,7 @@ module Blacklight::Bookmarks
     before_filter :verify_user
     helper_method :encrypt_user_id
 
-    self.document_actions -= [:sms]
+    self.document_actions = document_actions.reject { |k,v| k == :sms }
   end
 
   def action_documents

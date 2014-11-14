@@ -21,53 +21,49 @@ module Blacklight::Catalog
     class_attribute :document_actions 
     helper_method :document_actions
 
-    def self.add_action name, action_body = nil, opts = {}
-      self.document_actions ||= []
-      self.document_actions << name
-      define_method name do
-	@response, @documents = action_documents
-	if request.post? and (opts[:validator].present? ? self.send(opts[:validator]) : true)
-	  self.send(action_body, @documents)
-	  flash[:success] ||= I18n.t("blacklight.#{name}.success")
-
-	  respond_to do |format|
-	    format.html { redirect_to action_success_redirect_path }
-	    format.js { render "#{name}_success" }
-	  end and return
-	end
-
-	respond_to do |format|
-	  format.html 
-	  format.js { render :layout => false }
-	end
-      end
-    end
- 
-    # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
-    def email_action documents
-      mail = RecordMailer.email_record(documents, {:to => params[:to], :message => params[:message]}, url_options)
-      if mail.respond_to? :deliver_now
-        mail.deliver_now
-      else
-        mail.deliver
-      end
-    end
-    self.add_action(:email, :email_action, validator: :validate_email_params)
-    # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
-    def sms_action documents
-      to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-      mail = RecordMailer.sms_record(documents, { :to => to }, url_options)
-      if mail.respond_to? :deliver_now
-        mail.deliver_now
-      else
-        mail.deliver
-      end
-    end
-    self.add_action(:sms, :sms_action, validator: :validate_sms_params)
-    # citation action
-    self.add_action(:citation)
+    add_document_action(:email, callback: :email_action, validator: :validate_email_params)
+    add_document_action(:sms, callback: :sms_action, validator: :validate_sms_params)
+    add_document_action(:citation)
   end
-  
+
+  module ClassMethods
+    ##
+    # @param name [Symbol] the name of the document action and is used to calculate
+    #                           partial names, path helpers, and other defaults
+    # @param opts [Hash]
+    # @option opts [Symbol] :callback If this action accepts POST requests, the name of a method to invoke
+    # @option opts [Symbol] :validator If this action accepts POST requests, the name of a method to invoke before the callback to validate the parameters
+    # @option opts [String] :tool_partial a partial to use to render this action in the relevant tool bars
+    # @option opts [String] :label (for the default tool partial) a label to use for this action
+    # @option opts [String] :path (for the default tool partial) a path helper to give a route for this action
+    #
+    def add_document_action name, opts = {}
+      self.document_actions ||= {}
+      self.document_actions[name] = opts
+      define_method name do
+        @response, @documents = action_documents
+        if request.post? and
+            opts[:callback] and
+            (opts[:validator].blank? || self.send(opts[:validator]))
+
+          self.send(opts[:callback], @documents)
+
+          flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
+
+          respond_to do |format|
+            format.html { redirect_to action_success_redirect_path }
+            format.js { render "#{name}_success" }
+          end
+        else
+          respond_to do |format|
+            format.html
+            format.js { render :layout => false }
+          end
+        end
+      end
+    end
+  end
+
     # get search results from the solr index
     def index
       (@response, @document_list) = get_search_results
@@ -265,7 +261,28 @@ module Blacklight::Catalog
 
       h
     end
-    
+
+     # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+     def email_action documents
+       mail = RecordMailer.email_record(documents, {:to => params[:to], :message => params[:message]}, url_options)
+       if mail.respond_to? :deliver_now
+         mail.deliver_now
+       else
+         mail.deliver
+       end
+     end
+
+     # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
+     def sms_action documents
+       to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
+       mail = RecordMailer.sms_record(documents, { :to => to }, url_options)
+       if mail.respond_to? :deliver_now
+         mail.deliver_now
+       else
+         mail.deliver
+       end
+     end
+
     def validate_sms_params
       case
       when params[:to].blank?
