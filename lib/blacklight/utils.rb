@@ -13,6 +13,10 @@ module Blacklight
       def [](key)
         send key
       end
+
+      def respond_to? method, *args
+        super(method, *args) || has_key?(method.to_sym)
+      end
     end
 
     ##
