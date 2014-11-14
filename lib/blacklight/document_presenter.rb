@@ -2,6 +2,7 @@ module Blacklight
   class DocumentPresenter
     include ActionView::Helpers::OutputSafetyHelper
     include ActionView::Helpers::TagHelper
+    extend Deprecation
 
     # @param [SolrDocument] document
     # @param [ActionController::Base] controller scope for linking and generating urls
@@ -55,17 +56,25 @@ module Blacklight
     ##
     # Render the document index heading
     #
-    # @param [Hash] opts
+    # @param [Hash] opts (Deprecated)
     # @option opts [Symbol] :label Render the given field from the document
     # @option opts [Proc] :label Evaluate the given proc
     # @option opts [String] :label Render the given string
-    def render_document_index_label opts = {}
-      label = nil
-      label ||= @document.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
-      label ||= opts[:label].call(@document, opts) if opts[:label].instance_of? Proc
-      label ||= opts[:label] if opts[:label].is_a? String
-      label ||= @document.id
-      render_field_value label
+    # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
+    def render_document_index_label field, opts ={}
+      if field.kind_of? Hash
+        Deprecation.warn DocumentPresenter, "Calling render_document_index_label with a hash is deprecated"
+        field = field[:label]
+      end
+      label = case field
+      when Symbol
+        @document.get(field, :sep => nil)
+      when Proc
+        field.call(@document, opts)
+      when String
+        field
+      end
+      render_field_value label || @document.id
     end
 
     ##

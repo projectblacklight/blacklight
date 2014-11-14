@@ -9,6 +9,7 @@ module Blacklight::BlacklightHelperBehavior
   include HashAsHiddenFieldsHelper
   include RenderConstraintsHelper
   include FacetsHelper
+  extend Deprecation
 
   ##
   # Get the name of this application, from either:
@@ -514,7 +515,7 @@ module Blacklight::BlacklightHelperBehavior
   # The partial names will be interpolated with the following variables:
   #   - action_name: (e.g. index, show)
   #   - index_view_type: (the current view type, e.g. list, gallery)
-  #   - format: the document's format (e.g. book) 
+  #   - format: the document's format (e.g. book)
   #
   # @see #render_document_partial
   def document_partial_path_templates
@@ -528,12 +529,18 @@ module Blacklight::BlacklightHelperBehavior
   # Render the document index heading
   #
   # @param [SolrDocument] doc
-  # @param [Hash] opts
+  # @param [Hash] opts (deprecated)
   # @option opts [Symbol] :label Render the given field from the document
   # @option opts [Proc] :label Evaluate the given proc
   # @option opts [String] :label Render the given string
-  def render_document_index_label doc, opts = {}
-    presenter(doc).render_document_index_label opts
+  # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
+  def render_document_index_label doc, field, opts = {}
+    Deprecation.warn self, "render_document_index_label is deprecated"
+    if field.kind_of? Hash
+      Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
+      field = field[:label]
+    end
+    presenter(doc).render_document_index_label field, opts
   end
 
   ##

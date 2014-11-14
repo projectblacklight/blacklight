@@ -11,7 +11,7 @@ describe CatalogHelper do
     start = (current_page - 1) * per_page
 
     mock_docs = (1..total).to_a.map { {}.with_indifferent_access }
-    
+
     mock_response = Kaminari.paginate_array(mock_docs).page(current_page).per(per_page)
 
     allow(mock_response).to receive(:docs).and_return(mock_docs.slice(start, per_page))
@@ -21,8 +21,8 @@ describe CatalogHelper do
   def render_grouped_response?
     false
   end
-  
-  
+
+
   describe "page_entries_info" do
     before(:all) do
     end
@@ -184,17 +184,17 @@ describe CatalogHelper do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
       allow(helper).to receive_messages(:xyz => "some-thumbnail")
 
-      allow(helper).to receive(:link_to_document).with(document, :label => "some-thumbnail")
+      allow(helper).to receive(:link_to_document).with(document, "some-thumbnail", {})
       helper.render_thumbnail_tag document
     end
 
     it "should create an image tag from the given field" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
-      
+
       allow(document).to receive(:has?).with(:xyz).and_return(true)
       allow(document).to receive(:first).with(:xyz).and_return("http://example.com/some.jpg")
 
-      allow(helper).to receive(:link_to_document).with(document, :label => image_tag("http://example.com/some.jpg"))
+      allow(helper).to receive(:link_to_document).with(document, image_tag("http://example.com/some.jpg"), {})
       helper.render_thumbnail_tag document
     end
 
@@ -213,7 +213,7 @@ describe CatalogHelper do
       result = helper.render_thumbnail_tag document, {}, suppress_link: true
       expect(result).to eq "some-thumbnail"
     end
-    
+
 
     it "should return nil if no thumbnail is available" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
@@ -223,7 +223,7 @@ describe CatalogHelper do
     it "should return nil if no thumbnail is returned from the thumbnail method" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
       allow(helper).to receive_messages(:xyz => nil)
-      
+
       expect(helper.render_thumbnail_tag document).to be_nil
     end
   end
