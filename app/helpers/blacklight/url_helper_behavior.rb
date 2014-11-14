@@ -287,6 +287,16 @@ module Blacklight::UrlHelperBehavior
     "http://www.refworks.com/express/expressimport.asp?vendor=#{CGI.escape(params[:vendor] || application_name)}&filter=#{CGI.escape(params[:filter] || "MARC Format")}&encoding=65001" + (("&url=#{CGI.escape(params[:url])}" if params[:url]) || "")
   end
 
+  def refworks_catalog_path opts = {}
+    if opts[:id]
+      refworks_export_url(url: polymorphic_url(url_for_document(opts[:id]), format: :refworks_marc_txt, only_path: false))
+    end
+  end
+
+  def endnote_catalog_path opts = {}
+    catalog_path(opts.merge(format: 'endnote'))
+  end
+
   if ::Rails.version < "4.0"
     def asset_url *args
       "#{request.protocol}#{request.host_with_port}#{asset_path(*args)}"

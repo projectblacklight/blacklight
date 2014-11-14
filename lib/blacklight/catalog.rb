@@ -24,9 +24,13 @@ module Blacklight::Catalog
     record_search_parameters
 
     # provided by Blacklight::Catalog::DocumentActions
+    add_document_action(:refworks, if: Proc.new { |_, config, doc| doc.respond_to?(:export_formats) && doc.export_formats.keys.include?( :refworks_marc_txt )} )
+    add_document_action(:endnote, if: Proc.new { |_, config, doc| doc.respond_to?(:export_formats) && doc.export_formats.keys.include?( :endnote )} )
     add_document_action(:email, callback: :email_action, validator: :validate_email_params)
     add_document_action(:sms, callback: :sms_action, validator: :validate_sms_params)
     add_document_action(:citation)
+    add_document_action(:librarian_view, if: Proc.new { |ctx, config, doc| ctx.respond_to? :librarian_view_catalog_path and doc.respond_to?(:to_marc) })
+
   end
 
     # get search results from the solr index
