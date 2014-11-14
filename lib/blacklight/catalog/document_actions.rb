@@ -14,7 +14,7 @@ module Blacklight
       # @param opts [Hash]
       # @option opts [Symbol] :callback If this action accepts POST requests, the name of a method to invoke
       # @option opts [Symbol] :validator If this action accepts POST requests, the name of a method to invoke before the callback to validate the parameters
-      # @option opts [String] :tool_partial a partial to use to render this action in the relevant tool bars
+      # @option opts [String] :partial a partial to use to render this action in the relevant tool bars
       # @option opts [String] :label (for the default tool partial) a label to use for this action
       # @option opts [String] :path (for the default tool partial) a path helper to give a route for this action
       #

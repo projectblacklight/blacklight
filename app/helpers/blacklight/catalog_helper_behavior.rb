@@ -245,6 +245,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def render_document_action_partial name, opts, path_options = {}
-    render(partial: opts.tool_partial || 'document_action', locals: { name: name, opts: opts, path_options: path_options })
+    render(partial: opts.partial || 'document_action', locals: { name: name, opts: opts, path_options: path_options })
   end
 end
