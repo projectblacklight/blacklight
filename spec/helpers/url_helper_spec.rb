@@ -254,37 +254,44 @@ describe BlacklightUrlHelper do
     it "should consist of the document title wrapped in a <a>" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, { :label => :title_display })).to have_selector("a", :text => '654321', :count => 1)
+      expect(helper.link_to_document(@document, :title_display)).to have_selector("a", :text => '654321', :count => 1)
+    end
+
+    it "should have the old deprecated behavior (second argument is a hash)" do
+      data = {'id'=>'123456','title_display'=>['654321'] }
+      @document = SolrDocument.new(data)
+      expect(Deprecation).to receive(:warn)
+      expect(helper.link_to_document(@document, { :label => "title_display" })).to have_selector("a", :text => 'title_display', :count => 1)
     end
 
     it "should accept and return a string label" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, { :label => "title_display" })).to have_selector("a", :text => 'title_display', :count => 1)
+      expect(helper.link_to_document(@document, "title_display")).to have_selector("a", :text => 'title_display', :count => 1)
     end
 
     it "should accept and return a Proc" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, { :label => Proc.new { |doc, opts| doc.get(:id) + ": " + doc.get(:title_display) } })).to have_selector("a", :text => '123456: 654321', :count => 1)
+      expect(helper.link_to_document(@document, Proc.new { |doc, opts| doc.get(:id) + ": " + doc.get(:title_display) })).to have_selector("a", :text => '123456: 654321', :count => 1)
     end
 
     it "should return id when label is missing" do
       data = {'id'=>'123456'}
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, { :label => :title_display })).to have_selector("a", :text => '123456', :count => 1)
+      expect(helper.link_to_document(@document, :title_display)).to have_selector("a", :text => '123456', :count => 1)
     end
 
     it "should be html safe" do
       data = {'id'=>'123456'}
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, { :label => :title_display })).to be_html_safe
+      expect(helper.link_to_document(@document, :title_display)).to be_html_safe
     end
 
     it "should convert the counter parameter into a data- attribute" do
       data = {'id'=>'123456','title_display'=>['654321']}
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, { :label => :title_display, :counter => 5  })).to match /\/catalog\/123456\/track\?counter=5/
+      expect(helper.link_to_document(@document, :title_display, counter: 5)).to match /\/catalog\/123456\/track\?counter=5/
     end
 
     it "should merge the data- attributes from the options with the counter params" do
@@ -297,12 +304,12 @@ describe BlacklightUrlHelper do
 
     it "passes on the title attribute to the link_to_with_data method" do
       @document = SolrDocument.new('id'=>'123456')
-      expect(helper.link_to_document(@document,:label=>"Some crazy long label...",:title=>"Some crazy longer label")).to match(/title=\"Some crazy longer label\"/)
+      expect(helper.link_to_document(@document, "Some crazy long label...", title: "Some crazy longer label")).to match(/title=\"Some crazy longer label\"/)
     end
 
     it "doesn't add an erroneous title attribute if one isn't provided" do
       @document = SolrDocument.new('id'=>'123456')
-      expect(helper.link_to_document(@document,:label=>"Some crazy long label...")).to_not match(/title=/)
+      expect(helper.link_to_document(@document, "Some crazy long label...")).to_not match(/title=/)
     end
 
     it "should  work with integer ids" do
