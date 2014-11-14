@@ -28,10 +28,10 @@ describe "catalog/_show_tools.html.erb" do
     end
 
     it "should render a document action" do
-      allow(view).to receive(:some_action_test_path).and_return "x"
+      allow(view).to receive(:some_action_test_path).with(id: document).and_return "x"
       document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new
       render partial: 'catalog/show_tools'
-      expect(rendered).to have_selector '.some_action', text: "Some action"
+      expect(rendered).to have_link "Some action", href: "x"
     end
 
     it "should use the provided label" do
@@ -44,6 +44,13 @@ describe "catalog/_show_tools.html.erb" do
     it "should evaluate a document action's if configurations" do
       allow(view).to receive(:some_action_test_path).and_return "x"
       document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new if: false
+      render partial: 'catalog/show_tools'
+      expect(rendered).not_to have_selector '.some_action', text: "Some action"
+    end
+
+    it "should evaluate a document action's if configuration with a proc" do
+      allow(view).to receive(:some_action_test_path).and_return "x"
+      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new if: Proc.new { |config, doc| doc.id == "xyz" }
       render partial: 'catalog/show_tools'
       expect(rendered).not_to have_selector '.some_action', text: "Some action"
     end

@@ -12,6 +12,10 @@ module Blacklight
       # @param name [Symbol] the name of the document action and is used to calculate
       #                           partial names, path helpers, and other defaults
       # @param opts [Hash]
+      # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true. 
+      #                             The proc will receive the action configuration and the document or documents for the action.
+      # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
+      #                             The proc will receive the action configuration and the document or documents for the action.
       # @option opts [Symbol] :callback If this action accepts POST requests, the name of a method to invoke
       # @option opts [Symbol] :validator If this action accepts POST requests, the name of a method to invoke before the callback to validate the parameters
       # @option opts [String] :partial a partial to use to render this action in the relevant tool bars
