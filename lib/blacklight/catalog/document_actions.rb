@@ -1,13 +1,40 @@
+require 'delegate'
+
 module Blacklight
   module Catalog::DocumentActions
     extend ActiveSupport::Concern
 
+
     included do
-      class_attribute :document_actions 
+      class_attribute :inheritable_document_actions
       helper_method :document_actions
     end
 
+    class InheritableHash < SimpleDelegator
+      def initialize *args, &block
+        super(Hash.new *args, &block)
+      end
+
+      def inheritable_copy
+        h = self.class.new
+        each do |k,v|
+          case v
+            when Hash, OpenStruct, Array
+              h[k] = v.dup
+            else
+              h[k] = v
+          end
+        end
+        h
+      end
+
+    end
+
     module ClassMethods
+      def document_actions
+        @document_actions ||= (inheritable_document_actions || InheritableHash.new).inheritable_copy
+      end
+
       ##
       # @param name [Symbol] the name of the document action and is used to calculate
       #                           partial names, path helpers, and other defaults
@@ -30,8 +57,10 @@ module Blacklight
           yield config
         end
 
-        self.document_actions ||= {}
-        self.document_actions[name] = config
+        document_actions[name] = config
+
+        self.inheritable_document_actions = document_actions
+
         define_method name do
           @response, @documents = action_documents
           if request.post? and
@@ -56,5 +85,8 @@ module Blacklight
       end
     end
 
+    def document_actions
+      @document_actions ||= self.class.document_actions.inheritable_copy
+    end
   end
 end
