@@ -227,10 +227,16 @@ module Blacklight
     # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting
     # the original Blacklight::Configuration instance.
     #
-    def deep_copy
-      Marshal.load(Marshal.dump(self))
+    # The Rails 3.x version only copies hashes, and ignores arrays and similar structures
+    if ::Rails.version < "4.0"
+      def deep_copy
+        Marshal.load(Marshal.dump(self))
+      end
+      alias_method :inheritable_copy, :deep_copy
+    else
+      alias_method :deep_copy, :deep_dup
+      alias_method :inheritable_copy, :deep_dup
     end
-    alias_method :inheritable_copy, :deep_copy
 
     ##
     # Get a view configuration for the given view type

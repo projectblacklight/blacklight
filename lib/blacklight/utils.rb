@@ -44,7 +44,11 @@ module Blacklight
     # @return [OpenStructWithHashAccess] a new instance of an OpenStructWithHashAccess
     def merge! other_hash
       @table.merge!((other_hash if other_hash.is_a? Hash) || other_hash.to_h)
-    end 
+    end
+
+    def deep_dup
+      self.class.new @table.deep_dup
+    end
   end
 
 
@@ -121,6 +125,10 @@ module Blacklight
       @nested_class = x.first
       super x.last
       set_default_proc!
+    end
+
+    def deep_dup
+      self.class.new self.nested_class, @table.deep_dup
     end
 
     def select *args, &block

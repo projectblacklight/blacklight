@@ -92,5 +92,32 @@ describe 'Blacklight::Utils' do
         expect(subject.to_json).to eq ({a: 1, b:2}).to_json
       end
     end
+
+    describe "#deep_dup" do
+      subject { Blacklight::OpenStructWithHashAccess.new a: 1, b: { c: 1} }
+
+      it "should duplicate nested hashes" do
+        copy = subject.deep_dup
+        copy.a = 2
+        copy.b[:c] = 2
+
+        expect(subject.a).to eq 1
+        expect(subject.b[:c]).to eq 1
+        expect(copy.a).to eq 2
+        expect(copy.b[:c]).to eq 2
+      end
+
+      it "should preserve the current class" do
+        expect(Blacklight::NestedOpenStructWithHashAccess.new(Blacklight::NestedOpenStructWithHashAccess).deep_dup).to be_a_kind_of Blacklight::NestedOpenStructWithHashAccess
+      end
+
+      it "should preserve the default proc" do
+        nested = Blacklight::NestedOpenStructWithHashAccess.new Hash
+
+        copy = nested.deep_dup
+        copy.a[:b] = 1
+        expect(copy.a[:b]).to eq 1
+      end
+    end
   end
 end

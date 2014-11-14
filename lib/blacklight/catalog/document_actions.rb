@@ -10,29 +10,9 @@ module Blacklight
       helper_method :document_actions
     end
 
-    class InheritableHash < SimpleDelegator
-      def initialize *args, &block
-        super(Hash.new *args, &block)
-      end
-
-      def inheritable_copy
-        h = self.class.new
-        each do |k,v|
-          case v
-            when Hash, OpenStruct, Array
-              h[k] = v.dup
-            else
-              h[k] = v
-          end
-        end
-        h
-      end
-
-    end
-
     module ClassMethods
       def document_actions
-        @document_actions ||= (inheritable_document_actions || InheritableHash.new).inheritable_copy
+        @document_actions ||= (inheritable_document_actions || Hash.new).deep_dup
       end
 
       ##
@@ -86,7 +66,7 @@ module Blacklight
     end
 
     def document_actions
-      @document_actions ||= self.class.document_actions.inheritable_copy
+      @document_actions ||= self.class.document_actions.deep_dup
     end
   end
 end
