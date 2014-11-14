@@ -1,7 +1,7 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
-  <% document_actions.select { |name, config| evaluate_if_unless_configuration config, @response.documents }.each do |name, config| %>
+  <% document_actions.select { |name, config| evaluate_if_unless_configuration config, document_list }.each do |name, config| %>
     <li class="<%= name %>">
-      <%= render_document_action_partial name, config, @response.documents %>
+      <%= render_document_action_partial name, config, document_list %>
     </li>
   <% end %>
   
