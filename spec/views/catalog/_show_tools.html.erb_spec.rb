@@ -61,5 +61,26 @@ describe "catalog/_show_tools.html.erb" do
       render partial: 'catalog/show_tools'
       expect(rendered).not_to have_selector '.some_action', text: "Some action"
     end
+
+    it "should allow the tool to have a custom id" do
+      allow(view).to receive(:some_action_test_path).and_return "x"
+      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new id: "some_action"
+      render partial: 'catalog/show_tools'
+      expect(rendered).to have_selector '#some_action', text: "Some action"
+    end
+
+    it "should default to modal behavior" do
+      allow(view).to receive(:some_action_test_path).and_return "x"
+      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new
+      render partial: 'catalog/show_tools'
+      expect(rendered).to have_selector '.some_action > a[data-ajax-modal="trigger"]', text: "Some action"
+    end
+
+    it "should allow configuration to opt out of modal behavior" do
+      allow(view).to receive(:some_action_test_path).and_return "x"
+      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new modal: false
+      render partial: 'catalog/show_tools'
+      expect(rendered).not_to have_selector '.some_action > a[data-ajax-modal="trigger"]', text: "Some action"
+    end
   end
 end
