@@ -1,8 +1,13 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::Catalog   
   extend ActiveSupport::Concern
+
+  require 'blacklight/catalog/document_actions'
+  require 'blacklight/catalog/search_context'
   
   include Blacklight::Base
+
+  include Blacklight::Catalog::DocumentActions
 
   SearchHistoryWindow = 100 # how many searches to save in session history
 
@@ -18,50 +23,14 @@ module Blacklight::Catalog
 
     record_search_parameters
 
-    class_attribute :document_actions 
-    helper_method :document_actions
-
+    # provided by Blacklight::Catalog::DocumentActions
+    add_document_action(:refworks, if: Proc.new { |_, config, doc| doc.respond_to?(:export_formats) && doc.export_formats.keys.include?( :refworks_marc_txt )} )
+    add_document_action(:endnote, if: Proc.new { |_, config, doc| doc.respond_to?(:export_formats) && doc.export_formats.keys.include?( :endnote )} )
     add_document_action(:email, callback: :email_action, validator: :validate_email_params)
     add_document_action(:sms, callback: :sms_action, validator: :validate_sms_params)
     add_document_action(:citation)
-  end
+    add_document_action(:librarian_view, if: Proc.new { |ctx, config, doc| ctx.respond_to? :librarian_view_catalog_path and doc.respond_to?(:to_marc) })
 
-  module ClassMethods
-    ##
-    # @param name [Symbol] the name of the document action and is used to calculate
-    #                           partial names, path helpers, and other defaults
-    # @param opts [Hash]
-    # @option opts [Symbol] :callback If this action accepts POST requests, the name of a method to invoke
-    # @option opts [Symbol] :validator If this action accepts POST requests, the name of a method to invoke before the callback to validate the parameters
-    # @option opts [String] :tool_partial a partial to use to render this action in the relevant tool bars
-    # @option opts [String] :label (for the default tool partial) a label to use for this action
-    # @option opts [String] :path (for the default tool partial) a path helper to give a route for this action
-    #
-    def add_document_action name, opts = {}
-      self.document_actions ||= {}
-      self.document_actions[name] = opts
-      define_method name do
-        @response, @documents = action_documents
-        if request.post? and
-            opts[:callback] and
-            (opts[:validator].blank? || self.send(opts[:validator]))
-
-          self.send(opts[:callback], @documents)
-
-          flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
-
-          respond_to do |format|
-            format.html { redirect_to action_success_redirect_path }
-            format.js { render "#{name}_success" }
-          end
-        else
-          respond_to do |format|
-            format.html
-            format.js { render :layout => false }
-          end
-        end
-      end
-    end
   end
 
     # get search results from the solr index

@@ -237,14 +237,14 @@ module Blacklight::CatalogHelperBehavior
   end
 
   def action_label action, opts
-    t("blacklight.tools.#{action}", default: opts[:label] || action.to_s.humanize)
+    t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
   end
 
   def action_path name, action_opts, url_opts = nil
-    self.send(action_opts[:path] ||"#{name}_#{controller_name}_path", url_opts)
+    self.send(action_opts.path ||"#{name}_#{controller_name}_path", url_opts)
   end
 
-  def render_document_action_partial name, opts, path_options = {}
-    render(partial: opts[:tool_partial] || 'document_action', locals: { name: name, opts: opts, path_options: path_options })
+  def render_document_action_partial action_name, document_action_config, document_or_list
+    render(partial: document_action_config.partial || 'document_action', locals: { action_name: action_name, document_action_config: document_action_config, document_or_list: document_or_list })
   end
 end

@@ -164,15 +164,27 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Determine whether to render a field by evaluating :if and :unless conditions
   #
-  # @param [SolrDocument] document
   # @param [Blacklight::Solr::Configuration::SolrField] solr_field
   # @return [Boolean]
   def should_render_field? field_config, *args
-    return field_config if field_config === true or field_config === false
+    evaluate_if_unless_configuration field_config, *args
+  end
+
+  ##
+  # Evaluate conditionals for a configuration with if/unless attributes
+  #
+  # @param displayable_config [#if,#unless] an object that responds to if/unless
+  # @return [Boolean]
+  def evaluate_if_unless_configuration displayable_config, *args
+    return displayable_config if displayable_config === true or displayable_config === false
     
-    if_value = !field_config.respond_to?(:if) || field_config.if.nil? || evaluate_configuration_conditional(field_config.if, field_config, *args)
+    if_value = !displayable_config.respond_to?(:if) ||
+                    displayable_config.if.nil? ||
+                    evaluate_configuration_conditional(displayable_config.if, displayable_config, *args)
     
-    unless_value = !field_config.respond_to?(:unless) ||  field_config.unless.nil? || !evaluate_configuration_conditional(field_config.unless, field_config, *args)
+    unless_value = !displayable_config.respond_to?(:unless) ||
+                      displayable_config.unless.nil? ||
+                      !evaluate_configuration_conditional(displayable_config.unless, displayable_config, *args)
 
     if_value && unless_value
   end

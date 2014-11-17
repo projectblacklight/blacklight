@@ -5,7 +5,6 @@ module Blacklight::Base
   include Blacklight::Configurable
   include Blacklight::SolrHelper
 
-  require 'blacklight/catalog/search_context'
   include Blacklight::Catalog::SearchContext
 
   included do  
