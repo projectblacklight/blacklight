@@ -5,7 +5,7 @@ module Blacklight::Catalog
   require 'blacklight/catalog/document_actions'
   require 'blacklight/catalog/index_tools'
   require 'blacklight/catalog/search_context'
-  
+
   include Blacklight::Base
 
   include Blacklight::Catalog::DocumentActions
@@ -41,7 +41,7 @@ module Blacklight::Catalog
     # get search results from the solr index
     def index
       (@response, @document_list) = get_search_results
-      
+
       respond_to do |format|
         format.html { preferred_view }
         format.rss  { render :layout => false }
@@ -54,10 +54,10 @@ module Blacklight::Catalog
         document_export_formats(format)
       end
     end
-    
+
     # get single document from the solr index
     def show
-      @response, @document = get_solr_response_for_doc_id   
+      @response, @document = get_solr_response_for_doc_id
 
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
@@ -68,10 +68,10 @@ module Blacklight::Catalog
         # export formats.
         @document.export_formats.each_key do | format_name |
           # It's important that the argument to send be a symbol;
-          # if it's a string, it makes Rails unhappy for unclear reasons. 
+          # if it's a string, it makes Rails unhappy for unclear reasons.
           format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
         end
-        
+
       end
     end
 
@@ -99,14 +99,14 @@ module Blacklight::Catalog
 
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:
-        format.html 
+        format.html
         format.json { render json: render_facet_list_as_json }
 
         # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
       end
     end
-    
+
     # method to serve up XML OpenSearch description and JSON autocomplete response
     def opensearch
       respond_to do |format|
@@ -126,15 +126,15 @@ module Blacklight::Catalog
     def action_success_redirect_path
       catalog_path(params[:id])
     end
-     
+
     ##
     # Check if any search parameters have been set
     # @return [Boolean] 
     def has_search_parameters?
       !params[:q].blank? or !params[:f].blank? or !params[:search_field].blank?
     end
-    
-    protected    
+
+    protected
     #
     # non-routable methods ->
     #

@@ -116,7 +116,7 @@ module Blacklight::BlacklightHelperBehavior
   # (this normally renders next to title)
   #
   # By default includes 'Bookmarks'
-  # 
+  #
   # @param [SolrDocument] document
   # @param [Hash] options
   # @option options [String] :wrapping_class

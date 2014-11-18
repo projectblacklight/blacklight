@@ -142,12 +142,12 @@ describe BlacklightHelper do
       end
     end
   end
-  
+
   describe "#should_render_index_field?" do
     before do
       allow(helper).to receive_messages(should_render_field?: true, document_has_value?: true)
     end
-    
+
     it "should be true" do
       expect(helper.should_render_index_field?(double, double)).to be true
     end
