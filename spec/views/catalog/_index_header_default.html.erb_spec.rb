@@ -10,7 +10,7 @@ describe "catalog/_index_header_default" do
   end
 
   let :index_tool_partials do
-    [Blacklight::Configuration::ToolConfig.new(partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)]
+    { bookmark: Blacklight::Configuration::ToolConfig.new(partial: 'catalog/bookmark_control', if: :render_bookmarks_control?) }
   end
 
   it "should render the document header" do

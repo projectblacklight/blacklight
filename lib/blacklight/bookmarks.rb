@@ -10,16 +10,12 @@ module Blacklight::Bookmarks
     include Blacklight::Configurable
     include Blacklight::SolrHelper
     include Blacklight::TokenBasedUser
-    include Blacklight::Catalog::IndexTools
 
     copy_blacklight_config_from(CatalogController)
 
     before_filter :verify_user
 
     self.document_actions[:sms].if = false if self.document_actions[:sms]
-
-    # provided by Blacklight::Catalog::IndexTools
-    add_index_tools_partial('catalog/bookmark_control', if: :render_bookmarks_control?)
   end
 
   def action_documents

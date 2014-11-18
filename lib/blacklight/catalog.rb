@@ -34,7 +34,7 @@ module Blacklight::Catalog
     add_document_action(:librarian_view, if: Proc.new { |ctx, config, doc| ctx.respond_to? :librarian_view_catalog_path and doc.respond_to?(:to_marc) })
 
     # provided by Blacklight::Catalog::IndexTools
-    add_index_tools_partial('catalog/bookmark_control', if: :render_bookmarks_control?)
+    add_index_tools_partial(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
   end
 

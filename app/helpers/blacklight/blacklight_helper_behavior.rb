@@ -104,7 +104,7 @@ module Blacklight::BlacklightHelperBehavior
     wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
 
     content = []
-    index_tool_partials.select { |config| evaluate_if_unless_configuration config, @document }.each do |config|
+    index_tool_partials.select { |_, config| evaluate_if_unless_configuration config, @document }.each do |_, config|
       content << render(config.partial, { document: document }.merge(options))
     end
 

@@ -112,7 +112,7 @@ describe BlacklightHelper do
 
   describe "with a config" do
     let :index_tool_partials do
-      [Blacklight::Configuration::ToolConfig.new(partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)]
+      { bookmark: Blacklight::Configuration::ToolConfig.new(partial: 'catalog/bookmark_control', if: :render_bookmarks_control?) }
     end
 
     before do
