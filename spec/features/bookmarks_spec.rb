@@ -30,7 +30,7 @@ describe "Bookmarks" do
     click_button 'Remove bookmark'
     expect(page).to have_content 'Successfully removed bookmark.'
   end
-        
+
   it "should add and delete bookmarks from the show page" do
     sign_in 'user1'
     visit catalog_path('2007020969')
@@ -38,7 +38,7 @@ describe "Bookmarks" do
     click_button 'Remove bookmark'
     expect(page).to have_content 'Successfully removed bookmark.'
   end
-      
+
   it "should add bookmarks after a user logs in" do
     visit catalog_path('2007020969')
     click_button 'Bookmark'
@@ -55,18 +55,18 @@ describe "Bookmarks" do
     click_link 'Cite'
     expect(page).to have_content 'Strong Medicine speaks'
   end
-  
+
   it "should have an endnote export" do
     visit catalog_path('2007020969')
     click_button 'Bookmark'
-    visit "/bookmarks.endnote?q=" 
+    visit "/bookmarks.endnote?q="
     expect(page).to have_content " %@ 9780743297790"
   end
-  
+
   it "should have a refworks export" do
     visit catalog_path('2007020969')
     click_button 'Bookmark'
-    visit "/bookmarks.refworks_marc_txt?q=" 
+    visit "/bookmarks.refworks_marc_txt?q="
     expect(page).to have_content "LEADER 01490cam a2200361 a 4500001      2007020969"
   end
 end
