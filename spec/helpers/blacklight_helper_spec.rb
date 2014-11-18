@@ -111,6 +111,10 @@ describe BlacklightHelper do
   end
 
   describe "with a config" do
+    let :index_tool_partials do
+      { bookmark: Blacklight::Configuration::ToolConfig.new(partial: 'catalog/bookmark_control', if: :render_bookmarks_control?) }
+    end
+
     before do
       @config = Blacklight::Configuration.new.configure do |config|
         config.index.title_field = 'title_display'
@@ -122,6 +126,8 @@ describe BlacklightHelper do
       allow(helper).to receive(:has_user_authentication_provider?).and_return(true)
       allow(helper).to receive(:current_or_guest_user).and_return(User.new)
       allow(helper).to receive_messages(current_bookmarks: [])
+
+      allow(helper).to receive(:index_tool_partials).and_return index_tool_partials
     end
     describe "render_index_doc_actions" do
       it "should render partials" do

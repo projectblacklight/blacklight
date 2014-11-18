@@ -104,9 +104,11 @@ module Blacklight::BlacklightHelperBehavior
     wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
 
     content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
+    index_tool_partials.select { |_, config| evaluate_if_unless_configuration config, @document }.each do |_, config|
+      content << render(config.partial, { document: document }.merge(options))
+    end
 
-    content_tag("div", safe_join(content, "\n"), :class=> wrapping_class)
+    content_tag("div", safe_join(content, "\n"), class: wrapping_class)
   end
 
   ##

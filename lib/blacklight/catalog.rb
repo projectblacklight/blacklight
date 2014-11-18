@@ -1,13 +1,15 @@
 # -*- encoding : utf-8 -*-
-module Blacklight::Catalog   
+module Blacklight::Catalog
   extend ActiveSupport::Concern
 
   require 'blacklight/catalog/document_actions'
+  require 'blacklight/catalog/index_tools'
   require 'blacklight/catalog/search_context'
   
   include Blacklight::Base
 
   include Blacklight::Catalog::DocumentActions
+  include Blacklight::Catalog::IndexTools
 
   SearchHistoryWindow = 100 # how many searches to save in session history
 
@@ -30,6 +32,9 @@ module Blacklight::Catalog
     add_document_action(:sms, callback: :sms_action, validator: :validate_sms_params)
     add_document_action(:citation)
     add_document_action(:librarian_view, if: Proc.new { |ctx, config, doc| ctx.respond_to? :librarian_view_catalog_path and doc.respond_to?(:to_marc) })
+
+    # provided by Blacklight::Catalog::IndexTools
+    add_index_tools_partial(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
   end
 

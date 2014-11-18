@@ -31,6 +31,5 @@ describe "Alternate Controller Behaviors" do
     expect(page).to have_selector ".document-thumbnail"
     expect(page).to have_selector ".document-thumbnail a[data-context-href]"
     expect(page).to have_selector ".document-thumbnail a img"
-
   end
 end
