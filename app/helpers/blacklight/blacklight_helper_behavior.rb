@@ -121,13 +121,13 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Hash] options
   # @option options [String] :wrapping_class
   # @return [String]
-  def render_show_doc_actions(document=@document, options={})
-    wrapping_class = options.delete(:wrapping_class) || "documentFunctions"
-
-    content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if render_bookmarks_control?
-
-    content_tag("div", safe_join(content, "\n"), :class=> wrapping_class)
+  def render_show_doc_actions(document=@document, options={}, &block)
+    document_actions.reject { |name, _| options[:except] && Array(options[:except]).include?(name) }.
+      select { |name, config| evaluate_if_unless_configuration config, {document: document} }.
+      each do |name, config|
+        yield(name, render_document_action_partial(name, config, document: document))
+      end
+    nil
   end
 
   ##

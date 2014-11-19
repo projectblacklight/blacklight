@@ -115,6 +115,10 @@ describe BlacklightHelper do
       { bookmark: Blacklight::Configuration::ToolConfig.new(partial: 'catalog/bookmark_control', if: :render_bookmarks_control?) }
     end
 
+    let :document_actions do
+      { bookmark: Blacklight::Configuration::ToolConfig.new(partial: 'catalog/bookmark_control', if: :render_bookmarks_control?) }
+    end
+
     before do
       @config = Blacklight::Configuration.new.configure do |config|
         config.index.title_field = 'title_display'
@@ -128,6 +132,7 @@ describe BlacklightHelper do
       allow(helper).to receive_messages(current_bookmarks: [])
 
       allow(helper).to receive(:index_tool_partials).and_return index_tool_partials
+      allow(helper).to receive(:document_actions).and_return document_actions
     end
     describe "render_index_doc_actions" do
       it "should render partials" do
@@ -135,10 +140,14 @@ describe BlacklightHelper do
         expect(response).to have_selector(".bookmark_toggle")
       end
     end
+
     describe "render_show_doc_actions" do
       it "should render partials" do
-        response = helper.render_show_doc_actions(@document)
-        expect(response).to have_selector(".bookmark_toggle")
+        buff = ''
+        helper.render_show_doc_actions(@document) do |name, val|
+          buff << val
+        end
+        expect(buff).to have_selector(".bookmark_toggle")
       end
     end
   end

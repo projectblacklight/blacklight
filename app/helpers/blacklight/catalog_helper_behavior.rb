@@ -244,7 +244,8 @@ module Blacklight::CatalogHelperBehavior
     self.send(action_opts.path ||"#{name}_#{controller_name}_path", url_opts)
   end
 
-  def render_document_action_partial action_name, document_action_config, document_or_list
-    render(partial: document_action_config.partial || 'document_action', locals: { action_name: action_name, document_action_config: document_action_config, document_or_list: document_or_list })
+  def render_document_action_partial action_name, document_action_config, options = {}
+    options = { action_name: action_name, document_action_config: document_action_config }.merge(options)
+    render(partial: document_action_config.partial || 'document_action', locals: options)
   end
 end
