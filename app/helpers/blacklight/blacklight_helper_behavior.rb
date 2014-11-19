@@ -93,7 +93,17 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render "docuemnt actions" area for search results view
+  # Render "document actions" area for navigation header
+  # (normally renders "Saved Searches", "History", "Bookmarks")
+  #
+  # @param [Hash] options
+  # @return [String]
+  def render_nav_actions(options={}, &block)
+    render_filtered_partials(blacklight_config.navbar.partials, options, &block)
+  end
+
+  ##
+  # Render "document actions" area for search results view
   # (normally renders next to title in the list view)
   #
   # @param [SolrDocument] document
@@ -102,13 +112,20 @@ module Blacklight::BlacklightHelperBehavior
   # @return [String]
   def render_index_doc_actions(document, options={})
     wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
+    rendered = render_filtered_partials(blacklight_config.index.document_actions, { document: document }.merge(options))
+    content_tag("div", rendered, class: wrapping_class)
+  end
 
+  def render_filtered_partials(partials, options={}, &block)
     content = []
-    index_tool_partials.select { |_, config| evaluate_if_unless_configuration config, @document }.each do |_, config|
-      content << render(config.partial, { document: document }.merge(options))
+    partials.select { |_, config| evaluate_if_unless_configuration config, options }.each do |_, config|
+      if block_given?
+        yield render(config.partial, options)
+      else
+        content << render(config.partial, options)
+      end
     end
-
-    content_tag("div", safe_join(content, "\n"), class: wrapping_class)
+    safe_join(content, "\n") unless block_given?
   end
 
   ##
@@ -573,6 +590,12 @@ module Blacklight::BlacklightHelperBehavior
   # Determine whether to render the bookmarks control 
   def render_bookmarks_control?
     has_user_authentication_provider? and current_or_guest_user.present?
+  end
+
+  ##
+  # Determine whether to render the saved searches link
+  def render_saved_searches?
+    has_user_authentication_provider? and current_user
   end
 
   ##

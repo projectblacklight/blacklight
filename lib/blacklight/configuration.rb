@@ -57,6 +57,7 @@ module Blacklight
             :display_type_field => 'format',
             # partials to render for each document(see #render_document_partials)
             :partials => [:index_header, :thumbnail, :index],
+            :document_actions => {},
             # what field, if any, to use to render grouped results
             :group => false,
             # additional response formats for search results
@@ -72,6 +73,7 @@ module Blacklight
             # partials to render for each document(see #render_document_partials) 
             partials: [:show_header, :show]
           ),
+          :navbar => OpenStructWithHashAccess.new(partials: { }),
           # Configurations for specific types of index views
           :view => NestedOpenStructWithHashAccess.new(ViewConfig, 'list'),
           # Maxiumum number of spelling suggestions to offer
@@ -248,5 +250,42 @@ module Blacklight
         self.index.merge view.fetch(view_type, {})
       end
     end
+
+    ##
+    # Add a partial to the tools for each document in the search results.
+    # @param partial [String] the name of the document partial
+    # @param opts [Hash]
+    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    def add_index_tools_partial(name, opts = {})
+      add_action(index.document_actions, name, opts)
+    end
+
+    ##
+    # Add a partial to the header navbar
+    # @param partial [String] the name of the document partial
+    # @param opts [Hash]
+    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    def add_nav_action name, opts = {}
+      add_action(navbar.partials, name, opts)
+    end
+
+    private
+
+      def add_action config_hash, name, opts
+        config = Blacklight::Configuration::ToolConfig.new opts
+        config.name = name
+
+        if block_given?
+          yield config
+        end
+
+        config_hash[name] = config
+      end
   end
 end
