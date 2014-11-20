@@ -55,14 +55,13 @@ module Blacklight
     end
 
     # Add Blacklight to the application controller
-    def inject_blacklight_controller_behavior    
-  #    prepend_file("app/controllers/application_controller.rb", "require 'blacklight/controller'\n\n")
+    def inject_blacklight_controller_behavior
       inject_into_class "app/controllers/application_controller.rb", "ApplicationController" do
-        "  # Adds a few additional behaviors into the application controller \n " +        
-          "  include Blacklight::Controller\n" + 
-          "  # Please be sure to impelement current_user and user_session. Blacklight depends on \n" +
-          "  # these methods in order to perform user specific actions. \n\n" +
-          "  layout 'blacklight'\n\n"
+        "  # Adds a few additional behaviors into the application controller \n" +
+        "  include Blacklight::Controller\n" +
+        "  # Please be sure to impelement current_user and user_session. Blacklight depends on \n" +
+        "  # these methods in order to perform user specific actions. \n\n" +
+        "  layout 'blacklight'\n\n"
       end
     end
     
