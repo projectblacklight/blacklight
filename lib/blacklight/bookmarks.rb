@@ -15,7 +15,8 @@ module Blacklight::Bookmarks
 
     before_filter :verify_user
 
-    self.document_actions[:sms].if = false if self.document_actions[:sms]
+    blacklight_config.show.document_actions[:bookmark].if = false if blacklight_config.show.document_actions[:bookmark]
+    blacklight_config.show.document_actions[:sms].if = false if blacklight_config.show.document_actions[:sms]
   end
 
   def action_documents

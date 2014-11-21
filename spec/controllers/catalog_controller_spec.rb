@@ -692,9 +692,9 @@ describe CatalogController do
     end
   end
 
-  describe "#add_document_action" do
+  describe "#add_show_tools_partial" do
     before do
-      CatalogController.add_document_action(:like, callback: :perform_like, validator: :validate_like_params)
+      CatalogController.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:perform_like)
       allow(controller).to receive(:catalog_path).and_return('catalog/1')
       Rails.application.routes.draw do
@@ -703,12 +703,12 @@ describe CatalogController do
     end
  
     after do
-      CatalogController.document_actions.delete(:like)
+      CatalogController.blacklight_config.show.document_actions.delete(:like)
       Rails.application.reload_routes!
     end
 
     it "should add the action to a list" do
-      expect(CatalogController.document_actions).to include(:like)
+      expect(CatalogController.blacklight_config.show.document_actions).to have_key(:like)
     end
 
     it "should define the action method" do
