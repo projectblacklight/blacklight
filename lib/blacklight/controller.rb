@@ -23,7 +23,7 @@ module Blacklight::Controller
     # extra head content
     helper_method :has_user_authentication_provider?
     helper_method :blacklight_config
-    helper_method :search_action_url, :search_action_path
+    helper_method :search_action_url, :search_action_path, :search_facet_url
 
 
     # This callback runs when a user first logs in
@@ -57,6 +57,10 @@ module Blacklight::Controller
       end
 
       search_action_url *args
+    end
+
+    def search_facet_url options = {}
+      url_for params.merge(action: "facet").merge(options).except(:page)
     end
 
     # Returns a list of Searches from the ids in the user's history.

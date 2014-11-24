@@ -736,6 +736,20 @@ describe CatalogController do
       end
     end
   end
+
+  describe "search_action_url" do
+    it "should be the same as the catalog url" do
+      get :index, :page => 1
+      expect(controller.send(:search_action_url, q: "xyz")).to eq root_url(q: "xyz")
+    end
+  end
+
+  describe "search_facet_url" do
+    it "should be the same as the catalog url" do
+      get :index, :page => 1
+      expect(controller.send(:search_facet_url, id: "some_facet", page: 5)).to eq catalog_facet_url(id: "some_facet")
+    end
+  end
 end
 
 
