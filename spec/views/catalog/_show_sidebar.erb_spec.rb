@@ -4,9 +4,14 @@ require 'spec_helper'
 
 describe "/catalog/_show_sidebar.html.erb" do
 
-  before(:each) do
+  let(:blacklight_config) do
+    Blacklight::Configuration.new do |config|
+      config.index.title_field = 'title_display'
+    end
+  end
 
-    allow(view).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
+  before(:each) do
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view).to receive(:has_user_authentication_provider?).and_return(false)
     allow(view).to receive(:current_search_session).and_return nil
     allow(view).to receive(:search_session).and_return({})

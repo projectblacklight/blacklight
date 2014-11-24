@@ -1,6 +1,6 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
-  <%= render_show_doc_actions document_list, except: :bookmark do |name, inner| %>
-    <li class="<%= name %>">
+  <%= render_show_doc_actions document_list, document: nil, document_list: @document_list, url_opts: sanitize_search_params(params) do |config, inner| %>
+    <li>
       <%= inner %>
     </li>
   <% end %>

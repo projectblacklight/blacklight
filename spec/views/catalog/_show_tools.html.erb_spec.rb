@@ -14,18 +14,14 @@ describe "catalog/_show_tools.html.erb" do
     assign :document, document
     allow(view).to receive(:blacklight_config).and_return blacklight_config
     allow(view).to receive(:has_user_authentication_provider?).and_return false
-    allow(view).to receive(:document_actions).and_return Hash.new
   end
 
   describe "document actions" do
 
     let :document_actions do
-      {}
+      blacklight_config.show.document_actions
     end
 
-    before do
-      allow(view).to receive(:document_actions).and_return document_actions
-    end
 
     it "should render a document action" do
       allow(view).to receive(:some_action_test_path).with(id: document).and_return "x"

@@ -57,7 +57,7 @@ module Blacklight
             :display_type_field => 'format',
             # partials to render for each document(see #render_document_partials)
             :partials => [:index_header, :thumbnail, :index],
-            :document_actions => {},
+            :document_actions => NestedOpenStructWithHashAccess.new(ToolConfig),
             # what field, if any, to use to render grouped results
             :group => false,
             # additional response formats for search results
@@ -71,7 +71,8 @@ module Blacklight
             # current controller.
             route: nil,
             # partials to render for each document(see #render_document_partials) 
-            partials: [:show_header, :show]
+            partials: [:show_header, :show],
+            document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
           ),
           :navbar => OpenStructWithHashAccess.new(partials: { }),
           # Configurations for specific types of index views
@@ -249,6 +250,18 @@ module Blacklight
       else
         self.index.merge view.fetch(view_type, {})
       end
+    end
+
+    ##
+    # Add a partial to the tools when rendering a document.
+    # @param partial [String] the name of the document partial
+    # @param opts [Hash]
+    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    def add_show_tools_partial(name, opts = {})
+      add_action(show.document_actions, name, opts)
     end
 
     ##

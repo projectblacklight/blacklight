@@ -18,6 +18,7 @@ describe "Bookmarks" do
     expect(page).to have_content 'Cleared your bookmarks.'
     expect(page).to have_content 'You have no bookmarks'
   end
+
   it "add and remove bookmarks from search results" do
     sign_in 'user1'
     visit root_path
@@ -54,6 +55,30 @@ describe "Bookmarks" do
     click_link 'Bookmarks'
     click_link 'Cite'
     expect(page).to have_content 'Strong Medicine speaks'
+  end
+
+  it "should cite items in current bookmarks page" do
+    visit catalog_path('2009373513')
+    click_button 'Bookmark'
+
+    visit catalog_path('2007020969')
+    click_button 'Bookmark'
+
+    visit "/bookmarks?per_page=1"
+    expect(page).to have_content 'Ci an zhou bian'
+    expect(page).not_to have_content 'Strong Medicine speaks'
+
+    click_link 'Cite'
+    expect(page).to have_content 'Ci an zhou bian'
+    expect(page).not_to have_content 'Strong Medicine speaks'
+
+    visit "/bookmarks?per_page=1"
+    click_link "2"
+    expect(page).to have_content 'Strong Medicine speaks'
+
+    click_link 'Cite'
+    expect(page).to have_content 'Strong Medicine speaks'
+    expect(page).not_to have_content 'Ci an zhou bian'
   end
 
   it "should have an endnote export" do

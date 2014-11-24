@@ -236,16 +236,15 @@ module Blacklight::CatalogHelperBehavior
     end
   end
 
-  def action_label action, opts
-    t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
+  def render_refworks_action? config, options = {}
+    options[:document] && options[:document].respond_to?(:export_formats) && options[:document].export_formats.keys.include?(:refworks_marc_txt )
   end
 
-  def action_path name, action_opts, url_opts = nil
-    self.send(action_opts.path ||"#{name}_#{controller_name}_path", url_opts)
+  def render_endnote_action? config, options = {}
+    options[:document] && options[:document].respond_to?(:export_formats) && options[:document].export_formats.keys.include?(:endnote )
   end
 
-  def render_document_action_partial action_name, document_action_config, options = {}
-    options = { action_name: action_name, document_action_config: document_action_config }.merge(options)
-    render(partial: document_action_config.partial || 'document_action', locals: options)
+  def render_librarian_view_control? config, options = {}
+    respond_to? :librarian_view_catalog_path and options[:document] and options[:document].respond_to?(:to_marc)
   end
 end
