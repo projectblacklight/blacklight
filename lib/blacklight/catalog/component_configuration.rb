@@ -5,6 +5,10 @@ module Blacklight
     included do
       add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
+      add_results_collection_tool(:sort_widget)
+      add_results_collection_tool(:per_page_widget)
+      add_results_collection_tool(:view_type_group)
+
       add_show_tools_partial(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
       add_show_tools_partial(:refworks, if: :render_refworks_action?)
       add_show_tools_partial(:endnote, if: :render_endnote_action? )
@@ -54,7 +58,7 @@ module Blacklight
       end
 
       ##
-      # Add a partial to the tools for each document in the search results.
+      # Add a tool to be displayed for each document in the search results.
       # @param partial [String] the name of the document partial
       # @param opts [Hash]
       # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
@@ -63,6 +67,18 @@ module Blacklight
       #                             The proc will receive the action configuration and the document or documents for the action.
       def add_results_document_tool name, opts = {}
         blacklight_config.add_results_document_tool(name, opts)
+      end
+
+      ##
+      # Add a tool to be displayed for the list of search results themselves.
+      # @param partial [String] the name of the document partial
+      # @param opts [Hash]
+      # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
+      #                             The proc will receive the action configuration and the document or documents for the action.
+      # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
+      #                             The proc will receive the action configuration and the document or documents for the action.
+      def add_results_collection_tool name, opts = {}
+        blacklight_config.add_results_collection_tool(name, opts)
       end
 
       ##
