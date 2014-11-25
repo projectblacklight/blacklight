@@ -272,7 +272,7 @@ module Blacklight
     #                             The proc will receive the action configuration and the document or documents for the action.
     # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
     #                             The proc will receive the action configuration and the document or documents for the action.
-    def add_index_tools_partial(name, opts = {})
+    def add_results_document_tool(name, opts = {})
       add_action(index.document_actions, name, opts)
     end
 
