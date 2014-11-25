@@ -52,7 +52,7 @@ module Blacklight::Bookmarks
       end
 
       additional_response_formats(format)
-      document_export_formats(format)
+      document_export_formats(format, @response)
     end
   end
 

@@ -27,11 +27,11 @@ module Blacklight::Catalog
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
         format.json do
-          render json: render_search_results_as_json
+          render json: render_search_results_as_json(@response, @document_list)
         end
 
         additional_response_formats(format)
-        document_export_formats(format)
+        document_export_formats(format, @response)
       end
     end
 
@@ -73,7 +73,7 @@ module Blacklight::Catalog
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:
         format.html
-        format.json { render json: render_facet_list_as_json }
+        format.json { render json: render_facet_list_as_json(@pagination) }
 
         # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
@@ -159,12 +159,12 @@ module Blacklight::Catalog
 
     ##
     # Try to render a response from the document export formats available
-    def document_export_formats format
+    def document_export_formats format, response
       format.any do
         format_name = params.fetch(:format, '').to_sym
 
-        if @response.export_formats.include? format_name
-          render_document_export_format format_name
+        if response.export_formats.include? format_name
+          render_document_export_format format_name, response
         else
           raise ActionController::UnknownFormat.new
         end
@@ -175,15 +175,15 @@ module Blacklight::Catalog
     # Render the document export formats for a response
     # First, try to render an appropriate template (e.g. index.endnote.erb)
     # If that fails, just concatenate the document export responses with a newline. 
-    def render_document_export_format format_name
+    def render_document_export_format format_name, response
       render
     rescue ActionView::MissingTemplate
-      render text: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
+      render text: response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
     end
 
     # override this method to change the JSON response from #index 
-    def render_search_results_as_json
-      {response: {docs: @document_list, facets: search_facets_as_json, pages: pagination_info(@response)}}
+    def render_search_results_as_json response, document_list
+      {response: {docs: document_list, facets: search_facets_as_json, pages: pagination_info(response)}}
     end
 
     def search_facets_as_json
@@ -197,8 +197,8 @@ module Blacklight::Catalog
     end
 
     # override this method to change the JSON response from #facet 
-    def render_facet_list_as_json
-      {response: {facets: @pagination }}
+    def render_facet_list_as_json paginator
+      {response: {facets: paginator }}
     end
 
     # Overrides the Blacklight::Controller provided #search_action_url.

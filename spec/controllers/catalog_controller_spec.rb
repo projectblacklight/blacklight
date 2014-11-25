@@ -582,15 +582,15 @@ describe CatalogController do
   end
 
   describe 'render_search_results_as_json' do
+    let(:document_list) { [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}] }
     before do
-      controller.instance_variable_set :@document_list, [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}]
-      allow(controller).to receive(:pagination_info).and_return({current_page: 1, next_page: 2, prev_page: nil})
+      allow(controller).to receive(:pagination_info).with(:pass_through).and_return({current_page: 1, next_page: 2, prev_page: nil})
       allow(controller).to receive(:search_facets_as_json).and_return(
           [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}])
     end
 
     it "should be a hash" do
-       expect(controller.send(:render_search_results_as_json)).to eq (
+       expect(controller.send(:render_search_results_as_json, :pass_through, document_list)).to eq (
          {response: {docs: [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}],
                      facets: [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}],
                      pages: {current_page: 1, next_page: 2, prev_page: nil}}}
@@ -599,12 +599,10 @@ describe CatalogController do
   end
 
   describe 'render_facet_list_as_json' do
-    before do
-      controller.instance_variable_set :@pagination, {items: [{value: 'Book'}]}
-    end
+      let(:paginator) { {items: [{value: 'Book'}]} }
 
     it "should be a hash" do
-       expect(controller.send(:render_facet_list_as_json)).to eq (
+       expect(controller.send(:render_facet_list_as_json, paginator)).to eq (
          {response: {facets: {items: [{value: 'Book'}]}}}
        )
     end
