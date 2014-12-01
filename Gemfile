@@ -22,11 +22,8 @@ if File.exists?(file)
 else
   gem 'rails', ENV['RAILS_VERSION'] if ENV['RAILS_VERSION']
 
-  # explicitly include sass-rails to get compatible sprocket dependencies
   if ENV['RAILS_VERSION'] and ENV['RAILS_VERSION'] =~ /^4.2/
-    gem 'sass-rails', ">= 5.0.0.beta1"
     gem 'responders', "~> 2.0"
-  else
-    gem 'sass-rails'
   end
+  gem 'sass-rails'
 end
