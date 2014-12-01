@@ -484,6 +484,7 @@ describe BlacklightHelper do
     let(:doc) { double }
     before do
       allow(helper).to receive_messages(document_partial_path_templates: [])
+      allow(helper).to receive_messages(document_index_view_type: 'index_header')
     end
     
     it "should get the document format from document_partial_name" do
