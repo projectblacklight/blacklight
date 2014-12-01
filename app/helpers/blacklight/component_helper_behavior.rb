@@ -33,11 +33,24 @@ module Blacklight
       content_tag("div", rendered, class: wrapping_class)
     end
 
+    ##
+    # Render "collection actions" area for search results view
+    # (normally renders next to pagination at the top of the result set)
+    #
+    # @param [Hash] options
+    # @option options [String] :wrapping_class
+    # @return [String]
+    def render_results_collection_tools(options = {})
+      wrapping_class = options.delete(:wrapping_class) || "search-widgets"
+      rendered = render_filtered_partials(blacklight_config.index.collection_actions, options)
+      content_tag("div", rendered, class: wrapping_class)
+    end
+
     def render_filtered_partials(partials, options={}, &block)
       content = []
       partials.select { |_, config| evaluate_if_unless_configuration config, options }.each do |key, config|
         config.key ||= key
-        rendered = render(partial: config.partial || "document_action", locals: { document_action_config: config }.merge(options))
+        rendered = render(partial: config.partial || key.to_s, locals: { document_action_config: config }.merge(options))
         if block_given?
           yield config, rendered
         else
@@ -48,7 +61,7 @@ module Blacklight
     end
 
     ##
-    # Render "docuemnt actions" for the item detail 'show' view.
+    # Render "document actions" for the item detail 'show' view.
     # (this normally renders next to title)
     #
     # By default includes 'Bookmarks'

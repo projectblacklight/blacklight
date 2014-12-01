@@ -121,8 +121,8 @@ describe BlacklightHelper do
     let(:document) { SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8') }
 
     before do
-      config.add_show_tools_partial(:bookmark, partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)      
-      config.add_index_tools_partial(:bookmark, partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)
+      config.add_show_tools_partial(:bookmark, partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)
+      config.add_results_document_tool(:bookmark, partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)
       config.add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark', if: :render_bookmarks_control?)
       allow(helper).to receive(:blacklight_config).and_return(config)
       allow(helper).to receive(:has_user_authentication_provider?).and_return(true)

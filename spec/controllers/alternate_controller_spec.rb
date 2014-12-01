@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe AlternateController do
-  describe "add_index_tools_partial" do
+  describe "the search results tools" do
     it "should inherit tools from CatalogController" do
       expect(AlternateController.blacklight_config.index.document_actions).to have_key(:bookmark)
     end

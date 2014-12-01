@@ -58,6 +58,7 @@ module Blacklight
             # partials to render for each document(see #render_document_partials)
             :partials => [:index_header, :thumbnail, :index],
             :document_actions => NestedOpenStructWithHashAccess.new(ToolConfig),
+            :collection_actions => NestedOpenStructWithHashAccess.new(ToolConfig),
             # what field, if any, to use to render grouped results
             :group => false,
             # additional response formats for search results
@@ -261,7 +262,20 @@ module Blacklight
     # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
     #                             The proc will receive the action configuration and the document or documents for the action.
     def add_show_tools_partial(name, opts = {})
+      opts[:partial] ||= 'document_action'
       add_action(show.document_actions, name, opts)
+    end
+
+    ##
+    # Add a tool for the search result list itself
+    # @param partial [String] the name of the document partial
+    # @param opts [Hash]
+    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
+    #                             The proc will receive the action configuration and the document or documents for the action.
+    def add_results_collection_tool(name, opts = {})
+      add_action(index.collection_actions, name, opts)
     end
 
     ##
@@ -272,7 +286,7 @@ module Blacklight
     #                             The proc will receive the action configuration and the document or documents for the action.
     # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
     #                             The proc will receive the action configuration and the document or documents for the action.
-    def add_index_tools_partial(name, opts = {})
+    def add_results_document_tool(name, opts = {})
       add_action(index.document_actions, name, opts)
     end
 

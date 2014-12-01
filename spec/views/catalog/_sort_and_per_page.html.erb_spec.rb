@@ -7,6 +7,9 @@ describe "catalog/_sort_and_per_page" do
   end
 
   before do
+    blacklight_config.add_results_collection_tool(:sort_widget)
+    blacklight_config.add_results_collection_tool(:per_page_widget)
+    blacklight_config.add_results_collection_tool(:view_type_group)
     allow(view).to receive_messages(blacklight_config: blacklight_config)
   end
 

@@ -1,8 +1,4 @@
 <div id="sortAndPerPage" class="clearfix">
   <%= render :partial => "paginate_compact", :object => @response if show_pagination? %>
-  <div class="search-widgets pull-right">
-    <%= render :partial => 'sort_widget' %>
-    <%= render :partial => 'per_page_widget' %>
-    <%= render :partial => 'view_type_group' %>
-  </div>
+  <%= render_results_collection_tools wrapping_class: "search-widgets pull-right" %>
 </div>
