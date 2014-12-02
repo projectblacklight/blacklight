@@ -10,6 +10,7 @@ module Blacklight
   autoload :Solr, 'blacklight/solr'
   
   autoload :SolrHelper, 'blacklight/solr_helper'
+  autoload :SolrRepository, 'blacklight/solr_repository'
   autoload :RequestBuilders, 'blacklight/request_builders'
   
   autoload :Exceptions, 'blacklight/exceptions'

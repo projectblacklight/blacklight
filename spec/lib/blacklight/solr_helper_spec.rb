@@ -18,11 +18,12 @@ describe Blacklight::SolrHelper do
     include Blacklight::SolrHelper
 
     attr_accessor :blacklight_config
-    attr_accessor :blacklight_solr
+    attr_accessor :solr_repository
 
     def initialize blacklight_config, blacklight_solr
       self.blacklight_config = blacklight_config
-      self.blacklight_solr = blacklight_solr
+      self.solr_repository = Blacklight::SolrRepository.new(blacklight_config)
+      self.solr_repository.blacklight_solr = blacklight_solr
     end
 
     def params
@@ -46,70 +47,6 @@ describe Blacklight::SolrHelper do
     @multi_facets = {:format=>'Book', :language_facet=>'Tibetan'}
     @bad_facet = {:format=>'666'}
     @subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"rows"=>"10", :"q"=>"wome"}
-  end
-
-  describe "#find" do  
-    it "should use the configured solr path" do
-      blacklight_config.solr_path = 'xyz'
-      allow(blacklight_solr).to receive(:send_and_receive).with('xyz', anything).and_return("{}".to_json)
-      expect(subject.find({})).to be_a_kind_of Blacklight::SolrResponse
-    end
-
-    it "should override the configured solr path" do
-      blacklight_config.solr_path = 'xyz'
-      allow(blacklight_solr).to receive(:send_and_receive).with('abc', anything).and_return("{}".to_json)
-      expect(subject.find('abc', {})).to be_a_kind_of Blacklight::SolrResponse
-    end
-
-    it "should use a default :qt param" do
-      blacklight_config.qt = 'xyz'
-      allow(blacklight_solr).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'xyz'})).and_return("{}".to_json)
-      expect(subject.find({})).to be_a_kind_of Blacklight::SolrResponse
-    end
-
-    it "should use the provided :qt param" do
-      blacklight_config.qt = 'xyz'
-      allow(blacklight_solr).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc'})).and_return("{}".to_json)
-      expect(subject.find({qt: 'abc'})).to be_a_kind_of Blacklight::SolrResponse
-    end
-
-    describe "http_method configuration" do
-      describe "using default" do
-
-        it "defaults to get" do
-          expect(blacklight_config.http_method).to eq :get
-          allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
-            expect(path).to eq 'select'
-            expect(params[:method]).to eq :get
-            expect(params[:params]).to include(:q)
-          end.and_return({'response'=>{'docs'=>[]}})
-          subject.find(:q => @all_docs_query)
-        end
-      end
-
-      describe "setting to post" do
-        let (:blacklight_config) {config = Blacklight::Configuration.new; config.http_method=:post; config}
-
-        it "keep value set to post" do
-          expect(blacklight_config.http_method).to eq :post
-          allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
-            expect(path).to eq 'select'
-            expect(params[:method]).to eq :post
-            expect(params[:data]).to include(:q)
-          end.and_return({'response'=>{'docs'=>[]}})
-          subject.find(:q => @all_docs_query)
-        end
-      end
-    end
-  end
-  
-  describe "http_method configuration", :integration => true do
-    let (:blacklight_config) {config = Blacklight::Configuration.new; config.http_method=:post; config}
-
-    it "should send a post request to solr and get a response back" do
-      response = subject.find(:q => @all_docs_query)
-      expect(response.docs.length).to be >= 1
-    end
   end
 
   # SPECS for actual search parameter generation
@@ -684,28 +621,19 @@ describe Blacklight::SolrHelper do
       expect(solr_params[:"f.#{@facet_field}.facet.sort"]).to be_blank
     end
 
-    it "uses the field-specific sort" do
-      solr_params = subject.solr_facet_params('format_ordered')
-      expect(solr_params[:"f.format_ordered.facet.sort"]).to eq :count
-    end
-
     it 'uses sort provided in the parameters' do
       solr_params = subject.solr_facet_params(@facet_field, @sort_key => "index")
       expect(solr_params[:"f.#{@facet_field}.facet.sort"]).to eq 'index'
     end
+
     it "comes up with the same params as #solr_search_params to constrain context for facet list" do
       search_params = {:q => 'tibetan history', :f=> {:format=>'Book', :language_facet=>'Tibetan'}}
-      solr_search_params = subject.solr_search_params( search_params )
       solr_facet_params = subject.solr_facet_params('format', search_params)
 
-      solr_search_params.each_pair do |key, value|
-        # The specific params used for fetching the facet list we
-        # don't care about.
-        next if ['facets', "facet.field", 'rows', 'facet.limit', 'facet.offset', 'facet.sort'].include?(key)
-        # Everything else should match
-        expect(solr_facet_params[key]).to eq value
-      end
-
+      expect(solr_facet_params).to include :"facet.field" => "format"
+      expect(solr_facet_params).to include :"f.format.facet.limit" => 21
+      expect(solr_facet_params).to include :"f.format.facet.offset" => 0
+      expect(solr_facet_params).to include :"rows" => 0
     end
   end
   describe "for facet limit parameters config ed" do                
@@ -1075,27 +1003,35 @@ describe Blacklight::SolrHelper do
 
   describe "solr_doc_params" do
     it "should default to using the 'document' requestHandler" do
-      doc_params = subject.solr_doc_params('asdfg')
-      expect(doc_params[:qt]).to eq 'document'
+      Deprecation.silence(Blacklight::SolrHelper) do
+        doc_params = subject.solr_doc_params('asdfg')
+        expect(doc_params[:qt]).to eq 'document'
+      end
     end
 
     it "should default to using the id parameter when sending solr queries" do
-      doc_params = subject.solr_doc_params('asdfg')
-      expect(doc_params[:id]).to eq 'asdfg'
+      Deprecation.silence(Blacklight::SolrHelper) do
+        doc_params = subject.solr_doc_params('asdfg')
+        expect(doc_params[:id]).to eq 'asdfg'
+      end
     end
 
     it "should use the document_unique_id_param configuration" do
-      allow(blacklight_config).to receive_messages(document_unique_id_param: :ids)
-      doc_params = subject.solr_doc_params('asdfg')
-      expect(doc_params[:ids]).to eq 'asdfg'
+      Deprecation.silence(Blacklight::SolrHelper) do
+        allow(blacklight_config).to receive_messages(document_unique_id_param: :ids)
+        doc_params = subject.solr_doc_params('asdfg')
+        expect(doc_params[:ids]).to eq 'asdfg'
+      end
     end
 
     describe "blacklight config's default_document_solr_parameters" do
       it "should use parameters from the controller's default_document_solr_parameters" do
-        blacklight_config.default_document_solr_params = { :qt => 'my_custom_handler', :asdf => '1234' }
-        doc_params = subject.solr_doc_params('asdfg')
-        expect(doc_params[:qt]).to eq 'my_custom_handler'
-        expect(doc_params[:asdf]).to eq '1234'
+        Deprecation.silence(Blacklight::SolrHelper) do
+          blacklight_config.default_document_solr_params = { :qt => 'my_custom_handler', :asdf => '1234' }
+          doc_params = subject.solr_doc_params('asdfg')
+          expect(doc_params[:qt]).to eq 'my_custom_handler'
+          expect(doc_params[:asdf]).to eq '1234'
+        end
       end
     end
 
@@ -1112,8 +1048,10 @@ describe Blacklight::SolrHelper do
     end
 =end
     it "should respect the configuration-supplied unique id" do
-      doc_params = subject.solr_doc_params('"Strong Medicine speaks"')
-      expect(doc_params[:id]).to eq '"Strong Medicine speaks"'
+      Deprecation.silence(Blacklight::SolrHelper) do
+        doc_params = subject.solr_doc_params('"Strong Medicine speaks"')
+        expect(doc_params[:id]).to eq '"Strong Medicine speaks"'
+      end
     end
   end
 
@@ -1273,18 +1211,24 @@ describe Blacklight::SolrHelper do
         allow(@mock_response).to receive_messages(documents: [])
       end
       it "should contruct a solr query based on the field and value pair" do
-        allow(subject).to receive(:find).with(hash_including(:q => "field_name:(value)")).and_return(@mock_response)
-        subject.get_solr_response_for_field_values('field_name', 'value')
+        Deprecation.silence(Blacklight::SolrHelper) do
+          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(value)")).and_return(@mock_response)
+          subject.get_solr_response_for_field_values('field_name', 'value')
+        end
       end
 
       it "should OR multiple values together" do
-        allow(subject).to receive(:find).with(hash_including(:q => "field_name:(a OR b)")).and_return(@mock_response)
-        subject.get_solr_response_for_field_values('field_name', ['a', 'b'])
+        Deprecation.silence(Blacklight::SolrHelper) do
+          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(a OR b)")).and_return(@mock_response)
+          subject.get_solr_response_for_field_values('field_name', ['a', 'b'])
+        end
       end
 
       it "should escape crazy identifiers" do
-        allow(subject).to receive(:find).with(hash_including(:q => "field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
-        subject.get_solr_response_for_field_values('field_name', 'h://"\'')
+        Deprecation.silence(Blacklight::SolrHelper) do
+          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
+          subject.get_solr_response_for_field_values('field_name', 'h://"\'')
+        end
       end
     end
 
@@ -1297,7 +1241,7 @@ describe Blacklight::SolrHelper do
 #  nearby on shelf
   it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
     allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
-    expect { subject.find(:a => 123) }.to raise_exception(/Unable to connect to Solr instance/)
+    expect { subject.query_solr }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
   describe "grouped_key_for_results" do

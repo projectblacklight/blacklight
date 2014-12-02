@@ -6,6 +6,8 @@ module Blacklight
   #
   module RequestBuilders
     extend ActiveSupport::Concern
+    extend Deprecation
+    self.deprecation_horizon = 'blacklight 6.0'
 
     included do
       # We want to install a class-level place to keep 
@@ -21,7 +23,11 @@ module Blacklight
       # CatalogController.include ModuleDefiningNewMethod
       # CatalogController.solr_search_params_logic += [:new_method]
       # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-      self.solr_search_params_logic = [:default_solr_parameters , :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
+      self.solr_search_params_logic = [:default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
+
+      if self.respond_to?(:helper_method)
+        helper_method(:facet_limit_for)
+      end
     end
 
     # @returns a params hash for searching solr.
@@ -47,6 +53,86 @@ module Blacklight
       end
     end
     
+    ##
+    # Retrieve the results for a list of document ids
+    def solr_document_ids_params(ids = [])
+      solr_documents_by_field_values_params blacklight_config.solr_document_model.unique_key, ids
+    end
+
+    ##
+    # Retrieve the results for a list of document ids
+    # @deprecated
+    def solr_documents_by_field_values_params(field, values)
+      q = if Array(values).empty?
+        "{!lucene}NOT *:*"
+      else
+        "{!lucene}#{field}:(#{ Array(values).map { |x| solr_param_quote(x) }.join(" OR ")})"
+      end
+
+      { q: q, spellcheck: 'false', fl: "*" }
+    end
+
+    ##
+    # Retrieve a facet's paginated values.
+    def solr_facet_params(facet_field, user_params=params || {}, extra_controller_params={})
+      input = user_params.deep_merge(extra_controller_params)
+      facet_config = blacklight_config.facet_fields[facet_field]
+
+      solr_params = {}
+
+      # Now override with our specific things for fetching facet values
+      solr_params[:"facet.field"] = with_ex_local_param((facet_config.ex if facet_config.respond_to?(:ex)), facet_field)
+
+      limit = if respond_to?(:facet_list_limit)
+          facet_list_limit.to_s.to_i
+        elsif solr_params["facet.limit"]
+          solr_params["facet.limit"].to_i
+        else
+          20
+        end
+
+      # Need to set as f.facet_field.facet.* to make sure we
+      # override any field-specific default in the solr request handler.
+      solr_params[:"f.#{facet_field}.facet.limit"]  = limit + 1
+      solr_params[:"f.#{facet_field}.facet.offset"] = ( input.fetch(Blacklight::Solr::FacetPaginator.request_keys[:page] , 1).to_i - 1 ) * ( limit )
+      solr_params[:"f.#{facet_field}.facet.sort"] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]
+      solr_params[:rows] = 0
+
+      solr_params
+    end
+
+    ##
+    # Opensearch autocomplete parameters for plucking a field's value from the results
+    def solr_opensearch_params(field=nil)
+      if field.nil?
+        Deprecation.warn(Blacklight::RequestBuilders, "Calling Blacklight::RequestBuilders#solr_opensearch_params without a field name is deprecated and will be required in Blacklight 6.0.")
+      end
+
+      solr_params = {}
+      solr_params[:rows] ||= 10
+      solr_params[:fl] = field || blacklight_config.view_config('opensearch').title_field
+      solr_params
+    end
+
+    ##
+    # Pagination parameters for selecting the previous and next documents
+    # out of a result set.
+    def previous_and_next_document_params(index, window = 1)
+      solr_params = {}
+
+      if index > 0
+        solr_params[:start] = index - window # get one before
+        solr_params[:rows] = 2*window + 1 # and one after
+      else
+        solr_params[:start] = 0 # there is no previous doc
+        solr_params[:rows] = 2*window # but there should be one after
+      end
+
+      solr_params[:fl] = '*'
+      solr_params[:facet] = false
+      solr_params
+    end
+
     ####
     # Start with general defaults from BL config. Need to use custom
     # merge to dup values, to avoid later mutating the original by mistake.
@@ -55,7 +141,7 @@ module Blacklight
         solr_parameters[key] = value.dup rescue value
       end
     end
-    
+
     ##
     # Take the user-entered query, and put it in the solr params, 
     # including config's "search field" params for current search field. 
@@ -71,7 +157,7 @@ module Blacklight
       # rspec'd. 
       solr_parameters[:qt] = user_parameters[:qt] if user_parameters[:qt]
       
-      search_field_def = search_field_def_for_key(user_parameters[:search_field])
+      search_field_def = blacklight_config.search_fields[user_parameters[:search_field]]
       if (search_field_def)     
         solr_parameters[:qt] = search_field_def.qt
         solr_parameters.merge!( search_field_def.solr_parameters) if search_field_def.solr_parameters
@@ -253,7 +339,54 @@ module Blacklight
       end
     end
 
+
+    DEFAULT_FACET_LIMIT = 10
+
+    # Look up facet limit for given facet_field. Will look at config, and
+    # if config is 'true' will look up from Solr @response if available. If
+    # no limit is avaialble, returns nil. Used from #solr_search_params
+    # to supply f.fieldname.facet.limit values in solr request (no @response
+    # available), and used in display (with @response available) to create
+    # a facet paginator with the right limit.
+    def facet_limit_for(facet_field)
+      facet = blacklight_config.facet_fields[facet_field]
+      return if facet.blank?
+
+      if facet.limit and @response and @response.facet_by_field_name(facet_field)
+        limit = @response.facet_by_field_name(facet_field).limit
+
+        if limit.nil? # we didn't get or a set a limit, so infer one.
+          facet.limit if facet.limit != true
+        elsif limit == -1 # limit -1 is solr-speak for unlimited
+          nil
+        else
+          limit.to_i - 1 # we added 1 to find out if we needed to paginate
+        end
+      elsif facet.limit
+        facet.limit == true ? DEFAULT_FACET_LIMIT : facet.limit
+      end
+    end
+
+    ##
+    # A helper method used for generating solr LocalParams, put quotes
+    # around the term unless it's a bare-word. Escape internal quotes
+    # if needed.
+    def solr_param_quote(val, options = {})
+      options[:quote] ||= '"'
+      unless val =~ /^[a-zA-Z0-9$_\-\^]+$/
+        val = options[:quote] +
+          # Yes, we need crazy escaping here, to deal with regexp esc too!
+          val.gsub("'", "\\\\\'").gsub('"', "\\\\\"") +
+          options[:quote]
+      end
+      return val
+    end
+
     private
+
+    def should_add_to_solr field_name, field
+      field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
+    end
 
     ##
     # Convert a facet/value pair into a solr fq parameter
@@ -283,7 +416,6 @@ module Blacklight
         else
           "{!raw f=#{facet_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
       end
-
 
     end
   end

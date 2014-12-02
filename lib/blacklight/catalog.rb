@@ -11,6 +11,7 @@ module Blacklight::Catalog
 
   include Blacklight::Base
   include Blacklight::Catalog::ComponentConfiguration
+  include Blacklight::Facet
 
   SearchHistoryWindow = 100 # how many searches to save in session history
 
@@ -46,7 +47,7 @@ module Blacklight::Catalog
 
     # get single document from the solr index
     def show
-      @response, @document = get_solr_response_for_doc_id
+      @response, @document = get_solr_response_for_doc_id params[:id]
 
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
