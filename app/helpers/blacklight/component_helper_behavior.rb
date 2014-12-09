@@ -1,11 +1,11 @@
 module Blacklight
   module ComponentHelperBehavior
 
-    def action_label action, opts
+    def document_action_label action, opts
       t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
     end
 
-    def action_path action_opts, url_opts = nil
+    def document_action_path action_opts, url_opts = nil
       self.send(action_opts.path ||"#{action_opts.key}_#{controller_name}_path", url_opts)
     end
 
