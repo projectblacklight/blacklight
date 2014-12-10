@@ -236,6 +236,11 @@ module Blacklight::SolrHelper
     @solr_repository ||= Blacklight::SolrRepository.new(blacklight_config)
   end
 
+  def blacklight_solr
+    solr_repository.blacklight_solr
+  end
+  deprecation_deprecate :blacklight_solr
+
   private
 
   ##
