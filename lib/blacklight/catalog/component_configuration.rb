@@ -34,8 +34,10 @@ module Blacklight
       #                             The proc will receive the action configuration and the document or documents for the action.
       def add_show_tools_partial name, opts = {}
         blacklight_config.add_show_tools_partial(name, opts)
+
         define_method name do
           @response, @documents = action_documents
+
           if request.post? and
               opts[:callback] and
               (opts[:validator].blank? || self.send(opts[:validator]))
@@ -54,7 +56,7 @@ module Blacklight
               format.js { render :layout => false }
             end
           end
-        end
+        end unless method_defined? name
       end
 
       ##
