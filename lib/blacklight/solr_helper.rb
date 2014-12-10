@@ -67,19 +67,7 @@ module Blacklight::SolrHelper
 
   # returns a params hash for finding a single solr document (CatalogController #show action)
   def solr_doc_params(id=nil)
-    id ||= params[:id]
-
-    # add our document id to the document_unique_id_param query parameter
-    p = blacklight_config.default_document_solr_params.merge({
-      # this assumes the request handler will map the unique id param
-      # to the unique key field using either solr local params, the
-      # real-time get handler, etc.
-      blacklight_config.document_unique_id_param => id
-    })
-
-    p[:qt] ||= blacklight_config.document_solr_request_handler
-
-    p
+    default_solr_doc_params(id)
   end
   deprecation_deprecate :solr_doc_params
 
@@ -120,6 +108,16 @@ module Blacklight::SolrHelper
       Deprecation.warn Blacklight::SolrHelper, "Calling #get_solr_response_for_doc_id without an explicit id argument is deprecated"
       id ||= params[:id]
     end
+
+    old_solr_doc_params = Deprecation.silence(Blacklight::SolrHelper) do
+      solr_doc_params(id)
+    end
+
+    if default_solr_doc_params(id) != old_solr_doc_params
+      Deprecation.warn Blacklight::SolrHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering"
+      extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
+    end
+
     solr_response = solr_repository.find id, extra_controller_params
     [solr_response, solr_response.documents.first]
   end
@@ -236,6 +234,26 @@ module Blacklight::SolrHelper
 
   def solr_repository
     @solr_repository ||= Blacklight::SolrRepository.new(blacklight_config)
+  end
+
+  private
+
+  ##
+  # @deprecated
+  def default_solr_doc_params(id=nil)
+    id ||= params[:id]
+
+    # add our document id to the document_unique_id_param query parameter
+    p = blacklight_config.default_document_solr_params.merge({
+      # this assumes the request handler will map the unique id param
+      # to the unique key field using either solr local params, the
+      # real-time get handler, etc.
+      blacklight_config.document_unique_id_param => id
+    })
+
+    p[:qt] ||= blacklight_config.document_solr_request_handler
+
+    p
   end
 
 end
