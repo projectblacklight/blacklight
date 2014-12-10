@@ -116,6 +116,10 @@ module Blacklight::SolrHelper
   # retrieve a solr document, given the doc id
   # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
+    if id.nil?
+      Deprecation.warn Blacklight::SolrHelper, "Calling #get_solr_response_for_doc_id without an explicit id argument is deprecated"
+      id ||= params[:id]
+    end
     solr_response = solr_repository.find id, extra_controller_params
     [solr_response, solr_response.documents.first]
   end
