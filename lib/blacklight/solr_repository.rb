@@ -25,7 +25,7 @@ module Blacklight
     # Execute a search query against solr
     # @param [Hash] solr query parameters
     def search params = {}
-      send_and_receive blacklight_config.solr_path, { qt: blacklight_config.qt }.merge(params)
+      send_and_receive blacklight_config.solr_path, params.merge({ qt: blacklight_config.qt })
     end
 
     ##
@@ -43,7 +43,7 @@ module Blacklight
         key = blacklight_config.http_method == :post ? :data : :params
         res = blacklight_solr.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
 
-        solr_response = blacklight_config.solr_response_model.new(res, HashWithIndifferentAccess.new(solr_params), solr_document_model: blacklight_config.solr_document_model)
+        solr_response = blacklight_config.solr_response_model.new(res, solr_params, solr_document_model: blacklight_config.solr_document_model)
 
         Rails.logger.debug("Solr query: #{solr_params.inspect}")
         Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
