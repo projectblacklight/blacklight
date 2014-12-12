@@ -11,7 +11,7 @@ module Blacklight
 
       add_show_tools_partial(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
       add_show_tools_partial(:refworks, if: :render_refworks_action?, modal: false)
-      add_show_tools_partial(:endnote, if: :render_endnote_action? )
+      add_show_tools_partial(:endnote, if: :render_endnote_action?, modal: false, path: :single_endnote_catalog_path )
       add_show_tools_partial(:email, callback: :email_action, validator: :validate_email_params)
       add_show_tools_partial(:sms, callback: :sms_action, validator: :validate_sms_params)
       add_show_tools_partial(:citation)

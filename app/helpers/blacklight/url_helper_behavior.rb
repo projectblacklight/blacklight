@@ -304,7 +304,8 @@ module Blacklight::UrlHelperBehavior
     end
   end
 
-  def endnote_catalog_path opts = {}
+  # For exporting a single endnote document. (endnote_catalog_path is defined by blacklight-marc and it is used for multiple document export)
+  def single_endnote_catalog_path opts = {}
     catalog_path(opts.merge(format: 'endnote'))
   end
 
