@@ -16,7 +16,11 @@ module Blacklight
     # @param [String] document's unique key value
     # @param [Hash] additional solr query parameters
     def find id, params = {}
-      solr_response = send_and_receive blacklight_config.document_solr_path || blacklight_config.solr_path, {qt: blacklight_config.document_solr_request_handler}.merge(blacklight_config.default_document_solr_params.merge(params).merge(blacklight_config.document_unique_id_param => id))
+      doc_params = params.reverse_merge(qt: blacklight_config.document_solr_request_handler)
+                         .reverse_merge(blacklight_config.default_document_solr_params)
+                         .merge(blacklight_config.document_unique_id_param => id)
+      
+      solr_response = send_and_receive blacklight_config.document_solr_path || blacklight_config.solr_path, doc_params
       raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.documents.empty?
       solr_response
     end
@@ -25,7 +29,7 @@ module Blacklight
     # Execute a search query against solr
     # @param [Hash] solr query parameters
     def search params = {}
-      send_and_receive blacklight_config.solr_path, { qt: blacklight_config.qt }.merge(params)
+      send_and_receive blacklight_config.solr_path, params.reverse_merge(qt: blacklight_config.qt)
     end
 
     ##
