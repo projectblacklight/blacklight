@@ -24,6 +24,8 @@ else
 
   if ENV['RAILS_VERSION'] and ENV['RAILS_VERSION'] =~ /^4.2/
     gem 'responders', "~> 2.0"
+    gem 'sass-rails', ">= 5.0"
+  else
+    gem 'sass-rails', "< 5.0"
   end
-  gem 'sass-rails'
 end
