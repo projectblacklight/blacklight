@@ -7,22 +7,22 @@ rvm:
 matrix:
   include:
     - rvm: 2.1.4
-      env: "RAILS_VERSION=4.0.11"
+      env: "RAILS_VERSION=4.0.12"
     - rvm: 2.0.0
-      env: "RAILS_VERSION=4.1.7"
+      env: "RAILS_VERSION=4.1.8"
     - rvm: 1.9.3
-      env: "RAILS_VERSION=4.1.7"
+      env: "RAILS_VERSION=4.1.8"
     - rvm: jruby
-      env: "RAILS_VERSION=4.1.7 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+      env: "RAILS_VERSION=4.1.8 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
     - rvm: 2.1.4
-      env: "RAILS_VERSION=4.2.0.rc1"
+      env: "RAILS_VERSION=4.2.0.rc3"
 
 before_install:
   - gem install bundler
 
 env:
- - "RAILS_VERSION=3.2.20"
- - "RAILS_VERSION=4.1.7"
+ - "RAILS_VERSION=3.2.21"
+ - "RAILS_VERSION=4.1.8"
 
 notifications:
   irc: "irc.freenode.org#blacklight"
