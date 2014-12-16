@@ -20,8 +20,8 @@ module Blacklight::Catalog
   included do
     helper_method :sms_mappings, :has_search_parameters?
 
-    # Whenever an action raises SolrHelper::InvalidSolrID, this block gets executed.
-    # Hint: the SolrHelper #get_solr_response_for_doc_id method raises this error,
+    # Whenever an action raises SearchHelper::InvalidSolrID, this block gets executed.
+    # Hint: the SearchHelper #get_solr_response_for_doc_id method raises this error,
     # which is used in the #show action here.
     rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
 

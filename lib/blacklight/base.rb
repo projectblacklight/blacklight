@@ -1,13 +1,13 @@
 # -*- encoding : utf-8 -*-
-module Blacklight::Base   
+module Blacklight::Base
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-  include Blacklight::SolrHelper
+  include Blacklight::SearchHelper
 
   include Blacklight::Catalog::SearchContext
 
-  included do  
+  included do
     # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
     # The index action will more than likely throw this one.
     # Example, when the standard query parser is used, and a user submits a "bad" query.

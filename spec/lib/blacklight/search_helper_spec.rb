@@ -9,15 +9,15 @@ require 'spec_helper'
 #  to talk with solr and get results)? when we do a document request, does
 #  blacklight code get a single document returned?)
 #
-describe Blacklight::SolrHelper do
+describe Blacklight::SearchHelper do
 
   let(:default_method_chain) { CatalogController.solr_search_params_logic }
 
-  # SolrHelper is a controller layer mixin, which depends
+  # SearchHelper is a controller layer mixin, which depends
   # on being mixed into a class which has #params (from Rails)
   # and #blacklight_config
-  class SolrHelperTestClass
-    include Blacklight::SolrHelper
+  class SearchHelperTestClass
+    include Blacklight::SearchHelper
 
     attr_accessor :blacklight_config
     attr_accessor :repository
@@ -33,7 +33,7 @@ describe Blacklight::SolrHelper do
     end
   end
 
-  subject { SolrHelperTestClass.new blacklight_config, blacklight_solr }
+  subject { SearchHelperTestClass.new blacklight_config, blacklight_solr }
 
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
@@ -357,7 +357,7 @@ describe Blacklight::SolrHelper do
   
   describe "get_facet_pagination", :integration => true do
     before do
-      Deprecation.silence(Blacklight::SolrHelper) do
+      Deprecation.silence(Blacklight::SearchHelper) do
         @facet_paginator = subject.get_facet_pagination(@facet_field)
       end
     end
@@ -718,21 +718,21 @@ describe Blacklight::SolrHelper do
 
   describe "solr_doc_params" do
     it "should default to using the 'document' requestHandler" do
-      Deprecation.silence(Blacklight::SolrHelper) do
+      Deprecation.silence(Blacklight::SearchHelper) do
         doc_params = subject.solr_doc_params('asdfg')
         expect(doc_params[:qt]).to eq 'document'
       end
     end
 
     it "should default to using the id parameter when sending solr queries" do
-      Deprecation.silence(Blacklight::SolrHelper) do
+      Deprecation.silence(Blacklight::SearchHelper) do
         doc_params = subject.solr_doc_params('asdfg')
         expect(doc_params[:id]).to eq 'asdfg'
       end
     end
 
     it "should use the document_unique_id_param configuration" do
-      Deprecation.silence(Blacklight::SolrHelper) do
+      Deprecation.silence(Blacklight::SearchHelper) do
         allow(blacklight_config).to receive_messages(document_unique_id_param: :ids)
         doc_params = subject.solr_doc_params('asdfg')
         expect(doc_params[:ids]).to eq 'asdfg'
@@ -741,7 +741,7 @@ describe Blacklight::SolrHelper do
 
     describe "blacklight config's default_document_solr_parameters" do
       it "should use parameters from the controller's default_document_solr_parameters" do
-        Deprecation.silence(Blacklight::SolrHelper) do
+        Deprecation.silence(Blacklight::SearchHelper) do
           blacklight_config.default_document_solr_params = { :qt => 'my_custom_handler', :asdf => '1234' }
           doc_params = subject.solr_doc_params('asdfg')
           expect(doc_params[:qt]).to eq 'my_custom_handler'
@@ -763,7 +763,7 @@ describe Blacklight::SolrHelper do
     end
 =end
     it "should respect the configuration-supplied unique id" do
-      Deprecation.silence(Blacklight::SolrHelper) do
+      Deprecation.silence(Blacklight::SearchHelper) do
         doc_params = subject.solr_doc_params('"Strong Medicine speaks"')
         expect(doc_params[:id]).to eq '"Strong Medicine speaks"'
       end
@@ -776,7 +776,7 @@ describe Blacklight::SolrHelper do
   describe "Get Document Via Search", :integration => true do
     before do
       @doc_row = 3
-      Deprecation.silence(Blacklight::SolrHelper) do
+      Deprecation.silence(Blacklight::SearchHelper) do
         @doc = subject.get_single_doc_via_search(@doc_row, :q => @all_docs_query)
       end
     end
@@ -805,7 +805,7 @@ describe Blacklight::SolrHelper do
     end
 
     it "should limit search result by facets when supplied" do
-      Deprecation.silence(Blacklight::SolrHelper) do
+      Deprecation.silence(Blacklight::SearchHelper) do
         doc2 = subject.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
         expect(doc2[:id]).not_to be_nil
       end
@@ -908,21 +908,21 @@ describe Blacklight::SolrHelper do
         allow(@mock_response).to receive_messages(documents: [])
       end
       it "should contruct a solr query based on the field and value pair" do
-        Deprecation.silence(Blacklight::SolrHelper) do
+        Deprecation.silence(Blacklight::SearchHelper) do
           allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(value)")).and_return(@mock_response)
           subject.get_solr_response_for_field_values('field_name', 'value')
         end
       end
 
       it "should OR multiple values together" do
-        Deprecation.silence(Blacklight::SolrHelper) do
+        Deprecation.silence(Blacklight::SearchHelper) do
           allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(a OR b)")).and_return(@mock_response)
           subject.get_solr_response_for_field_values('field_name', ['a', 'b'])
         end
       end
 
       it "should escape crazy identifiers" do
-        Deprecation.silence(Blacklight::SolrHelper) do
+        Deprecation.silence(Blacklight::SearchHelper) do
           allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
           subject.get_solr_response_for_field_values('field_name', 'h://"\'')
         end
@@ -963,7 +963,7 @@ describe Blacklight::SolrHelper do
   end
 
   describe "#get_previous_and_next_documents_for_search" do
-    let(:pre_query) { SolrHelperTestClass.new blacklight_config, blacklight_solr }
+    let(:pre_query) { SearchHelperTestClass.new blacklight_config, blacklight_solr }
     before do
       @full_response, @all_docs = pre_query.search_results({ q: '', per_page: '100' }, default_method_chain)
     end

@@ -1,6 +1,6 @@
 module Blacklight
   ##
-  # This module contains methods that are specified by SolrHelper.solr_search_params_logic
+  # This module contains methods that are specified by SearchHelper.solr_search_params_logic
   # They transform user parameters into parameters that are sent as a request to Solr when
   # RequestBuilders#solr_search_params is called.
   #
