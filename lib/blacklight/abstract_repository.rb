@@ -18,6 +18,9 @@ module Blacklight
 
 
     protected
+      def connection_config
+        @connection_config ||= Blacklight.connection_config
+      end
 
       def logger
         @logger ||= Rails.logger if defined? Rails
