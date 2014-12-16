@@ -61,7 +61,7 @@ module Blacklight::SolrHelper
 
     solr_params[:qt] ||= blacklight_config.qt
 
-    solr_repository.send_and_receive path, solr_params
+    repository.send_and_receive path, solr_params
   end
   deprecation_deprecate :find
 
@@ -97,7 +97,7 @@ module Blacklight::SolrHelper
   def query_solr(user_params = params || {}, extra_controller_params = {})
     solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
 
-    solr_repository.search(solr_params)
+    repository.search(solr_params)
   end
 
   # a solr query method
@@ -118,7 +118,7 @@ module Blacklight::SolrHelper
       extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
     end
 
-    solr_response = solr_repository.find id, extra_controller_params
+    solr_response = repository.find id, extra_controller_params
     [solr_response, solr_response.documents.first]
   end
   
@@ -192,7 +192,7 @@ module Blacklight::SolrHelper
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
-    solr_response = solr_repository.search(solr_params)
+    solr_response = repository.search(solr_params)
     solr_response.documents.first
   end
   deprecation_deprecate :get_single_doc_via_search
@@ -232,12 +232,21 @@ module Blacklight::SolrHelper
     blacklight_config.index.group
   end
 
-  def solr_repository
-    @solr_repository ||= Blacklight::SolrRepository.new(blacklight_config)
+  def repository_class
+    Blacklight::SolrRepository
   end
 
+  def repository
+    @repository ||= repository_class.new(blacklight_config)
+  end
+
+  def solr_repository
+    repository
+  end
+  deprecation_deprecate :solr_repository
+
   def blacklight_solr
-    solr_repository.blacklight_solr
+    repository.blacklight_solr
   end
   deprecation_deprecate :blacklight_solr
 
