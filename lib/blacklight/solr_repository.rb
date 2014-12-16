@@ -1,16 +1,5 @@
 module Blacklight
-  class SolrRepository
-    attr_accessor :blacklight_config, :blacklight_solr
-
-    # ActiveSupport::Benchmarkable requires a logger method
-    attr_accessor :logger
-
-    include ActiveSupport::Benchmarkable
-
-    def initialize blacklight_config
-      @blacklight_config = blacklight_config
-    end
-
+  class SolrRepository < AbstractRepository
     ##
     # Find a single solr document result (by id) using the document configuration
     # @param [String] document's unique key value
@@ -19,7 +8,7 @@ module Blacklight
       doc_params = params.reverse_merge(qt: blacklight_config.document_solr_request_handler)
                          .reverse_merge(blacklight_config.default_document_solr_params)
                          .merge(blacklight_config.document_unique_id_param => id)
-      
+
       solr_response = send_and_receive blacklight_config.document_solr_path || blacklight_config.solr_path, doc_params
       raise Blacklight::Exceptions::InvalidSolrID.new if solr_response.documents.empty?
       solr_response
@@ -61,13 +50,8 @@ module Blacklight
       @blacklight_solr ||= RSolr.connect(blacklight_solr_config)
     end
 
-    protected
     def blacklight_solr_config
       @blacklight_solr_config ||= Blacklight.solr_config
-    end
-
-    def logger
-      @logger ||= Rails.logger if defined? Rails
     end
   end
 end

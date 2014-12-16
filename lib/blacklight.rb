@@ -9,11 +9,12 @@ module Blacklight
   autoload :SearchBuilder, 'blacklight/search_builder'
 
   autoload :Solr, 'blacklight/solr'
-  
-  autoload :SolrHelper, 'blacklight/solr_helper'
-  autoload :SolrRepository, 'blacklight/solr_repository'
-  autoload :RequestBuilders, 'blacklight/request_builders'
-  
+
+  autoload :SolrHelper,         'blacklight/solr_helper'
+  autoload :AbstractRepository, 'blacklight/abstract_repository'
+  autoload :SolrRepository,     'blacklight/solr_repository'
+  autoload :RequestBuilders,    'blacklight/request_builders'
+
   autoload :Exceptions, 'blacklight/exceptions'
 
   autoload :User, 'blacklight/user'
@@ -21,7 +22,7 @@ module Blacklight
   autoload :Controller,        'blacklight/controller'
   autoload :Base,              'blacklight/base'
   autoload :Catalog,           'blacklight/catalog'
-  autoload :TokenBasedUser,     'blacklight/token_based_user'
+  autoload :TokenBasedUser,    'blacklight/token_based_user'
   autoload :Bookmarks,         'blacklight/bookmarks'
   autoload :DocumentPresenter, 'blacklight/document_presenter'
 
