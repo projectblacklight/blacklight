@@ -49,21 +49,35 @@ describe Blacklight::SearchHelper do
     @subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"rows"=>"10", :"q"=>"wome"}
   end
 
+  describe "#solr_search_params_logic" do
+    it "allows customization of solr_search_params_logic" do
+      # Normally you'd include a new module into (eg) your CatalogController
+      # but a sub-class defininig it directly is simpler for test.
+      allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
+        solr_params[:wt] = "TESTING"
+      end
+      Deprecation.silence(SearchHelperTestClass) do
+        subject.solr_search_params_logic += [:add_foo_to_solr_params]
+      end
+      expect(subject.solr_search_params[:wt]).to eq "TESTING"
+    end
+  end
+
+  describe "#search_params_logic" do
+    it "allows customization of solr_search_params_logic" do
+      # Normally you'd include a new module into (eg) your CatalogController
+      # but a sub-class defininig it directly is simpler for test.
+      allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
+        solr_params[:wt] = "TESTING"
+      end
+      subject.search_params_logic += [:add_foo_to_solr_params]
+      expect(subject.solr_search_params[:wt]).to eq "TESTING"
+    end
+  end
+
   # SPECS for actual search parameter generation
   describe "solr_search_params" do
-    it "allows customization of solr_search_params_logic" do
-        # Normally you'd include a new module into (eg) your CatalogController
-        # but a sub-class defininig it directly is simpler for test.             
-        allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
-          solr_params[:wt] = "TESTING"
-        end
-                         
-        subject.solr_search_params_logic += [:add_foo_to_solr_params]
-                
-        expect(subject.solr_search_params[:wt]).to eq "TESTING"                
-    end
-    
-    
+
     describe 'for an entirely empty search' do
       before do
         @produced_params = subject.solr_search_params.with_indifferent_access

@@ -1,6 +1,6 @@
 module Blacklight
   ##
-  # This module contains methods that are specified by SearchHelper.solr_search_params_logic
+  # This module contains methods that are specified by SearchHelper.search_params_logic
   # They transform user parameters into parameters that are sent as a request to Solr when
   # RequestBuilders#solr_search_params is called.
   #
@@ -10,24 +10,47 @@ module Blacklight
     self.deprecation_horizon = 'blacklight 6.0'
 
     included do
-      # We want to install a class-level place to keep 
-      # solr_search_params_logic method names. Compare to before_filter,
+      extend Deprecation
+      self.deprecation_horizon = 'blacklight 6.0'
+      # We want to install a class-level place to keep
+      # search_params_logic method names. Compare to before_filter,
       # similar design. Since we're a module, we have to add it in here.
       # There are too many different semantic choices in ruby 'class variables',
-      # we choose this one for now, supplied by Rails. 
-      class_attribute :solr_search_params_logic
+      # we choose this one for now, supplied by Rails.
+      class_attribute :search_params_logic
+
+      alias_method :solr_search_params_logic, :search_params_logic
+      deprecation_deprecate :solr_search_params_logic
+
+      alias_method :solr_search_params_logic=, :search_params_logic=
+      deprecation_deprecate :solr_search_params_logic=
 
       # Set defaults. Each symbol identifies a _method_ that must be in
       # this class, taking two parameters (solr_parameters, user_parameters)
       # Can be changed in local apps or by plugins, eg:
       # CatalogController.include ModuleDefiningNewMethod
-      # CatalogController.solr_search_params_logic += [:new_method]
-      # CatalogController.solr_search_params_logic.delete(:we_dont_want)
-      self.solr_search_params_logic = [:default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
+      # CatalogController.search_params_logic += [:new_method]
+      # CatalogController.search_params_logic.delete(:we_dont_want)
+      self.search_params_logic = [:default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
 
       if self.respond_to?(:helper_method)
         helper_method(:facet_limit_for)
       end
+    end
+
+    module ClassMethods
+      extend Deprecation
+      self.deprecation_horizon = 'blacklight 6.0'
+
+      def solr_search_params_logic
+        search_params_logic
+      end
+      deprecation_deprecate :solr_search_params_logic
+
+      def solr_search_params_logic= logic
+        self.search_params_logic= logic
+      end
+      deprecation_deprecate :solr_search_params_logic=
     end
 
     # @returns a params hash for searching solr.
@@ -47,7 +70,7 @@ module Blacklight
     # Incoming parameter :f is mapped to :fq solr parameter.
     def solr_search_params(user_params = params || {})
       Blacklight::Solr::Request.new.tap do |solr_parameters|
-        solr_search_params_logic.each do |method_name|
+        search_params_logic.each do |method_name|
           send(method_name, solr_parameters, user_params)
         end
       end
