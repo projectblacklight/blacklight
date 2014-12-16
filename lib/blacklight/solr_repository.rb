@@ -58,15 +58,15 @@ module Blacklight
     end
     deprecation_deprecate :blacklight_solr=
 
-
     def blacklight_solr_config
-      @blacklight_solr_config ||= Blacklight.solr_config
+      connection_config
     end
+    deprecation_deprecate :blacklight_solr_config
 
     protected
 
       def build_connection
-        RSolr.connect(blacklight_solr_config)
+        RSolr.connect(connection_config)
       end
   end
 end
