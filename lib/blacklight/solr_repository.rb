@@ -1,5 +1,7 @@
 module Blacklight
   class SolrRepository < AbstractRepository
+    extend Deprecation
+    self.deprecation_horizon = 'blacklight 6.0'
     ##
     # Find a single solr document result (by id) using the document configuration
     # @param [String] document's unique key value
@@ -34,7 +36,7 @@ module Blacklight
     def send_and_receive(path, solr_params = {})
       benchmark("Solr fetch", level: :debug) do
         key = blacklight_config.http_method == :post ? :data : :params
-        res = blacklight_solr.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
+        res = connection.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
 
         solr_response = blacklight_config.solr_response_model.new(res, solr_params, solr_document_model: blacklight_config.solr_document_model)
 
@@ -43,15 +45,28 @@ module Blacklight
         solr_response
       end
     rescue Errno::ECONNREFUSED => e
-      raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{blacklight_solr.inspect}")
+      raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{connection.inspect}")
     end
 
     def blacklight_solr
-      @blacklight_solr ||= RSolr.connect(blacklight_solr_config)
+      connection
     end
+    deprecation_deprecate :blacklight_solr
+
+    def blacklight_solr=(conn)
+      self.connection = conn
+    end
+    deprecation_deprecate :blacklight_solr=
+
 
     def blacklight_solr_config
       @blacklight_solr_config ||= Blacklight.solr_config
     end
+
+    protected
+
+      def build_connection
+        RSolr.connect(blacklight_solr_config)
+      end
   end
 end
