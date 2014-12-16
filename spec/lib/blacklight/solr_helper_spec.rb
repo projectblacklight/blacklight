@@ -20,10 +20,10 @@ describe Blacklight::SolrHelper do
     attr_accessor :blacklight_config
     attr_accessor :repository
 
-    def initialize blacklight_config, blacklight_solr
+    def initialize blacklight_config, conn
       self.blacklight_config = blacklight_config
       self.repository = Blacklight::SolrRepository.new(blacklight_config)
-      self.repository.blacklight_solr = blacklight_solr
+      self.repository.connection = conn
     end
 
     def params

@@ -1,6 +1,7 @@
 module Blacklight
   class AbstractRepository
-    attr_accessor :blacklight_config, :blacklight_solr
+    attr_accessor :blacklight_config
+    attr_writer :connection
 
     # ActiveSupport::Benchmarkable requires a logger method
     attr_accessor :logger
@@ -10,6 +11,11 @@ module Blacklight
     def initialize blacklight_config
       @blacklight_config = blacklight_config
     end
+
+    def connection
+      @connection ||= build_connection
+    end
+
 
     protected
 
