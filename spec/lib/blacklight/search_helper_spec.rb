@@ -36,11 +36,11 @@ describe Blacklight::SearchHelper do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
   let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config) }
+  let(:single_word_query) { 'include' }
 
   before(:each) do
     @all_docs_query = ''
     @no_docs_query = 'zzzzzzzzzzzz'
-    @single_word_query = 'include'
     @mult_word_query = 'tibetan history'
   #  f[format][]=Book&f[language_facet][]=English
     @single_facet = {:format=>'Book'}
@@ -741,10 +741,18 @@ describe Blacklight::SearchHelper do
 
     describe '#query_solr' do
       it 'should have results' do
-        solr_response = subject.query_solr(:q => @single_word_query)
-        expect(solr_response.docs).to have_at_least(1).result
+        Deprecation.silence(Blacklight::SearchHelper) do
+          solr_response = subject.query_solr(:q => single_word_query)
+          expect(solr_response.docs).to have_at_least(1).result
+        end
       end
+    end
 
+    describe '#query_repository' do
+      it 'should have results' do
+        response = subject.query_repository(q: single_word_query)
+        expect(response.docs).to have_at_least(1).result
+      end
     end
 
     describe 'for All Docs Query, No Facets' do
@@ -760,14 +768,8 @@ describe Blacklight::SearchHelper do
 
 
     describe "Single Word Query with no Facets" do
-    	
       it 'should have results' do
-        solr_response = subject.query_solr(:q => @single_word_query)
-        expect(solr_response.docs).to have_at_least(1).result
-      end
-
-      it 'should have results' do
-        (solr_response, document_list) = subject.get_search_results(:q => @single_word_query)
+        (solr_response, document_list) = subject.get_search_results(:q => single_word_query)
         expect(solr_response.docs).to have(document_list.size).results
         expect(solr_response.docs).to have_at_least(1).result
       end
@@ -800,7 +802,7 @@ describe Blacklight::SearchHelper do
 
     describe "Single Word Query with One Facet" do
       it 'should have results' do
-        (solr_response, document_list) = subject.get_search_results(:q => @single_word_query, :f => @single_facet)
+        (solr_response, document_list) = subject.get_search_results(:q => single_word_query, :f => @single_facet)
         expect(solr_response.docs).to have(document_list.size).results
         expect(solr_response.docs).to have_at_least(1).result
       end
@@ -1239,9 +1241,9 @@ describe Blacklight::SearchHelper do
 # TODO: maybe eventually check other types of solr requests
 #  more like this
 #  nearby on shelf
-  it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
+  it "should raise an exception if RSolr can't connect to the Solr instance" do
     allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
-    expect { subject.query_solr }.to raise_exception(/Unable to connect to Solr instance/)
+    expect { subject.query_repository }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
   describe "grouped_key_for_results" do

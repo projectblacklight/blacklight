@@ -78,7 +78,7 @@ module Blacklight::SearchHelper
   # Returns a two-element array (aka duple) with first the solr response object,
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(user_params = params || {}, extra_controller_params = {})
-    solr_response = query_solr(user_params, extra_controller_params)
+    solr_response = query_repository(user_params, extra_controller_params)
 
     case
     when (solr_response.grouped? && grouped_key_for_results)
@@ -90,11 +90,17 @@ module Blacklight::SearchHelper
     end
   end
 
-  	
   # a solr query method
   # given a user query,
   # @return [Blacklight::SolrResponse] the solr response object
   def query_solr(user_params = params || {}, extra_controller_params = {})
+    query_repository(user_params, extra_controller_params)
+  end
+  deprecation_deprecate :query_solr
+
+  # given a user query,
+  # @return [Blacklight::SolrResponse] the solr response object
+  def query_repository(user_params = params || {}, extra_controller_params = {})
     solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
 
     repository.search(solr_params)
@@ -137,7 +143,7 @@ module Blacklight::SearchHelper
       extra_controller_params ||= {}
     end
 
-    solr_response = query_solr(user_params, extra_controller_params.merge(solr_document_ids_params(ids)))
+    solr_response = query_repository(user_params, extra_controller_params.merge(solr_document_ids_params(ids)))
 
     [solr_response, solr_response.documents]
   end
@@ -145,7 +151,7 @@ module Blacklight::SearchHelper
   # given a field name and array of values, get the matching SOLR documents
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
   def get_solr_response_for_field_values(field, values, extra_controller_params = {})
-    solr_response = query_solr(params, extra_controller_params.merge(solr_documents_by_field_values_params(field, values)))
+    solr_response = query_repository(params, extra_controller_params.merge(solr_documents_by_field_values_params(field, values)))
 
     [solr_response, solr_response.documents]
   end
@@ -156,7 +162,7 @@ module Blacklight::SearchHelper
   # @return [Blacklight::SolrResponse] the solr response
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
-    query_solr(user_params, extra_controller_params.merge(solr_facet_params(facet_field, user_params, extra_controller_params)))
+    query_repository(user_params, extra_controller_params.merge(solr_facet_params(facet_field, user_params, extra_controller_params)))
   end
 
   # a solr query method
@@ -201,7 +207,7 @@ module Blacklight::SearchHelper
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
 
-    solr_response = query_solr(request_params, extra_controller_params.merge(previous_and_next_document_params(index)))
+    solr_response = query_repository(request_params, extra_controller_params.merge(previous_and_next_document_params(index)))
 
     document_list = solr_response.documents
 
@@ -221,7 +227,7 @@ module Blacklight::SearchHelper
   def get_opensearch_response(field=nil, request_params = params || {}, extra_controller_params={})
     field ||= blacklight_config.view_config('opensearch').title_field
 
-    response = query_solr(request_params, solr_opensearch_params(field).merge(extra_controller_params))
+    response = query_repository(request_params, solr_opensearch_params(field).merge(extra_controller_params))
 
     [response.params[:q], response.documents.flat_map {|doc| doc[field] }.uniq]
   end
