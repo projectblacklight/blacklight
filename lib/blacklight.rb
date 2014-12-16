@@ -61,6 +61,7 @@ module Blacklight
   end
 
   def self.solr
+    Deprecation.warn Blacklight, "Blacklight.solr is deprecated and will be removed in 6.0.0. Use Blacklight::SolrRepository#connection instead", caller
     @solr ||=  RSolr.connect(Blacklight.connection_config)
   end
 

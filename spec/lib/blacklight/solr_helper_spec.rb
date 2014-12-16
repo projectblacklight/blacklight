@@ -35,7 +35,7 @@ describe Blacklight::SolrHelper do
 
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
-  let(:blacklight_solr) { Blacklight.solr }
+  let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config) }
 
   before(:each) do
     @all_docs_query = ''

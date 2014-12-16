@@ -14,8 +14,9 @@ namespace :blacklight do
     desc "Put sample data into solr"
     task :seed do
       docs = YAML::load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
-      Blacklight.solr.add docs
-      Blacklight.solr.commit
+      conn = RSolr.connect(Blacklight.connection_config)
+      conn.add docs
+      conn.commit
     end
   end
 
@@ -25,11 +26,12 @@ namespace :blacklight do
       errors = 0
       verbose = ENV.fetch('VERBOSE', false).present?
 
-      puts "[#{Blacklight.solr.uri}]"
+      conn = RSolr.connect(Blacklight.connection_config)
+      puts "[#{conn.uri}]"
 
       print " - admin/ping: "
       begin
-        response = Blacklight.solr.send_and_receive 'admin/ping', {}
+        response = conn.send_and_receive 'admin/ping', {}
         puts response['status']
         errors += 1 unless response['status'] == "OK"
       rescue Exception => e
