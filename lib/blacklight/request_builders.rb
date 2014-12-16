@@ -54,6 +54,7 @@ module Blacklight
     end
 
     # @returns a params hash for searching solr.
+    # @deprecated use #search_params instead
     # The CatalogController #index action uses this.
     # Solr parameters can come from a number of places. From lowest
     # precedence to highest:
@@ -69,13 +70,33 @@ module Blacklight
     #
     # Incoming parameter :f is mapped to :fq solr parameter.
     def solr_search_params(user_params = params || {})
+      search_params(user_params)
+    end
+    deprecation_deprecate :solr_search_params
+
+    # @returns a Request object for searching the repository.
+    # The CatalogController #index action uses this.
+    # Solr parameters can come from a number of places. From lowest
+    # precedence to highest:
+    #  1. General defaults in blacklight config (are trumped by)
+    #  2. defaults for the particular search field identified by  params[:search_field] (are trumped by)
+    #  3. certain parameters directly on input HTTP query params
+    #     * not just any parameter is grabbed willy nilly, only certain ones are allowed by HTTP input)
+    #     * for legacy reasons, qt in http query does not over-ride qt in search field definition default.
+    #  4.  extra parameters passed in as argument.
+    #
+    # spellcheck.q will be supplied with the [:q] value unless specifically
+    # specified otherwise.
+    #
+    # Incoming parameter :f is mapped to :fq solr parameter.
+    def search_params(user_params = params || {})
       Blacklight::Solr::Request.new.tap do |solr_parameters|
         search_params_logic.each do |method_name|
           send(method_name, solr_parameters, user_params)
         end
       end
     end
-    
+
     ##
     # Retrieve the results for a list of document ids
     def solr_document_ids_params(ids = [])

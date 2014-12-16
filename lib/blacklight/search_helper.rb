@@ -10,7 +10,7 @@
 #   
 #     include Blacklight::Catalog
 #   
-#     def solr_search_params
+#     def search_params
 #       super.merge :per_page=>10
 #     end
 #   end
@@ -25,7 +25,7 @@
 #     include Blacklight::Catalog
 #     include LocalSearchHelperExtension
 #
-#     def solr_search_params
+#     def search_params
 #       super.merge :per_page=>10
 #     end
 #   end
@@ -101,7 +101,7 @@ module Blacklight::SearchHelper
   # given a user query,
   # @return [Blacklight::SolrResponse] the solr response object
   def query_repository(user_params = params || {}, extra_controller_params = {})
-    solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
+    solr_params = self.search_params(user_params).merge(extra_controller_params)
 
     repository.search(solr_params)
   end
@@ -193,7 +193,7 @@ module Blacklight::SearchHelper
   # the Blacklight app-level request params that define the search.
   # @return [Blacklight::SolrDocument, nil] the found document or nil if not found
   def get_single_doc_via_search(index, request_params)
-    solr_params = solr_search_params(request_params)
+    solr_params = search_params(request_params)
 
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.
     solr_params[:rows] = 1

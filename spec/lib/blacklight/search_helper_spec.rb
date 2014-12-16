@@ -59,28 +59,44 @@ describe Blacklight::SearchHelper do
       Deprecation.silence(SearchHelperTestClass) do
         subject.solr_search_params_logic += [:add_foo_to_solr_params]
       end
-      expect(subject.solr_search_params[:wt]).to eq "TESTING"
+      expect(subject.search_params[:wt]).to eq "TESTING"
     end
   end
 
   describe "#search_params_logic" do
-    it "allows customization of solr_search_params_logic" do
+    it "allows customization of search_params_logic" do
       # Normally you'd include a new module into (eg) your CatalogController
       # but a sub-class defininig it directly is simpler for test.
       allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
         solr_params[:wt] = "TESTING"
       end
       subject.search_params_logic += [:add_foo_to_solr_params]
-      expect(subject.solr_search_params[:wt]).to eq "TESTING"
+      expect(subject.search_params[:wt]).to eq "TESTING"
+    end
+  end
+
+  describe "#solr_search_params" do
+    it 'should have fq and q set properly' do
+      Deprecation.silence(Blacklight::RequestBuilders) do
+        solr_params = subject.solr_search_params(:q => @mult_word_query, :f => @multi_facets)
+
+        @multi_facets.each_pair do |facet_field, value_list|
+          value_list ||= []
+          value_list = [value_list] unless value_list.respond_to? :each
+          value_list.each do |value|
+            expect(solr_params[:fq]).to include("{!raw f=#{facet_field}}#{value}"  )
+          end
+        end
+        expect(solr_params[:q]).to eq @mult_word_query
+      end
     end
   end
 
   # SPECS for actual search parameter generation
-  describe "solr_search_params" do
-
+  describe "#search_params" do
     describe 'for an entirely empty search' do
       before do
-        @produced_params = subject.solr_search_params.with_indifferent_access
+        @produced_params = subject.search_params.with_indifferent_access
       end
 
       let(:blacklight_config) { copy_of_catalog_config }
@@ -109,7 +125,7 @@ describe Blacklight::SearchHelper do
 
     describe "for an empty string search" do      
       it "should return empty string q in solr parameters" do        
-        solr_params = subject.solr_search_params(:q => "")
+        solr_params = subject.search_params(:q => "")
         expect(solr_params[:q]).to eq ""
         expect(solr_params["spellcheck.q"]).to eq ""
       end
@@ -117,7 +133,7 @@ describe Blacklight::SearchHelper do
 
     describe "for request params also passed in as argument" do      
       it "should only have one value for the key 'q' regardless if a symbol or string" do        
-        solr_params = subject.solr_search_params( :q => "some query", 'q' => 'another value' )
+        solr_params = subject.search_params( :q => "some query", 'q' => 'another value' )
         expect(solr_params[:q]).to eq 'some query'
         expect(solr_params['q']).to eq 'some query'
       end
@@ -127,7 +143,7 @@ describe Blacklight::SearchHelper do
     describe "for one facet, no query" do
       it "should have proper solr parameters" do
 
-        solr_params = subject.solr_search_params(:f => @single_facet)
+        solr_params = subject.search_params(:f => @single_facet)
 
         expect(solr_params[:q]).to be_blank
         expect(solr_params["spellcheck.q"]).to be_blank
@@ -140,7 +156,7 @@ describe Blacklight::SearchHelper do
 
     describe "for an empty facet limit param" do
       it "should not add any fq to solr" do
-        solr_params = subject.solr_search_params(:f => {"format" => [""]})
+        solr_params = subject.search_params(:f => {"format" => [""]})
 
         expect(solr_params[:fq]).to be_blank
       end
@@ -148,7 +164,7 @@ describe Blacklight::SearchHelper do
 
     describe "with Multi Facets, No Query" do
       it 'should have fq set properly' do
-        solr_params = subject.solr_search_params(:f => @multi_facets)
+        solr_params = subject.search_params(:f => @multi_facets)
 
         @multi_facets.each_pair do |facet_field, value_list|
           value_list ||= []
@@ -163,7 +179,7 @@ describe Blacklight::SearchHelper do
 
     describe "with Multi Facets, Multi Word Query" do
       it 'should have fq and q set properly' do
-        solr_params = subject.solr_search_params(:q => @mult_word_query, :f => @multi_facets)
+        solr_params = subject.search_params(:q => @mult_word_query, :f => @multi_facets)
 
         @multi_facets.each_pair do |facet_field, value_list|
           value_list ||= []
@@ -241,7 +257,7 @@ describe Blacklight::SearchHelper do
     end
 
     describe "solr parameters for a field search from config (subject)" do
-      let(:solr_params) { subject.solr_search_params @subject_search_params }
+      let(:solr_params) { subject.search_params @subject_search_params }
       let(:blacklight_config) { copy_of_catalog_config }
 
       it "should look up qt from field definition" do
@@ -272,7 +288,7 @@ describe Blacklight::SearchHelper do
         expect(solr_params[:"spellcheck.dictionary"]).to eq "subject"
       end
       it "should add on :solr_local_parameters using Solr LocalParams style" do
-        params = subject.solr_search_params( @subject_search_params )
+        params = subject.search_params( @subject_search_params )
 
         #q == "{!pf=$subject_pf $qf=subject_qf} wome", make sure
         #the LocalParams are really there
@@ -287,7 +303,7 @@ describe Blacklight::SearchHelper do
       it "should return the correct overriden parameter" do
         allow(subject).to receive_messages(params: { qt: 'overridden' })
         
-        expect(subject.solr_search_params[:qt]).to eq "overridden"        
+        expect(subject.search_params[:qt]).to eq "overridden"        
       end
     end
 
@@ -447,20 +463,20 @@ describe Blacklight::SearchHelper do
       before do
         allow(subject).to receive_messages params: {:search_field => "test_field", :q => "test query", "facet.field" => "extra_facet"}
       end
-      
+
       it "should merge parameters from search_field definition" do
-        solr_params = subject.solr_search_params
-        
+        solr_params = subject.search_params
+
         expect(solr_params[:qf]).to eq "fieldOne^2.3 fieldTwo fieldThree^0.4"
         expect(solr_params[:spellcheck]).to eq 'false'
       end
       it "should merge empty string parameters from search_field definition" do
-        expect(subject.solr_search_params[:pf]).to eq ""        
+        expect(subject.search_params[:pf]).to eq ""
       end
 
       describe "should respect proper precedence of settings, " do
         before do
-          @produced_params = subject.solr_search_params
+          @produced_params = subject.search_params
         end
 
 
@@ -489,21 +505,21 @@ describe Blacklight::SearchHelper do
 
     describe "sorting" do
       let(:blacklight_config) { copy_of_catalog_config }
-      
-      it "should send the default sort parameter to solr" do                        
-        expect(subject.solr_search_params[:sort]).to eq 'score desc, pub_date_sort desc, title_sort asc'        
+
+      it "should send the default sort parameter to solr" do
+        expect(subject.search_params[:sort]).to eq 'score desc, pub_date_sort desc, title_sort asc'
       end
 
       it "should not send a sort parameter to solr if the sort value is blank" do
         blacklight_config.sort_fields = {}
         blacklight_config.add_sort_field('', :label => 'test')
 
-        produced_params = subject.solr_search_params
+        produced_params = subject.search_params
         expect(produced_params).not_to have_key(:sort)
       end
 
       it "should pass through user sort parameters" do
-        produced_params = subject.solr_search_params( :sort => 'solr_test_field desc' )
+        produced_params = subject.search_params( :sort => 'solr_test_field desc' )
         expect(produced_params[:sort]).to eq 'solr_test_field desc'
       end
     end
@@ -528,13 +544,13 @@ describe Blacklight::SearchHelper do
         )
         return config
       end
-      
-      before do        
+
+      before do
         allow(subject).to receive_messages params: {:search_field => "custom_author_key", :q => "query"}
       end
-      
+
       before do
-        @result = subject.solr_search_params
+        @result = subject.search_params
       end
 
       it "should pass through ordinary params" do
@@ -549,7 +565,7 @@ describe Blacklight::SearchHelper do
         expect(@result[:q]).to include('pf2=$pf2_do_not_escape_or_quote')
       end
     end
-    
+
     describe "mapping facet.field" do
       let(:blacklight_config) do
         Blacklight::Configuration.new do |config|
@@ -559,18 +575,18 @@ describe Blacklight::SearchHelper do
       end
 
       it "should add single additional facet.field from app" do
-        solr_params = subject.solr_search_params( "facet.field" => "additional_facet" )
+        solr_params = subject.search_params( "facet.field" => "additional_facet" )
         expect(solr_params[:"facet.field"]).to include("additional_facet")
         expect(solr_params[:"facet.field"]).to have(2).fields
       end
       it "should map multiple facet.field to additional facet.field" do
-        solr_params = subject.solr_search_params( "facet.field" => ["add_facet1", "add_facet2"] )
+        solr_params = subject.search_params( "facet.field" => ["add_facet1", "add_facet2"] )
         expect(solr_params[:"facet.field"]).to include("add_facet1")
         expect(solr_params[:"facet.field"]).to include("add_facet2")
         expect(solr_params[:"facet.field"]).to have(3).fields
       end
       it "should map facets[fields][] to additional facet.field" do
-        solr_params = subject.solr_search_params( "facets" => ["add_facet1", "add_facet2"] )
+        solr_params = subject.search_params( "facets" => ["add_facet1", "add_facet2"] )
         expect(solr_params[:"facet.field"]).to include("add_facet1")
         expect(solr_params[:"facet.field"]).to include("add_facet2")
         expect(solr_params[:"facet.field"]).to have(3).fields
@@ -640,7 +656,7 @@ describe Blacklight::SearchHelper do
       expect(solr_params[:"f.#{@facet_field}.facet.sort"]).to eq 'index'
     end
 
-    it "comes up with the same params as #solr_search_params to constrain context for facet list" do
+    it "comes up with the same params as #search_params to constrain context for facet list" do
       search_params = {:q => 'tibetan history', :f=> {:format=>'Book', :language_facet=>'Tibetan'}}
       solr_facet_params = subject.solr_facet_params('format', search_params)
 
@@ -653,7 +669,7 @@ describe Blacklight::SearchHelper do
   describe "for facet limit parameters config ed" do                
     before do   
       allow(subject).to receive_messages params: {:search_field => "test_field", :q => "test query"}
-      @generated_params = subject.solr_search_params
+      @generated_params = subject.search_params
     end
 
     let(:blacklight_config) { copy_of_catalog_config }
@@ -1164,7 +1180,7 @@ describe Blacklight::SearchHelper do
       expect(subject.facet_limit_for("subject_topic_facet")).to eq blacklight_config.facet_fields["subject_topic_facet"].limit
     end
     it "should generate proper solr param" do
-      expect(subject.solr_search_params[:"f.subject_topic_facet.facet.limit"]).to eq 21
+      expect(subject.search_params[:"f.subject_topic_facet.facet.limit"]).to eq 21
     end
     
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
@@ -1177,7 +1193,7 @@ describe Blacklight::SearchHelper do
             
       expect(subject.facet_limit_for("subject_topic_facet")).to be_nil
       
-      expect(subject.solr_search_params).not_to have_key(:"f.subject_topic_facet.facet.limit")
+      expect(subject.search_params).not_to have_key(:"f.subject_topic_facet.facet.limit")
     end
 
     describe "for 'true' configured values" do
@@ -1217,7 +1233,7 @@ describe Blacklight::SearchHelper do
 
       it "should enforce max_per_page against all parameters" do
         expect(blacklight_config.max_per_page).to eq 123
-        expect(subject.solr_search_params(:per_page => 98765)[:rows]).to eq 123
+        expect(subject.search_params(:per_page => 98765)[:rows]).to eq 123
       end              
     end
 
