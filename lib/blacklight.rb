@@ -10,7 +10,9 @@ module Blacklight
 
   autoload :Solr, 'blacklight/solr'
 
-  autoload :SolrHelper,         'blacklight/solr_helper'
+  SolrHelper = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrHelper', 'Blacklight::SearchHelper')
+
+  autoload :SearchHelper,       'blacklight/search_helper'
   autoload :AbstractRepository, 'blacklight/abstract_repository'
   autoload :SolrRepository,     'blacklight/solr_repository'
   autoload :RequestBuilders,    'blacklight/request_builders'

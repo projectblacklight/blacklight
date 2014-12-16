@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-# SolrHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
+# SearchHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
 # 
 # NOTE: Be careful when creating variables here as they may be overriding something that already exists.
 # The ActionController docs: http://api.rubyonrails.org/classes/ActionController/Base.html
@@ -16,15 +16,15 @@
 #   end
 #
 # Or by including in local extensions:
-#   module LocalSolrHelperExtension
+#   module LocalSearchHelperExtension
 #     [ local overrides ]
 #   end
 #
 #   class CatalogController < ActionController::Base
-#   
+#
 #     include Blacklight::Catalog
-#     include LocalSolrHelperExtension
-#   
+#     include LocalSearchHelperExtension
+#
 #     def solr_search_params
 #       super.merge :per_page=>10
 #     end
@@ -32,19 +32,19 @@
 #
 # Or by using ActiveSupport::Concern:
 #
-#   module LocalSolrHelperExtension
+#   module LocalSearchHelperExtension
 #     extend ActiveSupport::Concern
-#     include Blacklight::SolrHelper
+#     include Blacklight::SearchHelper
 #
 #     [ local overrides ]
 #   end
 #
 #   class CatalogController < ApplicationController
-#     include LocalSolrHelperExtension
+#     include LocalSearchHelperExtension
 #     include Blacklight::Catalog
-#   end  
+#   end
 
-module Blacklight::SolrHelper
+module Blacklight::SearchHelper
   extend ActiveSupport::Concern
   extend Deprecation
   self.deprecation_horizon = 'blacklight 6.0'
@@ -105,16 +105,16 @@ module Blacklight::SolrHelper
   # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     if id.nil?
-      Deprecation.warn Blacklight::SolrHelper, "Calling #get_solr_response_for_doc_id without an explicit id argument is deprecated"
+      Deprecation.warn Blacklight::SearchHelper, "Calling #get_solr_response_for_doc_id without an explicit id argument is deprecated"
       id ||= params[:id]
     end
 
-    old_solr_doc_params = Deprecation.silence(Blacklight::SolrHelper) do
+    old_solr_doc_params = Deprecation.silence(Blacklight::SearchHelper) do
       solr_doc_params(id)
     end
 
     if default_solr_doc_params(id) != old_solr_doc_params
-      Deprecation.warn Blacklight::SolrHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering"
+      Deprecation.warn Blacklight::SearchHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering"
       extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
     end
 
