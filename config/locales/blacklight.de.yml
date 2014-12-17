@@ -103,6 +103,7 @@ de:
         author: 'Autor: %{value}'
         format: 'Format: %{value}'
         language: 'Sprache: %{value}'
+        year: 'Jahr: %{value}'
         subject:
           one: 'Artikeldatensatz: %{title}'
           other: 'Artikeldatensätze'

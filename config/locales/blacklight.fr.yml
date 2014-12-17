@@ -113,6 +113,7 @@ fr:
         author: 'Auteur : %{value}'
         format: 'Format : %{value}'
         language: 'Langue : %{value}'
+        year: 'Année : %{value}'
         subject:
           one: 'Une référence : %{title}'
           other: 'Des références bibliographiques'
