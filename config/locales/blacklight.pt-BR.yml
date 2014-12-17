@@ -125,6 +125,7 @@ pt-BR:
         author: 'Autor: %{value}'
         format: 'Formato: %{value}'
         language: 'Idioma: %{value}'
+        year: 'Ano: %{value}'
         subject:
           one: 'Item: %{title}'
           other: 'Itens'

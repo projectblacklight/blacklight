@@ -102,6 +102,7 @@ es:
         title: 'Titulo: %{value}'
         author: 'Autor: %{value}'
         format: 'Formato: %{value}'
+        year: 'Anno: %{value}'
         language: 'Idioma: %{value}'
         subject:
           one: 'Ficha artículo: %{title}'

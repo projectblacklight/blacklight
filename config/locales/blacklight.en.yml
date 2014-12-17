@@ -103,6 +103,7 @@ en:
         author: 'Author: %{value}'
         format: 'Format: %{value}'
         language: 'Language: %{value}'
+        year: 'Year: %{value}'
         subject:
           one: 'Item Record: %{title}'
           other: 'Item records'
