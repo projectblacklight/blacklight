@@ -40,14 +40,15 @@ module Blacklight::Controller
   def blacklight_config
     default_catalog_controller.blacklight_config
   end
-   
+
     protected
 
     # Default route to the search action (used e.g. in global partials). Override this method
     # in a controller or in your ApplicationController to introduce custom logic for choosing
     # which action the search form should use
-    def search_action_url *args
-      catalog_index_url *args
+    def search_action_url options = {}
+      # Rails 4.2 deprecated url helpers accepting string keys for 'controller' or 'action'
+      catalog_index_url(options.except(:controller, :action))
     end
 
     def search_action_path *args
