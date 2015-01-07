@@ -1,4 +1,4 @@
-  <%= form_tag search_action_url, :method => :get, :class => 'search-query-form form-inline clearfix navbar-form' do %>
+  <%= form_tag search_action_url, :method => :get, :class => 'search-query-form clearfix navbar-form' do %>
     <%= render_hash_as_hidden_fields(params_for_search().except(:q, :search_field, :qt, :page, :utf8)) %>
 
     <% unless search_fields.empty? %>
