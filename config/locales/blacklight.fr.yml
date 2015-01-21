@@ -171,7 +171,11 @@ fr:
           label: 'dans'
           title: 'Options de recherche'
         post_label: 'pour'
+        # i18n key 'q' is deprecated and will be removed in Blacklight 6.0, use 'search.label' and 'search.placeholder'
         q: 'Rechercher '
+        search:
+          label: 'Rechercher'
+          placeholder: 'Rechercher'
         submit: 'Chercher'
       pagination:
         title: 'Navigation dans les résultats'
