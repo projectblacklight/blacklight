@@ -158,7 +158,11 @@ en:
           label: 'Search in'
           title: 'Targeted search options'
           post_label: 'for'
+        # i18n key 'q' is deprecated and will be removed in Blacklight 6.0, use 'search.label' and 'search.placeholder'
         q: 'Search...'
+        search:
+          label: 'search for'
+          placeholder: 'Search...'
         submit: 'Search'
       pagination:
         title: 'Results navigation'
