@@ -213,4 +213,48 @@ describe Blacklight::DocumentPresenter do
       expect(subject.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a") 
     end
   end
+
+  describe "#document_heading" do
+    it "should fallback to an id" do
+      allow(document).to receive(:id).and_return "xyz"
+      expect(subject.document_heading).to eq document.id
+    end
+
+    it "should return the value of the field" do
+      config.show.title_field = :x
+      allow(document).to receive(:has?).with(:x).and_return(true)
+      allow(document).to receive(:[]).with(:x).and_return("value")
+      expect(subject.document_heading).to eq "value"
+    end
+
+    it "should return the first present value" do
+      config.show.title_field = [:x, :y]
+      allow(document).to receive(:has?).with(:x).and_return(false)
+      allow(document).to receive(:has?).with(:y).and_return(true)
+      allow(document).to receive(:[]).with(:y).and_return("value")
+      expect(subject.document_heading).to eq "value"
+    end
+  end
+
+  describe "#document_show_html_title" do
+    it "should fallback to an id" do
+      allow(document).to receive(:id).and_return "xyz"
+      expect(subject.document_show_html_title).to eq document.id
+    end
+
+    it "should return the value of the field" do
+      config.show.html_title_field = :x
+      allow(document).to receive(:has?).with(:x).and_return(true)
+      allow(document).to receive(:[]).with(:x).and_return("value")
+      expect(subject.document_show_html_title).to eq "value"
+    end
+
+    it "should return the first present value" do
+      config.show.html_title_field = [:x, :y]
+      allow(document).to receive(:has?).with(:x).and_return(false)
+      allow(document).to receive(:has?).with(:y).and_return(true)
+      allow(document).to receive(:[]).with(:y).and_return("value")
+      expect(subject.document_show_html_title).to eq "value"
+    end
+  end
 end
