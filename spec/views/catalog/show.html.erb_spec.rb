@@ -13,6 +13,7 @@ describe "catalog/show.html.erb" do
   before :each do
     allow(view).to receive_messages(:has_user_authentication_provider? => false)
     allow(view).to receive_messages(:render_document_sidebar_partial => "Sidebar")
+    allow(view).to receive_messages(current_search_session: nil)
     assign :document, document
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
   end
