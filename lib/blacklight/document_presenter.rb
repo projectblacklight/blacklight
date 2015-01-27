@@ -20,7 +20,14 @@ module Blacklight
     # @param [SolrDocument] document
     # @return [String]
     def document_heading
-      render_field_value(@document[@configuration.view_config(:show).title_field] || @document.id)
+      fields = Array(@configuration.view_config(:show).title_field)
+      f = fields.find { |field| @document.has? field }
+
+      if f.nil?
+        render_field_value(@document.id)
+      else
+        render_field_value(@document[f])
+      end
     end
 
     ##
@@ -31,7 +38,14 @@ module Blacklight
     # @return [String]
     def document_show_html_title
       if @configuration.view_config(:show).html_title_field
-        render_field_value(@document[@configuration.view_config(:show).html_title_field])
+        fields = Array(@configuration.view_config(:show).html_title_field)
+        f = fields.find { |field| @document.has? field }
+
+        if f.nil?
+          render_field_value(@document.id)
+        else
+          render_field_value(@document[f])
+        end
       else
         document_heading
       end

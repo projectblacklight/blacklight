@@ -88,6 +88,28 @@ describe BlacklightConfigurationHelper do
     end
   end
 
+  describe "#document_show_link_field" do
+    let(:document) { SolrDocument.new id: 123, a: 1, b: 2, c: 3 }
+
+    it "should allow single values" do
+      blacklight_config.index.title_field = :a
+      f = helper.document_show_link_field document
+      expect(f).to eq :a
+    end
+    
+    it "should retrieve the first field with data" do
+      blacklight_config.index.title_field = [:zzz, :b]
+      f = helper.document_show_link_field document
+      expect(f).to eq :b
+    end
+
+    it "should fallback on the id" do
+      blacklight_config.index.title_field = [:zzz, :yyy]
+      f = helper.document_show_link_field document
+      expect(f).to eq 123
+    end
+  end
+
   describe "#index_field_label" do
     let(:document) { double }
     it "should look up the label to display for the given document and field" do
