@@ -164,13 +164,13 @@ label.toggle_bookmark
   padding-bottom: $padding-base-vertical;
 }
 
-#sortAndPerPage, #previousNextDocument {
+#sortAndPerPage, .pagination-search-widgets {
   border-bottom: 1px solid $pagination-border;
   margin-bottom: 1em;
   padding-bottom: 1em;
 }
 
-#previousNextDocument {
+.pagination-search-widgets {
   @extend .clearfix;
   padding-top: 1px;
   padding-bottom: $padding-base-vertical;

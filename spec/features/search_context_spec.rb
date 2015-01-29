@@ -8,12 +8,12 @@ describe "Search Results context", js: true do
     search_id =  Search.last.id.to_s
     click_on 'Pluvial nectar of blessings'
     expect(page).to have_content "« Previous | 10 of 30 | Next »"
-    prev = page.find("#previousNextDocument .previous")
+    prev = page.find(".pagination-search-widgets .previous")
     expect(prev['data-context-href']).to eq "/catalog/2003546302/track?counter=9&search_id=#{search_id}"
 
     click_on "« Previous"
 
-    prev = page.find("#previousNextDocument .previous")
+    prev = page.find(".pagination-search-widgets .previous")
     expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&search_id=#{search_id}"
   end
   
@@ -22,6 +22,15 @@ describe "Search Results context", js: true do
     first('.index_title a').click
     expect(page).to have_content "« Previous | 1 of 30 | Next »"
     expect(page.current_url).to_not have_content "/track"
+  end
+
+  it 'should show "Back to Search" and "Start Over links"' do
+    search_for 'Bod kyi naṅ chos ṅo sprod sñiṅ bsdus'
+    first('.index_title a').click
+    within '.pagination-search-widgets' do
+      expect(page).to have_css 'a', text: 'Back to Search'
+      expect(page).to have_css 'a', text: 'Start Over'
+    end
   end
   
   context "navigating between search results using context pagination" do
