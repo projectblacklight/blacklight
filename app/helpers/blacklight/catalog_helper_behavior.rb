@@ -78,7 +78,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # @return [Blacklight::Configuration::SortField]
   def current_sort_field
-    (blacklight_config.sort_fields[@response.sort] if @response and @response.sort.present?) || blacklight_config.sort_fields[params[:sort]] || default_sort_field
+    (blacklight_config.sort_fields.values.find {|f| f.sort == @response.sort} if @response and @response.sort.present?) || blacklight_config.sort_fields[params[:sort]] || default_sort_field
   end
 
   ##
