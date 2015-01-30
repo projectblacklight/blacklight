@@ -41,6 +41,10 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
       params[:rows].to_i
   end
 
+  def sort
+    params[:sort]
+  end
+
   def docs
     @docs ||= begin
       response['docs'] || []
