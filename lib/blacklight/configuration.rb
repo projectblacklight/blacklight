@@ -78,7 +78,16 @@ module Blacklight
           ),
           :navbar => OpenStructWithHashAccess.new(partials: { }),
           # Configurations for specific types of index views
-          :view => NestedOpenStructWithHashAccess.new(ViewConfig, 'list'),
+          :view => NestedOpenStructWithHashAccess.new(ViewConfig,
+            'list',
+            atom: {
+              if: false, # by default, atom should not show up as an alternative view
+              partials: [:document]
+            },
+            rss: {
+              if: false, # by default, rss should not show up as an alternative view
+              partials: [:document]
+          }),
           # Maxiumum number of spelling suggestions to offer
           :spell_max => 5,
           # Maximum number of results to show per page
