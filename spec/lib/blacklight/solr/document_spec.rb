@@ -47,6 +47,18 @@ describe "Blacklight::Solr::Document" do
 
     end
 
+    describe "Primary key" do
+      before(:each) do
+        MockDocument.unique_key = 'my_unique_key'
+      end
+      after(:each) do
+        MockDocument.unique_key = 'id'
+      end
+      it "should be the same as the unique key" do
+        expect(MockDocument.primary_key).to eq MockDocument.unique_key
+      end
+    end
+
     describe "#to_param" do
       it "should be a string" do
         @document = MockDocument.new :id => 1234
