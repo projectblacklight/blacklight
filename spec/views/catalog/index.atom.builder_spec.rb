@@ -15,7 +15,7 @@ describe "catalog/index" do
     # run a solr query to get our data
     c = CatalogController.new
     c.blacklight_config = @config
-    @response, @document_list = c.get_search_results(@params)
+    @response, @document_list = c.search_results(@params, {}, c.solr_search_params_logic)
 
     # munge the solr response to match test expectations
     @document_list[1] = SolrDocument.new(@document_list[1].with_indifferent_access.reject! { |k,v| k == "author_display" })

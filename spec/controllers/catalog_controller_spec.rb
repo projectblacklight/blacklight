@@ -520,9 +520,9 @@ describe CatalogController do
     it "should redirect the user to the root url for a bad search" do
       req = {}
       res = {}
-      fake_error = RSolr::Error::Http.new(req, res) 
+      fake_error = RSolr::Error::Http.new(req, res)
       allow(Rails.env).to receive_messages(:test? => false)
-      allow(controller).to receive(:get_search_results) { |*args| raise fake_error }
+      allow(controller).to receive(:search_results) { |*args| raise fake_error }
       expect(controller.logger).to receive(:error).with(fake_error)
       get :index, :q=>"+"
 

@@ -45,14 +45,22 @@ module Blacklight
     # specified otherwise. 
     #
     # Incoming parameter :f is mapped to :fq solr parameter.
-    def solr_search_params(user_params = params || {})
+    def solr_search_params(user_params = nil, processor_chain = nil)
+      unless user_params
+        Deprecation.warn(RequestBuilders, "Calling solr_search_params without a `user_params' argument is deprecated and will be removed in blacklight-6.0")
+        user_params = params || {}
+      end
+      unless processor_chain
+        Deprecation.warn(RequestBuilders, "Calling solr_search_params without a `processor_chain' argument is deprecated and will be removed in blacklight-6.0")
+        processor_chain = solr_search_params_logic
+      end
       Blacklight::Solr::Request.new.tap do |solr_parameters|
-        solr_search_params_logic.each do |method_name|
+        processor_chain.each do |method_name|
           send(method_name, solr_parameters, user_params)
         end
       end
     end
-    
+
     ##
     # Retrieve the results for a list of document ids
     def solr_document_ids_params(ids = [])
