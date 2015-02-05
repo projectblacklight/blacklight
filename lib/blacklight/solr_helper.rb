@@ -79,16 +79,8 @@ module Blacklight::SolrHelper
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(user_params = params || {}, extra_controller_params = {})
     Deprecation.warn(self, "get_search_results is deprecated and will be removed in blacklight-6.0. Use `search_results' instead")
-    search_results(user_params, extra_controller_params, solr_search_params_logic)
-  end
-
-  # a solr query method
-  # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
-  # @param [Hash,HashWithIndifferentAccess] extra_controller_params ({}) extra parameters to add to the search
-  # @param [List<Symbol] processor_chain a list of filter methods to run
-  # @return [Blacklight::SolrResponse] the solr response object
-  def search_results(user_params, extra_controller_params, solr_search_parms_logic)
-    solr_response = query_solr(user_params, extra_controller_params, solr_search_params_logic)
+    query = search_builder(user_params).query(extra_controller_params)
+    solr_response = solr_repository.search(query)
 
     case
     when (solr_response.grouped? && grouped_key_for_results)
@@ -105,22 +97,28 @@ module Blacklight::SolrHelper
   # @param [Hash,HashWithIndifferentAccess] extra_controller_params ({}) extra parameters to add to the search
   # @param [List<Symbol] processor_chain a list of filter methods to run
   # @return [Blacklight::SolrResponse] the solr response object
-  def query_solr(user_params = nil, extra_controller_params = nil, processor_chain = nil)
-      unless user_params
-        Deprecation.warn(self, "Calling query_solr without a `user_params' argument is deprecated and will be removed in blacklight-6.0")
-        user_params = params || {}
-      end
-      unless extra_controller_params
-        Deprecation.warn(self, "Calling query_solr without a `extra_controller_params' argument is deprecated and will be removed in blacklight-6.0")
-        extra_controller_params = {}
-      end
-      unless processor_chain
-        Deprecation.warn(self, "Calling query_solr without a `processor_chain' argument is deprecated and will be removed in blacklight-6.0")
-        processor_chain = solr_search_params_logic
-      end
-    solr_params = solr_search_params(user_params, processor_chain).merge(extra_controller_params)
+  def search_results(user_params, solr_search_params_logic)
+    query = search_builder(user_params, solr_search_params_logic).query
+    solr_response = solr_repository.search(query)
 
-    solr_repository.search(solr_params)
+    case
+    when (solr_response.grouped? && grouped_key_for_results)
+      [solr_response.group(grouped_key_for_results), []]
+    when (solr_response.grouped? && solr_response.grouped.length == 1)
+      [solr_response.grouped.first, []]
+    else
+      [solr_response, solr_response.documents]
+    end
+  end
+
+  # a solr query method
+  # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
+  # @param [Hash,HashWithIndifferentAccess] extra_controller_params ({}) extra parameters to add to the search
+  # @return [Blacklight::SolrResponse] the solr response object
+  def query_solr(user_params = params || {}, extra_controller_params = {})
+    Deprecation.warn(self, "query_solr is deprecated and will be removed in blacklight-6.0")
+    query = search_builder(user_params).query(extra_controller_params)
+    solr_repository.search(query)
   end
 
   # a solr query method
@@ -160,7 +158,8 @@ module Blacklight::SolrHelper
       extra_controller_params ||= {}
     end
 
-    solr_response = query_solr(user_params, extra_controller_params.merge(solr_document_ids_params(ids)), solr_search_params_logic)
+    query = search_builder(user_params).query(extra_controller_params.merge(solr_document_ids_params(ids)))
+    solr_response = solr_repository.search(query)
 
     [solr_response, solr_response.documents]
   end
@@ -168,7 +167,9 @@ module Blacklight::SolrHelper
   # given a field name and array of values, get the matching SOLR documents
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
   def get_solr_response_for_field_values(field, values, extra_controller_params = {})
-    solr_response = query_solr(params, extra_controller_params.merge(solr_documents_by_field_values_params(field, values)), solr_search_params_logic)
+    query = search_builder(params).query(extra_controller_params.merge(solr_documents_by_field_values_params(field, values)))
+    solr_response = solr_repository.search(query)
+
 
     [solr_response, solr_response.documents]
   end
@@ -178,8 +179,8 @@ module Blacklight::SolrHelper
   # Get the solr response when retrieving only a single facet field
   # @return [Blacklight::SolrResponse] the solr response
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
-    solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
-    query_solr(user_params, extra_controller_params.merge(solr_facet_params(facet_field, user_params, extra_controller_params)), solr_search_params_logic)
+    query = search_builder(user_params).query(extra_controller_params.merge(solr_facet_params(facet_field, user_params, extra_controller_params)))
+    solr_repository.search(query)
   end
 
   # a solr query method
@@ -195,7 +196,7 @@ module Blacklight::SolrHelper
     # NOTE: The sniffing of the proper sort from the solr response is not
     # currently tested for, tricky to figure out how to test, since the
     # default setup we test against doesn't use this feature.
-    return     Blacklight::Solr::FacetPaginator.new(response.facets.first.items,
+    Blacklight::Solr::FacetPaginator.new(response.facets.first.items,
       :offset => response.params[:"f.#{facet_field}.facet.offset"],
       :limit => limit,
       :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"]
@@ -210,12 +211,10 @@ module Blacklight::SolrHelper
   # the Blacklight app-level request params that define the search.
   # @return [Blacklight::SolrDocument, nil] the found document or nil if not found
   def get_single_doc_via_search(index, request_params)
-    solr_params = solr_search_params(request_params, solr_search_params_logic)
-
-    solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.
-    solr_params[:rows] = 1
-    solr_params[:fl] = '*'
-    solr_response = solr_repository.search(solr_params)
+    # start at 0 to get 1st doc, 1 to get 2nd.
+    extra_params = { start: (index - 1), rows: 1, fl: '*' }
+    query = search_builder(request_params).query(extra_params)
+    solr_response = solr_repository.search(query)
     solr_response.documents.first
   end
   deprecation_deprecate :get_single_doc_via_search
@@ -224,7 +223,8 @@ module Blacklight::SolrHelper
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
 
-    solr_response = query_solr(request_params, extra_controller_params.merge(previous_and_next_document_params(index)), solr_search_params_logic)
+    query = search_builder(request_params).query(extra_controller_params.merge(previous_and_next_document_params(index)))
+    solr_response = solr_repository.search(query)
 
     document_list = solr_response.documents
 
@@ -244,9 +244,14 @@ module Blacklight::SolrHelper
   def get_opensearch_response(field=nil, request_params = params || {}, extra_controller_params={})
     field ||= blacklight_config.view_config('opensearch').title_field
 
-    response = query_solr(request_params, solr_opensearch_params(field).merge(extra_controller_params), solr_search_params_logic)
+    query = search_builder(request_params).query(solr_opensearch_params(field).merge(extra_controller_params))
+    response = solr_repository.search(query)
 
     [response.params[:q], response.documents.flat_map {|doc| doc[field] }.uniq]
+  end
+
+  def search_builder(user_params, processor_chain = solr_search_params_logic)
+    @search_builder ||= Blacklight::SearchBuilder.new(user_params, processor_chain, self)
   end
 
   ##

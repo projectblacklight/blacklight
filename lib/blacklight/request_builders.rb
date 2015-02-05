@@ -45,20 +45,20 @@ module Blacklight
     # specified otherwise. 
     #
     # Incoming parameter :f is mapped to :fq solr parameter.
-    def solr_search_params(user_params = nil, processor_chain = nil)
-      unless user_params
-        Deprecation.warn(RequestBuilders, "Calling solr_search_params without a `user_params' argument is deprecated and will be removed in blacklight-6.0")
-        user_params = params || {}
-      end
-      unless processor_chain
-        Deprecation.warn(RequestBuilders, "Calling solr_search_params without a `processor_chain' argument is deprecated and will be removed in blacklight-6.0")
-        processor_chain = solr_search_params_logic
-      end
-      Blacklight::Solr::Request.new.tap do |solr_parameters|
-        processor_chain.each do |method_name|
-          send(method_name, solr_parameters, user_params)
-        end
-      end
+    def solr_search_params(user_params = params || {}, processor_chain = solr_search_params_logic)
+      Deprecation.warn(RequestBuilders, "solr_search_params is deprecated and will be removed in blacklight-6.0. Use SearchBuilder#processed_parameters instead.")
+
+      Blacklight::SearchBuilder.new(user_params, processor_chain, self).processed_parameters
+    end
+
+    ##
+    # @param [Hash] user_params a hash of user submitted parameters
+    # @param [Array] processor_chain a list of processor methods to run
+    # @param [Hash] extra_params an optional hash of parameters that should be
+    #                            added to the query post processing
+    def build_solr_query(user_params, processor_chain, extra_params=nil)
+      Deprecation.warn(RequestBuilders, "build_solr_query is deprecated and will be removed in blacklight-6.0. Use SearchBuilder#query instead")
+      Blacklight::SearchBuilder.new(user_params, processor_chain, self).query(extra_params)
     end
 
     ##
