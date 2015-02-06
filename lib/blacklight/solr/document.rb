@@ -175,9 +175,9 @@ module Blacklight::Solr::Document
     def unique_key
       @unique_key ||= 'id' 
     end
-    
+
     def primary_key
-      'id'
+      unique_key
     end
     
     def base_class
