@@ -233,15 +233,6 @@ module Blacklight
     end
 
     ##
-    # Deprecated. Get the list of facet fields to explicitly
-    # add to the solr request
-    def facet_fields_to_add_to_solr
-      facet_fields.select { |k,v| v.include_in_request }
-                  .reject { |k,v| v[:query] || v[:pivot] }
-                  .map { |k,v| v.field }
-    end
-
-    ##
     # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting
     # the original Blacklight::Configuration instance.
     #

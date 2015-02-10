@@ -1,9 +1,5 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::User
-  
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 6.0'
-
   # This gives us an is_blacklight_user method that can be included in
   # the containing applications models. 
   # SEE ALSO:  The /lib/blacklight/engine.rb class for how when this 
@@ -21,12 +17,6 @@ module Blacklight::User
     else
       []
     end
-  end
-
-  def bookmarked_document_ids
-    Deprecation.warn self, "The User#bookmarked_document_ids method is deprecated and will be removed in Blacklight 6.0"
-
-    self.bookmarks.pluck(:document_id)
   end
 
   def document_is_bookmarked?(document)
