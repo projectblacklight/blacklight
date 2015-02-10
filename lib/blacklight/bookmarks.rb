@@ -8,7 +8,7 @@ module Blacklight::Bookmarks
     ##
     # Give Bookmarks access to the CatalogController configuration
     include Blacklight::Configurable
-    include Blacklight::SolrHelper
+    include Blacklight::SearchHelper
     include Blacklight::TokenBasedUser
 
     copy_blacklight_config_from(CatalogController)

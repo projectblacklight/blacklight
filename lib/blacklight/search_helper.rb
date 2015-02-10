@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-# SolrHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
+# SearchHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
 # 
 # NOTE: Be careful when creating variables here as they may be overriding something that already exists.
 # The ActionController docs: http://api.rubyonrails.org/classes/ActionController/Base.html
@@ -10,41 +10,41 @@
 #   
 #     include Blacklight::Catalog
 #   
-#     def solr_search_params
+#     def search_params
 #       super.merge :per_page=>10
 #     end
 #   end
 #
 # Or by including in local extensions:
-#   module LocalSolrHelperExtension
+#   module LocalSearchHelperExtension
 #     [ local overrides ]
 #   end
 #
 #   class CatalogController < ActionController::Base
-#   
+#
 #     include Blacklight::Catalog
-#     include LocalSolrHelperExtension
-#   
-#     def solr_search_params
+#     include LocalSearchHelperExtension
+#
+#     def search_params
 #       super.merge :per_page=>10
 #     end
 #   end
 #
 # Or by using ActiveSupport::Concern:
 #
-#   module LocalSolrHelperExtension
+#   module LocalSearchHelperExtension
 #     extend ActiveSupport::Concern
-#     include Blacklight::SolrHelper
+#     include Blacklight::SearchHelper
 #
 #     [ local overrides ]
 #   end
 #
 #   class CatalogController < ApplicationController
-#     include LocalSolrHelperExtension
+#     include LocalSearchHelperExtension
 #     include Blacklight::Catalog
-#   end  
+#   end
 
-module Blacklight::SolrHelper
+module Blacklight::SearchHelper
   extend ActiveSupport::Concern
   extend Deprecation
   self.deprecation_horizon = 'blacklight 6.0'
@@ -61,7 +61,7 @@ module Blacklight::SolrHelper
 
     solr_params[:qt] ||= blacklight_config.qt
 
-    solr_repository.send_and_receive path, solr_params
+    repository.send_and_receive path, solr_params
   end
   deprecation_deprecate :find
 
@@ -78,7 +78,7 @@ module Blacklight::SolrHelper
   # Returns a two-element array (aka duple) with first the solr response object,
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(user_params = params || {}, extra_controller_params = {})
-    solr_response = query_solr(user_params, extra_controller_params)
+    solr_response = query_repository(user_params, extra_controller_params)
 
     case
     when (solr_response.grouped? && grouped_key_for_results)
@@ -90,14 +90,20 @@ module Blacklight::SolrHelper
     end
   end
 
-  	
   # a solr query method
   # given a user query,
   # @return [Blacklight::SolrResponse] the solr response object
   def query_solr(user_params = params || {}, extra_controller_params = {})
-    solr_params = self.solr_search_params(user_params).merge(extra_controller_params)
+    query_repository(user_params, extra_controller_params)
+  end
+  deprecation_deprecate :query_solr
 
-    solr_repository.search(solr_params)
+  # given a user query,
+  # @return [Blacklight::SolrResponse] the solr response object
+  def query_repository(user_params = params || {}, extra_controller_params = {})
+    solr_params = self.search_params(user_params).merge(extra_controller_params)
+
+    repository.search(solr_params)
   end
 
   # a solr query method
@@ -105,20 +111,20 @@ module Blacklight::SolrHelper
   # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
   def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
     if id.nil?
-      Deprecation.warn Blacklight::SolrHelper, "Calling #get_solr_response_for_doc_id without an explicit id argument is deprecated"
+      Deprecation.warn Blacklight::SearchHelper, "Calling #get_solr_response_for_doc_id without an explicit id argument is deprecated"
       id ||= params[:id]
     end
 
-    old_solr_doc_params = Deprecation.silence(Blacklight::SolrHelper) do
+    old_solr_doc_params = Deprecation.silence(Blacklight::SearchHelper) do
       solr_doc_params(id)
     end
 
     if default_solr_doc_params(id) != old_solr_doc_params
-      Deprecation.warn Blacklight::SolrHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering"
+      Deprecation.warn Blacklight::SearchHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering"
       extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
     end
 
-    solr_response = solr_repository.find id, extra_controller_params
+    solr_response = repository.find id, extra_controller_params
     [solr_response, solr_response.documents.first]
   end
   
@@ -137,7 +143,7 @@ module Blacklight::SolrHelper
       extra_controller_params ||= {}
     end
 
-    solr_response = query_solr(user_params, extra_controller_params.merge(solr_document_ids_params(ids)))
+    solr_response = query_repository(user_params, extra_controller_params.merge(solr_document_ids_params(ids)))
 
     [solr_response, solr_response.documents]
   end
@@ -145,7 +151,7 @@ module Blacklight::SolrHelper
   # given a field name and array of values, get the matching SOLR documents
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
   def get_solr_response_for_field_values(field, values, extra_controller_params = {})
-    solr_response = query_solr(params, extra_controller_params.merge(solr_documents_by_field_values_params(field, values)))
+    solr_response = query_repository(params, extra_controller_params.merge(solr_documents_by_field_values_params(field, values)))
 
     [solr_response, solr_response.documents]
   end
@@ -156,7 +162,7 @@ module Blacklight::SolrHelper
   # @return [Blacklight::SolrResponse] the solr response
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
     solr_params = solr_facet_params(facet_field, user_params, extra_controller_params)
-    query_solr(user_params, extra_controller_params.merge(solr_facet_params(facet_field, user_params, extra_controller_params)))
+    query_repository(user_params, extra_controller_params.merge(solr_facet_params(facet_field, user_params, extra_controller_params)))
   end
 
   # a solr query method
@@ -187,12 +193,12 @@ module Blacklight::SolrHelper
   # the Blacklight app-level request params that define the search.
   # @return [Blacklight::SolrDocument, nil] the found document or nil if not found
   def get_single_doc_via_search(index, request_params)
-    solr_params = solr_search_params(request_params)
+    solr_params = search_params(request_params)
 
     solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.
     solr_params[:rows] = 1
     solr_params[:fl] = '*'
-    solr_response = solr_repository.search(solr_params)
+    solr_response = repository.search(solr_params)
     solr_response.documents.first
   end
   deprecation_deprecate :get_single_doc_via_search
@@ -201,7 +207,7 @@ module Blacklight::SolrHelper
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
 
-    solr_response = query_solr(request_params, extra_controller_params.merge(previous_and_next_document_params(index)))
+    solr_response = query_repository(request_params, extra_controller_params.merge(previous_and_next_document_params(index)))
 
     document_list = solr_response.documents
 
@@ -221,7 +227,7 @@ module Blacklight::SolrHelper
   def get_opensearch_response(field=nil, request_params = params || {}, extra_controller_params={})
     field ||= blacklight_config.view_config('opensearch').title_field
 
-    response = query_solr(request_params, solr_opensearch_params(field).merge(extra_controller_params))
+    response = query_repository(request_params, solr_opensearch_params(field).merge(extra_controller_params))
 
     [response.params[:q], response.documents.flat_map {|doc| doc[field] }.uniq]
   end
@@ -232,12 +238,21 @@ module Blacklight::SolrHelper
     blacklight_config.index.group
   end
 
-  def solr_repository
-    @solr_repository ||= Blacklight::SolrRepository.new(blacklight_config)
+  def repository_class
+    Blacklight::SolrRepository
   end
 
+  def repository
+    @repository ||= repository_class.new(blacklight_config)
+  end
+
+  def solr_repository
+    repository
+  end
+  deprecation_deprecate :solr_repository
+
   def blacklight_solr
-    solr_repository.blacklight_solr
+    repository.blacklight_solr
   end
   deprecation_deprecate :blacklight_solr
 

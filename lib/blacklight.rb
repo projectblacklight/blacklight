@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'rsolr'
+require 'deprecation'
 module Blacklight
 
   autoload :Configurable, 'blacklight/configurable'
@@ -8,11 +9,14 @@ module Blacklight
   autoload :SearchFields, 'blacklight/search_fields'
 
   autoload :Solr, 'blacklight/solr'
-  
-  autoload :SolrHelper, 'blacklight/solr_helper'
-  autoload :SolrRepository, 'blacklight/solr_repository'
-  autoload :RequestBuilders, 'blacklight/request_builders'
-  
+
+  SolrHelper = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrHelper', 'Blacklight::SearchHelper')
+
+  autoload :SearchHelper,       'blacklight/search_helper'
+  autoload :AbstractRepository, 'blacklight/abstract_repository'
+  autoload :SolrRepository,     'blacklight/solr_repository'
+  autoload :RequestBuilders,    'blacklight/request_builders'
+
   autoload :Exceptions, 'blacklight/exceptions'
 
   autoload :User, 'blacklight/user'
@@ -20,7 +24,7 @@ module Blacklight
   autoload :Controller,        'blacklight/controller'
   autoload :Base,              'blacklight/base'
   autoload :Catalog,           'blacklight/catalog'
-  autoload :TokenBasedUser,     'blacklight/token_based_user'
+  autoload :TokenBasedUser,    'blacklight/token_based_user'
   autoload :Bookmarks,         'blacklight/bookmarks'
   autoload :DocumentPresenter, 'blacklight/document_presenter'
 
@@ -31,7 +35,8 @@ module Blacklight
   autoload :Facet, 'blacklight/facet'
 
   extend SearchFields
-  
+  extend Deprecation
+
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
   
@@ -43,24 +48,68 @@ module Blacklight
   # other services (e.g. refworks callback urls)
   mattr_accessor :secret_key
   @@secret_key = nil
-  
+
+  # @deprecated
   def self.solr_file
     "#{::Rails.root.to_s}/config/solr.yml"
   end
-  
+
+  def self.blacklight_config_file
+    "#{::Rails.root.to_s}/config/blacklight.yml"
+  end
+
   def self.add_routes(router, options = {})
     Blacklight::Routes.new(router, options).draw
   end
 
   def self.solr
-    @solr ||=  RSolr.connect(Blacklight.solr_config)
+    Deprecation.warn Blacklight, "Blacklight.solr is deprecated and will be removed in 6.0.0. Use Blacklight::SolrRepository#connection instead", caller
+    @solr ||=  RSolr.connect(Blacklight.connection_config)
   end
 
   def self.solr_config
-    @solr_config ||= begin
-        raise "The #{::Rails.env} environment settings were not found in the solr.yml config" unless solr_yml[::Rails.env]
-        solr_yml[::Rails.env].symbolize_keys
+    Deprecation.warn Blacklight, "Blacklight.solr_config is deprecated and will be removed in 6.0.0. Use Blacklight.connection_config instead", caller
+    connection_config
+  end
+
+  def self.connection_config
+    @connection_config ||= begin
+        raise "The #{::Rails.env} environment settings were not found in the blacklight.yml config" unless blacklight_yml[::Rails.env]
+        blacklight_yml[::Rails.env].symbolize_keys
       end
+  end
+
+  def self.blacklight_yml
+    require 'erb'
+    require 'yaml'
+
+    return @blacklight_yml if @blacklight_yml
+    unless File.exists?(blacklight_config_file)
+      if File.exists?(solr_file)
+        Deprecation.warn Blacklight, "Configuration is now done via blacklight.yml. Suppport for solr.yml will be removed in blacklight 6.0.0"
+        return solr_yml
+      else
+        raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight:install\"?"
+      end
+    end
+
+    begin
+      blacklight_erb = ERB.new(IO.read(blacklight_config_file)).result(binding)
+    rescue Exception => e
+      raise("#{blacklight_config_file} was found, but could not be parsed with ERB. \n#{$!.inspect}")
+    end
+
+    begin
+      @blacklight_yml = YAML::load(blacklight_erb)
+    rescue StandardError => e
+      raise("#{blacklight_config_file} was found, but could not be parsed.\n")
+    end
+
+    if @blacklight_yml.nil? || !@blacklight_yml.is_a?(Hash)
+      raise("#{blacklight_config_file} was found, but was blank or malformed.\n")
+    end
+
+    return @blacklight_yml
   end
 
   def self.solr_yml
