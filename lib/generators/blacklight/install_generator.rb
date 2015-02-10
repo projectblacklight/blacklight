@@ -22,7 +22,7 @@ module Blacklight
 
     def install_jettywrapper
       return unless options[:jettywrapper]
-      gem "jettywrapper", "~> 1.7"
+      gem "jettywrapper", ">= 2.0"
 
       copy_file "config/jetty.yml"
 

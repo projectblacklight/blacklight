@@ -16,9 +16,6 @@ of the box blacklight.
 
 Also adds jetty_path key to solr.yml for selected environment, to refer
 to this install. 
-
-Requires system('unzip... ') to work, probably won't work on Windows.
-
 """
     def alternate_controller
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"
