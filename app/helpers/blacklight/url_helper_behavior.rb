@@ -1,8 +1,4 @@
-require 'deprecation'
 module Blacklight::UrlHelperBehavior
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 6.0'
-
   ##
   # Extension point for downstream applications
   # to provide more interesting routing to
@@ -20,23 +16,13 @@ module Blacklight::UrlHelperBehavior
   end
 
   # link_to_document(doc, 'VIEW', :counter => 3)
-  # link_to_document(doc, :label=>'VIEW', :counter => 3)
   # Use the catalog_path RESTful route to create a link to the show page for a specific item.
   # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
-  def link_to_document(doc, field_or_opts = nil, opts={:counter => nil})
-    if field_or_opts.kind_of? Hash
-      opts = field_or_opts
-      if opts[:label]
-        Deprecation.warn self, "The second argument to link_to_document should now be the label."
-        field = opts.delete(:label)
-      end
-    else
-      field = field_or_opts
-    end
-
-    field ||= document_show_link_field(doc)
-    label = presenter(doc).render_document_index_label field, opts
+  def link_to_document(doc, label_field=nil, opts={:counter => nil})
+    raise ArgumentError, "label_field should be a String, Symbol or Proc" if label_field.is_a? Hash
+    label_field ||= document_show_link_field(doc)
+    label = presenter(doc).render_document_index_label label_field, opts
     link_to label, url_for_document(doc), document_link_params(doc, opts)
   end
 
@@ -62,13 +48,6 @@ module Blacklight::UrlHelperBehavior
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
     end
   end
-
-  ##
-  # Current search context parameters
-  def search_session_params counter 
-    { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
-  end
-  deprecation_deprecate :search_session_params
 
   ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session
@@ -286,15 +265,7 @@ module Blacklight::UrlHelperBehavior
   
   # This method should move to BlacklightMarc in Blacklight 6.x
   def refworks_export_url params = {}
-    if params.is_a? ::SolrDocument or (params.nil? and instance_variable_defined? :@document)
-      Deprecation.warn self, "Calling #refworks_export_url without a :url is deprecated. Pass in e.g. { url: url_for_document(@document, format: :refworks_marc_txt) } instead"
-      url = url_for_document(params || @document)
-      params = { url: polymorphic_url(url, format: :refworks_marc_txt, only_path: false) }
-    elsif params[:id]
-      Deprecation.warn self, "Calling #refworks_export_url without a :url is deprecated. Pass in e.g. { url: url_for_document(@document, format: :refworks_marc_txt) } instead"
-      params = { url: polymorphic_url(url_for_document(params), format: :refworks_marc_txt, only_path: false) }
-    end
-
+    raise "Missing option :url" unless params.key? :url
     "http://www.refworks.com/express/expressimport.asp?vendor=#{CGI.escape(params[:vendor] || application_name)}&filter=#{CGI.escape(params[:filter] || "MARC Format")}&encoding=65001" + (("&url=#{CGI.escape(params[:url])}" if params[:url]) || "")
   end
 

@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'rsolr'
+require 'deprecation'
 module Blacklight
 
   autoload :Configurable, 'blacklight/configurable'

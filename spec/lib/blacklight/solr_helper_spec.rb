@@ -652,20 +652,6 @@ describe Blacklight::SolrHelper do
       expect(@generated_params).not_to have_key(:"facet.limit")
     end
   end
-  
-   describe "get_facet_pagination", :integration => true do
-    before do
-      Deprecation.silence(Blacklight::SolrHelper) do
-        @facet_paginator = subject.get_facet_pagination(@facet_field)
-      end
-    end
-    it 'should return a facet paginator' do
-      expect(@facet_paginator).to be_a_kind_of(Blacklight::Solr::FacetPaginator)
-    end
-    it 'with a limit set' do
-      expect(@facet_paginator.limit).not_to be_nil
-    end
-   end
 
 # SPECS FOR SEARCH RESULTS FOR QUERY
   describe 'Search Results', :integration => true do
@@ -1001,103 +987,6 @@ describe Blacklight::SolrHelper do
     end
   end
 
-  describe "solr_doc_params" do
-    it "should default to using the 'document' requestHandler" do
-      Deprecation.silence(Blacklight::SolrHelper) do
-        doc_params = subject.solr_doc_params('asdfg')
-        expect(doc_params[:qt]).to eq 'document'
-      end
-    end
-
-    it "should default to using the id parameter when sending solr queries" do
-      Deprecation.silence(Blacklight::SolrHelper) do
-        doc_params = subject.solr_doc_params('asdfg')
-        expect(doc_params[:id]).to eq 'asdfg'
-      end
-    end
-
-    it "should use the document_unique_id_param configuration" do
-      Deprecation.silence(Blacklight::SolrHelper) do
-        allow(blacklight_config).to receive_messages(document_unique_id_param: :ids)
-        doc_params = subject.solr_doc_params('asdfg')
-        expect(doc_params[:ids]).to eq 'asdfg'
-      end
-    end
-
-    describe "blacklight config's default_document_solr_parameters" do
-      it "should use parameters from the controller's default_document_solr_parameters" do
-        Deprecation.silence(Blacklight::SolrHelper) do
-          blacklight_config.default_document_solr_params = { :qt => 'my_custom_handler', :asdf => '1234' }
-          doc_params = subject.solr_doc_params('asdfg')
-          expect(doc_params[:qt]).to eq 'my_custom_handler'
-          expect(doc_params[:asdf]).to eq '1234'
-        end
-      end
-    end
-
-  end
-
-  describe "Get Document by custom unique id" do
-=begin    
-    # Can't test this properly without updating the "document" request handler in solr
-    it "should respect the configuration-supplied unique id" do
-      allow(SolrDocument).to receive(:unique_key).and_return("title_display")
-      @response, @document = @solr_helper.get_solr_response_for_doc_id('"Strong Medicine speaks"')
-      @document.id).to eq '"Strong Medicine speaks"'
-      @document.get(:id)).to eq 2007020969
-    end
-=end
-    it "should respect the configuration-supplied unique id" do
-      Deprecation.silence(Blacklight::SolrHelper) do
-        doc_params = subject.solr_doc_params('"Strong Medicine speaks"')
-        expect(doc_params[:id]).to eq '"Strong Medicine speaks"'
-      end
-    end
-  end
-
-
-
-# SPECS FOR SINGLE DOCUMENT VIA SEARCH
-  describe "Get Document Via Search", :integration => true do
-    before do
-      @doc_row = 3
-      Deprecation.silence(Blacklight::SolrHelper) do
-        @doc = subject.get_single_doc_via_search(@doc_row, :q => @all_docs_query)
-      end
-    end
-=begin
-# can't test these here, because the method only returns the document
-    it "should get a single document" do
-      response.docs.size).to eq 1
-    end
-
-    doc2 = get_single_doc_via_search(@all_docs_query, nil, @doc_row, @multi_facets)
-    it "should limit search result by facets when supplied" do
-      response2expect(.docs.numFound).to_be < response.docs.numFound
-    end
-
-    it "should not have facets in the response" do
-      response.facets.size).to eq 0
-    end
-=end
-
-    it 'should have a doc id field' do
-      expect(@doc[:id]).not_to be_nil
-    end
-
-    it 'should have non-nil values for required fields set in initializer' do
-      expect(@doc[blacklight_config.view_config(:show).display_type_field]).not_to be_nil
-    end
-
-    it "should limit search result by facets when supplied" do
-      Deprecation.silence(Blacklight::SolrHelper) do
-        doc2 = subject.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
-        expect(doc2[:id]).not_to be_nil
-      end
-    end
-
-  end
-
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions", :integration => true do
     it 'search results for just-poor-enough-query term should have (multiple) spelling suggestions' do
@@ -1203,33 +1092,6 @@ describe Blacklight::SolrHelper do
         expect(blacklight_config.max_per_page).to eq 123
         expect(subject.solr_search_params(:per_page => 98765)[:rows]).to eq 123
       end              
-    end
-
-    describe "#get_solr_response_for_field_values" do
-      before do
-        @mock_response = double()
-        allow(@mock_response).to receive_messages(documents: [])
-      end
-      it "should contruct a solr query based on the field and value pair" do
-        Deprecation.silence(Blacklight::SolrHelper) do
-          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(value)")).and_return(@mock_response)
-          subject.get_solr_response_for_field_values('field_name', 'value')
-        end
-      end
-
-      it "should OR multiple values together" do
-        Deprecation.silence(Blacklight::SolrHelper) do
-          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(a OR b)")).and_return(@mock_response)
-          subject.get_solr_response_for_field_values('field_name', ['a', 'b'])
-        end
-      end
-
-      it "should escape crazy identifiers" do
-        Deprecation.silence(Blacklight::SolrHelper) do
-          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
-          subject.get_solr_response_for_field_values('field_name', 'h://"\'')
-        end
-      end
     end
 
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)

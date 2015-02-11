@@ -10,7 +10,6 @@ module Blacklight::BlacklightHelperBehavior
   include RenderConstraintsHelper
   include RenderPartialsHelper
   include FacetsHelper
-  extend Deprecation
 
   ##
   # Get the name of this application, from either:
@@ -305,33 +304,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render a value (or array of values) from a field
-  #
-  # @deprecated Use DocumentPresenter instead
-  # @param [String] value or list of values to display
-  # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
-  # @return [String]
-  def render_field_value value=nil, field_config=nil
-    Deprecation.warn self, "render_field_value is deprecated. Use DocumentPresenter.render_field_value instead"
-    safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
-
-    if field_config and field_config.itemprop
-      safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
-    end
-
-    safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
-  end
-
-  ##
-  # Default separator to use in #render_field_value
-  #
-  # @return [String]
-  def field_value_separator
-    Deprecation.warn self, "field_value_separator is deprecated. Use DocumentPresenter.field_value_separator instead"
-    ', '
-  end
-
-  ##
   # Get the current "view type" (and ensure it is a valid type)
   # 
   # @param [Hash] the query parameters to check
@@ -342,24 +314,6 @@ module Blacklight::BlacklightHelperBehavior
     else
       default_document_index_view_type
     end
-  end
-
-  ##
-  # Render the document index heading
-  #
-  # @param [SolrDocument] doc
-  # @param [Hash] opts (deprecated)
-  # @option opts [Symbol] :label Render the given field from the document
-  # @option opts [Proc] :label Evaluate the given proc
-  # @option opts [String] :label Render the given string
-  # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
-  def render_document_index_label doc, field, opts = {}
-    Deprecation.warn self, "render_document_index_label is deprecated"
-    if field.kind_of? Hash
-      Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
-      field = field[:label]
-    end
-    presenter(doc).render_document_index_label field, opts
   end
 
   ##

@@ -1,8 +1,6 @@
 # -*- encoding : utf-8 -*-
-require 'deprecation'
 module Blacklight
   class Routes
-    extend Deprecation
 
     attr_reader :resources 
 
@@ -86,11 +84,6 @@ module Blacklight
           delete "saved_searches/forget/:id",  :to => "saved_searches#forget",  :as => "forget_search"
           post "saved_searches/forget/:id",  :to => "saved_searches#forget"
         end
-      end
-    
-      def catalog(_=nil)
-        Deprecation.warn(Blacklight::Routes, "Blacklight::Routes.catalog is deprecated and will be removed in Blacklight 6.0.  Use Blacklight::Routes.map_resource(:catalog) instead.")
-        map_resource(:catalog)
       end
 
       def map_resource(key)

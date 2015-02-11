@@ -257,13 +257,6 @@ describe BlacklightUrlHelper do
       expect(helper.link_to_document(@document, :title_display)).to have_selector("a", :text => '654321', :count => 1)
     end
 
-    it "should have the old deprecated behavior (second argument is a hash)" do
-      data = {'id'=>'123456','title_display'=>['654321'] }
-      @document = SolrDocument.new(data)
-      expect(Deprecation).to receive(:warn)
-      expect(helper.link_to_document(@document, { :label => "title_display" })).to have_selector("a", :text => 'title_display', :count => 1)
-    end
-
     it "should accept and return a string label" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
@@ -297,7 +290,7 @@ describe BlacklightUrlHelper do
     it "should merge the data- attributes from the options with the counter params" do
       data = {'id'=>'123456','title_display'=>['654321']}
       @document = SolrDocument.new(data)
-      link = helper.link_to_document @document, { data: { x: 1 }  }
+      link = helper.link_to_document @document, 'title_display', { data: { x: 1 }  }
       expect(link).to have_selector '[data-x]'
       expect(link).to have_selector '[data-context-href]'
     end
@@ -315,7 +308,7 @@ describe BlacklightUrlHelper do
     it "should  work with integer ids" do
       data = {'id'=> 123456 }
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document)).to have_selector("a")
+      expect(helper.link_to_document(@document, 'title')).to have_selector("a")
     end
 
   end

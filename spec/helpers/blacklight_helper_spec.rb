@@ -434,32 +434,6 @@ describe BlacklightHelper do
     end
   end
 
-  describe "render_grouped_document_index" do
-
-  end
-
-  describe "render_field_value" do
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-    it "should join and html-safe values" do
-      expect(helper.render_field_value(['a', 'b'])).to eq "a, b"
-    end
-
-    it "should join values using the field_value_separator" do
-      allow(helper).to receive(:field_value_separator).and_return(" -- ")
-      expect(helper.render_field_value(['a', 'b'])).to eq "a -- b"
-    end
-
-    it "should use the separator from the Blacklight field configuration by default" do
-      expect(helper.render_field_value(['c', 'd'], double(:separator => '; ', :itemprop => nil))).to eq "c; d"
-    end
-
-    it "should include schema.org itemprop attributes" do
-      expect(helper.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a") 
-    end
-  end
-
   describe "should_show_spellcheck_suggestions?" do
     before :each do
       allow(helper).to receive_messages spell_check_max: 5
@@ -490,15 +464,6 @@ describe BlacklightHelper do
     it "should get the document format from document_partial_name" do
       allow(helper).to receive(:document_partial_name).with(doc, :xyz)
       helper.render_document_partial(doc, :xyz)    
-    end
-    
-    context "with a 1-arg form of document_partial_name" do
-      it "should only call the 1-arg form of the document_partial_name" do
-        allow(helper).to receive(:method).with(:document_partial_name).and_return(double(arity: 1))
-        allow(helper).to receive(:document_partial_name).with(doc)
-        allow(Deprecation).to receive(:warn)
-        helper.render_document_partial(doc, nil)
-      end
     end
   end
 

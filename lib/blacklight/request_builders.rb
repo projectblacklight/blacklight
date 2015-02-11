@@ -6,8 +6,6 @@ module Blacklight
   #
   module RequestBuilders
     extend ActiveSupport::Concern
-    extend Deprecation
-    self.deprecation_horizon = 'blacklight 6.0'
 
     included do
       # We want to install a class-level place to keep 
@@ -103,14 +101,10 @@ module Blacklight
 
     ##
     # Opensearch autocomplete parameters for plucking a field's value from the results
-    def solr_opensearch_params(field=nil)
-      if field.nil?
-        Deprecation.warn(Blacklight::RequestBuilders, "Calling Blacklight::RequestBuilders#solr_opensearch_params without a field name is deprecated and will be required in Blacklight 6.0.")
-      end
-
+    def solr_opensearch_params(field)
       solr_params = {}
       solr_params[:rows] ||= 10
-      solr_params[:fl] = field || blacklight_config.view_config('opensearch').title_field
+      solr_params[:fl] = field
       solr_params
     end
 
