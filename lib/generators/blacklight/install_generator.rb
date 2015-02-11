@@ -22,12 +22,12 @@ module Blacklight
 
     def install_jettywrapper
       return unless options[:jettywrapper]
-      gem "jettywrapper", "~> 1.7"
+      gem "jettywrapper", ">= 2.0"
 
       copy_file "config/jetty.yml"
 
       append_to_file "Rakefile",
-        "\nZIP_URL = \"https://github.com/projectblacklight/blacklight-jetty/archive/v4.9.0.zip\"\n" +
+        "\nZIP_URL = \"https://github.com/projectblacklight/blacklight-jetty/archive/v4.10.3.zip\"\n" +
         "require 'jettywrapper'\n"
     end
 
