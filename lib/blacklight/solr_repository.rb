@@ -1,5 +1,10 @@
 module Blacklight
   class SolrRepository < AbstractRepository
+    unless defined? RSolr
+      Deprecation.warn self, "RSolr should be in your gemfile. Blacklight 6.0 will not load rsolr by default"
+      require 'rsolr'
+    end
+
     extend Deprecation
     self.deprecation_horizon = 'blacklight 6.0'
     ##
@@ -46,6 +51,8 @@ module Blacklight
       end
     rescue Errno::ECONNREFUSED => e
       raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{connection.inspect}")
+    rescue RSolr::Error::Http => e
+      raise Blacklight::Exceptions::InvalidRequest.new(e.message)
     end
 
     def blacklight_solr

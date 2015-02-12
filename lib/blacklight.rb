@@ -36,11 +36,6 @@ module Blacklight
   extend SearchFields
   extend Deprecation
 
-  unless defined? RSolr
-    Deprecation.warn self, "RSolr should be in your gemfile. Blacklight 6.0 will not load rsolr by default"
-    require 'rsolr'
-  end
-
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
   
@@ -68,7 +63,7 @@ module Blacklight
 
   def self.solr
     Deprecation.warn Blacklight, "Blacklight.solr is deprecated and will be removed in 6.0.0. Use Blacklight::SolrRepository#connection instead", caller
-    @solr ||=  RSolr.connect(Blacklight.connection_config)
+    @solr ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new).connection
   end
 
   def self.solr_config
