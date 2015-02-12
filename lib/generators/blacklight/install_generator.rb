@@ -11,10 +11,11 @@ module Blacklight
     desc """
   This generator makes the following changes to your application:
    1. Generates blacklight:models
-   2. Creates a number of public assets, including images, stylesheets, and javascript
-   3. Injects behavior into your user application_controller.rb
-   4. Adds example configurations for dealing with MARC-like data
-   5. Adds Blacklight routes to your ./config/routes.rb
+   2. Adds rsolr to the Gemfile
+   3. Creates a number of public assets, including images, stylesheets, and javascript
+   4. Injects behavior into your user application_controller.rb
+   5. Adds example configurations for dealing with MARC-like data
+   6. Adds Blacklight routes to your ./config/routes.rb
 
 
   Thank you for Installing Blacklight.
@@ -30,6 +31,11 @@ module Blacklight
         "\nZIP_URL = \"https://github.com/projectblacklight/blacklight-jetty/archive/v4.10.3.zip\"\n" +
         "require 'jettywrapper'\n"
     end
+
+    def add_rsolr_gem
+      gem "rsolr", "~> 1.0.6"
+    end
+
 
     def bundle_install
       Bundler.with_clean_env do

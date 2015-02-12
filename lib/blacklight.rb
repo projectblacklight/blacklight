@@ -1,9 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
-require 'rsolr'
 require 'deprecation'
 module Blacklight
-
   autoload :Configurable, 'blacklight/configurable'
   autoload :Configuration, 'blacklight/configuration'
   autoload :SearchFields, 'blacklight/search_fields'
@@ -37,6 +35,11 @@ module Blacklight
 
   extend SearchFields
   extend Deprecation
+
+  unless defined? RSolr
+    Deprecation.warn self, "RSolr should be in your gemfile. Blacklight 6.0 will not load rsolr by default"
+    require 'rsolr'
+  end
 
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)

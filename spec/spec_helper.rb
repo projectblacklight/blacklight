@@ -15,6 +15,7 @@ if ENV["COVERAGE"] or ENV["CI"]
   end
 end
 
+require 'rsolr'
 require 'blacklight'
 require 'blacklight/marc'
 
