@@ -9,9 +9,9 @@
 #   class CatalogController < ActionController::Base
 #   
 #     include Blacklight::Catalog
-#   
-#     def solr_search_params
-#       super.merge :per_page=>10
+#
+#     def repository_class
+#       MyAlternativeRepo
 #     end
 #   end
 #
@@ -25,8 +25,8 @@
 #     include Blacklight::Catalog
 #     include LocalSearchHelperExtension
 #
-#     def solr_search_params
-#       super.merge :per_page=>10
+#     def repository_class
+#       MyAlternativeRepo
 #     end
 #   end
 #

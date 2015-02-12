@@ -374,7 +374,7 @@ module Blacklight
 
     # Look up facet limit for given facet_field. Will look at config, and
     # if config is 'true' will look up from Solr @response if available. If
-    # no limit is avaialble, returns nil. Used from #solr_search_params
+    # no limit is avaialble, returns nil. Used from #add_facetting_to_solr
     # to supply f.fieldname.facet.limit values in solr request (no @response
     # available), and used in display (with @response available) to create
     # a facet paginator with the right limit.
