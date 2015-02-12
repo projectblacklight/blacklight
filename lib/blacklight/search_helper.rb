@@ -97,8 +97,8 @@ module Blacklight::SearchHelper
   # @param [Hash,HashWithIndifferentAccess] extra_controller_params ({}) extra parameters to add to the search
   # @param [List<Symbol] processor_chain a list of filter methods to run
   # @return [Blacklight::SolrResponse] the solr response object
-  def search_results(user_params, solr_search_params_logic)
-    query = search_builder(user_params, solr_search_params_logic).query
+  def search_results(user_params, search_params_logic)
+    query = search_builder(user_params, search_params_logic).query
     solr_response = repository.search(query)
 
     case
@@ -252,7 +252,7 @@ module Blacklight::SearchHelper
     [response.params[:q], response.documents.flat_map {|doc| doc[field] }.uniq]
   end
 
-  def search_builder(user_params, processor_chain = solr_search_params_logic)
+  def search_builder(user_params, processor_chain = search_params_logic)
     @search_builder ||= Blacklight::SearchBuilder.new(user_params, processor_chain, self)
   end
 

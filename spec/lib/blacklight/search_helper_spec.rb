@@ -11,7 +11,7 @@ require 'spec_helper'
 #
 describe Blacklight::SearchHelper do
 
-  let(:default_method_chain) { CatalogController.solr_search_params_logic }
+  let(:default_method_chain) { CatalogController.search_params_logic }
 
   # SearchHelper is a controller layer mixin, which depends
   # on being mixed into a class which has #params (from Rails)
@@ -52,15 +52,15 @@ describe Blacklight::SearchHelper do
   end
 
   describe "solr_search_params" do
-    it "allows customization of solr_search_params_logic" do
-        # Normally you'd include a new module into (eg) your CatalogController
-        # but a sub-class defininig it directly is simpler for test.
-        allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
-          solr_params[:wt] = "TESTING"
-        end
+    it "allows customization of the filter pipeline" do
+      # Normally you'd include a new module into (eg) your CatalogController
+      # but a sub-class defininig it directly is simpler for test.
+      allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
+        solr_params[:wt] = "TESTING"
+      end
 
-        expect(Deprecation).to receive(:warn)
-        expect(subject.solr_search_params({}, [:add_foo_to_solr_params])[:wt]).to eq "TESTING"
+      expect(Deprecation).to receive(:warn)
+      expect(subject.solr_search_params({}, [:add_foo_to_solr_params])[:wt]).to eq "TESTING"
     end
   end
 
