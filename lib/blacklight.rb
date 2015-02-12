@@ -90,7 +90,7 @@ module Blacklight
         Deprecation.warn Blacklight, "Configuration is now done via blacklight.yml. Suppport for solr.yml will be removed in blacklight 6.0.0"
         return solr_yml
       else
-        raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight:install\"?"
+        raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?"
       end
     end
 
