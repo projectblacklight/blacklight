@@ -14,7 +14,7 @@ namespace :blacklight do
     desc "Put sample data into solr"
     task :seed do
       docs = YAML::load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
-      conn = Blacklight::SolrRepository.new(Blacklight::Configuration.new).connection
+      conn = Blacklight.default_index.connection
       conn.add docs
       conn.commit
     end
@@ -26,7 +26,7 @@ namespace :blacklight do
       errors = 0
       verbose = ENV.fetch('VERBOSE', false).present?
 
-      conn = Blacklight::SolrRepository.new(Blacklight::Configuration.new).connection
+      conn = Blacklight.default_index.connection
       puts "[#{conn.uri}]"
 
       print " - admin/ping: "

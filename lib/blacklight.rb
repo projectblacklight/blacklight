@@ -62,8 +62,12 @@ module Blacklight
   end
 
   def self.solr
-    Deprecation.warn Blacklight, "Blacklight.solr is deprecated and will be removed in 6.0.0. Use Blacklight::SolrRepository#connection instead", caller
-    @solr ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new).connection
+    Deprecation.warn Blacklight, "Blacklight.solr is deprecated and will be removed in 6.0.0. Use Blacklight.default_index.connection instead", caller
+    default_index.connection
+  end
+
+  def self.default_index
+    @default_index ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new)
   end
 
   def self.solr_config
