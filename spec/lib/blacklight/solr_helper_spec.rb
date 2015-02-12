@@ -20,12 +20,12 @@ describe Blacklight::SolrHelper do
     include Blacklight::SolrHelper
 
     attr_accessor :blacklight_config
-    attr_accessor :solr_repository
+    attr_accessor :repository
 
     def initialize blacklight_config, blacklight_solr
       self.blacklight_config = blacklight_config
-      self.solr_repository = Blacklight::SolrRepository.new(blacklight_config)
-      self.solr_repository.blacklight_solr = blacklight_solr
+      self.repository = Blacklight::SolrRepository.new(blacklight_config)
+      self.repository.blacklight_solr = blacklight_solr
     end
 
     def params
@@ -909,21 +909,21 @@ describe Blacklight::SolrHelper do
       end
       it "should contruct a solr query based on the field and value pair" do
         Deprecation.silence(Blacklight::SolrHelper) do
-          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(value)")).and_return(@mock_response)
+          allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(value)")).and_return(@mock_response)
           subject.get_solr_response_for_field_values('field_name', 'value')
         end
       end
 
       it "should OR multiple values together" do
         Deprecation.silence(Blacklight::SolrHelper) do
-          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(a OR b)")).and_return(@mock_response)
+          allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(a OR b)")).and_return(@mock_response)
           subject.get_solr_response_for_field_values('field_name', ['a', 'b'])
         end
       end
 
       it "should escape crazy identifiers" do
         Deprecation.silence(Blacklight::SolrHelper) do
-          allow(subject.solr_repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
+          allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
           subject.get_solr_response_for_field_values('field_name', 'h://"\'')
         end
       end
