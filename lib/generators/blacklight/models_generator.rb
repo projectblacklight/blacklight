@@ -13,7 +13,7 @@ module Blacklight
     desc """
 This generator makes the following changes to your application:
  1. Creates several database migrations if they do not exist in /db/migrate
- 2. Creates config/solr.yml with a default solr configuration
+ 2. Creates config/blacklight.yml with a default configuration
  3. Injects behavior into your user model
  4. Creates a blacklight document in your /app/models directory
 """
@@ -54,7 +54,7 @@ This generator makes the following changes to your application:
 
     # Copy all files in templates/config directory to host config
     def create_configuration_files
-      copy_file "config/solr.yml", "config/solr.yml"
+      copy_file "config/blacklight.yml", "config/blacklight.yml"
     end
 
 

@@ -15,10 +15,10 @@ describe "catalog/_paginate_compact.html.erb" do
       0
     end
 
-    include Blacklight::SolrHelper
+    include Blacklight::SearchHelper
 
     it "should render solr responses" do
-      solr_response, document_list = search_results({ q: '' }, CatalogController.solr_search_params_logic)
+      solr_response, document_list = search_results({ q: '' }, CatalogController.search_params_logic)
 
       render :partial => 'catalog/paginate_compact', :object => solr_response
       expect(rendered).to have_selector ".page_entries"

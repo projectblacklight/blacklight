@@ -7,7 +7,7 @@ describe Blacklight::SearchBuilder do
   let(:subject_search_params) { { commit: "search", search_field: "subject", action: "index", controller: "catalog", rows: "10", q: "wome" } }
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
-  let(:method_chain) { CatalogController.solr_search_params_logic }
+  let(:method_chain) { CatalogController.search_params_logic }
   let(:user_params) { Hash.new }
   let(:context) { CatalogController.new }
 
@@ -72,7 +72,7 @@ describe Blacklight::SearchBuilder do
     context "when search_params_logic is customized" do
       let(:method_chain) { [:add_foo_to_solr_params] }
 
-      it "allows customization of solr_search_params_logic" do
+      it "allows customization of search_params_logic" do
           # Normally you'd include a new module into (eg) your CatalogController
           # but a sub-class defininig it directly is simpler for test.
           allow(context).to receive(:add_foo_to_solr_params) do |solr_params, user_params|

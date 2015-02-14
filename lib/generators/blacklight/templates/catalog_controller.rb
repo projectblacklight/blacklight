@@ -5,7 +5,7 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
 
   configure_blacklight do |config|
-    ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
+    ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = { 
       :qt => 'search',
       :rows => 10 
@@ -17,7 +17,7 @@ class CatalogController < ApplicationController
     # items to show per page, each number in the array represent another option to choose from.
     #config.per_page = [10,20,50,100]
 
-    ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or 
+    ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SearchHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
     #config.default_document_solr_params = {

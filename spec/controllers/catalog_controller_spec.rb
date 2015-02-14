@@ -518,9 +518,7 @@ describe CatalogController do
     end
 
     it "should redirect the user to the root url for a bad search" do
-      req = {}
-      res = {}
-      fake_error = RSolr::Error::Http.new(req, res)
+      fake_error = Blacklight::Exceptions::InvalidRequest.new
       allow(Rails.env).to receive_messages(:test? => false)
       allow(controller).to receive(:search_results) { |*args| raise fake_error }
       expect(controller.logger).to receive(:error).with(fake_error)
@@ -531,17 +529,13 @@ describe CatalogController do
       expect(response).to_not be_success
       expect(response.status).to eq 302
     end
-    it "should return status 500 if the catalog path is raising an exception" do
 
-      req = {}
-      res = {}
-      fake_error = RSolr::Error::Http.new(req, res) 
+    it "should return status 500 if the catalog path is raising an exception" do
+      fake_error = Blacklight::Exceptions::InvalidRequest.new
       allow(controller).to receive(:get_search_results) { |*args| raise fake_error }
       allow(controller.flash).to receive(:sweep)
       allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
-      expect {
-      get :index, :q=>"+"
-      }.to raise_error 
+      expect { get :index, q: "+" }.to raise_error
     end
 
   end

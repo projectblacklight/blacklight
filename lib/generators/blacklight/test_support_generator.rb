@@ -14,8 +14,8 @@ Installs a jetty container with a solr installed in it. A solr setup known
 good with default blacklight setup, including solr conf files for out
 of the box blacklight. 
 
-Also adds jetty_path key to solr.yml for selected environment, to refer
-to this install. 
+Also adds jetty_path key to blacklight.yml for selected environment, to refer
+to this install.
 """
     def alternate_controller
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"

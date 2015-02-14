@@ -1,23 +1,23 @@
 # -*- encoding : utf-8 -*-
-module Blacklight::Base   
+module Blacklight::Base
   extend ActiveSupport::Concern
 
   include Blacklight::Configurable
-  include Blacklight::SolrHelper
+  include Blacklight::SearchHelper
 
   include Blacklight::Catalog::SearchContext
 
-  included do  
-    # When RSolr::RequestError is raised, the rsolr_request_error method is executed.
+  included do
+    # When Blacklight::Exceptions::InvalidRequest is raised, the rsolr_request_error method is executed.
     # The index action will more than likely throw this one.
     # Example, when the standard query parser is used, and a user submits a "bad" query.
-    rescue_from RSolr::Error::Http, :with => :rsolr_request_error if respond_to? :rescue_from
+    rescue_from Blacklight::Exceptions::InvalidRequest, with: :handle_request_error if respond_to? :rescue_from
   end
 
   protected
 
-  # when solr (RSolr) throws an error (RSolr::RequestError), this method is executed.
-  def rsolr_request_error(exception)
+  # when The index throws an error (Blacklight::Exceptions::InvalidRequest), this method is executed.
+  def handle_request_error(exception)
 
     if Rails.env.development? || Rails.env.test?
       raise exception # Rails own code will catch and give usual Rails error page with stack trace

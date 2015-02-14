@@ -9,7 +9,10 @@ module Blacklight
     # is not successful, raise this:
     class InvalidSolrID < RuntimeError
     end
-    
+
+    class InvalidRequest < StandardError
+    end
+
     class ExpiredSessionToken < Exception
     end
 
