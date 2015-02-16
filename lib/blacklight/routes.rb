@@ -66,7 +66,10 @@ module Blacklight
           get "bookmarks/sms", :as => "sms_bookmarks"
           post "bookmarks/sms"
           get "bookmarks/citation", :as => "citation_bookmarks"
-          resources :bookmarks
+
+          args = {}
+          args[:constraints] = options[:constraints] if options[:constraints]
+          resources :bookmarks, args
         end
       end
   
