@@ -252,8 +252,16 @@ module Blacklight
       end
       alias_method :inheritable_copy, :deep_copy
     else
-      alias_method :deep_copy, :deep_dup
-      alias_method :inheritable_copy, :deep_dup
+      ##
+      # Rails 4.x provides `#deep_dup`, but it aggressively `#dup`'s class names
+      # too. These model names should not be `#dup`'ed or we might break ActiveModel::Naming.
+      def deep_copy
+        deep_dup.tap do |copy|
+          copy.solr_response_model = self.solr_response_model
+          copy.solr_document_model = self.solr_document_model
+        end
+      end
+      alias_method :inheritable_copy, :deep_copy
     end
 
     ##
