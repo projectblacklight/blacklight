@@ -43,11 +43,11 @@ module Blacklight
       facet_field = facet_configuration_for_field(field_name)
       case 
         when (facet_field.respond_to?(:query) and facet_field.query)
-          create_facet_field_response_for_query_facet_field facet_name, facet_field 
+          create_facet_field_response_for_query_facet_field field_name, facet_field 
         when (facet_field.respond_to?(:pivot) and facet_field.pivot)
-          create_facet_field_response_for_pivot_facet_field facet_name, facet_field   
+          create_facet_field_response_for_pivot_facet_field field_name, facet_field   
         else
-          @response.facet_by_field_name(facet_name)
+          @response.facet_by_field_name(field_name)
       end
     end
 

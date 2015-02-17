@@ -120,7 +120,7 @@ describe FacetsHelper do
     it "should also work for facet query fields" do
       facet_config = double(:query => {})
       allow(helper).to receive(:facet_configuration_for_field).with('a_query_facet_field').and_return(facet_config)
-      allow(helper).to receive(:create_rsolr_facet_field_response_for_query_facet_field).with('a_query_facet_field', facet_config)
+      allow(helper).to receive(:create_facet_field_response_for_query_facet_field).with('a_query_facet_field', facet_config)
 
       helper.facet_by_field_name 'a_query_facet_field'
     end

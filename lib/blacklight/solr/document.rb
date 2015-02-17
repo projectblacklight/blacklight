@@ -146,8 +146,8 @@ module Blacklight::Solr::Document
   def to_semantic_values
     unless @semantic_value_hash
       @semantic_value_hash = Hash.new([]) # default to empty array   
-      self.class.field_semantics.each_pair do |key, solr_field|
-        value = self[solr_field]
+      self.class.field_semantics.each_pair do |key, field_name|
+        value = self[field_name]
         # Make single and multi-values all arrays, so clients
         # don't have to know.
         unless value.nil?
