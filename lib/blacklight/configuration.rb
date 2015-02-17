@@ -133,7 +133,8 @@ module Blacklight
           default_per_page: nil,
           # how many searches to save in session history
           # (TODO: move the value into the configuration?)
-          search_history_window: Blacklight::Catalog::SearchHistoryWindow
+          search_history_window: Blacklight::Catalog::SearchHistoryWindow,
+          default_facet_limit: 10
           }
         end
       end
@@ -203,6 +204,10 @@ module Blacklight
     alias_method :solr_response_model=, :response_model=
     deprecation_deprecate :solr_response_model
     deprecation_deprecate :solr_response_model=
+
+    def default_per_page
+      super || per_page.first
+    end
 
     ##
     # DSL helper
