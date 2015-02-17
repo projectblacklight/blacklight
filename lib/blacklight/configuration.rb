@@ -23,52 +23,73 @@ module Blacklight
 
         @default_values ||= begin
           {
+          ##
+          # === Search request configuration
+          ##
           # HTTP method to use when making requests to solr; valid
           # values are :get and :post.
-          :http_method => :get,
+          http_method: :get,
           # The solr request handler ('qt') to use for search requests
-          :qt => 'search',
+          qt: 'search',
           # The path to send requests to solr.
-          :solr_path => 'select',
+          solr_path: 'select',
           # Default values of parameters to send with every search request
-          :default_solr_params => {},
-          # the model to load solr response documents into; set below in #initialize_default_values
-          :document_model => nil,
-          :response_model => nil,
+          default_solr_params: {},
+          ## deprecated; use add_facet_field :include_in_request instead;
+          # if this is configured true, all facets will be included in the solr request
+          # unless explicitly disabled.
+          add_facet_fields_to_solr_request: false, 
+          ## deprecated; use add_index_field :include_in_request instead;
+          # if this is configured true, all show and index will be included in the solr request
+          # unless explicitly disabled.
+          add_field_configuration_to_solr_request: false,
+          ##
+          # === Single document request configuration
+          ##
           # The solr rqeuest handler to use when requesting only a single document 
-          :document_solr_request_handler => 'document',
+          document_solr_request_handler: 'document',
           # THe path to send single document requests to solr
-          :document_solr_path => nil,
-          :document_unique_id_param => :id,
+          document_solr_path: nil,
+          document_unique_id_param: :id,
           # Default values of parameters to send when requesting a single document
-          :default_document_solr_params => {
+          default_document_solr_params: {
             ## Blacklight provides these settings in the /document request handler
             ## by default, we just ask for all fields. 
-            #:fl => '*',
+            #fl: '*',
             ## this is a fancy way to say "find the document by id using
             ## the value in the id query parameter"
-            #:q => "{!raw f=#{unique_key} v=$id}",
+            #q: "{!raw f=#{unique_key} v=$id}",
             ## disable features we don't need
-            #:facet => false,
-            #:rows => 1
+            #facet: false,
+            #rows: 1
           },
+          ##
+          # == Response models
+          ##
+          # the model to load solr response documents into; set below in #initialize_default_values
+          document_model: nil,
+          response_model: nil,
+          ##
+          # == Blacklight view configuration
+          ##
+          navbar: OpenStructWithHashAccess.new(partials: { }),
           # General configuration for all views
-          :index => ViewConfig::Index.new(
+          index: ViewConfig::Index.new(
             # solr field to use to render a document title
-            :title_field => nil,
+            title_field: nil,
             # solr field to use to render format-specific partials
-            :display_type_field => 'format',
+            display_type_field: 'format',
             # partials to render for each document(see #render_document_partials)
-            :partials => [:index_header, :thumbnail, :index],
-            :document_actions => NestedOpenStructWithHashAccess.new(ToolConfig),
-            :collection_actions => NestedOpenStructWithHashAccess.new(ToolConfig),
+            partials: [:index_header, :thumbnail, :index],
+            document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
+            collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
             # what field, if any, to use to render grouped results
-            :group => false,
+            group: false,
             # additional response formats for search results
-            :respond_to => OpenStructWithHashAccess.new()
+            respond_to: OpenStructWithHashAccess.new()
             ),
           # Additional configuration when displaying a single document
-          :show => ViewConfig::Show.new(
+          show: ViewConfig::Show.new(
             # default route parameters for 'show' requests
             # set this to a hash with additional arguments to merge into 
             # the route, or set `controller: :current` to route to the 
@@ -78,9 +99,8 @@ module Blacklight
             partials: [:show_header, :show],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
           ),
-          :navbar => OpenStructWithHashAccess.new(partials: { }),
           # Configurations for specific types of index views
-          :view => NestedOpenStructWithHashAccess.new(ViewConfig,
+          view: NestedOpenStructWithHashAccess.new(ViewConfig,
             'list',
             atom: {
               if: false, # by default, atom should not show up as an alternative view
@@ -90,24 +110,26 @@ module Blacklight
               if: false, # by default, rss should not show up as an alternative view
               partials: [:document]
           }),
+          #
+          # These fields are created and managed below by `defined_field_access`
+          # facet_fields
+          # index_fields
+          # show_fields
+          # sort_fields
+          # search_fields
+          ##
+          # === Blacklight behavior configuration
+          ##
           # Maxiumum number of spelling suggestions to offer
-          :spell_max => 5,
+          spell_max: 5,
           # Maximum number of results to show per page
-          :max_per_page => 100,
+          max_per_page: 100,
           # Options for the user for number of results to show per page
-          :per_page => [10,20,50,100],
-          :default_per_page => nil,
+          per_page: [10,20,50,100],
+          default_per_page: nil,
           # how many searches to save in session history
           # (TODO: move the value into the configuration?)
-          :search_history_window => Blacklight::Catalog::SearchHistoryWindow,
-          ## deprecated; use add_facet_field :include_in_request instead;
-          # if this is configured true, all facets will be included in the solr request
-          # unless explicitly disabled.
-          :add_facet_fields_to_solr_request => false, 
-          ## deprecated; use add_index_field :include_in_request instead;
-          # if this is configured true, all show and index will be included in the solr request
-          # unless explicitly disabled.
-          :add_field_configuration_to_solr_request => false
+          search_history_window: Blacklight::Catalog::SearchHistoryWindow
           }
         end
       end
