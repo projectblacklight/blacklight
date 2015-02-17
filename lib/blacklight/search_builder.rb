@@ -1,12 +1,20 @@
 module Blacklight
   class SearchBuilder
-    # @param [Hash,HashWithIndifferentAccess] user_params the user provided parameters (e.g. query, facets, sort, etc)
+    extend Deprecation
+    self.deprecation_horizon = "blacklight 6.0"
+
+    attr_reader :blacklight_params
+
     # @param [List<Symbol>] processor_chain a list of filter methods to run
     # @param [Object] scope the scope where the filter methods reside in.
-    def initialize(user_params, processor_chain, scope)
-      @user_params = user_params
+    def initialize(processor_chain, scope)
       @processor_chain = processor_chain
       @scope = scope
+    end
+
+    def with blacklight_params
+      @blacklight_params = blacklight_params
+      self
     end
 
     # a solr query method
@@ -34,9 +42,62 @@ module Blacklight
     def processed_parameters
       Blacklight::Solr::Request.new.tap do |request_parameters|
         @processor_chain.each do |method_name|
-          @scope.send(method_name, request_parameters, @user_params)
+          if @scope.respond_to?(method_name, true)
+            Deprecation.warn Blacklight::SearchBuilder, "Building search parameters by calling #{method_name} on #{@scope.to_s}. This behavior will be deprecated in Blacklight 6.0"
+            @scope.send(method_name, request_parameters, @user_params)
+          else
+            send(method_name, request_parameters)
+          end
         end
       end
+    end
+
+    def blacklight_config
+      @scope.blacklight_config
+    end
+
+    protected
+    def page
+      blacklight_params[:page].to_i unless blacklight_params[:page].blank?
+    end
+
+    def rows default = nil
+      # user-provided parameters should override any default row
+      rows = blacklight_params[:rows].to_i unless blacklight_params[:rows].blank?
+      rows = blacklight_params[:per_page].to_i unless blacklight_params[:per_page].blank?
+
+      default ||= blacklight_config.default_per_page
+      default ||= 10
+      rows ||= default
+
+      # ensure we don't excede the max page size
+      rows = blacklight_config.max_per_page if rows.to_i > blacklight_config.max_per_page
+
+
+      rows
+    end
+
+    def sort
+      field = if blacklight_params[:sort].blank? and sort_field = blacklight_config.default_sort_field
+        # no sort param provided, use default
+        sort_field.sort
+      elsif sort_field = blacklight_config.sort_fields[blacklight_params[:sort]]
+        # check for sort field key  
+        sort_field.sort
+      else 
+        # just pass the key through
+        blacklight_params[:sort]
+      end
+
+      field unless field.blank?
+    end
+
+    def search_field
+      blacklight_config.search_fields[blacklight_params[:search_field]]
+    end
+    
+    def should_add_field_to_request? field_name, field
+      field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
     end
 
   end
