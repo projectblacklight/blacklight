@@ -407,7 +407,7 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Override this method if you want to use a different presenter class
   def presenter_class
-    blacklight_config.document_presenter_class || Blacklight::DocumentPresenter
+    blacklight_config.document_presenter_class
   end
   
   ##

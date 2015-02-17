@@ -66,9 +66,12 @@ module Blacklight
           ##
           # == Response models
           ##
-          # the model to load solr response documents into; set below in #initialize_default_values
-          document_model: nil,
+          # model that maps index responses to the blacklight response model
           response_model: nil,
+          # the model to use for each response document
+          document_model: nil,
+          # document presenter class used by helpers and views
+          document_presenter_class: nil,
           ##
           # == Blacklight view configuration
           ##
@@ -183,6 +186,10 @@ module Blacklight
     alias_method :solr_document_model=, :document_model=
     deprecation_deprecate :solr_document_model
     deprecation_deprecate :solr_document_model=
+
+    def document_presenter_class
+      super || Blacklight::DocumentPresenter
+    end
 
     def response_model
       super || Blacklight::SolrResponse
