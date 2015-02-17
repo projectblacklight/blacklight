@@ -16,12 +16,12 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
   include MoreLikeThis
 
   attr_reader :request_params
-  attr_accessor :solr_document_model
+  attr_accessor :document_model
 
   def initialize(data, request_params, options = {})
     super(force_to_utf8(data))
     @request_params = request_params
-    self.solr_document_model = options[:solr_document_model] || SolrDocument
+    self.document_model = options[:document_model] || SolrDocument
   end
 
   def header
@@ -52,7 +52,7 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
   end
   
   def documents
-    docs.collect{|doc| solr_document_model.new(doc, self) }
+    docs.collect{|doc| document_model.new(doc, self) }
   end
 
   def grouped

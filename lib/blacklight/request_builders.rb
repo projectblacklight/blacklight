@@ -86,7 +86,7 @@ module Blacklight
     ##
     # Retrieve the results for a list of document ids
     def solr_document_ids_params(ids = [])
-      solr_documents_by_field_values_params blacklight_config.solr_document_model.unique_key, ids
+      solr_documents_by_field_values_params blacklight_config.document_model.unique_key, ids
     end
 
     ##

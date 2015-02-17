@@ -13,6 +13,8 @@ module Blacklight
     require 'blacklight/configuration/facet_field'
     require 'blacklight/configuration/sort_field'
     include Fields
+    extend Deprecation
+    self.deprecation_horizon = 'blacklight 6.0'
 
     # Set up Blacklight::Configuration.default_values to contain
     # the basic, required Blacklight fields
@@ -31,8 +33,8 @@ module Blacklight
           # Default values of parameters to send with every search request
           :default_solr_params => {},
           # the model to load solr response documents into; set below in #initialize_default_values
-          :solr_document_model => nil,
-          :solr_response_model => nil,
+          :document_model => nil,
+          :response_model => nil,
           # The solr rqeuest handler to use when requesting only a single document 
           :document_solr_request_handler => 'document',
           # THe path to send single document requests to solr
@@ -148,13 +150,29 @@ module Blacklight
       end
     end
     
-    def solr_document_model
+    def document_model
       super || SolrDocument
     end
+    alias_method :solr_document_model, :document_model
+    # only here to support alias_method
+    def document_model= *args
+      super
+    end
+    alias_method :solr_document_model=, :document_model=
+    deprecation_deprecate :solr_document_model
+    deprecation_deprecate :solr_document_model=
 
-    def solr_response_model
+    def response_model
       super || Blacklight::SolrResponse
     end
+    alias_method :solr_response_model, :response_model
+    # only here to support alias_method
+    def response_model= *args
+      super
+    end
+    alias_method :solr_response_model=, :response_model=
+    deprecation_deprecate :solr_response_model
+    deprecation_deprecate :solr_response_model=
 
     ##
     # DSL helper
@@ -186,7 +204,7 @@ module Blacklight
     end
     
     def default_title_field
-      solr_document_model.unique_key || 'id'
+      document_model.unique_key || 'id'
     end
 
     ##
@@ -257,8 +275,8 @@ module Blacklight
       # too. These model names should not be `#dup`'ed or we might break ActiveModel::Naming.
       def deep_copy
         deep_dup.tap do |copy|
-          copy.solr_response_model = self.solr_response_model
-          copy.solr_document_model = self.solr_document_model
+          copy.response_model = self.response_model
+          copy.document_model = self.document_model
         end
       end
       alias_method :inheritable_copy, :deep_copy

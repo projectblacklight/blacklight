@@ -272,7 +272,7 @@ module Blacklight::BlacklightHelperBehavior
   #   @options options [Symbol] :tag
   def render_document_heading(*args)
     options = args.extract_options!
-    if args.first.is_a? blacklight_config.solr_document_model
+    if args.first.is_a? blacklight_config.document_model
       document = args.shift
       tag = options[:tag]
     else

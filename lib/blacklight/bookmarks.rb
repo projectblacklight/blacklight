@@ -71,7 +71,7 @@ module Blacklight::Bookmarks
     if params[:bookmarks]
       @bookmarks = params[:bookmarks]
     else
-      @bookmarks = [{ document_id: params[:id], document_type: blacklight_config.solr_document_model.to_s }]
+      @bookmarks = [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
     end
 
     current_or_guest_user.save! unless current_or_guest_user.persisted?
@@ -96,7 +96,7 @@ module Blacklight::Bookmarks
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be.
   def destroy
-    bookmark = current_or_guest_user.bookmarks.where(document_id: params[:id], document_type: blacklight_config.solr_document_model).first
+    bookmark = current_or_guest_user.bookmarks.where(document_id: params[:id], document_type: blacklight_config.document_model).first
 
     success = bookmark && bookmark.delete && bookmark.destroyed?
 
