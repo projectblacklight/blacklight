@@ -12,7 +12,7 @@ module Blacklight
     end
 
     def facets_from_request(fields = facet_field_names)
-      fields.map { |solr_field| facet_by_field_name(solr_field) }.compact
+      fields.map { |field| facet_by_field_name(field) }.compact
     end
 
     def facet_field_names
@@ -25,33 +25,33 @@ module Blacklight
 
 
     # Get a FacetField object from the @response
-    def facet_by_field_name solr_field
-      case solr_field
+    def facet_by_field_name field
+      case field
         when String, Symbol
-          extract_solr_facet_by_field_name(solr_field)
+          extract_facet_by_field_name(field)
         when Blacklight::Configuration::FacetField
-          extract_solr_facet_by_field_name(solr_field.field)
+          extract_facet_by_field_name(field.field)
         else
-          solr_field
+          field
         end
     end
 
     private
 
-    # Get the solr response for the solr field :field
-    def extract_solr_facet_by_field_name facet_name
-      facet_field = facet_configuration_for_field(facet_name)
+    # Get the solr response for the field :field
+    def extract_facet_by_field_name field_name
+      facet_field = facet_configuration_for_field(field_name)
       case 
         when (facet_field.respond_to?(:query) and facet_field.query)
-          create_rsolr_facet_field_response_for_query_facet_field facet_name, facet_field 
+          create_facet_field_response_for_query_facet_field facet_name, facet_field 
         when (facet_field.respond_to?(:pivot) and facet_field.pivot)
-          create_rsolr_facet_field_response_for_pivot_facet_field facet_name, facet_field   
+          create_facet_field_response_for_pivot_facet_field facet_name, facet_field   
         else
           @response.facet_by_field_name(facet_name)
       end
     end
 
-    def create_rsolr_facet_field_response_for_query_facet_field facet_name, facet_field
+    def create_facet_field_response_for_query_facet_field facet_name, facet_field
       salient_facet_queries = facet_field.query.map { |k, x| x[:fq] }
       items = []
       @response.facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits == 0 }.map do |value,hits|
@@ -64,7 +64,7 @@ module Blacklight
     end
 
 
-    def create_rsolr_facet_field_response_for_pivot_facet_field facet_name, facet_field
+    def create_facet_field_response_for_pivot_facet_field facet_name, facet_field
       items = []
       (@response.facet_pivot[facet_field.pivot.join(",")] || []).map do |lst|
         items << construct_pivot_field(lst)

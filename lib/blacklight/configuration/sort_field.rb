@@ -1,5 +1,5 @@
 module Blacklight
-  class Configuration::SortField < Blacklight::Configuration::SolrField
+  class Configuration::SortField < Blacklight::Configuration::Field
     def normalize! blacklight_config = nil
       self.sort ||= self.field
 
@@ -12,7 +12,7 @@ module Blacklight
     end
 
     def validate!
-      raise ArgumentError.new("Must supply a solr sort string") if self.sort.nil?
+      raise ArgumentError.new("Must supply a sort string") if self.sort.nil?
     end
   end
 end

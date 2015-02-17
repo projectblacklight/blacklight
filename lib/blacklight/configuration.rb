@@ -8,6 +8,7 @@ module Blacklight
     require 'blacklight/configuration/tool_config'
     # XXX this isn't very pretty, but it works.
     require 'blacklight/configuration/fields'
+    require 'blacklight/configuration/field'
     require 'blacklight/configuration/solr_field'
     require 'blacklight/configuration/search_field'
     require 'blacklight/configuration/facet_field'

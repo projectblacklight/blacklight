@@ -55,7 +55,7 @@ module Blacklight
     # Render a value (or array of values) from a field
     #
     # @param [String] value or list of values to display
-    # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
+    # @param [Blacklight::Solr::Configuration::Field] solr field configuration
     # @return [String]
     def render_field_value value=nil, field_config=nil
       safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
@@ -134,7 +134,7 @@ module Blacklight
     # simplified by pushing some of this logic into the "model"
     # @param [SolrDocument] document
     # @param [String] field name
-    # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
+    # @param [Blacklight::Solr::Configuration::Field] solr field configuration
     # @param [Hash] options additional options to pass to the rendering helpers
     def get_field_values field, field_config, options = {}
       # retrieving values

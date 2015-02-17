@@ -1,5 +1,5 @@
 module Blacklight
-  class Configuration::SearchField < Blacklight::Configuration::SolrField
+  class Configuration::SearchField < Blacklight::Configuration::Field
     def normalize! blacklight_config = nil
       # Some normalization, calculate display_label from key,
       # and make sure we have a qt from defaults.             

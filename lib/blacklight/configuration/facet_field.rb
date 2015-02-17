@@ -1,5 +1,5 @@
 module Blacklight
-  class Configuration::FacetField < Blacklight::Configuration::SolrField
+  class Configuration::FacetField < Blacklight::Configuration::Field
     def normalize! blacklight_config = nil
       self.query.stringify_keys! if self.query
 

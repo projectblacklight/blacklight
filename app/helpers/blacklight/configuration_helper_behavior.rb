@@ -1,10 +1,12 @@
 module Blacklight::ConfigurationHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 6.0'
 
   ##
   # Index fields to display for a type of document
   # 
   # @param [SolrDocument] document
-  # @return [Array<Blacklight::Solr::Configuration::SolrField>] 
+  # @return [Array<Blacklight::Solr::Configuration::Field>] 
   def index_fields document=nil
     blacklight_config.index_fields
   end
@@ -171,7 +173,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Determine whether to render a field by evaluating :if and :unless conditions
   #
-  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_field? field_config, *args
     evaluate_if_unless_configuration field_config, *args
