@@ -684,22 +684,22 @@ describe Blacklight::SearchHelper do
       @response2, @document = subject.get_solr_response_for_doc_id(@doc_id)
     end
 
-    it "should raise Blacklight::InvalidSolrID for an unknown id" do
+    it "should raise Blacklight::RecordNotFound for an unknown id" do
       expect {
         subject.get_solr_response_for_doc_id(@bad_id)
-      }.to raise_error(Blacklight::Exceptions::InvalidSolrID)
+      }.to raise_error(Blacklight::Exceptions::RecordNotFound)
     end
 
     it "should use a provided document request handler " do
       allow(blacklight_config).to receive_messages(:document_solr_request_handler => 'document')
       allow(blacklight_solr).to receive(:send_and_receive).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
-      expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
+      expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
     it "should use a provided document solr path " do
       allow(blacklight_config).to receive_messages(:document_solr_path => 'get')
       allow(blacklight_solr).to receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
-      expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::InvalidSolrID
+      expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
     it "should have a non-nil result for a known id" do

@@ -16,6 +16,6 @@ rake "db:migrate"
 if options =~ /jettywrapper/
   rake "jetty:clean"
   rake "jetty:start"
-  rake "blacklight:solr:seed"
+  rake "blacklight:index:seed"
   rake "jetty:stop"
 end

@@ -4,6 +4,8 @@ module Blacklight
     # solr fields configuration
     module Fields
       extend ActiveSupport::Concern
+      extend Deprecation
+      self.deprecation_horizon = "blacklight 6.0"
 
       module ClassMethods
 
@@ -13,7 +15,7 @@ module Blacklight
 
           self.default_values[key.pluralize.to_sym] = ActiveSupport::OrderedHash.new
 
-          base_class_name = options.fetch(:class, SolrField)
+          base_class_name = options.fetch(:class, Field)
 
           unless self.const_defined? key.camelcase
             class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
@@ -23,7 +25,7 @@ module Blacklight
     
           class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
             def add_#{key}(*args, &block)
-              add_solr_field("#{key}", *args, &block)
+              add_blacklight_field("#{key}", *args, &block)
             end
           END_EVAL
         end
@@ -32,41 +34,41 @@ module Blacklight
       # Add a solr field configuration to the given configuration key
       #
       # The recommended and strongly encouraged format is a field name, configuration pair, e.g.:
-      #     add_solr_field :index_field, 'format', :label => 'Format' 
+      #     add_blacklight_field :index_field, 'format', :label => 'Format' 
       #
       # Alternative formats include:
       #
       # * a field name and block format:
       #
-      #     add_solr_field :index_field, 'format' do |field|
+      #     add_blacklight_field :index_field, 'format' do |field|
       #       field.label = 'Format'
       #     end
       #
       # * a plain block:
       #
-      #     add_solr_field :index_field do |field|
+      #     add_blacklight_field :index_field do |field|
       #       field.field = 'format'
       #       field.label = 'Format'
       #     end
       # 
       # * a configuration hash:
       #
-      #     add_solr_field :index_field, :field => 'format', :label => 'Format'
+      #     add_blacklight_field :index_field, :field => 'format', :label => 'Format'
       #   
       # * a Field instance: 
       #
-      #     add_solr_field :index_field, IndexField.new(:field => 'format', :label => 'Format')
+      #     add_blacklight_field :index_field, IndexField.new(:field => 'format', :label => 'Format')
       #
       # * an array of hashes: 
       #
-      #     add_solr_field :index_field, [{:field => 'format', :label => 'Format'}, IndexField.new(:field => 'date', :label => 'Date')]
+      #     add_blacklight_field :index_field, [{:field => 'format', :label => 'Format'}, IndexField.new(:field => 'date', :label => 'Date')]
       #
       #
       # @param String config_key 
       # @param Array *args 
       # @para
       #
-      def add_solr_field config_key, *args, &block
+      def add_blacklight_field config_key, *args, &block
         field_config = case args.first
           when String
             field_config_from_key_and_hash(config_key, *args)
@@ -92,7 +94,7 @@ module Blacklight
             if self[config_key.pluralize][ config.field ]
               self[config_key.pluralize][ config.field ] = config.merge(self[config_key.pluralize][ config.field ])
             else
-              add_solr_field(config_key, config, &block)
+              add_blacklight_field(config_key, config, &block)
             end
           end
 
@@ -110,6 +112,8 @@ module Blacklight
 
         self[config_key.pluralize][ field_config.field ] = field_config            
       end
+      alias_method :add_solr_field, :add_blacklight_field
+      deprecation_deprecate :add_solr_field
 
       protected
       def luke_fields
@@ -129,9 +133,9 @@ module Blacklight
       end
 
       # Add a solr field by a solr field name and hash 
-      def field_config_from_key_and_hash config_key, solr_field, field_or_hash = {}
+      def field_config_from_key_and_hash config_key, field_name, field_or_hash = {}
         field_config = field_config_from_field_or_hash(config_key, field_or_hash)
-        field_config.field = solr_field
+        field_config.field = field_name
 
         field_config
       end
@@ -139,7 +143,7 @@ module Blacklight
       # Add multiple solr fields using a hash or Field instance
       def field_config_from_array config_key, array_of_fields_or_hashes, &block
         array_of_fields_or_hashes.map do |field_or_hash| 
-          add_solr_field(config_key, field_or_hash, &block)
+          add_blacklight_field(config_key, field_or_hash, &block)
         end
       end
 

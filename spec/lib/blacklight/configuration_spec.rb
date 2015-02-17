@@ -84,14 +84,14 @@ describe "Blacklight::Configuration" do
       expect(@config.facet_fields).to_not include(@mock_facet)
     end
 
-    it "should not dup solr_response_model or solr_document_model" do
-      @config.solr_response_model = Blacklight::SolrResponse
-      @config.solr_document_model = SolrDocument
+    it "should not dup response_model or document_model" do
+      @config.response_model = Blacklight::SolrResponse
+      @config.document_model = SolrDocument
 
       config_copy = @config.inheritable_copy
 
-      expect(config_copy.solr_response_model).to eq Blacklight::SolrResponse
-      expect(config_copy.solr_document_model).to eq SolrDocument
+      expect(config_copy.response_model).to eq Blacklight::SolrResponse
+      expect(config_copy.document_model).to eq SolrDocument
     end
 
     it "should provide cloned copies of mutable data structures" do

@@ -97,27 +97,27 @@ module Blacklight::BlacklightHelperBehavior
   # Determine whether to render a given field in the index view.
   #  
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
-  def should_render_index_field? document, solr_field
-    should_render_field?(solr_field, document) && document_has_value?(document, solr_field)
+  def should_render_index_field? document, field_config
+    should_render_field?(field_config, document) && document_has_value?(document, field_config)
   end
 
   ##
   # Determine whether to render a given field in the show view
   #
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
-  def should_render_show_field? document, solr_field
-    should_render_field?(solr_field, document) && document_has_value?(document, solr_field)
+  def should_render_show_field? document, field_config
+    should_render_field?(field_config, document) && document_has_value?(document, field_config)
   end
   
   ##
   # Check if a document has (or, might have, in the case of accessor methods) a value for
   # the given solr field
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
   def document_has_value? document, field_config
     document.has?(field_config.field) ||
@@ -272,7 +272,7 @@ module Blacklight::BlacklightHelperBehavior
   #   @options options [Symbol] :tag
   def render_document_heading(*args)
     options = args.extract_options!
-    if args.first.is_a? blacklight_config.solr_document_model
+    if args.first.is_a? blacklight_config.document_model
       document = args.shift
       tag = options[:tag]
     else
@@ -298,7 +298,7 @@ module Blacklight::BlacklightHelperBehavior
   # simplified by pushing some of this logic into the "model"
   # @param [SolrDocument] document
   # @param [String] field name
-  # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
+  # @param [Blacklight::Solr::Configuration::Field] solr field configuration
   # @param [Hash] options additional options to pass to the rendering helpers
   def get_field_values document, field, field_config, options = {}
     presenter(document).get_field_values field, field_config, options
@@ -309,7 +309,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @deprecated Use DocumentPresenter instead
   # @param [String] value or list of values to display
-  # @param [Blacklight::Solr::Configuration::SolrField] solr field configuration
+  # @param [Blacklight::Solr::Configuration::Field] solr field configuration
   # @return [String]
   def render_field_value value=nil, field_config=nil
     Deprecation.warn self, "render_field_value is deprecated. Use DocumentPresenter.render_field_value instead"
@@ -407,7 +407,7 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Override this method if you want to use a different presenter class
   def presenter_class
-    blacklight_config.document_presenter_class || Blacklight::DocumentPresenter
+    blacklight_config.document_presenter_class
   end
   
   ##

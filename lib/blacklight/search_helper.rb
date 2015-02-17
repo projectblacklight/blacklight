@@ -56,12 +56,12 @@ module Blacklight::SearchHelper
   # @see [Blacklight::SolrRepository#send_and_receive]
   # @return [Blacklight::SolrResponse] the solr response object
   def find *args
-    solr_params = args.extract_options!
+    request_params = args.extract_options!
     path = args.first || blacklight_config.solr_path
 
-    solr_params[:qt] ||= blacklight_config.qt
+    request_params[:qt] ||= blacklight_config.qt
 
-    repository.send_and_receive path, solr_params
+    repository.send_and_receive path, request_params
   end
   deprecation_deprecate :find
 
@@ -80,15 +80,15 @@ module Blacklight::SearchHelper
   def get_search_results(user_params = params || {}, extra_controller_params = {})
     Deprecation.warn(self, "get_search_results is deprecated and will be removed in blacklight-6.0. Use `search_results' instead")
     query = search_builder(user_params).query(extra_controller_params)
-    solr_response = repository.search(query)
+    response = repository.search(query)
 
     case
-    when (solr_response.grouped? && grouped_key_for_results)
-      [solr_response.group(grouped_key_for_results), []]
-    when (solr_response.grouped? && solr_response.grouped.length == 1)
-      [solr_response.grouped.first, []]
+    when (response.grouped? && grouped_key_for_results)
+      [response.group(grouped_key_for_results), []]
+    when (response.grouped? && response.grouped.length == 1)
+      [response.grouped.first, []]
     else
-      [solr_response, solr_response.documents]
+      [response, response.documents]
     end
   end
 
@@ -99,15 +99,15 @@ module Blacklight::SearchHelper
   # @return [Blacklight::SolrResponse] the solr response object
   def search_results(user_params, search_params_logic)
     query = search_builder(user_params, search_params_logic).query
-    solr_response = repository.search(query)
+    response = repository.search(query)
 
     case
-    when (solr_response.grouped? && grouped_key_for_results)
-      [solr_response.group(grouped_key_for_results), []]
-    when (solr_response.grouped? && solr_response.grouped.length == 1)
-      [solr_response.grouped.first, []]
+    when (response.grouped? && grouped_key_for_results)
+      [response.group(grouped_key_for_results), []]
+    when (response.grouped? && response.grouped.length == 1)
+      [response.grouped.first, []]
     else
-      [solr_response, solr_response.documents]
+      [response, response.documents]
     end
   end
 
@@ -211,13 +211,13 @@ module Blacklight::SearchHelper
   # the Blacklight app-level request params that define the search.
   # @return [Blacklight::SolrDocument, nil] the found document or nil if not found
   def get_single_doc_via_search(index, request_params)
-    solr_params = search_builder(request_params).processed_parameters
+    request_params = search_builder(request_params).processed_parameters
 
-    solr_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.
-    solr_params[:rows] = 1
-    solr_params[:fl] = '*'
-    solr_response = repository.search(solr_params)
-    solr_response.documents.first
+    request_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.
+    request_params[:rows] = 1
+    request_params[:fl] = '*'
+    response = repository.search(request_params)
+    response.documents.first
   end
   deprecation_deprecate :get_single_doc_via_search
 
@@ -226,15 +226,15 @@ module Blacklight::SearchHelper
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
 
     query = search_builder(request_params).query(extra_controller_params.merge(previous_and_next_document_params(index)))
-    solr_response = repository.search(query)
+    response = repository.search(query)
 
-    document_list = solr_response.documents
+    document_list = response.documents
 
     # only get the previous doc if there is one
     prev_doc = document_list.first if index > 0
-    next_doc = document_list.last if (index + 1) < solr_response.total
+    next_doc = document_list.last if (index + 1) < response.total
 
-    [solr_response, [prev_doc, next_doc]]
+    [response, [prev_doc, next_doc]]
   end
   
   # a solr query method

@@ -32,9 +32,9 @@ module Blacklight
     #
     # Incoming parameter :f is mapped to :fq solr parameter.
     def processed_parameters
-      Blacklight::Solr::Request.new.tap do |solr_parameters|
+      Blacklight::Solr::Request.new.tap do |request_parameters|
         @processor_chain.each do |method_name|
-          @scope.send(method_name, solr_parameters, @user_params)
+          @scope.send(method_name, request_parameters, @user_params)
         end
       end
     end

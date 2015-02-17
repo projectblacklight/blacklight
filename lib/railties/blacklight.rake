@@ -10,13 +10,20 @@ namespace :blacklight do
     Search.delete_old_searches(args[:days_old].to_i)
   end
 
-  namespace :solr do
+  namespace :index do
     desc "Put sample data into solr"
     task :seed do
       docs = YAML::load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
       conn = Blacklight.default_index.connection
       conn.add docs
       conn.commit
+    end
+  end
+
+  namespace :solr do
+    task :seed do
+      Deprecation.warn Blacklight, "blacklight:solr:seed is deprecated; use blacklight:index:seed instead"
+      Rake::Task['blacklight:index:seed'].invoke
     end
   end
 

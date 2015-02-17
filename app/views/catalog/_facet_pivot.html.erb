@@ -2,15 +2,15 @@
   <% display_facet.items.each do |item| -%>
     <li>
     <span class="facet-values">
-    <% if facet_in_params?( solr_field, item ) %>              
-        <%= render_selected_facet_value(solr_field, item) %>              
+    <% if facet_in_params?(field_name, item) %>              
+        <%= render_selected_facet_value(field_name, item) %>              
       <% else %>              
-        <%= render_facet_value(solr_field, item) %>              
+        <%= render_facet_value(field_name, item) %>              
     <% end -%>
     </span>
 
     <% unless item.items.blank? %>
-      <%= render :partial => 'facet_pivot', :locals => { :display_facet => item, :solr_field => solr_field } %>
+      <%= render partial: 'facet_pivot', locals: { display_facet: item, field_name: field_name, solr_field: field_name } %>
     <% end %>
     </li>
   <% end %>

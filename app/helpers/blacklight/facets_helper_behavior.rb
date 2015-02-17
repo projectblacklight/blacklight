@@ -43,7 +43,8 @@ module Blacklight::FacetsHelperBehavior
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.has_key?(:layout)
     options[:locals] ||= {}
-    options[:locals][:solr_field] ||= display_facet.name 
+    options[:locals][:field_name] ||= display_facet.name
+    options[:locals][:solr_field] ||= display_facet.name # deprecated
     options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
     options[:locals][:display_facet] ||= display_facet 
 
@@ -54,20 +55,20 @@ module Blacklight::FacetsHelperBehavior
   # Renders the list of values 
   # removes any elements where render_facet_item returns a nil value. This enables an application
   # to filter undesireable facet items so they don't appear in the UI
-  def render_facet_limit_list(paginator, solr_field, wrapping_element=:li)
+  def render_facet_limit_list(paginator, facet_field, wrapping_element=:li)
     safe_join(paginator.items.
-      map { |item| render_facet_item(solr_field, item) }.compact.
+      map { |item| render_facet_item(facet_field, item) }.compact.
       map { |item| content_tag(wrapping_element,item)}
     )
   end
 
   ##
   # Renders a single facet item
-  def render_facet_item(solr_field, item)
-    if facet_in_params?( solr_field, item.value )
-      render_selected_facet_value(solr_field, item)          
+  def render_facet_item(facet_field, item)
+    if facet_in_params?(facet_field, item.value )
+      render_selected_facet_value(facet_field, item)          
     else
-      render_facet_value(solr_field, item)
+      render_facet_value(facet_field, item)
     end
   end
 
@@ -121,21 +122,21 @@ module Blacklight::FacetsHelperBehavior
   # @param [Hash] options
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
   # @return [String]
-  def render_facet_value(facet_solr_field, item, options ={})
-    path = search_action_path(add_facet_params_and_redirect(facet_solr_field, item))
+  def render_facet_value(facet_field, item, options ={})
+    path = search_action_path(add_facet_params_and_redirect(facet_field, item))
     content_tag(:span, :class => "facet-label") do
-      link_to_unless(options[:suppress_link], facet_display_value(facet_solr_field, item), path, :class=>"facet_select")
+      link_to_unless(options[:suppress_link], facet_display_value(facet_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
   end
 
   ##
   # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
   # @params (see #render_facet_value)
-  def render_selected_facet_value(facet_solr_field, item)
+  def render_selected_facet_value(facet_field, item)
     content_tag(:span, :class => "facet-label") do
-      content_tag(:span, facet_display_value(facet_solr_field, item), :class => "selected") +
+      content_tag(:span, facet_display_value(facet_field, item), :class => "selected") +
       # remove link
-      link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), search_action_path(remove_facet_params(facet_solr_field, item, params)), :class=>"remove")
+      link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), search_action_path(remove_facet_params(facet_field, item, params)), :class=>"remove")
     end + render_facet_count(item.hits, :classes => ["selected"])
   end
 

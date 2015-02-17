@@ -34,11 +34,12 @@ module Blacklight::Solr::Document
     include Blacklight::Solr::Document::Extensions
   end    
 
-  attr_reader :solr_response
+  attr_reader :response
+  alias_method :solr_response, :response
 
-  def initialize(source_doc={}, solr_response=nil)
+  def initialize(source_doc={}, response=nil)
     @_source = source_doc.with_indifferent_access
-    @solr_response = solr_response
+    @response = response
     apply_extensions
   end
 
@@ -87,15 +88,14 @@ module Blacklight::Solr::Document
   end
 
   def has_highlight_field? k
-    return false if @solr_response['highlighting'].blank? or @solr_response['highlighting'][self.id].blank?
+    return false if response['highlighting'].blank? or response['highlighting'][self.id].blank?
     
-    @solr_response['highlighting'][self.id].key? k.to_s
+    response['highlighting'][self.id].key? k.to_s
   end
 
   def highlight_field k
     return nil unless has_highlight_field? k
-    @solr_response['highlighting'][self.id][k.to_s].map { |x| x.html_safe }
-
+    response['highlighting'][self.id][k.to_s].map { |x| x.html_safe }
   end
 
   # helper
@@ -146,8 +146,8 @@ module Blacklight::Solr::Document
   def to_semantic_values
     unless @semantic_value_hash
       @semantic_value_hash = Hash.new([]) # default to empty array   
-      self.class.field_semantics.each_pair do |key, solr_field|
-        value = self[solr_field]
+      self.class.field_semantics.each_pair do |key, field_name|
+        value = self[field_name]
         # Make single and multi-values all arrays, so clients
         # don't have to know.
         unless value.nil?

@@ -1,10 +1,12 @@
 module Blacklight::ConfigurationHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 6.0'
 
   ##
   # Index fields to display for a type of document
   # 
   # @param [SolrDocument] document
-  # @return [Array<Blacklight::Solr::Configuration::SolrField>] 
+  # @return [Array<Blacklight::Solr::Configuration::Field>] 
   def index_fields document=nil
     blacklight_config.index_fields
   end
@@ -60,7 +62,7 @@ module Blacklight::ConfigurationHelperBehavior
   def index_field_label document, field
     field_config = index_fields(document)[field]
 
-    solr_field_label(
+    field_label(
       :"blacklight.search.fields.index.#{field}",
       :"blacklight.search.fields.#{field}",
       (field_config.label if field_config),
@@ -73,7 +75,7 @@ module Blacklight::ConfigurationHelperBehavior
   def document_show_field_label document, field
     field_config = document_show_fields(document)[field]
 
-    solr_field_label(
+    field_label(
       :"blacklight.search.fields.show.#{field}",
       :"blacklight.search.fields.#{field}",
       (field_config.label if field_config),
@@ -86,7 +88,7 @@ module Blacklight::ConfigurationHelperBehavior
   def facet_field_label field
     field_config = blacklight_config.facet_fields[field]
 
-    solr_field_label(
+    field_label(
       :"blacklight.search.fields.facet.#{field}",
       :"blacklight.search.fields.#{field}",
       (field_config.label if field_config),
@@ -106,11 +108,13 @@ module Blacklight::ConfigurationHelperBehavior
   #     before falling  back to the label
   #   @param [Symbol] any number of additional keys
   #   @param [Symbol] ...
-  def solr_field_label *i18n_keys
+  def field_label *i18n_keys
     first, *rest = i18n_keys
 
     t(first, default: rest)
   end
+  alias_method :solr_field_label, :field_label
+  deprecation_deprecate :solr_field_label
   
   def document_index_views
     blacklight_config.view.select do |k, config|
@@ -171,7 +175,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Determine whether to render a field by evaluating :if and :unless conditions
   #
-  # @param [Blacklight::Solr::Configuration::SolrField] solr_field
+  # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_field? field_config, *args
     evaluate_if_unless_configuration field_config, *args
