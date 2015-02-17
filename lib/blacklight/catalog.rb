@@ -2,6 +2,7 @@
 module Blacklight::Catalog
   extend ActiveSupport::Concern
   extend ActiveSupport::Autoload
+  extend Deprecation
 
   eager_autoload do
     autoload :ComponentConfiguration
@@ -20,10 +21,12 @@ module Blacklight::Catalog
   included do
     helper_method :sms_mappings, :has_search_parameters?
 
-    # Whenever an action raises SearchHelper::InvalidSolrID, this block gets executed.
-    # Hint: the SearchHelper #get_solr_response_for_doc_id method raises this error,
-    # which is used in the #show action here.
-    rescue_from Blacklight::Exceptions::InvalidSolrID, :with => :invalid_solr_id_error
+    # When an action raises Blacklight::Exceptions::RecordNotFound, handle 
+    # the exception appropriately.
+    rescue_from Blacklight::Exceptions::RecordNotFound, with: :invalid_document_id_error
+
+    # Deprecated:
+    rescue_from Blacklight::Exceptions::InvalidSolrID, with: :invalid_document_id_error
 
     record_search_parameters
   end
@@ -284,11 +287,22 @@ module Blacklight::Catalog
       flash[:error].blank?
     end
 
+    ##
     # when a request for /catalog/BAD_SOLR_ID is made, this method is executed.
     # Just returns a 404 response, but you can override locally in your own
     # CatalogController to do something else -- older BL displayed a Catalog#inde
     # page with a flash message and a 404 status.
+    def invalid_document_id_error *args
+      Deprecation.silence(Blacklight::Catalog) do
+        invalid_solr_id_error *args
+      end
+    end
+
+    ##
+    # DEPRECATED; this method will be removed in Blacklight 6.0 and the functionality
+    # moved to invalid_document_id_error
     def invalid_solr_id_error(exception)
+      Deprecation.warn Blacklight::Catalog, "#invalid_solr_id_error is deprecated; used #invalid_document_id_error instead"
       error_info = {
         "status" => "404",
         "error"  => "#{exception.class}: #{exception.message}"
