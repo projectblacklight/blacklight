@@ -231,7 +231,7 @@ module Blacklight
     # Returns default search field, used for simpler display in history, etc.
     # if not set, defaults to first defined search field
     def default_search_field
-      field = nil
+      field = super
       field ||= search_fields.values.select { |field| field.default == true }.first
       field ||= search_fields.values.first
 
@@ -242,7 +242,7 @@ module Blacklight
     # Returns default sort field, used for simpler display in history, etc.
     # if not set, defaults to first defined sort field
     def default_sort_field
-      field = nil
+      field = super
       field ||= sort_fields.values.select { |field| field.default == true }.first
       field ||= sort_fields.values.first
 

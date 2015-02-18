@@ -174,11 +174,9 @@ module Blacklight::Solr
     def add_paging_to_solr(solr_params)
       # user-provided parameters should override any default row
       solr_params[:rows] = rows(solr_params[:rows])
-      unless page.blank?
+      if page > 1
         solr_params[:start] = solr_params[:rows].to_i * (page - 1)
-        solr_params[:start] = 0 if solr_params[:start].to_i < 0
       end
-
     end
 
     ###
