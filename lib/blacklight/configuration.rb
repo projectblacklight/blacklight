@@ -66,7 +66,10 @@ module Blacklight
           },
           ##
           # == Response models
-          ##
+          ## Class for sending and receiving requests from a search index
+          repository_class: nil,
+          ## Class for converting Blacklight parameters to request parameters for the repository_class
+          search_builder_class: nil,
           # model that maps index responses to the blacklight response model
           response_model: nil,
           # the model to use for each response document
@@ -205,6 +208,14 @@ module Blacklight
     deprecation_deprecate :solr_response_model
     deprecation_deprecate :solr_response_model=
 
+    def repository_class
+      super || Blacklight::SolrRepository
+    end
+
+    def search_builder_class
+      super || Blacklight::Solr::SearchBuilder
+    end
+
     def default_per_page
       super || per_page.first
     end
@@ -310,6 +321,7 @@ module Blacklight
       # too. These model names should not be `#dup`'ed or we might break ActiveModel::Naming.
       def deep_copy
         deep_dup.tap do |copy|
+          copy.repository_class = self.repository_class
           copy.response_model = self.response_model
           copy.document_model = self.document_model
         end

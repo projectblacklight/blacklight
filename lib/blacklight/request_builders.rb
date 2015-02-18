@@ -52,7 +52,7 @@ module Blacklight
     end
 
     def search_builder_class
-      Blacklight::Solr::SearchBuilder
+      blacklight_config.search_builder_class
     end
 
     def search_builder processor_chain = search_params_logic
