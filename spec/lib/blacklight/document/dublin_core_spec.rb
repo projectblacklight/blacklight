@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe "Blacklight::Solr::Document::DublinCore" do
+describe "Blacklight::Document::DublinCore" do
   before(:all) do
     @mock_class = Class.new do
-      include Blacklight::Solr::Document
+      include Blacklight::Document
     end
-    @mock_class.use_extension( Blacklight::Solr::Document::DublinCore )
+    @mock_class.use_extension( Blacklight::Document::DublinCore )
     @mock_class.field_semantics.merge!(
       :title => :title_display,
       :non_dc_title => :title_display
@@ -15,7 +15,7 @@ describe "Blacklight::Solr::Document::DublinCore" do
 
   it "should register all its export formats" do
     document = @mock_class.new
-    expect(Set.new(document.export_formats.keys)).to be_superset(Set.new([:oai_dc_xml,:dc_xml, :xml]))    
+    expect(document.export_formats.keys).to include :oai_dc_xml, :dc_xml, :xml   
   end
 
   it "should export oai_dc with the proper namespaces" do

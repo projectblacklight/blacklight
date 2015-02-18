@@ -427,8 +427,8 @@ describe CatalogController do
     before do
       allow(controller).to receive_messages(find: mock_response)
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
-      SolrDocument.use_extension( Blacklight::Solr::Document::Email )
-      SolrDocument.use_extension( Blacklight::Solr::Document::Sms )
+      SolrDocument.use_extension( Blacklight::Document::Email )
+      SolrDocument.use_extension( Blacklight::Document::Sms )
     end
     describe "email" do
       it "should give error if no TO parameter" do
