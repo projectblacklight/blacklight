@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "Blacklight::Solr::Document::Email" do
+describe "Blacklight::Document::Email" do
   before(:all) do
-    SolrDocument.use_extension( Blacklight::Solr::Document::Email )
+    SolrDocument.use_extension( Blacklight::Document::Email )
   end
   it "should only return values that are available in the field semantics" do
     doc = SolrDocument.new({:id=>"1234", :title_display=>"My Title"})

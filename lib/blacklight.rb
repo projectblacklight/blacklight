@@ -6,7 +6,8 @@ module Blacklight
   autoload :Configuration, 'blacklight/configuration'
   autoload :SearchFields, 'blacklight/search_fields'
   autoload :SearchBuilder, 'blacklight/search_builder'
-
+  
+  autoload :Document, 'blacklight/document'
   autoload :Solr, 'blacklight/solr'
 
   autoload :SearchHelper,       'blacklight/search_helper'
