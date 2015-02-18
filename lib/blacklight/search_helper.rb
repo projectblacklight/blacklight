@@ -259,7 +259,7 @@ module Blacklight::SearchHelper
   end
 
   def repository_class
-    Blacklight::SolrRepository
+    blacklight_config.repository_class
   end
 
   def repository
