@@ -21,7 +21,7 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
   def initialize(data, request_params, options = {})
     super(force_to_utf8(data))
     @request_params = request_params
-    self.document_model = options[:document_model] || SolrDocument
+    self.document_model = options[:solr_document_model] || options[:document_model] || SolrDocument
   end
 
   def header
