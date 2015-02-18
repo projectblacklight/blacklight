@@ -19,7 +19,9 @@ module Blacklight
     #         klass.default_route_sets += [:widget_routing]
     #       end
     #       def widget_routing(primary_resource)
-    #         get "#{primary_resource}/widget", "#{primary_resource}#widget"
+    #         add_routes do |options|
+    #           get "#{primary_resource}/widget", "#{primary_resource}#widget"
+    #         end
     #       end
     #     end
     #     Blacklight::Routes.send(:include, MyWidget::Routes)
