@@ -10,12 +10,7 @@ module Blacklight
   class TestSupport < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
   desc """ 
-Installs a jetty container with a solr installed in it. A solr setup known 
-good with default blacklight setup, including solr conf files for out
-of the box blacklight. 
-
-Also adds jetty_path key to blacklight.yml for selected environment, to refer
-to this install.
+Generate blacklight testing configurations for blacklight's own tests, or for blacklight plugins to use for testing 
 """
     def alternate_controller
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"
