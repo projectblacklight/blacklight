@@ -141,7 +141,15 @@ module Blacklight::Catalog
     end
 
     ##
-    # Render additional response formats, as provided by the blacklight configuration
+    # Render additional response formats for the index action, as provided by the
+    # blacklight configuration
+    #
+    # example:
+    #
+    #   config.index.respond_to.txt = Proc.new { render text: "A list of docs." }
+    #
+    # Make sure your format has a well known mime-type or is registered in
+    # config/initializers/mime_types.rb
     def additional_response_formats format
       blacklight_config.index.respond_to.each do |key, config|
         format.send key do
