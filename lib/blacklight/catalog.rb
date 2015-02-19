@@ -45,7 +45,8 @@ module Blacklight::Catalog
       end
     end
 
-    # get single document from the solr index
+    # get a single document from the index
+    # to add responses for formats other than html or json see _Blacklight::Document::Export_
     def show
       @response, @document = get_solr_response_for_doc_id params[:id]
 
