@@ -4,6 +4,9 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
     
     argument     :model_name  , type: :string , default: "user"
+    argument     :controller_name, type: :string , default: "catalog"
+    argument     :document_name, type: :string , default: "solr_document"
+
     class_option :devise      , type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
     class_option :marc        , type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo ."
@@ -16,7 +19,6 @@ module Blacklight
    4. Injects behavior into your user application_controller.rb
    5. Adds example configurations for dealing with MARC-like data
    6. Adds Blacklight routes to your ./config/routes.rb
-
 
   Thank you for Installing Blacklight.
          """
@@ -36,7 +38,6 @@ module Blacklight
       gem "rsolr", "~> 1.0.6"
     end
 
-
     def bundle_install
       Bundler.with_clean_env do
         run "bundle install"
@@ -49,51 +50,31 @@ module Blacklight
     def copy_public_assets 
       generate "blacklight:assets"
     end
+    
+    def generate_blacklight_document
+      generate 'blacklight:document', document_name
+    end
 
     def generate_blacklight_models
+      generate 'blacklight:models'
+    end
+    
+    def generate_blacklight_user
 
-      generator_args = []
+      generator_args = [model_name]
       if options[:devise]
         generator_args << "--devise #{options[:devise]}"
       end
       
-      generate 'blacklight:models', generator_args.join(" ")
+      generate 'blacklight:user', generator_args.join(" ")
     end
 
-    # Add Blacklight to the application controller
-    def inject_blacklight_controller_behavior
-      inject_into_class "app/controllers/application_controller.rb", "ApplicationController" do
-        "  # Adds a few additional behaviors into the application controller \n" +
-        "  include Blacklight::Controller\n" +
-        "  # Please be sure to impelement current_user and user_session. Blacklight depends on \n" +
-        "  # these methods in order to perform user specific actions. \n\n" +
-        "  layout 'blacklight'\n\n"
-      end
+    def generate_controller
+      generate 'blacklight:controller', controller_name
     end
     
-    # Generate blacklight catalog controller
-    def create_blacklight_catalog
-      copy_file "catalog_controller.rb", "app/controllers/catalog_controller.rb"
-    end 
-
-    def generate_blacklight_marc_demo
-      if options[:marc]
-        gem "blacklight-marc", "~> 5.0"
-
-        Bundler.with_clean_env do
-          run "bundle install"
-        end
-
-        generate 'blacklight_marc:marc'
-      end
-    end
-
-    def inject_blacklight_routes
-      # These will end up in routes.rb file in reverse order
-      # we add em, since each is added at the top of file. 
-      # we want "root" to be FIRST for optimal url generation. 
-      route('blacklight_for :catalog')
-      route('root :to => "catalog#index"')
+    def add_default_catalog_route
+      route("root to: \"#{controller_name}#index\"")
     end
 
     def add_sass_configuration
@@ -112,6 +93,18 @@ EOF
 
     def add_blacklight_initializer
       template "config/initializers/blacklight_initializer.rb"
+    end
+
+    def generate_blacklight_marc_demo
+      if options[:marc]
+        gem "blacklight-marc", "~> 5.0"
+
+        Bundler.with_clean_env do
+          run "bundle install"
+        end
+
+        generate 'blacklight_marc:marc'
+      end
     end
   end
 end
