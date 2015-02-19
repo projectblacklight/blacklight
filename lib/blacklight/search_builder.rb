@@ -3,18 +3,27 @@ module Blacklight
     extend Deprecation
     self.deprecation_horizon = "blacklight 6.0"
 
-    attr_reader :blacklight_params
+    attr_reader :processor_chain, :blacklight_params
 
     # @param [List<Symbol>] processor_chain a list of filter methods to run
     # @param [Object] scope the scope where the filter methods reside in.
     def initialize(processor_chain, scope)
       @processor_chain = processor_chain
       @scope = scope
+      @blacklight_params = {}
     end
 
-    def with blacklight_params
+    ##
+    # Set the parameters to pass through the processor chain
+    def with blacklight_params = {}
       @blacklight_params = blacklight_params
       self
+    end
+
+    ##
+    # Append additional processor chain directives
+    def append *addl_processor_chain
+      self.class.new(processor_chain + addl_processor_chain, scope).with(blacklight_params)
     end
 
     # a solr query method
@@ -58,17 +67,22 @@ module Blacklight
 
     protected
     def page
-      blacklight_params[:page].to_i unless blacklight_params[:page].blank?
+      if blacklight_params[:page].blank?
+        1
+      else
+        blacklight_params[:page].to_i
+      end
     end
 
     def rows default = nil
+      # default number of rows
+      rows = default
+      rows ||= blacklight_config.default_per_page
+      rows ||= 10
+
       # user-provided parameters should override any default row
       rows = blacklight_params[:rows].to_i unless blacklight_params[:rows].blank?
       rows = blacklight_params[:per_page].to_i unless blacklight_params[:per_page].blank?
-
-      default ||= blacklight_config.default_per_page
-      default ||= 10
-      rows ||= default
 
       # ensure we don't excede the max page size
       rows = blacklight_config.max_per_page if rows.to_i > blacklight_config.max_per_page
@@ -98,6 +112,11 @@ module Blacklight
     
     def should_add_field_to_request? field_name, field
       field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
+    end
+
+    private
+    def scope
+      @scope
     end
 
   end
