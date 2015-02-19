@@ -53,7 +53,7 @@ module Blacklight
         @processor_chain.each do |method_name|
           if @scope.respond_to?(method_name, true)
             Deprecation.warn Blacklight::SearchBuilder, "Building search parameters by calling #{method_name} on #{@scope.to_s}. This behavior will be deprecated in Blacklight 6.0"
-            @scope.send(method_name, request_parameters, @user_params)
+            @scope.send(method_name, request_parameters, blacklight_params)
           else
             send(method_name, request_parameters)
           end

@@ -44,18 +44,21 @@ describe Blacklight::SearchBuilder do
       allow(scope).to receive(:respond_to?).and_return(true)
       allow(scope).to receive(:step_1) do |req_params, user_params|
         req_params[:step_1] = 'scope'
+        req_params[:user_params] = user_params
       end
 
       Deprecation.silence(Blacklight::SearchBuilder) do
-        expect(subject.processed_parameters).to include step_1: 'scope'
+        subject.with(a: 1)
+        expect(subject.processed_parameters).to include step_1: 'scope', user_params: { a: 1 }
       end
     end
 
     it "should try to run the processor method on the search builder" do
-      allow(subject).to receive(:step_1) do |req_params, user_params|
+      allow(subject).to receive(:step_1) do |req_params|
         req_params[:step_1] = 'builder'
       end
 
+      subject.with(a: 1)
       expect(subject.processed_parameters).to include step_1: 'builder'
     end
   end
