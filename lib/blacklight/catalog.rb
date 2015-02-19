@@ -54,18 +54,10 @@ module Blacklight::Catalog
       @response, @document = get_solr_response_for_doc_id params[:id]
 
       respond_to do |format|
-        format.html {setup_next_and_previous_documents}
+        format.html { setup_next_and_previous_documents }
+        format.json { render json: { response: { document: @document } } }
 
-        format.json { render json: {response: {document: @document}}}
-
-        # Add all dynamically added (such as by document extensions)
-        # export formats.
-        @document.export_formats.each_key do | format_name |
-          # It's important that the argument to send be a symbol;
-          # if it's a string, it makes Rails unhappy for unclear reasons.
-          format.send(format_name.to_sym) { render :text => @document.export_as(format_name), :layout => false }
-        end
-
+        additional_export_formats(@document, format)
       end
     end
 
@@ -169,6 +161,15 @@ module Blacklight::Catalog
             # no-op, just render the page
           end
         end
+      end
+    end
+
+    ##
+    # Render additional export formats for the show action, as provided by
+    # the document extension framework. See _Blacklight::Document::Export_
+    def additional_export_formats(document, format)
+      document.export_formats.each_key do | format_name |
+        format.send(format_name.to_sym) { render text: document.export_as(format_name), layout: false }
       end
     end
 
