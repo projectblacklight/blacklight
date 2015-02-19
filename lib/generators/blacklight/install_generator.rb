@@ -77,19 +77,6 @@ module Blacklight
       route("root to: \"#{controller_name}#index\"")
     end
 
-    def generate_blacklight_marc_demo
-      if options[:marc]
-        gem "blacklight-marc", "~> 5.0"
-
-        Bundler.with_clean_env do
-          run "bundle install"
-        end
-
-        generate 'blacklight_marc:marc'
-      end
-    end
-
-
     def add_sass_configuration
 
       insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
@@ -105,7 +92,19 @@ EOF
     end
 
     def add_blacklight_initializer
-      template "config/initializers/blacklight_initializer.rb" if Rails::VERSION::MAJOR < 4
+      template "config/initializers/blacklight_initializer.rb"
+    end
+
+    def generate_blacklight_marc_demo
+      if options[:marc]
+        gem "blacklight-marc", "~> 5.0"
+
+        Bundler.with_clean_env do
+          run "bundle install"
+        end
+
+        generate 'blacklight_marc:marc'
+      end
     end
   end
 end
