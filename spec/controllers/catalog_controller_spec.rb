@@ -313,6 +313,15 @@ describe CatalogController do
       get :show, :id => doc_id
       expect(assigns[:next_document]).to_not be_nil
     end
+
+    it "should not break if solr returns an exception" do
+      allow(controller).to receive(:get_previous_and_next_documents_for_search) {
+        raise Blacklight::Exceptions::InvalidRequest.new "Error"
+      }
+      get :show, :id => doc_id
+      expect(assigns[:previous_document]).to be_nil
+      expect(assigns[:next_document]).to be_nil
+    end
     end
 
     # NOTE: status code is always 200 in isolation mode ...
