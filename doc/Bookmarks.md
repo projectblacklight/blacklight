@@ -1,0 +1,1 @@
+If a User implementation is provided, Blacklight can provide a "bookmarks" or "selected items" feature. Blacklight ships with a devise-based example, but it should be portable across authentication framework.
