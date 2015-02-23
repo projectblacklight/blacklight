@@ -284,7 +284,7 @@ describe CatalogController do
         @mock_response = double()
         @mock_document = double()
         allow(@mock_document).to receive_messages(:export_formats => {})
-        allow(controller).to receive_messages(:get_solr_response_for_doc_id => [@mock_response, @mock_document], 
+        allow(controller).to receive_messages(fetch: [@mock_response, @mock_document],
                         :get_previous_and_next_documents_for_search => [double(:total => 5), [double("a"), @mock_document, double("b")]])
 
         current_search = Search.create(:query_params => { :q => ""})
@@ -333,7 +333,7 @@ describe CatalogController do
       @mock_response = double()
       @mock_document = double()
       allow(@mock_document).to receive_messages(:export_formats => {})
-      allow(controller).to receive_messages(:get_solr_response_for_doc_id => [@mock_response, @mock_document])
+      allow(controller).to receive_messages(fetch: [@mock_response, @mock_document])
       get :show, :id => doc_id
       expect(response).to render_template(:show)
     end

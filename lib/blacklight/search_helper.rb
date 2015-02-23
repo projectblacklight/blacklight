@@ -121,12 +121,11 @@ module Blacklight::SearchHelper
   end
   deprecation_deprecate :query_solr
 
-  # a solr query method
-  # retrieve a solr document, given the doc id
+  # retrieve a document, given the doc id
   # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
-  def get_solr_response_for_doc_id(id=nil, extra_controller_params={})
+  def fetch(id=nil, extra_controller_params={})
     if id.nil?
-      Deprecation.warn Blacklight::SearchHelper, "Calling #get_solr_response_for_doc_id without an explicit id argument is deprecated"
+      Deprecation.warn Blacklight::SearchHelper, "Calling #fetch without an explicit id argument is deprecated and will be removed in Blacklight 6.0"
       id ||= params[:id]
     end
 
@@ -135,14 +134,17 @@ module Blacklight::SearchHelper
     end
 
     if default_solr_doc_params(id) != old_solr_doc_params
-      Deprecation.warn Blacklight::SearchHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering"
+      Deprecation.warn Blacklight::SearchHelper, "The #fetch method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering. The current behavior will be removed in Blacklight 6.0"
       extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
     end
 
     solr_response = repository.find id, extra_controller_params
     [solr_response, solr_response.documents.first]
   end
-  
+
+  alias_method :get_solr_response_for_doc_id, :fetch
+  deprecation_deprecate get_solr_response_for_doc_id: "use fetch(id) instead"
+
   ##
   # Retrieve a set of documents by id
   # @overload get_solr_response_for_document_ids(ids, extra_controller_params)
