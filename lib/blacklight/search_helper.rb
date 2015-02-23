@@ -147,10 +147,9 @@ module Blacklight::SearchHelper
 
   ##
   # Retrieve a set of documents by id
-  # @overload get_solr_response_for_document_ids(ids, extra_controller_params)
-  # @overload get_solr_response_for_document_ids(ids, user_params, extra_controller_params)
-  def get_solr_response_for_document_ids(ids=[], *args)
-    # user_params = params || {}, extra_controller_params = {}
+  # @overload fetch_many(ids, extra_controller_params)
+  # @overload fetch_many(ids, user_params, extra_controller_params)
+  def fetch_many(ids=[], *args)
     if args.length == 1
       user_params = params
       extra_controller_params = args.first || {}
@@ -165,6 +164,10 @@ module Blacklight::SearchHelper
 
     [solr_response, solr_response.documents]
   end
+
+  alias_method :get_solr_response_for_document_ids, :fetch_many
+  deprecation_deprecate get_solr_response_for_document_ids: "use fetch_many(ids) instead"
+
 
   # given a field name and array of values, get the matching SOLR documents
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents

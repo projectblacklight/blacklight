@@ -106,7 +106,7 @@ module Blacklight::Catalog
     end
 
     def action_documents
-      get_solr_response_for_document_ids(params[:id])
+      fetch_many(params[:id])
     end
 
     def action_success_redirect_path
