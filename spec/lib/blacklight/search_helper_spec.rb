@@ -459,28 +459,38 @@ describe Blacklight::SearchHelper do
 
   # SPECS FOR SINGLE DOCUMENT REQUESTS
   describe 'Get Document By Id', :integration => true do
+
+    describe "#get_solr_response_for_doc_id" do
+      let(:doc_id) { '2007020969' }
+      it "should be deprecated" do
+        expect(Deprecation).to receive(:warn).at_least(1).times
+        expect(subject.repository).to receive(:find).with(@doc_id, {}).and_call_original
+        subject.get_solr_response_for_doc_id(@doc_id)
+      end
+    end
+
     before do
       @doc_id = '2007020969'
       @bad_id = "redrum"
-      @response2, @document = subject.get_solr_response_for_doc_id(@doc_id)
+      @response2, @document = subject.fetch(@doc_id)
     end
 
     it "should raise Blacklight::RecordNotFound for an unknown id" do
       expect {
-        subject.get_solr_response_for_doc_id(@bad_id)
+        subject.fetch(@bad_id)
       }.to raise_error(Blacklight::Exceptions::RecordNotFound)
     end
 
     it "should use a provided document request handler " do
       allow(blacklight_config).to receive_messages(:document_solr_request_handler => 'document')
       allow(blacklight_solr).to receive(:send_and_receive).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
-      expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
+      expect { subject.fetch(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
     it "should use a provided document solr path " do
       allow(blacklight_config).to receive_messages(:document_solr_path => 'get')
       allow(blacklight_solr).to receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
-      expect { subject.get_solr_response_for_doc_id(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
+      expect { subject.fetch(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
     it "should have a non-nil result for a known id" do
@@ -538,7 +548,7 @@ describe Blacklight::SearchHelper do
     # Can't test this properly without updating the "document" request handler in solr
     it "should respect the configuration-supplied unique id" do
       allow(SolrDocument).to receive(:unique_key).and_return("title_display")
-      @response, @document = @solr_helper.get_solr_response_for_doc_id('"Strong Medicine speaks"')
+      @response, @document = @solr_helper.fetch('"Strong Medicine speaks"')
       @document.id).to eq '"Strong Medicine speaks"'
       @document.get(:id)).to eq 2007020969
     end

@@ -100,11 +100,11 @@ namespace :blacklight do
         puts e.to_s
       end
 
-      print " - get_solr_response_for_doc_id: "
+      print " - fetch: "
 
       begin
         doc_id = response.docs.first[SolrDocument.unique_key]
-        response, doc = controller.get_solr_response_for_doc_id doc_id
+        response, doc = controller.fetch doc_id
 
         if response.header['status'] == 0 and doc
           puts "OK"

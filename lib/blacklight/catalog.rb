@@ -51,7 +51,7 @@ module Blacklight::Catalog
     # get a single document from the index
     # to add responses for formats other than html or json see _Blacklight::Document::Export_
     def show
-      @response, @document = get_solr_response_for_doc_id params[:id]
+      @response, @document = fetch params[:id]
 
       respond_to do |format|
         format.html {setup_next_and_previous_documents}
