@@ -612,6 +612,50 @@ describe BlacklightHelper do
     end
   end
 
+  describe "#document_index_view_type" do
+    it "should default to the default view" do
+      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
+      allow(helper).to receive(:default_document_index_view_type).and_return(:xyz)
+      expect(helper.document_index_view_type).to eq :xyz
+    end
+
+    it "should use the query parameter" do
+      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
+      expect(helper.document_index_view_type(view: :a)).to eq :a
+    end
+
+    it "should use the default view if the requested view is not available" do
+      allow(helper).to receive(:default_document_index_view_type).and_return(:xyz)
+      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
+      expect(helper.document_index_view_type(view: :c)).to eq :xyz
+    end
+    
+    context "when they have a preferred view" do
+      before do
+        session[:preferred_view] = :b
+      end
+
+      context "and no view is specified" do
+        it "should use the saved preference" do
+          allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
+          expect(helper.document_index_view_type).to eq :b
+        end
+
+        it "should use the default view if the preference is not available" do
+          allow(helper).to receive(:document_index_views).and_return(a: 1)
+          expect(helper.document_index_view_type).to eq :a
+        end
+      end
+
+      context "and a view is specified" do
+        it "should use the query parameter" do
+          allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
+          expect(helper.document_index_view_type(view: :c)).to eq :c
+        end
+      end
+    end
+  end
+
   describe "#presenter_class" do
     before do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
