@@ -18,10 +18,10 @@ module Blacklight
       class_attribute :search_params_logic
 
       alias_method :solr_search_params_logic, :search_params_logic
-      deprecation_deprecate :solr_search_params_logic
+      deprecation_deprecate solr_search_params_logic: :search_params_logic
 
       alias_method :solr_search_params_logic=, :search_params_logic=
-      deprecation_deprecate :solr_search_params_logic=
+      deprecation_deprecate :solr_search_params_logic= => :search_params_logic=
 
       # Set defaults. Each symbol identifies a _method_ that must be in
       # this class, taking two parameters (solr_parameters, user_parameters)
@@ -43,12 +43,12 @@ module Blacklight
       def solr_search_params_logic
         search_params_logic
       end
-      deprecation_deprecate :solr_search_params_logic
+      deprecation_deprecate solr_search_params_logic: :search_params_logic
 
       def solr_search_params_logic= logic
         self.search_params_logic= logic
       end
-      deprecation_deprecate :solr_search_params_logic=
+      deprecation_deprecate :solr_search_params_logic= => :search_params_logic=
     end
 
     def search_builder_class
@@ -76,9 +76,9 @@ module Blacklight
     #
     # Incoming parameter :f is mapped to :fq solr parameter.
     def solr_search_params(user_params = params || {}, processor_chain = search_params_logic)
-      Deprecation.warn(RequestBuilders, "solr_search_params is deprecated and will be removed in blacklight-6.0. Use SearchBuilder#processed_parameters instead.")
       search_builder(processor_chain).with(user_params).processed_parameters
     end
+    deprecation_deprecate solr_search_params: :processed_parameters
 
     ##
     # @param [Hash] user_params a hash of user submitted parameters
@@ -86,9 +86,9 @@ module Blacklight
     # @param [Hash] extra_params an optional hash of parameters that should be
     #                            added to the query post processing
     def build_solr_query(user_params, processor_chain, extra_params=nil)
-      Deprecation.warn(RequestBuilders, "build_solr_query is deprecated and will be removed in blacklight-6.0. Use SearchBuilder#query instead")
       search_builder(processor_chain).with(user_params).query(extra_params)
     end
+    deprecation_deprecate build_solr_query: :query
 
     ##
     # Retrieve the results for a list of document ids

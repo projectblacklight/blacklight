@@ -312,7 +312,6 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Configuration::Field] solr field configuration
   # @return [String]
   def render_field_value value=nil, field_config=nil
-    Deprecation.warn self, "render_field_value is deprecated. Use DocumentPresenter.render_field_value instead"
     safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
 
     if field_config and field_config.itemprop
@@ -321,15 +320,16 @@ module Blacklight::BlacklightHelperBehavior
 
     safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
   end
+  deprecation_deprecate render_field_value: "use DocumentPresenter.render_field_value instead"
 
   ##
   # Default separator to use in #render_field_value
   #
   # @return [String]
   def field_value_separator
-    Deprecation.warn self, "field_value_separator is deprecated. Use DocumentPresenter.field_value_separator instead"
     ', '
   end
+  deprecation_deprecate field_value_separator: "use DocumentPresenter.field_value_separator instead"
 
   ##
   # Get the current "view type" (and ensure it is a valid type)
@@ -354,13 +354,13 @@ module Blacklight::BlacklightHelperBehavior
   # @option opts [String] :label Render the given string
   # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
   def render_document_index_label doc, field, opts = {}
-    Deprecation.warn self, "render_document_index_label is deprecated"
     if field.kind_of? Hash
       Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
       field = field[:label]
     end
     presenter(doc).render_document_index_label field, opts
   end
+  deprecation_deprecate render_document_index_label: "use presenter(doc).render_document_index_label instead"
 
   ##
   # Render a partial of an arbitrary format inside a

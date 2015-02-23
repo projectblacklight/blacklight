@@ -68,7 +68,7 @@ module Blacklight::UrlHelperBehavior
   def search_session_params counter 
     { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
   end
-  deprecation_deprecate :search_session_params
+  deprecation_deprecate search_session_params: :session_tracking_params
 
   ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session

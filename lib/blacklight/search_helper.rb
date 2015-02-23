@@ -78,7 +78,6 @@ module Blacklight::SearchHelper
   # Returns a two-element array (aka duple) with first the solr response object,
   # and second an array of SolrDocuments representing the response.docs
   def get_search_results(user_params = params || {}, extra_controller_params = {})
-    Deprecation.warn(self, "get_search_results is deprecated and will be removed in blacklight-6.0. Use `search_results' instead")
     query = search_builder.with(user_params).query(extra_controller_params)
     response = repository.search(query)
 
@@ -91,6 +90,7 @@ module Blacklight::SearchHelper
       [response, response.documents]
     end
   end
+  deprecation_deprecate get_search_results: :search_results
 
   # a solr query method
   # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
@@ -116,10 +116,10 @@ module Blacklight::SearchHelper
   # @param [Hash,HashWithIndifferentAccess] extra_controller_params ({}) extra parameters to add to the search
   # @return [Blacklight::SolrResponse] the solr response object
   def query_solr(user_params = params || {}, extra_controller_params = {})
-    Deprecation.warn(self, "query_solr is deprecated and will be removed in blacklight-6.0")
     query = search_builder.with(user_params).query(extra_controller_params)
     repository.search(query)
   end
+  deprecation_deprecate :query_solr
 
   # a solr query method
   # retrieve a solr document, given the doc id
@@ -269,12 +269,12 @@ module Blacklight::SearchHelper
   def solr_repository
     repository
   end
-  deprecation_deprecate :solr_repository
+  deprecation_deprecate solr_repository: :repository
 
   def blacklight_solr
-    repository.blacklight_solr
+    repository.connection
   end
-  deprecation_deprecate :blacklight_solr
+  deprecation_deprecate blacklight_solr: "use repository.connection instead"
 
   private
 

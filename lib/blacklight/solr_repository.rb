@@ -58,17 +58,17 @@ module Blacklight
     def blacklight_solr
       connection
     end
-    deprecation_deprecate :blacklight_solr
+    deprecation_deprecate blacklight_solr: :connection
 
     def blacklight_solr=(conn)
       self.connection = conn
     end
-    deprecation_deprecate :blacklight_solr=
+    deprecation_deprecate :blacklight_solr= => :connection=
 
     def blacklight_solr_config
       connection_config
     end
-    deprecation_deprecate :blacklight_solr_config
+    deprecation_deprecate blacklight_solr_config: :connection_config
 
     protected
 
