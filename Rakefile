@@ -12,4 +12,3 @@ Bundler::GemHelper.install_tasks
 load "tasks/blacklight.rake"
 
 task :default => [:ci]
-task :clean => ['blacklight:clean']
