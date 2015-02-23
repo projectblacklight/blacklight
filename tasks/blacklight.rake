@@ -1,6 +1,6 @@
 ZIP_URL = "https://github.com/projectblacklight/blacklight-jetty/archive/v4.10.3.zip"
 
-require 'jettywrapper'
+require 'solr_wrapper'
 require 'engine_cart/rake_task'
 
 require 'rspec/core/rake_task'
@@ -9,13 +9,13 @@ RSpec::Core::RakeTask.new(:spec) do |t|
 end
 
 desc "Run test suite"
-task :ci => 'blacklight:clean' do
-  jetty_params = Jettywrapper.load_config('test')
-  error = Jettywrapper.wrap(jetty_params) do
-    Rake::Task["blacklight:fixtures"].invoke
-    Rake::Task['blacklight:coverage'].invoke
+task :ci  do #=> 'blacklight:clean' do
+  SolrWrapper.wrap(port: '8888', verbose: true) do |solr|
+    solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
+      Rake::Task["blacklight:fixtures"].invoke
+      Rake::Task['blacklight:coverage'].invoke
+    end
   end
-  raise "test failures: #{error}" if error
 end
 
 namespace :blacklight do
@@ -34,7 +34,7 @@ namespace :blacklight do
   end
 
   desc "Clean out the test rails app"
-  task :clean => ['engine_cart:clean', 'jetty:clean'] do
+  task :clean => ['engine_cart:clean'] do
   end
 
   desc "Create the test rails app"
@@ -50,17 +50,12 @@ namespace :blacklight do
       Rake::Task['engine_cart:generate'].invoke
     end
 
-    unless File.exists? 'jetty'
-      Rake::Task['jetty:clean'].invoke
-    end
-
-    jetty_params = Jettywrapper.load_config
-    jetty_params[:startup_wait]= 60
-
-    Jettywrapper.wrap(jetty_params) do
-      within_test_app do
-        system "rake solr:marc:index_test_data"
-        system "bundle exec rails s"
+    SolrWrapper.wrap(port: '8888') do |solr|
+      solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
+        within_test_app do
+          system "rake solr:marc:index_test_data"
+          system "bundle exec rails s"
+        end
       end
     end
   end
