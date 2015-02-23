@@ -73,13 +73,13 @@ module Blacklight::Solr
     def has_next?
       !last_page?
     end
-    deprecation_deprecate :has_next?
+    deprecation_deprecate :has_next? => "use #!last_page?"
 
     #@deprecated
     def has_previous?
       !first_page?
     end
-    deprecation_deprecate :has_next?
+    deprecation_deprecate :has_next? => "use #!first_page?"
 
     def last_page?
       limit.nil? || total_count <= limit

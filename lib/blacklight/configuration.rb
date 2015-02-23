@@ -189,8 +189,7 @@ module Blacklight
       super
     end
     alias_method :solr_document_model=, :document_model=
-    deprecation_deprecate :solr_document_model
-    deprecation_deprecate :solr_document_model=
+    deprecation_deprecate solr_document_model: :document_model, :solr_document_model= => :document_model=
 
     def document_presenter_class
       super || Blacklight::DocumentPresenter
@@ -205,8 +204,7 @@ module Blacklight
       super
     end
     alias_method :solr_response_model=, :response_model=
-    deprecation_deprecate :solr_response_model
-    deprecation_deprecate :solr_response_model=
+    deprecation_deprecate solr_response_model: :response_model, :solr_response_model= => :response_model=
 
     def repository_class
       super || Blacklight::SolrRepository

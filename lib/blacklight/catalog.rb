@@ -312,7 +312,6 @@ module Blacklight::Catalog
     # DEPRECATED; this method will be removed in Blacklight 6.0 and the functionality
     # moved to invalid_document_id_error
     def invalid_solr_id_error(exception)
-      Deprecation.warn Blacklight::Catalog, "#invalid_solr_id_error is deprecated; used #invalid_document_id_error instead"
       error_info = {
         "status" => "404",
         "error"  => "#{exception.class}: #{exception.message}"
@@ -334,6 +333,7 @@ module Blacklight::Catalog
         end
       end
     end
+    deprecation_deprecate invalid_solr_id_error: :invalid_document_id_error
 
     def start_new_search_session?
       action_name == "index"

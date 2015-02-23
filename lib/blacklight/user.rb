@@ -24,10 +24,9 @@ module Blacklight::User
   end
 
   def bookmarked_document_ids
-    Deprecation.warn self, "The User#bookmarked_document_ids method is deprecated and will be removed in Blacklight 6.0"
-
     self.bookmarks.pluck(:document_id)
   end
+  deprecation_deprecate bookmarked_document_ids: "use current_user.bookmarks.pluck(:document_id) instead"
 
   def document_is_bookmarked?(document)
     bookmarks_for_documents([document]).any?

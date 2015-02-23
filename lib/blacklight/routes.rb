@@ -94,9 +94,9 @@ module Blacklight
       end
     
       def catalog(_=nil)
-        Deprecation.warn(Blacklight::Routes, "Blacklight::Routes.catalog is deprecated and will be removed in Blacklight 6.0.  Use Blacklight::Routes.map_resource(:catalog) instead.")
         map_resource(:catalog)
       end
+      deprecation_deprecate catalog: "use Blacklight::Routes.map_resource(:catalog) instead"
 
       def map_resource(key)
         add_routes do |options|

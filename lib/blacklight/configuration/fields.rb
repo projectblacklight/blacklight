@@ -113,7 +113,7 @@ module Blacklight
         self[config_key.pluralize][ field_config.field ] = field_config            
       end
       alias_method :add_solr_field, :add_blacklight_field
-      deprecation_deprecate :add_solr_field
+      deprecation_deprecate add_solr_field: :add_blacklight_field
 
       protected
       def luke_fields
