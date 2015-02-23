@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "bootstrap-sass", "~> 3.2"
   s.add_dependency "deprecation"
 
-  s.add_development_dependency "jettywrapper", ">= 1.7.0"
+  s.add_development_dependency "solr_wrapper"
   s.add_development_dependency "blacklight-marc", "~> 5.0"
   s.add_development_dependency "rspec-rails", "~> 3.0"
   s.add_development_dependency "rspec-its"
