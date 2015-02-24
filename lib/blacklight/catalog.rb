@@ -106,7 +106,7 @@ module Blacklight::Catalog
     end
 
     def action_documents
-      fetch_many(params[:id])
+      fetch(Array(params[:id]))
     end
 
     def action_success_redirect_path
