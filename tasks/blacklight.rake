@@ -8,8 +8,10 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern =  'spec/**/*_spec.rb'
 end
 
+EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
+
 desc "Run test suite"
-task :ci => 'blacklight:clean' do
+task :ci => ['blacklight:generate', 'blacklight:clean'] do
   jetty_params = Jettywrapper.load_config('test')
   error = Jettywrapper.wrap(jetty_params) do
     Rake::Task["blacklight:fixtures"].invoke
@@ -33,8 +35,8 @@ namespace :blacklight do
     Rake::Task["spec"].invoke
   end
 
-  desc "Clean out the test rails app"
-  task :clean => ['engine_cart:clean', 'jetty:clean'] do
+  desc "Clean out the test jetty"
+  task :clean => ['jetty:clean'] do
   end
 
   desc "Create the test rails app"
