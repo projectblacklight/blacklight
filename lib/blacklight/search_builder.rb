@@ -51,9 +51,9 @@ module Blacklight
     def processed_parameters
       Blacklight::Solr::Request.new.tap do |request_parameters|
         @processor_chain.each do |method_name|
-          if @scope.respond_to?(method_name, true)
-            Deprecation.warn Blacklight::SearchBuilder, "Building search parameters by calling #{method_name} on #{@scope.class}. This behavior will be deprecated in Blacklight 6.0. Instead, define #{method_name} on a subclass of #{self} and set search_builder_class in the configuration"
-            @scope.send(method_name, request_parameters, blacklight_params)
+          if scope.respond_to?(method_name, true)
+            Deprecation.warn Blacklight::SearchBuilder, "Building search parameters by calling #{method_name} on #{scope.class}. This behavior will be deprecated in Blacklight 6.0. Instead, define #{method_name} on a subclass of #{self} and set search_builder_class in the configuration"
+            scope.send(method_name, request_parameters, blacklight_params)
           else
             send(method_name, request_parameters)
           end
@@ -62,7 +62,7 @@ module Blacklight
     end
 
     def blacklight_config
-      @scope.blacklight_config
+      scope.blacklight_config
     end
 
     protected
@@ -114,7 +114,7 @@ module Blacklight
       field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
     end
 
-    private
+    protected
     def scope
       @scope
     end
