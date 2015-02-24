@@ -56,7 +56,7 @@ module Blacklight
     end
 
     def search_builder processor_chain = search_params_logic
-      search_builder_class.new(processor_chain, self)
+      @search_builder ||= search_builder_class.new(processor_chain, self)
     end
 
 
@@ -97,6 +97,7 @@ module Blacklight
         solr_documents_by_field_values_params blacklight_config.document_model.unique_key, ids
       end
     end
+    deprecation_deprecate :solr_document_ids_params
 
     ##
     # Retrieve the results for a list of document ids

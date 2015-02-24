@@ -270,7 +270,10 @@ module Blacklight::SearchHelper
         extra_controller_params ||= {}
       end
 
-      query = search_builder.with(user_params).query(extra_controller_params.merge(solr_document_ids_params(ids)))
+      query = search_builder.
+                with(user_params).
+                where(blacklight_config.document_model.unique_key => ids).
+                query(extra_controller_params.merge(fl: '*'))
       solr_response = repository.search(query)
 
       [solr_response, solr_response.documents]
