@@ -52,7 +52,7 @@ module Blacklight
       Blacklight::Solr::Request.new.tap do |request_parameters|
         @processor_chain.each do |method_name|
           if @scope.respond_to?(method_name, true)
-            Deprecation.warn Blacklight::SearchBuilder, "Building search parameters by calling #{method_name} on #{@scope.class}. This behavior will be deprecated in Blacklight 6.0"
+            Deprecation.warn Blacklight::SearchBuilder, "Building search parameters by calling #{method_name} on #{@scope.class}. This behavior will be deprecated in Blacklight 6.0. Instead, define #{method_name} on a subclass of #{self} and set search_builder_class in the configuration"
             @scope.send(method_name, request_parameters, blacklight_params)
           else
             send(method_name, request_parameters)
