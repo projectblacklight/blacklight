@@ -22,7 +22,7 @@ module Blacklight::Bookmarks
   def action_documents
     bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-    fetch_many(bookmark_ids)
+    fetch(bookmark_ids)
   end
 
   def action_success_redirect_path
@@ -39,7 +39,7 @@ module Blacklight::Bookmarks
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
 
-    @response, @document_list = fetch_many(bookmark_ids)
+    @response, @document_list = fetch(bookmark_ids)
 
     respond_to do |format|
       format.html { }

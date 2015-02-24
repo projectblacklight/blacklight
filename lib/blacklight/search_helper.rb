@@ -124,50 +124,19 @@ module Blacklight::SearchHelper
   # retrieve a document, given the doc id
   # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
   def fetch(id=nil, extra_controller_params={})
-    if id.nil?
-      Deprecation.warn Blacklight::SearchHelper, "Calling #fetch without an explicit id argument is deprecated and will be removed in Blacklight 6.0"
-      id ||= params[:id]
+    if id.is_a? Array
+      fetch_many(id, params, extra_controller_params)
+    else
+      if id.nil?
+        Deprecation.warn Blacklight::SearchHelper, "Calling #fetch without an explicit id argument is deprecated and will be removed in Blacklight 6.0"
+        id ||= params[:id]
+      end
+      fetch_one(id, extra_controller_params)
     end
-
-    old_solr_doc_params = Deprecation.silence(Blacklight::SearchHelper) do
-      solr_doc_params(id)
-    end
-
-    if default_solr_doc_params(id) != old_solr_doc_params
-      Deprecation.warn Blacklight::SearchHelper, "The #fetch method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering. The current behavior will be removed in Blacklight 6.0"
-      extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
-    end
-
-    solr_response = repository.find id, extra_controller_params
-    [solr_response, solr_response.documents.first]
   end
 
   alias_method :get_solr_response_for_doc_id, :fetch
   deprecation_deprecate get_solr_response_for_doc_id: "use fetch(id) instead"
-
-  ##
-  # Retrieve a set of documents by id
-  # @overload fetch_many(ids, extra_controller_params)
-  # @overload fetch_many(ids, user_params, extra_controller_params)
-  def fetch_many(ids=[], *args)
-    if args.length == 1
-      user_params = params
-      extra_controller_params = args.first || {}
-    else
-      user_params, extra_controller_params = args
-      user_params ||= params
-      extra_controller_params ||= {}
-    end
-
-    query = search_builder.with(user_params).query(extra_controller_params.merge(solr_document_ids_params(ids)))
-    solr_response = repository.search(query)
-
-    [solr_response, solr_response.documents]
-  end
-
-  alias_method :get_solr_response_for_document_ids, :fetch_many
-  deprecation_deprecate get_solr_response_for_document_ids: "use fetch_many(ids) instead"
-
 
   # given a field name and array of values, get the matching SOLR documents
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
@@ -286,22 +255,59 @@ module Blacklight::SearchHelper
 
   private
 
-  ##
-  # @deprecated
-  def default_solr_doc_params(id=nil)
-    id ||= params[:id]
+    ##
+    # Retrieve a set of documents by id
+    # @overload fetch_many(ids, extra_controller_params)
+    # @overload fetch_many(ids, user_params, extra_controller_params)
+    def fetch_many(ids=[], *args)
+      if args.length == 1
+        Deprecation.warn(SearchHelper, "fetch_many with 2 arguments is deprecated")
+        user_params = params
+        extra_controller_params = args.first || {}
+      else
+        user_params, extra_controller_params = args
+        user_params ||= params
+        extra_controller_params ||= {}
+      end
 
-    # add our document id to the document_unique_id_param query parameter
-    p = blacklight_config.default_document_solr_params.merge({
-      # this assumes the request handler will map the unique id param
-      # to the unique key field using either solr local params, the
-      # real-time get handler, etc.
-      blacklight_config.document_unique_id_param => id
-    })
+      query = search_builder.with(user_params).query(extra_controller_params.merge(solr_document_ids_params(ids)))
+      solr_response = repository.search(query)
 
-    p[:qt] ||= blacklight_config.document_solr_request_handler
+      [solr_response, solr_response.documents]
+    end
 
-    p
-  end
+    alias_method :get_solr_response_for_document_ids, :fetch_many
+    deprecation_deprecate get_solr_response_for_document_ids: "use fetch(ids) instead"
 
+    def fetch_one(id, extra_controller_params)
+      old_solr_doc_params = Deprecation.silence(Blacklight::SearchHelper) do
+        solr_doc_params(id)
+      end
+
+      if default_solr_doc_params(id) != old_solr_doc_params
+        Deprecation.warn Blacklight::SearchHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering. The current behavior will be removed in Blacklight 6.0"
+        extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
+      end
+
+      solr_response = repository.find id, extra_controller_params
+      [solr_response, solr_response.documents.first]
+    end
+
+    ##
+    # @deprecated
+    def default_solr_doc_params(id=nil)
+      id ||= params[:id]
+
+      # add our document id to the document_unique_id_param query parameter
+      p = blacklight_config.default_document_solr_params.merge({
+        # this assumes the request handler will map the unique id param
+        # to the unique key field using either solr local params, the
+        # real-time get handler, etc.
+        blacklight_config.document_unique_id_param => id
+      })
+
+      p[:qt] ||= blacklight_config.document_solr_request_handler
+
+      p
+    end
 end
