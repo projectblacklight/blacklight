@@ -209,7 +209,7 @@ module Blacklight::FacetsHelperBehavior
   end
 
   def facet_field_id facet_field
-    "facet-#{facet_field.field.parameterize}"
+    "facet-#{facet_field.key.parameterize}"
   end
 
   private

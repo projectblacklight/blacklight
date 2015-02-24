@@ -8,7 +8,7 @@ module Blacklight
       Blacklight::Solr::FacetPaginator.new(display_facet.items, 
         sort: display_facet.sort,
         offset: display_facet.offset,     
-        limit: facet_limit_for(field_config.field))
+        limit: facet_limit_for(field_config.key))
     end
 
     def facets_from_request(fields = facet_field_names)
@@ -20,7 +20,12 @@ module Blacklight
     end
 
     def facet_configuration_for_field(field)
-      blacklight_config.facet_fields[field] || Blacklight::Configuration::FacetField.new(:field => field).normalize!
+      f = blacklight_config.facet_fields[field]
+      f ||= begin
+        _, value = blacklight_config.facet_fields.find { |k,v| v.field == field }
+        value
+      end
+      f ||= Blacklight::Configuration::FacetField.new(:field => field).normalize!
     end
 
 
@@ -30,7 +35,7 @@ module Blacklight
         when String, Symbol
           extract_facet_by_field_name(field)
         when Blacklight::Configuration::FacetField
-          extract_facet_by_field_name(field.field)
+          extract_facet_by_field_name(field.key)
         else
           field
         end

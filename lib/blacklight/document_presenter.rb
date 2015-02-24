@@ -166,7 +166,7 @@ module Blacklight
           @controller.send(field_config.helper_method, options.merge(:document => @document, :field => field, :value => value))
         when (field_config and field_config.link_to_search)
           link_field = if field_config.link_to_search === true
-            field_config.field
+            field_config.key
           else
             field_config.link_to_search
           end

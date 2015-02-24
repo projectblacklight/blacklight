@@ -302,6 +302,7 @@ module Blacklight
                   .reject { |k,v| v[:query] || v[:pivot] }
                   .map { |k,v| v.field }
     end
+    deprecation_deprecate :facet_fields_to_add_to_solr
 
     ##
     # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting

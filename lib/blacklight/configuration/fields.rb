@@ -83,16 +83,18 @@ module Blacklight
         end
 
         # look up any dynamic fields
-        if field_config.field.to_s =~ /\*/ and luke_fields
+        if (field_config.field || field_config.key).to_s =~ /\*/ and luke_fields
+          wildcard_field = (field_config.field || field_config.key).to_s
           salient_fields = luke_fields.select do |k,v| 
-            k =~ Regexp.new("^" + field_config.field.to_s.gsub('*', '.+') + "$")
+            k =~ Regexp.new("^" + wildcard_field.gsub('*', '.+') + "$")
           end
 
           salient_fields.each do |field, luke_config|
             config = field_config.dup
             config.field = field
-            if self[config_key.pluralize][ config.field ]
-              self[config_key.pluralize][ config.field ] = config.merge(self[config_key.pluralize][ config.field ])
+            config.key = field
+            if self[config_key.pluralize][ config.key ]
+              self[config_key.pluralize][ config.key ] = config.merge(self[config_key.pluralize][ config.key ])
             else
               add_blacklight_field(config_key, config, &block)
             end
@@ -108,9 +110,9 @@ module Blacklight
         field_config.normalize!(self)
         field_config.validate!
 
-        raise "A #{config_key} with the key #{field_config.field} already exists." if self[config_key.pluralize][field_config.field].present?
+        raise "A #{config_key} with the key #{field_config.key} already exists." if self[config_key.pluralize][field_config.key].present?
 
-        self[config_key.pluralize][ field_config.field ] = field_config            
+        self[config_key.pluralize][ field_config.key ] = field_config            
       end
       alias_method :add_solr_field, :add_blacklight_field
       deprecation_deprecate add_solr_field: :add_blacklight_field
@@ -135,8 +137,7 @@ module Blacklight
       # Add a solr field by a solr field name and hash 
       def field_config_from_key_and_hash config_key, field_name, field_or_hash = {}
         field_config = field_config_from_field_or_hash(config_key, field_or_hash)
-        field_config.field = field_name
-
+        field_config.key = field_name
         field_config
       end
 

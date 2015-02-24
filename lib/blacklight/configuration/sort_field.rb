@@ -1,14 +1,13 @@
 module Blacklight
   class Configuration::SortField < Blacklight::Configuration::Field
     def normalize! blacklight_config = nil
-      self.sort ||= self.field
-
-      self.field ||= self.key
+      super
       self.field ||= self.label.try(:parameterize)
       self.field ||= self.sort
 
-      self.key ||= self.field
-      super
+      self.sort ||= self.field
+
+      self
     end
 
     def validate!

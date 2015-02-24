@@ -1,9 +1,14 @@
 module Blacklight
   class Configuration::Field < OpenStructWithHashAccess
     def normalize! blacklight_config = nil
+      self.field ||= self.key
+      self.key ||= self.field
+
       self.label ||= default_label
+
       self.if = true if self.if.nil?
       self.unless = false if self.unless.nil?
+
       self
     end
   
@@ -12,10 +17,10 @@ module Blacklight
     end
 
     def default_label
-      if self.field.respond_to?(:titleize)
-        self.field.try(:titleize)
+      if self.key.respond_to?(:titleize)
+        self.key.try(:titleize)
       else
-        self.field.to_s.titleize
+        self.key.to_s.titleize
       end
     end
   end
