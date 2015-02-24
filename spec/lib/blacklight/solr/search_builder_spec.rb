@@ -71,7 +71,11 @@ describe Blacklight::Solr::SearchBuilder do
 
   # SPECS for actual search parameter generation
   describe "#processed_parameters" do
-    subject { search_builder.with(user_params).processed_parameters }
+    subject do
+      Deprecation.silence(Blacklight::SearchBuilder) do
+        search_builder.with(user_params).processed_parameters
+      end
+    end
 
     context "when search_params_logic is customized" do
       let(:method_chain) { [:add_foo_to_solr_params] }

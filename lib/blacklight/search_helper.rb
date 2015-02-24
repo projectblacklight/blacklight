@@ -172,7 +172,10 @@ module Blacklight::SearchHelper
   # given a field name and array of values, get the matching SOLR documents
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
   def get_solr_response_for_field_values(field, values, extra_controller_params = {})
-    query = search_builder.with(params).query(extra_controller_params.merge(solr_documents_by_field_values_params(field, values)))
+    query = Deprecation.silence(Blacklight::RequestBuilders) do
+      search_builder.with(params).query(extra_controller_params.merge(solr_documents_by_field_values_params(field, values)))
+    end
+
     solr_response = repository.search(query)
 
 
