@@ -383,7 +383,7 @@ describe FacetsHelper do
 
   describe "#facet_field_id" do
     it "should be the parameterized version of the facet field" do
-      expect(helper.facet_field_id double(field: 'some field')).to eq "facet-some-field"
+      expect(helper.facet_field_id double(key: 'some field')).to eq "facet-some-field"
     end
   end
 end
