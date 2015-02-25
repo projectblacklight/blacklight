@@ -142,7 +142,6 @@ describe Blacklight::Solr::SearchBuilder do
       let(:user_params) { { q: "" } }
       it "should return empty string q in solr parameters" do
         expect(subject[:q]).to eq ""
-        expect(subject["spellcheck.q"]).to eq ""
       end
     end
 
