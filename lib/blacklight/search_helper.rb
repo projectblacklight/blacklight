@@ -261,7 +261,7 @@ module Blacklight::SearchHelper
     # @overload fetch_many(ids, user_params, extra_controller_params)
     def fetch_many(ids=[], *args)
       if args.length == 1
-        Deprecation.warn(SearchHelper, "fetch_many with 2 arguments is deprecated")
+        Deprecation.warn(Blacklight::SearchHelper, "fetch_many with 2 arguments is deprecated")
         user_params = params
         extra_controller_params = args.first || {}
       else
