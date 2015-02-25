@@ -21,6 +21,13 @@ module Blacklight
     end
 
     ##
+    # Update the :q (query) parameter
+    def where conditions
+      @blacklight_params[:q] = conditions
+      self
+    end
+
+    ##
     # Append additional processor chain directives
     def append *addl_processor_chain
       self.class.new(processor_chain + addl_processor_chain, scope).with(blacklight_params)
