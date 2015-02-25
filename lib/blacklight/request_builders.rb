@@ -97,6 +97,7 @@ module Blacklight
         solr_documents_by_field_values_params blacklight_config.document_model.unique_key, ids
       end
     end
+    deprecation_deprecate :solr_document_ids_params
 
     ##
     # Retrieve the results for a list of document ids
