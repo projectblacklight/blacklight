@@ -3,6 +3,10 @@
   padding-bottom: $padding-large-vertical;
 }
 
+.facets .facets-heading {
+  @extend h4;
+}
+
 .no-js {
   #sidebar .collapse {
     @extend .in;

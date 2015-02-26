@@ -1,11 +1,11 @@
 <% @page_title = t('blacklight.bookmarks.page_title', :application_name => application_name) %>
 
 <div id="content" class="col-md-12">
-<h1 class='page-heading'><%= t('blacklight.bookmarks.title') %></h1>
+<h2 class='page-heading'><%= t('blacklight.bookmarks.title') %></h2>
 
 <%- if current_or_guest_user.blank? -%>
 
-  <h2 class='section-heading'><%= t('blacklight.bookmarks.need_login') %></h2>
+  <h3 class='section-heading'><%= t('blacklight.bookmarks.need_login') %></h3>
 
 <%- elsif @document_list.blank? -%>
 
