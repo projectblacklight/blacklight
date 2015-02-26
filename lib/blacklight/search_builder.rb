@@ -16,7 +16,7 @@ module Blacklight
     ##
     # Set the parameters to pass through the processor chain
     def with blacklight_params = {}
-      @blacklight_params = blacklight_params
+      @blacklight_params = blacklight_params.dup
       self
     end
 

@@ -11,6 +11,14 @@ describe Blacklight::SearchBuilder do
       subject.with(params)
       expect(subject.blacklight_params).to eq params
     end
+
+    it "should dup the params" do
+      params = {}
+      subject.with(params).where('asdf')
+      expect(subject.blacklight_params).not_to eq params
+      expect(subject.blacklight_params[:q]).to eq 'asdf'
+      expect(params[:q]).not_to eq 'asdf'
+    end
   end
 
   describe "#processor_chain" do
