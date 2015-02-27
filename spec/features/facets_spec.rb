@@ -32,4 +32,12 @@ describe "Facets" do
     
     
   end
+  describe '"More" links' do
+    it 'has default more link with sr-only text' do
+      visit root_path
+      within '#facet-language_facet' do
+        expect(page).to have_css 'li.more_facets_link', text: 'more Language'
+      end
+    end
+  end
 end
