@@ -183,7 +183,9 @@ de:
           count: 'Numerisch ordnen'
           index: 'A-Z Ordnen'
         count: '%{number}'
+        # i18n key 'more' is deprecated and will be removed in Blacklight 6.0
         more: 'mehr »'
+        more_html: 'mehr <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[entfernen]'
       group:
