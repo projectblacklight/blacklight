@@ -5,7 +5,6 @@ module Blacklight
   autoload :Configurable,          'blacklight/configurable'
   autoload :Configuration,         'blacklight/configuration'
   autoload :SearchFields,          'blacklight/search_fields'
-  autoload :SearchBuilder,         'blacklight/search_builder'
   autoload :SearchBuilderBehavior, 'blacklight/search_builder_behavior'
 
   autoload :Document, 'blacklight/document'

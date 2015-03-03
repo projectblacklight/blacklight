@@ -1,5 +1,5 @@
 module Blacklight::Solr
-  class SearchBuilder < Blacklight::SearchBuilder
+  class SearchBuilder
     include SearchBuilderBehavior
   end
 end
