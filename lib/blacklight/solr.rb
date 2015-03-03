@@ -6,5 +6,5 @@ module Blacklight::Solr
   autoload :Document, 'blacklight/solr/document'
   autoload :Request, 'blacklight/solr/request'
   autoload :SearchBuilder, 'blacklight/solr/search_builder'
-  
+  autoload :SearchBuilderBehavior, 'blacklight/solr/search_builder_behavior'
 end

@@ -55,7 +55,7 @@ describe Blacklight::SearchBuilder do
         req_params[:user_params] = user_params
       end
 
-      Deprecation.silence(Blacklight::SearchBuilder) do
+      Deprecation.silence(Blacklight::SearchBuilderBehavior) do
         subject.with(a: 1)
         expect(subject.processed_parameters).to include step_1: 'scope', user_params: { a: 1 }
       end
