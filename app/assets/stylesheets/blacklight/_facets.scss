@@ -46,6 +46,8 @@
       @extend .text-success;
     }
 
+  }
+
     .remove {
       @extend .text-muted;
       text-indent: $padding-base-horizontal;
@@ -60,7 +62,6 @@
       }
 
     }
-  }
 
   @mixin hyphens-auto {
     // breaks long words apart so they don't cause the containing div to
