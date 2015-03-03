@@ -46,6 +46,12 @@ module Blacklight::Solr
           key.to_s + "=" + solr_param_quote(val, :quote => "'")
         end.join(" ")
         solr_parameters[:q] = "{!#{local_params}}#{blacklight_params[:q]}"
+
+        ##
+        # Set Solr spellcheck.q to be original user-entered query, without
+        # our local params, otherwise it'll try and spellcheck the local
+        # params!
+        solr_parameters["spellcheck.q"] ||= blacklight_params[:q]
       elsif blacklight_params[:q].is_a? Hash
         q = blacklight_params[:q]
         solr_parameters[:q] = if q.values.any?(&:blank?)
@@ -61,19 +67,6 @@ module Blacklight::Solr
       elsif blacklight_params[:q]
         solr_parameters[:q] = blacklight_params[:q]
       end
-            
-
-      ##
-      # Set Solr spellcheck.q to be original user-entered query, without
-      # our local params, otherwise it'll try and spellcheck the local
-      # params! Unless spellcheck.q has already been set by someone,
-      # respect that.
-      #
-      # TODO: Change calling code to expect this as a symbol instead of
-      # a string, for consistency? :'spellcheck.q' is a symbol. Right now
-      # rspec tests for a string, and can't tell if other code may
-      # insist on a string. 
-      solr_parameters["spellcheck.q"] = blacklight_params[:q] unless solr_parameters["spellcheck.q"]
     end
 
     ##
