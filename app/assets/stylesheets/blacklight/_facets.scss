@@ -48,20 +48,20 @@
 
   }
 
-    .remove {
-      @extend .text-muted;
-      text-indent: $padding-base-horizontal;
+  .remove {
+    @extend .text-muted;
+    text-indent: $padding-base-horizontal;
 
-      .glyphicon {
-        top: 0.1em;
-        vertical-align: text-top;
-      }
-
-      &:hover {
-        color: $brand-danger;
-      }
-
+    .glyphicon {
+      top: 0.1em;
+      vertical-align: text-top;
     }
+
+    &:hover {
+      color: $brand-danger;
+    }
+
+  }
 
   @mixin hyphens-auto {
     // breaks long words apart so they don't cause the containing div to
