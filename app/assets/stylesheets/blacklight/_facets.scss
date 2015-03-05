@@ -46,20 +46,21 @@
       @extend .text-success;
     }
 
-    .remove {
-      @extend .text-muted;
-      text-indent: $padding-base-horizontal;
+  }
 
-      .glyphicon {
-        top: 0.1em;
-        vertical-align: text-top;
-      }
+  .remove {
+    @extend .text-muted;
+    text-indent: $padding-base-horizontal;
 
-      &:hover {
-        color: $brand-danger;
-      }
-
+    .glyphicon {
+      top: 0.1em;
+      vertical-align: text-top;
     }
+
+    &:hover {
+      color: $brand-danger;
+    }
+
   }
 
   @mixin hyphens-auto {
