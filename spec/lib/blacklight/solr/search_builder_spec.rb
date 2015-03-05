@@ -72,7 +72,7 @@ describe Blacklight::Solr::SearchBuilder do
   # SPECS for actual search parameter generation
   describe "#processed_parameters" do
     subject do
-      Deprecation.silence(Blacklight::SearchBuilder) do
+      Deprecation.silence(Blacklight::SearchBuilderBehavior) do
         search_builder.with(user_params).processed_parameters
       end
     end

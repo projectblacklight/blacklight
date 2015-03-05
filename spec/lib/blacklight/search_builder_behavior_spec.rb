@@ -1,10 +1,20 @@
 require 'spec_helper'
 
-describe Blacklight::SearchBuilder do
+describe Blacklight::SearchBuilderBehavior do
   let(:processor_chain) { [] }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:scope) { double blacklight_config: blacklight_config }
-  subject { described_class.new processor_chain, scope }
+
+  before do
+    class TestBuilder
+      include Blacklight::SearchBuilderBehavior
+    end
+  end
+
+  after { Object.send(:remove_const, :TestBuilder) }
+
+  subject { TestBuilder.new processor_chain, scope }
+
   describe "#with" do
     it "should set the blacklight params" do
       params = {}
@@ -55,7 +65,7 @@ describe Blacklight::SearchBuilder do
         req_params[:user_params] = user_params
       end
 
-      Deprecation.silence(Blacklight::SearchBuilder) do
+      Deprecation.silence(Blacklight::SearchBuilderBehavior) do
         subject.with(a: 1)
         expect(subject.processed_parameters).to include step_1: 'scope', user_params: { a: 1 }
       end
