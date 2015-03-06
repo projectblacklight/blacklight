@@ -17,12 +17,6 @@ module Blacklight
       # we choose this one for now, supplied by Rails.
       class_attribute :search_params_logic
 
-      alias_method :solr_search_params_logic, :search_params_logic
-      deprecation_deprecate solr_search_params_logic: :search_params_logic
-
-      alias_method :solr_search_params_logic=, :search_params_logic=
-      deprecation_deprecate :solr_search_params_logic= => :search_params_logic=
-
       # Set defaults. Each symbol identifies a _method_ that must be in
       # this class, taking two parameters (solr_parameters, user_parameters)
       # Can be changed in local apps or by plugins, eg:
@@ -50,6 +44,16 @@ module Blacklight
       end
       deprecation_deprecate :solr_search_params_logic= => :search_params_logic=
     end
+
+    def solr_search_params_logic
+      search_params_logic
+    end
+    deprecation_deprecate solr_search_params_logic: :search_params_logic
+
+    def solr_search_params_logic= logic
+      self.search_params_logic= logic
+    end
+    deprecation_deprecate :solr_search_params_logic= => :search_params_logic=
 
     def search_builder_class
       blacklight_config.search_builder_class
