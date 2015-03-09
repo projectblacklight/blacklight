@@ -5,28 +5,25 @@ notifications:
   email: false
 
 rvm:
-  - 2.1.4
+  - 2.2.1
 
 matrix:
   include:
-    - rvm: 2.1.4
+    - rvm: 2.2.1
       env: "RAILS_VERSION=4.0.12"
-    - rvm: 2.0.0
-      env: "RAILS_VERSION=4.1.8"
-    - rvm: 1.9.3
-      env: "RAILS_VERSION=4.1.8"
+    - rvm: 2.2.1
+      env: "RAILS_VERSION=4.1.9"
+    - rvm: 2.1.5
+      env: "RAILS_VERSION=4.2.0"
     - rvm: jruby
-      env: "RAILS_VERSION=4.1.8 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
-    - rvm: 2.1.4
-      env: "RAILS_VERSION=4.1.8"
-    - rvm: 2.2.0
+      env: "RAILS_VERSION=4.2.0 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+    - rvm: 1.9.3
       env: "RAILS_VERSION=4.2.0"
 
 before_install:
   - gem install bundler
 
 env:
- - "RAILS_VERSION=3.2.21"
  - "RAILS_VERSION=4.2.0"
 
 notifications:
