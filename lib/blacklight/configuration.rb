@@ -179,11 +179,12 @@ module Blacklight
         self[k] ||=  v
       end
     end
-    
+
     def document_model
-      super || SolrDocument
+      super || ::SolrDocument
     end
     alias_method :solr_document_model, :document_model
+
     # only here to support alias_method
     def document_model= *args
       super
