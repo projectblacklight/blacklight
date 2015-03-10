@@ -19,6 +19,7 @@ describe Blacklight::DocumentPresenter do
         config.add_index_field 'solr_doc_accessor', :accessor => true
         config.add_index_field 'explicit_accessor', :accessor => :solr_doc_accessor
         config.add_index_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
+        config.add_index_field 'alias', field: 'qwer'
       end
     end
     it "should check for an explicit value" do
@@ -95,6 +96,12 @@ describe Blacklight::DocumentPresenter do
       expect(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
       value = subject.render_index_field_value 'explicit_accessor_with_arg'
       expect(value).to eq "123"
+    end
+
+    it "should support solr field configuration" do
+      allow(document).to receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
+      value = subject.render_index_field_value 'alias'
+      expect(value).to eq "document qwer value"
     end
   end
   
