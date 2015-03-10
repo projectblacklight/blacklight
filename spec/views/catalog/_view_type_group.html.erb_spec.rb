@@ -7,6 +7,10 @@ describe "catalog/_view_type_group" do
   end
 
   before do
+    allow(view).to receive(:view_label) do |view|
+      view.to_s
+    end
+
     allow(view).to receive_messages(how_sort_and_per_page?: true, blacklight_config: blacklight_config)
   end
 

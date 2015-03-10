@@ -137,6 +137,15 @@ describe BlacklightConfigurationHelper do
     end
   end
 
+  describe "#view_label" do
+    it "should look up the label to display for the view" do
+      allow(blacklight_config).to receive(:view).and_return({ "my_view" => double(label: "some label", title: nil) })
+      allow(helper).to receive(:field_label).with(:"blacklight.search.view_title.my_view", :"blacklight.search.view.my_view", "some label", nil, "My view")
+
+      helper.view_label "my_view"
+    end
+  end
+
   describe "#field_label" do
     it "should look up the label as an i18n string" do
       allow(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
