@@ -1,19 +1,22 @@
+<%# header bar for doc items in index view -%>
+<div class="documentHeader row">
+  <%# main title container for doc partial view
+      How many bootstrap columns need to be reserved
+      for bookmarks control depends on size.
+  -%>
+  <% document_actions = capture do %>
+    <% # bookmark functions for items/docs -%>
+    <%= render_index_doc_actions document, wrapping_class: "index-document-functions col-sm-3 col-lg-2" %>
+  <% end %>
 
-      <% # header bar for doc items in index view -%>
-      <div class="documentHeader row">
+  <h5 class="index_title <%= document_actions.present? ? "col-sm-9 col-lg-10" : "col-md-12" %>">
+    <% if counter = document_counter_with_offset(document_counter) %>
+      <span class="document-counter">
+        <%= t('blacklight.search.documents.counter', counter: counter) %>
+      </span>
+    <% end %>
+    <%= link_to_document document, document_show_link_field(document), counter: counter %>
+  </h5>
 
-        <%# main title container for doc partial view
-            How many bootstrap columns need to be reserved
-            for bookmarks control depends on size.
-        -%>
-         <h5 class="index_title col-sm-9 col-lg-10">
-         <% counter = document_counter_with_offset(document_counter) %>
-         <span class="document-counter">
-         <%= t('blacklight.search.documents.counter', :counter => counter) if counter %>
-         </span>
-         <%= link_to_document document, document_show_link_field(document), :counter => counter %>
-        </h5>
-
-        <% # bookmark functions for items/docs -%>
-        <%= render_index_doc_actions document, :wrapping_class => "index-document-functions col-sm-3 col-lg-2" %>
-      </div>
+  <%= document_actions %>
+</div>
