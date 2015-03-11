@@ -47,7 +47,9 @@ This generator makes the following changes to your application:
       file_path = "app/models/#{model_name.underscore}.rb"
       if File.exists?(file_path)
         inject_into_class file_path, model_name.classify do
-          "\n  attr_accessible :email, :password, :password_confirmation if Rails::VERSION::MAJOR < 4\n" +
+          "\n  if Blacklight::Utils.needs_attr_accessible?\n" +
+          "\n    attr_accessible :email, :password, :password_confirmation" +
+          "\n  end\n" +
             "# Connects this user object to Blacklights Bookmarks. " +
             "\n  include Blacklight::User\n"
         end
