@@ -5,10 +5,13 @@ class Search < ActiveRecord::Base
 
   serialize :query_params
 
-  if Rails::VERSION::MAJOR < 4
+  if Blacklight::Utils.needs_attr_accessible?
     attr_accessible :query_params 
-  
-    scope :none, where(:id => nil).where("id IS NOT ?", nil)
+  end
+
+  unless respond_to?(:none)
+    # polyfill
+    scope :none, where(id: nil).where("id IS NOT ?", nil)
   end
 
   # A Search instance is considered a saved search if it has a user_id.

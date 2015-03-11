@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'deprecation'
+require 'blacklight/utils'
+
 module Blacklight
   autoload :Configurable, 'blacklight/configurable'
   autoload :Configuration, 'blacklight/configuration'
@@ -28,8 +30,7 @@ module Blacklight
   autoload :DocumentPresenter, 'blacklight/document_presenter'
 
   autoload :Routes, 'blacklight/routes'
-
-  autoload :OpenStructWithHashAccess, 'blacklight/utils'
+  
   autoload :SolrResponse, 'blacklight/solr_response'
   autoload :Facet, 'blacklight/facet'
 
