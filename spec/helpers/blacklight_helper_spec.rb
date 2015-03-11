@@ -608,7 +608,7 @@ describe BlacklightHelper do
 
     it "should ignore missing templates" do
       response = helper.render_document_index_with_view :view_type, [obj1, obj1]
-      expect(response).to match /<div id="documents">/
+      expect(response).to have_selector "div#documents"
     end
   end
 
