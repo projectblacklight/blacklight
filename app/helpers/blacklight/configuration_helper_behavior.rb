@@ -96,6 +96,17 @@ module Blacklight::ConfigurationHelperBehavior
     )
   end
 
+  def view_label view
+    view_config = blacklight_config.view[view]
+    field_label(
+      :"blacklight.search.view_title.#{view}",
+      :"blacklight.search.view.#{view}",
+      view_config.label,
+      view_config.title,
+      view.to_s.humanize
+    )
+  end
+
   ##
   # Look up the label for a solr field.
   #
