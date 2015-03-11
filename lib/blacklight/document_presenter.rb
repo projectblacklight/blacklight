@@ -155,9 +155,11 @@ module Blacklight
               result.send(method)
             end
           end
-        else
+        when field_config
           # regular solr
-          @document.get(field, :sep => nil) if field
+          @document.get(field_config.field, sep: nil)
+        when field
+          @document.get(field, sep: nil)
       end
 
       # rendering values
