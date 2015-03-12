@@ -149,6 +149,12 @@ describe BlacklightHelper do
         allow(helper).to receive(:render_bookmarks_control?).and_return(false)
         expect(helper.render_index_doc_actions(document)).to be_blank
       end
+
+      it "should render view type specific actions" do
+        allow(helper).to receive(:document_index_view_type).and_return(:custom)
+        config.view.custom.document_actions = []
+        expect(helper.render_index_doc_actions(document)).to be_blank
+      end
     end
 
     describe "render_show_doc_actions" do

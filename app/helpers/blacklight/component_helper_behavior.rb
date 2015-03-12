@@ -29,7 +29,7 @@ module Blacklight
     # @return [String]
     def render_index_doc_actions(document, options={})
       wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
-      rendered = render_filtered_partials(blacklight_config.index.document_actions, { document: document }.merge(options))
+      rendered = render_filtered_partials(blacklight_config.view_config(document_index_view_type).document_actions, { document: document }.merge(options))
       content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
     end
 
@@ -42,7 +42,7 @@ module Blacklight
     # @return [String]
     def render_results_collection_tools(options = {})
       wrapping_class = options.delete(:wrapping_class) || "search-widgets"
-      rendered = render_filtered_partials(blacklight_config.index.collection_actions, options)
+      rendered = render_filtered_partials(blacklight_config.view_config(document_index_view_type).collection_actions, options)
       content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
     end
 
