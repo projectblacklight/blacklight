@@ -144,6 +144,11 @@ describe BlacklightHelper do
         response = helper.render_index_doc_actions(document)
         expect(response).to have_selector(".bookmark_toggle")
       end
+
+      it "should be nil if no partials are renderable" do
+        allow(helper).to receive(:render_bookmarks_control?).and_return(false)
+        expect(helper.render_index_doc_actions(document)).to be_blank
+      end
     end
 
     describe "render_show_doc_actions" do
