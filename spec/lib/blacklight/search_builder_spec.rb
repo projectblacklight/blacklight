@@ -5,6 +5,14 @@ describe Blacklight::SearchBuilder do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:scope) { double blacklight_config: blacklight_config }
   subject { described_class.new processor_chain, scope }
+
+  context "with default processor chain" do
+    subject { described_class.new true, scope }
+    it "should use the class-level default_processor_chain" do
+      expect(subject.processor_chain).to eq []
+    end
+  end
+
   describe "#with" do
     it "should set the blacklight params" do
       params = {}
