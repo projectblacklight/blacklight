@@ -17,6 +17,13 @@ describe Blacklight::Solr::SearchBuilder do
 
   subject { search_builder.with(user_params) }
 
+  context "with default processor chain" do
+    subject { described_class.new true, context }
+    it "should use the class-level default_processor_chain" do
+      expect(subject.processor_chain).to eq described_class.default_processor_chain
+    end
+  end
+
   context "with a complex parameter environment" do
     subject { search_builder.with(user_params).processed_parameters }
 

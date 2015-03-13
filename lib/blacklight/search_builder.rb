@@ -3,12 +3,20 @@ module Blacklight
     extend Deprecation
     self.deprecation_horizon = "blacklight 6.0"
 
+    class_attribute :default_processor_chain
+    self.default_processor_chain = []
+
     attr_reader :processor_chain, :blacklight_params
 
-    # @param [List<Symbol>] processor_chain a list of filter methods to run
+    # @param [List<Symbol>,TrueClass] processor_chain a list of filter methods to run or true, to use the default methods
     # @param [Object] scope the scope where the filter methods reside in.
     def initialize(processor_chain, scope)
-      @processor_chain = processor_chain
+      @processor_chain = if processor_chain === true
+        default_processor_chain.dup
+      else
+        processor_chain
+      end
+
       @scope = scope
       @blacklight_params = {}
     end
@@ -56,8 +64,8 @@ module Blacklight
     #
     # Incoming parameter :f is mapped to :fq solr parameter.
     def processed_parameters
-      Blacklight::Solr::Request.new.tap do |request_parameters|
-        @processor_chain.each do |method_name|
+      request.tap do |request_parameters|
+        processor_chain.each do |method_name|
           if scope.respond_to?(method_name, true)
             Deprecation.warn Blacklight::SearchBuilder, "Building search parameters by calling #{method_name} on #{scope.class}. This behavior will be deprecated in Blacklight 6.0. Instead, define #{method_name} on a subclass of #{self.class} and set search_builder_class in the configuration"
             scope.send(method_name, request_parameters, blacklight_params)
@@ -73,6 +81,10 @@ module Blacklight
     end
 
     protected
+    def request
+      Blacklight::Solr::Request.new
+    end
+
     def page
       if blacklight_params[:page].blank?
         1
@@ -121,10 +133,8 @@ module Blacklight
       field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
     end
 
-    protected
     def scope
       @scope
     end
-
   end
 end
