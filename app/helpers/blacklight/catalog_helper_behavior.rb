@@ -223,6 +223,10 @@ module Blacklight::CatalogHelperBehavior
     response ||= @response
     @current_bookmarks ||= current_or_guest_user.bookmarks_for_documents(response.documents).to_a
   end
+
+  def is_bookmarked? document
+    current_bookmarks.any? { |x| x.document_id == document.id and x.document_type == document.class }
+  end
   
   def render_marc_tools
     return unless defined? Blacklight::Marc
@@ -247,4 +251,5 @@ module Blacklight::CatalogHelperBehavior
   def render_librarian_view_control? config, options = {}
     respond_to? :librarian_view_catalog_path and options[:document] and options[:document].respond_to?(:to_marc)
   end
+
 end
