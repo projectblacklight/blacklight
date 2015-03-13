@@ -1,9 +1,49 @@
-<h4><%= t('blacklight.welcome') %></h4>
-<p>&nbsp;</p>
-<p>To modify this text to your specifications, copy this file located in the blacklight plugin directory:<br/>
-&nbsp;&nbsp;&nbsp;<%= Blacklight.root %>/app/views/catalog/_home_text.html.erb</p>
-<p>to your top level rails app:<br/>
-&nbsp;&nbsp;&nbsp;<%= Rails.root %>/app/views/catalog/_home_text.html.erb</p>
-<p>Note that you will need to create the 'catalog' directory under views.</p>
-<% #Creates a bit space in the page -%>
+<div class="page-header row">
+  <h1 class="col-md-8"><%= t('blacklight.welcome') %></h1>
+  
+  <ul class="nav nav-pills col-md-4">
+    <li><a href="https://github.com/projectblacklight/blacklight/">Github</a></li>
+    <li><a href="https://github.com/projectblacklight/blacklight/wiki">Wiki</a></li>
+    <li><a href="https://github.com/projectblacklight/blacklight/releases/tag/v<%= Blacklight::VERSION %>">Release Notes</a></li>
+  </ul>
 
+
+</div>
+
+<div id="getting-started">
+  <h2>Here&rsquo;s how to get started:</h2>
+  
+  <ol>
+    <li>To modify this text, you need to <a href="http://guides.rubyonrails.org/engines.html#improving-engine-functionality">override the Blacklight-provided view</a>.
+You can copy this file, located in the blacklight gem: <br />
+<%= Blacklight.root %>/app/views/catalog/_home_text.html.erb <br />
+to your own application: <br />
+ <%= Rails.root %>/app/views/catalog/_home_text.html.erb 
+    </li>
+    <li><a href="https://github.com/projectblacklight/blacklight/wiki/Indexing-your-data-into-solr">Index your own data</a> into Solr</li>
+    <li><a href="https://github.com/projectblacklight/blacklight/wiki#blacklight-configuration">Configure Blacklight</a> to match your data and user-experience needs</li>
+    <li><a href="https://github.com/projectblacklight/blacklight/wiki#support">Get in touch</a> with your comments, questions, and ideas</li>
+  </ol>
+</div>
+
+<%# This is the same panel shown in the Rails welcome template %>
+<div id="about">
+  <h3><a href="/rails/info/properties">About your application&rsquo;s environment</a></h3>
+  <div id="about-content" class="well" style="display: none"></div>
+</div>
+
+<script>
+  $(function() {
+    $('#about a').on('click', function(e) {
+      e.preventDefault();
+
+      if ($('#about-content').html() == "") {
+        $('#about-content').load($(this).attr("href"), function() {
+          $('#about-content').show();
+        });
+      } else {
+        $('#about-content').toggle();
+      }
+    });
+  });
+</script>
