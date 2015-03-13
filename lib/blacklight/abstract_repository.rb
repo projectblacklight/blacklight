@@ -23,7 +23,7 @@ module Blacklight
       end
 
       def logger
-        @logger ||= Rails.logger if defined? Rails
+        @logger ||= Blacklight.logger
       end
   end
 end
