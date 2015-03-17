@@ -22,7 +22,7 @@ module Blacklight
     def facet_configuration_for_field(field)
       f = blacklight_config.facet_fields[field]
       f ||= begin
-        _, value = blacklight_config.facet_fields.find { |k,v| v.field == field }
+        _, value = blacklight_config.facet_fields.find { |k,v| v.field.to_s == field.to_s }
         value
       end
       f ||= Blacklight::Configuration::FacetField.new(:field => field).normalize!
@@ -30,29 +30,29 @@ module Blacklight
 
 
     # Get a FacetField object from the @response
-    def facet_by_field_name field
-      case field
+    def facet_by_field_name field_or_field_name
+      case field_or_field_name
         when String, Symbol
-          extract_facet_by_field_name(field)
+          facet_field = facet_configuration_for_field(field_or_field_name)
+          extract_facet_by_field(facet_field)
         when Blacklight::Configuration::FacetField
-          extract_facet_by_field_name(field.key)
+          extract_facet_by_field(field_or_field_name)
         else
-          field
+          field_or_field_name
         end
     end
 
     private
 
     # Get the solr response for the field :field
-    def extract_facet_by_field_name field_name
-      facet_field = facet_configuration_for_field(field_name)
+    def extract_facet_by_field facet_field
       case 
         when (facet_field.respond_to?(:query) and facet_field.query)
-          create_facet_field_response_for_query_facet_field field_name, facet_field 
+          create_facet_field_response_for_query_facet_field facet_field.key, facet_field
         when (facet_field.respond_to?(:pivot) and facet_field.pivot)
-          create_facet_field_response_for_pivot_facet_field field_name, facet_field   
+          create_facet_field_response_for_pivot_facet_field facet_field.key, facet_field
         else
-          @response.facet_by_field_name(field_name)
+          @response.facet_by_field_name(facet_field.field)
       end
     end
 

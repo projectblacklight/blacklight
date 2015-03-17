@@ -107,7 +107,7 @@ describe FacetsHelper do
 
   describe "facet_by_field_name" do
     it "should retrieve the facet from the response given a string" do
-      facet_config = double(:query => nil)
+      facet_config = double(:query => nil, field: 'a')
       facet_field = double()
       allow(helper).to receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
 
@@ -118,7 +118,7 @@ describe FacetsHelper do
     end
 
     it "should also work for facet query fields" do
-      facet_config = double(:query => {})
+      facet_config = double(:query => {}, key: 'a_query_facet_field')
       allow(helper).to receive(:facet_configuration_for_field).with('a_query_facet_field').and_return(facet_config)
       allow(helper).to receive(:create_facet_field_response_for_query_facet_field).with('a_query_facet_field', facet_config)
 
@@ -128,6 +128,7 @@ describe FacetsHelper do
     describe "query facets" do
       let(:facet_config) { 
         double(
+          key: 'my_query_facet_field',
           :query => {
              'a_simple_query' => { :fq => 'field:search', :label => 'A Human Readable label'},
              'another_query' => { :fq => 'field:different_search', :label => 'Label'},
@@ -165,7 +166,7 @@ describe FacetsHelper do
 
     describe "pivot facets" do
       let(:facet_config) {
-        double(:pivot => ['field_a', 'field_b'])
+        double(key: 'my_pivot_facet_field', pivot: ['field_a', 'field_b'])
       }
 
       before(:each) do 
