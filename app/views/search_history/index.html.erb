@@ -1,10 +1,10 @@
 <div id="content" class="col-md-12">
-<h1><%=t('blacklight.search_history.title')%></h1>
+<h1 class='page-heading'><%=t('blacklight.search_history.title')%></h1>
 <%- if @searches.blank? -%>
-  <h2><%=t('blacklight.search_history.no_history')%></h2>
+  <h2 class='section-heading'><%=t('blacklight.search_history.no_history')%></h2>
 <%- else -%>
     <%= link_to t('blacklight.search_history.clear.action_title'), clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger pull-right' %>
-  <h3><%=t('blacklight.search_history.recent')%></h3>
+  <h3 class='section-heading'><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search_history">
     <%-  @searches.each_with_index do |search,index| -%>
     <%= content_tag :tr, :id => "document_#{index + 1}" do %>

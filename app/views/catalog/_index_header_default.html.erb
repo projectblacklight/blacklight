@@ -9,7 +9,7 @@
     <%= render_index_doc_actions document, wrapping_class: "index-document-functions col-sm-3 col-lg-2" %>
   <% end %>
 
-  <h5 class="index_title <%= document_actions.present? ? "col-sm-9 col-lg-10" : "col-md-12" %>">
+  <h5 class="index_title document-title-heading <%= document_actions.present? ? "col-sm-9 col-lg-10" : "col-md-12" %>">
     <% if counter = document_counter_with_offset(document_counter) %>
       <span class="document-counter">
         <%= t('blacklight.search.documents.counter', counter: counter) %>
