@@ -1,13 +1,13 @@
 <div id="content" class="col-md-12">
-<h1><%= t('blacklight.bookmarks.title') %></h1>
+<h1 class='page-heading'><%= t('blacklight.bookmarks.title') %></h1>
 
 <%- if current_or_guest_user.blank? -%>
 
-  <h2><%= t('blacklight.bookmarks.need_login') %></h2>
+  <h2 class='section-heading'><%= t('blacklight.bookmarks.need_login') %></h2>
 
 <%- elsif @document_list.blank? -%>
 
-  <h3><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
+  <h3 class='section-heading'><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% else %>
   <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks btn btn-danger pull-right' %>
   <%= render 'sort_and_per_page' %>

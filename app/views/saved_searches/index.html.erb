@@ -1,20 +1,22 @@
 <div id="content" class="col-md-9">
-<h1><%= t('blacklight.saved_searches.title') %></h1>
+
+<h1 class='page-heading'><%= t('blacklight.saved_searches.title') %></h1>
 
 <%- if current_or_guest_user.blank? -%>
   
-  <h2><%= t('blacklight.saved_searches.need_login') %></h2>
+  <h2 class='section-heading'><%= t('blacklight.saved_searches.need_login') %></h2>
   
 <%- elsif @searches.blank? -%>
   
-  <h2><%= t('blacklight.saved_searches.no_searches') %></h2>
+  <h2 class='section-heading'><%= t('blacklight.saved_searches.no_searches') %></h2>
   
 <%- else -%>
   <p>
   <%= link_to t('blacklight.saved_searches.clear.action_title'), clear_saved_searches_path, :method => :delete, :data => { :confirm => t('blacklight.saved_searches.clear.action_confirm') } %>
   </p>
 
-  <h2><%= t('blacklight.saved_searches.list_title') %></h2>
+  <h2 class='section-heading'><%= t('blacklight.saved_searches.list_title') %></h2>
+
   <table class="table table-striped">
   <%- @searches.each do |search| -%>
     <tr>
