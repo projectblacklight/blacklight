@@ -215,17 +215,19 @@ module Blacklight::UrlHelperBehavior
 
     facet_config = facet_configuration_for_field(field)
 
+    url_field = facet_config.key
+
     value = facet_value_for_facet_item(item)
 
     p = reset_search_params(source_params)
     p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
-    p[:f][field] = (p[:f][field] || []).dup
+    p[:f][url_field] = (p[:f][url_field] || []).dup
 
-    if facet_config.single and not p[:f][field].empty?
-      p[:f][field] = []
+    if facet_config.single and not p[:f][url_field].empty?
+      p[:f][url_field] = []
     end
     
-    p[:f][field].push(value)
+    p[:f][url_field].push(value)
 
     if item and item.respond_to?(:fq) and item.fq
       item.fq.each do |f,v|
@@ -262,6 +264,10 @@ module Blacklight::UrlHelperBehavior
       field = item.field
     end
 
+    facet_config = facet_configuration_for_field(field)
+
+    url_field = facet_config.key
+
     value = facet_value_for_facet_item(item)
 
     p = reset_search_params(source_params)
@@ -269,9 +275,9 @@ module Blacklight::UrlHelperBehavior
     # if the values aren't dup'd, then the values
     # from the session will get remove in the show view...
     p[:f] = (p[:f] || {}).dup
-    p[:f][field] = (p[:f][field] || []).dup
-    p[:f][field] = p[:f][field] - [value]
-    p[:f].delete(field) if p[:f][field].size == 0
+    p[:f][url_field] = (p[:f][url_field] || []).dup
+    p[:f][url_field] = p[:f][url_field] - [value]
+    p[:f].delete(url_field) if p[:f][url_field].size == 0
     p.delete(:f) if p[:f].empty?
     p
   end
