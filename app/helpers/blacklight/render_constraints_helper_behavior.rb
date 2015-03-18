@@ -69,7 +69,7 @@ module Blacklight::RenderConstraintsHelperBehavior
 
     safe_join(values.map do |val|
       next if val.blank? # skip empty string
-      render_constraint_element( facet_field_label(facet), facet_display_value(facet, val),
+      render_constraint_element( facet_field_label(facet_config.key), facet_display_value(facet, val),
                   :remove => search_action_path(remove_facet_params(facet, val, localized_params)),
                   :classes => ["filter", "filter-" + facet.parameterize]
                 )

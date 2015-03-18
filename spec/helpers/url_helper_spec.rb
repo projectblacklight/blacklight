@@ -343,6 +343,16 @@ describe BlacklightUrlHelper do
       expect(result_params[:f]["facet_field"]).to eq ["facet_value"]
     end
 
+    it "should use the facet's key in the url" do
+      allow(helper).to receive(:facet_configuration_for_field).with('some_field').and_return(double(single: true, field: "a_solr_field", key: "some_key"))
+
+      result_params = helper.add_facet_params('some_field', 'my_value', {})
+
+      expect(result_params[:f]['some_key']).to have(1).item
+      expect(result_params[:f]['some_key'].first).to eq 'my_value'
+    end
+
+
     it "should add a facet param to existing facet constraints" do
       allow(helper).to receive(:params).and_return(@params_existing_facets)
       
@@ -374,7 +384,7 @@ describe BlacklightUrlHelper do
     end    
 
     it "should replace facets for facets configured as single" do
-      allow(helper).to receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(double(:single => true))
+      allow(helper).to receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(double(single: true, key: "single_value_facet_field"))
       params = { :f => { 'single_value_facet_field' => 'other_value'}}
       allow(helper).to receive(:params).and_return params
 
@@ -439,6 +449,46 @@ describe BlacklightUrlHelper do
       added_facet_params_from_facet_action = helper.add_facet_params_and_redirect("facet_field_2", "facet_value")
 
       expect(added_facet_params_from_facet_action).to eq added_facet_params.except(Blacklight::Solr::FacetPaginator.request_keys[:page], Blacklight::Solr::FacetPaginator.request_keys[:sort])     
+    end
+  end
+
+  describe "#remove_facet_params" do
+    let(:query_params) { { f: facet_params }}
+    let(:facet_params) { { } }
+    it "should remove the facet / value tuple from the query parameters" do
+      facet_params['some_field'] = ['some_value', 'another_value']
+
+      params = helper.remove_facet_params('some_field', 'some_value', query_params)
+
+      expect(params[:f]['some_field']).not_to include 'some_value'
+      expect(params[:f]['some_field']).to include 'another_value'
+    end
+
+    it "should use the facet's key configuration" do
+      allow(helper).to receive(:facet_configuration_for_field).with('some_field').and_return(double(single: true, field: "a_solr_field", key: "some_key"))
+      facet_params['some_key'] = ['some_value', 'another_value']
+
+      params = helper.remove_facet_params('some_field', 'some_value', query_params)
+
+      expect(params[:f]['some_key']).not_to eq 'some_value'
+      expect(params[:f]['some_key']).to include 'another_value'
+    end
+
+    it "should remove the facet entirely when the last facet value is removed" do
+      facet_params['another_field'] = ['some_value']
+      facet_params['some_field'] = ['some_value']
+
+      params = helper.remove_facet_params('some_field', 'some_value', query_params)
+
+      expect(params[:f]).not_to include 'some_field'
+    end
+
+    it "should remove the 'f' parameter entirely when no facets remain" do
+      facet_params['some_field'] = ['some_value']
+
+      params = helper.remove_facet_params('some_field', 'some_value', query_params)
+
+      expect(params).not_to include :f
     end
   end
   
