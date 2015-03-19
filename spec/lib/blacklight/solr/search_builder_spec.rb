@@ -355,6 +355,10 @@ describe Blacklight::Solr::SearchBuilder do
 
   
   describe "#facet_value_to_fq_string" do
+    it "should use the configured field name" do
+      blacklight_config.add_facet_field :facet_key, field: "facet_name"
+      expect(subject.send(:facet_value_to_fq_string, "facet_key", "my value")).to eq "{!raw f=facet_name}my value"
+    end
 
     it "should use the raw handler for strings" do
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name}my value"
@@ -389,19 +393,19 @@ describe Blacklight::Solr::SearchBuilder do
     end
 
     it "should pass date-type fields through" do
-      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
+      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil, :field => 'facet_name'))
 
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq "facet_name:2012\\-01\\-01"
     end
 
     it "should escape datetime-type fields" do
-      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil))
+      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil, :field => 'facet_name'))
 
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "2003-04-09T00:00:00Z")).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"
     end
     
     it "should format Date objects correctly" do
-      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil))
+      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil, :field => 'facet_name'))
       d = DateTime.parse("2003-04-09T00:00:00")
       expect(subject.send(:facet_value_to_fq_string, "facet_name", d)).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"      
     end
@@ -411,7 +415,7 @@ describe Blacklight::Solr::SearchBuilder do
     end
 
     it "should add tag local parameters" do
-      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:query => nil, :tag => 'asdf', :date => nil))
+      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:query => nil, :tag => 'asdf', :date => nil, :field => 'facet_name'))
 
       expect(subject.send(:facet_value_to_fq_string, "facet_name", true)).to eq "{!tag=asdf}facet_name:true"
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name tag=asdf}my value"
