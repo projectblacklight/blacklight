@@ -59,6 +59,10 @@ module Blacklight::Document
     @_source.send :[], *args
   end
 
+  def _read_attribute(attr)
+    self[attr]
+  end
+
   # Helper method to check if value/multi-values exist for a given key.
   # The value can be a string, or a RegExp
   # Multiple "values" can be given; only one needs to match.
