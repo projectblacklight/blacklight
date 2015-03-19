@@ -87,13 +87,11 @@ module Blacklight::ConfigurationHelperBehavior
   # Look up the label for the facet field
   def facet_field_label field
     field_config = blacklight_config.facet_fields[field]
+    defaults = [:"blacklight.search.fields.facet.#{field}", :"blacklight.search.fields.#{field}"]
+    defaults << field_config.label if field_config
+    defaults << field.to_s.humanize
 
-    field_label(
-      :"blacklight.search.fields.facet.#{field}",
-      :"blacklight.search.fields.#{field}",
-      (field_config.label if field_config),
-      field.to_s.humanize
-    )
+    field_label *defaults
   end
 
   def view_label view
