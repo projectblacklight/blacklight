@@ -159,7 +159,7 @@ module Blacklight::FacetsHelperBehavior
   # @param [String] facet field
   # @return [Boolean]
   def facet_field_in_params? field
-    params[:f] and params[:f][field]
+    !facet_params(field).blank?
   end
   
   ##
@@ -170,13 +170,17 @@ module Blacklight::FacetsHelperBehavior
   # @param [Object] facet value
   # @return [Boolean]
   def facet_in_params?(field, item)
-    if item and item.respond_to? :field
-      field = item.field
-    end
-
     value = facet_value_for_facet_item(item)
 
-    params[:f] and params[:f][field] and params[:f][field].include?(value)
+    (facet_params(field) || []).include? value
+  end
+
+  ##
+  # Get the values of the facet set in the blacklight query string
+  def facet_params field
+    config = facet_configuration_for_field(field)
+
+    params[:f][config.key] if params[:f]
   end
 
   ##
