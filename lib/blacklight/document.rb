@@ -80,21 +80,29 @@ module Blacklight::Document
   # doc.has?(:location_facet, 'Clemons')
   # doc.has?(:id, 'h009', /^u/i)
   def has?(k, *values)
-    return true if key?(k) and values.empty?
-    return false if self[k].nil?
-    target = self[k]
-    if target.is_a?(Array)
-      values.each do |val|
-        return target.any?{|tv| val.is_a?(Regexp) ? (tv =~ val) : (tv==val)}
-      end
+    if !key?(k)
+      false
+    elsif values.empty?
+      self[k].present?
     else
-      return values.any? {|val| val.is_a?(Regexp) ? (target =~ val) : (target == val)}
+      Array(values).any? do |expected|
+        Array(self[k]).any? do |actual|
+          case expected
+          when Regexp
+            actual =~ expected
+          else
+            actual == expected
+          end
+        end
+      end
     end
   end
+  alias_method :has_field?, :has?
 
   def key? k
     _source.key? k
   end
+  alias_method :has_key?, :key?
 
   # helper
   # key is the name of the field
