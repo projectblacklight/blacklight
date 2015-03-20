@@ -103,7 +103,7 @@ EOF
           run "bundle install"
         end
 
-        generate 'blacklight_marc:marc'
+        generate 'blacklight:marc:install'
       end
     end
   end
