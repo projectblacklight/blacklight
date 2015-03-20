@@ -499,4 +499,15 @@ describe BlacklightUrlHelper do
       expect(url).to eq helper.bookmarks_url(format: :html, encrypted_user_id: 'xyz')
     end
   end
+
+  describe "#session_tracking_path" do
+    let(:document) { SolrDocument.new(id: 1) }
+    it "should determine the correct route for the document class" do
+      expect(helper.session_tracking_path(document)).to eq helper.track_solr_document_path(document)
+    end
+
+    it "should pass through tracking parameters" do
+      expect(helper.session_tracking_path(document, x: 1)).to eq helper.track_solr_document_path(document, x: 1)
+    end
+  end
 end
