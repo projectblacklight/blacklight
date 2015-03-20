@@ -40,7 +40,6 @@ describe Blacklight::Solr::SearchBuilder do
                              :qf => "fieldOne^2.3 fieldTwo fieldThree^0.4",
                              :pf => "",
                              :spellcheck => 'false',
-                             :rows => "55",
                              :sort => "request_params_sort" }
                           )
       end
@@ -60,10 +59,6 @@ describe Blacklight::Solr::SearchBuilder do
 
       it "should fall through to BL general defaults for qt not otherwise specified " do
         expect(subject[:qt]).to eq blacklight_config[:default_solr_params][:qt]
-      end
-
-      it "should take rows from search field definition where specified" do
-        expect(subject[:rows]).to eq "55"
       end
 
       it "should take q from request params" do

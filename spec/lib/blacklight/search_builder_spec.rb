@@ -100,31 +100,33 @@ describe Blacklight::SearchBuilder do
   end
 
   describe "#rows" do
+
+    it "should be nil if no value is set" do
+      blacklight_config.default_per_page = nil
+      blacklight_config.per_page = []
+      expect(subject.rows).to be_nil
+    end
+
+    it "should set the number of rows" do
+      expect(subject.rows(17).rows).to eq 17
+    end
+
     it "should be the per_page parameter" do
-      expect(subject.with(per_page: 5).send(:rows)).to eq 5
+      expect(subject.with(per_page: 5).rows).to eq 5
     end
 
     it "should support the legacy 'rows' parameter" do
-      expect(subject.with(rows: 10).send(:rows)).to eq 10
-    end
-
-    it "should use the provided default" do
-      expect(subject.send(:rows, 17)).to eq 17
+      expect(subject.with(rows: 10).rows).to eq 10
     end
 
     it "should be set to the configured default" do
       blacklight_config.default_per_page = 42
-      expect(subject.send(:rows)).to eq 42
-    end
-
-    it "should default to 10" do
-      blacklight_config.default_per_page = nil
-      expect(subject.send(:rows)).to eq 10
+      expect(subject.rows).to eq 42
     end
 
     it "should limit the number of rows to the configured maximum" do
       blacklight_config.max_per_page = 1000
-      expect(subject.send(:rows, 1001)).to eq 1000
+      expect(subject.rows(1001).rows).to eq 1000
     end
   end
 
