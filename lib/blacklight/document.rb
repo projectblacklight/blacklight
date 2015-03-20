@@ -147,6 +147,12 @@ module Blacklight::Document
     nil
   end
 
+  ##
+  # Implementations that support More-Like-This should override this method
+  # to return an array of documents that are like this one.
+  def more_like_this
+    []
+  end
 
   # Certain class-level methods needed for the document-specific
   # extendability architecture
