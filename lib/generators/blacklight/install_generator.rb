@@ -6,6 +6,7 @@ module Blacklight
     argument     :model_name  , type: :string , default: "user"
     argument     :controller_name, type: :string , default: "catalog"
     argument     :document_name, type: :string , default: "solr_document"
+    argument     :search_builder_name, type: :string , default: "search_builder"
 
     class_option :devise      , type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
@@ -53,6 +54,10 @@ module Blacklight
     
     def generate_blacklight_document
       generate 'blacklight:document', document_name
+    end
+
+    def generate_search_builder
+      generate 'blacklight:search_builder', search_builder_name
     end
 
     def generate_blacklight_models
