@@ -52,7 +52,15 @@ module Blacklight::Document
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
   def method_missing(m, *args, &b)
-    _source.send(m, *args, &b)
+    if _source and _source.respond_to? m
+      _source.send(m, *args, &b)
+    else
+      super
+    end
+  end
+
+  def respond_to_missing? *args
+    (_source && _source.respond_to?(*args)) || super
   end
 
   def [] *args
