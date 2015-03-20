@@ -31,7 +31,7 @@ describe "catalog/_facets" do
                   :facet_limit_for => 10 )
 
         @response = double()
-        allow(@response).to receive(:facet_by_field_name).with("facet_field_1") { @mock_display_facet_1 }
+        allow(@response).to receive(:aggregations).and_return("facet_field_1" => @mock_display_facet_1)
     end
 
     it "should have a header" do

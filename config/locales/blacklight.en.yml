@@ -188,6 +188,7 @@ en:
         more_html: 'more <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[remove]'
+        missing: "[Missing]"
       group:
         more: 'more »'
       filters:
