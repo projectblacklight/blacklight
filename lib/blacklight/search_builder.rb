@@ -80,34 +80,64 @@ module Blacklight
       scope.blacklight_config
     end
 
-    protected
-    def request
-      Blacklight::Solr::Request.new
-    end
-
-    def page
-      if blacklight_params[:page].blank?
-        1
+    def start start = nil
+      if start
+        @start = start.to_i
+        self
       else
-        blacklight_params[:page].to_i
+        @start ||= (page - 1) * (rows || 10)
+
+        val = @start || 0
+        val = 0 if @start < 0
+        val
+      end
+    end
+    alias_method :padding, :start
+
+    def page page = nil
+      if page
+        @page = page.to_i
+        @page = 1 if @page < 1
+        self
+      else
+        @page ||= begin
+          page = if blacklight_params[:page].blank?
+            1
+          else
+            blacklight_params[:page].to_i
+          end
+
+          page
+        end
       end
     end
 
-    def rows default = nil
-      # default number of rows
-      rows = default
-      rows ||= blacklight_config.default_per_page
-      rows ||= 10
+    def rows rows = nil
+      if rows
+        @rows = rows.to_i
+        @rows = blacklight_config.max_per_page if @rows > blacklight_config.max_per_page
+        self
+      else
+        @rows ||= begin
+          rows = blacklight_config.default_per_page
 
-      # user-provided parameters should override any default row
-      rows = blacklight_params[:rows].to_i unless blacklight_params[:rows].blank?
-      rows = blacklight_params[:per_page].to_i unless blacklight_params[:per_page].blank?
+          # user-provided parameters should override any default row
+          rows = blacklight_params[:rows].to_i unless blacklight_params[:rows].blank?
+          rows = blacklight_params[:per_page].to_i unless blacklight_params[:per_page].blank?
 
-      # ensure we don't excede the max page size
-      rows = blacklight_config.max_per_page if rows.to_i > blacklight_config.max_per_page
+          # ensure we don't excede the max page size
+          rows = blacklight_config.max_per_page if rows.to_i > blacklight_config.max_per_page
 
+          rows.to_i unless rows.nil?
+        end
+      end
+    end
 
-      rows
+    alias_method :per, :rows
+
+    protected
+    def request
+      Blacklight::Solr::Request.new
     end
 
     def sort

@@ -98,8 +98,11 @@ module Blacklight::SearchHelper
   # @param [List<Symbol] processor_chain a list of filter methods to run
   # @return [Blacklight::SolrResponse] the solr response object
   def search_results(user_params, search_params_logic)
-    query = search_builder(search_params_logic).with(user_params).query
-    response = repository.search(query)
+    builder = search_builder(search_params_logic).with(user_params)
+    builder.page(user_params[:page]) if user_params[:page]
+    builder.rows(user_params[:per_page] || user_params[:rows]) if user_params[:per_page] or user_params[:rows]
+
+    response = repository.search(builder.query)
 
     case
     when (response.grouped? && grouped_key_for_results)
@@ -188,12 +191,8 @@ module Blacklight::SearchHelper
   # the Blacklight app-level request params that define the search.
   # @return [Blacklight::SolrDocument, nil] the found document or nil if not found
   def get_single_doc_via_search(index, request_params)
-    request_params = search_builder.with(request_params).processed_parameters
-
-    request_params[:start] = (index - 1) # start at 0 to get 1st doc, 1 to get 2nd.
-    request_params[:rows] = 1
-    request_params[:fl] = '*'
-    response = repository.search(request_params)
+    query = search_builder.with(request_params).start(index - 1).rows(1).query(fl: "*")
+    response = repository.search(query)
     response.documents.first
   end
   deprecation_deprecate :get_single_doc_via_search
@@ -201,8 +200,9 @@ module Blacklight::SearchHelper
   # Get the previous and next document from a search result
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
+    p = previous_and_next_document_params(index)
 
-    query = search_builder.with(request_params).query(extra_controller_params.merge(previous_and_next_document_params(index)))
+    query = search_builder.with(request_params).start(p.delete(:start)).rows(p.delete(:rows)).query(extra_controller_params.merge(p))
     response = repository.search(query)
 
     document_list = response.documents
