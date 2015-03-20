@@ -212,7 +212,14 @@ module Blacklight
     end
 
     def search_builder_class
-      super || Blacklight::Solr::SearchBuilder
+      super || locate_search_builder_class
+    end
+
+    def locate_search_builder_class
+      ::SearchBuilder
+    rescue NameError
+      Deprecation.warn(Configuration, "Your application is missing the SearchBuilder. Have you run `rails generate blacklight:search_builder`? Falling back to Blacklight::Solr::SearchBuilder")
+      Blacklight::Solr::SearchBuilder
     end
 
     def default_per_page
