@@ -320,8 +320,43 @@ describe FacetsHelper do
     end
   end
 
-  describe "facet_in_params?" do
+  describe "facet_params" do
+    it "should extract the facet parameters for a field" do
+      allow(helper).to receive_messages(params: { f: { "some-field" => ["x"] }})
+      expect(helper.facet_params("some-field")).to match_array ["x"]
+    end
 
+    it "should use the blacklight key to extract the right fields" do
+      blacklight_config.add_facet_field "some-key", field: "some-field"
+      allow(helper).to receive_messages(params: { f: { "some-key" => ["x"] }})
+      expect(helper.facet_params("some-key")).to match_array ["x"]
+      expect(helper.facet_params("some-field")).to match_array ["x"]
+    end
+  end
+
+  describe "facet_field_in_params?" do
+    it "should check if any value is selected for a given facet" do
+      allow(helper).to receive_messages(facet_params: ["x"])
+      expect(helper.facet_field_in_params?("some-facet")).to eq true
+    end
+
+    it "should be false if no value for facet is selected" do
+      allow(helper).to receive_messages(facet_params: nil)
+      expect(helper.facet_field_in_params?("some-facet")).to eq false
+    end
+  end
+
+  describe "facet_in_params?" do
+    it "should check if a particular value is set in the facet params" do
+      allow(helper).to receive_messages(facet_params: ["x"])
+      expect(helper.facet_in_params?("some-facet", "x")).to eq true
+      expect(helper.facet_in_params?("some-facet", "y")).to eq false
+    end
+
+    it "should be false if no value for facet is selected" do
+      allow(helper).to receive_messages(facet_params: nil)
+      expect(helper.facet_in_params?("some-facet", "x")).to eq false
+    end
   end
 
   describe "render_facet_value" do
