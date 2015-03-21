@@ -207,15 +207,31 @@ describe "Blacklight::Configuration" do
       expect { @config.add_facet_field(nil) }.to raise_error ArgumentError
     end
 
-    it "should take wild-carded field names and dereference them to solr fields" do
+    it "should look up and match field names" do
       allow(@config).to receive_messages(luke_fields: { 
         "some_field_facet" => {}, 
+        "another_field_facet" => {},
+        "a_facet_field" => {},
+        })
+      expect { |b| @config.add_index_field match: /_facet$/, &b }.to yield_control.twice
+
+      expect(@config.index_fields.keys).to eq ["some_field_facet", "another_field_facet"]
+    end
+
+    it "should take wild-carded field names and dereference them to solr fields" do
+      allow(@config).to receive_messages(luke_fields: {
+        "some_field_facet" => {},
         "another_field_facet" => {},
         "a_facet_field" => {},
         })
       expect { |b| @config.add_index_field "*_facet", &b }.to yield_control.twice
 
       expect(@config.index_fields.keys).to eq ["some_field_facet", "another_field_facet"]
+    end
+
+    it "should query solr and get live values for match fields", integration: true do
+      @config.add_index_field match: /title.+display/
+      expect(@config.index_fields.keys).to include "subtitle_display", "subtitle_vern_display", "title_display", "title_vern_display"
     end
 
   end

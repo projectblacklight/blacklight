@@ -82,17 +82,23 @@ module Blacklight
             field_config_from_field_or_hash(config_key, *args)
         end
 
+        if (field_config.field || field_config.key).to_s =~ /\*/
+          field_config.match = Regexp.new("^" + (field_config.field || field_config.key).to_s.gsub('*', '.+') + "$")
+        end
+
         # look up any dynamic fields
-        if (field_config.field || field_config.key).to_s =~ /\*/ and luke_fields
-          wildcard_field = (field_config.field || field_config.key).to_s
-          salient_fields = luke_fields.select do |k,v| 
-            k =~ Regexp.new("^" + wildcard_field.gsub('*', '.+') + "$")
+        if field_config.match
+
+          salient_fields = luke_fields.select do |k,v|
+            k =~ field_config.match
           end
 
           salient_fields.each do |field, luke_config|
             config = field_config.dup
+            config.match = nil
             config.field = field
             config.key = field
+
             if self[config_key.pluralize][ config.key ]
               self[config_key.pluralize][ config.key ] = config.merge(self[config_key.pluralize][ config.key ])
             else
@@ -123,15 +129,19 @@ module Blacklight
           return nil
         end
 
-        @table[:luke_fields] ||= begin
-          if has_key? :blacklight_solr
-            blacklight_solr.get('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
+        @table[:luke_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/luke", expires_in: 1.hour) do
+          begin
+            if repository_class == Blacklight::SolrRepository
+              repository = repository_class.new(self)
+              repository.send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
+            end
+          rescue => e
+            Blacklight.logger.warn "Error retrieving field metadata: #{e}"
+            false
           end
-        rescue
-          false
         end
 
-        @table[:luke_fields] || nil
+        @table[:luke_fields] || {}
       end
 
       # Add a solr field by a solr field name and hash 
