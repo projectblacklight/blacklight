@@ -70,14 +70,6 @@ describe Blacklight::SolrResponse do
     expect(r).to be_a_kind_of Kaminari::PageScopeMethods
   end
 
-  it "should provide a model name helper" do
-    first_doc_model_name = double(:human => 'xyz')
-
-    allow(r.docs.first).to receive(:model_name).and_return first_doc_model_name
-
-    expect(r.model_name).to eq first_doc_model_name
-  end
-
   describe "FacetItem" do
     it "should work with a field,value tuple" do
       item = Blacklight::SolrResponse::Facets::FacetItem.new('value', 15)

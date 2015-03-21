@@ -235,7 +235,7 @@ module Blacklight::UrlHelperBehavior
     p[:f][url_field].push(value)
 
     if item and item.respond_to?(:fq) and item.fq
-      item.fq.each do |f,v|
+      Array(item.fq).each do |f,v|
         p = add_facet_params(f, v, p)
       end
     end

@@ -103,7 +103,7 @@ namespace :blacklight do
       print " - fetch: "
 
       begin
-        doc_id = response.docs.first[SolrDocument.unique_key]
+        doc_id = response.documents.first.id
         response, doc = controller.fetch doc_id
 
         if response.header['status'] == 0 and doc

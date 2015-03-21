@@ -1,4 +1,5 @@
 class Blacklight::SolrResponse < HashWithIndifferentAccess
+  extend Deprecation
 
   require  'blacklight/solr_response/pagination_methods'
 
@@ -16,44 +17,35 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
   include MoreLikeThis
 
   attr_reader :request_params
-  attr_accessor :document_model
+  attr_accessor :document_model, :blacklight_config
 
   def initialize(data, request_params, options = {})
     super(force_to_utf8(data))
     @request_params = request_params
     self.document_model = options[:solr_document_model] || options[:document_model] || SolrDocument
+    self.blacklight_config = options[:blacklight_config]
   end
 
   def header
-    self['responseHeader']
+    self['responseHeader'] || {}
   end
-  
-  def update(other_hash) 
-    other_hash.each_pair { |key, value| self[key] = value } 
-    self 
-  end 
 
   def params
-      (header and header['params']) ? header['params'] : request_params
+    header['params'] || request_params
   end
 
   def rows
-      params[:rows].to_i
+    params[:rows].to_i
   end
 
   def sort
     params[:sort]
   end
 
-  def docs
-    @docs ||= begin
-      response['docs'] || []
-    end
-  end
-  
   def documents
-    docs.collect{|doc| document_model.new(doc, self) }
+    @documents ||= (response['docs'] || []).collect{|doc| document_model.new(doc, self) }
   end
+  alias_method :docs, :documents
 
   def grouped
     @groups ||= self["grouped"].map do |field, group|

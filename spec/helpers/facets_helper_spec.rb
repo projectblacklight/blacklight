@@ -107,87 +107,14 @@ describe FacetsHelper do
 
   describe "facet_by_field_name" do
     it "should retrieve the facet from the response given a string" do
-      facet_config = double(:query => nil, field: 'a')
+      facet_config = double(:query => nil, field: 'a', key: 'a')
       facet_field = double()
       allow(helper).to receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
 
       @response = double()
-      allow(@response).to receive(:facet_by_field_name).with('a').and_return(facet_field)
+      allow(@response).to receive(:aggregations).and_return('a' => facet_field)
 
       expect(helper.facet_by_field_name('a')).to eq facet_field
-    end
-
-    it "should also work for facet query fields" do
-      facet_config = double(:query => {}, key: 'a_query_facet_field')
-      allow(helper).to receive(:facet_configuration_for_field).with('a_query_facet_field').and_return(facet_config)
-      allow(helper).to receive(:create_facet_field_response_for_query_facet_field).with('a_query_facet_field', facet_config)
-
-      helper.facet_by_field_name 'a_query_facet_field'
-    end
-
-    describe "query facets" do
-      let(:facet_config) { 
-        double(
-          key: 'my_query_facet_field',
-          :query => {
-             'a_simple_query' => { :fq => 'field:search', :label => 'A Human Readable label'},
-             'another_query' => { :fq => 'field:different_search', :label => 'Label'},
-             'without_results' => { :fq => 'field:without_results', :label => 'No results for this facet'}
-             }
-        )
-      }
-
-      before(:each) do
-        allow(helper).to receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
-
-        @response = double(:facet_queries => {
-          'field:search' => 10,
-          'field:different_search' => 2,
-          'field:not_appearing_in_the_config' => 50,
-          'field:without_results' => 0
-        })
-      end
-
-      it"should convert the query facets into a double RSolr FacetField" do
-        field = helper.facet_by_field_name('my_query_facet_field')
-        expect(field).to be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
-
-        expect(field.name).to eq'my_query_facet_field'
-        expect(field.items.size).to eq 2
-        expect(field.items.map { |x| x.value }).to_not include 'field:not_appearing_in_the_config'
-
-        facet_item = field.items.select { |x| x.value == 'a_simple_query' }.first
-
-        expect(facet_item.value).to eq 'a_simple_query'
-        expect(facet_item.hits).to eq 10
-        expect(facet_item.label).to eq 'A Human Readable label'
-      end
-    end
-
-    describe "pivot facets" do
-      let(:facet_config) {
-        double(key: 'my_pivot_facet_field', pivot: ['field_a', 'field_b'])
-      }
-
-      before(:each) do 
-        allow(helper).to receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
-      
-        @response = double(:facet_pivot => { 'field_a,field_b' => [{:field => 'field_a', :value => 'a', :count => 10, :pivot => [{:field => 'field_b', :value => 'b', :count => 2}]}]})
-      end
-
-      it "should convert the pivot facet into a double RSolr FacetField" do
-        field = helper.facet_by_field_name('my_pivot_facet_field')
-        expect(field).to be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
-
-        expect(field.name).to eq 'my_pivot_facet_field'
-
-        expect(field.items.size).to eq 1
-
-        expect(field.items.first).to respond_to(:items)
-
-        expect(field.items.first.items.size).to eq 1
-        expect(field.items.first.items.first.fq).to eq({ 'field_a' => 'a' })
-      end
     end
   end
 

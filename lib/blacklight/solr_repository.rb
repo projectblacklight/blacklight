@@ -43,7 +43,7 @@ module Blacklight
         key = blacklight_config.http_method == :post ? :data : :params
         res = connection.send_and_receive(path, {key=>solr_params.to_hash, method:blacklight_config.http_method})
 
-        solr_response = blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model)
+        solr_response = blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
 
         Blacklight.logger.debug("Solr query: #{solr_params.inspect}")
         Blacklight.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING

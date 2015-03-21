@@ -364,12 +364,12 @@ describe Blacklight::SearchHelper do
       expect(@facets).to have_at_least(1).facet
     end
     it 'should have all facets specified in initializer' do
-      fields = blacklight_config.facet_fields.reject { |k,v| v.query || v.pivot }
-      expect(@facets.map { |f| f.name }).to match_array fields.map { |k, v| v.field }
-      fields.each do |key, field|
-        expect(@facets.find {|f| f.name == field.field}).not_to be_nil        
-      end
+      fields = blacklight_config.facet_fields.map { |k,v| v.field }
+
+      expect(@facets.map(&:name)).to match_array fields
+      expect(@facets.none? { |v| v.nil? }).to eq true
     end
+
     it 'should have at least one value for each facet' do
       @facets.each do |facet|
         expect(facet.items).to have_at_least(1).hit
