@@ -19,7 +19,7 @@
 
     </div>
     <% @documents.each do |doc| %>
-       <%=hidden_field_tag "id[]", doc.get(:id)%>
+       <%=hidden_field_tag "id[]", doc.id %>
     <% end %>
 </div>
 <div class="modal-footer">
