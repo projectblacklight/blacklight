@@ -7,7 +7,7 @@ module Blacklight
       self.field ||= self.key
       self.label ||= self.key.try(:titlecase)
       self.qt ||= blacklight_config.default_solr_params[:qt] if blacklight_config && blacklight_config.default_solr_params
-      self.if ||= self.include_in_simple_select
+      self.if = self.include_in_simple_select if self.if.nil?
       super
     end
 
