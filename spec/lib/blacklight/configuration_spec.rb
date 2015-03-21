@@ -213,9 +213,9 @@ describe "Blacklight::Configuration" do
         "another_field_facet" => {},
         "a_facet_field" => {},
         })
-      expect { |b| @config.add_index_field match: /_facet$/, &b }.to yield_control.twice
+      expect { |b| @config.add_facet_field match: /_facet$/, &b }.to yield_control.twice
 
-      expect(@config.index_fields.keys).to eq ["some_field_facet", "another_field_facet"]
+      expect(@config.facet_fields.keys).to eq ["some_field_facet", "another_field_facet"]
     end
 
     it "should take wild-carded field names and dereference them to solr fields" do
@@ -224,16 +224,26 @@ describe "Blacklight::Configuration" do
         "another_field_facet" => {},
         "a_facet_field" => {},
         })
-      expect { |b| @config.add_index_field "*_facet", &b }.to yield_control.twice
+      expect { |b| @config.add_facet_field "*_facet", &b }.to yield_control.twice
 
-      expect(@config.index_fields.keys).to eq ["some_field_facet", "another_field_facet"]
+      expect(@config.facet_fields.keys).to eq ["some_field_facet", "another_field_facet"]
     end
 
-    it "should query solr and get live values for match fields", integration: true do
-      @config.add_index_field match: /title.+display/
-      expect(@config.index_fields.keys).to include "subtitle_display", "subtitle_vern_display", "title_display", "title_vern_display"
-    end
+    describe "if/unless conditions with legacy show parameter" do
+      it "should be hidden if the if condition is false" do
+        expect(@config.add_facet_field("hidden", if: false).if).to eq false
+        expect(@config.add_facet_field("hidden_with_legacy", if: false, show: true).if).to eq false
+      end
 
+      it "should be true if the if condition is true" do
+        expect(@config.add_facet_field("hidden", if: true).if).to eq true
+        expect(@config.add_facet_field("hidden_with_legacy", if: true, show: false).if).to eq true
+      end
+
+      it "should be true if the if condition is missing" do
+        expect(@config.add_facet_field("hidden", show: true).if).to eq true
+      end
+    end
   end
   
   describe "add_index_field" do
@@ -278,6 +288,10 @@ describe "Blacklight::Configuration" do
       expect(@config.index_fields.keys).to eq ["some_field_display", "another_field_display"]
     end
 
+    it "should query solr and get live values for match fields", integration: true do
+      @config.add_index_field match: /title.+display/
+      expect(@config.index_fields.keys).to include "subtitle_display", "subtitle_vern_display", "title_display", "title_vern_display"
+    end
   end
   
   describe "add_show_field" do
@@ -386,8 +400,22 @@ describe "Blacklight::Configuration" do
       
       expect(@config.search_fields["author_name"].label).to eq "Author Name"
     end
-                
-        
+
+    describe "if/unless conditions with legacy include_in_simple_search" do
+      it "should be hidden if the if condition is false" do
+        expect(@config.add_search_field("hidden", if: false).if).to eq false
+        expect(@config.add_search_field("hidden_with_legacy", if: false, include_in_simple_search: true).if).to eq false
+      end
+
+      it "should be true if the if condition is true" do
+        expect(@config.add_search_field("hidden", if: true).if).to eq true
+        expect(@config.add_search_field("hidden_with_legacy", if: true, include_in_simple_search: false).if).to eq true
+      end
+
+      it "should be true if the if condition is missing" do
+        expect(@config.add_search_field("hidden", include_in_simple_search: true).if).to eq true
+      end
+    end
   end
   
   describe "add_sort_field" do
