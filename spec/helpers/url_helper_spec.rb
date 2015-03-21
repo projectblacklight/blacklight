@@ -273,7 +273,7 @@ describe BlacklightUrlHelper do
     it "should accept and return a Proc" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, Proc.new { |doc, opts| doc.get(:id) + ": " + doc.get(:title_display) })).to have_selector("a", :text => '123456: 654321', :count => 1)
+      expect(helper.link_to_document(@document, Proc.new { |doc, opts| doc[:id] + ": " + doc.first(:title_display) })).to have_selector("a", :text => '123456: 654321', :count => 1)
     end
 
     it "should return id when label is missing" do

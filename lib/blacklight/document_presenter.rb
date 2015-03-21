@@ -82,7 +82,7 @@ module Blacklight
       end
       label = case field
       when Symbol
-        @document.get(field, :sep => nil)
+        @document[field]
       when Proc
         field.call(@document, opts)
       when String
@@ -156,10 +156,14 @@ module Blacklight
             end
           end
         when field_config
-          # regular solr
-          @document.get(field_config.field, sep: nil)
+          # regular document field
+          if field_config.default and field_config.default.is_a? Proc
+            @document.fetch(field_config.field, &field_config.default)
+          else
+            @document.fetch(field_config.field, field_config.default)
+          end
         when field
-          @document.get(field, sep: nil)
+          @document[field]
       end
 
       # rendering values

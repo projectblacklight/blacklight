@@ -195,8 +195,8 @@ describe Blacklight::SearchHelper do
         (solr_response, document_list) = subject.get_search_results(q: @all_docs_query)
         result_docs = document_list
         document = result_docs.first
-        expect(document.get(blacklight_config.index.title_field)).not_to be_nil
-        expect(document.get(blacklight_config.index.display_type_field)).not_to be_nil
+        expect(document.fetch(blacklight_config.index.title_field)).not_to be_nil
+        expect(document.fetch(blacklight_config.index.display_type_field)).not_to be_nil
       end
     end
 
@@ -252,8 +252,8 @@ describe Blacklight::SearchHelper do
         (solr_response, document_list) = subject.search_results({ q: @all_docs_query }, default_method_chain)
         result_docs = document_list
         document = result_docs.first
-        expect(document.get(blacklight_config.index.title_field)).not_to be_nil
-        expect(document.get(blacklight_config.index.display_type_field)).not_to be_nil
+        expect(document.fetch(blacklight_config.index.title_field)).not_to be_nil
+        expect(document.fetch(blacklight_config.index.display_type_field)).not_to be_nil
       end
     end
 
@@ -503,7 +503,7 @@ describe Blacklight::SearchHelper do
       expect(@document.id).to eq @doc_id
     end
     it 'should have non-nil values for required fields set in initializer' do
-      expect(@document.get(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
+      expect(@document.fetch(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
     end
   end
 
