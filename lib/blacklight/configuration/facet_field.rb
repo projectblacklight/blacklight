@@ -5,7 +5,7 @@ module Blacklight
 
       self.collapse = true if self.collapse.nil?
       self.show = true if self.show.nil?
-      self.if ||= self.show
+      self.if = self.show if self.if.nil?
 
       super
       
