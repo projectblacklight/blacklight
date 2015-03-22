@@ -20,20 +20,9 @@ describe "/catalog/_index_default.erb" do
     @fname_3 = "empty_field"
     @fname_4 = "four_field"
     
-    @document = double("solr_doc")
-    allow(@document).to receive(:get).with(@fname_1, hash_including(:sep => nil)).and_return("val_1")
-    allow(@document).to receive(:get).with(@fname_2, hash_including(:sep => nil)).and_return("val_2")
-    allow(@document).to receive(:get).with(@fname_3, hash_including(:sep => nil)).and_return(nil)
-    allow(@document).to receive(:get).with(@fname_4, hash_including(:sep => nil)).and_return("val_4")
     
-    allow(@document).to receive(:has?).with(@fname_1).and_return(true)
-    allow(@document).to receive(:has?).with(@fname_2).and_return(true)
-    allow(@document).to receive(:has?).with(@fname_3).and_return(false)
-    allow(@document).to receive(:has?).with(@fname_4).and_return(true)
-    
-    # cover any remaining fields in initalizer
-    allow(@document).to receive(:[])
-    
+    @document = SolrDocument.new(id: 1, @fname_1 => "val_1", @fname_2 => "val2", @fname_4 => "val_4")
+
     @flabel_1 = "One:"
     @flabel_3 = "Three:"
     @flabel_4 = "Four:"

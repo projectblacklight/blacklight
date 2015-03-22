@@ -3,10 +3,17 @@ require 'spec_helper'
 describe Blacklight::DocumentPresenter do
   include Capybara::RSpecMatchers
   let(:request_context) { double(:add_facet_params => '') }
-  let(:document) { double }
   let(:config) { Blacklight::Configuration.new }
 
   subject { Blacklight::DocumentPresenter.new(document, request_context, config) }
+  
+  let(:document) do
+    SolrDocument.new(id: 1, 
+                     'link_to_search_true' => 'x', 
+                     'link_to_search_named' => 'x',
+                     'qwer' => 'document qwer value',
+                     'mnbv' => 'document mnbv value')
+  end
 
   describe "render_index_field_value" do
     let(:config) do 
@@ -20,23 +27,21 @@ describe Blacklight::DocumentPresenter do
         config.add_index_field 'explicit_accessor', :accessor => :solr_doc_accessor
         config.add_index_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
         config.add_index_field 'alias', field: 'qwer'
+        config.add_index_field 'with_default', default: 'value'
       end
     end
     it "should check for an explicit value" do
-      expect(document).to_not receive(:get).with('asdf', :sep => nil)
       value = subject.render_index_field_value 'asdf', :value => 'asdf'
       expect(value).to eq 'asdf'
     end
 
     it "should check for a helper method to call" do
-      allow(document).to receive(:get).with('asdf', :sep => nil)
       allow(request_context).to receive(:render_asdf_index_field).and_return('custom asdf value')
       value = subject.render_index_field_value 'asdf'
       expect(value).to eq 'custom asdf value'
     end
 
     it "should check for a link_to_search" do
-      allow(document).to receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
       allow(request_context).to receive(:add_facet_params).and_return(:f => { :link_to_search_true => ['x'] })
       allow(request_context).to receive(:search_action_path).with(:f => { :link_to_search_true => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
@@ -45,7 +50,6 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check for a link_to_search with a field name" do
-      allow(document).to receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
       allow(request_context).to receive(:add_facet_params).and_return(:f => { :some_field => ['x'] })
       allow(request_context).to receive(:search_action_path).with(:f => { :some_field => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
@@ -54,14 +58,12 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should gracefully handle when no highlight field is available" do
-      expect(document).to_not receive(:get)
       allow(document).to receive(:has_highlight_field?).and_return(false)
       value = subject.render_index_field_value 'highlight'
       expect(value).to be_blank
     end
 
     it "should check for a highlighted field" do
-      expect(document).to_not receive(:get)
       allow(document).to receive(:has_highlight_field?).and_return(true)
       allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
       value = subject.render_index_field_value 'highlight'
@@ -69,39 +71,41 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check the document field value" do
-      allow(document).to receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
       value = subject.render_index_field_value 'qwer'
       expect(value).to eq 'document qwer value'
     end
 
     it "should work with index fields that aren't explicitly defined" do
-      allow(document).to receive(:get).with('mnbv', :sep => nil).and_return('document mnbv value')
       value = subject.render_index_field_value 'mnbv'
       expect(value).to eq 'document mnbv value'
     end
 
     it "should call an accessor on the solr document" do
-      allow(document).to receive_messages(:solr_doc_accessor => "123")
+      allow(document).to receive_messages(solr_doc_accessor: "123")
       value = subject.render_index_field_value 'solr_doc_accessor'
       expect(value).to eq "123"
     end
 
     it "should call an explicit accessor on the solr document" do
-      allow(document).to receive_messages(:solr_doc_accessor => "123")
+      allow(document).to receive_messages(solr_doc_accessor: "123")
       value = subject.render_index_field_value 'explicit_accessor'
       expect(value).to eq "123"
     end
-
-    it "should call an implicit accessor on the solr document" do
-      expect(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
+    
+    it "should call an accessor on the solr document with the field as an argument" do
+      allow(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
       value = subject.render_index_field_value 'explicit_accessor_with_arg'
       expect(value).to eq "123"
     end
 
     it "should support solr field configuration" do
-      allow(document).to receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
       value = subject.render_index_field_value 'alias'
       expect(value).to eq "document qwer value"
+    end
+    
+    it "should support default values in the field configuration" do
+      value = subject.render_index_field_value 'with_default'
+      expect(value).to eq "value"
     end
   end
   
@@ -121,21 +125,18 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check for an explicit value" do
-      expect(document).to_not receive(:get).with('asdf', :sep => nil)
       expect(request_context).to_not receive(:render_asdf_document_show_field)
       value = subject.render_document_show_field_value 'asdf', :value => 'val1'
       expect(value).to eq 'val1'
     end
 
     it "should check for a helper method to call" do
-      allow(document).to receive(:get).with('asdf', :sep => nil)
       allow(request_context).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
       value = subject.render_document_show_field_value 'asdf'
       expect(value).to eq 'custom asdf value'
     end
 
     it "should check for a link_to_search" do
-      allow(document).to receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
       allow(request_context).to receive(:search_action_path).with('').and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_document_show_field_value 'link_to_search_true'
@@ -143,7 +144,6 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check for a link_to_search with a field name" do
-      allow(document).to receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
       allow(request_context).to receive(:search_action_path).with('').and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_document_show_field_value 'link_to_search_named'
@@ -151,14 +151,12 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should gracefully handle when no highlight field is available" do
-      expect(document).to_not receive(:get)
       allow(document).to receive(:has_highlight_field?).and_return(false)
       value = subject.render_document_show_field_value 'highlight'
       expect(value).to be_blank
     end
 
     it "should check for a highlighted field" do
-      expect(document).to_not receive(:get)
       allow(document).to receive(:has_highlight_field?).and_return(true)
       allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
       value = subject.render_document_show_field_value 'highlight'
@@ -167,37 +165,35 @@ describe Blacklight::DocumentPresenter do
 
 
     it "should check the document field value" do
-      allow(document).to receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
       value = subject.render_document_show_field_value 'qwer'
       expect(value).to eq 'document qwer value'
     end
 
     it "should work with show fields that aren't explicitly defined" do
-      allow(document).to receive(:get).with('mnbv', :sep => nil).and_return('document mnbv value')
       value = subject.render_document_show_field_value 'mnbv'
       expect(value).to eq 'document mnbv value'
     end
 
     it "should call an accessor on the solr document" do
-      allow(document).to receive_messages(:solr_doc_accessor => "123")
+      allow(document).to receive_messages(solr_doc_accessor: "123")
       value = subject.render_document_show_field_value 'solr_doc_accessor'
       expect(value).to eq "123"
     end
 
     it "should call an explicit accessor on the solr document" do
-      allow(document).to receive_messages(:solr_doc_accessor => "123")
+      allow(document).to receive_messages(solr_doc_accessor: "123")
       value = subject.render_document_show_field_value 'explicit_accessor'
       expect(value).to eq "123"
     end
 
     it "should call an explicit array-style accessor on the solr document" do
-      allow(document).to receive_messages(:solr_doc_accessor => double(:some_method => "123"))
+      allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
       value = subject.render_document_show_field_value 'explicit_array_accessor'
       expect(value).to eq "123"
     end
 
     it "should call an accessor on the solr document with the field as an argument" do
-      expect(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
+      allow(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
       value = subject.render_document_show_field_value 'explicit_accessor_with_arg'
       expect(value).to eq "123"
     end

@@ -25,9 +25,11 @@ describe "Blacklight::Solr::Document" do
         expect(doc.has?(:cat, 'elec')).not_to eq true
         expect(doc.has?(:cat, 'electronics')).to eq true
 
-        expect(doc.get(:cat)).to eq 'electronics, hard drive'
-        expect(doc.get(:xyz)).to be_nil
-        expect(doc.get(:xyz, :default=>'def')).to eq 'def'
+        expect(doc.fetch(:cat)).to eq ['electronics', 'hard drive']
+        expect(doc.fetch(:xyz, nil)).to be_nil
+        expect(doc.fetch(:xyz, 'def')).to eq 'def'
+        expect(doc.fetch(:xyz) { |el| 'def' }).to eq 'def'
+        expect { doc.fetch(:xyz) }.to raise_exception(KeyError)
       end
     end
 

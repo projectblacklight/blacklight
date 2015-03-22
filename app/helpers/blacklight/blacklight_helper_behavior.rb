@@ -183,7 +183,7 @@ module Blacklight::BlacklightHelperBehavior
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    presenter(document).render_index_field_value field, options
+    presenter(document).render_index_field_value field, options.except(:document, :field)
   end
 
   ##
@@ -236,7 +236,7 @@ module Blacklight::BlacklightHelperBehavior
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    presenter(document).render_document_show_field_value field, options
+    presenter(document).render_document_show_field_value field, options.except(:document, :field)
   end
 
   ##

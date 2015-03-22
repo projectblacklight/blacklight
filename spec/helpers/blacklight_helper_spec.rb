@@ -207,203 +207,53 @@ describe BlacklightHelper do
     end
   end
 
-  describe "render_index_field_value" do
+  describe "#render_index_field_value" do
+    let(:presenter) { double }
     before do
-      @config = Blacklight::Configuration.new.configure do |config|
-        config.add_index_field 'qwer'
-        config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
-        config.add_index_field 'link_to_search_true', :link_to_search => true
-        config.add_index_field 'link_to_search_named', :link_to_search => :some_field
-        config.add_index_field 'highlight', :highlight => true
-        config.add_index_field 'solr_doc_accessor', :accessor => true
-        config.add_index_field 'explicit_accessor', :accessor => :solr_doc_accessor
-        config.add_index_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
-      end
-      allow(helper).to receive(:blacklight_config).and_return(@config)
+      allow(helper).to receive(:presenter).with(doc).and_return(presenter)
     end
 
-    it "should check for an explicit value" do
-      doc = double()
-      expect(doc).to_not receive(:get).with('asdf', :sep => nil)
-      value = helper.render_index_field_value :value => 'asdf', :document => doc, :field => 'asdf'
-      expect(value).to eq 'asdf'
+    let(:doc) { double }
+    let(:field) { "some_field" }
+
+    it "should pass the document and field through to the presenter" do
+      expect(presenter).to receive(:render_index_field_value).with(field, {})
+      helper.render_index_field_value(doc, field)
     end
 
-    it "should check for a helper method to call" do
-      doc = double()
-      allow(doc).to receive(:get).with('asdf', :sep => nil)
-      allow(helper).to receive(:render_asdf_index_field).and_return('custom asdf value')
-      value = helper.render_index_field_value :document => doc, :field => 'asdf'
-      expect(value).to eq 'custom asdf value'
+    it "should allow the document and field to be passed as hash arguments" do
+      expect(presenter).to receive(:render_index_field_value).with(field, {})
+      helper.render_index_field_value(document: doc, field: field)
     end
 
-    it "should check for a link_to_search" do
-      doc = double()
-      allow(doc).to receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
-      value = helper.render_index_field_value :document => doc, :field => 'link_to_search_true'
-      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :link_to_search_true => ['x'] }))
-    end
-
-    it "should check for a link_to_search with a field name" do
-      doc = double()
-      allow(doc).to receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
-      value = helper.render_index_field_value :document => doc, :field => 'link_to_search_named'
-      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :some_field => ['x'] }))
-    end
-
-    it "should gracefully handle when no highlight field is available" do
-      doc = double()
-      expect(doc).to_not receive(:get)
-      allow(doc).to receive(:has_highlight_field?).and_return(false)
-      value = helper.render_index_field_value :document => doc, :field => 'highlight'
-      expect(value).to be_blank
-    end
-
-    it "should check for a highlighted field" do
-      doc = double()
-      expect(doc).to_not receive(:get)
-      allow(doc).to receive(:has_highlight_field?).and_return(true)
-      allow(doc).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
-      value = helper.render_index_field_value :document => doc, :field => 'highlight'
-      expect(value).to eq '<em>highlight</em>'
-    end
-
-    it "should check the document field value" do
-      doc = double()
-      allow(doc).to receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
-      value = helper.render_index_field_value :document => doc, :field => 'qwer'
-      expect(value).to eq 'document qwer value'
-    end
-
-    it "should work with index fields that aren't explicitly defined" do
-      doc = double()
-      allow(doc).to receive(:get).with('mnbv', :sep => nil).and_return('document mnbv value')
-      value = helper.render_index_field_value :document => doc, :field => 'mnbv'
-      expect(value).to eq 'document mnbv value'
-    end
-
-    it "should call an accessor on the solr document" do
-      doc = double(:solr_doc_accessor => "123")
-      value = helper.render_index_field_value :document => doc, :field => 'solr_doc_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "should call an explicit accessor on the solr document" do
-      doc = double(:solr_doc_accessor => "123")
-      value = helper.render_index_field_value :document => doc, :field => 'explicit_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "should call an implicit accessor on the solr document" do
-      doc = double()
-      expect(doc).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
-      value = helper.render_index_field_value :document => doc, :field => 'explicit_accessor_with_arg'
-      expect(value).to eq "123"
+    it "should allow additional options to be passed to the presenter" do
+      expect(presenter).to receive(:render_index_field_value).with(field, x: 1)
+      helper.render_index_field_value(document: doc, field: field, x: 1)
     end
   end
-
-  describe "render_document_show_field_value" do
+  
+  describe "#render_document_show_field_value" do
+    let(:presenter) { double }
     before do
-      @config = Blacklight::Configuration.new.configure do |config|
-        config.add_show_field 'qwer'
-        config.add_show_field 'asdf', :helper_method => :render_asdf_document_show_field
-        config.add_show_field 'link_to_search_true', :link_to_search => true
-        config.add_show_field 'link_to_search_named', :link_to_search => :some_field
-        config.add_show_field 'highlight', :highlight => true
-        config.add_show_field 'solr_doc_accessor', :accessor => true
-        config.add_show_field 'explicit_accessor', :accessor => :solr_doc_accessor
-        config.add_show_field 'explicit_array_accessor', :accessor => [:solr_doc_accessor, :some_method]
-        config.add_show_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
-      end
-
-      allow(helper).to receive(:blacklight_config).and_return(@config)
+      allow(helper).to receive(:presenter).with(doc).and_return(presenter)
     end
 
-    it "should check for an explicit value" do
-      doc = double()
-      expect(doc).to_not receive(:get).with('asdf', :sep => nil)
-      expect(helper).to_not receive(:render_asdf_document_show_field)
-      value = helper.render_document_show_field_value :value => 'asdf', :document => doc, :field => 'asdf'
-      expect(value).to eq 'asdf'
+    let(:doc) { double }
+    let(:field) { "some_field" }
+
+    it "should pass the document and field through to the presenter" do
+      expect(presenter).to receive(:render_document_show_field_value).with(field, {})
+      helper.render_document_show_field_value(doc, field)
     end
 
-    it "should check for a helper method to call" do
-      doc = double()
-      allow(doc).to receive(:get).with('asdf', :sep => nil)
-      allow(helper).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
-      value = helper.render_document_show_field_value :document => doc, :field => 'asdf'
-      expect(value).to eq 'custom asdf value'
+    it "should allow the document and field to be passed as hash arguments" do
+      expect(presenter).to receive(:render_document_show_field_value).with(field, {})
+      helper.render_document_show_field_value(document: doc, field: field)
     end
 
-    it "should check for a link_to_search" do
-      doc = double()
-      allow(doc).to receive(:get).with('link_to_search_true', :sep => nil).and_return('x')
-      value = helper.render_document_show_field_value :document => doc, :field => 'link_to_search_true'
-      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :link_to_search_true => ['x'] }))
-    end
-
-    it "should check for a link_to_search with a field name" do
-      doc = double()
-      allow(doc).to receive(:get).with('link_to_search_named', :sep => nil).and_return('x')
-      value = helper.render_document_show_field_value :document => doc, :field => 'link_to_search_named'
-      expect(value).to eq helper.link_to("x", helper.search_action_path(:f => { :some_field => ['x'] }))
-    end
-
-    it "should gracefully handle when no highlight field is available" do
-      doc = double()
-      expect(doc).to_not receive(:get)
-      allow(doc).to receive(:has_highlight_field?).and_return(false)
-      value = helper.render_document_show_field_value :document => doc, :field => 'highlight'
-      expect(value).to be_blank
-    end
-
-    it "should check for a highlighted field" do
-      doc = double()
-      expect(doc).to_not receive(:get)
-      allow(doc).to receive(:has_highlight_field?).and_return(true)
-      allow(doc).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
-      value = helper.render_document_show_field_value :document => doc, :field => 'highlight'
-      expect(value).to eq '<em>highlight</em>'
-    end
-
-
-    it "should check the document field value" do
-      doc = double()
-      allow(doc).to receive(:get).with('qwer', :sep => nil).and_return('document qwer value')
-      value = helper.render_document_show_field_value :document => doc, :field => 'qwer'
-      expect(value).to eq 'document qwer value'
-    end
-
-    it "should work with show fields that aren't explicitly defined" do
-      doc = double()
-      allow(doc).to receive(:get).with('mnbv', :sep => nil).and_return('document mnbv value')
-      value = helper.render_document_show_field_value :document => doc, :field => 'mnbv'
-      expect(value).to eq 'document mnbv value'
-    end
-
-    it "should call an accessor on the solr document" do
-      doc = double(:solr_doc_accessor => "123")
-      value = helper.render_document_show_field_value :document => doc, :field => 'solr_doc_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "should call an explicit accessor on the solr document" do
-      doc = double(:solr_doc_accessor => "123")
-      value = helper.render_document_show_field_value :document => doc, :field => 'explicit_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "should call an explicit array-style accessor on the solr document" do
-      doc = double(:solr_doc_accessor => double(:some_method => "123"))
-      value = helper.render_document_show_field_value :document => doc, :field => 'explicit_array_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "should call an accessor on the solr document with the field as an argument" do
-      doc = double()
-      expect(doc).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
-      value = helper.render_document_show_field_value :document => doc, :field => 'explicit_accessor_with_arg'
-      expect(value).to eq "123"
+    it "should allow additional options to be passed to the presenter" do
+      expect(presenter).to receive(:render_document_show_field_value).with(field, x: 1)
+      helper.render_document_show_field_value(document: doc, field: field, x: 1)
     end
   end
   

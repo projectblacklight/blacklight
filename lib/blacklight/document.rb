@@ -26,6 +26,8 @@ module Blacklight::Document
   include Blacklight::Document::SemanticFields
   include Blacklight::Document::Export
 
+  extend Deprecation
+
   included do
     extend ActiveModel::Naming
     include Blacklight::Document::Extensions
@@ -52,7 +54,7 @@ module Blacklight::Document
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
   def method_missing(m, *args, &b)
-    if _source and _source.respond_to? m
+    if _source_responds_to?(m)
       _source.send(m, *args, &b)
     else
       super
@@ -60,7 +62,7 @@ module Blacklight::Document
   end
 
   def respond_to_missing? *args
-    (_source && _source.respond_to?(*args)) || super
+    _source_responds_to?(*args) || super
   end
 
   def [] *args
@@ -111,11 +113,24 @@ module Blacklight::Document
   #  - :default - a value to return when the key doesn't exist
   # if :sep is nil and the field is a multivalued field, the array is returned
   def get(key, opts={:sep=>', ', :default=>nil})
-    if key? key
-      val = self[key]
-      (val.is_a?(Array) and opts[:sep]) ? val.join(opts[:sep]) : val
+    val = fetch(key, opts[:default])
+
+    if val.is_a?(Array) and opts[:sep]
+      Deprecation.warn(Blacklight::Solr::Document, "#{self.class}#get with a :sep option is deprecated; use #[] or #fetch and join the values using e.g. Array#to_sentence") unless opts[:sep].nil?
+      val.join(opts[:sep])
     else
-      opts[:default]
+      val
+    end
+  end
+  deprecation_deprecate get: "Use #[] or #fetch instead"
+
+  def fetch key, *default
+    if key? key
+      self[key]
+    elsif default.empty? and !block_given?
+      raise KeyError.new("key not found \"#{key}\"")
+    else
+      (yield(self) if block_given?) || default.first
     end
   end
 
@@ -179,4 +194,11 @@ module Blacklight::Document
       self
     end  
   end
+  
+  private
+  
+  def _source_responds_to? *args
+    _source && self != _source && _source.respond_to?(*args)
+  end
+
 end
