@@ -9,7 +9,7 @@ gem 'simplecov', '~> 0.7.1', require: false
 gem 'coveralls', require: false
 
 group :test do
-  gem "blacklight-marc", "~> 5.0", github: "projectblacklight/blacklight_marc"
+  gem "blacklight-marc", "5.5.0"
   gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
 end
 

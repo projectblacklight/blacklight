@@ -72,7 +72,7 @@ module Blacklight
 
     def generate_blacklight_marc_demo
       if options[:marc]
-        gem "blacklight-marc", "~> 5.0"
+        gem "blacklight-marc", "5.5.0"
 
         Bundler.with_clean_env do
           run "bundle install"
