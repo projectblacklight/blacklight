@@ -150,6 +150,13 @@ describe BlacklightConfigurationHelper do
 
       label = helper.solr_field_label :key_a, :key_b, "default text"
     end
+
+    it "should compact nil keys (fixes rails/rails#19419)" do
+      allow(helper).to receive(:t).with(:key_a, default: [:key_b])
+
+      label = helper.solr_field_label :key_a, nil, :key_b
+
+    end
   end
   
   describe "#default_per_page" do
