@@ -25,7 +25,7 @@ class Blacklight::SolrResponse::GroupResponse
   def total
     # ngroups is only available in Solr 4.1+
     # fall back on the number of facet items for that field?
-    (group["ngroups"] || (response.facet_by_field_name(key) || []).length).to_s.to_i
+    (group["ngroups"] || (response.aggregations[key] || []).length).to_s.to_i
   end
     
   def start

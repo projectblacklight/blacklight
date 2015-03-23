@@ -176,7 +176,7 @@ module Blacklight::SearchHelper
     # NOTE: The sniffing of the proper sort from the solr response is not
     # currently tested for, tricky to figure out how to test, since the
     # default setup we test against doesn't use this feature.
-    Blacklight::Solr::FacetPaginator.new(response.facets.first.items,
+    Blacklight::Solr::FacetPaginator.new(response.aggregations[facet_field].items,
       :offset => response.params[:"f.#{facet_field}.facet.offset"],
       :limit => limit,
       :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"]

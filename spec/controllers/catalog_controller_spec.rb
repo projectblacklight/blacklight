@@ -39,18 +39,18 @@ describe CatalogController do
       it "should have docs and facets for query with results", :integration => true do
         get :index, q: user_query
         expect(assigns_response.docs).to_not be_empty
-        assert_facets_have_values(assigns_response.facets)
+        assert_facets_have_values(assigns_response.aggregations)
       end
       it "should have docs and facets for existing facet value", :integration => true do
         get :index, f: {"format" => 'Book'}
         expect(assigns_response.docs).to_not be_empty
-        assert_facets_have_values(assigns_response.facets)
+        assert_facets_have_values(assigns_response.aggregations)
       end
       it "should have docs and facets for non-default results per page", :integration => true do
         num_per_page = 7
         get :index, :per_page => num_per_page
         expect(assigns_response.docs).to have(num_per_page).items
-        assert_facets_have_values(assigns_response.facets)
+        assert_facets_have_values(assigns_response.aggregations)
       end
 
       it "should have docs and facets for second page", :integration => true do
@@ -58,14 +58,14 @@ describe CatalogController do
         get :index, :page => page
         expect(assigns_response.docs).to_not be_empty
         expect(assigns_response.params[:start].to_i).to eq (page-1) * @controller.blacklight_config[:default_solr_params][:rows]
-        assert_facets_have_values(assigns_response.facets)
+        assert_facets_have_values(assigns_response.aggregations)
       end
 
       it "should have no docs or facet values for query without results", :integration => true do
         get :index, q: 'sadfdsafasdfsadfsadfsadf' # query for no results
 
         expect(assigns_response.docs).to be_empty
-        assigns_response.facets.each do |facet|
+        assigns_response.aggregations.each do |key, facet|
           expect(facet.items).to be_empty
         end
       end
@@ -97,7 +97,7 @@ describe CatalogController do
         end
         it "should get facets when no query", :integration => true do
           get :index
-          assert_facets_have_values(assigns_response.facets)
+          assert_facets_have_values(assigns_response.aggregations)
         end
       end
 
@@ -737,10 +737,10 @@ end
 
 
 # there must be at least one facet, and each facet must have at least one value
-def assert_facets_have_values(facets)
-  expect(facets).to_not be_empty
+def assert_facets_have_values(aggregations)
+  expect(aggregations).to_not be_empty
   # should have at least one value for each facet
-  facets.each do |facet|
+  aggregations.each do |key, facet|
     expect(facet.items).to have_at_least(1).item
   end
 end
