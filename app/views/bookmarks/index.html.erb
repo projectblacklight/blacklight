@@ -9,7 +9,6 @@
 
   <h3 class='section-heading'><%= t('blacklight.bookmarks.no_bookmarks') %></h3>
 <% else %>
-  <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks btn btn-danger pull-right' %>
   <%= render 'sort_and_per_page' %>
   <%= render partial: 'tools', locals: { document_list: @document_list } %>
 
