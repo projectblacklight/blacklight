@@ -22,7 +22,32 @@ describe Blacklight::SolrResponse::Facets do
     end
   end
 
+  describe "#facets" do
+    subject { Blacklight::SolrResponse.new({}, {}) }
+    let(:aggregations) { { x: 1, y: 2 } } 
+    it "should get the aggregation values" do
+      allow(subject).to receive(:aggregations).and_return aggregations
+
+      Deprecation.silence(described_class) do
+        expect(subject.facets).to eq aggregations.values
+      end
+    end
+  end
+
   describe "#facet_by_field_name" do
+    subject { Blacklight::SolrResponse.new({}, {}) }
+    let(:aggregations) { { x: double } } 
+
+    it "should pull facets out of the aggregations" do
+      allow(subject).to receive(:aggregations).and_return aggregations
+
+      Deprecation.silence(described_class) do
+        expect(subject.facet_by_field_name(:x)).to eq aggregations[:x]
+      end
+    end
+  end
+
+  describe "#aggregations" do
     let(:facet_field) { ['my_field', []] }
     let(:response_header) { { params: request_params }}
     let(:request_params) { Hash.new }
@@ -32,16 +57,16 @@ describe Blacklight::SolrResponse::Facets do
       it "should extract a field-specific limit value" do
         request_params['f.my_field.facet.limit'] = "10"
         request_params['facet.limit'] = "15"
-        expect(subject.facet_by_field_name('my_field').limit).to eq 10
+        expect(subject.aggregations['my_field'].limit).to eq 10
       end
 
       it "should extract a global limit value" do
         request_params['facet.limit'] = "15"
-        expect(subject.facet_by_field_name('my_field').limit).to eq 15
+        expect(subject.aggregations['my_field'].limit).to eq 15
       end
 
       it "should be the solr default limit if no value is found" do
-        expect(subject.facet_by_field_name('my_field').limit).to eq 100
+        expect(subject.aggregations['my_field'].limit).to eq 100
       end
     end
 
@@ -49,16 +74,16 @@ describe Blacklight::SolrResponse::Facets do
       it "should extract a field-specific offset value" do
         request_params['f.my_field.facet.offset'] = "10"
         request_params['facet.offset'] = "15"
-        expect(subject.facet_by_field_name('my_field').offset).to eq 10
+        expect(subject.aggregations['my_field'].offset).to eq 10
       end
 
       it "should extract a global offset value" do
         request_params['facet.offset'] = "15"
-        expect(subject.facet_by_field_name('my_field').offset).to eq 15
+        expect(subject.aggregations['my_field'].offset).to eq 15
       end
 
       it "should be nil if no value is found" do
-        expect(subject.facet_by_field_name('my_field').offset).to eq 0
+        expect(subject.aggregations['my_field'].offset).to eq 0
       end
     end
 
@@ -66,21 +91,21 @@ describe Blacklight::SolrResponse::Facets do
       it "should extract a field-specific sort value" do
         request_params['f.my_field.facet.sort'] = "alpha"
         request_params['facet.sort'] = "index"
-        expect(subject.facet_by_field_name('my_field').sort).to eq 'alpha'
+        expect(subject.aggregations['my_field'].sort).to eq 'alpha'
       end
 
       it "should extract a global sort value" do
         request_params['facet.sort'] = "alpha"
-        expect(subject.facet_by_field_name('my_field').sort).to eq 'alpha'
+        expect(subject.aggregations['my_field'].sort).to eq 'alpha'
       end
 
       it "should default to count if no value is found and the default limit is used" do
-        expect(subject.facet_by_field_name('my_field').sort).to eq 'count'
+        expect(subject.aggregations['my_field'].sort).to eq 'count'
       end
       
       it "should default to index if no value is found and the limit is unlimited" do
         request_params['facet.limit'] = -1
-        expect(subject.facet_by_field_name('my_field').sort).to eq 'index'
+        expect(subject.aggregations['my_field'].sort).to eq 'index'
       end
     end
   end

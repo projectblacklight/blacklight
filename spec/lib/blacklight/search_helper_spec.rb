@@ -138,6 +138,7 @@ describe Blacklight::SearchHelper do
 
   describe "get_facet_pagination", :integration => true do
     before do
+      @facet_field = 'format'
       Deprecation.silence(Blacklight::SearchHelper) do
         @facet_paginator = subject.get_facet_pagination(@facet_field)
       end
@@ -357,27 +358,25 @@ describe Blacklight::SearchHelper do
 
     before do
       (solr_response, document_list) = subject.search_results({ q: @all_docs_query}, default_method_chain)
-      @facets = solr_response.facets
+      @facets = solr_response.aggregations
     end
 
     it 'should have more than one facet' do
       expect(@facets).to have_at_least(1).facet
     end
     it 'should have all facets specified in initializer' do
-      fields = blacklight_config.facet_fields.map { |k,v| v.field }
-
-      expect(@facets.map(&:name)).to match_array fields
-      expect(@facets.none? { |v| v.nil? }).to eq true
+      expect(@facets.keys).to include *blacklight_config.facet_fields.keys
+      expect(@facets.none? { |k, v| v.nil? }).to eq true
     end
 
     it 'should have at least one value for each facet' do
-      @facets.each do |facet|
+      @facets.each do |key, facet|
         expect(facet.items).to have_at_least(1).hit
       end
     end
     it 'should have multiple values for at least one facet' do
       has_mult_values = false
-      @facets.each do |facet|
+      @facets.each do |key, facet|
         if facet.items.size > 1
           has_mult_values = true
           break
@@ -386,7 +385,7 @@ describe Blacklight::SearchHelper do
       expect(has_mult_values).to eq true
     end
     it 'should have all value counts > 0' do
-      @facets.each do |facet|
+      @facets.each do |key, facet|
         facet.items.each do |facet_vals|
           expect(facet_vals.hits).to be > 0
         end
@@ -676,14 +675,14 @@ describe Blacklight::SearchHelper do
       end
       it "should get from @response facet.limit if available" do        
         @response = double()
-        allow(@response).to receive(:facet_by_field_name).with("language_facet").and_return(double(limit: nil))
+        allow(@response).to receive(:aggregations).and_return("language_facet" => double(limit: nil))
         subject.instance_variable_set(:@response, @response)
         blacklight_config.facet_fields['language_facet'].limit = 10
         expect(subject.facet_limit_for("language_facet")).to eq 10
       end
       it "should get the limit from the facet field in @response" do
         @response = double()
-        allow(@response).to receive(:facet_by_field_name).with("language_facet").and_return(double(limit: 16))
+        allow(@response).to receive(:aggregations).and_return("language_facet" => double(limit: 16))
         subject.instance_variable_set(:@response, @response)
         expect(subject.facet_limit_for("language_facet")).to eq 15
       end

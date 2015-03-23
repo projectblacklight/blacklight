@@ -28,13 +28,13 @@ describe Blacklight::SolrResponse do
   end
 
   it 'should provide facet helpers' do
-    expect(r.facets.size).to eq 2
+    expect(r.aggregations.size).to eq 2
 
-    field_names = r.facets.collect{|facet|facet.name}
+    field_names = r.aggregations.collect{|key, facet|facet.name}
     expect(field_names.include?('cat')).to be true
     expect(field_names.include?('manu')).to be  true
 
-    first_facet = r.facets.select { |x| x.name == 'cat'}.first
+    first_facet = r.aggregations['cat']
     expect(first_facet.name).to eq 'cat'
 
     expect(first_facet.items.size).to eq 10
@@ -46,7 +46,7 @@ describe Blacklight::SolrResponse do
 
     expect(received).to eq expected
 
-    r.facets.each do |facet|
+    r.aggregations.each do |key, facet|
       expect(facet).to respond_to :name
       expect(facet).to respond_to :sort
       expect(facet).to respond_to :offset
@@ -107,7 +107,7 @@ describe Blacklight::SolrResponse do
 
   it 'should return the correct value when calling facet_by_field_name' do
     r = create_response
-    facet = r.facet_by_field_name('cat')
+    facet = r.aggregations['cat']
     expect(facet.name).to eq 'cat'
   end
 

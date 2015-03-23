@@ -78,7 +78,7 @@ module Blacklight::Catalog
     def facet
       @facet = blacklight_config.facet_fields[params[:id]]
       @response = get_facet_field_response(@facet.key, params)
-      @display_facet = @response.facets.first
+      @display_facet = @response.aggregations[@facet.key]
 
       @pagination = facet_paginator(@facet, @display_facet)
 
