@@ -118,7 +118,7 @@ module Blacklight::ConfigurationHelperBehavior
   #   @param [Symbol] any number of additional keys
   #   @param [Symbol] ...
   def field_label *i18n_keys
-    first, *rest = i18n_keys
+    first, *rest = i18n_keys.compact
 
     t(first, default: rest)
   end
