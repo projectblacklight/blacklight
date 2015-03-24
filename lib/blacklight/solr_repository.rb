@@ -49,8 +49,8 @@ module Blacklight
 
         solr_response = blacklight_config.solr_response_model.new(res, solr_params, solr_document_model: blacklight_config.solr_document_model)
 
-        Rails.logger.debug("Solr query: #{solr_params.inspect}")
-        Rails.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
+        Blacklight.logger.debug("Solr query: #{solr_params.inspect}")
+        Blacklight.logger.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
         solr_response
       end
     rescue Errno::ECONNREFUSED => e

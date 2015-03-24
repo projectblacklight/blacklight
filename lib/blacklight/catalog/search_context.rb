@@ -101,6 +101,8 @@ module Blacklight::Catalog::SearchContext
       @previous_document = documents.first
       @next_document = documents.last
     end
+  rescue Blacklight::Exceptions::InvalidRequest => e
+    logger.warn "Unable to setup next and previous documents: #{e}"
   end
 
 end

@@ -33,26 +33,6 @@ describe CatalogController do
           get :index, q: 'foo', view: 'gallery'
           expect(session[:preferred_view]).to eq 'gallery'
         end
-
-        context "when they have a preferred view" do
-          before do
-            session[:preferred_view] = 'gallery'
-          end
-
-          context "and no view is specified" do
-            it "should use the saved preference" do
-              get :index, q: 'foo'
-              expect(controller.params[:view]).to eq 'gallery'
-            end
-          end
-
-          context "and a view is specified" do
-            it "should use the saved preference" do
-              get :index, q: 'foo', view: 'list'
-              expect(controller.params[:view]).to eq 'list'
-            end
-          end
-        end
       end
 
       # check each user manipulated parameter
@@ -312,6 +292,15 @@ describe CatalogController do
       session[:search] = @search_session.merge('counter' => 2)
       get :show, :id => doc_id
       expect(assigns[:next_document]).to_not be_nil
+    end
+
+    it "should not break if solr returns an exception" do
+      allow(controller).to receive(:get_previous_and_next_documents_for_search) {
+        raise Blacklight::Exceptions::InvalidRequest.new "Error"
+      }
+      get :show, :id => doc_id
+      expect(assigns[:previous_document]).to be_nil
+      expect(assigns[:next_document]).to be_nil
     end
     end
 

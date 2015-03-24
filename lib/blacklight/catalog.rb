@@ -33,7 +33,7 @@ module Blacklight::Catalog
       (@response, @document_list) = get_search_results
 
       respond_to do |format|
-        format.html { preferred_view }
+        format.html { store_preferred_view }
         format.rss  { render :layout => false }
         format.atom { render :layout => false }
         format.json do
@@ -45,7 +45,8 @@ module Blacklight::Catalog
       end
     end
 
-    # get single document from the solr index
+    # get a single document from the index
+    # to add responses for formats other than html or json see _Blacklight::Document::Export_
     def show
       @response, @document = get_solr_response_for_doc_id params[:id]
 
@@ -134,13 +135,23 @@ module Blacklight::Catalog
     # do not specifiy the view, set the view parameter to the value stored in the
     # session. This enables a user with a session to do subsequent searches and have
     # them default to the last used view.
-    def preferred_view
+    def store_preferred_view
       session[:preferred_view] = params[:view] if params[:view]
-      params[:view] ||= session[:preferred_view]
     end
 
+    alias_method :preferred_view, :store_preferred_view
+    deprecation_deprecate :preferred_view
+
     ##
-    # Render additional response formats, as provided by the blacklight configuration
+    # Render additional response formats for the index action, as provided by the
+    # blacklight configuration
+    #
+    # example:
+    #
+    #   config.index.respond_to.txt = Proc.new { render text: "A list of docs." }
+    #
+    # Make sure your format has a well known mime-type or is registered in
+    # config/initializers/mime_types.rb
     def additional_response_formats format
       blacklight_config.index.respond_to.each do |key, config|
         format.send key do

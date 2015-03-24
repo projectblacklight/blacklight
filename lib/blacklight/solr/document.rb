@@ -34,7 +34,7 @@ module Blacklight::Solr::Document
     include Blacklight::Solr::Document::Extensions
   end    
 
-  attr_reader :solr_response
+  attr_reader :solr_response, :_source
 
   def initialize(source_doc={}, solr_response=nil)
     @_source = source_doc.with_indifferent_access
@@ -54,11 +54,23 @@ module Blacklight::Solr::Document
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
   def method_missing(m, *args, &b)
-    @_source.send(m, *args, &b)
+    if _source_responds_to?(m)
+     _source.send(m, *args, &b)
+   else
+     super
+   end
+  end
+  
+  def respond_to_missing? *args
+    _source_responds_to?(*args) || super
   end
 
   def [] *args
-    @_source.send :[], *args
+    _source.send :[], *args
+  end
+
+  def _read_attribute(attr)
+    self[attr]
   end
 
   # Helper method to check if value/multi-values exist for a given key.
@@ -83,8 +95,9 @@ module Blacklight::Solr::Document
   end
 
   def key? k
-    @_source.key? k
+    _source.key? k
   end
+  alias_method :has_key?, :key?
 
   def has_highlight_field? k
     return false if @solr_response['highlighting'].blank? or @solr_response['highlighting'][self.id].blank?
@@ -126,7 +139,7 @@ module Blacklight::Solr::Document
   end
 
   def as_json(options = nil)
-    @_source.as_json(options)
+    _source.as_json(options)
   end
 
   def to_partial_path
@@ -203,7 +216,10 @@ module Blacklight::Solr::Document
       @field_semantics ||= {}
     end    
   end
-  
- 
-  
+  private
+    
+  def _source_responds_to? *args
+    _source && self != _source && _source.respond_to?(*args)
+  end
+
 end
