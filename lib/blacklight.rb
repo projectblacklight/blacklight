@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'deprecation'
+require 'blacklight/utils'
+
 module Blacklight
   autoload :Configurable, 'blacklight/configurable'
   autoload :Configuration, 'blacklight/configuration'
@@ -28,8 +30,7 @@ module Blacklight
   autoload :DocumentPresenter, 'blacklight/document_presenter'
 
   autoload :Routes, 'blacklight/routes'
-
-  autoload :OpenStructWithHashAccess, 'blacklight/utils'
+  
   autoload :SolrResponse, 'blacklight/solr_response'
   autoload :Facet, 'blacklight/facet'
 
@@ -144,7 +145,13 @@ module Blacklight
   end
 
   def self.logger
-    ::Rails.logger
+    @logger ||= begin
+      ::Rails.logger if defined? Rails and Rails.respond_to? :logger
+    end
+  end
+
+  def self.logger= logger
+    @logger = logger
   end
 
   #############  
