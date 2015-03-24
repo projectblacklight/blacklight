@@ -15,6 +15,8 @@ module Blacklight::Bookmarks
 
     before_filter :verify_user
 
+    blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
+
     blacklight_config.show.document_actions[:bookmark].if = false if blacklight_config.show.document_actions[:bookmark]
     blacklight_config.show.document_actions[:sms].if = false if blacklight_config.show.document_actions[:sms]
   end
