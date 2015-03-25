@@ -2,7 +2,7 @@
 require 'kaminari'
 require 'deprecation'
 require 'blacklight/utils'
-
+require 'elasticsearch'
 module Blacklight
   autoload :Configurable, 'blacklight/configurable'
   autoload :Configuration, 'blacklight/configuration'
@@ -34,6 +34,8 @@ module Blacklight
   
   autoload :SolrResponse, 'blacklight/solr_response'
   autoload :Facet, 'blacklight/facet'
+  
+  autoload :Elasticsearch,       'blacklight/elasticsearch'
 
   extend SearchFields
   extend Deprecation
@@ -69,12 +71,27 @@ module Blacklight
   end
 
   def self.default_index
-    @default_index ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new)
+    @default_index ||= repository_class.new(default_configuration)
   end
 
   def self.solr_config
     Deprecation.warn Blacklight, "Blacklight.solr_config is deprecated and will be removed in 6.0.0. Use Blacklight.connection_config instead", caller
     connection_config
+  end
+
+  def self.repository_class
+    case connection_config[:adapter]
+    when "elasticsearch"
+      Blacklight::Elasticsearch::Repository
+    when "solr"
+      Blacklight::SolrRepository
+    else
+      raise "No connection adapter found"
+    end
+  end
+
+  def self.default_configuration
+    @default_configuration ||= Blacklight::Configuration.new
   end
 
   def self.connection_config

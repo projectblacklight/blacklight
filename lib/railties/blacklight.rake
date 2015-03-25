@@ -12,11 +12,23 @@ namespace :blacklight do
 
   namespace :index do
     desc "Put sample data into solr"
-    task :seed do
-      docs = YAML::load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
-      conn = Blacklight.default_index.connection
-      conn.add docs
-      conn.commit
+    task :seed, [:file] => [:environment] do |t, args|
+      args.with_defaults(file: File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml'))
+
+      docs = YAML::load(File.open(args[:file]))
+
+      case Blacklight.default_index
+      when Blacklight::Elasticsearch::Repository
+        ElasticsearchDocument.create_index! force: true
+        docs.each do |h|
+          ElasticsearchDocument.new(h.except('timestamp')).save
+        end
+      when Blacklight::SolrRepository
+        conn = Blacklight.default_index.connection
+
+        conn.add docs
+        conn.commit
+      end
     end
   end
 

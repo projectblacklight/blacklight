@@ -122,7 +122,7 @@ module Blacklight
           args = {only: [:show]}
           args[:constraints] = options[:constraints] if options[:constraints]
 
-          resources :solr_document, args.merge(path: primary_resource, controller: primary_resource) do
+          resources :elasticsearch_document, args.merge(path: primary_resource, controller: primary_resource) do
             member do
               post "track"
             end

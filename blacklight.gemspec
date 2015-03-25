@@ -23,6 +23,9 @@ Gem::Specification.new do |s|
   s.add_dependency "rsolr",     "~> 1.0.11"  # Library for interacting with rSolr.
   s.add_dependency "bootstrap-sass", "~> 3.2"
   s.add_dependency "deprecation"
+  s.add_dependency "elasticsearch-model"
+  s.add_dependency "elasticsearch-rails"
+  s.add_dependency "elasticsearch-persistence"
 
   s.add_development_dependency "jettywrapper", ">= 1.7.0"
   s.add_development_dependency "blacklight-marc", "~> 5.0"
