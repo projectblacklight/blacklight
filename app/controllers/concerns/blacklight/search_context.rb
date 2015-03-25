@@ -118,5 +118,8 @@ module Blacklight::SearchContext
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger.warn "Unable to setup next and previous documents: #{e}"
     nil
+  rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+    logger.warn "Unable to setup next and previous documents: #{e}"
+    nil
   end
 end
