@@ -18,6 +18,10 @@ namespace :blacklight do
       docs = YAML::load(File.open(args[:file]))
 
       case Blacklight.default_index
+      when Blacklight::Ar::Repository
+        docs.each do |h|
+          Document.create!(h.except('timestamp'))
+        end
       when Blacklight::Elasticsearch::Repository
         ElasticsearchDocument.create_index! force: true
         docs.each do |h|

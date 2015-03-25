@@ -36,6 +36,7 @@ module Blacklight
   autoload :Facet, 'blacklight/facet'
   
   autoload :Elasticsearch,       'blacklight/elasticsearch'
+  autoload :Ar,       'blacklight/ar'
 
   extend SearchFields
   extend Deprecation
@@ -85,6 +86,8 @@ module Blacklight
       Blacklight::Elasticsearch::Repository
     when "solr"
       Blacklight::SolrRepository
+    when "ar"
+      Blacklight::Ar::Repository
     else
       raise "No connection adapter found"
     end
