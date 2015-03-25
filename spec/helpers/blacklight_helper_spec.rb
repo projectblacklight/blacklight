@@ -462,7 +462,7 @@ describe BlacklightHelper do
 
     before do
       allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
-      assign(:response, double("SolrResponse", grouped?: false, params: {}))
+      assign(:response, double("SolrResponse", grouped?: false, start: 0))
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end

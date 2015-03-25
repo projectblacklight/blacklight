@@ -34,6 +34,10 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
     header['params'] || request_params
   end
 
+  def start
+    params[:start].to_i
+  end
+
   def rows
     params[:rows].to_i
   end
