@@ -48,9 +48,12 @@ module Blacklight::CatalogHelperBehavior
   #
   # @param [Integer] document index
   # @return [Integer]
-  def document_counter_with_offset idx 
+  def document_counter_with_offset idx, offset = nil
+    offset ||= @response.start if @response
+    offset ||= 0
+
     unless render_grouped_response? 
-      idx + 1 + @response.params[:start].to_i
+      idx + 1 + offset
     end
   end
 

@@ -10,7 +10,7 @@ describe "catalog/_index_header_default" do
   end
 
   before do
-    assign :response, double(params: {})
+    assign :response, double(start: 0)
     allow(view).to receive(:render_grouped_response?).and_return false
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view).to receive(:current_search_session).and_return nil

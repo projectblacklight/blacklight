@@ -26,6 +26,7 @@ module Blacklight::Solr::Document
 
   extend ActiveSupport::Concern
   include Blacklight::Document
+  include Blacklight::Document::ActiveModelShim
   include Blacklight::Solr::Document::MoreLikeThis
 
   def has_highlight_field? k
