@@ -13,6 +13,7 @@
 # transformation formats.
 #
 module Blacklight::Document
+  autoload :ActiveModelShim, 'blacklight/document/active_model_shim'
   autoload :SchemaOrg, 'blacklight/document/schema_org'
   autoload :DublinCore, 'blacklight/document/dublin_core'
   autoload :Email, 'blacklight/document/email'
@@ -42,14 +43,6 @@ module Blacklight::Document
     apply_extensions
   end
 
-  def to_model
-    self
-  end
-
-  def persisted?
-    true
-  end
-
   # the wrapper method to the @_source object.
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
@@ -63,14 +56,6 @@ module Blacklight::Document
 
   def respond_to_missing? *args
     _source_responds_to?(*args) || super
-  end
-
-  def [] *args
-    _source.send :[], *args
-  end
-
-  def _read_attribute(attr)
-    self[attr]
   end
 
   # Helper method to check if value/multi-values exist for a given key.
@@ -138,30 +123,10 @@ module Blacklight::Document
     Array(self[key]).first
   end
 
-  def id
-    self[self.class.unique_key]
-  end
-
-  def to_param
-    id.to_s
-  end
-
-  def as_json(options = nil)
-    _source.as_json(options)
-  end
-
   def to_partial_path
     'catalog/document'
   end
 
-  def destroyed?
-    false
-  end
-  
-  def new_record?
-    false
-  end
-  
   def has_highlight_field? k
     false
   end
@@ -186,13 +151,6 @@ module Blacklight::Document
       @unique_key ||= 'id' 
     end
 
-    def primary_key
-      unique_key
-    end
-    
-    def base_class
-      self
-    end  
   end
   
   private
