@@ -539,4 +539,37 @@ describe BlacklightHelper do
       expect(helper.presenter_class).to eq Blacklight::DocumentPresenter
     end
   end
+
+  describe "#render_document_heading" do
+    before do
+      allow(helper).to receive(:presenter).and_return(double(document_heading: "Heading"))
+    end
+
+    let(:document) { double }
+
+    it "should accept no arguments and render the document heading" do
+      expect(helper.render_document_heading).to have_selector "h4", text: "Heading"
+    end
+    
+    it "should accept a tag name and render the document heading" do
+      Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
+        expect(helper.render_document_heading(:h3)).to have_selector "h3", text: "Heading"
+        expect(helper.render_document_heading("h2")).to have_selector "h2", text: "Heading"
+      end
+    end
+
+    it "should accept the tag name as an option" do
+      expect(helper.render_document_heading tag: "h1").to have_selector "h1", text: "Heading"
+    end
+
+    it "should accept an explicit document argument" do
+      allow(helper).to receive(:presenter).with(document).and_return(double(document_heading: "Document Heading"))
+      expect(helper.render_document_heading(document)).to have_selector "h4", text: "Document Heading"
+    end
+    
+    it "should accept the document with a tag option" do
+      allow(helper).to receive(:presenter).with(document).and_return(double(document_heading: "Document Heading"))
+      expect(helper.render_document_heading(document, tag: "h3")).to have_selector "h3", text: "Document Heading"
+    end
+  end
 end
