@@ -76,6 +76,8 @@ module Blacklight
           document_model: nil,
           # document presenter class used by helpers and views
           document_presenter_class: nil,
+          # repository connection configuration
+          connection_config: nil,
           ##
           # == Blacklight view configuration
           ##
@@ -209,6 +211,10 @@ module Blacklight
 
     def repository_class
       super || Blacklight::SolrRepository
+    end
+
+    def connection_config
+      super || Blacklight.connection_config
     end
 
     def search_builder_class
