@@ -31,7 +31,7 @@ module Blacklight::Document
     include Blacklight::Document::Extensions
   end    
 
-  attr_reader :response
+  attr_reader :response, :_source
   alias_method :solr_response, :response
 
   def initialize(source_doc={}, response=nil)
@@ -52,11 +52,19 @@ module Blacklight::Document
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
   def method_missing(m, *args, &b)
-    @_source.send(m, *args, &b)
+    if _source and _source.respond_to? m
+      _source.send(m, *args, &b)
+    else
+      super
+    end
+  end
+
+  def respond_to_missing? *args
+    (_source && _source.respond_to?(*args)) || super
   end
 
   def [] *args
-    @_source.send :[], *args
+    _source.send :[], *args
   end
 
   def _read_attribute(attr)
@@ -85,7 +93,7 @@ module Blacklight::Document
   end
 
   def key? k
-    @_source.key? k
+    _source.key? k
   end
 
   # helper
@@ -116,7 +124,7 @@ module Blacklight::Document
   end
 
   def as_json(options = nil)
-    @_source.as_json(options)
+    _source.as_json(options)
   end
 
   def to_partial_path
@@ -139,6 +147,12 @@ module Blacklight::Document
     nil
   end
 
+  ##
+  # Implementations that support More-Like-This should override this method
+  # to return an array of documents that are like this one.
+  def more_like_this
+    []
+  end
 
   # Certain class-level methods needed for the document-specific
   # extendability architecture
