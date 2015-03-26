@@ -266,23 +266,29 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Render the document "heading" (title) in a content tag
   # @overload render_document_heading(tag)
+  #   @params [Symbol] tag
   # @overload render_document_heading(document, options)
   #   @params [SolrDocument] document
   #   @params [Hash] options
   #   @options options [Symbol] :tag
+  # @overload render_document_heading(options)
+  #   @params [Hash] options
+  #   @options options [Symbol] :tag
   def render_document_heading(*args)
     options = args.extract_options!
-    if args.first.is_a? blacklight_config.document_model
-      document = args.shift
-      tag = options[:tag]
+
+    tag_or_document = args.first
+
+    if tag_or_document.is_a? String or tag_or_document.is_a? Symbol
+      Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#render_document_heading with a tag argument is deprecated; pass e.g. `tag: :h4` instead")
+      tag = tag_or_document
+      document = @document
     else
-      document = nil
-      tag = args.first || options[:tag]
+      tag = options.fetch(:tag, :h4)
+      document = tag_or_document || @document
     end
 
-    tag ||= :h4
-
-    content_tag(tag, presenter(document).document_heading, :itemprop => "name")
+    content_tag(tag, presenter(document).document_heading, itemprop: "name")
   end
 
   ##
