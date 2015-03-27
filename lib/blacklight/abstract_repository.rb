@@ -16,7 +16,6 @@ module Blacklight
       @connection ||= build_connection
     end
 
-
     protected
       def connection_config
         blacklight_config.connection_config
