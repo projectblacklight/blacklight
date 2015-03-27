@@ -19,7 +19,7 @@ module Blacklight
 
     protected
       def connection_config
-        @connection_config ||= Blacklight.connection_config
+        blacklight_config.connection_config
       end
 
       def logger

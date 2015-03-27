@@ -48,6 +48,18 @@ describe "Blacklight::Configuration" do
       expect(@config.search_fields).to be_a_kind_of ActiveSupport::OrderedHash
       expect(@config.sort_fields).to be_a_kind_of ActiveSupport::OrderedHash
     end
+
+  end
+
+  describe "#connection_config" do
+    let(:custom_config) { double }
+    it "should have the global blacklight configuration" do
+      expect(@config.connection_config).to eq Blacklight.connection_config
+    end
+    it "should be overridable with custom configuration" do
+      @config.connection_config = custom_config
+      expect(@config.connection_config).to eq custom_config
+    end
   end
 
   describe "config.index.respond_to" do
