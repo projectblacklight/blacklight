@@ -26,7 +26,7 @@ module Blacklight
   ##
   # An OpenStruct that responds to common Hash methods
   class OpenStructWithHashAccess < OpenStruct
-    delegate :keys, :each, :map, :has_key?, :empty?, :delete, :length, :reject!, :select!, :include, :fetch, :to_json, :as_json, :to => :to_h
+    delegate :keys, :each, :map, :has_key?, :include?, :empty?, :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!, :replace, :fetch, :to_json, :as_json, to: :to_h
 
     if ::RUBY_VERSION < '2.0'
       def []=(key, value)

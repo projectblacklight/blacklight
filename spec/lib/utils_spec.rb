@@ -48,6 +48,15 @@ describe 'Blacklight::Utils' do
 
     end
 
+    describe "#replace" do
+      subject { Blacklight::OpenStructWithHashAccess.new a: 1 }
+
+      it "can use #replace to reorder the hash" do
+        subject.replace b: 1
+        expect(subject.b).to eq 1
+      end
+    end
+
     describe "#merge" do
 
       before do
