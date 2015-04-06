@@ -53,6 +53,15 @@ module Blacklight
       self.class.new to_h.select(*args, &block)
     end
 
+    def sort_by *args, &block
+      self.class.new Hash[to_h.sort_by(*args, &block)]
+    end
+
+    def sort_by! *args, &block
+      replace Hash[to_h.sort_by(*args, &block)]
+      self
+    end
+
     ##
     # Merge the values of this OpenStruct with another OpenStruct or Hash
     # @param [Hash,#to_h]
