@@ -1,0 +1,19 @@
+<%= render 'previous_next_doc' %>
+
+<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name).html_safe %>
+<% content_for(:head) { render_link_rel_alternates } %>
+
+<div id="document" class="document <%= render_document_class %>" itemscope  itemtype="<%= @document.itemtype %>">
+  <div id="doc_<%= @document.id.to_s.parameterize %>">
+    <%= render_document_partials @document, blacklight_config.view_config(:show).partials %>
+  </div>
+</div>
+
+<% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
+  <!-- 
+       // COinS, for Zotero among others. 
+       // This document_partial_name(@document) business is not quite right,
+       // but has been there for a while. 
+  -->
+  <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_partial_name(@document)) %>"></span>
+<% end %>

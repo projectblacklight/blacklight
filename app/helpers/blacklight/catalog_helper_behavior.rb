@@ -118,6 +118,15 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
+  # Render the main content partial for a document
+  #
+  # @param [SolrDocument]
+  # @return [String]
+  def render_document_main_content_partial(document = @document)
+    render partial: 'show_main_content'
+  end
+
+  ##
   # Should we display the sort and per page widget?
   # 
   # @param [Blacklight::SolrResponse]
