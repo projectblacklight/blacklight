@@ -47,10 +47,51 @@ describe Blacklight::SearchBuilder do
     end
   end
 
-  describe "#query" do
+  describe "#to_hash" do
     it "should append the extra parameters to the result" do
-      actual = subject.query({a: 1})
-      expect(actual).to include a: 1
+      Deprecation.silence(Blacklight::SearchBuilder) do
+        actual = subject.to_hash({a: 1})
+        expect(actual).to include a: 1
+      end
+    end
+
+    it "should update if data is changed" do
+      subject.merge(q: 'xyz')
+      expect(subject.to_hash).to include q: 'xyz'
+      subject.merge(q: 'abc')
+      expect(subject.to_hash).to include q: 'abc'
+    end
+  end
+
+  describe "#merge" do
+    let(:processor_chain) { [:pass_through] }
+    before do
+      allow(subject).to receive(:pass_through) do |req_params|
+        req_params.replace subject.blacklight_params
+      end
+    end
+    it "should overwrite the processed parameters" do
+      actual = subject.with(q: 'abc').merge(q: 'xyz')
+      expect(actual[:q]).to eq 'xyz'
+    end
+  end
+  
+  describe "#reverse_merge" do
+    let(:processor_chain) { [:pass_through] }
+    before do
+      allow(subject).to receive(:pass_through) do |req_params|
+        req_params.replace subject.blacklight_params
+      end
+    end
+
+    it "should provide default values for parameters" do
+      actual = subject.reverse_merge(a: 1)
+      expect(actual[:a]).to eq 1
+    end
+
+    it "should not overwrite the processed parameters" do
+      actual = subject.with(q: 'abc').reverse_merge(q: 'xyz')
+      expect(actual[:q]).to eq 'abc'
     end
   end
 
@@ -151,5 +192,52 @@ describe Blacklight::SearchBuilder do
       blacklight_config.add_search_field 'x'
       expect(subject.with(search_field: 'x').send(:search_field)).to eq blacklight_config.search_fields['x']
     end
+  end
+
+  describe "#params_changed?" do
+    it "should be false" do
+      expect(subject.send(:params_changed?)).to eq false
+    end
+
+    it "should be marked as changed when with() changes" do
+      subject.with(a: 1)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
+    it "should be marked as changed when where() changes" do
+      subject.where(a: 1)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
+    it "should be marked as changed when the processor chain changes" do
+      subject.append(:a)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
+    it "should be marked as changed when merged parameters are added" do
+      subject.merge(a: 1)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
+    it "should be marked as changed when reverse merged parameters are added" do
+      subject.merge(a: 1)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
+    it "should be marked as changed when pagination changes" do
+      subject.page(1)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
+    it "should be marked as changed when rows changes" do
+      subject.rows(1)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
+    it "should be marked as changed when start offset changes" do
+      subject.start(1)
+      expect(subject.send(:params_changed?)).to eq true
+    end
+
   end
 end

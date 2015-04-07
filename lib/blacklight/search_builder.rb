@@ -19,11 +19,14 @@ module Blacklight
 
       @scope = scope
       @blacklight_params = {}
+      @merged_params = {}
+      @reverse_merged_params = {}
     end
 
     ##
     # Set the parameters to pass through the processor chain
     def with blacklight_params = {}
+      params_will_change!
       @blacklight_params = blacklight_params.dup
       self
     end
@@ -31,6 +34,7 @@ module Blacklight
     ##
     # Update the :q (query) parameter
     def where conditions
+      params_will_change!
       @blacklight_params[:q] = conditions
       self
     end
@@ -38,15 +42,62 @@ module Blacklight
     ##
     # Append additional processor chain directives
     def append *addl_processor_chain
-      self.class.new(processor_chain + addl_processor_chain, scope).with(blacklight_params)
+      params_will_change!
+      builder = self.class.new(processor_chain + addl_processor_chain, scope)
+          .with(blacklight_params)
+          .merge(@merged_params)
+          .reverse_merge(@reverse_merged_params)
+
+      builder.start(@start) if @start
+      builder.rows(@rows) if @rows
+      builder.page(@page) if @page
+
+      builder
     end
+
+    ##
+    # Merge additional, repository-specific parameters
+    def merge extra_params, &block
+      if extra_params
+        params_will_change!
+        @merged_params.merge!(extra_params.to_hash, &block)
+      end
+      self
+    end
+    
+    ##
+    # "Reverse merge" additional, repository-specific parameters
+    def reverse_merge extra_params, &block
+      if extra_params
+        params_will_change!
+        @reverse_merged_params.reverse_merge!(extra_params.to_hash, &block)
+      end
+      self
+    end
+
+    delegate :[], :key?, to: :to_hash
 
     # a solr query method
     # @param [Hash,HashWithIndifferentAccess] extra_controller_params (nil) extra parameters to add to the search
     # @return [Blacklight::SolrResponse] the solr response object
-    def query(extra_params = nil)
-      extra_params ? processed_parameters.merge(extra_params) : processed_parameters
+    def to_hash method_extra_params = nil
+      unless method_extra_params.nil?
+        Deprecation.warn(Blacklight::SearchBuilder, "Calling SearchBuilder#query with extra parameters is deprecated. Use #merge(Hash) instead")
+        merge(method_extra_params)
+      end
+
+      if params_need_update?
+        @params = processed_parameters.
+                    reverse_merge(@reverse_merged_params).
+                    merge(@merged_params).
+                    tap { self.clear_changes }
+      else
+        @params
+      end
     end
+
+    alias_method :query, :to_hash
+    alias_method :to_h, :to_hash
 
     # @returns a params hash for searching solr.
     # The CatalogController #index action uses this.
@@ -82,6 +133,7 @@ module Blacklight
 
     def start start = nil
       if start
+        params_will_change!
         @start = start.to_i
         self
       else
@@ -96,6 +148,7 @@ module Blacklight
 
     def page page = nil
       if page
+        params_will_change!
         @page = page.to_i
         @page = 1 if @page < 1
         self
@@ -114,6 +167,7 @@ module Blacklight
 
     def rows rows = nil
       if rows
+        params_will_change!
         @rows = rows.to_i
         @rows = blacklight_config.max_per_page if @rows > blacklight_config.max_per_page
         self
@@ -135,11 +189,6 @@ module Blacklight
 
     alias_method :per, :rows
 
-    protected
-    def request
-      Blacklight::Solr::Request.new
-    end
-
     def sort
       field = if blacklight_params[:sort].blank? and sort_field = blacklight_config.default_sort_field
         # no sort param provided, use default
@@ -158,13 +207,34 @@ module Blacklight
     def search_field
       blacklight_config.search_fields[blacklight_params[:search_field]]
     end
-    
+
+    protected
+    def request
+      Blacklight::Solr::Request.new
+    end
+
     def should_add_field_to_request? field_name, field
       field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
     end
 
     def scope
       @scope
+    end
+
+    def params_will_change!
+      @dirty = true
+    end
+
+    def params_changed?
+      !!@dirty
+    end
+
+    def params_need_update?
+      params_changed? || @params.nil?
+    end
+
+    def clear_changes
+      @dirty = false
     end
   end
 end

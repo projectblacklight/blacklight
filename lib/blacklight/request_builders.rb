@@ -90,7 +90,7 @@ module Blacklight
     # @param [Hash] extra_params an optional hash of parameters that should be
     #                            added to the query post processing
     def build_solr_query(user_params, processor_chain, extra_params=nil)
-      search_builder(processor_chain).with(user_params).query(extra_params)
+      search_builder(processor_chain).with(user_params).merge(extra_params)
     end
     deprecation_deprecate build_solr_query: :query
 
@@ -107,7 +107,7 @@ module Blacklight
     # Retrieve the results for a list of document ids
     # @deprecated
     def solr_documents_by_field_values_params(field, values)
-      search_builder([:add_query_to_solr]).with(q: { field => values}).query(fl: '*')
+      search_builder([:add_query_to_solr]).with(q: { field => values}).merge(fl: '*')
     end
     deprecation_deprecate :solr_documents_by_field_values_params
 
