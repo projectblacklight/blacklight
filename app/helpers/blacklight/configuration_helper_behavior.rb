@@ -164,7 +164,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Default sort field
   def default_sort_field
-    (active_sort_fields.select { |k,config| config.respond_to? :default and config.default }.first || active_sort_fields.first).try(:last)
+    blacklight_config.default_sort_field
   end
 
   ##
