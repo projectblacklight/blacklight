@@ -48,6 +48,23 @@ describe 'Blacklight::Utils' do
 
     end
 
+    describe "#key?" do
+      subject do
+        h = Blacklight::OpenStructWithHashAccess.new
+        h[:a] = 1
+        h[:b] = 2
+        h
+      end
+
+      it "is true if the key exists" do
+        expect(subject.key? :a).to eq true
+      end
+      
+      it "is false if the key does not exist" do
+        expect(subject.key? :c).to eq false
+      end
+    end
+
     describe "#replace" do
       subject { Blacklight::OpenStructWithHashAccess.new a: 1 }
 
