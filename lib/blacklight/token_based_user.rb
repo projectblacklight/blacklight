@@ -37,7 +37,7 @@ module Blacklight::TokenBasedUser
   # Used for #export action with encrypted user_id, available
   # as a helper method for views.
   def encrypt_user_id(user_id)
-    message_encryptor.encrypt_and_sign([user_id, Time.now])
+    message_encryptor.encrypt_and_sign([user_id, Time.zone.now])
   end
 
   ##
