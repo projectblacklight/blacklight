@@ -262,4 +262,8 @@ module Blacklight::CatalogHelperBehavior
     respond_to? :librarian_view_catalog_path and options[:document] and options[:document].respond_to?(:to_marc)
   end
 
+  def render_sms_action? config, options = {}
+    !sms_mappings.blank?
+  end
+
 end
