@@ -33,19 +33,15 @@ module Blacklight::Document
     # but extensions should call super and modify hash returned, to avoid
     # unintentionally erasing values provided by other extensions. 
     def to_semantic_values
-      unless @semantic_value_hash
-        @semantic_value_hash = Hash.new([]) # default to empty array   
-        self.class.field_semantics.each_pair do |key, field_name|
-          value = self[field_name]
-          # Make single and multi-values all arrays, so clients
-          # don't have to know.
-          unless value.nil?
-            value = [value] unless value.kind_of?(Array)      
-            @semantic_value_hash[key] = value
-          end
-        end
+      @semantic_value_hash ||= self.class.field_semantics.each_with_object(Hash.new([])) do |(key, field_name), hash|
+        value = self[field_name]
+
+        # Make single and multi-values all arrays, so clients
+        # don't have to know.
+        hash[key] = Array.wrap(value) unless value.nil?
       end
-      return @semantic_value_hash
+
+      @semantic_value_hash ||= {}
     end    
   end
 end

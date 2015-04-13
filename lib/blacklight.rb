@@ -52,11 +52,11 @@ module Blacklight
 
   # @deprecated
   def self.solr_file
-    "#{::Rails.root.to_s}/config/solr.yml"
+    "#{::Rails.root}/config/solr.yml"
   end
 
   def self.blacklight_config_file
-    "#{::Rails.root.to_s}/config/blacklight.yml"
+    "#{::Rails.root}/config/blacklight.yml"
   end
 
   def self.add_routes(router, options = {})

@@ -362,7 +362,7 @@ module Blacklight::BlacklightHelperBehavior
   # @option opts [String] :label Render the given string
   # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
   def render_document_index_label doc, field, opts = {}
-    if field.kind_of? Hash
+    if field.is_a? Hash
       Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
       field = field[:label]
     end

@@ -277,14 +277,7 @@ module Blacklight::Catalog
     end
 
     def sms_mappings
-      {'Virgin' => 'vmobl.com',
-      'AT&T' => 'txt.att.net',
-      'Verizon' => 'vtext.com',
-      'Nextel' => 'messaging.nextel.com',
-      'Sprint' => 'messaging.sprintpcs.com',
-      'T Mobile' => 'tmomail.net',
-      'Alltel' => 'message.alltel.com',
-      'Cricket' => 'mms.mycricket.com'}
+      Blacklight::Engine.config.sms_mappings
     end
 
     def validate_email_params

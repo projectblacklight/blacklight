@@ -99,8 +99,8 @@ module Blacklight::CatalogHelperBehavior
 
     return if types.blank?
 
-    Array(types).map do |t|
-      document_class_prefix + t.parameterize rescue nil
+    Array(types).compact.map do |t|
+      "#{document_class_prefix}#{t.try(:parameterize) || t}"
     end.join(' ')
   end
 
@@ -260,6 +260,10 @@ module Blacklight::CatalogHelperBehavior
 
   def render_librarian_view_control? config, options = {}
     respond_to? :librarian_view_catalog_path and options[:document] and options[:document].respond_to?(:to_marc)
+  end
+
+  def render_sms_action? config, options = {}
+    !sms_mappings.blank?
   end
 
 end
