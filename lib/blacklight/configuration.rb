@@ -95,7 +95,7 @@ module Blacklight
             # what field, if any, to use to render grouped results
             group: false,
             # additional response formats for search results
-            respond_to: OpenStructWithHashAccess.new()
+            respond_to: OpenStructWithHashAccess.new
             ),
           # Additional configuration when displaying a single document
           show: ViewConfig::Show.new(
