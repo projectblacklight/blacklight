@@ -14,6 +14,7 @@ module Blacklight::Catalog
   include Blacklight::Catalog::ComponentConfiguration
   include Blacklight::Facet
 
+  # @deprecated use blacklight_config.search_history_window instead
   SearchHistoryWindow = 100 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
