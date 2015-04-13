@@ -36,7 +36,7 @@ describe BookmarksController do
    it "has a 500 status code when delete is not success" do
       bm = double(Bookmark)
       allow(@controller).to receive_message_chain(:current_or_guest_user, :existing_bookmark_for).and_return(bm)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :where, :first).and_return(double('bookmark', delete: nil, destroyed?: false)) 
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :find_by).and_return(double('bookmark', delete: nil, destroyed?: false))
      
       xhr :delete, :destroy, :id => 'pleasekillme', :format => :js
 
