@@ -18,7 +18,7 @@ module ActionDispatch::Routing
     private
     def raise_no_blacklight_secret_key #:nodoc:
       raise <<-ERROR
-Blacklight.secret_key was not set. Please add the following to an initializer:
+Blacklight.secret_key was not set. If you are using Rails 4.1+, set your app's secret key base (config/secrets.yml) OR add the following to an initializer:
 
 Blacklight.secret_key = '#{SecureRandom.hex(64)}'
 
