@@ -252,7 +252,9 @@ module Blacklight::Solr
         when (value.is_a?(DateTime) or value.is_a?(Time))
           "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.utc.strftime("%Y-%m-%dT%H:%M:%SZ"))}"
         when value.is_a?(Date)
+          # rubocop:disable Rails/Date
           "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ"))}"
+          # rubocop:enable Rails/Date
         when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
              (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i)),
              (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))

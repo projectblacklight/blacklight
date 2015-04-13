@@ -14,8 +14,10 @@ module Blacklight::Catalog
   include Blacklight::Catalog::ComponentConfiguration
   include Blacklight::Facet
 
+  # rubocop:disable Style/ConstantName
   # @deprecated use blacklight_config.search_history_window instead
   SearchHistoryWindow = 100 # how many searches to save in session history
+  # rubocop:enable Style/ConstantName
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
