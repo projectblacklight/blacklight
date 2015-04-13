@@ -305,7 +305,7 @@ describe CatalogHelper do
     end
   end
 
-  describe "#is_bookmarked?" do
+  describe "#bookmarked?" do
 
     let(:bookmark) { Bookmark.new document: bookmarked_document }
     let(:bookmarked_document) { SolrDocument.new(id: 'a') }
@@ -315,11 +315,11 @@ describe CatalogHelper do
     end
 
     it "should be bookmarked if the document is in the bookmarks" do
-      expect(helper.is_bookmarked?(bookmarked_document)).to eq true
+      expect(helper.bookmarked?(bookmarked_document)).to eq true
     end
 
     it "should not be bookmarked if the document is not listed in the bookmarks" do
-      expect(helper.is_bookmarked?(SolrDocument.new(id: 'b'))).to eq false
+      expect(helper.bookmarked?(SolrDocument.new(id: 'b'))).to eq false
     end
   end
 
