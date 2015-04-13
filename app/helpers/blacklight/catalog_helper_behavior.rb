@@ -99,8 +99,8 @@ module Blacklight::CatalogHelperBehavior
 
     return if types.blank?
 
-    Array(types).map do |t|
-      document_class_prefix + t.parameterize rescue nil
+    Array(types).compact.map do |t|
+      "#{document_class_prefix}#{t.try(:parameterize) || t}"
     end.join(' ')
   end
 
