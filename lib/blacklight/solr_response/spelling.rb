@@ -89,4 +89,3 @@ module Blacklight::SolrResponse::Spelling
   end
 
 end
-

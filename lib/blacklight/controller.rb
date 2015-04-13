@@ -148,4 +148,3 @@ module Blacklight::Controller
     end
   
 end
-
