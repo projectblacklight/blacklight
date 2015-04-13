@@ -20,8 +20,6 @@ module Blacklight::TokenBasedUser
     @token_user ||= if params[:encrypted_user_id]
       user_id = decrypt_user_id params[:encrypted_user_id]
       User.find(user_id)
-    else
-      nil
     end
   end
 

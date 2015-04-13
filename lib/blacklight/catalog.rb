@@ -160,8 +160,6 @@ module Blacklight::Catalog
             instance_exec &config
           when Symbol, String
             send config
-          else
-            # no-op, just render the page
           end
         end
       end
