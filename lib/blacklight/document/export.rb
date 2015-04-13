@@ -68,16 +68,8 @@ module Blacklight::Document::Export
       # likely to interfere with host app. 
       Mime::Type.register_alias(content_type, short_name)
     end
-    
-    # if content_type is nil, look it up from Rails Mime::Type
-    if content_type.nil?
-      # Accurate lookup in Rails Mime::Type is kind of pain, it doesn't
-      # really provide the right API.
-      if defined?(type_const_name)
-        content_type = type_const_name.constantize.to_s
-      end    
-    end    
-    export_formats[short_name] =  {content_type: content_type}
+
+    export_formats[short_name] =  { content_type: content_type }
   end
   
   # Collects formats that this doc can export as.
