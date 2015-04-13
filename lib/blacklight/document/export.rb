@@ -62,7 +62,7 @@ module Blacklight::Document::Export
     # type. But that's the only way to do the kind of check we need, sorry.
     if defined?(Mime) && Mime.const_defined?(short_name.to_s.upcase)      
       mime_type = "Mime::#{short_name.to_s.upcase}".constantize
-      content_type = mime_type.to_s unless content_type      
+      content_type ||= mime_type.to_s
     else
       # not registered, we need to register. Use register_alias to be least
       # likely to interfere with host app. 
@@ -90,10 +90,10 @@ module Blacklight::Document::Export
   # on the convention, so clients should call this method so
   # they'll still keep working if we do that. 
   def export_as(short_name)
-    send("export_as_#{short_name.to_s}")
+    send("export_as_#{short_name}")
   end
   
   def exports_as? short_name
-    respond_to? "export_as_#{short_name.to_s}"
+    respond_to? "export_as_#{short_name}"
   end
 end

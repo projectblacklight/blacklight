@@ -55,7 +55,7 @@ namespace :blacklight do
       controller = args[:controller_name].constantize.new if args[:controller_name]
       controller ||= CatalogController.new
 
-      puts "[#{controller.class.to_s}]"
+      puts "[#{controller.class}]"
 
       print " - find: "
 
