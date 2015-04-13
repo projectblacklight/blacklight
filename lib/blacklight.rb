@@ -100,14 +100,14 @@ module Blacklight
 
     begin
       blacklight_erb = ERB.new(IO.read(blacklight_config_file)).result(binding)
-    rescue Exception => e
-      raise("#{blacklight_config_file} was found, but could not be parsed with ERB. \n#{$!.inspect}")
+    rescue StandardError, SyntaxError => e
+      raise("#{blacklight_config_file} was found, but could not be parsed with ERB. \n#{e.inspect}")
     end
 
     begin
       @blacklight_yml = YAML::load(blacklight_erb)
-    rescue StandardError => e
-      raise("#{blacklight_config_file} was found, but could not be parsed.\n")
+    rescue => e
+      raise("#{blacklight_config_file} was found, but could not be parsed.\n#{e.inspect}")
     end
 
     if @blacklight_yml.nil? || !@blacklight_yml.is_a?(Hash)
@@ -128,14 +128,14 @@ module Blacklight
 
     begin
       @solr_erb = ERB.new(IO.read(solr_file)).result(binding)
-    rescue Exception => e
-      raise("solr.yml was found, but could not be parsed with ERB. \n#{$!.inspect}")
+    rescue StandardError, SyntaxError => e
+      raise("solr.yml was found, but could not be parsed with ERB. \n#{e.inspect}")
     end
 
     begin
       @solr_yml = YAML::load(@solr_erb)
-    rescue StandardError => e
-      raise("solr.yml was found, but could not be parsed.\n")
+    rescue => e
+      raise("solr.yml was found, but could not be parsed.\n#{e.inspect}")
     end
 
     if @solr_yml.nil? || !@solr_yml.is_a?(Hash)

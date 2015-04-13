@@ -41,7 +41,7 @@ namespace :blacklight do
         response = conn.send_and_receive 'admin/ping', {}
         puts response['status']
         errors += 1 unless response['status'] == "OK"
-      rescue Exception => e
+      rescue => e
         errors += 1
         puts e.to_s
       end
@@ -73,7 +73,7 @@ namespace :blacklight do
           puts "\tdoc count: #{response.docs.length}"
           puts "\tfacet fields: #{response.facets.length}"
         end
-      rescue Exception => e
+      rescue => e
         errors += 1
         puts e.to_s
       end
@@ -95,7 +95,7 @@ namespace :blacklight do
           puts "\tdoc count: #{docs.length}"
           puts "\tfacet fields: #{response.facets.length}"
         end
-      rescue Exception => e
+      rescue => e
         errors += 1
         puts e.to_s
       end
@@ -115,7 +115,7 @@ namespace :blacklight do
         if verbose
           puts "\tstatus: #{response.header['status']}"
         end
-      rescue Exception => e
+      rescue => e
         errors += 1
         puts e.to_s
       end
