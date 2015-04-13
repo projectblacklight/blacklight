@@ -26,16 +26,21 @@ module Blacklight::Document::DublinCore
              'xmlns:dc' => "http://purl.org/dc/elements/1.1/",
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
              'xsi:schemaLocation' => %{http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd}) do
-       self.to_semantic_values.select { |field, values| dublin_core_field_names.include? field.to_sym }.each do |field,values|
-         values.each do |v|
-           xml.tag! 'dc:' + field.to_s, v
-         end
-       end
-     end
+      self.to_semantic_values.select { |field, values| dublin_core_field_name? field  }.each do |field,values|
+        Array.wrap(values).each do |v|
+          xml.tag! "dc:#{field}", v
+        end
+      end
+    end
     xml.target!
   end
 
   alias_method :export_as_xml, :export_as_oai_dc_xml
   alias_method :export_as_dc_xml, :export_as_oai_dc_xml
 
+  private
+
+  def dublin_core_field_name? field
+    dublin_core_field_names.include? field.to_sym
+  end
 end
