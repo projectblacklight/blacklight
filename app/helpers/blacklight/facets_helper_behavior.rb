@@ -198,17 +198,17 @@ module Blacklight::FacetsHelperBehavior
       facet_value_for_facet_item(item)
     end
 
-    display_label = case
-      when facet_config.helper_method
-        display_label = send facet_config.helper_method, value 
-      when (facet_config.query and facet_config.query[value])
-        display_label = facet_config.query[value][:label]     
-      when facet_config.date
-        localization_options = {}
-        localization_options = facet_config.date unless facet_config.date === true
-        display_label = l(value.to_datetime, localization_options)
-      else
-        value
+    case
+    when facet_config.helper_method
+      send facet_config.helper_method, value
+    when (facet_config.query and facet_config.query[value])
+      facet_config.query[value][:label]
+    when facet_config.date
+      localization_options = {}
+      localization_options = facet_config.date unless facet_config.date === true
+      l(value.to_datetime, localization_options)
+    else
+      value
     end
   end
 
@@ -220,9 +220,9 @@ module Blacklight::FacetsHelperBehavior
 
   def facet_value_for_facet_item item
     if item.respond_to? :value
-      value = item.value
+      item.value
     else
-      value = item
+      item
     end
   end
 

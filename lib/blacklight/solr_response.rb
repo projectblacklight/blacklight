@@ -69,7 +69,7 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
   end
 
   def group key
-    grouped.select { |x| x.key == key }.first
+    grouped.find { |x| x.key == key }
   end
 
   def grouped?

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["blacklight-development@googlegroups.com"]
   s.homepage    = "http://projectblacklight.org/"
   s.summary     = "Blacklight provides a discovery interface for any Solr (http://lucene.apache.org/solr) index."
-  s.description = %q{Blacklight is an open source Solr user interface discovery platform. You can use Blacklight to enable searching and browsing of your collections. Blacklight uses the Apache Solr search engine to search full text and/or metadata.}
+  s.description = %{Blacklight is an open source Solr user interface discovery platform. You can use Blacklight to enable searching and browsing of your collections. Blacklight uses the Apache Solr search engine to search full text and/or metadata.}
   s.license     = "Apache 2.0"
 
   s.files         = `git ls-files`.split("\n")

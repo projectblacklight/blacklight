@@ -2,7 +2,7 @@
 module Blacklight
   module Exceptions
 
-    class AccessDenied < Exception
+    class AccessDenied < StandardError
     end
 
     # When a request for a single solr document by id
@@ -17,7 +17,7 @@ module Blacklight
     class InvalidRequest < StandardError
     end
 
-    class ExpiredSessionToken < Exception
+    class ExpiredSessionToken < StandardError
     end
 
     class ECONNREFUSED < ::Errno::ECONNREFUSED; end

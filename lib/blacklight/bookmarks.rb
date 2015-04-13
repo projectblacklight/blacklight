@@ -98,20 +98,21 @@ module Blacklight::Bookmarks
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be.
   def destroy
-    bookmark = current_or_guest_user.bookmarks.where(document_id: params[:id], document_type: blacklight_config.document_model).first
+    bookmark = current_or_guest_user.bookmarks.find_by(document_id: params[:id], document_type: blacklight_config.document_model)
 
-    success = bookmark && bookmark.delete && bookmark.destroyed?
-
-    unless request.xhr?
-      if success
-        flash[:notice] =  I18n.t('blacklight.bookmarks.remove.success')
+    if bookmark && bookmark.delete && bookmark.destroyed?
+      if request.xhr?
+        render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }})
       else
-        flash[:error] = I18n.t('blacklight.bookmarks.remove.failure')
+        redirect_to :back, notice: I18n.t('blacklight.bookmarks.remove.success')
       end
-      redirect_to :back
     else
-      # ajaxy request needs no redirect and should not have flash set
-      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
+      if request.xhr?
+        # ajaxy request needs no redirect and should not have flash set
+        render(:text => "", :status => "500")
+      else
+        redirect_to :back, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
+      end
     end
   end
 

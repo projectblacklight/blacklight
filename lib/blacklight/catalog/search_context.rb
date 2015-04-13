@@ -62,7 +62,7 @@ module Blacklight::Catalog::SearchContext
 
     return if params_copy.reject { |k,v| [:action, :controller].include? k.to_sym }.blank?
 
-    saved_search = searches_from_history.select { |x| x.query_params == params_copy }.first
+    saved_search = searches_from_history.find { |x| x.query_params == params_copy }
 
     saved_search ||= begin
       s = Search.create(:query_params => params_copy)

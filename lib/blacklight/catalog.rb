@@ -14,6 +14,7 @@ module Blacklight::Catalog
   include Blacklight::Catalog::ComponentConfiguration
   include Blacklight::Facet
 
+  # @deprecated use blacklight_config.search_history_window instead
   SearchHistoryWindow = 100 # how many searches to save in session history
 
   # The following code is executed when someone includes blacklight::catalog in their
@@ -194,11 +195,9 @@ module Blacklight::Catalog
     # First, try to render an appropriate template (e.g. index.endnote.erb)
     # If that fails, just concatenate the document export responses with a newline. 
     def render_document_export_format format_name
-      begin
-        render
-      rescue ActionView::MissingTemplate
-        render text: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
-      end    
+      render
+    rescue ActionView::MissingTemplate
+      render text: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
     end
 
     # override this method to change the JSON response from #index 

@@ -124,7 +124,7 @@ describe Blacklight::SolrResponse::Facets do
     subject { Blacklight::SolrResponse.new(response, {}) }
 
     it "should mark the facet.missing field with a human-readable label and fq" do
-      missing = subject.aggregations["some_field"].items.select { |i| i.value.nil? }.first
+      missing = subject.aggregations["some_field"].items.find { |i| i.value.nil? }
 
       expect(missing.label).to eq "[Missing]"
       expect(missing.fq).to eq "-some_field:[* TO *]"
@@ -169,7 +169,7 @@ describe Blacklight::SolrResponse::Facets do
       expect(field.items.size).to eq 2
       expect(field.items.map { |x| x.value }).to_not include 'field:not_appearing_in_the_config'
 
-      facet_item = field.items.select { |x| x.value == 'a_simple_query' }.first
+      facet_item = field.items.find { |x| x.value == 'a_simple_query' }
 
       expect(facet_item.value).to eq 'a_simple_query'
       expect(facet_item.hits).to eq 10

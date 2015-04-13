@@ -50,7 +50,7 @@ module Blacklight
         solr_response
       end
     rescue Errno::ECONNREFUSED => e
-      raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{connection.inspect}")
+      raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{connection.inspect}: #{e.inspect}")
     rescue RSolr::Error::Http => e
       raise Blacklight::Exceptions::InvalidRequest.new(e.message)
     end
