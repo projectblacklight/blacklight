@@ -244,7 +244,7 @@ module Blacklight
     # if not set, defaults to first defined search field
     def default_search_field
       field = super
-      field ||= search_fields.values.find { |field| field.default == true }
+      field ||= search_fields.values.find { |f| f.default == true }
       field ||= search_fields.values.first
 
       field
@@ -255,7 +255,7 @@ module Blacklight
     # if not set, defaults to first defined sort field
     def default_sort_field
       field = super
-      field ||= sort_fields.values.find { |field| field.default == true }
+      field ||= sort_fields.values.find { |f| f.default == true }
       field ||= sort_fields.values.first
 
       field
