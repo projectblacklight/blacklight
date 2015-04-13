@@ -20,11 +20,14 @@ module Blacklight::Solr
     # make sure they do NOT conflict with catalog/index request params,
     # and need to make them accessible in a list so we can easily
     # strip em out before redirecting to catalog/index.
-    # class variable (via class-level ivar)
-    @request_keys = {:sort => :'facet.sort', :page => :'facet.page'}
-    class << self; attr_accessor :request_keys end # create a class method
-    def request_keys ; self.class.request_keys ; end # shortcut
-    
+    mattr_accessor :request_keys do
+      { sort: :'facet.sort', page: :'facet.page' }
+    end
+
+    if Rails.version < "4.1"
+      self.request_keys = { sort: :'facet.sort', page: :'facet.page' }
+    end
+
     attr_reader :offset, :limit, :sort
     
     # all_facet_values is a list of facet value objects returned by solr,
