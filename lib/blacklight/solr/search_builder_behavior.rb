@@ -112,9 +112,7 @@ module Blacklight::Solr
         solr_parameters[:"facet.field"].concat( [blacklight_params["facet.field"], blacklight_params["facets"]].flatten.compact ).uniq!
       end
 
-      blacklight_config.facet_fields.select { |field_name,facet|
-        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
-      }.each do |field_name, facet|
+      facet_fields_to_include_in_request.each do |field_name, facet|
         solr_parameters[:facet] ||= true
 
         case
@@ -268,6 +266,12 @@ module Blacklight::Solr
     # The key to use to retrieve the grouped field to display
     def grouped_key_for_results
       blacklight_config.index.group
+    end
+
+    def facet_fields_to_include_in_request
+      blacklight_config.facet_fields.select do |field_name,facet|
+        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
+      end
     end
   end
 end
