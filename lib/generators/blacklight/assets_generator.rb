@@ -9,11 +9,11 @@ module Blacklight
       unless IO.read("app/assets/javascripts/application.js").include?('blacklight/blacklight')
         marker = IO.read("app/assets/javascripts/application.js").include?('turbolinks') ?
           '//= require turbolinks' : "//= require jquery_ujs"
-        insert_into_file "app/assets/javascripts/application.js", :after => marker do
-  %q{
+        insert_into_file "app/assets/javascripts/application.js", :after => marker do <<-EOF
 //
 // Required by Blacklight
-//= require blacklight/blacklight}          
+//= require blacklight/blacklight
+EOF
         end
       end
 
