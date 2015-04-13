@@ -150,6 +150,8 @@ module Blacklight::RenderPartialsHelper
     end
 
   private
+
+    # rubocop:disable Performance/Detect
     def find_document_show_template_with_view view_type, base_name, format, locals
       document_partial_path_templates.each do |str|
         partial = str % { action_name: base_name, format: format, index_view_type: view_type }
@@ -169,6 +171,7 @@ module Blacklight::RenderPartialsHelper
       end
       nil
     end
+    # rubocop:enable Performance/Detect
 
     ##
     # @param [Symbol] page the page type, either :index or :show
