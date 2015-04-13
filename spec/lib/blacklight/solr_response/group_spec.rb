@@ -7,7 +7,7 @@ describe Blacklight::SolrResponse::Group do
   end
 
   let(:group) do
-    response.grouped.select { |x| x.key == "result_group_ssi" }.first
+    response.grouped.find { |x| x.key == "result_group_ssi" }
   end
 
   subject do
