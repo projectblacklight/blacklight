@@ -243,10 +243,9 @@ module Blacklight::Solr
       local_params = []
       local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
 
-      prefix = ""
       prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
 
-      fq = case
+      case
         when (facet_config and facet_config.query)
           facet_config.query[value][:fq]
         when (facet_config and facet_config.date)
