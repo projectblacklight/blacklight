@@ -194,11 +194,9 @@ module Blacklight::Catalog
     # First, try to render an appropriate template (e.g. index.endnote.erb)
     # If that fails, just concatenate the document export responses with a newline. 
     def render_document_export_format format_name
-      begin
-        render
-      rescue ActionView::MissingTemplate
-        render text: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
-      end    
+      render
+    rescue ActionView::MissingTemplate
+      render text: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
     end
 
     # override this method to change the JSON response from #index 
