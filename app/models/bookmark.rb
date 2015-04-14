@@ -4,7 +4,7 @@ class Bookmark < ActiveRecord::Base
   belongs_to :user, polymorphic: true
   belongs_to :document, polymorphic: true
 
-  validates_presence_of :user_id, :scope=>:document_id
+  validates :user_id, presence: true
 
   if Blacklight::Utils.needs_attr_accessible?
     attr_accessible :id, :document_id, :document_type, :title

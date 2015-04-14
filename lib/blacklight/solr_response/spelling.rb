@@ -57,10 +57,9 @@ module Blacklight::SolrResponse::Spelling
                 #   origFreq =>
                 #   suggestion =>  [{ frequency =>, word => }] # for extended results
                 #   suggestion => ['word'] # for non-extended results
-                origFreq = term_info['origFreq']
                 if suggestions.index("correctlySpelled")
                   word_suggestions << term_info['suggestion'].map do |suggestion|
-                    suggestion['word'] if suggestion['freq'] > origFreq
+                    suggestion['word'] if suggestion['freq'] > term_info['origFreq']
                   end
                 else
                   # only extended suggestions have frequency so we just return all suggestions
@@ -89,4 +88,3 @@ module Blacklight::SolrResponse::Spelling
   end
 
 end
-

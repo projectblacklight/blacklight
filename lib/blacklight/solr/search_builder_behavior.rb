@@ -112,9 +112,7 @@ module Blacklight::Solr
         solr_parameters[:"facet.field"].concat( [blacklight_params["facet.field"], blacklight_params["facets"]].flatten.compact ).uniq!
       end
 
-      blacklight_config.facet_fields.select { |field_name,facet|
-        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
-      }.each do |field_name, facet|
+      facet_fields_to_include_in_request.each do |field_name, facet|
         solr_parameters[:facet] ||= true
 
         case
@@ -243,17 +241,20 @@ module Blacklight::Solr
       local_params = []
       local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
 
-      prefix = ""
       prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
 
-      fq = case
+      case
         when (facet_config and facet_config.query)
           facet_config.query[value][:fq]
         when (facet_config and facet_config.date)
           # in solr 3.2+, this could be replaced by a !term query
           "#{prefix}#{solr_field}:#{RSolr.solr_escape(value)}"
-        when (value.is_a?(DateTime) or value.is_a?(Date) or value.is_a?(Time))
-          "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.to_time.utc.strftime("%Y-%m-%dT%H:%M:%SZ"))}"
+        when (value.is_a?(DateTime) or value.is_a?(Time))
+          "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.utc.strftime("%Y-%m-%dT%H:%M:%SZ"))}"
+        when value.is_a?(Date)
+          # rubocop:disable Rails/Date
+          "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ"))}"
+          # rubocop:enable Rails/Date
         when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
              (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i)),
              (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
@@ -269,6 +270,12 @@ module Blacklight::Solr
     # The key to use to retrieve the grouped field to display
     def grouped_key_for_results
       blacklight_config.index.group
+    end
+
+    def facet_fields_to_include_in_request
+      blacklight_config.facet_fields.select do |field_name,facet|
+        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
+      end
     end
   end
 end

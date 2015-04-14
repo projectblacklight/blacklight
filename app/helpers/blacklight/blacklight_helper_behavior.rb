@@ -45,23 +45,19 @@ module Blacklight::BlacklightHelperBehavior
   #     content type, e.g. as required by atom
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output 
   def render_link_rel_alternates(document=@document, options = {})
-    options = {:unique => false, :exclude => []}.merge(options)
+    return if document.nil?
 
-    return nil if document.nil?
+    options = { unique: false, exclude: [] }.merge(options)
 
     seen = Set.new
 
-    html = ""
-    document.export_formats.each_pair do |format, spec|
-      unless( options[:exclude].include?(format) ||
-             (options[:unique] && seen.include?(spec[:content_type]))
-             )
-        html << tag(:link, {:rel=>"alternate", :title=>format, :type => spec[:content_type], :href=> polymorphic_url(document, :format => format)}) << "\n"
+    safe_join(document.export_formats.map do |format, spec|
+      next if options[:exclude].include?(format) || (options[:unique] && seen.include?(spec[:content_type]))
 
-        seen.add(spec[:content_type]) if options[:unique]
-      end
-    end
-    return html.html_safe
+      seen.add(spec[:content_type])
+
+      tag(:link, rel: "alternate", title: format, type: spec[:content_type], href: polymorphic_url(document, format: format))
+    end.compact, "\n")
   end
 
   ##

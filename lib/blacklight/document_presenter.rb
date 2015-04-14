@@ -141,7 +141,7 @@ module Blacklight
       value = case    
         when (field_config and field_config.highlight)
           # retrieve the document value from the highlighting response
-          @document.highlight_field(field_config.field).map { |x| x.html_safe } if @document.has_highlight_field? field_config.field
+          @document.highlight_field(field_config.field).map(&:html_safe) if @document.has_highlight_field? field_config.field
         when (field_config and field_config.accessor)
           # implicit method call
           if field_config.accessor === true
