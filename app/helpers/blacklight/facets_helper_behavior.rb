@@ -123,10 +123,24 @@ module Blacklight::FacetsHelperBehavior
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
   # @return [String]
   def render_facet_value(facet_field, item, options ={})
-    path = search_action_path(add_facet_params_and_redirect(facet_field, item))
+    path = path_for_facet(facet_field, item)
     content_tag(:span, :class => "facet-label") do
       link_to_unless(options[:suppress_link], facet_display_value(facet_field, item), path, :class=>"facet_select")
     end + render_facet_count(item.hits)
+  end
+
+  ##
+  # Where should this facet link to?
+  # @param [Blacklight::SolrResponse::Facets::FacetField]
+  # @param [String] facet item
+  # @return [String]
+  def path_for_facet(facet_field, item)
+    facet_config = facet_configuration_for_field(facet_field)
+    if facet_config.url_method
+      path = send(facet_config.url_method, facet_field, item)
+    else
+      path = search_action_path(add_facet_params_and_redirect(facet_field, item))
+    end
   end
 
   ##
