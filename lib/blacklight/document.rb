@@ -15,6 +15,7 @@
 module Blacklight::Document
   autoload :ActiveModelShim, 'blacklight/document/active_model_shim'
   autoload :SchemaOrg, 'blacklight/document/schema_org'
+  autoload :CacheKey, 'blacklight/document/cache_key'
   autoload :DublinCore, 'blacklight/document/dublin_core'
   autoload :Email, 'blacklight/document/email'
   autoload :SemanticFields, 'blacklight/document/semantic_fields'
@@ -25,6 +26,7 @@ module Blacklight::Document
   extend ActiveSupport::Concern
   include Blacklight::Document::SchemaOrg
   include Blacklight::Document::SemanticFields
+  include Blacklight::Document::CacheKey
   include Blacklight::Document::Export
 
   extend Deprecation
