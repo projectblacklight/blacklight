@@ -1,0 +1,226 @@
+it:
+  views:
+    pagination:
+      first: '&laquo; Pagina iniziale'
+      last: 'Pagina finale &raquo;'
+      previous: '&laquo; Pagina precedente'
+      next: 'Pagina successiva &raquo;'
+      truncate: '…'
+
+    pagination_compact:
+      previous: '&laquo; Pagina precedente'
+      next: 'Pagina successiva &raquo;'
+
+  blacklight:
+    application_name: 'Blacklight'
+
+    header_links:
+      login: 'Login'
+      logout: 'Log out'
+      bookmarks: 'Preferiti'
+      saved_searches: 'Ricerche salvate'
+      search_history: 'Ricerche effettuate'
+
+    welcome: 'Benvenuti!'
+    and: 'e'
+    or: 'o'
+
+    bookmarks:
+      title: 'Preferiti'
+      no_bookmarks: 'Non è stato salvato nessun preferito.'
+      add:
+        button: 'Preferiti'
+        success:
+          one: 'Pagina aggiunta a preferiti.'
+          other: 'Pagine aggiunte a preferiti.'
+        failure:  'Si è verificato un errore nel salvare i preferiti.'
+      remove:
+        button: 'Togli la pagina dai preferiti'
+        success: 'La pagina è stata tolta dai preferiti.'
+        failure: 'Si è verificato un errore nel togliere la pagina dai preferiti.'
+        action_confirm: 'Vuoi togliere questa pagina dai preferiti?'
+      clear:
+        action_title: 'Cancella tutti i preferiti'
+        action_confirm: 'Vuoi cancellare tutti i preferiti?'
+        success: 'Tutti i preferiti sono stati cancellati.'
+        failure: 'Si è verificato un errore nel cancellare i preferiti.'
+      need_login: 'Effettuare il login per gestire e visualizzare i preferiti.'
+      list_title: 'Preferiti'
+      delete: 'Togli'
+
+    saved_searches:
+      add:
+        success: 'Ricerca salvata.'
+        failure: 'Si è verificato un errore nel salvare la ricerca.'
+      remove:
+        success: 'La ricerca è stata tolta dalla lista.'
+        failure: 'Si è verificato un errore nel togliere la ricerca dalla lista.'
+      clear:
+        action_title: 'Cancella tutte le ricerche salvate'
+        action_confirm: 'Vuoi cancellare tutte le ricerche salvate?'
+        success: 'Tutte le ricerche salvate sono state cancellate.'
+        failure: 'Si è verificato un errore nel cancellare le ricerche salvate.'
+      title: 'Ricerche salvate'
+      need_login: 'Effettuare il login per gestire e visualizzare le ricerche salvate.'
+      no_searches: 'Non è stata salvata nessuna ricerca.'
+      list_title: 'Ricerche salvate'
+      delete: 'cancella'
+
+    search_history:
+      clear:
+        action_title: 'Cancella le ricerche effettuate'
+        action_confirm: 'Vuoi cancellare le ricerche effettuate?'
+        success: 'Le ricerche effettuate sono state cancellate.'
+        failure: 'Si è verificato un errore nel cancellare le ricerche effettuate.'
+      title: 'Ricerche effettuate'
+      no_history: 'Non è stata effettuata nessuna ricerca'
+      recent: 'Ricerche effettuate'
+      forget: 'dimentica'
+      save: 'salva'
+
+    tools:
+      title: 'Strumenti'
+      citation: 'Cita'
+      endnote: 'Esporta in EndNote'
+      refworks: 'Esporta in Refworks'
+      email: 'Invia per e-mail'
+      sms: 'Invia per SMS'
+      clear: 'Cancella'
+
+    citation:
+      mla: 'MLA'
+      apa: 'APA'
+      chicago: 'Chicago'
+
+    email:
+      form:
+        title: 'Invia per e-mail'
+        to: 'E-mail:'
+        message: 'Messaggio:'
+        submit: 'Invia'
+      text:
+        title: 'Titolo: %{value}'
+        author: 'Autore: %{value}'
+        format: 'Formato: %{value}'
+        language: 'Lingua: %{value}'
+        subject:
+          one: 'Numero di scheda: %{title}'
+          other: 'Numeri di scheda'
+        url: 'URL: %{url}'
+        message: 'Messaggio: %{message}'
+
+      success: "Messaggio inviato"
+
+      errors:
+        to:
+          invalid: "L'indirizzo e-mail inserito non è valido"
+          blank: 'Inserisci un destinatario per inviare il messaggio'
+    sms:
+      form:
+        title: 'Invia per SMS'
+        to: 'Numero di telefono:'
+        carrier: 'Operatore'
+        carrier_prompt: "Indicare l'operatore"
+        submit: 'Inviare'
+      text:
+        title: '%{value}'
+        author: ' da %{value}'
+        url: 'Link: %{url}'
+      success: "SMS inviato"
+      errors:
+        to:
+          invalid: 'Inserisci un numero telefonico valido di 10 cifre'
+          blank: "Inserisci il numero di telefono del destinarario per inviare il messaggio"
+        carrier:
+          blank: 'Si richiede la scelta di un operatore'
+          invalid: "L'operatore non è valido"
+
+    back_to_search: 'Torna alla ricerca'
+    back_to_bookmarks: 'Torna ai preferiti'
+
+    search:
+      title: 'Risultati della ricerca per %{application_name}'
+      search_results_header: 'Ricerca'
+      search_results: 'Risultati della ricerca'
+      errors:
+        request_error: "La richiesta non è comprensibile."
+        invalid_solr_id: "Il numero di scheda richiesto non esiste."
+      per_page:
+        label: '%{count}<span class="sr-only"> per pagina</span>'
+        button_label: '%{count} per pagina'
+        title: 'Risultati per pagina'
+        submit: 'Aggiorna'
+      sort:
+        label: 'Ordina per %{field}'
+        submit: 'Ordina i risultati'
+      form:
+        search_field:
+          label: 'Cerca in'
+          title: 'Opzioni di ricerca mirate'
+          post_label: 'per'
+        # i18n key 'q' is deprecated and will be removed in Blacklight 6.0, use 'search.label' and 'search.placeholder'
+        q: 'Ricerca in corso...'
+        search:
+          label: 'cerca per'
+          placeholder: 'Ricerca in corso...'
+        submit: 'Avvia la ricerca'
+      pagination:
+        title: 'Navigazione nei risultati'
+      pagination_info:
+        no_items_found: 'Nessun %{entry_name} trovano'
+        single_item_found: '<strong>1</strong> %{entry_name} trovato'
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> di <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> di <strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 di 1</strong>'
+        other: '<strong>%{current}</strong> di <strong>%{total}</strong>'
+      documents:
+        counter: '%{counter}. '
+      facets:
+        title: 'Affina la ricerca'
+        sort:
+          count: 'Ordina per numero'
+          index: 'Ordina A-Z'
+        count: '%{number}'
+        # i18n key 'more' is deprecated and will be removed in Blacklight 6.0 
+        more: 'altri »'
+        more_html: 'altri <span class="sr-only">%{field_name}</span> »'
+        selected:
+          remove: '[cancella]'
+      group:
+        more: 'altri »'
+      filters:
+        title: 'Hai cercato per:'
+        label: '%{label}:'
+        remove:
+          value: 'Cancella il filtro %{value}'
+          label_value: 'Cancella il filtro %{label}: %{value}'
+      start_over: 'Nuova ricerca'
+      index:
+        label: '%{label}:'
+      show:
+        title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
+      rss_feed: 'RSS per i risultati'
+      atom_feed: 'Atom per i risultati'
+      fields:
+        default: 'Parola chiave'
+      bookmarks:
+        present: "Nei preferiti"
+        absent: "Non fra i preferiti"
+        inprogress: "Salvataggio in corso..."
+      zero_results:
+        title: "La ricerca non ha prodotto alcun risultato"
+        modify_search: "Modifica la ricerca"
+        use_fewer_keywords: "Usa meno parole chiave per iniziare, poi raffina la ricerca con i links sulla sinistra."
+        search_fields: "hai cercato in %{search_fields}"
+        search_everything: "prova a cercare in tutti i campi"
+      view_title: "Visualizza i risultati come: "
+      view:
+        list: "Lista"
+
+    entry_name:
+      default: 'termine di ricerca'
+
+    did_you_mean: 'Intendevi digitare: %{options}?'
