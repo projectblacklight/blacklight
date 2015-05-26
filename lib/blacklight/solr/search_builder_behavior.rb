@@ -213,8 +213,8 @@ module Blacklight::Solr
       # Need to set as f.facet_field.facet.* to make sure we
       # override any field-specific default in the solr request handler.
       solr_params[:"f.#{facet}.facet.limit"]  = limit + 1
-      solr_params[:"f.#{facet}.facet.offset"] = ( blacklight_params.fetch(Blacklight::Solr::FacetPaginator.request_keys[:page] , 1).to_i - 1 ) * ( limit )
-      solr_params[:"f.#{facet}.facet.sort"] = blacklight_params[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  blacklight_params[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]
+      solr_params[:"f.#{facet}.facet.offset"] = ( blacklight_params.fetch(blacklight_config.facet_paginator_class.request_keys[:page] , 1).to_i - 1 ) * ( limit )
+      solr_params[:"f.#{facet}.facet.sort"] = blacklight_params[  blacklight_config.facet_paginator_class.request_keys[:sort] ] if  blacklight_params[  blacklight_config.facet_paginator_class.request_keys[:sort] ]
       solr_params[:rows] = 0
     end
 
