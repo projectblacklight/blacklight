@@ -3,7 +3,11 @@ module Blacklight::Solr
     extend ActiveSupport::Concern
 
     included do
-      self.default_processor_chain = [:default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
+      self.default_processor_chain = [
+        :default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr,
+        :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
+        :add_sorting_to_solr, :add_group_config_to_solr, :add_facet_paging_to_solr
+      ]
     end
 
     ####
@@ -188,6 +192,30 @@ module Blacklight::Solr
       if blacklight_params[:f] and blacklight_params[:f][grouped_key_for_results]
         solr_parameters[:group] = false
       end
+    end
+
+    def add_facet_paging_to_solr(solr_params)
+      return unless facet.present?
+
+      facet_config = blacklight_config.facet_fields[facet]
+
+      # Now override with our specific things for fetching facet values
+      solr_params[:"facet.field"] = with_ex_local_param((facet_config.ex if facet_config.respond_to?(:ex)), facet)
+
+      limit = if scope.respond_to?(:facet_list_limit)
+          scope.facet_list_limit.to_s.to_i
+        elsif solr_params["facet.limit"]
+          solr_params["facet.limit"].to_i
+        else
+          20
+        end
+
+      # Need to set as f.facet_field.facet.* to make sure we
+      # override any field-specific default in the solr request handler.
+      solr_params[:"f.#{facet}.facet.limit"]  = limit + 1
+      solr_params[:"f.#{facet}.facet.offset"] = ( blacklight_params.fetch(Blacklight::Solr::FacetPaginator.request_keys[:page] , 1).to_i - 1 ) * ( limit )
+      solr_params[:"f.#{facet}.facet.sort"] = blacklight_params[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  blacklight_params[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]
+      solr_params[:rows] = 0
     end
 
     def with_ex_local_param(ex, value)

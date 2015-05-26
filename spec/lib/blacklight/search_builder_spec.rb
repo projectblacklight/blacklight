@@ -187,6 +187,16 @@ describe Blacklight::SearchBuilder do
     end
   end
 
+  describe "#facet" do
+    it "should be nil if no value is set" do
+      expect(subject.facet).to be_nil
+    end
+
+    it "should set facet value" do
+      expect(subject.facet('format').facet).to eq 'format'
+    end
+  end
+
   describe "#search_field" do
     it "should use the requested search field" do
       blacklight_config.add_search_field 'x'

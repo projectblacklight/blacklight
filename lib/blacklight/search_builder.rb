@@ -51,6 +51,7 @@ module Blacklight
       builder.start(@start) if @start
       builder.rows(@rows) if @rows
       builder.page(@page) if @page
+      builder.facet(@facet) if @facet
 
       builder
     end
@@ -202,6 +203,18 @@ module Blacklight
       end
 
       field unless field.blank?
+    end
+
+    # sets the facet that this query pertains to, if it is for the purpose of
+    # facet pagination
+    def facet facet = nil
+      if facet
+        params_will_change!
+        @facet = facet
+        self
+      else
+        @facet
+      end
     end
 
     def search_field

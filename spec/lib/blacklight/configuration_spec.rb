@@ -469,5 +469,10 @@ describe "Blacklight::Configuration" do
       expect(@config.default_search_field.key).to eq 'search_field_2'
     end
   end
-  
+
+  describe "#facet_paginator_class" do
+    it "should default to Blacklight::Solr::FacetPaginator" do
+      expect(@config.facet_paginator_class).to eq Blacklight::Solr::FacetPaginator
+    end
+  end
 end

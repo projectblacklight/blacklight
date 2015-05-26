@@ -5,7 +5,7 @@ module Blacklight
   module Facet
 
     def facet_paginator field_config, display_facet
-      Blacklight::Solr::FacetPaginator.new(display_facet.items, 
+      blacklight_config.facet_paginator_class.new(display_facet.items, 
         sort: display_facet.sort,
         offset: display_facet.offset,     
         limit: facet_limit_for(field_config.key))

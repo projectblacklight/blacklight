@@ -228,6 +228,10 @@ module Blacklight
       Blacklight::Solr::SearchBuilder
     end
 
+    def facet_paginator_class
+      super || Blacklight::Solr::FacetPaginator
+    end
+
     def default_per_page
       super || per_page.first
     end

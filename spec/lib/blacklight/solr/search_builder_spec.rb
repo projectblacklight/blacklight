@@ -553,7 +553,71 @@ describe Blacklight::Solr::SearchBuilder do
       end
     end
   end
-  
+
+  describe "#add_facet_paging_to_solr" do
+    let(:facet_field) { 'format' }
+    let(:sort_key) { Blacklight::Solr::FacetPaginator.request_keys[:sort] }
+    let(:page_key) { Blacklight::Solr::FacetPaginator.request_keys[:page] }
+
+    let(:blacklight_config) do
+      Blacklight::Configuration.new do |config|
+        config.add_facet_fields_to_solr_request!
+        config.add_facet_field 'format'
+        config.add_facet_field 'format_ordered', :sort => :count
+        config.add_facet_field 'format_limited', :limit => 5
+      end
+    end
+
+    let(:solr_parameters) do
+      solr_parameters = Blacklight::Solr::Request.new
+      subject.facet(facet_field).add_facet_paging_to_solr(solr_parameters)
+      solr_parameters
+    end
+
+    it 'sets rows to 0' do
+      expect(solr_parameters[:rows]).to eq 0
+    end
+    it 'sets facets requested to facet_field argument' do
+      expect(solr_parameters["facet.field".to_sym]).to eq facet_field
+    end
+    it 'defaults offset to 0' do
+      expect(solr_parameters[:"f.#{facet_field}.facet.offset"]).to eq 0
+    end
+    context 'when offset is manually set' do
+      let(:user_params) { { page_key => 2 } }
+      it 'uses offset manually set, and converts it to an integer' do
+        expect(solr_parameters[:"f.#{facet_field}.facet.offset"]).to eq 20
+      end
+    end
+    it 'defaults limit to 20' do
+      expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 21
+    end
+
+    context 'when facet_list_limit is defined in scope' do
+      before do
+        allow(context).to receive_messages facet_list_limit: 1000
+      end
+      it 'uses scope method for limit' do
+        expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 1001
+      end
+
+      it 'uses controller method for limit when a ordinary limit is set' do
+        expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 1001
+      end
+    end
+
+    it 'uses the default sort' do
+      expect(solr_parameters[:"f.#{facet_field}.facet.sort"]).to be_blank
+    end
+
+    context 'when sort is provided' do
+      let(:user_params) { { sort_key => 'index' } }
+      it 'uses sort provided in the parameters' do
+        expect(solr_parameters[:"f.#{facet_field}.facet.sort"]).to eq 'index'
+      end
+    end
+  end
+
   describe "#with_tag_ex" do
     it "should add an !ex local parameter if the facet configuration requests it" do
       expect(subject.with_ex_local_param("xyz", "some-value")).to eq "{!ex=xyz}some-value"
