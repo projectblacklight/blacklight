@@ -207,7 +207,7 @@ module Blacklight
 
     # sets the facet that this query pertains to, if it is for the purpose of
     # facet pagination
-    def facet facet = nil
+    def facet(facet = nil)
       if facet
         params_will_change!
         @facet = facet

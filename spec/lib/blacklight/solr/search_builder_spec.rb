@@ -563,8 +563,8 @@ describe Blacklight::Solr::SearchBuilder do
       Blacklight::Configuration.new do |config|
         config.add_facet_fields_to_solr_request!
         config.add_facet_field 'format'
-        config.add_facet_field 'format_ordered', :sort => :count
-        config.add_facet_field 'format_limited', :limit => 5
+        config.add_facet_field 'format_ordered', sort: :count
+        config.add_facet_field 'format_limited', limit: 5
       end
     end
 

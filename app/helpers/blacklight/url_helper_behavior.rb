@@ -1,4 +1,6 @@
 require 'deprecation'
+##
+# URL helper methods
 module Blacklight::UrlHelperBehavior
   extend Deprecation
   self.deprecation_horizon = 'blacklight 6.0'
@@ -255,9 +257,10 @@ module Blacklight::UrlHelperBehavior
 
     # Delete any request params from facet-specific action, needed
     # to redir to index action properly. 
-    new_params.except! *blacklight_config.facet_paginator_class.request_keys.values
+    request_keys = blacklight_config.facet_paginator_class.request_keys
+    new_params.except! *request_keys.values
 
-    new_params 
+    new_params
   end
 
   # copies the current params (or whatever is passed in as the 3rd arg)
