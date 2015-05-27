@@ -113,14 +113,14 @@ it:
 
       errors:
         to:
-          invalid: 'L'indirizzo e-mail inserito non è valido'
+          invalid: "L'indirizzo e-mail inserito non è valido"
           blank: 'Inserisci un destinatario per inviare il messaggio'
     sms:
       form:
         title: 'Invia per SMS'
         to: 'Numero di telefono:'
         carrier: 'Operatore'
-        carrier_prompt: 'Indicare l'operatore'
+        carrier_prompt: "Indicare l'operatore"
         submit: 'Inviare'
       text:
         title: '%{value}'
