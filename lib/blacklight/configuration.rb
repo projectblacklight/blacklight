@@ -343,6 +343,7 @@ module Blacklight
           copy.document_model = self.document_model
           copy.document_presenter_class = self.document_presenter_class
           copy.search_builder_class = self.search_builder_class
+          copy.facet_paginator_class = self.facet_paginator_class
         end
       end
       alias_method :inheritable_copy, :deep_copy
