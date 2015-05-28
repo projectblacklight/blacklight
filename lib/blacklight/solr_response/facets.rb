@@ -31,7 +31,8 @@ module Blacklight::SolrResponse::Facets
   class FacetField
     attr_reader :name, :items
     def initialize name, items, options = {}
-      @name, @items = name, items
+      @name = name
+      @items = items
       @options = options
     end
 
