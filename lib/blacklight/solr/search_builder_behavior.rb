@@ -3,7 +3,12 @@ module Blacklight::Solr
     extend ActiveSupport::Concern
 
     included do
-      self.default_processor_chain = [:default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
+      self.default_processor_chain = [
+        :default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr,
+        :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
+        :add_sorting_to_solr, :add_group_config_to_solr,
+        :add_facet_paging_to_solr
+      ]
     end
 
     ####
@@ -190,6 +195,38 @@ module Blacklight::Solr
       end
     end
 
+    def add_facet_paging_to_solr(solr_params)
+      return unless facet.present?
+
+      facet_config = blacklight_config.facet_fields[facet]
+
+      # Now override with our specific things for fetching facet values
+      facet_ex = facet_config.respond_to?(:ex) ? facet_config.ex : nil
+      solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet)
+
+      limit = if scope.respond_to?(:facet_list_limit)
+                scope.facet_list_limit.to_s.to_i
+              elsif solr_params["facet.limit"]
+                solr_params["facet.limit"].to_i
+              else
+                20
+              end
+
+      page = blacklight_params.fetch(request_keys[:page], 1).to_i
+      offset = (page - 1) * (limit)
+
+      sort = blacklight_params[request_keys[:sort]]
+
+      # Need to set as f.facet_field.facet.* to make sure we
+      # override any field-specific default in the solr request handler.
+      solr_params[:"f.#{facet}.facet.limit"] = limit + 1
+      solr_params[:"f.#{facet}.facet.offset"] = offset
+      if blacklight_params[request_keys[:sort]]
+        solr_params[:"f.#{facet}.facet.sort"] = sort
+      end
+      solr_params[:rows] = 0
+    end
+
     def with_ex_local_param(ex, value)
       if ex
         "{!ex=#{ex}}#{value}"
@@ -276,6 +313,10 @@ module Blacklight::Solr
       blacklight_config.facet_fields.select do |field_name,facet|
         facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
       end
+    end
+
+    def request_keys
+      blacklight_config.facet_paginator_class.request_keys
     end
   end
 end

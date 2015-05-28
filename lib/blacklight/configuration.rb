@@ -76,6 +76,8 @@ module Blacklight
           document_model: nil,
           # document presenter class used by helpers and views
           document_presenter_class: nil,
+          # Class for paginating long lists of facet fields
+          facet_paginator_class: nil,
           # repository connection configuration
           connection_config: nil,
           ##
@@ -228,6 +230,10 @@ module Blacklight
       Blacklight::Solr::SearchBuilder
     end
 
+    def facet_paginator_class
+      super || Blacklight::Solr::FacetPaginator
+    end
+
     def default_per_page
       super || per_page.first
     end
@@ -339,6 +345,7 @@ module Blacklight
           copy.document_model = self.document_model
           copy.document_presenter_class = self.document_presenter_class
           copy.search_builder_class = self.search_builder_class
+          copy.facet_paginator_class = self.facet_paginator_class
         end
       end
       alias_method :inheritable_copy, :deep_copy

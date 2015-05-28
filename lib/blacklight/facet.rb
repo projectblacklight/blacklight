@@ -1,14 +1,15 @@
-# These are methods that are used at both the view helper and controller layers
-# They are only dependent on `blacklight_config` and `@response`
-#
 module Blacklight
+  # These are methods that are used at both the view helper and controller layers
+  # They are only dependent on `blacklight_config` and `@response`
+  #
   module Facet
-
-    def facet_paginator field_config, display_facet
-      Blacklight::Solr::FacetPaginator.new(display_facet.items, 
+    def facet_paginator(field_config, display_facet)
+      blacklight_config.facet_paginator_class.new(
+        display_facet.items,
         sort: display_facet.sort,
-        offset: display_facet.offset,     
-        limit: facet_limit_for(field_config.key))
+        offset: display_facet.offset,
+        limit: facet_limit_for(field_config.key)
+      )
     end
 
     def facets_from_request(fields = facet_field_names)
@@ -20,17 +21,13 @@ module Blacklight
     end
 
     def facet_configuration_for_field(field)
-      f = blacklight_config.facet_fields[field]
-      f ||= begin
-        _, value = blacklight_config.facet_fields.find { |k,v| v.field.to_s == field.to_s }
-        value
-      end
-      f ||= Blacklight::Configuration::FacetField.new(:field => field).normalize!
+      blacklight_config.facet_fields[field] ||
+        blacklight_config.facet_fields.values.find { |v| v.field.to_s == field.to_s } ||
+        Blacklight::Configuration::FacetField.new(field: field).normalize!
     end
 
-
     # Get a FacetField object from the @response
-    def facet_by_field_name field_or_field_name
+    def facet_by_field_name(field_or_field_name)
       case field_or_field_name
       when String, Symbol, Blacklight::Configuration::FacetField
         facet_field = facet_configuration_for_field(field_or_field_name)

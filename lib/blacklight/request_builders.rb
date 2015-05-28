@@ -23,7 +23,12 @@ module Blacklight
       # CatalogController.include ModuleDefiningNewMethod
       # CatalogController.search_params_logic += [:new_method]
       # CatalogController.search_params_logic.delete(:we_dont_want)
-      self.search_params_logic = [:default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr, :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr, :add_sorting_to_solr, :add_group_config_to_solr ]
+      self.search_params_logic = [
+        :default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr,
+        :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
+        :add_sorting_to_solr, :add_group_config_to_solr,
+        :add_facet_paging_to_solr
+      ]
 
       if self.respond_to?(:helper_method)
         helper_method(:facet_limit_for)
@@ -110,35 +115,6 @@ module Blacklight
       search_builder([:add_query_to_solr]).with(q: { field => values}).merge(fl: '*')
     end
     deprecation_deprecate :solr_documents_by_field_values_params
-
-    ##
-    # Retrieve a facet's paginated values.
-    def solr_facet_params(facet_field, user_params=params || {}, extra_controller_params={})
-      input = user_params.deep_merge(extra_controller_params)
-      facet_config = blacklight_config.facet_fields[facet_field]
-
-      solr_params = {}
-
-      # Now override with our specific things for fetching facet values
-      solr_params[:"facet.field"] = search_builder.with_ex_local_param((facet_config.ex if facet_config.respond_to?(:ex)), facet_field)
-
-      limit = if respond_to?(:facet_list_limit)
-          facet_list_limit.to_s.to_i
-        elsif solr_params["facet.limit"]
-          solr_params["facet.limit"].to_i
-        else
-          20
-        end
-
-      # Need to set as f.facet_field.facet.* to make sure we
-      # override any field-specific default in the solr request handler.
-      solr_params[:"f.#{facet_field}.facet.limit"]  = limit + 1
-      solr_params[:"f.#{facet_field}.facet.offset"] = ( input.fetch(Blacklight::Solr::FacetPaginator.request_keys[:page] , 1).to_i - 1 ) * ( limit )
-      solr_params[:"f.#{facet_field}.facet.sort"] = input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ] if  input[  Blacklight::Solr::FacetPaginator.request_keys[:sort] ]
-      solr_params[:rows] = 0
-
-      solr_params
-    end
 
     ##
     # Opensearch autocomplete parameters for plucking a field's value from the results

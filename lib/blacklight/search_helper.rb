@@ -159,8 +159,8 @@ module Blacklight::SearchHelper
   # Get the solr response when retrieving only a single facet field
   # @return [Blacklight::SolrResponse] the solr response
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
-    query = search_builder.with(user_params).merge(extra_controller_params).merge(solr_facet_params(facet_field, user_params, extra_controller_params))
-    repository.search(query)
+    query = search_builder.with(user_params).facet(facet_field)
+    repository.search(query.merge(extra_controller_params))
   end
 
   # a solr query method
