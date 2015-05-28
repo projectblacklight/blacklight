@@ -76,6 +76,8 @@ module Blacklight
           document_model: nil,
           # document presenter class used by helpers and views
           document_presenter_class: nil,
+          # Class for paginating long lists of facet fields
+          facet_paginator_class: nil,
           # repository connection configuration
           connection_config: nil,
           ##
