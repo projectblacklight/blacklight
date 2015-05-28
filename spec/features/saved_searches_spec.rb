@@ -10,6 +10,18 @@ describe "Saved Searches" do
     click_link 'Saved Searches'
     expect(page).to have_content 'You have no saved searches'
   end
+  
+  it 'can be saved and forgotten from a search result' do
+    visit catalog_index_path(q: 'book')
+    within '.search-widgets' do
+      click_button 'save'
+    end
+    expect(page).to have_content 'Successfully saved your search.'
+    within '.search-widgets' do
+      click_button 'forget'
+    end
+    expect(page).to have_content 'Successfully removed that saved search.'
+  end
 
   describe "with a saved search 'book'" do
     before do
@@ -37,7 +49,7 @@ describe "Saved Searches" do
         click_button "save"
         click_link 'Saved Searches'
       end
-      it "should clear the searhes" do
+      it "should clear the searches" do
         click_link "Clear Saved Searches"
         expect(page).to have_content 'Cleared your saved searches.'
         expect(page).to have_content 'You have no saved searches'
