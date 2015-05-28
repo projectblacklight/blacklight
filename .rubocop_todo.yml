@@ -24,6 +24,11 @@ Lint/UnusedMethodArgument:
 Lint/UselessAssignment:
   Enabled: false
 
+# Offense count: 10
+# Configuration parameters: CountComments.
+Metrics/ModuleLength:
+  Max: 212
+
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
