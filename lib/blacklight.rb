@@ -34,6 +34,7 @@ module Blacklight
   
   autoload :SolrResponse, 'blacklight/solr_response'
   autoload :Facet, 'blacklight/facet'
+  autoload :FacetPaginator, 'blacklight/facet_paginator'
 
   extend SearchFields
   extend Deprecation
