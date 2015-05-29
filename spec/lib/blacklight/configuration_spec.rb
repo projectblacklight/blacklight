@@ -112,8 +112,8 @@ describe "Blacklight::Configuration" do
       it "should leave response_model and document_model empty" do
         config_copy = @config.inheritable_copy
 
-        expect(config_copy.fetch(:response_model)).to be_nil
-        expect(config_copy.fetch(:document_model)).to be_nil
+        expect(config_copy.fetch(:response_model, nil)).to be_nil
+        expect(config_copy.fetch(:document_model, nil)).to be_nil
       end
 
       it "should return default classes" do
