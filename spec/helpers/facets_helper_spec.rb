@@ -12,9 +12,9 @@ describe FacetsHelper do
   describe "has_facet_values?" do
     it "should be true if there are any facets to display" do
 
-      a = double(:items => [1,2])
-      b = double(:items => ['b','c'])
-      empty = double(:items => [])
+      a = double(:items => [1,2], :name => 'a')
+      b = double(:items => ['b','c'], :name => 'b')
+      empty = double(:items => [], :name => 'empty')
 
       fields = [a,b,empty]
       expect(helper.has_facet_values?(fields)).to be true
@@ -25,6 +25,19 @@ describe FacetsHelper do
       empty = double(:items => [])
 
       fields = [empty]
+      expect(helper.has_facet_values?(fields)).to be false
+    end
+
+    it "should be false if no facets are displayable" do
+      @config = Blacklight::Configuration.new do |config|
+        config.add_facet_field 'basic_field', :if => false
+      end
+
+      allow(helper).to receive_messages(:blacklight_config => @config)
+
+      a = double(:items => [1,2], :name=>'basic_field')
+      fields = [a]
+
       expect(helper.has_facet_values?(fields)).to be false
     end
   end
