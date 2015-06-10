@@ -27,6 +27,7 @@ fr:
 
     bookmarks:
       title: 'Favoris'
+      page_title: 'Favoris - %{application_name}'
       no_bookmarks: 'Accédez à votre compte pour conserver des références dans votre panier'
       add:
         button: 'Panier'
@@ -71,6 +72,7 @@ fr:
         success: 'Recherches effacées.'
         failure: 'Un problème est survenu lors de la suppression.'
       title: 'Recherches sauvegardées'
+      page_title: 'Recherches sauvegardées - %{application_name}'
       need_login: 'Veuillez vous connecter pour accéder à vos recherches.'
       no_searches: 'Vous n''avez sauvegardé aucune recherche.'
       list_title: 'Vos recherches'
@@ -83,6 +85,7 @@ fr:
         success: 'Votre historique de recherche a bien été effacé.'
         failure: 'Un problème est survenu lors de la suppression.'
       title: 'Historique de recherche'
+      title: 'Historique de recherche - %{application_name}'
       no_history: 'Il n''y a aucun historique en cours.'
       recent: 'Dernières recherches'
       forget: 'Supprimer'
@@ -152,7 +155,15 @@ fr:
     back_to_bookmarks: 'Retour aux favoris'
 
     search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: '%{application_name} Résultats de recherche'
+      page_title:
+        title: '%{constraints} - %{application_name} Résultats de recherche'
+        constraint: '%{label}: %{value}'
+        constraint_value:
+          one: '%{value}'
+          two: '%{value1} et %{value2}'
+          many: '%{values} sélectionné'
       search_results_header: 'Recherche'
       search_results: 'Résultats de recherche'
       errors:

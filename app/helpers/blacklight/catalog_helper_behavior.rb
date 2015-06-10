@@ -273,4 +273,38 @@ module Blacklight::CatalogHelperBehavior
     !sms_mappings.blank?
   end
 
+  def render_search_to_page_title_filter(facet, values)
+    facet_config = facet_configuration_for_field(facet)
+    filter_label = facet_field_label(facet_config.key)
+    filter_value = case values.size
+    when 1
+      t('blacklight.search.page_title.constraint_value.one', :value =>facet_display_value(facet, values.first))
+    when 2 
+      t('blacklight.search.page_title.constraint_value.two', :value1 => facet_display_value(facet, values.first), :value2 => facet_display_value(facet, values.last))
+    else 
+      t('blacklight.search.page_title.constraint_value.many', :values => values.size)
+    end
+    t('blacklight.search.page_title.constraint', :label => filter_label, :value => filter_value)
+  end
+
+  def render_search_to_page_title(params)
+    constraints = []
+
+    if params['q'].present?
+      q_label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
+
+      if q_label.present?
+        constraints += [t('blacklight.search.page_title.constraint', :label => q_label, :value => params['q'])]
+      else
+        constraints += [params['q']]
+      end
+    end
+
+    if params['f'].present?
+      constraints += params['f'].collect{ |key, value| render_search_to_page_title_filter(key, value) } unless params['f'].blank?
+    end
+
+    constraints.join(' / ')
+  end
+
 end
