@@ -27,6 +27,7 @@ it:
 
     bookmarks:
       title: 'Preferiti'
+      page_title: 'Preferiti - %{application_name}'
       no_bookmarks: 'Non è stato salvato nessun preferito.'
       add:
         button: 'Preferiti'
@@ -61,6 +62,7 @@ it:
         success: 'Tutte le ricerche salvate sono state cancellate.'
         failure: 'Si è verificato un errore nel cancellare le ricerche salvate.'
       title: 'Ricerche salvate'
+      page_title: 'Ricerche salvate - %{application_name}'
       need_login: 'Effettuare il login per gestire e visualizzare le ricerche salvate.'
       no_searches: 'Non è stata salvata nessuna ricerca.'
       list_title: 'Ricerche salvate'
@@ -73,6 +75,7 @@ it:
         success: 'Le ricerche effettuate sono state cancellate.'
         failure: 'Si è verificato un errore nel cancellare le ricerche effettuate.'
       title: 'Ricerche effettuate'
+      page_title: 'Ricerche effettuate - %{application_name}'
       no_history: 'Non è stata effettuata nessuna ricerca'
       recent: 'Ricerche effettuate'
       forget: 'dimentica'
@@ -139,7 +142,15 @@ it:
     back_to_bookmarks: 'Torna ai preferiti'
 
     search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: 'Risultati della ricerca per %{application_name}'
+      page_title:
+        title: '%{constraints} - %{application_name} Risultati della ricerca'
+        constraint: '%{label}: %{value}'
+        constraint_value:
+          one: '%{value}'
+          two: '%{value1} e %{value2}'
+          many: '%{values} selezionato'
       search_results_header: 'Ricerca'
       search_results: 'Risultati della ricerca'
       errors:

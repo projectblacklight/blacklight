@@ -27,6 +27,7 @@ de:
 
     bookmarks:
       title: 'Lesezeichen'
+      page_title: 'Lesezeichen - %{application_name}'
       no_bookmarks: 'Sie haben keine Lesezeichen'
       add:
         button: 'Lesezeichen'
@@ -61,6 +62,7 @@ de:
         success: 'Dein gespeicherte Suchen gab gelöscht.'
         failure: 'Es gab ein Problem beim löschen von Suchen.'
       title: 'Gespeicherte Suchen'
+      page_title: 'Gespeicherte Suchen - %{application_name}'
       need_login: 'Bitte melden Sie sich an, um dein gespeicherte Suchen anschauen und wervalten.'
       no_searches: 'Sie haben keine gespeicherte Suchen'
       list_title: 'Dein gespeicherte Suchen'
@@ -73,6 +75,7 @@ de:
         success: 'Suchverlauf gelöscht.'
         failure: 'Es gab ein Problem beim löschen von Suchverlauf.'
       title: 'Suchverlauf'
+      page_title: 'Suchverlauf - %{application_name}'
       no_history: 'Sie haben keine Suchverlauf'
       recent: 'Deine neueste Suchen'
       forget: 'vergessen'
@@ -139,7 +142,15 @@ de:
     back_to_bookmarks: 'Zuruch nach Lesezeichen'
 
     search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: '%{application_name} Suchergebnisse'
+      page_title:
+        title: '%{constraints} - %{application_name} Suchergebnisse'
+        constraint: '%{label}: %{value}'
+        constraint_value:
+          one: '%{value}'
+          two: '%{value1} und %{value2}'
+          many: '%{values} ausgewählt'
       search_results_header: 'Suchen'
       search_results: 'Suchergebnisse'
       errors:
