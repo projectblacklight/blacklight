@@ -171,8 +171,6 @@ fr:
           label: 'dans'
           title: 'Options de recherche'
         post_label: 'pour'
-        # i18n key 'q' is deprecated and will be removed in Blacklight 6.0, use 'search.label' and 'search.placeholder'
-        q: 'Rechercher '
         search:
           label: 'Rechercher'
           placeholder: 'Rechercher'
@@ -199,8 +197,6 @@ fr:
           count: 'Du + au - fréquent'
           index: 'Tri de A à Z'
         count: '%{number}'
-        # i18n key 'more' is deprecated and will be removed in Blacklight 6.0
-        more: 'plus »'
         more_html: 'plus <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[ X ]'
