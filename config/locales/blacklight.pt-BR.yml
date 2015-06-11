@@ -1,12 +1,4 @@
 pt-BR:
-  active_record:
-    models:
-      feedback: 'Feedback'
-    attributes:
-      feedback:
-        name: 'Seu Nome'
-        email: 'Seu Email'
-        message: 'Sua Mensagem'
   views:
     pagination:
       first: '&laquo; primeiro'
@@ -34,9 +26,6 @@ pt-BR:
     or: 'ou'
 
     bookmarks:
-      collection:
-        add:
-          button: 'Adicionar aos Favoritos'
       title: 'Favoritos'
       no_bookmarks: 'Você não salvou nenhum Favorito'
       add:
@@ -58,17 +47,6 @@ pt-BR:
       need_login: 'Faça o login para ver ou modificar seus favoritos.'
       list_title: 'Seus Favoritos'
       delete: 'Excluir'
-
-    feedback:
-      valid_name: 'Preencha o Nome'
-      valid_email: 'Verifique seu endereço de email'
-      need_message: 'Escreva uma mensagem'
-      submit: 'Enviar!'
-      errors:
-        title: 'Por favor corrija os seguintes erros no formulário:'
-      complete:
-        title: 'Obrigado por seu contato'
-
     saved_searches:
       add:
         success: 'Sua busca foi salva.'
