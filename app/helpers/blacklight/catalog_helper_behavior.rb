@@ -276,10 +276,7 @@ module Blacklight::CatalogHelperBehavior
   def render_search_to_page_title_filter(facet, values)
     facet_config = facet_configuration_for_field(facet)
     filter_label = facet_field_label(facet_config.key)
-    filter_value = case values.size
-    when 1
-      facet_display_value(facet, values.first)
-    when 2 
+    filter_value = if values.size < 3
       values.map {|value| facet_display_value(facet, value)}.to_sentence
     else 
       t('blacklight.search.page_title.many_constraint_values', values: values.size)
