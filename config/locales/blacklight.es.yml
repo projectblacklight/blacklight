@@ -147,10 +147,7 @@ es:
       page_title:
         title: '%{constraints} - %{application_name} Resultados de la búsqueda'
         constraint: '%{label}: %{value}'
-        constraint_value:
-          one: '%{value}'
-          two: '%{value1} y %{value2}'
-          many: '%{values} seleccionado'
+        many_constraint_values: '%{values} seleccionado'
       search_results_header: 'Buscar'
       search_results: 'Resultados de la búsqueda'
       errors:

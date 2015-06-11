@@ -167,10 +167,7 @@ pt-BR:
       page_title:
         title: '%{constraints} - %{application_name} Resultado da Busca'
         constraint: '%{label}: %{value}'
-        constraint_value:
-          one: '%{value}'
-          two: '%{value1} e %{value2}'
-          many: '%{values} selecionado'
+        many_constraint_values: '%{values} selecionado'
       search_results_header: 'Busca'
       search_results: 'Resultados da Busca'
       errors:
