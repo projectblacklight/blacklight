@@ -150,10 +150,7 @@ fr:
       page_title:
         title: '%{constraints} - %{application_name} Résultats de recherche'
         constraint: '%{label}: %{value}'
-        constraint_value:
-          one: '%{value}'
-          two: '%{value1} et %{value2}'
-          many: '%{values} sélectionné'
+        many_constraint_values: '%{values} sélectionné'
       search_results_header: 'Recherche'
       search_results: 'Résultats de recherche'
       errors:

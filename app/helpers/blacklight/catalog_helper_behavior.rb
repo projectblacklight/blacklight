@@ -278,13 +278,13 @@ module Blacklight::CatalogHelperBehavior
     filter_label = facet_field_label(facet_config.key)
     filter_value = case values.size
     when 1
-      t('blacklight.search.page_title.constraint_value.one', :value =>facet_display_value(facet, values.first))
+      facet_display_value(facet, values.first)
     when 2 
-      t('blacklight.search.page_title.constraint_value.two', :value1 => facet_display_value(facet, values.first), :value2 => facet_display_value(facet, values.last))
+      values.map {|value| facet_display_value(facet, value)}.to_sentence
     else 
-      t('blacklight.search.page_title.constraint_value.many', :values => values.size)
+      t('blacklight.search.page_title.many_constraint_values', values: values.size)
     end
-    t('blacklight.search.page_title.constraint', :label => filter_label, :value => filter_value)
+    t('blacklight.search.page_title.constraint', label: filter_label, value: filter_value)
   end
 
   def render_search_to_page_title(params)
@@ -294,7 +294,7 @@ module Blacklight::CatalogHelperBehavior
       q_label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
 
       if q_label.present?
-        constraints += [t('blacklight.search.page_title.constraint', :label => q_label, :value => params['q'])]
+        constraints += [t('blacklight.search.page_title.constraint', label: q_label, value: params['q'])]
       else
         constraints += [params['q']]
       end
