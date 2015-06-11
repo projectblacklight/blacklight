@@ -11,7 +11,7 @@
 # [:label]
 #   "Title",  # user-displayable label, optional, if not supplied :key.titlecase will be used
 # [:qt]
-#   "search", # Solr qt param, request handler, usually can be left blank; defaults to blacklight_config[:default_solr_params][:qt] if not specified. 
+#   "search", # Solr qt param, request handler, usually can be left blank; defaults to nil if not explicitly specified
 # [:solr_parameters]
 #   {:qf => "something"} # optional hash of additional parameters to pass to solr for searches on this field.
 # [:solr_local_parameters]

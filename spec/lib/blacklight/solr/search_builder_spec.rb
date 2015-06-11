@@ -130,8 +130,8 @@ describe Blacklight::Solr::SearchBuilder do
         expect(subject[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array ["format", "subject_topic_facet", "pub_date", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
       end
 
-      it "should have default qt"  do
-        expect(subject[:qt]).to eq "search"
+      it "should not have a default qt"  do
+        expect(subject[:qt]).to be_nil
       end
       it "should have no fq" do
         expect(subject[:phrase_filters]).to be_blank
