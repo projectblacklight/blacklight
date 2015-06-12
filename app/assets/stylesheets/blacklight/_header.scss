@@ -29,8 +29,7 @@
     border: 0;
   }
   .submit-search-text {
-    // hide 'search' label at very small screens, magnifying glass
-    // icon should still be there. 
+    // hide 'search' label at very small screens
     @media screen and (max-width: $screen-xs-min ) {      
       // copied from .sr-only, sadly can't seem to use @extend in a media
       // query like this, have to copy. 
