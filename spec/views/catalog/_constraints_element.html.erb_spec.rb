@@ -32,17 +32,6 @@ describe "catalog/_constraints_element.html.erb" do
     end
   end
 
-  describe "with checkmark suppressed" do
-    before do
-      render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:check => false}}
-    end
-    it "should not include checkmark" do
-      expect(rendered).to have_selector("span.appliedFilter") do |s|
-        expect(s).to_not have_selector("img[src$='checkmark.gif']")
-      end
-    end
-  end
-
   describe "with custom classes" do
     before do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:classes => ["class1", "class2"]}}
