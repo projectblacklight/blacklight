@@ -96,10 +96,6 @@ EOF
       copy_file "blacklight.en.yml", "config/locales/blacklight.en.yml"
     end
 
-    def add_blacklight_initializer
-      template "config/initializers/blacklight_initializer.rb"
-    end
-
     def generate_blacklight_marc_demo
       if options[:marc]
         gem "blacklight-marc", "~> 5.0"
