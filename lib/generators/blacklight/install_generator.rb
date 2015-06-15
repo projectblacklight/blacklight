@@ -16,10 +16,11 @@ module Blacklight
   This generator makes the following changes to your application:
    1. Generates blacklight:models
    2. Adds rsolr to the Gemfile
-   3. Creates a number of public assets, including images, stylesheets, and javascript
-   4. Injects behavior into your user application_controller.rb
-   5. Adds example configurations for dealing with MARC-like data
-   6. Adds Blacklight routes to your ./config/routes.rb
+   3. Adds globalid to the Gemfile
+   4. Creates a number of public assets, including images, stylesheets, and javascript
+   5. Injects behavior into your user application_controller.rb
+   6. Adds example configurations for dealing with MARC-like data
+   7. Adds Blacklight routes to your ./config/routes.rb
 
   Thank you for Installing Blacklight.
          """
@@ -37,6 +38,10 @@ module Blacklight
 
     def add_rsolr_gem
       gem "rsolr", "~> 1.0.6"
+    end
+
+    def add_globalid_gem
+      gem "globalid"
     end
 
     def bundle_install

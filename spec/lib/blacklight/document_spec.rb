@@ -59,4 +59,32 @@ describe Blacklight::Document do
       end
     end
   end
+
+  describe "#to_global_id" do
+    class MockDocument
+      include Blacklight::Document
+      include Blacklight::Document::ActiveModelShim
+    end
+
+    class MockResponse
+      attr_reader :response, :params
+
+      def initialize(response, params)
+        @response = response
+        @params = params
+      end
+
+      def documents
+        response.collect {|doc| MockDocument.new(doc, self)}
+      end
+    end
+
+    before do
+      allow(MockDocument.repository).to receive(:find).and_return(MockResponse.new([{id: 1}], {}))
+    end
+
+    it "should have a globalid" do
+      expect(MockDocument.find(1).to_global_id).to be_a GlobalID
+    end
+  end
 end
