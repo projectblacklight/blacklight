@@ -340,12 +340,10 @@ module Blacklight
       # too. These model names should not be `#dup`'ed or we might break ActiveModel::Naming.
       def deep_copy
         deep_dup.tap do |copy|
-          copy.repository_class = self.repository_class
-          copy.response_model = self.response_model
-          copy.document_model = self.document_model
-          copy.document_presenter_class = self.document_presenter_class
-          copy.search_builder_class = self.search_builder_class
-          copy.facet_paginator_class = self.facet_paginator_class
+          %w(repository_class response_model document_model document_presenter_class search_builder_class facet_paginator_class).each do |klass|
+            # Don't copy if nil, so as not to prematurely autoload default classes
+            copy.send("#{klass}=", send(klass)) unless fetch(klass.to_sym, nil).nil?
+          end
         end
       end
       alias_method :inheritable_copy, :deep_copy
