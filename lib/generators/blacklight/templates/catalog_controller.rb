@@ -1,9 +1,17 @@
 # -*- encoding : utf-8 -*-
-class <%= controller_name.classify %>Controller < ApplicationController  
+class CatalogController < ApplicationController  
+  include Blacklight::Marc::Catalog
 
   include Blacklight::Catalog
 
+  self.search_params_logic = true
+
   configure_blacklight do |config|
+
+    config.repository_class = Blacklight::Elasticsearch::Repository
+    config.document_model = ElasticsearchDocument
+    config.search_builder_class = Blacklight::Elasticsearch::SearchBuilder
+
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = { 
       :qt => 'search',
@@ -54,13 +62,13 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
-    config.add_facet_field 'format', :label => 'Format'
+    config.add_facet_field 'format', :label => 'Format', field: 'format.raw'
     config.add_facet_field 'pub_date', :label => 'Publication Year', :single => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20 
-    config.add_facet_field 'language_facet', :label => 'Language', :limit => true 
-    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number' 
-    config.add_facet_field 'subject_geo_facet', :label => 'Region' 
-    config.add_facet_field 'subject_era_facet', :label => 'Era'  
+    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20, field: 'subject_topic_facet.raw' 
+    config.add_facet_field 'language_facet', :label => 'Language', :limit => true , field: 'language_facet.raw'
+    config.add_facet_field 'lc_1letter_facet', :label => 'Call Number' , field: 'lc_1letter_facet.raw'
+    config.add_facet_field 'subject_geo_facet', :label => 'Region' , field: 'subject_geo_facet.raw'
+    config.add_facet_field 'subject_era_facet', :label => 'Era'  , field: 'subject_era_facet.raw'
 
     config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
 
@@ -124,54 +132,31 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # since we aren't specifying it otherwise. 
     
     config.add_search_field 'all_fields', :label => 'All Fields'
-    
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields. 
     
-    config.add_search_field('title') do |field|
-      # solr_parameters hash are sent to Solr as ordinary url query params. 
-      field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
-
-      # :solr_local_parameters will be sent using Solr LocalParams
-      # syntax, as eg {! qf=$title_qf }. This is neccesary to use
-      # Solr parameter de-referencing like $title_qf.
-      # See: http://wiki.apache.org/solr/LocalParams
-      field.solr_local_parameters = { 
-        :qf => '$title_qf',
-        :pf => '$title_pf'
-      }
-    end
+    config.add_search_field('title', template: { 
+      query: ({ match: { title_t: "{{q}}" } })
+    })
     
-    config.add_search_field('author') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-      field.solr_local_parameters = { 
-        :qf => '$author_qf',
-        :pf => '$author_pf'
-      }
-    end
+    config.add_search_field('author', template: { 
+      query: ({ match: { author_t: "{{q}}" } })
+    })
     
-    # Specifying a :qt only to show it's possible, and so our internal automated
-    # tests can test it. In this case it's the same as 
-    # config[:default_solr_parameters][:qt], so isn't actually neccesary. 
-    config.add_search_field('subject') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
-      field.qt = 'search'
-      field.solr_local_parameters = { 
-        :qf => '$subject_qf',
-        :pf => '$subject_pf'
-      }
-    end
+    config.add_search_field('subject', template: { 
+      query: ({ match: { subject_t: "{{q}}" } })
+    })
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', :label => 'relevance'
-    config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'year'
-    config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author'
-    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title'
+    config.add_sort_field 'relevance', sort: [{"_score" => { order: "desc" }}, {"pub_date_sort.raw" => { order: "desc"}}, { "title_sort.raw" => { order: "asc"}}], :label => 'relevance'
+    config.add_sort_field 'year', sort: [{"pub_date_sort.raw" => { order: "desc"}}, { "title_sort.raw" => { order: "asc"}}], :label => 'year'
+    config.add_sort_field 'author', sort: [{"author_sort.raw" => { order: "asc"}}, { "title_sort.raw" => { order: "asc"}}], :label => 'author'
+    config.add_sort_field 'title', sort: [{ "title_sort.raw" => { order: "asc"}}, {"pub_date_sort.raw" => { order: "desc"}}], :label => 'title'
 
     # If there are more than this many search results, no spelling ("did you 
     # mean") suggestion is offered.
