@@ -311,7 +311,7 @@ describe FacetsHelper do
       end
     end
     describe "simple case" do
-      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/catalog\">Z</a></span><span class=\"facet-count\">10</span>" }
+      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/catalog\">Z</a></span><div class=\"facet-count\"><span class=\"\">10</span></div>" }
       it "should use facet_display_value" do
         result = helper.render_facet_value('simple_field', item)
         expect(result).to be_equivalent_to(expected_html).respecting_element_order
@@ -319,7 +319,7 @@ describe FacetsHelper do
     end
 
     describe "when :url_method is set" do
-      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/blabla\">Z</a></span><span class=\"facet-count\">10</span>" }
+      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/blabla\">Z</a></span><div class=\"facet-count\"><span class=\"\">10</span></div>" }
       it "should use that method" do
         allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => :test_method))
         allow(helper).to receive(:test_method).with('simple_field', item).and_return('/blabla')
@@ -329,7 +329,7 @@ describe FacetsHelper do
     end
 
     describe "when :suppress_link is set" do
-      let(:expected_html) { "<span class=\"facet-label\">Z</span><span class=\"facet-count\">10</span>" }
+      let(:expected_html) { "<span class=\"facet-label\">Z</span><div class=\"facet-count\"><span class=\"\">10</span></div>" }
       it "should suppress the link" do
         result = helper.render_facet_value('simple_field', item, :suppress_link => true)
         expect(result).to be_equivalent_to(expected_html).respecting_element_order

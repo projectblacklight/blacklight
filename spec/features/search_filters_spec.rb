@@ -15,7 +15,7 @@ describe "Facets" do
     
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "6")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "6")
     end
 
     click_link "India"
@@ -24,11 +24,11 @@ describe "Facets" do
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
     within "#facet-subject_geo_facet" do
       expect(page).to have_selector("span.selected", :text => "India")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
   end
 
@@ -48,7 +48,7 @@ describe "Facets" do
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
     within "#appliedParams" do
       expect(page).to have_content "You searched for:"
@@ -62,11 +62,11 @@ describe "Facets" do
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "1")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "1")
     end
     within(".blacklight-pub_date") do 
       expect(page).to have_selector("span.selected", :text => "2004")
-      expect(page).to have_selector("span.facet-count.selected", :text => "1")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "1")
     end
   end
 
@@ -77,7 +77,7 @@ describe "Facets" do
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "6")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "6")
     end
     within "#facet-language_facet" do
       click_link 'remove'
@@ -95,29 +95,29 @@ describe "Facets" do
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
 
     click_link '2004'
 
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "1")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "1")
     end
     within(".blacklight-pub_date") do 
       expect(page).to have_selector("span.selected", :text => "2004")
-      expect(page).to have_selector("span.facet-count.selected", :text => "1")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "1")
     end
     fill_in "q", with: 'china'
     click_button 'search'
 
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "1")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "1")
     end
     within(".blacklight-pub_date") do 
       expect(page).to have_selector("span.selected", :text => "2004")
-      expect(page).to have_selector("span.facet-count.selected", :text => "1")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "1")
     end
   end
 
@@ -130,12 +130,12 @@ describe "Facets" do
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
     click_link 'title'
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
     within "#appliedParams" do
       expect(page).to have_content "You searched for:"
@@ -152,14 +152,14 @@ describe "Facets" do
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
     within '#per_page-dropdown' do
       click_link '20'
     end
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
-      expect(page).to have_selector("span.facet-count.selected", :text => "2")
+      expect(page).to have_selector("div.facet-count span.selected", :text => "2")
     end
     within "#appliedParams" do
       expect(page).to have_content "You searched for:"
