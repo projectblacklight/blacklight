@@ -27,6 +27,7 @@ pt-BR:
 
     bookmarks:
       title: 'Favoritos'
+      page_title: 'Favoritos - %{application_name}'
       no_bookmarks: 'Você não salvou nenhum Favorito'
       add:
         button: 'Favorito'
@@ -60,6 +61,7 @@ pt-BR:
         success: 'As buscas foram removidas.'
         failure: 'Xiii, ocorreu um erro ao remover suas pesquisas.'
       title: 'Pesquisas Salvas'
+      page_title: 'Pesquisas Salvas - %{application_name}'
       need_login: 'Por favor faça o login para gerenciar suas buscas salvas.'
       no_searches: 'Você não salvou nenhuma busca'
       list_title: 'Suas Buscas'
@@ -72,6 +74,7 @@ pt-BR:
         success: 'Histórico de Busca removido.'
         failure: 'Xiii, ocorreu um erro ao remover o histórico de busca.'
       title: 'Histórico de Busca'
+      page_title: 'Histórico de Busca - %{application_name}'
       no_history: 'Não existe nada em seu histórico'
       recent: 'Buscas Recentes'
       forget: 'limpar'
@@ -137,7 +140,12 @@ pt-BR:
     back_to_bookmarks: 'Voltar aos Favoritos'
 
     search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: '%{application_name} Resultado da Busca'
+      page_title:
+        title: '%{constraints} - %{application_name} Resultado da Busca'
+        constraint: '%{label}: %{value}'
+        many_constraint_values: '%{values} selecionado'
       search_results_header: 'Busca'
       search_results: 'Resultados da Busca'
       errors:

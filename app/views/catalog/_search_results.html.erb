@@ -1,6 +1,6 @@
 <h2 class="sr-only top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
 
-<% @page_title = t('blacklight.search.title', :application_name => application_name) %>
+<% @page_title = t('blacklight.search.page_title.title', :constraints => render_search_to_page_title(params), :application_name => application_name) %>
 
 
 <% content_for(:head) do -%>

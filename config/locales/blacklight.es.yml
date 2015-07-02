@@ -27,6 +27,7 @@ es:
 
     bookmarks:
       title: 'Favoritos'
+      page_title: 'Favoritos - %{application_name}'
       no_bookmarks: 'Usted no tiene favoritos'
       add:
         button: 'Favoritos'
@@ -61,6 +62,7 @@ es:
         success: 'Se borraron sus búsquedas guardadas'
         failure: 'Hubo un problema al borrar sus búsquedas.'
       title: 'Búsquedas guardadas'
+      page_title: 'Búsquedas guardadas - %{application_name}'
       need_login: 'Por favor, inicie sesión para administrar y ver sus búsquedas guardadas.'
       no_searches: 'No tienes búsquedas guardadas'
       list_title: 'Sus búsquedas guardadas'
@@ -73,6 +75,7 @@ es:
         success: 'Se borro el historial de búsqueda.'
         failure: 'Hubo un problema al borrar su historial de búsqueda.'
       title: 'Historia'
+      page_title: 'Historia - %{application_name}'
       no_history: 'Usted no tiene historial de búsqueda'
       recent: 'Sus búsquedas recientes'
       forget: 'Olvidar'
@@ -139,7 +142,12 @@ es:
     back_to_bookmarks: 'Volver a sus favoritos'
 
     search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: '%{application_name} Resultados de la búsqueda'
+      page_title:
+        title: '%{constraints} - %{application_name} Resultados de la búsqueda'
+        constraint: '%{label}: %{value}'
+        many_constraint_values: '%{values} seleccionado'
       search_results_header: 'Buscar'
       search_results: 'Resultados de la búsqueda'
       errors:

@@ -27,6 +27,7 @@ en:
 
     bookmarks:
       title: 'Bookmarks'
+      page_title: 'Bookmarks - %{application_name}'
       no_bookmarks: 'You have no bookmarks'
       add:
         button: 'Bookmark'
@@ -61,6 +62,7 @@ en:
         success: 'Cleared your saved searches.'
         failure: 'There was a problem clearing your searches.'
       title: 'Saved Searches'
+      page_title: 'Saved Searches - %{application_name}'
       need_login: 'Please log in to manage and view your saved searches.'
       no_searches: 'You have no saved searches'
       list_title: 'Your saved searches'
@@ -73,6 +75,7 @@ en:
         success: 'Cleared your search history.'
         failure: 'There was a problem clearing your search history.'
       title: 'Search History'
+      page_title: 'Search History - %{application_name}'
       no_history: 'You have no search history'
       recent: 'Your recent searches'
       forget: 'forget'
@@ -139,7 +142,12 @@ en:
     back_to_bookmarks: 'Back to Bookmarks'
 
     search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: '%{application_name} Search Results'
+      page_title: 
+        title: '%{constraints} - %{application_name} Search Results'
+        constraint: '%{label}: %{value}'
+        many_constraint_values: '%{values} selected'
       search_results_header: 'Search'
       search_results: 'Search Results'
       errors:
