@@ -17,7 +17,6 @@ end
 
 require 'rsolr'
 require 'blacklight'
-require 'blacklight/marc'
 
 require 'engine_cart'
 EngineCart.load_application!

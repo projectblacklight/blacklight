@@ -24,6 +24,19 @@ Generate blacklight testing configurations for blacklight's own tests, or for bl
 
     end
 
+    def solr_document_config
+      insert_into_file 'app/models/solr_document.rb', after: "include Blacklight::Solr::Document" do
+        <<-EOF
+
+            field_semantics.merge!(
+              title: "title_display",
+              author: "author_display",
+              language: "language_facet",
+              format: "format")
+        EOF
+      end
+    end
+
     def configure_action_mailer
       insert_into_file "config/environments/test.rb", :after => "config.action_mailer.delivery_method = :test\n" do <<-EOF
          config.action_mailer.default_options = {from: 'no-reply@example.org'}

@@ -17,13 +17,12 @@ class TestAppGenerator < Rails::Generators::Base
 
   def run_blacklight_generator
     say_status("warning", "GENERATING BL", :yellow)       
-    gem 'blacklight-marc', "~> 5.0", :github => 'projectblacklight/blacklight_marc'
 
     Bundler.with_clean_env do
       run "bundle install"
     end
 
-    generate 'blacklight:install', '--devise --marc --jettywrapper'
+    generate 'blacklight:install', '--devise --jettywrapper'
   end
 
   def run_test_support_generator

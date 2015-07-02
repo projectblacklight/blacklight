@@ -14,21 +14,15 @@ desc "Run test suite"
 task :ci => ['blacklight:generate', 'blacklight:clean'] do
   jetty_params = Jettywrapper.load_config('test')
   error = Jettywrapper.wrap(jetty_params) do
-    Rake::Task["blacklight:fixtures"].invoke
+    within_test_app do
+      system "RAILS_ENV=test rake blacklight:index:seed"
+    end
     Rake::Task['blacklight:coverage'].invoke
   end
   raise "test failures: #{error}" if error
 end
 
 namespace :blacklight do
-  desc "Load fixtures"
-  task :fixtures => [:generate] do
-    within_test_app do
-      system "rake solr:marc:index_test_data RAILS_ENV=test"
-      abort "Error running fixtures" unless $?.success?
-    end
-  end
-
   desc "Run tests with coverage"
   task :coverage do
     ENV['COVERAGE'] = 'true'

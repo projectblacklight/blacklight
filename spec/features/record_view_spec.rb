@@ -37,13 +37,4 @@ describe "Record View" do
     expect(page.driver.status_code).to eq 404
     expect(page).to have_content "The page you were looking for doesn't exist." 
   end
-  
-  describe "Tools" do
-    it "should have a refworks link" do
-      visit catalog_path('2008305903')
-      expect(page).to have_link "Export to Refworks"
-      link = find_link("Export to Refworks")
-      expect(link['href']).to include CGI.escape(catalog_path('2008305903', format: :refworks_marc_txt))
-    end
-  end
 end

@@ -80,18 +80,4 @@ describe "Bookmarks" do
     expect(page).to have_content 'Strong Medicine speaks'
     expect(page).not_to have_content 'Ci an zhou bian'
   end
-
-  it "should have an endnote export" do
-    visit catalog_path('2007020969')
-    click_button 'Bookmark'
-    visit "/bookmarks.endnote?q="
-    expect(page).to have_content " %@ 9780743297790"
-  end
-
-  it "should have a refworks export" do
-    visit catalog_path('2007020969')
-    click_button 'Bookmark'
-    visit "/bookmarks.refworks_marc_txt?q="
-    expect(page).to have_content "LEADER 01490cam a2200361 a 4500001      2007020969"
-  end
 end
