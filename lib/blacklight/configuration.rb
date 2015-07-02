@@ -30,8 +30,6 @@ module Blacklight
           # HTTP method to use when making requests to solr; valid
           # values are :get and :post.
           http_method: :get,
-          # The solr request handler ('qt') to use for search requests
-          qt: 'search',
           # The path to send requests to solr.
           solr_path: 'select',
           # Default values of parameters to send with every search request
