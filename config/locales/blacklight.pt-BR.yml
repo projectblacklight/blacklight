@@ -156,8 +156,6 @@ pt-BR:
           label: 'Procurar em'
           title: 'Opções da Busca'
           post_label: 'por'
-        # i18n key 'q' is deprecated and will be removed in Blacklight 6.0, use 'search.label' and 'search.placeholder'
-        q: 'Busca...'
         search:
           label: 'busca'
           placeholder: 'Busca...'
@@ -181,8 +179,6 @@ pt-BR:
           count: 'Ordenar por Número'
           index: 'Ordem Alfabética A-Z'
         count: '%{number}'
-        # i18n key 'more' is deprecated and will be removed in Blacklight 6.0
-        more: 'mais »'
         more_html: 'mais <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[remover]'
