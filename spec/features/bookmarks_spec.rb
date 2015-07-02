@@ -22,11 +22,11 @@ describe "Bookmarks" do
   it "add and remove bookmarks from search results" do
     sign_in 'user1'
     visit root_path
-    fill_in "q", with: 'book'
+    fill_in "q", with: 'Sumadhvavijayaḥ'
     click_button 'search'
     click_button 'Bookmark'
     expect(page).to have_content 'Successfully added bookmark.'
-    fill_in "q", with: 'book'
+    fill_in "q", with: 'Sumadhvavijayaḥ'
     click_button 'search'
     click_button 'Remove bookmark'
     expect(page).to have_content 'Successfully removed bookmark.'

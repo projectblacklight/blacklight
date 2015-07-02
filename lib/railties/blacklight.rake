@@ -13,6 +13,8 @@ namespace :blacklight do
   namespace :index do
     desc "Put sample data into solr"
     task :seed do
+      require 'yaml'
+
       docs = YAML::load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
       conn = Blacklight.default_index.connection
       conn.add docs
