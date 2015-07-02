@@ -34,6 +34,7 @@ module Blacklight::Document
   included do
     extend ActiveModel::Naming
     include Blacklight::Document::Extensions
+    include GlobalID::Identification
   end    
 
   attr_reader :response, :_source

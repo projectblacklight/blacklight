@@ -10,8 +10,6 @@ rvm:
 matrix:
   include:
     - rvm: 2.2.2
-      env: "RAILS_VERSION=4.0.12"
-    - rvm: 2.2.2
       env: "RAILS_VERSION=4.1.9"
     - rvm: 2.1.6
       env: "RAILS_VERSION=4.2.1"

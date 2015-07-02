@@ -14,6 +14,14 @@ module Blacklight::Document
       def base_class
         self
       end
+
+      def repository
+        Blacklight.default_index
+      end
+
+      def find id
+        repository.find(id).documents.first
+      end
     end
     
     ##
