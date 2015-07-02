@@ -23,12 +23,7 @@ module Blacklight
       # CatalogController.include ModuleDefiningNewMethod
       # CatalogController.search_params_logic += [:new_method]
       # CatalogController.search_params_logic.delete(:we_dont_want)
-      self.search_params_logic = [
-        :default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr,
-        :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
-        :add_sorting_to_solr, :add_group_config_to_solr,
-        :add_facet_paging_to_solr
-      ]
+      self.search_params_logic = true
 
       if self.respond_to?(:helper_method)
         helper_method(:facet_limit_for)
