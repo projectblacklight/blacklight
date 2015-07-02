@@ -3,19 +3,7 @@ module Blacklight
 
   module Utils
     def self.needs_attr_accessible?
-      if rails_3?
-        !strong_parameters_enabled?
-      else
-        protected_attributes_enabled?
-      end
-    end
-
-    def self.rails_3?
-      Rails::VERSION::MAJOR == 3
-    end
-
-    def self.strong_parameters_enabled?
-      defined?(ActionController::StrongParameters)
+      protected_attributes_enabled?
     end
 
     def self.protected_attributes_enabled?
