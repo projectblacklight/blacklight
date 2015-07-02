@@ -16,20 +16,6 @@ module Blacklight
   class OpenStructWithHashAccess < OpenStruct
     delegate :keys, :each, :map, :has_key?, :key?, :include?, :empty?, :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!, :replace, :fetch, :to_json, :as_json, to: :to_h
 
-    if ::RUBY_VERSION < '2.0'
-      def []=(key, value)
-        send "#{key}=", value
-      end
-
-      def [](key)
-        send key
-      end
-
-      def respond_to? method, *args
-        super(method, *args) || has_key?(method.to_sym)
-      end
-    end
-
     ##
     # Expose the internal hash
     # @return [Hash]
@@ -121,8 +107,6 @@ module Blacklight
     def []=(key, value)
       if value.is_a? Hash
         send "#{key}=", nested_class.new(value)
-      elsif ::RUBY_VERSION < '2.0'
-        send "#{key}=", value
       else
         super
       end
