@@ -244,30 +244,6 @@ module Blacklight::CatalogHelperBehavior
 
   alias_method :is_bookmarked?, :bookmarked?
   deprecation_deprecate :is_bookmarked?
-  
-  def render_marc_tools
-    return unless defined? Blacklight::Marc
-    
-    begin
-      # blacklight-marc 5.4+
-      render 'marc_tools'
-    rescue ActionView::MissingTemplate
-      # blacklight-marc 5.0+
-      render('endnote') + render('refworks')
-    end
-  end
-
-  def render_refworks_action? config, options = {}
-    options[:document] && options[:document].respond_to?(:export_formats) && options[:document].export_formats.keys.include?(:refworks_marc_txt )
-  end
-
-  def render_endnote_action? config, options = {}
-    options[:document] && options[:document].respond_to?(:export_formats) && options[:document].export_formats.keys.include?(:endnote )
-  end
-
-  def render_librarian_view_control? config, options = {}
-    respond_to? :librarian_view_catalog_path and options[:document] and options[:document].respond_to?(:to_marc)
-  end
 
   def render_sms_action? config, options = {}
     !sms_mappings.blank?

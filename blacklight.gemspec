@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
   s.add_dependency "deprecation"
 
   s.add_development_dependency "jettywrapper", ">= 1.7.0"
-  s.add_development_dependency "blacklight-marc", "~> 5.0"
   s.add_development_dependency "rspec-rails", "~> 3.0"
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
