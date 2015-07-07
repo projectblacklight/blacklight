@@ -65,6 +65,10 @@ span.constraints-label {
     padding-top: $padding-base-vertical;
     border-bottom:1px dotted $table-border-color;
     @extend .clearfix;
+  
+    .document-title-heading {
+      @extend h5;
+    }
   }
 }
 

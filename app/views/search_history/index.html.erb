@@ -1,9 +1,9 @@
 <% @page_title = t('blacklight.search_history.page_title', :application_name => application_name) %>
 
 <div id="content" class="col-md-12">
-<h1 class='page-heading'><%=t('blacklight.search_history.title')%></h1>
+<h2 class='page-heading'><%=t('blacklight.search_history.title')%></h2>
 <%- if @searches.blank? -%>
-  <h2 class='section-heading'><%=t('blacklight.search_history.no_history')%></h2>
+  <h3 class='section-heading'><%=t('blacklight.search_history.no_history')%></h3>
 <%- else -%>
     <%= link_to t('blacklight.search_history.clear.action_title'), clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger pull-right' %>
   <h3 class='section-heading'><%=t('blacklight.search_history.recent')%></h3>
