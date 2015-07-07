@@ -3,41 +3,6 @@
   margin-bottom: 0;
 }
 
-#librarian_view
-{
-	left:-17%;
-	text-align:left;
-	top:10%;
-	width:700px;
-}
-
-#marc_view
-{
-	text-align:left;
-
-  .field
-  {
-    border-bottom: $marc_item_separator;
-    clear:both;
-  }
-
-  .ind1, .ind2
-  {
-    display:inline;
-    padding:0 $padding-xs-horizontal;
-  }
-
-  .subfields
-  {
-    padding-left:5em;
-  }
-
-  .tag_ind
-  {
-    float:left;
-  }
-}
-
 .constraints-container {
   @extend .well;
   line-height: 2.5;

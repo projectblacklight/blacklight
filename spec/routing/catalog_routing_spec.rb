@@ -18,10 +18,6 @@ describe "Routing" do
     it "should map { :controller => 'catalog', :action => 'show', :id => 666 } to /catalog/666" do
       expect(:get => "/catalog/666").to route_to(:controller => 'catalog', :action => 'show', :id => "666")
     end
-    it "should map {:controller => 'catalog', :id => '111', :action => 'librarian_view'} to /catalog/111/librarian_view" do
-      expect(:get => "/catalog/111/librarian_view").to route_to(:controller => 'catalog', :action => 'librarian_view', :id => "111")
-      expect(:get => librarian_view_catalog_path('111')).to route_to(:controller => 'catalog', :action => 'librarian_view', :id => "111")
-    end
   end
 
 

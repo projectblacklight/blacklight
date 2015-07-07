@@ -2,7 +2,6 @@
 # Only works for documents with a #to_marc right now. 
 class RecordMailer < ActionMailer::Base
   def email_record(documents, details, url_gen_params)
-    #raise ArgumentError.new("RecordMailer#email_record only works with documents with a #to_marc") unless document.respond_to?(:to_marc)
         
     subject = I18n.t('blacklight.email.text.subject', :count => documents.length, :title => (documents.first.to_semantic_values[:title] rescue 'N/A') )
 

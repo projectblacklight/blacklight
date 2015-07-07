@@ -1,6 +1,0 @@
-<%# this partial is used by blacklight-marc 5.0 %>
-<%= form_tag refworks_export_url, :name => "refworks", :role => 'form', :target => "_blank", :id => "refworks-form" do %>
-
-<%= hidden_field_tag "ImportData", render_refworks_texts(documents) %>
-<%= submit_tag t('blacklight.tools.refworks'), :class => 'submit btn btn-default'%>
-<% end %>

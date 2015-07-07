@@ -9,7 +9,6 @@ gem 'simplecov', '~> 0.7.1', require: false
 gem 'coveralls', require: false
 
 group :test do
-  gem "blacklight-marc", "~> 5.0", github: "projectblacklight/blacklight_marc"
   gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
 end
 
@@ -20,10 +19,11 @@ if File.exists?(file)
 else
   gem 'rails', ENV['RAILS_VERSION'] if ENV['RAILS_VERSION']
 
-  if ENV['RAILS_VERSION'] and ENV['RAILS_VERSION'] =~ /^4.2/
+  if ENV['RAILS_VERSION'].nil? || ENV['RAILS_VERSION'] > "4.2"
     gem 'responders', "~> 2.0"
     gem 'sass-rails', ">= 5.0"
   else
+    gem 'bootstrap-sass', '< 3.3.5' # 3.3.5 requires sass 3.3, incompatible with sass-rails 4.x
     gem 'sass-rails', "< 5.0"
   end
 end
