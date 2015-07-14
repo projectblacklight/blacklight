@@ -1,4 +1,3 @@
-//= require blacklight/core
 (function($) {
   Blacklight.onLoad(function() {
     // adjust width of facet columns to fit their contents
