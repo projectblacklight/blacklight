@@ -13,18 +13,18 @@ rvm:
 matrix:
   include:
     - rvm: 2.2.2
-      env: "RAILS_VERSION=4.1.9"
+      env: "RAILS_VERSION=4.1.12"
     - rvm: 2.1.6
-      env: "RAILS_VERSION=4.2.1"
+      env: "RAILS_VERSION=4.2.3"
   allow_failures:
     - rvm: jruby
-      env: "RAILS_VERSION=4.2.1 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+      env: "RAILS_VERSION=4.2.3 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
 
 before_install:
   - gem install bundler
 
 env:
- - "RAILS_VERSION=4.2.1"
+ - "RAILS_VERSION=4.2.3"
 
 notifications:
   irc: "irc.freenode.org#blacklight"
