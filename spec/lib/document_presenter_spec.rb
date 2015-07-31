@@ -6,17 +6,17 @@ describe Blacklight::DocumentPresenter do
   let(:config) { Blacklight::Configuration.new }
 
   subject { Blacklight::DocumentPresenter.new(document, request_context, config) }
-  
+
   let(:document) do
-    SolrDocument.new(id: 1, 
-                     'link_to_search_true' => 'x', 
+    SolrDocument.new(id: 1,
+                     'link_to_search_true' => 'x',
                      'link_to_search_named' => 'x',
                      'qwer' => 'document qwer value',
                      'mnbv' => 'document mnbv value')
   end
 
   describe "render_index_field_value" do
-    let(:config) do 
+    let(:config) do
       Blacklight::Configuration.new.configure do |config|
         config.add_index_field 'qwer'
         config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
@@ -91,7 +91,7 @@ describe Blacklight::DocumentPresenter do
       value = subject.render_index_field_value 'explicit_accessor'
       expect(value).to eq "123"
     end
-    
+
     it "should call an accessor on the solr document with the field as an argument" do
       allow(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
       value = subject.render_index_field_value 'explicit_accessor_with_arg'
@@ -102,15 +102,15 @@ describe Blacklight::DocumentPresenter do
       value = subject.render_index_field_value 'alias'
       expect(value).to eq "document qwer value"
     end
-    
+
     it "should support default values in the field configuration" do
       value = subject.render_index_field_value 'with_default'
       expect(value).to eq "value"
     end
   end
-  
+
   describe "render_document_show_field_value" do
-    let(:config) do 
+    let(:config) do
       Blacklight::Configuration.new.configure do |config|
         config.add_show_field 'qwer'
         config.add_show_field 'asdf', :helper_method => :render_asdf_document_show_field
@@ -213,7 +213,7 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should include schema.org itemprop attributes" do
-      expect(subject.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a") 
+      expect(subject.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a")
     end
   end
 
