@@ -34,8 +34,7 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Create <link rel="alternate"> links from a documents dynamically
-  # provided export formats. Currently not used by standard BL layouts,
-  # but available for your custom layouts to provide link rel alternates.
+  # provided export formats.
   #
   # Returns empty string if no links available.
   #
@@ -46,18 +45,7 @@ module Blacklight::BlacklightHelperBehavior
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output
   def render_link_rel_alternates(document=@document, options = {})
     return if document.nil?
-
-    options = { unique: false, exclude: [] }.merge(options)
-
-    seen = Set.new
-
-    safe_join(document.export_formats.map do |format, spec|
-      next if options[:exclude].include?(format) || (options[:unique] && seen.include?(spec[:content_type]))
-
-      seen.add(spec[:content_type])
-
-      tag(:link, rel: "alternate", title: format, type: spec[:content_type], href: polymorphic_url(document, format: format))
-    end.compact, "\n")
+    presenter(document).link_rel_alternates(options)
   end
 
   ##

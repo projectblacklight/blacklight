@@ -5,7 +5,8 @@ describe Blacklight::DocumentPresenter do
   let(:request_context) { double(:add_facet_params => '') }
   let(:config) { Blacklight::Configuration.new }
 
-  subject { Blacklight::DocumentPresenter.new(document, request_context, config) }
+  subject { presenter }
+  let(:presenter) { Blacklight::DocumentPresenter.new(document, request_context, config) }
 
   let(:document) do
     SolrDocument.new(id: 1,
@@ -13,6 +14,79 @@ describe Blacklight::DocumentPresenter do
                      'link_to_search_named' => 'x',
                      'qwer' => 'document qwer value',
                      'mnbv' => 'document mnbv value')
+  end
+
+  describe "link_rel_alternates" do
+    before do
+      class MockDocument
+        include Blacklight::Solr::Document
+      end
+
+      module MockExtension
+         def self.extended(document)
+           document.will_export_as(:weird, "application/weird")
+           document.will_export_as(:weirder, "application/weirder")
+           document.will_export_as(:weird_dup, "application/weird")
+         end
+         def export_as_weird ; "weird" ; end
+         def export_as_weirder ; "weirder" ; end
+         def export_as_weird_dup ; "weird_dup" ; end
+      end
+
+      MockDocument.use_extension(MockExtension)
+
+      def mock_document_app_helper_url *args
+        solr_document_url(*args)
+      end
+
+      allow(request_context).to receive(:polymorphic_url) do |_, opts|
+        "url.#{opts[:format]}"
+      end
+    end
+
+    let(:document) { MockDocument.new(id: "MOCK_ID1") }
+
+    context "with no arguments" do
+      subject { presenter.link_rel_alternates }
+
+      it "generates <link rel=alternate> tags" do
+        tmp_value = Capybara.ignore_hidden_elements
+        Capybara.ignore_hidden_elements = false
+        document.export_formats.each_pair do |format, spec|
+          expect(subject).to have_selector("link[href$='.#{ format  }']") do |matches|
+            expect(matches).to have(1).match
+            tag = matches[0]
+            expect(tag.attributes["rel"].value).to eq "alternate"
+            expect(tag.attributes["title"].value).to eq format.to_s
+            expect(tag.attributes["href"].value).to eq mock_document_app_helper_url(document, format: format)
+          end
+        end
+        Capybara.ignore_hidden_elements = tmp_value
+      end
+
+      it { is_expected.to be_html_safe }
+    end
+
+    context "with unique: true" do
+      subject { presenter.link_rel_alternates(unique: true) }
+
+      it "respects unique: true" do
+        tmp_value = Capybara.ignore_hidden_elements
+        Capybara.ignore_hidden_elements = false
+        expect(subject).to have_selector("link[type='application/weird']", count: 1)
+        Capybara.ignore_hidden_elements = tmp_value
+      end
+    end
+
+    context "with exclude" do
+      subject { presenter.link_rel_alternates(unique: true) }
+      it "excludes formats from :exclude" do
+        tmp_value = Capybara.ignore_hidden_elements
+        Capybara.ignore_hidden_elements = false
+        expect(subject).to_not have_selector("link[href$='.weird_dup']")
+        Capybara.ignore_hidden_elements = tmp_value
+      end
+    end
   end
 
   describe "render_index_field_value" do

@@ -31,6 +31,29 @@ module Blacklight
     end
 
     ##
+    # Create <link rel="alternate"> links from a documents dynamically
+    # provided export formats. Returns empty string if no links available.
+    #
+    # @params [SolrDocument] document
+    # @params [Hash] options
+    # @option options [Boolean] :unique ensures only one link is output for every
+    #     content type, e.g. as required by atom
+    # @option options [Array<String>] :exclude array of format shortnames to not include in the output
+    def link_rel_alternates(options = {})
+      options = { unique: false, exclude: [] }.merge(options)
+
+      seen = Set.new
+
+      safe_join(@document.export_formats.map do |format, spec|
+        next if options[:exclude].include?(format) || (options[:unique] && seen.include?(spec[:content_type]))
+
+        seen.add(spec[:content_type])
+
+        tag(:link, rel: "alternate", title: format, type: spec[:content_type], href: @controller.polymorphic_url(@document, format: format))
+      end.compact, "\n")
+    end
+
+    ##
     # Get the document's "title" to display in the <title> element.
     # (by default, use the #document_heading)
     #
