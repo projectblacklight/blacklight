@@ -16,7 +16,7 @@ module Blacklight::BlacklightHelperBehavior
   # Get the name of this application, from either:
   #  - the Rails configuration
   #  - an i18n string (key: blacklight.application_name; preferred)
-  # 
+  #
   # @return [String] the application name
   def application_name
     return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
@@ -43,7 +43,7 @@ module Blacklight::BlacklightHelperBehavior
   # @params [Hash] options
   # @option options [Boolean] :unique ensures only one link is output for every
   #     content type, e.g. as required by atom
-  # @option options [Array<String>] :exclude array of format shortnames to not include in the output 
+  # @option options [Array<String>] :exclude array of format shortnames to not include in the output
   def render_link_rel_alternates(document=@document, options = {})
     return if document.nil?
 
@@ -61,7 +61,7 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render OpenSearch headers for this search 
+  # Render OpenSearch headers for this search
   # @return [String]
   def render_opensearch_response_metadata
     render :partial => 'catalog/opensearch_response_metadata'
@@ -91,7 +91,7 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Determine whether to render a given field in the index view.
-  #  
+  #
   # @param [SolrDocument] document
   # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
@@ -108,7 +108,7 @@ module Blacklight::BlacklightHelperBehavior
   def should_render_show_field? document, field_config
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
   end
-  
+
   ##
   # Check if a document has (or, might have, in the case of accessor methods) a value for
   # the given solr field
@@ -142,7 +142,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field    
+  #   @options opts [String] :field
   def render_index_field_label *args
     options = args.extract_options!
     document = args.first
@@ -165,7 +165,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field 
+  #   @options opts [String] :field
   #   @options opts [String] :value
   # @overload render_index_field_value(document, field, options)
   #   Allow an extention point where information in the document
@@ -194,7 +194,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field   
+  #   @options opts [String] :field
   def render_document_show_field_label *args
     options = args.extract_options!
     document = args.first
@@ -218,7 +218,7 @@ module Blacklight::BlacklightHelperBehavior
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field 
+  #   @options opts [String] :field
   #   @options opts [String] :value
   # @overload render_document_show_field_value(document, field, options)
   #   Allow an extention point where information in the document
@@ -296,7 +296,7 @@ module Blacklight::BlacklightHelperBehavior
   # Rendering:
   #   - helper_method
   #   - link_to_search
-  # TODO : maybe this should be merged with render_field_value, and the ugly signature 
+  # TODO : maybe this should be merged with render_field_value, and the ugly signature
   # simplified by pushing some of this logic into the "model"
   # @param [SolrDocument] document
   # @param [String] field name
@@ -335,7 +335,7 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Get the current "view type" (and ensure it is a valid type)
-  # 
+  #
   # @param [Hash] the query parameters to check
   # @return [Symbol]
   def document_index_view_type query_params=params
@@ -384,14 +384,14 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Should we render a grouped response (because the response 
-  # contains a grouped response instead of the normal response) 
+  # Should we render a grouped response (because the response
+  # contains a grouped response instead of the normal response)
   def render_grouped_response? response = @response
     return response.grouped?
   end
 
   ##
-  # Determine whether to render the bookmarks control 
+  # Determine whether to render the bookmarks control
   def render_bookmarks_control?
     has_user_authentication_provider? and current_or_guest_user.present?
   end
@@ -413,7 +413,7 @@ module Blacklight::BlacklightHelperBehavior
   def presenter_class
     blacklight_config.document_presenter_class
   end
-  
+
   ##
   # Open Search discovery tag for HTML <head> links
   def opensearch_description_tag title, href
