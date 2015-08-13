@@ -153,17 +153,34 @@ describe Blacklight::SolrResponse do
     expect(r.spelling.words).to eq []
   end
 
-  it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
-    raw_response = eval(mock_response_with_spellcheck_collation)
-    r = Blacklight::SolrResponse.new(raw_response, {})
-    expect(r.spelling.words).to include("dell")
-    expect(r.spelling.words).to include("ultrasharp")
+  context "pre solr 5 spellcheck collation syntax" do
+    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
+      raw_response = eval(mock_response_with_spellcheck_collation)
+      r = Blacklight::SolrResponse.new(raw_response, {})
+      expect(r.spelling.words).to include("dell")
+      expect(r.spelling.words).to include("ultrasharp")
+    end
+
+    it 'should provide spelling suggestion collation' do
+      raw_response = eval(mock_response_with_spellcheck_collation)
+      r = Blacklight::SolrResponse.new(raw_response, {})
+      expect(r.spelling.collation).to eq 'dell ultrasharp'
+    end
   end
 
-  it 'should provide spelling suggestion collation' do
-    raw_response = eval(mock_response_with_spellcheck_collation)
-    r = Blacklight::SolrResponse.new(raw_response, {})
-    expect(r.spelling.collation).to eq 'dell ultrasharp'
+  context "solr 5 spellcheck collation syntax" do
+    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
+      raw_response = eval(mock_response_with_spellcheck_collation_solr5)
+      r = Blacklight::SolrResponse.new(raw_response, {})
+      expect(r.spelling.words).to include("dell")
+      expect(r.spelling.words).to include("ultrasharp")
+    end
+
+    it 'should provide spelling suggestion collation' do
+      raw_response = eval(mock_response_with_spellcheck_collation_solr5)
+      r = Blacklight::SolrResponse.new(raw_response, {})
+      expect(r.spelling.collation).to eq 'dell ultrasharp'
+    end
   end
 
   it "should provide MoreLikeThis suggestions" do
@@ -206,6 +223,10 @@ describe Blacklight::SolrResponse do
   # it can be the case that extended results are off and collation is on
   def mock_response_with_spellcheck_collation
     %|{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']},'collation','dell ultrasharp']}}|
+  end
+
+  def mock_response_with_spellcheck_collation_solr5
+    %|{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']}],'collations'=>['collation','dell ultrasharp']}}|
   end
   
   def mock_response_with_more_like_this
