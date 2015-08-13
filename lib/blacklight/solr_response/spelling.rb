@@ -81,6 +81,8 @@ module Blacklight::SolrResponse::Spelling
           unless suggestions.nil?
             if suggestions.index("collation")
               suggestions[suggestions.index("collation") + 1]
+            elsif spellcheck.key?("collations")
+              spellcheck['collations'].last
             end
           end
         end
