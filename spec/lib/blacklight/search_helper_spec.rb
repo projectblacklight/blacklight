@@ -118,6 +118,27 @@ describe Blacklight::SearchHelper do
       end
     end
 
+    describe "with SearchBuilder replacement block" do
+      it "should pass configured SearchBuilder and use returned SearchBuilder" do
+        replacement_search_builder = subject.search_builder([:new_chain])
+
+        # Sorry, have to use mocks to make sure method really passes the
+        # block return value to the repository search, couldn't figure
+        # out a better way to test. 
+        expect(subject.repository).to receive(:search) do |arg_search_builder|
+          expect(arg_search_builder).to equal(replacement_search_builder)
+        end.and_return(
+          blacklight_config.response_model.new({'response'=>{'docs'=>[]}}, {}, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
+        )
+
+        subject.search_results({q: @no_docs_query}, [:one, :two]) do |arg_search_builder|
+          expect(arg_search_builder.processor_chain).to eq([:one, :two])
+
+          replacement_search_builder
+        end
+      end
+    end
+
     describe "#get_search_results " do
       it "should be deprecated and return results" do
         expect(Deprecation).to receive(:warn)
