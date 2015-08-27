@@ -47,6 +47,17 @@ describe Blacklight::SearchBuilder do
     end
   end
 
+  describe "#except" do
+    let(:processor_chain) { [:a, :b, :c, :d, :e] }
+    it "should provide a new search builder excepting arguments" do
+      builder = subject.except(:b, :d, :does_not_exist)
+      expect(builder).not_to equal(subject)
+      expect(subject.processor_chain).to eq processor_chain
+      expect(builder.processor_chain).not_to eq subject.processor_chain
+      expect(builder.processor_chain).to match_array [:a, :c, :e]
+    end
+  end
+
   describe "#to_hash" do
     it "should append the extra parameters to the result" do
       Deprecation.silence(Blacklight::SearchBuilder) do
