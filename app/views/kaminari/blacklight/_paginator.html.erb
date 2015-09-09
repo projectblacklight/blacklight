@@ -11,7 +11,7 @@
 <%= paginator.render do -%>
   <ul class="pagination">
     <%= prev_page_tag %>
-    <%= next_page_tag  %>
+    <%= next_page_cursor_tag  %>
     <% each_relevant_page do |page| -%>
       <% if page.left_outer? || page.right_outer? || page.inside_window? -%>
         <%= page_tag page %>

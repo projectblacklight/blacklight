@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'kaminari'
+require 'kaminari/helpers/next_page_cursor'
 require 'deprecation'
 require 'blacklight/utils'
 

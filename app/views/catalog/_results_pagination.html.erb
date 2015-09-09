@@ -2,7 +2,7 @@
  <div class="row record-padding">
   <div class="col-md-9"> 
     <div class="pagination">
-      <%= paginate @response, :outer_window => 2, :theme => 'blacklight' %>
+      <%= paginate @response, :outer_window => 2, :theme => 'blacklight', next_cursor_mark: @response.next_cursor_mark %>
     </div>
   </div>
  </div>
