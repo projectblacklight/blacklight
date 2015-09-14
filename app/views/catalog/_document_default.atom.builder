@@ -1,7 +1,6 @@
 xml.entry do
-  
-  
-  xml.title   document.to_semantic_values[:title][0] || presenter(document).render_document_index_label(document_show_link_field(document))
+
+  xml.title presenter(document).render_document_index_label(document_show_link_field(document))
   
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")

@@ -225,7 +225,12 @@ module Blacklight
 
     def locate_search_builder_class
       ::SearchBuilder
-    rescue NameError
+    rescue NameError => e
+      # If the NameError is a result of the SearchBuilder having a
+      # NameError (e.g. NoMethodError) within it then raise the error.
+      raise e if Object.const_defined? "::SearchBuilder"
+
+      # Otherwise the NameError was a result of not being able to find SearchBuilder
       Deprecation.warn(Configuration, "Your application is missing the SearchBuilder. Have you run `rails generate blacklight:search_builder`? Falling back to Blacklight::Solr::SearchBuilder")
       Blacklight::Solr::SearchBuilder
     end

@@ -6,6 +6,7 @@
   <% unless has_search_parameters? %>
     <%# if there are no input/search related params, display the "home" partial -%>
     <%= render 'home' %>
+    <%= render 'shared/sitelinks_search_box' %>
   <% else %>
     <%= render 'search_results' %>
   <% end %>
