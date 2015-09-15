@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Blacklight::Solr::FacetPaginator' do
+describe Blacklight::FacetPaginator do
 
   let(:f1) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '792', value: 'Book') }
   let(:f2) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
@@ -14,7 +14,7 @@ describe 'Blacklight::Solr::FacetPaginator' do
   let(:limit) { 6 }
 
   context 'on the first page of two pages' do
-    subject { Blacklight::Solr::FacetPaginator.new(seven_facet_values, limit: limit) }
+    subject { described_class.new(seven_facet_values, limit: limit) }
     it { should be_first_page }
     it { should_not be_last_page }
     its(:current_page) { should eq 1 }
@@ -26,7 +26,7 @@ describe 'Blacklight::Solr::FacetPaginator' do
   end
 
   context 'on the last page of two pages' do
-    subject { Blacklight::Solr::FacetPaginator.new([f7], offset: 6, limit: limit) }
+    subject { described_class.new([f7], offset: 6, limit: limit) }
     it { should_not be_first_page }
     it { should be_last_page }
     its(:current_page) { should eq 2 }
@@ -38,7 +38,7 @@ describe 'Blacklight::Solr::FacetPaginator' do
   end
 
   context 'on the second page of three pages' do
-    subject { Blacklight::Solr::FacetPaginator.new(seven_facet_values, offset: 6, limit: limit) }
+    subject { described_class.new(seven_facet_values, offset: 6, limit: limit) }
     it { should_not be_first_page }
     it { should_not be_last_page }
     its(:current_page) { should eq 2 }
@@ -50,15 +50,15 @@ describe 'Blacklight::Solr::FacetPaginator' do
   end
 
   context 'on the first page of one page' do
-    subject { Blacklight::Solr::FacetPaginator.new(six_facet_values, offset: 0, limit: limit) }
+    subject { described_class.new(six_facet_values, offset: 0, limit: limit) }
     it { should be_first_page }
     it { should be_last_page }
   end
 
   describe "params_for_resort_url" do
-    let(:sort_key) { Blacklight::Solr::FacetPaginator.request_keys[:sort] }
-    let(:page_key) { Blacklight::Solr::FacetPaginator.request_keys[:page] }
-    subject { Blacklight::Solr::FacetPaginator.new([], offset: 100, limit: limit, sort: 'index') }
+    let(:sort_key) { described_class.request_keys[:sort] }
+    let(:page_key) { described_class.request_keys[:page] }
+    subject { described_class.new([], offset: 100, limit: limit, sort: 'index') }
 
     it 'should know a manually set sort, and produce proper sort url' do
         expect(subject.sort).to eq 'index'
@@ -71,7 +71,7 @@ describe 'Blacklight::Solr::FacetPaginator' do
   end
 
   context "for a nil :limit" do
-    subject { Blacklight::Solr::FacetPaginator.new(seven_facet_values, offset: 0, limit: nil) }
+    subject { described_class.new(seven_facet_values, offset: 0, limit: nil) }
     it "should return all the items" do
       expect(subject.items).to eq seven_facet_values
     end
@@ -79,16 +79,16 @@ describe 'Blacklight::Solr::FacetPaginator' do
   end
 
   describe "#as_json" do
-    subject { Blacklight::Solr::FacetPaginator.new([f1], offset: 0, limit: nil).as_json }
+    subject { described_class.new([f1], offset: 0, limit: nil).as_json }
     it "should be well structured" do
       expect(subject).to eq("items" => [{"hits"=>"792", "value"=>"Book"}], "limit" => nil,
-       "offset" => 0, "sort" => "count")
+       "offset" => 0, "sort" => nil)
     end
   end
 
   describe "#total_pages" do
     # this method is just for API compatability with kaminari 0.16.1
-    subject { Blacklight::Solr::FacetPaginator.new([f1], offset: 0, limit: nil).total_pages }
+    subject { described_class.new([f1], offset: 0, limit: nil).total_pages }
     it { should eq -1 }
   end
 end

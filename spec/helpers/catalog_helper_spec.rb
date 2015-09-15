@@ -323,4 +323,43 @@ describe CatalogHelper do
     end
   end
 
+  describe "#render_search_to_page_title_filter" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
+    let :blacklight_config do
+      Blacklight::Configuration.new
+    end
+
+    it "should render a facet with a single value" do
+      expect(helper.render_search_to_page_title_filter('foo', ['bar'])).to eq "Foo: bar"
+    end
+
+    it "should render a facet with two values" do
+      expect(helper.render_search_to_page_title_filter('foo', ['bar', 'baz'])).to eq "Foo: bar and baz"
+    end
+
+    it "should render a facet with more than two values" do
+      expect(helper.render_search_to_page_title_filter('foo', ['bar', 'baz', 'foobar'])).to eq "Foo: 3 selected"
+    end
+  end
+
+  describe "#render_search_to_page_title" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+      allow(helper).to receive(:default_search_field).and_return(Blacklight::Configuration::SearchField.new(:key => 'default_search_field', :display_label => 'Default'))
+      allow(helper).to receive(:label_for_search_field).with(nil).and_return('')
+    end
+
+    let :blacklight_config do
+      Blacklight::Configuration.new
+    end
+
+    let(:params) { {'q' => 'foobar', "f" => {"format" => ["Book"]}} }
+
+    it "should render a page title" do
+      expect(helper.render_search_to_page_title(params)).to eq "foobar / Format: Book"
+    end
+  end
 end

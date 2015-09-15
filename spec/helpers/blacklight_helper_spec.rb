@@ -48,65 +48,20 @@ describe BlacklightHelper do
   end
 
   describe "render_link_rel_alternates" do
-      class MockDocumentAppHelper
-        include Blacklight::Solr::Document
-      end
-      module MockExtension
-         def self.extended(document)
-           document.will_export_as(:weird, "application/weird")
-           document.will_export_as(:weirder, "application/weirder")
-           document.will_export_as(:weird_dup, "application/weird")
-         end
-         def export_as_weird ; "weird" ; end
-         def export_as_weirder ; "weirder" ; end
-         def export_as_weird_dup ; "weird_dup" ; end
-      end
-      MockDocumentAppHelper.use_extension(MockExtension)
-      def mock_document_app_helper_url *args
-        solr_document_url(*args)
-      end
-    before(:each) do
-      @doc_id = "MOCK_ID1"
-      @document = MockDocumentAppHelper.new(:id => @doc_id)
-      render_params = {:controller => "controller", :action => "action"}
-      allow(helper).to receive(:params).and_return(render_params)
-    end
+    let(:document) { double }
+    let(:result) { double }
+    let(:presenter) { Blacklight::DocumentPresenter.new(document, self) }
+
+    before { allow(helper).to receive(:presenter).and_return(presenter) }
+
     it "generates <link rel=alternate> tags" do
-
-      response = render_link_rel_alternates(@document)
-
-      tmp_value = Capybara.ignore_hidden_elements
-      Capybara.ignore_hidden_elements = false
-      @document.export_formats.each_pair do |format, spec|
-        expect(response).to have_selector("link[href$='.#{ format  }']") do |matches|
-          expect(matches).to have(1).match
-          tag = matches[0]
-          expect(tag.attributes["rel"].value).to eq "alternate"
-          expect(tag.attributes["title"].value).to eq format.to_s
-          expect(tag.attributes["href"].value).to eq mock_document_app_helper_url(@document, :format =>format)
-        end
-      end
-      Capybara.ignore_hidden_elements = tmp_value
-    end
-    it "respects :unique=>true" do
-      response = render_link_rel_alternates(@document, :unique => true)
-      tmp_value = Capybara.ignore_hidden_elements
-      Capybara.ignore_hidden_elements = false
-      expect(response).to have_selector("link[type='application/weird']", :count => 1)
-      Capybara.ignore_hidden_elements = tmp_value
-    end
-    it "excludes formats from :exclude" do
-      response = render_link_rel_alternates(@document, :exclude => [:weird_dup])
-
-      tmp_value = Capybara.ignore_hidden_elements
-      Capybara.ignore_hidden_elements = false
-      expect(response).to_not have_selector("link[href$='.weird_dup']")
-      Capybara.ignore_hidden_elements = tmp_value
+      expect(presenter).to receive(:link_rel_alternates).and_return(result)
+      expect(helper.render_link_rel_alternates(document)).to eq result
     end
 
-    it "should be html safe" do
-      response = render_link_rel_alternates(@document)
-      expect(response).to be_html_safe
+    it "sends parameters" do
+      expect(presenter).to receive(:link_rel_alternates).with(unique: true).and_return(result)
+      expect(helper.render_link_rel_alternates(document, unique: true)).to eq result
     end
   end
 
