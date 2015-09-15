@@ -2,29 +2,29 @@ language: ruby
 sudo: false
 cache:
   directories:
-  - /tmp/solr-5.2.1
+  - /tmp/solr-5.3.0
 
 notifications:
   email: false
 
 rvm:
-  - 2.2.2
+  - 2.2.3
 
 matrix:
   include:
     - rvm: 2.2.2
-      env: "RAILS_VERSION=4.1.12"
+      env: "RAILS_VERSION=4.1.13"
     - rvm: 2.1.6
-      env: "RAILS_VERSION=4.2.3"
+      env: "RAILS_VERSION=4.2.4"
   allow_failures:
     - rvm: jruby
-      env: "RAILS_VERSION=4.2.3 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+      env: "RAILS_VERSION=4.2.4 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
 
 before_install:
   - gem install bundler
 
 env:
- - "RAILS_VERSION=4.2.3"
+ - "RAILS_VERSION=4.2.4"
 
 notifications:
   irc: "irc.freenode.org#blacklight"
