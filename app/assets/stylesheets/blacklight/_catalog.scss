@@ -32,10 +32,6 @@
   }
 }
 
-#sidebar form {
-  margin: 0;
-}
-
 .page_links {
   display: inline-block;
   border: 1px solid transparent;
@@ -67,10 +63,6 @@
 label.toggle_bookmark {
 	font-weight: inherit;
 	min-width: 8.5em;
-}
-
-#sidebar-mlt li {
-  padding-bottom: $padding-base-vertical;
 }
 
 .document-thumbnail {
