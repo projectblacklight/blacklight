@@ -1,0 +1,52 @@
+.constraints-container {
+  @extend .well;
+  line-height: 2.5;
+  padding: 16px 19px;
+}
+
+span.constraints-label {
+  @extend .h5;
+}
+
+.appliedFilter {
+  .constraint-value {
+    cursor: default;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    @media (max-width: $screen-xs-max) {
+      max-width: $screen-xs-min / 2;
+    }
+
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+      max-width: $screen-sm-min / 2;
+    }
+
+    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+      max-width: $screen-md-min / 2;
+    }
+
+    @media (min-width: $screen-lg-min) {
+      max-width: $screen-lg-min / 2;
+    }
+
+    &:hover, &:active {
+      background-color: $btn-default-bg;
+      border-color: $btn-default-border;
+      box-shadow: none;
+    }
+  }
+
+  .filterName:after {
+    @extend .text-muted;
+    font-family: 'Glyphicons Halflings';
+    /* glyphicon-chevron-right */
+    content: "\e080";
+    font-size: 70%;
+    padding-left: $caret-width-base;
+  }
+
+  .remove:hover, .remove:active {
+    @extend .btn-danger;
+  }
+}

@@ -3,76 +3,20 @@
   margin-bottom: 0;
 }
 
-.constraints-container {
-  @extend .well;
-  line-height: 2.5;
-  padding: 16px 19px;
-}
-
-span.constraints-label {
-  @extend .h5;
-}
-
-.appliedFilter
-{
-  .constraint-value {
-    cursor: default;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    @media (max-width: $screen-xs-max) {
-      max-width: $screen-xs-min / 2;
-    }
-
-    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-      max-width: $screen-sm-min / 2;
-    }
-
-    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-      max-width: $screen-md-min / 2;
-    }
-
-    @media (min-width: $screen-lg-min) {
-      max-width: $screen-lg-min / 2;
-    }
-
-    &:hover, &:active {
-      background-color: $btn-default-bg;
-      border-color: $btn-default-border;
-      box-shadow: none;
-    }
-  }
-
-  .filterName:after
-  {
-    @extend .text-muted;
-    font-family: 'Glyphicons Halflings';
-    /* glyphicon-chevron-right */
-    content: "\e080";
-    font-size: 70%;
-    padding-left: $caret-width-base;
-  }
-
-  .remove:hover, .remove:active {
-    @extend .btn-danger;
-
-  }
-}
-
 #documents {
   .document {
     margin-top: $padding-base-vertical;
     padding-top: $padding-base-vertical;
     border-bottom:1px dotted $table-border-color;
     @extend .clearfix;
-  
+
     .document-title-heading {
       @extend h5;
     }
   }
 }
 
-// Tools link on documetn show page
+// Tools link on document show page
 .show-tools {
   .bookmark_toggle {
     padding: $nav-link-padding;
@@ -88,13 +32,11 @@ span.constraints-label {
   }
 }
 
-
 #sidebar form {
   margin: 0;
 }
 
-.page_links
-{
+.page_links {
   display: inline-block;
   border: 1px solid transparent;
   padding: $padding-base-vertical $padding-base-horizontal;
@@ -105,8 +47,7 @@ span.constraints-label {
   text-align: center ;
 }
 
-.dl-horizontal
-{
+.dl-horizontal {
   dd {
     margin-bottom: $padding-base-vertical;
 
@@ -123,8 +64,7 @@ span.constraints-label {
   }
 }
 
-label.toggle_bookmark
-{
+label.toggle_bookmark {
 	font-weight: inherit;
 	min-width: 8.5em;
 }
@@ -133,66 +73,8 @@ label.toggle_bookmark
   padding-bottom: $padding-base-vertical;
 }
 
-#sortAndPerPage, .pagination-search-widgets {
-  border-bottom: 1px solid $pagination-border;
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-}
-
-.pagination-search-widgets {
-  @extend .clearfix;
-  padding-top: 1px;
-  padding-bottom: $padding-base-vertical;
-}
-
-#sortAndPerPage .dropdown-toggle {
-  cursor: pointer;
-}
-
-.no-js #sortAndPerPage {
-  & {
-    @extend .clearfix;
-  }
-  .dropdown-menu {
-    background: none;
-    box-shadow: none;
-    border: none;
-    position: relative;
-    display: block;
-    float: none;
-  }
-
-}
-
 .document-thumbnail {
   float: right;
   padding-left: $line-height-computed;
   margin-bottom: $line-height-computed;
-}
-
-.view-type {
-  display: inline-block;
-
-  .caption {
-    @extend .sr-only;
-  }
-}
-
-#sort-dropdown .dropdown-toggle, #per_page-dropdown .dropdown-toggle {
-  color: $link-color;
-
-  .caret {
-    color: $text-color;
-  }
-}
-
-
-.search-input-group {
-  width: 80%;
-}
-
-@media (max-width: $screen-sm-min) {
-  .search-input-group {
-    width: auto;
-  }
 }
