@@ -10,11 +10,13 @@
 
 @import "blacklight/layout";
 @import "blacklight/header";
-@import "blacklight/catalog";
 @import "blacklight/constraints";
 @import "blacklight/controls";
+@import "blacklight/search_results";
+@import "blacklight/pagination";
 @import "blacklight/group";
 @import "blacklight/bookmark";
+@import "blacklight/balanced_list";
 @import "blacklight/facets";
 @import "blacklight/search_history";
 @import "blacklight/modal";
