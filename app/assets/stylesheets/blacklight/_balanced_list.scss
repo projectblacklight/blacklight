@@ -1,0 +1,18 @@
+.dl-horizontal {
+  dd {
+    margin-bottom: $padding-base-vertical;
+
+    &:after {
+      clear: none;
+    }
+  }
+}
+
+.dl-invert {
+  dt {
+    font-weight: normal;
+    color: $field_name_color;
+  }
+}
+
+

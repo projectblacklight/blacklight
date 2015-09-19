@@ -1,0 +1,61 @@
+#sortAndPerPage, .pagination-search-widgets {
+  border-bottom: 1px solid $pagination-border;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
+
+.pagination-search-widgets {
+  @extend .clearfix;
+  padding-top: 1px;
+  padding-bottom: $padding-base-vertical;
+}
+
+#sortAndPerPage .dropdown-toggle {
+  cursor: pointer;
+}
+
+.no-js #sortAndPerPage {
+  & {
+    @extend .clearfix;
+  }
+  .dropdown-menu {
+    background: none;
+    box-shadow: none;
+    border: none;
+    position: relative;
+    display: block;
+    float: none;
+  }
+
+}
+
+.view-type {
+  display: inline-block;
+
+  .caption {
+    @extend .sr-only;
+  }
+}
+
+#sort-dropdown .dropdown-toggle, #per_page-dropdown .dropdown-toggle {
+  color: $link-color;
+
+  .caret {
+    color: $text-color;
+  }
+}
+
+.search-input-group {
+  width: 80%;
+}
+
+@media (max-width: $screen-sm-min) {
+  .search-input-group {
+    width: auto;
+  }
+}
+
+.ajax_form {
+  margin-bottom: 0;
+}
+
