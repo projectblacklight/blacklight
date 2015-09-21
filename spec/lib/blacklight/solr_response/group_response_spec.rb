@@ -34,10 +34,10 @@ describe Blacklight::SolrResponse::GroupResponse do
       expect(group.total).to eq 3
     end
   end
-  
-  describe "facets" do
-    it "should exist in the response object (not testing, we just extend the module)" do
-      expect(group).to respond_to :facets
+
+  describe "aggregations" do
+    it "exists in the response object (not testing, we just extend the module)" do
+      expect(group).to respond_to :aggregations
     end
   end
   

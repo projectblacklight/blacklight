@@ -2,7 +2,6 @@
 module Blacklight::Catalog
   extend ActiveSupport::Concern
   extend ActiveSupport::Autoload
-  extend Deprecation
 
   eager_autoload do
     autoload :ComponentConfiguration
@@ -14,11 +13,6 @@ module Blacklight::Catalog
   include Blacklight::Catalog::ComponentConfiguration
   include Blacklight::Facet
 
-  # rubocop:disable Style/ConstantName
-  # @deprecated use blacklight_config.search_history_window instead
-  SearchHistoryWindow = 100 # how many searches to save in session history
-  # rubocop:enable Style/ConstantName
-
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
@@ -27,9 +21,6 @@ module Blacklight::Catalog
     # When an action raises Blacklight::Exceptions::RecordNotFound, handle 
     # the exception appropriately.
     rescue_from Blacklight::Exceptions::RecordNotFound, with: :invalid_document_id_error
-
-    # Deprecated:
-    rescue_from Blacklight::Exceptions::InvalidSolrID, with: :invalid_document_id_error
 
     record_search_parameters
   end
@@ -136,9 +127,6 @@ module Blacklight::Catalog
     def store_preferred_view
       session[:preferred_view] = params[:view] if params[:view]
     end
-
-    alias_method :preferred_view, :store_preferred_view
-    deprecation_deprecate :preferred_view
 
     ##
     # Render additional response formats for the index action, as provided by the
@@ -296,16 +284,7 @@ module Blacklight::Catalog
     # Just returns a 404 response, but you can override locally in your own
     # CatalogController to do something else -- older BL displayed a Catalog#inde
     # page with a flash message and a 404 status.
-    def invalid_document_id_error *args
-      Deprecation.silence(Blacklight::Catalog) do
-        invalid_solr_id_error *args
-      end
-    end
-
-    ##
-    # DEPRECATED; this method will be removed in Blacklight 6.0 and the functionality
-    # moved to invalid_document_id_error
-    def invalid_solr_id_error(exception)
+    def invalid_document_id_error(exception)
       error_info = {
         "status" => "404",
         "error"  => "#{exception.class}: #{exception.message}"
@@ -327,7 +306,6 @@ module Blacklight::Catalog
         end
       end
     end
-    deprecation_deprecate invalid_solr_id_error: :invalid_document_id_error
 
     def start_new_search_session?
       action_name == "index"

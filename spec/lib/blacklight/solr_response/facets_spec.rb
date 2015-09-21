@@ -22,31 +22,6 @@ describe Blacklight::SolrResponse::Facets do
     end
   end
 
-  describe "#facets" do
-    subject { Blacklight::SolrResponse.new({}, {}) }
-    let(:aggregations) { { x: 1, y: 2 } } 
-    it "should get the aggregation values" do
-      allow(subject).to receive(:aggregations).and_return aggregations
-
-      Deprecation.silence(described_class) do
-        expect(subject.facets).to eq aggregations.values
-      end
-    end
-  end
-
-  describe "#facet_by_field_name" do
-    subject { Blacklight::SolrResponse.new({}, {}) }
-    let(:aggregations) { { x: double } } 
-
-    it "should pull facets out of the aggregations" do
-      allow(subject).to receive(:aggregations).and_return aggregations
-
-      Deprecation.silence(described_class) do
-        expect(subject.facet_by_field_name(:x)).to eq aggregations[:x]
-      end
-    end
-  end
-
   describe "#aggregations" do
     let(:facet_field) { ['my_field', []] }
     let(:response_header) { { params: request_params }}

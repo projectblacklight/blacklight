@@ -1,6 +1,4 @@
 module Blacklight::ConfigurationHelperBehavior
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 6.0'
 
   ##
   # Index fields to display for a type of document
@@ -122,9 +120,7 @@ module Blacklight::ConfigurationHelperBehavior
 
     t(first, default: rest)
   end
-  alias_method :solr_field_label, :field_label
-  deprecation_deprecate solr_field_label: :field_label
-  
+
   def document_index_views
     blacklight_config.view.select do |k, config|
       should_render_field? config

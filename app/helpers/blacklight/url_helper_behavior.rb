@@ -1,9 +1,6 @@
-require 'deprecation'
 ##
 # URL helper methods
 module Blacklight::UrlHelperBehavior
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 6.0'
 
   ##
   # Extension point for downstream applications
@@ -64,13 +61,6 @@ module Blacklight::UrlHelperBehavior
       content_tag :span, raw(t('views.pagination.next')), :class => 'next'
     end
   end
-
-  ##
-  # Current search context parameters
-  def search_session_params counter 
-    { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
-  end
-  deprecation_deprecate search_session_params: :session_tracking_params
 
   ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session

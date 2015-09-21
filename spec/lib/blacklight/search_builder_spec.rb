@@ -59,13 +59,6 @@ describe Blacklight::SearchBuilder do
   end
 
   describe "#to_hash" do
-    it "should append the extra parameters to the result" do
-      Deprecation.silence(Blacklight::SearchBuilder) do
-        actual = subject.to_hash({a: 1})
-        expect(actual).to include a: 1
-      end
-    end
-
     it "should update if data is changed" do
       subject.merge(q: 'xyz')
       expect(subject.to_hash).to include q: 'xyz'
@@ -108,18 +101,6 @@ describe Blacklight::SearchBuilder do
 
   describe "#processed_parameters" do
     let(:processor_chain) { [:step_1] }
-    it "should try to run the processor method on the provided scope" do
-      allow(scope).to receive(:respond_to?).and_return(true)
-      allow(scope).to receive(:step_1) do |req_params, user_params|
-        req_params[:step_1] = 'scope'
-        req_params[:user_params] = user_params
-      end
-
-      Deprecation.silence(Blacklight::SearchBuilder) do
-        subject.with(a: 1)
-        expect(subject.processed_parameters).to include step_1: 'scope', user_params: { a: 1 }
-      end
-    end
 
     it "should try to run the processor method on the search builder" do
       allow(subject).to receive(:step_1) do |req_params|

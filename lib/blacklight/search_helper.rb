@@ -46,51 +46,7 @@
 
 module Blacklight::SearchHelper
   extend ActiveSupport::Concern
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 6.0'
-
   include Blacklight::RequestBuilders
-
-  ##
-  # Execute a solr query
-  # @see [Blacklight::SolrRepository#send_and_receive]
-  # @return [Blacklight::SolrResponse] the solr response object
-  def find *args
-    request_params = args.extract_options!
-    path = args.first || blacklight_config.solr_path
-
-    request_params[:qt] ||= blacklight_config.qt
-
-    repository.send_and_receive path, request_params
-  end
-  deprecation_deprecate :find
-
-  # returns a params hash for finding a single solr document (CatalogController #show action)
-  def solr_doc_params(id=nil)
-    default_solr_doc_params(id)
-  end
-  deprecation_deprecate :solr_doc_params
-
-  # a solr query method
-  # given a user query, return a solr response containing both result docs and facets
-  # - mixes in the Blacklight::Solr::SpellingSuggestions module
-  #   - the response will have a spelling_suggestions method
-  # Returns a two-element array (aka duple) with first the solr response object,
-  # and second an array of SolrDocuments representing the response.docs
-  def get_search_results(user_params = params || {}, extra_controller_params = {})
-    query = search_builder.with(user_params).merge(extra_controller_params)
-    response = repository.search(query)
-
-    case
-    when (response.grouped? && grouped_key_for_results)
-      [response.group(grouped_key_for_results), []]
-    when (response.grouped? && response.grouped.length == 1)
-      [response.grouped.first, []]
-    else
-      [response, response.documents]
-    end
-  end
-  deprecation_deprecate get_search_results: :search_results
 
   # a solr query method
   # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
@@ -118,16 +74,6 @@ module Blacklight::SearchHelper
     end
   end
 
-  # a solr query method
-  # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
-  # @param [Hash,HashWithIndifferentAccess] extra_controller_params ({}) extra parameters to add to the search
-  # @return [Blacklight::SolrResponse] the solr response object
-  def query_solr(user_params = params || {}, extra_controller_params = {})
-    query = search_builder.with(user_params).merge(extra_controller_params)
-    repository.search(query)
-  end
-  deprecation_deprecate :query_solr
-
   # retrieve a document, given the doc id
   # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
   def fetch(id=nil, extra_controller_params={})
@@ -142,23 +88,6 @@ module Blacklight::SearchHelper
     end
   end
 
-  alias_method :get_solr_response_for_doc_id, :fetch
-  deprecation_deprecate get_solr_response_for_doc_id: "use fetch(id) instead"
-
-  # given a field name and array of values, get the matching SOLR documents
-  # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
-  def get_solr_response_for_field_values(field, values, extra_controller_params = {})
-    query = Deprecation.silence(Blacklight::RequestBuilders) do
-      search_builder.with(params).merge(extra_controller_params).merge(solr_documents_by_field_values_params(field, values))
-    end
-
-    solr_response = repository.search(query)
-
-
-    [solr_response, solr_response.documents]
-  end
-  deprecation_deprecate :get_solr_response_for_field_values
-
   ##
   # Get the solr response when retrieving only a single facet field
   # @return [Blacklight::SolrResponse] the solr response
@@ -166,40 +95,6 @@ module Blacklight::SearchHelper
     query = search_builder.with(user_params).facet(facet_field)
     repository.search(query.merge(extra_controller_params))
   end
-
-  # a solr query method
-  # used to paginate through a single facet field's values
-  # /catalog/facet/language_facet
-  def get_facet_pagination(facet_field, user_params=params || {}, extra_controller_params={})
-    # Make the solr call
-    response = get_facet_field_response(facet_field, user_params, extra_controller_params)
-
-    limit = response.params[:"f.#{facet_field}.facet.limit"].to_s.to_i - 1
-
-    # Actually create the paginator!
-    # NOTE: The sniffing of the proper sort from the solr response is not
-    # currently tested for, tricky to figure out how to test, since the
-    # default setup we test against doesn't use this feature.
-    Blacklight::Solr::FacetPaginator.new(response.aggregations[facet_field].items,
-      :offset => response.params[:"f.#{facet_field}.facet.offset"],
-      :limit => limit,
-      :sort => response.params[:"f.#{facet_field}.facet.sort"] || response.params["facet.sort"]
-    )
-  end
-  deprecation_deprecate :get_facet_pagination
-
-  # a solr query method
-  # this is used when selecting a search result: we have a query and a
-  # position in the search results and possibly some facets
-  # Pass in an index where 1 is the first document in the list, and
-  # the Blacklight app-level request params that define the search.
-  # @return [Blacklight::SolrDocument, nil] the found document or nil if not found
-  def get_single_doc_via_search(index, request_params)
-    query = search_builder.with(request_params).start(index - 1).rows(1).merge(fl: "*")
-    response = repository.search(query)
-    response.documents.first
-  end
-  deprecation_deprecate :get_single_doc_via_search
 
   # Get the previous and next document from a search result
   # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
@@ -247,32 +142,16 @@ module Blacklight::SearchHelper
     @repository ||= repository_class.new(blacklight_config)
   end
 
-  def solr_repository
-    repository
-  end
-  deprecation_deprecate solr_repository: :repository
-
-  def blacklight_solr
-    repository.connection
-  end
-  deprecation_deprecate blacklight_solr: "use repository.connection instead"
-
   private
 
     ##
     # Retrieve a set of documents by id
-    # @overload fetch_many(ids, extra_controller_params)
-    # @overload fetch_many(ids, user_params, extra_controller_params)
-    def fetch_many(ids=[], *args)
-      if args.length == 1
-        Deprecation.warn(Blacklight::SearchHelper, "fetch_many with 2 arguments is deprecated")
-        user_params = params
-        extra_controller_params = args.first || {}
-      else
-        user_params, extra_controller_params = args
-        user_params ||= params
-        extra_controller_params ||= {}
-      end
+    # @param [Array] ids
+    # @param [HashWithIndifferentAccess] user_params
+    # @param [HashWithIndifferentAccess] extra_controller_params
+    def fetch_many(ids, user_params, extra_controller_params)
+      user_params ||= params
+      extra_controller_params ||= {}
 
       query = search_builder.
                 with(user_params).
@@ -284,38 +163,8 @@ module Blacklight::SearchHelper
       [solr_response, solr_response.documents]
     end
 
-    alias_method :get_solr_response_for_document_ids, :fetch_many
-    deprecation_deprecate get_solr_response_for_document_ids: "use fetch(ids) instead"
-
     def fetch_one(id, extra_controller_params)
-      old_solr_doc_params = Deprecation.silence(Blacklight::SearchHelper) do
-        solr_doc_params(id)
-      end
-
-      if default_solr_doc_params(id) != old_solr_doc_params
-        Deprecation.warn Blacklight::SearchHelper, "The #solr_doc_params method is deprecated. Instead, you should provide a custom SolrRepository implementation for the additional behavior you're offering. The current behavior will be removed in Blacklight 6.0"
-        extra_controller_params = extra_controller_params.merge(old_solr_doc_params)
-      end
-
       solr_response = repository.find id, extra_controller_params
       [solr_response, solr_response.documents.first]
-    end
-
-    ##
-    # @deprecated
-    def default_solr_doc_params(id=nil)
-      id ||= params[:id]
-
-      # add our document id to the document_unique_id_param query parameter
-      p = blacklight_config.default_document_solr_params.merge({
-        # this assumes the request handler will map the unique id param
-        # to the unique key field using either solr local params, the
-        # real-time get handler, etc.
-        blacklight_config.document_unique_id_param => id
-      })
-
-      p[:qt] ||= blacklight_config.document_solr_request_handler
-
-      p
     end
 end

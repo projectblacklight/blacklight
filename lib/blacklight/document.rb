@@ -29,8 +29,6 @@ module Blacklight::Document
   include Blacklight::Document::CacheKey
   include Blacklight::Document::Export
 
-  extend Deprecation
-
   included do
     extend ActiveModel::Naming
     include Blacklight::Document::Extensions
@@ -93,24 +91,6 @@ module Blacklight::Document
     _source.key? k
   end
   alias_method :has_key?, :key?
-
-  # helper
-  # key is the name of the field
-  # opts is a hash with the following valid keys:
-  #  - :sep - a string used for joining multivalued field values
-  #  - :default - a value to return when the key doesn't exist
-  # if :sep is nil and the field is a multivalued field, the array is returned
-  def get(key, opts={:sep=>', ', :default=>nil})
-    val = fetch(key, opts[:default])
-
-    if val.is_a?(Array) and opts[:sep]
-      Deprecation.warn(Blacklight::Solr::Document, "#{self.class}#get with a :sep option is deprecated; use #[] or #fetch and join the values using e.g. Array#to_sentence") unless opts[:sep].nil?
-      val.join(opts[:sep])
-    else
-      val
-    end
-  end
-  deprecation_deprecate get: "Use #[] or #fetch instead"
 
   def fetch key, *default
     if key? key

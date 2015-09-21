@@ -1,8 +1,6 @@
 require 'ostruct'
 
 module Blacklight::SolrResponse::Facets
-  extend Deprecation
-  
   # represents a facet value; which is a field value and its hit count
   class FacetItem < OpenStruct
     def initialize *args
@@ -77,22 +75,6 @@ module Blacklight::SolrResponse::Facets
     @aggregations ||= {}.merge(facet_field_aggregations).merge(facet_query_aggregations).merge(facet_pivot_aggregations)
   end
 
-  # @response.facets.each do |facet|
-  #   facet.name
-  #   facet.items
-  # end
-  # "caches" the result in the @facets instance var
-  def facets
-    aggregations.values
-  end
-  deprecation_deprecate facets: :aggregations
-
-  # pass in a facet field name and get back a Facet instance
-  def facet_by_field_name(name)
-    aggregations[name]
-  end
-  deprecation_deprecate facet_by_field_name: :aggregations
-  
   def facet_counts
     @facet_counts ||= self['facet_counts'] || {}
   end

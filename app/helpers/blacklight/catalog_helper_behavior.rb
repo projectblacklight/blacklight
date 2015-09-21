@@ -1,7 +1,5 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::CatalogHelperBehavior
-  extend Deprecation
-  self.deprecation_horizon = "Blacklight 6.x"
 
   ##
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
@@ -241,9 +239,6 @@ module Blacklight::CatalogHelperBehavior
   def bookmarked? document
     current_bookmarks.any? { |x| x.document_id == document.id and x.document_type == document.class }
   end
-
-  alias_method :is_bookmarked?, :bookmarked?
-  deprecation_deprecate :is_bookmarked?
 
   def render_sms_action? config, options = {}
     !sms_mappings.blank?

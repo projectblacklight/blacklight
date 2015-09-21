@@ -74,18 +74,14 @@ describe Blacklight::Solr::SearchBuilder do
   # SPECS for actual search parameter generation
   describe "#processed_parameters" do
     subject do
-      Deprecation.silence(Blacklight::SearchBuilder) do
-        search_builder.with(user_params).processed_parameters
-      end
+      search_builder.with(user_params).processed_parameters
     end
 
     context "when search_params_logic is customized" do
       let(:method_chain) { [:add_foo_to_solr_params] }
 
       it "allows customization of search_params_logic" do
-          # Normally you'd include a new module into (eg) your CatalogController
-          # but a sub-class defininig it directly is simpler for test.
-          allow(context).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
+          allow(search_builder).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
             solr_params[:wt] = "TESTING"
           end
 

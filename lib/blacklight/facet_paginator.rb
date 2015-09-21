@@ -9,10 +9,6 @@ module Blacklight
   # so we cannot know how many "pages" there are.
   #
   class FacetPaginator
-    extend Deprecation
-
-    self.deprecation_horizon = 'blacklight version 6.0.0'
-    
     # What request keys will we use for the parameters need. Need to
     # make sure they do NOT conflict with catalog/index request params,
     # and need to make them accessible in a list so we can easily
@@ -67,18 +63,6 @@ module Blacklight
     def next_page
       current_page + 1 unless last_page?
     end
-   
-    #@deprecated
-    def has_next?
-      !last_page?
-    end
-    deprecation_deprecate :has_next? => "use #!last_page?"
-
-    #@deprecated
-    def has_previous?
-      !first_page?
-    end
-    deprecation_deprecate :has_next? => "use #!first_page?"
 
     def last_page?
       limit.nil? || total_count <= limit
