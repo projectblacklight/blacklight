@@ -8,7 +8,7 @@ gem 'coveralls', '~> 0.8.6', require: false
 gem 'autoprefixer-rails', '~> 6.0.0' if RUBY_VERSION < '2.0'
 
 group :test do
-  gem "blacklight-marc", "~> 5.0", github: "projectblacklight/blacklight_marc"
+  gem "blacklight-marc", '~> 5.0'
   gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
 end
 
