@@ -14,8 +14,6 @@ module Blacklight
     require 'blacklight/configuration/facet_field'
     require 'blacklight/configuration/sort_field'
     include Fields
-    extend Deprecation
-    self.deprecation_horizon = 'blacklight 6.0'
 
     # Set up Blacklight::Configuration.default_values to contain
     # the basic, required Blacklight fields
@@ -34,14 +32,6 @@ module Blacklight
           solr_path: 'select',
           # Default values of parameters to send with every search request
           default_solr_params: {},
-          ## deprecated; use add_facet_field :include_in_request instead;
-          # if this is configured true, all facets will be included in the solr request
-          # unless explicitly disabled.
-          add_facet_fields_to_solr_request: false, 
-          ## deprecated; use add_index_field :include_in_request instead;
-          # if this is configured true, all show and index will be included in the solr request
-          # unless explicitly disabled.
-          add_field_configuration_to_solr_request: false,
           ##
           # === Single document request configuration
           ##
@@ -137,8 +127,7 @@ module Blacklight
           per_page: [10,20,50,100],
           default_per_page: nil,
           # how many searches to save in session history
-          # (TODO: move the value into the configuration?)
-          search_history_window: Blacklight::Catalog::SearchHistoryWindow,
+          search_history_window: 100,
           default_facet_limit: 10
           }
         end
@@ -185,14 +174,11 @@ module Blacklight
     def document_model
       super || ::SolrDocument
     end
-    alias_method :solr_document_model, :document_model
 
     # only here to support alias_method
     def document_model= *args
       super
     end
-    alias_method :solr_document_model=, :document_model=
-    deprecation_deprecate solr_document_model: :document_model, :solr_document_model= => :document_model=
 
     def document_presenter_class
       super || Blacklight::DocumentPresenter
@@ -201,13 +187,10 @@ module Blacklight
     def response_model
       super || Blacklight::SolrResponse
     end
-    alias_method :solr_response_model, :response_model
-    # only here to support alias_method
+
     def response_model= *args
       super
     end
-    alias_method :solr_response_model=, :response_model=
-    deprecation_deprecate solr_response_model: :response_model, :solr_response_model= => :response_model=
 
     def repository_class
       super || Blacklight::SolrRepository
@@ -316,16 +299,6 @@ module Blacklight
         end
       end
     end
-
-    ##
-    # Deprecated. Get the list of facet fields to explicitly
-    # add to the solr request
-    def facet_fields_to_add_to_solr
-      facet_fields.select { |k,v| v.include_in_request }
-                  .reject { |k,v| v[:query] || v[:pivot] }
-                  .map { |k,v| v.field }
-    end
-    deprecation_deprecate :facet_fields_to_add_to_solr
 
     ##
     # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting

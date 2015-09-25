@@ -51,11 +51,6 @@ module Blacklight
   mattr_accessor :secret_key
   @@secret_key = nil
 
-  # @deprecated
-  def self.solr_file
-    "#{::Rails.root}/config/solr.yml"
-  end
-
   def self.blacklight_config_file
     "#{::Rails.root}/config/blacklight.yml"
   end
@@ -64,18 +59,8 @@ module Blacklight
     Blacklight::Routes.new(router, options).draw
   end
 
-  def self.solr
-    Deprecation.warn Blacklight, "Blacklight.solr is deprecated and will be removed in 6.0.0. Use Blacklight.default_index.connection instead", caller
-    default_index.connection
-  end
-
   def self.default_index
     @default_index ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new)
-  end
-
-  def self.solr_config
-    Deprecation.warn Blacklight, "Blacklight.solr_config is deprecated and will be removed in 6.0.0. Use Blacklight.connection_config instead", caller
-    connection_config
   end
 
   def self.connection_config
@@ -91,12 +76,7 @@ module Blacklight
 
     return @blacklight_yml if @blacklight_yml
     unless File.exists?(blacklight_config_file)
-      if File.exists?(solr_file)
-        Deprecation.warn Blacklight, "Configuration is now done via blacklight.yml. Suppport for solr.yml will be removed in blacklight 6.0.0"
-        return solr_yml
-      else
-        raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?"
-      end
+      raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?"
     end
 
     begin
@@ -116,34 +96,6 @@ module Blacklight
     end
 
     return @blacklight_yml
-  end
-
-  def self.solr_yml
-    require 'erb'
-    require 'yaml'
-
-    return @solr_yml if @solr_yml
-    unless File.exists?(solr_file)
-      raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight:install\"?"  
-    end
-
-    begin
-      @solr_erb = ERB.new(IO.read(solr_file)).result(binding)
-    rescue StandardError, SyntaxError => e
-      raise("solr.yml was found, but could not be parsed with ERB. \n#{e.inspect}")
-    end
-
-    begin
-      @solr_yml = YAML::load(@solr_erb)
-    rescue => e
-      raise("solr.yml was found, but could not be parsed.\n#{e.inspect}")
-    end
-
-    if @solr_yml.nil? || !@solr_yml.is_a?(Hash)
-      raise("solr.yml was found, but was blank or malformed.\n")
-    end
-
-    return @solr_yml
   end
 
   def self.logger

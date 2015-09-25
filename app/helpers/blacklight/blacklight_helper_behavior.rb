@@ -10,7 +10,6 @@ module Blacklight::BlacklightHelperBehavior
   include RenderConstraintsHelper
   include RenderPartialsHelper
   include FacetsHelper
-  extend Deprecation
 
   ##
   # Get the name of this application, from either:
@@ -249,8 +248,6 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Render the document "heading" (title) in a content tag
-  # @overload render_document_heading(tag)
-  #   @params [Symbol] tag
   # @overload render_document_heading(document, options)
   #   @params [SolrDocument] document
   #   @params [Hash] options
@@ -260,17 +257,9 @@ module Blacklight::BlacklightHelperBehavior
   #   @options options [Symbol] :tag
   def render_document_heading(*args)
     options = args.extract_options!
-
-    tag_or_document = args.first
-
-    if tag_or_document.is_a? String or tag_or_document.is_a? Symbol
-      Deprecation.warn(Blacklight::BlacklightHelperBehavior, "#render_document_heading with a tag argument is deprecated; pass e.g. `tag: :h4` instead")
-      tag = tag_or_document
-      document = @document
-    else
-      tag = options.fetch(:tag, :h4)
-      document = tag_or_document || @document
-    end
+    document = args.first
+    tag = options.fetch(:tag, :h4)
+    document = document || @document
 
     content_tag(tag, presenter(document).document_heading, itemprop: "name")
   end
@@ -295,33 +284,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render a value (or array of values) from a field
-  #
-  # @deprecated Use DocumentPresenter instead
-  # @param [String] value or list of values to display
-  # @param [Blacklight::Solr::Configuration::Field] solr field configuration
-  # @return [String]
-  def render_field_value value=nil, field_config=nil
-    safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
-
-    if field_config and field_config.itemprop
-      safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
-    end
-
-    safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
-  end
-  deprecation_deprecate render_field_value: "use DocumentPresenter.render_field_value instead"
-
-  ##
-  # Default separator to use in #render_field_value
-  #
-  # @return [String]
-  def field_value_separator
-    ', '
-  end
-  deprecation_deprecate field_value_separator: "use DocumentPresenter.field_value_separator instead"
-
-  ##
   # Get the current "view type" (and ensure it is a valid type)
   #
   # @param [Hash] the query parameters to check
@@ -335,24 +297,6 @@ module Blacklight::BlacklightHelperBehavior
       default_document_index_view_type
     end
   end
-
-  ##
-  # Render the document index heading
-  #
-  # @param [SolrDocument] doc
-  # @param [Hash] opts (deprecated)
-  # @option opts [Symbol] :label Render the given field from the document
-  # @option opts [Proc] :label Evaluate the given proc
-  # @option opts [String] :label Render the given string
-  # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
-  def render_document_index_label doc, field, opts = {}
-    if field.is_a? Hash
-      Deprecation.warn self, "Calling render_document_index_label with a hash is deprecated"
-      field = field[:label]
-    end
-    presenter(doc).render_document_index_label field, opts
-  end
-  deprecation_deprecate render_document_index_label: "use presenter(doc).render_document_index_label instead"
 
   ##
   # Render a partial of an arbitrary format inside a

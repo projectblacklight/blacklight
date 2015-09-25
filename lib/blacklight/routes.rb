@@ -1,9 +1,6 @@
 # -*- encoding : utf-8 -*-
-require 'deprecation'
 module Blacklight
   class Routes
-    extend Deprecation
-
     attr_reader :resources 
 
     # adds as class and instance level accessors, default_route_sets
@@ -92,11 +89,6 @@ module Blacklight
           post "saved_searches/forget/:id",  :to => "saved_searches#forget"
         end
       end
-    
-      def catalog(_=nil)
-        map_resource(:catalog)
-      end
-      deprecation_deprecate catalog: "use Blacklight::Routes.map_resource(:catalog) instead"
 
       def map_resource(key)
         add_routes do |options|

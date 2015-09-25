@@ -4,8 +4,6 @@ module Blacklight
     # solr fields configuration
     module Fields
       extend ActiveSupport::Concern
-      extend Deprecation
-      self.deprecation_horizon = "blacklight 6.0"
 
       module ClassMethods
 
@@ -118,10 +116,8 @@ module Blacklight
 
         raise "A #{config_key} with the key #{field_config.key} already exists." if self[config_key.pluralize][field_config.key].present?
 
-        self[config_key.pluralize][ field_config.key ] = field_config            
+        self[config_key.pluralize][ field_config.key ] = field_config
       end
-      alias_method :add_solr_field, :add_blacklight_field
-      deprecation_deprecate add_solr_field: :add_blacklight_field
 
       protected
       def luke_fields

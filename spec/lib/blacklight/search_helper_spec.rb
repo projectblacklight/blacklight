@@ -51,34 +51,6 @@ describe Blacklight::SearchHelper do
     @subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"rows"=>"10", :"q"=>"wome"}
   end
 
-  describe "solr_search_params" do
-    it "allows customization of the filter pipeline" do
-      # Normally you'd include a new module into (eg) your CatalogController
-      # but a sub-class defininig it directly is simpler for test.
-      allow(subject).to receive(:add_foo_to_solr_params) do |solr_params, user_params|
-        solr_params[:wt] = "TESTING"
-      end
-
-      allow(Deprecation).to receive(:warn)
-      expect(subject.solr_search_params({}, [:add_foo_to_solr_params])[:wt]).to eq "TESTING"
-    end
-  end
-
-  describe "get_facet_pagination", :integration => true do
-    before do
-      @facet_field = 'format'
-      Deprecation.silence(Blacklight::SearchHelper) do
-        @facet_paginator = subject.get_facet_pagination(@facet_field)
-      end
-    end
-    it 'should return a facet paginator' do
-      expect(@facet_paginator).to be_a_kind_of(Blacklight::Solr::FacetPaginator)
-    end
-    it 'with a limit set' do
-      expect(@facet_paginator.limit).not_to be_nil
-    end
-  end
-
   # SPECS FOR SEARCH RESULTS FOR QUERY
   describe 'Search Results', :integration => true do
 
@@ -136,17 +108,6 @@ describe Blacklight::SearchHelper do
 
           replacement_search_builder
         end
-      end
-    end
-
-    describe "#get_search_results " do
-      it "should be deprecated and return results" do
-        expect(Deprecation).to receive(:warn)
-        (solr_response, document_list) = subject.get_search_results(q: @all_docs_query)
-        result_docs = document_list
-        document = result_docs.first
-        expect(document.fetch(blacklight_config.index.title_field)).not_to be_nil
-        expect(document.fetch(blacklight_config.index.display_type_field)).not_to be_nil
       end
     end
 
@@ -332,16 +293,6 @@ describe Blacklight::SearchHelper do
 
   # SPECS FOR SINGLE DOCUMENT REQUESTS
   describe 'Get Document By Id', :integration => true do
-
-    describe "#get_solr_response_for_doc_id" do
-      let(:doc_id) { '2007020969' }
-      it "should be deprecated" do
-        expect(Deprecation).to receive(:warn).at_least(1).times
-        expect(subject.repository).to receive(:find).with(@doc_id, {}).and_call_original
-        subject.get_solr_response_for_doc_id(@doc_id)
-      end
-    end
-
     before do
       @doc_id = '2007020969'
       @bad_id = "redrum"
@@ -378,103 +329,6 @@ describe Blacklight::SearchHelper do
     it 'should have non-nil values for required fields set in initializer' do
       expect(@document.fetch(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
     end
-  end
-
-  describe "solr_doc_params" do
-    it "should default to using the 'document' requestHandler" do
-      Deprecation.silence(Blacklight::SearchHelper) do
-        doc_params = subject.solr_doc_params('asdfg')
-        expect(doc_params[:qt]).to eq 'document'
-      end
-    end
-
-    it "should default to using the id parameter when sending solr queries" do
-      Deprecation.silence(Blacklight::SearchHelper) do
-        doc_params = subject.solr_doc_params('asdfg')
-        expect(doc_params[:id]).to eq 'asdfg'
-      end
-    end
-
-    it "should use the document_unique_id_param configuration" do
-      Deprecation.silence(Blacklight::SearchHelper) do
-        allow(blacklight_config).to receive_messages(document_unique_id_param: :ids)
-        doc_params = subject.solr_doc_params('asdfg')
-        expect(doc_params[:ids]).to eq 'asdfg'
-      end
-    end
-
-    describe "blacklight config's default_document_solr_parameters" do
-      it "should use parameters from the controller's default_document_solr_parameters" do
-        Deprecation.silence(Blacklight::SearchHelper) do
-          blacklight_config.default_document_solr_params = { :qt => 'my_custom_handler', :asdf => '1234' }
-          doc_params = subject.solr_doc_params('asdfg')
-          expect(doc_params[:qt]).to eq 'my_custom_handler'
-          expect(doc_params[:asdf]).to eq '1234'
-        end
-      end
-    end
-
-  end
-
-  describe "Get Document by custom unique id" do
-=begin    
-    # Can't test this properly without updating the "document" request handler in solr
-    it "should respect the configuration-supplied unique id" do
-      allow(SolrDocument).to receive(:unique_key).and_return("title_display")
-      @response, @document = @solr_helper.fetch('"Strong Medicine speaks"')
-      @document.id).to eq '"Strong Medicine speaks"'
-      @document.get(:id)).to eq 2007020969
-    end
-=end
-    it "should respect the configuration-supplied unique id" do
-      Deprecation.silence(Blacklight::SearchHelper) do
-        doc_params = subject.solr_doc_params('"Strong Medicine speaks"')
-        expect(doc_params[:id]).to eq '"Strong Medicine speaks"'
-      end
-    end
-  end
-
-
-
-# SPECS FOR SINGLE DOCUMENT VIA SEARCH
-  describe "Get Document Via Search", :integration => true do
-    before do
-      @doc_row = 3
-      Deprecation.silence(Blacklight::SearchHelper) do
-        @doc = subject.get_single_doc_via_search(@doc_row, :q => @all_docs_query)
-      end
-    end
-=begin
-# can't test these here, because the method only returns the document
-    it "should get a single document" do
-      response.docs.size).to eq 1
-    end
-
-    doc2 = get_single_doc_via_search(@all_docs_query, nil, @doc_row, @multi_facets)
-    it "should limit search result by facets when supplied" do
-      response2expect(.docs.numFound).to_be < response.docs.numFound
-    end
-
-    it "should not have facets in the response" do
-      response.facets.size).to eq 0
-    end
-=end
-
-    it 'should have a doc id field' do
-      expect(@doc[:id]).not_to be_nil
-    end
-
-    it 'should have non-nil values for required fields set in initializer' do
-      expect(@doc[blacklight_config.view_config(:show).display_type_field]).not_to be_nil
-    end
-
-    it "should limit search result by facets when supplied" do
-      Deprecation.silence(Blacklight::SearchHelper) do
-        doc2 = subject.get_single_doc_via_search(@doc_row , :q => @all_docs_query, :f => @multi_facets)
-        expect(doc2[:id]).not_to be_nil
-      end
-    end
-
   end
 
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
@@ -566,33 +420,6 @@ describe Blacklight::SearchHelper do
     end
   end
 
-    describe "#get_solr_response_for_field_values" do
-      before do
-        @mock_response = double()
-        allow(@mock_response).to receive_messages(documents: [])
-      end
-      it "should contruct a solr query based on the field and value pair" do
-        Deprecation.silence(Blacklight::SearchHelper) do
-          allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(value)")).and_return(@mock_response)
-          subject.get_solr_response_for_field_values('field_name', 'value')
-        end
-      end
-
-      it "should OR multiple values together" do
-        Deprecation.silence(Blacklight::SearchHelper) do
-          allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(a OR b)")).and_return(@mock_response)
-          subject.get_solr_response_for_field_values('field_name', ['a', 'b'])
-        end
-      end
-
-      it "should escape crazy identifiers" do
-        Deprecation.silence(Blacklight::SearchHelper) do
-          allow(subject.repository).to receive(:send_and_receive).with('select', hash_including("q" => "{!lucene}field_name:(\"h://\\\"\\\'\")")).and_return(@mock_response)
-          subject.get_solr_response_for_field_values('field_name', 'h://"\'')
-        end
-      end
-    end
-
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)
 #  search within query building (?)
 #  search + facets (search done first; facet selected first, both selected)
@@ -602,8 +429,7 @@ describe Blacklight::SearchHelper do
 #  nearby on shelf
   it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
     allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
-    expect(Deprecation).to receive(:warn)
-    expect { subject.query_solr }.to raise_exception(/Unable to connect to Solr instance/)
+    expect { subject.repository.search }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
   describe "grouped_key_for_results" do

@@ -254,28 +254,6 @@ describe BlacklightHelper do
 
   end
 
-  describe "render_field_value" do
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-    it "should join and html-safe values" do
-      expect(helper.render_field_value(['a', 'b'])).to eq "a, b"
-    end
-
-    it "should join values using the field_value_separator" do
-      allow(helper).to receive(:field_value_separator).and_return(" -- ")
-      expect(helper.render_field_value(['a', 'b'])).to eq "a -- b"
-    end
-
-    it "should use the separator from the Blacklight field configuration by default" do
-      expect(helper.render_field_value(['c', 'd'], double(:separator => '; ', :itemprop => nil))).to eq "c; d"
-    end
-
-    it "should include schema.org itemprop attributes" do
-      expect(helper.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a") 
-    end
-  end
-
   describe "should_show_spellcheck_suggestions?" do
     before :each do
       allow(helper).to receive_messages spell_check_max: 5
@@ -504,13 +482,6 @@ describe BlacklightHelper do
 
     it "should accept no arguments and render the document heading" do
       expect(helper.render_document_heading).to have_selector "h4", text: "Heading"
-    end
-    
-    it "should accept a tag name and render the document heading" do
-      Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
-        expect(helper.render_document_heading(:h3)).to have_selector "h3", text: "Heading"
-        expect(helper.render_document_heading("h2")).to have_selector "h2", text: "Heading"
-      end
     end
 
     it "should accept the tag name as an option" do

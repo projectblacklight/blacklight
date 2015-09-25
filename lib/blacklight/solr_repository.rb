@@ -1,12 +1,6 @@
 module Blacklight
   class SolrRepository < AbstractRepository
-    unless defined? RSolr
-      Deprecation.warn self, "RSolr should be in your gemfile. Blacklight 6.0 will not load rsolr by default"
-      require 'rsolr'
-    end
 
-    extend Deprecation
-    self.deprecation_horizon = 'blacklight 6.0'
     ##
     # Find a single solr document result (by id) using the document configuration
     # @param [String] document's unique key value
@@ -54,21 +48,6 @@ module Blacklight
     rescue RSolr::Error::Http => e
       raise Blacklight::Exceptions::InvalidRequest.new(e.message)
     end
-
-    def blacklight_solr
-      connection
-    end
-    deprecation_deprecate blacklight_solr: :connection
-
-    def blacklight_solr=(conn)
-      self.connection = conn
-    end
-    deprecation_deprecate :blacklight_solr= => :connection=
-
-    def blacklight_solr_config
-      connection_config
-    end
-    deprecation_deprecate blacklight_solr_config: :connection_config
 
     protected
 
