@@ -59,8 +59,31 @@ module Blacklight
     Blacklight::Routes.new(router, options).draw
   end
 
+  ##
+  # The default index connection for the search index
   def self.default_index
-    @default_index ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new)
+    @default_index ||= repository_class.new(default_configuration)
+  end
+
+  ##
+  # The configured repository class. By convention, this is
+  # the class Blacklight::{name of the adapter}::Repository, e.g.
+  #   elastic_search => Blacklight::ElasticSearch::Repository
+  def self.repository_class
+    case connection_config[:adapter]
+    when 'solr'
+      Blacklight::SolrRepository
+    when /::/
+      connection_config[:adapter].constantize
+    else
+      Blacklight.const_get("#{connection_config[:adapter]}/Repository".classify)
+    end
+  end
+
+  ##
+  # The default Blacklight configuration.
+  def self.default_configuration
+    Blacklight::Configuration.new
   end
 
   def self.connection_config
