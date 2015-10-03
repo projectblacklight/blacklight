@@ -87,7 +87,26 @@ module Blacklight
         safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
       end
 
-      safe_join(safe_values, (field_config.separator if field_config) || field_value_separator)
+      render_values(safe_values, field_config)
+    end
+
+    ##
+    # Render a fields values as a string
+    # @param [Array] values to display
+    # @param [Blacklight::Solr::Configuration::Field] solr field configuration
+    # @return [String]
+    def render_values(values, field_config = nil)
+      options = {}
+      options = field_config.separator_options if field_config && field_config.separator_options
+
+      if field_config && field_config.separator
+        Deprecation.warn(self.class, 'The field configuration #separator is deprecated. Use #separator_options instead')
+        options[:words_connector] ||= field_config.separator
+        options[:two_words_connector] ||= field_config.separator
+        options[:last_word_connector] ||= field_config.separator
+      end
+
+      values.to_sentence(options)
     end
 
     ##
@@ -207,14 +226,5 @@ module Blacklight
           value
         end
     end
-
-    ##
-    # Default separator to use in #render_field_value
-    #
-    # @return [String]
-    def field_value_separator
-      ', '
-    end
-
   end
 end
