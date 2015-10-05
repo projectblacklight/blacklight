@@ -274,20 +274,21 @@ describe Blacklight::DocumentPresenter do
   end
   describe "render_field_value" do
     it "should join and html-safe values" do
-      expect(subject.render_field_value(['a', 'b'])).to eq "a, b"
-    end
-
-    it "should join values using the field_value_separator" do
-      allow(subject).to receive(:field_value_separator).and_return(" -- ")
-      expect(subject.render_field_value(['a', 'b'])).to eq "a -- b"
+      expect(subject.render_field_value(['a', 'b'])).to eq "a and b"
     end
 
     it "should use the separator from the Blacklight field configuration by default" do
-      expect(subject.render_field_value(['c', 'd'], double(:separator => '; ', :itemprop => nil))).to eq "c; d"
+      Deprecation.silence(Blacklight::DocumentPresenter) do
+        expect(subject.render_field_value(['c', 'd'], double(separator: '; ', itemprop: nil, separator_options: nil))).to eq "c; d"
+      end
+    end
+
+    it "should use the field_config.separator_options from the Blacklight field configuration" do
+      expect(subject.render_field_value(['c', 'd'], double(separator: nil, itemprop: nil, separator_options: { two_words_connector: '; '}))).to eq "c; d"
     end
 
     it "should include schema.org itemprop attributes" do
-      expect(subject.render_field_value('a', double(:separator => nil, :itemprop => 'some-prop'))).to have_selector("span[@itemprop='some-prop']", :text => "a")
+      expect(subject.render_field_value('a', double(separator: nil, itemprop: 'some-prop', separator_options: nil))).to have_selector("span[@itemprop='some-prop']", :text => "a")
     end
   end
 
