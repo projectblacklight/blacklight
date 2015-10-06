@@ -299,7 +299,7 @@ module Blacklight::Solr
         when value.is_a?(Range)
           "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
         else
-          "{!raw f=#{solr_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
+          "{!term f=#{solr_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
       end
     end
 
