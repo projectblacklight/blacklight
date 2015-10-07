@@ -282,7 +282,12 @@ module Blacklight::Solr
 
       case
         when (facet_config and facet_config.query)
-          facet_config.query[value][:fq]
+          if facet_config.query[value]
+            facet_config.query[value][:fq]
+          else
+            # exclude all documents if the custom facet key specified was not found
+            '-*:*'
+          end
         when (facet_config and facet_config.date)
           # in solr 3.2+, this could be replaced by a !term query
           "#{prefix}#{solr_field}:#{RSolr.solr_escape(value)}"
