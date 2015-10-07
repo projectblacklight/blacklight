@@ -69,7 +69,19 @@ describe CatalogController do
           expect(facet.items).to be_empty
         end
       end
+      
+      it "should show 0 results when the user asks for an invalid value to a custom facet query", :integration => true do
+        get :index, f: {example_query_facet_field: 'bogus'} # bogus custom facet value
+        expect(assigns_response.docs).to be_empty
+      end
 
+      it "should return results (possibly 0) when the user asks for a valid value to a custom facet query", :integration => true do
+        get :index, f: {example_query_facet_field: 'years_10'} # valid custom facet value with some results
+        expect(assigns_response.docs).to_not be_empty
+        get :index, f: {example_query_facet_field: 'years_5'}  # valid custom facet value with NO results
+        expect(assigns_response.docs).to be_empty
+      end
+      
       it "should have a spelling suggestion for an appropriately poor query", :integration => true do
         get :index, :q => 'boo'
         expect(assigns_response.spelling.words).to_not be_nil
