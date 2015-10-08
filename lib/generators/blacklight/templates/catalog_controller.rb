@@ -53,9 +53,14 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
+    
+    # set :index_pagination to true if you want the pop-up window for large facets to have alphabetical index navigation
+    #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
+    # if you set :index_pagination to true, you MUST set :index_range to an array of characters that will be used to create the navigation (note: It is case sensitive when searching values)
+    
     config.add_facet_field 'format', :label => 'Format'
     config.add_facet_field 'pub_date', :label => 'Publication Year', :single => true
-    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20 
+    config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20, :index_pagination=>true, :index_range=>('A' .. 'Z').to_a
     config.add_facet_field 'language_facet', :label => 'Language', :limit => true 
     config.add_facet_field 'lc_1letter_facet', :label => 'Call Number' 
     config.add_facet_field 'subject_geo_facet', :label => 'Region' 

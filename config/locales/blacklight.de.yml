@@ -185,6 +185,8 @@ de:
         counter: '%{counter}. '
       facets:
         title: 'Beschränken dein Suche'
+        filter: 'Filter:'
+        clear: 'Löschen'
         sort:
           count: 'Numerisch ordnen'
           index: 'A-Z Ordnen'
