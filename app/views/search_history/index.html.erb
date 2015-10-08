@@ -5,7 +5,7 @@
 <%- if @searches.blank? -%>
   <h3 class='section-heading'><%=t('blacklight.search_history.no_history')%></h3>
 <%- else -%>
-    <%= link_to t('blacklight.search_history.clear.action_title'), blacklight.clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger pull-right' %>
+    <%= link_to t('blacklight.search_history.clear.action_title'), blacklight.clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger pull-md-right' %>
   <h3 class='section-heading'><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search_history">
     <%-  @searches.each_with_index do |search,index| -%>
@@ -14,9 +14,9 @@
       <%- if has_user_authentication_provider? -%>
         <td class="actions">
           <%- if current_or_guest_user && search.saved? -%>
-            <%= button_to t('blacklight.search_history.forget'), blacklight.forget_search_path(search.id), :class => 'btn btn-default' %>
+            <%= button_to t('blacklight.search_history.forget'), blacklight.forget_search_path(search.id), :class => 'btn btn-secondary' %>
           <%- else -%>
-            <%= button_to t('blacklight.search_history.save'), blacklight.save_search_path(search.id), :method => :put, :class => 'btn btn-default' %>
+            <%= button_to t('blacklight.search_history.save'), blacklight.save_search_path(search.id), :method => :put, :class => 'btn btn-secondary' %>
           <%- end -%>
         </td>
       <%- end -%>

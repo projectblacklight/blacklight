@@ -10,7 +10,7 @@
     </div>
   <% end %>
   <% if current_search_session %>
-    <div class="pull-right search-widgets">
+    <div class="pull-md-right search-widgets">
       <%= link_back_to_catalog class: 'btn' %>
 
       <%=link_to t('blacklight.search.start_over'), start_over_path(current_search_session.try(:query_params) || {}), id: 'startOverLink', class: 'btn' %>

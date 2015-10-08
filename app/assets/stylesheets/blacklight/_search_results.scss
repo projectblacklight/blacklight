@@ -1,10 +1,10 @@
 // the search results on the index view of the catalog
 .documents-list {
   .document {
-    margin-top: $padding-base-vertical;
-    padding-top: $padding-base-vertical;
-    border-bottom:1px dotted $table-border-color;
     @extend .clearfix;
+    border-bottom: 1px dotted $table-border-color;
+    margin-top: $spacer-y;
+    padding-top: $spacer-y;
 
     .document-title-heading {
       @extend h5;
@@ -13,16 +13,17 @@
     // bookmarks checkbox on index, give it some
     // lower margin when it collapses
     .index-document-functions {
-      margin-bottom: ($line-height-computed / 2);
-      @media (min-width: $screen-sm-min) {
+      margin-bottom: ($line-height-base / 2);
+
+      @media (min-width: breakpoint-min(sm)) {
         margin-bottom: 0;
       }
     }
 
     .document-thumbnail {
       float: right;
-      padding-left: $line-height-computed;
-      margin-bottom: $line-height-computed;
+      margin-bottom: $line-height-base;
+      padding-left: $line-height-base;
     }
   }
 }

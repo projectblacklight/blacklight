@@ -7,11 +7,11 @@
     per_page:      number of items to fetch per page
     remote:        data-remote
 -%>
-<li class="<%= 'active' if page.current? %>">
+<li class="page-item <%= 'active' if page.current? %>">
   <% if page.current? %>
-    <span><%= number_with_delimiter(page.to_s) %></span>
+    <span class="page-link"><%= number_with_delimiter(page.to_s) %></span>
   <% else %>
-    <%= link_to number_with_delimiter(page.to_s), url, opts = {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil} %>
+    <%= link_to number_with_delimiter(page.to_s), url, :remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil, class: 'page-link' %>
   <% end %>
 </li>
 

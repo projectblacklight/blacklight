@@ -1,16 +1,21 @@
-<div class="page-header row">
-  <h2 class="col-md-8 page-heading"><%= t('blacklight.welcome') %></h2>
-  
-  <ul class="nav nav-pills col-md-4">
-    <li><a href="https://github.com/projectblacklight/blacklight/">Github</a></li>
-    <li><a href="https://github.com/projectblacklight/blacklight/wiki">Wiki</a></li>
-    <li><a href="https://github.com/projectblacklight/blacklight/releases/tag/v<%= Blacklight::VERSION %>">Release Notes</a></li>
+<div class="jumbotron welcome clearfix row">
+  <h2 class="page-heading"><%= t('blacklight.welcome') %></h2>
+  <p class="lead">A multi-institutional open-source collaboration building a better discovery platform framework</p>
+  <nav class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" href="https://github.com/projectblacklight/blacklight/">Github</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://github.com/projectblacklight/blacklight/wiki">Wiki</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://github.com/projectblacklight/blacklight/releases/tag/v<%= Blacklight::VERSION %>">Release Notes</a>
+    </li>
   </ul>
-
 </div>
 
 <div id="getting-started">
-  <h3 class='section-heading'>Here&rsquo;s how to get started:</h3>
+  <h3 class='section-heading'>Here’s how to get started:</h3>
   
   <ol>
     <li>To modify this text, you need to <a href="http://guides.rubyonrails.org/engines.html#improving-engine-functionality">override the Blacklight-provided view</a>.
@@ -26,23 +31,15 @@ to your own application: <br />
 </div>
 
 <%# This is the same panel shown in the Rails welcome template %>
-<div id="about">
-  <h3 class='section-heading'><a href="/rails/info/properties">About your application&rsquo;s environment</a></h3>
-  <div id="about-content" class="well" style="display: none"></div>
+<div id="about" class="card">
+  <h3 class='card-header collapsed collapse-toggle' data-toggle="collapse" data-target="#about-content"><a href="/rails/info/properties">About your application&rsquo;s environment</a></h3>
+  <div id="about-content" class="card-block collapse"></div>
 </div>
 
 <script>
-  $(function() {
-    $('#about a').on('click', function(e) {
-      e.preventDefault();
-
-      if ($('#about-content').html() == "") {
-        $('#about-content').load($(this).attr("href"), function() {
-          $('#about-content').show();
-        });
-      } else {
-        $('#about-content').toggle();
-      }
+  Blacklight.onLoad(function() {
+    $('#about .card-header').one('click', function() {
+      $($(this).data('target')).load($(this).find('a').attr('href'));
     });
   });
 </script>

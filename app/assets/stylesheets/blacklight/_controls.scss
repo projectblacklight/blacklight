@@ -1,6 +1,6 @@
 .sort-pagination,
 .pagination-search-widgets {
-  border-bottom: 1px solid $pagination-border;
+  border-bottom: $pagination-border-width solid $pagination-border-color;
   margin-bottom: 1em;
   padding-bottom: 1em;
 }
@@ -8,7 +8,7 @@
 .pagination-search-widgets {
   @extend .clearfix;
   padding-top: 1px;
-  padding-bottom: $padding-base-vertical;
+  padding-bottom: $spacer-y;
 }
 
 .sort-pagination .dropdown-toggle {
@@ -43,7 +43,7 @@
   color: $link-color;
 
   .caret {
-    color: $text-color;
+    color: $body-color;
   }
 }
 
@@ -51,7 +51,7 @@
   width: 80%;
 }
 
-@media (max-width: $screen-sm-min) {
+@media (max-width: breakpoint-max(xs)) {
   .search-input-group {
     width: auto;
   }

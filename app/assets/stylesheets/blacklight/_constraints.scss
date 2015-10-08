@@ -1,5 +1,6 @@
 .constraints-container {
-  @extend .well;
+  @extend .card;
+  background-color: $gray-lightest;
   line-height: 2.5;
   padding: 16px 19px;
 }
@@ -14,36 +15,34 @@ span.constraints-label {
     text-overflow: ellipsis;
     overflow: hidden;
 
-    @media (max-width: $screen-xs-max) {
-      max-width: $screen-xs-min / 2;
+    @media (max-width: breakpoint-max(xs)) {
+      max-width: breakpoint-max(xs) / 2;
     }
 
-    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-      max-width: $screen-sm-min / 2;
+    @media (min-width: breakpoint-min(sm)) and (max-width: breakpoint-max(sm)) {
+      max-width: breakpoint-min(sm) / 2;
     }
 
-    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-      max-width: $screen-md-min / 2;
+    @media (min-width: breakpoint-min(md)) and (max-width: breakpoint-max(md)) {
+      max-width: breakpoint-min(md) / 2;
     }
 
-    @media (min-width: $screen-lg-min) {
-      max-width: $screen-lg-min / 2;
+    @media (min-width: breakpoint-min(lg)) {
+      max-width: breakpoint-min(lg) / 2;
     }
 
     &:hover, &:active {
-      background-color: $btn-default-bg;
-      border-color: $btn-default-border;
+      background-color: $btn-secondary-bg;
+      border-color: $btn-secondary-border;
       box-shadow: none;
     }
   }
 
   .filterName:after {
     @extend .text-muted;
-    font-family: 'Glyphicons Halflings';
-    /* glyphicon-chevron-right */
-    content: "\e080";
-    font-size: 70%;
-    padding-left: $caret-width-base;
+    content: "❯";
+    font-size: 90%;
+    padding-left: $caret-width;
   }
 
   .remove:hover, .remove:active {

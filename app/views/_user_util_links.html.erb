@@ -1,26 +1,22 @@
-<div class="navbar-right">
-  <ul class="nav navbar-nav">
-    <%= render_nav_actions do |config, action|%>
-      <li><%= action %></li>
-    <% end %>
-  </ul>
+<ul class="nav navbar-nav">
+  <%= render_nav_actions do |config, action|%>
+    <li class="nav-item"><%= action %></li>
+  <% end %>
 
   <% if has_user_authentication_provider? %>
-    <ul class="nav navbar-nav">
-      <% if current_user %>
-      <li>
-        <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path %>
-      </li>
-      <% unless current_user.to_s.blank? -%>
-      <li>
-        <%= link_to current_user, edit_user_registration_path %>
-      </li>
-      <% end %>
-      <% else %>
-      <li>
-        <%= link_to t('blacklight.header_links.login'), new_user_session_path %>
-      </li>
-      <% end %>
-      </ul>
+    <% if current_user %>
+    <li class="nav-item">
+      <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path, class: 'nav-link' %>
+    </li>
+    <% unless current_user.to_s.blank? -%>
+    <li class="nav-item">
+      <%= link_to current_user, edit_user_registration_path, class: 'nav-link' %>
+    </li>
+    <% end %>
+    <% else %>
+    <li class="nav-item">
+      <%= link_to t('blacklight.header_links.login'), new_user_session_path, class: 'nav-link' %>
+    </li>
+    <% end %>
   <% end %>
-</div>
+</ul>

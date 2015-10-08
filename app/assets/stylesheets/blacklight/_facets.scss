@@ -1,41 +1,13 @@
-.page-sidebar,
-.facets {
-  @extend .clearfix;
-  padding-bottom: $padding-large-vertical;
-}
-
-.facets .facets-heading {
-  @extend h4;
-}
-
-.no-js {
-  .page-sidebar .collapse {
-    @extend .in;
-  }  
+.facets-heading {
+  @extend .h4;
 }
 
 .facet_limit-active {
-  @extend .panel-success;
-}
+  @extend .card-outline-success;
+  @extend .card-inverse;
 
-.facets > .collapse {
-  @extend .navbar-collapse;
-  padding-left: 0;
-  padding-right: 0;
-  border-top: none;
-  box-shadow: none;
-  max-height: none;
-}
-
-.facets-toggle {
-  @extend .navbar-toggle;
-  @extend .btn;
-  @extend .btn-default;
-
-  border-color: $navbar-default-toggle-border-color;
-
-  .icon-bar {
-    background-color: $navbar-default-toggle-icon-bar-bg;
+  .card-header {
+    @extend .card-success;
   }
 }
 
@@ -43,6 +15,7 @@
   display: table;
   table-layout: fixed;
   width: 100%;
+  margin-bottom: 0;
 
   li {
 
@@ -54,18 +27,14 @@
   }
 
   .remove {
-    @extend .text-muted;
-    text-indent: $padding-base-horizontal;
-
-    .glyphicon {
-      top: 0.1em;
-      vertical-align: text-top;
-    }
+    color: $text-muted;
+    font-weight: bold;
+    padding-left: $spacer-x / 2;
 
     &:hover {
       color: $brand-danger;
+      text-decoration: none;
     }
-
   }
 
   @mixin hyphens-auto {
@@ -80,7 +49,7 @@
     padding-right: 1em;
     text-indent: -15px;
     padding-left: 15px;
-    padding-bottom: $padding-base-vertical;
+    padding-bottom: $spacer-y;
     @include hyphens-auto;
   }
 
@@ -107,22 +76,12 @@
 
 }
 
-.collapse-toggle {
-  cursor: pointer;
-}
+.facet-field-heading {
+  @extend .h6;
 
-.panel-heading.collapse-toggle .panel-title:after {
-    /* symbol for "opening" panels */
-    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
-    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
-    float: right;        /* adjust as needed */
-    color: grey;         /* adjust as needed */
-    font-size: 0.8em;
-    line-height: normal;
-}
-.panel-heading.collapse-toggle.collapsed .panel-title:after {
-    /* symbol for "collapsed" panels */
-    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+  a {
+    color: inherit;
+  }
 }
 
 /* Sidenav
@@ -137,29 +96,6 @@
 }
 
  
-// Facet modal alphabetical filter
-.alpha-filter {
-  .btn {
-    vertical-align: top;
-  }
-
-  .pagination {
-    margin: 0;
-  }
-}
-
-@media (max-width: $grid-float-breakpoint) {
-
-  .facets-toggle {
-    margin-top: 3px;
-  }
-
-  .facets .top-panel-heading {
-    border: 1px solid $breadcrumb-color;
-    margin-bottom: 1em;
-    @include border-bottom-radius($panel-border-radius - 1);
-  }
-}
 
 /* style for pivot facet's nested list */
 
@@ -168,7 +104,7 @@
 
   ul, .pivot-facet {
     @extend .list-unstyled;
-    padding-bottom: $padding-base-vertical;
-    padding-left: $padding-large-horizontal;
+    @extend .p-y-1;
+    @extend .p-x-3;
   }
 }

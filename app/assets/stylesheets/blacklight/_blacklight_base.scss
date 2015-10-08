@@ -7,7 +7,7 @@
    not to use the Blacklight CSS file at all in your local app. */
 
 @import 'blacklight/blacklight_defaults';
-
+@import "blacklight/bootstrap_overrides";
 @import "blacklight/layout";
 @import "blacklight/header";
 @import "blacklight/constraints";
