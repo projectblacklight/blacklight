@@ -183,6 +183,8 @@ en:
         counter: '%{counter}. '
       facets:
         title: 'Limit your search'
+        filter: 'Filter:'
+        clear: 'Clear'
         sort:
           count: 'Numerical Sort'
           index: 'A-Z Sort'
