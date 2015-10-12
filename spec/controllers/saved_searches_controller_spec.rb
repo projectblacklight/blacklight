@@ -26,7 +26,7 @@ describe SavedSearchesController do
       session[:history] = [@one.id]
       expect {
         post :save, :id => @two.id
-      }.to raise_exception
+      }.to raise_error ActiveRecord::RecordNotFound
     end
 
   end
