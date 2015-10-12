@@ -53,7 +53,7 @@ describe Blacklight::SearchFields do
       expect { allow(@bad_config).to receive(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
            config.add_search_field :label => 'All Fields', :qt => 'all_fields'
            config.add_search_field 'title', :qt => 'title_search'
-      })   }.to raise_error
+      })   }.to raise_error ArgumentError
     end
   end
 
@@ -66,7 +66,7 @@ describe Blacklight::SearchFields do
         config.add_search_field 'my_key', :label => 'All Fields'
         config.add_search_field 'my_key', :label => 'title'
 
-      }) }.to raise_error
+      }) }.to raise_error RuntimeError
     end
   end
   
