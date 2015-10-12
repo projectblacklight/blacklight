@@ -536,7 +536,7 @@ describe CatalogController do
       allow(controller).to receive(:get_search_results) { |*args| raise fake_error }
       allow(controller.flash).to receive(:sweep)
       allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
-      expect { get :index, q: "+" }.to raise_error
+      expect { get :index, q: "+" }.to raise_error Blacklight::Exceptions::InvalidRequest
     end
 
   end
