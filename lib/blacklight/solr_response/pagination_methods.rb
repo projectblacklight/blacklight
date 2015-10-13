@@ -14,4 +14,12 @@ module Blacklight::SolrResponse::PaginationMethods
   def total_count #:nodoc:
     total
   end
+
+  def cursor_mark
+    params['cursorMark']
+  end
+
+  def next_cursor_mark
+    self['nextCursorMark'] unless self['nextCursorMark'] == params['cursorMark']
+  end
 end

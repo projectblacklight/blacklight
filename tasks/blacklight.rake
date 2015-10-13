@@ -12,7 +12,7 @@ EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
 task :ci => ['blacklight:generate'] do
-  SolrWrapper.wrap(port: '8888') do |solr|
+  SolrWrapper.wrap(port: '8888', version: '4.3.0') do |solr|
     solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
       within_test_app do
         system "RAILS_ENV=test rake blacklight:index:seed"
@@ -42,10 +42,10 @@ namespace :blacklight do
       Rake::Task['engine_cart:generate'].invoke
     end
 
-    SolrWrapper.wrap(port: '8888') do |solr|
+    SolrWrapper.wrap(port: '8983') do |solr|
       solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
         within_test_app do
-          system "rake solr:marc:index_test_data"
+          system "rake blacklight:index:seed"
           system "bundle exec rails s"
         end
       end

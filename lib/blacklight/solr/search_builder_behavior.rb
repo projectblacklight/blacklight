@@ -177,9 +177,14 @@ module Blacklight::Solr
 
       solr_params[:rows] = rows
 
-      if start != 0
+      if blacklight_params[:cursor]
+        solr_params[:cursorMark] = blacklight_params[:cursor]
+        solr_params[:_start_] = rows * page
+      elsif start != 0
         solr_params[:start] = start
       end
+
+      solr_params[:cursorMark] ||= '*'
     end
 
     ###

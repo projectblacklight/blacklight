@@ -35,7 +35,7 @@ class Blacklight::SolrResponse < HashWithIndifferentAccess
   end
 
   def start
-    params[:start].to_i
+    (params[:_start_] || params[:start]).to_i
   end
 
   def rows

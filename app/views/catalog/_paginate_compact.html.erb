@@ -3,4 +3,4 @@
 
         <%= render :partial => "paginate_compact", :object => @response
 -%>
-<%= paginate paginate_compact, :page_entries_info => page_entries_info(paginate_compact), :theme => :blacklight_compact %>
+<%= paginate paginate_compact, :page_entries_info => page_entries_info(paginate_compact), :theme => :blacklight_compact, next_cursor_mark: @response.next_cursor_mark %>
