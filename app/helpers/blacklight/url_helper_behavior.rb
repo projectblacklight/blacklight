@@ -253,6 +253,14 @@ module Blacklight::UrlHelperBehavior
     new_params
   end
 
+  # Get url parameters to a search within a grouped result set
+  #
+  # @param [Blacklight::SolrResponse::Group]
+  # @return [Hash]
+  def add_group_facet_params_and_redirect group
+    add_facet_params_and_redirect(group.field, group.key)
+  end
+
   # copies the current params (or whatever is passed in as the 3rd arg)
   # removes the field value from params[:f]
   # removes the field if there are no more values in params[:f][field]

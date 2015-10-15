@@ -203,15 +203,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Get url parameters to a search within a grouped result set
-  # 
-  # @param [Blacklight::Solr::Response::Group]
-  # @return [Hash]
-  def add_group_facet_params_and_redirect group
-    add_facet_params_and_redirect(group.field, group.key)
-  end
-
-  ##
   # Render the view type icon for the results view picker
   # 
   # @param [String]
