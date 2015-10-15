@@ -5,6 +5,8 @@ require 'blacklight/utils'
 
 module Blacklight
   autoload :Exceptions, 'blacklight/exceptions'
+  autoload :Path,       'blacklight/path'
+  autoload :Parameters, 'blacklight/parameters'
   autoload :Routes, 'blacklight/routes'
 
   extend Deprecation

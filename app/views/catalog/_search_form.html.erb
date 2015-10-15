@@ -1,6 +1,5 @@
 <%= form_tag search_action_url, method: :get, class: 'search-query-form clearfix navbar-form', role: 'search' do %>
-  <%= render_hash_as_hidden_fields(params_for_search().except(:q, :search_field, :qt, :page, :utf8)) %>
-
+  <%= render_hash_as_hidden_fields(current_path.params_for_search.except(:q, :search_field, :qt, :page, :utf8)) %>
   <div class="input-group">
     <% if search_fields.length > 1 %>
       <span class="input-group-addon for-search-field">
