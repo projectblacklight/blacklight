@@ -20,13 +20,27 @@
 #search-navbar {
   z-index: 1;
 
-  .search-query-form {
-    @extend .col-md-8;
-    padding-left: 0;
+  .input-group {
+    width: 100%;
+  }
+
+  .input-group-addon {
+    &.for-search-field {
+      background-color: $input-bg;
+      border-radius: $border-radius-base 0 0 $border-radius-base;
+      width: 15ch;
+    }
+  }
+
+  .search_field {
+    background: transparent;
+    border: none;
   }
 
   .search-query-form {
+    @extend .col-md-8;
     border: 0;
+    padding-left: 0;
   }
   .submit-search-text {
     // hide 'search' label at very small screens
