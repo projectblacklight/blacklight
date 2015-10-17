@@ -554,6 +554,7 @@ describe Blacklight::Solr::SearchBuilder do
     let(:facet_field) { 'format' }
     let(:sort_key) { Blacklight::Solr::FacetPaginator.request_keys[:sort] }
     let(:page_key) { Blacklight::Solr::FacetPaginator.request_keys[:page] }
+    let(:prefix_key) { Blacklight::Solr::FacetPaginator.request_keys[:prefix] }
 
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
@@ -610,6 +611,13 @@ describe Blacklight::Solr::SearchBuilder do
       let(:user_params) { { sort_key => 'index' } }
       it 'uses sort provided in the parameters' do
         expect(solr_parameters[:"f.#{facet_field}.facet.sort"]).to eq 'index'
+      end
+    end
+
+    context 'when a prefix is provided' do
+      let(:user_params) { { prefix_key => 'A' } }
+      it 'includes the prefix in the query' do
+        expect(solr_parameters[:"f.#{facet_field}.facet.prefix"]).to eq 'A'
       end
     end
   end

@@ -191,7 +191,6 @@ fr:
         unselect: 'Panier'
       facets:
         title: 'Limiter votre recherche'
-        filter: 'Filtre:'
         clear: 'Effacer'
         sort:
           count: 'Du + au - fréquent'

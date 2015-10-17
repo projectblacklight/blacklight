@@ -13,12 +13,6 @@ module Blacklight::FacetsHelperBehavior
   end
 
   ##
-  # The querystring params without the facet filter, used for index navigation#
-  def params_no_facet_filter
-    params.except(:'facet.prefix')
-  end
-  
-  ##
   # Render a collection of facet fields.
   # @see #render_facet_limit 
   # 

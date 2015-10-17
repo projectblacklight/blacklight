@@ -185,7 +185,6 @@ es:
         counter: '%{counter}.'
       facets:
         title: 'Limite su búsqueda'
-        filter: 'Límite:'
         clear: 'Borrar'
         sort:
           count: 'Ordenación numérica'

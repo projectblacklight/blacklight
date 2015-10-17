@@ -76,11 +76,30 @@ describe Blacklight::SolrResponse::Facets do
 
       it "should default to count if no value is found and the default limit is used" do
         expect(subject.aggregations['my_field'].sort).to eq 'count'
+        expect(subject.aggregations['my_field'].count?).to eq true
       end
       
       it "should default to index if no value is found and the limit is unlimited" do
         request_params['facet.limit'] = -1
         expect(subject.aggregations['my_field'].sort).to eq 'index'
+        expect(subject.aggregations['my_field'].index?).to eq true
+      end
+    end
+
+    describe '#prefix' do
+      it 'extracts field-specific prefix values' do
+        request_params['f.my_field.facet.prefix'] = "a"
+        request_params['facet.prefix'] = "b"
+        expect(subject.aggregations['my_field'].prefix).to eq 'a'
+      end
+
+      it "extracts a global sort value" do
+        request_params['facet.prefix'] = "abc"
+        expect(subject.aggregations['my_field'].prefix).to eq 'abc'
+      end
+
+      it "defaults to no prefix value" do
+        expect(subject.aggregations['my_field'].prefix).to be_nil
       end
     end
   end

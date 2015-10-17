@@ -155,19 +155,14 @@ ul.facet_extended_list, .facet_extended_list ul
  
 // Facet modal alphabetical filter
 .alpha-filter {
-  margin-bottom: 18px;
-  text-align: center;
+  .btn {
+    vertical-align: top;
+  }
 
-  a {
-    padding: 0 2px;
-    
-    &.active {
-      color: inherit;
-      font-weight: bold;
-    }
+  .pagination {
+    margin: 0;
   }
 }
-
 
 @media (max-width: $grid-float-breakpoint) {
 

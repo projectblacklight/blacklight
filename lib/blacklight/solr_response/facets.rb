@@ -45,6 +45,18 @@ module Blacklight::SolrResponse::Facets
     def offset
       @options[:offset] || solr_default_offset
     end
+
+    def prefix
+      @options[:prefix] || solr_default_prefix
+    end
+
+    def index?
+      sort == 'index'
+    end
+
+    def count?
+      sort == 'count'
+    end
     
     private
     # Per https://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
@@ -65,7 +77,10 @@ module Blacklight::SolrResponse::Facets
     def solr_default_offset
       0
     end
-    
+
+    def solr_default_prefix
+      nil
+    end
   end
 
   ##
@@ -148,6 +163,10 @@ module Blacklight::SolrResponse::Facets
 
       if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
         options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
+      end
+
+      if params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix']
+        options[:prefix] = (params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix'])
       end
 
       hash[facet_field_name] = FacetField.new(facet_field_name, items, options)

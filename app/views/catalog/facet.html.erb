@@ -3,11 +3,11 @@
 </div>
 
 <div class="modal-header">
-  <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
-
   <button type="button" class="ajax-modal-close close" data-dismiss="modal" aria-hidden="true">×</button>
 
   <h3 class="modal-title"><%= facet_field_label(@facet.key) %></h3>
+  <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
+
 </div>
 <div class="modal-body">
   <div class="facet_extended_list">

@@ -38,13 +38,13 @@ describe "Facets" do
     end
     expect(page).to have_selector '.facet-values li:first', text: "Accident insurance"
     expect(page).to have_css '.facet-values li', count: 20
-    find(:css,".facet_pagination.bottom").click_on "B"  
+    click_on 'B'
     expect(page).to have_selector '.facet-values li:first', text: "Buddhism"
     expect(page).to have_css '.facet-values li', count: 1
-    find(:css,".facet_pagination.bottom").click_on "T"
+    click_on 'T'
     expect(page).to have_selector '.facet-values li:first', text: "Teaching"
     expect(page).to have_css '.facet-values li', count: 4
-    find(:css,".facet_pagination.bottom").click_on "Clear"
+    click_on 'Clear Filter'
     expect(page).to have_selector '.facet-values li:first', text: "Accident insurance"
     expect(page).to have_css '.facet-values li', count: 20
     find(:css,".facet_pagination.bottom").click_on "Numerical Sort"

@@ -9,3 +9,13 @@
   text-align: center ;
 }
 
+
+.pagination-xs {
+  li {
+    a,
+    span {
+      border: none;
+      padding: $padding-xs-vertical $padding-xs-horizontal;
+    }
+  }
+}

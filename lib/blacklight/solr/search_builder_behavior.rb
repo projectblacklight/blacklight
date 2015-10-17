@@ -216,6 +216,7 @@ module Blacklight::Solr
       offset = (page - 1) * (limit)
 
       sort = blacklight_params[request_keys[:sort]]
+      prefix = blacklight_params[request_keys[:prefix]]
 
       # Need to set as f.facet_field.facet.* to make sure we
       # override any field-specific default in the solr request handler.
@@ -223,6 +224,9 @@ module Blacklight::Solr
       solr_params[:"f.#{facet}.facet.offset"] = offset
       if blacklight_params[request_keys[:sort]]
         solr_params[:"f.#{facet}.facet.sort"] = sort
+      end
+      if blacklight_params[request_keys[:prefix]]
+        solr_params[:"f.#{facet}.facet.prefix"] = prefix
       end
       solr_params[:rows] = 0
     end

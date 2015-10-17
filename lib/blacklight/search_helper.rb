@@ -93,7 +93,6 @@ module Blacklight::SearchHelper
   # @return [Blacklight::SolrResponse] the solr response
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
     query = search_builder.with(user_params).facet(facet_field)
-    extra_controller_params.merge!({:"facet.prefix"=>user_params[:"facet.prefix"]}) unless user_params[:"facet.prefix"].blank?
     repository.search(query.merge(extra_controller_params))
   end
 

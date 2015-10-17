@@ -185,7 +185,6 @@ it:
         counter: '%{counter}. '
       facets:
         title: 'Affina la ricerca'
-        filter: 'Limite:'
         clear: 'Cancella'
         sort:
           count: 'Ordina per numero'

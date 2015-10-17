@@ -183,7 +183,6 @@ pt-BR:
         counter: '%{counter}. '
       facets:
         title: 'Filtre sua busca'
-        filter: 'Filtre:'
         clear: 'Limpar'  
         sort:
           count: 'Ordenar por Número'
