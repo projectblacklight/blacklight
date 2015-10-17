@@ -101,7 +101,7 @@ module Blacklight
 
     # a solr query method
     # @param [Hash,HashWithIndifferentAccess] extra_controller_params (nil) extra parameters to add to the search
-    # @return [Blacklight::SolrResponse] the solr response object
+    # @return [Blacklight::Solr::Response] the solr response object
     def to_hash method_extra_params = nil
       unless method_extra_params.nil?
         Deprecation.warn(Blacklight::SearchBuilder, "Calling SearchBuilder#query with extra parameters is deprecated. Use #merge(Hash) instead")

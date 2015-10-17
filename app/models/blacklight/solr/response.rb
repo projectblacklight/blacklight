@@ -1,14 +1,14 @@
-class Blacklight::SolrResponse < HashWithIndifferentAccess
+class Blacklight::Solr::Response < HashWithIndifferentAccess
   extend Deprecation
 
-  require  'blacklight/solr_response/pagination_methods'
+  require  'blacklight/solr/response/pagination_methods'
 
-  require 'blacklight/solr_response/response'
-  require 'blacklight/solr_response/spelling'
-  require 'blacklight/solr_response/facets'
-  require 'blacklight/solr_response/more_like_this'
-  autoload :GroupResponse, 'blacklight/solr_response/group_response'
-  autoload :Group, 'blacklight/solr_response/group'
+  require 'blacklight/solr/response/response'
+  require 'blacklight/solr/response/spelling'
+  require 'blacklight/solr/response/facets'
+  require 'blacklight/solr/response/more_like_this'
+  autoload :GroupResponse, 'blacklight/solr/response/group_response'
+  autoload :Group, 'blacklight/solr/response/group'
 
   include PaginationMethods
   include Spelling

@@ -201,7 +201,7 @@ module Blacklight
     end
 
     def response_model
-      super || Blacklight::SolrResponse
+      super || Blacklight::Solr::Response
     end
     alias_method :solr_response_model, :response_model
     # only here to support alias_method
@@ -212,7 +212,7 @@ module Blacklight
     deprecation_deprecate solr_response_model: :response_model, :solr_response_model= => :response_model=
 
     def repository_class
-      super || Blacklight::SolrRepository
+      super || Blacklight::Solr::Repository
     end
 
     def connection_config

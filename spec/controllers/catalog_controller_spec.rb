@@ -565,9 +565,9 @@ describe CatalogController do
       it "should be successful" do
         get :facet, id: 'format'
         expect(response).to be_successful
-        expect(assigns[:response]).to be_kind_of Blacklight::SolrResponse
+        expect(assigns[:response]).to be_kind_of Blacklight::Solr::Response
         expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
-        expect(assigns[:display_facet]).to be_kind_of Blacklight::SolrResponse::Facets::FacetField
+        expect(assigns[:display_facet]).to be_kind_of Blacklight::Solr::Response::Facets::FacetField
         expect(assigns[:pagination]).to be_kind_of Blacklight::Solr::FacetPaginator
       end
     end

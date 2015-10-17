@@ -119,7 +119,7 @@ describe "Blacklight::Configuration" do
       it "should return default classes" do
         config_copy = @config.inheritable_copy
 
-        expect(config_copy.response_model).to eq Blacklight::SolrResponse
+        expect(config_copy.response_model).to eq Blacklight::Solr::Response
         expect(config_copy.document_model).to eq SolrDocument
       end
     end

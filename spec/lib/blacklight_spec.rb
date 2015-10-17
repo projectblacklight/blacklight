@@ -11,5 +11,4 @@ describe Blacklight do
     end
 
   end
-  
 end

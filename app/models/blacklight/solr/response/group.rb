@@ -1,6 +1,6 @@
-class Blacklight::SolrResponse::Group
+class Blacklight::Solr::Response::Group
 
-  include Blacklight::SolrResponse::PaginationMethods
+  include Blacklight::Solr::Response::PaginationMethods
 
   attr_reader :key, :group, :response
   

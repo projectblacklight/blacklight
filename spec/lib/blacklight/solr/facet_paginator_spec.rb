@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Blacklight::Solr::FacetPaginator do
-  let(:f1) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '792', value: 'Book') }
+  let(:f1) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '792', value: 'Book') }
   describe "#as_json" do
     subject { described_class.new([f1], offset: 0, limit: nil).as_json }
     it "should be well structured" do

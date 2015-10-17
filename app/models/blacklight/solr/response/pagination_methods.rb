@@ -1,4 +1,4 @@
-module Blacklight::SolrResponse::PaginationMethods
+module Blacklight::Solr::Response::PaginationMethods
 
   include Kaminari::PageScopeMethods
   include Kaminari::ConfigurationMethods::ClassMethods

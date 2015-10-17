@@ -1,6 +1,6 @@
-class Blacklight::SolrResponse::GroupResponse
+class Blacklight::Solr::Response::GroupResponse
 
-  include Blacklight::SolrResponse::PaginationMethods
+  include Blacklight::Solr::Response::PaginationMethods
 
   attr_reader :key, :group, :response
 
@@ -14,7 +14,7 @@ class Blacklight::SolrResponse::GroupResponse
 
   def groups
     @groups ||= group["groups"].map do |g|
-      Blacklight::SolrResponse::Group.new g[:groupValue], g, self
+      Blacklight::Solr::Response::Group.new g[:groupValue], g, self
     end
   end
 

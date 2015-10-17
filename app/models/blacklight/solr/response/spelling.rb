@@ -2,7 +2,7 @@
 #
 # response.spelling.words
 #
-module Blacklight::SolrResponse::Spelling
+module Blacklight::Solr::Response::Spelling
 
   def spelling
     @spelling ||= Base.new(self)

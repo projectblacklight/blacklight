@@ -1,5 +1,5 @@
 module Blacklight
-  module Catalog::ComponentConfiguration
+  module DefaultComponentConfiguration
     extend ActiveSupport::Concern
 
     included do

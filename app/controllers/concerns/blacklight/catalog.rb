@@ -1,17 +1,10 @@
 # -*- encoding : utf-8 -*-
 module Blacklight::Catalog
   extend ActiveSupport::Concern
-  extend ActiveSupport::Autoload
   extend Deprecation
 
-  eager_autoload do
-    autoload :ComponentConfiguration
-    autoload :DocumentActions
-    autoload :SearchContext
-  end
-
   include Blacklight::Base
-  include Blacklight::Catalog::ComponentConfiguration
+  include Blacklight::DefaultComponentConfiguration
   include Blacklight::Facet
 
   # rubocop:disable Style/ConstantName

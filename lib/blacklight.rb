@@ -32,7 +32,7 @@ module Blacklight
 
   autoload :Routes, 'blacklight/routes'
   
-  autoload :SolrResponse, 'blacklight/solr_response'
+  autoload :SolrResponse, 'blacklight/solr/response'
   autoload :Facet, 'blacklight/facet'
   autoload :FacetPaginator, 'blacklight/facet_paginator'
 
@@ -70,7 +70,7 @@ module Blacklight
   end
 
   def self.default_index
-    @default_index ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new)
+    @default_index ||= Blacklight::Solr::Repository.new(Blacklight::Configuration.new)
   end
 
   def self.solr_config

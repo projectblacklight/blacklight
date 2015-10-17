@@ -224,8 +224,8 @@ describe FacetsHelper do
   end
 
   describe "render_facet_limit_list" do
-    let(:f1) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '792', value: 'Book') }
-    let(:f2) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
+    let(:f1) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '792', value: 'Book') }
+    let(:f2) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
     let(:paginator) { Blacklight::Solr::FacetPaginator.new([f1, f2], limit: 10) }
     subject { helper.render_facet_limit_list(paginator, 'type_solr_field') }
     before do

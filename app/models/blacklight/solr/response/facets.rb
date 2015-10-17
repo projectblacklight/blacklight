@@ -1,8 +1,8 @@
 require 'ostruct'
 
-module Blacklight::SolrResponse::Facets
+module Blacklight::Solr::Response::Facets
   extend Deprecation
-  
+
   # represents a facet value; which is a field value and its hit count
   class FacetItem < OpenStruct
     def initialize *args
@@ -143,7 +143,7 @@ module Blacklight::SolrResponse::Facets
 
   ##
   # Convert Solr's facet_field response into
-  # a hash of Blacklight::SolrResponse::Facet::FacetField objects
+  # a hash of Blacklight::Solr::Response::Facet::FacetField objects
   def facet_field_aggregations
     list_as_hash(facet_fields).each_with_object({}) do |(facet_field_name, values), hash|
       items = []
@@ -191,16 +191,16 @@ module Blacklight::SolrResponse::Facets
         facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits == 0 }.map do |value,hits|
           salient_fields = facet_field.query.select { |key, val| val[:fq] == value }
           key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
-          items << Blacklight::SolrResponse::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
+          items << Blacklight::Solr::Response::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
         end
 
-        hash[field_name] = Blacklight::SolrResponse::Facets::FacetField.new field_name, items
+        hash[field_name] = Blacklight::Solr::Response::Facets::FacetField.new field_name, items
     end
   end
 
   ##
   # Convert Solr's facet_pivot response into 
-  # a hash of Blacklight::SolrResponse::Facet::FacetField objects
+  # a hash of Blacklight::Solr::Response::Facet::FacetField objects
   def facet_pivot_aggregations
     facet_pivot.each_with_object({}) do |(field_name, values), hash|
         items = []
@@ -211,7 +211,7 @@ module Blacklight::SolrResponse::Facets
         if blacklight_config and !blacklight_config.facet_fields[field_name]
           # alias all the possible blacklight config names..
           blacklight_config.facet_fields.select { |k,v| v.pivot and v.pivot.join(",") == field_name }.each do |key, _|
-            hash[key] = Blacklight::SolrResponse::Facets::FacetField.new key, items
+            hash[key] = Blacklight::Solr::Response::Facets::FacetField.new key, items
           end
         end
     end
@@ -226,7 +226,7 @@ module Blacklight::SolrResponse::Facets
       items << construct_pivot_field(i, parent_fq.merge({ lst[:field] => lst[:value] }))
     end if lst[:pivot]
 
-    Blacklight::SolrResponse::Facets::FacetItem.new(value: lst[:value], hits: lst[:count], field: lst[:field], items: items, fq: parent_fq)
+    Blacklight::Solr::Response::Facets::FacetItem.new(value: lst[:value], hits: lst[:count], field: lst[:field], items: items, fq: parent_fq)
   end
   
   
