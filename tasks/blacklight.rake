@@ -45,7 +45,7 @@ namespace :blacklight do
     SolrWrapper.wrap(port: '8983') do |solr|
       solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
         within_test_app do
-          system "rake solr:marc:index_test_data"
+          system "bundle exec rake blacklight:index:seed"
           system "bundle exec rails s"
         end
       end
