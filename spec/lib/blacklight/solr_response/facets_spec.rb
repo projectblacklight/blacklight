@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Blacklight::SolrResponse::Facets do
-  describe Blacklight::SolrResponse::Facets::FacetField do
+describe Blacklight::Solr::Response::Facets do
+  describe Blacklight::Solr::Response::Facets::FacetField do
 
     describe "A field with default options" do
-      subject { Blacklight::SolrResponse::Facets::FacetField.new "my_field", [] }
+      subject { Blacklight::Solr::Response::Facets::FacetField.new "my_field", [] }
 
       its(:name) { should eq "my_field" }
       its(:limit) { should eq 100 }
@@ -13,7 +13,7 @@ describe Blacklight::SolrResponse::Facets do
     end
 
     describe "A field with additional options" do
-      subject { Blacklight::SolrResponse::Facets::FacetField.new "my_field", [], limit: 15, sort: 'alpha', offset: 23 }
+      subject { Blacklight::Solr::Response::Facets::FacetField.new "my_field", [], limit: 15, sort: 'alpha', offset: 23 }
 
       its(:name) { should eq "my_field" }
       its(:limit) { should eq 15 }
@@ -26,7 +26,7 @@ describe Blacklight::SolrResponse::Facets do
     let(:facet_field) { ['my_field', []] }
     let(:response_header) { { params: request_params }}
     let(:request_params) { Hash.new }
-    subject { Blacklight::SolrResponse.new({responseHeader: response_header, facet_counts: { facet_fields: [facet_field] }}.with_indifferent_access, request_params)  }
+    subject { Blacklight::Solr::Response.new({responseHeader: response_header, facet_counts: { facet_fields: [facet_field] }}.with_indifferent_access, request_params)  }
 
     describe "#limit" do
       it "should extract a field-specific limit value" do
@@ -115,7 +115,7 @@ describe Blacklight::SolrResponse::Facets do
       }
     end
     
-    subject { Blacklight::SolrResponse.new(response, {}) }
+    subject { Blacklight::Solr::Response.new(response, {}) }
 
     it "should mark the facet.missing field with a human-readable label and fq" do
       missing = subject.aggregations["some_field"].items.find { |i| i.value.nil? }
@@ -152,12 +152,12 @@ describe Blacklight::SolrResponse::Facets do
       }
     end
 
-    subject { Blacklight::SolrResponse.new(response, {}, blacklight_config: blacklight_config) }
+    subject { Blacklight::Solr::Response.new(response, {}, blacklight_config: blacklight_config) }
 
     it"should convert the query facets into a double RSolr FacetField" do
       field = subject.aggregations['my_query_facet_field']
 
-      expect(field).to be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
+      expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField
 
       expect(field.name).to eq'my_query_facet_field'
       expect(field.items.size).to eq 2
@@ -194,12 +194,12 @@ describe Blacklight::SolrResponse::Facets do
       }
     end
 
-    subject { Blacklight::SolrResponse.new(response, {}, blacklight_config: blacklight_config) }
+    subject { Blacklight::Solr::Response.new(response, {}, blacklight_config: blacklight_config) }
 
     it "should convert the pivot facet into a double RSolr FacetField" do
       field = subject.aggregations['my_pivot_facet_field']
 
-      expect(field).to be_a_kind_of Blacklight::SolrResponse::Facets::FacetField
+      expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField
 
       expect(field.name).to eq 'my_pivot_facet_field'
 

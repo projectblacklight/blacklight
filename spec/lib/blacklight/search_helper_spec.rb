@@ -24,7 +24,7 @@ describe Blacklight::SearchHelper do
 
     def initialize blacklight_config, conn
       self.blacklight_config = blacklight_config
-      self.repository = Blacklight::SolrRepository.new(blacklight_config)
+      self.repository = Blacklight::Solr::Repository.new(blacklight_config)
       self.repository.connection = conn
     end
 
@@ -124,7 +124,7 @@ describe Blacklight::SearchHelper do
       end
 
       it "should return a grouped response" do
-        expect(@solr_response).to be_a_kind_of Blacklight::SolrResponse::GroupResponse
+        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
 
       end
     end
@@ -144,7 +144,7 @@ describe Blacklight::SearchHelper do
       end
 
       it "should return a grouped response" do
-        expect(@solr_response).to be_a_kind_of Blacklight::SolrResponse::GroupResponse
+        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
         expect(@solr_response.group_field).to eq "title_sort"
       end
     end

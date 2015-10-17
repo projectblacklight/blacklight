@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Blacklight::FacetPaginator do
 
-  let(:f1) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '792', value: 'Book') }
-  let(:f2) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
-  let(:f3) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '58', value: 'Serial') }
-  let(:f4) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '48', value: 'Musical Recording') }
-  let(:f5) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '37', value: 'Microform') }
-  let(:f6) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '27', value: 'Thesis') }
-  let(:f7) { Blacklight::SolrResponse::Facets::FacetItem.new(hits: '0') }
+  let(:f1) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '792', value: 'Book') }
+  let(:f2) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
+  let(:f3) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '58', value: 'Serial') }
+  let(:f4) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '48', value: 'Musical Recording') }
+  let(:f5) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '37', value: 'Microform') }
+  let(:f6) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '27', value: 'Thesis') }
+  let(:f7) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '0') }
   let(:seven_facet_values) { [f1, f2, f3, f4, f5, f6, f7] }
   let(:six_facet_values) { [f1, f2, f3, f4, f5, f6] }
   let(:limit) { 6 }

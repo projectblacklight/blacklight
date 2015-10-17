@@ -127,7 +127,7 @@ module Blacklight
 
         @table[:luke_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/luke", expires_in: 1.hour) do
           begin
-            if repository_class == Blacklight::SolrRepository
+            if repository_class <= Blacklight::Solr::Repository
               repository = repository_class.new(self)
               repository.send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
             end

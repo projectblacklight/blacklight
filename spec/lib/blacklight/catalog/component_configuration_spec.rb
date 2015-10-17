@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Blacklight::Catalog::ComponentConfiguration do
+describe Blacklight::DefaultComponentConfiguration do
   subject do
     Class.new do
       include Blacklight::Configurable
-      include Blacklight::Catalog::ComponentConfiguration
+      include Blacklight::DefaultComponentConfiguration
 
       def some_existing_action
         1

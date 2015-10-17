@@ -5,7 +5,7 @@ module Blacklight::Base
   include Blacklight::Configurable
   include Blacklight::SearchHelper
 
-  include Blacklight::Catalog::SearchContext
+  include Blacklight::SearchContext
 
   included do
     # When Blacklight::Exceptions::InvalidRequest is raised, the rsolr_request_error method is executed.

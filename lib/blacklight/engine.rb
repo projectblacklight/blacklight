@@ -11,6 +11,12 @@ module Blacklight
       ActionView::Base.send :include, BlacklightHelper
     end
 
+    config.autoload_paths += %W(
+      #{config.root}/app/presenters
+      #{config.root}/app/controllers/concerns
+      #{config.root}/app/models/concerns
+    )
+
     # This makes our rake tasks visible.
     rake_tasks do
       Dir.chdir(File.expand_path(File.join(File.dirname(__FILE__), '..'))) do

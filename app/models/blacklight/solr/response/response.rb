@@ -1,4 +1,4 @@
-module Blacklight::SolrResponse::Response
+module Blacklight::Solr::Response::Response
   def response
     self[:response] || {}
   end

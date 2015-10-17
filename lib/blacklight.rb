@@ -32,7 +32,7 @@ module Blacklight
 
   autoload :Routes, 'blacklight/routes'
   
-  autoload :SolrResponse, 'blacklight/solr_response'
+  autoload :SolrResponse, 'blacklight/solr/response'
   autoload :Facet, 'blacklight/facet'
   autoload :FacetPaginator, 'blacklight/facet_paginator'
 
@@ -72,7 +72,7 @@ module Blacklight
   def self.repository_class
     case connection_config[:adapter]
     when 'solr'
-      Blacklight::SolrRepository
+      Blacklight::Solr::Repository
     when /::/
       connection_config[:adapter].constantize
     else

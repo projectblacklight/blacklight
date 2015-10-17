@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Blacklight::SolrResponse::Group do
+describe Blacklight::Solr::Response::Group do
   
   let(:response) do
     create_response(sample_response)
@@ -53,7 +53,7 @@ describe Blacklight::SolrResponse::Group do
 end
 
 def create_response(response, params = {})
-  Blacklight::SolrResponse.new(response, params)
+  Blacklight::Solr::Response.new(response, params)
 end
 
 def sample_response

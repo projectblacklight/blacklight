@@ -52,7 +52,7 @@ module Blacklight::SearchHelper
   # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
   # @param [List<Symbol] processor_chain a list of filter methods to run
   # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used. 
-  # @return [Blacklight::SolrResponse] the solr response object
+  # @return [Blacklight::Solr::Response] the solr response object
   def search_results(user_params, search_params_logic)
     builder = search_builder(search_params_logic).with(user_params)
     builder.page(user_params[:page]) if user_params[:page]
@@ -75,7 +75,7 @@ module Blacklight::SearchHelper
   end
 
   # retrieve a document, given the doc id
-  # @return [Blacklight::SolrResponse, Blacklight::SolrDocument] the solr response object and the first document
+  # @return [Blacklight::Solr::Response, Blacklight::SolrDocument] the solr response object and the first document
   def fetch(id=nil, extra_controller_params={})
     if id.is_a? Array
       fetch_many(id, params, extra_controller_params)
@@ -90,14 +90,14 @@ module Blacklight::SearchHelper
 
   ##
   # Get the solr response when retrieving only a single facet field
-  # @return [Blacklight::SolrResponse] the solr response
+  # @return [Blacklight::Solr::Response] the solr response
   def get_facet_field_response(facet_field, user_params = params || {}, extra_controller_params = {})
     query = search_builder.with(user_params).facet(facet_field)
     repository.search(query.merge(extra_controller_params))
   end
 
   # Get the previous and next document from a search result
-  # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
+  # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
     p = previous_and_next_document_params(index)
 

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Blacklight::SolrResponse do
+describe Blacklight::Solr::Response do
 
   def create_response
     raw_response = eval(mock_query_response)
-    Blacklight::SolrResponse.new(raw_response, raw_response['params'])
+    Blacklight::Solr::Response.new(raw_response, raw_response['params'])
   end
 
   let(:r) { create_response }
@@ -24,7 +24,7 @@ describe Blacklight::SolrResponse do
     expect(r.docs).to have(11).docs
     expect(r.params[:echoParams]).to eq 'EXPLICIT'
     
-    expect(r).to be_a(Blacklight::SolrResponse::Facets)
+    expect(r).to be_a(Blacklight::Solr::Response::Facets)
   end
 
   it 'should provide facet helpers' do
@@ -72,20 +72,20 @@ describe Blacklight::SolrResponse do
 
   describe "FacetItem" do
     it "should work with a field,value tuple" do
-      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', 15)
+      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15)
       expect(item.value).to eq 'value'
       expect(item.hits).to eq 15
     end
 
     it "should work with a field,value + hash triple" do
-      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', 15, :a => 1, :value => 'ignored')
+      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15, :a => 1, :value => 'ignored')
       expect(item.value).to eq 'value'
       expect(item.hits).to eq 15
       expect(item.a).to eq 1
     end
 
     it "should work like an openstruct" do
-      item = Blacklight::SolrResponse::Facets::FacetItem.new(:value => 'value', :hits => 15)
+      item = Blacklight::Solr::Response::Facets::FacetItem.new(:value => 'value', :hits => 15)
       
       expect(item.hits).to eq 15
       expect(item.value).to eq 'value'
@@ -93,12 +93,12 @@ describe Blacklight::SolrResponse do
     end
 
     it "should provide a label accessor" do
-      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', :hits => 15)
+      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', :hits => 15)
       expect(item.label).to eq 'value'
     end
 
     it "should use a provided label" do
-      item = Blacklight::SolrResponse::Facets::FacetItem.new('value', 15, :label => 'custom label')
+      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15, :label => 'custom label')
       expect(item.label).to eq 'custom label'
 
     end
@@ -114,13 +114,13 @@ describe Blacklight::SolrResponse do
   it 'should provide the responseHeader params' do
     raw_response = eval(mock_query_response)
     raw_response['responseHeader']['params']['test'] = :test
-    r = Blacklight::SolrResponse.new(raw_response, raw_response['params'])
+    r = Blacklight::Solr::Response.new(raw_response, raw_response['params'])
     expect(r.params['test']).to eq :test
   end
 
   it 'should provide the solr-returned params and "rows" should be 11' do
     raw_response = eval(mock_query_response)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.params[:rows].to_s).to eq '11'
     expect(r.params[:sort]).to eq 'title_sort asc, pub_date_sort desc'
   end
@@ -128,42 +128,42 @@ describe Blacklight::SolrResponse do
   it 'should provide the ruby request params if responseHeader["params"] does not exist' do
     raw_response = eval(mock_query_response)
     raw_response.delete 'responseHeader'
-    r = Blacklight::SolrResponse.new(raw_response, :rows => 999, :sort => 'score desc, pub_date_sort desc, title_sort asc')
+    r = Blacklight::Solr::Response.new(raw_response, :rows => 999, :sort => 'score desc, pub_date_sort desc, title_sort asc')
     expect(r.params[:rows].to_s).to eq '999'
     expect(r.params[:sort]).to eq 'score desc, pub_date_sort desc, title_sort asc'
   end
 
   it 'should provide spelling suggestions for regular spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck)
-    r = Blacklight::SolrResponse.new(raw_response,  {})
+    r = Blacklight::Solr::Response.new(raw_response,  {})
     expect(r.spelling.words).to include("dell")
     expect(r.spelling.words).to include("ultrasharp")
   end
 
   it 'should provide spelling suggestions for extended spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck_extended)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.spelling.words).to include("dell")
     expect(r.spelling.words).to include("ultrasharp")
   end
 
   it 'should provide no spelling suggestions when extended results and suggestion frequency is the same as original query frequency' do
     raw_response = eval(mock_response_with_spellcheck_same_frequency)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.spelling.words).to eq []
   end
 
   context "pre solr 5 spellcheck collation syntax" do
     it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
       raw_response = eval(mock_response_with_spellcheck_collation)
-      r = Blacklight::SolrResponse.new(raw_response, {})
+      r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.words).to include("dell")
       expect(r.spelling.words).to include("ultrasharp")
     end
 
     it 'should provide spelling suggestion collation' do
       raw_response = eval(mock_response_with_spellcheck_collation)
-      r = Blacklight::SolrResponse.new(raw_response, {})
+      r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.collation).to eq 'dell ultrasharp'
     end
   end
@@ -171,33 +171,33 @@ describe Blacklight::SolrResponse do
   context "solr 5 spellcheck collation syntax" do
     it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
       raw_response = eval(mock_response_with_spellcheck_collation_solr5)
-      r = Blacklight::SolrResponse.new(raw_response, {})
+      r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.words).to include("dell")
       expect(r.spelling.words).to include("ultrasharp")
     end
 
     it 'should provide spelling suggestion collation' do
       raw_response = eval(mock_response_with_spellcheck_collation_solr5)
-      r = Blacklight::SolrResponse.new(raw_response, {})
+      r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.collation).to eq 'dell ultrasharp'
     end
   end
 
   it "should provide MoreLikeThis suggestions" do
     raw_response = eval(mock_response_with_more_like_this)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.more_like(double(:id => '79930185'))).to have(2).items
   end
 
   it "should be empty when the response has no results" do
-    r = Blacklight::SolrResponse.new({}, {})
+    r = Blacklight::Solr::Response.new({}, {})
     allow(r).to receive_messages(:total => 0)
     expect(r).to be_empty
   end
   
   describe "#export_formats" do
     it "should collect the unique export formats for the current response" do
-      r = Blacklight::SolrResponse.new({}, {})
+      r = Blacklight::Solr::Response.new({}, {})
       allow(r).to receive_messages(documents: [double(:export_formats => { a: 1, b: 2}), double(:export_formats => { b: 1, c: 2})])
       expect(r.export_formats).to include :a, :b 
     end

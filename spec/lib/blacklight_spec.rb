@@ -18,8 +18,8 @@ describe Blacklight do
         allow(Blacklight).to receive(:connection_config).and_return(adapter: 'solr')
       end
 
-      it 'is an instance of Blacklight::SolrRepository' do
-        expect(Blacklight.default_index).to be_a Blacklight::SolrRepository
+      it 'is an instance of Blacklight::Solr::Repository' do
+        expect(Blacklight.default_index).to be_a Blacklight::Solr::Repository
       end
     end
   end
@@ -31,7 +31,7 @@ describe Blacklight do
       end
 
       it 'resolves to the SolrRepository implementation' do
-        expect(Blacklight.repository_class).to eq Blacklight::SolrRepository
+        expect(Blacklight.repository_class).to eq Blacklight::Solr::Repository
       end
     end
 

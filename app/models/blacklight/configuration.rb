@@ -185,7 +185,7 @@ module Blacklight
     end
 
     def response_model
-      super || Blacklight::SolrResponse
+      super || Blacklight::Solr::Response
     end
 
     def response_model= *args
@@ -193,7 +193,7 @@ module Blacklight
     end
 
     def repository_class
-      super || Blacklight::SolrRepository
+      super || Blacklight::Solr::Repository
     end
 
     def connection_config

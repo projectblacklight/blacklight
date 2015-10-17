@@ -1,8 +1,4 @@
-# -*- encoding : utf-8 -*-
-module Blacklight::Solr
-  autoload :FacetPaginator, 'blacklight/solr/facet_paginator'
-  autoload :Document, 'blacklight/solr/document'
-  autoload :Request, 'blacklight/solr/request'
-  autoload :SearchBuilder, 'blacklight/solr/search_builder'
-  autoload :SearchBuilderBehavior, 'blacklight/solr/search_builder_behavior'
+module Blacklight
+  module Solr
+  end
 end

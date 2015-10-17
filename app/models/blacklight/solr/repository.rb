@@ -1,5 +1,5 @@
-module Blacklight
-  class SolrRepository < AbstractRepository
+module Blacklight::Solr
+  class Repository < Blacklight::AbstractRepository
 
     ##
     # Find a single solr document result (by id) using the document configuration
@@ -31,7 +31,7 @@ module Blacklight
     #   @param [Hash] parameters for RSolr::Client#send_and_receive
     # @overload find(params)
     #   @param [Hash] parameters for RSolr::Client#send_and_receive
-    # @return [Blacklight::SolrResponse] the solr response object
+    # @return [Blacklight::Solr::Response] the solr response object
     def send_and_receive(path, solr_params = {})
       benchmark("Solr fetch", level: :debug) do
         key = blacklight_config.http_method == :post ? :data : :params

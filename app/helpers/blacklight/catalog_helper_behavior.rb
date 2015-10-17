@@ -129,7 +129,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Should we display the sort and per page widget?
   # 
-  # @param [Blacklight::SolrResponse]
+  # @param [Blacklight::Solr::Response]
   # @return [Boolean]
   def show_sort_and_per_page? response = nil
     response ||= @response
@@ -139,7 +139,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Should we display the pagination controls?
   #
-  # @param [Blacklight::SolrResponse]
+  # @param [Blacklight::Solr::Response]
   # @return [Boolean]
   def show_pagination? response = nil
     response ||= @response
@@ -205,7 +205,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Get url parameters to a search within a grouped result set
   # 
-  # @param [Blacklight::SolrResponse::Group]
+  # @param [Blacklight::Solr::Response::Group]
   # @return [Hash]
   def add_group_facet_params_and_redirect group
     add_facet_params_and_redirect(group.field, group.key)

@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Blacklight::SolrRepository do
+describe Blacklight::Solr::Repository do
 
   let :blacklight_config do
     CatalogController.blacklight_config.deep_copy
   end
 
   subject do
-    Blacklight::SolrRepository.new blacklight_config
+    Blacklight::Solr::Repository.new blacklight_config
   end
 
   let :mock_response do
@@ -23,38 +23,38 @@ describe Blacklight::SolrRepository do
       blacklight_config.document_solr_path = 'abc'
       blacklight_config.solr_path = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('abc', anything).and_return(mock_response)
-      expect(subject.find("123")).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.find("123")).to be_a_kind_of Blacklight::Solr::Response
     end
 
     it "should use the default solr path" do
       blacklight_config.solr_path = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
-      expect(subject.find("123")).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.find("123")).to be_a_kind_of Blacklight::Solr::Response
     end
 
     it "should use a default :qt param" do
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { id: '123', qt: 'document'})).and_return(mock_response)
-      expect(subject.find("123", {})).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.find("123", {})).to be_a_kind_of Blacklight::Solr::Response
     end
 
     it "should use the provided :qt param" do
       blacklight_config.document_solr_request_handler = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { id: '123', qt: 'abc'})).and_return(mock_response)
-      expect(subject.find("123", {qt: 'abc'})).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.find("123", {qt: 'abc'})).to be_a_kind_of Blacklight::Solr::Response
     end
     
     it "should use the :qt parameter from the default_document_solr_params" do
       blacklight_config.default_document_solr_params[:qt] = 'abc'
       blacklight_config.document_solr_request_handler = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { id: '123', qt: 'abc'})).and_return(mock_response)
-      expect(subject.find("123")).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.find("123")).to be_a_kind_of Blacklight::Solr::Response
     end
 
     it "should preserve the class of the incoming params" do
       doc_params = HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
       response = subject.find("123", doc_params)
-      expect(response).to be_a_kind_of Blacklight::SolrResponse
+      expect(response).to be_a_kind_of Blacklight::Solr::Response
       expect(response.params).to be_a_kind_of HashWithIndifferentAccess
     end
   end
@@ -63,24 +63,24 @@ describe Blacklight::SolrRepository do
     it "should use the search-specific solr path" do
       blacklight_config.solr_path = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
-      expect(subject.search({})).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.search({})).to be_a_kind_of Blacklight::Solr::Response
     end
 
     it "should use the default solr path" do
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
-      expect(subject.search({})).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.search({})).to be_a_kind_of Blacklight::Solr::Response
     end
 
     it "should use a default :qt param" do
       blacklight_config.qt = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'xyz'})).and_return(mock_response)
-      expect(subject.search({})).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.search({})).to be_a_kind_of Blacklight::Solr::Response
     end
 
     it "should use the provided :qt param" do
       blacklight_config.qt = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc'})).and_return(mock_response)
-      expect(subject.search({qt: 'abc'})).to be_a_kind_of Blacklight::SolrResponse
+      expect(subject.search({qt: 'abc'})).to be_a_kind_of Blacklight::Solr::Response
     end
     
     it "should preserve the class of the incoming params" do
@@ -89,7 +89,7 @@ describe Blacklight::SolrRepository do
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
       
       response = subject.search(search_params)
-      expect(response).to be_a_kind_of Blacklight::SolrResponse
+      expect(response).to be_a_kind_of Blacklight::Solr::Response
       expect(response.params).to be_a_kind_of HashWithIndifferentAccess
     end
   end

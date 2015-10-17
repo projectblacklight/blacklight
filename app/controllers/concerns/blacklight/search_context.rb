@@ -1,6 +1,5 @@
-module Blacklight::Catalog::SearchContext
+module Blacklight::SearchContext
   extend ActiveSupport::Concern
-
 
   # The following code is executed when someone includes blacklight::catalog::search_session in their
   # own controller.

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Blacklight::SolrResponse::GroupResponse do
+describe Blacklight::Solr::Response::GroupResponse do
   
   let(:response) do
     create_response(sample_response)
@@ -16,7 +16,7 @@ describe Blacklight::SolrResponse::GroupResponse do
 
       expect(group.groups).to have(2).items
       group.groups.each do |group|
-        expect(group).to be_a Blacklight::SolrResponse::Group
+        expect(group).to be_a Blacklight::Solr::Response::Group
       end
     end
     it "should include a list of SolrDocuments" do
@@ -61,7 +61,7 @@ describe Blacklight::SolrResponse::GroupResponse do
 end
 
 def create_response(response, params = {})
-  Blacklight::SolrResponse.new(response, params)
+  Blacklight::Solr::Response.new(response, params)
 end
 
 def sample_response
