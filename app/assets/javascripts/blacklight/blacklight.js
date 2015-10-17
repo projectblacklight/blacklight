@@ -10,6 +10,7 @@
 //= require blacklight/ajax_modal
 //= require blacklight/search_context
 //= require blacklight/collapsable
+//= require blacklight/facet_load
 //
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap/transition
