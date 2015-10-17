@@ -146,6 +146,10 @@ ul.facet_extended_list, .facet_extended_list ul
 
 .facet_pagination {
   @extend .clearfix;
+
+  &.top {
+    padding: $modal-inner-padding;
+  }
 }
 
 
