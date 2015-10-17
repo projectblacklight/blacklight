@@ -42,7 +42,7 @@ namespace :blacklight do
       Rake::Task['engine_cart:generate'].invoke
     end
 
-    SolrWrapper.wrap(port: '8888') do |solr|
+    SolrWrapper.wrap(port: '8983') do |solr|
       solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
         within_test_app do
           system "rake solr:marc:index_test_data"
