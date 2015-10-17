@@ -304,26 +304,17 @@ module Blacklight
     # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting
     # the original Blacklight::Configuration instance.
     #
-    # The Rails 3.x version only copies hashes, and ignores arrays and similar structures
-    if ::Rails.version < "4.0"
-      def deep_copy
-        Marshal.load(Marshal.dump(self))
-      end
-      alias_method :inheritable_copy, :deep_copy
-    else
-      ##
-      # Rails 4.x provides `#deep_dup`, but it aggressively `#dup`'s class names
-      # too. These model names should not be `#dup`'ed or we might break ActiveModel::Naming.
-      def deep_copy
-        deep_dup.tap do |copy|
-          %w(repository_class response_model document_model document_presenter_class search_builder_class facet_paginator_class).each do |klass|
-            # Don't copy if nil, so as not to prematurely autoload default classes
-            copy.send("#{klass}=", send(klass)) unless fetch(klass.to_sym, nil).nil?
-          end
+    # Rails 4.x provides `#deep_dup`, but it aggressively `#dup`'s class names
+    # too. These model names should not be `#dup`'ed or we might break ActiveModel::Naming.
+    def deep_copy
+      deep_dup.tap do |copy|
+        %w(repository_class response_model document_model document_presenter_class search_builder_class facet_paginator_class).each do |klass|
+          # Don't copy if nil, so as not to prematurely autoload default classes
+          copy.send("#{klass}=", send(klass)) unless fetch(klass.to_sym, nil).nil?
         end
       end
-      alias_method :inheritable_copy, :deep_copy
     end
+    alias_method :inheritable_copy, :deep_copy
 
     ##
     # Get a view configuration for the given view type

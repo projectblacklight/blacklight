@@ -287,10 +287,4 @@ module Blacklight::UrlHelperBehavior
   def bookmarks_export_url(format, params = {})
     bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id) ))
   end
-
-  if ::Rails.version < "4.0"
-    def asset_url *args
-      "#{request.protocol}#{request.host_with_port}#{asset_path(*args)}"
-    end
-  end
 end
