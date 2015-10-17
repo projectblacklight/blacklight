@@ -6,6 +6,7 @@ module Blacklight
       self.collapse = true if self.collapse.nil?
       self.show = true if self.show.nil?
       self.if = self.show if self.if.nil?
+      self.index_range = 'A'..'Z' if self.index_range == true
 
       super
       
