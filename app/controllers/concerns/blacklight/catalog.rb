@@ -11,6 +11,8 @@ module Blacklight::Catalog
   included do
     helper_method :sms_mappings, :has_search_parameters?
 
+    helper Blacklight::Facet
+
     # When an action raises Blacklight::Exceptions::RecordNotFound, handle 
     # the exception appropriately.
     rescue_from Blacklight::Exceptions::RecordNotFound, with: :invalid_document_id_error
