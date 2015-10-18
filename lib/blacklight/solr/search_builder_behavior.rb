@@ -288,23 +288,21 @@ module Blacklight::Solr
             # exclude all documents if the custom facet key specified was not found
             '-*:*'
           end
-        when (facet_config and facet_config.date)
-          # in solr 3.2+, this could be replaced by a !term query
-          "#{prefix}#{solr_field}:#{RSolr.solr_escape(value)}"
-        when (value.is_a?(DateTime) or value.is_a?(Time))
-          "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.utc.strftime("%Y-%m-%dT%H:%M:%SZ"))}"
-        when value.is_a?(Date)
-          # rubocop:disable Rails/Date
-          "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ"))}"
-          # rubocop:enable Rails/Date
-        when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
-             (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i)),
-             (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
-          "#{prefix}#{solr_field}:#{RSolr.solr_escape(value.to_s)}"
         when value.is_a?(Range)
           "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
         else
-          "{!raw f=#{solr_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
+          "{!term f=#{solr_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{convert_to_term_value(value)}"
+      end
+    end
+
+    def convert_to_term_value(value)
+      case
+      when (value.is_a?(DateTime) or value.is_a?(Time))
+        "#{value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")}"
+      when value.is_a?(Date)
+        "#{value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")}"
+      else
+        value.to_s
       end
     end
 
