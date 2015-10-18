@@ -1,4 +1,5 @@
 module Blacklight::FacetsHelperBehavior
+  include Blacklight::Facet
 
   ##
   # Check if any of the given fields have values
