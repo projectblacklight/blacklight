@@ -8,6 +8,8 @@ module Blacklight::Controller
   
   included do
     include Blacklight::SearchFields
+    helper Blacklight::SearchFields
+
     include ActiveSupport::Callbacks
 
     # now in application.rb file under config.filter_parameters
