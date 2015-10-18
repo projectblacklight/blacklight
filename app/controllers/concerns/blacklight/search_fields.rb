@@ -26,12 +26,6 @@
 #
 ##
 module Blacklight::SearchFields
-  extend ActiveSupport::Concern
-
-  included do
-    helper Blacklight::SearchFields if respond_to? :helper
-  end
-
   # Looks up search field config list from blacklight_config[:search_fields], and
   # 'normalizes' all field config hashes using normalize_config method. 
   def search_field_list
