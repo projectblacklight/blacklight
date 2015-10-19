@@ -217,7 +217,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [String]
   # @return [String]
   def render_view_type_group_icon view
-    content_tag :span, '', class: "glyphicon #{blacklight_config.view[view].icon_class || default_view_type_group_icon_classes(view) }"
+    content_tag :span, '', class: "glyphicon #{blacklight_config.view[view].icon_class || default_view_type_group_icon_classes(view)}"
   end
 
   ##
@@ -226,7 +226,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [String]
   # @return [String]
   def default_view_type_group_icon_classes view
-    "glyphicon-#{view.to_s.parameterize } view-icon-#{view.to_s.parameterize}"
+    "glyphicon-#{view.to_s.parameterize} view-icon-#{view.to_s.parameterize}"
   end
   
   def current_bookmarks response = nil

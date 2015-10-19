@@ -69,7 +69,7 @@ module Blacklight::Solr
           "{!lucene}NOT *:*"
         else
           "{!lucene}" + q.map do |field, values|
-            "#{field}:(#{ Array(values).map { |x| solr_param_quote(x) }.join(" OR ")})"
+            "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(" OR ")})"
           end.join(" AND ")
         end
 
