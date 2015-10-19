@@ -110,7 +110,7 @@ module Blacklight::RenderPartialsHelper
     def type_field_to_partial_name(document, display_type)
       # using "_" as sep. to more closely follow the views file naming conventions
       # parameterize uses "-" as the default sep. which throws errors
-      Array(display_type).join(" ").gsub("-","_").parameterize("_")
+      Array(display_type).join(" ").tr("-", "_").parameterize("_")
     end
 
     ##
@@ -151,7 +151,6 @@ module Blacklight::RenderPartialsHelper
 
   private
 
-    # rubocop:disable Performance/Detect
     def find_document_show_template_with_view view_type, base_name, format, locals
       document_partial_path_templates.each do |str|
         partial = str % { action_name: base_name, format: format, index_view_type: view_type }
@@ -171,7 +170,6 @@ module Blacklight::RenderPartialsHelper
       end
       nil
     end
-    # rubocop:enable Performance/Detect
 
     ##
     # @param [Symbol] page the page type, either :index or :show
