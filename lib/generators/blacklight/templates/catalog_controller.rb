@@ -23,7 +23,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # :fl => '*',
     #  # :rows => 1
-    #  # :q => '{!raw f=id v=$id}' 
+    #  # :q => '{!term f=id v=$id}'
     #}
 
     # solr field configuration for search results/index views

@@ -47,7 +47,7 @@ module Blacklight
             #fl: '*',
             ## this is a fancy way to say "find the document by id using
             ## the value in the id query parameter"
-            #q: "{!raw f=#{unique_key} v=$id}",
+            #q: "{!term f=#{unique_key} v=$id}",
             ## disable features we don't need
             #facet: false,
             #rows: 1

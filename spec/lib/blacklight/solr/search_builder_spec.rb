@@ -160,7 +160,7 @@ describe Blacklight::Solr::SearchBuilder do
         expect(subject["spellcheck.q"]).to be_blank
 
         single_facet.each_value do |value|
-          expect(subject[:fq]).to include("{!raw f=#{single_facet.keys[0]}}#{value}")
+          expect(subject[:fq]).to include("{!term f=#{single_facet.keys[0]}}#{value}")
         end
       end
     end
@@ -179,7 +179,7 @@ describe Blacklight::Solr::SearchBuilder do
           value_list ||= []
           value_list = [value_list] unless value_list.respond_to? :each
           value_list.each do |value|
-            expect(subject[:fq]).to include("{!raw f=#{facet_field}}#{value}"  )
+            expect(subject[:fq]).to include("{!term f=#{facet_field}}#{value}"  )
           end
         end
 
@@ -193,7 +193,7 @@ describe Blacklight::Solr::SearchBuilder do
           value_list ||= []
           value_list = [value_list] unless value_list.respond_to? :each
           value_list.each do |value|
-            expect(subject[:fq]).to include("{!raw f=#{facet_field}}#{value}"  )
+            expect(subject[:fq]).to include("{!term f=#{facet_field}}#{value}"  )
           end
         end
         expect(subject[:q]).to eq mult_word_query
@@ -348,57 +348,57 @@ describe Blacklight::Solr::SearchBuilder do
   describe "#facet_value_to_fq_string" do
     it "should use the configured field name" do
       blacklight_config.add_facet_field :facet_key, field: "facet_name"
-      expect(subject.send(:facet_value_to_fq_string, "facet_key", "my value")).to eq "{!raw f=facet_name}my value"
+      expect(subject.send(:facet_value_to_fq_string, "facet_key", "my value")).to eq "{!term f=facet_name}my value"
     end
 
     it "should use the raw handler for strings" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name}my value"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", "my value")).to eq "{!term f=facet_name}my value"
     end
 
     it "should pass booleans through" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", true)).to eq "facet_name:true"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", true)).to eq '{!term f=facet_name}true'
     end
 
     it "should pass boolean-like strings through" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "true")).to eq "facet_name:true"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", "true")).to eq '{!term f=facet_name}true'
     end
 
     it "should pass integers through" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", 1)).to eq "facet_name:1"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", 1)).to eq '{!term f=facet_name}1'
     end
 
     it "should pass integer-like strings through" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "1")).to eq "facet_name:1"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", "1")).to eq '{!term f=facet_name}1'
     end
 
     it "should pass floats through" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", 1.11)).to eq "facet_name:1.11"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", 1.11)).to eq '{!term f=facet_name}1.11'
     end
 
     it "should pass floats through" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "1.11")).to eq "facet_name:1.11"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", "1.11")).to eq '{!term f=facet_name}1.11'
     end
 
     it "should escape negative integers" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", -1)).to eq "facet_name:\\-1"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", -1)).to eq '{!term f=facet_name}-1'
     end
 
     it "should pass date-type fields through" do
       allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil, :field => 'facet_name'))
 
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq "facet_name:2012\\-01\\-01"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq '{!term f=facet_name}2012-01-01'
     end
 
     it "should escape datetime-type fields" do
       allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil, :field => 'facet_name'))
 
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "2003-04-09T00:00:00Z")).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", "2003-04-09T00:00:00Z")).to eq '{!term f=facet_name}2003-04-09T00:00:00Z'
     end
-    
+
     it "should format Date objects correctly" do
       allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil, :field => 'facet_name'))
       d = DateTime.parse("2003-04-09T00:00:00")
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", d)).to eq "facet_name:2003\\-04\\-09T00\\:00\\:00Z"      
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", d)).to eq '{!term f=facet_name}2003-04-09T00:00:00Z'
     end
 
     it "should handle range requests" do
@@ -408,8 +408,8 @@ describe Blacklight::Solr::SearchBuilder do
     it "should add tag local parameters" do
       allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:query => nil, :tag => 'asdf', :date => nil, :field => 'facet_name'))
 
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", true)).to eq "{!tag=asdf}facet_name:true"
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name tag=asdf}my value"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", true)).to eq "{!term f=facet_name tag=asdf}true"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", "my value")).to eq "{!term f=facet_name tag=asdf}my value"
     end
   end
 
