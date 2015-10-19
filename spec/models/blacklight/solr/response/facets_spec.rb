@@ -23,7 +23,7 @@ describe Blacklight::Solr::Response::Facets do
   end
 
   describe "#facets" do
-    subject { Blacklight::SolrResponse.new({}, {}) }
+    subject { Blacklight::Solr::Response.new({}, {}) }
     let(:aggregations) { { x: 1, y: 2 } } 
     it "should get the aggregation values" do
       allow(subject).to receive(:aggregations).and_return aggregations
@@ -35,7 +35,7 @@ describe Blacklight::Solr::Response::Facets do
   end
 
   describe "#facet_by_field_name" do
-    subject { Blacklight::SolrResponse.new({}, {}) }
+    subject { Blacklight::Solr::Response.new({}, {}) }
     let(:aggregations) { { x: double } } 
 
     it "should pull facets out of the aggregations" do

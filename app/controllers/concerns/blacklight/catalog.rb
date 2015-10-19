@@ -3,6 +3,9 @@ module Blacklight::Catalog
   extend ActiveSupport::Concern
   extend Deprecation
 
+  SearchContext = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::Catalog::SearchContext', 'Blacklight::SearchContext')
+  ComponentConfiguration = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::Catalog::ComponentConfiguration', 'Blacklight::DefaultComponentConfiguration')
+
   include Blacklight::Base
   include Blacklight::DefaultComponentConfiguration
   include Blacklight::Facet

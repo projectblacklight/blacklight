@@ -6,12 +6,17 @@ require 'blacklight/utils'
 module Blacklight
   autoload :Exceptions, 'blacklight/exceptions'
   autoload :Routes, 'blacklight/routes'
+  autoload :Solr, 'blacklight/solr'
+
+  SolrRepository = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrRepository', 'Blacklight::Solr::Repository')
+  SolrResponse = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrResponse', 'Blacklight::Solr::Response')
+  autoload :SolrHelper, 'blacklight/solr_helper'
 
   extend Deprecation
 
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
-  
+
   class << self
     attr_accessor :solr, :solr_config
   end

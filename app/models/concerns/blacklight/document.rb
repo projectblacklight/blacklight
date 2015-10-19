@@ -13,17 +13,14 @@
 # transformation formats.
 #
 module Blacklight::Document
-  autoload :ActiveModelShim, 'blacklight/document/active_model_shim'
-  autoload :SchemaOrg, 'blacklight/document/schema_org'
-  autoload :CacheKey, 'blacklight/document/cache_key'
-  autoload :DublinCore, 'blacklight/document/dublin_core'
-  autoload :Email, 'blacklight/document/email'
-  autoload :SemanticFields, 'blacklight/document/semantic_fields'
-  autoload :Sms, 'blacklight/document/sms'
-  autoload :Extensions, 'blacklight/document/extensions'
-  autoload :Export, 'blacklight/document/export'
-
   extend ActiveSupport::Concern
+
+  require_relative 'document/active_model_shim'
+  require_relative 'document/schema_org'
+  require_relative 'document/semantic_fields'
+  require_relative 'document/cache_key'
+  require_relative 'document/export'
+
   include Blacklight::Document::SchemaOrg
   include Blacklight::Document::SemanticFields
   include Blacklight::Document::CacheKey
