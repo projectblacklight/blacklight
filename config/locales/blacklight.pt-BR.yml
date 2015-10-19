@@ -183,6 +183,7 @@ pt-BR:
         counter: '%{counter}. '
       facets:
         title: 'Filtre sua busca'
+        clear: 'Limpar'  
         sort:
           count: 'Ordenar por Número'
           index: 'Ordem Alfabética A-Z'

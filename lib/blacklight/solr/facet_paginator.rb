@@ -17,11 +17,15 @@ module Blacklight::Solr
     #            display all with no previous or next. 
     # :offset => current item offset, default 0
     # :sort => 'count' or 'index', solr tokens for facet value sorting, default 'count'. 
-    def initialize(all_facet_values, arguments)
+    def initialize(all_facet_values, arguments = {})
       super
 
       # count is solr's default
-      @sort ||= 'count'
+      @sort ||= if @limit.to_i > 0
+                  'count'
+                else
+                  'index'
+                end
     end
   end
 end

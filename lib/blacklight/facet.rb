@@ -8,6 +8,7 @@ module Blacklight
         display_facet.items,
         sort: display_facet.sort,
         offset: display_facet.offset,
+        prefix: display_facet.prefix,
         limit: facet_limit_for(field_config.key)
       )
     end

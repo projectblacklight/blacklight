@@ -145,8 +145,23 @@ ul.facet_extended_list, .facet_extended_list ul
 
 .facet_pagination {
   @extend .clearfix;
+
+  &.top {
+    padding: $modal-inner-padding;
+  }
 }
 
+ 
+// Facet modal alphabetical filter
+.alpha-filter {
+  .btn {
+    vertical-align: top;
+  }
+
+  .pagination {
+    margin: 0;
+  }
+}
 
 @media (max-width: $grid-float-breakpoint) {
 

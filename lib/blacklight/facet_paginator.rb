@@ -14,14 +14,14 @@ module Blacklight
     # and need to make them accessible in a list so we can easily
     # strip em out before redirecting to catalog/index.
     mattr_accessor :request_keys do
-      { sort: :'facet.sort', page: :'facet.page' }
+      { sort: :'facet.sort', page: :'facet.page', prefix: :'facet.prefix' }
     end
 
     if Rails.version < "4.1"
-      self.request_keys = { sort: :'facet.sort', page: :'facet.page' }
+      self.request_keys = { sort: :'facet.sort', page: :'facet.page', prefix: :'facet.prefix' }
     end
 
-    attr_reader :offset, :limit, :sort
+    attr_reader :offset, :limit, :sort, :prefix
     
     # all_facet_values is a list of facet value objects returned by solr,
     # asking solr for n+1 facet values.
@@ -30,11 +30,12 @@ module Blacklight
     #            display all with no previous or next. 
     # :offset => current item offset, default 0
     # :sort => 'count' or 'index', solr tokens for facet value sorting, default 'count'. 
-    def initialize(all_facet_values, arguments)
+    def initialize(all_facet_values, arguments = {})
       # to_s.to_i will conveniently default to 0 if nil
       @offset = arguments[:offset].to_s.to_i 
       @limit = arguments[:limit]
       @sort = arguments[:sort]
+      @prefix = arguments[:prefix]
 
       @all = all_facet_values
     end
@@ -84,10 +85,16 @@ module Blacklight
     # under facet.sort ), and your current request params.
     # Get back params suitable to passing to an ActionHelper method for
     # creating a url, to resort by that method.
-    def params_for_resort_url(sort_method, params)
+    def params_for_resort_url(sort_method, params = {})
       # When resorting, we've got to reset the offset to start at beginning,
       # no way to make it make sense otherwise.
-      params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
+      resort_params = params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
+
+      if sort_method == 'count'
+        resort_params.except!(request_keys[:prefix])
+      end
+
+      resort_params
     end
 
     def as_json(_ = nil)
