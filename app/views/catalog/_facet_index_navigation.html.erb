@@ -1,0 +1,11 @@
+  <% if @facet.index_pagination && @display_facet.sort == 'index' %>
+    <div id="facet-index-navigation" class="alpha-filter">
+      <span id="facet-index-label"><%= t('blacklight.search.facets.filter') %></span>
+      <span id="facet-index-letters">
+        <% unless params[:'facet.prefix'].blank? %><%= link_to(t('blacklight.search.facets.clear'), @pagination.params_for_resort_url('index', params.except(:'facet.prefix')), data: {ajax_modal: "preserve"}) %><% end %>
+        <% @facet.index_range.each do |letter| %>
+          <%= link_to(letter, @pagination.params_for_resort_url('index', params.merge(:'facet.prefix'=> letter)), data: {ajax_modal: "preserve"}, class: (params[:'facet.prefix']==letter ? 'active' : '')) %>
+        <% end %>
+      </span>
+    </div>
+  <% end %>
