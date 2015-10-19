@@ -144,7 +144,6 @@ module Blacklight::SolrResponse::Facets
   def facet_field_aggregations
     list_as_hash(facet_fields).each_with_object({}) do |(facet_field_name, values), hash|
       items = []
-      options = {}
       values.each do |value, hits|
         i = FacetItem.new(value: value, hits: hits)
 
@@ -156,20 +155,11 @@ module Blacklight::SolrResponse::Facets
 
         items << i
       end
-      options[:sort] = (params[:"f.#{facet_field_name}.facet.sort"] || params[:'facet.sort'])
-      if params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]
-        options[:limit] = (params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]).to_i
-      end
 
-      if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
-        options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
-      end
-
-      if params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix']
-        options[:prefix] = (params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix'])
-      end
-
-      hash[facet_field_name] = FacetField.new(facet_field_name, items, options)
+      options = facet_field_aggregation_options(facet_field_name)
+      hash[facet_field_name] = FacetField.new(facet_field_name,
+                                              items,
+                                              options)
 
       if blacklight_config and !blacklight_config.facet_fields[facet_field_name]
         # alias all the possible blacklight config names..
@@ -178,6 +168,23 @@ module Blacklight::SolrResponse::Facets
         end
       end
     end
+  end
+
+  def facet_field_aggregation_options(facet_field_name)
+    options = {}
+    options[:sort] = (params[:"f.#{facet_field_name}.facet.sort"] || params[:'facet.sort'])
+    if params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]
+      options[:limit] = (params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]).to_i
+    end
+
+    if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
+      options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
+    end
+
+    if params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix']
+      options[:prefix] = (params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix'])
+    end
+    options
   end
 
   ##
