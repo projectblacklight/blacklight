@@ -17,12 +17,8 @@ module Blacklight
       { sort: :'facet.sort', page: :'facet.page', prefix: :'facet.prefix' }
     end
 
-    if Rails.version < "4.1"
-      self.request_keys = { sort: :'facet.sort', page: :'facet.page', prefix: :'facet.prefix' }
-    end
-
     attr_reader :offset, :limit, :sort, :prefix
-    
+
     # all_facet_values is a list of facet value objects returned by solr,
     # asking solr for n+1 facet values.
     # options:
