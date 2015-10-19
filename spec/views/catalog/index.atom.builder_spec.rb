@@ -4,7 +4,7 @@ require 'rexml/document'
 describe "catalog/index" do  
 
   before(:all) do
-    @response = Blacklight::SolrResponse.new({ response: { numFound: 30 }}, { start: 10, rows: 10})
+    @response = Blacklight::Solr::Response.new({ response: { numFound: 30 }}, { start: 10, rows: 10})
     
     @config = CatalogController.blacklight_config
   end

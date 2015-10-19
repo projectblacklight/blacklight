@@ -111,7 +111,7 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Determine whether to display spellcheck suggestions
   #
-  # @param [Blacklight::SolrResponse] response
+  # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def should_show_spellcheck_suggestions? response
     response.total <= spell_check_max and response.spelling.words.size > 0
