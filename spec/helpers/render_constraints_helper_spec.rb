@@ -32,7 +32,9 @@ describe RenderConstraintsHelper do
       allow(helper).to receive(:blacklight_config).and_return(config)
       expect(helper).to receive(:facet_field_label).with('type').and_return("Item Type")
     end
-    subject { helper.render_filter_element('type', ['journal'], {:q=>'biz'}) }
+    subject { helper.render_filter_element('type', ['journal'], path) }
+
+    let(:path) { Blacklight::Path.new({:q=>'biz'}, config) }
 
     it "should have a link relative to the current url" do
       expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"

@@ -44,34 +44,33 @@ module Blacklight::RenderConstraintsHelperBehavior
 
   ##
   # Render the facet constraints
-  # 
-  # @param [Hash] query parameters
+  # @param [Hash] localized_params query parameters
   # @return [String]
   def render_constraints_filters(localized_params = params)
      return "".html_safe unless localized_params[:f]
+     path = Blacklight::Path.new(localized_params, blacklight_config)
      content = []
      localized_params[:f].each_pair do |facet,values|
-       content << render_filter_element(facet, values, localized_params)
+       content << render_filter_element(facet, values, path)
      end
 
-     safe_join(content.flatten, "\n")    
+     safe_join(content.flatten, "\n")
   end
 
   ##
   # Render a single facet's constraint
-  # 
   # @param [String] facet field
-  # @param [Array<String>] selected facet values
-  # @param [Hash] query parameters
+  # @param [Array<String>] values selected facet values
+  # @param [Blacklight::Path] path query parameters
   # @return [String]
-  def render_filter_element(facet, values, localized_params)
+  def render_filter_element(facet, values, path)
     facet_config = facet_configuration_for_field(facet)
 
     safe_join(values.map do |val|
       next if val.blank? # skip empty string
       render_constraint_element( facet_field_label(facet_config.key), facet_display_value(facet, val),
-                  :remove => search_action_path(remove_facet_params(facet, val, localized_params)),
-                  :classes => ["filter", "filter-" + facet.parameterize]
+                  remove: search_action_path(path.remove_facet_params(facet, val)),
+                  classes: ["filter", "filter-" + facet.parameterize]
                 )
     end, "\n")
   end

@@ -136,9 +136,9 @@ module Blacklight::FacetsHelperBehavior
   def path_for_facet(facet_field, item)
     facet_config = facet_configuration_for_field(facet_field)
     if facet_config.url_method
-      path = send(facet_config.url_method, facet_field, item)
+      send(facet_config.url_method, facet_field, item)
     else
-      path = search_action_path(add_facet_params_and_redirect(facet_field, item))
+      search_action_path(current_path.add_facet_params_and_redirect(facet_field, item))
     end
   end
 
@@ -146,10 +146,14 @@ module Blacklight::FacetsHelperBehavior
   # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
   # @params (see #render_facet_value)
   def render_selected_facet_value(facet_field, item)
-    content_tag(:span, :class => "facet-label") do
-      content_tag(:span, facet_display_value(facet_field, item), :class => "selected") +
+    remove_href = search_action_path(current_path.remove_facet_params(facet_field, item))
+    content_tag(:span, class: "facet-label") do
+      content_tag(:span, facet_display_value(facet_field, item), class: "selected") +
       # remove link
-      link_to(content_tag(:span, '', :class => "glyphicon glyphicon-remove") + content_tag(:span, '[remove]', :class => 'sr-only'), search_action_path(remove_facet_params(facet_field, item, params)), :class=>"remove")
+      link_to(remove_href, class: "remove") do
+        content_tag(:span, '', class: "glyphicon glyphicon-remove") +
+        content_tag(:span, '[remove]', class: 'sr-only')
+      end
     end + render_facet_count(item.hits, :classes => ["selected"])
   end
 

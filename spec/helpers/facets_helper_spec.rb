@@ -8,7 +8,18 @@ describe FacetsHelper do
   before(:each) do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
-  
+
+  describe "#current_path" do
+    let(:params) { double }
+    before { allow(helper).to receive_messages(params: params) }
+    subject { helper.current_path }
+
+    it "creates a path object" do
+      expect(subject).to be_kind_of Blacklight::Path
+      expect(subject.params).to be params
+    end
+  end
+
   describe "has_facet_values?" do
     it "should be true if there are any facets to display" do
 
@@ -300,19 +311,20 @@ describe FacetsHelper do
   end
 
   describe "render_facet_value" do
-    let (:item) { double(:value => 'A', :hits => 10) }
+    let(:item) { double(:value => 'A', :hits => 10) }
+    let(:current_path) { double(add_facet_params_and_redirect: { controller: 'catalog' }) }
     before do
       allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => nil))
       allow(helper).to receive(:facet_display_value).and_return('Z')
-      allow(helper).to receive(:add_facet_params_and_redirect).and_return({controller:'catalog'})
-      
+      allow(helper).to receive(:current_path).and_return(current_path)
       allow(helper).to receive(:search_action_path) do |*args|
         catalog_index_path *args
       end
     end
     describe "simple case" do
       let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/catalog\">Z</a></span><span class=\"facet-count\">10</span>" }
-      it "should use facet_display_value" do
+
+      it "uses facet_display_value" do
         result = helper.render_facet_value('simple_field', item)
         expect(result).to be_equivalent_to(expected_html).respecting_element_order
       end
