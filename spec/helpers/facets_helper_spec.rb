@@ -9,17 +9,6 @@ describe FacetsHelper do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
 
-  describe "#current_path" do
-    let(:params) { double }
-    before { allow(helper).to receive_messages(params: params) }
-    subject { helper.current_path }
-
-    it "creates a path object" do
-      expect(subject).to be_kind_of Blacklight::Path
-      expect(subject.params).to be params
-    end
-  end
-
   describe "has_facet_values?" do
     it "should be true if there are any facets to display" do
 
@@ -312,11 +301,11 @@ describe FacetsHelper do
 
   describe "render_facet_value" do
     let(:item) { double(:value => 'A', :hits => 10) }
-    let(:current_path) { double(add_facet_params_and_redirect: { controller: 'catalog' }) }
+    let(:blacklight_path) { double(add_facet_params_and_redirect: { controller: 'catalog' }) }
     before do
       allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => nil))
       allow(helper).to receive(:facet_display_value).and_return('Z')
-      allow(helper).to receive(:current_path).and_return(current_path)
+      allow(helper).to receive(:blacklight_path).and_return(blacklight_path)
       allow(helper).to receive(:search_action_path) do |*args|
         catalog_index_path *args
       end

@@ -11,6 +11,18 @@ module Blacklight
       @blacklight_config = blacklight_config
     end
 
+    def url_for_document(doc, options = {})
+      if respond_to?(:blacklight_config) and
+          blacklight_config.show.route and
+          (!doc.respond_to?(:to_model) or doc.to_model.is_a? SolrDocument)
+        route = blacklight_config.show.route.merge(action: :show, id: doc).merge(options)
+        route[:controller] = params[:controller] if route[:controller] == :current
+        route
+      else
+        doc
+      end
+    end
+
     # adds the value and/or field to params[:f]
     # Does NOT remove request keys and otherwise ensure that the hash
     # is suitable for a redirect. See

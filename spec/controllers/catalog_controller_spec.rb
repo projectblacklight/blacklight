@@ -691,7 +691,8 @@ describe CatalogController do
     before do
       CatalogController.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:perform_like)
-      allow(controller).to receive(:catalog_path).and_return('catalog/1')
+      allow(controller).to receive(:solr_document_url).and_return('catalog/1')
+      allow(controller).to receive(:action_documents).and_return([SolrDocument.new])
       Rails.application.routes.draw do
         get 'catalog/like', as: :catalog_like
       end
