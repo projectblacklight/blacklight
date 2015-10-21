@@ -4,15 +4,15 @@ module Blacklight
   # fields to display, facets to show, sort options, and search fields.
   class Configuration < OpenStructWithHashAccess
 
-    require 'blacklight/configuration/view_config'
-    require 'blacklight/configuration/tool_config'
+    require_dependency 'blacklight/configuration/view_config'
+    require_dependency 'blacklight/configuration/tool_config'
     # XXX this isn't very pretty, but it works.
-    require 'blacklight/configuration/fields'
-    require 'blacklight/configuration/field'
-    require 'blacklight/configuration/solr_field'
-    require 'blacklight/configuration/search_field'
-    require 'blacklight/configuration/facet_field'
-    require 'blacklight/configuration/sort_field'
+    require_dependency 'blacklight/configuration/fields'
+    require_dependency 'blacklight/configuration/field'
+    require_dependency 'blacklight/configuration/solr_field'
+    require_dependency 'blacklight/configuration/search_field'
+    require_dependency 'blacklight/configuration/facet_field'
+    require_dependency 'blacklight/configuration/sort_field'
     include Fields
 
     # Set up Blacklight::Configuration.default_values to contain
