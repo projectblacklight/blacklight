@@ -33,7 +33,7 @@ namespace :blacklight do
   task :generate => ['engine_cart:generate'] do
   end
 
-  namespace :index do
+  namespace :internal do
     task :seed => ['engine_cart:generate'] do
       within_test_app do
         system "bundle exec rake blacklight:index:seed"
@@ -41,6 +41,7 @@ namespace :blacklight do
     end
   end
 
+  desc 'Run Solr and Blacklight for interactive development'
   task :server do
     if File.exists? 'spec/internal'
       within_test_app do
@@ -52,7 +53,7 @@ namespace :blacklight do
 
     SolrWrapper.wrap(port: '8983') do |solr|
       solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
-        Rake::Task['blacklight:index:seed'].invoke
+        Rake::Task['blacklight:internal:seed'].invoke
 
         within_test_app do
           system "bundle exec rails s"
