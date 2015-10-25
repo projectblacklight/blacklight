@@ -4,44 +4,19 @@ require 'deprecation'
 require 'blacklight/utils'
 
 module Blacklight
-  autoload :Configurable, 'blacklight/configurable'
-  autoload :Configuration, 'blacklight/configuration'
-  autoload :SearchFields, 'blacklight/search_fields'
-  autoload :SearchBuilder, 'blacklight/search_builder'
-  autoload :SearchBuilderBehavior, 'blacklight/search_builder_behavior'
-
-  autoload :Document, 'blacklight/document'
+  autoload :Exceptions, 'blacklight/exceptions'
+  autoload :Routes, 'blacklight/routes'
   autoload :Solr, 'blacklight/solr'
 
-  autoload :SearchHelper,       'blacklight/search_helper'
-  autoload :SolrHelper,         'blacklight/solr_helper'
-  autoload :AbstractRepository, 'blacklight/abstract_repository'
-  autoload :SolrRepository,     'blacklight/solr_repository'
-  autoload :RequestBuilders,    'blacklight/request_builders'
+  SolrRepository = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrRepository', 'Blacklight::Solr::Repository')
+  SolrResponse = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrResponse', 'Blacklight::Solr::Response')
+  autoload :SolrHelper, 'blacklight/solr_helper'
 
-  autoload :Exceptions, 'blacklight/exceptions'
-
-  autoload :User, 'blacklight/user'
-
-  autoload :Controller,        'blacklight/controller'
-  autoload :Base,              'blacklight/base'
-  autoload :Catalog,           'blacklight/catalog'
-  autoload :TokenBasedUser,    'blacklight/token_based_user'
-  autoload :Bookmarks,         'blacklight/bookmarks'
-  autoload :DocumentPresenter, 'blacklight/document_presenter'
-
-  autoload :Routes, 'blacklight/routes'
-  
-  autoload :SolrResponse, 'blacklight/solr_response'
-  autoload :Facet, 'blacklight/facet'
-  autoload :FacetPaginator, 'blacklight/facet_paginator'
-
-  extend SearchFields
   extend Deprecation
 
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
-  
+
   class << self
     attr_accessor :solr, :solr_config
   end
@@ -70,7 +45,7 @@ module Blacklight
   end
 
   def self.default_index
-    @default_index ||=  Blacklight::SolrRepository.new(Blacklight::Configuration.new)
+    @default_index ||= Blacklight::Solr::Repository.new(Blacklight::Configuration.new)
   end
 
   def self.solr_config

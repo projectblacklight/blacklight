@@ -1,5 +1,4 @@
 module Blacklight::FacetsHelperBehavior
-
   include Blacklight::Facet
 
   ##
@@ -31,7 +30,7 @@ module Blacklight::FacetsHelperBehavior
   # solr field used for faceting. Can be over-ridden for custom
   # display on a per-facet basis. 
   #
-  # @param [Blacklight::SolrResponse::Facets::FacetField] display_facet 
+  # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet 
   # @param [Hash] options parameters to use for rendering the facet limit partial
   # @option options [String] :partial partial to render
   # @option options [String] :layout partial layout to render
@@ -77,7 +76,7 @@ module Blacklight::FacetsHelperBehavior
   #
   # By default, only render facets with items.
   #
-  # @param [Blacklight::SolrResponse::Facets::FacetField] display_facet
+  # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
   # @return [Boolean] 
   def should_render_facet? display_facet
     # display when show is nil or true
@@ -117,7 +116,7 @@ module Blacklight::FacetsHelperBehavior
   # partial and catalog/facet expanded list. Will output facet value name as
   # a link to add that to your restrictions, with count in parens.
   #
-  # @param [Blacklight::SolrResponse::Facets::FacetField]
+  # @param [Blacklight::Solr::Response::Facets::FacetField]
   # @param [String] facet item
   # @param [Hash] options
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
@@ -131,7 +130,7 @@ module Blacklight::FacetsHelperBehavior
 
   ##
   # Where should this facet link to?
-  # @param [Blacklight::SolrResponse::Facets::FacetField]
+  # @param [Blacklight::Solr::Response::Facets::FacetField]
   # @param [String] facet item
   # @return [String]
   def path_for_facet(facet_field, item)
