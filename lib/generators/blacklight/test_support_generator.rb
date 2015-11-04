@@ -15,13 +15,15 @@ Generate blacklight testing configurations for blacklight's own tests, or for bl
     def alternate_controller
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"
 
-      route("resources :alternate do
-                member do
-                  get :facet
-                end
-              end")
+      routing_code = <<-EOF
+        resource :alternate, controller: 'alternate', only: [:index] do
+          concerns :searchable
+        end
+      EOF
 
+      sentinel = /concern :searchable[^\n]+\n/
 
+      inject_into_file 'config/routes.rb', routing_code, { after: sentinel, force: true }
     end
 
     def solr_document_config

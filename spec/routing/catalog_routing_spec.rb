@@ -21,33 +21,33 @@ describe "Routing" do
   end
 
 
-  describe "catalog_path for SolrDocument", :test => true do
+  describe "solr_document_path for SolrDocument", :test => true do
     it "should route correctly" do
-      expect(:get => catalog_path(SolrDocument.new(:id => 'asdf'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'asdf')
+      expect(:get => solr_document_path(SolrDocument.new(:id => 'asdf'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'asdf')
     end
 
     context "should escape solr document ids" do
 
       it "should pass-through url-valid ids" do
-        expect(:get => catalog_path(SolrDocument.new(:id => 'qwerty'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'qwerty')
+        expect(:get => solr_document_path(SolrDocument.new(:id => 'qwerty'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'qwerty')
       end
 
       it "should route url-like ids" do
         skip "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
-        expect(:get => catalog_path(SolrDocument.new(:id => 'http://example.com'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'http://example.com')
+        expect(:get => solr_document_path(SolrDocument.new(:id => 'http://example.com'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'http://example.com')
       end
 
       it "should route ids with whitespace" do
-        expect(:get => catalog_path(SolrDocument.new(:id => 'mm 123'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'mm 123')
+        expect(:get => solr_document_path(SolrDocument.new(:id => 'mm 123'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'mm 123')
       end
 
       it "should route ids with a literal '+'" do
-        expect(:get => catalog_path(SolrDocument.new(:id => 'this+that'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'this+that')
+        expect(:get => solr_document_path(SolrDocument.new(:id => 'this+that'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'this+that')
       end
 
       it "should route ids with a literal '/" do
         skip "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
-        expect(:get => catalog_path(SolrDocument.new(:id => 'and/or'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'and/or')
+        expect(:get => solr_document_path(SolrDocument.new(:id => 'and/or'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'and/or')
       end
     end
   end

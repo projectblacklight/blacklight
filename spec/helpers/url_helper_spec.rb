@@ -11,7 +11,7 @@ describe BlacklightUrlHelper do
 
   before do
     allow(helper).to receive(:search_action_path) do |*args|
-      catalog_index_url *args
+      search_catalog_url *args
     end
 
     allow(helper).to receive_messages(blacklight_config: blacklight_config)
@@ -165,13 +165,13 @@ describe BlacklightUrlHelper do
     it 'should be the catalog path with the current view type' do
       allow(blacklight_config).to receive(:view) { { list: nil, abc: nil} }
       allow(helper).to receive_messages(:blacklight_config => blacklight_config)
-      expect(helper.start_over_path(:view => 'abc')).to eq catalog_index_url(:view => 'abc')
+      expect(helper.start_over_path(:view => 'abc')).to eq search_catalog_url(:view => 'abc')
     end
 
     it 'should not include the current view type if it is the default' do
       allow(blacklight_config).to receive(:view) { { list: nil, asdf: nil} }
       allow(helper).to receive_messages(:blacklight_config => blacklight_config)
-      expect(helper.start_over_path(:view => 'list')).to eq catalog_index_url
+      expect(helper.start_over_path(:view => 'list')).to eq search_catalog_url
     end
   end
 
@@ -216,7 +216,10 @@ describe BlacklightUrlHelper do
     it "should convert the counter parameter into a data- attribute" do
       data = {'id'=>'123456','title_display'=>['654321']}
       @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, :title_display, counter: 5)).to match /\/catalog\/123456\/track\?counter=5/
+
+      allow(helper).to receive(:track_test_path).with(hash_including(id: '123456', counter: 5)).and_return('tracking url')
+
+      expect(helper.link_to_document(@document, :title_display, counter: 5)).to include 'data-context-href="tracking url"'
     end
 
     it "should merge the data- attributes from the options with the counter params" do
@@ -264,11 +267,13 @@ describe BlacklightUrlHelper do
   describe "#session_tracking_path" do
     let(:document) { SolrDocument.new(id: 1) }
     it "should determine the correct route for the document class" do
-      expect(helper.session_tracking_path(document)).to eq helper.track_solr_document_path(document)
+      allow(helper).to receive(:track_test_path).with(id: 1).and_return('x')
+      expect(helper.session_tracking_path(document)).to eq 'x'
     end
 
     it "should pass through tracking parameters" do
-      expect(helper.session_tracking_path(document, x: 1)).to eq helper.track_solr_document_path(document, x: 1)
+      allow(helper).to receive(:track_test_path).with(id: 1, x: 1).and_return('x')
+      expect(helper.session_tracking_path(document, x: 1)).to eq 'x'
     end
   end
 end

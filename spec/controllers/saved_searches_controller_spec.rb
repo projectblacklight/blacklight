@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe SavedSearchesController do
+  routes { Blacklight::Engine.routes }
 
   before(:all) do
     @one = Search.create

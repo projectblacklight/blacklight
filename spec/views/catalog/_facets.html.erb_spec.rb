@@ -6,7 +6,7 @@ describe "catalog/_facets" do
   before do
     allow(view).to receive_messages(blacklight_config: blacklight_config)
     allow(view).to receive(:search_action_path) do |*args|
-      catalog_index_url *args
+      search_catalog_url *args
     end
   end
 

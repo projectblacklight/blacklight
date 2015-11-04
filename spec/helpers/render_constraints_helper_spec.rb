@@ -12,7 +12,7 @@ describe RenderConstraintsHelper do
     # the helper methods below infer paths from the current route
     controller.request.path_parameters[:controller] = 'catalog'
     allow(helper).to receive(:search_action_path) do |*args|
-      catalog_index_path *args
+      search_catalog_path *args
     end
   end
 

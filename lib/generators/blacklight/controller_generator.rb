@@ -29,10 +29,13 @@ module Blacklight
     end
 
     def inject_blacklight_routes
-      # These will end up in routes.rb file in reverse order
-      # we add em, since each is added at the top of file. 
-      # we want "root" to be FIRST for optimal url generation. 
-      route("blacklight_for :#{controller_name}")
+      route <<-EOF
+        concern :searchable, Blacklight::Routes::Searchable.new
+
+        resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
+          concerns :searchable
+        end
+      EOF
     end
   end
 end

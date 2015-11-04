@@ -11,7 +11,7 @@ describe "Bookmarks" do
   end
 
   it "should clear bookmarks" do
-    visit catalog_path('2007020969')
+    visit solr_document_path('2007020969')
     click_button 'Bookmark'
     click_link 'Bookmarks'
     click_link 'Clear Bookmarks'
@@ -34,14 +34,14 @@ describe "Bookmarks" do
 
   it "should add and delete bookmarks from the show page" do
     sign_in 'user1'
-    visit catalog_path('2007020969')
+    visit solr_document_path('2007020969')
     click_button 'Bookmark'
     click_button 'Remove bookmark'
     expect(page).to have_content 'Successfully removed bookmark.'
   end
 
   it "should add bookmarks after a user logs in" do
-    visit catalog_path('2007020969')
+    visit solr_document_path('2007020969')
     click_button 'Bookmark'
     sign_in 'user1'
     visit bookmarks_path
@@ -50,7 +50,7 @@ describe "Bookmarks" do
   end
 
   it "should cite items in bookmarks" do
-    visit catalog_path('2007020969')
+    visit solr_document_path('2007020969')
     click_button 'Bookmark'
     click_link 'Bookmarks'
     click_link 'Cite'
@@ -58,10 +58,10 @@ describe "Bookmarks" do
   end
 
   it "should cite items in current bookmarks page" do
-    visit catalog_path('2009373513')
+    visit solr_document_path('2009373513')
     click_button 'Bookmark'
 
-    visit catalog_path('2007020969')
+    visit solr_document_path('2007020969')
     click_button 'Bookmark'
 
     visit "/bookmarks?per_page=1"
