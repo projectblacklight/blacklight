@@ -11,6 +11,7 @@
 //= require blacklight/search_context
 //= require blacklight/collapsable
 //= require blacklight/facet_load
+//= require blacklight/autocomplete.js
 //
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap/transition
@@ -18,6 +19,9 @@
 //= require bootstrap/dropdown
 //= require bootstrap/alert
 //= require bootstrap/modal
+
+// Twitter Typeahead for autocomplete
+//= require twitter/typeahead
 
 /* Blacklight has a Javascript setup meant to support local disabling, 
   modification, and use of Blacklight behaviors. 

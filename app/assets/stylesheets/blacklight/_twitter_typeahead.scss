@@ -1,0 +1,31 @@
+.twitter-typeahead {
+  float: left;
+  width: 100%;
+  z-index: 10000;
+  
+  .tt-input.form-control {
+    width: 100%;
+  }
+  
+  .tt-hint.form-control {
+    width: 100%;
+  }
+
+  .tt-dropdown-menu {
+    @extend .dropdown-menu;
+    font-family: $font-family-base;
+    
+    width: 100%;
+  }
+
+  .tt-cursor {
+    background-color: $dropdown-link-hover-bg;
+    color: $dropdown-link-hover-color;
+    text-decoration: none;
+  }
+
+  .tt-suggestion p {
+    font-size: 14px;
+    padding-left: 10px;
+  }
+}
