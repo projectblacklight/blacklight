@@ -3,7 +3,6 @@ module Blacklight
     engine_name "blacklight"
 
     require 'bootstrap-sass'
-    require 'blacklight/rails/routes'
 
     # BlacklightHelper is needed by all helpers, so we inject it
     # into action view base here. 

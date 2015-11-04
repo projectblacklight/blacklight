@@ -13,7 +13,7 @@ describe BlacklightHelper do
 
   before(:each) do
     allow(helper).to receive(:search_action_path) do |*args|
-      catalog_index_url *args
+      search_catalog_url *args
     end
   end
 

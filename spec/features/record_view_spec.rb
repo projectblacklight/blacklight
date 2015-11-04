@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Record View" do
   it "should display a normal record" do
-    visit catalog_path('2007020969')
+    visit solr_document_path('2007020969')
     expect(page).to have_content "Title:" 
     expect(page).to have_content "Strong Medicine speaks" 
     expect(page).to have_content "Subtitle:" 
@@ -22,18 +22,18 @@ describe "Record View" do
   end
 
   it "should not display blank titles" do
-    visit catalog_path('2008305903')
+    visit solr_document_path('2008305903')
     expect(page).not_to have_content "More Information:" 
   end
 
   it "should not display vernacular records" do
-    visit catalog_path('2009373513')
+    visit solr_document_path('2009373513')
     expect(page).to have_content "次按驟變" 
     expect(page).to have_content "林行止" 
     expect(page).to have_content "臺北縣板橋市" 
   end
   it "should not display 404" do
-    visit catalog_path('this_id_does_not_exist')
+    visit solr_document_path('this_id_does_not_exist')
     expect(page.driver.status_code).to eq 404
     expect(page).to have_content "The page you were looking for doesn't exist." 
   end

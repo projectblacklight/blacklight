@@ -6,7 +6,14 @@ module Blacklight
     end
 
     def document_action_path action_opts, url_opts = nil
-      self.send(action_opts.path ||"#{action_opts.key}_#{controller_name}_path", url_opts)
+      case
+      when action_opts.path
+        self.send(action_opts.path, url_opts)
+      when url_opts[:id].class.respond_to?(:model_name)
+        url_for([action_opts.key, url_opts[:id]])
+      else
+        self.send("#{action_opts.key}_#{controller_name}_path", url_opts)
+      end
     end
 
     ##

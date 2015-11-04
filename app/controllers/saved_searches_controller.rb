@@ -42,7 +42,7 @@ class SavedSearchesController < ApplicationController
     else
       flash[:error] = I18n.t('blacklight.saved_searches.clear.failure') 
     end
-    redirect_to :action => "index"
+    redirect_to blacklight.saved_searches_url
   end
 
 

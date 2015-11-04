@@ -112,5 +112,11 @@ EOF
         generate 'blacklight:marc:install'
       end
     end
+
+    def add_routes
+      route <<-EOF
+        mount Blacklight::Engine => '/'
+      EOF
+    end
   end
 end

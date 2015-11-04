@@ -236,7 +236,7 @@ describe CatalogController do
 
     it "should redirect to show action for doc id" do
       put :track, :id => doc_id, :counter => 3
-      assert_redirected_to(catalog_path(doc_id))
+      assert_redirected_to(solr_document_path(doc_id))
     end
 
     it "HTTP status code for redirect should be 303" do
@@ -456,7 +456,7 @@ describe CatalogController do
 
         post :email, :id => doc_id, :to => 'test_email@projectblacklight.org', :message => 'xyz'
         expect(request.flash[:error]).to be_nil
-        expect(request).to redirect_to(catalog_path(doc_id))
+        expect(request).to redirect_to(solr_document_path(doc_id))
       end
       it "should render email_success for XHR requests" do
         xhr :post, :email, :id => doc_id, :to => 'test_email@projectblacklight.org'
@@ -484,7 +484,7 @@ describe CatalogController do
       it "should allow punctuation in phone number" do
         post :sms, :id => doc_id, :to => '(555) 555-5555', :carrier => 'txt.att.net'
         expect(request.flash[:error]).to be_nil
-        expect(request).to redirect_to(catalog_path(doc_id))
+        expect(request).to redirect_to(solr_document_path(doc_id))
       end
       it "should send to the appropriate carrier email address" do
         mock_mailer = double
@@ -495,7 +495,7 @@ describe CatalogController do
       it "should redirect back to the record upon success" do
         post :sms, :id => doc_id, :to => '5555555555', :carrier => 'txt.att.net'
         expect(request.flash[:error]).to eq nil
-        expect(request).to redirect_to(catalog_path(doc_id))
+        expect(request).to redirect_to(solr_document_path(doc_id))
       end
 
       it "should render sms_success template for XHR requests" do
@@ -748,7 +748,7 @@ describe CatalogController do
   describe "search_facet_url" do
     it "should be the same as the catalog url" do
       get :index, :page => 1
-      expect(controller.send(:search_facet_url, id: "some_facet", page: 5)).to eq catalog_facet_url(id: "some_facet")
+      expect(controller.send(:search_facet_url, id: "some_facet", page: 5)).to eq facet_catalog_url(id: "some_facet")
     end
   end
 end

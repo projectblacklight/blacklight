@@ -230,7 +230,7 @@ describe FacetsHelper do
     subject { helper.render_facet_limit_list(paginator, 'type_solr_field') }
     before do
       allow(helper).to receive(:search_action_path) do |*args|
-        catalog_index_path *args
+        search_catalog_path *args
       end
     end
     it "should draw a list of elements" do
@@ -307,7 +307,7 @@ describe FacetsHelper do
       allow(helper).to receive(:facet_display_value).and_return('Z')
       allow(helper).to receive(:blacklight_path).and_return(blacklight_path)
       allow(helper).to receive(:search_action_path) do |*args|
-        catalog_index_path *args
+        search_catalog_path *args
       end
     end
     describe "simple case" do

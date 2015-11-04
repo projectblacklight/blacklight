@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe SearchHistoryController do
+  routes { Blacklight::Engine.routes }
 
   describe "index" do
     before(:all) do
