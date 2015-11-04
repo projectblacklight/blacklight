@@ -19,9 +19,7 @@ module Blacklight::Controller
 
     # handle basic authorization exception with #access_denied
     rescue_from Blacklight::Exceptions::AccessDenied, :with => :access_denied
-    
-    helper_method :request_is_for_user_resource?
-    
+
     # extra head content
     helper_method :has_user_authentication_provider?
     helper_method :blacklight_config
@@ -76,15 +74,6 @@ module Blacklight::Controller
     def searches_from_history
       session[:history].blank? ? Search.none : Search.where(:id => session[:history]).order("updated_at desc")
     end
-    
-    #
-    # Controller and view helper for determining if the current url is a request for a user resource
-    #
-    def request_is_for_user_resource?
-      request.env['PATH_INFO'] =~ /\/?users\/?/
-    end
-
-
 
     # Should be provided by authentication provider
     # def current_user
