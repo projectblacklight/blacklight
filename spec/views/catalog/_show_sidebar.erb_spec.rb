@@ -22,7 +22,7 @@ describe "/catalog/_show_sidebar.html.erb" do
   	@document = SolrDocument.new :id => 1, :title_s => 'abc', :format => 'default'
   	allow(@document).to receive(:more_like_this).and_return([SolrDocument.new({ 'id' => '2', 'title_display' => 'Title of MLT Document' })])
     render
-    expect(rendered).to include_text("More Like This")
-    expect(rendered).to include_text("Title of MLT Document")
+    expect(rendered).to include("More Like This")
+    expect(rendered).to include("Title of MLT Document")
   end
 end
