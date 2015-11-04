@@ -218,6 +218,11 @@ describe CatalogController do
 
   describe "track action" do
     doc_id = '2007020969'
+    
+    it "should persist the search session id value into session[:search]" do
+      put :track, :id => doc_id, :counter => 3, search_id: "123"
+      expect(session[:search]['id']).to eq "123"
+    end
 
     it "should set counter value into session[:search]" do
       put :track, :id => doc_id, :counter => 3
