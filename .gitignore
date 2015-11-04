@@ -10,4 +10,4 @@ jetty/
 log/*
 tmp/*
 pkg/*
-spec/internal
+.internal_test_app
