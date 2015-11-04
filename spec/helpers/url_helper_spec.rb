@@ -26,6 +26,7 @@ describe BlacklightUrlHelper do
     before do
       allow(helper).to receive_messages(controller: controller_class)
       allow(helper).to receive_messages(controller_name: controller_class.controller_name)
+      allow(helper).to receive_messages(params: {})
     end
 
     it "should be a polymorphic routing-ready object" do
@@ -49,6 +50,7 @@ describe BlacklightUrlHelper do
       let(:controller_class) { ::AlternateController.new }
       before do
         helper.blacklight_config.show.route = { controller: :current }
+        allow(helper).to receive(:params).and_return(controller: 'alternate')
       end
       it "should support the :current controller configuration" do
         expect(helper.url_for_document(doc)).to eq({controller: 'alternate', action: :show, id: doc})

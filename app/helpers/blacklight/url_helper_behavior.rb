@@ -1,26 +1,12 @@
 ##
 # URL helper methods
 module Blacklight::UrlHelperBehavior
-
-  # @return [Blacklight::Path] a memoized instance of the parameter state.
-  def current_path
-    @current_path ||= Blacklight::Path.new(params, blacklight_config)
-  end
-
   ##
   # Extension point for downstream applications
   # to provide more interesting routing to
   # documents
-  def url_for_document doc, options = {}
-    if respond_to?(:blacklight_config) and
-        blacklight_config.show.route and
-        (!doc.respond_to?(:to_model) or doc.to_model.is_a? SolrDocument)
-      route = blacklight_config.show.route.merge(action: :show, id: doc).merge(options)
-      route[:controller] = controller_name if route[:controller] == :current
-      route
-    else
-      doc
-    end
+  def url_for_document(doc, options = {})
+    blacklight_path.url_for_document(doc, options)
   end
 
   # link_to_document(doc, 'VIEW', :counter => 3)
@@ -154,7 +140,7 @@ module Blacklight::UrlHelperBehavior
   # @param [Blacklight::SolrResponse::Group]
   # @return [Hash]
   def add_group_facet_params_and_redirect group
-    current_path.add_facet_params_and_redirect(group.field, group.key, params)
+    blacklight_path.add_facet_params_and_redirect(group.field, group.key, params)
   end
 
   # A URL to refworks export, with an embedded callback URL to this app. 
