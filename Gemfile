@@ -3,9 +3,7 @@ source 'https://rubygems.org'
 # Please see blacklight.gemspec for dependency information.
 gemspec path: File.expand_path('..', __FILE__)
 
-# Peg simplecov to < 0.8 until this is resolved:
-# https://github.com/colszowka/simplecov/issues/281
-gem 'simplecov', '~> 0.7.1', require: false
+gem 'simplecov', '~> 0.10', require: false
 gem 'coveralls', require: false
 
 group :test do
