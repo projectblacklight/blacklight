@@ -36,6 +36,9 @@ module Blacklight
       def add_show_tools_partial name, opts = {}
         blacklight_config.add_show_tools_partial(name, opts)
 
+        return if method_defined?(name) || opts[:define_method] == false
+
+        # Define a simple action handler for the tool
         define_method name do
           @response, @documents = action_documents
 
@@ -57,7 +60,7 @@ module Blacklight
               format.js { render :layout => false }
             end
           end
-        end unless method_defined? name
+        end
       end
 
       ##
