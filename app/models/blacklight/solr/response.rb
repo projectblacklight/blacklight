@@ -1,14 +1,13 @@
 class Blacklight::Solr::Response < HashWithIndifferentAccess
   extend Deprecation
+  extend ActiveSupport::Autoload
 
-  require_dependency  'blacklight/solr/response/pagination_methods'
-
-  require_dependency 'blacklight/solr/response/response'
-  require_dependency 'blacklight/solr/response/spelling'
-  require_dependency 'blacklight/solr/response/facets'
-  require_dependency 'blacklight/solr/response/more_like_this'
-  autoload :GroupResponse, 'blacklight/solr/response/group_response'
-  autoload :Group, 'blacklight/solr/response/group'
+  autoload :PaginationMethods
+  autoload :Spelling
+  autoload :Facets
+  autoload :MoreLikeThis
+  autoload :GroupResponse
+  autoload :Group
 
   include PaginationMethods
   include Spelling

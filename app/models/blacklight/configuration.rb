@@ -3,16 +3,18 @@ module Blacklight
   # Blacklight::Configuration holds the configuration for a Blacklight::Controller, including
   # fields to display, facets to show, sort options, and search fields.
   class Configuration < OpenStructWithHashAccess
+    extend ActiveSupport::Autoload
 
-    require_dependency 'blacklight/configuration/view_config'
-    require_dependency 'blacklight/configuration/tool_config'
-    # XXX this isn't very pretty, but it works.
-    require_dependency 'blacklight/configuration/fields'
-    require_dependency 'blacklight/configuration/field'
-    require_dependency 'blacklight/configuration/solr_field'
-    require_dependency 'blacklight/configuration/search_field'
-    require_dependency 'blacklight/configuration/facet_field'
-    require_dependency 'blacklight/configuration/sort_field'
+    eager_autoload do
+      autoload :ViewConfig
+      autoload :ToolConfig
+      autoload :Fields
+      autoload :Field
+      autoload :SolrField
+      autoload :SearchField
+      autoload :FacetField
+      autoload :SortField
+    end
     include Fields
 
     # Set up Blacklight::Configuration.default_values to contain
