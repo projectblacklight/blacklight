@@ -5,6 +5,9 @@
 module Blacklight::Controller 
 
   extend ActiveSupport::Concern
+  extend Deprecation
+
+  self.deprecation_horizon = 'blacklight 6.0'
   
   included do
     include Blacklight::SearchFields
@@ -77,6 +80,7 @@ module Blacklight::Controller
     def request_is_for_user_resource?
       request.env['PATH_INFO'] =~ /\/?users\/?/
     end
+    deprecation_deprecate :request_is_for_user_resource?
 
 
 
