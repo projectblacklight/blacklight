@@ -12,4 +12,4 @@ solr_marc/solrmarc.log
 lib/solrmarc.log.*
 tmp/*
 pkg/*
-spec/internal
+.internal_test_app

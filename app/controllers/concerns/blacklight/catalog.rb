@@ -65,6 +65,7 @@ module Blacklight::Catalog
     # updates the search counter (allows the show view to paginate)
     def track
       search_session['counter'] = params[:counter]
+      search_session['id'] = params[:search_id]
       search_session['per_page'] = params[:per_page]
 
       path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)

@@ -3,21 +3,6 @@ require 'spec_helper'
 describe CatalogController do
 
   describe "index action" do
-    
-    # In Rails 3 ActionDispatch::TestProcess#assigns() converts anything that 
-    # descends from Hash to a HashWithIndifferentAccess. Therefore our Solr
-    # response object gets replaced if we call assigns(:response)
-    # Fixed by https://github.com/rails/rails/commit/185c3dbc6ab845edfc94e8d38ef5be11c417dd81
-    if ::Rails.version < "4.0"
-      def assigns_response
-        controller.instance_variable_get("@response")
-      end
-    else
-      def assigns_response
-        assigns(:response)
-      end
-    end
-    
     describe "with format :html" do
       let(:user_query) { 'history' } # query that will get results
 
@@ -38,53 +23,53 @@ describe CatalogController do
       # check each user manipulated parameter
       it "should have docs and facets for query with results", :integration => true do
         get :index, q: user_query
-        expect(assigns_response.docs).to_not be_empty
-        assert_facets_have_values(assigns_response.aggregations)
+        expect(assigns(:response).docs).to_not be_empty
+        assert_facets_have_values(assigns(:response).aggregations)
       end
       it "should have docs and facets for existing facet value", :integration => true do
         get :index, f: {"format" => 'Book'}
-        expect(assigns_response.docs).to_not be_empty
-        assert_facets_have_values(assigns_response.aggregations)
+        expect(assigns(:response).docs).to_not be_empty
+        assert_facets_have_values(assigns(:response).aggregations)
       end
       it "should have docs and facets for non-default results per page", :integration => true do
         num_per_page = 7
         get :index, :per_page => num_per_page
-        expect(assigns_response.docs).to have(num_per_page).items
-        assert_facets_have_values(assigns_response.aggregations)
+        expect(assigns(:response).docs).to have(num_per_page).items
+        assert_facets_have_values(assigns(:response).aggregations)
       end
 
       it "should have docs and facets for second page", :integration => true do
         page = 2
         get :index, :page => page
-        expect(assigns_response.docs).to_not be_empty
-        expect(assigns_response.params[:start].to_i).to eq (page-1) * @controller.blacklight_config[:default_solr_params][:rows]
-        assert_facets_have_values(assigns_response.aggregations)
+        expect(assigns(:response).docs).to_not be_empty
+        expect(assigns(:response).params[:start].to_i).to eq (page-1) * @controller.blacklight_config[:default_solr_params][:rows]
+        assert_facets_have_values(assigns(:response).aggregations)
       end
 
       it "should have no docs or facet values for query without results", :integration => true do
         get :index, q: 'sadfdsafasdfsadfsadfsadf' # query for no results
 
-        expect(assigns_response.docs).to be_empty
-        assigns_response.aggregations.each do |key, facet|
+        expect(assigns(:response).docs).to be_empty
+        assigns(:response).aggregations.each do |key, facet|
           expect(facet.items).to be_empty
         end
       end
       
       it "should show 0 results when the user asks for an invalid value to a custom facet query", :integration => true do
         get :index, f: {example_query_facet_field: 'bogus'} # bogus custom facet value
-        expect(assigns_response.docs).to be_empty
+        expect(assigns(:response).docs).to be_empty
       end
 
       it "should return results (possibly 0) when the user asks for a valid value to a custom facet query", :integration => true do
         get :index, f: {example_query_facet_field: 'years_10'} # valid custom facet value with some results
-        expect(assigns_response.docs).to_not be_empty
+        expect(assigns(:response).docs).to_not be_empty
         get :index, f: {example_query_facet_field: 'years_5'}  # valid custom facet value with NO results
-        expect(assigns_response.docs).to be_empty
+        expect(assigns(:response).docs).to be_empty
       end
       
       it "should have a spelling suggestion for an appropriately poor query", :integration => true do
         get :index, :q => 'boo'
-        expect(assigns_response.spelling.words).to_not be_nil
+        expect(assigns(:response).spelling.words).to_not be_nil
       end
 
       describe "session" do
@@ -105,11 +90,11 @@ describe CatalogController do
       describe "for default query" do
         it "should get documents when no query", :integration => true do
           get :index
-          expect(assigns_response.docs).to_not be_empty
+          expect(assigns(:response).docs).to_not be_empty
         end
         it "should get facets when no query", :integration => true do
           get :index
-          assert_facets_have_values(assigns_response.aggregations)
+          assert_facets_have_values(assigns(:response).aggregations)
         end
       end
 
@@ -218,6 +203,11 @@ describe CatalogController do
 
   describe "track action" do
     doc_id = '2007020969'
+    
+    it "should persist the search session id value into session[:search]" do
+      put :track, :id => doc_id, :counter => 3, search_id: "123"
+      expect(session[:search]['id']).to eq "123"
+    end
 
     it "should set counter value into session[:search]" do
       put :track, :id => doc_id, :counter => 3
