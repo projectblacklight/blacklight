@@ -27,10 +27,6 @@ module Blacklight
     "#{::Rails.root}/config/blacklight.yml"
   end
 
-  def self.add_routes(router, options = {})
-    Blacklight::Routes.new(router, options).draw
-  end
-
   ##
   # The default index connection for the search index
   def self.default_index
