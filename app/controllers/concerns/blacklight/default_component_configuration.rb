@@ -19,6 +19,10 @@ module Blacklight
       add_nav_action(:search_history, partial: 'blacklight/nav/search_history')
     end
 
+    def render_sms_action? config, options = {}
+      sms_mappings.present?
+    end
+
     module ClassMethods
 
       ##

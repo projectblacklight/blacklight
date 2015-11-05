@@ -222,32 +222,7 @@ describe BlacklightConfigurationHelper do
       expect(helper.should_render_field?(field_config)).to be false
     end
   end
-  
-  describe "#evaluate_configuration_conditional" do
-    it "should pass through regular values" do
-      val = double
-      expect(helper.evaluate_configuration_conditional(val)).to eq val
-    end
 
-    it "should execute a helper method" do
-      allow(helper).to receive_messages(:my_helper => true)
-      expect(helper.evaluate_configuration_conditional(:my_helper)).to be true
-    end
-
-    it "should call a helper to determine if it should render a field" do
-      a = double
-      allow(helper).to receive(:my_helper_with_an_arg).with(a).and_return(true)
-      expect(helper.evaluate_configuration_conditional(:my_helper_with_an_arg, a)).to be true
-    end
-
-    it "should evaluate a Proc to determine if it should render a field" do
-      one_arg_lambda = lambda { |context, a| true }
-      two_arg_lambda = lambda { |context, a, b| true }
-      expect(helper.evaluate_configuration_conditional(one_arg_lambda, 1)).to be true
-      expect(helper.evaluate_configuration_conditional(two_arg_lambda, 1, 2)).to be true
-    end
-  end
-  
   describe "#search_field_options_for_select" do
     
     before do

@@ -76,12 +76,10 @@ describe BlacklightHelper do
     let(:document) { SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8') }
 
     before do
-      config.add_show_tools_partial(:bookmark, partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)
+      config.add_show_tools_partial(:bookmark, partial: 'catalog/bookmark_control')
       config.add_results_document_tool(:bookmark, partial: 'catalog/bookmark_control', if: :render_bookmarks_control?)
-      config.add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark', if: :render_bookmarks_control?)
+      config.add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark')
       allow(helper).to receive(:blacklight_config).and_return(config)
-      allow(helper).to receive(:has_user_authentication_provider?).and_return(true)
-      allow(helper).to receive(:current_or_guest_user).and_return(User.new)
       allow(helper).to receive_messages(current_bookmarks: [])
     end
 
@@ -96,12 +94,13 @@ describe BlacklightHelper do
 
     describe "render_index_doc_actions" do
       it "should render partials" do
+        allow(controller).to receive(:render_bookmarks_control?).and_return(true)
         response = helper.render_index_doc_actions(document)
         expect(response).to have_selector(".bookmark_toggle")
       end
 
       it "should be nil if no partials are renderable" do
-        allow(helper).to receive(:render_bookmarks_control?).and_return(false)
+        allow(controller).to receive(:render_bookmarks_control?).and_return(false)
         expect(helper.render_index_doc_actions(document)).to be_blank
       end
 
