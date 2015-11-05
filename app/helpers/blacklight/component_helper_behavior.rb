@@ -55,7 +55,7 @@ module Blacklight
 
     def render_filtered_partials(partials, options={}, &block)
       content = []
-      partials.select { |_, config| evaluate_if_unless_configuration config, options }.each do |key, config|
+      partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }.each do |key, config|
         config.key ||= key
         rendered = render(partial: config.partial || key.to_s, locals: { document_action_config: config }.merge(options))
         if block_given?

@@ -231,10 +231,6 @@ module Blacklight::CatalogHelperBehavior
     current_bookmarks.any? { |x| x.document_id == document.id and x.document_type == document.class }
   end
 
-  def render_sms_action? config, options = {}
-    !sms_mappings.blank?
-  end
-
   def render_search_to_page_title_filter(facet, values)
     facet_config = facet_configuration_for_field(facet)
     filter_label = facet_field_label(facet_config.key)

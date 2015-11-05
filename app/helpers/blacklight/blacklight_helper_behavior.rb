@@ -323,18 +323,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Determine whether to render the bookmarks control
-  def render_bookmarks_control?
-    has_user_authentication_provider? and current_or_guest_user.present?
-  end
-
-  ##
-  # Determine whether to render the saved searches link
-  def render_saved_searches?
-    has_user_authentication_provider? and current_user
-  end
-
-  ##
   # Returns a document presenter for the given document
   def presenter(document)
     presenter_class.new(document, self)

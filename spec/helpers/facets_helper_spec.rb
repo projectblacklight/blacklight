@@ -47,8 +47,8 @@ describe FacetsHelper do
       @config = Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
         config.add_facet_field 'no_show', :show => false
-        config.add_facet_field 'helper_show', :show => :my_helper
-        config.add_facet_field 'helper_with_an_arg_show', :show => :my_helper_with_an_arg
+        config.add_facet_field 'helper_show', :show => :my_custom_check
+        config.add_facet_field 'helper_with_an_arg_show', :show => :my_custom_check_with_an_arg
         config.add_facet_field 'lambda_show', :show => lambda { |context, config, field| true }
         config.add_facet_field 'lambda_no_show', :show => lambda { |context, config, field| false }
       end
@@ -71,14 +71,14 @@ describe FacetsHelper do
     end
 
     it "should call a helper to determine if it should render a field" do
-      allow(helper).to receive_messages(:my_helper => true)
+      allow(controller).to receive_messages(:my_custom_check => true)
       a = double(:items => [1,2], :name=>'helper_show')
       expect(helper.should_render_facet?(a)).to be true
     end
 
     it "should call a helper to determine if it should render a field" do
       a = double(:items => [1,2], :name=>'helper_with_an_arg_show')
-      allow(helper).to receive(:my_helper_with_an_arg).with(@config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
+      allow(controller).to receive(:my_custom_check_with_an_arg).with(@config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
       expect(helper.should_render_facet?(a)).to be true
     end
 

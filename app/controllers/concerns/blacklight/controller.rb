@@ -22,7 +22,7 @@ module Blacklight::Controller
 
     # extra head content
     helper_method :has_user_authentication_provider?
-    helper_method :blacklight_config
+    helper_method :blacklight_config, :blacklight_configuration_context
     helper_method :search_action_url, :search_action_path, :search_facet_url
     helper_method :blacklight_path
 
@@ -43,6 +43,26 @@ module Blacklight::Controller
   end
 
     protected
+
+    ##
+    # Context in which to evaluate blacklight configuration conditionals
+    def blacklight_configuration_context
+      @blacklight_configuration_context ||= Blacklight::Configuration::Context.new(self)
+    end
+
+    ##
+    # Determine whether to render the bookmarks control
+    # (Needs to be available globally, as it is used in the navbar)
+    def render_bookmarks_control?
+      has_user_authentication_provider? and current_or_guest_user.present?
+    end
+
+    ##
+    # Determine whether to render the saved searches link
+    # (Needs to be available globally, as it is used in the navbar)
+    def render_saved_searches?
+      has_user_authentication_provider? and current_user
+    end
 
     # @return [Blacklight::Path] a memoized instance of the parameter state.
     def blacklight_path
