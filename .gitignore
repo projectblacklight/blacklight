@@ -11,3 +11,4 @@ log/*
 tmp/*
 pkg/*
 .internal_test_app
+.vagrant
