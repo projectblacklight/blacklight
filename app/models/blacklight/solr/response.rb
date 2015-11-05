@@ -2,10 +2,12 @@ class Blacklight::Solr::Response < HashWithIndifferentAccess
   extend Deprecation
   extend ActiveSupport::Autoload
 
-  autoload :PaginationMethods
-  autoload :Spelling
-  autoload :Facets
-  autoload :MoreLikeThis
+  eager_autoload do
+    autoload :PaginationMethods
+    autoload :Spelling
+    autoload :Facets
+    autoload :MoreLikeThis
+  end
   autoload :GroupResponse
   autoload :Group
 
