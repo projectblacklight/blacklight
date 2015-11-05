@@ -7,9 +7,22 @@ describe Blacklight::SearchBuilder do
   subject { described_class.new processor_chain, scope }
 
   context "with default processor chain" do
-    subject { described_class.new true, scope }
-    it "should use the class-level default_processor_chain" do
-      expect(subject.processor_chain).to eq []
+    context "with two arguments" do
+      subject do
+        Deprecation.silence Blacklight::SearchBuilder do
+          described_class.new true, scope
+        end
+      end
+      it "uses the class-level default_processor_chain" do
+        expect(subject.processor_chain).to eq []
+      end
+    end
+
+    context "with one arguments" do
+      subject { described_class.new scope }
+      it "uses the class-level default_processor_chain" do
+        expect(subject.processor_chain).to eq []
+      end
     end
   end
 
@@ -49,7 +62,7 @@ describe Blacklight::SearchBuilder do
 
   describe "#except" do
     let(:processor_chain) { [:a, :b, :c, :d, :e] }
-    it "should provide a new search builder excepting arguments" do
+    it "provide a new search builder excepting arguments" do
       builder = subject.except(:b, :d, :does_not_exist)
       expect(builder).not_to equal(subject)
       expect(subject.processor_chain).to eq processor_chain

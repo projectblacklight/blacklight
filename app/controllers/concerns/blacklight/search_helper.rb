@@ -50,11 +50,10 @@ module Blacklight::SearchHelper
 
   # a solr query method
   # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
-  # @param [List<Symbol] processor_chain a list of filter methods to run
   # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used. 
   # @return [Blacklight::Solr::Response] the solr response object
-  def search_results(user_params, search_params_logic)
-    builder = search_builder(search_params_logic).with(user_params)
+  def search_results(user_params)
+    builder = search_builder.with(user_params)
     builder.page(user_params[:page]) if user_params[:page]
     builder.rows(user_params[:per_page] || user_params[:rows]) if user_params[:per_page] or user_params[:rows]
 

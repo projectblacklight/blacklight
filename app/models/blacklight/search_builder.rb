@@ -1,20 +1,29 @@
 module Blacklight
   class SearchBuilder
+    extend Deprecation
     class_attribute :default_processor_chain
     self.default_processor_chain = []
 
     attr_reader :processor_chain, :blacklight_params
 
-    # @param [List<Symbol>,TrueClass] processor_chain a list of filter methods to run or true, to use the default methods
+    # @param [List<Symbol>,TrueClass] options a list of filter methods to run or true, to use the default methods
     # @param [Object] scope the scope where the filter methods reside in.
-    def initialize(processor_chain, scope)
-      @processor_chain = if processor_chain === true
-        default_processor_chain.dup
+    def initialize(*options)
+      @scope = case options.size
+      when 1
+        options.first
+      when 2
+        if options.first === true
+          Deprecation.warn Blacklight::SearchBuilder, "SearchBuilder#initialize now takes only one parameter, the scope. Passing `true' will be removed in Blacklight 7"
+        else
+          @processor_chain = options.first
+        end
+        options.last
       else
-        processor_chain
+        raise ArgumentError, "wrong number of arguments. (#{options.size} for 1..2)"
       end
 
-      @scope = scope
+      @processor_chain ||= default_processor_chain.dup
       @blacklight_params = {}
       @merged_params = {}
       @reverse_merged_params = {}

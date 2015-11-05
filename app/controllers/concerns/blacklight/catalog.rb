@@ -22,7 +22,7 @@ module Blacklight::Catalog
 
     # get search results from the solr index
     def index
-      (@response, @document_list) = search_results(params, search_params_logic)
+      (@response, @document_list) = search_results(params)
 
       respond_to do |format|
         format.html { store_preferred_view }

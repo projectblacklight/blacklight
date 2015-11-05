@@ -11,8 +11,6 @@ require 'spec_helper'
 #
 describe Blacklight::SearchHelper do
 
-  let(:default_method_chain) { CatalogController.search_params_logic }
-
   # SearchHelper is a controller layer mixin, which depends
   # on being mixed into a class which has #params (from Rails)
   # and #blacklight_config
@@ -58,7 +56,7 @@ describe Blacklight::SearchHelper do
     describe 'for a sample query returning results' do
 
       before do
-        (@solr_response, @document_list) = subject.search_results({ q: @all_docs_query }, default_method_chain)
+        (@solr_response, @document_list) = subject.search_results(q: @all_docs_query)
       end
 
       it "should use the configured request handler " do
@@ -69,7 +67,7 @@ describe Blacklight::SearchHelper do
           expect(params[:params]["facet.query"]).to eq ["pub_date:[#{5.years.ago.year} TO *]", "pub_date:[#{10.years.ago.year} TO *]", "pub_date:[#{25.years.ago.year} TO *]"]
           expect(params[:params]).to include('rows' => 10, 'qt'=>"custom_request_handler", 'q'=>"", "f.subject_topic_facet.facet.limit"=>21, 'sort'=>"score desc, pub_date_sort desc, title_sort asc")
         end.and_return({'response'=>{'docs'=>[]}})
-        subject.search_results({ q: @all_docs_query }, default_method_chain)
+        subject.search_results(q: @all_docs_query)
       end
 
       it 'should have a @response.docs list of the same size as @document_list' do
@@ -90,33 +88,12 @@ describe Blacklight::SearchHelper do
       end
     end
 
-    describe "with SearchBuilder replacement block" do
-      it "should pass configured SearchBuilder and use returned SearchBuilder" do
-        replacement_search_builder = subject.search_builder([:new_chain])
-
-        # Sorry, have to use mocks to make sure method really passes the
-        # block return value to the repository search, couldn't figure
-        # out a better way to test. 
-        expect(subject.repository).to receive(:search) do |arg_search_builder|
-          expect(arg_search_builder).to equal(replacement_search_builder)
-        end.and_return(
-          blacklight_config.response_model.new({'response'=>{'docs'=>[]}}, {}, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
-        )
-
-        subject.search_results({q: @no_docs_query}, [:one, :two]) do |arg_search_builder|
-          expect(arg_search_builder.processor_chain).to eq([:one, :two])
-
-          replacement_search_builder
-        end
-      end
-    end
-
     describe "for a query returning a grouped response" do
       let(:blacklight_config) { copy_of_catalog_config }
       before do
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = 'pub_date_sort'
-        (@solr_response, @document_list) = subject.search_results({ q: @all_docs_query }, default_method_chain)
+        (@solr_response, @document_list) = subject.search_results(q: @all_docs_query)
       end
 
       it "should have an empty document list" do
@@ -136,7 +113,7 @@ describe Blacklight::SearchHelper do
         allow(subject).to receive_messages grouped_key_for_results: 'title_sort'
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = ['pub_date_sort', 'title_sort']
-        (@solr_response, @document_list) = subject.search_results({ q: @all_docs_query }, default_method_chain)
+        (@solr_response, @document_list) = subject.search_results(q: @all_docs_query)
       end
 
       it "should have an empty document list" do
@@ -152,7 +129,7 @@ describe Blacklight::SearchHelper do
 
     describe "for All Docs Query and One Facet" do
       it 'should have results' do
-        (solr_response, document_list) = subject.search_results({ q: @all_docs_query, f: @single_facet }, default_method_chain)
+        (solr_response, document_list) = subject.search_results(q: @all_docs_query, f: @single_facet)
         expect(solr_response.docs).to have(document_list.size).results
         expect(solr_response.docs).to have_at_least(1).result
       end
@@ -162,7 +139,7 @@ describe Blacklight::SearchHelper do
 
     describe "for Query Without Results and No Facet" do
       it 'should have no results and not raise error' do
-        (solr_response, document_list) = subject.search_results({ q: @no_docs_query }, default_method_chain)
+        (solr_response, document_list) = subject.search_results(q: @no_docs_query)
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
       end
@@ -170,7 +147,7 @@ describe Blacklight::SearchHelper do
 
     describe "for Query Without Results and One Facet" do
       it 'should have no results and not raise error' do
-        (solr_response, document_list) = subject.search_results({ q: @no_docs_query, f: @single_facet }, default_method_chain)
+        (solr_response, document_list) = subject.search_results(q: @no_docs_query, f: @single_facet)
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
       end
@@ -178,7 +155,7 @@ describe Blacklight::SearchHelper do
 
     describe "for All Docs Query and Bad Facet" do
       it 'should have no results and not raise error' do
-        (solr_response, document_list) = subject.search_results({ q: @all_docs_query, f: @bad_facet }, default_method_chain)
+        (solr_response, document_list) = subject.search_results(q: @all_docs_query, f: @bad_facet)
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
       end
@@ -192,7 +169,7 @@ describe Blacklight::SearchHelper do
     let(:blacklight_config) { copy_of_catalog_config }
 
     before do
-      (solr_response, document_list) = subject.search_results({ q: @all_docs_query}, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: @all_docs_query)
       @facets = solr_response.aggregations
     end
 
@@ -234,44 +211,44 @@ describe Blacklight::SearchHelper do
     let(:blacklight_config) { copy_of_catalog_config }
 
     it 'should start with first results by default' do
-      (solr_response, document_list) = subject.search_results({ q: @all_docs_query }, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: @all_docs_query)
       expect(solr_response.params[:start].to_i).to eq 0
     end
     it 'should have number of results (per page) set in initializer, by default' do
-      (solr_response, document_list) = subject.search_results({ q: @all_docs_query }, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: @all_docs_query)
       expect(solr_response.docs).to have(blacklight_config[:default_solr_params][:rows]).items
       expect(document_list).to have(blacklight_config[:default_solr_params][:rows]).items
     end
 
     it 'should get number of results per page requested' do
       num_results = 3  # non-default value
-      (solr_response1, document_list1) = subject.search_results({ q: @all_docs_query, per_page: num_results }, default_method_chain)
+      (solr_response1, document_list1) = subject.search_results(q: @all_docs_query, per_page: num_results)
       expect(document_list1).to have(num_results).docs
       expect(solr_response1.docs).to have(num_results).docs
     end
 
     it 'should get number of rows requested' do
       num_results = 4  # non-default value
-      (solr_response1, document_list1) = subject.search_results({ q: @all_docs_query, rows: num_results }, default_method_chain)
+      (solr_response1, document_list1) = subject.search_results(q: @all_docs_query, rows: num_results)
       expect(document_list1).to have(num_results).docs
       expect(solr_response1.docs).to have(num_results).docs
     end
 
     it 'should skip appropriate number of results when requested - default per page' do
       page = 3
-      (solr_response2, document_list2) = subject.search_results({ q: @all_docs_query, page: page }, default_method_chain)
+      (solr_response2, document_list2) = subject.search_results(q: @all_docs_query, page: page)
       expect(solr_response2.params[:start].to_i).to eq  blacklight_config[:default_solr_params][:rows] * (page-1)
     end
     it 'should skip appropriate number of results when requested - non-default per page' do
       page = 3
       num_results = 3
-      (solr_response2a, document_list2a) = subject.search_results({ q: @all_docs_query, per_page: num_results, page: page }, default_method_chain)
+      (solr_response2a, document_list2a) = subject.search_results(q: @all_docs_query, per_page: num_results, page: page)
       expect(solr_response2a.params[:start].to_i).to eq num_results * (page-1)
     end
 
     it 'should have no results when prompted for page after last result' do
       big = 5000
-      (solr_response3, document_list3) = subject.search_results({ q: @all_docs_query, rows: big, page: big },  default_method_chain)
+      (solr_response3, document_list3) = subject.search_results(q: @all_docs_query, rows: big, page: big)
       expect(document_list3).to have(0).docs
       expect(solr_response3.docs).to have(0).docs
     end
@@ -279,12 +256,12 @@ describe Blacklight::SearchHelper do
     it 'should show first results when prompted for page before first result' do
       # FIXME: should it show first results, or should it throw an error for view to deal w?
       #   Solr throws an error for a negative start value
-      (solr_response4, document_list4) = subject.search_results({ q: @all_docs_query, page: '-1' }, default_method_chain)
+      (solr_response4, document_list4) = subject.search_results(q: @all_docs_query, page: '-1')
       expect(solr_response4.params[:start].to_i).to eq 0
     end
     it 'should have results available when asked for more than are in response' do
       big = 5000
-      (solr_response5, document_list5) = subject.search_results({ q: @all_docs_query, rows: big, page: 1 }, default_method_chain)
+      (solr_response5, document_list5) = subject.search_results(q: @all_docs_query, rows: big, page: 1)
       expect(solr_response5.docs).to have(document_list5.length).docs
       expect(solr_response5.docs).to have_at_least(1).doc
     end
@@ -334,13 +311,13 @@ describe Blacklight::SearchHelper do
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions", :integration => true do
     it 'search results for just-poor-enough-query term should have (multiple) spelling suggestions' do
-      (solr_response, document_list) = subject.search_results({ q: 'boo' }, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: 'boo')
       expect(solr_response.spelling.words).to include('bon')
       expect(solr_response.spelling.words).to include('bod')  #for multiple suggestions
     end
 
     it 'search results for just-poor-enough-query term should have multiple spelling suggestions' do
-      (solr_response, document_list) = subject.search_results({ q: 'politica' }, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: 'politica')
       expect(solr_response.spelling.words).to include('policy') # less freq
       expect(solr_response.spelling.words).to include('politics') # more freq
       expect(solr_response.spelling.words).to include('political') # more freq
@@ -353,17 +330,17 @@ describe Blacklight::SearchHelper do
     end
 
     it "title search results for just-poor-enough query term should have spelling suggestions" do
-      (solr_response, document_list) = subject.search_results({ q: 'yehudiyam', qt: 'search', :"spellcheck.dictionary" => "title" }, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: 'yehudiyam', qt: 'search', :"spellcheck.dictionary" => "title")
       expect(solr_response.spelling.words).to include('yehudiyim')
     end
 
     it "author search results for just-poor-enough-query term should have spelling suggestions" do
-      (solr_response, document_list) = subject.search_results({ q: 'shirma', qt: 'search', :"spellcheck.dictionary" => "author" }, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: 'shirma', qt: 'search', :"spellcheck.dictionary" => "author")
       expect(solr_response.spelling.words).to include('sharma')
     end
 
     it "subject search results for just-poor-enough-query term should have spelling suggestions" do
-      (solr_response, document_list) = subject.search_results({ q: 'wome', qt: 'search', :"spellcheck.dictionary" => "subject" }, default_method_chain)
+      (solr_response, document_list) = subject.search_results(q: 'wome', qt: 'search', :"spellcheck.dictionary" => "subject")
       expect(solr_response.spelling.words).to include('women')
     end
 
@@ -442,7 +419,7 @@ describe Blacklight::SearchHelper do
   describe "#get_previous_and_next_documents_for_search" do
     let(:pre_query) { SearchHelperTestClass.new blacklight_config, blacklight_solr }
     before do
-      @full_response, @all_docs = pre_query.search_results({ q: '', per_page: '100' }, default_method_chain)
+      @full_response, @all_docs = pre_query.search_results(q: '', per_page: '100')
     end
 
     it "should return the previous and next documents for a search" do

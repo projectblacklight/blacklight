@@ -7,20 +7,32 @@ describe Blacklight::Solr::SearchBuilder do
   let(:subject_search_params) { { commit: "search", search_field: "subject", action: "index", controller: "catalog", rows: "10", q: "wome" } }
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
-  let(:method_chain) { CatalogController.search_params_logic }
   let(:user_params) { Hash.new }
   let(:context) { CatalogController.new }
 
   before { allow(context).to receive(:blacklight_config).and_return(blacklight_config) }
 
-  let(:search_builder) { described_class.new(method_chain, context) }
+  let(:search_builder) { described_class.new(context) }
 
   subject { search_builder.with(user_params) }
 
   context "with default processor chain" do
-    subject { described_class.new true, context }
-    it "should use the class-level default_processor_chain" do
-      expect(subject.processor_chain).to eq described_class.default_processor_chain
+    context "with two arguments" do
+      subject do
+        Deprecation.silence Blacklight::SearchBuilder do
+          described_class.new true, context
+        end
+      end
+      it "uses the class-level default_processor_chain" do
+        expect(subject.processor_chain).to eq described_class.default_processor_chain
+      end
+    end
+
+    context "with one arguments" do
+      subject { described_class.new context }
+      it "uses the class-level default_processor_chain" do
+        expect(subject.processor_chain).to eq described_class.default_processor_chain
+      end
     end
   end
 
@@ -78,6 +90,7 @@ describe Blacklight::Solr::SearchBuilder do
     end
 
     context "when search_params_logic is customized" do
+      let(:search_builder) { described_class.new(method_chain, context) }
       let(:method_chain) { [:add_foo_to_solr_params] }
 
       it "allows customization of search_params_logic" do

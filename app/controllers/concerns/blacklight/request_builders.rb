@@ -1,39 +1,20 @@
 module Blacklight
-  ##
-  # This module contains methods that are specified by SearchHelper.search_params_logic
-  # They transform user parameters into parameters that are sent as a request to Solr when
-  # RequestBuilders#solr_search_params is called.
-  #
   module RequestBuilders
     extend ActiveSupport::Concern
 
     included do
-      # We want to install a class-level place to keep
-      # search_params_logic method names. Compare to before_filter,
-      # similar design. Since we're a module, we have to add it in here.
-      # There are too many different semantic choices in ruby 'class variables',
-      # we choose this one for now, supplied by Rails.
-      class_attribute :search_params_logic
-
-      # Set defaults. Each symbol identifies a _method_ that must be in
-      # this class, taking two parameters (solr_parameters, user_parameters)
-      # Can be changed in local apps or by plugins, eg:
-      # CatalogController.include ModuleDefiningNewMethod
-      # CatalogController.search_params_logic += [:new_method]
-      # CatalogController.search_params_logic.delete(:we_dont_want)
-      self.search_params_logic = true
-
       if self.respond_to?(:helper_method)
         helper_method(:facet_limit_for)
       end
     end
 
+    # Override this method to use a search builder other than the one in the config
     def search_builder_class
       blacklight_config.search_builder_class
     end
 
-    def search_builder processor_chain = search_params_logic
-      search_builder_class.new(processor_chain, self)
+    def search_builder
+      search_builder_class.new(self)
     end
 
     ##
