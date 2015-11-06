@@ -6,7 +6,7 @@ module Blacklight::UrlHelperBehavior
   # to provide more interesting routing to
   # documents
   def url_for_document(doc, options = {})
-    blacklight_path.url_for_document(doc, options)
+    search_state.url_for_document(doc, options)
   end
 
   # link_to_document(doc, 'VIEW', :counter => 3)
@@ -146,7 +146,7 @@ module Blacklight::UrlHelperBehavior
   # @param [Blacklight::SolrResponse::Group]
   # @return [Hash]
   def add_group_facet_params_and_redirect group
-    blacklight_path.add_facet_params_and_redirect(group.field, group.key, params)
+    search_state.add_facet_params_and_redirect(group.field, group.key, params)
   end
 
   # A URL to refworks export, with an embedded callback URL to this app. 

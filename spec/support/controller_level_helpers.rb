@@ -2,8 +2,8 @@ module ControllerLevelHelpers
   module ControllerViewHelpers
     include Blacklight::Facet
 
-    def blacklight_path
-      @blacklight_path ||= Blacklight::Path.new(params, blacklight_config)
+    def search_state
+      @search_state ||= Blacklight::SearchState.new(params, blacklight_config)
     end
 
     def blacklight_configuration_context

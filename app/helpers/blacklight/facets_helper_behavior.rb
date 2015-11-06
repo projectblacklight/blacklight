@@ -138,7 +138,7 @@ module Blacklight::FacetsHelperBehavior
     if facet_config.url_method
       send(facet_config.url_method, facet_field, item)
     else
-      search_action_path(blacklight_path.add_facet_params_and_redirect(facet_field, item))
+      search_action_path(search_state.add_facet_params_and_redirect(facet_field, item))
     end
   end
 
@@ -146,7 +146,7 @@ module Blacklight::FacetsHelperBehavior
   # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
   # @params (see #render_facet_value)
   def render_selected_facet_value(facet_field, item)
-    remove_href = search_action_path(blacklight_path.remove_facet_params(facet_field, item))
+    remove_href = search_action_path(search_state.remove_facet_params(facet_field, item))
     content_tag(:span, class: "facet-label") do
       content_tag(:span, facet_display_value(facet_field, item), class: "selected") +
       # remove link

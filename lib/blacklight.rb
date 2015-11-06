@@ -4,10 +4,10 @@ require 'deprecation'
 require 'blacklight/utils'
 
 module Blacklight
-  autoload :Exceptions, 'blacklight/exceptions'
-  autoload :Path,       'blacklight/path'
-  autoload :Parameters, 'blacklight/parameters'
-  autoload :Routes, 'blacklight/routes'
+  autoload :Exceptions,  'blacklight/exceptions'
+  autoload :SearchState, 'blacklight/search_state'
+  autoload :Parameters,  'blacklight/parameters'
+  autoload :Routes,      'blacklight/routes'
 
   extend Deprecation
 
