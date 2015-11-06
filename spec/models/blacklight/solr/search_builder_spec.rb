@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Blacklight::Solr::SearchBuilder do
+describe Blacklight::Solr::SearchBuilderBehavior do
   let(:single_facet) { { format: 'Book' } }
   let(:multi_facets) { { format: 'Book', language_facet: 'Tibetan' } }
   let(:mult_word_query) { 'tibetan history' }
@@ -13,14 +13,19 @@ describe Blacklight::Solr::SearchBuilder do
 
   before { allow(context).to receive(:blacklight_config).and_return(blacklight_config) }
 
-  let(:search_builder) { described_class.new(method_chain, context) }
+  let(:search_builder_class) do
+    Class.new(Blacklight::SearchBuilder) do
+      include Blacklight::Solr::SearchBuilderBehavior
+    end
+  end
+  let(:search_builder) { search_builder_class.new(method_chain, context) }
 
   subject { search_builder.with(user_params) }
 
   context "with default processor chain" do
-    subject { described_class.new true, context }
+    subject { search_builder_class.new true, context }
     it "should use the class-level default_processor_chain" do
-      expect(subject.processor_chain).to eq described_class.default_processor_chain
+      expect(subject.processor_chain).to eq search_builder_class.default_processor_chain
     end
   end
 
