@@ -1,6 +1,17 @@
 class Blacklight::Solr::Response < HashWithIndifferentAccess
   extend Deprecation
 
+  # Using required_dependency to work around Rails autoloading
+  # problems when developing blacklight. Without this, any change
+  # to this class breaks other classes in this namespace
+  require_dependency 'blacklight/solr/response/pagination_methods'
+  require_dependency 'blacklight/solr/response/response'
+  require_dependency 'blacklight/solr/response/spelling'
+  require_dependency 'blacklight/solr/response/facets'
+  require_dependency 'blacklight/solr/response/more_like_this'
+  require_dependency 'blacklight/solr/response/group_response'
+  require_dependency 'blacklight/solr/response/group'
+
   include PaginationMethods
   include Spelling
   include Facets
