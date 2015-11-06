@@ -29,7 +29,7 @@ module Blacklight
     end
 
     def inject_blacklight_routes
-      route <<-EOF
+      route <<-EOF.strip_heredoc
         concern :searchable, Blacklight::Routes::Searchable.new
 
         resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
