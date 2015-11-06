@@ -24,7 +24,7 @@ module Blacklight::Controller
     helper_method :has_user_authentication_provider?
     helper_method :blacklight_config, :blacklight_configuration_context
     helper_method :search_action_url, :search_action_path, :search_facet_url
-    helper_method :blacklight_path
+    helper_method :search_state
 
 
     # This callback runs when a user first logs in
@@ -64,9 +64,9 @@ module Blacklight::Controller
       has_user_authentication_provider? and current_user
     end
 
-    # @return [Blacklight::Path] a memoized instance of the parameter state.
-    def blacklight_path
-      @blacklight_path ||= Blacklight::Path.new(params, blacklight_config)
+    # @return [Blacklight::SearchState] a memoized instance of the parameter state.
+    def search_state
+      @search_state ||= Blacklight::SearchState.new(params, blacklight_config)
     end
 
     # Default route to the search action (used e.g. in global partials). Override this method

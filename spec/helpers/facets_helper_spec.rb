@@ -301,11 +301,11 @@ describe FacetsHelper do
 
   describe "render_facet_value" do
     let(:item) { double(:value => 'A', :hits => 10) }
-    let(:blacklight_path) { double(add_facet_params_and_redirect: { controller: 'catalog' }) }
+    let(:search_state) { double(add_facet_params_and_redirect: { controller: 'catalog' }) }
     before do
       allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => nil))
       allow(helper).to receive(:facet_display_value).and_return('Z')
-      allow(helper).to receive(:blacklight_path).and_return(blacklight_path)
+      allow(helper).to receive(:search_state).and_return(search_state)
       allow(helper).to receive(:search_action_path) do |*args|
         search_catalog_path *args
       end

@@ -34,7 +34,7 @@ describe RenderConstraintsHelper do
     end
     subject { helper.render_filter_element('type', ['journal'], path) }
 
-    let(:path) { Blacklight::Path.new({:q=>'biz'}, config) }
+    let(:path) { Blacklight::SearchState.new({:q=>'biz'}, config) }
 
     it "should have a link relative to the current url" do
       expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"

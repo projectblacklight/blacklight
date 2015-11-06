@@ -48,7 +48,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @return [String]
   def render_constraints_filters(localized_params = params)
      return "".html_safe unless localized_params[:f]
-     path = Blacklight::Path.new(localized_params, blacklight_config)
+     path = Blacklight::SearchState.new(localized_params, blacklight_config)
      content = []
      localized_params[:f].each_pair do |facet,values|
        content << render_filter_element(facet, values, path)
@@ -61,7 +61,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # Render a single facet's constraint
   # @param [String] facet field
   # @param [Array<String>] values selected facet values
-  # @param [Blacklight::Path] path query parameters
+  # @param [Blacklight::SearchState] path query parameters
   # @return [String]
   def render_filter_element(facet, values, path)
     facet_config = facet_configuration_for_field(facet)

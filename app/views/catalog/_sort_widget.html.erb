@@ -6,7 +6,7 @@
 
   <ul class="dropdown-menu" role="menu">
       <%- active_sort_fields.each do |sort_key, field_config| %>
-        <li><%= link_to(field_config.label, url_for(blacklight_path.params_for_search(sort: sort_key))) %></li>
+        <li><%= link_to(field_config.label, url_for(search_state.params_for_search(sort: sort_key))) %></li>
       <%- end -%>
   </ul>
 </div>

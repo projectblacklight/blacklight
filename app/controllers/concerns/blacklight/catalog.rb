@@ -100,7 +100,7 @@ module Blacklight::Catalog
     end
 
     def action_success_redirect_path
-      blacklight_path.url_for_document(blacklight_config.document_model.new(id: params[:id]))
+      search_state.url_for_document(blacklight_config.document_model.new(id: params[:id]))
     end
 
     ##
