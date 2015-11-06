@@ -12,6 +12,10 @@ module Blacklight
   SolrResponse = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrResponse', 'Blacklight::Solr::Response')
   autoload :SolrHelper, 'blacklight/solr_helper'
 
+  autoload :AbstractRepository, 'blacklight/abstract_repository'
+  autoload :Configuration, 'blacklight/configuration'
+  autoload :SearchBuilder, 'blacklight/search_builder'
+
   extend Deprecation
 
   require 'blacklight/version'
