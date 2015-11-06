@@ -15,7 +15,7 @@ Generate blacklight testing configurations for blacklight's own tests, or for bl
     def alternate_controller
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"
 
-      routing_code = <<-EOF
+      routing_code = <<-EOF.strip_heredoc
         resource :alternate, controller: 'alternate', only: [:index] do
           concerns :searchable
         end
