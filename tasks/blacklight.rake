@@ -42,7 +42,7 @@ namespace :blacklight do
   end
 
   desc 'Run Solr and Blacklight for interactive development'
-  task :server do
+  task :server, [:rails_server_args] do |t, args|
     if File.exists? EngineCart.destination
       within_test_app do
         system "bundle update"
@@ -56,7 +56,7 @@ namespace :blacklight do
         Rake::Task['blacklight:internal:seed'].invoke
 
         within_test_app do
-          system "bundle exec rails s"
+          system "bundle exec rails s #{args[:rails_server_args]}"
         end
       end
     end
