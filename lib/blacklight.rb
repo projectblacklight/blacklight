@@ -4,10 +4,14 @@ require 'deprecation'
 require 'blacklight/utils'
 
 module Blacklight
+  autoload :AbstractRepository, 'blacklight/abstract_repository'
+  autoload :Configuration, 'blacklight/configuration'
   autoload :Exceptions,  'blacklight/exceptions'
-  autoload :SearchState, 'blacklight/search_state'
   autoload :Parameters,  'blacklight/parameters'
   autoload :Routes,      'blacklight/routes'
+  autoload :SearchBuilder, 'blacklight/search_builder'
+  autoload :SearchState, 'blacklight/search_state'
+  autoload :Solr, 'blacklight/solr'
 
   extend Deprecation
 
