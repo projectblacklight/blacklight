@@ -220,7 +220,7 @@ module Blacklight
           end
 
           Array(value).map do |v|
-            @controller.link_to render_field_value(v, field_config), @controller.search_action_path(@controller.add_facet_params(link_field, v, {}))
+            @controller.link_to render_field_value(v, field_config), @controller.search_action_path(@controller.search_state.reset.add_facet_params(link_field, v))
           end if field
         else
           value

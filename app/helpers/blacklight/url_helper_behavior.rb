@@ -1,6 +1,8 @@
 ##
 # URL helper methods
 module Blacklight::UrlHelperBehavior
+  include Blacklight::DeprecatedUrlHelperBehavior
+
   ##
   # Extension point for downstream applications
   # to provide more interesting routing to
@@ -146,7 +148,7 @@ module Blacklight::UrlHelperBehavior
   # @param [Blacklight::SolrResponse::Group]
   # @return [Hash]
   def add_group_facet_params_and_redirect group
-    search_state.add_facet_params_and_redirect(group.field, group.key, params)
+    search_state.add_facet_params_and_redirect(group.field, group.key)
   end
 
   # A URL to refworks export, with an embedded callback URL to this app. 

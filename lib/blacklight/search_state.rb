@@ -11,6 +11,10 @@ module Blacklight
       @blacklight_config = blacklight_config
     end
 
+    def reset
+      Blacklight::SearchState.new({}, blacklight_config)
+    end
+
     def url_for_document(doc, options = {})
       if respond_to?(:blacklight_config) and
           blacklight_config.show.route and
@@ -27,31 +31,14 @@ module Blacklight
     # Does NOT remove request keys and otherwise ensure that the hash
     # is suitable for a redirect. See
     # add_facet_params_and_redirect
-    def add_facet_params(field, item, source_params=params)
+    def add_facet_params(field, item)
+      p = reset_search_params
 
-      if item.respond_to? :field
-        field = item.field
-      end
-
-      facet_config = facet_configuration_for_field(field)
-
-      url_field = facet_config.key
-
-      value = facet_value_for_facet_item(item)
-
-      p = reset_search_params(source_params)
-      p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
-      p[:f][url_field] = (p[:f][url_field] || []).dup
-
-      if facet_config.single and not p[:f][url_field].empty?
-        p[:f][url_field] = []
-      end
-
-      p[:f][url_field].push(value)
+      add_facet_param(p, field, item)
 
       if item and item.respond_to?(:fq) and item.fq
-        Array(item.fq).each do |f,v|
-          p = add_facet_params(f, v, p)
+        Array(item.fq).each do |f, v|
+          add_facet_param(p, f, v)
         end
       end
 
@@ -91,7 +78,7 @@ module Blacklight
 
       value = facet_value_for_facet_item(item)
 
-      p = reset_search_params(params)
+      p = reset_search_params
       # need to dup the facet values too,
       # if the values aren't dup'd, then the values
       # from the session will get remove in the show view...
@@ -124,20 +111,41 @@ module Blacklight
 
     private
 
-      ##
-      # Reset any search parameters that store search context
-      # and need to be reset when e.g. constraints change
-      def reset_search_params source_params
-        Parameters.sanitize(source_params).except(:page, :counter).with_indifferent_access
+    ##
+    # Reset any search parameters that store search context
+    # and need to be reset when e.g. constraints change
+    def reset_search_params
+      Parameters.sanitize(params).except(:page, :counter).with_indifferent_access
+    end
+
+    # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
+    def facet_value_for_facet_item item
+      if item.respond_to? :value
+        item.value
+      else
+        item
+      end
+    end
+    
+    def add_facet_param(p, field, item)
+      if item.respond_to? :field
+        field = item.field
       end
 
-      # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
-      def facet_value_for_facet_item item
-        if item.respond_to? :value
-          item.value
-        else
-          item
-        end
+      facet_config = facet_configuration_for_field(field)
+
+      url_field = facet_config.key
+
+      value = facet_value_for_facet_item(item)
+
+      p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
+      p[:f][url_field] = (p[:f][url_field] || []).dup
+
+      if facet_config.single and not p[:f][url_field].empty?
+        p[:f][url_field] = []
       end
+
+      p[:f][url_field].push(value)
+    end
   end
 end
