@@ -141,7 +141,7 @@ module Blacklight
           default_per_page: nil,
           # how many searches to save in session history
           # (TODO: move the value into the configuration?)
-          search_history_window: Blacklight::Catalog::SearchHistoryWindow,
+          search_history_window: 100,
           default_facet_limit: 10
           }
         end
