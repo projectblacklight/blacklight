@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Blacklight::DocumentPresenter do
   include Capybara::RSpecMatchers
-  let(:request_context) { double(:add_facet_params => '') }
+  let(:request_context) { double }
   let(:config) { Blacklight::Configuration.new }
 
   subject { presenter }
@@ -14,6 +14,10 @@ describe Blacklight::DocumentPresenter do
                      'link_to_search_named' => 'x',
                      'qwer' => 'document qwer value',
                      'mnbv' => 'document mnbv value')
+  end
+
+  before do
+    allow(request_context).to receive(:search_state).and_return(Blacklight::SearchState.new({}, config))
   end
 
   describe "link_rel_alternates" do
@@ -116,7 +120,6 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check for a link_to_search" do
-      allow(request_context).to receive(:add_facet_params).and_return(:f => { :link_to_search_true => ['x'] })
       allow(request_context).to receive(:search_action_path).with(:f => { :link_to_search_true => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_index_field_value 'link_to_search_true'
@@ -124,7 +127,6 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check for a link_to_search with a field name" do
-      allow(request_context).to receive(:add_facet_params).and_return(:f => { :some_field => ['x'] })
       allow(request_context).to receive(:search_action_path).with(:f => { :some_field => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_index_field_value 'link_to_search_named'
@@ -211,14 +213,14 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check for a link_to_search" do
-      allow(request_context).to receive(:search_action_path).with('').and_return('/foo')
+      allow(request_context).to receive(:search_action_path).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_document_show_field_value 'link_to_search_true'
       expect(value).to eq 'bar'
     end
 
     it "should check for a link_to_search with a field name" do
-      allow(request_context).to receive(:search_action_path).with('').and_return('/foo')
+      allow(request_context).to receive(:search_action_path).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_document_show_field_value 'link_to_search_named'
       expect(value).to eq 'bar'
