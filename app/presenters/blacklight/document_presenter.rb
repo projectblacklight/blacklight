@@ -106,7 +106,7 @@ module Blacklight
         options[:last_word_connector] ||= field_config.separator
       end
 
-      values.to_sentence(options)
+      values.map { |x| html_escape(x) }.to_sentence(options).html_safe
     end
 
     ##
@@ -225,6 +225,10 @@ module Blacklight
         else
           value
         end
+    end
+
+    def html_escape(*args)
+      ERB::Util.html_escape(*args)
     end
   end
 end

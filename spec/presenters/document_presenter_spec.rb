@@ -200,6 +200,21 @@ describe Blacklight::DocumentPresenter do
       end
     end
 
+    it 'html-escapes values' do
+      value = subject.render_document_show_field_value 'asdf', value: '<b>val1</b>'
+      expect(value).to eq '&lt;b&gt;val1&lt;/b&gt;'
+    end
+
+    it 'joins multivalued valued fields' do
+      value = subject.render_document_show_field_value 'asdf', value: ['<a', 'b']
+      expect(value).to eq '&lt;a and b'
+    end
+
+    it 'joins multivalued valued fields' do
+      value = subject.render_document_show_field_value 'asdf', value: ['a', 'b', 'c']
+      expect(value).to eq 'a, b, and c'
+    end
+
     it "should check for an explicit value" do
       expect(request_context).to_not receive(:render_asdf_document_show_field)
       value = subject.render_document_show_field_value 'asdf', :value => 'val1'
@@ -239,6 +254,12 @@ describe Blacklight::DocumentPresenter do
       expect(value).to eq '<em>highlight</em>'
     end
 
+    it 'respects the HTML-safeness of multivalued highlight fields' do
+      allow(document).to receive(:has_highlight_field?).and_return(true)
+      allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe, '<em>other highlight</em>'.html_safe])
+      value = subject.render_document_show_field_value 'highlight'
+      expect(value).to eq '<em>highlight</em> and <em>other highlight</em>'
+    end
 
     it "should check the document field value" do
       value = subject.render_document_show_field_value 'qwer'
