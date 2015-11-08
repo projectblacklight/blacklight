@@ -222,12 +222,29 @@ describe BlacklightUrlHelper do
       expect(helper.link_to_document(@document, :title_display, counter: 5)).to include 'data-context-href="tracking url"'
     end
 
-    it "should merge the data- attributes from the options with the counter params" do
+    it "includes the data- attributes from the options" do
       data = {'id'=>'123456','title_display'=>['654321']}
       @document = SolrDocument.new(data)
       link = helper.link_to_document @document, { data: { x: 1 }  }
       expect(link).to have_selector '[data-x]'
-      expect(link).to have_selector '[data-context-href]'
+    end
+
+    it 'adds a controller-specific tracking attribute' do
+      data = { 'id'=>'123456', 'title_display'=>['654321'] }
+      @document = SolrDocument.new(data)
+
+      expect(helper).to receive(:track_test_path).and_return('/asdf')
+      link = helper.link_to_document @document, { data: { x: 1 }  }
+
+      expect(link).to have_selector '[data-context-href="/asdf"]'
+    end
+
+    it 'adds a global tracking attribute' do
+      data = { 'id'=>'123456', 'title_display'=>['654321'] }
+      @document = SolrDocument.new(data)
+
+      link = helper.link_to_document @document, { data: { x: 1 }  }
+      expect(link).to have_selector '[data-context-href="/catalog/123456/track"]'
     end
 
     it "passes on the title attribute to the link_to_with_data method" do

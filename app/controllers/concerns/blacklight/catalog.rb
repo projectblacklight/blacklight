@@ -56,12 +56,12 @@ module Blacklight::Catalog
       search_session['id'] = params[:search_id]
       search_session['per_page'] = params[:per_page]
 
-      path = if params[:redirect] and (params[:redirect].starts_with?("/") or params[:redirect] =~ URI::regexp)
-        URI.parse(params[:redirect]).path
+      if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
+        path = URI.parse(params[:redirect]).path
+        redirect_to path, status: 303
       else
-        { action: 'show' }
+        redirect_to blacklight_config.document_model.new(id: params[:id]), status: 303
       end
-      redirect_to path, :status => 303
     end
 
     # displays values and pagination links for a single facet field
