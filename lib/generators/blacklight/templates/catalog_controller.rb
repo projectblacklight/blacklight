@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 class <%= controller_name.classify %>Controller < ApplicationController
 
   include Blacklight::Catalog

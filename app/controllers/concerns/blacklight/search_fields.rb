@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 ##
 # Module to deal with accessing (and setting some defaults) in an array of
 # hashes that describe Blacklight search fields.  Requires the base class this

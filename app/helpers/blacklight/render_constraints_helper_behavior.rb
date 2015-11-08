@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # All methods in here are 'api' that may be over-ridden by plugins and local
 # code, so method signatures and semantics should not be changed casually.
 # implementations can be of course.

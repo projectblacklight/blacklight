@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 require 'kaminari'
 require 'deprecation'
 require 'blacklight/utils'

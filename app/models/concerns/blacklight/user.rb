@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 module Blacklight::User
   # This gives us an is_blacklight_user method that can be included in
   # the containing applications models. 

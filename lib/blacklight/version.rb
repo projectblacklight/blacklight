@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 module Blacklight
   unless Blacklight.const_defined? :VERSION
     def self.version

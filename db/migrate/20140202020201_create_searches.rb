@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 class CreateSearches < ActiveRecord::Migration
   def self.up
     create_table :searches do |t|

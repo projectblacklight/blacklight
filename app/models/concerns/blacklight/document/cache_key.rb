@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # This module provides the cache key which can be used by rails
 # caching to determine when to expire a particular object's cache
 # See http://apidock.com/rails/ActiveRecord/Integration/cache_key

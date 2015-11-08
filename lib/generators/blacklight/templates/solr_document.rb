@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 class <%= model_name.classify %> 
 
   include Blacklight::Solr::Document

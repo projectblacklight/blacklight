@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # Only works for documents with a #to_marc right now. 
 class RecordMailer < ActionMailer::Base
   def email_record(documents, details, url_gen_params)
