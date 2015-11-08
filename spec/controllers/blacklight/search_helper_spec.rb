@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 # check the methods that do solr requests. Note that we are not testing if

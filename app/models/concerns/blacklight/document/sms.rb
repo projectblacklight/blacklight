@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # This module provides the body of an email export based on the document's semantic values
 module Blacklight::Document::Sms
 

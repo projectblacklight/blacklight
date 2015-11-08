@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # Copy Blacklight test support material in place
 
 

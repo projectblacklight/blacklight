@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 module Blacklight::Configurable
   extend ActiveSupport::Concern
 

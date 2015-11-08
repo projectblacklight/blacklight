@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 class SavedSearchesController < ApplicationController
   include Blacklight::Configurable
 

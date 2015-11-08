@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 class Bookmark < ActiveRecord::Base
   
   belongs_to :user, polymorphic: true

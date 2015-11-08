@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 class AddPolymorphicTypeToBookmarks < ActiveRecord::Migration
   def change
     add_column(:bookmarks, :document_type, :string)
