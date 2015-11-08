@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.required_ruby_version = '~> 2.0'
+
   s.add_dependency "rails",     ">= 4.1", "< 5"
   s.add_dependency "globalid"
   s.add_dependency "nokogiri",  "~>1.6"     # XML Parser
