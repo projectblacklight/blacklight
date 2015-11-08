@@ -63,24 +63,30 @@ module Blacklight::UrlHelperBehavior
   #   session_tracking_params(SolrDocument.new(id: 123), 7)
   #   => { data: { :'tracker-href' => '/catalog/123/track?counter=7&search_id=999' } }
   def session_tracking_params document, counter
-    if document.nil?
+    path = session_tracking_path(document, per_page: params.fetch(:per_page, search_session['per_page']), counter: counter, search_id: current_search_session.try(:id))
+
+    if path.nil?
       return {}
     end
-  
-    { :data => {:'context-href' => session_tracking_path(document, per_page: params.fetch(:per_page, search_session['per_page']), counter: counter, search_id: current_search_session.try(:id))}}
+
+    { data: {:'context-href' => path } }
   end
   protected :session_tracking_params
-  
+
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing
   def session_tracking_path document, params = {}
-    controller_tracking_method = "track_#{controller_name}_path"
+    return if document.nil?
 
-    if respond_to? controller_tracking_method
+    if respond_to?(controller_tracking_method)
       send(controller_tracking_method, params.merge(id: document.id))
     else
-      polymorphic_path(document, params)
+      blacklight.track_search_context_path(params.merge(id: document.id))
     end
+  end
+
+  def controller_tracking_method
+    "track_#{controller_name}_path"
   end
 
   #
