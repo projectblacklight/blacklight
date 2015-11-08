@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-require File.join(File.dirname(__FILE__), "lib/blacklight/version")
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'blacklight/version'
 
 Gem::Specification.new do |s|
   s.name        = "blacklight"
@@ -12,9 +14,10 @@ Gem::Specification.new do |s|
   s.description = %{Blacklight is an open source Solr user interface discovery platform. You can use Blacklight to enable searching and browsing of your collections. Blacklight uses the Apache Solr search engine to search full text and/or metadata.}
   s.license     = "Apache 2.0"
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.files         = `git ls-files -z`.split("\x0")
+  s.test_files    = s.files.grep(%r{^(test|spec|features)/})
+  s.bindir        = 'exe'
+  s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ["lib"]
 
   s.required_ruby_version = '~> 2.0'
