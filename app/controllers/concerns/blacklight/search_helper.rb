@@ -54,7 +54,7 @@ module Blacklight::SearchHelper
   ##
   # Execute a solr query
   # @see [Blacklight::SolrRepository#send_and_receive]
-  # @return [Blacklight::SolrResponse] the solr response object
+  # @return [Blacklight::Solr::Response] the solr response object
   def find *args
     request_params = args.extract_options!
     path = args.first || blacklight_config.solr_path
@@ -121,7 +121,7 @@ module Blacklight::SearchHelper
   # a solr query method
   # @param [Hash,HashWithIndifferentAccess] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
   # @param [Hash,HashWithIndifferentAccess] extra_controller_params ({}) extra parameters to add to the search
-  # @return [Blacklight::SolrResponse] the solr response object
+  # @return [Blacklight::Solr::Response] the solr response object
   def query_solr(user_params = params || {}, extra_controller_params = {})
     query = search_builder.with(user_params).merge(extra_controller_params)
     repository.search(query)
@@ -146,7 +146,7 @@ module Blacklight::SearchHelper
   deprecation_deprecate get_solr_response_for_doc_id: "use fetch(id) instead"
 
   # given a field name and array of values, get the matching SOLR documents
-  # @return [Blacklight::SolrResponse, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
+  # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response object and a list of solr documents
   def get_solr_response_for_field_values(field, values, extra_controller_params = {})
     query = Deprecation.silence(Blacklight::RequestBuilders) do
       search_builder.with(params).merge(extra_controller_params).merge(solr_documents_by_field_values_params(field, values))
