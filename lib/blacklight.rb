@@ -21,11 +21,6 @@ module Blacklight
     attr_accessor :solr, :solr_config
   end
 
-  # Secret key used to share session information with
-  # other services (e.g. refworks callback urls)
-  mattr_accessor :secret_key
-  @@secret_key = nil
-
   def self.blacklight_config_file
     "#{::Rails.root}/config/blacklight.yml"
   end
