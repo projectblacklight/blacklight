@@ -40,17 +40,12 @@ module Blacklight::TokenBasedUser
     message_encryptor.encrypt_and_sign([user_id, Time.zone.now])
   end
 
-  ##
-  # This method provides Rails 3 compatibility to our message encryptor.
-  # When we drop support for Rails 3, we can just use the AS::KeyGenerator
-  # directly instead of this helper.
-  def export_secret_token salt
-    OpenSSL::PKCS5.pbkdf2_hmac_sha1(Blacklight.secret_key, salt, 1000, 64)
+  def export_secret_token(salt)
+    ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key(salt)
   end
 
   def message_encryptor
-    derived_secret = export_secret_token("encrypted user session key")
-    ActiveSupport::MessageEncryptor.new(derived_secret)
+    ActiveSupport::MessageEncryptor.new(export_secret_token)
   end
 
 end
