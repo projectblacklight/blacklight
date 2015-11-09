@@ -16,10 +16,6 @@ module Blacklight
 
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
-  
-  class << self
-    attr_accessor :solr, :solr_config
-  end
 
   def self.blacklight_config_file
     "#{::Rails.root}/config/blacklight.yml"
