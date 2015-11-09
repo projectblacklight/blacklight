@@ -238,13 +238,13 @@ describe BlacklightHelper do
 
   describe "render_grouped_response?" do
     it "should check if the response ivar contains grouped data" do
-      assign(:response, double("SolrResponse", :grouped? => true))
+      assign(:response, double("Solr::Response", :grouped? => true))
       expect(helper.render_grouped_response?).to be true
     end
 
 
     it "should check if the response param contains grouped data" do
-      response = double("SolrResponse", :grouped? => true)
+      response = double("Solr::Response", :grouped? => true)
       expect(helper.render_grouped_response?(response)).to be true
     end
   end
@@ -385,7 +385,7 @@ describe BlacklightHelper do
 
     before do
       allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
-      assign(:response, double("SolrResponse", grouped?: false, start: 0))
+      assign(:response, double("Solr::Response", grouped?: false, start: 0))
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end
