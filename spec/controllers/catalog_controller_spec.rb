@@ -119,6 +119,7 @@ describe CatalogController do
     end
 
     describe "with format :json" do
+      render_views
       before do
         get :index, :format => 'json'
         expect(response).to be_success
@@ -128,18 +129,18 @@ describe CatalogController do
       let(:docs) { json["docs"] }
       let(:facets) { json["facets"] }
 
-      it "should get the pages" do
-        expect(pages["total_count"]).to eq 30 
+      it "gets the pages" do
+        expect(pages["total_count"]).to eq 30
         expect(pages["current_page"]).to eq 1
         expect(pages["total_pages"]).to eq 3
       end
 
-      it "should get the documents" do
+      it "gets the documents" do
         expect(docs).to have(10).documents
         expect(docs.first.keys).to match_array(["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "score"])
       end
 
-      it "should get the facets" do
+      it "gets the facets" do
         expect(facets).to have(9).facets
         expect(facets.first).to eq({"name"=>"format", "label" => "Format", "items"=>[{"value"=>"Book", "hits"=>30, "label"=>"Book"}]})
       end
@@ -147,7 +148,7 @@ describe CatalogController do
       describe "facets" do
         let(:query_facet_items) { facets.last['items'] }
         let(:regular_facet_items) { facets.first['items'] }
-        it "should have items with labels and values" do
+        it "has items with labels and values" do
           expect(query_facet_items.first['label']).to eq 'within 10 Years'
           expect(query_facet_items.first['value']).to eq 'years_10'
           expect(regular_facet_items.first['label']).to eq "Book"
@@ -562,41 +563,13 @@ describe CatalogController do
       end
     end
     describe "requesting json" do
-      it "should be successful" do
+      render_views
+      it "is successful" do
         get :facet, id: 'format', format: 'json'
         expect(response).to be_successful
         json = JSON.parse(response.body)
         expect(json["response"]["facets"]["items"].first["value"]).to eq 'Book'
       end
-    end
-  end
-
-  describe 'render_search_results_as_json' do
-    before do
-      controller.instance_variable_set :@document_list, [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}]
-      allow(controller).to receive(:pagination_info).and_return({current_page: 1, next_page: 2, prev_page: nil})
-      allow(controller).to receive(:search_facets_as_json).and_return(
-          [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}])
-    end
-
-    it "should be a hash" do
-       expect(controller.send(:render_search_results_as_json)).to eq (
-         {response: {docs: [{id: '123', title_t: 'Book1'}, {id: '456', title_t: 'Book2'}],
-                     facets: [{name: "format", label: "Format", items: [{value: 'Book', hits: 30, label: 'Book'}]}],
-                     pages: {current_page: 1, next_page: 2, prev_page: nil}}}
-       )
-    end
-  end
-
-  describe 'render_facet_list_as_json' do
-    before do
-      controller.instance_variable_set :@pagination, {items: [{value: 'Book'}]}
-    end
-
-    it "should be a hash" do
-       expect(controller.send(:render_facet_list_as_json)).to eq (
-         {response: {facets: {items: [{value: 'Book'}]}}}
-       )
     end
   end
 
