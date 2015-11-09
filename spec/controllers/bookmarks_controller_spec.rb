@@ -43,5 +43,30 @@ describe BookmarksController do
       expect(response.code).to eq "500"
     end
   end
-  
+
+  describe 'token based users' do
+    let(:user) { User.find_or_create_by(email: 'user1@example.com') { |u| u.password = 'password' } }
+    let(:current_time) { nil }
+    let(:token) { controller.send(:encrypt_user_id, user.id, current_time) }
+
+    before do
+      allow(controller).to receive(:fetch).and_return([])
+    end
+
+    it 'finds the user from the encrypted token' do
+      get :index, encrypted_user_id: token
+      expect(controller.send(:token_user).id).to eq user.id
+    end
+
+    context 'created over an hour ago' do
+      let(:current_time) { Time.zone.now - 2.hours }
+
+      it 'is expired' do
+        get :index, encrypted_user_id: token
+        expect do
+          controller.send(:token_user)
+        end.to raise_error(Blacklight::Exceptions::ExpiredSessionToken)
+      end
+    end
+  end
 end

@@ -36,12 +36,13 @@ module Blacklight::TokenBasedUser
 
   # Used for #export action with encrypted user_id, available
   # as a helper method for views.
-  def encrypt_user_id(user_id)
-    message_encryptor.encrypt_and_sign([user_id, Time.zone.now])
+  def encrypt_user_id(user_id, current_time = nil)
+    current_time ||= Time.zone.now
+    message_encryptor.encrypt_and_sign([user_id, current_time])
   end
 
-  def export_secret_token(salt)
-    ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key(salt)
+  def export_secret_token
+    ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key('encrypted user session key')
   end
 
   def message_encryptor
