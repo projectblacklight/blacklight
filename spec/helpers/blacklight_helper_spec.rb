@@ -284,15 +284,6 @@ describe BlacklightHelper do
       allow(helper).to receive(:document_partial_name).with(doc, :xyz)
       helper.render_document_partial(doc, :xyz)    
     end
-    
-    context "with a 1-arg form of document_partial_name" do
-      it "should only call the 1-arg form of the document_partial_name" do
-        allow(helper).to receive(:method).with(:document_partial_name).and_return(double(arity: 1))
-        allow(helper).to receive(:document_partial_name).with(doc)
-        allow(Deprecation).to receive(:warn)
-        helper.render_document_partial(doc, nil)
-      end
-    end
   end
 
   describe "#document_partial_name" do

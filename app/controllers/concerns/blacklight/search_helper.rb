@@ -78,10 +78,6 @@ module Blacklight::SearchHelper
     if id.is_a? Array
       fetch_many(id, params, extra_controller_params)
     else
-      if id.nil?
-        Deprecation.warn Blacklight::SearchHelper, "Calling #fetch without an explicit id argument is deprecated and will be removed in Blacklight 6.0"
-        id ||= params[:id]
-      end
       fetch_one(id, extra_controller_params)
     end
   end

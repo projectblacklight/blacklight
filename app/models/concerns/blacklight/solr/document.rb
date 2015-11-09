@@ -15,12 +15,6 @@ require 'rsolr'
 #
 
 module Blacklight::Solr::Document
-  autoload :SchemaOrg, 'blacklight/solr/document/schema_org'
-  autoload :DublinCore, 'blacklight/solr/document/dublin_core'
-  autoload :Email, 'blacklight/solr/document/email'
-  autoload :Sms, 'blacklight/solr/document/sms'
-  autoload :Extensions, 'blacklight/solr/document/extensions'
-  autoload :Export, 'blacklight/solr/document/export'
   autoload :MoreLikeThis, 'blacklight/solr/document/more_like_this'
 
   extend ActiveSupport::Concern

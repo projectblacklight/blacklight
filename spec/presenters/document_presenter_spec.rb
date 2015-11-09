@@ -300,12 +300,6 @@ describe Blacklight::DocumentPresenter do
       expect(subject.render_field_value(['a', 'b'])).to eq "a and b"
     end
 
-    it "should use the separator from the Blacklight field configuration by default" do
-      Deprecation.silence(Blacklight::DocumentPresenter) do
-        expect(subject.render_field_value(['c', 'd'], double(separator: '; ', itemprop: nil, separator_options: nil))).to eq "c; d"
-      end
-    end
-
     it "should use the field_config.separator_options from the Blacklight field configuration" do
       expect(subject.render_field_value(['c', 'd'], double(separator: nil, itemprop: nil, separator_options: { two_words_connector: '; '}))).to eq "c; d"
     end

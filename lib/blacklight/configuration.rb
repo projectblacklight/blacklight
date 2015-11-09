@@ -15,7 +15,6 @@ module Blacklight
     # XXX this isn't very pretty, but it works.
     require_dependency 'blacklight/configuration/fields'
     require_dependency 'blacklight/configuration/field'
-    require_dependency 'blacklight/configuration/solr_field'
     require_dependency 'blacklight/configuration/search_field'
     require_dependency 'blacklight/configuration/facet_field'
     require_dependency 'blacklight/configuration/sort_field'
