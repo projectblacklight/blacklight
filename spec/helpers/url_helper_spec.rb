@@ -182,13 +182,6 @@ describe BlacklightUrlHelper do
       expect(helper.link_to_document(@document, :title_display)).to have_selector("a", :text => '654321', :count => 1)
     end
 
-    it "should have the old deprecated behavior (second argument is a hash)" do
-      data = {'id'=>'123456','title_display'=>['654321'] }
-      @document = SolrDocument.new(data)
-      expect(Deprecation).to receive(:warn)
-      expect(helper.link_to_document(@document, { :label => "title_display" })).to have_selector("a", :text => 'title_display', :count => 1)
-    end
-
     it "should accept and return a string label" do
       data = {'id'=>'123456','title_display'=>['654321'] }
       @document = SolrDocument.new(data)

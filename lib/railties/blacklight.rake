@@ -22,13 +22,6 @@ namespace :blacklight do
     end
   end
 
-  namespace :solr do
-    task :seed do
-      Deprecation.warn Blacklight, "blacklight:solr:seed is deprecated; use blacklight:index:seed instead"
-      Rake::Task['blacklight:index:seed'].invoke
-    end
-  end
-
   namespace :check do
     desc "Check the Solr connection and controller configuration"
     task :solr, [:controller_name] => [:environment] do |_, args|

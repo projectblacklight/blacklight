@@ -99,29 +99,15 @@ module Blacklight
       options = {}
       options = field_config.separator_options if field_config && field_config.separator_options
 
-      if field_config && field_config.separator
-        Deprecation.warn(self.class, 'The field configuration #separator is deprecated. Use #separator_options instead')
-        options[:words_connector] ||= field_config.separator
-        options[:two_words_connector] ||= field_config.separator
-        options[:last_word_connector] ||= field_config.separator
-      end
-
       values.map { |x| html_escape(x) }.to_sentence(options).html_safe
     end
 
     ##
     # Render the document index heading
     #
-    # @param [Hash] opts (Deprecated)
-    # @option opts [Symbol] :label Render the given field from the document
-    # @option opts [Proc] :label Evaluate the given proc
-    # @option opts [String] :label Render the given string
     # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
-    def render_document_index_label field, opts ={}
-      if field.is_a? Hash
-        Deprecation.warn DocumentPresenter, "Calling render_document_index_label with a hash is deprecated"
-        field = field[:label]
-      end
+    # @param [Hash] opts
+    def render_document_index_label(field, opts = {})
       label = case field
       when Symbol
         @document[field]
