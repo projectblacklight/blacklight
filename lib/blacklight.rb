@@ -16,10 +16,6 @@ module Blacklight
 
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
-  
-  class << self
-    attr_accessor :solr, :solr_config
-  end
 
   # Secret key used to share session information with
   # other services (e.g. refworks callback urls)
