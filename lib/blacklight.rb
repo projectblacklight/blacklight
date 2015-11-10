@@ -23,18 +23,20 @@ module Blacklight
     attr_accessor :solr, :solr_config
   end
 
-  # For deprecating SolrRepository and SolrResponse
-  def self.const_missing(const_name)
-    case const_name
-    when :SolrRepository
-      Deprecation.warn(:SolrRepository, 'Blacklight::SolrRepository is deprecated; use Blacklight::Solr::Repository instead')
-      Solr::Repository
-    when :SolrResponse
-      Deprecation.warn(:SolrResponse, 'Blacklight::SolrResponse is deprecated; use Blacklight::Solr::Response instead')
-      Solr::Response
-    else
+  class SolrRepository < Solr::Repository
+    extend Deprecation
+    def initialize blacklight_config
+      Deprecation.warn(self, 'Blacklight::SolrRepository is deprecated; use Blacklight::Solr::Repository instead')
       super
-    end
+    end 
+  end
+
+  class SolrResponse < Solr::Response
+    extend Deprecation
+    def initialize(data, request_params, options = {})
+      Deprecation.warn(self, 'Blacklight::SolrResponse is deprecated; use Blacklight::Solr::Response instead')
+      super
+    end 
   end
 
   # Secret key used to share session information with
