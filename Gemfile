@@ -4,7 +4,12 @@ source 'https://rubygems.org'
 gemspec path: File.expand_path('..', __FILE__)
 
 gem 'simplecov', '~> 0.10', require: false
-gem 'coveralls', require: false
+
+# Locking coverall dependency tins to 1.6.x because 1.7.0 requires ruby >= 2.0
+group :test do
+  gem 'coveralls', require: false
+  gem 'tins', "~> 1.6.0", require: false
+end
 
 group :test do
   gem "blacklight-marc", "~> 5.0", github: "projectblacklight/blacklight_marc"

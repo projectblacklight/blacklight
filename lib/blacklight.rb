@@ -8,8 +8,6 @@ module Blacklight
   autoload :Routes, 'blacklight/routes'
   autoload :Solr, 'blacklight/solr'
 
-  SolrRepository = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrRepository', 'Blacklight::Solr::Repository')
-  SolrResponse = ActiveSupport::Deprecation::DeprecatedConstantProxy.new('Blacklight::SolrResponse', 'Blacklight::Solr::Response')
   autoload :SolrHelper, 'blacklight/solr_helper'
 
   autoload :AbstractRepository, 'blacklight/abstract_repository'
@@ -23,6 +21,22 @@ module Blacklight
 
   class << self
     attr_accessor :solr, :solr_config
+  end
+
+  class SolrRepository < Solr::Repository
+    extend Deprecation
+    def initialize blacklight_config
+      Deprecation.warn(self, 'Blacklight::SolrRepository is deprecated; use Blacklight::Solr::Repository instead')
+      super
+    end 
+  end
+
+  class SolrResponse < Solr::Response
+    extend Deprecation
+    def initialize(data, request_params, options = {})
+      Deprecation.warn(self, 'Blacklight::SolrResponse is deprecated; use Blacklight::Solr::Response instead')
+      super
+    end 
   end
 
   # Secret key used to share session information with
