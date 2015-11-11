@@ -28,4 +28,11 @@ describe LayoutHelper do
       expect(helper.sidebar_classes).to eq 'col-md-3 col-sm-4'
     end
   end
+
+  describe '#container_classes' do
+    it 'returns a string of classe(s)' do
+      expect(helper.container_classes).to be_an String
+      expect(helper.container_classes).to eq 'container'
+    end
+  end
 end
