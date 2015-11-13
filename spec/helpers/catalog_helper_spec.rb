@@ -165,7 +165,7 @@ describe CatalogHelper do
       document = double(:has? => true)
       expect(helper.has_thumbnail? document).to be true
     end
-    
+
     it "should not have a thumbnail if the thumbnail_field is missing from the document" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       document = double(:has? => false)
@@ -217,14 +217,14 @@ describe CatalogHelper do
 
     it "should return nil if no thumbnail is available" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
-      expect(helper.render_thumbnail_tag document).to be_nil
+      expect(helper.render_thumbnail_tag document).to be_blank
     end
 
     it "should return nil if no thumbnail is returned from the thumbnail method" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
       allow(helper).to receive_messages(:xyz => nil)
 
-      expect(helper.render_thumbnail_tag document).to be_nil
+      expect(helper.render_thumbnail_tag document).to be_blank
     end
   end
 
