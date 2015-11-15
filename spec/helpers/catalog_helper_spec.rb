@@ -226,6 +226,14 @@ describe CatalogHelper do
 
       expect(helper.render_thumbnail_tag document).to be_nil
     end
+
+    it "should return nil if no thumbnail is in the document" do
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+
+      allow(document).to receive(:has?).with(:xyz).and_return(false)
+
+      expect(helper.render_thumbnail_tag document).to be_nil
+    end
   end
 
   describe "thumbnail_url" do
