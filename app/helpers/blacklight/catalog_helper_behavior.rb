@@ -181,7 +181,9 @@ module Blacklight::CatalogHelperBehavior
     value = if blacklight_config.view_config(document_index_view_type).thumbnail_method
       send(blacklight_config.view_config(document_index_view_type).thumbnail_method, document, image_options)
     elsif blacklight_config.view_config(document_index_view_type).thumbnail_field
-      image_tag thumbnail_url(document), image_options
+      url = thumbnail_url(document)
+
+      image_tag url, image_options if url.present?
     end
 
     if value
