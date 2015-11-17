@@ -30,5 +30,13 @@ module Blacklight
     def sidebar_classes
       'col-md-3 col-sm-4'
     end
+
+    ##
+    # Class used for specifying main layout container classes. Can be
+    # overwritten to return 'container-fluid' for Bootstrap full-width layout
+    # @return [String] 
+    def container_classes
+      'container'
+    end
   end
 end

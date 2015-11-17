@@ -192,7 +192,7 @@ module Blacklight
       # rendering values
       case
         when (field_config and field_config.helper_method)
-          @controller.send(field_config.helper_method, options.merge(:document => @document, :field => field, :value => value))
+          @controller.send(field_config.helper_method, options.merge(document: @document, field: field, config: field_config, value: value))
         when (field_config and field_config.link_to_search)
           link_field = if field_config.link_to_search === true
             field_config.key

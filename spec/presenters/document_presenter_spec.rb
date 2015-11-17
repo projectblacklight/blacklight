@@ -334,4 +334,32 @@ describe Blacklight::DocumentPresenter do
       expect(subject.document_show_html_title).to eq "value"
     end
   end
+
+  describe '#get_field_values' do
+    context 'for a field with the helper_method option' do
+      let(:field_name) { 'field_with_helper' }
+      let(:field_config) { config.add_facet_field 'field_with_helper', helper_method: 'render_field_with_helper' }
+
+      before do
+        document['field_with_helper'] = 'value'
+      end
+
+      it "should check call the helper method with arguments" do
+        allow(request_context).to receive(:render_field_with_helper) do |*args|
+          args.first
+        end
+
+        render_options = { a: 1 }
+
+        options = subject.get_field_values field_name, field_config, a: 1
+
+        expect(options).to include :document, :field, :value, :config, :a
+        expect(options[:document]).to eq document
+        expect(options[:field]).to eq 'field_with_helper'
+        expect(options[:value]).to eq 'value'
+        expect(options[:config]).to eq field_config
+        expect(options[:a]).to eq 1
+      end
+    end
+  end
 end
