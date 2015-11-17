@@ -7,6 +7,7 @@ module Blacklight
     argument     :controller_name, type: :string , default: "catalog"
     argument     :document_name, type: :string , default: "solr_document"
     argument     :search_builder_name, type: :string , default: "search_builder"
+    argument     :solr_version, type: :string , default: "latest"
 
     class_option :devise      , type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
@@ -15,7 +16,7 @@ module Blacklight
     desc """
   This generator makes the following changes to your application:
    1. Generates blacklight:models
-   2. Adds rsolr to the Gemfile
+   2. Generates utilities for working with solr 
    3. Adds globalid to the Gemfile
    4. Creates a number of public assets, including images, stylesheets, and javascript
    5. Injects behavior into your user application_controller.rb
@@ -25,19 +26,12 @@ module Blacklight
   Thank you for Installing Blacklight.
          """
 
-    def install_jettywrapper
-      return unless options[:jettywrapper]
-      gem "jettywrapper", ">= 2.0"
-
-      copy_file "config/jetty.yml"
-
-      append_to_file "Rakefile",
-        "\nZIP_URL = \"https://github.com/projectblacklight/blacklight-jetty/archive/v4.10.3.zip\"\n" +
-        "require 'jettywrapper'\n"
-    end
-
-    def add_rsolr_gem
-      gem "rsolr", "~> 1.0.6"
+    def add_solr_wrapper
+      if solr_version == 'latest'
+        generate 'blacklight:solr5'
+      else
+        generate "blacklight:solr#{solr_version}"
+      end
     end
 
     def add_globalid_gem
