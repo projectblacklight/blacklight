@@ -3,7 +3,7 @@ xml.entry do
   xml.title presenter(document).render_document_index_label(document_show_link_field(document))
   
   # updated is required, for now we'll just set it to now, sorry
-  xml.updated Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
+  xml.updated Time.current.iso8601
   
   xml.link    "rel" => "alternate", "type" => "text/html", "href" => polymorphic_url(url_for_document(document))
   # add other doc-specific formats, atom only lets us have one per
@@ -50,6 +50,4 @@ xml.entry do
     end
     
   end
-  
-  
 end
