@@ -1,4 +1,8 @@
 module Blacklight
+  ##
+  # Blacklight's SearchBuilder converts blacklight request parameters into
+  # query parameters appropriate for search index. It does so by evaluating a
+  # chain of processing methods to populate a result hash (see {#to_hash}).
   class SearchBuilder
     extend Deprecation
     class_attribute :default_processor_chain
