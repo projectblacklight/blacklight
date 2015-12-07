@@ -249,6 +249,8 @@ module Blacklight::Catalog
     # CatalogController to do something else -- older BL displayed a Catalog#inde
     # page with a flash message and a 404 status.
     def invalid_document_id_error(exception)
+      raise exception unless Pathname.new("#{Rails.root}/public/404.html").exist?
+
       error_info = {
         "status" => "404",
         "error"  => "#{exception.class}: #{exception.message}"
