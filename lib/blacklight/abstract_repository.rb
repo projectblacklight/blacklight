@@ -16,6 +16,21 @@ module Blacklight
       @connection ||= build_connection
     end
 
+    ##
+    # Find a single document result by a known id
+    # @param [String] document's unique key value
+    # @param [Hash] additional query parameters
+    def find(id, params = {})
+      fail NotImplementedError
+    end
+
+    ##
+    # Execute a search query against a search index
+    # @param [Hash] query parameters
+    def search(params = {})
+      fail NotImplementedError
+    end
+
     protected
       def connection_config
         blacklight_config.connection_config

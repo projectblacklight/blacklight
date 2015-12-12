@@ -5,6 +5,7 @@ gemspec path: File.expand_path('..', __FILE__)
 
 gem 'simplecov', '~> 0.10', require: false
 gem 'coveralls', '~> 0.8.6', require: false
+gem 'autoprefixer-rails', '~> 6.0.0' if RUBY_VERSION < '2.0'
 
 group :test do
   gem "blacklight-marc", "~> 5.0", github: "projectblacklight/blacklight_marc"

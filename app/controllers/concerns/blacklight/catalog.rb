@@ -320,6 +320,8 @@ module Blacklight::Catalog
     # DEPRECATED; this method will be removed in Blacklight 6.0 and the functionality
     # moved to invalid_document_id_error
     def invalid_solr_id_error(exception)
+      raise exception unless Pathname.new("#{Rails.root}/public/404.html").exist?
+
       error_info = {
         "status" => "404",
         "error"  => "#{exception.class}: #{exception.message}"

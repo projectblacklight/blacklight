@@ -181,7 +181,21 @@ module Blacklight
     # @return [OpenStructWithHashAccess] a new instance of an OpenStructWithHashAccess
     def merge! other_hash
       @table.merge!(nested_class, (other_hash if other_hash.is_a? Hash) || other_hash.to_h)
-    end 
+    end
+
+    ##
+    # Override #method_missing from OpenStruct to ensure the default_proc logic
+    # gets triggered.
+    def method_missing(mid, *args)
+      len = args.length
+
+      if len == 0
+        new_ostruct_member(mid)
+        @table[mid]
+      else
+        super
+      end
+    end
 
     private
     def set_default_proc!
