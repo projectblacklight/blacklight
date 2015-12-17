@@ -26,6 +26,10 @@ module Blacklight
       end
     end
 
+    initializer "blacklight.assets.precompile" do |app|
+      app.config.assets.precompile += %w(favicon.ico)
+    end
+
     Blacklight::Engine.config.sms_mappings = {
       'Virgin' => 'vmobl.com',
       'AT&T' => 'txt.att.net',
