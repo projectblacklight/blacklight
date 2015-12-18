@@ -2,8 +2,8 @@ class SavedSearchesController < ApplicationController
   include Blacklight::Configurable
 
   copy_blacklight_config_from(CatalogController)
-  before_filter :require_user_authentication_provider
-  before_filter :verify_user 
+  before_action :require_user_authentication_provider
+  before_action :verify_user
   
   def index
     @searches = current_user.searches

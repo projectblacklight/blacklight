@@ -12,7 +12,7 @@ module Blacklight::Bookmarks
 
     copy_blacklight_config_from(CatalogController)
 
-    before_filter :verify_user
+    before_action :verify_user
 
     blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
 

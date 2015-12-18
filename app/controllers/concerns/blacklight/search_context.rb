@@ -11,7 +11,7 @@ module Blacklight::SearchContext
   module ClassMethods
     # Save the submitted search parameters in the search session
     def record_search_parameters opts = { only: :index}
-      before_filter :current_search_session, opts
+      before_action :current_search_session, opts
     end
   end
   
