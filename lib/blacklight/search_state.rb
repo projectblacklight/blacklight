@@ -115,7 +115,7 @@ module Blacklight
     # Reset any search parameters that store search context
     # and need to be reset when e.g. constraints change
     def reset_search_params
-      Parameters.sanitize(params).except(:page, :counter).with_indifferent_access
+      ActiveSupport::HashWithIndifferentAccess.new(Parameters.sanitize(params).except(:page, :counter))
     end
 
     # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior

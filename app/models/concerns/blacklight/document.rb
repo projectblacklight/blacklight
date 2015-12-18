@@ -39,7 +39,7 @@ module Blacklight::Document
   alias_method :solr_response, :response
 
   def initialize(source_doc={}, response=nil)
-    @_source = source_doc.with_indifferent_access
+    @_source = ActiveSupport::HashWithIndifferentAccess.new(source_doc)
     @response = response
     apply_extensions
   end

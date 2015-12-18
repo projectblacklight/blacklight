@@ -111,7 +111,7 @@ describe FacetsHelper do
     end
 
     it "should not be collapsed if it is in the params" do
-      params[:f] = { basic_field: [1], no_collapse: [2] }.with_indifferent_access
+      params[:f] = ActiveSupport::HashWithIndifferentAccess.new(basic_field: [1], no_collapse: [2])
       expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be false
       expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be false
     end

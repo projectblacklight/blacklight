@@ -1,6 +1,7 @@
 require 'kaminari'
 require 'deprecation'
 require 'blacklight/utils'
+require 'active_support/hash_with_indifferent_access'
 
 module Blacklight
   autoload :AbstractRepository, 'blacklight/abstract_repository'
