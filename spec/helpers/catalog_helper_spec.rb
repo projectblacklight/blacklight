@@ -10,7 +10,7 @@ describe CatalogHelper do
     total = args[:total]
     start = (current_page - 1) * per_page
 
-    mock_docs = (1..total).to_a.map { {}.with_indifferent_access }
+    mock_docs = (1..total).to_a.map { ActiveSupport::HashWithIndifferentAccess.new }
 
     mock_response = Kaminari.paginate_array(mock_docs).page(current_page).per(per_page)
 

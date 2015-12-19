@@ -13,7 +13,7 @@ module Blacklight::UrlHelperBehavior
 
   # link_to_document(doc, 'VIEW', :counter => 3)
   # Use the catalog_path RESTful route to create a link to the show page for a specific item.
-  # catalog_path accepts a HashWithIndifferentAccess object. The solr query params are stored in the session,
+  # catalog_path accepts a hash. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   def link_to_document(doc, field_or_opts = nil, opts={:counter => nil})
     if field_or_opts.is_a? Hash

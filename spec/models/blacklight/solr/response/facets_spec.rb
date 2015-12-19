@@ -26,7 +26,7 @@ describe Blacklight::Solr::Response::Facets do
     let(:facet_field) { ['my_field', []] }
     let(:response_header) { { params: request_params }}
     let(:request_params) { Hash.new }
-    subject { Blacklight::Solr::Response.new({responseHeader: response_header, facet_counts: { facet_fields: [facet_field] }}.with_indifferent_access, request_params)  }
+    subject { Blacklight::Solr::Response.new({responseHeader: response_header, facet_counts: { facet_fields: [facet_field] }}, request_params)  }
 
     describe "#limit" do
       it "should extract a field-specific limit value" do

@@ -59,6 +59,10 @@ module Blacklight::Document
       false
     end
 
+    def marked_for_destruction?
+      false
+    end
+
     ##
     # #to_partial_path is also defined in Blacklight::Document, but
     # ActiveModel::Conversion (included above) will overwrite that..

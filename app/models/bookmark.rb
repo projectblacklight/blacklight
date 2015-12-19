@@ -14,7 +14,9 @@ class Bookmark < ActiveRecord::Base
   end
   
   def document_type
-    (super.constantize if defined?(super)) || default_document_type
+    value = super if defined?(super)
+    value &&= value.constantize
+    value ||= default_document_type
   end
   
   def default_document_type

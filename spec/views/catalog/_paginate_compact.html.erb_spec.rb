@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "catalog/_paginate_compact.html.erb" do
+  let(:user) { User.new.tap { |u| u.save(validate: false) } }
 
   describe "with a real solr response", :integration => true do  
     def blacklight_config
@@ -33,7 +34,7 @@ describe "catalog/_paginate_compact.html.erb" do
   end
 
   it "should render ActiveRecord collections" do
-    50.times { b = Bookmark.new;  b.user_id = 1; b.save! }
+    50.times { b = Bookmark.new;  b.user = user; b.save! }
     render :partial => 'catalog/paginate_compact', :object => Bookmark.page(1).per(25)
     expect(rendered).to have_selector ".page_entries"
     expect(rendered).to have_selector "a[@rel=next]"

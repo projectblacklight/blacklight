@@ -5,7 +5,7 @@ describe Blacklight::Base do
   subject { controller}
 
   describe "#search_state" do
-    let(:params) { double }
+    let(:params) { { a: 1 } }
     before { allow(controller).to receive_messages(params: params) }
     subject { controller.send(:search_state) }
 

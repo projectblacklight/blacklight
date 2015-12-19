@@ -12,7 +12,7 @@ module Blacklight::Bookmarks
 
     copy_blacklight_config_from(CatalogController)
 
-    before_filter :verify_user
+    before_action :verify_user
 
     blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
 
@@ -97,7 +97,7 @@ module Blacklight::Bookmarks
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be.
   def destroy
-    bookmark = current_or_guest_user.bookmarks.find_by(document_id: params[:id], document_type: blacklight_config.document_model)
+    bookmark = current_or_guest_user.bookmarks.find_by(document_id: params[:id], document_type: blacklight_config.document_model.to_s)
 
     if bookmark && bookmark.delete && bookmark.destroyed?
       if request.xhr?

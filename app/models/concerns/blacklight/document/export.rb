@@ -56,13 +56,9 @@ module Blacklight::Document::Export
   # registered. This is a bit sketchy though. 
   def will_export_as(short_name, content_type = nil)
     #Lookup in Rails Mime::Type, register if needed, otherwise take
-    # content-type from registration if needed. This uses
-    # some 'api' to Mime::Type that may or may not be entirely
-    # public, the fact that a Mime::CONST is registered for every
-    # type. But that's the only way to do the kind of check we need, sorry.
-    if defined?(Mime) && Mime.const_defined?(short_name.to_s.upcase)      
-      mime_type = "Mime::#{short_name.to_s.upcase}".constantize
-      content_type ||= mime_type.to_s
+    # content-type from registration if needed.
+    if defined?(Mime) && Mime[short_name.to_sym]
+      content_type ||= Mime[short_name.to_sym]
     else
       # not registered, we need to register. Use register_alias to be least
       # likely to interfere with host app. 

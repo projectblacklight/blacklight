@@ -110,7 +110,7 @@ module Blacklight
     delegate :[], :key?, to: :to_hash
 
     # a solr query method
-    # @param [Hash,HashWithIndifferentAccess] extra_controller_params (nil) extra parameters to add to the search
+    # @param [Hash] extra_controller_params (nil) extra parameters to add to the search
     # @return [Blacklight::Solr::Response] the solr response object
     def to_hash
       if params_need_update?

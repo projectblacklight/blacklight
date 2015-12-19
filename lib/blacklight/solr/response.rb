@@ -1,4 +1,4 @@
-class Blacklight::Solr::Response < HashWithIndifferentAccess
+class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   extend Deprecation
 
   # Using required_dependency to work around Rails autoloading
@@ -22,8 +22,8 @@ class Blacklight::Solr::Response < HashWithIndifferentAccess
   attr_accessor :document_model, :blacklight_config
 
   def initialize(data, request_params, options = {})
-    super(force_to_utf8(data))
-    @request_params = request_params
+    super(force_to_utf8(ActiveSupport::HashWithIndifferentAccess.new(data)))
+    @request_params = ActiveSupport::HashWithIndifferentAccess.new(request_params)
     self.document_model = options[:solr_document_model] || options[:document_model] || SolrDocument
     self.blacklight_config = options[:blacklight_config]
   end
