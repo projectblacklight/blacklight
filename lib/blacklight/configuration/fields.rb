@@ -93,9 +93,7 @@ module Blacklight
             config.field = field
             config.key = field
 
-            if self[config_key.pluralize][ config.key ]
-              self[config_key.pluralize][ config.key ] = config.merge(self[config_key.pluralize][ config.key ])
-            else
+            unless self[config_key.pluralize].any? { |k, v| v.field == field }
               add_blacklight_field(config_key, config, &block)
             end
           end
