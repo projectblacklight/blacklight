@@ -32,7 +32,7 @@ module Blacklight
       case field_or_field_name
       when String, Symbol, Blacklight::Configuration::FacetField
         facet_field = facet_configuration_for_field(field_or_field_name)
-        @response.aggregations[facet_field.key]
+        @response.aggregations[facet_field.field.to_s]
       else
         # is this really a useful case?
         field_or_field_name
