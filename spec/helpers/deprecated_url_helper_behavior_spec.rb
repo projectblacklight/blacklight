@@ -6,9 +6,9 @@ describe Blacklight::DeprecatedUrlHelperBehavior do
       test.call
     end
   end
-  
+
   let(:search_state) { Blacklight::SearchState.new(params, blacklight_config) }
-  let(:params) { {} }
+  let(:params) { ActionController::Parameters.new }
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
@@ -27,7 +27,7 @@ describe Blacklight::DeprecatedUrlHelperBehavior do
     end
 
     it 'generates a search state for the source parameters' do
-      expect(helper.params_for_search({ source: 1 }, { merge: 1 })).to include merge: 1, source: 1
+      expect(helper.params_for_search(ActionController::Parameters.new(source: 1), { merge: 1 })).to include merge: 1, source: 1
     end
   end
 
@@ -38,8 +38,9 @@ describe Blacklight::DeprecatedUrlHelperBehavior do
   end
 
   describe '#reset_search_params' do
+    let(:source_parameters) { ActionController::Parameters.new page: 1, counter: 10 }
     it 'resets the current page and counter' do
-      expect(helper.reset_search_params(page: 1, counter: 10)).to be_blank
+      expect(helper.reset_search_params(source_parameters)).to be_blank
     end
   end
 
@@ -55,8 +56,11 @@ describe Blacklight::DeprecatedUrlHelperBehavior do
       expect(helper.add_facet_params(field, item)).to eq search_state.add_facet_params(field, item)
     end
 
-    it 'generates a search state for the source parameters' do
-      expect(helper.add_facet_params(field, item, source: 1)).to include source: 1
+    context "with source_parameters" do
+      let(:source_parameters) { ActionController::Parameters.new source: 1 }
+      it 'generates a search state for the source parameters' do
+        expect(helper.add_facet_params(field, item, source_parameters)).to include source: 1
+      end
     end
   end
 
@@ -85,8 +89,11 @@ describe Blacklight::DeprecatedUrlHelperBehavior do
       expect(helper.remove_facet_params(field, item)).to eq search_state.remove_facet_params(field, item)
     end
 
-    it 'generates a search state for the source parameters' do
-      expect(helper.remove_facet_params(field, item, source: 1)).to include source: 1
+    context "with source_parameters" do
+      let(:source_parameters) { ActionController::Parameters.new source: 1 }
+      it 'generates a search state for the source parameters' do
+        expect(helper.remove_facet_params(field, item, source_parameters)).to include source: 1
+      end
     end
   end
 end

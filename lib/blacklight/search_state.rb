@@ -6,13 +6,15 @@ module Blacklight
     attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
     attr_reader :params
 
+    # @param [ActionController::Parameters] params
+    # @param [Blacklight::Config] blacklight_config
     def initialize(params, blacklight_config)
-      @params = params
+      @params = params.to_unsafe_h
       @blacklight_config = blacklight_config
     end
 
     def reset
-      Blacklight::SearchState.new({}, blacklight_config)
+      Blacklight::SearchState.new(ActionController::Parameters.new, blacklight_config)
     end
 
     def url_for_document(doc, options = {})
@@ -58,7 +60,7 @@ module Blacklight
       # Delete any request params from facet-specific action, needed
       # to redir to index action properly.
       request_keys = blacklight_config.facet_paginator_class.request_keys
-      new_params.except! *request_keys.values
+      new_params.extract! *request_keys.values
 
       new_params
     end
@@ -92,7 +94,7 @@ module Blacklight
 
     # Merge the source params with the params_to_merge hash
     # @param [Hash] params_to_merge to merge into above
-    # @return the current search parameters after being sanitized by Blacklight::Parameters.sanitize
+    # @return [ActionController::Parameters] the current search parameters after being sanitized by Blacklight::Parameters.sanitize
     # @yield [params] The merged parameters hash before being sanitized
     def params_for_search(params_to_merge={}, &block)
       # params hash we'll return
@@ -114,8 +116,9 @@ module Blacklight
     ##
     # Reset any search parameters that store search context
     # and need to be reset when e.g. constraints change
+    # @return [ActionController::Parameters]
     def reset_search_params
-      ActiveSupport::HashWithIndifferentAccess.new(Parameters.sanitize(params).except(:page, :counter))
+      Parameters.sanitize(params).except(:page, :counter)
     end
 
     # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior

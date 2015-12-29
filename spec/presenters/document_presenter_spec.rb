@@ -7,6 +7,8 @@ describe Blacklight::DocumentPresenter do
 
   subject { presenter }
   let(:presenter) { Blacklight::DocumentPresenter.new(document, request_context, config) }
+  let(:params) { ActionController::Parameters.new }
+  let(:search_state) { Blacklight::SearchState.new(params, config) }
 
   let(:document) do
     SolrDocument.new(id: 1,
@@ -17,7 +19,7 @@ describe Blacklight::DocumentPresenter do
   end
 
   before do
-    allow(request_context).to receive(:search_state).and_return(Blacklight::SearchState.new({}, config))
+    allow(request_context).to receive(:search_state).and_return(search_state)
   end
 
   describe "link_rel_alternates" do
@@ -120,14 +122,14 @@ describe Blacklight::DocumentPresenter do
     end
 
     it "should check for a link_to_search" do
-      allow(request_context).to receive(:search_action_path).with(:f => { :link_to_search_true => ['x'] }).and_return('/foo')
+      allow(request_context).to receive(:search_action_path).with('f' => { 'link_to_search_true' => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_index_field_value 'link_to_search_true'
       expect(value).to eq 'bar'
     end
 
     it "should check for a link_to_search with a field name" do
-      allow(request_context).to receive(:search_action_path).with(:f => { :some_field => ['x'] }).and_return('/foo')
+      allow(request_context).to receive(:search_action_path).with('f' => { 'some_field' => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_index_field_value 'link_to_search_named'
       expect(value).to eq 'bar'

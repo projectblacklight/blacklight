@@ -62,8 +62,8 @@ describe Blacklight::FacetPaginator do
 
     it 'should know a manually set sort, and produce proper sort url' do
         expect(subject.sort).to eq 'index'
-        
-        click_params = subject.params_for_resort_url('count', {})
+
+        click_params = subject.params_for_resort_url('count', ActionController::Parameters.new)
 
         expect(click_params[ sort_key ]).to eq 'count'
         expect(click_params[ page_key ]).to be_nil
@@ -71,13 +71,14 @@ describe Blacklight::FacetPaginator do
 
     context 'when sorting by "count"' do
       subject { described_class.new([]) }
+      let(:params) { ActionController::Parameters.new :'facet.prefix' => 'A' }
 
       it 'includes the prefix filter for "index" sorting' do
-        expect(subject.params_for_resort_url('index', :'facet.prefix' => 'A')).to include :'facet.prefix' => 'A'
+        expect(subject.params_for_resort_url('index', params)).to include :'facet.prefix' => 'A'
       end
 
       it 'removes the prefix filter' do
-        expect(subject.params_for_resort_url('count', :'facet.prefix' => 'A')).not_to include :'facet.prefix' => 'A'
+        expect(subject.params_for_resort_url('count', params)).not_to include :'facet.prefix' => 'A'
       end
     end
   end

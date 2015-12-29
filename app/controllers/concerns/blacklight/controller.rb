@@ -1,9 +1,9 @@
 # Filters added to this controller apply to all controllers in the hosting application
 # as this module is mixed-in to the application controller in the hosting app on installation.
-module Blacklight::Controller 
+module Blacklight::Controller
 
   extend ActiveSupport::Concern
-  
+
   included do
     include Blacklight::SearchFields
     helper Blacklight::SearchFields
@@ -11,9 +11,9 @@ module Blacklight::Controller
     include ActiveSupport::Callbacks
 
     # now in application.rb file under config.filter_parameters
-    # filter_parameter_logging :password, :password_confirmation 
+    # filter_parameter_logging :password, :password_confirmation
     helper_method :current_user_session, :current_user, :current_or_guest_user
-    after_filter :discard_flash_if_xhr    
+    after_action :discard_flash_if_xhr
 
     # handle basic authorization exception with #access_denied
     rescue_from Blacklight::Exceptions::AccessDenied, :with => :access_denied
@@ -76,7 +76,6 @@ module Blacklight::Controller
     end
 
     def search_action_path *args
-
       if args.first.is_a? Hash
         args.first[:only_path] = true
       end
@@ -85,7 +84,9 @@ module Blacklight::Controller
     end
 
     def search_facet_url options = {}
-      url_for params.merge(action: "facet").merge(options).except(:page)
+      opts = params.merge(action: "facet").merge(options).except(:page)
+      opts.permit!
+      url_for opts
     end
 
     # Returns a list of Searches from the ids in the user's history.

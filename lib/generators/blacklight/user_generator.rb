@@ -18,7 +18,11 @@ This generator makes the following changes to your application:
     # Install Devise?
     def generate_devise_assets
       if options[:devise]
-        gem "devise"
+        if ENV['RAILS_VERSION'] =~ /^5\.0/ || ENV['RAILS_VERSION'] == 'edge'
+          gem 'devise', github: 'plataformatec/devise' # Need > 3.5.3
+        else
+          gem "devise"
+        end
         gem "devise-guests", "~> 0.3"
 
         Bundler.with_clean_env do

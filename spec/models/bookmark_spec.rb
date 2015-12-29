@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe Bookmark do
+  let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345'}
   subject do
-    b = Bookmark.new 
-    b.user_id = 1
+    b = Bookmark.new(user: user)
     b.document = SolrDocument.new(id: 'u001')
     b
   end
-  
+
   it "should be valid" do
     expect(subject).to be_valid
   end

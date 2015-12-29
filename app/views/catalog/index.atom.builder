@@ -9,7 +9,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # an author is required, so we'll just use the app name
   xml.author { xml.name application_name }
   
-  xml.link    "rel" => "self", "href" => url_for(params.merge(:only_path => false))
+  xml.link    "rel" => "self", "href" => url_for(params.tap { |p| p.permit! }.merge(:only_path => false))
   xml.link    "rel" => "alternate", "href" => url_for(params.merge(:only_path => false, :format => "html")), "type" => "text/html"
   xml.id      url_for(params.merge(:only_path => false, :format => "html", :content_format => nil, "type" => "text/html"))
 

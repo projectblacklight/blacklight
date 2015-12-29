@@ -170,7 +170,7 @@ describe CatalogController do
         expect { get :index, format: 'yaml' }.to raise_error ActionController::RoutingError
       end
 
-      it "should render the default when the config is true" do
+      it "renders the default when the config is true" do
         # TODO: this should really stub a template and see if it gets rendered,
         # but how to do that is non-obvious..
         blacklight_config.index.respond_to.yaml = true
@@ -600,14 +600,14 @@ describe CatalogController do
   describe "current_search_session" do
     it "should create a session if we're on an search action" do
       allow(controller).to receive_messages(:action_name => "index")
-      allow(controller).to receive_messages(:params => { :q => "x", :page => 5})
+      allow(controller).to receive_messages(params: ActionController::Parameters.new(q: "x", page: 5))
       session = controller.send(:current_search_session)
       expect(session.query_params).to include(:q => "x")
       expect(session.query_params).to_not include(:page => 5)
     end
 
     it "should create a session if a search context was provided" do
-      allow(controller).to receive_messages(:params => { :search_context => JSON.dump(:q => "x")})
+      allow(controller).to receive_messages(params: ActionController::Parameters.new(search_context: JSON.dump(:q => "x")))
       session = controller.send(:current_search_session)
       expect(session.query_params).to include("q" => "x")
     end
@@ -616,7 +616,7 @@ describe CatalogController do
       s = Search.create(:query_params => { :q => "x" })
       session[:history] ||= []
       session[:history] << s.id
-      allow(controller).to receive_messages(:params => { :search_id => s.id})
+      allow(controller).to receive_messages(params: ActionController::Parameters.new(search_id: s.id))
       session = controller.send(:current_search_session)
       expect(session.query_params).to include(:q => "x")
       expect(session).to eq(s)

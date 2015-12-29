@@ -26,7 +26,7 @@ describe BlacklightUrlHelper do
     before do
       allow(helper).to receive_messages(controller: controller_class)
       allow(helper).to receive_messages(controller_name: controller_class.controller_name)
-      allow(helper).to receive_messages(params: {})
+      allow(helper).to receive_messages(params: ActionController::Parameters.new)
     end
 
     it "should be a polymorphic routing-ready object" do
@@ -50,7 +50,7 @@ describe BlacklightUrlHelper do
       let(:controller_class) { ::AlternateController.new }
       before do
         helper.blacklight_config.show.route = { controller: :current }
-        allow(helper).to receive(:params).and_return(controller: 'alternate')
+        allow(helper).to receive(:params).and_return(ActionController::Parameters.new controller: 'alternate')
       end
       it "should support the :current controller configuration" do
         expect(helper.url_for_document(doc)).to eq({controller: 'alternate', action: :show, id: doc})
@@ -94,7 +94,7 @@ describe BlacklightUrlHelper do
         expect(tag).to match /page=3/
         expect(tag).to match /per_page=15/
       end
-      
+
       it "should omit per_page if the value is the same as the default" do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 10, 'counter' => 31 })
@@ -106,7 +106,11 @@ describe BlacklightUrlHelper do
 
     context "without current search context" do
       before do
-        controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', id: '123')
+        if Rails.version >= '5.0.0'
+          controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', { id: '123' }, '/catalog/123', [:controller, :action, :id])
+        else
+          controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', id: '123')
+        end
         allow(helper).to receive_messages(current_search_session: nil)
       end
 
@@ -134,28 +138,28 @@ describe BlacklightUrlHelper do
   describe "link_to_query" do
     it "should build a link tag to catalog using query string (no other params)" do
       query = "brilliant"
-      allow(helper).to receive_messages(params: {})
+      allow(helper).to receive_messages(params: ActionController::Parameters.new)
       tag = helper.link_to_query(query)
       expect(tag).to match /q=#{query}/
       expect(tag).to match />#{query}<\/a>/
     end
     it "should build a link tag to catalog using query string and other existing params" do
       query = "wonderful"
-      allow(helper).to receive_messages(params: {:qt => "title_search", :per_page => "50"})
+      allow(helper).to receive_messages(params: ActionController::Parameters.new(qt: "title_search", per_page: "50"))
       tag = helper.link_to_query(query)
       expect(tag).to match /qt=title_search/
       expect(tag).to match /per_page=50/
     end
     it "should ignore existing :page param" do
       query = "yes"
-      allow(helper).to receive_messages(params: {:page => "2", :qt => "author_search"})
+      allow(helper).to receive_messages(params: ActionController::Parameters.new(page: "2", qt: "author_search"))
       tag = helper.link_to_query(query)
       expect(tag).to match /qt=author_search/
       expect(tag).to_not match /page/
     end
     it "should be html_safe" do
       query = "brilliant"
-      allow(helper).to receive_messages(params: {:page => "2", :qt => "author_search"})
+      allow(helper).to receive_messages(params: ActionController::Parameters.new(page: "2", qt: "author_search"))
       tag = helper.link_to_query(query)
       expect(tag).to be_html_safe
     end
@@ -259,8 +263,8 @@ describe BlacklightUrlHelper do
   end
 
   describe "link_to_previous_search" do
+    let(:params) { {} }
     it "should link to the given search parameters" do
-      params = {}
       allow(helper).to receive(:render_search_to_s).with(params).and_return "link text"
       expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", helper.search_action_path)
     end

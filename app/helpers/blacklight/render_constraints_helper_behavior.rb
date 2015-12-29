@@ -17,17 +17,17 @@ module Blacklight::RenderConstraintsHelperBehavior
 
   ##
   # Render the actual constraints, not including header or footer
-  # info. 
-  # 
+  # info.
+  #
   # @param [Hash] query parameters
   # @return [String]
   def render_constraints(localized_params = params)
     render_constraints_query(localized_params) + render_constraints_filters(localized_params)
   end
-  
+
   ##
   # Render the query constraints
-  # 
+  #
   # @param [Hash] query parameters
   # @return [String]
   def render_constraints_query(localized_params = params)
@@ -35,10 +35,12 @@ module Blacklight::RenderConstraintsHelperBehavior
     scope = localized_params.delete(:route_set) || self
     return "".html_safe if localized_params[:q].blank?
 
+    options = localized_params.merge(:q=>nil, :action=>'index')
+    options.permit!
     render_constraint_element(constraint_query_label(localized_params),
           localized_params[:q],
-          :classes => ["query"],
-          :remove => scope.url_for(localized_params.merge(:q=>nil, :action=>'index')))
+          classes: ["query"],
+          remove: scope.url_for(options))
   end
 
   ##
