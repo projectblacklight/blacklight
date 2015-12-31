@@ -1,9 +1,9 @@
 <nav class="alpha-filter">
-  <%= link_to t('blacklight.search.facets.clear'), @pagination.params_for_resort_url('index', params.except(@pagination.request_keys[:prefix])), data: { ajax_modal: "preserve" }, class: ['btn btn-default btn-xs', ('disabled' unless @pagination.prefix.present?)].join(' ') %>
+  <%= link_to t('blacklight.search.facets.clear'), @pagination.params_for_resort_url('index', search_state.to_h.except(@pagination.request_keys[:prefix])), data: { ajax_modal: "preserve" }, class: ['btn btn-default btn-xs', ('disabled' unless @pagination.prefix.present?)].join(' ') %>
 
   <ol class="pagination pagination-xs">
     <% @facet.index_range.each do |letter| %>
-      <li class="<%= 'active' if @pagination.prefix == letter %>"><%= link_to(letter, @pagination.params_for_resort_url('index', params.merge(@pagination.request_keys[:prefix] => letter)), data: { ajax_modal: "preserve" }) %></li>
+      <li class="<%= 'active' if @pagination.prefix == letter %>"><%= link_to(letter, @pagination.params_for_resort_url('index', search_state.to_h.merge(@pagination.request_keys[:prefix] => letter)), data: { ajax_modal: "preserve" }) %></li>
     <% end %>
   </ol>
 </nav>

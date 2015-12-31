@@ -82,12 +82,11 @@ module Blacklight
     # Get back params suitable to passing to an ActionHelper method for
     # creating a url, to resort by that method.
     # @param [String] sort_method
-    # @param [ActionController::Parameters] params
+    # @param [HashWithIndifferentAccess] params
     def params_for_resort_url(sort_method, params = {})
       # When resorting, we've got to reset the offset to start at beginning,
       # no way to make it make sense otherwise.
       resort_params = params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
-                            .to_unsafe_h
 
       if sort_method == 'count'
         resort_params.except!(request_keys[:prefix])
