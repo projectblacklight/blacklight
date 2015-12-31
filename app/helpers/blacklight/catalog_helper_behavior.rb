@@ -274,8 +274,6 @@ module Blacklight::CatalogHelperBehavior
   private
 
     def feed_link_url(format)
-      options = params.merge(format: format)
-      options.permit!
-      url_for options
+      url_for search_state.to_h.merge(format: format)
     end
 end
