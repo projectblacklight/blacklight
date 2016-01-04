@@ -65,8 +65,8 @@ module Blacklight::SearchContext
     saved_search = searches_from_history.find { |x| x.query_params == params_copy }
 
     saved_search ||= Search.create(query_params: params_copy).tap do |s|
-                       add_to_search_history(s)
-                     end
+      add_to_search_history(s)
+    end
   end
 
   # Add a search to the in-session search history list
