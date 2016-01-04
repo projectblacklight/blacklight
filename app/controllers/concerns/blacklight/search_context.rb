@@ -56,7 +56,6 @@ module Blacklight::SearchContext
     false
   end
 
-  # {
   def find_or_initialize_search_session_from_params params
     params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) or v.blank? }
 

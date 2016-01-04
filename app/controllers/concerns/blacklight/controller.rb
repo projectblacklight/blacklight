@@ -84,8 +84,7 @@ module Blacklight::Controller
     end
 
     def search_facet_url options = {}
-      opts = params.merge(action: "facet").merge(options).except(:page)
-      opts.permit!
+      opts = search_state.to_h.merge(action: "facet").merge(options).except(:page)
       url_for opts
     end
 
