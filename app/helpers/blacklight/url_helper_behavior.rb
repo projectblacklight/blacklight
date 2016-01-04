@@ -92,8 +92,7 @@ module Blacklight::UrlHelperBehavior
   def link_to_query(query)
     p = search_state.to_h.except(:page, :action)
     p[:q] = query
-    link_url = search_action_path(p.to_h)
-    link_to(query, link_url)
+    link_to(query, search_action_path(p))
   end
 
   ##

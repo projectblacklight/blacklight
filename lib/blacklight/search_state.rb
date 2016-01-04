@@ -17,7 +17,7 @@ module Blacklight
         # This is the typical (not-ActionView::TestCase) code path.
         @params = params.to_unsafe_h
         # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
-        @params = params.with_indifferent_access if @params.instance_of? Hash
+        @params = @params.with_indifferent_access if @params.instance_of? Hash
       end
       @blacklight_config = blacklight_config
     end
