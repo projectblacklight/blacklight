@@ -9,8 +9,9 @@ module Blacklight
     # @param [ActionController::Parameters] params
     # @param [Blacklight::Config] blacklight_config
     def initialize(params, blacklight_config)
-      # Rails 5 has to_unsafe_h to cast the AC::Parameters to a HashWithIndifferentAccess
-      @params = params.respond_to?(:to_unsafe_h) ? params.to_unsafe_h : params
+      @params = params.to_unsafe_h
+      # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
+      @params = params.with_indifferent_access if @params.instance_of? Hash
       @blacklight_config = blacklight_config
     end
 
