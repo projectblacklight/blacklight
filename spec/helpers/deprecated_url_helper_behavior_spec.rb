@@ -7,9 +7,7 @@ describe Blacklight::DeprecatedUrlHelperBehavior do
     end
   end
 
-  let(:parameter_class) do
-    Rails.version >= '5.0.0' ? ActionController::Parameters : HashWithIndifferentAccess
-  end
+  let(:parameter_class) { ActionController::Parameters }
   let(:search_state) { Blacklight::SearchState.new(params, blacklight_config) }
   let(:params) { parameter_class.new }
   let(:blacklight_config) { Blacklight::Configuration.new }

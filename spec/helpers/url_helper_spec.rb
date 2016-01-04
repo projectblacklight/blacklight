@@ -9,9 +9,7 @@ describe BlacklightUrlHelper do
     end
   end
 
-  let(:parameter_class) do
-    Rails.version >= '5.0.0' ? ActionController::Parameters : HashWithIndifferentAccess
-  end
+  let(:parameter_class) { ActionController::Parameters }
 
   before do
     allow(helper).to receive(:search_action_path) do |*args|

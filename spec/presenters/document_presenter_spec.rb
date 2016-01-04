@@ -7,9 +7,7 @@ describe Blacklight::DocumentPresenter do
 
   subject { presenter }
   let(:presenter) { Blacklight::DocumentPresenter.new(document, request_context, config) }
-  let(:parameter_class) do
-    Rails.version >= '5.0.0' ? ActionController::Parameters : HashWithIndifferentAccess
-  end
+  let(:parameter_class) { ActionController::Parameters }
   let(:params) { parameter_class.new }
   let(:search_state) { Blacklight::SearchState.new(params, config) }
 

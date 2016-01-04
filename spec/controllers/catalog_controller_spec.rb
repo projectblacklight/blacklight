@@ -598,9 +598,7 @@ describe CatalogController do
   end
 
   describe "current_search_session" do
-    let(:parameter_class) do
-      Rails.version >= '5.0.0' ? ActionController::Parameters : HashWithIndifferentAccess
-    end
+    let(:parameter_class) { ActionController::Parameters }
 
     it "should create a session if we're on an search action" do
       allow(controller).to receive_messages(:action_name => "index")

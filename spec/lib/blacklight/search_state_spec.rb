@@ -8,9 +8,7 @@ describe Blacklight::SearchState do
     end
   end
 
-  let(:parameter_class) do
-    Rails.version >= '5.0.0' ? ActionController::Parameters : HashWithIndifferentAccess
-  end
+  let(:parameter_class) { ActionController::Parameters }
   let(:helper) { described_class.new(params, blacklight_config) }
   let(:params) { parameter_class.new }
 
