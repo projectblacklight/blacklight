@@ -9,6 +9,10 @@ describe BlacklightUrlHelper do
     end
   end
 
+  let(:parameter_class) do
+    Rails.version >= '5.0.0' ? ActionController::Parameters : HashWithIndifferentAccess
+  end
+
   before do
     allow(helper).to receive(:search_action_path) do |*args|
       search_catalog_url *args
@@ -26,7 +30,7 @@ describe BlacklightUrlHelper do
     before do
       allow(helper).to receive_messages(controller: controller_class)
       allow(helper).to receive_messages(controller_name: controller_class.controller_name)
-      allow(helper).to receive_messages(params: ActionController::Parameters.new)
+      allow(helper).to receive_messages(params: parameter_class.new)
     end
 
     it "should be a polymorphic routing-ready object" do
@@ -48,12 +52,14 @@ describe BlacklightUrlHelper do
 
     context "within an alternative catalog controller" do
       let(:controller_class) { ::AlternateController.new }
+
       before do
         helper.blacklight_config.show.route = { controller: :current }
-        allow(helper).to receive(:params).and_return(ActionController::Parameters.new controller: 'alternate')
+        allow(helper).to receive(:params).and_return(parameter_class.new controller: 'alternate')
       end
+
       it "should support the :current controller configuration" do
-        expect(helper.url_for_document(doc)).to eq({controller: 'alternate', action: :show, id: doc})
+        expect(helper.url_for_document(doc)).to eq(controller: 'alternate', action: :show, id: doc)
       end
     end
 
@@ -136,30 +142,33 @@ describe BlacklightUrlHelper do
   end
 
   describe "link_to_query" do
-    it "should build a link tag to catalog using query string (no other params)" do
+    it "builds a link tag to catalog using query string (no other params)" do
       query = "brilliant"
-      allow(helper).to receive_messages(params: ActionController::Parameters.new)
+      allow(helper).to receive_messages(params: parameter_class.new)
       tag = helper.link_to_query(query)
       expect(tag).to match /q=#{query}/
       expect(tag).to match />#{query}<\/a>/
     end
-    it "should build a link tag to catalog using query string and other existing params" do
+
+    it "builds a link tag to catalog using query string and other existing params" do
       query = "wonderful"
-      allow(helper).to receive_messages(params: ActionController::Parameters.new(qt: "title_search", per_page: "50"))
+      allow(helper).to receive_messages(params: parameter_class.new(qt: "title_search", per_page: "50"))
       tag = helper.link_to_query(query)
       expect(tag).to match /qt=title_search/
       expect(tag).to match /per_page=50/
     end
-    it "should ignore existing :page param" do
+
+    it "ignores existing :page param" do
       query = "yes"
-      allow(helper).to receive_messages(params: ActionController::Parameters.new(page: "2", qt: "author_search"))
+      allow(helper).to receive_messages(params: parameter_class.new(page: "2", qt: "author_search"))
       tag = helper.link_to_query(query)
       expect(tag).to match /qt=author_search/
       expect(tag).to_not match /page/
     end
-    it "should be html_safe" do
+
+    it "is html_safe" do
       query = "brilliant"
-      allow(helper).to receive_messages(params: ActionController::Parameters.new(page: "2", qt: "author_search"))
+      allow(helper).to receive_messages(params: parameter_class.new(page: "2", qt: "author_search"))
       tag = helper.link_to_query(query)
       expect(tag).to be_html_safe
     end

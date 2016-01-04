@@ -90,9 +90,8 @@ module Blacklight::UrlHelperBehavior
 
   # create link to query (e.g. spelling suggestion)
   def link_to_query(query)
-    p = params.except(:page, :action)
-    p[:q]=query
-    p.permit!
+    p = search_state.to_h.except(:page, :action)
+    p[:q] = query
     link_url = search_action_path(p.to_h)
     link_to(query, link_url)
   end
