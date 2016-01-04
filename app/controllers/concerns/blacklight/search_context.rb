@@ -26,7 +26,7 @@ module Blacklight::SearchContext
   def current_search_session
 
     @current_search_session ||= if start_new_search_session?
-      find_or_initialize_search_session_from_params params.to_unsafe_h
+      find_or_initialize_search_session_from_params search_state.to_h
     elsif params[:search_context].present?
       find_or_initialize_search_session_from_params JSON.load(params[:search_context])
     elsif params[:search_id].present?

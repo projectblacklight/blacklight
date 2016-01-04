@@ -8,11 +8,14 @@ describe Blacklight::SearchState do
     end
   end
 
+  let(:parameter_class) do
+    Rails.version >= '5.0.0' ? ActionController::Parameters : HashWithIndifferentAccess
+  end
   let(:helper) { described_class.new(params, blacklight_config) }
-  let(:params) { ActionController::Parameters.new }
+  let(:params) { parameter_class.new }
 
   describe "params_for_search" do
-    let(:params) { ActionController::Parameters.new 'default' => 'params' }
+    let(:params) { parameter_class.new 'default' => 'params' }
 
     it "takes original params" do
       result = helper.params_for_search
@@ -26,7 +29,7 @@ describe Blacklight::SearchState do
     end
 
     context "when params have blacklisted keys" do
-      let(:params) { ActionController::Parameters.new action: 'action', controller: 'controller', id: "id", commit: 'commit' }
+      let(:params) { parameter_class.new action: 'action', controller: 'controller', id: "id", commit: 'commit' }
       it "removes them" do
         result = helper.params_for_search
         expect(result.keys).to_not include(:action, :controller, :commit, :id)
@@ -35,7 +38,7 @@ describe Blacklight::SearchState do
 
     context "when params has page" do
       context "and per_page changed" do
-        let(:params) { ActionController::Parameters.new per_page: 20, page: 5 }
+        let(:params) { parameter_class.new per_page: 20, page: 5 }
         it "adjusts the current page" do
           result = helper.params_for_search(per_page: 100)
           expect(result[:page]).to eq 1
@@ -43,7 +46,7 @@ describe Blacklight::SearchState do
       end
 
       context "and per_page didn't change" do
-        let(:params) { ActionController::Parameters.new per_page: 20, page: 5 }
+        let(:params) { parameter_class.new per_page: 20, page: 5 }
         it "doesn't change the current page" do
           result = helper.params_for_search(per_page: 20)
           expect(result[:page]).to eq 5
@@ -51,7 +54,7 @@ describe Blacklight::SearchState do
       end
 
       context "and the sort changes" do
-        let(:params) { ActionController::Parameters.new sort: 'field_a', page: 5 }
+        let(:params) { parameter_class.new sort: 'field_a', page: 5 }
         it "adjusts the current page" do
           result = helper.params_for_search(sort: 'field_b')
           expect(result[:page]).to eq 1
@@ -59,7 +62,7 @@ describe Blacklight::SearchState do
       end
 
       context "and the sort didn't change" do
-        let(:params) { ActionController::Parameters.new sort: 'field_a', page: 5 }
+        let(:params) { parameter_class.new sort: 'field_a', page: 5 }
         it "doesn't change the current page" do
           result = helper.params_for_search(sort: 'field_a')
           expect(result[:page]).to eq 5
@@ -68,7 +71,7 @@ describe Blacklight::SearchState do
     end
 
     context "with a block" do
-      let(:params) { ActionController::Parameters.new a: 1, b: 2 }
+      let(:params) { parameter_class.new a: 1, b: 2 }
       it "should evalute the block and allow it to add or remove keys" do
         result = helper.params_for_search(c: 3) do |params|
           params.extract! :a, :b
@@ -84,12 +87,12 @@ describe Blacklight::SearchState do
 
   describe "add_facet_params" do
     let(:params_no_existing_facet) do
-      ActionController::Parameters.new q: "query",
+      parameter_class.new q: "query",
                                        search_field: "search_field",
                                        per_page: "50"
     end
     let(:params_existing_facets) do
-      ActionController::Parameters.new q: "query",
+      parameter_class.new q: "query",
                                        search_field: "search_field",
                                        per_page: "50",
                                        f: { "facet_field_1" => ["value1"],
@@ -152,7 +155,7 @@ describe Blacklight::SearchState do
     end
 
     context "with a facet selected in the params" do
-      let(:params) { ActionController::Parameters.new f: { 'single_value_facet_field' => 'other_value' } }
+      let(:params) { parameter_class.new f: { 'single_value_facet_field' => 'other_value' } }
       it "replaces facets configured as single" do
         allow(helper).to receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(double(single: true, key: "single_value_facet_field"))
         result_params = helper.add_facet_params('single_value_facet_field', 'my_value')
@@ -184,7 +187,7 @@ describe Blacklight::SearchState do
   end
 
   describe "add_facet_params_and_redirect" do
-    let(:params) { ActionController::Parameters.new(
+    let(:params) { parameter_class.new(
                     q: "query",
                     search_field: "search_field",
                     per_page: "50",
@@ -218,7 +221,7 @@ describe Blacklight::SearchState do
   end
 
   describe "#remove_facet_params" do
-    let(:params) { ActionController::Parameters.new 'f' => facet_params }
+    let(:params) { parameter_class.new 'f' => facet_params }
     let(:facet_params) { { } }
     context "when the facet has multiple values" do
       let(:facet_params) { { 'some_field' => ['some_value', 'another_value'] } }
