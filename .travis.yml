@@ -12,8 +12,6 @@ rvm:
 
 matrix:
   include:
-    - rvm: 2.2.4
-      env: "RAILS_VERSION=4.1.14"
     - rvm: 2.1.6
       env: "RAILS_VERSION=4.2.5"
     - rvm: 2.2.4
