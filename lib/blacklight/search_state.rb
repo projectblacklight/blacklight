@@ -9,9 +9,16 @@ module Blacklight
     # @param [ActionController::Parameters] params
     # @param [Blacklight::Config] blacklight_config
     def initialize(params, blacklight_config)
-      @params = params.to_unsafe_h
-      # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
-      @params = params.with_indifferent_access if @params.instance_of? Hash
+      if params.instance_of? Hash
+        # This is an ActionView::TestCase workaround. Will be resolved by
+        # https://github.com/rails/rails/pull/22913 (Rails > 4.2.5)
+        @params = params.with_indifferent_access
+      else
+        # This is the typical (not-ActionView::TestCase) code path.
+        @params = params.to_unsafe_h
+        # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
+        @params = params.with_indifferent_access if @params.instance_of? Hash
+      end
       @blacklight_config = blacklight_config
     end
 
