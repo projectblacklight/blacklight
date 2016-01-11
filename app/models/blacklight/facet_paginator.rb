@@ -28,7 +28,7 @@ module Blacklight
     # :sort => 'count' or 'index', solr tokens for facet value sorting, default 'count'. 
     def initialize(all_facet_values, arguments = {})
       # to_s.to_i will conveniently default to 0 if nil
-      @offset = arguments[:offset].to_s.to_i 
+      @offset = arguments[:offset].to_s.to_i
       @limit = arguments[:limit]
       @sort = arguments[:sort]
       @prefix = arguments[:prefix]
@@ -50,7 +50,8 @@ module Blacklight
     end
 
     def current_page
-      if limit == 0 #check for divide by zero
+      # A nil limit is unlimited, thus only one page.
+      if limit.nil? || limit == 0 #check for divide by zero
         1
       else
         @offset / limit + 1
