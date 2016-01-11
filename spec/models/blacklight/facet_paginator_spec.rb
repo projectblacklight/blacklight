@@ -71,11 +71,22 @@ describe Blacklight::FacetPaginator do
   end
 
   context "for a nil :limit" do
-    subject { described_class.new(seven_facet_values, offset: 0, limit: nil) }
-    it "should return all the items" do
-      expect(subject.items).to eq seven_facet_values
+    let(:paginator) { described_class.new(seven_facet_values, offset: 0, limit: nil) }
+
+    describe "#items" do
+      subject { paginator.items }
+      it { is_expected.to eq seven_facet_values }
     end
-    it { should be_last_page }
+
+    describe "#last_page?" do
+      subject { paginator.last_page? }
+      it { is_expected.to be true }
+    end
+
+    describe "#current_page" do
+      subject { paginator.current_page }
+      it { is_expected.to eq 1 }
+    end
   end
 
   describe "#as_json" do
