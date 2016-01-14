@@ -81,10 +81,6 @@ describe Blacklight::Solr::SearchBuilderBehavior do
       it "should take q from request params" do
         expect(subject[:q]).to eq "test query"
       end
-
-      it "should add in extra facet.field from params" do
-        expect(subject[:"facet.field"]).to include("extra_facet")
-      end
     end
   end
 
@@ -331,32 +327,6 @@ describe Blacklight::Solr::SearchBuilderBehavior do
         Blacklight::Configuration.new do |config|
           config.add_facet_field 'some_field'
           config.add_facet_fields_to_solr_request!
-        end
-      end
-
-      context "user provides a single facet.field" do
-        let(:user_params) { { "facet.field" => "additional_facet" } }
-        it "adds the field" do
-          expect(subject[:"facet.field"]).to include("additional_facet")
-          expect(subject[:"facet.field"]).to have(2).fields
-        end
-      end
-
-      context "user provides a multiple facet.field" do
-        let(:user_params) { { "facet.field" => ["add_facet1", "add_facet2"] } }
-        it "adds the fields" do
-          expect(subject[:"facet.field"]).to include("add_facet1")
-          expect(subject[:"facet.field"]).to include("add_facet2")
-          expect(subject[:"facet.field"]).to have(3).fields
-        end
-      end
-
-      context "user provides a multiple facets" do
-        let(:user_params) { { "facets" => ["add_facet1", "add_facet2"] } }
-        it "adds the fields" do
-          expect(subject[:"facet.field"]).to include("add_facet1")
-          expect(subject[:"facet.field"]).to include("add_facet2")
-          expect(subject[:"facet.field"]).to have(3).fields
         end
       end
     end

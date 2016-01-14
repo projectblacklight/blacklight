@@ -107,16 +107,6 @@ module Blacklight::Solr
     # taking account of our facet paging/'more'.  This is not
     # about solr 'fq', this is about solr facet.* params.
     def add_facetting_to_solr(solr_parameters)
-      # While not used by BL core behavior, legacy behavior seemed to be
-      # to accept incoming params as "facet.field" or "facets", and add them
-      # on to any existing facet.field sent to Solr. Legacy behavior seemed
-      # to be accepting these incoming params as arrays (in Rails URL with []
-      # on end), or single values. At least one of these is used by
-      # Stanford for "faux hieararchial facets".
-      if blacklight_params.has_key?("facet.field") || blacklight_params.has_key?("facets")
-        solr_parameters[:"facet.field"].concat( [blacklight_params["facet.field"], blacklight_params["facets"]].flatten.compact ).uniq!
-      end
-
       facet_fields_to_include_in_request.each do |field_name, facet|
         solr_parameters[:facet] ||= true
 
