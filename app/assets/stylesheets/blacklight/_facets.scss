@@ -68,17 +68,8 @@
   }
 
   @mixin hyphens-auto {
-    // breaks long words apart so they don't cause the containing div to
-    // be too big, also fix hypenation
-    -ms-word-break: keep-all;
-    word-break: keep-all;
-
-    // Non standard for webkit
-    word-break: break-word;
-
+    overflow-wrap: break-word;
     -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
     -o-hyphens: auto;
     hyphens: auto;
   }
