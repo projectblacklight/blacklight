@@ -82,6 +82,8 @@ module Blacklight
     # under facet.sort ), and your current request params.
     # Get back params suitable to passing to an ActionHelper method for
     # creating a url, to resort by that method.
+    # @param [String] sort_method
+    # @param [HashWithIndifferentAccess] params
     def params_for_resort_url(sort_method, params = {})
       # When resorting, we've got to reset the offset to start at beginning,
       # no way to make it make sense otherwise.

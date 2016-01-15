@@ -76,7 +76,7 @@ module Blacklight::SearchHelper
   # @return [Blacklight::Solr::Response, Blacklight::SolrDocument] the solr response object and the first document
   def fetch(id=nil, extra_controller_params={})
     if id.is_a? Array
-      fetch_many(id, params, extra_controller_params)
+      fetch_many(id, search_state.to_h, extra_controller_params)
     else
       fetch_one(id, extra_controller_params)
     end

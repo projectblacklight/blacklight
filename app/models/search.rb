@@ -1,6 +1,8 @@
 class Search < ActiveRecord::Base
 
-  belongs_to :user
+  belongs_to_arguments = { optional: true } if Rails.version >= '5.0.0'
+
+  belongs_to :user, belongs_to_arguments
 
   serialize :query_params
 

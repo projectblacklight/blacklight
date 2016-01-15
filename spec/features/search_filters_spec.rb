@@ -12,7 +12,7 @@ describe "Facets" do
 
     expect(page).to have_selector(".blacklight-language_facet")
     expect(page).to have_selector(".blacklight-language_facet.facet_limit-active")
-    
+
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
       expect(page).to have_selector("span.facet-count.selected", :text => "6")

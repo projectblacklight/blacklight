@@ -3,4 +3,3 @@ json.response do
   json.facets @presenter.search_facets_as_json
   json.pages @presenter.pagination_info
 end
-

@@ -18,12 +18,19 @@ describe RenderConstraintsHelper do
 
   describe '#render_constraints_query' do
     let(:my_engine) { double("Engine") }
-    it "should have a link relative to the current url" do
-      expect(helper.render_constraints_query(:q=>'foobar', :f=>{:type=>'journal'})).to have_selector "a[href='/?f%5Btype%5D=journal']"
+    let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }) }
+    subject { helper.render_constraints_query(params) }
+
+    it "has a link relative to the current url" do
+      expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
     end
-    it "should accept an optional route set" do
-      expect(my_engine).to receive(:url_for).and_return('/?f%5Btype%5D=journal')
-      expect(helper.render_constraints_query(:q=>'foobar', :f=>{:type=>'journal'}, :route_set => my_engine)).to have_selector "a[href='/?f%5Btype%5D=journal']"
+
+    context "with a route_set" do
+      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }, route_set: my_engine) }
+      it "accepts an optional route set" do
+        expect(my_engine).to receive(:url_for).and_return('/?f%5Btype%5D=journal')
+        expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
+      end
     end
   end
 
@@ -34,19 +41,21 @@ describe RenderConstraintsHelper do
     end
     subject { helper.render_filter_element('type', ['journal'], path) }
 
-    let(:path) { Blacklight::SearchState.new({:q=>'biz'}, config) }
+    let(:params) { ActionController::Parameters.new q: 'biz' }
+    let(:path) { Blacklight::SearchState.new(params, config) }
 
-    it "should have a link relative to the current url" do
+    it "has a link relative to the current url" do
       expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
       expect(subject).to have_selector ".filterName", text: 'Item Type'
     end
   end
 
   describe "#render_constraints_filters" do
+    let(:params) { ActionController::Parameters.new f: { 'type' => [''] } }
     before do
       allow(helper).to receive(:blacklight_config).and_return(config)
     end
-    subject { helper.render_constraints_filters(:f=>{'type'=>['']}) }
+    subject { helper.render_constraints_filters(params) }
 
     it "should render nothing for empty facet limit param" do
       expect(subject).to be_blank

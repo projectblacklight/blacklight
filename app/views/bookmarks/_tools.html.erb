@@ -1,5 +1,5 @@
 <ul class="<%= controller_name %>Tools nav nav-pills">
-  <%= render_show_doc_actions document_list, document: nil, document_list: @document_list, url_opts: Blacklight::Parameters.sanitize(params) do |config, inner| %>
+  <%= render_show_doc_actions document_list, document: nil, document_list: @document_list, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h) do |config, inner| %>
     <li>
       <%= inner %>
     </li>

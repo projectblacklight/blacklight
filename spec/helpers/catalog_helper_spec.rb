@@ -24,9 +24,6 @@ describe CatalogHelper do
 
 
   describe "page_entries_info" do
-    before(:all) do
-    end
-
     it "with no results" do
       @response = mock_response :total => 0
 
@@ -123,12 +120,13 @@ describe CatalogHelper do
       expect(html).to eq "<strong>1,001</strong> - <strong>1,010</strong> of <strong>5,000</strong>"
     end
 
-    it "should work with an activerecord collection" do
-      50.times { b = Bookmark.new;  b.user_id = 1; b.save! }
-      html = helper.page_entries_info(Bookmark.page(1).per(25))
-      expect(html).to eq "<strong>1</strong> - <strong>25</strong> of <strong>50</strong>"
-    end
+    context "with an ActiveRecord collection" do
+      let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345' }
+      before { 50.times { Bookmark.create!(user: user) } }
+      subject { helper.page_entries_info(Bookmark.page(1).per(25)) }
 
+      it { is_expected.to eq "<strong>1</strong> - <strong>25</strong> of <strong>50</strong>" }
+    end
   end
 
   describe "should_autofocus_on_search_box?" do
@@ -360,14 +358,10 @@ describe CatalogHelper do
       allow(helper).to receive(:label_for_search_field).with(nil).and_return('')
     end
 
-    let :blacklight_config do
-      Blacklight::Configuration.new
-    end
+    let(:blacklight_config) { Blacklight::Configuration.new }
+    let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
+    subject { helper.render_search_to_page_title(params) }
 
-    let(:params) { {'q' => 'foobar', "f" => {"format" => ["Book"]}} }
-
-    it "should render a page title" do
-      expect(helper.render_search_to_page_title(params)).to eq "foobar / Format: Book"
-    end
+    it { is_expected.to eq "foobar / Format: Book" }
   end
 end

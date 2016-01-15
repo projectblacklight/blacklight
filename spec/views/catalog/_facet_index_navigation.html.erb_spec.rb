@@ -3,10 +3,12 @@ require 'spec_helper'
 describe 'catalog/_facet_index_navigation.html.erb', type: :view do
   let(:pagination) { Blacklight::Solr::FacetPaginator.new([]) }
   let(:facet) { Blacklight::Configuration::FacetField.new({ index_range: '0'..'9' })}
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
     assign(:pagination, pagination)
     assign(:facet, facet)
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
   it 'renders the facet index navigation range' do

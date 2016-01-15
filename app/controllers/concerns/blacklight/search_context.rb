@@ -14,24 +14,24 @@ module Blacklight::SearchContext
       before_action :current_search_session, opts
     end
   end
-  
+
   protected
 
   # sets up the session[:search] hash if it doesn't already exist
   def search_session
     session[:search] ||= {}
   end
-  
-  # The current search session 
+
+  # The current search session
   def current_search_session
 
     @current_search_session ||= if start_new_search_session?
-      find_or_initialize_search_session_from_params params
+      find_or_initialize_search_session_from_params search_state.to_h
     elsif params[:search_context].present?
       find_or_initialize_search_session_from_params JSON.load(params[:search_context])
     elsif params[:search_id].present?
       begin
-        # TODO : check the search id signature.      
+        # TODO: check the search id signature.
         searches_from_history.find(params[:search_id])
       rescue ActiveRecord::RecordNotFound
         nil
@@ -63,10 +63,8 @@ module Blacklight::SearchContext
 
     saved_search = searches_from_history.find { |x| x.query_params == params_copy }
 
-    saved_search ||= begin
-      s = Search.create(:query_params => params_copy)
+    saved_search ||= Search.create(query_params: params_copy).tap do |s|
       add_to_search_history(s)
-      s
     end
   end
 
@@ -77,13 +75,11 @@ module Blacklight::SearchContext
     session[:history].unshift(search.id)
 
     if session[:history].length > blacklight_config.search_history_window
-
       session[:history] = session[:history].slice(0, blacklight_config.search_history_window )
-      
     end
   end
 
-  # A list of query parameters that should not be persisted for a search      
+  # A list of query parameters that should not be persisted for a search
   def blacklisted_search_session_params
     [:commit, :counter, :total, :search_id, :page, :per_page]
   end
@@ -103,5 +99,4 @@ module Blacklight::SearchContext
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger.warn "Unable to setup next and previous documents: #{e}"
   end
-
 end

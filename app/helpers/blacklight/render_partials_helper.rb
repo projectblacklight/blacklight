@@ -102,10 +102,20 @@ module Blacklight::RenderPartialsHelper
     # @example
     #  type_field_to_partial_name(['a book-article'])
     #  => 'a_book_article'
-    def type_field_to_partial_name(document, display_type)
-      # using "_" as sep. to more closely follow the views file naming conventions
-      # parameterize uses "-" as the default sep. which throws errors
-      Array(display_type).join(" ").tr("-", "_").parameterize("_")
+    if Rails.version >= '5.0.0'
+      def type_field_to_partial_name(document, display_type)
+        # using "_" as sep. to more closely follow the views file naming conventions
+        # parameterize uses "-" as the default sep. which throws errors
+        underscore = '_'.freeze
+        Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(separator: underscore)
+      end
+    else
+      def type_field_to_partial_name(document, display_type)
+        # using "_" as sep. to more closely follow the views file naming conventions
+        # parameterize uses "-" as the default sep. which throws errors
+        underscore = '_'.freeze
+        Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(underscore)
+      end
     end
 
     ##

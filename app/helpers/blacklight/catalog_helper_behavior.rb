@@ -1,5 +1,13 @@
 module Blacklight::CatalogHelperBehavior
 
+  def rss_feed_link_tag
+    auto_discovery_link_tag(:rss, feed_link_url('rss'), title: t('blacklight.search.rss_feed'))
+  end
+
+  def atom_feed_link_tag
+    auto_discovery_link_tag(:atom, feed_link_url('atom'), title: t('blacklight.search.atom_feed'))
+  end
+
   ##
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
   # implementation.
@@ -257,10 +265,15 @@ module Blacklight::CatalogHelperBehavior
     end
 
     if params['f'].present?
-      constraints += params['f'].collect{ |key, value| render_search_to_page_title_filter(key, value) } unless params['f'].blank?
+      constraints += params['f'].to_unsafe_h.collect { |key, value| render_search_to_page_title_filter(key, value) }
     end
 
     constraints.join(' / ')
   end
 
+  private
+
+    def feed_link_url(format)
+      url_for search_state.to_h.merge(format: format)
+    end
 end
