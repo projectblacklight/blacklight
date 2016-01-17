@@ -107,6 +107,26 @@ describe Blacklight::Solr::SearchBuilderBehavior do
       expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq 21
     end
 
+    context 'with a negative facet limit' do
+      before do
+        blacklight_config.facet_fields['subject_topic_facet'].limit = -1
+      end
+
+      it 'is negative' do
+        expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq -1
+      end
+    end
+
+    context 'with a facet limit set to 0' do
+      before do
+        blacklight_config.facet_fields['subject_topic_facet'].limit = 0
+      end
+
+      it 'is negative' do
+        expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq 0
+      end
+    end
+
     it "should handle no facet_limits in config" do
       blacklight_config.facet_fields = {}
       expect(subject).not_to have_key(:"f.subject_topic_facet.facet.limit")

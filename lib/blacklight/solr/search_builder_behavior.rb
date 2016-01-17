@@ -129,10 +129,8 @@ module Blacklight::Solr
           end
         end
 
-        # Support facet paging and 'more'
-        # links, by sending a facet.limit one more than what we
-        # want to page at, according to configured facet limits.
-        solr_parameters[:"f.#{facet.field}.facet.limit"] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
+        limit = facet_limit_with_pagination(field_name)
+        solr_parameters[:"f.#{facet.field}.facet.limit"] = limit if limit
       end
     end
 
@@ -243,6 +241,22 @@ module Blacklight::Solr
         facet.limit == true ? blacklight_config.default_facet_limit : facet.limit
       end
     end
+
+    # Support facet paging and 'more'
+    # links, by sending a facet.limit one more than what we
+    # want to page at, according to configured facet limits.
+    def facet_limit_with_pagination(field_name)
+      limit = facet_limit_for(field_name)
+
+      return if limit.nil?
+
+      if limit > 0
+        limit + 1
+      else
+        limit
+      end
+    end
+
 
     ##
     # A helper method used for generating solr LocalParams, put quotes
