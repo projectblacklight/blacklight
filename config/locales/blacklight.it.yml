@@ -84,8 +84,6 @@ it:
     tools:
       title: 'Strumenti'
       citation: 'Cita'
-      endnote: 'Esporta in EndNote'
-      refworks: 'Esporta in Refworks'
       email: 'Invia per e-mail'
       sms: 'Invia per SMS'
       clear: 'Cancella'

@@ -84,8 +84,6 @@ de:
     tools:
       title: 'Werkzeuge'
       cite: 'Zitieren'
-      endnote: 'Export nach EndNote'
-      refworks: 'Export nach Refworks'
       email: 'Email'
       sms: 'SMS dieses'
       clear: 'Löschen'

@@ -83,11 +83,8 @@ pt-BR:
     tools:
       title: 'Ferramentas'
       citation: 'Citar'
-      endnote: 'Exportar para EndNote'
-      refworks: 'Exportar para Refworks'
       email: 'Email'
       sms: 'SMS'
-      librarian_view: 'Librarian View'
       clear: 'Limpar'
 
     citation:
@@ -197,9 +194,6 @@ pt-BR:
         remove:
           value: 'Remover filtro %{value}'
           label_value: 'Remover %{label}: %{value}'
-      librarian_view:
-        title: 'Librarian View'
-        leader: 'LEADER %{leader}'
       start_over: 'refazer busca'
       show:
         title: '%{document_title} - %{application_name}'
