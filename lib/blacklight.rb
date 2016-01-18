@@ -39,7 +39,8 @@ module Blacklight
     when /::/
       connection_config[:adapter].constantize
     else
-      Blacklight.const_get("#{connection_config[:adapter]}/Repository".classify)
+      raise "The value for :adapter was not found in the blacklight.yml config" unless connection_config.key? :adapter
+      Blacklight.const_get("#{connection_config.fetch(:adapter)}/Repository".classify)
     end
   end
 

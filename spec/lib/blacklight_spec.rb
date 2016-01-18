@@ -1,15 +1,12 @@
 require 'spec_helper'
 
 describe Blacklight do
-  
   context 'root' do
-
     let(:blroot) { File.expand_path(File.join(__FILE__, '..', '..', '..' )) }
 
     it 'should return the full path to the BL plugin' do
       expect(Blacklight.root).to eq blroot
     end
-
   end
 
   describe '.default_index' do
@@ -25,6 +22,16 @@ describe Blacklight do
   end
 
   describe '.repository_class' do
+    context 'when the adapter key is missing' do
+      before do
+        allow(Blacklight).to receive(:connection_config).and_return({})
+      end
+
+      it 'raises an error' do
+        expect { Blacklight.repository_class }.to raise_error RuntimeError, 'The value for :adapter was not found in the blacklight.yml config'
+      end
+    end
+
     context 'for a solr index' do
       before do
         allow(Blacklight).to receive(:connection_config).and_return(adapter: 'solr')
