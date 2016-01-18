@@ -6,8 +6,8 @@ describe CatalogController do
     describe "with format :html" do
       let(:user_query) { 'history' } # query that will get results
 
-      it "should have no search history if no search criteria" do
-        allow(controller).to receive(:get_search_results) 
+      it "has no search history if no search criteria" do
+        allow(controller).to receive(:search_results)
         session[:history] = []
         get :index
         expect(session[:history]).to be_empty
@@ -74,13 +74,13 @@ describe CatalogController do
 
       describe "session" do
         before do
-          allow(controller).to receive(:get_search_results) 
+          allow(controller).to receive(:search_results)
         end
-        it "should include search hash with key :q" do
+        it "includes search hash with key :q" do
           get :index, q: user_query
           expect(session[:search]).to_not be_nil
           expect(session[:search].keys).to include 'id'
-          
+
           search = Search.find(session[:search]['id'])
           expect(search.query_params['q']).to eq user_query
         end
@@ -98,8 +98,8 @@ describe CatalogController do
         end
       end
 
-      it "should render index.html.erb" do
-        allow(controller).to receive(:get_search_results)
+      it "renders index.html.erb" do
+        allow(controller).to receive(:search_results)
         get :index
         expect(response).to render_template(:index)
       end
@@ -162,7 +162,7 @@ describe CatalogController do
 
       before :each do
         allow(@controller).to receive_messages blacklight_config: blacklight_config
-        allow(@controller).to receive_messages get_search_results: [double, double]
+        allow(@controller).to receive_messages search_results: [double, double]
       end
 
       it "should not render when the config is false" do
@@ -524,7 +524,7 @@ describe CatalogController do
 
     it "should return status 500 if the catalog path is raising an exception" do
       fake_error = Blacklight::Exceptions::InvalidRequest.new
-      allow(controller).to receive(:get_search_results) { |*args| raise fake_error }
+      allow(controller).to receive(:search_results) { |*args| raise fake_error }
       allow(controller.flash).to receive(:sweep)
       allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
       expect { get :index, q: "+" }.to raise_error Blacklight::Exceptions::InvalidRequest
