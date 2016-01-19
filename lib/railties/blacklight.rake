@@ -73,10 +73,10 @@ namespace :blacklight do
         puts e.to_s
       end
 
-      print " - get_search_results: "
-  
+      print " - search_results: "
+
       begin
-        response, docs = controller.get_search_results({}, q: '{!lucene}*:*')
+        response, docs = controller.search_results(q: '{!lucene}*:*')
 
         if response.header['status'] == 0 and docs.length > 0
           puts "OK"
