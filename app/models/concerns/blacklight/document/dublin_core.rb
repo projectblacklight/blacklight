@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'builder'
 
 # This module provide Dublin Core export based on the document's semantic values

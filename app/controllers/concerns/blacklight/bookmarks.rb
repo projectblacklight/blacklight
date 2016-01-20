@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # note that while this is mostly restful routing, the #update and #destroy actions
 # take the Solr document ID as the :id, NOT the id of the actual Bookmark action.
 module Blacklight::Bookmarks

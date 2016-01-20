@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe 'catalog/_facet_index_navigation.html.erb', type: :view do

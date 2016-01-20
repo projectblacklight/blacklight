@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # spec/support/features/session_helpers.rb
 module Features
   module SessionHelpers

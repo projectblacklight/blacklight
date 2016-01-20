@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   extend Deprecation
 
@@ -91,7 +92,12 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
       when Array
         value.each { |v| force_to_utf8(v) }
       when String
-        value.force_encoding("utf-8")  if value.respond_to?(:force_encoding) 
+        if value.encoding != Encoding::UTF_8
+          Rails.logger.warn "Found a non utf-8 value in Blacklight::Solr::Response. \"#{value}\" Encoding is #{value.encoding}"
+          value.dup.force_encoding('UTF-8')
+        else
+          value
+        end
       end
       value
     end

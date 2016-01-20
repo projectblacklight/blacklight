@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # A mixin for making access to the spellcheck component data easy.
 #
 # response.spelling.words

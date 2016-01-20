@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Blacklight::Solr::Response::GroupResponse
 
   include Blacklight::Solr::Response::PaginationMethods

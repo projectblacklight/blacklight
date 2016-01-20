@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight
   ##
   # Blacklight::Configuration holds the configuration for a Blacklight::Controller, including

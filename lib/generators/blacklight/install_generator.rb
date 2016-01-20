@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight
   class Install < Rails::Generators::Base
     

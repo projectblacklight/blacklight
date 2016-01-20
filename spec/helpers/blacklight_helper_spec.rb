@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BlacklightHelper do
@@ -84,8 +85,8 @@ describe BlacklightHelper do
     end
 
     describe "render_nav_actions" do
-      it "should render partials" do
-        buff = ''
+      it "renders partials" do
+        buff = String.new
         helper.render_nav_actions { |config, item| buff << "<foo>#{item}</foo>" }
         expect(buff).to have_selector "foo a#bookmarks_nav[href=\"/bookmarks\"]"
         expect(buff).to have_selector "foo a span[data-role='bookmark-counter']", text: '0'

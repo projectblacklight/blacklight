@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Filters added to this controller apply to all controllers in the hosting application
 # as this module is mixed-in to the application controller in the hosting app on installation.
 module Blacklight::Controller

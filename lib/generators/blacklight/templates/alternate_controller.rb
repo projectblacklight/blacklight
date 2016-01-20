@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AlternateController < CatalogController  
   configure_blacklight do |config|
     config.index.thumbnail_method = :xyz

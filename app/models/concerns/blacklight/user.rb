@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight::User
   # This gives us an is_blacklight_user method that can be included in
   # the containing applications models. 

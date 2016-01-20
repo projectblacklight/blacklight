@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Transformation conventions
 # The main use case for extensions is for transforming a Document to another
 # format. Either to another type of Ruby object, or to an exportable string in

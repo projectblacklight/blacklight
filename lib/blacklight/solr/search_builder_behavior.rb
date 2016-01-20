@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight::Solr
   module SearchBuilderBehavior
     extend ActiveSupport::Concern
