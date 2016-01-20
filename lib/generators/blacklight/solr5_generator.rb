@@ -9,8 +9,8 @@ module Blacklight
     EOF
 
     def install_solrwrapper
-      gem 'solr_wrapper', '>= 0.3' 
-   
+      gem 'solr_wrapper', '>= 0.3'
+
       append_to_file "Rakefile", "\nrequire 'solr_wrapper/rake_task'\n"
     end
 

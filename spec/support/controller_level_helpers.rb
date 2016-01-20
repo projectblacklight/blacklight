@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ControllerLevelHelpers
   module ControllerViewHelpers
     include Blacklight::Facet

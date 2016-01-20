@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight
   module Solr
     autoload :Repository, 'blacklight/solr/repository'

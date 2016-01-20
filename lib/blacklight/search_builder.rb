@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight
   ##
   # Blacklight's SearchBuilder converts blacklight request parameters into

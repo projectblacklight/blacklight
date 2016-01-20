@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight
   class DocumentPresenter
     include ActionView::Helpers::OutputSafetyHelper
@@ -81,7 +82,7 @@ module Blacklight
     # @param [Blacklight::Solr::Configuration::Field] solr field configuration
     # @return [String]
     def render_field_value value=nil, field_config=nil
-      safe_values = Array(value).collect { |x| x.respond_to?(:force_encoding) ? x.force_encoding("UTF-8") : x }
+      safe_values = recode_values(Array(value))
 
       if field_config and field_config.itemprop
         safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
@@ -216,5 +217,20 @@ module Blacklight
     def html_escape(*args)
       ERB::Util.html_escape(*args)
     end
+
+    private
+
+      # @param [Array<String,Fixnum>] values
+      # @return [Array] an array with all strings converted to UTF-8
+      def recode_values(values)
+        values.collect do |value|
+          if value.respond_to?(:encoding) && value.encoding != Encoding::UTF_8
+            Rails.logger.warn "Found a non utf-8 value in Blacklight::DocumentPresenter. \"#{value}\" Encoding is #{value.encoding}"
+            value.dup.force_encoding('UTF-8')
+          else
+            value
+          end
+        end
+      end
   end
 end

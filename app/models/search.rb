@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Search < ActiveRecord::Base
 
   belongs_to_arguments = { optional: true } if Rails.version >= '5.0.0'

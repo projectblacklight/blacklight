@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight
   class Configuration::SortField < Blacklight::Configuration::Field
     def normalize! blacklight_config = nil

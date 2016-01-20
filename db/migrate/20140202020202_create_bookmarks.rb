@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateBookmarks < ActiveRecord::Migration
   def self.up
     create_table :bookmarks do |t|

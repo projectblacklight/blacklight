@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Blacklight
   # These are methods that are used at both the view helper and controller layers
   # They are only dependent on `blacklight_config` and `@response`

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This module provides the body of an email export based on the document's semantic values
 module Blacklight::Document::Sms
 

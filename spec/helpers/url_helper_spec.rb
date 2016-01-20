@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BlacklightUrlHelper do
@@ -194,86 +195,71 @@ describe BlacklightUrlHelper do
   end
 
   describe "link_to_document" do
-    it "should consist of the document title wrapped in a <a>" do
-      data = {'id'=>'123456','title_display'=>['654321'] }
-      @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, :title_display)).to have_selector("a", :text => '654321', :count => 1)
+    let(:title_display) { '654321' }
+    let(:id) { '123456' }
+    let(:data) { { 'id' => id, 'title_display' => [title_display] } }
+    let(:document) { SolrDocument.new(data) }
+
+    it "consists of the document title wrapped in a <a>" do
+      expect(helper.link_to_document(document, :title_display)).to have_selector("a", :text => '654321', :count => 1)
     end
 
-    it "should accept and return a string label" do
-      data = {'id'=>'123456','title_display'=>['654321'] }
-      @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, "title_display")).to have_selector("a", :text => 'title_display', :count => 1)
+    it "accepts and returns a string label" do
+      expect(helper.link_to_document(document, String.new('title_display'))).to have_selector("a", :text => 'title_display', :count => 1)
     end
 
-    it "should accept and return a Proc" do
-      data = {'id'=>'123456','title_display'=>['654321'] }
-      @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, Proc.new { |doc, opts| doc[:id] + ": " + doc.first(:title_display) })).to have_selector("a", :text => '123456: 654321', :count => 1)
+    it "accepts and returns a Proc" do
+      expect(helper.link_to_document(document, Proc.new { |doc, opts| doc[:id] + ": " + doc.first(:title_display) })).to have_selector("a", :text => '123456: 654321', :count => 1)
     end
 
-    it "should return id when label is missing" do
-      data = {'id'=>'123456'}
-      @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, :title_display)).to have_selector("a", :text => '123456', :count => 1)
+    context 'when label is missing' do
+      let(:data) { { 'id' => id } }
+      it "returns id" do
+        expect(helper.link_to_document(document, :title_display)).to have_selector("a", :text => '123456', :count => 1)
+      end
+
+      it "is html safe" do
+        expect(helper.link_to_document(document, :title_display)).to be_html_safe
+      end
+
+      it "passes on the title attribute to the link_to_with_data method" do
+        expect(helper.link_to_document(document, "Some crazy long label...", title: "Some crazy longer label")).to match(/title=\"Some crazy longer label\"/)
+      end
+
+      it "doesn't add an erroneous title attribute if one isn't provided" do
+        expect(helper.link_to_document(document, "Some crazy long label...")).to_not match(/title=/)
+      end
+
+      context "with an integer id" do
+        let(:id) { 123456 }
+        it "works" do
+          expect(helper.link_to_document(document)).to have_selector("a")
+        end
+      end
     end
 
-    it "should be html safe" do
-      data = {'id'=>'123456'}
-      @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document, :title_display)).to be_html_safe
-    end
-
-    it "should convert the counter parameter into a data- attribute" do
-      data = {'id'=>'123456','title_display'=>['654321']}
-      @document = SolrDocument.new(data)
-
+    it "converts the counter parameter into a data- attribute" do
       allow(helper).to receive(:track_test_path).with(hash_including(id: '123456', counter: 5)).and_return('tracking url')
 
-      expect(helper.link_to_document(@document, :title_display, counter: 5)).to include 'data-context-href="tracking url"'
+      expect(helper.link_to_document(document, :title_display, counter: 5)).to include 'data-context-href="tracking url"'
     end
 
     it "includes the data- attributes from the options" do
-      data = {'id'=>'123456','title_display'=>['654321']}
-      @document = SolrDocument.new(data)
-      link = helper.link_to_document @document, { data: { x: 1 }  }
+      link = helper.link_to_document document, { data: { x: 1 }  }
       expect(link).to have_selector '[data-x]'
     end
 
     it 'adds a controller-specific tracking attribute' do
-      data = { 'id'=>'123456', 'title_display'=>['654321'] }
-      @document = SolrDocument.new(data)
-
       expect(helper).to receive(:track_test_path).and_return('/asdf')
-      link = helper.link_to_document @document, { data: { x: 1 }  }
+      link = helper.link_to_document document, { data: { x: 1 }  }
 
       expect(link).to have_selector '[data-context-href="/asdf"]'
     end
 
     it 'adds a global tracking attribute' do
-      data = { 'id'=>'123456', 'title_display'=>['654321'] }
-      @document = SolrDocument.new(data)
-
-      link = helper.link_to_document @document, { data: { x: 1 }  }
+      link = helper.link_to_document document, { data: { x: 1 }  }
       expect(link).to have_selector '[data-context-href="/catalog/123456/track"]'
     end
-
-    it "passes on the title attribute to the link_to_with_data method" do
-      @document = SolrDocument.new('id'=>'123456')
-      expect(helper.link_to_document(@document, "Some crazy long label...", title: "Some crazy longer label")).to match(/title=\"Some crazy longer label\"/)
-    end
-
-    it "doesn't add an erroneous title attribute if one isn't provided" do
-      @document = SolrDocument.new('id'=>'123456')
-      expect(helper.link_to_document(@document, "Some crazy long label...")).to_not match(/title=/)
-    end
-
-    it "should  work with integer ids" do
-      data = {'id'=> 123456 }
-      @document = SolrDocument.new(data)
-      expect(helper.link_to_document(@document)).to have_selector("a")
-    end
-
   end
 
   describe "link_to_previous_search" do
