@@ -62,13 +62,40 @@ module Blacklight
     default_index.connection
   end
 
+  ##
+  # The default index connection for the search index
   def self.default_index
-    @default_index ||= Blacklight::Solr::Repository.new(Blacklight::Configuration.new)
+    @default_index ||= repository_class.new(default_configuration)
   end
 
   def self.solr_config
     Deprecation.warn Blacklight, "Blacklight.solr_config is deprecated and will be removed in 6.0.0. Use Blacklight.connection_config instead", caller
     connection_config
+  end
+
+  ##
+  # The configured repository class. By convention, this is
+  # the class Blacklight::{name of the adapter}::Repository, e.g.
+  #   elastic_search => Blacklight::ElasticSearch::Repository
+  def self.repository_class
+    case connection_config[:adapter]
+    when 'solr'
+      Blacklight::Solr::Repository
+    when /::/
+      connection_config[:adapter].constantize
+    when nil, ''
+      Rails.logger.warn "The value for :adapter was not found in the blacklight.yml config, and will be required in Blacklight 6.0.0"
+
+      Blacklight::Solr::Repository
+    else
+      "Blacklight/#{connection_config.fetch(:adapter)}/Repository".classify.constantize
+    end
+  end
+
+  ##
+  # The default Blacklight configuration.
+  def self.default_configuration
+    Blacklight::Configuration.new
   end
 
   def self.connection_config
