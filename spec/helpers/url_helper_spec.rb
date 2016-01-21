@@ -129,6 +129,13 @@ describe BlacklightUrlHelper do
     end
   end
 
+  describe "link_to_previous_document" do
+    context "when the argument is nil" do
+      subject { helper.link_to_previous_document(nil) }
+      it { is_expected.to eq '<span class="previous">&laquo; Previous</span>' }
+    end
+  end
+
   describe "link_to_query" do
     it "should build a link tag to catalog using query string (no other params)" do
       query = "brilliant"
