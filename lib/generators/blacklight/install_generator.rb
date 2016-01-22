@@ -98,7 +98,8 @@ EOF
 
     def generate_blacklight_marc_demo
       if options[:marc]
-        gem "blacklight-marc", "~> 5.0"
+        blacklight_marc = String.new('blacklight-marc')
+        gem blacklight_marc, '~> 6.0'
 
         Bundler.with_clean_env do
           run "bundle install"
