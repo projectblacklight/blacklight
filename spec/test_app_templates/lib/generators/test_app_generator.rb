@@ -23,7 +23,7 @@ class TestAppGenerator < Rails::Generators::Base
       run "bundle install"
     end
 
-    generate 'blacklight:install', '--devise --jettywrapper'
+    generate 'blacklight:install', '--devise --marc --jettywrapper'
   end
 
   def run_test_support_generator
