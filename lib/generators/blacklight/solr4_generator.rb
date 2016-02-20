@@ -11,7 +11,7 @@ This generator makes the following changes to your application:
 
     def install_jettywrapper
       return unless options[:jettywrapper]
-      gem "jettywrapper", ">= 2.0"
+      gem "jettywrapper".dup, ">= 2.0"
 
       copy_file "config/jetty.yml"
 
@@ -21,7 +21,7 @@ This generator makes the following changes to your application:
     end
 
     def add_rsolr_gem
-      gem "rsolr", "~> 1.0.6"
+      gem "rsolr".dup, "~> 1.0.6"
     end
 
   end
