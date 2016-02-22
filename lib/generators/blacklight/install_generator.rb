@@ -28,7 +28,9 @@ module Blacklight
          """
 
     def add_solr_wrapper
-      if solr_version == 'latest'
+      if options[:jettywrapper]
+        generate 'blacklight:solr4'
+      elsif solr_version == 'latest'
         generate 'blacklight:solr5'
       else
         generate "blacklight:solr#{solr_version}"
