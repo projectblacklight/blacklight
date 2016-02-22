@@ -34,11 +34,9 @@ rails generate blacklight:install
 
 ## Dependencies
 
-* ruby v2.0 or higher
-* git
-* access to a command prompt on the machine to install
-
-In addition, you must have the Bundler and Rails 4.1 (or greater) gems installed. Other gem dependencies are defined in the blacklight.gemspec file and will be automatically loaded by Bundler.
+* Ruby 2.1+
+* Bundler
+* Rails 4.2+
 
 ## Configuring Apache Solr 
 You'll also want some information about how Blacklight expects [Apache Solr](http://lucene.apache.org/solr ) to run, which you can find in [README_SOLR](https://github.com/projectblacklight/blacklight/wiki/README_SOLR)
