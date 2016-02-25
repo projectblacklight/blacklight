@@ -21,6 +21,9 @@ module Blacklight::SearchContext
   # sets up the session[:search] hash if it doesn't already exist
   def search_session
     session[:search] ||= {}
+    # Need to call the getter again. The value is mutated
+    # https://github.com/rails/rails/issues/23884
+    session[:search]
   end
 
   # The current search session
