@@ -18,7 +18,7 @@ module Blacklight
     # Add Blacklight to the application controller
     def inject_blacklight_controller_behavior
       inject_into_class "app/controllers/application_controller.rb", "ApplicationController" do
-        "  # Adds a few additional behaviors into the application controller \n" +
+        "  # Adds a few additional behaviors into the application controller\n" +
         "  include Blacklight::Controller\n" +
         "  layout 'blacklight'\n\n"
       end
@@ -30,12 +30,12 @@ module Blacklight
     end
 
     def inject_blacklight_routes
-      route <<-EOF.strip_heredoc
-        concern :searchable, Blacklight::Routes::Searchable.new
+      route <<-EOF
+  concern :searchable, Blacklight::Routes::Searchable.new
 
-        resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
-          concerns :searchable
-        end
+  resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
+    concerns :searchable
+  end
       EOF
     end
   end

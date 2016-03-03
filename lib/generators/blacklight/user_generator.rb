@@ -51,11 +51,11 @@ This generator makes the following changes to your application:
       file_path = "app/models/#{model_name.underscore}.rb"
       if File.exists?(file_path)
         inject_into_class file_path, model_name.classify do
-          "\n  if Blacklight::Utils.needs_attr_accessible?\n" +
+          "\n  if Blacklight::Utils.needs_attr_accessible?" +
           "\n    attr_accessible :email, :password, :password_confirmation" +
-          "\n  end\n" +
-            "# Connects this user object to Blacklights Bookmarks. " +
-            "\n  include Blacklight::User\n"
+          "\n  end" +
+          "\n  # Connects this user object to Blacklights Bookmarks." +
+          "\n  include Blacklight::User\n"
         end
       else
         say_status("warning", "Blacklight authenticated user functionality not installed, as a user model could not be found at /app/models/user.rb. If you used a different name, please re-run the migration and provide that name as an argument. Such as `rails -g blacklight:user client`", :yellow)
