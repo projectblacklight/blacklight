@@ -25,20 +25,21 @@ This generator makes the following changes to your application:
     end
 
     def add_routes
-      route <<-EOF.strip_heredoc
-        concern :exportable, Blacklight::Routes::Exportable.new
+      route <<-EOF
 
-        resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
-          concerns :exportable
-        end
+  concern :exportable, Blacklight::Routes::Exportable.new
 
-        resources :bookmarks do
-          concerns :exportable
+  resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
+    concerns :exportable
+  end
 
-          collection do
-            delete 'clear'
-          end
-        end
+  resources :bookmarks do
+    concerns :exportable
+
+    collection do
+      delete 'clear'
+    end
+  end
       EOF
     end
 
