@@ -21,7 +21,7 @@ This generator makes the following changes to your application:
     end
 
     def add_rsolr_gem
-      gem "rsolr".dup, "~> 1.0.6"
+      gem "rsolr".dup, "~> 1.0"
     end
 
   end
