@@ -97,7 +97,7 @@ module Blacklight::Document
     if key? key
       self[key]
     elsif default.empty? and !block_given?
-      raise KeyError.new("key not found \"#{key}\"")
+      raise KeyError, "key not found \"#{key}\""
     else
       (yield(self) if block_given?) || default.first
     end

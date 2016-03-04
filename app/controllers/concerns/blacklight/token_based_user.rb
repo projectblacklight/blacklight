@@ -29,7 +29,7 @@ module Blacklight::TokenBasedUser
     user_id, timestamp = message_encryptor.decrypt_and_verify(encrypted_user_id)
 
     if timestamp < 1.hour.ago
-      raise Blacklight::Exceptions::ExpiredSessionToken.new
+      raise Blacklight::Exceptions::ExpiredSessionToken
     end
 
     user_id

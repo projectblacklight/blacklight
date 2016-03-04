@@ -14,7 +14,7 @@ module Blacklight
         Deprecation.warn(Blacklight::DeprecatedUrlHelperBehavior, 'Use Blacklight::SearchState.new(source_params).params_for_search instead')
         Blacklight::SearchState.new(args.first, blacklight_config).params_for_search(args.last)
       else
-        raise ArgumentError.new "wrong number of arguments (#{args.length} for 0..2)"
+        raise ArgumentError, "wrong number of arguments (#{args.length} for 0..2)"
       end
     end
     deprecation_deprecate :params_for_search

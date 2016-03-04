@@ -141,7 +141,7 @@ module Blacklight::Catalog
         format.send key do
           case config
           when false
-            raise ActionController::RoutingError.new('Not Found')
+            raise ActionController::RoutingError, 'Not Found'
           when Hash
             render config
           when Proc
@@ -173,7 +173,7 @@ module Blacklight::Catalog
         if @response.export_formats.include? format_name
           render_document_export_format format_name
         else
-          raise ActionController::UnknownFormat.new
+          raise ActionController::UnknownFormat
         end
       end
     end
@@ -192,7 +192,7 @@ module Blacklight::Catalog
     # By default, any search action from a Blacklight::Catalog controller
     # should use the current controller when constructing the route.
     def search_action_url options = {}
-      raise "Options was not a hash (#{options.class}" unless options.is_a? Hash
+      raise ArgumentError, "Options was not a hash (#{options.class}" unless options.is_a? Hash
       # We don't want to permit here because one of the options could be :only_path, which is an option, but not a parameter
       # options.permit!
       url_for(options.merge(action: 'index'))

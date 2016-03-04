@@ -12,7 +12,7 @@ module Blacklight
     end
 
     def validate!
-      raise ArgumentError.new("Must supply a sort string") if self.sort.nil?
+      raise ArgumentError.new, "Must supply a sort string" if self.sort.nil?
     end
   end
 end

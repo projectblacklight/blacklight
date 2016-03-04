@@ -125,7 +125,7 @@ module Blacklight::Controller
     end           
 
     def require_user_authentication_provider
-      raise ActionController::RoutingError.new('Not Found') unless has_user_authentication_provider?
+      raise ActionController::RoutingError, 'Not Found' unless has_user_authentication_provider?
     end
 
     ##
