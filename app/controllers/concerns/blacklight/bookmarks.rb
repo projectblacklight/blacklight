@@ -34,7 +34,7 @@ module Blacklight::Bookmarks
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
   def search_action_url *args
-    search_catalog_url *args
+    search_catalog_url(*args)
   end
 
   def index
@@ -70,11 +70,11 @@ module Blacklight::Bookmarks
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler.
   def create
-    if params[:bookmarks]
-      @bookmarks = params[:bookmarks]
-    else
-      @bookmarks = [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
-    end
+    @bookmarks = if params[:bookmarks]
+                   params[:bookmarks]
+                 else
+                   [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
+                 end
 
     current_or_guest_user.save! unless current_or_guest_user.persisted?
 
@@ -85,9 +85,9 @@ module Blacklight::Bookmarks
     if request.xhr?
       success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
     else
-      if @bookmarks.length > 0 && success
+      if @bookmarks.any? && success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
-      elsif @bookmarks.length > 0
+      elsif @bookmarks.any?
         flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
       end
 

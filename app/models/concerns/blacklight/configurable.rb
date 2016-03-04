@@ -23,15 +23,11 @@ module Blacklight::Configurable
     # object' that won't be automatically available to subclasses, that's why
     # we lazy load to 'inherit' how we want. 
     def blacklight_config
-      unless (defined? @blacklight_config)
-        if superclass.respond_to?(:blacklight_config)
-          @blacklight_config = superclass.blacklight_config.deep_copy
-        else
-          @blacklight_config = default_configuration
-        end
+      @blacklight_config ||= if superclass.respond_to?(:blacklight_config)
+        superclass.blacklight_config.deep_copy
+      else
+        default_configuration
       end
-      
-      return @blacklight_config
     end
     attr_writer :blacklight_config
     

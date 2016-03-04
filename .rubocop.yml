@@ -1,16 +1,16 @@
 inherit_from:
-  - .rubocop_hound.yml
   - .rubocop_todo.yml
 
 AllCops:
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "spec/**/*"
-  RunRailsCops: true
+
+Rails:
+  Enabled: true
 
 Metrics/LineLength:
-  Enabled: false
+  Max: 200
 
-# Offense count: 61
-Metrics/AbcSize:
-  Max: 59
+Style/StringLiterals:
+  Enabled: false

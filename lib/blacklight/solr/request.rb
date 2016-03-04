@@ -3,8 +3,8 @@ class Blacklight::Solr::InvalidParameter < ArgumentError; end
 
 class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess
 
-  SINGULAR_KEYS = %w{facet fl q qt rows start spellcheck spellcheck.q sort per_page wt hl group defType}
-  ARRAY_KEYS = %w{facet.field facet.query facet.pivot fq hl.fl}
+  SINGULAR_KEYS = %w(facet fl q qt rows start spellcheck spellcheck.q sort per_page wt hl group defType)
+  ARRAY_KEYS = %w(facet.field facet.query facet.pivot fq hl.fl)
 
   def initialize(constructor = {})
     if constructor.is_a?(Hash)

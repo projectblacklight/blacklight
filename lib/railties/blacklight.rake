@@ -15,7 +15,7 @@ namespace :blacklight do
     task :seed => [:environment]  do
       require 'yaml'
 
-      docs = YAML::load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
+      docs = YAML.load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
       conn = Blacklight.default_index.connection
       conn.add docs
       conn.commit
@@ -78,7 +78,7 @@ namespace :blacklight do
       begin
         response, docs = controller.search_results(q: '{!lucene}*:*')
 
-        if response.header['status'] == 0 and docs.length > 0
+        if response.header['status'] == 0 and docs.any?
           puts "OK"
         else
           errors += 1

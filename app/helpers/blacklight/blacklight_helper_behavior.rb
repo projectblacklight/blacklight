@@ -111,7 +111,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def should_show_spellcheck_suggestions? response
-    response.total <= spell_check_max and response.spelling.words.size > 0
+    response.total <= spell_check_max and response.spelling.words.any?
   end
 
   ##
@@ -256,7 +256,7 @@ module Blacklight::BlacklightHelperBehavior
     options = args.extract_options!
     document = args.first
     tag = options.fetch(:tag, :h4)
-    document = document || @document
+    document ||= @document
 
     content_tag(tag, presenter(document).document_heading, itemprop: "name")
   end
@@ -307,7 +307,7 @@ module Blacklight::BlacklightHelperBehavior
   def with_format(format, &block)
     old_formats = formats
     self.formats = [format]
-    block.call
+    yield
     self.formats = old_formats
     nil
   end

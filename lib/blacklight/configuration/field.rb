@@ -14,7 +14,7 @@ module Blacklight
     end
   
     def validate!
-      raise ArgumentError.new("Must supply a field name") if self.field.nil?
+      raise ArgumentError, "Must supply a field name" if self.field.nil?
     end
 
     def default_label

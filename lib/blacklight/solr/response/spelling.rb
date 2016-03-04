@@ -11,7 +11,7 @@ module Blacklight::Solr::Response::Spelling
 
   class Base
 
-    attr :response
+    attr_reader :response
 
     def initialize(response)
       @response = response

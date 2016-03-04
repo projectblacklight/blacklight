@@ -85,11 +85,11 @@ module Blacklight
       end
 
       lazy_configs.each do |k,v|
-        if v.is_a? nested_class
-          hash[k] = v
-        else
-          hash[k] = nested_class.new v
-        end
+        hash[k] = if v.is_a? nested_class
+                    v
+                  else
+                    nested_class.new v
+                  end
       end
 
       super hash

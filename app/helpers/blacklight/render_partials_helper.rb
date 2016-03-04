@@ -87,7 +87,11 @@ module Blacklight::RenderPartialsHelper
     # first, the legacy template names for backwards compatbility
     # followed by the new, inheritable style
     # finally, a controller-specific path for non-catalog subclasses
-    @document_index_path_templates ||= ["document_%{index_view_type}", "catalog/document_%{index_view_type}", "catalog/document_list"]
+    @document_index_path_templates ||= [
+      "document_%{index_view_type}",
+      "catalog/document_%{index_view_type}",
+      "catalog/document_list"
+    ]
   end
 
 
@@ -128,7 +132,7 @@ module Blacklight::RenderPartialsHelper
     def document_partial_name(document, base_name = nil)
       view_config = blacklight_config.view_config(:show)
 
-      display_type = if base_name and view_config.has_key? :"#{base_name}_display_type_field"
+      display_type = if base_name and view_config.key? :"#{base_name}_display_type_field"
         document[view_config[:"#{base_name}_display_type_field"]]
       end
 
@@ -152,7 +156,15 @@ module Blacklight::RenderPartialsHelper
       # first, the legacy template names for backwards compatbility
       # followed by the new, inheritable style
       # finally, a controller-specific path for non-catalog subclasses
-      @partial_path_templates ||= ["%{action_name}_%{index_view_type}_%{format}", "%{action_name}_%{index_view_type}_default", "%{action_name}_%{format}", "%{action_name}_default", "catalog/%{action_name}_%{format}", "catalog/_%{action_name}_partials/%{format}", "catalog/_%{action_name}_partials/default"]
+      @partial_path_templates ||= [
+        "%{action_name}_%{index_view_type}_%{format}",
+        "%{action_name}_%{index_view_type}_default",
+        "%{action_name}_%{format}",
+        "%{action_name}_default",
+        "catalog/%{action_name}_%{format}",
+        "catalog/_%{action_name}_partials/%{format}",
+        "catalog/_%{action_name}_partials/default"
+      ]
     end
 
   private

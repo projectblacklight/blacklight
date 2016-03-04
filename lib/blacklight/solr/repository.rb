@@ -12,7 +12,7 @@ module Blacklight::Solr
                          .merge(blacklight_config.document_unique_id_param => id)
 
       solr_response = send_and_receive blacklight_config.document_solr_path || blacklight_config.solr_path, doc_params
-      raise Blacklight::Exceptions::RecordNotFound.new if solr_response.documents.empty?
+      raise Blacklight::Exceptions::RecordNotFound if solr_response.documents.empty?
       solr_response
     end
 
@@ -45,9 +45,9 @@ module Blacklight::Solr
         solr_response
       end
     rescue Errno::ECONNREFUSED => e
-      raise Blacklight::Exceptions::ECONNREFUSED.new("Unable to connect to Solr instance using #{connection.inspect}: #{e.inspect}")
+      raise Blacklight::Exceptions::ECONNREFUSED, "Unable to connect to Solr instance using #{connection.inspect}: #{e.inspect}"
     rescue RSolr::Error::Http => e
-      raise Blacklight::Exceptions::InvalidRequest.new(e.message)
+      raise Blacklight::Exceptions::InvalidRequest, e.message
     end
 
     protected

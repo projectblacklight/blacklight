@@ -86,18 +86,18 @@ module Blacklight::Document
       end
     end
   end
-  alias_method :has_field?, :has?
+  alias has_field? has?
 
   def key? k
     _source.key? k
   end
-  alias_method :has_key?, :key?
+  alias has_key? key?
 
   def fetch key, *default
     if key? key
       self[key]
     elsif default.empty? and !block_given?
-      raise KeyError.new("key not found \"#{key}\"")
+      raise KeyError, "key not found \"#{key}\""
     else
       (yield(self) if block_given?) || default.first
     end

@@ -63,7 +63,7 @@ module Blacklight
     require 'yaml'
 
     return @blacklight_yml if @blacklight_yml
-    unless File.exists?(blacklight_config_file)
+    unless File.exist?(blacklight_config_file)
       raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?"
     end
 
@@ -74,7 +74,7 @@ module Blacklight
     end
 
     begin
-      @blacklight_yml = YAML::load(blacklight_erb)
+      @blacklight_yml = YAML.load(blacklight_erb)
     rescue => e
       raise("#{blacklight_config_file} was found, but could not be parsed.\n#{e.inspect}")
     end

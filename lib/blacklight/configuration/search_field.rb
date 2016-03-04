@@ -11,7 +11,7 @@ module Blacklight
     end
 
     def validate!
-      raise ArgumentError.new("Must supply a search field key") if self.key.nil?
+      raise ArgumentError, "Must supply a search field key" if self.key.nil?
     end
   end
 end

@@ -6,20 +6,18 @@ module Blacklight
     
     argument     :controller_name  , type: :string , default: "catalog"
 
-    desc """
-  This generator makes the following changes to your application:
-   1. Injects behavior into your user application_controller.rb
-   2. Creates a Blacklight::Catalog-based controller
-   3. Adds routes for your controller
-
-  Thank you for Installing Blacklight.
-         """
+    desc <<-EOS
+      This generator makes the following changes to your application:
+       1. Injects behavior into your user application_controller.rb
+       2. Creates a Blacklight::Catalog-based controller
+       3. Adds routes for your controller
+    EOS
 
     # Add Blacklight to the application controller
     def inject_blacklight_controller_behavior
       inject_into_class "app/controllers/application_controller.rb", "ApplicationController" do
-        "  # Adds a few additional behaviors into the application controller\n" +
-        "  include Blacklight::Controller\n" +
+        "  # Adds a few additional behaviors into the application controller\n" \
+        "  include Blacklight::Controller\n" \
         "  layout 'blacklight'\n\n"
       end
     end

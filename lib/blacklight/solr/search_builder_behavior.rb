@@ -52,8 +52,8 @@ module Blacklight::Solr
       # solr LocalParams in config, using solr LocalParams syntax.
       # http://wiki.apache.org/solr/LocalParams
       ##
-      if (search_field && hash = search_field.solr_local_parameters)
-        local_params = hash.collect do |key, val|
+      if search_field && search_field.solr_local_parameters.present?
+        local_params = search_field.solr_local_parameters.map do |key, val|
           key.to_s + "=" + solr_param_quote(val, :quote => "'")
         end.join(" ")
         solr_parameters[:q] = "{!#{local_params}}#{blacklight_params[:q]}"
@@ -91,7 +91,7 @@ module Blacklight::Solr
       end
 
       # :fq, map from :f.
-      if ( blacklight_params[:f])
+      if blacklight_params[:f]
         f_request_params = blacklight_params[:f]
 
         f_request_params.each_pair do |facet_field, value_list|
@@ -202,7 +202,7 @@ module Blacklight::Solr
               end
 
       page = blacklight_params.fetch(request_keys[:page], 1).to_i
-      offset = (page - 1) * (limit)
+      offset = (page - 1) * limit
 
       sort = blacklight_params[request_keys[:sort]]
       prefix = blacklight_params[request_keys[:prefix]]
@@ -281,7 +281,7 @@ module Blacklight::Solr
     def facet_value_to_fq_string(facet_field, value)
       facet_config = blacklight_config.facet_fields[facet_field]
 
-      solr_field = facet_config.field if facet_config and not facet_config.query
+      solr_field = facet_config.field if facet_config and !facet_config.query
       solr_field ||= facet_field
 
       local_params = []
@@ -307,9 +307,9 @@ module Blacklight::Solr
     def convert_to_term_value(value)
       case
       when (value.is_a?(DateTime) or value.is_a?(Time))
-        "#{value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")}"
+        value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
       when value.is_a?(Date)
-        "#{value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")}"
+        value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")
       else
         value.to_s
       end

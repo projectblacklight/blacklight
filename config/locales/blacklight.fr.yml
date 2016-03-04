@@ -102,6 +102,7 @@ fr:
         message: 'Message :'
         submit: 'Envoyer'
       text:
+        default_title: 'N/A'
         title: 'Titre : %{value}'
         author: 'Auteur : %{value}'
         format: 'Format : %{value}'
