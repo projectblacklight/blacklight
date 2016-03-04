@@ -1,5 +1,3 @@
-ZIP_URL = "https://github.com/projectblacklight/blacklight-jetty/archive/v4.10.4.zip"
-
 require 'solr_wrapper'
 require 'engine_cart/rake_task'
 
