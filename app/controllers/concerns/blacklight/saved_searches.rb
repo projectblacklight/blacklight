@@ -32,11 +32,13 @@ module Blacklight
     # Only dereferences the user rather than removing the item in case it
     # is in the session[:history]
     def forget
-      if search = current_user.searches.find(params[:id])
+      search = current_user.searches.find(params[:id])
+
+      if search.present?
         search.user_id = nil
         search.save
 
-        flash[:notice] =I18n.t('blacklight.saved_searches.remove.success')
+        flash[:notice] = I18n.t('blacklight.saved_searches.remove.success')
       else
         flash[:error] = I18n.t('blacklight.saved_searches.remove.failure')
       end

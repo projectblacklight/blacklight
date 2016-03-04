@@ -14,18 +14,18 @@ module Blacklight
     class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
     class_option :marc        , type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo ."
 
-    desc """
-  This generator makes the following changes to your application:
-   1. Generates blacklight:models
-   2. Generates utilities for working with solr 
-   3. Adds globalid to the Gemfile
-   4. Creates a number of public assets, including images, stylesheets, and javascript
-   5. Injects behavior into your user application_controller.rb
-   6. Adds example configurations for dealing with MARC-like data
-   7. Adds Blacklight routes to your ./config/routes.rb
+    desc <<-EOS
+      This generator makes the following changes to your application:
+       1. Generates blacklight:models
+       2. Generates utilities for working with solr 
+       3. Adds globalid to the Gemfile
+       4. Creates a number of public assets, including images, stylesheets, and javascript
+       5. Injects behavior into your user application_controller.rb
+       6. Adds example configurations for dealing with MARC-like data
+       7. Adds Blacklight routes to your ./config/routes.rb
 
-  Thank you for Installing Blacklight.
-         """
+      Thank you for Installing Blacklight.
+    EOS
 
     def add_solr_wrapper
       if options[:jettywrapper]

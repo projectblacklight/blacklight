@@ -74,7 +74,7 @@ module Blacklight
       # Delete any request params from facet-specific action, needed
       # to redir to index action properly.
       request_keys = blacklight_config.facet_paginator_class.request_keys
-      new_params.extract! *request_keys.values
+      new_params.extract!(*request_keys.values)
 
       new_params
     end

@@ -145,7 +145,7 @@ module Blacklight::Catalog
           when Hash
             render config
           when Proc
-            instance_exec &config
+            instance_exec(&config)
           when Symbol, String
             send config
           else

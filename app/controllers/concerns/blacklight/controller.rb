@@ -81,7 +81,7 @@ module Blacklight::Controller
         args.first[:only_path] = true
       end
 
-      search_action_url *args
+      search_action_url(*args)
     end
 
     def search_facet_url options = {}

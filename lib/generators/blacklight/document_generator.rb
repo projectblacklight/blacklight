@@ -9,10 +9,11 @@ module Blacklight
 
     argument     :model_name, :type => :string , :default => "solr_document"
 
-    desc """
-This generator makes the following changes to your application:
- 1. Creates a blacklight document in your /app/models directory
-"""
+    desc <<-EOS
+      This generator makes the following changes to your application:
+       1. Creates a blacklight document in your /app/models directory
+    EOS
+
     def create_solr_document
       template "solr_document.rb", "app/models/#{model_name}.rb"
     end

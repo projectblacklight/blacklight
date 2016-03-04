@@ -90,7 +90,7 @@ module Blacklight::ConfigurationHelperBehavior
     defaults << field_config.label if field_config
     defaults << field.to_s.humanize
 
-    field_label *defaults
+    field_label(*defaults)
   end
 
   def view_label view

@@ -10,11 +10,11 @@ module Blacklight
     argument     :model_name, :type => :string , :default => "user"
     class_option :devise    , :type => :boolean, :default => false, :aliases => "-d", :desc => "Use Devise as authentication logic (this is default)."
 
-    desc """
-This generator makes the following changes to your application:
- 1. Creates a devise-based user model
- 2. Injects blacklight-specific behavior into your user model
-"""
+    desc <<-EOS
+      This generator makes the following changes to your application:
+       1. Creates a devise-based user model
+       2. Injects blacklight-specific behavior into your user model
+    EOS
     # Install Devise?
     def generate_devise_assets
       if options[:devise]
@@ -49,12 +49,12 @@ This generator makes the following changes to your application:
     # Add Blacklight to the user model
     def inject_blacklight_user_behavior
       file_path = "app/models/#{model_name.underscore}.rb"
-      if File.exists?(file_path)
+      if File.exist?(file_path)
         inject_into_class file_path, model_name.classify do
-          "\n  if Blacklight::Utils.needs_attr_accessible?" +
-          "\n    attr_accessible :email, :password, :password_confirmation" +
-          "\n  end" +
-          "\n  # Connects this user object to Blacklights Bookmarks." +
+          "\n  if Blacklight::Utils.needs_attr_accessible?" \
+          "\n    attr_accessible :email, :password, :password_confirmation" \
+          "\n  end" \
+          "\n  # Connects this user object to Blacklights Bookmarks." \
           "\n  include Blacklight::User\n"
         end
       else

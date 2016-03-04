@@ -63,7 +63,7 @@ module Blacklight
     require 'yaml'
 
     return @blacklight_yml if @blacklight_yml
-    unless File.exists?(blacklight_config_file)
+    unless File.exist?(blacklight_config_file)
       raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?"
     end
 

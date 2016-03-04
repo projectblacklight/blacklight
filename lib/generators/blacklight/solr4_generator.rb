@@ -3,11 +3,11 @@ require 'rails/generators'
 
 module Blacklight
   class Solr4Generator < Rails::Generators::Base
-    desc """
-This generator makes the following changes to your application:
- 1. Installs jettywrapper into your application
- 2. Adds rsolr to your Gemfile
-"""
+    desc <<-EOS
+      This generator makes the following changes to your application:
+       1. Installs jettywrapper into your application
+       2. Adds rsolr to your Gemfile
+    EOS
 
     def install_jettywrapper
       return unless options[:jettywrapper]

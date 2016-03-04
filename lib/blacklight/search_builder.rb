@@ -210,14 +210,18 @@ module Blacklight
       end
     end
 
-    alias_method :per, :rows
+    alias per rows
 
     def sort
-      field = if blacklight_params[:sort].blank? and sort_field = blacklight_config.default_sort_field
+      sort_field = if blacklight_params[:sort].blank?
         # no sort param provided, use default
-        sort_field.sort
-      elsif sort_field = blacklight_config.sort_fields[blacklight_params[:sort]]
+        blacklight_config.default_sort_field
+      else
         # check for sort field key  
+        blacklight_config.sort_fields[blacklight_params[:sort]]
+      end
+
+      field = if sort_field.present?
         sort_field.sort
       else 
         # just pass the key through
