@@ -99,6 +99,7 @@ pt-BR:
         message: 'Mensagem:'
         submit: 'Enviar'
       text:
+        default_title: 'N/A'
         title: 'Título: %{value}'
         author: 'Autor: %{value}'
         format: 'Formato: %{value}'

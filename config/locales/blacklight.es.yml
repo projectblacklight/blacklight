@@ -100,6 +100,7 @@ es:
         message: 'Mensaje:'
         submit: 'Enviar'
       text:
+        default_title: 'N/A'
         title: 'Titulo: %{value}'
         author: 'Autor: %{value}'
         format: 'Formato: %{value}'

@@ -3,7 +3,12 @@
 class RecordMailer < ActionMailer::Base
   def email_record(documents, details, url_gen_params)
         
-    subject = I18n.t('blacklight.email.text.subject', :count => documents.length, :title => (documents.first.to_semantic_values[:title] rescue 'N/A') )
+    title = begin
+              documents.first.to_semantic_values[:title]
+            rescue
+              I18n.t('blacklight.email.text.default_title')
+            end
+    subject = I18n.t('blacklight.email.text.subject', :count => documents.length, :title => title )
 
     @documents      = documents
     @message        = details[:message]

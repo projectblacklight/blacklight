@@ -100,6 +100,7 @@ de:
         message: 'Meldung:'
         submit: 'Abgeben'
       text:
+        default_title: 'N/A'
         title: 'Titel: %{value}'
         author: 'Autor: %{value}'
         format: 'Format: %{value}'
