@@ -74,7 +74,7 @@ module Blacklight
     end
 
     begin
-      @blacklight_yml = YAML::load(blacklight_erb)
+      @blacklight_yml = YAML.load(blacklight_erb)
     rescue => e
       raise("#{blacklight_config_file} was found, but could not be parsed.\n#{e.inspect}")
     end

@@ -58,7 +58,7 @@ module Blacklight::Catalog
       search_session['id'] = params[:search_id]
       search_session['per_page'] = params[:per_page]
 
-      if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI::regexp)
+      if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI.regexp)
         path = URI.parse(params[:redirect]).path
         redirect_to path, status: 303
       else

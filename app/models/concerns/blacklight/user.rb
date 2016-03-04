@@ -12,7 +12,7 @@ module Blacklight::User
   end
 
   def bookmarks_for_documents documents = []
-    if documents.length > 0
+    if documents.any?
       bookmarks.where(document_type: documents.first.class.base_class.to_s, document_id: documents.map(&:id))
     else
       []

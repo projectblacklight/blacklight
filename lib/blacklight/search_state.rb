@@ -101,7 +101,7 @@ module Blacklight
       p[:f] = (p[:f] || {}).dup
       p[:f][url_field] = (p[:f][url_field] || []).dup
       p[:f][url_field] = p[:f][url_field] - [value]
-      p[:f].delete(url_field) if p[:f][url_field].size == 0
+      p[:f].delete(url_field) if p[:f][url_field].empty?
       p.delete(:f) if p[:f].empty?
       p
     end
@@ -158,7 +158,7 @@ module Blacklight
       p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
       p[:f][url_field] = (p[:f][url_field] || []).dup
 
-      if facet_config.single and not p[:f][url_field].empty?
+      if facet_config.single and p[:f][url_field].present?
         p[:f][url_field] = []
       end
 
