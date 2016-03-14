@@ -6,7 +6,7 @@
 # extension can be registered with your document class, along with a block
 # containing custom logic for which documents to apply the extension to.
 #
-# SolrDocument.use_extension(MyExtension) {|document| my_logic_on_document(document}
+# SolrDocument.use_extension(MyExtension) { |document| my_logic_on_document(document) }
 #
 # MyExtension will be mixed-in (using ruby 'extend') only to those documents
 # where the block results in true.
