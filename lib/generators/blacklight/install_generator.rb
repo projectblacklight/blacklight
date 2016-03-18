@@ -27,13 +27,16 @@ module Blacklight
     EOS
 
     def add_solr_wrapper
-      if options[:jettywrapper]
-        generate 'blacklight:solr4'
-      elsif solr_version == 'latest'
-        generate 'blacklight:solr5'
-      else
-        generate "blacklight:solr#{solr_version}"
-      end
+      generator_options = '--jettywrapper' if options[:jettywrapper]
+      solr_generator = case
+                       when options[:jettywrapper]
+                         'blacklight:solr4'
+                       when solr_version == 'latest'
+                         'blacklight:solr5'
+                       else
+                         "blacklight:solr#{solr_version}"
+                       end
+      generate solr_generator, generator_options
     end
 
     def bundle_install
