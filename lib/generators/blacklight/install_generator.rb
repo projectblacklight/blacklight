@@ -13,6 +13,7 @@ module Blacklight
     class_option :devise      , type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
     class_option :marc        , type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo ."
+    class_option :'skip-assets', type: :boolean, default: false, desc: "Skip generating javascript and css assets into the application"
 
     desc <<-EOS
       This generator makes the following changes to your application:
@@ -49,7 +50,7 @@ module Blacklight
     # Call external generator in AssetsGenerator, so we can
     # leave that callable seperately too. 
     def copy_public_assets 
-      generate "blacklight:assets"
+      generate "blacklight:assets" unless options[:'skip-assets']
     end
     
     def generate_blacklight_document
