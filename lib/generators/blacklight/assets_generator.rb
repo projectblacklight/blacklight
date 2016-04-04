@@ -4,7 +4,7 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
   
     def assets
-      copy_file "blacklight.css.scss", "app/assets/stylesheets/blacklight.css.scss"
+      copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
       return if has_blacklight_assets?
 
