@@ -9,7 +9,7 @@ module Blacklight::RenderConstraintsHelperBehavior
 
   ##
   # Check if the query has any constraints defined (a query, facet, etc)
-  # 
+  #
   # @param [Hash] query parameters
   # @return [Boolean]
   def query_has_constraints?(localized_params = params)
@@ -29,19 +29,30 @@ module Blacklight::RenderConstraintsHelperBehavior
   ##
   # Render the query constraints
   #
-  # @param [Hash] query parameters
+  # @param [ActionController::Parameters] query parameters
   # @return [String]
   def render_constraints_query(localized_params = params)
     # So simple don't need a view template, we can just do it here.
-    scope = localized_params.delete(:route_set) || self
     return "".html_safe if localized_params[:q].blank?
 
-    options = localized_params.merge(:q=>nil, :action=>'index')
-    options.permit!
     render_constraint_element(constraint_query_label(localized_params),
           localized_params[:q],
           classes: ["query"],
-          remove: scope.url_for(options))
+          remove: remove_constraint_url(localized_params))
+  end
+
+  ##
+  # Provide a url for removing a particular constraint. This can be overriden
+  # in the case that you want parameters other than the defaults to be removed
+  # (e.g. :search_field)
+  #
+  # @param [ActionController::Parameters] localized_params query parameters
+  # @return [String]
+  def remove_constraint_url(localized_params)
+    scope = localized_params.delete(:route_set) || self
+    options = localized_params.merge(q: nil, action: 'index')
+    options.permit!
+    scope.url_for(options)
   end
 
   ##
@@ -92,7 +103,6 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @option options [Array<String>] :classes an array of classes to add to container span for constraint.
   # @return [String]
   def render_constraint_element(label, value, options = {})
-    render(:partial => "catalog/constraints_element", :locals => {:label => label, :value => value, :options => options})    
+    render(:partial => "catalog/constraints_element", :locals => {:label => label, :value => value, :options => options})
   end
-
 end
