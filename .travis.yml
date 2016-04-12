@@ -1,8 +1,5 @@
 language: ruby
 sudo: false
-cache:
-  directories:
-  - /tmp/solr-5.3.0
 
 notifications:
   email: false
@@ -37,3 +34,5 @@ notifications:
 
 global_env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+
+jdk: oraclejdk8
