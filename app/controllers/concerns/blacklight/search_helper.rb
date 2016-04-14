@@ -134,7 +134,7 @@ module Blacklight::SearchHelper
   end
 
   def repository
-    @repository ||= repository_class.new(blacklight_config)
+    repository_class.new(blacklight_config)
   end
 
   private

@@ -26,7 +26,7 @@ module Blacklight
   ##
   # The default index connection for the search index
   def self.default_index
-    @default_index ||= repository_class.new(default_configuration)
+    repository_class.new(default_configuration)
   end
 
   ##
