@@ -22,7 +22,7 @@ describe 'Blacklight::Document::ActiveModelShim' do
   end
 
   before do
-    allow(MockDocument.repository).to receive(:find).and_return(MockResponse.new([{id: 1}], {}))
+    allow(MockDocument).to receive(:repository).and_return(double(find: MockResponse.new([{id: 1}], {})))
   end
  
   describe "#find" do
