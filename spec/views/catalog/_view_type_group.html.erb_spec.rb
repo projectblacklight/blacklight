@@ -13,6 +13,8 @@ describe "catalog/_view_type_group" do
     end
 
     allow(view).to receive_messages(how_sort_and_per_page?: true, blacklight_config: blacklight_config)
+
+    controller.request.path_parameters[:action] = 'index'
   end
 
   it "should not display the group when there's only one option" do
