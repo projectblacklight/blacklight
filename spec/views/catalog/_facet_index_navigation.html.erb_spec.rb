@@ -10,6 +10,7 @@ describe 'catalog/_facet_index_navigation.html.erb', type: :view do
     assign(:pagination, pagination)
     assign(:facet, facet)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    controller.request.path_parameters[:action] = 'index'
   end
 
   it 'renders the facet index navigation range' do

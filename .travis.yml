@@ -5,27 +5,27 @@ notifications:
   email: false
 
 rvm:
-  - 2.3.0
+  - 2.3.1
 
 matrix:
   include:
-    - rvm: 2.1.6
-      env: "RAILS_VERSION=4.2.5"
-    - rvm: 2.2.4
-      env: "RAILS_VERSION=4.2.5"
-    - rvm: 2.3.0
-      env: "RAILS_VERSION=5.0.0.beta3"
-    - rvm: jruby-9.0.4.0
-      env: "RAILS_VERSION=4.2.5 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+    - rvm: 2.1.9
+      env: "RAILS_VERSION=4.2.6"
+    - rvm: 2.2.5
+      env: "RAILS_VERSION=4.2.6"
+    - rvm: 2.3.1
+      env: "RAILS_VERSION=5.0.0.rc1"
+    - rvm: jruby-9.0.5.0
+      env: "RAILS_VERSION=4.2.6 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
-    - rvm: jruby-9.0.4.0
+    - rvm: jruby-9.0.5.0
   fast_finish: true
 
 before_install:
   - gem install bundler
 
 env:
- - "RAILS_VERSION=4.2.5"
+ - "RAILS_VERSION=4.2.6"
 
 notifications:
   irc: "irc.freenode.org#blacklight"
