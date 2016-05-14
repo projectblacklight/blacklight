@@ -4,7 +4,7 @@ development:
   java_version: ">= 1.7"
 test:
   startup_wait: 60
-  jetty_port: <%= ENV['TEST_JETTY_PORT'] || 8888 %>
+  jetty_port: <%= ENV['TEST_JETTY_PORT'] || 8983 %>
   <%= ENV['TEST_JETTY_PATH'] ? "jetty_home: " + ENV['TEST_JETTY_PATH'] : '' %>
   java_version: ">= 1.7"
 production:
