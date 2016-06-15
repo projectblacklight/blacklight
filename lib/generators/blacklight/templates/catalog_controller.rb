@@ -31,7 +31,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #  qt: 'document',
     #  ## These are hard-coded in the blacklight 'document' requestHandler
     #  # fl: '*',
-    #  # rows: 1
+    #  # rows: 1,
     #  # q: '{!term f=id v=$id}'
     #}
 
