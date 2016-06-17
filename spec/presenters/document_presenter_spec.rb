@@ -112,45 +112,45 @@ describe Blacklight::DocumentPresenter do
         config.add_index_field 'with_default', default: 'value'
       end
     end
-    it "should check for an explicit value" do
+    it "checks for an explicit value" do
       value = subject.render_index_field_value 'asdf', :value => 'asdf'
       expect(value).to eq 'asdf'
     end
 
-    it "should check for a helper method to call" do
+    it "checks for a helper method to call" do
       allow(request_context).to receive(:render_asdf_index_field).and_return('custom asdf value')
       value = subject.render_index_field_value 'asdf'
       expect(value).to eq 'custom asdf value'
     end
 
-    it "should check for a link_to_search" do
+    it "checks for a link_to_search" do
       allow(request_context).to receive(:search_action_path).with('f' => { 'link_to_search_true' => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_index_field_value 'link_to_search_true'
       expect(value).to eq 'bar'
     end
 
-    it "should check for a link_to_search with a field name" do
+    it "checks for a link_to_search with a field name" do
       allow(request_context).to receive(:search_action_path).with('f' => { 'some_field' => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.render_index_field_value 'link_to_search_named'
       expect(value).to eq 'bar'
     end
 
-    it "should gracefully handle when no highlight field is available" do
+    it "gracefully handles when no highlight field is available" do
       allow(document).to receive(:has_highlight_field?).and_return(false)
       value = subject.render_index_field_value 'highlight'
       expect(value).to be_blank
     end
 
-    it "should check for a highlighted field" do
+    it "checks for a highlighted field" do
       allow(document).to receive(:has_highlight_field?).and_return(true)
       allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
       value = subject.render_index_field_value 'highlight'
       expect(value).to eq '<em>highlight</em>'
     end
 
-    it "should check the document field value" do
+    it "checks the document field value" do
       value = subject.render_index_field_value 'qwer'
       expect(value).to eq 'document qwer value'
     end
@@ -300,6 +300,9 @@ describe Blacklight::DocumentPresenter do
     end
   end
   describe "render_field_value" do
+    before do
+      expect(Deprecation).to receive(:warn)
+    end
     it "should join and html-safe values" do
       expect(subject.render_field_value(['a', 'b'])).to eq "a and b"
     end
@@ -378,7 +381,7 @@ describe Blacklight::DocumentPresenter do
         expect(options).to include :document, :field, :value, :config, :a
         expect(options[:document]).to eq document
         expect(options[:field]).to eq 'field_with_helper'
-        expect(options[:value]).to eq 'value'
+        expect(options[:value]).to eq ['value']
         expect(options[:config]).to eq field_config
         expect(options[:a]).to eq 1
       end

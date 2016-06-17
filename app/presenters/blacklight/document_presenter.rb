@@ -24,11 +24,8 @@ module Blacklight
       fields = Array(@configuration.view_config(:show).title_field)
       f = fields.find { |field| @document.has? field }
 
-      if f.nil?
-        render_field_value(@document.id)
-      else
-        render_field_value(@document[f])
-      end
+      value = f.nil? ? @document.id : @document[f]
+      ValueRenderer.new(Array.wrap(value)).render
     end
 
     ##
@@ -64,43 +61,12 @@ module Blacklight
       if @configuration.view_config(:show).html_title_field
         fields = Array(@configuration.view_config(:show).html_title_field)
         f = fields.find { |field| @document.has? field }
-
-        if f.nil?
-          render_field_value(@document.id)
-        else
-          render_field_value(@document[f])
-        end
+        f ||= 'id'
+        field_config = @configuration.show_fields[f]
+        get_field_values(f, field_config)
       else
         document_heading
       end
-    end
-
-    ##
-    # Render a value (or array of values) from a field
-    #
-    # @param [String] value or list of values to display
-    # @param [Blacklight::Solr::Configuration::Field] solr field configuration
-    # @return [String]
-    def render_field_value value=nil, field_config=nil
-      safe_values = recode_values(Array(value))
-
-      if field_config and field_config.itemprop
-        safe_values = safe_values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }
-      end
-
-      render_values(safe_values, field_config)
-    end
-
-    ##
-    # Render a fields values as a string
-    # @param [Array] values to display
-    # @param [Blacklight::Solr::Configuration::Field] solr field configuration
-    # @return [String]
-    def render_values(values, field_config = nil)
-      options = {}
-      options = field_config.separator_options if field_config && field_config.separator_options
-
-      values.map { |x| html_escape(x) }.to_sentence(options).html_safe
     end
 
     ##
@@ -117,7 +83,9 @@ module Blacklight
       when String
         field
       end
-      render_field_value label || @document.id
+
+      label ||= @document.id
+      ValueRenderer.new(Array.wrap(label)).render
     end
 
     ##
@@ -130,9 +98,12 @@ module Blacklight
     #   @options opts [String] :value
     def render_index_field_value field, options = {}
       field_config = @configuration.index_fields[field]
-      value = options[:value] || get_field_values(field, field_config, options)
-
-      render_field_value value, field_config
+      if options[:value]
+        # TODO Fold this into get_field_values
+        ValueRenderer.new(Array.wrap(options[:value]), field_config).render
+      else
+        get_field_values(field, field_config, options)
+      end
     end
 
     ##
@@ -145,9 +116,13 @@ module Blacklight
     #   @options opts [String] :value
     def render_document_show_field_value field, options={}
       field_config = @configuration.show_fields[field]
-      value = options[:value] || get_field_values(field, field_config, options)
+      if options[:value]
+        # TODO Fold this into get_field_values
+        ValueRenderer.new(Array.wrap(options[:value]), field_config).render
+      else
+        get_field_values(field, field_config, options)
+      end
 
-      render_field_value value, field_config
     end
 
     ##
@@ -159,78 +134,19 @@ module Blacklight
     # Rendering:
     #   - helper_method
     #   - link_to_search
-    # TODO : maybe this should be merged with render_field_value, and the ugly signature 
-    # simplified by pushing some of this logic into the "model"
     # @param [SolrDocument] document
     # @param [String] field name
     # @param [Blacklight::Solr::Configuration::Field] solr field configuration
     # @param [Hash] options additional options to pass to the rendering helpers
     def get_field_values field, field_config, options = {}
-      # retrieving values
-      value = case    
-        when (field_config and field_config.highlight)
-          # retrieve the document value from the highlighting response
-          @document.highlight_field(field_config.field).map(&:html_safe) if @document.has_highlight_field? field_config.field
-        when (field_config and field_config.accessor)
-          # implicit method call
-          if field_config.accessor === true
-            @document.send(field)
-          # arity-1 method call (include the field name in the call)
-          elsif !field_config.accessor.is_a?(Array) && @document.method(field_config.accessor).arity != 0
-            @document.send(field_config.accessor, field)
-          # chained method calls
-          else
-            Array(field_config.accessor).inject(@document) do |result, method|
-              result.send(method)
-            end
-          end
-        when field_config
-          # regular document field
-          if field_config.default and field_config.default.is_a? Proc
-            @document.fetch(field_config.field, &field_config.default)
-          else
-            @document.fetch(field_config.field, field_config.default)
-          end
-        when field
-          @document[field]
-      end
-
-      # rendering values
-      case
-        when (field_config and field_config.helper_method)
-          @controller.send(field_config.helper_method, options.merge(document: @document, field: field, config: field_config, value: value))
-        when (field_config and field_config.link_to_search)
-          link_field = if field_config.link_to_search === true
-            field_config.key
-          else
-            field_config.link_to_search
-          end
-
-          Array(value).map do |v|
-            @controller.link_to render_field_value(v, field_config), @controller.search_action_path(@controller.search_state.reset.add_facet_params(link_field, v))
-          end if field
-        else
-          value
-        end
+      FieldPresenter.new(@controller, @document, field, field_config, options).render
     end
 
-    def html_escape(*args)
-      ERB::Util.html_escape(*args)
+    # @deprecated
+    def render_field_value(values, field_config = nil)
+      Deprecation.warn(DocumentPresenter, "render_field_value is deprecated and will be removed in Blacklight 7. Use ValueRenderer instead")
+      ValueRenderer.new(Array.wrap(values), field_config).render
     end
 
-    private
-
-      # @param [Array<String,Fixnum>] values
-      # @return [Array] an array with all strings converted to UTF-8
-      def recode_values(values)
-        values.collect do |value|
-          if value.respond_to?(:encoding) && value.encoding != Encoding::UTF_8
-            Rails.logger.warn "Found a non utf-8 value in Blacklight::DocumentPresenter. \"#{value}\" Encoding is #{value.encoding}"
-            value.dup.force_encoding('UTF-8')
-          else
-            value
-          end
-        end
-      end
   end
 end
