@@ -199,6 +199,9 @@ describe BlacklightUrlHelper do
     let(:id) { '123456' }
     let(:data) { { 'id' => id, 'title_display' => [title_display] } }
     let(:document) { SolrDocument.new(data) }
+    before do
+      allow(controller).to receive(:action_name).and_return('index')
+    end
 
     it "consists of the document title wrapped in a <a>" do
       expect(helper.link_to_document(document, :title_display)).to have_selector("a", :text => '654321', :count => 1)

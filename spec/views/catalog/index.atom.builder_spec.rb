@@ -14,6 +14,7 @@ describe "catalog/index" do
   end
 
   before do
+    allow(view).to receive(:action_name).and_return('index')
     params['content_format'] = 'some_format'
     @document_list = document_list
     allow_any_instance_of(SolrDocument).to receive(:export_as_some_format).and_return("")

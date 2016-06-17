@@ -8,10 +8,7 @@ module Blacklight
     end
 
     attr_reader :document, :field_config
-
-    def field
-      field_config.field
-    end
+    delegate :field, to: :field_config
     
     # @return [Array]
     def fetch

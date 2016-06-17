@@ -38,7 +38,7 @@ module Blacklight
       # @param [Array] values the values to display
       # @return [Array] an array with all strings converted to UTF-8
       def recode_values(values)
-        values.collect do |value|
+        values.map do |value|
           if value.respond_to?(:encoding) && value.encoding != Encoding::UTF_8
             Rails.logger.warn "Found a non utf-8 value in Blacklight::DocumentPresenter. \"#{value}\" Encoding is #{value.encoding}"
             value.dup.force_encoding('UTF-8')

@@ -12,6 +12,7 @@ describe "/catalog/_show_sidebar.html.erb" do
   end
 
   before(:each) do
+    allow(controller).to receive(:action_name).and_return('show')
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view).to receive(:has_user_authentication_provider?).and_return(false)
     allow(view).to receive(:current_search_session).and_return nil

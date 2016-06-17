@@ -16,6 +16,7 @@ module Blacklight
     # XXX this isn't very pretty, but it works.
     require_dependency 'blacklight/configuration/fields'
     require_dependency 'blacklight/configuration/field'
+    require_dependency 'blacklight/configuration/null_field'
     require_dependency 'blacklight/configuration/search_field'
     require_dependency 'blacklight/configuration/facet_field'
     require_dependency 'blacklight/configuration/sort_field'
@@ -69,7 +70,7 @@ module Blacklight
           # the model to use for each response document
           document_model: nil,
           # document presenter class used by helpers and views
-          document_presenter_class: nil,
+          document_presenter_class: nil, # deprecated
           # Class for paginating long lists of facet fields
           facet_paginator_class: nil,
           # repository connection configuration
@@ -80,6 +81,8 @@ module Blacklight
           navbar: OpenStructWithHashAccess.new(partials: { }),
           # General configuration for all views
           index: ViewConfig::Index.new(
+            # document presenter class used by helpers and views
+            document_presenter_class: nil,
             # solr field to use to render a document title
             title_field: nil,
             # solr field to use to render format-specific partials
@@ -95,6 +98,8 @@ module Blacklight
             ),
           # Additional configuration when displaying a single document
           show: ViewConfig::Show.new(
+            # document presenter class used by helpers and views
+            document_presenter_class: nil,
             # default route parameters for 'show' requests
             # set this to a hash with additional arguments to merge into 
             # the route, or set `controller: :current` to route to the 
@@ -186,13 +191,20 @@ module Blacklight
       super
     end
 
+    def response_model
+      super || Blacklight::Solr::Response
+    end
+
+    # @deprecated
     def document_presenter_class
       super || Blacklight::DocumentPresenter
     end
 
-    def response_model
-      super || Blacklight::Solr::Response
+    # @deprecated
+    def document_presenter_class=(klass)
+      super
     end
+    deprecation_deprecate :document_presenter_class= => "replaced by show.presenter_class and index.presenter_class"
 
     def response_model= *args
       super

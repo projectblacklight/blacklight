@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
+  # @deprecated
   class DocumentPresenter
     extend Deprecation
     self.deprecation_horizon = 'Blacklight version 7.0.0'
@@ -19,13 +20,11 @@ module Blacklight
     #
     # @param [SolrDocument] document
     # @return [String]
+    # @deprecated use ShowPresenter#heading instead
     def document_heading
-      fields = Array(@configuration.view_config(:show).title_field)
-      f = fields.find { |field| @document.has? field }
-
-      value = f.nil? ? @document.id : @document[f]
-      ValueRenderer.new(Array.wrap(value)).render
+      show_presenter.heading
     end
+    deprecation_deprecate document_heading: "use ShowPresenter#heading instead"
 
     ##
     # Create <link rel="alternate"> links from a documents dynamically
@@ -35,9 +34,11 @@ module Blacklight
     # @option options [Boolean] :unique ensures only one link is output for every
     #     content type, e.g. as required by atom
     # @option options [Array<String>] :exclude array of format shortnames to not include in the output
+    # @deprecated moved to ShowPresenter#link_rel_alternates
     def link_rel_alternates(options = {})
-      LinkAlternatePresenter.new(@controller, @document, options).render
+      show_presenter.link_rel_alternates(options)
     end
+    deprecation_deprecate link_rel_alternates: "use ShowPresenter#link_rel_alternates instead"
 
     ##
     # Get the document's "title" to display in the <title> element.
@@ -45,53 +46,36 @@ module Blacklight
     #
     # @see #document_heading
     # @return [String]
+    # @deprecated use ShowPresenter#html_title instead
     def document_show_html_title
-      if @configuration.view_config(:show).html_title_field
-        fields = Array.wrap(@configuration.view_config(:show).html_title_field)
-        f = fields.find { |field| @document.has? field }
-        f ||= 'id'
-        field_values(show_field_config(f))
-      else
-        document_heading
-      end
+      show_presenter.html_title
     end
+    deprecation_deprecate document_show_html_title: "use ShowPresenter#html_title instead"
 
     ##
     # Render the document index heading
     #
     # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
     # @param [Hash] opts
-    def render_document_index_label(field, opts = {})
-      label = case field
-      when Symbol
-        @document[field]
-      when Proc
-        field.call(@document, opts)
-      when String
-        field
-      end
-
-      label ||= @document.id
-      ValueRenderer.new(Array.wrap(label)).render
+    # @deprecated use IndexPresenter#label instead
+    def render_document_index_label(*args)
+      index_presenter.label(*args)
     end
+    deprecation_deprecate render_document_index_label: "use IndexPresenter#label instead"
 
     ##
     # Render the index field label for a document
     #
-    #   Allow an extention point where information in the document
-    #   may drive the value of the field
-    #   @param [String] field
-    #   @param [Hash] opts
-    #   @options opts [String] :value
-    def render_index_field_value field, options = {}
-      field_config = index_field_config(field)
-      if options[:value]
-        # TODO: Fold this into field_values
-        ValueRenderer.new(Array.wrap(options[:value]), field_config).render
-      else
-        field_values(field_config, options)
-      end
+    # Allow an extention point where information in the document
+    # may drive the value of the field
+    # @param [String] field
+    # @param [Hash] opts
+    # @options opts [String] :value
+    # @deprecated use IndexPresenter#field_value instead
+    def render_index_field_value *args
+      index_presenter.field_value(*args)
     end
+    deprecation_deprecate render_index_field_value: "use IndexPresenter#field_value instead"
 
     ##
     # Render the show field value for a document
@@ -101,16 +85,11 @@ module Blacklight
     #   @param [String] field
     #   @param [Hash] options
     #   @options opts [String] :value
-    def render_document_show_field_value field, options={}
-      field_config = show_field_config(field)
-      if options[:value]
-        # TODO: Fold this into field_values
-        ValueRenderer.new(Array.wrap(options[:value]), field_config).render
-      else
-        field_values(field_config, options)
-      end
-
+    #   @deprecated use ShowPresenter#field_value
+    def render_document_show_field_value *args
+      show_presenter.field_value(*args)
     end
+    deprecation_deprecate render_document_show_field_value: "use ShowPresenter#field_value instead"
 
     ##
     # Get the value for a document's field, and prepare to render it.
@@ -144,6 +123,7 @@ module Blacklight
     def field_values(field_config, options={})
       FieldPresenter.new(@controller, @document, field_config, options).render
     end
+    deprecation_deprecate field_values: 'Use ShowPresenter or IndexPresenter field_values instead'
 
     # @deprecated
     def render_field_value(values, field_config = nil)
@@ -153,23 +133,12 @@ module Blacklight
 
     private
 
-      def show_field_config(field)
-        field_config(@configuration.show_fields, field)
+      def index_presenter
+        @controller.index_presenter(@document)
       end
 
-      def index_field_config(field)
-        field_config(@configuration.index_fields, field)
-      end
-
-      def field_config(conf, field)
-        conf.fetch(field) { NilFieldConfig.new(field) }
-      end
-
-      # Returned if no config is defined for the field in the Blacklight::Configuration
-      class NilFieldConfig < Blacklight::Configuration::Field
-        def initialize(field)
-          super(field: field)
-        end
+      def show_presenter
+        @controller.show_presenter(@document)
       end
   end
 end

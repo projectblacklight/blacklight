@@ -160,12 +160,17 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [String] field
   #   @param [Hash] opts
   #   @options opts [String] :value
+  # TODO: deprecate and use render_field_value
   def render_index_field_value *args
+    render_field_value(*args)
+  end
+
+  def render_field_value(*args)
     options = args.extract_options!
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    presenter(document).render_index_field_value field, options.except(:document, :field)
+    presenter(document).field_value field, options.except(:document, :field)
   end
 
   ##
@@ -213,12 +218,9 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [String] field
   #   @param [Hash] opts
   #   @options opts [String] :value
+  # TODO: deprecate and use render_field_value
   def render_document_show_field_value *args
-    options = args.extract_options!
-    document = args.shift || options[:document]
-
-    field = args.shift || options[:field]
-    presenter(document).render_document_show_field_value field, options.except(:document, :field)
+    render_field_value(*args)
   end
 
   ##
@@ -229,7 +231,7 @@ module Blacklight::BlacklightHelperBehavior
   # @return [String]
   def document_heading document=nil
     document ||= @document
-    presenter(document).document_heading
+    presenter(document).heading
   end
 
   ##
@@ -242,7 +244,7 @@ module Blacklight::BlacklightHelperBehavior
   def document_show_html_title document=nil
     document ||= @document
 
-    presenter(document).document_show_html_title
+    presenter(document).html_title
   end
 
   ##
@@ -260,7 +262,7 @@ module Blacklight::BlacklightHelperBehavior
     tag = options.fetch(:tag, :h4)
     document ||= @document
 
-    content_tag(tag, presenter(document).document_heading, itemprop: "name")
+    content_tag(tag, presenter(document).heading, itemprop: "name")
   end
 
   ##
@@ -322,14 +324,39 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Returns a document presenter for the given document
+  # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
   def presenter(document)
-    presenter_class.new(document, self)
+    case action_name
+    when 'show', 'citation'
+      show_presenter(document)
+    when 'index'
+      index_presenter(document)
+    else
+      raise "Unable to determine presenter type for #{action_name} on #{controller_name}"
+    end
   end
+
+  def show_presenter(document)
+    show_presenter_class(document).new(document, self)
+  end
+
+  def index_presenter(document)
+    index_presenter_class(document).new(document, self)
+  end
+
+  def presenter_class
+    blacklight_config.document_presenter_class
+  end
+  deprecation_deprecate presenter_class: "replaced by show_presenter_class and index_presenter_class"
 
   ##
   # Override this method if you want to use a different presenter class
-  def presenter_class
-    blacklight_config.document_presenter_class
+  def show_presenter_class(_document)
+    blacklight_config.show.document_presenter_class
+  end
+
+  def index_presenter_class(_document)
+    blacklight_config.index.document_presenter_class
   end
 
   ##

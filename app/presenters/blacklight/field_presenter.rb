@@ -9,10 +9,7 @@ module Blacklight
     end
 
     attr_reader :controller, :document, :field_config, :options
-
-    def field
-      field_config.field
-    end
+    delegate :field, to: :field_config
     
     def render
       # TODO: move the itemprop stuff here
@@ -49,7 +46,7 @@ module Blacklight
                   controller.link_to ValueRenderer.new([v], field_config).render,
                                      controller.search_action_path(controller.search_state.reset.add_facet_params(link_field, v))
                 end
-        links.to_sentence().html_safe
+        links.to_sentence.html_safe
       end
 
       def retrieve_values

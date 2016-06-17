@@ -11,6 +11,7 @@ describe "catalog/_index_header_default" do
   end
 
   before do
+    allow(controller).to receive(:action_name).and_return('index')
     assign :response, double(start: 0)
     allow(view).to receive(:render_grouped_response?).and_return false
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
