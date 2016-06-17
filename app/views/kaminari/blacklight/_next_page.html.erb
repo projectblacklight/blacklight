@@ -6,6 +6,12 @@
     per_page:      number of items to fetch per page
     remote:        data-remote
 -%>
-<li class="<%= 'disabled' if current_page.last? %>">
-  <%= link_to raw(t 'views.pagination.next'), url, :rel => 'next', :remote => remote %>
-</li>
+<% if current_page.last? %>
+    <li class="disabled">
+      <%= link_to raw(t 'views.pagination.next'), '#', :rel => 'next', :onclick=>'return false;' %>
+    </li>
+<% else %>
+    <li>
+      <%= link_to raw(t 'views.pagination.next'), url, :rel => 'next', :remote => remote %>
+    </li>
+<% end %>
