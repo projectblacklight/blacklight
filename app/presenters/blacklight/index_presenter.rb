@@ -16,18 +16,20 @@ module Blacklight
     # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
     # @param [Hash] opts
     # TODO: the default field should be `document_show_link_field(doc)'
-    def label(field, opts = {})
-      label = case field
+    def label(field_or_string_or_proc, opts = {})
+      config = Configuration::NullField.new
+      value = case field_or_string_or_proc
       when Symbol
-        @document[field]
+        config = field_config(field_or_string_or_proc)
+        @document[field_or_string_or_proc]
       when Proc
-        field.call(@document, opts)
+        field_or_string_or_proc.call(@document, opts)
       when String
-        field
+        field_or_string_or_proc
       end
 
-      label ||= @document.id
-      ValueRenderer.new(Array.wrap(label)).render
+      value ||= @document.id
+      field_values(config, value: value)
     end
 
     ##
@@ -40,12 +42,7 @@ module Blacklight
     # @options opts [String] :value
     def field_value field, options = {}
       field_config = field_config(field)
-      if options[:value]
-        # TODO: Fold this into field_values
-        ValueRenderer.new(Array.wrap(options[:value]), field_config).render
-      else
-        field_values(field_config, options)
-      end
+      field_values(field_config, options)
     end
 
     private
@@ -70,4 +67,3 @@ module Blacklight
       end
   end
 end
-

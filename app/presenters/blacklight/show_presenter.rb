@@ -49,9 +49,8 @@ module Blacklight
     def heading
       fields = Array.wrap(view_config.title_field)
       f = fields.detect { |field| @document.has? field }
-
-      value = f.nil? ? @document.id : @document[f]
-      ValueRenderer.new(Array.wrap(value)).render
+      f ||= @configuration.document_model.unique_key
+      field_values(field_config(f), value: @document[f])
     end
 
     ##
@@ -63,13 +62,7 @@ module Blacklight
     # @param [Hash] options
     # @options opts [String] :value
     def field_value field, options={}
-      field_config = field_config(field)
-      if options[:value]
-        # TODO: Fold this into field_values
-        ValueRenderer.new(Array.wrap(options[:value]), field_config).render
-      else
-        field_values(field_config, options)
-      end
+      field_values(field_config(field), options)
     end
 
     private

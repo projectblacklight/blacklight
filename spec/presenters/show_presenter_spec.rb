@@ -210,7 +210,7 @@ describe Blacklight::ShowPresenter do
 
   describe "#heading" do
     it "falls back to an id" do
-      allow(document).to receive(:id).and_return "xyz"
+      allow(document).to receive(:[]).with('id').and_return "xyz"
       expect(subject.heading).to eq document.id
     end
 
@@ -232,7 +232,7 @@ describe Blacklight::ShowPresenter do
 
   describe "#html_title" do
     it "falls back to an id" do
-      allow(document).to receive(:id).and_return "xyz"
+      allow(document).to receive(:[]).with('id').and_return "xyz"
       expect(subject.html_title).to eq document.id
     end
 

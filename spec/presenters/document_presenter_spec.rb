@@ -318,12 +318,18 @@ describe Blacklight::DocumentPresenter do
       expect(subject.render_field_value(['a', 'b'])).to eq "a and b"
     end
 
-    it "should use the field_config.separator_options from the Blacklight field configuration" do
-      expect(subject.render_field_value(['c', 'd'], double(separator: nil, itemprop: nil, separator_options: { two_words_connector: '; '}))).to eq "c; d"
+    context "with separator_options" do
+      let(:field_config) { double(to_h: { field: 'foo', separator: nil, itemprop: nil, separator_options: { two_words_connector: '; '}}) }
+      it "uses the field_config.separator_options" do
+        expect(subject.render_field_value(['c', 'd'], field_config)).to eq "c; d"
+      end
     end
 
-    it "should include schema.org itemprop attributes" do
-      expect(subject.render_field_value('a', double(separator: nil, itemprop: 'some-prop', separator_options: nil))).to have_selector("span[@itemprop='some-prop']", :text => "a")
+    context "with itemprop attributes" do
+      let(:field_config) { double(to_h: { field: 'bar', separator: nil, itemprop: 'some-prop', separator_options: nil }) } 
+      it "includes schema.org itemprop attributes" do
+        expect(subject.render_field_value('a', field_config)).to have_selector("span[@itemprop='some-prop']", :text => "a")
+      end
     end
   end
 
@@ -332,7 +338,7 @@ describe Blacklight::DocumentPresenter do
       allow(request_context).to receive(:show_presenter).and_return(show_presenter)
     end
     it "should fallback to an id" do
-      allow(document).to receive(:id).and_return "xyz"
+      allow(document).to receive(:[]).with('id').and_return "xyz"
       expect(subject.document_heading).to eq document.id
     end
 
@@ -357,7 +363,7 @@ describe Blacklight::DocumentPresenter do
       allow(request_context).to receive(:show_presenter).and_return(show_presenter)
     end
     it "falls back to an id" do
-      allow(document).to receive(:id).and_return "xyz"
+      allow(document).to receive(:[]).with('id').and_return "xyz"
       expect(subject.document_show_html_title).to eq document.id
     end
 
