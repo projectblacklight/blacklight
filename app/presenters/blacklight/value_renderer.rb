@@ -3,8 +3,8 @@ module Blacklight
   # Renders itemprop and joins multiple values with separator_options
   class ValueRenderer
     include ActionView::Helpers::TagHelper
-    # @param [Array<String,Fixnum>] values
-    # @param [Blacklight::Solr::Configuration::Field] field_config solr field configuration
+    # @param [Array<String,Fixnum>] values list of values to display
+    # @param [Blacklight::Configuration::Field] field_config field configuration
     def initialize(values, field_config = nil)
       @values = recode_values(values)
       @field_config = field_config
@@ -12,10 +12,8 @@ module Blacklight
 
     attr_reader :values, :field_config
 
-    # @param [String] value or list of values to display
-    # @param [Blacklight::Solr::Configuration::Field] solr field configuration
     # @return [String]
-    # TODO Move this out to field_presenter, so that ValueRenderer doesn't need TagHelper .
+    # TODO: Move this out to field_presenter, so that ValueRenderer doesn't need TagHelper .
     def render
       if field_config and field_config.itemprop
         @values = values.map { |x| content_tag :span, x, :itemprop => field_config.itemprop }

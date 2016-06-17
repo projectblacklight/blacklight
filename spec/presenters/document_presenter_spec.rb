@@ -339,28 +339,38 @@ describe Blacklight::DocumentPresenter do
   end
 
   describe "#document_show_html_title" do
-    it "should fallback to an id" do
+    it "falls back to an id" do
       allow(document).to receive(:id).and_return "xyz"
       expect(subject.document_show_html_title).to eq document.id
     end
 
-    it "should return the value of the field" do
+    it "returns the value of the field" do
       config.show.html_title_field = :x
       allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:[]).with(:x).and_return("value")
+      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
       expect(subject.document_show_html_title).to eq "value"
     end
 
-    it "should return the first present value" do
+    it "returns the first present value" do
       config.show.html_title_field = [:x, :y]
       allow(document).to receive(:has?).with(:x).and_return(false)
       allow(document).to receive(:has?).with(:y).and_return(true)
-      allow(document).to receive(:[]).with(:y).and_return("value")
+      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.document_show_html_title).to eq "value"
     end
   end
 
   describe '#get_field_values' do
+    let(:field_config) { double }
+    let(:options) { double }
+    it "calls field_values" do
+      expect(Deprecation).to receive(:warn)
+      expect(presenter).to receive(:field_values).with(field_config, options)
+      presenter.get_field_values('name', field_config, options)
+    end
+  end
+
+  describe '#field_values' do
     context 'for a field with the helper_method option' do
       let(:field_name) { 'field_with_helper' }
       let(:field_config) { config.add_facet_field 'field_with_helper', helper_method: 'render_field_with_helper' }
@@ -376,7 +386,7 @@ describe Blacklight::DocumentPresenter do
 
         render_options = { a: 1 }
 
-        options = subject.get_field_values field_name, field_config, a: 1
+        options = subject.field_values field_config, a: 1
 
         expect(options).to include :document, :field, :value, :config, :a
         expect(options[:document]).to eq document

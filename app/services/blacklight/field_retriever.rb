@@ -1,25 +1,28 @@
 module Blacklight
   class FieldRetriever
-    def initialize(document, field, field_config)
+    # @param [SolrDocument] document
+    # @param [Blacklight::Configuration::Field] field_config solr field configuration
+    def initialize(document, field_config)
       @document = document
-      @field = field
       @field_config = field_config
     end
 
-    attr_reader :document, :field, :field_config
+    attr_reader :document, :field_config
+
+    def field
+      field_config.field
+    end
     
     # @return [Array]
     def fetch
       Array.wrap(
         case    
-          when (field_config and field_config.highlight)
+          when field_config.highlight
             retrieve_highlight
-          when (field_config and field_config.accessor)
+          when field_config.accessor
             retieve_using_accessor
           when field_config
             retrieve_simple
-          when field
-            document[field]
         end
       )
     end

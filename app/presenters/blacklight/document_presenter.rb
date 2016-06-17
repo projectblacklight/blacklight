@@ -4,6 +4,7 @@ module Blacklight
     include ActionView::Helpers::OutputSafetyHelper
     include ActionView::Helpers::TagHelper
     extend Deprecation
+    self.deprecation_horizon = 'Blacklight version 7.0.0'
 
     # @param [SolrDocument] document
     # @param [ActionController::Base] controller scope for linking and generating urls
@@ -59,11 +60,10 @@ module Blacklight
     # @return [String]
     def document_show_html_title
       if @configuration.view_config(:show).html_title_field
-        fields = Array(@configuration.view_config(:show).html_title_field)
+        fields = Array.wrap(@configuration.view_config(:show).html_title_field)
         f = fields.find { |field| @document.has? field }
         f ||= 'id'
-        field_config = @configuration.show_fields[f]
-        get_field_values(f, field_config)
+        field_values(show_field_config(f))
       else
         document_heading
       end
@@ -97,12 +97,12 @@ module Blacklight
     #   @param [Hash] opts
     #   @options opts [String] :value
     def render_index_field_value field, options = {}
-      field_config = @configuration.index_fields[field]
+      field_config = index_field_config(field)
       if options[:value]
-        # TODO Fold this into get_field_values
+        # TODO: Fold this into field_values
         ValueRenderer.new(Array.wrap(options[:value]), field_config).render
       else
-        get_field_values(field, field_config, options)
+        field_values(field_config, options)
       end
     end
 
@@ -115,12 +115,12 @@ module Blacklight
     #   @param [Hash] options
     #   @options opts [String] :value
     def render_document_show_field_value field, options={}
-      field_config = @configuration.show_fields[field]
+      field_config = show_field_config(field)
       if options[:value]
-        # TODO Fold this into get_field_values
+        # TODO: Fold this into field_values
         ValueRenderer.new(Array.wrap(options[:value]), field_config).render
       else
-        get_field_values(field, field_config, options)
+        field_values(field_config, options)
       end
 
     end
@@ -134,19 +134,55 @@ module Blacklight
     # Rendering:
     #   - helper_method
     #   - link_to_search
-    # @param [SolrDocument] document
     # @param [String] field name
-    # @param [Blacklight::Solr::Configuration::Field] solr field configuration
+    # @param [Blacklight::Configuration::Field] solr field configuration
     # @param [Hash] options additional options to pass to the rendering helpers
-    def get_field_values field, field_config, options = {}
-      FieldPresenter.new(@controller, @document, field, field_config, options).render
+    # @deprecated
+    def get_field_values _field, field_config, options = {}
+      field_values(field_config, options)
+    end
+    deprecation_deprecate get_field_values: 'Use field_values instead'
+
+    ##
+    # Get the value for a document's field, and prepare to render it.
+    # - highlight_field
+    # - accessor
+    # - solr field
+    #
+    # Rendering:
+    #   - helper_method
+    #   - link_to_search
+    # @param [Blacklight::Configuration::Field] solr field configuration
+    # @param [Hash] options additional options to pass to the rendering helpers
+    def field_values(field_config, options={})
+      FieldPresenter.new(@controller, @document, field_config, options).render
     end
 
     # @deprecated
     def render_field_value(values, field_config = nil)
-      Deprecation.warn(DocumentPresenter, "render_field_value is deprecated and will be removed in Blacklight 7. Use ValueRenderer instead")
       ValueRenderer.new(Array.wrap(values), field_config).render
     end
+    deprecation_deprecate render_field_value: 'Use ValueRenderer instead'
 
+    private
+
+      def show_field_config(field)
+        field_config(@configuration.show_fields, field)
+      end
+
+      def index_field_config(field)
+        field_config(@configuration.index_fields, field)
+      end
+
+      def field_config(conf, field)
+        conf.fetch(field) { NilFieldConfig.new(field) }
+      end
+
+      # Returned if no config is defined for the field in the Blacklight::Configuration
+      class NilFieldConfig < Blacklight::Configuration::Field
+        def initialize(field)
+          super(field: field)
+        end
+      end
   end
 end

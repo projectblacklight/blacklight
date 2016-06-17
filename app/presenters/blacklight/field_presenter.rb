@@ -1,22 +1,25 @@
 module Blacklight
   # Renders a field and handles link_to_search or helper_method if supplied
   class FieldPresenter
-    def initialize(controller, document, field, field_config, options)
+    def initialize(controller, document, field_config, options)
       @controller = controller
       @document = document
-      @field = field
       @field_config = field_config
       @options = options
     end
 
-    attr_reader :controller, :document, :field, :field_config, :options
+    attr_reader :controller, :document, :field_config, :options
+
+    def field
+      field_config.field
+    end
     
     def render
-      # TODO move the itemprop stuff here
+      # TODO: move the itemprop stuff here
       case
-        when (field_config and field_config.helper_method)
+        when field_config.helper_method
           render_helper
-        when (field_config and field_config.link_to_search)
+        when field_config.link_to_search
           link_to_search
         else
           ValueRenderer.new(retrieve_values, field_config).render
@@ -50,7 +53,7 @@ module Blacklight
       end
 
       def retrieve_values
-        FieldRetriever.new(document, field, field_config).fetch
+        FieldRetriever.new(document, field_config).fetch
       end
 
   end

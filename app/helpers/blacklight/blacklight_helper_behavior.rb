@@ -7,6 +7,8 @@ module Blacklight::BlacklightHelperBehavior
   include RenderConstraintsHelper
   include RenderPartialsHelper
   include FacetsHelper
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight version 7.0.0'
 
   ##
   # Get the name of this application, from either:
@@ -77,7 +79,7 @@ module Blacklight::BlacklightHelperBehavior
   # Determine whether to render a given field in the index view.
   #
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::Field] field_config
+  # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_index_field? document, field_config
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
@@ -87,7 +89,7 @@ module Blacklight::BlacklightHelperBehavior
   # Determine whether to render a given field in the show view
   #
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::Field] field_config
+  # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_show_field? document, field_config
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
@@ -97,7 +99,7 @@ module Blacklight::BlacklightHelperBehavior
   # Check if a document has (or, might have, in the case of accessor methods) a value for
   # the given solr field
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::Field] field_config
+  # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def document_has_value? document, field_config
     document.has?(field_config.field) ||
@@ -272,11 +274,12 @@ module Blacklight::BlacklightHelperBehavior
   #   - link_to_search
   # @param [SolrDocument] document
   # @param [String] field name
-  # @param [Blacklight::Solr::Configuration::Field] solr field configuration
+  # @param [Blacklight::Configuration::Field] solr field configuration
   # @param [Hash] options additional options to pass to the rendering helpers
-  def get_field_values document, field, field_config, options = {}
-    presenter(document).get_field_values field, field_config, options
+  def get_field_values document, _field, field_config, options = {}
+    presenter(document).field_values field_config, options
   end
+  deprecation_deprecate :get_field_values
 
   ##
   # Get the current "view type" (and ensure it is a valid type)
