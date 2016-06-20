@@ -18,6 +18,10 @@ Metrics/BlockLength:
     - "lib/railties/blacklight.rake"
     - "tasks/blacklight.rake"
 
+Metrics/ClassLength:
+  Exclude:
+    - "lib/blacklight/configuration.rb"
+
 Metrics/LineLength:
   Max: 200
 
