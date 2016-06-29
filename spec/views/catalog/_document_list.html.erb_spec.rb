@@ -7,7 +7,7 @@ describe "catalog/_document_list", type: :view do
     allow(view).to receive_messages(document_index_view_type: "some-view", documents: [])
   end
 
-  it "should include a class for the current view" do
+  it "includes a class for the current view" do
     render
     expect(rendered).to have_selector(".documents-some-view")
   end

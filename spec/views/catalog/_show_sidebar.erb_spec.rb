@@ -20,7 +20,7 @@ describe "/catalog/_show_sidebar.html.erb" do
     allow(view).to receive(:document_actions).and_return([])
   end
 
-  it "should show more-like-this titles in the sidebar" do
+  it "shows more-like-this titles in the sidebar" do
   	@document = SolrDocument.new :id => 1, :title_s => 'abc', :format => 'default'
   	allow(@document).to receive(:more_like_this).and_return([SolrDocument.new({ 'id' => '2', 'title_display' => 'Title of MLT Document' })])
     render

@@ -59,7 +59,7 @@ describe Blacklight::SearchHelper do
         (@solr_response, @document_list) = subject.search_results(q: @all_docs_query)
       end
 
-      it "should use the configured request handler " do
+      it "uses the configured request handler" do
         allow(blacklight_config).to receive(:default_solr_params).and_return({:qt => 'custom_request_handler'})
         allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
           expect(path).to eq 'select'
@@ -70,11 +70,11 @@ describe Blacklight::SearchHelper do
         subject.search_results(q: @all_docs_query)
       end
 
-      it 'should have a @response.docs list of the same size as @document_list' do
+      it 'has a @response.docs list of the same size as @document_list' do
         expect(@solr_response.docs).to have(@document_list.length).docs
       end
 
-      it 'should have @response.docs list representing same documents as SolrDocuments in @document_list' do
+      it 'has @response.docs list representing same documents as SolrDocuments in @document_list' do
         @solr_response.docs.each_index do |index|
           mash = @solr_response.docs[index]
           solr_document = @document_list[index]
@@ -96,11 +96,11 @@ describe Blacklight::SearchHelper do
         (@solr_response, @document_list) = subject.search_results(q: @all_docs_query)
       end
 
-      it "should have an empty document list" do
+      it "has an empty document list" do
         expect(@document_list).to be_empty
       end
 
-      it "should return a grouped response" do
+      it "returns a grouped response" do
         expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
 
       end
@@ -116,11 +116,11 @@ describe Blacklight::SearchHelper do
         (@solr_response, @document_list) = subject.search_results(q: @all_docs_query)
       end
 
-      it "should have an empty document list" do
+      it "has an empty document list" do
         expect(@document_list).to be_empty
       end
 
-      it "should return a grouped response" do
+      it "returns a grouped response" do
         expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
         expect(@solr_response.group_field).to eq "title_sort"
       end
@@ -128,7 +128,7 @@ describe Blacklight::SearchHelper do
 
 
     describe "for All Docs Query and One Facet" do
-      it 'should have results' do
+      it 'has results' do
         (solr_response, document_list) = subject.search_results(q: @all_docs_query, f: @single_facet)
         expect(solr_response.docs).to have(document_list.size).results
         expect(solr_response.docs).to have_at_least(1).result
@@ -138,7 +138,7 @@ describe Blacklight::SearchHelper do
     end
 
     describe "for Query Without Results and No Facet" do
-      it 'should have no results and not raise error' do
+      it 'has no results and not raise error' do
         (solr_response, document_list) = subject.search_results(q: @no_docs_query)
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
@@ -146,7 +146,7 @@ describe Blacklight::SearchHelper do
     end
 
     describe "for Query Without Results and One Facet" do
-      it 'should have no results and not raise error' do
+      it 'has no results and not raise error' do
         (solr_response, document_list) = subject.search_results(q: @no_docs_query, f: @single_facet)
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
@@ -154,7 +154,7 @@ describe Blacklight::SearchHelper do
     end
 
     describe "for All Docs Query and Bad Facet" do
-      it 'should have no results and not raise error' do
+      it 'has no results and not raise error' do
         (solr_response, document_list) = subject.search_results(q: @all_docs_query, f: @bad_facet)
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
@@ -173,20 +173,20 @@ describe Blacklight::SearchHelper do
       @facets = solr_response.aggregations
     end
 
-    it 'should have more than one facet' do
+    it 'has more than one facet' do
       expect(@facets).to have_at_least(1).facet
     end
-    it 'should have all facets specified in initializer' do
+    it 'has all facets specified in initializer' do
       expect(@facets.keys).to include *blacklight_config.facet_fields.keys
       expect(@facets.none? { |k, v| v.nil? }).to eq true
     end
 
-    it 'should have at least one value for each facet' do
+    it 'has at least one value for each facet' do
       @facets.each do |key, facet|
         expect(facet.items).to have_at_least(1).hit
       end
     end
-    it 'should have multiple values for at least one facet' do
+    it 'has multiple values for at least one facet' do
       has_mult_values = false
       @facets.each do |key, facet|
         if facet.items.size > 1
@@ -196,7 +196,7 @@ describe Blacklight::SearchHelper do
       end
       expect(has_mult_values).to eq true
     end
-    it 'should have all value counts > 0' do
+    it 'has all value counts > 0' do
       @facets.each do |key, facet|
         facet.items.each do |facet_vals|
           expect(facet_vals.hits).to be > 0
@@ -210,56 +210,56 @@ describe Blacklight::SearchHelper do
   describe 'Paging', :integration => true do
     let(:blacklight_config) { copy_of_catalog_config }
 
-    it 'should start with first results by default' do
+    it 'starts with first results by default' do
       (solr_response, document_list) = subject.search_results(q: @all_docs_query)
       expect(solr_response.params[:start].to_i).to eq 0
     end
-    it 'should have number of results (per page) set in initializer, by default' do
+    it 'has number of results (per page) set in initializer, by default' do
       (solr_response, document_list) = subject.search_results(q: @all_docs_query)
       expect(solr_response.docs).to have(blacklight_config[:default_solr_params][:rows]).items
       expect(document_list).to have(blacklight_config[:default_solr_params][:rows]).items
     end
 
-    it 'should get number of results per page requested' do
+    it 'gets number of results per page requested' do
       num_results = 3  # non-default value
       (solr_response1, document_list1) = subject.search_results(q: @all_docs_query, per_page: num_results)
       expect(document_list1).to have(num_results).docs
       expect(solr_response1.docs).to have(num_results).docs
     end
 
-    it 'should get number of rows requested' do
+    it 'gets number of rows requested' do
       num_results = 4  # non-default value
       (solr_response1, document_list1) = subject.search_results(q: @all_docs_query, rows: num_results)
       expect(document_list1).to have(num_results).docs
       expect(solr_response1.docs).to have(num_results).docs
     end
 
-    it 'should skip appropriate number of results when requested - default per page' do
+    it 'skips appropriate number of results when requested - default per page' do
       page = 3
       (solr_response2, document_list2) = subject.search_results(q: @all_docs_query, page: page)
       expect(solr_response2.params[:start].to_i).to eq  blacklight_config[:default_solr_params][:rows] * (page-1)
     end
-    it 'should skip appropriate number of results when requested - non-default per page' do
+    it 'skips appropriate number of results when requested - non-default per page' do
       page = 3
       num_results = 3
       (solr_response2a, document_list2a) = subject.search_results(q: @all_docs_query, per_page: num_results, page: page)
       expect(solr_response2a.params[:start].to_i).to eq num_results * (page-1)
     end
 
-    it 'should have no results when prompted for page after last result' do
+    it 'has no results when prompted for page after last result' do
       big = 5000
       (solr_response3, document_list3) = subject.search_results(q: @all_docs_query, rows: big, page: big)
       expect(document_list3).to have(0).docs
       expect(solr_response3.docs).to have(0).docs
     end
 
-    it 'should show first results when prompted for page before first result' do
+    it 'shows first results when prompted for page before first result' do
       # FIXME: should it show first results, or should it throw an error for view to deal w?
       #   Solr throws an error for a negative start value
       (solr_response4, document_list4) = subject.search_results(q: @all_docs_query, page: '-1')
       expect(solr_response4.params[:start].to_i).to eq 0
     end
-    it 'should have results available when asked for more than are in response' do
+    it 'has results available when asked for more than are in response' do
       big = 5000
       (solr_response5, document_list5) = subject.search_results(q: @all_docs_query, rows: big, page: 1)
       expect(solr_response5.docs).to have(document_list5.length).docs
@@ -276,34 +276,34 @@ describe Blacklight::SearchHelper do
       @response2, @document = subject.fetch(@doc_id)
     end
 
-    it "should raise Blacklight::RecordNotFound for an unknown id" do
+    it "raises Blacklight::RecordNotFound for an unknown id" do
       expect {
         subject.fetch(@bad_id)
       }.to raise_error(Blacklight::Exceptions::RecordNotFound)
     end
 
-    it "should use a provided document request handler " do
+    it "uses a provided document request handler" do
       allow(blacklight_config).to receive_messages(:document_solr_request_handler => 'document')
       allow(blacklight_solr).to receive(:send_and_receive).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
       expect { subject.fetch(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
-    it "should use a provided document solr path " do
+    it "uses a provided document solr path" do
       allow(blacklight_config).to receive_messages(:document_solr_path => 'get')
       allow(blacklight_solr).to receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
       expect { subject.fetch(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
-    it "should have a non-nil result for a known id" do
+    it "has a non-nil result for a known id" do
       expect(@document).not_to be_nil
     end
-    it "should have a single document in the response for a known id" do
+    it "has a single document in the response for a known id" do
       expect(@response2.docs.size).to eq 1
     end
-    it 'should have the expected value in the id field' do
+    it 'has the expected value in the id field' do
       expect(@document.id).to eq @doc_id
     end
-    it 'should have non-nil values for required fields set in initializer' do
+    it 'has non-nil values for required fields set in initializer' do
       expect(@document.fetch(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
     end
   end
@@ -354,7 +354,7 @@ describe Blacklight::SearchHelper do
   describe "facet_limit_for" do
     let(:blacklight_config) { copy_of_catalog_config }
 
-    it "should return specified value for facet_field specified" do
+    it "returns specified value for facet_field specified" do
       expect(subject.facet_limit_for("subject_topic_facet")).to eq blacklight_config.facet_fields["subject_topic_facet"].limit
     end
 
@@ -364,7 +364,7 @@ describe Blacklight::SearchHelper do
       expect(subject.facet_limit_hash).to eq blacklight_config[:facet][:limits]
     end
 
-    it "should handle no facet_limits in config" do
+    it "handles no facet_limits in config" do
       blacklight_config.facet_fields = {}
       expect(subject.facet_limit_for("subject_topic_facet")).to be_nil
     end
@@ -375,23 +375,23 @@ describe Blacklight::SearchHelper do
         config.add_facet_field "language_facet", limit: true
         config
       end
-      it "should return nil if no @response available" do
+      it "returns nil if no @response available" do
         expect(subject.facet_limit_for("some_unknown_field")).to be_nil
       end
-      it "should get from @response facet.limit if available" do        
+      it "gets from @response facet.limit if available" do        
         @response = double()
         allow(@response).to receive(:aggregations).and_return("language_facet" => double(limit: nil))
         subject.instance_variable_set(:@response, @response)
         blacklight_config.facet_fields['language_facet'].limit = 10
         expect(subject.facet_limit_for("language_facet")).to eq 10
       end
-      it "should get the limit from the facet field in @response" do
+      it "gets the limit from the facet field in @response" do
         @response = double()
         allow(@response).to receive(:aggregations).and_return("language_facet" => double(limit: 16))
         subject.instance_variable_set(:@response, @response)
         expect(subject.facet_limit_for("language_facet")).to eq 15
       end
-      it "should default to 10" do
+      it "defaults to 10" do
         expect(subject.facet_limit_for("language_facet")).to eq 10
       end
     end
@@ -404,13 +404,13 @@ describe Blacklight::SearchHelper do
 # TODO: maybe eventually check other types of solr requests
 #  more like this
 #  nearby on shelf
-  it "should raise a Blacklight exception if RSolr can't connect to the Solr instance" do
+  it "raises a Blacklight exception if RSolr can't connect to the Solr instance" do
     allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
     expect { subject.repository.search }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
   describe "grouped_key_for_results" do
-    it "should pull the grouped key out of the config" do
+    it "pulls the grouped key out of the config" do
       blacklight_config.index.group = 'xyz'
       expect(subject.grouped_key_for_results).to eq('xyz')
     end 
@@ -422,27 +422,27 @@ describe Blacklight::SearchHelper do
       @full_response, @all_docs = pre_query.search_results(q: '', per_page: '100')
     end
 
-    it "should return the previous and next documents for a search" do
+    it "returns the previous and next documents for a search" do
       response, docs = subject.get_previous_and_next_documents_for_search(4, :q => '')
 
       expect(docs.first.id).to eq @all_docs[3].id
       expect(docs.last.id).to eq @all_docs[5].id
     end
 
-    it "should return only the next document if the counter is 0" do
+    it "returns only the next document if the counter is 0" do
       response, docs = subject.get_previous_and_next_documents_for_search(0, :q => '')
 
       expect(docs.first).to be_nil
       expect(docs.last.id).to eq @all_docs[1].id
     end
 
-    it "should return only the previous document if the counter is the total number of documents" do
+    it "returns only the previous document if the counter is the total number of documents" do
       response, docs = subject.get_previous_and_next_documents_for_search(@full_response.total - 1, :q => '')
       expect(docs.first.id).to eq @all_docs.slice(-2).id
       expect(docs.last).to be_nil
     end
 
-    it "should return an array of nil values if there is only one result" do
+    it "returns an array of nil values if there is only one result" do
       response, docs = subject.get_previous_and_next_documents_for_search(0, :q => 'id:2007020969')
       expect(docs.last).to be_nil
       expect(docs.first).to be_nil

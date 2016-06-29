@@ -6,7 +6,7 @@ describe "catalog/_constraints_element.html.erb" do
     before do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value"}
     end
-    it "should render label and value" do
+    it "renders label and value" do
       expect(rendered).to have_selector("span.appliedFilter.constraint") do |s|
         expect(s).to have_css("span.constraint-value")
         expect(s).to_not have_css("a.constraint-value")
@@ -20,13 +20,13 @@ describe "catalog/_constraints_element.html.erb" do
     before do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:remove => "http://remove"}}
     end
-    it "should include remove link" do
+    it "includes remove link" do
       expect(rendered).to have_selector("span.appliedFilter") do |s|
         expect(s).to have_selector(".remove[href='http://remove']")
       end
     end
 
-    it "should have an accessible remove label" do
+    it "has an accessible remove label" do
       expect(rendered).to have_selector(".remove") do |s|
         expect(s).to have_content("Remove constraint my label: my value")
       end
@@ -37,7 +37,7 @@ describe "catalog/_constraints_element.html.erb" do
     before do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:classes => ["class1", "class2"]}}
     end
-    it "should include them" do
+    it "includes them" do
       expect(rendered).to have_selector("span.appliedFilter.constraint.class1.class2")
     end
   end
@@ -46,7 +46,7 @@ describe "catalog/_constraints_element.html.erb" do
     before do
       render( :partial => "catalog/constraints_element", :locals => {:label => "<span class='custom_label'>my label</span>".html_safe, :value => "<span class='custom_value'>my value</span>".html_safe} )
     end
-    it "should not escape key and value" do
+    it "does not escape key and value" do
       expect(rendered).to have_selector("span.appliedFilter.constraint span.filterName span.custom_label")
       expect(rendered).to have_selector("span.appliedFilter.constraint span.filterValue span.custom_value")
     end

@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Search Pagination" do
-  it "should have results with pagination" do
+  it "has results with pagination" do
     visit root_path
     fill_in "q", with: ''
     click_button 'search'
@@ -28,7 +28,7 @@ describe "Search Pagination" do
     end
   end
 
-  it "should be able to change the number of items per page" do
+  it "is able to change the number of items per page" do
     visit root_path
     fill_in "q", with: ''
     click_button 'search'
@@ -55,7 +55,7 @@ describe "Search Pagination" do
       CatalogController.blacklight_config[:per_page] = original_per_page
       CatalogController.blacklight_config[:default_solr_params][:rows] = original_rows
     end
-    it "should use the configured values" do
+    it "uses the configured values" do
       visit root_path
       fill_in "q", with: ''
       click_button 'search'
@@ -75,7 +75,7 @@ describe "Search Pagination" do
     end
   end
 
-  it "should reset the page offset to 1 when changing per page" do
+  it "resets the page offset to 1 when changing per page" do
     visit root_path
     fill_in "q", with: ''
     click_button 'search'

@@ -2,13 +2,13 @@
 require 'spec_helper'
 
 describe "Facets" do
-  it "should show a single facet's values" do
+  it "shows a single facet's values" do
     visit facet_catalog_path("language_facet")
     expect(page).to have_selector ".modal-title", :text => "Language"
     expect(page).to have_selector ".facet_select", :text => "Tibetan"
   end
   
-  it "should paginate through a facet's values" do
+  it "paginates through a facet's values" do
     visit facet_catalog_path("subject_topic_facet")
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
     expect(page).to have_link "A-Z Sort"
@@ -20,7 +20,7 @@ describe "Facets" do
     expect(page).to have_link "« Previous"
   end
   
-  it "should be able to change the facet sort" do
+  it "is able to change the facet sort" do
     visit facet_catalog_path("subject_topic_facet")
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
     within ".modal-footer" do
@@ -31,7 +31,7 @@ describe "Facets" do
     expect(page).to have_selector '.sort_options .active', text: "A-Z Sort"
   end
   
-  it "should be able to sort more facet window by letter" do
+  it "is able to sort more facet window by letter" do
     visit facet_catalog_path("subject_topic_facet")
     within ".modal-footer" do
       click_on "A-Z Sort"

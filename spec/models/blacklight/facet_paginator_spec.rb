@@ -21,7 +21,7 @@ describe Blacklight::FacetPaginator do
     its(:current_page) { should eq 1 }
     its(:prev_page) { should be_nil }
     its(:next_page) { should eq 2 }
-    it 'should limit items to limit, if limit is smaller than items.length' do
+    it 'limits items to limit, if limit is smaller than items.length' do
       expect(subject.items.size).to eq 6
     end
   end
@@ -33,7 +33,7 @@ describe Blacklight::FacetPaginator do
     its(:current_page) { should eq 2 }
     its(:prev_page) { should eq 1 }
     its(:next_page) { should be_nil }
-    it 'should return all items when limit is greater than items.length' do
+    it 'returns all items when limit is greater than items.length' do
       expect(subject.items.size).to eq 1
     end
   end
@@ -45,7 +45,7 @@ describe Blacklight::FacetPaginator do
     its(:current_page) { should eq 2 }
     its(:prev_page) { should eq 1 }
     its(:next_page) { should eq 3 }
-    it 'should limit items to limit, if limit is smaller than items.length' do
+    it 'limits items to limit, if limit is smaller than items.length' do
       expect(subject.items.size).to eq 6
     end
   end
@@ -61,7 +61,7 @@ describe Blacklight::FacetPaginator do
     let(:page_key) { described_class.request_keys[:page] }
     subject { described_class.new([], offset: 100, limit: limit, sort: 'index') }
 
-    it 'should know a manually set sort, and produce proper sort url' do
+    it 'knows a manually set sort, and produce proper sort url' do
         expect(subject.sort).to eq 'index'
 
         click_params = subject.params_for_resort_url('count', {}.with_indifferent_access)
@@ -105,7 +105,7 @@ describe Blacklight::FacetPaginator do
 
   describe "#as_json" do
     subject { described_class.new([f1], offset: 0, limit: nil).as_json }
-    it "should be well structured" do
+    it "is well structured" do
       expect(subject).to eq("items" => [{"hits"=>"792", "value"=>"Book"}], "limit" => nil,
        "offset" => 0, "sort" => nil)
     end

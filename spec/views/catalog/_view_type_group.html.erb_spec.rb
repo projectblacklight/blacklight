@@ -17,13 +17,13 @@ describe "catalog/_view_type_group" do
     controller.request.path_parameters[:action] = 'index'
   end
 
-  it "should not display the group when there's only one option" do
+  it "does not display the group when there's only one option" do
     assign(:response, [])
     render partial: 'catalog/view_type_group'
     expect(rendered).to be_empty
   end
 
-  it "should display the group" do
+  it "displays the group" do
     assign(:response, [double])
     blacklight_config.configure do |config|
       config.view.delete(:list)
@@ -39,7 +39,7 @@ describe "catalog/_view_type_group" do
   end
 
 
-  it "should set the current view to 'active'" do
+  it "sets the current view to 'active'" do
     assign(:response, [double])
     blacklight_config.configure do |config|
       config.view.delete(:list)

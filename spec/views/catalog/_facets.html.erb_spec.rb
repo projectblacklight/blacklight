@@ -12,7 +12,7 @@ describe "catalog/_facets" do
   end
 
   context "without any facet fields" do
-    it "should not have a header if no facets are displayed" do
+    it "does not have a header if no facets are displayed" do
       allow(view).to receive_messages(:render_facet_partials => '')
       render
       expect(rendered).to_not have_selector('h4')
@@ -35,7 +35,7 @@ describe "catalog/_facets" do
         allow(@response).to receive(:aggregations).and_return("facet_field_1" => @mock_display_facet_1)
     end
 
-    it "should have a header" do
+    it "has a header" do
       allow(view).to receive_messages(:render_facet_partials => '')
       render
       expect(rendered).to have_selector('.facets-heading')
@@ -43,12 +43,12 @@ describe "catalog/_facets" do
 
 
     describe "facet display" do
-      it "should have a(n accessible) header" do
+      it "has a(n accessible) header" do
         render
         expect(rendered).to have_selector('.facet-field-heading')
       end
 
-      it "should list values" do
+      it "lists values" do
         render
 
         # The .facet-content class is used by blacklight_range_limit js, and

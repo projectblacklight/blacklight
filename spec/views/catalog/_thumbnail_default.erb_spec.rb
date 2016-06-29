@@ -26,13 +26,13 @@ describe "catalog/_thumbnail_default" do
     allow(view).to receive(:search_session).and_return({})
   end
 
-  it "should render the thumbnail if the document has one" do
+  it "renders the thumbnail if the document has one" do
     render :partial => "catalog/thumbnail_default", :locals => {:document => document_with_thumbnail_field, :document_counter => 1}
     expect(rendered).to match /document-thumbnail/
     expect(rendered).to match /src="http:\/\/localhost\/logo.png"/
   end
 
-  it "should not render a thumbnail if the document does not have one" do
+  it "does not render a thumbnail if the document does not have one" do
     render :partial => "catalog/thumbnail_default", :locals => {:document => document_without_thumbnail_field, :document_counter => 1}
     expect(rendered).to eq ""
   end

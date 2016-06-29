@@ -8,14 +8,14 @@ describe "Search Formats" do
     CatalogController.blacklight_config.default_solr_params[:fl] = '*'
   end
 
-  it "should have an RSS XML response" do
+  it "has an RSS XML response" do
     visit "/catalog.rss?q="
     expect(page).to have_content "Blacklight Search Results"
     doc = Nokogiri::XML(page.body)
     expect(doc.xpath("//item")).to have(10).items
   end
 
-  it "should have an ATOM XML response" do
+  it "has an ATOM XML response" do
     visit "/catalog.atom?q="
     expect(page).to have_content "Blacklight Search Results"
     doc = Nokogiri::XML(page.body)

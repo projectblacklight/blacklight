@@ -22,7 +22,7 @@ describe SearchHistoryConstraintsHelper do
 
   describe "render_search_to_s_*" do
     describe "render_search_to_s_element" do
-      it "should render basic element" do
+      it "renders basic element" do
         response = helper.render_search_to_s_element("key", "value")
         expect(response).to have_selector("span.constraint")  do |span|
           expect(span).to have_selector("span.filterName", :content => "key:")
@@ -30,7 +30,7 @@ describe SearchHistoryConstraintsHelper do
         end
         expect(response).to be_html_safe
       end
-      it "should escape them that need escaping" do
+      it "escapes them that need escaping" do
         response = helper.render_search_to_s_element("key>", "value>")
         expect(response).to have_selector("span.constraint") do |span|          
           expect(span).to have_selector("span.filterName") do |s2|
@@ -45,7 +45,7 @@ describe SearchHistoryConstraintsHelper do
         end
         expect(response).to be_html_safe
       end
-      it "should not escape with options set thus" do
+      it "does not escape with options set thus" do
         response = helper.render_search_to_s_element("key>", "value>", :escape_key => false, :escape_value => false)
         expect(response).to have_selector("span.constraint") do |span|
           expect(span).to have_selector("span.filterName", :content => "key>:")
@@ -59,7 +59,7 @@ describe SearchHistoryConstraintsHelper do
       before do
         @params = {:q => "history", :f => {"some_facet" => ["value1", "value1"],  "other_facet" => ["other1"]}}        
       end
-      it "should call lesser methods" do
+      it "calls lesser methods" do
         allow(helper).to receive(:blacklight_config).and_return(@config)
         allow(helper).to receive(:default_search_field).and_return(Blacklight::Configuration::SearchField.new(:key => 'default_search_field', :display_label => 'Default'))
         allow(helper).to receive(:label_for_search_field).with(nil).and_return('')
@@ -73,12 +73,12 @@ describe SearchHistoryConstraintsHelper do
     end
     
     describe "render_search_to_s_filters" do
-      it "should render a constraint for a selected facet in the config" do
+      it "renders a constraint for a selected facet in the config" do
         response = helper.render_search_to_s_filters(:f => {"some_facet" => ["value1", "value2"]})
         expect(response).to eq("<span class=\"constraint\"><span class=\"filterName\">Some:</span><span class=\"filterValues\"><span class=\"filterValue\">value1</span><span class=\"filterSeparator\"> and </span><span class=\"filterValue\">value2</span></span></span>")
       end
 
-      it "should render a constraint for a selected facet not in the config" do
+      it "renders a constraint for a selected facet not in the config" do
         response = helper.render_search_to_s_filters(:f => {"undefined_facet" => ["value1", "value2"]})
         expect(response).to eq("<span class=\"constraint\"><span class=\"filterName\">#{'undefined_facet'.humanize}:</span><span class=\"filterValues\"><span class=\"filterValue\">value1</span><span class=\"filterSeparator\"> and </span><span class=\"filterValue\">value2</span></span></span>")
       end
@@ -92,7 +92,7 @@ describe SearchHistoryConstraintsHelper do
           I18n.locale = @orig_locale
         end
 
-        it 'should render the correct I18n label for a selected facet with I18n translations' do
+        it 'renders the correct I18n label for a selected facet with I18n translations' do
           {en: 'English facet label', de: 'German facet label'}.each do |locale, label|
             I18n.locale = locale
             response = helper.render_search_to_s_filters(f: {'i18n_facet' => ['value1', 'value2']})

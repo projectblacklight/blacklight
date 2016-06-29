@@ -82,35 +82,35 @@ describe Blacklight::IndexPresenter do
       expect(value).to eq 'document qwer value'
     end
 
-    it "should work with index fields that aren't explicitly defined" do
+    it "works with index fields that aren't explicitly defined" do
       value = subject.field_value 'mnbv'
       expect(value).to eq 'document mnbv value'
     end
 
-    it "should call an accessor on the solr document" do
+    it "calls an accessor on the solr document" do
       allow(document).to receive_messages(solr_doc_accessor: "123")
       value = subject.field_value 'solr_doc_accessor'
       expect(value).to eq "123"
     end
 
-    it "should call an explicit accessor on the solr document" do
+    it "calls an explicit accessor on the solr document" do
       allow(document).to receive_messages(solr_doc_accessor: "123")
       value = subject.field_value 'explicit_accessor'
       expect(value).to eq "123"
     end
 
-    it "should call an accessor on the solr document with the field as an argument" do
+    it "calls an accessor on the solr document with the field as an argument" do
       allow(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
       value = subject.field_value 'explicit_accessor_with_arg'
       expect(value).to eq "123"
     end
 
-    it "should support solr field configuration" do
+    it "supports solr field configuration" do
       value = subject.field_value 'alias'
       expect(value).to eq "document qwer value"
     end
 
-    it "should support default values in the field configuration" do
+    it "supports default values in the field configuration" do
       value = subject.field_value 'with_default'
       expect(value).to eq "value"
     end
@@ -125,7 +125,7 @@ describe Blacklight::IndexPresenter do
         document['field_with_helper'] = 'value'
       end
 
-      it "should check call the helper method with arguments" do
+      it "checks call the helper method with arguments" do
         allow(request_context).to receive(:render_field_with_helper) do |*args|
           args.first
         end

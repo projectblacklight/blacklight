@@ -58,7 +58,7 @@ describe RenderConstraintsHelper do
     end
     subject { helper.render_constraints_filters(params) }
 
-    it "should render nothing for empty facet limit param" do
+    it "renders nothing for empty facet limit param" do
       expect(subject).to be_blank
     end
   end

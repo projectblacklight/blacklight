@@ -12,19 +12,19 @@ describe 'catalog/facet.html.erb' do
     assign :display_facet, display_facet
   end
 
-  it "should have the facet title" do
+  it "has the facet title" do
     allow(view).to receive(:render_facet_limit)
     render
     expect(rendered).to have_selector 'h3', text: "Facet title"
   end
 
-  it "should render facet pagination" do
+  it "renders facet pagination" do
     allow(view).to receive(:render_facet_limit)
     render
     expect(rendered).to have_content 'pagination'
   end
 
-  it "should render the facet limit" do
+  it "renders the facet limit" do
     allow(view).to receive(:render_facet_limit).with(display_facet, layout: false)
     render
   end

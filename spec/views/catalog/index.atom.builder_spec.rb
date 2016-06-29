@@ -32,7 +32,7 @@ describe "catalog/index" do
     REXML::Document.new(rendered)
   end
 
-  it "should have contextual information" do
+  it "has contextual information" do
     expect(rendered).to have_selector("link[rel=self]")
     expect(rendered).to have_selector("link[rel=next]")
     expect(rendered).to have_selector("link[rel=previous]")
@@ -42,14 +42,14 @@ describe "catalog/index" do
     expect(rendered).to have_selector("link[rel=search][type='application/opensearchdescription+xml']")
   end
 
-  it "should get paging data correctly from response" do
+  it "gets paging data correctly from response" do
     # Can't use have_tag for namespaced elements, sorry.
     expect(response_xml.elements["/feed/opensearch:totalResults"].text).to eq "30"
     expect(response_xml.elements["/feed/opensearch:startIndex"].text).to eq "10"
     expect(response_xml.elements["/feed/opensearch:itemsPerPage"].text).to eq "10"
   end
 
-  it "should include an opensearch Query role=request" do
+  it "includes an opensearch Query role=request" do
     expect(response_xml.elements.to_a("/feed/opensearch:itemsPerPage")).to have(1).item
     query_el = response_xml.elements["/feed/opensearch:Query"]
     expect(query_el).to_not be_nil
@@ -58,24 +58,24 @@ describe "catalog/index" do
     expect(query_el.attributes["startPage"]).to eq "2"
   end
 
-  it "should have ten entries" do
+  it "has ten entries" do
     expect(rendered).to have_selector("entry", :count => 10)
   end
 
   describe "entries" do
-    it "should have a title" do
+    it "has a title" do
       expect(rendered).to have_selector("entry > title")
     end
-    it "should have an updated" do
+    it "has an updated" do
       expect(rendered).to have_selector("entry > updated")
     end
-    it "should have html link" do
+    it "has html link" do
       expect(rendered).to have_selector("entry > link[rel=alternate][type='text/html']")
     end
-    it "should have an id" do
+    it "has an id" do
       expect(rendered).to have_selector("entry > id")
     end
-    it "should have a summary" do
+    it "has a summary" do
       expect(rendered).to have_selector("entry > summary")
     end
 
@@ -83,7 +83,7 @@ describe "catalog/index" do
       before do
         @entry = response_xml.elements.to_a("/feed/entry")[0]
       end
-      it "should have author tag" do
+      it "has author tag" do
         expect(@entry.elements["author/name"].text).to eq 'xyz'
       end
     end
@@ -92,7 +92,7 @@ describe "catalog/index" do
       before do
         @entry = response_xml.elements.to_a("/feed/entry")[1]
       end
-      it "should not have an author tag" do
+      it "does not have an author tag" do
         expect(@entry.elements["author/name"]).to be_nil
       end
     end
@@ -103,10 +103,10 @@ describe "catalog/index" do
       let(:entry) do
         response_xml.elements.to_a("/feed/entry")[1].to_s
       end
-      it "should include a link rel tag" do
+      it "includes a link rel tag" do
         expect(entry).to have_selector("link[rel=alternate][type='application/some-format']")
       end
-      it "should have content embedded" do
+      it "has content embedded" do
         expect(entry).to have_selector("content")
       end
     end
@@ -114,7 +114,7 @@ describe "catalog/index" do
       before do
         @entry = response_xml.elements.to_a("/feed/entry")[5]
       end
-      it "should include content" do
+      it "includes content" do
         expect(@entry.to_s).to_not have_selector("content[type='application/some-format']")
       end
     end

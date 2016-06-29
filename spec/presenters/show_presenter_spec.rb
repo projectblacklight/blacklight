@@ -127,39 +127,43 @@ describe Blacklight::ShowPresenter do
       expect(value).to eq 'a, b, and c'
     end
 
-    it "should check for an explicit value" do
+    it "checks for an explicit value" do
       expect(request_context).to_not receive(:render_asdf_document_show_field)
       value = subject.field_value 'asdf', :value => 'val1'
       expect(value).to eq 'val1'
     end
 
-    it "should check for a helper method to call" do
+    it "checks for a helper method to call" do
       allow(request_context).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
       value = subject.field_value 'asdf'
       expect(value).to eq 'custom asdf value'
     end
 
-    it "should check for a link_to_search" do
+    it "checks for a link_to_search" do
       allow(request_context).to receive(:search_action_path).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.field_value 'link_to_search_true'
       expect(value).to eq 'bar'
     end
 
-    it "should check for a link_to_search with a field name" do
+    it "checks for a link_to_search with a field name" do
       allow(request_context).to receive(:search_action_path).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.field_value 'link_to_search_named'
       expect(value).to eq 'bar'
     end
 
-    it "should gracefully handle when no highlight field is available" do
-      allow(document).to receive(:has_highlight_field?).and_return(false)
-      value = subject.field_value 'highlight'
-      expect(value).to be_blank
+    context "when no highlight field is available" do
+      before do
+        allow(document).to receive(:has_highlight_field?).and_return(false)
+      end
+      let(:value) { subject.field_value 'highlight' }
+      it "is blank" do
+        expect(value).to be_blank
+      end
     end
 
-    it "should check for a highlighted field" do
+    it "checks for a highlighted field" do
       allow(document).to receive(:has_highlight_field?).and_return(true)
       allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
       value = subject.field_value 'highlight'
@@ -261,7 +265,7 @@ describe Blacklight::ShowPresenter do
         document['field_with_helper'] = 'value'
       end
 
-      it "should check call the helper method with arguments" do
+      it "checks call the helper method with arguments" do
         allow(request_context).to receive(:render_field_with_helper) do |*args|
           args.first
         end

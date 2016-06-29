@@ -23,7 +23,7 @@ describe Search do
 
       expect(@search).to be_saved
     end
-    it "should be false when user_id is NULL or less than 1" do
+    it "is false when user_id is NULL or less than 1" do
       @search = Search.create
       expect(@search).not_to be_saved
     end

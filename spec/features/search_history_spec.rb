@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Search History Page" do
   describe "navigating from the homepage" do
-    it "should have a link to the history page" do
+    it "has a link to the history page" do
       visit root_path
       click_link 'History'
       expect(page).to have_content 'Search History'
@@ -18,7 +18,7 @@ describe "Search History Page" do
       click_button 'search'
       click_link 'History'
     end
-    it "should show searches" do
+    it "shows searches" do
       expect(page).to have_content 'Your recent searches'
       expect(page).to have_content 'book'
       expect(page).to_not have_content 'dang'
@@ -40,7 +40,7 @@ describe "Search History Page" do
       click_button 'search'
       click_link 'History'
     end
-    it "should be able to clear the history" do
+    it "is able to clear the history" do
       click_link "Clear Search History"
       expect(page).to have_content 'Cleared your search history.'
       expect(page).to have_content 'You have no search history'
@@ -57,7 +57,7 @@ describe "Search History Page" do
       click_link 'History'
     end
 
-    it "should save and forget the search" do
+    it "saves and forget the search" do
       click_button 'save'
       expect(page).to have_content 'Successfully saved your search.'
       click_button 'forget'
@@ -65,7 +65,7 @@ describe "Search History Page" do
       expect(page).to have_button 'save'
     end
 
-    it "should not show results after logging out" do
+    it "does not show results after logging out" do
       click_button 'save'
       expect(page).to have_content 'Successfully saved your search.'
       click_link 'Log Out'

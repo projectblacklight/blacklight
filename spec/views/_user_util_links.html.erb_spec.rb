@@ -10,7 +10,7 @@ describe "_user_util_links" do
 
   end
 
-  it "should render the correct bookmark count" do
+  it "renders the correct bookmark count" do
     count = rand(99)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     allow(controller).to receive(:render_bookmarks_control?).and_return true

@@ -24,25 +24,25 @@ describe Blacklight::SearchFields do
     allow(@search_field_obj).to receive(:blacklight_config).and_return(@config)
   end
 
-  it "should return search field list with calculated :label when needed" do
+  it "returns search field list with calculated :label when needed" do
      @search_field_obj.search_field_list.each do |hash|        
         expect(hash.label).not_to be_blank
      end
   end
 
-  it "should fill in default qt where needed" do
+  it "fills in default qt where needed" do
     expect(@search_field_obj.search_field_def_for_key("all_fields").qt).to eq @config.default_solr_params[:qt]
   end
 
-  it "should lookup field definitions by key" do
+  it "lookups field definitions by key" do
     expect(@search_field_obj.search_field_def_for_key("title").key).to eq "title"
   end
 
-  it "should find label by key" do
+  it "finds label by key" do
     expect(@search_field_obj.label_for_search_field("title")).to eq "Title"
   end
 
-  it "should supply default label for key not found" do
+  it "supplies default label for key not found" do
     expect(@search_field_obj.label_for_search_field("non_existent_key")).to eq "Keyword"
   end
 
@@ -50,7 +50,7 @@ describe Blacklight::SearchFields do
     before do
       @bad_config = MockConfig.new
     end
-    it "should raise exception on #search_field_list" do
+    it "raises exception on #search_field_list" do
       expect { allow(@bad_config).to receive(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
            config.add_search_field :label => 'All Fields', :qt => 'all_fields'
            config.add_search_field 'title', :qt => 'title_search'
@@ -62,7 +62,7 @@ describe Blacklight::SearchFields do
     before do
       @bad_config = MockConfig.new
     end
-    it "should raise on #search_field_list" do
+    it "raises on #search_field_list" do
       expect { allow(@bad_config).to receive(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
         config.add_search_field 'my_key', :label => 'All Fields'
         config.add_search_field 'my_key', :label => 'title'

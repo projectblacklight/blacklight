@@ -11,7 +11,7 @@ describe SearchHistoryController do
       @three = Search.create
     end
 
-    it "should only fetch searches with ids in the session" do
+    it "onlies fetch searches with ids in the session" do
       session[:history] = [@one.id, @three.id]
       get :index
       @searches = assigns(:searches)
@@ -21,7 +21,7 @@ describe SearchHistoryController do
       expect(@searches).to_not include(@two)
     end
     
-    it "should tolerate bad ids in session" do
+    it "tolerates bad ids in session" do
       session[:history] = [@one.id, @three.id, "NOT_IN_DB"]
       get :index
       @searches = assigns(:searches)
@@ -30,7 +30,7 @@ describe SearchHistoryController do
       expect(@searches).to include(@three)      
     end
     
-    it "should not fetch any searches if there is no history" do
+    it "does not fetch any searches if there is no history" do
       session[:history] = []
       get :index
       @searches = assigns(:searches)

@@ -7,7 +7,7 @@ describe "Blacklight::Configuration" do
     @config = Blacklight::Configuration.new
   end
 
-  it "should support arbitrary configuration values" do
+  it "supports arbitrary configuration values" do
     @config.a = 1
 
     expect(@config.a).to eq 1
@@ -15,11 +15,11 @@ describe "Blacklight::Configuration" do
   end
 
   describe "initialization" do
-    it "should be an OpenStructWithHashAccess" do
+    it "is an OpenStructWithHashAccess" do
       expect(@config).to be_a_kind_of Blacklight::OpenStructWithHashAccess
     end
 
-    it "should accept a block for configuration" do
+    it "accepts a block for configuration" do
       config = Blacklight::Configuration.new(:a => 1) { |c| c.a = 2 }
 
       expect(config.a).to eq 2
@@ -31,16 +31,16 @@ describe "Blacklight::Configuration" do
   end
 
   describe "defaults" do
-    it "should have a hash of default rsolr query parameters" do
+    it "has a hash of default rsolr query parameters" do
       expect(@config.default_solr_params).to be_a_kind_of Hash
     end
 
-    it "should have openstruct values for show and index parameters" do
+    it "has openstruct values for show and index parameters" do
       expect(@config.show).to be_a_kind_of OpenStruct
       expect(@config.index).to be_a_kind_of OpenStruct
     end
 
-    it "should have ordered hashes for field configuration" do
+    it "has ordered hashes for field configuration" do
       expect(@config.facet_fields).to be_a_kind_of ActiveSupport::OrderedHash
       expect(@config.index_fields).to be_a_kind_of ActiveSupport::OrderedHash
       expect(@config.show_fields).to be_a_kind_of ActiveSupport::OrderedHash
@@ -54,17 +54,17 @@ describe "Blacklight::Configuration" do
 
   describe "#connection_config" do
     let(:custom_config) { double }
-    it "should have the global blacklight configuration" do
+    it "has the global blacklight configuration" do
       expect(@config.connection_config).to eq Blacklight.connection_config
     end
-    it "should be overridable with custom configuration" do
+    it "is overridable with custom configuration" do
       @config.connection_config = custom_config
       expect(@config.connection_config).to eq custom_config
     end
   end
 
   describe "config.index.respond_to" do
-    it "should have a list of additional formats for index requests to respond to" do
+    it "has a list of additional formats for index requests to respond to" do
       @config.index.respond_to.xml = true
 
       @config.index.respond_to.csv = { :layout => false }
@@ -76,17 +76,17 @@ describe "Blacklight::Configuration" do
   end
 
   describe "spell_max" do
-    it "should default to 5" do
+    it "defaults to 5" do
       expect(Blacklight::Configuration.new.spell_max).to eq 5
     end
     
-    it "should accept config'd value" do
+    it "accepts config'd value" do
       expect(Blacklight::Configuration.new(:spell_max => 10).spell_max).to eq 10
     end
   end
 
   describe "inheritable_copy" do
-    it "should provide a deep copy of the configuration" do
+    it "provides a deep copy of the configuration" do
       config_copy = @config.inheritable_copy
       config_copy.a = 1
 
@@ -98,7 +98,7 @@ describe "Blacklight::Configuration" do
     end
 
     context "when model classes are customised" do
-      it "should not dup response_model or document_model" do
+      it "does not dup response_model or document_model" do
         @config.response_model = Hash
         @config.document_model = Array
 
@@ -110,14 +110,14 @@ describe "Blacklight::Configuration" do
     end
 
     context "when model classes are not set" do
-      it "should leave response_model and document_model empty" do
+      it "leaves response_model and document_model empty" do
         config_copy = @config.inheritable_copy
 
         expect(config_copy.fetch(:response_model, nil)).to be_nil
         expect(config_copy.fetch(:document_model, nil)).to be_nil
       end
 
-      it "should return default classes" do
+      it "returns default classes" do
         config_copy = @config.inheritable_copy
 
         expect(config_copy.response_model).to eq Blacklight::Solr::Response
@@ -125,7 +125,7 @@ describe "Blacklight::Configuration" do
       end
     end
 
-    it "should provide cloned copies of mutable data structures" do
+    it "provides cloned copies of mutable data structures" do
       @config.a = { value: 1 }
       @config.b = [1,2,3]
 
@@ -142,7 +142,7 @@ describe "Blacklight::Configuration" do
   end
 
   describe "add alternative solr fields" do
-    it "should let you define any arbitrary solr field" do
+    it "lets you define any arbitrary solr field" do
       Blacklight::Configuration.define_field_access :my_custom_field
 
       config = Blacklight::Configuration.new do |config|
@@ -154,7 +154,7 @@ describe "Blacklight::Configuration" do
       expect(config.my_custom_fields.keys).to include('qwerty')
     end
 
-    it "should let you define a field accessor that uses an existing field-type" do
+    it "lets you define a field accessor that uses an existing field-type" do
 
       Blacklight::Configuration.define_field_access :my_custom_facet_field, :class => Blacklight::Configuration::FacetField
 
@@ -170,7 +170,7 @@ describe "Blacklight::Configuration" do
   end
   
   describe "add_facet_field" do
-    it "should accept field name and hash form arg" do
+    it "accepts field name and hash form arg" do
       @config.add_facet_field('format',  :label => "Format", :limit => true)
       
       expect(@config.facet_fields["format"]).to_not be_nil
@@ -178,14 +178,14 @@ describe "Blacklight::Configuration" do
       expect(@config.facet_fields["format"]["limit"]).to be true
     end
 
-    it "should accept FacetField obj arg" do
+    it "accepts FacetField obj arg" do
       @config.add_facet_field("format", Blacklight::Configuration::FacetField.new( :label => "Format"))
       
       expect(@config.facet_fields["format"]).to_not be_nil
       expect(@config.facet_fields["format"]["label"]).to eq "Format"
     end
     
-    it "should accept field name and block form" do
+    it "accepts field name and block form" do
       @config.add_facet_field("format") do |facet|        
         facet.label = "Format"
         facet.limit = true
@@ -195,7 +195,7 @@ describe "Blacklight::Configuration" do
       expect(@config.facet_fields["format"].limit).to be true
     end
 
-    it "should accept block form" do
+    it "accepts block form" do
       @config.add_facet_field do |facet|
         facet.field = "format"
         facet.label = "Format"
@@ -204,41 +204,41 @@ describe "Blacklight::Configuration" do
       expect(@config.facet_fields['format']).to_not be_nil
     end
 
-    it "should accept a configuration hash" do
+    it "accepts a configuration hash" do
       @config.add_facet_field :field => 'format', :label => 'Format'
       expect(@config.facet_fields['format']).to_not be_nil
     end
 
-    it "should accept array form" do
+    it "accepts array form" do
       @config.add_facet_field([{ :field => 'format', :label => 'Format'}, { :field => 'publication_date', :label => 'Publication Date' }])
 
       expect(@config.facet_fields).to have(2).fields
     end
 
-    it "should accept array form with a block" do
+    it "accepts array form with a block" do
       expect do |b|
         @config.add_facet_field([{ :field => 'format', :label => 'Format'}, { :field => 'publication_date', :label => 'Publication Date' }], &b)
       end.to yield_control.twice
     end
 
 
-    it "should create default label from titleized solr field" do
+    it "creates default label from titleized solr field" do
       @config.add_facet_field("publication_date")
         
       expect(@config.facet_fields["publication_date"].label).to eq "Publication Date"
     end
 
-    it "should allow you to not show the facet in the facet bar" do
+    it "allows you to not show the facet in the facet bar" do
       @config.add_facet_field("publication_date", :show=>false)
         
       expect(@config.facet_fields["publication_date"]['show']).to be false
     end
     
-    it "should raise on nil solr field name" do
+    it "raises on nil solr field name" do
       expect { @config.add_facet_field(nil) }.to raise_error ArgumentError
     end
 
-    it "should look up and match field names" do
+    it "looks up and match field names" do
       allow(@config).to receive_messages(luke_fields: { 
         "some_field_facet" => {}, 
         "another_field_facet" => {},
@@ -249,7 +249,7 @@ describe "Blacklight::Configuration" do
       expect(@config.facet_fields.keys).to eq ["some_field_facet", "another_field_facet"]
     end
 
-    it "should take wild-carded field names and dereference them to solr fields" do
+    it "takes wild-carded field names and dereference them to solr fields" do
       allow(@config).to receive_messages(luke_fields: {
         "some_field_facet" => {},
         "another_field_facet" => {},
@@ -261,17 +261,17 @@ describe "Blacklight::Configuration" do
     end
 
     describe "if/unless conditions with legacy show parameter" do
-      it "should be hidden if the if condition is false" do
+      it "is hidden if the if condition is false" do
         expect(@config.add_facet_field("hidden", if: false).if).to eq false
         expect(@config.add_facet_field("hidden_with_legacy", if: false, show: true).if).to eq false
       end
 
-      it "should be true if the if condition is true" do
+      it "is true if the if condition is true" do
         expect(@config.add_facet_field("hidden", if: true).if).to eq true
         expect(@config.add_facet_field("hidden_with_legacy", if: true, show: false).if).to eq true
       end
 
-      it "should be true if the if condition is missing" do
+      it "is true if the if condition is missing" do
         expect(@config.add_facet_field("hidden", show: true).if).to eq true
       end
     end
@@ -304,11 +304,11 @@ describe "Blacklight::Configuration" do
       expect(@config.index_fields["title_display"].label).to eq "Title Display"
     end
     
-    it "should raise on nil solr field name" do
+    it "raises on nil solr field name" do
       expect { @config.add_index_field(nil) }.to raise_error ArgumentError
     end
 
-    it "should take wild-carded field names and dereference them to solr fields" do
+    it "takes wild-carded field names and dereference them to solr fields" do
       allow(@config).to receive_messages(luke_fields: { 
         "some_field_display" => {}, 
         "another_field_display" => {},
@@ -319,7 +319,7 @@ describe "Blacklight::Configuration" do
       expect(@config.index_fields.keys).to eq ["some_field_display", "another_field_display"]
     end
 
-    it "should query solr and get live values for match fields", integration: true do
+    it "queries solr and get live values for match fields", integration: true do
       @config.add_index_field match: /title.+display/
       expect(@config.index_fields.keys).to include "subtitle_display", "subtitle_vern_display", "title_display", "title_vern_display"
     end
@@ -353,11 +353,11 @@ describe "Blacklight::Configuration" do
       expect(@config.show_fields["my_custom_field"].label).to eq  "My Custom Field"
     end
     
-    it "should raise on nil solr field name" do
+    it "raises on nil solr field name" do
       expect { @config.add_show_field(nil) }.to raise_error ArgumentError
     end
        
-    it "should take wild-carded field names and dereference them to solr fields" do
+    it "takes wild-carded field names and dereference them to solr fields" do
       allow(@config).to receive_messages(luke_fields: { 
         "some_field_display" => {}, 
         "another_field_display" => {},
@@ -372,13 +372,13 @@ describe "Blacklight::Configuration" do
     
   
   describe "add_search_field" do
-    it "should accept hash form" do
+    it "accepts hash form" do
       c = Blacklight::Configuration.new
       c.add_search_field(:key => "my_search_key")
       expect(c.search_fields["my_search_key"]).to_not be_nil
     end
 
-    it "should accept two-arg hash form" do
+    it "accepts two-arg hash form" do
       c = Blacklight::Configuration.new
       
       c.add_search_field("my_search_type",
@@ -397,7 +397,7 @@ describe "Blacklight::Configuration" do
       
     end
     
-    it "should accept block form" do
+    it "accepts block form" do
       c = Blacklight::Configuration.new
       
       c.add_search_field("some_field") do |field|        
@@ -412,7 +412,7 @@ describe "Blacklight::Configuration" do
       expect(f.solr_local_parameters).to_not be_nil      
     end
     
-    it "should accept SearchField object" do
+    it "accepts SearchField object" do
       c = Blacklight::Configuration.new
       
       f = Blacklight::Configuration::SearchField.new( :foo => "bar")
@@ -422,7 +422,7 @@ describe "Blacklight::Configuration" do
       expect(c.search_fields["foo"]).to_not be_nil
     end
     
-    it "should raise on nil key" do
+    it "raises on nil key" do
       expect {@config.add_search_field(nil, :foo => "bar")}.to raise_error ArgumentError
     end
     
@@ -433,43 +433,43 @@ describe "Blacklight::Configuration" do
     end
 
     describe "if/unless conditions with legacy include_in_simple_search" do
-      it "should be hidden if the if condition is false" do
+      it "is hidden if the if condition is false" do
         expect(@config.add_search_field("hidden", if: false).if).to eq false
         expect(@config.add_search_field("hidden_with_legacy", if: false, include_in_simple_search: true).if).to eq false
       end
 
-      it "should be true if the if condition is true" do
+      it "is true if the if condition is true" do
         expect(@config.add_search_field("hidden", if: true).if).to eq true
         expect(@config.add_search_field("hidden_with_legacy", if: true, include_in_simple_search: false).if).to eq true
       end
 
-      it "should be true if the if condition is missing" do
+      it "is true if the if condition is missing" do
         expect(@config.add_search_field("hidden", include_in_simple_search: true).if).to eq true
       end
     end
   end
   
   describe "add_sort_field" do
-    it "should take a hash" do
+    it "takes a hash" do
       c = Blacklight::Configuration.new
       c.add_sort_field(:key => "my_sort_key", :sort => "score desc")
       expect(c.sort_fields["my_sort_key"]).to_not be_nil
     end
 
-    it "should take a two-arg form with a hash" do
+    it "takes a two-arg form with a hash" do
       @config.add_sort_field("score desc, pub_date_sort desc, title_sort asc", :label => "relevance") 
 
       
       expect(@config.sort_fields.values.find{|f| f.label == "relevance"}).to_not be_nil
     end
     
-    it "should take a SortField object" do
+    it "takes a SortField object" do
       @config.add_sort_field(Blacklight::Configuration::SortField.new(:label => "relevance", :sort => "score desc, pub_date_sort desc, title_sort asc"
 ))     
       expect(@config.sort_fields.values.find{|f| f.label == "relevance"}).to_not be_nil
     end
     
-    it "should take block form" do
+    it "takes block form" do
       @config.add_sort_field do |field|
         field.label = "relevance"
         field.sort = "score desc, pub_date_sort desc, title_sort asc"
@@ -481,7 +481,7 @@ describe "Blacklight::Configuration" do
   end
   
   describe "#default_search_field" do
-    it "should use the field with a :default key" do
+    it "uses the field with a :default key" do
       @config.add_search_field('search_field_1')
       @config.add_search_field('search_field_2', :default => true)
 
@@ -490,7 +490,7 @@ describe "Blacklight::Configuration" do
   end
 
   describe "#facet_paginator_class" do
-    it "should default to Blacklight::Solr::FacetPaginator" do
+    it "defaults to Blacklight::Solr::FacetPaginator" do
       expect(@config.facet_paginator_class).to eq Blacklight::Solr::FacetPaginator
     end
   end
