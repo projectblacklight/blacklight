@@ -37,7 +37,4 @@ describe SearchHistoryController do
       expect(@searches).to be_empty
     end
   end
-
-
-
 end
