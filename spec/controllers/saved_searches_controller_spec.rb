@@ -17,22 +17,17 @@ describe SavedSearchesController do
 
   describe "save" do
     it "should let you save a search" do
-
       request.env["HTTP_REFERER"] = "where_i_came_from"
       session[:history] = [@one.id]
-      post :save, :id => @one.id
+      post :save, params: { id: @one.id }
       expect(response).to redirect_to "where_i_came_from"
     end
 
     it "should not let you save a search that isn't in your search history" do
       session[:history] = [@one.id]
       expect {
-        post :save, :id => @two.id
+        post :save, params: { id: @two.id }
       }.to raise_error ActiveRecord::RecordNotFound
     end
-
   end
-
-
-
 end

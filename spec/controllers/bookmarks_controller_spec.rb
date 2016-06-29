@@ -5,7 +5,7 @@ describe BookmarksController do
   # jquery 1.9 ajax does error callback if 200 returns empty body. so use 204 instead. 
   describe "update" do
     it "has a 200 status code when creating a new one" do
-      xhr :put, :update, :id => '2007020969', :format => :js
+      put :update, xhr: true, params: { id: '2007020969', format: :js }
       expect(response).to be_success
       expect(response.code).to eq "200"
       expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 1
@@ -16,7 +16,7 @@ describe BookmarksController do
       allow(@controller).to receive_message_chain(:current_or_guest_user, :persisted?).and_return(true)
       allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :where, :exists?).and_return(false)  
       allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :create).and_return(false)  
-      xhr :put, :update, :id => 'iamabooboo', :format => :js
+      put :update, xhr: true, params: { id: 'iamabooboo', format: :js }
       expect(response.code).to eq "500"
     end
   end
@@ -28,7 +28,7 @@ describe BookmarksController do
     end
     
     it "has a 200 status code when delete is success" do
-      xhr :delete, :destroy, :id => '2007020969', :format => :js
+      delete :destroy, xhr: true, params: { id: '2007020969', format: :js }
       expect(response).to be_success
       expect(response.code).to eq "200"
       expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 0
@@ -39,7 +39,7 @@ describe BookmarksController do
       allow(@controller).to receive_message_chain(:current_or_guest_user, :existing_bookmark_for).and_return(bm)
       allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :find_by).and_return(double('bookmark', delete: nil, destroyed?: false))
      
-      xhr :delete, :destroy, :id => 'pleasekillme', :format => :js
+      delete :destroy, xhr: true, params: { id: 'pleasekillme', format: :js }
 
       expect(response.code).to eq "500"
     end
@@ -55,7 +55,7 @@ describe BookmarksController do
     end
 
     it 'finds the user from the encrypted token' do
-      get :index, encrypted_user_id: token
+      get :index, params: { encrypted_user_id: token }
       expect(controller.send(:token_user).id).to eq user.id
     end
 
@@ -63,7 +63,7 @@ describe BookmarksController do
       let(:current_time) { Time.zone.now - 2.hours }
 
       it 'is expired' do
-        get :index, encrypted_user_id: token
+        get :index, params: { encrypted_user_id: token }
         expect do
           controller.send(:token_user)
         end.to raise_error(Blacklight::Exceptions::ExpiredSessionToken)

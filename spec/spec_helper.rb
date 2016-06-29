@@ -66,4 +66,8 @@ RSpec.configure do |config|
 
   config.include(ControllerLevelHelpers, type: :view)
   config.before(:each, type: :view) { initialize_controller_helpers(view) }
+
+  unless Rails.version > '5'
+    config.include BackportTest, type: :controller
+  end
 end
