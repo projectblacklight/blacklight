@@ -32,11 +32,11 @@ describe BlacklightUrlHelper do
       allow(helper).to receive_messages(params: parameter_class.new)
     end
 
-    it "should be a polymorphic routing-ready object" do
+    it "is a polymorphic routing-ready object" do
       expect(helper.url_for_document(doc)).to eq doc
     end
 
-    it "should allow for custom show routes" do
+    it "allows for custom show routes" do
       helper.blacklight_config.show.route = { controller: 'catalog' }
       expect(helper.url_for_document(doc)).to eq({controller: 'catalog', action: :show, id: doc})
     end
@@ -44,7 +44,7 @@ describe BlacklightUrlHelper do
     context "within bookmarks" do
       let(:controller_class) { ::BookmarksController.new }
 
-      it "should use polymorphic routing" do
+      it "uses polymorphic routing" do
         expect(helper.url_for_document(doc)).to eq doc
       end
     end
@@ -57,12 +57,12 @@ describe BlacklightUrlHelper do
         allow(helper).to receive(:params).and_return(parameter_class.new controller: 'alternate')
       end
 
-      it "should support the :current controller configuration" do
+      it "supports the :current controller configuration" do
         expect(helper.url_for_document(doc)).to eq(controller: 'alternate', action: :show, id: doc)
       end
     end
 
-    it "should be a polymorphic route if the solr document responds to #to_model with a non-SolrDocument" do
+    it "is a polymorphic route if the solr document responds to #to_model with a non-SolrDocument" do
       some_model = double
       doc = SolrDocument.new
       allow(doc).to receive_messages(to_model: some_model)
@@ -74,7 +74,7 @@ describe BlacklightUrlHelper do
     let(:query_params)  {{:q => "query", :f => "facets", :controller=>'catalog'}}
     let(:bookmarks_query_params) {{ :controller=>'bookmarks'}}
 
-    it "should build a link tag to catalog using session[:search] for query params" do
+    it "builds a link tag to catalog using session[:search] for query params" do
       allow(helper).to receive(:current_search_session).and_return double(:query_params => query_params)
       tag = helper.link_back_to_catalog
       expect(tag).to match /q=query/
@@ -83,7 +83,7 @@ describe BlacklightUrlHelper do
       expect(tag).to_not match /per_page=/
     end
 
-    it "should build a link tag to bookmarks using session[:search] for query params" do
+    it "builds a link tag to bookmarks using session[:search] for query params" do
       allow(helper).to receive(:current_search_session).and_return double(:query_params => bookmarks_query_params)
       tag = helper.link_back_to_catalog
       expect(tag).to match /Back to Bookmarks/
@@ -92,7 +92,7 @@ describe BlacklightUrlHelper do
 
     context "with a search context" do
 
-      it "should use the current search session counter and per page information to construct the appropriate pagination context" do
+      it "uses the current search session counter and per page information to construct the appropriate pagination context" do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 15, 'counter' => 31 })
         tag = helper.link_back_to_catalog
@@ -100,7 +100,7 @@ describe BlacklightUrlHelper do
         expect(tag).to match /per_page=15/
       end
 
-      it "should omit per_page if the value is the same as the default" do
+      it "omits per_page if the value is the same as the default" do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 10, 'counter' => 31 })
         tag = helper.link_back_to_catalog
@@ -121,7 +121,7 @@ describe BlacklightUrlHelper do
 
       subject { helper.link_back_to_catalog }
 
-      it "should link to the catalog" do
+      it "links to the catalog" do
         expect(subject).to eq '<a href="/catalog">Back to Search</a>'
       end
     end
@@ -129,7 +129,7 @@ describe BlacklightUrlHelper do
     context "when an alternate scope is passed in" do
       let(:my_engine) { double("Engine") }
 
-      it "should call url_for on the engine scope" do
+      it "calls url_for on the engine scope" do
         allow(helper).to receive(:current_search_session).and_return double(:query_params => query_params)
         expect(my_engine).to receive(:url_for).and_return(url_for(query_params))
         tag = helper.link_back_to_catalog(route_set: my_engine)
@@ -181,13 +181,13 @@ describe BlacklightUrlHelper do
   end
 
   describe "start_over_path" do
-    it 'should be the catalog path with the current view type' do
+    it 'is the catalog path with the current view type' do
       allow(blacklight_config).to receive(:view) { { list: nil, abc: nil} }
       allow(helper).to receive_messages(:blacklight_config => blacklight_config)
       expect(helper.start_over_path(:view => 'abc')).to eq search_catalog_url(:view => 'abc')
     end
 
-    it 'should not include the current view type if it is the default' do
+    it 'does not include the current view type if it is the default' do
       allow(blacklight_config).to receive(:view) { { list: nil, asdf: nil} }
       allow(helper).to receive_messages(:blacklight_config => blacklight_config)
       expect(helper.start_over_path(:view => 'list')).to eq search_catalog_url
@@ -267,14 +267,14 @@ describe BlacklightUrlHelper do
 
   describe "link_to_previous_search" do
     let(:params) { {} }
-    it "should link to the given search parameters" do
+    it "links to the given search parameters" do
       allow(helper).to receive(:render_search_to_s).with(params).and_return "link text"
       expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", helper.search_action_path)
     end
   end
 
   describe "#bookmarks_export_url" do
-    it "should be the bookmark url with an encrypted user token" do
+    it "is the bookmark url with an encrypted user token" do
       allow(helper).to receive_messages(encrypt_user_id: 'xyz', current_or_guest_user: double(id: 123))
       url = helper.bookmarks_export_url(:html)
       expect(url).to eq helper.bookmarks_url(format: :html, encrypted_user_id: 'xyz')
@@ -283,12 +283,12 @@ describe BlacklightUrlHelper do
 
   describe "#session_tracking_path" do
     let(:document) { SolrDocument.new(id: 1) }
-    it "should determine the correct route for the document class" do
+    it "determines the correct route for the document class" do
       allow(helper).to receive(:track_test_path).with(id: 1).and_return('x')
       expect(helper.session_tracking_path(document)).to eq 'x'
     end
 
-    it "should pass through tracking parameters" do
+    it "passes through tracking parameters" do
       allow(helper).to receive(:track_test_path).with(id: 1, x: 1).and_return('x')
       expect(helper.session_tracking_path(document, x: 1)).to eq 'x'
     end

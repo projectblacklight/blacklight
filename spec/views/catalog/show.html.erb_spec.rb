@@ -20,7 +20,7 @@ describe "catalog/show.html.erb" do
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
-  it "should set the @page_title" do
+  it "sets the @page_title" do
     allow(view).to receive(:document_show_html_title).and_return("Heading")
     render
     page_title = view.instance_variable_get(:@page_title)
@@ -28,7 +28,7 @@ describe "catalog/show.html.erb" do
     expect(page_title).to be_html_safe
   end
 
-  it "should include schema.org itemscope/type properties" do
+  it "includes schema.org itemscope/type properties" do
     allow(view).to receive(:document_show_html_title).and_return("Heading")
     allow(document).to receive_messages(:itemtype => 'some-item-type-uri')
     render
@@ -37,7 +37,7 @@ describe "catalog/show.html.erb" do
     expect(rendered).to have_selector('div#document[@itemtype="some-item-type-uri"]')
   end
 
-  it "should render the show_header and show partials by default" do
+  it "renders the show_header and show partials by default" do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     stub_template "catalog/_show_header_default.html.erb" => "document_header"
     stub_template "catalog/_show_default.html.erb" => "show_default"
@@ -49,7 +49,7 @@ describe "catalog/show.html.erb" do
   end
 
 
-  it "should use the show.partials parameter to determine the partials to render" do
+  it "uses the show.partials parameter to determine the partials to render" do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     blacklight_config.show.partials = ['a', 'b', 'c']
     stub_template "catalog/_a_default.html.erb" => "a_partial"

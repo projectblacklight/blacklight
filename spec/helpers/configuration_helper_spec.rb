@@ -10,42 +10,42 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#index_fields" do
-    it "should pass through the configuration" do
+    it "passes through the configuration" do
       allow(blacklight_config).to receive_messages(index_fields: config_value)
       expect(helper.index_fields).to eq config_value
     end
   end
 
   describe "#sort_fields" do
-    it "should convert the sort fields to select-ready values" do
+    it "converts the sort fields to select-ready values" do
       allow(blacklight_config).to receive_messages(sort_fields: { 'a' => double(key: 'a', label: 'a'), 'b' => double(key: 'b', label: 'b'), c: double(key: 'c', if: false)  })
       expect(helper.sort_fields).to eq [['a', 'a'], ['b', 'b']]
     end
   end
 
   describe "#active_sort_fields" do
-    it "should restrict the configured sort fields to only those that should be displayed" do
+    it "restricts the configured sort fields to only those that should be displayed" do
       allow(blacklight_config).to receive_messages(sort_fields: { a: double(if: false, unless: false), b: double(if:true, unless: true) })
       expect(helper.active_sort_fields).to be_empty
     end
   end
 
   describe "#document_show_fields" do
-    it "should pass through the configuration" do
+    it "passes through the configuration" do
       allow(blacklight_config).to receive_messages(show_fields: config_value)
       expect(helper.document_show_fields).to eq config_value
     end
   end
 
   describe "#default_document_index_view_type" do
-    it "should use the first view with default set to true" do
+    it "uses the first view with default set to true" do
       blacklight_config.view.a
       blacklight_config.view.b
       blacklight_config.view.b.default = true
       expect(helper.default_document_index_view_type).to eq :b
     end
     
-    it "should default to the first configured index view" do
+    it "defaults to the first configured index view" do
       allow(blacklight_config).to receive_messages(view: { a: true, b: true})
       expect(helper.default_document_index_view_type).to eq :a
     end
@@ -58,7 +58,7 @@ describe BlacklightConfigurationHelper do
       blacklight_config.view.xyz.unless = true
     end
 
-    it "should filter views using :if/:unless configuration" do
+    it "filters views using :if/:unless configuration" do
       expect(helper.document_index_views).to have_key :list
       expect(helper.document_index_views).to_not have_key :abc
       expect(helper.document_index_views).to_not have_key :def
@@ -83,7 +83,7 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#spell_check_max" do
-    it "should pass through the configuration" do
+    it "passes through the configuration" do
       allow(blacklight_config).to receive_messages(spell_max: config_value)
       expect(helper.spell_check_max).to eq config_value
     end
@@ -92,19 +92,19 @@ describe BlacklightConfigurationHelper do
   describe "#document_show_link_field" do
     let(:document) { SolrDocument.new id: 123, a: 1, b: 2, c: 3 }
 
-    it "should allow single values" do
+    it "allows single values" do
       blacklight_config.index.title_field = :a
       f = helper.document_show_link_field document
       expect(f).to eq :a
     end
     
-    it "should retrieve the first field with data" do
+    it "retrieves the first field with data" do
       blacklight_config.index.title_field = [:zzz, :b]
       f = helper.document_show_link_field document
       expect(f).to eq :b
     end
 
-    it "should fallback on the id" do
+    it "fallbacks on the id" do
       blacklight_config.index.title_field = [:zzz, :yyy]
       f = helper.document_show_link_field document
       expect(f).to eq 123
@@ -113,7 +113,7 @@ describe BlacklightConfigurationHelper do
 
   describe "#index_field_label" do
     let(:document) { double }
-    it "should look up the label to display for the given document and field" do
+    it "looks up the label to display for the given document and field" do
       allow(helper).to receive(:index_fields).and_return({ "my_field" => double(label: "some label") })
       allow(helper).to receive(:field_label).with(:"blacklight.search.fields.index.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
       helper.index_field_label document, "my_field"
@@ -122,7 +122,7 @@ describe BlacklightConfigurationHelper do
 
   describe "#document_show_field_label" do
     let(:document) { double }
-    it "should look up the label to display for the given document and field" do
+    it "looks up the label to display for the given document and field" do
       allow(helper).to receive(:document_show_fields).and_return({ "my_field" => double(label: "some label") })
       allow(helper).to receive(:field_label).with(:"blacklight.search.fields.show.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
       helper.document_show_field_label document, "my_field"
@@ -131,7 +131,7 @@ describe BlacklightConfigurationHelper do
 
   describe "#facet_field_label" do
     let(:document) { double }
-    it "should look up the label to display for the given document and field" do
+    it "looks up the label to display for the given document and field" do
       allow(blacklight_config).to receive(:facet_fields).and_return({ "my_field" => double(label: "some label") })
       allow(helper).to receive(:field_label).with(:"blacklight.search.fields.facet.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
       helper.facet_field_label "my_field"
@@ -139,7 +139,7 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#view_label" do
-    it "should look up the label to display for the view" do
+    it "looks up the label to display for the view" do
       allow(blacklight_config).to receive(:view).and_return({ "my_view" => double(label: "some label", title: nil) })
       allow(helper).to receive(:field_label).with(:"blacklight.search.view_title.my_view", :"blacklight.search.view.my_view", "some label", nil, "My view")
 
@@ -148,20 +148,20 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#field_label" do
-    it "should look up the label as an i18n string" do
+    it "looks up the label as an i18n string" do
       allow(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
       label = helper.field_label :some_key
 
       expect(label).to eq "my label"
     end
 
-    it "should pass the provided i18n keys to I18n.t" do
+    it "passes the provided i18n keys to I18n.t" do
       allow(helper).to receive(:t).with(:key_a, default: [:key_b, "default text"])
 
       label = helper.field_label :key_a, :key_b, "default text"
     end
 
-    it "should compact nil keys (fixes rails/rails#19419)" do
+    it "compacts nil keys (fixes rails/rails#19419)" do
       allow(helper).to receive(:t).with(:key_a, default: [:key_b])
 
       label = helper.field_label :key_a, nil, :key_b
@@ -170,31 +170,31 @@ describe BlacklightConfigurationHelper do
   end
   
   describe "#default_per_page" do
-    it "should be the configured default per page" do
+    it "is the configured default per page" do
       allow(helper).to receive_messages(blacklight_config: double(default_per_page: 42))
       expect(helper.default_per_page).to eq 42
     end
     
-    it "should be the first per-page value if a default isn't set" do
+    it "is the first per-page value if a default isn't set" do
       allow(helper).to receive_messages(blacklight_config: double(default_per_page: nil, per_page: [11, 22]))
       expect(helper.default_per_page).to eq 11
     end
   end
   
   describe "#default_sort_field" do
-    it "should be the configured default field" do
+    it "is the configured default field" do
       allow(helper).to receive_messages(blacklight_config: double(sort_fields: { a: double(default: nil), b: double(key: 'b', default: true) }))
       expect(helper.default_sort_field.key).to eq 'b'
     end
     
-    it "should be the first per-page value if a default isn't set" do
+    it "is the first per-page value if a default isn't set" do
       allow(helper).to receive_messages(blacklight_config: double(sort_fields: { a: double(key: 'a', default: nil), b: double(key: 'b', default: nil) }))
       expect(helper.default_sort_field.key).to eq 'a'
     end
   end
   
   describe "#per_page_options_for_select" do
-    it "should be the per-page values formatted as options_for_select" do
+    it "is the per-page values formatted as options_for_select" do
       allow(helper).to receive_messages(blacklight_config: double(per_page: [11, 22, 33]))
       expect(helper.per_page_options_for_select).to include ["11<span class=\"sr-only\"> per page</span>", 11]
       expect(helper.per_page_options_for_select).to include ["22<span class=\"sr-only\"> per page</span>", 22]
@@ -209,16 +209,16 @@ describe BlacklightConfigurationHelper do
       allow(helper).to receive_messages(document_has_value?: true)
     end
 
-    it "should be true" do
+    it "is true" do
       expect(helper.should_render_field?(field_config)).to be true
     end
     
-    it "should be false if the :if condition is false" do
+    it "is false if the :if condition is false" do
       allow(field_config).to receive_messages(if: false)
       expect(helper.should_render_field?(field_config)).to be false
     end
     
-    it "should be false if the :unless condition is true" do
+    it "is false if the :unless condition is true" do
       allow(field_config).to receive_messages(unless: true)
       expect(helper.should_render_field?(field_config)).to be false
     end
@@ -241,7 +241,7 @@ describe BlacklightConfigurationHelper do
       allow(helper).to receive_messages(blacklight_config: @config)
     end
     
-    it "should return proper options_for_select arguments" do
+    it "returns proper options_for_select arguments" do
 
       select_arguments = helper.search_field_options_for_select
 
@@ -253,7 +253,7 @@ describe BlacklightConfigurationHelper do
       end    
     end
 
-    it "should not include fields in select if :display_in_simple_search=>false" do
+    it "does not include fields in select if :display_in_simple_search=>false" do
       select_arguments = helper.search_field_options_for_select
 
       expect(select_arguments).not_to include(["No Display", "no_display"])

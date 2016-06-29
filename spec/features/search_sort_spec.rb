@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Search Sort" do
-  it "should sort on facet results with no search terms" do
+  it "sorts on facet results with no search terms" do
     visit root_path
     within "#facet-language_facet" do
       click_link 'English'
@@ -12,7 +12,7 @@ describe "Search Sort" do
     expect(page).to have_content 'Sort by title'
   end
 
-  it "should sort on search" do
+  it "sorts on search" do
     visit root_path
     fill_in "q", with: 'bod'
     click_button 'search'

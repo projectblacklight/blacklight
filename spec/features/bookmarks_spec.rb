@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Bookmarks" do
   describe "navigating from the homepage" do
-    it "should have a link to the history page" do
+    it "has a link to the history page" do
       sign_in 'user1'
       visit root_path
       click_link 'Bookmarks'
@@ -11,7 +11,7 @@ describe "Bookmarks" do
     end
   end
 
-  it "should clear bookmarks" do
+  it "clears bookmarks" do
     visit solr_document_path('2007020969')
     click_button 'Bookmark'
     click_link 'Bookmarks'
@@ -33,7 +33,7 @@ describe "Bookmarks" do
     expect(page).to have_content 'Successfully removed bookmark.'
   end
 
-  it "should add and delete bookmarks from the show page" do
+  it "adds and delete bookmarks from the show page" do
     sign_in 'user1'
     visit solr_document_path('2007020969')
     click_button 'Bookmark'
@@ -41,7 +41,7 @@ describe "Bookmarks" do
     expect(page).to have_content 'Successfully removed bookmark.'
   end
 
-  it "should add bookmarks after a user logs in" do
+  it "adds bookmarks after a user logs in" do
     visit solr_document_path('2007020969')
     click_button 'Bookmark'
     sign_in 'user1'
@@ -50,7 +50,7 @@ describe "Bookmarks" do
     expect(page).to have_content("Strong Medicine speaks")
   end
 
-  it "should cite items in bookmarks" do
+  it "cites items in bookmarks" do
     visit solr_document_path('2007020969')
     click_button 'Bookmark'
     click_link 'Bookmarks'
@@ -58,7 +58,7 @@ describe "Bookmarks" do
     expect(page).to have_content 'Strong Medicine speaks'
   end
 
-  it "should cite items in current bookmarks page" do
+  it "cites items in current bookmarks page" do
     visit solr_document_path('2009373513')
     click_button 'Bookmark'
 

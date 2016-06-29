@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Facets" do
-  it "should work without a search term" do
+  it "works without a search term" do
     visit root_path
     within "#facet-language_facet" do
       click_link "Tibetan"
@@ -33,7 +33,7 @@ describe "Facets" do
     end
   end
 
-  it "should work in conjunction with a search term" do
+  it "works in conjunction with a search term" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
@@ -71,7 +71,7 @@ describe "Facets" do
     end
   end
 
-  it "should allow removing filters" do
+  it "allows removing filters" do
     visit root_path
     within "#facet-language_facet" do
       click_link "Tibetan"
@@ -87,7 +87,7 @@ describe "Facets" do
     expect(page).to have_content('Welcome!')
   end
 
-  it "should retain filters when you change the search term" do
+  it "retains filters when you change the search term" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
@@ -122,7 +122,7 @@ describe "Facets" do
     end
   end
 
-  it "should retain the filters when we change sort" do
+  it "retains the filters when we change sort" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
@@ -144,7 +144,7 @@ describe "Facets" do
     end
   end
 
-  it "should retain the filters when we change per page number" do
+  it "retains the filters when we change per page number" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
@@ -167,14 +167,14 @@ describe "Facets" do
       expect(page).to have_content "history"
     end
   end
-  it "should be collapsed when not selected", :js => true do
+  it "is collapsed when not selected", :js => true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
       expect(page).not_to have_selector(".panel-collapse", :visible => true)
     end
   end
-  it "should expand when the heading is clicked", :js => true do
+  it "expands when the heading is clicked", :js => true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
@@ -183,7 +183,7 @@ describe "Facets" do
       expect(page).to     have_selector(".panel-collapse", :visible => true)
     end
   end
-  it "should expand when the anchor is clicked", :js => true do
+  it "expands when the anchor is clicked", :js => true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
@@ -192,7 +192,7 @@ describe "Facets" do
       expect(page).to     have_selector(".panel-collapse", :visible => true)
     end
   end
-  it "should keep selected facets expanded on page load", :js => true do
+  it "keeps selected facets expanded on page load", :js => true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do

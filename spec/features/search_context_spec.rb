@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Search Results context", js: true do
-  it "should pass the current search id through" do
+  it "passes the current search id through" do
     search_for ''
     search_id =  Search.last.id.to_s
     click_on 'Pluvial nectar of blessings'
@@ -16,14 +16,14 @@ describe "Search Results context", js: true do
     expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&search_id=#{search_id}"
   end
   
-  it "should redirect context urls to the original url" do
+  it "redirects context urls to the original url" do
     search_for ''
     first('.index_title a').click
     expect(page).to have_content "« Previous | 1 of 30 | Next »"
     expect(page.current_url).to_not have_content "/track"
   end
 
-  it 'should show "Back to Search" and "Start Over links"' do
+  it 'shows "Back to Search" and "Start Over links"' do
     search_for 'Bod kyi naṅ chos ṅo sprod sñiṅ bsdus'
     first('.index_title a').click
     within '.pagination-search-widgets' do
@@ -33,7 +33,7 @@ describe "Search Results context", js: true do
   end
   
   context "navigating between search results using context pagination" do
-    it "should update the back to search link with the current search pagination context" do
+    it "updates the back to search link with the current search pagination context" do
       search_for ''
       first('.index_title a').click
       10.times do

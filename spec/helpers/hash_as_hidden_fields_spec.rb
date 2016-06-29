@@ -7,7 +7,7 @@ describe HashAsHiddenFieldsHelper do
     @hash = {:q => "query", :search_field => "search_field", :per_page=>10, :page=>5, :extra_arbitrary_key=>"arbitrary_value", :f=> {:field1 => ["a", "b"], :field2=> ["z"]}}
   end
 
-  it "should convert a hash with nested complex data to Rails-style hidden form fields" do
+  it "converts a hash with nested complex data to Rails-style hidden form fields" do
 
     generated = render_hash_as_hidden_fields(@hash)
 

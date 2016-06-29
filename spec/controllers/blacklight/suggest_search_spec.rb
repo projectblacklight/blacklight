@@ -15,7 +15,7 @@ describe Blacklight::SuggestSearch do
     end
   end
   describe '#suggest_results' do
-    it 'should call send_and_recieve from a repository connection' do
+    it 'calls send_and_recieve from a repository connection' do
       expect(suggest_search).to receive(:suggest_handler_path).and_return(suggest_path)
       expect(suggest_search.suggest_results).to eq 'sent'
     end

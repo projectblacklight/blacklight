@@ -71,7 +71,7 @@ describe Blacklight::SearchState do
 
     context "with a block" do
       let(:params) { parameter_class.new a: 1, b: 2 }
-      it "should evalute the block and allow it to add or remove keys" do
+      it "evalutes the block and allow it to add or remove keys" do
         result = helper.params_for_search(c: 3) do |params|
           params.extract! :a, :b
           params[:d] = 'd'
@@ -177,7 +177,7 @@ describe Blacklight::SearchState do
       expect(result_params[:f]['facet_field_2']).to include(123)
     end
 
-    it "should add any extra fq parameters from the FacetItem" do
+    it "adds any extra fq parameters from the FacetItem" do
       result_params = helper.add_facet_params('facet_field_1', double(:value => 123, fq: { 'facet_field_2' => 'abc' }))
 
       expect(result_params[:f]['facet_field_1']).to include(123)

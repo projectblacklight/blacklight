@@ -23,7 +23,7 @@ describe "catalog/_paginate_compact.html.erb" do
 
     include Blacklight::SearchHelper
 
-    it "should render solr responses" do
+    it "renders solr responses" do
       solr_response, document_list = search_results(q: '')
 
       render :partial => 'catalog/paginate_compact', :object => solr_response
@@ -32,13 +32,13 @@ describe "catalog/_paginate_compact.html.erb" do
     end
   end
 
-  it "should render paginatable arrays" do
+  it "renders paginatable arrays" do
     render :partial => 'catalog/paginate_compact', :object => (Kaminari.paginate_array([], total_count: 145).page(1).per(10))
     expect(rendered).to have_selector ".page_entries"
     expect(rendered).to have_selector "a[@rel=next]"
   end
 
-  it "should render ActiveRecord collections" do
+  it "renders ActiveRecord collections" do
     50.times { b = Bookmark.new;  b.user = user; b.save! }
     render :partial => 'catalog/paginate_compact', :object => Bookmark.page(1).per(25)
     expect(rendered).to have_selector ".page_entries"

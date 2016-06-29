@@ -12,7 +12,7 @@ describe "blacklight:delete_old_searches" do
     @task_name = "blacklight:delete_old_searches"
   end
   
-  it "should call Search.delete_old_searches" do
+  it "calls Search.delete_old_searches" do
     days_old = 7
     allow(Search).to receive(:delete_old_searches).with(days_old)  
     @rake[@task_name].invoke(days_old)

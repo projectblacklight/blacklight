@@ -15,7 +15,7 @@ describe "catalog/_document" do
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
-  it "should render the header, thumbnail and index by default" do
+  it "renders the header, thumbnail and index by default" do
     stub_template "catalog/_index_header_default.html.erb" => "document_header"
     stub_template "catalog/_thumbnail_default.html.erb" => "thumbnail_default"
     stub_template "catalog/_index_default.html.erb" => "index_default"
@@ -28,7 +28,7 @@ describe "catalog/_document" do
   end
 
 
-  it "should use the index.partials parameter to determine the partials to render" do
+  it "uses the index.partials parameter to determine the partials to render" do
     blacklight_config.index.partials = ['a', 'b', 'c']
     stub_template "catalog/_a_default.html.erb" => "a_partial"
     stub_template "catalog/_b_default.html.erb" => "b_partial"

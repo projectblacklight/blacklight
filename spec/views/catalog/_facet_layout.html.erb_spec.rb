@@ -17,23 +17,23 @@ describe "catalog/facet_layout" do
     allow(view).to receive_messages(blacklight_config: blacklight_config)
   end
 
-  it "should have a facet-specific class" do
+  it "has a facet-specific class" do
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to have_selector '.blacklight-some_field' 
   end
 
-  it "should have a title with a link for a11y" do
+  it "has a title with a link for a11y" do
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to have_selector 'h3 a', text: 'Some Field'
   end
 
-  it "should be collapsable" do
+  it "is collapsable" do
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to have_selector '.panel-heading.collapsed'
     expect(rendered).to have_selector '.collapse .panel-body'
   end
 
-  it "should be configured to be open by default" do
+  it "is configured to be open by default" do
     allow(facet_field).to receive_messages(collapse: false)
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to_not have_selector '.panel-heading.collapsed'

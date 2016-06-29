@@ -7,7 +7,7 @@ describe "Saved Searches" do
     visit root_path
   end
 
-  it "should be empty" do
+  it "is empty" do
     click_link 'Saved Searches'
     expect(page).to have_content 'You have no saved searches'
   end
@@ -20,11 +20,11 @@ describe "Saved Searches" do
       click_button "save"
       click_link 'Saved Searches'
     end
-    it "should show saved searches" do
+    it "shows saved searches" do
       expect(page).to have_content 'Your saved searches'
       expect(page).to have_content 'book'
     end
-    it "should delete saved searches" do
+    it "deletes saved searches" do
       click_button 'delete'
       expect(page).to have_content 'Successfully removed that saved search.'
     end
@@ -38,7 +38,7 @@ describe "Saved Searches" do
         click_button "save"
         click_link 'Saved Searches'
       end
-      it "should clear the searhes" do
+      it "clears the searhes" do
         click_link "Clear Saved Searches"
         expect(page).to have_content 'Cleared your saved searches.'
         expect(page).to have_content 'You have no saved searches'

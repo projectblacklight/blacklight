@@ -16,7 +16,7 @@ describe "Blacklight::User" do
       subject.bookmarks << mock_bookmark(3)
     end
     
-    it "should return all the bookmarks that match the given documents" do
+    it "returns all the bookmarks that match the given documents" do
       bookmarks = subject.bookmarks_for_documents([SolrDocument.new(id: 1), SolrDocument.new(id: 2)])
       expect(bookmarks).to have(2).items
       expect(bookmarks.first.document_id).to eq "1"
@@ -29,11 +29,11 @@ describe "Blacklight::User" do
       subject.bookmarks << mock_bookmark(1)
     end
     
-    it "should  be true if the document is bookmarked" do
+    it "is true if the document is bookmarked" do
       expect(subject).to be_document_is_bookmarked(SolrDocument.new(id: 1))
     end
 
-    it "should be false if the document is not bookmarked" do
+    it "is false if the document is not bookmarked" do
       expect(subject).to_not be_document_is_bookmarked(SolrDocument.new(id: 2))
     end
   end
@@ -43,7 +43,7 @@ describe "Blacklight::User" do
       subject.bookmarks << mock_bookmark(1)
     end
     
-    it "should return the bookmark for that document id" do
+    it "returns the bookmark for that document id" do
       expect(subject.existing_bookmark_for(SolrDocument.new(id: 1))).to eq subject.bookmarks.first
     end
   end

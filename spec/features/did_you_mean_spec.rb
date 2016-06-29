@@ -5,7 +5,7 @@ describe "Did You Mean" do
   before { visit root_path }
 
   describe "searching all fields" do
-    it "should have suggestions" do
+    it "has suggestions" do
       fill_in "q", with: 'politica'
       click_button 'search'
 
@@ -19,7 +19,7 @@ describe "Did You Mean" do
 
   describe "for a title search" do
     before { select 'Title', from: 'search_field' }
-    it "should have suggestions" do
+    it "has suggestions" do
       # yehudiyam is one letter away from a title word
       fill_in "q", with: 'yehudiyam'
       click_button 'search'
@@ -37,7 +37,7 @@ describe "Did You Mean" do
 
   describe "for an author search" do
     before { select 'Author', from: 'search_field' }
-    it "should have suggestions" do
+    it "has suggestions" do
       # shirma is one letter away from an author word
       fill_in "q", with: 'shirma'
       click_button 'search'
@@ -55,7 +55,7 @@ describe "Did You Mean" do
 
   describe "for an subject search" do
     before { select 'Subject', from: 'search_field' }
-    it "should have suggestions" do
+    it "has suggestions" do
       # wome is one letter away from an author word
       fill_in "q", with: 'wome'
       click_button 'search'
@@ -72,14 +72,14 @@ describe "Did You Mean" do
   end
 
   describe "a multiword query" do
-    it "should not have suggestions if there are no matches" do
+    it "does not have suggestions if there are no matches" do
       fill_in "q", with: 'ooofda ooofda'
       click_button 'search'
 
       expect(page).to_not have_content("Did you mean")
     end
 
-    it "should have separate suggestions" do
+    it "has separate suggestions" do
       fill_in "q", with: 'politica boo'
       click_button 'search'
 
@@ -96,7 +96,7 @@ describe "Did You Mean" do
       end
     end
     
-    it "should ignore repeated terms" do
+    it "ignores repeated terms" do
       fill_in "q", with: 'boo boo'
       click_button 'search'
 
@@ -108,7 +108,7 @@ describe "Did You Mean" do
     end
   end
 
-  it "should show suggestions if there aren't many hits" do
+  it "shows suggestions if there aren't many hits" do
     fill_in "q", with: 'ayaz'
     click_button 'search'
 
@@ -119,14 +119,14 @@ describe "Did You Mean" do
     end
   end
 
-  it "should should not show suggestions if there are many results" do
+  it "does not show suggestions if there are many results" do
     # histori gives 9 results in 30 record demo index
     fill_in "q", with: 'histori'
     click_button 'search'
     expect(page).to_not have_content("Did you mean")
   end
 
-  it "should should show suggestions if at the threshold number" do
+  it "shows suggestions if at the threshold number" do
     # polit gives 5 results in 30 record demo index - 5 is default cutoff
     fill_in "q", with: 'polit'
     click_button 'search'

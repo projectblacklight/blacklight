@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Search Page" do
-  it "should show welcome" do
+  it "shows welcome" do
     visit root_path
     expect(page).to have_selector("input#q")
     within ("select#search_field") do
@@ -21,7 +21,7 @@ describe "Search Page" do
     Capybara.ignore_hidden_elements = tmp_value
   end
 
-  it "should do searches across all fields" do
+  it "does searches across all fields" do
     visit root_path
     fill_in "q", with: 'history'
     select 'All Fields', from: 'search_field'
@@ -62,7 +62,7 @@ describe "Search Page" do
     end
   end
 
-  it "should do searches constrained to a single field" do
+  it "does searches constrained to a single field" do
     visit root_path
     fill_in "q", with: 'inmul'
     select 'Title', from: 'search_field'
@@ -84,7 +84,7 @@ describe "Search Page" do
     end
   end
 
-  it "should show vernacular (Linked 880) and call number" do
+  it "shows vernacular (Linked 880) and call number" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
@@ -94,7 +94,7 @@ describe "Search Page" do
     end
   end
 
-  it "should allow you to clear the search" do
+  it "allows you to clear the search" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
@@ -111,7 +111,7 @@ describe "Search Page" do
     expect(page).to_not have_selector "#q[value='history']"
   end
 
-  it "should gracefully handle searches with invalid facet parameters" do
+  it "handles searches with invalid facet parameters" do
     visit root_path f: { missing_s: [1]}
     expect(page).to have_content "No results found for your search"
   end

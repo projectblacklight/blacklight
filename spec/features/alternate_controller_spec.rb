@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Alternate Controller Behaviors" do
-  it "should have the correct per-page form" do
+  it "has the correct per-page form" do
     visit search_alternate_path
     expect(page).to have_selector("form[action='#{search_alternate_url}']")
     fill_in "q", :with=>"history"
@@ -14,7 +14,7 @@ describe "Alternate Controller Behaviors" do
     expect(current_path).to match /#{search_alternate_path}/
   end
 
-  it "should have the correct search field form" do
+  it "has the correct search field form" do
     visit search_alternate_path
     expect(page).to have_selector("form[action='#{search_alternate_url}']")
     fill_in "q", :with=>"history"
@@ -24,7 +24,7 @@ describe "Alternate Controller Behaviors" do
     expect(current_path).to match /#{search_alternate_path}/
   end
 
-  it "should display document thumbnails" do
+  it "displays document thumbnails" do
     visit search_alternate_path
     expect(page).to have_selector("form[action='#{search_alternate_url}']")
     fill_in "q", :with=>"history"

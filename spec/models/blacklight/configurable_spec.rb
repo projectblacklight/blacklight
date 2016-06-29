@@ -18,7 +18,7 @@ describe "Blacklight::Configurable" do
         end
       end
     end
-    it "should inherit the configuration when subclassed" do            
+    it "inherits the configuration when subclassed" do            
       expect(TestCaseInheritence::Child.blacklight_config.list).to include(1,2,3)
     end
     
@@ -42,14 +42,14 @@ describe "Blacklight::Configurable" do
       Blacklight::Configurable.default_configuration = nil
     end
 
-    it "should load an empty configuration" do
+    it "loads an empty configuration" do
       a = Class.new
       a.send(:include, Blacklight::Configurable)
 
       expect(a.blacklight_config.default_solr_params).to be_empty
     end
 
-    it "should allow the user to provide a default configuration" do
+    it "allows the user to provide a default configuration" do
       a = Class.new
 
       Blacklight::Configurable.default_configuration = Blacklight::Configuration.new :a => 1

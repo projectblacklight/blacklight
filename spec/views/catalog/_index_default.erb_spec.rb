@@ -34,16 +34,16 @@ describe "/catalog/_index_default.erb" do
     @rendered = view.render_document_partial @document, :index
   end
 
-  it "should only display fields listed in the initializer" do
+  it "only displays fields listed in the initializer" do
     expect(@rendered).to_not include("val_2")
     expect(@rendered).to_not include(@fname_2)
   end
   
-  it "should skip over fields listed in initializer that are not in solr response" do
+  it "skips over fields listed in initializer that are not in solr response" do
     expect(@rendered).to_not include(@fname_3)
   end
 
-  it "should display field labels from initializer and raw solr field names in the class" do
+  it "displays field labels from initializer and raw solr field names in the class" do
     # labels
     expect(@rendered).to include(@flabel_1)
     expect(@rendered).to include(@flabel_4)
@@ -57,7 +57,7 @@ describe "/catalog/_index_default.erb" do
 #    pending
 #  end
 
-  it "should have values for displayed fields" do
+  it "has values for displayed fields" do
     expect(@rendered).to include("val_1")
     expect(@rendered).to include("val_4")
     expect(@rendered).to_not include("val_2")
