@@ -4,7 +4,6 @@ require 'spec_helper'
 describe BlacklightHelper do
   include ERB::Util
   include BlacklightHelper
-  include Devise::TestHelpers
   def blacklight_config
     @config ||= Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_display'
@@ -13,6 +12,7 @@ describe BlacklightHelper do
   end
 
   before(:each) do
+    allow(helper).to receive(:current_or_guest_user).and_return(User.new)
     allow(helper).to receive(:search_action_path) do |*args|
       search_catalog_url *args
     end
