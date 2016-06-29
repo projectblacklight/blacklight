@@ -14,3 +14,6 @@ Metrics/LineLength:
 
 Style/StringLiterals:
   Enabled: false
+
+Style/IndentationConsistency:
+  Enabled: false

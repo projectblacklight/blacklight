@@ -7,6 +7,8 @@ module Blacklight::BlacklightHelperBehavior
   include RenderConstraintsHelper
   include RenderPartialsHelper
   include FacetsHelper
+  extend Deprecation
+  self.deprecation_horizon = 'Blacklight version 7.0.0'
 
   ##
   # Get the name of this application, from either:
@@ -77,7 +79,7 @@ module Blacklight::BlacklightHelperBehavior
   # Determine whether to render a given field in the index view.
   #
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::Field] field_config
+  # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_index_field? document, field_config
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
@@ -87,7 +89,7 @@ module Blacklight::BlacklightHelperBehavior
   # Determine whether to render a given field in the show view
   #
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::Field] field_config
+  # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_show_field? document, field_config
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
@@ -97,7 +99,7 @@ module Blacklight::BlacklightHelperBehavior
   # Check if a document has (or, might have, in the case of accessor methods) a value for
   # the given solr field
   # @param [SolrDocument] document
-  # @param [Blacklight::Solr::Configuration::Field] field_config
+  # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def document_has_value? document, field_config
     document.has?(field_config.field) ||
@@ -158,12 +160,17 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [String] field
   #   @param [Hash] opts
   #   @options opts [String] :value
+  # TODO: deprecate and use render_field_value
   def render_index_field_value *args
+    render_field_value(*args)
+  end
+
+  def render_field_value(*args)
     options = args.extract_options!
     document = args.shift || options[:document]
 
     field = args.shift || options[:field]
-    presenter(document).render_index_field_value field, options.except(:document, :field)
+    presenter(document).field_value field, options.except(:document, :field)
   end
 
   ##
@@ -211,12 +218,9 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [String] field
   #   @param [Hash] opts
   #   @options opts [String] :value
+  # TODO: deprecate and use render_field_value
   def render_document_show_field_value *args
-    options = args.extract_options!
-    document = args.shift || options[:document]
-
-    field = args.shift || options[:field]
-    presenter(document).render_document_show_field_value field, options.except(:document, :field)
+    render_field_value(*args)
   end
 
   ##
@@ -227,7 +231,7 @@ module Blacklight::BlacklightHelperBehavior
   # @return [String]
   def document_heading document=nil
     document ||= @document
-    presenter(document).document_heading
+    presenter(document).heading
   end
 
   ##
@@ -240,7 +244,7 @@ module Blacklight::BlacklightHelperBehavior
   def document_show_html_title document=nil
     document ||= @document
 
-    presenter(document).document_show_html_title
+    presenter(document).html_title
   end
 
   ##
@@ -258,7 +262,7 @@ module Blacklight::BlacklightHelperBehavior
     tag = options.fetch(:tag, :h4)
     document ||= @document
 
-    content_tag(tag, presenter(document).document_heading, itemprop: "name")
+    content_tag(tag, presenter(document).heading, itemprop: "name")
   end
 
   ##
@@ -270,15 +274,14 @@ module Blacklight::BlacklightHelperBehavior
   # Rendering:
   #   - helper_method
   #   - link_to_search
-  # TODO : maybe this should be merged with render_field_value, and the ugly signature
-  # simplified by pushing some of this logic into the "model"
   # @param [SolrDocument] document
   # @param [String] field name
-  # @param [Blacklight::Solr::Configuration::Field] solr field configuration
+  # @param [Blacklight::Configuration::Field] solr field configuration
   # @param [Hash] options additional options to pass to the rendering helpers
-  def get_field_values document, field, field_config, options = {}
-    presenter(document).get_field_values field, field_config, options
+  def get_field_values document, _field, field_config, options = {}
+    presenter(document).field_values field_config, options
   end
+  deprecation_deprecate :get_field_values
 
   ##
   # Get the current "view type" (and ensure it is a valid type)
@@ -321,14 +324,39 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Returns a document presenter for the given document
+  # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
   def presenter(document)
-    presenter_class.new(document, self)
+    case action_name
+    when 'show', 'citation'
+      show_presenter(document)
+    when 'index'
+      index_presenter(document)
+    else
+      raise "Unable to determine presenter type for #{action_name} on #{controller_name}"
+    end
   end
+
+  def show_presenter(document)
+    show_presenter_class(document).new(document, self)
+  end
+
+  def index_presenter(document)
+    index_presenter_class(document).new(document, self)
+  end
+
+  def presenter_class
+    blacklight_config.document_presenter_class
+  end
+  deprecation_deprecate presenter_class: "replaced by show_presenter_class and index_presenter_class"
 
   ##
   # Override this method if you want to use a different presenter class
-  def presenter_class
-    blacklight_config.document_presenter_class
+  def show_presenter_class(_document)
+    blacklight_config.show.document_presenter_class
+  end
+
+  def index_presenter_class(_document)
+    blacklight_config.index.document_presenter_class
   end
 
   ##

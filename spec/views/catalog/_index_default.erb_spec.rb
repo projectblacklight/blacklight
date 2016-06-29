@@ -9,6 +9,7 @@ describe "/catalog/_index_default.erb" do
   include CatalogHelper
 
   before(:each) do
+    allow(view).to receive(:action_name).and_return('index')
     @config = Blacklight::Configuration.new do |config|
       config.show.display_type_field = 'asdf'
       config.add_index_field 'one_field', :label => 'One:'

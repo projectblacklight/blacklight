@@ -172,17 +172,17 @@ describe BlacklightHelper do
     let(:field) { "some_field" }
 
     it "should pass the document and field through to the presenter" do
-      expect(presenter).to receive(:render_index_field_value).with(field, {})
+      expect(presenter).to receive(:field_value).with(field, {})
       helper.render_index_field_value(doc, field)
     end
 
     it "should allow the document and field to be passed as hash arguments" do
-      expect(presenter).to receive(:render_index_field_value).with(field, {})
+      expect(presenter).to receive(:field_value).with(field, {})
       helper.render_index_field_value(document: doc, field: field)
     end
 
     it "should allow additional options to be passed to the presenter" do
-      expect(presenter).to receive(:render_index_field_value).with(field, x: 1)
+      expect(presenter).to receive(:field_value).with(field, x: 1)
       helper.render_index_field_value(document: doc, field: field, x: 1)
     end
   end
@@ -197,17 +197,17 @@ describe BlacklightHelper do
     let(:field) { "some_field" }
 
     it "should pass the document and field through to the presenter" do
-      expect(presenter).to receive(:render_document_show_field_value).with(field, {})
+      expect(presenter).to receive(:field_value).with(field, {})
       helper.render_document_show_field_value(doc, field)
     end
 
     it "should allow the document and field to be passed as hash arguments" do
-      expect(presenter).to receive(:render_document_show_field_value).with(field, {})
+      expect(presenter).to receive(:field_value).with(field, {})
       helper.render_document_show_field_value(document: doc, field: field)
     end
 
     it "should allow additional options to be passed to the presenter" do
-      expect(presenter).to receive(:render_document_show_field_value).with(field, x: 1)
+      expect(presenter).to receive(:field_value).with(field, x: 1)
       helper.render_document_show_field_value(document: doc, field: field, x: 1)
     end
   end
@@ -446,6 +446,23 @@ describe BlacklightHelper do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
     end
 
+    it "uses the value defined in the blacklight configuration" do
+      expect(Deprecation).to receive(:warn).exactly(4).times
+      blacklight_config.document_presenter_class = presenter_class
+      expect(helper.presenter_class).to eq presenter_class
+    end
+
+    it "defaults to Blacklight::DocumentPresenter" do
+      expect(Deprecation).to receive(:warn)
+      expect(helper.presenter_class).to eq Blacklight::DocumentPresenter
+    end
+  end
+
+  describe "#index_presenter_class" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
     let :blacklight_config do
       Blacklight::Configuration.new
     end
@@ -454,19 +471,42 @@ describe BlacklightHelper do
       double
     end
 
-    it "should use the value defined in the blacklight configuration" do
-      blacklight_config.document_presenter_class = presenter_class
-      expect(helper.presenter_class).to eq presenter_class
+    it "uses the value defined in the blacklight configuration" do
+      blacklight_config.index.document_presenter_class = presenter_class
+      expect(helper.index_presenter_class(nil)).to eq presenter_class
     end
 
-    it "should default to Blacklight::DocumentPresenter" do
-      expect(helper.presenter_class).to eq Blacklight::DocumentPresenter
+    it "defaults to Blacklight::IndexPresenter" do
+      expect(helper.index_presenter_class(nil)).to eq Blacklight::IndexPresenter
+    end
+  end
+
+  describe "#show_presenter_class" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
+    let :blacklight_config do
+      Blacklight::Configuration.new
+    end
+
+    let :presenter_class do
+      double
+    end
+
+    it "uses the value defined in the blacklight configuration" do
+      blacklight_config.show.document_presenter_class = presenter_class
+      expect(helper.show_presenter_class(nil)).to eq presenter_class
+    end
+
+    it "defaults to Blacklight::DocumentPresenter" do
+      expect(helper.show_presenter_class(nil)).to eq Blacklight::ShowPresenter
     end
   end
 
   describe "#render_document_heading" do
     before do
-      allow(helper).to receive(:presenter).and_return(double(document_heading: "Heading"))
+      allow(helper).to receive(:presenter).and_return(double(heading: "Heading"))
     end
 
     let(:document) { double }
@@ -480,12 +520,12 @@ describe BlacklightHelper do
     end
 
     it "should accept an explicit document argument" do
-      allow(helper).to receive(:presenter).with(document).and_return(double(document_heading: "Document Heading"))
+      allow(helper).to receive(:presenter).with(document).and_return(double(heading: "Document Heading"))
       expect(helper.render_document_heading(document)).to have_selector "h4", text: "Document Heading"
     end
     
     it "should accept the document with a tag option" do
-      allow(helper).to receive(:presenter).with(document).and_return(double(document_heading: "Document Heading"))
+      allow(helper).to receive(:presenter).with(document).and_return(double(heading: "Document Heading"))
       expect(helper.render_document_heading(document, tag: "h3")).to have_selector "h3", text: "Document Heading"
     end
   end

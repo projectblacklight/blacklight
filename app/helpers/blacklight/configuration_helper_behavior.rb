@@ -5,7 +5,7 @@ module Blacklight::ConfigurationHelperBehavior
   # Index fields to display for a type of document
   # 
   # @param [SolrDocument] document
-  # @return [Array<Blacklight::Solr::Configuration::Field>] 
+  # @return [Array<Blacklight::Configuration::Field>] 
   def index_fields document=nil
     blacklight_config.index_fields
   end
