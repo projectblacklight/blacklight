@@ -181,7 +181,7 @@ describe CatalogHelper do
     let(:document) { double }
     it "calls the provided thumbnail method" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
-      allow(helper).to receive_messages(:xyz => "some-thumbnail")
+      expect(helper).to receive_messages(:xyz => "some-thumbnail")
 
       allow(helper).to receive(:link_to_document).with(document, "some-thumbnail", {})
       helper.render_thumbnail_tag document
@@ -193,7 +193,7 @@ describe CatalogHelper do
       allow(document).to receive(:has?).with(:xyz).and_return(true)
       allow(document).to receive(:first).with(:xyz).and_return("http://example.com/some.jpg")
 
-      allow(helper).to receive(:link_to_document).with(document, image_tag("http://example.com/some.jpg"), {})
+      expect(helper).to receive(:link_to_document).with(document, image_tag("http://example.com/some.jpg"), {})
       helper.render_thumbnail_tag document
     end
 
