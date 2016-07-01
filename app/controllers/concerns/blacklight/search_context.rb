@@ -12,7 +12,7 @@ module Blacklight::SearchContext
   module ClassMethods
     # Save the submitted search parameters in the search session
     def record_search_parameters opts = { only: :index}
-      before_action :current_search_session, opts
+      before_action :set_current_search_session, opts
     end
   end
 
@@ -28,10 +28,16 @@ module Blacklight::SearchContext
 
   # The current search session
   def current_search_session
+    @current_search_session ||= find_search_session
+  end
 
-    @current_search_session ||= if start_new_search_session?
-      find_or_initialize_search_session_from_params search_state.to_h
-    elsif params[:search_context].present?
+  # Persist the current search session id to the user's session
+  def set_current_search_session
+    search_session['id'] = current_search_session.id if current_search_session
+  end
+
+  def find_search_session
+    if params[:search_context].present?
       find_or_initialize_search_session_from_params JSON.load(params[:search_context])
     elsif params[:search_id].present?
       begin
@@ -40,6 +46,8 @@ module Blacklight::SearchContext
       rescue ActiveRecord::RecordNotFound
         nil
       end
+    elsif start_new_search_session?
+      find_or_initialize_search_session_from_params search_state.to_h
     elsif search_session['id']
       begin
         searches_from_history.find(search_session['id'])
@@ -47,10 +55,6 @@ module Blacklight::SearchContext
         nil
       end
     end
-
-    search_session['id'] = @current_search_session.id if @current_search_session
-
-    @current_search_session
   end
 
   ##
