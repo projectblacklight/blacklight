@@ -1,12 +1,4 @@
-
-if ENV['RAILS_VERSION'] =~ /^5\.0/ || ENV['RAILS_VERSION'] == 'edge'
-  gem 'rails-controller-testing', github: 'rails/rails-controller-testing'
-  gem 'rspec-mocks', github: 'rspec/rspec-mocks' # we need 3.5.0 to be released
-  gem 'rspec-expectations', github: 'rspec/rspec-expectations' # we need 3.5.0 to be released
-  gem 'rspec-support', github: 'rspec/rspec-support' # we need 3.5.0 to be released
-  gem 'rspec', github: 'rspec/rspec' # we need 3.5.0 to be released
-  gem 'rspec-core', github: 'rspec/rspec-core' # we need 3.5.0 to be released
-  gem 'rspec-rails', github: 'rspec/rspec-rails' # we need 3.5.0 to be released
-  gem 'kaminari', github: 'amatsuda/kaminari' # need > 0.16.3
+if ENV['RAILS_VERSION'].nil? || ENV['RAILS_VERSION'] =~ /^5\.0/ || ENV['RAILS_VERSION'] == 'edge'
+  gem 'rails-controller-testing'
   gem 'deprecation', github: 'jcoyne/deprecation', branch: 'no_alias_method_chain'
 end
