@@ -35,7 +35,7 @@ else
   end
 
   if ENV['RAILS_VERSION'].nil? || ENV['RAILS_VERSION'] =~ /^5\.0/ || ENV['RAILS_VERSION'] == 'edge'
-    gem 'rspec-rails', '>= 3.5.0.beta4', '~> 3.5'
+    # noop
   elsif ENV['RAILS_VERSION'] =~ /^4\.2/
     gem 'responders', "~> 2.0"
     gem 'sass-rails', ">= 5.0"
