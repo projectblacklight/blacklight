@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency "twitter-typeahead-rails", '~> 0.11'
 
   s.add_development_dependency "solr_wrapper"
-  s.add_development_dependency "rspec-rails", ">= 3.4", "< 4"
+  s.add_development_dependency "rspec-rails", "~> 3.5"
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency "capybara", '~> 2.6.0'
