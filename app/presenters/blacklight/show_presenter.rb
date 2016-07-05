@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 module Blacklight
   class ShowPresenter
+    extend Deprecation
+    self.deprecation_horizon = 'Blacklight version 7.0.0'
+
     # @param [SolrDocument] document
     # @param [ActionController::Base] controller scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
@@ -52,6 +55,12 @@ module Blacklight
       f ||= @configuration.document_model.unique_key
       field_values(field_config(f), value: @document[f])
     end
+
+    # @deprecated
+    def document_heading
+      heading
+    end
+    deprecation_deprecate document_heading: "replaced by #heading"
 
     ##
     # Render the show field value for a document
