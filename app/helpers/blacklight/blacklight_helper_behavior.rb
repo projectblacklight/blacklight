@@ -332,7 +332,8 @@ module Blacklight::BlacklightHelperBehavior
     when 'index'
       index_presenter(document)
     else
-      raise "Unable to determine presenter type for #{action_name} on #{controller_name}"
+      Deprecation.warn(Blacklight::BlacklightHelperBehavior, "Unable to determine presenter type for #{action_name} on #{controller_name}, falling back on deprecated Blacklight::DocumentPresenter")
+      presenter_class.new(document, self)
     end
   end
 
