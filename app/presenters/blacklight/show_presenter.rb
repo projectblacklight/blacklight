@@ -4,13 +4,15 @@ module Blacklight
     extend Deprecation
     self.deprecation_horizon = 'Blacklight version 7.0.0'
 
+    attr_reader :document, :configuration, :view_context
+
     # @param [SolrDocument] document
-    # @param [ActionController::Base] controller scope for linking and generating urls
+    # @param [ActionView::Base] view context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
-    def initialize(document, controller, configuration = controller.blacklight_config)
+    def initialize(document, view_context, configuration = view_context.blacklight_config)
       @document = document
+      @view_context = view_context
       @configuration = configuration
-      @controller = controller
     end
 
     ##
@@ -23,7 +25,7 @@ module Blacklight
     # @option options [Array<String>] :exclude array of format shortnames to not include in the output
     # @deprecated moved to ShowPresenter#link_rel_alternates
     def link_rel_alternates(options = {})
-      LinkAlternatePresenter.new(@controller, @document, options).render
+      LinkAlternatePresenter.new(view_context, document, options).render
     end
 
     ##
@@ -35,7 +37,7 @@ module Blacklight
     def html_title
       if view_config.html_title_field
         fields = Array.wrap(view_config.html_title_field)
-        f = fields.detect { |field| @document.has? field }
+        f = fields.detect { |field| document.has? field }
         f ||= 'id'
         field_values(field_config(f))
       else
@@ -51,9 +53,9 @@ module Blacklight
     # @return [String]
     def heading
       fields = Array.wrap(view_config.title_field)
-      f = fields.detect { |field| @document.has? field }
-      f ||= @configuration.document_model.unique_key
-      field_values(field_config(f), value: @document[f])
+      f = fields.detect { |field| document.has? field }
+      f ||= configuration.document_model.unique_key
+      field_values(field_config(f), value: document[f])
     end
 
     # @deprecated
@@ -88,15 +90,15 @@ module Blacklight
       # @param [Blacklight::Configuration::Field] solr field configuration
       # @param [Hash] options additional options to pass to the rendering helpers
       def field_values(field_config, options={})
-        FieldPresenter.new(@controller, @document, field_config, options).render
+        FieldPresenter.new(view_context, document, field_config, options).render
       end
 
       def view_config
-        @configuration.view_config(:show)
+        configuration.view_config(:show)
       end
 
       def field_config(field)
-        @configuration.show_fields.fetch(field) { Configuration::NullField.new(field) }
+        configuration.show_fields.fetch(field) { Configuration::NullField.new(field) }
       end
   end
 end
