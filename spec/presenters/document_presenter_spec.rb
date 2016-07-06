@@ -428,4 +428,12 @@ describe Blacklight::DocumentPresenter do
       end
     end
   end
+
+  describe '#render_values' do
+    it 'renders field values as a string' do
+      expect(subject.render_values('x')).to eq 'x'
+      expect(subject.render_values(['x', 'y'])).to eq 'x and y'
+      expect(subject.render_values(['x', 'y', 'z'])).to eq 'x, y, and z'
+    end
+  end
 end
