@@ -6,7 +6,7 @@ class CreateBookmarks < ActiveRecord::Migration
       t.string :user_type
       t.string :document_id, index: true
       t.string :document_type
-      t.string :title
+      t.binary :title
       t.timestamps null: false
     end
   end
