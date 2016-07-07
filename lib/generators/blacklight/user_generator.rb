@@ -58,7 +58,7 @@ module Blacklight
           "\n  include Blacklight::User\n"
         end
       else
-        say_status "warning", <<-EOS.strip_heredocs, :yellow
+        say_status "warning", <<-EOS.strip_heredoc, :yellow
           Blacklight authenticated user functionality not installed, as a user model
           could not be found at /app/models/user.rb. If you used a different name, 
           please re-run the migration and provide that name as an argument. E.g.:
