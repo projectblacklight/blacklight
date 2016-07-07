@@ -13,7 +13,7 @@ Blacklight = function() {
 
     listeners: function () {
       var listeners = [];
-      if (Turbolinks && Turbolinks.supported) {
+      if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
         // Turbolinks 5
         if (Turbolinks.BrowserAdapter) {
           listeners.push('turbolinks:load');
