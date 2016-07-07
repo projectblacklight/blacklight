@@ -160,11 +160,13 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [String] field
   #   @param [Hash] opts
   #   @options opts [String] :value
-  # TODO: deprecate and use render_field_value
+  # @deprecated use IndexPresenter#field_value
   def render_index_field_value *args
     render_field_value(*args)
   end
+  deprecation_deprecate render_index_field_value: 'replaced by IndexPresenter#field_value'
 
+  # @deprecated use IndexPresenter#field_value
   def render_field_value(*args)
     options = args.extract_options!
     document = args.shift || options[:document]
@@ -172,6 +174,7 @@ module Blacklight::BlacklightHelperBehavior
     field = args.shift || options[:field]
     presenter(document).field_value field, options.except(:document, :field)
   end
+  deprecation_deprecate render_field_value: 'replaced by IndexPresenter#field_value'
 
   ##
   # Render the show field label for a document
@@ -218,10 +221,12 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [String] field
   #   @param [Hash] opts
   #   @options opts [String] :value
-  # TODO: deprecate and use render_field_value
+  # @deprecated use ShowPresenter#field_value
   def render_document_show_field_value *args
     render_field_value(*args)
   end
+  deprecation_deprecate render_document_show_field_value: 'replaced by ShowPresenter#field_value'
+
 
   ##
   # Get the value of the document's "title" field, or a placeholder
