@@ -165,6 +165,7 @@ describe BlacklightHelper do
   describe "#render_index_field_value" do
     let(:presenter) { double }
     before do
+      allow(Deprecation).to receive(:warn)
       allow(helper).to receive(:presenter).with(doc).and_return(presenter)
     end
 
@@ -191,6 +192,7 @@ describe BlacklightHelper do
     let(:presenter) { double }
     before do
       allow(helper).to receive(:presenter).with(doc).and_return(presenter)
+      allow(Deprecation).to receive(:warn)
     end
 
     let(:doc) { double }
