@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 module Blacklight
   class IndexPresenter
+    attr_reader :document, :configuration, :view_context
+
     # @param [SolrDocument] document
-    # @param [ActionController::Base] controller scope for linking and generating urls
+    # @param [ActionView::Base] view context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
-    def initialize(document, controller, configuration = controller.blacklight_config)
+    def initialize(document, view_context, configuration = view_context.blacklight_config)
       @document = document
+      @view_context = view_context
       @configuration = configuration
-      @controller = controller
     end
 
     ##
@@ -21,14 +23,14 @@ module Blacklight
       value = case field_or_string_or_proc
       when Symbol
         config = field_config(field_or_string_or_proc)
-        @document[field_or_string_or_proc]
+        document[field_or_string_or_proc]
       when Proc
-        field_or_string_or_proc.call(@document, opts)
+        field_or_string_or_proc.call(document, opts)
       when String
         field_or_string_or_proc
       end
 
-      value ||= @document.id
+      value ||= document.id
       field_values(config, value: value)
     end
 
@@ -59,11 +61,11 @@ module Blacklight
       # @param [Blacklight::Configuration::Field] solr field configuration
       # @param [Hash] options additional options to pass to the rendering helpers
       def field_values(field_config, options={})
-        FieldPresenter.new(@controller, @document, field_config, options).render
+        FieldPresenter.new(view_context, document, field_config, options).render
       end
 
       def field_config(field)
-        @configuration.index_fields.fetch(field) { Configuration::NullField.new(field) }
+        configuration.index_fields.fetch(field) { Configuration::NullField.new(field) }
       end
   end
 end
