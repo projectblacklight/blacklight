@@ -45,6 +45,12 @@ module Blacklight
       end
     end
 
+    # @deprecated
+    def document_show_html_title
+      html_title
+    end
+    deprecation_deprecate document_show_html_title: "use #html_title"
+
     ##
     # Get the value of the document's "title" field, or a placeholder
     # value (if empty)
@@ -75,6 +81,30 @@ module Blacklight
     def field_value field, options={}
       field_values(field_config(field), options)
     end
+
+    # @deprecated
+    def render_document_show_field_value(*args)
+      field_value(*args)
+    end
+    deprecation_deprecate render_document_show_field_value: 'replaced by #field_value'
+
+    # @deprecated
+    def get_field_values(field_config, options={})
+      field_values(field_config, options)
+    end
+    deprecation_deprecate get_field_values: "replaced by #field_value"
+
+    # @deprecated
+    def render_field_values(values, field_config = Configuration::NullField.new)
+      field_values(field_config, value: Array(values))
+    end
+    deprecation_deprecate render_field_values: "replaced by #field_value"
+
+    # @deprecated
+    def render_values(values, field_config = Configuration::NullField.new)
+      field_values(field_config, value: Array(values))
+    end
+    deprecation_deprecate render_values: "replaced by #field_value"
 
     private
 

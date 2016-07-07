@@ -143,5 +143,31 @@ describe Blacklight::IndexPresenter do
       end
     end
   end
+
+  describe 'deprecated methods' do
+    before do
+      allow(Deprecation).to receive(:warn)
+    end
+
+    let(:field_config) { config.add_index_field 'qwerty' }
+
+    describe '#get_field_values' do
+      it 'renders values for the given field' do
+        expect(subject.get_field_values(field_config, value: ['x', 'y'])).to eq 'x and y'
+      end
+    end
+
+    describe '#render_field_values' do
+      it 'renders values for the given field' do
+        expect(subject.render_field_values('x')).to eq 'x'
+      end
+    end
+
+    describe '#render_values' do
+      it 'renders values for the given field' do
+        expect(subject.render_values(['x', 'y', 'z'])).to eq 'x, y, and z'
+      end
+    end
+  end
 end
 

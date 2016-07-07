@@ -127,9 +127,15 @@ module Blacklight
 
     # @deprecated
     def render_field_value(values, field_config = Configuration::NullField.new)
-      FieldPresenter.new(@controller, @document, field_config, value: values).render
+      field_values(field_config, value: Array(values))
     end
     deprecation_deprecate render_field_value: 'Use FieldPresenter instead'
+
+    # @deprecated
+    def render_values(values, field_config = Configuration::NullField.new)
+      field_values(field_config, value: Array(values))
+    end
+    deprecation_deprecate render_values: 'Use FieldPresenter instead'
 
     private
 
