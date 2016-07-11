@@ -50,12 +50,12 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  if Rails.version > '5'
-    # This is for an unreleased version of Devise (will either be 4.2 or 5.0)
+  if defined? Devise::Test::ControllerHelpers
     config.include Devise::Test::ControllerHelpers, type: :controller
   else
     config.include Devise::TestHelpers, type: :controller
   end
+
   config.infer_spec_type_from_file_location!
 
   config.include(ControllerLevelHelpers, type: :helper)
