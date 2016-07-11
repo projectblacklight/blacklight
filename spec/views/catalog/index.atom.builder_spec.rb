@@ -3,34 +3,28 @@ require 'spec_helper'
 require 'rexml/document'
 
 describe "catalog/index" do
-
-  before(:all) do
-    @response = Blacklight::Solr::Response.new({ response: { numFound: 30 }}, { start: 10, rows: 10})
-    @config = CatalogController.blacklight_config
-  end
-
   let(:document_list) do
-    10.times.map { |i| SolrDocument.new(id: i) }
+    10.times.map do |i|
+      doc = SolrDocument.new(id: i)
+      allow(doc).to receive(:export_as_some_format).and_return("")
+      allow(doc).to receive(:to_semantic_values).and_return(author: ['xyz']) if i == 0
+      doc.will_export_as(:some_format, "application/some-format") if i == 1
+      doc
+    end
   end
 
   before do
-    allow(view).to receive(:action_name).and_return('index')
-    params['content_format'] = 'some_format'
+    @response = Blacklight::Solr::Response.new({ response: { numFound: 30 }}, { start: 10, rows: 10})
     @document_list = document_list
-    allow_any_instance_of(SolrDocument).to receive(:export_as_some_format).and_return("")
-    allow(document_list[0]).to receive(:to_semantic_values).and_return(author: ['xyz'])
-    @document_list[1].will_export_as(:some_format, "application/some-format")
-
-    allow(view).to receive(:blacklight_config).and_return(@config)
+    params['content_format'] = 'some_format'
+    allow(view).to receive(:action_name).and_return('index')
+    allow(view).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
     allow(view).to receive(:search_field_options_for_select).and_return([])
-
     render template: 'catalog/index', formats: [:atom]
   end
 
-  let(:response_xml) do
-    # We need to use rexml to test certain things that have_tag wont' test
-    REXML::Document.new(rendered)
-  end
+  # We need to use rexml to test certain things that have_tag wont' test
+  let(:response_xml) { REXML::Document.new(rendered) }
 
   it "has contextual information" do
     expect(rendered).to have_selector("link[rel=self]")
@@ -80,29 +74,23 @@ describe "catalog/index" do
     end
 
     describe "with an author" do
-      before do
-        @entry = response_xml.elements.to_a("/feed/entry")[0]
-      end
+      let(:entry) { response_xml.elements.to_a("/feed/entry")[0] }
       it "has author tag" do
-        expect(@entry.elements["author/name"].text).to eq 'xyz'
+        expect(entry.elements["author/name"].text).to eq 'xyz'
       end
     end
 
     describe "without an author" do
-      before do
-        @entry = response_xml.elements.to_a("/feed/entry")[1]
-      end
+      let(:entry) { response_xml.elements.to_a("/feed/entry")[1] }
       it "does not have an author tag" do
-        expect(@entry.elements["author/name"]).to be_nil
+        expect(entry.elements["author/name"]).to be_nil
       end
     end
   end
 
   describe "when content_format is specified" do
     describe "for an entry with content available" do
-      let(:entry) do
-        response_xml.elements.to_a("/feed/entry")[1].to_s
-      end
+      let(:entry) { response_xml.elements.to_a("/feed/entry")[1].to_s }
       it "includes a link rel tag" do
         expect(entry).to have_selector("link[rel=alternate][type='application/some-format']")
       end
@@ -111,11 +99,9 @@ describe "catalog/index" do
       end
     end
     describe "for an entry with NO content available" do
-      before do
-        @entry = response_xml.elements.to_a("/feed/entry")[5]
-      end
-      it "includes content" do
-        expect(@entry.to_s).to_not have_selector("content[type='application/some-format']")
+      let(:entry) { response_xml.elements.to_a("/feed/entry")[5].to_s }
+      it "does not have content embedded" do
+        expect(entry).to_not have_selector("content[type='application/some-format']")
       end
     end
   end

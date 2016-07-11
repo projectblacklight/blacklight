@@ -6,9 +6,7 @@ describe "catalog/_index_header_default" do
     SolrDocument.new :id => 'xyz', :format => 'a'
   end
 
-  let :blacklight_config do
-    Blacklight::Configuration.new
-  end
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
     allow(controller).to receive(:action_name).and_return('index')
@@ -30,7 +28,7 @@ describe "catalog/_index_header_default" do
     render partial: "catalog/index_header_default", locals: {document: document, document_counter: 1}
     expect(rendered).to have_selector '.index_title.col-md-12'
   end
-  
+
   it "gives the document actions space if present" do
     allow(view).to receive(:render_index_doc_actions).and_return("DOCUMENT ACTIONS")
     render partial: "catalog/index_header_default", locals: {document: document, document_counter: 1}

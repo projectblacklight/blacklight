@@ -2,10 +2,7 @@
 require 'spec_helper'
 
 describe "catalog/_sort_and_per_page" do
-
-  let :blacklight_config do
-    Blacklight::Configuration.new
-  end
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
     blacklight_config.add_results_collection_tool(:sort_widget)

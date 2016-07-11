@@ -2,14 +2,8 @@
 require 'spec_helper'
 
 describe "catalog/show.html.erb" do
-
-  let :document do
-    SolrDocument.new :id => 'xyz', :format => 'a'
-  end
-
-  let :blacklight_config do
-    Blacklight::Configuration.new
-  end
+  let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
   before :each do
     allow(view).to receive(:action_name).and_return('show')
@@ -32,7 +26,6 @@ describe "catalog/show.html.erb" do
     allow(view).to receive(:document_show_html_title).and_return("Heading")
     allow(document).to receive_messages(:itemtype => 'some-item-type-uri')
     render
-
     expect(rendered).to have_selector('div#document[@itemscope]')
     expect(rendered).to have_selector('div#document[@itemtype="some-item-type-uri"]')
   end
@@ -41,13 +34,10 @@ describe "catalog/show.html.erb" do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     stub_template "catalog/_show_header_default.html.erb" => "document_header"
     stub_template "catalog/_show_default.html.erb" => "show_default"
-    
     render
-
     expect(rendered).to match /document_header/
     expect(rendered).to match /show_default/
   end
-
 
   it "uses the show.partials parameter to determine the partials to render" do
     allow(view).to receive(:render_grouped_response?).and_return(false)

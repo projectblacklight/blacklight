@@ -13,7 +13,6 @@ describe "catalog/index.html.erb" do
       expect(rendered).to match /id="sidebar"/
       expect(rendered).to match /id="content"/
     end
-
     it "renders the search_sidebar partial" do
       stub_template "catalog/_search_sidebar.html.erb" => "sidebar_content"
       render
@@ -26,7 +25,6 @@ describe "catalog/index.html.erb" do
       allow(view).to receive(:has_search_parameters?).and_return(true)
       stub_template "catalog/_results_pagination.html.erb" => ""
       stub_template "catalog/_search_header.html.erb" => "header_content"
-
       allow(view).to receive(:blacklight_config).and_return(Blacklight::Configuration.new)
       allow(view).to receive(:render_opensearch_response_metadata).and_return("")
       assign(:response, double(:empty? => true))

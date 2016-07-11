@@ -2,13 +2,8 @@
 require 'spec_helper'
 
 describe "catalog/_document" do
-  let :document do
-    SolrDocument.new :id => 'xyz', :format => 'a'
-  end
-
-  let :blacklight_config do
-    Blacklight::Configuration.new
-  end
+  let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
     allow(view).to receive(:render_grouped_response?).and_return(false)
@@ -27,7 +22,6 @@ describe "catalog/_document" do
     expect(rendered).to have_selector('div.document[@itemtype="http://schema.org/Thing"]')
   end
 
-
   it "uses the index.partials parameter to determine the partials to render" do
     blacklight_config.index.partials = ['a', 'b', 'c']
     stub_template "catalog/_a_default.html.erb" => "a_partial"
@@ -41,17 +35,13 @@ describe "catalog/_document" do
 
   it 'has a css class with the document position' do
     allow(view).to receive(:render_document_partials)
-
     render partial: 'catalog/document', locals: { document: document, document_counter: 5 }
-
     expect(rendered).to have_selector 'div.document-position-5'
   end
 
   it 'has a data attribute with the document position' do
     allow(view).to receive(:render_document_partials)
-
     render partial: 'catalog/document', locals: { document: document, document_counter: 5 }
-
     expect(rendered).to have_selector 'div.document[@data-document-counter="5"]'
   end
 end

@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-# spec for default partial to display solr document fields 
-#  in catalog show view
+# spec for default partial to display solr document fields in catalog show view
 
 describe "/catalog/_show_default.html.erb" do
-  
+
   include BlacklightHelper
   include CatalogHelper
-
 
   before(:each) do
     allow(controller).to receive(:action_name).and_return('show')
@@ -23,9 +21,9 @@ describe "/catalog/_show_default.html.erb" do
     @fname_2 = "solr_field_not_in_config"
     @fname_3 = "empty_field"
     @fname_4 = "four_field"
-    
+
     @document = SolrDocument.new(id: 1, @fname_1 => "val_1", @fname_2 => "val2", @fname_4 => "val_4")
-    
+
     @flabel_1 = "One:"
     @flabel_3 = "Two:"
     @flabel_4 = "Four:"
@@ -39,7 +37,7 @@ describe "/catalog/_show_default.html.erb" do
     expect(@rendered).to_not include("val_2")
     expect(@rendered).to_not include(@fname_2)
   end
-  
+
   it "skips over fields listed in initializer that are not in solr response" do
     expect(@rendered).to_not include(@fname_3)
   end
@@ -48,11 +46,11 @@ describe "/catalog/_show_default.html.erb" do
     # labels
     expect(@rendered).to include(@flabel_1)
     expect(@rendered).to include(@flabel_4)
-    # classes    
+    # classes
     expect(@rendered).to include("blacklight-#{@fname_1}")
     expect(@rendered).to include("blacklight-#{@fname_4}")
   end
-  
+
 # this test probably belongs in a Cucumber feature
 #  it "should display fields in the order listed in the initializer" do
 #    pending
@@ -63,5 +61,4 @@ describe "/catalog/_show_default.html.erb" do
     expect(@rendered).to include("val_4")
     expect(@rendered).to_not include("val_2")
   end
-
 end

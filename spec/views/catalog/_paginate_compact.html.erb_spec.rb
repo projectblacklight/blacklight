@@ -3,16 +3,16 @@ require 'spec_helper'
 
 describe "catalog/_paginate_compact.html.erb" do
   let(:user) { User.new.tap { |u| u.save(validate: false) } }
-  
+
   before do
     controller.request.path_parameters[:action] = 'index'
   end
 
-  describe "with a real solr response", :integration => true do  
+  describe "with a real solr response", :integration => true do
     def blacklight_config
       @config ||= CatalogController.blacklight_config
     end
-    
+
     def blacklight_config=(config)
       @config = config
     end
@@ -25,7 +25,6 @@ describe "catalog/_paginate_compact.html.erb" do
 
     it "renders solr responses" do
       solr_response, document_list = search_results(q: '')
-
       render :partial => 'catalog/paginate_compact', :object => solr_response
       expect(rendered).to have_selector ".page_entries"
       expect(rendered).to have_selector "a[@rel=next]"

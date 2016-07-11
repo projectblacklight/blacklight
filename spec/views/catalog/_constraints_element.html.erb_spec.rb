@@ -25,7 +25,6 @@ describe "catalog/_constraints_element.html.erb" do
         expect(s).to have_selector(".remove[href='http://remove']")
       end
     end
-
     it "has an accessible remove label" do
       expect(rendered).to have_selector(".remove") do |s|
         expect(s).to have_content("Remove constraint my label: my value")
@@ -50,8 +49,5 @@ describe "catalog/_constraints_element.html.erb" do
       expect(rendered).to have_selector("span.appliedFilter.constraint span.filterName span.custom_label")
       expect(rendered).to have_selector("span.appliedFilter.constraint span.filterValue span.custom_value")
     end
-
   end
-
-
 end
