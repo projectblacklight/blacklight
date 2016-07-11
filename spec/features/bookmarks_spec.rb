@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "Bookmarks" do
   describe "navigating from the homepage" do

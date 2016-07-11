@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "catalog/facet_layout" do
   let :blacklight_config do

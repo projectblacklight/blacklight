@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe Blacklight::Suggest::Response do
   let(:empty_response) { described_class.new({}, { q: 'hello' }, 'suggest') }

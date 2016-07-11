@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "Search Results context", js: true do
   it "passes the current search id through" do

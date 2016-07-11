@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "Alternate Controller Behaviors" do
   it "has the correct per-page form" do

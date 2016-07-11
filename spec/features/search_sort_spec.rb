@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "Search Sort" do
   it "sorts on facet results with no search terms" do

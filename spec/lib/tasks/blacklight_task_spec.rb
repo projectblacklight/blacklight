@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 require 'rake'
 
 describe "blacklight:delete_old_searches" do

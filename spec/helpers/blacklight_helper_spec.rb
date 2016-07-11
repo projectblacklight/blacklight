@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
-
 describe BlacklightHelper do
   before(:each) do
     allow(helper).to receive(:current_or_guest_user).and_return(User.new)

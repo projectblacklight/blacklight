@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe HashAsHiddenFieldsHelper do
   include HashAsHiddenFieldsHelper

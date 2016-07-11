@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 # check the methods that do solr requests. Note that we are not testing if
 #  solr gives "correct" responses, as that's out of scope (it's a part of

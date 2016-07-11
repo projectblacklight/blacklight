@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe 'catalog/opensearch.xml.builder' do
   it "renders an OpenSearch description document" do

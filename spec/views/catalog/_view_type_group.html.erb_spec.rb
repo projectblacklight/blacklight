@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "catalog/_view_type_group" do
   let(:blacklight_config) { Blacklight::Configuration.new }

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "catalog/show.html.erb" do
   let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }

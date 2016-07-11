@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "catalog/_paginate_compact.html.erb" do
   let(:user) { User.new.tap { |u| u.save(validate: false) } }

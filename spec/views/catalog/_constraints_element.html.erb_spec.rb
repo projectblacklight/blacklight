@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "catalog/_constraints_element.html.erb" do
   describe "for simple display" do
