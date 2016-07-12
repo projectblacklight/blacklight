@@ -1,6 +1,6 @@
 # Blacklight
 
-[![Build Status](https://travis-ci.org/projectblacklight/blacklight.png?branch=master)](https://travis-ci.org/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight)
+[![Build Status](https://travis-ci.org/projectblacklight/blacklight.png?branch=master)](https://travis-ci.org/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight) [![Coverage Status](https://coveralls.io/repos/github/projectblacklight/blacklight/badge.svg?branch=master)](https://coveralls.io/github/projectblacklight/blacklight?branch=master)
 
 Blacklight is an open source Solr user interface discovery platform.
 You can use Blacklight to enable searching and browsing of your collections.
@@ -19,7 +19,7 @@ gem "blacklight"
 
 Run the install generator which will copy over some initial templates, migrations, routes, and configuration:
 
-```
+```bash
 rails generate blacklight:install
 ```
 
