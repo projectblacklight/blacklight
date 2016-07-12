@@ -23,7 +23,7 @@ module Blacklight
         else
           gem "devise"
         end
-        gem "devise-guests", "~> 0.3"
+        gem "devise-guests", "~> 0.5"
 
         Bundler.with_clean_env do
           run "bundle install"
