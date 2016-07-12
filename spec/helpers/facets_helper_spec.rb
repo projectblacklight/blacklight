@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 require 'equivalent-xml'
 
@@ -11,112 +10,96 @@ describe FacetsHelper do
   end
 
   describe "has_facet_values?" do
+    let(:empty) { double(:items => [], :name => 'empty') }
+
     it "is true if there are any facets to display" do
-
-      a = double(:items => [1,2], :name => 'a')
-      b = double(:items => ['b','c'], :name => 'b')
-      empty = double(:items => [], :name => 'empty')
-
-      fields = [a,b,empty]
+      a = double(:items => [1, 2], :name => 'a')
+      b = double(:items => ['b', 'c'], :name => 'b')
+      fields = [a, b, empty]
       expect(helper.has_facet_values?(fields)).to be true
     end
 
     it "is false if all facets are empty" do
-
-      empty = double(:items => [])
-
-      fields = [empty]
-      expect(helper.has_facet_values?(fields)).to be false
+      expect(helper.has_facet_values?([empty])).to be false
     end
 
-    it "is false if no facets are displayable" do
-      @config = Blacklight::Configuration.new do |config|
-        config.add_facet_field 'basic_field', :if => false
+    describe "different config" do
+      let(:blacklight_config) { Blacklight::Configuration.new { |config| config.add_facet_field 'basic_field', :if => false } }
+      it "is false if no facets are displayable" do
+        a = double(:items => [1, 2], :name => 'basic_field')
+        expect(helper.has_facet_values?([a])).to be false
       end
-
-      allow(helper).to receive_messages(:blacklight_config => @config)
-
-      a = double(:items => [1,2], :name=>'basic_field')
-      fields = [a]
-
-      expect(helper.has_facet_values?(fields)).to be false
     end
   end
 
   describe "should_render_facet?" do
-    before do
-      @config = Blacklight::Configuration.new do |config|
+    let(:blacklight_config) do
+      Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
         config.add_facet_field 'no_show', :show => false
         config.add_facet_field 'helper_show', :show => :my_custom_check
         config.add_facet_field 'helper_with_an_arg_show', :show => :my_custom_check_with_an_arg
-        config.add_facet_field 'lambda_show', :show => lambda { |context, config, field| true }
+        config.add_facet_field 'lambda_show',    :show => lambda { |context, config, field| true }
         config.add_facet_field 'lambda_no_show', :show => lambda { |context, config, field| false }
       end
-
-      allow(helper).to receive_messages(:blacklight_config => @config)
     end
 
     it "renders facets with items" do
-      a = double(:items => [1,2], :name=>'basic_field')
+      a = double(:items => [1, 2], :name => 'basic_field')
       expect(helper.should_render_facet?(a)).to be true
     end
+
     it "does not render facets without items" do
-      empty = double(:items => [], :name=>'basic_field')
+      empty = double(:items => [], :name => 'basic_field')
       expect(helper.should_render_facet?(empty)).to be false
     end
 
     it "does not render facets where show is set to false" do
-      a = double(:items => [1,2], :name=>'no_show')
+      a = double(:items => [1, 2], :name => 'no_show')
       expect(helper.should_render_facet?(a)).to be false
     end
 
     it "calls a helper to determine if it should render a field" do
       allow(controller).to receive_messages(:my_custom_check => true)
-      a = double(:items => [1,2], :name=>'helper_show')
+      a = double(:items => [1, 2], :name => 'helper_show')
       expect(helper.should_render_facet?(a)).to be true
     end
 
     it "calls a helper to determine if it should render a field" do
-      a = double(:items => [1,2], :name=>'helper_with_an_arg_show')
-      allow(controller).to receive(:my_custom_check_with_an_arg).with(@config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
+      a = double(:items => [1, 2], :name => 'helper_with_an_arg_show')
+      allow(controller).to receive(:my_custom_check_with_an_arg).with(blacklight_config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
       expect(helper.should_render_facet?(a)).to be true
     end
 
-
     it "evaluates a Proc to determine if it should render a field" do
-      a = double(:items => [1,2], :name=>'lambda_show')
+      a = double(:items => [1, 2], :name => 'lambda_show')
       expect(helper.should_render_facet?(a)).to be true
-
-      a = double(:items => [1,2], :name=>'lambda_no_show')
+      a = double(:items => [1, 2], :name => 'lambda_no_show')
       expect(helper.should_render_facet?(a)).to be false
     end
   end
 
   describe "should_collapse_facet?" do
-    before do
-      @config = Blacklight::Configuration.new do |config|
+    let(:blacklight_config) do
+      Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
         config.add_facet_field 'no_collapse', collapse: false
       end
-
-      allow(helper).to receive_messages(blacklight_config: @config)
     end
 
     it "is collapsed by default" do
-      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be true
+      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['basic_field'])).to be true
     end
 
     it "does not be collapsed if the configuration says so" do
-      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be false
+      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['no_collapse'])).to be false
     end
 
     it "does not be collapsed if it is in the params" do
       params[:f] = ActiveSupport::HashWithIndifferentAccess.new(basic_field: [1], no_collapse: [2])
-      expect(helper.should_collapse_facet?(@config.facet_fields['basic_field'])).to be false
-      expect(helper.should_collapse_facet?(@config.facet_fields['no_collapse'])).to be false
+      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['basic_field'])).to be false
+      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['no_collapse'])).to be false
     end
-
   end
 
   describe "facet_by_field_name" do
@@ -124,7 +107,6 @@ describe FacetsHelper do
       facet_config = double(:query => nil, field: 'a', key: 'a')
       facet_field = double()
       allow(helper).to receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
-
       @response = double()
       allow(@response).to receive(:aggregations).and_return('a' => facet_field)
 
@@ -132,96 +114,82 @@ describe FacetsHelper do
     end
   end
 
-
   describe "render_facet_partials" do
+    let(:a) { double(:items => [1, 2]) }
+    let(:b) { double(:items => ['b', 'c']) }
+
     it "tries to render all provided facets" do
-      a = double(:items => [1,2])
-      b = double(:items => ['b','c'])
       empty = double(:items => [])
-
-      fields = [a,b,empty]
-
-      allow(helper).to receive(:render_facet_limit).with(a, {})
-      allow(helper).to receive(:render_facet_limit).with(b, {})
-      allow(helper).to receive(:render_facet_limit).with(empty, {})
-
+      fields = [a, b, empty]
+      expect(helper).to receive(:render_facet_limit).with(a, {})
+      expect(helper).to receive(:render_facet_limit).with(b, {})
+      expect(helper).to receive(:render_facet_limit).with(empty, {})
       helper.render_facet_partials fields
     end
 
     it "defaults to the configured facets" do
-      a = double(:items => [1,2])
-      b = double(:items => ['b','c'])
-      allow(helper).to receive(:facet_field_names) { [a,b] }
-
-      allow(helper).to receive(:render_facet_limit).with(a, {})
-      allow(helper).to receive(:render_facet_limit).with(b, {})
-
+      expect(helper).to receive(:facet_field_names) { [a, b] }
+      expect(helper).to receive(:render_facet_limit).with(a, {})
+      expect(helper).to receive(:render_facet_limit).with(b, {})
       helper.render_facet_partials
     end
-
   end
 
   describe "render_facet_limit" do
-    before do
-
-      @config = Blacklight::Configuration.new do |config|
+    let(:blacklight_config) do
+      Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
         config.add_facet_field 'pivot_facet_field', :pivot => ['a', 'b']
         config.add_facet_field 'my_pivot_facet_field_with_custom_partial', :partial => 'custom_facet_partial', :pivot => ['a', 'b']
         config.add_facet_field 'my_facet_field_with_custom_partial', :partial => 'custom_facet_partial'
       end
-
-      allow(helper).to receive_messages(:blacklight_config => @config)
-      @response = double()
     end
+    let(:mock_custom_facet) { double(:name => 'my_facet_field_with_custom_partial', :items => [1, 2, 3]) }
 
     it "sets basic local variables" do
-      @mock_facet = double(:name => 'basic_field', :items => [1,2,3])
-      allow(helper).to receive(:render).with(hash_including(:partial => 'facet_limit', 
-                                                         :locals => { 
-                                                            :solr_field => 'basic_field',
-                                                            :field_name => 'basic_field',
-                                                            :facet_field => helper.blacklight_config.facet_fields['basic_field'],
-                                                            :display_facet => @mock_facet  }
-                                                        ))
-      helper.render_facet_limit(@mock_facet)
+      mock_facet = double(:name => 'basic_field', :items => [1, 2, 3])
+      expect(helper).to receive(:render).with(hash_including(:partial => 'facet_limit',
+                                                             :locals => {
+                                                                :solr_field => 'basic_field',
+                                                                :field_name => 'basic_field',
+                                                                :facet_field => helper.blacklight_config.facet_fields['basic_field'],
+                                                                :display_facet => mock_facet  }
+                                                            ))
+      helper.render_facet_limit(mock_facet)
     end
 
     it "renders a facet _not_ declared in the configuration" do
-      @mock_facet = double(:name => 'asdf', :items => [1,2,3])
-      allow(helper).to receive(:render).with(hash_including(:partial => 'facet_limit'))
-      helper.render_facet_limit(@mock_facet)
+      mock_facet = double(:name => 'asdf', :items => [1, 2, 3])
+      expect(helper).to receive(:render).with(hash_including(:partial => 'facet_limit'))
+      helper.render_facet_limit(mock_facet)
     end
 
     it "gets the partial name from the configuration" do
-      @mock_facet = double(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
-      allow(helper).to receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
-      helper.render_facet_limit(@mock_facet)
-    end 
+      expect(helper).to receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
+      helper.render_facet_limit(mock_custom_facet)
+    end
 
     it "uses a partial layout for rendering the facet frame" do
-      @mock_facet = double(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
-      allow(helper).to receive(:render).with(hash_including(:layout => 'facet_layout'))
-      helper.render_facet_limit(@mock_facet)
+      expect(helper).to receive(:render).with(hash_including(:layout => 'facet_layout'))
+      helper.render_facet_limit(mock_custom_facet)
     end
 
     it "allows the caller to opt-out of facet layouts" do
-      @mock_facet = double(:name => 'my_facet_field_with_custom_partial', :items => [1,2,3])
-      allow(helper).to receive(:render).with(hash_including(:layout => nil))
-      helper.render_facet_limit(@mock_facet, :layout => nil)
+      expect(helper).to receive(:render).with(hash_including(:layout => nil))
+      helper.render_facet_limit(mock_custom_facet, :layout => nil)
     end
 
     it "renders the facet_pivot partial for pivot facets" do
-      @mock_facet = double(:name => 'pivot_facet_field', :items => [1,2,3])
-      allow(helper).to receive(:render).with(hash_including(:partial => 'facet_pivot'))
-      helper.render_facet_limit(@mock_facet)
-    end 
+      mock_facet = double(:name => 'pivot_facet_field', :items => [1, 2, 3])
+      expect(helper).to receive(:render).with(hash_including(:partial => 'facet_pivot'))
+      helper.render_facet_limit(mock_facet)
+    end
 
     it "lets you override the rendered partial for pivot facets" do
-      @mock_facet = double(:name => 'my_pivot_facet_field_with_custom_partial', :items => [1,2,3])
-      allow(helper).to receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
-      helper.render_facet_limit(@mock_facet)
-    end 
+      mock_facet = double(:name => 'my_pivot_facet_field_with_custom_partial', :items => [1, 2, 3])
+      expect(helper).to receive(:render).with(hash_including(:partial => 'custom_facet_partial'))
+      helper.render_facet_limit(mock_facet)
+    end
   end
 
   describe "render_facet_limit_list" do
@@ -234,22 +202,21 @@ describe FacetsHelper do
         search_catalog_path *args
       end
     end
+
     it "draws a list of elements" do
       expect(subject).to have_selector 'li', count: 2
-      expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book' 
-      expect(subject).to have_selector 'li:nth-child(2) a.facet_select', text: 'Musical Score' 
+      expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book'
+      expect(subject).to have_selector 'li:nth-child(2) a.facet_select', text: 'Musical Score'
     end
 
     context "when one of the facet items is rendered as nil" do
       # An app may override render_facet_item to filter out some undesired facet items by returning nil.
-      
-      before { allow(helper).to receive(:render_facet_item).and_return("<a class=\"facet_select\">Book</a>".html_safe, nil) }
+      before { allow(helper).to receive(:render_facet_item).and_return('<a class="facet_select">Book</a>'.html_safe, nil) }
 
       it "draws a list of elements" do
         expect(subject).to have_selector 'li', count: 1
-        expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book' 
+        expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book'
       end
-
     end
   end
 
@@ -311,8 +278,9 @@ describe FacetsHelper do
         search_catalog_path *args
       end
     end
+
     describe "simple case" do
-      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/catalog\">Z</a></span><span class=\"facet-count\">10</span>" }
+      let(:expected_html) { '<span class="facet-label"><a class="facet_select" href="/catalog">Z</a></span><span class="facet-count">10</span>' }
 
       it "uses facet_display_value" do
         result = helper.render_facet_value('simple_field', item)
@@ -321,7 +289,7 @@ describe FacetsHelper do
     end
 
     describe "when :url_method is set" do
-      let(:expected_html) { "<span class=\"facet-label\"><a class=\"facet_select\" href=\"/blabla\">Z</a></span><span class=\"facet-count\">10</span>" }
+      let(:expected_html) { '<span class="facet-label"><a class="facet_select" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
       it "uses that method" do
         allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => :test_method))
         allow(helper).to receive(:test_method).with('simple_field', item).and_return('/blabla')
@@ -331,14 +299,14 @@ describe FacetsHelper do
     end
 
     describe "when :suppress_link is set" do
-      let(:expected_html) { "<span class=\"facet-label\">Z</span><span class=\"facet-count\">10</span>" }
+      let(:expected_html) { '<span class="facet-label">Z</span><span class="facet-count">10</span>' }
       it "suppresses the link" do
         result = helper.render_facet_value('simple_field', item, :suppress_link => true)
         expect(result).to be_equivalent_to(expected_html).respecting_element_order
       end
     end
   end
- 
+
   describe "#facet_display_value" do
     it "justs be the facet value for an ordinary facet" do
       allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :url_method => nil))
@@ -347,9 +315,7 @@ describe FacetsHelper do
 
     it "allows you to pass in a :helper_method argument to the configuration" do
       allow(helper).to receive(:facet_configuration_for_field).with('helper_field').and_return(double(:query => nil, :date => nil, :url_method => nil, :helper_method => :my_facet_value_renderer))
-    
       allow(helper).to receive(:my_facet_value_renderer).with('qwerty').and_return('abc')
-
       expect(helper.facet_display_value('helper_field', 'qwerty')).to eq 'abc'
     end
 

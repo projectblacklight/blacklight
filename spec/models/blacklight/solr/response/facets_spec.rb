@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe Blacklight::Solr::Response::Facets do
   describe Blacklight::Solr::Response::Facets::FacetField do

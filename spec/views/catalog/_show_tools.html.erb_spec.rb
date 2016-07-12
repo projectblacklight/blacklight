@@ -1,14 +1,8 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "catalog/_show_tools.html.erb" do
-  let :document do
-    SolrDocument.new :id => 'xyz', :format => 'a'
-  end
-
-  let :blacklight_config do
-    Blacklight::Configuration.new
-  end
+  let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
     assign :response, double(:params => {})
@@ -18,11 +12,7 @@ describe "catalog/_show_tools.html.erb" do
   end
 
   describe "document actions" do
-
-    let :document_actions do
-      blacklight_config.show.document_actions
-    end
-
+    let(:document_actions) { blacklight_config.show.document_actions }
 
     it "renders a document action" do
       allow(view).to receive(:some_action_solr_document_path).with(document).and_return "x"

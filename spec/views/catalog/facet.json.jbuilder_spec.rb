@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 describe "catalog/facet.json" do
   it "renders facet json" do
     assign :pagination, { items: [{ value: 'Book' }] }

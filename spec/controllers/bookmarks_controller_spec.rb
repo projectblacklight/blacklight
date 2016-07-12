@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe BookmarksController do
   # jquery 1.9 ajax does error callback if 200 returns empty body. so use 204 instead. 

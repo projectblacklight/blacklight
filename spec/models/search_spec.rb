@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe Search do
   let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345'}

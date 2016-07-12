@@ -1,10 +1,8 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 # spec for sidebar partial in catalog show view
 
 describe "/catalog/_search_header.html.erb" do
-
   it "renders the default search header partials" do
     stub_template "_did_you_mean.html.erb" => "did_you_mean"
     stub_template "_constraints.html.erb" => "constraints"

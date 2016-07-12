@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 # Has been customized by Blacklight to work when application is in one place,
-# and actual spec/ stuff is in another (the blacklight gem checkout).  
+# and actual spec/ stuff is in another (the blacklight gem checkout).
 
 ENV["RAILS_ENV"] ||= 'test'
 
@@ -27,21 +27,18 @@ require 'rspec/collection_matchers'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
-
 Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
   options = {}
-
   options[:timeout] = 120 if RUBY_PLATFORM == "java"
-
   Capybara::Poltergeist::Driver.new(app, options)
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-# Blacklight, again, make sure we're looking in the right place for em. 
-# Relative to HERE, NOT to Rails.root, which is off somewhere else. 
+# Blacklight, again, make sure we're looking in the right place for em.
+# Relative to HERE, NOT to Rails.root, which is off somewhere else.
 Dir[Pathname.new(File.expand_path("../support/**/*.rb", __FILE__))].each {|f| require f}
 
 RSpec.configure do |config|
@@ -53,12 +50,12 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  if Rails.version > '5'
-    # This is for an unreleased version of Devise (will either be 4.2 or 5.0)
+  if defined? Devise::Test::ControllerHelpers
     config.include Devise::Test::ControllerHelpers, type: :controller
   else
     config.include Devise::TestHelpers, type: :controller
   end
+
   config.infer_spec_type_from_file_location!
 
   config.include(ControllerLevelHelpers, type: :helper)

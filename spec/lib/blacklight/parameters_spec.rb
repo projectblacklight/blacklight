@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe Blacklight::Parameters do
   describe "sanitize_search_params" do

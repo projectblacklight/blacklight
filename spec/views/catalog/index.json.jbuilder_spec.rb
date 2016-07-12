@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'spec_helper'
 describe "catalog/index.json" do
   let(:response) { double("response") }
   let(:docs) { [{ id: '123', title_t: 'Book1' }, { id: '456', title_t: 'Book2' }] }

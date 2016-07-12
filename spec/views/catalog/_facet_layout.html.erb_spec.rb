@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-require 'spec_helper'
 
 describe "catalog/facet_layout" do
-
   let :blacklight_config do
     Blacklight::Configuration.new do |config|
       config.facet_fields[facet_field.field] = facet_field
@@ -19,7 +17,7 @@ describe "catalog/facet_layout" do
 
   it "has a facet-specific class" do
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
-    expect(rendered).to have_selector '.blacklight-some_field' 
+    expect(rendered).to have_selector '.blacklight-some_field'
   end
 
   it "has a title with a link for a11y" do
@@ -38,8 +36,5 @@ describe "catalog/facet_layout" do
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to_not have_selector '.panel-heading.collapsed'
     expect(rendered).to have_selector '.in .panel-body'
-
   end
-
-
 end
