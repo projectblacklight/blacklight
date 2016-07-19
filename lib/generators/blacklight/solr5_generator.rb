@@ -13,7 +13,7 @@ module Blacklight
         gem 'solr_wrapper', '>= 0.3'
       end
 
-      append_to_file "Rakefile", "\nrequire 'solr_wrapper/rake_task'\n"
+      append_to_file "Rakefile", "\nrequire 'solr_wrapper/rake_task unless Rails.env.production?'\n"
     end
 
     def add_rsolr_gem
