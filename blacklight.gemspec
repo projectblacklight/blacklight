@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rsolr",     "~> 1.0", ">= 1.0.6"  # Library for interacting with rSolr.
   s.add_dependency "bootstrap-sass", "~> 3.2"
   s.add_dependency "deprecation"
-  s.add_dependency "twitter-typeahead-rails", '~> 0.11'
+  s.add_dependency "twitter-typeahead-rails", '0.11.1.pre.corejavascript'
 
   s.add_development_dependency "solr_wrapper"
   s.add_development_dependency "rspec-rails", "~> 3.5"
