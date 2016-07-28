@@ -10,6 +10,8 @@ module Blacklight
       self.if = true if self.if.nil?
       self.unless = false if self.unless.nil?
 
+      self.field &&= self.field.to_s
+
       self
     end
   
