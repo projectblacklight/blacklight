@@ -104,13 +104,13 @@ describe FacetsHelper do
 
   describe "facet_by_field_name" do
     it "retrieves the facet from the response given a string" do
-      facet_config = double(:query => nil, field: 'a', key: 'a')
+      facet_config = double(query: nil, field: 'b', key: 'a')
       facet_field = double()
-      allow(helper).to receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
+      allow(helper).to receive(:facet_configuration_for_field).with('b').and_return(facet_config)
       @response = double()
-      allow(@response).to receive(:aggregations).and_return('a' => facet_field)
+      allow(@response).to receive(:aggregations).and_return('b' => facet_field)
 
-      expect(helper.facet_by_field_name('a')).to eq facet_field
+      expect(helper.facet_by_field_name('b')).to eq facet_field
     end
   end
 
