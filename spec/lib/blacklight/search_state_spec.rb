@@ -12,6 +12,40 @@ describe Blacklight::SearchState do
   let(:search_state) { described_class.new(params, blacklight_config) }
   let(:params) { parameter_class.new }
 
+  describe '#to_h' do
+    let(:data) { { a: '1'} }
+    let(:params) { parameter_class.new data }
+
+    it 'returns a copy of the original parameters' do
+      expect(search_state.to_h).to eq data.with_indifferent_access
+      expect(search_state.to_h.object_id).not_to eq params.object_id
+    end
+
+    context 'with AC::Parameters' do
+      let(:parameter_class) { ActionController::Parameters }
+
+      it 'returns the hash data' do
+        expect(search_state.to_h).to eq data.with_indifferent_access
+      end
+    end
+
+    context 'with HashWithIndifferentAccess' do
+      let(:parameter_class) { HashWithIndifferentAccess }
+
+      it 'returns the hash data' do
+        expect(search_state.to_h).to eq data.with_indifferent_access
+      end
+    end
+
+    context 'with Hash' do
+      let(:params) { data }
+
+      it 'returns the hash data' do
+        expect(search_state.to_h).to eq data.with_indifferent_access
+      end
+    end
+  end
+
   describe "params_for_search" do
     let(:params) { parameter_class.new 'default' => 'params' }
 
