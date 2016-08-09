@@ -10,22 +10,25 @@ module Blacklight
     # @param [ActionController::Parameters] params
     # @param [Blacklight::Config] blacklight_config
     def initialize(params, blacklight_config)
-      if params.instance_of? Hash
-        # This is an ActionView::TestCase workaround. Will be resolved by
-        # https://github.com/rails/rails/pull/22913 (Rails > 4.2.5)
-        @params = params.with_indifferent_access
-      else
+      if params.respond_to?(:to_unsafe_h)
         # This is the typical (not-ActionView::TestCase) code path.
         @params = params.to_unsafe_h
         # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
         @params = @params.with_indifferent_access if @params.instance_of? Hash
+      elsif params.is_a? Hash
+        # This is an ActionView::TestCase workaround for Rails 4.2.
+        @params = params.dup.with_indifferent_access
+      else
+        @params = params.dup.to_h.with_indifferent_access
       end
+
       @blacklight_config = blacklight_config
     end
 
-    def to_h
+    def to_hash
       @params
     end
+    alias to_h to_hash
 
     def reset
       Blacklight::SearchState.new(ActionController::Parameters.new, blacklight_config)
@@ -112,7 +115,7 @@ module Blacklight
     # @yield [params] The merged parameters hash before being sanitized
     def params_for_search(params_to_merge={}, &block)
       # params hash we'll return
-      my_params = params.dup.merge(params_to_merge.dup)
+      my_params = params.dup.merge(Blacklight::SearchState.new(params_to_merge, blacklight_config))
 
       if block_given?
         yield my_params
