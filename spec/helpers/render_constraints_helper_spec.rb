@@ -25,6 +25,14 @@ describe RenderConstraintsHelper do
       expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
     end
 
+    context 'with an ordinary hash' do
+      let(:params) { { q: 'foobar', f: { type: 'journal' } } }
+
+      it "has a link relative to the current url" do
+        expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
+      end
+    end
+
     context "with a route_set" do
       let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }, route_set: my_engine) }
       it "accepts an optional route set" do
