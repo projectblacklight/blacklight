@@ -50,6 +50,11 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @return [String]
   def remove_constraint_url(localized_params)
     scope = localized_params.delete(:route_set) || self
+
+    unless localized_params.is_a? ActionController::Parameters
+      localized_params = ActionController::Parameters.new(localized_params)
+    end
+
     options = localized_params.merge(q: nil, action: 'index')
     options.permit!
     scope.url_for(options)
