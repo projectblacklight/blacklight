@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 module Blacklight::CatalogHelperBehavior
 
-  def rss_feed_link_tag
-    auto_discovery_link_tag(:rss, feed_link_url('rss'), title: t('blacklight.search.rss_feed'))
+  # @param [Hash] options 
+  # @option options :route_set the route scope to use when constructing the link
+  def rss_feed_link_tag(options = {})
+    auto_discovery_link_tag(:rss, feed_link_url('rss', options), title: t('blacklight.search.rss_feed'))
   end
 
-  def atom_feed_link_tag
-    auto_discovery_link_tag(:atom, feed_link_url('atom'), title: t('blacklight.search.atom_feed'))
+  # @param [Hash] options 
+  # @option options :route_set the route scope to use when constructing the link
+  def atom_feed_link_tag(options = {})
+    auto_discovery_link_tag(:atom, feed_link_url('atom', options), title: t('blacklight.search.atom_feed'))
   end
 
   ##
@@ -285,7 +289,11 @@ module Blacklight::CatalogHelperBehavior
 
   private
 
-    def feed_link_url(format)
-      url_for search_state.to_h.merge(format: format)
+    # @param [String] format 
+    # @param [Hash] options 
+    # @option options :route_set the route scope to use when constructing the link
+    def feed_link_url(format, options = {})
+      scope = options.delete(:route_set) || self
+      scope.url_for search_state.to_h.merge(format: format)
     end
 end

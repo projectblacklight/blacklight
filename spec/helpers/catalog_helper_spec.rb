@@ -129,6 +129,42 @@ describe CatalogHelper do
     end
   end
 
+  describe "rss_feed_link_tag" do
+    context "when an alternate scope is passed in" do
+      let(:my_engine) { double("Engine") }
+      let(:query_params) { { controller: 'catalog', action: 'index' } }
+      let(:config) { Blacklight::Configuration.new }
+      let(:search_state) { Blacklight::SearchState.new(query_params, config) }
+
+      it "calls url_for on the engine scope" do
+        allow(helper).to receive(:search_state).and_return search_state
+        expect(my_engine).to receive(:url_for).and_return(url_for(query_params))
+        tag = helper.rss_feed_link_tag(route_set: my_engine)
+        expect(tag).to match /title="RSS for results"/
+        expect(tag).to match /rel="alternate"/
+        expect(tag).to match %r{type="application/rss\+xml"}
+      end
+    end
+  end
+
+  describe "atom_feed_link_tag" do
+    context "when an alternate scope is passed in" do
+      let(:my_engine) { double("Engine") }
+      let(:query_params) { { controller: 'catalog', action: 'index' } }
+      let(:config) { Blacklight::Configuration.new }
+      let(:search_state) { Blacklight::SearchState.new(query_params, config) }
+
+      it "calls url_for on the engine scope" do
+        allow(helper).to receive(:search_state).and_return search_state
+        expect(my_engine).to receive(:url_for).and_return(url_for(query_params))
+        tag = helper.atom_feed_link_tag(route_set: my_engine)
+        expect(tag).to match /title="Atom for results"/
+        expect(tag).to match /rel="alternate"/
+        expect(tag).to match %r{type="application/atom\+xml"}
+      end
+    end
+  end
+
   describe "should_autofocus_on_search_box?" do
     it "is focused if we're on a catalog-like index page without query or facet parameters" do
       allow(helper).to receive_messages(controller: CatalogController.new, action_name: "index", has_search_parameters?: false)
