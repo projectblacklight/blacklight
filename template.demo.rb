@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 gem "blacklight", ">= 6.1"
 gem "jettywrapper", ">= 2.0"
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
