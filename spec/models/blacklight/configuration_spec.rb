@@ -68,7 +68,7 @@ describe "Blacklight::Configuration" do
 
       @config.index.respond_to.csv = { :layout => false }
 
-      @config.index.respond_to.yaml = lambda { render text: "" }
+      @config.index.respond_to.yaml = lambda { render plain: "" }
 
       expect(@config.index.respond_to.keys).to eq [:xml, :csv, :yaml]
     end

@@ -178,7 +178,7 @@ describe CatalogController do
       end
 
       it "passes a hash to the render call" do
-        blacklight_config.index.respond_to.yaml = { nothing: true, layout: false }
+        blacklight_config.index.respond_to.yaml = { inline: '', layout: false }
         get :index, params: { format: 'yaml' }
         expect(response.body).to be_blank
       end

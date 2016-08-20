@@ -70,13 +70,11 @@ module Blacklight::Document::Export
   end
 
   # Collects formats that this doc can export as.
-  # Returns a hash, keys are format short-names that can
-  # be exported. Hash includes:
-  #  :content-type => { content_type: content_type }
-  #  maybe more later
   # To see if a given export format is supported by this document,
   # simply call document.export_formats.keys.include?(:my_format)
   # Then call #export_as! to do the export.
+  # @return [Hash{Symbol=>Hash{Symbol=>String}}] keys are format short-names that can be exported, values are Hashes
+  # @example { :marc => { content_type: 'application/marc' } }
   def export_formats
     @export_formats ||= {}
   end
