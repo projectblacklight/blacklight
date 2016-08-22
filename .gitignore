@@ -1,6 +1,7 @@
 .DS_Store
 *.sw[pon]
 .bundle
+.byebug_history
 .rvmrc
 *.log
 Gemfile.lock

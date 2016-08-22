@@ -43,11 +43,9 @@ module Blacklight::Catalog
     # to add responses for formats other than html or json see _Blacklight::Document::Export_
     def show
       @response, @document = fetch params[:id]
-
       respond_to do |format|
         format.html { setup_next_and_previous_documents }
         format.json { render json: { response: { document: @document } } }
-
         additional_export_formats(@document, format)
       end
     end
@@ -71,15 +69,11 @@ module Blacklight::Catalog
       @facet = blacklight_config.facet_fields[params[:id]]
       @response = get_facet_field_response(@facet.key, params)
       @display_facet = @response.aggregations[@facet.key]
-
       @pagination = facet_paginator(@facet, @display_facet)
-
-
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:
         format.html
         format.json
-
         # Draw the partial for the "more" facet modal window:
         format.js { render :layout => false }
       end
@@ -88,12 +82,8 @@ module Blacklight::Catalog
     # method to serve up XML OpenSearch description and JSON autocomplete response
     def opensearch
       respond_to do |format|
-        format.xml do
-          render :layout => false
-        end
-        format.json do
-          render :json => get_opensearch_response
-        end
+        format.xml { render layout: false }
+        format.json { render json: get_opensearch_response }
       end
     end
 
@@ -107,7 +97,7 @@ module Blacklight::Catalog
 
     ##
     # Check if any search parameters have been set
-    # @return [Boolean] 
+    # @return [Boolean]
     def has_search_parameters?
       !params[:q].blank? or !params[:f].blank? or !params[:search_field].blank?
     end
@@ -129,13 +119,10 @@ module Blacklight::Catalog
     ##
     # Render additional response formats for the index action, as provided by the
     # blacklight configuration
-    #
-    # example:
-    #
-    #   config.index.respond_to.txt = Proc.new { render text: "A list of docs." }
-    #
-    # Make sure your format has a well known mime-type or is registered in
-    # config/initializers/mime_types.rb
+    # @param [Hash] format
+    # @note Make sure your format has a well known mime-type or is registered in config/initializers/mime_types.rb
+    # @example
+    #   config.index.respond_to.txt = Proc.new { render plain: "A list of docs." }
     def additional_response_formats format
       blacklight_config.index.respond_to.each do |key, config|
         format.send key do
@@ -160,7 +147,7 @@ module Blacklight::Catalog
     # the document extension framework. See _Blacklight::Document::Export_
     def additional_export_formats(document, format)
       document.export_formats.each_key do | format_name |
-        format.send(format_name.to_sym) { render text: document.export_as(format_name), layout: false }
+        format.send(format_name.to_sym) { render body: document.export_as(format_name), layout: false }
       end
     end
 
@@ -169,7 +156,6 @@ module Blacklight::Catalog
     def document_export_formats format
       format.any do
         format_name = params.fetch(:format, '').to_sym
-
         if @response.export_formats.include? format_name
           render_document_export_format format_name
         else
@@ -181,11 +167,11 @@ module Blacklight::Catalog
     ##
     # Render the document export formats for a response
     # First, try to render an appropriate template (e.g. index.endnote.erb)
-    # If that fails, just concatenate the document export responses with a newline. 
+    # If that fails, just concatenate the document export responses with a newline.
     def render_document_export_format format_name
       render
     rescue ActionView::MissingTemplate
-      render text: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
+      render plain: @response.documents.map { |x| x.export_as(format_name) if x.exports_as? format_name }.compact.join("\n"), layout: false
     end
 
     # Overrides the Blacklight::Controller provided #search_action_url.

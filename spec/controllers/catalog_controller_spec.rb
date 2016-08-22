@@ -1,9 +1,11 @@
 # frozen_string_literal: true
-
 describe CatalogController do
+  let(:doc_id) { '2007020969' }
+  let(:mock_response) { double() }
+  let(:mock_document) { double() }
 
   describe "index action" do
-    describe "with format :html" do
+    context "with format :html" do
       let(:user_query) { 'history' } # query that will get results
 
       it "has no search history if no search criteria" do
@@ -42,19 +44,18 @@ describe CatalogController do
         page = 2
         get :index, params: { page: page }
         expect(assigns(:response).docs).to_not be_empty
-        expect(assigns(:response).params[:start].to_i).to eq (page-1) * @controller.blacklight_config[:default_solr_params][:rows]
+        expect(assigns(:response).params[:start].to_i).to eq (page-1) * controller.blacklight_config[:default_solr_params][:rows]
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
       it "has no docs or facet values for query without results", :integration => true do
         get :index, params: { q: 'sadfdsafasdfsadfsadfsadf' } # query for no results
-
         expect(assigns(:response).docs).to be_empty
         assigns(:response).aggregations.each do |key, facet|
           expect(facet.items).to be_empty
         end
       end
-      
+
       it "shows 0 results when the user asks for an invalid value to a custom facet query", :integration => true do
         get :index, params: { f: { example_query_facet_field: 'bogus' } } # bogus custom facet value
         expect(assigns(:response).docs).to be_empty
@@ -66,7 +67,7 @@ describe CatalogController do
         get :index, params: { f: {example_query_facet_field: 'years_5' } } # valid custom facet value with NO results
         expect(assigns(:response).docs).to be_empty
       end
-      
+
       it "has a spelling suggestion for an appropriately poor query", :integration => true do
         get :index, params: { q: 'boo' }
         expect(assigns(:response).spelling.words).to_not be_nil
@@ -80,7 +81,6 @@ describe CatalogController do
           get :index, params: { q: user_query }
           expect(session[:search]).to_not be_nil
           expect(session[:search].keys).to include 'id'
-
           search = Search.find(session[:search]['id'])
           expect(search.query_params['q']).to eq user_query
         end
@@ -125,8 +125,8 @@ describe CatalogController do
         expect(response).to be_success
       end
       let(:json) { JSON.parse(response.body)['response'] }
-      let(:pages) { json["pages"] }
-      let(:docs) { json["docs"] }
+      let(:pages)  { json["pages"]  }
+      let(:docs)   { json["docs"]   }
       let(:facets) { json["facets"] }
 
       it "gets the pages" do
@@ -161,8 +161,8 @@ describe CatalogController do
       let(:blacklight_config) { Blacklight::Configuration.new }
 
       before :each do
-        allow(@controller).to receive_messages blacklight_config: blacklight_config
-        allow(@controller).to receive_messages search_results: [double, double]
+        allow(controller).to receive_messages blacklight_config: blacklight_config
+        allow(controller).to receive_messages search_results: [double, double]
       end
 
       it "does not render when the config is false" do
@@ -178,33 +178,29 @@ describe CatalogController do
       end
 
       it "passes a hash to the render call" do
-        blacklight_config.index.respond_to.yaml = { nothing: true, layout: false }
+        blacklight_config.index.respond_to.yaml = { inline: '', layout: false }
         get :index, params: { format: 'yaml' }
         expect(response.body).to be_blank
       end
 
       it "evaluates a proc" do
-        blacklight_config.index.respond_to.yaml = lambda { render text: "" }
+        blacklight_config.index.respond_to.yaml = lambda { render plain: "" }
         get :index, params: { format: 'yaml' }
         expect(response.body).to be_empty
       end
 
       it "with a symbol, it should call a controller method" do
         expect(subject).to receive(:render_some_yaml) do
-          subject.render nothing: true, layout: false
+          subject.head :ok, layout: false
         end
-
         blacklight_config.index.respond_to.yaml = :render_some_yaml
         get :index, params: { format: 'yaml' }
         expect(response.body).to be_blank
       end
     end
-
   end # describe index action
 
   describe "track action" do
-    doc_id = '2007020969'
-    
     it "persists the search session id value into session[:search]" do
       put :track, params: { id: doc_id, counter: 3, search_id: "123" }
       expect(session[:search]['id']).to eq "123"
@@ -214,7 +210,7 @@ describe CatalogController do
       put :track, params: { id: doc_id, counter: 3 }
       expect(session[:search]['counter']).to eq "3"
     end
-    
+
     it "records the current per_page setting" do
       put :track, params: { id: doc_id, counter: 3, per_page: 15 }
       expect(session[:search]['per_page']).to eq "15"
@@ -243,9 +239,6 @@ describe CatalogController do
 
   # SHOW ACTION
   describe "show action" do
-
-    doc_id = '2007020969'
-
     describe "with format :html" do
       it "gets document", :integration => true do
         get :show, params: { id: doc_id }
@@ -261,50 +254,48 @@ describe CatalogController do
         expect(json["response"]["document"].keys).to match_array(["author_t", "opensearch_display", "marc_display", "published_display", "author_display", "lc_callnum_display", "title_t", "pub_date", "pub_date_sort", "subtitle_display", "format", "url_suppl_display", "material_type_display", "title_display", "subject_addl_t", "subject_t", "isbn_t", "id", "title_addl_t", "subject_geo_facet", "subject_topic_facet", "author_addl_t", "language_facet", "subtitle_t", "timestamp"])
       end
     end
-    
+
     describe "previous/next documents" do
+      let(:search_session) { { :id => current_search.id } }
+      let(:current_search) { Search.create(:query_params => { :q => ""}) }
       before do
-        @mock_response = double()
-        @mock_document = double()
-        allow(@mock_document).to receive_messages(:export_formats => {})
-        allow(controller).to receive_messages(fetch: [@mock_response, @mock_document],
-                        :get_previous_and_next_documents_for_search => [double(:total => 5), [double("a"), @mock_document, double("b")]])
-
-        current_search = Search.create(:query_params => { :q => ""})
-        allow(controller).to receive_messages(:current_search_session => current_search)
-
-        @search_session = { :id => current_search.id }
+        allow(mock_document).to receive_messages(:export_formats => {})
+        allow(controller).to receive_messages(
+          fetch: [mock_response, mock_document],
+          get_previous_and_next_documents_for_search: [double(:total => 5), [double("a"), mock_document, double("b")]],
+          current_search_session: current_search
+        )
       end
-    it "sets previous document if counter present in session" do
-      session[:search] = @search_session.merge('counter' => 2)
-      get :show, params: { id: doc_id }
-      expect(assigns[:previous_document]).to_not be_nil
-    end
-    it "does not set previous or next document if session is blank" do
-      get :show, params: { id: doc_id }
-      expect(assigns[:previous_document]).to be_nil
-      expect(assigns[:next_document]).to be_nil
-    end
-    it "does not set previous or next document if session[:search]['counter'] is nil" do
-      session[:search] = {}
-      get :show, params: { id: doc_id }
-      expect(assigns[:previous_document]).to be_nil
-      expect(assigns[:next_document]).to be_nil
-    end
-    it "sets next document if counter present in session" do
-      session[:search] = @search_session.merge('counter' => 2)
-      get :show, params: { id: doc_id }
-      expect(assigns[:next_document]).to_not be_nil
-    end
+      it "sets previous document if counter present in session" do
+        session[:search] = search_session.merge('counter' => 2)
+        get :show, params: { id: doc_id }
+        expect(assigns[:previous_document]).to_not be_nil
+      end
+      it "does not set previous or next document if session is blank" do
+        get :show, params: { id: doc_id }
+        expect(assigns[:previous_document]).to be_nil
+        expect(assigns[:next_document]).to be_nil
+      end
+      it "does not set previous or next document if session[:search]['counter'] is nil" do
+        session[:search] = {}
+        get :show, params: { id: doc_id }
+        expect(assigns[:previous_document]).to be_nil
+        expect(assigns[:next_document]).to be_nil
+      end
+      it "sets next document if counter present in session" do
+        session[:search] = search_session.merge('counter' => 2)
+        get :show, params: { id: doc_id }
+        expect(assigns[:next_document]).to_not be_nil
+      end
 
-    it "does not break if solr returns an exception" do
-      allow(controller).to receive(:get_previous_and_next_documents_for_search) {
-        raise Blacklight::Exceptions::InvalidRequest.new "Error"
-      }
-      get :show, params: { id: doc_id }
-      expect(assigns[:previous_document]).to be_nil
-      expect(assigns[:next_document]).to be_nil
-    end
+      it "does not break if solr returns an exception" do
+        allow(controller).to receive(:get_previous_and_next_documents_for_search) {
+          raise Blacklight::Exceptions::InvalidRequest.new "Error"
+        }
+        get :show, params: { id: doc_id }
+        expect(assigns[:previous_document]).to be_nil
+        expect(assigns[:next_document]).to be_nil
+      end
     end
 
     # NOTE: status code is always 200 in isolation mode ...
@@ -312,71 +303,43 @@ describe CatalogController do
       get :show, params: { id: doc_id }
       expect(response).to be_success
     end
+
     it "renders show.html.erb" do
-      @mock_response = double()
-      @mock_document = double()
-      allow(@mock_document).to receive_messages(:export_formats => {})
-      allow(controller).to receive_messages(fetch: [@mock_response, @mock_document])
+      allow(mock_document).to receive_messages(:export_formats => {})
+      allow(controller).to receive_messages(fetch: [mock_response, mock_document])
       get :show, params: { id: doc_id }
       expect(response).to render_template(:show)
     end
 
     describe "@document" do
       before do
-        @mock_response = double()
-        allow(@mock_response).to receive_messages(documents: [SolrDocument.new(id: 'my_fake_doc')])
-        @mock_document = double()
-        allow(controller).to receive_messages(:find => @mock_response )
-      end
-      before(:each) do
+        allow(mock_response).to receive_messages(documents: [SolrDocument.new(id: 'my_fake_doc')])
+        allow(controller).to receive_messages(:find => mock_response )
         get :show, params: { id: doc_id }
-        @document = assigns[:document]
       end
       it "is a SolrDocument" do
-        expect(@document).to be_instance_of(SolrDocument)
+        expect(assigns[:document]).to be_instance_of(SolrDocument)
       end
     end
-    
+
     describe "with dynamic export formats" do
       render_views
       module FakeExtension
         def self.extended(document)
           document.will_export_as(:mock, "application/mock")
         end
-        
+
         def export_as_mock
           "mock_export"
         end
       end
-      
+
       before do
-        @mock_response = double()
-        allow(@mock_response).to receive_messages(:docs => [{ :id => 'my_fake_doc' }])
-        @mock_document = double()
-        allow(controller).to receive_messages(find: @mock_response)
-      end
-
-      before(:each) do
-
-        # Rails3 needs this to propertly setup a new mime type and
-        # render the results. 
-        ActionController.add_renderer :double do |template, options|
-          send_data "mock_export", :type => Mime::MOCK
-        end
+        allow(mock_response).to receive_messages(:documents => [SolrDocument.new(id: 'my_fake_doc')])
+        allow(controller).to receive_messages(:find => mock_response,
+                        :get_single_doc_via_search => mock_document)
         Mime::Type.register "application/mock", :mock
-        
         SolrDocument.use_extension(FakeExtension)
-      end
-      
-      before do
-        @mock_response = double()
-        allow(@mock_response).to receive_messages(:documents => [SolrDocument.new(id: 'my_fake_doc')])
-        @mock_document = double()
-        allow(controller).to receive_messages(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
-
-        allow(controller).to receive_messages(:find => @mock_response, 
-                        :get_single_doc_via_search => @mock_document)
       end
 
       it "responds to an extension-registered format properly" do
@@ -384,24 +347,17 @@ describe CatalogController do
         expect(response).to be_success
         expect(response.body).to match /mock_export/
       end
-      
 
-      after(:each) do
-        # remove the fake extension
-        SolrDocument.registered_extensions.pop
+      after do
+        SolrDocument.registered_extensions.pop # remove the fake extension
       end
     end # dynamic export formats
-
   end # describe show action
 
   describe "opensearch" do
     before do
-      @mock_response = double()
-      @mock_document = double()
-      allow(@mock_response).to receive_messages(documents:  [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')])
-      @mock_document = double()
-      allow(controller).to receive_messages(find: @mock_response)
-                      
+      allow(mock_response).to receive_messages(documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')])
+      allow(controller).to receive_messages(find: mock_response)
     end
     it "returns an opensearch description" do
       get :opensearch, params: { format: 'xml' }
@@ -414,7 +370,6 @@ describe CatalogController do
   end
 
   describe "email/sms" do
-    doc_id = '2007020969'
     let(:mock_response) { double(documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
       allow(controller).to receive_messages(find: mock_response)
@@ -436,10 +391,9 @@ describe CatalogController do
         expect(request.flash[:error]).to be_nil
       end
       it "redirects back to the record upon success" do
-        mock_mailer = double
-        allow(mock_mailer).to receive(:deliver)
-        allow(RecordMailer).to receive(:email_record).with(anything, { :to => 'test_email@projectblacklight.org', :message => 'xyz' }, hash_including(:host => 'test.host')).and_return mock_mailer
-
+        allow(RecordMailer).to receive(:email_record)
+          .with(anything, { :to => 'test_email@projectblacklight.org', :message => 'xyz' }, hash_including(:host => 'test.host'))
+          .and_return double(deliver: nil)
         post :email, params: { id: doc_id, to: 'test_email@projectblacklight.org', message: 'xyz' }
         expect(request.flash[:error]).to be_nil
         expect(request).to redirect_to(solr_document_path(doc_id))
@@ -450,6 +404,7 @@ describe CatalogController do
         expect(request.flash[:success]).to eq "Email Sent"
       end
     end
+
     describe "sms" do
       it "gives error if no phone number is given" do
         post :sms, params: { id: doc_id, carrier: 'att' }
@@ -473,9 +428,10 @@ describe CatalogController do
         expect(request).to redirect_to(solr_document_path(doc_id))
       end
       it "sends to the appropriate carrier email address" do
-        mock_mailer = double
-        allow(mock_mailer).to receive(:deliver)
-        expect(RecordMailer).to receive(:sms_record).with(anything, { to: '5555555555@txt.att.net' }, hash_including(:host => 'test.host')).and_return mock_mailer
+        expect(RecordMailer)
+          .to receive(:sms_record)
+          .with(anything, { to: '5555555555@txt.att.net' }, hash_including(:host => 'test.host'))
+          .and_return double(:deliver => nil)
         post :sms, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
       end
       it "redirects back to the record upon success" do
@@ -483,7 +439,6 @@ describe CatalogController do
         expect(request.flash[:error]).to eq nil
         expect(request).to redirect_to(solr_document_path(doc_id))
       end
-
       it "renders sms_success template for XHR requests" do
         post :sms, xhr: true, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
         expect(request).to render_template 'sms_success'
@@ -494,19 +449,17 @@ describe CatalogController do
 
   describe "errors" do
     it "returns status 404 for a record that doesn't exist" do
-      @mock_response = double(documents: [])
-      allow(controller).to receive_messages(:find => @mock_response)
+      allow(controller).to receive_messages(:find => double(documents: []))
       get :show, params: { id: "987654321" }
       expect(response.status).to eq 404
-      expect(response.content_type).to eq Mime::HTML
+      expect(response.content_type).to eq Mime[:html]
     end
-    it "returns status 404 for a record that doesn't exist even for non-html format" do
-      @mock_response = double(documents: [])
-      allow(controller).to receive_messages(:find => @mock_response)
 
+    it "returns status 404 for a record that doesn't exist even for non-html format" do
+      allow(controller).to receive_messages(:find => double(documents: []))
       get :show, params: { id: "987654321", format: "xml" }
       expect(response.status).to eq 404
-      expect(response.content_type).to eq Mime::XML
+      expect(response.content_type).to eq Mime[:xml]
     end
 
     it "redirects the user to the root url for a bad search" do
@@ -529,7 +482,6 @@ describe CatalogController do
       allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
       expect { get :index, params: { q: '+' } }.to raise_error Blacklight::Exceptions::InvalidRequest
     end
-
   end
 
   context "without a user authentication provider" do
@@ -578,7 +530,6 @@ describe CatalogController do
       session[:history] = []
       controller.send(:add_to_search_history, double(:id => 1))
       expect(session[:history]).to have(1).item
-
       controller.send(:add_to_search_history, double(:id => 2))
       expect(session[:history]).to have(2).items
       expect(session[:history].first).to eq 2
@@ -587,13 +538,11 @@ describe CatalogController do
     it "removes searches from the list when the list gets too big" do
       allow(controller).to receive(:blacklight_config).and_return(double(:search_history_window => 5))
       session[:history] = (0..4).to_a.reverse
-
       expect(session[:history]).to have(5).items
       controller.send(:add_to_search_history, double(:id => 5))
       controller.send(:add_to_search_history, double(:id => 6))
       controller.send(:add_to_search_history, double(:id => 7))
       expect(session[:history]).to include(*(3..7).to_a)
-
     end
   end
 
@@ -654,45 +603,42 @@ describe CatalogController do
 
   describe "#add_show_tools_partial" do
     before do
-      CatalogController.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
-      allow(controller).to receive(:perform_like)
+      described_class.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:solr_document_url).and_return('catalog/1')
-      allow(controller).to receive(:action_documents).and_return([SolrDocument.new])
+      allow(controller).to receive(:action_documents).and_return(1)
       Rails.application.routes.draw do
         get 'catalog/like', as: :catalog_like
       end
     end
 
     after do
-      CatalogController.blacklight_config.show.document_actions.delete(:like)
+      described_class.blacklight_config.show.document_actions.delete(:like)
       Rails.application.reload_routes!
     end
 
     it "adds the action to a list" do
-      expect(CatalogController.blacklight_config.show.document_actions).to have_key(:like)
+      expect(described_class.blacklight_config.show.document_actions).to have_key(:like)
     end
 
     it "defines the action method" do
-      expect(controller.respond_to?(:like)).to be true
+      expect(controller).to respond_to(:like)
     end
 
     describe "when posting to the action" do
-      describe "with success" do
-        before do
-          allow(controller).to receive(:validate_like_params).and_return(true)
-          post :like
-        end
+      context 'with valid params' do
         it "calls the supplied method on post" do
-          expect(controller).to have_received(:perform_like) 
+          expect(controller).to receive(:validate_like_params).and_return(true)
+          expect(controller).to receive(:perform_like)
+          post :like
         end
       end
 
-      describe "with failure" do
-        describe "with invalid params" do
-          before { allow(controller).to receive(:validate_like_params).and_return(false) }
-          it "does not call the supplied method if validation failed" do
-            expect(controller).not_to have_received(:perform_like)
-          end
+      context "with failure on invalid params" do
+        it "does not call the supplied method" do
+          expect(controller).to receive(:validate_like_params).and_return(false)
+          expect(controller).not_to receive(:perform_like)
+          skip 'Clarify expectations on validator failure: 400? 500? Set a specific error key/msg? Render the same template anyway?'
+          post :like
         end
       end
     end
@@ -712,7 +658,6 @@ describe CatalogController do
     end
   end
 end
-
 
 # there must be at least one facet, and each facet must have at least one value
 def assert_facets_have_values(aggregations)

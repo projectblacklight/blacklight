@@ -84,7 +84,7 @@ module Blacklight::Bookmarks
     end
 
     if request.xhr?
-      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(:text => "", :status => "500")
+      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(plain: "", status: "500")
     else
       if @bookmarks.any? && success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
@@ -115,16 +115,13 @@ module Blacklight::Bookmarks
         # Deprecated in Rails 5.0
         redirect_to :back, notice: I18n.t('blacklight.bookmarks.remove.success')
       end
+    elsif request.xhr?
+      head 500 # ajaxy request needs no redirect and should not have flash set
+    elsif respond_to? :redirect_back
+      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
     else
-      if request.xhr?
-        # ajaxy request needs no redirect and should not have flash set
-        render(:text => "", :status => "500")
-      elsif respond_to? :redirect_back
-        redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
-      else
-        # Deprecated in Rails 5.0
-        redirect_to :back, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
-      end
+      # Deprecated in Rails 5.0
+      redirect_to :back, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
     end
   end
 
