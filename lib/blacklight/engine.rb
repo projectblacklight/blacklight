@@ -42,5 +42,6 @@ module Blacklight
       'Cricket' => 'mms.mycricket.com'
     }
 
+    config.bookmarks_http_method = :post
   end
 end

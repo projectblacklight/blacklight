@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 describe BookmarksController do
+  describe '#blacklight_config' do
+    it 'uses POST requests for querying solr' do
+      expect(@controller.blacklight_config.http_method).to eq :post
+    end
+  end
+
   # jquery 1.9 ajax does error callback if 200 returns empty body. so use 204 instead. 
   describe "update" do
     it "has a 200 status code when creating a new one" do
