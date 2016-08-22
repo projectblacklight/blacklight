@@ -6,6 +6,10 @@ gemspec path: File.expand_path('..', __FILE__)
 gem 'simplecov', '~> 0.10', require: false
 gem 'coveralls', require: false
 
+group :development do
+  gem 'rubocop', '0.29.1', require: false
+end
+
 group :test do
   gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
 end
