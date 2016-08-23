@@ -5,11 +5,10 @@ module Blacklight
   # fields to display, facets to show, sort options, and search fields.
   class Configuration < OpenStructWithHashAccess
 
-    
     # Using required_dependency to work around Rails autoloading
     # problems when developing blacklight. Without this, any change
     # to this class breaks other classes in this namespace
-    
+
     require_dependency 'blacklight/configuration/context'
     require_dependency 'blacklight/configuration/view_config'
     require_dependency 'blacklight/configuration/tool_config'
@@ -42,7 +41,7 @@ module Blacklight
           ##
           # === Single document request configuration
           ##
-          # The solr rqeuest handler to use when requesting only a single document 
+          # The solr rqeuest handler to use when requesting only a single document
           document_solr_request_handler: 'document',
           # THe path to send single document requests to solr
           document_solr_path: nil,
@@ -50,7 +49,7 @@ module Blacklight
           # Default values of parameters to send when requesting a single document
           default_document_solr_params: {
             ## Blacklight provides these settings in the /document request handler
-            ## by default, we just ask for all fields. 
+            ## by default, we just ask for all fields.
             #fl: '*',
             ## this is a fancy way to say "find the document by id using
             ## the value in the id query parameter"
@@ -101,11 +100,11 @@ module Blacklight
             # document presenter class used by helpers and views
             document_presenter_class: nil,
             # default route parameters for 'show' requests
-            # set this to a hash with additional arguments to merge into 
-            # the route, or set `controller: :current` to route to the 
+            # set this to a hash with additional arguments to merge into
+            # the route, or set `controller: :current` to route to the
             # current controller.
             route: nil,
-            # partials to render for each document(see #render_document_partials) 
+            # partials to render for each document(see #render_document_partials)
             partials: [:show_header, :show],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
           ),
@@ -135,7 +134,7 @@ module Blacklight
           # Maximum number of results to show per page
           max_per_page: 100,
           # Options for the user for number of results to show per page
-          per_page: [10,20,50,100],
+          per_page: [10, 20, 50, 100],
           default_per_page: nil,
           # how many searches to save in session history
           search_history_window: 100,
@@ -148,22 +147,22 @@ module Blacklight
     ##
     # Create collections of solr field configurations.
     # This will create array-like accessor methods for
-    # the given field, and an #add_x_field convenience 
+    # the given field, and an #add_x_field convenience
     # method for adding new fields to the configuration
-    
+
     # facet fields
     define_field_access :facet_field
-    
+
     # solr fields to display on search results
     define_field_access :index_field
-    
+
     # solr fields to display when showing single documents
     define_field_access :show_field
-    
+
     # solr "fields" to use for scoping user search queries
     # to particular fields
     define_field_access :search_field
-    
+
     # solr fields to use for sorting results
     define_field_access :sort_field
 
@@ -206,7 +205,7 @@ module Blacklight
     end
     deprecation_deprecate :document_presenter_class= => "replaced by show.presenter_class and index.presenter_class"
 
-    def response_model= *args
+    def response_model=(*args)
       super
     end
 
@@ -234,48 +233,42 @@ module Blacklight
       super || per_page.first
     end
 
-    ##
     # DSL helper
     def configure
       yield self if block_given?
       self
     end
 
-    ##
     # Returns default search field, used for simpler display in history, etc.
     # if not set, defaults to first defined search field
     def default_search_field
       field = super
       field ||= search_fields.values.find { |f| f.default == true }
       field ||= search_fields.values.first
-
       field
     end
 
-    ##
     # Returns default sort field, used for simpler display in history, etc.
     # if not set, defaults to first defined sort field
     def default_sort_field
       field = super
       field ||= sort_fields.values.find { |f| f.default == true }
       field ||= sort_fields.values.first
-
       field
     end
-    
+
     def default_title_field
       document_model.unique_key || 'id'
     end
 
-    ##
     # Add any configured facet fields to the default solr parameters hash
     # @overload add_facet_fields_to_solr_request!
     #    add all facet fields to the solr request
     # @overload add_facet_fields_to_solr_request! field, field, field
-    #   @param [Symbol] Field names to add to the solr request
-    #   @param [Symbol] 
-    #   @param [Symbol] 
-    def add_facet_fields_to_solr_request! *fields
+    # @param [Symbol] Field names to add to the solr request
+    # @param [Symbol]
+    # @param [Symbol]
+    def add_facet_fields_to_solr_request!(*fields)
       if fields.empty?
         self.add_facet_fields_to_solr_request = true
       else
@@ -290,17 +283,16 @@ module Blacklight
     # @overload add_field_configuration_to_solr_request!
     #    add all index, show, and facet fields to the solr request
     # @overload add_field_configuration_to_solr_request! field, field, field
-    #   @param [Symbol] Field names to add to the solr request
-    #   @param [Symbol] 
-    #   @param [Symbol] 
-    def add_field_configuration_to_solr_request! *fields
+    # @param [Symbol] Field names to add to the solr request
+    # @param [Symbol]
+    # @param [Symbol]
+    def add_field_configuration_to_solr_request!(*fields)
       if fields.empty?
         self.add_field_configuration_to_solr_request = true
       else
         index_fields.slice(*fields).each do |k,v|
           v.include_in_request = true
         end
-
         show_fields.slice(*fields).each do |k,v|
           v.include_in_request = true
         end
@@ -329,7 +321,7 @@ module Blacklight
     ##
     # Get a view configuration for the given view type
     # including default values from the index configuration
-    def view_config view_type
+    def view_config(view_type)
       if view_type == :show
         self.index.merge self.show
       else
@@ -337,65 +329,45 @@ module Blacklight
       end
     end
 
-    ##
+    # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
+    # rubocop:disable Metrics/LineLength
+
     # Add a partial to the tools when rendering a document.
-    # @param partial [String] the name of the document partial
-    # @param opts [Hash]
-    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-    #                             The proc will receive the action configuration and the document or documents for the action.
-    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-    #                             The proc will receive the action configuration and the document or documents for the action.
+    # @!macro partial_if_unless
+    #   @param name [String] the name of the document partial
+    #   @param opts [Hash]
+    #   @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
+    #   @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
     def add_show_tools_partial(name, opts = {})
       opts[:partial] ||= 'document_action'
       add_action(show.document_actions, name, opts)
     end
+    # rubocop:enable Metrics/LineLength
 
-    ##
     # Add a tool for the search result list itself
-    # @param partial [String] the name of the document partial
-    # @param opts [Hash]
-    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-    #                             The proc will receive the action configuration and the document or documents for the action.
-    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-    #                             The proc will receive the action configuration and the document or documents for the action.
+    # @!macro partial_if_unless
     def add_results_collection_tool(name, opts = {})
       add_action(index.collection_actions, name, opts)
     end
 
-    ##
     # Add a partial to the tools for each document in the search results.
-    # @param partial [String] the name of the document partial
-    # @param opts [Hash]
-    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-    #                             The proc will receive the action configuration and the document or documents for the action.
-    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-    #                             The proc will receive the action configuration and the document or documents for the action.
+    # @!macro partial_if_unless
     def add_results_document_tool(name, opts = {})
       add_action(index.document_actions, name, opts)
     end
 
-    ##
     # Add a partial to the header navbar
-    # @param partial [String] the name of the document partial
-    # @param opts [Hash]
-    # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-    #                             The proc will receive the action configuration and the document or documents for the action.
-    # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-    #                             The proc will receive the action configuration and the document or documents for the action.
-    def add_nav_action name, opts = {}
+    # @!macro partial_if_unless
+    def add_nav_action(name, opts = {})
       add_action(navbar.partials, name, opts)
     end
 
     private
 
-      def add_action config_hash, name, opts
+      def add_action(config_hash, name, opts)
         config = Blacklight::Configuration::ToolConfig.new opts
         config.name = name
-
-        if block_given?
-          yield config
-        end
-
+        yield(config) if block_given?
         config_hash[name] = config
       end
   end

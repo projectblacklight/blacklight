@@ -39,7 +39,6 @@
 #   end
 #
 module Blacklight::Document::Export
-
   ##
   # Register exportable formats supported by the individual document.
   # Usually called by an extension in it's self.extended method, to
@@ -66,7 +65,7 @@ module Blacklight::Document::Export
       Mime::Type.register_alias(content_type, short_name)
     end
 
-    export_formats[short_name] =  { content_type: content_type }
+    export_formats[short_name] = { content_type: content_type }
   end
 
   # Collects formats that this doc can export as.

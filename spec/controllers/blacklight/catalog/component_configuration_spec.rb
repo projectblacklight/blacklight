@@ -28,7 +28,4 @@ describe Blacklight::DefaultComponentConfiguration do
       expect(subject.new).not_to respond_to :some_missing_action
     end
   end
-
-  
-
 end
