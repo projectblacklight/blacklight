@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 # SearchHelper is a controller layer mixin. It is in the controller scope: request params, session etc.
-# 
+#
 # NOTE: Be careful when creating variables here as they may be overriding something that already exists.
 # The ActionController docs: http://api.rubyonrails.org/classes/ActionController/Base.html
 #
 # Override these methods in your own controller for customizations:
-# 
+#
 #   class CatalogController < ActionController::Base
-#   
 #     include Blacklight::Catalog
 #
 #     def repository_class
@@ -21,7 +20,6 @@
 #   end
 #
 #   class CatalogController < ActionController::Base
-#
 #     include Blacklight::Catalog
 #     include LocalSearchHelperExtension
 #
@@ -50,17 +48,14 @@ module Blacklight::SearchHelper
 
   # a solr query method
   # @param [Hash] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
-  # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used. 
+  # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used.
   # @return [Blacklight::Solr::Response] the solr response object
   def search_results(user_params)
     builder = search_builder.with(user_params)
-    builder.page(user_params[:page]) if user_params[:page]
-    builder.rows(user_params[:per_page] || user_params[:rows]) if user_params[:per_page] or user_params[:rows]
+    builder.page = user_params[:page] if user_params[:page]
+    builder.rows = (user_params[:per_page] || user_params[:rows]) if (user_params[:per_page] || user_params[:rows])
 
-    if block_given? 
-      builder = yield(builder)
-    end
-
+    builder = yield(builder) if block_given?
     response = repository.search(builder)
 
     case
@@ -74,8 +69,9 @@ module Blacklight::SearchHelper
   end
 
   # retrieve a document, given the doc id
+  # @param [Array{#to_s},#to_s] id
   # @return [Blacklight::Solr::Response, Blacklight::SolrDocument] the solr response object and the first document
-  def fetch(id=nil, extra_controller_params={})
+  def fetch(id = nil, extra_controller_params = {})
     if id.is_a? Array
       fetch_many(id, search_state.to_h, extra_controller_params)
     else
@@ -95,26 +91,23 @@ module Blacklight::SearchHelper
   # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
   def get_previous_and_next_documents_for_search(index, request_params, extra_controller_params={})
     p = previous_and_next_document_params(index)
-
     query = search_builder.with(request_params).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
     response = repository.search(query)
-
     document_list = response.documents
 
     # only get the previous doc if there is one
     prev_doc = document_list.first if index > 0
     next_doc = document_list.last if (index + 1) < response.total
-
     [response, [prev_doc, next_doc]]
   end
-  
+
   # a solr query method
   # does a standard search but returns a simplified object.
   # an array is returned, the first item is the query string,
   # the second item is an other array. This second array contains
   # all of the field values for each of the documents...
   # where the field is the "field" argument passed in.
-  def get_opensearch_response(field=nil, request_params = params || {}, extra_controller_params={})
+  def get_opensearch_response(field = nil, request_params = params || {}, extra_controller_params = {})
     field ||= blacklight_config.view_config('opensearch').title_field
 
     query = search_builder.with(request_params).merge(solr_opensearch_params(field)).merge(extra_controller_params)
@@ -124,7 +117,7 @@ module Blacklight::SearchHelper
   end
 
   ##
-  # The key to use to retrieve the grouped field to display 
+  # The key to use to retrieve the grouped field to display
   def grouped_key_for_results
     blacklight_config.index.group
   end

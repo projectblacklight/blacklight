@@ -36,7 +36,7 @@ module Blacklight
 
     ##
     # Set the parameters to pass through the processor chain
-    def with blacklight_params = {}
+    def with(blacklight_params = {})
       params_will_change!
       @blacklight_params = blacklight_params.dup
       self
@@ -44,7 +44,7 @@ module Blacklight
 
     ##
     # Update the :q (query) parameter
-    def where conditions
+    def where(conditions)
       params_will_change!
       @blacklight_params[:q] = conditions
       self
@@ -52,55 +52,53 @@ module Blacklight
 
     ##
     # Append additional processor chain directives
-    def append *addl_processor_chain
+    def append(*addl_processor_chain)
       params_will_change!
       builder = self.class.new(processor_chain + addl_processor_chain, scope)
           .with(blacklight_params)
           .merge(@merged_params)
           .reverse_merge(@reverse_merged_params)
 
-      builder.start(@start) if @start
-      builder.rows(@rows) if @rows
-      builder.page(@page) if @page
-      builder.facet(@facet) if @facet
-
+      builder.start = @start if @start
+      builder.rows  = @rows if @rows
+      builder.page  = @page if @page
+      builder.facet = @facet if @facet
       builder
     end
 
     ##
     # Converse to append, remove processor chain directives,
     # returning a new builder that's a copy of receiver with
-    # specified change. 
+    # specified change.
     #
     # Methods in argument that aren't currently in processor
-    # chain are ignored as no-ops, rather than raising. 
-    def except *except_processor_chain
+    # chain are ignored as no-ops, rather than raising.
+    def except(*except_processor_chain)
       builder = self.class.new(processor_chain - except_processor_chain, scope)
           .with(blacklight_params)
           .merge(@merged_params)
           .reverse_merge(@reverse_merged_params)
 
-      builder.start(@start) if @start
-      builder.rows(@rows) if @rows
-      builder.page(@page) if @page
-      builder.facet(@facet) if @facet
-
+      builder.start = @start if @start
+      builder.rows  = @rows if @rows
+      builder.page  = @page if @page
+      builder.facet = @facet if @facet
       builder
     end
 
     ##
     # Merge additional, repository-specific parameters
-    def merge extra_params, &block
+    def merge(extra_params, &block)
       if extra_params
         params_will_change!
         @merged_params.merge!(extra_params.to_hash, &block)
       end
       self
     end
-    
+
     ##
     # "Reverse merge" additional, repository-specific parameters
-    def reverse_merge extra_params, &block
+    def reverse_merge(extra_params, &block)
       if extra_params
         params_will_change!
         @reverse_merged_params.reverse_merge!(extra_params.to_hash, &block)
@@ -114,14 +112,11 @@ module Blacklight
     # @param [Hash] extra_controller_params (nil) extra parameters to add to the search
     # @return [Blacklight::Solr::Response] the solr response object
     def to_hash
-      if params_need_update?
-        @params = processed_parameters.
-                    reverse_merge(@reverse_merged_params).
-                    merge(@merged_params).
-                    tap { self.clear_changes }
-      else
-        @params
-      end
+      return @params unless params_need_update?
+      @params = processed_parameters.
+                  reverse_merge(@reverse_merged_params).
+                  merge(@merged_params).
+                  tap { self.clear_changes }
     end
 
     alias_method :query, :to_hash
@@ -154,93 +149,93 @@ module Blacklight
       scope.blacklight_config
     end
 
-    def start start = nil
-      if start
-        params_will_change!
-        @start = start.to_i
-        self
-      else
-        @start ||= (page - 1) * (rows || 10)
+    def start=(value)
+      params_will_change!
+      @start = value.to_i
+    end
 
-        val = @start || 0
-        val = 0 if @start < 0
-        val
+    # @param [#to_i] value
+    def start(value = nil)
+      if value
+        self.start = value
+        return self
       end
+      @start ||= (page - 1) * (rows || 10)
+      val = @start || 0
+      val = 0 if @start < 0
+      val
     end
     alias_method :padding, :start
 
-    def page page = nil
-      if page
-        params_will_change!
-        @page = page.to_i
-        @page = 1 if @page < 1
-        self
-      else
-        @page ||= begin
-          page = if blacklight_params[:page].blank?
-            1
-          else
-            blacklight_params[:page].to_i
-          end
-
-          page
-        end
-      end
+    def page=(value)
+      params_will_change!
+      @page = value.to_i
+      @page = 1 if @page < 1
     end
 
-    def rows rows = nil
-      if rows
-        params_will_change!
-        @rows = rows.to_i
-        @rows = blacklight_config.max_per_page if @rows > blacklight_config.max_per_page
-        self
-      else
-        @rows ||= begin
-          rows = blacklight_config.default_per_page
+    # @param [#to_i] value
+    def page(value = nil)
+      if value
+        self.page = value
+        return self
+      end
+      @page ||= blacklight_params[:page].blank? ? 1 : blacklight_params[:page].to_i
+    end
 
-          # user-provided parameters should override any default row
-          rows = blacklight_params[:rows].to_i unless blacklight_params[:rows].blank?
-          rows = blacklight_params[:per_page].to_i unless blacklight_params[:per_page].blank?
+    def rows=(value)
+      params_will_change!
+      @rows = [value, blacklight_config.max_per_page].map(&:to_i).min
+    end
 
-          # ensure we don't excede the max page size
-          rows = blacklight_config.max_per_page if rows.to_i > blacklight_config.max_per_page
-
-          rows.to_i unless rows.nil?
-        end
+    # @param [#to_i] value
+    def rows(value = nil)
+      if value
+        self.rows = value
+        return self
+      end
+      @rows ||= begin
+        # user-provided parameters should override any default row
+        r = [:rows, :per_page].map {|k| blacklight_params[k] }.reject(&:blank?).first
+        r ||= blacklight_config.default_per_page
+        # ensure we don't excede the max page size
+        r.nil? ? nil : [r, blacklight_config.max_per_page].map(&:to_i).min
       end
     end
 
     alias per rows
+
+    # sets the facet that this query pertains to, for the purpose of facet pagination
+    def facet=(value)
+      params_will_change!
+      @facet = value
+    end
+
+    # @param [Object] value
+    def facet(value = nil)
+      if value
+        self.facet = value
+        return self
+      end
+      @facet
+    end
 
     def sort
       sort_field = if blacklight_params[:sort].blank?
         # no sort param provided, use default
         blacklight_config.default_sort_field
       else
-        # check for sort field key  
+        # check for sort field key
         blacklight_config.sort_fields[blacklight_params[:sort]]
       end
 
       field = if sort_field.present?
         sort_field.sort
-      else 
+      else
         # just pass the key through
         blacklight_params[:sort]
       end
 
       field unless field.blank?
-    end
-
-    # sets the facet that this query pertains to, if it is for the purpose of
-    # facet pagination
-    def facet(facet = nil)
-      if facet
-        params_will_change!
-        @facet = facet
-        self
-      else
-        @facet
-      end
     end
 
     def search_field
