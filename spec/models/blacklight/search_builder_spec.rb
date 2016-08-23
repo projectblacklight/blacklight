@@ -92,7 +92,7 @@ describe Blacklight::SearchBuilder do
       expect(actual[:q]).to eq 'xyz'
     end
   end
-  
+
   describe "#reverse_merge" do
     let(:processor_chain) { [:pass_through] }
     before do
@@ -146,7 +146,6 @@ describe Blacklight::SearchBuilder do
   end
 
   describe "#rows" do
-
     it "is nil if no value is set" do
       blacklight_config.default_per_page = nil
       blacklight_config.per_page = []
@@ -235,7 +234,7 @@ describe Blacklight::SearchBuilder do
     end
 
     it "is marked as changed when reverse merged parameters are added" do
-      subject.merge(a: 1)
+      subject.reverse_merge(a: 1)
       expect(subject.send(:params_changed?)).to eq true
     end
 
