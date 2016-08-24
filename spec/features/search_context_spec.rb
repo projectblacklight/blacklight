@@ -34,11 +34,10 @@ describe "Search Results context", js: true do
   context "navigating between search results using context pagination" do
     it "updates the back to search link with the current search pagination context" do
       search_for ''
-      first('.index_title a').click
-      10.times do
-        click_on "Next »"
-      end
-      
+      expect(page).to have_content "1 - 10"
+      find_all('.index_title a').last.click
+      click_on "Next »"
+
       click_on "Back to Search"
       expect(page).to have_content "11 - 20"
     end

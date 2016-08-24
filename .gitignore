@@ -13,3 +13,4 @@ tmp/*
 pkg/*
 .internal_test_app
 .vagrant
+/spec/examples.txt
