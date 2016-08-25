@@ -122,7 +122,7 @@ module Blacklight
 
       protected
       def luke_fields
-        if @table[:luke_fields] === false
+        if @table[:luke_fields] == false
           return nil
         end
 

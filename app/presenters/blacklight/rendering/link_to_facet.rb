@@ -15,7 +15,7 @@ module Blacklight
         end
 
         def link_field
-          return config.key if config.link_to_search === true
+          return config.key if config.link_to_search == true
           config.link_to_search
         end
 
