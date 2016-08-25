@@ -12,4 +12,4 @@ Bundler::GemHelper.install_tasks
 load "tasks/blacklight.rake"
 load "lib/railties/blacklight.rake"
 
-task :default => [:ci]
+task :default => [:rubocop, :ci]

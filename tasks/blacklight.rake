@@ -6,6 +6,9 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern =  'spec/**/*_spec.rb'
 end
 
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new(:rubocop)
+
 EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
