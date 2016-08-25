@@ -196,7 +196,7 @@ module Blacklight::ConfigurationHelperBehavior
   # @param displayable_config [#if,#unless] an object that responds to if/unless
   # @return [Boolean]
   def evaluate_if_unless_configuration displayable_config, *args
-    return displayable_config if displayable_config === true or displayable_config === false
+    return displayable_config if displayable_config == true or displayable_config == false
     
     if_value = !displayable_config.respond_to?(:if) ||
                     displayable_config.if.nil? ||
