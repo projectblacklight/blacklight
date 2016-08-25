@@ -18,7 +18,7 @@ module Blacklight
       when 1
         options.first
       when 2
-        if options.first === true
+        if options.first == true
           Deprecation.warn Blacklight::SearchBuilder, "SearchBuilder#initialize now takes only one parameter, the scope. Passing `true' will be removed in Blacklight 7"
         else
           @processor_chain = options.first

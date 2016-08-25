@@ -37,7 +37,7 @@ module Blacklight
 
       def retieve_using_accessor
         # implicit method call
-        if field_config.accessor === true
+        if field_config.accessor == true
           document.send(field)
         # arity-1 method call (include the field name in the call)
         elsif !field_config.accessor.is_a?(Array) && document.method(field_config.accessor).arity != 0
