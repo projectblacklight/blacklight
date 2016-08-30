@@ -13,3 +13,4 @@ lib/solrmarc.log.*
 tmp/*
 pkg/*
 .internal_test_app
+/spec/examples.txt

@@ -139,6 +139,13 @@ describe Blacklight::Solr::Response do
     expect(r.spelling.words).to include("dell")
     expect(r.spelling.words).to include("ultrasharp")
   end
+  
+  it 'provides spelling suggestions for solr 5 spellcheck results' do
+    raw_response = eval(mock_response_with_solr5_spellcheck)
+    r = Blacklight::Solr::Response.new(raw_response,  {})
+    expect(r.spelling.words).to include("political", "politics", "policy")
+  end
+
 
   it 'should provide spelling suggestions for extended spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck_extended)
@@ -231,5 +238,9 @@ describe Blacklight::Solr::Response do
   
   def mock_response_with_more_like_this
     %({'responseHeader'=>{'status'=>0,'QTime'=>8,'params'=>{'facet'=>'false','mlt.mindf'=>'1','mlt.fl'=>'subject_t','fl'=>'id','mlt.count'=>'3','mlt.mintf'=>'0','mlt'=>'true','q.alt'=>'*:*','qt'=>'search','wt'=>'ruby'}},'response'=>{'numFound'=>30,'start'=>0,'docs'=>[{'id'=>'00282214'},{'id'=>'00282371'},{'id'=>'00313831'},{'id'=>'00314247'},{'id'=>'43037890'},{'id'=>'53029833'},{'id'=>'77826928'},{'id'=>'78908283'},{'id'=>'79930185'},{'id'=>'85910001'}]},'moreLikeThis'=>{'00282214'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'00282371'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'00313831'=>{'numFound'=>1,'start'=>0,'docs'=>[{'id'=>'96933325'}]},'00314247'=>{'numFound'=>3,'start'=>0,'docs'=>[{'id'=>'2008543486'},{'id'=>'96933325'},{'id'=>'2009373513'}]},'43037890'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'53029833'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'77826928'=>{'numFound'=>1,'start'=>0,'docs'=>[{'id'=>'94120425'}]},'78908283'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'79930185'=>{'numFound'=>2,'start'=>0,'docs'=>[{'id'=>'94120425'},{'id'=>'2007020969'}]},'85910001'=>{'numFound'=>0,'start'=>0,'docs'=>[]}}})
+  end
+  
+  def mock_response_with_solr5_spellcheck
+    %|{'responseHeader'=>{'status'=>0,'QTime'=>1,'params'=>{'q'=>'politica','wt'=>'ruby'}},'response'=>{'numFound'=>0,'start'=>0,'maxScore'=>0.0,'docs'=>[]},'facet_counts'=>{'facet_queries'=>{},'facet_fields'=>{'format'=>[],'lc_1letter_facet'=>[],'lc_alpha_facet'=>[],'lc_b4cutter_facet'=>[],'language_facet'=>[],'pub_date'=>[],'subject_era_facet'=>[],'subject_geo_facet'=>[],'subject_topic_facet'=>[]},'facet_ranges'=>{},'facet_intervals'=>{},'facet_heatmaps'=>{}},'spellcheck'=>{'suggestions'=>['politica',{'numFound'=>3,'startOffset'=>0,'endOffset'=>8,'origFreq'=>0,'suggestion'=>[{'word'=>'political','freq'=>3},{'word'=>'politics','freq'=>3},{'word'=>'policy','freq'=>2}]}],'correctlySpelled'=>false}}|
   end
 end

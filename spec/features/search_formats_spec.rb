@@ -6,10 +6,15 @@ describe "Search Formats" do
   before do
     # Get all the fields from Solr, so the #index documents have the MARC field (to trigger appropriate
     # export formats)
+    @current = CatalogController.blacklight_config.default_solr_params.dup
     CatalogController.blacklight_config.default_solr_params[:fl] = '*'
   end
 
-  it "should have an RSS XML response" do
+  after do
+    CatalogController.blacklight_config.default_solr_params = @current
+  end
+
+  it "has an RSS XML response" do
     visit "/catalog.rss?q="
     expect(page).to have_content "Blacklight Search Results"
     doc = Nokogiri::XML(page.body)

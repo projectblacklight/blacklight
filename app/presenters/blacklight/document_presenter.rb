@@ -167,7 +167,7 @@ module Blacklight
           @document.highlight_field(field_config.field).map(&:html_safe) if @document.has_highlight_field? field_config.field
         when (field_config and field_config.accessor)
           # implicit method call
-          if field_config.accessor === true
+          if field_config.accessor == true
             @document.send(field)
           # arity-1 method call (include the field name in the call)
           elsif !field_config.accessor.is_a?(Array) && @document.method(field_config.accessor).arity != 0
@@ -194,7 +194,7 @@ module Blacklight
         when (field_config and field_config.helper_method)
           @controller.send(field_config.helper_method, options.merge(document: @document, field: field, config: field_config, value: value))
         when (field_config and field_config.link_to_search)
-          link_field = if field_config.link_to_search === true
+          link_field = if field_config.link_to_search == true
             field_config.key
           else
             field_config.link_to_search

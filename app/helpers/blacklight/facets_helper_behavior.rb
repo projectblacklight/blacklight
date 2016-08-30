@@ -218,7 +218,7 @@ module Blacklight::FacetsHelperBehavior
       facet_config.query[value][:label]
     when facet_config.date
       localization_options = {}
-      localization_options = facet_config.date unless facet_config.date === true
+      localization_options = facet_config.date unless facet_config.date == true
       l(value.to_datetime, localization_options)
     else
       value

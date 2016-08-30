@@ -648,10 +648,6 @@ Style/Blocks:
     ugly). Prefer {...} over do...end for single-line blocks.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#single-line-blocks
   Enabled: true
-Style/CaseEquality:
-  Description: Avoid explicit use of the case equality operator(===).
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-case-equality
-  Enabled: false
 Style/CharacterLiteral:
   Description: Checks for uses of character literals.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-character-literals
