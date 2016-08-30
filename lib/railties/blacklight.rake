@@ -118,4 +118,15 @@ namespace :blacklight do
       exit 1 if errors > 0
     end
   end
+
+  namespace :solr do
+    desc "Start solr with default configurations"
+    task :start, [:persist?] => [:environment]  do |_, args|
+      args[:persist?] ||= false
+      shell_cmd = "solr_wrapper -d #{File.join(Blacklight.root, 'solr', 'conf')} --collection_name blacklight-core"
+      shell_cmd << ' --persist' if args[:persist?]
+      sh shell_cmd
+    end
+  end
 end
+
