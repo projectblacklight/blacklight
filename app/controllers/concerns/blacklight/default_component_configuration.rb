@@ -20,21 +20,26 @@ module Blacklight
       add_nav_action(:search_history, partial: 'blacklight/nav/search_history')
     end
 
-    def render_sms_action? config, options = {}
+    def render_sms_action?(_config, _options)
       sms_mappings.present?
     end
 
     module ClassMethods
+      # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
+      # rubocop:disable Metrics/LineLength
 
-      ##
+      # @!macro partial_if_unless
+      #   @param name [String] the name of the document partial
+      #   @param opts [Hash]
+      #   @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
+      #   @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
+
       # Add a partial to the tools for rendering a document
-      # @param partial [String] the name of the document partial
-      # @param opts [Hash]
-      # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      def add_show_tools_partial name, opts = {}
+      # @!macro partial_if_unless
+      # @option opts [Boolean] :define_method define a controller method as named, default: true
+      # @option opts [Symbol]  :validator method for toggling between success and failure, should return Boolean (true if valid)
+      # @option opts [Symbol]  :callback method for further processing of documents, receives Array of documents
+      def add_show_tools_partial(name, opts = {})
         blacklight_config.add_show_tools_partial(name, opts)
 
         return if method_defined?(name) || opts[:define_method] == false
@@ -43,9 +48,8 @@ module Blacklight
         define_method name do
           @response, @documents = action_documents
 
-          if request.post? and
-              opts[:callback] and
-              (opts[:validator].blank? || self.send(opts[:validator]))
+          if request.post? && opts[:callback] &&
+            (opts[:validator].blank? || self.send(opts[:validator]))
 
             self.send(opts[:callback], @documents)
 
@@ -63,40 +67,23 @@ module Blacklight
           end
         end
       end
+      # rubocop:enable Metrics/LineLength
 
-      ##
       # Add a tool to be displayed for each document in the search results.
-      # @param partial [String] the name of the document partial
-      # @param opts [Hash]
-      # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      def add_results_document_tool name, opts = {}
+      # @!macro partial_if_unless
+      def add_results_document_tool(name, opts = {})
         blacklight_config.add_results_document_tool(name, opts)
       end
 
-      ##
       # Add a tool to be displayed for the list of search results themselves.
-      # @param partial [String] the name of the document partial
-      # @param opts [Hash]
-      # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      def add_results_collection_tool name, opts = {}
+      # @!macro partial_if_unless
+      def add_results_collection_tool(name, opts = {})
         blacklight_config.add_results_collection_tool(name, opts)
       end
 
-      ##
-      # Add a partial to the header navbar
-      # @param partial [String] the name of the document partial
-      # @param opts [Hash]
-      # @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true.
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      # @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true
-      #                             The proc will receive the action configuration and the document or documents for the action.
-      def add_nav_action name, opts = {}
+      # Add a partial to the header navbar.
+      # @!macro partial_if_unless
+      def add_nav_action(name, opts = {})
         blacklight_config.add_nav_action(name, opts)
       end
     end
