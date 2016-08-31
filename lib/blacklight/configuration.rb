@@ -261,6 +261,17 @@ module Blacklight
       document_model.unique_key || 'id'
     end
 
+    # @param [String] field Solr facet name
+    # @return [Blacklight::Configuration::FacetField] Blacklight facet configuration for the solr field
+    def facet_configuration_for_field(field)
+      # short-circuit on the common case, where the solr field name and the blacklight field name are the same.
+      return facet_fields[field] if facet_fields[field] && facet_fields[field].field == field
+
+      # Find the facet field configuration for the solr field, or provide a default.
+      facet_fields.values.find { |v| v.field.to_s == field.to_s } ||
+        FacetField.new(field: field).normalize!
+    end
+
     # Add any configured facet fields to the default solr parameters hash
     # @overload add_facet_fields_to_solr_request!
     #    add all facet fields to the solr request
