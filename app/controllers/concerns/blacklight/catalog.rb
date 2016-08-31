@@ -178,9 +178,6 @@ module Blacklight::Catalog
     # By default, any search action from a Blacklight::Catalog controller
     # should use the current controller when constructing the route.
     def search_action_url options = {}
-      raise ArgumentError, "Options was not a hash (#{options.class}" unless options.is_a? Hash
-      # We don't want to permit here because one of the options could be :only_path, which is an option, but not a parameter
-      # options.permit!
       url_for(options.merge(action: 'index'))
     end
 
