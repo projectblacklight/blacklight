@@ -84,12 +84,12 @@ module Blacklight::RenderConstraintsHelperBehavior
   def render_filter_element(facet, values, path)
     facet_config = facet_configuration_for_field(facet)
 
-    safe_join(values.map do |val|
+    safe_join(Array(values).map do |val|
       next if val.blank? # skip empty string
-      render_constraint_element( facet_field_label(facet_config.key), facet_display_value(facet, val),
-                  remove: search_action_path(path.remove_facet_params(facet, val)),
-                  classes: ["filter", "filter-" + facet.parameterize]
-                )
+      render_constraint_element(facet_field_label(facet_config.key),
+                                facet_display_value(facet, val),
+                                remove: search_action_path(path.remove_facet_params(facet, val)),
+                                classes: ["filter", "filter-" + facet.parameterize])
     end, "\n")
   end
 

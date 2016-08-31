@@ -56,6 +56,14 @@ describe RenderConstraintsHelper do
       expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
       expect(subject).to have_selector ".filterName", text: 'Item Type'
     end
+
+    context 'with string values' do
+      subject { helper.render_filter_element('type', 'journal', path) }
+
+      it "handles string values gracefully" do
+        expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
+      end
+    end
   end
 
   describe "#render_constraints_filters" do
