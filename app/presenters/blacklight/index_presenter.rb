@@ -7,7 +7,7 @@ module Blacklight
     attr_reader :document, :configuration, :view_context
 
     # @param [SolrDocument] document
-    # @param [ActionView::Base] view context scope for linking and generating urls
+    # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
     def initialize(document, view_context, configuration = view_context.blacklight_config)
       @document = document
@@ -18,7 +18,7 @@ module Blacklight
     ##
     # Render the document index heading
     #
-    # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
+    # @param [Symbol, Proc, String] field_or_string_or_proc Render the given field or evaluate the proc or render the given string
     # @param [Hash] opts
     # TODO: the default field should be `document_show_link_field(doc)'
     def label(field_or_string_or_proc, opts = {})
@@ -49,8 +49,8 @@ module Blacklight
     # Allow an extention point where information in the document
     # may drive the value of the field
     # @param [String] field
-    # @param [Hash] opts
-    # @options opts [String] :value
+    # @param [Hash] options
+    # @option options [String] :value
     def field_value field, options = {}
       field_config = field_config(field)
       field_values(field_config, options)
@@ -91,7 +91,7 @@ module Blacklight
       # Rendering:
       #   - helper_method
       #   - link_to_search
-      # @param [Blacklight::Configuration::Field] solr field configuration
+      # @param [Blacklight::Configuration::Field] field_config solr field configuration
       # @param [Hash] options additional options to pass to the rendering helpers
       def field_values(field_config, options={})
         FieldPresenter.new(view_context, document, field_config, options).render

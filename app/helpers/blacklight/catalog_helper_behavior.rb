@@ -18,7 +18,7 @@ module Blacklight::CatalogHelperBehavior
   # implementation.
   # Displays the "showing X through Y of N" message.
   #
-  # @param [RSolr::Resource] (or other Kaminari-compatible objects)
+  # @param [RSolr::Resource] collection (or other Kaminari-compatible objects)
   # @return [String]
   def page_entries_info(collection, options = {})
     return unless show_pagination? collection
@@ -67,7 +67,8 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Get the offset counter for a document
   #
-  # @param [Integer] document index
+  # @param [Integer] idx document index
+  # @param [Integer] offset additional offset to incremenet the counter by
   # @return [Integer]
   def document_counter_with_offset idx, offset = nil
     offset ||= @response.start if @response
@@ -134,7 +135,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the sidebar partial for a document
   #
-  # @param [SolrDocument]
+  # @param [SolrDocument] document
   # @return [String]
   def render_document_sidebar_partial(document = @document)
     render :partial => 'show_sidebar'
@@ -143,7 +144,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the main content partial for a document
   #
-  # @param [SolrDocument]
+  # @param [SolrDocument] document
   # @return [String]
   def render_document_main_content_partial(document = @document)
     render partial: 'show_main_content'
@@ -152,7 +153,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Should we display the sort and per page widget?
   # 
-  # @param [Blacklight::Solr::Response]
+  # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def show_sort_and_per_page? response = nil
     response ||= @response
@@ -162,7 +163,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Should we display the pagination controls?
   #
-  # @param [Blacklight::Solr::Response]
+  # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def show_pagination? response = nil
     response ||= @response
@@ -183,7 +184,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Does the document have a thumbnail to render?
   # 
-  # @param [SolrDocument]
+  # @param [SolrDocument] document
   # @return [Boolean]
   def has_thumbnail? document
     blacklight_config.view_config(document_index_view_type).thumbnail_method.present? or
@@ -194,9 +195,9 @@ module Blacklight::CatalogHelperBehavior
   # Render the thumbnail, if available, for a document and
   # link it to the document record.
   # 
-  # @param [SolrDocument]
-  # @param [Hash] options to pass to the image tag
-  # @param [Hash] url options to pass to #link_to_document
+  # @param [SolrDocument] document
+  # @param [Hash] image_options to pass to the image tag
+  # @param [Hash] url_options to pass to #link_to_document
   # @return [String]
   def render_thumbnail_tag document, image_options = {}, url_options = {}
     value = if blacklight_config.view_config(document_index_view_type).thumbnail_method
@@ -219,7 +220,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Get the URL to a document's thumbnail image
   # 
-  # @param [SolrDocument]
+  # @param [SolrDocument] document
   # @return [String]
   def thumbnail_url document
     if document.has? blacklight_config.view_config(document_index_view_type).thumbnail_field
@@ -230,7 +231,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the view type icon for the results view picker
   # 
-  # @param [String]
+  # @param [String] view
   # @return [String]
   def render_view_type_group_icon view
     content_tag :span, '', class: "glyphicon #{blacklight_config.view[view].icon_class || default_view_type_group_icon_classes(view)}"
@@ -239,7 +240,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Get the default view type classes for a view in the results view picker
   #
-  # @param [String]
+  # @param [String] view
   # @return [String]
   def default_view_type_group_icon_classes view
     "glyphicon-#{view.to_s.parameterize} view-icon-#{view.to_s.parameterize}"

@@ -18,7 +18,6 @@ module Blacklight
     # Get the value of the document's "title" field, or a placeholder
     # value (if empty)
     #
-    # @param [SolrDocument] document
     # @return [String]
     # @deprecated use ShowPresenter#heading instead
     def document_heading
@@ -30,7 +29,7 @@ module Blacklight
     # Create <link rel="alternate"> links from a documents dynamically
     # provided export formats. Returns empty string if no links available.
     #
-    # @params [Hash] options
+    # @param [Hash] options
     # @option options [Boolean] :unique ensures only one link is output for every
     #     content type, e.g. as required by atom
     # @option options [Array<String>] :exclude array of format shortnames to not include in the output
@@ -55,8 +54,9 @@ module Blacklight
     ##
     # Render the document index heading
     #
-    # @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
-    # @param [Hash] opts
+    # @overload render_document_index_label(field, opts)
+    #   @param [Symbol, Proc, String] field Render the given field or evaluate the proc or render the given string
+    #   @param [Hash] opts
     # @deprecated use IndexPresenter#label instead
     def render_document_index_label(*args)
       index_presenter.label(*args)
@@ -68,9 +68,10 @@ module Blacklight
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [String] field
-    # @param [Hash] opts
-    # @options opts [String] :value
+    # @overload render_index_field_value(field, opts)
+    #   @param [String] field
+    #   @param [Hash] opts
+    #   @option opts [String] :value
     # @deprecated use IndexPresenter#field_value instead
     def render_index_field_value *args
       index_presenter.field_value(*args)
@@ -82,9 +83,11 @@ module Blacklight
     #
     #   Allow an extention point where information in the document
     #   may drive the value of the field
+    #
+    # @overload render_index_field_value(field, options)
     #   @param [String] field
     #   @param [Hash] options
-    #   @options opts [String] :value
+    #   @option options [String] :value
     #   @deprecated use ShowPresenter#field_value
     def render_document_show_field_value *args
       show_presenter.field_value(*args)
@@ -100,8 +103,8 @@ module Blacklight
     # Rendering:
     #   - helper_method
     #   - link_to_search
-    # @param [String] field name
-    # @param [Blacklight::Configuration::Field] solr field configuration
+    # @param [String] _field name
+    # @param [Blacklight::Configuration::Field] field_config solr field configuration
     # @param [Hash] options additional options to pass to the rendering helpers
     # @deprecated
     def get_field_values _field, field_config, options = {}
@@ -118,7 +121,7 @@ module Blacklight
     # Rendering:
     #   - helper_method
     #   - link_to_search
-    # @param [Blacklight::Configuration::Field] solr field configuration
+    # @param [Blacklight::Configuration::Field] field_config solr field configuration
     # @param [Hash] options additional options to pass to the rendering helpers
     def field_values(field_config, options={})
       FieldPresenter.new(@controller, @document, field_config, options).render

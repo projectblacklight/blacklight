@@ -36,8 +36,8 @@ module Blacklight::BlacklightHelperBehavior
   #
   # Returns empty string if no links available.
   #
-  # @params [SolrDocument] document
-  # @params [Hash] options
+  # @param [SolrDocument] document
+  # @param [Hash] options
   # @option options [Boolean] :unique ensures only one link is output for every
   #     content type, e.g. as required by atom
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output
@@ -122,13 +122,13 @@ module Blacklight::BlacklightHelperBehavior
   # @overload render_index_field_label(options)
   #   Use the default, document-agnostic configuration
   #   @param [Hash] opts
-  #   @options opts [String] :field
+  #   @option opts [String] :field
   # @overload render_index_field_label(document, options)
   #   Allow an extention point where information in the document
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field
+  #   @option opts [String] :field
   def render_index_field_label *args
     options = args.extract_options!
     document = args.first
@@ -143,23 +143,23 @@ module Blacklight::BlacklightHelperBehavior
   # @overload render_index_field_value(options)
   #   Use the default, document-agnostic configuration
   #   @param [Hash] opts
-  #   @options opts [String] :field
-  #   @options opts [String] :value
-  #   @options opts [String] :document
+  #   @option opts [String] :field
+  #   @option opts [String] :value
+  #   @option opts [String] :document
   # @overload render_index_field_value(document, options)
   #   Allow an extention point where information in the document
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field
-  #   @options opts [String] :value
+  #   @option opts [String] :field
+  #   @option opts [String] :value
   # @overload render_index_field_value(document, field, options)
   #   Allow an extention point where information in the document
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [String] field
   #   @param [Hash] opts
-  #   @options opts [String] :value
+  #   @option opts [String] :value
   # @deprecated use IndexPresenter#field_value
   def render_index_field_value *args
     render_field_value(*args)
@@ -182,13 +182,13 @@ module Blacklight::BlacklightHelperBehavior
   # @overload render_document_show_field_label(options)
   #   Use the default, document-agnostic configuration
   #   @param [Hash] opts
-  #   @options opts [String] :field
+  #   @option opts [String] :field
   # @overload render_document_show_field_label(document, options)
   #   Allow an extention point where information in the document
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field
+  #   @option opts [String] :field
   def render_document_show_field_label *args
     options = args.extract_options!
     document = args.first
@@ -204,23 +204,23 @@ module Blacklight::BlacklightHelperBehavior
   # @overload render_document_show_field_value(options)
   #   Use the default, document-agnostic configuration
   #   @param [Hash] opts
-  #   @options opts [String] :field
-  #   @options opts [String] :value
-  #   @options opts [String] :document
+  #   @option opts [String] :field
+  #   @option opts [String] :value
+  #   @option opts [String] :document
   # @overload render_document_show_field_value(document, options)
   #   Allow an extention point where information in the document
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
-  #   @options opts [String] :field
-  #   @options opts [String] :value
+  #   @option opts [String] :field
+  #   @option opts [String] :value
   # @overload render_document_show_field_value(document, field, options)
   #   Allow an extention point where information in the document
   #   may drive the value of the field
   #   @param [SolrDocument] doc
   #   @param [String] field
   #   @param [Hash] opts
-  #   @options opts [String] :value
+  #   @option opts [String] :value
   # @deprecated use ShowPresenter#field_value
   def render_document_show_field_value *args
     render_field_value(*args)
@@ -255,12 +255,12 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Render the document "heading" (title) in a content tag
   # @overload render_document_heading(document, options)
-  #   @params [SolrDocument] document
-  #   @params [Hash] options
-  #   @options options [Symbol] :tag
+  #   @param [SolrDocument] document
+  #   @param [Hash] options
+  #   @option options [Symbol] :tag
   # @overload render_document_heading(options)
-  #   @params [Hash] options
-  #   @options options [Symbol] :tag
+  #   @param [Hash] options
+  #   @option options [Symbol] :tag
   def render_document_heading(*args)
     options = args.extract_options!
     document = args.first
@@ -280,8 +280,8 @@ module Blacklight::BlacklightHelperBehavior
   #   - helper_method
   #   - link_to_search
   # @param [SolrDocument] document
-  # @param [String] field name
-  # @param [Blacklight::Configuration::Field] solr field configuration
+  # @param [String] _field name
+  # @param [Blacklight::Configuration::Field] field_config solr field configuration
   # @param [Hash] options additional options to pass to the rendering helpers
   def get_field_values document, _field, field_config, options = {}
     presenter(document).field_values field_config, options
@@ -291,7 +291,7 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Get the current "view type" (and ensure it is a valid type)
   #
-  # @param [Hash] the query parameters to check
+  # @param [Hash] query_params the query parameters to check
   # @return [Symbol]
   def document_index_view_type query_params=params
     view_param = query_params[:view]

@@ -5,7 +5,7 @@ module Blacklight::FacetsHelperBehavior
   ##
   # Check if any of the given fields have values
   #
-  # @param [Array<String>]
+  # @param [Array<String>] fields
   # @param [Hash] options
   # @return [Boolean]
   def has_facet_values? fields = facet_field_names, options = {}
@@ -16,7 +16,7 @@ module Blacklight::FacetsHelperBehavior
   # Render a collection of facet fields.
   # @see #render_facet_limit 
   # 
-  # @param [Array<String>]
+  # @param [Array<String>] fields
   # @param [Hash] options
   # @return String
   def render_facet_partials fields = facet_field_names, options = {}
@@ -92,7 +92,7 @@ module Blacklight::FacetsHelperBehavior
   #   - if the facet is configured to collapse (the default), collapse
   #   - if the facet is configured not to collapse, don't collapse
   # 
-  # @param [Blacklight::Configuration::FacetField]
+  # @param [Blacklight::Configuration::FacetField] facet_field
   # @return [Boolean]
   def should_collapse_facet? facet_field
     !facet_field_in_params?(facet_field.field) && facet_field.collapse
@@ -117,8 +117,8 @@ module Blacklight::FacetsHelperBehavior
   # partial and catalog/facet expanded list. Will output facet value name as
   # a link to add that to your restrictions, with count in parens.
   #
-  # @param [Blacklight::Solr::Response::Facets::FacetField]
-  # @param [String] facet item
+  # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
+  # @param [String] item
   # @param [Hash] options
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
   # @return [String]
@@ -131,8 +131,8 @@ module Blacklight::FacetsHelperBehavior
 
   ##
   # Where should this facet link to?
-  # @param [Blacklight::Solr::Response::Facets::FacetField]
-  # @param [String] facet item
+  # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
+  # @param [String] item
   # @return [String]
   def path_for_facet(facet_field, item)
     facet_config = facet_configuration_for_field(facet_field)
@@ -145,7 +145,9 @@ module Blacklight::FacetsHelperBehavior
 
   ##
   # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
-  # @params (see #render_facet_value)
+  # @see #render_facet_value
+  # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
+  # @param [String] item
   def render_selected_facet_value(facet_field, item)
     remove_href = search_action_path(search_state.remove_facet_params(facet_field, item))
     content_tag(:span, class: "facet-label") do
@@ -162,7 +164,7 @@ module Blacklight::FacetsHelperBehavior
   # Renders a count value for facet limits. Can be over-ridden locally
   # to change style. And can be called by plugins to get consistent display. 
   #
-  # @param [Integer] number of facet results
+  # @param [Integer] num number of facet results
   # @param [Hash] options
   # @option options [Array<String>]  an array of classes to add to count span.
   # @return [String]
@@ -174,7 +176,7 @@ module Blacklight::FacetsHelperBehavior
   ##
   # Are any facet restrictions for a field in the query parameters?
   # 
-  # @param [String] facet field
+  # @param [String] field
   # @return [Boolean]
   def facet_field_in_params? field
     !facet_params(field).blank?
@@ -184,8 +186,8 @@ module Blacklight::FacetsHelperBehavior
   # Check if the query parameters have the given facet field with the 
   # given value.
   # 
-  # @param [Object] facet field
-  # @param [Object] facet value
+  # @param [Object] field
+  # @param [Object] item facet value
   # @return [Boolean]
   def facet_in_params?(field, item)
     value = facet_value_for_facet_item(item)

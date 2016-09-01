@@ -4,8 +4,8 @@ module Blacklight::Solr
 
     ##
     # Find a single solr document result (by id) using the document configuration
-    # @param [String] document's unique key value
-    # @param [Hash] additional solr query parameters
+    # @param [String] id document's unique key value
+    # @param [Hash] params additional solr query parameters
     def find id, params = {}
       doc_params = params.reverse_merge(blacklight_config.default_document_solr_params)
                          .reverse_merge(qt: blacklight_config.document_solr_request_handler)
@@ -18,7 +18,7 @@ module Blacklight::Solr
 
     ##
     # Execute a search query against solr
-    # @param [Hash] solr query parameters
+    # @param [Hash] params solr query parameters
     def search params = {}
       send_and_receive blacklight_config.solr_path, params.reverse_merge(qt: blacklight_config.qt)
     end

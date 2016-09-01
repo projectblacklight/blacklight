@@ -95,7 +95,7 @@ module Blacklight::Solr::Response::Facets
     @facet_counts ||= self['facet_counts'] || {}
   end
 
-  # Returns the hash of all the facet_fields (ie: {'instock_b' => ['true', 123, 'false', 20]}
+  # Returns the hash of all the facet_fields (ie: { 'instock_b' => ['true', 123, 'false', 20] }
   def facet_fields
     @facet_fields ||= begin
       val = facet_counts['facet_fields'] || {}

@@ -11,8 +11,12 @@ module Blacklight
 
     attr_reader :processor_chain, :blacklight_params
 
-    # @param [List<Symbol>,TrueClass] options a list of filter methods to run or true, to use the default methods
-    # @param [Object] scope the scope where the filter methods reside in.
+    
+    # @overload initialize(scope)
+    #   @param [Object] scope scope the scope where the filter methods reside in.    
+    # @overload initialize(processor_chain, scope)
+    #   @param [List<Symbol>,TrueClass] processor_chain options a list of filter methods to run or true, to use the default methods
+    #   @param [Object] scope scope the scope where the filter methods reside in.
     def initialize(*options)
       @scope = case options.size
       when 1
@@ -109,7 +113,6 @@ module Blacklight
     delegate :[], :key?, to: :to_hash
 
     # a solr query method
-    # @param [Hash] extra_controller_params (nil) extra parameters to add to the search
     # @return [Blacklight::Solr::Response] the solr response object
     def to_hash
       return @params unless params_need_update?
@@ -122,7 +125,6 @@ module Blacklight
     alias_method :query, :to_hash
     alias_method :to_h, :to_hash
 
-    # @returns a params hash for searching solr.
     # The CatalogController #index action uses this.
     # Solr parameters can come from a number of places. From lowest
     # precedence to highest:
@@ -137,6 +139,8 @@ module Blacklight
     # specified otherwise.
     #
     # Incoming parameter :f is mapped to :fq solr parameter.
+    #
+    # @return a params hash for searching solr.
     def processed_parameters
       request.tap do |request_parameters|
         processor_chain.each do |method_name|

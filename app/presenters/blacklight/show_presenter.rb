@@ -7,7 +7,7 @@ module Blacklight
     attr_reader :document, :configuration, :view_context
 
     # @param [SolrDocument] document
-    # @param [ActionView::Base] view context scope for linking and generating urls
+    # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
     def initialize(document, view_context, configuration = view_context.blacklight_config)
       @document = document
@@ -19,7 +19,7 @@ module Blacklight
     # Create <link rel="alternate"> links from a documents dynamically
     # provided export formats. Returns empty string if no links available.
     #
-    # @params [Hash] options
+    # @param [Hash] options
     # @option options [Boolean] :unique ensures only one link is output for every
     #     content type, e.g. as required by atom
     # @option options [Array<String>] :exclude array of format shortnames to not include in the output
@@ -55,7 +55,6 @@ module Blacklight
     # Get the value of the document's "title" field, or a placeholder
     # value (if empty)
     #
-    # @param [SolrDocument] document
     # @return [String]
     def heading
       fields = Array.wrap(view_config.title_field)
@@ -77,7 +76,7 @@ module Blacklight
     # may drive the value of the field
     # @param [String] field
     # @param [Hash] options
-    # @options opts [String] :value
+    # @option options [String] :value
     def field_value field, options={}
       field_values(field_config(field), options)
     end
@@ -117,7 +116,7 @@ module Blacklight
       # Rendering:
       #   - helper_method
       #   - link_to_search
-      # @param [Blacklight::Configuration::Field] solr field configuration
+      # @param [Blacklight::Configuration::Field] field_config solr field configuration
       # @param [Hash] options additional options to pass to the rendering helpers
       def field_values(field_config, options={})
         FieldPresenter.new(view_context, document, field_config, options).render
