@@ -1,4 +1,6 @@
 --protected
+--exclude lib/generators/blacklight/templates/
 -
-app/**/*.rb
+README.md
+LICENSE
 

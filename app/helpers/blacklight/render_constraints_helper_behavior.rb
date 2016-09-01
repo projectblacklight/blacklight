@@ -10,7 +10,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   ##
   # Check if the query has any constraints defined (a query, facet, etc)
   #
-  # @param [Hash] query parameters
+  # @param [Hash] localized_params query parameters
   # @return [Boolean]
   def query_has_constraints?(localized_params = params)
     !(localized_params[:q].blank? and localized_params[:f].blank?)
@@ -20,7 +20,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # Render the actual constraints, not including header or footer
   # info.
   #
-  # @param [Hash] query parameters
+  # @param [Hash] localized_params query parameters
   # @return [String]
   def render_constraints(localized_params = params)
     render_constraints_query(localized_params) + render_constraints_filters(localized_params)
@@ -29,7 +29,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   ##
   # Render the query constraints
   #
-  # @param [ActionController::Parameters] query parameters
+  # @param [ActionController::Parameters] localized_params query parameters
   # @return [String]
   def render_constraints_query(localized_params = params)
     # So simple don't need a view template, we can just do it here.

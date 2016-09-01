@@ -147,7 +147,7 @@ module Blacklight::UrlHelperBehavior
 
   # Get url parameters to a search within a grouped result set
   #
-  # @param [Blacklight::Solr::Response::Group]
+  # @param [Blacklight::Solr::Response::Group] group
   # @return [Hash]
   def add_group_facet_params_and_redirect group
     search_state.add_facet_params_and_redirect(group.field, group.key)

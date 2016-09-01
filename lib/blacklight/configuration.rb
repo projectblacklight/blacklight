@@ -264,10 +264,8 @@ module Blacklight
     # Add any configured facet fields to the default solr parameters hash
     # @overload add_facet_fields_to_solr_request!
     #    add all facet fields to the solr request
-    # @overload add_facet_fields_to_solr_request! field, field, field
-    # @param [Symbol] Field names to add to the solr request
-    # @param [Symbol]
-    # @param [Symbol]
+    # @overload add_facet_fields_to_solr_request! field, field, etc
+    #   @param [Symbol] field Field names to add to the solr request
     def add_facet_fields_to_solr_request!(*fields)
       if fields.empty?
         self.add_facet_fields_to_solr_request = true
@@ -282,10 +280,8 @@ module Blacklight
     # Add any configured facet fields to the default solr parameters hash
     # @overload add_field_configuration_to_solr_request!
     #    add all index, show, and facet fields to the solr request
-    # @overload add_field_configuration_to_solr_request! field, field, field
-    # @param [Symbol] Field names to add to the solr request
-    # @param [Symbol]
-    # @param [Symbol]
+    # @overload add_field_configuration_to_solr_request! field, field, etc
+    #   @param [Symbol] field Field names to add to the solr request
     def add_field_configuration_to_solr_request!(*fields)
       if fields.empty?
         self.add_field_configuration_to_solr_request = true

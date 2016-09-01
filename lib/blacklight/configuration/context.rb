@@ -11,7 +11,7 @@ module Blacklight
       ##
       # Evaluate conditionals for a configuration with if/unless attributes
       #
-      # @param displayable_config [#if,#unless] an object that responds to if/unless
+      # @param [#if,#unless] config an object that responds to if/unless
       # @return [Boolean]
       def evaluate_if_unless_configuration(config, *args)
         return config if config == true or config == false

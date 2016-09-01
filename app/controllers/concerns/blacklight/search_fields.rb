@@ -13,9 +13,9 @@
 # [:qt]
 #   "search", # Solr qt param, request handler, usually can be left blank; defaults to nil if not explicitly specified
 # [:solr_parameters]
-#   {:qf => "something"} # optional hash of additional parameters to pass to solr for searches on this field.
+#   { :qf => "something" } # optional hash of additional parameters to pass to solr for searches on this field.
 # [:solr_local_parameters]
-#   {:qf => "$something"} # optional hash of additional parameters that will be passed using Solr LocalParams syntax, that can use dollar sign to reference other solr variables.
+#   { :qf => "$something" } # optional hash of additional parameters that will be passed using Solr LocalParams syntax, that can use dollar sign to reference other solr variables.
 # [:include_in_simple_select]
 #   false.  Defaults to true, but you can set to false to have a search field defined for deep-links or BL extensions, but not actually included in the HTML select for simple search choice.
 # 

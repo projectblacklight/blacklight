@@ -3,7 +3,7 @@ module Blacklight::RenderPartialsHelper
   ##
   # Render the document index view
   #
-  # @param [Array<SolrDocument>] list of documents to render
+  # @param [Array<SolrDocument>] documents list of documents to render
   # @param [Hash] locals to pass to the render call
   # @return [String]
   def render_document_index documents = nil, locals = {}
@@ -19,9 +19,11 @@ module Blacklight::RenderPartialsHelper
 
   ##
   # Return the list of partials for a given solr document
-  # @param [SolrDocument]
-  # @return [String]
-  def render_document_partials(doc, partials = [], locals ={})
+  # @param [SolrDocument] doc solr document to render partials for
+  # @param [Array<String>] partials list of partials to render
+  # @param [Hash] locals local variables to pass to the render call
+  # @return [String] 
+  def render_document_partials(doc, partials = [], locals = {})
     safe_join(partials.map do |action_name|
       render_document_partial(doc, action_name, locals)
     end, "\n")
@@ -37,8 +39,8 @@ module Blacklight::RenderPartialsHelper
   # @see #document_partial_path_templates
   #
   # @param [SolrDocument] doc
-  # @param [String] base name for the partial
-  # @param [Hash] locales to pass through to the partials
+  # @param [String] base_name base name for the partial
+  # @param [Hash] locals local variables to pass through to the partials
   def render_document_partial(doc, base_name, locals = {})
     format = document_partial_name(doc, base_name)
 
@@ -63,7 +65,7 @@ module Blacklight::RenderPartialsHelper
   # @see #document_index_path_templates
   #
   # @param [String] view type
-  # @param [Array<SolrDocument>] list of documents to render
+  # @param [Array<SolrDocument>] documents list of documents to render
   # @param [Hash] locals to pass to the render call
   # @return [String]
   def render_document_index_with_view view, documents, locals = {}
@@ -126,8 +128,8 @@ module Blacklight::RenderPartialsHelper
     ##
     # Return a normalized partial name for rendering a single document
     #
-    # @param [SolrDocument]
-    # @param [Symbol] base name for the partial
+    # @param [SolrDocument] document
+    # @param [Symbol] base_name base name for the partial
     # @return [String]
     def document_partial_name(document, base_name = nil)
       view_config = blacklight_config.view_config(:show)
@@ -190,9 +192,8 @@ module Blacklight::RenderPartialsHelper
     end
 
     ##
-    # @param [Symbol] page the page type, either :index or :show
-    # @param [String] type the type of object
-    # @block the block to evaluate if the cache misses
+    # @param key fetches or writes data to a cache, using the given key.
+    # @yield the block to evaluate (and cache) if there is a cache miss
     def cached_view key
       @view_cache ||= {}
       if @view_cache.key?(key)

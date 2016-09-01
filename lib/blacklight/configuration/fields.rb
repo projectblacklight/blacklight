@@ -39,11 +39,19 @@ module Blacklight
       #
       # * a field name and block format:
       #
+      # @overload add_blacklight_field(config_key, field_key)
+      #   @param [Symbol] config_key
+      #   @param [Symbol,String] field_key
+      #
+      #
       #     add_blacklight_field :index_field, 'format' do |field|
       #       field.label = 'Format'
       #     end
       #
       # * a plain block:
+      #
+      # @overload add_blacklight_field(config_key)
+      #   @param [Symbol] config_key
       #
       #     add_blacklight_field :index_field do |field|
       #       field.field = 'format'
@@ -52,20 +60,28 @@ module Blacklight
       # 
       # * a configuration hash:
       #
+      # @overload add_blacklight_field(config_key, options)
+      #   @param [Symbol] config_key
+      #   @param [Hash] options
+      #
       #     add_blacklight_field :index_field, :field => 'format', :label => 'Format'
       #   
       # * a Field instance: 
+      #
+      # @overload add_blacklight_field(config_key, field)
+      #   @param [Symbol] config_key
+      #   @param [Blacklight::Configuration::Field] field
+      #
       #
       #     add_blacklight_field :index_field, IndexField.new(:field => 'format', :label => 'Format')
       #
       # * an array of hashes: 
       #
-      #     add_blacklight_field :index_field, [{:field => 'format', :label => 'Format'}, IndexField.new(:field => 'date', :label => 'Date')]
+      # @overload add_blacklight_field(config_key, fields)
+      #   @param [Symbol] config_key
+      #   @param [Array<Blacklight::Configuration::Field, Hash>] fields
       #
-      #
-      # @param String config_key 
-      # @param Array *args 
-      # @para
+      #     add_blacklight_field :index_field, [{ :field => 'format', :label => 'Format' }, IndexField.new(:field => 'date', :label => 'Date')]
       #
       def add_blacklight_field config_key, *args, &block
         field_config = case args.first

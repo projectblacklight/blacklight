@@ -15,7 +15,7 @@ module Blacklight::HashAsHiddenFieldsHelperBehavior
   # Writes out zero or more <input type="hidden"> elements, completely
   # representing a hash passed in using Rails-style request parameters
   # for hashes nested with arrays and other hashes.
-  # @param [Hash]
+  # @param [Hash] hash
   # @return [String] 
   def render_hash_as_hidden_fields(hash)
     
