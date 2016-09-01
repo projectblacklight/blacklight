@@ -10,7 +10,6 @@
 # This is used to serialize a complete current query from current params
 # to form fields used for sort and change per-page
 module Blacklight::HashAsHiddenFieldsHelperBehavior
-
   ##
   # Writes out zero or more <input type="hidden"> elements, completely
   # representing a hash passed in using Rails-style request parameters

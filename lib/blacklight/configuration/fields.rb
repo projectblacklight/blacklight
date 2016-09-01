@@ -7,7 +7,6 @@ module Blacklight
       extend ActiveSupport::Concern
 
       module ClassMethods
-
         # Add a configuration block for a collection of solr fields
         def define_field_access(key, options = {})
           key = key.to_s if respond_to? :to_s
@@ -137,6 +136,7 @@ module Blacklight
       end
 
       protected
+
       def luke_fields
         if @table[:luke_fields] == false
           return nil
@@ -195,6 +195,7 @@ module Blacklight
       end
 
       private
+
       # convert a config key to the appropriate Field class
       def field_class_from_key key
         "Blacklight::Configuration::#{key.camelcase}".constantize

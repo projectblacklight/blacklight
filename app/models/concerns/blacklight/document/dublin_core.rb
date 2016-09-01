@@ -3,7 +3,6 @@ require 'builder'
 
 # This module provide Dublin Core export based on the document's semantic values
 module Blacklight::Document::DublinCore
-
   def self.extended(document)
     # Register our exportable formats
     Blacklight::Document::DublinCore.register_export_formats( document )

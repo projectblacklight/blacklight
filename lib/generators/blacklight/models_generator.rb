@@ -19,7 +19,6 @@ module Blacklight
       copy_file "config/blacklight.yml", "config/blacklight.yml"
     end
 
-
     # Setup the database migrations
     def copy_migrations
       rake "blacklight:install:migrations"
@@ -43,7 +42,5 @@ module Blacklight
   end
       EOF
     end
-
-
   end
 end

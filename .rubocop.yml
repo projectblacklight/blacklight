@@ -1,3 +1,5 @@
+require: rubocop-rspec
+
 inherit_from:
   - .rubocop_todo.yml
 
@@ -16,4 +18,7 @@ Style/StringLiterals:
   Enabled: false
 
 Style/IndentationConsistency:
+  Enabled: false
+
+Rails/OutputSafety:
   Enabled: false

@@ -22,5 +22,4 @@ class RecordMailer < ActionMailer::Base
     @url_gen_params = url_gen_params
     mail(:to => details[:to], :subject => "")
   end
-
 end

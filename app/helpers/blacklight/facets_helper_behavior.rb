@@ -25,7 +25,6 @@ module Blacklight::FacetsHelperBehavior
     end.compact, "\n")
   end
 
-
   ##
   # Renders a single section for facet limit with a specified
   # solr field used for faceting. Can be over-ridden for custom
@@ -56,10 +55,7 @@ module Blacklight::FacetsHelperBehavior
   # removes any elements where render_facet_item returns a nil value. This enables an application
   # to filter undesireable facet items so they don't appear in the UI
   def render_facet_limit_list(paginator, facet_field, wrapping_element=:li)
-    safe_join(paginator.items.
-      map { |item| render_facet_item(facet_field, item) }.compact.
-      map { |item| content_tag(wrapping_element,item)}
-    )
+    safe_join(paginator.items.map { |item| render_facet_item(facet_field, item) }.compact.map { |item| content_tag(wrapping_element,item)})
   end
 
   ##
@@ -83,7 +79,7 @@ module Blacklight::FacetsHelperBehavior
     # display when show is nil or true
     facet_config = facet_configuration_for_field(display_facet.name)
     display = should_render_field?(facet_config, display_facet)
-    return display && display_facet.items.present?
+    display && display_facet.items.present?
   end
 
   ##
@@ -218,14 +214,13 @@ module Blacklight::FacetsHelperBehavior
       facet_value_for_facet_item(item)
     end
 
-    case
-    when facet_config.helper_method
+    if facet_config.helper_method
       send facet_config.helper_method, value
-    when (facet_config.query and facet_config.query[value])
+    elsif facet_config.query && facet_config.query[value]
       facet_config.query[value][:label]
-    when facet_config.date
-      localization_options = {}
-      localization_options = facet_config.date unless facet_config.date == true
+    elsif facet_config.date
+      localization_options = facet_config.date == true ? {} : facet_config.date
+
       l(value.to_datetime, localization_options)
     else
       value
@@ -245,5 +240,4 @@ module Blacklight::FacetsHelperBehavior
       item
     end
   end
-
 end

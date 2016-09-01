@@ -16,6 +16,5 @@ module Blacklight
     def create_search_builder
       template "search_builder.rb", "app/models/#{model_name}.rb"
     end
-
   end
 end

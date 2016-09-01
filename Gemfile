@@ -3,9 +3,6 @@ source 'https://rubygems.org'
 # Please see blacklight.gemspec for dependency information.
 gemspec path: File.expand_path('..', __FILE__)
 
-gem 'simplecov', '~> 0.10', require: false
-gem 'coveralls', require: false
-
 group :test do
   gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
 end

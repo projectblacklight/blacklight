@@ -96,8 +96,8 @@ module Blacklight::RenderPartialsHelper
     ]
   end
 
-
   protected
+
     ##
     # Return a partial name for rendering a document
     # this method can be overridden in order to transform the value

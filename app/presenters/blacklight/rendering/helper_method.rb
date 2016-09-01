@@ -2,8 +2,11 @@ module Blacklight
   module Rendering
     class HelperMethod < AbstractStep
       def render
-        return next_step(values) unless config.helper_method
-        return render_helper # short circut the rest of the steps
+        if config.helper_method
+          render_helper # short circut the rest of the steps
+        else  
+          next_step(values)
+        end
       end
 
       private
@@ -18,6 +21,3 @@ module Blacklight
     end
   end
 end
-
-
-

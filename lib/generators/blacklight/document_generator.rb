@@ -17,6 +17,5 @@ module Blacklight
     def create_solr_document
       template "solr_document.rb", "app/models/#{model_name}.rb"
     end
-
   end
 end

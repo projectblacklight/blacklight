@@ -51,9 +51,7 @@ module Blacklight
     end
     deprecation_deprecate :remove_facet_params
 
-    def add_facet_params_and_redirect(field, item)
-      search_state.add_facet_params_and_redirect(field, item)
-    end
+    delegate :add_facet_params_and_redirect, to: :search_state
     deprecation_deprecate :add_facet_params_and_redirect
   end
 end

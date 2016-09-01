@@ -14,6 +14,6 @@ module Blacklight::Solr::Response::Response
   end
 
   def empty?
-    total == 0
+    total.zero?
   end
 end

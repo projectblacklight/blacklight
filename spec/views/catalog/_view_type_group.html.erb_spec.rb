@@ -2,6 +2,7 @@
 
 describe "catalog/_view_type_group" do
   let(:blacklight_config) { Blacklight::Configuration.new }
+  let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
 
   before do
     allow(view).to receive(:view_label) do |view|
@@ -9,16 +10,16 @@ describe "catalog/_view_type_group" do
     end
     allow(view).to receive_messages(how_sort_and_per_page?: true, blacklight_config: blacklight_config)
     controller.request.path_parameters[:action] = 'index'
+    assign(:response, response)
   end
 
   it "does not display the group when there's only one option" do
-    assign(:response, [])
+    allow(response).to receive_messages(empty?: true)
     render partial: 'catalog/view_type_group'
     expect(rendered).to be_empty
   end
 
   it "displays the group" do
-    assign(:response, [double])
     blacklight_config.configure do |config|
       config.view.delete(:list)
       config.view.a
@@ -33,7 +34,6 @@ describe "catalog/_view_type_group" do
   end
 
   it "sets the current view to 'active'" do
-    assign(:response, [double])
     blacklight_config.configure do |config|
       config.view.delete(:list)
       config.view.a

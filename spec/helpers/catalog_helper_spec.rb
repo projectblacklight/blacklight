@@ -188,32 +188,32 @@ describe CatalogHelper do
   end
 
   describe "has_thumbnail?" do
+    let(:document) { instance_double(SolrDocument) }
     it "has a thumbnail if a thumbnail_method is configured" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
-      document = double()
       expect(helper.has_thumbnail? document).to be true
     end
 
     it "has a thumbnail if a thumbnail_field is configured and it exists in the document" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
-      document = double(:has? => true)
+      allow(document).to receive_messages(has?: true)
       expect(helper.has_thumbnail? document).to be true
     end
     
     it "does not have a thumbnail if the thumbnail_field is missing from the document" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
-      document = double(:has? => false)
+      allow(document).to receive_messages(has?: false)
       expect(helper.has_thumbnail? document).to be false
     end
 
     it "does not have a thumbnail if none of the fields are configured" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
-      expect(helper.has_thumbnail? double()).to be_falsey
+      expect(helper.has_thumbnail? document).to be_falsey
     end
   end
 
   describe "render_thumbnail_tag" do
-    let(:document) { double }
+    let(:document) { instance_double(SolrDocument) }
     it "calls the provided thumbnail method" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
       expect(helper).to receive_messages(:xyz => "some-thumbnail")
@@ -273,7 +273,7 @@ describe CatalogHelper do
   describe "thumbnail_url" do
     it "pulls the configured thumbnail field out of the document" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
-      document = double()
+      document = instance_double(SolrDocument)
       allow(document).to receive(:has?).with(:xyz).and_return(true)
       allow(document).to receive(:first).with(:xyz).and_return("asdf")
       expect(helper.thumbnail_url document).to eq("asdf")
@@ -281,7 +281,7 @@ describe CatalogHelper do
 
     it "returns nil if the thumbnail field doesn't exist" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
-      document = double()
+      document = instance_double(SolrDocument)
       allow(document).to receive(:has?).with(:xyz).and_return(false)
       expect(helper.thumbnail_url document).to be_nil
     end
@@ -289,19 +289,19 @@ describe CatalogHelper do
 
   describe "document_counter_with_offset" do
     it "renders the document index with the appropriate offset" do
-      assign(:response, double(start: 0, grouped?: false))
+      assign(:response, instance_double(Blacklight::Solr::Response, start: 0, grouped?: false))
       expect(helper.document_counter_with_offset(0)).to be(1)
       expect(helper.document_counter_with_offset(1)).to be(2)
     end
 
     it "renders the document index with the appropriate offset" do
-      assign(:response, double(start: 10, grouped?: false))
+      assign(:response, instance_double(Blacklight::Solr::Response, start: 10, grouped?: false))
       expect(helper.document_counter_with_offset(0)).to be(11)
       expect(helper.document_counter_with_offset(1)).to be(12)
     end
 
     it "does not provide a counter for grouped responses" do
-      assign(:response, double(start: 10, grouped?: true))
+      assign(:response, instance_double(Blacklight::Solr::Response, start: 10, grouped?: true))
       expect(helper.document_counter_with_offset(0)).to be_nil
     end
   end

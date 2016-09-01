@@ -370,23 +370,21 @@ describe Blacklight::SearchHelper do
 
     describe "for 'true' configured values" do
       let(:blacklight_config) do
-        config = Blacklight::Configuration.new
-        config.add_facet_field "language_facet", limit: true
-        config
+        Blacklight::Configuration.new do |config|
+          config.add_facet_field "language_facet", limit: true
+        end
       end
       it "returns nil if no @response available" do
         expect(subject.facet_limit_for("some_unknown_field")).to be_nil
       end
       it "gets from @response facet.limit if available" do        
-        @response = double()
-        allow(@response).to receive(:aggregations).and_return("language_facet" => double(limit: nil))
+        @response = instance_double(Blacklight::Solr::Response, aggregations: { "language_facet" => double(limit: nil) })
         subject.instance_variable_set(:@response, @response)
         blacklight_config.facet_fields['language_facet'].limit = 10
         expect(subject.facet_limit_for("language_facet")).to eq 10
       end
       it "gets the limit from the facet field in @response" do
-        @response = double()
-        allow(@response).to receive(:aggregations).and_return("language_facet" => double(limit: 16))
+        @response = instance_double(Blacklight::Solr::Response, aggregations: { "language_facet" => double(limit: 16) })
         subject.instance_variable_set(:@response, @response)
         expect(subject.facet_limit_for("language_facet")).to eq 15
       end

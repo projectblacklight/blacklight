@@ -103,6 +103,7 @@ module Blacklight::Catalog
     end
 
     protected
+
     #
     # non-routable methods ->
     #
@@ -206,14 +207,13 @@ module Blacklight::Catalog
      end
 
     def validate_sms_params
-      case
-      when params[:to].blank?
+      if params[:to].blank?
         flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
-      when params[:carrier].blank?
+      elsif params[:carrier].blank?
         flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
-      when params[:to].gsub(/[^\d]/, '').length != 10
+      elsif params[:to].gsub(/[^\d]/, '').length != 10
         flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
-      when !sms_mappings.values.include?(params[:carrier])
+      elsif !sms_mappings.values.include?(params[:carrier])
         flash[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
       end
 
@@ -225,10 +225,9 @@ module Blacklight::Catalog
     end
 
     def validate_email_params
-      case
-      when params[:to].blank?
+      if params[:to].blank?
         flash[:error] = I18n.t('blacklight.email.errors.to.blank')
-      when !params[:to].match(defined?(Devise) ? Devise.email_regexp : /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+      elsif !params[:to].match(defined?(Devise) ? Devise.email_regexp : /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
         flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
       end
 

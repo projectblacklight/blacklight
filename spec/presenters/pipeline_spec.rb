@@ -2,7 +2,7 @@
 
 describe Blacklight::Rendering::Pipeline do
   include Capybara::RSpecMatchers
-  let(:document) { double }
+  let(:document) { instance_double(SolrDocument) }
   let(:context) { double }
   let(:options) { double }
   let(:presenter) { described_class.new(values, field_config, document, context, options) }

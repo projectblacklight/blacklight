@@ -42,4 +42,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "poltergeist"
   s.add_development_dependency 'engine_cart', '~> 0.10'
   s.add_development_dependency "equivalent-xml"
+  s.add_development_dependency "coveralls"
+  s.add_development_dependency "simplecov"
+  s.add_development_dependency "rubocop"
+  s.add_development_dependency "rubocop-rspec"
 end

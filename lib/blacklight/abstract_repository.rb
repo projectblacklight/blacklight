@@ -33,6 +33,7 @@ module Blacklight
     end
 
     protected
+
       def connection_config
         blacklight_config.connection_config
       end

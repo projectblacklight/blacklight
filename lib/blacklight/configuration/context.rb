@@ -32,7 +32,7 @@ module Blacklight
         when Symbol
           arity = context.method(proc_helper_or_boolean).arity
 
-          if arity == 0
+          if arity.zero?
             context.send(proc_helper_or_boolean)
           else
             context.send(proc_helper_or_boolean, *args_for_procs_and_methods)

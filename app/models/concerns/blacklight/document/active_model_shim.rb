@@ -70,6 +70,5 @@ module Blacklight::Document
     def to_partial_path
       'catalog/document'
     end
-
   end
 end

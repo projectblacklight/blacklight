@@ -6,7 +6,6 @@
 # Includes methods for rendering contraints graphically on the
 # search results page (render_constraints(_*))
 module Blacklight::RenderConstraintsHelperBehavior
-
   ##
   # Check if the query has any constraints defined (a query, facet, etc)
   #

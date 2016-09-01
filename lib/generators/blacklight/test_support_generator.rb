@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # Copy Blacklight test support material in place
 
-
 # Need the requires here so we can call the generator from environment.rb
 # as suggested above. 
 require 'rails/generators'

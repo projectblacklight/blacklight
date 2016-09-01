@@ -2,7 +2,6 @@
 # Filters added to this controller apply to all controllers in the hosting application
 # as this module is mixed-in to the application controller in the hosting app on installation.
 module Blacklight::Controller
-
   extend ActiveSupport::Concern
 
   included do
@@ -25,21 +24,17 @@ module Blacklight::Controller
     helper_method :search_action_url, :search_action_path, :search_facet_url
     helper_method :search_state
 
-
     # This callback runs when a user first logs in
 
     define_callbacks :logging_in_user
     set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user
-
   end
 
   def default_catalog_controller
     CatalogController
   end
 
-  def blacklight_config
-    default_catalog_controller.blacklight_config
-  end
+  delegate :blacklight_config, to: :default_catalog_controller
 
     protected
 

@@ -92,7 +92,7 @@ module Blacklight
       raise("#{blacklight_config_file} was found, but was blank or malformed.\n")
     end
 
-    return @blacklight_yml
+    @blacklight_yml
   end
 
   def self.logger

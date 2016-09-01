@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 describe CatalogController do
   let(:doc_id) { '2007020969' }
-  let(:mock_response) { double() }
-  let(:mock_document) { double() }
+  let(:mock_response) { instance_double(Blacklight::Solr::Response) }
+  let(:mock_document) { instance_double(SolrDocument) }
 
   describe "index action" do
     context "with format :html" do
@@ -370,7 +370,7 @@ describe CatalogController do
   end
 
   describe "email/sms" do
-    let(:mock_response) { double(documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
+    let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
       allow(controller).to receive_messages(find: mock_response)
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"

@@ -4,13 +4,11 @@
 # response.spelling.words
 #
 module Blacklight::Solr::Response::Spelling
-
   def spelling
     @spelling ||= Base.new(self)
   end
 
   class Base
-
     attr_reader :response
 
     def initialize(response)
@@ -88,7 +86,5 @@ module Blacklight::Solr::Response::Spelling
           end
         end
     end
-
   end
-
 end

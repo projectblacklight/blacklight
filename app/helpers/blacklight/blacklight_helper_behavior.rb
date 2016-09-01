@@ -227,7 +227,6 @@ module Blacklight::BlacklightHelperBehavior
   end
   deprecation_deprecate render_document_show_field_value: 'replaced by ShowPresenter#field_value'
 
-
   ##
   # Get the value of the document's "title" field, or a placeholder
   # value (if empty)
@@ -324,7 +323,7 @@ module Blacklight::BlacklightHelperBehavior
   # Should we render a grouped response (because the response
   # contains a grouped response instead of the normal response)
   def render_grouped_response? response = @response
-    return response.grouped?
+    response.grouped?
   end
 
   ##

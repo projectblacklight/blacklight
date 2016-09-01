@@ -6,7 +6,6 @@
 # Includes methods for rendering more textually on Search History page
 # (render_search_to_s(_*))
 module Blacklight::SearchHistoryConstraintsHelperBehavior
-
   # Simpler textual version of constraints, used on Search History page.
   # Theoretically can may be DRY'd up with results page render_constraints,
   # maybe even using the very same HTML with different CSS? 
@@ -35,8 +34,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
       render_search_to_s_element(facet_field_label(facet_field),
         safe_join(value_list.collect do |value|
           render_filter_value(value, facet_field)
-        end, content_tag(:span, " #{t('blacklight.and')} ", :class =>'filterSeparator'))
-      )    
+        end, content_tag(:span, " #{t('blacklight.and')} ", :class =>'filterSeparator')))    
     end, " \n ")
   end
 
@@ -61,5 +59,4 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     display_value = facet_display_value(key, value) if key
     content_tag(:span, h(display_value), :class => 'filterValue')
   end
-
 end

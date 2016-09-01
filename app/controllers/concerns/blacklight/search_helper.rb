@@ -53,15 +53,14 @@ module Blacklight::SearchHelper
   def search_results(user_params)
     builder = search_builder.with(user_params)
     builder.page = user_params[:page] if user_params[:page]
-    builder.rows = (user_params[:per_page] || user_params[:rows]) if (user_params[:per_page] || user_params[:rows])
+    builder.rows = (user_params[:per_page] || user_params[:rows]) if user_params[:per_page] || user_params[:rows]
 
     builder = yield(builder) if block_given?
     response = repository.search(builder)
 
-    case
-    when (response.grouped? && grouped_key_for_results)
+    if response.grouped? && grouped_key_for_results
       [response.group(grouped_key_for_results), []]
-    when (response.grouped? && response.grouped.length == 1)
+    elsif response.grouped? && response.grouped.length == 1
       [response.grouped.first, []]
     else
       [response, response.documents]
@@ -122,9 +121,7 @@ module Blacklight::SearchHelper
     blacklight_config.index.group
   end
 
-  def repository_class
-    blacklight_config.repository_class
-  end
+  delegate :repository_class, to: :blacklight_config
 
   def repository
     repository_class.new(blacklight_config)

@@ -149,9 +149,7 @@ module Blacklight
       end
     end
 
-    def blacklight_config
-      scope.blacklight_config
-    end
+    delegate :blacklight_config, to: :scope
 
     def start=(value)
       params_will_change!
@@ -247,6 +245,7 @@ module Blacklight
     end
 
     protected
+
     def request
       Blacklight::Solr::Request.new
     end
@@ -255,9 +254,7 @@ module Blacklight
       field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
     end
 
-    def scope
-      @scope
-    end
+    attr_reader :scope
 
     def params_will_change!
       @dirty = true

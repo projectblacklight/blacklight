@@ -32,5 +32,4 @@ module Blacklight::Solr::Document
   def highlight_field k
     response['highlighting'][self.id][k.to_s].map(&:html_safe) if has_highlight_field? k
   end
-
 end
