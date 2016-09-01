@@ -8,7 +8,6 @@ module Blacklight::TokenBasedUser
     rescue_from Blacklight::Exceptions::ExpiredSessionToken do
       head :unauthorized
     end
-
   end
 
   protected
@@ -49,5 +48,4 @@ module Blacklight::TokenBasedUser
   def message_encryptor
     ActiveSupport::MessageEncryptor.new(export_secret_token)
   end
-
 end

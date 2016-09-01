@@ -60,6 +60,7 @@ module Blacklight::Solr::Response::Facets
     end
     
     private
+
     # Per https://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
     def solr_default_limit
       100
@@ -120,6 +121,7 @@ module Blacklight::Solr::Response::Facets
   end
 
   private
+
   ##
   # Convert Solr responses of various json.nl flavors to 
   def list_as_hash solr_list
@@ -144,8 +146,7 @@ module Blacklight::Solr::Response::Facets
   # a hash of Blacklight::Solr::Response::Facet::FacetField objects
   def facet_field_aggregations
     list_as_hash(facet_fields).each_with_object({}) do |(facet_field_name, values), hash|
-      items = []
-      values.each do |value, hits|
+      items = values.map do |value, hits|
         i = FacetItem.new(value: value, hits: hits)
 
         # solr facet.missing serialization
@@ -154,7 +155,7 @@ module Blacklight::Solr::Response::Facets
           i.fq = "-#{facet_field_name}:[* TO *]"
         end
 
-        items << i
+        i
       end
 
       options = facet_field_aggregation_options(facet_field_name)
@@ -162,12 +163,10 @@ module Blacklight::Solr::Response::Facets
                                               items,
                                               options)
 
-      if blacklight_config and !blacklight_config.facet_fields[facet_field_name]
-        # alias all the possible blacklight config names..
-        blacklight_config.facet_fields.select { |k,v| v.field == facet_field_name }.each do |key,_|
-          hash[key] = hash[facet_field_name]
-        end
-      end
+      # alias all the possible blacklight config names..
+      blacklight_config.facet_fields.select { |k,v| v.field == facet_field_name }.each do |key,_|
+        hash[key] = hash[facet_field_name]
+      end if blacklight_config and !blacklight_config.facet_fields[facet_field_name]
     end
   end
 
@@ -196,11 +195,10 @@ module Blacklight::Solr::Response::Facets
 
     blacklight_config.facet_fields.select { |k,v| v.query }.each_with_object({}) do |(field_name, facet_field), hash|
         salient_facet_queries = facet_field.query.map { |k, x| x[:fq] }
-        items = []
-        facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits == 0 }.map do |value,hits|
+        items = facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits.zero? }.map do |value,hits|
           salient_fields = facet_field.query.select { |key, val| val[:fq] == value }
           key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
-          items << Blacklight::Solr::Response::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
+          Blacklight::Solr::Response::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
         end
 
         hash[field_name] = Blacklight::Solr::Response::Facets::FacetField.new field_name, items
@@ -212,28 +210,25 @@ module Blacklight::Solr::Response::Facets
   # a hash of Blacklight::Solr::Response::Facet::FacetField objects
   def facet_pivot_aggregations
     facet_pivot.each_with_object({}) do |(field_name, values), hash|
-        items = []
-        values.map do |lst|
-          items << construct_pivot_field(lst)
-        end
+      next unless blacklight_config and !blacklight_config.facet_fields[field_name]
 
-        if blacklight_config and !blacklight_config.facet_fields[field_name]
-          # alias all the possible blacklight config names..
-          blacklight_config.facet_fields.select { |k,v| v.pivot and v.pivot.join(",") == field_name }.each do |key, _|
-            hash[key] = Blacklight::Solr::Response::Facets::FacetField.new key, items
-          end
-        end
+      items = values.map do |lst|
+        construct_pivot_field(lst)
+      end
+
+      # alias all the possible blacklight config names..
+      blacklight_config.facet_fields.select { |k,v| v.pivot and v.pivot.join(",") == field_name }.each do |key, _|
+        hash[key] = Blacklight::Solr::Response::Facets::FacetField.new key, items
+      end
     end
   end
   
   ##
   # Recursively parse the pivot facet response to build up the full pivot tree
   def construct_pivot_field lst, parent_fq = {}
-    items = []
-
-    lst[:pivot].each do |i|
-      items << construct_pivot_field(i, parent_fq.merge({ lst[:field] => lst[:value] }))
-    end if lst[:pivot]
+    items = Array(lst[:pivot]).map do |i|
+      construct_pivot_field(i, parent_fq.merge({ lst[:field] => lst[:value] }))
+    end
 
     Blacklight::Solr::Response::Facets::FacetItem.new(value: lst[:value], hits: lst[:count], field: lst[:field], items: items, fq: parent_fq)
   end

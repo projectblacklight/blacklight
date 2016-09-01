@@ -107,8 +107,7 @@ describe FacetsHelper do
       facet_config = double(query: nil, field: 'b', key: 'a')
       facet_field = double()
       allow(helper).to receive(:facet_configuration_for_field).with('b').and_return(facet_config)
-      @response = double()
-      allow(@response).to receive(:aggregations).and_return('b' => facet_field)
+      @response = instance_double(Blacklight::Solr::Response, aggregations: { 'b' => facet_field })
 
       expect(helper.facet_by_field_name('b')).to eq facet_field
     end

@@ -70,7 +70,7 @@ module Blacklight::Solr
           "{!lucene}NOT *:*"
         else
           "{!lucene}" + q.map do |field, values|
-            "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(" OR ")})"
+            "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
           end.join(" AND ")
         end
 
@@ -84,7 +84,6 @@ module Blacklight::Solr
     # Add any existing facet limits, stored in app-level HTTP query
     # as :f, to solr as appropriate :fq query.
     def add_facet_fq_to_solr(solr_parameters)
-
       # convert a String value into an Array
       if solr_parameters[:fq].is_a? String
         solr_parameters[:fq] = [solr_parameters[:fq]]
@@ -95,8 +94,7 @@ module Blacklight::Solr
         f_request_params = blacklight_params[:f]
 
         f_request_params.each_pair do |facet_field, value_list|
-          Array(value_list).each do |value|
-            next if value.blank? # skip empty strings
+          Array(value_list).reject(&:blank?).each do |value|
             solr_parameters.append_filter_query facet_value_to_fq_string(facet_field, value)
           end
         end
@@ -111,13 +109,12 @@ module Blacklight::Solr
       facet_fields_to_include_in_request.each do |field_name, facet|
         solr_parameters[:facet] ||= true
 
-        case
-          when facet.pivot
-            solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
-          when facet.query
-            solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) }
-          else
-            solr_parameters.append_facet_fields with_ex_local_param(facet.ex, facet.field)
+        if facet.pivot
+          solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
+        elsif facet.query
+          solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) }
+        else
+          solr_parameters.append_facet_fields with_ex_local_param(facet.ex, facet.field)
         end
 
         if facet.sort
@@ -137,11 +134,9 @@ module Blacklight::Solr
 
     def add_solr_fields_to_query solr_parameters
       blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).each do |field_name, field|
-        if field.solr_params
-          field.solr_params.each do |k, v|
-            solr_parameters[:"f.#{field.field}.#{k}"] = v
-          end
-        end
+        field.solr_params.each do |k, v|
+          solr_parameters[:"f.#{field.field}.#{k}"] = v
+        end if field.solr_params
       end
 
       blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).each do |field_name, field|
@@ -150,11 +145,9 @@ module Blacklight::Solr
           solr_parameters.append_highlight_field field.field
         end
 
-        if field.solr_params
-          field.solr_params.each do |k, v|
-            solr_parameters[:"f.#{field.field}.#{k}"] = v
-          end
-        end
+        field.solr_params.each do |k, v|
+          solr_parameters[:"f.#{field.field}.#{k}"] = v
+        end if field.solr_params
       end
     end
 
@@ -166,9 +159,7 @@ module Blacklight::Solr
 
       solr_params[:rows] = rows
 
-      if start != 0
-        solr_params[:start] = start
-      end
+      solr_params[:start] = start if start.nonzero?
     end
 
     ###
@@ -258,7 +249,6 @@ module Blacklight::Solr
       end
     end
 
-
     ##
     # A helper method used for generating solr LocalParams, put quotes
     # around the term unless it's a bare-word. Escape internal quotes
@@ -271,7 +261,7 @@ module Blacklight::Solr
           val.gsub("'", "\\\\\'").gsub('"', "\\\\\"") +
           options[:quote]
       end
-      return val
+      val
     end
 
     private
@@ -287,28 +277,26 @@ module Blacklight::Solr
       local_params = []
       local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
 
-      prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
+      prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
 
-      case
-        when (facet_config and facet_config.query)
-          if facet_config.query[value]
-            facet_config.query[value][:fq]
-          else
-            # exclude all documents if the custom facet key specified was not found
-            '-*:*'
-          end
-        when value.is_a?(Range)
-          "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
+      if facet_config and facet_config.query
+        if facet_config.query[value]
+          facet_config.query[value][:fq]
         else
-          "{!term f=#{solr_field}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{convert_to_term_value(value)}"
+          # exclude all documents if the custom facet key specified was not found
+          '-*:*'
+        end
+      elsif value.is_a?(Range)
+        "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
+      else
+        "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
       end
     end
 
     def convert_to_term_value(value)
-      case
-      when (value.is_a?(DateTime) or value.is_a?(Time))
+      if value.is_a?(DateTime) or value.is_a?(Time)
         value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
-      when value.is_a?(Date)
+      elsif value.is_a?(Date)
         value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")
       else
         value.to_s

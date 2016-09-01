@@ -29,10 +29,9 @@ module Blacklight
 
     def add_solr_wrapper
       generator_options = '--jettywrapper' if options[:jettywrapper]
-      solr_generator = case
-                       when options[:jettywrapper]
+      solr_generator = if options[:jettywrapper]
                          'blacklight:solr4'
-                       when solr_version == 'latest'
+                       elsif solr_version == 'latest'
                          'blacklight:solr5'
                        else
                          "blacklight:solr#{solr_version}"
@@ -66,7 +65,6 @@ module Blacklight
     end
     
     def generate_blacklight_user
-
       generator_args = [model_name]
       if options[:devise]
         generator_args << "--devise #{options[:devise]}"
@@ -84,9 +82,7 @@ module Blacklight
     end
 
     def add_sass_configuration
-
       insert_into_file "config/application.rb", :after => "config.assets.enabled = true" do <<EOF
-
       # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
       config.assets.compress = !Rails.env.development?
 EOF

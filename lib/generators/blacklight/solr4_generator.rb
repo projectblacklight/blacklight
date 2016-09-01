@@ -3,7 +3,6 @@ require 'rails/generators'
 
 module Blacklight
   class Solr4Generator < Rails::Generators::Base
-
     source_root File.expand_path('../templates', __FILE__)
 
     class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
@@ -28,6 +27,5 @@ module Blacklight
     def add_rsolr_gem
       gem "rsolr".dup, "~> 1.0"
     end
-
   end
 end

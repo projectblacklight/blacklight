@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require 'ostruct'
 module Blacklight
-
   module Utils
     def self.needs_attr_accessible?
       protected_attributes_enabled?
@@ -57,7 +56,6 @@ module Blacklight
       self.class.new @table.deep_dup
     end
   end
-
 
   ##
   # An OpenStruct refinement that converts any hash-keys into  
@@ -162,15 +160,20 @@ module Blacklight
     def method_missing(mid, *args)
       len = args.length
 
-      if len == 0
+      if len.zero?
         new_ostruct_member(mid)
         @table[mid]
       else
         super
       end
     end
+    
+    def respond_to_missing?(*_)
+      true
+    end
 
     private
+
     def set_default_proc!
       self.default_proc = lambda do |hash, key|
         hash[key] = self.nested_class.new

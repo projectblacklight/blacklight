@@ -4,7 +4,6 @@ module Blacklight
   # Blacklight::Configuration holds the configuration for a Blacklight::Controller, including
   # fields to display, facets to show, sort options, and search fields.
   class Configuration < OpenStructWithHashAccess
-
     # Using required_dependency to work around Rails autoloading
     # problems when developing blacklight. Without this, any change
     # to this class breaks other classes in this namespace
@@ -25,7 +24,6 @@ module Blacklight
     # the basic, required Blacklight fields
     class << self
       def default_values
-
         @default_values ||= begin
           {
           ##
@@ -94,7 +92,7 @@ module Blacklight
             group: false,
             # additional response formats for search results
             respond_to: OpenStructWithHashAccess.new
-            ),
+          ),
           # Additional configuration when displaying a single document
           show: ViewConfig::Show.new(
             # document presenter class used by helpers and views

@@ -13,13 +13,12 @@ module Blacklight
     # @return [Array]
     def fetch
       Array.wrap(
-        case    
-          when field_config.highlight
-            retrieve_highlight
-          when field_config.accessor
-            retieve_using_accessor
-          when field_config
-            retrieve_simple
+        if field_config.highlight
+          retrieve_highlight
+        elsif field_config.accessor
+          retieve_using_accessor
+        elsif field_config
+          retrieve_simple
         end
       )
     end
@@ -40,7 +39,7 @@ module Blacklight
         if field_config.accessor == true
           document.send(field)
         # arity-1 method call (include the field name in the call)
-        elsif !field_config.accessor.is_a?(Array) && document.method(field_config.accessor).arity != 0
+        elsif !field_config.accessor.is_a?(Array) && document.method(field_config.accessor).arity.nonzero?
           document.send(field_config.accessor, field)
         # chained method calls
         else

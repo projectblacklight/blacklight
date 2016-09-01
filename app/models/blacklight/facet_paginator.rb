@@ -23,7 +23,7 @@ module Blacklight
     # all_facet_values is a list of facet value objects returned by solr,
     # asking solr for n+1 facet values.
     # options:
-    # :limit =>  number to display per page, or (default) nil. Nil means
+    # :limit =>  number to display per page, or (default) ?. Nil means
     #            display all with no previous or next. 
     # :offset => current item offset, default 0
     # :sort => 'count' or 'index', solr tokens for facet value sorting, default 'count'. 
@@ -52,7 +52,7 @@ module Blacklight
 
     def current_page
       # A nil limit is unlimited, thus only one page.
-      if limit.nil? || limit == 0 #check for divide by zero
+      if limit.nil? || limit.zero? #check for divide by zero
         1
       else
         @offset / limit + 1

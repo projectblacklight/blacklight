@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class Blacklight::Solr::Response::GroupResponse
-
   include Blacklight::Solr::Response::PaginationMethods
 
   attr_reader :key, :group, :response
@@ -34,17 +33,14 @@ class Blacklight::Solr::Response::GroupResponse
   end
 
   def method_missing meth, *args, &block
-
     if response.respond_to? meth
       response.send(meth, *args, &block)
     else
       super
     end
-
   end
 
-  def respond_to? meth
+  def respond_to_missing? meth, include_private = false
     response.respond_to?(meth) || super
   end
-
 end

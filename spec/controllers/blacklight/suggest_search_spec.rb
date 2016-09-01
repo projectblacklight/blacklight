@@ -3,8 +3,8 @@
 describe Blacklight::SuggestSearch do
   let(:params) { {q: 'test'} }
   let(:suggest_path) { 'suggest' }
-  let(:connection) { double('connection', send_and_receive: 'sent')}
-  let(:repository) { double('repository', connection: connection) }
+  let(:connection) { instance_double(RSolr::Client, send_and_receive: 'sent')}
+  let(:repository) { instance_double(Blacklight::Solr::Repository, connection: connection) }
   let(:suggest_search) { described_class.new(params, repository)}
   describe '#suggestions' do
     it 'returns a Blacklight::Suggest::Response' do

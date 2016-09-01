@@ -111,7 +111,7 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#index_field_label" do
-    let(:document) { double }
+    let(:document) { instance_double(SolrDocument) }
     it "looks up the label to display for the given document and field" do
       allow(helper).to receive(:index_fields).and_return({ "my_field" => double(label: "some label") })
       allow(helper).to receive(:field_label).with(:"blacklight.search.fields.index.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
@@ -120,7 +120,7 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#document_show_field_label" do
-    let(:document) { double }
+    let(:document) { instance_double(SolrDocument) }
     it "looks up the label to display for the given document and field" do
       allow(helper).to receive(:document_show_fields).and_return({ "my_field" => double(label: "some label") })
       allow(helper).to receive(:field_label).with(:"blacklight.search.fields.show.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
@@ -129,7 +129,7 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#facet_field_label" do
-    let(:document) { double }
+    let(:document) { instance_double(SolrDocument) }
     it "looks up the label to display for the given document and field" do
       allow(blacklight_config).to receive(:facet_fields).and_return({ "my_field" => double(label: "some label") })
       allow(helper).to receive(:field_label).with(:"blacklight.search.fields.facet.my_field", :"blacklight.search.fields.my_field", "some label", "My field")

@@ -57,7 +57,6 @@ module Blacklight::Bookmarks
     end
   end
 
-
   def update
     create
   end
@@ -135,6 +134,7 @@ module Blacklight::Bookmarks
   end
 
   protected
+
   def verify_user
     unless current_or_guest_user or (action == "index" and token_or_current_or_guest_user)
       flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied

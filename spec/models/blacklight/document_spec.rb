@@ -80,7 +80,7 @@ describe Blacklight::Document do
     end
 
     before do
-      allow(MockDocument).to receive(:repository).and_return(double(find: MockResponse.new([{id: 1}], {})))
+      allow(MockDocument).to receive(:repository).and_return(instance_double(Blacklight::Solr::Repository, find: MockResponse.new([{id: 1}], {})))
     end
 
     it "has a globalid" do

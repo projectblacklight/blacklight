@@ -25,7 +25,6 @@ module Blacklight
       end
     end
 
-
     # extract the pagination info from the response object
     def pagination_info
       h = {}

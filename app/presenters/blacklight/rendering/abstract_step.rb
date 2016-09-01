@@ -21,4 +21,3 @@ module Blacklight
     end
   end
 end
-

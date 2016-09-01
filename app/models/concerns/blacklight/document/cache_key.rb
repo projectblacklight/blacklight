@@ -7,10 +7,10 @@
 # types in search results like gallery and list)
 module Blacklight::Document::CacheKey
   def cache_key
-    case
-    when new_record?
+    if new_record?
       "#{self.class.model_name.cache_key}/new"
-    when cache_version_value = self[cache_version_key]
+    elsif self.key? cache_version_key
+      cache_version_value = self[cache_version_key]
       "#{self.class.model_name.cache_key}/#{id}-#{Array(cache_version_value).join}"
     else
       "#{self.class.model_name.cache_key}/#{id}"

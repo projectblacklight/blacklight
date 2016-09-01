@@ -32,7 +32,7 @@ describe BlacklightHelper do
   end
 
   describe "render_link_rel_alternates" do
-    let(:document) { double }
+    let(:document) { instance_double(SolrDocument) }
     let(:result) { double }
     let(:presenter) { Blacklight::DocumentPresenter.new(document, self) }
     let(:blacklight_config) do
@@ -153,8 +153,8 @@ describe BlacklightHelper do
 
   context "render methods" do
     let(:field) { "some_field" }
-    let(:doc) { double }
-    let(:presenter) { double }
+    let(:doc) { instance_double(SolrDocument) }
+    let(:presenter) { instance_double(Blacklight::ShowPresenter) }
     before do
       allow(Deprecation).to receive(:warn) # TODO: purge Deprecations
       allow(helper).to receive(:presenter).with(doc).and_return(presenter)
@@ -196,7 +196,7 @@ describe BlacklightHelper do
   end
 
   describe "#document_has_value?" do
-    let(:doc) { double() }
+    let(:doc) { double(SolrDocument) }
     it "ifs the document has the field value" do
       allow(doc).to receive(:has?).with('asdf').and_return(true)
       field_config = double(:field => 'asdf')
@@ -218,12 +218,12 @@ describe BlacklightHelper do
 
   describe "render_grouped_response?" do
     it "checks if the response ivar contains grouped data" do
-      assign(:response, double("Solr::Response", :grouped? => true))
+      assign(:response, instance_double(Blacklight::Solr::Response, grouped?: true))
       expect(helper.render_grouped_response?).to be true
     end
 
     it "checks if the response param contains grouped data" do
-      response = double("Solr::Response", :grouped? => true)
+      response = instance_double(Blacklight::Solr::Response, grouped?: true)
       expect(helper.render_grouped_response?(response)).to be true
     end
   end
@@ -351,7 +351,7 @@ describe BlacklightHelper do
     let(:obj1) { SolrDocument.new }
     before do
       allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
-      assign(:response, double("Solr::Response", grouped?: false, start: 0))
+      assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 module Blacklight::ConfigurationHelperBehavior
-
   ##
   # Index fields to display for a type of document
   # 

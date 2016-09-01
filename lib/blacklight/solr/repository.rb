@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Blacklight::Solr
   class Repository < Blacklight::AbstractRepository
-
     ##
     # Find a single solr document result (by id) using the document configuration
     # @param [String] id document's unique key value

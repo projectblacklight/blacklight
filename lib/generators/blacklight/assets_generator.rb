@@ -21,7 +21,6 @@ module Blacklight
 //= require blacklight/blacklight
 EOF
       end
-
     end
 
     private

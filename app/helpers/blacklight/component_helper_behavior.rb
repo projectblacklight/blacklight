@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 module Blacklight
   module ComponentHelperBehavior
-
     def document_action_label action, opts
       t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
     end
 
     def document_action_path action_opts, url_opts = nil
-      case
-      when action_opts.path
+      if action_opts.path
         self.send(action_opts.path, url_opts)
-      when url_opts[:id].class.respond_to?(:model_name)
+      elsif url_opts[:id].class.respond_to?(:model_name)
         url_for([action_opts.key, url_opts[:id]])
       else
         self.send("#{action_opts.key}_#{controller_name}_path", url_opts)
@@ -80,6 +78,5 @@ module Blacklight
     def render_show_doc_actions(document=@document, options={}, &block)
       render_filtered_partials(blacklight_config.show.document_actions, { document: document }.merge(options), &block)
     end
-
   end
 end

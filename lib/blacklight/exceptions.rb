@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
   module Exceptions
-
     class AccessDenied < StandardError
     end
 
@@ -21,6 +20,5 @@ module Blacklight
     end
 
     class ECONNREFUSED < ::Errno::ECONNREFUSED; end
-
   end
 end

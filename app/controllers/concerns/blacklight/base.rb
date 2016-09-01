@@ -18,7 +18,6 @@ module Blacklight::Base
 
   # when The index throws an error (Blacklight::Exceptions::InvalidRequest), this method is executed.
   def handle_request_error(exception)
-
     if Rails.env.development? || Rails.env.test?
       raise exception # Rails own code will catch and give usual Rails error page with stack trace
     else

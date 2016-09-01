@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 describe "catalog/index.json" do
-  let(:response) { double("response") }
+  let(:response) { instance_double(Blacklight::Solr::Response) }
   let(:docs) { [{ id: '123', title_t: 'Book1' }, { id: '456', title_t: 'Book2' }] }
   let(:facets) { double("facets") }
-  let(:config) { double("config") }
+  let(:config) { instance_double(Blacklight::Configuration) }
   let(:presenter) { Blacklight::JsonPresenter.new(response, docs, facets, config) }
 
   it "renders index json" do

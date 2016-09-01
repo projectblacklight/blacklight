@@ -88,9 +88,7 @@ module Blacklight::Document
   end
   alias has_field? has?
 
-  def key? k
-    _source.key? k
-  end
+  delegate :key?, to: :_source
   alias has_key? key?
 
   def fetch key, *default
@@ -129,12 +127,10 @@ module Blacklight::Document
   # Certain class-level methods needed for the document-specific
   # extendability architecture
   module ClassMethods
-
     attr_writer :unique_key
     def unique_key
       @unique_key ||= 'id' 
     end
-
   end
   
   private
@@ -142,5 +138,4 @@ module Blacklight::Document
   def _source_responds_to? *args
     _source && self != _source && _source.respond_to?(*args)
   end
-
 end

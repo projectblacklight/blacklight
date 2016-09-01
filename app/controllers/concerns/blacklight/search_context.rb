@@ -6,7 +6,6 @@ module Blacklight::SearchContext
   # own controller.
   included do  
     helper_method :current_search_session, :search_session
-
   end
 
   module ClassMethods
