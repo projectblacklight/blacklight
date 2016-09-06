@@ -377,6 +377,7 @@ describe Blacklight::Solr::SearchBuilderBehavior do
 
     it "should pass integer-like strings through" do
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "1")).to eq '{!term f=facet_name}1'
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", -1)).to eq '{!term f=facet_name}-1'
     end
 
     it "should pass floats through" do
@@ -387,26 +388,19 @@ describe Blacklight::Solr::SearchBuilderBehavior do
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "1.11")).to eq '{!term f=facet_name}1.11'
     end
 
-    it "should escape negative integers" do
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", -1)).to eq '{!term f=facet_name}-1'
-    end
+    context 'date handling' do
+      before { allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil, :field => 'facet_name')) }
 
-    it "should pass date-type fields through" do
-      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil, :field => 'facet_name'))
+      it "should pass date-type fields through" do
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq '{!term f=facet_name}2012-01-01'
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", "2003-04-09T00:00:00Z")).to eq '{!term f=facet_name}2003-04-09T00:00:00Z'
+      end
 
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "2012-01-01")).to eq '{!term f=facet_name}2012-01-01'
-    end
-
-    it "should escape datetime-type fields" do
-      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => true, :query => nil, :tag => nil, :field => 'facet_name'))
-
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", "2003-04-09T00:00:00Z")).to eq '{!term f=facet_name}2003-04-09T00:00:00Z'
-    end
-
-    it "should format Date objects correctly" do
-      allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil, :field => 'facet_name'))
-      d = DateTime.parse("2003-04-09T00:00:00")
-      expect(subject.send(:facet_value_to_fq_string, "facet_name", d)).to eq '{!term f=facet_name}2003-04-09T00:00:00Z'
+      it "should format Date objects correctly" do
+        allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(:date => nil, :query => nil, :tag => nil, :field => 'facet_name'))
+        d = DateTime.parse("2003-04-09T00:00:00")
+        expect(subject.send(:facet_value_to_fq_string, "facet_name", d)).to eq '{!term f=facet_name}2003-04-09T00:00:00Z'
+      end
     end
 
     it "should handle range requests" do
