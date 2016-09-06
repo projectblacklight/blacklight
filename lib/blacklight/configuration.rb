@@ -157,8 +157,7 @@ module Blacklight
     # solr fields to display when showing single documents
     define_field_access :show_field
 
-    # solr "fields" to use for scoping user search queries
-    # to particular fields
+    # solr "fields" to use for scoping user search queries to particular fields
     define_field_access :search_field
 
     # solr fields to use for sorting results
@@ -171,7 +170,6 @@ module Blacklight
       self
     end
 
-    ##
     # Initialize default values from the class attribute
     def initialize_default_values!
       Marshal.load(Marshal.dump(self.class.default_values)).each do |k, v|
@@ -184,7 +182,7 @@ module Blacklight
     end
 
     # only here to support alias_method
-    def document_model= *args
+    def document_model=(*args)
       super
     end
 
@@ -242,8 +240,7 @@ module Blacklight
     def default_search_field
       field = super
       field ||= search_fields.values.find { |f| f.default == true }
-      field ||= search_fields.values.first
-      field
+      field || search_fields.values.first
     end
 
     # Returns default sort field, used for simpler display in history, etc.
@@ -251,8 +248,7 @@ module Blacklight
     def default_sort_field
       field = super
       field ||= sort_fields.values.find { |f| f.default == true }
-      field ||= sort_fields.values.first
-      field
+      field || sort_fields.values.first
     end
 
     def default_title_field
@@ -279,9 +275,7 @@ module Blacklight
       if fields.empty?
         self.add_facet_fields_to_solr_request = true
       else
-        facet_fields.slice(*fields).each do |k,v|
-          v.include_in_request = true
-        end
+        facet_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
       end
     end
 
@@ -295,15 +289,9 @@ module Blacklight
       if fields.empty?
         self.add_field_configuration_to_solr_request = true
       else
-        index_fields.slice(*fields).each do |k,v|
-          v.include_in_request = true
-        end
-        show_fields.slice(*fields).each do |k,v|
-          v.include_in_request = true
-        end
-        facet_fields.slice(*fields).each do |k,v|
-          v.include_in_request = true
-        end
+        index_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
+        show_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
+        facet_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
       end
     end
 
