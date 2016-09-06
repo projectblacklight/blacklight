@@ -4,6 +4,9 @@ module Blacklight
   # They are only dependent on `blacklight_config` and `@response`
   #
   module Facet
+
+    delegate :facet_configuration_for_field, to: :blacklight_config
+
     def facet_paginator(field_config, display_facet)
       blacklight_config.facet_paginator_class.new(
         display_facet.items,
@@ -20,17 +23,6 @@ module Blacklight
 
     def facet_field_names
       blacklight_config.facet_fields.values.map(&:field)
-    end
-
-    # @param [String] field Solr facet name
-    # @return [Blacklight::Configuration::FacetField] Blacklight facet configuration for the solr field
-    def facet_configuration_for_field(field)
-      # short-circuit on the common case, where the solr field name and the blacklight field name are the same.
-      return blacklight_config.facet_fields[field] if blacklight_config.facet_fields[field] && blacklight_config.facet_fields[field].field == field
-
-      # Find the facet field configuration for the solr field, or provide a default.
-      blacklight_config.facet_fields.values.find { |v| v.field.to_s == field.to_s } ||
-        Blacklight::Configuration::FacetField.new(field: field).normalize!
     end
 
     # Get a FacetField object from the @response

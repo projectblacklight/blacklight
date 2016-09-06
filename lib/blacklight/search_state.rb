@@ -3,9 +3,11 @@ module Blacklight
   # This class encapsulates the search state as represented by the query
   # parameters namely: :f, :q, :page, :per_page and, :sort
   class SearchState
-    include Blacklight::Facet
+
     attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
     attr_reader :params
+
+    delegate :facet_configuration_for_field, to: :blacklight_config
 
     # @param [ActionController::Parameters] params
     # @param [Blacklight::Config] blacklight_config
