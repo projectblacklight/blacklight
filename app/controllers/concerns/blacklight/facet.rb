@@ -4,7 +4,6 @@ module Blacklight
   # They are only dependent on `blacklight_config` and `@response`
   #
   module Facet
-
     delegate :facet_configuration_for_field, to: :blacklight_config
 
     def facet_paginator(field_config, display_facet)
