@@ -149,7 +149,6 @@ describe FacetsHelper do
       mock_facet = double(:name => 'basic_field', :items => [1, 2, 3])
       expect(helper).to receive(:render).with(hash_including(:partial => 'facet_limit',
                                                              :locals => {
-                                                                :solr_field => 'basic_field',
                                                                 :field_name => 'basic_field',
                                                                 :facet_field => helper.blacklight_config.facet_fields['basic_field'],
                                                                 :display_facet => mock_facet  }

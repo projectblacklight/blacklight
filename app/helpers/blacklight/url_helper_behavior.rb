@@ -2,8 +2,6 @@
 ##
 # URL helper methods
 module Blacklight::UrlHelperBehavior
-  include Blacklight::DeprecatedUrlHelperBehavior
-
   ##
   # Extension point for downstream applications
   # to provide more interesting routing to

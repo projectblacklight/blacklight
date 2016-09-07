@@ -1,4 +1,3 @@
 if ENV['RAILS_VERSION'].nil? || ENV['RAILS_VERSION'] =~ /^5\.0/ || ENV['RAILS_VERSION'] == 'edge'
   gem 'rails-controller-testing'
-  gem 'deprecation'
 end

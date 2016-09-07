@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
   class IndexPresenter
-    extend Deprecation
-    self.deprecation_horizon = 'Blacklight version 7.0.0'
-
     attr_reader :document, :configuration, :view_context
 
     # @param [SolrDocument] document
@@ -37,12 +34,6 @@ module Blacklight
       field_values(config, value: value)
     end
 
-    # @deprecated
-    def render_document_index_label(*args)
-      label(*args)
-    end
-    deprecation_deprecate render_document_index_label: 'Use #label instead'
-
     ##
     # Render the index field label for a document
     #
@@ -55,30 +46,6 @@ module Blacklight
       field_config = field_config(field)
       field_values(field_config, options)
     end
-
-    # @deprecated
-    def render_index_field_value(*args)
-      field_value(*args)
-    end
-    deprecation_deprecate render_index_field_value: 'replaced by #field_value'
-
-    # @deprecated
-    def get_field_values(field_config, options={})
-      field_values(field_config, options)
-    end
-    deprecation_deprecate get_field_values: "replaced by #field_value"
-
-    # @deprecated
-    def render_field_values(values, field_config = Configuration::NullField.new)
-      field_values(field_config, value: Array(values))
-    end
-    deprecation_deprecate render_field_values: "replaced by #field_value"
-
-    # @deprecated
-    def render_values(values, field_config = Configuration::NullField.new)
-      field_values(field_config, value: Array(values))
-    end
-    deprecation_deprecate render_values: "replaced by #field_value"
 
     private
 

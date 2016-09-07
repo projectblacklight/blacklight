@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
   class ShowPresenter
-    extend Deprecation
-    self.deprecation_horizon = 'Blacklight version 7.0.0'
-
     attr_reader :document, :configuration, :view_context
 
     # @param [SolrDocument] document
@@ -23,7 +20,6 @@ module Blacklight
     # @option options [Boolean] :unique ensures only one link is output for every
     #     content type, e.g. as required by atom
     # @option options [Array<String>] :exclude array of format shortnames to not include in the output
-    # @deprecated moved to ShowPresenter#link_rel_alternates
     def link_rel_alternates(options = {})
       LinkAlternatePresenter.new(view_context, document, options).render
     end
@@ -45,12 +41,6 @@ module Blacklight
       end
     end
 
-    # @deprecated
-    def document_show_html_title
-      html_title
-    end
-    deprecation_deprecate document_show_html_title: "use #html_title"
-
     ##
     # Get the value of the document's "title" field, or a placeholder
     # value (if empty)
@@ -63,12 +53,6 @@ module Blacklight
       field_values(field_config(f), value: document[f])
     end
 
-    # @deprecated
-    def document_heading
-      heading
-    end
-    deprecation_deprecate document_heading: "replaced by #heading"
-
     ##
     # Render the show field value for a document
     #
@@ -80,30 +64,6 @@ module Blacklight
     def field_value field, options={}
       field_values(field_config(field), options)
     end
-
-    # @deprecated
-    def render_document_show_field_value(*args)
-      field_value(*args)
-    end
-    deprecation_deprecate render_document_show_field_value: 'replaced by #field_value'
-
-    # @deprecated
-    def get_field_values(field_config, options={})
-      field_values(field_config, options)
-    end
-    deprecation_deprecate get_field_values: "replaced by #field_value"
-
-    # @deprecated
-    def render_field_values(values, field_config = Configuration::NullField.new)
-      field_values(field_config, value: Array(values))
-    end
-    deprecation_deprecate render_field_values: "replaced by #field_value"
-
-    # @deprecated
-    def render_values(values, field_config = Configuration::NullField.new)
-      field_values(field_config, value: Array(values))
-    end
-    deprecation_deprecate render_values: "replaced by #field_value"
 
     private
 
