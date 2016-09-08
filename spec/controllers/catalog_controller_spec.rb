@@ -651,10 +651,10 @@ describe CatalogController do
     end
   end
 
-  describe "search_facet_url" do
-    it "is the same as the catalog url" do
+  describe "search_facet_path" do
+    it "is the same as the catalog path" do
       get :index, params: { page: 1 }
-      expect(controller.send(:search_facet_url, id: "some_facet", page: 5)).to eq facet_catalog_url(id: "some_facet")
+      expect(controller.send(:search_facet_path, id: "some_facet", page: 5)).to eq facet_catalog_path(id: "some_facet")
     end
   end
 end
