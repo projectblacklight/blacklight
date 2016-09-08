@@ -1,29 +1,21 @@
-#ajax-modal {
-
-  .modal-content {
-    @extend .clearfix;
-  }
-
-  #email_form {
-    width: auto;
-  }
+.modal-content {
+  @extend .clearfix;
 
   .facet_pagination.top {
   	display: none;
   }
 
-  #sidebar {
+  .page-sidebar {
     display: none;
   }
 
-  button.close {
-	  display: block;
+  .ajax-modal-close {
+    display: block;
   }
 }
 
-
-/* app/views/catalog/facet.html.erb may be rendered as a modal or a whole page.
-   When it's a whole page, don't show the close button. */
-button.ajax-modal-close.close {
+// app/views/catalog/facet.html.erb may be rendered as a modal or a whole page.
+// When it's a whole page, don't show the close button.
+.ajax-modal-close {
 	display: none;
 }

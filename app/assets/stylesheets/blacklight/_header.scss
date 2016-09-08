@@ -2,22 +2,20 @@
   Header bar at top (Bootstrap nav-bar)
 */
 
-#header-navbar {
-  .navbar-brand {  /* The main logo image for the Blacklight instance */
-  	width: 150px;
-    height: 50px;
-	  background:transparent image_url($logo_image) no-repeat top left;
-	  display: inline-block;
-	  text-indent: 100%;
-	  white-space: nowrap;
-	  overflow: hidden;
-	  padding-right:0;
-	  margin-right:20px;
-	  padding-left: 0;
-  }
+.navbar-brand {  /* The main logo image for the Blacklight instance */
+  width: 150px;
+  height: 50px;
+  background:transparent image_url($logo_image) no-repeat top left;
+  display: inline-block;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right:0;
+  margin-right:20px;
+  padding-left: 0;
 }
 
-#search-navbar {
+.navbar-search {
   z-index: 1;
 
   .input-group {
