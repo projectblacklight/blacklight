@@ -17,8 +17,8 @@ describe "catalog/_document" do
     expect(rendered).to match /document_header/
     expect(rendered).to match /thumbnail_default/
     expect(rendered).to match /index_default/
-    expect(rendered).to have_selector('div.document[@itemscope]')
-    expect(rendered).to have_selector('div.document[@itemtype="http://schema.org/Thing"]')
+    expect(rendered).to have_selector('.document[@itemscope]')
+    expect(rendered).to have_selector('.document[@itemtype="http://schema.org/Thing"]')
   end
 
   it "uses the index.partials parameter to determine the partials to render" do
@@ -35,12 +35,12 @@ describe "catalog/_document" do
   it 'has a css class with the document position' do
     allow(view).to receive(:render_document_partials)
     render partial: 'catalog/document', locals: { document: document, document_counter: 5 }
-    expect(rendered).to have_selector 'div.document-position-5'
+    expect(rendered).to have_selector '.document-position-5'
   end
 
   it 'has a data attribute with the document position' do
     allow(view).to receive(:render_document_partials)
     render partial: 'catalog/document', locals: { document: document, document_counter: 5 }
-    expect(rendered).to have_selector 'div.document[@data-document-counter="5"]'
+    expect(rendered).to have_selector '.document[@data-document-counter="5"]'
   end
 end
