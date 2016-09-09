@@ -11,7 +11,7 @@ describe LayoutHelper do
   describe '#show_sidebar_classes' do
     it 'returns a string of classes' do
       expect(helper.show_sidebar_classes).to be_an String
-      expect(helper.show_sidebar_classes).to eq 'col-md-3 col-sm-4'
+      expect(helper.show_sidebar_classes).to eq 'page-sidebar col-md-3 col-sm-4'
     end
   end
 
@@ -25,7 +25,7 @@ describe LayoutHelper do
   describe '#sidebar_classes' do
     it 'returns a string of classes' do
       expect(helper.sidebar_classes).to be_an String
-      expect(helper.sidebar_classes).to eq 'col-md-3 col-sm-4'
+      expect(helper.sidebar_classes).to eq 'page-sidebar col-md-3 col-sm-4'
     end
   end
 

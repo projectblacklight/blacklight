@@ -1,4 +1,5 @@
-#sidebar, #facets {
+.page-sidebar,
+.facets {
   @extend .clearfix;
   padding-bottom: $padding-large-vertical;
 }
@@ -8,7 +9,7 @@
 }
 
 .no-js {
-  #sidebar .collapse {
+  .page-sidebar .collapse {
     @extend .in;
   }  
 }
@@ -17,7 +18,7 @@
   @extend .panel-success;
 }
 
-#facet-panel-collapse {
+.facets > .collapse {
   @extend .navbar-collapse;
   padding-left: 0;
   padding-right: 0;
@@ -160,7 +161,7 @@ ul.facet_extended_list, .facet_extended_list ul
     margin-top: 3px;
   }
 
-  #facets .top-panel-heading {
+  .facets .top-panel-heading {
     border: 1px solid $breadcrumb-color;
     margin-bottom: 1em;
     @include border-bottom-radius($panel-border-radius - 1);

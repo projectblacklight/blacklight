@@ -1,4 +1,4 @@
-<div id="header-navbar" class="navbar navbar-inverse navbar-static-top" role="navigation">
+<nav id="header-navbar" class="navbar navbar-inverse navbar-static-top" role="navigation">
   <div class="<%= container_classes %>">
     <div class="navbar-header">
     <button type="button" class="navbar-toggle btn collapsed" data-toggle="collapse" data-target="#user-util-collapse">
@@ -14,9 +14,9 @@
       <%= render :partial=>'/user_util_links' %>
     </div>
   </div>
-</div>
+</nav>
 
-<div id="search-navbar" class="navbar navbar-default navbar-static-top" role="navigation">
+<div id="search-navbar" class="navbar-search navbar navbar-default navbar-static-top" role="navigation">
   <div class="<%= container_classes %>">
     <%= render_search_bar  %>
   </div>
