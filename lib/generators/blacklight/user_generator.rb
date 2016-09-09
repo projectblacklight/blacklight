@@ -18,11 +18,7 @@ module Blacklight
     # Install Devise?
     def generate_devise_assets
       if options[:devise]
-        if ENV['RAILS_VERSION'] =~ /^5\.0/ || ENV['RAILS_VERSION'] == 'edge'
-          gem 'devise', github: 'plataformatec/devise' # Need > 3.5.3
-        else
-          gem "devise"
-        end
+        gem "devise"
         gem "devise-guests", "~> 0.5"
 
         Bundler.with_clean_env do
