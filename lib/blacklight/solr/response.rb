@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
-  extend Deprecation
-
   # Using required_dependency to work around Rails autoloading
   # problems when developing blacklight. Without this, any change
   # to this class breaks other classes in this namespace

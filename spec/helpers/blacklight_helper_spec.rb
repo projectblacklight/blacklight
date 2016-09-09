@@ -34,7 +34,7 @@ describe BlacklightHelper do
   describe "render_link_rel_alternates" do
     let(:document) { instance_double(SolrDocument) }
     let(:result) { double }
-    let(:presenter) { Blacklight::DocumentPresenter.new(document, self) }
+    let(:presenter) { Blacklight::IndexPresenter.new(document, self) }
     let(:blacklight_config) do
       Blacklight::Configuration.new.configure do |config|
         config.index.title_field = 'title_display'
@@ -148,50 +148,6 @@ describe BlacklightHelper do
     it "is false if the configuration has the field disabled" do
       allow(helper).to receive_messages(should_render_field?: false)
       expect(helper.should_render_show_field?(double, double)).to be false
-    end
-  end
-
-  context "render methods" do
-    let(:field) { "some_field" }
-    let(:doc) { instance_double(SolrDocument) }
-    let(:presenter) { instance_double(Blacklight::ShowPresenter) }
-    before do
-      allow(Deprecation).to receive(:warn) # TODO: purge Deprecations
-      allow(helper).to receive(:presenter).with(doc).and_return(presenter)
-    end
-
-    describe "#render_index_field_value" do
-      it "passes the document and field through to the presenter" do
-        expect(presenter).to receive(:field_value).with(field, {})
-        helper.render_index_field_value(doc, field)
-      end
-
-      it "allows the document and field to be passed as hash arguments" do
-        expect(presenter).to receive(:field_value).with(field, {})
-        helper.render_index_field_value(document: doc, field: field)
-      end
-
-      it "allows additional options to be passed to the presenter" do
-        expect(presenter).to receive(:field_value).with(field, x: 1)
-        helper.render_index_field_value(document: doc, field: field, x: 1)
-      end
-    end
-
-    describe "#render_document_show_field_value" do
-      it "passes the document and field through to the presenter" do
-        expect(presenter).to receive(:field_value).with(field, {})
-        helper.render_document_show_field_value(doc, field)
-      end
-
-      it "allows the document and field to be passed as hash arguments" do
-        expect(presenter).to receive(:field_value).with(field, {})
-        helper.render_document_show_field_value(document: doc, field: field)
-      end
-
-      it "allows additional options to be passed to the presenter" do
-        expect(presenter).to receive(:field_value).with(field, x: 1)
-        helper.render_document_show_field_value(document: doc, field: field, x: 1)
-      end
     end
   end
 
@@ -411,19 +367,6 @@ describe BlacklightHelper do
     let(:blacklight_config) { Blacklight::Configuration.new }
     before do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
-    end
-
-    describe "#presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        expect(Deprecation).to receive(:warn).exactly(2).times
-        blacklight_config.document_presenter_class = presenter_class
-        expect(helper.presenter_class).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::DocumentPresenter" do
-        expect(Deprecation).to receive(:warn)
-        expect(helper.presenter_class).to eq Blacklight::DocumentPresenter
-      end
     end
 
     describe "#index_presenter_class" do

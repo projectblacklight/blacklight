@@ -66,8 +66,6 @@ module Blacklight
           response_model: nil,
           # the model to use for each response document
           document_model: nil,
-          # document presenter class used by helpers and views
-          document_presenter_class: nil, # deprecated
           # Class for paginating long lists of facet fields
           facet_paginator_class: nil,
           # repository connection configuration
@@ -189,17 +187,6 @@ module Blacklight
     def response_model
       super || Blacklight::Solr::Response
     end
-
-    # @deprecated
-    def document_presenter_class
-      super || Blacklight::DocumentPresenter
-    end
-
-    # @deprecated
-    def document_presenter_class=(klass)
-      super
-    end
-    deprecation_deprecate :document_presenter_class= => "replaced by show.presenter_class and index.presenter_class"
 
     def response_model=(*args)
       super

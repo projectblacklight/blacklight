@@ -107,13 +107,6 @@
 
 }
 
-/* deprecated in Blacklight 5.x */
-ul.facet_extended_list, .facet_extended_list ul
-{
-  @extend .list-unstyled;
-
-}
-
 .collapse-toggle {
   cursor: pointer;
 }

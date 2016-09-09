@@ -22,22 +22,9 @@ describe Blacklight::Solr::SearchBuilderBehavior do
   subject { search_builder.with(user_params) }
 
   context "with default processor chain" do
-    context "with two arguments" do
-      subject do
-        Deprecation.silence Blacklight::SearchBuilder do
-          search_builder_class.new true, context
-        end
-      end
-      it "uses the class-level default_processor_chain" do
-        expect(subject.processor_chain).to eq search_builder_class.default_processor_chain
-      end
-    end
-
-    context "with one arguments" do
-      subject { search_builder }
-      it "uses the class-level default_processor_chain" do
-        expect(subject.processor_chain).to eq search_builder_class.default_processor_chain
-      end
+    subject { search_builder }
+    it "uses the class-level default_processor_chain" do
+      expect(subject.processor_chain).to eq search_builder_class.default_processor_chain
     end
   end
 

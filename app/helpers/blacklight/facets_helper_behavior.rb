@@ -43,7 +43,6 @@ module Blacklight::FacetsHelperBehavior
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
     options[:locals] ||= {}
     options[:locals][:field_name] ||= display_facet.name
-    options[:locals][:solr_field] ||= display_facet.name # deprecated
     options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
     options[:locals][:display_facet] ||= display_facet 
 

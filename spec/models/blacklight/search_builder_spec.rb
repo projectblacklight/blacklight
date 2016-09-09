@@ -7,22 +7,9 @@ describe Blacklight::SearchBuilder do
   subject { described_class.new processor_chain, scope }
 
   context "with default processor chain" do
-    context "with two arguments" do
-      subject do
-        Deprecation.silence Blacklight::SearchBuilder do
-          described_class.new true, scope
-        end
-      end
-      it "uses the class-level default_processor_chain" do
-        expect(subject.processor_chain).to eq []
-      end
-    end
-
-    context "with one arguments" do
-      subject { described_class.new scope }
-      it "uses the class-level default_processor_chain" do
-        expect(subject.processor_chain).to eq []
-      end
+    subject { described_class.new scope }
+    it "uses the class-level default_processor_chain" do
+      expect(subject.processor_chain).to eq []
     end
   end
 
