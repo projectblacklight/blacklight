@@ -20,7 +20,8 @@ matrix:
   fast_finish: true
 
 before_install:
-  - gem install bundler
+  - gem uninstall -i /home/travis/.rvm/gems/ruby-`ruby -e 'puts RUBY_VERSION'`@global bundler -v 1.13.0
+  - gem install bundler -v 1.12.5
 
 env:
  - "RAILS_VERSION=5.0.0"
