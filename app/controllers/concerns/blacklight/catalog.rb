@@ -87,6 +87,14 @@ module Blacklight::Catalog
       end
     end
 
+    def suggest
+      respond_to do |format|
+        format.json do
+          render json: suggestions_service.suggestions
+        end
+      end
+    end
+
     def action_documents
       fetch(Array(params[:id]))
     end
@@ -263,5 +271,9 @@ module Blacklight::Catalog
 
     def start_new_search_session?
       action_name == "index"
+    end
+
+    def suggestions_service
+      Blacklight::SuggestSearch.new(params, repository).suggestions
     end
 end

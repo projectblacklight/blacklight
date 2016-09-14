@@ -8,6 +8,4 @@ Blacklight::Engine.routes.draw do
   delete "saved_searches/forget/:id",  :to => "saved_searches#forget",  :as => "forget_search"
   post "saved_searches/forget/:id",  :to => "saved_searches#forget"
   post "/catalog/:id/track", to: 'catalog#track', as: 'track_search_context'
-
-  resources :suggest, only: :index, defaults: { format: 'json' }
 end

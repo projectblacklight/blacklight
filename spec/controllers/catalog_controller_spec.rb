@@ -369,6 +369,19 @@ describe CatalogController do
     end
   end
 
+  describe 'GET suggest' do
+    it 'returns JSON' do
+      get :suggest, params: { format: 'json' }
+      expect(response.body).to eq [].to_json
+    end
+    it 'returns suggestions' do
+      get :suggest, params: { format: 'json', q: 'new' }
+      json = JSON.parse(response.body)
+      expect(json.count).to eq 3
+      expect(json.first['term']).to eq 'new jersey'
+    end
+  end
+
   describe "email/sms" do
     let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
