@@ -1,4 +1,11 @@
 <section id="content" class="<%= show_content_classes %>">
+  <div id="appliedParams" class="clearfix constraints-container">
+    <% if current_search_session %>
+      <%= link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
+      <%= link_back_to_catalog class: 'btn btn-secondary' %>
+    <% end %>
+  </div>
+
   <%= render_document_main_content_partial %>
 </section>
 

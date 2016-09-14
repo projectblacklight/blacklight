@@ -11,7 +11,7 @@ describe "Search Page" do
       expect(page).to have_selector('option', text: 'Subject')
     end
     expect(page).to have_selector("button[type='submit'] .submit-search-text")
-    expect(page).to_not have_selector("#startOverLink")
+    expect(page).to_not have_link "Start Over"
    
     expect(page).to have_content "Welcome!"
     tmp_value = Capybara.ignore_hidden_elements

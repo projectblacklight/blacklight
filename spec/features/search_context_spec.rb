@@ -25,7 +25,7 @@ describe "Search Results context", js: true do
   it 'shows "Back to Search" and "Start Over links"' do
     search_for 'Bod kyi naṅ chos ṅo sprod sñiṅ bsdus'
     first('.index_title a').click
-    within '.pagination-search-widgets' do
+    within '.constraints-container' do
       expect(page).to have_css 'a', text: 'Back to Search'
       expect(page).to have_css 'a', text: 'Start Over'
     end

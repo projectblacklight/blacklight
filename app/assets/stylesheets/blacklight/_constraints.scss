@@ -1,8 +1,5 @@
 .constraints-container {
-  @extend .card;
-  background-color: $gray-lightest;
-  line-height: 2.5;
-  padding: 16px 19px;
+  @extend .m-b-2;
 }
 
 span.constraints-label {
