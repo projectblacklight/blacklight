@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 # Methods added to this helper will be available to all templates in the hosting application
 module Blacklight::BlacklightHelperBehavior
-  include BlacklightUrlHelper
-  include BlacklightConfigurationHelper
-  include HashAsHiddenFieldsHelper
-  include RenderConstraintsHelper
-  include RenderPartialsHelper
-  include FacetsHelper
+  include UrlHelperBehavior
+  include HashAsHiddenFieldsHelperBehavior
+  include LayoutHelperBehavior
 
   ##
   # Get the name of this application, from either:

@@ -2,7 +2,7 @@
 
 require 'equivalent-xml'
 
-describe FacetsHelper do
+describe Blacklight::FacetsHelperBehavior do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before(:each) do

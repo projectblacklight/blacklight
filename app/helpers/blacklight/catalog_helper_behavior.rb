@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 module Blacklight::CatalogHelperBehavior
+  include ConfigurationHelperBehavior
+  include ComponentHelperBehavior
+  include FacetsHelperBehavior
+  include RenderConstraintsHelperBehavior
+  include RenderPartialsHelperBehavior
+  include SearchHistoryConstraintsHelperBehavior
+  include SuggestHelperBehavior
+
   # @param [Hash] options 
   # @option options :route_set the route scope to use when constructing the link
   def rss_feed_link_tag(options = {})
