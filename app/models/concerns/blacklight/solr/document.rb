@@ -16,12 +16,13 @@ require 'rsolr'
 #
 
 module Blacklight::Solr::Document
-  autoload :MoreLikeThis, 'blacklight/solr/document/more_like_this'
-
   extend ActiveSupport::Concern
   include Blacklight::Document
   include Blacklight::Document::ActiveModelShim
-  include Blacklight::Solr::Document::MoreLikeThis
+
+  def more_like_this
+    response.more_like(self).map { |doc| self.class.new(doc, response) }
+  end
 
   def has_highlight_field? k
     return false if response['highlighting'].blank? or response['highlighting'][self.id].blank?

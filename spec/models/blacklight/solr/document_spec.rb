@@ -270,5 +270,16 @@ describe "Blacklight::Solr::Document" do
 
     end
   end
-    
+  describe '#more_like_this' do
+    let(:response) { instance_double(Blacklight::Solr::Response, :more_like => [{'id' => 'abc'}]) }
+    let(:document) { MockDocument.new({:id => '123'}, response) }
+    subject(:result) { document.more_like_this }
+
+    it "should pluck the MoreLikeThis results from the Solr Response" do
+      expect(result).to have(1).item
+      expect(result.first).to be_a_kind_of(MockDocument)
+      expect(result.first.id).to eq 'abc'
+      expect(result.first.solr_response).to eq response
+    end
+  end
 end
