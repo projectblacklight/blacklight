@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-describe RenderConstraintsHelper do
-
+describe Blacklight::RenderConstraintsHelperBehavior do
   let(:config) do
     Blacklight::Configuration.new do |config|
       config.add_facet_field 'type'

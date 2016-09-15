@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module Blacklight::RenderPartialsHelper
+module Blacklight::RenderPartialsHelperBehavior
   ##
   # Render the document index view
   #

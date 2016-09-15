@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe BlacklightConfigurationHelper do
+describe Blacklight::ConfigurationHelperBehavior do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:config_value) { double() }
 
