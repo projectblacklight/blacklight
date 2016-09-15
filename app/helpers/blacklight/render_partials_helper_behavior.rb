@@ -14,7 +14,7 @@ module Blacklight::RenderPartialsHelperBehavior
   ##
   # Render the document index for a grouped response
   def render_grouped_document_index
-    render 'catalog/group_default'
+    render 'catalog/group'
   end
 
   ##
@@ -163,6 +163,7 @@ module Blacklight::RenderPartialsHelperBehavior
         "%{action_name}_%{index_view_type}_default",
         "%{action_name}_%{format}",
         "%{action_name}_default",
+        "%{action_name}",
         "catalog/%{action_name}_%{format}",
         "catalog/_%{action_name}_partials/%{format}",
         "catalog/_%{action_name}_partials/default"

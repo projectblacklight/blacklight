@@ -1,34 +1,35 @@
 # frozen_string_literal: true
 
-# spec for default partial to display solr document fields in catalog INDEX view
+# spec for default partial to display solr document fields in catalog show view
 
-describe "/catalog/_index_default.erb" do
+describe "/catalog/_show" do
+
   include BlacklightHelper
   include CatalogHelper
 
   before(:each) do
-    allow(view).to receive(:action_name).and_return('index')
+    allow(controller).to receive(:action_name).and_return('show')
     @config = Blacklight::Configuration.new do |config|
       config.show.display_type_field = 'asdf'
-      config.add_index_field 'one_field', :label => 'One:'
-      config.add_index_field 'empty_field', :label => 'Three:'
-      config.add_index_field 'four_field', :label => 'Four:'
+      config.add_show_field 'one_field', :label => 'One:'
+      config.add_show_field 'empty_field', :label => 'Three:'
+      config.add_show_field 'four_field', :label => 'Four:'
     end
 
     @fname_1 = "one_field"
     @fname_2 = "solr_field_not_in_config"
     @fname_3 = "empty_field"
     @fname_4 = "four_field"
-    
+
     @document = SolrDocument.new(id: 1, @fname_1 => "val_1", @fname_2 => "val2", @fname_4 => "val_4")
 
     @flabel_1 = "One:"
-    @flabel_3 = "Three:"
+    @flabel_3 = "Two:"
     @flabel_4 = "Four:"
 
     allow(view).to receive(:blacklight_config).and_return(@config)
     assigns[:document] = @document
-    @rendered = view.render_document_partial @document, :index
+    @rendered = view.render_document_partial @document, :show
   end
 
   it "only displays fields listed in the initializer" do
@@ -59,5 +60,4 @@ describe "/catalog/_index_default.erb" do
     expect(@rendered).to include("val_4")
     expect(@rendered).to_not include("val_2")
   end
-
 end
