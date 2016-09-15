@@ -45,7 +45,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # updated is required, for now we'll just set it to now, sorry
   xml.updated Time.current.iso8601
   
-  @document_list.each_with_index do |document, document_counter|
+  @response.documents.each_with_index do |document, document_counter|
     xml << Nokogiri::XML.fragment(render_document_partials(document, blacklight_config.view_config(:atom).partials, document_counter: document_counter))
   end
 end
