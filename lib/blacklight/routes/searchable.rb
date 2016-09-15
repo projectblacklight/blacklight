@@ -14,6 +14,7 @@ module Blacklight
         mapper.post ":id/track", action: 'track', as: 'track'
 
         mapper.get "opensearch"
+        mapper.get 'suggest', as: 'suggest_index', defaults: { format: 'json' }
         mapper.get "facet/:id", action: 'facet', as: 'facet'
       end
     end
