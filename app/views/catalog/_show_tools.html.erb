@@ -7,15 +7,15 @@
   # functions by default only on detail.
 
 -%>
-<div class="panel panel-default show-tools">
-  <div class="panel-heading">
+<div class="card show-tools">
+  <div class="card-header">
     <%= t('blacklight.tools.title') %>
   </div>
 
-  <div class="panel-body">
-    <ul class="nav">
+  <div class="card-block">
+    <ul class="nav nav-pills nav-stacked">
       <%= render_show_doc_actions @document do |config, inner| %>
-        <li class="<%= config.key %>">
+        <li class="nav-item <%= config.key %>">
           <%= inner %>
         </li>
       <% end %>

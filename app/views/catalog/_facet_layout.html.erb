@@ -1,10 +1,8 @@
-<div class="panel panel-default facet_limit blacklight-<%= facet_field.key.parameterize %> <%= 'facet_limit-active' if facet_field_in_params?(facet_field.key) %>">
-  <div class="<%= "collapsed" if should_collapse_facet?(facet_field) %> collapse-toggle panel-heading" data-toggle="collapse" data-target="#<%= facet_field_id(facet_field) %>">
-    <h3 class="panel-title facet-field-heading">
-      <%= link_to facet_field_label(facet_field.key), "#", :"data-no-turbolink" => true %>
-    </h3>
-  </div>
-  <div id="<%= facet_field_id(facet_field) %>" class="panel-collapse facet-content <%= should_collapse_facet?(facet_field) ? 'collapse' : 'in' %>">
+<div class="card facet_limit blacklight-<%= facet_field.key.parameterize %> <%= 'facet_limit-active' if facet_field_in_params?(facet_field.key) %>">
+  <h3 class="panel-title card-header <%= "collapsed" if should_collapse_facet?(facet_field) %> collapse-toggle facet-field-heading" data-toggle="collapse" data-target="#<%= facet_field_id(facet_field) %>">
+    <%= link_to facet_field_label(facet_field.key), "##{ facet_field_id(facet_field)}", :"data-no-turbolink" => true %>
+  </h3>
+  <div id="<%= facet_field_id(facet_field) %>" class="card-block panel-collapse facet-content <%= should_collapse_facet?(facet_field) ? 'collapse' : 'in' %>">
     <div class="panel-body">
       <%= yield %>
     </div>

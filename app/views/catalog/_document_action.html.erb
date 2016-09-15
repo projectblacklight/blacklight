@@ -1,4 +1,5 @@
 <%= link_to document_action_label(document_action_config.key, document_action_config),
             document_action_path(document_action_config, (local_assigns.has_key?(:url_opts) ? url_opts : {}).merge(({id: document} if document) || {})),
             id: document_action_config.fetch(:id, "#{document_action_config.key}Link"),
+            class: 'nav-link',
             data: {}.merge(({ajax_modal: "trigger"} if document_action_config.modal != false) || {}) %>

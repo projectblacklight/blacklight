@@ -1,6 +1,6 @@
 .dl-horizontal {
   dd {
-    margin-bottom: $padding-base-vertical;
+    margin-bottom: $spacer-y;
 
     &:after {
       clear: none;
@@ -12,6 +12,16 @@
   dt {
     font-weight: normal;
     color: $field_name_color;
+    text-align: right;
+
+    @media (max-width: breakpoint-max(sm)) {
+      text-align: left;
+    }
+
+    @media (min-width: breakpoint-max(sm)) {
+      text-align: right;
+    }
+
   }
 }
 

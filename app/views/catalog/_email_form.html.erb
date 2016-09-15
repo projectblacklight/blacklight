@@ -1,8 +1,8 @@
-<%= form_tag url_for(:controller => controller_name, :action => "email"), :id => 'email_form', :class => "form-horizontal ajax_form", :method => :post do %>
+<%= form_tag url_for(:controller => controller_name, :action => "email"), :id => 'email_form', :class => "ajax_form", :method => :post do %>
 
   <div class="modal-body">
     <%= render :partial=>'/flash_msg' %>
-    <div class="form-group">
+    <div class="form-group row">
       <label class="control-label col-sm-2" for="to">
         <%= t('blacklight.email.form.to') %>
       </label>
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group row">
       <label class="control-label col-sm-2" for="message">
         <%= t('blacklight.email.form.message') %>
       </label>

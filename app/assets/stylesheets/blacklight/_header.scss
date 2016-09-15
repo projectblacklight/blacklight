@@ -3,32 +3,21 @@
 */
 
 .navbar-brand {  /* The main logo image for the Blacklight instance */
-  width: 150px;
-  height: 50px;
   background:transparent image_url($logo_image) no-repeat top left;
   display: inline-block;
+  height: 50px;
+  margin-right:20px;
+  margin-top: -0.4rem;
+  overflow: hidden;
+  padding-left: 0;
+  padding-right: 0;
   text-indent: 100%;
   white-space: nowrap;
-  overflow: hidden;
-  padding-right:0;
-  margin-right:20px;
-  padding-left: 0;
+  width: 150px;
 }
 
 .navbar-search {
   z-index: 1;
-
-  .input-group {
-    width: 100%;
-  }
-
-  .input-group-addon {
-    &.for-search-field {
-      background-color: $input-bg;
-      border-radius: $border-radius-base 0 0 $border-radius-base;
-      width: 15ch;
-    }
-  }
 
   .search_field {
     background: transparent;
@@ -37,22 +26,17 @@
 
   .search-query-form {
     @extend .col-md-8;
-    border: 0;
     padding-left: 0;
   }
+
+  .input-group-addon.for-search-field {
+    padding-bottom: calc(0.5rem - 1px);
+  }
+
   .submit-search-text {
     // hide 'search' label at very small screens
-    @media screen and (max-width: $screen-xs-min ) {      
-      // copied from .sr-only, sadly can't seem to use @extend in a media
-      // query like this, have to copy. 
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      border: 0;    
+    @media screen and (max-width: breakpoint-max(xs)) {
+      @include sr-only();
     }    
   }
 }

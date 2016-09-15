@@ -1,0 +1,22 @@
+.navbar + .container {
+  @extend .p-y-2;
+}
+
+.card-header.collapse-toggle {
+  margin-bottom: 0;
+
+  &::after {
+    content: "❯";
+    float: right;
+    transform: rotate(90deg);
+  }
+
+  &.collapsed {
+    border-bottom: 0;
+
+    &::after {
+      transform: rotate(0deg);
+      transition: transform 0.1s ease;
+    }
+  }
+}

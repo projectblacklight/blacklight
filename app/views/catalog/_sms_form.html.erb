@@ -1,7 +1,7 @@
-  <%= form_tag url_for(:controller => controller_name, :action => "sms"), :id => 'sms_form', :class => "form-horizontal ajax_form", :method => :post do %>
+  <%= form_tag url_for(:controller => controller_name, :action => "sms"), :id => 'sms_form', :class => "ajax_form", :method => :post do %>
 <div class="modal-body">
   <%= render :partial=>'/flash_msg' %>
-    <div class="form-group">
+    <div class="form-group row">
       <label class="control-label col-sm-2" for="to"> 
         <%= t('blacklight.sms.form.to') %>
       </label>
@@ -9,7 +9,7 @@
         <%= telephone_field_tag :to, params[:to], class: 'form-control' %>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group row">
       <label class="control-label col-sm-2" for="carrier">
         <%= t('blacklight.sms.form.carrier') %> 
       </label>
