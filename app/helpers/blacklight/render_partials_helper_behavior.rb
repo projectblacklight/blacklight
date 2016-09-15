@@ -7,7 +7,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [Hash] locals to pass to the render call
   # @return [String]
   def render_document_index documents = nil, locals = {}
-    documents ||= @document_list
+    documents ||= @response.documents
     render_document_index_with_view(document_index_view_type, documents, locals)
   end
 

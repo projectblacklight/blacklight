@@ -14,7 +14,7 @@ describe "catalog/index" do
 
   before do
     @response = Blacklight::Solr::Response.new({ response: { numFound: 30 }}, { start: 10, rows: 10})
-    @document_list = document_list
+    allow(@response).to receive(:documents).and_return(document_list)
     params['content_format'] = 'some_format'
     allow(view).to receive(:action_name).and_return('index')
     allow(view).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
