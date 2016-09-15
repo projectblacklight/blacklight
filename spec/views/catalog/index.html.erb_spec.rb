@@ -7,15 +7,12 @@ describe "catalog/index.html.erb" do
       allow(view).to receive(:has_search_parameters?).and_return(false)
       allow(view).to receive(:blacklight_config).and_return(Blacklight::Configuration.new)
     end
-    it "renders the sidebar and content panes" do
-      render
-      expect(rendered).to match /id="sidebar"/
-      expect(rendered).to match /id="content"/
-    end
+    let(:sidebar) { view.content_for(:sidebar) }
+
     it "renders the search_sidebar partial" do
       stub_template "catalog/_search_sidebar.html.erb" => "sidebar_content"
       render
-      expect(rendered).to match /sidebar_content/
+      expect(sidebar).to match /sidebar_content/
     end
   end
 

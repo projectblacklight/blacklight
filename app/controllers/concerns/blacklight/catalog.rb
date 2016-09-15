@@ -279,4 +279,8 @@ module Blacklight::Catalog
     def suggestions_service
       Blacklight::SuggestSearch.new(params, repository).suggestions
     end
+
+    def determine_layout
+      action_name == 'show' ? 'catalog_result' : super
+    end
 end
