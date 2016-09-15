@@ -43,7 +43,9 @@ module Blacklight::Catalog
     # get a single document from the index
     # to add responses for formats other than html or json see _Blacklight::Document::Export_
     def show
-      @response, @document = fetch params[:id]
+      deprecated_response, @document = fetch params[:id]
+      @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
+
       respond_to do |format|
         format.html { setup_next_and_previous_documents }
         format.json { render json: { response: { document: @document } } }

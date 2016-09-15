@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 module Blacklight::CatalogHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 8.0'
+
   include ConfigurationHelperBehavior
   include ComponentHelperBehavior
   include FacetsHelperBehavior
@@ -253,9 +256,18 @@ module Blacklight::CatalogHelperBehavior
     "glyphicon-#{view.to_s.parameterize} view-icon-#{view.to_s.parameterize}"
   end
   
-  def current_bookmarks response = nil
-    response ||= @response
-    @current_bookmarks ||= current_or_guest_user.bookmarks_for_documents(response.documents).to_a
+  def current_bookmarks documents_or_response = nil
+    documents = if documents_or_response.respond_to? :documents
+                  Deprecation.warn(Blacklight::CatalogHelperBehavior, "Passing a response to #current_bookmarks is deprecated; pass response.documents instead")
+                  documents_or_response.documents
+                else
+                  documents_or_response
+                end
+
+    documents ||= [@document] if @document.present?
+    documents ||= @response.documents
+
+    @current_bookmarks ||= current_or_guest_user.bookmarks_for_documents(documents).to_a
   end
 
   ##
