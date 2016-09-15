@@ -22,7 +22,9 @@ module Blacklight::Catalog
 
     # get search results from the solr index
     def index
-      (@response, @document_list) = search_results(params)
+      (@response, deprecated_document_list) = search_results(params)
+
+      @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
 
       respond_to do |format|
         format.html { store_preferred_view }
@@ -30,7 +32,6 @@ module Blacklight::Catalog
         format.atom { render :layout => false }
         format.json do
           @presenter = Blacklight::JsonPresenter.new(@response,
-                                                     @document_list,
                                                      facets_from_request,
                                                      blacklight_config)
         end

@@ -4,16 +4,18 @@ module Blacklight
     include Blacklight::Facet
 
     # @param [Solr::Response] response raw solr response.
-    # @param [Array<SolrDocument>] documents a list of documents
     # @param [Array] facets list of facets
-    def initialize(response, documents, facets, blacklight_config)
+    def initialize(response, facets, blacklight_config)
       @response = response
-      @documents = documents
       @facets = facets
       @blacklight_config = blacklight_config
     end
 
-    attr_reader :documents, :blacklight_config
+    attr_reader :blacklight_config
+
+    def documents
+      @response.documents
+    end
 
     def search_facets_as_json
       @facets.as_json.each do |f|
