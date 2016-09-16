@@ -233,14 +233,14 @@ RSpec.describe "Blacklight::Solr::Document" do
     context "highlighting" do
 
       before(:all) do
-        @document = MockDocument.new({'id' => 'doc1', 'title_field' => 'doc1 title'}, {'highlighting' => { 'doc1' => { 'title_text' => ['doc <em>1</em>']}, 'doc2' => { 'title_text' => ['doc 2']}}})
+        @document = MockDocument.new({'id' => 'doc1', 'title_field' => 'doc1 title'}, {'highlighting' => { 'doc1' => { 'title_tsimext' => ['doc <em>1</em>']}, 'doc2' => { 'title_tsimext' => ['doc 2']}}})
 
       end
 
       describe "#has_highlight_field?" do
         it "should be true if the highlight field is in the solr response" do
-          expect(@document).to have_highlight_field 'title_text'
-          expect(@document).to have_highlight_field :title_text
+          expect(@document).to have_highlight_field 'title_tsimext'
+          expect(@document).to have_highlight_field :title_tsimext
         end
 
         it "should be false if the highlight field isn't in the solr response" do
@@ -250,12 +250,12 @@ RSpec.describe "Blacklight::Solr::Document" do
 
       describe "#highlight_field" do
         it "should return a value" do
-          expect(@document.highlight_field('title_text')).to include('doc <em>1</em>')
+          expect(@document.highlight_field('title_tsimext')).to include('doc <em>1</em>')
         end
 
 
         it "should return a value that is html safe" do
-          expect(@document.highlight_field('title_text').first).to be_html_safe
+          expect(@document.highlight_field('title_tsimext').first).to be_html_safe
         end
 
         it "should return nil when the field doesn't exist" do

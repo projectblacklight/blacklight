@@ -6,7 +6,7 @@ RSpec.describe "/catalog/_show_sidebar.html.erb" do
 
   let(:blacklight_config) do
     Blacklight::Configuration.new do |config|
-      config.index.title_field = 'title_display'
+      config.index.title_field = 'title_tsim'
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe "/catalog/_show_sidebar.html.erb" do
 
   it "shows more-like-this titles in the sidebar" do
   	@document = SolrDocument.new :id => 1, :title_s => 'abc', :format => 'default'
-  	allow(@document).to receive(:more_like_this).and_return([SolrDocument.new({ 'id' => '2', 'title_display' => 'Title of MLT Document' })])
+  	allow(@document).to receive(:more_like_this).and_return([SolrDocument.new({ 'id' => '2', 'title_tsim' => 'Title of MLT Document' })])
     render
     expect(rendered).to include("More Like This")
     expect(rendered).to include("Title of MLT Document")

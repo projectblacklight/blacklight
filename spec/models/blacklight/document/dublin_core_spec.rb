@@ -7,8 +7,8 @@ RSpec.describe "Blacklight::Document::DublinCore" do
     end
     @mock_class.use_extension( Blacklight::Document::DublinCore )
     @mock_class.field_semantics.merge!(
-      :title => :title_display,
-      :non_dc_title => :title_display
+      :title => :title_tsim,
+      :non_dc_title => :title_tsim
     )
   end
 
@@ -25,14 +25,14 @@ RSpec.describe "Blacklight::Document::DublinCore" do
   end
 
   it "should include 'dc:'-prefixed semantic fields" do
-      data = {'id'=>'123456','title_display'=>['654321'] }
+      data = {'id'=>'123456','title_tsim'=>['654321'] }
       document = @mock_class.new(data)
       expect(document.export_as_oai_dc_xml).to match  'xmlns:dc="http://purl.org/dc/elements/1.1/"'
       expect(document.export_as_oai_dc_xml).to match  '<dc:title>654321</dc:title>'
   end
 
   it "should work with multi-value fields" do
-      data = {'id'=>'123456','title_display'=>['654321', '987'] }
+      data = {'id'=>'123456','title_tsim'=>['654321', '987'] }
       document = @mock_class.new(data)
       expect(document.export_as_oai_dc_xml).to match '<dc:title>654321</dc:title>'
       expect(document.export_as_oai_dc_xml).to match '<dc:title>987</dc:title></oai_dc:dc>'

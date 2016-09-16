@@ -34,7 +34,7 @@ RSpec.describe BlacklightHelper do
     let(:presenter) { Blacklight::IndexPresenter.new(document, view_context) }
     let(:blacklight_config) do
       Blacklight::Configuration.new.configure do |config|
-        config.index.title_field = 'title_display'
+        config.index.title_field = 'title_tsim'
         config.index.display_type_field = 'format'
       end
     end
@@ -58,11 +58,11 @@ RSpec.describe BlacklightHelper do
   describe "with a config" do
     let(:config) do
       Blacklight::Configuration.new.configure do |config|
-        config.index.title_field = 'title_display'
+        config.index.title_field = 'title_tsim'
         config.index.display_type_field = 'format'
       end
     end
-    let(:document) { SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8') }
+    let(:document) { SolrDocument.new('title_tsim' => "A Fake Document", 'id'=>'8') }
 
     before do
       config.add_show_tools_partial(:bookmark, partial: 'catalog/bookmark_control')

@@ -26,7 +26,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #config.per_page = [10,20,50,100]
 
     # solr field configuration for search results/index views
-    config.index.title_field = 'title_display'
+    config.index.title_field = 'title_tsim'
     config.index.display_type_field = 'format'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
 
@@ -45,7 +45,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     config.add_nav_action(:search_history, partial: 'blacklight/nav/search_history')
 
     # solr field configuration for document/show views
-    #config.show.title_field = 'title_display'
+    #config.show.title_field = 'title_tsim'
     #config.show.display_type_field = 'format'
     #config.show.thumbnail_field = 'thumbnail_path_ss'
 
@@ -74,19 +74,19 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'format', label: 'Format'
-    config.add_facet_field 'pub_date', label: 'Publication Year', single: true
-    config.add_facet_field 'subject_topic_facet', label: 'Topic', limit: 20, index_range: 'A'..'Z'
-    config.add_facet_field 'language_facet', label: 'Language', limit: true
-    config.add_facet_field 'lc_1letter_facet', label: 'Call Number'
-    config.add_facet_field 'subject_geo_facet', label: 'Region'
-    config.add_facet_field 'subject_era_facet', label: 'Era'
+    config.add_facet_field 'pub_date_ssim', label: 'Publication Year', single: true
+    config.add_facet_field 'subject_ssim', label: 'Topic', limit: 20, index_range: 'A'..'Z'
+    config.add_facet_field 'language_ssim', label: 'Language', limit: true
+    config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
+    config.add_facet_field 'subject_geo_ssim', label: 'Region'
+    config.add_facet_field 'subject_era_ssim', label: 'Era'
 
-    config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_facet']
+    config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_ssim']
 
     config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
-       :years_5 => { label: 'within 5 Years', fq: "pub_date:[#{Time.zone.now.year - 5 } TO *]" },
-       :years_10 => { label: 'within 10 Years', fq: "pub_date:[#{Time.zone.now.year - 10 } TO *]" },
-       :years_25 => { label: 'within 25 Years', fq: "pub_date:[#{Time.zone.now.year - 25 } TO *]" }
+       :years_5 => { label: 'within 5 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 5 } TO *]" },
+       :years_10 => { label: 'within 10 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 10 } TO *]" },
+       :years_25 => { label: 'within 25 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 25 } TO *]" }
     }
 
 
@@ -97,32 +97,32 @@ class <%= controller_name.classify %>Controller < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field 'title_display', label: 'Title'
-    config.add_index_field 'title_vern_display', label: 'Title'
-    config.add_index_field 'author_display', label: 'Author'
-    config.add_index_field 'author_vern_display', label: 'Author'
+    config.add_index_field 'title_tsim', label: 'Title'
+    config.add_index_field 'title_vern_ssim', label: 'Title'
+    config.add_index_field 'author_tsim', label: 'Author'
+    config.add_index_field 'author_vern_ssim', label: 'Author'
     config.add_index_field 'format', label: 'Format'
-    config.add_index_field 'language_facet', label: 'Language'
-    config.add_index_field 'published_display', label: 'Published'
-    config.add_index_field 'published_vern_display', label: 'Published'
-    config.add_index_field 'lc_callnum_display', label: 'Call number'
+    config.add_index_field 'language_ssim', label: 'Language'
+    config.add_index_field 'published_ssim', label: 'Published'
+    config.add_index_field 'published_vern_ssim', label: 'Published'
+    config.add_index_field 'lc_callnum_ssim', label: 'Call number'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field 'title_display', label: 'Title'
-    config.add_show_field 'title_vern_display', label: 'Title'
-    config.add_show_field 'subtitle_display', label: 'Subtitle'
-    config.add_show_field 'subtitle_vern_display', label: 'Subtitle'
-    config.add_show_field 'author_display', label: 'Author'
-    config.add_show_field 'author_vern_display', label: 'Author'
+    config.add_show_field 'title_tsim', label: 'Title'
+    config.add_show_field 'title_vern_ssim', label: 'Title'
+    config.add_show_field 'subtitle_tsim', label: 'Subtitle'
+    config.add_show_field 'subtitle_vern_ssim', label: 'Subtitle'
+    config.add_show_field 'author_tsim', label: 'Author'
+    config.add_show_field 'author_vern_ssim', label: 'Author'
     config.add_show_field 'format', label: 'Format'
-    config.add_show_field 'url_fulltext_display', label: 'URL'
-    config.add_show_field 'url_suppl_display', label: 'More Information'
-    config.add_show_field 'language_facet', label: 'Language'
-    config.add_show_field 'published_display', label: 'Published'
-    config.add_show_field 'published_vern_display', label: 'Published'
-    config.add_show_field 'lc_callnum_display', label: 'Call number'
-    config.add_show_field 'isbn_t', label: 'ISBN'
+    config.add_show_field 'url_fulltext_ssim', label: 'URL'
+    config.add_show_field 'url_suppl_ssim', label: 'More Information'
+    config.add_show_field 'language_ssim', label: 'Language'
+    config.add_show_field 'published_ssim', label: 'Published'
+    config.add_show_field 'published_vern_ssim', label: 'Published'
+    config.add_show_field 'lc_callnum_ssim', label: 'Call number'
+    config.add_show_field 'isbn_ssim', label: 'ISBN'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -182,10 +182,10 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', label: 'relevance'
-    config.add_sort_field 'pub_date_sort desc, title_sort asc', label: 'year'
-    config.add_sort_field 'author_sort asc, title_sort asc', label: 'author'
-    config.add_sort_field 'title_sort asc, pub_date_sort desc', label: 'title'
+    config.add_sort_field 'score desc, pub_date_si desc, title_si asc', label: 'relevance'
+    config.add_sort_field 'pub_date_si desc, title_si asc', label: 'year'
+    config.add_sort_field 'author_si asc, title_si asc', label: 'author'
+    config.add_sort_field 'title_si asc, pub_date_si desc', label: 'title'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.

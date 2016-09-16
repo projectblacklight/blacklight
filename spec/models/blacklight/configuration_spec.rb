@@ -291,29 +291,29 @@ RSpec.describe "Blacklight::Configuration" do
 
   describe "add_index_field" do
     it "takes hash form" do
-      config.add_index_field("title_display", :label => "Title")
+      config.add_index_field("title_tsim", :label => "Title")
 
-      expect(config.index_fields["title_display"]).to_not be_nil
-      expect(config.index_fields["title_display"].label).to eq "Title"
+      expect(config.index_fields["title_tsim"]).to_not be_nil
+      expect(config.index_fields["title_tsim"].label).to eq "Title"
     end
     it "takes IndexField param" do
-      config.add_index_field("title_display", Blacklight::Configuration::IndexField.new(:field => "title_display", :label => "Title"))
+      config.add_index_field("title_tsim", Blacklight::Configuration::IndexField.new(:field => "title_display", :label => "Title"))
 
-      expect(config.index_fields["title_display"]).to_not be_nil
-      expect(config.index_fields["title_display"].label).to eq "Title"
+      expect(config.index_fields["title_tsim"]).to_not be_nil
+      expect(config.index_fields["title_tsim"].label).to eq "Title"
     end
     it "takes block form" do
-      config.add_index_field("title_display") do |field|
+      config.add_index_field("title_tsim") do |field|
         field.label = "Title"
       end
-      expect(config.index_fields["title_display"]).to_not be_nil
-      expect(config.index_fields["title_display"].label).to eq "Title"
+      expect(config.index_fields["title_tsim"]).to_not be_nil
+      expect(config.index_fields["title_tsim"].label).to eq "Title"
     end
 
     it "creates default label from titleized field" do
-      config.add_index_field("title_display")
+      config.add_index_field("title_tsim")
 
-      expect(config.index_fields["title_display"].label).to eq "Title Display"
+      expect(config.index_fields["title_tsim"].label).to eq "Title Tsim"
     end
 
     it "raises on nil solr field name" do
@@ -332,31 +332,31 @@ RSpec.describe "Blacklight::Configuration" do
     end
 
     it "queries solr and get live values for match fields", integration: true do
-      config.add_index_field match: /title.+display/
-      expect(config.index_fields.keys).to include "subtitle_display", "subtitle_vern_display", "title_display", "title_vern_display"
+      config.add_index_field match: /title.+sim/
+      expect(config.index_fields.keys).to include "subtitle_tsim", "subtitle_vern_ssim", "title_tsim", "title_vern_ssim"
     end
   end
 
   describe "add_show_field" do
     it "takes hash form" do
-      config.add_show_field("title_display", :label => "Title")
+      config.add_show_field("title_tsim", :label => "Title")
 
-      expect(config.show_fields["title_display"]).to_not be_nil
-      expect(config.show_fields["title_display"].label).to eq "Title"
+      expect(config.show_fields["title_tsim"]).to_not be_nil
+      expect(config.show_fields["title_tsim"].label).to eq "Title"
     end
     it "takes ShowField argument" do
-      config.add_show_field("title_display", Blacklight::Configuration::ShowField.new(:field => "title_display", :label => "Title"))
+      config.add_show_field("title_tsim", Blacklight::Configuration::ShowField.new(:field => "title_display", :label => "Title"))
 
-      expect(config.show_fields["title_display"]).to_not be_nil
-      expect(config.show_fields["title_display"].label).to eq  "Title"
+      expect(config.show_fields["title_tsim"]).to_not be_nil
+      expect(config.show_fields["title_tsim"].label).to eq  "Title"
     end
     it "takes block form" do
-      config.add_show_field("title_display") do |f|
+      config.add_show_field("title_tsim") do |f|
         f.label = "Title"
       end
 
-      expect(config.show_fields["title_display"]).to_not be_nil
-      expect(config.show_fields["title_display"].label).to eq  "Title"
+      expect(config.show_fields["title_tsim"]).to_not be_nil
+      expect(config.show_fields["title_tsim"].label).to eq  "Title"
     end
 
     it "creates default label humanized from field" do
@@ -469,20 +469,22 @@ RSpec.describe "Blacklight::Configuration" do
     end
 
     it "takes a two-arg form with a hash" do
-      config.add_sort_field("score desc, pub_date_sort desc, title_sort asc", :label => "relevance")
+      config.add_sort_field("score desc, pub_date_si desc, title_si asc", :label => "relevance")
       expect(config.sort_fields.values.find{|f| f.label == "relevance"}).to_not be_nil
     end
 
     it "takes a SortField object" do
-      config.add_sort_field(Blacklight::Configuration::SortField.new(:label => "relevance", :sort => "score desc, pub_date_sort desc, title_sort asc"
-))
+      config.add_sort_field(
+        Blacklight::Configuration::SortField.new(label: "relevance",
+                                                 sort: "score desc, pub_date_sort desc, title_sort asc")
+      )
       expect(config.sort_fields.values.find{|f| f.label == "relevance"}).to_not be_nil
     end
 
     it "takes block form" do
       config.add_sort_field do |field|
         field.label = "relevance"
-        field.sort = "score desc, pub_date_sort desc, title_sort asc"
+        field.sort = "score desc, pub_date_si desc, title_si asc"
       end
 
       expect(config.sort_fields.values.find{|f| f.label == "relevance"}).to_not be_nil

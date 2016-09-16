@@ -29,8 +29,7 @@ RSpec.describe "Search Results" do
   it "orders by relevancy" do
     search_for "Korea"
     expect(position_in_result_page(page, '77826928')).to eq 1
-    expect(position_in_result_page(page, '94120425')).to eq 2
-    
+    expect(position_in_result_page(page, '94120425')).to eq 4
   end
 
   it "has an opensearch description document" do
@@ -73,7 +72,7 @@ def position_in_result_page(page, id)
   end
   i.to_i
 end
-        
+
 def number_of_results_for_query(query)
   visit root_path
   fill_in "q", :with => query

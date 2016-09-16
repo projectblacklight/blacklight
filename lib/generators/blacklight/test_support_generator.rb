@@ -32,9 +32,9 @@ module Blacklight
         <<-EOF
 
             field_semantics.merge!(
-              title: "title_display",
-              author: "author_display",
-              language: "language_facet",
+              title: "title_tsim",
+              author: "author_tsim",
+              language: "language_ssim",
               format: "format")
         EOF
       end
