@@ -8,6 +8,10 @@
   <%= atom_feed_link_tag %>
 <% end %>
 
+<% content_for(:container_header) do -%>
+  <%= render 'constraints' %>
+<% end %>
+
 <%= render 'search_header' %>
 
 <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>

@@ -18,7 +18,6 @@ describe "catalog/constraints" do
     allow(view).to receive_messages(query_has_constraints?: true)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     render partial: "catalog/constraints"
-    expect(rendered).to have_selector("#startOverLink")
     expect(rendered).to have_link("Start Over", :href => 'http://xyz')
   end
 
@@ -28,7 +27,6 @@ describe "catalog/constraints" do
     params[:view] = 'xyz'
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     render partial: "catalog/constraints"
-    expect(rendered).to have_selector("#startOverLink")
     expect(rendered).to have_link("Start Over", :href => 'http://xyz?view=xyz')
   end
 

@@ -28,7 +28,7 @@
   <%= render :partial => 'shared/header_navbar' %>
 
   <div id="main-container" class="<%= container_classes %>">
-    <%= content_tag :h1, application_name, class: 'sr-only application-heading' %>
+    <%= content_for(:container_header) %>
 
     <%= render :partial=>'/flash_msg', layout: 'shared/flash_messages' %>
 
