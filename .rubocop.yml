@@ -22,3 +22,7 @@ Style/IndentationConsistency:
 
 Rails/OutputSafety:
   Enabled: false
+
+Style/MethodMissing:
+  Exclude:
+  - 'lib/blacklight/utils.rb'
