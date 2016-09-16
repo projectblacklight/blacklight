@@ -119,9 +119,8 @@ describe Blacklight::IndexPresenter do
     context 'for a field with the helper_method option' do
       let(:field_name) { 'field_with_helper' }
       let(:field_config) { config.add_facet_field 'field_with_helper', helper_method: 'render_field_with_helper' }
-
-      before do
-        document['field_with_helper'] = 'value'
+      let(:document) do
+        SolrDocument.new(id: 1, 'field_with_helper' => 'value')
       end
 
       it "checks call the helper method with arguments" do
