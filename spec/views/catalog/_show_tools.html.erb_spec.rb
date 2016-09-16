@@ -60,14 +60,14 @@ describe "catalog/_show_tools.html.erb" do
       allow(view).to receive(:some_action_solr_document_path).and_return "x"
       document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new partial: 'document_action'
       render partial: 'catalog/show_tools'
-      expect(rendered).to have_selector '.some_action > a[data-ajax-modal="trigger"]', text: "Some action"
+      expect(rendered).to have_selector '.some_action > a[data-blacklight-modal="trigger"]', text: "Some action"
     end
 
     it "allows configuration to opt out of modal behavior" do
       allow(view).to receive(:some_action_solr_document_path).and_return "x"
       document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new partial: 'document_action', modal: false
       render partial: 'catalog/show_tools'
-      expect(rendered).not_to have_selector '.some_action > a[data-ajax-modal="trigger"]', text: "Some action"
+      expect(rendered).not_to have_selector '.some_action > a[data-blacklight-modal="trigger"]', text: "Some action"
     end
   end
 end
