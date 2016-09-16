@@ -43,5 +43,7 @@ module Blacklight
     }
 
     config.bookmarks_http_method = :post
+    
+    config.email_regexp = defined?(Devise) ? Devise.email_regexp : /\A[^@\s]+@[^@\s]+\z/
   end
 end

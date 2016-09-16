@@ -235,7 +235,7 @@ module Blacklight::Catalog
     def validate_email_params
       if params[:to].blank?
         flash[:error] = I18n.t('blacklight.email.errors.to.blank')
-      elsif !params[:to].match(defined?(Devise) ? Devise.email_regexp : /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
+      elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
         flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
       end
 
