@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_thumbnail_default" do
+describe "catalog/_thumbnail" do
 
   let :document_without_thumbnail_field do
     SolrDocument.new :id => 'xyz', :format => 'a'
@@ -26,13 +26,13 @@ describe "catalog/_thumbnail_default" do
   end
 
   it "renders the thumbnail if the document has one" do
-    render :partial => "catalog/thumbnail_default", :locals => {:document => document_with_thumbnail_field, :document_counter => 1}
+    render :partial => "catalog/thumbnail", :locals => {:document => document_with_thumbnail_field, :document_counter => 1}
     expect(rendered).to match /document-thumbnail/
     expect(rendered).to match /src="http:\/\/localhost\/logo.png"/
   end
 
   it "does not render a thumbnail if the document does not have one" do
-    render :partial => "catalog/thumbnail_default", :locals => {:document => document_without_thumbnail_field, :document_counter => 1}
+    render :partial => "catalog/thumbnail", :locals => {:document => document_without_thumbnail_field, :document_counter => 1}
     expect(rendered).to eq ""
   end
 end

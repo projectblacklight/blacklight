@@ -10,8 +10,8 @@ describe "catalog/_document" do
   end
 
   it "renders the header, thumbnail and index by default" do
-    stub_template "catalog/_index_header_default.html.erb" => "document_header"
-    stub_template "catalog/_thumbnail_default.html.erb" => "thumbnail_default"
+    stub_template "catalog/_index_header.html.erb" => "document_header"
+    stub_template "catalog/_thumbnail.html.erb" => "thumbnail_default"
     stub_template "catalog/_index_default.html.erb" => "index_default"
     render :partial => "catalog/document", :locals => {:document => document, :document_counter => 1}
     expect(rendered).to match /document_header/

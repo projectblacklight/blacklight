@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_index_header_default" do
+describe "catalog/_index_header" do
   let :document do
     SolrDocument.new :id => 'xyz', :format => 'a'
   end
@@ -18,19 +18,19 @@ describe "catalog/_index_header_default" do
 
   it "renders the document header" do
     allow(view).to receive(:render_index_doc_actions)
-    render partial: "catalog/index_header_default", locals: {document: document, document_counter: 1}
+    render partial: "catalog/index_header", locals: {document: document, document_counter: 1}
     expect(rendered).to have_selector('.document-counter', text: "2")
   end
 
   it "allows the title to take the whole space if no document tools are rendered" do
     allow(view).to receive(:render_index_doc_actions)
-    render partial: "catalog/index_header_default", locals: {document: document, document_counter: 1}
+    render partial: "catalog/index_header", locals: {document: document, document_counter: 1}
     expect(rendered).to have_selector '.index_title.col-md-12'
   end
 
   it "gives the document actions space if present" do
     allow(view).to receive(:render_index_doc_actions).and_return("DOCUMENT ACTIONS")
-    render partial: "catalog/index_header_default", locals: {document: document, document_counter: 1}
+    render partial: "catalog/index_header", locals: {document: document, document_counter: 1}
     expect(rendered).to have_selector '.index_title.col-sm-9'
     expect(rendered).to have_content "DOCUMENT ACTIONS"
   end
