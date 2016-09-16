@@ -167,10 +167,6 @@ module Blacklight
         super
       end
     end
-    
-    def respond_to_missing?(*_)
-      true
-    end
 
     private
 

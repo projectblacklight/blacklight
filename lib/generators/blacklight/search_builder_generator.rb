@@ -16,5 +16,17 @@ module Blacklight
     def create_search_builder
       template "search_builder.rb", "app/models/#{model_name}.rb"
     end
+
+    def create_search_builder_spec
+      return unless rspec_installed?
+
+      template "search_builder_spec.rb", "spec/models/#{model_name}_spec.rb"
+    end
+
+    private
+
+    def rspec_installed?
+      defined?(RSpec) && defined?(RSpec::Rails)
+    end
   end
 end
