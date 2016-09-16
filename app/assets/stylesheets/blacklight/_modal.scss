@@ -9,13 +9,13 @@
     display: none;
   }
 
-  .ajax-modal-close {
+  .blacklight-modal-close {
     display: block;
   }
 }
 
 // app/views/catalog/facet.html.erb may be rendered as a modal or a whole page.
 // When it's a whole page, don't show the close button.
-.ajax-modal-close {
+.blacklight-modal-close {
 	display: none;
 }

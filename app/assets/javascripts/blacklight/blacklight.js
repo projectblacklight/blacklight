@@ -7,7 +7,7 @@
 //= require blacklight/core
 //= require blacklight/autofocus
 //= require blacklight/bookmark_toggle
-//= require blacklight/ajax_modal
+//= require blacklight/modal
 //= require blacklight/search_context
 //= require blacklight/collapsable
 //= require blacklight/facet_load

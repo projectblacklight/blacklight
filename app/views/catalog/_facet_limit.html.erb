@@ -3,9 +3,10 @@
   <%= render_facet_limit_list paginator, field_name %>
 
   <% unless paginator.last_page? || params[:action] == "facet" %>
-    <li class="more_facets_link">
+    <li class="more_facets">
       <%= link_to t("more_#{field_name}_html", scope: 'blacklight.search.facets', default: :more_html, field_name: facet_field.label), 
-        search_facet_path(id: field_name), class: "more_facets_link" %>
+        search_facet_path(id: field_name),
+        data: { blacklight_modal: 'trigger' } %>
     </li>
   <% end %>
 </ul>
