@@ -21,14 +21,14 @@ module Blacklight
     def label(field_or_string_or_proc, opts = {})
       config = Configuration::NullField.new
       value = case field_or_string_or_proc
-      when Symbol
-        config = field_config(field_or_string_or_proc)
-        document[field_or_string_or_proc]
-      when Proc
-        field_or_string_or_proc.call(document, opts)
-      when String
-        field_or_string_or_proc
-      end
+                when Symbol
+                  config = field_config(field_or_string_or_proc)
+                  document[field_or_string_or_proc]
+                when Proc
+                  field_or_string_or_proc.call(document, opts)
+                when String
+                  field_or_string_or_proc
+              end
 
       value ||= document.id
       field_values(config, value: value)

@@ -24,10 +24,10 @@ module Blacklight::Configurable
     # we lazy load to 'inherit' how we want.
     def blacklight_config
       @blacklight_config ||= if superclass.respond_to?(:blacklight_config)
-        superclass.blacklight_config.deep_copy
-      else
-        default_configuration
-      end
+                               superclass.blacklight_config.deep_copy
+                             else
+                               default_configuration
+                             end
     end
     attr_writer :blacklight_config
 

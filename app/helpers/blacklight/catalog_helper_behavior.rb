@@ -34,29 +34,29 @@ module Blacklight::CatalogHelperBehavior
     return unless show_pagination? collection
 
     entry_name = if options[:entry_name]
-      options[:entry_name]
-    elsif collection.respond_to? :model  # DataMapper
-      collection.model.model_name.human.downcase
-    elsif collection.respond_to?(:model_name) && !collection.model_name.nil? # AR, Blacklight::PaginationMethods
-      collection.model_name.human.downcase
-    else
-      t('blacklight.entry_name.default')
-    end
+                   options[:entry_name]
+                 elsif collection.respond_to? :model  # DataMapper
+                   collection.model.model_name.human.downcase
+                 elsif collection.respond_to?(:model_name) && !collection.model_name.nil? # AR, Blacklight::PaginationMethods
+                   collection.model_name.human.downcase
+                 else
+                   t('blacklight.entry_name.default')
+                 end
 
     entry_name = entry_name.pluralize unless collection.total_count == 1
 
     # grouped response objects need special handling
     end_num = if collection.respond_to?(:groups) && render_grouped_response?(collection)
-      collection.groups.length
-    else
-      collection.limit_value
-    end
+                collection.groups.length
+              else
+                collection.limit_value
+              end
 
     end_num = if collection.offset_value + end_num <= collection.total_count
-      collection.offset_value + end_num
-    else
-      collection.total_count
-    end
+                collection.offset_value + end_num
+              else
+                collection.total_count
+              end
 
     case collection.total_count
       when 0
@@ -211,12 +211,13 @@ module Blacklight::CatalogHelperBehavior
   # @return [String]
   def render_thumbnail_tag document, image_options = {}, url_options = {}
     value = if blacklight_config.view_config(document_index_view_type).thumbnail_method
-      send(blacklight_config.view_config(document_index_view_type).thumbnail_method, document, image_options)
-    elsif blacklight_config.view_config(document_index_view_type).thumbnail_field
-      url = thumbnail_url(document)
+              method_name = blacklight_config.view_config(document_index_view_type).thumbnail_method
+              send(method_name, document, image_options)
+            elsif blacklight_config.view_config(document_index_view_type).thumbnail_field
+              url = thumbnail_url(document)
 
-      image_tag url, image_options if url.present?
-    end
+              image_tag url, image_options if url.present?
+            end
 
     if value
       if url_options == false || url_options[:suppress_link]
@@ -281,10 +282,10 @@ module Blacklight::CatalogHelperBehavior
     facet_config = facet_configuration_for_field(facet)
     filter_label = facet_field_label(facet_config.key)
     filter_value = if values.size < 3
-      values.map { |value| facet_display_value(facet, value) }.to_sentence
-    else
-      t('blacklight.search.page_title.many_constraint_values', values: values.size)
-    end
+                     values.map { |value| facet_display_value(facet, value) }.to_sentence
+                   else
+                     t('blacklight.search.page_title.many_constraint_values', values: values.size)
+                   end
     t('blacklight.search.page_title.constraint', label: filter_label, value: filter_value)
   end
 

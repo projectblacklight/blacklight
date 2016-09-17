@@ -35,9 +35,9 @@ module Blacklight::RenderConstraintsHelperBehavior
     return "".html_safe if localized_params[:q].blank?
 
     render_constraint_element(constraint_query_label(localized_params),
-          localized_params[:q],
-          classes: ["query"],
-          remove: remove_constraint_url(localized_params))
+                              localized_params[:q],
+                              classes: ["query"],
+                              remove: remove_constraint_url(localized_params))
   end
 
   ##

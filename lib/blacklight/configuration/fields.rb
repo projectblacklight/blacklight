@@ -84,17 +84,17 @@ module Blacklight
       #
       def add_blacklight_field config_key, *args, &block
         field_config = case args.first
-          when String
-            field_config_from_key_and_hash(config_key, *args)
-          when Symbol
-            args[0] = args[0].to_s
-            field_config_from_key_and_hash(config_key, *args)
-          when Array
-            field_config_from_array(config_key, *args, &block)
-            return # we've iterated over the array above.
-          else
-            field_config_from_field_or_hash(config_key, *args)
-        end
+                         when String
+                           field_config_from_key_and_hash(config_key, *args)
+                         when Symbol
+                           args[0] = args[0].to_s
+                           field_config_from_key_and_hash(config_key, *args)
+                         when Array
+                           field_config_from_array(config_key, *args, &block)
+                           return # we've iterated over the array above.
+                         else
+                           field_config_from_field_or_hash(config_key, *args)
+                       end
 
         if (field_config.field || field_config.key).to_s =~ /\*/
           field_config.match = Regexp.new("^" + (field_config.field || field_config.key).to_s.gsub('*', '.+') + "$")

@@ -131,12 +131,12 @@ module Blacklight::Solr::Response::Facets
     else
       solr_list.each_with_object({}) do |(key, values), hash|
         hash[key] = if values.first.is_a? Array
-          # arrarr
-          Hash[values]
-        else
-          # flat
-          Hash[values.each_slice(2).to_a]
-        end
+                      # arrarr
+                      Hash[values]
+                    else
+                      # flat
+                      Hash[values.each_slice(2).to_a]
+                    end
       end
     end
   end
