@@ -12,7 +12,7 @@ module Blacklight
 
     attr_reader :controller, :document, :options
 
-    # Renders links to alternate representations 
+    # Renders links to alternate representations
     # provided by export formats. Returns empty string if no links available.
     def render
       seen = Set.new

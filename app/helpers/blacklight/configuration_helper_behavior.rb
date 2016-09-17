@@ -2,10 +2,10 @@
 module Blacklight::ConfigurationHelperBehavior
   ##
   # Index fields to display for a type of document
-  # 
+  #
   # @param [SolrDocument] document
-  # @return [Array<Blacklight::Configuration::Field>] 
-  def index_fields _document=nil
+  # @return [Array<Blacklight::Configuration::Field>]
+  def index_fields _document = nil
     blacklight_config.index_fields
   end
 
@@ -13,7 +13,7 @@ module Blacklight::ConfigurationHelperBehavior
   def sort_fields
     active_sort_fields.map { |_sort_key, field_config| [sort_field_label(field_config.key), field_config.key] }
   end
-  
+
   def active_sort_fields
     blacklight_config.sort_fields.select { |_sort_key, field_config| should_render_field?(field_config) }
   end
@@ -22,7 +22,7 @@ module Blacklight::ConfigurationHelperBehavior
   def search_fields
     search_field_options_for_select
   end
-  
+
   # Returns suitable argument to options_for_select method, to create
   # an html select based on #search_field_list. Skips search_fields
   # marked :include_in_simple_select => false
@@ -33,7 +33,7 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   # used in the catalog/_show/_default partial
-  def document_show_fields _document=nil
+  def document_show_fields _document = nil
     blacklight_config.show_fields
   end
 
@@ -114,11 +114,11 @@ module Blacklight::ConfigurationHelperBehavior
   # Look up the label for a solr field.
   #
   # @overload label
-  #   @param [Symbol] an i18n key 
+  #   @param [Symbol] an i18n key
   #
   # @overload label, i18n_key, another_i18n_key, and_another_i18n_key
   #   @param [String] default label to display if the i18n look up fails
-  #   @param [Symbol] i18n keys to attempt to look up 
+  #   @param [Symbol] i18n keys to attempt to look up
   #     before falling  back to the label
   #   @param [Symbol] any number of additional keys
   #   @param [Symbol] ...
@@ -133,11 +133,11 @@ module Blacklight::ConfigurationHelperBehavior
       should_render_field? config
     end
   end
-  
+
   ##
   # Get the default index view type
   def default_document_index_view_type
-    document_index_views.select { |_k,config| config.respond_to?(:default) && config.default }.keys.first || document_index_views.keys.first
+    document_index_views.select { |_k, config| config.respond_to?(:default) && config.default }.keys.first || document_index_views.keys.first
   end
 
   ##
@@ -153,7 +153,7 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   # Used in the document list partial (search view) for creating a link to the document show action
-  def document_show_link_field document=nil
+  def document_show_link_field document = nil
     fields = Array(blacklight_config.view_config(document_index_view_type).title_field)
 
     field = fields.first if document.nil?
@@ -167,7 +167,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Default sort field
   def default_sort_field
-    (active_sort_fields.find { |_k,config| config.respond_to?(:default) && config.default } || active_sort_fields.first).try(:last)
+    (active_sort_fields.find { |_k, config| config.respond_to?(:default) && config.default } || active_sort_fields.first).try(:last)
   end
 
   ##
@@ -175,7 +175,7 @@ module Blacklight::ConfigurationHelperBehavior
   def default_per_page
     blacklight_config.default_per_page || blacklight_config.per_page.first
   end
-  
+
   ##
   # The available options for results per page, in the style of #options_for_select
   def per_page_options_for_select
@@ -183,7 +183,7 @@ module Blacklight::ConfigurationHelperBehavior
       [t(:'blacklight.search.per_page.label', :count => count).html_safe, count]
     end
   end
-  
+
   ##
   # Determine whether to render a field by evaluating :if and :unless conditions
   #

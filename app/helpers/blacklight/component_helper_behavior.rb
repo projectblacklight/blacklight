@@ -21,7 +21,7 @@ module Blacklight
     #
     # @param [Hash] options
     # @return [String]
-    def render_nav_actions(options={}, &block)
+    def render_nav_actions(options = {}, &block)
       render_filtered_partials(blacklight_config.navbar.partials, options, &block)
     end
 
@@ -33,7 +33,7 @@ module Blacklight
     # @param [Hash] options
     # @option options [String] :wrapping_class
     # @return [String]
-    def render_index_doc_actions(document, options={})
+    def render_index_doc_actions(document, options = {})
       wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
       rendered = render_filtered_partials(blacklight_config.view_config(document_index_view_type).document_actions, { document: document }.merge(options))
       content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
@@ -52,7 +52,7 @@ module Blacklight
       content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
     end
 
-    def render_filtered_partials(partials, options={})
+    def render_filtered_partials(partials, options = {})
       content = []
       partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }.each do |key, config|
         config.key ||= key
@@ -75,7 +75,7 @@ module Blacklight
     # @param [SolrDocument] document
     # @param [Hash] options
     # @return [String]
-    def render_show_doc_actions(document=@document, options={}, &block)
+    def render_show_doc_actions(document = @document, options = {}, &block)
       render_filtered_partials(blacklight_config.show.document_actions, { document: document }.merge(options), &block)
     end
   end

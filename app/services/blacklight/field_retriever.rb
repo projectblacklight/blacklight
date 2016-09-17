@@ -9,7 +9,7 @@ module Blacklight
 
     attr_reader :document, :field_config
     delegate :field, to: :field_config
-    
+
     # @return [Array]
     def fetch
       Array.wrap(

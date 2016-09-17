@@ -7,7 +7,7 @@
 #
 # = Search Field blacklight_configuration Hash =
 # [:key]
-#   "title", required, unique key used in search URLs to specify search_field 
+#   "title", required, unique key used in search URLs to specify search_field
 # [:label]
 #   "Title",  # user-displayable label, optional, if not supplied :key.titlecase will be used
 # [:qt]
@@ -18,16 +18,16 @@
 #   { :qf => "$something" } # optional hash of additional parameters that will be passed using Solr LocalParams syntax, that can use dollar sign to reference other solr variables.
 # [:include_in_simple_select]
 #   false.  Defaults to true, but you can set to false to have a search field defined for deep-links or BL extensions, but not actually included in the HTML select for simple search choice.
-# 
+#
 # Optionally you can supply a :key, which is what Blacklight will use
 # to identify this search field in HTTP query params. If no :key is
 # supplied, one will be computed from the :label. If that will
-# result in a collision of keys, you should supply one explicitly. 
+# result in a collision of keys, you should supply one explicitly.
 #
 ##
 module Blacklight::SearchFields
   # Looks up search field config list from blacklight_config[:search_fields], and
-  # 'normalizes' all field config hashes using normalize_config method. 
+  # 'normalizes' all field config hashes using normalize_config method.
   def search_field_list
     blacklight_config.search_fields.values
   end

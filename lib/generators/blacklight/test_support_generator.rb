@@ -2,7 +2,7 @@
 # Copy Blacklight test support material in place
 
 # Need the requires here so we can call the generator from environment.rb
-# as suggested above. 
+# as suggested above.
 require 'rails/generators'
 require 'rails/generators/base'
 module Blacklight
@@ -10,7 +10,7 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
 
     desc <<-EOS
-      Generate blacklight testing configurations for blacklight's own tests, or for blacklight plugins to use for testing 
+      Generate blacklight testing configurations for blacklight's own tests, or for blacklight plugins to use for testing
     EOS
 
     def alternate_controller

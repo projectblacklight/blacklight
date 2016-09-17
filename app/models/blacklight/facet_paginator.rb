@@ -4,7 +4,7 @@ module Blacklight
   # displayable. You have to ask Solr for limit+1, to get enough
   # results to see if 'more' are available'. That is, the all_facet_values
   # arg in constructor should be the result of asking solr for limit+1
-  # values. 
+  # values.
   # This is a workaround for the fact that Solr itself can't compute
   # the total values for a given facet field,
   # so we cannot know how many "pages" there are.
@@ -24,9 +24,9 @@ module Blacklight
     # asking solr for n+1 facet values.
     # options:
     # :limit =>  number to display per page, or (default) ?. Nil means
-    #            display all with no previous or next. 
+    #            display all with no previous or next.
     # :offset => current item offset, default 0
-    # :sort => 'count' or 'index', solr tokens for facet value sorting, default 'count'. 
+    # :sort => 'count' or 'index', solr tokens for facet value sorting, default 'count'.
     def initialize(all_facet_values, arguments = {})
       # to_s.to_i will conveniently default to 0 if nil
       @offset = arguments[:offset].to_s.to_i

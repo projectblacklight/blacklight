@@ -7,8 +7,8 @@ module Blacklight
 
     source_root File.expand_path('../templates', __FILE__)
 
-    argument     :model_name, :type => :string , :default => "user"
-    class_option :devise    , :type => :boolean, :default => false, :aliases => "-d", :desc => "Use Devise as authentication logic (this is default)."
+    argument     :model_name, :type => :string, :default => "user"
+    class_option :devise, :type => :boolean, :default => false, :aliases => "-d", :desc => "Use Devise as authentication logic (this is default)."
 
     desc <<-EOS
       This generator makes the following changes to your application:
@@ -56,7 +56,7 @@ module Blacklight
       else
         say_status "warning", <<-EOS.strip_heredoc, :yellow
           Blacklight authenticated user functionality not installed, as a user model
-          could not be found at /app/models/user.rb. If you used a different name, 
+          could not be found at /app/models/user.rb. If you used a different name,
           please re-run the migration and provide that name as an argument. E.g.:
 
             `rails -g blacklight:user client`

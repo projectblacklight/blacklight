@@ -33,17 +33,17 @@ module Blacklight
 
       if index > 0
         solr_params[:start] = index - window # get one before
-        solr_params[:rows] = 2*window + 1 # and one after
+        solr_params[:rows] = 2 * window + 1 # and one after
       else
         solr_params[:start] = 0 # there is no previous doc
-        solr_params[:rows] = 2*window # but there should be one after
+        solr_params[:rows] = 2 * window # but there should be one after
       end
 
       solr_params[:fl] = '*'
       solr_params[:facet] = false
       solr_params
     end
-    
+
     DEFAULT_FACET_LIMIT = 10
 
     # Look up facet limit for given facet_field. Will look at config, and

@@ -22,7 +22,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [SolrDocument] doc solr document to render partials for
   # @param [Array<String>] partials list of partials to render
   # @param [Hash] locals local variables to pass to the render call
-  # @return [String] 
+  # @return [String]
   def render_document_partials(doc, partials = [], locals = {})
     safe_join(partials.map do |action_name|
       render_document_partial(doc, action_name, locals)

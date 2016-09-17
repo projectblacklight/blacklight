@@ -114,7 +114,7 @@ module Blacklight
     # @param [Hash] params_to_merge to merge into above
     # @return [ActionController::Parameters] the current search parameters after being sanitized by Blacklight::Parameters.sanitize
     # @yield [params] The merged parameters hash before being sanitized
-    def params_for_search(params_to_merge={})
+    def params_for_search(params_to_merge = {})
       # params hash we'll return
       my_params = params.dup.merge(Blacklight::SearchState.new(params_to_merge, blacklight_config))
 
@@ -122,7 +122,7 @@ module Blacklight
         yield my_params
       end
 
-      if my_params[:page] && (my_params[:per_page] != params[:per_page] || my_params[:sort] != params[:sort] )
+      if my_params[:page] && (my_params[:per_page] != params[:per_page] || my_params[:sort] != params[:sort])
         my_params[:page] = 1
       end
 
@@ -147,7 +147,7 @@ module Blacklight
         item
       end
     end
-    
+
     def add_facet_param(p, field, item)
       if item.respond_to? :field
         field = item.field

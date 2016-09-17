@@ -24,8 +24,8 @@ module Blacklight::Document::Extensions
   # Needs to be called in initializer of class including this module, to
   # apply all registered extensions on a per-document basis
   def apply_extensions
-    self.class.registered_extensions.each do | registration|
-      self.extend( registration[:module_obj] ) if registration[:condition_proc].nil? || registration[:condition_proc].call( self )
+    self.class.registered_extensions.each do |registration|
+      self.extend(registration[:module_obj]) if registration[:condition_proc].nil? || registration[:condition_proc].call(self)
     end
   end
 
@@ -43,15 +43,15 @@ module Blacklight::Document::Extensions
     end
 
     # Register an extension module with the class. A block taking one
-    # parameter can be supplied; the block will be passed an instance of 
+    # parameter can be supplied; the block will be passed an instance of
     # a Document, and the extension will be applied only if the block
     # evaluates as true. If no condition is given, the extension will
     # be applied to every instance of the class.
     #
     # SolrDocument.use_extension( SomeExtensionModule ) { | document | should_apply_some_extension?(document) }
     # SolrDocument.use_extension( SomeExtensionModule) # will be applied to all docs
-    def use_extension( module_obj, &condition )
-      registered_extensions << {module_obj: module_obj, condition_proc: condition}    
+    def use_extension(module_obj, &condition)
+      registered_extensions << { module_obj: module_obj, condition_proc: condition }
     end
   end
 end

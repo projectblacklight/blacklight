@@ -14,7 +14,7 @@ module Blacklight
 
       self
     end
-  
+
     def validate!
       raise ArgumentError, "Must supply a field name" if self.field.nil?
     end

@@ -105,17 +105,16 @@ module Blacklight
     @logger = logger
   end
 
-  #############  
+  #############
   # Methods for figuring out path to BL plugin, and then locate various files
   # either in the app itself or defaults in the plugin -- whether you are running
   # from the plugin itself or from an actual app using te plugin.
   # In a seperate module so it can be used by both Blacklight class, and
-  # by rake tasks without loading the whole Rails environment. 
+  # by rake tasks without loading the whole Rails environment.
   #############
-  
+
   # returns the full path the the blacklight plugin installation
   def self.root
     @root ||= File.expand_path(File.dirname(File.dirname(__FILE__)))
   end
-  
 end

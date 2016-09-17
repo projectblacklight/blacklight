@@ -46,7 +46,7 @@ module Blacklight::Bookmarks
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
 
     respond_to do |format|
-      format.html { }
+      format.html {}
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
       format.json do
@@ -84,7 +84,7 @@ module Blacklight::Bookmarks
     end
 
     if request.xhr?
-      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }}) : render(plain: "", status: "500")
+      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(plain: "", status: "500")
     else
       if @bookmarks.any? && success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
@@ -108,7 +108,7 @@ module Blacklight::Bookmarks
 
     if bookmark && bookmark.delete && bookmark.destroyed?
       if request.xhr?
-        render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count }})
+        render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } })
       elsif respond_to? :redirect_back
         redirect_back fallback_location: bookmarks_path, notice: I18n.t('blacklight.bookmarks.remove.success')
       else

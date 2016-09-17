@@ -9,7 +9,7 @@ module Blacklight::Solr::Response::MoreLikeThis
 
   def more_like_this
     return {} unless self[:moreLikeThis]
-        
+
     self[:moreLikeThis]
   end
 end

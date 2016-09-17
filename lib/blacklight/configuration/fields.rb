@@ -20,7 +20,7 @@ module Blacklight
               class #{key.camelcase} < #{base_class_name}; end
             END_EVAL
           end
-    
+
           class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
             def add_#{key}(*args, &block)
               add_blacklight_field("#{key}", *args, &block)
@@ -32,7 +32,7 @@ module Blacklight
       # Add a solr field configuration to the given configuration key
       #
       # The recommended and strongly encouraged format is a field name, configuration pair, e.g.:
-      #     add_blacklight_field :index_field, 'format', :label => 'Format' 
+      #     add_blacklight_field :index_field, 'format', :label => 'Format'
       #
       # Alternative formats include:
       #
@@ -56,7 +56,7 @@ module Blacklight
       #       field.field = 'format'
       #       field.label = 'Format'
       #     end
-      # 
+      #
       # * a configuration hash:
       #
       # @overload add_blacklight_field(config_key, options)
@@ -64,8 +64,8 @@ module Blacklight
       #   @param [Hash] options
       #
       #     add_blacklight_field :index_field, :field => 'format', :label => 'Format'
-      #   
-      # * a Field instance: 
+      #
+      # * a Field instance:
       #
       # @overload add_blacklight_field(config_key, field)
       #   @param [Symbol] config_key
@@ -74,7 +74,7 @@ module Blacklight
       #
       #     add_blacklight_field :index_field, IndexField.new(:field => 'format', :label => 'Format')
       #
-      # * an array of hashes: 
+      # * an array of hashes:
       #
       # @overload add_blacklight_field(config_key, fields)
       #   @param [Symbol] config_key
@@ -103,7 +103,7 @@ module Blacklight
         # look up any dynamic fields
         if field_config.match
 
-          salient_fields = luke_fields.select do |k,_v|
+          salient_fields = luke_fields.select do |k, _v|
             k =~ field_config.match
           end
 
@@ -113,8 +113,8 @@ module Blacklight
             config.field = field
             config.key = field
 
-            if self[config_key.pluralize][ config.key ]
-              self[config_key.pluralize][ config.key ] = config.merge(self[config_key.pluralize][ config.key ])
+            if self[config_key.pluralize][config.key]
+              self[config_key.pluralize][config.key] = config.merge(self[config_key.pluralize][config.key])
             else
               add_blacklight_field(config_key, config, &block)
             end
@@ -122,17 +122,17 @@ module Blacklight
 
           return
         end
-  
+
         if block_given?
           yield field_config
         end
-            
+
         field_config.normalize!(self)
         field_config.validate!
 
         raise "A #{config_key} with the key #{field_config.key} already exists." if self[config_key.pluralize][field_config.key].present?
 
-        self[config_key.pluralize][ field_config.key ] = field_config
+        self[config_key.pluralize][field_config.key] = field_config
       end
 
       protected
@@ -157,7 +157,7 @@ module Blacklight
         @table[:luke_fields] || {}
       end
 
-      # Add a solr field by a solr field name and hash 
+      # Add a solr field by a solr field name and hash
       def field_config_from_key_and_hash config_key, field_name, field_or_hash = {}
         field_config = field_config_from_field_or_hash(config_key, field_or_hash)
         field_config.key = field_name
@@ -166,7 +166,7 @@ module Blacklight
 
       # Add multiple solr fields using a hash or Field instance
       def field_config_from_array config_key, array_of_fields_or_hashes, &block
-        array_of_fields_or_hashes.map do |field_or_hash| 
+        array_of_fields_or_hashes.map do |field_or_hash|
           add_blacklight_field(config_key, field_or_hash, &block)
         end
       end
@@ -180,16 +180,16 @@ module Blacklight
       # and makes it into a specific config OpenStruct, like
       # FacetField or SearchField. Or if the param already was
       # one, that's cool. Or if the param is nil, make
-      # an empty one. Second argument is an actual class object. 
+      # an empty one. Second argument is an actual class object.
       def hash_arg_to_config(hash_arg, klass)
         case hash_arg
-        when Hash 
+        when Hash
           klass.new(hash_arg)
-        when NilClass 
+        when NilClass
           klass.new
-        else 
+        else
           # this assumes it already is an element of klass, or acts like one,
-          # if not something bad will happen later, that's your problem. 
+          # if not something bad will happen later, that's your problem.
           hash_arg
         end
       end

@@ -15,7 +15,7 @@ module Blacklight::UrlHelperBehavior
   # catalog_path accepts a hash. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   # TODO: move this to the IndexPresenter
-  def link_to_document(doc, field_or_opts = nil, opts={:counter => nil})
+  def link_to_document(doc, field_or_opts = nil, opts = { :counter => nil })
     if field_or_opts.is_a? Hash
       opts = field_or_opts
     else
@@ -64,7 +64,7 @@ module Blacklight::UrlHelperBehavior
       return {}
     end
 
-    { data: {:'context-href' => path } }
+    { data: { :'context-href' => path } }
   end
   protected :session_tracking_params
 
@@ -99,7 +99,7 @@ module Blacklight::UrlHelperBehavior
   # Get the path to the search action with any parameters (e.g. view type)
   # that should be persisted across search sessions.
   def start_over_path query_params = params
-    h = { }
+    h = {}
     current_index_view_type = document_index_view_type(query_params)
     h[:view] = current_index_view_type unless current_index_view_type == default_document_index_view_type
 
@@ -110,7 +110,7 @@ module Blacklight::UrlHelperBehavior
   # @example
   #   link_back_to_catalog(label: 'Back to Search')
   #   link_back_to_catalog(label: 'Back to Search', route_set: my_engine)
-  def link_back_to_catalog(opts={:label=>nil})
+  def link_back_to_catalog(opts = { :label => nil })
     scope = opts.delete(:route_set) || self
     query_params = current_search_session.try(:query_params) || ActionController::Parameters.new
 
@@ -119,7 +119,7 @@ module Blacklight::UrlHelperBehavior
       counter = search_session['counter'].to_i
 
       query_params[:per_page] = per_page unless search_session['per_page'].to_i == default_per_page
-      query_params[:page] = ((counter - 1)/ per_page) + 1
+      query_params[:page] = ((counter - 1) / per_page) + 1
     end
 
     link_url = if query_params.empty?
@@ -151,11 +151,11 @@ module Blacklight::UrlHelperBehavior
     search_state.add_facet_params_and_redirect(group.field, group.key)
   end
 
-  # A URL to refworks export, with an embedded callback URL to this app. 
-  # the callback URL is to bookmarks#export, which delivers a list of 
+  # A URL to refworks export, with an embedded callback URL to this app.
+  # the callback URL is to bookmarks#export, which delivers a list of
   # user's bookmarks in 'refworks marc txt' format -- we tell refworks
-  # to expect that format. 
+  # to expect that format.
   def bookmarks_export_url(format, params = {})
-    bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id) ))
+    bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id)))
   end
 end

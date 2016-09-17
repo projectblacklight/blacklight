@@ -35,7 +35,7 @@ module Blacklight::Solr
     def send_and_receive(path, solr_params = {})
       benchmark("Solr fetch", level: :debug) do
         key = blacklight_config.http_method == :post ? :data : :params
-        res = connection.send_and_receive(path, {key=>solr_params.to_hash, method: blacklight_config.http_method})
+        res = connection.send_and_receive(path, { key => solr_params.to_hash, method: blacklight_config.http_method })
 
         solr_response = blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
 

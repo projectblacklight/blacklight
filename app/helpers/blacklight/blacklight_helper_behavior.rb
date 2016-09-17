@@ -36,7 +36,7 @@ module Blacklight::BlacklightHelperBehavior
   # @option options [Boolean] :unique ensures only one link is output for every
   #     content type, e.g. as required by atom
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output
-  def render_link_rel_alternates(document=@document, options = {})
+  def render_link_rel_alternates(document = @document, options = {})
     return if document.nil?
     presenter(document).link_rel_alternates(options)
   end
@@ -67,7 +67,7 @@ module Blacklight::BlacklightHelperBehavior
   # Render the search navbar
   # @return [String]
   def render_search_bar
-    render :partial=>'catalog/search_form'
+    render :partial => 'catalog/search_form'
   end
 
   ##
@@ -160,7 +160,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @param [SolrDocument] document
   # @return [String]
-  def document_heading document=nil
+  def document_heading document = nil
     document ||= @document
     presenter(document).heading
   end
@@ -172,7 +172,7 @@ module Blacklight::BlacklightHelperBehavior
   # @see #document_heading
   # @param [SolrDocument] document
   # @return [String]
-  def document_show_html_title document=nil
+  def document_show_html_title document = nil
     document ||= @document
 
     presenter(document).html_title
@@ -201,7 +201,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @param [Hash] query_params the query parameters to check
   # @return [Symbol]
-  def document_index_view_type query_params=params
+  def document_index_view_type query_params = params
     view_param = query_params[:view]
     view_param ||= session[:preferred_view]
     if view_param && document_index_views.keys.include?(view_param.to_sym)

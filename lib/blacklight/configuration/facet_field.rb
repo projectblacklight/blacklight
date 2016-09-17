@@ -10,7 +10,7 @@ module Blacklight
       self.index_range = 'A'..'Z' if self.index_range == true
 
       super
-      
+
       if self.single && self.tag.blank? && self.ex.blank?
         self.tag = "#{self.key}_single"
         self.ex = "#{self.key}_single"

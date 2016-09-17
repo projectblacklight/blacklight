@@ -27,7 +27,7 @@ class Blacklight::Solr::Response::GroupResponse
     # fall back on the number of facet items for that field?
     (group["ngroups"] || (response.aggregations[key] || []).length).to_s.to_i
   end
-    
+
   def start
     params[:start].to_s.to_i
   end

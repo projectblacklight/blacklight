@@ -162,7 +162,7 @@ module Blacklight::Catalog
     # Render additional export formats for the show action, as provided by
     # the document extension framework. See _Blacklight::Document::Export_
     def additional_export_formats(document, format)
-      document.export_formats.each_key do | format_name |
+      document.export_formats.each_key do |format_name|
         format.send(format_name.to_sym) { render body: document.export_as(format_name), layout: false }
       end
     end
@@ -199,7 +199,7 @@ module Blacklight::Catalog
 
      # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
      def email_action documents
-       mail = RecordMailer.email_record(documents, {:to => params[:to], :message => params[:message]}, url_options)
+       mail = RecordMailer.email_record(documents, { :to => params[:to], :message => params[:message] }, url_options)
        if mail.respond_to? :deliver_now
          mail.deliver_now
        else

@@ -7,7 +7,7 @@ module Blacklight
     require 'twitter-typeahead-rails'
 
     # BlacklightHelper is needed by all helpers, so we inject it
-    # into action view base here. 
+    # into action view base here.
     initializer 'blacklight.helpers' do
       ActionView::Base.send :include, BlacklightHelper
     end
@@ -43,7 +43,7 @@ module Blacklight
     }
 
     config.bookmarks_http_method = :post
-    
+
     config.email_regexp = defined?(Devise) ? Devise.email_regexp : /\A[^@\s]+@[^@\s]+\z/
   end
 end

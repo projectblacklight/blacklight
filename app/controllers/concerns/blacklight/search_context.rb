@@ -4,13 +4,13 @@ module Blacklight::SearchContext
 
   # The following code is executed when someone includes blacklight::catalog::search_session in their
   # own controller.
-  included do  
+  included do
     helper_method :current_search_session, :search_session
   end
 
   module ClassMethods
     # Save the submitted search parameters in the search session
-    def record_search_parameters opts = { only: :index}
+    def record_search_parameters opts = { only: :index }
       before_action :set_current_search_session, opts
     end
   end
@@ -64,9 +64,9 @@ module Blacklight::SearchContext
   end
 
   def find_or_initialize_search_session_from_params params
-    params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) || v.blank? }
+    params_copy = params.reject { |k, v| blacklisted_search_session_params.include?(k.to_sym) || v.blank? }
 
-    return if params_copy.reject { |k,_v| [:action, :controller].include? k.to_sym }.blank?
+    return if params_copy.reject { |k, _v| [:action, :controller].include? k.to_sym }.blank?
 
     saved_search = searches_from_history.find { |x| x.query_params == params_copy }
 
@@ -82,7 +82,7 @@ module Blacklight::SearchContext
     session[:history].unshift(search.id)
 
     if session[:history].length > blacklight_config.search_history_window
-      session[:history] = session[:history].slice(0, blacklight_config.search_history_window )
+      session[:history] = session[:history].slice(0, blacklight_config.search_history_window)
     end
   end
 
