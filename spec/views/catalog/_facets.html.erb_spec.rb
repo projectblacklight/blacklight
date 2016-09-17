@@ -47,7 +47,7 @@ describe "catalog/_facets" do
         # The .facet-content class is used by blacklight_range_limit js, and
         # should be applied to the .panel-collapse div that contains the collapsible
         # facet content. Please make sure it remains if possible.
-        expect(rendered).to have_selector('.facet-content a.facet_select')
+        expect(rendered).to have_selector('.facet-content a.facet-select')
         expect(rendered).to have_selector('.facet-content .facet-count')
       end
     end

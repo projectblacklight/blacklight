@@ -6,11 +6,11 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value"}
     end
     it "renders label and value" do
-      expect(rendered).to have_selector("span.appliedFilter.constraint") do |s|
+      expect(rendered).to have_selector("span.applied-filter.constraint") do |s|
         expect(s).to have_css("span.constraint-value")
         expect(s).to_not have_css("a.constraint-value")
-        expect(s).to have_selector "span.filterName", :content => "my label"
-        expect(s).to have_selector "span.filterValue", :content => "my value"
+        expect(s).to have_selector "span.filter-name", content: "my label"
+        expect(s).to have_selector "span.filter-value", content: "my value"
       end
     end
   end
@@ -20,7 +20,7 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:remove => "http://remove"}}
     end
     it "includes remove link" do
-      expect(rendered).to have_selector("span.appliedFilter") do |s|
+      expect(rendered).to have_selector("span.applied-filter") do |s|
         expect(s).to have_selector(".remove[href='http://remove']")
       end
     end
@@ -36,7 +36,7 @@ describe "catalog/_constraints_element.html.erb" do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value", :options => {:classes => ["class1", "class2"]}}
     end
     it "includes them" do
-      expect(rendered).to have_selector("span.appliedFilter.constraint.class1.class2")
+      expect(rendered).to have_selector("span.applied-filter.constraint.class1.class2")
     end
   end
 
@@ -45,8 +45,8 @@ describe "catalog/_constraints_element.html.erb" do
       render( :partial => "catalog/constraints_element", :locals => {:label => "<span class='custom_label'>my label</span>".html_safe, :value => "<span class='custom_value'>my value</span>".html_safe} )
     end
     it "does not escape key and value" do
-      expect(rendered).to have_selector("span.appliedFilter.constraint span.filterName span.custom_label")
-      expect(rendered).to have_selector("span.appliedFilter.constraint span.filterValue span.custom_value")
+      expect(rendered).to have_selector("span.applied-filter.constraint span.filter-name span.custom_label")
+      expect(rendered).to have_selector("span.applied-filter.constraint span.filter-value span.custom_value")
     end
   end
 end

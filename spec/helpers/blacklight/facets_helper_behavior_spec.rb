@@ -203,17 +203,17 @@ describe Blacklight::FacetsHelperBehavior do
 
     it "draws a list of elements" do
       expect(subject).to have_selector 'li', count: 2
-      expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book'
-      expect(subject).to have_selector 'li:nth-child(2) a.facet_select', text: 'Musical Score'
+      expect(subject).to have_selector 'li:first-child a.facet-select', text: 'Book'
+      expect(subject).to have_selector 'li:nth-child(2) a.facet-select', text: 'Musical Score'
     end
 
     context "when one of the facet items is rendered as nil" do
       # An app may override render_facet_item to filter out some undesired facet items by returning nil.
-      before { allow(helper).to receive(:render_facet_item).and_return('<a class="facet_select">Book</a>'.html_safe, nil) }
+      before { allow(helper).to receive(:render_facet_item).and_return('<a class="facet-select">Book</a>'.html_safe, nil) }
 
       it "draws a list of elements" do
         expect(subject).to have_selector 'li', count: 1
-        expect(subject).to have_selector 'li:first-child a.facet_select', text: 'Book'
+        expect(subject).to have_selector 'li:first-child a.facet-select', text: 'Book'
       end
     end
   end
@@ -278,7 +278,7 @@ describe Blacklight::FacetsHelperBehavior do
     end
 
     describe "simple case" do
-      let(:expected_html) { '<span class="facet-label"><a class="facet_select" href="/catalog">Z</a></span><span class="facet-count">10</span>' }
+      let(:expected_html) { '<span class="facet-label"><a class="facet-select" href="/catalog">Z</a></span><span class="facet-count">10</span>' }
 
       it "uses facet_display_value" do
         result = helper.render_facet_value('simple_field', item)
@@ -287,7 +287,7 @@ describe Blacklight::FacetsHelperBehavior do
     end
 
     describe "when :url_method is set" do
-      let(:expected_html) { '<span class="facet-label"><a class="facet_select" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
+      let(:expected_html) { '<span class="facet-label"><a class="facet-select" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
       it "uses that method" do
         allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(:query => nil, :date => nil, :helper_method => nil, :single => false, :url_method => :test_method))
         allow(helper).to receive(:test_method).with('simple_field', item).and_return('/blabla')

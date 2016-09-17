@@ -7,13 +7,13 @@
     options ||= {}
 %>
 
-<span class="btn-group appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">
+<span class="btn-group applied-filter constraint <%= options[:classes].join(" ") if options[:classes] %>">
   <span class="constraint-value btn btn-secondary btn-disabled">
     <% unless label.blank? %>
-      <span class="filterName"><%= label %></span>
+      <span class="filter-name"><%= label %></span>
     <% end %>
     <% unless value.blank? %>
-      <%= content_tag :span, value, class: 'filterValue', title: value %>
+      <%= content_tag :span, value, class: 'filter-value', title: value %>
     <% end %>
   </span>
   <% unless options[:remove].blank? %>

@@ -4,14 +4,14 @@ describe "Facets" do
   it "shows a single facet's values" do
     visit facet_catalog_path("language_facet")
     expect(page).to have_selector ".modal-title", :text => "Language"
-    expect(page).to have_selector ".facet_select", :text => "Tibetan"
+    expect(page).to have_selector ".facet-select", :text => "Tibetan"
   end
   
   it "paginates through a facet's values" do
     visit facet_catalog_path("subject_topic_facet")
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
     expect(page).to have_link "A-Z Sort"
-    expect(page).to have_selector '.sort_options .active', text: "Numerical Sort"
+    expect(page).to have_selector '.sort-options .active', text: "Numerical Sort"
     within ".modal-footer" do
       click_on "Next »"
     end
@@ -27,7 +27,7 @@ describe "Facets" do
     end
     expect(page).to have_selector '.facet-values li:first', text: "Accident insurance"
     expect(page).to have_link "Numerical Sort"
-    expect(page).to have_selector '.sort_options .active', text: "A-Z Sort"
+    expect(page).to have_selector '.sort-options .active', text: "A-Z Sort"
   end
   
   it "is able to sort more facet window by letter" do
@@ -46,7 +46,7 @@ describe "Facets" do
     click_on 'Clear Filter'
     expect(page).to have_selector '.facet-values li:first', text: "Accident insurance"
     expect(page).to have_css '.facet-values li', count: 20
-    find(:css,".facet_pagination.bottom").click_on "Numerical Sort"
+    find(:css,".facet-pagination.bottom").click_on "Numerical Sort"
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
     expect(page).to have_css '.facet-values li', count: 20
   end

@@ -2,7 +2,7 @@
   @extend .h4;
 }
 
-.facet_limit-active {
+.facet-limit-active {
   @extend .card-outline-success;
   @extend .card-inverse;
 
@@ -61,19 +61,14 @@
   }
 }
 
-.facet_extended_list
-{
-  .sort_options
-  {
+.facet-extended-list {
+  .sort-options {
     text-align:right;
   }
 
-
-  .prev_next_links
-  {
+  .prev-next-links {
     float:left;
   }
-
 }
 
 .facet-field-heading {
@@ -87,7 +82,7 @@
 /* Sidenav
 -------------------------------------------------- */
 
-.facet_pagination {
+.facet-pagination {
   @extend .clearfix;
 
   &.top {

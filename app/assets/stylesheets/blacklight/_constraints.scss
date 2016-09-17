@@ -6,7 +6,7 @@ span.constraints-label {
   @extend .h5;
 }
 
-.appliedFilter {
+.applied-filter {
   .constraint-value {
     cursor: default;
     text-overflow: ellipsis;
@@ -35,7 +35,7 @@ span.constraints-label {
     }
   }
 
-  .filterName:after {
+  .filter-name:after {
     @extend .text-muted;
     content: "❯";
     font-size: 90%;

@@ -7,7 +7,7 @@
 <%- else -%>
     <%= link_to t('blacklight.search_history.clear.action_title'), blacklight.clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger pull-md-right' %>
   <h3 class='section-heading'><%=t('blacklight.search_history.recent')%></h3>
-  <table class="table table-striped search_history">
+  <table class="table table-striped search-history">
     <%-  @searches.each_with_index do |search,index| -%>
     <%= content_tag :tr, :id => "document_#{index + 1}" do %>
       <td class="query"><%= link_to_previous_search(search.query_params) %></td>

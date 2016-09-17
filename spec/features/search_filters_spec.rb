@@ -11,7 +11,7 @@ describe "Facets" do
     end
 
     expect(page).to have_selector(".blacklight-language_facet")
-    expect(page).to have_selector(".blacklight-language_facet.facet_limit-active")
+    expect(page).to have_selector(".blacklight-language_facet.facet-limit-active")
 
     within "#facet-language_facet" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")

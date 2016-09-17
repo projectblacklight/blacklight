@@ -24,21 +24,21 @@ describe Blacklight::SearchHistoryConstraintsHelperBehavior do
       it "renders basic element" do
         response = helper.render_search_to_s_element("key", "value")
         expect(response).to have_selector("span.constraint")  do |span|
-          expect(span).to have_selector("span.filterName", :content => "key:")
-          expect(span).to have_selector("span.filterValue", :content => "value")
+          expect(span).to have_selector("span.filter-name", content: "key:")
+          expect(span).to have_selector("span.filter-value", content: "value")
         end
         expect(response).to be_html_safe
       end
       it "escapes them that need escaping" do
         response = helper.render_search_to_s_element("key>", "value>")
         expect(response).to have_selector("span.constraint") do |span|          
-          expect(span).to have_selector("span.filterName") do |s2|
+          expect(span).to have_selector("span.filter-name") do |s2|
             # Note: nokogiri's gettext will unescape the inner html
             # which seems to be what rspecs "contains" method calls on 
             # text nodes - thus the to_s inserted below.
             expect(s2).to match(/key&gt;:/)
           end
-          expect(span).to have_selector("span.filterValue") do |s3|            
+          expect(span).to have_selector("span.filter-value") do |s3|            
             expect(s3).to match(/value&gt;/)
           end
         end
@@ -47,8 +47,8 @@ describe Blacklight::SearchHistoryConstraintsHelperBehavior do
       it "does not escape with options set thus" do
         response = helper.render_search_to_s_element("key>", "value>", :escape_key => false, :escape_value => false)
         expect(response).to have_selector("span.constraint") do |span|
-          expect(span).to have_selector("span.filterName", :content => "key>:")
-          expect(span).to have_selector("span.filterValue", :content => "value>")
+          expect(span).to have_selector("span.filter-name", content: "key>:")
+          expect(span).to have_selector("span.filter-value", content: "value>")
         end
         expect(response).to be_html_safe
       end
@@ -74,12 +74,12 @@ describe Blacklight::SearchHistoryConstraintsHelperBehavior do
     describe "render_search_to_s_filters" do
       it "renders a constraint for a selected facet in the config" do
         response = helper.render_search_to_s_filters(:f => {"some_facet" => ["value1", "value2"]})
-        expect(response).to eq("<span class=\"constraint\"><span class=\"filterName\">Some:</span><span class=\"filterValues\"><span class=\"filterValue\">value1</span><span class=\"filterSeparator\"> and </span><span class=\"filterValue\">value2</span></span></span>")
+        expect(response).to eq("<span class=\"constraint\"><span class=\"filter-name\">Some:</span><span class=\"filter-values\"><span class=\"filter-value\">value1</span><span class=\"filter-separator\"> and </span><span class=\"filter-value\">value2</span></span></span>")
       end
 
       it "renders a constraint for a selected facet not in the config" do
         response = helper.render_search_to_s_filters(:f => {"undefined_facet" => ["value1", "value2"]})
-        expect(response).to eq("<span class=\"constraint\"><span class=\"filterName\">#{'undefined_facet'.humanize}:</span><span class=\"filterValues\"><span class=\"filterValue\">value1</span><span class=\"filterSeparator\"> and </span><span class=\"filterValue\">value2</span></span></span>")
+        expect(response).to eq("<span class=\"constraint\"><span class=\"filter-name\">#{'undefined_facet'.humanize}:</span><span class=\"filter-values\"><span class=\"filter-value\">value1</span><span class=\"filter-separator\"> and </span><span class=\"filter-value\">value2</span></span></span>")
       end
 
       context 'with I18n translations for selected facet' do
