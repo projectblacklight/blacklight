@@ -166,7 +166,7 @@ module Blacklight::Solr::Response::Facets
       # alias all the possible blacklight config names..
       blacklight_config.facet_fields.select { |_k,v| v.field == facet_field_name }.each do |key,_|
         hash[key] = hash[facet_field_name]
-      end if blacklight_config and !blacklight_config.facet_fields[facet_field_name]
+      end if blacklight_config && !blacklight_config.facet_fields[facet_field_name]
     end
   end
 
@@ -210,14 +210,14 @@ module Blacklight::Solr::Response::Facets
   # a hash of Blacklight::Solr::Response::Facet::FacetField objects
   def facet_pivot_aggregations
     facet_pivot.each_with_object({}) do |(field_name, values), hash|
-      next unless blacklight_config and !blacklight_config.facet_fields[field_name]
+      next unless blacklight_config && !blacklight_config.facet_fields[field_name]
 
       items = values.map do |lst|
         construct_pivot_field(lst)
       end
 
       # alias all the possible blacklight config names..
-      blacklight_config.facet_fields.select { |_k,v| v.pivot and v.pivot.join(",") == field_name }.each do |key, _|
+      blacklight_config.facet_fields.select { |_k,v| v.pivot && v.pivot.join(",") == field_name }.each do |key, _|
         hash[key] = Blacklight::Solr::Response::Facets::FacetField.new key, items
       end
     end

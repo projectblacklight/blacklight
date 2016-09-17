@@ -79,7 +79,7 @@ module Blacklight::Document
   def fetch key, *default
     if key? key
       self[key]
-    elsif default.empty? and !block_given?
+    elsif default.empty? && !block_given?
       raise KeyError, "key not found \"#{key}\""
     else
       (yield(self) if block_given?) || default.first

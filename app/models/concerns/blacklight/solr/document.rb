@@ -24,7 +24,7 @@ module Blacklight::Solr::Document
   end
 
   def has_highlight_field? k
-    return false if response['highlighting'].blank? or response['highlighting'][self.id].blank?
+    return false if response['highlighting'].blank? || response['highlighting'][self.id].blank?
     
     response['highlighting'][self.id].key? k.to_s
   end

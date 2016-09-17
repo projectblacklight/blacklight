@@ -104,12 +104,6 @@ Style/AlignParameters:
     - 'lib/blacklight/configuration.rb'
     - 'lib/generators/blacklight/solr4_generator.rb'
 
-# Offense count: 64
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: always, conditionals
-Style/AndOr:
-  Enabled: false
 
 # Offense count: 3
 # Cop supports --auto-correct.

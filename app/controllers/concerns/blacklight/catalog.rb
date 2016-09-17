@@ -63,7 +63,7 @@ module Blacklight::Catalog
       search_session['id'] = params[:search_id]
       search_session['per_page'] = params[:per_page]
 
-      if params[:redirect] and (params[:redirect].starts_with?('/') or params[:redirect] =~ URI.regexp)
+      if params[:redirect] && (params[:redirect].starts_with?('/') || params[:redirect] =~ URI.regexp)
         path = URI.parse(params[:redirect]).path
         redirect_to path, status: 303
       else
@@ -114,7 +114,7 @@ module Blacklight::Catalog
     # Check if any search parameters have been set
     # @return [Boolean]
     def has_search_parameters?
-      !params[:q].blank? or !params[:f].blank? or !params[:search_field].blank?
+      !params[:q].blank? || !params[:f].blank? || !params[:search_field].blank?
     end
 
     protected

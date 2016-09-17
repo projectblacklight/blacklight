@@ -27,7 +27,7 @@ module Blacklight
 
       def retrieve_simple
         # regular document field
-        if field_config.default and field_config.default.is_a? Proc
+        if field_config.default && field_config.default.is_a?(Proc)
           document.fetch(field_config.field, &field_config.default)
         else
           document.fetch(field_config.field, field_config.default)

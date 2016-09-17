@@ -78,7 +78,7 @@ namespace :blacklight do
       begin
         response, docs = controller.search_results(q: '{!lucene}*:*')
 
-        if response.header['status'].zero? and docs.any?
+        if response.header['status'].zero? && docs.any?
           puts "OK"
         else
           errors += 1
@@ -101,7 +101,7 @@ namespace :blacklight do
         doc_id = response.documents.first.id
         response, doc = controller.fetch doc_id
 
-        if response.header['status'].zero? and doc
+        if response.header['status'].zero? && doc
           puts "OK"
         else
           errors += 1

@@ -56,7 +56,7 @@ module Blacklight
       facet = blacklight_config.facet_fields[facet_field]
       return if facet.blank?
 
-      if facet.limit and @response and @response.aggregations[facet_field]
+      if facet.limit && @response && @response.aggregations[facet_field]
         limit = @response.aggregations[facet_field].limit
 
         if limit.nil? # we didn't get or a set a limit, so infer one.
