@@ -44,7 +44,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # value can be Array, in which case elements are joined with
   # 'and'.   Pass in option :escape_value => false to pass in pre-rendered
   # html for value. key with escape_key if needed.  
-  def render_search_to_s_element(key, value, options = {})
+  def render_search_to_s_element(key, value, _options = {})
     content_tag(:span,
                 render_filter_name(key) + content_tag(:span, value, class: 'filter-values'),
                 class: 'constraint')

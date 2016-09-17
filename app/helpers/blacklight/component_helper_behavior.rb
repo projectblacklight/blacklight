@@ -52,7 +52,7 @@ module Blacklight
       content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
     end
 
-    def render_filtered_partials(partials, options={}, &block)
+    def render_filtered_partials(partials, options={})
       content = []
       partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }.each do |key, config|
         config.key ||= key

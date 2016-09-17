@@ -112,7 +112,7 @@ module Blacklight::Solr
         if facet.pivot
           solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
         elsif facet.query
-          solr_parameters.append_facet_query facet.query.map { |k, x| with_ex_local_param(facet.ex, x[:fq]) }
+          solr_parameters.append_facet_query facet.query.values.map { |x| with_ex_local_param(facet.ex, x[:fq]) }
         else
           solr_parameters.append_facet_fields with_ex_local_param(facet.ex, facet.field)
         end
@@ -133,13 +133,13 @@ module Blacklight::Solr
     end
 
     def add_solr_fields_to_query solr_parameters
-      blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).each do |field_name, field|
+      blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).each do |_field_name, field|
         field.solr_params.each do |k, v|
           solr_parameters[:"f.#{field.field}.#{k}"] = v
         end if field.solr_params
       end
 
-      blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).each do |field_name, field|
+      blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).each do |_field_name, field|
         if field.highlight
           solr_parameters[:hl] = true
           solr_parameters.append_highlight_field field.field
@@ -310,7 +310,7 @@ module Blacklight::Solr
     end
 
     def facet_fields_to_include_in_request
-      blacklight_config.facet_fields.select do |field_name,facet|
+      blacklight_config.facet_fields.select do |_field_name,facet|
         facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
       end
     end

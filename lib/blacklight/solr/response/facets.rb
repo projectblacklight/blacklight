@@ -164,7 +164,7 @@ module Blacklight::Solr::Response::Facets
                                               options)
 
       # alias all the possible blacklight config names..
-      blacklight_config.facet_fields.select { |k,v| v.field == facet_field_name }.each do |key,_|
+      blacklight_config.facet_fields.select { |_k,v| v.field == facet_field_name }.each do |key,_|
         hash[key] = hash[facet_field_name]
       end if blacklight_config and !blacklight_config.facet_fields[facet_field_name]
     end
@@ -193,10 +193,10 @@ module Blacklight::Solr::Response::Facets
   def facet_query_aggregations
     return {} unless blacklight_config
 
-    blacklight_config.facet_fields.select { |k,v| v.query }.each_with_object({}) do |(field_name, facet_field), hash|
-        salient_facet_queries = facet_field.query.map { |k, x| x[:fq] }
-        items = facet_queries.select { |k,v| salient_facet_queries.include?(k) }.reject { |value, hits| hits.zero? }.map do |value,hits|
-          salient_fields = facet_field.query.select { |key, val| val[:fq] == value }
+    blacklight_config.facet_fields.select { |_k,v| v.query }.each_with_object({}) do |(field_name, facet_field), hash|
+        salient_facet_queries = facet_field.query.map { |_k, x| x[:fq] }
+        items = facet_queries.select { |k,_v| salient_facet_queries.include?(k) }.reject { |_value, hits| hits.zero? }.map do |value,hits|
+          salient_fields = facet_field.query.select { |_key, val| val[:fq] == value }
           key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
           Blacklight::Solr::Response::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
         end
@@ -217,7 +217,7 @@ module Blacklight::Solr::Response::Facets
       end
 
       # alias all the possible blacklight config names..
-      blacklight_config.facet_fields.select { |k,v| v.pivot and v.pivot.join(",") == field_name }.each do |key, _|
+      blacklight_config.facet_fields.select { |_k,v| v.pivot and v.pivot.join(",") == field_name }.each do |key, _|
         hash[key] = Blacklight::Solr::Response::Facets::FacetField.new key, items
       end
     end

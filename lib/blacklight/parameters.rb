@@ -6,7 +6,7 @@ module Blacklight
     # from the provided parameters.
     # @param [Hash] params parameters
     def self.sanitize params
-      params.reject { |k,v| v.nil? }
+      params.reject { |_k,v| v.nil? }
             .except(:action, :controller, :id, :commit, :utf8)
     end
   end

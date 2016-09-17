@@ -220,7 +220,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @param [String] format suffix
   # @yield
-  def with_format(format, &block)
+  def with_format(format)
     old_formats = formats
     self.formats = [format]
     yield

@@ -43,7 +43,7 @@ namespace :blacklight do
   end
 
   desc 'Run Solr and Blacklight for interactive development'
-  task :server, [:rails_server_args] do |t, args|
+  task :server, [:rails_server_args] do |_t, args|
     if File.exist? EngineCart.destination
       within_test_app do
         system "bundle update"

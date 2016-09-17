@@ -21,14 +21,14 @@ module Blacklight
     # Find a single document result by a known id
     # @param [String] id document's unique key value
     # @param [Hash] params additional query parameters
-    def find(id, params = {})
+    def find(_id, _params = {})
       raise NotImplementedError
     end
 
     ##
     # Execute a search query against a search index
     # @param [Hash] params query parameters
-    def search(params = {})
+    def search(_params = {})
       raise NotImplementedError
     end
 
