@@ -1,11 +1,9 @@
 gem "blacklight", ">= 6.1"
-gem "jettywrapper", ">= 2.0"
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 run "bundle install"
 
 # run the blacklight install generator
-options = ENV.fetch("BLACKLIGHT_INSTALL_OPTIONS", '--devise --marc --jettywrapper')
+options = ENV.fetch("BLACKLIGHT_INSTALL_OPTIONS", '--devise --marc --solr_version=latest')
 
 generate 'blacklight:install', options
 
@@ -13,9 +11,10 @@ generate 'blacklight:install', options
 rake "db:migrate"
 
 # index some data
-if options =~ /jettywrapper/
-  rake "jetty:clean"
-  rake "jetty:start"
-  rake "blacklight:index:seed"
-  rake "jetty:stop"
+if options =~ /solr_version/
+  require 'solr_wrapper'
+
+  SolrWrapper.wrap do
+    rake "blacklight:index:seed"
+  end
 end
