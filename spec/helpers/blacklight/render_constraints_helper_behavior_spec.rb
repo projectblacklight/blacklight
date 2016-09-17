@@ -53,7 +53,7 @@ describe Blacklight::RenderConstraintsHelperBehavior do
 
     it "has a link relative to the current url" do
       expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
-      expect(subject).to have_selector ".filterName", text: 'Item Type'
+      expect(subject).to have_selector ".filter-name", text: 'Item Type'
     end
 
     context 'with string values' do

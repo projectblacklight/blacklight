@@ -119,8 +119,11 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def render_facet_value(facet_field, item, options ={})
     path = path_for_facet(facet_field, item)
-    content_tag(:span, :class => "facet-label") do
-      link_to_unless(options[:suppress_link], facet_display_value(facet_field, item), path, :class=>"facet_select")
+    content_tag(:span, class: "facet-label") do
+      link_to_unless(options[:suppress_link],
+                     facet_display_value(facet_field, item),
+                     path,
+                     class: "facet-select")
     end + render_facet_count(item.hits)
   end
 

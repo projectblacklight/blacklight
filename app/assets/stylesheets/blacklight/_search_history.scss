@@ -1,16 +1,12 @@
 /* Search History */
-.search_history
-{
-
-  .constraint 
-  {
+.search-history {
+  .constraint {
     @extend .p-x-3;
     display: block;
     text-indent: -1 * map-get(map-get($spacers, 3), x);
   }
 
-  .filterName, .filterSeparator
-  {
+  .filter-name, .filter-separator {
     @extend .text-muted;
   }
 }
