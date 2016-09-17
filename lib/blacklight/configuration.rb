@@ -106,7 +106,7 @@ module Blacklight
           ),
           # Configurations for specific types of index views
           view: NestedOpenStructWithHashAccess.new(ViewConfig,
-            'list',
+            list: {},
             atom: {
               if: false, # by default, atom should not show up as an alternative view
               partials: [:document]

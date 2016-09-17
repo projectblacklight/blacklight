@@ -66,7 +66,12 @@ describe Blacklight::ConfigurationHelperBehavior do
   end
 
   describe "#has_alternative_views?" do
+    before do
+      blacklight_config.view.clear
+    end
+
     subject { helper.has_alternative_views?}
+
     describe "with a single view defined" do
       it { should be false }
     end

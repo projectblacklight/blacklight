@@ -64,33 +64,17 @@ module Blacklight
     attr_reader :nested_class
     delegate :default_proc=, :to => :to_h
 
-    def initialize klass, *args
+    def initialize(klass, hash = {})
       @nested_class = klass
-      hash = {}
-
-      hashes_and_keys = args.flatten
-      lazy_configs = hashes_and_keys.extract_options!
-
-      hashes_and_keys.each do |v|
+      value = hash.transform_values do |v|
         if v.is_a? Hash
-          key = v.first
-          value = v[key]
-
-          hash[key] = nested_class.new value
+          nested_class.new(v)
         else
-          hash[v] = nested_class.new
+          v
         end
       end
 
-      lazy_configs.each do |k,v|
-        hash[k] = if v.is_a? nested_class
-                    v
-                  else
-                    nested_class.new v
-                  end
-      end
-
-      super hash
+      super value
       set_default_proc!
     end
 
