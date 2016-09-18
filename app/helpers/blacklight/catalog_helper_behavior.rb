@@ -147,7 +147,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # @param [SolrDocument] document
   # @return [String]
-  def render_document_sidebar_partial(document = @document)
+  def render_document_sidebar_partial(_document = @document)
     render :partial => 'show_sidebar'
   end
 
@@ -156,7 +156,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # @param [SolrDocument] document
   # @return [String]
-  def render_document_main_content_partial(document = @document)
+  def render_document_main_content_partial(_document = @document)
     render partial: 'show_main_content'
   end
 

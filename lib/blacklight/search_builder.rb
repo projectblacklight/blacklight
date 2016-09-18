@@ -244,7 +244,7 @@ module Blacklight
       Blacklight::Solr::Request.new
     end
 
-    def should_add_field_to_request? field_name, field
+    def should_add_field_to_request? _field_name, field
       field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
     end
 

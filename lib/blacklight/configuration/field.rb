@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Blacklight
   class Configuration::Field < OpenStructWithHashAccess
-    def normalize! blacklight_config = nil
+    def normalize! _blacklight_config = nil
       self.field ||= self.key
       self.key ||= self.field
 

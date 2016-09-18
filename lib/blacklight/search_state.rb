@@ -114,7 +114,7 @@ module Blacklight
     # @param [Hash] params_to_merge to merge into above
     # @return [ActionController::Parameters] the current search parameters after being sanitized by Blacklight::Parameters.sanitize
     # @yield [params] The merged parameters hash before being sanitized
-    def params_for_search(params_to_merge={}, &block)
+    def params_for_search(params_to_merge={})
       # params hash we'll return
       my_params = params.dup.merge(Blacklight::SearchState.new(params_to_merge, blacklight_config))
 

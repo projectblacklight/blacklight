@@ -103,11 +103,11 @@ module Blacklight
         # look up any dynamic fields
         if field_config.match
 
-          salient_fields = luke_fields.select do |k,v|
+          salient_fields = luke_fields.select do |k,_v|
             k =~ field_config.match
           end
 
-          salient_fields.each do |field, luke_config|
+          salient_fields.each do |field, _luke_config|
             config = field_config.dup
             config.match = nil
             config.field = field

@@ -6,9 +6,8 @@ module Blacklight::FacetsHelperBehavior
   # Check if any of the given fields have values
   #
   # @param [Array<String>] fields
-  # @param [Hash] options
   # @return [Boolean]
-  def has_facet_values? fields = facet_field_names, options = {}
+  def has_facet_values? fields = facet_field_names
     facets_from_request(fields).any? { |display_facet| !display_facet.items.empty? && should_render_facet?(display_facet) }
   end
 

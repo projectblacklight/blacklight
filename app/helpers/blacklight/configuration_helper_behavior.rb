@@ -5,17 +5,17 @@ module Blacklight::ConfigurationHelperBehavior
   # 
   # @param [SolrDocument] document
   # @return [Array<Blacklight::Configuration::Field>] 
-  def index_fields document=nil
+  def index_fields _document=nil
     blacklight_config.index_fields
   end
 
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
-    active_sort_fields.map { |key, x| [x.label, x.key] }
+    active_sort_fields.map { |_key, x| [x.label, x.key] }
   end
   
   def active_sort_fields
-    blacklight_config.sort_fields.select { |sort_key, field_config| should_render_field?(field_config) }
+    blacklight_config.sort_fields.select { |_sort_key, field_config| should_render_field?(field_config) }
   end
 
   # Used in the search form partial for building a select tag
@@ -27,13 +27,13 @@ module Blacklight::ConfigurationHelperBehavior
   # an html select based on #search_field_list. Skips search_fields
   # marked :include_in_simple_select => false
   def search_field_options_for_select
-    blacklight_config.search_fields.collect do |key, field_def|
+    blacklight_config.search_fields.collect do |_key, field_def|
       [field_def.label,  field_def.key] if should_render_field?(field_def)
     end.compact
   end
 
   # used in the catalog/_show/_default partial
-  def document_show_fields document=nil
+  def document_show_fields _document=nil
     blacklight_config.show_fields
   end
 
@@ -122,7 +122,7 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   def document_index_views
-    blacklight_config.view.select do |k, config|
+    blacklight_config.view.select do |_k, config|
       should_render_field? config
     end
   end
@@ -130,7 +130,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Get the default index view type
   def default_document_index_view_type
-    document_index_views.select { |k,config| config.respond_to? :default and config.default }.keys.first || document_index_views.keys.first
+    document_index_views.select { |_k,config| config.respond_to? :default and config.default }.keys.first || document_index_views.keys.first
   end
 
   ##
@@ -160,7 +160,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Default sort field
   def default_sort_field
-    (active_sort_fields.find { |k,config| config.respond_to? :default and config.default } || active_sort_fields.first).try(:last)
+    (active_sort_fields.find { |_k,config| config.respond_to? :default and config.default } || active_sort_fields.first).try(:last)
   end
 
   ##

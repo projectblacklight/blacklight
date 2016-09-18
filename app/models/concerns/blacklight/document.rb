@@ -109,11 +109,11 @@ module Blacklight::Document
     'catalog/document'
   end
 
-  def has_highlight_field? k
+  def has_highlight_field? _k
     false
   end
 
-  def highlight_field k
+  def highlight_field _k
     nil
   end
 

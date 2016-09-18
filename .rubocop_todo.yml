@@ -24,40 +24,6 @@ Lint/EndAlignment:
     - 'lib/blacklight/solr/response/facets.rb'
     - 'lib/blacklight/solr/search_builder_behavior.rb'
 
-# Offense count: 26
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'app/controllers/concerns/blacklight/search_context.rb'
-    - 'app/helpers/blacklight/configuration_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/document/dublin_core.rb'
-    - 'lib/blacklight/configuration/fields.rb'
-    - 'lib/blacklight/engine.rb'
-    - 'lib/blacklight/parameters.rb'
-    - 'lib/blacklight/solr/response/facets.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
-    - 'lib/railties/blacklight.rake'
-    - 'tasks/blacklight.rake'
-
-# Offense count: 18
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'app/helpers/blacklight/blacklight_helper_behavior.rb'
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'app/helpers/blacklight/component_helper_behavior.rb'
-    - 'app/helpers/blacklight/configuration_helper_behavior.rb'
-    - 'app/helpers/blacklight/facets_helper_behavior.rb'
-    - 'app/helpers/blacklight/render_partials_helper_behavior.rb'
-    - 'app/helpers/blacklight/search_history_constraints_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/document.rb'
-    - 'lib/blacklight/abstract_repository.rb'
-    - 'lib/blacklight/configuration/field.rb'
-    - 'lib/blacklight/search_builder.rb'
-    - 'lib/blacklight/search_state.rb'
-
 # Offense count: 7
 Lint/UselessAssignment:
   Exclude:
