@@ -1,9 +1,10 @@
 <% # main container for facets/limits menu -%>
-<% if has_facet_values? %>
+<% if @presenter.facets.values? %>
 <div id="facets" class="facets sidenav facets-toggleable-sm">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#facet-panel-collapse" aria-controls="facet-panel-collapse" aria-expanded="false" aria-label="Toggle facets">
     <span class="navbar-toggler-icon"></span>
   </button>
+
 
   <div class="top-panel-heading">
     <h2 class="facets-heading">
@@ -12,7 +13,7 @@
   </div>
 
   <div id="facet-panel-collapse" class="facets-collapse collapse">
-    <%= render_facet_partials %>
+    <%= @presenter.facets.render_partials %>
   </div>
 </div>
 <% end %>

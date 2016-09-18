@@ -27,7 +27,10 @@ module Blacklight::Catalog
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
 
     respond_to do |format|
-      format.html { store_preferred_view }
+      format.html do
+        store_preferred_view
+        @presenter = Blacklight::ResultsPagePresenter.new(@response, view_context)
+      end
       format.rss  { render layout: false }
       format.atom { render layout: false }
       format.json do
@@ -75,10 +78,12 @@ module Blacklight::Catalog
     @display_facet = @response.aggregations[@facet.field]
     @pagination = facet_paginator(@facet, @display_facet)
     respond_to do |format|
+      # Draw the facet selector for users who have javascript disabled:
       format.html do
         # Draw the partial for the "more" facet modal window:
         return render layout: false if request.xhr?
         # Otherwise draw the facet selector for users who have javascript disabled.
+        @presenter = Blacklight::FacetListPresenter.new(@response, view_context)
       end
       format.json
     end

@@ -17,7 +17,7 @@
 
 <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
 
-<%- if @response.empty? %>
+<%- if @presenter.empty? %>
   <%= render "zero_results" %>
 <%- elsif render_grouped_response? %>
   <%= render_grouped_document_index %>

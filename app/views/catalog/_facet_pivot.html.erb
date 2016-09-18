@@ -5,7 +5,7 @@
     <% if facet_in_params?(field_name, item) %>              
         <%= render_selected_facet_value(field_name, item) %>              
       <% else %>              
-        <%= render_facet_value(field_name, item) %>              
+        <%= Blacklight::FacetItemPresenter.new(field_name, item, self).facet_value %>
     <% end -%>
     </span>
 

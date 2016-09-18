@@ -61,7 +61,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # Render the value of the facet
   def render_filter_value value, key = nil
     display_value = value
-    display_value = facet_display_value(key, value) if key
+    display_value = Blacklight::FacetValuePresenter.new(key, value, self).display if key
     content_tag(:span,
                 h(display_value),
                 class: 'filter-value')
