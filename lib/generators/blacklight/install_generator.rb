@@ -94,16 +94,16 @@ EOF
     end
 
     def generate_blacklight_marc_demo
-      if options[:marc]
-        blacklight_marc = String.new('blacklight-marc')
-        gem blacklight_marc, '~> 6.1'
+      return unless options[:marc]
 
-        Bundler.with_clean_env do
-          run "bundle install"
-        end
+      blacklight_marc = String.new('blacklight-marc')
+      gem blacklight_marc, '~> 6.1'
 
-        generate 'blacklight:marc:install'
+      Bundler.with_clean_env do
+        run "bundle install"
       end
+
+      generate 'blacklight:marc:install'
     end
 
     def add_routes
