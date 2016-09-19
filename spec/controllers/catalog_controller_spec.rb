@@ -251,7 +251,7 @@ describe CatalogController do
         get :show, params: { id: doc_id, format: 'json' }
         expect(response).to be_success
         json = JSON.parse response.body
-        expect(json["response"]["document"].keys).to match_array(["author_t", "opensearch_display", "marc_display", "published_display", "author_display", "lc_callnum_display", "title_t", "pub_date", "pub_date_sort", "subtitle_display", "format", "url_suppl_display", "material_type_display", "title_display", "subject_addl_t", "subject_t", "isbn_t", "id", "title_addl_t", "subject_geo_facet", "subject_topic_facet", "author_addl_t", "language_facet", "subtitle_t", "timestamp"])
+        expect(json["response"]["document"].keys).to match_array(["author_t", "marc_display", "published_display", "author_display", "lc_callnum_display", "title_t", "pub_date", "subtitle_display", "format", "url_suppl_display", "material_type_display", "title_display", "subject_addl_t", "subject_t", "isbn_t", "id", "title_addl_t", "subject_geo_facet", "subject_topic_facet", "author_addl_t", "language_facet", "subtitle_t", "timestamp"])
       end
     end
 

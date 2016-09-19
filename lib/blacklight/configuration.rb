@@ -40,22 +40,12 @@ module Blacklight
           # === Single document request configuration
           ##
           # The solr rqeuest handler to use when requesting only a single document
-          document_solr_request_handler: 'document',
+          document_solr_request_handler: nil,
           # THe path to send single document requests to solr
-          document_solr_path: nil,
-          document_unique_id_param: :id,
+          document_solr_path: 'get',
+          document_unique_id_param: :ids,
           # Default values of parameters to send when requesting a single document
-          default_document_solr_params: {
-            ## Blacklight provides these settings in the /document request handler
-            ## by default, we just ask for all fields.
-            #fl: '*',
-            ## this is a fancy way to say "find the document by id using
-            ## the value in the id query parameter"
-            #q: "{!term f=#{unique_key} v=$id}",
-            ## disable features we don't need
-            #facet: false,
-            #rows: 1
-          },
+          default_document_solr_params: { },
           ##
           # == Response models
           ## Class for sending and receiving requests from a search index
