@@ -114,7 +114,7 @@ module Blacklight::FacetsHelperBehavior
   # a link to add that to your restrictions, with count in parens.
   #
   # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
-  # @param [String] item
+  # @param [Blacklight::Solr::Response::Facets::FacetItem] item
   # @param [Hash] options
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
   # @return [String]
