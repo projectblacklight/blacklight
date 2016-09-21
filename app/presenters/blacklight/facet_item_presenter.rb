@@ -1,5 +1,8 @@
 module Blacklight
   class FacetItemPresenter
+    class_attribute :facet_value_presenter
+    self.facet_value_presenter = FacetValuePresenter
+
     # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
     # @param [Blacklight::Solr::Response::Facets::FacetItem] item
     def initialize(facet_field, item, view_context)
@@ -61,7 +64,7 @@ module Blacklight
       end
 
       def facet_display_value
-        FacetValuePresenter.new(facet_field, item, view_context).display
+        facet_value_presenter.new(facet_field, item, view_context).display
       end
 
       ##

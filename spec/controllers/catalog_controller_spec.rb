@@ -542,7 +542,7 @@ RSpec.describe CatalogController do
         expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
         expect(assigns[:display_facet]).to be_kind_of Blacklight::Solr::Response::Facets::FacetField
         expect(assigns[:pagination]).to be_kind_of Blacklight::Solr::FacetPaginator
-        expect(assigns[:presenter]).to be_kind_of Blacklight::FacetListPresenter
+        expect(assigns[:presenter]).to be_kind_of Blacklight::FacetFieldPresenter
       end
     end
     describe "requesting json" do

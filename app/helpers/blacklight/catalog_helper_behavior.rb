@@ -272,11 +272,16 @@ module Blacklight::CatalogHelperBehavior
     current_bookmarks.any? { |x| x.document_id == document.id && x.document_type == document.class }
   end
 
+  def value_presenter
+    Blacklight::FacetValuePresenter
+  end
+
+  # TODO: refactor to title presenter
   def render_search_to_page_title_filter(facet, values)
     facet_config = facet_configuration_for_field(facet)
     filter_label = facet_field_label(facet_config.key)
     filter_value = if values.size < 3
-                     values.map { |value| Blacklight::FacetValuePresenter.new(facet, value, self).display }.to_sentence
+                     values.map { |value| value_presenter.new(facet, value, self).display }.to_sentence
                    else
                      t('blacklight.search.page_title.many_constraint_values', values: values.size)
                    end

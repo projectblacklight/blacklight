@@ -2,15 +2,18 @@
   <% display_facet.items.each do |item| -%>
     <li>
     <span class="facet-values">
-    <% if facet_in_params?(field_name, item) %>              
-        <%= render_selected_facet_value(field_name, item) %>              
-      <% else %>              
-        <%= Blacklight::FacetItemPresenter.new(field_name, item, self).facet_value %>
+    <% if facet_in_params?(field_name, item) %>
+        <%= render_selected_facet_value(field_name, item) %>
+      <% else %>
+        <%= presenter.facet_item_presenter.new(field_name, item, self).facet_value %>
     <% end -%>
     </span>
 
     <% unless item.items.blank? %>
-      <%= render 'facet_pivot', display_facet: item, field_name: field_name %>
+      <%= render 'facet_pivot', display_facet: item,
+                                field_name: field_name,
+                                solr_field: field_name,
+                                presenter: presenter %>
     <% end %>
     </li>
   <% end %>

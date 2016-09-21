@@ -18,6 +18,9 @@ module Blacklight::Catalog
     rescue_from Blacklight::Exceptions::InvalidRequest, with: :handle_request_error
 
     record_search_parameters
+    class_attribute :list_presenter, :field_presenter
+    self.field_presenter = Blacklight::FacetFieldPresenter
+    self.list_presenter = Blacklight::ResultsPagePresenter
   end
 
   # get search results from the solr index
@@ -29,7 +32,7 @@ module Blacklight::Catalog
     respond_to do |format|
       format.html do
         store_preferred_view
-        @presenter = Blacklight::ResultsPagePresenter.new(@response, view_context)
+        @presenter = list_presenter.new(@response, view_context)
       end
       format.rss  { render layout: false }
       format.atom { render layout: false }
@@ -83,7 +86,7 @@ module Blacklight::Catalog
         # Draw the partial for the "more" facet modal window:
         return render layout: false if request.xhr?
         # Otherwise draw the facet selector for users who have javascript disabled.
-        @presenter = Blacklight::FacetListPresenter.new(@response, view_context)
+        @presenter = field_presenter.new(@display_facet, view_context)
       end
       format.json
     end
