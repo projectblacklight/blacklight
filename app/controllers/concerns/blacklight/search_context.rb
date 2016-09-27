@@ -37,7 +37,7 @@ module Blacklight::SearchContext
 
   def find_search_session
     if params[:search_context].present?
-      find_or_initialize_search_session_from_params JSON.load(params[:search_context])
+      find_or_initialize_search_session_from_params JSON.parse(params[:search_context])
     elsif params[:search_id].present?
       begin
         # TODO: check the search id signature.
