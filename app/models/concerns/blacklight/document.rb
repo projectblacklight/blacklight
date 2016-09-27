@@ -38,26 +38,13 @@ module Blacklight::Document
 
   attr_reader :response, :_source
   alias_method :solr_response, :response
+  
+  delegate :[], :key?, :keys, :to_h, to: :_source
 
   def initialize(source_doc={}, response=nil)
     @_source = ActiveSupport::HashWithIndifferentAccess.new(source_doc).freeze
     @response = response
     apply_extensions
-  end
-
-  # the wrapper method to the @_source object.
-  # If a method is missing, it gets sent to @_source
-  # with all of the original params and block
-  def method_missing(m, *args, &b)
-    if _source_responds_to?(m)
-      _source.send(m, *args, &b)
-    else
-      super
-    end
-  end
-
-  def respond_to_missing? *args
-    _source_responds_to?(*args) || super
   end
 
   # Helper method to check if value/multi-values exist for a given key.
@@ -87,8 +74,6 @@ module Blacklight::Document
     end
   end
   alias has_field? has?
-
-  delegate :key?, to: :_source
   alias has_key? key?
 
   def fetch key, *default
@@ -131,11 +116,5 @@ module Blacklight::Document
     def unique_key
       @unique_key ||= 'id' 
     end
-  end
-  
-  private
-  
-  def _source_responds_to? *args
-    _source && self != _source && _source.respond_to?(*args)
   end
 end
