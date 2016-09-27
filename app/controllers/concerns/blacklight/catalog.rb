@@ -17,6 +17,10 @@ module Blacklight::Catalog
     # the exception appropriately.
     rescue_from Blacklight::Exceptions::RecordNotFound, with: :invalid_document_id_error
 
+    # The index action will more than likely throw this one.
+    # Example: when the standard query parser is used, and a user submits a "bad" query.
+    rescue_from Blacklight::Exceptions::InvalidRequest, with: :handle_request_error
+
     record_search_parameters
   end
 
@@ -282,5 +286,25 @@ module Blacklight::Catalog
 
     def determine_layout
       action_name == 'show' ? 'catalog_result' : super
+    end
+
+    # when a method throws a Blacklight::Exceptions::InvalidRequest, this method is executed.
+    def handle_request_error(exception)
+      # Rails own code will catch and give usual Rails error page with stack trace
+      raise exception if Rails.env.development? || Rails.env.test?
+
+      flash_notice = I18n.t('blacklight.search.errors.request_error')
+
+      # If there are errors coming from the index page, we want to trap those sensibly
+
+      if flash[:notice] == flash_notice
+        logger.error "Cowardly aborting rsolr_request_error exception handling, because we redirected to a page that raises another exception"
+        raise exception
+      end
+
+      logger.error exception
+
+      flash[:notice] = flash_notice
+      redirect_to search_action_url
     end
 end
