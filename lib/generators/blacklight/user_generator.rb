@@ -17,29 +17,29 @@ module Blacklight
     EOS
     # Install Devise?
     def generate_devise_assets
-      if options[:devise]
-        gem "devise"
-        gem "devise-guests", "~> 0.5"
+      return unless options[:devise]
 
-        Bundler.with_clean_env do
-          run "bundle install"
-        end
+      gem "devise"
+      gem "devise-guests", "~> 0.5"
 
-        generate "devise:install"
-        generate "devise", model_name.classify
-        generate "devise_guests", model_name.classify
-
-        # add the #to_s to the model.
-        insert_into_file("app/models/#{model_name}.rb", before: /end(\n| )*$/) do
-          "\n  # Method added by Blacklight; Blacklight uses #to_s on your\n" \
-          "  # user class to get a user-displayable login/identifier for\n" \
-          "  # the account.\n" \
-          "  def to_s\n" \
-          "    email\n" \
-          "  end\n"
-        end
-        gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
+      Bundler.with_clean_env do
+        run "bundle install"
       end
+
+      generate "devise:install"
+      generate "devise", model_name.classify
+      generate "devise_guests", model_name.classify
+
+      # add the #to_s to the model.
+      insert_into_file("app/models/#{model_name}.rb", before: /end(\n| )*$/) do
+        "\n  # Method added by Blacklight; Blacklight uses #to_s on your\n" \
+        "  # user class to get a user-displayable login/identifier for\n" \
+        "  # the account.\n" \
+        "  def to_s\n" \
+        "    email\n" \
+        "  end\n"
+      end
+      gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
     end
 
     # Add Blacklight to the user model

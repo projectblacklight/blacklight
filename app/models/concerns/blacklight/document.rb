@@ -14,6 +14,9 @@
 # transformation formats.
 #
 module Blacklight::Document
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 7.0'
+
   autoload :ActiveModelShim, 'blacklight/document/active_model_shim'
   autoload :SchemaOrg, 'blacklight/document/schema_org'
   autoload :CacheKey, 'blacklight/document/cache_key'
@@ -38,6 +41,7 @@ module Blacklight::Document
 
   attr_reader :response, :_source
   alias_method :solr_response, :response
+  delegate :[], :key?, :keys, :to_h, to: :_source
 
   def initialize(source_doc={}, response=nil)
     @_source = ActiveSupport::HashWithIndifferentAccess.new(source_doc)
@@ -49,15 +53,20 @@ module Blacklight::Document
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
   def method_missing(m, *args, &b)
+    return super if m == :to_hash
+
     if _source_responds_to?(m)
+      Deprecation.warn(Blacklight::Solr::Document, "Blacklight::Document##{m} is deprecated; use obj.to_h.#{m} instead.")
       _source.send(m, *args, &b)
     else
       super
     end
   end
 
-  def respond_to_missing? *args
-    _source_responds_to?(*args) || super
+  def respond_to_missing? m, *args
+    return super if m == :to_hash
+
+    _source_responds_to?(m, *args) || super
   end
 
   # Helper method to check if value/multi-values exist for a given key.
@@ -87,8 +96,6 @@ module Blacklight::Document
     end
   end
   alias has_field? has?
-
-  delegate :key?, to: :_source
   alias has_key? key?
 
   def fetch key, *default
