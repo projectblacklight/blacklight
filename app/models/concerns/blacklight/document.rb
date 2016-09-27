@@ -53,6 +53,8 @@ module Blacklight::Document
   # If a method is missing, it gets sent to @_source
   # with all of the original params and block
   def method_missing(m, *args, &b)
+    return super if m == :to_hash
+
     if _source_responds_to?(m)
       Deprecation.warn(Blacklight::Solr::Document, "Blacklight::Document##{m} is deprecated; use obj.to_h.#{m} instead.")
       _source.send(m, *args, &b)
@@ -61,8 +63,10 @@ module Blacklight::Document
     end
   end
 
-  def respond_to_missing? *args
-    _source_responds_to?(*args) || super
+  def respond_to_missing? m, *args
+    return super if m == :to_hash
+
+    _source_responds_to?(m, *args) || super
   end
 
   # Helper method to check if value/multi-values exist for a given key.
