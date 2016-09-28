@@ -39,7 +39,7 @@ module Blacklight::Document
   attr_reader :response, :_source
   alias_method :solr_response, :response
   
-  delegate :[], :key?, :keys, :to_h, to: :_source
+  delegate :[], :key?, :keys, :to_h, :as_json, to: :_source
 
   def initialize(source_doc={}, response=nil)
     @_source = ActiveSupport::HashWithIndifferentAccess.new(source_doc).freeze
