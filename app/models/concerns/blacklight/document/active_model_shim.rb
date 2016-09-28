@@ -31,20 +31,10 @@ module Blacklight::Document
       self[self.class.unique_key]
     end
 
-    ##
-    # accessors for reading attribute
-    def [] *args
-      _source.send :[], *args
-    end
-    
     def _read_attribute(attr)
       self[attr]
     end
 
-    def as_json(options = nil)
-      _source.as_json(options)
-    end
-    
     ##
     # ActiveRecord::Persistence method stubs to get non-AR objects to
     # play nice with e.g. Blacklight's bookmarks
