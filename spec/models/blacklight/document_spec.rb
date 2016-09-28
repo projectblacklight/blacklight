@@ -2,10 +2,23 @@
 
 describe Blacklight::Document do
   let(:data) { {} }
-  subject do
+  let(:test_class) do
     Class.new do
       include Blacklight::Document
-    end.new(data)
+    end
+  end
+
+  subject { test_class.new(data) }
+
+  describe '.new' do
+    it 'accepts a hash' do
+      expect(test_class.new(id: 1)[:id]).to eq 1
+    end
+
+    it 'accepts a SolrDocument' do
+      expect(Deprecation).to receive(:warn)
+      expect(test_class.new(test_class.new(id: 1))[:id]).to eq 1
+    end
   end
 
   describe "#has?" do
