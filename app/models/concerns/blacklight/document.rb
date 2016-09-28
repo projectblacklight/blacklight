@@ -44,7 +44,12 @@ module Blacklight::Document
   delegate :[], :key?, :keys, :to_h, to: :_source
 
   def initialize(source_doc={}, response=nil)
-    @_source = ActiveSupport::HashWithIndifferentAccess.new(source_doc)
+    @_source = if source_doc.respond_to?(:to_hash)
+                 ActiveSupport::HashWithIndifferentAccess.new(source_doc)
+               else
+                 Deprecation.warn(Blacklight::Document, "Blacklight::Document#initialize expects a hash-like object, received #{source_doc.class}.")
+                 ActiveSupport::HashWithIndifferentAccess.new(source_doc.to_h)
+               end
     @response = response
     apply_extensions
   end
