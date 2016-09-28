@@ -281,12 +281,6 @@ describe Blacklight::SearchHelper do
       }.to raise_error(Blacklight::Exceptions::RecordNotFound)
     end
 
-    it "uses a provided document request handler" do
-      allow(blacklight_config).to receive_messages(:document_solr_request_handler => 'document')
-      allow(blacklight_solr).to receive(:send_and_receive).with('select', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
-      expect { subject.fetch(@doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
-    end
-
     it "uses a provided document solr path" do
       allow(blacklight_config).to receive_messages(:document_solr_path => 'get')
       allow(blacklight_solr).to receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
