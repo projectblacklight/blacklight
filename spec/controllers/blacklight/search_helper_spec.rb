@@ -34,7 +34,7 @@ describe Blacklight::SearchHelper do
 
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
-  let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config) }
+  let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config.except(:adapter)) }
 
   before(:each) do
     @all_docs_query = ''
