@@ -61,6 +61,7 @@ RSpec.configure do |config|
     config.include Devise::Test::ControllerHelpers, type: :controller
   else
     config.include Devise::TestHelpers, type: :controller
+    config.include Devise::TestHelpers, type: :i18n
   end
 
   config.infer_spec_type_from_file_location!
