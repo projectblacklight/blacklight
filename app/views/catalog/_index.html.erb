@@ -1,9 +1,7 @@
 <%# default partial to display solr document fields in catalog index view -%>
 <dl class="document-metadata dl-invert row">
-  <% blacklight_config.index_fields.each do |field_name, field| -%>
-    <% if presenter.render_field? field %>
-	    <dt class="blacklight-<%= field_name.parameterize %> col-md-3"><%= presenter.field_label field_name %></dt>
-	    <dd class="blacklight-<%= field_name.parameterize %> col-md-9"><%= presenter.field_value field_name %></dd>
-    <% end -%>
+  <% presenter.fields.each.each do |field| -%>
+    <dt class="blacklight-<%= field.key.parameterize %> col-md-3"><%= presenter.field_label field %></dt>
+    <dd class="blacklight-<%= field.key.parameterize %> col-md-9"><%= presenter.field_value field %></dd>
   <% end -%>
 </dl>

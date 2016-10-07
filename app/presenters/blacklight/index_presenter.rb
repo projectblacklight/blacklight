@@ -65,17 +65,21 @@ module Blacklight
         view_context.document_has_value?(document, field_config)
     end
 
+    # @return [Array<Configuration::IndexField>] all the fields that should be rendered
+    def fields
+      configuration.index_fields.values.select { |field| render_field?(field) }
+    end
     ##
     # Render the index field label for a document
     #
     # Translations for index field labels should go under blacklight.search.fields
     # They are picked up from there by a value "%{label}" in blacklight.search.index.label
     #
-    # @param [String] field
+    # @param [Configuration::IndexField] field
     def field_label field
       I18n.t(:"blacklight.search.index.#{view_type}.label",
              default: :'blacklight.search.index.label',
-             label: index_field(field).label)
+             label: field.label)
     end
 
     ##
@@ -83,12 +87,11 @@ module Blacklight
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [String] field
+    # @param [Configuration::IndexField] field
     # @param [Hash] options
     # @option options [String] :value
     def field_value field, options = {}
-      field_config = field_config(field)
-      field_values(field_config, options)
+      field_values(field, options)
     end
 
     def thumbnail

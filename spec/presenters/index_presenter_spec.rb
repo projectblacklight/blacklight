@@ -45,78 +45,84 @@ RSpec.describe Blacklight::IndexPresenter do
       end
     end
     it "checks for an explicit value" do
-      value = subject.field_value 'asdf', :value => 'asdf'
+      field = config.index_fields['asdf']
+      value = subject.field_value field, value: 'asdf'
       expect(value).to eq 'asdf'
     end
 
     it "checks for a helper method to call" do
       allow(view_context).to receive(:render_asdf_index_field).and_return('custom asdf value')
-      value = subject.field_value 'asdf'
-      expect(value).to eq 'custom asdf value'
+      field = config.index_fields['asdf']
+      expect(subject.field_value(field)).to eq 'custom asdf value'
     end
 
     it "checks for a link_to_facet" do
       allow(view_context).to receive(:search_action_path).with('f' => { 'link_to_facet_true' => ['x'] }).and_return('/foo')
       allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_facet_true'
+      field = config.index_fields['link_to_facet_true']
+      value = subject.field_value field
       expect(value).to eq 'bar'
     end
 
     it "checks for a link_to_facet with a field name" do
       allow(view_context).to receive(:search_action_path).with('f' => { 'some_field' => ['x'] }).and_return('/foo')
       allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_facet_named'
+      field = config.index_fields['link_to_facet_named']
+      value = subject.field_value field
       expect(value).to eq 'bar'
     end
 
     it "gracefully handles when no highlight field is available" do
       allow(document).to receive(:has_highlight_field?).and_return(false)
-      value = subject.field_value 'highlight'
+      field = config.index_fields['highlight']
+      value = subject.field_value field
       expect(value).to be_blank
     end
 
     it "checks for a highlighted field" do
       allow(document).to receive(:has_highlight_field?).and_return(true)
       allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
-      value = subject.field_value 'highlight'
+      field = config.index_fields['highlight']
+      value = subject.field_value field
       expect(value).to eq '<em>highlight</em>'
     end
 
     it "checks the document field value" do
-      value = subject.field_value 'qwer'
+      field = config.index_fields['qwer']
+      value = subject.field_value field
       expect(value).to eq 'document qwer value'
-    end
-
-    it "works with index fields that aren't explicitly defined" do
-      value = subject.field_value 'mnbv'
-      expect(value).to eq 'document mnbv value'
     end
 
     it "calls an accessor on the solr document" do
       allow(document).to receive_messages(solr_doc_accessor: "123")
-      value = subject.field_value 'solr_doc_accessor'
+      field = config.index_fields['solr_doc_accessor']
+      value = subject.field_value field
       expect(value).to eq "123"
     end
 
     it "calls an explicit accessor on the solr document" do
       allow(document).to receive_messages(solr_doc_accessor: "123")
-      value = subject.field_value 'explicit_accessor'
+      field = config.index_fields['explicit_accessor']
+      value = subject.field_value field
       expect(value).to eq "123"
     end
 
     it "calls an accessor on the solr document with the field as an argument" do
       allow(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
-      value = subject.field_value 'explicit_accessor_with_arg'
+      field = config.index_fields['explicit_accessor_with_arg']
+      value = subject.field_value field
       expect(value).to eq "123"
     end
 
     it "supports solr field configuration" do
-      value = subject.field_value 'alias'
+      field = config.index_fields['alias']
+      value = subject.field_value field
       expect(value).to eq "document qwer value"
     end
 
     it "supports default values in the field configuration" do
-      value = subject.field_value 'with_default'
+      field = config.index_fields['with_default']
+      value = subject.field_value field
       expect(value).to eq "value"
     end
   end
