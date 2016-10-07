@@ -107,7 +107,7 @@ module Blacklight
     private
 
     def index_field(field)
-      view_context.index_fields(document)[field]
+      configuration.index_fields[field]
     end
 
     def document_link_params(opts)

@@ -8,6 +8,7 @@ module Blacklight::ConfigurationHelperBehavior
   def index_fields _document = nil
     blacklight_config.index_fields
   end
+  deprecation_deprecate :index_fields
 
   def active_sort_fields
     blacklight_config.sort_fields.select { |_sort_key, field_config| should_render_field?(field_config) }
@@ -31,6 +32,7 @@ module Blacklight::ConfigurationHelperBehavior
   def document_show_fields _document = nil
     blacklight_config.show_fields
   end
+  deprecation_deprecate :document_show_fields
 
   ##
   # Return a label for the currently selected search field.

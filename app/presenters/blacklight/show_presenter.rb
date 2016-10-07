@@ -58,11 +58,20 @@ module Blacklight
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [String] field
+    # @param [String] field_name
     # @param [Hash] options
     # @option options [String] :value
-    def field_value field, options = {}
-      field_values(field_config(field), options)
+    def field_value field_name, options = {}
+      field_values(field_config(field_name), options)
+    end
+
+    ##
+    # Render the show field label for a document
+    #
+    # @param [String] field_name
+    def field_label field_name
+      I18n.t(:'blacklight.search.show.label',
+             label: field_config(field_name).show_field_label)
     end
 
     private
