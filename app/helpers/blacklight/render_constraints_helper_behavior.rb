@@ -74,6 +74,10 @@ module Blacklight::RenderConstraintsHelperBehavior
     safe_join(content.flatten, "\n")
   end
 
+  def value_presenter
+    Blacklight::FacetValuePresenter
+  end
+
   ##
   # Render a single facet's constraint
   # @param [String] facet field

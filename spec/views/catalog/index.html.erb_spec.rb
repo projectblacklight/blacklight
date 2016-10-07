@@ -26,6 +26,7 @@ RSpec.describe "catalog/index.html.erb" do
       allow(view).to receive(:render_opensearch_response_metadata).and_return("")
       assign(:presenter, instance_double(Blacklight::ResultsPagePresenter,
                                          facets: facet_list_presenter,
+                                         search_to_page_title: 'the title',
                                          empty?: true))
     end
     it "renders the search_header partial" do

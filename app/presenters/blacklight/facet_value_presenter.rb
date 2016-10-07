@@ -2,6 +2,7 @@ module Blacklight
   class FacetValuePresenter
     # @param [String] field
     # @param [String, Blacklight::Solr::Response::Facets::FacetItem] raw_value
+    # @param [#blacklight_config] view_context
     def initialize(field, raw_value, view_context)
       @field = field
       @view_context = view_context

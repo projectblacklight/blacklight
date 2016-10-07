@@ -1,6 +1,26 @@
 # frozen_string_literal: true
 module Blacklight
   class Configuration
+
+    # This mixin provides methods to the generated field classes
+    module Labels
+      def index_field_label
+        defaults = [:"blacklight.search.fields.index.#{key}", :"blacklight.search.fields.#{key}"]
+        defaults << label
+        defaults << key.to_s.humanize
+
+        field_label(*defaults)
+      end
+
+      def show_field_label
+        defaults = [:"blacklight.search.fields.show.#{key}", :"blacklight.search.fields.#{key}"]
+        defaults << label
+        defaults << key.to_s.humanize
+
+        field_label(*defaults)
+      end
+    end
+
     # This mixin provides Blacklight::Configuration with generic
     # solr fields configuration
     module Fields
@@ -17,7 +37,9 @@ module Blacklight
 
           unless const_defined? key.camelcase
             class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
-              class #{key.camelcase} < #{base_class_name}; end
+              class #{key.camelcase} < #{base_class_name}
+                include Labels
+              end
             END_EVAL
           end
 
