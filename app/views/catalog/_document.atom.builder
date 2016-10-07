@@ -7,7 +7,8 @@ xml.entry do
   xml.link    "rel" => "alternate", "type" => "text/html", "href" => polymorphic_url(url_for_document(document))
   # add other doc-specific formats, atom only lets us have one per
   # content type, so the first one in the list wins.
-  xml << show_presenter(document).link_rel_alternates(unique: true)      
+  # TODO: it seems odd that we need a show presenter on an index view.
+  xml << blacklight_config.show.document_presenter_class.new(document, self).link_rel_alternates(unique: true)      
   
   xml.id polymorphic_url(url_for_document(document))
   

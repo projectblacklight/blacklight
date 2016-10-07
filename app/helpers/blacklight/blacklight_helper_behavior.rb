@@ -29,14 +29,13 @@ module Blacklight::BlacklightHelperBehavior
   #
   # Returns empty string if no links available.
   #
-  # @param [SolrDocument] document
+  # @param [#link_rel_alternates] presenter
   # @param [Hash] options
   # @option options [Boolean] :unique ensures only one link is output for every
   #     content type, e.g. as required by atom
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output
-  def render_link_rel_alternates(document = @document, options = {})
-    return if document.nil?
-    presenter(document).link_rel_alternates(options)
+  def render_link_rel_alternates(presenter = @presenter, options = {})
+    presenter.link_rel_alternates(options)
   end
 
   ##
@@ -163,11 +162,11 @@ module Blacklight::BlacklightHelperBehavior
   # Get the value of the document's "title" field, or a placeholder
   # value (if empty)
   #
-  # @param [SolrDocument] document
+  # @param [#heading] document
   # @return [String]
-  def document_heading document = nil
-    document ||= @document
-    presenter(document).heading
+  def document_heading presenter=nil
+    presenter ||= @presenter
+    presenter.heading
   end
 
   ##
@@ -175,18 +174,15 @@ module Blacklight::BlacklightHelperBehavior
   # (by default, use the #document_heading)
   #
   # @see #document_heading
-  # @param [SolrDocument] document
   # @return [String]
-  def document_show_html_title document = nil
-    document ||= @document
-
-    presenter(document).html_title
+  def document_show_html_title
+    @presenter.html_title
   end
 
   ##
   # Render the document "heading" (title) in a content tag
-  # @overload render_document_heading(document, options)
-  #   @param [SolrDocument] document
+  # @overload render_document_heading(presenter, options)
+  #   @param [#heading] presenter
   #   @param [Hash] options
   #   @option options [Symbol] :tag
   # @overload render_document_heading(options)
@@ -194,11 +190,11 @@ module Blacklight::BlacklightHelperBehavior
   #   @option options [Symbol] :tag
   def render_document_heading(*args)
     options = args.extract_options!
-    document = args.first
+    presenter = args.first
     tag = options.fetch(:tag, :h4)
-    document ||= @document
+    presenter ||= @presenter
 
-    content_tag(tag, presenter(document).heading, itemprop: "name")
+    content_tag(tag, presenter.heading, itemprop: "name")
   end
 
   ##
@@ -240,30 +236,9 @@ module Blacklight::BlacklightHelperBehavior
     response.grouped?
   end
 
-  ##
-  # Returns a document presenter for the given document
-  # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
-  def presenter(document)
-    case action_name
-    when 'show', 'citation'
-      show_presenter(document)
-    when 'index'
-      index_presenter(document)
-    end
-  end
-
-  def show_presenter(document)
-    show_presenter_class(document).new(document, self)
-  end
-
+  # TODO: move this into the ResultsPagePresenter
   def index_presenter(document)
     index_presenter_class(document).new(document, self)
-  end
-
-  ##
-  # Override this method if you want to use a different presenter class
-  def show_presenter_class(_document)
-    blacklight_config.show.document_presenter_class
   end
 
   def index_presenter_class(_document)

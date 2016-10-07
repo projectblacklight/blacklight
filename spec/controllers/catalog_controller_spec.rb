@@ -258,6 +258,7 @@ RSpec.describe CatalogController do
       it "gets document", :integration => true do
         get :show, params: { id: doc_id }
         expect(assigns[:document]).to_not be_nil
+        expect(assigns[:presenter]).to be_kind_of Blacklight::ShowPresenter
       end
     end
 

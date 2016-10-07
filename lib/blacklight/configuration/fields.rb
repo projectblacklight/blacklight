@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
   class Configuration
-
     # This mixin provides methods to the generated field classes
     module Labels
       def index_field_label

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
+  # Presents a single document on the results page
   class IndexPresenter
     class_attribute :thumbnail_presenter
     self.thumbnail_presenter = ThumbnailPresenter

@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/show.html.erb" do
-  let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
+  let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
+  let(:presenter) { Blacklight::ShowPresenter.new(document, view, blacklight_config) }
 
-  before :each do
+  before do
     allow(view).to receive(:action_name).and_return('show')
     allow(view).to receive_messages(:has_user_authentication_provider? => false)
     allow(view).to receive_messages(:render_document_sidebar_partial => "Sidebar")
     allow(view).to receive_messages(current_search_session: nil, search_session: {})
     assign :document, document
+    assign :presenter, presenter
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
