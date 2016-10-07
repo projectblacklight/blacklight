@@ -72,26 +72,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Determine whether to render a given field in the index view.
-  #
-  # @param [SolrDocument] document
-  # @param [Blacklight::Configuration::Field] field_config
-  # @return [Boolean]
-  def should_render_index_field? document, field_config
-    should_render_field?(field_config, document) && document_has_value?(document, field_config)
-  end
-
-  ##
-  # Determine whether to render a given field in the show view
-  #
-  # @param [SolrDocument] document
-  # @param [Blacklight::Configuration::Field] field_config
-  # @return [Boolean]
-  def should_render_show_field? document, field_config
-    should_render_field?(field_config, document) && document_has_value?(document, field_config)
-  end
-
-  ##
   # Check if a document has (or, might have, in the case of accessor methods) a value for
   # the given solr field
   # @param [SolrDocument] document

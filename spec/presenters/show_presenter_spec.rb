@@ -2,11 +2,11 @@
 
 RSpec.describe Blacklight::ShowPresenter do
   include Capybara::RSpecMatchers
-  let(:request_context) { double }
+  let(:view_context) { double(search_state: search_state) }
   let(:config) { Blacklight::Configuration.new }
 
   subject { presenter }
-  let(:presenter) { described_class.new(document, request_context, config) }
+  let(:presenter) { described_class.new(document, view_context, config) }
   let(:parameter_class) { ActionController::Parameters }
   let(:params) { parameter_class.new }
   let(:controller) { double }
@@ -18,10 +18,6 @@ RSpec.describe Blacklight::ShowPresenter do
                      'link_to_facet_named' => 'x',
                      'qwer' => 'document qwer value',
                      'mnbv' => 'document mnbv value')
-  end
-
-  before do
-    allow(request_context).to receive(:search_state).and_return(search_state)
   end
 
   describe "link_rel_alternates" do
@@ -47,7 +43,7 @@ RSpec.describe Blacklight::ShowPresenter do
         solr_document_url(*args)
       end
 
-      allow(request_context).to receive(:polymorphic_url) do |_, opts|
+      allow(view_context).to receive(:polymorphic_url) do |_, opts|
         "url.#{opts[:format]}"
       end
     end
@@ -97,6 +93,27 @@ RSpec.describe Blacklight::ShowPresenter do
     end
   end
 
+  describe "#render_field?" do
+    before do
+      allow(view_context).to receive_messages(should_render_field?: true, document_has_value?: true)
+    end
+
+    it "is true" do
+      expect(presenter.render_field?(double)).to be true
+    end
+
+    it "is false if the document doesn't have a value for the field" do
+      allow(view_context).to receive_messages(document_has_value?: false)
+      expect(presenter.render_field?(double)).to be false
+    end
+
+    it "is false if the configuration has the field disabled" do
+      allow(view_context).to receive_messages(should_render_field?: false)
+      expect(presenter.render_field?(double)).to be false
+    end
+  end
+
+
   describe "field_value" do
     let(:config) do
       Blacklight::Configuration.new.configure do |config|
@@ -128,27 +145,27 @@ RSpec.describe Blacklight::ShowPresenter do
     end
 
     it "checks for an explicit value" do
-      expect(request_context).to_not receive(:render_asdf_document_show_field)
+      expect(view_context).to_not receive(:render_asdf_document_show_field)
       value = subject.field_value 'asdf', :value => 'val1'
       expect(value).to eq 'val1'
     end
 
     it "checks for a helper method to call" do
-      allow(request_context).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
+      allow(view_context).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
       value = subject.field_value 'asdf'
       expect(value).to eq 'custom asdf value'
     end
 
     it "checks for a link_to_facet" do
-      allow(request_context).to receive(:search_action_path).and_return('/foo')
-      allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+      allow(view_context).to receive(:search_action_path).and_return('/foo')
+      allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.field_value 'link_to_facet_true'
       expect(value).to eq 'bar'
     end
 
     it "checks for a link_to_facet with a field name" do
-      allow(request_context).to receive(:search_action_path).and_return('/foo')
-      allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+      allow(view_context).to receive(:search_action_path).and_return('/foo')
+      allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.field_value 'link_to_facet_named'
       expect(value).to eq 'bar'
     end
@@ -265,7 +282,7 @@ RSpec.describe Blacklight::ShowPresenter do
       end
 
       it "checks call the helper method with arguments" do
-        allow(request_context).to receive(:render_field_with_helper) do |*args|
+        allow(view_context).to receive(:render_field_with_helper) do |*args|
           args.first
         end
 

@@ -54,6 +54,16 @@ module Blacklight
     end
 
     ##
+    # Determine whether to render a given field in the show view
+    #
+    # @param [Blacklight::Configuration::Field] field_config
+    # @return [Boolean]
+    def render_field? field_config
+      view_context.should_render_field?(field_config, document) &&
+        view_context.document_has_value?(document, field_config)
+    end
+
+    ##
     # Render the show field value for a document
     #
     # Allow an extention point where information in the document
