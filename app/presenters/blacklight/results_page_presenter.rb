@@ -14,6 +14,11 @@ module Blacklight
     attr_reader :view_context
 
     delegate :empty?, to: :@response
+
+    # The presenter class for each result on the page
+    def presenter_class
+      configuration.index.document_presenter_class
+    end
     
     def facets
       @facets_presenter ||= facet_list_presenter.new(@response, view_context)
@@ -42,8 +47,12 @@ module Blacklight
 
     private
 
+      def configuration
+        view_context.blacklight_config
+      end
+
       def search_to_page_title_filter(facet, values)
-        facet_config = view_context.blacklight_config.facet_configuration_for_field(facet)
+        facet_config = configuration.facet_configuration_for_field(facet)
         filter_value = if values.size < 3
                          values.map { |value| value_presenter.new(facet, value, view_context).display }.to_sentence
                        else 

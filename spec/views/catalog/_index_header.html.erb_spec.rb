@@ -6,6 +6,8 @@ RSpec.describe "catalog/_index_header" do
   end
 
   let(:blacklight_config) { Blacklight::Configuration.new }
+  let(:actions) { nil }
+  let(:presenter) { Blacklight::IndexPresenter.new(document, view) }
 
   before do
     allow(controller).to receive(:action_name).and_return('index')
@@ -14,25 +16,21 @@ RSpec.describe "catalog/_index_header" do
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view).to receive(:current_search_session).and_return nil
     allow(view).to receive(:search_session).and_return({})
+    allow(view).to receive(:render_index_doc_actions).and_return(actions)
+    render "catalog/index_header", document: document, presenter: presenter, document_counter: 1
   end
 
-  it "renders the document header" do
-    allow(view).to receive(:render_index_doc_actions)
-    render partial: "catalog/index_header", locals: {document: document, document_counter: 1}
+  it "renders the document header using the whole space" do
     expect(rendered).to have_selector('.document-counter', text: "2")
-  end
-
-  it "allows the title to take the whole space if no document tools are rendered" do
-    allow(view).to receive(:render_index_doc_actions)
-    render partial: "catalog/index_header", locals: {document: document, document_counter: 1}
     expect(rendered).to have_selector '.index_title.col-md-12'
   end
 
-  it "gives the document actions space if present" do
-    allow(view).to receive(:render_index_doc_actions).and_return("DOCUMENT ACTIONS")
-    render partial: "catalog/index_header", locals: {document: document, document_counter: 1}
-    expect(rendered).to have_selector '.index_title.col-sm-9'
-    expect(rendered).to have_content "DOCUMENT ACTIONS"
+  context "when the actions are present" do
+    let(:actions) { "DOCUMENT ACTIONS" }
+    it "gives the document actions space" do
+      expect(rendered).to have_selector '.index_title.col-sm-9'
+      expect(rendered).to have_content "DOCUMENT ACTIONS"
+    end
   end
 
 end

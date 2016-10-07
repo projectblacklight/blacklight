@@ -2,11 +2,20 @@
 
 RSpec.describe Blacklight::IndexPresenter do
   include Capybara::RSpecMatchers
-  let(:request_context) { double(document_index_view_type: 'list') }
+  let(:document_url) { double("document-url") }
+  let(:session_params) { { data: { :'tracker-href' => '/track/123' } } }
+
+  let(:view_context) do
+    double(search_state: search_state,
+           document_index_view_type: :a,
+           url_for_document: document_url,
+           session_tracking_params: session_params,
+          )
+  end
   let(:config) { Blacklight::Configuration.new }
 
   subject { presenter }
-  let(:presenter) { described_class.new(document, request_context, config) }
+  let(:presenter) { described_class.new(document, view_context, config) }
   let(:parameter_class) { ActionController::Parameters }
   let(:params) { parameter_class.new }
   let(:controller) { double }
@@ -18,10 +27,6 @@ RSpec.describe Blacklight::IndexPresenter do
                      'link_to_facet_named' => 'x',
                      'qwer' => 'document qwer value',
                      'mnbv' => 'document mnbv value')
-  end
-
-  before do
-    allow(request_context).to receive(:search_state).and_return(search_state)
   end
 
   describe "field_value" do
@@ -45,21 +50,21 @@ RSpec.describe Blacklight::IndexPresenter do
     end
 
     it "checks for a helper method to call" do
-      allow(request_context).to receive(:render_asdf_index_field).and_return('custom asdf value')
+      allow(view_context).to receive(:render_asdf_index_field).and_return('custom asdf value')
       value = subject.field_value 'asdf'
       expect(value).to eq 'custom asdf value'
     end
 
     it "checks for a link_to_facet" do
-      allow(request_context).to receive(:search_action_path).with('f' => { 'link_to_facet_true' => ['x'] }).and_return('/foo')
-      allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+      allow(view_context).to receive(:search_action_path).with('f' => { 'link_to_facet_true' => ['x'] }).and_return('/foo')
+      allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.field_value 'link_to_facet_true'
       expect(value).to eq 'bar'
     end
 
     it "checks for a link_to_facet with a field name" do
-      allow(request_context).to receive(:search_action_path).with('f' => { 'some_field' => ['x'] }).and_return('/foo')
-      allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+      allow(view_context).to receive(:search_action_path).with('f' => { 'some_field' => ['x'] }).and_return('/foo')
+      allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
       value = subject.field_value 'link_to_facet_named'
       expect(value).to eq 'bar'
     end
@@ -125,7 +130,7 @@ RSpec.describe Blacklight::IndexPresenter do
       end
 
       it "checks call the helper method with arguments" do
-        allow(request_context).to receive(:render_field_with_helper) do |*args|
+        allow(view_context).to receive(:render_field_with_helper) do |*args|
           args.first
         end
 

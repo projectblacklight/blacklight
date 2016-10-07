@@ -232,6 +232,7 @@ RSpec.describe BlacklightHelper do
     before do
       allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
+      assign(:presenter, instance_double(Blacklight::ResultsPagePresenter, presenter_class: Blacklight::IndexPresenter))
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end
@@ -282,25 +283,6 @@ RSpec.describe BlacklightHelper do
           allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
           expect(helper.document_index_view_type(view: :c)).to eq :c
         end
-      end
-    end
-  end
-
-  context "related classes" do
-    let(:presenter_class) { double }
-    let(:blacklight_config) { Blacklight::Configuration.new }
-    before do
-      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
-    end
-
-    describe "#index_presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        blacklight_config.index.document_presenter_class = presenter_class
-        expect(helper.index_presenter_class(nil)).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::IndexPresenter" do
-        expect(helper.index_presenter_class(nil)).to eq Blacklight::IndexPresenter
       end
     end
   end

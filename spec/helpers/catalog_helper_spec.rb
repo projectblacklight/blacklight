@@ -235,13 +235,14 @@ RSpec.describe CatalogHelper do
     let(:index_presenter) do
       instance_double(Blacklight::IndexPresenter, thumbnail: thumbnail_presenter)
     end
+
     let(:thumbnail_presenter){ instance_double(Blacklight::ThumbnailPresenter) }
 
     before do
       expect(Deprecation).to receive(:warn)
-      allow(helper).to receive(:index_presenter).with(document).and_return(index_presenter)
+      assign(:presenter, instance_double(Blacklight::ResultsPagePresenter, presenter_class: Blacklight::IndexPresenter))
+      allow(Blacklight::IndexPresenter).to receive(:new).and_return(presenter)
     end
-
     let(:document) { instance_double(SolrDocument) }
 
     it "calls thumbnail presenter with default values" do

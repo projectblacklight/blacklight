@@ -7,6 +7,7 @@ RSpec.describe "catalog/_document" do
   before do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    assign(:presenter, instance_double(Blacklight::ResultsPagePresenter, presenter_class: Blacklight::IndexPresenter))
   end
 
   it "renders the header, thumbnail and index by default" do

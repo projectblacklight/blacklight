@@ -236,15 +236,7 @@ module Blacklight::BlacklightHelperBehavior
     response.grouped?
   end
 
-  # TODO: move this into the ResultsPagePresenter
-  def index_presenter(document)
-    index_presenter_class(document).new(document, self)
-  end
-
-  def index_presenter_class(_document)
-    blacklight_config.index.document_presenter_class
-  end
-
+  # TODO: move this into the ResultsPagePresenter & ShowPagePresenter?
   def search_bar_presenter_class
     blacklight_config.index.search_bar_presenter_class
   end

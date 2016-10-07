@@ -160,18 +160,6 @@ module Blacklight::ConfigurationHelperBehavior
     blacklight_config.spell_max
   end
 
-  # Used in the document list partial (search view) for creating a link to the document show action
-  def document_show_link_field document = nil
-    fields = Array(blacklight_config.view_config(document_index_view_type).title_field)
-
-    field = fields.first if document.nil?
-    field ||= fields.find { |f| document.has? f }
-    field &&= field.try(:to_sym)
-    field ||= document.id
-
-    field
-  end
-
   ##
   # Default sort field
   def default_sort_field

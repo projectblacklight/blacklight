@@ -19,6 +19,9 @@ module Blacklight::Bookmarks
 
     blacklight_config.show.document_actions[:bookmark].if = false if blacklight_config.show.document_actions[:bookmark]
     blacklight_config.show.document_actions[:sms].if = false if blacklight_config.show.document_actions[:sms]
+
+    class_attribute :list_presenter
+    self.list_presenter = Blacklight::BookmarksListPresenter
   end
 
   def action_documents
@@ -44,7 +47,7 @@ module Blacklight::Bookmarks
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
 
     respond_to do |format|
-      format.html {}
+      format.html { @presenter = list_presenter.new(@bookmarks, view_context) }
       format.rss  { render layout: false }
       format.atom { render layout: false }
       format.json do

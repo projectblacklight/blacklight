@@ -207,6 +207,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [Hash] image_options to pass to the image tag
   # @param [Hash] url_options to pass to #link_to_document
   # @return [String]
+  # TODO: Move this to the IndexPresenter (or a ThumbnailPresenter)
   def render_thumbnail_tag document, image_options = {}, url_options = {}
     index_presenter(document).thumbnail.thumbnail_tag(image_options, url_options)
   end
