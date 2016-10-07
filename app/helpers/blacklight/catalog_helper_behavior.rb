@@ -149,15 +149,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Render the sidebar partial for a document
-  #
-  # @param [SolrDocument] document
-  # @return [String]
-  def render_document_sidebar_partial(_document = @document)
-    render partial: 'show_sidebar'
-  end
-
-  ##
   # Render the main content partial for a document
   #
   # @param [SolrDocument] document

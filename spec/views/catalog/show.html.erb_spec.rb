@@ -8,8 +8,8 @@ RSpec.describe "catalog/show.html.erb" do
   before do
     allow(view).to receive(:action_name).and_return('show')
     allow(view).to receive_messages(:has_user_authentication_provider? => false)
-    allow(view).to receive_messages(:render_document_sidebar_partial => "Sidebar")
-    allow(view).to receive_messages(current_search_session: nil, search_session: {})
+    stub_template('catalog/_show_sidebar' => "Sidebar")
+    allow(view).to receive_messages(current_search_session: nil)
     assign :document, document
     assign :presenter, presenter
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
