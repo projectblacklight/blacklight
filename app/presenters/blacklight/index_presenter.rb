@@ -56,6 +56,16 @@ module Blacklight
     end
 
     ##
+    # Determine whether to render a given field in the index view.
+    #
+    # @param [Blacklight::Configuration::Field] field_config
+    # @return [Boolean]
+    def render_field? field_config
+      view_context.should_render_field?(field_config, document) &&
+        view_context.document_has_value?(document, field_config)
+    end
+
+    ##
     # Render the index field label for a document
     #
     # Translations for index field labels should go under blacklight.search.fields

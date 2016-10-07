@@ -1,8 +1,7 @@
 <%# default partial to display solr document fields in catalog index view -%>
 <dl class="document-metadata dl-invert row">  
   <% index_fields(document).each do |field_name, field| -%>
-    <%# TODO: move should_render_index_field? to the presenter %>
-    <% if should_render_index_field? document, field %>
+    <% if presenter.render_field? field %>
 	    <dt class="blacklight-<%= field_name.parameterize %> col-md-3"><%= presenter.field_label field_name %></dt>
 	    <dd class="blacklight-<%= field_name.parameterize %> col-md-9"><%= presenter.field_value field_name %></dd>
     <% end -%>
