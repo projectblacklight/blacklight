@@ -8,7 +8,7 @@ module Blacklight
     attr_reader :document, :configuration, :view_context, :view_config
 
     # @param [SolrDocument] document
-    # @param [ActionView::Base] view_context scope for linking and generating urls
+    # @param [#blacklight_config, #document_index_view_type, #url_for_document, #session_tracking_params] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
     def initialize(document, view_context, configuration = view_context.blacklight_config)
       @document = document
@@ -58,6 +58,19 @@ module Blacklight
     ##
     # Render the index field label for a document
     #
+    # Translations for index field labels should go under blacklight.search.fields
+    # They are picked up from there by a value "%{label}" in blacklight.search.index.label
+    #
+    # @param [String] field
+    def field_label field
+      I18n.t(:"blacklight.search.index.#{view_type}.label",
+             default: :'blacklight.search.index.label',
+             label: index_field(field).label)
+    end
+
+    ##
+    # Render the index field label for a document
+    #
     # Allow an extention point where information in the document
     # may drive the value of the field
     # @param [String] field
@@ -83,13 +96,22 @@ module Blacklight
 
     private
 
+    def index_field(field)
+      view_context.index_fields(document)[field]
+    end
+
     def document_link_params(opts)
       view_context.session_tracking_params(document, opts[:counter]).deep_merge(opts.except(:label, :counter))
     end
 
     # TODO: perhaps the view_configuration can be passed in on initialize
     def view_configuration
-      configuration.view_config(view_context.document_index_view_type)
+      configuration.view_config(view_type)
+    end
+
+    # TODO: perhaps the view_type can be passed in on initialize
+    def view_type
+      view_context.document_index_view_type
     end
 
     def field_config(field)
