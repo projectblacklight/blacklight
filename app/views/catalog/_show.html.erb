@@ -1,6 +1,6 @@
 <%# default partial to display solr document fields in catalog show view -%>
 <dl class="row dl-invert document-metadata">
-  <% document_show_fields(document).each do |field_name, field| -%>
+  <% blacklight_config.show_fields.each do |field_name, field| -%>
     <% if should_render_show_field? document, field %>
 	    <dt class="blacklight-<%= field_name.parameterize %> col-md-3"><%= @presenter.field_label field_name %></dt>
 	    <dd class="blacklight-<%= field_name.parameterize %> col-md-9"><%= @presenter.field_value field_name %></dd>
