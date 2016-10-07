@@ -31,7 +31,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     return "".html_safe unless params[:f]
 
     safe_join(params[:f].collect do |facet_field, value_list|
-      render_search_to_s_element(facet_field_label(facet_field),
+      render_search_to_s_element(facet_configuration_for_field(facet_field).facet_field_label,
                                  safe_join(value_list.collect do |value|
                                    render_filter_value(value, facet_field)
                                  end,

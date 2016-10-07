@@ -44,7 +44,7 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
   describe '#render_filter_element' do
     before do
       allow(helper).to receive(:blacklight_config).and_return(config)
-      expect(helper).to receive(:facet_field_label).with('type').and_return("Item Type")
+      allow_any_instance_of(Blacklight::Configuration::FacetField).to receive(:facet_field_label).and_return("Item Type")
     end
     subject { helper.render_filter_element('type', ['journal'], path) }
 
