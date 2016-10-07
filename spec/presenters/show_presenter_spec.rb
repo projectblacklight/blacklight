@@ -113,7 +113,6 @@ RSpec.describe Blacklight::ShowPresenter do
     end
   end
 
-
   describe "field_value" do
     let(:config) do
       Blacklight::Configuration.new.configure do |config|
@@ -130,43 +129,50 @@ RSpec.describe Blacklight::ShowPresenter do
     end
 
     it 'html-escapes values' do
-      value = subject.field_value 'asdf', value: '<b>val1</b>'
+      field = config.show_fields['asdf']
+      value = subject.field_value field, value: '<b>val1</b>'
       expect(value).to eq '&lt;b&gt;val1&lt;/b&gt;'
     end
 
     it 'joins multivalued valued fields' do
-      value = subject.field_value 'asdf', value: ['<a', 'b']
+      field = config.show_fields['asdf']
+      value = subject.field_value field, value: ['<a', 'b']
       expect(value).to eq '&lt;a and b'
     end
 
     it 'joins multivalued valued fields' do
-      value = subject.field_value 'asdf', value: ['a', 'b', 'c']
+      field = config.show_fields['asdf']
+      value = subject.field_value field, value: ['a', 'b', 'c']
       expect(value).to eq 'a, b, and c'
     end
 
     it "checks for an explicit value" do
       expect(view_context).to_not receive(:render_asdf_document_show_field)
-      value = subject.field_value 'asdf', :value => 'val1'
+      field = config.show_fields['asdf']
+      value = subject.field_value field, :value => 'val1'
       expect(value).to eq 'val1'
     end
 
     it "checks for a helper method to call" do
       allow(view_context).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
-      value = subject.field_value 'asdf'
+      field = config.show_fields['asdf']
+      value = subject.field_value field
       expect(value).to eq 'custom asdf value'
     end
 
     it "checks for a link_to_facet" do
       allow(view_context).to receive(:search_action_path).and_return('/foo')
       allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_facet_true'
+      field = config.show_fields['link_to_facet_true']
+      value = subject.field_value field
       expect(value).to eq 'bar'
     end
 
     it "checks for a link_to_facet with a field name" do
       allow(view_context).to receive(:search_action_path).and_return('/foo')
       allow(view_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_facet_named'
+      field = config.show_fields['link_to_facet_named']
+      value = subject.field_value field
       expect(value).to eq 'bar'
     end
 
@@ -174,7 +180,8 @@ RSpec.describe Blacklight::ShowPresenter do
       before do
         allow(document).to receive(:has_highlight_field?).and_return(false)
       end
-      let(:value) { subject.field_value 'highlight' }
+      let(:field) { config.show_fields['highlight'] }
+      let(:value) { subject.field_value field }
       it "is blank" do
         expect(value).to be_blank
       end
@@ -183,48 +190,50 @@ RSpec.describe Blacklight::ShowPresenter do
     it "checks for a highlighted field" do
       allow(document).to receive(:has_highlight_field?).and_return(true)
       allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
-      value = subject.field_value 'highlight'
+      field = config.show_fields['highlight']
+      value = subject.field_value field
       expect(value).to eq '<em>highlight</em>'
     end
 
     it 'respects the HTML-safeness of multivalued highlight fields' do
       allow(document).to receive(:has_highlight_field?).and_return(true)
       allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe, '<em>other highlight</em>'.html_safe])
-      value = subject.field_value 'highlight'
+      field = config.show_fields['highlight']
+      value = subject.field_value field
       expect(value).to eq '<em>highlight</em> and <em>other highlight</em>'
     end
 
     it "checks the document field value" do
-      value = subject.field_value 'qwer'
+      field = config.show_fields['qwer']
+      value = subject.field_value field
       expect(value).to eq 'document qwer value'
-    end
-
-    it "works with show fields that aren't explicitly defined" do
-      value = subject.field_value 'mnbv'
-      expect(value).to eq 'document mnbv value'
     end
 
     it "calls an accessor on the solr document" do
       allow(document).to receive_messages(solr_doc_accessor: "123")
-      value = subject.field_value 'solr_doc_accessor'
+      field = config.show_fields['solr_doc_accessor']
+      value = subject.field_value field
       expect(value).to eq "123"
     end
 
     it "calls an explicit accessor on the solr document" do
       allow(document).to receive_messages(solr_doc_accessor: "123")
-      value = subject.field_value 'explicit_accessor'
+      field = config.show_fields['explicit_accessor']
+      value = subject.field_value field
       expect(value).to eq "123"
     end
 
     it "calls an explicit array-style accessor on the solr document" do
       allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
-      value = subject.field_value 'explicit_array_accessor'
+      field = config.show_fields['explicit_array_accessor']
+      value = subject.field_value field
       expect(value).to eq "123"
     end
 
     it "calls an accessor on the solr document with the field as an argument" do
       allow(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
-      value = subject.field_value 'explicit_accessor_with_arg'
+      field = config.show_fields['explicit_accessor_with_arg']
+      value = subject.field_value field
       expect(value).to eq "123"
     end
   end

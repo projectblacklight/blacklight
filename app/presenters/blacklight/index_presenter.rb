@@ -65,9 +65,11 @@ module Blacklight
         view_context.document_has_value?(document, field_config)
     end
 
-    # @return [Array<Configuration::IndexField>] all the fields that should be rendered
+    # @yields [Configuration::IndexField] each of the fields that should be rendered
     def fields
-      configuration.index_fields.values.select { |field| render_field?(field) }
+      configuration.index_fields.values.each do |field|
+        yield(field) if render_field?(field)
+      end
     end
 
     ##

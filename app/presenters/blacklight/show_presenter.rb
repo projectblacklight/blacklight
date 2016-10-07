@@ -63,25 +63,32 @@ module Blacklight
         view_context.document_has_value?(document, field_config)
     end
 
+    # @yields [Configuration::Field] each of the fields that should be rendered
+    def fields
+      configuration.show_fields.values.each do |field|
+        yield(field) if render_field?(field)
+      end
+    end
+
     ##
     # Render the show field value for a document
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [String] field_name
+    # @param [Blacklight::Configuration::Field] field
     # @param [Hash] options
     # @option options [String] :value
-    def field_value field_name, options = {}
-      field_values(field_config(field_name), options)
+    def field_value field, options = {}
+      field_values(field, options)
     end
 
     ##
     # Render the show field label for a document
     #
-    # @param [String] field_name
-    def field_label field_name
+    # @param [Blacklight::Configuration::Field] field
+    def field_label field
       I18n.t(:'blacklight.search.show.label',
-             label: field_config(field_name).show_field_label)
+             label: field.show_field_label)
     end
 
     private
