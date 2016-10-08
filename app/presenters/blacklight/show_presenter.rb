@@ -35,7 +35,7 @@ module Blacklight
         fields = Array.wrap(view_config.html_title_field)
         f = fields.detect { |field| document.has? field }
         f ||= 'id'
-        field_values(field_config(f))
+        build_field_presenter(field_config(f)).value
       else
         heading
       end
@@ -50,7 +50,7 @@ module Blacklight
       fields = Array.wrap(view_config.title_field)
       f = fields.detect { |field| document.has? field }
       f ||= configuration.document_model.unique_key
-      field_values(field_config(f), value: document[f])
+      build_field_presenter(field_config(f)).value(value: document[f])
     end
 
     ##
@@ -66,47 +66,17 @@ module Blacklight
     # @yields [Configuration::Field] each of the fields that should be rendered
     def fields
       configuration.show_fields.values.each do |field|
-        yield(field) if render_field?(field)
+        yield(build_field_presenter(field)) if render_field?(field)
       end
     end
 
-    ##
-    # Render the show field value for a document
-    #
-    # Allow an extention point where information in the document
-    # may drive the value of the field
-    # @param [Blacklight::Configuration::Field] field
-    # @param [Hash] options
-    # @option options [String] :value
-    def field_value field, options = {}
-      field_values(field, options)
-    end
-
-    ##
-    # Render the show field label for a document
-    #
-    # @param [Blacklight::Configuration::Field] field
-    def field_label field
-      I18n.t(:'blacklight.search.show.label',
-             label: field.show_field_label)
+    # @param [Configuration::IndexField]
+    # @return [IndexFieldPresenter]
+    def build_field_presenter(field)
+      ShowFieldPresenter.new(self, field)
     end
 
     private
-
-    ##
-    # Get the value for a document's field, and prepare to render it.
-    # - highlight_field
-    # - accessor
-    # - solr field
-    #
-    # Rendering:
-    #   - helper_method
-    #   - link_to_facet
-    # @param [Blacklight::Configuration::Field] field_config solr field configuration
-    # @param [Hash] options additional options to pass to the rendering helpers
-    def field_values(field_config, options = {})
-      FieldPresenter.new(view_context, document, field_config, options).render
-    end
 
     def view_config
       configuration.view_config(:show)

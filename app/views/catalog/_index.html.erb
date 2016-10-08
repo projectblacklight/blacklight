@@ -1,7 +1,7 @@
-<%# default partial to display solr document fields in catalog index view -%>
+<%# default partial to display solr document fields in catalog index view %>
 <dl class="document-metadata dl-invert row">
-  <% presenter.fields do |field_presenter| -%>
+  <% presenter.fields do |field_presenter| %>
     <dt class="blacklight-<%= field_presenter.to_param %> col-md-3"><%= field_presenter.label %></dt>
     <dd class="blacklight-<%= field_presenter.to_param %> col-md-9"><%= field_presenter.value %></dd>
-  <% end -%>
+  <% end %>
 </dl>
