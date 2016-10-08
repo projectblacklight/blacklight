@@ -52,7 +52,7 @@ module Blacklight
               end
 
       value ||= document.id
-      field_values(config, value: value)
+      build_field_presenter(config).value(value: value)
     end
 
     ##
@@ -68,33 +68,14 @@ module Blacklight
     # @yields [Configuration::IndexField] each of the fields that should be rendered
     def fields
       configuration.index_fields.values.each do |field|
-        yield(field) if render_field?(field)
+        yield(build_field_presenter(field)) if render_field?(field)
       end
     end
 
-    ##
-    # Render the index field label for a document
-    #
-    # Translations for index field labels should go under blacklight.search.fields
-    # They are picked up from there by a value "%{label}" in blacklight.search.index.label
-    #
-    # @param [Configuration::IndexField] field
-    def field_label field
-      I18n.t(:"blacklight.search.index.#{view_type}.label",
-             default: :'blacklight.search.index.label',
-             label: field.label)
-    end
-
-    ##
-    # Render the index field label for a document
-    #
-    # Allow an extention point where information in the document
-    # may drive the value of the field
-    # @param [Configuration::IndexField] field
-    # @param [Hash] options
-    # @option options [String] :value
-    def field_value field, options = {}
-      field_values(field, options)
+    # @param [Configuration::IndexField]
+    # @return [IndexFieldPresenter]
+    def build_field_presenter(field)
+      IndexFieldPresenter.new(self, field)
     end
 
     def thumbnail
@@ -110,6 +91,11 @@ module Blacklight
       field
     end
 
+    # TODO: perhaps the view_type can be passed in on initialize
+    def view_type
+      view_context.document_index_view_type
+    end
+
     private
 
     def index_field(field)
@@ -123,11 +109,6 @@ module Blacklight
     # TODO: perhaps the view_configuration can be passed in on initialize
     def view_configuration
       configuration.view_config(view_type)
-    end
-
-    # TODO: perhaps the view_type can be passed in on initialize
-    def view_type
-      view_context.document_index_view_type
     end
 
     def field_config(field)
