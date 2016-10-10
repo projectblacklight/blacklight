@@ -61,7 +61,7 @@ de:
 
     tools:
       title: 'Werkzeuge'
-      cite: 'Zitieren'
+      citation: 'Zitieren'
       email: 'Email'
       sms: 'SMS dieses'
       clear: 'Löschen'
