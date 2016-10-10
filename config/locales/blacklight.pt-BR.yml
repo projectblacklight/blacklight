@@ -127,12 +127,14 @@ pt-BR:
         title: '%{value}'
         author: ' por %{value}'
         url: 'Link: %{url}'
+      success: 'SMS Enviado'
       errors:
         to:
           invalid: 'Você precisa digitar um número de telefone válido'
           blank: "Você precisa digitar o número de telefone do destinatário para enviar uma mensagem"
         carrier:
           blank: 'Você precisa selecionar a operadora'
+          invalid: 'Você precisa usar uma operadora válida'
 
     back_to_search: 'Voltar a busca'
     back_to_bookmarks: 'Voltar aos Favoritos'
@@ -189,6 +191,7 @@ pt-BR:
         more_html: 'mais <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[remover]'
+        missing: '[Faltando]'
       filters:
         title: 'Sua busca por:'
         label: '%{label}:'
@@ -202,6 +205,20 @@ pt-BR:
       atom_feed: 'Atom para resultados'
       fields:
         default: 'Palavra-chave'
+      bookmarks:
+        present: 'Nos Favoritos'
+        absent: 'Favorite'
+        inprogress: 'Salvando...'
+      zero_results:
+        title: 'Não foram encontratos resultados para a sua busca'
+        modify_search: 'Tente modificar sua busca'
+        use_fewer_keywords: 'Use menos palavras para começar, depois refine sua busca usando os links à esquerda.'
+        search_fields: 'você buscou por %{search_fields}'
+        search_everything: 'tente buscar em tudo'
+      view_title: 'Ver resultados como: '
+      view:
+        list: 'Lista'
+
 
     entry_name:
       default: 'registro'
