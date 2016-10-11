@@ -200,6 +200,7 @@ fr:
         more_html: 'plus <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[ X ]'
+        missing: '[manquante]'
       group:
         more: 'plus »'
       filters:
