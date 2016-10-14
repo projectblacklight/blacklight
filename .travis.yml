@@ -15,6 +15,9 @@ matrix:
       env: "RAILS_VERSION=4.2.7.1"
     - rvm: jruby-9.0.5.0
       env: "RAILS_VERSION=4.2.7.1 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+  allow_failures:
+    - rvm: jruby-9.0.5.0
+  fast_finish: true
 
 before_install:
   - gem install bundler
