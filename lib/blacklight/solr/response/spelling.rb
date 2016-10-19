@@ -22,7 +22,7 @@ module Blacklight::Solr::Response::Spelling
     # combination of words may not have results.
     # Thanks to Naomi Dushay!
     def words
-      @words ||= (
+      @words ||= begin
         word_suggestions = []
         spellcheck = self.response[:spellcheck]
         if spellcheck && spellcheck[:suggestions]
@@ -69,7 +69,7 @@ module Blacklight::Solr::Response::Spelling
           end
         end
         word_suggestions.flatten.compact.uniq
-      )
+      end
     end
 
     def collation
