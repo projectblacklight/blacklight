@@ -7,6 +7,7 @@ AllCops:
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "spec/**/*"
+  - "blacklight.gemspec"
 
 Rails:
   Enabled: true
