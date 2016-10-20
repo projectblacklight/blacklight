@@ -5,10 +5,9 @@ module Blacklight::User
   # SEE ALSO:  The /lib/blacklight/engine.rb class for how when this 
   # is injected into the hosting application through ActiveRecord::Base extend
   def self.included(base)
-    if base.respond_to? :has_many
-      base.send :has_many, :bookmarks, :dependent => :destroy, :as => :user
-      base.send :has_many, :searches,  :dependent => :destroy, :as => :user
-    end
+    return unless base.respond_to? :has_many
+    base.send :has_many, :bookmarks, :dependent => :destroy, :as => :user
+    base.send :has_many, :searches,  :dependent => :destroy, :as => :user
   end
 
   def bookmarks_for_documents documents = []

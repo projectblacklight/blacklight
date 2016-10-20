@@ -179,7 +179,7 @@ module Blacklight::Catalog
     # By default, any search action from a Blacklight::Catalog controller
     # should use the current controller when constructing the route.
     def search_action_url options = {}
-      url_for(options.merge(action: 'index'))
+      url_for(options.reverse_merge(action: 'index'))
     end
 
      # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)

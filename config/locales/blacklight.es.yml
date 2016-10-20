@@ -192,6 +192,7 @@ es:
         more_html: 'más <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[borrar]'
+        missing: '[Falta]'
       group:
         more: 'más »'
       filters:
