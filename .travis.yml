@@ -1,12 +1,7 @@
-notifications:
-  email: false
-
+sudo: false
+language: ruby
 rvm:
-  - 2.1.1
-
-before_install:
-  - gem install bundler --version '~> 1.6.2'
-
+  - 2.2.5
 gemfile:
   - gemfiles/rails3.gemfile
   - gemfiles/rails4.gemfile
@@ -14,16 +9,15 @@ gemfile:
 
 matrix:
   include:
-    - rvm: 2.1.0
-      gemfile: gemfiles/rails4.gemfile
-    - rvm: 1.9.3
-      gemfile: gemfiles/rails4.gemfile
+    - rvm: 2.3.1
+      gemfile: gemfiles/rails4.1.gemfile
+    - rvm: 2.1.10
+      gemfile: gemfiles/rails4.1.gemfile
     - rvm: jruby
-      gemfile: gemfiles/rails4.gemfile
+      gemfile: gemfiles/rails4.1.gemfile
 
 notifications:
   irc: "irc.freenode.org#blacklight"
-  email:
-      - blacklight-commits@googlegroups.com
+  email: false
 
-env: JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"        
+env: JRUBY_OPTS="-J-Xms512m -J-Xmx1024m"
