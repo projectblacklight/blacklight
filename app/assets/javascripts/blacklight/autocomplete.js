@@ -5,6 +5,9 @@ Blacklight.onLoad(function() {
 
   $('[data-autocomplete-enabled="true"]').each(function() {
     var $el = $(this);
+    if($el.hasClass('tt-hint')) {
+      return;
+    }
     var suggestUrl = $el.data().autocompletePath;
     
     var terms = new Bloodhound({
