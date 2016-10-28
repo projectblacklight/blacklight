@@ -99,7 +99,7 @@
 
   ul, .pivot-facet {
     @extend .list-unstyled;
-    @extend .p-y-1;
-    @extend .p-x-3;
+    @extend .py-1;
+    @extend .px-3;
   }
 }

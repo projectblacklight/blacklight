@@ -1,7 +1,7 @@
 /* Search History */
 .search-history {
   .constraint {
-    @extend .p-x-3;
+    @extend .px-3;
     display: block;
     text-indent: -1 * map-get(map-get($spacers, 3), x);
   }
