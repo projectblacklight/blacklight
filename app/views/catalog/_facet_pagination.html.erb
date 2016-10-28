@@ -1,4 +1,4 @@
-<div class="prev_next_links btn-group pull-md-left">
+<div class="prev_next_links btn-group float-md-left">
   <%= link_to_previous_page @pagination, raw(t('views.pagination.previous')), params: search_state.to_h, param_name: blacklight_config.facet_paginator_class.request_keys[:page], class: 'btn btn-link', data: { blacklight_modal: "preserve" } do %>
     <span class="disabled btn btn-disabled"><%= raw(t('views.pagination.previous')) %></span>
   <% end %>
@@ -8,7 +8,7 @@
   <% end %>
 </div>
 
-<div class="sort-options btn-group pull-md-right">
+<div class="sort-options btn-group float-md-right">
   <% if @pagination.sort == 'index' -%>
     <span class="active az btn btn-secondary"><%= t('blacklight.search.facets.sort.index') %></span>
     <%= link_to(t('blacklight.search.facets.sort.count'), @pagination.params_for_resort_url('count', search_state.to_h), class: "sort_change numeric btn btn-secondary", data: { blacklight_modal: "preserve" }) %>

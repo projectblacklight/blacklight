@@ -1,12 +1,10 @@
 <nav id="header-navbar" class="navbar navbar-dark bg-inverse navbar-full" role="navigation">
   <div class="<%= container_classes %>">
-    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#user-util-collapse" aria-controls="user-util-collapse" aria-expanded="false" aria-label="Toggle navigation">
-      &#9776;
-    </button>
+    <button class="navbar-toggler hidden-xs-up" type="button" data-toggle="collapse" data-target="#user-util-collapse" aria-controls="user-util-collapse" aria-expanded="false" aria-label="Toggle navigation"></button>
 
     <%= link_to application_name, root_path, class: "navbar-brand" %>
 
-    <div class="collapse navbar-toggleable-xs pull-md-right" id="user-util-collapse">
+    <div class="collapse navbar-toggleable-xs float-md-right" id="user-util-collapse">
       <%= render partial: '/user_util_links' %>
     </div>
   </div>
