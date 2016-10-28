@@ -11,7 +11,7 @@ module Blacklight::ConfigurationHelperBehavior
 
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
-    active_sort_fields.map { |_key, x| [x.label, x.key] }
+    active_sort_fields.map { |_sort_key, field_config| [sort_field_label(field_config.key), field_config.key] }
   end
   
   def active_sort_fields
@@ -28,7 +28,7 @@ module Blacklight::ConfigurationHelperBehavior
   # marked :include_in_simple_select => false
   def search_field_options_for_select
     blacklight_config.search_fields.collect do |_key, field_def|
-      [field_def.label,  field_def.key] if should_render_field?(field_def)
+      [label_for_search_field(field_def.key), field_def.key] if should_render_field?(field_def)
     end.compact
   end
 
@@ -59,37 +59,27 @@ module Blacklight::ConfigurationHelperBehavior
   # Look up the label for the index field
   def index_field_label document, field
     field_config = index_fields(document)[field]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(
-      :"blacklight.search.fields.index.#{field}",
-      :"blacklight.search.fields.#{field}",
-      (field_config.label if field_config),
-      field.to_s.humanize
-    )
+    field_config.display_label('index')
   end
 
   ##
   # Look up the label for the show field
   def document_show_field_label document, field
     field_config = document_show_fields(document)[field]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(
-      :"blacklight.search.fields.show.#{field}",
-      :"blacklight.search.fields.#{field}",
-      (field_config.label if field_config),
-      field.to_s.humanize
-    )
+    field_config.display_label('show')
   end
 
   ##
   # Look up the label for the facet field
   def facet_field_label field
     field_config = blacklight_config.facet_fields[field]
-    defaults = [:"blacklight.search.fields.facet.#{field}", :"blacklight.search.fields.#{field}"]
-    defaults << field_config.label if field_config
-    defaults << field.to_s.humanize
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(*defaults)
+    field_config.display_label('facet')
   end
 
   def view_label view
@@ -101,6 +91,23 @@ module Blacklight::ConfigurationHelperBehavior
       view_config.title,
       view.to_s.humanize
     )
+  end
+
+  # Shortcut for commonly needed operation, look up display
+  # label for the key specified. Returns "Keyword" if a label
+  # can't be found.
+  def label_for_search_field(key)
+    field_config = blacklight_config.search_fields[key]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
+
+    field_config.display_label('search')
+  end
+
+  def sort_field_label(key)
+    field_config = blacklight_config.sort_fields[key]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
+
+    field_config.display_label('sort')
   end
 
   ##

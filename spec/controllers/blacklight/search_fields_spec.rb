@@ -29,22 +29,6 @@ describe Blacklight::SearchFields do
      end
   end
 
-  it "fills in default qt where needed" do
-    expect(@search_field_obj.search_field_def_for_key("all_fields").qt).to eq @config.default_solr_params[:qt]
-  end
-
-  it "lookups field definitions by key" do
-    expect(@search_field_obj.search_field_def_for_key("title").key).to eq "title"
-  end
-
-  it "finds label by key" do
-    expect(@search_field_obj.label_for_search_field("title")).to eq "Title"
-  end
-
-  it "supplies default label for key not found" do
-    expect(@search_field_obj.label_for_search_field("non_existent_key")).to eq "Keyword"
-  end
-
   describe "for unspecified :key" do
     before do
       @bad_config = MockConfig.new
