@@ -59,37 +59,27 @@ module Blacklight::ConfigurationHelperBehavior
   # Look up the label for the index field
   def index_field_label document, field
     field_config = index_fields(document)[field]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(
-      :"blacklight.search.fields.index.#{field}",
-      :"blacklight.search.fields.#{field}",
-      (field_config.label if field_config),
-      field.to_s.humanize
-    )
+    field_config.display_label('index')
   end
 
   ##
   # Look up the label for the show field
   def document_show_field_label document, field
     field_config = document_show_fields(document)[field]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(
-      :"blacklight.search.fields.show.#{field}",
-      :"blacklight.search.fields.#{field}",
-      (field_config.label if field_config),
-      field.to_s.humanize
-    )
+    field_config.display_label('show')
   end
 
   ##
   # Look up the label for the facet field
   def facet_field_label field
     field_config = blacklight_config.facet_fields[field]
-    defaults = [:"blacklight.search.fields.facet.#{field}", :"blacklight.search.fields.#{field}"]
-    defaults << field_config.label if field_config
-    defaults << field.to_s.humanize
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(*defaults)
+    field_config.display_label('facet')
   end
 
   def view_label view
@@ -108,23 +98,16 @@ module Blacklight::ConfigurationHelperBehavior
   # can't be found.
   def label_for_search_field(key)
     field_config = blacklight_config.search_fields[key]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(
-      :"blacklight.search.fields.search.#{field_config.key}",
-      :"blacklight.search.fields.#{field_config.key}",
-      (field_config.label if field_config),
-      key.to_s.humanize
-    )
+    field_config.display_label('search')
   end
 
   def sort_field_label(key)
     field_config = blacklight_config.sort_fields[key]
+    field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
-    field_label(
-      :"blacklight.search.fields.sort.#{key}",
-      (field_config.label if field_config),
-      key.to_s.humanize
-    )
+    field_config.display_label('sort')
   end
 
   ##

@@ -79,7 +79,7 @@ describe Blacklight::SearchHistoryConstraintsHelperBehavior do
 
       it "renders a constraint for a selected facet not in the config" do
         response = helper.render_search_to_s_filters(:f => {"undefined_facet" => ["value1", "value2"]})
-        expect(response).to eq("<span class=\"constraint\"><span class=\"filter-name\">#{'undefined_facet'.humanize}:</span><span class=\"filter-values\"><span class=\"filter-value\">value1</span><span class=\"filter-separator\"> and </span><span class=\"filter-value\">value2</span></span></span>")
+        expect(response).to eq("<span class=\"constraint\"><span class=\"filter-name\">#{'undefined_facet'.titleize}:</span><span class=\"filter-values\"><span class=\"filter-value\">value1</span><span class=\"filter-separator\"> and </span><span class=\"filter-value\">value2</span></span></span>")
       end
 
       context 'with I18n translations for selected facet' do

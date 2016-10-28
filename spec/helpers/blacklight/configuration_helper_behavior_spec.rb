@@ -17,7 +17,7 @@ describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#sort_fields" do
     it "converts the sort fields to select-ready values" do
-      allow(blacklight_config).to receive_messages(sort_fields: { 'a' => double(key: 'a', label: 'a'), 'b' => double(key: 'b', label: 'b'), c: double(key: 'c', if: false)  })
+      allow(blacklight_config).to receive_messages(sort_fields: { 'a' => double(key: 'a', display_label: 'a'), 'b' => double(key: 'b', display_label: 'b'), c: double(key: 'c', if: false, display_label: nil)  })
       expect(helper.sort_fields).to eq [['a', 'a'], ['b', 'b']]
     end
   end
@@ -112,33 +112,6 @@ describe Blacklight::ConfigurationHelperBehavior do
       blacklight_config.index.title_field = [:zzz, :yyy]
       f = helper.document_show_link_field document
       expect(f).to eq 123
-    end
-  end
-
-  describe "#index_field_label" do
-    let(:document) { instance_double(SolrDocument) }
-    it "looks up the label to display for the given document and field" do
-      allow(helper).to receive(:index_fields).and_return({ "my_field" => double(label: "some label") })
-      allow(helper).to receive(:field_label).with(:"blacklight.search.fields.index.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
-      helper.index_field_label document, "my_field"
-    end
-  end
-
-  describe "#document_show_field_label" do
-    let(:document) { instance_double(SolrDocument) }
-    it "looks up the label to display for the given document and field" do
-      allow(helper).to receive(:document_show_fields).and_return({ "my_field" => double(label: "some label") })
-      allow(helper).to receive(:field_label).with(:"blacklight.search.fields.show.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
-      helper.document_show_field_label document, "my_field"
-    end
-  end
-
-  describe "#facet_field_label" do
-    let(:document) { instance_double(SolrDocument) }
-    it "looks up the label to display for the given document and field" do
-      allow(blacklight_config).to receive(:facet_fields).and_return({ "my_field" => double(label: "some label") })
-      allow(helper).to receive(:field_label).with(:"blacklight.search.fields.facet.my_field", :"blacklight.search.fields.my_field", "some label", "My field")
-      helper.facet_field_label "my_field"
     end
   end
 
