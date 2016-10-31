@@ -1,5 +1,15 @@
+.top-panel-heading {
+  @extend .navbar-light;
+  @extend .clearfix;
+
+  .navbar-toggler {
+    float: right;
+  }
+}
+
 .facets-heading {
   @extend .h4;
+  line-height: inherit;
 }
 
 .facet-limit-active {
