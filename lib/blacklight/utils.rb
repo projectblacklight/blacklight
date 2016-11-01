@@ -115,7 +115,7 @@ module Blacklight
     end
 
     def deep_dup
-      self.class.new self.nested_class, @table.deep_dup
+      self.class.new nested_class, @table.deep_dup
     end
 
     def select *args, &block
@@ -156,7 +156,7 @@ module Blacklight
 
     def set_default_proc!
       self.default_proc = lambda do |hash, key|
-        hash[key] = self.nested_class.new
+        hash[key] = nested_class.new
       end
     end
   end

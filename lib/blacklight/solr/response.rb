@@ -74,7 +74,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   end
 
   def grouped?
-    self.key? "grouped"
+    key? "grouped"
   end
 
   def export_formats

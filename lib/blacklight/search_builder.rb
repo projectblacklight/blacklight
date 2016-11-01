@@ -112,7 +112,7 @@ module Blacklight
       @params = processed_parameters.
                   reverse_merge(@reverse_merged_params).
                   merge(@merged_params).
-                  tap { self.clear_changes }
+                  tap { clear_changes }
     end
 
     alias_method :query, :to_hash

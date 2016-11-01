@@ -9,7 +9,7 @@ module Blacklight::Document::CacheKey
   def cache_key
     if new_record?
       "#{self.class.model_name.cache_key}/new"
-    elsif self.key? cache_version_key
+    elsif key? cache_version_key
       cache_version_value = self[cache_version_key]
       "#{self.class.model_name.cache_key}/#{id}-#{Array(cache_version_value).join}"
     else

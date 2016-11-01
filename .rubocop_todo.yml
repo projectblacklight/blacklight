@@ -319,8 +319,3 @@ Style/PredicateName:
     - 'app/models/concerns/blacklight/document.rb'
     - 'app/models/concerns/blacklight/solr/document.rb'
     - 'lib/generators/blacklight/assets_generator.rb'
-
-# Offense count: 43
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Enabled: false

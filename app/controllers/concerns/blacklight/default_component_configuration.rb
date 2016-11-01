@@ -49,9 +49,9 @@ module Blacklight
           @response, @documents = action_documents
 
           if request.post? && opts[:callback] &&
-            (opts[:validator].blank? || self.send(opts[:validator]))
+            (opts[:validator].blank? || send(opts[:validator]))
 
-            self.send(opts[:callback], @documents)
+            send(opts[:callback], @documents)
 
             flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
 

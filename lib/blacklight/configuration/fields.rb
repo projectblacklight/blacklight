@@ -11,11 +11,11 @@ module Blacklight
         def define_field_access(key, options = {})
           key = key.to_s if respond_to? :to_s
 
-          self.default_values[key.pluralize.to_sym] = ActiveSupport::OrderedHash.new
+          default_values[key.pluralize.to_sym] = ActiveSupport::OrderedHash.new
 
           base_class_name = options.fetch(:class, Field)
 
-          unless self.const_defined? key.camelcase
+          unless const_defined? key.camelcase
             class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
               class #{key.camelcase} < #{base_class_name}; end
             END_EVAL

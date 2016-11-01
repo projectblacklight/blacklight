@@ -24,7 +24,7 @@ module Blacklight::Solr::Response::Spelling
     def words
       @words ||= begin
         word_suggestions = []
-        spellcheck = self.response[:spellcheck]
+        spellcheck = response[:spellcheck]
         if spellcheck && spellcheck[:suggestions]
           suggestions = spellcheck[:suggestions]
           unless suggestions.nil?
@@ -74,7 +74,7 @@ module Blacklight::Solr::Response::Spelling
 
     def collation
       # FIXME: DRY up with words
-      spellcheck = self.response[:spellcheck]
+      spellcheck = response[:spellcheck]
       return unless spellcheck && spellcheck[:suggestions]
       suggestions = spellcheck[:suggestions]
 
