@@ -19,7 +19,7 @@ module Blacklight::Solr
       blacklight_config.default_solr_params.each do |key, value|
         solr_parameters[key] = if value.respond_to? :deep_dup
           value.deep_dup
-        elsif value.respond_to? :dup and value.duplicable?
+        elsif value.respond_to?(:dup) && value.duplicable?
           value.dup
         else
           value
@@ -170,7 +170,7 @@ module Blacklight::Solr
 
     # Remove the group parameter if we've faceted on the group field (e.g. for the full results for a group)
     def add_group_config_to_solr solr_parameters
-      if blacklight_params[:f] and blacklight_params[:f][grouped_key_for_results]
+      if blacklight_params[:f] && blacklight_params[:f][grouped_key_for_results]
         solr_parameters[:group] = false
       end
     end
@@ -271,15 +271,15 @@ module Blacklight::Solr
     def facet_value_to_fq_string(facet_field, value)
       facet_config = blacklight_config.facet_fields[facet_field]
 
-      solr_field = facet_config.field if facet_config and !facet_config.query
+      solr_field = facet_config.field if facet_config && !facet_config.query
       solr_field ||= facet_field
 
       local_params = []
-      local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
+      local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
 
       prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
 
-      if facet_config and facet_config.query
+      if facet_config && facet_config.query
         if facet_config.query[value]
           facet_config.query[value][:fq]
         else
@@ -294,7 +294,7 @@ module Blacklight::Solr
     end
 
     def convert_to_term_value(value)
-      if value.is_a?(DateTime) or value.is_a?(Time)
+      if value.is_a?(DateTime) || value.is_a?(Time)
         value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
       elsif value.is_a?(Date)
         value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")

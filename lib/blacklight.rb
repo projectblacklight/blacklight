@@ -97,7 +97,7 @@ module Blacklight
 
   def self.logger
     @logger ||= begin
-      ::Rails.logger if defined? Rails and Rails.respond_to? :logger
+      ::Rails.logger if defined? Rails && Rails.respond_to?(:logger)
     end
   end
 

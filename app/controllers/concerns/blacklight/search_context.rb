@@ -64,7 +64,7 @@ module Blacklight::SearchContext
   end
 
   def find_or_initialize_search_session_from_params params
-    params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) or v.blank? }
+    params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) || v.blank? }
 
     return if params_copy.reject { |k,_v| [:action, :controller].include? k.to_sym }.blank?
 
@@ -94,7 +94,7 @@ module Blacklight::SearchContext
   # calls setup_previous_document then setup_next_document.
   # used in the show action for single view pagination.
   def setup_next_and_previous_documents
-    if search_session['counter'] and current_search_session
+    if search_session['counter'] && current_search_session
       index = search_session['counter'].to_i - 1
       response, documents = get_previous_and_next_documents_for_search index, ActiveSupport::HashWithIndifferentAccess.new(current_search_session.query_params)
 

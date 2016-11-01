@@ -12,7 +12,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @param [Hash] localized_params query parameters
   # @return [Boolean]
   def query_has_constraints?(localized_params = params)
-    !(localized_params[:q].blank? and localized_params[:f].blank?)
+    !(localized_params[:q].blank? && localized_params[:f].blank?)
   end
 
   ##

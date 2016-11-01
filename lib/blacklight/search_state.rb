@@ -36,9 +36,9 @@ module Blacklight
     end
 
     def url_for_document(doc, options = {})
-      if respond_to?(:blacklight_config) and
-          blacklight_config.show.route and
-          (!doc.respond_to?(:to_model) or doc.to_model.is_a? SolrDocument)
+      if respond_to?(:blacklight_config) &&
+          blacklight_config.show.route &&
+          (!doc.respond_to?(:to_model) || doc.to_model.is_a?(SolrDocument))
         route = blacklight_config.show.route.merge(action: :show, id: doc).merge(options)
         route[:controller] = params[:controller] if route[:controller] == :current
         route
@@ -56,7 +56,7 @@ module Blacklight
 
       add_facet_param(p, field, item)
 
-      if item and item.respond_to?(:fq) and item.fq
+      if item && item.respond_to?(:fq) && item.fq
         Array(item.fq).each do |f, v|
           add_facet_param(p, f, v)
         end
@@ -122,7 +122,7 @@ module Blacklight
         yield my_params
       end
 
-      if my_params[:page] and (my_params[:per_page] != params[:per_page] or my_params[:sort] != params[:sort] )
+      if my_params[:page] && (my_params[:per_page] != params[:per_page] || my_params[:sort] != params[:sort] )
         my_params[:page] = 1
       end
 
@@ -162,7 +162,7 @@ module Blacklight
       p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
       p[:f][url_field] = (p[:f][url_field] || []).dup
 
-      if facet_config.single and p[:f][url_field].present?
+      if facet_config.single && p[:f][url_field].present?
         p[:f][url_field] = []
       end
 

@@ -52,14 +52,14 @@ module Blacklight::Controller
     # Determine whether to render the bookmarks control
     # (Needs to be available globally, as it is used in the navbar)
     def render_bookmarks_control?
-      has_user_authentication_provider? and current_or_guest_user.present?
+      has_user_authentication_provider? && current_or_guest_user.present?
     end
 
     ##
     # Determine whether to render the saved searches link
     # (Needs to be available globally, as it is used in the navbar)
     def render_saved_searches?
-      has_user_authentication_provider? and current_user
+      has_user_authentication_provider? && current_user
     end
 
     # @return [Blacklight::SearchState] a memoized instance of the parameter state.
@@ -137,7 +137,7 @@ module Blacklight::Controller
     ##
     # When a user logs in, transfer any saved searches or bookmarks to the current_user
     def transfer_guest_user_actions_to_current_user
-      return unless respond_to? :current_user and respond_to? :guest_user and current_user and guest_user
+      return unless respond_to?(:current_user) && respond_to?(:guest_user) && current_user && guest_user
       current_user_searches = current_user.searches.pluck(:query_params)
       current_user_bookmarks = current_user.bookmarks.pluck(:document_id)
 
@@ -162,9 +162,9 @@ module Blacklight::Controller
       # send the user home if the access was previously denied by the same
       # request to avoid sending the user back to the login page
       #   (e.g. protected page -> logout -> returned to protected page -> home)
-      redirect_to root_url and flash.discard and return if request.referer and request.referer.ends_with? request.fullpath
+      redirect_to(root_url) && flash.discard && return if request.referer && request.referer.ends_with?(request.fullpath)
 
-      redirect_to root_url and return unless has_user_authentication_provider?
+      redirect_to(root_url) && return unless has_user_authentication_provider?
 
       redirect_to new_user_session_url(:referer => request.fullpath)
     end

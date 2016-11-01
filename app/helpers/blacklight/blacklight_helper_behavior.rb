@@ -108,7 +108,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def should_show_spellcheck_suggestions? response
-    response.total <= spell_check_max and response.spelling.words.any?
+    response.total <= spell_check_max && response.spelling.words.any?
   end
 
   ##
@@ -204,7 +204,7 @@ module Blacklight::BlacklightHelperBehavior
   def document_index_view_type query_params=params
     view_param = query_params[:view]
     view_param ||= session[:preferred_view]
-    if view_param and document_index_views.keys.include? view_param.to_sym
+    if view_param && document_index_views.keys.include?(view_param.to_sym)
       view_param.to_sym
     else
       default_document_index_view_type

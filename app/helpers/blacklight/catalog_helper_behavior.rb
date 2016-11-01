@@ -37,7 +37,7 @@ module Blacklight::CatalogHelperBehavior
       options[:entry_name]
     elsif collection.respond_to? :model  # DataMapper
       collection.model.model_name.human.downcase
-    elsif collection.respond_to? :model_name and !collection.model_name.nil? # AR, Blacklight::PaginationMethods
+    elsif collection.respond_to?(:model_name) && !collection.model_name.nil? # AR, Blacklight::PaginationMethods
       collection.model_name.human.downcase
     else
       t('blacklight.entry_name.default')
@@ -46,7 +46,7 @@ module Blacklight::CatalogHelperBehavior
     entry_name = entry_name.pluralize unless collection.total_count == 1
 
     # grouped response objects need special handling
-    end_num = if collection.respond_to? :groups and render_grouped_response? collection
+    end_num = if collection.respond_to?(:groups) && render_grouped_response?(collection)
       collection.groups.length
     else
       collection.limit_value
@@ -113,7 +113,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # @return [Blacklight::Configuration::SortField]
   def current_sort_field
-    (blacklight_config.sort_fields.values.find {|f| f.sort == @response.sort} if @response and @response.sort.present?) || blacklight_config.sort_fields[params[:sort]] || default_sort_field
+    (blacklight_config.sort_fields.values.find {|f| f.sort == @response.sort} if @response && @response.sort.present?) || blacklight_config.sort_fields[params[:sort]] || default_sort_field
   end
 
   ##
@@ -121,7 +121,7 @@ module Blacklight::CatalogHelperBehavior
   # 
   # @return [Integer]
   def current_per_page
-    (@response.rows if @response and @response.rows > 0) || params.fetch(:per_page, default_per_page).to_i
+    (@response.rows if @response && @response.rows > 0) || params.fetch(:per_page, default_per_page).to_i
   end
 
   ##
@@ -186,8 +186,8 @@ module Blacklight::CatalogHelperBehavior
   # 
   # @return [Boolean]
   def should_autofocus_on_search_box?
-    controller.is_a? Blacklight::Catalog and
-      action_name == "index" and
+    controller.is_a?(Blacklight::Catalog) &&
+      action_name == "index" &&
       !has_search_parameters?
   end
 
@@ -197,7 +197,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [SolrDocument] document
   # @return [Boolean]
   def has_thumbnail? document
-    blacklight_config.view_config(document_index_view_type).thumbnail_method.present? or
+    blacklight_config.view_config(document_index_view_type).thumbnail_method.present? ||
       blacklight_config.view_config(document_index_view_type).thumbnail_field && document.has?(blacklight_config.view_config(document_index_view_type).thumbnail_field)
   end
 
@@ -273,7 +273,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Check if the document is in the user's bookmarks
   def bookmarked? document
-    current_bookmarks.any? { |x| x.document_id == document.id and x.document_type == document.class }
+    current_bookmarks.any? { |x| x.document_id == document.id && x.document_type == document.class }
   end
 
   def render_search_to_page_title_filter(facet, values)

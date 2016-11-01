@@ -2,7 +2,7 @@
 module Blacklight::Solr::Response::MoreLikeThis
   def more_like document
     mlt = more_like_this[document.id]
-    return [] unless mlt and mlt['docs']
+    return [] unless mlt && mlt['docs']
 
     mlt['docs']
   end

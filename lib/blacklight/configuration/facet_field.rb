@@ -11,7 +11,7 @@ module Blacklight
 
       super
       
-      if self.single and self.tag.blank? and self.ex.blank?
+      if self.single && self.tag.blank? && self.ex.blank?
         self.tag = "#{self.key}_single"
         self.ex = "#{self.key}_single"
       end
