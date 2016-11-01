@@ -663,7 +663,7 @@ RSpec.describe CatalogController do
     before do
       described_class.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:solr_document_url).and_return('catalog/1')
-      allow(controller).to receive(:action_documents).and_return(1)
+      allow(controller).to receive(:action_documents).and_return([1, []])
       Rails.application.routes.draw do
         get 'catalog/like', as: :catalog_like
       end

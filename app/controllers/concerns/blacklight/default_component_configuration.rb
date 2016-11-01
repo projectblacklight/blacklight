@@ -52,7 +52,7 @@ module Blacklight
           @response, @documents = action_documents
           @presenters = @documents.map do |doc|
             blacklight_config.show.document_presenter_class.new(doc, view_context)
-          end if @documents
+          end
 
           if request.post? && opts[:callback] &&
             (opts[:validator].blank? || send(opts[:validator]))
