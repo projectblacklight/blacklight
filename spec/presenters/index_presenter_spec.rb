@@ -13,8 +13,8 @@ describe Blacklight::IndexPresenter do
 
   let(:document) do
     SolrDocument.new(id: 1,
-                     'link_to_search_true' => 'x',
-                     'link_to_search_named' => 'x',
+                     'link_to_facet_true' => 'x',
+                     'link_to_facet_named' => 'x',
                      'qwer' => 'document qwer value',
                      'mnbv' => 'document mnbv value')
   end
@@ -28,8 +28,8 @@ describe Blacklight::IndexPresenter do
       Blacklight::Configuration.new.configure do |config|
         config.add_index_field 'qwer'
         config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
-        config.add_index_field 'link_to_search_true', :link_to_search => true
-        config.add_index_field 'link_to_search_named', :link_to_search => :some_field
+        config.add_index_field 'link_to_facet_true', :link_to_facet => true
+        config.add_index_field 'link_to_facet_named', :link_to_facet => :some_field
         config.add_index_field 'highlight', :highlight => true
         config.add_index_field 'solr_doc_accessor', :accessor => true
         config.add_index_field 'explicit_accessor', :accessor => :solr_doc_accessor
@@ -49,17 +49,17 @@ describe Blacklight::IndexPresenter do
       expect(value).to eq 'custom asdf value'
     end
 
-    it "checks for a link_to_search" do
-      allow(request_context).to receive(:search_action_path).with('f' => { 'link_to_search_true' => ['x'] }).and_return('/foo')
+    it "checks for a link_to_facet" do
+      allow(request_context).to receive(:search_action_path).with('f' => { 'link_to_facet_true' => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_search_true'
+      value = subject.field_value 'link_to_facet_true'
       expect(value).to eq 'bar'
     end
 
-    it "checks for a link_to_search with a field name" do
+    it "checks for a link_to_facet with a field name" do
       allow(request_context).to receive(:search_action_path).with('f' => { 'some_field' => ['x'] }).and_return('/foo')
       allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_search_named'
+      value = subject.field_value 'link_to_facet_named'
       expect(value).to eq 'bar'
     end
 
