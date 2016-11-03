@@ -1,6 +1,7 @@
 /* Warning! If you want to change these, just copy them into your own theme css. But you want to remove the !default, which only will set them if not already set. */
 
-$logo_image: 'blacklight/logo.png' !default;
+$logo-image: image_url('blacklight/logo.png') !default;
+$logo_image: false !default; // deprecated
 
 /* label (field names) */
 $field_name_color: $text-muted !default;
