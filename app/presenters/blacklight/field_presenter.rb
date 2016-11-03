@@ -1,5 +1,5 @@
 module Blacklight
-  # Renders a field and handles link_to_search or helper_method if supplied
+  # Renders a field and handles link_to_facet or helper_method if supplied
   class FieldPresenter
     def initialize(controller, document, field_config, options)
       @controller = controller
