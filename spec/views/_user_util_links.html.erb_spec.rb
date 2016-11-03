@@ -16,7 +16,7 @@ describe "_user_util_links" do
     allow(view).to receive(:has_user_authentication_provider?).and_return false
     allow(view).to receive_message_chain(:current_or_guest_user, :bookmarks, :count).and_return(count)
     render :partial => "user_util_links"
-    expect(rendered).to have_selector('#bookmarks_nav span[data-role=bookmark-counter]', text: "#{count}")
+    expect(rendered).to have_selector('#bookmarks_nav span.tag[data-role=bookmark-counter]', text: "#{count}")
   end
 
 end
