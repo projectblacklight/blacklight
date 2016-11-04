@@ -3,11 +3,15 @@
 describe "catalog/_view_type_group" do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
+  let(:icon_instance) { instance_double(Blacklight::Icon) }
 
   before do
     allow(view).to receive(:view_label) do |view|
       view.to_s
     end
+    allow(Blacklight::Icon).to receive(:new).and_return icon_instance
+    allow(icon_instance).to receive(:svg).and_return '<svg></svg>'
+    allow(icon_instance).to receive(:options).and_return({})
     allow(view).to receive_messages(how_sort_and_per_page?: true, blacklight_config: blacklight_config)
     controller.request.path_parameters[:action] = 'index'
     assign(:response, response)

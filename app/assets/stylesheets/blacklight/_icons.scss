@@ -1,0 +1,42 @@
+.blacklight-icons {
+  display: inline-block;
+  height: $font-size-root;
+  vertical-align: text-top;
+  width: $font-size-root;
+}
+
+.btn-primary {
+  .blacklight-icons g {
+    stroke: $btn-primary-color;
+  }
+}
+
+.btn-secondary {
+  .blacklight-icons g {
+    stroke: $btn-secondary-color;
+  }
+}
+
+.btn-info {
+  .blacklight-icons g {
+    stroke: $btn-info-color;
+  }
+}
+
+.btn-success {
+  .blacklight-icons g {
+    stroke: $btn-success-color;
+  }
+}
+
+.btn-warning {
+  .blacklight-icons g {
+    stroke: $btn-warning-color;
+  }
+}
+
+.btn-danger {
+  .blacklight-icons g {
+    stroke: $btn-danger-color;
+  }
+}

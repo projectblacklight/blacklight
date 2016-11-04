@@ -4,6 +4,7 @@ module Blacklight::BlacklightHelperBehavior
   include UrlHelperBehavior
   include HashAsHiddenFieldsHelperBehavior
   include LayoutHelperBehavior
+  include IconHelperBehavior
 
   ##
   # Get the name of this application, from either:
