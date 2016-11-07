@@ -30,7 +30,7 @@
   <div id="main-container" class="<%= container_classes %>">
     <%= content_for(:container_header) %>
 
-    <%= render partial: '/flash_msg', layout: 'shared/flash_messages' %>
+    <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
 
     <div class="row">
       <%= content_for?(:content) ? yield(:content) : yield %>

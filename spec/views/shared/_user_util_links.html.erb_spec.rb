@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-describe "_user_util_links" do
+RSpec.describe "shared/_user_util_links" do
 
-  let :blacklight_config do
+  let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.navbar.partials = { bookmark: Blacklight::Configuration::ToolConfig.new(partial: 'blacklight/nav/bookmark', if: :render_bookmarks_control?) }
     end
@@ -15,7 +15,7 @@ describe "_user_util_links" do
     allow(controller).to receive(:render_bookmarks_control?).and_return true
     allow(view).to receive(:has_user_authentication_provider?).and_return false
     allow(view).to receive_message_chain(:current_or_guest_user, :bookmarks, :count).and_return(count)
-    render :partial => "user_util_links"
+    render "shared/user_util_links"
     expect(rendered).to have_selector('#bookmarks_nav span.tag[data-role=bookmark-counter]', text: "#{count}")
   end
 
