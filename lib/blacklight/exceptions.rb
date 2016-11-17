@@ -14,5 +14,8 @@ module Blacklight
     end
 
     class ECONNREFUSED < ::Errno::ECONNREFUSED; end
+
+    class IconNotFound < StandardError
+    end
   end
 end
