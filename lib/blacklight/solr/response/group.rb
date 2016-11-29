@@ -3,7 +3,7 @@ class Blacklight::Solr::Response::Group
   include Blacklight::Solr::Response::PaginationMethods
 
   attr_reader :key, :group, :response
-  
+
   def initialize key, group, response
     @key = key
     @group = group
@@ -18,13 +18,13 @@ class Blacklight::Solr::Response::Group
   def total
     doclist[:numFound].to_s.to_i
   end
-    
+
   def start
     doclist[:start].to_s.to_i
   end
 
   def docs
-    doclist[:docs].map {|doc| SolrDocument.new(doc, response)}
+    doclist[:docs].map { |doc| SolrDocument.new(doc, response) }
   end
 
   def field

@@ -60,7 +60,7 @@ module Blacklight
       #   - link_to_facet
       # @param [Blacklight::Configuration::Field] field_config solr field configuration
       # @param [Hash] options additional options to pass to the rendering helpers
-      def field_values(field_config, options={})
+      def field_values(field_config, options = {})
         FieldPresenter.new(view_context, document, field_config, options).render
       end
 

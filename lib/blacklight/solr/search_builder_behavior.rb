@@ -44,7 +44,7 @@ module Blacklight::Solr
 
       if search_field
         solr_parameters[:qt] = search_field.qt
-        solr_parameters.merge!( search_field.solr_parameters) if search_field.solr_parameters
+        solr_parameters.merge!(search_field.solr_parameters) if search_field.solr_parameters
       end
 
       ##
@@ -310,7 +310,7 @@ module Blacklight::Solr
     end
 
     def facet_fields_to_include_in_request
-      blacklight_config.facet_fields.select do |_field_name,facet|
+      blacklight_config.facet_fields.select do |_field_name, facet|
         facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
       end
     end

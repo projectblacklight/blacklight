@@ -35,7 +35,7 @@ module Blacklight
     ##
     # Class used for specifying main layout container classes. Can be
     # overwritten to return 'container-fluid' for Bootstrap full-width layout
-    # @return [String] 
+    # @return [String]
     def container_classes
       'container'
     end

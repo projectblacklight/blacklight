@@ -46,9 +46,9 @@ module Blacklight::Solr::Response::Spelling
               i_stop = suggestions.length
             end
               # step through array in 2s to get info for each term
-              0.step(i_stop-1, 2) do |i|
+              0.step(i_stop - 1, 2) do |i|
                 term = suggestions[i]
-                term_info = suggestions[i+1]
+                term_info = suggestions[i + 1]
                 # term_info is a hash:
                 #   numFound =>
                 #   startOffset =>

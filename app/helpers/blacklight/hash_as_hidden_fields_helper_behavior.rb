@@ -3,7 +3,7 @@
 # fields, works with hash nested with other hashes and arrays, standard rails
 # serialization style.  Oddly while Hash#to_query will do this for a URL
 # query parameters, there seems to be no built in way to do it to create
-# hidden form fields instead. 
+# hidden form fields instead.
 #
 # Code taken from http://marklunds.com/articles/one/314
 #
@@ -15,22 +15,21 @@ module Blacklight::HashAsHiddenFieldsHelperBehavior
   # representing a hash passed in using Rails-style request parameters
   # for hashes nested with arrays and other hashes.
   # @param [Hash] hash
-  # @return [String] 
+  # @return [String]
   def render_hash_as_hidden_fields(hash)
-    
     hidden_fields = []
     flatten_hash(hash).each do |name, value|
       value = Array.wrap(value)
       value.each do |v|
-        hidden_fields << hidden_field_tag(name, v.to_s, :id => nil)          
+        hidden_fields << hidden_field_tag(name, v.to_s, :id => nil)
       end
     end
-    
+
     safe_join(hidden_fields, "\n")
   end
 
   protected
-  
+
   def flatten_hash(hash = params, ancestor_names = [])
     flat_hash = {}
     hash.each do |k, v|
@@ -44,17 +43,16 @@ module Blacklight::HashAsHiddenFieldsHelperBehavior
         flat_hash[key] = v
       end
     end
-    
+
     flat_hash
   end
-  
+
   def flat_hash_key(names)
     names = Array.new(names)
-    name = names.shift.to_s.dup 
+    name = names.shift.to_s.dup
     names.each do |n|
       name << "[#{n}]"
     end
     name
   end
-  
 end

@@ -9,7 +9,7 @@ module Blacklight
     end
 
     attr_reader :controller, :document, :field_config, :options
-    
+
     def render
       if options[:value]
         # This prevents helper methods from drawing.

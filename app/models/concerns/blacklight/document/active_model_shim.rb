@@ -24,7 +24,7 @@ module Blacklight::Document
         repository.find(id).documents.first
       end
     end
-    
+
     ##
     # Unique ID for the document
     def id
@@ -45,7 +45,7 @@ module Blacklight::Document
     def destroyed?
       false
     end
-    
+
     def new_record?
       false
     end

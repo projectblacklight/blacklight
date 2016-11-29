@@ -67,7 +67,7 @@ module Blacklight::RenderConstraintsHelperBehavior
      return "".html_safe unless localized_params[:f]
      path = Blacklight::SearchState.new(localized_params, blacklight_config)
      content = []
-     localized_params[:f].each_pair do |facet,values|
+     localized_params[:f].each_pair do |facet, values|
        content << render_filter_element(facet, values, path)
      end
 
@@ -107,6 +107,6 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @option options [Array<String>] :classes an array of classes to add to container span for constraint.
   # @return [String]
   def render_constraint_element(label, value, options = {})
-    render(:partial => "catalog/constraints_element", :locals => {:label => label, :value => value, :options => options})
+    render(:partial => "catalog/constraints_element", :locals => { :label => label, :value => value, :options => options })
   end
 end

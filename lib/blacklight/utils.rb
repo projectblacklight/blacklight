@@ -22,7 +22,7 @@ module Blacklight
     def to_h
       @table
     end
-    
+
     def select *args, &block
       self.class.new to_h.select(*args, &block)
     end
@@ -58,7 +58,7 @@ module Blacklight
   end
 
   ##
-  # An OpenStruct refinement that converts any hash-keys into  
+  # An OpenStruct refinement that converts any hash-keys into
   # additional instances of NestedOpenStructWithHashAccess
   class NestedOpenStructWithHashAccess < OpenStructWithHashAccess
     attr_reader :nested_class

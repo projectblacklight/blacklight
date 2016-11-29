@@ -48,7 +48,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   end
 
   def documents
-    @documents ||= (response['docs'] || []).collect{|doc| document_model.new(doc, self) }
+    @documents ||= (response['docs'] || []).collect { |doc| document_model.new(doc, self) }
   end
   alias_method :docs, :documents
 

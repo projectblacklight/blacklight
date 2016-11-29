@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 module Blacklight
   class ControllerGenerator < Rails::Generators::Base
-    
     source_root File.expand_path('../templates', __FILE__)
-    
-    argument     :controller_name  , type: :string , default: "catalog"
+
+    argument :controller_name, type: :string, default: "catalog"
 
     desc <<-EOS
       This generator makes the following changes to your application:
@@ -21,7 +20,7 @@ module Blacklight
         "  layout :determine_layout\n\n"
       end
     end
-    
+
     # Generate blacklight catalog controller
     def create_blacklight_catalog
       template "catalog_controller.rb", "app/controllers/#{controller_name}_controller.rb"

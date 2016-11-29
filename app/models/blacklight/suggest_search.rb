@@ -2,7 +2,7 @@
 module Blacklight
   class SuggestSearch
     attr_reader :request_params, :repository
-    
+
     ##
     # @param [Hash] params
     def initialize(params, repository)

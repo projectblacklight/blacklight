@@ -4,7 +4,7 @@ module Blacklight
       def render
         if config.helper_method
           render_helper # short circut the rest of the steps
-        else  
+        else
           next_step(values)
         end
       end

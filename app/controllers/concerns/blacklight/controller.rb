@@ -128,7 +128,7 @@ module Blacklight::Controller
     #
     def has_user_authentication_provider?
       respond_to? :current_user
-    end           
+    end
 
     def require_user_authentication_provider
       raise ActionController::RoutingError, 'Not Found' unless has_user_authentication_provider?
@@ -141,12 +141,12 @@ module Blacklight::Controller
       current_user_searches = current_user.searches.pluck(:query_params)
       current_user_bookmarks = current_user.bookmarks.pluck(:document_id)
 
-      guest_user.searches.reject { |s| current_user_searches.include?(s.query_params)}.each do |s|
+      guest_user.searches.reject { |s| current_user_searches.include?(s.query_params) }.each do |s|
         current_user.searches << s
         s.save!
       end
 
-      guest_user.bookmarks.reject { |b| current_user_bookmarks.include?(b.document_id)}.each do |b|
+      guest_user.bookmarks.reject { |b| current_user_bookmarks.include?(b.document_id) }.each do |b|
         current_user.bookmarks << b
         b.save!
       end
@@ -156,7 +156,7 @@ module Blacklight::Controller
     end
 
     ##
-    # To handle failed authorization attempts, redirect the user to the 
+    # To handle failed authorization attempts, redirect the user to the
     # login form and persist the current request uri as a parameter
     def access_denied
       # send the user home if the access was previously denied by the same

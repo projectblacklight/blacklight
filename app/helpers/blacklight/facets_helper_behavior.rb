@@ -13,8 +13,8 @@ module Blacklight::FacetsHelperBehavior
 
   ##
   # Render a collection of facet fields.
-  # @see #render_facet_limit 
-  # 
+  # @see #render_facet_limit
+  #
   # @param [Array<String>] fields
   # @param [Hash] options
   # @return String
@@ -27,14 +27,14 @@ module Blacklight::FacetsHelperBehavior
   ##
   # Renders a single section for facet limit with a specified
   # solr field used for faceting. Can be over-ridden for custom
-  # display on a per-facet basis. 
+  # display on a per-facet basis.
   #
-  # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet 
+  # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
   # @param [Hash] options parameters to use for rendering the facet limit partial
   # @option options [String] :partial partial to render
   # @option options [String] :layout partial layout to render
   # @option options [Hash] :locals locals to pass to the partial
-  # @return [String] 
+  # @return [String]
   def render_facet_limit(display_facet, options = {})
     return unless should_render_facet?(display_facet)
     options = options.dup
@@ -43,24 +43,24 @@ module Blacklight::FacetsHelperBehavior
     options[:locals] ||= {}
     options[:locals][:field_name] ||= display_facet.name
     options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
-    options[:locals][:display_facet] ||= display_facet 
+    options[:locals][:display_facet] ||= display_facet
 
     render(options)
   end
 
   ##
-  # Renders the list of values 
+  # Renders the list of values
   # removes any elements where render_facet_item returns a nil value. This enables an application
   # to filter undesireable facet items so they don't appear in the UI
-  def render_facet_limit_list(paginator, facet_field, wrapping_element=:li)
-    safe_join(paginator.items.map { |item| render_facet_item(facet_field, item) }.compact.map { |item| content_tag(wrapping_element,item)})
+  def render_facet_limit_list(paginator, facet_field, wrapping_element = :li)
+    safe_join(paginator.items.map { |item| render_facet_item(facet_field, item) }.compact.map { |item| content_tag(wrapping_element, item) })
   end
 
   ##
   # Renders a single facet item
   def render_facet_item(facet_field, item)
-    if facet_in_params?(facet_field, item.value )
-      render_selected_facet_value(facet_field, item)          
+    if facet_in_params?(facet_field, item.value)
+      render_selected_facet_value(facet_field, item)
     else
       render_facet_value(facet_field, item)
     end
@@ -72,7 +72,7 @@ module Blacklight::FacetsHelperBehavior
   # By default, only render facets with items.
   #
   # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
-  # @return [Boolean] 
+  # @return [Boolean]
   def should_render_facet? display_facet
     # display when show is nil or true
     facet_config = facet_configuration_for_field(display_facet.name)
@@ -85,7 +85,7 @@ module Blacklight::FacetsHelperBehavior
   #   - if the facet is 'active', don't collapse
   #   - if the facet is configured to collapse (the default), collapse
   #   - if the facet is configured not to collapse, don't collapse
-  # 
+  #
   # @param [Blacklight::Configuration::FacetField] facet_field
   # @return [Boolean]
   def should_collapse_facet? facet_field
@@ -95,7 +95,7 @@ module Blacklight::FacetsHelperBehavior
   ##
   # The name of the partial to use to render a facet field.
   # uses the value of the "partial" field if set in the facet configuration
-  # otherwise uses "facet_pivot" if this facet is a pivot facet 
+  # otherwise uses "facet_pivot" if this facet is a pivot facet
   # defaults to 'facet_limit'
   #
   # @return [String]
@@ -105,7 +105,7 @@ module Blacklight::FacetsHelperBehavior
     name ||= "facet_pivot" if config.pivot
     name ||= "facet_limit"
   end
- 
+
   ##
   # Standard display of a facet value in a list. Used in both _facets sidebar
   # partial and catalog/facet expanded list. Will output facet value name as
@@ -116,7 +116,7 @@ module Blacklight::FacetsHelperBehavior
   # @param [Hash] options
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
   # @return [String]
-  def render_facet_value(facet_field, item, options ={})
+  def render_facet_value(facet_field, item, options = {})
     path = path_for_facet(facet_field, item)
     content_tag(:span, class: "facet-label") do
       link_to_unless(options[:suppress_link],
@@ -159,7 +159,7 @@ module Blacklight::FacetsHelperBehavior
 
   ##
   # Renders a count value for facet limits. Can be over-ridden locally
-  # to change style. And can be called by plugins to get consistent display. 
+  # to change style. And can be called by plugins to get consistent display.
   #
   # @param [Integer] num number of facet results
   # @param [Hash] options
@@ -169,20 +169,20 @@ module Blacklight::FacetsHelperBehavior
     classes = (options[:classes] || []) << "facet-count"
     content_tag("span", t('blacklight.search.facets.count', :number => number_with_delimiter(num)), :class => classes)
   end
-  
+
   ##
   # Are any facet restrictions for a field in the query parameters?
-  # 
+  #
   # @param [String] field
   # @return [Boolean]
   def facet_field_in_params? field
     !facet_params(field).blank?
   end
-  
+
   ##
-  # Check if the query parameters have the given facet field with the 
+  # Check if the query parameters have the given facet field with the
   # given value.
-  # 
+  #
   # @param [Object] field
   # @param [Object] item facet value
   # @return [Boolean]
@@ -202,13 +202,13 @@ module Blacklight::FacetsHelperBehavior
 
   ##
   # Get the displayable version of a facet's value
-  # 
+  #
   # @param [Object] field
   # @param [String] item value
-  # @return [String] 
+  # @return [String]
   def facet_display_value field, item
     facet_config = facet_configuration_for_field(field)
-    
+
     value = if item.respond_to? :label
       item.label
     else

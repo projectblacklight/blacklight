@@ -5,7 +5,7 @@ require 'builder'
 module Blacklight::Document::DublinCore
   def self.extended(document)
     # Register our exportable formats
-    Blacklight::Document::DublinCore.register_export_formats( document )
+    Blacklight::Document::DublinCore.register_export_formats(document)
   end
 
   def self.register_export_formats(document)
@@ -26,7 +26,7 @@ module Blacklight::Document::DublinCore
              'xmlns:dc' => "http://purl.org/dc/elements/1.1/",
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
              'xsi:schemaLocation' => %(http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd)) do
-      self.to_semantic_values.select { |field, _values| dublin_core_field_name? field  }.each do |field,values|
+      self.to_semantic_values.select { |field, _values| dublin_core_field_name? field  }.each do |field, values|
         Array.wrap(values).each do |v|
           xml.tag! "dc:#{field}", v
         end

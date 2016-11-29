@@ -10,9 +10,8 @@ module Blacklight
 
     attr_reader :processor_chain, :blacklight_params
 
-    
     # @overload initialize(scope)
-    #   @param [Object] scope scope the scope where the filter methods reside in.    
+    #   @param [Object] scope scope the scope where the filter methods reside in.
     # @overload initialize(processor_chain, scope)
     #   @param [List<Symbol>,TrueClass] processor_chain options a list of filter methods to run or true, to use the default methods
     #   @param [Object] scope scope the scope where the filter methods reside in.
@@ -26,7 +25,7 @@ module Blacklight
       else
         raise ArgumentError, "wrong number of arguments. (#{options.size} for 1..2)"
       end
-      
+
       @blacklight_params = {}
       @merged_params = {}
       @reverse_merged_params = {}
@@ -191,7 +190,7 @@ module Blacklight
       end
       @rows ||= begin
         # user-provided parameters should override any default row
-        r = [:rows, :per_page].map {|k| blacklight_params[k] }.reject(&:blank?).first
+        r = [:rows, :per_page].map { |k| blacklight_params[k] }.reject(&:blank?).first
         r ||= blacklight_config.default_per_page
         # ensure we don't excede the max page size
         r.nil? ? nil : [r, blacklight_config.max_per_page].map(&:to_i).min

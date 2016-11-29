@@ -2,7 +2,7 @@
 module Blacklight
   class Assets < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
-  
+
     def assets
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
