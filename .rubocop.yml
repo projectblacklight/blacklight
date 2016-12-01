@@ -4,6 +4,7 @@ inherit_from:
   - .rubocop_todo.yml
 
 AllCops:
+  DisplayCopNames: true
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "spec/**/*"
@@ -27,3 +28,13 @@ Rails/OutputSafety:
 Style/MethodMissing:
   Exclude:
   - 'lib/blacklight/utils.rb'
+
+# engine_cart block includes conditional, not duplication
+Bundler/DuplicatedGem:
+  Exclude:
+  - 'Gemfile'
+
+# engine_cart block is following default Rails order
+Bundler/OrderedGems:
+  Exclude:
+  - 'Gemfile'
