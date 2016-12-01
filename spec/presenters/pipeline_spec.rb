@@ -6,6 +6,7 @@ describe Blacklight::Rendering::Pipeline do
   let(:context) { double }
   let(:options) { double }
   let(:presenter) { described_class.new(values, field_config, document, context, options) }
+
   describe "render" do
     subject { presenter.render }
     let(:values) { ['a', 'b'] }
@@ -23,5 +24,13 @@ describe Blacklight::Rendering::Pipeline do
       let(:field_config) { Blacklight::Configuration::NullField.new(separator: nil, itemprop: 'some-prop', separator_options: nil) } 
       it { is_expected.to have_selector("span[@itemprop='some-prop']", :text => "a") }
     end
+  end
+
+  describe "#operations" do
+    subject { described_class.operations }
+    it { is_expected.to eq [Blacklight::Rendering::HelperMethod,
+                            Blacklight::Rendering::LinkToFacet,
+                            Blacklight::Rendering::Microdata,
+                            Blacklight::Rendering::Join] }
   end
 end

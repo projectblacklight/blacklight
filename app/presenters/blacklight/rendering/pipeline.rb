@@ -2,6 +2,11 @@ module Blacklight
   module Rendering
     # The field rendering pipeline
     class Pipeline
+      class_attribute :operations
+
+      # The ordered list of pipeline operations
+      self.operations = [HelperMethod, LinkToFacet, Microdata, Join]
+
       def initialize(values, config, document, context, options)
         @values = values
         @config = config
@@ -25,7 +30,7 @@ module Blacklight
 
         # Ordered list of operations, Terminator must be at the end.
         def stack
-          [HelperMethod, LinkToFacet, Microdata, Join, Terminator]
+          operations + [Terminator]
         end
     end
   end
