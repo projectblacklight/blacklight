@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
-  # Using required_dependency to work around Rails autoloading
-  # problems when developing blacklight. Without this, any change
-  # to this class breaks other classes in this namespace
-  require_dependency 'blacklight/solr/response/pagination_methods'
-  require_dependency 'blacklight/solr/response/response'
-  require_dependency 'blacklight/solr/response/spelling'
-  require_dependency 'blacklight/solr/response/facets'
-  require_dependency 'blacklight/solr/response/more_like_this'
-  require_dependency 'blacklight/solr/response/group_response'
-  require_dependency 'blacklight/solr/response/group'
+  extend ActiveSupport::Autoload
+  eager_autoload do
+    autoload :PaginationMethods
+    autoload :Response
+    autoload :Spelling
+    autoload :Facets
+    autoload :MoreLikeThis
+    autoload :GroupResponse
+    autoload :Group
+  end
 
   include PaginationMethods
   include Spelling
