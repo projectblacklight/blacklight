@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 require 'ostruct'
+require 'active_support/hash_with_indifferent_access'
+
 module Blacklight
   module Utils
     def self.needs_attr_accessible?
@@ -11,10 +13,30 @@ module Blacklight
     end
   end
 
+  class HashWithIndifferentAccessWithSymbolKeys < ActiveSupport::HashWithIndifferentAccess
+    protected
+
+    def convert_key(key)
+      if key.is_a?(Symbol)
+        key
+      elsif key.respond_to? :to_sym
+        key.to_sym
+      else
+        key
+      end
+    end
+  end
+
   ##
   # An OpenStruct that responds to common Hash methods
   class OpenStructWithHashAccess < OpenStruct
     delegate :keys, :each, :map, :has_key?, :key?, :include?, :empty?, :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!, :replace, :fetch, :to_json, :as_json, to: :to_h
+
+    def initialize(*args)
+      super
+
+      @table = HashWithIndifferentAccessWithSymbolKeys.new(@table)
+    end
 
     ##
     # Expose the internal hash

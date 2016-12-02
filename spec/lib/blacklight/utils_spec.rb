@@ -38,14 +38,13 @@ describe 'Blacklight::Utils' do
       end
 
       it "exposes the internal hash table" do
-        expect(@h.to_h).to be_a_kind_of(Hash)
+        expect(@h.to_h).to be_a_kind_of(HashWithIndifferentAccess)
         expect(@h.to_h[:a]).to eq 1
       end
 
       it "exposes keys" do
         expect(@h.keys).to include(:a, :b)
       end
-
     end
 
     describe "#key?" do
