@@ -9,12 +9,3 @@ generate 'blacklight:install', options
 
 # run the database migrations
 rake "db:migrate"
-
-# index some data
-if options =~ /solr_version/
-  require 'solr_wrapper'
-
-  SolrWrapper.wrap do
-    rake "blacklight:index:seed"
-  end
-end
