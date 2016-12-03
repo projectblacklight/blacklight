@@ -19,15 +19,12 @@ module Blacklight
 
     include Fields
 
-    # Set up Blacklight::Configuration.default_values to contain
-    # the basic, required Blacklight fields
+    # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
     class << self
       def default_values
         @default_values ||= begin
           {
-          ##
           # === Search request configuration
-          ##
           # HTTP method to use when making requests to solr; valid
           # values are :get and :post.
           http_method: :get,
@@ -37,10 +34,9 @@ module Blacklight
           default_solr_params: {},
           ##
           # === Single document request configuration
-          ##
           # The solr rqeuest handler to use when requesting only a single document
           document_solr_request_handler: nil,
-          # THe path to send single document requests to solr
+          # The path to send single document requests to solr
           document_solr_path: 'get',
           document_unique_id_param: :ids,
           # Default values of parameters to send when requesting a single document
@@ -61,7 +57,6 @@ module Blacklight
           connection_config: nil,
           ##
           # == Blacklight view configuration
-          ##
           navbar: OpenStructWithHashAccess.new(partials: {}),
           # General configuration for all views
           index: ViewConfig::Index.new(
@@ -84,10 +79,9 @@ module Blacklight
           show: ViewConfig::Show.new(
             # document presenter class used by helpers and views
             document_presenter_class: nil,
-            # default route parameters for 'show' requests
-            # set this to a hash with additional arguments to merge into
-            # the route, or set `controller: :current` to route to the
-            # current controller.
+            # Default route parameters for 'show' requests.
+            # Set this to a hash with additional arguments to merge into the route,
+            # or set `controller: :current` to route to the current controller.
             route: nil,
             # partials to render for each document(see #render_document_partials)
             partials: [:show_header, :show],
@@ -105,7 +99,7 @@ module Blacklight
               partials: [:document]
           }),
           #
-          # These fields are created and managed below by `defined_field_access`
+          # These fields are created and managed below by `define_field_access`
           # facet_fields
           # index_fields
           # show_fields
@@ -113,7 +107,6 @@ module Blacklight
           # search_fields
           ##
           # === Blacklight behavior configuration
-          ##
           # Maxiumum number of spelling suggestions to offer
           spell_max: 5,
           # Maximum number of results to show per page
@@ -214,16 +207,14 @@ module Blacklight
     # Returns default search field, used for simpler display in history, etc.
     # if not set, defaults to first defined search field
     def default_search_field
-      field = super
-      field ||= search_fields.values.find { |f| f.default == true }
+      field = super || search_fields.values.find { |f| f.default == true }
       field || search_fields.values.first
     end
 
     # Returns default sort field, used for simpler display in history, etc.
     # if not set, defaults to first defined sort field
     def default_sort_field
-      field = super
-      field ||= sort_fields.values.find { |f| f.default == true }
+      field = super || sort_fields.values.find { |f| f.default == true }
       field || sort_fields.values.first
     end
 
@@ -255,7 +246,6 @@ module Blacklight
       end
     end
 
-    ##
     # Add any configured facet fields to the default solr parameters hash
     # @overload add_field_configuration_to_solr_request!
     #    add all index, show, and facet fields to the solr request
@@ -271,7 +261,6 @@ module Blacklight
       end
     end
 
-    ##
     # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting
     # the original Blacklight::Configuration instance.
     #
@@ -287,15 +276,12 @@ module Blacklight
     end
     alias_method :inheritable_copy, :deep_copy
 
-    ##
     # Get a view configuration for the given view type
     # including default values from the index configuration
+    # @param [Symbol,#to_sym] view_type
     def view_config(view_type)
-      if view_type == :show
-        self.index.merge self.show
-      else
-        self.index.merge view.fetch(view_type, {})
-      end
+      view_type = view_type.to_sym unless view_type.is_a? Symbol
+      self.index.merge(view_type == :show ? self.show : view.fetch(view_type, {}))
     end
 
     # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
