@@ -107,7 +107,7 @@ module Blacklight::SearchHelper
   # all of the field values for each of the documents...
   # where the field is the "field" argument passed in.
   def get_opensearch_response(field = nil, request_params = params || {}, extra_controller_params = {})
-    field ||= blacklight_config.view_config('opensearch').title_field
+    field ||= blacklight_config.view_config(:opensearch).title_field
 
     query = search_builder.with(request_params).merge(solr_opensearch_params(field)).merge(extra_controller_params)
     response = repository.search(query)

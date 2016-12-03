@@ -21,7 +21,7 @@ module Blacklight
     def solr_opensearch_params(field)
       solr_params = {}
       solr_params[:rows] ||= 10
-      solr_params[:fl] = field || blacklight_config.view_config('opensearch').title_field
+      solr_params[:fl] = field || blacklight_config.view_config(:opensearch).title_field
       solr_params
     end
 
