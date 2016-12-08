@@ -25,7 +25,7 @@ module Blacklight::Document::Extensions
   # apply all registered extensions on a per-document basis
   def apply_extensions
     self.class.registered_extensions.each do |registration|
-      self.extend(registration[:module_obj]) if registration[:condition_proc].nil? || registration[:condition_proc].call(self)
+      extend(registration[:module_obj]) if registration[:condition_proc].nil? || registration[:condition_proc].call(self)
     end
   end
 

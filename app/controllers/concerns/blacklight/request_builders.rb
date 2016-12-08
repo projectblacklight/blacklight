@@ -4,7 +4,7 @@ module Blacklight
     extend ActiveSupport::Concern
 
     included do
-      if self.respond_to?(:helper_method)
+      if respond_to?(:helper_method)
         helper_method(:facet_limit_for)
       end
     end

@@ -3,7 +3,7 @@
 module Blacklight::Document::Email
   # Return a text string that will be the body of the email
   def to_email_text
-    semantics = self.to_semantic_values
+    semantics = to_semantic_values
     body = []
     body << I18n.t('blacklight.email.text.title', value: semantics[:title].join(" ")) unless semantics[:title].blank?
     body << I18n.t('blacklight.email.text.author', value: semantics[:author].join(" ")) unless semantics[:author].blank?

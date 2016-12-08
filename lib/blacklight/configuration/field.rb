@@ -2,7 +2,7 @@
 module Blacklight
   class Configuration::Field < OpenStructWithHashAccess
     def normalize! _blacklight_config = nil
-      self.field ||= self.key
+      self.field ||= key
       self.key ||= self.field
 
       self.label ||= default_label

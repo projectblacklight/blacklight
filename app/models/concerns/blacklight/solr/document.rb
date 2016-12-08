@@ -24,12 +24,11 @@ module Blacklight::Solr::Document
   end
 
   def has_highlight_field? k
-    return false if response['highlighting'].blank? || response['highlighting'][self.id].blank?
-
-    response['highlighting'][self.id].key? k.to_s
+    return false if response['highlighting'].blank? || response['highlighting'][id].blank?
+    response['highlighting'][id].key? k.to_s
   end
 
   def highlight_field k
-    response['highlighting'][self.id][k.to_s].map(&:html_safe) if has_highlight_field? k
+    response['highlighting'][id][k.to_s].map(&:html_safe) if has_highlight_field? k
   end
 end

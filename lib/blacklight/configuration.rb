@@ -281,7 +281,7 @@ module Blacklight
     # @param [Symbol,#to_sym] view_type
     def view_config(view_type)
       view_type = view_type.to_sym unless view_type.is_a? Symbol
-      self.index.merge(view_type == :show ? self.show : view.fetch(view_type, {}))
+      index.merge(view_type == :show ? show : view.fetch(view_type, {}))
     end
 
     # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
