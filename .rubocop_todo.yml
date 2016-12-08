@@ -6,24 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 17
-# Cop supports --auto-correct.
-# Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
-# SupportedStyles: keyword, variable, start_of_line
-Lint/EndAlignment:
-  Exclude:
-    - 'app/controllers/concerns/blacklight/token_based_user.rb'
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'app/helpers/blacklight/facets_helper_behavior.rb'
-    - 'app/helpers/blacklight/render_partials_helper_behavior.rb'
-    - 'app/helpers/blacklight/url_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/configurable.rb'
-    - 'app/presenters/blacklight/index_presenter.rb'
-    - 'lib/blacklight/configuration/fields.rb'
-    - 'lib/blacklight/search_builder.rb'
-    - 'lib/blacklight/solr/response/facets.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
-
 # Offense count: 7
 Lint/UselessAssignment:
   Exclude:
@@ -93,18 +75,6 @@ Style/Alias:
     - 'lib/blacklight/solr/response.rb'
     - 'lib/blacklight/solr/response/group_response.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: with_first_parameter, with_fixed_indentation
-Style/AlignParameters:
-  Exclude:
-    - 'app/helpers/blacklight/render_constraints_helper_behavior.rb'
-    - 'app/helpers/blacklight/search_history_constraints_helper_behavior.rb'
-    - 'lib/blacklight/configuration.rb'
-    - 'lib/generators/blacklight/solr4_generator.rb'
-
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -157,19 +127,6 @@ Style/DoubleNegation:
   Exclude:
     - 'lib/blacklight/search_builder.rb'
 
-# Offense count: 16
-# Cop supports --auto-correct.
-Style/ElseAlignment:
-  Exclude:
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'app/helpers/blacklight/facets_helper_behavior.rb'
-    - 'app/helpers/blacklight/url_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/configurable.rb'
-    - 'lib/blacklight/search_builder.rb'
-    - 'lib/blacklight/solr/response/facets.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
-
-# Offense count: 20
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
 Style/ExtraSpacing:

@@ -123,10 +123,10 @@ module Blacklight::UrlHelperBehavior
     end
 
     link_url = if query_params.empty?
-      search_action_path(only_path: true)
-    else
-      scope.url_for(query_params)
-    end
+                 search_action_path(only_path: true)
+               else
+                 scope.url_for(query_params)
+               end
     label = opts.delete(:label)
 
     if link_url =~ /bookmarks/

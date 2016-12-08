@@ -18,12 +18,12 @@ module Blacklight::Solr
     def default_solr_parameters(solr_parameters)
       blacklight_config.default_solr_params.each do |key, value|
         solr_parameters[key] = if value.respond_to? :deep_dup
-          value.deep_dup
-        elsif value.respond_to?(:dup) && value.duplicable?
-          value.dup
-        else
-          value
-        end
+                                 value.deep_dup
+                               elsif value.respond_to?(:dup) && value.duplicable?
+                                 value.dup
+                               else
+                                 value
+                               end
       end
     end
 
@@ -66,13 +66,13 @@ module Blacklight::Solr
       elsif blacklight_params[:q].is_a? Hash
         q = blacklight_params[:q]
         solr_parameters[:q] = if q.values.any?(&:blank?)
-          # if any field parameters are empty, exclude _all_ results
-          "{!lucene}NOT *:*"
-        else
-          "{!lucene}" + q.map do |field, values|
-            "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
-          end.join(" AND ")
-        end
+                                # if any field parameters are empty, exclude _all_ results
+                                "{!lucene}NOT *:*"
+                              else
+                                "{!lucene}" + q.map do |field, values|
+                                  "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
+                                end.join(" AND ")
+                              end
 
         solr_parameters[:spellcheck] = 'false'
       elsif blacklight_params[:q]

@@ -18,9 +18,9 @@ module Blacklight::TokenBasedUser
 
   def token_user
     @token_user ||= if params[:encrypted_user_id]
-      user_id = decrypt_user_id params[:encrypted_user_id]
-      User.find(user_id)
-    end
+                      user_id = decrypt_user_id params[:encrypted_user_id]
+                      User.find(user_id)
+                    end
   end
 
   # Used for #export action, with encrypted user_id.

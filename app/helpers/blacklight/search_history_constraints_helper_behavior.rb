@@ -32,12 +32,10 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
 
     safe_join(params[:f].collect do |facet_field, value_list|
       render_search_to_s_element(facet_field_label(facet_field),
-        safe_join(value_list.collect do |value|
-          render_filter_value(value, facet_field)
-        end,
-        content_tag(:span,
-                    " #{t('blacklight.and')} ",
-                    class: 'filter-separator')))
+                                 safe_join(value_list.collect do |value|
+                                   render_filter_value(value, facet_field)
+                                 end,
+                                           content_tag(:span, " #{t('blacklight.and')} ", class: 'filter-separator')))
     end, " \n ")
   end
 

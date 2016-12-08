@@ -89,15 +89,15 @@ module Blacklight
           ),
           # Configurations for specific types of index views
           view: NestedOpenStructWithHashAccess.new(ViewConfig,
-            list: {},
-            atom: {
-              if: false, # by default, atom should not show up as an alternative view
-              partials: [:document]
-            },
-            rss: {
-              if: false, # by default, rss should not show up as an alternative view
-              partials: [:document]
-          }),
+                                                   list: {},
+                                                   atom: {
+                                                     if: false, # by default, atom should not show up as an alternative view
+                                                     partials: [:document]
+                                                   },
+                                                   rss: {
+                                                     if: false, # by default, rss should not show up as an alternative view
+                                                     partials: [:document]
+                                                 }),
           #
           # These fields are created and managed below by `define_field_access`
           # facet_fields

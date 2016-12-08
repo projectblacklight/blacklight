@@ -135,8 +135,8 @@ module Blacklight::RenderPartialsHelperBehavior
       view_config = blacklight_config.view_config(:show)
 
       display_type = if base_name && view_config.key?(:"#{base_name}_display_type_field")
-        document[view_config[:"#{base_name}_display_type_field"]]
-      end
+                       document[view_config[:"#{base_name}_display_type_field"]]
+                     end
 
       display_type ||= document[view_config.display_type_field]
 
