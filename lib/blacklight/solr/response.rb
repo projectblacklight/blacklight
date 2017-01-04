@@ -93,7 +93,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
         value.each { |v| force_to_utf8(v) }
       when String
         if value.encoding != Encoding::UTF_8
-          Rails.logger.warn "Found a non utf-8 value in Blacklight::Solr::Response. \"#{value}\" Encoding is #{value.encoding}"
+          Blacklight.logger.warn "Found a non utf-8 value in Blacklight::Solr::Response. \"#{value}\" Encoding is #{value.encoding}"
           value.dup.force_encoding('UTF-8')
         else
           value
