@@ -11,10 +11,8 @@ matrix:
   include:
     - rvm: 2.3.3
       env: "RAILS_VERSION=4.2.7.1"
-    - rvm: 2.4.0
-      env: "RAILS_VERSION=5.0.1"
     - rvm: jruby-9.1.6.0
-      env: "RAILS_VERSION=5.0.11 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+      env: "RAILS_VERSION=5.0.1 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
     - rvm: jruby-9.1.6.0
   fast_finish: true
