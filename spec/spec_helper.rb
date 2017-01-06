@@ -26,6 +26,7 @@ require 'rspec/its'
 require 'rspec/collection_matchers'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+require 'equivalent-xml'
 
 Capybara.javascript_driver = :poltergeist
 
