@@ -26,6 +26,11 @@ module Blacklight::Controller
     helper_method :search_action_url, :search_action_path, :search_facet_url, :search_facet_path
     helper_method :search_state
 
+    # Specify which class to use for the search state. You can subclass SearchState if you
+    # want to override any of the methods (e.g. SearchState#url_for_document)
+    class_attribute :search_state_class
+    self.search_state_class = Blacklight::SearchState
+
     # This callback runs when a user first logs in
 
     define_callbacks :logging_in_user
@@ -64,7 +69,7 @@ module Blacklight::Controller
 
     # @return [Blacklight::SearchState] a memoized instance of the parameter state.
     def search_state
-      @search_state ||= Blacklight::SearchState.new(params, blacklight_config)
+      @search_state ||= search_state_class.new(params, blacklight_config)
     end
 
     # Default route to the search action (used e.g. in global partials). Override this method

@@ -2,10 +2,6 @@
 ##
 # URL helper methods
 module Blacklight::UrlHelperBehavior
-  ##
-  # Extension point for downstream applications
-  # to provide more interesting routing to
-  # documents
   def url_for_document(doc, options = {})
     search_state.url_for_document(doc, options)
   end
