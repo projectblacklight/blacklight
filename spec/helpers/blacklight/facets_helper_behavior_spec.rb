@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'equivalent-xml'
-
 describe Blacklight::FacetsHelperBehavior do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
