@@ -16,6 +16,7 @@ describe Blacklight::DeprecatedUrlHelperBehavior do
     allow(helper).to receive(:search_state).and_return(search_state)
     allow(helper).to receive(:params).and_return(params)
     allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
   end
 
   describe '#params_for_search' do
