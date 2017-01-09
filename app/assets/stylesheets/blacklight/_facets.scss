@@ -12,9 +12,16 @@
   line-height: inherit;
 }
 
+.facet-limit {
+  margin-bottom: $spacer-y;
+
+  .card-block {
+    padding: $spacer;
+  }
+}
+
 .facet-limit-active {
   @extend .card-outline-success;
-  @extend .card-inverse;
 
   .card-header {
     @extend .card-success;
@@ -59,7 +66,7 @@
     padding-right: 1em;
     text-indent: -15px;
     padding-left: 15px;
-    padding-bottom: $spacer-y;
+    padding-bottom: $spacer-y / 2;
     @include hyphens-auto;
   }
 
