@@ -69,6 +69,7 @@ describe Blacklight::RenderConstraintsHelperBehavior do
     let(:params) { ActionController::Parameters.new f: { 'type' => [''] } }
     before do
       allow(helper).to receive(:blacklight_config).and_return(config)
+      allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
     end
     subject { helper.render_constraints_filters(params) }
 
