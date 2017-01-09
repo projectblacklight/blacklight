@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'equivalent-xml'
-
 describe FacetsHelper do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
