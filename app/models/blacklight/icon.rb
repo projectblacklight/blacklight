@@ -41,7 +41,9 @@ module Blacklight
     private
 
     def file
-      Rails.application.assets.find_asset(path)
+      # Rails.application.assets is `nil` in production mode (where compile assets is enabled).
+      # This workaround is based off of this comment: https://github.com/fphilipe/premailer-rails/issues/145#issuecomment-225992564
+      (Rails.application.assets || ::Sprockets::Railtie.build_environment(Rails.application)).find_asset(path)
     end
 
     def classes
