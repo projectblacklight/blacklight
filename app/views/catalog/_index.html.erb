@@ -1,6 +1,6 @@
 <% doc_presenter = index_presenter(document) %> 
 <%# default partial to display solr document fields in catalog index view -%>
-<dl class="document-metadata dl-horizontal dl-invert">
+<dl class="document-metadata row">
   
   <% index_fields(document).each do |field_name, field| -%>
     <% if should_render_index_field? document, field %>

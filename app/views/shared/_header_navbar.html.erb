@@ -1,16 +1,18 @@
-<nav id="header-navbar" class="navbar navbar-dark bg-inverse navbar-full" role="navigation">
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse" role="navigation">
   <div class="<%= container_classes %>">
-    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#user-util-collapse" aria-controls="user-util-collapse" aria-expanded="false" aria-label="Toggle navigation"></button>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#user-util-collapse" aria-controls="user-util-collapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
     <%= link_to application_name, root_path, class: "navbar-brand" %>
 
-    <div class="collapse navbar-toggleable float-md-right" id="user-util-collapse">
+    <div class="collapse navbar-collapse justify-content-md-end" id="user-util-collapse">
       <%= render 'shared/user_util_links' %>
     </div>
   </div>
 </nav>
 
-<div id="search-navbar" class="navbar-search navbar navbar-light bg-faded navbar-full" role="navigation">
+<div class="navbar-search navbar navbar-light bg-faded" role="navigation">
   <div class="<%= container_classes %>">
     <%= render_search_bar  %>
   </div>
