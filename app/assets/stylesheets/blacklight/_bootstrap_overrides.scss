@@ -20,3 +20,7 @@
     }
   }
 }
+
+.card + .card {
+  margin-top: $card-spacer-y;
+}
