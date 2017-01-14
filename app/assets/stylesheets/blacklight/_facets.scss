@@ -1,10 +1,50 @@
+.sidenav {
+  .navbar-toggler {
+    border-color: $navbar-light-toggler-border;
+    color: $navbar-light-active-color;
+
+    @include hover-focus {
+      color: $navbar-light-active-color;
+    }
+  }
+
+  .navbar-toggler-icon {
+    background-image: $navbar-light-toggler-bg;
+  }
+}
+
+.facets-toggleable {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $next: breakpoint-next($breakpoint, $grid-breakpoints);
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    &#{$infix} {
+      @include media-breakpoint-down($breakpoint) {
+        .top-panel-heading {
+          margin-right: 3em;
+        }
+      }
+
+      @include media-breakpoint-up($next) {
+
+        // scss-lint:disable ImportantRule
+        .facets-collapse {
+          display: block !important;
+          width: 100%;
+        }
+        // scss-lint:enable ImportantRule
+
+        .navbar-toggler {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 .top-panel-heading {
   @extend .navbar-light;
   @extend .clearfix;
-
-  .navbar-toggler {
-    float: right;
-  }
 }
 
 .facets-heading {
