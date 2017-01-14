@@ -12,13 +12,11 @@
     <%= t('blacklight.tools.title') %>
   </div>
 
-  <div class="card-block">
-    <ul class="nav-pills nav-stacked">
-      <%= render_show_doc_actions @document do |config, inner| %>
-        <li class="nav-item <%= config.key %>">
-          <%= inner %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+  <ul class="list-group list-group-flush">
+    <%= render_show_doc_actions @document do |config, inner| %>
+      <li class="list-group-item <%= config.key %>">
+        <%= inner %>
+      </li>
+    <% end %>
+  </ul>
 </div>
