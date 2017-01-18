@@ -252,7 +252,7 @@ module Blacklight::Catalog
     # CatalogController to do something else -- older BL displayed a Catalog#inde
     # page with a flash message and a 404 status.
     def invalid_document_id_error(exception)
-      raise exception unless Pathname.new("#{Rails.root}/public/404.html").exist?
+      raise exception unless Rails.root.join('public', '404.html').exist?
 
       error_info = {
         "status" => "404",
@@ -271,7 +271,7 @@ module Blacklight::Catalog
           # possibly non-html formats, this is consistent with what Rails does
           # on raising an ActiveRecord::RecordNotFound. Rails.root IS needed
           # for it to work under testing, without worrying about CWD.
-          render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false, :content_type => 'text/html'
+          render file: Rails.root.join('public', '404.html'), status: 404, layout: false, content_type: 'text/html'
         end
       end
     end

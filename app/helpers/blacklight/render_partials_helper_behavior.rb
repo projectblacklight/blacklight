@@ -174,7 +174,7 @@ module Blacklight::RenderPartialsHelperBehavior
 
     def find_document_show_template_with_view view_type, base_name, format, locals
       document_partial_path_templates.each do |str|
-        partial = str % { action_name: base_name, format: format, index_view_type: view_type }
+        partial = format(str, action_name: base_name, format: format, index_view_type: view_type)
         logger.debug "Looking for document partial #{partial}"
         template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:document], {}).first
         return template if template
@@ -182,9 +182,9 @@ module Blacklight::RenderPartialsHelperBehavior
       nil
     end
 
-    def find_document_index_template_with_view view, locals
+    def find_document_index_template_with_view view_type, locals
       document_index_path_templates.each do |str|
-        partial = str % { index_view_type: view }
+        partial = format(str, index_view_type: view_type)
         logger.debug "Looking for document index partial #{partial}"
         template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:documents], {}).first
         return template if template

@@ -13,6 +13,11 @@ AllCops:
 Rails:
   Enabled: true
 
+Metrics/BlockLength:
+  Exclude:
+    - "lib/railties/blacklight.rake"
+    - "tasks/blacklight.rake"
+
 Metrics/LineLength:
   Max: 200
 
