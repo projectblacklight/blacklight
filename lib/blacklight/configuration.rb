@@ -295,8 +295,7 @@ module Blacklight
       end
     end
 
-    ##
-    # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting
+    # Provide a 'deep copy' of Blacklight::Configuration that can be modified without effecting
     # the original Blacklight::Configuration instance.
     #
     # Rails 4.x provides `#deep_dup`, but it aggressively `#dup`'s class names
