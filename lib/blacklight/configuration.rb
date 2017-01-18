@@ -151,10 +151,14 @@ module Blacklight
     end
 
     # Initialize default values from the class attribute
+    # Resets the proc in the default view configs.
+    # @see Utils::NestedOpenStructWithHashAccess#marshal_dump
     def initialize_default_values!
+      # rubocop:disable Security/MarshalLoad
       Marshal.load(Marshal.dump(self.class.default_values)).each do |k, v|
         self[k] ||= v
       end
+      # rubocop:enable Security/MarshalLoad
     end
 
     def document_model

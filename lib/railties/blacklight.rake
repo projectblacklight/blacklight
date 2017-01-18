@@ -15,7 +15,7 @@ namespace :blacklight do
     task :seed => [:environment]  do
       require 'yaml'
 
-      docs = YAML.load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
+      docs = YAML.safe_load(File.open(File.join(Blacklight.root, 'solr', 'sample_solr_documents.yml')))
       conn = Blacklight.default_index.connection
       conn.add docs
       conn.commit

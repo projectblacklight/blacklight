@@ -53,11 +53,13 @@ module Blacklight
     # Only dereferences the user rather than removing the items in case they
     # are in the session[:history]
     def clear
+      # rubocop:disable Rails/SkipsModelValidations
       if current_user.searches.update_all("user_id = NULL")
         flash[:notice] = I18n.t('blacklight.saved_searches.clear.success')
       else
         flash[:error] = I18n.t('blacklight.saved_searches.clear.failure')
       end
+      # rubocop:enable Rails/SkipsModelValidations
       redirect_to blacklight.saved_searches_url
     end
 
