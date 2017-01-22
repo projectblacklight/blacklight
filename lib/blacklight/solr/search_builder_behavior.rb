@@ -189,7 +189,7 @@ module Blacklight::Solr
               elsif solr_params["facet.limit"]
                 solr_params["facet.limit"].to_i
               else
-                20
+                facet_config.fetch(:more_limit, 20)
               end
 
       page = blacklight_params.fetch(request_keys[:page], 1).to_i
