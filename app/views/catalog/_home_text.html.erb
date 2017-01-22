@@ -1,41 +1,32 @@
-<div class="card">
-  <h2 class="card-header"><%= t('blacklight.welcome') %></h2>
+<div class="jumbotron text-center">
+  <h2 class="jumbotron-heading"><%= t('blacklight.welcome') %></h2>
 
-  <div class="card-block">
-    <p class="card-text">A multi-institutional open-source collaboration building a better discovery platform framework.</p>
-  </div>
+  <p class="lead">Blacklight is a multi-institutional open-source collaboration building a better discovery platform framework.</p>
   
-  <div id="getting-started" class="card-block">
-    <h3 class='card-subtitle'>Here’s how to get started:</h3>
+  <p>
+    <%= link_to 'Read the Documentation', 'https://github.com/projectblacklight/blacklight/wiki', class: 'btn btn-primary' %>
+    <%= link_to 'See Examples', 'http://projectblacklight.org', class: 'btn btn-secondary' %>
+  </p>
+</div>
 
-    <p>
-      <ol>
-        <li>To modify this text, you need to <a href="http://guides.rubyonrails.org/engines.html#improving-engine-functionality">override the Blacklight-provided view</a>.
-    You can copy this file, located in the blacklight gem: <br />
-    <%= Blacklight.root %>/app/views/catalog/_home_text.html.erb <br />
-    to your own application: <br />
-     <%= Rails.root %>/app/views/catalog/_home_text.html.erb
-        </li>
-        <li><a href="https://github.com/projectblacklight/blacklight/wiki/Indexing-your-data-into-solr">Index your own data</a> into Solr</li>
-        <li><a href="https://github.com/projectblacklight/blacklight/wiki#blacklight-configuration">Configure Blacklight</a> to match your data and user-experience needs</li>
-        <li><a href="https://github.com/projectblacklight/blacklight/wiki#support">Get in touch</a> with your comments, questions, and ideas</li>
-      </ol>
-    </p>
-  </div>
+<div id="getting-started">
+  <h3>Here’s how to get started customizing your application:</h3>
 
-  <div class="card-footer">
-    <nav class="nav nav-pills card-header-pills">
-      <li class="nav-item">
-        <a class="nav-link" href="https://github.com/projectblacklight/blacklight/">Github</a>
+  <p>There are many ways to override specific behaviors and views in Blacklight. Because Blacklight is distributed as a Rails engine-based gem, all customization of Blacklight behavior should be done within your application by overriding Blacklight-provided behaviors with your own.</p>
+
+  <p>
+    <ol>
+      <li>To modify this text, you need to <a href="http://guides.rubyonrails.org/engines.html#improving-engine-functionality">override the Blacklight-provided view</a>.
+  You can copy this file, located in the blacklight gem: <br />
+  <%= Blacklight.root %>/app/views/catalog/_home_text.html.erb <br />
+  to your own application: <br />
+   <%= Rails.root %>/app/views/catalog/_home_text.html.erb
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://github.com/projectblacklight/blacklight/wiki">Wiki</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://github.com/projectblacklight/blacklight/releases/tag/v<%= Blacklight::VERSION %>">Release Notes</a>
-      </li>
-    </ul>
-  </div>
+      <li><a href="https://github.com/projectblacklight/blacklight/wiki/Indexing-your-data-into-solr">Index your own data</a> into Solr</li>
+      <li><a href="https://github.com/projectblacklight/blacklight/wiki#blacklight-configuration">Configure Blacklight</a> to match your data and user-experience needs</li>
+      <li><a href="https://github.com/projectblacklight/blacklight/wiki#support">Get in touch</a> with your comments, questions, and ideas</li>
+    </ol>
+  </p>
 </div>
 
 <%# This is the same panel shown in the Rails welcome template %>
