@@ -551,6 +551,7 @@ describe Blacklight::Solr::SearchBuilderBehavior do
         config.add_facet_field 'format'
         config.add_facet_field 'format_ordered', sort: :count
         config.add_facet_field 'format_limited', limit: 5
+        config.add_facet_field 'format_more_limited', limit: 5, more_limit: 50
       end
     end
 
@@ -575,6 +576,15 @@ describe Blacklight::Solr::SearchBuilderBehavior do
         expect(solr_parameters[:"f.#{facet_field}.facet.offset"]).to eq 20
       end
     end
+
+    context 'for a field with a configured more_limit' do
+      let(:facet_field) { 'format_more_limited' }
+
+      it 'uses the more_limit configuration' do
+        expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 51
+      end
+    end
+
     it 'defaults limit to 20' do
       expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 21
     end
