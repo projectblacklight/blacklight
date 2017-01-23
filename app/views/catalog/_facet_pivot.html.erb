@@ -10,7 +10,7 @@
     </span>
 
     <% unless item.items.blank? %>
-      <%= render partial: 'facet_pivot', locals: { display_facet: item, field_name: field_name, solr_field: field_name } %>
+      <%= render 'facet_pivot', display_facet: item, field_name: field_name %>
     <% end %>
     </li>
   <% end %>
