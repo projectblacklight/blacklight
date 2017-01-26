@@ -463,16 +463,9 @@ describe CatalogController do
   describe "errors" do
     it "returns status 404 for a record that doesn't exist" do
       allow(controller).to receive_messages(:find => double(documents: []))
-      get :show, params: { id: "987654321" }
-      expect(response.status).to eq 404
-      expect(response.content_type).to eq Mime[:html]
-    end
-
-    it "returns status 404 for a record that doesn't exist even for non-html format" do
-      allow(controller).to receive_messages(:find => double(documents: []))
-      get :show, params: { id: "987654321", format: "xml" }
-      expect(response.status).to eq 404
-      expect(response.content_type).to eq Mime[:xml]
+      expect do
+        get :show, params: { id: "987654321" }
+      end.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
     it "redirects the user to the root url for a bad search" do
