@@ -31,9 +31,4 @@ describe "Record View" do
     expect(page).to have_content "林行止" 
     expect(page).to have_content "臺北縣板橋市" 
   end
-  it "does not display 404" do
-    visit solr_document_path('this_id_does_not_exist')
-    expect(page.driver.status_code).to eq 404
-    expect(page).to have_content "The page you were looking for doesn't exist." 
-  end
 end
