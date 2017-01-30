@@ -143,22 +143,9 @@ module Blacklight
     # solr fields to use for sorting results
     define_field_access :sort_field
 
-    def initialize(*args)
-      super(*args)
-      initialize_default_values!
+    def initialize(hash = {})
+      super(self.class.default_values.deep_dup.merge(hash))
       yield(self) if block_given?
-      self
-    end
-
-    # Initialize default values from the class attribute
-    # Resets the proc in the default view configs.
-    # @see Utils::NestedOpenStructWithHashAccess#marshal_dump
-    def initialize_default_values!
-      # rubocop:disable Security/MarshalLoad
-      Marshal.load(Marshal.dump(self.class.default_values)).each do |k, v|
-        self[k] ||= v
-      end
-      # rubocop:enable Security/MarshalLoad
     end
 
     def document_model
