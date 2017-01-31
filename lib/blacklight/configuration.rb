@@ -169,6 +169,10 @@ module Blacklight
       super || Blacklight::Solr::Repository
     end
 
+    def repository
+      repository_class.new(self)
+    end
+
     def connection_config
       super || Blacklight.connection_config
     end

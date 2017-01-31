@@ -8,7 +8,6 @@ module Blacklight::Bookmarks
     ##
     # Give Bookmarks access to the CatalogController configuration
     include Blacklight::Configurable
-    include Blacklight::SearchHelper
     include Blacklight::TokenBasedUser
 
     copy_blacklight_config_from(CatalogController)
@@ -25,7 +24,7 @@ module Blacklight::Bookmarks
   def action_documents
     bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-    fetch(bookmark_ids)
+    search_service.fetch(bookmark_ids, search_state.page_params)
   end
 
   def action_success_redirect_path
@@ -41,8 +40,7 @@ module Blacklight::Bookmarks
   def index
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
-
-    @response, deprecated_document_list = fetch(bookmark_ids)
+    @response, deprecated_document_list = search_service.fetch(bookmark_ids, search_state.page_params)
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
 
     respond_to do |format|

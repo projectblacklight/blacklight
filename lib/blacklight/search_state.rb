@@ -31,6 +31,11 @@ module Blacklight
     end
     alias to_h to_hash
 
+    # @return [Hash] parameters related to pagination
+    def page_params
+      to_h.slice(:per_page, :page)
+    end
+
     def reset
       self.class.new(ActionController::Parameters.new, blacklight_config)
     end
