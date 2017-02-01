@@ -22,7 +22,7 @@ module Blacklight::Catalog
 
     # get search results from the solr index
     def index
-      (@response, deprecated_document_list) = search_service.search_results(params)
+      (@response, deprecated_document_list) = search_service.search_results
 
       @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
 
@@ -70,7 +70,7 @@ module Blacklight::Catalog
     # displays values and pagination links for a single facet field
     def facet
       @facet = blacklight_config.facet_fields[params[:id]]
-      @response = search_service.facet_field_response(@facet.key, params)
+      @response = search_service.facet_field_response(@facet.key)
       @display_facet = @response.aggregations[@facet.key]
       @pagination = facet_paginator(@facet, @display_facet)
       respond_to do |format|
@@ -86,7 +86,7 @@ module Blacklight::Catalog
     def opensearch
       respond_to do |format|
         format.xml { render layout: false }
-        format.json { render json: search_service.opensearch_response(params) }
+        format.json { render json: search_service.opensearch_response }
       end
     end
 
@@ -147,7 +147,7 @@ module Blacklight::Catalog
     #
 
     def search_service
-      search_service_class.new(blacklight_config)
+      search_service_class.new(blacklight_config, search_state.to_h)
     end
 
     ##

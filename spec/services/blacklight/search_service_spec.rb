@@ -10,7 +10,8 @@
 #
 describe Blacklight::SearchService do
 
-  let(:service) { described_class.new(blacklight_config) }
+  let(:service) { described_class.new(blacklight_config, user_params) }
+  let(:user_params) { {} }
   subject { service }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
@@ -31,9 +32,10 @@ describe Blacklight::SearchService do
 
     let(:blacklight_config) { copy_of_catalog_config }
     describe 'for a sample query returning results' do
+      let(:user_params) { { q: all_docs_query } }
 
       before do
-        (@solr_response, @document_list) = service.search_results(q: all_docs_query)
+        (@solr_response, @document_list) = service.search_results
       end
 
       it "uses the configured request handler" do
@@ -44,7 +46,7 @@ describe Blacklight::SearchService do
           expect(params[:params]["facet.query"]).to eq ["pub_date:[#{5.years.ago.year} TO *]", "pub_date:[#{10.years.ago.year} TO *]", "pub_date:[#{25.years.ago.year} TO *]"]
           expect(params[:params]).to include('rows' => 10, 'qt'=>"custom_request_handler", 'q'=>"", "f.subject_topic_facet.facet.limit"=>21, 'sort'=>"score desc, pub_date_sort desc, title_sort asc")
         end.and_return({'response'=>{'docs'=>[]}})
-        service.search_results(q: all_docs_query)
+        service.search_results
       end
 
       it 'has a @response.docs list of the same size as @document_list' do
@@ -67,37 +69,31 @@ describe Blacklight::SearchService do
 
     describe "for a query returning a grouped response" do
       let(:blacklight_config) { copy_of_catalog_config }
+      let(:user_params) { { q: all_docs_query } }
       before do
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = 'pub_date_sort'
-        (@solr_response, @document_list) = service.search_results(q: all_docs_query)
-      end
-
-      it "has an empty document list" do
-        expect(@document_list).to be_empty
+        (@solr_response, @document_list) = service.search_results
       end
 
       it "returns a grouped response" do
+        expect(@document_list).to be_empty
         expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
-
       end
     end
 
     describe "for a query returning multiple groups", integration: true do
       let(:blacklight_config) { copy_of_catalog_config }
-
+      let(:user_params) { { q: all_docs_query } }
       before do
         allow(subject).to receive_messages grouped_key_for_results: 'title_sort'
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = ['pub_date_sort', 'title_sort']
-        (@solr_response, @document_list) = service.search_results(q: all_docs_query)
-      end
-
-      it "has an empty document list" do
-        expect(@document_list).to be_empty
+        (@solr_response, @document_list) = service.search_results
       end
 
       it "returns a grouped response" do
+        expect(@document_list).to be_empty
         expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
         expect(@solr_response.group_field).to eq "title_sort"
       end
@@ -105,8 +101,9 @@ describe Blacklight::SearchService do
 
 
     describe "for All Docs Query and One Facet" do
+      let(:user_params) { { q: all_docs_query, f: single_facet } }
       it 'has results' do
-        (solr_response, document_list) = service.search_results(q: all_docs_query, f: single_facet)
+        (solr_response, document_list) = service.search_results
         expect(solr_response.docs).to have(document_list.size).results
         expect(solr_response.docs).to have_at_least(1).result
       end
@@ -115,16 +112,18 @@ describe Blacklight::SearchService do
     end
 
     describe "for Query Without Results and No Facet" do
+      let(:user_params) { { q: no_docs_query } }
       it 'has no results and not raise error' do
-        (solr_response, document_list) = service.search_results(q: no_docs_query)
+        (solr_response, document_list) = service.search_results
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
       end
     end
 
     describe "for Query Without Results and One Facet" do
+      let(:user_params) { { q: no_docs_query, f: single_facet } }
       it 'has no results and not raise error' do
-        (solr_response, document_list) = service.search_results(q: no_docs_query, f: single_facet)
+        (solr_response, document_list) = service.search_results
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
       end
@@ -132,9 +131,10 @@ describe Blacklight::SearchService do
 
     describe "for All Docs Query and Bad Facet" do
       let(:bad_facet) { { format: '666' } }
+      let(:user_params) { { q: all_docs_query, f: bad_facet } }
 
       it 'has no results and not raise error' do
-        (solr_response, document_list) = service.search_results(q: all_docs_query, f: bad_facet)
+        (solr_response, document_list) = service.search_results
         expect(document_list).to have(0).results
         expect(solr_response.docs).to have(0).results
       end
@@ -146,9 +146,10 @@ describe Blacklight::SearchService do
   describe 'Facets in Search Results for All Docs Query', :integration => true do
 
     let(:blacklight_config) { copy_of_catalog_config }
+    let(:user_params) { { q: all_docs_query } }
 
     before do
-      (solr_response, document_list) = service.search_results(q: all_docs_query)
+      (solr_response, document_list) = service.search_results
       @facets = solr_response.aggregations
     end
 
@@ -188,63 +189,90 @@ describe Blacklight::SearchService do
   # SPECS FOR SEARCH RESULTS FOR PAGING
   describe 'Paging', :integration => true do
     let(:blacklight_config) { copy_of_catalog_config }
+    let(:user_params) { { q: all_docs_query } }
 
     it 'starts with first results by default' do
-      (solr_response, document_list) = service.search_results(q: all_docs_query)
+      (solr_response, document_list) = service.search_results
       expect(solr_response.params[:start].to_i).to eq 0
     end
     it 'has number of results (per page) set in initializer, by default' do
-      (solr_response, document_list) = service.search_results(q: all_docs_query)
+      (solr_response, document_list) = service.search_results
       expect(solr_response.docs).to have(blacklight_config[:default_solr_params][:rows]).items
       expect(document_list).to have(blacklight_config[:default_solr_params][:rows]).items
     end
 
-    it 'gets number of results per page requested' do
-      num_results = 3  # non-default value
-      (solr_response1, document_list1) = service.search_results(q: all_docs_query, per_page: num_results)
-      expect(document_list1).to have(num_results).docs
-      expect(solr_response1.docs).to have(num_results).docs
+    context "with per page requested" do
+      let(:user_params) { { q: all_docs_query, per_page: num_results } }
+      let(:num_results) { 3 }  # non-default value
+      it 'gets number of results per page requested' do
+        (solr_response1, document_list1) = service.search_results
+        expect(document_list1).to have(num_results).docs
+        expect(solr_response1.docs).to have(num_results).docs
+      end
     end
 
-    it 'gets number of rows requested' do
-      num_results = 4  # non-default value
-      (solr_response1, document_list1) = service.search_results(q: all_docs_query, rows: num_results)
-      expect(document_list1).to have(num_results).docs
-      expect(solr_response1.docs).to have(num_results).docs
+    context "with rows requested" do
+      let(:user_params) { { q: all_docs_query, rows: num_results } }
+      let(:num_results) { 4 }  # non-default value
+      it 'gets number of rows requested' do
+        (solr_response1, document_list1) = service.search_results
+        expect(document_list1).to have(num_results).docs
+        expect(solr_response1.docs).to have(num_results).docs
+      end
     end
 
-    it 'skips appropriate number of results when requested - default per page' do
-      page = 3
-      (solr_response2, document_list2) = service.search_results(q: all_docs_query, page: page)
-      expect(solr_response2.params[:start].to_i).to eq  blacklight_config[:default_solr_params][:rows] * (page-1)
-    end
-    it 'skips appropriate number of results when requested - non-default per page' do
-      page = 3
-      num_results = 3
-      (solr_response2a, document_list2a) = service.search_results(q: all_docs_query, per_page: num_results, page: page)
-      expect(solr_response2a.params[:start].to_i).to eq num_results * (page-1)
+    context "with page requested" do
+      let(:user_params) { { q: all_docs_query, page: page } }
+      let(:page) { 3 }
+      it 'skips appropriate number of results when requested - default per page' do
+        (solr_response2, document_list2) = service.search_results
+        expect(solr_response2.params[:start].to_i).to eq  blacklight_config[:default_solr_params][:rows] * (page-1)
+      end
     end
 
-    it 'has no results when prompted for page after last result' do
-      big = 5000
-      (solr_response3, document_list3) = service.search_results(q: all_docs_query, rows: big, page: big)
-      expect(document_list3).to have(0).docs
-      expect(solr_response3.docs).to have(0).docs
+    context "with page and num_results requested" do
+      let(:user_params) { { q: all_docs_query, page: page, per_page: num_results } }
+      let(:page) { 3 }
+      let(:num_results) { 3 }  # non-default value
+      it 'skips appropriate number of results when requested - non-default per page' do
+        num_results = 3
+        (solr_response2a, document_list2a) = service.search_results
+        expect(solr_response2a.params[:start].to_i).to eq num_results * (page-1)
+      end
     end
 
-    it 'shows first results when prompted for page before first result' do
-      # FIXME: should it show first results, or should it throw an error for view to deal w?
-      #   Solr throws an error for a negative start value
-      (solr_response4, document_list4) = service.search_results(q: all_docs_query, page: '-1')
-      expect(solr_response4.params[:start].to_i).to eq 0
-    end
-    it 'has results available when asked for more than are in response' do
-      big = 5000
-      (solr_response5, document_list5) = service.search_results(q: all_docs_query, rows: big, page: 1)
-      expect(solr_response5.docs).to have(document_list5.length).docs
-      expect(solr_response5.docs).to have_at_least(1).doc
+    context "with page and num_results requested" do
+      let(:page) { 5000 }
+      let(:rows) { 5000 }
+      let(:user_params) { { q: all_docs_query, page: page, rows: rows } }
+      it 'has no results when prompted for page after last result' do
+        (solr_response3, document_list3) = service.search_results
+        expect(document_list3).to have(0).docs
+        expect(solr_response3.docs).to have(0).docs
+      end
     end
 
+    context "with negative page" do
+      let(:page) { '-1' }
+      let(:user_params) { { q: all_docs_query, page: page } }
+      it 'shows first results when prompted for page before first result' do
+        # FIXME: should it show first results, or should it throw an error for view to deal w?
+        #   Solr throws an error for a negative start value
+        (solr_response4, document_list4) = service.search_results
+        expect(solr_response4.params[:start].to_i).to eq 0
+      end
+    end
+
+    context "when asking for more rows than are in the reponse" do
+      let(:page) { 1 }
+      let(:rows) { 5000 }
+      let(:user_params) { { q: all_docs_query, page: page, rows: rows } }
+      it 'has results available when asked for more than are in response' do
+        (solr_response5, document_list5) = service.search_results
+        expect(solr_response5.docs).to have(document_list5.length).docs
+        expect(solr_response5.docs).to have_at_least(1).doc
+      end
+    end
   end # page specs
 
   # SPECS FOR SINGLE DOCUMENT REQUESTS
@@ -284,47 +312,56 @@ describe Blacklight::SearchService do
 
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions", :integration => true do
-    it 'search results for just-poor-enough-query term should have (multiple) spelling suggestions' do
-      (solr_response, document_list) = service.search_results(q: 'boo')
-      expect(solr_response.spelling.words).to include('bon')
-      expect(solr_response.spelling.words).to include('bod')  #for multiple suggestions
+
+    context "for just-poor-enough-query term" do
+      let(:user_params) { { q: 'boo' } }
+      it 'has (multiple) spelling suggestions' do
+        (solr_response, document_list) = service.search_results
+        expect(solr_response.spelling.words).to include('bon')
+        expect(solr_response.spelling.words).to include('bod')  #for multiple suggestions
+      end
     end
 
-    it 'search results for just-poor-enough-query term should have multiple spelling suggestions' do
-      (solr_response, document_list) = service.search_results(q: 'politica')
-      expect(solr_response.spelling.words).to include('policy') # less freq
-      expect(solr_response.spelling.words).to include('politics') # more freq
-      expect(solr_response.spelling.words).to include('political') # more freq
+    context "for another just-poor-enough-query term" do
+      let(:user_params) { { q: 'politica' } }
+      it 'has multiple spelling suggestions' do
+        (solr_response, document_list) = service.search_results
+        expect(solr_response.spelling.words).to include('policy') # less freq
+        expect(solr_response.spelling.words).to include('politics') # more freq
+        expect(solr_response.spelling.words).to include('political') # more freq
 =begin
-      #  when we can have multiple suggestions
-      expect(solr_response.spelling.words).to_not include('policy') # less freq
-      solr_response.spelling.words).to include('politics') # more freq
-      solr_response.spelling.words).to include('political') # more freq
+        #  when we can have multiple suggestions
+        expect(solr_response.spelling.words).to_not include('policy') # less freq
+        solr_response.spelling.words).to include('politics') # more freq
+        solr_response.spelling.words).to include('political') # more freq
 =end
+      end
     end
 
-    it "title search results for just-poor-enough query term should have spelling suggestions" do
-      (solr_response, document_list) = service.search_results(q: 'yehudiyam', qt: 'search', :"spellcheck.dictionary" => "title")
-      expect(solr_response.spelling.words).to include('yehudiyim')
+    context "for title search" do
+      let(:user_params) { { q: 'yehudiyam', qt: 'search', :"spellcheck.dictionary" => "title" } }
+      it 'has spelling suggestions' do
+        (solr_response, document_list) = service.search_results
+        expect(solr_response.spelling.words).to include('yehudiyim')
+      end
     end
 
-    it "author search results for just-poor-enough-query term should have spelling suggestions" do
-      (solr_response, document_list) = service.search_results(q: 'shirma', qt: 'search', :"spellcheck.dictionary" => "author")
-      expect(solr_response.spelling.words).to include('sharma')
+    context "for author search" do
+      let(:user_params) { { q: 'shirma', qt: 'search', :"spellcheck.dictionary" => "author" } }
+      it 'has spelling suggestions' do
+        (solr_response, document_list) = service.search_results
+        expect(solr_response.spelling.words).to include('sharma')
+      end
     end
 
-    it "subject search results for just-poor-enough-query term should have spelling suggestions" do
-      (solr_response, document_list) = service.search_results(q: 'wome', qt: 'search', :"spellcheck.dictionary" => "subject")
-      expect(solr_response.spelling.words).to include('women')
+    context "for subject search" do
+      let(:user_params) { { q: 'wome', qt: 'search', :"spellcheck.dictionary" => "subject" } }
+      it 'has spelling suggestions' do
+        (solr_response, document_list) = service.search_results
+        expect(solr_response.spelling.words).to include('women')
+      end
     end
-
-    it 'search results for multiple terms query with just-poor-enough-terms should have spelling suggestions for each term' do
-     skip
-#     get_spelling_suggestion("histo politica").should_not be_nil
-    end
-
   end
-
 
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)
 #  search within query building (?)
@@ -346,8 +383,9 @@ describe Blacklight::SearchService do
   end
 
   describe "#previous_and_next_documents_for_search" do
+    let(:user_params) { { q: '', per_page: 100 } }
     before do
-      @full_response, @all_docs = service.search_results(q: '', per_page: '100')
+      @full_response, @all_docs = service.search_results
     end
 
     it "returns the previous and next documents for a search" do

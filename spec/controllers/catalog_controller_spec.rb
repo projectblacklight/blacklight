@@ -64,6 +64,9 @@ describe CatalogController do
       it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", :integration => true do
         get :index, params: { f: { example_query_facet_field: 'years_10' } } # valid custom facet value with some results
         expect(assigns(:response).docs).to_not be_empty
+      end
+
+     it "returns no results when the users asks for a value that doesn't match any" do
         get :index, params: { f: {example_query_facet_field: 'years_5' } } # valid custom facet value with NO results
         expect(assigns(:response).docs).to be_empty
       end

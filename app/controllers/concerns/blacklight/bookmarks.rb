@@ -24,7 +24,7 @@ module Blacklight::Bookmarks
   def action_documents
     bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-    search_service.fetch(bookmark_ids, search_state.page_params)
+    search_service.fetch(bookmark_ids)
   end
 
   def action_success_redirect_path
@@ -40,7 +40,7 @@ module Blacklight::Bookmarks
   def index
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
-    @response, deprecated_document_list = search_service.fetch(bookmark_ids, search_state.page_params)
+    @response, deprecated_document_list = search_service.fetch(bookmark_ids)
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 8.0")
 
     respond_to do |format|

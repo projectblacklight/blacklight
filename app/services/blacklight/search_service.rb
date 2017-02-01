@@ -4,8 +4,9 @@ module Blacklight
   class SearchService
     include Blacklight::RequestBuilders
 
-    def initialize(blacklight_config)
+    def initialize(blacklight_config, user_params = {})
       @blacklight_config = blacklight_config
+      @user_params = user_params
     end
 
     # TODO: Can this be private?
@@ -15,7 +16,7 @@ module Blacklight
     # @param [Hash] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
     # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used.
     # @return [Blacklight::Solr::Response] the solr response object
-    def search_results(user_params)
+    def search_results
       builder = search_builder.with(user_params)
       builder.page = user_params[:page] if user_params[:page]
       builder.rows = (user_params[:per_page] || user_params[:rows]) if user_params[:per_page] || user_params[:rows]
@@ -35,9 +36,9 @@ module Blacklight
     # retrieve a document, given the doc id
     # @param [Array{#to_s},#to_s] id
     # @return [Blacklight::Solr::Response, Blacklight::SolrDocument] the solr response object and the first document
-    def fetch(id = nil, paging_params = {}, extra_controller_params = {})
+    def fetch(id = nil, extra_controller_params = {})
       if id.is_a? Array
-        fetch_many(id, paging_params, extra_controller_params)
+        fetch_many(id, extra_controller_params)
       else
         fetch_one(id, extra_controller_params)
       end
@@ -46,7 +47,7 @@ module Blacklight
     ##
     # Get the solr response when retrieving only a single facet field
     # @return [Blacklight::Solr::Response] the solr response
-    def facet_field_response(facet_field, user_params, extra_controller_params = {})
+    def facet_field_response(facet_field, extra_controller_params = {})
       query = search_builder.with(user_params).facet(facet_field)
       repository.search(query.merge(extra_controller_params))
     end
@@ -71,10 +72,10 @@ module Blacklight
     # the second item is an other array. This second array contains
     # all of the field values for each of the documents...
     # where the field is the "field" argument passed in.
-    def opensearch_response(request_params, field = nil, extra_controller_params = {})
+    def opensearch_response(field = nil, extra_controller_params = {})
       field ||= blacklight_config.view_config(:opensearch).title_field
 
-      query = search_builder.with(request_params).merge(solr_opensearch_params(field)).merge(extra_controller_params)
+      query = search_builder.with(user_params).merge(solr_opensearch_params(field)).merge(extra_controller_params)
       response = repository.search(query)
 
       [response.params[:q], response.documents.flat_map { |doc| doc[field] }.uniq]
@@ -90,16 +91,17 @@ module Blacklight
 
     private
 
+      attr_reader :user_params
+
       ##
       # Retrieve a set of documents by id
       # @param [Array] ids
-      # @param [HashWithIndifferentAccess] paging_params parameters about paging (e.g. :page, :per_page)
       # @param [HashWithIndifferentAccess] extra_controller_params
-      def fetch_many(ids, paging_params, extra_controller_params)
+      def fetch_many(ids, extra_controller_params)
         extra_controller_params ||= {}
 
         query = search_builder
-                .with(paging_params)
+                .with(user_params)
                 .where(blacklight_config.document_model.unique_key => ids)
                 .merge(extra_controller_params)
                 .merge(fl: '*')
