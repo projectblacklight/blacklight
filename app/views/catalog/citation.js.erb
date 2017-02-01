@@ -1,6 +1,8 @@
 <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
   <h3><%= t('blacklight.tools.citation') %></h3>
+  <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <div class="modal-body">
 <%= render :partial => 'citation' -%>

@@ -25,6 +25,9 @@ en:
     and: 'and'
     or: 'or'
 
+    modal:
+      close: "Close"
+
     bookmarks:
       title: 'Bookmarks'
       page_title: 'Bookmarks - %{application_name}'

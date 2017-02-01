@@ -3,9 +3,10 @@
 </div>
 
 <div class="modal-header">
-  <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-hidden="true">×</button>
-
   <h3 class="modal-title"><%= facet_field_label(@facet.key) %></h3>
+  <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
+    <span aria-hidden="true">&times;</span>
+  </button>
   <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
 
 </div>

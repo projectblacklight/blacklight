@@ -106,8 +106,10 @@ Blacklight.modal.modalCloseSelector   = "[data-blacklight-modal~=close]";
 // network errors. 
 Blacklight.modal.onFailure = function(data) {
   var contents =  "<div class='modal-header'>" +
-           "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>" +
-           "Network Error</div>";
+            "<div class='modal-title'>Network Error</div>" +
+            '<button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="Close">' +
+            '  <span aria-hidden="true">&times;</span>' +
+            '</button>';
   $(Blacklight.modal.modalSelector).find('.modal-content').html(contents);
   $(Blacklight.modal.modalSelector).modal('show'); 
 }
