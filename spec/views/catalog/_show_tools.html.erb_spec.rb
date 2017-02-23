@@ -69,5 +69,17 @@ describe "catalog/_show_tools.html.erb" do
       render partial: 'catalog/show_tools'
       expect(rendered).not_to have_selector '.some_action > a[data-blacklight-modal="trigger"]', text: "Some action"
     end
+
+    context 'without any document actions defined' do
+      before do
+        document_actions.clear
+      end
+
+      it 'does not display the tools' do
+        render partial: 'catalog/show_tools'
+
+        expect(rendered).to be_blank
+      end
+    end
   end
 end
