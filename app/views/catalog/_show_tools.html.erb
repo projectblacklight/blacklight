@@ -7,18 +7,20 @@
   # functions by default only on detail.
 
 -%>
-<div class="panel panel-default show-tools">
-  <div class="panel-heading">
-    <%= t('blacklight.tools.title') %>
-  </div>
+<% if show_doc_actions? %>
+  <div class="panel panel-default show-tools">
+    <div class="panel-heading">
+      <%= t('blacklight.tools.title') %>
+    </div>
 
-  <div class="panel-body">
-    <ul class="nav">
-      <%= render_show_doc_actions @document do |config, inner| %>
-        <li class="<%= config.key %>">
-          <%= inner %>
-        </li>
-      <% end %>
-    </ul>
+    <div class="panel-body">
+      <ul class="nav">
+        <%= render_show_doc_actions @document do |config, inner| %>
+          <li class="<%= config.key %>">
+            <%= inner %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
-</div>
+<% end %>
