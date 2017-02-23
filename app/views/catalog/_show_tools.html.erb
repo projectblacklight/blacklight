@@ -7,16 +7,18 @@
   # functions by default only on detail.
 
 -%>
-<div class="card show-tools">
-  <div class="card-header">
-    <%= t('blacklight.tools.title') %>
-  </div>
+<% if show_doc_actions? %>
+  <div class="card show-tools">
+    <div class="card-header">
+      <%= t('blacklight.tools.title') %>
+    </div>
 
-  <ul class="list-group list-group-flush">
-    <%= render_show_doc_actions @document do |config, inner| %>
-      <li class="list-group-item <%= config.key %>">
-        <%= inner %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+    <ul class="list-group list-group-flush">
+      <%= render_show_doc_actions @document do |config, inner| %>
+        <li class="list-group-item <%= config.key %>">
+          <%= inner %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
