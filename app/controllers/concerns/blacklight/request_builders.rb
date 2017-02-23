@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
   module RequestBuilders
-    extend ActiveSupport::Concern
-
-    included do
-      if respond_to?(:helper_method)
-        helper_method(:facet_limit_for)
-      end
-    end
-
     # Override this method to use a search builder other than the one in the config
     delegate :search_builder_class, to: :blacklight_config
 
@@ -42,33 +34,6 @@ module Blacklight
       solr_params[:fl] = '*'
       solr_params[:facet] = false
       solr_params
-    end
-
-    DEFAULT_FACET_LIMIT = 10
-
-    # Look up facet limit for given facet_field. Will look at config, and
-    # if config is 'true' will look up from Solr @response if available. If
-    # no limit is avaialble, returns nil. Used from #add_facetting_to_solr
-    # to supply f.fieldname.facet.limit values in solr request (no @response
-    # available), and used in display (with @response available) to create
-    # a facet paginator with the right limit.
-    def facet_limit_for(facet_field)
-      facet = blacklight_config.facet_fields[facet_field]
-      return if facet.blank?
-
-      if facet.limit && @response && @response.aggregations[facet_field]
-        limit = @response.aggregations[facet_field].limit
-
-        if limit.nil? # we didn't get or a set a limit, so infer one.
-          facet.limit if facet.limit != true
-        elsif limit == -1 # limit -1 is solr-speak for unlimited
-          nil
-        else
-          limit.to_i - 1 # we added 1 to find out if we needed to paginate
-        end
-      elsif facet.limit
-        facet.limit == true ? DEFAULT_FACET_LIMIT : facet.limit
-      end
     end
   end
 end

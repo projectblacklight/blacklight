@@ -26,10 +26,15 @@ module Blacklight::Controller
     helper_method :search_action_url, :search_action_path, :search_facet_url, :search_facet_path
     helper_method :search_state
 
-    # Specify which class to use for the search state. You can subclass SearchState if you
+    # Which class to use for the search state. You can subclass SearchState if you
     # want to override any of the methods (e.g. SearchState#url_for_document)
     class_attribute :search_state_class
     self.search_state_class = Blacklight::SearchState
+
+    # Which class to use for the search service. You can subclass SearchService if you
+    # want to override any of the methods (e.g. SearchService#fetch)
+    class_attribute :search_service_class
+    self.search_service_class = Blacklight::SearchService
 
     # This callback runs when a user first logs in
 

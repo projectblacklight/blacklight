@@ -9,7 +9,7 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
-    helper_method :sms_mappings, :has_search_parameters?
+    helper_method :sms_mappings, :has_search_parameters?, :facet_limit_for
 
     helper Blacklight::Facet
 
@@ -22,7 +22,7 @@ module Blacklight::Catalog
 
     # get search results from the solr index
     def index
-      (@response, deprecated_document_list) = search_results(params)
+      (@response, deprecated_document_list) = search_service.search_results
 
       @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
 
@@ -43,7 +43,7 @@ module Blacklight::Catalog
     # get a single document from the index
     # to add responses for formats other than html or json see _Blacklight::Document::Export_
     def show
-      deprecated_response, @document = fetch params[:id]
+      deprecated_response, @document = search_service.fetch(params[:id])
       @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
 
       respond_to do |format|
@@ -70,7 +70,7 @@ module Blacklight::Catalog
     # displays values and pagination links for a single facet field
     def facet
       @facet = blacklight_config.facet_fields[params[:id]]
-      @response = get_facet_field_response(@facet.key, params)
+      @response = search_service.facet_field_response(@facet.key)
       @display_facet = @response.aggregations[@facet.key]
       @pagination = facet_paginator(@facet, @display_facet)
       respond_to do |format|
@@ -86,7 +86,7 @@ module Blacklight::Catalog
     def opensearch
       respond_to do |format|
         format.xml { render layout: false }
-        format.json { render json: get_opensearch_response }
+        format.json { render json: search_service.opensearch_response }
       end
     end
 
@@ -99,7 +99,7 @@ module Blacklight::Catalog
     end
 
     def action_documents
-      fetch(Array(params[:id]))
+      search_service.fetch(Array(params[:id]))
     end
 
     def action_success_redirect_path
@@ -113,11 +113,42 @@ module Blacklight::Catalog
       !params[:q].blank? || !params[:f].blank? || !params[:search_field].blank?
     end
 
+    DEFAULT_FACET_LIMIT = 10
+
+    # Look up facet limit for given facet_field. Will look at config, and
+    # if config is 'true' will look up from Solr @response if available. If
+    # no limit is avaialble, returns nil. Used from #add_facetting_to_solr
+    # to supply f.fieldname.facet.limit values in solr request (no @response
+    # available), and used in display (with @response available) to create
+    # a facet paginator with the right limit.
+    def facet_limit_for(facet_field)
+      facet = blacklight_config.facet_fields[facet_field]
+      return if facet.blank?
+
+      if facet.limit && @response && @response.aggregations[facet_field]
+        limit = @response.aggregations[facet_field].limit
+
+        if limit.nil? # we didn't get or a set a limit, so infer one.
+          facet.limit if facet.limit != true
+        elsif limit == -1 # limit -1 is solr-speak for unlimited
+          nil
+        else
+          limit.to_i - 1 # we added 1 to find out if we needed to paginate
+        end
+      elsif facet.limit
+        facet.limit == true ? DEFAULT_FACET_LIMIT : facet.limit
+      end
+    end
+
     protected
 
     #
     # non-routable methods ->
     #
+
+    def search_service
+      search_service_class.new(blacklight_config, search_state.to_h)
+    end
 
     ##
     # If the params specify a view, then store it in the session. If the params
@@ -247,7 +278,7 @@ module Blacklight::Catalog
     end
 
     def suggestions_service
-      Blacklight::SuggestSearch.new(params, repository).suggestions
+      Blacklight::SuggestSearch.new(params, search_service.repository).suggestions
     end
 
     def determine_layout

@@ -125,7 +125,6 @@ Style/Documentation:
 # SupportedStyles: leading, trailing
 Style/DotPosition:
   Exclude:
-    - 'app/controllers/concerns/blacklight/search_helper.rb'
     - 'lib/blacklight/search_builder.rb'
 
 # Offense count: 1
@@ -240,7 +239,6 @@ Style/MultilineIfModifier:
 # SupportedStyles: aligned, indented, indented_relative_to_receiver
 Style/MultilineMethodCallIndentation:
   Exclude:
-    - 'app/controllers/concerns/blacklight/search_helper.rb'
     - 'lib/blacklight/search_builder.rb'
 
 # Offense count: 12

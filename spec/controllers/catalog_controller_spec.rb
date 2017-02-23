@@ -64,6 +64,9 @@ describe CatalogController do
       it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", :integration => true do
         get :index, params: { f: { example_query_facet_field: 'years_10' } } # valid custom facet value with some results
         expect(assigns(:response).docs).to_not be_empty
+      end
+
+     it "returns no results when the users asks for a value that doesn't match any" do
         get :index, params: { f: {example_query_facet_field: 'years_5' } } # valid custom facet value with NO results
         expect(assigns(:response).docs).to be_empty
       end
@@ -260,9 +263,11 @@ describe CatalogController do
       let(:current_search) { Search.create(:query_params => { :q => ""}) }
       before do
         allow(mock_document).to receive_messages(:export_formats => {})
-        allow(controller).to receive_messages(
+        allow(controller.send(:search_service)).to receive_messages(
           fetch: [mock_response, mock_document],
-          get_previous_and_next_documents_for_search: [double(:total => 5), [double("a"), mock_document, double("b")]],
+          previous_and_next_documents_for_search: [double(:total => 5), [double("a"), mock_document, double("b")]],
+        )
+        allow(controller).to receive_messages(
           current_search_session: current_search
         )
       end
@@ -289,7 +294,7 @@ describe CatalogController do
       end
 
       it "does not break if solr returns an exception" do
-        allow(controller).to receive(:get_previous_and_next_documents_for_search) {
+        allow(controller.send(:search_service)).to receive(:previous_and_next_documents_for_search) {
           raise Blacklight::Exceptions::InvalidRequest.new "Error"
         }
         get :show, params: { id: doc_id }
@@ -468,17 +473,24 @@ describe CatalogController do
       end.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
-    it "redirects the user to the root url for a bad search" do
-      fake_error = Blacklight::Exceptions::InvalidRequest.new
-      allow(Rails.env).to receive_messages(:test? => false)
-      allow(controller).to receive(:search_results) { |*args| raise fake_error }
-      expect(controller.logger).to receive(:error).with(fake_error)
-      get :index, params: { q: '+' }
+    context "when there is an invalid search" do
+      let(:service) { instance_double(Blacklight::SearchService) }
+      let(:fake_error) { Blacklight::Exceptions::InvalidRequest.new }
 
-      expect(response.redirect_url).to eq root_url
-      expect(request.flash[:notice]).to eq "Sorry, I don't understand your search."
-      expect(response).to_not be_success
-      expect(response.status).to eq 302
+      before do
+        allow(controller).to receive(:search_service).and_return(service)
+        allow(service).to receive(:search_results) { |*args| raise fake_error }
+        allow(Rails.env).to receive_messages(:test? => false)
+      end
+
+      it "redirects the user to the root url for a bad search" do
+        expect(controller.logger).to receive(:error).with(fake_error)
+        get :index, params: { q: '+' }
+        expect(response.redirect_url).to eq root_url
+        expect(request.flash[:notice]).to eq "Sorry, I don't understand your search."
+        expect(response).to_not be_success
+        expect(response.status).to eq 302
+      end
     end
 
     it "returns status 500 if the catalog path is raising an exception" do
@@ -661,6 +673,58 @@ describe CatalogController do
     it "is the same as the catalog path" do
       get :index, params: { page: 1 }
       expect(controller.send(:search_facet_path, id: "some_facet", page: 5)).to eq facet_catalog_path(id: "some_facet")
+    end
+  end
+
+  describe "facet_limit_for" do
+    let(:blacklight_config) { controller.blacklight_config }
+
+    it "returns specified value for facet_field specified" do
+      expect(controller.facet_limit_for("subject_topic_facet")).to eq blacklight_config.facet_fields["subject_topic_facet"].limit
+    end
+
+    it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
+      # facet_limit_hash has been removed from solrhelper in refactor. should it go back?
+      skip "facet_limit_hash has been removed from solrhelper in refactor. should it go back?"
+      expect(controller.facet_limit_hash).to eq blacklight_config[:facet][:limits]
+    end
+
+    it "handles no facet_limits in config" do
+      blacklight_config.facet_fields = {}
+      expect(controller.facet_limit_for("subject_topic_facet")).to be_nil
+    end
+
+    describe "for 'true' configured values" do
+      before do
+        allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
+      end
+
+      let(:blacklight_config) do
+        Blacklight::Configuration.new do |config|
+          config.add_facet_field "language_facet", limit: true
+        end
+      end
+
+      it "returns nil if no @response available" do
+        expect(controller.facet_limit_for("some_unknown_field")).to be_nil
+      end
+
+      it "gets from @response facet.limit if available" do
+        response = instance_double(Blacklight::Solr::Response, aggregations: { "language_facet" => double(limit: nil) })
+        controller.instance_variable_set(:@response, response)
+        blacklight_config.facet_fields['language_facet'].limit = 10
+        expect(controller.facet_limit_for("language_facet")).to eq 10
+      end
+
+      it "gets the limit from the facet field in @response" do
+        response = instance_double(Blacklight::Solr::Response, aggregations: { "language_facet" => double(limit: 16) })
+        controller.instance_variable_set(:@response, response)
+        expect(controller.facet_limit_for("language_facet")).to eq 15
+      end
+
+      it "defaults to 10" do
+        expect(controller.facet_limit_for("language_facet")).to eq 10
+      end
     end
   end
 end
