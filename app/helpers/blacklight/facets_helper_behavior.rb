@@ -89,7 +89,7 @@ module Blacklight::FacetsHelperBehavior
   # @param [Blacklight::Configuration::FacetField] facet_field
   # @return [Boolean]
   def should_collapse_facet? facet_field
-    !facet_field_in_params?(facet_field.field) && facet_field.collapse
+    !facet_field_in_params?(facet_field.key) && facet_field.collapse
   end
 
   ##

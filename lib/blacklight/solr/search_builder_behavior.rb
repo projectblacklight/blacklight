@@ -182,7 +182,7 @@ module Blacklight::Solr
 
       # Now override with our specific things for fetching facet values
       facet_ex = facet_config.respond_to?(:ex) ? facet_config.ex : nil
-      solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet)
+      solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet_config.field)
 
       limit = if scope.respond_to?(:facet_list_limit)
                 scope.facet_list_limit.to_s.to_i
@@ -200,13 +200,13 @@ module Blacklight::Solr
 
       # Need to set as f.facet_field.facet.* to make sure we
       # override any field-specific default in the solr request handler.
-      solr_params[:"f.#{facet}.facet.limit"] = limit + 1
-      solr_params[:"f.#{facet}.facet.offset"] = offset
+      solr_params[:"f.#{facet_config.field}.facet.limit"] = limit + 1
+      solr_params[:"f.#{facet_config.field}.facet.offset"] = offset
       if blacklight_params[request_keys[:sort]]
-        solr_params[:"f.#{facet}.facet.sort"] = sort
+        solr_params[:"f.#{facet_config.field}.facet.sort"] = sort
       end
       if blacklight_params[request_keys[:prefix]]
-        solr_params[:"f.#{facet}.facet.prefix"] = prefix
+        solr_params[:"f.#{facet_config.field}.facet.prefix"] = prefix
       end
       solr_params[:rows] = 0
     end
