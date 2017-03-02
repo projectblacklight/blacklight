@@ -523,6 +523,24 @@ describe CatalogController do
         expect(json["response"]["facets"]["items"].first["value"]).to eq 'Book'
       end
     end
+
+    context 'for a facet field with a key different from the underlying field name' do
+      before do
+        controller.blacklight_config.add_facet_field 'params_key', field: 'format'
+      end
+
+      it 'is successful' do
+        get :facet, params: { id: 'params_key' }
+
+        expect(response).to be_successful
+
+        expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
+        expect(assigns[:facet].key).to eq 'params_key'
+        expect(assigns[:facet].field).to eq 'format'
+
+        expect(assigns[:pagination].items.first['value']).to eq 'Book'
+      end
+    end
   end
 
   describe "#add_to_search_history" do
