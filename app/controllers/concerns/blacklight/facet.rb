@@ -6,12 +6,12 @@ module Blacklight
   module Facet
     delegate :facet_configuration_for_field, to: :blacklight_config
 
-    def facet_paginator(field_config, display_facet)
+    def facet_paginator(field_config, response_data)
       blacklight_config.facet_paginator_class.new(
-        display_facet.items,
-        sort: display_facet.sort,
-        offset: display_facet.offset,
-        prefix: display_facet.prefix,
+        response_data.items,
+        sort: response_data.sort,
+        offset: response_data.offset,
+        prefix: response_data.prefix,
         limit: facet_limit_for(field_config.key)
       )
     end

@@ -392,6 +392,20 @@ describe Blacklight::SearchHelper do
         expect(subject.facet_limit_for("language_facet")).to eq 10
       end
     end
+    
+    context 'for facet fields with a key that is different from the field name' do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new do |config|
+          config.add_facet_field 'some_key', field: 'x', limit: true
+        end
+      end
+
+      it 'gets the limit from the facet field in the @response' do
+        response = instance_double(Blacklight::Solr::Response, aggregations: { 'x' => double(limit: 16) })
+        subject.instance_variable_set(:@response, response)
+        expect(subject.facet_limit_for('some_key')).to eq 15
+      end
+    end
   end
 
 # TODO:  more complex queries!  phrases, offset into search results, non-latin, boosting(?)

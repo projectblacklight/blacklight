@@ -6,7 +6,15 @@
   .navbar-brand {  /* The main logo image for the Blacklight instance */
   	width: 150px;
     height: 50px;
-	  background:transparent image_url($logo_image) no-repeat top left;
+    @if $logo-image {
+      background: transparent $logo-image no-repeat top left;
+    }
+
+    @if $logo_image {
+      // deprecated
+      background: transparent image_url($logo_image) no-repeat top left;
+    }
+
 	  display: inline-block;
 	  text-indent: 100%;
 	  white-space: nowrap;

@@ -32,9 +32,13 @@ module Blacklight
     alias to_h to_hash
 
     def reset
-      Blacklight::SearchState.new(ActionController::Parameters.new, blacklight_config)
+      self.class.new(ActionController::Parameters.new, blacklight_config)
     end
 
+    ##
+    # Extension point for downstream applications
+    # to provide more interesting routing to
+    # documents
     def url_for_document(doc, options = {})
       if respond_to?(:blacklight_config) and
           blacklight_config.show.route and
@@ -116,7 +120,7 @@ module Blacklight
     # @yield [params] The merged parameters hash before being sanitized
     def params_for_search(params_to_merge={}, &block)
       # params hash we'll return
-      my_params = params.dup.merge(Blacklight::SearchState.new(params_to_merge, blacklight_config))
+      my_params = params.dup.merge(self.class.new(params_to_merge, blacklight_config))
 
       if block_given?
         yield my_params

@@ -163,18 +163,9 @@ module Blacklight
     # solr fields to use for sorting results
     define_field_access :sort_field
 
-    def initialize(*args)
-      super(*args)
-      initialize_default_values!
+    def initialize(hash = {})
+      super(self.class.default_values.deep_dup.merge(hash))
       yield(self) if block_given?
-      self
-    end
-
-    # Initialize default values from the class attribute
-    def initialize_default_values!
-      Marshal.load(Marshal.dump(self.class.default_values)).each do |k, v|
-        self[k] ||=  v
-      end
     end
 
     def document_model
@@ -295,8 +286,7 @@ module Blacklight
       end
     end
 
-    ##
-    # Provide a 'deep copy' of Blacklight::Configuration that can be modifyed without affecting
+    # Provide a 'deep copy' of Blacklight::Configuration that can be modified without effecting
     # the original Blacklight::Configuration instance.
     #
     # Rails 4.x provides `#deep_dup`, but it aggressively `#dup`'s class names

@@ -146,6 +146,21 @@ describe Blacklight::Solr::SearchBuilderBehavior do
       end
     end
 
+    context "facet parameters" do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.tap do |config|
+          config.add_facet_field key: 'param_key', field: 'solr_field', limit: 50, ex: 'other'
+
+          config.add_facet_fields_to_solr_request!
+        end
+      end
+
+      it "should use the configured solr field name in queries" do
+        expect(subject).to include 'f.solr_field.facet.limit': 51,
+                                   'facet.field': ['{!ex=other}solr_field']
+      end
+    end
+
     describe 'for an entirely empty search' do
 
       it 'should not have a q param' do
@@ -564,6 +579,7 @@ describe Blacklight::Solr::SearchBuilderBehavior do
         config.add_facet_field 'format'
         config.add_facet_field 'format_ordered', sort: :count
         config.add_facet_field 'format_limited', limit: 5
+        config.add_facet_field 'format_more_limited', limit: 5, more_limit: 50
       end
     end
 
@@ -588,6 +604,36 @@ describe Blacklight::Solr::SearchBuilderBehavior do
         expect(solr_parameters[:"f.#{facet_field}.facet.offset"]).to eq 20
       end
     end
+
+    context 'for a field with a configured more_limit' do
+      let(:facet_field) { 'format_more_limited' }
+
+      it 'uses the more_limit configuration' do
+        expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 51
+      end
+    end
+
+    context 'for a field with a param key different from the field name' do
+      let(:user_params) { { page_key => 2, 'facet.sort': 'index', 'facet.prefix': 'x' } }
+      let(:facet_field) { 'param_key' }
+
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.tap do |config|
+          config.add_facet_field key: 'param_key', field: 'solr_field', more_limit: 50, ex: 'other'
+
+          config.add_facet_fields_to_solr_request!
+        end
+      end
+
+      it "should use the configured solr field name in queries" do
+        expect(solr_parameters).to include 'f.solr_field.facet.limit': 51,
+                                           'f.solr_field.facet.offset': 50,
+                                           'f.solr_field.facet.sort': 'index',
+                                           'f.solr_field.facet.prefix': 'x',
+                                           'facet.field': '{!ex=other}solr_field'
+      end
+    end
+
     it 'defaults limit to 20' do
       expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 21
     end
