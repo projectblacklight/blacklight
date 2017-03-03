@@ -541,6 +541,24 @@ describe CatalogController do
         expect(json["response"]["facets"]["items"].first["value"]).to eq 'Book'
       end
     end
+
+    context 'for a facet field with a key different from the underlying field name' do
+      before do
+        controller.blacklight_config.add_facet_field 'params_key', field: 'format'
+      end
+
+      it 'is successful' do
+        get :facet, params: { id: 'params_key' }
+
+        expect(response).to be_successful
+
+        expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
+        expect(assigns[:facet].key).to eq 'params_key'
+        expect(assigns[:facet].field).to eq 'format'
+
+        expect(assigns[:pagination].items.first['value']).to eq 'Book'
+      end
+    end
   end
 
   describe "#add_to_search_history" do
@@ -724,6 +742,24 @@ describe CatalogController do
 
       it "defaults to 10" do
         expect(controller.facet_limit_for("language_facet")).to eq 10
+      end
+    end
+
+    context 'for facet fields with a key that is different from the field name' do
+      before do
+        allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
+      end
+
+      let(:blacklight_config) do
+        Blacklight::Configuration.new do |config|
+          config.add_facet_field 'some_key', field: 'x', limit: true
+        end
+      end
+
+      it 'gets the limit from the facet field in the @response' do
+        response = instance_double(Blacklight::Solr::Response, aggregations: { 'x' => double(limit: 16) })
+        controller.instance_variable_set(:@response, response)
+        expect(controller.facet_limit_for('some_key')).to eq 15
       end
     end
   end

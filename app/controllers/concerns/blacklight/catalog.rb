@@ -71,7 +71,7 @@ module Blacklight::Catalog
     def facet
       @facet = blacklight_config.facet_fields[params[:id]]
       @response = search_service.facet_field_response(@facet.key)
-      @display_facet = @response.aggregations[@facet.key]
+      @display_facet = @response.aggregations[@facet.field]
       @pagination = facet_paginator(@facet, @display_facet)
       respond_to do |format|
         # Draw the facet selector for users who have javascript disabled:
@@ -117,7 +117,7 @@ module Blacklight::Catalog
 
     # Look up facet limit for given facet_field. Will look at config, and
     # if config is 'true' will look up from Solr @response if available. If
-    # no limit is avaialble, returns nil. Used from #add_facetting_to_solr
+    # no limit is available, returns nil. Used from #add_facetting_to_solr
     # to supply f.fieldname.facet.limit values in solr request (no @response
     # available), and used in display (with @response available) to create
     # a facet paginator with the right limit.
@@ -125,8 +125,8 @@ module Blacklight::Catalog
       facet = blacklight_config.facet_fields[facet_field]
       return if facet.blank?
 
-      if facet.limit && @response && @response.aggregations[facet_field]
-        limit = @response.aggregations[facet_field].limit
+      if facet.limit && @response && @response.aggregations[facet.field]
+        limit = @response.aggregations[facet.field].limit
 
         if limit.nil? # we didn't get or a set a limit, so infer one.
           facet.limit if facet.limit != true
