@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 describe "catalog/index.json" do
-  let(:response) { instance_double(Blacklight::Solr::Response) }
+  let(:response) { instance_double(Blacklight::Solr::Response, documents: docs) }
   let(:docs) { [{ id: '123', title_t: 'Book1' }, { id: '456', title_t: 'Book2' }] }
   let(:facets) { double("facets") }
   let(:config) { instance_double(Blacklight::Configuration) }
-  let(:presenter) { Blacklight::JsonPresenter.new(response, docs, facets, config) }
+  let(:presenter) { Blacklight::JsonPresenter.new(response, facets, config) }
 
   it "renders index json" do
     allow(presenter).to receive(:pagination_info).and_return({ current_page: 1, next_page: 2,

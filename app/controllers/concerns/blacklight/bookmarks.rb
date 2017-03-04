@@ -42,7 +42,8 @@ module Blacklight::Bookmarks
     @bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = @bookmarks.collect { |b| b.document_id.to_s }
 
-    @response, @document_list = fetch(bookmark_ids)
+    @response, deprecated_document_list = fetch(bookmark_ids)
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, "The @document_list instance variable is now deprecated and will be removed in Blacklight 7.0")
 
     respond_to do |format|
       format.html { }
