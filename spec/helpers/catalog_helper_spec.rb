@@ -199,7 +199,7 @@ describe CatalogHelper do
       allow(document).to receive_messages(has?: true)
       expect(helper.has_thumbnail? document).to be true
     end
-    
+
     it "does not have a thumbnail if the thumbnail_field is missing from the document" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       allow(document).to receive_messages(has?: false)
@@ -395,9 +395,19 @@ describe CatalogHelper do
     end
 
     let(:blacklight_config) { Blacklight::Configuration.new }
-    let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
-    subject { helper.render_search_to_page_title(params) }
 
-    it { is_expected.to eq "foobar / Format: Book" }
+    context 'with search parameters' do
+      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
+      subject { helper.render_search_to_page_title(params) }
+
+      it { is_expected.to eq "foobar / Format: Book" }
+    end
+
+    context 'without search parameters' do
+      let(:params) { ActionController::Parameters.new(q: '', f: {}) }
+      subject { helper.render_search_to_page_title(params) }
+
+      it { is_expected.to eq "All results" }
+    end
   end
 end
