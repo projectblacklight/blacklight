@@ -9,7 +9,8 @@ RSpec.describe Blacklight::SearchState do
   end
 
   let(:parameter_class) { ActionController::Parameters }
-  let(:search_state) { described_class.new(params, blacklight_config) }
+  let(:controller) { double }
+  let(:search_state) { described_class.new(params, blacklight_config, controller) }
   let(:params) { parameter_class.new }
 
   describe '#to_h' do

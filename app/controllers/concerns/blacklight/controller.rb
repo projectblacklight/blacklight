@@ -74,7 +74,7 @@ module Blacklight::Controller
 
   # @return [Blacklight::SearchState] a memoized instance of the parameter state.
   def search_state
-    @search_state ||= search_state_class.new(params, blacklight_config)
+    @search_state ||= search_state_class.new(params, blacklight_config, self)
   end
 
   # Default route to the search action (used e.g. in global partials). Override this method

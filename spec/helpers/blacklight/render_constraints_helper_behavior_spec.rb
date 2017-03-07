@@ -49,7 +49,7 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
     subject { helper.render_filter_element('type', ['journal'], path) }
 
     let(:params) { ActionController::Parameters.new q: 'biz' }
-    let(:path) { Blacklight::SearchState.new(params, config) }
+    let(:path) { Blacklight::SearchState.new(params, config, controller) }
 
     it "has a link relative to the current url" do
       expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
