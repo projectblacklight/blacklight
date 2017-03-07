@@ -32,7 +32,13 @@ module Blacklight
     alias to_h to_hash
 
     def reset
-      self.class.new(ActionController::Parameters.new, blacklight_config)
+      clone(parameters: ActionController::Parameters.new)
+    end
+
+    # This method can be overridden in a subclass if you need to change the signature of the initialize method
+    # @param [ActionController::Parameters] parameters optionally pass the parameters the clone should use
+    def clone(parameters: params)
+      self.class.new(parameters, blacklight_config)
     end
 
     ##
@@ -120,7 +126,7 @@ module Blacklight
     # @yield [params] The merged parameters hash before being sanitized
     def params_for_search(params_to_merge = {})
       # params hash we'll return
-      my_params = params.dup.merge(self.class.new(params_to_merge, blacklight_config))
+      my_params = params.dup.merge(clone(parameters: params_to_merge))
 
       if block_given?
         yield my_params
