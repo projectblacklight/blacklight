@@ -1,3 +1,7 @@
 en:
   blacklight:
     application_name: 'Blacklight'
+    search:
+      page_title:
+        with_constraints:  'Results for "%{constraints}" - %{application_name}'
+        without_constraints: 'All results - %{application_name}'

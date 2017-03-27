@@ -147,9 +147,12 @@ en:
       # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: '%{application_name} Search Results'
       page_title:
-        title: '%{constraints} - %{application_name} Search Results'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} selected'
+        with_constraints:  'Results for "%{constraints}" - %{application_name}'
+        without_constraints: 'All results - %{application_name}'
+        # deprecated - use with_constraints and without_constraints instead
+        title:
       search_results_header: 'Search Constraints'
       search_results: 'Search Results'
       errors:

@@ -417,9 +417,43 @@ RSpec.describe CatalogHelper do
     end
 
     let(:blacklight_config) { Blacklight::Configuration.new }
-    let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
-    subject { helper.render_search_to_page_title(params) }
 
-    it { is_expected.to eq "foobar / Format: Book" }
+    context 'with search parameters' do
+      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
+      subject { helper.render_search_to_page_title(params) }
+
+      it { is_expected.to eq "foobar / Format: Book" }
+    end
+
+    context 'without search parameters' do
+      let(:params) { ActionController::Parameters.new(q: '', f: {}) }
+      subject { helper.render_search_to_page_title(params) }
+
+      it { is_expected.to eq "" }
+    end
+  end
+
+  describe "#render_search_title" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+      allow(helper).to receive(:default_search_field).and_return(Blacklight::Configuration::SearchField.new(:key => 'default_search_field', :display_label => 'Default'))
+      allow(helper).to receive(:label_for_search_field).with(nil).and_return('')
+    end
+
+    let(:blacklight_config) { Blacklight::Configuration.new }
+
+    context 'with search parameters' do
+      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
+      subject { helper.render_search_title(params) }
+
+      it { is_expected.to eq "Results for \"foobar / Format: Book\" - Blacklight" }
+    end
+
+    context 'without search parameters' do
+      let(:params) { ActionController::Parameters.new(q: '', f: {}) }
+      subject { helper.render_search_title(params) }
+
+      it { is_expected.to eq "All results - Blacklight" }
+    end
   end
 end
