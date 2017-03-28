@@ -13,6 +13,12 @@ AllCops:
 Rails:
   Enabled: true
 
+# TODO: remove when
+# https://github.com/bbatsov/rubocop/commit/246bef5e1cccd04045a71eee2476cde6c0782e92
+# is part fo a stable release
+Rails/Blank:
+  Enabled: false
+
 Metrics/BlockLength:
   Exclude:
     - "lib/railties/blacklight.rake"
