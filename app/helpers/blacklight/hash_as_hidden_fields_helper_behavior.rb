@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Rails Helper methods to take a hash and turn it to form <input type="hidden">
 # fields, works with hash nested with other hashes and arrays, standard rails
 # serialization style.  Oddly while Hash#to_query will do this for a URL

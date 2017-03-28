@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   class Engine < Rails::Engine
     engine_name "blacklight"

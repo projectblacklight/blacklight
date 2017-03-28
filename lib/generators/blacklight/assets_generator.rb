@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   class Assets < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
@@ -15,10 +16,10 @@ module Blacklight
                end
 
       insert_into_file "app/assets/javascripts/application.js", :after => marker do
-        <<-EOF
-//
-// Required by Blacklight
-//= require blacklight/blacklight
+<<-EOF.strip_heredoc
+  //
+  // Required by Blacklight
+  //= require blacklight/blacklight
 EOF
       end
     end

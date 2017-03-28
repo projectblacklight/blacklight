@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   # This class encapsulates the search state as represented by the query
   # parameters namely: :f, :q, :page, :per_page and, :sort

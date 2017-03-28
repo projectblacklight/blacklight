@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   class IndexPresenter
     attr_reader :document, :configuration, :view_context
