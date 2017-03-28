@@ -6,9 +6,10 @@ inherit_from:
 AllCops:
   DisplayCopNames: true
   Exclude:
-  - "lib/generators/blacklight/templates/**/*"
-  - "spec/**/*"
-  - "blacklight.gemspec"
+    - "blacklight.gemspec"
+    - "db/**/*"
+    - "lib/generators/blacklight/templates/**/*"
+    - "spec/**/*"
 
 Rails:
   Enabled: true
