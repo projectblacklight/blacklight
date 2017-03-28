@@ -24,6 +24,9 @@ Metrics/LineLength:
 Style/StringLiterals:
   Enabled: false
 
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
 Style/IndentationConsistency:
   Enabled: false
 
