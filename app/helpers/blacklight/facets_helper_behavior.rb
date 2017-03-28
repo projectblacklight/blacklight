@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::FacetsHelperBehavior
   include Blacklight::Facet
 
@@ -176,7 +177,7 @@ module Blacklight::FacetsHelperBehavior
   # @param [String] field
   # @return [Boolean]
   def facet_field_in_params? field
-    !facet_params(field).blank?
+    facet_params(field).present?
   end
 
   ##

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   module ComponentHelperBehavior
     def document_action_label action, opts
@@ -36,7 +37,7 @@ module Blacklight
     def render_index_doc_actions(document, options = {})
       wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
       rendered = render_filtered_partials(blacklight_config.view_config(document_index_view_type).document_actions, { document: document }.merge(options))
-      content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
+      content_tag("div", rendered, class: wrapping_class) if rendered.present?
     end
 
     ##
@@ -49,7 +50,7 @@ module Blacklight
     def render_results_collection_tools(options = {})
       wrapping_class = options.delete(:wrapping_class) || "search-widgets"
       rendered = render_filtered_partials(blacklight_config.view_config(document_index_view_type).collection_actions, options)
-      content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
+      content_tag("div", rendered, class: wrapping_class) if rendered.present?
     end
 
     def render_filtered_partials(partials, options = {})

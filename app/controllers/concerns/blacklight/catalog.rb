@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Catalog
   extend ActiveSupport::Concern
 
@@ -110,7 +111,7 @@ module Blacklight::Catalog
     # Check if any search parameters have been set
     # @return [Boolean]
     def has_search_parameters?
-      !params[:q].blank? || !params[:f].blank? || !params[:search_field].blank?
+      params[:q].present? || params[:f].present? || params[:search_field].present?
     end
 
     DEFAULT_FACET_LIMIT = 10

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   ##
   # Blacklight's SearchBuilder converts blacklight request parameters into
@@ -230,7 +231,7 @@ module Blacklight
                 blacklight_params[:sort]
               end
 
-      field unless field.blank?
+      field if field.present?
     end
 
     def search_field
