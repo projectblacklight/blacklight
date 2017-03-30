@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-describe Blacklight::Solr::Response do
+RSpec.describe Blacklight::Solr::Response do
+  let(:raw_response) { eval(mock_query_response) }
 
-  def create_response
-    raw_response = eval(mock_query_response)
-    Blacklight::Solr::Response.new(raw_response, raw_response['params'])
+  let(:r) do
+    Blacklight::Solr::Response.new(raw_response,
+                                   raw_response['params'])
   end
-
-  let(:r) { create_response }
 
   it 'should create a valid response' do
     expect(r).to respond_to(:header)
@@ -106,7 +105,6 @@ describe Blacklight::Solr::Response do
   end
 
   it 'should return the correct value when calling facet_by_field_name' do
-    r = create_response
     facet = r.aggregations['cat']
     expect(facet.name).to eq 'cat'
   end
