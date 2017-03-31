@@ -1,31 +1,27 @@
 # frozen_string_literal: true
 
-describe SolrDocument do
-  
-  before(:each) do
-    
-    @solrdoc = SolrDocument.new :id => '00282214', :format => ['Book'], :title_display => 'some-title'
-
-  end
-  
-  describe "new" do
-    it "takes a Hash as the argument" do
-      expect { SolrDocument.new(:id => 1) }.not_to raise_error
-    end
-  end
-  
+RSpec.describe SolrDocument do
   describe "access methods" do
+    let(:solrdoc) do
+      SolrDocument.new(id: '00282214', format: ['Book'], title_display: 'some-title')
+    end
 
-    it "has the right value for title_display" do
-      expect(@solrdoc[:title_display]).not_to be_nil
+    describe "#[]" do
+      subject { solrdoc[field] }
+
+      context "with title_display" do
+        let(:field) { :title_display }
+        it { is_expected.to eq 'some-title' }
+      end
+      context "with format" do
+        let(:field) { :format }
+        it { is_expected.to eq ['Book'] }
+      end
     end
     
-    it "has the right value for format" do
-      expect(@solrdoc[:format][0]).to eq 'Book'
-    end
-    
-    it "provides the item's solr id" do
-      expect(@solrdoc.id).to eq '00282214'
+    describe "#id" do
+      subject { solrdoc.id }
+      it { is_expected.to eq '00282214' }
     end
   end
 end
