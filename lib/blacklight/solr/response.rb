@@ -18,13 +18,14 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   include MoreLikeThis
 
   attr_reader :request_params
-  attr_accessor :document_model, :blacklight_config
+  attr_accessor :blacklight_config, :options
+  delegate :document_factory, to: :blacklight_config
 
   def initialize(data, request_params, options = {})
     super(force_to_utf8(ActiveSupport::HashWithIndifferentAccess.new(data)))
     @request_params = ActiveSupport::HashWithIndifferentAccess.new(request_params)
-    self.document_model = options[:solr_document_model] || options[:document_model] || SolrDocument
     self.blacklight_config = options[:blacklight_config]
+    self.options = options
   end
 
   def header
@@ -48,7 +49,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   end
 
   def documents
-    @documents ||= (response['docs'] || []).collect { |doc| document_model.new(doc, self) }
+    @documents ||= (response['docs'] || []).collect { |doc| document_factory.build(doc, self, options) }
   end
   alias_method :docs, :documents
 

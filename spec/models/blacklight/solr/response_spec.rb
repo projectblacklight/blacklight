@@ -3,9 +3,12 @@
 RSpec.describe Blacklight::Solr::Response do
   let(:raw_response) { eval(mock_query_response) }
 
+  let(:config) { Blacklight::Configuration.new }
+
   let(:r) do
     Blacklight::Solr::Response.new(raw_response,
-                                   raw_response['params'])
+                                   raw_response['params'],
+                                   blacklight_config: config)
   end
 
   it 'should create a valid response' do
