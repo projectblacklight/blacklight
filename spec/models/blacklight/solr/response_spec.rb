@@ -183,6 +183,15 @@ describe Blacklight::Solr::Response do
     end
   end
 
+  context 'solr 6.5 spellcheck collation syntax' do
+    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
+      raw_response = eval(mock_response_with_spellcheck_collation_solr65)
+      r = Blacklight::Solr::Response.new(raw_response, {})
+      expect(r.spelling.words).to include("dell")
+      expect(r.spelling.words).to include("ultrasharp")
+    end
+  end
+
   it "should provide MoreLikeThis suggestions" do
     raw_response = eval(mock_response_with_more_like_this)
     r = Blacklight::Solr::Response.new(raw_response, {})
@@ -228,7 +237,11 @@ describe Blacklight::Solr::Response do
   def mock_response_with_spellcheck_collation_solr5
     %|{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']}],'collations'=>['collation','dell ultrasharp']}}|
   end
-  
+
+  def mock_response_with_spellcheck_collation_solr65
+    %|{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>{'hell'=>{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar'=>{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']}},'collations'=>['collation','dell ultrasharp']}}|
+  end
+
   def mock_response_with_more_like_this
     %({'responseHeader'=>{'status'=>0,'QTime'=>8,'params'=>{'facet'=>'false','mlt.mindf'=>'1','mlt.fl'=>'subject_t','fl'=>'id','mlt.count'=>'3','mlt.mintf'=>'0','mlt'=>'true','q.alt'=>'*:*','qt'=>'search','wt'=>'ruby'}},'response'=>{'numFound'=>30,'start'=>0,'docs'=>[{'id'=>'00282214'},{'id'=>'00282371'},{'id'=>'00313831'},{'id'=>'00314247'},{'id'=>'43037890'},{'id'=>'53029833'},{'id'=>'77826928'},{'id'=>'78908283'},{'id'=>'79930185'},{'id'=>'85910001'}]},'moreLikeThis'=>{'00282214'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'00282371'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'00313831'=>{'numFound'=>1,'start'=>0,'docs'=>[{'id'=>'96933325'}]},'00314247'=>{'numFound'=>3,'start'=>0,'docs'=>[{'id'=>'2008543486'},{'id'=>'96933325'},{'id'=>'2009373513'}]},'43037890'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'53029833'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'77826928'=>{'numFound'=>1,'start'=>0,'docs'=>[{'id'=>'94120425'}]},'78908283'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'79930185'=>{'numFound'=>2,'start'=>0,'docs'=>[{'id'=>'94120425'},{'id'=>'2007020969'}]},'85910001'=>{'numFound'=>0,'start'=>0,'docs'=>[]}}})
   end
