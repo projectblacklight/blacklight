@@ -107,12 +107,12 @@ module Blacklight::Catalog
     search_state.url_for_document(blacklight_config.document_model.new(id: params[:id]))
   end
 
-    ##
-    # Check if any search parameters have been set
-    # @return [Boolean]
-    def has_search_parameters?
-      params[:q].present? || params[:f].present? || params[:search_field].present?
-    end
+  ##
+  # Check if any search parameters have been set
+  # @return [Boolean]
+  def has_search_parameters?
+    params[:q].present? || params[:f].present? || params[:search_field].present?
+  end
 
   DEFAULT_FACET_LIMIT = 10
 
