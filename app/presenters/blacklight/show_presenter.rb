@@ -67,27 +67,27 @@ module Blacklight
 
     private
 
-      ##
-      # Get the value for a document's field, and prepare to render it.
-      # - highlight_field
-      # - accessor
-      # - solr field
-      #
-      # Rendering:
-      #   - helper_method
-      #   - link_to_facet
-      # @param [Blacklight::Configuration::Field] field_config solr field configuration
-      # @param [Hash] options additional options to pass to the rendering helpers
-      def field_values(field_config, options = {})
-        FieldPresenter.new(view_context, document, field_config, options).render
-      end
+    ##
+    # Get the value for a document's field, and prepare to render it.
+    # - highlight_field
+    # - accessor
+    # - solr field
+    #
+    # Rendering:
+    #   - helper_method
+    #   - link_to_facet
+    # @param [Blacklight::Configuration::Field] field_config solr field configuration
+    # @param [Hash] options additional options to pass to the rendering helpers
+    def field_values(field_config, options = {})
+      FieldPresenter.new(view_context, document, field_config, options).render
+    end
 
-      def view_config
-        configuration.view_config(:show)
-      end
+    def view_config
+      configuration.view_config(:show)
+    end
 
-      def field_config(field)
-        configuration.show_fields.fetch(field) { Configuration::NullField.new(field) }
-      end
+    def field_config(field)
+      configuration.show_fields.fetch(field) { Configuration::NullField.new(field) }
+    end
   end
 end

@@ -65,8 +65,8 @@ module Blacklight
 
     protected
 
-      def verify_user
-        flash[:notice] = I18n.t('blacklight.saved_searches.need_login') && raise(Blacklight::Exceptions::AccessDenied) unless current_user
-      end
+    def verify_user
+      flash[:notice] = I18n.t('blacklight.saved_searches.need_login') && raise(Blacklight::Exceptions::AccessDenied) unless current_user
+    end
   end
 end

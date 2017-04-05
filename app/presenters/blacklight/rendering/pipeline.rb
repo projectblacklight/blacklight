@@ -28,10 +28,10 @@ module Blacklight
 
       protected
 
-        # Ordered list of operations, Terminator must be at the end.
-        def stack
-          operations + [Terminator]
-        end
+      # Ordered list of operations, Terminator must be at the end.
+      def stack
+        operations + [Terminator]
+      end
     end
   end
 end

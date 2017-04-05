@@ -14,10 +14,10 @@ module Blacklight
 
       protected
 
-        def next_step(output_values)
-          first, *rest = *stack
-          first.new(output_values, config, document, context, options, rest).render
-        end
+      def next_step(output_values)
+        first, *rest = *stack
+        first.new(output_values, config, document, context, options, rest).render
+      end
     end
   end
 end

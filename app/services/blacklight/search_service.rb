@@ -91,28 +91,28 @@ module Blacklight
 
     private
 
-      attr_reader :user_params
+    attr_reader :user_params
 
-      ##
-      # Retrieve a set of documents by id
-      # @param [Array] ids
-      # @param [HashWithIndifferentAccess] extra_controller_params
-      def fetch_many(ids, extra_controller_params)
-        extra_controller_params ||= {}
+    ##
+    # Retrieve a set of documents by id
+    # @param [Array] ids
+    # @param [HashWithIndifferentAccess] extra_controller_params
+    def fetch_many(ids, extra_controller_params)
+      extra_controller_params ||= {}
 
-        query = search_builder
-                .with(user_params)
-                .where(blacklight_config.document_model.unique_key => ids)
-                .merge(extra_controller_params)
-                .merge(fl: '*')
-        solr_response = repository.search(query)
+      query = search_builder
+              .with(user_params)
+              .where(blacklight_config.document_model.unique_key => ids)
+              .merge(extra_controller_params)
+              .merge(fl: '*')
+      solr_response = repository.search(query)
 
-        [solr_response, solr_response.documents]
-      end
+      [solr_response, solr_response.documents]
+    end
 
-      def fetch_one(id, extra_controller_params)
-        solr_response = repository.find id, extra_controller_params
-        [solr_response, solr_response.documents.first]
-      end
+    def fetch_one(id, extra_controller_params)
+      solr_response = repository.find id, extra_controller_params
+      [solr_response, solr_response.documents.first]
+    end
   end
 end

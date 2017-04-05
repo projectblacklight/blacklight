@@ -98,109 +98,109 @@ module Blacklight::RenderPartialsHelperBehavior
 
   protected
 
-    ##
-    # Return a partial name for rendering a document
-    # this method can be overridden in order to transform the value
-    #   (e.g. 'PdfBook' => 'pdf_book')
-    #
-    # @param [SolrDocument] document
-    # @param [String, Array] display_type a value suggestive of a partial
-    # @return [String] the name of the partial to render
-    # @example
-    #  type_field_to_partial_name(['a book-article'])
-    #  => 'a_book_article'
-    if Rails.version >= '5.0.0'
-      def type_field_to_partial_name(_document, display_type)
-        # using "_" as sep. to more closely follow the views file naming conventions
-        # parameterize uses "-" as the default sep. which throws errors
-        underscore = '_'.freeze
-        Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(separator: underscore)
-      end
-    else
-      def type_field_to_partial_name(_document, display_type)
-        # using "_" as sep. to more closely follow the views file naming conventions
-        # parameterize uses "-" as the default sep. which throws errors
-        underscore = '_'.freeze
-        Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(underscore)
-      end
+  ##
+  # Return a partial name for rendering a document
+  # this method can be overridden in order to transform the value
+  #   (e.g. 'PdfBook' => 'pdf_book')
+  #
+  # @param [SolrDocument] document
+  # @param [String, Array] display_type a value suggestive of a partial
+  # @return [String] the name of the partial to render
+  # @example
+  #  type_field_to_partial_name(['a book-article'])
+  #  => 'a_book_article'
+  if Rails.version >= '5.0.0'
+    def type_field_to_partial_name(_document, display_type)
+      # using "_" as sep. to more closely follow the views file naming conventions
+      # parameterize uses "-" as the default sep. which throws errors
+      underscore = '_'.freeze
+      Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(separator: underscore)
     end
-
-    ##
-    # Return a normalized partial name for rendering a single document
-    #
-    # @param [SolrDocument] document
-    # @param [Symbol] base_name base name for the partial
-    # @return [String]
-    def document_partial_name(document, base_name = nil)
-      view_config = blacklight_config.view_config(:show)
-
-      display_type = if base_name && view_config.key?(:"#{base_name}_display_type_field")
-                       document[view_config[:"#{base_name}_display_type_field"]]
-                     end
-
-      display_type ||= document[view_config.display_type_field]
-
-      display_type ||= 'default'
-
-      type_field_to_partial_name(document, display_type)
+  else
+    def type_field_to_partial_name(_document, display_type)
+      # using "_" as sep. to more closely follow the views file naming conventions
+      # parameterize uses "-" as the default sep. which throws errors
+      underscore = '_'.freeze
+      Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(underscore)
     end
+  end
 
-    ##
-    # A list of document partial templates to try to render for a document
-    #
-    # The partial names will be interpolated with the following variables:
-    #   - action_name: (e.g. index, show)
-    #   - index_view_type: (the current view type, e.g. list, gallery)
-    #   - format: the document's format (e.g. book)
-    #
-    # @see #render_document_partial
-    def document_partial_path_templates
-      # first, the legacy template names for backwards compatbility
-      # followed by the new, inheritable style
-      # finally, a controller-specific path for non-catalog subclasses
-      @partial_path_templates ||= [
-        "%{action_name}_%{index_view_type}_%{format}",
-        "%{action_name}_%{index_view_type}_default",
-        "%{action_name}_%{format}",
-        "%{action_name}_default",
-        "%{action_name}",
-        "catalog/%{action_name}_%{format}",
-        "catalog/_%{action_name}_partials/%{format}",
-        "catalog/_%{action_name}_partials/default"
-      ]
-    end
+  ##
+  # Return a normalized partial name for rendering a single document
+  #
+  # @param [SolrDocument] document
+  # @param [Symbol] base_name base name for the partial
+  # @return [String]
+  def document_partial_name(document, base_name = nil)
+    view_config = blacklight_config.view_config(:show)
+
+    display_type = if base_name && view_config.key?(:"#{base_name}_display_type_field")
+                     document[view_config[:"#{base_name}_display_type_field"]]
+                   end
+
+    display_type ||= document[view_config.display_type_field]
+
+    display_type ||= 'default'
+
+    type_field_to_partial_name(document, display_type)
+  end
+
+  ##
+  # A list of document partial templates to try to render for a document
+  #
+  # The partial names will be interpolated with the following variables:
+  #   - action_name: (e.g. index, show)
+  #   - index_view_type: (the current view type, e.g. list, gallery)
+  #   - format: the document's format (e.g. book)
+  #
+  # @see #render_document_partial
+  def document_partial_path_templates
+    # first, the legacy template names for backwards compatbility
+    # followed by the new, inheritable style
+    # finally, a controller-specific path for non-catalog subclasses
+    @partial_path_templates ||= [
+      "%{action_name}_%{index_view_type}_%{format}",
+      "%{action_name}_%{index_view_type}_default",
+      "%{action_name}_%{format}",
+      "%{action_name}_default",
+      "%{action_name}",
+      "catalog/%{action_name}_%{format}",
+      "catalog/_%{action_name}_partials/%{format}",
+      "catalog/_%{action_name}_partials/default"
+    ]
+  end
 
   private
 
-    def find_document_show_template_with_view view_type, base_name, format, locals
-      document_partial_path_templates.each do |str|
-        partial = format(str, action_name: base_name, format: format, index_view_type: view_type)
-        logger.debug "Looking for document partial #{partial}"
-        template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:document], {}).first
-        return template if template
-      end
-      nil
+  def find_document_show_template_with_view view_type, base_name, format, locals
+    document_partial_path_templates.each do |str|
+      partial = format(str, action_name: base_name, format: format, index_view_type: view_type)
+      logger.debug "Looking for document partial #{partial}"
+      template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:document], {}).first
+      return template if template
     end
+    nil
+  end
 
-    def find_document_index_template_with_view view_type, locals
-      document_index_path_templates.each do |str|
-        partial = format(str, index_view_type: view_type)
-        logger.debug "Looking for document index partial #{partial}"
-        template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:documents], {}).first
-        return template if template
-      end
-      nil
+  def find_document_index_template_with_view view_type, locals
+    document_index_path_templates.each do |str|
+      partial = format(str, index_view_type: view_type)
+      logger.debug "Looking for document index partial #{partial}"
+      template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:documents], {}).first
+      return template if template
     end
+    nil
+  end
 
-    ##
-    # @param key fetches or writes data to a cache, using the given key.
-    # @yield the block to evaluate (and cache) if there is a cache miss
-    def cached_view key
-      @view_cache ||= {}
-      if @view_cache.key?(key)
-        @view_cache[key]
-      else
-        @view_cache[key] = yield
-      end
+  ##
+  # @param key fetches or writes data to a cache, using the given key.
+  # @yield the block to evaluate (and cache) if there is a cache miss
+  def cached_view key
+    @view_cache ||= {}
+    if @view_cache.key?(key)
+      @view_cache[key]
+    else
+      @view_cache[key] = yield
     end
+  end
 end

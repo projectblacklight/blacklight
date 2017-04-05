@@ -51,8 +51,8 @@ module Blacklight::Solr
 
     protected
 
-      def build_connection
-        RSolr.connect(connection_config.merge(adapter: connection_config[:http_adapter]))
-      end
+    def build_connection
+      RSolr.connect(connection_config.merge(adapter: connection_config[:http_adapter]))
+    end
   end
 end

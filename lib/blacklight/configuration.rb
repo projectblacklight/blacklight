@@ -314,11 +314,11 @@ module Blacklight
 
     private
 
-      def add_action(config_hash, name, opts)
-        config = Blacklight::Configuration::ToolConfig.new opts
-        config.name = name
-        yield(config) if block_given?
-        config_hash[name] = config
-      end
+    def add_action(config_hash, name, opts)
+      config = Blacklight::Configuration::ToolConfig.new opts
+      config.name = name
+      yield(config) if block_given?
+      config_hash[name] = config
+    end
   end
 end
