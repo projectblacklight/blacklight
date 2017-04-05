@@ -266,57 +266,57 @@ module Blacklight::Solr
 
     private
 
-    ##
-    # Convert a facet/value pair into a solr fq parameter
-    def facet_value_to_fq_string(facet_field, value)
-      facet_config = blacklight_config.facet_fields[facet_field]
+      ##
+      # Convert a facet/value pair into a solr fq parameter
+      def facet_value_to_fq_string(facet_field, value)
+        facet_config = blacklight_config.facet_fields[facet_field]
 
-      solr_field = facet_config.field if facet_config && !facet_config.query
-      solr_field ||= facet_field
+        solr_field = facet_config.field if facet_config && !facet_config.query
+        solr_field ||= facet_field
 
-      local_params = []
-      local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
+        local_params = []
+        local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
 
-      prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
+        prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
 
-      if facet_config && facet_config.query
-        if facet_config.query[value]
-          facet_config.query[value][:fq]
+        if facet_config && facet_config.query
+          if facet_config.query[value]
+            facet_config.query[value][:fq]
+          else
+            # exclude all documents if the custom facet key specified was not found
+            '-*:*'
+          end
+        elsif value.is_a?(Range)
+          "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
         else
-          # exclude all documents if the custom facet key specified was not found
-          '-*:*'
+          "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
         end
-      elsif value.is_a?(Range)
-        "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
-      else
-        "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
       end
-    end
 
-    def convert_to_term_value(value)
-      if value.is_a?(DateTime) || value.is_a?(Time)
-        value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
-      elsif value.is_a?(Date)
-        value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")
-      else
-        value.to_s
+      def convert_to_term_value(value)
+        if value.is_a?(DateTime) || value.is_a?(Time)
+          value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+        elsif value.is_a?(Date)
+          value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")
+        else
+          value.to_s
+        end
       end
-    end
 
-    ##
-    # The key to use to retrieve the grouped field to display
-    def grouped_key_for_results
-      blacklight_config.index.group
-    end
-
-    def facet_fields_to_include_in_request
-      blacklight_config.facet_fields.select do |_field_name, facet|
-        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
+      ##
+      # The key to use to retrieve the grouped field to display
+      def grouped_key_for_results
+        blacklight_config.index.group
       end
-    end
 
-    def request_keys
-      blacklight_config.facet_paginator_class.request_keys
-    end
+      def facet_fields_to_include_in_request
+        blacklight_config.facet_fields.select do |_field_name, facet|
+          facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
+        end
+      end
+
+      def request_keys
+        blacklight_config.facet_paginator_class.request_keys
+      end
   end
 end

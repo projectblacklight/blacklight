@@ -239,30 +239,30 @@ module Blacklight
 
     protected
 
-    def request
-      Blacklight::Solr::Request.new
-    end
+      def request
+        Blacklight::Solr::Request.new
+      end
 
-    def should_add_field_to_request? _field_name, field
-      field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
-    end
+      def should_add_field_to_request? _field_name, field
+        field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
+      end
 
-    attr_reader :scope
+      attr_reader :scope
 
-    def params_will_change!
-      @dirty = true
-    end
+      def params_will_change!
+        @dirty = true
+      end
 
-    def params_changed?
-      !!@dirty
-    end
+      def params_changed?
+        !!@dirty
+      end
 
-    def params_need_update?
-      params_changed? || @params.nil?
-    end
+      def params_need_update?
+        params_changed? || @params.nil?
+      end
 
-    def clear_changes
-      @dirty = false
-    end
+      def clear_changes
+        @dirty = false
+      end
   end
 end

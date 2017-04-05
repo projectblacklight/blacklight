@@ -85,8 +85,8 @@ module Blacklight
 
     private
 
-    def filter_partials(partials, options)
-      partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }
-    end
+      def filter_partials(partials, options)
+        partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }
+      end
   end
 end

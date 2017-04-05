@@ -135,42 +135,42 @@ module Blacklight
 
     private
 
-    ##
-    # Reset any search parameters that store search context
-    # and need to be reset when e.g. constraints change
-    # @return [ActionController::Parameters]
-    def reset_search_params
-      Parameters.sanitize(params).except(:page, :counter)
-    end
-
-    # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
-    def facet_value_for_facet_item item
-      if item.respond_to? :value
-        item.value
-      else
-        item
-      end
-    end
-
-    def add_facet_param(p, field, item)
-      if item.respond_to? :field
-        field = item.field
+      ##
+      # Reset any search parameters that store search context
+      # and need to be reset when e.g. constraints change
+      # @return [ActionController::Parameters]
+      def reset_search_params
+        Parameters.sanitize(params).except(:page, :counter)
       end
 
-      facet_config = facet_configuration_for_field(field)
-
-      url_field = facet_config.key
-
-      value = facet_value_for_facet_item(item)
-
-      p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
-      p[:f][url_field] = (p[:f][url_field] || []).dup
-
-      if facet_config.single && p[:f][url_field].present?
-        p[:f][url_field] = []
+      # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
+      def facet_value_for_facet_item item
+        if item.respond_to? :value
+          item.value
+        else
+          item
+        end
       end
 
-      p[:f][url_field].push(value)
-    end
+      def add_facet_param(p, field, item)
+        if item.respond_to? :field
+          field = item.field
+        end
+
+        facet_config = facet_configuration_for_field(field)
+
+        url_field = facet_config.key
+
+        value = facet_value_for_facet_item(item)
+
+        p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
+        p[:f][url_field] = (p[:f][url_field] || []).dup
+
+        if facet_config.single && p[:f][url_field].present?
+          p[:f][url_field] = []
+        end
+
+        p[:f][url_field].push(value)
+      end
   end
 end
