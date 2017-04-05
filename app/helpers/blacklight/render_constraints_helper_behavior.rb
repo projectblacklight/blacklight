@@ -64,7 +64,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @param [Hash] localized_params query parameters
   # @return [String]
   def render_constraints_filters(localized_params = params)
-     return "".html_safe unless localized_params[:f]
+    return "".html_safe unless localized_params[:f]
      path = controller.search_state_class.new(localized_params, blacklight_config)
      content = []
      localized_params[:f].each_pair do |facet, values|

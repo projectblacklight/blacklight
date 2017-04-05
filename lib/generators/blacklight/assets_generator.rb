@@ -15,7 +15,7 @@ module Blacklight
                end
 
       insert_into_file "app/assets/javascripts/application.js", :after => marker do
-<<-EOF
+        <<-EOF
 //
 // Required by Blacklight
 //= require blacklight/blacklight

@@ -191,18 +191,6 @@ Style/IndentHash:
   Exclude:
     - 'lib/blacklight/configuration.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: Width.
-Style/IndentationWidth:
-  Exclude:
-    - 'app/controllers/concerns/blacklight/bookmarks.rb'
-    - 'app/controllers/concerns/blacklight/token_based_user.rb'
-    - 'app/helpers/blacklight/render_constraints_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/configurable.rb'
-    - 'lib/blacklight/solr/response/facets.rb'
-    - 'lib/generators/blacklight/assets_generator.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 Style/LeadingCommentSpace:

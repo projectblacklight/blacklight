@@ -194,7 +194,7 @@ module Blacklight::Solr::Response::Facets
     return {} unless blacklight_config
 
     blacklight_config.facet_fields.select { |_k, v| v.query }.each_with_object({}) do |(field_name, facet_field), hash|
-        salient_facet_queries = facet_field.query.map { |_k, x| x[:fq] }
+      salient_facet_queries = facet_field.query.map { |_k, x| x[:fq] }
         items = facet_queries.select { |k, _v| salient_facet_queries.include?(k) }.reject { |_value, hits| hits.zero? }.map do |value, hits|
           salient_fields = facet_field.query.select { |_key, val| val[:fq] == value }
           key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
