@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Blacklight::Solr::InvalidParameter < ArgumentError; end
 
 class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess

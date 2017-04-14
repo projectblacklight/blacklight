@@ -6,12 +6,19 @@ inherit_from:
 AllCops:
   DisplayCopNames: true
   Exclude:
-  - "lib/generators/blacklight/templates/**/*"
-  - "spec/**/*"
-  - "blacklight.gemspec"
+    - "blacklight.gemspec"
+    - "db/**/*"
+    - "lib/generators/blacklight/templates/**/*"
+    - "spec/**/*"
 
 Rails:
   Enabled: true
+
+# TODO: remove when
+# https://github.com/bbatsov/rubocop/commit/246bef5e1cccd04045a71eee2476cde6c0782e92
+# is part fo a stable release
+Rails/Blank:
+  Enabled: false
 
 Metrics/BlockLength:
   Exclude:
@@ -23,6 +30,9 @@ Metrics/LineLength:
 
 Style/StringLiterals:
   Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
 
 Style/IndentationConsistency:
   Enabled: false
