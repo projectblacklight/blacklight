@@ -9,6 +9,7 @@
   <h3 class='section-heading'><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search-history">
     <%-  @searches.each_with_index do |search,index| -%>
+    <% next if search.query_params[:q].blank? %>
     <%= content_tag :tr, :id => "document_#{index + 1}" do %>
       <td class="query"><%= link_to_previous_search(search.query_params) %></td>
       <%- if has_user_authentication_provider? -%>
