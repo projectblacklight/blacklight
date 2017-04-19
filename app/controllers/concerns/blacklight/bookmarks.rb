@@ -78,7 +78,7 @@ module Blacklight::Bookmarks
     current_or_guest_user.save! unless current_or_guest_user.persisted?
 
     success = @bookmarks.all? do |bookmark|
-       current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
+      current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark)
     end
 
     if request.xhr?

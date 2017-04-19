@@ -44,7 +44,7 @@ module Blacklight::Configurable
   end
 
   def self.default_configuration
-      @default_configuration ||= Blacklight::Configuration.new
+    @default_configuration ||= Blacklight::Configuration.new
   end
 
   def self.default_configuration= config

@@ -56,7 +56,7 @@ module Blacklight::TokenBasedUser
     if ActiveSupport::MessageEncryptor.respond_to? :key_len
       ActiveSupport::MessageEncryptor.key_len
     else
-     0
+      0
     end
   end
 end
