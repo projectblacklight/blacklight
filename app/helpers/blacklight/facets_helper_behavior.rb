@@ -234,11 +234,11 @@ module Blacklight::FacetsHelperBehavior
 
   private
 
-  def facet_value_for_facet_item item
-    if item.respond_to? :value
-      item.value
-    else
-      item
+    def facet_value_for_facet_item item
+      if item.respond_to? :value
+        item.value
+      else
+        item
+      end
     end
-  end
 end

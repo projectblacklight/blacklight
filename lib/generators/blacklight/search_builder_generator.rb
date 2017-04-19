@@ -25,8 +25,8 @@ module Blacklight
 
     private
 
-    def rspec_installed?
-      defined?(RSpec) && defined?(RSpec::Rails)
-    end
+      def rspec_installed?
+        defined?(RSpec) && defined?(RSpec::Rails)
+      end
   end
 end

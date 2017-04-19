@@ -25,7 +25,7 @@ Style/StringLiterals:
   Enabled: false
 
 Style/IndentationConsistency:
-  Enabled: false
+  EnforcedStyle: rails
 
 Rails/OutputSafety:
   Enabled: false

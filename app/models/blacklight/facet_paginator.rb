@@ -103,10 +103,10 @@ module Blacklight
 
     private
 
-    # setting limit to nil implies no limit
-    # @return an array of facets on the page
-    def items_for_limit(values)
-      limit.nil? ? values : values.take(limit)
-    end
+      # setting limit to nil implies no limit
+      # @return an array of facets on the page
+      def items_for_limit(values)
+        limit.nil? ? values : values.take(limit)
+      end
   end
 end

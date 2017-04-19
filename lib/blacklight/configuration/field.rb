@@ -38,22 +38,22 @@ module Blacklight
 
     private
 
-    ##
-    # Look up the label for a solr field.
-    #
-    # @overload label
-    #   @param [Symbol] an i18n key
-    #
-    # @overload label, i18n_key, another_i18n_key, and_another_i18n_key
-    #   @param [String] default label to display if the i18n look up fails
-    #   @param [Symbol] i18n keys to attempt to look up
-    #     before falling  back to the label
-    #   @param [Symbol] any number of additional keys
-    #   @param [Symbol] ...
-    def field_label *i18n_keys
-      first, *rest = i18n_keys.compact
+      ##
+      # Look up the label for a solr field.
+      #
+      # @overload label
+      #   @param [Symbol] an i18n key
+      #
+      # @overload label, i18n_key, another_i18n_key, and_another_i18n_key
+      #   @param [String] default label to display if the i18n look up fails
+      #   @param [Symbol] i18n keys to attempt to look up
+      #     before falling  back to the label
+      #   @param [Symbol] any number of additional keys
+      #   @param [Symbol] ...
+      def field_label *i18n_keys
+        first, *rest = i18n_keys.compact
 
-      I18n.t(first, default: rest)
-    end
+        I18n.t(first, default: rest)
+      end
   end
 end

@@ -137,69 +137,69 @@ module Blacklight
 
       protected
 
-      def luke_fields
-        if @table[:luke_fields] == false
-          return nil
+        def luke_fields
+          if @table[:luke_fields] == false
+            return nil
+          end
+
+          @table[:luke_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/luke", expires_in: 1.hour) do
+            begin
+              if repository_class <= Blacklight::Solr::Repository
+                repository = repository_class.new(self)
+                repository.send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
+              end
+            rescue => e
+              Blacklight.logger.warn "Error retrieving field metadata: #{e}"
+              false
+            end
+          end
+
+          @table[:luke_fields] || {}
         end
 
-        @table[:luke_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/luke", expires_in: 1.hour) do
-          begin
-            if repository_class <= Blacklight::Solr::Repository
-              repository = repository_class.new(self)
-              repository.send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
-            end
-          rescue => e
-            Blacklight.logger.warn "Error retrieving field metadata: #{e}"
-            false
+        # Add a solr field by a solr field name and hash
+        def field_config_from_key_and_hash config_key, field_name, field_or_hash = {}
+          field_config = field_config_from_field_or_hash(config_key, field_or_hash)
+          field_config.key = field_name
+          field_config
+        end
+
+        # Add multiple solr fields using a hash or Field instance
+        def field_config_from_array config_key, array_of_fields_or_hashes, &block
+          array_of_fields_or_hashes.map do |field_or_hash|
+            add_blacklight_field(config_key, field_or_hash, &block)
           end
         end
 
-        @table[:luke_fields] || {}
-      end
-
-      # Add a solr field by a solr field name and hash
-      def field_config_from_key_and_hash config_key, field_name, field_or_hash = {}
-        field_config = field_config_from_field_or_hash(config_key, field_or_hash)
-        field_config.key = field_name
-        field_config
-      end
-
-      # Add multiple solr fields using a hash or Field instance
-      def field_config_from_array config_key, array_of_fields_or_hashes, &block
-        array_of_fields_or_hashes.map do |field_or_hash|
-          add_blacklight_field(config_key, field_or_hash, &block)
+        # Add a solr field using a hash or Field instance
+        def field_config_from_field_or_hash config_key, field_or_hash = {}
+          hash_arg_to_config(field_or_hash, field_class_from_key(config_key))
         end
-      end
 
-      # Add a solr field using a hash or Field instance
-      def field_config_from_field_or_hash config_key, field_or_hash = {}
-        hash_arg_to_config(field_or_hash, field_class_from_key(config_key))
-      end
-
-      # for our add_* methods, takes the optional hash param,
-      # and makes it into a specific config OpenStruct, like
-      # FacetField or SearchField. Or if the param already was
-      # one, that's cool. Or if the param is nil, make
-      # an empty one. Second argument is an actual class object.
-      def hash_arg_to_config(hash_arg, klass)
-        case hash_arg
-        when Hash
-          klass.new(hash_arg)
-        when NilClass
-          klass.new
-        else
-          # this assumes it already is an element of klass, or acts like one,
-          # if not something bad will happen later, that's your problem.
-          hash_arg
+        # for our add_* methods, takes the optional hash param,
+        # and makes it into a specific config OpenStruct, like
+        # FacetField or SearchField. Or if the param already was
+        # one, that's cool. Or if the param is nil, make
+        # an empty one. Second argument is an actual class object.
+        def hash_arg_to_config(hash_arg, klass)
+          case hash_arg
+          when Hash
+            klass.new(hash_arg)
+          when NilClass
+            klass.new
+          else
+            # this assumes it already is an element of klass, or acts like one,
+            # if not something bad will happen later, that's your problem.
+            hash_arg
+          end
         end
-      end
 
       private
 
-      # convert a config key to the appropriate Field class
-      def field_class_from_key key
-        "Blacklight::Configuration::#{key.camelcase}".constantize
-      end
+        # convert a config key to the appropriate Field class
+        def field_class_from_key key
+          "Blacklight::Configuration::#{key.camelcase}".constantize
+        end
     end
   end
 end
