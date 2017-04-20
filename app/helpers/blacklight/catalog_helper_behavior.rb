@@ -311,11 +311,11 @@ module Blacklight::CatalogHelperBehavior
 
   private
 
-    # @param [String] format
-    # @param [Hash] options
-    # @option options :route_set the route scope to use when constructing the link
-    def feed_link_url(format, options = {})
-      scope = options.delete(:route_set) || self
-      scope.url_for search_state.to_h.merge(format: format)
-    end
+  # @param [String] format
+  # @param [Hash] options
+  # @option options :route_set the route scope to use when constructing the link
+  def feed_link_url(format, options = {})
+    scope = options.delete(:route_set) || self
+    scope.url_for search_state.to_h.merge(format: format)
+  end
 end

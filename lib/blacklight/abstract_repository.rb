@@ -34,12 +34,12 @@ module Blacklight
 
     protected
 
-      def connection_config
-        blacklight_config.connection_config
-      end
+    def connection_config
+      blacklight_config.connection_config
+    end
 
-      def logger
-        @logger ||= Blacklight.logger
-      end
+    def logger
+      @logger ||= Blacklight.logger
+    end
   end
 end

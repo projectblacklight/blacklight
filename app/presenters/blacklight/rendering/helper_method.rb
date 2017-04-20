@@ -11,13 +11,13 @@ module Blacklight
 
       private
 
-        def render_helper
-          context.send(config.helper_method,
-                       options.merge(document: document,
-                                     field: config.field,
-                                     config: config,
-                                     value: values))
-        end
+      def render_helper
+        context.send(config.helper_method,
+                     options.merge(document: document,
+                                   field: config.field,
+                                   config: config,
+                                   value: values))
+      end
     end
   end
 end

@@ -9,9 +9,9 @@ module Blacklight
 
       private
 
-        def itemprop(val, itemprop)
-          content_tag :span, val, itemprop: itemprop
-        end
+      def itemprop(val, itemprop)
+        content_tag :span, val, itemprop: itemprop
+      end
     end
   end
 end

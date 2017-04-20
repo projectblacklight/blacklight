@@ -24,8 +24,8 @@ module Blacklight
 
     private
 
-      def retrieve_values
-        FieldRetriever.new(document, field_config).fetch
-      end
+    def retrieve_values
+      FieldRetriever.new(document, field_config).fetch
+    end
   end
 end
