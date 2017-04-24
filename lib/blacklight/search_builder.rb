@@ -214,6 +214,10 @@ module Blacklight
       @facet
     end
 
+    # Decode the user provided 'sort' parameter into a sort string that can be
+    # passed to the search.  This sanitizes the input by ensuring only
+    # configured search values are passed through to the search.
+    # @return [String] the field/fields to sort by
     def sort
       sort_field = if blacklight_params[:sort].blank?
                      # no sort param provided, use default
@@ -222,15 +226,9 @@ module Blacklight
                      # check for sort field key
                      blacklight_config.sort_fields[blacklight_params[:sort]]
                    end
-
-      field = if sort_field.present?
-                sort_field.sort
-              else
-                # just pass the key through
-                blacklight_params[:sort]
-              end
-
-      field unless field.blank?
+      return sort_field.sort if sort_field.present?
+      Blacklight.logger.warn "Invalid sort field: '#{blacklight_params[:sort]}' was provided."
+      nil
     end
 
     def search_field
