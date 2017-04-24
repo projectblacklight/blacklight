@@ -5,14 +5,16 @@ notifications:
   email: false
 
 rvm:
-  - 2.4.0
+  - 2.4.1
 
 matrix:
   include:
-    - rvm: 2.3.3
+    - rvm: 2.3.4
       env: "RAILS_VERSION=4.2.8"
     - rvm: jruby-9.1.7.0
       env: "RAILS_VERSION=5.0.2 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+    - rvm: 2.4.1
+      env: "RAILS_VERSION=5.1.0.rc2"
   allow_failures:
     - rvm: jruby-9.1.7.0
   fast_finish: true
