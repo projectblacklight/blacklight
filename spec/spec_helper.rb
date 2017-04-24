@@ -43,6 +43,8 @@ end
 Dir[Pathname.new(File.expand_path("../support/**/*.rb", __FILE__))].each {|f| require f}
 
 RSpec.configure do |config|
+  config.disable_monkey_patching!
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-describe BlacklightHelper do
+RSpec.describe BlacklightHelper do
   before(:each) do
     allow(helper).to receive(:current_or_guest_user).and_return(User.new)
     allow(helper).to receive(:search_action_path) do |*args|

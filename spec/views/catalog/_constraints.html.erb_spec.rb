@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/constraints" do
+RSpec.describe "catalog/constraints" do
   let :blacklight_config do
     Blacklight::Configuration.new do |config|
       config.view.xyz

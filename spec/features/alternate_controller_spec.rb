@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Alternate Controller Behaviors" do
+RSpec.describe "Alternate Controller Behaviors" do
   it "has the correct per-page form" do
     visit search_alternate_path
     expect(page).to have_selector("form[action='#{search_alternate_url}']")

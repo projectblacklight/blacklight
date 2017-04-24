@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe SavedSearchesController do
+RSpec.describe SavedSearchesController do
   routes { Blacklight::Engine.routes }
 
   before(:all) do

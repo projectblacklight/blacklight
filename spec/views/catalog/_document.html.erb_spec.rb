@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_document" do
+RSpec.describe "catalog/_document" do
   let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
 

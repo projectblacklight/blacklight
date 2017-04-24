@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rake'
 
-describe "blacklight:delete_old_searches" do
+RSpec.describe "blacklight:delete_old_searches" do
 
   before do
     @rake = Rake::Application.new      

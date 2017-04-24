@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe SearchHistoryController do
+RSpec.describe SearchHistoryController do
   routes { Blacklight::Engine.routes }
 
   describe "index" do

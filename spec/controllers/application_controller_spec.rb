@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe ApplicationController do
+RSpec.describe ApplicationController do
 
   describe "#blacklight_config" do
 

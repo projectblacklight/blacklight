@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-describe "catalog/index.json" do
+RSpec.describe "catalog/index.json" do
   let(:response) { instance_double(Blacklight::Solr::Response, documents: docs) }
   let(:docs) { [{ id: '123', title_t: 'Book1' }, { id: '456', title_t: 'Book2' }] }
   let(:facets) { double("facets") }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Rendering::Pipeline do
+RSpec.describe Blacklight::Rendering::Pipeline do
   include Capybara::RSpecMatchers
   let(:document) { instance_double(SolrDocument) }
   let(:context) { double }

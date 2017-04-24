@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::FacetsHelperBehavior do
+RSpec.describe Blacklight::FacetsHelperBehavior do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before(:each) do

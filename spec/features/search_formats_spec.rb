@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Search Formats" do
+RSpec.describe "Search Formats" do
   it "has an RSS XML response" do
     visit "/catalog.rss?q="
     expect(page).to have_content "Blacklight Search Results"

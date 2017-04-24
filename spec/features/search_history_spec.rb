@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Search History Page" do
+RSpec.describe "Search History Page" do
   describe "navigating from the homepage" do
     it "has a link to the history page" do
       visit root_path

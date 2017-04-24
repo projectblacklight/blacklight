@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Search Pagination" do
+RSpec.describe "Search Pagination" do
   it "has results with pagination" do
     visit root_path
     fill_in "q", with: ''

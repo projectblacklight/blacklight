@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Search Sort" do
+RSpec.describe "Search Sort" do
   it "sorts on facet results with no search terms" do
     visit root_path
     within "#facet-language_facet" do

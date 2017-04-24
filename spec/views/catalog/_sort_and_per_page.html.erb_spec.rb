@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_sort_and_per_page" do
+RSpec.describe "catalog/_sort_and_per_page" do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do

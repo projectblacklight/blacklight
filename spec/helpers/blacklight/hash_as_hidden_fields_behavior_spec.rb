@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::HashAsHiddenFieldsHelperBehavior do
+RSpec.describe Blacklight::HashAsHiddenFieldsHelperBehavior do
   before(:each) do
     @hash = {:q => "query", :search_field => "search_field", :per_page=>10, :page=>5, :extra_arbitrary_key=>"arbitrary_value", :f=> {:field1 => ["a", "b"], :field2=> ["z"]}}
   end

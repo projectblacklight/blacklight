@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_view_type_group" do
+RSpec.describe "catalog/_view_type_group" do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
   let(:icon_instance) { instance_double(Blacklight::Icon) }

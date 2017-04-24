@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/show.html.erb" do
+RSpec.describe "catalog/show.html.erb" do
   let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
 

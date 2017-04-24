@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-describe Blacklight::Solr::Response::GroupResponse do
+RSpec.describe Blacklight::Solr::Response::GroupResponse do
   
   let(:response) do
     create_response(sample_response)

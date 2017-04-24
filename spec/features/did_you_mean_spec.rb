@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Did You Mean" do
+RSpec.describe "Did You Mean" do
   before { visit root_path }
 
   describe "searching all fields" do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Blacklight::User" do
+RSpec.describe "Blacklight::User" do
 
   subject { User.create! :email => 'xyz@example.com', :password => 'xyz12345' }
 

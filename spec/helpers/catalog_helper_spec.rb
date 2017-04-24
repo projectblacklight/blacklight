@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe CatalogHelper do
+RSpec.describe CatalogHelper do
   include ERB::Util
   include CatalogHelper
 

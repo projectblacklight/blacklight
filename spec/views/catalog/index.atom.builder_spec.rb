@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rexml/document'
 
-describe "catalog/index" do
+RSpec.describe "catalog/index" do
   let(:document_list) do
     10.times.map do |i|
       doc = SolrDocument.new(id: i)

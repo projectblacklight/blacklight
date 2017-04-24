@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-describe CatalogController do
+RSpec.describe CatalogController do
   let(:doc_id) { '2007020969' }
   let(:mock_response) { instance_double(Blacklight::Solr::Response) }
   let(:mock_document) { instance_double(SolrDocument) }

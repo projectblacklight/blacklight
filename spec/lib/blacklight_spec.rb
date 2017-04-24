@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight do
+RSpec.describe Blacklight do
   context 'root' do
     let(:blroot) { File.expand_path(File.join(__FILE__, '..', '..', '..' )) }
 

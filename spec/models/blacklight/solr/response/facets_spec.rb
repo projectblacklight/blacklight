@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Solr::Response::Facets do
+RSpec.describe Blacklight::Solr::Response::Facets do
   describe Blacklight::Solr::Response::Facets::FacetField do
 
     describe "A field with default options" do

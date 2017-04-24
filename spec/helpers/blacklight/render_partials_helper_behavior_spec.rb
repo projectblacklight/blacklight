@@ -1,4 +1,4 @@
-describe Blacklight::RenderPartialsHelperBehavior do
+RSpec.describe Blacklight::RenderPartialsHelperBehavior do
   describe "#type_field_to_partial_name" do
     let(:document) { double }
     context "with default value" do

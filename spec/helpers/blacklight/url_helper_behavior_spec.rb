@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::UrlHelperBehavior do
+RSpec.describe Blacklight::UrlHelperBehavior do
 
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|

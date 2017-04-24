@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Record View" do
+RSpec.describe "Record View" do
   it "displays a normal record" do
     visit solr_document_path('2007020969')
     expect(page).to have_content "Title:" 

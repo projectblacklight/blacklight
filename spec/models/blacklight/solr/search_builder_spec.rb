@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Solr::SearchBuilderBehavior do
+RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
   let(:single_facet) { { format: 'Book' } }
   let(:multi_facets) { { format: 'Book', language_facet: 'Tibetan' } }
   let(:mult_word_query) { 'tibetan history' }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::LayoutHelperBehavior do
+RSpec.describe Blacklight::LayoutHelperBehavior do
   describe '#show_content_classes' do
     it 'returns a string of classes' do
       expect(helper.show_content_classes).to be_an String

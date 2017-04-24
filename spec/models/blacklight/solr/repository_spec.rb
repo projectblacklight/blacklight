@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Solr::Repository do
+RSpec.describe Blacklight::Solr::Repository do
 
   let :blacklight_config do
     CatalogController.blacklight_config.deep_copy
