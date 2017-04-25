@@ -5,7 +5,7 @@ class AlternateController < CatalogController
   end
 
   def xyz *args
-    view_context.image_tag "asdfg"
+    view_context.tag "img"
   end
   
   helper_method :xyz

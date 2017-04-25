@@ -127,14 +127,18 @@ describe BlacklightUrlHelper do
 
     context "when an alternate scope is passed in" do
       let(:my_engine) { double("Engine") }
+      subject(:tag) { helper.link_back_to_catalog(route_set: my_engine) }
+
+      before do
+        allow(helper).to receive(:current_search_session).and_return double(:query_params => query_params)
+      end
 
       it "calls url_for on the engine scope" do
-        allow(helper).to receive(:current_search_session).and_return double(:query_params => query_params)
-        expect(my_engine).to receive(:url_for).and_return(url_for(query_params))
-        tag = helper.link_back_to_catalog(route_set: my_engine)
+        expect(my_engine).to receive(:url_for)
+          .with(q:"query", f: "facets", controller: "catalog")
+          .and_return('link-url')
         expect(tag).to match /Back to Search/
-        expect(tag).to match /q=query/
-        expect(tag).to match /f=facets/
+        expect(tag).to match /link-url/
       end
     end
   end
