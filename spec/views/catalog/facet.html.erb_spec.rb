@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'catalog/facet.html.erb' do
+RSpec.describe 'catalog/facet.html.erb' do
   let(:display_facet) { double }
   let(:blacklight_config) { Blacklight::Configuration.new }
   before :each do

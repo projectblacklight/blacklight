@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Saved Searches" do
+RSpec.describe "Saved Searches" do
   before do
     sign_in 'user1'
     visit root_path

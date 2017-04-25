@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'catalog/_facet_index_navigation.html.erb', type: :view do
+RSpec.describe 'catalog/_facet_index_navigation.html.erb', type: :view do
   let(:pagination) { Blacklight::Solr::FacetPaginator.new([]) }
   let(:facet) { Blacklight::Configuration::FacetField.new({ index_range: '0'..'9' })}
   let(:blacklight_config) { Blacklight::Configuration.new }

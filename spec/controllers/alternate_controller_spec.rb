@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe AlternateController do
+RSpec.describe AlternateController do
   describe "the search results tools" do
     it "inherits tools from CatalogController" do
       expect(AlternateController.blacklight_config.index.document_actions).to have_key(:bookmark)

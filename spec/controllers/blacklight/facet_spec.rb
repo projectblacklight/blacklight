@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Facet do
+RSpec.describe Blacklight::Facet do
   subject do
     Class.new do
       include Blacklight::Facet

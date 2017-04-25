@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_constraints_element.html.erb" do
+RSpec.describe "catalog/_constraints_element.html.erb" do
   describe "for simple display" do
     before do
       render :partial => "catalog/constraints_element", :locals => {:label => "my label", :value => "my value"}

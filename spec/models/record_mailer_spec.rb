@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe RecordMailer do
+RSpec.describe RecordMailer do
   before(:each) do
     allow(RecordMailer).to receive(:default) { { :from => 'no-reply@projectblacklight.org' } }
     SolrDocument.use_extension( Blacklight::Document::Email )

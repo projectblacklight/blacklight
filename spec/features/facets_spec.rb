@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Facets" do
+RSpec.describe "Facets" do
   it "shows a single facet's values" do
     visit facet_catalog_path("language_facet")
     expect(page).to have_selector ".modal-title", :text => "Language"

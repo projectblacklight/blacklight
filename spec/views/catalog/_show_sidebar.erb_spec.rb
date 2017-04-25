@@ -2,7 +2,7 @@
 
 # spec for sidebar partial in catalog show view
 
-describe "/catalog/_show_sidebar.html.erb" do
+RSpec.describe "/catalog/_show_sidebar.html.erb" do
 
   let(:blacklight_config) do
     Blacklight::Configuration.new do |config|

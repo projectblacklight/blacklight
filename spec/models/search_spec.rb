@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Search do
+RSpec.describe Search do
   let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345'}
   describe "query_params" do
     before(:each) do

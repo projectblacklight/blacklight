@@ -2,7 +2,7 @@
 
 # spec for default partial to display solr document fields in catalog INDEX view
 
-describe "/catalog/_index" do
+RSpec.describe "/catalog/_index" do
   include BlacklightHelper
   include CatalogHelper
 

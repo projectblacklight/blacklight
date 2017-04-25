@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::SearchFields do
+RSpec.describe Blacklight::SearchFields do
 
   class MockConfig
     include Blacklight::SearchFields

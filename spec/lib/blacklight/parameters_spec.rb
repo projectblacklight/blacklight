@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Parameters do
+RSpec.describe Blacklight::Parameters do
   describe "sanitize_search_params" do
     subject { described_class.sanitize(params) }
 

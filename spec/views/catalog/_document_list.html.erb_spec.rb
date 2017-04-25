@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_document_list", type: :view do
+RSpec.describe "catalog/_document_list", type: :view do
   before do
     allow(view).to receive_messages(document_index_view_type: "some-view", documents: [])
   end

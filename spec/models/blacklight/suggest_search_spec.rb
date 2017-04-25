@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::SuggestSearch do
+RSpec.describe Blacklight::SuggestSearch do
   let(:params) { {q: 'test'} }
   let(:suggest_path) { 'suggest' }
   let(:connection) { instance_double(RSolr::Client, send_and_receive: 'sent')}

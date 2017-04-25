@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_index_header" do
+RSpec.describe "catalog/_index_header" do
   let :document do
     SolrDocument.new :id => 'xyz', :format => 'a'
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Blacklight::Solr::Document" do
+RSpec.describe "Blacklight::Solr::Document" do
     class MockDocument
       include Blacklight::Solr::Document
     end

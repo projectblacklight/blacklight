@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Base do
+RSpec.describe Blacklight::Base do
   let(:controller) { (Class.new(ApplicationController) { include Blacklight::Base }).new }
   subject { controller}
 

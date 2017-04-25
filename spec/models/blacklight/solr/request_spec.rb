@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Solr::Request do
+RSpec.describe Blacklight::Solr::Request do
   before do
     subject[:qt] = 'hey'
     subject[:fq] = ["what's up.", "dood"]

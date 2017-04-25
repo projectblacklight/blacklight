@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Search Results context", js: true do
+RSpec.describe "Search Results context", js: true do
   it "passes the current search id through" do
     search_for ''
     search_id =  Search.last.id.to_s

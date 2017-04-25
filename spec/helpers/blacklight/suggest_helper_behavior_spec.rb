@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::SuggestHelperBehavior do
+RSpec.describe Blacklight::SuggestHelperBehavior do
   before do
     allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
   end

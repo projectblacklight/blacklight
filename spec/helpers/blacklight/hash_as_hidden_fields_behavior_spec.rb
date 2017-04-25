@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::HashAsHiddenFieldsHelperBehavior do
+RSpec.describe Blacklight::HashAsHiddenFieldsHelperBehavior do
   let(:params) do
     { q: "query",
       search_field: "search_field",

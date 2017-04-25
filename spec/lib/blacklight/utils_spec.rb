@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Blacklight::Utils' do
+RSpec.describe 'Blacklight::Utils' do
   describe Blacklight::OpenStructWithHashAccess do
     it "provides hash-like accessors for OpenStruct data" do
       a = Blacklight::OpenStructWithHashAccess.new :foo => :bar, :baz => 1

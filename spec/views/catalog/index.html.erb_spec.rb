@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/index.html.erb" do
+RSpec.describe "catalog/index.html.erb" do
 
   describe "with no search parameters" do
     before do

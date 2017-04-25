@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Blacklight::Document::Email" do
+RSpec.describe "Blacklight::Document::Email" do
   before(:all) do
     SolrDocument.use_extension( Blacklight::Document::Sms )
   end

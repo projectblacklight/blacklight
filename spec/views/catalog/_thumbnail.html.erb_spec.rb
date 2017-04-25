@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_thumbnail" do
+RSpec.describe "catalog/_thumbnail" do
 
   let :document_without_thumbnail_field do
     SolrDocument.new :id => 'xyz', :format => 'a'

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Search Page" do
+RSpec.describe "Search Page" do
   it "shows welcome" do
     visit root_path
     expect(page).to have_selector("input#q")

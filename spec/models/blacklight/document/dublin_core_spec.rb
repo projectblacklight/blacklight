@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Blacklight::Document::DublinCore" do
+RSpec.describe "Blacklight::Document::DublinCore" do
   before(:all) do
     @mock_class = Class.new do
       include Blacklight::Document

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::ShowPresenter do
+RSpec.describe Blacklight::ShowPresenter do
   include Capybara::RSpecMatchers
   let(:request_context) { double }
   let(:config) { Blacklight::Configuration.new }

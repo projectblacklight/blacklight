@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Blacklight::Configuration" do
+RSpec.describe "Blacklight::Configuration" do
   
   before(:each) do
     @config = Blacklight::Configuration.new

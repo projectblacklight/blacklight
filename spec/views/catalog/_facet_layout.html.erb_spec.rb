@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/facet_layout" do
+RSpec.describe "catalog/facet_layout" do
   let :blacklight_config do
     Blacklight::Configuration.new do |config|
       config.facet_fields[facet_field.field] = facet_field

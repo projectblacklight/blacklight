@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::SearchBuilder do
+RSpec.describe Blacklight::SearchBuilder do
   let(:processor_chain) { [] }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:scope) { double blacklight_config: blacklight_config }

@@ -2,7 +2,7 @@
 
 # spec for sidebar partial in catalog show view
 
-describe "/catalog/_search_header.html.erb" do
+RSpec.describe "/catalog/_search_header.html.erb" do
   it "renders the default search header partials" do
     stub_template "_did_you_mean.html.erb" => "did_you_mean"
     stub_template "_sort_and_per_page.html.erb" => "sort_and_per_page"

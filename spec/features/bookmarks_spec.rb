@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Bookmarks" do
+RSpec.describe "Bookmarks" do
   describe "navigating from the homepage" do
     it "has a link to the history page" do
       sign_in 'user1'

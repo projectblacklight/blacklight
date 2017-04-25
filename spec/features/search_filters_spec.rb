@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Facets" do
+RSpec.describe "Facets" do
   it "works without a search term" do
     visit root_path
     within "#facet-language_facet" do

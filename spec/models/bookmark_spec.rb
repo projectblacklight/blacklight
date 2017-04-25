@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Bookmark do
+RSpec.describe Bookmark do
   let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345'}
   subject do
     b = Bookmark.new(user: user)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe BookmarksController do
+RSpec.describe BookmarksController do
   describe '#blacklight_config' do
     it 'uses POST requests for querying solr' do
       expect(@controller.blacklight_config.http_method).to eq :post

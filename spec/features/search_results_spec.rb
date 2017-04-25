@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Search Results" do
+RSpec.describe "Search Results" do
   it "has for an empty query" do
     search_for ''
     expect(number_of_results_from_page(page)).to eq 30

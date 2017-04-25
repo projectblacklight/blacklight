@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::SearchHistoryConstraintsHelperBehavior do
+RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
 
   before(:all) do
     @config = Blacklight::Configuration.new do |config|

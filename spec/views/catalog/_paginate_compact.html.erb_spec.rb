@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "catalog/_paginate_compact.html.erb" do
+RSpec.describe "catalog/_paginate_compact.html.erb" do
   let(:user) { User.new { |u| u.save(validate: false) } }
 
   before do

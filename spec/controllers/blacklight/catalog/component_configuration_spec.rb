@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::DefaultComponentConfiguration do
+RSpec.describe Blacklight::DefaultComponentConfiguration do
   subject do
     Class.new do
       include Blacklight::Configurable

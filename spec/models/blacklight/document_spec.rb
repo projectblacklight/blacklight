@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Blacklight::Document do
+RSpec.describe Blacklight::Document do
   let(:data) { {} }
   subject do
     Class.new do
