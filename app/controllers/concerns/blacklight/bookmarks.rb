@@ -115,11 +115,8 @@ module Blacklight::Bookmarks
       end
     elsif request.xhr?
       head 500 # ajaxy request needs no redirect and should not have flash set
-    elsif respond_to? :redirect_back
-      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
     else
-      # Deprecated in Rails 5.0
-      redirect_to :back, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
+      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
     end
   end
 

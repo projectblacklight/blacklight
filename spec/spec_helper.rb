@@ -65,10 +65,6 @@ RSpec.configure do |config|
   config.include(ControllerLevelHelpers, type: :view)
   config.before(:each, type: :view) { initialize_controller_helpers(view) }
 
-  unless Rails.version > '5'
-    config.include BackportTest, type: :controller
-  end
-
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
