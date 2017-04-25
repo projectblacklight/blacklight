@@ -131,15 +131,19 @@ RSpec.describe CatalogHelper do
 
   describe "rss_feed_link_tag" do
     context "when an alternate scope is passed in" do
+      subject(:tag) { helper.rss_feed_link_tag(route_set: my_engine) }
+
       let(:my_engine) { double("Engine") }
       let(:query_params) { { controller: 'catalog', action: 'index' } }
       let(:config) { Blacklight::Configuration.new }
       let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }
 
-      it "calls url_for on the engine scope" do
+      before do
         allow(helper).to receive(:search_state).and_return search_state
-        expect(my_engine).to receive(:url_for).and_return(url_for(query_params))
-        tag = helper.rss_feed_link_tag(route_set: my_engine)
+      end
+
+      it "calls url_for on the engine scope" do
+        expect(my_engine).to receive(:url_for).and_return('/rss-path')
         expect(tag).to match /title="RSS for results"/
         expect(tag).to match /rel="alternate"/
         expect(tag).to match %r{type="application/rss\+xml"}
@@ -149,15 +153,19 @@ RSpec.describe CatalogHelper do
 
   describe "atom_feed_link_tag" do
     context "when an alternate scope is passed in" do
+      subject(:tag) { helper.atom_feed_link_tag(route_set: my_engine) }
+
       let(:my_engine) { double("Engine") }
       let(:query_params) { { controller: 'catalog', action: 'index' } }
       let(:config) { Blacklight::Configuration.new }
       let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }
 
-      it "calls url_for on the engine scope" do
+      before do
         allow(helper).to receive(:search_state).and_return search_state
-        expect(my_engine).to receive(:url_for).and_return(url_for(query_params))
-        tag = helper.atom_feed_link_tag(route_set: my_engine)
+      end
+
+      it "calls url_for on the engine scope" do
+        expect(my_engine).to receive(:url_for).and_return('/atom-path')
         expect(tag).to match /title="Atom for results"/
         expect(tag).to match /rel="alternate"/
         expect(tag).to match %r{type="application/atom\+xml"}
