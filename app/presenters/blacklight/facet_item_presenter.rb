@@ -46,54 +46,53 @@ module Blacklight
 
     private
 
-      ##
-      # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
-      # @see #render_facet_value
-      # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
-      # @param [String] item
-      def selected_facet_value
-        remove_href = search_action_path(search_state.remove_facet_params(facet_field, item))
-        content_tag(:span, class: "facet-label") do
-          content_tag(:span, facet_display_value, class: "selected") +
-            # remove link
-            link_to(remove_href, class: "remove") do
-              content_tag(:span, '✖', class: "remove-icon") +
-                content_tag(:span, '[remove]', class: 'sr-only')
-            end
-        end + render_facet_count(item.hits, :classes => ["selected"])
-      end
+    ##
+    # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
+    # @see #render_facet_value
+    # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
+    # @param [String] item
+    def selected_facet_value
+      remove_href = search_action_path(search_state.remove_facet_params(facet_field, item))
+      content_tag(:span, class: "facet-label") do
+        content_tag(:span, facet_display_value, class: "selected") +
+          # remove link
+          link_to(remove_href, class: "remove") do
+            content_tag(:span, '✖', class: "remove-icon") +
+              content_tag(:span, '[remove]', class: 'sr-only')
+          end
+      end + render_facet_count(item.hits, classes: ["selected"])
+    end
 
-      def facet_display_value
-        facet_value_presenter.new(facet_field, item, view_context).display
-      end
+    def facet_display_value
+      facet_value_presenter.new(facet_field, item, view_context).display
+    end
 
-      ##
-      # Where should this facet link to?
-      # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
-      # @param [String] item
-      # @param [Hash] path_options
-      # @return [String]
-      def path_for_facet(facet_field, item, path_options = {})
-        facet_config = facet_configuration_for_field(facet_field)
-        if facet_config.url_method
-          view_context.send(facet_config.url_method, facet_field, item)
-        else
-          search_action_path(search_state.add_facet_params_and_redirect(facet_field, item).merge(path_options))
-        end
+    ##
+    # Where should this facet link to?
+    # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
+    # @param [String] item
+    # @param [Hash] path_options
+    # @return [String]
+    def path_for_facet(facet_field, item, path_options = {})
+      facet_config = facet_configuration_for_field(facet_field)
+      if facet_config.url_method
+        view_context.send(facet_config.url_method, facet_field, item)
+      else
+        search_action_path(search_state.add_facet_params_and_redirect(facet_field, item).merge(path_options))
       end
+    end
 
-      ##
-      # Renders a count value for facet limits. Can be over-ridden locally
-      # to change style. And can be called by plugins to get consistent display.
-      #
-      # @param [Integer] num number of facet results
-      # @param [Hash] options
-      # @option options [Array<String>]  an array of classes to add to count span.
-      # @return [String]
-      def render_facet_count(num, options = {})
-        classes = (options[:classes] || []) << "facet-count"
-        content_tag("span", t('blacklight.search.facets.count', :number => number_with_delimiter(num)), :class => classes)
-      end
-
+    ##
+    # Renders a count value for facet limits. Can be over-ridden locally
+    # to change style. And can be called by plugins to get consistent display.
+    #
+    # @param [Integer] num number of facet results
+    # @param [Hash] options
+    # @option options [Array<String>]  an array of classes to add to count span.
+    # @return [String]
+    def render_facet_count(num, options = {})
+      classes = (options[:classes] || []) << "facet-count"
+      content_tag("span", t('blacklight.search.facets.count', number: number_with_delimiter(num)), class: classes)
+    end
   end
 end

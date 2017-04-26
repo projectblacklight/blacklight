@@ -24,7 +24,7 @@ module Blacklight
 
     ##
     # Render a collection of facet fields.
-    # 
+    #
     # @param [Array<String>] fields
     # @param [Hash] options
     # @return String

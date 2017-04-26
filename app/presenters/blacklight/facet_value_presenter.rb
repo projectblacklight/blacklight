@@ -21,8 +21,8 @@ module Blacklight
 
     ##
     # Get the displayable version of a facet's value
-    # 
-    # @return [String] 
+    #
+    # @return [String]
     def display
       facet_config = facet_configuration_for_field(field)
 

@@ -14,8 +14,8 @@ module Blacklight
 
     private
 
-      def configuration
-        @view_context.blacklight_config
-      end
+    def configuration
+      @view_context.blacklight_config
+    end
   end
 end

@@ -19,7 +19,7 @@ module Blacklight
     def presenter_class
       configuration.index.document_presenter_class
     end
-    
+
     def facets
       @facets_presenter ||= facet_list_presenter.new(@response, view_context)
     end
@@ -47,19 +47,19 @@ module Blacklight
 
     private
 
-      def configuration
-        view_context.blacklight_config
-      end
+    def configuration
+      view_context.blacklight_config
+    end
 
-      def search_to_page_title_filter(facet, values)
-        facet_config = configuration.facet_configuration_for_field(facet)
-        filter_value = if values.size < 3
-                         values.map { |value| value_presenter.new(facet, value, view_context).display }.to_sentence
-                       else 
-                         I18n.t('blacklight.search.page_title.many_constraint_values', values: values.size)
-                       end
-        I18n.t('blacklight.search.page_title.constraint', label: facet_config.facet_field_label,
-                                                          value: filter_value)
-      end
+    def search_to_page_title_filter(facet, values)
+      facet_config = configuration.facet_configuration_for_field(facet)
+      filter_value = if values.size < 3
+                       values.map { |value| value_presenter.new(facet, value, view_context).display }.to_sentence
+                     else
+                       I18n.t('blacklight.search.page_title.many_constraint_values', values: values.size)
+                     end
+      I18n.t('blacklight.search.page_title.constraint', label: facet_config.facet_field_label,
+                                                        value: filter_value)
+    end
   end
 end

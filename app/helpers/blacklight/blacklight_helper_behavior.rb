@@ -98,7 +98,7 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @param [#heading] document
   # @return [String]
-  def document_heading presenter=nil
+  def document_heading presenter = nil
     presenter ||= @presenter
     presenter.heading
   end
