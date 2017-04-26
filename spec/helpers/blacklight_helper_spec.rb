@@ -189,10 +189,13 @@ RSpec.describe BlacklightHelper do
 
   describe "#render_document_index_with_view" do
     let(:obj1) { SolrDocument.new }
+    let(:index_presenter) { instance_double(Blacklight::IndexPresenter) }
+    let(:list_presenter) { instance_double(Blacklight::ResultsPagePresenter, item_presenter_for: index_presenter) }
+
     before do
       allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
-      assign(:presenter, instance_double(Blacklight::ResultsPagePresenter, presenter_class: Blacklight::IndexPresenter))
+      assign(:presenter, list_presenter)
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end

@@ -232,16 +232,14 @@ RSpec.describe CatalogHelper do
   end
 
   describe "render_thumbnail_tag" do
-    let(:index_presenter) do
-      instance_double(Blacklight::IndexPresenter, thumbnail: thumbnail_presenter)
-    end
-
+    let(:presenter) { instance_double(Blacklight::IndexPresenter, thumbnail: thumbnail_presenter) }
+    let(:list_presenter) { instance_double(Blacklight::ResultsPagePresenter, presenter_class: Blacklight::IndexPresenter) }
     let(:thumbnail_presenter){ instance_double(Blacklight::ThumbnailPresenter) }
 
     before do
       expect(Deprecation).to receive(:warn)
-      assign(:presenter, instance_double(Blacklight::ResultsPagePresenter, presenter_class: Blacklight::IndexPresenter))
-      allow(Blacklight::IndexPresenter).to receive(:new).and_return(presenter)
+      assign(:presenter, list_presenter)
+      allow(list_presenter).to receive(:item_presenter_for).and_return(presenter)
     end
     let(:document) { instance_double(SolrDocument) }
 
