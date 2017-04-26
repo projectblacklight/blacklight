@@ -2,10 +2,6 @@
   @extend .mb-2;
 }
 
-span.constraints-label {
-  @extend .h5;
-}
-
 .applied-filter {
   .constraint-value {
     cursor: default;
