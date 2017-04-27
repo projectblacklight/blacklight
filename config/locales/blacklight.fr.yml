@@ -217,8 +217,6 @@ fr:
         label: '%{label}:'
       rss_feed: 'RSS pour les résultats'
       atom_feed: 'Atom pour les résultats'
-      fields:
-        default: 'Keyword'
       bookmarks:
         present: "Dans panier"
         absent: "Ajouter au panier"

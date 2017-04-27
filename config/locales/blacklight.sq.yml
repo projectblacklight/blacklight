@@ -212,8 +212,6 @@ sq:
         label: '%{label}:'
       rss_feed: 'RSS për rezultatet'
       atom_feed: 'Atom për rezultatet'
-      fields:
-        default: 'Fjala'
       bookmarks:
         present: "Në memorizime"
         absent: "Memorizo"

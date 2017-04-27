@@ -208,8 +208,6 @@ it:
         label: '%{label}:'
       rss_feed: 'RSS per i risultati'
       atom_feed: 'Atom per i risultati'
-      fields:
-        default: 'Parola chiave'
       bookmarks:
         present: "Nei preferiti"
         absent: "Non fra i preferiti"

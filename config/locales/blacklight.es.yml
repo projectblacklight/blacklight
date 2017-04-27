@@ -209,8 +209,6 @@ es:
         label: '%{label}:'
       rss_feed: 'RSS de los resultados'
       atom_feed: 'Atom de los resultados'
-      fields:
-        default: 'Palabra clave'
       bookmarks:
         present: "En Favoritos"
         absent: "Favoritos"
