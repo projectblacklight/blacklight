@@ -32,7 +32,7 @@ module Blacklight::Catalog
     respond_to do |format|
       format.html do
         store_preferred_view
-        @presenter = list_presenter.new(@response, view_context)
+        @list_presenter = list_presenter.new(@response, view_context)
       end
       format.rss  { render layout: false }
       format.atom { render layout: false }

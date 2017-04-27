@@ -195,7 +195,7 @@ RSpec.describe BlacklightHelper do
     before do
       allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
-      assign(:presenter, list_presenter)
+      assign(:list_presenter, list_presenter)
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end

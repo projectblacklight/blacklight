@@ -25,7 +25,7 @@ RSpec.describe CatalogController do
       # check each user manipulated parameter
       it "has docs and facets for query with results", :integration => true do
         get :index, params: { q: user_query }
-        expect(assigns(:presenter)).to be_kind_of Blacklight::ResultsPagePresenter
+        expect(assigns(:list_presenter)).to be_kind_of Blacklight::ResultsPagePresenter
         expect(assigns(:response).docs).to_not be_empty
         assert_facets_have_values(assigns(:response).aggregations)
       end

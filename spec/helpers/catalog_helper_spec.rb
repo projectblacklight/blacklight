@@ -238,7 +238,7 @@ RSpec.describe CatalogHelper do
 
     before do
       expect(Deprecation).to receive(:warn)
-      assign(:presenter, list_presenter)
+      assign(:list_presenter, list_presenter)
       allow(list_presenter).to receive(:item_presenter_for).and_return(presenter)
     end
     let(:document) { instance_double(SolrDocument) }

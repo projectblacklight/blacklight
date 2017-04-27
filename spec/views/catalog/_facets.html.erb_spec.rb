@@ -3,14 +3,16 @@
 RSpec.describe "catalog/_facets" do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:facet_list_presenter) { instance_double(Blacklight::FacetListPresenter, values?: true) }
+  let(:list_presenter) do
+    instance_double(Blacklight::ResultsPagePresenter, facets: facet_list_presenter)
+  end
 
   before do
     allow(view).to receive_messages(blacklight_config: blacklight_config)
     allow(view).to receive(:search_action_path) do |*args|
       '/catalog'
     end
-    assign(:presenter, instance_double(Blacklight::ResultsPagePresenter,
-                                       facets: facet_list_presenter))
+    assign(:list_presenter, list_presenter)
   end
 
   context "without any facet fields" do

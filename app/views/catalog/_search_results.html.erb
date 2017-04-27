@@ -1,6 +1,6 @@
 <h2 class="sr-only top-content-title"><%= t('blacklight.search.search_results_header') %></h2>
 
-<% @page_title = t('blacklight.search.page_title.title', constraints: @presenter.search_to_page_title(params), :application_name => application_name) %>
+<% @page_title = t('blacklight.search.page_title.title', constraints: @list_presenter.search_to_page_title(params), :application_name => application_name) %>
 
 <% content_for(:head) do -%>
   <%= render_opensearch_response_metadata %>
@@ -17,7 +17,7 @@
 
 <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
 
-<%- if @presenter.empty? %>
+<%- if @list_presenter.empty? %>
   <%= render "zero_results" %>
 <%- elsif render_grouped_response? %>
   <%= render_grouped_document_index %>

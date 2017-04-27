@@ -4,11 +4,12 @@ RSpec.describe "catalog/_document" do
   let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:index_presenter) { instance_double(Blacklight::IndexPresenter) }
+  let(:list_presenter) { instance_double(Blacklight::ResultsPagePresenter, item_presenter_for: index_presenter) }
 
   before do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
-    assign(:presenter, instance_double(Blacklight::ResultsPagePresenter, item_presenter_for: index_presenter))
+    assign(:list_presenter, list_presenter)
   end
 
   it "renders the header, thumbnail and index by default" do
