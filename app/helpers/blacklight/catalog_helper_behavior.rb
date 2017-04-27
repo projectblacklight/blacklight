@@ -107,11 +107,10 @@ module Blacklight::CatalogHelperBehavior
                                                        count: search_session['total'].to_i).html_safe
   end
 
-  ##
-  # Look up search field user-displayable label
-  # based on params[:qt] and blacklight_configuration.
-  def search_field_label(params)
-    h(label_for_search_field(params[:search_field]))
+  # The currently selected search field
+  # @return [Blacklight::Configuration::SearchField]
+  def search_field(key = params[:search_field])
+    blacklight_config.search_fields.fetch(key)
   end
 
   ##

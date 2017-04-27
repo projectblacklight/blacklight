@@ -24,7 +24,7 @@ module Blacklight::ConfigurationHelperBehavior
   # marked :include_in_simple_select => false
   def search_field_options_for_select
     blacklight_config.search_fields.collect do |_key, field_def|
-      [label_for_search_field(field_def.key), field_def.key] if should_render_field?(field_def)
+      [field_def.label, field_def.key] if should_render_field?(field_def)
     end.compact
   end
 
@@ -41,7 +41,7 @@ module Blacklight::ConfigurationHelperBehavior
   # @param [Hash] localized_params query parameters
   # @return [String]
   def constraint_query_label(localized_params = params)
-    label_for_search_field(localized_params[:search_field]) unless default_search_field?(localized_params[:search_field])
+    search_field(localized_params[:search_field]) unless default_search_field?(localized_params[:search_field])
   end
 
   ##
