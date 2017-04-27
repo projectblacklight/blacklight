@@ -289,21 +289,34 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
 
 
     describe "sorting" do
-      it "should send the default sort parameter to solr" do
-        expect(subject[:sort]).to eq 'score desc, pub_date_sort desc, title_sort asc'
+      context "when the user has not provided a value" do
+        it "sends the default sort parameter to solr" do
+          expect(subject[:sort]).to eq 'score desc, pub_date_sort desc, title_sort asc'
+        end
       end
 
-      it "should not send a sort parameter to solr if the sort value is blank" do
-        blacklight_config.sort_fields = {}
-        blacklight_config.add_sort_field('', :label => 'test')
+      context "when the configured sort field is blank" do
+        before do
+          blacklight_config.sort_fields = {}
+          blacklight_config.add_sort_field('', :label => 'test')
+        end
 
-        expect(subject).not_to have_key(:sort)
+        it "does not send a sort parameter to solr if the sort value is blank" do
+          expect(subject).not_to have_key(:sort)
+        end
       end
 
-      context "when the user provides sort parmeters" do
-        let(:user_params) { { sort: 'solr_test_field desc' } }
+      context "when the user provides a valid sort parmeter" do
+        let(:user_params) { { sort: 'title_sort asc, pub_date_sort desc' } }
         it "passes them through" do
-          expect(subject[:sort]).to eq 'solr_test_field desc'
+          expect(subject[:sort]).to eq 'title_sort asc, pub_date_sort desc'
+        end
+      end
+
+      context "when the user provides an invalid sort parameter" do
+        let(:user_params) { { sort: 'bad' } }
+        it "removes them" do
+          expect(subject).not_to have_key(:sort)
         end
       end
     end
@@ -354,7 +367,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
     end
   end
 
-  
+
   describe "#facet_value_to_fq_string" do
     it "should use the configured field name" do
       blacklight_config.add_facet_field :facet_key, field: "facet_name"
@@ -467,7 +480,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
 
     let(:solr_parameters) do
       solr_parameters = Blacklight::Solr::Request.new
-      
+
       subject.add_facetting_to_solr(solr_parameters)
 
       solr_parameters
@@ -499,7 +512,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
       it "should respect the include_in_request parameter" do
         blacklight_config.add_facet_field 'yes_facet', include_in_request: true
         blacklight_config.add_facet_field 'no_facet', include_in_request: false
-        
+
         expect(solr_parameters[:'facet.field']).to include('yes_facet')
         expect(solr_parameters[:'facet.field']).not_to include('no_facet')
       end

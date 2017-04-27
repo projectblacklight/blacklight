@@ -4,7 +4,7 @@ RSpec.describe Blacklight::SearchBuilder do
   let(:processor_chain) { [] }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:scope) { double blacklight_config: blacklight_config }
-  subject { described_class.new processor_chain, scope }
+  subject(:builder) { described_class.new processor_chain, scope }
 
   context "with default processor chain" do
     subject { described_class.new scope }
@@ -163,18 +163,37 @@ RSpec.describe Blacklight::SearchBuilder do
   end
 
   describe "#sort" do
-    it "passes through the sort parameter" do
-      expect(subject.with(sort: 'x').send(:sort)).to eq 'x'
+    context "when no sort parameter is given" do
+      subject(:sort) { builder.send(:sort) }
+
+      before do
+        blacklight_config.default_sort_field = double(sort: 'x desc')
+      end
+
+      it "uses the default" do
+        expect(sort).to eq 'x desc'
+      end
     end
 
-    it "uses the default if no sort parameter is given" do
-      blacklight_config.default_sort_field = double(sort: 'x desc')
-      expect(subject.send(:sort)).to eq 'x desc'
-    end
+    context "when the user provides an sort parameter" do
+      let(:builder_with_param) { builder.with(sort: 'x') }
+      subject(:sort) { builder_with_param.send(:sort) }
 
-    it "uses the requested sort field" do
-      blacklight_config.add_sort_field 'x', sort: 'x asc'
-      expect(subject.with(sort: 'x').send(:sort)).to eq 'x asc'
+      context "that is invalid" do
+        it "removes them" do
+          expect(sort).to be_nil
+        end
+      end
+
+      context "that is valid" do
+        before do
+          blacklight_config.add_sort_field 'x', sort: 'x asc'
+        end
+
+        it "uses the requested sort field" do
+          expect(sort).to eq 'x asc'
+        end
+      end
     end
   end
 
