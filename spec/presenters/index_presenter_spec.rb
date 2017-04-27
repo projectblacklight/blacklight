@@ -2,7 +2,7 @@
 
 RSpec.describe Blacklight::IndexPresenter do
   include Capybara::RSpecMatchers
-  let(:request_context) { double }
+  let(:request_context) { double(document_index_view_type: 'list') }
   let(:config) { Blacklight::Configuration.new }
 
   subject { presenter }
@@ -141,5 +141,9 @@ RSpec.describe Blacklight::IndexPresenter do
       end
     end
   end
-end
 
+  describe "#thumbnail" do
+    subject { presenter.thumbnail }
+    it { is_expected.to be_instance_of Blacklight::ThumbnailPresenter }
+  end
+end

@@ -274,6 +274,7 @@ module Blacklight
     # Get a view configuration for the given view type
     # including default values from the index configuration
     # @param [Symbol,#to_sym] view_type
+    # @return [Blacklight::Configuration::ViewConfig]
     def view_config(view_type)
       view_type = view_type.to_sym unless view_type.is_a? Symbol
       index.merge(view_type == :show ? show : view.fetch(view_type, {}))

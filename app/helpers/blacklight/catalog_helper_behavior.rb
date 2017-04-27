@@ -197,9 +197,9 @@ module Blacklight::CatalogHelperBehavior
   # @param [SolrDocument] document
   # @return [Boolean]
   def has_thumbnail? document
-    blacklight_config.view_config(document_index_view_type).thumbnail_method.present? ||
-      blacklight_config.view_config(document_index_view_type).thumbnail_field && document.has?(blacklight_config.view_config(document_index_view_type).thumbnail_field)
+    index_presenter(document).thumbnail.exists?
   end
+  deprecation_deprecate has_thumbnail?: "use IndexPresenter#thumbnail.exists?"
 
   ##
   # Render the thumbnail, if available, for a document and
@@ -210,23 +210,9 @@ module Blacklight::CatalogHelperBehavior
   # @param [Hash] url_options to pass to #link_to_document
   # @return [String]
   def render_thumbnail_tag document, image_options = {}, url_options = {}
-    value = if blacklight_config.view_config(document_index_view_type).thumbnail_method
-              method_name = blacklight_config.view_config(document_index_view_type).thumbnail_method
-              send(method_name, document, image_options)
-            elsif blacklight_config.view_config(document_index_view_type).thumbnail_field
-              url = thumbnail_url(document)
-
-              image_tag url, image_options if url.present?
-            end
-
-    if value
-      if url_options == false || url_options[:suppress_link]
-        value
-      else
-        link_to_document document, value, url_options
-      end
-    end
+    index_presenter(document).thumbnail.thumbnail_tag(image_options, url_options)
   end
+  deprecation_deprecate render_thumbnail_tag: "Use IndexPresenter#thumbnail.thumbnail_tag"
 
   ##
   # Get the URL to a document's thumbnail image
@@ -238,6 +224,7 @@ module Blacklight::CatalogHelperBehavior
       document.first(blacklight_config.view_config(document_index_view_type).thumbnail_field)
     end
   end
+  deprecation_deprecate thumbnail_url: "this method will be removed without replacement"
 
   ##
   # Render the view type icon for the results view picker
