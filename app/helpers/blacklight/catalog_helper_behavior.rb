@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::CatalogHelperBehavior
   extend Deprecation
   self.deprecation_horizon = 'blacklight 8.0'

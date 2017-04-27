@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # = Document Extensions
 # An Blacklight::Document extension is simply a ruby module which is mixed
 # in to individual Document instances.  The intended use case is for documents

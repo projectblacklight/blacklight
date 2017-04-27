@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   module Exceptions
     class AccessDenied < StandardError

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   module RequestBuilders
     # Override this method to use a search builder other than the one in the config

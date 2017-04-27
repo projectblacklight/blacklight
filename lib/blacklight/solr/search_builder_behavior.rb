@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Solr
   module SearchBuilderBehavior
     extend ActiveSupport::Concern
@@ -165,7 +166,7 @@ module Blacklight::Solr
     ###
     # copy sorting params from BL app over to solr
     def add_sorting_to_solr(solr_parameters)
-      solr_parameters[:sort] = sort unless sort.blank?
+      solr_parameters[:sort] = sort if sort.present?
     end
 
     # Remove the group parameter if we've faceted on the group field (e.g. for the full results for a group)
@@ -176,7 +177,7 @@ module Blacklight::Solr
     end
 
     def add_facet_paging_to_solr(solr_params)
-      return unless facet.present?
+      return if facet.blank?
 
       facet_config = blacklight_config.facet_fields[facet]
 
