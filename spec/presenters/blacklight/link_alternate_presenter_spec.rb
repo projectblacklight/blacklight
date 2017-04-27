@@ -8,7 +8,8 @@ RSpec.describe Blacklight::LinkAlternatePresenter do
   let(:config) { Blacklight::Configuration.new }
   let(:parameter_class) { ActionController::Parameters }
   let(:params) { parameter_class.new }
-  let(:search_state) { Blacklight::SearchState.new(params, config) }
+  let(:controller) { double }
+  let(:search_state) { Blacklight::SearchState.new(params, config, controller) }
 
   let(:presenter) { described_class.new(view_context, document, options) }
   before do

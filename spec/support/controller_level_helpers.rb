@@ -4,7 +4,7 @@ module ControllerLevelHelpers
     include Blacklight::Facet
 
     def search_state
-      @search_state ||= Blacklight::SearchState.new(params, blacklight_config)
+      @search_state ||= Blacklight::SearchState.new(params, blacklight_config, controller)
     end
 
     def blacklight_configuration_context

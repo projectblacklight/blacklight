@@ -6,11 +6,16 @@ module Blacklight
     attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
     attr_reader :params
 
+    # This method is never accessed in this class, but may be used by subclasses that need
+    # to access the url_helpers
+    attr_reader :controller
+
     delegate :facet_configuration_for_field, to: :blacklight_config
 
     # @param [ActionController::Parameters] params
     # @param [Blacklight::Config] blacklight_config
-    def initialize(params, blacklight_config)
+    # @param [ApplicationController] controller used for the routing helpers
+    def initialize(params, blacklight_config, controller = nil)
       if params.respond_to?(:to_unsafe_h)
         # This is the typical (not-ActionView::TestCase) code path.
         @params = params.to_unsafe_h
@@ -24,6 +29,7 @@ module Blacklight
       end
 
       @blacklight_config = blacklight_config
+      @controller = controller
     end
 
     def to_hash
@@ -32,7 +38,7 @@ module Blacklight
     alias to_h to_hash
 
     def reset
-      self.class.new(ActionController::Parameters.new, blacklight_config)
+      self.class.new(ActionController::Parameters.new, blacklight_config, controller)
     end
 
     ##
@@ -120,7 +126,7 @@ module Blacklight
     # @yield [params] The merged parameters hash before being sanitized
     def params_for_search(params_to_merge = {})
       # params hash we'll return
-      my_params = params.dup.merge(self.class.new(params_to_merge, blacklight_config))
+      my_params = params.dup.merge(self.class.new(params_to_merge, blacklight_config, controller))
 
       if block_given?
         yield my_params

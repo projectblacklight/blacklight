@@ -9,7 +9,8 @@ RSpec.describe Blacklight::ShowPresenter do
   let(:presenter) { described_class.new(document, request_context, config) }
   let(:parameter_class) { ActionController::Parameters }
   let(:params) { parameter_class.new }
-  let(:search_state) { Blacklight::SearchState.new(params, config) }
+  let(:controller) { double }
+  let(:search_state) { Blacklight::SearchState.new(params, config, controller) }
 
   let(:document) do
     SolrDocument.new(id: 1,
