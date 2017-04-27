@@ -11,6 +11,7 @@
 RSpec.describe Blacklight::SearchService do
 
   let(:service) { described_class.new(blacklight_config, user_params) }
+  let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
   let(:user_params) { {} }
   subject { service }
   let(:blacklight_config) { Blacklight::Configuration.new }
@@ -23,7 +24,7 @@ RSpec.describe Blacklight::SearchService do
   let(:single_facet) { { format: 'Book' } }
 
   before do
-    allow(service).to receive(:repository).and_return(Blacklight::Solr::Repository.new(blacklight_config))
+    allow(service).to receive(:repository).and_return(repository)
     service.repository.connection = blacklight_solr
   end
 
@@ -412,6 +413,28 @@ RSpec.describe Blacklight::SearchService do
       response, docs = service.previous_and_next_documents_for_search(0, :q => 'id:2007020969')
       expect(docs.last).to be_nil
       expect(docs.first).to be_nil
+    end
+  end
+
+  describe '#opensearch_response' do
+    let(:user_params) { { q: 'Book' } }
+    let(:mock_response) {
+      instance_double(Blacklight::Solr::Response, documents: [
+        { field: 'A' }, { field: 'B' }, { field: 'C' }
+      ])
+    }
+
+    before do
+      blacklight_config.view.opensearch.title_field = :field
+      allow(repository).to receive(:search).and_return(mock_response)
+    end
+
+    it 'contains the original user query as the first element in the response' do
+      expect(service.opensearch_response.first).to eq 'Book'
+    end
+
+    it 'contains the search suggestions as the second element in the response' do
+      expect(service.opensearch_response.last).to match_array %w(A B C)
     end
   end
 end
