@@ -59,6 +59,7 @@ module Blacklight
     def search_to_page_title_filter(facet, values)
       facet_config = configuration.facet_configuration_for_field(facet)
       filter_value = if values.size < 3
+                       # TODO: this shares code with FacetItemPresenter#facet_display_value
                        values.map { |value| value_presenter.new(facet, value, view_context).display }.to_sentence
                      else
                        I18n.t('blacklight.search.page_title.many_constraint_values', values: values.size)

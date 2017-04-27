@@ -1,7 +1,7 @@
-<% if query_has_constraints? %>
+<% if search_state.has_constraints? %>
   <div id="appliedParams" class="clearfix constraints-container">
     <%=link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
     <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
-    <%= render_constraints(params) %>
+    <%= Blacklight::ConstraintsPresenter.new(params, self).render %>
   </div>
 <% end %>

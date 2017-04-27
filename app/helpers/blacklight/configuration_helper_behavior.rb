@@ -35,24 +35,6 @@ module Blacklight::ConfigurationHelperBehavior
   deprecation_deprecate :document_show_fields
 
   ##
-  # Return a label for the currently selected search field.
-  # If no "search_field" or the default (e.g. "all_fields") is selected, then return nil
-  # Otherwise grab the label of the selected search field.
-  # @param [Hash] localized_params query parameters
-  # @return [String]
-  def constraint_query_label(localized_params = params)
-    search_field(localized_params[:search_field]) unless default_search_field?(localized_params[:search_field])
-  end
-
-  ##
-  # Is the search form using the default search field ("all_fields" by default)?
-  # @param [String] selected_search_field the currently selected search_field
-  # @return [Boolean]
-  def default_search_field?(selected_search_field)
-    selected_search_field.blank? || (default_search_field && selected_search_field == default_search_field[:key])
-  end
-
-  ##
   # Look up the label for the index field
   def index_field_label document, field
     field_config = index_fields(document)[field]

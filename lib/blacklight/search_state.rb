@@ -42,6 +42,16 @@ module Blacklight
     end
 
     ##
+    # Check if the query has any constraints defined (a query, facet, etc)
+    #
+    # @return [Boolean]
+    # rubocop:disable Style/PredicateName
+    def has_constraints?
+      params[:q].present? || params[:f].present?
+    end
+    # rubocop:enable Style/PredicateName
+
+    ##
     # Extension point for downstream applications
     # to provide more interesting routing to
     # documents
