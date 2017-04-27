@@ -109,9 +109,9 @@ pt-BR:
           other: 'Itens'
         url: 'URL: %{url}'
         message: 'Mensagem: %{message}'
-      
+
       success: "Email Enviado"
-      
+
       errors:
         to:
           invalid: 'Verifique seu endereço de email'
@@ -183,7 +183,7 @@ pt-BR:
         counter: '%{counter}. '
       facets:
         title: 'Filtre sua busca'
-        clear: 'Limpar'  
+        clear: 'Limpar'
         sort:
           count: 'Ordenar por Número'
           index: 'Ordem Alfabética A-Z'
@@ -203,8 +203,6 @@ pt-BR:
         title: '%{document_title} - %{application_name}'
       rss_feed: 'RSS para resultadoss'
       atom_feed: 'Atom para resultados'
-      fields:
-        default: 'Palavra-chave'
       bookmarks:
         present: 'Nos Favoritos'
         absent: 'Favorite'

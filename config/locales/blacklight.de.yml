@@ -208,8 +208,6 @@ de:
         label: '%{label}:'
       rss_feed: 'RSS für Ergebnisse'
       atom_feed: 'Atom für Ergebnisse'
-      fields:
-        default: 'Stichwort'
       bookmarks:
         present: "Im Lesezeichen"
         absent: "Lesezeichen"

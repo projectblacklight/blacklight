@@ -146,7 +146,7 @@ en:
     search:
       # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
       title: '%{application_name} Search Results'
-      page_title: 
+      page_title:
         title: '%{constraints} - %{application_name} Search Results'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} selected'
@@ -212,8 +212,6 @@ en:
         label: '%{label}:'
       rss_feed: 'RSS for results'
       atom_feed: 'Atom for results'
-      fields:
-        default: 'Keyword'
       bookmarks:
         present: "In Bookmarks"
         absent: "Bookmark"
