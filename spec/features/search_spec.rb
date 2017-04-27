@@ -116,4 +116,3 @@ RSpec.describe "Search Page" do
     expect(page).to have_content "No results found for your search"
   end
 end
-
