@@ -30,6 +30,7 @@ describe "Search Page" do
     Capybara.ignore_hidden_elements = false
     expect(page).to have_selector("link[rel=alternate][type='application/rss+xml']")
     expect(page).to have_selector("link[rel=alternate][type='application/atom+xml']")
+    expect(page).to have_selector("link[rel=alternate][type='application/json']")
 
     # opensearch
     expect(page).to have_selector("meta[name=totalResults]")

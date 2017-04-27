@@ -12,6 +12,12 @@ module Blacklight::CatalogHelperBehavior
     auto_discovery_link_tag(:atom, feed_link_url('atom', options), title: t('blacklight.search.atom_feed'))
   end
 
+  # @param [Hash] options
+  # @option options :route_set the route scope to use when constructing the link
+  def json_api_link_tag(options = {})
+    auto_discovery_link_tag(:json, feed_link_url('json', options), type: 'application/json')
+  end
+
   ##
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
   # implementation.
