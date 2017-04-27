@@ -65,6 +65,18 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
+  describe '#document_index_view_controls' do
+    before do
+      blacklight_config.view.a
+      blacklight_config.view.b.display_control = false
+    end
+
+    it "filters index views to those set to display controls" do
+      expect(helper.document_index_view_controls).to have_key :a
+      expect(helper.document_index_view_controls).not_to have_key :b
+    end
+  end
+
   describe "#has_alternative_views?" do
     before do
       blacklight_config.view.clear
