@@ -78,7 +78,7 @@ module Blacklight
       query = search_builder.with(user_params).merge(solr_opensearch_params(field)).merge(extra_controller_params)
       response = repository.search(query)
 
-      [response.params[:q], response.documents.flat_map { |doc| doc[field] }.uniq]
+      [user_params[:q], response.documents.flat_map { |doc| doc[field] }.uniq]
     end
 
     ##
