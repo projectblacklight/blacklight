@@ -134,6 +134,13 @@ module Blacklight::ConfigurationHelperBehavior
     end
   end
 
+  # filter #document_index_views to just views that should display in the view type control
+  def document_index_view_controls
+    document_index_views.select do |_k, config|
+      config.display_control.nil? || blacklight_configuration_context.evaluate_configuration_conditional(config.display_control)
+    end
+  end
+
   ##
   # Get the default index view type
   def default_document_index_view_type
