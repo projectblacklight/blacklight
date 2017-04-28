@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class Search < ActiveRecord::Base
-  belongs_to_arguments = { optional: true } if Rails.version >= '5.0.0'
-
-  belongs_to :user, belongs_to_arguments
+  belongs_to :user, optional: true
 
   serialize :query_params
 

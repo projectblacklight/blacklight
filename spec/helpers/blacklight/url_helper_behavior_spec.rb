@@ -110,11 +110,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
     context "without current search context" do
       before do
-        if Rails.version >= '5.0.0'
-          controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', { id: '123' }, '/catalog/123', [:controller, :action, :id])
-        else
-          controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', id: '123')
-        end
+        controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', { id: '123' }, '/catalog/123', [:controller, :action, :id])
         allow(helper).to receive_messages(current_search_session: nil)
       end
 

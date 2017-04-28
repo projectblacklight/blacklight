@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateSearches < ActiveRecord::Migration
+class CreateSearches < ActiveRecord::Migration[4.2]
   def self.up
     create_table :searches do |t|
       t.binary  :query_params
