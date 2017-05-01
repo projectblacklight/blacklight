@@ -33,13 +33,13 @@ json.included do
             json.hits item['hits']
           end
           json.links do
-            json.self path_for_facet(facet['name'], item['value'])
+            json.self path_for_facet(facet['name'], item['value'], only_path: false)
           end
         end
       end
     end
     json.links do
-      json.self search_facet_url(id: facet['name'])
+      json.self search_facet_path(id: facet['name'], only_path: false)
     end
   end
 
