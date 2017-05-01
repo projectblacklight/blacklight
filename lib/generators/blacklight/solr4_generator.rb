@@ -25,7 +25,7 @@ module Blacklight
     end
 
     def add_rsolr_gem
-      gem "rsolr".dup, "~> 1.0"
+      gem "rsolr".dup, "~> 2.0"
     end
   end
 end
