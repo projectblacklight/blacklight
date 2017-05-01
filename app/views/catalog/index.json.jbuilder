@@ -42,4 +42,26 @@ json.included do
       json.self search_facet_url(id: facet['name'])
     end
   end
+
+  json.array! search_fields do |(label, key)|
+    json.type 'search_field'
+    json.id key
+    json.attributes do
+      json.label label
+    end
+    json.links do
+      json.self url_for(search_state.to_h.merge(search_field: key, only_path: false))
+    end
+  end
+
+  json.array! active_sort_fields do |key, field|
+    json.type 'sort'
+    json.id key
+    json.attributes do
+      json.label field.label
+    end
+    json.links do
+      json.self url_for(search_state.to_h.merge(sort: key, only_path: false))
+    end
+  end
 end
