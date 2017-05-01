@@ -31,7 +31,7 @@ module Blacklight
     end
 
     def add_rsolr_gem
-      gem 'rsolr', '~> 1.0'
+      gem 'rsolr', '>= 1.0', '< 3'
     end
   end
 end
