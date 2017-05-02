@@ -312,6 +312,7 @@ module Blacklight::CatalogHelperBehavior
       constraints += params['f'].to_unsafe_h.collect { |key, value| render_search_to_page_title_filter(key, value) }
     end
 
+    return 'All results' if constraints.empty?
     constraints.join(' / ')
   end
 
