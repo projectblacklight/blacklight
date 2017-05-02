@@ -188,34 +188,44 @@ RSpec.describe CatalogHelper do
   end
 
   describe "has_thumbnail?" do
+    before do
+      expect(Deprecation).to receive(:warn)
+    end
+
     let(:document) { instance_double(SolrDocument) }
+
     it "has a thumbnail if a thumbnail_method is configured" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       expect(helper.has_thumbnail? document).to be true
     end
 
     it "has a thumbnail if a thumbnail_field is configured and it exists in the document" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       allow(document).to receive_messages(has?: true)
       expect(helper.has_thumbnail? document).to be true
     end
-    
+
     it "does not have a thumbnail if the thumbnail_field is missing from the document" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       allow(document).to receive_messages(has?: false)
       expect(helper.has_thumbnail? document).to be false
     end
 
     it "does not have a thumbnail if none of the fields are configured" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(document_presenter_class: Blacklight::IndexPresenter) ))
       expect(helper.has_thumbnail? document).to be_falsey
     end
   end
 
   describe "render_thumbnail_tag" do
+    before do
+      expect(Deprecation).to receive(:warn)
+    end
+
     let(:document) { instance_double(SolrDocument) }
+
     it "calls the provided thumbnail method" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       expect(helper).to receive_messages(:xyz => "some-thumbnail")
 
       allow(helper).to receive(:link_to_document).with(document, "some-thumbnail", {})
@@ -223,7 +233,7 @@ RSpec.describe CatalogHelper do
     end
 
     it "creates an image tag from the given field" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
 
       allow(document).to receive(:has?).with(:xyz).and_return(true)
       allow(document).to receive(:first).with(:xyz).and_return("http://example.com/some.jpg")
@@ -233,7 +243,7 @@ RSpec.describe CatalogHelper do
     end
 
     it "does not link to the document if the url options are false" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       allow(helper).to receive_messages(:xyz => "some-thumbnail")
 
       result = helper.render_thumbnail_tag document, {}, false
@@ -241,7 +251,7 @@ RSpec.describe CatalogHelper do
     end
 
     it "does not link to the document if the url options have :suppress_link" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       allow(helper).to receive_messages(:xyz => "some-thumbnail")
 
       result = helper.render_thumbnail_tag document, {}, suppress_link: true
@@ -250,27 +260,31 @@ RSpec.describe CatalogHelper do
 
 
     it "returns nil if no thumbnail is available" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new() ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(document_presenter_class: Blacklight::IndexPresenter) ))
       expect(helper.render_thumbnail_tag document).to be_nil
     end
 
     it "returns nil if no thumbnail is returned from the thumbnail method" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       allow(helper).to receive_messages(:xyz => nil)
 
       expect(helper.render_thumbnail_tag document).to be_nil
     end
 
     it "returns nil if no thumbnail is in the document" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
+      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
 
-      allow(document).to receive(:has?).with(:xyz).and_return(false)
+      allow(document).to receive(:first).with(:xyz).and_return(nil)
 
       expect(helper.render_thumbnail_tag document).to be_nil
     end
   end
 
   describe "thumbnail_url" do
+    before do
+      expect(Deprecation).to receive(:warn)
+    end
+    
     it "pulls the configured thumbnail field out of the document" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz) ))
       document = instance_double(SolrDocument)

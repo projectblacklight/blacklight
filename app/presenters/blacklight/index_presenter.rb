@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 module Blacklight
   class IndexPresenter
-    attr_reader :document, :configuration, :view_context
+    class_attribute :thumbnail_presenter
+    self.thumbnail_presenter = ThumbnailPresenter
+
+    attr_reader :document, :configuration, :view_context, :view_config
 
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
@@ -10,6 +13,7 @@ module Blacklight
       @document = document
       @view_context = view_context
       @configuration = configuration
+      @view_config = configuration.view_config(view_context.document_index_view_type)
     end
 
     ##
@@ -45,6 +49,10 @@ module Blacklight
     def field_value field, options = {}
       field_config = field_config(field)
       field_values(field_config, options)
+    end
+
+    def thumbnail
+      @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config)
     end
 
     private

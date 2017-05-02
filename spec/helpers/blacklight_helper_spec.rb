@@ -34,7 +34,8 @@ RSpec.describe BlacklightHelper do
   describe "render_link_rel_alternates" do
     let(:document) { instance_double(SolrDocument) }
     let(:result) { double }
-    let(:presenter) { Blacklight::IndexPresenter.new(document, self) }
+    let(:view_context) { double(blacklight_config: blacklight_config, document_index_view_type: 'index') }
+    let(:presenter) { Blacklight::IndexPresenter.new(document, view_context) }
     let(:blacklight_config) do
       Blacklight::Configuration.new.configure do |config|
         config.index.title_field = 'title_display'
