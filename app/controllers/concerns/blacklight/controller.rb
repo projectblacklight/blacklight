@@ -67,7 +67,15 @@ module Blacklight::Controller
 
     # @return [Blacklight::SearchState] a memoized instance of the parameter state.
     def search_state
-      @search_state ||= search_state_class.new(params, blacklight_config)
+      @search_state ||= begin
+        if search_state_class.instance_method(:initialize).arity == -3
+          search_state_class.new(params, blacklight_config, self)
+        else
+          Deprecation.warn(search_state_class, "The constructor for #{search_state_class} now requires a third argument. " \
+            "Invoking it will 2 arguments is deprecated and will be removed in Blacklight 7.")
+          search_state_class.new(params, blacklight_config)
+        end
+      end
     end
 
     # Default route to the search action (used e.g. in global partials). Override this method
@@ -131,7 +139,7 @@ module Blacklight::Controller
     #
     def has_user_authentication_provider?
       respond_to? :current_user
-    end           
+    end
 
     def require_user_authentication_provider
       raise ActionController::RoutingError, 'Not Found' unless has_user_authentication_provider?
@@ -159,7 +167,7 @@ module Blacklight::Controller
     end
 
     ##
-    # To handle failed authorization attempts, redirect the user to the 
+    # To handle failed authorization attempts, redirect the user to the
     # login form and persist the current request uri as a parameter
     def access_denied
       # send the user home if the access was previously denied by the same
@@ -171,5 +179,4 @@ module Blacklight::Controller
 
       redirect_to new_user_session_url(:referer => request.fullpath)
     end
-  
 end

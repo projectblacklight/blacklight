@@ -134,7 +134,7 @@ describe CatalogHelper do
       let(:my_engine) { double("Engine") }
       let(:query_params) { { controller: 'catalog', action: 'index' } }
       let(:config) { Blacklight::Configuration.new }
-      let(:search_state) { Blacklight::SearchState.new(query_params, config) }
+      let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }
 
       it "calls url_for on the engine scope" do
         allow(helper).to receive(:search_state).and_return search_state
@@ -152,7 +152,7 @@ describe CatalogHelper do
       let(:my_engine) { double("Engine") }
       let(:query_params) { { controller: 'catalog', action: 'index' } }
       let(:config) { Blacklight::Configuration.new }
-      let(:search_state) { Blacklight::SearchState.new(query_params, config) }
+      let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }
 
       it "calls url_for on the engine scope" do
         allow(helper).to receive(:search_state).and_return search_state
