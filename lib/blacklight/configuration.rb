@@ -152,6 +152,11 @@ module Blacklight
       super || ::SolrDocument
     end
 
+    # A class that builds documents
+    def document_factory
+      super || Blacklight::DocumentFactory
+    end
+
     # only here to support alias_method
     def document_model=(*args)
       super
