@@ -127,7 +127,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # @return [Integer]
   def current_per_page
-    (@response.rows if @response && @response.rows > 0) || params.fetch(:per_page, default_per_page).to_i
+    (@response.rows if @response && @response.rows > 0) || params.fetch(:per_page, blacklight_config.default_per_page).to_i
   end
 
   ##

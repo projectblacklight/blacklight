@@ -43,13 +43,13 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       blacklight_config.view.b.default = true
       expect(helper.default_document_index_view_type).to eq :b
     end
-    
+
     it "defaults to the first configured index view" do
       allow(blacklight_config).to receive_messages(view: { a: true, b: true})
       expect(helper.default_document_index_view_type).to eq :a
     end
   end
-  
+
   describe "#document_index_views" do
     before do
       blacklight_config.view.abc = false
@@ -113,7 +113,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       f = helper.document_show_link_field document
       expect(f).to eq :a
     end
-    
+
     it "retrieves the first field with data" do
       blacklight_config.index.title_field = [:zzz, :b]
       f = helper.document_show_link_field document
@@ -157,31 +157,44 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
     end
   end
-  
+
   describe "#default_per_page" do
-    it "is the configured default per page" do
-      allow(helper).to receive_messages(blacklight_config: double(default_per_page: 42))
-      expect(helper.default_per_page).to eq 42
+    before do
+      expect(Deprecation).to receive(:warn)
     end
-    
-    it "is the first per-page value if a default isn't set" do
-      allow(helper).to receive_messages(blacklight_config: double(default_per_page: nil, per_page: [11, 22]))
-      expect(helper.default_per_page).to eq 11
+
+    context "when default_per_page is configured" do
+      before do
+        blacklight_config.default_per_page = 42
+      end
+
+      it "is the configured value" do
+        expect(helper.default_per_page).to eq 42
+      end
+    end
+
+    context "when default_per_page is not configured" do
+      before do
+        blacklight_config.per_page = [11, 22]
+      end
+      it "is the first per-page value if a default isn't set" do
+        expect(helper.default_per_page).to eq 11
+      end
     end
   end
-  
+
   describe "#default_sort_field" do
     it "is the configured default field" do
       allow(helper).to receive_messages(blacklight_config: double(sort_fields: { a: double(default: nil), b: double(key: 'b', default: true) }))
       expect(helper.default_sort_field.key).to eq 'b'
     end
-    
+
     it "is the first per-page value if a default isn't set" do
       allow(helper).to receive_messages(blacklight_config: double(sort_fields: { a: double(key: 'a', default: nil), b: double(key: 'b', default: nil) }))
       expect(helper.default_sort_field.key).to eq 'a'
     end
   end
-  
+
   describe "#per_page_options_for_select" do
     it "is the per-page values formatted as options_for_select" do
       allow(helper).to receive_messages(blacklight_config: double(per_page: [11, 22, 33]))
@@ -190,10 +203,10 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       expect(helper.per_page_options_for_select).to include ["33<span class=\"sr-only\"> per page</span>", 33]
     end
   end
-  
+
   describe "#should_render_field?" do
     let(:field_config) { double('field config', if: true, unless: false) }
-    
+
     before do
       allow(helper).to receive_messages(document_has_value?: true)
     end
@@ -201,12 +214,12 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     it "is true" do
       expect(helper.should_render_field?(field_config)).to be true
     end
-    
+
     it "is false if the :if condition is false" do
       allow(field_config).to receive_messages(if: false)
       expect(helper.should_render_field?(field_config)).to be false
     end
-    
+
     it "is false if the :unless condition is true" do
       allow(field_config).to receive_messages(unless: true)
       expect(helper.should_render_field?(field_config)).to be false
@@ -214,12 +227,12 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   end
 
   describe "#search_field_options_for_select" do
-    
+
     before do
-    
+
       @config = Blacklight::Configuration.new do |config|
         config.default_solr_params = { :qt => 'search' }
-        
+
         config.add_search_field 'all_fields', :label => 'All Fields'
         config.add_search_field 'title', :qt => 'title_search'
         config.add_search_field 'author', :qt => 'author_search'
@@ -229,7 +242,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
       allow(helper).to receive_messages(blacklight_config: @config)
     end
-    
+
     it "returns proper options_for_select arguments" do
 
       select_arguments = helper.search_field_options_for_select
@@ -239,7 +252,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
          expect(label).to eq config_hash.label
          expect(key).to eq config_hash.key
-      end    
+      end
     end
 
     it "does not include fields in select if :display_in_simple_search=>false" do

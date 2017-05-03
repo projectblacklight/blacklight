@@ -179,9 +179,8 @@ module Blacklight::ConfigurationHelperBehavior
 
   ##
   # The default value for search results per page
-  def default_per_page
-    blacklight_config.default_per_page || blacklight_config.per_page.first
-  end
+  delegate :default_per_page, to: :blacklight_config
+  deprecation_deprecate default_per_page: "Use blacklight_config.default_per_page instead"
 
   ##
   # The available options for results per page, in the style of #options_for_select
