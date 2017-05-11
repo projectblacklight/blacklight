@@ -185,11 +185,13 @@ module Blacklight::Solr
       solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet_config.field)
 
       limit = if scope.respond_to?(:facet_list_limit)
+                Deprecation.warn(self, "The use of facet_list_limit is deprecated and will be removed in 7.0. " \
+                  "Consider using the 'more_limit' option in the field configuration or 'default_more_limit' instead.")
                 scope.facet_list_limit.to_s.to_i
               elsif solr_params["facet.limit"]
                 solr_params["facet.limit"].to_i
               else
-                facet_config.fetch(:more_limit, 20)
+                facet_config.fetch(:more_limit, blacklight_config.default_more_limit)
               end
 
       page = blacklight_params.fetch(request_keys[:page], 1).to_i

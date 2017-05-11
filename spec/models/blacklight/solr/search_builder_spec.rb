@@ -367,7 +367,7 @@ describe Blacklight::Solr::SearchBuilderBehavior do
     end
   end
 
-  
+
   describe "#facet_value_to_fq_string" do
     it "should use the configured field name" do
       blacklight_config.add_facet_field :facet_key, field: "facet_name"
@@ -480,7 +480,7 @@ describe Blacklight::Solr::SearchBuilderBehavior do
 
     let(:solr_parameters) do
       solr_parameters = Blacklight::Solr::Request.new
-      
+
       subject.add_facetting_to_solr(solr_parameters)
 
       solr_parameters
@@ -512,7 +512,7 @@ describe Blacklight::Solr::SearchBuilderBehavior do
       it "should respect the include_in_request parameter" do
         blacklight_config.add_facet_field 'yes_facet', include_in_request: true
         blacklight_config.add_facet_field 'no_facet', include_in_request: false
-        
+
         expect(solr_parameters[:'facet.field']).to include('yes_facet')
         expect(solr_parameters[:'facet.field']).not_to include('no_facet')
       end
@@ -640,6 +640,7 @@ describe Blacklight::Solr::SearchBuilderBehavior do
 
     context 'when facet_list_limit is defined in scope' do
       before do
+        allow(Deprecation).to receive(:warn)
         allow(context).to receive_messages facet_list_limit: 1000
       end
       it 'uses scope method for limit' do

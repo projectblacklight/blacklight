@@ -90,6 +90,8 @@ Metrics/BlockNesting:
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
   Max: 186
+  Exclude:
+    - 'lib/blacklight/configuration.rb'
 
 # Offense count: 20
 Metrics/CyclomaticComplexity:
@@ -99,11 +101,15 @@ Metrics/CyclomaticComplexity:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 52
+  Exclude:
+    - 'lib/blacklight/configuration.rb'
 
 # Offense count: 9
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
   Max: 208
+  Exclude:
+    - 'lib/blacklight/solr/search_builder_behavior.rb'
 
 # Offense count: 1
 # Configuration parameters: CountKeywordArgs.
