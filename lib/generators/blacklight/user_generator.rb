@@ -47,9 +47,6 @@ module Blacklight
       file_path = "app/models/#{model_name.underscore}.rb"
       if File.exist?(file_path)
         inject_into_class file_path, model_name.classify do
-          "\n  if Blacklight::Utils.needs_attr_accessible?" \
-          "\n    attr_accessible :email, :password, :password_confirmation" \
-          "\n  end" \
           "\n  # Connects this user object to Blacklights Bookmarks." \
           "\n  include Blacklight::User\n"
         end
