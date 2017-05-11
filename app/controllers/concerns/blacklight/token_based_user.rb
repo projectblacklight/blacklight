@@ -10,7 +10,7 @@ module Blacklight::TokenBasedUser
     end
   end
 
-  protected
+  private
 
   def token_or_current_or_guest_user
     token_user || current_or_guest_user
@@ -48,8 +48,6 @@ module Blacklight::TokenBasedUser
   def message_encryptor
     ActiveSupport::MessageEncryptor.new(export_secret_token)
   end
-
-  private
 
   # Ruby 2.4 requires keys of very particular lengths
   def key_len

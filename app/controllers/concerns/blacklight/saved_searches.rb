@@ -63,7 +63,7 @@ module Blacklight
       redirect_to blacklight.saved_searches_url
     end
 
-    protected
+    private
 
     def verify_user
       flash[:notice] = I18n.t('blacklight.saved_searches.need_login') && raise(Blacklight::Exceptions::AccessDenied) unless current_user

@@ -140,7 +140,7 @@ module Blacklight::Catalog
     end
   end
 
-    protected
+  private
 
   #
   # non-routable methods ->

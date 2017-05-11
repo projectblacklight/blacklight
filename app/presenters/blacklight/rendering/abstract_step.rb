@@ -12,7 +12,7 @@ module Blacklight
 
       attr_reader :values, :config, :document, :context, :options, :stack
 
-      protected
+      private
 
       def next_step(output_values)
         first, *rest = *stack

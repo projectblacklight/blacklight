@@ -28,7 +28,7 @@ module Blacklight::HashAsHiddenFieldsHelperBehavior
     safe_join(hidden_fields, "\n")
   end
 
-  protected
+  private
 
   def flatten_hash(hash = params, ancestor_names = [])
     flat_hash = {}

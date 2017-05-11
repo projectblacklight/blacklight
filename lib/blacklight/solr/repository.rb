@@ -49,7 +49,7 @@ module Blacklight::Solr
       raise Blacklight::Exceptions::InvalidRequest, e.message
     end
 
-    protected
+    private
 
     def build_connection
       RSolr.connect(connection_config.merge(adapter: connection_config[:http_adapter]))

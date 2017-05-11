@@ -1,21 +1,26 @@
 RSpec.describe Blacklight::RenderPartialsHelperBehavior do
   describe "#type_field_to_partial_name" do
     let(:document) { double }
+    subject { helper.send(:type_field_to_partial_name, document, value) }
+
     context "with default value" do
-      subject { helper.type_field_to_partial_name(document, 'default') }
-      it { should eq 'default' }
+      let(:value) { 'default' }
+      it { is_expected.to eq 'default' }
     end
+
     context "with spaces" do
-      subject { helper.type_field_to_partial_name(document, 'one two three') }
-      it { should eq 'one_two_three' }
+      let(:value) { 'one two three' }
+      it { is_expected.to eq 'one_two_three' }
     end
+
     context "with hyphens" do
-      subject { helper.type_field_to_partial_name(document, 'one-two-three') }
-      it { should eq 'one_two_three' }
+      let(:value) { 'one-two-three' }
+      it { is_expected.to eq 'one_two_three' }
     end
+
     context "an array" do
-      subject { helper.type_field_to_partial_name(document, ['one', 'two', 'three']) }
-      it { should eq 'one_two_three' }
+      let(:value) { ['one', 'two', 'three'] }
+      it { is_expected.to eq 'one_two_three' }
     end
   end
 

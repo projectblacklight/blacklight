@@ -50,7 +50,7 @@ module Blacklight::Controller
 
   delegate :blacklight_config, to: :default_catalog_controller
 
-    protected
+  private
 
   ##
   # Context in which to evaluate blacklight configuration conditionals
