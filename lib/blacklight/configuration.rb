@@ -21,6 +21,7 @@ module Blacklight
 
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
     class << self
+      # rubocop:disable Metrics/MethodLength
       def default_values
         @default_values ||= begin
           {
@@ -116,9 +117,11 @@ module Blacklight
           default_per_page: nil,
           # how many searches to save in session history
           search_history_window: 100,
-          default_facet_limit: 10
+          default_facet_limit: 10,
+          default_more_limit: 20
           }
         end
+        # rubocop:enable Metrics/MethodLength
       end
     end
 
