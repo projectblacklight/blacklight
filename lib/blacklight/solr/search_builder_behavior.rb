@@ -184,12 +184,10 @@ module Blacklight::Solr
       facet_ex = facet_config.respond_to?(:ex) ? facet_config.ex : nil
       solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet_config.field)
 
-      limit = if scope.respond_to?(:facet_list_limit)
-                scope.facet_list_limit.to_s.to_i
-              elsif solr_params["facet.limit"]
+      limit = if solr_params["facet.limit"]
                 solr_params["facet.limit"].to_i
               else
-                facet_config.fetch(:more_limit, 20)
+                facet_config.fetch(:more_limit, blacklight_config.default_more_limit)
               end
 
       page = blacklight_params.fetch(request_keys[:page], 1).to_i

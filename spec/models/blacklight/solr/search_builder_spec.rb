@@ -639,19 +639,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
       expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 21
     end
 
-    context 'when facet_list_limit is defined in scope' do
-      before do
-        allow(context).to receive_messages facet_list_limit: 1000
-      end
-      it 'uses scope method for limit' do
-        expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 1001
-      end
-
-      it 'uses controller method for limit when a ordinary limit is set' do
-        expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 1001
-      end
-    end
-
     it 'uses the default sort' do
       expect(solr_parameters[:"f.#{facet_field}.facet.sort"]).to be_blank
     end
