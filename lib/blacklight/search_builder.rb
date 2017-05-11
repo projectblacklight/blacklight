@@ -10,22 +10,13 @@ module Blacklight
 
     attr_reader :processor_chain, :blacklight_params
 
-    # @overload initialize(scope)
-    #   @param [Object] scope scope the scope where the filter methods reside in.
-    # @overload initialize(processor_chain, scope)
-    #   @param [List<Symbol>,TrueClass] processor_chain options a list of filter methods to run or true, to use the default methods
-    #   @param [Object] scope the scope where the filter methods reside in.
-    def initialize(*options)
-      case options.size
-      when 1
-        @processor_chain = default_processor_chain.dup
-        @scope = options.first
-      when 2
-        @processor_chain, @scope = options
-      else
-        raise ArgumentError, "wrong number of arguments. (#{options.size} for 1..2)"
-      end
-
+    # @param [Configuration] blacklight_config the configuration
+    # @param [Ability] current_ability the current abilities of the user
+    # @param [List<Symbol>] processor_chain a list of filter methods to run.
+    def initialize(blacklight_config, current_ability, processor_chain = default_processor_chain.dup)
+      @processor_chain = processor_chain
+      @blacklight_config = blacklight_config
+      @current_ability = current_ability
       @blacklight_params = {}
       @merged_params = {}
       @reverse_merged_params = {}
@@ -51,7 +42,7 @@ module Blacklight
     # Append additional processor chain directives
     def append(*addl_processor_chain)
       params_will_change!
-      builder = self.class.new(processor_chain + addl_processor_chain, scope)
+      builder = self.class.new(blacklight_config, current_ability, processor_chain + addl_processor_chain)
           .with(blacklight_params)
           .merge(@merged_params)
           .reverse_merge(@reverse_merged_params)
@@ -71,7 +62,7 @@ module Blacklight
     # Methods in argument that aren't currently in processor
     # chain are ignored as no-ops, rather than raising.
     def except(*except_processor_chain)
-      builder = self.class.new(processor_chain - except_processor_chain, scope)
+      builder = self.class.new(blacklight_config, current_ability, processor_chain - except_processor_chain)
           .with(blacklight_params)
           .merge(@merged_params)
           .reverse_merge(@reverse_merged_params)
@@ -141,8 +132,6 @@ module Blacklight
         end
       end
     end
-
-    delegate :blacklight_config, to: :scope
 
     def start=(value)
       params_will_change!
@@ -245,7 +234,7 @@ module Blacklight
       field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
     end
 
-    attr_reader :scope
+    attr_reader :blacklight_config, :current_ability
 
     def params_will_change!
       @dirty = true

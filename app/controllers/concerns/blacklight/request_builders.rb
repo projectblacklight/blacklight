@@ -4,8 +4,9 @@ module Blacklight
     # Override this method to use a search builder other than the one in the config
     delegate :search_builder_class, to: :blacklight_config
 
+    # @return [SearchBuilder]
     def search_builder
-      search_builder_class.new(self)
+      search_builder_class.new(blacklight_config, current_ability)
     end
 
     ##

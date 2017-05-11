@@ -9,8 +9,8 @@
 #  blacklight code get a single document returned?)
 #
 RSpec.describe Blacklight::SearchService do
-
-  let(:service) { described_class.new(blacklight_config, user_params) }
+  let(:ability) { nil }
+  let(:service) { described_class.new(blacklight_config, ability, user_params) }
   let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
   let(:user_params) { {} }
   subject { service }
