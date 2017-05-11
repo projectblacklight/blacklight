@@ -136,7 +136,8 @@ module Blacklight
           default_per_page: nil,
           # how many searches to save in session history
           search_history_window: 100,
-          default_facet_limit: 10
+          default_facet_limit: 10,
+          default_more_limit: 20
           }
         end
       end
