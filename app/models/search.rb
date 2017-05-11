@@ -4,8 +4,6 @@ class Search < ActiveRecord::Base
 
   serialize :query_params
 
-  attr_accessible :query_params if Blacklight::Utils.needs_attr_accessible?
-
   # A Search instance is considered a saved search if it has a user_id.
   def saved?
     user_id?

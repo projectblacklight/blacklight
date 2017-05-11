@@ -1,16 +1,6 @@
 # frozen_string_literal: true
 require 'ostruct'
 module Blacklight
-  module Utils
-    def self.needs_attr_accessible?
-      protected_attributes_enabled?
-    end
-
-    def self.protected_attributes_enabled?
-      defined?(ActiveModel::MassAssignmentSecurity)
-    end
-  end
-
   ##
   # An OpenStruct that responds to common Hash methods
   class OpenStructWithHashAccess < OpenStruct

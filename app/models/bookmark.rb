@@ -5,10 +5,6 @@ class Bookmark < ActiveRecord::Base
 
   validates :user_id, presence: true
 
-  if Blacklight::Utils.needs_attr_accessible?
-    attr_accessible :id, :document_id, :document_type, :title
-  end
-
   def document
     document_type.new document_type.unique_key => document_id
   end
