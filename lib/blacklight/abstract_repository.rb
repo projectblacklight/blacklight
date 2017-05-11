@@ -32,7 +32,7 @@ module Blacklight
       raise NotImplementedError
     end
 
-    protected
+    private
 
     def connection_config
       blacklight_config.connection_config

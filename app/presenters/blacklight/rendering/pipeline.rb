@@ -26,7 +26,7 @@ module Blacklight
         first.new(values, config, document, context, options, rest).render
       end
 
-      protected
+      private
 
       # Ordered list of operations, Terminator must be at the end.
       def stack

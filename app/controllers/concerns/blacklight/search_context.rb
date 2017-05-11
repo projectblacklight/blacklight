@@ -15,7 +15,7 @@ module Blacklight::SearchContext
     end
   end
 
-  protected
+  private
 
   # sets up the session[:search] hash if it doesn't already exist
   def search_session

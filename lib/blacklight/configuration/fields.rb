@@ -135,7 +135,7 @@ module Blacklight
         self[config_key.pluralize][field_config.key] = field_config
       end
 
-      protected
+      private
 
       def luke_fields
         if @table[:luke_fields] == false
@@ -193,8 +193,6 @@ module Blacklight
           hash_arg
         end
       end
-
-      private
 
       # convert a config key to the appropriate Field class
       def field_class_from_key key

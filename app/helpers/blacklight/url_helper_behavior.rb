@@ -26,7 +26,7 @@ module Blacklight::UrlHelperBehavior
   def document_link_params(doc, opts)
     session_tracking_params(doc, opts[:counter]).deep_merge(opts.except(:label, :counter))
   end
-  protected :document_link_params
+  private :document_link_params
 
   ##
   # Link to the previous document in the current search context
@@ -62,7 +62,7 @@ module Blacklight::UrlHelperBehavior
 
     { data: { :'context-href' => path } }
   end
-  protected :session_tracking_params
+  private :session_tracking_params
 
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing

@@ -96,26 +96,6 @@ module Blacklight::RenderPartialsHelperBehavior
     ]
   end
 
-  protected
-
-  ##
-  # Return a partial name for rendering a document
-  # this method can be overridden in order to transform the value
-  #   (e.g. 'PdfBook' => 'pdf_book')
-  #
-  # @param [SolrDocument] document
-  # @param [String, Array] display_type a value suggestive of a partial
-  # @return [String] the name of the partial to render
-  # @example
-  #  type_field_to_partial_name(['a book-article'])
-  #  => 'a_book_article'
-  def type_field_to_partial_name(_document, display_type)
-    # using "_" as sep. to more closely follow the views file naming conventions
-    # parameterize uses "-" as the default sep. which throws errors
-    underscore = '_'.freeze
-    Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(separator: underscore)
-  end
-
   ##
   # Return a normalized partial name for rendering a single document
   #
@@ -134,6 +114,26 @@ module Blacklight::RenderPartialsHelperBehavior
     display_type ||= 'default'
 
     type_field_to_partial_name(document, display_type)
+  end
+
+  private
+
+  ##
+  # Return a partial name for rendering a document
+  # this method can be overridden in order to transform the value
+  #   (e.g. 'PdfBook' => 'pdf_book')
+  #
+  # @param [SolrDocument] document
+  # @param [String, Array] display_type a value suggestive of a partial
+  # @return [String] the name of the partial to render
+  # @example
+  #  type_field_to_partial_name(['a book-article'])
+  #  => 'a_book_article'
+  def type_field_to_partial_name(_document, display_type)
+    # using "_" as sep. to more closely follow the views file naming conventions
+    # parameterize uses "-" as the default sep. which throws errors
+    underscore = '_'.freeze
+    Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(separator: underscore)
   end
 
   ##
@@ -160,8 +160,6 @@ module Blacklight::RenderPartialsHelperBehavior
       "catalog/_%{action_name}_partials/default"
     ]
   end
-
-  private
 
   def find_document_show_template_with_view view_type, base_name, format, locals
     document_partial_path_templates.each do |str|

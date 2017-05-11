@@ -235,7 +235,7 @@ module Blacklight
       blacklight_config.search_fields[blacklight_params[:search_field]]
     end
 
-    protected
+    private
 
     def request
       Blacklight::Solr::Request.new

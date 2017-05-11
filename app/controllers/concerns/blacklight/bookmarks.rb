@@ -129,7 +129,7 @@ module Blacklight::Bookmarks
     redirect_to :action => "index"
   end
 
-  protected
+  private
 
   def verify_user
     unless current_or_guest_user || (action == "index" && token_or_current_or_guest_user)
