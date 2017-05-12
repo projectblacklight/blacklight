@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'kaminari'
 require 'deprecation'
-require 'blacklight/utils'
-require 'active_support/hash_with_indifferent_access'
+require 'blacklight/open_struct_with_hash_access'
+require 'blacklight/nested_open_struct_with_hash_access'
 
 module Blacklight
   autoload :AbstractRepository, 'blacklight/abstract_repository'

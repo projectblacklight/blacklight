@@ -32,7 +32,7 @@ Rails/OutputSafety:
 
 Style/MethodMissing:
   Exclude:
-  - 'lib/blacklight/utils.rb'
+  - 'lib/blacklight/nested_open_struct_with_hash_access.rb'
 
 # engine_cart block includes conditional, not duplication
 Bundler/DuplicatedGem:
