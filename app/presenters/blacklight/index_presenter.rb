@@ -79,7 +79,7 @@ module Blacklight
     end
 
     def thumbnail
-      @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config)
+      @thumbnail ||= thumbnail_presenter.new(self, view_config)
     end
 
     # Used in the document list partial (search view) for creating a link to the document show action

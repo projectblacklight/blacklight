@@ -9,7 +9,7 @@ RSpec.describe "catalog/_thumbnail" do
   end
 
   let(:presenter) { Blacklight::ResultsPagePresenter.new(document, view) }
-
+  let(:item_presenter) { Blacklight::IndexPresenter.new(document, view) }
   before do
     allow(controller).to receive(:action_name).and_return('index')
     assign :response, instance_double(Blacklight::Solr::Response, start: 0)
@@ -18,7 +18,7 @@ RSpec.describe "catalog/_thumbnail" do
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view).to receive(:current_search_session).and_return nil
     allow(view).to receive(:search_session).and_return({})
-    render "catalog/thumbnail", document: document, document_counter: 1
+    render "catalog/thumbnail", presenter: item_presenter, document_counter: 1
   end
 
   context "when the document has a thumbnail field" do

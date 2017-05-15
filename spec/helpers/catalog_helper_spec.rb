@@ -198,48 +198,14 @@ RSpec.describe CatalogHelper do
     end
   end
 
-  describe "has_thumbnail?" do
-    before do
-      expect(Deprecation).to receive(:warn)
-    end
-
-    let(:document) { SolrDocument.new(data) }
-    let(:data) { {} }
-
-    it "has a thumbnail if a thumbnail_method is configured" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
-      expect(helper.has_thumbnail? document).to be true
-    end
-
-    context "if a thumbnail_field is configured and it exists in the document" do
-      let(:data) { { xyz: 'abc' } }
-      it "has a thumbnail" do
-        allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
-        expect(helper.has_thumbnail? document).to be true
-      end
-    end
-
-    it "does not have a thumbnail if the thumbnail_field is missing from the document" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
-      allow(document).to receive_messages(has?: false)
-      expect(helper.has_thumbnail? document).to be false
-    end
-
-    it "does not have a thumbnail if none of the fields are configured" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(document_presenter_class: Blacklight::IndexPresenter) ))
-      expect(helper.has_thumbnail? document).to be_falsey
-    end
-  end
-
   describe "render_thumbnail_tag" do
     let(:presenter) { instance_double(Blacklight::IndexPresenter, thumbnail: thumbnail_presenter) }
-    let(:list_presenter) { instance_double(Blacklight::ResultsPagePresenter, presenter_class: Blacklight::IndexPresenter) }
+    let(:list_presenter) { instance_double(Blacklight::ResultsPagePresenter, item_presenter_for: presenter) }
     let(:thumbnail_presenter){ instance_double(Blacklight::ThumbnailPresenter) }
 
     before do
       expect(Deprecation).to receive(:warn)
       assign(:list_presenter, list_presenter)
-      allow(list_presenter).to receive(:item_presenter_for).and_return(presenter)
     end
     let(:document) { instance_double(SolrDocument) }
 
