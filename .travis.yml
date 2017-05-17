@@ -1,5 +1,10 @@
 dist: trusty
 language: ruby
+cache:
+  bundler: true
+  directories:
+    - .internal_test_app
+
 sudo: required
 
 notifications:

@@ -9,6 +9,7 @@ AllCops:
   - "lib/generators/blacklight/templates/**/*"
   - "spec/**/*"
   - "blacklight.gemspec"
+  - "vendor/bundle/**/*"
 
 Rails:
   Enabled: true
