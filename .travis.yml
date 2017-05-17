@@ -1,8 +1,12 @@
+dist: trusty
 language: ruby
-sudo: false
+sudo: required
 
 notifications:
   email: false
+
+services:
+  - docker
 
 rvm:
   - 2.4.1
@@ -20,6 +24,9 @@ matrix:
 before_install:
   - gem update --system
   - gem install bundler
+  - docker run --name my_solr -d -p 8983:8983 solr
+  - docker cp ./solr/conf my_solr:/opt/solr/blacklight-solr-conf
+  - sleep 10; docker exec -it --user=solr my_solr bin/solr create_core -c blacklight-core -d /opt/solr/blacklight-solr-conf
 
 env:
  - "RAILS_VERSION=5.0.3"
