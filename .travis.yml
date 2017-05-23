@@ -7,11 +7,10 @@ sudo: false
 notifications:
   email: false
 
-rvm:
-  - 2.4.1
-
 matrix:
   include:
+    - rvm: 2.4.2
+      env: "RAILS_VERSION=5.1.4"
     - rvm: 2.3.4
       env: "RAILS_VERSION=5.0.6"
     - rvm: jruby-9.1.12.0
@@ -25,9 +24,6 @@ before_install:
   - gem install bundler
   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
-env:
- - "RAILS_VERSION=5.1.4"
-
 notifications:
   irc: "irc.freenode.org#blacklight"
   email:
@@ -35,5 +31,6 @@ notifications:
 
 global_env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+  - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-puma --skip-test'
 
 jdk: oraclejdk8
