@@ -2,6 +2,13 @@
   Header bar at top (Bootstrap nav-bar)
 */
 
+.topbar > .container {
+  @media (max-width: breakpoint-max(xs)) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 .navbar-brand {  /* The main logo image for the Blacklight instance */
   @if $logo-image {
     background: transparent $logo-image no-repeat top left;
@@ -46,6 +53,6 @@
     // hide 'search' label at very small screens
     @media screen and (max-width: breakpoint-max(xs)) {
       @include sr-only();
-    }    
+    }
   }
 }
