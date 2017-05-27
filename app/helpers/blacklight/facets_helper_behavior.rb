@@ -50,12 +50,18 @@ module Blacklight::FacetsHelperBehavior
     render(options)
   end
 
+  def render_sorted_facet_limit_list(paginator, facet_field, wrapping_element=:li)
+    sorting_hash = blacklight_configuration_context.evaluate_sorting_configuration facet_field
+    items = sorting_hash ? paginator.items.sort_by { |obj| sorting_hash[obj.value] } : paginator.items
+    render_facet_limit_list(items, facet_field, wrapping_element)
+  end
+
   ##
   # Renders the list of values 
   # removes any elements where render_facet_item returns a nil value. This enables an application
   # to filter undesireable facet items so they don't appear in the UI
-  def render_facet_limit_list(paginator, facet_field, wrapping_element=:li)
-    safe_join(paginator.items.map { |item| render_facet_item(facet_field, item) }.compact.map { |item| content_tag(wrapping_element,item)})
+  def render_facet_limit_list(items, facet_field, wrapping_element=:li)
+    safe_join(items.map { |item| render_facet_item(facet_field, item) }.compact.map { |item| content_tag(wrapping_element,item)})
   end
 
   ##

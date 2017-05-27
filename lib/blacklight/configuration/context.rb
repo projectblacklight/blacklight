@@ -43,6 +43,14 @@ module Blacklight
           proc_helper_or_boolean
         end
       end
+
+      def evaluate_sorting_configuration(config, *args)
+        if config.respond_to?(:sort_field_by)
+          context.send(config.sort_field_by, config)
+        else
+          nil
+        end
+      end
     end
   end
 end
