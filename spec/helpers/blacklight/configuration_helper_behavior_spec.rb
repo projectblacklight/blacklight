@@ -261,4 +261,34 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       expect(select_arguments).not_to include(["No Display", "no_display"])
     end
   end
+
+  context 'labels' do
+    let(:field_config) { { 'my-key' => double('field', display_label: 'My Field') } }
+
+    before do
+      allow(helper).to receive_messages(blacklight_config: config)
+    end
+
+    describe '#label_for_search_field' do
+      let(:config) { double('Blacklight configuration', search_fields: field_config) }
+
+      it 'handles a found key' do
+        expect(helper.label_for_search_field('my-key')).to eq 'My Field'
+      end
+      it 'handles a missing key' do
+        expect(helper.label_for_search_field('not-found')).to eq 'Not Found'
+      end
+    end
+
+    describe '#sort_field_label' do
+      let(:config) { double('Blacklight configuration', sort_fields: field_config) }
+
+      it 'handles a found key' do
+        expect(helper.sort_field_label('my-key')).to eq 'My Field'
+      end
+      it 'handles a missing key' do
+        expect(helper.sort_field_label('not-found')).to eq 'Not Found'
+      end
+    end
+  end
 end
