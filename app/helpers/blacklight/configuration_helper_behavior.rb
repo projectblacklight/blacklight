@@ -98,14 +98,14 @@ module Blacklight::ConfigurationHelperBehavior
   # can't be found.
   def label_for_search_field(key)
     field_config = blacklight_config.search_fields[key]
-    field_config ||= Blacklight::Configuration::NullField.new(key: field)
+    field_config ||= Blacklight::Configuration::NullField.new(key: key)
 
     field_config.display_label('search')
   end
 
   def sort_field_label(key)
     field_config = blacklight_config.sort_fields[key]
-    field_config ||= Blacklight::Configuration::NullField.new(key: field)
+    field_config ||= Blacklight::Configuration::NullField.new(key: key)
 
     field_config.display_label('sort')
   end
