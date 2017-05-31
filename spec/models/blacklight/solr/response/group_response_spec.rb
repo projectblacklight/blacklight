@@ -59,6 +59,12 @@ RSpec.describe Blacklight::Solr::Response::GroupResponse do
       expect(group.group_limit).to eq 5
     end
   end
+  
+  describe "empty?" do
+    it "uses the total from this object" do
+      expect(group.empty?).to be false
+    end
+  end
 end
 
 def create_response(response, params = {})
