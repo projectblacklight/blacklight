@@ -13,7 +13,15 @@ EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
 task :ci => ['blacklight:generate'] do
-  SolrWrapper.wrap do |solr|
+  # If a version of solr is not specified, check for one on the apache site
+  solr_version = ENV['BLACKLIGHT_SOLR_VERSION'] || `curl -s 'http://lucene.apache.org/solr/'`.scan(/\d+\.\d+\.\d+/).last
+  options = {}
+  if solr_version.blank?
+    puts "Solr version was not specified and couldn't be retrieved"
+  else
+    options = { version: solr_version }
+  end
+  SolrWrapper.wrap(options) do |solr|
     solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
       within_test_app do
         system "RAILS_ENV=test rake blacklight:index:seed"
