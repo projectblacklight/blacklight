@@ -37,8 +37,8 @@ module Blacklight
     end
     alias to_h to_hash
 
-    def reset
-      self.class.new(ActionController::Parameters.new, blacklight_config, controller)
+    def reset(params = nil)
+      self.class.new(params || ActionController::Parameters.new, blacklight_config, controller)
     end
 
     ##
