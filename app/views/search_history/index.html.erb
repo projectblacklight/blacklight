@@ -10,7 +10,7 @@
   <table class="table table-striped search_history">
     <%-  @searches.each_with_index do |search,index| -%>
     <%= content_tag :tr, :id => "document_#{index + 1}" do %>
-      <td class="query"><%= link_to_previous_search(search.query_params) %></td>
+      <td class="query"><%= link_to_previous_search(search_state.reset(search.query_params).to_hash) %></td>
       <%- if has_user_authentication_provider? -%>
         <td class="actions">
           <%- if current_or_guest_user && search.saved? -%>

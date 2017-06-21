@@ -114,7 +114,7 @@ module Blacklight::UrlHelperBehavior
   #   link_back_to_catalog(label: 'Back to Search', route_set: my_engine)
   def link_back_to_catalog(opts={:label=>nil})
     scope = opts.delete(:route_set) || self
-    query_params = current_search_session.try(:query_params) || ActionController::Parameters.new
+    query_params = search_state.reset(current_search_session.try(:query_params)).to_hash
 
     if search_session['counter']
       per_page = (search_session['per_page'] || default_per_page).to_i

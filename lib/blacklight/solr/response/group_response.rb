@@ -32,6 +32,13 @@ class Blacklight::Solr::Response::GroupResponse
     params[:start].to_s.to_i
   end
 
+  ##
+  # Relying on a fallback (method missing) to @response is problematic as it
+  # will not evaluate the correct `total` method.
+  def empty?
+    total.zero?
+  end
+
   def method_missing meth, *args, &block
     if response.respond_to? meth
       response.send(meth, *args, &block)
