@@ -8,9 +8,9 @@ RSpec.describe Blacklight::SearchState do
     end
   end
 
+  subject(:search_state) { described_class.new(params, blacklight_config, controller) }
   let(:parameter_class) { ActionController::Parameters }
   let(:controller) { double }
-  let(:search_state) { described_class.new(params, blacklight_config, controller) }
   let(:params) { parameter_class.new }
 
   describe '#to_h' do
@@ -295,6 +295,14 @@ RSpec.describe Blacklight::SearchState do
       params = search_state.remove_facet_params('some_field', 'some_value')
 
       expect(params).not_to have_key :f
+    end
+  end
+
+  describe '#reset' do
+    it 'returns a search state with the given parameters' do
+      new_state = search_state.reset('a' => 1)
+
+      expect(new_state.to_hash).to eq({ 'a' => 1 })
     end
   end
 end
