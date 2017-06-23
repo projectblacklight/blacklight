@@ -10,7 +10,7 @@ rvm:
 matrix:
   include:
     - rvm: 2.3.3
-      env: "RAILS_VERSION=5.1.1"
+      env: "RAILS_VERSION=5.1.2.rc1"
     - rvm: jruby-9.1.7.0
       env: "RAILS_VERSION=5.0.3 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
