@@ -9,12 +9,12 @@ rvm:
 
 matrix:
   include:
-    - rvm: 2.3.3
-      env: "RAILS_VERSION=5.1.1"
-    - rvm: jruby-9.1.7.0
-      env: "RAILS_VERSION=5.0.3 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+    - rvm: 2.3.4
+      env: "RAILS_VERSION=5.1.2"
+    - rvm: jruby-9.1.12.0
+      env: "RAILS_VERSION=5.0.4 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
-    - rvm: jruby-9.1.7.0
+    - rvm: jruby-9.1.12.0
   fast_finish: true
 
 before_install:
@@ -22,7 +22,7 @@ before_install:
   - gem install bundler
 
 env:
- - "RAILS_VERSION=5.0.3"
+ - "RAILS_VERSION=5.0.4"
 
 notifications:
   irc: "irc.freenode.org#blacklight"
