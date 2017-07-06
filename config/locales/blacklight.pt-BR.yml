@@ -12,8 +12,6 @@ pt-BR:
       next: 'próx &raquo;'
 
   blacklight:
-    application_name: 'Blacklight'
-
     header_links:
       login: 'Acessar'
       logout: 'Sair'
