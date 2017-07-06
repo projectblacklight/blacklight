@@ -17,7 +17,10 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @return [String] the application name
   def application_name
-    return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
+    if Rails.application.config.respond_to? :application_name
+      Deprecation.warn(self, "BlacklightHelper#application_name will no longer delegate to config.application_name in version 7.0. Set the i18n for blacklight.application_name instead")
+      return Rails.application.config.application_name
+    end
 
     t('blacklight.application_name')
   end
