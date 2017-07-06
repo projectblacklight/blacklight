@@ -7,13 +7,9 @@ RSpec.describe BlacklightHelper do
     end
   end
 
-  describe "#application_name", :test => true do
+  describe "#application_name" do
     it "defaults to 'Blacklight'" do
       expect(application_name).to eq "Blacklight"
-    end
-    it "uses the Rails application config application_name if available" do
-      allow(Rails.application).to receive(:config).and_return(double(application_name: "asdf"))
-      expect(application_name).to eq "asdf"
     end
   end
 
