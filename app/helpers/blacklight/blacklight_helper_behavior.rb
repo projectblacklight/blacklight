@@ -7,14 +7,11 @@ module Blacklight::BlacklightHelperBehavior
   include IconHelperBehavior
 
   ##
-  # Get the name of this application, from either:
-  #  - the Rails configuration
-  #  - an i18n string (key: blacklight.application_name; preferred)
+  # Get the name of this application from an i18n string
+  # key: blacklight.application_name
   #
   # @return [String] the application name
   def application_name
-    return Rails.application.config.application_name if Rails.application.config.respond_to? :application_name
-
     t('blacklight.application_name')
   end
 
