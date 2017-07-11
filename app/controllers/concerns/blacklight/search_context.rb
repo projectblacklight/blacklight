@@ -36,7 +36,9 @@ module Blacklight::SearchContext
   end
 
   def find_search_session
-    if params[:search_context].present?
+    if agent_is_crawler?
+      nil
+    elsif params[:search_context].present?
       find_or_initialize_search_session_from_params JSON.parse(params[:search_context])
     elsif params[:search_id].present?
       begin
@@ -61,6 +63,16 @@ module Blacklight::SearchContext
   # set to true
   def start_new_search_session?
     false
+  end
+
+  ##
+  # Determine if the current request is coming from an anonymous bot
+  # or search crawler
+  #
+  def agent_is_crawler?
+    crawler_proc = blacklight_config.crawler_detector
+    return false if crawler_proc.nil? || current_user.present?
+    crawler_proc.call(request)
   end
 
   def find_or_initialize_search_session_from_params params

@@ -137,7 +137,10 @@ module Blacklight
           # how many searches to save in session history
           search_history_window: 100,
           default_facet_limit: 10,
-          default_more_limit: 20
+          default_more_limit: 20,
+          # proc for determining whether the session is a crawler/bot
+          # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
+          crawler_detector: nil
           }
         end
       end
