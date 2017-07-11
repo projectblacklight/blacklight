@@ -86,12 +86,12 @@ Metrics/BlockLength:
 Metrics/BlockNesting:
   Max: 4
 
-# Offense count: 2
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 186
+  Max: 100
   Exclude:
     - 'lib/blacklight/configuration.rb'
+    - 'lib/blacklight/search_builder.rb'
 
 # Offense count: 20
 Metrics/CyclomaticComplexity:
