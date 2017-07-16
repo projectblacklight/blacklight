@@ -1,6 +1,6 @@
 <ul class="facet-values list-unstyled">
   <% paginator = facet_paginator(facet_field, display_facet) %>
-  <%= render_facet_limit_list paginator, facet_field.key %>
+  <%= render_sorted_facet_limit_list paginator, facet_field %>
 
   <% unless paginator.last_page? || params[:action] == "facet" %>
     <li class="more_facets_link">
