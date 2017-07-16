@@ -1,0 +1,28 @@
+{
+  "name": "blacklight-frontend",
+  "version": "7.0.0-alpha.1",
+  "description": "[![Build Status](https://travis-ci.org/projectblacklight/blacklight.png?branch=master)](https://travis-ci.org/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight) [![Coverage Status](https://coveralls.io/repos/github/projectblacklight/blacklight/badge.svg?branch=master)](https://coveralls.io/github/projectblacklight/blacklight?branch=master)",
+  "main": "app/assets/javascripts/blacklight",
+  "scripts": {
+    "js-compile-bundle": "shx cat app/javascript/blacklight/core.js app/javascript/blacklight/autocomplete.js app/javascript/blacklight/bookmark_toggle.js app/javascript/blacklight/checkbox_submit.js app/javascript/blacklight/collapsable.js app/javascript/blacklight/facet_load.js app/javascript/blacklight/modal.js app/javascript/blacklight/search_context.js | shx sed \"s/^(import|export).*//\" | babel --filename app/javascript/blacklight/blacklight.js > app/assets/javascripts/blacklight/blacklight.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/projectblacklight/blacklight.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/projectblacklight/blacklight/issues"
+  },
+  "homepage": "https://github.com/projectblacklight/blacklight#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "shx": "^0.2.2"
+  },
+  "dependencies": {
+    "bootstrap": "4.0.0",
+    "jquery": "^3.2.1",
+    "typeahead.js": "^0.11.1"
+  }
+}

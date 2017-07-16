@@ -1,4 +1,5 @@
 /*global Bloodhound */
+import Bloodhound from 'typeahead.js/dist/bloodhound.js'
 
 Blacklight.onLoad(function() {
   'use strict';
@@ -9,7 +10,7 @@ Blacklight.onLoad(function() {
       return;
     }
     var suggestUrl = $el.data().autocompletePath;
-    
+
     var terms = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -18,7 +19,7 @@ Blacklight.onLoad(function() {
         wildcard: '%QUERY'
       }
     });
-    
+
     terms.initialize();
 
     $el.typeahead({
