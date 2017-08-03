@@ -30,4 +30,14 @@ RSpec.describe 'Blacklight::Document::ActiveModelShim' do
       expect(MockDocument.find(1).id).to be 1
     end
   end
+
+  describe "#==" do
+    it 'is equal for the same id' do
+      expect(MockDocument.new(id: 1) == MockDocument.new(id: 1)).to eq true
+    end
+
+    it 'is not equal if the ids differ' do
+      expect(MockDocument.new(id: 1) == MockDocument.new(id: 2)).to eq false
+    end
+  end
 end
