@@ -42,6 +42,7 @@ module Blacklight
           document_unique_id_param: :ids,
           # Default values of parameters to send when requesting a single document
           default_document_solr_params: {},
+          document_pagination_params: {},
           ##
           # == Response models
           ## Class for sending and receiving requests from a search index

@@ -21,7 +21,11 @@ module Blacklight
     # Pagination parameters for selecting the previous and next documents
     # out of a result set.
     def previous_and_next_document_params(index, window = 1)
-      solr_params = {}
+      solr_params = blacklight_config.document_pagination_params.dup
+
+      if solr_params.empty?
+        solr_params[:fl] = blacklight_config.document_model.unique_key
+      end
 
       if index > 0
         solr_params[:start] = index - window # get one before
@@ -31,7 +35,6 @@ module Blacklight
         solr_params[:rows] = 2 * window # but there should be one after
       end
 
-      solr_params[:fl] = '*'
       solr_params[:facet] = false
       solr_params
     end
