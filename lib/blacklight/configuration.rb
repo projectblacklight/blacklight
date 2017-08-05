@@ -56,6 +56,7 @@ module Blacklight
             #facet: false,
             #rows: 1
           },
+          document_pagination_params: {},
           ##
           # == Response models
           ## Class for sending and receiving requests from a search index
