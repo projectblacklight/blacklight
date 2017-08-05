@@ -104,7 +104,7 @@ module Blacklight
               .with(user_params)
               .where(blacklight_config.document_model.unique_key => ids)
               .merge(extra_controller_params)
-              .merge(fl: '*')
+
       solr_response = repository.search(query)
 
       [solr_response, solr_response.documents]
