@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", ">= 4.2", "< 6"
   s.add_dependency "globalid"
+  s.add_dependency "jbuilder"
   s.add_dependency "nokogiri",  "~>1.6"     # XML Parser
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
