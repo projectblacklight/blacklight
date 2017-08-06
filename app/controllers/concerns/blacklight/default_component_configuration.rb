@@ -16,7 +16,6 @@ module Blacklight
       add_show_tools_partial(:citation)
 
       add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark', if: :render_bookmarks_control?)
-      add_nav_action(:saved_searches, partial: 'blacklight/nav/saved_searches', if: :render_saved_searches?)
       add_nav_action(:search_history, partial: 'blacklight/nav/search_history')
     end
 
