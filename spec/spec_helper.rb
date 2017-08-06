@@ -25,15 +25,19 @@ require 'rspec/rails'
 require 'rspec/its'
 require 'rspec/collection_matchers'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
+require 'selenium-webdriver'
 require 'equivalent-xml'
 
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :headless_chrome
 
-Capybara.register_driver :poltergeist do |app|
-  options = {}
-  options[:timeout] = 120 if RUBY_PLATFORM == "java"
-  Capybara::Poltergeist::Driver.new(app, options)
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w[headless disable-gpu] }
+  )
+
+  Capybara::Selenium::Driver.new(app,
+                                 browser: :chrome,
+                                 desired_capabilities: capabilities)
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
