@@ -18,7 +18,6 @@ fr:
       login: 'Mon compte'
       logout: 'Me déconnecter'
       bookmarks: 'Mon panier'
-      saved_searches: 'Mes recherches'
       search_history: 'Historique de recherche'
 
     welcome: 'Welcome!'
@@ -47,25 +46,6 @@ fr:
         failure: 'Pardon, un problème est survenu lors de la suppression.'
       need_login: 'Veuillez vous connecter pour accéder à vos favoris.'
       list_title: 'Vos favoris'
-      delete: 'Supprimer'
-
-    saved_searches:
-      add:
-        success: 'Votre recherche a bien été sauvegardée.'
-        failure: 'Un problème est survenu lors de l''enregistrement.'
-      remove:
-        success: 'Votre recherche a bien été supprimée.'
-        failure: 'Un problème est survenu lors de la suppression.'
-      clear:
-        action_title: 'Effacer tout'
-        action_confirm: 'Effacer toutes vos recherches ?'
-        success: 'Recherches effacées.'
-        failure: 'Un problème est survenu lors de la suppression.'
-      title: 'Recherches sauvegardées'
-      page_title: 'Recherches sauvegardées - %{application_name}'
-      need_login: 'Veuillez vous connecter pour accéder à vos recherches.'
-      no_searches: 'Vous n''avez sauvegardé aucune recherche.'
-      list_title: 'Vos recherches'
       delete: 'Supprimer'
 
     search_history:

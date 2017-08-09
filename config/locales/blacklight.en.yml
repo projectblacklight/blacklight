@@ -18,7 +18,6 @@ en:
       login: 'Login'
       logout: 'Log Out'
       bookmarks: 'Bookmarks'
-      saved_searches: 'Saved Searches'
       search_history: 'History'
 
     welcome: 'Welcome!'
@@ -51,25 +50,6 @@ en:
       need_login: 'Please log in to manage and view your bookmarks.'
       list_title: 'Your Bookmarks'
       delete: 'Remove'
-
-    saved_searches:
-      add:
-        success: 'Successfully saved your search.'
-        failure: 'There was a problem saving your search.'
-      remove:
-        success: 'Successfully removed that saved search.'
-        failure: 'There was a problem removing your search.'
-      clear:
-        action_title: 'Clear Saved Searches'
-        action_confirm: 'Clear your saved searches?'
-        success: 'Cleared your saved searches.'
-        failure: 'There was a problem clearing your searches.'
-      title: 'Saved Searches'
-      page_title: 'Saved Searches - %{application_name}'
-      need_login: 'Please log in to manage and view your saved searches.'
-      no_searches: 'You have no saved searches'
-      list_title: 'Your saved searches'
-      delete: 'delete'
 
     search_history:
       clear:

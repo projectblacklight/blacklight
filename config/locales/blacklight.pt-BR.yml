@@ -18,7 +18,6 @@ pt-BR:
       login: 'Acessar'
       logout: 'Sair'
       bookmarks: 'Favoritos'
-      saved_searches: 'Buscas Salvas'
       search_history: 'Histórico'
 
     welcome: 'Bem-Vindo!'
@@ -48,24 +47,6 @@ pt-BR:
       need_login: 'Faça o login para ver ou modificar seus favoritos.'
       list_title: 'Seus Favoritos'
       delete: 'Excluir'
-    saved_searches:
-      add:
-        success: 'Sua busca foi salva.'
-        failure: 'Xiii, ocorreu um erro ao salvar sua pesquisa.'
-      remove:
-        success: 'A busca salva foi excluída.'
-        failure: 'Xiii, ocorreu um erro ao excluir sua pesquisa.'
-      clear:
-        action_title: 'Limpar Buscas Salvas'
-        action_confirm: 'Deseja Excluir as Buscas Salvas?'
-        success: 'As buscas foram removidas.'
-        failure: 'Xiii, ocorreu um erro ao remover suas pesquisas.'
-      title: 'Pesquisas Salvas'
-      page_title: 'Pesquisas Salvas - %{application_name}'
-      need_login: 'Por favor faça o login para gerenciar suas buscas salvas.'
-      no_searches: 'Você não salvou nenhuma busca'
-      list_title: 'Suas Buscas'
-      delete: 'excluir'
 
     search_history:
       clear:

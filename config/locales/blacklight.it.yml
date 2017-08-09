@@ -18,7 +18,6 @@ it:
       login: 'Login'
       logout: 'Log out'
       bookmarks: 'Preferiti'
-      saved_searches: 'Ricerche salvate'
       search_history: 'Ricerche effettuate'
 
     welcome: 'Benvenuti!'
@@ -48,25 +47,6 @@ it:
       need_login: 'Effettuare il login per gestire e visualizzare i preferiti.'
       list_title: 'Preferiti'
       delete: 'Togli'
-
-    saved_searches:
-      add:
-        success: 'Ricerca salvata.'
-        failure: 'Si è verificato un errore nel salvare la ricerca.'
-      remove:
-        success: 'La ricerca è stata tolta dalla lista.'
-        failure: 'Si è verificato un errore nel togliere la ricerca dalla lista.'
-      clear:
-        action_title: 'Cancella tutte le ricerche salvate'
-        action_confirm: 'Vuoi cancellare tutte le ricerche salvate?'
-        success: 'Tutte le ricerche salvate sono state cancellate.'
-        failure: 'Si è verificato un errore nel cancellare le ricerche salvate.'
-      title: 'Ricerche salvate'
-      page_title: 'Ricerche salvate - %{application_name}'
-      need_login: 'Effettuare il login per gestire e visualizzare le ricerche salvate.'
-      no_searches: 'Non è stata salvata nessuna ricerca.'
-      list_title: 'Ricerche salvate'
-      delete: 'cancella'
 
     search_history:
       clear:

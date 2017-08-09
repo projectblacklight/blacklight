@@ -65,13 +65,6 @@ module Blacklight::Controller
     has_user_authentication_provider? && current_or_guest_user.present?
   end
 
-  ##
-  # Determine whether to render the saved searches link
-  # (Needs to be available globally, as it is used in the navbar)
-  def render_saved_searches?
-    has_user_authentication_provider? && current_user
-  end
-
   # @return [Blacklight::SearchState] a memoized instance of the parameter state.
   def search_state
     @search_state ||= search_state_class.new(params, blacklight_config, self)
