@@ -15,13 +15,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#sort_fields" do
-    it "converts the sort fields to select-ready values" do
-      allow(blacklight_config).to receive_messages(sort_fields: { 'a' => double(key: 'a', display_label: 'a'), 'b' => double(key: 'b', display_label: 'b'), c: double(key: 'c', if: false, display_label: nil)  })
-      expect(helper.sort_fields).to eq [['a', 'a'], ['b', 'b']]
-    end
-  end
-
   describe "#active_sort_fields" do
     it "restricts the configured sort fields to only those that should be displayed" do
       allow(blacklight_config).to receive_messages(sort_fields: { a: double(if: false, unless: false), b: double(if:true, unless: true) })
