@@ -9,11 +9,6 @@ module Blacklight::ConfigurationHelperBehavior
     blacklight_config.index_fields
   end
 
-  # Used in the document_list partial (search view) for building a select element
-  def sort_fields
-    active_sort_fields.map { |_sort_key, field_config| [sort_field_label(field_config.key), field_config.key] }
-  end
-
   def active_sort_fields
     blacklight_config.sort_fields.select { |_sort_key, field_config| should_render_field?(field_config) }
   end
