@@ -73,10 +73,12 @@ module Blacklight::Solr::Response::Spelling
       return unless spellcheck && spellcheck[:suggestions]
       suggestions = spellcheck[:suggestions]
 
-      if suggestions.index("collation")
+      if suggestions.is_a?(Array) && suggestions.index("collation")
+        # solr < 5 response
         suggestions[suggestions.index("collation") + 1]
       elsif spellcheck.key?("collations")
-        spellcheck['collations'].last
+        # solr 5+ response
+        spellcheck['collations'].last if spellcheck.key?("collations")
       end
     end
   end
