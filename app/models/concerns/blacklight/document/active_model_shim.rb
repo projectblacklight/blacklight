@@ -31,6 +31,13 @@ module Blacklight::Document
       self[self.class.unique_key]
     end
 
+    def ==(other)
+      super ||
+        (other.instance_of?(self.class) &&
+          id &&
+          other.id == id)
+    end
+
     def _read_attribute(attr)
       self[attr]
     end
