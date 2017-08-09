@@ -414,6 +414,19 @@ RSpec.describe Blacklight::SearchService do
       expect(docs.last).to be_nil
       expect(docs.first).to be_nil
     end
+
+    it 'returns only the unique key by default' do
+      response, docs = service.previous_and_next_documents_for_search(0, :q => '')
+      expect(docs.last.to_h).to eq 'id' => @all_docs[1].id
+    end
+
+    it 'allows the query parameters to be customized using configuration' do
+      blacklight_config.document_pagination_params[:fl] = 'id,format'
+
+      response, docs = service.previous_and_next_documents_for_search(0, :q => '')
+
+      expect(docs.last.to_h).to eq @all_docs[1].to_h.slice('id', 'format')
+    end
   end
 
   describe '#opensearch_response' do
