@@ -458,5 +458,13 @@ describe Blacklight::SearchHelper do
       expect(docs.last).to be_nil
       expect(docs.first).to be_nil
     end
+
+    it 'allows the query parameters to be customized using configuration' do
+      blacklight_config.document_pagination_params[:fl] = 'id,format'
+
+      response, docs = subject.get_previous_and_next_documents_for_search(0, :q => '')
+
+      expect(docs.last.to_h).to eq @all_docs[1].to_h.slice('id', 'format')
+    end
   end
 end

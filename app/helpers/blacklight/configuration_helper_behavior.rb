@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 module Blacklight::ConfigurationHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 7.x'
+
   ##
   # Index fields to display for a type of document
   # 
@@ -13,6 +16,7 @@ module Blacklight::ConfigurationHelperBehavior
   def sort_fields
     active_sort_fields.map { |key, x| [x.label, x.key] }
   end
+  deprecation_deprecate :sort_fields
   
   def active_sort_fields
     blacklight_config.sort_fields.select { |sort_key, field_config| should_render_field?(field_config) }
