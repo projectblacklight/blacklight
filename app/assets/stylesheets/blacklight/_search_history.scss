@@ -3,13 +3,10 @@
   .constraint {
     @extend .px-3;
     display: block;
-    text-indent: -1 * map-get(map-get($spacers, 3), x);
+    text-indent: -1 * map-get($spacers, 3);
   }
 
   .filter-name, .filter-separator {
     @extend .text-muted;
   }
 }
-
-
-
