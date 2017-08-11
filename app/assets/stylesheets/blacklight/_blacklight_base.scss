@@ -6,6 +6,7 @@
    which over-rides things in this file. Or of course you can choose
    not to use the Blacklight CSS file at all in your local app. */
 
+@import "mixins";
 @import 'blacklight/blacklight_defaults';
 @import "blacklight/bootstrap_overrides";
 @import "blacklight/layout";
