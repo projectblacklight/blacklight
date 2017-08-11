@@ -8,12 +8,12 @@
     function longer (a,b){ return b.textContent.length - a.textContent.length; }
 
     $('ul.facet-values, ul.pivot-facet').each(function(){
-      var longest = $(this).find('span.facet-count').sort(longer).first();
-      var clone = longest.clone()
-        .css('visibility','hidden').css('width', 'auto');
-      $('body').append(clone);
-      $(this).find('.facet-count').first().width(clone.width());
-      clone.remove();
+      var longest = $(this).find('span.facet-count').sort(longer)[0];
+      
+      if (longest && longest.textContent) {
+        var width = longest.textContent.length + 1 + 'ch';
+        $(this).find('.facet-count').first().width(width);
+      }
     });
   };
 
