@@ -1,6 +1,6 @@
 .sidenav {
   .navbar-toggler {
-    border-color: $navbar-light-toggler-border;
+    border-color: $navbar-light-toggler-border-color;
     color: $navbar-light-active-color;
 
     @include hover-focus {
@@ -9,7 +9,7 @@
   }
 
   .navbar-toggler-icon {
-    background-image: $navbar-light-toggler-bg;
+    background-image: $navbar-light-toggler-icon-bg;
   }
 }
 
