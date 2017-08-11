@@ -25,8 +25,8 @@
     }
 
     &:hover, &:active {
-      background-color: $btn-secondary-bg;
-      border-color: $btn-secondary-border;
+      background-color: theme-color("secondary");
+      border-color: theme-color("secondary");
       box-shadow: none;
     }
   }
