@@ -3,8 +3,8 @@
   .document {
     @extend .clearfix;
     border-bottom: 1px dotted $table-border-color;
-    margin-top: $spacer-y;
-    padding-top: $spacer-y;
+    margin-top: $spacer;
+    padding-top: $spacer;
 
     .document-title-heading {
       @extend h5;
