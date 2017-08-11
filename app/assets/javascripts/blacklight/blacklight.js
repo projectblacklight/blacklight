@@ -16,6 +16,8 @@
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap/util
 //= require bootstrap/collapse
+// Required for dropdown
+//= require popper
 //= require bootstrap/dropdown
 //= require bootstrap/alert
 //= require bootstrap/modal
