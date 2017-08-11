@@ -61,10 +61,10 @@
 }
 
 .facet-limit-active {
-  @extend .card-outline-success;
+  @extend .border-success;
 
   .card-header {
-    @extend .card-success;
+    @extend .bg-success;
   }
 }
 
