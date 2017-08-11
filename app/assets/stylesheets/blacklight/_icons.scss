@@ -7,36 +7,36 @@
 
 .btn-primary {
   .blacklight-icons g {
-    stroke: $btn-primary-color;
+    @include stroke-yiq(theme-color("primary"));
   }
 }
 
-.btn-secondary {
+.btn-light {
   .blacklight-icons g {
-    stroke: $btn-secondary-color;
+    @include stroke-yiq(theme-color("light"));
   }
 }
 
 .btn-info {
   .blacklight-icons g {
-    stroke: $btn-info-color;
+    @include stroke-yiq(theme-color("info"));
   }
 }
 
 .btn-success {
   .blacklight-icons g {
-    stroke: $btn-success-color;
+    @include stroke-yiq(theme-color("success"));
   }
 }
 
 .btn-warning {
   .blacklight-icons g {
-    stroke: $btn-warning-color;
+    @include stroke-yiq(theme-color("warning"));
   }
 }
 
 .btn-danger {
   .blacklight-icons g {
-    stroke: $btn-danger-color;
+    @include stroke-yiq(theme-color("danger"));
   }
 }
