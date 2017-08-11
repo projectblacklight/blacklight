@@ -89,7 +89,7 @@
     padding-left: $spacer / 2;
 
     &:hover {
-      color: $brand-danger;
+      color: theme-color("danger");
       text-decoration: none;
     }
   }
