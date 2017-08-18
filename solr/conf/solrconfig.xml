@@ -187,7 +187,6 @@
        <int name="ps">3</int>
        <float name="tie">0.01</float>
 
-       <!-- NOT using marc_display because it is large and will slow things down for search results -->
        <str name="fl">
          id, 
          score,
@@ -210,6 +209,7 @@
          subtitle_vern_display,
          url_fulltext_display,
          url_suppl_display,
+         marc_display,
        </str>
 
        <str name="facet">true</str>

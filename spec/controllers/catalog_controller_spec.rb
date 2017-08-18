@@ -140,7 +140,7 @@ RSpec.describe CatalogController do
 
       it "gets the documents" do
         expect(docs).to have(10).documents
-        expect(docs.first.keys).to match_array(["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "score"])
+        expect(docs.first.keys).to match_array(["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "marc_display", "score"])
       end
 
       it "gets the facets" do
