@@ -32,7 +32,7 @@
   }
 
   .filter-name:after {
-    @extend .text-muted;
+    color: $gray-100;
     content: "❯";
     font-size: 90%;
     padding-left: $caret-width;
