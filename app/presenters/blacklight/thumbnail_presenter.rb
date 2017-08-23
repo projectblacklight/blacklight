@@ -28,13 +28,11 @@ module Blacklight
     # @param [Hash] image_options to pass to the image tag
     # @param [Hash] url_options to pass to #link_to_document
     # @return [String]
-    # rubocop:disable Lint/AssignmentInCondition
     def thumbnail_tag image_options = {}, url_options = {}
-      return unless value = thumbnail_value(image_options)
-      return value if url_options[:suppress_link]
+      value = thumbnail_value(image_options)
+      return value if value.nil? || url_options[:suppress_link]
       view_context.link_to_document document, value, url_options
     end
-    # rubocop:enable Lint/AssignmentInCondition
 
     private
 
@@ -45,8 +43,8 @@ module Blacklight
       if thumbnail_method
         view_context.send(thumbnail_method, document, image_options)
       elsif thumbnail_field
-        url = document.first(thumbnail_field)
-        view_context.image_tag url, image_options if url.present?
+        image_url = Array(thumbnail_field).lazy.map { |field| document.first(field) }.reject(&:blank?).first
+        view_context.image_tag image_url, image_options if image_url.present?
       end
     end
   end

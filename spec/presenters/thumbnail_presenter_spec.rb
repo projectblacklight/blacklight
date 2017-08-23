@@ -17,7 +17,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
       it { is_expected.to be true }
     end
 
-    context "when thumbnail_field is configured" do
+    context "when thumbnail_field is configured as a single field" do
       let(:config) do
         Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz)
       end
@@ -30,6 +30,18 @@ RSpec.describe Blacklight::ThumbnailPresenter do
 
       context "and the field is missing from the document" do
         it { is_expected.to be false }
+      end
+    end
+
+    context "when thumbnail_field is configured as an array of fields" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_field: [:rst, :uvw, :xyz])
+      end
+
+      context "and the field exists in the document" do
+        let(:document) { SolrDocument.new('xyz' => 'image.png') }
+
+        it { is_expected.to be true }
       end
     end
 
@@ -80,7 +92,6 @@ RSpec.describe Blacklight::ThumbnailPresenter do
       end
 
       it "creates an image tag from the given field" do
-        #allow(document).to receive(:has?).with(:xyz).and_return(true)
         allow(document).to receive(:first).with(:xyz).and_return("http://example.com/some.jpg")
         allow(view_context).to receive(:image_tag).with("http://example.com/some.jpg", {}).and_return('<img src="image.jpg">')
         expect(view_context).to receive(:link_to_document).with(document, '<img src="image.jpg">', {})
@@ -90,6 +101,22 @@ RSpec.describe Blacklight::ThumbnailPresenter do
       it "returns nil if no thumbnail is in the document" do
         allow(document).to receive(:first).with(:xyz).and_return(nil)
         expect(subject).to be_nil
+      end
+    end
+
+    context "when thumbnail_field is configured as an array of fields" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_field: [:rst, :uvw, :xyz])
+      end
+
+      context "and the field exists in the document" do
+        let(:document) { SolrDocument.new(xyz: 'http://example.com/some.jpg') }
+
+        it "creates an image tag from the given field" do
+          allow(view_context).to receive(:image_tag).with("http://example.com/some.jpg", {}).and_return('<img src="image.jpg">')
+          expect(view_context).to receive(:link_to_document).with(document, '<img src="image.jpg">', {}).and_return('<a><img></a>')
+          expect(presenter.thumbnail_tag).to eq '<a><img></a>'
+        end
       end
     end
 
