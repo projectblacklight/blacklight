@@ -57,14 +57,6 @@ RSpec.describe Blacklight::ThumbnailPresenter do
           expect(subject).to eq "link"
         end
 
-        context "and url options are false" do
-          subject { presenter.thumbnail_tag({}, false) }
-
-          it "does not link to the document" do
-            expect(subject).to eq "some-thumbnail"
-          end
-        end
-
         context "and url options have :suppress_link" do
           subject { presenter.thumbnail_tag({}, suppress_link: true) }
 
