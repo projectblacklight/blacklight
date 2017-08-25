@@ -31,11 +31,8 @@ module Blacklight
     # rubocop:disable Lint/AssignmentInCondition
     def thumbnail_tag image_options = {}, url_options = {}
       return unless value = thumbnail_value(image_options)
-      if url_options == false || url_options[:suppress_link]
-        value
-      else
-        view_context.link_to_document document, value, url_options
-      end
+      return value if url_options[:suppress_link]
+      view_context.link_to_document document, value, url_options
     end
     # rubocop:enable Lint/AssignmentInCondition
 
