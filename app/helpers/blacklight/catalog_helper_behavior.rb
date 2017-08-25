@@ -214,7 +214,11 @@ module Blacklight::CatalogHelperBehavior
     end
 
     if value
-      if url_options == false || url_options[:suppress_link]
+      if url_options == false
+        Deprecation.warn(self, "passing false as the second argument to render_thumbnail_tag is deprecated. Use suppress_link: true instead. This behavior will be removed in Blacklight 7")
+        url_options = { suppress_link: true }
+      end
+      if url_options[:suppress_link]
         value
       else
         link_to_document document, value, url_options

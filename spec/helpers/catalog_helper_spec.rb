@@ -243,7 +243,7 @@ describe CatalogHelper do
     it "does not link to the document if the url options are false" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz) ))
       allow(helper).to receive_messages(:xyz => "some-thumbnail")
-
+      expect(Deprecation).to receive(:warn)
       result = helper.render_thumbnail_tag document, {}, false
       expect(result).to eq "some-thumbnail"
     end
