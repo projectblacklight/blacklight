@@ -47,7 +47,7 @@ module Blacklight::Catalog
     @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
 
     respond_to do |format|
-      format.html { setup_next_and_previous_documents }
+      format.html { @search_context = setup_next_and_previous_documents }
       format.json { render json: { response: { document: @document } } }
       additional_export_formats(@document, format)
     end

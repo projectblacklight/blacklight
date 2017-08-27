@@ -111,9 +111,7 @@ module Blacklight::SearchContext
       response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset(current_search_session.query_params).to_hash
 
       search_session['total'] = response.total
-      @search_context_response = response
-      @previous_document = documents.first
-      @next_document = documents.last
+      { prev: documents.first, next: documents.last }
     end
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger.warn "Unable to setup next and previous documents: #{e}"
