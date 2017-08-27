@@ -1,6 +1,6 @@
 //= require blacklight/core
 (function($) {
-  Blacklight.do_search_context_behavior = function() {
+  Blacklight.doSearchContextBehavior = function() {
     $('a[data-context-href]').on('click.search-context', Blacklight.handleSearchContextMethod);
   };
 
@@ -37,6 +37,6 @@
   };
 
   Blacklight.onLoad(function() {
-    Blacklight.do_search_context_behavior();
+    Blacklight.doSearchContextBehavior();
   });
 })(jQuery);

@@ -1,6 +1,6 @@
 //= require blacklight/core
 (function($) {
-  Blacklight.do_search_autofocus_fallback = function() {
+  Blacklight.doSearchAutofocusFallback = function() {
     if (typeof Modernizer != "undefined") {
       if (Modernizr.autofocus) {
         return;
@@ -11,6 +11,6 @@
   }
 
   Blacklight.onLoad(function() {
-    Blacklight.do_search_autofocus_fallback();
+    Blacklight.doSearchAutofocusFallback();
   });
 })(jQuery);

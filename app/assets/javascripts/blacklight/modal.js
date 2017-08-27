@@ -118,7 +118,7 @@ Blacklight.modal.receiveAjax = function (contents) {
     // does it have a data- selector for container?
     // important we don't execute script tags, we shouldn't.
     // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
-    var container =  $("<div>").
+    var container =  $('<div>').
       append( jQuery.parseHTML(contents) ).find( Blacklight.modal.containerSelector ).first();
     if (container.length !== 0) {
       contents = container.html();
@@ -160,7 +160,7 @@ Blacklight.modal.modalAjaxFormSubmit = function(e) {
 
 
 
-Blacklight.modal.setup_modal = function() {
+Blacklight.modal.setupModal = function() {
 	// Event indicating blacklight is setting up a modal link,
   // you can catch it and call e.preventDefault() to abort
   // setup.
@@ -177,7 +177,7 @@ Blacklight.modal.setup_modal = function() {
     Blacklight.modal.modalAjaxFormSubmit);
 
   // Catch our own custom loaded event to implement data-blacklight-modal=closed
-  $("body").on("loaded.blacklight.blacklight-modal", Blacklight.modal.check_close_modal);
+  $("body").on('loaded.blacklight.blacklight-modal', Blacklight.modal.checkCloseModal);
 
   // we support doing data-dismiss=modal on a <a> with a href for non-ajax
   // use, we need to suppress following the a's href that's there for
@@ -189,19 +189,19 @@ Blacklight.modal.setup_modal = function() {
 
 // A function used as an event handler on loaded.blacklight.blacklight-modal
 // to catch contained data-blacklight-modal=closed directions
-Blacklight.modal.check_close_modal = function(event) {
+Blacklight.modal.checkCloseModal = function(event) {
   if ($(event.target).find(Blacklight.modal.modalCloseSelector).length) {
-    modal_flashes = $(this).find('.flash_messages');
+    modalFlashes = $(this).find('.flash_messages');
 
     $(event.target).modal("hide");
     event.preventDefault();
 
-    main_flashes = $('#main-flashes');
-    main_flashes.append(modal_flashes);
-    modal_flashes.fadeIn(500);
+    mainFlashes = $('#main-flashes');
+    mainFlashes.append(modal_flashes);
+    modalFlashes.fadeIn(500);
   }
 }
 
 Blacklight.onLoad(function() {
-  Blacklight.modal.setup_modal();
+  Blacklight.modal.setupModal();
 });
