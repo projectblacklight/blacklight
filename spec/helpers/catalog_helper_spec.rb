@@ -174,6 +174,9 @@ RSpec.describe CatalogHelper do
   end
 
   describe "should_autofocus_on_search_box?" do
+    before do
+      expect(Deprecation).to receive(:warn)
+    end
     it "is focused if we're on a catalog-like index page without query or facet parameters" do
       allow(helper).to receive_messages(controller: CatalogController.new, action_name: "index", has_search_parameters?: false)
       expect(helper.should_autofocus_on_search_box?).to be true

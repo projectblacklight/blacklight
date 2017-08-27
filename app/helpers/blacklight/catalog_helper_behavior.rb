@@ -196,6 +196,7 @@ module Blacklight::CatalogHelperBehavior
       action_name == "index" &&
       !has_search_parameters?
   end
+  deprecation_deprecate should_autofocus_on_search_box?: "use SearchBarPresenter#autofocus?"
 
   ##
   # Does the document have a thumbnail to render?
