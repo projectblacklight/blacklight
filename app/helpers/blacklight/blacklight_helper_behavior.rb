@@ -37,6 +37,7 @@ module Blacklight::BlacklightHelperBehavior
   def render_link_rel_alternates(presenter = @presenter, options = {})
     presenter.link_rel_alternates(options)
   end
+  deprecation_deprecate render_link_rel_alternates: 'use ShowPresenter#link_rel_alternates instead'
 
   ##
   # Render OpenSearch headers for this search
@@ -112,6 +113,7 @@ module Blacklight::BlacklightHelperBehavior
   def document_show_html_title
     @presenter.html_title
   end
+  deprecation_deprecate document_show_html_title: 'use ShowPresenter#html_title instead'
 
   ##
   # Render the document "heading" (title) in a content tag
@@ -130,6 +132,7 @@ module Blacklight::BlacklightHelperBehavior
 
     content_tag(tag, presenter.heading, itemprop: "name")
   end
+  deprecation_deprecate render_document_heading: 'use ShowPresenter#render_document_heading'
 
   ##
   # Get the current "view type" (and ensure it is a valid type)

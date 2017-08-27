@@ -24,14 +24,15 @@ RSpec.describe "/catalog/_show" do
     end
   end
 
+  let(:presenter) { Blacklight::ShowPresenter.new(document, view, config) }
+
   before do
     allow(controller).to receive(:action_name).and_return('show')
     allow(view).to receive(:blacklight_config).and_return(config)
-    view.instance_variable_set :@presenter, Blacklight::ShowPresenter.new(document, view, config)
   end
 
   # this is in RenderPartialsHelperBehavior
-  subject { view.render_document_partial document, :show }
+  subject { view.render_document_partial document, :show, presenter: presenter }
 
   it "only displays fields listed in the initializer" do
     expect(subject).to_not include("val_2")

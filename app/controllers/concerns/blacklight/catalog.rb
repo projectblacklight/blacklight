@@ -54,8 +54,8 @@ module Blacklight::Catalog
 
     respond_to do |format|
       format.html do
-        @presenter = show_presenter_class(@document).new(@document, view_context)
-        @search_context = setup_next_and_previous_documents
+        search_context = setup_next_and_previous_documents
+        @presenter = show_presenter_class(@document).new(@document, view_context, blacklight_config, search_context)
       end
       format.json { render json: { response: { document: @document } } }
       additional_export_formats(@document, format)

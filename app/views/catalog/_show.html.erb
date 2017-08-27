@@ -1,6 +1,6 @@
 <%# default partial to display solr document fields in catalog show view %>
 <dl class="row dl-invert document-metadata">
-  <% @presenter.fields do |field_presenter| %>
+  <% presenter.fields do |field_presenter| %>
     <dt class="blacklight-<%= field_presenter.to_param %> col-md-3"><%= field_presenter.label %></dt>
     <dd class="blacklight-<%= field_presenter.to_param %> col-md-9"><%= field_presenter.value %></dd>
   <% end %>

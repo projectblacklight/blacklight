@@ -1,3 +1,5 @@
+<% content_for(:head) { @presenter.link_rel_alternates } %>
+
 <% if current_search_session %>
   <div id="appliedParams" class="clearfix constraints-container">
     <%= link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
@@ -5,7 +7,7 @@
   </div>
 <% end %>
 
-<%= render_document_main_content_partial %>
+<%= @presenter.render_content_partial %>
 
 <% content_for(:sidebar) do %>
   <%= render 'show_sidebar' %>

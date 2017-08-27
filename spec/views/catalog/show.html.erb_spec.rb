@@ -16,7 +16,7 @@ RSpec.describe "catalog/show.html.erb" do
   end
 
   it "sets the @page_title" do
-    allow(view).to receive(:document_show_html_title).and_return("Heading")
+    allow(presenter).to receive(:html_title).and_return("Heading")
     render
     page_title = view.instance_variable_get(:@page_title)
     expect(page_title).to eq "Heading - Blacklight"
@@ -24,7 +24,6 @@ RSpec.describe "catalog/show.html.erb" do
   end
 
   it "includes schema.org itemscope/type properties" do
-    allow(view).to receive(:document_show_html_title).and_return("Heading")
     allow(document).to receive_messages(:itemtype => 'some-item-type-uri')
     render
     expect(rendered).to have_selector('div#document[@itemscope]')

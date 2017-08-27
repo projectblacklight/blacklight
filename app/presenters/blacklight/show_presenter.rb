@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 module Blacklight
   class ShowPresenter
-    attr_reader :document, :configuration, :view_context
+    attr_reader :document, :configuration, :view_context, :search_context
 
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
-    def initialize(document, view_context, configuration = view_context.blacklight_config)
+    # @param [Hash] search_context contains the next and previous documents in the current search
+    def initialize(document, view_context, configuration = view_context.blacklight_config, search_context = {})
       @document = document
       @view_context = view_context
       @configuration = configuration
+      @search_context = search_context
     end
 
     ##
@@ -22,6 +24,23 @@ module Blacklight
     # @option options [Array<String>] :exclude array of format shortnames to not include in the output
     def link_rel_alternates(options = {})
       LinkAlternatePresenter.new(view_context, document, options).render
+    end
+
+    ##
+    # Render the main content partial for a document
+    #
+    # @return [String]
+    def render_content_partial
+      view_context.render 'show_main_content', presenter: self
+    end
+
+    ##
+    # Render the document "heading" (title) in a content tag
+    #   @param [Hash] options
+    #   @option options [Symbol] :tag
+    def render_document_heading(options = {})
+      tag = options.fetch(:tag, :h4)
+      view_context.content_tag(tag, heading, itemprop: "name")
     end
 
     ##
