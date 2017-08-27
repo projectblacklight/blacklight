@@ -200,17 +200,20 @@ RSpec.describe CatalogHelper do
       expect(Deprecation).to receive(:warn)
     end
 
-    let(:document) { instance_double(SolrDocument) }
+    let(:document) { SolrDocument.new(data) }
+    let(:data) { {} }
 
     it "has a thumbnail if a thumbnail_method is configured" do
       allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_method => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
       expect(helper.has_thumbnail? document).to be true
     end
 
-    it "has a thumbnail if a thumbnail_field is configured and it exists in the document" do
-      allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
-      allow(document).to receive_messages(has?: true)
-      expect(helper.has_thumbnail? document).to be true
+    context "if a thumbnail_field is configured and it exists in the document" do
+      let(:data) { { xyz: 'abc' } }
+      it "has a thumbnail" do
+        allow(helper).to receive_messages(:blacklight_config => Blacklight::Configuration.new(:index => Blacklight::OpenStructWithHashAccess.new(:thumbnail_field => :xyz, document_presenter_class: Blacklight::IndexPresenter) ))
+        expect(helper.has_thumbnail? document).to be true
+      end
     end
 
     it "does not have a thumbnail if the thumbnail_field is missing from the document" do

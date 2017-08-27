@@ -18,7 +18,9 @@ module Blacklight
     #
     # @return [Boolean]
     def exists?
-      thumbnail_method.present? || thumbnail_field && document.has?(thumbnail_field)
+      thumbnail_method.present? ||
+        (thumbnail_field && thumbnail_value_from_document(document).present?) ||
+        default_thumbnail.present?
     end
 
     ##
@@ -36,16 +38,35 @@ module Blacklight
 
     private
 
-    delegate :thumbnail_field, :thumbnail_method, to: :view_config
+    delegate :thumbnail_field, :thumbnail_method, :default_thumbnail, to: :view_config
 
     # @param [Hash] image_options to pass to the image tag
     def thumbnail_value(image_options)
-      if thumbnail_method
-        view_context.send(thumbnail_method, document, image_options)
-      elsif thumbnail_field
-        image_url = Array(thumbnail_field).lazy.map { |field| document.first(field) }.reject(&:blank?).first
-        view_context.image_tag image_url, image_options if image_url.present?
+      value = if thumbnail_method
+                view_context.send(thumbnail_method, document, image_options)
+              elsif thumbnail_field
+                image_url = thumbnail_value_from_document(document)
+                view_context.image_tag image_url, image_options if image_url.present?
+              end
+
+      value || default_thumbnail_value(image_options)
+    end
+
+    def default_thumbnail_value(image_options)
+      return unless default_thumbnail
+
+      case default_thumbnail
+      when Symbol
+        view_context.send(default_thumbnail, document, image_options)
+      when Proc
+        default_thumbnail.call(document, image_options)
+      else
+        view_context.image_tag default_thumbnail, image_options
       end
+    end
+
+    def thumbnail_value_from_document(document)
+      Array(thumbnail_field).lazy.map { |field| document.first(field) }.reject(&:blank?).first
     end
   end
 end
