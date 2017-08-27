@@ -65,7 +65,11 @@ module Blacklight::BlacklightHelperBehavior
   # Render the search navbar
   # @return [String]
   def render_search_bar
-    render :partial => 'catalog/search_form'
+    search_bar_presenter.render
+  end
+
+  def search_bar_presenter
+    @search_bar ||= search_bar_presenter_class.new(controller, blacklight_config)
   end
 
   ##
@@ -261,6 +265,10 @@ module Blacklight::BlacklightHelperBehavior
 
   def index_presenter_class(_document)
     blacklight_config.index.document_presenter_class
+  end
+
+  def search_bar_presenter_class
+    blacklight_config.index.search_bar_presenter_class
   end
 
   ##

@@ -7,5 +7,6 @@ module Blacklight
       blacklight_config.autocomplete_enabled.present? &&
         blacklight_config.autocomplete_path.present?
     end
+    deprecation_deprecate autocomplete_enabled?: "use SearchBarPresenter#autocomplete_enabled?"
   end
 end

@@ -3,7 +3,9 @@
 RSpec.describe Blacklight::SuggestHelperBehavior do
   before do
     allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    expect(Deprecation).to receive(:warn)
   end
+  
   describe '#autocomplete_enabled?' do
     describe 'with autocomplete config' do
       let(:blacklight_config) do
