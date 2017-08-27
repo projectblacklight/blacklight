@@ -274,23 +274,24 @@ RSpec.describe CatalogController do
       it "sets previous document if counter present in session" do
         session[:search] = search_session.merge('counter' => 2)
         get :show, params: { id: doc_id }
-        expect(assigns[:previous_document]).to_not be_nil
+        expect(assigns[:search_context][:prev]).to_not be_nil
       end
+
       it "does not set previous or next document if session is blank" do
         get :show, params: { id: doc_id }
-        expect(assigns[:previous_document]).to be_nil
-        expect(assigns[:next_document]).to be_nil
+        expect(assigns[:search_context]).to be_nil
       end
+
       it "does not set previous or next document if session[:search]['counter'] is nil" do
         session[:search] = {}
         get :show, params: { id: doc_id }
-        expect(assigns[:previous_document]).to be_nil
-        expect(assigns[:next_document]).to be_nil
+        expect(assigns[:search_context]).to be_nil
       end
+
       it "sets next document if counter present in session" do
         session[:search] = search_session.merge('counter' => 2)
         get :show, params: { id: doc_id }
-        expect(assigns[:next_document]).to_not be_nil
+        expect(assigns[:search_context][:next]).to_not be_nil
       end
 
       it "does not break if solr returns an exception" do
@@ -298,8 +299,7 @@ RSpec.describe CatalogController do
           raise Blacklight::Exceptions::InvalidRequest.new "Error"
         }
         get :show, params: { id: doc_id }
-        expect(assigns[:previous_document]).to be_nil
-        expect(assigns[:next_document]).to be_nil
+        expect(assigns[:search_context]).to be_nil
       end
     end
 

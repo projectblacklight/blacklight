@@ -1,12 +1,12 @@
-<% #Using the Bootstrap Pagination class  -%>
+<% # Using the Bootstrap Pagination class  -%>
 <div class='pagination-search-widgets'>
-  <% if @previous_document || @next_document %>
+  <% if @search_context[:prev] || @search_context[:next] %>
     <div class="page-links">
-      <%= link_to_previous_document @previous_document %> |
+      <%= link_to_previous_document @search_context[:prev] %> |
 
       <%= item_page_entry_info %> |
 
-      <%= link_to_next_document @next_document %>
+      <%= link_to_next_document @search_context[:next] %>
     </div>
   <% end %>
 </div>
