@@ -30,7 +30,6 @@
 */
 (function($) {
     $.fn.blCheckboxSubmit = function(argOpts) {
-
       this.each(function() {
         var options = $.extend({}, $.fn.blCheckboxSubmit.defaults, argOpts);
 
@@ -41,42 +40,42 @@
         //This works conveneintly because the exact same action href is used
         //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
         //of the form to avoid any future confusion.
-        form.find("input[type=submit]").remove();
+        form.find('input[type=submit]').remove();
 
         //View needs to set data-doc-id so we know a unique value
         //for making DOM id
-        var uniqueId = form.attr("data-doc-id") || Math.random();
+        var uniqueId = form.attr('data-doc-id') || Math.random();
         // if form is currently using method delete to change state,
         // then checkbox is currently checked
-        var checked = (form.find("input[name=_method][value=delete]").size() != 0);
+        var checked = (form.find('input[name=_method][value=delete]').size() != 0);
 
         var checkbox = $('<input type="checkbox">')
           .addClass( options.cssClass )
-          .attr("id", options.cssClass + "_" + uniqueId);
+          .attr('id', options.cssClass + '_' + uniqueId);
         var label = $('<label>')
           .addClass( options.cssClass )
-          .attr("for", options.cssClass + '_' + uniqueId)
-          .attr("title", form.attr("title") || "");
+          .attr('for', options.cssClass + '_' + uniqueId)
+          .attr('title', form.attr('title') || '');
         var span = $('<span>');
 
         label.append(checkbox);
-        label.append(" ");
+        label.append(' ');
         label.append(span);
 
-        var checkboxDiv = $("<div class='checkbox' />")
+        var checkboxDiv = $('<div class="checkbox" />')
           .addClass(options.cssClass)
           .append(label);
 
         function updateStateFor(state) {
-            checkbox.prop("checked", state);
-            label.toggleClass("checked", state);
+            checkbox.prop('checked', state);
+            label.toggleClass('checked', state);
             if (state) {
                //Set the Rails hidden field that fakes an HTTP verb
                //properly for current state action.
-               form.find("input[name=_method]").val("delete");
+               form.find('input[name=_method]').val('delete');
                span.text(form.attr('data-present'));
             } else {
-               form.find("input[name=_method]").val("put");
+               form.find('input[name=_method]').val('put');
                span.text(form.attr('data-absent'));
             }
           }
@@ -86,19 +85,19 @@
 
         checkbox.click(function() {
             span.text(form.attr('data-inprogress'));
-            label.attr("disabled", "disabled");
-            checkbox.attr("disabled", "disabled");
+            label.attr('disabled', 'disabled');
+            checkbox.attr('disabled', 'disabled');
 
             $.ajax({
-                url: form.attr("action"),
+                url: form.attr('action'),
                 dataType: 'json',
-                type: form.attr("method").toUpperCase(),
+                type: form.attr('method').toUpperCase(),
                 data: form.serialize(),
                 error: function() {
-                   alert("Error");
+                   alert('Error');
                    updateStateFor(checked);
-                   label.removeAttr("disabled");
-                   checkbox.removeAttr("disabled");
+                   label.removeAttr('disabled');
+                   checkbox.removeAttr('disabled');
                 },
                 success: function(data, status, xhr) {
                   //if app isn't running at all, xhr annoyingly
@@ -106,14 +105,14 @@
                   if (xhr.status != 0) {
                     checked = ! checked;
                     updateStateFor(checked);
-                    label.removeAttr("disabled");
-                    checkbox.removeAttr("disabled");
+                    label.removeAttr('disabled');
+                    checkbox.removeAttr('disabled');
                     options.success.call(form, checked, xhr.responseJSON);
                   } else {
-                    alert("Error");
+                    alert('Error');
                     updateStateFor(checked);
-                    label.removeAttr("disabled");
-                    checkbox.removeAttr("disabled");
+                    label.removeAttr('disabled');
+                    checkbox.removeAttr('disabled');
                   }
                 }
             });
@@ -128,7 +127,7 @@
 
   $.fn.blCheckboxSubmit.defaults =  {
             //cssClass is added to elements added, plus used for id base
-            cssClass: "blCheckboxSubmit",
+            cssClass: 'blCheckboxSubmit',
             success: function() {} //callback
   };
 })(jQuery);
