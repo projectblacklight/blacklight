@@ -35,9 +35,9 @@ module Blacklight
         fields = Array.wrap(view_config.html_title_field)
         f = fields.detect { |field| document.has? field }
         f ||= 'id'
-        field_values(field_config(f))
+        field_values(field_config(f), no_html: true)
       else
-        heading
+        heading(no_html: true)
       end
     end
 
@@ -46,11 +46,11 @@ module Blacklight
     # value (if empty)
     #
     # @return [String]
-    def heading
+    def heading(options = {})
       fields = Array.wrap(view_config.title_field)
       f = fields.detect { |field| document.has? field }
       f ||= configuration.document_model.unique_key
-      field_values(field_config(f), value: document[f])
+      field_values(field_config(f), options.merge(value: document[f]))
     end
 
     ##
@@ -78,6 +78,7 @@ module Blacklight
     #   - link_to_facet
     # @param [Blacklight::Configuration::Field] field_config solr field configuration
     # @param [Hash] options additional options to pass to the rendering helpers
+    # @option options :no_html don't add any html tags (for <title>)
     def field_values(field_config, options = {})
       FieldPresenter.new(view_context, document, field_config, options).render
     end
