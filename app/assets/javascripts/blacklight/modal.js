@@ -114,58 +114,48 @@ Blacklight.modal.onFailure = function(data) {
   $(Blacklight.modal.modalSelector).modal('show');
 }
 
-Blacklight.modal.receiveAjax = function (data) {
-      if (data.readyState == 0) {
-        // Network error, could not contact server.
-        Blacklight.modal.onFailure(data)
-      }
-      else {
-        var contents = data.responseText;
+Blacklight.modal.receiveAjax = function (contents) {
+    // does it have a data- selector for container?
+    // important we don't execute script tags, we shouldn't.
+    // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
+    var container =  $("<div>").
+      append( jQuery.parseHTML(contents) ).find( Blacklight.modal.containerSelector ).first();
+    if (container.length !== 0) {
+      contents = container.html();
+    }
 
-        // does it have a data- selector for container?
-        // important we don't execute script tags, we shouldn't.
-        // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
-        var container =  $("<div>").
-          append( jQuery.parseHTML(contents) ).find( Blacklight.modal.containerSelector ).first();
-        if (container.length !== 0) {
-          contents = container.html();
-        }
+    $(Blacklight.modal.modalSelector).find('.modal-content').html(contents);
 
-        $(Blacklight.modal.modalSelector).find('.modal-content').html(contents);
+    // send custom event with the modal dialog div as the target
+    var e    = $.Event('loaded.blacklight.blacklight-modal')
+    $(Blacklight.modal.modalSelector).trigger(e);
+    // if they did preventDefault, don't show the dialog
+    if (e.isDefaultPrevented()) return;
 
-        // send custom event with the modal dialog div as the target
-        var e    = $.Event('loaded.blacklight.blacklight-modal')
-        $(Blacklight.modal.modalSelector).trigger(e);
-        // if they did preventDefault, don't show the dialog
-        if (e.isDefaultPrevented()) return;
-
-        $(Blacklight.modal.modalSelector).modal('show');
-      }
+    $(Blacklight.modal.modalSelector).modal('show');
 };
 
 
 Blacklight.modal.modalAjaxLinkClick = function(e) {
   e.preventDefault();
 
-  var jqxhr = $.ajax({
-    url: $(this).attr('href'),
-    dataType: 'script'
-  });
-
-  jqxhr.always( Blacklight.modal.receiveAjax );
+  $.ajax({
+    url: $(this).attr('href')
+  })
+  .fail(Blacklight.modal.onFailure)
+  .done(Blacklight.modal.receiveAjax)
 };
 
 Blacklight.modal.modalAjaxFormSubmit = function(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  var jqxhr = $.ajax({
-    url: $(this).attr('action'),
-    data: $(this).serialize(),
-    type: $(this).attr('method'), //POST',
-    dataType: 'script'
- });
-
- jqxhr.always(Blacklight.modal.receiveAjax);
+    $.ajax({
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      type: $(this).attr('method') // POST
+    })
+    .fail(Blacklight.modal.onFailure)
+    .done(Blacklight.modal.receiveAjax)
 }
 
 
