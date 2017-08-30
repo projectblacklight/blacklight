@@ -113,58 +113,48 @@ Blacklight.ajaxModal.onFailure = function(data) {
   $(Blacklight.ajaxModal.modalSelector).modal('show');
 }
 
-Blacklight.ajaxModal.receiveAjax = function (data) {
-      if (data.readyState == 0) {
-        // Network error, could not contact server.
-        Blacklight.ajaxModal.onFailure(data)
-      }
-      else {
-        var contents = data.responseText;
+Blacklight.ajaxModal.receiveAjax = function (contents) {
+    // does it have a data- selector for container?
+    // important we don't execute script tags, we shouldn't.
+    // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
+    var container =  $("<div>").
+      append( jQuery.parseHTML(contents) ).find( Blacklight.ajaxModal.containerSelector ).first();
+    if (container.length !== 0) {
+      contents = container.html();
+    }
 
-        // does it have a data- selector for container?
-        // important we don't execute script tags, we shouldn't.
-        // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
-        var container =  $("<div>").
-          append( jQuery.parseHTML(contents) ).find( Blacklight.ajaxModal.containerSelector ).first();
-        if (container.length !== 0) {
-          contents = container.html();
-        }
+    $(Blacklight.ajaxModal.modalSelector).find('.modal-content').html(contents);
 
-        $(Blacklight.ajaxModal.modalSelector).find('.modal-content').html(contents);
+    // send custom event with the modal dialog div as the target
+    var e    = $.Event('loaded.blacklight.blacklight-modal')
+    $(Blacklight.ajaxModal.modalSelector).trigger(e);
+    // if they did preventDefault, don't show the dialog
+    if (e.isDefaultPrevented()) return;
 
-        // send custom event with the modal dialog div as the target
-        var e    = $.Event('loaded.blacklight.ajax-modal')
-        $(Blacklight.ajaxModal.modalSelector).trigger(e);
-        // if they did preventDefault, don't show the dialog
-        if (e.isDefaultPrevented()) return;
-
-        $(Blacklight.ajaxModal.modalSelector).modal('show');
-      }
+    $(Blacklight.ajaxModal.modalSelector).modal('show');
 };
 
 
 Blacklight.ajaxModal.modalAjaxLinkClick = function(e) {
   e.preventDefault();
 
-  var jqxhr = $.ajax({
-    url: $(this).attr('href'),
-    dataType: 'script'
-  });
-
-  jqxhr.always( Blacklight.ajaxModal.receiveAjax );
+  $.ajax({
+    url: $(this).attr('href')
+  })
+  .fail(Blacklight.ajaxModal.onFailure)
+  .done(Blacklight.ajaxModal.receiveAjax)
 };
 
 Blacklight.ajaxModal.modalAjaxFormSubmit = function(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  var jqxhr = $.ajax({
-    url: $(this).attr('action'),
-    data: $(this).serialize(),
-    type: $(this).attr('method'), //POST',
-    dataType: 'script'
- });
-
- jqxhr.always(Blacklight.ajaxModal.receiveAjax);
+    $.ajax({
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      type: $(this).attr('method') // POST
+    })
+    .fail(Blacklight.ajaxModal.onFailure)
+    .done(Blacklight.ajaxModal.receiveAjax)
 }
 
 
