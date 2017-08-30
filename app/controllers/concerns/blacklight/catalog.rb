@@ -74,11 +74,12 @@ module Blacklight::Catalog
     @display_facet = @response.aggregations[@facet.field]
     @pagination = facet_paginator(@facet, @display_facet)
     respond_to do |format|
-      # Draw the facet selector for users who have javascript disabled:
-      format.html
+      format.html do
+        # Draw the partial for the "more" facet modal window:
+        return render layout: false if request.xhr?
+        # Otherwise draw the facet selector for users who have javascript disabled.
+      end
       format.json
-      # Draw the partial for the "more" facet modal window:
-      format.js { render :layout => false }
     end
   end
 
