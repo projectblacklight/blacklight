@@ -283,6 +283,24 @@ module Blacklight::CatalogHelperBehavior
     t('blacklight.search.page_title.constraint', label: filter_label, value: filter_value)
   end
 
+  def render_search_title(params)
+    unless t('blacklight.search.page_title.title', default: '').blank?
+      Deprecation.warn(
+        Blacklight::CatalogHelperBehavior,
+        'The blacklight.search.page_title.title i18n key has been deprecated; use blacklight.search.page_title.with_constraints and blacklight.search.page_title.without_constraints instead.'
+      )
+      return t('blacklight.search.page_title.title',
+               constraints: render_search_to_page_title(params),
+               application_name: application_name)
+    end
+
+    return t('blacklight.search.page_title.without_constraints') unless query_has_constraints?(params)
+
+    t('blacklight.search.page_title.with_constraints',
+      constraints: render_search_to_page_title(params),
+      application_name: application_name)
+  end
+
   def render_search_to_page_title(params)
     constraints = []
 
