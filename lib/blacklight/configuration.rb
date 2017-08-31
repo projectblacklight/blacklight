@@ -281,7 +281,14 @@ module Blacklight
         end
       end
     end
-    alias_method :inheritable_copy, :deep_copy
+
+    # builds a copy for the provided controller class
+    def build(klass)
+      deep_copy.tap do |conf|
+        conf.klass = klass
+      end
+    end
+    alias_method :inheritable_copy, :build
 
     # Get a view configuration for the given view type
     # including default values from the index configuration
@@ -304,6 +311,7 @@ module Blacklight
     def add_show_tools_partial(name, opts = {})
       opts[:partial] ||= 'document_action'
       add_action(show.document_actions, name, opts)
+      klass && ActionBuilder.new(klass, name, opts).build
     end
     # rubocop:enable Metrics/LineLength
 
