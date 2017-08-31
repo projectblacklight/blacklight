@@ -3,7 +3,6 @@ module Blacklight::Catalog
   extend ActiveSupport::Concern
 
   include Blacklight::Base
-  include Blacklight::DefaultComponentConfiguration
   include Blacklight::Facet
 
   # The following code is executed when someone includes blacklight::catalog in their
@@ -146,6 +145,10 @@ module Blacklight::Catalog
   #
   # non-routable methods ->
   #
+
+  def render_sms_action?(_config, _options)
+    sms_mappings.present?
+  end
 
   def search_service
     search_service_class.new(blacklight_config, search_state.to_h)
