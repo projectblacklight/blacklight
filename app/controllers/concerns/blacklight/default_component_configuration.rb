@@ -40,10 +40,14 @@ module Blacklight
       # @option opts [Symbol]  :callback method for further processing of documents, receives Array of documents
       def add_show_tools_partial(name, opts = {})
         blacklight_config.add_show_tools_partial(name, opts)
+        create_action_handler(name, opts)
+      end
 
+      # Define a simple action handler for the tool as long as the method
+      # doesn't already exist or the `:define_method` option is not `false`
+      def create_action_handler(name, opts)
         return if method_defined?(name) || opts[:define_method] == false
 
-        # Define a simple action handler for the tool
         define_method name do
           @response, @documents = action_documents
 
@@ -74,21 +78,15 @@ module Blacklight
 
       # Add a tool to be displayed for each document in the search results.
       # @!macro partial_if_unless
-      def add_results_document_tool(name, opts = {})
-        blacklight_config.add_results_document_tool(name, opts)
-      end
+      delegate :add_results_document_tool, to: :blacklight_config
 
       # Add a tool to be displayed for the list of search results themselves.
       # @!macro partial_if_unless
-      def add_results_collection_tool(name, opts = {})
-        blacklight_config.add_results_collection_tool(name, opts)
-      end
+      delegate :add_results_collection_tool, to: :blacklight_config
 
       # Add a partial to the header navbar.
       # @!macro partial_if_unless
-      def add_nav_action(name, opts = {})
-        blacklight_config.add_nav_action(name, opts)
-      end
+      delegate :add_nav_action, to: :blacklight_config
     end
   end
 end
