@@ -134,17 +134,6 @@ Style/DoubleNegation:
   Exclude:
     - 'lib/blacklight/search_builder.rb'
 
-# Offense count: 13
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
-Layout/ExtraSpacing:
-  Exclude:
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/document/dublin_core.rb'
-    - 'app/models/record_mailer.rb'
-    - 'config/routes.rb'
-    - 'lib/railties/blacklight.rake'
-
 # Offense count: 2
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: format, sprintf, percent
