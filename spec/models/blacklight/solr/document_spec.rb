@@ -199,17 +199,23 @@ RSpec.describe "Blacklight::Solr::Document" do
           include Blacklight::Solr::Document                        
       end
       before do
-        MockDocument.field_semantics.merge!( :title => "title_field", :author => "author_field", :something => "something_field" )
-        
+        MockDocument.field_semantics.merge!(
+          title: ["title_field", "other_title"],
+          author: "author_field",
+          something: "something_field"
+        )
+
         @doc1 = MockDocument.new( 
            "title_field" => "doc1 title",
+           "other_title" => "doc1 title other",
            "something_field" => ["val1", "val2"],
            "not_in_list_field" => "weird stuff" 
          )
       end
 
       it "should return complete dictionary based on config'd fields" do        
-        expect(@doc1.to_semantic_values).to eq :title => ["doc1 title"], :something => ["val1", "val2"]
+        expect(@doc1.to_semantic_values)
+          .to eq title: ["doc1 title", "doc1 title other"], something: ["val1", "val2"]
       end      
       it "should return empty array for a key without a value" do
         expect(@doc1.to_semantic_values[:author]).to be_empty
