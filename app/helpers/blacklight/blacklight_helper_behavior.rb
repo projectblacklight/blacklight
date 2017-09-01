@@ -43,7 +43,7 @@ module Blacklight::BlacklightHelperBehavior
   # Render OpenSearch headers for this search
   # @return [String]
   def render_opensearch_response_metadata
-    render :partial => 'catalog/opensearch_response_metadata'
+    render partial: 'catalog/opensearch_response_metadata'
   end
 
   ##

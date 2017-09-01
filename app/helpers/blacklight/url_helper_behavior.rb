@@ -11,7 +11,7 @@ module Blacklight::UrlHelperBehavior
   # catalog_path accepts a hash. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   # TODO: move this to the IndexPresenter
-  def link_to_document(doc, field_or_opts = nil, opts = { :counter => nil })
+  def link_to_document(doc, field_or_opts = nil, opts = { counter: nil })
     if field_or_opts.is_a? Hash
       opts = field_or_opts
     else
@@ -31,18 +31,18 @@ module Blacklight::UrlHelperBehavior
   ##
   # Link to the previous document in the current search context
   def link_to_previous_document(previous_document)
-    link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(:class => "previous", :rel => 'prev')
+    link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(class: "previous", rel: 'prev')
     link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
-      content_tag :span, raw(t('views.pagination.previous')), :class => 'previous'
+      content_tag :span, raw(t('views.pagination.previous')), class: 'previous'
     end
   end
 
   ##
   # Link to the next document in the current search context
   def link_to_next_document(next_document)
-    link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(:class => "next", :rel => 'next')
+    link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(class: "next", rel: 'next')
     link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
-      content_tag :span, raw(t('views.pagination.next')), :class => 'next'
+      content_tag :span, raw(t('views.pagination.next')), class: 'next'
     end
   end
 
@@ -106,7 +106,7 @@ module Blacklight::UrlHelperBehavior
   # @example
   #   link_back_to_catalog(label: 'Back to Search')
   #   link_back_to_catalog(label: 'Back to Search', route_set: my_engine)
-  def link_back_to_catalog(opts = { :label => nil })
+  def link_back_to_catalog(opts = { label: nil })
     scope = opts.delete(:route_set) || self
     query_params = search_state.reset(current_search_session.try(:query_params)).to_hash
 

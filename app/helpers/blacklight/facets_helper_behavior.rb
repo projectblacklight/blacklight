@@ -154,7 +154,7 @@ module Blacklight::FacetsHelperBehavior
         content_tag(:span, '✖', class: "remove-icon") +
         content_tag(:span, '[remove]', class: 'sr-only')
       end
-    end + render_facet_count(item.hits, :classes => ["selected"])
+    end + render_facet_count(item.hits, classes: ["selected"])
   end
 
   ##
@@ -167,7 +167,7 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def render_facet_count(num, options = {})
     classes = (options[:classes] || []) << "facet-count"
-    content_tag("span", t('blacklight.search.facets.count', :number => number_with_delimiter(num)), :class => classes)
+    content_tag("span", t('blacklight.search.facets.count', number: number_with_delimiter(num)), class: classes)
   end
 
   ##

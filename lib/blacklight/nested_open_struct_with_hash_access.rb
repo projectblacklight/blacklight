@@ -6,7 +6,7 @@ module Blacklight
   # additional instances of NestedOpenStructWithHashAccess
   class NestedOpenStructWithHashAccess < OpenStructWithHashAccess
     attr_reader :nested_class
-    delegate :default_proc=, :to => :to_h
+    delegate :default_proc=, to: :to_h
 
     def initialize(klass, hash = {})
       @nested_class = klass

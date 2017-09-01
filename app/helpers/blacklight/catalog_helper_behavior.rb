@@ -66,17 +66,17 @@ module Blacklight::CatalogHelperBehavior
 
     case collection.total_count
       when 0
-        t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name).html_safe
+        t('blacklight.search.pagination_info.no_items_found', entry_name: entry_name).html_safe
       when 1
-        t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
+        t('blacklight.search.pagination_info.single_item_found', entry_name: entry_name).html_safe
       else
-        t('blacklight.search.pagination_info.pages', :entry_name => entry_name,
-                                                     :current_page => collection.current_page,
-                                                     :num_pages => collection.total_pages,
-                                                     :start_num => number_with_delimiter(collection.offset_value + 1),
-                                                     :end_num => number_with_delimiter(end_num),
-                                                     :total_num => number_with_delimiter(collection.total_count),
-                                                     :count => collection.total_pages).html_safe
+        t('blacklight.search.pagination_info.pages', entry_name: entry_name,
+                                                     current_page: collection.current_page,
+                                                     num_pages: collection.total_pages,
+                                                     start_num: number_with_delimiter(collection.offset_value + 1),
+                                                     end_num: number_with_delimiter(end_num),
+                                                     total_num: number_with_delimiter(collection.total_count),
+                                                     count: collection.total_pages).html_safe
     end
   end
 
@@ -102,9 +102,9 @@ module Blacklight::CatalogHelperBehavior
   # @see #page_entries_info
   # @return [String]
   def item_page_entry_info
-    t('blacklight.search.entry_pagination_info.other', :current => number_with_delimiter(search_session['counter']),
-                                                       :total => number_with_delimiter(search_session['total']),
-                                                       :count => search_session['total'].to_i).html_safe
+    t('blacklight.search.entry_pagination_info.other', current: number_with_delimiter(search_session['counter']),
+                                                       total: number_with_delimiter(search_session['total']),
+                                                       count: search_session['total'].to_i).html_safe
   end
 
   ##
@@ -154,7 +154,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [SolrDocument] document
   # @return [String]
   def render_document_sidebar_partial(_document = @document)
-    render :partial => 'show_sidebar'
+    render partial: 'show_sidebar'
   end
 
   ##

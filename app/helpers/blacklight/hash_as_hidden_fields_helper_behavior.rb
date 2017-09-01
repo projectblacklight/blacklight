@@ -21,7 +21,7 @@ module Blacklight::HashAsHiddenFieldsHelperBehavior
     flatten_hash(hash).each do |name, value|
       value = Array.wrap(value)
       value.each do |v|
-        hidden_fields << hidden_field_tag(name, v.to_s, :id => nil)
+        hidden_fields << hidden_field_tag(name, v.to_s, id: nil)
       end
     end
 

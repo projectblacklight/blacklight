@@ -7,7 +7,7 @@ module Blacklight
 
     source_root File.expand_path('../templates', __FILE__)
 
-    argument :model_name, :type => :string, :default => "search_builder"
+    argument :model_name, type: :string, default: "search_builder"
 
     desc <<-EOS
     This generator makes the following changes to your application:
