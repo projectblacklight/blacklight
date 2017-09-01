@@ -109,10 +109,10 @@ module Blacklight
     # @return [Blacklight::Solr::Response] the solr response object
     def to_hash
       return @params unless params_need_update?
-      @params = processed_parameters.
-                  reverse_merge(@reverse_merged_params).
-                  merge(@merged_params).
-                  tap { clear_changes }
+      @params = processed_parameters
+                  .reverse_merge(@reverse_merged_params)
+                  .merge(@merged_params)
+                  .tap { clear_changes }
     end
 
     alias_method :query, :to_hash

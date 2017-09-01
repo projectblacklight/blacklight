@@ -121,14 +121,6 @@ Style/ConditionalAssignment:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: leading, trailing
-Layout/DotPosition:
-  Exclude:
-    - 'lib/blacklight/search_builder.rb'
-
 # Offense count: 1
 Style/DoubleNegation:
   Exclude:
