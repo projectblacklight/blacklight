@@ -15,6 +15,52 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
+  describe "#index_field_label" do
+    subject { helper.index_field_label(document, 'foo') }
+    let(:field) { double }
+    let(:document) { instance_double SolrDocument }
+    before do
+      allow(blacklight_config).to receive(:index_fields).and_return('foo' => field)
+      expect(Deprecation).to receive(:warn).twice
+    end
+
+    it "calls display lable" do
+      expect(field).to receive(:display_label).with('index')
+      subject
+    end
+  end
+
+  describe "#document_show_field_label" do
+    subject { helper.document_show_field_label(document, 'foo') }
+    let(:field) { double }
+    let(:document) { instance_double SolrDocument }
+    before do
+      allow(blacklight_config).to receive(:show_fields).and_return('foo' => field)
+      expect(Deprecation).to receive(:warn).twice
+    end
+
+    it "calls display lable" do
+      expect(field).to receive(:display_label).with('show')
+      subject
+    end
+  end
+
+  describe "#facet_field_label" do
+    subject { helper.facet_field_label('foo') }
+    let(:field) { double }
+    let(:document) { instance_double SolrDocument }
+    before do
+      allow(blacklight_config).to receive(:facet_fields).and_return('foo' => field)
+      expect(Deprecation).to receive(:warn)
+    end
+
+    it "calls display lable" do
+      expect(field).to receive(:display_label).with('facet')
+      subject
+    end
+  end
+
+
   describe "#active_sort_fields" do
     it "restricts the configured sort fields to only those that should be displayed" do
       allow(blacklight_config).to receive_messages(sort_fields: { a: double(if: false, unless: false), b: double(if:true, unless: true) })
