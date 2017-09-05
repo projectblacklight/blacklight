@@ -559,6 +559,14 @@ RSpec.describe CatalogController do
         expect(assigns[:pagination].items.first['value']).to eq 'Book'
       end
     end
+
+    context 'when the requested facet is not in the configuration' do
+      it 'raises a routing error' do
+        expect {
+          get :facet, params: { id: 'fake' }
+        }.to raise_error ActionController::RoutingError, 'Not Found'
+      end
+    end
   end
 
   describe "#add_to_search_history" do
