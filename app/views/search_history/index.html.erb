@@ -5,7 +5,11 @@
 <% if @searches.blank? %>
   <h3 class='section-heading'><%= t('blacklight.search_history.no_history') %></h3>
 <% else %>
-  <%= link_to t('blacklight.search_history.clear.action_title'), blacklight.clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger float-md-right' %>
+  <%= link_to t('blacklight.search_history.clear.action_title'),
+              blacklight.clear_search_history_path,
+              method: :delete,
+              data: { confirm: t('blacklight.search_history.clear.action_confirm') },
+              class: 'btn btn-danger float-md-right' %>
   <h3 class='section-heading'><%= t('blacklight.search_history.recent') %></h3>
   <table class="table table-striped search-history">
     <% @searches.each_with_index do |search,index| %>
