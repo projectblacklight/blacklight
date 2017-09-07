@@ -2,17 +2,17 @@
 
 <div id="content" class="col-md-12">
 <h2 class='page-heading'><%=t('blacklight.search_history.title')%></h2>
-<%- if @searches.blank? -%>
+<% if @searches.blank? %>
   <h3 class='section-heading'><%=t('blacklight.search_history.no_history')%></h3>
-<%- else -%>
+<% else %>
   <%= link_to t('blacklight.search_history.clear.action_title'), blacklight.clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger float-md-right' %>
   <h3 class='section-heading'><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search-history">
-    <%-  @searches.each_with_index do |search,index| -%>
+    <% @searches.each_with_index do |search,index| %>
     <tr id="document_<%= index + 1 %>">
       <td class="query"><%= link_to_previous_search(search_state.reset(search.query_params).to_hash) %></td>
     </tr>
-  <%- end -%>
+  <% end %>
   </table>
-<%- end -%>
+<% end %>
 </div>
