@@ -241,7 +241,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "converts the counter parameter into a data- attribute" do
-      allow(helper).to receive(:track_test_path).with(hash_including(id: '123456', counter: 5)).and_return('tracking url')
+      allow(helper).to receive(:track_test_path).with(hash_including(id: have_attributes(id: '123456'), counter: 5)).and_return('tracking url')
 
       expect(helper.link_to_document(document, :title_display, counter: 5)).to include 'data-context-href="tracking url"'
     end
@@ -283,12 +283,12 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   describe "#session_tracking_path" do
     let(:document) { SolrDocument.new(id: 1) }
     it "determines the correct route for the document class" do
-      allow(helper).to receive(:track_test_path).with(id: 1).and_return('x')
+      allow(helper).to receive(:track_test_path).with(id: have_attributes(id: 1)).and_return('x')
       expect(helper.session_tracking_path(document)).to eq 'x'
     end
 
     it "passes through tracking parameters" do
-      allow(helper).to receive(:track_test_path).with(id: 1, x: 1).and_return('x')
+      allow(helper).to receive(:track_test_path).with(id: have_attributes(id: 1), x: 1).and_return('x')
       expect(helper.session_tracking_path(document, x: 1)).to eq 'x'
     end
   end
