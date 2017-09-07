@@ -9,9 +9,9 @@
   <h3 class='section-heading'><%=t('blacklight.search_history.recent')%></h3>
   <table class="table table-striped search-history">
     <%-  @searches.each_with_index do |search,index| -%>
-    <%= content_tag :tr, :id => "document_#{index + 1}" do %>
+    <tr id="document_<%= index + 1 %>">
       <td class="query"><%= link_to_previous_search(search_state.reset(search.query_params).to_hash) %></td>
-    <% end #content_tag %>
+    </tr>
   <%- end -%>
   </table>
 <%- end -%>
