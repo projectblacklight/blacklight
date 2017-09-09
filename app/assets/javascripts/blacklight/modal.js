@@ -191,12 +191,12 @@ Blacklight.modal.setupModal = function() {
 // to catch contained data-blacklight-modal=closed directions
 Blacklight.modal.checkCloseModal = function(event) {
   if ($(event.target).find(Blacklight.modal.modalCloseSelector).length) {
-    modalFlashes = $(this).find('.flash_messages');
+    var modalFlashes = $(this).find('.flash_messages');
 
     $(event.target).modal('hide');
     event.preventDefault();
 
-    mainFlashes = $('#main-flashes');
+    var mainFlashes = $('#main-flashes');
     mainFlashes.append(modalFlashes);
     modalFlashes.fadeIn(500);
   }
