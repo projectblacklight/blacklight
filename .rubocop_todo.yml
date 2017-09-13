@@ -37,6 +37,7 @@ Metrics/ClassLength:
   Exclude:
     - 'lib/blacklight/configuration.rb'
     - 'lib/blacklight/search_builder.rb'
+    - 'lib/blacklight/search_state.rb'
 
 # Offense count: 20
 Metrics/CyclomaticComplexity:
