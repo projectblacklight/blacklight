@@ -114,7 +114,15 @@ module Blacklight
       # from the session will get remove in the show view...
       p[:f] = (p[:f] || {}).dup
       p[:f][url_field] = (p[:f][url_field] || []).dup
-      p[:f][url_field] = p[:f][url_field] - [value]
+
+      collection = p[:f][url_field]
+      # collection should be an array, because we link to ?f[key][]=value,
+      # however, Facebook (and maybe some other PHP tools) tranform that parameters
+      # into ?f[key][0]=value, which Rails interprets as a Hash.
+      if collection.is_a? Hash
+        collection = collection.values
+      end
+      p[:f][url_field] = collection - [value]
       p[:f].delete(url_field) if p[:f][url_field].empty?
       p.delete(:f) if p[:f].empty?
       p
