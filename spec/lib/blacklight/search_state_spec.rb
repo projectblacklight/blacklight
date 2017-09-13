@@ -266,6 +266,17 @@ describe Blacklight::SearchState do
       end
     end
 
+    context "when the facet_params is a HWIA" do
+      let(:facet_values) { { '0' => 'some_value', '1' => 'another_value' }.with_indifferent_access }
+      let(:facet_params) { { 'some_field' => facet_values } }
+
+      it "removes the facet / value tuple from the query parameters" do
+        params = search_state.remove_facet_params('some_field', 'some_value')
+        expect(params[:f]['some_field']).not_to include 'some_value'
+        expect(params[:f]['some_field']).to include 'another_value'
+      end
+    end
+
     context "when the facet has configuration" do
       before do
         allow(search_state).to receive(:facet_configuration_for_field).with('some_field').and_return(
