@@ -16,7 +16,7 @@
                 }) do %>
       <%= submit_tag(t('blacklight.bookmarks.add.button'),
                      id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-                     class: "bookmark-add btn btn-secondary") %>
+                     class: "bookmark-add btn btn-outline-secondary") %>
     <% end %>
   <% else %>
     <%= form_tag(bookmark_path(document),
@@ -30,7 +30,7 @@
                 }) do %>
       <%= submit_tag(t('blacklight.bookmarks.remove.button'),
                      id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-                     class: "bookmark-remove btn btn-secondary") %>
+                     class: "bookmark-remove btn btn-outline-secondary") %>
     <% end %>
   <% end %>
 <% else %>
