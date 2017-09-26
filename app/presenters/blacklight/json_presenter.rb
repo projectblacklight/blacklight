@@ -19,6 +19,7 @@ module Blacklight
 
     def search_facets_as_json
       @facets.as_json.each do |f|
+        f.stringify_keys!
         f.delete "options"
         f["label"] = facet_configuration_for_field(f["name"]).label
         f["items"] = f["items"].as_json.each do |i|

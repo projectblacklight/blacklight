@@ -127,10 +127,11 @@ RSpec.describe CatalogController do
         get :index, params: { format: 'json' }
         expect(response).to be_success
       end
-      let(:json) { JSON.parse(response.body)['response'] }
-      let(:pages)  { json["pages"]  }
-      let(:docs)   { json["docs"]   }
-      let(:facets) { json["facets"] }
+      let(:json) { JSON.parse(response.body) }
+      let(:pages)  { json['meta']['pages']  }
+      let(:docs)   { json['data']  }
+      let(:facets) { json['included'].select { |x| x['type'] == 'facet' } }
+      let(:search_fields) { json['included'].select { |x| x['type'] == 'search_field' } }
 
       it "gets the pages" do
         expect(pages["total_count"]).to eq 30
@@ -140,22 +141,32 @@ RSpec.describe CatalogController do
 
       it "gets the documents" do
         expect(docs).to have(10).documents
-        expect(docs.first.keys).to match_array(["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "marc_display", "score"])
+        expect(docs.first['attributes'].keys).to match_array(["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "marc_display", "score"])
+        expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
       end
 
       it "gets the facets" do
         expect(facets).to have(9).facets
-        expect(facets.first).to eq({"name"=>"format", "label" => "Format", "items"=>[{"value"=>"Book", "hits"=>30, "label"=>"Book"}]})
+
+        format = facets.find { |x| x['id'] == 'format' }
+
+        expect(format['attributes']['items'].map { |x| x['attributes'] }).to match_array([{"value"=>"Book", "hits"=>30, "label"=>"Book"}])
+        expect(format['links']['self']).to eq facet_catalog_url(format: :json, id: 'format')
+        expect(format['attributes']['items'].first['links']['self']).to eq search_catalog_url(format: :json, f: { format: ['Book']})
+      end
+
+      it "gets the search fields" do
+        expect(search_fields).to have(4).fields
+        expect(search_fields.map { |x| x['id']}).to match_array ['all_fields', 'author', 'subject', 'title']
+        expect(search_fields.first['links']['self']).to eq search_catalog_url(format: :json, search_field: 'all_fields')
       end
 
       describe "facets" do
-        let(:query_facet_items) { facets.last['items'] }
-        let(:regular_facet_items) { facets.first['items'] }
+        let(:query_facet) { facets.find { |x| x['id'] == 'example_query_facet_field' } }
+        let(:query_facet_items) { query_facet['attributes']['items'].map { |x| x['attributes'] } }
         it "has items with labels and values" do
           expect(query_facet_items.first['label']).to eq 'within 10 Years'
           expect(query_facet_items.first['value']).to eq 'years_10'
-          expect(regular_facet_items.first['label']).to eq "Book"
-          expect(regular_facet_items.first['value']).to eq "Book"
         end
       end
     end

@@ -131,12 +131,12 @@ module Blacklight::FacetsHelperBehavior
   # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
   # @param [String] item
   # @return [String]
-  def path_for_facet(facet_field, item)
+  def path_for_facet(facet_field, item, path_options = {})
     facet_config = facet_configuration_for_field(facet_field)
     if facet_config.url_method
       send(facet_config.url_method, facet_field, item)
     else
-      search_action_path(search_state.add_facet_params_and_redirect(facet_field, item))
+      search_action_path(search_state.add_facet_params_and_redirect(facet_field, item).merge(path_options))
     end
   end
 
