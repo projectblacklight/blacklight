@@ -1,7 +1,7 @@
 require 'rails/generators'
 
 module Blacklight
-  class Solr5Generator < Rails::Generators::Base
+  class SolrGenerator < Rails::Generators::Base
     # Set source_root to grab .solr_wrapper and solr config dir
     # from the root of the blacklight gem
     source_root Blacklight.root
