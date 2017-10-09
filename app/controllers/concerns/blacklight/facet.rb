@@ -16,10 +16,6 @@ module Blacklight
       )
     end
 
-    def facets_from_request(fields = facet_field_names)
-      fields.map { |field| facet_by_field_name(field) }.compact
-    end
-
     def facet_field_names
       blacklight_config.facet_fields.values.map(&:field)
     end

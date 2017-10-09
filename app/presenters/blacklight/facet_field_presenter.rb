@@ -15,6 +15,13 @@ module Blacklight
     delegate :blacklight_config, :content_tag, :safe_join, :render, to: :@view_context
     attr_reader :display_facet, :view_context
 
+    def as_json
+      { 'name' => display_facet.name,
+        'items' => display_facet.items.map do |item|
+                     facet_item_presenter.new(display_facet, item, view_context).as_json
+                   end }
+    end
+
     ##
     # Renders the list of values
     # removes any elements where render_facet_item returns a nil value. This enables an application
@@ -31,7 +38,9 @@ module Blacklight
     # @return [Boolean]
     def render?
       # display when show is nil or true
+      # rubocop:disable Rails/Blank
       return false unless present?
+      # rubocop:enable Rails/Blank
       view_context.should_render_field?(facet_config, display_facet)
     end
 

@@ -84,7 +84,7 @@ module Blacklight
 
     # @yields [Configuration::Field] each of the fields that should be rendered
     def fields
-      configuration.show_fields.values.each do |field|
+      configuration.show_fields.each_value do |field|
         yield(build_field_presenter(field)) if render_field?(field)
       end
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   class FacetItemPresenter
     class_attribute :facet_value_presenter
@@ -24,6 +26,19 @@ module Blacklight
       else
         facet_value
       end
+    end
+
+    def as_json
+      {
+        'attributes' => {
+          'label' => item.label,
+          'value' => item.value,
+          'hits' => item.hits
+        },
+        'links' => {
+          'self' => path_for_facet(facet_field.name, item.value, only_path: false)
+        }
+      }
     end
 
     ##

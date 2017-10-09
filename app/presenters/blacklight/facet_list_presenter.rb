@@ -34,12 +34,22 @@ module Blacklight
       end.compact, "\n")
     end
 
+    # @param [Array<String>] fields
+    # @return [Hash]
+    def as_json(fields = facet_field_names)
+      presenters_for_request(fields).map(&:as_json)
+    end
+
     private
 
     def presenters_for_request(fields)
       facets_from_request(fields).map do |display_facet|
         field_presenter.new(display_facet, view_context)
       end
+    end
+
+    def facets_from_request(fields = facet_field_names)
+      fields.map { |field| facet_by_field_name(field) }.compact
     end
   end
 end
