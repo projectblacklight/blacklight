@@ -56,13 +56,17 @@ module Blacklight
             flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
 
             respond_to do |format|
-              format.html { redirect_to action_success_redirect_path }
-              format.js { render "#{name}_success" }
+              format.html do
+                return render "#{name}_success" if request.xhr?
+                redirect_to action_success_redirect_path
+              end
             end
           else
             respond_to do |format|
-              format.html
-              format.js { render :layout => false }
+              format.html do
+                return render layout: false if request.xhr?
+                # Otherwise draw the full page
+              end
             end
           end
         end
