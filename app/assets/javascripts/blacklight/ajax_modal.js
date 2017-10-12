@@ -126,7 +126,7 @@ Blacklight.ajaxModal.receiveAjax = function (contents) {
     $(Blacklight.ajaxModal.modalSelector).find('.modal-content').html(contents);
 
     // send custom event with the modal dialog div as the target
-    var e    = $.Event('loaded.blacklight.blacklight-modal')
+    var e    = $.Event('loaded.blacklight.ajax-modal');
     $(Blacklight.ajaxModal.modalSelector).trigger(e);
     // if they did preventDefault, don't show the dialog
     if (e.isDefaultPrevented()) return;
