@@ -57,7 +57,7 @@ module Blacklight
 
             respond_to do |format|
               format.html do
-                return render "#{name}_success" if request.xhr?
+                return render "#{name}_success", layout: false if request.xhr?
                 redirect_to action_success_redirect_path
               end
             end
