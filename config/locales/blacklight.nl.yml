@@ -12,7 +12,7 @@ nl:
       next: 'Volgende &raquo;'
 
   blacklight:
-    application_name: 'Arthub Flanders'
+    application_name: 'Blacklight'
 
     header_links:
       login: 'Login'
@@ -20,7 +20,7 @@ nl:
       bookmarks: 'Favorieten'
       search_history: 'Geschiedenis'
 
-    welcome: 'Welcome!'
+    welcome: 'Welkom!'
     and: 'en'
     or: 'of'
 
@@ -29,7 +29,7 @@ nl:
 
     bookmarks:
       title: 'Favorieten'
-      page_title: 'Facotireten - %{application_name}'
+      page_title: 'Favorieten - %{application_name}'
       no_bookmarks: 'U hebt geen favorieten'
       add:
         button: 'Maak favoriet'
@@ -65,7 +65,7 @@ nl:
       save: 'opslaan'
 
     tools:
-      title: 'Tools'
+      title: 'Hulpmiddelen'
       citation: 'Citeer'
       email: 'Email'
       sms: 'SMS dit'
@@ -85,7 +85,7 @@ nl:
       text:
         default_title: 'N/A'
         title: 'Titel: %{value}'
-        author: 'Creator: %{value}'
+        author: 'Auteur: %{value}'
         format: 'Formaat: %{value}'
         language: 'Taal: %{value}'
         subject:
