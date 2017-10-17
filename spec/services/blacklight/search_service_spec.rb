@@ -376,13 +376,6 @@ RSpec.describe Blacklight::SearchService do
     expect { service.repository.search }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
-  describe "grouped_key_for_results" do
-    it "pulls the grouped key out of the config" do
-      blacklight_config.index.group = 'xyz'
-      expect(service.grouped_key_for_results).to eq('xyz')
-    end
-  end
-
   describe "#previous_and_next_documents_for_search" do
     let(:user_params) { { q: '', per_page: 100 } }
     before do
