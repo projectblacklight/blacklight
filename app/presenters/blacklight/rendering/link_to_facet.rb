@@ -3,7 +3,6 @@ module Blacklight
     class LinkToFacet < AbstractStep
       extend Deprecation
       def render
-        # TODO: We should rename the config variable, because it creates a link to a facet.
         return next_step(values) unless config.link_to_facet
         next_step(render_link)
       end
