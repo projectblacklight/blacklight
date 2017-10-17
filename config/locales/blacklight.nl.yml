@@ -1,0 +1,212 @@
+nl:
+  views:
+    pagination:
+      first: '&laquo; Eerste'
+      last: 'Laatste &raquo;'
+      previous: '&laquo; Vorige'
+      next: 'Volgende &raquo;'
+      truncate: '…'
+
+    pagination_compact:
+      previous: '&laquo; Vorige'
+      next: 'Volgende &raquo;'
+
+  blacklight:
+    application_name: 'Arthub Flanders'
+
+    header_links:
+      login: 'Login'
+      logout: 'Log Out'
+      bookmarks: 'Favorieten'
+      search_history: 'Geschiedenis'
+
+    welcome: 'Welcome!'
+    and: 'en'
+    or: 'of'
+
+    modal:
+      close: "Sluiten"
+
+    bookmarks:
+      title: 'Favorieten'
+      page_title: 'Facotireten - %{application_name}'
+      no_bookmarks: 'U hebt geen favorieten'
+      add:
+        button: 'Maak favoriet'
+        success:
+          one: 'Fovoriet succesvol toegevoegd.'
+          other: 'Favorieten succesvol toegevoegd.'
+        failure:  'Sorry, er was een probleem met het bewaren van favorieten.'
+      remove:
+        button: 'Verwijder favoriet'
+        success: 'Favoriet succesvol verwijderd.'
+        failure: 'Sorry, er was een probleem met het verwijderen van favorieten.'
+        action_confirm: 'Verwijder deze favoriet?'
+      clear:
+        action_title: 'Favorieten leeg maken'
+        action_confirm: 'Favorieten leeg maken?'
+        success: 'Favorieten werden leeg gemaakt.'
+        failure: 'Sorry, er was een probleem met het leeg maken van favorieten.'
+      need_login: 'Gelieve in te loggen om favorieten te bekijken en te beheren.'
+      list_title: 'Uw favorieten'
+      delete: 'Verwijder'
+
+    search_history:
+      clear:
+        action_title: 'Leeg maken zoekgeschiedenis'
+        action_confirm: 'Leeg maken zoekgeschiedenis?'
+        success: 'Zoekgeschiedenis werd leeg gemaakt.'
+        failure: 'Er was een probleem met het leeg maken van uw zoekgeschiedenis.'
+      title: 'Zoekgeschiedenis'
+      page_title: 'Zoekgeschiedenis - %{application_name}'
+      no_history: 'U hebt geen zoekgeschiedenis'
+      recent: 'Uw recente zoekopdrachten.'
+      forget: 'vergeten'
+      save: 'opslaan'
+
+    tools:
+      title: 'Tools'
+      citation: 'Citeer'
+      email: 'Email'
+      sms: 'SMS dit'
+      clear: 'Leeg maken'
+
+    citation:
+      mla: 'MLA'
+      apa: 'APA'
+      chicago: 'Chicago'
+
+    email:
+      form:
+        title: 'Email dit'
+        to: 'Email:'
+        message: 'Boodschap:'
+        submit: 'Verzenden'
+      text:
+        default_title: 'N/A'
+        title: 'Titel: %{value}'
+        author: 'Creator: %{value}'
+        format: 'Formaat: %{value}'
+        language: 'Taal: %{value}'
+        subject:
+          one: 'Item Record: %{title}'
+          other: 'Item records'
+        url: 'URL: %{url}'
+        message: 'Boodschap: %{message}'
+
+      success: "Email Verzonden"
+
+      errors:
+        to:
+          invalid: 'U dient een geldig e-mailadres op te geven.'
+          blank: 'U dient een ontvanger voor dit bericht op te geven.'
+    sms:
+      form:
+        title: 'SMS dit'
+        to: 'Telefoonnummer:'
+        carrier: 'Carrier'
+        carrier_prompt: 'Gelieve uw carrier op te geven.'
+        submit: 'Verzenden'
+      text:
+        title: '%{value}'
+        author: ' door %{value}'
+        url: 'Link: %{url}'
+      success: "SMS Verzonden"
+      errors:
+        to:
+          invalid: 'U dient een geldig 10-cijferig telefoonnummer op te geven.'
+          blank: "U dient het telefoonnummer van uw bestemmeling op te geven om dit bericht te kunnen versturen."
+        carrier:
+          blank: 'U dient een carrier te selecteren'
+          invalid: "U dient een geldige carrier op te geven"
+
+    back_to_search: 'Terug naar zoeken'
+    back_to_bookmarks: 'Terug naar favorieten'
+
+    search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
+      title: '%{application_name} Zoek resultaten'
+      page_title:
+        title: '%{constraints} - %{application_name} Zoek resultaten'
+        constraint: '%{label}: %{value}'
+        many_constraint_values: '%{values} geselecteerd'
+      search_results_header: 'Zoek filters'
+      search_results: 'Zoek resultaten'
+      errors:
+        request_error: "Sorry, ik kon uw zoekopdracht niet begrijpen."
+        invalid_solr_id: "Sorry, u vroeg een onbestaande record op."
+      per_page:
+        label: '%{count}<span class="sr-only"> per pagina</span>'
+        button_label: '%{count} per pagina'
+        title: 'Toon aantal zoekresultaten per pagina'
+        submit: 'Update'
+      sort:
+        label: 'Sorteer op %{field}'
+        submit: 'sorteer resultaten'
+      form:
+        search_field:
+          label: 'Zoeken in'
+          title: 'Gerichte zoekopties'
+          post_label: 'voor'
+        search:
+          label: 'zoeken op'
+          placeholder: 'Zoeken...'
+        submit: 'Zoeken'
+      pagination:
+        title: 'Zoeken navigatie'
+      pagination_info:
+        no_items_found: 'Geen %{entry_name} gevonden'
+        single_item_found: '<strong>1</strong> %{entry_name} gevonden'
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> van <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> van <strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 van 1</strong>'
+        other: '<strong>%{current}</strong> van <strong>%{total}</strong>'
+      documents:
+        counter: '%{counter}. '
+      facets:
+        title: 'Verfijn uw zoekopdracht'
+        clear: 'Filters legen'
+        sort:
+          count: 'Numeriek sorteren'
+          index: 'A-Z Sorteren'
+        count: '%{number}'
+        more_html: 'Meer <span class="sr-only">%{field_name}</span> »'
+        selected:
+          remove: '[verwijder]'
+        missing: "[Ontbrekend]"
+      group:
+        more: 'meer »'
+      filters:
+        title: 'U zocht op:'
+        label: '%{label}:'
+        remove:
+          value: 'Verwijder zoekfilter %{value}'
+          label_value: 'Verwijder zoekfilter %{label}: %{value}'
+      start_over: 'Start Opnieuw'
+      index:
+        label: '%{label}:'
+      show:
+        title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
+      rss_feed: 'RSS voor zoekresultaten'
+      atom_feed: 'Atom voor zoekresultaten'
+      bookmarks:
+        present: "In Favorieten"
+        absent: "Favoriet"
+        inprogress: "Opslaan..."
+      zero_results:
+        title: "Geen resultaten gevonden voor uw zoekopdracht..."
+        modify_search: "Probeer uw zoekopdracht aan te passen"
+        use_fewer_keywords: "Probeer minder sleutelwoorden te gebruiken. Verfijn uw zoekopdracht aan de hand van de links in de linker kolom."
+        search_fields: "U zocht op %{search_fields}"
+        search_everything: "probeer door alles te zoeken"
+      view_title: "Bekijk resultaten als: "
+      view:
+        list: "Lijst"
+
+    entry_name:
+      default: 'ingang'
+
+    did_you_mean: 'Bedoelde u: %{options}?'
