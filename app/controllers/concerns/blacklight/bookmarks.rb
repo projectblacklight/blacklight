@@ -45,8 +45,8 @@ module Blacklight::Bookmarks
 
     respond_to do |format|
       format.html {}
-      format.rss  { render :layout => false }
-      format.atom { render :layout => false }
+      format.rss  { render layout: false }
+      format.atom { render layout: false }
       format.json do
         render json: render_search_results_as_json
       end
@@ -85,9 +85,9 @@ module Blacklight::Bookmarks
       success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(plain: "", status: "500")
     else
       if @bookmarks.any? && success
-        flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
+        flash[:notice] = I18n.t('blacklight.bookmarks.add.success', count: @bookmarks.length)
       elsif @bookmarks.any?
-        flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+        flash[:error] = I18n.t('blacklight.bookmarks.add.failure', count: @bookmarks.length)
       end
 
       if respond_to? :redirect_back
@@ -126,7 +126,7 @@ module Blacklight::Bookmarks
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure')
     end
-    redirect_to :action => "index"
+    redirect_to action: "index"
   end
 
   private

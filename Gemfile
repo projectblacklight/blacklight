@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec path: File.expand_path('..', __FILE__)
 
 group :test do
-  gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
+  gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
 end
 
 # BEGIN ENGINE_CART BLOCK

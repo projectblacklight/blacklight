@@ -18,7 +18,7 @@ module Blacklight::Controller
     after_action :discard_flash_if_xhr
 
     # handle basic authorization exception with #access_denied
-    rescue_from Blacklight::Exceptions::AccessDenied, :with => :access_denied
+    rescue_from Blacklight::Exceptions::AccessDenied, with: :access_denied
 
     # extra head content
     helper_method :has_user_authentication_provider?
@@ -100,7 +100,7 @@ module Blacklight::Controller
 
   # Returns a list of Searches from the ids in the user's history.
   def searches_from_history
-    session[:history].blank? ? Search.none : Search.where(:id => session[:history]).order("updated_at desc")
+    session[:history].blank? ? Search.none : Search.where(id: session[:history]).order("updated_at desc")
   end
 
   # Should be provided by authentication provider
@@ -169,7 +169,7 @@ module Blacklight::Controller
 
     redirect_to(root_url) && return unless has_user_authentication_provider?
 
-    redirect_to new_user_session_url(:referer => request.fullpath)
+    redirect_to new_user_session_url(referer: request.fullpath)
   end
 
   def determine_layout

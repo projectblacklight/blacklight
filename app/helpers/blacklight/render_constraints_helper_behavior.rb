@@ -107,6 +107,6 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @option options [Array<String>] :classes an array of classes to add to container span for constraint.
   # @return [String]
   def render_constraint_element(label, value, options = {})
-    render(:partial => "catalog/constraints_element", :locals => { :label => label, :value => value, :options => options })
+    render(partial: "catalog/constraints_element", locals: { label: label, value: value, options: options })
   end
 end

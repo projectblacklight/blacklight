@@ -54,7 +54,7 @@ module Blacklight::Solr
       ##
       if search_field && search_field.solr_local_parameters.present?
         local_params = search_field.solr_local_parameters.map do |key, val|
-          key.to_s + "=" + solr_param_quote(val, :quote => "'")
+          key.to_s + "=" + solr_param_quote(val, quote: "'")
         end.join(" ")
         solr_parameters[:q] = "{!#{local_params}}#{blacklight_params[:q]}"
 

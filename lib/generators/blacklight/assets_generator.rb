@@ -20,7 +20,7 @@ module Blacklight
                  '//= require jquery_ujs'
                end
 
-      insert_into_file "app/assets/javascripts/application.js", :after => marker do
+      insert_into_file "app/assets/javascripts/application.js", after: marker do
         contents
       end
     end

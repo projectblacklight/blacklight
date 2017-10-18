@@ -12,7 +12,7 @@ RuboCop::RakeTask.new(:rubocop)
 EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
-task :ci => ['blacklight:generate'] do
+task ci: ['blacklight:generate'] do
   SolrWrapper.wrap do |solr|
     solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
       within_test_app do
@@ -31,11 +31,11 @@ namespace :blacklight do
   end
 
   desc "Create the test rails app"
-  task :generate => ['engine_cart:generate'] do
+  task generate: ['engine_cart:generate'] do
   end
 
   namespace :internal do
-    task :seed => ['engine_cart:generate'] do
+    task seed: ['engine_cart:generate'] do
       within_test_app do
         system "bundle exec rake blacklight:index:seed"
       end

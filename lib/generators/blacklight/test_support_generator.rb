@@ -41,7 +41,7 @@ module Blacklight
     end
 
     def configure_action_mailer
-      insert_into_file "config/environments/test.rb", :after => "config.action_mailer.delivery_method = :test\n" do <<-EOF
+      insert_into_file "config/environments/test.rb", after: "config.action_mailer.delivery_method = :test\n" do <<-EOF
          config.action_mailer.default_options = {from: 'no-reply@example.org'}
       EOF
       end

@@ -20,7 +20,7 @@ xml.entry do
     xml.summary "type" => "html" do
       xml.text! render_document_partial(document,
       :index,
-      :document_counter => document_counter)
+      document_counter: document_counter)
     end
   end
   
@@ -30,7 +30,7 @@ xml.entry do
     
     type = document.export_formats[params["content_format"].to_sym][:content_type]
     
-    xml.content :type => type do |content_element|
+    xml.content type: type do |content_element|
       data = document.export_as(params["content_format"])
       
       # encode properly. See:

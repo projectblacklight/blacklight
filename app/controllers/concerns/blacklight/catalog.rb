@@ -28,8 +28,8 @@ module Blacklight::Catalog
 
     respond_to do |format|
       format.html { store_preferred_view }
-      format.rss  { render :layout => false }
-      format.atom { render :layout => false }
+      format.rss  { render layout: false }
+      format.atom { render layout: false }
       format.json do
         @presenter = Blacklight::JsonPresenter.new(@response,
                                                    facets_from_request,
@@ -228,7 +228,7 @@ module Blacklight::Catalog
 
   # Email Action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
   def email_action documents
-    mail = RecordMailer.email_record(documents, { :to => params[:to], :message => params[:message] }, url_options)
+    mail = RecordMailer.email_record(documents, { to: params[:to], message: params[:message] }, url_options)
     if mail.respond_to? :deliver_now
       mail.deliver_now
     else
@@ -239,7 +239,7 @@ module Blacklight::Catalog
   # SMS action (this will render the appropriate view on GET requests and process the form and send the email on POST requests)
   def sms_action documents
     to = "#{params[:to].gsub(/[^\d]/, '')}@#{params[:carrier]}"
-    mail = RecordMailer.sms_record(documents, { :to => to }, url_options)
+    mail = RecordMailer.sms_record(documents, { to: to }, url_options)
     if mail.respond_to? :deliver_now
       mail.deliver_now
     else
@@ -253,7 +253,7 @@ module Blacklight::Catalog
     elsif params[:carrier].blank?
       flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
     elsif params[:to].gsub(/[^\d]/, '').length != 10
-      flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', :to => params[:to])
+      flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
     elsif !sms_mappings.values.include?(params[:carrier])
       flash[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
     end
@@ -269,7 +269,7 @@ module Blacklight::Catalog
     if params[:to].blank?
       flash[:error] = I18n.t('blacklight.email.errors.to.blank')
     elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
-      flash[:error] = I18n.t('blacklight.email.errors.to.invalid', :to => params[:to])
+      flash[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
     end
 
     flash[:error].blank?

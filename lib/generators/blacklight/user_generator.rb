@@ -7,8 +7,8 @@ module Blacklight
 
     source_root File.expand_path('../templates', __FILE__)
 
-    argument     :model_name, :type => :string, :default => "user"
-    class_option :devise, :type => :boolean, :default => false, :aliases => "-d", :desc => "Use Devise as authentication logic (this is default)."
+    argument     :model_name, type: :string, default: "user"
+    class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic (this is default)."
 
     desc <<-EOS
       This generator makes the following changes to your application:
