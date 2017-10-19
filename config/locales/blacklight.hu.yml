@@ -1,0 +1,212 @@
+en:
+  views:
+    pagination:
+      first: '&laquo; Első'
+      last: 'Utolsó &raquo;'
+      previous: '&laquo; Előző'
+      next: 'Következő &raquo;'
+      truncate: '…'
+
+    pagination_compact:
+      previous: '&laquo; Előző'
+      next: 'Következő &raquo;'
+
+  blacklight:
+    application_name: 'Blacklight'
+
+    header_links:
+      login: 'Belépés'
+      logout: 'Kilépés'
+      bookmarks: 'Könyvjelzők'
+      search_history: 'Keresési előzmények'
+
+    welcome: 'Üdvözöljük!'
+    and: 'és'
+    or: 'vagy'
+
+    modal:
+      close: "Bezár"
+
+    bookmarks:
+      title: 'Könyvjelzők'
+      page_title: 'Könyvjelzők - %{application_name}'
+      no_bookmarks: 'Önnek nincsenek könyvjezői'
+      add:
+        button: 'Könyvjelző hozzáadása'
+        success:
+          one: 'A könyvjelző hozzáadása sikeres.'
+          other: 'A könyvjelzők hozzáadása sikeres.'
+        failure:  'Elnézést, de probléma történt a könyvjelzők mentése közben.'
+      remove:
+        button: 'Könyvjelző törlése'
+        success: 'A könyvjelző törlése sikeres.'
+        failure: 'Elnézést, de probléma történt a könyvjelző törlése közben.'
+        action_confirm: 'Törölni szeretné a könyvjelzőt?'
+      clear:
+        action_title: 'Az összes könyvjelző törlése.'
+        action_confirm: 'Törölni szeretné az összes könyvjelzőt?'
+        success: 'A könyvjelzők törlése sikeres.'
+        failure: 'Elnézést, de probléma történt a könyvjelzők törlése közben.'
+      need_login: 'Kérjük lépjen be a könyvjelzők kezeléséhez és megtekintéséhez.'
+      list_title: 'Az Ön könyvjelzői'
+      delete: 'Törlés'
+
+    search_history:
+      clear:
+        action_title: 'Keresési előzmények törlése'
+        action_confirm: 'Törölni szeretné keresési előzményeit?'
+        success: 'A keresési előzmények törlése sikeres.'
+        failure: 'Elnézést, de probléma történt a keresési előzmények törlése közben.'
+      title: 'Keresési előzmények'
+      page_title: 'Keresési előzmények - %{application_name}'
+      no_history: 'Önnek nincsenek keresési előzményei.'
+      recent: 'Az Ön legutóbbi keresései'
+      forget: 'elfelejt'
+      save: 'mentés'
+
+    tools:
+      title: 'Eszközök'
+      citation: 'Hivatkozás'
+      email: 'Email'
+      sms: 'Küldés SMS-ben'
+      clear: 'Eltávolítás'
+
+    citation:
+      mla: 'MLA'
+      apa: 'APA'
+      chicago: 'Chicago'
+
+    email:
+      form:
+        title: 'Email küldése'
+        to: 'Email:'
+        message: 'Üzenet:'
+        submit: 'Küldés'
+      text:
+        default_title: 'N/A'
+        title: 'Cím: %{value}'
+        author: 'Szerző: %{value}'
+        format: 'Formátum: %{value}'
+        language: 'Nyelv: %{value}'
+        subject:
+          one: 'Adatrekord: %{title}'
+          other: 'Adatrekordok'
+        url: 'URL: %{url}'
+        message: 'Üzenet: %{message}'
+
+      success: "Email elküldve"
+
+      errors:
+        to:
+          invalid: 'Kérjük érvényes email címet adjon meg'
+          blank: 'Kérjük az üzenet elküldéséhez adja meg a címzettet'
+    sms:
+      form:
+        title: 'Küldés SMS-ben'
+        to: 'Telefonszám:'
+        carrier: 'Szolgáltató'
+        carrier_prompt: 'Kérjük válassza ki a szolgáltatót'
+        submit: 'Küldés'
+      text:
+        title: '%{value}'
+        author: ' írta %{value}'
+        url: 'Link: %{url}'
+      success: "SMS elküldve"
+      errors:
+        to:
+          invalid: 'Kérjük egy valós 10 számjegyű telefonszámot adjon meg'
+          blank: "Kérjük az üzenet elküdéséhez adja meg a címzett telefonszámát"
+        carrier:
+          blank: 'Kérjük válassza ki a szolgáltatót'
+          invalid: "Kérjük érvényes szolgáltatót adjon meg"
+
+    back_to_search: 'Vissza a kereséshez'
+    back_to_bookmarks: 'Vissza a könyvjelzőkhöz'
+
+    search:
+      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
+      title: '%{application_name} Keresés eredményei'
+      page_title:
+        title: '%{constraints} - %{application_name} Keresés eredményei'
+        constraint: '%{label}: %{value}'
+        many_constraint_values: '%{values} kiválasztva'
+      search_results_header: 'Keresés feltételei'
+      search_results: 'Keresés eredményei'
+      errors:
+        request_error: "Elnézést, nem tudom értelmezni a keresést."
+        invalid_solr_id: "Elnézést, de az Ön által kért rekord nem létezik."
+      per_page:
+        label: '%{count}<span class="sr-only"> oldalanként</span>'
+        button_label: '%{count} oldalanként'
+        title: 'Az eredmények száma oldalanként'
+        submit: 'Frissítés'
+      sort:
+        label: 'Rendezés %{field}'
+        submit: 'Eredmények rendezése'
+      form:
+        search_field:
+          label: 'Keresés az alábbiakban'
+          title: 'Célzott keresési lehetőségek'
+          post_label: ' '
+        search:
+          label: 'keresés'
+          placeholder: 'Keresés...'
+        submit: 'Keresés'
+      pagination:
+        title: 'Eredmény navigáció'
+      pagination_info:
+        no_items_found: 'Nem található ilyen %{entry_name}'
+        single_item_found: '<strong>1</strong> %{entry_name} találat'
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> / <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> / <strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 / 1</strong>'
+        other: '<strong>%{current}</strong> / <strong>%{total}</strong>'
+      documents:
+        counter: '%{counter}. '
+      facets:
+        title: 'Szűrje tovább a keresését'
+        clear: 'Szűrőfeltétel eltávolítása'
+        sort:
+          count: 'Numerikus rendezés'
+          index: 'A-Z rendezés'
+        count: '%{number}'
+        more_html: 'több <span class="sr-only">%{field_name}</span> »'
+        selected:
+          remove: '[eltávolítás]'
+        missing: "[Hiányzó]"
+      group:
+        more: 'több »'
+      filters:
+        title: 'Ön ezt kereste:'
+        label: '%{label}:'
+        remove:
+          value: 'Feltételek eltávolítása %{value}'
+          label_value: 'Feltétel eltávolítása %{label}: %{value}'
+      start_over: 'Újrakezdés'
+      index:
+        label: '%{label}:'
+      show:
+        title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
+      rss_feed: 'Eredmények RSS-ként'
+      atom_feed: 'Eredmények Atom-ként'
+      bookmarks:
+        present: "Könyvjelzőkben"
+        absent: "Könyvjelző hozzáadása"
+        inprogress: "Mentés..."
+      zero_results:
+        title: "Az Ön keresése nem hozott eredményt"
+        modify_search: "Próbálja módosítani keresését"
+        use_fewer_keywords: "Kezdetben használjon kevesebb kulcsszavat, majd finomítsa keresését a bal oldali szűrőlinkekkel."
+        search_fields: "Ön a következő mező alapján keresett: %{search_fields}"
+        search_everything: "Próbálja meg a keresést az összes mezőben"
+      view_title: "Eredmények megtekintése mint: "
+      view:
+        list: "Lista"
+
+    entry_name:
+      default: 'bejegyzés'
+
+    did_you_mean: 'Arra gondolt, hogy: %{options}?'
