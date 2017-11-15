@@ -2,9 +2,7 @@ require 'rails/generators'
 
 module Blacklight
   class SolrGenerator < Rails::Generators::Base
-    # Set source_root to grab .solr_wrapper and solr config dir
-    # from the root of the blacklight gem
-    source_root Blacklight.root
+    source_root ::File.expand_path('../templates', __FILE__)
 
     desc <<-EOF
       This generator makes the following changes to your application:
@@ -23,11 +21,11 @@ module Blacklight
     end
 
     def copy_solr_conf
-      directory 'solr', 'solr'
+      directory 'solr'
     end
 
     def solr_wrapper_config
-      copy_file '.solr_wrapper.yml', '.solr_wrapper.yml'
+      copy_file '.solr_wrapper.yml'
     end
 
     def add_rsolr_gem
