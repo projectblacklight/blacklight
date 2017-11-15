@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 module Blacklight
   class Install < Rails::Generators::Base
-    
     source_root File.expand_path('../templates', __FILE__)
-    
+
     argument     :model_name  , type: :string , default: "user"
     argument     :controller_name, type: :string , default: "catalog"
     argument     :document_name, type: :string , default: "solr_document"
@@ -14,11 +13,12 @@ module Blacklight
     class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
     class_option :marc        , type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo ."
     class_option :'skip-assets', type: :boolean, default: false, desc: "Skip generating javascript and css assets into the application"
+    class_option :'skip-solr', type: :boolean, default: false, desc: "Skip generating solr configurations."
 
     desc <<-EOS
       This generator makes the following changes to your application:
        1. Generates blacklight:models
-       2. Generates utilities for working with solr 
+       2. Generates utilities for working with solr
        3. Creates a number of public assets, including images, stylesheets, and javascript
        4. Injects behavior into your user application_controller.rb
        5. Adds example configurations for dealing with MARC-like data
@@ -28,6 +28,7 @@ module Blacklight
     EOS
 
     def add_solr_wrapper
+      return if options[:'skip-solr']
       generator_options = '--jettywrapper' if options[:jettywrapper]
       solr_generator = if options[:jettywrapper]
                          'blacklight:solr4'
@@ -47,11 +48,11 @@ module Blacklight
 
     # Copy all files in templates/public/ directory to public/
     # Call external generator in AssetsGenerator, so we can
-    # leave that callable seperately too. 
-    def copy_public_assets 
+    # leave that callable seperately too.
+    def copy_public_assets
       generate "blacklight:assets" unless options[:'skip-assets']
     end
-    
+
     def generate_blacklight_document
       generate 'blacklight:document', document_name
     end
@@ -63,20 +64,20 @@ module Blacklight
     def generate_blacklight_models
       generate 'blacklight:models'
     end
-    
+
     def generate_blacklight_user
       generator_args = [model_name]
       if options[:devise]
         generator_args << "--devise #{options[:devise]}"
       end
-      
+
       generate 'blacklight:user', generator_args.join(" ")
     end
 
     def generate_controller
       generate 'blacklight:controller', controller_name
     end
-    
+
     def add_default_catalog_route
       route("root to: \"#{controller_name}#index\"")
     end
