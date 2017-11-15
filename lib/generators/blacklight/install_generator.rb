@@ -10,9 +10,9 @@ module Blacklight
     argument     :solr_version, type: :string, default: "latest"
 
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
-    class_option :jettywrapper, type: :boolean, default: false, desc: "Use jettywrapper to download and control Jetty"
-    class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo ."
+    class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
     class_option :'skip-assets', type: :boolean, default: false, desc: "Skip generating javascript and css assets into the application"
+    class_option :'skip-solr', type: :boolean, default: false, desc: "Skip generating solr configurations."
 
     desc <<-EOS
       This generator makes the following changes to your application:
@@ -27,15 +27,7 @@ module Blacklight
     EOS
 
     def add_solr_wrapper
-      generator_options = '--jettywrapper' if options[:jettywrapper]
-      solr_generator = if options[:jettywrapper]
-                         'blacklight:solr4'
-                       elsif solr_version == 'latest'
-                         'blacklight:solr5'
-                       else
-                         "blacklight:solr#{solr_version}"
-                       end
-      generate solr_generator, generator_options
+      generate 'blacklight:solr' unless options[:'skip-solr']
     end
 
     def bundle_install
