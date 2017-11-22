@@ -116,6 +116,9 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Render the index field label for a document
   #
+  # Translations for index field labels should go under blacklight.search.fields
+  # They are picked up from there by a value "%{label}" in blacklight.search.index.label
+  #
   # @overload render_index_field_label(options)
   #   Use the default, document-agnostic configuration
   #   @param [Hash] opts
