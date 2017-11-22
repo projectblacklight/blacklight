@@ -180,8 +180,11 @@ pt-BR:
           value: 'Remover filtro %{value}'
           label_value: 'Remover %{label}: %{value}'
       start_over: 'refazer busca'
+      index:
+        label: '%{label}:'
       show:
         title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
       rss_feed: 'RSS para resultadoss'
       atom_feed: 'Atom para resultados'
       bookmarks:
