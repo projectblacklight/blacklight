@@ -52,7 +52,12 @@ module Blacklight::SearchFields
   # label for the key specified. Returns "Keyword" if a label
   # can't be found. 
   def label_for_search_field(key)
-    ActionController::Base.helpers.label_for_search_field(key)
+    field_def = search_field_def_for_key(key)
+    if field_def && field_def.label
+       field_def.label
+    else
+       I18n.t('blacklight.search.fields.default')
+    end
   end
   deprecation_deprecate label_for_search_field: "Use Blacklight::ConfigurationHelperBehavior#label_for_search_field"
 end
