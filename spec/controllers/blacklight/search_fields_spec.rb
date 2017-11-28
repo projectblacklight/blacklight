@@ -31,12 +31,12 @@ describe Blacklight::SearchFields do
 
   describe "#search_field_def_for_key" do
     it "fills in default qt where needed" do
-      expect(Deprecation).to receive(:warn)
+      expect(Deprecation).to receive(:warn).at_least(:once)
       expect(@search_field_obj.search_field_def_for_key("all_fields").qt).to eq @config.default_solr_params[:qt]
     end
 
     it "lookups field definitions by key" do
-      expect(Deprecation).to receive(:warn)
+      expect(Deprecation).to receive(:warn).at_least(:once)
       expect(@search_field_obj.search_field_def_for_key("title").key).to eq "title"
     end
   end
@@ -47,12 +47,12 @@ describe Blacklight::SearchFields do
     end
 
     it "finds label by key" do
-      expect(Deprecation).to receive(:warn)
+      expect(Deprecation).to receive(:warn).at_least(:once)
       expect(@search_field_obj.label_for_search_field("title")).to eq "Title"
     end
 
     it "supplies default label for key not found" do
-      expect(Deprecation).to receive(:warn)
+      expect(Deprecation).to receive(:warn).at_least(:once)
       expect(@search_field_obj.label_for_search_field("non_existent_key")).to eq "Keyword"
     end
   end
