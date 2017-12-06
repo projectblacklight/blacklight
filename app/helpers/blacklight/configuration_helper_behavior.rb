@@ -14,7 +14,7 @@ module Blacklight::ConfigurationHelperBehavior
 
   # Used in the document_list partial (search view) for building a select element
   def sort_fields
-    active_sort_fields.map { |key, x| [x.label, x.key] }
+    active_sort_fields.map { |_sort_key, field_config| [sort_field_label(field_config.key), field_config.key] }
   end
   deprecation_deprecate :sort_fields
   
@@ -31,8 +31,8 @@ module Blacklight::ConfigurationHelperBehavior
   # an html select based on #search_field_list. Skips search_fields
   # marked :include_in_simple_select => false
   def search_field_options_for_select
-    blacklight_config.search_fields.collect do |key, field_def|
-      [field_def.label,  field_def.key] if should_render_field?(field_def)
+    blacklight_config.search_fields.collect do |_key, field_def|
+      [label_for_search_field(field_def.key), field_def.key] if should_render_field?(field_def)
     end.compact
   end
 
@@ -104,6 +104,32 @@ module Blacklight::ConfigurationHelperBehavior
       view_config.label,
       view_config.title,
       view.to_s.humanize
+    )
+  end
+
+  # Shortcut for commonly needed operation, look up display
+  # label for the key specified. Returns "Keyword" if a label
+  # can't be found.
+  def label_for_search_field(key)
+    field_config = blacklight_config.search_fields[key]
+    field_config ||= Blacklight::Configuration::NullField.new(key: key)
+
+    field_label(
+      :"blacklight.search.fields.search.#{field_config.key}",
+      :"blacklight.search.fields.#{field_config.key}",
+      (field_config.label if field_config),
+      key.to_s.humanize
+    )
+  end
+
+  def sort_field_label(key)
+    field_config = blacklight_config.sort_fields[key]
+    field_config ||= Blacklight::Configuration::NullField.new(key: key)
+
+    field_label(
+      :"blacklight.search.fields.sort.#{key}",
+      (field_config.label if field_config),
+      key.to_s.humanize
     )
   end
 

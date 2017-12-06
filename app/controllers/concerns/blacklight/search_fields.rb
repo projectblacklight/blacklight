@@ -26,6 +26,9 @@
 #
 ##
 module Blacklight::SearchFields
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 7.x'
+
   # Looks up search field config list from blacklight_config[:search_fields], and
   # 'normalizes' all field config hashes using normalize_config method. 
   def search_field_list
@@ -37,22 +40,11 @@ module Blacklight::SearchFields
   def search_field_def_for_key(key)
     blacklight_config.search_fields[key]
   end
+  deprecation_deprecate search_field_def_for_key: "Use blacklight_config.search_fields[key]"
 
   # Returns default search field, used for simpler display in history, etc.
   # if not set in blacklight_config, defaults to first field listed in #search_field_list
   def default_search_field
     blacklight_config.default_search_field || search_field_list.first
-  end
-
-  # Shortcut for commonly needed operation, look up display
-  # label for the key specified. Returns "Keyword" if a label
-  # can't be found. 
-  def label_for_search_field(key)
-    field_def = search_field_def_for_key(key)
-    if field_def && field_def.label
-       field_def.label
-    else
-       I18n.t('blacklight.search.fields.default')
-    end            
   end
 end
