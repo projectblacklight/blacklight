@@ -10,7 +10,7 @@ RSpec.describe SearchHistoryController do
       @three = Search.create
     end
 
-    it "onlies fetch searches with ids in the session" do
+    it "only fetches searches with ids in the session" do
       session[:history] = [@one.id, @three.id]
       get :index
       @searches = assigns(:searches)
