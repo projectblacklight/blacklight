@@ -1,6 +1,5 @@
 .twitter-typeahead {
-  float: left;
-  width: 100%;
+  flex-grow: 2;
   z-index: $zindex-typeahead;
 
   input.tt-input.form-control {
