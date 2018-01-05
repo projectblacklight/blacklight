@@ -74,6 +74,7 @@ module Blacklight::Solr
           end.join(" AND ")
         end
 
+        solr_parameters[:defType] = 'lucene'
         solr_parameters[:spellcheck] = 'false'
       elsif blacklight_params[:q]
         solr_parameters[:q] = blacklight_params[:q]
