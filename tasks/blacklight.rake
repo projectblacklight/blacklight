@@ -13,7 +13,7 @@ EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
 task ci: ['blacklight:generate'] do
-  SolrWrapper.wrap do |solr|
+  SolrWrapper.wrap(version: '7.1.0') do |solr|
     solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), '.internal_test_app', 'solr', 'conf')) do
       within_test_app do
         system "RAILS_ENV=test rake blacklight:index:seed"
