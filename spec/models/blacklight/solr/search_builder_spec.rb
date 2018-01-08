@@ -253,6 +253,14 @@ describe Blacklight::Solr::SearchBuilderBehavior do
     describe "solr parameters for a field search from config (subject)" do
       let(:user_params) { subject_search_params }
 
+      before do
+        # The tests below expect pre-solr-7.2 queries with local params
+        blacklight_config.search_fields['subject'].solr_local_parameters = {
+          qf: '$subject_qf',
+          pf: '$subject_pf'
+        }
+      end
+
       it "should look up qt from field definition" do
         expect(subject[:qt]).to eq "search"
       end
