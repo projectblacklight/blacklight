@@ -18,6 +18,7 @@ zh:
       login: '登陆'
       logout: '注销'
       bookmarks: '书签'
+      saved_searches: '保存的搜索'
       search_history: '搜索历史'
 
     welcome: '欢迎!'
@@ -49,6 +50,25 @@ zh:
         failure: '抱歉，清除书签时出错。'
       need_login: '登陆后才能访问你的书签功能。'
       list_title: '你的书签'
+      delete: '删除'
+
+    saved_searches:
+      add:
+        success: '成功保存了您的搜索。'
+        failure: '保存搜索时出现问题。'
+      remove:
+        success: '成功删除保存的搜索。'
+        failure: '删除您的搜索时出现问题。'
+      clear:
+        action_title: '清除保存的搜索'
+        action_confirm: '清除您保存的搜索？'
+        success: '清除您保存的搜索。'
+        failure: '清除搜索时出现问题。'
+      title: '保存的搜索'
+      page_title: '保存的搜索 - %{application_name}'
+      need_login: '请登录来管理和查看您保存的搜索。'
+      no_searches: '您没有保存的搜索'
+      list_title: '您保存的搜索'
       delete: '删除'
 
     search_history:
@@ -192,6 +212,8 @@ zh:
         label: '%{label}:'
       rss_feed: '搜索结果RSS'
       atom_feed: '搜索结果Atom'
+      fields:
+        default: '关键词'
       bookmarks:
         present: "在书签中"
         absent: "加入书签"
