@@ -36,17 +36,14 @@
   z-index: 1;
 
   .search-field {
-    background: transparent;
-    border: none;
+    // This prevents the widget from being squished so the text overflows
+    min-width: 7em;
   }
 
   .search-query-form {
-    @extend .col-md-8;
+    @extend .col-md-12;
+    @extend .col-lg-8;
     padding-left: 0;
-  }
-
-  .input-group-addon.for-search-field {
-    padding-bottom: calc(0.5rem - 1px);
   }
 
   .submit-search-text {
