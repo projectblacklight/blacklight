@@ -64,7 +64,7 @@ RSpec.describe "Facets" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
       expect(page).to have_selector("span.facet-count.selected", :text => "1")
     end
-    within(".blacklight-pub_date") do 
+    within(".blacklight-pub_date") do
       expect(page).to have_selector("span.selected", :text => "2004")
       expect(page).to have_selector("span.facet-count.selected", :text => "1")
     end
@@ -104,7 +104,7 @@ RSpec.describe "Facets" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
       expect(page).to have_selector("span.facet-count.selected", :text => "1")
     end
-    within(".blacklight-pub_date") do 
+    within(".blacklight-pub_date") do
       expect(page).to have_selector("span.selected", :text => "2004")
       expect(page).to have_selector("span.facet-count.selected", :text => "1")
     end
@@ -115,7 +115,7 @@ RSpec.describe "Facets" do
       expect(page).to have_selector("span.selected", :text => "Tibetan")
       expect(page).to have_selector("span.facet-count.selected", :text => "1")
     end
-    within(".blacklight-pub_date") do 
+    within(".blacklight-pub_date") do
       expect(page).to have_selector("span.selected", :text => "2004")
       expect(page).to have_selector("span.facet-count.selected", :text => "1")
     end
@@ -187,7 +187,7 @@ RSpec.describe "Facets" do
     visit root_path
     within(".blacklight-subject_topic_facet") do
       expect(page).not_to have_selector(".card-block", :visible => true)
-      click_link "Topic"
+      find(".card-header").click
       expect(page).to     have_selector(".card-block", :visible => true)
     end
   end
@@ -195,8 +195,10 @@ RSpec.describe "Facets" do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_topic_facet") do
-      click_link "Topic"
+      find(".card-header").click
       expect(page).to have_selector(".panel-collapse", :visible => true)
+    end
+    within(".blacklight-subject_topic_facet") do
       click_link "Japanese drama"
     end
     within(".blacklight-subject_topic_facet") do
