@@ -5,7 +5,7 @@ module Blacklight
     attr_writer :connection
 
     # ActiveSupport::Benchmarkable requires a logger method
-    attr_accessor :logger
+    attr_writer :logger
 
     include ActiveSupport::Benchmarkable
 
