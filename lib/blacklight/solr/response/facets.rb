@@ -164,7 +164,7 @@ module Blacklight::Solr::Response::Facets
                                               options)
 
       # alias all the possible blacklight config names..
-      blacklight_config.facet_fields.select { |_k, v| v.field == facet_field_name }.each do |key, _|
+      blacklight_config.facet_fields.select { |_k, v| v.field == facet_field_name }.each_key do |key|
         hash[key] = hash[facet_field_name]
       end if blacklight_config && !blacklight_config.facet_fields[facet_field_name]
     end
@@ -217,7 +217,7 @@ module Blacklight::Solr::Response::Facets
       end
 
       # alias all the possible blacklight config names..
-      blacklight_config.facet_fields.select { |_k, v| v.pivot && v.pivot.join(",") == field_name }.each do |key, _|
+      blacklight_config.facet_fields.select { |_k, v| v.pivot && v.pivot.join(",") == field_name }.each_key do |key|
         hash[key] = Blacklight::Solr::Response::Facets::FacetField.new key, items
       end
     end

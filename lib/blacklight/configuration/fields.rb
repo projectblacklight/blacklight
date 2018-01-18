@@ -107,7 +107,7 @@ module Blacklight
             k =~ field_config.match
           end
 
-          salient_fields.each do |field, _luke_config|
+          salient_fields.each_key do |field|
             config = field_config.dup
             config.match = nil
             config.field = field

@@ -43,7 +43,7 @@ module Blacklight::Solr::Response::Spelling
               suggestions = Hash[*suggestions].except('correctlySpelled', 'collation')
             end
 
-            suggestions.each do |_, term_info|
+            suggestions.each_value do |term_info|
               # term_info is a hash:
               #   numFound =>
               #   startOffset =>
