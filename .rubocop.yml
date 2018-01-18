@@ -43,3 +43,6 @@ Bundler/DuplicatedGem:
 Bundler/OrderedGems:
   Exclude:
   - 'Gemfile'
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false
