@@ -249,7 +249,7 @@ module Blacklight
       if fields.empty?
         self.add_facet_fields_to_solr_request = true
       else
-        facet_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
+        facet_fields.slice(*fields).each_value { |v| v.include_in_request = true }
       end
     end
 
@@ -262,9 +262,9 @@ module Blacklight
       if fields.empty?
         self.add_field_configuration_to_solr_request = true
       else
-        index_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
-        show_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
-        facet_fields.slice(*fields).each { |_k, v| v.include_in_request = true }
+        index_fields.slice(*fields).each_value { |v| v.include_in_request = true }
+        show_fields.slice(*fields).each_value { |v| v.include_in_request = true }
+        facet_fields.slice(*fields).each_value { |v| v.include_in_request = true }
       end
     end
 

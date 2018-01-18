@@ -134,13 +134,13 @@ module Blacklight::Solr
     end
 
     def add_solr_fields_to_query solr_parameters
-      blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).each do |_field_name, field|
+      blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).each_value do |field|
         field.solr_params.each do |k, v|
           solr_parameters[:"f.#{field.field}.#{k}"] = v
         end if field.solr_params
       end
 
-      blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).each do |_field_name, field|
+      blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).each_value do |field|
         if field.highlight
           solr_parameters[:hl] = true
           solr_parameters.append_highlight_field field.field
