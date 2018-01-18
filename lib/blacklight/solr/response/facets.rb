@@ -232,4 +232,4 @@ module Blacklight::Solr::Response::Facets
 
     Blacklight::Solr::Response::Facets::FacetItem.new(value: lst[:value], hits: lst[:count], field: lst[:field], items: items, fq: parent_fq)
   end
-end # end Facets
+end
