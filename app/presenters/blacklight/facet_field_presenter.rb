@@ -17,9 +17,8 @@ module Blacklight
 
     def as_json
       { 'name' => display_facet.name,
-        'items' => display_facet.items.map do |item|
-                     facet_item_presenter.new(display_facet, item, view_context).as_json
-                   end }
+        'items' => json_items }
+
     end
 
     ##
@@ -77,6 +76,12 @@ module Blacklight
     end
 
     private
+
+    def json_items
+      display_facet.items.map do |item|
+        facet_item_presenter.new(display_facet, item, view_context).as_json
+      end
+    end
 
     ##
     # The name of the partial to use to render a facet field.
