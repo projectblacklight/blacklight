@@ -124,8 +124,6 @@ nl:
     back_to_bookmarks: 'Terug naar favorieten'
 
     search:
-      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
-      title: '%{application_name} Zoek resultaten'
       page_title:
         title: '%{constraints} - %{application_name} Zoek resultaten'
         constraint: '%{label}: %{value}'

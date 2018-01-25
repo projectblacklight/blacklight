@@ -121,8 +121,6 @@ it:
     back_to_bookmarks: 'Torna ai preferiti'
 
     search:
-      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
-      title: 'Risultati della ricerca per %{application_name}'
       page_title:
         title: '%{constraints} - %{application_name} Risultati della ricerca'
         constraint: '%{label}: %{value}'

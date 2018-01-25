@@ -121,8 +121,6 @@ de:
     back_to_bookmarks: 'Zuruch nach Lesezeichen'
 
     search:
-      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
-      title: '%{application_name} Suchergebnisse'
       page_title:
         title: '%{constraints} - %{application_name} Suchergebnisse'
         constraint: '%{label}: %{value}'

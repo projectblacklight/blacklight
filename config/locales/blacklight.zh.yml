@@ -124,8 +124,6 @@ zh:
     back_to_bookmarks: '返回书签页面'
 
     search:
-      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
-      title: '%{application_name} 搜索结果'
       page_title:
         title: '%{constraints} - %{application_name} 搜索结果'
         constraint: '%{label}: %{value}'
