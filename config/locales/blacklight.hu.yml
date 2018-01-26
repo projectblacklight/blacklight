@@ -124,8 +124,6 @@ hu:
     back_to_bookmarks: 'Vissza a könyvjelzőkhöz'
 
     search:
-      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
-      title: '%{application_name} Keresés eredményei'
       page_title:
         title: '%{constraints} - %{application_name} Keresés eredményei'
         constraint: '%{label}: %{value}'

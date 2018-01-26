@@ -124,8 +124,6 @@ sq:
     back_to_bookmarks: 'Kthehu te memorizimet'
 
     search:
-      # i18n key 'title' is deprecated and will be removed in Blacklight 6.0
-      title: '%{application_name} Rezultatet e kërkimit'
       page_title:
         title: '%{constraints} - %{application_name} Rezultatet e kërkimit'
         constraint: '%{label}: %{value}'
