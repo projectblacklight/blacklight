@@ -3,13 +3,15 @@
 RSpec.describe Blacklight::SearchBuilder do
   let(:processor_chain) { [] }
   let(:blacklight_config) { Blacklight::Configuration.new }
-  let(:scope) { double blacklight_config: blacklight_config }
-  subject(:builder) { described_class.new processor_chain, scope }
+  let(:ability) { double }
+  subject(:builder) { described_class.new blacklight_config, ability, processor_chain }
 
   context "with default processor chain" do
-    subject { described_class.new scope }
+    let(:builder) { described_class.new blacklight_config, ability }
+    subject { builder.processor_chain }
+
     it "uses the class-level default_processor_chain" do
-      expect(subject.processor_chain).to eq []
+      expect(subject).to eq []
     end
   end
 
@@ -109,12 +111,6 @@ RSpec.describe Blacklight::SearchBuilder do
 
       subject.with(a: 1)
       expect(subject.processed_parameters).to include step_1: 'builder'
-    end
-  end
-
-  describe "#blacklight_config" do
-    it "gets the blacklight_config from the scope" do
-      expect(subject.blacklight_config).to eq scope.blacklight_config
     end
   end
 

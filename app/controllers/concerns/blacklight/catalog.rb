@@ -149,7 +149,11 @@ module Blacklight::Catalog
   #
 
   def search_service
-    search_service_class.new(blacklight_config, search_state.to_h)
+    # If cancancan is installed, pass in the current ability.
+    # Although we aren't using this in blacklight itself, plugins such as
+    # blacklight-access_controls make use of this.
+    ability = current_ability if respond_to?(:current_ability)
+    search_service_class.new(blacklight_config, ability, search_state.to_h)
   end
 
   ##

@@ -8,16 +8,13 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
   let(:user_params) { Hash.new }
-  let(:context) { CatalogController.new }
-
-  before { allow(context).to receive(:blacklight_config).and_return(blacklight_config) }
-
+  let(:current_ability) { double }
   let(:search_builder_class) do
     Class.new(Blacklight::SearchBuilder) do
       include Blacklight::Solr::SearchBuilderBehavior
     end
   end
-  let(:search_builder) { search_builder_class.new(context) }
+  let(:search_builder) { search_builder_class.new(blacklight_config, current_ability) }
 
   subject { search_builder.with(user_params) }
 
@@ -78,7 +75,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
     end
 
     context "when search_params_logic is customized" do
-      let(:search_builder) { search_builder_class.new(method_chain, context) }
+      let(:search_builder) { search_builder_class.new(blacklight_config, current_ability, method_chain) }
       let(:method_chain) { [:add_foo_to_solr_params] }
 
       it "allows customization of search_params_logic" do
@@ -641,7 +638,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
                                            'facet.field': '{!ex=other}solr_field'
       end
     end
-
 
     it 'defaults limit to 20' do
       expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 21

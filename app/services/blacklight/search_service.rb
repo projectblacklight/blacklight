@@ -4,13 +4,11 @@ module Blacklight
   class SearchService
     include Blacklight::RequestBuilders
 
-    def initialize(blacklight_config, user_params = {})
+    def initialize(blacklight_config, current_ability, user_params = {})
       @blacklight_config = blacklight_config
+      @current_ability = current_ability
       @user_params = user_params
     end
-
-    # TODO: Can this be private?
-    attr_reader :blacklight_config
 
     # a solr query method
     # @param [Hash] user_params ({}) the user provided parameters (e.g. query, facets, sort, etc)
@@ -91,7 +89,7 @@ module Blacklight
 
     private
 
-    attr_reader :user_params
+    attr_reader :blacklight_config, :current_ability, :user_params
 
     ##
     # Retrieve a set of documents by id
