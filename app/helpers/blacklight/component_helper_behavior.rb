@@ -52,20 +52,6 @@ module Blacklight
       content_tag("div", rendered, class: wrapping_class) unless rendered.blank?
     end
 
-    def render_filtered_partials(partials, options = {})
-      content = []
-      filter_partials(partials, options).each do |key, config|
-        config.key ||= key
-        rendered = render(partial: config.partial || key.to_s, locals: { document_action_config: config }.merge(options))
-        if block_given?
-          yield config, rendered
-        else
-          content << rendered
-        end
-      end
-      safe_join(content, "\n") unless block_given?
-    end
-
     ##
     # Render "document actions" for the item detail 'show' view.
     # (this normally renders next to title)
@@ -84,6 +70,20 @@ module Blacklight
     end
 
     private
+
+    def render_filtered_partials(partials, options = {})
+      content = []
+      filter_partials(partials, options).each do |key, config|
+        config.key ||= key
+        rendered = render(partial: config.partial || key.to_s, locals: { document_action_config: config }.merge(options))
+        if block_given?
+          yield config, rendered
+        else
+          content << rendered
+        end
+      end
+      safe_join(content, "\n") unless block_given?
+    end
 
     def filter_partials(partials, options)
       partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }
