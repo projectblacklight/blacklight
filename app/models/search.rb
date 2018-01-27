@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Search < ActiveRecord::Base
+
+class Search < ApplicationRecord
   belongs_to :user, optional: true
 
   serialize :query_params

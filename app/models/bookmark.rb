@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Bookmark < ActiveRecord::Base
+
+class Bookmark < ApplicationRecord
   belongs_to :user, polymorphic: true
   belongs_to :document, polymorphic: true
 

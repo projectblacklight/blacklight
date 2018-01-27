@@ -232,13 +232,6 @@ Naming/PredicateName:
     - 'app/models/concerns/blacklight/solr/document.rb'
     - 'lib/generators/blacklight/assets_generator.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Rails/ApplicationRecord:
-  Exclude:
-    - 'app/models/bookmark.rb'
-    - 'app/models/search.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: NilOrEmpty, NotPresent, UnlessPresent.
