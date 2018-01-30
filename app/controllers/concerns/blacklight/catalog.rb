@@ -60,7 +60,8 @@ module Blacklight::Catalog
     search_session['per_page'] = params[:per_page]
 
     if params[:redirect] && (params[:redirect].starts_with?('/') || params[:redirect] =~ URI::DEFAULT_PARSER.make_regexp)
-      path = URI.parse(params[:redirect]).path
+      uri = URI.parse(params[:redirect])
+      path = uri.query ? "#{uri.path}?#{uri.query}" : uri.path
       redirect_to path, status: 303
     else
       redirect_to blacklight_config.document_model.new(id: params[:id]), status: 303
