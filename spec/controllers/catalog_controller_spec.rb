@@ -249,6 +249,11 @@ RSpec.describe CatalogController do
       put :track, params: { id: doc_id, counter: 3, redirect: 'http://localhost:3000/xyz' }
       assert_redirected_to("/xyz")
     end
+
+    it "keeps querystring on redirect" do
+      put :track, params: { id: doc_id, counter: 3, redirect: 'http://localhost:3000/xyz?locale=pt-BR' }
+      assert_redirected_to("/xyz?locale=pt-BR")
+    end
   end
 
   # SHOW ACTION
