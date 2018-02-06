@@ -3,8 +3,6 @@
 # as this module is mixed-in to the application controller in the hosting app on installation.
 module Blacklight::Controller
   extend ActiveSupport::Concern
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 7.x'
 
   included do
     include Blacklight::SearchFields
@@ -23,7 +21,7 @@ module Blacklight::Controller
     # extra head content
     helper_method :has_user_authentication_provider?
     helper_method :blacklight_config, :blacklight_configuration_context
-    helper_method :search_action_url, :search_action_path, :search_facet_url, :search_facet_path
+    helper_method :search_action_url, :search_action_path, :search_facet_path
     helper_method :search_state
 
     # Which class to use for the search state. You can subclass SearchState if you
@@ -86,16 +84,13 @@ module Blacklight::Controller
     search_action_url(*args)
   end
 
-  def search_facet_url options = {}
-    opts = search_state.to_h.merge(action: "facet").merge(options).except(:page)
-    url_for opts
-  end
-  deprecation_deprecate search_facet_url: 'Use search_facet_path instead.'
-
   def search_facet_path(options = {})
-    Deprecation.silence(Blacklight::Controller) do
-      search_facet_url(options.reverse_merge(only_path: true))
-    end
+    opts = search_state
+           .to_h
+           .merge(action: "facet", only_path: true)
+           .merge(options)
+           .except(:page)
+    url_for opts
   end
 
   # Returns a list of Searches from the ids in the user's history.
