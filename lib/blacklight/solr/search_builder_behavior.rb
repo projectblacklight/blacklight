@@ -52,11 +52,19 @@ module Blacklight::Solr
       # solr LocalParams in config, using solr LocalParams syntax.
       # http://wiki.apache.org/solr/LocalParams
       ##
-      if search_field && search_field.solr_local_parameters.present?
-        local_params = search_field.solr_local_parameters.map do |key, val|
+      if search_field && (search_field.solr_local_parameters.present? || search_field.def_type.present?)
+        q_parser = if search_field.def_type.present?
+          "#{search_field.def_type} "
+        elsif solr_parameters[:defType]
+          "#{solr_parameters[:defType]} "
+        else
+          ''
+        end
+        solr_parameters[:defType] = 'lucene' # to enable parsing of local params
+        local_params = search_field.solr_local_parameters.present? ? search_field.solr_local_parameters.map do |key, val|
           key.to_s + "=" + solr_param_quote(val, quote: "'")
-        end.join(" ")
-        solr_parameters[:q] = "{!#{local_params}}#{blacklight_params[:q]}"
+        end.join(" ") : ''
+        solr_parameters[:q] = "{!#{q_parser}#{local_params}}#{blacklight_params[:q]}"
 
         ##
         # Set Solr spellcheck.q to be original user-entered query, without
