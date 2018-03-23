@@ -12,7 +12,7 @@ matrix:
     - rvm: 2.5.0
       env: "RAILS_VERSION=5.1.5"
     - rvm: 2.4.3
-      env: "RAILS_VERSION=5.2.0.beta2"
+      env: "RAILS_VERSION=5.2.0.rc2"
     - rvm: 2.4.3
       env: "RAILS_VERSION=5.1.5"
     - rvm: 2.3.4
