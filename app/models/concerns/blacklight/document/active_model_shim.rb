@@ -8,6 +8,11 @@ module Blacklight::Document
     include ::ActiveModel::Conversion
 
     module ClassMethods
+      # This is actually an ActiveRecord method starting in Rails 5.2
+      def polymorphic_name
+        base_class.name
+      end
+
       def primary_key
         unique_key
       end
