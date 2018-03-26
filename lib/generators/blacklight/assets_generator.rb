@@ -9,12 +9,12 @@ module Blacklight
       return if has_blacklight_assets?
 
       contents = "\n//\n// Required by Blacklight\n"
-      contents += "//= require jquery\n" if rails_5_1?
+      contents += "//= require jquery\n" if needs_jquery?
       contents += "//= require blacklight/blacklight\n"
 
       marker = if turbolinks?
                  '//= require turbolinks'
-               elsif rails_5_1?
+               elsif needs_jquery?
                  '//= require rails-ujs'
                else
                  '//= require jquery_ujs'
@@ -27,13 +27,13 @@ module Blacklight
 
     # This is not a default in Rails 5.1
     def add_jquery
-      gem 'jquery-rails' if rails_5_1?
+      gem 'jquery-rails' if needs_jquery?
     end
 
     private
 
-    def rails_5_1?
-      Rails.version =~ /5\.1/
+    def needs_jquery?
+      Rails.version >= '5.1'
     end
 
     def turbolinks?
