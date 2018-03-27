@@ -1,32 +1,32 @@
 # frozen_string_literal: true
 module Blacklight
   class JsonPresenter
+    class_attribute :facet_list_presenter
+    self.facet_list_presenter = Blacklight::FacetListPresenter
     include Blacklight::Facet
 
     # @param [Solr::Response] response raw solr response.
     # @param [Array] facets list of facets
-    def initialize(response, facets, blacklight_config)
+    def initialize(response, search_state)
       @response = response
-      @facets = facets
-      @blacklight_config = blacklight_config
+      @search_state = search_state
     end
 
-    attr_reader :blacklight_config
+    attr_reader :search_state
+    delegate :blacklight_config, to: :search_state
+
+    def facets
+      @facets_presenter ||= facet_list_presenter.new(@response, search_state.controller)
+    end
 
     def documents
       @response.documents
     end
 
     def search_facets_as_json
-      @facets.as_json.each do |f|
-        f.stringify_keys!
-        f.delete "options"
-        f["label"] = facet_configuration_for_field(f["name"]).label
-        f["items"] = f["items"].as_json.each do |i|
-          i['label'] ||= i['value']
-        end
-      end
+      facets.as_json
     end
+    deprecation_deprecate search_facets_as_json: 'search_facets_as_json is deprecated and will be removed in Blacklight 8. Use facets.as_json instead.'
 
     # extract the pagination info from the response object
     def pagination_info

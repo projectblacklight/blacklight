@@ -18,7 +18,8 @@ module Blacklight::RenderPartialsHelperBehavior
   end
 
   ##
-  # Return the list of partials for a given solr document
+  # Return the list of partials for a given solr document. This is used for
+  # both the index view (called multiple times) and on the show view (called once)
   # @param [SolrDocument] doc solr document to render partials for
   # @param [Array<String>] partials list of partials to render
   # @param [Hash] locals local variables to pass to the render call

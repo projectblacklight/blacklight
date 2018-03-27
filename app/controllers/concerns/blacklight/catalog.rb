@@ -18,6 +18,9 @@ module Blacklight::Catalog
     rescue_from Blacklight::Exceptions::InvalidRequest, with: :handle_request_error
 
     record_search_parameters
+    class_attribute :list_presenter, :field_presenter
+    self.field_presenter = Blacklight::FacetFieldPresenter
+    self.list_presenter = Blacklight::ResultsPagePresenter
   end
 
   # get search results from the solr index
@@ -27,13 +30,15 @@ module Blacklight::Catalog
     @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
 
     respond_to do |format|
-      format.html { store_preferred_view }
+      format.html do
+        store_preferred_view
+        @list_presenter = list_presenter.new(@response, view_context)
+      end
       format.rss  { render layout: false }
       format.atom { render layout: false }
       format.json do
         @presenter = Blacklight::JsonPresenter.new(@response,
-                                                   facets_from_request,
-                                                   blacklight_config)
+                                                   search_state)
       end
       additional_response_formats(format)
       document_export_formats(format)
@@ -47,7 +52,10 @@ module Blacklight::Catalog
     @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
 
     respond_to do |format|
-      format.html { @search_context = setup_next_and_previous_documents }
+      format.html do
+        search_context = setup_next_and_previous_documents
+        @presenter = show_presenter_class(@document).new(@document, view_context, blacklight_config, search_context)
+      end
       format.json { render json: { response: { document: @document } } }
       additional_export_formats(@document, format)
     end
@@ -76,10 +84,12 @@ module Blacklight::Catalog
     @display_facet = @response.aggregations[@facet.field]
     @pagination = facet_paginator(@facet, @display_facet)
     respond_to do |format|
+      # Draw the facet selector for users who have javascript disabled:
       format.html do
         # Draw the partial for the "more" facet modal window:
         return render layout: false if request.xhr?
         # Otherwise draw the facet selector for users who have javascript disabled.
+        @presenter = field_presenter.new(@display_facet, view_context)
       end
       format.json
     end
@@ -148,6 +158,13 @@ module Blacklight::Catalog
   #
   # non-routable methods ->
   #
+  #
+
+  ##
+  # Override this method if you want to use a different presenter class
+  def show_presenter_class(_document)
+    blacklight_config.show.document_presenter_class
+  end
 
   def search_service
     search_service_class.new(blacklight_config, search_state.to_h)

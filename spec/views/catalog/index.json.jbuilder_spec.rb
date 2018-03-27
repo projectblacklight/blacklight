@@ -2,13 +2,25 @@
 RSpec.describe "catalog/index.json" do
   let(:response) { instance_double(Blacklight::Solr::Response, documents: docs, prev_page: nil, next_page: 2, total_pages: 3) }
   let(:docs) { [SolrDocument.new(id: '123', title_t: 'Book1'), SolrDocument.new(id: '456', title_t: 'Book2')] }
-  let(:facets) { double("facets") }
   let(:config) { Blacklight::Configuration.new }
-  let(:presenter) { Blacklight::JsonPresenter.new(response, facets, config) }
+  let(:presenter) { Blacklight::JsonPresenter.new(response, config) }
 
   let(:hash) do
     render template: "catalog/index.json", format: :json
     JSON.parse(rendered).with_indifferent_access
+  end
+  let(:facet_list_presenter) do
+    instance_double(Blacklight::FacetListPresenter,
+                    as_json:
+                      [{ 'name' => "format", 'label' => "Format",
+                         'items' => [
+                            {
+                              'attributes' => { 'value' => 'Book', 'hits' => 30, 'label' => 'Book' },
+                              'links' => { 'self' => 'http://host.com/foo/bar' }
+                            }
+                          ]
+                      }]
+                   )
   end
 
   before do
@@ -17,9 +29,8 @@ RSpec.describe "catalog/index.json" do
     allow(view).to receive(:search_facet_path).and_return('http://test.host/some/facet/url')
     allow(presenter).to receive(:pagination_info).and_return({ current_page: 1, next_page: 2,
                                                                prev_page: nil })
-    allow(presenter).to receive(:search_facets_as_json).and_return(
-          [{ 'name' => "format", 'label' => "Format",
-             'items' => [{ 'value' => 'Book', 'hits' => 30, 'label' => 'Book' }] }])
+    allow(presenter).to receive(:facets).and_return(facet_list_presenter)
+
     assign :presenter, presenter
     assign :response, response
   end
@@ -33,10 +44,10 @@ RSpec.describe "catalog/index.json" do
 
   it "has pagination information" do
     expect(hash).to include(meta: hash_including(pages:
-      { 
+      {
         'current_page' =>  1,
         'next_page' => 2,
-        'prev_page' => nil 
+        'prev_page' => nil
       }))
   end
 

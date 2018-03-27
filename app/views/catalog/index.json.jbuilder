@@ -20,23 +20,11 @@ json.data do
 end
 
 json.included do
-  json.array! @presenter.search_facets_as_json do |facet|
+  json.array! @presenter.facets.as_json do |facet|
     json.type 'facet'
     json.id facet['name']
     json.attributes do
-      json.items do
-        json.array! facet['items'] do |item|
-          json.id
-          json.attributes do
-            json.label item['label']
-            json.value item['value']
-            json.hits item['hits']
-          end
-          json.links do
-            json.self path_for_facet(facet['name'], item['value'], only_path: false)
-          end
-        end
-      end
+      json.items facet['items']
     end
     json.links do
       json.self search_facet_path(id: facet['name'], only_path: false)

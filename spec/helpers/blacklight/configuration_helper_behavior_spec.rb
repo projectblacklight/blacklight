@@ -15,6 +15,52 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
+  describe "#index_field_label" do
+    subject { helper.index_field_label(document, 'foo') }
+    let(:field) { double }
+    let(:document) { instance_double SolrDocument }
+    before do
+      allow(blacklight_config).to receive(:index_fields).and_return('foo' => field)
+      expect(Deprecation).to receive(:warn).twice
+    end
+
+    it "calls display lable" do
+      expect(field).to receive(:display_label).with('index')
+      subject
+    end
+  end
+
+  describe "#document_show_field_label" do
+    subject { helper.document_show_field_label(document, 'foo') }
+    let(:field) { double }
+    let(:document) { instance_double SolrDocument }
+    before do
+      allow(blacklight_config).to receive(:show_fields).and_return('foo' => field)
+      expect(Deprecation).to receive(:warn).twice
+    end
+
+    it "calls display lable" do
+      expect(field).to receive(:display_label).with('show')
+      subject
+    end
+  end
+
+  describe "#facet_field_label" do
+    subject { helper.facet_field_label('foo') }
+    let(:field) { double }
+    let(:document) { instance_double SolrDocument }
+    before do
+      allow(blacklight_config).to receive(:facet_fields).and_return('foo' => field)
+      expect(Deprecation).to receive(:warn)
+    end
+
+    it "calls display lable" do
+      expect(field).to receive(:display_label).with('facet')
+      subject
+    end
+  end
+
+
   describe "#active_sort_fields" do
     it "restricts the configured sort fields to only those that should be displayed" do
       allow(blacklight_config).to receive_messages(sort_fields: { a: double(if: false, unless: false), b: double(if:true, unless: true) })
@@ -98,56 +144,12 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#document_show_link_field" do
-    let(:document) { SolrDocument.new id: 123, a: 1, b: 2, c: 3 }
-
-    it "allows single values" do
-      blacklight_config.index.title_field = :a
-      f = helper.document_show_link_field document
-      expect(f).to eq :a
-    end
-
-    it "retrieves the first field with data" do
-      blacklight_config.index.title_field = [:zzz, :b]
-      f = helper.document_show_link_field document
-      expect(f).to eq :b
-    end
-
-    it "fallbacks on the id" do
-      blacklight_config.index.title_field = [:zzz, :yyy]
-      f = helper.document_show_link_field document
-      expect(f).to eq 123
-    end
-  end
-
   describe "#view_label" do
     it "looks up the label to display for the view" do
       allow(blacklight_config).to receive(:view).and_return({ "my_view" => double(label: "some label", title: nil) })
       allow(helper).to receive(:field_label).with(:"blacklight.search.view_title.my_view", :"blacklight.search.view.my_view", "some label", nil, "My view")
 
       helper.view_label "my_view"
-    end
-  end
-
-  describe "#field_label" do
-    it "looks up the label as an i18n string" do
-      allow(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
-      label = helper.field_label :some_key
-
-      expect(label).to eq "my label"
-    end
-
-    it "passes the provided i18n keys to I18n.t" do
-      allow(helper).to receive(:t).with(:key_a, default: [:key_b, "default text"])
-
-      label = helper.field_label :key_a, :key_b, "default text"
-    end
-
-    it "compacts nil keys (fixes rails/rails#19419)" do
-      allow(helper).to receive(:t).with(:key_a, default: [:key_b])
-
-      label = helper.field_label :key_a, nil, :key_b
-
     end
   end
 

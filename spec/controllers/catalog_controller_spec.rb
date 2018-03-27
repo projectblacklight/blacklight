@@ -25,6 +25,7 @@ RSpec.describe CatalogController do
       # check each user manipulated parameter
       it "has docs and facets for query with results", :integration => true do
         get :index, params: { q: user_query }
+        expect(assigns(:list_presenter)).to be_kind_of Blacklight::ResultsPagePresenter
         expect(assigns(:response).docs).to_not be_empty
         assert_facets_have_values(assigns(:response).aggregations)
       end
@@ -262,6 +263,7 @@ RSpec.describe CatalogController do
       it "gets document", :integration => true do
         get :show, params: { id: doc_id }
         expect(assigns[:document]).to_not be_nil
+        expect(assigns[:presenter]).to be_kind_of Blacklight::ShowPresenter
       end
     end
 
@@ -290,24 +292,24 @@ RSpec.describe CatalogController do
       it "sets previous document if counter present in session" do
         session[:search] = search_session.merge('counter' => 2)
         get :show, params: { id: doc_id }
-        expect(assigns[:search_context][:prev]).to_not be_nil
+        expect(assigns[:presenter].search_context[:prev]).to_not be_nil
       end
 
       it "does not set previous or next document if session is blank" do
         get :show, params: { id: doc_id }
-        expect(assigns[:search_context]).to be_nil
+        expect(assigns[:presenter].search_context).to be_nil
       end
 
       it "does not set previous or next document if session[:search]['counter'] is nil" do
         session[:search] = {}
         get :show, params: { id: doc_id }
-        expect(assigns[:search_context]).to be_nil
+        expect(assigns[:presenter].search_context).to be_nil
       end
 
       it "sets next document if counter present in session" do
         session[:search] = search_session.merge('counter' => 2)
         get :show, params: { id: doc_id }
-        expect(assigns[:search_context][:next]).to_not be_nil
+        expect(assigns[:presenter].search_context[:next]).to_not be_nil
       end
 
       it "does not break if solr returns an exception" do
@@ -315,7 +317,7 @@ RSpec.describe CatalogController do
           raise Blacklight::Exceptions::InvalidRequest.new "Error"
         }
         get :show, params: { id: doc_id }
-        expect(assigns[:search_context]).to be_nil
+        expect(assigns[:presenter].search_context).to be_nil
       end
     end
 
@@ -546,6 +548,7 @@ RSpec.describe CatalogController do
         expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
         expect(assigns[:display_facet]).to be_kind_of Blacklight::Solr::Response::Facets::FacetField
         expect(assigns[:pagination]).to be_kind_of Blacklight::Solr::FacetPaginator
+        expect(assigns[:presenter]).to be_kind_of Blacklight::FacetFieldPresenter
       end
     end
     describe "requesting json" do
@@ -665,7 +668,7 @@ RSpec.describe CatalogController do
     before do
       described_class.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:solr_document_url).and_return('catalog/1')
-      allow(controller).to receive(:action_documents).and_return(1)
+      allow(controller).to receive(:action_documents).and_return([1, []])
       Rails.application.routes.draw do
         get 'catalog/like', as: :catalog_like
       end

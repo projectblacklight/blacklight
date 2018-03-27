@@ -4,7 +4,11 @@
   <div class="card">
     <div class="card-header">More Like This</div>
     <div class="card-block">
-      <%= render :collection => @document.more_like_this, :partial => 'show_more_like_this', :as => :document %>
+      <%= render collection: @document.more_like_this.map { |doc|
+                                blacklight_config.index.document_presenter_class.new(doc, self)
+                             },
+                 partial: 'show_more_like_this',
+                 as: :presenter %>
     </div>
   </div>
 <% end %>

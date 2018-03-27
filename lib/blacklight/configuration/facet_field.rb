@@ -25,5 +25,13 @@ module Blacklight
 
       self
     end
+
+    def facet_field_label
+      defaults = [:"blacklight.search.fields.facet.#{key}", :"blacklight.search.fields.#{key}"]
+      defaults << label
+      defaults << key.to_s.humanize
+
+      field_label(*defaults)
+    end
   end
 end

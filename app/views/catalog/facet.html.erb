@@ -3,7 +3,7 @@
 </div>
 
 <div class="modal-header">
-  <h3 class="modal-title"><%= facet_field_label(@facet.key) %></h3>
+  <h3 class="modal-title"><%= @facet.facet_field_label %></h3>
   <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -12,10 +12,10 @@
 </div>
 <div class="modal-body">
   <div class="facet-extended-list">
-  <%= render_facet_limit(@display_facet, layout: false) %>
+    <%= @presenter.render_facet_limit(layout: false) %>
   </div>
 </div>
-  
+
 <div class="modal-footer">
 
   <div class="facet-pagination bottom">

@@ -50,6 +50,19 @@ module Blacklight::Controller
 
   delegate :blacklight_config, to: :default_catalog_controller
 
+  # @return [Blacklight::SearchState] a memoized instance of the parameter state.
+  def search_state
+    @search_state ||= search_state_class.new(params, blacklight_config, self)
+  end
+
+  def search_action_path *args
+    if args.first.is_a? Hash
+      args.first[:only_path] = true if args.first[:only_path].nil?
+    end
+
+    search_action_url(*args)
+  end
+
   private
 
   ##
@@ -65,25 +78,12 @@ module Blacklight::Controller
     has_user_authentication_provider? && current_or_guest_user.present?
   end
 
-  # @return [Blacklight::SearchState] a memoized instance of the parameter state.
-  def search_state
-    @search_state ||= search_state_class.new(params, blacklight_config, self)
-  end
-
   # Default route to the search action (used e.g. in global partials). Override this method
   # in a controller or in your ApplicationController to introduce custom logic for choosing
   # which action the search form should use
   def search_action_url options = {}
     # Rails 4.2 deprecated url helpers accepting string keys for 'controller' or 'action'
     search_catalog_url(options.except(:controller, :action))
-  end
-
-  def search_action_path *args
-    if args.first.is_a? Hash
-      args.first[:only_path] = true if args.first[:only_path].nil?
-    end
-
-    search_action_url(*args)
   end
 
   def search_facet_url options = {}

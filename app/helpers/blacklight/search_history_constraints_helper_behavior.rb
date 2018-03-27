@@ -31,7 +31,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
     return "".html_safe unless params[:f]
 
     safe_join(params[:f].collect do |facet_field, value_list|
-      render_search_to_s_element(facet_field_label(facet_field),
+      render_search_to_s_element(facet_configuration_for_field(facet_field).facet_field_label,
                                  safe_join(value_list.collect do |value|
                                    render_filter_value(value, facet_field)
                                  end,
@@ -61,7 +61,8 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # Render the value of the facet
   def render_filter_value value, key = nil
     display_value = value
-    display_value = facet_display_value(key, value) if key
+    # TODO: this shares code with FacetItemPresenter#facet_display_value
+    display_value = Blacklight::FacetItemPresenter.facet_value_presenter.new(key, value, self).display if key
     content_tag(:span,
                 h(display_value),
                 class: 'filter-value')

@@ -46,12 +46,12 @@ RSpec.describe BlacklightHelper do
 
     it "generates <link rel=alternate> tags" do
       expect(presenter).to receive(:link_rel_alternates).and_return(result)
-      expect(helper.render_link_rel_alternates(document)).to eq result
+      expect(helper.render_link_rel_alternates(presenter)).to eq result
     end
 
     it "sends parameters" do
       expect(presenter).to receive(:link_rel_alternates).with(unique: true).and_return(result)
-      expect(helper.render_link_rel_alternates(document, unique: true)).to eq result
+      expect(helper.render_link_rel_alternates(presenter, unique: true)).to eq result
     end
   end
 
@@ -105,46 +105,6 @@ RSpec.describe BlacklightHelper do
         response = helper.render_show_doc_actions(document)
         expect(response).to have_selector(".bookmark-toggle")
       end
-    end
-  end
-
-  describe "#should_render_index_field?" do
-    before do
-      allow(helper).to receive_messages(should_render_field?: true, document_has_value?: true)
-    end
-
-    it "is true" do
-      expect(helper.should_render_index_field?(double, double)).to be true
-    end
-
-    it "is false if the document doesn't have a value for the field" do
-      allow(helper).to receive_messages(document_has_value?: false)
-      expect(helper.should_render_index_field?(double, double)).to be false
-    end
-
-    it "is false if the configuration has the field disabled" do
-      allow(helper).to receive_messages(should_render_field?: false)
-      expect(helper.should_render_index_field?(double, double)).to be false
-    end
-  end
-
-  describe "#should_render_show_field?" do
-    before do
-      allow(helper).to receive_messages(should_render_field?: true, document_has_value?: true)
-    end
-
-    it "is true" do
-      expect(helper.should_render_show_field?(double, double)).to be true
-    end
-
-    it "is false if the document doesn't have a value for the field" do
-      allow(helper).to receive_messages(document_has_value?: false)
-      expect(helper.should_render_show_field?(double, double)).to be false
-    end
-
-    it "is false if the configuration has the field disabled" do
-      allow(helper).to receive_messages(should_render_field?: false)
-      expect(helper.should_render_show_field?(double, double)).to be false
     end
   end
 
@@ -229,9 +189,13 @@ RSpec.describe BlacklightHelper do
 
   describe "#render_document_index_with_view" do
     let(:obj1) { SolrDocument.new }
+    let(:index_presenter) { instance_double(Blacklight::IndexPresenter) }
+    let(:list_presenter) { instance_double(Blacklight::ResultsPagePresenter, item_presenter_for: index_presenter) }
+
     before do
       allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
+      assign(:list_presenter, list_presenter)
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end
@@ -286,58 +250,28 @@ RSpec.describe BlacklightHelper do
     end
   end
 
-  context "related classes" do
-    let(:presenter_class) { double }
-    let(:blacklight_config) { Blacklight::Configuration.new }
-    before do
-      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
-    end
-
-    describe "#index_presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        blacklight_config.index.document_presenter_class = presenter_class
-        expect(helper.index_presenter_class(nil)).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::IndexPresenter" do
-        expect(helper.index_presenter_class(nil)).to eq Blacklight::IndexPresenter
-      end
-    end
-
-    describe "#show_presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        blacklight_config.show.document_presenter_class = presenter_class
-        expect(helper.show_presenter_class(nil)).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::DocumentPresenter" do
-        expect(helper.show_presenter_class(nil)).to eq Blacklight::ShowPresenter
-      end
-    end
-  end
-
   describe "#render_document_heading" do
-    let(:document) { double }
-    before do
-      allow(helper).to receive(:presenter).and_return(double(heading: "Heading"))
-    end
+    let(:presenter) { double(heading: "Heading") }
 
     it "accepts no arguments and render the document heading" do
+      @presenter = presenter
       expect(helper.render_document_heading).to have_selector "h4", text: "Heading"
     end
 
     it "accepts the tag name as an option" do
+      @presenter = presenter
       expect(helper.render_document_heading tag: "h1").to have_selector "h1", text: "Heading"
     end
 
-    it "accepts an explicit document argument" do
-      allow(helper).to receive(:presenter).with(document).and_return(double(heading: "Document Heading"))
-      expect(helper.render_document_heading(document)).to have_selector "h4", text: "Document Heading"
-    end
+    context "with an explicit presenter argument" do
+      let(:presenter) { double(heading: "Document Heading") }
+      it "accepts an explicit presenter argument" do
+        expect(helper.render_document_heading(presenter)).to have_selector "h4", text: "Document Heading"
+      end
 
-    it "accepts the document with a tag option" do
-      allow(helper).to receive(:presenter).with(document).and_return(double(heading: "Document Heading"))
-      expect(helper.render_document_heading(document, tag: "h3")).to have_selector "h3", text: "Document Heading"
+      it "accepts the presenter with a tag option" do
+        expect(helper.render_document_heading(presenter, tag: "h3")).to have_selector "h3", text: "Document Heading"
+      end
     end
   end
 end
