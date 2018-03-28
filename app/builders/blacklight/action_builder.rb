@@ -46,7 +46,6 @@ module Blacklight
           end
 EORUBY
     end
-    # rubocop:enable Metrics/LineLength
 
     private
 
