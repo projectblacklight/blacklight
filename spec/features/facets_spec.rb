@@ -50,7 +50,19 @@ describe "Facets" do
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
     expect(page).to have_css '.facet-values li', count: 20
   end
-  
+
+  it 'is able to expand facets when javascript is enabled', js: true do
+    visit root_path
+
+    expect(page).to have_css('#facet-format', visible: false)
+
+    page.find('h3.facet-field-heading a', text: 'Format').click
+
+    sleep(1) # let facet animation finish and wait for it to potentially re-collapse
+
+    expect(page).to have_css('#facet-format', visible: true) # assert that it didn't re-collapse
+  end
+
   describe '"More" links' do
     it 'has default more link with sr-only text' do
       visit root_path
