@@ -1,11 +1,13 @@
-<div class="modal-header">
-  <h1><%= t('blacklight.email.form.title') %></h1>
-  <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<div data-blacklight-modal="container">
+  <div class="modal-header">
+    <h1><%= t('blacklight.email.form.title') %></h1>
+    <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
-<div class="modal-body">
-  <%= render partial: '/shared/flash_msg' %>
-  <span data-blacklight-modal="close"></span>
+  <div class="modal-body">
+    <%= render partial: '/shared/flash_msg' %>
+    <span data-blacklight-modal="close"></span>
+  </div>
 </div>
