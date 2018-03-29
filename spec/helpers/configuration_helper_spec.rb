@@ -272,16 +272,23 @@ describe BlacklightConfigurationHelper do
   end
 
   describe "#label_for_search_field" do
-    before do
-      blacklight_config.add_search_field 'title', :qt => 'title_search'
-    end
+    context 'with search fields' do
+      before do
+        blacklight_config.add_search_field 'title', :qt => 'title_search'
+      end
 
-    it "finds label by key" do
-      expect(helper.label_for_search_field("title")).to eq "Title"
-    end
+      it "finds label by key" do
+        expect(helper.label_for_search_field("title")).to eq "Title"
+      end
 
-    it "supplies default label for key not found" do
-      expect(helper.label_for_search_field("non_existent_key")).to eq "Non existent key"
+      it "supplies default label for key not found" do
+        expect(helper.label_for_search_field("non_existent_key")).to eq "Non existent key"
+      end
+    end
+    context 'without search fields' do
+      it "finds label by key" do
+        expect(helper.label_for_search_field(nil)).to eq "Keyword"
+      end
     end
   end
 end
