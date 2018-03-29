@@ -182,8 +182,13 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       expect(helper.default_sort_field.key).to eq 'b'
     end
 
-    it "is the first per-page value if a default isn't set" do
+    it "is the first active sort field value if a default isn't set" do
       allow(helper).to receive_messages(blacklight_config: double(sort_fields: { a: double(key: 'a', default: nil), b: double(key: 'b', default: nil) }))
+      expect(helper.default_sort_field.key).to eq 'a'
+    end
+
+    it "is the first active sort field value if the configured default field is not active" do
+      allow(helper).to receive_messages(blacklight_config: double(sort_fields: { a: double(default: nil, key: 'a'), b: double(key: 'b', default: true, if: false) }))
       expect(helper.default_sort_field.key).to eq 'a'
     end
   end
