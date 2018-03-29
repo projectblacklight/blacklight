@@ -5,38 +5,25 @@
   width: $font-size-base;
 }
 
-.btn-primary {
-  .blacklight-icons g {
-    @include stroke-yiq(theme-color("primary"));
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    .blacklight-icons g {
+      @include stroke-yiq(theme-color($color));
+    }
   }
-}
 
-.btn-light {
-  .blacklight-icons g {
-    @include stroke-yiq(theme-color("light"));
-  }
-}
+  .btn-outline-#{$color} {
+    .blacklight-icons g {
+      stroke: $value;
+    }
 
-.btn-info {
-  .blacklight-icons g {
-    @include stroke-yiq(theme-color("info"));
-  }
-}
-
-.btn-success {
-  .blacklight-icons g {
-    @include stroke-yiq(theme-color("success"));
-  }
-}
-
-.btn-warning {
-  .blacklight-icons g {
-    @include stroke-yiq(theme-color("warning"));
-  }
-}
-
-.btn-danger {
-  .blacklight-icons g {
-    @include stroke-yiq(theme-color("danger"));
+    &.hover,
+    &:hover,
+    &:active,
+    &.active {
+      .blacklight-icons g {
+        @include stroke-yiq(theme-color($color));
+      }
+    }
   }
 }

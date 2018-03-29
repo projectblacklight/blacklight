@@ -1,7 +1,7 @@
 <% if show_sort_and_per_page? and !blacklight_config.per_page.blank? %>
 <span class="sr-only"><%= t('blacklight.search.per_page.title') %></span>
 <div id="per_page-dropdown" class="per-page-dropdown btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+  <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
     <%= t(:'blacklight.search.per_page.button_label', :count => current_per_page) %> <span class="caret"></span>
   </button>
   <div class="dropdown-menu dropdown-menu-right" role="menu">
