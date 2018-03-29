@@ -5,9 +5,9 @@ module Blacklight::ConfigurationHelperBehavior
 
   ##
   # Index fields to display for a type of document
-  # 
+  #
   # @param [SolrDocument] document
-  # @return [Array<Blacklight::Configuration::Field>] 
+  # @return [Array<Blacklight::Configuration::Field>]
   def index_fields document=nil
     blacklight_config.index_fields
   end
@@ -17,7 +17,7 @@ module Blacklight::ConfigurationHelperBehavior
     active_sort_fields.map { |_sort_key, field_config| [sort_field_label(field_config.key), field_config.key] }
   end
   deprecation_deprecate :sort_fields
-  
+
   def active_sort_fields
     blacklight_config.sort_fields.select { |sort_key, field_config| should_render_field?(field_config) }
   end
@@ -26,7 +26,7 @@ module Blacklight::ConfigurationHelperBehavior
   def search_fields
     search_field_options_for_select
   end
-  
+
   # Returns suitable argument to options_for_select method, to create
   # an html select based on #search_field_list. Skips search_fields
   # marked :include_in_simple_select => false
@@ -115,7 +115,7 @@ module Blacklight::ConfigurationHelperBehavior
     field_config ||= Blacklight::Configuration::NullField.new(key: key)
 
     field_label(
-      :"blacklight.search.fields.search.#{field_config.key}",
+      :"blacklight.search.fields.default",
       :"blacklight.search.fields.#{field_config.key}",
       (field_config.label if field_config),
       key.to_s.humanize
@@ -137,11 +137,11 @@ module Blacklight::ConfigurationHelperBehavior
   # Look up the label for a solr field.
   #
   # @overload label
-  #   @param [Symbol] an i18n key 
+  #   @param [Symbol] an i18n key
   #
   # @overload label, i18n_key, another_i18n_key, and_another_i18n_key
   #   @param [String] default label to display if the i18n look up fails
-  #   @param [Symbol] i18n keys to attempt to look up 
+  #   @param [Symbol] i18n keys to attempt to look up
   #     before falling  back to the label
   #   @param [Symbol] any number of additional keys
   #   @param [Symbol] ...
@@ -205,7 +205,7 @@ module Blacklight::ConfigurationHelperBehavior
   def default_per_page
     blacklight_config.default_per_page || blacklight_config.per_page.first
   end
-  
+
   ##
   # The available options for results per page, in the style of #options_for_select
   def per_page_options_for_select
@@ -213,7 +213,7 @@ module Blacklight::ConfigurationHelperBehavior
       [t(:'blacklight.search.per_page.label', :count => count).html_safe, count]
     end
   end
-  
+
   ##
   # Determine whether to render a field by evaluating :if and :unless conditions
   #
