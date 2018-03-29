@@ -333,6 +333,18 @@ module Blacklight
       add_action(navbar.partials, name, opts)
     end
 
+    ##
+    # Add a section of config that only applies to documents with a matching display type
+    def for_display_type display_type, &block
+      self.fields_for_type ||= {}
+      fields_for_type[display_type] ||= self.class.new(&block)
+    end
+
+    def index_fields_for(document)
+      display_type = document.first(index.display_type_field)
+      for_display_type(display_type).index_fields.merge(index_fields)
+    end
+
     private
 
     def add_action(config_hash, name, opts)
