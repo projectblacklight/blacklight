@@ -1,7 +1,11 @@
 //= require blacklight/core
 (function($) {
-  Blacklight.do_search_autofocus_fallback = function() {
-    if (typeof Modernizer != "undefined") {
+  Blacklight.doSearchAutofocusFallback = function() {
+    if (typeof Blacklight.do_search_autofocus_fallback == 'function') {
+      console.warn("do_search_autofocus_fallback is deprecated. Use doSearchAutofocusFallback instead.");
+      return Blacklight.do_search_autofocus_fallback();
+    }
+    if (typeof Modernizer != 'undefined') {
       if (Modernizr.autofocus) {
         return;
       }
@@ -11,6 +15,6 @@
   }
 
   Blacklight.onLoad(function() {
-    Blacklight.do_search_autofocus_fallback();
+    Blacklight.doSearchAutofocusFallback();
   });
 })(jQuery);
