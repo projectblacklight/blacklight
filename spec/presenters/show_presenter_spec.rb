@@ -2,7 +2,7 @@
 
 RSpec.describe Blacklight::ShowPresenter do
   include Capybara::RSpecMatchers
-  let(:request_context) { double }
+  let(:request_context) { double('context') }
   let(:config) { Blacklight::Configuration.new }
 
   subject { presenter }
@@ -240,19 +240,55 @@ RSpec.describe Blacklight::ShowPresenter do
       expect(subject.html_title).to eq document.id
     end
 
-    it "returns the value of the field" do
-      config.show.html_title_field = :x
-      allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
-      expect(subject.html_title).to eq "value"
+    it "passes the no_html option to the FieldPresenter" do
+      expect(Blacklight::FieldPresenter).to receive(:new)
+        .with(request_context,
+              document,
+              instance_of(Blacklight::Configuration::NullField),
+              { no_html: true, value: 1 }).and_return(double(render: ''))
+      subject.html_title
     end
 
-    it "returns the first present value" do
-      config.show.html_title_field = [:x, :y]
-      allow(document).to receive(:has?).with(:x).and_return(false)
-      allow(document).to receive(:has?).with(:y).and_return(true)
-      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
-      expect(subject.html_title).to eq "value"
+    context "with an html_title_field" do
+      let(:field) { :x }
+
+      before do
+        config.show.html_title_field = field
+      end
+
+      context "when it's a single field" do
+        before do
+          allow(document).to receive(:has?).with(:x).and_return(true)
+          allow(document).to receive(:fetch).with(:x, nil).and_return("value")
+        end
+
+        it "returns the value of the field" do
+          expect(subject.html_title).to eq "value"
+        end
+      end
+
+      context "when it's a list of fields" do
+        let(:field) { [:x, :y] }
+
+        before do
+          allow(document).to receive(:has?).with(:x).and_return(false)
+          allow(document).to receive(:has?).with(:y).and_return(true)
+          allow(document).to receive(:fetch).with(:y, nil).and_return("value")
+        end
+
+        it "returns the first present value" do
+          expect(subject.html_title).to eq "value"
+        end
+      end
+
+      it "passes the no_html option to the FieldPresenter" do
+        expect(Blacklight::FieldPresenter).to receive(:new)
+          .with(request_context,
+                document,
+                instance_of(Blacklight::Configuration::NullField),
+                { no_html: true }).and_return(double(render: ''))
+        subject.html_title
+      end
     end
   end
 
@@ -283,4 +319,3 @@ RSpec.describe Blacklight::ShowPresenter do
     end
   end
 end
-
