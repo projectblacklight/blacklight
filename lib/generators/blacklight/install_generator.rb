@@ -30,6 +30,13 @@ module Blacklight
       generate 'blacklight:solr' unless options[:'skip-solr']
     end
 
+    # This could be skipped if you want to use webpacker
+    def add_javascript_dependencies
+      gem 'bootstrap', '~> 4.0'
+      gem 'popper_js'
+      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
+    end
+
     def bundle_install
       Bundler.with_clean_env do
         run "bundle install"

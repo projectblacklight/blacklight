@@ -6,10 +6,15 @@ module Blacklight
     def assets
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
+      # Ensure this method is idempotent
       return if has_blacklight_assets?
 
       contents = "\n//\n// Required by Blacklight\n"
       contents += "//= require jquery\n" if needs_jquery?
+      contents += "//= require popper\n"
+      contents += "// Twitter Typeahead for autocomplete\n"
+      contents += "//= require twitter/typeahead\n"
+      contents += "//= require bootstrap\n"
       contents += "//= require blacklight/blacklight\n"
 
       marker = if turbolinks?
@@ -25,7 +30,7 @@ module Blacklight
       end
     end
 
-    # This is not a default in Rails 5.1
+    # This is not a default in Rails 5.1+
     def add_jquery
       gem 'jquery-rails' if needs_jquery?
     end
