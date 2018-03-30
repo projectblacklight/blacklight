@@ -12,8 +12,6 @@ fr:
       next: 'Suivante &raquo;'
 
   blacklight:
-    application_name: 'Blacklight'
-
     header_links:
       login: 'Mon compte'
       logout: 'Me déconnecter'

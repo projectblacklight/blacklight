@@ -12,8 +12,6 @@ de:
       next: 'Nächste &raquo;'
 
   blacklight:
-    application_name: 'Blacklight'
-
     header_links:
       login: 'Anmelden'
       logout: 'Ausloggen'

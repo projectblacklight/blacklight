@@ -8,8 +8,36 @@ RSpec.describe BlacklightHelper do
   end
 
   describe "#application_name" do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::NullStore.new)
+    end
     it "defaults to 'Blacklight'" do
       expect(application_name).to eq "Blacklight"
+    end
+
+    context "when the language is not english " do
+      around do |example|
+        I18n.locale = :de
+        example.run
+        I18n.locale = :en
+      end
+
+      context "and no translation exists for that language" do
+        it "defaults to 'Blacklight'" do
+          expect(application_name).to eq "Blacklight"
+        end
+      end
+
+      context "and a translation exists for that language" do
+        around do |example|
+          I18n.backend.store_translations(:de, 'blacklight' => { 'application_name' => 'Schwarzlicht' } )
+          example.run
+          I18n.backend.reload!
+        end
+        it "uses the provided value" do
+          expect(application_name).to eq "Schwarzlicht"
+        end
+      end
     end
   end
 
