@@ -128,7 +128,8 @@ sq:
         title: '%{constraints} - %{application_name} Rezultatet e kërkimit'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} zgjedhura'
-      search_results_header: 'Kufizimet e kërkimit'
+      header: 'Kërkimit'
+      search_constraints_header: 'Kufizimet e kërkimit'
       search_results: 'Rezultatet e kërkimit'
       errors:
         request_error: "Na vjen keq, unë nuk e kuptoj kërkimin tuaj."

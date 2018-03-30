@@ -14,7 +14,7 @@ RSpec.describe 'catalog/facet.html.erb' do
   it "has the facet title" do
     allow(view).to receive(:render_facet_limit)
     render
-    expect(rendered).to have_selector 'h3', text: "Facet title"
+    expect(rendered).to have_selector 'h1', text: "Facet title"
   end
 
   it "renders facet pagination" do

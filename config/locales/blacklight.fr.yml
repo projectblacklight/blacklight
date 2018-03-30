@@ -130,7 +130,8 @@ fr:
         title: '%{constraints} - %{application_name} Résultats de recherche'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} sélectionné'
-      search_results_header: 'Recherche'
+      header: 'Recherche'
+      search_constraints_header: 'Recherche'
       search_results: 'Résultats de recherche'
       errors:
         request_error: "Pardon, nous n'avons pas compris votre recherche."

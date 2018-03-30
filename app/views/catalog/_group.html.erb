@@ -1,7 +1,7 @@
 <% # container for all groups in index view -%>
 <div id="groups">
   <%- @response.groups.each do |g| %>
-    <h3 class="group-key"><%= g.key %></h3>
+    <h2 class="group-key"><%= g.key %></h2>
     <div class="grouped-documents">
       <%= render_document_index g.docs %>
     </div>
