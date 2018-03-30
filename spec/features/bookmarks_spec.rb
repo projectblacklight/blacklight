@@ -58,26 +58,26 @@ RSpec.describe "Bookmarks" do
   end
 
   it "cites items in current bookmarks page" do
-    visit solr_document_path('2009373513')
+    visit solr_document_path('2009373513') # Ci an zhou bian
     click_button 'Bookmark'
 
-    visit solr_document_path('2007020969')
+    visit solr_document_path('2007020969') # Strong Medicine speaks
     click_button 'Bookmark'
 
     visit "/bookmarks?per_page=1"
-    expect(page).to have_content 'Ci an zhou bian'
-    expect(page).not_to have_content 'Strong Medicine speaks'
-
-    click_link 'Cite'
-    expect(page).to have_content 'Ci an zhou bian'
-    expect(page).not_to have_content 'Strong Medicine speaks'
-
-    visit "/bookmarks?per_page=1"
-    click_link "2"
     expect(page).to have_content 'Strong Medicine speaks'
+    expect(page).not_to have_content 'Ci an zhou bian'
 
     click_link 'Cite'
     expect(page).to have_content 'Strong Medicine speaks'
     expect(page).not_to have_content 'Ci an zhou bian'
+
+    visit "/bookmarks?per_page=1"
+    click_link "2"
+    expect(page).to have_content 'Ci an zhou bian'
+
+    click_link 'Cite'
+    expect(page).not_to have_content 'Strong Medicine speaks'
+    expect(page).to have_content 'Ci an zhou bian'
   end
 end

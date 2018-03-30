@@ -43,9 +43,9 @@ RSpec.describe Blacklight::SearchService do
         allow(blacklight_config).to receive(:default_solr_params).and_return({:qt => 'custom_request_handler'})
         allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
           expect(path).to eq 'select'
-          expect(params[:params]['facet.field']).to eq ["format", "{!ex=pub_date_single}pub_date", "subject_topic_facet", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
-          expect(params[:params]["facet.query"]).to eq ["pub_date:[#{5.years.ago.year} TO *]", "pub_date:[#{10.years.ago.year} TO *]", "pub_date:[#{25.years.ago.year} TO *]"]
-          expect(params[:params]).to include('rows' => 10, 'qt'=>"custom_request_handler", 'q'=>"", "f.subject_topic_facet.facet.limit"=>21, 'sort'=>"score desc, pub_date_sort desc, title_sort asc")
+          expect(params[:params]['facet.field']).to eq ["format", "{!ex=pub_date_ssim_single}pub_date_ssim", "subject_ssim", "language_ssim", "lc_1letter_ssim", "subject_geo_ssim", "subject_era_ssim"]
+          expect(params[:params]["facet.query"]).to eq ["pub_date_ssim:[#{5.years.ago.year} TO *]", "pub_date_ssim:[#{10.years.ago.year} TO *]", "pub_date_ssim:[#{25.years.ago.year} TO *]"]
+          expect(params[:params]).to include('rows' => 10, 'qt'=>"custom_request_handler", 'q'=>"", "f.subject_ssim.facet.limit"=>21, 'sort'=>"score desc, pub_date_si desc, title_si asc")
         end.and_return({'response'=>{'docs'=>[]}})
         service.search_results
       end
@@ -73,7 +73,7 @@ RSpec.describe Blacklight::SearchService do
       let(:user_params) { { q: all_docs_query } }
       before do
         blacklight_config.default_solr_params[:group] = true
-        blacklight_config.default_solr_params[:'group.field'] = 'pub_date_sort'
+        blacklight_config.default_solr_params[:'group.field'] = 'pub_date_si'
         (@solr_response, @document_list) = service.search_results
       end
 
@@ -87,16 +87,16 @@ RSpec.describe Blacklight::SearchService do
       let(:blacklight_config) { copy_of_catalog_config }
       let(:user_params) { { q: all_docs_query } }
       before do
-        allow(subject).to receive_messages grouped_key_for_results: 'title_sort'
+        allow(subject).to receive_messages grouped_key_for_results: 'title_si'
         blacklight_config.default_solr_params[:group] = true
-        blacklight_config.default_solr_params[:'group.field'] = ['pub_date_sort', 'title_sort']
+        blacklight_config.default_solr_params[:'group.field'] = ['pub_date_si', 'title_si']
         (@solr_response, @document_list) = service.search_results
       end
 
       it "returns a grouped response" do
         expect(@document_list).to be_empty
         expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
-        expect(@solr_response.group_field).to eq "title_sort"
+        expect(@solr_response.group_field).to eq "title_si"
       end
     end
 

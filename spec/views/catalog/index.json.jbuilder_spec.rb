@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 RSpec.describe "catalog/index.json" do
   let(:response) { instance_double(Blacklight::Solr::Response, documents: docs, prev_page: nil, next_page: 2, total_pages: 3) }
-  let(:docs) { [SolrDocument.new(id: '123', title_t: 'Book1'), SolrDocument.new(id: '456', title_t: 'Book2')] }
+  let(:docs) { [SolrDocument.new(id: '123', title_tsim: 'Book1'), SolrDocument.new(id: '456', title_tsim: 'Book2')] }
   let(:facets) { double("facets") }
   let(:config) { Blacklight::Configuration.new }
   let(:presenter) { Blacklight::JsonPresenter.new(response, facets, config) }
@@ -33,10 +33,10 @@ RSpec.describe "catalog/index.json" do
 
   it "has pagination information" do
     expect(hash).to include(meta: hash_including(pages:
-      { 
+      {
         'current_page' =>  1,
         'next_page' => 2,
-        'prev_page' => nil 
+        'prev_page' => nil
       }))
   end
 
@@ -44,12 +44,12 @@ RSpec.describe "catalog/index.json" do
     expect(hash).to include(data: [
       {
         id: '123',
-        attributes: { 'id' => '123', 'title_t' => 'Book1' },
+        attributes: { 'id' => '123', 'title_tsim' => 'Book1' },
         links: { self: 'http://test.host/catalog/123' }
       },
       {
         id: '456',
-        attributes: { 'id' => '456', 'title_t' => 'Book2' },
+        attributes: { 'id' => '456', 'title_tsim' => 'Book2' },
         links: { self: 'http://test.host/catalog/456' }
       },
     ])

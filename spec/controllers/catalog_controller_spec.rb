@@ -141,7 +141,9 @@ RSpec.describe CatalogController do
 
       it "gets the documents" do
         expect(docs).to have(10).documents
-        expect(docs.first['attributes'].keys).to match_array(["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "marc_display", "score"])
+        expect(docs.first['attributes'].keys).to include(
+          "author_tsim", "format", "title_tsim", "id", "subject_ssim",
+           "language_ssim", "score", "timestamp")
         expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
       end
 
@@ -270,7 +272,9 @@ RSpec.describe CatalogController do
         get :show, params: { id: doc_id, format: 'json' }
         expect(response).to be_success
         json = JSON.parse response.body
-        expect(json["response"]["document"].keys).to match_array(["author_t", "marc_display", "published_display", "author_display", "lc_callnum_display", "title_t", "pub_date", "subtitle_display", "format", "url_suppl_display", "material_type_display", "title_display", "subject_addl_t", "subject_t", "isbn_t", "id", "title_addl_t", "subject_geo_facet", "subject_topic_facet", "author_addl_t", "language_facet", "subtitle_t", "timestamp"])
+        expect(json["response"]["document"].keys).to include(
+          "author_tsim", "format", "title_tsim", "id", "subject_ssim",
+          "language_ssim", "timestamp")
       end
     end
 
@@ -398,7 +402,7 @@ RSpec.describe CatalogController do
     it 'returns suggestions' do
       get :suggest, params: { format: 'json', q: 'new' }
       json = JSON.parse(response.body)
-      expect(json.count).to eq 3
+      expect(json.count).to eq 5
       expect(json.first['term']).to eq 'new jersey'
     end
   end
@@ -507,14 +511,11 @@ RSpec.describe CatalogController do
         expect(response).to_not be_success
         expect(response.status).to eq 302
       end
-    end
 
-    it "returns status 500 if the catalog path is raising an exception" do
-      fake_error = Blacklight::Exceptions::InvalidRequest.new
-      allow(controller).to receive(:search_results) { |*args| raise fake_error }
-      allow(controller.flash).to receive(:sweep)
-      allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
-      expect { get :index, params: { q: '+' } }.to raise_error Blacklight::Exceptions::InvalidRequest
+      it "returns status 500 if the catalog path is raising an exception" do
+        allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
+        expect { get :index, params: { q: '+' } }.to raise_error Blacklight::Exceptions::InvalidRequest
+      end
     end
   end
 
@@ -722,7 +723,7 @@ RSpec.describe CatalogController do
     let(:blacklight_config) { controller.blacklight_config }
 
     it "returns specified value for facet_field specified" do
-      expect(controller.facet_limit_for("subject_topic_facet")).to eq blacklight_config.facet_fields["subject_topic_facet"].limit
+      expect(controller.facet_limit_for("subject_ssim")).to eq blacklight_config.facet_fields["subject_ssim"].limit
     end
 
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
@@ -733,7 +734,7 @@ RSpec.describe CatalogController do
 
     it "handles no facet_limits in config" do
       blacklight_config.facet_fields = {}
-      expect(controller.facet_limit_for("subject_topic_facet")).to be_nil
+      expect(controller.facet_limit_for("subject_ssim")).to be_nil
     end
 
     describe "for 'true' configured values" do

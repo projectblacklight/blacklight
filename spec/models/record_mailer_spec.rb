@@ -5,7 +5,7 @@ RSpec.describe RecordMailer do
     allow(RecordMailer).to receive(:default) { { :from => 'no-reply@projectblacklight.org' } }
     SolrDocument.use_extension( Blacklight::Document::Email )
     SolrDocument.use_extension( Blacklight::Document::Sms )
-    document = SolrDocument.new({:id=>"123456", :format=>["book"], :title_display => "The horn", :language_facet => "English", :author_display => "Janetzky, Kurt"})
+    document = SolrDocument.new({:id=>"123456", :format=>["book"], :title_tsim => "The horn", :language_ssim => "English", :author_tsim => "Janetzky, Kurt"})
     @documents = [document]
   end
   describe "email" do
