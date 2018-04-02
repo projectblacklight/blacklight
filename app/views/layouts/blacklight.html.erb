@@ -1,11 +1,11 @@
 <% content_for(:content) do %>
   <% if content_for? :sidebar %>
-    <section id="sidebar" class="<%= sidebar_classes %>">
-      <%= content_for(:sidebar) %>
+    <section id="content" class="<%= main_content_classes %> order-last">
+      <%= yield %>
     </section>
 
-    <section id="content" class="<%= main_content_classes %>">
-      <%= yield %>
+    <section id="sidebar" class="<%= sidebar_classes %> order-first">
+      <%= content_for(:sidebar) %>
     </section>
   <% else %>
     <section class="col-md-12">

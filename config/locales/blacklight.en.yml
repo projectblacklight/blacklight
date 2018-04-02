@@ -127,7 +127,8 @@ en:
         title: '%{constraints} - %{application_name} Search Results'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} selected'
-      search_results_header: 'Search Constraints'
+      header: 'Search'
+      search_contraints_header: 'Search Constraints'
       search_results: 'Search Results'
       errors:
         request_error: "Sorry, I don't understand your search."

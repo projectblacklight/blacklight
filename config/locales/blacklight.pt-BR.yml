@@ -123,7 +123,8 @@ pt-BR:
         title: '%{constraints} - %{application_name} Resultado da Busca'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} selecionado'
-      search_results_header: 'Busca'
+      header: 'Busca'
+      search_constraints_header: 'Busca'
       search_results: 'Resultados da Busca'
       errors:
         request_error: "Desculpe, Eu não compreendi sua busca."

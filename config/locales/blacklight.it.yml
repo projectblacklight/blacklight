@@ -123,7 +123,8 @@ it:
         title: '%{constraints} - %{application_name} Risultati della ricerca'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} selezionato'
-      search_results_header: 'Ricerca'
+      header: 'Ricerca'
+      search_constraints_header: 'Ricerca'
       search_results: 'Risultati della ricerca'
       errors:
         request_error: "La richiesta non è comprensibile."
