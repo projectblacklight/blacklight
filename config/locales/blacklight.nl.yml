@@ -167,6 +167,7 @@ nl:
       facets:
         title: 'Verfijn uw zoekopdracht'
         clear: 'Filters legen'
+        all: 'Al'
         sort:
           count: 'Numeriek sorteren'
           index: 'A-Z Sorteren'

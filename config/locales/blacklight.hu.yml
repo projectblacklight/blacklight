@@ -167,6 +167,7 @@ hu:
       facets:
         title: 'Szűrje tovább a keresését'
         clear: 'Szűrőfeltétel eltávolítása'
+        all: 'Minden'
         sort:
           count: 'Numerikus rendezés'
           index: 'A-Z rendezés'

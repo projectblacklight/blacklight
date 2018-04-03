@@ -6,7 +6,7 @@ RSpec.describe "Facets" do
     expect(page).to have_selector ".modal-title", :text => "Language"
     expect(page).to have_selector ".facet-select", :text => "Tibetan"
   end
-  
+
   it "paginates through a facet's values" do
     visit facet_catalog_path("subject_ssim")
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
@@ -18,7 +18,7 @@ RSpec.describe "Facets" do
     expect(page).to have_selector '.facet-values li:first', text: "Jewish law"
     expect(page).to have_link "« Previous"
   end
-  
+
   it "is able to change the facet sort" do
     visit facet_catalog_path("subject_ssim")
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
@@ -29,7 +29,7 @@ RSpec.describe "Facets" do
     expect(page).to have_link "Numerical Sort"
     expect(page).to have_selector '.sort-options .active', text: "A-Z Sort"
   end
-  
+
   it "is able to sort more facet window by letter" do
     visit facet_catalog_path("subject_ssim")
     within ".modal-footer" do
@@ -43,7 +43,7 @@ RSpec.describe "Facets" do
     click_on 'T'
     expect(page).to have_selector '.facet-values li:first', text: "Teaching"
     expect(page).to have_css '.facet-values li', count: 4
-    click_on 'Clear Filter'
+    click_on 'All'
     expect(page).to have_selector '.facet-values li:first', text: "Accident insurance"
     expect(page).to have_css '.facet-values li', count: 20
     find(:css,".facet-pagination.bottom").click_on "Numerical Sort"

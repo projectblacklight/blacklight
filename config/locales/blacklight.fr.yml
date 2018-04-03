@@ -170,6 +170,7 @@ fr:
       facets:
         title: 'Limiter votre recherche'
         clear: 'Effacer'
+        all: 'Tout'
         sort:
           count: 'Du + au - fréquent'
           index: 'Tri de A à Z'

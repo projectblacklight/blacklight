@@ -162,6 +162,7 @@ it:
       facets:
         title: 'Affina la ricerca'
         clear: 'Cancella'
+        all: 'Ogni'
         sort:
           count: 'Ordina per numero'
           index: 'Ordina A-Z'

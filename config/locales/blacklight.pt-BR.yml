@@ -162,6 +162,7 @@ pt-BR:
       facets:
         title: 'Filtre sua busca'
         clear: 'Limpar'
+        all: 'Todo'
         sort:
           count: 'Ordenar por Número'
           index: 'Ordem Alfabética A-Z'

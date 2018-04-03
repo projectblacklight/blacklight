@@ -7,10 +7,11 @@
   <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
     <span aria-hidden="true">&times;</span>
   </button>
+</div>
+
+<div class="modal-body">
   <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
 
-</div>
-<div class="modal-body">
   <div class="facet-extended-list">
   <%= render_facet_limit(@display_facet, layout: false) %>
   </div>

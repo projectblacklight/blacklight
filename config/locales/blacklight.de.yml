@@ -162,6 +162,7 @@ de:
       facets:
         title: 'Beschränken dein Suche'
         clear: 'Löschen'
+        all: 'Alle'
         sort:
           count: 'Numerisch ordnen'
           index: 'A-Z Ordnen'

@@ -165,6 +165,7 @@ sq:
       facets:
         title: 'Kufizo këkimin'
         clear: 'Fshij filterin'
+        all: 'Gjithë'
         sort:
           count: 'Renditja numerike'
           index: 'A-Z Renditja'
