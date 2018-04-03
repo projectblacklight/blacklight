@@ -162,6 +162,7 @@ es:
       facets:
         title: 'Limite su búsqueda'
         clear: 'Borrar'
+        all: 'Todos'
         sort:
           count: 'Ordenación numérica'
           index: 'Ordenación A-Z'

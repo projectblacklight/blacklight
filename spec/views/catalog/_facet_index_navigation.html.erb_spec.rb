@@ -21,9 +21,9 @@ RSpec.describe 'catalog/_facet_index_navigation.html.erb', type: :view do
     expect(rendered).to have_link '9'
   end
 
-  it 'renders a "clear filter" button' do
+  it 'renders an "all" button' do
     render
-    expect(rendered).to have_selector '.btn.disabled', text: 'Clear Filter'
+    expect(rendered).to have_selector '.page-link', text: 'All'
   end
 
   context 'with a selected index' do
@@ -35,7 +35,7 @@ RSpec.describe 'catalog/_facet_index_navigation.html.erb', type: :view do
     end
     it 'enables the clear facets button' do
       render
-      expect(rendered).to have_link 'Clear Filter'
+      expect(rendered).to have_link 'All'
     end
   end
 end
