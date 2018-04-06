@@ -12,6 +12,7 @@ fr:
       next: 'Suivante &raquo;'
 
   blacklight:
+    application_name: 'Blacklight'
     header_links:
       login: 'Mon compte'
       logout: 'Me déconnecter'
@@ -21,6 +22,9 @@ fr:
     welcome: 'Welcome!'
     and: 'et'
     or: 'ou'
+
+    modal:
+      close: Fermer
 
     bookmarks:
       title: 'Favoris'

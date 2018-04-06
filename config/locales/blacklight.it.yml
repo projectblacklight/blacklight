@@ -12,6 +12,7 @@ it:
       next: 'Pagina successiva &raquo;'
 
   blacklight:
+    application_name: 'Blacklight'
     header_links:
       login: 'Login'
       logout: 'Log out'
@@ -21,6 +22,9 @@ it:
     welcome: 'Benvenuti!'
     and: 'e'
     or: 'o'
+
+    modal:
+      close: Vicino
 
     bookmarks:
       title: 'Preferiti'
@@ -170,6 +174,7 @@ it:
         more_html: 'altri <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[cancella]'
+        missing: [Mancante]
       group:
         more: 'altri »'
       filters:
