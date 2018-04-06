@@ -15,7 +15,7 @@ module Blacklight::Controller
     # now in application.rb file under config.filter_parameters
     # filter_parameter_logging :password, :password_confirmation
     helper_method :current_user_session, :current_user, :current_or_guest_user
-    after_action :discard_flash_if_xhr
+    after_action :discard_flash_if_xhr, if: -> { blacklight_config.discard_flash_if_xhr }
 
     # handle basic authorization exception with #access_denied
     rescue_from Blacklight::Exceptions::AccessDenied, :with => :access_denied
@@ -132,8 +132,9 @@ module Blacklight::Controller
     # confusing UX. This can be overridden in the config by setting
     # config.discard_flash_if_xhr = false
     def discard_flash_if_xhr
-      flash.discard if request.xhr? && blacklight_config.discard_flash_if_xhr
+      flash.discard if request.xhr?
     end
+    deprecation_deprecate discard_flash_if_xhr: nil
 
     ##
     #
