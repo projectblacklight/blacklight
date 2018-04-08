@@ -128,7 +128,7 @@ de:
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} ausgewählt'
       header: 'Suchen'
-      search_contraints_header: 'Suchen'
+      search_constraints_header: 'Suchen'
       search_results: 'Suchergebnisse'
       errors:
         request_error: "Entschuldigung, Ich habe dein Suche nicht verstanden."
