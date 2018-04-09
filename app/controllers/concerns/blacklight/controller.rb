@@ -133,6 +133,10 @@ module Blacklight::Controller
     def discard_flash_if_xhr
       flash.discard if request.xhr?
     end
+    deprecation_deprecate discard_flash_if_xhr: "Discarding flash messages on XHR requests is deprecated.
+      If you wish to continue this behavior, add this method to your ApplicationController with an
+      after_action :discard_flash_if_xhr filter. To disable this behavior now and remove this warning, add
+      a skip_after_action :discard_flash_if_xhr to your ApplicationController."
 
     ##
     #
