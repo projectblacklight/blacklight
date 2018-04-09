@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-rails", "~> 3.5"
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
-  s.add_development_dependency "capybara", '~> 2.6'
+  s.add_development_dependency "capybara", '~> 3'
   s.add_development_dependency "chromedriver-helper"
   s.add_development_dependency "selenium-webdriver"
   s.add_development_dependency 'engine_cart', '~> 1.2'
