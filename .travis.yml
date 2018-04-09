@@ -9,16 +9,16 @@ notifications:
 
 matrix:
   include:
-    - rvm: 2.5.0
-      env: "RAILS_VERSION=5.1.5"
-    - rvm: 2.4.3
-      env: "RAILS_VERSION=5.2.0.rc2"
-    - rvm: 2.4.3
-      env: "RAILS_VERSION=5.1.5"
+    - rvm: 2.5.1
+      env: "RAILS_VERSION=5.1.6"
+    - rvm: 2.4.4
+      env: "RAILS_VERSION=5.2.0"
+    - rvm: 2.4.4
+      env: "RAILS_VERSION=5.1.6"
     - rvm: 2.3.4
-      env: "RAILS_VERSION=5.0.6"
+      env: "RAILS_VERSION=5.0.7"
     - rvm: jruby-9.1.16.0
-      env: "RAILS_VERSION=5.1.5 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+      env: "RAILS_VERSION=5.1.6 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
     - rvm: jruby-9.1.16.0
   fast_finish: true
