@@ -53,23 +53,7 @@ module Blacklight::Solr
       # http://wiki.apache.org/solr/LocalParams
       ##
       if search_field && (search_field.solr_local_parameters.present? || search_field.def_type.present?)
-        q_parser = if search_field.def_type.present?
-                     "#{search_field.def_type} "
-                   elsif solr_parameters[:defType]
-                     "#{solr_parameters[:defType]} "
-                   else
-                     ''
-                   end
-        solr_parameters[:defType] = 'lucene' # to enable parsing of local params
-        local_params = if search_field.solr_local_parameters.present?
-                         search_field.solr_local_parameters.map do |key, val|
-                           key.to_s + "=" + solr_param_quote(val, quote: "'")
-                         end.join(" ")
-                       else
-                         ''
-                       end
-        solr_parameters[:q] = "{!#{q_parser}#{local_params}}#{blacklight_params[:q]}"
-
+        solr_q_with_local_params(solr_parameters)
         ##
         # Set Solr spellcheck.q to be original user-entered query, without
         # our local params, otherwise it'll try and spellcheck the local
@@ -91,6 +75,25 @@ module Blacklight::Solr
       elsif blacklight_params[:q]
         solr_parameters[:q] = blacklight_params[:q]
       end
+    end
+
+    def solr_q_with_local_params(solr_parameters)
+      q_parser = if search_field.def_type.present?
+                   "#{search_field.def_type} "
+                 elsif solr_parameters[:defType]
+                   "#{solr_parameters[:defType]} "
+                 else
+                   ''
+                 end
+      solr_parameters[:defType] = 'lucene' # to enable parsing of local params
+      local_params = if search_field.solr_local_parameters.present?
+                       search_field.solr_local_parameters.map do |key, val|
+                         key.to_s + "=" + solr_param_quote(val, quote: "'")
+                       end.join(" ")
+                     else
+                       ''
+                     end
+      solr_parameters[:q] = "{!#{q_parser}#{local_params}}#{blacklight_params[:q]}"
     end
 
     ##
