@@ -42,7 +42,22 @@ module Blacklight::TokenBasedUser
   end
 
   def export_secret_token
-    ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key('encrypted user session key')[0..(key_len - 1)]
+    secret_key_generator.generate_key('encrypted user session key')[0..(key_len - 1)]
+  end
+
+  def secret_key_generator
+    @secret_key_generator ||= begin
+      app = Rails.application
+
+      secret_key_base = if app.respond_to?(:credentials)
+                          # Rails 5.2+
+                          app.credentials.secret_key_base
+                        else
+                          # Rails <= 5.1
+                          app.secrets.secret_key_base
+                        end
+      ActiveSupport::KeyGenerator.new(secret_key_base)
+    end
   end
 
   def message_encryptor

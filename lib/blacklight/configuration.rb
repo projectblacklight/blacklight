@@ -39,7 +39,7 @@ module Blacklight
           ##
           # === Single document request configuration
           ##
-          # The solr rqeuest handler to use when requesting only a single document
+          # The solr request handler to use when requesting only a single document
           document_solr_request_handler: 'document',
           # THe path to send single document requests to solr
           document_solr_path: nil,

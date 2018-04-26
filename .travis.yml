@@ -5,20 +5,22 @@ notifications:
   email: false
 
 rvm:
-  - 2.4.1
+  - 2.5.0
 
 matrix:
   include:
-    - rvm: 2.4.1
-      env: "RAILS_VERSION=4.2.8"
-    - rvm: 2.2.7
-      env: "RAILS_VERSION=5.0.3"
-    - rvm: 2.3.4
-      env: "RAILS_VERSION=5.1.1"
-    - rvm: jruby-9.1.7.0
-      env: "RAILS_VERSION=5.0.3 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+    - rvm: 2.5.0
+      env: "RAILS_VERSION=5.2.0"
+    - rvm: 2.4.4
+      env: "RAILS_VERSION=4.2.10"
+    - rvm: 2.2.10
+      env: "RAILS_VESION=5.0.7"
+    - rvm: 2.3.7
+      env: "RAILS_VERSION=5.1.6"
+    - rvm: jruby-9.1.17.0
+      env: "RAILS_VERSION=5.2.0 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
-    - rvm: jruby-9.1.7.0
+    - rvm: jruby-9.1.17.0
   fast_finish: true
 
 before_install:
