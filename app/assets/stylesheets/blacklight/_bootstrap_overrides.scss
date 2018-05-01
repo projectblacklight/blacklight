@@ -21,7 +21,31 @@
   }
 }
 
-
 .page-link {
   white-space: nowrap;
+}
+
+// Accessibility overrides for low contrast errors
+$primary: #006cdf;
+$success: #238f3c;
+$info: #138b9e;
+$gray: #6b686d;
+
+a,
+.page-link { color: $primary; }
+
+.btn-primary,
+.page-item.active .page-link {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.btn-success {
+  background-color: $success;
+  border-color: $success;
+}
+
+.btn-info {
+  background-color: $info;
+  border-color: $info;
 }
