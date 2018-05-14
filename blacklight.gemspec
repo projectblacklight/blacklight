@@ -44,6 +44,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "equivalent-xml"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "simplecov"
-  s.add_development_dependency "rubocop", '~> 0.49'
+  s.add_development_dependency "rubocop", '~> 0.56.0'
   s.add_development_dependency "rubocop-rspec", '~> 1.8'
 end

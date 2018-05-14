@@ -258,7 +258,7 @@ module Blacklight::Catalog
       flash[:error] = I18n.t('blacklight.sms.errors.carrier.blank')
     elsif params[:to].gsub(/[^\d]/, '').length != 10
       flash[:error] = I18n.t('blacklight.sms.errors.to.invalid', to: params[:to])
-    elsif !sms_mappings.values.include?(params[:carrier])
+    elsif !sms_mappings.value?(params[:carrier])
       flash[:error] = I18n.t('blacklight.sms.errors.carrier.invalid')
     end
 
