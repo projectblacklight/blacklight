@@ -70,7 +70,7 @@ module Blacklight::Bookmarks
   # is simpler.
   def create
     @bookmarks = if params[:bookmarks]
-                   params[:bookmarks]
+                   permit_bookmarks[:bookmarks]
                  else
                    [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
                  end
@@ -102,9 +102,19 @@ module Blacklight::Bookmarks
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be.
   def destroy
-    bookmark = current_or_guest_user.bookmarks.find_by(document_id: params[:id], document_type: blacklight_config.document_model.to_s)
+    @bookmarks =
+      if params[:bookmarks]
+        permit_bookmarks[:bookmarks]
+      else
+        [{ document_id: params[:id], document_type: blacklight_config.document_model.to_s }]
+      end
 
-    if bookmark && bookmark.delete && bookmark.destroyed?
+    success = @bookmarks.all? do |bookmark|
+      bookmark = current_or_guest_user.bookmarks.find_by(bookmark)
+      bookmark && bookmark.delete && bookmark.destroyed?
+    end
+
+    if success
       if request.xhr?
         render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } })
       elsif respond_to? :redirect_back
@@ -140,5 +150,9 @@ module Blacklight::Bookmarks
 
   def start_new_search_session?
     action_name == "index"
+  end
+
+  def permit_bookmarks
+    params.permit(bookmarks: [:document_id, :document_type])
   end
 end
