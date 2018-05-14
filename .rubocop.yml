@@ -34,7 +34,7 @@ Layout/IndentationConsistency:
 Rails/OutputSafety:
   Enabled: false
 
-Style/MethodMissing:
+Style/MissingRespondToMissing:
   Exclude:
   - 'lib/blacklight/nested_open_struct_with_hash_access.rb'
 
