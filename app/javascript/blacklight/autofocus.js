@@ -1,4 +1,3 @@
-//= require blacklight/core
 (function($) {
   Blacklight.doSearchAutofocusFallback = function() {
     if (typeof Blacklight.do_search_autofocus_fallback == 'function') {
