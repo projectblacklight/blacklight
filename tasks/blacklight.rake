@@ -10,12 +10,11 @@ require 'rubocop/rake_task'
 RuboCop::RakeTask.new(:rubocop)
 
 EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
-SOLR_CONFIG_DIR = File.join(File.expand_path("..", __dir__), '.internal_test_app', 'solr', 'conf').freeze
 
 desc "Run test suite"
 task ci: ['blacklight:generate'] do
   SolrWrapper.wrap do |solr|
-    solr.with_collection(name: 'blacklight-core', dir: SOLR_CONFIG_DIR) do
+    solr.with_collection do
       within_test_app do
         system "RAILS_ENV=test rake blacklight:index:seed"
       end
@@ -54,7 +53,7 @@ namespace :blacklight do
     end
 
     SolrWrapper.wrap do |solr|
-      solr.with_collection(name: 'blacklight-core', dir: SOLR_CONFIG_DIR) do
+      solr.with_collection do
         Rake::Task['blacklight:internal:seed'].invoke
 
         within_test_app do
