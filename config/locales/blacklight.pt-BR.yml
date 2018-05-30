@@ -12,6 +12,7 @@ pt-BR:
       next: 'próx &raquo;'
 
   blacklight:
+    application_name: 'Blacklight'
     header_links:
       login: 'Acessar'
       logout: 'Sair'
@@ -21,6 +22,9 @@ pt-BR:
     welcome: 'Bem-Vindo!'
     and: 'e'
     or: 'ou'
+
+    modal:
+      close: Fechar
 
     bookmarks:
       title: 'Favoritos'
@@ -170,7 +174,9 @@ pt-BR:
         more_html: 'mais <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[remover]'
-        missing: '[Faltando]'
+        missing: [Ausência]
+      group:
+        more: 'mais »'
       filters:
         title: 'Sua busca por:'
         label: '%{label}:'

@@ -12,6 +12,7 @@ es:
       next: 'Siguiente &raquo;'
 
   blacklight:
+    application_name: 'Blacklight'
     header_links:
       login: 'Entrar'
       logout: 'Salir'
@@ -21,6 +22,9 @@ es:
     welcome: '¡Bienvenido!'
     and: 'y'
     or: 'o'
+
+    modal:
+      close: cerca
 
     bookmarks:
       title: 'Favoritos'
