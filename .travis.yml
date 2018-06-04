@@ -37,4 +37,4 @@ global_env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
 
-jdk: oraclejdk8
+jdk: oraclejdk9
