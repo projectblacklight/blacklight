@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-##
+
+require 'globalid'
+
 ##
 # = Introduction
 # Blacklight::Document is the module with logic for a class representing
