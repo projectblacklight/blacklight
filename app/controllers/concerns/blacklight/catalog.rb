@@ -13,7 +13,7 @@ module Blacklight::Catalog
       helper_method :sms_mappings, :has_search_parameters?
     end
 
-    helper Blacklight::Facet
+    helper Blacklight::Facet if respond_to? :helper
 
     # When an action raises Blacklight::Exceptions::RecordNotFound, handle
     # the exception appropriately.
