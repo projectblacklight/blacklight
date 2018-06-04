@@ -8,9 +8,11 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
-    helper_method :sms_mappings, :has_search_parameters?, :facet_limit_for
+    if respond_to? :helper_method
+      helper_method :sms_mappings, :has_search_parameters?, :facet_limit_for
+    end
 
-    helper Blacklight::Facet
+    helper Blacklight::Facet if respond_to? :helper
 
     # The index action will more than likely throw this one.
     # Example: when the standard query parser is used, and a user submits a "bad" query.
