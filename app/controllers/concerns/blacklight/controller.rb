@@ -6,7 +6,7 @@ module Blacklight::Controller
 
   included do
     include Blacklight::SearchFields
-    helper Blacklight::SearchFields
+    helper Blacklight::SearchFields if respond_to? :helper
 
     include ActiveSupport::Callbacks
 

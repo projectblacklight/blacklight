@@ -12,7 +12,7 @@ module Blacklight::Catalog
       helper_method :sms_mappings, :has_search_parameters?, :facet_limit_for
     end
 
-    helper Blacklight::Facet
+    helper Blacklight::Facet if respond_to? :helper
 
     # The index action will more than likely throw this one.
     # Example: when the standard query parser is used, and a user submits a "bad" query.
