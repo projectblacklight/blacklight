@@ -2,7 +2,13 @@
 module Blacklight
   class Assets < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
-  
+
+    # This could be skipped if you want to use webpacker
+    def add_javascript_dependencies
+      gem 'bootstrap-sass', '~> 3.0'
+      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
+    end
+
     def assets
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
