@@ -30,24 +30,17 @@ module Blacklight
       generate 'blacklight:solr' unless options[:'skip-solr']
     end
 
-    # This could be skipped if you want to use webpacker
-    def add_javascript_dependencies
-      gem 'bootstrap', '~> 4.0'
-      gem 'popper_js'
-      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
+    # Copy all files in templates/public/ directory to public/
+    # Call external generator in AssetsGenerator, so we can
+    # leave that callable seperately too.
+    def copy_public_assets
+      generate "blacklight:assets" unless options[:'skip-assets']
     end
 
     def bundle_install
       Bundler.with_clean_env do
         run "bundle install"
       end
-    end
-
-    # Copy all files in templates/public/ directory to public/
-    # Call external generator in AssetsGenerator, so we can
-    # leave that callable seperately too.
-    def copy_public_assets
-      generate "blacklight:assets" unless options[:'skip-assets']
     end
 
     def generate_blacklight_document
