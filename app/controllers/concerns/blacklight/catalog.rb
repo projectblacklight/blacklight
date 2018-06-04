@@ -9,7 +9,9 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
-    helper_method :sms_mappings, :has_search_parameters?
+    if respond_to? :helper_method
+      helper_method :sms_mappings, :has_search_parameters?
+    end
 
     helper Blacklight::Facet
 
