@@ -12,17 +12,20 @@ module Blacklight::Controller
 
     # now in application.rb file under config.filter_parameters
     # filter_parameter_logging :password, :password_confirmation
-    helper_method :current_user_session, :current_user, :current_or_guest_user
     after_action :discard_flash_if_xhr
 
     # handle basic authorization exception with #access_denied
     rescue_from Blacklight::Exceptions::AccessDenied, with: :access_denied
 
-    # extra head content
-    helper_method :has_user_authentication_provider?
-    helper_method :blacklight_config, :blacklight_configuration_context
-    helper_method :search_action_url, :search_action_path, :search_facet_path
-    helper_method :search_state
+    if respond_to? :helper_method
+      helper_method :current_user_session, :current_user, :current_or_guest_user
+
+      # extra head content
+      helper_method :has_user_authentication_provider?
+      helper_method :blacklight_config, :blacklight_configuration_context
+      helper_method :search_action_url, :search_action_path, :search_facet_path
+      helper_method :search_state
+    end
 
     # Which class to use for the search state. You can subclass SearchState if you
     # want to override any of the methods (e.g. SearchState#url_for_document)

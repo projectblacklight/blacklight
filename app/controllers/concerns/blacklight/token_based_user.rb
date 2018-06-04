@@ -3,7 +3,9 @@ module Blacklight::TokenBasedUser
   extend ActiveSupport::Concern
 
   included do
-    helper_method :encrypt_user_id
+    if respond_to? :helper_method
+      helper_method :encrypt_user_id
+    end
 
     rescue_from Blacklight::Exceptions::ExpiredSessionToken do
       head :unauthorized
