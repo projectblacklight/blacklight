@@ -1,6 +1,12 @@
-# Place any default configuration for solr_wrapper here
+# Place configuration for solr_wrapper here
+#
+# Specify the port to run solr on
 # port: 8983
-version: 7.1.0
+#
+# Specify a version of Solr to download
+# version: 7.3.1
+#
+# Create a collection when starting solr
 collection:
   dir: lib/generators/blacklight/templates/solr/conf/
   name: blacklight-core
