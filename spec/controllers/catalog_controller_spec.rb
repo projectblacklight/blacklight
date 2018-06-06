@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-RSpec.describe CatalogController do
+
+RSpec.describe CatalogController, api: true do
   let(:doc_id) { '2007020969' }
   let(:mock_response) { instance_double(Blacklight::Solr::Response) }
   let(:mock_document) { instance_double(SolrDocument) }
@@ -415,7 +416,7 @@ RSpec.describe CatalogController do
       SolrDocument.use_extension( Blacklight::Document::Email )
       SolrDocument.use_extension( Blacklight::Document::Sms )
     end
-    describe "email" do
+    describe "email", api: false do
       it "gives error if no TO parameter" do
         post :email, params: { id: doc_id }
         expect(request.flash[:error]).to eq "You must enter a recipient in order to send this message"
@@ -443,7 +444,7 @@ RSpec.describe CatalogController do
       end
     end
 
-    describe "sms" do
+    describe "sms", api: false do
       it "gives error if no phone number is given" do
         post :sms, params: { id: doc_id, carrier: 'att' }
         expect(request.flash[:error]).to eq "You must enter a recipient's phone number in order to send this message"
@@ -493,7 +494,7 @@ RSpec.describe CatalogController do
       end.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
-    context "when there is an invalid search" do
+    context "when there is an invalid search", api: false do
       let(:service) { instance_double(Blacklight::SearchService) }
       let(:fake_error) { Blacklight::Exceptions::InvalidRequest.new }
 
@@ -662,7 +663,7 @@ RSpec.describe CatalogController do
     end
   end
 
-  describe "#add_show_tools_partial" do
+  describe "#add_show_tools_partial", api: false do
     before do
       described_class.blacklight_config.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:solr_document_url).and_return('catalog/1')
