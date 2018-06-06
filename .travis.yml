@@ -13,6 +13,8 @@ matrix:
       env: "RAILS_VERSION=5.1.6"
     - rvm: 2.4.4
       env: "RAILS_VERSION=5.2.0"
+    - rvm: 2.5.1
+      env: "RAILS_VERSION=5.2.0 ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
     - rvm: 2.4.4
       env: "RAILS_VERSION=5.1.6"
     - rvm: 2.3.4
