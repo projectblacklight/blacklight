@@ -49,6 +49,9 @@ Dir[Pathname.new(File.expand_path("../support/**/*.rb", __FILE__))].each {|f| re
 RSpec.configure do |config|
   config.disable_monkey_patching!
 
+  # When we're testing the API, only run the api tests
+  config.filter_run api: true if ENV['BLACKLIGHT_API_TEST']
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
