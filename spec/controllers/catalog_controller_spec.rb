@@ -111,14 +111,14 @@ RSpec.describe CatalogController, api: true do
       # NOTE: status code is always 200 in isolation mode ...
       it "HTTP status code for GET should be 200", :integration => true do
         get :index
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
     describe "with format :rss" do
       it "gets the feed", :integration => true do
         get :index, params: { format: 'rss' }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
@@ -126,7 +126,7 @@ RSpec.describe CatalogController, api: true do
       render_views
       before do
         get :index, params: { format: 'json' }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       let(:json) { JSON.parse(response.body) }
       let(:pages)  { json['meta']['pages']  }
@@ -271,7 +271,7 @@ RSpec.describe CatalogController, api: true do
     describe "with format :json" do
       it "gets the feed" do
         get :show, params: { id: doc_id, format: 'json' }
-        expect(response).to be_success
+        expect(response).to be_successful
         json = JSON.parse response.body
         expect(json["response"]["document"].keys).to include(
           "author_tsim", "format", "title_tsim", "id", "subject_ssim",
@@ -327,7 +327,7 @@ RSpec.describe CatalogController, api: true do
     # NOTE: status code is always 200 in isolation mode ...
     it "HTTP status code for GET should be 200", :integration => true do
       get :show, params: { id: doc_id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "renders show.html.erb" do
@@ -370,7 +370,7 @@ RSpec.describe CatalogController, api: true do
 
       it "responds to an extension-registered format properly" do
         get :show, params: { id: doc_id, format: 'mock' }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match /mock_export/
       end
 
@@ -387,11 +387,11 @@ RSpec.describe CatalogController, api: true do
     end
     it "returns an opensearch description" do
       get :opensearch, params: { format: 'xml' }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it "returns valid JSON" do
       get :opensearch, params: { format: 'json', q: 'a' }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -509,7 +509,7 @@ RSpec.describe CatalogController, api: true do
         get :index, params: { q: '+' }
         expect(response.redirect_url).to eq root_url
         expect(request.flash[:notice]).to eq "Sorry, I don't understand your search."
-        expect(response).to_not be_success
+        expect(response).to_not be_successful
         expect(response.status).to eq 302
       end
 
