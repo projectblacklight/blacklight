@@ -12,7 +12,16 @@ end
 json.data do
   json.array! @presenter.documents do |document|
     json.id document.id
-    json.attributes document
+    json.attributes do
+      doc_presenter = index_presenter(document)
+
+      index_fields(document).each do |field_name, field|
+        if should_render_index_field? document, field
+          json.set! field_name, doc_presenter.field_value(field_name)
+        end
+      end
+    end
+
     json.links do
       json.self polymorphic_url(url_for_document(document))
     end
