@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 # Has been customized by Blacklight to work when application is in one place,
-# and actual spec/ stuff is in another (the blacklight gem checkout).  
+# and actual spec/ stuff is in another (the blacklight gem checkout).
 
 ENV["RAILS_ENV"] ||= 'test'
 
@@ -36,8 +36,8 @@ end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-# Blacklight, again, make sure we're looking in the right place for em. 
-# Relative to HERE, NOT to Rails.root, which is off somewhere else. 
+# Blacklight, again, make sure we're looking in the right place for em.
+# Relative to HERE, NOT to Rails.root, which is off somewhere else.
 Dir[Pathname.new(File.expand_path("../support/**/*.rb", __FILE__))].each {|f| require f}
 
 RSpec.configure do |config|
@@ -57,4 +57,6 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  config.infer_spec_type_from_file_location!
 end

@@ -4,39 +4,39 @@ require 'spec_helper'
 describe "Search Results" do
   it "should have for an empty query" do
     search_for ''
-    number_of_results_from_page(page).should == 30
-    page.should have_xpath("//a[contains(@href, #{2007020969})]")
+    expect(number_of_results_from_page(page)).to eq(30)
+    expect(page).to have_xpath("//a[contains(@href, #{2007020969})]")
     search_for 'korea'
-    number_of_results_from_page(page).should == 4
+    expect(number_of_results_from_page(page)).to eq(4)
   end
 
   it "should find same result set with or without diacritcs" do
     search_for 'inmul'
-    number_of_results_from_page(page).should == 1
-    page.should have_xpath("//a[contains(@href, #{77826928})]")
+    expect(number_of_results_from_page(page)).to eq(1)
+    expect(page).to have_xpath("//a[contains(@href, #{77826928})]")
 
     search_for 'inmül'
-    number_of_results_from_page(page).should == 1
+    expect(number_of_results_from_page(page)).to eq(1)
   end
   it "should find same result set for a case-insensitive query " do
     search_for 'inmul'
-    number_of_results_from_page(page).should == 1
-    page.should have_xpath("//a[contains(@href, #{77826928})]")
+    expect(number_of_results_from_page(page)).to eq(1)
+    expect(page).to have_xpath("//a[contains(@href, #{77826928})]")
 
     search_for 'INMUL'
-    number_of_results_from_page(page).should == 1
+    expect(number_of_results_from_page(page)).to eq(1)
   end
 
   it "should order by relevancy" do
     search_for "Korea"
-    position_in_result_page(page, '77826928').should == 1
-    position_in_result_page(page, '94120425').should == 2
+    expect(position_in_result_page(page, '77826928')).to eq(1)
+    expect(position_in_result_page(page, '94120425')).to eq(2)
     
   end
 
   it "should have an opensearch description document" do
     visit root_path
-    page.should have_xpath("//link[contains(@rel, 'search')]")
+    expect(page).to have_xpath("//link[contains(@rel, 'search')]")
     expect(page.find(:xpath, "//link[contains(@rel, 'search')]")[:href]).to eq "http://www.example.com/catalog/opensearch.xml"
   end
 

@@ -547,141 +547,141 @@ describe Blacklight::Solr::Document::MarcExport do
   
   describe "export_as_chicago_citation_txt" do
     it "should handle a typical record correclty" do
-      @typical_record.export_as_chicago_citation_txt.should == "Ferree, David C., and I. J Warrington. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003."
+      expect(@typical_record.export_as_chicago_citation_txt).to eq("Ferree, David C., and I. J Warrington. <i>Apples: Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
     it "should format a record w/o authors correctly" do
-      @record_without_authors.export_as_chicago_citation_txt.should == "<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971."
+      expect(@record_without_authors.export_as_chicago_citation_txt).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971.")
     end
     it "should format a citation without a 245b field correctly" do
-      @record_without_245b.export_as_chicago_citation_txt.should == "Janetzky, Kurt., and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988."
+      expect(@record_without_245b.export_as_chicago_citation_txt).to eq("Janetzky, Kurt., and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
     it "should format a citation with 4+ authors correctly" do
       chicago_text = @record_with_10plus_authors.export_as_chicago_citation_txt
-      chicago_text.should == "Greer, Lowell., Steven Lubin, Stephanie Chase, Johannes Brahms, Ludwig van Beethoven, Nikolaus von Krufft, John Doe,  et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001."
-      chicago_text.should match(/John Doe,  et al\./)
-      chicago_text.should_not match(/Jane Doe/)
+      expect(chicago_text).to eq("Greer, Lowell., Steven Lubin, Stephanie Chase, Johannes Brahms, Ludwig van Beethoven, Nikolaus von Krufft, John Doe,  et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
+      expect(chicago_text).to match(/John Doe,  et al\./)
+      expect(chicago_text).not_to match(/Jane Doe/)
     end
     it "should handle dissertation data correctly" do
-      @dissertation_record.export_as_chicago_citation_txt.should == "<i>Thesis On Some Subject.</i> Phd Thesis -- Goodenough College, 2009."
+      expect(@dissertation_record.export_as_chicago_citation_txt).to eq("<i>Thesis On Some Subject.</i> Phd Thesis -- Goodenough College, 2009.")
     end
     it "should handle 3 authors correctly" do
-      @three_authors_record.export_as_chicago_citation_txt.should match(/^Doe, John, Joe Schmoe, and Bill Schmoe\./)
+      expect(@three_authors_record.export_as_chicago_citation_txt).to match(/^Doe, John, Joe Schmoe, and Bill Schmoe\./)
     end
     it "should handle editors, translators, and compilers correctly" do
-      @special_contributor_record.export_as_chicago_citation_txt.should == "Doe, John <i>Title of Item.</i> Translated by Joe Schmoe. Edited by Bill Schmoe. Compiled by Susie Schmoe.  Publisher: Place, 2009."
+      expect(@special_contributor_record.export_as_chicago_citation_txt).to eq("Doe, John <i>Title of Item.</i> Translated by Joe Schmoe. Edited by Bill Schmoe. Compiled by Susie Schmoe.  Publisher: Place, 2009.")
     end
     it "should handle editors, translators, and compilers correctly when there is no author present" do
-      @special_contributor_no_auth_record.export_as_chicago_citation_txt.should == "Schmoe, Joe trans., Bill Schmoe ed., and Susie Schmoe comp. <i>Title of Item.</i> Publisher: Place, 2009."
+      expect(@special_contributor_no_auth_record.export_as_chicago_citation_txt).to eq("Schmoe, Joe trans., Bill Schmoe ed., and Susie Schmoe comp. <i>Title of Item.</i> Publisher: Place, 2009.")
     end
     it "should handle year ranges properly" do
-      @year_range_record.export_as_chicago_citation_txt.should_not match(/2000/)
+      expect(@year_range_record.export_as_chicago_citation_txt).not_to match(/2000/)
     end
     it "should handle n.d. in the 260$c properly" do
-      @no_date_record.export_as_chicago_citation_txt.should match(/n\.d\.$/)
+      expect(@no_date_record.export_as_chicago_citation_txt).to match(/n\.d\.$/)
     end
     it "should handle section title appropriately" do
-      @section_title_record.export_as_chicago_citation_txt.should == "Schmoe, Joe <i>Main Title: Subtitle\.<\/i> Number of Part, <i>Name of Part\.<\/i> London: Batsford, 2001."
+      expect(@section_title_record.export_as_chicago_citation_txt).to eq("Schmoe, Joe <i>Main Title: Subtitle\.<\/i> Number of Part, <i>Name of Part\.<\/i> London: Batsford, 2001.")
     end
     it "should not fail if there is no citation data" do
-      @record_without_citable_data.export_as_chicago_citation_txt.should == ""
+      expect(@record_without_citable_data.export_as_chicago_citation_txt).to eq("")
     end
   end
   
   describe "export_as_apa_citation_txt" do
     it "should format a standard citation correctly" do
-      @typical_record.export_as_apa_citation_txt.should == "Ferree, D. C, &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub."
+      expect(@typical_record.export_as_apa_citation_txt).to eq("Ferree, D. C, &amp; Warrington, I. J. (2003). <i>Apples : botany, production, and uses.</i> Oxon, U.K.: CABI Pub.")
     end
     
     it "should format a citation without a 245b field correctly" do
-      @record_without_245b.export_as_apa_citation_txt.should == "Janetzky, K., &amp; Brüchle, B. (1988). <i>The horn.</i> London: Batsford."
+      expect(@record_without_245b.export_as_apa_citation_txt).to eq("Janetzky, K., &amp; Brüchle, B. (1988). <i>The horn.</i> London: Batsford.")
     end
     
     it "should format a citation without any authors correctly" do
-      @record_without_authors.export_as_apa_citation_txt.should == "(1971). <i>Final report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs."
+      expect(@record_without_authors.export_as_apa_citation_txt).to eq("(1971). <i>Final report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs.")
     end
     
     it "should not fail if there is no citation data" do
-      @record_without_citable_data.export_as_apa_citation_txt.should == ""
+      expect(@record_without_citable_data.export_as_apa_citation_txt).to eq("")
     end
 
     it "should not bomb with a null pointer if there if author data is empty" do
-      @record_with_bad_author.export_as_apa_citation_txt.should == "Brüchle, B. (1988). <i>The horn.</i> London: Batsford."
+      expect(@record_with_bad_author.export_as_apa_citation_txt).to eq("Brüchle, B. (1988). <i>The horn.</i> London: Batsford.")
     end
     
   end
   
   describe "export_as_mla_citation_txt" do
     it "should format a standard citation correctly" do
-      @typical_record.export_as_mla_citation_txt.should == "Ferree, David C, and I. J Warrington. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003."
+      expect(@typical_record.export_as_mla_citation_txt).to eq("Ferree, David C, and I. J Warrington. <i>Apples : Botany, Production, and Uses.</i> Oxon, U.K.: CABI Pub., 2003.")
     end
     
     it "should format a citation without a 245b field correctly" do
-      @record_without_245b.export_as_mla_citation_txt.should == "Janetzky, Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988."
+      expect(@record_without_245b.export_as_mla_citation_txt).to eq("Janetzky, Kurt, and Bernhard Brüchle. <i>The Horn.</i> London: Batsford, 1988.")
     end
     
     it "should format a citation without any authors correctly" do
-      @record_without_authors.export_as_mla_citation_txt.should == "<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971."
+      expect(@record_without_authors.export_as_mla_citation_txt).to eq("<i>Final Report to the Honorable John J. Gilligan, Governor.</i> [Columbus: Printed by the State of Ohio, Dept. of Urban Affairs, 1971.")
     end
     
     it "should format a citation with 4+ authors correctly" do
-      @record_with_10plus_authors.export_as_mla_citation_txt.should == "Greer, Lowell, et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001."
+      expect(@record_with_10plus_authors.export_as_mla_citation_txt).to eq("Greer, Lowell, et al. <i>Music for Horn.</i> [United States]: Harmonia Mundi USA, 2001.")
     end
     
     it "should not fail if there is no citation data" do
-      @record_without_citable_data.export_as_mla_citation_txt.should == ""      
+      expect(@record_without_citable_data.export_as_mla_citation_txt).to eq("")      
     end
   end
   
   describe "export_as_openurl_ctx_kev" do
     it "should create the appropriate context object for books" do
       record = @typical_record.export_as_openurl_ctx_kev('Book')
-      record.should match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.isbn=/) and
-      record.should_not match(/.*rft.genre=article.*rft.issn=.*/)
+      expect(record).to match(/.*mtx%3Abook.*rft.genre=book.*rft.btitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.isbn=/) and
+      expect(record).not_to match(/.*rft.genre=article.*rft.issn=.*/)
     end
     it "should create the appropriate context object for journals" do
       record = @typical_record.export_as_openurl_ctx_kev('Journal')
       record_journal_other = @typical_record.export_as_openurl_ctx_kev('Journal/Magazine')
-      record.should match(/.*mtx%3Ajournal.*rft.genre=article.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.atitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.issn=/) and
-      record_journal_other.should == record and
-      record.should_not match(/.*rft.genre=book.*rft.isbn=.*/)
+      expect(record).to match(/.*mtx%3Ajournal.*rft.genre=article.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.atitle=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.issn=/) and
+      expect(record_journal_other).to eq(record) and
+      expect(record).not_to match(/.*rft.genre=book.*rft.isbn=.*/)
     end
     it "should create the appropriate context object for other content" do
       record = @typical_record.export_as_openurl_ctx_kev('NotARealFormat')
-      record.should match(/.*mtx%3Adc.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.creator=.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.format=notarealformat/) and
-      record.should_not match(/.*rft.isbn=.*/) and
-      record.should_not match(/.*rft.issn=.*/)
+      expect(record).to match(/.*mtx%3Adc.*rft.title=Apples\+%3A\+botany%2C\+production%2C\+and\+uses.*rft.creator=.*rft.aucorp=Bobs\+Your\+Uncle.*rft.date=c2003.*rft.place=Oxon%2C\+U.K.*rft.pub=CABI\+Pub.*rft.format=notarealformat/) and
+      expect(record).not_to match(/.*rft.isbn=.*/) and
+      expect(record).not_to match(/.*rft.issn=.*/)
     end
   end
 
   describe "export_as_marc binary" do
     it "should export_as_marc" do
-      @typical_record.export_as_marc.should == @typical_record.to_marc.to_marc
+      expect(@typical_record.export_as_marc).to eq(@typical_record.to_marc.to_marc)
     end
   end
 
   describe "export_as_marcxml" do
     it "should export_as_marcxml" do
-      marc_from_xml(@typical_record.export_as_marcxml).should == marc_from_xml(@typical_record.to_marc.to_xml.to_s)
+      expect(marc_from_xml(@typical_record.export_as_marcxml)).to eq(marc_from_xml(@typical_record.to_marc.to_xml.to_s))
     end
   end
 
   describe "export_as_xml" do
     it "should export marcxml as xml" do
-      marc_from_xml(@typical_record.export_as_xml).should == marc_from_xml(@typical_record.export_as_marcxml)
+      expect(marc_from_xml(@typical_record.export_as_xml)).to eq(marc_from_xml(@typical_record.export_as_marcxml))
     end
   end
 
   describe "export_as_refworks_marc_txt" do
     it "should export correctly" do
-      @music_record.export_as_refworks_marc_txt.should == "LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n"
+      expect(@music_record.export_as_refworks_marc_txt).to eq("LEADER 01828cjm a2200409 a 4500001    a4768316\n003    SIRSI\n007    sd fungnnmmned\n008    020117p20011990xxuzz    h              d\n245 00 Music for horn |h[sound recording] / |cBrahms, Beethoven, von Krufft.\n260    [United States] : |bHarmonia Mundi USA, |cp2001.\n700 1  Greer, Lowell.\n700 1  Lubin, Steven.\n700 1  Chase, Stephanie, |d1957-\n700 12 Brahms, Johannes, |d1833-1897. |tTrios, |mpiano, violin, horn, |nop. 40, |rE? major.\n700 12 Beethoven, Ludwig van, |d1770-1827. |tSonatas, |mhorn, piano, |nop. 17, |rF major.\n700 12 Krufft, Nikolaus von, |d1779-1818. |tSonata, |mhorn, piano, |rF major.\n")
     end
     describe "for UTF-8 record" do
       it "should export in Unicode normalized C form" do        
         @utf8_exported = @record_utf8_decomposed.export_as_refworks_marc_txt
 
         if defined? Unicode
-          @utf8_exported.should_not include("\314\204\312\273") # decomposed
-          @utf8_exported.should include("\304\253\312\273") # C-form normalized
+          expect(@utf8_exported).not_to include("\314\204\312\273") # decomposed
+          expect(@utf8_exported).to include("\304\253\312\273") # C-form normalized
         end
       end
     end
@@ -697,15 +697,15 @@ describe Blacklight::Solr::Document::MarcExport do
         endnote_entries[$1] << $2
       end
 
-      endnote_entries["0"].should == Set.new(["Generic"]) # I have no idea WHY this is correct, it is definitely not legal, but taking from earlier test for render_endnote in applicationhelper, the previous version of this.  jrochkind.
-      endnote_entries["D"].should == Set.new(["p2001. "])
-      endnote_entries["C"].should == Set.new(["[United States] : "])
-      endnote_entries["E"].should == Set.new(["Greer, Lowell. ", "Lubin, Steven. ", "Chase, Stephanie, ", "Brahms, Johannes, ", "Beethoven, Ludwig van, ", "Krufft, Nikolaus von, "])
-      endnote_entries["I"].should == Set.new(["Harmonia Mundi USA, "])
-      endnote_entries["T"].should == Set.new(["Music for horn "])
+      expect(endnote_entries["0"]).to eq(Set.new(["Generic"])) # I have no idea WHY this is correct, it is definitely not legal, but taking from earlier test for render_endnote in applicationhelper, the previous version of this.  jrochkind.
+      expect(endnote_entries["D"]).to eq(Set.new(["p2001. "]))
+      expect(endnote_entries["C"]).to eq(Set.new(["[United States] : "]))
+      expect(endnote_entries["E"]).to eq(Set.new(["Greer, Lowell. ", "Lubin, Steven. ", "Chase, Stephanie, ", "Brahms, Johannes, ", "Beethoven, Ludwig van, ", "Krufft, Nikolaus von, "]))
+      expect(endnote_entries["I"]).to eq(Set.new(["Harmonia Mundi USA, "]))
+      expect(endnote_entries["T"]).to eq(Set.new(["Music for horn "]))
 
       #nothing extra
-      Set.new(endnote_entries.keys).should == Set.new(["0", "C", "D", "E", "I", "T"])      
+      expect(Set.new(endnote_entries.keys)).to eq(Set.new(["0", "C", "D", "E", "I", "T"]))      
     end
   end
 
@@ -720,26 +720,26 @@ describe Blacklight::Solr::Document::MarcExport do
       @citation_title = CitationTitleTest.new
     end
     it "should tranform a normal title properlly" do
-      @citation_title.transform_title("This is just a test").should == "This Is Just a Test"
+      expect(@citation_title.transform_title("This is just a test")).to eq("This Is Just a Test")
     end
     it "should not attempt to capatilize words in all-caps (e.g. acronyms)" do
-      @citation_title.transform_title("IBM PC applications").should == "IBM PC Applications"
+      expect(@citation_title.transform_title("IBM PC applications")).to eq("IBM PC Applications")
     end
     it "should capitalize a preposition if it is the first word in a title" do
-      @citation_title.transform_title("of mice and men").should == "Of Mice and Men"
+      expect(@citation_title.transform_title("of mice and men")).to eq("Of Mice and Men")
     end
     it "should handle hyphenated words properly" do
-      @citation_title.transform_title("Testing hyphenated-words and how they get capitalized").should == "Testing Hyphenated-Words and How They Get Capitalized"
+      expect(@citation_title.transform_title("Testing hyphenated-words and how they get capitalized")).to eq("Testing Hyphenated-Words and How They Get Capitalized")
     end
     it "should handle normal prepositions properly" do
-      @citation_title.transform_title("A little learning is a dangerous thing").should == "A Little Learning Is a Dangerous Thing"
-      @citation_title.transform_title("Four theories concerning the Gospel according to Matthew").should == "Four Theories Concerning the Gospel According to Matthew"
-      @citation_title.transform_title("Tired but happy").should == "Tired but Happy"
-      @citation_title.transform_title("Mnemonics that work are better than rules that do not").should == "Mnemonics That Work Are Better Than Rules That Do Not"
-      @citation_title.transform_title("This is just a test").should == "This Is Just a Test"
-      @citation_title.transform_title("the mind of the Renaissance").should == "The Mind of the Renaissance"
-      @citation_title.transform_title("Are you considering psychoanalysis?").should == "Are You Considering Psychoanalysis?"
-      @citation_title.transform_title("Not without laughter").should == "Not without Laughter"
+      expect(@citation_title.transform_title("A little learning is a dangerous thing")).to eq("A Little Learning Is a Dangerous Thing")
+      expect(@citation_title.transform_title("Four theories concerning the Gospel according to Matthew")).to eq("Four Theories Concerning the Gospel According to Matthew")
+      expect(@citation_title.transform_title("Tired but happy")).to eq("Tired but Happy")
+      expect(@citation_title.transform_title("Mnemonics that work are better than rules that do not")).to eq("Mnemonics That Work Are Better Than Rules That Do Not")
+      expect(@citation_title.transform_title("This is just a test")).to eq("This Is Just a Test")
+      expect(@citation_title.transform_title("the mind of the Renaissance")).to eq("The Mind of the Renaissance")
+      expect(@citation_title.transform_title("Are you considering psychoanalysis?")).to eq("Are You Considering Psychoanalysis?")
+      expect(@citation_title.transform_title("Not without laughter")).to eq("Not without Laughter")
     end
   end
 

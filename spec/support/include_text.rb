@@ -8,11 +8,11 @@ module RSpec::Rails
         @content.include?(text)
       end
 
-      failure_message_for_should do |text|
+      failure_message do |text|
         "expected '#{@content}' to contain '#{text}'"
       end
 
-      failure_message_for_should_not do |text|
+      failure_message_when_negated do |text|
         "expected #{@content} to not contain '#{text}'"
       end
     end

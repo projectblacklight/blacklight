@@ -6,25 +6,25 @@ describe "catalog/constraints" do
   end
 
   it "should render nothing if no constraints are set" do
-    view.stub(query_has_constraints?: false)
+    allow(view).to receive_messages(query_has_constraints?: false)
     render partial: "catalog/constraints"
     expect(rendered).to be_empty
   end
 
   it "should render a start over link" do
-    view.should_receive(:search_action_url).with({}).and_return('http://xyz')
-    view.stub(query_has_constraints?: true)
-    view.stub(:blacklight_config).and_return(blacklight_config)
+    expect(view).to receive(:search_action_url).with({}).and_return('http://xyz')
+    allow(view).to receive_messages(query_has_constraints?: true)
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     render partial: "catalog/constraints"
     expect(rendered).to have_selector("#startOverLink")
     expect(rendered).to have_link("Start Over", :href => 'http://xyz')
   end
 
   it "should render a start over link with the current view type" do
-    view.should_receive(:search_action_url).with(view: 'xyz').and_return('http://xyz?view=xyz')
-    view.stub(query_has_constraints?: true)
+    expect(view).to receive(:search_action_url).with(view: 'xyz').and_return('http://xyz?view=xyz')
+    allow(view).to receive_messages(query_has_constraints?: true)
     params[:view] = 'xyz'
-    view.stub(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     render partial: "catalog/constraints"
     expect(rendered).to have_selector("#startOverLink")
     expect(rendered).to have_link("Start Over", :href => 'http://xyz?view=xyz')

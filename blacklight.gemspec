@@ -12,14 +12,14 @@ Gem::Specification.new do |s|
   s.description = %q{Blacklight is an open source Solr user interface discovery platform. You can use Blacklight to enable searching and browsing of your collections. Blacklight uses the Apache Solr search engine to search full text and/or metadata.}
   s.license     = "Apache 2.0"
   s.rubyforge_project = "blacklight"
-  
+
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
   # PRODUCTION GEM REQUIREMENTS
-  # ---------------------------------------   
+  # ---------------------------------------
   s.add_dependency "rails",     ">= 3.2.6", "< 5"
   s.add_dependency "nokogiri",  "~>1.6"     # XML Parser
   # Let's allow future versions of marc, count on
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency "bootstrap-sass", ">= 2.2.0", "< 2.4"
   s.add_dependency "deprecation", "~> 0.1"
   s.add_development_dependency "jettywrapper", ">= 1.4.1"
-  s.add_development_dependency "rspec-rails"
-  s.add_development_dependency 'engine_cart', "~> 0.1.3"
+  s.add_development_dependency "rspec-rails", "~> 3.0"
+  s.add_development_dependency 'engine_cart', "~> 2.0"
   s.add_development_dependency "equivalent-xml"
 end

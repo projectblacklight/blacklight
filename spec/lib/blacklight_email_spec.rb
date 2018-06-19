@@ -8,17 +8,17 @@ describe "Blacklight::Solr::Document::Email" do
   it "should only return values that are available in the field semantics" do
     doc = SolrDocument.new({:id=>"1234", :title_display=>"My Title"})
     email_body = doc.to_email_text
-    email_body.should match(/Title: My Title/)
-    email_body.should_not match(/Author/)
+    expect(email_body).to match(/Title: My Title/)
+    expect(email_body).not_to match(/Author/)
   end
   it "should handle multi-values fields correctly" do
     doc = SolrDocument.new({:id=>"1234", :title_display=>["My Title", "My Alt. Title"]})
     email_body = doc.to_email_text
-    email_body.should match(/Title: My Title My Alt. Title/)
+    expect(email_body).to match(/Title: My Title My Alt. Title/)
   end
   it "should return nil if there are no valid field semantics to build the email body from" do
     doc = SolrDocument.new({:id=>"1234"})
-    doc.to_email_text.should be_nil
+    expect(doc.to_email_text).to be_nil
   end
 end
 

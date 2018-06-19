@@ -13,8 +13,6 @@ matrix:
       gemfile: gemfiles/rails4.1.gemfile
     - rvm: 2.1.10
       gemfile: gemfiles/rails4.1.gemfile
-    - rvm: jruby
-      gemfile: gemfiles/rails4.1.gemfile
 
 notifications:
   irc: "irc.freenode.org#blacklight"

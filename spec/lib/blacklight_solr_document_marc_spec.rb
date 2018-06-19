@@ -17,7 +17,7 @@ describe "Blacklight::Solr::Document::Marc" do
     end
     it "should read and parse a marc binary file" do
       document = @mock_class.new(:marc => sample_marc_binary )
-      document.to_marc.should == marc_from_string(:binary => sample_marc_binary )
+      expect(document.to_marc).to eq(marc_from_string(:binary => sample_marc_binary ))
     end
   end
 
@@ -27,13 +27,13 @@ describe "Blacklight::Solr::Document::Marc" do
     end
     it "should read and parse a marc xml file" do
       document = @mock_class.new(:marc => sample_marc_xml)
-      document.to_marc.should == marc_from_string(:xml => sample_marc_xml)
+      expect(document.to_marc).to eq(marc_from_string(:xml => sample_marc_xml))
     end
   end
 
   it "should register all its export formats" do
     document = @mock_class.new
-    Set.new(document.export_formats.keys).should  be_superset(Set.new([:marc, :marcxml, :openurl_ctx_kev, :refworks_marc_txt, :endnote, :xml]))    
+    expect(Set.new(document.export_formats.keys)).to  be_superset(Set.new([:marc, :marcxml, :openurl_ctx_kev, :refworks_marc_txt, :endnote, :xml]))    
   end
 
 

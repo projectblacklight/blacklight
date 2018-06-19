@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Alternate Controller Behaviors" do
   it "should have the correct per-page form" do
     visit alternate_index_path
-    page.should have_selector("form[action='#{alternate_index_path}']")
+    expect(page).to have_selector("form[action='#{alternate_index_path}']")
     fill_in "q", :with=>"history"
     click_button 'search'
     expect(current_path).to match /#{alternate_index_path}/
@@ -13,7 +13,7 @@ describe "Alternate Controller Behaviors" do
 
   it "should have the correct search field form" do
     visit alternate_index_path
-    page.should have_selector("form[action='#{alternate_index_path}']")
+    expect(page).to have_selector("form[action='#{alternate_index_path}']")
     fill_in "q", :with=>"history"
     click_button 'search'
     expect(current_path).to match /#{alternate_index_path}/
@@ -23,7 +23,7 @@ describe "Alternate Controller Behaviors" do
 
   it "should display document thumbnails" do
     visit alternate_index_path
-    page.should have_selector("form[action='#{alternate_index_path}']")
+    expect(page).to have_selector("form[action='#{alternate_index_path}']")
     fill_in "q", :with=>"history"
     click_button 'search'
     expect(page).to have_selector ".document-thumbnail"

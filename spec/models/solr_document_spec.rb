@@ -52,22 +52,22 @@ end
     
     describe "new" do
       it "should take a Hash as the argument" do
-        lambda { SolrDocument.new(@hash_with_marcxml) }.should_not raise_error
+        expect { SolrDocument.new(@hash_with_marcxml) }.not_to raise_error
       end
     end
     
     describe "access methods" do
 
       it "should have the right value for title_display" do
-        @solrdoc[:title_display].should_not be_nil
+        expect(@solrdoc[:title_display]).not_to be_nil
       end
       
       it "should have the right value for format" do
-        @solrdoc[:format][0].should == 'Book'
+        expect(@solrdoc[:format][0]).to eq('Book')
       end
       
       it "should provide the item's solr id" do
-        @solrdoc.id.should == '00282214'
+        expect(@solrdoc.id).to eq('00282214')
       end
     end
     
@@ -76,8 +76,8 @@ end
       it "should have a valid to_marc" do
         @solrdoc = SolrDocument.new(@hash_with_marcxml)
 
-        @solrdoc.should respond_to(:to_marc)
-        @solrdoc.to_marc.should be_kind_of(MARC::Record)        
+        expect(@solrdoc).to respond_to(:to_marc)
+        expect(@solrdoc.to_marc).to be_kind_of(MARC::Record)        
       end
       
       it "should not try to create marc for objects w/out stored marc (marcxml test only at this time)" do
@@ -85,7 +85,7 @@ end
         # sure everything fails gracefully
         @hash_without_marcxml = get_hash_without_marcxml['response']['docs'][0]
         @solrdoc_without_marc = SolrDocument.new(@hash_without_marcxml)
-        @solrdoc_without_marc.should_not respond_to(:to_marc)
+        expect(@solrdoc_without_marc).not_to respond_to(:to_marc)
         # legacy check
       #        @solrdoc_without_marc.should respond_to(:marc)
       #        @solrdoc_without_marc.marc.should == nil

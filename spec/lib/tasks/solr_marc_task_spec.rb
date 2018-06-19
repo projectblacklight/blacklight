@@ -32,7 +32,7 @@ describe "solr:marc:*" do
           @rake['solr:marc:index_test_data'].invoke      
         end
         
-        o.should match(Regexp.escape("SolrMarc command that will be run:"))
+        expect(o).to match(Regexp.escape("SolrMarc command that will be run:"))
       end    
     end
     
@@ -48,11 +48,11 @@ describe "solr:marc:*" do
         output =~ /SolrMarc command that will be run:\n\s*\n\s*(.*)\n/
         java_cmd = $1
         
-        java_cmd.should_not be_nil
-        java_cmd.should match "java -Xmx512m"
-        java_cmd.should match /-jar .*\/SolrMarc\.jar/
-        java_cmd.should match "#{Rails.root}/config/SolrMarc/config-test.properties dummy.mrc"
-        java_cmd.should match "-Dsolr.hosturl=http://127.0.0.1:[0-9]{2,5}/solr"
+        expect(java_cmd).not_to be_nil
+        expect(java_cmd).to match "java -Xmx512m"
+        expect(java_cmd).to match /-jar .*\/SolrMarc\.jar/
+        expect(java_cmd).to match "#{Rails.root}/config/SolrMarc/config-test.properties dummy.mrc"
+        expect(java_cmd).to match "-Dsolr.hosturl=http://127.0.0.1:[0-9]{2,5}/solr"
       end
       
     end  
