@@ -49,6 +49,7 @@ describe "Search Results" do
   end
 
   it "should pass the current search id through", :js => true do
+    pending
     visit root_path
     fill_in "q", with: ''
     click_button 'search'
