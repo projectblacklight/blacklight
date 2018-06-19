@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 # Please see blacklight.gemspec for dependency information.
 gemspec
