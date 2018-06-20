@@ -26,7 +26,7 @@ describe "Blacklight::User" do
 
   it "should know if it has a bookmarked document" do
     subject.bookmarks << mock_bookmark(1)
-    expect(subject.document_is_bookmarked?(1)).to be_true
+    expect(subject.document_is_bookmarked?(1)).to eq true
   end
 
   it "should be able to create bookmarks in batches" do
@@ -35,7 +35,7 @@ describe "Blacklight::User" do
     @md3 = { :document_id => 3 }
 
     subject.documents_to_bookmark= [@md1,@md2,@md3]
-    expect(subject.bookmarks).to have(3).bookmarks
+    expect(subject.bookmarks.size).to eq(3)
     expect(subject.bookmarked_document_ids).to include("1","2","3")
 
   end
@@ -44,19 +44,19 @@ describe "Blacklight::User" do
     subject.bookmarks << mock_bookmark(1)
 
     @md1 = { :document_id => 1 }
-    subject.bookmarks.should_not_receive(:create).with(@md1)
+    expect(subject.bookmarks).not_to receive(:create).with(@md1)
 
     subject.bookmarks.push(mock_bookmark(1))
     subject.documents_to_bookmark=[@md1]
   end
 
   it "should know if it doesn't have a search" do
-    subject.has_searches?.should == false
+    expect(subject.has_searches?).to eq(false)
   end
 
   it "should know if it has a search" do
     subject.searches << Search.new
-    subject.has_searches?.should == true
+    expect(subject.has_searches?).to eq(true)
   end
 
 end    

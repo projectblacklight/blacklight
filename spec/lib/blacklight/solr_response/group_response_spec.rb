@@ -12,9 +12,9 @@ describe Blacklight::SolrResponse::GroupResponse do
 
   describe "groups" do
     it "should return an array of Groups" do
-      response.grouped.should be_a Array
+      expect(response.grouped).to be_a Array
 
-      expect(group.groups).to have(2).items
+      expect(group.groups.size).to eq(2)
       group.groups.each do |group|
         expect(group).to be_a Blacklight::SolrResponse::Group
       end

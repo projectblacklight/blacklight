@@ -6,11 +6,11 @@ describe "controllers that are not catalog controller" do
   it "should have the correct search form" do
   	pending
     visit alternate_index_path
-    page.should have_selector("form[action='#{alternate_index_path}']")
+    expect(page).to have_selector("form[action='#{alternate_index_path}']")
     fill_in "q", :with=>"history"
     click_button 'search'
   #  page.should have_link("startOverLink", :href=>alternate_index_path)
-    page.should have_selector("form.per_page[action='#{alternate_index_path}']")
-    page.should have_selector("form.sort[action='#{alternate_index_path}']")
+    expect(page).to have_selector("form.per_page[action='#{alternate_index_path}']")
+    expect(page).to have_selector("form.sort[action='#{alternate_index_path}']")
   end
 end

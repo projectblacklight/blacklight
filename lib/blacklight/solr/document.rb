@@ -35,7 +35,7 @@ module Blacklight::Solr::Document
   included do
     extend ActiveModel::Naming
     include Blacklight::Solr::Document::Extensions
-  end    
+  end
 
   attr_reader :solr_response
 
@@ -59,7 +59,7 @@ module Blacklight::Solr::Document
   # Helper method to check if value/multi-values exist for a given key.
   # The value can be a string, or a RegExp
   # Multiple "values" can be given; only one needs to match.
-  # 
+  #
   # Example:
   # doc.has?(:location_facet)
   # doc.has?(:location_facet, 'Clemons')
@@ -83,7 +83,7 @@ module Blacklight::Solr::Document
 
   def has_highlight_field? k
     return false if @solr_response['highlighting'].blank? or @solr_response['highlighting'][self.id].blank?
-    
+
     @solr_response['highlighting'][self.id].key? k.to_s
   end
 
@@ -128,33 +128,41 @@ module Blacklight::Solr::Document
     'catalog/document'
   end
 
-   
+
   # Returns a hash keyed by semantic tokens (see ExtendableClassMethods#semantic_fields), value is an array of
   # strings. (Array to handle multi-value fields). If no value(s)
-  # available, empty array is returned. 
+  # available, empty array is returned.
   #
   # Default implementation here uses ExtendableClassMethods#semantic_fields
-  # to just take values from Solr stored fields. 
+  # to just take values from Solr stored fields.
   # Extensions can over-ride this method to provide better/different lookup,
   # but extensions should call super and modify hash returned, to avoid
-  # unintentionally erasing values provided by other extensions. 
+  # unintentionally erasing values provided by other extensions.
   def to_semantic_values
     unless @semantic_value_hash
-      @semantic_value_hash = Hash.new([]) # default to empty array   
+      @semantic_value_hash = Hash.new([]) # default to empty array
       self.class.field_semantics.each_pair do |key, solr_field|
         value = self[solr_field]
         # Make single and multi-values all arrays, so clients
         # don't have to know.
         unless value.nil?
-          value = [value] unless value.kind_of?(Array)      
+          value = [value] unless value.kind_of?(Array)
           @semantic_value_hash[key] = value
         end
       end
     end
     return @semantic_value_hash
   end
-  
-  
+
+  def to_model
+    self
+  end
+
+  def persisted?
+    true
+  end
+
+
   # Certain class-level methods needed for the document-specific
   # extendability architecture
   module ClassMethods
@@ -164,9 +172,9 @@ module Blacklight::Solr::Document
       # XXX Blacklight.config[:unique_key] should be deprecated soon
       if Blacklight.respond_to?(:config) and Blacklight.config[:unique_key]
         Deprecation.warn(self, "Setting the unique key using Blacklight.config[:unique_key] has been deprecated. Use the SolrDocument.unique_key= setter instead")
-        @unique_key ||= Blacklight.config[:unique_key] 
+        @unique_key ||= Blacklight.config[:unique_key]
       end
-      @unique_key ||= 'id' 
+      @unique_key ||= 'id'
 
       @unique_key
     end
@@ -175,11 +183,11 @@ module Blacklight::Solr::Document
        Deprecation.warn(self, "Document.connection is deprecated and will be removed in Blacklight 5.0")
        @connection ||= Blacklight.solr
      end
-    
+
     # Returns array of hashes of registered extensions. Each hash
     # has a :module_obj key and a :condition_proc key. Usually this
     # method is only used internally in #apply_extensions, but if you
- 
+
     # Class-level method for accessing/setting semantic mappings
     # for solr stored fields. Can be set by local app, key is
     # a symbol for a semantic, value is a solr _stored_ field.
@@ -189,13 +197,13 @@ module Blacklight::Solr::Document
     #
     # Currently documented semantic tokens, not all may be
     # used by core BL, but some may be used by plugins present
-    # or future. 
-    # :title, :author, :year, :language => User-presentable strings. 
+    # or future.
+    # :title, :author, :year, :language => User-presentable strings.
     def field_semantics
       @field_semantics ||= {}
-    end    
+    end
   end
-  
- 
-  
+
+
+
 end

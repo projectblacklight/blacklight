@@ -15,7 +15,7 @@ describe "blacklight:delete_old_searches" do
   
   it "should call Search.delete_old_searches" do
     days_old = 7
-    Search.should_receive(:delete_old_searches).with(days_old)  
+    expect(Search).to receive(:delete_old_searches).with(days_old)  
     @rake[@task_name].invoke(days_old)
   end
     

@@ -21,12 +21,12 @@ describe Blacklight::SearchFields do
 
   before(:each) do  
     @search_field_obj = MockConfig.new
-    @search_field_obj.stub(:blacklight_config).and_return(@config)
+    allow(@search_field_obj).to receive(:blacklight_config).and_return(@config)
   end
 
   it "should return search field list with calculated :label when needed" do
      @search_field_obj.search_field_list.each do |hash|        
-        hash.label.should_not be_blank
+        expect(hash.label).not_to be_blank
      end
   end
 
@@ -42,30 +42,30 @@ describe Blacklight::SearchFields do
        argument = select_arguments[index]
        config_hash = @search_field_obj.search_field_list[index]
 
-       argument.length.should == 2
-       argument[0].should == config_hash.label
-       argument[1].should == config_hash.key
+       expect(argument.length).to eq(2)
+       expect(argument[0]).to eq(config_hash.label)
+       expect(argument[1]).to eq(config_hash.key)
     end    
   end
 
   it "should not include fields in select if :display_in_simple_search=>false" do
     select_arguments = @search_field_obj.search_field_options_for_select
 
-    select_arguments.should_not include(["No Display", "no_display"])
+    expect(select_arguments).not_to include(["No Display", "no_display"])
   end
 
   
 
   it "should lookup field definitions by key" do
-    @search_field_obj.search_field_def_for_key("title").key.should == "title"
+    expect(@search_field_obj.search_field_def_for_key("title").key).to eq("title")
   end
 
   it "should find label by key" do
-    @search_field_obj.label_for_search_field("title").should == "Title"
+    expect(@search_field_obj.label_for_search_field("title")).to eq("Title")
   end
 
   it "should supply default label for key not found" do
-    @search_field_obj.label_for_search_field("non_existent_key").should == "Keyword"
+    expect(@search_field_obj.label_for_search_field("non_existent_key")).to eq("Keyword")
   end
 
   describe "for unspecified :key" do
@@ -73,10 +73,10 @@ describe Blacklight::SearchFields do
       @bad_config = MockConfig.new
     end
     it "should raise exception on #search_field_list" do
-      lambda { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
+      expect { allow(@bad_config).to receive(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
            config.add_search_field :label => 'All Fields', :qt => 'all_fields'
            config.add_search_field 'title', :qt => 'title_search'
-      })   }.should raise_error
+      })   }.to raise_error
     end
   end
 
@@ -85,11 +85,11 @@ describe Blacklight::SearchFields do
       @bad_config = MockConfig.new
     end
     it "should raise on #search_field_list" do
-      lambda { @bad_config.stub(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
+      expect { allow(@bad_config).to receive(:blacklight_config).and_return(Blacklight::Configuration.new { |config|
         config.add_search_field 'my_key', :label => 'All Fields'
         config.add_search_field 'my_key', :label => 'title'
 
-      }) }.should raise_error
+      }) }.to raise_error
     end
   end
   

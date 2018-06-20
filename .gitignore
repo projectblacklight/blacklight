@@ -20,3 +20,4 @@ spec/internal
 pkg/*
 *.sw[pon]
 gemfiles/*.gemfile.lock
+/.internal_test_app

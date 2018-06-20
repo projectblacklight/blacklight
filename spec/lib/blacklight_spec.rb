@@ -13,12 +13,12 @@ describe Blacklight do
     
     it "should find app/controllers/application_controller.rb" do
       result = Blacklight.locate_path 'app', 'controllers', 'application_controller.rb'
-      result.should_not == nil
+      expect(result).not_to eq(nil)
     end
     
     it "should not find blah.rb" do
       result = Blacklight.locate_path 'blah.rb'
-      result.should == nil
+      expect(result).to eq(nil)
     end
     
   end
@@ -30,15 +30,15 @@ describe Blacklight do
     end
 
     it 'should return the full path to the BL plugin' do
-      Blacklight.root.should == @blroot
+      expect(Blacklight.root).to eq(@blroot)
     end
     
     it 'should return the full path to the model directory' do
-      Blacklight.models_dir.should == @blroot + "/app/models"
+      expect(Blacklight.models_dir).to eq(@blroot + "/app/models")
     end
 
     it 'should return the full path to the controllers directory' do
-      Blacklight.controllers_dir.should == @blroot + "/app/controllers"
+      expect(Blacklight.controllers_dir).to eq(@blroot + "/app/controllers")
     end
 
   end

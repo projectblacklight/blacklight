@@ -1,9 +1,3 @@
-platforms :jruby do
-  gem 'jdbc-sqlite3'
-  gem 'mediashelf-loggable', '>= 0.4.8'
-  gem 'therubyrhino'
-end
-
 platforms :ruby do
  gem 'sqlite3'
 end
@@ -11,17 +5,10 @@ end
 gem 'jquery-rails'
 
 group :test do
-  gem 'rspec-rails', '~> 2.13'
   gem 'generator_spec'
   gem 'poltergeist'
-  if defined? :JRUBY_VERSION
-    gem 'capybara', '~> 1.0'
-  else
-    gem 'capybara'
-  end
-  gem 'simplecov', :platform => :mri_19
-  gem 'simplecov-rcov', :platform => :mri_19
+  gem 'capybara'
 end
 
 gem 'jettywrapper', '>= 1.2.0'
-
+gem 'test-unit'

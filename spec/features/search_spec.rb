@@ -15,7 +15,10 @@ describe "Search Page" do
     expect(page).to_not have_selector("#startOverLink")
    
     expect(page).to have_content "Welcome!"
+    tmp_value = Capybara.ignore_hidden_elements
+    Capybara.ignore_hidden_elements = false
     expect(page).to have_selector("link[rel=stylesheet]")
+    Capybara.ignore_hidden_elements = tmp_value
   end
 
   it "should do searches across all fields" do
@@ -24,6 +27,8 @@ describe "Search Page" do
     select 'All Fields', from: 'search_field'
     click_button 'search'
    
+    tmp_value = Capybara.ignore_hidden_elements
+    Capybara.ignore_hidden_elements = false
     expect(page).to have_selector("link[rel=alternate][type='application/rss+xml']")
     expect(page).to have_selector("link[rel=alternate][type='application/atom+xml']")
 
@@ -31,6 +36,7 @@ describe "Search Page" do
     expect(page).to have_selector("meta[name=totalResults]")
     expect(page).to have_selector("meta[name=startIndex]")
     expect(page).to have_selector("meta[name=itemsPerPage]")
+    Capybara.ignore_hidden_elements = tmp_value
 
     within "#appliedParams" do
       expect(page).to have_content "You searched for:"

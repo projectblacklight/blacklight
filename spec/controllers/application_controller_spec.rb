@@ -12,8 +12,8 @@ describe ApplicationController do
           controller.send(:default_html_head)
 
           # by default, these should be empty, but left in for backwards compatibility 
-          controller.javascript_includes.should be_empty
-          controller.stylesheet_links.should be_empty
+          expect(controller.javascript_includes).to be_empty
+          expect(controller.stylesheet_links).to be_empty
         end
       end
     end
@@ -21,7 +21,7 @@ describe ApplicationController do
     describe "#blacklight_config" do
 
       it "should provide a default blacklight_config everywhere" do
-        controller.blacklight_config.should == CatalogController.blacklight_config
+        expect(controller.blacklight_config).to eq(CatalogController.blacklight_config)
       end
     end
 

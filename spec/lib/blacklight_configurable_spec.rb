@@ -20,17 +20,17 @@ describe "Blacklight::Configurable" do
       end
     end
     it "should inherit the configuration when subclassed" do            
-      TestCaseInheritence::Child.blacklight_config.list.should include(1,2,3)
+      expect(TestCaseInheritence::Child.blacklight_config.list).to include(1,2,3)
     end
     
     it "inherited version should be a deep copy, not original" do      
-      TestCaseInheritence::Child.blacklight_config.should_not  be(TestCaseInheritence::Parent.blacklight_config)
+      expect(TestCaseInheritence::Child.blacklight_config).not_to  be(TestCaseInheritence::Parent.blacklight_config)
     
       TestCaseInheritence::Child.blacklight_config.list << "child_only"
 
 
-      TestCaseInheritence::Child.blacklight_config.list.should include("child_only")      
-      TestCaseInheritence::Parent.blacklight_config.list.should_not include("child_only")
+      expect(TestCaseInheritence::Child.blacklight_config.list).to include("child_only")      
+      expect(TestCaseInheritence::Parent.blacklight_config.list).not_to include("child_only")
     end    
   end
 
@@ -47,7 +47,7 @@ describe "Blacklight::Configurable" do
       a = Class.new
       a.send(:include, Blacklight::Configurable)
 
-      a.blacklight_config.default_solr_params.should be_empty
+      expect(a.blacklight_config.default_solr_params).to be_empty
     end
 
     it "should allow the user to provide a default configuration" do
@@ -56,7 +56,7 @@ describe "Blacklight::Configurable" do
       Blacklight::Configurable.default_configuration = Blacklight::Configuration.new :a => 1
 
       a.send(:include, Blacklight::Configurable)
-      a.blacklight_config.a.should == 1
+      expect(a.blacklight_config.a).to eq(1)
     end
     
     it "has configure_blacklight convenience method" do
@@ -67,7 +67,7 @@ describe "Blacklight::Configurable" do
         config.my_key = 'value'
       end 
       
-      klass.blacklight_config.my_key.should == 'value'
+      expect(klass.blacklight_config.my_key).to eq('value')
     end
 
     it "allows the instance to set a radically different config from the class" do
@@ -78,8 +78,8 @@ describe "Blacklight::Configurable" do
       instance = klass.new
       instance.blacklight_config = Blacklight::Configuration.new
       
-      instance.blacklight_config.should_not == klass.blacklight_config
-      instance.blacklight_config.foo.should be_nil
+      expect(instance.blacklight_config).not_to eq(klass.blacklight_config)
+      expect(instance.blacklight_config.foo).to be_nil
     end
     
     it "allows instance to set it's own config seperate from class" do
@@ -94,11 +94,11 @@ describe "Blacklight::Configurable" do
       
       instance = klass.new
       instance.blacklight_config.bar << "123"
-      instance.blacklight_config.should_not == klass.blacklight_config
-      klass.blacklight_config.foo.should == "bar"
-      instance.blacklight_config.foo.should == "bar"
-      klass.blacklight_config.bar.should_not include("123")
-      instance.blacklight_config.bar.should include("asd", "123")
+      expect(instance.blacklight_config).not_to eq(klass.blacklight_config)
+      expect(klass.blacklight_config.foo).to eq("bar")
+      expect(instance.blacklight_config.foo).to eq("bar")
+      expect(klass.blacklight_config.bar).not_to include("123")
+      expect(instance.blacklight_config.bar).to include("asd", "123")
     end
 
     it "configurable classes should not mutate the default configuration object" do
@@ -110,8 +110,8 @@ describe "Blacklight::Configurable" do
       klass2.send(:include, Blacklight::Configurable)
       klass2.blacklight_config.foo = "asdf"
 
-      klass.blacklight_config.foo.should == "bar"
-      klass2.blacklight_config.foo.should == "asdf"
+      expect(klass.blacklight_config.foo).to eq("bar")
+      expect(klass2.blacklight_config.foo).to eq("asdf")
     end
     
   end

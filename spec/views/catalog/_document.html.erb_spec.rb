@@ -10,7 +10,7 @@ describe "catalog/_document" do
   end
 
   it "should render the header, thumbnail and index" do
-    view.stub(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     stub_template "catalog/_document_header.html.erb" => "document_header"
     stub_template "catalog/_thumbnail_default.html.erb" => "thumbnail_default"
     stub_template "catalog/_index_default.html.erb" => "index_default"

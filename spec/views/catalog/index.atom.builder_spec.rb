@@ -30,8 +30,8 @@ describe "catalog/index" do
     # but okay. 
 
     params.merge!( @params )
-    view.stub(:blacklight_config).and_return(@config)
-    view.stub(:search_field_options_for_select).and_return([])
+    allow(view).to receive(:blacklight_config).and_return(@config)
+    allow(view).to receive(:search_field_options_for_select).and_return([])
 
     render :template => 'catalog/index', :formats => [:atom] 
 
@@ -41,51 +41,51 @@ describe "catalog/index" do
   end
 
   it "should have contextual information" do
-    rendered.should have_selector("link[rel=self]")
-    rendered.should have_selector("link[rel=next]")
-    rendered.should have_selector("link[rel=previous]")
-    rendered.should have_selector("link[rel=first]")
-    rendered.should have_selector("link[rel=last]")
-    rendered.should have_selector("link[rel='alternate'][type='text/html']")
-    rendered.should have_selector("link[rel=search][type='application/opensearchdescription+xml']") 
+    expect(rendered).to have_selector("link[rel=self]")
+    expect(rendered).to have_selector("link[rel=next]")
+    expect(rendered).to have_selector("link[rel=previous]")
+    expect(rendered).to have_selector("link[rel=first]")
+    expect(rendered).to have_selector("link[rel=last]")
+    expect(rendered).to have_selector("link[rel='alternate'][type='text/html']")
+    expect(rendered).to have_selector("link[rel=search][type='application/opensearchdescription+xml']") 
   end
   
   it "should get paging data correctly from response" do
     # Can't use have_tag for namespaced elements, sorry.    
-    @response_xml.elements["/feed/opensearch:totalResults"].text.should == "30"
-    @response_xml.elements["/feed/opensearch:startIndex"].text.should == "10"
-    @response_xml.elements["/feed/opensearch:itemsPerPage"].text.should == "10"        
+    expect(@response_xml.elements["/feed/opensearch:totalResults"].text).to eq("30")
+    expect(@response_xml.elements["/feed/opensearch:startIndex"].text).to eq("10")
+    expect(@response_xml.elements["/feed/opensearch:itemsPerPage"].text).to eq("10")        
   end
   
   it "should include an opensearch Query role=request" do
         
-    @response_xml.elements.to_a("/feed/opensearch:itemsPerPage").length.should == 1
+    expect(@response_xml.elements.to_a("/feed/opensearch:itemsPerPage").length).to eq(1)
     query_el = @response_xml.elements["/feed/opensearch:Query"]
-    query_el.should_not be_nil
-    query_el.attributes["role"].should == "request"
-    query_el.attributes["searchTerms"].should == ""
-    query_el.attributes["startPage"].should == "2"    
+    expect(query_el).not_to be_nil
+    expect(query_el.attributes["role"]).to eq("request")
+    expect(query_el.attributes["searchTerms"]).to eq("")
+    expect(query_el.attributes["startPage"]).to eq("2")    
   end
   
   it "should have ten entries" do
-    rendered.should have_selector("entry", :count => 10)
+    expect(rendered).to have_selector("entry", :count => 10)
   end
   
   describe "entries" do
     it "should have a title" do
-      rendered.should have_selector("entry > title")
+      expect(rendered).to have_selector("entry > title")
     end
     it "should have an updated" do
-      rendered.should have_selector("entry > updated")
+      expect(rendered).to have_selector("entry > updated")
     end
     it "should have html link" do
-      rendered.should have_selector("entry > link[rel=alternate][type='text/html']")
+      expect(rendered).to have_selector("entry > link[rel=alternate][type='text/html']")
     end
     it "should have an id" do
-      rendered.should have_selector("entry > id")
+      expect(rendered).to have_selector("entry > id")
     end
     it "should have a summary" do
-      rendered.should have_selector("entry > summary") 
+      expect(rendered).to have_selector("entry > summary") 
     end
     
     describe "with an author" do
@@ -93,7 +93,7 @@ describe "catalog/index" do
         @entry = @response_xml.elements.to_a("/feed/entry")[0]
       end
       it "should have author tag" do
-        @entry.elements["author/name"].should_not be_nil              
+        expect(@entry.elements["author/name"]).not_to be_nil              
       end
     end
     
@@ -102,7 +102,7 @@ describe "catalog/index" do
         @entry = @response_xml.elements.to_a("/feed/entry")[1]
       end
       it "should not have an author tag" do
-        @entry.elements["author/name"].should be_nil
+        expect(@entry.elements["author/name"]).to be_nil
       end
     end
   end
@@ -113,10 +113,10 @@ describe "catalog/index" do
         @entry = @response_xml.elements.to_a("/feed/entry")[0]
       end
       it "should include a link rel tag" do
-        @entry.to_s.should have_selector("link[rel=alternate][type='application/marc']")
+        expect(@entry.to_s).to have_selector("link[rel=alternate][type='application/marc']")
       end
       it "should have content embedded" do
-        @entry.to_s.should have_selector("content")
+        expect(@entry.to_s).to have_selector("content")
       end
     end
     describe "for an entry with NO content available" do
@@ -124,7 +124,7 @@ describe "catalog/index" do
         @entry = @response_xml.elements.to_a("/feed/entry")[5]
       end
       it "should include content" do
-        @entry.to_s.should_not have_selector("content[type='application/marc']")
+        expect(@entry.to_s).not_to have_selector("content[type='application/marc']")
       end
     end
   end

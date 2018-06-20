@@ -14,7 +14,10 @@ describe "Record View" do
     expect(page).to have_content "Book" 
     expect(page).to have_content "Call number:"
     expect(page).to have_content "E99.D2 H437 2008"
+    tmp_value = Capybara.ignore_hidden_elements
+    Capybara.ignore_hidden_elements = false
     expect(page).to have_selector("link[rel=alternate]")
+    Capybara.ignore_hidden_elements = tmp_value
     
   end
 
@@ -31,7 +34,7 @@ describe "Record View" do
   end
   it "should not display 404" do
     visit catalog_path('this_id_does_not_exist')
-    page.driver.status_code.should == 404
+    expect(page.driver.status_code).to eq(404)
     expect(page).to have_content "Sorry, you have requested a record that doesn't exist." 
   end
 end
