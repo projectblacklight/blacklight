@@ -1,18 +1,16 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.2.5
-gemfile:
-  - gemfiles/rails3.gemfile
-  - gemfiles/rails4.gemfile
-  - gemfiles/rails4.1.gemfile
+  - 2.3.7
 
 matrix:
   include:
-    - rvm: 2.3.1
-      gemfile: gemfiles/rails4.1.gemfile
-    - rvm: 2.1.10
-      gemfile: gemfiles/rails4.1.gemfile
+    - rvm: 2.3.7
+      env: "RAILS_VERSION=4.0.13"
+    - rvm: 2.3.7
+      env: "RAILS_VERSION=4.1.16"
+    - rvm: 2.3.7
+      env: "RAILS_VERSION=4.2.10"
 
 notifications:
   irc: "irc.freenode.org#blacklight"
