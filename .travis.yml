@@ -3,6 +3,8 @@ addons:
   chrome: stable
 language: ruby
 sudo: false
+services:
+  - elasticsearch
 
 notifications:
   email: false
@@ -29,6 +31,10 @@ before_install:
   - gem update --system
   - gem install bundler
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
+
+before_script:
+  - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
+  - curl -XPUT http://localhost:9200/elasticsearch_documents
 
 notifications:
   irc: "irc.freenode.org#blacklight"
