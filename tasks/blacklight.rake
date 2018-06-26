@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require 'solr_wrapper'
 require 'engine_cart/rake_task'
-
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern = 'spec/**/*_spec.rb'
@@ -15,17 +13,32 @@ EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
 task ci: ['blacklight:generate'] do
-  SolrWrapper.wrap do |solr|
-    solr.with_collection do
+  Rake::Task['blacklight:ci:elasticsearch'].invoke
+end
+
+namespace :blacklight do
+  namespace :ci do
+    task :solr do
+      require 'solr_wrapper'
+
+      SolrWrapper.wrap do |solr|
+        solr.with_collection do
+          within_test_app do
+            system "RAILS_ENV=test rake blacklight:index:seed"
+          end
+          Rake::Task['blacklight:coverage'].invoke
+        end
+      end
+    end
+
+    task :elasticsearch do
       within_test_app do
         system "RAILS_ENV=test rake blacklight:index:seed"
       end
       Rake::Task['blacklight:coverage'].invoke
     end
   end
-end
 
-namespace :blacklight do
   desc "Run tests with coverage"
   task :coverage do
     ENV['COVERAGE'] = 'true'
