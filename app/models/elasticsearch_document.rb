@@ -17,10 +17,7 @@ class ElasticsearchDocument
 
   def self.sortable field, type
     attribute field, type, mapping: {
-      fields: {
-        field: { type: 'text' },
-        raw: { type: 'keyword' }
-      }
+      type: 'keyword'
     }
   end
 
@@ -32,7 +29,7 @@ class ElasticsearchDocument
   attribute :lc_callnum_ssim, String
   attribute :title_tsim, String
   attribute :pub_date_ssim, String
-  sortable :pub_date_si, String
+  sortable :pub_date_si, Integer
   facetable :format, String
   attribute :material_type_ssim, String
   facetable :lc_b4cutter_ssim, String

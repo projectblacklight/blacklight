@@ -75,7 +75,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
     config.add_facet_field 'format', label: 'Format', field: 'format.raw'
-    config.add_facet_field 'pub_date_ssim', label: 'Publication Year', single: true
+    config.add_facet_field 'pub_date_ssim.keyword', label: 'Publication Year', single: true
     config.add_facet_field 'subject_ssim', label: 'Topic', limit: 20, index_range: 'A'..'Z', field: 'subject_topic_facet.raw'
     config.add_facet_field 'language_ssim', label: 'Language', limit: true, field: 'language_facet.raw'
     config.add_facet_field 'lc_1letter_ssim', label: 'Call Number', field: 'lc_1letter_facet.raw'
@@ -168,10 +168,10 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field 'relevance', sort: [{"_score" => { order: "desc" }}, {"pub_date_si.raw" => { order: "desc"}}, { "title_sort.raw" => { order: "asc"}}], label: 'relevance'
-    config.add_sort_field 'year', sort: [{"pub_date_si.raw" => { order: "desc"}}, { "title_si.raw" => { order: "asc"}}], label: 'year'
-    config.add_sort_field 'author', sort: [{"author_sort.raw" => { order: "asc"}}, { "title_si.raw" => { order: "asc"}}], label: 'author'
-    config.add_sort_field 'title', sort: [{ "title_si.raw" => { order: "asc"}}, {"pub_date_si.raw" => { order: "desc"}}], label: 'title'
+    config.add_sort_field 'relevance', sort: [{"_score" => { order: "desc" }}, {"pub_date_si" => { order: "desc"}}, { "title_si.keyword" => { order: "asc"}}], label: 'relevance'
+    config.add_sort_field 'year', sort: [{"pub_date_si" => { order: "desc"}}, { "title_si.keyword" => { order: "asc"}}], label: 'year'
+    config.add_sort_field 'author', sort: [{"author_sort" => { order: "asc"}}, { "title_si.keyword" => { order: "asc"}}], label: 'author'
+    config.add_sort_field 'title', sort: [{ "title_si.keyword" => { order: "asc"}}, {"pub_date_si" => { order: "desc"}}], label: 'title'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.

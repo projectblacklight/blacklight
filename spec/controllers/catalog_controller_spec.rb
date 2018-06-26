@@ -3,7 +3,7 @@
 RSpec.describe CatalogController, api: true do
   let(:doc_id) { '2007020969' }
   let(:mock_response) { instance_double(Blacklight::Solr::Response) }
-  let(:mock_document) { instance_double(SolrDocument, export_formats: {}) }
+  let(:mock_document) { instance_double(controller.blacklight_config.document_model, export_formats: {}) }
   let(:search_service) { instance_double(Blacklight::SearchService) }
 
   describe "index action" do
@@ -175,10 +175,9 @@ RSpec.describe CatalogController, api: true do
     end
 
     describe "with additional formats from configuration" do
-      let(:blacklight_config) { Blacklight::Configuration.new }
+      let(:blacklight_config) { controller.blacklight_config }
 
-      before :each do
-        allow(controller).to receive_messages blacklight_config: blacklight_config
+      before do
         allow(controller).to receive_messages search_results: [double, double]
       end
 
