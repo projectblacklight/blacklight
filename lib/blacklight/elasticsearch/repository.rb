@@ -33,6 +33,12 @@ module Blacklight::Elasticsearch
       def limit; end
     end
 
+    class NullSpelling
+      def words
+        []
+      end
+    end
+
     class SearchResponse
       attr_reader :response, :params
 
@@ -42,6 +48,10 @@ module Blacklight::Elasticsearch
       def initialize response, params
         @response = response
         @params = params
+      end
+
+      def inspect
+        "#<#{self.class.name} results=#{response.results}>"
       end
 
       def grouped?
@@ -58,6 +68,11 @@ module Blacklight::Elasticsearch
         agg = response.response.aggregations[field_name]
         return unless agg
         FacetResponse.new(field_name, agg)
+      end
+
+      # TODO: not yet implemented
+      def aggregations
+        {}
       end
 
       def facet_pivot *_args
@@ -85,7 +100,7 @@ module Blacklight::Elasticsearch
       end
 
       def spelling
-        nil
+        NullSpelling.new
       end
     end
 
@@ -93,8 +108,10 @@ module Blacklight::Elasticsearch
     # Find a single document result (by id) using the document configuration
     # @param [String] document's unique key value
     def find id, _params = {}
-      response = SingleDocumentResponse.new(blacklight_config.document_model.find(id))
+      response = SingleDocumentResponse.new(connection.find(id))
       response
+    rescue Elasticsearch::Persistence::Repository::DocumentNotFound
+      raise Blacklight::Exceptions::RecordNotFound
     end
 
     ##
@@ -102,7 +119,31 @@ module Blacklight::Elasticsearch
     # @param [Hash] elastic search query parameters
     def search params = {}
       Rails.logger.info "ES parameters: #{params.inspect}"
-      SearchResponse.new(blacklight_config.document_model.search(params), params)
+      SearchResponse.new(connection.search(params.to_h), params)
+    end
+
+    private
+
+    def build_connection
+      c = Elasticsearch::Client.new connection_config.except(:adapter, :index)
+      idx = connection_config[:index]
+      Elasticsearch::Persistence::Repository.new do
+        # Configure the Elasticsearch client
+        client c
+
+        # Set a custom index name
+        index idx
+
+        type :document
+
+        klass ElasticsearchDocument
+
+        settings number_of_shards: 1 do
+          mapping do
+            indexes :text, analyzer: 'snowball'
+          end
+        end
+      end
     end
   end
 end

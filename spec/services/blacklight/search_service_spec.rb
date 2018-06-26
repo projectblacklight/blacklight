@@ -11,12 +11,22 @@
 RSpec.describe Blacklight::SearchService, api: true do
 
   let(:service) { described_class.new(blacklight_config, user_params) }
-  let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
+  let(:repository) do
+    if copy_of_catalog_config.document_model == SolrDocument
+      Blacklight::Solr::Repository.new(blacklight_config)
+    else
+      Blacklight::Elasticsearch::Repository.new(blacklight_config)
+    end
+  end
   let(:user_params) { {} }
   subject { service }
-  let(:blacklight_config) { Blacklight::Configuration.new }
+  let(:blacklight_config) do
+    Blacklight::Configuration.new.tap do |conf|
+      conf.document_model = copy_of_catalog_config.document_model
+
+    end
+  end
   let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
-  let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config.except(:adapter)) }
 
   let(:all_docs_query) { '' }
   let(:no_docs_query) { 'zzzzzzzzzzzz' }
@@ -25,7 +35,6 @@ RSpec.describe Blacklight::SearchService, api: true do
 
   before do
     allow(service).to receive(:repository).and_return(repository)
-    service.repository.connection = blacklight_solr
   end
 
   # SPECS FOR SEARCH RESULTS FOR QUERY
@@ -34,20 +43,8 @@ RSpec.describe Blacklight::SearchService, api: true do
     let(:blacklight_config) { copy_of_catalog_config }
     describe 'for a sample query returning results' do
       let(:user_params) { { q: all_docs_query } }
-
       before do
         (@solr_response, @document_list) = service.search_results
-      end
-
-      it "uses the configured request handler" do
-        allow(blacklight_config).to receive(:default_solr_params).and_return({:qt => 'custom_request_handler'})
-        allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
-          expect(path).to eq 'select'
-          expect(params[:params]['facet.field']).to eq ["format", "{!ex=pub_date_ssim_single}pub_date_ssim", "subject_ssim", "language_ssim", "lc_1letter_ssim", "subject_geo_ssim", "subject_era_ssim"]
-          expect(params[:params]["facet.query"]).to eq ["pub_date_ssim:[#{5.years.ago.year} TO *]", "pub_date_ssim:[#{10.years.ago.year} TO *]", "pub_date_ssim:[#{25.years.ago.year} TO *]"]
-          expect(params[:params]).to include('rows' => 10, 'qt'=>"custom_request_handler", 'q'=>"", "f.subject_ssim.facet.limit"=>21, 'sort'=>"score desc, pub_date_si desc, title_si asc")
-        end.and_return({'response'=>{'docs'=>[]}})
-        service.search_results
       end
 
       it 'has a @response.docs list of the same size as @document_list' do
@@ -74,12 +71,16 @@ RSpec.describe Blacklight::SearchService, api: true do
       before do
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = 'pub_date_si'
-        (@solr_response, @document_list) = service.search_results
       end
 
       it "returns a grouped response" do
-        expect(@document_list).to be_empty
-        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        (solr_response, document_list) = service.search_results
+        expect(document_list).to be_empty
+        if copy_of_catalog_config.document_model == SolrDocument
+          expect(solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        else
+          expect(solr_response).to be_a_kind_of Blacklight::Elasticsearch::Repository::SearchResponse
+        end
       end
     end
 
@@ -90,13 +91,17 @@ RSpec.describe Blacklight::SearchService, api: true do
         allow(subject).to receive_messages grouped_key_for_results: 'title_si'
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = ['pub_date_si', 'title_si']
-        (@solr_response, @document_list) = service.search_results
       end
 
       it "returns a grouped response" do
-        expect(@document_list).to be_empty
-        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
-        expect(@solr_response.group_field).to eq "title_si"
+        (solr_response, document_list) = service.search_results
+        expect(document_list).to be_empty
+        if copy_of_catalog_config.document_model == SolrDocument
+          expect(solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        else
+          expect(solr_response).to be_a_kind_of Blacklight::Elasticsearch::Repository::SearchResponse
+        end
+        expect(solr_response.group_field).to eq "title_si"
       end
     end
 
@@ -151,6 +156,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
     before do
       (solr_response, document_list) = service.search_results
+      byebug
       @facets = solr_response.aggregations
     end
 
@@ -371,10 +377,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 # TODO: maybe eventually check other types of solr requests
 #  more like this
 #  nearby on shelf
-  it "raises a Blacklight exception if RSolr can't connect to the Solr instance" do
-    allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
-    expect { service.repository.search }.to raise_exception(/Unable to connect to Solr instance/)
-  end
+
 
   describe "#previous_and_next_documents_for_search" do
     let(:user_params) { { q: '', per_page: 100 } }

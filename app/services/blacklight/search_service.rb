@@ -113,7 +113,8 @@ module Blacklight
     def previous_and_next_document_params(index, window = 1)
       solr_params = blacklight_config.document_pagination_params.dup
 
-      if solr_params.empty?
+      # This is a Solr specific parameter, so we should move it elsewhere
+      if solr_params.empty? && blacklight_config.document_model == ::SolrDocument
         solr_params[:fl] = blacklight_config.document_model.unique_key
       end
 
@@ -125,7 +126,10 @@ module Blacklight
         solr_params[:rows] = 2 * window # but there should be one after
       end
 
-      solr_params[:facet] = false
+      # This is a Solr specific parameter, so we should move it elsewhere
+      if blacklight_config.document_model == ::SolrDocument
+        solr_params[:facet] = false
+      end
       solr_params
     end
 

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/_index_header" do
-  let :document do
-    SolrDocument.new :id => 'xyz', :format => 'a'
-  end
-
-  let(:blacklight_config) { Blacklight::Configuration.new }
+  let(:document) { blacklight_config.document_model.new(id: 'xyz', format: 'a') }
+  let(:document_model) { respond_to?(:solr_document_path) ? SolrDocument : ElasticsearchDocument }
+  let(:blacklight_config) { Blacklight::Configuration.new(document_model: document_model) }
 
   before do
+    # routes only are generated correctly for persisted models
+    allow(document).to receive(:persisted?).and_return(true)
     allow(controller).to receive(:action_name).and_return('index')
     assign :response, instance_double(Blacklight::Solr::Response, start: 0)
     allow(view).to receive(:render_grouped_response?).and_return false

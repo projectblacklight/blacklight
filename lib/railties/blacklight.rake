@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # frozen_string_literal: true
 
@@ -20,9 +21,11 @@ namespace :blacklight do
 
       case Blacklight.default_index
       when Blacklight::Elasticsearch::Repository
-        ElasticsearchDocument.create_index! force: true
+        require 'elasticsearch/persistence'
+        Blacklight.default_index.connection.create_index! force: true
         docs.each do |h|
-          ElasticsearchDocument.new(h.except('timestamp')).save
+          doc = ElasticsearchDocument.new(h.except('timestamp'))
+          Blacklight.default_index.connection.save(doc)
         end
       when Blacklight::Solr::Repository
         conn = Blacklight.default_index.connection

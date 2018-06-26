@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::Solr::Repository, api: true do
-
   let :blacklight_config do
     CatalogController.blacklight_config.deep_copy
   end
@@ -107,6 +106,11 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
   end
 
   describe "#send_and_receive" do
+    it "raises a Blacklight exception if RSolr can't connect to the Solr instance" do
+      allow(subject.connection).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
+      expect { subject.search }.to raise_exception(/Unable to connect to Solr instance/)
+    end
+
     describe "http_method configuration" do
       describe "using default" do
 
@@ -145,6 +149,4 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
       expect(response.docs.length).to be >= 1
     end
   end
-
-
 end

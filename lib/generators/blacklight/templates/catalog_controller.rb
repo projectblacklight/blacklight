@@ -168,10 +168,10 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field 'relevance', sort: [{"_score" => { order: "desc" }}, {"pub_date_sort.raw" => { order: "desc"}}, { "title_sort.raw" => { order: "asc"}}], label: 'relevance'
-    config.add_sort_field 'year', sort: [{"pub_date_sort.raw" => { order: "desc"}}, { "title_sort.raw" => { order: "asc"}}], label: 'year'
-    config.add_sort_field 'author', sort: [{"author_sort.raw" => { order: "asc"}}, { "title_sort.raw" => { order: "asc"}}], label: 'author'
-    config.add_sort_field 'title', sort: [{ "title_sort.raw" => { order: "asc"}}, {"pub_date_sort.raw" => { order: "desc"}}], label: 'title'
+    config.add_sort_field 'relevance', sort: [{"_score" => { order: "desc" }}, {"pub_date_si.raw" => { order: "desc"}}, { "title_sort.raw" => { order: "asc"}}], label: 'relevance'
+    config.add_sort_field 'year', sort: [{"pub_date_si.raw" => { order: "desc"}}, { "title_si.raw" => { order: "asc"}}], label: 'year'
+    config.add_sort_field 'author', sort: [{"author_sort.raw" => { order: "asc"}}, { "title_si.raw" => { order: "asc"}}], label: 'author'
+    config.add_sort_field 'title', sort: [{ "title_si.raw" => { order: "asc"}}, {"pub_date_si.raw" => { order: "desc"}}], label: 'title'
 
     # If there are more than this many search results, no spelling ("did you
     # mean") suggestion is offered.

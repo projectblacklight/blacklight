@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::UrlHelperBehavior do
-
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_tsim'
@@ -23,7 +22,8 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
   describe "url_for_document" do
     let(:controller_class) { ::CatalogController.new }
-    let(:doc) { SolrDocument.new }
+    let(:document_model) { controller_class.blacklight_config.document_model }
+    let(:doc) { document_model.new }
 
     before do
       allow(helper).to receive_messages(controller: controller_class)

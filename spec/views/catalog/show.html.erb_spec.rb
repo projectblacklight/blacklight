@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/show.html.erb" do
-  let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
+  let(:document_model) { respond_to?(:solr_document_path) ? SolrDocument : ElasticsearchDocument }
+  let(:document) { document_model.new id: 'xyz', format: 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before :each do

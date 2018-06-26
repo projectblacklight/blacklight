@@ -6,7 +6,7 @@ RSpec.describe "/catalog/_show" do
 
   include BlacklightHelper
   include CatalogHelper
-
+  let(:document_model) { respond_to?(:solr_document_path) ? SolrDocument : ElasticsearchDocument }
   before(:each) do
     allow(controller).to receive(:action_name).and_return('show')
     @config = Blacklight::Configuration.new do |config|
@@ -21,7 +21,7 @@ RSpec.describe "/catalog/_show" do
     @fname_3 = "empty_field"
     @fname_4 = "four_field"
 
-    @document = SolrDocument.new(id: 1, @fname_1 => "val_1", @fname_2 => "val2", @fname_4 => "val_4")
+    @document = document_model.new(id: 1, @fname_1 => "val_1", @fname_2 => "val2", @fname_4 => "val_4")
 
     @flabel_1 = "One:"
     @flabel_3 = "Two:"

@@ -34,7 +34,7 @@ before_install:
 
 before_script:
   - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
-  - curl -XPUT http://localhost:9200/elasticsearch_documents
+  - curl -XPUT http://localhost:9200/blacklight-core
 
 notifications:
   irc: "irc.freenode.org#blacklight"
