@@ -27,23 +27,18 @@ namespace :blacklight do
   namespace :check do
     desc "Check the Solr connection and controller configuration"
     task :solr, [:controller_name] => [:environment] do
-      errors = 0
-      verbose = ENV.fetch('VERBOSE', false).present?
-
-      conn = Blacklight.default_index.connection
-      puts "[#{conn.uri}]"
-
-      print " - admin/ping: "
       begin
-        response = conn.send_and_receive 'admin/ping', {}
-        puts response['status']
-        errors += 1 unless response['status'] == "OK"
+        conn = Blacklight.default_index
+        if conn.ping
+          puts "OK"
+        else
+          puts "Unable to reach: #{conn.uri}"
+          exit 1
+        end
       rescue => e
-        errors += 1
         puts e.to_s
+        exit 1
       end
-
-      exit 1 if errors > 0
     end
 
     task :controller, [:controller_name] => [:environment] do |_, args|

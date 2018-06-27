@@ -37,6 +37,14 @@ module Blacklight::Solr
     end
 
     ##
+    # @return [boolean] true if the repository is reachable
+    def ping
+      response = connection.send_and_receive 'admin/ping', {}
+      Blacklight.logger.info("Ping [#{connection.uri}] returned: '#{response['status']}'")
+      response['status'] == "OK"
+    end
+
+    ##
     # Execute a solr query
     # TODO: Make this private after we have a way to abstract admin/luke and ping
     # @see [RSolr::Client#send_and_receive]
