@@ -23,6 +23,13 @@ module Blacklight::Solr
     end
 
     ##
+    # Gets a list of available fields
+    # @return [Hash]
+    def reflect_fields
+      send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
+    end
+
+    ##
     # Execute a solr query
     # @see [RSolr::Client#send_and_receive]
     # @overload find(solr_path, params)
