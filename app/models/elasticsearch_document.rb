@@ -70,7 +70,15 @@ class ElasticsearchDocument
 
   # Overriding ActiveModel::Conversion to provide an id even for an unsaved object
   # See https://github.com/elastic/elasticsearch-rails/issues/804
+  # TODO: Remove?
   def to_param
     id
+  end
+
+  # Sometimes elasticsearch-model is returning false here even though we've
+  # retrieved the document from the store. Possibly because we're using elasticsearch-model
+  # to define properties, but elasticsearch as a repository to retreive the model
+  def persisted?
+    true
   end
 end
