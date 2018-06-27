@@ -70,6 +70,10 @@ module Blacklight::Elasticsearch
         FacetResponse.new(field_name, agg)
       end
 
+      def docs
+        response.results
+      end
+
       # TODO: not yet implemented
       def aggregations
         {}
