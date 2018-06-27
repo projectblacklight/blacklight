@@ -234,7 +234,7 @@ RSpec.describe CatalogController, api: true do
 
     it "redirects to show action for doc id" do
       put :track, params: { id: doc_id, counter: 3 }
-      assert_redirected_to(solr_document_path(doc_id))
+      assert_redirected_to("/catalog/#{doc_id}")
     end
 
     it "HTTP status code for redirect should be 303" do
