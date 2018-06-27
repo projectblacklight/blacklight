@@ -2,21 +2,14 @@
 
 RSpec.describe Blacklight::SuggestSearch do
   let(:params) { {q: 'test'} }
-  let(:suggest_path) { 'suggest' }
-  let(:connection) { instance_double(RSolr::Client, send_and_receive: 'sent')}
-  let(:repository) { instance_double(Blacklight::Solr::Repository, connection: connection) }
+  let(:response) { instance_double(Blacklight::Suggest::Response)}
+  let(:repository) { instance_double(Blacklight::Solr::Repository, suggestions: response) }
   let(:suggest_search) { described_class.new(params, repository)}
+
   describe '#suggestions' do
-    it 'returns a Blacklight::Suggest::Response' do
-      expect(suggest_search).to receive(:suggest_results).and_return([])
-      expect(suggest_search).to receive(:suggest_handler_path).and_return(suggest_path)
-      expect(suggest_search.suggestions).to be_an Blacklight::Suggest::Response
-    end
-  end
-  describe '#suggest_results' do
-    it 'calls send_and_recieve from a repository connection' do
-      expect(suggest_search).to receive(:suggest_handler_path).and_return(suggest_path)
-      expect(suggest_search.suggest_results).to eq 'sent'
+    it 'delegates to the repository' do
+      expect(repository).to receive(:suggestions).with(q: 'test').and_return(response)
+      expect(suggest_search.suggestions).to eq response
     end
   end
 end

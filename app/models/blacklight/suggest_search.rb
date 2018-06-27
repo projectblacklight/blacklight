@@ -1,10 +1,12 @@
 # frozen_string_literal: true
+
 module Blacklight
   class SuggestSearch
     attr_reader :request_params, :repository
 
     ##
     # @param [Hash] params
+    # @param [Blacklight::AbstractRepository] repository
     def initialize(params, repository)
       @request_params = { q: params[:q] }
       @repository = repository
@@ -15,20 +17,7 @@ module Blacklight
     # Blacklight::Suggest::Response
     # @return [Blacklight::Suggest::Response]
     def suggestions
-      Blacklight::Suggest::Response.new suggest_results, request_params, suggest_handler_path
-    end
-
-    ##
-    # Query the suggest handler using RSolr::Client::send_and_receive
-    # @return [RSolr::HashWithResponse]
-    def suggest_results
-      repository.connection.send_and_receive(suggest_handler_path, params: request_params)
-    end
-
-    ##
-    # @return [String]
-    def suggest_handler_path
-      repository.blacklight_config.autocomplete_path
+      repository.suggestions(request_params)
     end
   end
 end
