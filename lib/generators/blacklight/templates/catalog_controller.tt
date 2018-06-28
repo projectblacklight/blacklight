@@ -74,13 +74,13 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
 
-    config.add_facet_field 'format', label: 'Format'
-    config.add_facet_field 'pub_date_ssim<%= '.keyword' if index == 'elasticsearch' %>', label: 'Publication Year', single: true
-    config.add_facet_field 'subject_ssim', label: 'Topic', limit: 20, index_range: 'A'..'Z'
-    config.add_facet_field 'language_ssim', label: 'Language', limit: true
-    config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
-    config.add_facet_field 'subject_geo_ssim', label: 'Region'
-    config.add_facet_field 'subject_era_ssim', label: 'Era'
+    config.add_facet_field 'format', label: 'Format'<%= ", field: 'format.keyword'" if index == 'elasticsearch' %>
+    config.add_facet_field 'pub_date_ssim', label: 'Publication Year', single: true<%= ", field: 'pub_date_ssim.keyword'" if index == 'elasticsearch' %>
+    config.add_facet_field 'subject_ssim', label: 'Topic', limit: 20, index_range: 'A'..'Z'<%= ", field: 'subject_ssim.keyword'" if index == 'elasticsearch' %>
+    config.add_facet_field 'language_ssim', label: 'Language', limit: true<%= ", field: 'language_ssim.keyword'" if index == 'elasticsearch' %>
+    config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'<%= ", field: 'lc_1letter_ssim.keyword'" if index == 'elasticsearch' %>
+    config.add_facet_field 'subject_geo_ssim', label: 'Region'<%= ", field: 'subject_geo_ssim.keyword'" if index == 'elasticsearch' %>
+    config.add_facet_field 'subject_era_ssim', label: 'Era'<%= ", field: 'format.keyword'" if index == 'elasticsearch' %>
 
     config.add_facet_field 'example_pivot_field', label: 'Pivot Field', :pivot => ['format', 'language_ssim']
 

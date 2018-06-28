@@ -583,8 +583,16 @@ RSpec.describe CatalogController, api: true do
     end
 
     context 'for a facet field with a key different from the underlying field name' do
+      let(:field) do
+        if ENV['BLACKLIGHT_INDEX'] == 'elasticsearch'
+          'format.keyword'
+        else
+          'format'
+        end
+      end
+      
       before do
-        controller.blacklight_config.add_facet_field 'params_key', field: 'format'
+        controller.blacklight_config.add_facet_field 'params_key', field: field
       end
 
       it 'is successful' do

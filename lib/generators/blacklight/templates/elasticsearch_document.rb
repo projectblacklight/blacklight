@@ -6,15 +6,6 @@ class ElasticsearchDocument
   include Blacklight::Document
   include Elasticsearch::Persistence::Model
 
-  def self.facetable field, type
-    attribute field, type, mapping: {
-      fields: {
-        field: { type: 'text' },
-        raw: { type: 'keyword' }
-      }
-    }
-  end
-
   def self.sortable field, type
     attribute field, type, mapping: {
       type: 'keyword'
@@ -22,7 +13,9 @@ class ElasticsearchDocument
   end
 
   attribute :id, String
-  facetable :lc_1letter_ssim, String
+  attribute :lc_1letter_ssim, String, mapping: {
+    type: 'keyword'
+  }
   attribute :author_tsim, String
   attribute :marc_ss, String
   attribute :published_ssim, String
@@ -30,16 +23,23 @@ class ElasticsearchDocument
   attribute :title_tsim, String
   attribute :pub_date_ssim, String
   sortable :pub_date_si, Integer
-  facetable :format, String
+  attribute :format, String, mapping: {
+    type: 'keyword'
+  }
   attribute :material_type_ssim, String
-  facetable :lc_b4cutter_ssim, String
+  attribute :lc_b4cutter_ssim, String, mapping: {
+    type: 'keyword'
+  }
   sortable :title_si, String
   sortable :author_si, String
   attribute :title_addl_tsim, String
   attribute :author_addl_tsim, String
-  facetable :lc_alpha_ssim, String
-  facetable :language_ssim, String
-
+  attribute :lc_alpha_ssim, String, mapping: {
+    type: 'keyword'
+  }
+  attribute :language_ssim, String, mapping: {
+    type: 'keyword'
+  }
   # attribute :subtitle_display, String
   # attribute :author_vern_display, String
   # attribute :subject_addl_t, String

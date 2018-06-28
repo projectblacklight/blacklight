@@ -122,8 +122,12 @@ module Blacklight::Elasticsearch
     # Execute a search query
     # @param [Hash] elastic search query parameters
     def search params = {}
-      Rails.logger.info "ES parameters: #{params.inspect}"
+      Rails.logger.info "ES parameters: #{params.to_h}"
       SearchResponse.new(connection.search(params.to_h), params)
+    end
+
+    def suggestions(*)
+      []
     end
 
     private
