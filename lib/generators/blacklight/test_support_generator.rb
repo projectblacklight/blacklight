@@ -28,7 +28,7 @@ module Blacklight
     end
 
     def solr_document_config
-      insert_into_file 'app/models/solr_document.rb', after: "include Blacklight::Solr::Document" do
+      insert_into_file 'app/models/document.rb', after: "include Blacklight::Solr::Document" do
         <<-EOF
 
             field_semantics.merge!(

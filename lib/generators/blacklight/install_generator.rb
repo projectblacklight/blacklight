@@ -3,11 +3,11 @@ module Blacklight
   class Install < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
 
-    argument     :model_name, type: :string, default: "user"
-    argument     :controller_name, type: :string, default: "catalog"
-    argument     :document_name, type: :string, default: "solr_document"
-    argument     :search_builder_name, type: :string, default: "search_builder"
-    argument     :solr_version, type: :string, default: "latest"
+    argument :model_name, type: :string, default: "user"
+    argument :controller_name, type: :string, default: "catalog"
+    argument :document_name, type: :string, default: 'document'
+    argument :search_builder_name, type: :string, default: "search_builder"
+    argument :solr_version, type: :string, default: "latest"
 
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
