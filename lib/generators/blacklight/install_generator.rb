@@ -3,12 +3,13 @@ module Blacklight
   class Install < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
 
-    argument     :model_name, type: :string, default: "user"
-    argument     :controller_name, type: :string, default: "catalog"
-    argument     :document_name, type: :string, default: "solr_document"
-    argument     :search_builder_name, type: :string, default: "search_builder"
-    argument     :solr_version, type: :string, default: "latest"
+    argument :model_name, type: :string, default: "user"
+    argument :controller_name, type: :string, default: "catalog"
+    argument :search_builder_name, type: :string, default: "search_builder"
+    argument :solr_version, type: :string, default: "latest"
 
+    class_option :document_name, type: :string, default: "solr_document"
+    class_option :index, type: :string, default: 'solr'
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
     class_option :'skip-assets', type: :boolean, default: !defined?(Sprockets), desc: "Skip generating javascript and css assets into the application"
@@ -26,8 +27,12 @@ module Blacklight
       Thank you for Installing Blacklight.
     EOS
 
-    def add_solr_wrapper
-      generate 'blacklight:solr' unless options[:'skip-solr']
+    def add_index
+      if options[:index] == 'elasticsearch'
+        generate 'blacklight:elasticsearch'
+      else
+        generate 'blacklight:solr' unless options[:'skip-solr']
+      end
     end
 
     # Copy all files in templates/public/ directory to public/
@@ -44,15 +49,15 @@ module Blacklight
     end
 
     def generate_blacklight_document
-      generate 'blacklight:document', document_name
+      generate 'blacklight:document', options[:document_name], options[:index]
     end
 
     def generate_search_builder
-      generate 'blacklight:search_builder', search_builder_name
+      generate 'blacklight:search_builder', search_builder_name, options[:index]
     end
 
     def generate_blacklight_models
-      generate 'blacklight:models'
+      generate 'blacklight:models', options[:index]
     end
 
     def generate_blacklight_user
@@ -65,7 +70,7 @@ module Blacklight
     end
 
     def generate_controller
-      generate 'blacklight:controller', controller_name
+      generate 'blacklight:controller', controller_name, options[:document_name], options[:index]
     end
 
     def add_default_catalog_route

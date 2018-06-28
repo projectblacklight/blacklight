@@ -4,6 +4,8 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
 
     argument :controller_name, type: :string, default: "catalog"
+    argument :document_name, type: :string, default: "solr_document"
+    argument :index, type: :string, default: 'solr'
 
     desc <<-EOS
       This generator makes the following changes to your application:
@@ -23,7 +25,7 @@ module Blacklight
 
     # Generate blacklight catalog controller
     def create_blacklight_catalog
-      template "catalog_controller.rb", "app/controllers/#{controller_name}_controller.rb"
+      template "catalog_controller.tt", "app/controllers/#{controller_name}_controller.rb"
     end
 
     def inject_blacklight_routes

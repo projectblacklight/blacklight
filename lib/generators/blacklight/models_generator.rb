@@ -7,6 +7,7 @@ module Blacklight
     include Rails::Generators::Migration
 
     source_root File.expand_path('../templates', __FILE__)
+    argument :index, type: :string, default: 'solr'
 
     desc <<-EOS
     This generator makes the following changes to your application:
@@ -16,7 +17,7 @@ module Blacklight
 
     # Copy all files in templates/config directory to host config
     def create_configuration_files
-      copy_file "config/blacklight.yml", "config/blacklight.yml"
+      template "config/blacklight.yml.tt", "config/blacklight.yml"
     end
 
     # Setup the database migrations
@@ -29,7 +30,7 @@ module Blacklight
 
   concern :exportable, Blacklight::Routes::Exportable.new
 
-  resources :elasticsearch_documents, only: [:show], path: '/catalog', controller: 'catalog' do
+  resources :#{index}_documents, only: [:show], path: '/catalog', controller: 'catalog' do
     concerns :exportable
   end
 

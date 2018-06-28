@@ -4,7 +4,6 @@ require 'deprecation'
 require 'blacklight/open_struct_with_hash_access'
 require 'blacklight/nested_open_struct_with_hash_access'
 require 'jbuilder'
-require 'elasticsearch'
 
 module Blacklight
   autoload :AbstractRepository, 'blacklight/abstract_repository'

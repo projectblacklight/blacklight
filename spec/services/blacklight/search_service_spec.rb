@@ -156,7 +156,6 @@ RSpec.describe Blacklight::SearchService, api: true do
 
     before do
       (solr_response, document_list) = service.search_results
-      byebug
       @facets = solr_response.aggregations
     end
 

@@ -8,6 +8,7 @@ module Blacklight
     source_root File.expand_path('../templates', __FILE__)
 
     argument :model_name, type: :string, default: "solr_document"
+    argument :index, type: :string, default: 'solr'
 
     desc <<-EOS
       This generator makes the following changes to your application:
@@ -15,7 +16,7 @@ module Blacklight
     EOS
 
     def create_solr_document
-      template "solr_document.rb", "app/models/#{model_name}.rb"
+      template "#{index}_document.rb", "app/models/#{model_name}.rb"
     end
   end
 end

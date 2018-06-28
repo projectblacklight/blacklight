@@ -13,7 +13,8 @@ EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
 task ci: ['blacklight:generate'] do
-  Rake::Task['blacklight:ci:elasticsearch'].invoke
+  index = ENV.fetch('BLACKLIGHT_INDEX', 'solr')
+  Rake::Task["blacklight:ci:#{index}"].invoke
 end
 
 namespace :blacklight do
