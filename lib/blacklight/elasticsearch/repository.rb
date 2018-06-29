@@ -65,7 +65,7 @@ module Blacklight::Elasticsearch
       delegate :empty?, to: :results
 
       def facet_by_field_name field_name
-        agg = response.response.aggregations[field_name]
+        agg = aggregations[field_name]
         return unless agg
         FacetResponse.new(field_name, agg)
       end
@@ -74,9 +74,8 @@ module Blacklight::Elasticsearch
         response.results
       end
 
-      # TODO: not yet implemented
       def aggregations
-        {}
+        response.response.aggregations
       end
 
       def facet_pivot *_args
