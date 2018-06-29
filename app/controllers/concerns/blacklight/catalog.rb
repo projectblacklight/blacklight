@@ -102,6 +102,8 @@ module Blacklight::Catalog
     end
   end
 
+  # @return [Array] first value is a Blacklight::Solr::Response and the second
+  #                 is a list of documents
   def action_documents
     search_service.fetch(Array(params[:id]))
   end
