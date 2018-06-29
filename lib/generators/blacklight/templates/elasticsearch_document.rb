@@ -44,17 +44,17 @@ class ElasticsearchDocument
   # attribute :author_vern_display, String
   # attribute :subject_addl_t, String
   # facetable :subject_era_facet, String
-  # attribute :isbn_t, String
+  attribute :isbn_ssim, String
   # facetable :subject_geo_facet, String
   # facetable :subject_topic_facet, String
   # attribute :title_series_t, String
-  # attribute :subtitle_t, String
+  attribute :subtitle_tsim, String
   # attribute :title_vern_display, String
   # attribute :published_vern_display, String
   # attribute :subtitle_vern_display, String
   # attribute :subject_t, String
   # attribute :title_added_entry_t, String
-  # attribute :url_suppl_display, String
+  attribute :url_suppl_ssim, String
 
   def to_partial_path
     'catalog/document'
