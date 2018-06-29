@@ -7,10 +7,9 @@ module Blacklight::Elasticsearch
       class FacetField
         attr_reader :name, :items
 
-        def initialize name, items # , options = {}
+        def initialize name, items
           @name = name
           @items = items
-          # @options = options
         end
 
         def sort; end

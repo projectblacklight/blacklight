@@ -145,7 +145,7 @@ RSpec.describe CatalogController, api: true do
         expect(docs).to have(10).documents
         expect(docs.first['attributes'].keys).to match_array(
           %w[author_tsim format language_ssim lc_callnum_ssim published_ssim title_tsim])
-        expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
+        expect(docs.first['links']['self']).to eq "http://test.host/catalog/#{docs.first['id']}"
       end
 
       it "gets the facets" do
@@ -458,7 +458,8 @@ RSpec.describe CatalogController, api: true do
           .and_return double(deliver: nil)
         post :email, params: { id: doc_id, to: 'test_email@projectblacklight.org', message: 'xyz' }
         expect(request.flash[:error]).to be_nil
-        expect(request).to redirect_to(solr_document_path(doc_id))
+        expect(request).to redirect_to("/catalog/#{doc_id}")
+
       end
       it "renders email_success for XHR requests" do
         post :email, xhr: true, params: { id: doc_id, to: 'test_email@projectblacklight.org' }
