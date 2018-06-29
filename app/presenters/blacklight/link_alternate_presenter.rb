@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   # Create <link rel="alternate"> links from a documents dynamically
   class LinkAlternatePresenter

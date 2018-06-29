@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.entry do
   xml.title index_presenter(document).label(document_show_link_field(document))
   

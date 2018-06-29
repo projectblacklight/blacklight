@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   class DocumentFactory
     def self.build(data, response, options)

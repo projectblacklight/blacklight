@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # Module to help generate icon helpers for SVG images
 module Blacklight::IconHelperBehavior

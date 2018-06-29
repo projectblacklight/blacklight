@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'solr_wrapper'
 require 'engine_cart/rake_task'
 

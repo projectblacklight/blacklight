@@ -1,4 +1,6 @@
 
+# frozen_string_literal: true
+
 namespace :blacklight do
   # task to clean out old, unsaved searches
   # rake blacklight:delete_old_searches[days_old]
