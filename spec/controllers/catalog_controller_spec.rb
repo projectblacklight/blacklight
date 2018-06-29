@@ -420,6 +420,7 @@ RSpec.describe CatalogController, api: true do
       get :suggest, params: { format: 'json' }
       expect(response.body).to eq [].to_json
     end
+
     it 'returns suggestions' do
       get :suggest, params: { format: 'json', q: 'new' }
       json = JSON.parse(response.body)
@@ -590,7 +591,7 @@ RSpec.describe CatalogController, api: true do
           'format'
         end
       end
-      
+
       before do
         controller.blacklight_config.add_facet_field 'params_key', field: field
       end

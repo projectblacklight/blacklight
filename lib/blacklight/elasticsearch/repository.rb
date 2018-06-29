@@ -112,8 +112,7 @@ module Blacklight::Elasticsearch
     # Find a single document result (by id) using the document configuration
     # @param [String] document's unique key value
     def find id, _params = {}
-      response = SingleDocumentResponse.new(connection.find(id))
-      response
+      SingleDocumentResponse.new(connection.find(id))
     rescue Elasticsearch::Persistence::Repository::DocumentNotFound
       raise Blacklight::Exceptions::RecordNotFound
     end
@@ -126,8 +125,9 @@ module Blacklight::Elasticsearch
       SearchResponse.new(connection.search(params.to_h), params)
     end
 
-    def suggestions(*)
-      []
+    def suggestions(request_params)
+      key = 'resp'
+      Blacklight::Suggest::Response.new({}, request_params, key)
     end
 
     private
