@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Response do
+RSpec.describe Blacklight::Solr::Response, api: true do
   let(:raw_response) { eval(mock_query_response) }
 
   let(:config) { Blacklight::Configuration.new }
@@ -25,7 +25,7 @@ RSpec.describe Blacklight::Solr::Response do
     expect(r).to respond_to(:response)
     expect(r.docs).to have(11).docs
     expect(r.params[:echoParams]).to eq 'EXPLICIT'
-    
+
     expect(r).to be_a(Blacklight::Solr::Response::Facets)
   end
 
@@ -88,7 +88,7 @@ RSpec.describe Blacklight::Solr::Response do
 
     it "should work like an openstruct" do
       item = Blacklight::Solr::Response::Facets::FacetItem.new(:value => 'value', :hits => 15)
-      
+
       expect(item.hits).to eq 15
       expect(item.value).to eq 'value'
       expect(item).to be_a_kind_of(OpenStruct)
@@ -204,12 +204,12 @@ RSpec.describe Blacklight::Solr::Response do
     allow(r).to receive_messages(:total => 0)
     expect(r).to be_empty
   end
-  
+
   describe "#export_formats" do
     it "should collect the unique export formats for the current response" do
       r = Blacklight::Solr::Response.new({}, {})
       allow(r).to receive_messages(documents: [double(:export_formats => { a: 1, b: 2}), double(:export_formats => { b: 1, c: 2})])
-      expect(r.export_formats).to include :a, :b 
+      expect(r.export_formats).to include :a, :b
     end
   end
 

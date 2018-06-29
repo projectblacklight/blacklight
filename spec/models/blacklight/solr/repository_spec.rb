@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Repository do
+RSpec.describe Blacklight::Solr::Repository, api: true do
 
   let :blacklight_config do
     CatalogController.blacklight_config.deep_copy
@@ -94,12 +94,12 @@ RSpec.describe Blacklight::Solr::Repository do
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc'})).and_return(mock_response)
       expect(subject.search({qt: 'abc'})).to be_a_kind_of Blacklight::Solr::Response
     end
-    
+
     it "should preserve the class of the incoming params" do
       search_params = ActiveSupport::HashWithIndifferentAccess.new
       search_params[:q] = "query"
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
-      
+
       response = subject.search(search_params)
       expect(response).to be_a_kind_of Blacklight::Solr::Response
       expect(response.params).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess

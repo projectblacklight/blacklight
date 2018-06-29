@@ -8,7 +8,7 @@
 #  to talk with solr and get results)? when we do a document request, does
 #  blacklight code get a single document returned?)
 #
-RSpec.describe Blacklight::SearchService do
+RSpec.describe Blacklight::SearchService, api: true do
 
   let(:service) { described_class.new(blacklight_config, user_params) }
   let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }

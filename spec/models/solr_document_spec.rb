@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe SolrDocument do
+RSpec.describe SolrDocument, api: true do
   describe "access methods" do
     let(:solrdoc) do
       SolrDocument.new(id: '00282214', format: ['Book'], title_tsim: 'some-title')

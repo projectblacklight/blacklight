@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Blacklight::Configurable" do
+RSpec.describe "Blacklight::Configurable", api: true do
 
   describe "inheritence" do
     before(:all) do

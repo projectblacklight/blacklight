@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Document do
+RSpec.describe Blacklight::Document, api: true do
   let(:data) { {} }
   subject do
     Class.new do
@@ -14,7 +14,7 @@ RSpec.describe Blacklight::Document do
         data[:x] = true
         expect(subject).to have_field(:x)
       end
-      
+
       it "does not have the field if the field is not in the data" do
         expect(subject).not_to have_field(:x)
       end
@@ -25,7 +25,7 @@ RSpec.describe Blacklight::Document do
         data[:x] = true
         expect(subject).to have_field(:x, true)
       end
-      
+
       it "does not have the field if the data does not have that value" do
         data[:x] = false
         expect(subject).not_to have_field(:x, true)
