@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Response::Facets do
+RSpec.describe Blacklight::Solr::Response::Facets, api: true do
   describe Blacklight::Solr::Response::Facets::FacetField do
 
     describe "A field with default options" do
@@ -78,7 +78,7 @@ RSpec.describe Blacklight::Solr::Response::Facets do
         expect(subject.aggregations['my_field'].sort).to eq 'count'
         expect(subject.aggregations['my_field'].count?).to eq true
       end
-      
+
       it "should default to index if no value is found and the limit is unlimited" do
         request_params['facet.limit'] = -1
         expect(subject.aggregations['my_field'].sort).to eq 'index'
@@ -114,7 +114,7 @@ RSpec.describe Blacklight::Solr::Response::Facets do
         }
       }
     end
-    
+
     subject { Blacklight::Solr::Response.new(response, {}) }
 
     it "should mark the facet.missing field with a human-readable label and fq" do
@@ -126,7 +126,7 @@ RSpec.describe Blacklight::Solr::Response::Facets do
   end
 
   describe "query facets" do
-    let(:facet_config) { 
+    let(:facet_config) {
       double(
         key: 'my_query_facet_field',
         :query => {
@@ -140,7 +140,7 @@ RSpec.describe Blacklight::Solr::Response::Facets do
     let(:blacklight_config) { double(facet_fields: { 'my_query_facet_field' => facet_config } )}
 
     let(:response) do
-      { 
+      {
         facet_counts: {
           facet_queries: {
             'field:search' => 10,
@@ -175,18 +175,18 @@ RSpec.describe Blacklight::Solr::Response::Facets do
     let(:facet_config) {
       double(key: 'my_pivot_facet_field', query: nil, pivot: ['field_a', 'field_b'])
     }
-    
+
     let(:blacklight_config) { double(facet_fields: { 'my_pivot_facet_field' => facet_config } )}
 
     let(:response) do
-      { 
+      {
         facet_counts: {
-          facet_pivot: { 
+          facet_pivot: {
             'field_a,field_b' => [
               {
-                field: 'field_a', 
-                value: 'a', 
-                count: 10, 
+                field: 'field_a',
+                value: 'a',
+                count: 10,
                 pivot: [{field: 'field_b', value: 'b', count: 2}]
               }]
           }

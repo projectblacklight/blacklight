@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Blacklight::Solr::Document" do
+RSpec.describe "Blacklight::Solr::Document", api: true do
     class MockDocument
       include Blacklight::Solr::Document
     end
@@ -33,7 +33,7 @@ RSpec.describe "Blacklight::Solr::Document" do
       end
     end
 
-   
+
     context "Unique Key" do
       before(:each) do
         MockDocument.unique_key = 'my_unique_key'
@@ -73,7 +73,7 @@ RSpec.describe "Blacklight::Solr::Document" do
         #Clear extensions
         MockDocument.registered_extensions = []
       end
-    
+
       it "should let you register an extension" do
         MockDocument.use_extension(MockExtension) { |doc| true }
 
@@ -98,19 +98,19 @@ RSpec.describe "Blacklight::Solr::Document" do
 
         without_extension = MockDocument.new(:other_key => "value")
         expect(without_extension.methods.find {|name| name.to_s == "my_extension_method"}).to be_nil
-        
+
       end
       it "should not apply an extension whose condition is not met" do
         MockDocument.use_extension(MockExtension) {|doc| false}
         doc = MockDocument.new()
-  
-        expect(doc.methods.find {|name| name.to_s == "my_extension_method"}).to be_nil      
+
+        expect(doc.methods.find {|name| name.to_s == "my_extension_method"}).to be_nil
       end
       it "should treat a nil condition as always applyable" do
         MockDocument.use_extension(MockExtension)
-  
+
         doc = MockDocument.new()
-  
+
         expect(doc.methods.find {|name | name.to_s =="my_extension_method"}).not_to be_nil
         expect(doc.my_extension_method).to eq "my_extension_results"
       end
@@ -118,7 +118,7 @@ RSpec.describe "Blacklight::Solr::Document" do
         MockDocument.use_extension(MockExtension)
         MockDocument.use_extension(MockSecondExtension)
 
-        expect(MockDocument.new().my_extension_method.to_s).to eq "override"        
+        expect(MockDocument.new().my_extension_method.to_s).to eq "override"
       end
 
       describe "extension_parameters class-level hash" do
@@ -126,7 +126,7 @@ RSpec.describe "Blacklight::Solr::Document" do
           MockDocument.extension_parameters[:key] = "value"
           expect(MockDocument.extension_parameters[:key]).to eq "value"
         end
-    
+
         it "extension_parameters should not be shared between classes" do
           class_one = Class.new do
             include Blacklight::Solr::Document
@@ -141,7 +141,7 @@ RSpec.describe "Blacklight::Solr::Document" do
           expect(class_one.extension_parameters[:key]).to eq "class_one_value"
         end
       end
-      
+
     end
 
     context "Will export as" do
@@ -163,7 +163,7 @@ RSpec.describe "Blacklight::Solr::Document" do
       it "looks up content-type from Mime::Type if not given in arg" do
         doc = MockDocument.new
         doc.will_export_as(:html)
-        expect(doc.export_formats).to have_key(:html)        
+        expect(doc.export_formats).to have_key(:html)
       end
 
       context "format not registered with Mime::Type" do
@@ -171,7 +171,7 @@ RSpec.describe "Blacklight::Solr::Document" do
           @doc = MockDocument.new
           @doc.will_export_as(:mock2, "application/mock2" )
           # Mime::Type doesn't give us a good way to clean up our new
-          # registration in an after, sorry. 
+          # registration in an after, sorry.
         end
         it "registers format" do
           expect(defined?("Mime::MOCK2")).to be_truthy
@@ -186,7 +186,7 @@ RSpec.describe "Blacklight::Solr::Document" do
         doc.will_export_as(:marc, "application/marc")
         expect(doc.export_as(:marc)).to eq "fake_marc"
       end
-      
+
       it "should know if a document is exportable" do
         doc = MockDocument.new
         doc.will_export_as(:marc, "application/marc")
@@ -196,7 +196,7 @@ RSpec.describe "Blacklight::Solr::Document" do
 
     context "to_semantic_fields" do
       class MockDocument
-          include Blacklight::Solr::Document                        
+          include Blacklight::Solr::Document
       end
       before do
         MockDocument.field_semantics.merge!(
@@ -205,18 +205,18 @@ RSpec.describe "Blacklight::Solr::Document" do
           something: "something_field"
         )
 
-        @doc1 = MockDocument.new( 
+        @doc1 = MockDocument.new(
            "title_field" => "doc1 title",
            "other_title" => "doc1 title other",
            "something_field" => ["val1", "val2"],
-           "not_in_list_field" => "weird stuff" 
+           "not_in_list_field" => "weird stuff"
          )
       end
 
-      it "should return complete dictionary based on config'd fields" do        
+      it "should return complete dictionary based on config'd fields" do
         expect(@doc1.to_semantic_values)
           .to eq title: ["doc1 title", "doc1 title other"], something: ["val1", "val2"]
-      end      
+      end
       it "should return empty array for a key without a value" do
         expect(@doc1.to_semantic_values[:author]).to be_empty
         expect(@doc1.to_semantic_values[:nonexistent_token]).to be_empty
@@ -225,9 +225,9 @@ RSpec.describe "Blacklight::Solr::Document" do
         expect(@doc1.to_semantic_values[:title]).to be_kind_of(Array)
       end
       it "should return complete array for a multi-value field" do
-        expect(@doc1.to_semantic_values[:something]).to eq ["val1", "val2"] 
+        expect(@doc1.to_semantic_values[:something]).to eq ["val1", "val2"]
       end
-      
+
     end
 
     context "highlighting" do

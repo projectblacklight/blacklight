@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Blacklight::Configuration" do
+RSpec.describe "Blacklight::Configuration", api: true do
 
   let(:config) do
     Blacklight::Configuration.new

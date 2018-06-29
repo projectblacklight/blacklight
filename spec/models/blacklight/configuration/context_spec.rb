@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Configuration::Context do
+RSpec.describe Blacklight::Configuration::Context, api: true do
 
   subject { described_class.new(context) }
   let(:context) { double }

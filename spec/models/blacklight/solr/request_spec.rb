@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Request do
+RSpec.describe Blacklight::Solr::Request, api: true do
   before do
     subject[:qt] = 'hey'
     subject[:fq] = ["what's up.", "dood"]
@@ -15,7 +15,7 @@ RSpec.describe Blacklight::Solr::Request do
     subject['spellcheck'] = "a"
     subject['spellcheck.q'] = "fleece"
     subject['f.title_facet.facet.limit'] = "vest"
-    subject['facet.field'] = [] 
+    subject['facet.field'] = []
   end
   it "should accept valid parameters" do
     expect(subject.to_hash).to eq({"defType" => "had",
