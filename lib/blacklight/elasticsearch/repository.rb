@@ -12,6 +12,7 @@ module Blacklight::Elasticsearch
       end
     end
 
+    # TODO: remove?
     class FacetResponse
       attr_reader :name, :aggregation
 
@@ -64,8 +65,9 @@ module Blacklight::Elasticsearch
 
       delegate :empty?, to: :results
 
+      # TODO: remove?
       def facet_by_field_name field_name
-        agg = aggregations[field_name]
+        agg = response.response.aggregations[field_name]
         return unless agg
         FacetResponse.new(field_name, agg)
       end
@@ -74,8 +76,16 @@ module Blacklight::Elasticsearch
         response.results
       end
 
+      # Get the aggregations from ES and transform them to look like Solr facets
       def aggregations
-        response.response.aggregations
+        raw = response.response.aggregations
+        raw.each_with_object({}) do |(k, v), o|
+          items = v.buckets.to_a.map { |f| Blacklight::Elasticsearch::Response::Facets::FacetItem.new(value: f['key'], hits: f['doc_count']) }
+          o[k] = Blacklight::Elasticsearch::Response::Facets::FacetField.new(k, items)
+        end
+        # response.response.aggregations.each_with_object({}) do |(field_name, agg), o|
+        #   o[field_name] = FacetResponse.new(field_name, agg)
+        # end
       end
 
       def facet_pivot *_args
