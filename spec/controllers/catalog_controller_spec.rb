@@ -5,6 +5,14 @@ RSpec.describe CatalogController, api: true do
   let(:mock_response) { instance_double(Blacklight::Solr::Response) }
   let(:mock_document) { instance_double(controller.blacklight_config.document_model, export_formats: {}) }
   let(:search_service) { instance_double(Blacklight::SearchService) }
+  let(:format_field) do
+    if ENV['BLACKLIGHT_INDEX'] == 'elasticsearch'
+      'format.keyword'
+    else
+      'format'
+    end
+  end
+
 
   describe "index action" do
     context "with format :html" do
@@ -151,10 +159,9 @@ RSpec.describe CatalogController, api: true do
       it "gets the facets" do
         expect(facets).to have(9).facets
 
-        format = facets.find { |x| x['id'] == 'format' }
-
+        format = facets.find { |x| x['id'] == format_field }
         expect(format['attributes']['items'].map { |x| x['attributes'] }).to match_array([{"value"=>"Book", "hits"=>30, "label"=>"Book"}])
-        expect(format['links']['self']).to eq facet_catalog_url(format: :json, id: 'format')
+        expect(format['links']['self']).to eq facet_catalog_url(format: :json, id: format_field)
         expect(format['attributes']['items'].first['links']['self']).to eq search_catalog_url(format: :json, f: { format: ['Book']})
       end
 
@@ -429,7 +436,7 @@ RSpec.describe CatalogController, api: true do
     end
   end
 
-  describe "email/sms" do
+  describe "email/sms", api: false do
     let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
       allow(controller).to receive(:search_service).and_return(search_service)
@@ -439,7 +446,7 @@ RSpec.describe CatalogController, api: true do
       SolrDocument.use_extension( Blacklight::Document::Sms )
     end
 
-    describe "email", api: false do
+    describe "email" do
       it "gives error if no TO parameter" do
         post :email, params: { id: doc_id }
         expect(request.flash[:error]).to eq "You must enter a recipient in order to send this message"
@@ -468,7 +475,7 @@ RSpec.describe CatalogController, api: true do
       end
     end
 
-    describe "sms", api: false do
+    describe "sms" do
       it "gives error if no phone number is given" do
         post :sms, params: { id: doc_id, carrier: 'att' }
         expect(request.flash[:error]).to eq "You must enter a recipient's phone number in order to send this message"
@@ -585,16 +592,8 @@ RSpec.describe CatalogController, api: true do
     end
 
     context 'for a facet field with a key different from the underlying field name' do
-      let(:field) do
-        if ENV['BLACKLIGHT_INDEX'] == 'elasticsearch'
-          'format.keyword'
-        else
-          'format'
-        end
-      end
-
       before do
-        controller.blacklight_config.add_facet_field 'params_key', field: field
+        controller.blacklight_config.add_facet_field 'params_key', field: format_field
       end
 
       it 'is successful' do
@@ -604,7 +603,7 @@ RSpec.describe CatalogController, api: true do
 
         expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
         expect(assigns[:facet].key).to eq 'params_key'
-        expect(assigns[:facet].field).to eq 'format'
+        expect(assigns[:facet].field).to eq format_field
 
         expect(assigns[:pagination].items.first['value']).to eq 'Book'
       end
