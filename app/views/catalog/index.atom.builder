@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'base64'
 
 xml.instruct!(:xml, encoding: "UTF-8")

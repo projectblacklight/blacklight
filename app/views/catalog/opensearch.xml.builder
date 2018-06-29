@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.instruct! :xml, version: '1.0'
 xml.OpenSearchDescription(xmlns: 'http://a9.com/-/spec/opensearch/1.1/') {
   xml.ShortName application_name

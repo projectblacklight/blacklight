@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   class Icon
     attr_reader :icon_name

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   # These are data types that blacklight can use to coerce values from the index
   module Types

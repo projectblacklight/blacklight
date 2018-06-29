@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   # Renders a field and handles link_to_facet or helper_method if supplied
   class FieldPresenter

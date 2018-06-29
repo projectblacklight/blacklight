@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   class SearchBarPresenter
     attr_reader :configuration, :view_context, :controller

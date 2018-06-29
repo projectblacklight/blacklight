@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Blacklight
   module Rendering
     # The field rendering pipeline
