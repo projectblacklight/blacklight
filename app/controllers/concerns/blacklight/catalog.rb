@@ -49,7 +49,7 @@ module Blacklight::Catalog
 
     respond_to do |format|
       format.html { @search_context = setup_next_and_previous_documents }
-      format.json { render json: { response: { document: @document } } }
+      format.json
       additional_export_formats(@document, format)
     end
   end

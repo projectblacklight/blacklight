@@ -2,9 +2,18 @@
 
 RSpec.describe "catalog/index.json", api: true do
   let(:response) { instance_double(Blacklight::Solr::Response, documents: docs, prev_page: nil, next_page: 2, total_pages: 3) }
-  let(:docs) { [SolrDocument.new(id: '123', title_tsim: 'Book1'), SolrDocument.new(id: '456', title_tsim: 'Book2')] }
+  let(:docs) do
+     [
+       SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie'),
+       SolrDocument.new(id: '456', title_tsim: 'Book2', author_tsim: 'Rosie')
+     ]
+  end
   let(:facets) { double("facets") }
-  let(:config) { Blacklight::Configuration.new }
+  let(:config) do
+    Blacklight::Configuration.new do |config|
+      config.add_index_field 'title_tsim', label: 'Title:'
+    end
+  end
   let(:presenter) { Blacklight::JsonPresenter.new(response, facets, config) }
 
   let(:hash) do
@@ -45,12 +54,12 @@ RSpec.describe "catalog/index.json", api: true do
     expect(hash).to include(data: [
       {
         id: '123',
-        attributes: { 'id' => '123', 'title_tsim' => 'Book1' },
+        attributes: { 'title_tsim' => 'Book1' },
         links: { self: 'http://test.host/catalog/123' }
       },
       {
         id: '456',
-        attributes: { 'id' => '456', 'title_tsim' => 'Book2' },
+        attributes: { 'title_tsim' => 'Book2' },
         links: { self: 'http://test.host/catalog/456' }
       },
     ])

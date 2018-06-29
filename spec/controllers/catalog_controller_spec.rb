@@ -143,9 +143,8 @@ RSpec.describe CatalogController, api: true do
 
       it "gets the documents" do
         expect(docs).to have(10).documents
-        expect(docs.first['attributes'].keys).to include(
-          "author_tsim", "format", "title_tsim", "id", "subject_ssim",
-           "language_ssim", "score", "timestamp")
+        expect(docs.first['attributes'].keys).to match_array(
+          %w[author_tsim format language_ssim lc_callnum_ssim published_ssim title_tsim])
         expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
       end
 
@@ -270,13 +269,14 @@ RSpec.describe CatalogController, api: true do
     end
 
     describe "with format :json" do
+      render_views
       it "gets the feed" do
         get :show, params: { id: doc_id, format: 'json' }
         expect(response).to be_successful
         json = JSON.parse response.body
-        expect(json["response"]["document"].keys).to include(
-          "author_tsim", "format", "title_tsim", "id", "subject_ssim",
-          "language_ssim", "timestamp")
+        expect(json["data"]["attributes"].keys).to match_array(
+          %w[author_tsim format isbn_ssim language_ssim lc_callnum_ssim
+             published_ssim subtitle_tsim title_tsim url_suppl_ssim])
       end
     end
 
