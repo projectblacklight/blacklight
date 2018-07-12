@@ -16,10 +16,10 @@ module Blacklight
     def alternate_controller
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"
 
-      routing_code = <<-EOF.strip_heredoc
-        resource :alternate, controller: 'alternate', only: [:index] do
-          concerns :searchable
-        end
+      routing_code = <<-EOF
+    resource :alternate, controller: 'alternate', only: [:index] do
+      concerns :searchable
+    end
       EOF
 
       sentinel = /concern :searchable[^\n]+\n/
@@ -32,9 +32,9 @@ module Blacklight
         <<-EOF
 
             field_semantics.merge!(
-              title: "title_display",
-              author: "author_display",
-              language: "language_facet",
+              title: "title_tsim",
+              author: "author_tsim",
+              language: "language_ssim",
               format: "format")
         EOF
       end

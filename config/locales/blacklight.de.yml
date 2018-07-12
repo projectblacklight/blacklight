@@ -3,26 +3,28 @@ de:
     pagination:
       first: '&laquo; Erste'
       last: 'Letzte &raquo;'
-      previous: '&laquo; Vorig'
+      previous: '&laquo; Voherige'
       next: 'Nächste &raquo;'
       truncate: '…'
 
     pagination_compact:
-      previous: '&laquo; Vorig'
+      previous: '&laquo; Voherige'
       next: 'Nächste &raquo;'
 
   blacklight:
     application_name: 'Blacklight'
-
     header_links:
       login: 'Anmelden'
       logout: 'Ausloggen'
       bookmarks: 'Lesezeichen'
-      search_history: 'Geschichte'
+      search_history: 'Suchverlauf'
 
-    welcome: 'Wilkommen!'
+    welcome: 'Willkommen!'
     and: 'und'
     or: 'oder'
+
+    modal:
+      close: Schließen
 
     bookmarks:
       title: 'Lesezeichen'
@@ -33,39 +35,39 @@ de:
         success:
           one: 'Lesezeichen erfolgreich hinzugefügt.'
           other: 'Lesezeichen erfolgreich hinzugefügt.'
-        failure:  'Entschuldigung, es gab ein Problem beim speichern von Lesezeichen.'
+        failure:  'Entschuldigung, es gab ein Problem beim Speichern der Lesezeichen.'
       remove:
         button: 'Lesezeichen entfernen'
         success: 'Lesezeichen erfolgreich gelöscht.'
-        failure: 'Entschuldigung, es gab ein Problem bein löschen von Lesezeichen.'
-        action_confirm: 'Entfernen dieses Lesezeichen?'
+        failure: 'Entschuldigung, es gab ein Problem beim Löschen der Lesezeichen.'
+        action_confirm: 'Dieses Lesezeichen entfernen?'
       clear:
         action_title: 'Lesezeichen löschen'
-        action_confirm: 'Löschen deine Lesezeichen?'
-        success: 'Dein Lesezeichen sind gelöscht gewesen.'
-        failure: 'Entschuldigung, es gab ein Problem beim löschen von Lesezeichen.'
-      need_login: 'Bitte melden Sie sich an, um Ihre Lesezeichen verwalten und ansehen.'
-      list_title: 'Dein Lesezeichen'
+        action_confirm: 'Ihre Lesezeichen löschen?'
+        success: 'Ihre Lesezeichen wurden gelöscht.'
+        failure: 'Entschuldigung, es gab ein Problem beim Löschen der Lesezeichen.'
+      need_login: 'Bitte melden Sie sich an, um Ihre Lesezeichen zu verwalten und anzusehen.'
+      list_title: 'Ihre Lesezeichen'
       delete: 'Löschen'
 
     search_history:
       clear:
-        action_title: 'Löschen Suchverlauf'
-        action_confirm: 'Löschen dein Suchverlauf?'
+        action_title: 'Suchverlauf löschen'
+        action_confirm: 'Ihren Suchverlauf löschen?'
         success: 'Suchverlauf gelöscht.'
-        failure: 'Es gab ein Problem beim löschen von Suchverlauf.'
+        failure: 'Es gab ein Problem beim Löschen des Suchverlaufs.'
       title: 'Suchverlauf'
       page_title: 'Suchverlauf - %{application_name}'
-      no_history: 'Sie haben keine Suchverlauf'
-      recent: 'Deine neueste Suchen'
+      no_history: 'Sie haben keinen Suchverlauf'
+      recent: 'Ihre neuesten Suchen'
       forget: 'vergessen'
       save: 'speichern'
 
     tools:
       title: 'Werkzeuge'
-      cite: 'Zitieren'
-      email: 'Email'
-      sms: 'SMS dieses'
+      citation: 'Zitieren'
+      email: 'E-Mail'
+      sms: 'SMS'
       clear: 'Löschen'
 
     citation:
@@ -75,10 +77,10 @@ de:
 
     email:
       form:
-        title: 'Email dieses'
-        to: 'Email:'
-        message: 'Meldung:'
-        submit: 'Abgeben'
+        title: 'E-Mail'
+        to: 'E-Mail-Adresse:'
+        message: 'Nachricht:'
+        submit: 'Senden'
       text:
         default_title: 'N/A'
         title: 'Titel: %{value}'
@@ -91,57 +93,58 @@ de:
         url: 'URL: %{url}'
         message: 'Mitteilung: %{message}'
 
-      success: "Email Verschickt"
+      success: "E-Mail verschickt"
 
       errors:
         to:
-          invalid: 'Sie müssen ein gültige E-Mail-Addresse eingeben'
-          blank: 'Sie müssen ein Empfänger eingeben, um dieses Mitteilung schicken'
+          invalid: 'Sie müssen eine gültige E-Mail-Addresse eingeben'
+          blank: 'Sie müssen einen Empfänger eingeben, um diese Mitteilung zu schicken'
     sms:
       form:
-        title: 'SMS dieses'
+        title: 'SMS'
         to: 'Telefonnummer:'
-        carrier: 'Netzbetrieber'
-        carrier_prompt: 'Bitte auswählen dein Netzbetrieber'
+        carrier: 'Netzbetreiber'
+        carrier_prompt: 'Bitte wählen Sie Ihren Netzbetreiber aus'
         submit: 'Schicken'
       text:
         title: '%{value}'
         author: ' von %{value}'
         url: 'Link: %{url}'
-      success: "SMS Verschicht"
+      success: "SMS verschickt"
       errors:
         to:
-          invalid: 'Sie müssen ein gültig 10 Stelle Telefonnummer wählen'
-          blank: "Sie müssen die Telefonnummer eines Empfängers eingeben, um dieses Mitteilung schicken"
+          invalid: 'Sie müssen eine gültige Telefonnummer mit 10 Stellen wählen'
+          blank: "Sie müssen die Telefonnummer eines Empfängers eingeben, um diese Mitteilung zu schicken"
         carrier:
-          blank: 'Sie müssen ein Netzbetrieber wählen'
-          invalid: "Sie müssen ein gültig Netzbetrieber wählen"
+          blank: 'Sie müssen einen Netzbetreiber wählen'
+          invalid: "Sie müssen einen gültigen Netzbetreiber wählen"
 
-    back_to_search: 'Zurück nach suchen'
-    back_to_bookmarks: 'Zuruch nach Lesezeichen'
+    back_to_search: 'Zurück zur Suche'
+    back_to_bookmarks: 'Zurück zu Lesezeichen'
 
     search:
       page_title:
         title: '%{constraints} - %{application_name} Suchergebnisse'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} ausgewählt'
-      search_results_header: 'Suchen'
+      header: 'Suchen'
+      search_constraints_header: 'Suchen'
       search_results: 'Suchergebnisse'
       errors:
-        request_error: "Entschuldigung, Ich habe dein Suche nicht verstanden."
-        invalid_solr_id: "Entschuldigung, Sie einen nicht vorhandenen Datensatz angefordert haben."
+        request_error: "Entschuldigung, ich habe Ihre Suche nicht verstanden."
+        invalid_solr_id: "Entschuldigung, Sie haben einen nicht vorhandenen Datensatz angefordert."
       per_page:
         label: '%{count}<span class="sr-only"> pro Seite</span>'
         button_label: '%{count} pro Seite'
-        title: 'Anzahl der Ergebnisse pro Seite angezeigt werden'
+        title: 'Anzahl der Ergebnisse, die pro Seite angezeigt werden'
         submit: 'Aktualisieren'
       sort:
-        label: 'Ordnen bei %{field}'
+        label: 'Ordnen nach %{field}'
         submit: 'Ergebnisse ordnen'
       form:
         search_field:
           label: 'Suchen in'
-          title: 'gezeilte Suchoptionen'
+          title: 'gezielte Suchoptionen'
           post_label: 'für'
         search:
           label: 'suchen nach'
@@ -161,8 +164,9 @@ de:
       documents:
         counter: '%{counter}. '
       facets:
-        title: 'Beschränken dein Suche'
+        title: 'Suche beschränken'
         clear: 'Löschen'
+        all: 'Alle'
         sort:
           count: 'Numerisch ordnen'
           index: 'A-Z Ordnen'
@@ -170,15 +174,16 @@ de:
         more_html: 'mehr <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[entfernen]'
+        missing: [fehlt]
       group:
         more: 'mehr »'
       filters:
-        title: 'Sie suchte nach:'
+        title: 'Sie suchten nach:'
         label: '%{label}:'
         remove:
-          value: 'Entfernen Zwang %{value}'
-          label_value: 'Entfernen Zwang %{label}: %{value}'
-      start_over: 'Wieder anfangen'
+          value: 'Filter %{value} entfernen'
+          label_value: 'Filter %{label}: %{value} entfernen'
+      start_over: 'Neu anfangen'
       index:
         label: '%{label}:'
       show:
@@ -187,20 +192,20 @@ de:
       rss_feed: 'RSS für Ergebnisse'
       atom_feed: 'Atom für Ergebnisse'
       bookmarks:
-        present: "Im Lesezeichen"
+        present: "In Lesezeichen"
         absent: "Lesezeichen"
         inprogress: "Speichern..."
       zero_results:
-        title: "Kein Ergebnisse für Ihere Suche gefunden"
-        modify_search: "Änderen Sie Ihere Suche"
-        use_fewer_keywords: "Benutzen Sie weniger Stichworten am anfang, danach verfeinen Sie dein Suche mit die links an der Linken Seite."
-        search_fields: "Sie haben bei %{search_fields} gesucht"
-        search_everything: "Suchen Sie von allem"
-      view_title: "Anschauen Ergebnisse als: "
+        title: "Keine Ergebnisse für Ihre Suche gefunden"
+        modify_search: "Ändern Sie Ihre Suche"
+        use_fewer_keywords: "Benutzen Sie anfangs weniger Stichworte, danach verfeinern Sie Ihre Suche mit den Links auf der linken Seite."
+        search_fields: "Sie haben nach %{search_fields} gesucht"
+        search_everything: "Suchen Sie nach allem"
+      view_title: "Ergebnisse ansehen als: "
       view:
         list: "Liste"
 
     entry_name:
-      default: 'eintrag'
+      default: 'Eintrag'
 
-    did_you_mean: 'Meinten Sie geben: %{options}?'
+    did_you_mean: 'Meinten Sie: %{options}?'

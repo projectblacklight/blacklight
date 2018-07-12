@@ -35,7 +35,7 @@ module Blacklight
           default_solr_params: {},
           ##
           # === Single document request configuration
-          # The solr rqeuest handler to use when requesting only a single document
+          # The solr request handler to use when requesting only a single document
           document_solr_request_handler: nil,
           # The path to send single document requests to solr
           document_solr_path: 'get',
@@ -281,7 +281,14 @@ module Blacklight
         end
       end
     end
-    alias_method :inheritable_copy, :deep_copy
+
+    # builds a copy for the provided controller class
+    def build(klass)
+      deep_copy.tap do |conf|
+        conf.klass = klass
+      end
+    end
+    alias_method :inheritable_copy, :build
 
     # Get a view configuration for the given view type
     # including default values from the index configuration
@@ -304,6 +311,7 @@ module Blacklight
     def add_show_tools_partial(name, opts = {})
       opts[:partial] ||= 'document_action'
       add_action(show.document_actions, name, opts)
+      klass && ActionBuilder.new(klass, name, opts).build
     end
     # rubocop:enable Metrics/LineLength
 
@@ -323,6 +331,18 @@ module Blacklight
     # @!macro partial_if_unless
     def add_nav_action(name, opts = {})
       add_action(navbar.partials, name, opts)
+    end
+
+    ##
+    # Add a section of config that only applies to documents with a matching display type
+    def for_display_type display_type, &block
+      self.fields_for_type ||= {}
+      fields_for_type[display_type] ||= self.class.new(&block)
+    end
+
+    def index_fields_for(document)
+      display_type = document.first(index.display_type_field)
+      for_display_type(display_type).index_fields.merge(index_fields)
     end
 
     private

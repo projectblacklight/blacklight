@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-##
+
+require 'globalid'
+
 ##
 # = Introduction
 # Blacklight::Document is the module with logic for a class representing
@@ -115,6 +117,22 @@ module Blacklight::Document
     attr_writer :unique_key
     def unique_key
       @unique_key ||= 'id'
+    end
+
+    # Define an attribute reader on a document model
+    # @Example
+    #   class SolrDocument
+    #     include Blacklight::Solr::Document
+    #     attribute :title, Blacklight::Types::String, 'title_tesim'
+    #   end
+    #
+    #   doc = SolrDocument.new(title_tesim: ["One flew over the cuckoo's nest"])
+    #   doc.title
+    #   #=> "One flew over the cuckoo's nest"
+    def attribute(name, type, field)
+      define_method name do
+        type.coerce(self[field])
+      end
     end
   end
 end

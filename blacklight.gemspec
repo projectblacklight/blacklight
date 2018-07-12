@@ -27,26 +27,24 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 5.0"
   s.add_dependency "globalid"
-  s.add_dependency "jbuilder"
+  s.add_dependency "jbuilder", '~> 2.7'
   s.add_dependency "nokogiri",  "~>1.6"     # XML Parser
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
-  s.add_dependency "bootstrap", "~> 4.0"
-  s.add_dependency "popper_js"
   s.add_dependency "deprecation"
-  s.add_dependency "twitter-typeahead-rails", '0.11.1.pre.corejavascript'
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
   s.add_development_dependency "solr_wrapper"
   s.add_development_dependency "rspec-rails", "~> 3.5"
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
-  s.add_development_dependency "capybara", '~> 2.6'
+  s.add_development_dependency "capybara", '~> 3'
   s.add_development_dependency "chromedriver-helper"
-  s.add_development_dependency "selenium-webdriver"
+  s.add_development_dependency "selenium-webdriver", '~> 3.12.0'
   s.add_development_dependency 'engine_cart', '~> 1.2'
   s.add_development_dependency "equivalent-xml"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "simplecov"
-  s.add_development_dependency "rubocop", '~> 0.49'
+  s.add_development_dependency "rubocop", '~> 0.56.0'
   s.add_development_dependency "rubocop-rspec", '~> 1.8'
+  s.add_development_dependency "i18n-tasks"
 end

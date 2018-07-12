@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::FacetPaginator do
+RSpec.describe Blacklight::Solr::FacetPaginator, api: true do
   let(:f1) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '792', value: 'Book') }
   describe "#as_json" do
     subject { described_class.new([f1], offset: 0, limit: nil).as_json }

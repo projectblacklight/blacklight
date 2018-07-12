@@ -1,9 +1,9 @@
 ---
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - P - Language & Literature
-  author_t:
+  author_tsim:
   - Ayaz, Shaikh,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00799cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00799cam
     a2200241 a 4500</leader><controlfield tag=\"001\">   00282214 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090120022042.0</controlfield><controlfield
     tag=\"008\">000417s1998    pk            000 0 urdo </controlfield><datafield
@@ -29,40 +29,40 @@
     tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Farruk̲h̲ī, Āṣif,</subfield><subfield
     code=\"d\">1959-</subfield></datafield><datafield tag=\"700\" ind1=\"1\" ind2=\"
     \"><subfield code=\"a\">Pīrzādah, Shāh Muḥammad.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Karācī
-  author_display: Ayaz, Shaikh, 1923-1997
-  lc_callnum_display:
+  author_tsim: Ayaz, Shaikh, 1923-1997
+  lc_callnum_ssim:
   - PK2788.9.A9 F55 1998
-  title_t:
+  title_tsim:
   - Fikr-i Ayāz /
-  pub_date:
+  pub_date_ssim:
   - '1998'
-  pub_date_sort: 1998
+  pub_date_si: 1998
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 375 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - PK2788.9.A9
-  title_display: Fikr-i Ayāz
-  title_sort: fikr-i ayāz
+  title_tsim: Fikr-i Ayāz
+  title_si: fikr-i ayāz
   id: 00282214
-  author_sort: Ayaz Shaikh 19231997 Fikri Ayāz
-  title_addl_t:
+  author_si: Ayaz Shaikh 19231997 Fikri Ayāz
+  title_addl_tsim:
   - Fikr-i Ayāz /
-  author_addl_t:
+  author_addl_tsim:
   - Farruk̲h̲ī, Āṣif,
   - Pīrzādah, Shāh Muḥammad.
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - PK
-  language_facet:
+  language_ssim:
   - Urdu
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - M - Music
-  author_t:
+  author_tsim:
   - Ayaz, Shaikh,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00778cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00778cam
     a22002417a 4500</leader><controlfield tag=\"001\">   00282371 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090120021204.0</controlfield><controlfield
     tag=\"008\">000509s1986    pk            000 0 urdo </controlfield><datafield
@@ -88,65 +88,65 @@
     his imprisonment in Sahiwal District jail during late 1960s.</subfield></datafield><datafield
     tag=\"504\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Includes bibliographical
     references.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Karācī
-  author_display: Ayaz, Shaikh, 1923-1997
-  lc_callnum_display:
+  author_tsim: Ayaz, Shaikh, 1923-1997
+  lc_callnum_ssim:
   - MLCME 2002/02660 (D)
-  title_t:
+  title_tsim:
   - Sāhivāl jail kī ḍāʼirī /
-  pub_date:
+  pub_date_ssim:
   - '1986'
-  pub_date_sort: 1986
+  pub_date_si: 1986
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 232 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - MLCME 2002/02660 (D)
-  title_display: Sāhivāl jail kī ḍāʼirī
-  title_sort: sāhivāl jail kī ḍāʼirī
+  title_tsim: Sāhivāl jail kī ḍāʼirī
+  title_si: sāhivāl jail kī ḍāʼirī
   id: 00282371
-  author_sort: Ayaz Shaikh 19231997 Sāhivāl jail kī ḍāʼirī
-  title_addl_t:
+  author_si: Ayaz Shaikh 19231997 Sāhivāl jail kī ḍāʼirī
+  title_addl_tsim:
   - Sāhivāl jail kī ḍāʼirī /
-  language_facet:
+  language_ssim:
   - Urdu
   timestamp: '2014-02-03T18:42:53.056Z'
-- subtitle_display: 'guft va gū-yi Akbar Ganjī bā ʻAbd Allāh Nūrī : bih payvast-i
+- subtitle_tsim: 'guft va gū-yi Akbar Ganjī bā ʻAbd Allāh Nūrī : bih payvast-i
     matn-i istīz̤āḥ-i ʻAbd Allāh Nūrī dar Majlis-i panjum'
-  author_vern_display: "‏نورى، عبد الله"
-  subject_addl_t:
+  author_vern_ssim: "‏نورى، عبد الله"
+  subject_addl_ssim:
   - Interviews
   - Trials, litigation, etc
   - Officials and employees Interviews
   - Politics and government 1997-
-  title_display: Naqdī barā-yi tamām-i fuṣūl
-  subject_era_facet:
+  title_tsim: Naqdī barā-yi tamām-i fuṣūl
+  subject_era_ssim:
   - 1997-
   id: 00313831
-  isbn_t:
+  isbn_ssim:
   - '9645625963'
-  subject_geo_facet:
+  subject_geo_ssim:
   - Iran
-  subject_topic_facet:
+  subject_ssim:
   - Nūrī, ʻAbd Allāh, 1949-
   - Iran. Vizārat-i Kishvar
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - DS
-  title_series_t:
+  title_series_tsim:
   - Farhang-i ʻumūmī
   - "‏فرهنگ  عمومى"
-  subtitle_t:
+  subtitle_tsim:
   - 'guft va gū-yi Akbar Ganjī bā ʻAbd Allāh Nūrī : bih payvast-i matn-i istīz̤āḥ-i
     ʻAbd Allāh Nūrī dar Majlis-i panjum.'
   - "‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن استيضاح عبد الله نورى در
     مجلس پنجم"
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - D - World History
-  author_t:
+  author_tsim:
   - Nūrī, ʻAbd Allāh,
   - "‏نورى، عبد الله"
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01988cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01988cam
     a2200421 a 4500</leader><controlfield tag=\"001\">   00313831 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121100001.0</controlfield><controlfield
     tag=\"008\">010611s2000    ir       b    001 0dper d</controlfield><datafield
@@ -205,54 +205,54 @@
     code=\"6\">600-07/(3/r‏</subfield><subfield code=\"a\">‏نورى، عبد الله.</subfield></datafield><datafield
     tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">700-08/(3/r‏</subfield><subfield
     code=\"a\">‏گنجى، اكبر.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Tihrān
-  author_display: Nūrī, ʻAbd Allāh, 1949-
-  title_vern_display: "‏نقدى براى تمام فصول :‏"
-  lc_callnum_display:
+  author_tsim: Nūrī, ʻAbd Allāh, 1949-
+  title_vern_ssim: "‏نقدى براى تمام فصول :‏"
+  lc_callnum_ssim:
   - DS318.84.N87 N87 2000
-  title_t:
+  title_tsim:
   - 'Naqdī barā-yi tamām-i fuṣūl :'
   - "‏نقدى براى تمام فصول :‏"
-  pub_date:
+  pub_date_ssim:
   - '2000'
-  pub_date_sort: 2000
-  published_vern_display:
+  pub_date_si: 2000
+  published_vern_ssim:
   - "‏تهران :‏"
   format: Book
-  subtitle_vern_display: "‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن استيضاح
+  subtitle_vern_ssim: "‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن استيضاح
     عبد الله نورى در مجلس پنجم"
-  material_type_display:
+  material_type_ssim:
   - 245 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - DS318.84.N87
-  subject_t:
+  subject_tsim:
   - Nūrī, ʻAbd Allāh, 1949-
   - Iran. Vizārat-i Kishvar
   - Iran
   - "‏نورى، عبد الله"
-  title_sort: 'naqdī barā-yi tamām-i fuṣūl :guft va gū-yi akbar ganjī bā ʻabd
+  title_si: 'naqdī barā-yi tamām-i fuṣūl :guft va gū-yi akbar ganjī bā ʻabd
     allāh nūrī : bih payvast-i matn-i istīz̤āḥ-i ʻabd allāh nūrī dar majlis-i
     panjum'
-  author_sort: Nūrī ʻAbd Allāh 1949 Naqdī barāyi tamāmi fuṣūl guft va gūyi
+  author_si: Nūrī ʻAbd Allāh 1949 Naqdī barāyi tamāmi fuṣūl guft va gūyi
     Akbar Ganjī bā ʻAbd Allāh Nūrī  bih payvasti matni istīz̤āḥi ʻAbd Allāh
     Nūrī dar Majlisi panjum
-  title_addl_t:
+  title_addl_tsim:
   - 'Naqdī barā-yi tamām-i fuṣūl : guft va gū-yi Akbar Ganjī bā ʻAbd Allāh
     Nūrī : bih payvast-i matn-i istīz̤āḥ-i ʻAbd Allāh Nūrī dar Majlis-i panjum.'
   - 'Critique for all seasons : Akbar Ganji''s conversation with Abdullah Nuri'
   - "‏نقدى براى تمام فصول :‏ ‏گفت و گوى اکبر گنجى با عبد الله نورى : به پيوست  متن
     استيضاح عبد الله نورى در مجلس پنجم"
-  author_addl_t:
+  author_addl_tsim:
   - Ganjī, Akbar.
   - "‏گنجى، اكبر"
-  language_facet:
+  language_ssim:
   - Persian
   timestamp: '2014-02-03T18:42:53.056Z'
-- author_t:
+- author_tsim:
   - Yoshida, Hajime,
   - "吉田一"
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00956dam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00956dam
     a22002655a 4500</leader><controlfield tag=\"001\">   00314247 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126095911.0</controlfield><controlfield
     tag=\"008\">000214s1997    ja            000 0 jpn  </controlfield><datafield
@@ -286,55 +286,55 @@
     tag=\"880\" ind1=\"1\" ind2=\"4\"><subfield code=\"6\">600-04/$1</subfield><subfield
     code=\"a\">久保栄,</subfield><subfield code=\"d\">1901-1958.</subfield><subfield
     code=\"t\">火山灰地.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Tōkyō
-  title_vern_display: "久保栄 「火山灰地」 を読む"
-  author_display: Yoshida, Hajime, 1934-
-  title_t:
+  title_vern_ssim: "久保栄 「火山灰地」 を読む"
+  author_tsim: Yoshida, Hajime, 1934-
+  title_tsim:
   - Kubo Sakae "Kazanbaichi" o yomu /
   - "久保栄 「火山灰地」 を読む"
-  pub_date:
+  pub_date_ssim:
   - '1997'
-  pub_date_sort: 1997
-  published_vern_display:
+  pub_date_si: 1997
+  published_vern_ssim:
   - "東京"
   format: Book
-  author_vern_display: "吉田一, 1934-"
-  material_type_display:
+  author_vern_ssim: "吉田一, 1934-"
+  material_type_ssim:
   - 480 p.
-  title_display: Kubo Sakae "Kazanbaichi" o yomu
-  subject_addl_t:
+  title_tsim: Kubo Sakae "Kazanbaichi" o yomu
+  subject_addl_ssim:
   - 20th century
   - Japan History
-  subject_t:
+  subject_tsim:
   - Kubo, Sakae, 1901-1958. Kazanbaichi
   - Japanese drama
   - Political plays, Japanese
   - Theater
   - "久保栄, 1901-1958. 火山灰地"
-  subject_era_facet:
+  subject_era_ssim:
   - 20th century
-  title_sort: kubo sakae "kazanbaichi" o yomu
+  title_si: kubo sakae "kazanbaichi" o yomu
   id: '00314247'
-  author_sort: Yoshida Hajime 1934 Kubo Sakae Kazanbaichi o yomu
-  title_addl_t:
+  author_si: Yoshida Hajime 1934 Kubo Sakae Kazanbaichi o yomu
+  title_addl_tsim:
   - Kubo Sakae "Kazanbaichi" o yomu /
   - "久保栄 「火山灰地」 を読む"
-  subject_geo_facet:
+  subject_geo_ssim:
   - Japan
-  subject_topic_facet:
+  subject_ssim:
   - Kubo, Sakae, 1901-1958
   - Japanese drama
   - Political plays, Japanese
   - Theater
-  language_facet:
+  language_ssim:
   - Japanese
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - D - World History
-  author_t:
+  author_tsim:
   - Vi︠a︡tkin, M. P. (Mikhail Porfirʹevich),
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00987cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00987cam
     a22002531  4500</leader><controlfield tag=\"001\">   43037890 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126171234.0</controlfield><controlfield
     tag=\"008\">810731m19419999ru b     b    000 0 ruso </controlfield><datafield
@@ -363,47 +363,47 @@
     tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Institut istorii (Akademii︠a︡
     nauk SSSR)</subfield></datafield><datafield tag=\"710\" ind1=\"2\" ind2=\" \"><subfield
     code=\"a\">Akademii︠a︡ nauk Kazakhskoĭ SSR, Alma Ata.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Moskva
-  author_display: Vi︠a︡tkin, M. P. (Mikhail Porfirʹevich), 1895-1967
-  lc_callnum_display:
+  author_tsim: Vi︠a︡tkin, M. P. (Mikhail Porfirʹevich), 1895-1967
+  lc_callnum_ssim:
   - DK861.K3 V5
-  title_t:
+  title_tsim:
   - Ocherki po istorii Kazakhskoĭ SSR.
-  pub_date:
+  pub_date_ssim:
   - '1941'
-  pub_date_sort: 1941
+  pub_date_si: 1941
   format: Book
-  material_type_display:
+  material_type_ssim:
   - v.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - DK861.K3
-  title_display: Ocherki po istorii Kazakhskoĭ SSR
-  subject_addl_t:
+  title_tsim: Ocherki po istorii Kazakhskoĭ SSR
+  subject_addl_ssim:
   - History
-  subject_t:
+  subject_tsim:
   - Kazakhstan
-  title_sort: ocherki po istorii kazakhskoĭ ssr
+  title_si: ocherki po istorii kazakhskoĭ ssr
   id: '43037890'
-  author_sort: Vi︠a︡tkin M P Mikhail Porfirʹevich 18951967 Ocherki po istorii Kazakhskoĭ
+  author_si: Vi︠a︡tkin M P Mikhail Porfirʹevich 18951967 Ocherki po istorii Kazakhskoĭ
     SSR
-  title_addl_t:
+  title_addl_tsim:
   - Ocherki po istorii Kazakhskoĭ SSR.
-  subject_geo_facet:
+  subject_geo_ssim:
   - Kazakhstan
-  author_addl_t:
+  author_addl_tsim:
   - Institut istorii (Akademii︠a︡ nauk SSSR)
   - Akademii︠a︡ nauk Kazakhskoĭ SSR, Alma Ata.
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - DK
-  language_facet:
+  language_ssim:
   - Russian
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - K - Law
-  author_t:
+  author_tsim:
   - Korea (North)
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00955cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00955cam
     a22002411  4500</leader><controlfield tag=\"001\">   53029833 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126171326.0</controlfield><controlfield
     tag=\"008\">860911s1952    ru           f000 0 rus  </controlfield><datafield
@@ -430,50 +430,50 @@
     tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Mazur, I︠U︡. N.</subfield></datafield><datafield
     tag=\"710\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Korea (North)</subfield><subfield
     code=\"t\">Constitution.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Moskva
-  author_display: Korea (North)
-  lc_callnum_display:
+  author_tsim: Korea (North)
+  lc_callnum_ssim:
   - KPC13 1952
-  title_t:
+  title_tsim:
   - Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
     Respubliki.
-  pub_date:
+  pub_date_ssim:
   - '1952'
-  pub_date_sort: 1952
+  pub_date_si: 1952
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 396 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - KPC13
-  title_display: Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
+  title_tsim: Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
     Respubliki
-  title_sort: konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty koreĭskoĭ narodno-demokraticheskoĭ
+  title_si: konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty koreĭskoĭ narodno-demokraticheskoĭ
     respubliki
   id: '53029833'
-  author_sort: Korea North Laws etc Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty
+  author_si: Korea North Laws etc Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty
     Koreĭskoĭ NarodnoDemokraticheskoĭ Respubliki Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye
     akty Koreĭskoĭ NarodnoDemokraticheskoĭ Respubliki
-  title_addl_t:
+  title_addl_tsim:
   - Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
     Respubliki.
   - Laws, etc. (Konstitut︠s︡ii︠a︡ i osnovnye zakonodatelʹnye akty Koreĭskoĭ Narodno-Demokraticheskoĭ
     Respubliki)
-  author_addl_t:
+  author_addl_tsim:
   - Mazur, I︠U︡. N.
   - Korea (North)
-  title_added_entry_t:
+  title_added_entry_tsim:
   - Constitution
-  title_series_t:
+  title_series_tsim:
   - Zakonodatelʹstvo stran narodnoĭ demokratii
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - KPC
-  language_facet:
+  language_ssim:
   - Russian
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - D - World History
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01062cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01062cam
     a2200301 a 4500</leader><controlfield tag=\"001\">   77826928 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122103906.0</controlfield><controlfield
     tag=\"008\">070816s1976    ko            000 0ckor  </controlfield><datafield
@@ -513,58 +513,58 @@
     code=\"a\">瑞文 文庫 ;</subfield><subfield code=\"v\">237</subfield></datafield><datafield
     tag=\"880\" ind1=\"1\" ind2=\" \"><subfield code=\"6\">700-05/$1</subfield><subfield
     code=\"a\">李 民樹,</subfield><subfield code=\"d\">1916-</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Sŏul
-  title_vern_display: "高麗 人物 列傅"
-  lc_callnum_display:
+  title_vern_ssim: "高麗 人物 列傅"
+  lc_callnum_ssim:
   - DS912.38 .K982 1976
-  title_t:
+  title_tsim:
   - Koryŏ inmul yŏlchŏn /
   - "高麗 人物 列傅"
-  pub_date:
+  pub_date_ssim:
   - '1976'
-  pub_date_sort: 1976
-  published_vern_display:
+  pub_date_si: 1976
+  published_vern_ssim:
   - "서울"
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 255 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - DS912.38
-  title_display: Koryŏ inmul yŏlchŏn
-  subject_addl_t:
+  title_tsim: Koryŏ inmul yŏlchŏn
+  subject_addl_ssim:
   - History Koryŏ period, 935-1392 Biography
   - Biography
-  subject_t:
+  subject_tsim:
   - Korea
-  subject_era_facet:
+  subject_era_ssim:
   - Koryŏ period, 935-1392
-  title_sort: koryŏ inmul yŏlchŏn
+  title_si: koryŏ inmul yŏlchŏn
   id: '77826928'
-  author_sort: "\U0010FFFF Koryŏ inmul yŏlchŏn"
-  title_addl_t:
+  author_si: "\U0010FFFF Koryŏ inmul yŏlchŏn"
+  title_addl_tsim:
   - Koryŏ inmul yŏlchŏn /
   - Koryŏsa. Yŏlchŏn. Selections
   - "高麗 人物 列傅"
   - "高麗史. 列傅. Selections"
-  subject_geo_facet:
+  subject_geo_ssim:
   - Korea
-  author_addl_t:
+  author_addl_tsim:
   - Yi, Min-su,
   - "李 民樹"
-  title_series_t:
+  title_series_tsim:
   - Sŏmun munʼgo ; 237
   - "瑞文 文庫 ; 237"
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - DS
-  language_facet:
+  language_ssim:
   - Korean
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - P - Language & Literature
-  author_t:
+  author_tsim:
   - Parikshit Sharma, Ogeti,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00813cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00813cam
     a2200217 i 4500</leader><controlfield tag=\"001\">   78908283 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121104206.0</controlfield><controlfield
     tag=\"008\">790619s1976    ii            000 0 sano </controlfield><datafield
@@ -589,48 +589,48 @@
     code=\"v\">Poetry.</subfield></datafield><datafield tag=\"600\" ind1=\"0\" ind2=\"0\"><subfield
     code=\"a\">Yaśodharā</subfield><subfield code=\"c\">(Wife of Gautama Buddha)</subfield><subfield
     code=\"v\">Poetry.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Puṇyapattanam
   - Haidrābāda
-  author_display: Parikshit Sharma, Ogeti, 1930-
-  lc_callnum_display:
+  author_tsim: Parikshit Sharma, Ogeti, 1930-
+  lc_callnum_ssim:
   - PK3799.P29 Y3
-  title_t:
+  title_tsim:
   - Yaśodharā-mahākāvyam /
-  pub_date:
+  pub_date_ssim:
   - '1976'
-  pub_date_sort: 1976
+  pub_date_si: 1976
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 24, 128, 2 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - PK3799.P29
-  title_display: Yaśodharā-mahākāvyam
-  subject_addl_t:
+  title_tsim: Yaśodharā-mahākāvyam
+  subject_addl_ssim:
   - Poetry
-  subject_t:
+  subject_tsim:
   - Gautama Buddha
   - Yaśodharā (Wife of Gautama Buddha)
-  title_sort: yaśodharā-mahākāvyam
+  title_si: yaśodharā-mahākāvyam
   id: '78908283'
-  author_sort: Parikshit Sharma Ogeti 1930 Yaśodharāmahākāvyam
-  title_addl_t:
+  author_si: Parikshit Sharma Ogeti 1930 Yaśodharāmahākāvyam
+  title_addl_tsim:
   - Yaśodharā-mahākāvyam /
-  subject_topic_facet:
+  subject_ssim:
   - Gautama Buddha
   - Yaśodharā (Wife of Gautama Buddha)
-  title_series_t:
+  title_series_tsim:
   - Śāradā-gaurava-grantha-mālā ; 37
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - PK
-  language_facet:
+  language_ssim:
   - Sanskrit
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - H - Social Sciences
-  author_t:
+  author_tsim:
   - Iṣlāḥī, Amīn Aḥsan,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00729cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00729cam
     a2200229 i 4500</leader><controlfield tag=\"001\">   79930185 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123080110.0</controlfield><controlfield
     tag=\"008\">791203r19781950pk            000 0 urdo </controlfield><datafield
@@ -654,46 +654,46 @@
     code=\"z\">Pakistan.</subfield></datafield><datafield tag=\"650\" ind1=\" \" ind2=\"0\"><subfield
     code=\"a\">Women</subfield><subfield code=\"z\">Pakistan</subfield><subfield code=\"x\">Social
     conditions.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Lāhaur
-  author_display: Iṣlāḥī, Amīn Aḥsan, 1904-1997
-  lc_callnum_display:
+  author_tsim: Iṣlāḥī, Amīn Aḥsan, 1904-1997
+  lc_callnum_ssim:
   - HQ1745.5 .I83 1978
-  title_t:
+  title_tsim:
   - Pākistānī ʻaurat dorāhe par /
-  pub_date:
+  pub_date_ssim:
   - '1978'
-  pub_date_sort: 1978
+  pub_date_si: 1978
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 8, 174 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - HQ1745.5
-  title_display: Pākistānī ʻaurat dorāhe par
-  subject_addl_t:
+  title_tsim: Pākistānī ʻaurat dorāhe par
+  subject_addl_ssim:
   - Pakistan
   - Pakistan Social conditions
-  subject_t:
+  subject_tsim:
   - Women
-  title_sort: pākistānī ʻaurat dorāhe par
+  title_si: pākistānī ʻaurat dorāhe par
   id: '79930185'
-  author_sort: Iṣlāḥī Amīn Aḥsan 19041997 Pākistānī ʻaurat dorāhe par
-  title_addl_t:
+  author_si: Iṣlāḥī Amīn Aḥsan 19041997 Pākistānī ʻaurat dorāhe par
+  title_addl_tsim:
   - Pākistānī ʻaurat dorāhe par /
-  subject_geo_facet:
+  subject_geo_ssim:
   - Pakistan
-  subject_topic_facet:
+  subject_ssim:
   - Women
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - HQ
-  language_facet:
+  language_ssim:
   - Urdu
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - M - Music
-  author_t:
+  author_tsim:
   - Nārāyaṇapaṇḍita,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01012cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01012cam
     a22002657a 4500</leader><controlfield tag=\"001\">   85910001 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121023106.0</controlfield><controlfield
     tag=\"007\">heuamb---baca</controlfield><controlfield tag=\"007\">heubmb---baaa</controlfield><controlfield
@@ -722,53 +722,53 @@
     code=\"b\">Washington, D.C. :</subfield><subfield code=\"c\">Library of Congress
     Photoduplication Service,</subfield><subfield code=\"d\">1985.</subfield><subfield
     code=\"e\">1 microfiche ; 11 x 15 cm.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Trivandrum
-  author_display: Nārāyaṇapaṇḍita, 17th cent
-  lc_callnum_display:
+  author_tsim: Nārāyaṇapaṇḍita, 17th cent
+  lc_callnum_ssim:
   - Microfiche 90/61328 (P)
-  title_t:
+  title_tsim:
   - Āśleṣāśataka of Nārāyaṇa Paṇḍita
-  pub_date:
+  pub_date_ssim:
   - '1946'
-  pub_date_sort: 1946
+  pub_date_si: 1946
   format: Book
-  material_type_display:
+  material_type_ssim:
   - xii, 24 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - Microfiche 90/61328 (P)
-  title_display: Āśleṣāśataka of Nārāyaṇa Paṇḍita
-  title_sort: āśleṣāśataka of nārāyaṇa paṇḍita
+  title_tsim: Āśleṣāśataka of Nārāyaṇa Paṇḍita
+  title_si: āśleṣāśataka of nārāyaṇa paṇḍita
   id: '85910001'
-  author_sort: Nārāyaṇapaṇḍita 17th cent Āśleṣāśataka of Nārāyaṇa Paṇḍita
+  author_si: Nārāyaṇapaṇḍita 17th cent Āśleṣāśataka of Nārāyaṇa Paṇḍita
     microform
-  title_addl_t:
+  title_addl_tsim:
   - Āśleṣāśataka of Nārāyaṇa Paṇḍita
-  language_facet:
+  language_ssim:
   - Sanskrit
   timestamp: '2014-02-03T18:42:53.056Z'
-- subtitle_display: sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
-  author_vern_display: "‏פינקל, חיים יעקב"
-  subject_addl_t:
+- subtitle_tsim: sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
+  author_vern_ssim: "‏פינקל, חיים יעקב"
+  subject_addl_ssim:
   - Anecdotes
-  title_display: Shodede-yam Yehudiyim
+  title_tsim: Shodede-yam Yehudiyim
   id: '86207417'
-  isbn_t:
+  isbn_ssim:
   - '9650101373'
-  subject_topic_facet:
+  subject_ssim:
   - Jewish pirates
   - Jewish criminals
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - G
-  subtitle_t:
+  subtitle_tsim:
   - sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot /
   - "‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏"
-  author_t:
+  author_tsim:
   - Finkel, Chaim Jacob.
   - "‏פינקל, חיים יעקב"
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - G - Geography, Anthropology, Recreation
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01258cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01258cam
     a2200301 a 4500</leader><controlfield tag=\"001\">   86207417 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123161900.0</controlfield><controlfield
     tag=\"008\">930810s1984    is a          000 0 heb  </controlfield><datafield
@@ -806,48 +806,48 @@
     tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-03/(2/r‏</subfield><subfield
     code=\"a\">‏ירושלים :‏</subfield><subfield code=\"b\">‏דביר,‏</subfield><subfield
     code=\"c\">‏‪c1984‬.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Yerushalayim
-  author_display: Finkel, Chaim Jacob
-  title_vern_display: "‏שודדי־ים יהודיים :‏"
-  lc_callnum_display:
+  author_tsim: Finkel, Chaim Jacob
+  title_vern_ssim: "‏שודדי־ים יהודיים :‏"
+  lc_callnum_ssim:
   - G535 .F54 1984
-  title_t:
+  title_tsim:
   - 'Shodede-yam Yehudiyim :'
   - "‏שודדי־ים יהודיים :‏"
-  pub_date:
+  pub_date_ssim:
   - '1984'
-  pub_date_sort: 1984
-  published_vern_display:
+  pub_date_si: 1984
+  published_vern_ssim:
   - "‏ירושלים :‏"
   format: Book
-  subtitle_vern_display: "‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏"
-  lc_b4cutter_facet:
+  subtitle_vern_ssim: "‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏"
+  lc_b4cutter_ssim:
   - G535
-  material_type_display:
+  material_type_ssim:
   - 283 p.
-  subject_t:
+  subject_tsim:
   - Jewish pirates
   - Jewish criminals
-  title_sort: shodede-yam yehudiyim :sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
-  author_sort: Finkel Chaim Jacob Jewish pirates Hebrew Shodedeyam Yehudiyim sipurim
+  title_si: shodede-yam yehudiyim :sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
+  author_si: Finkel Chaim Jacob Jewish pirates Hebrew Shodedeyam Yehudiyim sipurim
     mafliʼim hamevusasim ʻal ʻuvdot hisṭoriyot
-  title_addl_t:
+  title_addl_tsim:
   - 'Shodede-yam Yehudiyim : sipurim mafliʼim ha-mevusasim ʻal ʻuvdot hisṭoriyot
     /'
   - Jewish pirates. Hebrew
   - "‏שודדי־ים יהודיים :‏ ‏ספורים מפליאים המבוססים על עובדות היסטוריות /‏"
-  title_added_entry_t:
+  title_added_entry_tsim:
   - Jewish pirates.
-  language_facet:
+  language_ssim:
   - Hebrew
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - B - Philosophy, Psychology, Religion
-  author_t:
+  author_tsim:
   - Muvaḥḥid Abṭaḥī, Ḥujjat.
   - "‏موحد ابطحى، خجة"
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01657cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01657cam
     a2200337 a 4500</leader><controlfield tag=\"001\">   87931798 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121115059.0</controlfield><controlfield
     tag=\"008\">060428m19869999ir ah    b    000 0 per d</controlfield><datafield
@@ -892,61 +892,61 @@
     tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-05/(3/r‏</subfield><subfield
     code=\"a\">‏اصفهان :‏</subfield><subfield code=\"b\">‏حوزۀ علميه،‏</subfield><subfield
     code=\"c\">‏‪1365- [1986-    ]‬.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Iṣfahān
-  title_vern_display: "‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏"
-  author_display: Muvaḥḥid Abṭaḥī, Ḥujjat
-  lc_callnum_display:
+  title_vern_ssim: "‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏"
+  author_tsim: Muvaḥḥid Abṭaḥī, Ḥujjat
+  lc_callnum_ssim:
   - BP44 .M88 1986
-  title_t:
+  title_tsim:
   - Āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh /
   - "‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏"
-  pub_date:
+  pub_date_ssim:
   - '1986'
-  pub_date_sort: 1986
-  published_vern_display:
+  pub_date_si: 1986
+  published_vern_ssim:
   - "‏اصفهان :‏"
   format: Book
-  author_vern_display: "‏موحد ابطحى، خجة"
-  material_type_display:
+  author_vern_ssim: "‏موحد ابطحى، خجة"
+  material_type_ssim:
   - v. <1>
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - BP44
-  title_display: Āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh
-  subject_addl_t:
+  title_tsim: Āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh
+  subject_addl_ssim:
   - Islamic countries
   - Education Islamic countries
-  subject_t:
+  subject_tsim:
   - Religious institutions
   - Shiites
   - Islamic universities and colleges
-  title_sort: āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi shīʻah dar ṭūl-i tārīkh
+  title_si: āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi shīʻah dar ṭūl-i tārīkh
   id: '87931798'
-  author_sort: Muvaḥḥid Abṭaḥī Ḥujjat Āshnāʼī bā ḥawzahʹhāyi ʻilmīyahʼi
+  author_si: Muvaḥḥid Abṭaḥī Ḥujjat Āshnāʼī bā ḥawzahʹhāyi ʻilmīyahʼi
     Shīʻah dar ṭūli tārīkh
-  title_addl_t:
+  title_addl_tsim:
   - Āshnāʼī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh /
   - Āshnāyī bā ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah dar ṭūl-i tārīkh
   - Ḥawzahʹhā-yi ʻilmīyah-ʼi Shīʻah
   - "‏اشنائى با حوزه‌هاى علميۀ شيعه در طول تاريخ /‏"
   - "‏اشنايى با حوزه‌هاى علميۀ شيعه در طول تاريخ"
   - "‏حوزه هاى علميۀ شيعه"
-  subject_geo_facet:
+  subject_geo_ssim:
   - Islamic countries
-  subject_topic_facet:
+  subject_ssim:
   - Religious institutions
   - Shiites
   - Islamic universities and colleges
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - BP
-  language_facet:
+  language_ssim:
   - Persian
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - M - Music
-  author_t:
+  author_tsim:
   - Lomtʻatʻiże, Čola,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00610cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00610cam
     a22001817a 4500</leader><controlfield tag=\"001\">   90142413 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126150928.0</controlfield><controlfield
     tag=\"008\">900409s1975    gs            000 0 geo  </controlfield><datafield
@@ -965,44 +965,44 @@
     \"><subfield code=\"a\">65 p. ;</subfield><subfield code=\"c\">22 cm.</subfield></datafield><datafield
     tag=\"653\" ind1=\" \" ind2=\" \"><subfield code=\"a\">Industrial workers;</subfield><subfield
     code=\"a\">life style</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Tʻbilisi
-  author_display: Lomtʻatʻiże, Čola, 1879-1915
-  lc_callnum_display:
+  author_tsim: Lomtʻatʻiże, Čola, 1879-1915
+  lc_callnum_ssim:
   - MLCSN 96/3906 (H)
-  title_t:
+  title_tsim:
   - 'Mrecvelobis mušakis cʻxovrebis cesi :'
-  pub_date:
+  pub_date_ssim:
   - '1975'
-  pub_date_sort: 1975
-  subtitle_display: tʻeoriul-metʻoduri narkvevi
+  pub_date_si: 1975
+  subtitle_tsim: tʻeoriul-metʻoduri narkvevi
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 65 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - MLCSN 96/3906 (H)
-  title_display: Mrecvelobis mušakis cʻxovrebis cesi
-  subject_t:
+  title_tsim: Mrecvelobis mušakis cʻxovrebis cesi
+  subject_tsim:
   - Industrial workers; life style
-  title_sort: mrecvelobis mušakis cʻxovrebis cesi :tʻeoriul-metʻoduri narkvevi
+  title_si: mrecvelobis mušakis cʻxovrebis cesi :tʻeoriul-metʻoduri narkvevi
   id: '90142413'
-  author_sort: Lomtʻatʻiże Čola 18791915 Mrecvelobis mušakis cʻxovrebis cesi tʻeoriulmetʻoduri
+  author_si: Lomtʻatʻiże Čola 18791915 Mrecvelobis mušakis cʻxovrebis cesi tʻeoriulmetʻoduri
     narkvevi
-  title_addl_t:
+  title_addl_tsim:
   - 'Mrecvelobis mušakis cʻxovrebis cesi : tʻeoriul-metʻoduri narkvevi /'
   - Obraz zhizni rabotnika promyshlennosti
-  subject_topic_facet:
+  subject_ssim:
   - Industrial workers; life style
-  language_facet:
+  language_ssim:
   - Georgian
-  subtitle_t:
+  subtitle_tsim:
   - tʻeoriul-metʻoduri narkvevi /
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - K - Law
-  author_t:
+  author_tsim:
   - Korea (North)
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01106cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01106cam
     a2200325 a 4500</leader><controlfield tag=\"001\">   92117465 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126171556.0</controlfield><controlfield
     tag=\"008\">920805s1990    ko       l    000 0 kor  </controlfield><datafield
@@ -1039,77 +1039,77 @@
     \"><subfield code=\"6\">700-04/$1</subfield><subfield code=\"a\">鄭　慶謨，</subfield><subfield
     code=\"d\">1937-</subfield></datafield><datafield tag=\"880\" ind1=\"1\" ind2=\"
     \"><subfield code=\"6\">700-05/$1</subfield><subfield code=\"a\">崔　逹坤．</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Sŏul Tʻŭkpyŏlsi
-  title_vern_display: "北韓　法令集　／"
-  author_display: Korea (North)
-  lc_callnum_display:
+  title_vern_ssim: "北韓　法令集　／"
+  author_tsim: Korea (North)
+  lc_callnum_ssim:
   - KPC13 .K67 1990
-  title_t:
+  title_tsim:
   - Pukhan pŏmnyŏngjip /
   - "北韓　法令集　／"
-  pub_date:
+  pub_date_ssim:
   - '1990'
-  pub_date_sort: 1990
-  published_vern_display:
+  pub_date_si: 1990
+  published_vern_ssim:
   - "서울　持別市　："
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 5 v.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - KPC13
-  title_display: Pukhan pŏmnyŏngjip
-  subject_addl_t:
+  title_tsim: Pukhan pŏmnyŏngjip
+  subject_addl_ssim:
   - Korea (North)
-  subject_t:
+  subject_tsim:
   - Law
-  title_sort: pukhan pŏmnyŏngjip
+  title_si: pukhan pŏmnyŏngjip
   id: '92117465'
-  author_sort: Korea North Laws etc Pukhan pŏmnyŏngjip
-  title_addl_t:
+  author_si: Korea North Laws etc Pukhan pŏmnyŏngjip
+  title_addl_tsim:
   - Pukhan pŏmnyŏngjip /
   - Laws, etc
   - "北韓　法令集　／"
-  subject_geo_facet:
+  subject_geo_ssim:
   - Korea (North)
-  subject_topic_facet:
+  subject_ssim:
   - Law
-  author_addl_t:
+  author_addl_tsim:
   - Chŏng, Kyŏng-mo,
   - Chʻoe, Tal-gon.
   - "鄭　慶謨，"
   - "崔　逹坤．"
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - KPC
-  language_facet:
+  language_ssim:
   - Korean
   timestamp: '2014-02-03T18:42:53.056Z'
-- subtitle_display: ṿe-hu perush yafeh u-menupeh ʻal Shulḥan ʻarukh Oraḥ ḥayim
+- subtitle_tsim: ṿe-hu perush yafeh u-menupeh ʻal Shulḥan ʻarukh Oraḥ ḥayim
     asher ḥiber Yosef Ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon ... ṿe-himtsiʼam
     ... Mosheh Iserlish
-  author_vern_display: "‏ישראל מאיר,‏ ‏הכהן"
-  subject_addl_t:
+  author_vern_ssim: "‏ישראל מאיר,‏ ‏הכהן"
+  subject_addl_ssim:
   - Customs and practices
-  title_display: Sefer Mishnah berurah
+  title_tsim: Sefer Mishnah berurah
   id: '92828023'
-  subject_topic_facet:
+  subject_ssim:
   - Karo, Joseph ben Ephraim, 1488-1575
   - Jewish law
   - Judaism
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - BM
-  subtitle_t:
+  subtitle_tsim:
   - ṿe-hu perush yafeh u-menupeh ʻal Shulḥan ʻarukh Oraḥ ḥayim asher ḥiber Yosef
     Ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon ... ṿe-himtsiʼam ... Mosheh
     Iserlish /
   - "‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף קארו ... עם חידושי דינים
     שהשמיט הגאון ... והמציאם משה איסרליש /‏"
-  author_t:
+  author_tsim:
   - Israel Meir, ha-Kohen,
   - "‏ישראל מאיר,‏ ‏הכהן"
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - B - Philosophy, Psychology, Religion
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>03361cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>03361cam
     a2200493 a 4500</leader><controlfield tag=\"001\">   92828023 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122150744.0</controlfield><controlfield
     tag=\"008\">921008m19929999is            000 0 heb  </controlfield><datafield
@@ -1191,39 +1191,39 @@
     code=\"6\">740-09/(2/r‏</subfield><subfield code=\"a\">‏ספר משנה ברורה המנקד.</subfield></datafield><datafield
     tag=\"880\" ind1=\"0\" ind2=\"2\"><subfield code=\"6\">740-10/(2/r</subfield><subfield
     code=\"a\">איש מצליח.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Jerusalem?
-  author_display: Israel Meir, ha-Kohen, 1838-1933
-  title_vern_display: "‏ספר משנה ברורה :‏"
-  lc_callnum_display:
+  author_tsim: Israel Meir, ha-Kohen, 1838-1933
+  title_vern_ssim: "‏ספר משנה ברורה :‏"
+  lc_callnum_ssim:
   - BM520.88.A53 I88 1992b
-  title_t:
+  title_tsim:
   - 'Sefer Mishnah berurah :'
   - "‏ספר משנה ברורה :‏"
-  pub_date:
+  pub_date_ssim:
   - '1992'
-  pub_date_sort: 1992
-  published_vern_display:
+  pub_date_si: 1992
+  published_vern_ssim:
   - "‏[Jerusalem? :‏"
   format: Book
-  subtitle_vern_display: "‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף
+  subtitle_vern_ssim: "‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף
     קארו ... עם חידושי דינים שהשמיט הגאון ... והמציאם משה איסרליש /‏"
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - BM520.88.A53
-  material_type_display:
+  material_type_ssim:
   - v. <1-5>
-  subject_t:
+  subject_tsim:
   - Karo, Joseph ben Ephraim, 1488-1575. Oraḥ ḥayim
   - Jewish law
   - Judaism
   - "‏שלחן ערוך.‏ ‏ארח חיים"
-  title_sort: sefer mishnah berurah :ṿe-hu perush yafeh u-menupeh ʻal shulḥan ʻarukh
+  title_si: sefer mishnah berurah :ṿe-hu perush yafeh u-menupeh ʻal shulḥan ʻarukh
     oraḥ ḥayim asher ḥiber yosef ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon
     ... ṿe-himtsiʼam ... mosheh iserlish
-  author_sort: Israel Meir haKohen 18381933 Mishnah berurah Sefer Mishnah berurah
+  author_si: Israel Meir haKohen 18381933 Mishnah berurah Sefer Mishnah berurah
     ṿehu perush yafeh umenupeh ʻal Shulḥan ʻarukh Oraḥ ḥayim asher ḥiber Yosef
     Ḳaro  ʻim ḥidushe dinim shehishmiṭ hagaʼon  ṿehimtsiʼam  Mosheh Iserlish
-  title_addl_t:
+  title_addl_tsim:
   - 'Sefer Mishnah berurah : ṿe-hu perush yafeh u-menupeh ʻal Shulḥan ʻarukh Oraḥ
     ḥayim asher ḥiber Yosef Ḳaro ... ʻim ḥidushe dinim she-hishmiṭ ha-gaʼon ...
     ṿe-himtsiʼam ... Mosheh Iserlish /'
@@ -1231,12 +1231,12 @@
   - "‏ספר משנה ברורה :‏ ‏והוא פירוש יפה ומנפה על שלחן ערוך ארח חיים אשר חבר יוסף קארו
     ... עם חידושי דינים שהשמיט הגאון ... והמציאם משה איסרליש /‏"
   - "‏משנה ברורה"
-  author_addl_t:
+  author_addl_tsim:
   - Isserles, Moses ben Israel,
   - Karo, Joseph ben Ephraim,
   - "‏איסרליש, משה"
   - "‏קארו, יוסף.‏"
-  title_added_entry_t:
+  title_added_entry_tsim:
   - Oraḥ ḥayim
   - Mishnah berurah.
   - Sefer Mishnah berurah ha-menuḳad.
@@ -1245,32 +1245,32 @@
   - "‏משנה ברורה"
   - "‏ספר משנה ברורה המנקד"
   - "איש מצליח"
-  language_facet:
+  language_ssim:
   - Hebrew
   timestamp: '2014-02-03T18:42:53.056Z'
-- subtitle_display: 'kangnam yŏin kwa sin pʻalbulchʻul : Kim Hong-sin setʻae rŭpʻo'
-  author_vern_display: "김　홍신, 1947-"
-  subject_addl_t:
+- subtitle_tsim: 'kangnam yŏin kwa sin pʻalbulchʻul : Kim Hong-sin setʻae rŭpʻo'
+  author_vern_ssim: "김　홍신, 1947-"
+  subject_addl_ssim:
   - Korea (South) Social conditions
   - Social conditions
-  title_display: Ajikto kŭrŏk chŏrŏk sasimnikka
+  title_tsim: Ajikto kŭrŏk chŏrŏk sasimnikka
   id: '94120425'
-  subject_geo_facet:
+  subject_geo_ssim:
   - Seoul (Korea)
   - Korea (South)
-  subject_topic_facet:
+  subject_ssim:
   - Women
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - HQ
-  subtitle_t:
+  subtitle_tsim:
   - 'kangnam yŏin kwa sin pʻalbulchʻul : Kim Hong-sin setʻae rŭpʻo.'
   - "강남　여인　과　신　팔불출 : 金　洪信　세태　르포"
-  author_t:
+  author_tsim:
   - Kim, Hong-sin,
   - "김　홍신"
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - H - Social Sciences
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01149cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01149cam
     a2200301 a 4500</leader><controlfield tag=\"001\">   94120425 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123075708.0</controlfield><controlfield
     tag=\"008\">940328s1990    ko            000 0 kor d</controlfield><datafield
@@ -1308,68 +1308,68 @@
     tag=\"880\" ind1=\" \" ind2=\" \"><subfield code=\"6\">260-04/$1</subfield><subfield
     code=\"a\">서울 :</subfield><subfield code=\"b\">女苑　出版局,</subfield><subfield code=\"c\">1990</subfield><subfield
     code=\"g\">(1992 printing)</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Sŏul
-  author_display: Kim, Hong-sin, 1947-
-  title_vern_display: "아직도　그럭　저럭　사십니까"
-  lc_callnum_display:
+  author_tsim: Kim, Hong-sin, 1947-
+  title_vern_ssim: "아직도　그럭　저럭　사십니까"
+  lc_callnum_ssim:
   - HQ1765.5 .K46 1990
-  title_t:
+  title_tsim:
   - 'Ajikto kŭrŏk chŏrŏk sasimnikka :'
   - "아직도　그럭　저럭　사십니까"
-  pub_date:
+  pub_date_ssim:
   - '1990'
-  pub_date_sort: 1990
-  published_vern_display:
+  pub_date_si: 1990
+  published_vern_ssim:
   - "서울"
   format: Book
-  subtitle_vern_display: "강남　여인　과　신　팔불출 : 金　洪信　세태　르포"
-  lc_b4cutter_facet:
+  subtitle_vern_ssim: "강남　여인　과　신　팔불출 : 金　洪信　세태　르포"
+  lc_b4cutter_ssim:
   - HQ1765.5
-  material_type_display:
+  material_type_ssim:
   - 289 p.
-  subject_t:
+  subject_tsim:
   - Women
   - Seoul (Korea)
-  title_sort: 'ajikto kŭrŏk chŏrŏk sasimnikka :kangnam yŏin kwa sin pʻalbulchʻul
+  title_si: 'ajikto kŭrŏk chŏrŏk sasimnikka :kangnam yŏin kwa sin pʻalbulchʻul
     : kim hong-sin setʻae rŭpʻo'
-  author_sort: Kim Hongsin 1947 Ajikto kŭrŏk chŏrŏk sasimnikka kangnam yŏin kwa
+  author_si: Kim Hongsin 1947 Ajikto kŭrŏk chŏrŏk sasimnikka kangnam yŏin kwa
     sin pʻalbulchʻul  Kim Hongsin setʻae rŭpʻo
-  title_addl_t:
+  title_addl_tsim:
   - 'Ajikto kŭrŏk chŏrŏk sasimnikka : kangnam yŏin kwa sin pʻalbulchʻul : Kim
     Hong-sin setʻae rŭpʻo.'
   - "아직도　그럭　저럭　사십니까 : 강남　여인　과　신　팔불출 : 金　洪信　세태　르포"
-  language_facet:
+  language_ssim:
   - Korean
   timestamp: '2014-02-03T18:42:53.056Z'
-- subtitle_display: dar khiradvarzī-i siyāsī va huvīyat-i mā Īrānīyān
-  author_vern_display: "‏رجايى، فرهنگ ."
-  subject_addl_t:
+- subtitle_tsim: dar khiradvarzī-i siyāsī va huvīyat-i mā Īrānīyān
+  author_vern_ssim: "‏رجايى، فرهنگ ."
+  subject_addl_ssim:
   - Iran
   - Ethnic identity
   - Politics and government
   - Civilization
-  title_display: Maʻrakah-ʼi jahānʹbīnīʹhā
+  title_tsim: Maʻrakah-ʼi jahānʹbīnīʹhā
   id: '96933325'
-  subject_geo_facet:
+  subject_geo_ssim:
   - Iran
-  subject_topic_facet:
+  subject_ssim:
   - Political science
   - Iranians
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - DS
-  title_series_t:
+  title_series_tsim:
   - Sipihr-i farhang va jāmiʻah ; 1
   - "‏سپهر فرهنگ و جامعه ؛‏ ‏1"
-  subtitle_t:
+  subtitle_tsim:
   - dar khiradvarzī-i siyāsī va huvīyat-i mā Īrānīyān /
   - "‏در خردورزى سياسى و هويت ما ايرانيان /‏"
-  author_t:
+  author_tsim:
   - Rajāyī, Farhang,
   - "‏رجايى، فرهنگ ."
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - D - World History
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01484cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01484cam
     a2200349 a 4500</leader><controlfield tag=\"001\">   96933325 </controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121112252.0</controlfield><controlfield
     tag=\"008\">040115s1994    ir       b    001 0 per  </controlfield><datafield
@@ -1415,46 +1415,46 @@
     code=\"b\">‏احياء كتاب،‏</subfield><subfield code=\"c\">‏‪1373 [1994 or 1995]‬.</subfield></datafield><datafield
     tag=\"880\" ind1=\" \" ind2=\"0\"><subfield code=\"6\">440-05/(3/r‏</subfield><subfield
     code=\"a\">‏سپهر فرهنگ و جامعه ؛‏</subfield><subfield code=\"v\">‏1</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Tihrān
-  author_display: Rajāyī, Farhang, 1952 or 3-
-  title_vern_display: "‏معركۀ جهان‌بينىها :‏"
-  lc_callnum_display:
+  author_tsim: Rajāyī, Farhang, 1952 or 3-
+  title_vern_ssim: "‏معركۀ جهان‌بينىها :‏"
+  lc_callnum_ssim:
   - DS274 .R327 1994
-  title_t:
+  title_tsim:
   - 'Maʻrakah-ʼi jahānʹbīnīʹhā :'
   - "‏معركۀ جهان‌بينىها :‏"
-  pub_date:
+  pub_date_ssim:
   - '1994'
-  pub_date_sort: 1994
-  published_vern_display:
+  pub_date_si: 1994
+  published_vern_ssim:
   - "‏تهران :‏"
   format: Book
-  subtitle_vern_display: "‏در خردورزى سياسى و هويت ما ايرانيان /‏"
-  material_type_display:
+  subtitle_vern_ssim: "‏در خردورزى سياسى و هويت ما ايرانيان /‏"
+  material_type_ssim:
   - 323 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - DS274
-  subject_t:
+  subject_tsim:
   - Political science
   - Iranians
   - Iran
-  title_sort: maʻrakah-ʼi jahānʹbīnīʹhā :dar khiradvarzī-i siyāsī va huvīyat-i
+  title_si: maʻrakah-ʼi jahānʹbīnīʹhā :dar khiradvarzī-i siyāsī va huvīyat-i
     mā īrānīyān
-  author_sort: Rajāyī Farhang 1952 or 3 Maʻrakahʼi jahānʹbīnīʹhā dar khiradvarzīi
+  author_si: Rajāyī Farhang 1952 or 3 Maʻrakahʼi jahānʹbīnīʹhā dar khiradvarzīi
     siyāsī va huvīyati mā Īrānīyān
-  title_addl_t:
+  title_addl_tsim:
   - 'Maʻrakah-ʼi jahānʹbīnīʹhā : dar khiradvarzī-i siyāsī va huvīyat-i mā
     Īrānīyān /'
   - "‏معركۀ جهان‌بينىها :‏ ‏در خردورزى سياسى و هويت ما ايرانيان /‏"
-  language_facet:
+  language_ssim:
   - Persian
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - P - Language & Literature
-  author_t:
+  author_tsim:
   - Nārāyaṇa Paṇḍitācārya,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01588cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01588cam
     a2200313 a 4500</leader><controlfield tag=\"001\">  2001417245</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121030347.0</controlfield><controlfield
     tag=\"008\">011001m20009999ii            001 0 sano </controlfield><datafield
@@ -1495,54 +1495,54 @@
     code=\"t\">Mandopakāriṇī.</subfield><subfield code=\"f\">2000.</subfield></datafield><datafield
     tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Shyamachar, A. B.</subfield></datafield><datafield
     tag=\"700\" ind1=\"1\" ind2=\" \"><subfield code=\"a\">Pandurangi, S. R.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Bangalore
-  author_display: Nārāyaṇa Paṇḍitācārya, 13th cent
-  lc_callnum_display:
+  author_tsim: Nārāyaṇa Paṇḍitācārya, 13th cent
+  lc_callnum_ssim:
   - PK3798.N313 S87 2000
-  title_t:
+  title_tsim:
   - Sumadhvavijayaḥ /
-  pub_date:
+  pub_date_ssim:
   - '2000'
-  pub_date_sort: 2000
+  pub_date_si: 2000
   format: Book
-  material_type_display:
+  material_type_ssim:
   - v. <1   >
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - PK3798.N313
-  title_display: Sumadhvavijayaḥ
-  subject_addl_t:
+  title_tsim: Sumadhvavijayaḥ
+  subject_addl_ssim:
   - Poetry
-  subject_t:
+  subject_tsim:
   - Madhva, 13th cent
-  title_sort: sumadhvavijayaḥ
+  title_si: sumadhvavijayaḥ
   id: '2001417245'
-  author_sort: Nārāyaṇa Paṇḍitācārya 13th cent Sumadhvavijayaḥ
-  title_addl_t:
+  author_si: Nārāyaṇa Paṇḍitācārya 13th cent Sumadhvavijayaḥ
+  title_addl_tsim:
   - Sumadhvavijayaḥ /
-  subject_topic_facet:
+  subject_ssim:
   - Madhva, 13th cent
-  author_addl_t:
+  author_addl_tsim:
   - Nārāyaṇa Paṇḍitācārya,
   - Viśvapatitīrtha,
   - Chalāriśeṣācārya.
   - Shyamachar, A. B.
   - Pandurangi, S. R.
-  title_added_entry_t:
+  title_added_entry_tsim:
   - Bhāvaprakāśikā
   - Padārthadīpikodbodhikā
   - Mandopakāriṇī
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - PK
-  language_facet:
+  language_ssim:
   - Sanskrit
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - U - Military Science
-  author_t:
+  author_tsim:
   - Wuld Mawlāy al-Zayn, Sayyid Muḥammad wuld Sayyid.
   - "ولد مولاي الزين، سيد محمد ولد سيد"
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01197cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01197cam
     a22003014a 4500</leader><controlfield tag=\"001\">  2003546302</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123173626.0</controlfield><controlfield
     tag=\"008\">030922s2003    mu            000 0 ara  </controlfield><datafield
@@ -1579,59 +1579,59 @@
     محمد ولد سيد ولد مولاي الزين.</subfield></datafield><datafield tag=\"880\" ind1=\"
     \" ind2=\" \"><subfield code=\"6\">260-03/(3/r</subfield><subfield code=\"a\">نواكشوط
     :</subfield><subfield code=\"b\">[s.n.]،</subfield><subfield code=\"c\">2003.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Nuwākshūṭ
-  title_vern_display: "الحرب في الألفية الثالثة"
-  author_display: Wuld Mawlāy al-Zayn, Sayyid Muḥammad wuld Sayyid
-  lc_callnum_display:
+  title_vern_ssim: "الحرب في الألفية الثالثة"
+  author_tsim: Wuld Mawlāy al-Zayn, Sayyid Muḥammad wuld Sayyid
+  lc_callnum_ssim:
   - U21.2 .W85 2003
-  title_t:
+  title_tsim:
   - al-Ḥarb fī al-alfīyah al-thālithah /
   - "الحرب في الألفية الثالثة"
-  pub_date:
+  pub_date_ssim:
   - '2003'
-  pub_date_sort: 2003
-  published_vern_display:
+  pub_date_si: 2003
+  published_vern_ssim:
   - "نواكشوط"
   format: Book
-  author_vern_display: "ولد مولاي الزين، سيد محمد ولد سيد"
-  material_type_display:
+  author_vern_ssim: "ولد مولاي الزين، سيد محمد ولد سيد"
+  material_type_ssim:
   - 128 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - U21.2
-  title_display: al-Ḥarb fī al-alfīyah al-thālithah
-  subject_addl_t:
+  title_tsim: al-Ḥarb fī al-alfīyah al-thālithah
+  subject_addl_ssim:
   - History 21st century
   - Forecasting
-  subject_t:
+  subject_tsim:
   - War
   - Military art and science
   - Warfare, Conventional
   - Military weapons
-  subject_era_facet:
+  subject_era_ssim:
   - 21st century
-  title_sort: ḥarb fī al-alfīyah al-thālithah
+  title_si: ḥarb fī al-alfīyah al-thālithah
   id: '2003546302'
-  author_sort: Wuld Mawlāy alZayn Sayyid Muḥammad wuld Sayyid Ḥarb fī alalfīyah
+  author_si: Wuld Mawlāy alZayn Sayyid Muḥammad wuld Sayyid Ḥarb fī alalfīyah
     althālithah
-  title_addl_t:
+  title_addl_tsim:
   - al-Ḥarb fī al-alfīyah al-thālithah /
   - "الحرب في الألفية الثالثة"
-  subject_topic_facet:
+  subject_ssim:
   - War
   - Military art and science
   - Warfare, Conventional
   - Military weapons
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - U
-  language_facet:
+  language_ssim:
   - Arabic
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - D - World History
-  author_t:
+  author_tsim:
   - Bstan-ʼdzin-mkhas-grub,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00875cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>00875cam
     a22002534a 4500</leader><controlfield tag=\"001\">  2004310986</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123105515.0</controlfield><controlfield
     tag=\"008\">040812s2004    cc a          000 0 tibo </controlfield><datafield
@@ -1659,65 +1659,65 @@
     \" ind2=\"0\"><subfield code=\"a\">Bon-brgya (China)</subfield><subfield code=\"x\">History.</subfield></datafield><datafield
     tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Bon-brgya (China)</subfield><subfield
     code=\"x\">Kings and rulers.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Lha-sa
-  author_display: Bstan-ʼdzin-mkhas-grub, 1967-
-  lc_callnum_display:
+  author_tsim: Bstan-ʼdzin-mkhas-grub, 1967-
+  lc_callnum_ssim:
   - DS797.82.B663 B75 2004
-  title_t:
+  title_tsim:
   - Bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs so /
-  pub_date:
+  pub_date_ssim:
   - '2004'
-  pub_date_sort: 2004
+  pub_date_si: 2004
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 149 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - DS797.82.B663
-  title_display: Bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs
+  title_tsim: Bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs
     so
-  subject_addl_t:
+  subject_addl_ssim:
   - History
   - Kings and rulers
-  subject_t:
+  subject_tsim:
   - Bon-brgya (China)
-  title_sort: bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs
+  title_si: bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs
     so
   id: '2004310986'
-  author_sort: Bstanʼdzinmkhasgrub 1967 Bonbrgyaʼi lo rgyus lugs gñis gsal baʼi me
+  author_si: Bstanʼdzinmkhasgrub 1967 Bonbrgyaʼi lo rgyus lugs gñis gsal baʼi me
     loṅ źes bya ba bźugs so
-  title_addl_t:
+  title_addl_tsim:
   - Bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs so /
-  subject_geo_facet:
+  subject_geo_ssim:
   - Bon-brgya (China)
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - DS
-  language_facet:
+  language_ssim:
   - Tibetan
   timestamp: '2014-02-03T18:42:53.056Z'
-- subtitle_display: min jald al-dhāt ilá ṣidq al-sharḥ
-  author_vern_display: "أبو الخير، علي عبد الحميد"
-  subject_addl_t:
+- subtitle_tsim: min jald al-dhāt ilá ṣidq al-sharḥ
+  author_vern_ssim: "أبو الخير، علي عبد الحميد"
+  subject_addl_ssim:
   - 20th century
   - 21st century
-  title_display: Thuqūb fī ʻaql al-ummah
-  subject_era_facet:
+  title_tsim: Thuqūb fī ʻaql al-ummah
+  subject_era_ssim:
   - 20th century
   - 21st century
   id: '2005461726'
-  subject_topic_facet:
+  subject_ssim:
   - Islam
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - BP
-  subtitle_t:
+  subtitle_tsim:
   - min jald al-dhāt ilá ṣidq al-sharḥ.
   - "من جلد الذات إلى صدق الشرح"
-  author_t:
+  author_tsim:
   - Abū al-Khayr, ʻAlī ʻAbd al-Ḥamīd.
   - "أبو الخير، علي عبد الحميد"
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - B - Philosophy, Psychology, Religion
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01127nam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01127nam
     a2200277 a 4500</leader><controlfield tag=\"001\">  2005461726</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126155550.0</controlfield><controlfield
     tag=\"008\">070712s2006    ua            000 0 ara d</controlfield><datafield
@@ -1752,40 +1752,40 @@
     \"><subfield code=\"6\">260-04/(3/r</subfield><subfield code=\"a\">المعادي، القاهرة
     :</subfield><subfield code=\"b\">مركز يافا للدراسات والأبحاث،</subfield><subfield
     code=\"c\">2006.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - al-Maʻādī, al-Qāhirah
-  author_display: Abū al-Khayr, ʻAlī ʻAbd al-Ḥamīd
-  title_vern_display: "ثقوب في عقل الأمة"
-  lc_callnum_display:
+  author_tsim: Abū al-Khayr, ʻAlī ʻAbd al-Ḥamīd
+  title_vern_ssim: "ثقوب في عقل الأمة"
+  lc_callnum_ssim:
   - BP161.3 .A27 2006
-  title_t:
+  title_tsim:
   - 'Thuqūb fī ʻaql al-ummah :'
   - "ثقوب في عقل الأمة"
-  pub_date:
+  pub_date_ssim:
   - '2006'
-  pub_date_sort: 2006
-  published_vern_display:
+  pub_date_si: 2006
+  published_vern_ssim:
   - "المعادي، القاهرة"
   format: Book
-  subtitle_vern_display: "من جلد الذات إلى صدق الشرح"
-  lc_b4cutter_facet:
+  subtitle_vern_ssim: "من جلد الذات إلى صدق الشرح"
+  lc_b4cutter_ssim:
   - BP161.3
-  material_type_display:
+  material_type_ssim:
   - 85 p.
-  subject_t:
+  subject_tsim:
   - Islam
-  title_sort: thuqūb fī ʻaql al-ummah :min jald al-dhāt ilá ṣidq al-sharḥ
-  author_sort: Abū alKhayr ʻAlī ʻAbd alḤamīd Thuqūb fī ʻaql alummah min jald
+  title_si: thuqūb fī ʻaql al-ummah :min jald al-dhāt ilá ṣidq al-sharḥ
+  author_si: Abū alKhayr ʻAlī ʻAbd alḤamīd Thuqūb fī ʻaql alummah min jald
     aldhāt ilá ṣidq alsharḥ
-  title_addl_t:
+  title_addl_tsim:
   - 'Thuqūb fī ʻaql al-ummah : min jald al-dhāt ilá ṣidq al-sharḥ.'
   - "ثقوب في عقل الأمة : من جلد الذات إلى صدق الشرح"
-  language_facet:
+  language_ssim:
   - Arabic
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - H - Social Sciences
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>03730cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>03730cam
     a22006257a 4500</leader><controlfield tag=\"001\">  2005553155</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121104139.0</controlfield><controlfield
     tag=\"008\">051007m19659999is     | l    000 0 heb  </controlfield><datafield
@@ -1878,30 +1878,30 @@
     לשירותים מיוחדים לנכים קשים.</subfield></datafield><datafield tag=\"880\" ind1=\"0\"
     ind2=\"2\"><subfield code=\"6\">740-14/(2/r</subfield><subfield code=\"a\">מומחים
     בינלאומיים על מדוכת הביטחון הסוציאלי.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Israel
-  title_vern_display: "ביטוח וביטחון סוציאלי"
-  lc_callnum_display:
+  title_vern_ssim: "ביטוח וביטחון סוציאלי"
+  lc_callnum_ssim:
   - HG8695.2 .B57 1962
-  title_t:
+  title_tsim:
   - "[Bituaḥ u-viṭaḥon sotsyali]."
   - "ביטוח וביטחון סוציאלי"
-  pub_date:
+  pub_date_ssim:
   - '1962'
-  pub_date_sort: 1962
+  pub_date_si: 1962
   format: Book
-  material_type_display:
+  material_type_ssim:
   - items 1-<13> of <13>
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - HG8695.2
-  title_display: Bituaḥ u-viṭaḥon sotsyali
-  subject_addl_t:
+  title_tsim: Bituaḥ u-viṭaḥon sotsyali
+  subject_addl_ssim:
   - Israel
   - Economic aspects
   - Law and legislation Israel
   - Social policy
   - Armed Forces Reserves Pay, allowances, etc. Law and legislation
-  subject_t:
+  subject_tsim:
   - Insurance
   - Social security
   - Family allowances
@@ -1909,22 +1909,22 @@
   - Accident insurance
   - Old age
   - Israel
-  title_sort: bituaḥ u-viṭaḥon sotsyali
+  title_si: bituaḥ u-viṭaḥon sotsyali
   id: '2005553155'
-  author_sort: "\U0010FFFF Bituaḥ uviṭaḥon sotsyali"
-  title_addl_t:
+  author_si: "\U0010FFFF Bituaḥ uviṭaḥon sotsyali"
+  title_addl_tsim:
   - "[Bituaḥ u-viṭaḥon sotsyali]."
   - "ביטוח וביטחון סוציאלי"
-  subject_geo_facet:
+  subject_geo_ssim:
   - Israel
-  subject_topic_facet:
+  subject_ssim:
   - Insurance
   - Social security
   - Family allowances
   - Maternity insurance
   - Accident insurance
   - Old age
-  title_added_entry_t:
+  title_added_entry_tsim:
   - Megamot be-mesheḳ ha-biṭuaḥ ṿeha-piḳuaḥ ʻal ʻisḳe biṭuaḥ bi-shenat 1965.
   - Biṭuaḥ ziḳnah.
   - Biṭuaḥ sheʼirim.
@@ -1951,16 +1951,16 @@
   - "שירות מילואים"
   - "קצבה לשירותים מיוחדים לנכים קשים"
   - "מומחים בינלאומיים על מדוכת הביטחון הסוציאלי"
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - HG
-  language_facet:
+  language_ssim:
   - Hebrew
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - E - History of the Americas (General)
-  author_t:
+  author_tsim:
   - Hearth, Amy Hill,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01490cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01490cam
     a2200361 a 4500</leader><controlfield tag=\"001\">  2007020969</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126093447.0</controlfield><controlfield
     tag=\"008\">070522s2008    nyua     b    000 0beng  </controlfield><datafield
@@ -2007,68 +2007,68 @@
     code=\"u\">http://www.loc.gov/catdir/enhancements/fy0808/2007020969-d.html</subfield></datafield><datafield
     tag=\"856\" ind1=\"4\" ind2=\"1\"><subfield code=\"3\">Sample text</subfield><subfield
     code=\"u\">http://www.loc.gov/catdir/enhancements/fy0808/2007020969-s.html</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - New York
-  author_display: Hearth, Amy Hill, 1958-
-  lc_callnum_display:
+  author_tsim: Hearth, Amy Hill, 1958-
+  lc_callnum_ssim:
   - E99.D2 H437 2008
-  title_t:
+  title_tsim:
   - "\"Strong Medicine speaks\" :"
-  pub_date:
+  pub_date_ssim:
   - '2008'
-  pub_date_sort: 2008
-  subtitle_display: 'a Native American elder has her say : an oral history'
+  pub_date_si: 2008
+  subtitle_tsim: 'a Native American elder has her say : an oral history'
   format: Book
-  url_suppl_display:
+  url_suppl_ssim:
   - http://www.loc.gov/catdir/toc/ecip0719/2007020969.html
   - http://www.loc.gov/catdir/enhancements/fy0808/2007020969-d.html
   - http://www.loc.gov/catdir/enhancements/fy0808/2007020969-s.html
-  material_type_display:
+  material_type_ssim:
   - xvii, 267 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - E99.D2
-  title_display: "\"Strong Medicine speaks\""
-  subject_addl_t:
+  title_tsim: "\"Strong Medicine speaks\""
+  subject_addl_ssim:
   - New Jersey Bridgeton Biography
   - New Jersey Bridgeton History
-  subject_t:
+  subject_tsim:
   - Strong Medicine, 1922-
   - Delaware women
   - Indian women shamans
   - Delaware Indians
-  title_sort: "\"strong medicine speaks\" :a native american elder has her say : an
+  title_si: "\"strong medicine speaks\" :a native american elder has her say : an
     oral history"
-  isbn_t:
+  isbn_ssim:
   - '9780743297790'
   - 0743297792
   id: '2007020969'
-  author_sort: Hearth Amy Hill 1958 Strong Medicine speaks a Native American elder
+  author_si: Hearth Amy Hill 1958 Strong Medicine speaks a Native American elder
     has her say  an oral history
-  title_addl_t:
+  title_addl_tsim:
   - "\"Strong Medicine speaks\" : a Native American elder has her say : an oral history
     /"
-  subject_geo_facet:
+  subject_geo_ssim:
   - New Jersey
   - Bridgeton
-  subject_topic_facet:
+  subject_ssim:
   - Strong Medicine, 1922-
   - Delaware women
   - Indian women shamans
   - Delaware Indians
-  author_addl_t:
+  author_addl_tsim:
   - Strong Medicine,
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - E
-  language_facet:
+  language_ssim:
   - English
-  subtitle_t:
+  subtitle_tsim:
   - 'a Native American elder has her say : an oral history /'
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - B - Philosophy, Psychology, Religion
-  author_t:
+  author_tsim:
   - Dkon-mchog-rgya-mtsho, Ra-se,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01099cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01099cam
     a22002534a 4500</leader><controlfield tag=\"001\">  2008305903</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122162012.0</controlfield><controlfield
     tag=\"008\">080602s2008    ii a          000 0 tibo </controlfield><datafield
@@ -2099,73 +2099,73 @@
     ind1=\" \" ind2=\"0\"><subfield code=\"a\">ʼBri-guṅ-pa (Sect)</subfield><subfield
     code=\"x\">Doctrines</subfield><subfield code=\"v\">Miscellanea.</subfield></datafield><datafield
     tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Sroṅ-btsan dpe mdzod khaṅ.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - "ʼPhags-yul Dhe-ra-dhun"
-  author_display: Dkon-mchog-rgya-mtsho, Ra-se, 1968-
-  lc_callnum_display:
+  author_tsim: Dkon-mchog-rgya-mtsho, Ra-se, 1968-
+  lc_callnum_ssim:
   - BQ7684.4 .D564 2008
-  title_t:
+  title_tsim:
   - 'Dris lan don gcig ma :'
-  pub_date:
+  pub_date_ssim:
   - '2008'
-  pub_date_sort: 2008
-  subtitle_display: dam paʼi chos dgoṅs pa gcig paʼi dri ba legs bśad bsu baʼi pho
+  pub_date_si: 2008
+  subtitle_tsim: dam paʼi chos dgoṅs pa gcig paʼi dri ba legs bśad bsu baʼi pho
     ñaʼi dris lan Dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba bźugs so
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 208 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - BQ7684.4
-  title_display: Dris lan don gcig ma
-  subject_addl_t:
+  title_tsim: Dris lan don gcig ma
+  subject_addl_ssim:
   - Doctrines Miscellanea
-  subject_t:
+  subject_tsim:
   - "ʼBri-guṅ-pa (Sect)"
-  title_sort: dris lan don gcig ma :dam paʼi chos dgoṅs pa gcig paʼi dri ba legs
+  title_si: dris lan don gcig ma :dam paʼi chos dgoṅs pa gcig paʼi dri ba legs
     bśad bsu baʼi pho ñaʼi dris lan dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba
     bźugs so
   id: '2008305903'
-  author_sort: Dkonmchogrgyamtsho Rase 1968 Dris lan don gcig ma dam paʼi chos dgoṅs
+  author_si: Dkonmchogrgyamtsho Rase 1968 Dris lan don gcig ma dam paʼi chos dgoṅs
     pa gcig paʼi dri ba legs bśad bsu baʼi pho ñaʼi dris lan Dgoṅsgcig smra baʼi
     mdzes rgyan źes bya ba bźugs so
-  title_addl_t:
+  title_addl_tsim:
   - 'Dris lan don gcig ma : dam paʼi chos dgoṅs pa gcig paʼi dri ba legs bśad bsu
     baʼi pho ñaʼi dris lan Dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba bźugs so
     /'
-  subject_topic_facet:
+  subject_ssim:
   - "ʼBri-guṅ-pa (Sect)"
-  author_addl_t:
+  author_addl_tsim:
   - Sroṅ-btsan dpe mdzod khaṅ.
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - BQ
-  language_facet:
+  language_ssim:
   - Tibetan
-  subtitle_t:
+  subtitle_tsim:
   - dam paʼi chos dgoṅs pa gcig paʼi dri ba legs bśad bsu baʼi pho ñaʼi dris lan
     Dgoṅs-gcig smra baʼi mdzes rgyan źes bya ba bźugs so /
   timestamp: '2014-02-03T18:42:53.056Z'
-- subtitle_display: a supplication to the noble Lama Mahaguru Padmasambhava
-  subject_addl_t:
+- subtitle_tsim: a supplication to the noble Lama Mahaguru Padmasambhava
+  subject_addl_ssim:
   - Prayers and devotions
   - India Prayers and devotions
-  title_display: Pluvial nectar of blessings
+  title_tsim: Pluvial nectar of blessings
   id: '2008308175'
-  isbn_t:
+  isbn_ssim:
   - '8186470336'
-  subject_geo_facet:
+  subject_geo_ssim:
   - India
-  subject_topic_facet:
+  subject_ssim:
   - Padma Sambhava, ca. 717-ca. 762
   - Priests, Buddhist
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - BQ
-  subtitle_t:
+  subtitle_tsim:
   - a supplication to the noble Lama Mahaguru Padmasambhava /
-  author_t:
+  author_tsim:
   - Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho, Dalai Lama V,
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - B - Philosophy, Psychology, Religion
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01582cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01582cam
     a2200325 a 4500</leader><controlfield tag=\"001\">  2008308175</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123091532.0</controlfield><controlfield
     tag=\"008\">080718s2002    ii       b    000 0 eng  </controlfield><datafield
@@ -2209,51 +2209,51 @@
     byin rlabs bdud rtsiʼi char rgyun.</subfield><subfield code=\"f\">2002</subfield></datafield><datafield
     tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Library of Tibetan Works
     &amp; Archives.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Dharamsala
-  author_display: Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho, Dalai Lama V, 1617-1682
-  lc_callnum_display:
+  author_tsim: Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho, Dalai Lama V, 1617-1682
+  lc_callnum_ssim:
   - BQ5593.P3 N3313 2002
-  title_t:
+  title_tsim:
   - 'Pluvial nectar of blessings :'
-  pub_date:
+  pub_date_ssim:
   - '2002'
-  pub_date_sort: 2002
+  pub_date_si: 2002
   format: Book
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - BQ5593.P3
-  material_type_display:
+  material_type_ssim:
   - viii, 101 p.
-  subject_t:
+  subject_tsim:
   - Padma Sambhava, ca. 717-ca. 762
   - Priests, Buddhist
-  title_sort: pluvial nectar of blessings :a supplication to the noble lama mahaguru
+  title_si: pluvial nectar of blessings :a supplication to the noble lama mahaguru
     padmasambhava
-  author_sort: Ṅagdbaṅblobzaṅrgyamtsho Dalai Lama V 16171682 Rje btsun bla ma ma
+  author_si: Ṅagdbaṅblobzaṅrgyamtsho Dalai Lama V 16171682 Rje btsun bla ma ma
     hā gu ru Padmaʼbyuṅgnas la gsol ba ʼdebs pa byin rlabs bdud rtsiʼi char rgyun
     English  Tibetan Pluvial nectar of blessings a supplication to the noble Lama
     Mahaguru Padmasambhava
-  title_addl_t:
+  title_addl_tsim:
   - 'Pluvial nectar of blessings : a supplication to the noble Lama Mahaguru Padmasambhava
     /'
   - Rje btsun bla ma ma hā gu ru Padma-ʼbyuṅ-gnas la gsol ba ʼdebs pa byin rlabs
     bdud rtsiʼi char rgyun. English & Tibetan
-  author_addl_t:
+  author_addl_tsim:
   - Cordell, Dennis.
   - Ṅag-dbaṅ-blo-bzaṅ-rgya-mtsho, Dalai Lama V,
   - Library of Tibetan Works & Archives.
-  title_added_entry_t:
+  title_added_entry_tsim:
   - Rje btsun bla ma ma hā gu ru Padma-ʼbyuṅ-gnas la gsol ba ʼdebs pa byin rlabs
     bdud rtsiʼi char rgyun
-  language_facet:
+  language_ssim:
   - English
   - Tibetan
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - B - Philosophy, Psychology, Religion
-  author_t:
+  author_tsim:
   - Bstan-ʼdzin-rgya-mtsho, Dalai Lama XIV,
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01221cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01221cam
     a22002534a 4500</leader><controlfield tag=\"001\">  2008308201</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090122162646.0</controlfield><controlfield
     tag=\"008\">080721s2008    ii            000 0 tibo </controlfield><datafield
@@ -2285,55 +2285,55 @@
     genius, nature.</subfield></datafield><datafield tag=\"710\" ind1=\"2\" ind2=\"
     \"><subfield code=\"a\">Rnam-rgyal Grwa-tshaṅ.</subfield><subfield code=\"b\">Śes-yon
     Lhan-tshogs.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Dharamsala, H.P.
-  author_display: Bstan-ʼdzin-rgya-mtsho, Dalai Lama XIV, 1935-
-  lc_callnum_display:
+  author_tsim: Bstan-ʼdzin-rgya-mtsho, Dalai Lama XIV, 1935-
+  lc_callnum_ssim:
   - BQ4036 .B78 2008
-  title_t:
+  title_tsim:
   - 'Bod kyi naṅ chos ṅo sprod sñiṅ bsdus :'
-  pub_date:
+  pub_date_ssim:
   - '2008'
-  pub_date_sort: 2008
-  subtitle_display: goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon
+  pub_date_si: 2008
+  subtitle_tsim: goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon
     rnams la naṅ chos ṅo sprod bstsal ba bźugs so
   format: Book
-  material_type_display:
+  material_type_ssim:
   - 4, iv, 254 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - BQ4036
-  title_display: Bod kyi naṅ chos ṅo sprod sñiṅ bsdus
-  subject_addl_t:
+  title_tsim: Bod kyi naṅ chos ṅo sprod sñiṅ bsdus
+  subject_addl_ssim:
   - Essence, genius, nature
-  subject_t:
+  subject_tsim:
   - Buddhism
-  title_sort: bod kyi naṅ chos ṅo sprod sñiṅ bsdus :goṅ sa skyabs mgon chen po
+  title_si: bod kyi naṅ chos ṅo sprod sñiṅ bsdus :goṅ sa skyabs mgon chen po
     mchog nas deṅ dus bod rigs na gźon rnams la naṅ chos ṅo sprod bstsal ba bźugs
     so
   id: '2008308201'
-  author_sort: Bstanʼdzinrgyamtsho Dalai Lama XIV 1935 Bod kyi naṅ chos ṅo sprod
+  author_si: Bstanʼdzinrgyamtsho Dalai Lama XIV 1935 Bod kyi naṅ chos ṅo sprod
     sñiṅ bsdus goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon
     rnams la naṅ chos ṅo sprod bstsal ba bźugs so
-  title_addl_t:
+  title_addl_tsim:
   - 'Bod kyi naṅ chos ṅo sprod sñiṅ bsdus : goṅ sa skyabs mgon chen po mchog
     nas deṅ dus Bod rigs na gźon rnams la naṅ chos ṅo sprod bstsal ba bźugs so.'
-  subject_topic_facet:
+  subject_ssim:
   - Buddhism
-  author_addl_t:
+  author_addl_tsim:
   - Rnam-rgyal Grwa-tshaṅ. Śes-yon Lhan-tshogs.
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - BQ
-  language_facet:
+  language_ssim:
   - Tibetan
-  subtitle_t:
+  subtitle_tsim:
   - goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon rnams la naṅ
     chos ṅo sprod bstsal ba bźugs so.
   timestamp: '2014-02-03T18:42:53.056Z'
-- lc_1letter_facet:
+- lc_1letter_ssim:
   - D - World History
-  author_t:
+  author_tsim:
   - Thub-bstan-yar-ʼphel, Rnam-grwa.
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01111cam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01111cam
     a2200289 a 4500</leader><controlfield tag=\"001\">  2008308202</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121092141.0</controlfield><controlfield
     tag=\"008\">080721s2005    ii b     b    000 0 tibo </controlfield><datafield
@@ -2366,47 +2366,47 @@
     tag=\"651\" ind1=\" \" ind2=\"0\"><subfield code=\"a\">Tibet (China)</subfield><subfield
     code=\"x\">History</subfield><subfield code=\"v\">Miscellanea.</subfield></datafield><datafield
     tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Rnam-rgyal Grwa-tshaṅ.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Dharamsala, H.P.
-  author_display: Thub-bstan-yar-ʼphel, Rnam-grwa
-  lc_callnum_display:
+  author_tsim: Thub-bstan-yar-ʼphel, Rnam-grwa
+  lc_callnum_ssim:
   - DS785 .T475 2005
-  title_t:
+  title_tsim:
   - Bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal śel gyi me
     loṅ źes bya ba bźugs so /
-  pub_date:
+  pub_date_ssim:
   - '2005'
-  pub_date_sort: 2005
+  pub_date_si: 2005
   format: Book
-  material_type_display:
+  material_type_ssim:
   - a-e, iv, ii, 407 p.
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - DS785
-  title_display: Bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal
+  title_tsim: Bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal
     śel gyi me loṅ źes bya ba bźugs so
-  subject_addl_t:
+  subject_addl_ssim:
   - History Miscellanea
-  subject_t:
+  subject_tsim:
   - Tibet (China)
-  title_sort: bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal śel
+  title_si: bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal śel
     gyi me loṅ źes bya ba bźugs so
   id: '2008308202'
-  author_sort: Thubbstanyarʼphel Rnamgrwa Bod gaṅs can gyi rgyal rabs mdor bsdus
+  author_si: Thubbstanyarʼphel Rnamgrwa Bod gaṅs can gyi rgyal rabs mdor bsdus
     dris lan brgya pa rab gsal śel gyi me loṅ źes bya ba bźugs so
-  title_addl_t:
+  title_addl_tsim:
   - Bod gaṅs can gyi rgyal rabs mdor bsdus dris lan brgya pa rab gsal śel gyi me
     loṅ źes bya ba bźugs so /
   - Rgyal rabs dris lan brgya pa rab gsal śel gyi me loṅ
-  subject_geo_facet:
+  subject_geo_ssim:
   - Tibet (China)
-  author_addl_t:
+  author_addl_tsim:
   - Rnam-rgyal Grwa-tshaṅ.
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - DS
-  language_facet:
+  language_ssim:
   - Tibetan
   timestamp: '2014-02-03T18:42:53.056Z'
-- marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01127cam
+- marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01127cam
     a22002895a 4500</leader><controlfield tag=\"001\">  2008308478</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090123131001.0</controlfield><controlfield
     tag=\"008\">080728s2007    ii            000 0 tibo </controlfield><datafield
@@ -2440,74 +2440,74 @@
     code=\"a\">Teaching</subfield><subfield code=\"x\">Methodology.</subfield></datafield><datafield
     tag=\"710\" ind1=\"2\" ind2=\" \"><subfield code=\"a\">Sa-rā Bod kyi mtho rim
     slob gñer khaṅ.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Dharamsala, Distt. Kangra, H.P.
-  title_t:
+  title_tsim:
   - Śes yon.
-  pub_date:
+  pub_date_ssim:
   - '2007'
-  pub_date_sort: 2007
+  pub_date_si: 2007
   format: Book
-  title_display: Śes yon
-  subject_addl_t:
+  title_tsim: Śes yon
+  subject_addl_ssim:
   - China Tibet
   - Education India
   - Study and teaching India
   - Methodology
   - Education Policy
-  material_type_display:
+  material_type_ssim:
   - xii, 419 p.
-  subject_t:
+  subject_tsim:
   - Education and state
   - Tibetans
   - Tibetan language
   - Teaching
-  title_sort: śes yon
+  title_si: śes yon
   id: '2008308478'
-  author_sort: "\U0010FFFF Śes yon"
-  title_addl_t:
+  author_si: "\U0010FFFF Śes yon"
+  title_addl_tsim:
   - Śes yon.
-  subject_geo_facet:
+  subject_geo_ssim:
   - China
   - Tibet
   - India
-  subject_topic_facet:
+  subject_ssim:
   - Education and state
   - Tibetans
   - Tibetan language
   - Teaching
-  author_addl_t:
+  author_addl_tsim:
   - Sa-rā Bod kyi mtho rim slob gñer khaṅ.
-  language_facet:
+  language_ssim:
   - Tibetan
   timestamp: '2014-02-03T18:42:53.056Z'
-- author_vern_display: "吉田一, 1934-"
-  subject_addl_t:
+- author_vern_ssim: "吉田一, 1934-"
+  subject_addl_ssim:
   - 20th century History and criticism
   - History and criticism
   - Japan History
-  title_display: Kubo Sakae 'Kazanbaichi' o yomu
-  subject_era_facet:
+  title_tsim: Kubo Sakae 'Kazanbaichi' o yomu
+  subject_era_ssim:
   - 20th century
   id: '2008543486'
-  isbn_t:
+  isbn_ssim:
   - '9784588460050'
   - '4588460056'
-  subject_geo_facet:
+  subject_geo_ssim:
   - Japan
-  subject_topic_facet:
+  subject_ssim:
   - Kubo, Sakae, 1901-1958
   - Japanese drama
   - Political plays, Japanese
   - Theater
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - PL
-  author_t:
+  author_tsim:
   - Yoshida, Hajime,
   - "吉田一"
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - P - Language & Literature
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01230nam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01230nam
     a22003494a 4500</leader><controlfield tag=\"001\">  2008543486</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090126101044.0</controlfield><controlfield
     tag=\"008\">081217s1997    ja            000 0 jpn d</controlfield><datafield
@@ -2553,69 +2553,69 @@
     tag=\"880\" ind1=\"1\" ind2=\"0\"><subfield code=\"6\">600-05/$1</subfield><subfield
     code=\"a\">久保栄,</subfield><subfield code=\"d\">1901-1958.</subfield><subfield
     code=\"t\">Kazanbaichi.</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Tōkyō
-  author_display: Yoshida, Hajime, 1934-
-  title_vern_display: "久保栄「火山灰地」を読む"
-  lc_callnum_display:
+  author_tsim: Yoshida, Hajime, 1934-
+  title_vern_ssim: "久保栄「火山灰地」を読む"
+  lc_callnum_ssim:
   - PL832.U25 Z96 1997
-  title_t:
+  title_tsim:
   - Kubo Sakae 'Kazanbaichi' o yomu /
   - "久保栄「火山灰地」を読む"
-  pub_date:
+  pub_date_ssim:
   - '1997'
-  pub_date_sort: 1997
-  published_vern_display:
+  pub_date_si: 1997
+  published_vern_ssim:
   - "東京"
   format: Book
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - PL832.U25
-  material_type_display:
+  material_type_ssim:
   - 480 p.
-  subject_t:
+  subject_tsim:
   - Kubo, Sakae, 1901-1958. Kazanbaichi
   - Japanese drama
   - Political plays, Japanese
   - Theater
   - "久保栄, 1901-1958. Kazanbaichi"
-  title_sort: kubo sakae 'kazanbaichi' o yomu
-  author_sort: Yoshida Hajime 1934 Kubo Sakae Kazanbaichi o yomu
-  title_addl_t:
+  title_si: kubo sakae 'kazanbaichi' o yomu
+  author_si: Yoshida Hajime 1934 Kubo Sakae Kazanbaichi o yomu
+  title_addl_tsim:
   - Kubo Sakae 'Kazanbaichi' o yomu /
   - "久保栄「火山灰地」を読む"
-  language_facet:
+  language_ssim:
   - Japanese
   timestamp: '2014-02-03T18:42:53.056Z'
-- author_vern_display: "林行止"
-  subject_addl_t:
+- author_vern_ssim: "林行止"
+  subject_addl_ssim:
   - 1990-
   - 2005-2015
   - Economic conditions 1997-
   - Politics and government 1997-
-  title_display: Ci an zhou bian
-  subject_era_facet:
+  title_tsim: Ci an zhou bian
+  subject_era_ssim:
   - 1990-
   - 2005-2015
   - 1997-
   id: '2009373513'
-  isbn_t:
+  isbn_ssim:
   - '9789573908678'
   - '9573908670'
-  subject_geo_facet:
+  subject_geo_ssim:
   - Economic history
   - World politics
   - Hong Kong (China)
-  lc_alpha_facet:
+  lc_alpha_ssim:
   - HC
-  title_series_t:
+  title_series_tsim:
   - Lin Xingzhi zuo pin ji ; 51
   - "林行止作品集 ; 51"
-  author_t:
+  author_tsim:
   - Lin, Xingzhi.
   - "林行止"
-  lc_1letter_facet:
+  lc_1letter_ssim:
   - H - Social Sciences
-  marc_display: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01213nam
+  marc_ss: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><collection xmlns=\"http://www.loc.gov/MARC21/slim\"><record><leader>01213nam
     a22003614a 4500</leader><controlfield tag=\"001\">  2009373513</controlfield><controlfield
     tag=\"003\">DLC</controlfield><controlfield tag=\"005\">20090121153231.0</controlfield><controlfield
     tag=\"008\">090114s2008    ch            000 0 chi d</controlfield><datafield
@@ -2659,34 +2659,34 @@
     code=\"c\">2008.</subfield></datafield><datafield tag=\"880\" ind1=\"0\" ind2=\"
     \"><subfield code=\"6\">490-05/$1</subfield><subfield code=\"a\">林行止作品集 ;</subfield><subfield
     code=\"v\">51</subfield></datafield></record></collection>"
-  published_display:
+  published_ssim:
   - Taibei Xian Banqiao Shi
-  author_display: Lin, Xingzhi
-  title_vern_display: "次按驟變"
-  lc_callnum_display:
+  author_tsim: Lin, Xingzhi
+  title_vern_ssim: "次按驟變"
+  lc_callnum_ssim:
   - HC59.15 .L533 2008
-  title_t:
+  title_tsim:
   - Ci an zhou bian /
   - "次按驟變"
-  pub_date:
+  pub_date_ssim:
   - '2008'
-  pub_date_sort: 2008
-  published_vern_display:
+  pub_date_si: 2008
+  published_vern_ssim:
   - "臺北縣板橋市"
   format: Book
-  lc_b4cutter_facet:
+  lc_b4cutter_ssim:
   - HC59.15
-  material_type_display:
+  material_type_ssim:
   - 5, 300 p.
-  subject_t:
+  subject_tsim:
   - Economic history
   - World politics
   - Hong Kong (China)
-  title_sort: ci an zhou bian
-  author_sort: Lin Xingzhi Ci an zhou bian
-  title_addl_t:
+  title_si: ci an zhou bian
+  author_si: Lin Xingzhi Ci an zhou bian
+  title_addl_tsim:
   - Ci an zhou bian /
   - "次按驟變"
-  language_facet:
+  language_ssim:
   - Chinese
   timestamp: '2014-02-03T18:42:53.056Z'

@@ -1,9 +1,10 @@
 <nav class="alpha-filter">
-  <%= link_to t('blacklight.search.facets.clear'), @pagination.params_for_resort_url('index', search_state.to_h.except(@pagination.request_keys[:prefix])), data: { blacklight_modal: "preserve" }, class: ['btn btn-secondary', ('disabled' unless @pagination.prefix.present?)].join(' ') %>
-
-  <ol class="pagination">
+  <ol class="pagination pagination-sm justify-content-center">
+    <li class="page-item <%= 'active' if @pagination.prefix.blank? %>">
+      <%= link_to t('blacklight.search.facets.all'), @pagination.params_for_resort_url('index', search_state.to_h.except(@pagination.request_keys[:prefix])), data: { blacklight_modal: "preserve" }, class: 'page-link' %>
+    </li>
     <% @facet.index_range.each do |letter| %>
-      <li class="<%= 'active' if @pagination.prefix == letter %>"><%= link_to(letter, @pagination.params_for_resort_url('index', search_state.to_h.merge(@pagination.request_keys[:prefix] => letter)), data: { blacklight_modal: "preserve" }) %></li>
+      <li class="page-item <%= 'active' if @pagination.prefix == letter %>"><%= link_to(letter, @pagination.params_for_resort_url('index', search_state.to_h.merge(@pagination.request_keys[:prefix] => letter)), class: 'page-link', data: { blacklight_modal: "preserve" }) %></li>
     <% end %>
   </ol>
 </nav>

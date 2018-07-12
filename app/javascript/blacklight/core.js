@@ -31,9 +31,9 @@ Blacklight = function() {
 }();
 
 // turbolinks triggers page:load events on page transition
-// If app isn't using turbolinks, this event will never be triggered, no prob. 
+// If app isn't using turbolinks, this event will never be triggered, no prob.
 $(document).on(Blacklight.listeners(), function() {
-  Blacklight.activate();  
+  Blacklight.activate();
 });
 
-
+$('.no-js').removeClass('no-js').addClass('js');

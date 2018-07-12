@@ -14,7 +14,7 @@ module Blacklight::Configurable
 
   module ClassMethods
     def copy_blacklight_config_from(other_class)
-      self.blacklight_config = other_class.blacklight_config.inheritable_copy
+      self.blacklight_config = other_class.blacklight_config.inheritable_copy(self)
     end
 
     # lazy load a deep_copy of superclass if present, else
@@ -24,7 +24,7 @@ module Blacklight::Configurable
     # we lazy load to 'inherit' how we want.
     def blacklight_config
       @blacklight_config ||= if superclass.respond_to?(:blacklight_config)
-                               superclass.blacklight_config.deep_copy
+                               superclass.blacklight_config.build(self)
                              else
                                default_configuration
                              end
@@ -39,7 +39,7 @@ module Blacklight::Configurable
     ##
     # The default configuration object
     def default_configuration
-      Blacklight::Configurable.default_configuration.inheritable_copy
+      Blacklight::Configurable.default_configuration.inheritable_copy(self)
     end
   end
 

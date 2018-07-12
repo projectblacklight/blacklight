@@ -8,8 +8,36 @@ RSpec.describe BlacklightHelper do
   end
 
   describe "#application_name" do
+    before do
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::NullStore.new)
+    end
     it "defaults to 'Blacklight'" do
       expect(application_name).to eq "Blacklight"
+    end
+
+    context "when the language is not english " do
+      around do |example|
+        I18n.locale = :de
+        example.run
+        I18n.locale = :en
+      end
+
+      context "and no translation exists for that language" do
+        it "defaults to 'Blacklight'" do
+          expect(application_name).to eq "Blacklight"
+        end
+      end
+
+      context "and a translation exists for that language" do
+        around do |example|
+          I18n.backend.store_translations(:de, 'blacklight' => { 'application_name' => 'Schwarzlicht' } )
+          example.run
+          I18n.backend.reload!
+        end
+        it "uses the provided value" do
+          expect(application_name).to eq "Schwarzlicht"
+        end
+      end
     end
   end
 
@@ -34,7 +62,7 @@ RSpec.describe BlacklightHelper do
     let(:presenter) { Blacklight::IndexPresenter.new(document, view_context) }
     let(:blacklight_config) do
       Blacklight::Configuration.new.configure do |config|
-        config.index.title_field = 'title_display'
+        config.index.title_field = 'title_tsim'
         config.index.display_type_field = 'format'
       end
     end
@@ -58,11 +86,11 @@ RSpec.describe BlacklightHelper do
   describe "with a config" do
     let(:config) do
       Blacklight::Configuration.new.configure do |config|
-        config.index.title_field = 'title_display'
+        config.index.title_field = 'title_tsim'
         config.index.display_type_field = 'format'
       end
     end
-    let(:document) { SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8') }
+    let(:document) { SolrDocument.new('title_tsim' => "A Fake Document", 'id'=>'8') }
 
     before do
       config.add_show_tools_partial(:bookmark, partial: 'catalog/bookmark_control')
@@ -193,12 +221,16 @@ RSpec.describe BlacklightHelper do
       response = double(total: 10)
       expect(helper.should_show_spellcheck_suggestions? response).to be false
     end
-    it "onlies show suggestions if there are very few results" do
+    it "only shows suggestions if there are very few results" do
       response = double(total: 4, spelling: double(words: [1]))
       expect(helper.should_show_spellcheck_suggestions? response).to be true
     end
     it "shows suggestions only if there are spelling suggestions available" do
       response = double(total: 4, spelling: double(words: []))
+      expect(helper.should_show_spellcheck_suggestions? response).to be false
+    end
+    it "does not show suggestions if spelling is not available" do
+      response = double(total: 4, spelling: nil)
       expect(helper.should_show_spellcheck_suggestions? response).to be false
     end
   end

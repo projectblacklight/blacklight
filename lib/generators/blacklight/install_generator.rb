@@ -11,7 +11,7 @@ module Blacklight
 
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
-    class_option :'skip-assets', type: :boolean, default: false, desc: "Skip generating javascript and css assets into the application"
+    class_option :'skip-assets', type: :boolean, default: !defined?(Sprockets), desc: "Skip generating javascript and css assets into the application"
     class_option :'skip-solr', type: :boolean, default: false, desc: "Skip generating solr configurations."
 
     desc <<-EOS
@@ -30,17 +30,17 @@ module Blacklight
       generate 'blacklight:solr' unless options[:'skip-solr']
     end
 
-    def bundle_install
-      Bundler.with_clean_env do
-        run "bundle install"
-      end
-    end
-
     # Copy all files in templates/public/ directory to public/
     # Call external generator in AssetsGenerator, so we can
     # leave that callable seperately too.
     def copy_public_assets
       generate "blacklight:assets" unless options[:'skip-assets']
+    end
+
+    def bundle_install
+      Bundler.with_clean_env do
+        run "bundle install"
+      end
     end
 
     def generate_blacklight_document

@@ -9,10 +9,16 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Get the name of this application from an i18n string
   # key: blacklight.application_name
+  # Try first in the current locale, then the default locale
   #
   # @return [String] the application name
   def application_name
-    t('blacklight.application_name')
+    # It's important that we don't use ActionView::Helpers::CacheHelper#cache here
+    # because it returns nil.
+    Rails.cache.fetch 'blacklight/application_name' do
+      t('blacklight.application_name',
+        default: t('blacklight.application_name', locale: I18n.default_locale))
+    end
   end
 
   ##
@@ -110,7 +116,10 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def should_show_spellcheck_suggestions? response
-    response.total <= spell_check_max && response.spelling.words.any?
+    # The spelling response field may be missing from non solr repositories.
+    response.total <= spell_check_max &&
+      !response.spelling.nil? &&
+      response.spelling.words.any?
   end
 
   ##
@@ -209,7 +218,7 @@ module Blacklight::BlacklightHelperBehavior
   def document_index_view_type query_params = params
     view_param = query_params[:view]
     view_param ||= session[:preferred_view]
-    if view_param && document_index_views.keys.include?(view_param.to_sym)
+    if view_param && document_index_views.key?(view_param.to_sym)
       view_param.to_sym
     else
       default_document_index_view_type

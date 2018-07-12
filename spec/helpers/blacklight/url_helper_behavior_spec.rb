@@ -4,7 +4,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
-      config.index.title_field = 'title_display'
+      config.index.title_field = 'title_tsim'
       config.index.display_type_field = 'format'
     end
   end
@@ -194,34 +194,34 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   end
 
   describe "link_to_document" do
-    let(:title_display) { '654321' }
+    let(:title_tsim) { '654321' }
     let(:id) { '123456' }
-    let(:data) { { 'id' => id, 'title_display' => [title_display] } }
+    let(:data) { { 'id' => id, 'title_tsim' => [title_tsim] } }
     let(:document) { SolrDocument.new(data) }
     before do
       allow(controller).to receive(:action_name).and_return('index')
     end
 
     it "consists of the document title wrapped in a <a>" do
-      expect(helper.link_to_document(document, :title_display)).to have_selector("a", :text => '654321', :count => 1)
+      expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", :text => '654321', :count => 1)
     end
 
     it "accepts and returns a string label" do
-      expect(helper.link_to_document(document, String.new('title_display'))).to have_selector("a", :text => 'title_display', :count => 1)
+      expect(helper.link_to_document(document, String.new('title_tsim'))).to have_selector("a", :text => 'title_tsim', :count => 1)
     end
 
     it "accepts and returns a Proc" do
-      expect(helper.link_to_document(document, Proc.new { |doc, opts| doc[:id] + ": " + doc.first(:title_display) })).to have_selector("a", :text => '123456: 654321', :count => 1)
+      expect(helper.link_to_document(document, Proc.new { |doc, opts| doc[:id] + ": " + doc.first(:title_tsim) })).to have_selector("a", :text => '123456: 654321', :count => 1)
     end
 
     context 'when label is missing' do
       let(:data) { { 'id' => id } }
       it "returns id" do
-        expect(helper.link_to_document(document, :title_display)).to have_selector("a", :text => '123456', :count => 1)
+        expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", :text => '123456', :count => 1)
       end
 
       it "is html safe" do
-        expect(helper.link_to_document(document, :title_display)).to be_html_safe
+        expect(helper.link_to_document(document, :title_tsim)).to be_html_safe
       end
 
       it "passes on the title attribute to the link_to_with_data method" do
@@ -243,7 +243,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     it "converts the counter parameter into a data- attribute" do
       allow(helper).to receive(:track_test_path).with(hash_including(id: have_attributes(id: '123456'), counter: 5)).and_return('tracking url')
 
-      expect(helper.link_to_document(document, :title_display, counter: 5)).to include 'data-context-href="tracking url"'
+      expect(helper.link_to_document(document, :title_tsim, counter: 5)).to include 'data-context-href="tracking url"'
     end
 
     it "includes the data- attributes from the options" do

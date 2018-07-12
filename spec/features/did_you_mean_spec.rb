@@ -88,13 +88,13 @@ RSpec.describe "Did You Mean" do
         expect(page).to have_link('bon')
         expect(page).not_to have_link('policy bon')
       end
-      
+
       click_link 'bon'
       within ("#sortAndPerPage") do
         expect(page).to have_content "1 entry found"
       end
     end
-    
+
     it "ignores repeated terms" do
       fill_in "q", with: 'boo boo'
       click_button 'search'
@@ -118,12 +118,6 @@ RSpec.describe "Did You Mean" do
     end
   end
 
-  it "does not show suggestions if there are many results" do
-    # histori gives 9 results in 30 record demo index
-    fill_in "q", with: 'histori'
-    click_button 'search'
-    expect(page).to_not have_content("Did you mean")
-  end
 
   it "shows suggestions if at the threshold number" do
     # polit gives 5 results in 30 record demo index - 5 is default cutoff

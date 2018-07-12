@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Blacklight::Document::ActiveModelShim' do
+RSpec.describe 'Blacklight::Document::ActiveModelShim', api: true do
 
   class MockDocument
     include Blacklight::Document
@@ -23,7 +23,7 @@ RSpec.describe 'Blacklight::Document::ActiveModelShim' do
   before do
     allow(MockDocument).to receive(:repository).and_return(double(find: MockResponse.new([{id: 1}], {})))
   end
- 
+
   describe "#find" do
    it "should return a document from the repository" do
       expect(MockDocument.find(1)).to be_a MockDocument

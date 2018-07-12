@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-RSpec.describe Blacklight::Solr::Response::Group do
-  
+RSpec.describe Blacklight::Solr::Response::Group, api: true do
+
   let(:response) do
     create_response(sample_response)
   end
@@ -39,7 +39,7 @@ RSpec.describe Blacklight::Solr::Response::Group do
       subject.docs.each do |doc|
         expect(doc).to be_a_kind_of SolrDocument
       end
-    
+
       expect(subject.docs.first.id).to eq 1
     end
   end
@@ -59,8 +59,8 @@ end
 
 def sample_response
   {"responseHeader" => {"params" =>{"rows" => 3, "group.limit" => 5}},
-   "grouped" => 
-     {'result_group_ssi' => 
+   "grouped" =>
+     {'result_group_ssi' =>
        {'groups' => [{'groupValue'=>"Group 1", 'doclist'=>{'numFound'=>2, 'start' => 0, 'docs'=>[{:id=>1}, {:id => 'x'}]}},
                      {'groupValue'=>"Group 2", 'doclist'=>{'numFound'=>3, 'docs'=>[{:id=>2}, :id=>3]}}
                     ],

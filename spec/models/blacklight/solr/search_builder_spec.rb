@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
+RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
   let(:single_facet) { { format: 'Book' } }
-  let(:multi_facets) { { format: 'Book', language_facet: 'Tibetan' } }
+  let(:multi_facets) { { format: 'Book', language_ssim: 'Tibetan' } }
   let(:mult_word_query) { 'tibetan history' }
   let(:subject_search_params) { { commit: "search", search_field: "subject", action: "index", controller: "catalog", rows: "10", q: "wome" } }
 
@@ -91,32 +91,32 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
     end
 
     it "should generate a facet limit" do
-      expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq 21
+      expect(subject[:"f.subject_ssim.facet.limit"]).to eq 21
     end
 
     context 'with a negative facet limit' do
       before do
-        blacklight_config.facet_fields['subject_topic_facet'].limit = -1
+        blacklight_config.facet_fields['subject_ssim'].limit = -1
       end
 
       it 'is negative' do
-        expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq -1
+        expect(subject[:"f.subject_ssim.facet.limit"]).to eq -1
       end
     end
 
     context 'with a facet limit set to 0' do
       before do
-        blacklight_config.facet_fields['subject_topic_facet'].limit = 0
+        blacklight_config.facet_fields['subject_ssim'].limit = 0
       end
 
       it 'is negative' do
-        expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq 0
+        expect(subject[:"f.subject_ssim.facet.limit"]).to eq 0
       end
     end
 
     it "should handle no facet_limits in config" do
       blacklight_config.facet_fields = {}
-      expect(subject).not_to have_key(:"f.subject_topic_facet.facet.limit")
+      expect(subject).not_to have_key(:"f.subject_ssim.facet.limit")
     end
 
     describe "with max per page enforced" do
@@ -159,7 +159,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
       end
       it 'should have default facet fields' do
         # remove local params from the facet.field
-        expect(subject[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array ["format", "subject_topic_facet", "pub_date", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
+        expect(subject[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array ["format", "subject_ssim", "pub_date_ssim", "language_ssim", "lc_1letter_ssim", "subject_geo_ssim", "subject_era_ssim"]
       end
 
       it "should not have a default qt"  do
@@ -297,9 +297,9 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
 
 
     describe "sorting" do
-      context "when the user has not provided a value" do
-        it "sends the default sort parameter to solr" do
-          expect(subject[:sort]).to eq 'score desc, pub_date_sort desc, title_sort asc'
+      context 'when the user has not provided a value' do
+        it 'sends the default sort parameter to solr' do
+          expect(subject[:sort]).to eq 'score desc, pub_date_si desc, title_si asc'
         end
       end
 
@@ -315,9 +315,9 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior do
       end
 
       context "when the user provides a valid sort parmeter" do
-        let(:user_params) { { sort: 'title_sort asc, pub_date_sort desc' } }
+        let(:user_params) { { sort: 'title_si asc, pub_date_si desc' } }
         it "passes them through" do
-          expect(subject[:sort]).to eq 'title_sort asc, pub_date_sort desc'
+          expect(subject[:sort]).to eq 'title_si asc, pub_date_si desc'
         end
       end
 

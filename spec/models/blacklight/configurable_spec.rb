@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Blacklight::Configurable" do
+RSpec.describe "Blacklight::Configurable", api: true do
 
   describe "inheritence" do
     before(:all) do
@@ -17,19 +17,19 @@ RSpec.describe "Blacklight::Configurable" do
         end
       end
     end
-    it "inherits the configuration when subclassed" do            
+    it "inherits the configuration when subclassed" do
       expect(TestCaseInheritence::Child.blacklight_config.list).to include(1,2,3)
     end
-    
-    it "inherited version should be a deep copy, not original" do      
+
+    it "inherited version should be a deep copy, not original" do
       expect(TestCaseInheritence::Child.blacklight_config).to_not  be(TestCaseInheritence::Parent.blacklight_config)
-    
+
       TestCaseInheritence::Child.blacklight_config.list << "child_only"
 
 
-      expect(TestCaseInheritence::Child.blacklight_config.list).to include("child_only")      
+      expect(TestCaseInheritence::Child.blacklight_config.list).to include("child_only")
       expect(TestCaseInheritence::Parent.blacklight_config.list).to_not include("child_only")
-    end    
+    end
   end
 
   describe "default configuration" do
@@ -56,15 +56,15 @@ RSpec.describe "Blacklight::Configurable" do
       a.send(:include, Blacklight::Configurable)
       expect(a.blacklight_config.a).to eq 1
     end
-    
+
     it "has configure_blacklight convenience method" do
       klass = Class.new
       klass.send(:include, Blacklight::Configurable)
-      
+
       klass.configure_blacklight do |config|
         config.my_key = 'value'
-      end 
-      
+      end
+
       expect(klass.blacklight_config.my_key).to eq 'value'
     end
 
@@ -75,11 +75,11 @@ RSpec.describe "Blacklight::Configurable" do
 
       instance = klass.new
       instance.blacklight_config = Blacklight::Configuration.new
-      
+
       expect(instance.blacklight_config).to_not eq klass.blacklight_config
       expect(instance.blacklight_config.foo).to be_nil
     end
-    
+
     it "allows instance to set it's own config seperate from class" do
       # this is built into class_attribute; we spec it both to document it,
       # and to ensure we preserve this feature if we change implementation
@@ -89,7 +89,7 @@ RSpec.describe "Blacklight::Configurable" do
       klass.blacklight_config.foo = "bar"
       klass.blacklight_config.bar = []
       klass.blacklight_config.bar << "asd"
-      
+
       instance = klass.new
       instance.blacklight_config.bar << "123"
       expect(instance.blacklight_config).to_not eq klass.blacklight_config
@@ -111,7 +111,6 @@ RSpec.describe "Blacklight::Configurable" do
       expect(klass.blacklight_config.foo).to eq "bar"
       expect(klass2.blacklight_config.foo).to eq "asdf"
     end
-    
+
   end
 end
-  

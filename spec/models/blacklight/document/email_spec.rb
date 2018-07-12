@@ -5,13 +5,13 @@ RSpec.describe "Blacklight::Document::Email" do
     SolrDocument.use_extension( Blacklight::Document::Email )
   end
   it "should only return values that are available in the field semantics" do
-    doc = SolrDocument.new({:id=>"1234", :title_display=>"My Title"})
+    doc = SolrDocument.new({:id=>"1234", :title_tsim=>"My Title"})
     email_body = doc.to_email_text
     expect(email_body).to match(/Title: My Title/)
     expect(email_body).to_not match(/Author/)
   end
   it "should handle multi-values fields correctly" do
-    doc = SolrDocument.new({:id=>"1234", :title_display=>["My Title", "My Alt. Title"]})
+    doc = SolrDocument.new({:id=>"1234", :title_tsim=>["My Title", "My Alt. Title"]})
     email_body = doc.to_email_text
     expect(email_body).to match(/Title: My Title My Alt. Title/)
   end

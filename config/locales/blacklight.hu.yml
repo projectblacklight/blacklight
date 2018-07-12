@@ -128,7 +128,8 @@ hu:
         title: '%{constraints} - %{application_name} Keresés eredményei'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} kiválasztva'
-      search_results_header: 'Keresés feltételei'
+      header: 'Keresés'
+      search_constraints_header: 'Keresés feltételei'
       search_results: 'Keresés eredményei'
       errors:
         request_error: "Elnézést, nem tudom értelmezni a keresést."
@@ -166,6 +167,7 @@ hu:
       facets:
         title: 'Szűrje tovább a keresését'
         clear: 'Szűrőfeltétel eltávolítása'
+        all: 'Minden'
         sort:
           count: 'Numerikus rendezés'
           index: 'A-Z rendezés'

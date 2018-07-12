@@ -13,7 +13,6 @@ pt-BR:
 
   blacklight:
     application_name: 'Blacklight'
-
     header_links:
       login: 'Acessar'
       logout: 'Sair'
@@ -23,6 +22,9 @@ pt-BR:
     welcome: 'Bem-Vindo!'
     and: 'e'
     or: 'ou'
+
+    modal:
+      close: Fechar
 
     bookmarks:
       title: 'Favoritos'
@@ -125,7 +127,8 @@ pt-BR:
         title: '%{constraints} - %{application_name} Resultado da Busca'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} selecionado'
-      search_results_header: 'Busca'
+      header: 'Busca'
+      search_constraints_header: 'Busca'
       search_results: 'Resultados da Busca'
       errors:
         request_error: "Desculpe, Eu não compreendi sua busca."
@@ -163,6 +166,7 @@ pt-BR:
       facets:
         title: 'Filtre sua busca'
         clear: 'Limpar'
+        all: 'Todo'
         sort:
           count: 'Ordenar por Número'
           index: 'Ordem Alfabética A-Z'
@@ -170,7 +174,9 @@ pt-BR:
         more_html: 'mais <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[remover]'
-        missing: '[Faltando]'
+        missing: [Ausência]
+      group:
+        more: 'mais »'
       filters:
         title: 'Sua busca por:'
         label: '%{label}:'

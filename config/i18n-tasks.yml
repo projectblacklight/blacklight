@@ -1,0 +1,17 @@
+# i18n-tasks finds and manages missing and unused translations: https://github.com/glebm/i18n-tasks
+base_locale: en
+locales: [es, fr, de, it, pt-BR]
+data:
+  read:
+    - config/locales/%{locale}.yml
+    - config/locales/**/*.%{locale}.yml
+
+  yaml:
+    write:
+      line_width: -1
+search:
+  paths:
+   - app/
+  exclude:
+    - app/assets/images
+    - app/assets/fonts

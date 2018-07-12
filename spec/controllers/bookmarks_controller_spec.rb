@@ -11,7 +11,7 @@ RSpec.describe BookmarksController do
   describe "update" do
     it "has a 200 status code when creating a new one" do
       put :update, xhr: true, params: { id: '2007020969', format: :js }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.code).to eq "200"
       expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 1
     end
@@ -25,6 +25,25 @@ RSpec.describe BookmarksController do
       expect(response.code).to eq "500"
     end
   end
+
+  describe "create" do
+    it "can create bookmarks via params bookmarks attribute" do
+      @controller.send(:current_or_guest_user).save
+      put :create, xhr: true, params: {
+        id: "notused",
+        bookmarks: [
+          { document_id: "2007020969", document_type: "SolrDocument" },
+          { document_id: "2007020970", document_type: "SolrDocument" },
+          { document_id: "2007020971", document_type: "SolrDocument" }
+        ],
+        format: :js
+      }
+
+      expect(response).to be_successful
+      expect(response.code).to eq "200"
+      expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 3
+    end
+  end
   
   describe "delete" do
     before do
@@ -34,7 +53,23 @@ RSpec.describe BookmarksController do
     
     it "has a 200 status code when delete is success" do
       delete :destroy, xhr: true, params: { id: '2007020969', format: :js }
-      expect(response).to be_success
+      expect(response).to be_successful
+      expect(response.code).to eq "200"
+      expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 0
+    end
+
+    it "can handle bookmark deletion via :bookmarks param" do
+      class FooDocument < SolrDocument; end
+      @controller.send(:current_or_guest_user).bookmarks.create! document_id: '2007020970', document_type: "FooDocument"
+      delete :destroy, xhr: true, params: {
+        id: 'notused',
+        bookmarks: [
+          { document_id: '2007020969', document_type: 'SolrDocument' },
+          { document_id: '2007020970', document_type: 'FooDocument' }
+        ],
+        format: :js
+      }
+      expect(response).to be_successful
       expect(response.code).to eq "200"
       expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 0
     end

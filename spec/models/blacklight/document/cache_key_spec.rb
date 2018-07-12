@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Document::CacheKey do
+RSpec.describe Blacklight::Document::CacheKey, api: true do
   let(:attributes) { {} }
   let(:subject) { SolrDocument.new(attributes) }
   it 'SolrDocument includes the module' do

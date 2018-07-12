@@ -4,6 +4,9 @@ module Blacklight
     extend ActiveSupport::Concern
 
     included do
+      Deprecation.warn(self, "Blacklight::DefaultComponentConfiguration is deprecated and will be removed in the next release." \
+                             "this means you must call add_results_document_tool, add_results_collection_tool, " \
+                             "add_show_tools_partial and add_nav_action manually in your config")
       add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
 
       add_results_collection_tool(:sort_widget)
@@ -17,10 +20,6 @@ module Blacklight
 
       add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark', if: :render_bookmarks_control?)
       add_nav_action(:search_history, partial: 'blacklight/nav/search_history')
-    end
-
-    def render_sms_action?(_config, _options)
-      sms_mappings.present?
     end
 
     module ClassMethods
@@ -40,53 +39,26 @@ module Blacklight
       # @option opts [Symbol]  :callback method for further processing of documents, receives Array of documents
       def add_show_tools_partial(name, opts = {})
         blacklight_config.add_show_tools_partial(name, opts)
-        create_action_handler(name, opts)
-      end
-
-      # Define a simple action handler for the tool as long as the method
-      # doesn't already exist or the `:define_method` option is not `false`
-      def create_action_handler(name, opts)
-        return if method_defined?(name) || opts[:define_method] == false
-
-        define_method name do
-          @response, @documents = action_documents
-
-          if request.post? && opts[:callback] &&
-            (opts[:validator].blank? || send(opts[:validator]))
-
-            send(opts[:callback], @documents)
-
-            flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
-
-            respond_to do |format|
-              format.html do
-                return render "#{name}_success" if request.xhr?
-                redirect_to action_success_redirect_path
-              end
-            end
-          else
-            respond_to do |format|
-              format.html do
-                return render layout: false if request.xhr?
-                # Otherwise draw the full page
-              end
-            end
-          end
-        end
+        ActionBuilder.new(self, name, opts).build
       end
       # rubocop:enable Metrics/LineLength
+
+      deprecation_deprecate add_show_tools_partial: 'use blacklight_config.add_show_tools_partial instead'
 
       # Add a tool to be displayed for each document in the search results.
       # @!macro partial_if_unless
       delegate :add_results_document_tool, to: :blacklight_config
+      deprecation_deprecate add_results_document_tool: 'use blacklight_config.add_results_document_tool instead'
 
       # Add a tool to be displayed for the list of search results themselves.
       # @!macro partial_if_unless
       delegate :add_results_collection_tool, to: :blacklight_config
+      deprecation_deprecate add_results_collection_tool: 'use blacklight_config.add_results_collection_tool instead'
 
       # Add a partial to the header navbar.
       # @!macro partial_if_unless
       delegate :add_nav_action, to: :blacklight_config
+      deprecation_deprecate add_nav_action: 'use blacklight_config.add_nav_action instead'
     end
   end
 end

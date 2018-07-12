@@ -13,7 +13,6 @@ it:
 
   blacklight:
     application_name: 'Blacklight'
-
     header_links:
       login: 'Login'
       logout: 'Log out'
@@ -23,6 +22,9 @@ it:
     welcome: 'Benvenuti!'
     and: 'e'
     or: 'o'
+
+    modal:
+      close: Vicino
 
     bookmarks:
       title: 'Preferiti'
@@ -125,7 +127,8 @@ it:
         title: '%{constraints} - %{application_name} Risultati della ricerca'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} selezionato'
-      search_results_header: 'Ricerca'
+      header: 'Ricerca'
+      search_constraints_header: 'Ricerca'
       search_results: 'Risultati della ricerca'
       errors:
         request_error: "La richiesta non è comprensibile."
@@ -163,6 +166,7 @@ it:
       facets:
         title: 'Affina la ricerca'
         clear: 'Cancella'
+        all: 'Ogni'
         sort:
           count: 'Ordina per numero'
           index: 'Ordina A-Z'
@@ -170,6 +174,7 @@ it:
         more_html: 'altri <span class="sr-only">%{field_name}</span> »'
         selected:
           remove: '[cancella]'
+        missing: [Mancante]
       group:
         more: 'altri »'
       filters:

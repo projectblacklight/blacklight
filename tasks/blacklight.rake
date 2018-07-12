@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'solr_wrapper'
 require 'engine_cart/rake_task'
 
@@ -13,8 +15,8 @@ EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
 
 desc "Run test suite"
 task ci: ['blacklight:generate'] do
-  SolrWrapper.wrap(version: '7.1.0') do |solr|
-    solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), '.internal_test_app', 'solr', 'conf')) do
+  SolrWrapper.wrap do |solr|
+    solr.with_collection do
       within_test_app do
         system "RAILS_ENV=test rake blacklight:index:seed"
       end
@@ -52,8 +54,8 @@ namespace :blacklight do
       Rake::Task['engine_cart:generate'].invoke
     end
 
-    SolrWrapper.wrap(port: '8983') do |solr|
-      solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path("..", File.dirname(__FILE__)), "solr", "conf")) do
+    SolrWrapper.wrap do |solr|
+      solr.with_collection do
         Rake::Task['blacklight:internal:seed'].invoke
 
         within_test_app do

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
-RSpec.describe CatalogController do
+
+RSpec.describe CatalogController, api: true do
   let(:doc_id) { '2007020969' }
   let(:mock_response) { instance_double(Blacklight::Solr::Response) }
-  let(:mock_document) { instance_double(SolrDocument) }
+  let(:mock_document) { instance_double(SolrDocument, export_formats: {}) }
+  let(:search_service) { instance_double(Blacklight::SearchService) }
 
   describe "index action" do
     context "with format :html" do
@@ -110,14 +112,14 @@ RSpec.describe CatalogController do
       # NOTE: status code is always 200 in isolation mode ...
       it "HTTP status code for GET should be 200", :integration => true do
         get :index
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
     describe "with format :rss" do
       it "gets the feed", :integration => true do
         get :index, params: { format: 'rss' }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
@@ -125,7 +127,7 @@ RSpec.describe CatalogController do
       render_views
       before do
         get :index, params: { format: 'json' }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       let(:json) { JSON.parse(response.body) }
       let(:pages)  { json['meta']['pages']  }
@@ -141,7 +143,8 @@ RSpec.describe CatalogController do
 
       it "gets the documents" do
         expect(docs).to have(10).documents
-        expect(docs.first['attributes'].keys).to match_array(["published_display", "author_display", "lc_callnum_display", "pub_date", "subtitle_display", "format", "material_type_display", "title_display", "id", "subject_topic_facet", "language_facet", "marc_display", "score"])
+        expect(docs.first['attributes'].keys).to match_array(
+          %w[author_tsim format language_ssim lc_callnum_ssim published_ssim title_tsim])
         expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
       end
 
@@ -266,11 +269,14 @@ RSpec.describe CatalogController do
     end
 
     describe "with format :json" do
+      render_views
       it "gets the feed" do
         get :show, params: { id: doc_id, format: 'json' }
-        expect(response).to be_success
+        expect(response).to be_successful
         json = JSON.parse response.body
-        expect(json["response"]["document"].keys).to match_array(["author_t", "marc_display", "published_display", "author_display", "lc_callnum_display", "title_t", "pub_date", "subtitle_display", "format", "url_suppl_display", "material_type_display", "title_display", "subject_addl_t", "subject_t", "isbn_t", "id", "title_addl_t", "subject_geo_facet", "subject_topic_facet", "author_addl_t", "language_facet", "subtitle_t", "timestamp"])
+        expect(json["data"]["attributes"].keys).to match_array(
+          %w[author_tsim format isbn_ssim language_ssim lc_callnum_ssim
+             published_ssim subtitle_tsim title_tsim url_suppl_ssim])
       end
     end
 
@@ -279,18 +285,44 @@ RSpec.describe CatalogController do
       let(:current_search) { Search.create(:query_params => { :q => ""}) }
       before do
         allow(mock_document).to receive_messages(:export_formats => {})
-        allow(controller.send(:search_service)).to receive_messages(
-          fetch: [mock_response, mock_document],
-          previous_and_next_documents_for_search: [double(:total => 5), [double("a"), mock_document, double("b")]],
-        )
-        allow(controller).to receive_messages(
-          current_search_session: current_search
-        )
+        allow(controller).to receive(:search_service).and_return(search_service)
+        expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+        allow(controller).to receive(:current_search_session).and_return(current_search)
       end
-      it "sets previous document if counter present in session" do
-        session[:search] = search_session.merge('counter' => 2)
-        get :show, params: { id: doc_id }
-        expect(assigns[:search_context][:prev]).to_not be_nil
+
+      context 'if counter is present in session' do
+        before do
+          session[:search] = search_session.merge('counter' => 2)
+        end
+
+        context 'and no exception is raised' do
+          before do
+            expect(search_service).to receive(:previous_and_next_documents_for_search).
+              and_return([double(:total => 5), [double("a"), mock_document, double("b")]])
+          end
+          it "sets previous document" do
+            get :show, params: { id: doc_id }
+            expect(assigns[:search_context][:prev]).to_not be_nil
+          end
+
+          it "sets next document" do
+            get :show, params: { id: doc_id }
+            expect(assigns[:search_context][:next]).to_not be_nil
+          end
+        end
+
+        context 'and an exception is raised' do
+          before do
+            expect(search_service).to receive(:previous_and_next_documents_for_search) {
+              raise Blacklight::Exceptions::InvalidRequest.new "Error"
+            }
+          end
+
+          it "does not break" do
+            get :show, params: { id: doc_id }
+            expect(assigns[:search_context]).to be_nil
+          end
+        end
       end
 
       it "does not set previous or next document if session is blank" do
@@ -303,43 +335,32 @@ RSpec.describe CatalogController do
         get :show, params: { id: doc_id }
         expect(assigns[:search_context]).to be_nil
       end
-
-      it "sets next document if counter present in session" do
-        session[:search] = search_session.merge('counter' => 2)
-        get :show, params: { id: doc_id }
-        expect(assigns[:search_context][:next]).to_not be_nil
-      end
-
-      it "does not break if solr returns an exception" do
-        allow(controller.send(:search_service)).to receive(:previous_and_next_documents_for_search) {
-          raise Blacklight::Exceptions::InvalidRequest.new "Error"
-        }
-        get :show, params: { id: doc_id }
-        expect(assigns[:search_context]).to be_nil
-      end
     end
 
     # NOTE: status code is always 200 in isolation mode ...
     it "HTTP status code for GET should be 200", :integration => true do
       get :show, params: { id: doc_id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "renders show.html.erb" do
-      allow(mock_document).to receive_messages(:export_formats => {})
-      allow(controller).to receive_messages(fetch: [mock_response, mock_document])
+      allow(controller).to receive(:search_service).and_return(search_service)
+      expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+
       get :show, params: { id: doc_id }
       expect(response).to render_template(:show)
     end
 
-    describe "@document" do
+    describe '@document' do
       before do
-        allow(mock_response).to receive_messages(documents: [SolrDocument.new(id: 'my_fake_doc')])
-        allow(controller).to receive_messages(:find => mock_response )
+        allow(controller).to receive(:search_service).and_return(search_service)
+        expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+
         get :show, params: { id: doc_id }
       end
-      it "is a SolrDocument" do
-        expect(assigns[:document]).to be_instance_of(SolrDocument)
+
+      it 'is a SolrDocument' do
+        expect(assigns[:document]).to eq mock_document
       end
     end
 
@@ -356,16 +377,15 @@ RSpec.describe CatalogController do
       end
 
       before do
-        allow(mock_response).to receive_messages(:documents => [SolrDocument.new(id: 'my_fake_doc')])
-        allow(controller).to receive_messages(:find => mock_response,
-                        :get_single_doc_via_search => mock_document)
         Mime::Type.register "application/mock", :mock
         SolrDocument.use_extension(FakeExtension)
+        allow(controller).to receive(:search_service).and_return(search_service)
+        expect(search_service).to receive(:fetch).and_return([nil, SolrDocument.new(id: 'my_fake_doc')])
       end
 
       it "responds to an extension-registered format properly" do
         get :show, params: { id: doc_id, format: 'mock' }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match /mock_export/
       end
 
@@ -376,17 +396,23 @@ RSpec.describe CatalogController do
   end # describe show action
 
   describe "opensearch" do
-    before do
-      allow(mock_response).to receive_messages(documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')])
-      allow(controller).to receive_messages(find: mock_response)
-    end
     it "returns an opensearch description" do
       get :opensearch, params: { format: 'xml' }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
-    it "returns valid JSON" do
-      get :opensearch, params: { format: 'json', q: 'a' }
-      expect(response).to be_success
+
+    context 'when searching for something' do
+      before do
+        allow(controller).to receive(:search_service).and_return(search_service)
+        expect(search_service).to receive(:opensearch_response)
+          .and_return(['a', [SolrDocument.new(id: 'my_fake_doc'),
+                             SolrDocument.new(id: 'my_other_doc')]])
+      end
+
+      it "returns valid JSON" do
+        get :opensearch, params: { format: 'json', q: 'a' }
+        expect(response).to be_successful
+      end
     end
   end
 
@@ -398,7 +424,7 @@ RSpec.describe CatalogController do
     it 'returns suggestions' do
       get :suggest, params: { format: 'json', q: 'new' }
       json = JSON.parse(response.body)
-      expect(json.count).to eq 3
+      expect(json.count).to eq 5
       expect(json.first['term']).to eq 'new jersey'
     end
   end
@@ -406,12 +432,14 @@ RSpec.describe CatalogController do
   describe "email/sms" do
     let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
-      allow(controller).to receive_messages(find: mock_response)
+      allow(controller).to receive(:search_service).and_return(search_service)
+      expect(search_service).to receive(:fetch).and_return([mock_response, []])
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
       SolrDocument.use_extension( Blacklight::Document::Email )
       SolrDocument.use_extension( Blacklight::Document::Sms )
     end
-    describe "email" do
+
+    describe "email", api: false do
       it "gives error if no TO parameter" do
         post :email, params: { id: doc_id }
         expect(request.flash[:error]).to eq "You must enter a recipient in order to send this message"
@@ -439,7 +467,7 @@ RSpec.describe CatalogController do
       end
     end
 
-    describe "sms" do
+    describe "sms", api: false do
       it "gives error if no phone number is given" do
         post :sms, params: { id: doc_id, carrier: 'att' }
         expect(request.flash[:error]).to eq "You must enter a recipient's phone number in order to send this message"
@@ -489,7 +517,7 @@ RSpec.describe CatalogController do
       end.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
-    context "when there is an invalid search" do
+    context "when there is an invalid search", api: false do
       let(:service) { instance_double(Blacklight::SearchService) }
       let(:fake_error) { Blacklight::Exceptions::InvalidRequest.new }
 
@@ -504,17 +532,14 @@ RSpec.describe CatalogController do
         get :index, params: { q: '+' }
         expect(response.redirect_url).to eq root_url
         expect(request.flash[:notice]).to eq "Sorry, I don't understand your search."
-        expect(response).to_not be_success
+        expect(response).to_not be_successful
         expect(response.status).to eq 302
       end
-    end
 
-    it "returns status 500 if the catalog path is raising an exception" do
-      fake_error = Blacklight::Exceptions::InvalidRequest.new
-      allow(controller).to receive(:search_results) { |*args| raise fake_error }
-      allow(controller.flash).to receive(:sweep)
-      allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
-      expect { get :index, params: { q: '+' } }.to raise_error Blacklight::Exceptions::InvalidRequest
+      it "returns status 500 if the catalog path is raising an exception" do
+        allow(controller).to receive(:flash).and_return(:notice => I18n.t('blacklight.search.errors.request_error'))
+        expect { get :index, params: { q: '+' } }.to raise_error Blacklight::Exceptions::InvalidRequest
+      end
     end
   end
 
@@ -661,9 +686,9 @@ RSpec.describe CatalogController do
     end
   end
 
-  describe "#add_show_tools_partial" do
+  describe "#add_show_tools_partial", api: false do
     before do
-      described_class.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
+      described_class.blacklight_config.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
       allow(controller).to receive(:solr_document_url).and_return('catalog/1')
       allow(controller).to receive(:action_documents).and_return(1)
       Rails.application.routes.draw do
@@ -722,7 +747,7 @@ RSpec.describe CatalogController do
     let(:blacklight_config) { controller.blacklight_config }
 
     it "returns specified value for facet_field specified" do
-      expect(controller.facet_limit_for("subject_topic_facet")).to eq blacklight_config.facet_fields["subject_topic_facet"].limit
+      expect(controller.facet_limit_for("subject_ssim")).to eq blacklight_config.facet_fields["subject_ssim"].limit
     end
 
     it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
@@ -733,7 +758,7 @@ RSpec.describe CatalogController do
 
     it "handles no facet_limits in config" do
       blacklight_config.facet_fields = {}
-      expect(controller.facet_limit_for("subject_topic_facet")).to be_nil
+      expect(controller.facet_limit_for("subject_ssim")).to be_nil
     end
 
     describe "for 'true' configured values" do

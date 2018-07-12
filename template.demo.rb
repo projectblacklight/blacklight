@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 gem "blacklight", ">= 6.1"
 
 run "bundle install"

@@ -8,7 +8,7 @@
 %>
 
 <span class="btn-group applied-filter constraint <%= options[:classes].join(" ") if options[:classes] %>">
-  <span class="constraint-value btn btn-secondary btn-disabled">
+  <span class="constraint-value btn btn-outline-secondary btn-disabled">
     <% unless label.blank? %>
       <span class="filter-name"><%= label %></span>
     <% end %>
@@ -27,7 +27,7 @@
     %>
 
     <%= link_to(content_tag(:span, '✖', class: 'remove-icon') + accessible_remove_label,
-			options[:remove], class: 'btn btn-secondary remove'
+			options[:remove], class: 'btn btn-outline-secondary remove'
 		) %>
   <%- end -%>
 </span>

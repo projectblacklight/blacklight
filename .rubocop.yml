@@ -18,6 +18,10 @@ Metrics/BlockLength:
     - "lib/railties/blacklight.rake"
     - "tasks/blacklight.rake"
 
+Metrics/ClassLength:
+  Exclude:
+    - "lib/blacklight/configuration.rb"
+
 Metrics/LineLength:
   Max: 200
 
@@ -30,7 +34,7 @@ Layout/IndentationConsistency:
 Rails/OutputSafety:
   Enabled: false
 
-Style/MethodMissing:
+Style/MissingRespondToMissing:
   Exclude:
   - 'lib/blacklight/nested_open_struct_with_hash_access.rb'
 

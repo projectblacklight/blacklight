@@ -3,9 +3,6 @@ module Blacklight
   class Engine < Rails::Engine
     engine_name "blacklight"
 
-    require 'bootstrap'
-    require 'twitter-typeahead-rails'
-
     # BlacklightHelper is needed by all helpers, so we inject it
     # into action view base here.
     initializer 'blacklight.helpers' do
@@ -28,7 +25,10 @@ module Blacklight
     end
 
     initializer "blacklight.assets.precompile" do |app|
-      app.config.assets.precompile += %w(favicon.ico)
+      # When Rails has been generated in API mode, it does not have sprockets available
+      if defined? Sprockets
+        app.config.assets.precompile += %w(favicon.ico)
+      end
     end
 
     Blacklight::Engine.config.sms_mappings = {

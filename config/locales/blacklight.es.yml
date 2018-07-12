@@ -13,7 +13,6 @@ es:
 
   blacklight:
     application_name: 'Blacklight'
-
     header_links:
       login: 'Entrar'
       logout: 'Salir'
@@ -23,6 +22,9 @@ es:
     welcome: '¡Bienvenido!'
     and: 'y'
     or: 'o'
+
+    modal:
+      close: cerca
 
     bookmarks:
       title: 'Favoritos'
@@ -125,7 +127,8 @@ es:
         title: '%{constraints} - %{application_name} Resultados de la búsqueda'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} seleccionado'
-      search_results_header: 'Buscar'
+      header: 'Buscar'
+      search_constraints_header: 'Buscar'
       search_results: 'Resultados de la búsqueda'
       errors:
         request_error: "Lo siento, no entiendo esta búsqueda"
@@ -163,6 +166,7 @@ es:
       facets:
         title: 'Limite su búsqueda'
         clear: 'Borrar'
+        all: 'Todos'
         sort:
           count: 'Ordenación numérica'
           index: 'Ordenación A-Z'

@@ -1,0 +1,7 @@
+// bootstrap does flex-grow: 1 by default which makes the
+// text input roughly the same size as the select in many cases
+.input-group > .form-control {
+  &.search-q {
+    flex-grow: 3;
+  }
+}

@@ -1,6 +1,6 @@
 <% if show_sort_and_per_page? and active_sort_fields.many? %>
 <div id="sort-dropdown" class="sort-dropdown btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+  <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
       <%= t('blacklight.search.sort.label', :field =>sort_field_label(current_sort_field.key)) %> <span class="caret"></span>
   </button>
 

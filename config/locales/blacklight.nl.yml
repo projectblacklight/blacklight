@@ -128,7 +128,8 @@ nl:
         title: '%{constraints} - %{application_name} Zoek resultaten'
         constraint: '%{label}: %{value}'
         many_constraint_values: '%{values} geselecteerd'
-      search_results_header: 'Zoek filters'
+      header: 'Zoek'
+      search_constraints_header: 'Zoek filters'
       search_results: 'Zoek resultaten'
       errors:
         request_error: "Sorry, ik kon uw zoekopdracht niet begrijpen."
@@ -166,6 +167,7 @@ nl:
       facets:
         title: 'Verfijn uw zoekopdracht'
         clear: 'Filters legen'
+        all: 'Al'
         sort:
           count: 'Numeriek sorteren'
           index: 'A-Z Sorteren'

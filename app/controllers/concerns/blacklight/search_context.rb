@@ -2,10 +2,12 @@
 module Blacklight::SearchContext
   extend ActiveSupport::Concern
 
-  # The following code is executed when someone includes blacklight::catalog::search_session in their
+  # The following code is executed when someone includes Blacklight::Catalog::SearchSession in their
   # own controller.
   included do
-    helper_method :current_search_session, :search_session
+    if respond_to? :helper_method
+      helper_method :current_search_session, :search_session
+    end
   end
 
   module ClassMethods
@@ -115,5 +117,6 @@ module Blacklight::SearchContext
     end
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger.warn "Unable to setup next and previous documents: #{e}"
+    nil
   end
 end
