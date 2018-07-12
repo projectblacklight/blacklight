@@ -3,6 +3,8 @@ addons:
   chrome: stable
 language: ruby
 sudo: false
+services:
+  - elasticsearch
 
 notifications:
   email: false
@@ -13,6 +15,8 @@ matrix:
       env: "RAILS_VERSION=5.1.6"
     - rvm: 2.4.4
       env: "RAILS_VERSION=5.2.0"
+    - rvm: 2.5.1
+      env: "RAILS_VERSION=5.2.0 BLACKLIGHT_INDEX=elasticsearch ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
     - rvm: 2.5.1
       env: "RAILS_VERSION=5.2.0 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
     - rvm: 2.4.4
@@ -29,6 +33,10 @@ before_install:
   - gem update --system
   - gem install bundler
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
+
+before_script:
+  - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
+  - curl -XPUT http://localhost:9200/blacklight-core
 
 notifications:
   irc: "irc.freenode.org#blacklight"

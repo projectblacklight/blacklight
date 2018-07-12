@@ -3,8 +3,16 @@
 RSpec.describe CatalogController, api: true do
   let(:doc_id) { '2007020969' }
   let(:mock_response) { instance_double(Blacklight::Solr::Response) }
-  let(:mock_document) { instance_double(SolrDocument, export_formats: {}) }
+  let(:mock_document) { instance_double(controller.blacklight_config.document_model, export_formats: {}) }
   let(:search_service) { instance_double(Blacklight::SearchService) }
+  let(:format_field) do
+    if ENV['BLACKLIGHT_INDEX'] == 'elasticsearch'
+      'format.keyword'
+    else
+      'format'
+    end
+  end
+
 
   describe "index action" do
     context "with format :html" do
@@ -145,16 +153,15 @@ RSpec.describe CatalogController, api: true do
         expect(docs).to have(10).documents
         expect(docs.first['attributes'].keys).to match_array(
           %w[author_tsim format language_ssim lc_callnum_ssim published_ssim title_tsim])
-        expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
+        expect(docs.first['links']['self']).to eq "http://test.host/catalog/#{docs.first['id']}"
       end
 
       it "gets the facets" do
         expect(facets).to have(9).facets
 
-        format = facets.find { |x| x['id'] == 'format' }
-
+        format = facets.find { |x| x['id'] == format_field }
         expect(format['attributes']['items'].map { |x| x['attributes'] }).to match_array([{"value"=>"Book", "hits"=>30, "label"=>"Book"}])
-        expect(format['links']['self']).to eq facet_catalog_url(format: :json, id: 'format')
+        expect(format['links']['self']).to eq facet_catalog_url(format: :json, id: format_field)
         expect(format['attributes']['items'].first['links']['self']).to eq search_catalog_url(format: :json, f: { format: ['Book']})
       end
 
@@ -175,10 +182,9 @@ RSpec.describe CatalogController, api: true do
     end
 
     describe "with additional formats from configuration" do
-      let(:blacklight_config) { Blacklight::Configuration.new }
+      let(:blacklight_config) { controller.blacklight_config }
 
-      before :each do
-        allow(controller).to receive_messages blacklight_config: blacklight_config
+      before do
         allow(controller).to receive_messages search_results: [double, double]
       end
 
@@ -235,7 +241,7 @@ RSpec.describe CatalogController, api: true do
 
     it "redirects to show action for doc id" do
       put :track, params: { id: doc_id, counter: 3 }
-      assert_redirected_to(solr_document_path(doc_id))
+      assert_redirected_to("/catalog/#{doc_id}")
     end
 
     it "HTTP status code for redirect should be 303" do
@@ -421,6 +427,7 @@ RSpec.describe CatalogController, api: true do
       get :suggest, params: { format: 'json' }
       expect(response.body).to eq [].to_json
     end
+
     it 'returns suggestions' do
       get :suggest, params: { format: 'json', q: 'new' }
       json = JSON.parse(response.body)
@@ -429,7 +436,7 @@ RSpec.describe CatalogController, api: true do
     end
   end
 
-  describe "email/sms" do
+  describe "email/sms", api: false do
     let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
     before do
       allow(controller).to receive(:search_service).and_return(search_service)
@@ -439,7 +446,7 @@ RSpec.describe CatalogController, api: true do
       SolrDocument.use_extension( Blacklight::Document::Sms )
     end
 
-    describe "email", api: false do
+    describe "email" do
       it "gives error if no TO parameter" do
         post :email, params: { id: doc_id }
         expect(request.flash[:error]).to eq "You must enter a recipient in order to send this message"
@@ -458,7 +465,8 @@ RSpec.describe CatalogController, api: true do
           .and_return double(deliver: nil)
         post :email, params: { id: doc_id, to: 'test_email@projectblacklight.org', message: 'xyz' }
         expect(request.flash[:error]).to be_nil
-        expect(request).to redirect_to(solr_document_path(doc_id))
+        expect(request).to redirect_to("/catalog/#{doc_id}")
+
       end
       it "renders email_success for XHR requests" do
         post :email, xhr: true, params: { id: doc_id, to: 'test_email@projectblacklight.org' }
@@ -467,7 +475,7 @@ RSpec.describe CatalogController, api: true do
       end
     end
 
-    describe "sms", api: false do
+    describe "sms" do
       it "gives error if no phone number is given" do
         post :sms, params: { id: doc_id, carrier: 'att' }
         expect(request.flash[:error]).to eq "You must enter a recipient's phone number in order to send this message"
@@ -585,7 +593,7 @@ RSpec.describe CatalogController, api: true do
 
     context 'for a facet field with a key different from the underlying field name' do
       before do
-        controller.blacklight_config.add_facet_field 'params_key', field: 'format'
+        controller.blacklight_config.add_facet_field 'params_key', field: format_field
       end
 
       it 'is successful' do
@@ -595,7 +603,7 @@ RSpec.describe CatalogController, api: true do
 
         expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
         expect(assigns[:facet].key).to eq 'params_key'
-        expect(assigns[:facet].field).to eq 'format'
+        expect(assigns[:facet].field).to eq format_field
 
         expect(assigns[:pagination].items.first['value']).to eq 'Book'
       end

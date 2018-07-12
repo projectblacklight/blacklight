@@ -15,6 +15,7 @@ module Blacklight
   autoload :SearchBuilder, 'blacklight/search_builder'
   autoload :SearchState, 'blacklight/search_state'
   autoload :Solr, 'blacklight/solr'
+  autoload :Elasticsearch, 'blacklight/elasticsearch'
 
   extend Deprecation
 

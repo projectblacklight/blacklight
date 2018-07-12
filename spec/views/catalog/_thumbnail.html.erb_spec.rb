@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/_thumbnail" do
-
+  let(:document_model) { respond_to?(:solr_document_path) ? SolrDocument : ElasticsearchDocument }
   let :document_without_thumbnail_field do
-    SolrDocument.new :id => 'xyz', :format => 'a'
+    document_model.new id: 'xyz', format: 'a'
   end
 
   let :document_with_thumbnail_field do
-    SolrDocument.new :id => 'xyz', :format => 'a', :thumbnail_url => 'http://localhost/logo.png'
+    document_model.new id: 'xyz', format: 'a', thumbnail_url: 'http://localhost/logo.png'
   end
 
   let :blacklight_config do

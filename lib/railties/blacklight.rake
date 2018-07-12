@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # frozen_string_literal: true
 
@@ -14,13 +15,24 @@ namespace :blacklight do
 
   namespace :index do
     desc "Put sample data into solr"
-    task seed: [:environment]  do
+    task :seed, [:file] => [:environment] do
       require 'yaml'
-
       docs = YAML.safe_load(File.open(File.join(Blacklight.root, 'spec', 'fixtures', 'sample_solr_documents.yml')))
-      conn = Blacklight.default_index.connection
-      conn.add docs
-      conn.commit
+
+      case Blacklight.default_index
+      when Blacklight::Elasticsearch::Repository
+        require 'elasticsearch/persistence'
+        Blacklight.default_index.connection.create_index! force: true
+        docs.each do |h|
+          doc = ElasticsearchDocument.new(h.except('timestamp'))
+          Blacklight.default_index.connection.save(doc)
+        end
+      when Blacklight::Solr::Repository
+        conn = Blacklight.default_index.connection
+
+        conn.add docs
+        conn.commit
+      end
     end
   end
 

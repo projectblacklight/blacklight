@@ -22,6 +22,9 @@ class TestAppGenerator < Rails::Generators::Base
       end
     end
 
+    if ENV['BLACKLIGHT_INDEX']
+      options += " --index #{ENV['BLACKLIGHT_INDEX']} --document_name #{ENV['BLACKLIGHT_INDEX']}_document"
+    end
     generate 'blacklight:install', options
   end
 
