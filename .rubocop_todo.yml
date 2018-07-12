@@ -204,6 +204,8 @@ Metrics/MethodLength:
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
   Max: 207
+  Exclude:
+    - 'lib/blacklight/solr/search_builder_behavior.rb'
 
 # Offense count: 1
 # Configuration parameters: CountKeywordArgs.
