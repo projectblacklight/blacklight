@@ -19,21 +19,23 @@ Blacklight = function() {
           listeners.push('turbolinks:load');
         } else {
           // Turbolinks < 5
-          listeners.push('page:load', 'ready');
+          listeners.push('page:load', 'DOMContentLoaded');
         }
       } else {
-        listeners.push('ready');
+        listeners.push('DOMContentLoaded');
       }
 
-      return listeners.join(' ');
+      return listeners;
     }
   };
 }();
 
 // turbolinks triggers page:load events on page transition
 // If app isn't using turbolinks, this event will never be triggered, no prob.
-$(document).on(Blacklight.listeners(), function() {
-  Blacklight.activate();
-});
+Blacklight.listeners().forEach(function(listener) {
+  document.addEventListener(listener, function() {
+    Blacklight.activate()
+  })
+})
 
 $('.no-js').removeClass('no-js').addClass('js');
