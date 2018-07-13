@@ -7,20 +7,20 @@
    not to use the Blacklight CSS file at all in your local app. */
 
 @import "mixins";
-@import 'blacklight/blacklight_defaults';
-@import "blacklight/bootstrap_overrides";
-@import "blacklight/layout";
-@import "blacklight/header";
-@import "blacklight/constraints";
-@import "blacklight/controls";
-@import "blacklight/search_form";
-@import "blacklight/search_results";
-@import "blacklight/pagination";
-@import "blacklight/group";
-@import "blacklight/bookmark";
-@import "blacklight/balanced_list";
-@import "blacklight/facets";
-@import "blacklight/search_history";
-@import "blacklight/modal";
-@import "blacklight/twitter_typeahead";
-@import "blacklight/icons";
+@import 'blacklight_defaults';
+@import "bootstrap_overrides";
+@import "layout";
+@import "header";
+@import "constraints";
+@import "controls";
+@import "search_form";
+@import "search_results";
+@import "pagination";
+@import "group";
+@import "bookmark";
+@import "balanced_list";
+@import "facets";
+@import "search_history";
+@import "modal";
+@import "twitter_typeahead";
+@import "icons";
