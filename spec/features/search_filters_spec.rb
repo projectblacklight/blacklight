@@ -170,25 +170,25 @@ RSpec.describe "Facets" do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_ssim") do
-      expect(page).not_to have_selector(".card-block", :visible => true)
+      expect(page).not_to have_selector(".card-body", :visible => true)
     end
   end
   it "expands when the heading is clicked", :js => true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_ssim") do
-      expect(page).not_to have_selector(".card-block", :visible => true)
+      expect(page).not_to have_selector(".card-body", :visible => true)
       find(".card-header").click
-      expect(page).to     have_selector(".card-block", :visible => true)
+      expect(page).to     have_selector(".card-body", :visible => true)
     end
   end
   it "expands when the anchor is clicked", :js => true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
     within(".blacklight-subject_ssim") do
-      expect(page).not_to have_selector(".card-block", :visible => true)
+      expect(page).not_to have_selector(".card-body", :visible => true)
       find(".card-header").click
-      expect(page).to     have_selector(".card-block", :visible => true)
+      expect(page).to     have_selector(".card-body", :visible => true)
     end
   end
   it "keeps selected facets expanded on page load", :js => true do
