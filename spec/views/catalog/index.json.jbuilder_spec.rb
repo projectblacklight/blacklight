@@ -11,7 +11,7 @@ RSpec.describe "catalog/index.json", api: true do
   let(:facets) { double("facets") }
   let(:config) do
     Blacklight::Configuration.new do |config|
-      config.add_index_field 'title_tsim', label: 'Title:'
+      config.add_index_field 'title', label: 'Title', field: 'title_tsim'
     end
   end
   let(:presenter) { Blacklight::JsonPresenter.new(response, facets, config) }
@@ -54,12 +54,30 @@ RSpec.describe "catalog/index.json", api: true do
     expect(hash).to include(data: [
       {
         id: '123',
-        attributes: { 'title_tsim' => 'Book1' },
+        attributes: {
+          'title': {
+            id: 'http://test.host/catalog/123#title',
+            type: 'document_value',
+            attributes: {
+              value: 'Book1',
+              label: 'Title'
+            }
+          }
+        },
         links: { self: 'http://test.host/catalog/123' }
       },
       {
         id: '456',
-        attributes: { 'title_tsim' => 'Book2' },
+        attributes: {
+          'title': {
+            id: 'http://test.host/catalog/456#title',
+            type: 'document_value',
+            attributes: {
+              value: 'Book2',
+              label: 'Title'
+            }
+          }
+        },
         links: { self: 'http://test.host/catalog/456' }
       },
     ])
@@ -77,6 +95,7 @@ RSpec.describe "catalog/index.json", api: true do
 
     expect(format['links']).to include self: 'http://test.host/some/facet/url'
     expect(format['attributes']).to include :items
+    expect(format['attributes']['label']).to eq 'Format'
 
     format_items = format['attributes']['items'].map { |x| x['attributes'] }
 
