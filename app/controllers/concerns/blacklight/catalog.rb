@@ -33,7 +33,6 @@ module Blacklight::Catalog
       format.atom { render layout: false }
       format.json do
         @presenter = Blacklight::JsonPresenter.new(@response,
-                                                   facets_from_request,
                                                    blacklight_config)
       end
       additional_response_formats(format)
