@@ -65,7 +65,7 @@ module Blacklight::Catalog
       path = uri.query ? "#{uri.path}?#{uri.query}" : uri.path
       redirect_to path, status: 303
     else
-      redirect_to blacklight_config.document_model.new(id: params[:id]), status: 303
+      redirect_to({ action: :show, id: params[:id] }, status: 303)
     end
   end
 
