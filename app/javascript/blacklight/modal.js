@@ -117,7 +117,7 @@ Blacklight.modal.receiveAjax = function (contents) {
     // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
     var container =  $('<div>').
       append( jQuery.parseHTML(contents) ).find( Blacklight.modal.containerSelector ).first();
-    if (container.size() !== 0) {
+    if (container.length !== 0) {
       contents = container.html();
     }
 
