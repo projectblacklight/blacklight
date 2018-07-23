@@ -1,5 +1,3 @@
-//= require blacklight/core
-
 /*
   The blacklight modal plugin can display some interactions inside a Bootstrap
   modal window, including some multi-page interactions.

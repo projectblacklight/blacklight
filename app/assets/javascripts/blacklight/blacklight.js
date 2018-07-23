@@ -254,8 +254,6 @@ Blacklight.onLoad(function () {
     Blacklight.doResizeFacetLabelsAndCounts();
   });
 })(jQuery);
-//= require blacklight/core
-
 /*
   The blacklight modal plugin can display some interactions inside a Bootstrap
   modal window, including some multi-page interactions.
@@ -446,7 +444,6 @@ Blacklight.modal.checkCloseModal = function (event) {
 Blacklight.onLoad(function () {
   Blacklight.modal.setupModal();
 });
-//= require blacklight/core
 (function ($) {
   Blacklight.doSearchContextBehavior = function () {
     if (typeof Blacklight.do_search_context_behavior == 'function') {
