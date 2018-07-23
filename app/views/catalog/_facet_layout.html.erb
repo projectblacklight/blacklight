@@ -2,7 +2,7 @@
   <h3 class="panel-title card-header <%= "collapsed" if should_collapse_facet?(facet_field) %> collapse-toggle facet-field-heading" data-toggle="collapse" data-target="#<%= facet_field_id(facet_field) %>">
     <%= link_to facet_field_label(facet_field.key), "##{ facet_field_id(facet_field)}", "data-turbolinks": false %>
   </h3>
-  <div id="<%= facet_field_id(facet_field) %>" class="card-block panel-collapse facet-content <%= should_collapse_facet?(facet_field) ? 'collapse' : 'show' %>">
+  <div id="<%= facet_field_id(facet_field) %>" class="card-body panel-collapse facet-content <%= should_collapse_facet?(facet_field) ? 'collapse' : 'show' %>">
     <div class="panel-body">
       <%= yield %>
     </div>
