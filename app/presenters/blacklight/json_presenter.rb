@@ -4,7 +4,8 @@ module Blacklight
     include Blacklight::Facet
 
     # @param [Solr::Response] response raw solr response.
-    # @param [Array] facets list of facets
+    # @param [Array<Solr::Response::Facets::FacetField>] facets list of facets
+    # @param [Configuration] blacklight_config the configuration
     def initialize(response, facets, blacklight_config)
       @response = response
       @facets = facets
@@ -18,14 +19,17 @@ module Blacklight
     end
 
     def search_facets_as_json
-      @facets.as_json.each do |f|
+      @facets.map do |display_facet|
+        next if display_facet.items.empty?
+        f = display_facet.as_json
         f.stringify_keys!
         f.delete "options"
         f["label"] = facet_configuration_for_field(f["name"]).label
         f["items"] = f["items"].as_json.each do |i|
           i['label'] ||= i['value']
         end
-      end
+        f
+      end.compact
     end
 
     # extract the pagination info from the response object
