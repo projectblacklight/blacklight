@@ -8,7 +8,7 @@ module Blacklight::FacetsHelperBehavior
   # @param [Array<String>] fields
   # @return [Boolean]
   def has_facet_values? fields = facet_field_names
-    facets_from_request(fields).any? { |display_facet| !display_facet.items.empty? && should_render_facet?(display_facet) }
+    facets_from_request(fields).any? { |display_facet| should_render_facet?(display_facet) }
   end
 
   ##
