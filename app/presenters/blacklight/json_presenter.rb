@@ -4,11 +4,10 @@ module Blacklight
     include Blacklight::Facet
 
     # @param [Solr::Response] response raw solr response.
-    # @param [Array<Solr::Response::Facets::FacetField>] facets list of facets
     # @param [Configuration] blacklight_config the configuration
-    def initialize(response, facets, blacklight_config)
+    # @param [Array] facets list of facets
+    def initialize(response, blacklight_config)
       @response = response
-      @facets = facets
       @blacklight_config = blacklight_config
     end
 
@@ -19,7 +18,7 @@ module Blacklight
     end
 
     def search_facets_as_json
-      @facets.map do |display_facet|
+      facets_from_request.map do |display_facet|
         next if display_facet.items.empty?
         f = display_facet.as_json
         f.stringify_keys!

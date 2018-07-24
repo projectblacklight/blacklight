@@ -2,7 +2,14 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::JsonPresenter, api: true do
-  let(:response) { instance_double(Blacklight::Solr::Response, documents: docs, prev_page: nil, next_page: 2, total_pages: 3) }
+  let(:response) do
+    instance_double(Blacklight::Solr::Response,
+                    documents: docs,
+                    prev_page: nil,
+                    next_page: 2,
+                    total_pages: 3,
+                    aggregations: aggregations)
+  end
   let(:docs) do
      [
        SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie'),
@@ -10,10 +17,8 @@ RSpec.describe Blacklight::JsonPresenter, api: true do
      ]
   end
 
-  let(:facets) do
-    [
-      Blacklight::Solr::Response::Facets::FacetField.new("format_si", [{ label: "Book", value: 'Book', hits: 20 }])
-    ]
+  let(:aggregations) do
+    { 'format_si' => Blacklight::Solr::Response::Facets::FacetField.new("format_si", [{ label: "Book", value: 'Book', hits: 20 }])}
   end
 
   let(:config) do
@@ -23,7 +28,7 @@ RSpec.describe Blacklight::JsonPresenter, api: true do
     end
   end
 
-  let(:presenter) { described_class.new(response, facets, config) }
+  let(:presenter) { described_class.new(response, config) }
 
 
   describe '#search_facets_as_json' do
@@ -41,11 +46,11 @@ RSpec.describe Blacklight::JsonPresenter, api: true do
         config.add_facet_field 'example_query_facet_field', label: 'Publish Date', query: {}
       end
 
-      let(:facets) do
-        [
-          Blacklight::Solr::Response::Facets::FacetField.new("format_si", [{ label: "Book", value: 'Book', hits: 20 }]),
-          Blacklight::Solr::Response::Facets::FacetField.new("example_query_facet_field", [])
-        ]
+      let(:aggregations) do
+        {
+          'format_si' => Blacklight::Solr::Response::Facets::FacetField.new("format_si", [{ label: "Book", value: 'Book', hits: 20 }]),
+          'example_query_facet_field' => Blacklight::Solr::Response::Facets::FacetField.new("example_query_facet_field", [])
+        }
       end
 
       it 'shows only facets that are defined' do
