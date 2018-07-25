@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 json.links do
   json.self url_for(search_state.to_h.merge(only_path: false))
   json.prev url_for(search_state.to_h.merge(only_path: false, page: @response.prev_page.to_s)) if @response.prev_page
@@ -13,19 +12,26 @@ end
 
 json.data do
   json.array! @presenter.documents do |document|
+    document_url = polymorphic_url(url_for_document(document))
     json.id document.id
     json.attributes do
       doc_presenter = index_presenter(document)
 
       index_fields(document).each do |field_name, field|
-        if should_render_index_field? document, field
-          json.set! field_name, doc_presenter.field_value(field_name)
+        next unless should_render_index_field? document, field
+        json.set!(field_name) do
+          json.id "#{document_url}##{field_name}"
+          json.type 'document_value'
+          json.attributes do
+            json.value doc_presenter.field_value(field_name)
+            json.label field.label
+          end
         end
       end
     end
 
     json.links do
-      json.self polymorphic_url(url_for_document(document))
+      json.self document_url
     end
   end
 end
@@ -35,6 +41,7 @@ json.included do
     json.type 'facet'
     json.id facet['name']
     json.attributes do
+      json.label facet['label']
       json.items do
         json.array! facet['items'] do |item|
           json.id

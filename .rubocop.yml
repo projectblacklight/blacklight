@@ -15,6 +15,7 @@ Rails:
 
 Metrics/BlockLength:
   Exclude:
+    - "app/views/catalog/index.json.jbuilder"
     - "lib/railties/blacklight.rake"
     - "tasks/blacklight.rake"
 
