@@ -144,7 +144,7 @@ Blacklight.onLoad(function () {
       var uniqueId = form.attr('data-doc-id') || Math.random();
       // if form is currently using method delete to change state,
       // then checkbox is currently checked
-      var checked = form.find('input[name=_method][value=delete]').size() != 0;
+      var checked = form.find('input[name=_method][value=delete]').length != 0;
 
       var checkbox = $('<input type="checkbox">').addClass(options.cssClass).attr('id', options.cssClass + '_' + uniqueId);
       var label = $('<label>').addClass(options.cssClass).attr('for', options.cssClass + '_' + uniqueId).attr('title', form.attr('title') || '');
@@ -254,8 +254,6 @@ Blacklight.onLoad(function () {
     Blacklight.doResizeFacetLabelsAndCounts();
   });
 })(jQuery);
-//= require blacklight/core
-
 /*
   The blacklight modal plugin can display some interactions inside a Bootstrap
   modal window, including some multi-page interactions.
@@ -370,7 +368,7 @@ Blacklight.modal.receiveAjax = function (contents) {
   // important we don't execute script tags, we shouldn't.
   // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
   var container = $('<div>').append(jQuery.parseHTML(contents)).find(Blacklight.modal.containerSelector).first();
-  if (container.size() !== 0) {
+  if (container.length !== 0) {
     contents = container.html();
   }
 
@@ -446,7 +444,6 @@ Blacklight.modal.checkCloseModal = function (event) {
 Blacklight.onLoad(function () {
   Blacklight.modal.setupModal();
 });
-//= require blacklight/core
 (function ($) {
   Blacklight.doSearchContextBehavior = function () {
     if (typeof Blacklight.do_search_context_behavior == 'function') {

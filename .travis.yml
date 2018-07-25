@@ -18,7 +18,7 @@ matrix:
     - rvm: 2.4.4
       env: "RAILS_VERSION=5.1.6"
     - rvm: 2.3.4
-      env: "RAILS_VERSION=5.0.7"
+      env: "RAILS_VERSION=5.2.0"
     - rvm: jruby-9.2.0.0
       env: "RAILS_VERSION=5.1.6 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:

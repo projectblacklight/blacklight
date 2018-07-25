@@ -16,10 +16,13 @@ module Blacklight
       )
     end
 
+    # @param fields [Array<String>] a list of facet field names
+    # @return [Array<Solr::Response::Facets::FacetField>]
     def facets_from_request(fields = facet_field_names)
       fields.map { |field| facet_by_field_name(field) }.compact
     end
 
+    # @return [Array<String>] a list of the facet field names from the configuration
     def facet_field_names
       blacklight_config.facet_fields.values.map(&:field)
     end

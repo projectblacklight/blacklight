@@ -1,6 +1,17 @@
 # frozen_string_literal: true
+
 module Blacklight
   class Configuration
+    # This class helps determine whether a specific field/tool should display for a
+    # particular controller.  This is used when the field/tool is configured with an
+    # _if_ or _unless_ argument.
+    #
+    # e.g.
+    #   config.add_results_document_tool(:bookmark,
+    #                                    partial: 'bookmark_control',
+    #                                    if: :render_bookmarks_control?)
+    #
+    # The context points at the scope for where to evaluate the method _render_bookmarks_control?_
     class Context
       attr_reader :context
 

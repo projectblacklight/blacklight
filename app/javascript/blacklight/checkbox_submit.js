@@ -47,7 +47,7 @@
         var uniqueId = form.attr('data-doc-id') || Math.random();
         // if form is currently using method delete to change state,
         // then checkbox is currently checked
-        var checked = (form.find('input[name=_method][value=delete]').size() != 0);
+        var checked = (form.find('input[name=_method][value=delete]').length != 0);
 
         var checkbox = $('<input type="checkbox">')
           .addClass( options.cssClass )

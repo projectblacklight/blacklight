@@ -8,13 +8,12 @@ RSpec.describe "catalog/index.json", api: true do
        SolrDocument.new(id: '456', title_tsim: 'Book2', author_tsim: 'Rosie')
      ]
   end
-  let(:facets) { double("facets") }
   let(:config) do
     Blacklight::Configuration.new do |config|
       config.add_index_field 'title_tsim', label: 'Title:'
     end
   end
-  let(:presenter) { Blacklight::JsonPresenter.new(response, facets, config) }
+  let(:presenter) { Blacklight::JsonPresenter.new(response, config) }
 
   let(:hash) do
     render template: "catalog/index.json", format: :json

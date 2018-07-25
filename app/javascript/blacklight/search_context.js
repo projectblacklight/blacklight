@@ -1,4 +1,3 @@
-//= require blacklight/core
 (function($) {
   Blacklight.doSearchContextBehavior = function() {
     if (typeof Blacklight.do_search_context_behavior == 'function') {

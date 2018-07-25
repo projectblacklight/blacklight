@@ -251,22 +251,22 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
 
     it "looks up and match field names" do
-      allow(config).to receive_messages(luke_fields: {
+      allow(config).to receive(:reflected_fields).and_return(
         "some_field_facet" => {},
         "another_field_facet" => {},
-        "a_facet_field" => {},
-        })
+        "a_facet_field" => {}
+        )
       expect { |b| config.add_facet_field match: /_facet$/, &b }.to yield_control.twice
 
       expect(config.facet_fields.keys).to eq ["some_field_facet", "another_field_facet"]
     end
 
     it "takes wild-carded field names and dereference them to solr fields" do
-      allow(config).to receive_messages(luke_fields: {
+      allow(config).to receive(:reflected_fields).and_return(
         "some_field_facet" => {},
         "another_field_facet" => {},
-        "a_facet_field" => {},
-        })
+        "a_facet_field" => {}
+        )
       expect { |b| config.add_facet_field "*_facet", &b }.to yield_control.twice
 
       expect(config.facet_fields.keys).to eq ["some_field_facet", "another_field_facet"]
@@ -321,11 +321,11 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
 
     it "takes wild-carded field names and dereference them to solr fields" do
-      allow(config).to receive_messages(luke_fields: {
+      allow(config).to receive(:reflected_fields).and_return(
         "some_field_display" => {},
         "another_field_display" => {},
-        "a_facet_field" => {},
-        })
+        "a_facet_field" => {}
+      )
       config.add_index_field "*_display"
 
       expect(config.index_fields.keys).to eq ["some_field_display", "another_field_display"]
@@ -370,11 +370,11 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
 
     it "takes wild-carded field names and dereference them to solr fields" do
-      allow(config).to receive_messages(luke_fields: {
+      allow(config).to receive(:reflected_fields).and_return(
         "some_field_display" => {},
         "another_field_display" => {},
-        "a_facet_field" => {},
-        })
+        "a_facet_field" => {}
+      )
       config.add_show_field "*_display"
 
       expect(config.show_fields.keys).to eq ["some_field_display", "another_field_display"]

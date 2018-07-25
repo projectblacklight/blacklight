@@ -30,6 +30,13 @@ module Blacklight::Solr
     end
 
     ##
+    # Gets a list of available fields
+    # @return [Hash]
+    def reflect_fields
+      send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
+    end
+
+    ##
     # Execute a solr query
     # TODO: Make this private after we have a way to abstract admin/luke and ping
     # @see [RSolr::Client#send_and_receive]
