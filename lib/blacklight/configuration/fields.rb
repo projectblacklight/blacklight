@@ -5,6 +5,8 @@ module Blacklight
     # solr fields configuration
     module Fields
       extend ActiveSupport::Concern
+      extend Deprecation
+      self.deprecation_horizon = 'blacklight version 8.0.0'
 
       module ClassMethods
         # Add a configuration block for a collection of solr fields
@@ -102,24 +104,7 @@ module Blacklight
 
         # look up any dynamic fields
         if field_config.match
-
-          salient_fields = luke_fields.select do |k, _v|
-            k =~ field_config.match
-          end
-
-          salient_fields.each_key do |field|
-            config = field_config.dup
-            config.match = nil
-            config.field = field
-            config.key = field
-
-            if self[config_key.pluralize][config.key]
-              self[config_key.pluralize][config.key] = config.merge(self[config_key.pluralize][config.key])
-            else
-              add_blacklight_field(config_key, config, &block)
-            end
-          end
-
+          handle_matching_fields(config_key, field_config, &block)
           return
         end
 
@@ -137,25 +122,45 @@ module Blacklight
 
       private
 
-      def luke_fields
-        if @table[:luke_fields] == false
+      ##
+      # Using reflection into the index, add any fields in the index that match the field_config
+      def handle_matching_fields(config_key, field_config, &block)
+        salient_fields = reflected_fields.select do |k, _v|
+          k =~ field_config.match
+        end
+
+        salient_fields.each_key do |field|
+          config = field_config.dup
+          config.match = nil
+          config.field = field
+          config.key = field
+          if self[config_key.pluralize][config.key]
+            self[config_key.pluralize][config.key] = config.merge(self[config_key.pluralize][config.key])
+          else
+            add_blacklight_field(config_key, config, &block)
+          end
+        end
+      end
+
+      def reflected_fields
+        if @table[:reflected_fields] == false
           return nil
         end
 
-        @table[:luke_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/luke", expires_in: 1.hour) do
+        @table[:reflected_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/reflected_fields", expires_in: 1.hour) do
           begin
-            if repository_class <= Blacklight::Solr::Repository
-              repository = repository_class.new(self)
-              repository.send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
-            end
+            repository = repository_class.new(self)
+            repository.reflect_fields
           rescue => e
             Blacklight.logger.warn "Error retrieving field metadata: #{e}"
             false
           end
         end
 
-        @table[:luke_fields] || {}
+        @table[:reflected_fields] || {}
       end
+      alias luke_fields reflected_fields
+      deprecation_deprecate luke_fields: 'use reflected_fields instead'
 
       # Add a solr field by a solr field name and hash
       def field_config_from_key_and_hash config_key, field_name, field_or_hash = {}
