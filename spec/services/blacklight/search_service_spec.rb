@@ -9,7 +9,6 @@
 #  blacklight code get a single document returned?)
 #
 RSpec.describe Blacklight::SearchService, api: true do
-
   let(:service) { described_class.new(blacklight_config, user_params) }
   let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
   let(:user_params) { {} }
@@ -289,12 +288,6 @@ RSpec.describe Blacklight::SearchService, api: true do
       expect {
         service.fetch(bad_id)
       }.to raise_error(Blacklight::Exceptions::RecordNotFound)
-    end
-
-    it "uses a provided document solr path" do
-      allow(blacklight_config).to receive_messages(document_solr_path: 'get')
-      allow(blacklight_solr).to receive(:send_and_receive).with('get', kind_of(Hash)).and_return({'response'=>{'docs'=>[]}})
-      expect { service.fetch(doc_id)}.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
     it "has a non-nil result for a known id" do
