@@ -130,8 +130,8 @@ RSpec.describe CatalogController, api: true do
         expect(response).to be_successful
       end
       let(:json) { JSON.parse(response.body) }
-      let(:pages)  { json['meta']['pages']  }
-      let(:docs)   { json['data']  }
+      let(:pages)  { json['meta']['pages'] }
+      let(:docs)   { json['data'] }
       let(:facets) { json['included'].select { |x| x['type'] == 'facet' } }
       let(:search_fields) { json['included'].select { |x| x['type'] == 'search_field' } }
 

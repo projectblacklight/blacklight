@@ -97,6 +97,8 @@ module Blacklight
     # removes the field value from params[:f]
     # removes the field if there are no more values in params[:f][field]
     # removes additional params (page, id, etc..)
+    # @param [String] field
+    # @param [String] item
     def remove_facet_params(field, item)
       if item.respond_to? :field
         field = item.field

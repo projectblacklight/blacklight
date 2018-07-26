@@ -185,8 +185,8 @@ module Blacklight::FacetsHelperBehavior
   # Check if the query parameters have the given facet field with the
   # given value.
   #
-  # @param [Object] field
-  # @param [Object] item facet value
+  # @param [String] field
+  # @param [String] item facet value
   # @return [Boolean]
   def facet_in_params?(field, item)
     value = facet_value_for_facet_item(item)
