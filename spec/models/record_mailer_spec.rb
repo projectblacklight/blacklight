@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
 RSpec.describe RecordMailer do
-  before(:each) do
-    allow(RecordMailer).to receive(:default) { { :from => 'no-reply@projectblacklight.org' } }
-    SolrDocument.use_extension( Blacklight::Document::Email )
-    SolrDocument.use_extension( Blacklight::Document::Sms )
-    document = SolrDocument.new({:id=>"123456", :format=>["book"], :title_tsim => "The horn", :language_ssim => "English", :author_tsim => "Janetzky, Kurt"})
+  before do
+    allow(described_class).to receive(:default).and_return(from: 'no-reply@projectblacklight.org')
+    SolrDocument.use_extension(Blacklight::Document::Email)
+    SolrDocument.use_extension(Blacklight::Document::Sms)
+    document = SolrDocument.new(id: "123456", format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt")
     @documents = [document]
   end
+
   describe "email" do
-    before(:each) do
-      details = {:to => 'test@test.com', :message => "This is my message"}
-      @email = RecordMailer.email_record(@documents,details,{:host =>'projectblacklight.org', :protocol => 'https'}) 
+    before do
+      details = { to: 'test@test.com', message: "This is my message" }
+      @email = described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
     end
+
     it "receives the TO paramater and send the email to that address" do
       expect(@email.to).to include 'test@test.com'
     end
@@ -31,17 +33,18 @@ RSpec.describe RecordMailer do
       expect(@email.body).to match /projectblacklight.org/
     end
     it "uses https URLs when protocol is set" do
-      details = {:to => 'test@test.com', :message => "This is my message"}
-      @https_email = RecordMailer.email_record(@documents,details,{:host =>'projectblacklight.org', :protocol => 'https'})
-      expect(@https_email.body).to match %r|https://projectblacklight.org/|
+      details = { to: 'test@test.com', message: "This is my message" }
+      @https_email = described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
+      expect(@https_email.body).to match %r{https://projectblacklight.org/}
     end
   end
-  
+
   describe "SMS" do
-    before(:each) do
-      details = {:to => '5555555555@txt.att.net'}
-      @sms = RecordMailer.sms_record(@documents,details,{:host =>'projectblacklight.org:3000'})
+    before do
+      details = { to: '5555555555@txt.att.net' }
+      @sms = described_class.sms_record(@documents, details, host: 'projectblacklight.org:3000')
     end
+
     it "creates the correct TO address for the SMS email" do
       expect(@sms.to).to include '5555555555@txt.att.net'
     end
@@ -54,13 +57,12 @@ RSpec.describe RecordMailer do
     it "prints out the correct body" do
       expect(@sms.body).to match /The horn/
       expect(@sms.body).to match /by Janetzky, Kurt/
-      expect(@sms.body).to match /projectblacklight.org:3000/      
+      expect(@sms.body).to match /projectblacklight.org:3000/
     end
     it "uses https URL when protocol is set" do
-      details = {:to => '5555555555@txt.att.net'}
-      @https_sms = RecordMailer.sms_record(@documents,details,{:host =>'projectblacklight.org', :protocol => 'https'})
-      expect(@https_sms.body).to match %r|https://projectblacklight.org/|
+      details = { to: '5555555555@txt.att.net' }
+      @https_sms = described_class.sms_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
+      expect(@https_sms.body).to match %r{https://projectblacklight.org/}
     end
   end
-
 end

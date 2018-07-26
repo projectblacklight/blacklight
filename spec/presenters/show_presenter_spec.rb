@@ -2,10 +2,11 @@
 
 RSpec.describe Blacklight::ShowPresenter do
   include Capybara::RSpecMatchers
+  subject { presenter }
+
   let(:request_context) { double }
   let(:config) { Blacklight::Configuration.new }
 
-  subject { presenter }
   let(:presenter) { described_class.new(document, request_context, config) }
   let(:parameter_class) { ActionController::Parameters }
   let(:params) { parameter_class.new }
@@ -31,14 +32,23 @@ RSpec.describe Blacklight::ShowPresenter do
       end
 
       module MockExtension
-         def self.extended(document)
-           document.will_export_as(:weird, "application/weird")
-           document.will_export_as(:weirder, "application/weirder")
-           document.will_export_as(:weird_dup, "application/weird")
-         end
-         def export_as_weird ; "weird" ; end
-         def export_as_weirder ; "weirder" ; end
-         def export_as_weird_dup ; "weird_dup" ; end
+        def self.extended(document)
+          document.will_export_as(:weird, "application/weird")
+          document.will_export_as(:weirder, "application/weirder")
+          document.will_export_as(:weird_dup, "application/weird")
+        end
+
+        def export_as_weird
+          "weird"
+        end
+
+        def export_as_weirder
+          "weirder"
+        end
+
+        def export_as_weird_dup
+          "weird_dup"
+        end
       end
 
       MockDocument.use_extension(MockExtension)
@@ -60,8 +70,8 @@ RSpec.describe Blacklight::ShowPresenter do
       it "generates <link rel=alternate> tags" do
         tmp_value = Capybara.ignore_hidden_elements
         Capybara.ignore_hidden_elements = false
-        document.export_formats.each_pair do |format, spec|
-          expect(subject).to have_selector("link[href$='.#{ format  }']") do |matches|
+        document.export_formats.each_pair do |format, _spec|
+          expect(subject).to have_selector("link[href$='.#{format}']") do |matches|
             expect(matches).to have(1).match
             tag = matches[0]
             expect(tag.attributes["rel"].value).to eq "alternate"
@@ -88,10 +98,11 @@ RSpec.describe Blacklight::ShowPresenter do
 
     context "with exclude" do
       subject { presenter.link_rel_alternates(unique: true) }
+
       it "excludes formats from :exclude" do
         tmp_value = Capybara.ignore_hidden_elements
         Capybara.ignore_hidden_elements = false
-        expect(subject).to_not have_selector("link[href$='.weird_dup']")
+        expect(subject).not_to have_selector("link[href$='.weird_dup']")
         Capybara.ignore_hidden_elements = tmp_value
       end
     end
@@ -101,14 +112,14 @@ RSpec.describe Blacklight::ShowPresenter do
     let(:config) do
       Blacklight::Configuration.new.configure do |config|
         config.add_show_field 'qwer'
-        config.add_show_field 'asdf', :helper_method => :render_asdf_document_show_field
-        config.add_show_field 'link_to_facet_true', :link_to_facet => true
-        config.add_show_field 'link_to_facet_named', :link_to_facet => :some_field
-        config.add_show_field 'highlight', :highlight => true
-        config.add_show_field 'solr_doc_accessor', :accessor => true
-        config.add_show_field 'explicit_accessor', :accessor => :solr_doc_accessor
-        config.add_show_field 'explicit_array_accessor', :accessor => [:solr_doc_accessor, :some_method]
-        config.add_show_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
+        config.add_show_field 'asdf', helper_method: :render_asdf_document_show_field
+        config.add_show_field 'link_to_facet_true', link_to_facet: true
+        config.add_show_field 'link_to_facet_named', link_to_facet: :some_field
+        config.add_show_field 'highlight', highlight: true
+        config.add_show_field 'solr_doc_accessor', accessor: true
+        config.add_show_field 'explicit_accessor', accessor: :solr_doc_accessor
+        config.add_show_field 'explicit_array_accessor', accessor: [:solr_doc_accessor, :some_method]
+        config.add_show_field 'explicit_accessor_with_arg', accessor: :solr_doc_accessor_with_arg
       end
     end
 
@@ -123,13 +134,13 @@ RSpec.describe Blacklight::ShowPresenter do
     end
 
     it 'joins multivalued valued fields' do
-      value = subject.field_value 'asdf', value: ['a', 'b', 'c']
+      value = subject.field_value 'asdf', value: %w[a b c]
       expect(value).to eq 'a, b, and c'
     end
 
     it "checks for an explicit value" do
-      expect(request_context).to_not receive(:render_asdf_document_show_field)
-      value = subject.field_value 'asdf', :value => 'val1'
+      expect(request_context).not_to receive(:render_asdf_document_show_field)
+      value = subject.field_value 'asdf', value: 'val1'
       expect(value).to eq 'val1'
     end
 
@@ -157,7 +168,9 @@ RSpec.describe Blacklight::ShowPresenter do
       before do
         allow(document).to receive(:has_highlight_field?).and_return(false)
       end
+
       let(:value) { subject.field_value 'highlight' }
+
       it "is blank" do
         expect(value).to be_blank
       end
@@ -283,4 +296,3 @@ RSpec.describe Blacklight::ShowPresenter do
     end
   end
 end
-

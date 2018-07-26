@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Blacklight::Configuration::FacetField do
   describe 'link_to_search' do
     subject { described_class.new(link_to_search: true) }

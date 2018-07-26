@@ -2,10 +2,11 @@
 
 RSpec.describe Blacklight::IndexPresenter do
   include Capybara::RSpecMatchers
+  subject { presenter }
+
   let(:request_context) { double(document_index_view_type: 'list') }
   let(:config) { Blacklight::Configuration.new }
 
-  subject { presenter }
   let(:presenter) { described_class.new(document, request_context, config) }
   let(:parameter_class) { ActionController::Parameters }
   let(:params) { parameter_class.new }
@@ -28,19 +29,20 @@ RSpec.describe Blacklight::IndexPresenter do
     let(:config) do
       Blacklight::Configuration.new.configure do |config|
         config.add_index_field 'qwer'
-        config.add_index_field 'asdf', :helper_method => :render_asdf_index_field
-        config.add_index_field 'link_to_facet_true', :link_to_facet => true
-        config.add_index_field 'link_to_facet_named', :link_to_facet => :some_field
-        config.add_index_field 'highlight', :highlight => true
-        config.add_index_field 'solr_doc_accessor', :accessor => true
-        config.add_index_field 'explicit_accessor', :accessor => :solr_doc_accessor
-        config.add_index_field 'explicit_accessor_with_arg', :accessor => :solr_doc_accessor_with_arg
+        config.add_index_field 'asdf', helper_method: :render_asdf_index_field
+        config.add_index_field 'link_to_facet_true', link_to_facet: true
+        config.add_index_field 'link_to_facet_named', link_to_facet: :some_field
+        config.add_index_field 'highlight', highlight: true
+        config.add_index_field 'solr_doc_accessor', accessor: true
+        config.add_index_field 'explicit_accessor', accessor: :solr_doc_accessor
+        config.add_index_field 'explicit_accessor_with_arg', accessor: :solr_doc_accessor_with_arg
         config.add_index_field 'alias', field: 'qwer'
         config.add_index_field 'with_default', default: 'value'
       end
     end
+
     it "checks for an explicit value" do
-      value = subject.field_value 'asdf', :value => 'asdf'
+      value = subject.field_value 'asdf', value: 'asdf'
       expect(value).to eq 'asdf'
     end
 
@@ -145,6 +147,7 @@ RSpec.describe Blacklight::IndexPresenter do
 
   describe "#thumbnail" do
     subject { presenter.thumbnail }
+
     it { is_expected.to be_instance_of Blacklight::ThumbnailPresenter }
   end
 end

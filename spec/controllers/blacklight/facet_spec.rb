@@ -30,5 +30,4 @@ RSpec.describe Blacklight::Facet do
       expect(subject.facet_configuration_for_field('b')).to eq blacklight_config.facet_fields['a']
     end
   end
-
 end

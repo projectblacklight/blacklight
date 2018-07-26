@@ -32,5 +32,4 @@ RSpec.describe "catalog/_sort_and_per_page" do
     render
     expect(rendered).not_to match /paginate_compact/
   end
-
 end

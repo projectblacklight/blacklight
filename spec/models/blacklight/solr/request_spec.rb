@@ -17,21 +17,20 @@ RSpec.describe Blacklight::Solr::Request, api: true do
     subject['f.title_facet.facet.limit'] = "vest"
     subject['facet.field'] = []
   end
-  it "should accept valid parameters" do
-    expect(subject.to_hash).to eq({"defType" => "had",
-       "f.title_facet.facet.limit" => "vest",
-       "fq" => ["what's up.", "dood"],
-       "group" => "I",
-       "hl" => "I",
-       "hl.fl" => "wish",
-       "q" => "what's",
-       "qt" => "hey",
-       "rows" => "Man",
-       "spellcheck" => "a",
-       "spellcheck.q" => "fleece",
-       "start" => "on",
-       "wt" => "going"
-    })
-  end
 
+  it "accepts valid parameters" do
+    expect(subject.to_hash).to eq("defType" => "had",
+                                  "f.title_facet.facet.limit" => "vest",
+                                  "fq" => ["what's up.", "dood"],
+                                  "group" => "I",
+                                  "hl" => "I",
+                                  "hl.fl" => "wish",
+                                  "q" => "what's",
+                                  "qt" => "hey",
+                                  "rows" => "Man",
+                                  "spellcheck" => "a",
+                                  "spellcheck.q" => "fleece",
+                                  "start" => "on",
+                                  "wt" => "going")
+  end
 end

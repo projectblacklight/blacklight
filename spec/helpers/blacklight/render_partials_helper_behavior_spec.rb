@@ -1,31 +1,39 @@
+# frozen_string_literal: true
+
 RSpec.describe Blacklight::RenderPartialsHelperBehavior do
   describe "#type_field_to_partial_name" do
-    let(:document) { double }
     subject { helper.send(:type_field_to_partial_name, document, value) }
+
+    let(:document) { double }
 
     context "with default value" do
       let(:value) { 'default' }
+
       it { is_expected.to eq 'default' }
     end
 
     context "with spaces" do
       let(:value) { 'one two three' }
+
       it { is_expected.to eq 'one_two_three' }
     end
 
     context "with hyphens" do
       let(:value) { 'one-two-three' }
+
       it { is_expected.to eq 'one_two_three' }
     end
 
     context "an array" do
-      let(:value) { ['one', 'two', 'three'] }
+      let(:value) { %w[one two three] }
+
       it { is_expected.to eq 'one_two_three' }
     end
   end
 
   describe "#render_document_partials" do
     let(:doc) { double }
+
     before do
       allow(helper).to receive_messages(document_partial_path_templates: [])
       allow(helper).to receive_messages(document_index_view_type: 'index_header')
@@ -39,19 +47,22 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
 
   describe "#document_partial_name" do
     let(:blacklight_config) { Blacklight::Configuration.new }
+
     before do
       allow(helper).to receive_messages(blacklight_config: blacklight_config)
     end
 
     context "with a solr document with empty fields" do
       let(:document) { SolrDocument.new }
+
       it "is the default value" do
         expect(helper.document_partial_name(document)).to eq 'default'
       end
     end
 
     context "with a solr document with the display type field set" do
-      let(:document) { SolrDocument.new 'my_field' => 'xyz'}
+      let(:document) { SolrDocument.new 'my_field' => 'xyz' }
+
       before do
         blacklight_config.show.display_type_field = 'my_field'
       end
@@ -66,15 +77,16 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
 
     context "with a solr doucment with an action-specific field set" do
       let(:document) { SolrDocument.new 'my_field' => 'xyz', 'other_field' => 'abc' }
+
       before do
         blacklight_config.show.media_display_type_field = 'my_field'
         blacklight_config.show.metadata_display_type_field = 'other_field'
       end
+
       it "uses the value in the action-specific fields" do
         expect(helper.document_partial_name(document, :media)).to eq 'xyz'
         expect(helper.document_partial_name(document, :metadata)).to eq 'abc'
       end
     end
   end
-
 end

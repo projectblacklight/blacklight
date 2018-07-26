@@ -25,7 +25,6 @@ RSpec.describe "catalog/show.json" do
       {
         id: '123',
         attributes: { 'title_tsim' => 'Book1' }
-      }
-    )
+      })
   end
 end

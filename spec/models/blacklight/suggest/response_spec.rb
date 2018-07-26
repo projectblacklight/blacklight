@@ -45,6 +45,7 @@ RSpec.describe Blacklight::Suggest::Response, api: true do
       expect(empty_response).to be_an Blacklight::Suggest::Response
     end
   end
+
   describe '#suggestions' do
     it 'returns an array of suggestions' do
       expect(full_response.suggestions).to be_an Array

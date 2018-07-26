@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'generators/blacklight/solr_generator'
 
@@ -6,14 +8,15 @@ RSpec.describe Blacklight::SolrGenerator do
 
   describe "#solr_wrapper_config" do
     let(:generator) { described_class.new }
-    let(:files_to_test) {[
-        File.join("#{destination}", '.solr_wrapper.yml')
-    ]}
+    let(:files_to_test) do
+      [
+        File.join(destination.to_s, '.solr_wrapper.yml')
+      ]
+    end
 
     before do
       generator.destination_root = destination
       generator.solr_wrapper_config
-
     end
 
     after do
@@ -29,12 +32,17 @@ RSpec.describe Blacklight::SolrGenerator do
 
   describe "#copy_solr_conf" do
     let(:generator) { described_class.new }
-    let(:dirs_to_test) {[
-        File.join("#{destination}", 'solr'),
-        File.join("#{destination}", 'solr/conf')]}
-    let(:files_to_test) {[
-        File.join("#{destination}", 'solr/conf/solrconfig.xml')
-    ]}
+    let(:dirs_to_test) do
+      [
+        File.join(destination.to_s, 'solr'),
+        File.join(destination.to_s, 'solr/conf')
+      ]
+    end
+    let(:files_to_test) do
+      [
+        File.join(destination.to_s, 'solr/conf/solrconfig.xml')
+      ]
+    end
 
     before do
       generator.destination_root = destination

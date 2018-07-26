@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe "Blacklight::Configurable", api: true do
-
   describe "inheritence" do
     before(:all) do
       module TestCaseInheritence
@@ -9,7 +8,7 @@ RSpec.describe "Blacklight::Configurable", api: true do
           include Blacklight::Configurable
 
           blacklight_config.configure do |config|
-            config.list = [1,2,3]
+            config.list = [1, 2, 3]
           end
         end
 
@@ -17,23 +16,23 @@ RSpec.describe "Blacklight::Configurable", api: true do
         end
       end
     end
+
     it "inherits the configuration when subclassed" do
-      expect(TestCaseInheritence::Child.blacklight_config.list).to include(1,2,3)
+      expect(TestCaseInheritence::Child.blacklight_config.list).to include(1, 2, 3)
     end
 
     it "inherited version should be a deep copy, not original" do
-      expect(TestCaseInheritence::Child.blacklight_config).to_not  be(TestCaseInheritence::Parent.blacklight_config)
+      expect(TestCaseInheritence::Child.blacklight_config).not_to  be(TestCaseInheritence::Parent.blacklight_config)
 
       TestCaseInheritence::Child.blacklight_config.list << "child_only"
 
-
       expect(TestCaseInheritence::Child.blacklight_config.list).to include("child_only")
-      expect(TestCaseInheritence::Parent.blacklight_config.list).to_not include("child_only")
+      expect(TestCaseInheritence::Parent.blacklight_config.list).not_to include("child_only")
     end
   end
 
   describe "default configuration" do
-    before(:each) do
+    before do
       Blacklight::Configurable.default_configuration = nil
     end
 
@@ -51,7 +50,7 @@ RSpec.describe "Blacklight::Configurable", api: true do
     it "allows the user to provide a default configuration" do
       a = Class.new
 
-      Blacklight::Configurable.default_configuration = Blacklight::Configuration.new :a => 1
+      Blacklight::Configurable.default_configuration = Blacklight::Configuration.new a: 1
 
       a.send(:include, Blacklight::Configurable)
       expect(a.blacklight_config.a).to eq 1
@@ -76,7 +75,7 @@ RSpec.describe "Blacklight::Configurable", api: true do
       instance = klass.new
       instance.blacklight_config = Blacklight::Configuration.new
 
-      expect(instance.blacklight_config).to_not eq klass.blacklight_config
+      expect(instance.blacklight_config).not_to eq klass.blacklight_config
       expect(instance.blacklight_config.foo).to be_nil
     end
 
@@ -92,10 +91,10 @@ RSpec.describe "Blacklight::Configurable", api: true do
 
       instance = klass.new
       instance.blacklight_config.bar << "123"
-      expect(instance.blacklight_config).to_not eq klass.blacklight_config
+      expect(instance.blacklight_config).not_to eq klass.blacklight_config
       expect(klass.blacklight_config.foo).to eq "bar"
       expect(instance.blacklight_config.foo).to eq  "bar"
-      expect(klass.blacklight_config.bar).to_not include("123")
+      expect(klass.blacklight_config.bar).not_to include("123")
       expect(instance.blacklight_config.bar).to include("asd", "123")
     end
 
@@ -111,6 +110,5 @@ RSpec.describe "Blacklight::Configurable", api: true do
       expect(klass.blacklight_config.foo).to eq "bar"
       expect(klass2.blacklight_config.foo).to eq "asdf"
     end
-
   end
 end

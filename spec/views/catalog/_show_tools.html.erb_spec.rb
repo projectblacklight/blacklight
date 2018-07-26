@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/_show_tools.html.erb" do
-  let(:document) { SolrDocument.new :id => 'xyz', :format => 'a' }
+  let(:document) { SolrDocument.new id: 'xyz', format: 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
@@ -37,7 +37,7 @@ RSpec.describe "catalog/_show_tools.html.erb" do
 
     it "evaluates a document action's if configuration with a proc" do
       allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new partial: 'document_action', if: Proc.new { |config, doc| doc.id == "xyz" }
+      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new partial: 'document_action', if: proc { |_config, doc| doc.id == "xyz" }
       render partial: 'catalog/show_tools'
       expect(rendered).not_to have_selector '.some_action', text: "Some action"
     end
