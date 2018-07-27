@@ -9,7 +9,7 @@
   }
 }
 
-.navbar-brand {  /* The main logo image for the Blacklight instance */
+.topbar .navbar-brand {  /* The main logo image for the Blacklight instance */
   @if $logo-image {
     background: transparent $logo-image no-repeat top left;
   }
