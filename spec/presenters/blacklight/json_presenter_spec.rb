@@ -11,14 +11,14 @@ RSpec.describe Blacklight::JsonPresenter, api: true do
                     aggregations: aggregations)
   end
   let(:docs) do
-     [
-       SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie'),
-       SolrDocument.new(id: '456', title_tsim: 'Book2', author_tsim: 'Rosie')
-     ]
+    [
+      SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie'),
+      SolrDocument.new(id: '456', title_tsim: 'Book2', author_tsim: 'Rosie')
+    ]
   end
 
   let(:aggregations) do
-    { 'format_si' => Blacklight::Solr::Response::Facets::FacetField.new("format_si", [{ label: "Book", value: 'Book', hits: 20 }])}
+    { 'format_si' => Blacklight::Solr::Response::Facets::FacetField.new("format_si", [{ label: "Book", value: 'Book', hits: 20 }]) }
   end
 
   let(:config) do
@@ -30,16 +30,14 @@ RSpec.describe Blacklight::JsonPresenter, api: true do
 
   let(:presenter) { described_class.new(response, config) }
 
+  describe '#search_facets' do
+    let(:search_facets) { presenter.search_facets }
 
-  describe '#search_facets_as_json' do
-    subject { presenter.search_facets_as_json }
-
-    context 'for defined facets that are present in the response' do
-      it 'has a label' do
-        expect(subject.first["label"]).to eq 'Format'
+    context 'with defined facets that are present in the response' do
+      it 'returns them' do
+        expect(search_facets.map(&:name)).to eq ['format_si']
       end
     end
-
 
     context 'when there are defined facets that are not in the response' do
       before do
@@ -53,8 +51,8 @@ RSpec.describe Blacklight::JsonPresenter, api: true do
         }
       end
 
-      it 'shows only facets that are defined' do
-        expect(subject.map { |f| f['name'] }).to eq ['format_si']
+      it 'filters out the facets that are not defined' do
+        expect(search_facets.map(&:name)).to eq ['format_si']
       end
     end
   end

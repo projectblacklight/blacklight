@@ -37,27 +37,32 @@ json.data do
 end
 
 json.included do
-  json.array! @presenter.search_facets_as_json do |facet|
+  json.array! @presenter.search_facets do |facet|
     json.type 'facet'
-    json.id facet['name']
+    json.id facet.name
     json.attributes do
-      json.label facet['label']
+      facet_config = facet_configuration_for_field(facet.name)
+      json.label facet_field_label(facet_config.key)
       json.items do
-        json.array! facet['items'] do |item|
+        json.array! facet.items do |item|
           json.id
           json.attributes do
-            json.label item['label']
-            json.value item['value']
-            json.hits item['hits']
+            json.label item.label
+            json.value item.value
+            json.hits item.hits
           end
           json.links do
-            json.self path_for_facet(facet['name'], item['value'], only_path: false)
+            if facet_in_params?(facet.name, item.value)
+              json.remove search_action_path(search_state.remove_facet_params(facet.name, item.value))
+            else
+              json.self path_for_facet(facet.name, item.value, only_path: false)
+            end
           end
         end
       end
     end
     json.links do
-      json.self search_facet_path(id: facet['name'], only_path: false)
+      json.self search_facet_path(id: facet.name, only_path: false)
     end
   end
 

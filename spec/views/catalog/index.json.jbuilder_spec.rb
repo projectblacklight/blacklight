@@ -20,15 +20,23 @@ RSpec.describe "catalog/index.json", api: true do
     JSON.parse(rendered).with_indifferent_access
   end
 
+  let(:book_facet_item) do
+    Blacklight::Solr::Response::Facets::FacetItem.new('value' => 'Book', 'hits' => 30, 'label' => 'Book')
+  end
+
+  let(:format_facet) do
+    Blacklight::Solr::Response::Facets::FacetField.new('format',
+                                                       [book_facet_item],
+                                                       'label' => 'Format')
+  end
+
   before do
     allow(view).to receive(:blacklight_config).and_return(config)
     allow(view).to receive(:search_action_path).and_return('http://test.host/some/search/url')
     allow(view).to receive(:search_facet_path).and_return('http://test.host/some/facet/url')
     allow(presenter).to receive(:pagination_info).and_return({ current_page: 1, next_page: 2,
                                                                prev_page: nil })
-    allow(presenter).to receive(:search_facets_as_json).and_return(
-          [{ 'name' => "format", 'label' => "Format",
-             'items' => [{ 'value' => 'Book', 'hits' => 30, 'label' => 'Book' }] }])
+    allow(presenter).to receive(:search_facets).and_return([format_facet])
     assign :presenter, presenter
     assign :response, response
   end
@@ -82,22 +90,29 @@ RSpec.describe "catalog/index.json", api: true do
     ])
   end
 
-  it "has facet information and links" do
-    expect(hash).to include(:included)
+  describe 'facets' do
+    let(:facets) { hash[:included].select { |x| x['type'] == 'facet' } }
+    let(:format) { facets.find { |x| x['id'] == 'format' } }
+    let(:format_items) { format['attributes']['items'] }
+    let(:format_item_attributes) { format_items.map { |x| x['attributes'] } }
 
-    facets = hash[:included].select { |x| x['type'] == 'facet' }
-    expect(facets).to be_present
+    context 'when no facets have been selected' do
+      it 'has facet information and links' do
+        expect(facets).to be_present
+        expect(facets.map { |x| x['id'] }).to include 'format'
+        expect(format['links']).to include self: 'http://test.host/some/facet/url'
+        expect(format['attributes']['label']).to eq 'Format'
+        expect(format_item_attributes).to match_array [{ value: 'Book', hits: 30, label: 'Book' }]
+      end
+    end
 
-    expect(facets.map { |x| x['id'] }).to include 'format'
-
-    format = facets.find { |x| x['id'] == 'format' }
-
-    expect(format['links']).to include self: 'http://test.host/some/facet/url'
-    expect(format['attributes']).to include :items
-    expect(format['attributes']['label']).to eq 'Format'
-
-    format_items = format['attributes']['items'].map { |x| x['attributes'] }
-
-    expect(format_items).to match_array [{value: 'Book', hits: 30, label: 'Book'}]
+    context 'when facets have been selected' do
+      before do
+        params[:f] = { format: ['Book'] }
+      end
+      it 'has a link to remove the selected value' do
+        expect(format_items.first['links']).to eq('remove' => 'http://test.host/some/search/url')
+      end
+    end
   end
 end
