@@ -14,6 +14,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
       let(:config) do
         Blacklight::OpenStructWithHashAccess.new(thumbnail_method: :xyz)
       end
+
       it { is_expected.to be true }
     end
 
@@ -62,6 +63,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
 
   describe "#thumbnail_tag" do
     subject { presenter.thumbnail_tag }
+
     context "when thumbnail_method is configured" do
       let(:config) do
         Blacklight::OpenStructWithHashAccess.new(thumbnail_method: :xyz)
@@ -75,7 +77,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         it "calls the provided thumbnail method" do
           expect(view_context).to receive_messages(xyz: "some-thumbnail")
           allow(view_context).to receive(:link_to_document).with(document, "some-thumbnail", {})
-            .and_return("link")
+                                                           .and_return("link")
           expect(subject).to eq "link"
         end
 
@@ -92,6 +94,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         before do
           allow(view_context).to receive_messages(xyz: nil)
         end
+
         it { is_expected.to be nil }
       end
     end
@@ -155,7 +158,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
 
       context "and is a proc" do
         let(:config) do
-          Blacklight::OpenStructWithHashAccess.new(default_thumbnail: lambda { |_, _| '<img src="image.jpg">' })
+          Blacklight::OpenStructWithHashAccess.new(default_thumbnail: ->(_, _) { '<img src="image.jpg">' })
         end
 
         it "calls that lambda" do

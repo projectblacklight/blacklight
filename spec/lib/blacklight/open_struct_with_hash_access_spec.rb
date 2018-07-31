@@ -2,7 +2,7 @@
 
 RSpec.describe Blacklight::OpenStructWithHashAccess do
   it "provides hash-like accessors for OpenStruct data" do
-    a = described_class.new :foo => :bar, :baz => 1
+    a = described_class.new foo: :bar, baz: 1
 
     expect(a[:foo]).to eq :bar
     expect(a[:baz]).to eq 1
@@ -10,11 +10,10 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
   end
 
   it "provides hash-like writers for OpenStruct data" do
-    a = described_class.new :foo => :bar, :baz => 1
+    a = described_class.new foo: :bar, baz: 1
 
     a[:asdf] = 'qwerty'
     expect(a.asdf).to eq 'qwerty'
-
   end
 
   it "treats symbols and strings interchangeably in hash access" do
@@ -44,7 +43,6 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     it "exposes keys" do
       expect(@h.keys).to include(:a, :b)
     end
-
   end
 
   describe "#key?" do
@@ -56,11 +54,11 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     end
 
     it "is true if the key exists" do
-      expect(subject.key? :a).to eq true
+      expect(subject.key?(:a)).to eq true
     end
 
     it "is false if the key does not exist" do
-      expect(subject.key? :c).to eq false
+      expect(subject.key?(:c)).to eq false
     end
   end
 
@@ -74,25 +72,24 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
   end
 
   describe "#sort_by" do
-    subject { described_class.new c: 3, b:1, a: 2 }
+    subject { described_class.new c: 3, b: 1, a: 2 }
 
     it "sorts the underlying hash" do
-      sorted = subject.sort_by { |k,v| v }
+      sorted = subject.sort_by { |_k, v| v }
       expect(sorted.keys).to match_array [:b, :a, :c]
     end
   end
 
   describe "#sort_by!" do
-    subject { described_class.new c: 3, b:1, a: 2 }
+    subject { described_class.new c: 3, b: 1, a: 2 }
 
     it "sorts the underlying hash" do
-      subject.sort_by! { |k,v| v }
+      subject.sort_by! { |_k, v| v }
       expect(subject.keys).to match_array [:b, :a, :c]
     end
   end
 
   describe "#merge" do
-
     before do
       @h = described_class.new
       @h[:a] = 1
@@ -100,17 +97,15 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     end
 
     it "merges the object with a hash" do
-      expect(@h.merge(:a => 'a')[:a]).to eq 'a'
+      expect(@h.merge(a: 'a')[:a]).to eq 'a'
     end
 
     it "merges the object with another struct" do
-      expect(@h.merge(described_class.new(:a => 'a'))[:a]).to eq 'a'
+      expect(@h.merge(described_class.new(a: 'a'))[:a]).to eq 'a'
     end
   end
 
-
   describe "#merge!" do
-
     before do
       @h = described_class.new
       @h[:a] = 1
@@ -118,26 +113,26 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     end
 
     it "merges the object with a hash" do
-      @h.merge!(:a => 'a')
+      @h[:a] = 'a'
       expect(@h[:a]).to eq 'a'
     end
 
     it "merges the object with another struct" do
-      @h.merge!(described_class.new(:a => 'a'))
+      @h.merge!(described_class.new(a: 'a'))
       expect(@h[:a]).to eq 'a'
     end
   end
 
   describe "#to_json" do
-    subject { described_class.new a: 1, b: 2}
+    subject { described_class.new a: 1, b: 2 }
 
     it "serializes as json" do
-      expect(subject.to_json).to eq ({a: 1, b:2}).to_json
+      expect(subject.to_json).to eq({ a: 1, b: 2 }.to_json)
     end
   end
 
   describe "#deep_dup" do
-    subject { described_class.new a: 1, b: { c: 1} }
+    subject { described_class.new a: 1, b: { c: 1 } }
 
     it "duplicates nested hashes" do
       copy = subject.deep_dup

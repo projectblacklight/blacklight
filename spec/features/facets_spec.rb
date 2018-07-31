@@ -3,8 +3,8 @@
 RSpec.describe "Facets" do
   it "shows a single facet's values" do
     visit facet_catalog_path("language_ssim")
-    expect(page).to have_selector ".modal-title", :text => "Language"
-    expect(page).to have_selector ".facet-select", :text => "Tibetan"
+    expect(page).to have_selector ".modal-title", text: "Language"
+    expect(page).to have_selector ".facet-select", text: "Tibetan"
   end
 
   it "paginates through a facet's values" do
@@ -46,7 +46,7 @@ RSpec.describe "Facets" do
     click_on 'All'
     expect(page).to have_selector '.facet-values li:first', text: "Accident insurance"
     expect(page).to have_css '.facet-values li', count: 20
-    find(:css,".facet-pagination.bottom").click_on "Numerical Sort"
+    find(:css, ".facet-pagination.bottom").click_on "Numerical Sort"
     expect(page).to have_selector '.facet-values li:first', text: "Japanese drama"
     expect(page).to have_css '.facet-values li', count: 20
   end

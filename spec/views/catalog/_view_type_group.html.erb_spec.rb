@@ -6,9 +6,7 @@ RSpec.describe "catalog/_view_type_group" do
   let(:icon_instance) { instance_double(Blacklight::Icon) }
 
   before do
-    allow(view).to receive(:view_label) do |view|
-      view.to_s
-    end
+    allow(view).to receive(:view_label), &:to_s
     allow(Blacklight::Icon).to receive(:new).and_return icon_instance
     allow(icon_instance).to receive(:svg).and_return '<svg></svg>'
     allow(icon_instance).to receive(:options).and_return({})
@@ -32,9 +30,9 @@ RSpec.describe "catalog/_view_type_group" do
     end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.btn-group.view-type-group')
-    expect(rendered).to have_selector('.view-type-a', :text => 'a')
-    expect(rendered).to have_selector('.view-type-b', :text => 'b')
-    expect(rendered).to have_selector('.view-type-c', :text => 'c')
+    expect(rendered).to have_selector('.view-type-a', text: 'a')
+    expect(rendered).to have_selector('.view-type-b', text: 'b')
+    expect(rendered).to have_selector('.view-type-c', text: 'c')
   end
 
   it "sets the current view to 'active'" do
@@ -44,8 +42,8 @@ RSpec.describe "catalog/_view_type_group" do
       config.view.b
     end
     render partial: 'catalog/view_type_group'
-    expect(rendered).to have_selector('.active', :text => 'a')
-    expect(rendered).to_not have_selector('.active', :text => 'b')
-    expect(rendered).to have_selector('.btn', :text => 'b')
+    expect(rendered).to have_selector('.active', text: 'a')
+    expect(rendered).not_to have_selector('.active', text: 'b')
+    expect(rendered).to have_selector('.btn', text: 'b')
   end
 end

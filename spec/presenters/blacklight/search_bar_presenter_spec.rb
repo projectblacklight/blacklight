@@ -16,6 +16,7 @@ RSpec.describe Blacklight::SearchBarPresenter do
           config.autocomplete_path = 'suggest'
         end
       end
+
       it { is_expected.to be true }
     end
 
@@ -26,6 +27,7 @@ RSpec.describe Blacklight::SearchBarPresenter do
           config.autocomplete_path = 'suggest'
         end
       end
+
       it { is_expected.to be false }
     end
 
@@ -42,16 +44,19 @@ RSpec.describe Blacklight::SearchBarPresenter do
 
   describe "#autofocus?" do
     subject { presenter.autofocus? }
+
     context "on a catalog-like index page without query or facet parameters" do
       before do
         allow(controller).to receive(:action_name).and_return('index')
         allow(controller).to receive(:has_search_parameters?).and_return(false)
       end
+
       it { is_expected.to be true }
     end
 
     context "when not the catalog controller" do
       let(:controller) { ApplicationController.new }
+
       it { is_expected.to be false }
     end
 
@@ -59,6 +64,7 @@ RSpec.describe Blacklight::SearchBarPresenter do
       before do
         allow(controller).to receive(:action_name).and_return('show')
       end
+
       it { is_expected.to be false }
     end
 
@@ -66,6 +72,7 @@ RSpec.describe Blacklight::SearchBarPresenter do
       before do
         allow(controller).to receive(:has_search_parameters?).and_return(true)
       end
+
       it { is_expected.to be false }
     end
   end

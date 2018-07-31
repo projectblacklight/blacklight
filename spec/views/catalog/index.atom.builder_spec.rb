@@ -13,7 +13,7 @@ RSpec.describe "catalog/index" do
   end
 
   before do
-    @response = Blacklight::Solr::Response.new({ response: { numFound: 30 }}, { start: 10, rows: 10})
+    @response = Blacklight::Solr::Response.new({ response: { numFound: 30 } }, start: 10, rows: 10)
     allow(@response).to receive(:documents).and_return(document_list)
     params['content_format'] = 'some_format'
     allow(view).to receive(:action_name).and_return('index')
@@ -45,14 +45,14 @@ RSpec.describe "catalog/index" do
   it "includes an opensearch Query role=request" do
     expect(response_xml.elements.to_a("/feed/opensearch:itemsPerPage")).to have(1).item
     query_el = response_xml.elements["/feed/opensearch:Query"]
-    expect(query_el).to_not be_nil
+    expect(query_el).not_to be_nil
     expect(query_el.attributes["role"]).to eq "request"
     expect(query_el.attributes["searchTerms"]).to eq ""
     expect(query_el.attributes["startPage"]).to eq "2"
   end
 
   it "has ten entries" do
-    expect(rendered).to have_selector("entry", :count => 10)
+    expect(rendered).to have_selector("entry", count: 10)
   end
 
   describe "entries" do
@@ -74,6 +74,7 @@ RSpec.describe "catalog/index" do
 
     describe "with an author" do
       let(:entry) { response_xml.elements.to_a("/feed/entry")[0] }
+
       it "has author tag" do
         expect(entry.elements["author/name"].text).to eq 'xyz'
       end
@@ -81,6 +82,7 @@ RSpec.describe "catalog/index" do
 
     describe "without an author" do
       let(:entry) { response_xml.elements.to_a("/feed/entry")[1] }
+
       it "does not have an author tag" do
         expect(entry.elements["author/name"]).to be_nil
       end
@@ -90,6 +92,7 @@ RSpec.describe "catalog/index" do
   describe "when content_format is specified" do
     describe "for an entry with content available" do
       let(:entry) { response_xml.elements.to_a("/feed/entry")[1].to_s }
+
       it "includes a link rel tag" do
         expect(entry).to have_selector("link[rel=alternate][type='application/some-format']")
       end
@@ -97,10 +100,12 @@ RSpec.describe "catalog/index" do
         expect(entry).to have_selector("content")
       end
     end
+
     describe "for an entry with NO content available" do
       let(:entry) { response_xml.elements.to_a("/feed/entry")[5].to_s }
+
       it "does not have content embedded" do
-        expect(entry).to_not have_selector("content[type='application/some-format']")
+        expect(entry).not_to have_selector("content[type='application/some-format']")
       end
     end
   end

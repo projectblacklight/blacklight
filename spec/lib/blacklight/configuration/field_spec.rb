@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe Blacklight::Configuration::Field do
   subject { described_class.new(key: key, label: label) }
+
   let(:key) { 'some_key' }
   let(:label) { 'some label' }
 

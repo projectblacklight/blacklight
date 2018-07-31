@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Blacklight::IconHelperBehavior do
   describe '#blacklight_icon' do
     it 'wraps the svg in a span with classes' do

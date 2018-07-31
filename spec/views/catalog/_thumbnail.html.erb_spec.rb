@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/_thumbnail" do
-
   let :document_without_thumbnail_field do
-    SolrDocument.new :id => 'xyz', :format => 'a'
+    SolrDocument.new id: 'xyz', format: 'a'
   end
 
   let :document_with_thumbnail_field do
-    SolrDocument.new :id => 'xyz', :format => 'a', :thumbnail_url => 'http://localhost/logo.png'
+    SolrDocument.new id: 'xyz', format: 'a', thumbnail_url: 'http://localhost/logo.png'
   end
 
   let :blacklight_config do
@@ -26,13 +25,13 @@ RSpec.describe "catalog/_thumbnail" do
   end
 
   it "renders the thumbnail if the document has one" do
-    render :partial => "catalog/thumbnail", :locals => {:document => document_with_thumbnail_field, :document_counter => 1}
+    render partial: "catalog/thumbnail", locals: { document: document_with_thumbnail_field, document_counter: 1 }
     expect(rendered).to match /document-thumbnail/
     expect(rendered).to match /src="http:\/\/localhost\/logo.png"/
   end
 
   it "does not render a thumbnail if the document does not have one" do
-    render :partial => "catalog/thumbnail", :locals => {:document => document_without_thumbnail_field, :document_counter => 1}
+    render partial: "catalog/thumbnail", locals: { document: document_without_thumbnail_field, document_counter: 1 }
     expect(rendered).to eq ""
   end
 end

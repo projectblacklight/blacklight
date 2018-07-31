@@ -16,9 +16,10 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
   end
 
   describe '#render_constraints_query' do
+    subject { helper.render_constraints_query(params) }
+
     let(:my_engine) { double("Engine") }
     let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }) }
-    subject { helper.render_constraints_query(params) }
 
     it "has a link relative to the current url" do
       expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
@@ -34,6 +35,7 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
 
     context "with a route_set" do
       let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }, route_set: my_engine) }
+
       it "accepts an optional route set" do
         expect(my_engine).to receive(:url_for).and_return('/?f%5Btype%5D=journal')
         expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
@@ -42,11 +44,12 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
   end
 
   describe '#render_filter_element' do
+    subject { helper.render_filter_element('type', ['journal'], path) }
+
     before do
       allow(helper).to receive(:blacklight_config).and_return(config)
       expect(helper).to receive(:facet_field_label).with('type').and_return("Item Type")
     end
-    subject { helper.render_filter_element('type', ['journal'], path) }
 
     let(:params) { ActionController::Parameters.new q: 'biz' }
     let(:path) { Blacklight::SearchState.new(params, config, controller) }
@@ -66,12 +69,14 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
   end
 
   describe "#render_constraints_filters" do
+    subject { helper.render_constraints_filters(params) }
+
     let(:params) { ActionController::Parameters.new f: { 'type' => [''] } }
+
     before do
       allow(helper).to receive(:blacklight_config).and_return(config)
       allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
     end
-    subject { helper.render_constraints_filters(params) }
 
     it "renders nothing for empty facet limit param" do
       expect(subject).to be_blank

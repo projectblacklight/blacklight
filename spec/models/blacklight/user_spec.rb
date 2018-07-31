@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe "Blacklight::User", api: true do
-
-  subject { User.create! :email => 'xyz@example.com', :password => 'xyz12345' }
+  subject { User.create! email: 'xyz@example.com', password: 'xyz12345' }
 
   def mock_bookmark document_id
     Bookmark.new document_id: document_id, document_type: SolrDocument.to_s
@@ -33,7 +32,7 @@ RSpec.describe "Blacklight::User", api: true do
     end
 
     it "is false if the document is not bookmarked" do
-      expect(subject).to_not be_document_is_bookmarked(SolrDocument.new(id: 2))
+      expect(subject).not_to be_document_is_bookmarked(SolrDocument.new(id: 2))
     end
   end
 
@@ -46,5 +45,4 @@ RSpec.describe "Blacklight::User", api: true do
       expect(subject.existing_bookmark_for(SolrDocument.new(id: 1))).to eq subject.bookmarks.first
     end
   end
-
 end

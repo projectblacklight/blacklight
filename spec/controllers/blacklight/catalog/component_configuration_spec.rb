@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::DefaultComponentConfiguration do
-  before do
-    allow(Deprecation).to receive(:warn)
-  end
-  
   subject do
     Class.new do
       include Blacklight::Configurable
@@ -14,6 +10,10 @@ RSpec.describe Blacklight::DefaultComponentConfiguration do
         1
       end
     end
+  end
+
+  before do
+    allow(Deprecation).to receive(:warn)
   end
 
   describe ".add_show_tools_partial" do

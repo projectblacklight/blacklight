@@ -11,17 +11,17 @@ RSpec.describe Blacklight::Solr::Response, api: true do
                                    blacklight_config: config)
   end
 
-  it 'should create a valid response' do
+  it 'creates a valid response' do
     expect(r).to respond_to(:header)
   end
 
-  it 'should have accurate pagination numbers' do
+  it 'has accurate pagination numbers' do
     expect(r.rows).to eq 11
     expect(r.total).to eq 26
     expect(r.start).to eq 0
   end
 
-  it 'should create a valid response class' do
+  it 'creates a valid response class' do
     expect(r).to respond_to(:response)
     expect(r.docs).to have(11).docs
     expect(r.params[:echoParams]).to eq 'EXPLICIT'
@@ -29,12 +29,12 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     expect(r).to be_a(Blacklight::Solr::Response::Facets)
   end
 
-  it 'should provide facet helpers' do
+  it 'provides facet helpers' do
     expect(r.aggregations.size).to eq 2
 
-    field_names = r.aggregations.collect{|key, facet|facet.name}
+    field_names = r.aggregations.collect { |_key, facet| facet.name }
     expect(field_names.include?('cat')).to be true
-    expect(field_names.include?('manu')).to be  true
+    expect(field_names.include?('manu')).to be true
 
     first_facet = r.aggregations['cat']
     expect(first_facet.name).to eq 'cat'
@@ -48,7 +48,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
 
     expect(received).to eq expected
 
-    r.aggregations.each do |key, facet|
+    r.aggregations.each do |_key, facet|
       expect(facet).to respond_to :name
       expect(facet).to respond_to :sort
       expect(facet).to respond_to :offset
@@ -60,7 +60,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     end
   end
 
-  it "should provide kaminari pagination helpers" do
+  it "provides kaminari pagination helpers" do
     expect(r.limit_value).to eq(r.rows)
     expect(r.offset_value).to eq(r.start)
     expect(r.total_count).to eq(r.total)
@@ -73,96 +73,94 @@ RSpec.describe Blacklight::Solr::Response, api: true do
   end
 
   describe "FacetItem" do
-    it "should work with a field,value tuple" do
+    it "works with a field,value tuple" do
       item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15)
       expect(item.value).to eq 'value'
       expect(item.hits).to eq 15
     end
 
-    it "should work with a field,value + hash triple" do
-      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15, :a => 1, :value => 'ignored')
+    it "works with a field,value + hash triple" do
+      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15, a: 1, value: 'ignored')
       expect(item.value).to eq 'value'
       expect(item.hits).to eq 15
       expect(item.a).to eq 1
     end
 
-    it "should work like an openstruct" do
-      item = Blacklight::Solr::Response::Facets::FacetItem.new(:value => 'value', :hits => 15)
+    it "works like an openstruct" do
+      item = Blacklight::Solr::Response::Facets::FacetItem.new(value: 'value', hits: 15)
 
       expect(item.hits).to eq 15
       expect(item.value).to eq 'value'
       expect(item).to be_a_kind_of(OpenStruct)
     end
 
-    it "should provide a label accessor" do
-      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', :hits => 15)
+    it "provides a label accessor" do
+      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', hits: 15)
       expect(item.label).to eq 'value'
     end
 
-    it "should use a provided label" do
-      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15, :label => 'custom label')
+    it "uses a provided label" do
+      item = Blacklight::Solr::Response::Facets::FacetItem.new('value', 15, label: 'custom label')
       expect(item.label).to eq 'custom label'
-
     end
-
   end
 
-  it 'should return the correct value when calling facet_by_field_name' do
+  it 'returns the correct value when calling facet_by_field_name' do
     facet = r.aggregations['cat']
     expect(facet.name).to eq 'cat'
   end
 
-  it 'should provide the responseHeader params' do
+  it 'provides the responseHeader params' do
     raw_response = eval(mock_query_response)
     raw_response['responseHeader']['params']['test'] = :test
     r = Blacklight::Solr::Response.new(raw_response, raw_response['params'])
     expect(r.params['test']).to eq :test
   end
 
-  it 'should provide the solr-returned params and "rows" should be 11' do
+  it 'provides the solr-returned params and "rows" should be 11' do
     raw_response = eval(mock_query_response)
     r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.params[:rows].to_s).to eq '11'
     expect(r.params[:sort]).to eq 'title_si asc, pub_date_si desc'
   end
 
-  it 'should provide the ruby request params if responseHeader["params"] does not exist' do
+  it 'provides the ruby request params if responseHeader["params"] does not exist' do
     raw_response = eval(mock_query_response)
     raw_response.delete 'responseHeader'
-    r = Blacklight::Solr::Response.new(raw_response, :rows => 999, :sort => 'score desc, pub_date_si desc, title_si asc')
+    r = Blacklight::Solr::Response.new(raw_response, rows: 999, sort: 'score desc, pub_date_si desc, title_si asc')
     expect(r.params[:rows].to_s).to eq '999'
     expect(r.params[:sort]).to eq 'score desc, pub_date_si desc, title_si asc'
   end
 
-  it 'should provide spelling suggestions for regular spellcheck results' do
+  it 'provides spelling suggestions for regular spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck)
-    r = Blacklight::Solr::Response.new(raw_response,  {})
+    r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.spelling.words).to include("dell")
     expect(r.spelling.words).to include("ultrasharp")
   end
 
-  it 'should provide spelling suggestions for extended spellcheck results' do
+  it 'provides spelling suggestions for extended spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck_extended)
     r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.spelling.words).to include("dell")
     expect(r.spelling.words).to include("ultrasharp")
   end
 
-  it 'should provide no spelling suggestions when extended results and suggestion frequency is the same as original query frequency' do
+  it 'provides no spelling suggestions when extended results and suggestion frequency is the same as original query frequency' do
     raw_response = eval(mock_response_with_spellcheck_same_frequency)
     r = Blacklight::Solr::Response.new(raw_response, {})
     expect(r.spelling.words).to eq []
   end
 
   context "pre solr 5 spellcheck collation syntax" do
-    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
+    it 'provides spelling suggestions for a regular spellcheck results with a collation' do
       raw_response = eval(mock_response_with_spellcheck_collation)
       r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.words).to include("dell")
       expect(r.spelling.words).to include("ultrasharp")
     end
 
-    it 'should provide spelling suggestion collation' do
+    it 'provides spelling suggestion collation' do
       raw_response = eval(mock_response_with_spellcheck_collation)
       r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.collation).to eq 'dell ultrasharp'
@@ -170,14 +168,14 @@ RSpec.describe Blacklight::Solr::Response, api: true do
   end
 
   context "solr 5 spellcheck collation syntax" do
-    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
+    it 'provides spelling suggestions for a regular spellcheck results with a collation' do
       raw_response = eval(mock_response_with_spellcheck_collation_solr5)
       r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.words).to include("dell")
       expect(r.spelling.words).to include("ultrasharp")
     end
 
-    it 'should provide spelling suggestion collation' do
+    it 'provides spelling suggestion collation' do
       raw_response = eval(mock_response_with_spellcheck_collation_solr5)
       r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.collation).to eq 'dell ultrasharp'
@@ -185,7 +183,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
   end
 
   context 'solr 6.5 spellcheck collation syntax' do
-    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
+    it 'provides spelling suggestions for a regular spellcheck results with a collation' do
       raw_response = eval(mock_response_with_spellcheck_collation_solr65)
       r = Blacklight::Solr::Response.new(raw_response, {})
       expect(r.spelling.words).to include("dell")
@@ -193,22 +191,22 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     end
   end
 
-  it "should provide MoreLikeThis suggestions" do
+  it "provides MoreLikeThis suggestions" do
     raw_response = eval(mock_response_with_more_like_this)
     r = Blacklight::Solr::Response.new(raw_response, {})
-    expect(r.more_like(double(:id => '79930185'))).to have(2).items
+    expect(r.more_like(double(id: '79930185'))).to have(2).items
   end
 
-  it "should be empty when the response has no results" do
+  it "is empty when the response has no results" do
     r = Blacklight::Solr::Response.new({}, {})
-    allow(r).to receive_messages(:total => 0)
+    allow(r).to receive_messages(total: 0)
     expect(r).to be_empty
   end
 
   describe "#export_formats" do
-    it "should collect the unique export formats for the current response" do
+    it "collects the unique export formats for the current response" do
       r = Blacklight::Solr::Response.new({}, {})
-      allow(r).to receive_messages(documents: [double(:export_formats => { a: 1, b: 2}), double(:export_formats => { b: 1, c: 2})])
+      allow(r).to receive_messages(documents: [double(export_formats: { a: 1, b: 2 }), double(export_formats: { b: 1, c: 2 })])
       expect(r.export_formats).to include :a, :b
     end
   end
@@ -219,28 +217,28 @@ RSpec.describe Blacklight::Solr::Response, api: true do
 
   # These spellcheck responses are all Solr 1.4 responses
   def mock_response_with_spellcheck
-    %|{'responseHeader'=>{'status'=>0,'QTime'=>9,'params'=>{'spellcheck'=>'true','spellcheck.collate'=>'true','wt'=>'ruby','q'=>'hell ultrashar'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']},'collation','dell ultrasharp']}}|
+    %({'responseHeader'=>{'status'=>0,'QTime'=>9,'params'=>{'spellcheck'=>'true','spellcheck.collate'=>'true','wt'=>'ruby','q'=>'hell ultrashar'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']},'collation','dell ultrasharp']}})
   end
 
   def mock_response_with_spellcheck_extended
-     %|{'responseHeader'=>{'status'=>0,'QTime'=>8,'params'=>{'spellcheck'=>'true','spellcheck.collate'=>'true','wt'=>'ruby','spellcheck.extendedResults'=>'true','q'=>'hell ultrashar'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'origFreq'=>0,'suggestion'=>[{'word'=>'dell','freq'=>1}]},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'origFreq'=>0,'suggestion'=>[{'word'=>'ultrasharp','freq'=>1}]},'correctlySpelled',false,'collation','dell ultrasharp']}}|
+    %({'responseHeader'=>{'status'=>0,'QTime'=>8,'params'=>{'spellcheck'=>'true','spellcheck.collate'=>'true','wt'=>'ruby','spellcheck.extendedResults'=>'true','q'=>'hell ultrashar'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'origFreq'=>0,'suggestion'=>[{'word'=>'dell','freq'=>1}]},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'origFreq'=>0,'suggestion'=>[{'word'=>'ultrasharp','freq'=>1}]},'correctlySpelled',false,'collation','dell ultrasharp']}})
   end
 
   def mock_response_with_spellcheck_same_frequency
-    %|{'responseHeader'=>{'status'=>0,'QTime'=>8,'params'=>{'spellcheck'=>'true','spellcheck.collate'=>'true','wt'=>'ruby','spellcheck.extendedResults'=>'true','q'=>'hell ultrashar'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'origFreq'=>1,'suggestion'=>[{'word'=>'dell','freq'=>1}]},'ultrashard',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'origFreq'=>1,'suggestion'=>[{'word'=>'ultrasharp','freq'=>1}]},'correctlySpelled',false,'collation','dell ultrasharp']}}|
+    %({'responseHeader'=>{'status'=>0,'QTime'=>8,'params'=>{'spellcheck'=>'true','spellcheck.collate'=>'true','wt'=>'ruby','spellcheck.extendedResults'=>'true','q'=>'hell ultrashar'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'origFreq'=>1,'suggestion'=>[{'word'=>'dell','freq'=>1}]},'ultrashard',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'origFreq'=>1,'suggestion'=>[{'word'=>'ultrasharp','freq'=>1}]},'correctlySpelled',false,'collation','dell ultrasharp']}})
   end
 
   # it can be the case that extended results are off and collation is on
   def mock_response_with_spellcheck_collation
-    %|{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']},'collation','dell ultrasharp']}}|
+    %({'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']},'collation','dell ultrasharp']}})
   end
 
   def mock_response_with_spellcheck_collation_solr5
-    %|{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']}],'collations'=>['collation','dell ultrasharp']}}|
+    %({'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>['hell',{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar',{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']}],'collations'=>['collation','dell ultrasharp']}})
   end
 
   def mock_response_with_spellcheck_collation_solr65
-    %|{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>{'hell'=>{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar'=>{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']}},'collations'=>['collation','dell ultrasharp']}}|
+    %({'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'spellspellcheck.build'=>'true','spellcheck'=>'true','q'=>'hell','spellcheck.q'=>'hell ultrashar','wt'=>'ruby','spellcheck.collate'=>'true'}},'response'=>{'numFound'=>0,'start'=>0,'docs'=>[]},'spellcheck'=>{'suggestions'=>{'hell'=>{'numFound'=>1,'startOffset'=>0,'endOffset'=>4,'suggestion'=>['dell']},'ultrashar'=>{'numFound'=>1,'startOffset'=>5,'endOffset'=>14,'suggestion'=>['ultrasharp']}},'collations'=>['collation','dell ultrasharp']}})
   end
 
   def mock_response_with_more_like_this
