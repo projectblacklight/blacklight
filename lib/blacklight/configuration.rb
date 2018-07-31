@@ -142,7 +142,8 @@ module Blacklight
           default_more_limit: 20,
           # proc for determining whether the session is a crawler/bot
           # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
-          crawler_detector: nil
+          crawler_detector: nil,
+          autocomplete_suggester: 'mySuggester'
           }
         end
       end
