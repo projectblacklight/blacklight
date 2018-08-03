@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::Solr::Repository, api: true do
-  subject do
-    Blacklight::Solr::Repository.new blacklight_config
+  subject(:repository) do
+    described_class.new blacklight_config
   end
 
   let :blacklight_config do
@@ -143,5 +143,11 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
       response = subject.search(q: @all_docs_query)
       expect(response.docs.length).to be >= 1
     end
+  end
+
+  describe '#ping' do
+    subject { repository.ping }
+
+    it { is_expected.to be true }
   end
 end
