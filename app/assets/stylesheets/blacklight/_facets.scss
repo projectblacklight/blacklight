@@ -19,12 +19,6 @@
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
     &#{$infix} {
-      @include media-breakpoint-down($breakpoint) {
-        .top-panel-heading {
-          margin-right: 3em;
-        }
-      }
-
       @include media-breakpoint-up($next) {
 
         // scss-lint:disable ImportantRule
@@ -40,11 +34,6 @@
       }
     }
   }
-}
-
-.top-panel-heading {
-  @extend .navbar-light;
-  @extend .clearfix;
 }
 
 .facets-heading {
