@@ -26,7 +26,7 @@ module Blacklight::Solr
     # @return [Blacklight::Suggest::Response]
     def suggestions(request_params)
       suggest_results = connection.send_and_receive(suggest_handler_path, params: request_params)
-      Blacklight::Suggest::Response.new suggest_results, request_params, suggest_handler_path
+      Blacklight::Suggest::Response.new suggest_results, request_params, suggest_handler_path, suggester_name
     end
 
     ##
@@ -78,6 +78,10 @@ module Blacklight::Solr
     # @return [String]
     def suggest_handler_path
       blacklight_config.autocomplete_path
+    end
+
+    def suggester_name
+      blacklight_config.autocomplete_suggester
     end
 
     def build_connection
