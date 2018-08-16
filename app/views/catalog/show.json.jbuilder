@@ -6,6 +6,7 @@ end
 
 json.data do
   json.id @document.id
+  json.type @document[blacklight_config.view_config(:show).display_type_field]
   json.attributes do
     doc_presenter = show_presenter(@document)
 
