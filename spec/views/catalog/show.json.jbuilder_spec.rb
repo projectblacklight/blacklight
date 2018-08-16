@@ -2,7 +2,7 @@
 
 RSpec.describe "catalog/show.json" do
   let(:document) do
-    SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie')
+    SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie', format: 'Book')
   end
   let(:config) do
     Blacklight::Configuration.new do |config|
@@ -24,6 +24,7 @@ RSpec.describe "catalog/show.json" do
     expect(hash).to include(data:
       {
         id: '123',
+        type: 'Book',
         attributes: { 'title_tsim' => 'Book1' }
       })
   end

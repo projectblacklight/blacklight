@@ -4,8 +4,8 @@ RSpec.describe "catalog/index.json", api: true do
   let(:response) { instance_double(Blacklight::Solr::Response, documents: docs, prev_page: nil, next_page: 2, total_pages: 3) }
   let(:docs) do
     [
-      SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie'),
-      SolrDocument.new(id: '456', title_tsim: 'Book2', author_tsim: 'Rosie')
+      SolrDocument.new(id: '123', title_tsim: 'Book1', author_tsim: 'Julie', format: 'Book'),
+      SolrDocument.new(id: '456', title_tsim: 'Article1', author_tsim: 'Rosie', format: 'Article')
     ]
   end
   let(:config) do
@@ -63,6 +63,7 @@ RSpec.describe "catalog/index.json", api: true do
     expect(hash).to include(data: [
                               {
                                 id: '123',
+                                type: 'Book',
                                 attributes: {
                                   'title': {
                                     id: 'http://test.host/catalog/123#title',
@@ -77,12 +78,13 @@ RSpec.describe "catalog/index.json", api: true do
                               },
                               {
                                 id: '456',
+                                type: 'Article',
                                 attributes: {
                                   'title': {
                                     id: 'http://test.host/catalog/456#title',
                                     type: 'document_value',
                                     attributes: {
-                                      value: 'Book2',
+                                      value: 'Article1',
                                       label: 'Title'
                                     }
                                   }
