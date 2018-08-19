@@ -331,4 +331,31 @@ RSpec.describe Blacklight::SearchState do
       expect(new_state.to_hash).to eq('a' => 1)
     end
   end
+
+  describe '#url_for_document' do
+    let(:doc) { SolrDocument.new(id: 1) }
+
+    context 'with a configured show route' do
+      it 'returns a route hash' do
+        blacklight_config.show.route = { controller: :somewhere, action: :show }
+        expect(search_state.url_for_document(doc)).to include controller: :somewhere, action: :show, id: doc
+      end
+
+      it 'substitutes the special value :current with the current controller ' do
+        blacklight_config.show.route = { controller: :current, action: :show }
+        params[:controller] = :somewhere
+        expect(search_state.url_for_document(doc)).to include controller: :somewhere, action: :show, id: doc
+      end
+    end
+
+    context 'with a document that implements to_model' do
+      before do
+        allow(doc).to receive(:to_model).and_return(double)
+      end
+
+      it 'returns the document, and Rails magic will sort it out' do
+        expect(search_state.url_for_document(doc)).to eq doc
+      end
+    end
+  end
 end
