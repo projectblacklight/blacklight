@@ -17,3 +17,4 @@ pkg/*
 .vagrant
 /spec/examples.txt
 node_modules/*
+yarn.lock
