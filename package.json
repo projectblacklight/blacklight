@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
-    "blacklight-frontend": "https://github.com/projectblacklight/blacklight#master",
+    "blacklight-frontend": "https://github.com/projectblacklight/blacklight#c435caddf14af6aa36c1428995b8cc52d76d4bf2",
     "caniuse-lite": "^1.0.30000697",
     "popper.js": "^1.14.3",
     "twitter-typeahead-rails": "https://github.com/yourabi/twitter-typeahead-rails.git#v0.11.1.pre.corejavascript"
