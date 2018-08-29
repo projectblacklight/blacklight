@@ -34,11 +34,3 @@
   <h2 class='card-header collapsed collapse-toggle' data-toggle="collapse" data-target="#about-content"><a href="/rails/info/properties">About your application&rsquo;s environment</a></h2>
   <div id="about-content" class="card-body collapse"></div>
 </div>
-
-<script>
-  Blacklight.onLoad(function() {
-    $('#about .card-header').one('click', function() {
-      $($(this).data('target')).load($(this).find('a').attr('href'));
-    });
-  });
-</script>
