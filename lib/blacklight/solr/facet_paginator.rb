@@ -44,6 +44,8 @@ module Blacklight::Solr
       @items = items_for_limit(all_facet_values)
     end
 
+    alias_method :total, :total_count
+
     def prev_page
       current_page - 1 unless first_page?
     end
