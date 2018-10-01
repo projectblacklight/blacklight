@@ -12,6 +12,10 @@ module Blacklight::Solr
   # so we cannot know how many "pages" there are.
   #
   class FacetPaginator    
+    extend Deprecation
+
+    self.deprecation_horizon = 'blacklight version 6.0.0'
+    
     # What request keys will we use for the parameters need. Need to
     # make sure they do NOT conflict with catalog/index request params,
     # and need to make them accessible in a list so we can easily
@@ -21,7 +25,7 @@ module Blacklight::Solr
     class << self; attr_accessor :request_keys end # create a class method
     def request_keys ; self.class.request_keys ; end # shortcut
     
-    attr_reader :total, :items, :offset, :limit, :sort
+    attr_reader :total_count, :items, :offset, :limit, :sort
     
     # all_facet_values is a list of facet value objects returned by solr,
     # asking solr for n+1 facet values.
@@ -33,54 +37,74 @@ module Blacklight::Solr
     def initialize(all_facet_values, arguments)
       # to_s.to_i will conveniently default to 0 if nil
       @offset = arguments[:offset].to_s.to_i 
-      @limit =  arguments[:limit].to_s.to_i if arguments[:limit]           
+      @limit =  arguments[:limit].to_s.to_i
       # count is solr's default
       @sort = arguments[:sort] || "count" 
-      
-      total = all_facet_values.size
-      if (@limit)
-        @items = all_facet_values.slice(0, @limit)
-        @has_next = total > @limit
-        @has_previous = @offset > 0
-      else # nil limit
-        @items = all_facet_values
-        @has_next = false
-        @has_previous = false
-      end
+      @total_count = all_facet_values.size
+      @items = items_for_limit(all_facet_values)
+    end
+
+    alias_method :total, :total_count
+
+    def prev_page
+      current_page - 1 unless first_page?
     end
 
     def current_page
-      1 + @offset/@limit
+      if limit == 0 #check for divide by zero
+        1
+      else
+        @offset / limit + 1
+      end
+    end
+
+    def next_page
+      current_page + 1 unless last_page?
     end
    
+    #@deprecated
     def has_next?
-      @has_next
+      !last_page?
     end
+    deprecation_deprecate :has_next?
 
+    #@deprecated
     def has_previous?
-      @has_previous
+      !first_page?
     end
+    deprecation_deprecate :has_next?
 
     def last_page?
-      !has_next?
+      current_page >= total_pages
     end
 
     def first_page?
-      !has_previous?
+      current_page == 1
     end
 
+    def total_pages
+      if limit == 0 #check for divide by zero
+        1
+      else
+        (total_count.to_f / limit).ceil
+      end
+    end      
 
-   # Pass in a desired solr facet solr key ('count' or 'index', see
-   # http://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
-   # under facet.sort ), and your current request params.
-   # Get back params suitable to passing to an ActionHelper method for
-   # creating a url, to resort by that method.
-   def params_for_resort_url(sort_method, params)
-     # When resorting, we've got to reset the offset to start at beginning,
-     # no way to make it make sense otherwise.
-     return params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
-   end
-    
+    # Pass in a desired solr facet solr key ('count' or 'index', see
+    # http://wiki.apache.org/solr/SimpleFacetParameters#facet.limit
+    # under facet.sort ), and your current request params.
+    # Get back params suitable to passing to an ActionHelper method for
+    # creating a url, to resort by that method.
+    def params_for_resort_url(sort_method, params)
+      # When resorting, we've got to reset the offset to start at beginning,
+      # no way to make it make sense otherwise.
+      params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
+    end
+
+    private
+      # setting limit to 0 implies no limit
+      def items_for_limit(values)
+        limit != 0 ? values.slice(offset, limit) : values
+      end
   end
-  
 end

@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency "deprecation", "~> 0.1"
   s.add_development_dependency "jettywrapper", ">= 1.4.1"
   s.add_development_dependency "rspec-rails", "~> 3.0"
+  s.add_development_dependency "rspec-its"
   s.add_development_dependency 'engine_cart', "~> 2.0"
   s.add_development_dependency "equivalent-xml"
 end
