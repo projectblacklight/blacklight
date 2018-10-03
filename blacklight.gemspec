@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency "capybara", '~> 3'
-  s.add_development_dependency "chromedriver-helper"
+  s.add_development_dependency 'chromedriver-helper', '< 2.0.0' # 2.1.0 is causing "Unable to find chromedriver" on Travis
   s.add_development_dependency "selenium-webdriver", '>= 3.13.1'
   s.add_development_dependency 'engine_cart', '~> 1.2'
   s.add_development_dependency "equivalent-xml"
