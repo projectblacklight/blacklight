@@ -112,6 +112,18 @@ RSpec.describe "Blacklight::Configuration", api: true do
       expect(config.show_fields_for(image)).to have_key 'title'
       expect(config.show_fields).not_to have_key 'dimensions'
     end
+
+    it 'calls the block on subsequent invocations' do
+      config.for_display_type "Image" do |c|
+        c.add_show_field :dimensions
+      end
+      config.for_display_type "Image" do |c|
+        c.add_show_field :photographer
+      end
+
+      expect(config.show_fields_for(image)).to have_key 'dimensions'
+      expect(config.show_fields_for(image)).to have_key 'photographer'
+    end
   end
 
   describe "inheritable_copy" do
