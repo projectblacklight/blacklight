@@ -27,7 +27,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title_tsim'
-    config.index.display_type_field = 'format'
+    #config.index.display_type_field = 'format'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
 
     config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
@@ -194,7 +194,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # Configuration for autocomplete suggestor
     config.autocomplete_enabled = true
     config.autocomplete_path = 'suggest'
-    # if the name of the solr.SuggestComponent provided in your solrcongig.xml is not the 
+    # if the name of the solr.SuggestComponent provided in your solrcongig.xml is not the
     # default 'mySuggester', uncomment and provide it below
     # config.autocomplete_suggester = 'mySuggester'
   end

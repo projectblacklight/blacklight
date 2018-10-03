@@ -18,7 +18,7 @@ json.data do
     json.attributes do
       doc_presenter = index_presenter(document)
 
-      index_fields(document).each do |field_name, field|
+      doc_presenter.fields.each do |field_name, field|
         next unless should_render_index_field? document, field
         json.set!(field_name) do
           json.id "#{document_url}##{field_name}"

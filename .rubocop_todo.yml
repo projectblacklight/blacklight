@@ -202,8 +202,6 @@ Lint/UselessAssignment:
     - 'spec/helpers/blacklight/configuration_helper_behavior_spec.rb'
     - 'spec/helpers/catalog_helper_spec.rb'
     - 'spec/models/blacklight/solr/search_builder_spec.rb'
-    - 'spec/presenters/index_presenter_spec.rb'
-    - 'spec/presenters/show_presenter_spec.rb'
     - 'spec/services/blacklight/search_service_spec.rb'
     - 'spec/support/features/session_helpers.rb'
 
@@ -399,7 +397,7 @@ RSpec/IteratedExpectation:
 RSpec/MessageChain:
   Exclude:
     - 'spec/controllers/bookmarks_controller_spec.rb'
-    - 'spec/presenters/show_presenter_spec.rb'
+    - 'spec/presenters/blacklight/show_presenter_spec.rb'
     - 'spec/views/shared/_user_util_links.html.erb_spec.rb'
 
 # Offense count: 52
@@ -428,7 +426,7 @@ RSpec/RepeatedDescription:
     - 'spec/helpers/blacklight/facets_helper_behavior_spec.rb'
     - 'spec/helpers/catalog_helper_spec.rb'
     - 'spec/models/blacklight/solr/search_builder_spec.rb'
-    - 'spec/presenters/show_presenter_spec.rb'
+    - 'spec/presenters/blacklight/show_presenter_spec.rb'
 
 # Offense count: 4
 RSpec/RepeatedExample:

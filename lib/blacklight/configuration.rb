@@ -81,6 +81,7 @@ module Blacklight
           show: ViewConfig::Show.new(
             # document presenter class used by helpers and views
             document_presenter_class: nil,
+            display_type_field: 'format',
             # Default route parameters for 'show' requests.
             # Set this to a hash with additional arguments to merge into the route,
             # or set `controller: :current` to route to the current controller.
@@ -341,9 +342,20 @@ module Blacklight
       fields_for_type[display_type] ||= self.class.new(&block)
     end
 
+    ##
+    # Return a list of fields for the index display that should be used for the
+    # provided document.  This respects any configuration made using for_display_type
     def index_fields_for(document)
       display_type = document.first(index.display_type_field)
       for_display_type(display_type).index_fields.merge(index_fields)
+    end
+
+    ##
+    # Return a list of fields for the show page that should be used for the
+    # provided document.  This respects any configuration made using for_display_type
+    def show_fields_for(document)
+      display_type = document.first(show.display_type_field)
+      for_display_type(display_type).show_fields.merge(show_fields)
     end
 
     private

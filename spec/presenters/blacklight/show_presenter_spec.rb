@@ -225,6 +225,18 @@ RSpec.describe Blacklight::ShowPresenter do
     end
   end
 
+  describe '#fields' do
+    let(:field) { instance_double(Blacklight::Configuration::Field) }
+
+    before do
+      allow(config).to receive(:show_fields_for).and_return(title: field)
+    end
+
+    it 'returns the list from the configs' do
+      expect(subject.fields).to eq(title: field)
+    end
+  end
+
   describe "#heading" do
     it "falls back to an id" do
       allow(document).to receive(:[]).with('id').and_return "xyz"
@@ -281,8 +293,6 @@ RSpec.describe Blacklight::ShowPresenter do
         allow(request_context).to receive(:render_field_with_helper) do |*args|
           args.first
         end
-
-        render_options = { a: 1 }
 
         options = subject.send(:field_values, field_config, a: 1)
 

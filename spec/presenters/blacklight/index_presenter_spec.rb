@@ -131,8 +131,6 @@ RSpec.describe Blacklight::IndexPresenter do
           args.first
         end
 
-        render_options = { a: 1 }
-
         options = subject.send(:field_values, field_config, a: 1)
 
         expect(options).to include :document, :field, :value, :config, :a
@@ -142,6 +140,18 @@ RSpec.describe Blacklight::IndexPresenter do
         expect(options[:config]).to eq field_config
         expect(options[:a]).to eq 1
       end
+    end
+  end
+
+  describe '#fields' do
+    let(:field) { instance_double(Blacklight::Configuration::Field) }
+
+    before do
+      allow(config).to receive(:index_fields_for).and_return(title: field)
+    end
+
+    it 'returns the list from the configs' do
+      expect(subject.fields).to eq(title: field)
     end
   end
 

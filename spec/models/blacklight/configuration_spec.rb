@@ -84,11 +84,10 @@ RSpec.describe "Blacklight::Configuration", api: true do
   end
 
   describe "for_display_type" do
-    let(:mock_field) { Blacklight::Configuration::IndexField.new }
     let(:image) { SolrDocument.new(format: 'Image') }
     let(:sound) { SolrDocument.new(format: 'Sound') }
 
-    it "adds fields just for a certain type" do
+    it "adds index fields just for a certain type" do
       config.for_display_type "Image" do |c|
         c.add_index_field :dimensions
       end
@@ -99,6 +98,19 @@ RSpec.describe "Blacklight::Configuration", api: true do
       expect(config.index_fields_for(sound)).not_to have_key 'dimensions'
       expect(config.index_fields_for(image)).to have_key 'title'
       expect(config.index_fields).not_to have_key 'dimensions'
+    end
+
+    it "adds show fields just for a certain type" do
+      config.for_display_type "Image" do |c|
+        c.add_show_field :dimensions
+      end
+      config.add_show_field :title
+
+      expect(config.show_fields_for(image)).to have_key 'dimensions'
+      expect(config.show_fields_for(image)).to have_key 'title'
+      expect(config.show_fields_for(sound)).not_to have_key 'dimensions'
+      expect(config.show_fields_for(image)).to have_key 'title'
+      expect(config.show_fields).not_to have_key 'dimensions'
     end
   end
 
