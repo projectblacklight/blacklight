@@ -131,22 +131,22 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#field_label" do
     it "looks up the label as an i18n string" do
-      allow(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
+      expect(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
       label = helper.field_label :some_key
 
       expect(label).to eq "my label"
     end
 
     it "passes the provided i18n keys to I18n.t" do
-      allow(helper).to receive(:t).with(:key_a, default: [:key_b, "default text"])
+      expect(helper).to receive(:t).with(:key_a, default: [:key_b, "default text"])
 
-      label = helper.field_label :key_a, :key_b, "default text"
+      helper.field_label :key_a, :key_b, "default text"
     end
 
     it "compacts nil keys (fixes rails/rails#19419)" do
-      allow(helper).to receive(:t).with(:key_a, default: [:key_b])
+      expect(helper).to receive(:t).with(:key_a, default: [:key_b])
 
-      label = helper.field_label :key_a, nil, :key_b
+      helper.field_label :key_a, nil, :key_b
     end
   end
 

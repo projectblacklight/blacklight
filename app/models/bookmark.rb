@@ -13,7 +13,7 @@ class Bookmark < ApplicationRecord
   def document_type
     value = super if defined?(super)
     value &&= value.constantize
-    value ||= default_document_type
+    value || default_document_type
   end
 
   def default_document_type

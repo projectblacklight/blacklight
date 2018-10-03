@@ -190,21 +190,6 @@ Lint/ShadowingOuterLocalVariable:
     - 'spec/models/blacklight/configuration_spec.rb'
     - 'spec/models/blacklight/solr/search_builder_spec.rb'
 
-# Offense count: 30
-Lint/UselessAssignment:
-  Exclude:
-    - 'app/controllers/concerns/blacklight/search_context.rb'
-    - 'app/helpers/blacklight/facets_helper_behavior.rb'
-    - 'app/models/bookmark.rb'
-    - 'lib/blacklight/routes/exportable.rb'
-    - 'lib/blacklight/routes/searchable.rb'
-    - 'lib/railties/blacklight.rake'
-    - 'spec/helpers/blacklight/configuration_helper_behavior_spec.rb'
-    - 'spec/helpers/catalog_helper_spec.rb'
-    - 'spec/models/blacklight/solr/search_builder_spec.rb'
-    - 'spec/services/blacklight/search_service_spec.rb'
-    - 'spec/support/features/session_helpers.rb'
-
 # Offense count: 1
 Lint/UselessComparison:
   Exclude:

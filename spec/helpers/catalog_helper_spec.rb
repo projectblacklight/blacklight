@@ -254,7 +254,7 @@ RSpec.describe CatalogHelper do
 
     it "calls thumbnail presenter with provided values" do
       expect(thumbnail_presenter).to receive(:thumbnail_tag).with({}, suppress_link: true)
-      result = helper.render_thumbnail_tag document, {}, suppress_link: true
+      helper.render_thumbnail_tag document, {}, suppress_link: true
     end
   end
 

@@ -6,9 +6,7 @@ module Blacklight
         @defaults = defaults
       end
 
-      def call(mapper, options = {})
-        options = @defaults.merge(options)
-
+      def call(mapper, _options = {})
         mapper.member do
           mapper.match 'email', via: [:get, :post]
           mapper.match 'sms', via: [:get, :post]

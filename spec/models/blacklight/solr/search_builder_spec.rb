@@ -453,7 +453,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
   describe "#add_solr_fields_to_query" do
     let(:blacklight_config) do
-      config = Blacklight::Configuration.new do |config|
+      Blacklight::Configuration.new do |config|
         config.add_index_field 'an_index_field', solr_params: { 'hl.alternativeField' => 'field_x' }
         config.add_show_field 'a_show_field', solr_params: { 'hl.alternativeField' => 'field_y' }
         config.add_field_configuration_to_solr_request!
@@ -476,15 +476,13 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
   describe "#add_facetting_to_solr" do
     let(:blacklight_config) do
-      config = Blacklight::Configuration.new
-
-      config.add_facet_field 'test_field', sort: 'count'
-      config.add_facet_field 'some-query', query: { 'x' => { fq: 'some:query' } }, ex: 'xyz'
-      config.add_facet_field 'some-pivot', pivot: %w[a b], ex: 'xyz'
-      config.add_facet_field 'some-field', solr_params: { 'facet.mincount' => 15 }
-      config.add_facet_fields_to_solr_request!
-
-      config
+      Blacklight::Configuration.new do |config|
+        config.add_facet_field 'test_field', sort: 'count'
+        config.add_facet_field 'some-query', query: { 'x' => { fq: 'some:query' } }, ex: 'xyz'
+        config.add_facet_field 'some-pivot', pivot: %w[a b], ex: 'xyz'
+        config.add_facet_field 'some-field', solr_params: { 'facet.mincount' => 15 }
+        config.add_facet_fields_to_solr_request!
+      end
     end
 
     let(:solr_parameters) do
@@ -674,7 +672,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     end
 
     it "does not add an !ex local parameter if it isn't configured" do
-      mock_field = double
       expect(subject.with_ex_local_param(nil, "some-value")).to eq "some-value"
     end
   end
