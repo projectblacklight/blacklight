@@ -6,6 +6,7 @@ module Blacklight::ConfigurationHelperBehavior
   # @param [SolrDocument] document
   # @return [Array<Blacklight::Configuration::Field>]
   def index_fields _document = nil
+    Deprecation.warn(self, "index_fields is deprecated and will be removed in Blacklight 8. Use IndexPresenter#fields instead")
     blacklight_config.index_fields
   end
 
@@ -27,8 +28,9 @@ module Blacklight::ConfigurationHelperBehavior
     end.compact
   end
 
-  # used in the catalog/_show/_default partial
+  # used in the catalog/_show partial
   def document_show_fields _document = nil
+    Deprecation.warn(self, "document_show_fields is deprecated and will be removed in Blacklight 8. Use ShowPresenter#fields instead")
     blacklight_config.show_fields
   end
 
@@ -53,7 +55,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Look up the label for the index field
   def index_field_label document, field
-    field_config = index_fields(document)[field]
+    field_config = blacklight_config.index_fields_for(document)[field]
     field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
     field_config.display_label('index')
@@ -62,7 +64,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Look up the label for the show field
   def document_show_field_label document, field
-    field_config = document_show_fields(document)[field]
+    field_config = blacklight_config.show_fields_for(document)[field]
     field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
     field_config.display_label('show')

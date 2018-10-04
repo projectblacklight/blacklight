@@ -16,6 +16,11 @@ module Blacklight
       @view_config = configuration.view_config(view_context.document_index_view_type)
     end
 
+    # @return [Hash<String,Configuration::Field>]
+    def fields
+      configuration.index_fields_for(document)
+    end
+
     ##
     # Render the document index heading
     #

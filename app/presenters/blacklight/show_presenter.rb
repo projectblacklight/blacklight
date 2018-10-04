@@ -12,6 +12,11 @@ module Blacklight
       @configuration = configuration
     end
 
+    # @return [Hash<String,Configuration::Field>]
+    def fields
+      configuration.show_fields_for(document)
+    end
+
     ##
     # Create <link rel="alternate"> links from a documents dynamically
     # provided export formats. Returns empty string if no links available.
