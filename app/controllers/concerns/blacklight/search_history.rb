@@ -21,12 +21,7 @@ module Blacklight
         flash[:error] = I18n.t('blacklight.search_history.clear.failure')
       end
 
-      if respond_to? :redirect_back
-        redirect_back fallback_location: blacklight.search_history_path
-      else
-        # Deprecated in Rails 5.0
-        redirect_to :back
-      end
+      redirect_back fallback_location: blacklight.search_history_path
     end
   end
 end

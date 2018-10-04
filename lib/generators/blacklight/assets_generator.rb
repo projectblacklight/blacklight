@@ -17,7 +17,7 @@ module Blacklight
       return if has_blacklight_assets?
 
       contents = "\n//\n// Required by Blacklight\n"
-      contents += "//= require jquery\n" if needs_jquery?
+      contents += "//= require jquery\n"
       contents += "//= require popper\n"
       contents += "// Twitter Typeahead for autocomplete\n"
       contents += "//= require twitter/typeahead\n"
@@ -26,10 +26,8 @@ module Blacklight
 
       marker = if turbolinks?
                  '//= require turbolinks'
-               elsif needs_jquery?
-                 '//= require rails-ujs'
                else
-                 '//= require jquery_ujs'
+                 '//= require rails-ujs'
                end
 
       insert_into_file "app/assets/javascripts/application.js", after: marker do
@@ -39,14 +37,10 @@ module Blacklight
 
     # This is not a default in Rails 5.1+
     def add_jquery
-      gem 'jquery-rails' if needs_jquery?
+      gem 'jquery-rails'
     end
 
     private
-
-    def needs_jquery?
-      Rails.version >= '5.1'
-    end
 
     def turbolinks?
       @turbolinks ||= IO.read("app/assets/javascripts/application.js").include?('turbolinks')
