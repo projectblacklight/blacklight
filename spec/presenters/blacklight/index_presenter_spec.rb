@@ -151,7 +151,7 @@ RSpec.describe Blacklight::IndexPresenter do
     end
 
     it 'returns the list from the configs' do
-      expect(subject.fields).to eq(title: field)
+      expect(subject.send(:fields)).to eq(title: field)
     end
   end
 

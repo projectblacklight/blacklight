@@ -85,6 +85,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_index_field? document, field_config
+    Deprecation.warn self, "should_render_index_field? is deprecated and will be removed in Blacklight 8. Use IndexPresenter#render_field? instead."
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
   end
 
@@ -95,6 +96,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_show_field? document, field_config
+    Deprecation.warn self, "should_render_show_field? is deprecated and will be removed in Blacklight 8. Use ShowPresenter#render_field? instead."
     should_render_field?(field_config, document) && document_has_value?(document, field_config)
   end
 
@@ -105,6 +107,7 @@ module Blacklight::BlacklightHelperBehavior
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
   def document_has_value? document, field_config
+    Deprecation.warn self, "document_has_value? is deprecated and will be removed in Blacklight 8. Use DocumentPresenter#has_value? instead."
     document.has?(field_config.field) ||
       (document.has_highlight_field? field_config.field if field_config.highlight) ||
       field_config.accessor

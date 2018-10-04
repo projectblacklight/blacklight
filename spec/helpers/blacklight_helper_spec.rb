@@ -181,6 +181,8 @@ RSpec.describe BlacklightHelper do
   describe "#document_has_value?" do
     let(:doc) { double(SolrDocument) }
 
+    before { allow(Deprecation).to receive(:warn) }
+
     it "ifs the document has the field value" do
       allow(doc).to receive(:has?).with('asdf').and_return(true)
       field_config = double(field: 'asdf')
