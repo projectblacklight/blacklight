@@ -3,6 +3,6 @@
 <dl class="row dl-invert document-metadata">
   <% doc_presenter.fields_to_render.each do |field_name, field| -%>
     <dt class="blacklight-<%= field_name.parameterize %> col-md-3"><%= render_document_show_field_label document, field: field_name %></dt>
-    <dd class="blacklight-<%= field_name.parameterize %> col-md-9"><%= doc_presenter.field_value field_name %></dd>
+    <dd class="blacklight-<%= field_name.parameterize %> col-md-9"><%= doc_presenter.field_value field %></dd>
   <% end -%>
 </dl>
