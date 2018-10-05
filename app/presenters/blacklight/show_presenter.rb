@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
-  class ShowPresenter
-    attr_reader :document, :configuration, :view_context
-
+  class ShowPresenter < DocumentPresenter
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
@@ -10,11 +8,6 @@ module Blacklight
       @document = document
       @view_context = view_context
       @configuration = configuration
-    end
-
-    # @return [Hash<String,Configuration::Field>]
-    def fields
-      configuration.show_fields_for(document)
     end
 
     ##
@@ -71,6 +64,11 @@ module Blacklight
     end
 
     private
+
+    # @return [Hash<String,Configuration::Field>]
+    def fields
+      configuration.show_fields_for(document)
+    end
 
     ##
     # Get the value for a document's field, and prepare to render it.

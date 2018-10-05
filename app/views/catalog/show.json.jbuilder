@@ -11,8 +11,7 @@ json.data do
   json.attributes do
     doc_presenter = show_presenter(@document)
 
-    doc_presenter.fields.each do |field_name, field|
-      next unless should_render_show_field? @document, field
+    doc_presenter.fields_to_render.each do |field_name, field|
       json.partial! 'field', field: field,
                              field_name: field_name,
                              document_url: document_url,

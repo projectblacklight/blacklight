@@ -267,16 +267,8 @@ Naming/MemoizedInstanceVariableName:
 # NameWhitelist: is_a?
 # MethodDefinitionMacros: define_method, define_singleton_method
 Naming/PredicateName:
-  Exclude:
-    - 'spec/**/*'
-    - 'app/controllers/concerns/blacklight/catalog.rb'
-    - 'app/controllers/concerns/blacklight/controller.rb'
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'app/helpers/blacklight/configuration_helper_behavior.rb'
-    - 'app/helpers/blacklight/facets_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/document.rb'
-    - 'app/models/concerns/blacklight/solr/document.rb'
-    - 'lib/generators/blacklight/assets_generator.rb'
+  NamePrefixBlacklist:
+    - is_
 
 # Offense count: 14
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.

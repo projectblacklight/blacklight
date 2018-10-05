@@ -10,6 +10,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#index_fields" do
     it "passes through the configuration" do
+      allow(Deprecation).to receive(:warn)
       allow(blacklight_config).to receive_messages(index_fields: config_value)
       expect(helper.index_fields).to eq config_value
     end
@@ -24,6 +25,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#document_show_fields" do
     it "passes through the configuration" do
+      allow(Deprecation).to receive(:warn)
       allow(blacklight_config).to receive_messages(show_fields: config_value)
       expect(helper.document_show_fields).to eq config_value
     end
@@ -206,6 +208,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     let(:field_config) { double('field config', if: true, unless: false) }
 
     before do
+      allow(Deprecation).to receive(:warn)
       allow(helper).to receive_messages(document_has_value?: true)
     end
 
