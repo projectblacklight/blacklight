@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::ShowPresenter do
+RSpec.describe Blacklight::ShowPresenter, api: true do
   include Capybara::RSpecMatchers
   subject { presenter }
 
