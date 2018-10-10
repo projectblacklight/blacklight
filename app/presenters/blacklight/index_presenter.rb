@@ -48,12 +48,20 @@ module Blacklight
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [String] field
+    # @param [Configuration::Field, String] field_or_name
     # @param [Hash] options
     # @option options [String] :value
-    def field_value field, options = {}
-      field_config = field_config(field)
-      field_values(field_config, options)
+    def field_value field_or_name, options = {}
+      field = case field_or_name
+              when String
+                Deprecation.warn(self, "You provided a String value to IndexPresenter#field_value " \
+                "Provide a Blacklight::Configuration::Field instead. field_value() will not accept " \
+                "strings in Blacklight 7")
+                field_config(field_or_name)
+              else
+                field_or_name
+              end
+      field_values(field, options)
     end
 
     # @deprecated
