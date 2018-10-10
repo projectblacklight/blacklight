@@ -105,7 +105,7 @@ module Blacklight::FacetsHelperBehavior
     config = facet_configuration_for_field(display_facet.name)
     name = config.try(:partial)
     name ||= "facet_pivot" if config.pivot
-    name ||= "facet_limit"
+    name || "facet_limit"
   end
 
   ##

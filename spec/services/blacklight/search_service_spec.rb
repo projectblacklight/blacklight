@@ -153,7 +153,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     let(:user_params) { { q: all_docs_query } }
 
     before do
-      (solr_response, document_list) = service.search_results
+      (solr_response,) = service.search_results
       @facets = solr_response.aggregations
     end
 
@@ -195,7 +195,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     let(:user_params) { { q: all_docs_query } }
 
     it 'starts with first results by default' do
-      (solr_response, document_list) = service.search_results
+      (solr_response,) = service.search_results
       expect(solr_response.params[:start].to_i).to eq 0
     end
     it 'has number of results (per page) set in initializer, by default' do
@@ -231,7 +231,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:page) { 3 }
 
       it 'skips appropriate number of results when requested - default per page' do
-        (solr_response2, document_list2) = service.search_results
+        (solr_response2,) = service.search_results
         expect(solr_response2.params[:start].to_i).to eq blacklight_config[:default_solr_params][:rows] * (page - 1)
       end
     end
@@ -243,7 +243,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
       it 'skips appropriate number of results when requested - non-default per page' do
         num_results = 3
-        (solr_response2a, document_list2a) = service.search_results
+        (solr_response2a,) = service.search_results
         expect(solr_response2a.params[:start].to_i).to eq num_results * (page - 1)
       end
     end
@@ -267,7 +267,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       it 'shows first results when prompted for page before first result' do
         # FIXME: should it show first results, or should it throw an error for view to deal w?
         #   Solr throws an error for a negative start value
-        (solr_response4, document_list4) = service.search_results
+        (solr_response4,) = service.search_results
         expect(solr_response4.params[:start].to_i).to eq 0
       end
     end
@@ -320,7 +320,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: 'boo' } }
 
       it 'has (multiple) spelling suggestions' do
-        (solr_response, document_list) = service.search_results
+        (solr_response,) = service.search_results
         expect(solr_response.spelling.words).to include('bon')
         expect(solr_response.spelling.words).to include('bod') # for multiple suggestions
       end
@@ -330,7 +330,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: 'politica' } }
 
       it 'has multiple spelling suggestions' do
-        (solr_response, document_list) = service.search_results
+        (solr_response,) = service.search_results
         expect(solr_response.spelling.words).to include('policy') # less freq
         expect(solr_response.spelling.words).to include('politics') # more freq
         expect(solr_response.spelling.words).to include('political') # more freq
@@ -345,7 +345,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: 'yehudiyam', qt: 'search', "spellcheck.dictionary": "title" } }
 
       it 'has spelling suggestions' do
-        (solr_response, document_list) = service.search_results
+        (solr_response,) = service.search_results
         expect(solr_response.spelling.words).to include('yehudiyim')
       end
     end
@@ -354,7 +354,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: 'shirma', qt: 'search', "spellcheck.dictionary": "author" } }
 
       it 'has spelling suggestions' do
-        (solr_response, document_list) = service.search_results
+        (solr_response,) = service.search_results
         expect(solr_response.spelling.words).to include('sharma')
       end
     end
@@ -363,7 +363,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: 'wome', qt: 'search', "spellcheck.dictionary": "subject" } }
 
       it 'has spelling suggestions' do
-        (solr_response, document_list) = service.search_results
+        (solr_response,) = service.search_results
         expect(solr_response.spelling.words).to include('women')
       end
     end
@@ -389,40 +389,40 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     it "returns the previous and next documents for a search" do
-      response, docs = service.previous_and_next_documents_for_search(4, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(4, q: '')
 
       expect(docs.first.id).to eq @all_docs[3].id
       expect(docs.last.id).to eq @all_docs[5].id
     end
 
     it "returns only the next document if the counter is 0" do
-      response, docs = service.previous_and_next_documents_for_search(0, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
 
       expect(docs.first).to be_nil
       expect(docs.last.id).to eq @all_docs[1].id
     end
 
     it "returns only the previous document if the counter is the total number of documents" do
-      response, docs = service.previous_and_next_documents_for_search(@full_response.total - 1, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(@full_response.total - 1, q: '')
       expect(docs.first.id).to eq @all_docs.slice(-2).id
       expect(docs.last).to be_nil
     end
 
     it "returns an array of nil values if there is only one result" do
-      response, docs = service.previous_and_next_documents_for_search(0, q: 'id:2007020969')
+      _response, docs = service.previous_and_next_documents_for_search(0, q: 'id:2007020969')
       expect(docs.last).to be_nil
       expect(docs.first).to be_nil
     end
 
     it 'returns only the unique key by default' do
-      response, docs = service.previous_and_next_documents_for_search(0, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
       expect(docs.last.to_h).to eq 'id' => @all_docs[1].id
     end
 
     it 'allows the query parameters to be customized using configuration' do
       blacklight_config.document_pagination_params[:fl] = 'id,format'
 
-      response, docs = service.previous_and_next_documents_for_search(0, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
 
       expect(docs.last.to_h).to eq @all_docs[1].to_h.slice('id', 'format')
     end

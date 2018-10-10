@@ -13,7 +13,7 @@ module Features
 
     def sign_in(login = 'user1')
       email = "#{login}@#{login}.com"
-      user = User.create(email: email, password: "password", password_confirmation: "password")
+      User.create(email: email, password: "password", password_confirmation: "password")
       visit new_user_session_path
       fill_in("user_email", with: email)
       fill_in("user_password", with: "password")
