@@ -185,7 +185,6 @@ Blacklight.onLoad(function () {
           data: form.serialize(),
           error: function () {
             alert('Error');
-            updateStateFor(checked);
             label.removeAttr('disabled');
             checkbox.removeAttr('disabled');
           },
@@ -200,7 +199,6 @@ Blacklight.onLoad(function () {
               options.success.call(form, checked, xhr.responseJSON);
             } else {
               alert('Error');
-              updateStateFor(checked);
               label.removeAttr('disabled');
               checkbox.removeAttr('disabled');
             }
