@@ -97,7 +97,6 @@
                 data: form.serialize(),
                 error: function() {
                    alert("Error");
-                   update_state_for(checked);
                    label.removeAttr("disabled");
                    checkbox.removeAttr("disabled");
                 },
@@ -112,7 +111,6 @@
                     options.success.call(form, checked, xhr.responseJSON);
                   } else {
                     alert("Error");
-                    update_state_for(checked);
                     label.removeAttr("disabled");
                     checkbox.removeAttr("disabled");
                   }
