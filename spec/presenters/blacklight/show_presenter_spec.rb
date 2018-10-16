@@ -17,8 +17,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     SolrDocument.new(id: 1,
                      'link_to_facet_true' => 'x',
                      'link_to_facet_named' => 'x',
-                     'qwer' => 'document qwer value',
-                     'mnbv' => 'document mnbv value')
+                     'qwer' => 'document qwer value')
   end
 
   before do
@@ -108,7 +107,11 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     end
   end
 
-  describe "field_value" do
+  describe '#field_value' do
+    subject { presenter.field_value field }
+
+    let(:field) { config.show_fields[field_name] }
+    let(:field_name) { 'asdf' }
     let(:config) do
       Blacklight::Configuration.new.configure do |config|
         config.add_show_field 'qwer'
@@ -119,109 +122,131 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
         config.add_show_field 'solr_doc_accessor', accessor: true
         config.add_show_field 'explicit_accessor', accessor: :solr_doc_accessor
         config.add_show_field 'explicit_array_accessor', accessor: [:solr_doc_accessor, :some_method]
-        config.add_show_field 'explicit_accessor_with_arg', accessor: :solr_doc_accessor_with_arg
       end
     end
 
-    it 'html-escapes values' do
-      value = subject.field_value 'asdf', value: '<b>val1</b>'
-      expect(value).to eq '&lt;b&gt;val1&lt;/b&gt;'
+    context 'when an explicit html value is provided' do
+      subject { presenter.field_value field, value: '<b>val1</b>' }
+
+      it { is_expected.to eq '&lt;b&gt;val1&lt;/b&gt;' }
     end
 
-    it 'joins multivalued valued fields' do
-      value = subject.field_value 'asdf', value: ['<a', 'b']
-      expect(value).to eq '&lt;a and b'
+    context 'when an explicit array value with unsafe characters is provided' do
+      subject { presenter.field_value field, value: ['<a', 'b'] }
+
+      it { is_expected.to eq '&lt;a and b' }
     end
 
-    it 'joins multivalued valued fields' do
-      value = subject.field_value 'asdf', value: %w[a b c]
-      expect(value).to eq 'a, b, and c'
+    context 'when an explicit array value is provided' do
+      subject { presenter.field_value field, value: %w[a b c] }
+
+      it { is_expected.to eq 'a, b, and c' }
     end
 
-    it "checks for an explicit value" do
-      expect(request_context).not_to receive(:render_asdf_document_show_field)
-      value = subject.field_value 'asdf', value: 'val1'
-      expect(value).to eq 'val1'
+    context 'when an explicit value is provided' do
+      subject { presenter.field_value field, value: 'val1' }
+
+      it { is_expected.to eq 'val1' }
     end
 
-    it "checks for a helper method to call" do
-      allow(request_context).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
-      value = subject.field_value 'asdf'
-      expect(value).to eq 'custom asdf value'
+    context 'when field has a helper method' do
+      before do
+        allow(request_context).to receive(:render_asdf_document_show_field).and_return('custom asdf value')
+      end
+
+      it { is_expected.to eq 'custom asdf value' }
     end
 
-    it "checks for a link_to_facet" do
-      allow(request_context).to receive(:search_action_path).and_return('/foo')
-      allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_facet_true'
-      expect(value).to eq 'bar'
+    context 'when field has link_to_facet with true' do
+      before do
+        allow(request_context).to receive(:search_action_path).with('f' => { 'link_to_facet_true' => ['x'] }).and_return('/foo')
+        allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+      end
+
+      let(:field_name) { 'link_to_facet_true' }
+
+      it { is_expected.to eq 'bar' }
     end
 
-    it "checks for a link_to_facet with a field name" do
-      allow(request_context).to receive(:search_action_path).and_return('/foo')
-      allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
-      value = subject.field_value 'link_to_facet_named'
-      expect(value).to eq 'bar'
+    context 'when field has link_to_facet with a field name' do
+      before do
+        allow(request_context).to receive(:search_action_path).with('f' => { 'some_field' => ['x'] }).and_return('/foo')
+        allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+      end
+
+      let(:field_name) { 'link_to_facet_named' }
+
+      it { is_expected.to eq 'bar' }
     end
 
-    context "when no highlight field is available" do
+    context 'when no highlight field is available' do
       before do
         allow(document).to receive(:has_highlight_field?).and_return(false)
       end
 
-      let(:value) { subject.field_value 'highlight' }
+      let(:field_name) { 'highlight' }
 
-      it "is blank" do
-        expect(value).to be_blank
+      it { is_expected.to be_blank }
+    end
+
+    context 'when highlight field is available' do
+      before do
+        allow(document).to receive(:has_highlight_field?).and_return(true)
+        allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
+      end
+
+      let(:field_name) { 'highlight' }
+
+      it { is_expected.to eq '<em>highlight</em>' }
+    end
+
+    context 'when highlight returns multiple values' do
+      before do
+        allow(document).to receive(:has_highlight_field?).and_return(true)
+        allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe, '<em>other highlight</em>'.html_safe])
+      end
+
+      let(:field_name) { 'highlight' }
+
+      it { is_expected.to eq '<em>highlight</em> and <em>other highlight</em>' }
+    end
+
+    context 'when no options are provided' do
+      let(:field_name) { 'qwer' }
+
+      it "checks the document field value" do
+        expect(subject).to eq 'document qwer value'
       end
     end
 
-    it "checks for a highlighted field" do
-      allow(document).to receive(:has_highlight_field?).and_return(true)
-      allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe])
-      value = subject.field_value 'highlight'
-      expect(value).to eq '<em>highlight</em>'
+    context 'when accessor is true' do
+      before do
+        allow(document).to receive_messages(solr_doc_accessor: "123")
+      end
+
+      let(:field_name) { 'solr_doc_accessor' }
+
+      it { is_expected.to eq '123' }
     end
 
-    it 'respects the HTML-safeness of multivalued highlight fields' do
-      allow(document).to receive(:has_highlight_field?).and_return(true)
-      allow(document).to receive(:highlight_field).with('highlight').and_return(['<em>highlight</em>'.html_safe, '<em>other highlight</em>'.html_safe])
-      value = subject.field_value 'highlight'
-      expect(value).to eq '<em>highlight</em> and <em>other highlight</em>'
+    context 'when accessor is set to a value' do
+      let(:field_name) { 'explicit_accessor' }
+
+      it 'calls the accessor with the field_name as the argument' do
+        expect(document).to receive(:solr_doc_accessor).with('explicit_accessor').and_return("123")
+
+        expect(subject).to eq '123'
+      end
     end
 
-    it "checks the document field value" do
-      value = subject.field_value 'qwer'
-      expect(value).to eq 'document qwer value'
-    end
+    context 'when accessor is set to an array' do
+      let(:field_name) { 'explicit_array_accessor' }
 
-    it "works with show fields that aren't explicitly defined" do
-      value = subject.field_value 'mnbv'
-      expect(value).to eq 'document mnbv value'
-    end
+      it 'calls the accessors on the return of the preceeding' do
+        allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
 
-    it "calls an accessor on the solr document" do
-      allow(document).to receive_messages(solr_doc_accessor: "123")
-      value = subject.field_value 'solr_doc_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "calls an explicit accessor on the solr document" do
-      allow(document).to receive_messages(solr_doc_accessor: "123")
-      value = subject.field_value 'explicit_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "calls an explicit array-style accessor on the solr document" do
-      allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
-      value = subject.field_value 'explicit_array_accessor'
-      expect(value).to eq "123"
-    end
-
-    it "calls an accessor on the solr document with the field as an argument" do
-      allow(document).to receive(:solr_doc_accessor_with_arg).with('explicit_accessor_with_arg').and_return("123")
-      value = subject.field_value 'explicit_accessor_with_arg'
-      expect(value).to eq "123"
+        expect(subject).to eq '123'
+      end
     end
   end
 

@@ -56,11 +56,11 @@ module Blacklight
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [String] field
+    # @param [Configuration::Field] field
     # @param [Hash] options
     # @option options [String] :value
     def field_value field, options = {}
-      field_values(field_config(field), options)
+      field_values(field, options)
     end
 
     private
