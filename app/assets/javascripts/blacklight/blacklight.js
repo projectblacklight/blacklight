@@ -5,13 +5,13 @@
 //
 // These javascript files are compiled in via the Rails asset pipeline:
 //= require blacklight/core
-//= require blacklight/autofocus
+//= require blacklight/autocomplete
 //= require blacklight/bookmark_toggle
-//= require blacklight/ajax_modal
-//= require blacklight/search_context
 //= require blacklight/collapsable
 //= require blacklight/facet_load
-//= require blacklight/autocomplete
+//= require blacklight/ajax_modal
+//= require blacklight/search_context
+//= require blacklight/autofocus
 //
 //Bootstrap JS for providing collapsable tablet/mobile menu/alert boxes
 //= require bootstrap/transition
