@@ -116,9 +116,6 @@ Blacklight.onLoad(function () {
 
    Pass in options for your class name and labels:
    $("form.something").blCheckboxSubmit({
-        checked_label: "Selected",
-        unchecked_label: "Select",
-        progress_label: "Saving...",
         //cssClass is added to elements added, plus used for id base
         cssClass: "toggle_my_kinda_form",
         success: function(after_success_check_state) {
