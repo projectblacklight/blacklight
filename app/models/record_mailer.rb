@@ -3,7 +3,12 @@
 class RecordMailer < ActionMailer::Base
   def email_record(documents, details, url_gen_params)
     title = begin
-              documents.first.to_semantic_values[:title]
+              title_field = details[:config].email.title_field
+              if title_field
+                [documents.first[title_field]].flatten.first
+              else
+                documents.first.to_semantic_values[:title]
+              end
             rescue
               I18n.t('blacklight.email.text.default_title')
             end
@@ -14,6 +19,7 @@ class RecordMailer < ActionMailer::Base
 
     @documents      = documents
     @message        = details[:message]
+    @config         = details[:config]
     @url_gen_params = url_gen_params
 
     mail(to: details[:to],  subject: subject)
@@ -21,7 +27,9 @@ class RecordMailer < ActionMailer::Base
 
   def sms_record(documents, details, url_gen_params)
     @documents      = documents
+    @config         = details[:config]
     @url_gen_params = url_gen_params
+
     mail(to: details[:to], subject: "")
   end
 end
