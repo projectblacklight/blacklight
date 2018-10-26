@@ -22,9 +22,14 @@ module Blacklight
       fields.map { |field| facet_by_field_name(field) }.compact
     end
 
+    # @param group [String] a group name of facet fields
     # @return [Array<String>] a list of the facet field names from the configuration
-    def facet_field_names
-      blacklight_config.facet_fields.values.map(&:field)
+    def facet_field_names(group = nil)
+      blacklight_config.facet_fields.select { |_facet, opts| group == opts[:group] }.values.map(&:field)
+    end
+
+    def facet_group_names
+      blacklight_config.facet_fields.map { |_facet, opts| opts[:group] }.uniq
     end
 
     # Get a FacetField object from the @response
