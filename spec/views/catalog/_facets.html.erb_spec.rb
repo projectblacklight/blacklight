@@ -16,23 +16,46 @@ RSpec.describe "catalog/_facets" do
     end
   end
 
-  context "with facet fields" do
+  context "with facet groups" do
     let :facet_field do
-      Blacklight::Configuration::FacetField.new(field: 'facet_field_1', label: 'label').normalize!
+      Blacklight::Configuration::FacetField.new(field: 'facet_field_1', label: 'label', group: nil).normalize!
     end
 
     before do
       blacklight_config.facet_fields['facet_field_1'] = facet_field
       @mock_display_facet_1 = double(name: 'facet_field_1', sort: nil, offset: nil, prefix: nil, items: [Blacklight::Solr::Response::Facets::FacetItem.new(value: 'Value', hits: 1234)])
-      allow(view).to receive_messages(facet_field_names: [:facet_field_1], facet_limit_for: 10)
+      allow(view).to receive_messages(facet_group_names: [nil], facet_field_names: [:facet_field_1], facet_limit_for: 10)
       @response = double
       allow(@response).to receive(:aggregations).and_return("facet_field_1" => @mock_display_facet_1)
     end
 
-    it "has a header" do
-      allow(view).to receive_messages(render_facet_partials: '')
-      render
-      expect(rendered).to have_selector('.facets-heading')
+    context "with the default facet group" do
+      it "has a header" do
+        allow(view).to receive_messages(render_facet_partials: '')
+        render
+        expect(rendered).to have_selector('.facets-heading')
+      end
+    end
+
+    context "with a named facet group" do
+      let :facet_field do
+        Blacklight::Configuration::FacetField.new(field: 'facet_field_1', label: 'label', group: 'group_1').normalize!
+      end
+
+      before do
+        blacklight_config.facet_fields['facet_field_1'] = facet_field
+        @mock_display_facet_1 = double(name: 'facet_field_1', sort: nil, offset: nil, prefix: nil, items: [Blacklight::Solr::Response::Facets::FacetItem.new(value: 'Value', hits: 1234)])
+        allow(view).to receive_messages(facet_group_names: [nil, 'group_1'], facet_field_names: [:facet_field_1], facet_limit_for: 10)
+        @response = double
+        allow(@response).to receive(:aggregations).and_return("facet_field_1" => @mock_display_facet_1)
+      end
+
+      it "has a header" do
+        allow(view).to receive_messages(render_facet_partials: '')
+        render
+        expect(rendered).to have_selector('.facets-heading')
+        expect(rendered).to have_selector('#facets-group_1')
+      end
     end
 
     describe "facet display" do

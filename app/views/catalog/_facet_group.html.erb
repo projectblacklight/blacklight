@@ -1,0 +1,19 @@
+<% # main container for facets/limits menu -%>
+<% if has_facet_values? facet_field_names(groupname) %>
+<div id="facets<%= "-#{groupname}" unless groupname.nil? %>" class="facets sidenav facets-toggleable-sm">
+
+  <div class="navbar">
+    <h2 class="facets-heading">
+      <%= groupname.blank? ? t('blacklight.search.facets.title') : t("blacklight.search.facets-#{groupname}.title") %>
+    </h2>
+
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#facet-panel<%= "-#{groupname}" unless groupname.nil? %>-collapse" aria-controls="facet-panel<%= "-#{groupname}" unless groupname.nil? %>-collapse" aria-expanded="false" aria-label="Toggle facets">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+
+  <div id="facet-panel<%= "-#{groupname}" unless groupname.nil? %>-collapse" class="facets-collapse collapse">
+    <%= render_facet_partials facet_field_names(groupname) %>
+  </div>
+</div>
+<% end %>
