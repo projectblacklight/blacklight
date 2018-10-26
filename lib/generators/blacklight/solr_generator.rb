@@ -33,5 +33,11 @@ module Blacklight
     def add_rsolr_gem
       gem 'rsolr', '>= 1.0', '< 3'
     end
+
+    def bundle_install
+      Bundler.with_clean_env do
+        run "bundle install"
+      end
+    end
   end
 end
