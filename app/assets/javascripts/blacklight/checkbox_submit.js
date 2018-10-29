@@ -23,6 +23,9 @@
         progress_label: "Saving...",
         //css_class is added to elements added, plus used for id base
         css_class: "toggle_my_kinda_form",
+        error: function() {
+          #optional callback
+        },
         success: function(after_success_check_state) {
           #optional callback
         }
@@ -96,9 +99,9 @@
                 type: form.attr("method").toUpperCase(),
                 data: form.serialize(),
                 error: function() {
-                   alert("Error");
                    label.removeAttr("disabled");
                    checkbox.removeAttr("disabled");
+                   options.error.call();
                 },
                 success: function(data, status, xhr) {
                   //if app isn't running at all, xhr annoyingly
@@ -110,9 +113,9 @@
                     checkbox.removeAttr("disabled");
                     options.success.call(form, checked, xhr.responseJSON);
                   } else {
-                    alert("Error");
                     label.removeAttr("disabled");
                     checkbox.removeAttr("disabled");
+                    options.error.call();
                   }
                 }
             });
@@ -128,6 +131,9 @@
   $.fn.bl_checkbox_submit.defaults =  {
             //css_class is added to elements added, plus used for id base
             css_class: "bl_checkbox_submit",
+            error: function() {
+              alert("Error");
+            },
             success: function() {} //callback
   };
 })(jQuery);
