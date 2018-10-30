@@ -15,6 +15,7 @@ module Blacklight::UrlHelperBehavior
     if field_or_opts.is_a? Hash
       opts = field_or_opts
     else
+      Deprecation.warn(self, "Passing a field argument to link_to_document is deprecated and will be removed in Blacklight 8")
       field = field_or_opts
     end
 
