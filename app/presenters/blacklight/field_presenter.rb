@@ -3,6 +3,12 @@
 module Blacklight
   # Renders a field and handles link_to_facet or helper_method if supplied
   class FieldPresenter
+    # @param controller [Object] the context in which to execute helper methods
+    # @param document [SolrDocument] the document
+    # @param field_config [Blacklight::Configuration::Field] the field's configuration
+    # @param options [Hash]
+    # @option options [Object] :value when this is provided, we don't want the pipeline to deal with helper methods.
+    #                                 this happens when drawing the label for the document
     def initialize(controller, document, field_config, options)
       @controller = controller
       @document = document
@@ -13,15 +19,12 @@ module Blacklight
     attr_reader :controller, :document, :field_config, :options
 
     def render
-      if options[:value]
-        # This prevents helper methods from drawing.
-        config = Configuration::NullField.new(field_config.to_h.except(:helper_method))
-        values = Array.wrap(options[:value])
-      else
-        config = field_config
-        values = retrieve_values
-      end
-      Rendering::Pipeline.render(values, config, document, controller, options)
+      return Rendering::Pipeline.render(retrieve_values, field_config, document, controller, options) unless options[:value]
+
+      values = Array.wrap(options[:value])
+      # Prevents helper methods from drawing.
+      steps = Rendering::Pipeline.operations - [Rendering::HelperMethod]
+      Rendering::Pipeline.new(values, field_config, document, controller, steps, options).render
     end
 
     private

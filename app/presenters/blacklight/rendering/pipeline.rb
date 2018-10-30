@@ -3,7 +3,7 @@
 module Blacklight
   module Rendering
     # The field rendering pipeline.
-    # This takes a field and it's values and transforms them through a list of
+    # This takes a field and its values and transforms them through a list of
     # operations.
     class Pipeline
       class_attribute :operations, instance_accessor: false
@@ -14,7 +14,7 @@ module Blacklight
       # @param values [Array] the values for the field
       # @param config [Blacklight::Configuration::Field] the field's configuration
       # @param document [SolrDocument] the document
-      # @param context [Object] an execution context, used to execute the  helper method in.
+      # @param context [Object] an execution context, used to execute the helper method in.
       # @param operations [Array<Class>] the list of operations in this Pipeline
       # @param options [Hash] options to pass to the processors. Typically only `:value` is used
       def initialize(values, config, document, context, operations, options)
