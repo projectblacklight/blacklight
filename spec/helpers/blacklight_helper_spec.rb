@@ -144,15 +144,18 @@ RSpec.describe BlacklightHelper do
     end
 
     it "is true" do
+      expect(Deprecation).to receive(:warn)
       expect(helper.should_render_index_field?(double, double)).to be true
     end
 
     it "is false if the document doesn't have a value for the field" do
+      expect(Deprecation).to receive(:warn)
       allow(helper).to receive_messages(document_has_value?: false)
       expect(helper.should_render_index_field?(double, double)).to be false
     end
 
     it "is false if the configuration has the field disabled" do
+      expect(Deprecation).to receive(:warn)
       allow(helper).to receive_messages(should_render_field?: false)
       expect(helper.should_render_index_field?(double, double)).to be false
     end
@@ -164,15 +167,18 @@ RSpec.describe BlacklightHelper do
     end
 
     it "is true" do
+      expect(Deprecation).to receive(:warn)
       expect(helper.should_render_show_field?(double, double)).to be true
     end
 
     it "is false if the document doesn't have a value for the field" do
+      expect(Deprecation).to receive(:warn)
       allow(helper).to receive_messages(document_has_value?: false)
       expect(helper.should_render_show_field?(double, double)).to be false
     end
 
     it "is false if the configuration has the field disabled" do
+      expect(Deprecation).to receive(:warn)
       allow(helper).to receive_messages(should_render_field?: false)
       expect(helper.should_render_show_field?(double, double)).to be false
     end
