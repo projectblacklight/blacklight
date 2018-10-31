@@ -6,6 +6,7 @@ module Blacklight
 
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
+    #                                        as well as for invoking "thumbnail_method"
     # @param [Blacklight::Configuration::ViewConfig] view_config
     def initialize(document, view_context, view_config)
       @document = document
