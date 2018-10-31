@@ -72,7 +72,7 @@ module Blacklight::UrlHelperBehavior
     if respond_to?(controller_tracking_method)
       send(controller_tracking_method, params.merge(id: document))
     else
-      blacklight.track_search_context_path(params.merge(id: document))
+      main_app.track_catalog_path(params.merge(id: document))
     end
   end
 
