@@ -201,6 +201,8 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
     before do
       allow(controller).to receive(:action_name).and_return('index')
+      allow(helper.main_app).to receive(:track_test_path).and_return('tracking url')
+      allow(helper.main_app).to receive(:respond_to?).with('track_test_path').and_return(true)
     end
 
     it "consists of the document title wrapped in a <a>" do
@@ -248,9 +250,9 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "converts the counter parameter into a data- attribute" do
-      allow(helper).to receive(:track_test_path).with(hash_including(id: have_attributes(id: '123456'), counter: 5)).and_return('tracking url')
       expect(Deprecation).to receive(:warn)
       expect(helper.link_to_document(document, :title_tsim, counter: 5)).to include 'data-context-href="tracking url"'
+      expect(helper.main_app).to have_received(:track_test_path).with(hash_including(id: have_attributes(id: '123456'), counter: 5))
     end
 
     it "includes the data- attributes from the options" do
@@ -259,15 +261,10 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it 'adds a controller-specific tracking attribute' do
-      expect(helper).to receive(:track_test_path).and_return('/asdf')
+      expect(helper.main_app).to receive(:track_test_path).and_return('/asdf')
       link = helper.link_to_document document, data: { x: 1 }
 
       expect(link).to have_selector '[data-context-href="/asdf"]'
-    end
-
-    it 'adds a global tracking attribute' do
-      link = helper.link_to_document document, data: { x: 1 }
-      expect(link).to have_selector '[data-context-href="/catalog/123456/track"]'
     end
   end
 
@@ -292,12 +289,12 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     let(:document) { SolrDocument.new(id: 1) }
 
     it "determines the correct route for the document class" do
-      allow(helper).to receive(:track_test_path).with(id: have_attributes(id: 1)).and_return('x')
+      allow(helper.main_app).to receive(:track_test_path).with(id: have_attributes(id: 1)).and_return('x')
       expect(helper.session_tracking_path(document)).to eq 'x'
     end
 
     it "passes through tracking parameters" do
-      allow(helper).to receive(:track_test_path).with(id: have_attributes(id: 1), x: 1).and_return('x')
+      allow(helper.main_app).to receive(:track_test_path).with(id: have_attributes(id: 1), x: 1).and_return('x')
       expect(helper.session_tracking_path(document, x: 1)).to eq 'x'
     end
   end

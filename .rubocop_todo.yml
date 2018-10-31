@@ -356,7 +356,7 @@ RSpec/MessageChain:
 # Configuration parameters: .
 # SupportedStyles: have_received, receive
 RSpec/MessageSpies:
-  EnforcedStyle: receive
+  Enabled: false
 
 # Offense count: 339
 # Configuration parameters: AggregateFailuresByDefault.
