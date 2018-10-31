@@ -29,8 +29,12 @@ module Blacklight
                   config = field_config(field_or_string_or_proc)
                   document[field_or_string_or_proc]
                 when Proc
+                  Deprecation.warn(self, "calling IndexPresenter.label with a Proc is deprecated. " \
+                                         "First argument must be a symbol. This will be removed in Blacklight 8")
                   field_or_string_or_proc.call(document, opts)
                 when String
+                  Deprecation.warn(self, "calling IndexPresenter.label with a String is deprecated. " \
+                                         "First argument must be a symbol. This will be removed in Blacklight 8")
                   field_or_string_or_proc
               end
 

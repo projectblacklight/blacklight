@@ -12,14 +12,21 @@ module Blacklight::UrlHelperBehavior
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   # TODO: move this to the IndexPresenter
   def link_to_document(doc, field_or_opts = nil, opts = { counter: nil })
-    if field_or_opts.is_a? Hash
-      opts = field_or_opts
-    else
-      field = field_or_opts
-    end
+    label = case field_or_opts
+            when NilClass
+              index_presenter(doc).label document_show_link_field(doc), opts
+            when Hash
+              opts = field_or_opts
+              index_presenter(doc).label document_show_link_field(doc), opts
+            when Proc, Symbol
+              Deprecation.warn(self, "passing a #{field_or_opts.class} to link_to_document is deprecated and will be removed in Blacklight 8")
+              Deprecation.silence(Blacklight::IndexPresenter) do
+                index_presenter(doc).label field_or_opts, opts
+              end
+            else # String
+              field_or_opts
+            end
 
-    field ||= document_show_link_field(doc)
-    label = index_presenter(doc).label field, opts
     link_to label, url_for_document(doc), document_link_params(doc, opts)
   end
 
