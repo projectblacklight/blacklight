@@ -263,6 +263,34 @@ RSpec.describe CatalogController, api: true do
     end
   end
 
+  describe '#raw' do
+    context 'when disabled' do
+      it "returns 404" do
+        expect { get :raw, params: { id: doc_id, format: 'json' } }.to raise_error ActionController::RoutingError
+      end
+    end
+
+    context 'when enabled' do
+      before do
+        allow(controller.blacklight_config.raw_endpoint).to receive(:enabled).and_return(true)
+      end
+
+      it "gets the raw solr document" do
+        get :raw, params: { id: doc_id, format: 'json' }
+        expect(response).to be_successful
+        json = JSON.parse response.body
+        expect(json.keys).to match_array(
+          %w[id _version_ author_addl_tsim author_tsim format isbn_ssim
+             language_ssim lc_1letter_ssim lc_alpha_ssim lc_b4cutter_ssim
+             lc_callnum_ssim marc_ss material_type_ssim pub_date_ssim
+             published_ssim subject_addl_ssim subject_geo_ssim subject_ssim
+             subject_tsim subtitle_tsim timestamp title_addl_tsim title_tsim
+             url_suppl_ssim]
+        )
+      end
+    end
+  end
+
   # SHOW ACTION
   describe "show action" do
     describe "with format :html" do

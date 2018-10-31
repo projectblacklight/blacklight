@@ -124,7 +124,8 @@ module Blacklight
           # proc for determining whether the session is a crawler/bot
           # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
           crawler_detector: nil,
-          autocomplete_suggester: 'mySuggester'
+          autocomplete_suggester: 'mySuggester',
+          raw_endpoint: OpenStructWithHashAccess.new(enabled: false)
           }
         end
         # rubocop:enable Metrics/MethodLength
