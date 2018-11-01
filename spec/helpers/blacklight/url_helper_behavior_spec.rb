@@ -208,7 +208,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "accepts and returns a string label" do
-      expect(helper.link_to_document(document, String.new('title_tsim'))).to have_selector("a", text: 'title_tsim', count: 1)
+      expect(helper.link_to_document(document, 'This is the title')).to have_selector("a", text: 'This is the title', count: 1)
     end
 
     it "accepts and returns a Proc" do
