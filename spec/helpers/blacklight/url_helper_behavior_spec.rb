@@ -85,7 +85,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       allow(helper).to receive(:current_search_session).and_return double(query_params: bookmarks_query_params)
       tag = helper.link_back_to_catalog
       expect(tag).to match /Back to Bookmarks/
-      expect(tag).to match /\/bookmarks/
+      expect(tag).to match %r{/bookmarks}
     end
 
     context "with a search context" do
@@ -152,7 +152,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       allow(helper).to receive_messages(params: parameter_class.new)
       tag = helper.link_to_query(query)
       expect(tag).to match /q=#{query}/
-      expect(tag).to match />#{query}<\/a>/
+      expect(tag).to match %r{>#{query}</a>}
     end
 
     it "builds a link tag to catalog using query string and other existing params" do
