@@ -1,16 +1,21 @@
+# frozen_string_literal: true
+
+document_url = polymorphic_url(@document)
 json.links do
-  json.self polymorphic_url(@document)
+  json.self document_url
 end
 
 json.data do
   json.id @document.id
+  json.type @document[blacklight_config.view_config(:show).display_type_field]
   json.attributes do
     doc_presenter = show_presenter(@document)
 
-    document_show_fields(@document).each do |field_name, field|
-      if should_render_show_field? @document, field
-        json.set! field_name, doc_presenter.field_value(field_name)
-      end
+    doc_presenter.fields_to_render.each do |field_name, field|
+      json.partial! 'field', field: field,
+                             field_name: field_name,
+                             document_url: document_url,
+                             doc_presenter: doc_presenter
     end
   end
 end

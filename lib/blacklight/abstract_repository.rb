@@ -32,6 +32,18 @@ module Blacklight
       raise NotImplementedError
     end
 
+    # Query the fields that exist from the index
+    # @return [Hash]
+    def reflect_fields
+      raise NotImplementedError
+    end
+
+    ##
+    # Is the repository in a working state?
+    def ping
+      raise NotImplementedError
+    end
+
     private
 
     def connection_config

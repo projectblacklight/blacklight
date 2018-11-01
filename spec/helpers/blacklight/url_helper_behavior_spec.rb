@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::UrlHelperBehavior do
-
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_tsim'
@@ -37,7 +36,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
     it "allows for custom show routes" do
       helper.blacklight_config.show.route = { controller: 'catalog' }
-      expect(helper.url_for_document(doc)).to eq({controller: 'catalog', action: :show, id: doc})
+      expect(helper.url_for_document(doc)).to eq(controller: 'catalog', action: :show, id: doc)
     end
 
     context "within bookmarks" do
@@ -53,7 +52,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
       before do
         helper.blacklight_config.show.route = { controller: :current }
-        allow(helper).to receive(:params).and_return(parameter_class.new controller: 'alternate')
+        allow(helper).to receive(:params).and_return(parameter_class.new(controller: 'alternate'))
       end
 
       it "supports the :current controller configuration" do
@@ -70,27 +69,26 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   end
 
   describe "link_back_to_catalog" do
-    let(:query_params)  {{:q => "query", :f => "facets", :controller=>'catalog'}}
-    let(:bookmarks_query_params) {{ :controller=>'bookmarks'}}
+    let(:query_params) { { q: "query", f: "facets", controller: 'catalog' } }
+    let(:bookmarks_query_params) { { controller: 'bookmarks' } }
 
     it "builds a link tag to catalog using session[:search] for query params" do
-      allow(helper).to receive(:current_search_session).and_return double(:query_params => query_params)
+      allow(helper).to receive(:current_search_session).and_return double(query_params: query_params)
       tag = helper.link_back_to_catalog
       expect(tag).to match /q=query/
       expect(tag).to match /f=facets/
-      expect(tag).to_not match /page=/
-      expect(tag).to_not match /per_page=/
+      expect(tag).not_to match /page=/
+      expect(tag).not_to match /per_page=/
     end
 
     it "builds a link tag to bookmarks using session[:search] for query params" do
-      allow(helper).to receive(:current_search_session).and_return double(:query_params => bookmarks_query_params)
+      allow(helper).to receive(:current_search_session).and_return double(query_params: bookmarks_query_params)
       tag = helper.link_back_to_catalog
       expect(tag).to match /Back to Bookmarks/
-      expect(tag).to match /\/bookmarks/
+      expect(tag).to match %r{/bookmarks}
     end
 
     context "with a search context" do
-
       it "uses the current search session counter and per page information to construct the appropriate pagination context" do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 15, 'counter' => 31 })
@@ -104,17 +102,17 @@ RSpec.describe Blacklight::UrlHelperBehavior do
         allow(helper).to receive_messages(search_session: { 'per_page' => 10, 'counter' => 31 })
         tag = helper.link_back_to_catalog
         expect(tag).to match /page=4/
-        expect(tag).to_not match /per_page=/
+        expect(tag).not_to match /per_page=/
       end
     end
 
     context "without current search context" do
+      subject { helper.link_back_to_catalog }
+
       before do
         controller.request.assign_parameters(Rails.application.routes, 'catalog', 'show', { id: '123' }, '/catalog/123', [:controller, :action, :id])
         allow(helper).to receive_messages(current_search_session: nil)
       end
-
-      subject { helper.link_back_to_catalog }
 
       it "links to the catalog" do
         expect(subject).to eq '<a href="/catalog">Back to Search</a>'
@@ -122,16 +120,17 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     context "when an alternate scope is passed in" do
-      let(:my_engine) { double("Engine") }
       subject(:tag) { helper.link_back_to_catalog(route_set: my_engine) }
 
+      let(:my_engine) { double("Engine") }
+
       before do
-        allow(helper).to receive(:current_search_session).and_return double(:query_params => query_params)
+        allow(helper).to receive(:current_search_session).and_return double(query_params: query_params)
       end
 
       it "calls url_for on the engine scope" do
         expect(my_engine).to receive(:url_for)
-          .with(q:"query", f: "facets", controller: "catalog")
+          .with(q: "query", f: "facets", controller: "catalog")
           .and_return('link-url')
         expect(tag).to match /Back to Search/
         expect(tag).to match /link-url/
@@ -142,6 +141,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   describe "link_to_previous_document" do
     context "when the argument is nil" do
       subject { helper.link_to_previous_document(nil) }
+
       it { is_expected.to eq '<span class="previous">&laquo; Previous</span>' }
     end
   end
@@ -152,7 +152,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       allow(helper).to receive_messages(params: parameter_class.new)
       tag = helper.link_to_query(query)
       expect(tag).to match /q=#{query}/
-      expect(tag).to match />#{query}<\/a>/
+      expect(tag).to match %r{>#{query}</a>}
     end
 
     it "builds a link tag to catalog using query string and other existing params" do
@@ -168,7 +168,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       allow(helper).to receive_messages(params: parameter_class.new(page: "2", qt: "author_search"))
       tag = helper.link_to_query(query)
       expect(tag).to match /qt=author_search/
-      expect(tag).to_not match /page/
+      expect(tag).not_to match /page/
     end
 
     it "is html_safe" do
@@ -181,15 +181,15 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
   describe "start_over_path" do
     it 'is the catalog path with the current view type' do
-      allow(blacklight_config).to receive(:view) { { list: nil, abc: nil} }
-      allow(helper).to receive_messages(:blacklight_config => blacklight_config)
-      expect(helper.start_over_path(:view => 'abc')).to eq search_catalog_url(:view => 'abc')
+      allow(blacklight_config).to receive(:view).and_return(list: nil, abc: nil)
+      allow(helper).to receive_messages(blacklight_config: blacklight_config)
+      expect(helper.start_over_path(view: 'abc')).to eq search_catalog_url(view: 'abc')
     end
 
     it 'does not include the current view type if it is the default' do
-      allow(blacklight_config).to receive(:view) { { list: nil, asdf: nil} }
-      allow(helper).to receive_messages(:blacklight_config => blacklight_config)
-      expect(helper.start_over_path(:view => 'list')).to eq search_catalog_url
+      allow(blacklight_config).to receive(:view).and_return(list: nil, asdf: nil)
+      allow(helper).to receive_messages(blacklight_config: blacklight_config)
+      expect(helper.start_over_path(view: 'list')).to eq search_catalog_url
     end
   end
 
@@ -198,26 +198,28 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     let(:id) { '123456' }
     let(:data) { { 'id' => id, 'title_tsim' => [title_tsim] } }
     let(:document) { SolrDocument.new(data) }
+
     before do
       allow(controller).to receive(:action_name).and_return('index')
     end
 
     it "consists of the document title wrapped in a <a>" do
-      expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", :text => '654321', :count => 1)
+      expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", text: '654321', count: 1)
     end
 
     it "accepts and returns a string label" do
-      expect(helper.link_to_document(document, String.new('title_tsim'))).to have_selector("a", :text => 'title_tsim', :count => 1)
+      expect(helper.link_to_document(document, 'This is the title')).to have_selector("a", text: 'This is the title', count: 1)
     end
 
     it "accepts and returns a Proc" do
-      expect(helper.link_to_document(document, Proc.new { |doc, opts| doc[:id] + ": " + doc.first(:title_tsim) })).to have_selector("a", :text => '123456: 654321', :count => 1)
+      expect(helper.link_to_document(document, proc { |doc, _opts| doc[:id] + ": " + doc.first(:title_tsim) })).to have_selector("a", text: '123456: 654321', count: 1)
     end
 
     context 'when label is missing' do
       let(:data) { { 'id' => id } }
+
       it "returns id" do
-        expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", :text => '123456', :count => 1)
+        expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", text: '123456', count: 1)
       end
 
       it "is html safe" do
@@ -229,11 +231,12 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       end
 
       it "doesn't add an erroneous title attribute if one isn't provided" do
-        expect(helper.link_to_document(document, "Some crazy long label...")).to_not match(/title=/)
+        expect(helper.link_to_document(document, "Some crazy long label...")).not_to match(/title=/)
       end
 
       context "with an integer id" do
-        let(:id) { 123456 }
+        let(:id) { 123_456 }
+
         it "works" do
           expect(helper.link_to_document(document)).to have_selector("a")
         end
@@ -247,25 +250,26 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "includes the data- attributes from the options" do
-      link = helper.link_to_document document, { data: { x: 1 }  }
+      link = helper.link_to_document document, data: { x: 1 }
       expect(link).to have_selector '[data-x]'
     end
 
     it 'adds a controller-specific tracking attribute' do
       expect(helper).to receive(:track_test_path).and_return('/asdf')
-      link = helper.link_to_document document, { data: { x: 1 }  }
+      link = helper.link_to_document document, data: { x: 1 }
 
       expect(link).to have_selector '[data-context-href="/asdf"]'
     end
 
     it 'adds a global tracking attribute' do
-      link = helper.link_to_document document, { data: { x: 1 }  }
+      link = helper.link_to_document document, data: { x: 1 }
       expect(link).to have_selector '[data-context-href="/catalog/123456/track"]'
     end
   end
 
   describe "link_to_previous_search" do
     let(:params) { {} }
+
     it "links to the given search parameters" do
       allow(helper).to receive(:render_search_to_s).with(params).and_return "link text"
       expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", helper.search_action_path)
@@ -282,6 +286,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
   describe "#session_tracking_path" do
     let(:document) { SolrDocument.new(id: 1) }
+
     it "determines the correct route for the document class" do
       allow(helper).to receive(:track_test_path).with(id: have_attributes(id: 1)).and_return('x')
       expect(helper.session_tracking_path(document)).to eq 'x'

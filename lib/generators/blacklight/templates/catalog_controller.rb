@@ -12,6 +12,9 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #
     ## Model that maps search index responses to the blacklight response model
     # config.response_model = Blacklight::Solr::Response
+    #
+    ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
+    # config.raw_endpoint.enabled = false
 
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
@@ -27,7 +30,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title_tsim'
-    config.index.display_type_field = 'format'
+    #config.index.display_type_field = 'format'
     #config.index.thumbnail_field = 'thumbnail_path_ss'
 
     config.add_results_document_tool(:bookmark, partial: 'bookmark_control', if: :render_bookmarks_control?)
@@ -194,5 +197,8 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # Configuration for autocomplete suggestor
     config.autocomplete_enabled = true
     config.autocomplete_path = 'suggest'
+    # if the name of the solr.SuggestComponent provided in your solrcongig.xml is not the
+    # default 'mySuggester', uncomment and provide it below
+    # config.autocomplete_suggester = 'mySuggester'
   end
 end

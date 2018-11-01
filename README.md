@@ -34,9 +34,9 @@ rails generate blacklight:install
 
 ## Dependencies
 
-* Ruby 2.1+
+* Ruby 2.2+
 * Bundler
-* Rails 5.0+
+* Rails 5.1+
 
 ## Configuring Apache Solr
 You'll also want some information about how Blacklight expects [Apache Solr](http://lucene.apache.org/solr ) to run, which you can find in [README_SOLR](https://github.com/projectblacklight/blacklight/wiki/README_SOLR)

@@ -1,8 +1,14 @@
 .blacklight-icons {
-  display: inline-block;
+  display: inline-flex;
   height: $font-size-base;
-  vertical-align: text-top;
   width: $font-size-base;
+}
+
+.blacklight-icons svg {
+  height: 1rem;
+  width: 1rem;
+  top: .125rem;
+  position: relative;
 }
 
 @each $color, $value in $theme-colors {

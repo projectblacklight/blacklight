@@ -21,6 +21,7 @@ RSpec.describe "catalog/_sort_widget" do
     before do
       blacklight_config.add_sort_field 'one'
     end
+
     it 'renders nothing' do
       render
       expect(rendered).to be_blank
@@ -32,9 +33,10 @@ RSpec.describe "catalog/_sort_widget" do
       blacklight_config.add_sort_field 'one'
       blacklight_config.add_sort_field 'two'
     end
+
     it 'renders a dropdown with the various options' do
       render
-      
+
       expect(rendered).to have_button 'One'
       expect(rendered).to have_link 'One'
       expect(rendered).to have_link 'Two'

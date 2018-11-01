@@ -6,6 +6,15 @@ pt-BR:
       previous: '&laquo; anterior'
       next: 'próximo &raquo;'
       truncate: '…'
+      aria:
+        container_label: links de paginação
+        current_page: Página atual, Página %{page}
+        go_to_first_page: Ir para a primeira página
+        go_to_last_page: Ir para a última página
+        go_to_next_page: Ir para a próxima página
+        go_to_page: Ir para a página %{page}
+        go_to_previous_page: Ir para a página anterior
+
 
     pagination_compact:
       previous: '&laquo; ant'

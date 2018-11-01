@@ -7,5 +7,5 @@
     remote:        data-remote
 -%>
 <li class="page-item <%= 'disabled' if current_page.first? %>">
-  <%= link_to_unless current_page.first?, raw(t 'views.pagination.first'), url, :remote => remote, class: 'page-link' %>
+  <%= link_to_unless current_page.first?, raw(t 'views.pagination.first'), url, :remote => remote, class: 'page-link', aria: { label: t('views.pagination.aria.go_to_first_page') } %>
 </li>

@@ -7,7 +7,7 @@ RSpec.describe Blacklight::HashAsHiddenFieldsHelperBehavior do
       per_page: 10,
       page: 5,
       extra_arbitrary_key: "arbitrary_value",
-      f: { field1: %w(a b), field2: ["z"] } }
+      f: { field1: %w[a b], field2: ["z"] } }
   end
   let(:generated) { helper.render_hash_as_hidden_fields(params) }
 

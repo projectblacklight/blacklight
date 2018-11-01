@@ -40,8 +40,6 @@ module Blacklight::Controller
 
     define_callbacks :logging_in_user
     set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user
-
-    layout :determine_layout if respond_to? :layout
   end
 
   def default_catalog_controller

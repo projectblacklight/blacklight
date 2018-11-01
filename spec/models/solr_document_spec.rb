@@ -11,28 +11,32 @@ RSpec.describe SolrDocument, api: true do
 
       context "with title_tsim" do
         let(:field) { :title_tsim }
+
         it { is_expected.to eq 'some-title' }
       end
+
       context "with format" do
         let(:field) { :format }
+
         it { is_expected.to eq ['Book'] }
       end
     end
 
     describe "#id" do
       subject { solrdoc.id }
+
       it { is_expected.to eq '00282214' }
     end
   end
 
   describe '.attribute' do
     subject(:title) { document.title }
+
     let(:doc_class) do
       Class.new(SolrDocument) do
         attribute :title, Blacklight::Types::String, 'title_tesim'
         attribute :author, Blacklight::Types::Array, 'author_tesim'
         attribute :date, Blacklight::Types::Date, 'date_dtsi'
-
       end
     end
     let(:document) do

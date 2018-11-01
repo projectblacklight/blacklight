@@ -3,7 +3,8 @@
 RSpec.describe 'catalog/facet.html.erb' do
   let(:display_facet) { double }
   let(:blacklight_config) { Blacklight::Configuration.new }
-  before :each do
+
+  before do
     blacklight_config.add_facet_field 'xyz', label: "Facet title"
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     stub_template 'catalog/_facet_pagination.html.erb' => 'pagination'

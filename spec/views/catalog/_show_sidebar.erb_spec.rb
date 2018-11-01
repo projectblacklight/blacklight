@@ -3,14 +3,13 @@
 # spec for sidebar partial in catalog show view
 
 RSpec.describe "/catalog/_show_sidebar.html.erb" do
-
   let(:blacklight_config) do
     Blacklight::Configuration.new do |config|
       config.index.title_field = 'title_tsim'
     end
   end
 
-  before(:each) do
+  before do
     allow(controller).to receive(:action_name).and_return('show')
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view).to receive(:has_user_authentication_provider?).and_return(false)
@@ -20,8 +19,8 @@ RSpec.describe "/catalog/_show_sidebar.html.erb" do
   end
 
   it "shows more-like-this titles in the sidebar" do
-  	@document = SolrDocument.new :id => 1, :title_s => 'abc', :format => 'default'
-  	allow(@document).to receive(:more_like_this).and_return([SolrDocument.new({ 'id' => '2', 'title_tsim' => 'Title of MLT Document' })])
+    @document = SolrDocument.new id: 1, title_s: 'abc', format: 'default'
+    allow(@document).to receive(:more_like_this).and_return([SolrDocument.new('id' => '2', 'title_tsim' => 'Title of MLT Document')])
     render
     expect(rendered).to include("More Like This")
     expect(rendered).to include("Title of MLT Document")

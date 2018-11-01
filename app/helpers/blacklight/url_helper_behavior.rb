@@ -6,11 +6,18 @@ module Blacklight::UrlHelperBehavior
     search_state.url_for_document(doc, options)
   end
 
-  # link_to_document(doc, 'VIEW', :counter => 3)
-  # Use the catalog_path RESTful route to create a link to the show page for a specific item.
+  # Uses the catalog_path route to create a link to the show page for an item.
   # catalog_path accepts a hash. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
   # TODO: move this to the IndexPresenter
+  # @param doc [SolrDocument] the document
+  # @param field_or_opts [Hash, String] either a string to render as the link text or options
+  # @param opts [Hash] the options to create the link with
+  # @option opts [Number] :counter (nil) the count to set in the session (for paging through a query result)
+  # @example Passing in an image
+  #   link_to_document(doc, '<img src="thumbnail.png">', counter: 3) #=> "<a href=\"catalog/123\" data-tracker-href=\"/catalog/123/track?counter=3&search_id=999\"><img src="thumbnail.png"></a>
+  # @example With the default document link field
+  #   link_to_document(doc, counter: 3) #=> "<a href=\"catalog/123\" data-tracker-href=\"/catalog/123/track?counter=3&search_id=999\">My Title</a>
   def link_to_document(doc, field_or_opts = nil, opts = { counter: nil })
     if field_or_opts.is_a? Hash
       opts = field_or_opts

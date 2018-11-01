@@ -8,7 +8,7 @@ module Blacklight::FacetsHelperBehavior
   # @param [Array<String>] fields
   # @return [Boolean]
   def has_facet_values? fields = facet_field_names
-    facets_from_request(fields).any? { |display_facet| !display_facet.items.empty? && should_render_facet?(display_facet) }
+    facets_from_request(fields).any? { |display_facet| should_render_facet?(display_facet) }
   end
 
   ##
@@ -36,13 +36,14 @@ module Blacklight::FacetsHelperBehavior
   # @option options [Hash] :locals locals to pass to the partial
   # @return [String]
   def render_facet_limit(display_facet, options = {})
-    return unless should_render_facet?(display_facet)
+    field_config = facet_configuration_for_field(display_facet.name)
+    return unless should_render_facet?(display_facet, field_config)
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
     options[:locals] ||= {}
     options[:locals][:field_name] ||= display_facet.name
-    options[:locals][:facet_field] ||= facet_configuration_for_field(display_facet.name)
+    options[:locals][:facet_field] ||= field_config
     options[:locals][:display_facet] ||= display_facet
 
     render(options)
@@ -72,12 +73,13 @@ module Blacklight::FacetsHelperBehavior
   # By default, only render facets with items.
   #
   # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
+  # @param [Blacklight::Configuration::FacetField] facet_config
   # @return [Boolean]
-  def should_render_facet? display_facet
+  def should_render_facet? display_facet, facet_config = nil
+    return false if display_facet.items.blank?
     # display when show is nil or true
-    facet_config = facet_configuration_for_field(display_facet.name)
-    display = should_render_field?(facet_config, display_facet)
-    display && display_facet.items.present?
+    facet_config ||= facet_configuration_for_field(display_facet.name)
+    should_render_field?(facet_config, display_facet)
   end
 
   ##
@@ -103,7 +105,7 @@ module Blacklight::FacetsHelperBehavior
     config = facet_configuration_for_field(display_facet.name)
     name = config.try(:partial)
     name ||= "facet_pivot" if config.pivot
-    name ||= "facet_limit"
+    name || "facet_limit"
   end
 
   ##
@@ -183,8 +185,8 @@ module Blacklight::FacetsHelperBehavior
   # Check if the query parameters have the given facet field with the
   # given value.
   #
-  # @param [Object] field
-  # @param [Object] item facet value
+  # @param [String] field
+  # @param [String] item facet value
   # @return [Boolean]
   def facet_in_params?(field, item)
     value = facet_value_for_facet_item(item)

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 json.links do
   json.self url_for(search_state.to_h.merge(only_path: false))
   json.prev url_for(search_state.to_h.merge(only_path: false, page: @response.prev_page.to_s)) if @response.prev_page
@@ -13,44 +12,53 @@ end
 
 json.data do
   json.array! @presenter.documents do |document|
+    document_url = polymorphic_url(url_for_document(document))
     json.id document.id
+    json.type document[blacklight_config.view_config(:index).display_type_field]
     json.attributes do
       doc_presenter = index_presenter(document)
 
-      index_fields(document).each do |field_name, field|
-        if should_render_index_field? document, field
-          json.set! field_name, doc_presenter.field_value(field_name)
-        end
+      doc_presenter.fields_to_render.each do |field_name, field|
+        json.partial! 'field', field: field,
+                               field_name: field_name,
+                               document_url: document_url,
+                               doc_presenter: doc_presenter
       end
     end
 
     json.links do
-      json.self polymorphic_url(url_for_document(document))
+      json.self document_url
     end
   end
 end
 
 json.included do
-  json.array! @presenter.search_facets_as_json do |facet|
+  json.array! @presenter.search_facets do |facet|
     json.type 'facet'
-    json.id facet['name']
+    json.id facet.name
     json.attributes do
+      facet_config = facet_configuration_for_field(facet.name)
+      json.label facet_field_label(facet_config.key)
       json.items do
-        json.array! facet['items'] do |item|
+        json.array! facet.items do |item|
           json.id
           json.attributes do
-            json.label item['label']
-            json.value item['value']
-            json.hits item['hits']
+            json.label item.label
+            json.value item.value
+            json.hits item.hits
           end
           json.links do
-            json.self path_for_facet(facet['name'], item['value'], only_path: false)
+            if facet_in_params?(facet.name, item.value)
+              json.remove search_action_path(search_state.remove_facet_params(facet.name, item.value))
+            else
+              json.self path_for_facet(facet.name, item.value, only_path: false)
+            end
           end
         end
       end
     end
     json.links do
-      json.self search_facet_path(id: facet['name'], only_path: false)
+      json.self search_facet_path(id: facet.name, only_path: false)
     end
   end
 

@@ -33,7 +33,6 @@ module Blacklight::Catalog
       format.atom { render layout: false }
       format.json do
         @presenter = Blacklight::JsonPresenter.new(@response,
-                                                   facets_from_request,
                                                    blacklight_config)
       end
       additional_response_formats(format)
@@ -54,6 +53,13 @@ module Blacklight::Catalog
     end
   end
 
+  # get a single document from the index
+  def raw
+    raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled
+    _, @document = search_service.fetch(params[:id])
+    render json: @document
+  end
+
   # updates the search counter (allows the show view to paginate)
   def track
     search_session['counter'] = params[:counter]
@@ -65,7 +71,7 @@ module Blacklight::Catalog
       path = uri.query ? "#{uri.path}?#{uri.query}" : uri.path
       redirect_to path, status: 303
     else
-      redirect_to blacklight_config.document_model.new(id: params[:id]), status: 303
+      redirect_to({ action: :show, id: params[:id] }, status: 303)
     end
   end
 

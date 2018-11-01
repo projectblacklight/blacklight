@@ -2,14 +2,15 @@
 
 RSpec.describe Blacklight::ConfigurationHelperBehavior do
   let(:blacklight_config) { Blacklight::Configuration.new }
-  let(:config_value) { double() }
+  let(:config_value) { double }
 
-  before :each do
+  before do
     allow(helper).to receive_messages(blacklight_config: blacklight_config)
   end
 
   describe "#index_fields" do
     it "passes through the configuration" do
+      allow(Deprecation).to receive(:warn)
       allow(blacklight_config).to receive_messages(index_fields: config_value)
       expect(helper.index_fields).to eq config_value
     end
@@ -17,13 +18,14 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#active_sort_fields" do
     it "restricts the configured sort fields to only those that should be displayed" do
-      allow(blacklight_config).to receive_messages(sort_fields: { a: double(if: false, unless: false), b: double(if:true, unless: true) })
+      allow(blacklight_config).to receive_messages(sort_fields: { a: double(if: false, unless: false), b: double(if: true, unless: true) })
       expect(helper.active_sort_fields).to be_empty
     end
   end
 
   describe "#document_show_fields" do
     it "passes through the configuration" do
+      allow(Deprecation).to receive(:warn)
       allow(blacklight_config).to receive_messages(show_fields: config_value)
       expect(helper.document_show_fields).to eq config_value
     end
@@ -38,7 +40,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
 
     it "defaults to the first configured index view" do
-      allow(blacklight_config).to receive_messages(view: { a: true, b: true})
+      allow(blacklight_config).to receive_messages(view: { a: true, b: true })
       expect(helper.default_document_index_view_type).to eq :a
     end
   end
@@ -52,9 +54,9 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
     it "filters views using :if/:unless configuration" do
       expect(helper.document_index_views).to have_key :list
-      expect(helper.document_index_views).to_not have_key :abc
-      expect(helper.document_index_views).to_not have_key :def
-      expect(helper.document_index_views).to_not have_key :xyz
+      expect(helper.document_index_views).not_to have_key :abc
+      expect(helper.document_index_views).not_to have_key :def
+      expect(helper.document_index_views).not_to have_key :xyz
     end
   end
 
@@ -71,14 +73,14 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   end
 
   describe "#has_alternative_views?" do
+    subject { helper.has_alternative_views? }
+
     before do
       blacklight_config.view.clear
     end
 
-    subject { helper.has_alternative_views?}
-
     describe "with a single view defined" do
-      it { should be false }
+      it { is_expected.to be false }
     end
 
     describe "with multiple views defined" do
@@ -87,7 +89,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
         blacklight_config.view.xyz
       end
 
-      it { should be true }
+      it { is_expected.to be true }
     end
   end
 
@@ -122,7 +124,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#view_label" do
     it "looks up the label to display for the view" do
-      allow(blacklight_config).to receive(:view).and_return({ "my_view" => double(label: "some label", title: nil) })
+      allow(blacklight_config).to receive(:view).and_return("my_view" => double(label: "some label", title: nil))
       allow(helper).to receive(:field_label).with(:"blacklight.search.view_title.my_view", :"blacklight.search.view.my_view", "some label", nil, "My view")
 
       helper.view_label "my_view"
@@ -131,23 +133,22 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#field_label" do
     it "looks up the label as an i18n string" do
-      allow(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
+      expect(helper).to receive(:t).with(:some_key, default: []).and_return "my label"
       label = helper.field_label :some_key
 
       expect(label).to eq "my label"
     end
 
     it "passes the provided i18n keys to I18n.t" do
-      allow(helper).to receive(:t).with(:key_a, default: [:key_b, "default text"])
+      expect(helper).to receive(:t).with(:key_a, default: [:key_b, "default text"])
 
-      label = helper.field_label :key_a, :key_b, "default text"
+      helper.field_label :key_a, :key_b, "default text"
     end
 
     it "compacts nil keys (fixes rails/rails#19419)" do
-      allow(helper).to receive(:t).with(:key_a, default: [:key_b])
+      expect(helper).to receive(:t).with(:key_a, default: [:key_b])
 
-      label = helper.field_label :key_a, nil, :key_b
-
+      helper.field_label :key_a, nil, :key_b
     end
   end
 
@@ -170,6 +171,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       before do
         blacklight_config.per_page = [11, 22]
       end
+
       it "is the first per-page value if a default isn't set" do
         expect(helper.default_per_page).to eq 11
       end
@@ -206,6 +208,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     let(:field_config) { double('field config', if: true, unless: false) }
 
     before do
+      allow(Deprecation).to receive(:warn)
       allow(helper).to receive_messages(document_has_value?: true)
     end
 
@@ -225,31 +228,28 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   end
 
   describe "#search_field_options_for_select" do
-
     before do
-
       @config = Blacklight::Configuration.new do |config|
-        config.default_solr_params = { :qt => 'search' }
+        config.default_solr_params = { qt: 'search' }
 
-        config.add_search_field 'all_fields', :label => 'All Fields'
-        config.add_search_field 'title', :qt => 'title_search'
-        config.add_search_field 'author', :qt => 'author_search'
-        config.add_search_field 'subject', :qt => 'subject_search'
-        config.add_search_field 'no_display', :qt => 'something', :include_in_simple_select => false
+        config.add_search_field 'all_fields', label: 'All Fields'
+        config.add_search_field 'title', qt: 'title_search'
+        config.add_search_field 'author', qt: 'author_search'
+        config.add_search_field 'subject', qt: 'subject_search'
+        config.add_search_field 'no_display', qt: 'something', include_in_simple_select: false
       end
 
       allow(helper).to receive_messages(blacklight_config: @config)
     end
 
     it "returns proper options_for_select arguments" do
-
       select_arguments = helper.search_field_options_for_select
 
       select_arguments.each do |(label, key)|
-         config_hash = @config.search_fields[key]
+        config_hash = @config.search_fields[key]
 
-         expect(label).to eq config_hash.label
-         expect(key).to eq config_hash.key
+        expect(label).to eq config_hash.label
+        expect(key).to eq config_hash.key
       end
     end
 

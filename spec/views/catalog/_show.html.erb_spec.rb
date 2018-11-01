@@ -3,17 +3,16 @@
 # spec for default partial to display solr document fields in catalog show view
 
 RSpec.describe "/catalog/_show" do
-
   include BlacklightHelper
   include CatalogHelper
 
-  before(:each) do
+  before do
     allow(controller).to receive(:action_name).and_return('show')
     @config = Blacklight::Configuration.new do |config|
       config.show.display_type_field = 'asdf'
-      config.add_show_field 'one_field', :label => 'One:'
-      config.add_show_field 'empty_field', :label => 'Three:'
-      config.add_show_field 'four_field', :label => 'Four:'
+      config.add_show_field 'one_field', label: 'One:'
+      config.add_show_field 'empty_field', label: 'Three:'
+      config.add_show_field 'four_field', label: 'Four:'
     end
 
     @fname_1 = "one_field"
@@ -33,12 +32,12 @@ RSpec.describe "/catalog/_show" do
   end
 
   it "only displays fields listed in the initializer" do
-    expect(@rendered).to_not include("val_2")
-    expect(@rendered).to_not include(@fname_2)
+    expect(@rendered).not_to include("val_2")
+    expect(@rendered).not_to include(@fname_2)
   end
 
   it "skips over fields listed in initializer that are not in solr response" do
-    expect(@rendered).to_not include(@fname_3)
+    expect(@rendered).not_to include(@fname_3)
   end
 
   it "displays field labels from initializer and raw solr field names in the class" do
@@ -50,14 +49,14 @@ RSpec.describe "/catalog/_show" do
     expect(@rendered).to include("blacklight-#{@fname_4}")
   end
 
-# this test probably belongs in a Cucumber feature
-#  it "should display fields in the order listed in the initializer" do
-#    pending
-#  end
+  # this test probably belongs in a Cucumber feature
+  #  it "should display fields in the order listed in the initializer" do
+  #    pending
+  #  end
 
   it "has values for displayed fields" do
     expect(@rendered).to include("val_1")
     expect(@rendered).to include("val_4")
-    expect(@rendered).to_not include("val_2")
+    expect(@rendered).not_to include("val_2")
   end
 end

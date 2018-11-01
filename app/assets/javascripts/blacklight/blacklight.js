@@ -19,21 +19,23 @@ Blacklight = function () {
           listeners.push('turbolinks:load');
         } else {
           // Turbolinks < 5
-          listeners.push('page:load', 'ready');
+          listeners.push('page:load', 'DOMContentLoaded');
         }
       } else {
-        listeners.push('ready');
+        listeners.push('DOMContentLoaded');
       }
 
-      return listeners.join(' ');
+      return listeners;
     }
   };
 }();
 
 // turbolinks triggers page:load events on page transition
 // If app isn't using turbolinks, this event will never be triggered, no prob.
-$(document).on(Blacklight.listeners(), function () {
-  Blacklight.activate();
+Blacklight.listeners().forEach(function (listener) {
+  document.addEventListener(listener, function () {
+    Blacklight.activate();
+  });
 });
 
 $('.no-js').removeClass('no-js').addClass('js');
@@ -114,11 +116,11 @@ Blacklight.onLoad(function () {
 
    Pass in options for your class name and labels:
    $("form.something").blCheckboxSubmit({
-        checked_label: "Selected",
-        unchecked_label: "Select",
-        progress_label: "Saving...",
         //cssClass is added to elements added, plus used for id base
         cssClass: "toggle_my_kinda_form",
+        error: function() {
+          #optional callback
+        },
         success: function(after_success_check_state) {
           #optional callback
         }
@@ -142,7 +144,7 @@ Blacklight.onLoad(function () {
       var uniqueId = form.attr('data-doc-id') || Math.random();
       // if form is currently using method delete to change state,
       // then checkbox is currently checked
-      var checked = form.find('input[name=_method][value=delete]').size() != 0;
+      var checked = form.find('input[name=_method][value=delete]').length != 0;
 
       var checkbox = $('<input type="checkbox">').addClass(options.cssClass).attr('id', options.cssClass + '_' + uniqueId);
       var label = $('<label>').addClass(options.cssClass).attr('for', options.cssClass + '_' + uniqueId).attr('title', form.attr('title') || '');
@@ -182,10 +184,9 @@ Blacklight.onLoad(function () {
           type: form.attr('method').toUpperCase(),
           data: form.serialize(),
           error: function () {
-            alert('Error');
-            updateStateFor(checked);
             label.removeAttr('disabled');
             checkbox.removeAttr('disabled');
+            options.error.call();
           },
           success: function (data, status, xhr) {
             //if app isn't running at all, xhr annoyingly
@@ -197,10 +198,9 @@ Blacklight.onLoad(function () {
               checkbox.removeAttr('disabled');
               options.success.call(form, checked, xhr.responseJSON);
             } else {
-              alert('Error');
-              updateStateFor(checked);
               label.removeAttr('disabled');
               checkbox.removeAttr('disabled');
+              options.error.call();
             }
           }
         });
@@ -215,6 +215,9 @@ Blacklight.onLoad(function () {
   $.fn.blCheckboxSubmit.defaults = {
     //cssClass is added to elements added, plus used for id base
     cssClass: 'blCheckboxSubmit',
+    error: function () {
+      alert("Error");
+    },
     success: function () {} //callback
   };
 })(jQuery);
@@ -252,8 +255,6 @@ Blacklight.onLoad(function () {
     Blacklight.doResizeFacetLabelsAndCounts();
   });
 })(jQuery);
-//= require blacklight/core
-
 /*
   The blacklight modal plugin can display some interactions inside a Bootstrap
   modal window, including some multi-page interactions.
@@ -368,7 +369,7 @@ Blacklight.modal.receiveAjax = function (contents) {
   // important we don't execute script tags, we shouldn't.
   // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
   var container = $('<div>').append(jQuery.parseHTML(contents)).find(Blacklight.modal.containerSelector).first();
-  if (container.size() !== 0) {
+  if (container.length !== 0) {
     contents = container.html();
   }
 
@@ -444,7 +445,6 @@ Blacklight.modal.checkCloseModal = function (event) {
 Blacklight.onLoad(function () {
   Blacklight.modal.setupModal();
 });
-//= require blacklight/core
 (function ($) {
   Blacklight.doSearchContextBehavior = function () {
     if (typeof Blacklight.do_search_context_behavior == 'function') {

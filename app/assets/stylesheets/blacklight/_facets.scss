@@ -19,12 +19,6 @@
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
     &#{$infix} {
-      @include media-breakpoint-down($breakpoint) {
-        .top-panel-heading {
-          margin-right: 3em;
-        }
-      }
-
       @include media-breakpoint-up($next) {
 
         // scss-lint:disable ImportantRule
@@ -42,11 +36,6 @@
   }
 }
 
-.top-panel-heading {
-  @extend .navbar-light;
-  @extend .clearfix;
-}
-
 .facets-heading {
   @extend .h4;
   line-height: inherit;
@@ -55,7 +44,7 @@
 .facet-limit {
   margin-bottom: $spacer;
 
-  .card-block {
+  .card-body {
     padding: $spacer;
   }
 }
@@ -147,7 +136,7 @@
   }
 }
 
- 
+
 
 /* style for pivot facet's nested list */
 

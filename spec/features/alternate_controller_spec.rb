@@ -4,7 +4,7 @@ RSpec.describe "Alternate Controller Behaviors" do
   it "has the correct per-page form" do
     visit search_alternate_path
     expect(page).to have_selector("form[action='#{search_alternate_url}']")
-    fill_in "q", :with=>"history"
+    fill_in "q", with: "history"
     click_button 'search'
     expect(current_path).to match /#{search_alternate_path}/
     within "#per_page-dropdown .dropdown-menu" do
@@ -16,7 +16,7 @@ RSpec.describe "Alternate Controller Behaviors" do
   it "has the correct search field form" do
     visit search_alternate_path
     expect(page).to have_selector("form[action='#{search_alternate_url}']")
-    fill_in "q", :with=>"history"
+    fill_in "q", with: "history"
     click_button 'search'
     expect(current_path).to match /#{search_alternate_path}/
     click_on 'relevance'
@@ -26,7 +26,7 @@ RSpec.describe "Alternate Controller Behaviors" do
   it "displays document thumbnails" do
     visit search_alternate_path
     expect(page).to have_selector("form[action='#{search_alternate_url}']")
-    fill_in "q", :with=>"history"
+    fill_in "q", with: "history"
     click_button 'search'
     expect(page).to have_selector ".document-thumbnail"
     expect(page).to have_selector ".document-thumbnail a[data-context-href]"

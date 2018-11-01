@@ -12,6 +12,7 @@ RSpec.describe Blacklight::LinkAlternatePresenter do
   let(:search_state) { Blacklight::SearchState.new(params, config, controller) }
 
   let(:presenter) { described_class.new(view_context, document, options) }
+
   before do
     allow(view_context).to receive(:search_state).and_return(search_state)
     allow(view_context).to receive(:polymorphic_url) do |doc, opts|
@@ -21,11 +22,13 @@ RSpec.describe Blacklight::LinkAlternatePresenter do
 
   describe "#render" do
     subject { presenter.render }
+
     let(:expected_html) do
       '<link rel="alternate" title="xml" type="application/xml" href="http://test.host/catalog/9999.xml" />' \
       '<link rel="alternate" title="dc_xml" type="text/xml" href="http://test.host/catalog/9999.dc_xml" />' \
       '<link rel="alternate" title="oai_dc_xml" type="text/xml" href="http://test.host/catalog/9999.oai_dc_xml" />'
     end
+
     it { is_expected.to be_equivalent_to expected_html }
   end
 end

@@ -9,28 +9,35 @@ RSpec.describe Blacklight::Rendering::Pipeline do
 
   describe "render" do
     subject { presenter.render }
-    let(:values) { ['a', 'b'] }
+
+    let(:values) { %w[a b] }
     let(:field_config) { Blacklight::Configuration::NullField.new }
+
     it { is_expected.to eq "a and b" }
 
     context "when separator_options are in the config" do
-      let(:values) { ['c', 'd'] }
-      let(:field_config) { Blacklight::Configuration::NullField.new(itemprop: nil, separator_options: { two_words_connector: '; '}) }
+      let(:values) { %w[c d] }
+      let(:field_config) { Blacklight::Configuration::NullField.new(itemprop: nil, separator_options: { two_words_connector: '; ' }) }
+
       it { is_expected.to eq "c; d" }
     end
 
     context "when itemprop is in the config" do
       let(:values) { ['a'] }
       let(:field_config) { Blacklight::Configuration::NullField.new(itemprop: 'some-prop', separator_options: nil) }
-      it { is_expected.to have_selector("span[@itemprop='some-prop']", :text => "a") }
+
+      it { is_expected.to have_selector("span[@itemprop='some-prop']", text: "a") }
     end
   end
 
   describe "#operations" do
     subject { described_class.operations }
-    it { is_expected.to eq [Blacklight::Rendering::HelperMethod,
-                            Blacklight::Rendering::LinkToFacet,
-                            Blacklight::Rendering::Microdata,
-                            Blacklight::Rendering::Join] }
+
+    it {
+      is_expected.to eq [Blacklight::Rendering::HelperMethod,
+                         Blacklight::Rendering::LinkToFacet,
+                         Blacklight::Rendering::Microdata,
+                         Blacklight::Rendering::Join]
+    }
   end
 end

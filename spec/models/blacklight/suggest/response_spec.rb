@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::Suggest::Response, api: true do
-  let(:empty_response) { described_class.new({}, { q: 'hello' }, 'suggest') }
+  let(:empty_response) { described_class.new({}, { q: 'hello' }, 'suggest', 'mySuggester') }
   let(:full_response) do
     described_class.new(
       {
@@ -36,7 +36,8 @@ RSpec.describe Blacklight::Suggest::Response, api: true do
       {
         q: 'new'
       },
-      'suggest'
+      'suggest',
+      'mySuggester'
     )
   end
 
@@ -45,6 +46,7 @@ RSpec.describe Blacklight::Suggest::Response, api: true do
       expect(empty_response).to be_an Blacklight::Suggest::Response
     end
   end
+
   describe '#suggestions' do
     it 'returns an array of suggestions' do
       expect(full_response.suggestions).to be_an Array

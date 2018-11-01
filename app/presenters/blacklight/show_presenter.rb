@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
-  class ShowPresenter
-    attr_reader :document, :configuration, :view_context
-
+  class ShowPresenter < DocumentPresenter
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
@@ -58,14 +56,19 @@ module Blacklight
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [String] field
+    # @param [Configuration::Field] field
     # @param [Hash] options
     # @option options [String] :value
     def field_value field, options = {}
-      field_values(field_config(field), options)
+      field_values(field, options)
     end
 
     private
+
+    # @return [Hash<String,Configuration::Field>]
+    def fields
+      configuration.show_fields_for(document)
+    end
 
     ##
     # Get the value for a document's field, and prepare to render it.

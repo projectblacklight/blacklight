@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::SearchBuilder, api: true do
+  subject(:builder) { described_class.new processor_chain, scope }
+
   let(:processor_chain) { [] }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:scope) { double blacklight_config: blacklight_config }
-  subject(:builder) { described_class.new processor_chain, scope }
 
   context "with default processor chain" do
     subject { described_class.new scope }
+
     it "uses the class-level default_processor_chain" do
       expect(subject.processor_chain).to eq []
     end
@@ -31,6 +33,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
 
   describe "#processor_chain" do
     let(:processor_chain) { [:a, :b, :c] }
+
     it "is mutable" do
       subject.processor_chain.insert(-1, :d)
       expect(subject.processor_chain).to match_array [:a, :b, :c, :d]
@@ -39,6 +42,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
 
   describe "#append" do
     let(:processor_chain) { [:a, :b, :c] }
+
     it "provides a new search builder with the processor chain" do
       builder = subject.append(:d, :e)
       expect(subject.processor_chain).to eq processor_chain
@@ -49,6 +53,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
 
   describe "#except" do
     let(:processor_chain) { [:a, :b, :c, :d, :e] }
+
     it "provide a new search builder excepting arguments" do
       builder = subject.except(:b, :d, :does_not_exist)
       expect(builder).not_to equal(subject)
@@ -69,11 +74,13 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
 
   describe "#merge" do
     let(:processor_chain) { [:pass_through] }
+
     before do
       allow(subject).to receive(:pass_through) do |req_params|
         req_params.replace subject.blacklight_params
       end
     end
+
     it "overwrites the processed parameters" do
       actual = subject.with(q: 'abc').merge(q: 'xyz')
       expect(actual[:q]).to eq 'xyz'
@@ -82,6 +89,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
 
   describe "#reverse_merge" do
     let(:processor_chain) { [:pass_through] }
+
     before do
       allow(subject).to receive(:pass_through) do |req_params|
         req_params.replace subject.blacklight_params
@@ -176,8 +184,9 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
     end
 
     context "when the user provides an sort parameter" do
-      let(:builder_with_param) { builder.with(sort: 'x') }
       subject(:sort) { builder_with_param.send(:sort) }
+
+      let(:builder_with_param) { builder.with(sort: 'x') }
 
       context "that is invalid" do
         it "removes them" do

@@ -5,34 +5,32 @@ RSpec.describe "catalog/_facets" do
 
   before do
     allow(view).to receive_messages(blacklight_config: blacklight_config)
-    allow(view).to receive(:search_action_path) do |*args|
-      '/catalog'
-    end
+    allow(view).to receive(:search_action_path).and_return('/catalog')
   end
 
   context "without any facet fields" do
     it "does not have a header if no facets are displayed" do
-      allow(view).to receive_messages(:render_facet_partials => '')
+      allow(view).to receive_messages(render_facet_partials: '')
       render
-      expect(rendered).to_not have_selector('h4')
+      expect(rendered).not_to have_selector('h4')
     end
   end
-  context "with facet fields" do
 
+  context "with facet fields" do
     let :facet_field do
       Blacklight::Configuration::FacetField.new(field: 'facet_field_1', label: 'label').normalize!
     end
 
     before do
       blacklight_config.facet_fields['facet_field_1'] = facet_field
-      @mock_display_facet_1 = double(:name => 'facet_field_1', sort: nil, offset: nil, prefix: nil, :items => [Blacklight::Solr::Response::Facets::FacetItem.new(:value => 'Value', :hits => 1234)])
-      allow(view).to receive_messages(:facet_field_names => [:facet_field_1], :facet_limit_for => 10)
-      @response = double()
+      @mock_display_facet_1 = double(name: 'facet_field_1', sort: nil, offset: nil, prefix: nil, items: [Blacklight::Solr::Response::Facets::FacetItem.new(value: 'Value', hits: 1234)])
+      allow(view).to receive_messages(facet_field_names: [:facet_field_1], facet_limit_for: 10)
+      @response = double
       allow(@response).to receive(:aggregations).and_return("facet_field_1" => @mock_display_facet_1)
     end
 
     it "has a header" do
-      allow(view).to receive_messages(:render_facet_partials => '')
+      allow(view).to receive_messages(render_facet_partials: '')
       render
       expect(rendered).to have_selector('.facets-heading')
     end

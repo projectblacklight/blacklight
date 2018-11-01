@@ -6,6 +6,14 @@ de:
       previous: '&laquo; Voherige'
       next: 'Nächste &raquo;'
       truncate: '…'
+      aria:
+        container_label: Paginierungslinks
+        current_page: Aktuelle Seite, Seite %{page}
+        go_to_first_page: Gehe zur ersten Seite
+        go_to_last_page: Gehe zur letzten Seite
+        go_to_next_page: Gehe zur nächsten Seite
+        go_to_page: Gehe zur Seite %{page}
+        go_to_previous_page: Zurück zur letzten Seite
 
     pagination_compact:
       previous: '&laquo; Voherige'

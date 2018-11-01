@@ -6,12 +6,11 @@ module Blacklight
         @defaults = defaults
       end
 
-      def call(mapper, options = {})
-        options = @defaults.merge(options)
-
+      def call(mapper, _options = {})
         mapper.match '/', action: 'index', as: 'search', via: [:get, :post]
 
         mapper.post ":id/track", action: 'track', as: 'track'
+        mapper.get ":id/raw", action: 'raw', as: 'raw', defaults: { format: 'json' }
 
         mapper.get "opensearch"
         mapper.get 'suggest', as: 'suggest_index', defaults: { format: 'json' }
