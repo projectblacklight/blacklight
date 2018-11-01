@@ -676,4 +676,85 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       expect(subject.with_ex_local_param(nil, "some-value")).to eq "some-value"
     end
   end
+
+  describe "#solr_q_with_local_params" do
+    let(:blacklight_config) do
+      config = Blacklight::Configuration.new
+      config.add_search_field("test_field")
+      config
+    end
+    let(:user_params) { { search_field: "test_field", q: "test query" } }
+    let(:solr_parameters) { Blacklight::Solr::Request.new }
+
+    before do
+      subject.solr_q_with_local_params(solr_parameters)
+    end
+
+    it "always sets solr_parameters[:defType] to lucene" do
+      expect(solr_parameters[:defType]).to eq("lucene")
+    end
+
+    context "with search field def_type present and search field solr_local_parameters" do
+      let(:blacklight_config) do
+        config = Blacklight::Configuration.new
+        config.add_search_field("test_field", def_type: "foo", solr_local_parameters: { "bizz" => "buzz" })
+        config
+      end
+
+      it "adds both deftype and solr_local_parameters" do
+        expect(solr_parameters[:q]).to eq("{!foo bizz=buzz}test query")
+      end
+    end
+
+    context "with search field deftype present and no search field solr_local_parameters" do
+      let(:blacklight_config) do
+        config = Blacklight::Configuration.new
+        config.add_search_field("test_field", def_type: "foo")
+        config
+      end
+
+      it "adds deftype to local params" do
+        expect(solr_parameters[:q]).to eq("{!foo }test query")
+      end
+    end
+
+    context "with solr params deftype and search field local params" do
+      let(:solr_parameters) { Blacklight::Solr::Request.new defType: "foo" }
+      let(:blacklight_config) do
+        config = Blacklight::Configuration.new
+        config.add_search_field("test_field", solr_local_parameters: { "bizz" => "buzz" })
+        config
+      end
+
+      it "adds both deftype and solr_local_parameters" do
+        expect(solr_parameters[:q]).to eq("{!foo bizz=buzz}test query")
+      end
+    end
+
+    context "with solr params deftype and no search field local params" do
+      let(:solr_parameters) { Blacklight::Solr::Request.new defType: "foo" }
+
+      it "only adds deftype to local params" do
+        expect(solr_parameters[:q]).to eq("{!foo }test query")
+      end
+    end
+
+    context "with only search field solr_local_parameters present" do
+      let(:blacklight_config) do
+        config = Blacklight::Configuration.new
+        config.add_search_field("test_field", solr_local_parameters: { "bizz" => "buzz" })
+        config
+      end
+
+      it "only adds solr_local_parameters to local params" do
+        expect(solr_parameters[:q]).to eq("{!bizz=buzz}test query")
+      end
+    end
+
+    context "with neither deftype nor local params" do
+      it "does not add local param values" do
+        expect(solr_parameters[:q]).to eq("{!}test query")
+      end
+    end
+  end
 end
