@@ -53,6 +53,13 @@ module Blacklight::Catalog
     end
   end
 
+  # get a single document from the index
+  def raw
+    raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled
+    _, @document = search_service.fetch(params[:id])
+    render json: @document
+  end
+
   # updates the search counter (allows the show view to paginate)
   def track
     search_session['counter'] = params[:counter]
