@@ -655,16 +655,6 @@ Style/RedundantFreeze:
   Exclude:
     - 'app/helpers/blacklight/render_partials_helper_behavior.rb'
 
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, AllowInnerSlashes.
-# SupportedStyles: slashes, percent_r, mixed
-Style/RegexpLiteral:
-  Exclude:
-    - 'app/views/catalog/_document.atom.builder'
-    - 'spec/helpers/blacklight/url_helper_behavior_spec.rb'
-    - 'spec/views/catalog/_thumbnail.html.erb_spec.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
