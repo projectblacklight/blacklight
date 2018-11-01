@@ -649,12 +649,6 @@ Style/RedundantBegin:
   Exclude:
     - 'lib/blacklight/configuration/fields.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/RedundantFreeze:
-  Exclude:
-    - 'app/helpers/blacklight/render_partials_helper_behavior.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
