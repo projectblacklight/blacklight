@@ -132,8 +132,8 @@ module Blacklight::RenderPartialsHelperBehavior
   def type_field_to_partial_name(_document, display_type)
     # using "_" as sep. to more closely follow the views file naming conventions
     # parameterize uses "-" as the default sep. which throws errors
-    underscore = '_'.freeze
-    Array(display_type).join(' '.freeze).tr('-'.freeze, underscore).parameterize(separator: underscore)
+    underscore = '_'
+    Array(display_type).join(' ').tr('-', underscore).parameterize(separator: underscore)
   end
 
   ##
