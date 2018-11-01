@@ -5,7 +5,7 @@ require 'base64'
 xml.instruct!(:xml, encoding: "UTF-8")
 
 xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
-         "xmlns:opensearch"=>"http://a9.com/-/spec/opensearch/1.1/") do
+         "xmlns:opensearch" => "http://a9.com/-/spec/opensearch/1.1/") do
 
   xml.title   t('blacklight.search.page_title.title', constraints: render_search_to_page_title(params), application_name: application_name)
   # an author is required, so we'll just use the app name
@@ -35,7 +35,7 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   # used as an example in opensearch docs
   xml.link( "rel" => "search",
             "type" => "application/opensearchdescription+xml",
-            "href" =>  url_for(controller: 'catalog',action: 'opensearch', format: 'xml', only_path: false))
+            "href" => url_for(controller: 'catalog',action: 'opensearch', format: 'xml', only_path: false))
 
   # opensearch response elements
   xml.opensearch :totalResults, @response.total.to_s

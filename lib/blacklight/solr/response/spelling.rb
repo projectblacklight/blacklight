@@ -71,6 +71,7 @@ module Blacklight::Solr::Response::Spelling
       # FIXME: DRY up with words
       spellcheck = response[:spellcheck]
       return unless spellcheck && spellcheck[:suggestions]
+
       suggestions = spellcheck[:suggestions]
 
       if suggestions.is_a?(Array) && suggestions.index("collation")

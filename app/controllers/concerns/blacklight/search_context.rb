@@ -74,6 +74,7 @@ module Blacklight::SearchContext
   def agent_is_crawler?
     crawler_proc = blacklight_config.crawler_detector
     return false if crawler_proc.nil? || current_user.present?
+
     crawler_proc.call(request)
   end
 

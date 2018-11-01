@@ -154,6 +154,7 @@ RSpec.describe Blacklight::SearchState do
 
         params.each_pair do |key, _value|
           next if key == :f
+
           expect(result_params[key]).to eq params[key]
         end
       end
@@ -191,6 +192,7 @@ RSpec.describe Blacklight::SearchState do
 
         params.each_pair do |key, _value|
           next if key == 'f'
+
           expect(result_params[key]).to eq params[key]
         end
       end

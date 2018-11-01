@@ -34,6 +34,7 @@ module Blacklight
     def thumbnail_tag image_options = {}, url_options = {}
       value = thumbnail_value(image_options)
       return value if value.nil? || url_options[:suppress_link]
+
       view_context.link_to_document document, value, url_options
     end
 

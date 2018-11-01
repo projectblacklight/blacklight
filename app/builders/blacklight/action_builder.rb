@@ -16,6 +16,7 @@ module Blacklight
     # doesn't already exist or the `:define_method` option is not `false`
     def build
       return if skip?
+
       callback = opts.fetch(:callback, nil).inspect
       validator = opts.fetch(:validator, nil).inspect
       klass.class_eval <<EORUBY, __FILE__, __LINE__ + 1

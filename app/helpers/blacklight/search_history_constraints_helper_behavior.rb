@@ -52,6 +52,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # Render the name of the facet
   def render_filter_name name
     return "".html_safe if name.blank?
+
     content_tag(:span,
                 t('blacklight.search.filters.label', label: name),
                 class: 'filter-name')

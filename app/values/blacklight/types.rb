@@ -19,6 +19,7 @@ module Blacklight
       def self.coerce(input)
         field = String.coerce(input)
         return if field.blank?
+
         begin
           ::Date.parse(field)
         rescue ArgumentError

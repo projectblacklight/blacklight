@@ -37,6 +37,7 @@ module Blacklight
     # @return [String]
     def file_source
       raise Blacklight::Exceptions::IconNotFound, "Could not find #{path}" if file.blank?
+
       file.source.force_encoding('UTF-8')
     end
 

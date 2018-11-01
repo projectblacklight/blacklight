@@ -10,8 +10,18 @@ AllCops:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"
 
-Rails:
-  Enabled: true
+# engine_cart block includes conditional, not duplication
+Bundler/DuplicatedGem:
+  Exclude:
+  - 'Gemfile'
+
+# engine_cart block is following default Rails order
+Bundler/OrderedGems:
+  Exclude:
+  - 'Gemfile'
+
+Layout/IndentationConsistency:
+  EnforcedStyle: normal
 
 Metrics/BlockLength:
   Exclude:
@@ -29,28 +39,26 @@ Metrics/LineLength:
   Exclude:
     - 'spec/**/*'
 
-Style/StringLiterals:
+Naming/HeredocDelimiterNaming:
   Enabled: false
 
-Layout/IndentationConsistency:
-  EnforcedStyle: normal
+Naming/PredicateName:
+  NamePrefixBlacklist:
+    - is_
+
+Rails:
+  Enabled: true
 
 Rails/OutputSafety:
+  Enabled: false
+
+# https://github.com/rubocop-hq/rubocop/issues/6439
+Style/AccessModifierDeclarations:
   Enabled: false
 
 Style/MissingRespondToMissing:
   Exclude:
   - 'lib/blacklight/nested_open_struct_with_hash_access.rb'
 
-# engine_cart block includes conditional, not duplication
-Bundler/DuplicatedGem:
-  Exclude:
-  - 'Gemfile'
-
-# engine_cart block is following default Rails order
-Bundler/OrderedGems:
-  Exclude:
-  - 'Gemfile'
-
-Naming/HeredocDelimiterNaming:
+Style/StringLiterals:
   Enabled: false

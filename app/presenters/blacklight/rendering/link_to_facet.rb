@@ -6,6 +6,7 @@ module Blacklight
       extend Deprecation
       def render
         return next_step(values) unless config.link_to_facet
+
         next_step(render_link)
       end
 
@@ -18,6 +19,7 @@ module Blacklight
 
       def link_field
         return config.key if config.link_to_facet == true
+
         config.link_to_facet
       end
 

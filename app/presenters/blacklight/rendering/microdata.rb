@@ -6,6 +6,7 @@ module Blacklight
       include ActionView::Helpers::TagHelper
       def render
         return next_step(values) unless config.itemprop
+
         next_step(values.map { |x| itemprop(x, config.itemprop) })
       end
 

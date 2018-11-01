@@ -34,10 +34,10 @@ RSpec.describe Blacklight::Rendering::Pipeline do
     subject { described_class.operations }
 
     it {
-      is_expected.to eq [Blacklight::Rendering::HelperMethod,
-                         Blacklight::Rendering::LinkToFacet,
-                         Blacklight::Rendering::Microdata,
-                         Blacklight::Rendering::Join]
+      expect(subject).to eq [Blacklight::Rendering::HelperMethod,
+                             Blacklight::Rendering::LinkToFacet,
+                             Blacklight::Rendering::Microdata,
+                             Blacklight::Rendering::Join]
     }
   end
 end

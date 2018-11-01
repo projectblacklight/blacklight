@@ -418,14 +418,14 @@ RSpec.describe CatalogController, api: true do
         expect(search_service).to receive(:fetch).and_return([nil, SolrDocument.new(id: 'my_fake_doc')])
       end
 
+      after do
+        SolrDocument.registered_extensions.pop # remove the fake extension
+      end
+
       it "responds to an extension-registered format properly" do
         get :show, params: { id: doc_id, format: 'mock' }
         expect(response).to be_successful
         expect(response.body).to match /mock_export/
-      end
-
-      after do
-        SolrDocument.registered_extensions.pop # remove the fake extension
       end
     end # dynamic export formats
   end # describe show action
