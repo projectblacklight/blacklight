@@ -19,14 +19,21 @@ module Blacklight::UrlHelperBehavior
   # @example With the default document link field
   #   link_to_document(doc, counter: 3) #=> "<a href=\"catalog/123\" data-tracker-href=\"/catalog/123/track?counter=3&search_id=999\">My Title</a>
   def link_to_document(doc, field_or_opts = nil, opts = { counter: nil })
-    if field_or_opts.is_a? Hash
-      opts = field_or_opts
-    else
-      field = field_or_opts
-    end
+    label = case field_or_opts
+            when NilClass
+              index_presenter(doc).label document_show_link_field(doc), opts
+            when Hash
+              opts = field_or_opts
+              index_presenter(doc).label document_show_link_field(doc), opts
+            when Proc, Symbol
+              Deprecation.warn(self, "passing a #{field_or_opts.class} to link_to_document is deprecated and will be removed in Blacklight 8")
+              Deprecation.silence(Blacklight::IndexPresenter) do
+                index_presenter(doc).label field_or_opts, opts
+              end
+            else # String
+              field_or_opts
+            end
 
-    field ||= document_show_link_field(doc)
-    label = index_presenter(doc).label field, opts
     link_to label, url_for_document(doc), document_link_params(doc, opts)
   end
 
