@@ -42,6 +42,7 @@ module Blacklight
           document_unique_id_param: :ids,
           # Default values of parameters to send when requesting a single document
           default_document_solr_params: {},
+          fetch_many_document_params: {},
           document_pagination_params: {},
           ##
           # == Response models
