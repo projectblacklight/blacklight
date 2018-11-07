@@ -314,6 +314,24 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
   end
 
+  describe 'Get multiple documents By Id', integration: true do
+    let(:doc_id) { '2007020969' }
+    let(:bad_id) { 'redrum' }
+    let(:response) { service.fetch([doc_id]).first }
+
+    before do
+      blacklight_config.fetch_many_document_params[:fl] = 'id,format'
+    end
+
+    it 'has the expected value in the id field' do
+      expect(response.documents.first.id).to eq doc_id
+    end
+
+    it 'returns all the requested fields' do
+      expect(response.documents.first['format']).to eq ['Book']
+    end
+  end
+
   # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions", integration: true do
     context "for just-poor-enough-query term" do
