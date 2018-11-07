@@ -95,7 +95,7 @@ module Blacklight::Controller
 
   # Returns a list of Searches from the ids in the user's history.
   def searches_from_history
-    session[:history].blank? ? Search.none : Search.where(id: session[:history]).order("updated_at desc")
+    session[:history].blank? ? ::Search.none : ::Search.where(id: session[:history]).order("updated_at desc")
   end
 
   # Should be provided by authentication provider
