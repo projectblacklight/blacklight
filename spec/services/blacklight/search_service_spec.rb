@@ -11,7 +11,7 @@
 RSpec.describe Blacklight::SearchService, api: true do
   subject { service }
 
-  let(:service) { described_class.new(blacklight_config, user_params) }
+  let(:service) { described_class.new(config: blacklight_config, user_params: user_params) }
   let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
   let(:user_params) { {} }
 
@@ -27,6 +27,24 @@ RSpec.describe Blacklight::SearchService, api: true do
   before do
     allow(service).to receive(:repository).and_return(repository)
     service.repository.connection = blacklight_solr
+  end
+
+  describe '#search_builder_class' do
+    subject { service.send(:search_builder_class) }
+
+    it 'defaults to the value in the config' do
+      expect(subject).to eq SearchBuilder
+    end
+
+    context 'when the search_builder_class is passed in' do
+      let(:klass) { double("Search builder") }
+
+      let(:service) { described_class.new(config: blacklight_config, user_params: user_params, search_builder_class: klass) }
+
+      it 'uses the passed value' do
+        expect(subject).to eq klass
+      end
+    end
   end
 
   # SPECS FOR SEARCH RESULTS FOR QUERY
