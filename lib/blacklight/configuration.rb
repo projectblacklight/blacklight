@@ -57,6 +57,7 @@ module Blacklight
             #rows: 1
           },
           document_pagination_params: {},
+          fetch_many_document_params: nil,
           ##
           # == Response models
           ## Class for sending and receiving requests from a search index

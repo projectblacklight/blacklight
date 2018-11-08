@@ -16,13 +16,13 @@ describe Blacklight::SearchHelper do
   class SearchHelperTestClass
     include Blacklight::SearchHelper
 
-    attr_accessor :blacklight_config
-    attr_accessor :repository
+    attr_accessor :blacklight_config, :repository, :search_state
 
-    def initialize blacklight_config, conn
+    def initialize blacklight_config, conn, state
       self.blacklight_config = blacklight_config
       self.repository = Blacklight::Solr::Repository.new(blacklight_config)
       self.repository.connection = conn
+      self.search_state = search_state
     end
 
     def params
@@ -30,11 +30,12 @@ describe Blacklight::SearchHelper do
     end
   end
 
-  subject { SearchHelperTestClass.new blacklight_config, blacklight_solr }
+  subject { SearchHelperTestClass.new blacklight_config, blacklight_solr, state }
 
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
   let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config.except(:adapter)) }
+  let(:state) { {} }
 
   before(:each) do
     @all_docs_query = ''
@@ -307,6 +308,24 @@ describe Blacklight::SearchHelper do
     end
   end
 
+  describe 'Get multiple documents By Id', integration: true do
+    let(:doc_id) { '2007020969' }
+    let(:bad_id) { 'redrum' }
+    let(:response) { subject.fetch([doc_id]).first }
+
+    before do
+      blacklight_config.fetch_many_document_params = { fl: 'id,format' }
+    end
+
+    it 'has the expected value in the id field' do
+      expect(response.documents.first.id).to eq doc_id
+    end
+
+    it 'returns all the requested fields' do
+      expect(response.documents.first['format']).to eq 'Book'
+    end
+  end
+
 # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions", :integration => true do
     it 'search results for just-poor-enough-query term should have (multiple) spelling suggestions' do
@@ -377,7 +396,7 @@ describe Blacklight::SearchHelper do
       it "returns nil if no @response available" do
         expect(subject.facet_limit_for("some_unknown_field")).to be_nil
       end
-      it "gets from @response facet.limit if available" do        
+      it "gets from @response facet.limit if available" do
         @response = instance_double(Blacklight::Solr::Response, aggregations: { "language_facet" => double(limit: nil) })
         subject.instance_variable_set(:@response, @response)
         blacklight_config.facet_fields['language_facet'].limit = 10
@@ -392,7 +411,7 @@ describe Blacklight::SearchHelper do
         expect(subject.facet_limit_for("language_facet")).to eq 10
       end
     end
-    
+
     context 'for facet fields with a key that is different from the field name' do
       let(:blacklight_config) do
         Blacklight::Configuration.new do |config|
@@ -424,11 +443,11 @@ describe Blacklight::SearchHelper do
     it "pulls the grouped key out of the config" do
       blacklight_config.index.group = 'xyz'
       expect(subject.grouped_key_for_results).to eq('xyz')
-    end 
+    end
   end
 
   describe "#get_previous_and_next_documents_for_search" do
-    let(:pre_query) { SearchHelperTestClass.new blacklight_config, blacklight_solr }
+    let(:pre_query) { SearchHelperTestClass.new blacklight_config, blacklight_solr, state }
     before do
       @full_response, @all_docs = pre_query.search_results(q: '', per_page: '100')
     end

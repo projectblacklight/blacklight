@@ -141,8 +141,9 @@ module Blacklight::SearchHelper
       query = search_builder.
                 with(user_params).
                 where(blacklight_config.document_model.unique_key => ids).
-                merge(extra_controller_params).
-                merge(fl: '*')
+                merge(blacklight_config.fetch_many_document_params || deprecated_fetch_many_document_params).
+                merge(extra_controller_params)
+
       solr_response = repository.search(query)
 
       [solr_response, solr_response.documents]
@@ -151,5 +152,10 @@ module Blacklight::SearchHelper
     def fetch_one(id, extra_controller_params)
       solr_response = repository.find id, extra_controller_params
       [solr_response, solr_response.documents.first]
+    end
+
+    def deprecated_fetch_many_document_params
+      Deprecation.warn(self, 'You should configure blacklight_config.fetch_many_document_params; defaulting to { fl: "*" }, but this will be removed in Blacklight 7')
+      { fl: '*' }
     end
 end
