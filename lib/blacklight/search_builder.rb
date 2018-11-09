@@ -109,6 +109,7 @@ module Blacklight
     # @return [Blacklight::Solr::Response] the solr response object
     def to_hash
       return @params unless params_need_update?
+
       @params = processed_parameters
                   .reverse_merge(@reverse_merged_params)
                   .merge(@merged_params)
@@ -227,6 +228,7 @@ module Blacklight
                      blacklight_config.sort_fields[blacklight_params[:sort]]
                    end
       return sort_field.sort if sort_field.present?
+
       Blacklight.logger.warn "Invalid sort field: '#{blacklight_params[:sort]}' was provided."
       nil
     end

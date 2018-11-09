@@ -53,7 +53,7 @@ RSpec.describe "catalog/index.json", api: true do
   it "has pagination information" do
     expect(hash).to include(meta: hash_including(pages:
       {
-        'current_page' =>  1,
+        'current_page' => 1,
         'next_page' => 2,
         'prev_page' => nil
       }))

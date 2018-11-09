@@ -42,6 +42,7 @@ module Blacklight::BlacklightHelperBehavior
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output
   def render_link_rel_alternates(document = @document, options = {})
     return if document.nil?
+
     presenter(document).link_rel_alternates(options)
   end
 

@@ -38,6 +38,7 @@ module Blacklight::FacetsHelperBehavior
   def render_facet_limit(display_facet, options = {})
     field_config = facet_configuration_for_field(display_facet.name)
     return unless should_render_facet?(display_facet, field_config)
+
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
@@ -77,6 +78,7 @@ module Blacklight::FacetsHelperBehavior
   # @return [Boolean]
   def should_render_facet? display_facet, facet_config = nil
     return false if display_facet.items.blank?
+
     # display when show is nil or true
     facet_config ||= facet_configuration_for_field(display_facet.name)
     should_render_field?(facet_config, display_facet)
@@ -223,8 +225,7 @@ module Blacklight::FacetsHelperBehavior
       facet_config.query[value][:label]
     elsif facet_config.date
       localization_options = facet_config.date == true ? {} : facet_config.date
-
-      l(value.to_datetime, localization_options)
+      l(Time.zone.parse(value), localization_options)
     else
       value
     end

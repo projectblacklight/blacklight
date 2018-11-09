@@ -56,6 +56,7 @@ module Blacklight::Catalog
   # get a single document from the index
   def raw
     raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled
+
     _, @document = search_service.fetch(params[:id])
     render json: @document
   end
@@ -79,6 +80,7 @@ module Blacklight::Catalog
   def facet
     @facet = blacklight_config.facet_fields[params[:id]]
     raise ActionController::RoutingError, 'Not Found' unless @facet
+
     @response = search_service.facet_field_response(@facet.key)
     @display_facet = @response.aggregations[@facet.field]
     @pagination = facet_paginator(@facet, @display_facet)

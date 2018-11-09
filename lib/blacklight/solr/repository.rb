@@ -12,6 +12,7 @@ module Blacklight::Solr
 
       solr_response = send_and_receive blacklight_config.document_solr_path || blacklight_config.solr_path, doc_params
       raise Blacklight::Exceptions::RecordNotFound if solr_response.documents.empty?
+
       solr_response
     end
 

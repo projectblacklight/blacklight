@@ -47,6 +47,7 @@ module Blacklight
       connection_config[:adapter].constantize
     else
       raise "The value for :adapter was not found in the blacklight.yml config" unless connection_config.key? :adapter
+
       Blacklight.const_get("#{connection_config.fetch(:adapter)}/Repository".classify)
     end
   end
@@ -60,6 +61,7 @@ module Blacklight
   def self.connection_config
     Blacklight::RuntimeRegistry.connection_config ||= begin
       raise "The #{::Rails.env} environment settings were not found in the blacklight.yml config" unless blacklight_yml[::Rails.env]
+
       blacklight_yml[::Rails.env].symbolize_keys
     end
   end
