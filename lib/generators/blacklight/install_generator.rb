@@ -88,7 +88,7 @@ EOF
       return unless options[:marc]
 
       blacklight_marc = String.new('blacklight-marc')
-      gem blacklight_marc, '= 7.0.0.rc1'
+      gem blacklight_marc, '< 8'
 
       Bundler.with_clean_env do
         run "bundle install"
