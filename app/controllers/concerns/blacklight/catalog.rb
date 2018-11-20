@@ -165,7 +165,7 @@ module Blacklight::Catalog
   end
 
   def search_service
-    search_service_class.new(blacklight_config, search_state.to_h)
+    search_service_class.new(config: blacklight_config, user_params: search_state.to_h)
   end
 
   ##
