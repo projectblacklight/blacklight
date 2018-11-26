@@ -81,13 +81,14 @@ module Blacklight::UrlHelperBehavior
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing
   def session_tracking_path document, params = {}
-    return if document.nil?
+    return if document.nil? || controller_name == 'bookmarks'
 
-    if respond_to?(controller_tracking_method)
-      send(controller_tracking_method, params.merge(id: document))
-    else
-      blacklight.track_search_context_path(params.merge(id: document))
+    if main_app.respond_to?(controller_tracking_method)
+      return main_app.public_send(controller_tracking_method, params.merge(id: document))
     end
+
+    raise "Unable to find #{controller_tracking_method} route helper. " \
+    "Did you add `concerns :searchable` routing mixin to your `config/routes.rb`?"
   end
 
   def controller_tracking_method

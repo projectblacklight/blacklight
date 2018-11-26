@@ -8,12 +8,10 @@ RSpec.describe "catalog/_index_header" do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
-    allow(controller).to receive(:action_name).and_return('index')
     assign :response, instance_double(Blacklight::Solr::Response, start: 0)
     allow(view).to receive(:render_grouped_response?).and_return false
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
-    allow(view).to receive(:current_search_session).and_return nil
-    allow(view).to receive(:search_session).and_return({})
+    allow(view).to receive(:session_tracking_params).and_return({})
   end
 
   it "renders the document header" do
