@@ -28,7 +28,7 @@ module Blacklight
     def initialize blacklight_config
       Deprecation.warn(self, 'Blacklight::SolrRepository is deprecated; use Blacklight::Solr::Repository instead')
       super
-    end 
+    end
   end
 
   class SolrResponse < Solr::Response
@@ -36,7 +36,7 @@ module Blacklight
     def initialize(data, request_params, options = {})
       Deprecation.warn(self, 'Blacklight::SolrResponse is deprecated; use Blacklight::Solr::Response instead')
       super
-    end 
+    end
   end
 
   # Secret key used to share session information with
@@ -144,7 +144,7 @@ module Blacklight
 
     return @solr_yml if @solr_yml
     unless File.exists?(solr_file)
-      raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight:install\"?"  
+      raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight:install\"?"
     end
 
     begin
@@ -176,17 +176,17 @@ module Blacklight
     @logger = logger
   end
 
-  #############  
+  #############
   # Methods for figuring out path to BL plugin, and then locate various files
   # either in the app itself or defaults in the plugin -- whether you are running
   # from the plugin itself or from an actual app using te plugin.
   # In a seperate module so it can be used by both Blacklight class, and
-  # by rake tasks without loading the whole Rails environment. 
+  # by rake tasks without loading the whole Rails environment.
   #############
-  
+
   # returns the full path the the blacklight plugin installation
   def self.root
     @root ||= File.expand_path(File.dirname(File.dirname(__FILE__)))
   end
-  
+
 end

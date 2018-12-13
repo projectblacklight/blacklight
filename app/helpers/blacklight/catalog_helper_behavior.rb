@@ -3,6 +3,14 @@ module Blacklight::CatalogHelperBehavior
   extend Deprecation
   self.deprecation_horizon = "Blacklight 6.x"
 
+  def rss_feed_link_tag
+    auto_discovery_link_tag(:rss, feed_link_url('rss'), title: t('blacklight.search.rss_feed'))
+  end
+
+  def atom_feed_link_tag
+    auto_discovery_link_tag(:atom, feed_link_url('atom'), title: t('blacklight.search.atom_feed'))
+  end
+
   ##
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
   # implementation.
@@ -37,7 +45,7 @@ module Blacklight::CatalogHelperBehavior
     else
       collection.total_count
     end
-      
+
     case collection.total_count
       when 0; t('blacklight.search.pagination_info.no_items_found', :entry_name => entry_name ).html_safe
       when 1; t('blacklight.search.pagination_info.single_item_found', :entry_name => entry_name).html_safe
@@ -54,7 +62,7 @@ module Blacklight::CatalogHelperBehavior
     offset ||= @response.start if @response
     offset ||= 0
 
-    unless render_grouped_response? 
+    unless render_grouped_response?
       idx + 1 + offset
     end
   end
@@ -62,7 +70,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Like #page_entries_info above, but for an individual
   # item show page. Displays "showing X of Y items" message.
-  # 
+  #
   # @see #page_entries_info
   # @return [String]
   def item_page_entry_info
@@ -86,7 +94,7 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Look up the current per page value, or the default if none if set
-  # 
+  #
   # @return [Integer]
   def current_per_page
     (@response.rows if @response and @response.rows > 0) || params.fetch(:per_page, default_per_page).to_i
@@ -94,7 +102,7 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Get the classes to add to a document's div
-  # 
+  #
   # @return [String]
   def render_document_class(document = @document)
     types = document[blacklight_config.view_config(document_index_view_type).display_type_field]
@@ -130,7 +138,7 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Should we display the sort and per page widget?
-  # 
+  #
   # @param [Blacklight::Solr::Response]
   # @return [Boolean]
   def show_sort_and_per_page? response = nil
@@ -151,7 +159,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # If no search parameters have been given, we should
   # auto-focus the user's cursor into the searchbox
-  # 
+  #
   # @return [Boolean]
   def should_autofocus_on_search_box?
     controller.is_a? Blacklight::Catalog and
@@ -161,7 +169,7 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Does the document have a thumbnail to render?
-  # 
+  #
   # @param [SolrDocument]
   # @return [Boolean]
   def has_thumbnail? document
@@ -172,7 +180,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the thumbnail, if available, for a document and
   # link it to the document record.
-  # 
+  #
   # @param [SolrDocument]
   # @param [Hash] options to pass to the image tag
   # @param [Hash] url options to pass to #link_to_document
@@ -197,7 +205,7 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Get the URL to a document's thumbnail image
-  # 
+  #
   # @param [SolrDocument]
   # @return [String]
   def thumbnail_url document
@@ -208,7 +216,7 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Get url parameters to a search within a grouped result set
-  # 
+  #
   # @param [Blacklight::Solr::Response::Group]
   # @return [Hash]
   def add_group_facet_params_and_redirect group
@@ -217,7 +225,7 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Render the view type icon for the results view picker
-  # 
+  #
   # @param [String]
   # @return [String]
   def render_view_type_group_icon view
@@ -232,7 +240,7 @@ module Blacklight::CatalogHelperBehavior
   def default_view_type_group_icon_classes view
     "glyphicon-#{view.to_s.parameterize } view-icon-#{view.to_s.parameterize}"
   end
-  
+
   def current_bookmarks response = nil
     response ||= @response
     @current_bookmarks ||= current_or_guest_user.bookmarks_for_documents(response.documents).to_a
@@ -246,10 +254,10 @@ module Blacklight::CatalogHelperBehavior
 
   alias_method :is_bookmarked?, :bookmarked?
   deprecation_deprecate :is_bookmarked?
-  
+
   def render_marc_tools
     return unless defined? Blacklight::Marc
-    
+
     begin
       # blacklight-marc 5.4+
       render 'marc_tools'
@@ -280,7 +288,7 @@ module Blacklight::CatalogHelperBehavior
     filter_label = facet_field_label(facet_config.key)
     filter_value = if values.size < 3
       values.map {|value| facet_display_value(facet, value)}.to_sentence
-    else 
+    else
       t('blacklight.search.page_title.many_constraint_values', values: values.size)
     end
     t('blacklight.search.page_title.constraint', label: filter_label, value: filter_value)
@@ -304,6 +312,15 @@ module Blacklight::CatalogHelperBehavior
     end
 
     constraints.join(' / ')
+  end
+
+  private
+
+  # @param [String] format
+  def feed_link_url(format)
+    new_params = params.respond_to?(:to_unsafe_h) ? params.to_unsafe_h : params
+
+    url_for new_params.merge(format: format)
   end
 
 end

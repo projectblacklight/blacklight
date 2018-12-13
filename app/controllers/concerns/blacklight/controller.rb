@@ -2,13 +2,13 @@
 #
 # Filters added to this controller apply to all controllers in the hosting application
 # as this module is mixed-in to the application controller in the hosting app on installation.
-module Blacklight::Controller 
+module Blacklight::Controller
 
   extend ActiveSupport::Concern
   extend Deprecation
 
   self.deprecation_horizon = 'blacklight 6.0'
-  
+
   included do
     include Blacklight::SearchFields
     helper Blacklight::SearchFields
@@ -16,15 +16,20 @@ module Blacklight::Controller
     include ActiveSupport::Callbacks
 
     # now in application.rb file under config.filter_parameters
-    # filter_parameter_logging :password, :password_confirmation 
+    # filter_parameter_logging :password, :password_confirmation
     helper_method :current_user_session, :current_user, :current_or_guest_user
-    after_filter :discard_flash_if_xhr    
+
+    if Rails.version < '5'
+      after_filter :discard_flash_if_xhr
+    else
+      after_action :discard_flash_if_xhr
+    end
 
     # handle basic authorization exception with #access_denied
     rescue_from Blacklight::Exceptions::AccessDenied, :with => :access_denied
-    
+
     helper_method :request_is_for_user_resource?
-    
+
     # extra head content
     helper_method :has_user_authentication_provider?
     helper_method :blacklight_config
@@ -66,14 +71,15 @@ module Blacklight::Controller
     end
 
     def search_facet_url options = {}
-      url_for params.merge(action: "facet").merge(options).except(:page)
+      new_params = params.respond_to?(:to_unsafe_h) ? params.to_unsafe_h : params
+      url_for new_params.merge(action: "facet").merge(options).except(:page)
     end
 
     # Returns a list of Searches from the ids in the user's history.
     def searches_from_history
       session[:history].blank? ? Search.none : Search.where(:id => session[:history]).order("updated_at desc")
     end
-    
+
     #
     # Controller and view helper for determining if the current url is a request for a user resource
     #
@@ -112,7 +118,7 @@ module Blacklight::Controller
     #
     def has_user_authentication_provider?
       respond_to? :current_user
-    end           
+    end
 
     def require_user_authentication_provider
       raise ActionController::RoutingError.new('Not Found') unless has_user_authentication_provider?
@@ -140,7 +146,7 @@ module Blacklight::Controller
     end
 
     ##
-    # To handle failed authorization attempts, redirect the user to the 
+    # To handle failed authorization attempts, redirect the user to the
     # login form and persist the current request uri as a parameter
     def access_denied
       # send the user home if the access was previously denied by the same
@@ -152,5 +158,5 @@ module Blacklight::Controller
 
       redirect_to new_user_session_url(:referer => request.fullpath)
     end
-  
+
 end

@@ -13,7 +13,11 @@ module Blacklight::Bookmarks
 
     copy_blacklight_config_from(CatalogController)
 
-    before_filter :verify_user
+    if Rails.version < '5'
+      before_filter :verify_user
+    else
+      before_action :verify_user
+    end
 
     blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
 

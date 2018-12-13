@@ -67,7 +67,7 @@ module Blacklight::UrlHelperBehavior
 
   ##
   # Current search context parameters
-  def search_session_params counter 
+  def search_session_params counter
     { :'data-counter' => counter, :'data-search_id' => current_search_session.try(:id) }
   end
   deprecation_deprecate search_session_params: :session_tracking_params
@@ -83,11 +83,11 @@ module Blacklight::UrlHelperBehavior
     if document.nil?
       return {}
     end
-  
+
     { :data => {:'context-href' => session_tracking_path(document, per_page: params.fetch(:per_page, search_session['per_page']), counter: counter, search_id: current_search_session.try(:id))}}
   end
   protected :session_tracking_params
-  
+
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing
   def session_tracking_path document, params = {}
@@ -124,7 +124,7 @@ module Blacklight::UrlHelperBehavior
   def link_back_to_catalog(opts={:label=>nil})
     scope = opts.delete(:route_set) || self
     query_params = current_search_session.try(:query_params) || {}
-    
+
     if search_session['counter']
       per_page = (search_session['per_page'] || default_per_page).to_i
       counter = search_session['counter'].to_i
@@ -156,11 +156,11 @@ module Blacklight::UrlHelperBehavior
 
   # @overload params_for_search(source_params, params_to_merge)
   #   Merge the source params with the params_to_merge hash
-  #   @param [Hash] Hash 
+  #   @param [Hash] Hash
   #   @param [Hash] Hash to merge into above
   # @overload params_for_search(params_to_merge)
-  #   Merge the current search parameters with the 
-  #      parameters provided. 
+  #   Merge the current search parameters with the
+  #      parameters provided.
   #   @param [Hash] Hash to merge into the parameters
   # @overload params_for_search
   #   Returns the current search parameters after being sanitized by #sanitize_search_params
@@ -207,7 +207,10 @@ module Blacklight::UrlHelperBehavior
   # Reset any search parameters that store search context
   # and need to be reset when e.g. constraints change
   def reset_search_params source_params
-    sanitize_search_params(source_params).except(:page, :counter).with_indifferent_access
+    maybe_hash = sanitize_search_params(source_params).except(:page, :counter)
+    # maybe_hash is a hash in Rails 4 but a ActionController::Parameters in Rails 5
+    new_params = maybe_hash.respond_to?(:with_indifferent_access) ? maybe_hash : maybe_hash.to_unsafe_h
+    new_params.with_indifferent_access
   end
 
   # adds the value and/or field to params[:f]
@@ -233,7 +236,7 @@ module Blacklight::UrlHelperBehavior
     if facet_config.single and not p[:f][url_field].empty?
       p[:f][url_field] = []
     end
-    
+
     p[:f][url_field].push(value)
 
     if item and item.respond_to?(:fq) and item.fq
@@ -249,14 +252,14 @@ module Blacklight::UrlHelperBehavior
   # on a facet value. Add on the facet params to existing
   # search constraints. Remove any paginator-specific request
   # params, or other request params that should be removed
-  # for a 'fresh' display. 
+  # for a 'fresh' display.
   # Change the action to 'index' to send them back to
-  # catalog/index with their new facet choice. 
+  # catalog/index with their new facet choice.
   def add_facet_params_and_redirect(field, item)
     new_params = add_facet_params(field, item)
 
     # Delete any request params from facet-specific action, needed
-    # to redir to index action properly. 
+    # to redir to index action properly.
     request_keys = blacklight_config.facet_paginator_class.request_keys
     new_params.except! *request_keys.values
 
@@ -289,15 +292,15 @@ module Blacklight::UrlHelperBehavior
     p.delete(:f) if p[:f].empty?
     p
   end
-  
-  # A URL to refworks export, with an embedded callback URL to this app. 
-  # the callback URL is to bookmarks#export, which delivers a list of 
+
+  # A URL to refworks export, with an embedded callback URL to this app.
+  # the callback URL is to bookmarks#export, which delivers a list of
   # user's bookmarks in 'refworks marc txt' format -- we tell refworks
-  # to expect that format. 
+  # to expect that format.
   def bookmarks_export_url(format, params = {})
     bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id) ))
   end
-  
+
   # This method should move to BlacklightMarc in Blacklight 6.x
   def refworks_export_url params = {}
     if params.is_a? ::SolrDocument or (params.nil? and instance_variable_defined? :@document)

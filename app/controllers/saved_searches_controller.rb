@@ -3,14 +3,19 @@ class SavedSearchesController < ApplicationController
   include Blacklight::Configurable
 
   copy_blacklight_config_from(CatalogController)
-  before_filter :require_user_authentication_provider
-  before_filter :verify_user 
-  
+  if Rails.version < '5'
+    before_filter :require_user_authentication_provider
+    before_filter :verify_user
+  else
+    before_action :require_user_authentication_provider
+    before_action :verify_user
+  end
+
   def index
     @searches = current_user.searches
   end
-  
-  def save    
+
+  def save
     current_user.searches << searches_from_history.find(params[:id])
     if current_user.save
       flash[:notice] = I18n.t('blacklight.saved_searches.add.success')
@@ -33,14 +38,14 @@ class SavedSearchesController < ApplicationController
     end
     redirect_to :back
   end
-  
+
   # Only dereferences the user rather than removing the items in case they
   # are in the session[:history]
-  def clear    
+  def clear
     if current_user.searches.update_all("user_id = NULL")
       flash[:notice] = I18n.t('blacklight.saved_searches.clear.success')
     else
-      flash[:error] = I18n.t('blacklight.saved_searches.clear.failure') 
+      flash[:error] = I18n.t('blacklight.saved_searches.clear.failure')
     end
     redirect_to :action => "index"
   end

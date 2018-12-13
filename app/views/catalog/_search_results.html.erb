@@ -5,8 +5,8 @@
 
 <% content_for(:head) do -%>
   <%= render_opensearch_response_metadata %>
-  <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => t('blacklight.search.rss_feed') ) %>
-  <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => t('blacklight.search.atom_feed') ) %>
+  <%= rss_feed_link_tag %>
+  <%= atom_feed_link_tag %>
 <% end -%>
 
 

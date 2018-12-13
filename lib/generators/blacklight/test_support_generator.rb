@@ -3,14 +3,14 @@
 
 
 # Need the requires here so we can call the generator from environment.rb
-# as suggested above. 
+# as suggested above.
 require 'rails/generators'
 require 'rails/generators/base'
 module Blacklight
   class TestSupport < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
-  desc """ 
-Generate blacklight testing configurations for blacklight's own tests, or for blacklight plugins to use for testing 
+  desc """
+Generate blacklight testing configurations for blacklight's own tests, or for blacklight plugins to use for testing
 """
     def alternate_controller
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"
@@ -19,9 +19,7 @@ Generate blacklight testing configurations for blacklight's own tests, or for bl
                 member do
                   get :facet
                 end
-              end")
-
-
+              end\n") # the trailing CR is important (in Rails 5) so that any other additional routes get added on the next line.
     end
 
     def configure_action_mailer

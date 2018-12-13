@@ -42,7 +42,7 @@ describe Blacklight::Solr::Repository do
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { id: '123', qt: 'abc'})).and_return(mock_response)
       expect(subject.find("123", {qt: 'abc'})).to be_a_kind_of Blacklight::Solr::Response
     end
-    
+
     it "should use the :qt parameter from the default_document_solr_params" do
       blacklight_config.default_document_solr_params[:qt] = 'abc'
       blacklight_config.document_solr_request_handler = 'xyz'
@@ -51,11 +51,11 @@ describe Blacklight::Solr::Repository do
     end
 
     it "should preserve the class of the incoming params" do
-      doc_params = HashWithIndifferentAccess.new
+      doc_params = ActiveSupport::HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
       response = subject.find("123", doc_params)
       expect(response).to be_a_kind_of Blacklight::Solr::Response
-      expect(response.params).to be_a_kind_of HashWithIndifferentAccess
+      expect(response.params).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
     end
   end
 
@@ -82,12 +82,12 @@ describe Blacklight::Solr::Repository do
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc'})).and_return(mock_response)
       expect(subject.search({qt: 'abc'})).to be_a_kind_of Blacklight::Solr::Response
     end
-    
+
     it "should preserve the class of the incoming params" do
       search_params = HashWithIndifferentAccess.new
       search_params[:q] = "query"
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
-      
+
       response = subject.search(search_params)
       expect(response).to be_a_kind_of Blacklight::Solr::Response
       expect(response.params).to be_a_kind_of HashWithIndifferentAccess

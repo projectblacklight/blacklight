@@ -1,5 +1,11 @@
 # -*- encoding : utf-8 -*-
-class CreateSearches < ActiveRecord::Migration
+from = if Rails.version > '5'
+          ActiveRecord::Migration[5.0]
+       else
+         ActiveRecord::Migration
+       end
+
+class CreateSearches < from
   def self.up
     create_table :searches do |t|
       t.text  :query_params

@@ -3,7 +3,7 @@ module Blacklight::SearchContext
 
   # The following code is executed when someone includes blacklight::catalog::search_session in their
   # own controller.
-  included do  
+  included do
     helper_method :current_search_session, :search_session
 
   end
@@ -11,18 +11,22 @@ module Blacklight::SearchContext
   module ClassMethods
     # Save the submitted search parameters in the search session
     def record_search_parameters opts = { only: :index}
-      before_filter :current_search_session, opts
+      if Rails.version < '5'
+        before_filter :current_search_session, opts
+      else
+        before_action :current_search_session, opts
+      end
     end
   end
-  
+
   protected
 
   # sets up the session[:search] hash if it doesn't already exist
   def search_session
     session[:search] ||= {}
   end
-  
-  # The current search session 
+
+  # The current search session
   def current_search_session
 
     @current_search_session ||= if start_new_search_session?
@@ -31,7 +35,7 @@ module Blacklight::SearchContext
       find_or_initialize_search_session_from_params JSON.load(params[:search_context])
     elsif params[:search_id].present?
       begin
-        # TODO : check the search id signature.      
+        # TODO : check the search id signature.
         searches_from_history.find(params[:search_id])
       rescue ActiveRecord::RecordNotFound
         nil
@@ -79,11 +83,11 @@ module Blacklight::SearchContext
     if session[:history].length > blacklight_config.search_history_window
 
       session[:history] = session[:history].slice(0, blacklight_config.search_history_window )
-      
+
     end
   end
 
-  # A list of query parameters that should not be persisted for a search      
+  # A list of query parameters that should not be persisted for a search
   def blacklisted_search_session_params
     [:commit, :counter, :total, :search_id, :page, :per_page]
   end

@@ -1,5 +1,12 @@
 # -*- encoding : utf-8 -*-
-class CreateBookmarks < ActiveRecord::Migration
+
+from = if Rails.version > '5'
+          ActiveRecord::Migration[5.0]
+       else
+         ActiveRecord::Migration
+       end
+
+class CreateBookmarks < from
   def self.up
     create_table :bookmarks do |t|
       t.integer :user_id, :null=>false
@@ -13,5 +20,5 @@ class CreateBookmarks < ActiveRecord::Migration
   def self.down
     drop_table :bookmarks
   end
-  
+
 end
