@@ -44,7 +44,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "selenium-webdriver", '>= 3.13.1'
   s.add_development_dependency 'engine_cart', '~> 2.1'
   s.add_development_dependency "equivalent-xml"
-  s.add_development_dependency "coveralls"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "rubocop", '~> 0.47.0' # pending release of 0.48.1
   s.add_development_dependency "rubocop-rspec", '~> 1.8.0'

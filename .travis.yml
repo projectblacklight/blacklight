@@ -2,7 +2,6 @@ dist: bionic
 addons:
   chrome: stable
 language: ruby
-sudo: false
 
 notifications:
   email: false
@@ -53,5 +52,13 @@ notifications:
 global_env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
+  - CC_TEST_REPORTER_ID=5042c7358c96b0b926088a4cda3e132fffe7a66ce8047cdb1dc6f0b4b6676b79
 
 jdk: openjdk11
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
