@@ -49,6 +49,15 @@ describe Blacklight::IndexPresenter do
         expect(Deprecation).to receive(:warn)
         expect(subject).to eq 'document qwer value'
       end
+
+      context 'with a name as a symbol' do
+        subject { presenter.field_value :qwer }
+
+        it 'raises a deprecation' do
+          expect(Deprecation).to receive(:warn)
+          expect(subject).to eq 'document qwer value'
+        end
+      end
     end
 
     context 'when an explicit value is provided' do
