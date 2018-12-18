@@ -163,7 +163,6 @@ module Blacklight::ConfigurationHelperBehavior
     field = fields.first if document.nil?
     field ||= fields.find { |f| document.has? f }
     field &&= field.try(:to_sym)
-    field ||= document.id
 
     field
   end
