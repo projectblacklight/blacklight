@@ -58,6 +58,15 @@ describe Blacklight::IndexPresenter do
           expect(subject).to eq 'document qwer value'
         end
       end
+
+      context 'with a name as an integer' do
+        subject { presenter.field_value 123 }
+
+        it 'raises a deprecation' do
+          expect(Deprecation).to receive(:warn)
+          expect(subject).to eq ''
+        end
+      end
     end
 
     context 'when an explicit value is provided' do
