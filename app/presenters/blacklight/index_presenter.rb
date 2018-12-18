@@ -53,13 +53,17 @@ module Blacklight
     # @option options [String] :value
     def field_value field_or_name, options = {}
       field = case field_or_name
+              when Blacklight::Configuration::Field
+                field_or_name
               when String, Symbol
-                Deprecation.warn(self, "You provided a String or Symbol value to IndexPresenter#field_value " \
-                "Provide a Blacklight::Configuration::Field instead. field_value() will not accept " \
-                "strings or symbols in Blacklight 7")
+                Deprecation.warn(self, "You provided a #{field_or_name.class} value to IndexPresenter#field_value " \
+                "Provide a Blacklight::Configuration::Field instead. This behavior is deprecated in Blacklight 7")
                 field_config(field_or_name)
               else
-                field_or_name
+                Deprecation.warn(self, "You provided a #{field_or_name.class} value to IndexPresenter#field_value. " \
+                "This will be silently ignored and will be an error in Blacklight 7.")
+
+                Configuration::NullField.new
               end
       field_values(field, options)
     end
