@@ -64,7 +64,7 @@ RSpec.describe CatalogController, api: true do
       end
 
       it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", integration: true do
-        get :index, params: { f: { example_query_facet_field: 'years_10' } } # valid custom facet value with some results
+        get :index, params: { f: { example_query_facet_field: 'years_25' } } # valid custom facet value with some results
         expect(assigns(:response).docs).not_to be_empty
       end
 
@@ -172,8 +172,8 @@ RSpec.describe CatalogController, api: true do
         let(:query_facet_items) { query_facet['attributes']['items'].map { |x| x['attributes'] } }
 
         it "has items with labels and values" do
-          expect(query_facet_items.first['label']).to eq 'within 10 Years'
-          expect(query_facet_items.first['value']).to eq 'years_10'
+          expect(query_facet_items.first['label']).to eq 'within 25 Years'
+          expect(query_facet_items.first['value']).to eq 'years_25'
         end
       end
     end
