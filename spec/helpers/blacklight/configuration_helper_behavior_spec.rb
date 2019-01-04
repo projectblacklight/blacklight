@@ -114,12 +114,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       f = helper.document_show_link_field document
       expect(f).to eq :b
     end
-
-    it "fallbacks on the id" do
-      blacklight_config.index.title_field = [:zzz, :yyy]
-      f = helper.document_show_link_field document
-      expect(f).to eq 123
-    end
   end
 
   describe "#view_label" do
