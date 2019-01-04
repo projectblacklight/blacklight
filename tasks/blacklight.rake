@@ -9,8 +9,6 @@ end
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new(:rubocop)
 
-EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
-
 desc "Run test suite"
 task ci: ['blacklight:generate'] do
   SolrWrapper.wrap do |solr|
