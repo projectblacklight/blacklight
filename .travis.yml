@@ -24,6 +24,8 @@ matrix:
       env: "RAILS_VERSION=5.2.0 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
     - rvm: jruby-9.1.17.0
+    - rvm: 2.4.4
+    - rvm: 2.2.10
   fast_finish: true
 
 before_install:
