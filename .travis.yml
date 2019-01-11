@@ -25,7 +25,9 @@ matrix:
   allow_failures:
     - rvm: jruby-9.1.17.0
     - rvm: 2.4.4
+      env: "RAILS_VERSION=4.2.10"
     - rvm: 2.2.10
+      env: "RAILS_VESION=5.0.7"
   fast_finish: true
 
 before_install:
