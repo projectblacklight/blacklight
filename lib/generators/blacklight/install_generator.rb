@@ -33,7 +33,9 @@ module Blacklight
     # Call external generator in AssetsGenerator, so we can
     # leave that callable seperately too.
     def copy_public_assets
-      generate "blacklight:assets" unless options[:'skip-assets']
+      return if options[:'skip-assets']
+
+      generate "blacklight:sprockets" if defined? Sprockets
     end
 
     def bundle_install

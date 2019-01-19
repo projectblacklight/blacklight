@@ -517,12 +517,11 @@ Style/DoubleNegation:
   Exclude:
     - 'lib/blacklight/search_builder.rb'
 
-# Offense count: 9
+# Offense count: 8
 # Cop supports --auto-correct.
 Style/ExpandPathArguments:
   Exclude:
     - 'Gemfile'
-    - 'lib/generators/blacklight/assets_generator.rb'
     - 'lib/generators/blacklight/controller_generator.rb'
     - 'lib/generators/blacklight/document_generator.rb'
     - 'lib/generators/blacklight/install_generator.rb'
