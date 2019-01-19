@@ -15,7 +15,7 @@ matrix:
     - rvm: 2.5.3
       env: "RAILS_VERSION=5.1.6"
     - rvm: 2.5.3
-      env: "RAILS_VERSION=5.2.1 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
+      env: "RAILS_VERSION=5.2.1 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable  --skip-action-text --skip-action-mailbox --skip-coffee --skip-test --skip-javascript\""
     - rvm: 2.4.5
       env: "RAILS_VERSION=5.1.6"
     - rvm: jruby-9.2.0.0
@@ -34,7 +34,7 @@ notifications:
 
 global_env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-  - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
+  - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-bundle --skip-listen --skip-spring --skip-bootsnap --skip-yarn --skip-keeps --skip-action-cable --skip-active-storage --skip-action-text --skip-action-mailbox --skip-coffee --skip-test'
   - CC_TEST_REPORTER_ID=5042c7358c96b0b926088a4cda3e132fffe7a66ce8047cdb1dc6f0b4b6676b79
 
 jdk: openjdk11
