@@ -45,4 +45,10 @@ RSpec.describe "Blacklight::User", api: true do
       expect(subject.existing_bookmark_for(SolrDocument.new(id: 1))).to eq subject.bookmarks.first
     end
   end
+
+  describe '#to_s' do
+    it 'is the email by default' do
+      expect(subject.to_s).to eq subject.email
+    end
+  end
 end

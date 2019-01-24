@@ -26,4 +26,10 @@ module Blacklight::User
   def existing_bookmark_for(document)
     bookmarks_for_documents([document]).first
   end
+
+  ##
+  # @return [String] a user-displayable login/identifier for the user account
+  def to_s
+    email
+  end
 end
