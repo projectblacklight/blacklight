@@ -30,6 +30,8 @@ module Blacklight::User
   ##
   # @return [String] a user-displayable login/identifier for the user account
   def to_s
-    email
+    return email if respond_to?(:email)
+
+    super
   end
 end
