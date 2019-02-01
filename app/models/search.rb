@@ -15,6 +15,6 @@ class Search < ApplicationRecord
     raise ArgumentError, 'days_old is expected to be a number' unless days_old.is_a?(Numeric)
     raise ArgumentError, 'days_old is expected to be greater than 0' if days_old <= 0
 
-    where(['created_at < ? AND user_id IS NULL', Time.zone.today - days_old]).destroy_all
+    where(['created_at < ? AND user_id IS NULL', Time.zone.today - days_old]).delete_all
   end
 end
