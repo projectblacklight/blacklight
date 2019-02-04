@@ -120,6 +120,15 @@ module Blacklight::Solr::Response::Facets
     @facet_pivot ||= facet_counts['facet_pivot'] || {}
   end
 
+  # Merge or add new facet count values to existing response
+  def merge_facet(name:, value:, hits: nil)
+    if dig('facet_counts', 'facet_fields', name)
+      self['facet_counts']['facet_fields'][name] << value << hits
+    else
+      self['facet_counts']['facet_fields'][name] = [value, hits]
+    end
+  end
+
   private
 
   ##
