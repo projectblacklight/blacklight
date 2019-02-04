@@ -4,6 +4,17 @@ require 'rails/generators'
 class TestAppGenerator < Rails::Generators::Base
   source_root File.expand_path('../../../test_app_templates', __dir__)
 
+  def fix_sqlite3_version_requirement
+    return unless Gem.loaded_specs['rails'].version.to_s <= '5.2.2'
+
+    # Hack for https://github.com/rails/rails/issues/35153
+    gemfile = File.expand_path('Gemfile')
+    IO.write(gemfile, File.open(gemfile) do |f|
+      text = f.read
+      text.gsub(/^gem ["']sqlite3["']$/, 'gem "sqlite3", "~> 1.3.6"')
+    end)
+  end
+
   def remove_index
     remove_file "public/index.html"
   end
