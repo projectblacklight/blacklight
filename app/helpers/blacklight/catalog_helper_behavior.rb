@@ -297,7 +297,7 @@ module Blacklight::CatalogHelperBehavior
     end
 
     if params['f'].present?
-      constraints += params['f'].to_unsafe_h.collect { |key, value| render_search_to_page_title_filter(key, value) }
+      constraints += params['f'].to_unsafe_h.collect { |key, value| render_search_to_page_title_filter(key, Array(value)) }
     end
 
     constraints.join(' / ')
