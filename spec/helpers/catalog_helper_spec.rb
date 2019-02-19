@@ -388,8 +388,17 @@ RSpec.describe CatalogHelper do
     end
 
     let(:blacklight_config) { Blacklight::Configuration.new }
-    let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
 
-    it { is_expected.to eq "foobar / Format: Book" }
+    context 'when the f param is an array' do
+      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
+
+      it { is_expected.to eq "foobar / Format: Book" }
+    end
+
+    context 'when the f param is not an array' do
+      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: 'Book' }) }
+
+      it { is_expected.to eq "foobar / Format: Book" }
+    end
   end
 end
