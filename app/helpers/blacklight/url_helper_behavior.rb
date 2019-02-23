@@ -81,7 +81,7 @@ module Blacklight::UrlHelperBehavior
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing
   def session_tracking_path document, params = {}
-    return if document.nil? || controller_name == 'bookmarks'
+    return if document.nil? || !blacklight_config&.track_search_session
 
     if main_app.respond_to?(controller_tracking_method)
       return main_app.public_send(controller_tracking_method, params.merge(id: document))
