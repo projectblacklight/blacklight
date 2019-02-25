@@ -4,3 +4,9 @@
   padding: $input-btn-padding-y $input-btn-padding-x;
   padding-left: 0;
 }
+
+.pagination {
+  @media (max-width: breakpoint-max(sm)) {
+    flex-wrap: wrap;
+  }
+}
