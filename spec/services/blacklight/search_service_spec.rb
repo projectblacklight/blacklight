@@ -11,7 +11,8 @@
 RSpec.describe Blacklight::SearchService, api: true do
   subject { service }
 
-  let(:service) { described_class.new(config: blacklight_config, user_params: user_params) }
+  let(:context) { { whatever: :value } }
+  let(:service) { described_class.new(config: blacklight_config, user_params: user_params, **context) }
   let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
   let(:user_params) { {} }
 
@@ -483,6 +484,12 @@ RSpec.describe Blacklight::SearchService, api: true do
 
     it 'contains the search suggestions as the second element in the response' do
       expect(service.opensearch_response.last).to match_array %w[A B C]
+    end
+  end
+
+  describe '#context' do
+    it 'has a context attribute' do
+      expect(subject.context).to eq context
     end
   end
 end
