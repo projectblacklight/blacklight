@@ -4,6 +4,7 @@ module Blacklight::Catalog
 
   include Blacklight::Base
   include Blacklight::Facet
+  include Blacklight::Searchable
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
@@ -164,14 +165,6 @@ module Blacklight::Catalog
     sms_mappings.present?
   end
 
-  def search_service
-    search_service_class.new(config: blacklight_config, user_params: search_state.to_h, context: search_service_context)
-  end
-
-  def search_service_context
-    {}
-  end
-
   ##
   # If the params specify a view, then store it in the session. If the params
   # do not specifiy the view, set the view parameter to the value stored in the
@@ -297,10 +290,6 @@ module Blacklight::Catalog
 
   def start_new_search_session?
     action_name == "index"
-  end
-
-  def suggestions_service
-    Blacklight::SuggestSearch.new(params, search_service.repository).suggestions
   end
 
   def determine_layout
