@@ -556,14 +556,6 @@ Style/GuardClause:
     - 'app/helpers/blacklight/catalog_helper_behavior.rb'
     - 'lib/blacklight/solr/search_builder_behavior.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Exclude:
-    - 'app/helpers/blacklight/url_helper_behavior.rb'
-
 # Offense count: 40
 # Cop supports --auto-correct.
 Style/IfUnlessModifier:

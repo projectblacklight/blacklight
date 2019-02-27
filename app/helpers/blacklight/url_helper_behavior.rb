@@ -74,7 +74,7 @@ module Blacklight::UrlHelperBehavior
       return {}
     end
 
-    { data: { :'context-href' => path } }
+    { data: { 'context-href': path } }
   end
   private :session_tracking_params
 
