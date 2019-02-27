@@ -5,6 +5,10 @@ RSpec.describe BookmarksController do
     it 'uses POST requests for querying solr' do
       expect(@controller.blacklight_config.http_method).to eq :post
     end
+
+    it 'opts out of search session tracking' do
+      expect(@controller.blacklight_config.track_search_session).to eq false
+    end
   end
 
   # jquery 1.9 ajax does error callback if 200 returns empty body. so use 204 instead.

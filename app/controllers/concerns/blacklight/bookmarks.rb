@@ -14,6 +14,7 @@ module Blacklight::Bookmarks
 
     before_action :verify_user
 
+    blacklight_config.track_search_session = false
     blacklight_config.http_method = Blacklight::Engine.config.bookmarks_http_method
     blacklight_config.add_results_collection_tool(:clear_bookmarks_widget)
 

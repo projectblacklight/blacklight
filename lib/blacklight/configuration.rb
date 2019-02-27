@@ -126,7 +126,8 @@ module Blacklight
           # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
           crawler_detector: nil,
           autocomplete_suggester: 'mySuggester',
-          raw_endpoint: OpenStructWithHashAccess.new(enabled: false)
+          raw_endpoint: OpenStructWithHashAccess.new(enabled: false),
+          track_search_session: true
           }
         end
         # rubocop:enable Metrics/MethodLength
