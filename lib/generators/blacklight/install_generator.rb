@@ -71,14 +71,6 @@ module Blacklight
       route("root to: \"#{controller_name}#index\"")
     end
 
-    def add_sass_configuration
-      insert_into_file "config/application.rb", after: "config.assets.enabled = true" do <<EOF
-      # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
-      config.assets.compress = !Rails.env.development?
-EOF
-      end
-    end
-
     def inject_blacklight_i18n_strings
       copy_file "blacklight.en.yml", "config/locales/blacklight.en.yml"
     end
