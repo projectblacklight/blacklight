@@ -8,10 +8,10 @@ notifications:
 
 matrix:
   include:
-    - rvm: 2.6.0
+    - rvm: 2.6.4
       env: "RAILS_VERSION=5.2.2"
-    - rvm: 2.6.1
-      env: "RAILS_VERSION=6.0.0.beta2"
+    - rvm: 2.6.4
+      env: "RAILS_VERSION=6.0.0"
     - rvm: 2.5.3
       env: "RAILS_VERSION=5.1.6"
     - rvm: 2.5.3

@@ -1,19 +1,25 @@
 # frozen_string_literal: true
+
 module Blacklight
   class Sprockets < Rails::Generators::Base
     source_root File.expand_path('templates', __dir__)
+    JS_FILE = "app/assets/javascripts/application.js"
 
     # This could be skipped if you want to use webpacker
     def add_javascript_dependencies
+      return unless File.exist?(JS_FILE) # In Rails 6 we use Yarn/Webpacker
+
       gem 'bootstrap', '~> 4.0'
       gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
+      gem 'jquery-rails'
     end
 
     def assets
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
-      # Ensure this method is idempotent
-      return if has_blacklight_assets?
+      # Check that the js file exists.  It doesn't in Rails 6.
+      # Also, ensure this method is idempotent
+      return if !File.exist?(JS_FILE) || has_blacklight_assets?
 
       contents = "\n//\n// Required by Blacklight\n"
       contents += "//= require jquery\n"
@@ -29,24 +35,23 @@ module Blacklight
                  '//= require rails-ujs'
                end
 
-      insert_into_file "app/assets/javascripts/application.js", after: marker do
+      insert_into_file JS_FILE, after: marker do
         contents
       end
     end
 
-    # This is not a default in Rails 5.1+
-    def add_jquery
-      gem 'jquery-rails'
-    end
-
     private
 
+    def file
+      @file ||= IO.read(JS_FILE)
+    end
+
     def turbolinks?
-      @turbolinks ||= IO.read("app/assets/javascripts/application.js").include?('turbolinks')
+      file.include?('turbolinks')
     end
 
     def has_blacklight_assets?
-      IO.read("app/assets/javascripts/application.js").include?('blacklight/blacklight')
+      file.include?('blacklight/blacklight')
     end
   end
 end
