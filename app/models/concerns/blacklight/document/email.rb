@@ -5,10 +5,10 @@ module Blacklight::Document::Email
   def to_email_text
     semantics = to_semantic_values
     body = []
-    body << I18n.t('blacklight.email.text.title', value: semantics[:title].join(" ")) unless semantics[:title].blank?
-    body << I18n.t('blacklight.email.text.author', value: semantics[:author].join(" ")) unless semantics[:author].blank?
-    body << I18n.t('blacklight.email.text.format', value: semantics[:format].join(" ")) unless semantics[:format].blank?
-    body << I18n.t('blacklight.email.text.language', value: semantics[:language].join(" ")) unless semantics[:language].blank?
+    body << I18n.t('blacklight.email.text.title', value: semantics[:title].join(" ")) if semantics[:title].present?
+    body << I18n.t('blacklight.email.text.author', value: semantics[:author].join(" ")) if semantics[:author].present?
+    body << I18n.t('blacklight.email.text.format', value: semantics[:format].join(" ")) if semantics[:format].present?
+    body << I18n.t('blacklight.email.text.language', value: semantics[:language].join(" ")) if semantics[:language].present?
     return body.join("\n") unless body.empty?
   end
 end

@@ -422,31 +422,12 @@ RSpec/VoidExpect:
   Exclude:
     - 'spec/lib/blacklight/configuration/facet_field_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: NilOrEmpty, NotPresent, UnlessPresent.
-Rails/Blank:
-  Exclude:
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
-
 # Offense count: 4
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: strict, flexible
 Rails/Date:
   Exclude:
     - 'spec/models/search_spec.rb'
-
-# Offense count: 13
-# Cop supports --auto-correct.
-# Configuration parameters: NotNilAndNotEmpty, NotBlank, UnlessBlank.
-Rails/Present:
-  Exclude:
-    - 'app/controllers/concerns/blacklight/catalog.rb'
-    - 'app/helpers/blacklight/component_helper_behavior.rb'
-    - 'app/helpers/blacklight/facets_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/document/email.rb'
-    - 'app/models/concerns/blacklight/document/sms.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle.
