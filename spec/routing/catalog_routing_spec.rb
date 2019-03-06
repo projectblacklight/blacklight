@@ -21,6 +21,22 @@ describe "Routing" do
     end
   end
 
+  describe 'tracking' do
+    context 'when the routing constraint is set to allow periods' do
+      before do
+        if Rails.version < '5.2.0'
+          skip 'requires https://github.com/rails/rails/pull/22435'
+        end
+        allow(Blacklight::Engine.config.routes).to receive(:identifier_constraint).and_return(%r{[^/]+})
+        Rails.application.reload_routes!
+      end
+
+      it 'routes to #track' do
+        expect(post('/catalog/gallica.bnf.fr/track')).to route_to('catalog#track', id: 'gallica.bnf.fr')
+      end
+    end
+  end
+
 
   describe "solr_document_path for SolrDocument", :test => true do
     it "routes correctly" do
