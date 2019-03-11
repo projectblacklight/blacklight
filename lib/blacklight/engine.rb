@@ -7,7 +7,7 @@ module Blacklight
     require 'twitter-typeahead-rails'
 
     # BlacklightHelper is needed by all helpers, so we inject it
-    # into action view base here. 
+    # into action view base here.
     initializer 'blacklight.helpers' do |app|
       ActionView::Base.send :include, BlacklightHelper
     end
@@ -43,8 +43,12 @@ module Blacklight
       'Cricket' => 'mms.mycricket.com'
     }
 
+    config.routes = OpenStruct.new
+    # Set identifier_constraint to enforce a format for the document identifiers
+    config.routes.identifier_constraint = /[\w-]+/
+
     config.bookmarks_http_method = :post
-    
+
     config.email_regexp = defined?(Devise) ? Devise.email_regexp : /\A[^@\s]+@[^@\s]+\z/
   end
 end
