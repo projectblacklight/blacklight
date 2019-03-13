@@ -45,7 +45,7 @@ module Blacklight
 
     config.routes = OpenStruct.new
     # Set identifier_constraint to enforce a format for the document identifiers
-    config.routes.identifier_constraint = /[\w-]+/
+    config.routes.identifier_constraint = /.+/
 
     config.bookmarks_http_method = :post
 

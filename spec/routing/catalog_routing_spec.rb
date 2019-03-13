@@ -35,6 +35,10 @@ describe "Routing" do
         expect(post('/catalog/gallica.bnf.fr/track')).to route_to('catalog#track', id: 'gallica.bnf.fr')
       end
     end
+
+    it "routes ids with a literal ':'" do
+      expect(post('/catalog/this:that/track')).to route_to('catalog#track', id: 'this:that')
+    end
   end
 
 
@@ -60,6 +64,10 @@ describe "Routing" do
 
       it "routes ids with a literal '+'" do
         expect(:get => solr_document_path(SolrDocument.new(:id => 'this+that'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'this+that')
+      end
+
+      it "routes ids with a literal ':'" do
+        expect(get: solr_document_path(SolrDocument.new(:id => 'this:that'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'this:that')
       end
 
       it "routes ids with a literal '/" do
