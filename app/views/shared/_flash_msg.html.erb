@@ -9,9 +9,11 @@
       end
     -%>
     <% if flash[type] %>
-      <div class="alert <%=alert_class %>"><%= flash[type] %>
-         <a class="close" data-dismiss="alert" href="#">&times;</a>
-      </div>
+      <% Array(flash[type]).each do |f| %>
+        <div class="alert <%= alert_class %>"><%= f %>
+          <a class="close" data-dismiss="alert" href="#">&times;</a>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>
