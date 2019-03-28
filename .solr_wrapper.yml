@@ -10,3 +10,4 @@
 collection:
   dir: lib/generators/blacklight/templates/solr/conf/
   name: blacklight-core
+  version: 7.7.1
