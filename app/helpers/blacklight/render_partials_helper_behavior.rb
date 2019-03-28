@@ -30,6 +30,18 @@ module Blacklight::RenderPartialsHelperBehavior
   end
 
   ##
+  # Return the list of xml for a given solr document. Doesn't safely escape for HTML.
+  # @param [SolrDocument] doc solr document to render partials for
+  # @param [Array<String>] partials list of partials to render
+  # @param [Hash] locals local variables to pass to the render call
+  # @return [String]
+  def render_xml_partials(doc, partials = [], locals = {})
+    partials.map do |action_name|
+      render_document_partial(doc, action_name, locals)
+    end.join("\n")
+  end
+
+  ##
   # Given a doc and a base name for a partial, this method will attempt to render
   # an appropriate partial based on the document format and view type.
   #
