@@ -22,6 +22,7 @@ require 'rspec/collection_matchers'
 require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'equivalent-xml'
+require 'chromedriver-helper'
 
 Capybara.javascript_driver = :headless_chrome
 

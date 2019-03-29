@@ -27,6 +27,8 @@ matrix:
   fast_finish: true
 
 before_install:
+  - gem install chromedriver-helper --no-document
+  - chromedriver-update 73.0.3683.68
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
 
 notifications:
