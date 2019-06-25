@@ -7,7 +7,7 @@ Development is largely motivated by the needs of each developer’s organization
 We always welcome contributions from the community, especially to add new features, address bugs or defects, and clarify existing code for future developers.
 
 ## Adding a ticket
-Let us know you're interested in working on a feature by filing a ticket in our [[issue tracker|https://github.com/projectblacklight/blacklight/issues]].
+Let us know you're interested in working on a feature by filing a ticket in our [issue tracker](https://github.com/projectblacklight/blacklight/issues).
 
 ## Making Your Changes
 
@@ -15,11 +15,11 @@ Let us know you're interested in working on a feature by filing a ticket in our 
 * Start a feature/bugfix branch
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so we don't break it in a future version unintentionally.
-* After making your changes, be sure to run the [[Blacklight tests|Testing]] to make sure everything works.
-* Submit your change as a [[Pull Request|http://help.github.com/pull-requests/]].
+* After making your changes, be sure to run the [Blacklight tests](https://github.com/projectblacklight/blacklight/wiki/testing) to make sure everything works.
+* Submit your change as a [Pull Request](https://help.github.com/en/articles/about-pull-requests).
 
 ## Support
-If you are interested in working on the Blacklight plugin, but want guidance or support, please send an email to our [[Blacklight-development mailing list|http://groups.google.com/group/blacklight-development]] and we'll be glad to help.
+If you are interested in working on the Blacklight plugin, but want guidance or support, please send an email to our [Blacklight-development mailing list](http://groups.google.com/group/blacklight-development) and we'll be glad to help.
 
 ## Becoming a Committer
 
