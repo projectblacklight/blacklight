@@ -20,6 +20,7 @@ Let us know you're interested in working on a feature by filing a ticket in our 
 
 ## Pull Requests and Code Review
 - Pull requests must be reviewed and approved by one non-author with write-permissions
+- If additional code changes are made after approval, another approval (from the same or another qualified person) is required.
 - A reviewer who has approved a PR but has not merged it should provide a comment (e.g. "This looks good, I'm just waiting for Travis to build", "This is a breaking change. I would like at least one more reviewer.")
 - An approved PR may be merged by the reviewer, the author, or another committer
 
