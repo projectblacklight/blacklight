@@ -260,7 +260,7 @@ module Blacklight::BlacklightHelperBehavior
     case action_name
     when 'show', 'citation'
       show_presenter(document)
-    when 'index'
+    else
       index_presenter(document)
     end
   end
