@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 # Methods added to this helper will be available to all templates in the hosting application
 module Blacklight::BlacklightHelperBehavior
-  include UrlHelperBehavior
-  include HashAsHiddenFieldsHelperBehavior
-  include LayoutHelperBehavior
-  include IconHelperBehavior
+  include Blacklight::UrlHelperBehavior
+  include Blacklight::HashAsHiddenFieldsHelperBehavior
+  include Blacklight::LayoutHelperBehavior
+  include Blacklight::IconHelperBehavior
 
   ##
   # Get the name of this application from an i18n string
