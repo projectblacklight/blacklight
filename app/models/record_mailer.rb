@@ -7,7 +7,10 @@ class RecordMailer < ActionMailer::Base
             rescue
               I18n.t('blacklight.email.text.default_title')
             end
-    subject = I18n.t('blacklight.email.text.subject', count: documents.length, title: title)
+
+    subject = I18n.t('blacklight.email.text.subject',
+                     count: documents.length,
+                     title: Array(title).first)
 
     @documents      = documents
     @message        = details[:message]
