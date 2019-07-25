@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   class Configuration::FacetField < Blacklight::Configuration::Field
     extend Deprecation

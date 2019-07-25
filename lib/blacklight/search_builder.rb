@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   ##
   # Blacklight's SearchBuilder converts blacklight request parameters into
@@ -52,9 +53,9 @@ module Blacklight
     def append(*addl_processor_chain)
       params_will_change!
       builder = self.class.new(processor_chain + addl_processor_chain, scope)
-          .with(blacklight_params)
-          .merge(@merged_params)
-          .reverse_merge(@reverse_merged_params)
+                    .with(blacklight_params)
+                    .merge(@merged_params)
+                    .reverse_merge(@reverse_merged_params)
 
       builder.start = @start if @start
       builder.rows  = @rows if @rows
@@ -72,9 +73,9 @@ module Blacklight
     # chain are ignored as no-ops, rather than raising.
     def except(*except_processor_chain)
       builder = self.class.new(processor_chain - except_processor_chain, scope)
-          .with(blacklight_params)
-          .merge(@merged_params)
-          .reverse_merge(@reverse_merged_params)
+                    .with(blacklight_params)
+                    .merge(@merged_params)
+                    .reverse_merge(@reverse_merged_params)
 
       builder.start = @start if @start
       builder.rows  = @rows if @rows
@@ -111,9 +112,9 @@ module Blacklight
       return @params unless params_need_update?
 
       @params = processed_parameters
-                  .reverse_merge(@reverse_merged_params)
-                  .merge(@merged_params)
-                  .tap { clear_changes }
+                .reverse_merge(@reverse_merged_params)
+                .merge(@merged_params)
+                .tap { clear_changes }
     end
 
     alias_method :query, :to_hash

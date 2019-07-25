@@ -20,12 +20,12 @@ xml.entry do
   with_format("html") do
     xml.summary "type" => "html" do
       xml.text! render_document_partial(document,
-      :index,
-      document_counter: document_counter)
+                                        :index,
+                                        document_counter: document_counter)
     end
   end
 
-  #If they asked for a format, give it to them.
+  # If they asked for a format, give it to them.
   if (params["content_format"] &&
     document.export_formats[params["content_format"].to_sym])
 
@@ -44,7 +44,7 @@ xml.entry do
         # text, escape
         content_element.text! data
       else
-        #something else, base64 encode it
+        # something else, base64 encode it
         content_element << Base64.encode64(data)
       end
     end

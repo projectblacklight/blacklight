@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Solr
   module SearchBuilderBehavior
     extend ActiveSupport::Concern
@@ -256,9 +257,9 @@ module Blacklight::Solr
       options[:quote] ||= '"'
       unless val =~ /^[a-zA-Z0-9$_\-\^]+$/
         val = options[:quote] +
-          # Yes, we need crazy escaping here, to deal with regexp esc too!
-          val.gsub("'", "\\\\\'").gsub('"', "\\\\\"") +
-          options[:quote]
+              # Yes, we need crazy escaping here, to deal with regexp esc too!
+              val.gsub("'", "\\\\\'").gsub('"', "\\\\\"") +
+              options[:quote]
       end
       val
     end

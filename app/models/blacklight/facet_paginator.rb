@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   # Pagination for facet values -- works by setting the limit to max
   # displayable. You have to ask Solr for limit+1, to get enough
@@ -52,7 +53,7 @@ module Blacklight
 
     def current_page
       # A nil limit is unlimited, thus only one page.
-      if limit.nil? || limit.zero? #check for divide by zero
+      if limit.nil? || limit.zero? # check for divide by zero
         1
       else
         @offset / limit + 1

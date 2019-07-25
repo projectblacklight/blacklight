@@ -7,7 +7,7 @@ xml.instruct!(:xml, encoding: "UTF-8")
 xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
          "xmlns:opensearch" => "http://a9.com/-/spec/opensearch/1.1/") do
 
-  xml.title   t('blacklight.search.page_title.title', constraints: render_search_to_page_title(params), application_name: application_name)
+  xml.title t('blacklight.search.page_title.title', constraints: render_search_to_page_title(params), application_name: application_name)
   # an author is required, so we'll just use the app name
   xml.author { xml.name application_name }
 
@@ -17,25 +17,23 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
 
   # Navigational and context links
 
-  xml.link( "rel" => "next",
-            "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.next_page.to_s))
-           ) if @response.next_page
+  xml.link("rel" => "next",
+           "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.next_page.to_s))) if @response.next_page
 
-  xml.link( "rel" => "previous",
-            "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.prev_page.to_s))
-           ) if @response.prev_page
+  xml.link("rel" => "previous",
+           "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.prev_page.to_s))) if @response.prev_page
 
-  xml.link( "rel" => "first",
-            "href" => url_for(search_state.to_h.merge(only_path: false, page: "1")))
+  xml.link("rel" => "first",
+           "href" => url_for(search_state.to_h.merge(only_path: false, page: "1")))
 
-  xml.link( "rel" => "last",
-            "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.total_pages.to_s)))
+  xml.link("rel" => "last",
+           "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.total_pages.to_s)))
 
   # "search" doesn't seem to actually be legal, but is very common, and
   # used as an example in opensearch docs
-  xml.link( "rel" => "search",
-            "type" => "application/opensearchdescription+xml",
-            "href" => url_for(controller: 'catalog',action: 'opensearch', format: 'xml', only_path: false))
+  xml.link("rel" => "search",
+           "type" => "application/opensearchdescription+xml",
+           "href" => url_for(controller: 'catalog', action: 'opensearch', format: 'xml', only_path: false))
 
   # opensearch response elements
   xml.opensearch :totalResults, @response.total.to_s

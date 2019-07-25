@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Solr::Response::Response
   def response
     self[:response] || {}

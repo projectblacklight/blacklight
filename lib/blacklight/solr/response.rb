@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   extend ActiveSupport::Autoload
   eager_autoload do

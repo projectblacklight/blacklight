@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   ##
   # Blacklight::Configuration holds the configuration for a Blacklight::Controller, including
@@ -25,109 +26,108 @@ module Blacklight
       def default_values
         @default_values ||= begin
           {
-          # === Search request configuration
-          # HTTP method to use when making requests to solr; valid
-          # values are :get and :post.
-          http_method: :get,
-          # The path to send requests to solr.
-          solr_path: 'select',
-          # Default values of parameters to send with every search request
-          default_solr_params: {},
-          ##
-          # === Single document request configuration
-          # The solr request handler to use when requesting only a single document
-          document_solr_request_handler: nil,
-          # The path to send single document requests to solr
-          document_solr_path: 'get',
-          document_unique_id_param: :ids,
-          # Default values of parameters to send when requesting a single document
-          default_document_solr_params: {},
-          fetch_many_document_params: {},
-          document_pagination_params: {},
-          ##
-          # == Response models
-          ## Class for sending and receiving requests from a search index
-          repository_class: nil,
-          ## Class for converting Blacklight parameters to request parameters for the repository_class
-          search_builder_class: nil,
-          # model that maps index responses to the blacklight response model
-          response_model: nil,
-          # the model to use for each response document
-          document_model: nil,
-          # Class for paginating long lists of facet fields
-          facet_paginator_class: nil,
-          # repository connection configuration
-          connection_config: nil,
-          ##
-          # == Blacklight view configuration
-          navbar: OpenStructWithHashAccess.new(partials: {}),
-          # General configuration for all views
-          index: ViewConfig::Index.new(
-            # document presenter class used by helpers and views
-            document_presenter_class: nil,
-            # solr field to use to render a document title
-            title_field: nil,
-            # solr field to use to render format-specific partials
-            display_type_field: 'format',
-            # partials to render for each document(see #render_document_partials)
-            partials: [:index_header, :thumbnail, :index],
-            document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
-            collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
-            # what field, if any, to use to render grouped results
-            group: false,
-            # additional response formats for search results
-            respond_to: OpenStructWithHashAccess.new
-          ),
-          # Additional configuration when displaying a single document
-          show: ViewConfig::Show.new(
-            # document presenter class used by helpers and views
-            document_presenter_class: nil,
-            display_type_field: 'format',
-            # Default route parameters for 'show' requests.
-            # Set this to a hash with additional arguments to merge into the route,
-            # or set `controller: :current` to route to the current controller.
-            route: nil,
-            # partials to render for each document(see #render_document_partials)
-            partials: [:show_header, :show],
-            document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
-          ),
-          # Configurations for specific types of index views
-          view: NestedOpenStructWithHashAccess.new(ViewConfig,
-                                                   list: {},
-                                                   atom: {
-                                                     if: false, # by default, atom should not show up as an alternative view
-                                                     partials: [:document]
-                                                   },
-                                                   rss: {
-                                                     if: false, # by default, rss should not show up as an alternative view
-                                                     partials: [:document]
-                                                 }),
-          #
-          # These fields are created and managed below by `define_field_access`
-          # facet_fields
-          # index_fields
-          # show_fields
-          # sort_fields
-          # search_fields
-          ##
-          # === Blacklight behavior configuration
-          # Maxiumum number of spelling suggestions to offer
-          spell_max: 5,
-          # Maximum number of results to show per page
-          max_per_page: 100,
-          # Options for the user for number of results to show per page
-          per_page: [10, 20, 50, 100],
-          default_per_page: nil,
-          # how many searches to save in session history
-          search_history_window: 100,
-          default_facet_limit: 10,
-          default_more_limit: 20,
-          # proc for determining whether the session is a crawler/bot
-          # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
-          crawler_detector: nil,
-          autocomplete_suggester: 'mySuggester',
-          raw_endpoint: OpenStructWithHashAccess.new(enabled: false),
-          track_search_session: true
+            # === Search request configuration
+            # HTTP method to use when making requests to solr; valid
+            # values are :get and :post.
+            http_method: :get,
+            # The path to send requests to solr.
+            solr_path: 'select',
+            # Default values of parameters to send with every search request
+            default_solr_params: {},
+            ##
+            # === Single document request configuration
+            # The solr request handler to use when requesting only a single document
+            document_solr_request_handler: nil,
+            # The path to send single document requests to solr
+            document_solr_path: 'get',
+            document_unique_id_param: :ids,
+            # Default values of parameters to send when requesting a single document
+            default_document_solr_params: {},
+            fetch_many_document_params: {},
+            document_pagination_params: {},
+            ##
+            # == Response models
+            ## Class for sending and receiving requests from a search index
+            repository_class: nil,
+            ## Class for converting Blacklight parameters to request parameters for the repository_class
+            search_builder_class: nil,
+            # model that maps index responses to the blacklight response model
+            response_model: nil,
+            # the model to use for each response document
+            document_model: nil,
+            # Class for paginating long lists of facet fields
+            facet_paginator_class: nil,
+            # repository connection configuration
+            connection_config: nil,
+            ##
+            # == Blacklight view configuration
+            navbar: OpenStructWithHashAccess.new(partials: {}),
+            # General configuration for all views
+            index: ViewConfig::Index.new(
+              # document presenter class used by helpers and views
+              document_presenter_class: nil,
+              # solr field to use to render a document title
+              title_field: nil,
+              # solr field to use to render format-specific partials
+              display_type_field: 'format',
+              # partials to render for each document(see #render_document_partials)
+              partials: [:index_header, :thumbnail, :index],
+              document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
+              collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
+              # what field, if any, to use to render grouped results
+              group: false,
+              # additional response formats for search results
+              respond_to: OpenStructWithHashAccess.new
+            ),
+            # Additional configuration when displaying a single document
+            show: ViewConfig::Show.new(
+              # document presenter class used by helpers and views
+              document_presenter_class: nil,
+              display_type_field: 'format',
+              # Default route parameters for 'show' requests.
+              # Set this to a hash with additional arguments to merge into the route,
+              # or set `controller: :current` to route to the current controller.
+              route: nil,
+              # partials to render for each document(see #render_document_partials)
+              partials: [:show_header, :show],
+              document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
+            ),
+            # Configurations for specific types of index views
+            view: NestedOpenStructWithHashAccess.new(ViewConfig,
+                                                     list: {},
+                                                     atom: {
+                                                       if: false, # by default, atom should not show up as an alternative view
+                                                       partials: [:document]
+                                                     },
+                                                     rss: {
+                                                       if: false, # by default, rss should not show up as an alternative view
+                                                       partials: [:document]
+                                                     }),
+            #
+            # These fields are created and managed below by `define_field_access`
+            # facet_fields
+            # index_fields
+            # show_fields
+            # sort_fields
+            # search_fields
+            ##
+            # === Blacklight behavior configuration
+            # Maxiumum number of spelling suggestions to offer
+            spell_max: 5,
+            # Maximum number of results to show per page
+            max_per_page: 100,
+            # Options for the user for number of results to show per page
+            per_page: [10, 20, 50, 100],
+            default_per_page: nil,
+            # how many searches to save in session history
+            search_history_window: 100,
+            default_facet_limit: 10,
+            default_more_limit: 20,
+            # proc for determining whether the session is a crawler/bot
+            # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
+            crawler_detector: nil,
+            autocomplete_suggester: 'mySuggester',
+            raw_endpoint: OpenStructWithHashAccess.new(enabled: false)
           }
         end
         # rubocop:enable Metrics/MethodLength

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   class AbstractRepository
     attr_accessor :blacklight_config

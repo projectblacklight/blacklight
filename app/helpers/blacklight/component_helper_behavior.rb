@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   module ComponentHelperBehavior
     def document_action_label action, opts

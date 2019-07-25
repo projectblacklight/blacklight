@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.describe BlacklightHelper do
   before do
     allow(helper).to receive(:current_or_guest_user).and_return(User.new)
