@@ -5,7 +5,7 @@ RSpec.describe Blacklight::Document::CacheKey, api: true do
   let(:subject) { SolrDocument.new(attributes) }
 
   it 'SolrDocument includes the module' do
-    expect(subject.class).to include(Blacklight::Document::CacheKey)
+    expect(subject.class).to include(described_class)
   end
 
   describe 'new record' do

@@ -3,7 +3,7 @@
 RSpec.describe SolrDocument, api: true do
   describe "access methods" do
     let(:solrdoc) do
-      SolrDocument.new(id: '00282214', format: ['Book'], title_tsim: 'some-title')
+      described_class.new(id: '00282214', format: ['Book'], title_tsim: 'some-title')
     end
 
     describe "#[]" do

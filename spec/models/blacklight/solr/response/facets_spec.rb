@@ -3,7 +3,7 @@
 RSpec.describe Blacklight::Solr::Response::Facets, api: true do
   describe Blacklight::Solr::Response::Facets::FacetField do
     describe "A field with default options" do
-      subject { Blacklight::Solr::Response::Facets::FacetField.new "my_field", [] }
+      subject { described_class.new "my_field", [] }
 
       its(:name) { is_expected.to eq "my_field" }
       its(:limit) { is_expected.to eq 100 }
@@ -12,7 +12,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     end
 
     describe "A field with additional options" do
-      subject { Blacklight::Solr::Response::Facets::FacetField.new "my_field", [], limit: 15, sort: 'alpha', offset: 23 }
+      subject { described_class.new "my_field", [], limit: 15, sort: 'alpha', offset: 23 }
 
       its(:name) { is_expected.to eq "my_field" }
       its(:limit) { is_expected.to eq 15 }
