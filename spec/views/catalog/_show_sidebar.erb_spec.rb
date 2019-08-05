@@ -17,9 +17,9 @@ RSpec.describe "/catalog/_show_sidebar.html.erb" do
   end
 
   it "shows more-like-this titles in the sidebar" do
-    @document = SolrDocument.new id: 1, title_s: 'abc', format: 'default'
-    allow(@document).to receive(:more_like_this).and_return([SolrDocument.new('id' => '2', 'title_tsim' => 'Title of MLT Document')])
-    render
+    document = SolrDocument.new id: 1, title_s: 'abc', format: 'default'
+    allow(document).to receive(:more_like_this).and_return([SolrDocument.new('id' => '2', 'title_tsim' => 'Title of MLT Document')])
+    render 'catalog/show_sidebar', document: document
     expect(rendered).to include("More Like This")
     expect(rendered).to include("Title of MLT Document")
   end
