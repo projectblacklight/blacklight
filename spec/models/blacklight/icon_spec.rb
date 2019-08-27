@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::Icon do
-  subject { described_class.new(:search, class: 'awesome', aria_hidden: true) }
+  subject { described_class.new(:search, classes: 'awesome', aria_hidden: true) }
 
   describe '#svg' do
     it 'returns a string' do

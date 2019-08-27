@@ -7,10 +7,10 @@ module Blacklight
     # @param [String, Symbol] icon_name
     # @param [Hash] options
     # @param [String] classes additional classes separated by a string
-    def initialize(icon_name, options = {})
+    def initialize(icon_name, classes: '', aria_hidden: false)
       @icon_name = icon_name
-      @classes = options[:class] if options[:class].present?
-      @aria_hidden = options[:aria_hidden] if options[:aria_hidden].present?
+      @classes = classes
+      @aria_hidden = aria_hidden
     end
 
     ##
