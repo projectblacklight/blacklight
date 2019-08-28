@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::Icon do
-  subject { described_class.new(:search, classes: 'awesome') }
+  subject { described_class.new(:search, classes: 'awesome', aria_hidden: true) }
 
   describe '#svg' do
     it 'returns a string' do
@@ -16,6 +16,20 @@ RSpec.describe Blacklight::Icon do
   describe '#options' do
     it 'applies options classes and default class' do
       expect(subject.options[:class]).to eq 'blacklight-icons awesome'
+    end
+    it 'applies options aria-hidden=true' do
+      expect(subject.options[:'aria-hidden']).to be true
+    end
+    context 'no options provided' do
+      subject { described_class.new(:view) }
+
+      it 'applies default class with no options' do
+        expect(subject.options[:class]).to eq 'blacklight-icons'
+      end
+
+      it 'has no aria-hidden attribute with no options' do
+        expect(subject.options[:'aria-hidden']).to be nil
+      end
     end
   end
 
