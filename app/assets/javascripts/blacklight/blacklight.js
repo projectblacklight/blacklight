@@ -229,29 +229,29 @@ Blacklight.onLoad(function () {
 /*global Blacklight */
 
 
-(function ($) {
-  'use strict';
+'use strict';
 
-  Blacklight.doResizeFacetLabelsAndCounts = function () {
-    // adjust width of facet columns to fit their contents
-    function longer(a, b) {
-      return b.textContent.length - a.textContent.length;
+Blacklight.doResizeFacetLabelsAndCounts = function () {
+  // adjust width of facet columns to fit their contents
+  function longer(a, b) {
+    return b.textContent.length - a.textContent.length;
+  }
+
+  document.querySelectorAll('.facet-values, .pivot-facet').forEach(function (elem) {
+    const nodes = elem.querySelectorAll('.facet-count'); // TODO: when we drop ie11 support, this can become the spread operator:
+
+    const longest = Array.from(nodes).sort(longer)[0];
+
+    if (longest && longest.textContent) {
+      const width = longest.textContent.length + 1 + 'ch';
+      elem.querySelector('.facet-count').style.width = width;
     }
-
-    $('ul.facet-values, ul.pivot-facet').each(function () {
-      var longest = $(this).find('span.facet-count').sort(longer)[0];
-
-      if (longest && longest.textContent) {
-        var width = longest.textContent.length + 1 + 'ch';
-        $(this).find('.facet-count').first().width(width);
-      }
-    });
-  };
-
-  Blacklight.onLoad(function () {
-    Blacklight.doResizeFacetLabelsAndCounts();
   });
-})(jQuery);
+};
+
+Blacklight.onLoad(function () {
+  Blacklight.doResizeFacetLabelsAndCounts();
+});
 /*
   The blacklight modal plugin can display some interactions inside a Bootstrap
   modal window, including some multi-page interactions.
@@ -326,7 +326,6 @@ Blacklight.onLoad(function () {
 */
 // We keep all our data in Blacklight.modal object.
 // Create lazily if someone else created first.
-
 
 if (Blacklight.modal === undefined) {
   Blacklight.modal = {};
