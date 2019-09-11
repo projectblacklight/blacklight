@@ -9,17 +9,17 @@ notifications:
 matrix:
   include:
     - rvm: 2.6.4
-      env: "RAILS_VERSION=5.2.2"
+      env: "RAILS_VERSION=5.2.3"
     - rvm: 2.6.4
       env: "RAILS_VERSION=6.0.0"
-    - rvm: 2.5.3
-      env: "RAILS_VERSION=5.1.6"
-    - rvm: 2.5.3
-      env: "RAILS_VERSION=5.2.1 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable  --skip-action-text --skip-action-mailbox --skip-coffee --skip-test --skip-javascript\""
-    - rvm: 2.4.5
-      env: "RAILS_VERSION=5.1.6"
+    - rvm: 2.5.6
+      env: "RAILS_VERSION=5.1.7"
+    - rvm: 2.5.6
+      env: "RAILS_VERSION=5.2.3 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable  --skip-action-text --skip-action-mailbox --skip-coffee --skip-test --skip-javascript\""
+    - rvm: 2.4.7
+      env: "RAILS_VERSION=5.1.7"
     - rvm: jruby-9.2.0.0
-      env: "RAILS_VERSION=5.1.6 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+      env: "RAILS_VERSION=5.1.7 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
     - rvm: jruby-9.2.0.0
   fast_finish: true
