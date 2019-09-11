@@ -10,7 +10,7 @@ module Blacklight
 
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
-    class_option :'skip-assets', type: :boolean, default: !defined?(Sprockets), desc: "Skip generating javascript and css assets into the application"
+    class_option :'skip-assets', type: :boolean, default: defined?(Webpacker), desc: "Skip generating javascript and css assets into the application"
     class_option :'skip-solr', type: :boolean, default: false, desc: "Skip generating solr configurations."
 
     desc <<-EOS
@@ -35,7 +35,7 @@ module Blacklight
     def copy_public_assets
       return if options[:'skip-assets']
 
-      generate "blacklight:sprockets" if defined? Sprockets
+      generate "blacklight:sprockets"
     end
 
     def bundle_install
