@@ -73,10 +73,10 @@
                //Set the Rails hidden field that fakes an HTTP verb
                //properly for current state action.
                form.find('input[name=_method]').val('delete');
-               span.text(form.attr('data-present'));
+               span.html(form.attr('data-present'));
             } else {
                form.find('input[name=_method]').val('put');
-               span.text(form.attr('data-absent'));
+               span.html(form.attr('data-absent'));
             }
           }
 
@@ -84,7 +84,7 @@
         updateStateFor(checked);
 
         checkbox.click(function() {
-            span.text(form.attr('data-inprogress'));
+            span.html(form.attr('data-inprogress'));
             label.attr('disabled', 'disabled');
             checkbox.attr('disabled', 'disabled');
 
