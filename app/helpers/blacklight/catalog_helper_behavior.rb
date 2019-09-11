@@ -3,13 +3,13 @@ module Blacklight::CatalogHelperBehavior
   extend Deprecation
   self.deprecation_horizon = 'blacklight 8.0'
 
-  include ConfigurationHelperBehavior
-  include ComponentHelperBehavior
-  include FacetsHelperBehavior
-  include RenderConstraintsHelperBehavior
-  include RenderPartialsHelperBehavior
-  include SearchHistoryConstraintsHelperBehavior
-  include SuggestHelperBehavior
+  include Blacklight::ConfigurationHelperBehavior
+  include Blacklight::ComponentHelperBehavior
+  include Blacklight::FacetsHelperBehavior
+  include Blacklight::RenderConstraintsHelperBehavior
+  include Blacklight::RenderPartialsHelperBehavior
+  include Blacklight::SearchHistoryConstraintsHelperBehavior
+  include Blacklight::SuggestHelperBehavior
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
