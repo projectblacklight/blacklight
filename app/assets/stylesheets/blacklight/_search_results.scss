@@ -13,7 +13,7 @@
     // bookmarks checkbox on index, give it some
     // lower margin when it collapses
     .index-document-functions {
-      margin-bottom: ($line-height-base / 2);
+      margin-bottom: ($spacer * 1.5);
 
       @media (min-width: breakpoint-min(sm)) {
         margin-bottom: 0;
@@ -22,8 +22,8 @@
 
     .document-thumbnail {
       float: right;
-      margin-bottom: $line-height-base;
-      padding-left: $line-height-base;
+      margin-bottom: ($spacer * 3);
+      padding-left: ($spacer * 3);
     }
   }
 }
