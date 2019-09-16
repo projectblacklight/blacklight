@@ -71,6 +71,12 @@ RSpec.describe "catalog/_facets" do
         expect(rendered).to have_selector('.facet-content a.facet-select')
         expect(rendered).to have_selector('.facet-content .facet-count')
       end
+      it "has a stretched anchor" do
+        render
+        # This is to ensure that iOS devices (iOS 12), especially, stretch the
+        # anchor tag in the facet heading area.
+        expect(rendered).to have_selector('a.stretched-link')
+      end
     end
   end
 end
