@@ -9,7 +9,7 @@ RSpec.describe Blacklight::Icon do
     end
     it 'returns raw svg' do
       expect(Capybara.string(subject.svg))
-        .to have_css 'svg title', text: 'Search'
+        .to have_css 'svg[width="24"]'
     end
   end
 

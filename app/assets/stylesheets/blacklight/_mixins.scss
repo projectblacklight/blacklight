@@ -1,6 +1,6 @@
 // Stroke contrast
 // Ripped off from https://github.com/twbs/bootstrap/commit/c31d52499811d5c68d122db806ce27a112b489bd
-@mixin stroke-yiq($color) {
+@mixin fill-yiq($color) {
   $r: red($color);
   $g: green($color);
   $b: blue($color);
@@ -8,8 +8,8 @@
   $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
   @if ($yiq >= 150) {
-    stroke: #111;
+    fill: #111;
   } @else {
-    stroke: #fff;
+    fill: #fff;
   }
 }
