@@ -2,7 +2,7 @@
 <span class="sr-only"><%= t('blacklight.search.per_page.title') %></span>
 <div id="per_page-dropdown" class="per-page-dropdown btn-group">
   <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-    <%= t(:'blacklight.search.per_page.button_label', :count => current_per_page) %> <span class="caret"></span>
+    <%= t(:'blacklight.search.per_page.button_label_html', :count => current_per_page) %> <span class="caret"></span>
   </button>
   <div class="dropdown-menu dropdown-menu-right" role="menu">
     <%- per_page_options_for_select.each do |(label, count)| %>

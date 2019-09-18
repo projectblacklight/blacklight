@@ -143,11 +143,13 @@ de:
         invalid_solr_id: "Entschuldigung, Sie haben einen nicht vorhandenen Datensatz angefordert."
       per_page:
         label: '%{count}<span class="sr-only"> pro Seite</span>'
-        button_label: '%{count} pro Seite'
+        button_label: '%{count} pro Seite' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> pro Seite</span>'
         title: 'Anzahl der Ergebnisse, die pro Seite angezeigt werden'
         submit: 'Aktualisieren'
       sort:
-        label: 'Ordnen nach %{field}'
+        label: 'Ordnen nach %{field}' # TODO: Remove during major release
+        label_html: 'Ordnen<span class="d-none d-sm-inline"> nach %{field}</span>'
         submit: 'Ergebnisse ordnen'
       form:
         search_field:

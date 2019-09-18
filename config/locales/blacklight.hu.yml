@@ -136,11 +136,13 @@ hu:
         invalid_solr_id: "Elnézést, de az Ön által kért rekord nem létezik."
       per_page:
         label: '%{count}<span class="sr-only"> oldalanként</span>'
-        button_label: '%{count} oldalanként'
+        button_label: '%{count} oldalanként' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> oldalanként</span>'
         title: 'Az eredmények száma oldalanként'
         submit: 'Frissítés'
       sort:
-        label: 'Rendezés %{field}'
+        label: 'Rendezés %{field}' # TODO: Remove during major release
+        label_html: 'Rendezés<span class="d-none d-sm-inline"> %{field}</span>'
         submit: 'Eredmények rendezése'
       form:
         search_field:

@@ -136,11 +136,13 @@ nl:
         invalid_solr_id: "Sorry, u vroeg een onbestaande record op."
       per_page:
         label: '%{count}<span class="sr-only"> per pagina</span>'
-        button_label: '%{count} per pagina'
+        button_label: '%{count} per pagina' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
         title: 'Toon aantal zoekresultaten per pagina'
         submit: 'Update'
       sort:
-        label: 'Sorteer op %{field}'
+        label: 'Sorteer op %{field}' # TODO: Remove during major release
+        label_html: 'Sorteer<span class="d-none d-sm-inline"> op %{field}</span>'
         submit: 'sorteer resultaten'
       form:
         search_field:

@@ -136,11 +136,13 @@ zh:
         invalid_solr_id: "抱歉，你要找的结果不存在。"
       per_page:
         label: '%{count}<span class="sr-only"> 每页</span>'
-        button_label: '%{count} 每页'
+        button_label: '%{count} 每页' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> 每页</span>'
         title: '每页显示结果数'
         submit: '更新'
       sort:
-        label: '按 %{field} 排序'
+        label: '按 %{field} 排序' # TODO: Remove during major release
+        label_html: '<span class="d-none d-sm-inline">按 %{field} </span>排序'
         submit: '排序'
       form:
         search_field:

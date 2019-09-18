@@ -143,11 +143,13 @@ en:
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
       per_page:
         label: '%{count}<span class="sr-only"> per page</span>'
-        button_label: '%{count} per page'
+        button_label: '%{count} per page' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> per page</span>'
         title: 'Number of results to display per page'
         submit: 'Update'
       sort:
-        label: 'Sort by %{field}'
+        label: 'Sort by %{field}' # TODO: Remove during major release
+        label_html: 'Sort<span class="d-none d-sm-inline"> by %{field}</span>'
         submit: 'sort results'
       form:
         search_field:
