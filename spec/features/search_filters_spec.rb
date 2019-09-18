@@ -215,7 +215,7 @@ RSpec.describe "Facets" do
     end
 
     within(".blacklight-subject_ssim") do
-      click_link "Topic"
+      page.find('h3.facet-field-heading', text: 'Topic').click
       expect(page).to have_selector(".panel-collapse", visible: true)
     end
     within(".blacklight-subject_ssim") do

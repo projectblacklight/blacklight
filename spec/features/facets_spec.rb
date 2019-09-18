@@ -60,7 +60,7 @@ RSpec.describe "Facets" do
       page.find('button.navbar-toggler').click
     end
 
-    page.find('h3.facet-field-heading a', text: 'Format').click
+    page.find('h3.facet-field-heading', text: 'Format').click
 
     sleep(1) # let facet animation finish and wait for it to potentially re-collapse
 

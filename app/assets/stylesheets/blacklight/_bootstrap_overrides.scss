@@ -2,7 +2,8 @@
   @extend .py-2;
 }
 
-.card-header.collapse-toggle {
+// Facet field headings and buttons
+.facet-field-heading button {
   margin-bottom: 0;
 
   &::after {
@@ -20,7 +21,6 @@
     }
   }
 }
-
 
 .page-link {
   white-space: nowrap;
