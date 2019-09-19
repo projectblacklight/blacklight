@@ -217,5 +217,7 @@ pt-BR:
 
     entry_name:
       default: 'registro'
+      grouped:
+        default: 'resultado agrupado'
 
     did_you_mean: 'Você quis dizer: %{options}?'

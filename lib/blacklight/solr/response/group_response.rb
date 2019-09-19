@@ -39,6 +39,16 @@ class Blacklight::Solr::Response::GroupResponse
     total.zero?
   end
 
+  ##
+  # Overridden from Blacklight::Solr::Response::PaginationMethods to support
+  # grouped key specific i18n keys. `key` is the field being grouped
+  def entry_name(options)
+    I18n.t(
+      "blacklight.entry_name.grouped.#{key}",
+      default: :'blacklight.entry_name.grouped.default'
+    ).pluralize(options[:count])
+  end
+
   def method_missing meth, *args, &block
     if response.respond_to? meth
       response.send(meth, *args, &block)

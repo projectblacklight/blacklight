@@ -66,6 +66,8 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     expect(r.total_count).to eq(r.total)
     expect(r.next_page).to eq(r.current_page + 1)
     expect(r.prev_page).to eq(nil)
+    expect(r.entry_name(count: 1)).to eq 'entry'
+    expect(r.entry_name(count: 2)).to eq 'entries'
     if Kaminari.config.respond_to? :max_pages
       expect(r.max_pages).to be_nil
     end

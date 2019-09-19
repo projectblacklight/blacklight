@@ -46,7 +46,7 @@ module Blacklight::CatalogHelperBehavior
                  elsif collection.respond_to?(:model_name) && !collection.model_name.nil? # AR, Blacklight::PaginationMethods
                    collection.model_name.human.downcase
                  else
-                   t('blacklight.entry_name.default')
+                   collection.entry_name(count: collection.size)
                  end
 
     entry_name = entry_name.pluralize unless collection.total_count == 1

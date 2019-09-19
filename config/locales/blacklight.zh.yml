@@ -208,5 +208,7 @@ zh:
 
     entry_name:
       default: '条目'
+      grouped:
+        default: '分组结果'
 
     did_you_mean: '你是要输入： %{options} 吗？'

@@ -219,5 +219,7 @@ fr:
 
     entry_name:
       default: 'résultat'
+      grouped:
+        default: 'résultat groupé'
 
     did_you_mean: 'Essayez peut-être avec : %{options}'

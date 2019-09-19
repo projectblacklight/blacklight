@@ -215,5 +215,7 @@ en:
 
     entry_name:
       default: 'entry'
+      grouped:
+        default: 'grouped result'
 
     did_you_mean: 'Did you mean to type: %{options}?'

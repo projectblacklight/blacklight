@@ -215,5 +215,7 @@ es:
 
     entry_name:
       default: 'entrada'
+      grouped:
+        default: 'resultado agrupado'
 
     did_you_mean: '¿Quiere decir %{options}?'

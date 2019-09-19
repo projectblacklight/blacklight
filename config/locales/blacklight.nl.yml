@@ -208,5 +208,7 @@ nl:
 
     entry_name:
       default: 'ingang'
+      grouped:
+        default: 'gegroepeerd resultaat'
 
     did_you_mean: 'Bedoelde u: %{options}?'

@@ -63,6 +63,19 @@ RSpec.describe Blacklight::Solr::Response::GroupResponse, api: true do
       expect(group.empty?).to be false
     end
   end
+
+  describe "entry_name" do
+    it "accesses a custom field grouped i18n key" do
+      allow(I18n).to receive(:t).with(
+        'blacklight.entry_name.grouped.result_group_ssi',
+        default: :'blacklight.entry_name.grouped.default'
+      ).and_return('cool group')
+      expect(group.entry_name(count: 2)).to eq 'cool groups'
+    end
+    it "falls back to default group key" do
+      expect(group.entry_name(count: 2)).to eq 'grouped results'
+    end
+  end
 end
 
 def create_response(response, params = {})

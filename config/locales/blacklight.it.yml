@@ -215,5 +215,7 @@ it:
 
     entry_name:
       default: 'termine di ricerca'
+      grouped:
+        default: 'risultato raggruppato'
 
     did_you_mean: 'Intendevi digitare: %{options}?'

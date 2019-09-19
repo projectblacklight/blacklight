@@ -208,5 +208,7 @@ hu:
 
     entry_name:
       default: 'bejegyzés'
+      grouped:
+        default: 'csoportosított eredmény'
 
     did_you_mean: 'Arra gondolt, hogy: %{options}?'
