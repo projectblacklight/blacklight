@@ -208,5 +208,7 @@ sq:
 
     entry_name:
       default: 'entry'
+      grouped:
+        default: 'rezultat i grupuar'
 
     did_you_mean: 'A keni menduar: %{options}?'

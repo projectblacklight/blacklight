@@ -217,5 +217,7 @@ de:
 
     entry_name:
       default: 'Eintrag'
+      grouped:
+        default: 'gruppiertes Ergebnis'
 
     did_you_mean: 'Meinten Sie: %{options}?'
