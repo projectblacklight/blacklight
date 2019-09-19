@@ -62,15 +62,6 @@ RSpec.describe CatalogHelper do
         expect(html).to eq "<strong>1</strong> entry found"
         expect(html).to be_html_safe
       end
-
-      it "uses the model_name from the response" do
-        response = mock_response total: 1
-        allow(response).to receive(:model_name).and_return(double(human: 'thingy'))
-
-        html = page_entries_info(response)
-        expect(html).to eq "<strong>1</strong> thingy found"
-        expect(html).to be_html_safe
-      end
     end
 
     it "with a single page of results" do
