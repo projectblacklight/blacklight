@@ -36,17 +36,13 @@ module Blacklight::CatalogHelperBehavior
   #
   # @param [RSolr::Resource] collection (or other Kaminari-compatible objects)
   # @return [String]
-  def page_entries_info(collection, options = {})
+  def page_entries_info(collection, entry_name: nil)
     return unless show_pagination? collection
 
-    entry_name = if options[:entry_name]
-                   options[:entry_name]
-                 elsif collection.respond_to? :model  # DataMapper
-                   collection.model.model_name.human.downcase
-                 elsif collection.respond_to?(:model_name) && !collection.model_name.nil? # AR, Blacklight::PaginationMethods
-                   collection.model_name.human.downcase
+    entry_name = if entry_name
+                   entry_name.pluralize(collection.size, I18n.locale)
                  else
-                   collection.entry_name(count: collection.size)
+                   collection.entry_name(count: collection.size).downcase
                  end
 
     entry_name = entry_name.pluralize unless collection.total_count == 1
