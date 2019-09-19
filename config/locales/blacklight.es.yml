@@ -143,11 +143,13 @@ es:
         invalid_solr_id: "Lo sentimos, usted ha solicitado un registro que no existe."
       per_page:
         label: '%{count}<span class="sr-only"> por página</span>'
-        button_label: '%{count} por página'
+        button_label: '%{count} por página' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> por página</span>'
         title: 'El número de resultados a mostrar por página'
         submit: 'Actualización'
       sort:
-        label: 'Ordenar por %{field}'
+        label: 'Ordenar por %{field}' # TODO: Remove during major release
+        label_html: 'Ordenar<span class="d-none d-sm-inline"> por %{field}</span>'
         submit: 'Resultados de ordenación'
       form:
         search_field:

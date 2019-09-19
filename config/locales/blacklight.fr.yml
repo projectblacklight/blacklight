@@ -146,11 +146,13 @@ fr:
         invalid_solr_id: "Vous avez demandé une notice qui n'existe pas."
       per_page:
         label: '%{count}<span class="sr-only"> par page</span>'
-        button_label: '%{count} par page'
+        button_label: '%{count} par page' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> par page</span>'
         title: 'Nombre de résultats à afficher par page'
         submit: 'mettre à jour'
       sort:
-        label: 'Trier par %{field}'
+        label: 'Trier par %{field}' # TODO: Remove during major release
+        label_html: 'Trier<span class="d-none d-sm-inline"> par %{field}</span>'
         submit: 'trier les résultats'
       form:
         search_field:

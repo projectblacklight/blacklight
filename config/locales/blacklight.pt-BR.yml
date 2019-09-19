@@ -144,11 +144,13 @@ pt-BR:
         invalid_solr_id: "Desculpe, você solicitou um cadastro que não existe."
       per_page:
         label: '%{count}<span class="hide-text"> por página</span>'
-        button_label: '%{count} por página'
+        button_label: '%{count} por página' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> por página</span>'
         title: 'Número de resultados para mostrar por página'
         submit: 'Atualizar'
       sort:
-        label: 'Ordenar por %{field}'
+        label: 'Ordenar por %{field}' # TODO: Remove during major release
+        label_html: 'Ordenar<span class="d-none d-sm-inline"> por %{field}</span>'
         submit: 'ordenar resultados'
       form:
         search_field:

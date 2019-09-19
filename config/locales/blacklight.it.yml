@@ -143,11 +143,13 @@ it:
         invalid_solr_id: "Il numero di scheda richiesto non esiste."
       per_page:
         label: '%{count}<span class="sr-only"> per pagina</span>'
-        button_label: '%{count} per pagina'
+        button_label: '%{count} per pagina' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
         title: 'Risultati per pagina'
         submit: 'Aggiorna'
       sort:
-        label: 'Ordina per %{field}'
+        label: 'Ordina per %{field}' # TODO: Remove during major release
+        label_html: 'Ordina<span class="d-none d-sm-inline"> per %{field}</span>'
         submit: 'Ordina i risultati'
       form:
         search_field:

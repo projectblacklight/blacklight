@@ -134,11 +134,13 @@ sq:
         invalid_solr_id: "Na vjen keq, ju keni kërkuar një të dhënë që nuk ekziston."
       per_page:
         label: '%{count}<span class="sr-only"> për faqe</span>'
-        button_label: '%{count} për faqe'
+        button_label: '%{count} për faqe' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> për faqe</span>'
         title: 'Numri i rezultateve që do të shfaqen për faqe'
         submit: 'Përditëso'
       sort:
-        label: 'Klasifikoj sipas %{field}'
+        label: 'Klasifikoj sipas %{field}' # TODO: Remove during major release
+        label_html: 'Klasifikoj<span class="d-none d-sm-inline"> sipas %{field}</span>'
         submit: 'klasifiko rezultatet'
       form:
         search_field:
