@@ -31,8 +31,11 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
-  # implementation.
-  # Displays the "showing X through Y of N" message.
+  # implementation. Why do we have to do this?
+  #  - We need custom counting information for grouped results
+  #  - We need to provide number_with_delimiter strings to i18n keys
+  # If we didn't have to do either one of these, we could get away with removing
+  # this entirely.
   #
   # @param [RSolr::Resource] collection (or other Kaminari-compatible objects)
   # @return [String]
