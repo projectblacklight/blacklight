@@ -39,7 +39,8 @@ module Blacklight
       'Sprint' => 'messaging.sprintpcs.com',
       'T Mobile' => 'tmomail.net',
       'Alltel' => 'message.alltel.com',
-      'Cricket' => 'mms.mycricket.com'
+      'Cricket' => 'mms.mycricket.com',
+      'Google Fi' => 'msg.fi.google.com'
     }
 
     config.bookmarks_http_method = :post
