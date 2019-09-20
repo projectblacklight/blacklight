@@ -7,6 +7,10 @@
   <%= json_api_link_tag %>
 <% end %>
 
+<% content_for(:skip_links) do -%>
+  <a href="#documents" class="element-invisible element-focusable" data-turbolinks="false">Skip to first result</a>
+<% end %>
+
 <% content_for(:container_header) do -%>
   <h1 class="sr-only top-content-title"><%= t('blacklight.search.header') %></h1>
 

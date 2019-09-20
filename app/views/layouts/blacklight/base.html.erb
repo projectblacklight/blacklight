@@ -17,19 +17,24 @@
     <%= content_for(:head) %>
   </head>
   <body class="<%= render_body_class %>">
-  <%= render partial: 'shared/header_navbar' %>
-
-  <div id="main-container" class="<%= container_classes %>">
-    <%= content_for(:container_header) %>
-
-    <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
-
-    <div class="row">
-      <%= content_for?(:content) ? yield(:content) : yield %>
+    <div id="skip-link">
+      <a href="#search_field" class="element-invisible element-focusable" data-turbolinks="false">Skip to search</a>
+       <a href="#main-container" class="element-invisible element-focusable" data-turbolinks="false">Skip to main content</a>
+      <%= content_for(:skip_links) %>
     </div>
-  </div>
+    <%= render partial: 'shared/header_navbar' %>
 
-  <%= render partial: 'shared/footer' %>
-  <%= render partial: 'shared/modal' %>
+    <div id="main-container" class="<%= container_classes %>">
+      <%= content_for(:container_header) %>
+
+      <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
+
+      <div class="row">
+        <%= content_for?(:content) ? yield(:content) : yield %>
+      </div>
+    </div>
+
+    <%= render partial: 'shared/footer' %>
+    <%= render partial: 'shared/modal' %>
   </body>
 </html>
