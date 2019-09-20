@@ -46,12 +46,27 @@ RSpec.describe Blacklight::SearchBarPresenter do
     subject { presenter.autofocus? }
 
     context "on a catalog-like index page without query or facet parameters" do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.configure do |config|
+          config.enable_search_bar_autofocus = true
+        end
+      end
+
       before do
         allow(controller).to receive(:action_name).and_return('index')
         allow(controller).to receive(:has_search_parameters?).and_return(false)
       end
 
       it { is_expected.to be true }
+    end
+
+    context "when disabled in config" do
+      before do
+        allow(controller).to receive(:action_name).and_return('index')
+        allow(controller).to receive(:has_search_parameters?).and_return(false)
+      end
+
+      it { is_expected.to be false }
     end
 
     context "when not the catalog controller" do
