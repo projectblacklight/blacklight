@@ -252,6 +252,18 @@ Blacklight.doResizeFacetLabelsAndCounts = function () {
 Blacklight.onLoad(function () {
   Blacklight.doResizeFacetLabelsAndCounts();
 });
+/*global Blacklight */
+
+'use strict';
+
+Blacklight.onLoad(function () {
+  // When we click the stretched-links
+  document.querySelectorAll('.facet-field-heading > .stretched-link').forEach(function (elem) {
+    elem.addEventListener('click', function (e) {
+      e.preventDefault();
+    });
+  });
+});
 /*
   The blacklight modal plugin can display some interactions inside a Bootstrap
   modal window, including some multi-page interactions.
