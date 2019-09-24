@@ -226,3 +226,7 @@ pt-BR:
         default: 'resultado agrupado'
 
     did_you_mean: 'Você quis dizer: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Conteúdo principal'

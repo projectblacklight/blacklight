@@ -224,3 +224,7 @@ it:
         default: 'risultato raggruppato'
 
     did_you_mean: 'Intendevi digitare: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Contenuto principale'

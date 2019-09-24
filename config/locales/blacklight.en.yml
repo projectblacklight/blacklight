@@ -224,3 +224,7 @@ en:
         default: 'grouped result'
 
     did_you_mean: 'Did you mean to type: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Main content'

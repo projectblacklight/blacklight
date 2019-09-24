@@ -217,3 +217,7 @@ nl:
         default: 'gegroepeerd resultaat'
 
     did_you_mean: 'Bedoelde u: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Belangrijkste inhoud'

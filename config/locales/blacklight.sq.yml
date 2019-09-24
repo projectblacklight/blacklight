@@ -215,3 +215,7 @@ sq:
         default: 'rezultat i grupuar'
 
     did_you_mean: 'A keni menduar: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Përmbajtja kryesore'

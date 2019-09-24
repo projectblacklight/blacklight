@@ -217,3 +217,7 @@ hu:
         default: 'csoportosított eredmény'
 
     did_you_mean: 'Arra gondolt, hogy: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Központi téma'
