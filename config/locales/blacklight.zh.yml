@@ -212,3 +212,7 @@ zh:
       default: '条目'
 
     did_you_mean: '你是要输入： %{options} 吗？'
+
+    main:
+      aria:
+        main_container: '主要内容'

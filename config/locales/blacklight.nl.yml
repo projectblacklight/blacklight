@@ -212,3 +212,7 @@ nl:
       default: 'ingang'
 
     did_you_mean: 'Bedoelde u: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Belangrijkste inhoud'

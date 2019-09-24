@@ -210,3 +210,7 @@ sq:
       default: 'entry'
 
     did_you_mean: 'A keni menduar: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Përmbajtja kryesore'

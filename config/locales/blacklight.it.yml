@@ -219,3 +219,7 @@ it:
       default: 'termine di ricerca'
 
     did_you_mean: 'Intendevi digitare: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Contenuto principale'

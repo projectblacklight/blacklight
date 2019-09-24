@@ -219,3 +219,7 @@ es:
       default: 'entrada'
 
     did_you_mean: '¿Quiere decir %{options}?'
+
+    main:
+      aria:
+        main_container: 'Contenido principal'

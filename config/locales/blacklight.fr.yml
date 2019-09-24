@@ -223,3 +223,7 @@ fr:
       default: 'résultat'
 
     did_you_mean: 'Essayez peut-être avec : %{options}'
+
+    main:
+      aria:
+        main_container: 'Contenu principal'

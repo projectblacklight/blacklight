@@ -219,3 +219,7 @@ de:
       default: 'Eintrag'
 
     did_you_mean: 'Meinten Sie: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Hauptinhalt'
