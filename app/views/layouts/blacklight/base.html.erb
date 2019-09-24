@@ -19,7 +19,7 @@
   <body class="<%= render_body_class %>">
   <%= render partial: 'shared/header_navbar' %>
 
-  <div id="main-container" class="<%= container_classes %>" role="main", aria-label="<%= t('blacklight.main.aria.main_container') %>">
+  <div id="main-container" class="<%= container_classes %>" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
     <%= content_for(:container_header) %>
 
     <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
