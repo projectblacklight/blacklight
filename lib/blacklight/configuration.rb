@@ -243,6 +243,11 @@ module Blacklight
     # @return [Boolean]
     property :track_search_session, default: true
 
+    # @!attribute skip_session_tracking
+    # @since v8.0.0
+    # @return [Boolean]
+    property :skip_session_tracking, default: nil
+
     # @!attribute advanced_search
     # @since v7.15.0
     # @return [#enabled]
