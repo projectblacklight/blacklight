@@ -173,6 +173,9 @@ pt-BR:
         one: '<strong>1 de 1</strong>'
         other: '<strong>%{current}</strong> de <strong>%{total}</strong>'
       documents:
+        aria:
+          search_results: 'Resultados da Busca'
+          limit_search: 'Filtre sua busca'
         counter: '%{counter}. '
       facets:
         title: 'Filtre sua busca'

@@ -172,6 +172,9 @@ de:
         one: '<strong>1 von 1</strong>'
         other: '<strong>%{current}</strong> von <strong>%{total}</strong>'
       documents:
+        aria:
+          search_results: 'Suchergebnisse'
+          limit_search: 'Suche beschränken'
         counter: '%{counter}. '
       facets:
         title: 'Suche beschränken'

@@ -163,6 +163,9 @@ sq:
         one: '<strong>1 prej 1</strong>'
         other: '<strong>%{current}</strong> prej <strong>%{total}</strong>'
       documents:
+        aria:
+          search_results: 'Rezultatet e kërkimit'
+          limit_search: 'Kufizo këkimin'
         counter: '%{counter}. '
       facets:
         title: 'Kufizo këkimin'

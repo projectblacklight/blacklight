@@ -165,6 +165,9 @@ nl:
         one: '<strong>1 van 1</strong>'
         other: '<strong>%{current}</strong> van <strong>%{total}</strong>'
       documents:
+        aria:
+          search_results: 'Zoek resultaten'
+          limit_search: 'Verfijn uw zoekopdracht'
         counter: '%{counter}. '
       facets:
         title: 'Verfijn uw zoekopdracht'
