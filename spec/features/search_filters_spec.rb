@@ -189,7 +189,7 @@ RSpec.describe "Facets" do
     within(".blacklight-subject_ssim") do
       expect(page).not_to have_selector(".card-body", visible: true)
       find(".card-header").click
-      expect(page).to     have_selector(".card-body", visible: true)
+      expect(page).to have_selector(".card-body", visible: true)
     end
   end
   it "expands when the anchor is clicked", js: true do
