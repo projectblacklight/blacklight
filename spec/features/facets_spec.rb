@@ -53,7 +53,7 @@ RSpec.describe "Facets" do
 
   it 'is able to expand facets when javascript is enabled', js: true do
     visit root_path
-
+    page.find('.navbar-toggler.navbar-toggler-right').click
     expect(page).to have_css('#facet-format', visible: false)
 
     page.find('h3.facet-field-heading a', text: 'Format').click
