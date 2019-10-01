@@ -4,7 +4,7 @@
 
 // Facet field headings and buttons
 .facet-field-heading button {
-  margin-bottom: 0;
+font-weight: $headings-font-weight;
 
   &::after {
     content: "❯";
