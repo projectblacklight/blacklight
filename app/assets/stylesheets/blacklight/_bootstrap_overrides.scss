@@ -3,21 +3,25 @@
 }
 
 // Facet field headings and buttons
-.facet-field-heading button {
-font-weight: $headings-font-weight;
-
-  &::after {
-    content: "❯";
-    float: right;
-    transform: rotate(90deg);
-  }
-
-  &.collapsed {
-    border-bottom: 0;
+.facet-field-heading {
+  border-bottom: 0;
+  
+  button {
+    font-weight: $headings-font-weight;
 
     &::after {
-      transform: rotate(0deg);
-      transition: transform 0.1s ease;
+      content: "❯";
+      float: right;
+      transform: rotate(90deg);
+    }
+
+    &.collapsed {
+      border-bottom: 0;
+
+      &::after {
+        transform: rotate(0deg);
+        transition: transform 0.1s ease;
+      }
     }
   }
 }

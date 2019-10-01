@@ -178,7 +178,7 @@ RSpec.describe "Facets" do
       expect(page).not_to have_selector(".card-body", visible: true)
     end
   end
-  it "expands when the heading is clicked", js: true do
+  it "expands when the heading button is clicked", js: true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
 
@@ -188,11 +188,11 @@ RSpec.describe "Facets" do
 
     within(".blacklight-subject_ssim") do
       expect(page).not_to have_selector(".card-body", visible: true)
-      find(".card-header").click
+      find(".card-header button").click
       expect(page).to have_selector(".card-body", visible: true)
     end
   end
-  it "expands when the anchor is clicked", js: true do
+  it "expands when the button is clicked", js: true do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
 
