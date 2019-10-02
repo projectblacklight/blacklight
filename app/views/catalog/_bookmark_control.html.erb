@@ -4,21 +4,7 @@
   # but it was simpler to leave them seperate instead of DRYing them, got confusing trying that.
   # the data-doc-id attribute is used by our JS that converts to a checkbox/label.
   -%>
-  <% unless bookmarked? document %>
-    <%= form_tag(bookmark_path(document),
-                 method: :put,
-                 class: 'bookmark-toggle',
-                 data: {
-                   'doc-id' => document.id,
-                   present: t('blacklight.search.bookmarks.present'),
-                   absent: t('blacklight.search.bookmarks.absent'),
-                   inprogress: t('blacklight.search.bookmarks.inprogress')
-                }) do %>
-      <%= submit_tag(t('blacklight.bookmarks.add.button'),
-                     id: "bookmark_toggle_#{document.id.to_s.parameterize}",
-                     class: "bookmark-add btn btn-outline-secondary") %>
-    <% end %>
-  <% else %>
+  <% if bookmarked? document %>
     <%= form_tag(bookmark_path(document),
                  method: :delete,
                  class: "bookmark-toggle",
@@ -32,7 +18,19 @@
                      id: "bookmark_toggle_#{document.id.to_s.parameterize}",
                      class: "bookmark-remove btn btn-outline-secondary") %>
     <% end %>
+  <% else %>
+    <%= form_tag(bookmark_path(document),
+                 method: :put,
+                 class: 'bookmark-toggle',
+                 data: {
+                   'doc-id' => document.id,
+                   present: t('blacklight.search.bookmarks.present'),
+                   absent: t('blacklight.search.bookmarks.absent'),
+                   inprogress: t('blacklight.search.bookmarks.inprogress')
+                 }) do %>
+       <%= submit_tag(t('blacklight.bookmarks.add.button'),
+                      id: "bookmark_toggle_#{document.id.to_s.parameterize}",
+                      class: "bookmark-add btn btn-outline-secondary") %>
+    <% end %>
   <% end %>
-<% else %>
-  &nbsp;
 <% end %>
