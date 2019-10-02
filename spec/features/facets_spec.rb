@@ -70,20 +70,17 @@ RSpec.describe "Facets" do
   describe 'Facet heading button focus with Firefox' do
     before do
       Capybara.current_driver = :selenium_headless
-      page.current_window.resize_to(1200, 700)
+    end
+
+    after do
+      Capybara.current_driver = :rack_test
     end
 
     it 'changes to the button on button click in Firefox' do
       visit root_path
       page.find('h3.facet-field-heading button', text: 'Format').click
-      focused_element = page.evaluate_script("document.activeElement")
       focused_element_data_target = page.evaluate_script("document.activeElement")['data-target']
       expect(focused_element_data_target).to eq '#facet-format'
-    end
-
-    after do
-      page.current_window.resize_to(400, 700)
-      Capybara.current_driver = :rack_test
     end
   end
 
