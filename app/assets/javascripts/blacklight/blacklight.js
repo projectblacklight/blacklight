@@ -95,6 +95,16 @@ Blacklight.onLoad(function () {
     Blacklight.doBookmarkToggleBehavior();
   });
 })(jQuery);
+
+Blacklight.onLoad(function () {
+  // Button clicks should change focus. As of 10/2/19, Firefox for Mac and
+  // Safari both do not do this correctly.
+  document.addEventListener('click', event => {
+    if (event.target.matches('button')) {
+      event.target.focus();
+    }
+  });
+});
 /* A JQuery plugin (should this be implemented as a widget instead? not sure)
    that will convert a "toggle" form, with single submit button to add/remove
    something, like used for Bookmarks, into an AJAXy checkbox instead.
@@ -125,7 +135,6 @@ Blacklight.onLoad(function () {
         }
    });
 */
-
 
 (function ($) {
   $.fn.blCheckboxSubmit = function (argOpts) {
@@ -215,16 +224,6 @@ Blacklight.onLoad(function () {
     success: function () {} //callback
 
   };
-})(jQuery);
-
-(function ($) {
-  Blacklight.onLoad(function () {
-    // when clicking on a link that toggles the collapsing behavior, don't do anything
-    // with the hash or the page could jump around.
-    $(document).on('click', 'a[data-toggle=collapse][href="#"], [data-toggle=collapse] a[href="#"]', function (event) {
-      event.preventDefault();
-    });
-  });
 })(jQuery);
 /*global Blacklight */
 
