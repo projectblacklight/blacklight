@@ -12,8 +12,8 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
   xml.author { xml.name application_name }
 
   xml.link    "rel" => "self", "href" => url_for(search_state.to_h.merge(only_path: false))
-  xml.link    "rel" => "alternate", "href" => url_for(search_state.to_h.merge(only_path: false, format: "html")), "type" => "text/html"
-  xml.id      url_for(search_state.to_h.merge(:only_path => false, :format => "html", :content_format => nil, "type" => "text/html"))
+  xml.link    "rel" => "alternate", "href" => url_for(search_state.to_h.merge(only_path: false, format: :html)), "type" => "text/html"
+  xml.id      url_for(search_state.to_h.merge(only_path: false, format: :html, content_format: nil, "type" => "text/html"))
 
   # Navigational and context links
 

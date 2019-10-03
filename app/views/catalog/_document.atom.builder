@@ -17,7 +17,7 @@ xml.entry do
     xml.author { xml.name(document.to_semantic_values[:author].first) }
   end
 
-  with_format("html") do
+  with_format(:html) do
     xml.summary "type" => "html" do
       xml.text! render_document_partial(document,
       :index,
