@@ -1,23 +1,18 @@
 import Blacklight from './core'
+import CheckboxSubmit from './checkbox_submit'
 
-const BookmarkToggle = (($) => {
-    //change form submit toggle to checkbox
+const BookmarkToggle = (() => {
+    // change form submit toggle to checkbox
     Blacklight.doBookmarkToggleBehavior = function() {
-      $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
-         // cssClass is added to elements added, plus used for id base
-         cssClass: 'toggle-bookmark',
-         success: function(checked, response) {
-           if (response.bookmarks) {
-             $('[data-role=bookmark-counter]').text(response.bookmarks.count);
-           }
-         }
-      });
+      document.querySelectorAll(Blacklight.doBookmarkToggleBehavior.selector).forEach((el) => {
+        new CheckboxSubmit(el).render()
+      })
     };
     Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
 
     Blacklight.onLoad(function() {
-        Blacklight.doBookmarkToggleBehavior();
+      Blacklight.doBookmarkToggleBehavior();
     });
-})(jQuery)
+})()
 
 export default BookmarkToggle
