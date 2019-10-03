@@ -165,6 +165,9 @@ hu:
         one: '<strong>1 / 1</strong>'
         other: '<strong>%{current}</strong> / <strong>%{total}</strong>'
       documents:
+        aria:
+          search_results: 'Keresés eredményei'
+          limit_search: 'Szűrje tovább a keresését'
         counter: '%{counter}. '
       facets:
         title: 'Szűrje tovább a keresését'
@@ -210,5 +213,11 @@ hu:
 
     entry_name:
       default: 'bejegyzés'
+      grouped:
+        default: 'csoportosított eredmény'
 
     did_you_mean: 'Arra gondolt, hogy: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Központi téma'

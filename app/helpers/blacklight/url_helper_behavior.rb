@@ -66,7 +66,7 @@ module Blacklight::UrlHelperBehavior
   # @param [Integer] counter
   # @example
   #   session_tracking_params(SolrDocument.new(id: 123), 7)
-  #   => { data: { :'tracker-href' => '/catalog/123/track?counter=7&search_id=999' } }
+  #   => { data: { :'context-href' => '/catalog/123/track?counter=7&search_id=999' } }
   def session_tracking_params document, counter
     path = session_tracking_path(document, per_page: params.fetch(:per_page, search_session['per_page']), counter: counter, search_id: current_search_session.try(:id))
 

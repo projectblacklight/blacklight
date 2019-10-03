@@ -175,6 +175,9 @@ fr:
         one: '<b>1 sur 1</b>'
         other: '<b>%{current}</b> sur <b>%{total}</b>'
       documents:
+        aria:
+          search_results: 'Résultats de recherche'
+          limit_search: 'Limiter votre recherche'
         counter: '%{counter}. '
       facets:
         title: 'Limiter votre recherche'
@@ -221,5 +224,11 @@ fr:
 
     entry_name:
       default: 'résultat'
+      grouped:
+        default: 'résultat groupé'
 
     did_you_mean: 'Essayez peut-être avec : %{options}'
+
+    main:
+      aria:
+        main_container: 'Contenu principal'

@@ -172,6 +172,9 @@ en:
         one: '<strong>1 of 1</strong>'
         other: '<strong>%{current}</strong> of <strong>%{total}</strong>'
       documents:
+        aria:
+          search_results: 'search results'
+          limit_search: 'limit your search'
         counter: '%{counter}. '
       facets:
         title: 'Limit your search'
@@ -217,5 +220,11 @@ en:
 
     entry_name:
       default: 'entry'
+      grouped:
+        default: 'grouped result'
 
     did_you_mean: 'Did you mean to type: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Main content'

@@ -165,6 +165,9 @@ zh:
         one: '<strong>1 / 1</strong>'
         other: '<strong>%{current}</strong> / <strong>%{total}</strong>'
       documents:
+        aria:
+          search_results: '搜索结果'
+          limit_search: '限定搜索'
         counter: '%{counter}. '
       facets:
         title: '限定搜索'
@@ -210,5 +213,11 @@ zh:
 
     entry_name:
       default: '条目'
+      grouped:
+        default: '分组结果'
 
     did_you_mean: '你是要输入： %{options} 吗？'
+
+    main:
+      aria:
+        main_container: '主要内容'

@@ -14,4 +14,16 @@ module Blacklight::Solr::Response::PaginationMethods
   def total_count #:nodoc:
     total
   end
+
+  ##
+  # Should return response documents size, not hash size
+  def size
+    total_count
+  end
+
+  ##
+  # Meant to have the same signature as Kaminari::PaginatableArray#entry_name
+  def entry_name(options)
+    I18n.t('blacklight.entry_name.default').pluralize(options[:count])
+  end
 end

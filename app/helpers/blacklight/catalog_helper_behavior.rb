@@ -31,22 +31,21 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Override the Kaminari page_entries_info helper with our own, blacklight-aware
-  # implementation.
-  # Displays the "showing X through Y of N" message.
+  # implementation. Why do we have to do this?
+  #  - We need custom counting information for grouped results
+  #  - We need to provide number_with_delimiter strings to i18n keys
+  # If we didn't have to do either one of these, we could get away with removing
+  # this entirely.
   #
   # @param [RSolr::Resource] collection (or other Kaminari-compatible objects)
   # @return [String]
-  def page_entries_info(collection, options = {})
+  def page_entries_info(collection, entry_name: nil)
     return unless show_pagination? collection
 
-    entry_name = if options[:entry_name]
-                   options[:entry_name]
-                 elsif collection.respond_to? :model  # DataMapper
-                   collection.model.model_name.human.downcase
-                 elsif collection.respond_to?(:model_name) && !collection.model_name.nil? # AR, Blacklight::PaginationMethods
-                   collection.model_name.human.downcase
+    entry_name = if entry_name
+                   entry_name.pluralize(collection.size, I18n.locale)
                  else
-                   t('blacklight.entry_name.default')
+                   collection.entry_name(count: collection.size).downcase
                  end
 
     entry_name = entry_name.pluralize unless collection.total_count == 1

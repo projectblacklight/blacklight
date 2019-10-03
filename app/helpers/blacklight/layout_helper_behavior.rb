@@ -22,14 +22,14 @@ module Blacklight
     # Classes used for sizing the main content of a Blacklight page
     # @return [String]
     def main_content_classes
-      'col-md-9'
+      'col-lg-9'
     end
 
     ##
     # Classes used for sizing the sidebar content of a Blacklight page
     # @return [String]
     def sidebar_classes
-      'page-sidebar col-md-3'
+      'page-sidebar col-lg-3'
     end
 
     ##

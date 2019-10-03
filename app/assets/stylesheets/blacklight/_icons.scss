@@ -13,22 +13,22 @@
 
 @each $color, $value in $theme-colors {
   .btn-#{$color} {
-    .blacklight-icons g {
-      @include stroke-yiq(theme-color($color));
+    .blacklight-icons svg {
+      @include fill-yiq(theme-color($color));
     }
   }
 
   .btn-outline-#{$color} {
-    .blacklight-icons g {
-      stroke: $value;
+    .blacklight-icons svg {
+      fill: $value;
     }
 
     &.hover,
     &:hover,
     &:active,
     &.active {
-      .blacklight-icons g {
-        @include stroke-yiq(theme-color($color));
+      .blacklight-icons svg {
+        @include fill-yiq(theme-color($color));
       }
     }
   }

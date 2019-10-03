@@ -123,6 +123,9 @@
   a {
     color: inherit;
   }
+
+  /* This prevents the contained stretch link from covering the panel body */
+  position: relative
 }
 
 /* Sidenav
