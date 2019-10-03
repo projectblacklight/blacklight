@@ -9,6 +9,19 @@ module Blacklight
       gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
     end
 
+    # Add sprockets javascript to Rails 6.
+    def create_sprockets_javascript
+      return if Rails.version < '6.0.0'
+
+      create_file 'app/assets/javascripts/application.js' do
+        <<~CONTENT
+          //= require jquery
+          //= require rails-ujs
+          //= require turbolinks
+        CONTENT
+      end
+    end
+
     def assets
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 

@@ -9,7 +9,7 @@ notifications:
 matrix:
   include:
     - rvm: 2.6.5
-      env: "RAILS_VERSION=6.0.0"
+      env: "RAILS_VERSION=6.0.0 ENGINE_CART_RAILS_OPTIONS=\"--skip-webpack-install\""
     - rvm: 2.6.5
       env: "RAILS_VERSION=5.2.3"
     - rvm: 2.5.7
