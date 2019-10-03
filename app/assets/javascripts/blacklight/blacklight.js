@@ -97,12 +97,12 @@ Blacklight.onLoad(function () {
 })(jQuery);
 
 Blacklight.onLoad(function () {
-  // Button clicks should change focus. As of 10/2/19, Firefox for Mac and
-  // Safari both do not do this correctly.
-  document.addEventListener('click', event => {
-    if (event.target.matches('button')) {
+  // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
+  // Safari both do not set focus to a button on button click.
+  document.querySelectorAll('button.collapse-toggle').forEach(button => {
+    button.addEventListener('click', () => {
       event.target.focus();
-    }
+    });
   });
 });
 /* A JQuery plugin (should this be implemented as a widget instead? not sure)

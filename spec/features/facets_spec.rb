@@ -67,7 +67,7 @@ RSpec.describe "Facets" do
     expect(page).to have_css('#facet-format', visible: true) # assert that it didn't re-collapse
   end
 
-  describe 'Facet heading button focus with Firefox' do
+  describe 'heading button focus with Firefox' do
     before do
       Capybara.current_driver = :selenium_headless
     end
