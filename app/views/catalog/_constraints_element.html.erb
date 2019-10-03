@@ -13,7 +13,7 @@
       <span class="filter-name"><%= label %></span>
     <% end %>
     <% unless value.blank? %>
-      <%= content_tag :span, value, class: 'filter-value', title: value %>
+      <%= content_tag :span, value, class: 'filter-value', title: strip_tags(value) %>
     <% end %>
   </span>
   <% unless options[:remove].blank? %>
