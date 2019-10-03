@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '~> 2.1'
 
-  s.add_dependency "rails", "~> 5.1"
+  s.add_dependency "rails", '>= 5.1', '< 7'
   s.add_dependency "globalid"
   s.add_dependency "jbuilder", '~> 2.7'
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
