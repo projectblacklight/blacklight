@@ -13,7 +13,10 @@ nl:
 
   blacklight:
     application_name: 'Blacklight'
-
+    skip_links:
+      main_content: 'Ga naar de hoofdinhoud'
+      search_field: 'Ga naar de zoekopdracht'
+      first_result: 'Ga naar het eerste zoekresultaat'
     header_links:
       login: 'Login'
       logout: 'Log Out'

@@ -18,8 +18,8 @@
   </head>
   <body class="<%= render_body_class %>">
     <div id="skip-link">
-      <a href="#search_field" class="element-invisible element-focusable" data-turbolinks="false">Skip to search</a>
-       <a href="#main-container" class="element-invisible element-focusable" data-turbolinks="false">Skip to main content</a>
+      <%= link_to t('blacklight.skip_links.search_field'), "#search_field", class: "element-invisible element-focusable rounded-bottom py-2 px-3", data: {turbolinks: "false"} %>
+      <%= link_to t('blacklight.skip_links.main_content'), "#main-container", class: "element-invisible element-focusable rounded-bottom py-2 px-3", data: {turbolinks: "false"} %>
       <%= content_for(:skip_links) %>
     </div>
     <%= render partial: 'shared/header_navbar' %>

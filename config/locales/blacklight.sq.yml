@@ -12,6 +12,10 @@ sq:
       next: 'Tjetra &raquo;'
 
   blacklight:
+    skip_links:
+      main_content: 'Shkoni tek përmbajtja kryesore'
+      search_field: 'Shkoni në kërkim'
+      first_result: 'Shkoni te rezultati i parë i kërkimit'
     header_links:
       login: 'Hyr'
       logout: 'Dil'
