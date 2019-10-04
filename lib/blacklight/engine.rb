@@ -7,6 +7,7 @@ module Blacklight
     # into action view base here.
     initializer 'blacklight.helpers' do
       ActionView::Base.send :include, BlacklightHelper
+      require 'action_view/component/base'
     end
 
     config.autoload_paths += %W(

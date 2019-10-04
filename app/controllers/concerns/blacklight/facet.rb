@@ -31,6 +31,7 @@ module Blacklight
     def facet_group_names
       blacklight_config.facet_fields.map { |_facet, opts| opts[:group] }.uniq
     end
+    deprecation_deprecate :facet_group_names
 
     # Get a FacetField object from the @response
     def facet_by_field_name(field_or_field_name, response = nil)
