@@ -60,11 +60,28 @@ RSpec.describe "Facets" do
       page.find('button.navbar-toggler').click
     end
 
-    page.find('h3.facet-field-heading a', text: 'Format').click
+    page.find('h3.facet-field-heading button', text: 'Format').click
 
     sleep(1) # let facet animation finish and wait for it to potentially re-collapse
 
     expect(page).to have_css('#facet-format', visible: true) # assert that it didn't re-collapse
+  end
+
+  describe 'heading button focus with Firefox' do
+    before do
+      Capybara.current_driver = :selenium_headless
+    end
+
+    after do
+      Capybara.current_driver = :rack_test
+    end
+
+    it 'changes to the button on button click in Firefox' do
+      visit root_path
+      page.find('h3.facet-field-heading button', text: 'Format').click
+      focused_element_data_target = page.evaluate_script("document.activeElement")['data-target']
+      expect(focused_element_data_target).to eq '#facet-format'
+    end
   end
 
   describe '"More" links' do
