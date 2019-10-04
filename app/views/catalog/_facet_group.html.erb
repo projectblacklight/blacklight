@@ -13,7 +13,7 @@
   </div>
 
   <div id="facet-panel<%= "-#{groupname}" unless groupname.nil? %>-collapse" class="facets-collapse collapse">
-    <%= render_facet_partials facet_field_names(groupname), response: @response %>
+    <%= render_facet_partials facet_field_names(groupname), response: response %>
   </div>
 </div>
 <% end %>

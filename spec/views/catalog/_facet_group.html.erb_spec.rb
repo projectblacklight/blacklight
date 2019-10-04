@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "catalog/_facet_group" do
+RSpec.describe 'catalog/_facet_group' do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
@@ -9,9 +9,13 @@ RSpec.describe "catalog/_facet_group" do
   end
 
   context "without any facet fields" do
+    let(:response) do
+      instance_double(Blacklight::Solr::Response)
+    end
+
     before do
-      allow(view).to receive_messages(groupname: nil, render_facet_partials: '')
-      render
+      allow(view).to receive_messages(render_facet_partials: '')
+      render 'catalog/facet_group', groupname: nil, response: response
     end
 
     it "does not have a header if no facets are displayed" do
@@ -34,14 +38,14 @@ RSpec.describe "catalog/_facet_group" do
 
     before do
       blacklight_config.facet_fields['facet_field_1'] = facet_field
-      allow(view).to receive_messages(groupname: nil, facet_field_names: [:facet_field_1], facet_limit_for: 10)
+      allow(view).to receive_messages(facet_field_names: [:facet_field_1], facet_limit_for: 10)
       @response = response
     end
 
     context "with the default facet group" do
       it "has a header" do
         allow(view).to receive_messages(render_facet_partials: '')
-        render
+        render 'catalog/facet_group', groupname: nil, response: response
         expect(rendered).to have_selector('.facets-heading')
       end
     end
@@ -53,32 +57,35 @@ RSpec.describe "catalog/_facet_group" do
 
       before do
         blacklight_config.facet_fields['facet_field_1'] = facet_field
-        allow(view).to receive_messages(groupname: 'group_1', facet_field_names: [:facet_field_1], facet_limit_for: 10)
+        allow(view).to receive_messages(facet_field_names: [:facet_field_1], facet_limit_for: 10)
+        allow(view).to receive_messages(render_facet_partials: '')
+        render 'catalog/facet_group', groupname: 'group_1', response: response
       end
 
       it "has a header" do
-        allow(view).to receive_messages(render_facet_partials: '')
-        render
         expect(rendered).to have_selector('.facets-heading')
         expect(rendered).to have_selector('#facets-group_1')
       end
     end
 
     describe "facet display" do
+      before do
+        render 'catalog/facet_group', groupname: nil, response: response
+      end
+
       it "has a(n accessible) header" do
-        render
         expect(rendered).to have_selector('.facet-field-heading')
       end
+
       it "lists values" do
-        render
         # The .facet-content class is used by blacklight_range_limit js, and
         # should be applied to the .panel-collapse div that contains the collapsible
         # facet content. Please make sure it remains if possible.
         expect(rendered).to have_selector('.facet-content a.facet-select')
         expect(rendered).to have_selector('.facet-content .facet-count')
       end
+
       it "has a stretched anchor" do
-        render
         # This is to ensure that iOS devices (iOS 12), especially, stretch the
         # anchor tag in the facet heading area.
         expect(rendered).to have_selector('a.stretched-link')
