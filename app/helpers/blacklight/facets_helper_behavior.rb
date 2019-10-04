@@ -7,8 +7,14 @@ module Blacklight::FacetsHelperBehavior
   #
   # @param [Array<String>] fields
   # @return [Boolean]
-  def has_facet_values? fields = facet_field_names
-    facets_from_request(fields).any? { |display_facet| should_render_facet?(display_facet) }
+  def has_facet_values? fields = facet_field_names, response = nil
+    unless response
+      Deprecation.warn(self, 'Calling has_facet_values? without passing the ' \
+        'second argument (response) is deprecated and will be removed in Blacklight ' \
+        '8.0.0')
+      response = @response
+    end
+    facets_from_request(fields, response).any? { |display_facet| should_render_facet?(display_facet) }
   end
 
   ##
@@ -17,9 +23,24 @@ module Blacklight::FacetsHelperBehavior
   #
   # @param [Array<String>] fields
   # @param [Hash] options
+  # @options options [Blacklight::Solr::Response] :response the Solr response object
   # @return String
-  def render_facet_partials fields = facet_field_names, options = {}
-    safe_join(facets_from_request(fields).map do |display_facet|
+  def render_facet_partials fields = nil, options = {}
+    unless fields
+      Deprecation.warn(self, 'Calling render_facet_partials without passing the ' \
+        'first argument (fields) is deprecated and will be removed in Blacklight ' \
+        '8.0.0')
+      fields = facet_field_names
+    end
+
+    response = options.delete(:response)
+    unless response
+      Deprecation.warn(self, 'Calling render_facet_partials without passing the ' \
+        'response keyword is deprecated and will be removed in Blacklight ' \
+        '8.0.0')
+      response = @response
+    end
+    safe_join(facets_from_request(fields, response).map do |display_facet|
       render_facet_limit(display_facet, options)
     end.compact, "\n")
   end
