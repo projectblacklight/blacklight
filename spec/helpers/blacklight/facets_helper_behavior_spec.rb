@@ -8,6 +8,10 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
   end
 
   describe "has_facet_values?" do
+    before do
+      allow(Deprecation).to receive(:warn)
+    end
+
     let(:empty) { double(items: [], name: 'empty') }
     let(:response) { instance_double(Blacklight::Solr::Response) }
 
@@ -118,6 +122,10 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     let(:b) { double(items: %w[b c]) }
     let(:response) { instance_double(Blacklight::Solr::Response) }
 
+    before do
+      allow(Deprecation).to receive(:warn)
+    end
+
     it "tries to render all provided facets" do
       empty = double(items: [])
       fields = [a, b, empty]
@@ -133,11 +141,15 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       expect(helper).to receive(:render_facet_limit).with(a, {})
       expect(helper).to receive(:render_facet_limit).with(b, {})
       helper.render_facet_partials
-      expect(Deprecation).to have_received(:warn).twice
+      expect(Deprecation).to have_received(:warn).exactly(3).times
     end
   end
 
   describe "render_facet_limit" do
+    before do
+      allow(Deprecation).to receive(:warn)
+    end
+
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'

@@ -1,4 +1,6 @@
 <% # container for facet groups -%>
 <% facet_group_names.each do |groupname| %>
-  <%= render 'catalog/facet_group', groupname: groupname, response: response %>
+  <%= render Blacklight::Facet::Group, groupname: groupname,
+                                       response: response,
+                                       blacklight_config: blacklight_config %>
 <% end %>

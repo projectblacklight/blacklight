@@ -28,6 +28,9 @@ RSpec.describe Blacklight::Facet::List do
 
   it "calls facet_group for each name" do
     rendered
-    expect(instance).to have_received(:render).with('catalog/facet_group', groupname: nil, response: response)
+    expect(instance).to have_received(:render)
+      .with(Blacklight::Facet::Group, groupname: nil,
+                                      blacklight_config: blacklight_config,
+                                      response: response)
   end
 end

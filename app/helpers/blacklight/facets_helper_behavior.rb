@@ -16,6 +16,7 @@ module Blacklight::FacetsHelperBehavior
     end
     facets_from_request(fields, response).any? { |display_facet| should_render_facet?(display_facet) }
   end
+  deprecation_deprecate :has_facet_values?
 
   ##
   # Render a collection of facet fields.
@@ -44,6 +45,7 @@ module Blacklight::FacetsHelperBehavior
       render_facet_limit(display_facet, options)
     end.compact, "\n")
   end
+  deprecation_deprecate :render_facet_partials
 
   ##
   # Renders a single section for facet limit with a specified
@@ -70,6 +72,7 @@ module Blacklight::FacetsHelperBehavior
 
     render(options)
   end
+  deprecation_deprecate :render_facet_limit
 
   ##
   # Renders the list of values
@@ -130,6 +133,7 @@ module Blacklight::FacetsHelperBehavior
     name ||= "facet_pivot" if config.pivot
     name || "facet_limit"
   end
+  deprecation_deprecate :facet_partial_name
 
   ##
   # Standard display of a facet value in a list. Used in both _facets sidebar

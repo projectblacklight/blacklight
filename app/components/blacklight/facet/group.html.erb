@@ -1,5 +1,5 @@
 <% # main container for facets/limits menu -%>
-<% if has_facet_values? facet_field_names(groupname), response %>
+<% if has_facet_values? %>
 <div id="facets<%= "-#{groupname}" unless groupname.nil? %>" class="facets sidenav facets-toggleable-md">
 
   <div class="navbar">
@@ -13,7 +13,10 @@
   </div>
 
   <div id="facet-panel<%= "-#{groupname}" unless groupname.nil? %>-collapse" class="facets-collapse collapse">
-    <%= render_facet_partials facet_field_names(groupname), response: response %>
+    <% facets_from_request.each do |display_facet| %>
+      <%= render Blacklight::Facet::FacetLimit, display_facet: display_facet,
+                                                blacklight_config: blacklight_config %>
+    <% end %>
   </div>
 </div>
 <% end %>

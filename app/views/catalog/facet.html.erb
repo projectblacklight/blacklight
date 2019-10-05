@@ -1,3 +1,4 @@
+
 <div class="facet-pagination top">
   <%= render :partial=>'facet_pagination' %>
 </div>
@@ -13,7 +14,10 @@
   <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
 
   <div class="facet-extended-list">
-  <%= render_facet_limit(@display_facet, layout: false) %>
+    <%= render Blacklight::Facet::FacetLimit, display_facet: @display_facet,
+                                              blacklight_config: blacklight_config,
+                                              response: @response,
+                                              layout: false %>
   </div>
 </div>
 

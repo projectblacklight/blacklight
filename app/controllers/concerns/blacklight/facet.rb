@@ -18,6 +18,7 @@ module Blacklight
 
     # @param fields [Array<String>] a list of facet field names
     # @return [Array<Solr::Response::Facets::FacetField>]
+    # TODO: Refactor because this is used by the Group component (as a copy) as well as the JSONPresenter
     def facets_from_request(fields = facet_field_names, response = nil)
       unless response
         Deprecation.warn(self, 'Calling facets_from_request without passing the ' \
