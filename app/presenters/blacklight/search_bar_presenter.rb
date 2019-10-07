@@ -31,7 +31,9 @@ module Blacklight
     #
     # @return [Boolean]
     def autofocus?
-      controller.is_a?(Blacklight::Catalog) &&
+      configuration.enable_search_bar_autofocus.present? &&
+        configuration.enable_search_bar_autofocus &&
+        controller.is_a?(Blacklight::Catalog) &&
         controller.action_name == "index" &&
         !controller.has_search_parameters?
     end

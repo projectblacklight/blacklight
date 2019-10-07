@@ -21,6 +21,10 @@ de:
 
   blacklight:
     application_name: 'Blacklight'
+    skip_links:
+      main_content: 'Zum Hauptinhalt gehen'
+      search_field: 'Gehen Sie zur Suchleiste'
+      first_result: 'Gehe zum ersten Suchergebnis'
     header_links:
       login: 'Anmelden'
       logout: 'Ausloggen'

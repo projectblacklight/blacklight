@@ -17,19 +17,25 @@
     <%= content_for(:head) %>
   </head>
   <body class="<%= render_body_class %>">
-  <%= render partial: 'shared/header_navbar' %>
+    <div id="skip-link">
+      <%= link_to t('blacklight.skip_links.search_field'), '#search_field', class: 'element-invisible element-focusable rounded-bottom py-2 px-3', data: { turbolinks: 'false' } %>
+      <%= link_to t('blacklight.skip_links.main_content'), '#main-container', class: 'element-invisible element-focusable rounded-bottom py-2 px-3', data: { turbolinks: 'false' } %>
+      <%= content_for(:skip_links) %>
+    </div>
+    <%= render partial: 'shared/header_navbar' %>
 
   <main id="main-container" class="<%= container_classes %>" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
     <%= content_for(:container_header) %>
 
-    <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
+      <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
 
-    <div class="row">
-      <%= content_for?(:content) ? yield(:content) : yield %>
+      <div class="row">
+        <%= content_for?(:content) ? yield(:content) : yield %>
+      </div>
     </div>
   </main>
 
-  <%= render partial: 'shared/footer' %>
-  <%= render partial: 'shared/modal' %>
+    <%= render partial: 'shared/footer' %>
+    <%= render partial: 'shared/modal' %>
   </body>
 </html>

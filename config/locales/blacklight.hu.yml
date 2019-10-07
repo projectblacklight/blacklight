@@ -13,7 +13,10 @@ hu:
 
   blacklight:
     application_name: 'Blacklight'
-
+    skip_links:
+      main_content: 'Ugrás a tartalomra'
+      search_field: 'Ugrás a keresésre'
+      first_result: 'Ugrás az első keresési eredményre'
     header_links:
       login: 'Belépés'
       logout: 'Kilépés'

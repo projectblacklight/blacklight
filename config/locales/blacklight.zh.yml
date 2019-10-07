@@ -13,7 +13,10 @@ zh:
 
   blacklight:
     application_name: 'Blacklight'
-
+    skip_links:
+      main_content: '转到主要内容'
+      search_field: '转到搜索'
+      first_result: '转到第一个搜索结果'
     header_links:
       login: '登陆'
       logout: '注销'
