@@ -16,7 +16,6 @@ module Blacklight
       return if has_blacklight_assets?
 
       contents = "\n//\n// Required by Blacklight\n"
-      contents += "//= require jquery3\n"
       contents += "//= require popper\n"
       contents += "// Twitter Typeahead for autocomplete\n"
       contents += "//= require twitter/typeahead\n"
@@ -31,6 +30,10 @@ module Blacklight
 
       insert_into_file "app/assets/javascripts/application.js", after: marker do
         contents
+      end
+
+      insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
+        "//= require jquery3\n"
       end
     end
 
