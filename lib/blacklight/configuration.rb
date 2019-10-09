@@ -245,6 +245,12 @@ module Blacklight
         FacetField.new(field: field).normalize!
     end
 
+    # @param [String] group (nil) a group name of facet fields
+    # @return [Array<String>] a list of the facet field names from the configuration
+    def facet_field_names(group = nil)
+      facet_fields.select { |_facet, opts| group == opts[:group] }.values.map(&:field)
+    end
+
     # Add any configured facet fields to the default solr parameters hash
     # @overload add_facet_fields_to_solr_request!
     #    add all facet fields to the solr request

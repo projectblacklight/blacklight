@@ -4,7 +4,7 @@ module Blacklight
   # They are only dependent on `blacklight_config` and `@response`
   #
   module Facet
-    delegate :facet_configuration_for_field, to: :blacklight_config
+    delegate :facet_configuration_for_field, :facet_field_names, to: :blacklight_config
 
     def facet_paginator(field_config, response_data)
       blacklight_config.facet_paginator_class.new(
@@ -20,12 +20,6 @@ module Blacklight
     # @return [Array<Solr::Response::Facets::FacetField>]
     def facets_from_request(fields = facet_field_names)
       fields.map { |field| facet_by_field_name(field) }.compact
-    end
-
-    # @param group [String] a group name of facet fields
-    # @return [Array<String>] a list of the facet field names from the configuration
-    def facet_field_names(group = nil)
-      blacklight_config.facet_fields.select { |_facet, opts| group == opts[:group] }.values.map(&:field)
     end
 
     def facet_group_names
