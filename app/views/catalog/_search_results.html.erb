@@ -1,7 +1,7 @@
 <% @page_title = t('blacklight.search.page_title.title', :constraints => render_search_to_page_title(params), :application_name => application_name) %>
 
 <% content_for(:head) do -%>
-  <%= render_opensearch_response_metadata %>
+  <%= render 'catalog/opensearch_response_metadata', response: @response %>
   <%= rss_feed_link_tag %>
   <%= atom_feed_link_tag %>
   <%= json_api_link_tag %>
