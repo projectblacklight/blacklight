@@ -25,6 +25,7 @@ matrix:
   fast_finish: true
 
 before_install:
+  - gem install bundler
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
 
 notifications:
