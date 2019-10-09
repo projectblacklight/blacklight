@@ -1,4 +1,4 @@
 <% # container for facet groups -%>
 <% facet_group_names.each do |groupname| %>
-  <%= render partial: "facet_group", locals: {groupname: groupname} %>
+  <%= render 'facet_group', groupname: groupname %>
 <% end %>
