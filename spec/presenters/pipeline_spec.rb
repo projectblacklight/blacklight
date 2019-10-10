@@ -29,10 +29,11 @@ RSpec.describe Blacklight::Rendering::Pipeline do
     end
 
     it 'sets the operations on the instance as equal to the class variable' do
-      expect(described_class).to receive(:new)
-        .with(values, field_config, document, context, described_class.operations, options)
+      allow(described_class).to receive(:new)
         .and_return(instance_double(described_class, render: true))
       subject
+      expect(described_class).to have_received(:new)
+        .with(values, field_config, document, context, described_class.operations, options)
     end
   end
 
