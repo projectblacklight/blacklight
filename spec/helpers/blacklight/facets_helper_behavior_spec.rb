@@ -9,16 +9,17 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
 
   describe "has_facet_values?" do
     let(:empty) { double(items: [], name: 'empty') }
+    let(:response) { instance_double(Blacklight::Solr::Response) }
 
     it "is true if there are any facets to display" do
       a = double(items: [1, 2], name: 'a')
       b = double(items: %w[b c], name: 'b')
       fields = [a, b, empty]
-      expect(helper.has_facet_values?(fields)).to be true
+      expect(helper.has_facet_values?(fields, response)).to be true
     end
 
     it "is false if all facets are empty" do
-      expect(helper.has_facet_values?([empty])).to be false
+      expect(helper.has_facet_values?([empty], response)).to be false
     end
 
     describe "different config" do
@@ -26,7 +27,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
 
       it "is false if no facets are displayable" do
         a = double(items: [1, 2], name: 'basic_field')
-        expect(helper.has_facet_values?([a])).to be false
+        expect(helper.has_facet_values?([a], response)).to be false
       end
     end
   end
@@ -106,15 +107,16 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       facet_config = double(query: nil, field: 'b', key: 'a')
       facet_field = double
       allow(helper).to receive(:facet_configuration_for_field).with('b').and_return(facet_config)
-      @response = instance_double(Blacklight::Solr::Response, aggregations: { 'b' => facet_field })
+      response = instance_double(Blacklight::Solr::Response, aggregations: { 'b' => facet_field })
 
-      expect(helper.facet_by_field_name('b')).to eq facet_field
+      expect(helper.facet_by_field_name('b', response)).to eq facet_field
     end
   end
 
   describe "render_facet_partials" do
     let(:a) { double(items: [1, 2]) }
     let(:b) { double(items: %w[b c]) }
+    let(:response) { instance_double(Blacklight::Solr::Response) }
 
     it "tries to render all provided facets" do
       empty = double(items: [])
@@ -122,14 +124,16 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       expect(helper).to receive(:render_facet_limit).with(a, {})
       expect(helper).to receive(:render_facet_limit).with(b, {})
       expect(helper).to receive(:render_facet_limit).with(empty, {})
-      helper.render_facet_partials fields
+      helper.render_facet_partials fields, response: response
     end
 
     it "defaults to the configured facets" do
+      allow(Deprecation).to receive(:warn)
       expect(helper).to receive(:facet_field_names) { [a, b] }
       expect(helper).to receive(:render_facet_limit).with(a, {})
       expect(helper).to receive(:render_facet_limit).with(b, {})
       helper.render_facet_partials
+      expect(Deprecation).to have_received(:warn).twice
     end
   end
 
