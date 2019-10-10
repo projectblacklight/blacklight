@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'solr_wrapper'
 require 'engine_cart/rake_task'
 
 require 'rspec/core/rake_task'
@@ -13,14 +12,10 @@ RuboCop::RakeTask.new(:rubocop)
 
 desc "Run test suite"
 task ci: ['blacklight:generate'] do
-  SolrWrapper.wrap do |solr|
-    solr.with_collection do
-      within_test_app do
-        system "RAILS_ENV=test rake blacklight:index:seed"
-      end
-      Rake::Task['blacklight:coverage'].invoke
-    end
+  within_test_app do
+    system "RAILS_ENV=test rake blacklight:index:seed"
   end
+  Rake::Task['blacklight:coverage'].invoke
 end
 
 namespace :blacklight do
