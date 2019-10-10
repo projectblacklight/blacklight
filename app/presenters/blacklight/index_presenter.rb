@@ -17,8 +17,7 @@ module Blacklight
     end
 
     ##
-    # Render the document index heading. This is used when making a link to a
-    # document, where we don't want any HTML markup added from the pipeline.
+    # Render the document index heading
     #
     # @param [Symbol, Proc, String] field_or_string_or_proc Render the given field or evaluate the proc or render the given string
     # @param [Hash] opts
