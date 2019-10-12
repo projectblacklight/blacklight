@@ -42,6 +42,12 @@ namespace :blacklight do
     if File.exist? EngineCart.destination
       within_test_app do
         system "bundle update"
+
+        if ENV["DEVELOPMENT_ENVIRONMENT"] == "docker"
+          system "bundle exec rake blacklight:index:seed"
+          system "bundle exec rails s #{args[:rails_server_args]}"
+          next
+        end
       end
     else
       Rake::Task['engine_cart:generate'].invoke
