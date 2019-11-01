@@ -1,0 +1,234 @@
+ar:
+  views:
+    pagination:
+      first: 'الأولى ;&laquo'
+      last: 'الأخيرة &raquo;'
+      previous: '&laquo; السابقة'
+      next: 'التالية &raquo;'
+      truncate: '…'
+      aria:
+        container_label: 'روابط الصفحات'
+        current_page: 'الصفحة الحالية، الصفحة %{page}'
+        go_to_page: 'الانتقال إلى %{page}'
+        go_to_previous_page: 'الانتقال للصفحة السابقة'
+        go_to_next_page: 'الانتقال للصفحة التالية'
+        go_to_first_page: 'الانتقال للصفحة الأولى'
+        go_to_last_page: 'الانتقال للصفحة الأخيرة'
+
+    pagination_compact:
+      previous: '&laquo; السابقة'
+      next: 'التالية &raquo;'
+
+  blacklight:
+    application_name: 'Blacklight'
+    skip_links:
+      main_content:
+      search_field: 'انتقل إلى البحث'
+      first_result: 'انتقل إلى النتيجة الأولى'
+    header_links:
+      login: 'تسجيل الدخول'
+      logout: 'تسجيل الخروج'
+      bookmarks: 'الصفحات المفضلة'
+      search_history: 'سجل البحث السابق'
+
+    welcome: 'مرحبًا!'
+    and: 'و'
+    or: 'أو'
+
+    modal:
+      close: "إغلاق"
+
+    bookmarks:
+      title: 'الصفحات المفضلة'
+      page_title: 'الصفحات المفضلة - %{application_name}'
+      no_bookmarks: 'ليس لديك صفحات مفضلة'
+      add:
+        button: 'صفحة مفضلة'
+        success:
+          one: 'أضيفت الصفحة المفضلة بنجاح.'
+          other: 'أضيفت الصفحات المفضلة بنجاح.'
+        failure: 'معذرة! حدثت مشكلة في حفظ الصفحات المفضلة.'
+      remove:
+        button: 'إزالة الصفحة المفضلة'
+        success: 'أزيلت الصفحة المفضلة بنجاح.'
+        failure: 'معذرة! حدثت مشكلة في إزالة الصفحات المفضلة.'
+        action_confirm: 'هل ترغب في إزالة الصفحة المفضلة؟'
+      clear:
+        action_title: 'مسح الصفحات المفضلة'
+        action_confirm: 'هل ترغب في مسح الصفحات المفضلة؟'
+        success: 'ُمسِحَت صفحاتك المفضلة.'
+        failure: 'معذرة! حدثت مشكلة في مسح صفحاتك المفضلة.'
+      need_login: 'يُرجى تسجيل الدخول لتنظيم صفحاتك المفضلة وعرضها.'
+      list_title: 'صفحاتك المفضلة'
+      delete: 'إزالة'
+
+    search_history:
+      clear:
+        action_title: 'مسح سجل البحث السابق'
+        action_confirm: 'هل ترغب في مسح سجل البحث السابق؟'
+        success: 'ُمسِحَ سجل بحثك السابق.'
+        failure: 'حدثت مشكلة في مسح سجل بحثك السابق.'
+      title: 'سجل البحث'
+      page_title: 'سجل البحث - %{application_name}'
+      no_history: 'ليس لديك سجل بحث'
+      recent: 'استعلامات البحث الأخيرة'
+      forget: 'تراجع'
+      save: 'حفظ'
+
+    tools:
+      title: 'أدوات'
+      citation: 'استشهاد مرجعي'
+      email: 'بريد إلكتروني'
+      sms: 'إرسال كرسالة نصية قصيرة'
+      clear: 'مسح'
+
+    citation:
+      mla: 'جمعية اللغة الحديثة MLA'
+      apa: 'الجمعية الأمريكية لعلم النفس APA'
+      chicago: 'شيكاغو'
+
+    email:
+      form:
+        title: 'إرسال بالبريد الإلكتروني'
+        to: 'بريد إلكتروني:'
+        message: 'الرسالة:'
+        submit: 'إرسال'
+      text:
+        default_title: 'لا ينطبق'
+        title: 'العنوان: %{value}'
+        author: 'المؤلف: %{value}'
+        format: 'الصيغة: %{value}'
+        language: 'اللغة: %{value}'
+        subject:
+          one: 'سجل المادة: %{title}'
+          other: 'سجلات المادة'
+        url: 'الرابط: %{url}'
+        message: 'الرسالة: %{message}'
+
+      success: 'تم إرسال البريد الإلكتروني'
+      errors:
+        to:
+          invalid: 'يجب إدخال عنوان بريد إلكتروني صحيح'
+          blank: 'يجب إدخال مُستلم من أجل إرسال هذه الرسالة'
+
+    sms:
+      form:
+        title: 'إرسال كرسالة نصية قصيرة'
+        to: 'رقم الهاتف:'
+        carrier: 'شركة الاتصالات'
+        carrier_prompt: 'يرجى تحديد شركة الاتصالات'
+        submit: 'إرسال'
+      text:
+        title: '%{value}'
+        author: ' حسب %{value}'
+        url: 'الرابط: %{url}'
+      success: 'تم الإرسال كرسالة نصية قصيرة'
+      errors:
+        to:
+          invalid: 'يجب إدخال رقم هاتف صحيح من 10 أعداد'
+          blank: "يجب إدخال رقم هاتف المستلم لإرسال هذه الرسالة"
+        carrier:
+          blank: 'يجب تحديد شركة الاتصالات'
+          invalid: "يجب إدخال شركة اتصالات صحيحة"
+
+    back_to_search: 'عودة لصفحة البحث'
+    back_to_bookmarks: 'عودة لصفحة الصفحات المفضلة'
+
+    search:
+      page_title:
+        title: '%{constraints} - %{application_name} نتائج البحث'
+        constraint: '%{label}: %{value}'
+        many_constraint_values: 'تم تحديد %{values}'
+      header: 'البحث'
+      search_constraints_header: 'قيود البحث'
+      search_results: 'نتائج البحث'
+      errors:
+        request_error: "معذرة، لا أفهم ما تبحث عنه."
+        invalid_solr_id: "معذرة! لقد طلبت سجلًا غير موجود."
+      per_page:
+        label: '%{count}<span class="sr-only"> لكل صفحة</span>'
+        button_label: '%{count} لكل صفحة' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> لكل صفحة</span>'
+        title: 'عدد النتائج المعروضة في الصفحة'
+        submit: 'تحديث'
+      sort:
+        label: 'ترتيب حسب %{field}' # TODO: Remove during major release
+        label_html: 'ترتيب <span class="d-none d-sm-inline"> حسب %{field}</span>'
+        submit: 'نتائج الترتيب'
+      form:
+        search_field:
+          label: 'بحث في'
+          title: 'خيارات البحث المستهدفة'
+          post_label: 'عن'
+        search:
+          label: 'بحث عن'
+          placeholder: 'بحث...'
+        submit: 'بحث'
+      pagination:
+        title: 'تصفح النتائج'
+      pagination_info:
+        no_items_found: 'لم يتم العثور على %{entry_name}'
+        single_item_found: 'تم العثور على <strong>1</strong> %{entry_name}'
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من<strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 من 1</strong>'
+        other: '<strong>%{current}</strong> من <strong>%{total}</strong>'
+      documents:
+        aria:
+          search_results: 'نتائج البحث'
+          limit_search: 'تحديد نطاق البحث'
+        counter: '%{counter}. '
+      facets:
+        title: 'تحديد نطاق البحث'
+        clear: 'إزالة معايير البحث'
+        sort:
+          count: 'ترتيب رقمي'
+          index: 'ترتيب أبجدي'
+        count: '%{number}'
+        more_html: 'المزيد <span class="sr-only">%{field_name}</span> »'
+        selected:
+          remove: '[إزالة]'
+        missing: "[غير موجود]"
+        all: الكل
+      group:
+        more: 'المزيد »'
+      filters:
+        title: 'لقد بحثت عن:'
+        label: '%{label}:'
+        remove:
+          value: 'إزالة القيد %{value}'
+          label_value: 'إزالة القيد %{label}: %{value}'
+      start_over: 'البدء من جديد'
+      index:
+        label: '%{label}:'
+      show:
+        title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
+      rss_feed: 'خلاصات RSS للنتائج'
+      atom_feed: 'خلاصات Atom للنتائج'
+      bookmarks:
+        present: "في الصفحات المفضلة"
+        absent: "صفحة مفضلة"
+        inprogress: "حفظ..."
+      zero_results:
+        title: "لا توجد نتائج للبحث"
+        modify_search: "حاول تعديل معايير البحث"
+        use_fewer_keywords: "استخدم كلمات مفتاحية أقل في البداية، ثم أعد تنقيح البحث باستخدام الروابط على اليسار."
+        search_fields: "لقد بحثت باستخدام %{search_fields}"
+        search_everything: "أعد البحث عن كل شيء"
+      view_title: "عرض النتائج ك: "
+      view:
+        list: "قائمة"
+
+    entry_name:
+      default: 'إدخال'
+      grouped:
+        default: 'النتائج المجمعة'
+
+    did_you_mean: 'هل كنت تقصد كتابة: %{options}؟'
+
+    main:
+      aria:
+        main_container: 'المحتوى الرئيسي'
