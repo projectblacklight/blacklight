@@ -46,6 +46,15 @@ RSpec.describe CatalogHelper do
       expect(html).to be_blank
     end
 
+    context "when response.entry_name is nil" do
+      it "does not raise an error" do
+        collection = mock_response total: 10
+        allow(collection).to receive(:entry_name).and_return(nil)
+
+        expect { page_entries_info(collection) }.not_to raise_error
+      end
+    end
+
     describe "with a single result" do
       it "uses the provided entry name" do
         response = mock_response total: 1
