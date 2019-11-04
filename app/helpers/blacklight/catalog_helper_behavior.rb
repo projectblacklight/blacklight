@@ -45,7 +45,7 @@ module Blacklight::CatalogHelperBehavior
     entry_name = if entry_name
                    entry_name.pluralize(collection.size, I18n.locale)
                  else
-                   collection.entry_name(count: collection.size).downcase
+                   collection.entry_name(count: collection.size).to_s.downcase
                  end
 
     entry_name = entry_name.pluralize unless collection.total_count == 1
