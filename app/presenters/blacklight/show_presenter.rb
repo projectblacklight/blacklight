@@ -30,10 +30,9 @@ module Blacklight
     # @return [String]
     def html_title
       if view_config.html_title_field
-        fields = Array.wrap(view_config.html_title_field)
-        f = fields.detect { |field| document.has? field }
-        f ||= configuration.document_model.unique_key
-        field_values(field_config(f))
+        fields = Array.wrap(view_config.html_title_field) + [configuration.document_model.unique_key]
+        f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| retrieve_values(field_config).any? }
+        field_values(f)
       else
         heading
       end
@@ -45,10 +44,9 @@ module Blacklight
     #
     # @return [String]
     def heading
-      fields = Array.wrap(view_config.title_field)
-      f = fields.detect { |field| document.has? field }
-      f ||= configuration.document_model.unique_key
-      field_values(field_config(f), except_operations: [Rendering::HelperMethod])
+      fields = Array.wrap(view_config.title_field) + [configuration.document_model.unique_key]
+      f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| retrieve_values(field_config).any? }
+      field_values(f, except_operations: [Rendering::HelperMethod])
     end
 
     ##

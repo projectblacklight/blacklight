@@ -55,7 +55,6 @@ RSpec.describe Blacklight::DocumentPresenter do
       let(:field_config) { double(field: 'asdf', highlight: false, accessor: nil, default: nil) }
 
       before do
-        allow(doc).to receive(:has?).with('asdf').and_return(true)
         allow(doc).to receive(:fetch).with('asdf', nil).and_return(['value'])
       end
 

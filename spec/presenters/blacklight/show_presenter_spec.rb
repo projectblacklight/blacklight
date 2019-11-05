@@ -277,8 +277,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
 
     it "returns the first present value" do
       config.show.title_field = [:x, :y]
-      allow(document).to receive(:has?).with(:x).and_return(false)
-      allow(document).to receive(:has?).with(:y).and_return(true)
+      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
       allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
@@ -299,8 +298,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
 
     it "returns the first present value" do
       config.show.html_title_field = [:x, :y]
-      allow(document).to receive(:has?).with(:x).and_return(false)
-      allow(document).to receive(:has?).with(:y).and_return(true)
+      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
       allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.html_title).to eq "value"
     end
