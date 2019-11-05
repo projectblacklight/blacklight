@@ -22,7 +22,7 @@ ar:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
-      main_content:
+      main_content: 'انتقل إلى المحتوى الرئيسي'
       search_field: 'انتقل إلى البحث'
       first_result: 'انتقل إلى النتيجة الأولى'
     header_links:
