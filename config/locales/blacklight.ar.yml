@@ -45,7 +45,11 @@ ar:
       add:
         button: 'صفحة مفضلة'
         success:
+          zero: 'TODO'
           one: 'أضيفت الصفحة المفضلة بنجاح.'
+          two: 'TODO'
+          few: 'TODO'
+          many: 'TODO'
           other: 'أضيفت الصفحات المفضلة بنجاح.'
         failure: 'معذرة! حدثت مشكلة في حفظ الصفحات المفضلة.'
       remove:
@@ -100,7 +104,11 @@ ar:
         format: 'الصيغة: %{value}'
         language: 'اللغة: %{value}'
         subject:
+          zero: 'TODO'
           one: 'سجل المادة: %{title}'
+          two: 'TODO'
+          few: 'TODO'
+          many: 'TODO'
           other: 'سجلات المادة'
         url: 'الرابط: %{url}'
         message: 'الرسالة: %{message}'
@@ -170,10 +178,18 @@ ar:
         no_items_found: 'لم يتم العثور على %{entry_name}'
         single_item_found: 'تم العثور على <strong>1</strong> %{entry_name}'
         pages:
+          zero: 'TODO'
           one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
+          two: 'TODO'
+          few: 'TODO'
+          many: 'TODO'
           other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من<strong>%{total_num}</strong>'
       entry_pagination_info:
+        zero: 'TODO'
         one: '<strong>1 من 1</strong>'
+        two: 'TODO'
+        few: 'TODO'
+        many: 'TODO'
         other: '<strong>%{current}</strong> من <strong>%{total}</strong>'
       documents:
         aria:
