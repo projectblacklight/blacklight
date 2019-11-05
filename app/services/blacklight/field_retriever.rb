@@ -19,7 +19,9 @@ module Blacklight
           retrieve_highlight
         elsif field_config.accessor
           retieve_using_accessor
-        elsif field_config
+        elsif field_config.values
+          retrieve_values
+        else
           retrieve_simple
         end
       )
@@ -54,6 +56,10 @@ module Blacklight
     def retrieve_highlight
       # retrieve the document value from the highlighting response
       document.highlight_field(field_config.field).map(&:html_safe) if document.has_highlight_field? field_config.field
+    end
+
+    def retrieve_values
+      field_config.values.call(field_config, document)
     end
   end
 end

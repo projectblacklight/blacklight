@@ -52,7 +52,7 @@ RSpec.describe Blacklight::DocumentPresenter do
     subject { presenter.send(:has_value?, field_config) }
 
     context 'when the document has the field value' do
-      let(:field_config) { double(field: 'asdf', highlight: false, accessor: nil, default: nil) }
+      let(:field_config) { double(field: 'asdf', highlight: false, accessor: nil, default: nil, values: nil) }
 
       before do
         allow(doc).to receive(:fetch).with('asdf', nil).and_return(['value'])

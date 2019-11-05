@@ -122,6 +122,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
         config.add_show_field 'solr_doc_accessor', accessor: true
         config.add_show_field 'explicit_accessor', accessor: :solr_doc_accessor
         config.add_show_field 'explicit_array_accessor', accessor: [:solr_doc_accessor, :some_method]
+        config.add_show_field 'explicit_values', values: ->(_config, _doc) { ['some-value'] }
       end
     end
 
@@ -246,6 +247,14 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
         allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
 
         expect(subject).to eq '123'
+      end
+    end
+
+    context 'when the values lambda is provided' do
+      let(:field_name) { 'explicit_values' }
+
+      it 'calls the accessors on the return of the preceeding' do
+        expect(subject).to eq 'some-value'
       end
     end
   end
