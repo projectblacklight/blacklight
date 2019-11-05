@@ -290,6 +290,11 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
       allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
+
+    it "can use explicit field configuration" do
+      config.show.title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      expect(subject.heading).to eq 'hardcoded'
+    end
   end
 
   describe "#html_title" do
@@ -310,6 +315,11 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
       allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
       allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.html_title).to eq "value"
+    end
+
+    it "can use explicit field configuration" do
+      config.show.html_title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      expect(subject.html_title).to eq 'hardcoded'
     end
   end
 
