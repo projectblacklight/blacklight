@@ -52,10 +52,11 @@ RSpec.describe Blacklight::DocumentPresenter do
     subject { presenter.send(:has_value?, field_config) }
 
     context 'when the document has the field value' do
-      let(:field_config) { double(field: 'asdf') }
+      let(:field_config) { double(field: 'asdf', highlight: false, accessor: nil, default: nil) }
 
       before do
         allow(doc).to receive(:has?).with('asdf').and_return(true)
+        allow(doc).to receive(:fetch).with('asdf', nil).and_return(['value'])
       end
 
       it { is_expected.to be true }
@@ -66,18 +67,17 @@ RSpec.describe Blacklight::DocumentPresenter do
 
       before do
         allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(true)
-        allow(doc).to receive(:has?).with('asdf').and_return(true)
+        allow(doc).to receive(:highlight_field).with('asdf').and_return(['value'])
       end
 
       it { is_expected.to be true }
     end
 
     context 'when the field is a model accessor' do
-      let(:field_config) { double(field: 'asdf', highlight: true, accessor: true) }
+      let(:field_config) { double(field: 'asdf', highlight: false, accessor: true) }
 
       before do
-        allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(true)
-        allow(doc).to receive(:has?).with('asdf').and_return(true)
+        allow(doc).to receive(:send).with('asdf').and_return(['value'])
       end
 
       it { is_expected.to be true }

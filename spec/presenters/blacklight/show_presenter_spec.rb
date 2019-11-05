@@ -271,7 +271,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     it "returns the value of the field" do
       config.show.title_field = :x
       allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:[]).with(:x).and_return("value")
+      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
 
@@ -279,7 +279,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
       config.show.title_field = [:x, :y]
       allow(document).to receive(:has?).with(:x).and_return(false)
       allow(document).to receive(:has?).with(:y).and_return(true)
-      allow(document).to receive(:[]).with(:y).and_return("value")
+      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
   end

@@ -32,7 +32,7 @@ module Blacklight
       if view_config.html_title_field
         fields = Array.wrap(view_config.html_title_field)
         f = fields.detect { |field| document.has? field }
-        f ||= 'id'
+        f ||= configuration.document_model.unique_key
         field_values(field_config(f))
       else
         heading
@@ -48,7 +48,7 @@ module Blacklight
       fields = Array.wrap(view_config.title_field)
       f = fields.detect { |field| document.has? field }
       f ||= configuration.document_model.unique_key
-      field_values(field_config(f), value: document[f])
+      field_values(field_config(f), except_operations: [Rendering::HelperMethod])
     end
 
     ##
@@ -68,21 +68,6 @@ module Blacklight
     # @return [Hash<String,Configuration::Field>]
     def fields
       configuration.show_fields_for(document)
-    end
-
-    ##
-    # Get the value for a document's field, and prepare to render it.
-    # - highlight_field
-    # - accessor
-    # - solr field
-    #
-    # Rendering:
-    #   - helper_method
-    #   - link_to_facet
-    # @param [Blacklight::Configuration::Field] field_config solr field configuration
-    # @param [Hash] options additional options to pass to the rendering helpers
-    def field_values(field_config, options = {})
-      FieldPresenter.new(view_context, document, field_config, options).render
     end
 
     def view_config

@@ -40,7 +40,7 @@ module Blacklight
               end
 
       value ||= document.id
-      field_values(config, value: value)
+      field_values(config, values: Array.wrap(value), except_operations: [Rendering::HelperMethod])
     end
 
     ##
@@ -64,21 +64,6 @@ module Blacklight
     # @return [Hash<String,Configuration::Field>] all the fields for this index view
     def fields
       configuration.index_fields_for(document)
-    end
-
-    ##
-    # Get the value for a document's field, and prepare to render it.
-    # - highlight_field
-    # - accessor
-    # - solr field
-    #
-    # Rendering:
-    #   - helper_method
-    #   - link_to_facet
-    # @param [Blacklight::Configuration::Field] field_config solr field configuration
-    # @param [Hash] options additional options to pass to the rendering helpers
-    def field_values(field_config, options = {})
-      FieldPresenter.new(view_context, document, field_config, options).render
     end
 
     def field_config(field)
