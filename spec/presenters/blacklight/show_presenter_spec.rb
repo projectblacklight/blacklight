@@ -122,6 +122,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
         config.add_show_field 'solr_doc_accessor', accessor: true
         config.add_show_field 'explicit_accessor', accessor: :solr_doc_accessor
         config.add_show_field 'explicit_array_accessor', accessor: [:solr_doc_accessor, :some_method]
+        config.add_show_field 'explicit_values', values: ->(_config, _doc) { ['some-value'] }
       end
     end
 
@@ -248,6 +249,14 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
         expect(subject).to eq '123'
       end
     end
+
+    context 'when the values lambda is provided' do
+      let(:field_name) { 'explicit_values' }
+
+      it 'calls the accessors on the return of the preceeding' do
+        expect(subject).to eq 'some-value'
+      end
+    end
   end
 
   describe '#fields' do
@@ -271,16 +280,20 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     it "returns the value of the field" do
       config.show.title_field = :x
       allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:[]).with(:x).and_return("value")
+      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
 
     it "returns the first present value" do
       config.show.title_field = [:x, :y]
-      allow(document).to receive(:has?).with(:x).and_return(false)
-      allow(document).to receive(:has?).with(:y).and_return(true)
-      allow(document).to receive(:[]).with(:y).and_return("value")
+      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
+      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.heading).to eq "value"
+    end
+
+    it "can use explicit field configuration" do
+      config.show.title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      expect(subject.heading).to eq 'hardcoded'
     end
   end
 
@@ -299,10 +312,14 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
 
     it "returns the first present value" do
       config.show.html_title_field = [:x, :y]
-      allow(document).to receive(:has?).with(:x).and_return(false)
-      allow(document).to receive(:has?).with(:y).and_return(true)
+      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
       allow(document).to receive(:fetch).with(:y, nil).and_return("value")
       expect(subject.html_title).to eq "value"
+    end
+
+    it "can use explicit field configuration" do
+      config.show.html_title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      expect(subject.html_title).to eq 'hardcoded'
     end
   end
 

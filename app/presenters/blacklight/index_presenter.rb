@@ -22,13 +22,12 @@ module Blacklight
     #
     # @param [Symbol, Proc, String] field_or_string_or_proc Render the given field or evaluate the proc or render the given string
     # @param [Hash] opts
-    # TODO: the default field should be `document_show_link_field(doc)'
     def label(field_or_string_or_proc, opts = {})
       config = Configuration::NullField.new
       value = case field_or_string_or_proc
                 when Symbol
                   config = field_config(field_or_string_or_proc)
-                  document[field_or_string_or_proc]
+                  retrieve_values(config)
                 when Proc
                   Deprecation.warn(self, "calling IndexPresenter.label with a Proc is deprecated. " \
                                          "First argument must be a symbol. This will be removed in Blacklight 8")
@@ -39,9 +38,11 @@ module Blacklight
                   field_or_string_or_proc
               end
 
-      value ||= document.id
-      field_values(config, value: value)
+      value = document.id if value.blank?
+      field_values(config, values: Array.wrap(value), except_operations: [Rendering::HelperMethod])
     end
+
+    deprecation_deprecate label: 'Use #heading'
 
     ##
     # Render the index field label for a document
@@ -64,21 +65,6 @@ module Blacklight
     # @return [Hash<String,Configuration::Field>] all the fields for this index view
     def fields
       configuration.index_fields_for(document)
-    end
-
-    ##
-    # Get the value for a document's field, and prepare to render it.
-    # - highlight_field
-    # - accessor
-    # - solr field
-    #
-    # Rendering:
-    #   - helper_method
-    #   - link_to_facet
-    # @param [Blacklight::Configuration::Field] field_config solr field configuration
-    # @param [Hash] options additional options to pass to the rendering helpers
-    def field_values(field_config, options = {})
-      FieldPresenter.new(view_context, document, field_config, options).render
     end
 
     def field_config(field)

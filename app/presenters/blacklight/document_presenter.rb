@@ -14,6 +14,19 @@ module Blacklight
       end
     end
 
+    ##
+    # Get the value of the document's "title" field, or a placeholder
+    # value (if empty)
+    #
+    # @return [String]
+    def heading
+      return field_values(view_config.title_field) if view_config.title_field.is_a? Blacklight::Configuration::Field
+
+      fields = Array.wrap(view_config.title_field) + [configuration.document_model.unique_key]
+      f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| retrieve_values(field_config).any? }
+      field_values(f, except_operations: [Rendering::HelperMethod])
+    end
+
     private
 
     ##
@@ -29,10 +42,28 @@ module Blacklight
     # the given solr field
     # @param [Blacklight::Configuration::Field] field_config
     # @return [Boolean]
-    def has_value? field_config
-      document.has?(field_config.field) ||
-        (document.has_highlight_field? field_config.field if field_config.highlight) ||
-        field_config.accessor
+    def has_value?(field_config)
+      retrieve_values(field_config).present?
+    end
+
+    ##
+    # Get the value for a document's field, and prepare to render it.
+    # - highlight_field
+    # - accessor
+    # - solr field
+    #
+    # Rendering:
+    #   - helper_method
+    #   - link_to_facet
+    # @param [Blacklight::Configuration::Field] field_config solr field configuration
+    # @param [Hash] options additional options to pass to the rendering helpers
+    def field_values(field_config, options = {})
+      options[:values] ||= retrieve_values(field_config) unless options.key? :value
+      FieldPresenter.new(view_context, document, field_config, options).render
+    end
+
+    def retrieve_values(field_config)
+      FieldRetriever.new(document, field_config).fetch
     end
   end
 end

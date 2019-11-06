@@ -206,7 +206,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "consists of the document title wrapped in a <a>" do
-      expect(Deprecation).to receive(:warn)
+      allow(Deprecation).to receive(:warn)
       expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", text: '654321', count: 1)
     end
 
@@ -215,7 +215,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "accepts and returns a Proc" do
-      expect(Deprecation).to receive(:warn).twice
+      allow(Deprecation).to receive(:warn)
       expect(helper.link_to_document(document, proc { |doc, _opts| doc[:id] + ": " + doc.first(:title_tsim) })).to have_selector("a", text: '123456: 654321', count: 1)
     end
 
@@ -223,12 +223,12 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       let(:data) { { 'id' => id } }
 
       it "returns id" do
-        expect(Deprecation).to receive(:warn)
+        allow(Deprecation).to receive(:warn)
         expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", text: '123456', count: 1)
       end
 
       it "is html safe" do
-        expect(Deprecation).to receive(:warn)
+        allow(Deprecation).to receive(:warn)
         expect(helper.link_to_document(document, :title_tsim)).to be_html_safe
       end
 
@@ -250,7 +250,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "converts the counter parameter into a data- attribute" do
-      expect(Deprecation).to receive(:warn)
+      allow(Deprecation).to receive(:warn)
       expect(helper.link_to_document(document, :title_tsim, counter: 5)).to include 'data-context-href="tracking url"'
       expect(helper.main_app).to have_received(:track_test_path).with(hash_including(id: have_attributes(id: '123456'), counter: 5))
     end
