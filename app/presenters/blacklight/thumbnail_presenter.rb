@@ -20,7 +20,7 @@ module Blacklight
     # @return [Boolean]
     def exists?
       thumbnail_method.present? ||
-        (thumbnail_field && thumbnail_value_from_document(document).present?) ||
+        (thumbnail_field && thumbnail_value_from_document.present?) ||
         default_thumbnail.present?
     end
 
@@ -47,7 +47,7 @@ module Blacklight
       value = if thumbnail_method
                 view_context.send(thumbnail_method, document, image_options)
               elsif thumbnail_field
-                image_url = thumbnail_value_from_document(document)
+                image_url = thumbnail_value_from_document
                 view_context.image_tag image_url, image_options if image_url.present?
               end
 
@@ -67,8 +67,18 @@ module Blacklight
       end
     end
 
-    def thumbnail_value_from_document(document)
-      Array(thumbnail_field).lazy.map { |field| document.first(field) }.reject(&:blank?).first
+    def thumbnail_value_from_document
+      Array(thumbnail_field).lazy.map { |field| retrieve_values(field_config(field)).first }.reject(&:blank?).first
+    end
+
+    def retrieve_values(field_config)
+      FieldRetriever.new(document, field_config).fetch
+    end
+
+    def field_config(field)
+      return field if field.is_a? Blacklight::Configuration::Field
+
+      Configuration::NullField.new(field)
     end
   end
 end

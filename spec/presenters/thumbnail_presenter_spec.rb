@@ -105,14 +105,13 @@ RSpec.describe Blacklight::ThumbnailPresenter do
       end
 
       it "creates an image tag from the given field" do
-        allow(document).to receive(:first).with(:xyz).and_return("http://example.com/some.jpg")
+        allow(document).to receive(:fetch).with(:xyz, nil).and_return("http://example.com/some.jpg")
         allow(view_context).to receive(:image_tag).with("http://example.com/some.jpg", {}).and_return('<img src="image.jpg">')
         expect(view_context).to receive(:link_to_document).with(document, '<img src="image.jpg">', {})
         subject
       end
 
       it "returns nil if no thumbnail is in the document" do
-        allow(document).to receive(:first).with(:xyz).and_return(nil)
         expect(subject).to be_nil
       end
     end
