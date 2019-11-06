@@ -64,7 +64,7 @@ module Blacklight
 
     # @return [Hash<String,Configuration::Field>] all the fields for this index view
     def fields
-      configuration.index_fields_for(document)
+      configuration.index_fields_for(display_type)
     end
 
     def field_config(field)

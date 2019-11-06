@@ -357,16 +357,28 @@ module Blacklight
     ##
     # Return a list of fields for the index display that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def index_fields_for(document)
-      display_type = document.first(index.display_type_field)
+    def index_fields_for(document_or_display_type)
+      display_type = if document_or_display_type.is_a? Blacklight::Document
+                       Deprecation.warn self, "Calling index_fields_for with a #{document_or_display_type.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
+                       document_or_display_type.first(index.display_type_field)
+                     else
+                       document_or_display_type
+                     end
+
       for_display_type(display_type).index_fields.merge(index_fields)
     end
 
     ##
     # Return a list of fields for the show page that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def show_fields_for(document)
-      display_type = document.first(show.display_type_field)
+    def show_fields_for(document_or_display_type)
+      display_type = if document_or_display_type.is_a? Blacklight::Document
+                       Deprecation.warn self, "Calling show_fields_for with a #{document_or_display_type.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
+                       document_or_display_type.first(show.display_type_field)
+                     else
+                       document_or_display_type
+                     end
+
       for_display_type(display_type).show_fields.merge(show_fields)
     end
 

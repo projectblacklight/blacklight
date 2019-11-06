@@ -56,7 +56,7 @@ module Blacklight
 
     # @return [Hash<String,Configuration::Field>]
     def fields
-      configuration.show_fields_for(document)
+      configuration.show_fields_for(display_type)
     end
 
     def view_config

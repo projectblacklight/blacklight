@@ -55,7 +55,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Look up the label for the index field
   def index_field_label document, field
-    field_config = blacklight_config.index_fields_for(document)[field]
+    field_config = blacklight_config.index_fields_for(index_presenter(document).display_type)[field]
     field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
     field_config.display_label('index')
@@ -64,7 +64,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Look up the label for the show field
   def document_show_field_label document, field
-    field_config = blacklight_config.show_fields_for(document)[field]
+    field_config = blacklight_config.show_fields_for(show_presenter(document).display_type)[field]
     field_config ||= Blacklight::Configuration::NullField.new(key: field)
 
     field_config.display_label('show')
