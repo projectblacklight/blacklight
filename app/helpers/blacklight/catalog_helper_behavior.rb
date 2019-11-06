@@ -134,8 +134,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # @return [String]
   def render_document_class(document = @document)
-    types = document[blacklight_config.view_config(document_index_view_type).display_type_field]
-
+    types = presenter(document).display_type
     return if types.blank?
 
     Array(types).compact.map do |t|

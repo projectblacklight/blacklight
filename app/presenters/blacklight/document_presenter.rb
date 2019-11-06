@@ -27,6 +27,17 @@ module Blacklight
       field_values(f, except_operations: [Rendering::HelperMethod])
     end
 
+    def display_type(base_name = nil, default: nil)
+      fields = []
+      fields += Array.wrap(view_config[:"#{base_name}_display_type_field"]) if base_name && view_config.key?(:"#{base_name}_display_type_field")
+      fields += Array.wrap(view_config.display_type_field)
+
+      display_type = fields.lazy.map { |field| retrieve_values(field_config(field)) }.detect(&:any?)
+      display_type ||= Array(default) if default
+
+      display_type
+    end
+
     private
 
     ##

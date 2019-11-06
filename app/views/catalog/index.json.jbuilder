@@ -12,12 +12,11 @@ end
 
 json.data do
   json.array! @presenter.documents do |document|
+    doc_presenter = index_presenter(document)
     document_url = polymorphic_url(url_for_document(document))
     json.id document.id
-    json.type document[blacklight_config.view_config(:index).display_type_field]
+    json.type doc_presenter.display_type.first
     json.attributes do
-      doc_presenter = index_presenter(document)
-
       doc_presenter.fields_to_render.each do |field_name, field|
         json.partial! 'field', field: field,
                                field_name: field_name,
