@@ -166,6 +166,7 @@ module Blacklight::ConfigurationHelperBehavior
 
     field
   end
+  deprecation_deprecate document_show_link_field: 'Deprecated without replacement'
 
   ##
   # Default sort field

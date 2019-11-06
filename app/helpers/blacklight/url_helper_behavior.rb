@@ -21,10 +21,10 @@ module Blacklight::UrlHelperBehavior
   def link_to_document(doc, field_or_opts = nil, opts = { counter: nil })
     label = case field_or_opts
             when NilClass
-              index_presenter(doc).label document_show_link_field(doc), opts
+              index_presenter(doc).heading
             when Hash
               opts = field_or_opts
-              index_presenter(doc).label document_show_link_field(doc), opts
+              index_presenter(doc).heading
             when Proc, Symbol
               Deprecation.warn(self, "passing a #{field_or_opts.class} to link_to_document is deprecated and will be removed in Blacklight 8")
               Deprecation.silence(Blacklight::IndexPresenter) do

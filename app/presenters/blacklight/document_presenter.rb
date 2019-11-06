@@ -14,6 +14,19 @@ module Blacklight
       end
     end
 
+    ##
+    # Get the value of the document's "title" field, or a placeholder
+    # value (if empty)
+    #
+    # @return [String]
+    def heading
+      return field_values(view_config.title_field) if view_config.title_field.is_a? Blacklight::Configuration::Field
+
+      fields = Array.wrap(view_config.title_field) + [configuration.document_model.unique_key]
+      f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| retrieve_values(field_config).any? }
+      field_values(f, except_operations: [Rendering::HelperMethod])
+    end
+
     private
 
     ##

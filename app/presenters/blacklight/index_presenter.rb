@@ -22,7 +22,6 @@ module Blacklight
     #
     # @param [Symbol, Proc, String] field_or_string_or_proc Render the given field or evaluate the proc or render the given string
     # @param [Hash] opts
-    # TODO: the default field should be `document_show_link_field(doc)'
     def label(field_or_string_or_proc, opts = {})
       config = Configuration::NullField.new
       value = case field_or_string_or_proc
@@ -42,6 +41,8 @@ module Blacklight
       value = document.id if value.blank?
       field_values(config, values: Array.wrap(value), except_operations: [Rendering::HelperMethod])
     end
+
+    deprecation_deprecate label: 'Use #heading'
 
     ##
     # Render the index field label for a document
