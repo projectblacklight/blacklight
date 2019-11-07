@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-describe "Search Page" do
+RSpec.describe "Search Page" do
+  it 'declares the page language in the html lang attribute' do
+    visit root_path
+    expect(page).to have_selector('html[lang=en]')
+  end
+
   it "shows welcome" do
     visit root_path
     expect(page).to have_selector("input#q")
@@ -116,4 +121,3 @@ describe "Search Page" do
     expect(page).to have_content "No results found for your search"
   end
 end
-

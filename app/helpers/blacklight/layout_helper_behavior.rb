@@ -12,6 +12,13 @@ module Blacklight
     end
 
     ##
+    # Attributes to add to the <html> tag (e.g. lang and dir)
+    # @return [Hash]
+    def html_tag_attributes
+      { lang: I18n.locale }
+    end
+
+    ##
     # Classes added to a document's sidebar div
     # @return [String]
     def show_sidebar_classes
