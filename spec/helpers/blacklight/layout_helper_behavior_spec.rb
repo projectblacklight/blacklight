@@ -35,4 +35,14 @@ RSpec.describe Blacklight::LayoutHelperBehavior do
       expect(helper.container_classes).to eq 'container'
     end
   end
+
+  describe '#html_tag_attributes' do
+    before do
+      allow(I18n).to receive(:locale).and_return('x')
+    end
+
+    it 'returns the current locale as the lang' do
+      expect(helper.html_tag_attributes).to include lang: 'x'
+    end
+  end
 end
