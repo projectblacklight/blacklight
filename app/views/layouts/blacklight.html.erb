@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<%= content_tag :html, class: 'no-js', **html_tag_attributes do %>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -41,4 +41,4 @@
 
   <%= render :partial => 'shared/footer' %>
   </body>
-</html>
+<% end %>
