@@ -51,7 +51,7 @@ module Blacklight
     end
 
     ##
-    # Render the index field label for a document
+    # Render the field label for a document
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
