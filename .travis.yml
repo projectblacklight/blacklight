@@ -8,11 +8,11 @@ notifications:
   email: false
 
 rvm:
-  - 2.5.0
+  - 2.5.7
 
 matrix:
   include:
-    - rvm: 2.5.0
+    - rvm: 2.5.7
       env: "RAILS_VERSION=5.2.0"
     - rvm: 2.4.4
       env: "RAILS_VERSION=4.2.10"
