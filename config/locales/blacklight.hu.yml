@@ -6,6 +6,14 @@ hu:
       previous: '&laquo; Előző'
       next: 'Következő &raquo;'
       truncate: '…'
+      aria:
+        container_label: pagination linkek
+        current_page: Aktuális oldal, %{page} oldal
+        go_to_page: Ugrás a %{page} oldalra
+        go_to_previous_page: Ugrás az előző oldalra
+        go_to_next_page: Ugrás a következő oldalra
+        go_to_first_page: Ugrás az első oldalra
+        go_to_last_page: Ugrás az utolsó oldalra
 
     pagination_compact:
       previous: '&laquo; Előző'
