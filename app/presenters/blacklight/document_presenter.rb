@@ -5,6 +5,18 @@ module Blacklight
   class DocumentPresenter
     attr_reader :document, :configuration, :view_context
 
+    class_attribute :thumbnail_presenter
+    self.thumbnail_presenter = ThumbnailPresenter
+
+    # @param [SolrDocument] document
+    # @param [ActionView::Base] view_context scope for linking and generating urls
+    # @param [Blacklight::Configuration] configuration
+    def initialize(document, view_context, configuration = view_context.blacklight_config)
+      @document = document
+      @view_context = view_context
+      @configuration = configuration
+    end
+
     # @return [Hash<String,Configuration::Field>]  all the fields for this index view that should be rendered
     def fields_to_render
       fields.select do |_name, field_config|
@@ -36,6 +48,22 @@ module Blacklight
       display_type ||= Array(default) if default
 
       display_type
+    end
+
+    ##
+    # Render the field label for a document
+    #
+    # Allow an extention point where information in the document
+    # may drive the value of the field
+    # @param [Configuration::Field] field
+    # @param [Hash] options
+    # @option options [String] :value
+    def field_value field, options = {}
+      field_values(field, options)
+    end
+
+    def thumbnail
+      @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config)
     end
 
     private

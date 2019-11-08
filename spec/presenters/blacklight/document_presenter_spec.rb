@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::DocumentPresenter do
-  let(:presenter) { described_class.new }
+  let(:presenter) { described_class.new(doc, view_context) }
   let(:doc) { instance_double(SolrDocument) }
-  let(:view_context) { double('View context', should_render_field?: true) }
-
-  before do
-    allow(presenter).to receive(:document).and_return(doc)
-    allow(presenter).to receive(:view_context).and_return(view_context)
-  end
+  let(:blacklight_config) { instance_double(Blacklight::Configuration) }
+  let(:view_context) { double('View context', should_render_field?: true, blacklight_config: blacklight_config) }
 
   describe '#fields_to_render' do
     subject { presenter.fields_to_render }
@@ -38,7 +34,7 @@ RSpec.describe Blacklight::DocumentPresenter do
     it { is_expected.to be true }
 
     context 'when the view context says not to render the field' do
-      let(:view_context) { double('View context', should_render_field?: false) }
+      let(:view_context) { double('View context', should_render_field?: false, blacklight_config: blacklight_config) }
 
       before do
         allow(field_config).to receive_messages(if: false)
