@@ -6,6 +6,14 @@ zh:
       previous: '&laquo; 上一页'
       next: '下一页 &raquo;'
       truncate: '…'
+      aria:
+        container_label: 分页链接
+        current_page: 当前页面，页面%{page}
+        go_to_page: 前往页面%{page}
+        go_to_previous_page: 转到上一页
+        go_to_next_page: 转到下一页
+        go_to_first_page: 转到第一页
+        go_to_last_page: 转到最后一页
 
     pagination_compact:
       previous: '&laquo; 上一页'

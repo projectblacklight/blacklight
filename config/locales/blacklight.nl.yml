@@ -6,6 +6,14 @@ nl:
       previous: '&laquo; Vorige'
       next: 'Volgende &raquo;'
       truncate: '…'
+      aria:
+        container_label: paginatielinks
+        current_page: Huidige pagina, Pagina %{page}
+        go_to_page: Ga naar pagina %{page}
+        go_to_previous_page: Ga naar de vorige pagina
+        go_to_next_page: Ga naar de volgende pagina
+        go_to_first_page: Ga naar de eerste pagina
+        go_to_last_page: Ga naar de laatste pagina
 
     pagination_compact:
       previous: '&laquo; Vorige'

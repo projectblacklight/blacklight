@@ -6,12 +6,21 @@ sq:
       previous: '&laquo; Mbrapa'
       next: 'Tjetra &raquo;'
       truncate: '…'
+      aria:
+        container_label: lidhjet e pagination
+        current_page: Faqja aktuale, Faqja %{page}
+        go_to_page: Shkoni te faqja %{page}
+        go_to_previous_page: Shko te faqja e mëparshme
+        go_to_next_page: Shko te faqja tjetër
+        go_to_first_page: Shko tek faqja e parë
+        go_to_last_page: Shko tek faqja e fundit
 
     pagination_compact:
       previous: '&laquo; Mbrapa'
       next: 'Tjetra &raquo;'
 
   blacklight:
+    application_name: 'Blacklight'
     skip_links:
       main_content: 'Shkoni tek përmbajtja kryesore'
       search_field: 'Shkoni në kërkim'
