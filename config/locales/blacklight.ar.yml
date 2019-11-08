@@ -45,7 +45,11 @@ ar:
       add:
         button: 'صفحة مفضلة'
         success:
+          zero: 'لم يتم إضافة أي صفحة مفضلة.'
           one: 'أضيفت الصفحة المفضلة بنجاح.'
+          two: 'أضيفت صفحتان مفضلتان بنجاح.'
+          few: 'أضيفت الصفحات المفضلة بنجاح.'
+          many: 'أضيفت الصفحات المفضلة بنجاح.'
           other: 'أضيفت الصفحات المفضلة بنجاح.'
         failure: 'معذرة! حدثت مشكلة في حفظ الصفحات المفضلة.'
       remove:
@@ -100,7 +104,11 @@ ar:
         format: 'الصيغة: %{value}'
         language: 'اللغة: %{value}'
         subject:
+          zero: 'لا يوجد سجل للمادة'
           one: 'سجل المادة: %{title}'
+          two: 'سجلان للمادة'
+          few: 'سجلات المادة'
+          many: 'سجلات المادة'
           other: 'سجلات المادة'
         url: 'الرابط: %{url}'
         message: 'الرسالة: %{message}'
@@ -170,10 +178,18 @@ ar:
         no_items_found: 'لم يتم العثور على %{entry_name}'
         single_item_found: 'تم العثور على <strong>1</strong> %{entry_name}'
         pages:
+          zero: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
           one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
-          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من<strong>%{total_num}</strong>'
+          two: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
+          few: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
+          many: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
       entry_pagination_info:
-        one: '<strong>1 من 1</strong>'
+        zero: '<strong>%{current}</strong> من <strong>%{total}</strong>'
+        one: '<strong>%{current}</strong> من <strong>%{total}</strong>'
+        two: '<strong>%{current}</strong> من <strong>%{total}</strong>'
+        few: '<strong>%{current}</strong> من <strong>%{total}</strong>'
+        many: '<strong>%{current}</strong> من <strong>%{total}</strong>'
         other: '<strong>%{current}</strong> من <strong>%{total}</strong>'
       documents:
         aria:
