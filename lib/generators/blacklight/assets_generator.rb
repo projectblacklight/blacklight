@@ -29,6 +29,7 @@ module Blacklight
       return if has_blacklight_assets?
 
       contents = "\n//\n// Required by Blacklight\n"
+      contents += "//= require bootstrap/util\n"
       contents += "//= require popper\n"
       contents += "// Twitter Typeahead for autocomplete\n"
       contents += "//= require twitter/typeahead\n"
