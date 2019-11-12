@@ -115,10 +115,10 @@ RSpec.describe "Blacklight::Configuration", api: true do
       end
       config.add_index_field :title
 
-      expect(config.index_fields_for('Image')).to have_key 'dimensions'
-      expect(config.index_fields_for('Image')).to have_key 'title'
-      expect(config.index_fields_for('Sound')).not_to have_key 'dimensions'
-      expect(config.index_fields_for('Image')).to have_key 'title'
+      expect(config.index_fields_for(['Image'])).to have_key 'dimensions'
+      expect(config.index_fields_for(['Image'])).to have_key 'title'
+      expect(config.index_fields_for(['Sound'])).not_to have_key 'dimensions'
+      expect(config.index_fields_for(['Image'])).to have_key 'title'
       expect(config.index_fields).not_to have_key 'dimensions'
     end
 
@@ -128,10 +128,10 @@ RSpec.describe "Blacklight::Configuration", api: true do
       end
       config.add_show_field :title
 
-      expect(config.show_fields_for('Image')).to have_key 'dimensions'
-      expect(config.show_fields_for('Image')).to have_key 'title'
-      expect(config.show_fields_for('Sound')).not_to have_key 'dimensions'
-      expect(config.show_fields_for('Image')).to have_key 'title'
+      expect(config.show_fields_for(['Image'])).to have_key 'dimensions'
+      expect(config.show_fields_for(['Image'])).to have_key 'title'
+      expect(config.show_fields_for(['Sound'])).not_to have_key 'dimensions'
+      expect(config.show_fields_for(['Image'])).to have_key 'title'
       expect(config.show_fields).not_to have_key 'dimensions'
     end
 
@@ -143,8 +143,8 @@ RSpec.describe "Blacklight::Configuration", api: true do
         c.add_show_field :photographer
       end
 
-      expect(config.show_fields_for('Image')).to have_key 'dimensions'
-      expect(config.show_fields_for('Image')).to have_key 'photographer'
+      expect(config.show_fields_for(['Image'])).to have_key 'dimensions'
+      expect(config.show_fields_for(['Image'])).to have_key 'photographer'
     end
   end
 

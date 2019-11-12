@@ -357,29 +357,41 @@ module Blacklight
     ##
     # Return a list of fields for the index display that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def index_fields_for(document_or_display_type)
-      display_type = if document_or_display_type.is_a? Blacklight::Document
-                       Deprecation.warn self, "Calling index_fields_for with a #{document_or_display_type.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
-                       document_or_display_type.first(index.display_type_field)
-                     else
-                       document_or_display_type
-                     end
+    def index_fields_for(document_or_display_types)
+      display_types = if document_or_display_types.is_a? Blacklight::Document
+                        Deprecation.warn self, "Calling index_fields_for with a #{document_or_display_types.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
+                        document_or_display_types[index.display_type_field]
+                      else
+                        document_or_display_types
+                      end
 
-      for_display_type(display_type).index_fields.merge(index_fields)
+      fields = {}.with_indifferent_access
+
+      Array.wrap(display_types).each do |display_type|
+        fields = fields.merge(for_display_type(display_type).index_fields)
+      end
+
+      fields.merge(index_fields)
     end
 
     ##
     # Return a list of fields for the show page that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def show_fields_for(document_or_display_type)
-      display_type = if document_or_display_type.is_a? Blacklight::Document
-                       Deprecation.warn self, "Calling show_fields_for with a #{document_or_display_type.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
-                       document_or_display_type.first(show.display_type_field)
-                     else
-                       document_or_display_type
-                     end
+    def show_fields_for(document_or_display_types)
+      display_types = if document_or_display_types.is_a? Blacklight::Document
+                        Deprecation.warn self, "Calling show_fields_for with a #{document_or_display_types.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
+                        document_or_display_types[show.display_type_field]
+                      else
+                        document_or_display_types
+                      end
 
-      for_display_type(display_type).show_fields.merge(show_fields)
+      fields = {}.with_indifferent_access
+
+      Array.wrap(display_types).each do |display_type|
+        fields = fields.merge(for_display_type(display_type).show_fields)
+      end
+
+      fields.merge(show_fields)
     end
 
     private
