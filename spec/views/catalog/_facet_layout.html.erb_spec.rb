@@ -27,7 +27,7 @@ RSpec.describe "catalog/facet_layout" do
 
   it "is collapsable" do
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
-    expect(rendered).to have_selector 'button[data-toggle="collapse"][aria-expanded="false"]'
+    expect(rendered).to have_selector 'button.collapsed[data-toggle="collapse"][aria-expanded="false"]'
     expect(rendered).to have_selector '.collapse .card-body'
   end
 
