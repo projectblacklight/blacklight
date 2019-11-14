@@ -441,7 +441,7 @@ Blacklight.doSearchContextBehavior = function () {
   const nodes = Array.prototype.slice.call(elements);
   nodes.forEach(function (element) {
     element.addEventListener('click', function (e) {
-      Blacklight.handleSearchContextMethod.call(e.target, e);
+      Blacklight.handleSearchContextMethod.call(e.currentTarget, e);
     });
   });
 }; // this is the Rails.handleMethod with a couple adjustments, described inline:

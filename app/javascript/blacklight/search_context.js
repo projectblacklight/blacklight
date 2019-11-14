@@ -10,7 +10,7 @@ Blacklight.doSearchContextBehavior = function() {
 
   nodes.forEach(function(element) {
     element.addEventListener('click', function(e) {
-      Blacklight.handleSearchContextMethod.call(e.target, e)
+      Blacklight.handleSearchContextMethod.call(e.currentTarget, e)
     })
   })
 };
