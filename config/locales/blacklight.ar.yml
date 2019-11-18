@@ -1,7 +1,7 @@
 ar:
   views:
     pagination:
-      first: 'الأولى ;&laquo'
+      first: 'الأولى &laquo;'
       last: 'الأخيرة &raquo;'
       previous: '&laquo; السابقة'
       next: 'التالية &raquo;'
