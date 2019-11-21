@@ -21,7 +21,8 @@ json.data do
         json.partial! 'field', field: field,
                                field_name: field_name,
                                document_url: document_url,
-                               doc_presenter: doc_presenter
+                               doc_presenter: doc_presenter,
+                               view_type: 'index'
       end
     end
 
