@@ -5,6 +5,6 @@ json.set!(field_name) do
   json.type 'document_value'
   json.attributes do
     json.value doc_presenter.field_value(field)
-    json.label field.label
+    json.label field.display_label(view_type)
   end
 end
