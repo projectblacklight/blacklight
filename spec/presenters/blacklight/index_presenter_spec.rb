@@ -183,4 +183,32 @@ RSpec.describe Blacklight::IndexPresenter, api: true do
 
     it { is_expected.to be_instance_of Blacklight::ThumbnailPresenter }
   end
+
+  describe '#display_type' do
+    context 'with no configuration' do
+      it 'returns an empty array' do
+        expect(presenter.display_type).to be_empty
+      end
+    end
+
+    context 'with a default value' do
+      it 'returns the default' do
+        expect(presenter.display_type(default: 'default')).to eq ['default']
+      end
+    end
+
+    context 'with field configuration' do
+      let(:document) do
+        SolrDocument.new(id: 1, xyz: 'abc')
+      end
+
+      before do
+        config.index.display_type_field = :xyz
+      end
+
+      it 'returns the value from the field' do
+        expect(presenter.display_type).to eq ['abc']
+      end
+    end
+  end
 end
