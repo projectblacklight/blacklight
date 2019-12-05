@@ -47,7 +47,7 @@ module Blacklight
       display_type = fields.lazy.map { |field| retrieve_values(field_config(field)) }.detect(&:any?)
       display_type ||= Array(default) if default
 
-      display_type
+      display_type || []
     end
 
     ##
