@@ -6,7 +6,7 @@
   </button>
   <div class="dropdown-menu dropdown-menu-right" role="menu">
     <%- per_page_options_for_select.each do |(label, count)| %>
-      <%= link_to(label, url_for(search_state.params_for_search(per_page: count)), class: 'dropdown-item') %>
+      <%= link_to(label, url_for(search_state.params_for_search(per_page: count)), class: 'dropdown-item', role: 'menuitem') %>
     <%- end -%>
   </div>
 </div>
