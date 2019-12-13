@@ -170,7 +170,7 @@ RSpec.describe "Facets" do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
 
-    within('#facets .navbar') do
+    within('#facets .facets-header') do
       page.find('button.navbar-toggler').click
     end
 
@@ -182,7 +182,7 @@ RSpec.describe "Facets" do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
 
-    within('#facets .navbar') do
+    within('#facets .facets-header') do
       page.find('button.navbar-toggler').click
     end
 
@@ -196,7 +196,7 @@ RSpec.describe "Facets" do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
 
-    within('#facets .navbar') do
+    within('#facets .facets-header') do
       page.find('button.navbar-toggler').click
     end
 
@@ -210,7 +210,7 @@ RSpec.describe "Facets" do
     skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
 
-    within('#facets .navbar') do
+    within('#facets .facets-header') do
       page.find('button.navbar-toggler').click
     end
 

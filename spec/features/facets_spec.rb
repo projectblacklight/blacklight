@@ -56,7 +56,7 @@ RSpec.describe "Facets" do
 
     expect(page).to have_css('#facet-format', visible: false)
 
-    within('#facets .navbar') do
+    within('#facets .facets-header') do
       page.find('button.navbar-toggler').click
     end
 
