@@ -36,6 +36,13 @@
   }
 }
 
+.facets-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
 .facets-heading {
   @extend .h4;
   line-height: inherit;
