@@ -132,8 +132,6 @@
 -------------------------------------------------- */
 
 .facet-pagination {
-  @extend .clearfix;
-
   &.top {
     padding: $modal-inner-padding;
   }
