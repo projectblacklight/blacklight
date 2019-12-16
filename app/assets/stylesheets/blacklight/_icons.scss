@@ -1,35 +1,21 @@
-.blacklight-icons {
-  display: inline-flex;
-  height: $font-size-base;
-  width: $font-size-base;
-}
-
-.blacklight-icons svg {
-  height: 1rem;
-  width: 1rem;
-  top: .125rem;
-  position: relative;
-}
-
 @each $color, $value in $theme-colors {
   .btn-#{$color} {
     .blacklight-icons svg {
-      @include fill-yiq(theme-color($color));
+      fill: currentColor;
     }
   }
 
   .btn-outline-#{$color} {
     .blacklight-icons svg {
-      fill: $value;
+      fill: currentColor;
     }
+  }
+}
 
-    &.hover,
-    &:hover,
-    &:active,
-    &.active {
-      .blacklight-icons svg {
-        @include fill-yiq(theme-color($color));
-      }
-    }
+.btn.btn-icon {
+  padding: $btn-padding-y;
+  
+  &.btn-sm {
+    padding: $btn-padding-y-sm;
   }
 }
