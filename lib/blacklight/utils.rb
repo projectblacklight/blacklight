@@ -22,7 +22,7 @@ module Blacklight
     def to_h
       @table
     end
-    
+
     def select *args, &block
       self.class.new to_h.select(*args, &block)
     end
@@ -58,7 +58,7 @@ module Blacklight
   end
 
   ##
-  # An OpenStruct refinement that converts any hash-keys into  
+  # An OpenStruct refinement that converts any hash-keys into
   # additional instances of NestedOpenStructWithHashAccess
   class NestedOpenStructWithHashAccess < OpenStructWithHashAccess
     attr_reader :nested_class
@@ -161,7 +161,11 @@ module Blacklight
       len = args.length
 
       if len.zero?
-        new_ostruct_member(mid)
+        if respond_to?(:new_ostruct_member!, true)
+          new_ostruct_member!(mid)
+        else
+          new_ostruct_member(mid)
+        end
         @table[mid]
       else
         super
