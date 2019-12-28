@@ -11,11 +11,11 @@ matrix:
     - rvm: 2.7.0
       env: "RAILS_VERSION=6.0.2.1"
     - rvm: 2.6.5
-      env: "RAILS_VERSION=6.0.0 ENGINE_CART_RAILS_OPTIONS=\"--skip-webpack-install\""
+      env: "RAILS_VERSION=6.0.2.1 ENGINE_CART_RAILS_OPTIONS=\"--skip-webpack-install\""
     - rvm: 2.6.5
-      env: "RAILS_VERSION=5.2.3"
+      env: "RAILS_VERSION=5.2.4.1"
     - rvm: 2.5.7
-      env: "RAILS_VERSION=5.2.3 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
+      env: "RAILS_VERSION=5.2.4.1 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
     - rvm: 2.4.9
       env: "RAILS_VERSION=5.2.4.1"
     - rvm: jruby-9.2.8.0
