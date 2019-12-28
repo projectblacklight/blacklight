@@ -89,7 +89,7 @@ module Blacklight
       len = args.length
 
       if len.zero?
-        new_ostruct_member(mid)
+        new_ostruct_member!(mid)
         @table[mid]
       else
         super
