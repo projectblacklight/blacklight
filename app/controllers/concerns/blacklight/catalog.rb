@@ -114,7 +114,10 @@ module Blacklight::Catalog
   # @return [Array] first value is a Blacklight::Solr::Response and the second
   #                 is a list of documents
   def action_documents
-    search_service.fetch(Array(params[:id]))
+    deprecated_response, @documents = search_service.fetch(Array(params[:id]))
+    raise Blacklight::Exceptions::RecordNotFound if @documents.blank?
+
+    [deprecated_response, @documents]
   end
 
   def action_success_redirect_path

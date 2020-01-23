@@ -468,8 +468,13 @@ RSpec.describe CatalogController, api: true do
     let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
 
     before do
+      mock_document.extend(Blacklight::Document::Sms)
+      mock_document.extend(Blacklight::Document::Email)
+      allow(mock_document).to receive(:to_semantic_values).and_return({})
+      allow(mock_document).to receive(:to_model).and_return(SolrDocument.new(id: 'my_fake_doc'))
+
       allow(controller).to receive(:search_service).and_return(search_service)
-      expect(search_service).to receive(:fetch).and_return([mock_response, []])
+      expect(search_service).to receive(:fetch).and_return([mock_response, [mock_document]])
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
       SolrDocument.use_extension(Blacklight::Document::Email)
       SolrDocument.use_extension(Blacklight::Document::Sms)
@@ -550,6 +555,13 @@ RSpec.describe CatalogController, api: true do
       allow(controller).to receive_messages(find: double(documents: []))
       expect do
         get :show, params: { id: "987654321" }
+      end.to raise_error Blacklight::Exceptions::RecordNotFound
+    end
+
+    it "returns status 404 for exportable actions on records that do not exist" do
+      allow(controller).to receive_messages(find: double(documents: []))
+      expect do
+        get :citation, params: { id: "bad-record-identifer" }
       end.to raise_error Blacklight::Exceptions::RecordNotFound
     end
 
