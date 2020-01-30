@@ -11,17 +11,17 @@ RSpec.describe Blacklight::Icon do
       expect(Capybara.string(subject.svg))
         .to have_css 'svg[width="24"]'
     end
-    it 'adds role="image"' do
+    it 'adds role="img"' do
       expect(Capybara.string(subject.svg))
-        .to have_css 'svg[role="image"]'
+        .to have_css 'svg[role="img"]'
     end
     it 'adds title' do
       expect(Capybara.string(subject.svg))
         .to have_css 'title[id^="bl-icon-search-"]', text: 'search icon'
     end
-    it 'adds aria-labelled-by' do
+    it 'adds aria-labelledby' do
       expect(Capybara.string(subject.svg))
-        .to have_css 'svg[aria-labelled-by^="bl-icon-search-"]'
+        .to have_css 'svg[aria-labelledby^="bl-icon-search-"]'
     end
     context 'when label is false' do
       subject { described_class.new(:search, classes: 'awesome', aria_hidden: true, label: false) }
@@ -30,9 +30,9 @@ RSpec.describe Blacklight::Icon do
         expect(Capybara.string(subject.svg))
           .not_to have_css 'title', text: 'search icon'
       end
-      it 'does not add aria-labelled-by' do
+      it 'does not add aria-labelledby' do
         expect(Capybara.string(subject.svg))
-          .not_to have_css 'svg[aria-labelled-by^="bl-icon-search-"]'
+          .not_to have_css 'svg[aria-labelledby^="bl-icon-search-"]'
       end
     end
   end

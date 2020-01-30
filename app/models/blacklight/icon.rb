@@ -10,7 +10,7 @@ module Blacklight
     # @param [Boolean] aria_hidden include aria_hidden attribute
     # @param [Boolean] label include <title> and aria-label as part of svg
     # @param [String] role role attribute to be included in svg
-    def initialize(icon_name, classes: '', aria_hidden: false, label: true, role: 'image')
+    def initialize(icon_name, classes: '', aria_hidden: false, label: true, role: 'img')
       @icon_name = icon_name
       @classes = classes
       @aria_hidden = aria_hidden
@@ -24,7 +24,7 @@ module Blacklight
     def svg
       svg = ng_xml.at_xpath('svg')
       svg['role'] = role
-      svg['aria-labelled-by'] = unique_id if label
+      svg['aria-labelledby'] = unique_id if label
       svg.add_child("<title id='#{unique_id}'>#{icon_label}</title>") if label
       ng_xml.to_xml
     end
