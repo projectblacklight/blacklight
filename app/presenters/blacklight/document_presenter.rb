@@ -19,9 +19,15 @@ module Blacklight
 
     # @return [Hash<String,Configuration::Field>]  all the fields for this index view that should be rendered
     def fields_to_render
-      fields.select do |_name, field_config|
+      return to_enum(:fields_to_render) unless block_given?
+
+      fields.each do |name, field_config|
         # rubocop:disable Style/PreferredHashMethods
-        render_field?(field_config) && has_value?(field_config)
+        next unless render_field?(field_config) && has_value?(field_config)
+
+        field_presenter = field_presenter(field_config)
+
+        yield name, field_config, field_presenter
         # rubocop:enable Style/PreferredHashMethods
       end
     end
@@ -97,8 +103,11 @@ module Blacklight
     # @param [Blacklight::Configuration::Field] field_config solr field configuration
     # @param [Hash] options additional options to pass to the rendering helpers
     def field_values(field_config, options = {})
-      options[:values] ||= retrieve_values(field_config) unless options.key? :value
-      FieldPresenter.new(view_context, document, field_config, options).render
+      field_presenter(field_config, options).render
+    end
+
+    def field_presenter(field_config, options = {})
+      FieldPresenter.new(view_context, document, field_config, options)
     end
 
     def retrieve_values(field_config)

@@ -192,4 +192,20 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       end
     end
   end
+
+  describe '#label' do
+    let(:field_config) { Blacklight::Configuration::Field.new(field: 'some_field') }
+
+    it 'calculates the field label from the field configuration' do
+      allow(field_config).to receive(:display_label).with('index', anything).and_return('some label')
+
+      expect(presenter.label).to eq 'some label'
+    end
+
+    it 'sends along a count of document values so i18n can do pluralization' do
+      allow(field_config).to receive(:display_label).with('index', count: 2).and_return('values')
+
+      expect(presenter.label).to eq 'values'
+    end
+  end
 end

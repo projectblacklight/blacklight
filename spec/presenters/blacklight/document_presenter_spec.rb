@@ -15,7 +15,7 @@ RSpec.describe Blacklight::DocumentPresenter do
   end
 
   describe '#fields_to_render' do
-    subject { presenter.fields_to_render }
+    subject { presenter.fields_to_render.to_a }
 
     let(:field_config) { double(field: 'asdf') }
 
@@ -26,7 +26,7 @@ RSpec.describe Blacklight::DocumentPresenter do
                                              has_value?: true)
       end
 
-      it { is_expected.to eq('title' => field_config) }
+      it { is_expected.to include(['title', field_config, an_instance_of(Blacklight::FieldPresenter)]) }
     end
   end
 

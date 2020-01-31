@@ -28,10 +28,14 @@ module Blacklight
       @except_operations += [Rendering::HelperMethod] if options.key? :value
     end
 
-    attr_reader :controller, :document, :field_config, :values, :except_operations, :options
+    attr_reader :controller, :document, :field_config, :except_operations, :options
 
     def render
-      Rendering::Pipeline.new(values || retrieve_values, field_config, document, controller, pipeline_steps, options).render
+      Rendering::Pipeline.new(retrieve_values, field_config, document, controller, pipeline_steps, options).render
+    end
+
+    def label(context = 'index', **options)
+      field_config.display_label(context, count: retrieve_values.count, **options)
     end
 
     private
@@ -40,8 +44,10 @@ module Blacklight
       (options[:steps] || Rendering::Pipeline.operations) - except_operations
     end
 
-    def retrieve_values(field_config)
-      FieldRetriever.new(document, field_config).fetch
+    # rubocop:disable Naming/MemoizedInstanceVariableName
+    def retrieve_values
+      @values ||= FieldRetriever.new(document, field_config).fetch
     end
+    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 end

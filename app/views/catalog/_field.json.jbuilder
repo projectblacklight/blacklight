@@ -4,7 +4,7 @@ json.set!(field_name) do
   json.id "#{document_url}##{field_name}"
   json.type 'document_value'
   json.attributes do
-    json.value doc_presenter.field_value(field)
-    json.label field.display_label(view_type)
+    json.value field_presenter.render
+    json.label field_presenter.label(view_type)
   end
 end
