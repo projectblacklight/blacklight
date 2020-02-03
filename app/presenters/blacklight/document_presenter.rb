@@ -22,13 +22,11 @@ module Blacklight
       return to_enum(:fields_to_render) unless block_given?
 
       fields.each do |name, field_config|
-        # rubocop:disable Style/PreferredHashMethods
-        next unless render_field?(field_config) && has_value?(field_config)
-
         field_presenter = field_presenter(field_config)
 
+        next unless field_presenter.render_field? && field_presenter.any?
+
         yield name, field_config, field_presenter
-        # rubocop:enable Style/PreferredHashMethods
       end
     end
 
@@ -38,11 +36,11 @@ module Blacklight
     #
     # @return [String]
     def heading
-      return field_values(view_config.title_field) if view_config.title_field.is_a? Blacklight::Configuration::Field
+      return field_value(view_config.title_field) if view_config.title_field.is_a? Blacklight::Configuration::Field
 
       fields = Array.wrap(view_config.title_field) + [configuration.document_model.unique_key]
-      f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| retrieve_values(field_config).any? }
-      field_values(f, except_operations: [Rendering::HelperMethod])
+      f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| field_presenter(field_config).any? }
+      field_value(f, except_operations: [Rendering::HelperMethod])
     end
 
     def display_type(base_name = nil, default: nil)
@@ -50,7 +48,7 @@ module Blacklight
       fields += Array.wrap(view_config[:"#{base_name}_display_type_field"]) if base_name && view_config.key?(:"#{base_name}_display_type_field")
       fields += Array.wrap(view_config.display_type_field)
 
-      display_type = fields.lazy.map { |field| retrieve_values(field_config(field)) }.detect(&:any?)
+      display_type = fields.lazy.map { |field| field_presenter(field_config(field)) }.detect(&:any?)&.values
       display_type ||= Array(default) if default
 
       display_type || []
@@ -61,11 +59,11 @@ module Blacklight
     #
     # Allow an extention point where information in the document
     # may drive the value of the field
-    # @param [Configuration::Field] field
+    # @param [Configuration::Field] field_config
     # @param [Hash] options
     # @option options [String] :value
-    def field_value field, options = {}
-      field_values(field, options)
+    def field_value field_config, options = {}
+      field_presenter(field_config, options).render
     end
 
     def thumbnail
@@ -74,44 +72,28 @@ module Blacklight
 
     private
 
-    ##
-    # Check to see if the given field should be rendered in this context
-    # @param [Blacklight::Configuration::Field] field_config
-    # @return [Boolean]
     def render_field?(field_config)
-      view_context.should_render_field?(field_config, document)
+      field_presenter(field_config).render_field?
     end
+    deprecation_deprecate render_field?: 'Use FieldPresenter#render_field?'
 
-    ##
-    # Check if a document has (or, might have, in the case of accessor methods) a value for
-    # the given solr field
-    # @param [Blacklight::Configuration::Field] field_config
-    # @return [Boolean]
     def has_value?(field_config)
-      retrieve_values(field_config).present?
+      field_presenter(field_config).any?
     end
+    deprecation_deprecate has_value?: 'Use FieldPresenter#any?'
 
-    ##
-    # Get the value for a document's field, and prepare to render it.
-    # - highlight_field
-    # - accessor
-    # - solr field
-    #
-    # Rendering:
-    #   - helper_method
-    #   - link_to_facet
-    # @param [Blacklight::Configuration::Field] field_config solr field configuration
-    # @param [Hash] options additional options to pass to the rendering helpers
     def field_values(field_config, options = {})
-      field_presenter(field_config, options).render
+      field_value(field_config, options)
     end
+    deprecation_deprecate field_values: 'Use #field_value'
+
+    def retrieve_values(field_config)
+      field_presenter(field_config).values
+    end
+    deprecation_deprecate retrieve_values: 'Use FieldPresenter#values'
 
     def field_presenter(field_config, options = {})
       FieldPresenter.new(view_context, document, field_config, options)
-    end
-
-    def retrieve_values(field_config)
-      FieldRetriever.new(document, field_config).fetch
     end
   end
 end

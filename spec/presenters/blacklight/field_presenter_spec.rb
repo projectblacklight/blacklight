@@ -3,7 +3,7 @@
 RSpec.describe Blacklight::FieldPresenter, api: true do
   subject(:presenter) { described_class.new(request_context, document, field_config, options) }
 
-  let(:request_context) { double(search_state: search_state) }
+  let(:request_context) { double('View context', search_state: search_state, should_render_field?: true, blacklight_config: config) }
   let(:document) do
     SolrDocument.new(id: 1,
                      'link_to_facet_true' => 'x',
@@ -206,6 +206,63 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       allow(field_config).to receive(:display_label).with('index', count: 2).and_return('values')
 
       expect(presenter.label).to eq 'values'
+    end
+  end
+
+  describe '#render_field?' do
+    subject { presenter.render_field? }
+
+    let(:field_config) { double('field config', if: true, unless: false) }
+
+    before do
+      allow(presenter).to receive_messages(document_has_value?: true)
+    end
+
+    it { is_expected.to be true }
+
+    context 'when the view context says not to render the field' do
+      let(:request_context) { double('View context', should_render_field?: false, blacklight_config: config) }
+
+      before do
+        allow(field_config).to receive_messages(if: false)
+      end
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#any?' do
+    subject { presenter.any? }
+
+    context 'when the document has the field value' do
+      let(:field_config) { double(field: 'asdf', highlight: false, accessor: nil, default: nil, values: nil) }
+
+      before do
+        allow(document).to receive(:fetch).with('asdf', nil).and_return(['value'])
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the document has a highlight field value' do
+      let(:field_config) { double(field: 'asdf', highlight: true) }
+
+      before do
+        allow(document).to receive(:has_highlight_field?).with('asdf').and_return(true)
+        allow(document).to receive(:highlight_field).with('asdf').and_return(['value'])
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the field is a model accessor' do
+      let(:field_config) { double(field: 'asdf', highlight: false, accessor: true) }
+
+      before do
+        allow(document).to receive(:send).with('asdf').and_return(['value'])
+      end
+
+      it { is_expected.to be true }
     end
   end
 end

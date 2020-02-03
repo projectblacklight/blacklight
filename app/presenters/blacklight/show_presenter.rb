@@ -20,12 +20,12 @@ module Blacklight
     # @see #document_heading
     # @return [String]
     def html_title
-      return field_values(view_config.html_title_field) if view_config.html_title_field.is_a? Blacklight::Configuration::Field
+      return field_value(view_config.html_title_field) if view_config.html_title_field.is_a? Blacklight::Configuration::Field
 
       if view_config.html_title_field
         fields = Array.wrap(view_config.html_title_field) + [configuration.document_model.unique_key]
-        f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| retrieve_values(field_config).any? }
-        field_values(f)
+        f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| field_presenter(field_config).any? }
+        field_value(f)
       else
         heading
       end
