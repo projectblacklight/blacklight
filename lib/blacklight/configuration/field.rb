@@ -19,12 +19,13 @@ module Blacklight
       raise ArgumentError, "Must supply a field name" if self.field.nil?
     end
 
-    def display_label(context = nil)
+    def display_label(context = nil, **options)
       field_label(
         (:"blacklight.search.fields.#{context}.#{key}" if context),
         :"blacklight.search.fields.#{key}",
         label,
-        default_label
+        default_label,
+        **options
       )
     end
 
@@ -50,10 +51,10 @@ module Blacklight
     #     before falling  back to the label
     #   @param [Symbol] any number of additional keys
     #   @param [Symbol] ...
-    def field_label *i18n_keys
+    def field_label *i18n_keys, **options
       first, *rest = i18n_keys.compact
 
-      I18n.t(first, default: rest)
+      I18n.t(first, default: rest, **options)
     end
   end
 end

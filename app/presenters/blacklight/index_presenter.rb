@@ -12,7 +12,7 @@ module Blacklight
       value = case field_or_string_or_proc
                 when Symbol
                   config = field_config(field_or_string_or_proc)
-                  retrieve_values(config)
+                  field_presenter(config).values
                 when Proc
                   Deprecation.warn(self, "calling IndexPresenter.label with a Proc is deprecated. " \
                                          "First argument must be a symbol. This will be removed in Blacklight 8")
@@ -24,7 +24,7 @@ module Blacklight
               end
 
       value = document.id if value.blank?
-      field_values(config, values: Array.wrap(value), except_operations: [Rendering::HelperMethod])
+      field_value(config, values: Array.wrap(value), except_operations: [Rendering::HelperMethod])
     end
 
     deprecation_deprecate label: 'Use #heading'
