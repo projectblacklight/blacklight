@@ -157,6 +157,7 @@ de:
         button_label: '%{count} pro Seite'
         title: 'Anzahl der Ergebnisse pro Seite angezeigt werden'
         submit: 'Aktualisieren'
+        aria_label: 'Ergebnisnavigation'
       sort:
         label: 'Ordnen bei %{field}'
         submit: 'Ergebnisse ordnen'
