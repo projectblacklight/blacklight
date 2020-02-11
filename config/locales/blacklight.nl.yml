@@ -22,6 +22,7 @@ nl:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'links overslaan'
       main_content: 'Ga naar de hoofdinhoud'
       search_field: 'Ga naar de zoekopdracht'
       first_result: 'Ga naar het eerste zoekresultaat'

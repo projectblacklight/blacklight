@@ -22,6 +22,7 @@ sq:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'lidhjet e kaloni'
       main_content: 'Shkoni tek përmbajtja kryesore'
       search_field: 'Shkoni në kërkim'
       first_result: 'Shkoni te rezultati i parë i kërkimit'

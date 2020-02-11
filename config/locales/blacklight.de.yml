@@ -22,6 +22,7 @@ de:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'Links überspringen'
       main_content: 'Zum Hauptinhalt gehen'
       search_field: 'Gehen Sie zur Suchleiste'
       first_result: 'Gehe zum ersten Suchergebnis'

@@ -23,6 +23,7 @@ pt-BR:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'pular links'
       main_content: 'Ir para o conteúdo principal'
       search_field: 'Ir para a pesquisa'
       first_result: 'Ir para o primeiro resultado da pesquisa'

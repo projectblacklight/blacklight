@@ -22,6 +22,7 @@ zh:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: '跳过链接'
       main_content: '转到主要内容'
       search_field: '转到搜索'
       first_result: '转到第一个搜索结果'

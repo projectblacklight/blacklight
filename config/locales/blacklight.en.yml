@@ -22,6 +22,7 @@ en:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'Skip links'
       main_content: 'Skip to main content'
       search_field: 'Skip to search'
       first_result: 'Skip to first result'
