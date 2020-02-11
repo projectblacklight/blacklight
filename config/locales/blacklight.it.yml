@@ -152,6 +152,7 @@ it:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
         title: 'Risultati per pagina'
         submit: 'Aggiorna'
+        aria_label: 'Navigazione dei risultati'
       sort:
         label: 'Ordina per %{field}' # TODO: Remove during major release
         label_html: 'Ordina<span class="d-none d-sm-inline"> per %{field}</span>'

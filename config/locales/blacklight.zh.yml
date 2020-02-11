@@ -152,6 +152,7 @@ zh:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> 每页</span>'
         title: '每页显示结果数'
         submit: '更新'
+        aria_label: '结果导航'
       sort:
         label: '按 %{field} 排序' # TODO: Remove during major release
         label_html: '<span class="d-none d-sm-inline">按 %{field} </span>排序'

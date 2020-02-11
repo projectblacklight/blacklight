@@ -153,6 +153,7 @@ pt-BR:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> por página</span>'
         title: 'Número de resultados para mostrar por página'
         submit: 'Atualizar'
+        aria_label: 'Navegação de resultados'
       sort:
         label: 'Ordenar por %{field}' # TODO: Remove during major release
         label_html: 'Ordenar<span class="d-none d-sm-inline"> por %{field}</span>'

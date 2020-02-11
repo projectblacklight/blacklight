@@ -155,6 +155,7 @@ fr:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> par page</span>'
         title: 'Nombre de résultats à afficher par page'
         submit: 'mettre à jour'
+        aria_label: 'Navigation dans les résultats'
       sort:
         label: 'Trier par %{field}' # TODO: Remove during major release
         label_html: 'Trier<span class="d-none d-sm-inline"> par %{field}</span>'

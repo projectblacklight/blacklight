@@ -152,6 +152,7 @@ hu:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> oldalanként</span>'
         title: 'Az eredmények száma oldalanként'
         submit: 'Frissítés'
+        aria_label: 'Eredmények navigáció'
       sort:
         label: 'Rendezés %{field}' # TODO: Remove during major release
         label_html: 'Rendezés<span class="d-none d-sm-inline"> %{field}</span>'

@@ -152,6 +152,7 @@ nl:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
         title: 'Toon aantal zoekresultaten per pagina'
         submit: 'Update'
+        aria_label: 'Resultaten navigatie'
       sort:
         label: 'Sorteer op %{field}' # TODO: Remove during major release
         label_html: 'Sorteer<span class="d-none d-sm-inline"> op %{field}</span>'
