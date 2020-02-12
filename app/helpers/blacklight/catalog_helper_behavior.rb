@@ -40,8 +40,6 @@ module Blacklight::CatalogHelperBehavior
   # @param [RSolr::Resource] collection (or other Kaminari-compatible objects)
   # @return [String]
   def page_entries_info(collection, entry_name: nil)
-    return unless show_pagination? collection
-
     entry_name = if entry_name
                    entry_name.pluralize(collection.size, I18n.locale)
                  else

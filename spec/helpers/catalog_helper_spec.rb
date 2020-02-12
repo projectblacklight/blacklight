@@ -39,13 +39,6 @@ RSpec.describe CatalogHelper do
       expect(html).to be_html_safe
     end
 
-    it "with an empty page of results" do
-      @response = double(limit_value: -1)
-
-      html = page_entries_info(@response)
-      expect(html).to be_blank
-    end
-
     context "when response.entry_name is nil" do
       it "does not raise an error" do
         collection = mock_response total: 10
