@@ -22,6 +22,7 @@ sq:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'lidhjet e kaloni'
       main_content: 'Shkoni tek përmbajtja kryesore'
       search_field: 'Shkoni në kërkim'
       first_result: 'Shkoni te rezultati i parë i kërkimit'
@@ -151,6 +152,7 @@ sq:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> për faqe</span>'
         title: 'Numri i rezultateve që do të shfaqen për faqe'
         submit: 'Përditëso'
+        aria_label: 'Rezultatet e lundrimit'
       sort:
         label: 'Klasifikoj sipas %{field}' # TODO: Remove during major release
         label_html: 'Klasifikoj<span class="d-none d-sm-inline"> sipas %{field}</span>'

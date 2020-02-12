@@ -22,6 +22,7 @@ de:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'Links überspringen'
       main_content: 'Zum Hauptinhalt gehen'
       search_field: 'Gehen Sie zur Suchleiste'
       first_result: 'Gehe zum ersten Suchergebnis'
@@ -151,6 +152,7 @@ de:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> pro Seite</span>'
         title: 'Anzahl der Ergebnisse, die pro Seite angezeigt werden'
         submit: 'Aktualisieren'
+        aria_label: 'Ergebnisnavigation'
       sort:
         label: 'Ordnen nach %{field}' # TODO: Remove during major release
         label_html: 'Ordnen<span class="d-none d-sm-inline"> nach %{field}</span>'

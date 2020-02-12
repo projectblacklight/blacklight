@@ -22,6 +22,7 @@ ar:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'تخطي الروابط'
       main_content: 'انتقل إلى المحتوى الرئيسي'
       search_field: 'انتقل إلى البحث'
       first_result: 'انتقل إلى النتيجة الأولى'
@@ -159,6 +160,7 @@ ar:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> لكل صفحة</span>'
         title: 'عدد النتائج المعروضة في الصفحة'
         submit: 'تحديث'
+        aria_label: 'الملاحة النتائج'
       sort:
         label: 'ترتيب حسب %{field}' # TODO: Remove during major release
         label_html: 'ترتيب <span class="d-none d-sm-inline"> حسب %{field}</span>'

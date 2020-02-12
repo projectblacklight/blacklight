@@ -22,6 +22,7 @@ hu:
   blacklight:
     application_name: 'Blacklight'
     skip_links:
+      label: 'átugrani a linkeket'
       main_content: 'Ugrás a tartalomra'
       search_field: 'Ugrás a keresésre'
       first_result: 'Ugrás az első keresési eredményre'
@@ -151,6 +152,7 @@ hu:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> oldalanként</span>'
         title: 'Az eredmények száma oldalanként'
         submit: 'Frissítés'
+        aria_label: 'Eredmények navigáció'
       sort:
         label: 'Rendezés %{field}' # TODO: Remove during major release
         label_html: 'Rendezés<span class="d-none d-sm-inline"> %{field}</span>'
