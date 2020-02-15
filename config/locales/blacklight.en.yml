@@ -157,6 +157,7 @@ en:
         button_label: '%{count} per page'
         title: 'Number of results to display per page'
         submit: 'Update'
+        aria_label: 'Results navigation'
       sort:
         label: 'Sort by %{field}'
         submit: 'sort results'

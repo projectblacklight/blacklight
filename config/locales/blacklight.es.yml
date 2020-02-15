@@ -157,6 +157,7 @@ es:
         button_label: '%{count} por página'
         title: 'El número de resultados a mostrar por página'
         submit: 'Actualización'
+        aria_label: 'Navegación de resultados'
       sort:
         label: 'Ordenar por %{field}'
         submit: 'Resultados de ordenación'

@@ -160,6 +160,7 @@ zh:
         button_label: '%{count} 每页'
         title: '每页显示结果数'
         submit: '更新'
+        aria_label: '结果导航'
       sort:
         label: '按 %{field} 排序'
         submit: '排序'

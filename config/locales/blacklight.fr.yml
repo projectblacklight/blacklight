@@ -162,6 +162,7 @@ fr:
         button_label: '%{count} par page'
         title: 'Nombre de résultats à afficher par page'
         submit: 'mettre à jour'
+        aria_label: 'Navigation dans les résultats'
       sort:
         label: 'Trier par %{field}'
         submit: 'trier les résultats'
