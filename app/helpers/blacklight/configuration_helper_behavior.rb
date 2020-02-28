@@ -91,10 +91,11 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   # Shortcut for commonly needed operation, look up display
-  # label for the key specified. Returns "Keyword" if a label
-  # can't be found.
+  # label for the key specified.
   def label_for_search_field(key)
     field_config = blacklight_config.search_fields[key]
+    return if key.nil? && field_config.nil?
+
     field_config ||= Blacklight::Configuration::NullField.new(key: key)
 
     field_config.display_label('search')
