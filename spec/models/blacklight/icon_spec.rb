@@ -35,6 +35,15 @@ RSpec.describe Blacklight::Icon do
           .not_to have_css 'svg[aria-labelledby^="bl-icon-search-"]'
       end
     end
+
+    context ' with a label context' do
+      subject { described_class.new(:search, classes: 'awesome', aria_hidden: true, additional_options: { label_context: 'foo' }) }
+
+      it 'adds title' do
+        expect(Capybara.string(subject.svg))
+          .to have_css 'title[id^="bl-icon-search_foo-"]', text: 'search icon'
+      end
+    end
   end
 
   describe '#options' do
