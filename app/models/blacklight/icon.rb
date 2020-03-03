@@ -2,7 +2,7 @@
 
 module Blacklight
   class Icon
-    attr_reader :icon_name, :aria_hidden, :label, :role
+    attr_reader :icon_name, :aria_hidden, :label, :role, :additional_options
     ##
     # @param [String, Symbol] icon_name
     # @param [Hash] options
@@ -10,12 +10,14 @@ module Blacklight
     # @param [Boolean] aria_hidden include aria_hidden attribute
     # @param [Boolean] label include <title> and aria-label as part of svg
     # @param [String] role role attribute to be included in svg
-    def initialize(icon_name, classes: '', aria_hidden: false, label: true, role: 'img')
+    # @param [Hash] additional_options the way forward instead of named arguments
+    def initialize(icon_name, classes: '', aria_hidden: false, label: true, role: 'img', additional_options: {})
       @icon_name = icon_name
       @classes = classes
       @aria_hidden = aria_hidden
       @label = label
       @role = role
+      @additional_options = additional_options
     end
 
     ##
@@ -30,11 +32,11 @@ module Blacklight
     end
 
     def icon_label
-      I18n.translate("blacklight.icon.#{icon_name}", default: "#{icon_name} icon")
+      I18n.translate("blacklight.icon.#{icon_name_context}", default: "#{icon_name} icon")
     end
 
     def unique_id
-      @unique_id ||= "bl-icon-#{icon_name}-#{SecureRandom.hex(8)}"
+      @unique_id ||= "bl-icon-#{icon_name_context}-#{SecureRandom.hex(8)}"
     end
 
     ##
@@ -65,6 +67,10 @@ module Blacklight
     end
 
     private
+
+    def icon_name_context
+      [icon_name, additional_options[:label_context]].compact.join('_')
+    end
 
     def file
       # Rails.application.assets is `nil` in production mode (where compile assets is enabled).
