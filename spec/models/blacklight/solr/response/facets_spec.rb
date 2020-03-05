@@ -168,9 +168,11 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     let(:facet_config) do
       double(
         key: 'my_query_facet_field',
+        sort: nil,
         query: {
           'a_simple_query' => { fq: 'field:search', label: 'A Human Readable label' },
           'another_query' => { fq: 'field:different_search', label: 'Label' },
+          'query_with_many_results' => { fq: 'field:many_result_search', label: 'Yet another label' },
           'without_results' => { fq: 'field:without_results', label: 'No results for this facet' }
         }
       )
@@ -184,6 +186,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
           facet_queries: {
             'field:search' => 10,
             'field:different_search' => 2,
+            'field:many_result_search' => 100,
             'field:not_appearing_in_the_config' => 50,
             'field:without_results' => 0
           }
@@ -197,7 +200,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
       expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField
 
       expect(field.name).to eq 'my_query_facet_field'
-      expect(field.items.size).to eq 2
+      expect(field.items.size).to eq 3
       expect(field.items.map(&:value)).not_to include 'field:not_appearing_in_the_config'
 
       facet_item = field.items.find { |x| x.value == 'a_simple_query' }
@@ -205,6 +208,32 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
       expect(facet_item.value).to eq 'a_simple_query'
       expect(facet_item.hits).to eq 10
       expect(facet_item.label).to eq 'A Human Readable label'
+    end
+
+    describe 'default/index sorting' do
+      it 'returns the results in the order they are requested by default' do
+        field = subject.aggregations['my_query_facet_field']
+        expect(field.items.map(&:value)).to eq %w[a_simple_query another_query query_with_many_results]
+        expect(field.items.map(&:hits)).to eq [10, 2, 100]
+      end
+
+      it 'returns the results in the order they are requested by when sort is explicitly set to "index"' do
+        allow(facet_config).to receive(:sort).and_return(:index)
+
+        field = subject.aggregations['my_query_facet_field']
+        expect(field.items.map(&:value)).to eq %w[a_simple_query another_query query_with_many_results]
+        expect(field.items.map(&:hits)).to eq [10, 2, 100]
+      end
+    end
+
+    describe 'count sorting' do
+      it 'returns the results sorted by count when requested' do
+        allow(facet_config).to receive(:sort).and_return(:count)
+
+        field = subject.aggregations['my_query_facet_field']
+        expect(field.items.map(&:value)).to eq %w[query_with_many_results a_simple_query another_query]
+        expect(field.items.map(&:hits)).to eq [100, 10, 2]
+      end
     end
   end
 
