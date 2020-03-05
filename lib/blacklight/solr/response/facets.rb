@@ -210,6 +210,8 @@ module Blacklight::Solr::Response::Facets
         Blacklight::Solr::Response::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
       end
 
+      items = items.sort_by(&:hits).reverse if facet_field.sort && facet_field.sort.to_sym == :count
+
       hash[field_name] = Blacklight::Solr::Response::Facets::FacetField.new field_name, items
     end
   end
