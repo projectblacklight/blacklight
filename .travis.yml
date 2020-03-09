@@ -25,9 +25,6 @@ matrix:
   fast_finish: true
 
 before_install:
-  - docker pull solr:7
-  - docker run -d -p 8983:8983 -v $PWD/lib/generators/blacklight/templates/solr/conf:/myconfig solr:7 solr-create -c blacklight-core -d /myconfig
-  - docker ps -a
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
 
 notifications:

@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
   s.add_development_dependency "rspec-rails", "~> 4.0.0.beta2"
+  s.add_development_dependency "solr_wrapper"
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency "capybara", '~> 3'
