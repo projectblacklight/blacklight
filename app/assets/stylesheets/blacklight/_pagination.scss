@@ -5,6 +5,10 @@
   padding-left: 0;
 }
 
+.record-padding {
+  margin-top: $spacer / 2;
+}
+
 .pagination {
   @media (max-width: breakpoint-max(sm)) {
     flex-wrap: wrap;
