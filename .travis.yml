@@ -40,8 +40,6 @@ global_env:
   - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   - CC_TEST_REPORTER_ID=5042c7358c96b0b926088a4cda3e132fffe7a66ce8047cdb1dc6f0b4b6676b79
 
-jdk: openjdk11
-
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
