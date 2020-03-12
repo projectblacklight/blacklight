@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: .docker/app/Dockerfile
-    stdin_open: true
-    tty: true
+      args:
+        - ALPINE_RUBY_VERSION
     volumes:
       - .:/app
     depends_on:
@@ -14,17 +14,18 @@ services:
     ports:
       - "3000:3000"
     environment:
-      SOLR_URL: "http://solr:8983/solr/blacklight-core"
-      DEVELOPMENT_ENVIRONMENT: "docker"
-    entrypoint:
-      - /app/bin/start.sh
+      - SOLR_URL # Set via environment variable or use default defined in .env file
+      - RAILS_VERSION # Set via environment variable or use default defined in .env file
 
   solr:
-    image: solr:7
+    environment:
+      - SOLR_PORT # Set via environment variable or use default defined in .env file
+      - SOLR_VERSION # Set via environment variable or use default defined in .env file
+    image: "solr:${SOLR_VERSION}"
     volumes:
       - $PWD/lib/generators/blacklight/templates/solr/conf:/opt/solr/conf
     ports:
-      - "8983:8983"
+      - "${SOLR_PORT}:8983"
     entrypoint:
       - docker-entrypoint.sh
       - solr-precreate
