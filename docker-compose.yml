@@ -14,7 +14,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      SOLR_URL: "http://solr:8983/solr/blacklight"
+      SOLR_URL: "http://solr:8983/solr/blacklight-core"
       DEVELOPMENT_ENVIRONMENT: "docker"
     entrypoint:
       - /app/bin/start.sh
@@ -28,7 +28,7 @@ services:
     entrypoint:
       - docker-entrypoint.sh
       - solr-precreate
-      - blacklight
+      - blacklight-core
       - /opt/solr/conf
       - "-Xms256m"
       - "-Xmx512m"
