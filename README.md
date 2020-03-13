@@ -38,6 +38,10 @@ rails generate blacklight:install
 * Bundler
 * Rails 5.1+
 
+## Contributing Code
+
+Code contributions are always welcome, instructions for contributing can be found at [CONTRIBUTING.md](https://github.com/projectblacklight/blacklight/blob/master/CONTRIBUTING.md).
+
 ## Configuring Apache Solr
 You'll also want some information about how Blacklight expects [Apache Solr](http://lucene.apache.org/solr ) to run, which you can find in [README_SOLR](https://github.com/projectblacklight/blacklight/wiki/README_SOLR)
 
