@@ -1,6 +1,6 @@
 # Blacklight
 
-[![Build Status](https://travis-ci.org/projectblacklight/blacklight.png?branch=master)](https://travis-ci.org/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight) [![Coverage Status](https://coveralls.io/repos/github/projectblacklight/blacklight/badge.svg?branch=master)](https://coveralls.io/github/projectblacklight/blacklight?branch=master)
+[![Build Status](https://travis-ci.org/projectblacklight/blacklight.png?branch=master)](https://travis-ci.org/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight) [![Test Coverage](https://api.codeclimate.com/v1/badges/83fd270492c136594e59/test_coverage)](https://codeclimate.com/github/projectblacklight/blacklight/test_coverage)
 
 Blacklight is an open source Solr user interface discovery platform.
 You can use Blacklight to enable searching and browsing of your collections.
