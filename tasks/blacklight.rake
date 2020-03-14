@@ -52,15 +52,5 @@ namespace :blacklight do
     else
       Rake::Task['engine_cart:generate'].invoke
     end
-
-    SolrWrapper.wrap do |solr|
-      solr.with_collection do
-        Rake::Task['blacklight:internal:seed'].invoke
-
-        within_test_app do
-          system "bundle exec rails s #{args[:rails_server_args]}"
-        end
-      end
-    end
   end
 end
