@@ -8,6 +8,13 @@ class TestAppGenerator < Rails::Generators::Base
     remove_file "public/index.html"
   end
 
+  ##
+  # Remove the empty generated app/assets/images directory. Without doing this
+  # Rails webpacker will think that a webpacker config needs to be setup.
+  def appease_webpacker
+    empty_directory 'app/assets/images'
+  end
+
   def run_blacklight_generator
     say_status("warning", "GENERATING BL", :yellow)
 
