@@ -277,7 +277,7 @@ module Blacklight::CatalogHelperBehavior
     facet_config = facet_configuration_for_field(facet)
     filter_label = facet_field_label(facet_config.key)
     filter_value = if values.size < 3
-                     values.map { |value| facet_display_value(facet, value) }.to_sentence
+                     values.map { |value| facet_item_presenter(facet_config, value).label }.to_sentence
                    else
                      t('blacklight.search.page_title.many_constraint_values', values: values.size)
                    end

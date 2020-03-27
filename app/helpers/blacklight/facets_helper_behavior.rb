@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 module Blacklight::FacetsHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 8.0'
+
   include Blacklight::Facet
 
   ##
@@ -131,6 +134,10 @@ module Blacklight::FacetsHelperBehavior
     name || "facet_limit"
   end
 
+  def facet_item_presenter(facet_config, facet_item)
+    Blacklight::FacetItemPresenter.new(facet_item, facet_config, self)
+  end
+
   ##
   # Standard display of a facet value in a list. Used in both _facets sidebar
   # partial and catalog/facet expanded list. Will output facet value name as
@@ -158,12 +165,9 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def path_for_facet(facet_field, item, path_options = {})
     facet_config = facet_configuration_for_field(facet_field)
-    if facet_config.url_method
-      send(facet_config.url_method, facet_field, item)
-    else
-      search_action_path(search_state.add_facet_params_and_redirect(facet_field, item).merge(path_options))
-    end
+    facet_item_presenter(facet_config, item).href(path_options)
   end
+  deprecation_deprecate :path_for_facet
 
   ##
   # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
@@ -171,7 +175,7 @@ module Blacklight::FacetsHelperBehavior
   # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
   # @param [String] item
   def render_selected_facet_value(facet_field, item)
-    remove_href = search_action_path(search_state.remove_facet_params(facet_field, item))
+    remove_href = facet_item_presenter(facet_config, item).href
     content_tag(:span, class: "facet-label") do
       content_tag(:span, facet_display_value(facet_field, item), class: "selected") +
       # remove link
@@ -201,8 +205,11 @@ module Blacklight::FacetsHelperBehavior
   # @param [String] field
   # @return [Boolean]
   def facet_field_in_params? field
-    facet_params(field).present?
+    config = facet_configuration_for_field(field)
+    search_state.has_facet? config
   end
+  # Left undeprecated for the sake of temporary backwards compatibility
+  # deprecation_deprecate :facet_field_in_params?
 
   ##
   # Check if the query parameters have the given facet field with the
@@ -212,10 +219,10 @@ module Blacklight::FacetsHelperBehavior
   # @param [String] item facet value
   # @return [Boolean]
   def facet_in_params?(field, item)
-    value = facet_value_for_facet_item(item)
-
-    (facet_params(field) || []).include? value
+    config = facet_configuration_for_field(field)
+    search_state.has_facet? config, value: facet_value_for_facet_item(item)
   end
+  deprecation_deprecate :facet_in_params?
 
   ##
   # Get the values of the facet set in the blacklight query string
@@ -224,6 +231,7 @@ module Blacklight::FacetsHelperBehavior
 
     params[:f][config.key] if params[:f]
   end
+  deprecation_deprecate :facet_params
 
   ##
   # Get the displayable version of a facet's value
@@ -233,24 +241,9 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def facet_display_value field, item
     facet_config = facet_configuration_for_field(field)
-
-    value = if item.respond_to? :label
-              item.label
-            else
-              facet_value_for_facet_item(item)
-            end
-
-    if facet_config.helper_method
-      send facet_config.helper_method, value
-    elsif facet_config.query && facet_config.query[value]
-      facet_config.query[value][:label]
-    elsif facet_config.date
-      localization_options = facet_config.date == true ? {} : facet_config.date
-      l(Time.zone.parse(value), localization_options)
-    else
-      value
-    end
+    facet_item_presenter(facet_config, item).label
   end
+  deprecation_deprecate :facet_display_value
 
   def facet_field_id facet_field
     "facet-#{facet_field.key.parameterize}"
