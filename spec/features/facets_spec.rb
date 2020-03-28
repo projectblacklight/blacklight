@@ -88,7 +88,7 @@ RSpec.describe "Facets" do
     it 'has default more link with sr-only text' do
       visit root_path
       within '#facet-language_ssim' do
-        expect(page).to have_css 'li.more_facets', text: 'more Language'
+        expect(page).to have_css 'div.more_facets', text: 'more Language'
       end
     end
   end

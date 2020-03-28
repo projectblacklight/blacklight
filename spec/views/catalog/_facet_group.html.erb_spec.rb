@@ -6,6 +6,7 @@ RSpec.describe "catalog/_facet_group" do
   before do
     allow(view).to receive_messages(blacklight_config: blacklight_config)
     allow(view).to receive(:search_action_path).and_return('/catalog')
+    allow(view).to receive(:search_facet_path).and_return('/catalog')
   end
 
   context "without any facet fields" do

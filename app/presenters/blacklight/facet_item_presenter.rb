@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 module Blacklight
   class FacetItemPresenter
-    attr_reader :facet_item, :facet_config, :view_context, :configuration, :search_state
+    attr_reader :facet_item, :facet_config, :view_context, :search_state, :facet_field
 
-    def initialize(facet_item, facet_config, view_context, configuration = view_context.blacklight_config, search_state = view_context.search_state)
+    delegate :hits, to: :facet_item
+
+    def initialize(facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
       @facet_item = facet_item
       @facet_config = facet_config
       @view_context = view_context
-      @configuration = configuration
+      @facet_field = facet_field
       @search_state = search_state
     end
 
@@ -24,6 +28,8 @@ module Blacklight
     # @param [String] item value
     # @return [String]
     def label
+      return @view_context.facet_display_value(@facet_field, @facet_item) unless @view_context.method(:facet_display_value).owner == Blacklight::FacetsHelperBehavior
+
       value = if facet_item.respond_to? :label
                 facet_item.label
               else
@@ -42,10 +48,6 @@ module Blacklight
       end
     end
 
-    def hits
-      facet_item.hits
-    end
-
     def href(path_options = {})
       if selected
         remove_href
@@ -54,8 +56,8 @@ module Blacklight
       end
     end
 
-    def remove_href
-      view_context.search_action_path(search_state.remove_facet_params(facet_config.key, facet_item))
+    def remove_href(path = search_state)
+      view_context.search_action_path(path.remove_facet_params(facet_config.key, facet_item))
     end
 
     def add_href(path_options = {})
