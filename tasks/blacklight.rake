@@ -40,7 +40,7 @@ namespace :blacklight do
   end
 
   namespace :internal do
-    desc 'Index seed data in test ap'
+    desc 'Index seed data in test app'
     task seed: ['engine_cart:generate'] do
       within_test_app do
         system "bin/rake blacklight:index:seed"
@@ -49,16 +49,8 @@ namespace :blacklight do
   end
 
   desc 'Run Solr and Blacklight for interactive development'
-  task :server, [:rails_server_args] do |_t, args|
+  task :server, [:rails_server_args] => ['engine_cart:generate'] do |_t, args|
     with_solr do
-      if File.exist? EngineCart.destination
-        within_test_app do
-          system "bundle update"
-        end
-      else
-        Rake::Task['engine_cart:generate'].invoke
-      end
-
       Rake::Task['blacklight:internal:seed'].invoke
 
       within_test_app do

@@ -10,7 +10,7 @@ matrix:
     - rvm: 2.7.0
       env: "RAILS_VERSION=6.0.2.1"
     - rvm: 2.6.5
-      env: "RAILS_VERSION=6.0.2.1 ENGINE_CART_RAILS_OPTIONS=\"--skip-webpack-install\""
+      env: "RAILS_VERSION=6.0.2.1"
     - rvm: 2.6.5
       env: "RAILS_VERSION=5.2.4.1"
     - rvm: 2.5.7
