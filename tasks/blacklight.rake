@@ -10,12 +10,26 @@ end
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new(:rubocop)
 
+def with_solr
+  puts "Starting Solr"
+  system "docker-compose up -d solr"
+  yield
+ensure
+  puts "Stopping Solr"
+  system "docker-compose stop solr"
+end
+
 desc "Run test suite"
-task ci: ['blacklight:generate'] do
-  within_test_app do
-    system "RAILS_ENV=test rake blacklight:index:seed"
+task :ci do
+  with_solr do
+    Rake::Task['engine_cart:generate'].invoke
+
+    within_test_app do
+      system "RAILS_ENV=test bin/rake blacklight:index:seed"
+    end
+
+    Rake::Task['blacklight:coverage'].invoke
   end
-  Rake::Task['blacklight:coverage'].invoke
 end
 
 namespace :blacklight do
@@ -25,40 +39,35 @@ namespace :blacklight do
     Rake::Task["spec"].invoke
   end
 
-  desc "Create the test rails app"
-  task generate: ['engine_cart:generate'] do
-  end
-
   namespace :internal do
+    desc 'Index seed data in test ap'
     task seed: ['engine_cart:generate'] do
       within_test_app do
-        system "bundle exec rake blacklight:index:seed"
+        system "bin/rake blacklight:index:seed"
       end
     end
   end
 
   desc 'Run Solr and Blacklight for interactive development'
   task :server, [:rails_server_args] do |_t, args|
-    if File.exist? EngineCart.destination
-      within_test_app do
-        system "bundle update"
-
-        if ENV["DEVELOPMENT_ENVIRONMENT"] == "docker"
-          system "bundle exec rake blacklight:index:seed"
-          system "bundle exec rails s #{args[:rails_server_args]}"
-          next
-        end
-      end
-    else
-      Rake::Task['engine_cart:generate'].invoke
-    end
-
-    SolrWrapper.wrap do |solr|
-      solr.with_collection do
-        Rake::Task['blacklight:internal:seed'].invoke
-
+    with_solr do
+      if File.exist? EngineCart.destination
         within_test_app do
-          system "bundle exec rails s #{args[:rails_server_args]}"
+          system "bundle update"
+        end
+      else
+        Rake::Task['engine_cart:generate'].invoke
+      end
+
+      Rake::Task['blacklight:internal:seed'].invoke
+
+      within_test_app do
+        begin
+          puts "Starting Blacklight (Rails server)"
+          system "bin/rails s #{args[:rails_server_args]}"
+        rescue Interrupt
+          # We expect folks to Ctrl-c to stop the server so don't barf at them
+          puts "\nStopping Blacklight (Rails server)"
         end
       end
     end

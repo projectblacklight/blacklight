@@ -1,10 +1,9 @@
 dist: bionic
+
 addons:
   chrome: stable
-language: ruby
 
-notifications:
-  email: false
+language: ruby
 
 matrix:
   include:
@@ -25,26 +24,19 @@ matrix:
   fast_finish: true
 
 before_install:
-  - docker pull solr:7
-  - docker run -d -p 8983:8983 -v $PWD/lib/generators/blacklight/templates/solr/conf:/myconfig solr:7 solr-create -c blacklight-core -d /myconfig
-  - docker ps -a
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
 
-notifications:
-  irc: "irc.freenode.org#blacklight"
-  email:
-      - blacklight-commits@googlegroups.com
-
-global_env:
-  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-  - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  - CC_TEST_REPORTER_ID=5042c7358c96b0b926088a4cda3e132fffe7a66ce8047cdb1dc6f0b4b6676b79
-
-jdk: openjdk11
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+    - ENGINE_CART_RAILS_OPTIONS='--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
+    - CC_TEST_REPORTER_ID=5042c7358c96b0b926088a4cda3e132fffe7a66ce8047cdb1dc6f0b4b6676b79
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - docker-compose build app || travis_terminate 1 # validates application Dockerfile
