@@ -8,17 +8,17 @@ language: ruby
 matrix:
   include:
     - rvm: 2.7.0
-      env: "RAILS_VERSION=6.0.2.1"
+      env: "RAILS_VERSION=6.0.2.2"
     - rvm: 2.6.5
-      env: "RAILS_VERSION=6.0.2.1"
+      env: "RAILS_VERSION=6.0.2.2"
     - rvm: 2.6.5
-      env: "RAILS_VERSION=5.2.4.1"
+      env: "RAILS_VERSION=5.2.4.2"
     - rvm: 2.5.7
-      env: "RAILS_VERSION=5.2.4.1 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
+      env: "RAILS_VERSION=5.2.4.2 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
     - rvm: 2.4.9
-      env: "RAILS_VERSION=5.2.4.1"
+      env: "RAILS_VERSION=5.2.4.2"
     - rvm: jruby-9.2.8.0
-      env: "RAILS_VERSION=5.2.4.1 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
+      env: "RAILS_VERSION=5.2.4.2 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
     - rvm: jruby-9.2.8.0
   fast_finish: true
