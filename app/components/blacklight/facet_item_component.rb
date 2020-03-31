@@ -44,6 +44,8 @@ module Blacklight
     # @deprecated
     # @private
     def overridden_helper_methods?
+      return false if explicit_component_configuration?
+
       @view_context.method(:render_facet_item).owner != Blacklight::FacetsHelperBehavior ||
         @view_context.method(:render_facet_value).owner != Blacklight::FacetsHelperBehavior ||
         @view_context.method(:render_selected_facet_value).owner != Blacklight::FacetsHelperBehavior
@@ -103,10 +105,16 @@ module Blacklight
     # @return [String]
     # @private
     def render_facet_count(options = {})
-      return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior
+      return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
 
       classes = (options[:classes] || []) << "facet-count"
       content_tag("span", t('blacklight.search.facets.count', number: number_with_delimiter(@hits)), class: classes)
+    end
+
+    private
+
+    def explicit_component_configuration?
+      @facet_item.facet_config.item_component.present?
     end
   end
 end
