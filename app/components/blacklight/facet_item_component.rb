@@ -9,7 +9,7 @@ module Blacklight
       @label = facet_item.label
       @hits = facet_item.hits
       @href = facet_item.href
-      @selected = facet_item.selected
+      @selected = facet_item.selected?
       @wrapping_element = wrapping_element
       @suppress_link = suppress_link
     end

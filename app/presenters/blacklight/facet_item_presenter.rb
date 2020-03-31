@@ -17,15 +17,13 @@ module Blacklight
     ##
     # Check if the query parameters have the given facet field with the
     # given value.
-    def selected
+    def selected?
       search_state.has_facet? facet_config, value: facet_value
     end
 
     ##
     # Get the displayable version of a facet's value
     #
-    # @param [Object] field
-    # @param [String] item value
     # @return [String]
     def label
       return @view_context.facet_display_value(@facet_field, @facet_item) unless @view_context.method(:facet_display_value).owner == Blacklight::FacetsHelperBehavior
@@ -49,17 +47,19 @@ module Blacklight
     end
 
     def href(path_options = {})
-      if selected
+      if selected?
         remove_href
       else
         add_href(path_options)
       end
     end
 
+    # @private
     def remove_href(path = search_state)
       view_context.search_action_path(path.remove_facet_params(facet_config.key, facet_item))
     end
 
+    # @private
     def add_href(path_options = {})
       if facet_config.url_method
         view_context.public_send(facet_config.url_method, facet_config.key, facet_item)
