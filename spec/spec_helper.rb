@@ -54,6 +54,8 @@ RSpec.configure do |config|
   end
 
   config.infer_spec_type_from_file_location!
+  config.include PresenterTestHelpers, type: :presenter
+  config.include ViewComponent::TestHelpers, type: :component
 
   config.include(ControllerLevelHelpers, type: :helper)
   config.before(:each, type: :helper) { initialize_controller_helpers(helper) }

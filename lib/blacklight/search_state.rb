@@ -130,6 +130,16 @@ module Blacklight
       p
     end
 
+    def has_facet?(config, value: nil)
+      facet = params&.dig(:f, config.key)
+
+      if value
+        (facet || []).include? value
+      else
+        facet.present?
+      end
+    end
+
     # Merge the source params with the params_to_merge hash
     # @param [Hash] params_to_merge to merge into above
     # @return [ActionController::Parameters] the current search parameters after being sanitized by Blacklight::Parameters.sanitize

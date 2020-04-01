@@ -1,17 +1,8 @@
-<div class="card facet-limit blacklight-<%= facet_field.key.parameterize %> <%= 'facet-limit-active' if facet_field_in_params?(facet_field.key) %>">
-  <h3 class="card-header p-0 facet-field-heading" id="<%= facet_field_id(facet_field) %>-header">
-    <button
-      class="btn btn-block p-2 text-left collapse-toggle <%= "collapsed" if should_collapse_facet?(facet_field) %>"
-      data-toggle="collapse"
-      data-target="#<%= facet_field_id(facet_field) %>"
-      aria-expanded="<%= should_collapse_facet?(facet_field) ? 'false' : 'true' %>"
-    >
-      <%= facet_field_label(facet_field.key) %>
-    </button>
-  </h3>
-  <div id="<%= facet_field_id(facet_field) %>" aria-labelledby="<%= facet_field_id(facet_field) %>-header" class="panel-collapse facet-content collapse <%= "show" unless should_collapse_facet?(facet_field) %>">
-    <div class="card-body">
-      <%= yield %>
-    </div>
-  </div>
-</div>
+<%= render(Blacklight::FacetFieldComponent.new(facet_field: facet_field_presenter(facet_field, nil))) do |component| %>
+  <% component.with(:label) do %>
+    <%= facet_field_label(facet_field.key) %>
+  <% end %>
+  <% component.with(:body) do %>
+    <%= yield %>
+  <% end %>
+<% end %>

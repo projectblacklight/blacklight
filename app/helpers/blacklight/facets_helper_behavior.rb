@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 module Blacklight::FacetsHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 8.0'
+
   include Blacklight::Facet
 
   ##
@@ -14,7 +17,9 @@ module Blacklight::FacetsHelperBehavior
         '8.0.0')
       response = @response
     end
-    facets_from_request(fields, response).any? { |display_facet| should_render_facet?(display_facet) }
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      facets_from_request(fields, response).any? { |display_facet| should_render_facet?(display_facet) }
+    end
   end
 
   ##
@@ -58,8 +63,23 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def render_facet_limit(display_facet, options = {})
     field_config = facet_configuration_for_field(display_facet.name)
-    return unless should_render_facet?(display_facet, field_config)
 
+    if field_config.component
+      component = field_config.component == true ? Blacklight::FacetFieldListComponent : field_config.component
+      return render(
+        component.new(
+          facet_field: facet_field_presenter(field_config, display_facet),
+          layout: (params[:action] == 'facet' ? false : options[:layout])
+        )
+      )
+    end
+
+    Deprecation.warn(Blacklight::FacetsHelperBehavior, 'Calling #render_facet_limit on a non-componentized'\
+      ' facet is deprecated and will be removed in Blacklight 8')
+
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      return unless should_render_facet?(display_facet, field_config)
+    end
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
@@ -76,12 +96,21 @@ module Blacklight::FacetsHelperBehavior
   # removes any elements where render_facet_item returns a nil value. This enables an application
   # to filter undesireable facet items so they don't appear in the UI
   def render_facet_limit_list(paginator, facet_field, wrapping_element = :li)
-    safe_join(paginator.items.map { |item| render_facet_item(facet_field, item) }.compact.map { |item| content_tag(wrapping_element, item) })
+    facet_config ||= facet_configuration_for_field(facet_field)
+    component = facet_config.fetch(:item_component, Blacklight::FacetItemComponent)
+
+    collection = paginator.items.map do |item|
+      facet_item_presenter(facet_config, item, facet_field)
+    end
+
+    render(component.with_collection(collection, wrapping_element: wrapping_element))
   end
+  deprecation_deprecate :render_facet_limit_list
 
   ##
   # Renders a single facet item
   def render_facet_item(facet_field, item)
+    deprecated_method(:render_facet_item)
     if facet_in_params?(facet_field, item.value)
       render_selected_facet_value(facet_field, item)
     else
@@ -104,6 +133,7 @@ module Blacklight::FacetsHelperBehavior
     facet_config ||= facet_configuration_for_field(display_facet.name)
     should_render_field?(facet_config, display_facet)
   end
+  deprecation_deprecate :should_render_facet?
 
   ##
   # Determine whether a facet should be rendered as collapsed or not.
@@ -114,8 +144,11 @@ module Blacklight::FacetsHelperBehavior
   # @param [Blacklight::Configuration::FacetField] facet_field
   # @return [Boolean]
   def should_collapse_facet? facet_field
-    !facet_field_in_params?(facet_field.key) && facet_field.collapse
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      !facet_field_in_params?(facet_field.key) && facet_field.collapse
+    end
   end
+  deprecation_deprecate :should_collapse_facet?
 
   ##
   # The name of the partial to use to render a facet field.
@@ -130,6 +163,11 @@ module Blacklight::FacetsHelperBehavior
     name ||= "facet_pivot" if config.pivot
     name || "facet_limit"
   end
+  deprecation_deprecate :facet_partial_name
+
+  def facet_field_presenter(facet_config, display_facet)
+    Blacklight::FacetFieldPresenter.new(facet_config, display_facet, self)
+  end
 
   ##
   # Standard display of a facet value in a list. Used in both _facets sidebar
@@ -142,13 +180,9 @@ module Blacklight::FacetsHelperBehavior
   # @option options [Boolean] :suppress_link display the facet, but don't link to it
   # @return [String]
   def render_facet_value(facet_field, item, options = {})
-    path = path_for_facet(facet_field, item)
-    content_tag(:span, class: "facet-label") do
-      link_to_unless(options[:suppress_link],
-                     facet_display_value(facet_field, item),
-                     path,
-                     class: "facet-select")
-    end + render_facet_count(item.hits)
+    deprecated_method(:render_facet_value)
+    facet_config = facet_configuration_for_field(facet_field)
+    facet_item_component(facet_config, item, facet_field, **options).render_facet_value
   end
 
   ##
@@ -158,12 +192,9 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def path_for_facet(facet_field, item, path_options = {})
     facet_config = facet_configuration_for_field(facet_field)
-    if facet_config.url_method
-      send(facet_config.url_method, facet_field, item)
-    else
-      search_action_path(search_state.add_facet_params_and_redirect(facet_field, item).merge(path_options))
-    end
+    facet_item_presenter(facet_config, item, facet_field).href(path_options)
   end
+  deprecation_deprecate :path_for_facet
 
   ##
   # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
@@ -171,15 +202,9 @@ module Blacklight::FacetsHelperBehavior
   # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
   # @param [String] item
   def render_selected_facet_value(facet_field, item)
-    remove_href = search_action_path(search_state.remove_facet_params(facet_field, item))
-    content_tag(:span, class: "facet-label") do
-      content_tag(:span, facet_display_value(facet_field, item), class: "selected") +
-      # remove link
-      link_to(remove_href, class: "remove") do
-        content_tag(:span, '✖', class: "remove-icon") +
-        content_tag(:span, '[remove]', class: 'sr-only')
-      end
-    end + render_facet_count(item.hits, classes: ["selected"])
+    deprecated_method(:render_selected_facet_value)
+    facet_config = facet_configuration_for_field(facet_field)
+    facet_item_component(facet_config, item, facet_field).render_selected_facet_value
   end
 
   ##
@@ -191,18 +216,22 @@ module Blacklight::FacetsHelperBehavior
   # @option options [Array<String>]  an array of classes to add to count span.
   # @return [String]
   def render_facet_count(num, options = {})
+    deprecated_method(:render_facet_count)
     classes = (options[:classes] || []) << "facet-count"
     content_tag("span", t('blacklight.search.facets.count', number: number_with_delimiter(num)), class: classes)
   end
 
   ##
   # Are any facet restrictions for a field in the query parameters?
-  #
+  # @private
   # @param [String] field
   # @return [Boolean]
   def facet_field_in_params? field
-    facet_params(field).present?
+    config = facet_configuration_for_field(field)
+    search_state.has_facet? config
   end
+  # Left undeprecated for the sake of temporary backwards compatibility
+  # deprecation_deprecate :facet_field_in_params?
 
   ##
   # Check if the query parameters have the given facet field with the
@@ -212,18 +241,19 @@ module Blacklight::FacetsHelperBehavior
   # @param [String] item facet value
   # @return [Boolean]
   def facet_in_params?(field, item)
-    value = facet_value_for_facet_item(item)
-
-    (facet_params(field) || []).include? value
+    config = facet_configuration_for_field(field)
+    search_state.has_facet? config, value: facet_value_for_facet_item(item)
   end
+  deprecation_deprecate :facet_in_params?
 
   ##
   # Get the values of the facet set in the blacklight query string
   def facet_params field
     config = facet_configuration_for_field(field)
 
-    params[:f][config.key] if params[:f]
+    search_state.params.dig(:f, config.key)
   end
+  deprecation_deprecate :facet_params
 
   ##
   # Get the displayable version of a facet's value
@@ -231,30 +261,17 @@ module Blacklight::FacetsHelperBehavior
   # @param [Object] field
   # @param [String] item value
   # @return [String]
+  # @deprecated
   def facet_display_value field, item
+    deprecated_method(:facet_display_value)
     facet_config = facet_configuration_for_field(field)
-
-    value = if item.respond_to? :label
-              item.label
-            else
-              facet_value_for_facet_item(item)
-            end
-
-    if facet_config.helper_method
-      send facet_config.helper_method, value
-    elsif facet_config.query && facet_config.query[value]
-      facet_config.query[value][:label]
-    elsif facet_config.date
-      localization_options = facet_config.date == true ? {} : facet_config.date
-      l(Time.zone.parse(value), localization_options)
-    else
-      value
-    end
+    facet_item_presenter(facet_config, item, field).label
   end
 
   def facet_field_id facet_field
     "facet-#{facet_field.key.parameterize}"
   end
+  deprecation_deprecate :facet_field_id
 
   private
 
@@ -264,5 +281,24 @@ module Blacklight::FacetsHelperBehavior
     else
       item
     end
+  end
+
+  def facet_item_presenter(facet_config, facet_item, facet_field)
+    Blacklight::FacetItemPresenter.new(facet_item, facet_config, self, facet_field)
+  end
+
+  def facet_item_component(facet_config, facet_item, facet_field, **args)
+    component = facet_config.fetch(:item_component, Blacklight::FacetItemComponent)
+    component.new(facet_item: facet_item_presenter(facet_config, facet_item, facet_field), **args).with_view_context(self)
+  end
+
+  # We can't use .deprecation_deprecate here, because the new components need to
+  # see the originally defined location for these methods in order to properly
+  # call back into the helpers for backwards compatibility
+  def deprecated_method(method_name)
+    Deprecation.warn(Blacklight::FacetsHelperBehavior,
+                     Deprecation.deprecated_method_warning(Blacklight::FacetsHelperBehavior,
+                                                           method_name, {}),
+                     caller)
   end
 end

@@ -2,10 +2,10 @@
   <% display_facet.items.each do |item| -%>
     <li>
     <span class="facet-values">
-    <% if facet_in_params?(field_name, item) %>              
-        <%= render_selected_facet_value(field_name, item) %>              
-      <% else %>              
-        <%= render_facet_value(field_name, item) %>              
+    <% if facet_in_params?(field_name, item) %>
+        <%= render_selected_facet_value(field_name, item) %>
+      <% else %>
+        <%= render_facet_value(field_name, item) %>
     <% end -%>
     </span>
 
