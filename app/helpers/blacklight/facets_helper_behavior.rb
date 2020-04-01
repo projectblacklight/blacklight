@@ -17,7 +17,9 @@ module Blacklight::FacetsHelperBehavior
         '8.0.0')
       response = @response
     end
-    facets_from_request(fields, response).any? { |display_facet| should_render_facet?(display_facet) }
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      facets_from_request(fields, response).any? { |display_facet| should_render_facet?(display_facet) }
+    end
   end
 
   ##
@@ -61,7 +63,6 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def render_facet_limit(display_facet, options = {})
     field_config = facet_configuration_for_field(display_facet.name)
-    return unless should_render_facet?(display_facet, field_config)
 
     if field_config.component
       component = field_config.component == true ? Blacklight::FacetFieldListComponent : field_config.component
@@ -76,6 +77,9 @@ module Blacklight::FacetsHelperBehavior
     Deprecation.warn(Blacklight::FacetsHelperBehavior, 'Calling #render_facet_limit on a non-componentized'\
       ' facet is deprecated and will be removed in Blacklight 8')
 
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      return unless should_render_facet?(display_facet, field_config)
+    end
     options = options.dup
     options[:partial] ||= facet_partial_name(display_facet)
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
@@ -129,6 +133,7 @@ module Blacklight::FacetsHelperBehavior
     facet_config ||= facet_configuration_for_field(display_facet.name)
     should_render_field?(facet_config, display_facet)
   end
+  deprecation_deprecate :should_render_facet?
 
   ##
   # Determine whether a facet should be rendered as collapsed or not.
@@ -162,10 +167,6 @@ module Blacklight::FacetsHelperBehavior
 
   def facet_field_presenter(facet_config, display_facet)
     Blacklight::FacetFieldPresenter.new(facet_config, display_facet, self)
-  end
-
-  def facet_item_presenter(facet_config, facet_item, facet_field)
-    Blacklight::FacetItemPresenter.new(facet_item, facet_config, self, facet_field)
   end
 
   ##
@@ -280,6 +281,10 @@ module Blacklight::FacetsHelperBehavior
     else
       item
     end
+  end
+
+  def facet_item_presenter(facet_config, facet_item, facet_field)
+    Blacklight::FacetItemPresenter.new(facet_item, facet_config, self, facet_field)
   end
 
   def facet_item_component(facet_config, facet_item, facet_field, **args)
