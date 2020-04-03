@@ -48,6 +48,44 @@ RSpec.describe Blacklight::SearchState do
     end
   end
 
+  describe '#query_param' do
+    let(:params) { parameter_class.new q: 'xyz' }
+
+    it 'returns the query param' do
+      expect(search_state.query_param).to eq 'xyz'
+    end
+  end
+
+  describe '#filter_params' do
+    let(:params) { parameter_class.new f: { ff: ['xyz'] } }
+
+    it 'returns the query param' do
+      expect(search_state.filter_params.deep_symbolize_keys).to eq(ff: ['xyz'])
+    end
+  end
+
+  describe '#has_constraints?' do
+    it 'is false' do
+      expect(search_state.has_constraints?).to eq false
+    end
+
+    context 'with a query param' do
+      let(:params) { parameter_class.new q: 'xyz' }
+
+      it 'is true' do
+        expect(search_state.has_constraints?).to eq true
+      end
+    end
+
+    context 'with a facet param' do
+      let(:params) { parameter_class.new f: { ff: ['xyz'] } }
+
+      it 'is true' do
+        expect(search_state.has_constraints?).to eq true
+      end
+    end
+  end
+
   describe "params_for_search" do
     let(:params) { parameter_class.new 'default' => 'params' }
 

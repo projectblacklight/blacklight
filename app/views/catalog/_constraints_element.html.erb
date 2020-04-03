@@ -7,27 +7,8 @@
     options ||= {}
 %>
 
-<span class="btn-group applied-filter constraint <%= options[:classes].join(" ") if options[:classes] %>">
-  <span class="constraint-value btn btn-outline-secondary btn-disabled">
-    <% unless label.blank? %>
-      <span class="filter-name"><%= label %></span>
-    <% end %>
-    <% unless value.blank? %>
-      <%= content_tag :span, value, class: 'filter-value', title: strip_tags(value) %>
-    <% end %>
-  </span>
-  <% unless options[:remove].blank? %>
-    <% accessible_remove_label = content_tag :span, class: 'sr-only' do
-        if label.blank?
-          t('blacklight.search.filters.remove.value', value: value)
-        else
-          t('blacklight.search.filters.remove.label_value', label: label, value: value)
-        end
-      end
-    %>
-
-    <%= link_to(content_tag(:span, '✖', class: 'remove-icon') + accessible_remove_label,
-			options[:remove], class: 'btn btn-outline-secondary remove'
-		) %>
-  <%- end -%>
-</span>
+<%= render(Blacklight::ConstraintLayoutComponent.new(
+      classes: options[:classes],
+      label: label,
+      value: value,
+      remove_path: options[:remove])) %>

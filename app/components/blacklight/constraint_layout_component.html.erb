@@ -1,0 +1,21 @@
+<span class="btn-group applied-filter constraint <%= @classes %>">
+  <span class="constraint-value btn btn-outline-secondary btn-disabled">
+    <% if @label.present? %>
+      <span class="filter-name"><%= @label %></span>
+    <% end %>
+    <% if @value.present? %>
+      <%= content_tag :span, @value, class: 'filter-value', title: strip_tags(@value) %>
+    <% end %>
+  </span>
+  <% if @remove_path.present? %>
+    <%= link_to(@remove_path, class: 'btn btn-outline-secondary remove') do %>
+      <span class="remove-icon">✖</span>
+      <%= if @label.blank?
+            t('blacklight.search.filters.remove.value', value: @value)
+          else
+            t('blacklight.search.filters.remove.label_value', label: @label, value: @value)
+          end
+      %>
+    <% end %>
+  <% end %>
+</span>

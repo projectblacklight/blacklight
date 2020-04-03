@@ -13,6 +13,9 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
     allow(helper).to receive(:search_action_path) do |*args|
       search_catalog_path *args
     end
+
+    allow(helper).to receive(:blacklight_config).and_return(config)
+    allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
   end
 
   describe '#render_constraints_query' do
@@ -22,24 +25,7 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
     let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }) }
 
     it "has a link relative to the current url" do
-      expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
-    end
-
-    context 'with an ordinary hash' do
-      let(:params) { { q: 'foobar', f: { type: 'journal' } } }
-
-      it "has a link relative to the current url" do
-        expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
-      end
-    end
-
-    context "with a route_set" do
-      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }, route_set: my_engine) }
-
-      it "accepts an optional route set" do
-        expect(my_engine).to receive(:url_for).and_return('/?f%5Btype%5D=journal')
-        expect(subject).to have_selector "a[href='/?f%5Btype%5D=journal']"
-      end
+      expect(subject).to have_link 'Remove constraint', href: '/catalog?f%5Btype%5D=journal'
     end
   end
 
@@ -72,11 +58,6 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
     subject { helper.render_constraints_filters(params) }
 
     let(:params) { ActionController::Parameters.new f: { 'type' => [''] } }
-
-    before do
-      allow(helper).to receive(:blacklight_config).and_return(config)
-      allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
-    end
 
     it "renders nothing for empty facet limit param" do
       expect(subject).to be_blank

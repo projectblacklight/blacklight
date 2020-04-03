@@ -37,6 +37,22 @@ module Blacklight
     end
     alias to_h to_hash
 
+    # Tiny shim to make it easier to migrate raw params access to using this class
+    delegate :[], to: :params
+    deprecation_deprecate :[]
+
+    def has_constraints?
+      !(query_param.blank? && filter_params.blank?)
+    end
+
+    def query_param
+      params[:q]
+    end
+
+    def filter_params
+      params[:f] || {}
+    end
+
     def reset(params = nil)
       self.class.new(params || ActionController::Parameters.new, blacklight_config, controller)
     end
@@ -55,6 +71,12 @@ module Blacklight
       else
         doc
       end
+    end
+
+    def remove_query_params
+      p = reset_search_params
+      p.delete(:q)
+      p
     end
 
     # adds the value and/or field to params[:f]
