@@ -65,6 +65,9 @@ module Blacklight
           index: ViewConfig::Index.new(
             # document presenter class used by helpers and views
             document_presenter_class: nil,
+            # component class used to render a document; defaults to Blacklight::DocumentComponent,
+            #   but can be set explicitly to avoid any legacy behavior   
+            document_component: nil,
             # solr field to use to render a document title
             title_field: nil,
             # solr field to use to render format-specific partials
@@ -82,6 +85,7 @@ module Blacklight
           show: ViewConfig::Show.new(
             # document presenter class used by helpers and views
             document_presenter_class: nil,
+            document_component: nil,
             display_type_field: 'format',
             # Default route parameters for 'show' requests.
             # Set this to a hash with additional arguments to merge into the route,

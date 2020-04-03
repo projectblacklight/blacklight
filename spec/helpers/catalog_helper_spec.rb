@@ -18,10 +18,6 @@ RSpec.describe CatalogHelper do
     mock_response
   end
 
-  def render_grouped_response?
-    false
-  end
-
   describe "page_entries_info" do
     it "with no results" do
       @response = mock_response total: 0

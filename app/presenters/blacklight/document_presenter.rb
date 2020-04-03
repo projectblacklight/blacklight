@@ -30,6 +30,12 @@ module Blacklight
       end
     end
 
+    def field_presenters
+      return to_enum(:field_presenters) unless block_given?
+
+      fields_to_render.each { |_, _, config| yield config }
+    end
+
     ##
     # Get the value of the document's "title" field, or a placeholder
     # value (if empty)
