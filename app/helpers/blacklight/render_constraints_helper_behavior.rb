@@ -6,14 +6,19 @@
 # Includes methods for rendering contraints graphically on the
 # search results page (render_constraints(_*))
 module Blacklight::RenderConstraintsHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 8.0'
+
   ##
   # Check if the query has any constraints defined (a query, facet, etc)
   #
   # @param [Hash] localized_params query parameters
   # @return [Boolean]
-  def query_has_constraints?(localized_params = params)
-    !(localized_params[:q].blank? && localized_params[:f].blank?)
+  def query_has_constraints?(params_or_search_state = search_state)
+    search_state = convert_to_search_state(params_or_search_state)
+    search_state.has_constraints?
   end
+  deprecation_deprecate :query_has_constraints?
 
   ##
   # Render the actual constraints, not including header or footer
@@ -21,8 +26,16 @@ module Blacklight::RenderConstraintsHelperBehavior
   #
   # @param [Hash] localized_params query parameters
   # @return [String]
-  def render_constraints(localized_params = params)
-    render_constraints_query(localized_params) + render_constraints_filters(localized_params)
+  def render_constraints(localized_params = params, local_search_state = search_state)
+    params_or_search_state = if localized_params != params
+                               localized_params
+                             else
+                               local_search_state
+                             end
+
+    Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
+      render_constraints_query(params_or_search_state) + render_constraints_filters(params_or_search_state)
+    end
   end
 
   ##
@@ -30,15 +43,20 @@ module Blacklight::RenderConstraintsHelperBehavior
   #
   # @param [ActionController::Parameters] localized_params query parameters
   # @return [String]
-  def render_constraints_query(localized_params = params)
-    # So simple don't need a view template, we can just do it here.
-    return "".html_safe if localized_params[:q].blank?
+  def render_constraints_query(params_or_search_state = search_state)
+    search_state = convert_to_search_state(params_or_search_state)
 
-    render_constraint_element(constraint_query_label(localized_params),
-                              localized_params[:q],
-                              classes: ["query"],
-                              remove: remove_constraint_url(localized_params))
+    # So simple don't need a view template, we can just do it here.
+    return "".html_safe if search_state.query_param.blank?
+
+    Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
+      render_constraint_element(constraint_query_label(search_state),
+                                search_state.query_param,
+                                classes: ["query"],
+                                remove: remove_constraint_url(search_state))
+    end
   end
+  deprecation_deprecate :render_constraints_query
 
   ##
   # Provide a url for removing a particular constraint. This can be overriden
@@ -47,33 +65,29 @@ module Blacklight::RenderConstraintsHelperBehavior
   #
   # @param [ActionController::Parameters] localized_params query parameters
   # @return [String]
-  def remove_constraint_url(localized_params)
-    scope = localized_params.delete(:route_set) || self
+  def remove_constraint_url(params_or_search_state = search_state)
+    search_state = convert_to_search_state(params_or_search_state)
 
-    unless localized_params.is_a? ActionController::Parameters
-      localized_params = ActionController::Parameters.new(localized_params)
-    end
-
-    options = localized_params.merge(q: nil, action: 'index')
-    options.permit!
-    scope.url_for(options)
+    search_action_path(search_state.remove_query_params)
   end
+  deprecation_deprecate :remove_constraint_url
 
   ##
   # Render the facet constraints
   # @param [Hash] localized_params query parameters
   # @return [String]
-  def render_constraints_filters(localized_params = params)
-    return "".html_safe unless localized_params[:f]
+  def render_constraints_filters(params_or_search_state = search_state)
+    search_state = convert_to_search_state(params_or_search_state)
 
-    path = controller.search_state_class.new(localized_params, blacklight_config, controller)
-    content = []
-    localized_params[:f].each_pair do |facet, values|
-      content << render_filter_element(facet, values, path)
+    return "".html_safe if search_state.filter_params.blank?
+
+    Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
+      safe_join(search_state.filter_params.each_pair.map do |facet, values|
+        render_filter_element(facet, values, search_state)
+      end, "\n")
     end
-
-    safe_join(content.flatten, "\n")
   end
+  deprecation_deprecate :render_constraints_filters
 
   ##
   # Render a single facet's constraint
@@ -81,7 +95,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @param [Array<String>] values selected facet values
   # @param [Blacklight::SearchState] path query parameters (unused)
   # @return [String]
-  def render_filter_element(facet, values, path)
+  def render_filter_element(facet, values, search_state)
     facet_config = facet_configuration_for_field(facet)
 
     safe_join(Array(values).map do |val|
@@ -89,12 +103,15 @@ module Blacklight::RenderConstraintsHelperBehavior
 
       presenter = facet_item_presenter(facet_config, val, facet)
 
-      render_constraint_element(facet_field_label(facet_config.key),
-                                presenter.label,
-                                remove: presenter.remove_href(path),
-                                classes: ["filter", "filter-" + facet.parameterize])
+      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
+        render_constraint_element(facet_field_label(facet_config.key),
+                                  presenter.label,
+                                  remove: presenter.remove_href(search_state),
+                                  classes: ["filter", "filter-" + facet.parameterize])
+      end
     end, "\n")
   end
+  deprecation_deprecate :render_filter_element
 
   # Render a label/value constraint on the screen. Can be called
   # by plugins and such to get application-defined rendering.
@@ -112,5 +129,17 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @return [String]
   def render_constraint_element(label, value, options = {})
     render(partial: "catalog/constraints_element", locals: { label: label, value: value, options: options })
+  end
+  deprecation_deprecate :render_constraint_element
+
+  private
+
+  def convert_to_search_state(params_or_search_state)
+    if params_or_search_state.is_a? Blacklight::SearchState
+      params_or_search_state
+    else
+      # deprecated
+      controller.search_state_class.new(params_or_search_state, blacklight_config, controller)
+    end
   end
 end
