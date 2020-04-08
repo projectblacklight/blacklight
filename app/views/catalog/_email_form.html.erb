@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <% @documents.each do |doc| %>
+    <% @documents&.each do |doc| %>
       <%=hidden_field_tag "id[]", doc.id %>
     <% end %>
     <%- if params[:sort] -%>

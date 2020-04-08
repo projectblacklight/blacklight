@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <% @documents.each do |document| %>
+  <% @documents&.each do |document| %>
     <h1 class="modal-title"><%= document_heading(document) %></h1>
 
     <% if document.respond_to?(:export_as_mla_citation_txt) %>
