@@ -151,7 +151,7 @@ module Blacklight::CatalogHelperBehavior
   # @return [String]
   def render_document_sidebar_partial(document = nil)
     unless document
-      Deprecation.warn(self, 'render_document_sidebar_partial expects one argument ' /
+      Deprecation.warn(self, 'render_document_sidebar_partial expects one argument ' \
         '(@document) and you passed none. This behavior will be removed in version 8')
       document = @document
     end
