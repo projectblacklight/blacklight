@@ -1,10 +1,10 @@
 <div class="prev_next_links btn-group">
   <%= link_to_previous_page @pagination, raw(t('views.pagination.previous')), params: search_state.to_h, param_name: blacklight_config.facet_paginator_class.request_keys[:page], class: 'btn btn-link', data: { blacklight_modal: "preserve" } do %>
-    <%= content_tag :span, raw(t('views.pagination.previous')), class: 'disabled btn btn-disabled' %>
+    <%= content_tag :span, raw(t('views.pagination.previous')), class: 'disabled btn' %>
   <% end %>
 
   <%= link_to_next_page @pagination, raw(t('views.pagination.next')), params: search_state.to_h, param_name: blacklight_config.facet_paginator_class.request_keys[:page], class: 'btn btn-link',  data: { blacklight_modal: "preserve" } do %>
-    <%= content_tag :span, raw(t('views.pagination.next')), class: 'disabled btn btn-disabled' %>
+    <%= content_tag :span, raw(t('views.pagination.next')), class: 'disabled btn' %>
   <% end %>
 </div>
 
