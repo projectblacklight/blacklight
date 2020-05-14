@@ -3,8 +3,8 @@ ar:
     pagination:
       first: 'الأولى &laquo;'
       last: 'الأخيرة &raquo;'
-      previous: '&laquo; السابقة'
-      next: 'التالية &raquo;'
+      previous: '&laquo; السابق'
+      next: 'التالي &raquo;'
       truncate: '…'
       aria:
         container_label: 'روابط الصفحات'
@@ -52,7 +52,8 @@ ar:
           few: 'أضيفت الصفحات المفضلة بنجاح.'
           many: 'أضيفت الصفحات المفضلة بنجاح.'
           other: 'أضيفت الصفحات المفضلة بنجاح.'
-        failure: 'معذرة! حدثت مشكلة في حفظ الصفحات المفضلة.'
+
+        failure:  'معذرة! حدثت مشكلة في حفظ الصفحات المفضلة.'
       remove:
         button: 'إزالة الصفحة المفضلة'
         success: 'أزيلت الصفحة المفضلة بنجاح.'
@@ -61,7 +62,7 @@ ar:
       clear:
         action_title: 'مسح الصفحات المفضلة'
         action_confirm: 'هل ترغب في مسح الصفحات المفضلة؟'
-        success: 'ُمسِحَت صفحاتك المفضلة.'
+        success: 'تم مسح صفحاتك المفضلة.'
         failure: 'معذرة! حدثت مشكلة في مسح صفحاتك المفضلة.'
       need_login: 'يُرجى تسجيل الدخول لتنظيم صفحاتك المفضلة وعرضها.'
       list_title: 'صفحاتك المفضلة'
@@ -69,14 +70,14 @@ ar:
 
     search_history:
       clear:
-        action_title: 'مسح سجل البحث السابق'
+        action_title: 'امسح سجل البحث السابق'
         action_confirm: 'هل ترغب في مسح سجل البحث السابق؟'
-        success: 'ُمسِحَ سجل بحثك السابق.'
+        success: 'تم مسح سجل بحثك السابق.'
         failure: 'حدثت مشكلة في مسح سجل بحثك السابق.'
       title: 'سجل البحث'
       page_title: 'سجل البحث - %{application_name}'
-      no_history: 'ليس لديك سجل بحث'
-      recent: 'استعلامات البحث الأخيرة'
+      no_history: 'لا يوجد لديك سجل بحث'
+      recent: 'سجل ابحاثك السابقة'
       forget: 'تراجع'
       save: 'حفظ'
 
@@ -84,7 +85,7 @@ ar:
       title: 'أدوات'
       citation: 'استشهاد مرجعي'
       email: 'بريد إلكتروني'
-      sms: 'إرسال كرسالة نصية قصيرة'
+      sms: 'إرسله كرسالة نصية قصيرة'
       clear: 'مسح'
 
     citation:
@@ -94,12 +95,12 @@ ar:
 
     email:
       form:
-        title: 'إرسال بالبريد الإلكتروني'
+        title: 'إرسله عبرالبريد الإلكتروني'
         to: 'بريد إلكتروني:'
         message: 'الرسالة:'
         submit: 'إرسال'
       text:
-        default_title: 'لا ينطبق'
+        default_title: 'لا يوجد'
         title: 'العنوان: %{value}'
         author: 'المؤلف: %{value}'
         format: 'الصيغة: %{value}'
@@ -111,30 +112,31 @@ ar:
           few: 'سجلات المادة'
           many: 'سجلات المادة'
           other: 'سجلات المادة'
+
         url: 'الرابط: %{url}'
         message: 'الرسالة: %{message}'
 
-      success: 'تم إرسال البريد الإلكتروني'
+      success: "تم إرسال البريد الإلكتروني"
+
       errors:
         to:
           invalid: 'يجب إدخال عنوان بريد إلكتروني صحيح'
           blank: 'يجب إدخال مُستلم من أجل إرسال هذه الرسالة'
-
     sms:
       form:
-        title: 'إرسال كرسالة نصية قصيرة'
+        title: 'إرسله كرسالة نصية قصيرة'
         to: 'رقم الهاتف:'
         carrier: 'شركة الاتصالات'
         carrier_prompt: 'يرجى تحديد شركة الاتصالات'
         submit: 'إرسال'
       text:
         title: '%{value}'
-        author: ' حسب %{value}'
+        author: ' بواسطة %{value}'
         url: 'الرابط: %{url}'
-      success: 'تم الإرسال كرسالة نصية قصيرة'
+      success: "تم الإرسال كرسالة نصية قصيرة"
       errors:
         to:
-          invalid: 'يجب إدخال رقم هاتف صحيح من 10 أعداد'
+          invalid: 'يجب إدخال رقم هاتف صحيح من 10 أرقام'
           blank: "يجب إدخال رقم هاتف المستلم لإرسال هذه الرسالة"
         carrier:
           blank: 'يجب تحديد شركة الاتصالات'
@@ -148,11 +150,11 @@ ar:
         title: '%{constraints} - %{application_name} نتائج البحث'
         constraint: '%{label}: %{value}'
         many_constraint_values: 'تم تحديد %{values}'
-      header: 'البحث'
+      header: 'ابحث'
       search_constraints_header: 'قيود البحث'
       search_results: 'نتائج البحث'
       errors:
-        request_error: "معذرة، لا أفهم ما تبحث عنه."
+        request_error: "معذرة، لم أفهم ما تبحث عنه."
         invalid_solr_id: "معذرة! لقد طلبت سجلًا غير موجود."
       per_page:
         label: '%{count}<span class="sr-only"> لكل صفحة</span>'
@@ -160,18 +162,18 @@ ar:
         button_label_html: '%{count}<span class="d-none d-sm-inline"> لكل صفحة</span>'
         title: 'عدد النتائج المعروضة في الصفحة'
         submit: 'تحديث'
-        aria_label: 'الملاحة النتائج'
+        aria_label: 'تصفح النتائج'
       sort:
         label: 'ترتيب حسب %{field}' # TODO: Remove during major release
         label_html: 'ترتيب <span class="d-none d-sm-inline"> حسب %{field}</span>'
         submit: 'نتائج الترتيب'
       form:
         search_field:
-          label: 'بحث في'
+          label: 'ابحث في'
           title: 'خيارات البحث المستهدفة'
           post_label: 'عن'
         search:
-          label: 'بحث عن'
+          label: 'ابحث عن'
           placeholder: 'بحث...'
         submit: 'بحث'
       pagination:
@@ -186,6 +188,7 @@ ar:
           few: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
           many: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
           other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
+
       entry_pagination_info:
         zero: '<strong>%{current}</strong> من <strong>%{total}</strong>'
         one: '<strong>%{current}</strong> من <strong>%{total}</strong>'
@@ -193,6 +196,7 @@ ar:
         few: '<strong>%{current}</strong> من <strong>%{total}</strong>'
         many: '<strong>%{current}</strong> من <strong>%{total}</strong>'
         other: '<strong>%{current}</strong> من <strong>%{total}</strong>'
+
       documents:
         aria:
           search_results: 'نتائج البحث'
@@ -233,9 +237,9 @@ ar:
       zero_results:
         title: "لا توجد نتائج للبحث"
         modify_search: "حاول تعديل معايير البحث"
-        use_fewer_keywords: "استخدم كلمات مفتاحية أقل في البداية، ثم أعد تنقيح البحث باستخدام الروابط على اليسار."
+        use_fewer_keywords: "استخدم كلمات أساسية أقل أولاً، ثم أعد تحديد البحث باستخدام الروابط على اليسار."
         search_fields: "لقد بحثت باستخدام %{search_fields}"
-        search_everything: "أعد البحث عن كل شيء"
+        search_everything: "حاول البحث عن كل شيء"
       view_title: "عرض النتائج ك: "
       view:
         list: "قائمة"
