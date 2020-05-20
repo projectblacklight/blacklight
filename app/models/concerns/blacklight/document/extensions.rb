@@ -32,6 +32,9 @@ module Blacklight::Document::Extensions
   module ClassMethods
     attr_writer :registered_extensions
 
+    # Returns array of hashes of registered extensions. Each hash
+    # has a :module_obj key and a :condition_proc key. Usually this
+    # method is only used internally in #apply_extensions, but if you
     # want to zero out all previously registered extensions you can call:
     # SolrDocument.registered_extensions = nil
     def registered_extensions
