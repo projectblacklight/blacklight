@@ -200,7 +200,7 @@ ar:
       documents:
         aria:
           search_results: 'نتائج البحث'
-          limit_search: 'تحديد نطاق البحث'
+          limit_search: '...ابحث عن العناصر حسب'
         counter: '%{counter}. '
       facets:
         title: 'تحديد نطاق البحث'
