@@ -4,10 +4,6 @@ module Blacklight::Document
     extend ActiveSupport::Concern
 
     module ClassMethods
-      # Returns array of hashes of registered extensions. Each hash
-      # has a :module_obj key and a :condition_proc key. Usually this
-      # method is only used internally in #apply_extensions, but if you
-
       # Class-level method for accessing/setting semantic mappings
       # for solr stored fields. Can be set by local app, key is
       # a symbol for a semantic, value is a solr _stored_ field.
