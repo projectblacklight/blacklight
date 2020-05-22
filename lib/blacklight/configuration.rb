@@ -69,7 +69,7 @@ module Blacklight
             title_field: nil,
             # solr field to use to render format-specific partials
             display_type_field: 'format',
-            # partials to render for each document(see #render_document_partials)
+            # partials to render for each document(see `Blacklight::IndexDocumentPartialsRenderer')
             partials: [:index_header, :thumbnail, :index],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
             collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
@@ -87,7 +87,7 @@ module Blacklight
             # Set this to a hash with additional arguments to merge into the route,
             # or set `controller: :current` to route to the current controller.
             route: nil,
-            # partials to render for each document(see #render_document_partials)
+            # partials to render for each document(see `Blacklight::ShowDocumentPartialsRenderer')
             partials: [:show_header, :show],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
           ),

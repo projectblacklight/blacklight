@@ -28,6 +28,7 @@ module Blacklight::RenderPartialsHelperBehavior
       render_document_partial(doc, action_name, locals)
     end, "\n")
   end
+  deprecation_deprecate render_document_partials: "Use IndexDocumentPartialsRenderer or ShowDocumentPartialsRenderer"
 
   ##
   # Return the list of xml for a given solr document. Doesn't safely escape for HTML.
@@ -188,12 +189,8 @@ module Blacklight::RenderPartialsHelperBehavior
   ##
   # @param key fetches or writes data to a cache, using the given key.
   # @yield the block to evaluate (and cache) if there is a cache miss
-  def cached_view key
-    @view_cache ||= {}
-    if @view_cache.key?(key)
-      @view_cache[key]
-    else
-      @view_cache[key] = yield
-    end
+  def cached_view key, &block
+    @view_cache ||= Blacklight::ViewCache.new
+    @view_cache.cached_view(key, &block)
   end
 end

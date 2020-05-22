@@ -31,7 +31,7 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
     end
   end
 
-  describe "#render_document_partials" do
+  describe "#render_document_partial" do
     let(:doc) { double }
 
     before do
