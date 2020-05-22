@@ -56,9 +56,8 @@ module Blacklight::RenderPartialsHelperBehavior
   def render_document_partial(doc, base_name, locals = {})
     format = document_partial_name(doc, base_name)
 
-    view_type = document_index_view_type
-    template = cached_view ['show', view_type, base_name, format].join('_') do
-      find_document_show_template_with_view(view_type, base_name, format, locals)
+    template = cached_view ['show', base_name, format].join('_') do
+      find_document_show_template_with_view(base_name, format, locals)
     end
     if template
       template.render(self, locals.merge(document: doc))
@@ -154,8 +153,6 @@ module Blacklight::RenderPartialsHelperBehavior
     # followed by the new, inheritable style
     # finally, a controller-specific path for non-catalog subclasses
     @partial_path_templates ||= [
-      "%{action_name}_%{index_view_type}_%{format}",
-      "%{action_name}_%{index_view_type}_default",
       "%{action_name}_%{format}",
       "%{action_name}_default",
       "%{action_name}",
@@ -165,9 +162,9 @@ module Blacklight::RenderPartialsHelperBehavior
     ]
   end
 
-  def find_document_show_template_with_view view_type, base_name, format, locals
+  def find_document_show_template_with_view base_name, format, locals
     document_partial_path_templates.each do |str|
-      partial = format(str, action_name: base_name, format: format, index_view_type: view_type)
+      partial = format(str, action_name: base_name, format: format)
       logger.debug "Looking for document partial #{partial}"
       template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:document], {}).first
       return template if template
