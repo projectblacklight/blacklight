@@ -38,7 +38,7 @@ RSpec.describe Blacklight::ConstraintLayoutComponent, type: :component do
     end
     it "has an accessible remove label" do
       expect(rendered).to have_selector(".remove") do |s|
-        expect(s).to have_content("Remove constraint my label: my value")
+        expect(s).to have_selector('.sr-only', text: 'Remove constraint my label: my value')
       end
     end
   end
