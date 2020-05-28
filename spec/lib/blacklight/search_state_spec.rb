@@ -48,6 +48,18 @@ RSpec.describe Blacklight::SearchState do
     end
   end
 
+  describe 'interface compatibility with params' do
+    let(:params) { parameter_class.new f: { ff: ['xyz'] } }
+
+    it 'implements param methods' do
+      Deprecation.silence(described_class) do
+        expect(search_state.to_unsafe_h).to eq('f' => { 'ff' => ['xyz'] })
+        expect(search_state.fetch(:f)).to eq('ff' => ['xyz'])
+        expect(search_state.select { |k, _v,| k == 'f' }).to eq('f' => { 'ff' => ['xyz'] })
+      end
+    end
+  end
+
   describe '#query_param' do
     let(:params) { parameter_class.new q: 'xyz' }
 
