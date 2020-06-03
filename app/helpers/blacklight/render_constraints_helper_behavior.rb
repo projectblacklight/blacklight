@@ -50,7 +50,7 @@ module Blacklight::RenderConstraintsHelperBehavior
     return "".html_safe if search_state.query_param.blank?
 
     Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-      render_constraint_element(constraint_query_label(search_state),
+      render_constraint_element(constraint_query_label(search_state.params),
                                 search_state.query_param,
                                 classes: ["query"],
                                 remove: remove_constraint_url(search_state))
