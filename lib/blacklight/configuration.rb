@@ -290,6 +290,10 @@ module Blacklight
           # Don't copy if nil, so as not to prematurely autoload default classes
           copy.send("#{klass}=", send(klass)) unless fetch(klass.to_sym, nil).nil?
         end
+
+        copy.facet_fields.select { |k, v| v.component }.each do |key, field|
+          field.component = facet_fields[key].component
+        end
       end
     end
 
