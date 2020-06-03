@@ -189,14 +189,18 @@ RSpec.describe "Blacklight::Configuration", api: true do
     it "provides cloned copies of mutable data structures" do
       config.a = { value: 1 }
       config.b = [1, 2, 3]
+      config.c = Blacklight::Configuration::Field.new(key: 'c', value: %w[a b])
 
       config_copy.a[:value] = 2
       config_copy.b << 5
+      config_copy.c.value << 'c'
 
       expect(config.a[:value]).to eq 1
       expect(config_copy.a[:value]).to eq 2
       expect(config.b).to match_array [1, 2, 3]
       expect(config_copy.b).to match_array [1, 2, 3, 5]
+      expect(config.c.value).to match_array %w[a b]
+      expect(config_copy.c.value).to match_array %w[a b c]
     end
   end
 

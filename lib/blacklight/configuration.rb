@@ -282,19 +282,10 @@ module Blacklight
     # Provide a 'deep copy' of Blacklight::Configuration that can be modified without effecting
     # the original Blacklight::Configuration instance.
     #
-    # Rails 4.x provides `#deep_dup`, but it aggressively `#dup`'s class names
-    # too. These model names should not be `#dup`'ed or we might break ActiveModel::Naming.
+    # Note: Rails provides `#deep_dup`, but it aggressively `#dup`'s class names too, turning them
+    # into anonymous class instances.
     def deep_copy
-      deep_dup.tap do |copy|
-        %w(repository_class response_model document_model document_presenter_class search_builder_class facet_paginator_class).each do |klass|
-          # Don't copy if nil, so as not to prematurely autoload default classes
-          copy.send("#{klass}=", send(klass)) unless fetch(klass.to_sym, nil).nil?
-        end
-
-        copy.facet_fields.select { |k, v| v.component }.each do |key, field|
-          field.component = facet_fields[key].component
-        end
-      end
+      deep_transform_values_in_object(self, &method(:_deep_copy))
     end
 
     # builds a copy for the provided controller class
@@ -405,6 +396,38 @@ module Blacklight
       config.name = name
       yield(config) if block_given?
       config_hash[name] = config
+    end
+
+    # Provide custom duplication for certain types of configuration (intended for use in e.g. deep_transform_values)
+    def _deep_copy(value)
+      case value
+      when Module then value
+      when NestedOpenStructWithHashAccess then value.class.new(value.nested_class, deep_transform_values_in_object(value.to_h, &method(:_deep_copy)))
+      when OpenStruct then value.class.new(deep_transform_values_in_object(value.to_h, &method(:_deep_copy)))
+      else
+        value.dup
+      end
+    end
+
+    # This is a little shim to support Rails 6 (which has Hash#deep_transform_values) and
+    # earlier versions (which use our backport). Once we drop support for Rails 6, this
+    # can go away.
+    def deep_transform_values_in_object(object, &block)
+      return object.deep_transform_values(&block) if object.respond_to?(:deep_transform_values)
+
+      _deep_transform_values_in_object(object, &block)
+    end
+
+    # Ported from Rails 6
+    def _deep_transform_values_in_object(object, &block)
+      case object
+      when Hash
+        object.transform_values { |value| _deep_transform_values_in_object(value, &block) }
+      when Array
+        object.map { |e| _deep_transform_values_in_object(e, &block) }
+      else
+        yield(object)
+      end
     end
   end
 end
