@@ -1,4 +1,4 @@
-<% if query_has_constraints? %>
+<% if Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { query_has_constraints? } %>
   <div id="appliedParams" class="clearfix constraints-container">
     <h2 class="sr-only"><%= t('blacklight.search.search_constraints_header') %></h2>
 
