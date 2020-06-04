@@ -81,7 +81,11 @@ module Blacklight::FacetsHelperBehavior
       return unless should_render_facet?(display_facet, field_config)
     end
     options = options.dup
-    options[:partial] ||= facet_partial_name(display_facet)
+
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      options[:partial] ||= facet_partial_name(display_facet)
+    end
+
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
     options[:locals] ||= {}
     options[:locals][:field_name] ||= display_facet.name
