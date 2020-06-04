@@ -194,6 +194,9 @@ en:
           remove: '[remove]'
         missing: "[Missing]"
         all: All
+        pivot:
+          show: Show
+          hide: Hide
       group:
         more: 'more »'
       filters:

@@ -194,6 +194,9 @@ it:
         selected:
           remove: '[cancella]'
         missing: [Mancante]
+        pivot:
+          show:
+          hide:
       group:
         more: 'altri »'
       filters:

@@ -194,6 +194,9 @@ hu:
         selected:
           remove: '[eltávolítás]'
         missing: "[Hiányzó]"
+        pivot:
+          show:
+          hide:
       group:
         more: 'több »'
       filters:

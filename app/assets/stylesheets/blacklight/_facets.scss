@@ -150,10 +150,26 @@
 
 .pivot-facet {
   @extend .list-unstyled;
+  @extend .py-1;
+  @extend .px-4;
+}
 
-  ul, .pivot-facet {
-    @extend .list-unstyled;
-    @extend .py-1;
-    @extend .px-3;
+.facet-leaf-node {
+  margin-left: 1rem;
+  padding-right: 1rem;
+  margin-top: -1.5rem;
+}
+
+.facet-toggle-handle {
+  margin: 0;
+  margin-left: -5px;
+  padding: 0;
+
+  &.collapsed {
+    .show { display: block; }
+    .hide { display: none; }
   }
+
+  .show { display: none; }
+  .hide { display: block; }
 }

@@ -194,6 +194,9 @@ zh:
         selected:
           remove: '[删除]'
         missing: "[未找到]"
+        pivot:
+          show:
+          hide:
       group:
         more: '更多 »'
       filters:

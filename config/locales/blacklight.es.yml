@@ -194,6 +194,9 @@ es:
         selected:
           remove: '[borrar]'
         missing: '[Falta]'
+        pivot:
+          show:
+          hide:
       group:
         more: 'más »'
       filters:
