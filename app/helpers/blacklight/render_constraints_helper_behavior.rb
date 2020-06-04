@@ -18,7 +18,7 @@ module Blacklight::RenderConstraintsHelperBehavior
     search_state = convert_to_search_state(params_or_search_state)
     search_state.has_constraints?
   end
-  deprecation_deprecate :query_has_constraints?
+  deprecation_deprecate query_has_constraints?: 'use search_state#has_constraints?'
 
   ##
   # Render the actual constraints, not including header or footer
@@ -50,7 +50,7 @@ module Blacklight::RenderConstraintsHelperBehavior
     return "".html_safe if search_state.query_param.blank?
 
     Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-      render_constraint_element(constraint_query_label(search_state),
+      render_constraint_element(constraint_query_label(search_state.params),
                                 search_state.query_param,
                                 classes: ["query"],
                                 remove: remove_constraint_url(search_state))
