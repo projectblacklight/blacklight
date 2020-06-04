@@ -1,4 +1,4 @@
-<% if current_search_session %>
+<% if current_search_session && current_search_session['document_id'] == @document.id %>
   <div id="appliedParams" class="clearfix constraints-container">
     <%= render 'start_over' %>
     <%= link_back_to_catalog class: 'btn btn-outline-secondary' %>

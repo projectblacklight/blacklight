@@ -1,4 +1,4 @@
-<%= render 'previous_next_doc' if @search_context %>
+<%= render 'previous_next_doc' if @search_context && @search_context['document_id'] == @document.id %>
 
 <% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name).html_safe %>
 <% content_for(:head) { render_link_rel_alternates } %>

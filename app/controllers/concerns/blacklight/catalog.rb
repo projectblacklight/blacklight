@@ -67,6 +67,7 @@ module Blacklight::Catalog
     search_session['counter'] = params[:counter]
     search_session['id'] = params[:search_id]
     search_session['per_page'] = params[:per_page]
+    search_session['document_id'] = params[:document_id]
 
     if params[:redirect] && (params[:redirect].starts_with?('/') || params[:redirect] =~ URI::DEFAULT_PARSER.make_regexp)
       uri = URI.parse(params[:redirect])
