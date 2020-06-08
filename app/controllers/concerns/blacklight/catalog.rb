@@ -71,9 +71,9 @@ module Blacklight::Catalog
     if params[:redirect] && (params[:redirect].starts_with?('/') || params[:redirect] =~ URI::DEFAULT_PARSER.make_regexp)
       uri = URI.parse(params[:redirect])
       path = uri.query ? "#{uri.path}?#{uri.query}" : uri.path
-      redirect_to path, status: 303
+      redirect_to path, status: :see_other
     else
-      redirect_to({ action: :show, id: params[:id] }, status: 303)
+      redirect_to({ action: :show, id: params[:id] }, status: :see_other)
     end
   end
 

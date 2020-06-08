@@ -73,7 +73,7 @@ module Blacklight
     # @return [String]
     # @private
     def render_facet_value
-      content_tag(:span, class: "facet-label") do
+      tag.span(class: "facet-label") do
         link_to_unless(@suppress_link, @label, @href, class: "facet-select")
       end + render_facet_count
     end
@@ -85,12 +85,12 @@ module Blacklight
     # @param [String] item
     # @private
     def render_selected_facet_value
-      content_tag(:span, class: "facet-label") do
-        content_tag(:span, @label, class: "selected") +
+      tag.span(class: "facet-label") do
+        tag.span(@label, class: "selected") +
           # remove link
           link_to(@href, class: "remove") do
-            content_tag(:span, '✖', class: "remove-icon") +
-              content_tag(:span, '[remove]', class: 'sr-only')
+            tag.span('✖', class: "remove-icon") +
+              tag.span('[remove]', class: 'sr-only')
           end
       end + render_facet_count(classes: ["selected"])
     end
@@ -108,7 +108,7 @@ module Blacklight
       return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
 
       classes = (options[:classes] || []) << "facet-count"
-      content_tag("span", t('blacklight.search.facets.count', number: number_with_delimiter(@hits)), class: classes)
+      tag.span(t('blacklight.search.facets.count', number: number_with_delimiter(@hits)), class: classes)
     end
 
     private

@@ -81,7 +81,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
           expect(Set.new(mash.keys)).to eq Set.new(solr_document.keys)
 
-          mash.keys.each do |key|
+          mash.each_key do |key|
             expect(mash[key]).to eq solr_document[key]
           end
         end
@@ -179,6 +179,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     it 'has more than one facet' do
       expect(@facets).to have_at_least(1).facet
     end
+
     it 'has all facets specified in initializer' do
       expect(@facets.keys).to include *blacklight_config.facet_fields.keys
       expect(@facets.none? { |_k, v| v.nil? }).to eq true
@@ -189,6 +190,7 @@ RSpec.describe Blacklight::SearchService, api: true do
         expect(facet.items).to have_at_least(1).hit
       end
     end
+
     it 'has multiple values for at least one facet' do
       has_mult_values = false
       @facets.each do |_key, facet|
@@ -199,6 +201,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       end
       expect(has_mult_values).to eq true
     end
+
     it 'has all value counts > 0' do
       @facets.each do |_key, facet|
         facet.items.each do |facet_vals|
@@ -217,6 +220,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       (solr_response,) = service.search_results
       expect(solr_response.params[:start].to_i).to eq 0
     end
+
     it 'has number of results (per page) set in initializer, by default' do
       (solr_response, document_list) = service.search_results
       expect(solr_response.docs).to have(blacklight_config[:default_solr_params][:rows]).items
@@ -322,12 +326,15 @@ RSpec.describe Blacklight::SearchService, api: true do
     it "has a non-nil result for a known id" do
       expect(@document).not_to be_nil
     end
+
     it "has a single document in the response for a known id" do
       expect(@response2.docs.size).to eq 1
     end
+
     it 'has the expected value in the id field' do
       expect(@document.id).to eq doc_id
     end
+
     it 'has non-nil values for required fields set in initializer' do
       expect(@document.fetch(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
     end

@@ -233,7 +233,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       end
 
       it "passes on the title attribute to the link_to_with_data method" do
-        expect(helper.link_to_document(document, "Some crazy long label...", title: "Some crazy longer label")).to match(/title=\"Some crazy longer label\"/)
+        expect(helper.link_to_document(document, "Some crazy long label...", title: "Some crazy longer label")).to match(/title="Some crazy longer label"/)
       end
 
       it "doesn't add an erroneous title attribute if one isn't provided" do

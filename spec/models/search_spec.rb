@@ -23,6 +23,7 @@ RSpec.describe Search do
 
       expect(@search).to be_saved
     end
+
     it "is false when user_id is NULL or less than 1" do
       @search = described_class.create
       expect(@search).not_to be_saved

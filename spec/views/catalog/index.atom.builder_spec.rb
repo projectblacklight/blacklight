@@ -59,15 +59,19 @@ RSpec.describe "catalog/index" do
     it "has a title" do
       expect(rendered).to have_selector("entry > title")
     end
+
     it "has an updated" do
       expect(rendered).to have_selector("entry > updated")
     end
+
     it "has html link" do
       expect(rendered).to have_selector("entry > link[rel=alternate][type='text/html']")
     end
+
     it "has an id" do
       expect(rendered).to have_selector("entry > id")
     end
+
     it "has a summary" do
       expect(rendered).to have_selector("entry > summary")
     end
@@ -96,6 +100,7 @@ RSpec.describe "catalog/index" do
       it "includes a link rel tag" do
         expect(entry).to have_selector("link[rel=alternate][type='application/some-format']")
       end
+
       it "has content embedded" do
         expect(entry).to have_selector("content")
       end

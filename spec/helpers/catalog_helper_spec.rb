@@ -93,6 +93,7 @@ RSpec.describe CatalogHelper do
       expect(html).to eq "<strong>41</strong> - <strong>47</strong> of <strong>47</strong>"
       expect(html).to be_html_safe
     end
+
     it "works with rows the same as per_page" do
       @response = mock_response total: 47, rows: 20, current_page: 2
 

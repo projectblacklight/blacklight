@@ -271,9 +271,11 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       it 'handles a found key' do
         expect(helper.label_for_search_field('my-key')).to eq 'My Field'
       end
+
       it 'handles a missing key' do
         expect(helper.label_for_search_field('not-found')).to eq 'Not Found'
       end
+
       it 'handles a missing field' do
         expect(helper.label_for_search_field(nil)).to eq nil
       end
@@ -285,6 +287,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       it 'handles a found key' do
         expect(helper.sort_field_label('my-key')).to eq 'My Field'
       end
+
       it 'handles a missing key' do
         expect(helper.sort_field_label('not-found')).to eq 'Not Found'
       end

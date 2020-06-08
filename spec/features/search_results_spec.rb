@@ -17,6 +17,7 @@ RSpec.describe "Search Results" do
     search_for 'inmül'
     expect(number_of_results_from_page(page)).to eq 1
   end
+
   it "finds same result set for a case-insensitive query" do
     search_for 'inmul'
     expect(number_of_results_from_page(page)).to eq 1

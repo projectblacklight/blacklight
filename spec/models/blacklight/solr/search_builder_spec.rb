@@ -54,6 +54,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       expect(subject[:qf]).to eq "fieldOne^2.3 fieldTwo fieldThree^0.4"
       expect(subject[:spellcheck]).to eq 'false'
     end
+
     it "merges empty string parameters from search_field definition" do
       expect(subject[:pf]).to eq ""
     end
@@ -156,9 +157,11 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
         expect(subject[:q]).to be_nil
         expect(subject["spellcheck.q"]).to be_nil
       end
+
       it 'has default rows' do
         expect(subject[:rows]).to eq 10
       end
+
       it 'has default facet fields' do
         # remove local params from the facet.field
         expect(subject[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array %w[format subject_ssim pub_date_ssim language_ssim lc_1letter_ssim subject_geo_ssim subject_era_ssim]
@@ -167,6 +170,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       it "does not have a default qt" do
         expect(subject[:qt]).to be_nil
       end
+
       it "has no fq" do
         expect(subject[:phrase_filters]).to be_blank
         expect(subject[:fq]).to be_blank
@@ -266,11 +270,13 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       it "includes proper 'q', possibly with LocalParams" do
         expect(subject[:q]).to match(/(\{[^}]+\})?wome/)
       end
+
       it "includes proper 'q' when LocalParams are used" do
         if /\{[^}]+\}/.match?(subject[:q])
           expect(subject[:q]).to match(/\{[^}]+\}wome/)
         end
       end
+
       it "includes spellcheck.q, without LocalParams" do
         expect(subject["spellcheck.q"]).to eq "wome"
       end
@@ -278,6 +284,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       it "includes spellcheck.dictionary from field def solr_parameters" do
         expect(subject[:"spellcheck.dictionary"]).to eq "subject"
       end
+
       it "adds on :solr_local_parameters using Solr LocalParams style" do
         # q == "{!pf=$subject_pf $qf=subject_qf} wome", make sure
         # the LocalParams are really there
@@ -598,12 +605,15 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     it 'sets rows to 0' do
       expect(solr_parameters[:rows]).to eq 0
     end
+
     it 'sets facets requested to facet_field argument' do
       expect(solr_parameters["facet.field".to_sym]).to eq facet_field
     end
+
     it 'defaults offset to 0' do
       expect(solr_parameters[:"f.#{facet_field}.facet.offset"]).to eq 0
     end
+
     context 'when offset is manually set' do
       let(:user_params) { { page_key => 2 } }
 

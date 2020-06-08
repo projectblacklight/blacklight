@@ -35,7 +35,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
                                  safe_join(value_list.collect do |value|
                                    render_filter_value(value, facet_field)
                                  end,
-                                           content_tag(:span, " #{t('blacklight.and')} ", class: 'filter-separator')))
+                                           tag.span(" #{t('blacklight.and')} ", class: 'filter-separator')))
     end, " \n ")
   end
 
@@ -43,9 +43,8 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # 'and'.   Pass in option :escape_value => false to pass in pre-rendered
   # html for value. key with escape_key if needed.
   def render_search_to_s_element(key, value, _options = {})
-    content_tag(:span,
-                render_filter_name(key) + content_tag(:span, value, class: 'filter-values'),
-                class: 'constraint')
+    tag.span(render_filter_name(key) + tag.span(value, class: 'filter-values'),
+             class: 'constraint')
   end
 
   ##
@@ -53,9 +52,8 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   def render_filter_name name
     return "".html_safe if name.blank?
 
-    content_tag(:span,
-                t('blacklight.search.filters.label', label: name),
-                class: 'filter-name')
+    tag.span(t('blacklight.search.filters.label', label: name),
+             class: 'filter-name')
   end
 
   ##
@@ -63,8 +61,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   def render_filter_value value, key = nil
     display_value = value
     display_value = facet_display_value(key, value) if key
-    content_tag(:span,
-                h(display_value),
-                class: 'filter-value')
+    tag.span(h(display_value),
+             class: 'filter-value')
   end
 end

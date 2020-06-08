@@ -10,6 +10,7 @@ module Blacklight
     end
 
     attr_reader :document, :field_config
+
     delegate :field, to: :field_config
 
     # @return [Array]

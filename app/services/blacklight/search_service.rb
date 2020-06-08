@@ -88,6 +88,7 @@ module Blacklight
     private
 
     attr_reader :search_builder_class, :user_params
+
     delegate :repository, to: :blacklight_config
 
     ##

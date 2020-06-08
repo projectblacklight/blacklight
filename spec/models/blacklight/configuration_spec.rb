@@ -55,6 +55,7 @@ RSpec.describe "Blacklight::Configuration", api: true do
     it "has the global blacklight configuration" do
       expect(config.connection_config).to eq Blacklight.connection_config
     end
+
     it "is overridable with custom configuration" do
       config.connection_config = custom_config
       expect(config.connection_config).to eq custom_config
@@ -340,12 +341,14 @@ RSpec.describe "Blacklight::Configuration", api: true do
       expect(config.index_fields["title_tsim"]).not_to be_nil
       expect(config.index_fields["title_tsim"].label).to eq "Title"
     end
+
     it "takes IndexField param" do
       config.add_index_field("title_tsim", Blacklight::Configuration::IndexField.new(field: "title_display", label: "Title"))
 
       expect(config.index_fields["title_tsim"]).not_to be_nil
       expect(config.index_fields["title_tsim"].label).to eq "Title"
     end
+
     it "takes block form" do
       config.add_index_field("title_tsim") do |field|
         field.label = "Title"
@@ -388,12 +391,14 @@ RSpec.describe "Blacklight::Configuration", api: true do
       expect(config.show_fields["title_tsim"]).not_to be_nil
       expect(config.show_fields["title_tsim"].label).to eq "Title"
     end
+
     it "takes ShowField argument" do
       config.add_show_field("title_tsim", Blacklight::Configuration::ShowField.new(field: "title_display", label: "Title"))
 
       expect(config.show_fields["title_tsim"]).not_to be_nil
       expect(config.show_fields["title_tsim"].label).to eq "Title"
     end
+
     it "takes block form" do
       config.add_show_field("title_tsim") do |f|
         f.label = "Title"
