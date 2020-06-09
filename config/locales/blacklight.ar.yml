@@ -215,8 +215,8 @@ ar:
         missing: "[غير موجود]"
         all: الكل
         pivot:
-          show:
-          hide:
+          show: فتح
+          hide: "إغلاق"
       group:
         more: 'المزيد »'
       filters:

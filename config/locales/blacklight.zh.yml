@@ -195,8 +195,8 @@ zh:
           remove: '[删除]'
         missing: "[未找到]"
         pivot:
-          show:
-          hide:
+          show: 打开
+          hide: 关
       group:
         more: '更多 »'
       filters:

@@ -196,8 +196,8 @@ pt-BR:
           remove: '[remover]'
         missing: [Ausência]
         pivot:
-          show:
-          hide:
+          show: Abrir
+          hide: Fechar
       group:
         more: 'mais »'
       filters:

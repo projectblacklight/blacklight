@@ -195,8 +195,8 @@ hu:
           remove: '[eltávolítás]'
         missing: "[Hiányzó]"
         pivot:
-          show:
-          hide:
+          show: Megnyitás
+          hide: Bezárás
       group:
         more: 'több »'
       filters:
