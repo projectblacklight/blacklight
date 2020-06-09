@@ -194,6 +194,9 @@ de:
         selected:
           remove: '[entfernen]'
         missing: [fehlt]
+        pivot:
+          show: Öffnen
+          hide: Schließen
       group:
         more: 'mehr »'
       filters:

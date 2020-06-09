@@ -25,6 +25,7 @@ require 'equivalent-xml'
 require 'webdrivers'
 
 Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.disable_animation = true
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

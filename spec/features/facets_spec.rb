@@ -67,6 +67,26 @@ RSpec.describe "Facets" do
     expect(page).to have_css('#facet-format', visible: true) # assert that it didn't re-collapse
   end
 
+  it 'is able to expand pivot facets when javascript is enabled', js: true do
+    visit root_path
+
+    within('#facets .facets-header') do
+      page.find('button.navbar-toggler').click
+    end
+
+    page.find('h3.facet-field-heading button', text: 'Pivot Field').click
+
+    within '#facet-example_pivot_field' do
+      expect(page).to have_css('.facet-leaf-node', text: 'Book 30')
+      expect(page).not_to have_css('.facet-select', text: 'Tibetan')
+      page.find('.facet-toggle-handle').click
+      click_link 'Tibetan'
+    end
+
+    expect(page).to have_css('.constraint-value', text: 'Format Book')
+    expect(page).to have_css('.constraint-value', text: 'Language Tibetan')
+  end
+
   describe 'heading button focus with Firefox' do
     before do
       Capybara.current_driver = :selenium_headless

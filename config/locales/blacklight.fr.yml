@@ -197,6 +197,9 @@ fr:
         selected:
           remove: '[ X ]'
         missing: '[manquante]'
+        pivot:
+          show: Ouvrir
+          hide: Fermer
       group:
         more: 'plus »'
       filters:

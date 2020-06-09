@@ -81,7 +81,11 @@ module Blacklight::FacetsHelperBehavior
       return unless should_render_facet?(display_facet, field_config)
     end
     options = options.dup
-    options[:partial] ||= facet_partial_name(display_facet)
+
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      options[:partial] ||= facet_partial_name(display_facet)
+    end
+
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
     options[:locals] ||= {}
     options[:locals][:field_name] ||= display_facet.name
@@ -97,13 +101,12 @@ module Blacklight::FacetsHelperBehavior
   # to filter undesireable facet items so they don't appear in the UI
   def render_facet_limit_list(paginator, facet_field, wrapping_element = :li)
     facet_config ||= facet_configuration_for_field(facet_field)
-    component = facet_config.fetch(:item_component, Blacklight::FacetItemComponent)
 
     collection = paginator.items.map do |item|
       facet_item_presenter(facet_config, item, facet_field)
     end
 
-    render(component.with_collection(collection, wrapping_element: wrapping_element))
+    render(facet_item_component_class(facet_config).with_collection(collection, wrapping_element: wrapping_element))
   end
   deprecation_deprecate :render_facet_limit_list
 
@@ -288,8 +291,12 @@ module Blacklight::FacetsHelperBehavior
   end
 
   def facet_item_component(facet_config, facet_item, facet_field, **args)
-    component = facet_config.fetch(:item_component, Blacklight::FacetItemComponent)
-    component.new(facet_item: facet_item_presenter(facet_config, facet_item, facet_field), **args).with_view_context(self)
+    facet_item_component_class(facet_config).new(facet_item: facet_item_presenter(facet_config, facet_item, facet_field), **args).with_view_context(self)
+  end
+
+  def facet_item_component_class(facet_config)
+    default_component = facet_config.pivot ? Blacklight::FacetItemPivotComponent : Blacklight::FacetItemComponent
+    facet_config.fetch(:item_component, default_component)
   end
 
   # We can't use .deprecation_deprecate here, because the new components need to

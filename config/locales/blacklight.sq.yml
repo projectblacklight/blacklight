@@ -194,6 +194,9 @@ sq:
         selected:
           remove: '[fshije]'
         missing: "[Mungon]"
+        pivot:
+          show: Hape
+          hide: "Mbylle"
       group:
         more: 'më shumë »'
       filters:
