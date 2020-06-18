@@ -26,17 +26,12 @@ module Blacklight
     def svg
       svg = ng_xml.at_xpath('svg')
       svg['role'] = role
-      svg['aria-labelledby'] = unique_id if label
-      svg.add_child("<title id='#{unique_id}'>#{icon_label}</title>") if label
+      svg.prepend_child("<title>#{icon_label}</title>") if label
       ng_xml.to_xml
     end
 
     def icon_label
-      I18n.translate("blacklight.icon.#{icon_name_context}", default: "#{icon_name} icon")
-    end
-
-    def unique_id
-      @unique_id ||= "bl-icon-#{icon_name_context}-#{SecureRandom.hex(8)}"
+      I18n.translate("blacklight.icon.#{icon_name_context}", default: icon_name.to_s.titleize)
     end
 
     ##
@@ -79,7 +74,7 @@ module Blacklight
     end
 
     def classes
-      " blacklight-icons #{@classes} ".strip
+      " blacklight-icons blacklight-icon-#{icon_name} #{@classes} ".strip
     end
   end
 end
