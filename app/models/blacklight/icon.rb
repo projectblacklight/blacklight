@@ -39,7 +39,8 @@ module Blacklight
     def options
       {
         class: classes,
-        "aria-hidden": (true if aria_hidden)
+        "aria-hidden": (true if aria_hidden),
+        "aria-label": icon_label
       }
     end
 
