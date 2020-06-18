@@ -17,14 +17,14 @@ RSpec.describe Blacklight::Icon do
     end
     it 'adds title' do
       expect(Capybara.string(subject.svg))
-        .to have_css 'title', text: 'search icon'
+        .to have_css 'title', text: 'Search'
     end
     context 'when label is false' do
       subject { described_class.new(:search, classes: 'awesome', aria_hidden: true, label: false) }
 
       it 'does not add title' do
         expect(Capybara.string(subject.svg))
-          .not_to have_css 'title', text: 'search icon'
+          .not_to have_css 'title', text: 'Search'
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe Blacklight::Icon do
 
       it 'adds title' do
         expect(Capybara.string(subject.svg))
-          .to have_css 'title', text: 'search icon'
+          .to have_css 'title', text: 'Search'
       end
     end
   end

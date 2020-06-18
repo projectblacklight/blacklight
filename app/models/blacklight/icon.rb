@@ -31,7 +31,7 @@ module Blacklight
     end
 
     def icon_label
-      I18n.translate("blacklight.icon.#{icon_name_context}", default: "#{icon_name} icon")
+      I18n.translate("blacklight.icon.#{icon_name_context}", default: icon_name.to_s.titleize)
     end
 
     ##
