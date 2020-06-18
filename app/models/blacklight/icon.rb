@@ -40,7 +40,7 @@ module Blacklight
       {
         class: classes,
         "aria-hidden": (true if aria_hidden),
-        "aria-label": icon_label
+        "aria-label": icon_label if label
       }
     end
 
