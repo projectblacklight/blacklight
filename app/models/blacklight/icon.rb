@@ -74,7 +74,7 @@ module Blacklight
     end
 
     def classes
-      " blacklight-icons #{@classes} ".strip
+      " blacklight-icons blacklight-icon-#{icon_name} #{@classes} ".strip
     end
   end
 end
