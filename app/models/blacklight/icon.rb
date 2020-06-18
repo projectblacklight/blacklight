@@ -27,7 +27,7 @@ module Blacklight
       svg = ng_xml.at_xpath('svg')
       svg['role'] = role
       svg['aria-labelledby'] = unique_id if label
-      svg.add_child("<title id='#{unique_id}'>#{icon_label}</title>") if label
+      svg.prepend_child("<title id='#{unique_id}'>#{icon_label}</title>") if label
       ng_xml.to_xml
     end
 
