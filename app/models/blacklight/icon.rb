@@ -25,6 +25,7 @@ module Blacklight
     # @return [String]
     def svg
       svg = ng_xml.at_xpath('svg')
+      svg['aria-label'] = icon_label if label
       svg['role'] = role
       svg.prepend_child("<title>#{icon_label}</title>") if label
       ng_xml.to_xml
@@ -39,8 +40,7 @@ module Blacklight
     def options
       {
         class: classes,
-        "aria-hidden": (true if aria_hidden),
-        "aria-label": (icon_label if label)
+        "aria-hidden": (true if aria_hidden)
       }
     end
 
