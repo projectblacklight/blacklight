@@ -124,8 +124,8 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Returns a document presenter for the given document
-  def document_presenter(document)
-    document_presenter_class(document).new(document, self)
+  def document_presenter(document, counter: nil)
+    document_presenter_class(document).new(document, self, counter: counter)
   end
 
   ##
