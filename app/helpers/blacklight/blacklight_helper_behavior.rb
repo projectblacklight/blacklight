@@ -302,13 +302,14 @@ module Blacklight::BlacklightHelperBehavior
   # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
   # @deprecated
   # @return [Blacklight::DocumentPresenter]
-  def presenter(document)
+  def presenter(document, document_counter: nil, counter: nil)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#presenter is deprecated; use #document_presenter instead')
 
+    counter ||= document_counter_with_offset(document_counter) if document_counter.present?
     # As long as the presenter methods haven't been overridden, we can use the new behavior
     if method(:show_presenter).owner == Blacklight::BlacklightHelperBehavior &&
        method(:index_presenter).owner == Blacklight::BlacklightHelperBehavior
-      return document_presenter_class(document).new(document, self)
+      return document_presenter_class(document).new(document, self, counter: counter)
     end
 
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter and/or #index_presenter have been overridden; please override #document_presenter instead')
@@ -318,16 +319,16 @@ module Blacklight::BlacklightHelperBehavior
       when 'show', 'citation'
         show_presenter(document)
       else
-        index_presenter(document)
+        index_presenter(document, counter: counter)
       end
     end
   end
 
   ##
   # Returns a document presenter for the given document
-  def document_presenter(document)
+  def document_presenter(document, document_counter: nil, counter: nil)
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
-      presenter(document)
+      presenter(document, document_counter: document_counter, counter: counter)
     end
   end
 
@@ -347,15 +348,16 @@ module Blacklight::BlacklightHelperBehavior
 
   # @deprecated
   # @return [Blacklight::IndexPresenter]
-  def index_presenter(document)
+  def index_presenter(document, document_counter: nil, counter: nil)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter is deprecated; use #document_presenter instead')
 
     if method(:index_presenter_class).owner != Blacklight::BlacklightHelperBehavior
       Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter_class has been overridden; please override #document_presenter_class instead')
     end
 
+    counter ||= document_counter_with_offset(document_counter) if document_counter.present?
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
-      index_presenter_class(document).new(document, self)
+      index_presenter_class(document).new(document, self, counter: counter)
     end
   end
 

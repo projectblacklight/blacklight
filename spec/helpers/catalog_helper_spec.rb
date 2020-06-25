@@ -232,7 +232,7 @@ RSpec.describe CatalogHelper do
 
     before do
       allow(Deprecation).to receive(:warn)
-      allow(helper).to receive(:index_presenter).with(document).and_return(index_presenter)
+      allow(helper).to receive(:index_presenter).with(document, counter: nil).and_return(index_presenter)
     end
 
     let(:document) { instance_double(SolrDocument) }
