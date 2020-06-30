@@ -10,6 +10,7 @@ module Blacklight
       self.show = true if show.nil?
       self.if = show if self.if.nil?
       self.index_range = 'A'..'Z' if index_range == true
+      self.presenter = Blacklight::FacetFieldPresenter
 
       if link_to_search
         Deprecation.warn(Blacklight::Configuration::FacetField, '`link_to_search:` is deprecated, use `link_to_facet:` instead')
