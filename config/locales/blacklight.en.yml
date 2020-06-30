@@ -87,6 +87,7 @@ en:
       mla: 'MLA'
       apa: 'APA'
       chicago: 'Chicago'
+      preferred: 'Preferred'
 
     email:
       form:

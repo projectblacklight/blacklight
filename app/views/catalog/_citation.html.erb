@@ -8,6 +8,11 @@
   <% @documents&.each do |document| %>
     <h1 class="modal-title"><%= document_heading(document) %></h1>
 
+    <% if document.respond_to?(:export_as_preferred_citation_txt) %>
+      <h2><%= t('blacklight.citation.preferred') %></h2>
+      <%= document.send(:export_as_preferred_citation_txt).html_safe %><br/><br/>
+    <% end %>
+
     <% if document.respond_to?(:export_as_mla_citation_txt) %>
       <h2><%= t('blacklight.citation.mla') %></h2>
       <%= document.send(:export_as_mla_citation_txt).html_safe %><br/><br/>
