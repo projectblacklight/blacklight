@@ -30,12 +30,21 @@ RSpec.describe Blacklight::DocumentPresenter do
 
   describe '#field_value' do
     let(:field_presenter) { instance_double(Blacklight::FieldPresenter, render: 'xyz') }
-    let(:field_config) { instance_double(Blacklight::Configuration::Field) }
+    let(:field_config) { Blacklight::Configuration::Field.new }
     let(:options) { { a: 1 } }
 
     it 'calls the field presenter' do
       allow(Blacklight::FieldPresenter).to receive(:new).with(request_context, doc, field_config, options).and_return(field_presenter)
       expect(presenter.field_value(field_config, options)).to eq 'xyz'
+    end
+
+    it 'can be configured to use an alternate presenter' do
+      instance = double(render: 'abc')
+      stub_const('SomePresenter', Class.new)
+      field_config.presenter = SomePresenter
+      allow(SomePresenter).to receive(:new).and_return(instance)
+
+      expect(presenter.field_value(field_config, options)).to eq 'abc'
     end
   end
 end

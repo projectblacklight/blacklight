@@ -93,7 +93,8 @@ module Blacklight
     deprecation_deprecate retrieve_values: 'Use FieldPresenter#values'
 
     def field_presenter(field_config, options = {})
-      FieldPresenter.new(view_context, document, field_config, options)
+      presenter_class = field_config.presenter || Blacklight::FieldPresenter
+      presenter_class.new(view_context, document, field_config, options)
     end
   end
 end
