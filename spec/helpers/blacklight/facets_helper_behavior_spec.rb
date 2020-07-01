@@ -141,6 +141,8 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
+        config.add_facet_field 'component_field', component: true
+        config.add_facet_field 'non_rendering_component_field', component: true, if: false
         config.add_facet_field 'pivot_facet_field', pivot: %w[a b]
         config.add_facet_field 'my_pivot_facet_field_with_custom_partial', partial: 'custom_facet_partial', pivot: %w[a b]
         config.add_facet_field 'my_facet_field_with_custom_partial', partial: 'custom_facet_partial'
@@ -190,6 +192,17 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       mock_facet = double(name: 'my_pivot_facet_field_with_custom_partial', items: [1, 2, 3])
       expect(helper).to receive(:render).with(hash_including(partial: 'custom_facet_partial'))
       helper.render_facet_limit(mock_facet)
+    end
+
+    it "lets you override the rendered partial for pivot facets" do
+      mock_facet = double(name: 'component_field')
+      expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetFieldListComponent))
+      helper.render_facet_limit(mock_facet)
+    end
+
+    it "lets you override the rendered partial for pivot facets" do
+      mock_facet = double(name: 'non_rendering_component_field')
+      expect(helper.render_facet_limit(mock_facet)).to be_blank
     end
   end
 
