@@ -11,7 +11,7 @@ module Blacklight::IconHelperBehavior
   # @return [String]
   def blacklight_icon(icon_name, options = {})
     Rails.cache.fetch([:blacklight_icons, icon_name, options]) do
-      icon = Blacklight::Icon.new(icon_name, options)
+      icon = Blacklight::Icon.new(icon_name, **options)
       content_tag(:span, icon.svg.html_safe, icon.options)
     end
   end
