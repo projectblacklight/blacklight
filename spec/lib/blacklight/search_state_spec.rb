@@ -46,6 +46,14 @@ RSpec.describe Blacklight::SearchState do
         expect(search_state.to_h).to eq data.with_indifferent_access
       end
     end
+
+    context 'with facebooks badly mangled query parameters' do
+      let(:params) { { f: { field: { '0': 'first', '1': 'second' } } } }
+
+      it 'normalizes the facets to the expected format' do
+        expect(search_state.to_h).to include f: { field: %w[first second] }
+      end
+    end
   end
 
   describe 'interface compatibility with params' do
