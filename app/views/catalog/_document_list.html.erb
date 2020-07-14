@@ -1,4 +1,4 @@
 <% # container for all documents in index list view -%>
 <div id="documents" class="documents-<%= document_index_view_type %>">
-  <%= render documents, :as => :document %>
+  <%= render partial: documents, as: :document, locals: { view_cache: Blacklight::ViewCache.new } %>
 </div>
