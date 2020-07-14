@@ -11,10 +11,12 @@ module Blacklight
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
-    def initialize(document, view_context, configuration = view_context.blacklight_config)
+    # @param [Integer] counter what offset in the search result is this record (used for tracking)
+    def initialize(document, view_context, configuration = view_context.blacklight_config, counter: nil)
       @document = document
       @view_context = view_context
       @configuration = configuration
+      @counter = counter
     end
 
     # @return [Hash<String,Configuration::Field>]  all the fields for this index view that should be rendered
@@ -67,7 +69,7 @@ module Blacklight
     end
 
     def thumbnail
-      @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config)
+      @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config, counter: @counter)
     end
 
     private

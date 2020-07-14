@@ -78,7 +78,8 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Get the offset counter for a document
+  # Get the offset counter for a document.
+  # This should only be called on the index action because it depends on @response
   #
   # @param [Integer] idx document index
   # @param [Integer] offset additional offset to incremenet the counter by

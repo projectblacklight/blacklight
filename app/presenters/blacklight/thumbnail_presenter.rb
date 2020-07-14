@@ -8,10 +8,12 @@ module Blacklight
     # @param [ActionView::Base] view_context scope for linking and generating urls
     #                                        as well as for invoking "thumbnail_method"
     # @param [Blacklight::Configuration::ViewConfig] view_config
-    def initialize(document, view_context, view_config)
+    # @param [Integer] counter what offset in the search result is this record (used for tracking)
+    def initialize(document, view_context, view_config, counter: nil)
       @document = document
       @view_context = view_context
       @view_config = view_config
+      @counter = counter
     end
 
     ##
@@ -35,6 +37,7 @@ module Blacklight
       value = thumbnail_value(image_options)
       return value if value.nil? || url_options[:suppress_link]
 
+      url_options[:counter] = @counter if @counter
       view_context.link_to_document document, value, url_options
     end
 

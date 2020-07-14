@@ -1,4 +1,10 @@
-<% if presenter(document).thumbnail.exists? && tn = presenter(document).thumbnail.thumbnail_tag({ alt: '' }, 'aria-hidden': true, tabindex: -1, counter: document_counter_with_offset(document_counter)) %>
+<%# For backward compatibility check that presenter is a local method.
+    this can be removed in Blacklight 8 %>
+<% presenter = presenter(document) if defined?(presenter) == 'method' %>
+<% if presenter.thumbnail.exists? &&
+      tn = presenter.thumbnail.thumbnail_tag({ alt: '' },
+                                             'aria-hidden': true,
+                                             tabindex: -1) %>
 <div class="document-thumbnail">
   <%= tn %>
 </div>

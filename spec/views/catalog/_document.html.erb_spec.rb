@@ -7,6 +7,7 @@ RSpec.describe "catalog/_document" do
   before do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    assign :response, instance_double(Blacklight::Solr::Response, start: 0)
   end
 
   it "renders the header, thumbnail and index by default" do

@@ -5,7 +5,9 @@
 
 <div id="document" class="document <%= render_document_class %>" itemscope  itemtype="<%= @document.itemtype %>">
   <div id="doc_<%= @document.id.to_s.parameterize %>">
-    <%= render_document_partials @document, blacklight_config.view_config(:show).partials %>
+    <%= render_document_partials @document,
+                                 blacklight_config.view_config(:show).partials,
+                                 presenter: presenter(@document) %>
   </div>
 </div>
 

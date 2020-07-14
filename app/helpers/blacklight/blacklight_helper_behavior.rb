@@ -259,12 +259,18 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Returns a document presenter for the given document
   # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
-  def presenter(document)
+  # @param [SolrDocument] document
+  # @param [Integer] document_counter the offset from the top of this page. Only used in the index view.
+  def presenter(document, document_counter: nil)
     case action_name
     when 'show', 'citation'
       show_presenter(document)
     else
-      index_presenter(document)
+      if document_counter
+        index_presenter(document, counter: document_counter_with_offset(document_counter))
+      else
+        index_presenter(document)
+      end
     end
   end
 
@@ -272,8 +278,10 @@ module Blacklight::BlacklightHelperBehavior
     show_presenter_class(document).new(document, self)
   end
 
-  def index_presenter(document)
-    index_presenter_class(document).new(document, self)
+  # @param [SolrDocument] document
+  # @param [Integer] counter the offset from the top of the results. Used for tracking.
+  def index_presenter(document, counter: nil)
+    index_presenter_class(document).new(document, self, counter: counter)
   end
 
   ##
