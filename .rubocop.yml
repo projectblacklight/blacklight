@@ -5,7 +5,7 @@ inherit_from:
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"
@@ -34,7 +34,7 @@ Metrics/ClassLength:
   Exclude:
     - "lib/blacklight/configuration.rb"
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 200
   Exclude:
     - 'spec/**/*'
@@ -43,14 +43,11 @@ Naming/HeredocDelimiterNaming:
   Enabled: false
 
 Naming/PredicateName:
-  NamePrefixBlacklist:
+  ForbiddenPrefixes:
     - is_
 
 Rails:
   Enabled: true
-
-Rails/OutputSafety:
-  Enabled: false
 
 # https://github.com/rubocop-hq/rubocop/issues/6439
 Style/AccessModifierDeclarations:
@@ -61,4 +58,7 @@ Style/MissingRespondToMissing:
   - 'lib/blacklight/nested_open_struct_with_hash_access.rb'
 
 Style/StringLiterals:
+  Enabled: false
+
+Style/MethodDefParentheses:
   Enabled: false

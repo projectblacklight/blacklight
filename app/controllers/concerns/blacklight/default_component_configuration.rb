@@ -24,7 +24,7 @@ module Blacklight
 
     module ClassMethods
       # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
-      # rubocop:disable Metrics/LineLength
+      # rubocop:disable Layout/LineLength
 
       # @!macro partial_if_unless
       #   @param name [String] the name of the document partial
@@ -41,7 +41,7 @@ module Blacklight
         blacklight_config.add_show_tools_partial(name, opts)
         ActionBuilder.new(self, name, opts).build
       end
-      # rubocop:enable Metrics/LineLength
+      # rubocop:enable Layout/LineLength
 
       deprecation_deprecate add_show_tools_partial: 'use blacklight_config.add_show_tools_partial instead'
 

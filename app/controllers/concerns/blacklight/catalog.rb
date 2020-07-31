@@ -184,7 +184,7 @@ module Blacklight::Catalog
   # @note Make sure your format has a well known mime-type or is registered in config/initializers/mime_types.rb
   # @example
   #   config.index.respond_to.txt = Proc.new { render plain: "A list of docs." }
-  def additional_response_formats format
+  def additional_response_formats(format)
     blacklight_config.index.respond_to.each do |key, config|
       format.send key do
         case config
@@ -214,7 +214,7 @@ module Blacklight::Catalog
 
   ##
   # Try to render a response from the document export formats available
-  def document_export_formats format
+  def document_export_formats(format)
     format.any do
       format_name = params.fetch(:format, '').to_sym
       if @response.export_formats.include? format_name

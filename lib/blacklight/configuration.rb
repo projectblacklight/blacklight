@@ -306,7 +306,7 @@ module Blacklight
     end
 
     # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
-    # rubocop:disable Metrics/LineLength
+    # rubocop:disable Layout/LineLength
 
     # Add a partial to the tools when rendering a document.
     # @!macro partial_if_unless
@@ -319,7 +319,7 @@ module Blacklight
       add_action(show.document_actions, name, opts)
       klass && ActionBuilder.new(klass, name, opts).build
     end
-    # rubocop:enable Metrics/LineLength
+    # rubocop:enable Layout/LineLength
 
     # Add a tool for the search result list itself
     # @!macro partial_if_unless

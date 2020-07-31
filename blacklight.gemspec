@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'engine_cart', '~> 2.1'
   s.add_development_dependency "equivalent-xml"
   s.add_development_dependency "simplecov"
-  s.add_development_dependency "rubocop", '~> 0.63.0'
+  s.add_development_dependency "rubocop", '~> 0.63'
   s.add_development_dependency "rubocop-rspec", '~> 1.8'
   s.add_development_dependency "i18n-tasks"
 end
