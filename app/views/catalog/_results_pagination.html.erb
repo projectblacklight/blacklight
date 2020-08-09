@@ -1,9 +1,7 @@
 <% if show_pagination? and @response.total_pages > 1 %>
  <div class="row record-padding">
   <div class="col-md-12">
-    <nav class="pagination" role="region" aria-label="<%= t('views.pagination.aria.container_label') %>">
-      <%= paginate @response, :outer_window => 2, :theme => 'blacklight' %>
-    </nav>
+    <%= render Blacklight::Response::PaginationComponent.new(response: @response) %>
   </div>
  </div>
 <% end %>
