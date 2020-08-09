@@ -1,22 +1,5 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
   <% component.with(:title, t('blacklight.tools.citation')) %>
 
-  <% @documents&.each do |document| %>
-    <h1 class="modal-title"><%= document_heading(document) %></h1>
-
-    <% if document.respond_to?(:export_as_mla_citation_txt) %>
-      <h2><%= t('blacklight.citation.mla') %></h2>
-      <%= document.send(:export_as_mla_citation_txt).html_safe %><br/><br/>
-    <% end %>
-
-    <% if document.respond_to?(:export_as_apa_citation_txt) %>
-      <h2><%= t('blacklight.citation.apa') %></h2>
-      <%= document.send(:export_as_apa_citation_txt).html_safe %><br/><br/>
-    <% end %>
-
-    <% if document.respond_to?(:export_as_chicago_citation_txt) %>
-      <h2><%= t('blacklight.citation.chicago') %></h2>
-      <%= document.send(:export_as_chicago_citation_txt).html_safe %>
-    <% end %>
-  <% end %>
+  <%= render Blacklight::Document::CitationComponent.with_collection(@documents) if @documents.present? %>
 <% end %>

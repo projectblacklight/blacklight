@@ -1,0 +1,9 @@
+<div>
+  <h1 class="modal-title"><%= title %></h1>
+
+  <%= @formats.each do |i18n_key, citation_method| %>
+    <h2><%= t(i18n_key) %></h2>
+    <%= @document.send(citation_method).html_safe %>
+    <% unless @formats.keys.last === i18n_key %><br/><br/><% end %>
+  <% end %>
+</div>
