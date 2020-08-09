@@ -1,0 +1,25 @@
+<% # main container for facets/limits menu -%>
+<%= content_tag :div, id: @id,  class: 'facets sidenav facets-toggleable-md' do %>
+  <div class="facets-header">
+    <%= content_tag :h2, @title, class: 'facets-heading' if @title %>
+
+    <%= content_tag :button,
+      class:'navbar-toggler navbar-toggler-right',
+      type: 'button',
+      data: {
+        toggle: 'collapse',
+        target: "##{@panel_id}",
+      },
+      aria: {
+        controls: @panel_id,
+        expanded: 'false',
+        label: t('blacklight.search.facets.group.toggle'),
+      } do %>
+      <span class="navbar-toggler-icon"></span>
+    <% end %>
+  </div>
+
+  <%= content_tag :div, id: @panel_id, class: 'facets-collapse collapse' do %>
+    <%= @view_context.render_facet_partials @fields, response: @response %>
+  <% end %>
+<% end %>

@@ -197,6 +197,8 @@ de:
         pivot:
           show: Öffnen
           hide: Schließen
+        group:
+          toggle: 'mehr »'
       group:
         more: 'mehr »'
       filters:

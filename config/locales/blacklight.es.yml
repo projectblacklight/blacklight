@@ -197,6 +197,8 @@ es:
         pivot:
           show: Abierto
           hide: Cerrar
+        group:
+          toggle: 'más »'
       group:
         more: 'más »'
       filters:

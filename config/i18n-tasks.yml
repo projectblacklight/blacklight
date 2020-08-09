@@ -15,3 +15,6 @@ search:
   exclude:
     - app/assets/images
     - app/assets/fonts
+
+ignore_missing:
+  - 'button_label_html'

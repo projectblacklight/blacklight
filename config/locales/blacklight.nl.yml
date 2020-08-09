@@ -197,6 +197,8 @@ nl:
         pivot:
           show: Openen
           hide: Sluiten
+        group:
+          toggle: 'meer »'
       group:
         more: 'meer »'
       filters:
