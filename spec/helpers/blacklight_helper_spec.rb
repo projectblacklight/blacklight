@@ -291,15 +291,18 @@ RSpec.describe BlacklightHelper do
 
   describe "#render_document_index_with_view" do
     let(:obj1) { SolrDocument.new }
+    let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
 
     before do
-      allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
       allow(helper).to receive(:link_to_document).and_return('<a/>')
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end
 
     it "ignores missing templates" do
+      blacklight_config.view.view_type.partials = %w[index_header a b]
+
       response = helper.render_document_index_with_view :view_type, [obj1, obj1]
       expect(response).to have_selector "div#documents"
     end

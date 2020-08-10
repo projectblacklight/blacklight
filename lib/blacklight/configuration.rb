@@ -65,6 +65,9 @@ module Blacklight
           index: ViewConfig::Index.new(
             # document presenter class used by helpers and views
             document_presenter_class: nil,
+            # component class used to render a document; defaults to Blacklight::DocumentComponent,
+            #   but can be set explicitly to avoid any legacy behavior   
+            document_component: nil,
             # solr field to use to render a document title
             title_field: nil,
             # solr field to use to render format-specific partials
@@ -82,6 +85,7 @@ module Blacklight
           show: ViewConfig::Show.new(
             # document presenter class used by helpers and views
             document_presenter_class: nil,
+            document_component: nil,
             display_type_field: 'format',
             # Default route parameters for 'show' requests.
             # Set this to a hash with additional arguments to merge into the route,
@@ -306,7 +310,7 @@ module Blacklight
     end
 
     # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
-    # rubocop:disable Metrics/LineLength
+    # rubocop:disable Layout/LineLength
 
     # Add a partial to the tools when rendering a document.
     # @!macro partial_if_unless
@@ -319,7 +323,7 @@ module Blacklight
       add_action(show.document_actions, name, opts)
       klass && ActionBuilder.new(klass, name, opts).build
     end
-    # rubocop:enable Metrics/LineLength
+    # rubocop:enable Layout/LineLength
 
     # Add a tool for the search result list itself
     # @!macro partial_if_unless

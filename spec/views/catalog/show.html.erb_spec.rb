@@ -49,4 +49,18 @@ RSpec.describe "catalog/show.html.erb" do
     expect(rendered).to match /b_partial/
     expect(rendered).to match /c_partial/
   end
+
+  it 'provides the rendered partials to an explicitly configured component but does not render them by default' do
+    blacklight_config.show.partials = %w[a]
+    stub_template "catalog/_a_default.html.erb" => "partial"
+    blacklight_config.show.document_component = Blacklight::DocumentComponent
+    allow(view).to receive(:search_session).and_return({})
+    allow(view).to receive(:current_search_session).and_return(nil)
+    allow(view.main_app).to receive(:track_test_path).and_return('/track')
+
+    render
+
+    expect(rendered).to have_selector 'div.document header h1', text: 'xyz'
+    expect(rendered).not_to match(/partial/)
+  end
 end

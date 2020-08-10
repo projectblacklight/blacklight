@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 module Blacklight::ConfigurationHelperBehavior
+  extend Deprecation
+
   ##
   # Index fields to display for a type of document
   #
@@ -60,6 +62,7 @@ module Blacklight::ConfigurationHelperBehavior
 
     field_config.display_label('index')
   end
+  deprecation_deprecate :index_field_label
 
   ##
   # Look up the label for the show field
@@ -69,6 +72,7 @@ module Blacklight::ConfigurationHelperBehavior
 
     field_config.display_label('show')
   end
+  deprecation_deprecate :document_show_field_label
 
   ##
   # Look up the label for the facet field

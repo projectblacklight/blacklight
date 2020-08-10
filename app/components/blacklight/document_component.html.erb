@@ -1,0 +1,29 @@
+<%= content_tag @component,
+  id: @id,
+  data: {
+    'document-id': @document.id.to_s.parameterize,
+    'document-counter': @counter,
+  },
+  itemscope: true,
+  itemtype: @document.itemtype,
+  class: classes.flatten.join(' ') do %>
+  <%= header %>
+  <% if body.present? %>
+    <%= body %>
+  <% else %>
+    <div class="document-main-section">
+      <header class="documentHeader row">
+        <%= content_tag @title_component, class: 'index_title document-title-heading' do %>
+          <%= before_title %><%= title %><%= after_title %>
+        <% end %>
+        <%= actions %>
+      </header>
+
+      <%= content %>
+      <%= metadata %>
+    </div>
+
+    <%= thumbnail %>
+  <% end %>
+  <%= footer %>
+<% end %>
