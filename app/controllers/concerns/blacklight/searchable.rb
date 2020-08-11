@@ -1,4 +1,15 @@
 # frozen_string_literal: true
+
+# The Searchable module can be included onto classes that need to initialize a SearchService.
+# There are three dependencies you must provide on the including class. Typically these
+# would be provided by Blacklight::Controller
+#  1. search_state
+#  2. blacklight_config
+#  3. search_service_class
+#
+# Additionally, the including class may override the search_service_context method to provide
+# further context to the SearchService. For example you could override this to provide the
+# currently signed in user.
 module Blacklight::Searchable
   # @return [Blacklight::SearchService]
   def search_service
