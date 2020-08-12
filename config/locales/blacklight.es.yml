@@ -169,8 +169,8 @@ es:
       pagination:
         title: 'Resultados de navegación'
       pagination_info:
-        no_items_found: 'No %{entry_name} encontrado'
-        single_item_found: '<strong>1</strong> %{entry_name} encontrado'
+        no_items_found: 'No %{entry_name} encontrada'
+        single_item_found: '<strong>1</strong> %{entry_name} encontrada'
         pages:
           one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
           other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
