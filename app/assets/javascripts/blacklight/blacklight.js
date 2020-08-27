@@ -297,7 +297,7 @@ Blacklight.onLoad(function () {
 
       <div class="modal-body">
         <p>Some message</p>
-        <%= link_to "This result will still be within modal", some_link, data: { blacklight: "preserve" } %>
+        <%= link_to "This result will still be within modal", some_link, data: { blacklight_modal: "preserve" } %>
       </div>
 
 
