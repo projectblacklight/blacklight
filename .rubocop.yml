@@ -89,6 +89,8 @@ Style/ExponentialNotation:
 
 Style/HashEachMethods:
   Enabled: true
+  Exclude:
+    - 'spec/services/blacklight/search_service_spec.rb'
 
 Style/HashTransformKeys:
   Enabled: true

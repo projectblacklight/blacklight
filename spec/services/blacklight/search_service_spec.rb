@@ -81,7 +81,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
           expect(Set.new(mash.keys)).to eq Set.new(solr_document.keys)
 
-          mash.each_key do |key|
+          mash.keys.each do |key|
             expect(mash[key]).to eq solr_document[key]
           end
         end
