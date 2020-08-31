@@ -15,8 +15,6 @@ matrix:
       env: "RAILS_VERSION=5.2.4.2"
     - rvm: 2.5.7
       env: "RAILS_VERSION=5.2.4.2 BLACKLIGHT_API_TEST=true ENGINE_CART_RAILS_OPTIONS=\"--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test\""
-    - rvm: 2.4.9
-      env: "RAILS_VERSION=5.2.4.2"
     - rvm: jruby-9.2.8.0
       env: "RAILS_VERSION=5.2.4.2 JRUBY_OPTS=\"-J-Xms512m -J-Xmx1024m\""
   allow_failures:
