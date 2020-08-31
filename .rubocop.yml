@@ -1,11 +1,14 @@
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-rails
+
 
 inherit_from:
   - .rubocop_todo.yml
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"
@@ -62,3 +65,44 @@ Style/StringLiterals:
 
 Style/MethodDefParentheses:
   Enabled: false
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+  Exclude:
+    - 'spec/services/blacklight/search_service_spec.rb'
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true

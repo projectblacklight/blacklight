@@ -224,7 +224,7 @@ module Blacklight::FacetsHelperBehavior
   def render_facet_count(num, options = {})
     deprecated_method(:render_facet_count)
     classes = (options[:classes] || []) << "facet-count"
-    content_tag("span", t('blacklight.search.facets.count', number: number_with_delimiter(num)), class: classes)
+    tag.span(t('blacklight.search.facets.count', number: number_with_delimiter(num)), class: classes)
   end
 
   ##

@@ -19,6 +19,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
 
   attr_reader :request_params
   attr_accessor :blacklight_config, :options
+
   delegate :document_factory, to: :blacklight_config
 
   def initialize(data, request_params, options = {})

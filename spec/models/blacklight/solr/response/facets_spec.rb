@@ -194,7 +194,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
       }
     end
 
-    it"converts the query facets into a double RSolr FacetField" do
+    it "converts the query facets into a double RSolr FacetField" do
       field = subject.aggregations['my_query_facet_field']
 
       expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField

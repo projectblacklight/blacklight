@@ -3,6 +3,7 @@
 module Blacklight
   class Icon
     attr_reader :icon_name, :aria_hidden, :label, :role, :additional_options
+
     ##
     # @param [String, Symbol] icon_name
     # @param [Hash] options

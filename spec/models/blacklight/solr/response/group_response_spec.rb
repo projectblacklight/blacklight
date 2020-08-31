@@ -19,6 +19,7 @@ RSpec.describe Blacklight::Solr::Response::GroupResponse, api: true do
         expect(group).to be_a Blacklight::Solr::Response::Group
       end
     end
+
     it "includes a list of SolrDocuments" do
       group.groups.each do |group|
         group.docs.each do |doc|
@@ -72,6 +73,7 @@ RSpec.describe Blacklight::Solr::Response::GroupResponse, api: true do
       ).and_return('cool group')
       expect(group.entry_name(count: 2)).to eq 'cool groups'
     end
+
     it "falls back to default group key" do
       expect(group.entry_name(count: 2)).to eq 'grouped results'
     end

@@ -7,18 +7,22 @@ RSpec.describe Blacklight::Icon do
     it 'returns a string' do
       expect(subject.svg).to be_an String
     end
+
     it 'returns raw svg' do
       expect(Capybara.string(subject.svg))
         .to have_css 'svg[width="24"]'
     end
+
     it 'adds role="img"' do
       expect(Capybara.string(subject.svg))
         .to have_css 'svg[role="img"]'
     end
+
     it 'adds title' do
       expect(Capybara.string(subject.svg))
         .to have_css 'title', text: 'Search'
     end
+
     context 'when label is false' do
       subject { described_class.new(:search, classes: 'awesome', aria_hidden: true, label: false) }
 
@@ -42,9 +46,11 @@ RSpec.describe Blacklight::Icon do
     it 'applies options classes and default class' do
       expect(subject.options[:class]).to eq 'blacklight-icons blacklight-icon-search awesome'
     end
+
     it 'applies options aria-hidden=true' do
       expect(subject.options[:'aria-hidden']).to be true
     end
+
     context 'no options provided' do
       subject { described_class.new(:view) }
 

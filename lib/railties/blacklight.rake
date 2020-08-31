@@ -26,18 +26,16 @@ namespace :blacklight do
   namespace :check do
     desc "Check the Solr connection and controller configuration"
     task :solr, [:controller_name] => [:environment] do
-      begin
-        conn = Blacklight.default_index
-        if conn.ping
-          puts "OK"
-        else
-          puts "Unable to reach: #{conn.uri}"
-          exit 1
-        end
-      rescue => e
-        puts e.to_s
+      conn = Blacklight.default_index
+      if conn.ping
+        puts "OK"
+      else
+        puts "Unable to reach: #{conn.uri}"
         exit 1
       end
+    rescue => e
+      puts e.to_s
+      exit 1
     end
 
     task :controller, [:controller_name] => [:environment] do |_, args|

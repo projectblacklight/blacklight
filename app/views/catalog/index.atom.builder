@@ -6,7 +6,6 @@ xml.instruct!(:xml, encoding: "UTF-8")
 
 xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
          "xmlns:opensearch" => "http://a9.com/-/spec/opensearch/1.1/") do
-
   xml.title   t('blacklight.search.page_title.title', constraints: render_search_to_page_title(params), application_name: application_name)
   # an author is required, so we'll just use the app name
   xml.author { xml.name application_name }

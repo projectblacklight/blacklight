@@ -7,15 +7,19 @@ RSpec.describe "Routing" do
     it "has a path for showing the email form" do
       expect(get: "/catalog/email").to route_to(controller: 'catalog', action: 'email')
     end
+
     it "has a path for sending the email" do
       expect(post: "/catalog/email").to route_to(controller: 'catalog', action: 'email')
     end
+
     it "maps GET {:controller => 'catalog', :action => 'sms'} to /catalog/sms" do
       expect(get: "/catalog/sms").to route_to(controller: 'catalog', action: 'sms')
     end
+
     it "maps POST {:controller => 'catalog', :action => 'sms'} to /catalog/sms" do
       expect(post: "/catalog/sms").to route_to(controller: 'catalog', action: 'sms')
     end
+
     it "maps { :controller => 'catalog', :action => 'show', :id => 666 } to /catalog/666" do
       expect(get: "/catalog/666").to route_to(controller: 'catalog', action: 'show', id: "666")
     end
