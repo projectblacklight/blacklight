@@ -215,7 +215,7 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 14
 
-# Offense count: 60
+# Offense count: 61
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods.
 Metrics/MethodLength:
   Max: 30
@@ -223,7 +223,7 @@ Metrics/MethodLength:
 # Offense count: 8
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ModuleLength:
-  Max: 212
+  Max: 213
 
 # Offense count: 3
 # Configuration parameters: CountKeywordArgs.
