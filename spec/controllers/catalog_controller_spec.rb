@@ -240,6 +240,11 @@ RSpec.describe CatalogController, api: true do
       expect(session[:search]['per_page']).to eq "15"
     end
 
+    it "records the document id being viewed" do
+      put :track, params: { id: doc_id, counter: 3, document_id: 1234 }
+      expect(session[:search]['document_id']).to eq "1234"
+    end
+
     it "redirects to show action for doc id" do
       put :track, params: { id: doc_id, counter: 3 }
       assert_redirected_to(solr_document_path(doc_id))
