@@ -31,6 +31,16 @@ RSpec.describe "Search Results context", js: true do
     end
   end
 
+  it "does not display stale previous and next links for direct item views" do
+    search_for ''
+    click_on 'Pluvial nectar of blessings'
+
+    # Go to the number 9 result separately
+    visit '/catalog/2003546302'
+    expect(page).not_to have_selector '.page-links'
+    expect(page).not_to have_content "« Previous | 10 of 30 | Next »"
+  end
+
   context "navigating between search results using context pagination" do
     it "updates the back to search link with the current search pagination context" do
       search_for ''
