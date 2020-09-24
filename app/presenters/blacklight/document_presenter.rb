@@ -46,7 +46,7 @@ module Blacklight
 
       fields = Array.wrap(view_config.title_field) + [configuration.document_model.unique_key]
       f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| field_presenter(field_config).any? }
-      field_value(f, except_operations: [Rendering::HelperMethod])
+      f ? field_value(f, except_operations: [Rendering::HelperMethod]) : ""
     end
 
     def display_type(base_name = nil, default: nil)

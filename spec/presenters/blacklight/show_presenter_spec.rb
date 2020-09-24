@@ -143,6 +143,14 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
       config.show.title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
       expect(subject.heading).to eq 'hardcoded'
     end
+
+    context "when empty document" do
+      let(:document) { SolrDocument.new({}) }
+
+      it "returns an empty string as the heading" do
+        expect(subject.heading).to eq("")
+      end
+    end
   end
 
   describe "#html_title" do
