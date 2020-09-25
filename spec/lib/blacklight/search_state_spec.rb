@@ -66,6 +66,18 @@ RSpec.describe Blacklight::SearchState do
         expect(params).to eq('q' => 'foo')
       end
     end
+
+    context 'deleting deep item from to_h' do
+      let(:params) { { foo: { bar: [] } } }
+
+      it 'does not mutate search_state to deep mutate search_state.to_h' do
+        params = search_state.to_h
+        params[:foo][:bar] << 'buzz'
+
+        expect(search_state.to_h).to eq('foo' => { 'bar' => [] })
+        expect(params).to eq('foo' => { 'bar' => ['buzz'] })
+      end
+    end
   end
 
   describe 'interface compatibility with params' do
