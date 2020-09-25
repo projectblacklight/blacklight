@@ -54,6 +54,18 @@ RSpec.describe Blacklight::SearchState do
         expect(search_state.to_h).to include f: { field: %w[first second] }
       end
     end
+
+    context 'deleting item from to_h' do
+      let(:params) { { q: 'foo', q_1: 'bar' } }
+
+      it 'does not mutate search_state to mutate search_state.to_h' do
+        params = search_state.to_h
+        params.delete(:q_1)
+
+        expect(search_state.to_h).to eq('q' => 'foo', 'q_1' => 'bar')
+        expect(params).to eq('q' => 'foo')
+      end
+    end
   end
 
   describe 'interface compatibility with params' do

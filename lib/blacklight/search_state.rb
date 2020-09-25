@@ -47,7 +47,7 @@ module Blacklight
     end
 
     def to_hash
-      @params
+      @params.dup
     end
     alias to_h to_hash
 
