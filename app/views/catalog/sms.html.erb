@@ -1,7 +1,7 @@
-<div class="modal-header">
-	<h1 class="modal-title"><%= t('blacklight.sms.form.title') %></h1>
-	<button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<%= render :partial => 'sms_form' %>
+<%= render Blacklight::System::ModalComponent.new do |component| %>
+  <% component.with(:title, t('blacklight.sms.form.title')) %>
+
+  <% component.with(:body) do %>
+    <%= render 'sms_form' %>
+  <% end %>
+<% end %>

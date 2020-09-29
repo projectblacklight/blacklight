@@ -1,10 +1,6 @@
-<div class="modal-header">
-  <h1><%= t('blacklight.tools.citation') %></h1>
-  <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
+<%= render Blacklight::System::ModalComponent.new do |component| %>
+  <% component.with(:title, t('blacklight.tools.citation')) %>
+
   <% @documents&.each do |document| %>
     <h1 class="modal-title"><%= document_heading(document) %></h1>
 
@@ -23,4 +19,4 @@
       <%= document.send(:export_as_chicago_citation_txt).html_safe %>
     <% end %>
   <% end %>
-</div>
+<% end %>

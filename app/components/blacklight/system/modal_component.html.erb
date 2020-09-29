@@ -1,0 +1,25 @@
+<div data-blacklight-modal="container">
+  <%= prefix %>
+
+  <div class="modal-header">
+    <%= header || (capture do %>
+      <h1 class="modal-title"><%= title %></h1>
+    <% end) %>
+
+    <button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="<%= t('blacklight.modal.close') %>">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <%= body || (capture do %>
+    <div class="modal-body">
+      <%= content %>
+    </div>
+  <% end) %>
+
+  <% if footer.present? %>
+    <div class="modal-footer">
+      <%= footer %>
+    </div>
+  <% end %>
+</div>
