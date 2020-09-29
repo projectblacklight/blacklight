@@ -10,13 +10,22 @@ end
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new(:rubocop)
 
+require 'open3'
+
+def system_with_error_handling(*args)
+  Open3.popen3(*args) do |stdout, stderr, status, _thread|
+    puts stdout.read
+    raise "Unable to run #{args.inspect}: #{stderr.read}" unless status.success?
+  end
+end
+
 def with_solr
-  puts "Starting Solr"
-  system "docker-compose up -d solr"
-  yield
-ensure
-  puts "Stopping Solr"
-  system "docker-compose stop solr"
+    puts "Starting Solr"
+    system_with_error_handling "docker-compose up -d solr"
+    yield
+  ensure
+    puts "Stopping Solr"
+    system_with_error_handling "docker-compose stop solr"
 end
 
 # rubocop:disable Rails/RakeEnvironment
