@@ -103,6 +103,7 @@ module Blacklight::CatalogHelperBehavior
                                                        total: number_with_delimiter(search_session['total']),
                                                        count: search_session['total'].to_i).html_safe
   end
+  deprecation_deprecate item_page_entry_info: 'Use Blacklight::SearchContextComponent methods instead'
 
   ##
   # Look up search field user-displayable label

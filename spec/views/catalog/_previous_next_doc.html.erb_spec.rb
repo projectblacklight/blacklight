@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/_previous_next_doc.html.erb" do
+  before do
+    allow(view).to receive(:search_session).and_return({})
+  end
+
   it "without next or previous does not render content" do
     assign(:search_context, {})
     render
