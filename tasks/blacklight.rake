@@ -43,12 +43,7 @@ end
 desc "Run test suite"
 task :ci do
   with_solr do
-    Rake::Task['engine_cart:generate'].invoke
-
-    within_test_app do
-      system "RAILS_ENV=test bin/rake blacklight:index:seed"
-    end
-
+    Rake::Task['blacklight:internal:seed'].invoke
     Rake::Task['blacklight:coverage'].invoke
   end
 end
