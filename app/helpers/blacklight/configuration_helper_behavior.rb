@@ -187,6 +187,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # The available options for results per page, in the style of #options_for_select
   def per_page_options_for_select
+    return [] if blacklight_config.per_page.blank?
     blacklight_config.per_page.map do |count|
       [t(:'blacklight.search.per_page.label', count: count).html_safe, count]
     end
