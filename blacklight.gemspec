@@ -46,4 +46,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rubocop-rails", '~> 2.6'
   s.add_development_dependency "rubocop-rspec", '~> 1.43'
   s.add_development_dependency "i18n-tasks"
+  s.add_development_dependency "solr_wrapper"
 end

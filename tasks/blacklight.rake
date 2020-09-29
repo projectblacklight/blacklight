@@ -10,6 +10,7 @@ end
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new(:rubocop)
 
+require 'solr_wrapper'
 require 'open3'
 
 def system_with_error_handling(*args)
@@ -20,12 +21,22 @@ def system_with_error_handling(*args)
 end
 
 def with_solr
-    puts "Starting Solr"
-    system_with_error_handling "docker-compose up -d solr"
-    yield
-  ensure
-    puts "Stopping Solr"
-    system_with_error_handling "docker-compose stop solr"
+  if system('docker-compose')
+    begin
+      puts "Starting Solr"
+      system_with_error_handling "docker-compose up -d solr"
+      yield
+    ensure
+      puts "Stopping Solr"
+      system_with_error_handling "docker-compose stop solr"
+    end
+  else
+    SolrWrapper.wrap do |solr|
+      solr.with_collection do
+        yield
+      end
+    end
+  end
 end
 
 # rubocop:disable Rails/RakeEnvironment
