@@ -488,7 +488,6 @@ Blacklight.handleSearchContextMethod = function (event) {
   form.querySelector('[type="submit"]').click();
   event.preventDefault();
   event.stopPropagation();
-  event.stopImmediatePropagation();
 };
 
 Blacklight.onLoad(function () {

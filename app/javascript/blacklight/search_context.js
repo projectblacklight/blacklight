@@ -59,7 +59,6 @@ Blacklight.handleSearchContextMethod = function(event) {
 
   event.preventDefault()
   event.stopPropagation()
-  event.stopImmediatePropagation()
 };
 
 Blacklight.onLoad(function() {
