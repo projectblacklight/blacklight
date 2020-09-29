@@ -1,0 +1,29 @@
+<%= form_tag @url, method: @method, class: @classes.join(' '), role: 'search', 'aria-label' => t('blacklight.search.form.submit') do %>
+  <%= render_hash_as_hidden_fields(@params) %>
+  <% if @search_fields.length > 1 %>
+    <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
+  <% end %>
+  <div class="input-group">
+    <% if @search_fields.length > 1 %>
+        <%= select_tag(:search_field,
+                       options_for_select(@search_fields, h(@search_field)),
+                       title: t('blacklight.search.form.search_field.title'),
+                       id: "#{@prefix}search_field",
+                       class: "custom-select search-field") %>
+    <% elsif @search_fields.length == 1 %>
+      <%= hidden_field_tag :search_field, search_fields.first.last %>
+    <% end %>
+
+    <label for="<%= @prefix %>q" class="sr-only"><%= t('blacklight.search.form.search.label') %></label>
+    <%= text_field_tag :q, @q, placeholder: t('blacklight.search.form.search.placeholder'), class: "search-q q form-control rounded-#{@search_fields.length > 1 ? '0' : 'left'}", id: "#{@prefix}q", autocomplete: @autocomplete_path.present? ? "off" : "", autofocus: @autofocus, data: { autocomplete_enabled: @autocomplete_path.present?, autocomplete_path: @autocomplete_path }  %>
+
+    <%= content %>
+
+    <span class="input-group-append">
+      <button type="submit" class="btn btn-primary search-btn" id="<%= @prefix %>search">
+        <span class="submit-search-text"><%= t('blacklight.search.form.submit') %></span>
+        <%= blacklight_icon :search, aria_hidden: true %>
+      </button>
+    </span>
+  </div>
+<% end %>
