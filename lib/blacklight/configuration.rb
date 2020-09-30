@@ -66,7 +66,7 @@ module Blacklight
             # document presenter class used by helpers and views
             document_presenter_class: nil,
             # component class used to render a document; defaults to Blacklight::DocumentComponent,
-            #   but can be set explicitly to avoid any legacy behavior   
+            #   but can be set explicitly to avoid any legacy behavior
             document_component: nil,
             # solr field to use to render a document title
             title_field: nil,
@@ -100,7 +100,8 @@ module Blacklight
                                                    list: {},
                                                    atom: {
                                                      if: false, # by default, atom should not show up as an alternative view
-                                                     partials: [:document]
+                                                     partials: [:document],
+                                                     summary_partials: [:index]
                                                    },
                                                    rss: {
                                                      if: false, # by default, rss should not show up as an alternative view
