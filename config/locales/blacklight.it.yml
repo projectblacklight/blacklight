@@ -197,6 +197,8 @@ it:
         pivot:
           show: Apri
           hide: Chiudi
+        group:
+          toggle: 'altri »'
       group:
         more: 'altri »'
       filters:

@@ -197,6 +197,8 @@ en:
         pivot:
           show: Show
           hide: Hide
+        group:
+          toggle: Toggle facets
       group:
         more: 'more »'
       filters:

@@ -1,12 +1,2 @@
 <%= render 'show_tools' %>
-
-<% unless document.more_like_this.empty? %>
-  <div class="card">
-    <div class="card-header">More Like This</div>
-    <div class="card-body">
-      <%= render collection: document.more_like_this,
-                 partial: 'show_more_like_this',
-                 as: :document %>
-    </div>
-  </div>
-<% end %>
+<%= render(Blacklight::Document::MoreLikeThisComponent.new(document: document)) %>

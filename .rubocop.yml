@@ -45,6 +45,11 @@ Layout/LineLength:
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
+Naming/MethodParameterName:
+  AllowedNames:
+    - id
+    - q
+
 Naming/PredicateName:
   ForbiddenPrefixes:
     - is_

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'rails/generators'
 require 'rails/generators/migration'
+require 'blacklight/version'
 
 module Blacklight
   class ModelsGenerator < Rails::Generators::Base
@@ -17,6 +18,7 @@ module Blacklight
     # Copy all files in templates/config directory to host config
     def create_configuration_files
       copy_file "config/blacklight.yml", "config/blacklight.yml"
+      gsub_file 'config/blacklight.yml', '__VERSION__', Blacklight::VERSION
     end
 
     # Setup the database migrations

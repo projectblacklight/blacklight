@@ -197,6 +197,8 @@ zh:
         pivot:
           show: 打开
           hide: 关
+        group:
+          toggle: '更多 »'
       group:
         more: '更多 »'
       filters:

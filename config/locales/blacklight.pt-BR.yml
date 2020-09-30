@@ -198,6 +198,8 @@ pt-BR:
         pivot:
           show: Abrir
           hide: Fechar
+        group:
+          toggle: 'mais »'
       group:
         more: 'mais »'
       filters:
