@@ -26,4 +26,16 @@ RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
   it 'renders the field value' do
     expect(rendered).to have_selector 'dd.blacklight-field', text: 'Value'
   end
+
+  context 'from a show view' do
+    subject(:render) do
+      render_inline(described_class.new(field: field, show: true))
+    end
+
+    it 'renders the right field label' do
+      allow(field).to receive(:label).with('show').and_return('custom label')
+
+      expect(rendered).to have_selector 'dt.blacklight-field', text: 'custom label'
+    end
+  end
 end
