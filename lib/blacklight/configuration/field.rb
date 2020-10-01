@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 module Blacklight
   class Configuration::Field < OpenStructWithHashAccess
+    # @!attribute field
+    #   @return [String] the field name in the search response data from Solr
+    # @!attribute key
+    #   @return [String] the field name as used in the application + user-facing HTML
+    # @!attribute label
+    #   @return [String, Symbol] the label or i18n key to use for labeling data from this field
+    # @!attribute if
+    #   @return [Proc, Symbol] a proc or the symbol name of a helper to test whether the field should be rendered.
+    #     The helper or proc will receive this field configuration object as the first parameter. See Blacklight::Configuration::Context.
+    # @!attribute unless
+    #   @return [Proc, Symbol] a proc or the symbol name of a helper to test whether the field should not be rendered.
+    #     The helper or proc will receive this field configuration object as the first parameter. See Blacklight::Configuration::Context.
+
     def normalize! _blacklight_config = nil
       self.field ||= key
       self.key ||= self.field
