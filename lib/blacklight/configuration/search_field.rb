@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 module Blacklight
   class Configuration::SearchField < Blacklight::Configuration::Field
+    # @!attribute include_in_simple_select
+    # @!attribute qt
+
     def normalize! blacklight_config = nil
       self.if = include_in_simple_select if self.if.nil?
 
