@@ -3,7 +3,7 @@
 module Blacklight
   class SearchBarComponent < ::ViewComponent::Base
     # rubocop:disable Metrics/ParameterLists
-    def initialize(url:, params:, classes: [], presenter: nil, prefix: '', method: 'GET', q: nil, search_field: nil, search_fields: [], autocomplete_path: nil, autofocus: nil)
+    def initialize(url:, params:, classes: ['search-query-form'], presenter: nil, prefix: '', method: 'GET', q: nil, search_field: nil, search_fields: [], autocomplete_path: nil, autofocus: nil)
       @url = url
       @q = q || params[:q]
       @search_field = search_field || params[:search_field]

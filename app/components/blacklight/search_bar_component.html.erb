@@ -11,7 +11,7 @@
                        id: "#{@prefix}search_field",
                        class: "custom-select search-field") %>
     <% elsif @search_fields.length == 1 %>
-      <%= hidden_field_tag :search_field, search_fields.first.last %>
+      <%= hidden_field_tag :search_field, @search_fields.first.last %>
     <% end %>
 
     <label for="<%= @prefix %>q" class="sr-only"><%= t('blacklight.search.form.search.label') %></label>
