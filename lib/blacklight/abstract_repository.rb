@@ -1,33 +1,42 @@
 # frozen_string_literal: true
 module Blacklight
+  # Base class for Blacklight repository adapters
   class AbstractRepository
+    # @return [Blacklight::Configuration]
     attr_accessor :blacklight_config
+
+    # Direct writer for the connection
     attr_writer :connection
 
-    # ActiveSupport::Benchmarkable requires a logger method
+    # (Note: ActiveSupport::Benchmarkable requires a logger method)
+    # @return [Logger]
     attr_writer :logger
 
     include ActiveSupport::Benchmarkable
 
+    ##
+    # @param [Blacklight::Configuration] blacklight_config
     def initialize blacklight_config
       @blacklight_config = blacklight_config
     end
 
+    ##
+    # The raw data store connection
     def connection
       @connection ||= build_connection
     end
 
     ##
     # Find a single document result by a known id
-    # @param [String] id document's unique key value
-    # @param [Hash] params additional query parameters
+    # @param [String] _id document's unique key value
+    # @param [Hash] _params additional query parameters
     def find(_id, _params = {})
       raise NotImplementedError
     end
 
     ##
     # Execute a search query against a search index
-    # @param [Hash] params query parameters
+    # @param [Hash] _params query parameters
     def search(_params = {})
       raise NotImplementedError
     end

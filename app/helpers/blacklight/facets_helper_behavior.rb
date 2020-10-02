@@ -28,7 +28,7 @@ module Blacklight::FacetsHelperBehavior
   #
   # @param [Array<String>] fields
   # @param [Hash] options
-  # @options options [Blacklight::Solr::Response] :response the Solr response object
+  # @option options [Blacklight::Solr::Response] :response the Solr response object
   # @return String
   def render_facet_partials fields = nil, options = {}
     unless fields

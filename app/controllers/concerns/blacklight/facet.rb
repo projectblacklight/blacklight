@@ -6,6 +6,9 @@ module Blacklight
   module Facet
     delegate :facet_configuration_for_field, :facet_field_names, to: :blacklight_config
 
+    # @param [Blacklight::Configuration::Facet] field_config
+    # @param [Object] response_data
+    # @return [Blacklight::FacetPaginator]
     def facet_paginator(field_config, response_data)
       blacklight_config.facet_paginator_class.new(
         response_data.items,
@@ -28,11 +31,13 @@ module Blacklight
       fields.map { |field| facet_by_field_name(field, response) }.compact
     end
 
+    # @return [Array<String>]
     def facet_group_names
       blacklight_config.facet_fields.map { |_facet, opts| opts[:group] }.uniq
     end
 
     # Get a FacetField object from the @response
+    # @return [Blacklight::Solr::Response::Facets::FacetField]
     def facet_by_field_name(field_or_field_name, response = nil)
       unless response
         Deprecation.warn(self, 'Calling facet_by_field_name without passing the ' \

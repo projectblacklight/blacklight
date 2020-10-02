@@ -23,7 +23,7 @@ module Blacklight::Solr
       send_and_receive blacklight_config.solr_path, params.reverse_merge(qt: blacklight_config.qt)
     end
 
-    # @param [Hash] params
+    # @param [Hash] request_params
     # @return [Blacklight::Suggest::Response]
     def suggestions(request_params)
       suggest_results = connection.send_and_receive(suggest_handler_path, params: request_params)

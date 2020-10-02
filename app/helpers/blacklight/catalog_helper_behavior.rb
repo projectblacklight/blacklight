@@ -162,7 +162,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the main content partial for a document
   #
-  # @param [SolrDocument] document
+  # @param [SolrDocument] _document
   # @return [String]
   def render_document_main_content_partial(_document = @document)
     render partial: 'show_main_content'
