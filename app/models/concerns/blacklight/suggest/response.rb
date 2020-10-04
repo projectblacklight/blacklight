@@ -18,7 +18,7 @@ module Blacklight
       end
 
       ##
-      # Trys the suggestor response to return suggestions if they are
+      # Trys the suggester response to return suggestions if they are
       # present
       # @return [Array]
       def suggestions
