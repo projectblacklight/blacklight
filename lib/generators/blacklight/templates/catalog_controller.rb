@@ -194,7 +194,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
 
-    # Configuration for autocomplete suggestor
+    # Configuration for autocomplete suggester
     config.autocomplete_enabled = true
     config.autocomplete_path = 'suggest'
     # if the name of the solr.SuggestComponent provided in your solrconfig.xml is not the
