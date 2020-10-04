@@ -131,7 +131,7 @@ RSpec.describe Blacklight::SearchService, api: true do
         expect(solr_response.docs).to have_at_least(1).result
       end
       # TODO: check that number of these results < number of results for all docs query
-      #   BUT can't: num docs isn't total, it's the num docs in the single SOLR response (e.g. 10)
+      #   BUT can't: num docs isn't total, it's the num docs in the single Solr response (e.g. 10)
     end
 
     describe "for Query Without Results and No Facet" do
