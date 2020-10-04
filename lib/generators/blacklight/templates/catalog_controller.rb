@@ -182,7 +182,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     end
 
     # "sort results by" select (pulldown)
-    # label in pulldown is followed by the name of the SOLR field to sort by and
+    # label in pulldown is followed by the name of the Solr field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
     config.add_sort_field 'score desc, pub_date_si desc, title_si asc', label: 'relevance'
