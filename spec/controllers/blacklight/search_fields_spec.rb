@@ -39,7 +39,7 @@ RSpec.describe Blacklight::SearchFields do
                                                                        config.add_search_field label: 'All Fields', qt: 'all_fields'
                                                                        config.add_search_field 'title', qt: 'title_search'
                                                                      end)
-      end .to raise_error ArgumentError
+      end.to raise_error ArgumentError
     end
   end
 
@@ -54,7 +54,7 @@ RSpec.describe Blacklight::SearchFields do
                                                                        config.add_search_field 'my_key', label: 'All Fields'
                                                                        config.add_search_field 'my_key', label: 'title'
                                                                      end)
-      end .to raise_error RuntimeError
+      end.to raise_error RuntimeError
     end
   end
 end

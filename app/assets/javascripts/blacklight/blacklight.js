@@ -297,7 +297,7 @@ Blacklight.onLoad(function () {
 
       <div class="modal-body">
         <p>Some message</p>
-        <%= link_to "This result will still be within modal", some_link, data: { blacklight: "preserve" } %>
+        <%= link_to "This result will still be within modal", some_link, data: { blacklight_modal: "preserve" } %>
       </div>
 
 
@@ -488,7 +488,6 @@ Blacklight.handleSearchContextMethod = function (event) {
   form.querySelector('[type="submit"]').click();
   event.preventDefault();
   event.stopPropagation();
-  event.stopImmediatePropagation();
 };
 
 Blacklight.onLoad(function () {

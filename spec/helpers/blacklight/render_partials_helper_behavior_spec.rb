@@ -70,6 +70,7 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
       it "uses the value in the configured display type field" do
         expect(helper.document_partial_name(document)).to eq 'xyz'
       end
+
       it "uses the value in the configured display type field if the action-specific field is empty" do
         expect(helper.document_partial_name(document, :some_action)).to eq 'xyz'
       end

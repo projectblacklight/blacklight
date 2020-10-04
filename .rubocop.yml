@@ -1,11 +1,14 @@
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-rails
+
 
 inherit_from:
   - .rubocop_todo.yml
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"
@@ -34,7 +37,7 @@ Metrics/ClassLength:
   Exclude:
     - "lib/blacklight/configuration.rb"
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 200
   Exclude:
     - 'spec/**/*'
@@ -42,15 +45,17 @@ Metrics/LineLength:
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
+Naming/MethodParameterName:
+  AllowedNames:
+    - id
+    - q
+
 Naming/PredicateName:
-  NamePrefixBlacklist:
+  ForbiddenPrefixes:
     - is_
 
 Rails:
   Enabled: true
-
-Rails/OutputSafety:
-  Enabled: false
 
 # https://github.com/rubocop-hq/rubocop/issues/6439
 Style/AccessModifierDeclarations:
@@ -62,3 +67,47 @@ Style/MissingRespondToMissing:
 
 Style/StringLiterals:
   Enabled: false
+
+Style/MethodDefParentheses:
+  Enabled: false
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+  Exclude:
+    - 'spec/services/blacklight/search_service_spec.rb'
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true

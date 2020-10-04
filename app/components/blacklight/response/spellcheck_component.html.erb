@@ -1,0 +1,7 @@
+<div id="spell">
+  <h3 class="suggest">
+    <em>
+      <%= t('blacklight.did_you_mean', options: safe_join(@options.map { |word| link_to_query(word) }, " #{t('blacklight.or')} ")).html_safe %>
+    </em>
+  </h3>
+</div>

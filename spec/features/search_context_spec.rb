@@ -7,12 +7,12 @@ RSpec.describe "Search Results context", js: true do
     click_on 'Pluvial nectar of blessings'
     expect(page).to have_content "« Previous | 10 of 30 | Next »"
     prev = page.find(".pagination-search-widgets .previous")
-    expect(prev['data-context-href']).to eq "/catalog/2003546302/track?counter=9&search_id=#{search_id}"
+    expect(prev['data-context-href']).to eq "/catalog/2003546302/track?counter=9&document_id=2003546302&search_id=#{search_id}"
 
     click_on "« Previous"
 
     prev = page.find(".pagination-search-widgets .previous")
-    expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&search_id=#{search_id}"
+    expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&document_id=2004310986&search_id=#{search_id}"
   end
 
   it "redirects context urls to the original url" do
@@ -29,6 +29,16 @@ RSpec.describe "Search Results context", js: true do
       expect(page).to have_css 'a', text: 'Back to Search'
       expect(page).to have_css 'a', text: 'Start Over'
     end
+  end
+
+  it "does not display stale previous and next links for direct item views" do
+    search_for ''
+    click_on 'Pluvial nectar of blessings'
+
+    # Go to the number 9 result separately
+    visit '/catalog/2003546302'
+    expect(page).not_to have_selector '.page-links'
+    expect(page).not_to have_content "« Previous | 10 of 30 | Next »"
   end
 
   context "navigating between search results using context pagination" do

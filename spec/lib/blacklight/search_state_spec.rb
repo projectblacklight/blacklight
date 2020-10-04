@@ -46,6 +46,38 @@ RSpec.describe Blacklight::SearchState do
         expect(search_state.to_h).to eq data.with_indifferent_access
       end
     end
+
+    context 'with facebooks badly mangled query parameters' do
+      let(:params) { { f: { field: { '0': 'first', '1': 'second' } } } }
+
+      it 'normalizes the facets to the expected format' do
+        expect(search_state.to_h).to include f: { field: %w[first second] }
+      end
+    end
+
+    context 'deleting item from to_h' do
+      let(:params) { { q: 'foo', q_1: 'bar' } }
+
+      it 'does not mutate search_state to mutate search_state.to_h' do
+        params = search_state.to_h
+        params.delete(:q_1)
+
+        expect(search_state.to_h).to eq('q' => 'foo', 'q_1' => 'bar')
+        expect(params).to eq('q' => 'foo')
+      end
+    end
+
+    context 'deleting deep item from to_h' do
+      let(:params) { { foo: { bar: [] } } }
+
+      it 'does not mutate search_state to deep mutate search_state.to_h' do
+        params = search_state.to_h
+        params[:foo][:bar] << 'buzz'
+
+        expect(search_state.to_h).to eq('foo' => { 'bar' => [] })
+        expect(params).to eq('foo' => { 'bar' => ['buzz'] })
+      end
+    end
   end
 
   describe 'interface compatibility with params' do

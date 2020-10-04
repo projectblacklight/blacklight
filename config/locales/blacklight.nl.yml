@@ -194,6 +194,11 @@ nl:
         selected:
           remove: '[verwijder]'
         missing: "[Ontbrekend]"
+        pivot:
+          show: Openen
+          hide: Sluiten
+        group:
+          toggle: 'meer »'
       group:
         more: 'meer »'
       filters:

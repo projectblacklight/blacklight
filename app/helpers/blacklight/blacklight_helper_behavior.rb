@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # Methods added to this helper will be available to all templates in the hosting application
 module Blacklight::BlacklightHelperBehavior
+  extend Deprecation
+
   include Blacklight::UrlHelperBehavior
   include Blacklight::HashAsHiddenFieldsHelperBehavior
   include Blacklight::LayoutHelperBehavior
@@ -148,9 +150,12 @@ module Blacklight::BlacklightHelperBehavior
     document = args.first
 
     field = options[:field]
-    label = options[:label] || index_field_label(document, field)
+    label = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+      options[:label] || index_field_label(document, field)
+    end
     html_escape t(:"blacklight.search.index.#{document_index_view_type}.label", default: :'blacklight.search.index.label', label: label)
   end
+  deprecation_deprecate render_index_field_label: 'Use Blacklight::MetadataFieldComponent instead'
 
   ##
   # Render the show field label for a document
@@ -170,10 +175,13 @@ module Blacklight::BlacklightHelperBehavior
     document = args.first
 
     field = options[:field]
-    label = options[:label] || document_show_field_label(document, field)
+    label = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+      options[:label] || document_show_field_label(document, field)
+    end
 
     t(:'blacklight.search.show.label', label: label)
   end
+  deprecation_deprecate render_document_show_field_label: 'Use Blacklight::MetadataFieldComponent instead'
 
   ##
   # Get the value of the document's "title" field, or a placeholder
@@ -252,8 +260,11 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Should we render a grouped response (because the response
   # contains a grouped response instead of the normal response)
+  #
+  # Default to false if there's no response object available (sometimes the case
+  #   for tests, but might happen in other circumstances too..)
   def render_grouped_response? response = @response
-    response.grouped?
+    response&.grouped?
   end
 
   ##

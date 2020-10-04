@@ -194,6 +194,11 @@ zh:
         selected:
           remove: '[删除]'
         missing: "[未找到]"
+        pivot:
+          show: 打开
+          hide: 关
+        group:
+          toggle: '更多 »'
       group:
         more: '更多 »'
       filters:

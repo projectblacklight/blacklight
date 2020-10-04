@@ -18,10 +18,6 @@ RSpec.describe CatalogHelper do
     mock_response
   end
 
-  def render_grouped_response?
-    false
-  end
-
   describe "page_entries_info" do
     it "with no results" do
       @response = mock_response total: 0
@@ -97,6 +93,7 @@ RSpec.describe CatalogHelper do
       expect(html).to eq "<strong>41</strong> - <strong>47</strong> of <strong>47</strong>"
       expect(html).to be_html_safe
     end
+
     it "works with rows the same as per_page" do
       @response = mock_response total: 47, rows: 20, current_page: 2
 

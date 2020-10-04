@@ -67,13 +67,14 @@ module Blacklight::Catalog
     search_session['counter'] = params[:counter]
     search_session['id'] = params[:search_id]
     search_session['per_page'] = params[:per_page]
+    search_session['document_id'] = params[:document_id]
 
     if params[:redirect] && (params[:redirect].starts_with?('/') || params[:redirect] =~ URI::DEFAULT_PARSER.make_regexp)
       uri = URI.parse(params[:redirect])
       path = uri.query ? "#{uri.path}?#{uri.query}" : uri.path
-      redirect_to path, status: 303
+      redirect_to path, status: :see_other
     else
-      redirect_to({ action: :show, id: params[:id] }, status: 303)
+      redirect_to({ action: :show, id: params[:id] }, status: :see_other)
     end
   end
 
@@ -184,7 +185,7 @@ module Blacklight::Catalog
   # @note Make sure your format has a well known mime-type or is registered in config/initializers/mime_types.rb
   # @example
   #   config.index.respond_to.txt = Proc.new { render plain: "A list of docs." }
-  def additional_response_formats format
+  def additional_response_formats(format)
     blacklight_config.index.respond_to.each do |key, config|
       format.send key do
         case config
@@ -214,7 +215,7 @@ module Blacklight::Catalog
 
   ##
   # Try to render a response from the document export formats available
-  def document_export_formats format
+  def document_export_formats(format)
     format.any do
       format_name = params.fetch(:format, '').to_sym
       if @response.export_formats.include? format_name

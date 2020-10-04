@@ -33,6 +33,7 @@ RSpec.describe 'catalog/_facet_index_navigation.html.erb', type: :view do
       render
       expect(rendered).to have_selector '.active', text: '5'
     end
+
     it 'enables the clear facets button' do
       render
       expect(rendered).to have_link 'All'

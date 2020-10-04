@@ -80,10 +80,12 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
 
       expect(MockDocument.registered_extensions.find { |a| a[:module_obj] == MockExtension }).not_to be_nil
     end
+
     it "lets you register an extension with a nil condition proc" do
       MockDocument.use_extension(MockExtension) { |_doc| true }
       expect(MockDocument.registered_extensions.find { |a| a[:module_obj] == MockExtension }).not_to be_nil
     end
+
     it "applies an extension whose condition is met" do
       MockDocument.use_extension(MockExtension) { |_doc| true }
       doc = MockDocument.new
@@ -91,6 +93,7 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
       expect(doc.methods.find { |name| name.to_s == "my_extension_method" }).not_to be_nil
       expect(doc.my_extension_method.to_s).to eq "my_extension_results"
     end
+
     it "applies an extension based on a Solr field" do
       MockDocument.use_extension(MockExtension) { |doc| doc.key?(:required_key) }
 
@@ -100,12 +103,14 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
       without_extension = MockDocument.new(other_key: "value")
       expect(without_extension.methods.find { |name| name.to_s == "my_extension_method" }).to be_nil
     end
+
     it "does not apply an extension whose condition is not met" do
       MockDocument.use_extension(MockExtension) { |_doc| false }
       doc = MockDocument.new
 
       expect(doc.methods.find { |name| name.to_s == "my_extension_method" }).to be_nil
     end
+
     it "treats a nil condition as always applyable" do
       MockDocument.use_extension(MockExtension)
 
@@ -114,6 +119,7 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
       expect(doc.methods.find { |name| name.to_s == "my_extension_method" }).not_to be_nil
       expect(doc.my_extension_method).to eq "my_extension_results"
     end
+
     it "lets last extension applied override earlier extensions" do
       MockDocument.use_extension(MockExtension)
       MockDocument.use_extension(MockSecondExtension)
@@ -176,6 +182,7 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
       it "registers format" do
         expect(defined?("Mime::MOCK2")).to be_truthy
       end
+
       it "registers as alias only" do
         expect(Mime::Type.lookup("application/mock2")).not_to equal Mime::Type.lookup_by_extension("mock2")
       end
@@ -217,13 +224,16 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
       expect(@doc1.to_semantic_values)
         .to eq title: ["doc1 title", "doc1 title other"], something: %w[val1 val2]
     end
+
     it "returns empty array for a key without a value" do
       expect(@doc1.to_semantic_values[:author]).to be_empty
       expect(@doc1.to_semantic_values[:nonexistent_token]).to be_empty
     end
+
     it "returns an array even for a single-value field" do
       expect(@doc1.to_semantic_values[:title]).to be_kind_of(Array)
     end
+
     it "returns complete array for a multi-value field" do
       expect(@doc1.to_semantic_values[:something]).to eq %w[val1 val2]
     end

@@ -19,6 +19,7 @@ ensure
   system "docker-compose stop solr"
 end
 
+# rubocop:disable Rails/RakeEnvironment
 desc "Run test suite"
 task :ci do
   with_solr do
@@ -54,14 +55,13 @@ namespace :blacklight do
       Rake::Task['blacklight:internal:seed'].invoke
 
       within_test_app do
-        begin
-          puts "Starting Blacklight (Rails server)"
-          system "bin/rails s #{args[:rails_server_args]}"
-        rescue Interrupt
-          # We expect folks to Ctrl-c to stop the server so don't barf at them
-          puts "\nStopping Blacklight (Rails server)"
-        end
+        puts "Starting Blacklight (Rails server)"
+        system "bin/rails s #{args[:rails_server_args]}"
+      rescue Interrupt
+        # We expect folks to Ctrl-c to stop the server so don't barf at them
+        puts "\nStopping Blacklight (Rails server)"
       end
     end
   end
 end
+# rubocop:enable Rails/RakeEnvironment

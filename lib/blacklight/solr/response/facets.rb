@@ -29,6 +29,7 @@ module Blacklight::Solr::Response::Facets
   # represents a facet; which is a field and its values
   class FacetField
     attr_reader :name, :items
+
     def initialize name, items, options = {}
       @name = name
       @items = items
@@ -138,14 +139,14 @@ module Blacklight::Solr::Response::Facets
     if solr_list.values.first.is_a? Hash
       solr_list
     else
-      solr_list.each_with_object({}) do |(key, values), hash|
-        hash[key] = if values.first.is_a? Array
-                      # arrarr
-                      Hash[values]
-                    else
-                      # flat
-                      Hash[values.each_slice(2).to_a]
-                    end
+      solr_list.transform_values do |values|
+        if values.first.is_a? Array
+          # arrarr
+          Hash[values]
+        else
+          # flat
+          Hash[values.each_slice(2).to_a]
+        end
       end
     end
   end

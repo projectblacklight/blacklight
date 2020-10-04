@@ -30,6 +30,12 @@ module Blacklight
       end
     end
 
+    def field_presenters
+      return to_enum(:field_presenters) unless block_given?
+
+      fields_to_render.each { |_, _, config| yield config }
+    end
+
     ##
     # Get the value of the document's "title" field, or a placeholder
     # value (if empty)
@@ -40,7 +46,7 @@ module Blacklight
 
       fields = Array.wrap(view_config.title_field) + [configuration.document_model.unique_key]
       f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| field_presenter(field_config).any? }
-      field_value(f, except_operations: [Rendering::HelperMethod])
+      f ? field_value(f, except_operations: [Rendering::HelperMethod]) : ""
     end
 
     def display_type(base_name = nil, default: nil)
@@ -93,7 +99,8 @@ module Blacklight
     deprecation_deprecate retrieve_values: 'Use FieldPresenter#values'
 
     def field_presenter(field_config, options = {})
-      FieldPresenter.new(view_context, document, field_config, options)
+      presenter_class = field_config.presenter || Blacklight::FieldPresenter
+      presenter_class.new(view_context, document, field_config, options)
     end
   end
 end

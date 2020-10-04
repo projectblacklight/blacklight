@@ -29,6 +29,7 @@ module Blacklight
     end
 
     attr_reader :view_context, :document, :field_config, :except_operations, :options
+    delegate :key, to: :field_config
 
     def render
       Rendering::Pipeline.new(values, field_config, document, view_context, pipeline_steps, options).render

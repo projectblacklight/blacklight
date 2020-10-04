@@ -65,7 +65,10 @@ module Blacklight::FacetsHelperBehavior
     field_config = facet_configuration_for_field(display_facet.name)
 
     if field_config.component
+      return unless should_render_field?(field_config, display_facet)
+
       component = field_config.component == true ? Blacklight::FacetFieldListComponent : field_config.component
+
       return render(
         component.new(
           facet_field: facet_field_presenter(field_config, display_facet),
@@ -81,7 +84,11 @@ module Blacklight::FacetsHelperBehavior
       return unless should_render_facet?(display_facet, field_config)
     end
     options = options.dup
-    options[:partial] ||= facet_partial_name(display_facet)
+
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      options[:partial] ||= facet_partial_name(display_facet)
+    end
+
     options[:layout] ||= "facet_layout" unless options.key?(:layout)
     options[:locals] ||= {}
     options[:locals][:field_name] ||= display_facet.name
@@ -97,13 +104,12 @@ module Blacklight::FacetsHelperBehavior
   # to filter undesireable facet items so they don't appear in the UI
   def render_facet_limit_list(paginator, facet_field, wrapping_element = :li)
     facet_config ||= facet_configuration_for_field(facet_field)
-    component = facet_config.fetch(:item_component, Blacklight::FacetItemComponent)
 
     collection = paginator.items.map do |item|
       facet_item_presenter(facet_config, item, facet_field)
     end
 
-    render(component.with_collection(collection, wrapping_element: wrapping_element))
+    render(facet_item_component_class(facet_config).with_collection(collection, wrapping_element: wrapping_element))
   end
   deprecation_deprecate :render_facet_limit_list
 
@@ -166,7 +172,7 @@ module Blacklight::FacetsHelperBehavior
   deprecation_deprecate :facet_partial_name
 
   def facet_field_presenter(facet_config, display_facet)
-    Blacklight::FacetFieldPresenter.new(facet_config, display_facet, self)
+    facet_config.presenter.new(facet_config, display_facet, self)
   end
 
   ##
@@ -218,7 +224,7 @@ module Blacklight::FacetsHelperBehavior
   def render_facet_count(num, options = {})
     deprecated_method(:render_facet_count)
     classes = (options[:classes] || []) << "facet-count"
-    content_tag("span", t('blacklight.search.facets.count', number: number_with_delimiter(num)), class: classes)
+    tag.span(t('blacklight.search.facets.count', number: number_with_delimiter(num)), class: classes)
   end
 
   ##
@@ -288,8 +294,12 @@ module Blacklight::FacetsHelperBehavior
   end
 
   def facet_item_component(facet_config, facet_item, facet_field, **args)
-    component = facet_config.fetch(:item_component, Blacklight::FacetItemComponent)
-    component.new(facet_item: facet_item_presenter(facet_config, facet_item, facet_field), **args).with_view_context(self)
+    facet_item_component_class(facet_config).new(facet_item: facet_item_presenter(facet_config, facet_item, facet_field), **args).with_view_context(self)
+  end
+
+  def facet_item_component_class(facet_config)
+    default_component = facet_config.pivot ? Blacklight::FacetItemPivotComponent : Blacklight::FacetItemComponent
+    facet_config.fetch(:item_component, default_component)
   end
 
   # We can't use .deprecation_deprecate here, because the new components need to

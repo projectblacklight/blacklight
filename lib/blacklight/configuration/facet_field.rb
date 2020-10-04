@@ -1,6 +1,63 @@
 # frozen_string_literal: true
 module Blacklight
   class Configuration::FacetField < Blacklight::Configuration::Field
+    ##
+    # The following is a non-exhaustive list of facet config parameters that are used
+    # by Blacklight directly. Application-specific code or plugins may add or replace
+    # the parameters and behaviors specified below.
+    #
+
+    ##
+    # Display parameters:
+    # @!attribute collapse
+    #   @return [Boolean] whether to display the facet in a collapsed state by default
+    # @!attribute show
+    #   @return [Boolean] whether to show the facet to the user or not (very similar to the more generic if/unless)
+    # @!attribute index_range
+    #   @return [Enumerable] a list of facet prefixes (default: A-Z) to allow users to 'jump' to particular values
+    # @!attribute date
+    #   @return [Symbol|Hash] the i18n localization option for a date or time value; used as the second parameter for the I18n.l method
+    # @!attribute link_to_facet
+    #   @return [Boolean]
+    # @!attribute link_to_search
+    #   @deprecated use link_to_facet instead.
+    #   @return [Boolean]
+    # @!attribute helper_method
+    #   @return [Symbol] the name of a helper method used to display the facet's value to the user; it receives the facet value.
+    # @!attribute url_method
+    #   @return [Symbol] The name of a helper to use for getting the url for a facet link; the method will receive the facet field's key and value.
+    # @!attribute collapsing
+    #   @return [Boolean] display pivot facets with an expand / collapse toggle
+    # @!attribute icons
+    #   @return [Hash] Icons to use for pivot facet expand + collapse
+
+    ##
+    # Query parameters:
+    # @!attribute sort
+    #   @return [String] the ordering of the facet field constraints; when using Solr, this is either 'count' or 'index'
+    # @!attribute single
+    #   @return [Boolean] whether the facet values are mutually exclusive; or, for more granular control, see tag + ex
+    # @!attribute tag
+    #   @return [String] See https://lucene.apache.org/solr/guide/8_6/faceting.html#tagging-and-excluding-filters
+    # @!attribute ex
+    #   @return [String] See https://lucene.apache.org/solr/guide/8_6/faceting.html#tagging-and-excluding-filters
+    # @!attribute query
+    #   @return [Hash{String => Hash}] Provides support for facet queries; the keys are mapped to user-facing parameters, and the values
+    #      are a hash containing: label (a label to show the user in the facet interface), fq (a string passed into solr as an fq (when selected) or a facet.query)
+    # @!attribute pivot
+    #   @return []
+
+    ##
+    # Rendering:
+    # @!attribute presenter
+    #   @return [Blacklight::FacetFieldPresenter]
+    # @!attribute component
+    #   @return [Blacklight::FacetFieldListComponent]
+    # @!attribute item_component
+    #   @return [Blacklight::FacetItemComponent]
+    # @!attribute partial
+    #   @return [String] Rails view partial used to render the facet field
+
     extend Deprecation
 
     def normalize! blacklight_config = nil
@@ -10,6 +67,7 @@ module Blacklight
       self.show = true if show.nil?
       self.if = show if self.if.nil?
       self.index_range = 'A'..'Z' if index_range == true
+      self.presenter = Blacklight::FacetFieldPresenter
 
       if link_to_search
         Deprecation.warn(Blacklight::Configuration::FacetField, '`link_to_search:` is deprecated, use `link_to_facet:` instead')

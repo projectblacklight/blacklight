@@ -20,6 +20,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
     its(:current_page) { is_expected.to eq 1 }
     its(:prev_page) { is_expected.to be_nil }
     its(:next_page) { is_expected.to eq 2 }
+
     it 'limits items to limit, if limit is smaller than items.length' do
       expect(subject.items.size).to eq 6
     end
@@ -33,6 +34,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
     its(:current_page) { is_expected.to eq 2 }
     its(:prev_page) { is_expected.to eq 1 }
     its(:next_page) { is_expected.to be_nil }
+
     it 'returns all items when limit is greater than items.length' do
       expect(subject.items.size).to eq 1
     end
@@ -46,6 +48,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
     its(:current_page) { is_expected.to eq 2 }
     its(:prev_page) { is_expected.to eq 1 }
     its(:next_page) { is_expected.to eq 3 }
+
     it 'limits items to limit, if limit is smaller than items.length' do
       expect(subject.items.size).to eq 6
     end

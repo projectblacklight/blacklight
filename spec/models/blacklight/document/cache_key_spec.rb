@@ -24,6 +24,7 @@ RSpec.describe Blacklight::Document::CacheKey, api: true do
     it 'provides a cache key with the id and version' do
       expect(subject.cache_key).to eq 'solr_documents/12345-1497353774427013120'
     end
+
     describe 'as array' do
       let(:attributes) { { id: '12345', _version_: %w[1234 4321] } }
 

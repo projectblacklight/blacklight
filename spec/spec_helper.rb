@@ -25,12 +25,13 @@ require 'equivalent-xml'
 require 'webdrivers'
 
 Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.disable_animation = true
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 # Blacklight, again, make sure we're looking in the right place for em.
 # Relative to HERE, NOT to Rails.root, which is off somewhere else.
-Dir[Pathname.new(File.expand_path('support/**/*.rb', __dir__))].each { |f| require f }
+Dir[Pathname.new(File.expand_path('support/**/*.rb', __dir__))].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.disable_monkey_patching!

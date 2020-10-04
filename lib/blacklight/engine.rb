@@ -8,7 +8,7 @@ module Blacklight
     # BlacklightHelper is needed by all helpers, so we inject it
     # into action view base here.
     initializer 'blacklight.helpers' do
-      ActionView::Base.send :include, BlacklightHelper
+      ActionView::Base.include BlacklightHelper
     end
 
     # This makes our rake tasks visible.

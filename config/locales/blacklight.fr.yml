@@ -197,6 +197,11 @@ fr:
         selected:
           remove: '[ X ]'
         missing: '[manquante]'
+        pivot:
+          show: Ouvrir
+          hide: Fermer
+        group:
+          toggle: 'plus »'
       group:
         more: 'plus »'
       filters:

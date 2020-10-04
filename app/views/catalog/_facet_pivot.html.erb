@@ -1,18 +1,3 @@
-<ul class="pivot-facet list-unstyled">
-  <% display_facet.items.each do |item| -%>
-    <li>
-    <span class="facet-values">
-    <% if facet_in_params?(field_name, item) %>
-        <%= render_selected_facet_value(field_name, item) %>
-      <% else %>
-        <%= render_facet_value(field_name, item) %>
-    <% end -%>
-    </span>
-
-    <% unless item.items.blank? %>
-      <%= render 'facet_pivot', display_facet: item, field_name: field_name %>
-    <% end %>
-    </li>
-  <% end %>
-
-</ul>
+<%= render(Blacklight::FacetFieldListComponent.new(
+      facet_field: facet_field_presenter(facet_field.merge(item_component: Blacklight::FacetItemPivotComponent), display_facet),
+      layout: false)) %>

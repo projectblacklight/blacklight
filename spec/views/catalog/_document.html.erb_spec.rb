@@ -7,6 +7,7 @@ RSpec.describe "catalog/_document" do
   before do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    assign(:response, instance_double(Blacklight::Solr::Response, start: 20))
   end
 
   it "renders the header, thumbnail and index by default" do
@@ -14,11 +15,10 @@ RSpec.describe "catalog/_document" do
     stub_template "catalog/_thumbnail.html.erb" => "thumbnail_default"
     stub_template "catalog/_index_default.html.erb" => "index_default"
     render partial: "catalog/document", locals: { document: document, document_counter: 1 }
+    expect(rendered).to have_selector 'article.document[@data-document-counter="22"]'
     expect(rendered).to match /document_header/
     expect(rendered).to match /thumbnail_default/
     expect(rendered).to match /index_default/
-    expect(rendered).to have_selector('.document[@itemscope]')
-    expect(rendered).to have_selector('.document[@itemtype="http://schema.org/Thing"]')
   end
 
   it "uses the index.partials parameter to determine the partials to render" do
@@ -32,15 +32,17 @@ RSpec.describe "catalog/_document" do
     expect(rendered).to match /c_partial/
   end
 
-  it 'has a css class with the document position' do
-    allow(view).to receive(:render_document_partials)
-    render partial: 'catalog/document', locals: { document: document, document_counter: 5 }
-    expect(rendered).to have_selector '.document-position-5'
-  end
+  it 'provides the rendered partials to an explicitly configured component but does not render them by default' do
+    blacklight_config.index.partials = %w[a]
+    stub_template "catalog/_a_default.html.erb" => "partial"
+    blacklight_config.index.document_component = Blacklight::DocumentComponent
+    allow(view).to receive(:search_session).and_return({})
+    allow(view).to receive(:current_search_session).and_return(nil)
+    allow(view.main_app).to receive(:track_test_path).and_return('/track')
 
-  it 'has a data attribute with the document position' do
-    allow(view).to receive(:render_document_partials)
-    render partial: 'catalog/document', locals: { document: document, document_counter: 5 }
-    expect(rendered).to have_selector '.document[@data-document-counter="5"]'
+    render partial: "catalog/document", locals: { document: document, document_counter: 1 }
+
+    expect(rendered).to have_selector 'article.document header', text: '22. xyz'
+    expect(rendered).not_to match(/partial/)
   end
 end

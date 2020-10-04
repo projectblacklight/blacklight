@@ -1,12 +1,1 @@
-<% if @search_context[:prev] || @search_context[:next] %>
-  <div class='pagination-search-widgets'>
-  
-    <div class="page-links">
-      <%= link_to_previous_document @search_context[:prev] %> |
-
-      <%= item_page_entry_info %> |
-
-      <%= link_to_next_document @search_context[:next] %>
-    </div>
-  </div>
-<% end %>
+<%= render(Blacklight::SearchContextComponent.new(search_context: @search_context, search_session: search_session)) %>

@@ -141,6 +141,8 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
         config.add_facet_field 'basic_field'
+        config.add_facet_field 'component_field', component: true
+        config.add_facet_field 'non_rendering_component_field', component: true, if: false
         config.add_facet_field 'pivot_facet_field', pivot: %w[a b]
         config.add_facet_field 'my_pivot_facet_field_with_custom_partial', partial: 'custom_facet_partial', pivot: %w[a b]
         config.add_facet_field 'my_facet_field_with_custom_partial', partial: 'custom_facet_partial'
@@ -190,6 +192,17 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       mock_facet = double(name: 'my_pivot_facet_field_with_custom_partial', items: [1, 2, 3])
       expect(helper).to receive(:render).with(hash_including(partial: 'custom_facet_partial'))
       helper.render_facet_limit(mock_facet)
+    end
+
+    it "lets you override the rendered partial for pivot facets" do
+      mock_facet = double(name: 'component_field')
+      expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetFieldListComponent))
+      helper.render_facet_limit(mock_facet)
+    end
+
+    it "lets you override the rendered partial for pivot facets" do
+      mock_facet = double(name: 'non_rendering_component_field')
+      expect(helper.render_facet_limit(mock_facet)).to be_blank
     end
   end
 
@@ -356,6 +369,26 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
   describe "#facet_field_id" do
     it "is the parameterized version of the facet field" do
       expect(helper.facet_field_id(double(key: 'some field'))).to eq "facet-some-field"
+    end
+  end
+
+  describe '#facet_field_presenter' do
+    let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'x').normalize! }
+    let(:display_facet) { double }
+
+    it 'wraps the facet data in a presenter' do
+      presenter = helper.facet_field_presenter(facet_config, display_facet)
+      expect(presenter).to be_a_kind_of Blacklight::FacetFieldPresenter
+      expect(presenter.facet_field).to eq facet_config
+      expect(presenter.display_facet).to eq display_facet
+      expect(presenter.view_context).to eq helper
+    end
+
+    it 'uses the facet config to determine the presenter class' do
+      stub_const('SomePresenter', Class.new(Blacklight::FacetFieldPresenter))
+      facet_config.presenter = SomePresenter
+      presenter = helper.facet_field_presenter(facet_config, display_facet)
+      expect(presenter).to be_a_kind_of SomePresenter
     end
   end
 end

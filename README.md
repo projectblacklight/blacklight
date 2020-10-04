@@ -29,6 +29,7 @@ rails generate blacklight:install
 * [Project Homepage](http://projectblacklight.org)
 * [Developer Documentation](https://github.com/projectblacklight/blacklight/wiki)
 * [Quickstart Guide](https://github.com/projectblacklight/blacklight/wiki/Quickstart)
+* [Testing and Developing Blacklight](https://github.com/projectblacklight/blacklight/wiki/Testing-and-Developing-Blacklight)
 * [Issue Tracker](https://github.com/projectblacklight/blacklight/issues)
 * [Support](https://github.com/projectblacklight/blacklight/wiki/Support)
 

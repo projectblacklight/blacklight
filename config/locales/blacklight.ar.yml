@@ -214,6 +214,11 @@ ar:
           remove: '[إزالة]'
         missing: "[غير موجود]"
         all: الكل
+        pivot:
+          show: فتح
+          hide: "إغلاق"
+        group:
+          toggle: 'المزيد »'
       group:
         more: 'المزيد »'
       filters:

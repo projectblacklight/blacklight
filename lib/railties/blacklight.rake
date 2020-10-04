@@ -12,11 +12,18 @@ namespace :blacklight do
   end
 
   namespace :index do
-    desc "Put sample data into solr"
-    task seed: [:environment]  do
+    desc <<-EODESC.gsub(/\n\s*/, ' ')
+      Index sample data (from FILE, ./spec/fixtures/sample_solr_documents.yml in this application,
+        or the test fixtures from blacklight) into solr.
+    EODESC
+    task seed: [:environment] do
       require 'yaml'
 
-      docs = YAML.safe_load(File.open(File.join(Blacklight.root, 'spec', 'fixtures', 'sample_solr_documents.yml')))
+      app_file = Rails.root && Rails.root + 'spec/fixtures/sample_solr_documents.yml'
+      file = ENV['FILE'] ||
+             (app_file && File.exist?(app_file) && app_file) ||
+             File.join(Blacklight.root, 'spec', 'fixtures', 'sample_solr_documents.yml')
+      docs = YAML.safe_load(File.open(file))
       conn = Blacklight.default_index.connection
       conn.add docs
       conn.commit
@@ -26,18 +33,16 @@ namespace :blacklight do
   namespace :check do
     desc "Check the Solr connection and controller configuration"
     task :solr, [:controller_name] => [:environment] do
-      begin
-        conn = Blacklight.default_index
-        if conn.ping
-          puts "OK"
-        else
-          puts "Unable to reach: #{conn.uri}"
-          exit 1
-        end
-      rescue => e
-        puts e.to_s
+      conn = Blacklight.default_index
+      if conn.ping
+        puts "OK"
+      else
+        puts "Unable to reach: #{conn.uri}"
         exit 1
       end
+    rescue => e
+      puts e.to_s
+      exit 1
     end
 
     task :controller, [:controller_name] => [:environment] do |_, args|

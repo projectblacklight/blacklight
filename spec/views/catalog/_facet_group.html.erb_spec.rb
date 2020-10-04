@@ -70,6 +70,7 @@ RSpec.describe "catalog/_facet_group" do
         render
         expect(rendered).to have_selector('.facet-field-heading')
       end
+
       it "lists values" do
         render
         # The .facet-content class is used by blacklight_range_limit js, and
