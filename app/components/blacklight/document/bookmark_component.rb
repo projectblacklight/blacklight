@@ -14,6 +14,10 @@ module Blacklight
 
         @view_context.bookmarked? @document
       end
+
+      def bookmark_path
+        @bookmark_path || @view_context.bookmark_path(@document)
+      end
     end
   end
 end
