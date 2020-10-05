@@ -1,7 +1,7 @@
 <%-
 # the data-doc-id attribute is used by our JS that converts to a checkbox/label.
 -%>
-<%= form_tag(@bookmark_path,
+<%= form_tag(bookmark_path,
              method:  bookmarked? ? :delete : :put,
              class: "bookmark-toggle",
              data: {
