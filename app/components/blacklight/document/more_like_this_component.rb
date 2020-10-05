@@ -2,9 +2,11 @@
 
 module Blacklight
   module Document
+    # Render the 'more like this' results from the response
     class MoreLikeThisComponent < ::ViewComponent::Base
       with_collection_parameter :document
 
+      # @param [Blacklight::Document] document
       def initialize(document:)
         @document = document
       end
