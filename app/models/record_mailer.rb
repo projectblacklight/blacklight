@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 # Only works for documents with a #to_marc right now.
-class RecordMailer < ApplicationMailer
+class RecordMailer < ActionMailer::Base
   def email_record(documents, details, url_gen_params)
     title = begin
               documents.first.to_semantic_values[:title]
