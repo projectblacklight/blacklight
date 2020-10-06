@@ -331,6 +331,14 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
         end
       end
 
+      context "when the user provides a valid customized sort parmeter" do
+        let(:user_params) { { sort: 'year-desc' } }
+
+        it "passes solr sort paramters through" do
+          expect(subject[:sort]).to eq 'pub_date_si desc, title_si asc'
+        end
+      end
+
       context "when the user provides an invalid sort parameter" do
         let(:user_params) { { sort: 'bad' } }
 

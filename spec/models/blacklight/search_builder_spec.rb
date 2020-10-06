@@ -183,7 +183,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
       end
     end
 
-    context "when the user provides an sort parameter" do
+    context "when the user provides a sort parameter" do
       subject(:sort) { builder_with_param.send(:sort) }
 
       let(:builder_with_param) { builder.with(sort: 'x') }
