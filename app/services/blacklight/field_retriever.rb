@@ -4,12 +4,14 @@ module Blacklight
   class FieldRetriever
     # @param [SolrDocument] document
     # @param [Blacklight::Configuration::Field] field_config solr field configuration
-    def initialize(document, field_config)
+    # @param [ActionView::Base] Rails rendering context
+    def initialize(document, field_config, view_context = nil)
       @document = document
       @field_config = field_config
+      @view_context = view_context
     end
 
-    attr_reader :document, :field_config
+    attr_reader :document, :field_config, :view_context
 
     delegate :field, to: :field_config
 
@@ -60,7 +62,14 @@ module Blacklight
     end
 
     def retrieve_values
-      field_config.values.call(field_config, document)
+      values_method = field_config.values
+
+      if values_method.respond_to?(:arity) && values_method.arity.abs == 2
+        Deprecation.warn(self, ":values parameter for field #{field_config.key} only accepts 2 arguments; should accept 3")
+        values_method.call(field_config, document)
+      else
+        values_method.call(field_config, document, view_context)
+      end
     end
   end
 end
