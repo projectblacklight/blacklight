@@ -24,6 +24,7 @@ module Blacklight
                 end
 
       @except_operations = options[:except_operations] || []
+      @except_operations += field_config.except_operations || []
       # Implicitly prevent helper methods from drawing when drawing the label for the document
       @except_operations += [Rendering::HelperMethod] if options.key? :value
     end
@@ -63,7 +64,7 @@ module Blacklight
     private
 
     def pipeline_steps
-      (options[:steps] || Rendering::Pipeline.operations) - except_operations
+      (options[:steps] || field_config[:steps] || Rendering::Pipeline.operations) - except_operations
     end
 
     def retrieve_values

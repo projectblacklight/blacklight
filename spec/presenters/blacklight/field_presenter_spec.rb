@@ -18,6 +18,14 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
 
   let(:field_config) { config.index_fields[field_name] }
   let(:field_name) { 'asdf' }
+
+  let(:custom_step) do
+    Class.new(Blacklight::Rendering::AbstractStep) do
+      def render
+        'Static step'
+      end
+    end
+  end
   let(:config) do
     Blacklight::Configuration.new.configure do |config|
       config.add_index_field 'qwer'
@@ -32,6 +40,7 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       config.add_index_field 'explicit_values_with_context', values: ->(_config, _doc, view_context) { [view_context.params[:x]] }
       config.add_index_field 'alias', field: 'qwer'
       config.add_index_field 'with_default', default: 'value'
+      config.add_index_field 'with_steps', steps: [custom_step]
     end
   end
 
@@ -180,6 +189,12 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       it { is_expected.to eq 'value' }
     end
 
+    context 'with steps' do
+      let(:field_name) { 'with_steps' }
+
+      it { is_expected.to eq 'Static step' }
+    end
+
     context 'for a field with the helper_method option' do
       let(:field_name) { 'field_with_helper' }
       let(:field_config) { config.add_facet_field 'field_with_helper', helper_method: 'render_field_with_helper' }
@@ -222,7 +237,7 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
   describe '#render_field?' do
     subject { presenter.render_field? }
 
-    let(:field_config) { double('field config', if: true, unless: false) }
+    let(:field_config) { double('field config', if: true, unless: false, except_operations: nil) }
 
     before do
       allow(presenter).to receive_messages(document_has_value?: true)
@@ -245,7 +260,7 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
     subject { presenter.any? }
 
     context 'when the document has the field value' do
-      let(:field_config) { double(field: 'asdf', highlight: false, accessor: nil, default: nil, values: nil) }
+      let(:field_config) { double(field: 'asdf', highlight: false, accessor: nil, default: nil, values: nil, except_operations: nil) }
 
       before do
         allow(document).to receive(:fetch).with('asdf', nil).and_return(['value'])
@@ -255,7 +270,7 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
     end
 
     context 'when the document has a highlight field value' do
-      let(:field_config) { double(field: 'asdf', highlight: true) }
+      let(:field_config) { double(field: 'asdf', highlight: true, except_operations: nil) }
 
       before do
         allow(document).to receive(:has_highlight_field?).with('asdf').and_return(true)
@@ -266,7 +281,7 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
     end
 
     context 'when the field is a model accessor' do
-      let(:field_config) { double(field: 'asdf', highlight: false, accessor: true) }
+      let(:field_config) { double(field: 'asdf', highlight: false, accessor: true, except_operations: nil) }
 
       before do
         allow(document).to receive(:send).with('asdf').and_return(['value'])
