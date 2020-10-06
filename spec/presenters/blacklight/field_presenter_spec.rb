@@ -3,7 +3,7 @@
 RSpec.describe Blacklight::FieldPresenter, api: true do
   subject(:presenter) { described_class.new(request_context, document, field_config, options) }
 
-  let(:request_context) { double('View context', search_state: search_state, should_render_field?: true, blacklight_config: config) }
+  let(:request_context) { double('View context', params: { x: '1' }, search_state: search_state, should_render_field?: true, blacklight_config: config) }
   let(:document) do
     SolrDocument.new(id: 1,
                      'link_to_facet_true' => 'x',
@@ -29,6 +29,7 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       config.add_index_field 'explicit_accessor', accessor: :solr_doc_accessor
       config.add_index_field 'explicit_array_accessor', accessor: [:solr_doc_accessor, :some_method]
       config.add_index_field 'explicit_values', values: ->(_config, _doc) { ['some-value'] }
+      config.add_index_field 'explicit_values_with_context', values: ->(_config, _doc, view_context) { [view_context.params[:x]] }
       config.add_index_field 'alias', field: 'qwer'
       config.add_index_field 'with_default', default: 'value'
     end
@@ -154,7 +155,16 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       let(:field_name) { 'explicit_values' }
 
       it 'calls the accessors on the return of the preceeding' do
+        allow(Deprecation).to receive(:warn)
         expect(subject).to eq 'some-value'
+      end
+    end
+
+    context 'when the values lambda is provided and accepts the view contexts' do
+      let(:field_name) { 'explicit_values_with_context' }
+
+      it 'calls the accessors on the return of the preceeding' do
+        expect(subject).to eq '1'
       end
     end
 

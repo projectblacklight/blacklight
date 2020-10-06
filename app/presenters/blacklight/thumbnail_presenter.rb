@@ -72,7 +72,7 @@ module Blacklight
     end
 
     def retrieve_values(field_config)
-      FieldRetriever.new(document, field_config).fetch
+      FieldRetriever.new(document, field_config, view_context).fetch
     end
 
     def field_config(field)
