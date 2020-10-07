@@ -25,9 +25,9 @@ module Blacklight
     ##
     # Rendering:
     # @!attribute presenter
-    #   @return [Blacklight::FacetFieldPresenter]
+    #   @return [Blacklight::FieldPresenter]
     # @!attribute component
-    #   @return [Blacklight::FacetFieldListComponent]
+    #   @return [Blacklight::MetadataFieldComponent]
 
     ##
     # Default rendering pipeline:
