@@ -1,0 +1,241 @@
+ca:
+  views:
+    pagination:
+      first: '&laquo; Primera'
+      last: 'Darrera &raquo;'
+      previous: '&laquo; Anterior'
+      next: 'Següent &raquo;'
+      truncate: '…'
+      aria:
+        container_label: 'enllaços de paginació'
+        current_page: 'Pàgina actual, pàgina %{page}'
+        go_to_page: 'Anar a la pàgina %{page}'
+        go_to_previous_page: 'Anar a la pàgina anterior'
+        go_to_next_page: 'Anar a la pàgina següent'
+        go_to_first_page: 'Anar a la primera pàgina'
+        go_to_last_page: 'Anar a la darrera pàgina'
+
+    pagination_compact:
+      previous: '&laquo; Anterior'
+      next: 'Següent &raquo;'
+
+  blacklight:
+    application_name: 'Blacklight'
+    skip_links:
+      label: 'Saltar els enllaços'
+      main_content: 'Anar al contingut principal'
+      search_field: 'Anar a la cerca'
+      first_result: 'Anar al primer resultat'
+    header_links:
+      login: 'Identificació'
+      logout: 'Sortir'
+      bookmarks: "Adreces d'interès"
+      search_history: 'Històric'
+
+    welcome: 'Benvinguts!'
+    and: 'i'
+    or: 'o'
+
+    modal:
+      close: "Tancar"
+
+    bookmarks:
+      title: "Adreces d'interès"
+      page_title: "Adreces d'interès - %{application_name}"
+      no_bookmarks: "No teniu adreces d'interès"
+      add:
+        button: 'Desar'
+        success:
+          one: 'Adreça desada.'
+          other: 'Adreçes desades.'
+        failure: 'Hi ha hagut un problema desant les adreces.'
+      remove:
+        button: "Eliminar-la."
+        success: 'Adreça eliminada.'
+        failure: "Hi ha hagut un problema eliminant l'adreça"
+        action_confirm: 'Eliminar aquesta adreça?'
+      clear:
+        action_title: 'Esborrar les adreces'
+        action_confirm: 'Esborrar les vostres adreces?'
+        success: 'Adreces esborrades.'
+        failure: "Hi ha hagut un problema esborrant les adreces."
+      need_login: "Us heu d'identificar per gestionar i veure les vostres adreces d'interès."
+      list_title: "Les vostres adreces d'interès."
+      delete: 'Suprimir'
+
+    search_history:
+      clear:
+        action_title: "Esborrar l'històric de cerques"
+        action_confirm: 'Voleu esborrar el vostre històric de cerques?'
+        success: 'Històric de cerques esborrat.'
+        failure: "Hi ha hagut un problema esborrant l'històric de cerques."
+      title: 'Històric de cerques'
+      page_title: 'Històric de cerques - %{application_name}'
+      no_history: 'No teniu històric de cerques'
+      recent: 'Les vostres cerques recents'
+      forget: 'oblida-ho'
+      save: 'desa-ho'
+
+    tools:
+      title: 'Eines'
+      citation: 'Citació'
+      email: 'Correu'
+      sms: 'Enviar-ho per SMS'
+      clear: 'Esborrar'
+
+    citation:
+      mla: 'MLA'
+      apa: 'APA'
+      chicago: 'Chicago'
+
+    email:
+      form:
+        title: 'Enviar-ho per correu'
+        to: 'Email:'
+        message: 'Missage:'
+        submit: 'Enviar-ho'
+      text:
+        default_title: 'N/A'
+        title: 'Títol: %{value}'
+        author: 'Autor: %{value}'
+        format: 'Format: %{value}'
+        language: 'Llengua: %{value}'
+        subject:
+          one: 'Registre: %{title}'
+          other: 'Registres'
+        url: 'URL: %{url}'
+        message: 'Missage: %{message}'
+
+      success: "Correu enviat"
+
+      errors:
+        to:
+          invalid: "Heu d'entrar una adreça de correu vàlida"
+          blank: "Heu d'entrar un destinatari per poder enviar aquest missatge"
+    sms:
+      form:
+        title: 'Enviar-ho per SMS'
+        to: 'Número de mòbil:'
+        carrier: 'Operador'
+        carrier_prompt: 'Heu de seleccionar un operador'
+        submit: 'Enviar'
+      text:
+        title: '%{value}'
+        author: ' de %{value}'
+        url: 'URL: %{url}'
+      success: "SMS enviat"
+      errors:
+        to:
+          invalid: "Heu d'entrar un número de mòbil correcte, de 10 xifres"
+          blank: "Heu d'entrar un número de mòbil per poder enviar aquest missatge"
+        carrier:
+          blank: 'Heu de seleccionar un operador'
+          invalid: 'Heu de seleccionar-ne un de correcte'
+
+    back_to_search: 'Tornar als resultats'
+    back_to_bookmarks: "Tornar a les adreces d'interès"
+
+    search:
+      page_title:
+        title: '%{constraints} - %{application_name} Resultats de la cerca'
+        constraint: '%{label}: %{value}'
+        many_constraint_values: '%{values} seleccionat'
+      header: 'Cerca'
+      search_constraints_header: 'Filtres de la cerca'
+      search_results: 'Resultats de la cerca'
+      errors:
+        request_error: "No ha estat possible entendre la cerca"
+        invalid_solr_id: "El registre que heu sol·licitat no existeix."
+      per_page:
+        label: '%{count}<span class="sr-only"> per pàgina</span>'
+        button_label: '%{count} per pàgina' # TODO: Remove during major release
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> per pàgina</span>'
+        title: 'Nombre de resultats a mostrar per pàgina'
+        submit: 'Actualitzar'
+        aria_label: 'Navegació pels resultats'
+      sort:
+        label: 'Ordenar per %{field}' # TODO: Remove during major release
+        label_html: 'Ordenar<span class="d-none d-sm-inline"> per %{field}</span>'
+        submit: 'ordenar el resultat'
+      form:
+        search_field:
+          label: 'Cercar per'
+          title: 'Opcions de cerca'
+          post_label: 'per'
+        search:
+          label: 'cercar per'
+          placeholder: 'Cercar...'
+        submit: 'Cerca'
+      pagination:
+        title: 'Navegació pels resultats'
+      pagination_info:
+        no_items_found: "No s'ha trobat cap %{entry_name}"
+        single_item_found: "S'ha trobat <strong>1</strong> %{entry_name}"
+        pages:
+          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
+          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
+      entry_pagination_info:
+        one: '<strong>1 de 1</strong>'
+        other: '<strong>%{current}</strong> de <strong>%{total}</strong>'
+      documents:
+        aria:
+          search_results: 'resultats de la cerca'
+          limit_search: 'limiteu la vostra cerca'
+        counter: '%{counter}. '
+      facets:
+        title: 'Limiteu la vostra cerca'
+        clear: 'Eliminar el filtre'
+        sort:
+          count: 'Numèricament'
+          index: 'Alfabèticament'
+        count: '%{number}'
+        more_html: 'més <span class="sr-only">%{field_name}</span> »'
+        selected:
+          remove: '[eliminar]'
+        missing: "[Desaparegut]"
+        all: Tots
+        pivot:
+          show: Mostrar
+          hide: Amagar
+        group:
+          toggle: 'altres »'
+      group:
+        more: 'més »'
+      filters:
+        title: 'Heu cercat per:'
+        label: '%{label}:'
+        remove:
+          value: 'Eliminar el filtre %{value}'
+          label_value: 'Eliminar el filtre %{label}: %{value}'
+      start_over: "Tornar a l'inici"
+      index:
+        label: '%{label}:'
+      show:
+        title: '%{document_title} - %{application_name}'
+        label: '%{label}:'
+      rss_feed: 'RSS pels resultats'
+      atom_feed: 'Atom pels resultats'
+      bookmarks:
+        present: "A les adreces d'interès"
+        absent: 'Desar'
+        inprogress: 'Desant...'
+      zero_results:
+        title: 'La vostra cerca no ha trobat cap resultat'
+        modify_search: 'Proveu de modificar la vostra cerca'
+        use_fewer_keywords: "Comenceu amb menys paraules, i després acoteu-la amb els enllaços de l'esquerra"
+        search_fields: 'heu cercat per %{search_fields}'
+        search_everything: 'proveu cercant-ho arreu'
+      view_title: 'Visualitzar els resultats com a: '
+      view:
+        list: "Llista"
+
+    entry_name:
+      default: 'registre'
+      grouped:
+        default: 'resultat agrupat'
+
+    did_you_mean: 'Potser volieu dir: %{options}?'
+
+    main:
+      aria:
+        main_container: 'Contingut principal'
