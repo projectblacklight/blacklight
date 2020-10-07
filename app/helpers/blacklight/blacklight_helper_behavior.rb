@@ -373,7 +373,8 @@ module Blacklight::BlacklightHelperBehavior
   def index_presenter_class(_document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter_class is deprecated; use #document_presenter_class instead')
 
-    blacklight_config.index.document_presenter_class
+    (blacklight_config.view.key?(document_index_view_type) && blacklight_config.dig(:view, document_index_view_type, :document_presenter_class)) ||
+      blacklight_config.index.document_presenter_class
   end
 
   # @return [Class]
