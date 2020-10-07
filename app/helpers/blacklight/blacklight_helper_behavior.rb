@@ -48,7 +48,7 @@ module Blacklight::BlacklightHelperBehavior
   def render_link_rel_alternates(document = @document, options = {})
     return if document.nil?
 
-    presenter(document).link_rel_alternates(options)
+    document_presenter(document).link_rel_alternates(options)
   end
 
   ##
@@ -208,7 +208,7 @@ module Blacklight::BlacklightHelperBehavior
   # @return [String]
   def document_heading document = nil
     document ||= @document
-    presenter(document).heading
+    document_presenter(document).heading
   end
 
   ##
@@ -221,7 +221,7 @@ module Blacklight::BlacklightHelperBehavior
   def document_show_html_title document = nil
     document ||= @document
 
-    presenter(document).html_title
+    document_presenter(document).html_title
   end
 
   ##
@@ -240,7 +240,7 @@ module Blacklight::BlacklightHelperBehavior
     tag = options.fetch(:tag, :h4)
     document ||= @document
 
-    content_tag(tag, presenter(document).heading, itemprop: "name")
+    content_tag(tag, document_presenter(document).heading, itemprop: "name")
   end
 
   ##
@@ -293,13 +293,15 @@ module Blacklight::BlacklightHelperBehavior
   # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
   # @return [Blacklight::DocumentPresenter]
   def presenter(document)
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#presenter is deprecated; use #document_presenter instead')
+
     # As long as the presenter methods haven't been overridden, we can use the new behavior
     if method(:show_presenter).owner == Blacklight::BlacklightHelperBehavior &&
        method(:index_presenter).owner == Blacklight::BlacklightHelperBehavior
       return document_presenter_class(document).new(document, self)
     end
 
-    Deprecation.warn(self, '#show_presenter and/or #index_presenter have been overridden; please override #document_presenter instead')
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter and/or #index_presenter have been overridden; please override #document_presenter instead')
 
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
       case action_name
@@ -310,7 +312,6 @@ module Blacklight::BlacklightHelperBehavior
       end
     end
   end
-  deprecation_deprecate presenter: 'Use #document_presenter instead'
 
   ##
   # Returns a document presenter for the given document
@@ -322,27 +323,29 @@ module Blacklight::BlacklightHelperBehavior
 
   # @return [Blacklight::ShowPresenter]
   def show_presenter(document)
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter is deprecated; use #document_presenter instead')
+
     if method(:show_presenter_class).owner != Blacklight::BlacklightHelperBehavior
-      Deprecation.warn(self, '#show_presenter_class has been overridden; please override #document_presenter_class instead')
+      Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter_class has been overridden; please override #document_presenter_class instead')
     end
 
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
       show_presenter_class(document).new(document, self)
     end
   end
-  deprecation_deprecate show_presenter: 'Use #document_presenter instead'
 
   # @return [Blacklight::IndexPresenter]
   def index_presenter(document)
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter is deprecated; use #document_presenter instead')
+
     if method(:index_presenter_class).owner != Blacklight::BlacklightHelperBehavior
-      Deprecation.warn(self, '#index_presenter_class has been overridden; please override #document_presenter_class instead')
+      Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter_class has been overridden; please override #document_presenter_class instead')
     end
 
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
       index_presenter_class(document).new(document, self)
     end
   end
-  deprecation_deprecate index_presenter: 'Use #document_presenter instead'
 
   ##
   # Override this method if you want to use a differnet presenter for your documents
@@ -361,15 +364,17 @@ module Blacklight::BlacklightHelperBehavior
   # Override this method if you want to use a different presenter class
   # @return [Class]
   def show_presenter_class(_document)
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter_class is deprecated; use #document_presenter_class instead')
+
     blacklight_config.show.document_presenter_class
   end
-  deprecation_deprecate show_presenter_class: 'Use #document_presenter_class intead'
 
   # @return [Class]
   def index_presenter_class(_document)
+    Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter_class is deprecated; use #document_presenter_class instead')
+
     blacklight_config.index.document_presenter_class
   end
-  deprecation_deprecate index_presenter_class: 'Use #document_presenter_class intead'
 
   # @return [Class]
   def search_bar_presenter_class

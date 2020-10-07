@@ -100,13 +100,7 @@ module Blacklight
     end
 
     def presenter
-      @presenter ||= begin
-        if show?
-          @view_context.presenter(@document)
-        else
-          @view_context.index_presenter(@document)
-        end
-      end
+      @presenter ||= @view_context.document_presenter(@document)
     end
 
     def show?

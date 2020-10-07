@@ -140,7 +140,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [Blacklight::Document] document
   # @return [String]
   def render_document_class(document = @document)
-    types = presenter(document).display_type
+    types = document_presenter(document).display_type
     return if types.blank?
 
     Array(types).compact.map do |t|
@@ -219,7 +219,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [SolrDocument] document
   # @return [Boolean]
   def has_thumbnail? document
-    index_presenter(document).thumbnail.exists?
+    document_presenter(document).thumbnail.exists?
   end
   deprecation_deprecate has_thumbnail?: "use IndexPresenter#thumbnail.exists?"
 
@@ -233,7 +233,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [Hash] url_options to pass to #link_to_document
   # @return [String]
   def render_thumbnail_tag document, image_options = {}, url_options = {}
-    index_presenter(document).thumbnail.thumbnail_tag(image_options, url_options)
+    document_presenter(document).thumbnail.thumbnail_tag(image_options, url_options)
   end
   deprecation_deprecate render_thumbnail_tag: "Use IndexPresenter#thumbnail.thumbnail_tag"
 
