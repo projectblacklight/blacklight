@@ -334,10 +334,6 @@ RSpec.describe Blacklight::SearchService, api: true do
     it 'has the expected value in the id field' do
       expect(@document.id).to eq doc_id
     end
-
-    it 'has non-nil values for required fields set in initializer' do
-      expect(@document.fetch(blacklight_config.view_config(:show).display_type_field)).not_to be_nil
-    end
   end
 
   describe 'Get multiple documents By Id', integration: true do

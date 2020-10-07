@@ -72,6 +72,13 @@ module Blacklight
       fields += Array.wrap(view_config[:"#{base_name}_display_type_field"]) if base_name && view_config.key?(:"#{base_name}_display_type_field")
       fields += Array.wrap(view_config.display_type_field)
 
+      if fields.empty?
+        fields += Array.wrap(configuration.show[:"#{base_name}_display_type_field"]) if base_name && configuration.show.key?(:"#{base_name}_display_type_field")
+        fields += Array.wrap(configuration.show.display_type_field)
+      end
+
+      fields += ['format'] if fields.empty? # backwards compatibility with the old default value for display_type_field
+
       display_type = fields.lazy.map { |field| field_presenter(field_config(field)) }.detect(&:any?)&.values
       display_type ||= Array(default) if default
 
