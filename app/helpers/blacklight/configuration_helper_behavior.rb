@@ -181,6 +181,7 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   # Used in the document list partial (search view) for creating a link to the document show action
+  # @deprecated
   def document_show_link_field document = nil
     fields = Array(blacklight_config.view_config(document_index_view_type).title_field)
 
