@@ -15,5 +15,9 @@ module Blacklight
     def field_config(field)
       configuration.show_fields.fetch(field) { Configuration::NullField.new(field) }
     end
+
+    def field_presenter_options
+      { context: 'show' }
+    end
   end
 end

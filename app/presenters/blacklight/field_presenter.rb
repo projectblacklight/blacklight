@@ -44,8 +44,8 @@ module Blacklight
 
     # @param [String] context
     # @return [String]
-    def label(context = 'index', **options)
-      field_config.display_label(context, count: retrieve_values.count, **options)
+    def label(context = nil, **options)
+      field_config.display_label(context || options.fetch(:context, 'index'), count: retrieve_values.count, **options)
     end
 
     ##
