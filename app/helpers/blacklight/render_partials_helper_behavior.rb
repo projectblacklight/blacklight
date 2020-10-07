@@ -127,7 +127,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # this method can be overridden in order to transform the value
   #   (e.g. 'PdfBook' => 'pdf_book')
   #
-  # @param [SolrDocument] document
+  # @param [SolrDocument] _document
   # @param [String, Array] display_type a value suggestive of a partial
   # @return [String] the name of the partial to render
   # @example

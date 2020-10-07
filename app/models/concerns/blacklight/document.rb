@@ -111,7 +111,7 @@ module Blacklight::Document
     end
 
     # Define an attribute reader on a document model
-    # @Example
+    # @example
     #   class SolrDocument
     #     include Blacklight::Solr::Document
     #     attribute :title, Blacklight::Types::String, 'title_tesim'

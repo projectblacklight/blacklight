@@ -28,7 +28,7 @@ module Blacklight::FacetsHelperBehavior
   #
   # @param [Array<String>] fields
   # @param [Hash] options
-  # @options options [Blacklight::Solr::Response] :response the Solr response object
+  # @option options [Blacklight::Solr::Response] :response the Solr response object
   # @return String
   def render_facet_partials fields = nil, options = {}
     unless fields
@@ -102,6 +102,7 @@ module Blacklight::FacetsHelperBehavior
   # Renders the list of values
   # removes any elements where render_facet_item returns a nil value. This enables an application
   # to filter undesireable facet items so they don't appear in the UI
+  # @deprecated
   def render_facet_limit_list(paginator, facet_field, wrapping_element = :li)
     facet_config ||= facet_configuration_for_field(facet_field)
 
@@ -129,6 +130,7 @@ module Blacklight::FacetsHelperBehavior
   #
   # By default, only render facets with items.
   #
+  # @deprecated
   # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
   # @param [Blacklight::Configuration::FacetField] facet_config
   # @return [Boolean]
@@ -147,6 +149,7 @@ module Blacklight::FacetsHelperBehavior
   #   - if the facet is configured to collapse (the default), collapse
   #   - if the facet is configured not to collapse, don't collapse
   #
+  # @deprecated
   # @param [Blacklight::Configuration::FacetField] facet_field
   # @return [Boolean]
   def should_collapse_facet? facet_field
@@ -243,6 +246,7 @@ module Blacklight::FacetsHelperBehavior
   # Check if the query parameters have the given facet field with the
   # given value.
   #
+  # @deprecated
   # @param [String] field
   # @param [String] item facet value
   # @return [Boolean]
@@ -254,6 +258,7 @@ module Blacklight::FacetsHelperBehavior
 
   ##
   # Get the values of the facet set in the blacklight query string
+  # @deprecated
   def facet_params field
     config = facet_configuration_for_field(field)
 
@@ -274,6 +279,7 @@ module Blacklight::FacetsHelperBehavior
     facet_item_presenter(facet_config, item, field).label
   end
 
+  # @deprecated
   def facet_field_id facet_field
     "facet-#{facet_field.key.parameterize}"
   end

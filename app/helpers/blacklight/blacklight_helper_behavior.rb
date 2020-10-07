@@ -8,6 +8,8 @@ module Blacklight::BlacklightHelperBehavior
   include Blacklight::LayoutHelperBehavior
   include Blacklight::IconHelperBehavior
 
+  # @!group Layout helpers
+
   ##
   # Get the name of this application from an i18n string
   # key: blacklight.application_name
@@ -42,6 +44,7 @@ module Blacklight::BlacklightHelperBehavior
   # @option options [Boolean] :unique ensures only one link is output for every
   #     content type, e.g. as required by atom
   # @option options [Array<String>] :exclude array of format shortnames to not include in the output
+  # @return [String]
   def render_link_rel_alternates(document = @document, options = {})
     return if document.nil?
 
@@ -50,6 +53,7 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Render OpenSearch headers for this search
+  # @deprecated
   # @return [String]
   def render_opensearch_response_metadata
     render partial: 'catalog/opensearch_response_metadata', locals: { response: @response }
@@ -78,13 +82,18 @@ module Blacklight::BlacklightHelperBehavior
     search_bar_presenter.render
   end
 
+  # @!group Presenter extension helpers
+  ##
+  # @return [Blacklight::SearchBarPresenter]
   def search_bar_presenter
     @search_bar ||= search_bar_presenter_class.new(controller, blacklight_config)
   end
 
+  # @!group Document helpers
   ##
   # Determine whether to render a given field in the index view.
   #
+  # @deprecated
   # @param [SolrDocument] document
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
@@ -96,6 +105,7 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Determine whether to render a given field in the show view
   #
+  # @deprecated
   # @param [SolrDocument] document
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
@@ -106,7 +116,8 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Check if a document has (or, might have, in the case of accessor methods) a value for
-  # the given solr field
+  # the given solr
+  # @deprecated
   # @param [SolrDocument] document
   # @param [Blacklight::Configuration::Field] field_config
   # @return [Boolean]
@@ -117,6 +128,7 @@ module Blacklight::BlacklightHelperBehavior
       field_config.accessor
   end
 
+  # @!group Search result helpers
   ##
   # Determine whether to display spellcheck suggestions
   #
@@ -129,12 +141,14 @@ module Blacklight::BlacklightHelperBehavior
       response.spelling.words.any?
   end
 
+  # @!group Document helpers
   ##
   # Render the index field label for a document
   #
   # Translations for index field labels should go under blacklight.search.fields
   # They are picked up from there by a value "%{label}" in blacklight.search.index.label
   #
+  # @deprecated
   # @overload render_index_field_label(options)
   #   Use the default, document-agnostic configuration
   #   @param [Hash] opts
@@ -145,6 +159,7 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
   #   @option opts [String] :field
+  # @return [String]
   def render_index_field_label *args
     options = args.extract_options!
     document = args.first
@@ -160,6 +175,7 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Render the show field label for a document
   #
+  # @deprecated
   # @overload render_document_show_field_label(options)
   #   Use the default, document-agnostic configuration
   #   @param [Hash] opts
@@ -170,6 +186,7 @@ module Blacklight::BlacklightHelperBehavior
   #   @param [SolrDocument] doc
   #   @param [Hash] opts
   #   @option opts [String] :field
+  # @return [String]
   def render_document_show_field_label *args
     options = args.extract_options!
     document = args.first
@@ -216,6 +233,7 @@ module Blacklight::BlacklightHelperBehavior
   # @overload render_document_heading(options)
   #   @param [Hash] options
   #   @option options [Symbol] :tag
+  # @return [String]
   def render_document_heading(*args)
     options = args.extract_options!
     document = args.first
@@ -240,6 +258,7 @@ module Blacklight::BlacklightHelperBehavior
     end
   end
 
+  # @!group Search result helpers
   ##
   # Render a partial of an arbitrary format inside a
   # template of a different format. (e.g. render an HTML
@@ -263,13 +282,16 @@ module Blacklight::BlacklightHelperBehavior
   #
   # Default to false if there's no response object available (sometimes the case
   #   for tests, but might happen in other circumstances too..)
+  # @return [Boolean]
   def render_grouped_response? response = @response
     response&.grouped?
   end
 
+  # @!group Presenter extension helpers
   ##
   # Returns a document presenter for the given document
   # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
+  # @return [Blacklight::DocumentPresenter]
   def presenter(document)
     case action_name
     when 'show', 'citation'
@@ -279,30 +301,37 @@ module Blacklight::BlacklightHelperBehavior
     end
   end
 
+  # @return [Blacklight::ShowPresenter]
   def show_presenter(document)
     show_presenter_class(document).new(document, self)
   end
 
+  # @return [Blacklight::IndexPresenter]
   def index_presenter(document)
     index_presenter_class(document).new(document, self)
   end
 
   ##
   # Override this method if you want to use a different presenter class
+  # @return [Class]
   def show_presenter_class(_document)
     blacklight_config.show.document_presenter_class
   end
 
+  # @return [Class]
   def index_presenter_class(_document)
     blacklight_config.index.document_presenter_class
   end
 
+  # @return [Class]
   def search_bar_presenter_class
     blacklight_config.index.search_bar_presenter_class
   end
 
+  # @!group Layout helpers
   ##
   # Open Search discovery tag for HTML <head> links
+  # @return [String]
   def opensearch_description_tag title, href
     tag :link, href: href, title: title, type: "application/opensearchdescription+xml", rel: "search"
   end

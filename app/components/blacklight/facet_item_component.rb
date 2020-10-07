@@ -66,10 +66,6 @@ module Blacklight
     # partial and catalog/facet expanded list. Will output facet value name as
     # a link to add that to your restrictions, with count in parens.
     #
-    # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
-    # @param [Blacklight::Solr::Response::Facets::FacetItem] item
-    # @param [Hash] options
-    # @option options [Boolean] :suppress_link display the facet, but don't link to it
     # @return [String]
     # @private
     def render_facet_value
@@ -81,8 +77,7 @@ module Blacklight
     ##
     # Standard display of a SELECTED facet value (e.g. without a link and with a remove button)
     # @see #render_facet_value
-    # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
-    # @param [String] item
+    #
     # @private
     def render_selected_facet_value
       tag.span(class: "facet-label") do
@@ -99,7 +94,6 @@ module Blacklight
     # Renders a count value for facet limits. Can be over-ridden locally
     # to change style. And can be called by plugins to get consistent display.
     #
-    # @param [Integer] num number of facet results
     # @param [Hash] options
     # @option options [Array<String>]  an array of classes to add to count span.
     # @return [String]

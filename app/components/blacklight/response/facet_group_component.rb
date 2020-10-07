@@ -2,7 +2,12 @@
 
 module Blacklight
   module Response
+    # Render a group of facet fields
     class FacetGroupComponent < ::ViewComponent::Base
+      # @param [Blacklight::Response] response
+      # @param [Array<String>] fields facet fields to render
+      # @param [String] title the title of the facet group section
+      # @param [String] id a unique identifier for the group
       def initialize(response:, fields: [], title: nil, id: nil)
         @response = response
         @fields = fields

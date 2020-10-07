@@ -4,6 +4,12 @@ module Blacklight
   # Dynamically creates methods on the given controller (typically CatalogController)
   # for handling configured show tools
   class ActionBuilder
+    # @param [Object] klass
+    # @param [String] name
+    # @param [Hash] opts
+    # @option opts [Symbol] callback
+    # @option opts [Symbol] validator
+    # @option opts [Boolean] define_method
     def initialize(klass, name, opts)
       @klass = klass
       @name = name

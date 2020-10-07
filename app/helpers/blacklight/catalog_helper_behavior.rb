@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# Helper methods for catalog-like controllers
 module Blacklight::CatalogHelperBehavior
   extend Deprecation
   self.deprecation_horizon = 'blacklight 8.0'
@@ -13,18 +14,21 @@ module Blacklight::CatalogHelperBehavior
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
+  # @return [String]
   def rss_feed_link_tag(options = {})
     auto_discovery_link_tag(:rss, feed_link_url('rss', options), title: t('blacklight.search.rss_feed'))
   end
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
+  # @return [String]
   def atom_feed_link_tag(options = {})
     auto_discovery_link_tag(:atom, feed_link_url('atom', options), title: t('blacklight.search.atom_feed'))
   end
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
+  # @return [String]
   def json_api_link_tag(options = {})
     auto_discovery_link_tag(:json, feed_link_url('json', options), type: 'application/json')
   end
@@ -96,6 +100,7 @@ module Blacklight::CatalogHelperBehavior
   # Like #page_entries_info above, but for an individual
   # item show page. Displays "showing X of Y items" message.
   #
+  # @deprecated
   # @see #page_entries_info
   # @return [String]
   def item_page_entry_info
@@ -108,6 +113,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Look up search field user-displayable label
   # based on params[:qt] and blacklight_configuration.
+  # @return [String]
   def search_field_label(params)
     h(label_for_search_field(params[:search_field]))
   end
@@ -131,6 +137,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Get the classes to add to a document's div
   #
+  # @param [Blacklight::Document] document
   # @return [String]
   def render_document_class(document = @document)
     types = presenter(document).display_type
@@ -141,6 +148,10 @@ module Blacklight::CatalogHelperBehavior
     end.join(' ')
   end
 
+  ##
+  # Return a prefix for the document classes infered from the document
+  # @see #render_document_class
+  # @return [String]
   def document_class_prefix
     'blacklight-'
   end
@@ -162,7 +173,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the main content partial for a document
   #
-  # @param [SolrDocument] document
+  # @param [SolrDocument] _document
   # @return [String]
   def render_document_main_content_partial(_document = @document)
     render partial: 'show_main_content'
@@ -192,6 +203,7 @@ module Blacklight::CatalogHelperBehavior
   # If no search parameters have been given, we should
   # auto-focus the user's cursor into the searchbox
   #
+  # @deprecated
   # @return [Boolean]
   def should_autofocus_on_search_box?
     controller.is_a?(Blacklight::Catalog) &&
@@ -203,6 +215,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Does the document have a thumbnail to render?
   #
+  # @deprecated
   # @param [SolrDocument] document
   # @return [Boolean]
   def has_thumbnail? document
@@ -214,6 +227,7 @@ module Blacklight::CatalogHelperBehavior
   # Render the thumbnail, if available, for a document and
   # link it to the document record.
   #
+  # @deprecated
   # @param [SolrDocument] document
   # @param [Hash] image_options to pass to the image tag
   # @param [Hash] url_options to pass to #link_to_document
@@ -226,6 +240,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Get the URL to a document's thumbnail image
   #
+  # @deprecated
   # @param [SolrDocument] document
   # @return [String]
   def thumbnail_url document
@@ -247,6 +262,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Get the default view type classes for a view in the results view picker
   #
+  # @deprecated
   # @param [String] view
   # @return [String]
   def default_view_type_group_icon_classes view
@@ -254,6 +270,10 @@ module Blacklight::CatalogHelperBehavior
     "glyphicon-#{view.to_s.parameterize} view-icon-#{view.to_s.parameterize}"
   end
 
+  ##
+  # return the Bookmarks on a set of documents
+  # @param [Enumerable<Blacklight::Document>] documents_or_response
+  # @return [Enumerable<Bookmark>]
   def current_bookmarks documents_or_response = nil
     documents = if documents_or_response.respond_to? :documents
                   Deprecation.warn(Blacklight::CatalogHelperBehavior, "Passing a response to #current_bookmarks is deprecated; pass response.documents instead")
@@ -270,10 +290,18 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Check if the document is in the user's bookmarks
+  # @param [Blacklight::Document] document
+  # @return [Boolean]
   def bookmarked? document
     current_bookmarks.any? { |x| x.document_id == document.id && x.document_type == document.class }
   end
 
+  # Render an html <title> appropriate string for a selected facet field and values
+  #
+  # @see #render_search_to_page_title
+  # @param [Symbol] facet the facet field
+  # @param [Array<String>] values the selected facet values
+  # @return [String]
   def render_search_to_page_title_filter(facet, values)
     facet_config = facet_configuration_for_field(facet)
     filter_label = facet_field_label(facet_config.key)
@@ -285,6 +313,9 @@ module Blacklight::CatalogHelperBehavior
     t('blacklight.search.page_title.constraint', label: filter_label, value: filter_value)
   end
 
+  # Render an html <title> appropriate string for a set of search parameters
+  # @param [ActionController::Parameters] params2
+  # @return [String]
   def render_search_to_page_title(params)
     constraints = []
 

@@ -12,7 +12,8 @@ module Blacklight::RenderConstraintsHelperBehavior
   ##
   # Check if the query has any constraints defined (a query, facet, etc)
   #
-  # @param [Hash] localized_params query parameters
+  # @deprecated
+  # @param [Blacklight::SearchState,Hash] params_or_search_state query parameters
   # @return [Boolean]
   def query_has_constraints?(params_or_search_state = search_state)
     search_state = convert_to_search_state(params_or_search_state)
@@ -41,7 +42,8 @@ module Blacklight::RenderConstraintsHelperBehavior
   ##
   # Render the query constraints
   #
-  # @param [ActionController::Parameters] localized_params query parameters
+  # @deprecated
+  # @param [Blacklight::SearchState,ActionController::Parameters] params_or_search_state query parameters
   # @return [String]
   def render_constraints_query(params_or_search_state = search_state)
     search_state = convert_to_search_state(params_or_search_state)
@@ -63,7 +65,8 @@ module Blacklight::RenderConstraintsHelperBehavior
   # in the case that you want parameters other than the defaults to be removed
   # (e.g. :search_field)
   #
-  # @param [ActionController::Parameters] localized_params query parameters
+  # @deprecated
+  # @param [Blacklight::SearchState,ActionController::Parameters] params_or_search_state query parameters
   # @return [String]
   def remove_constraint_url(params_or_search_state = search_state)
     search_state = convert_to_search_state(params_or_search_state)
@@ -74,7 +77,8 @@ module Blacklight::RenderConstraintsHelperBehavior
 
   ##
   # Render the facet constraints
-  # @param [Hash] localized_params query parameters
+  # @deprecated
+  # @param [Blacklight::SearchState,Hash] params_or_search_state query parameters
   # @return [String]
   def render_constraints_filters(params_or_search_state = search_state)
     search_state = convert_to_search_state(params_or_search_state)
@@ -91,9 +95,10 @@ module Blacklight::RenderConstraintsHelperBehavior
 
   ##
   # Render a single facet's constraint
+  # @deprecated
   # @param [String] facet field
   # @param [Array<String>] values selected facet values
-  # @param [Blacklight::SearchState] path query parameters (unused)
+  # @param [Blacklight::SearchState] search_state path query parameters
   # @return [String]
   def render_filter_element(facet, values, search_state)
     facet_config = facet_configuration_for_field(facet)
@@ -121,6 +126,7 @@ module Blacklight::RenderConstraintsHelperBehavior
   #
   # Can pass in nil label if desired.
   #
+  # @deprecated
   # @param [String] label to display
   # @param [String] value to display
   # @param [Hash] options

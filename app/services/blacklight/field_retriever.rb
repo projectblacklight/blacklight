@@ -2,7 +2,7 @@
 
 module Blacklight
   class FieldRetriever
-    # @param [SolrDocument] document
+    # @param [Blacklight::Document] document
     # @param [Blacklight::Configuration::Field] field_config solr field configuration
     # @param [ActionView::Base] Rails rendering context
     def initialize(document, field_config, view_context = nil)
@@ -11,7 +11,12 @@ module Blacklight
       @view_context = view_context
     end
 
-    attr_reader :document, :field_config, :view_context
+    # @return [Blacklight::Document]
+    attr_reader :document
+    # @return [Blacklight::Configuration::Field]
+    attr_reader :field_config
+    # @return [ActionView::Base]
+    attr_reader :view_context
 
     delegate :field, to: :field_config
 
