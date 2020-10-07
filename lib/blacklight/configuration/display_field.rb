@@ -25,9 +25,9 @@ module Blacklight
     ##
     # Rendering:
     # @!attribute presenter
-    #   @return [Blacklight::FacetFieldPresenter]
+    #   @return [Blacklight::FieldPresenter]
     # @!attribute component
-    #   @return [Blacklight::FacetFieldListComponent]
+    #   @return [Blacklight::MetadataFieldComponent]
 
     ##
     # Default rendering pipeline:
@@ -40,5 +40,11 @@ module Blacklight
     #   @return [String]
     # @!attribute separator_options
     #   @return [Hash]
+
+    # @param [Blacklight::Configuration] _blacklight_config
+    def normalize! _blacklight_config = nil
+      super
+      self.presenter ||= Blacklight::FieldPresenter
+    end
   end
 end
