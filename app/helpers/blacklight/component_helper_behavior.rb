@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 module Blacklight
   module ComponentHelperBehavior
+    extend Deprecation
+
     def document_action_label action, opts
       t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
     end
+    deprecation_deprecate :document_action_label
 
     def document_action_path action_opts, url_opts = nil
       if action_opts.path
@@ -14,6 +17,7 @@ module Blacklight
         send("#{action_opts.key}_#{controller_name}_path", url_opts)
       end
     end
+    deprecation_deprecate :document_action_path
 
     ##
     # Render "document actions" area for navigation header
@@ -36,9 +40,10 @@ module Blacklight
     # @option options [String] :wrapping_class
     # @return [String]
     def render_index_doc_actions(document, options = {})
+      actions = filter_partials(blacklight_config.view_config(document_index_view_type).document_actions, { document: document }.merge(options)).map { |_k, v| v }
       wrapping_class = options.delete(:wrapping_class) || "index-document-functions"
-      rendered = render_filtered_partials(blacklight_config.view_config(document_index_view_type).document_actions, { document: document }.merge(options))
-      tag.div(rendered, class: wrapping_class) if rendered.present?
+
+      render(Blacklight::Document::ActionsComponent.new(document: document, actions: actions, options: options, classes: wrapping_class))
     end
 
     ##
@@ -49,9 +54,10 @@ module Blacklight
     # @option options [String] :wrapping_class
     # @return [String]
     def render_results_collection_tools(options = {})
+      actions = filter_partials(blacklight_config.view_config(document_index_view_type).collection_actions, options).map { |_k, v| v }
       wrapping_class = options.delete(:wrapping_class) || "search-widgets"
-      rendered = render_filtered_partials(blacklight_config.view_config(document_index_view_type).collection_actions, options)
-      tag.div(rendered, class: wrapping_class) if rendered.present?
+
+      render(Blacklight::Document::ActionsComponent.new(actions: actions, options: options, classes: wrapping_class))
     end
 
     ##
@@ -63,8 +69,21 @@ module Blacklight
     # @param [SolrDocument] document
     # @param [Hash] options
     # @return [String]
-    def render_show_doc_actions(document = @document, options = {}, &block)
-      render_filtered_partials(blacklight_config.show.document_actions, { document: document }.merge(options), &block)
+    def render_show_doc_actions(document = @document, url_opts: {}, **options)
+      document = options[:document] if options.key? :document
+
+      actions = filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).map { |_k, v| v }
+
+      if block_given?
+        # TODO: Deprecate this behavior and replace it with a separate component?
+        actions.each do |action|
+          yield action, render((action.component || Blacklight::Document::ActionComponent).new(action: action, document: document, options: options, url_opts: url_opts))
+        end
+
+        nil
+      else
+        render(Blacklight::Document::ActionsComponent.new(document: document, actions: actions, options: options, url_opts: url_opts))
+      end
     end
 
     def show_doc_actions?(document = @document, options = {})

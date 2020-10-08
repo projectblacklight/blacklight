@@ -1,19 +1,5 @@
 <div class="flash_messages">
   <% [:success, :notice, :error, :alert].each do |type| %>
-    <%- alert_class = case type
-      when :success then "alert-success"
-      when :notice  then "alert-info"
-      when :alert   then "alert-warning"
-      when :error   then "alert-danger"
-      else "alert-#{type}"
-      end
-    -%>
-    <% if flash[type] %>
-      <% Array(flash[type]).each do |f| %>
-        <div class="alert <%= alert_class %>"><%= f %>
-          <a class="close" data-dismiss="alert" href="#">&times;</a>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render(Blacklight::System::FlashMessageComponent.with_collection(Array.wrap(flash[type]), type: type)) if flash[type] %>
   <% end %>
 </div>

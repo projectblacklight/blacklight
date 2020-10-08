@@ -1,0 +1,12 @@
+<% value = @use_thumbnail_tag ? @presenter.thumbnail.thumbnail_tag({ alt: '' }, 'aria-hidden': true, tabindex: -1, counter: @counter) : @presenter.thumbnail.render({ alt: '' }) %>
+
+<% if value %>
+  <div class="document-thumbnail">
+    <% if @use_thumbnail_tag %>
+      <% warn_about_deprecated_behavior %>
+      <%= value %>
+    <% else %>
+      <%= @view_context.link_to_document(@presenter.document, value, 'aria-hidden': true, tabindex: -1, counter: @counter) %>
+    <% end %>
+  </div>
+<% end %>

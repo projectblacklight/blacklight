@@ -71,12 +71,8 @@ module Blacklight
     # Content for the document thumbnail area
     def thumbnail
       return if @show
-      return @thumbnail if @thumbnail
-      return unless presenter.thumbnail.exists?
 
-      content_tag :div, class: "document-thumbnail" do
-        presenter.thumbnail.thumbnail_tag({ alt: '' }, 'aria-hidden': true, tabindex: -1, counter: @counter)
-      end
+      @thumbnail || render(Blacklight::Document::ThumbnailComponent.new(presenter: presenter, counter: @counter))
     end
 
     # Content for the document metadata area

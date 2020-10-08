@@ -398,7 +398,8 @@ module Blacklight
 
     def add_action(config_hash, name, opts)
       config = Blacklight::Configuration::ToolConfig.new opts
-      config.name = name
+      config.name ||= name
+      config.key = name
       yield(config) if block_given?
       config_hash[name] = config
     end

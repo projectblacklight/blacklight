@@ -1,0 +1,5 @@
+<%= content_tag :div, class: @classes do %>
+  <% @actions.each do |action| %>
+    <%= @view_context.render((action.component || Blacklight::Document::ActionComponent).new(action: action, document: @document, options: @options, url_opts: @url_opts)) %>
+  <% end %>
+<% end %>
