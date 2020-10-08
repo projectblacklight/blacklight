@@ -36,7 +36,6 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
   end
 
   it 'has the facet hierarchy' do
-    puts render
     expect(rendered).to have_selector 'li ul.pivot-facet'
     expect(rendered).to have_link 'x:1', href: /f%5Bz%5D%5B%5D=x%3A1/
   end

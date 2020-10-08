@@ -49,10 +49,35 @@ module Blacklight
       f ? field_value(f, except_operations: [Rendering::HelperMethod]) : ""
     end
 
+    ##
+    # Get the document's "title" to display in the <title> element.
+    # (by default, use the #document_heading)
+    #
+    # @see #document_heading
+    # @return [String]
+    def html_title
+      return field_value(view_config.html_title_field) if view_config.html_title_field.is_a? Blacklight::Configuration::Field
+
+      if view_config.html_title_field
+        fields = Array.wrap(view_config.html_title_field) + [configuration.document_model.unique_key]
+        f = fields.lazy.map { |field| field_config(field) }.detect { |field_config| field_presenter(field_config).any? }
+        field_value(f)
+      else
+        heading
+      end
+    end
+
     def display_type(base_name = nil, default: nil)
       fields = []
       fields += Array.wrap(view_config[:"#{base_name}_display_type_field"]) if base_name && view_config.key?(:"#{base_name}_display_type_field")
       fields += Array.wrap(view_config.display_type_field)
+
+      if fields.empty?
+        fields += Array.wrap(configuration.show[:"#{base_name}_display_type_field"]) if base_name && configuration.show.key?(:"#{base_name}_display_type_field")
+        fields += Array.wrap(configuration.show.display_type_field)
+      end
+
+      fields += ['format'] if fields.empty? # backwards compatibility with the old default value for display_type_field
 
       display_type = fields.lazy.map { |field| field_presenter(field_config(field)) }.detect(&:any?)&.values
       display_type ||= Array(default) if default
@@ -74,6 +99,18 @@ module Blacklight
 
     def thumbnail
       @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config)
+    end
+
+    ##
+    # Create <link rel="alternate"> links from a documents dynamically
+    # provided export formats. Returns empty string if no links available.
+    #
+    # @param [Hash] options
+    # @option options [Boolean] :unique ensures only one link is output for every
+    #     content type, e.g. as required by atom
+    # @option options [Array<String>] :exclude array of format shortnames to not include in the output
+    def link_rel_alternates(options = {})
+      LinkAlternatePresenter.new(view_context, document, options).render
     end
 
     private
@@ -100,7 +137,11 @@ module Blacklight
 
     def field_presenter(field_config, options = {})
       presenter_class = field_config.presenter || Blacklight::FieldPresenter
-      presenter_class.new(view_context, document, field_config, options)
+      presenter_class.new(view_context, document, field_config, options.merge(field_presenter_options))
+    end
+
+    def field_presenter_options
+      {}
     end
   end
 end

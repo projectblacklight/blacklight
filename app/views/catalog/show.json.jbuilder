@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 document_url = polymorphic_url(@document)
-doc_presenter = show_presenter(@document)
+doc_presenter = document_presenter(@document)
 
 json.links do
   json.self document_url

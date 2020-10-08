@@ -12,7 +12,7 @@ end
 
 json.data do
   json.array! @presenter.documents do |document|
-    doc_presenter = index_presenter(document)
+    doc_presenter = document_presenter(document)
     document_url = polymorphic_url(url_for_document(document))
     json.id document.id
     json.type doc_presenter.display_type.first

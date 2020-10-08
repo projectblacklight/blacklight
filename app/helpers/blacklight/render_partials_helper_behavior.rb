@@ -115,7 +115,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [Symbol] base_name base name for the partial
   # @return [String]
   def document_partial_name(document, base_name = nil)
-    display_type = show_presenter(document).display_type(base_name, default: 'default')
+    display_type = document_presenter(document).display_type(base_name, default: 'default')
 
     type_field_to_partial_name(document, display_type)
   end

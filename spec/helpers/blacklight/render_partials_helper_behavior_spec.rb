@@ -49,7 +49,7 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
     let(:blacklight_config) { Blacklight::Configuration.new }
 
     before do
-      allow(helper).to receive_messages(blacklight_config: blacklight_config)
+      allow(helper).to receive_messages(blacklight_config: blacklight_config, action_name: 'show')
     end
 
     context "with a solr document with empty fields" do

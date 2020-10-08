@@ -1,6 +1,6 @@
 <%= render(
   Blacklight::DocumentMetadataComponent.new(
-    fields: show_presenter(document).field_presenters,
+    fields: document_presenter(document).field_presenters,
     show: true
   )
 ) %>
