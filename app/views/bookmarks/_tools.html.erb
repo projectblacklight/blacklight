@@ -1,7 +1,12 @@
-<ul class="<%= controller_name %>Tools nav nav-pills">
-  <%= render_show_doc_actions document_list, document: nil, document_list: @response.documents, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h) do |config, inner| %>
-    <li class="nav-item">
-      <%= inner %>
-    </li>
-  <% end %>
-</ul>
+<% if render_show_doc_actions_method_from_blacklight? %>
+  <%= render(Blacklight::Document::ActionsComponent.new(document: nil, tag: 'ul', classes: "#{controller_name}Tools nav nav-pills", wrapping_tag: 'li', wrapping_classes: 'nav-item', actions: document_actions(document_list), options: { document_list: @response.documents }, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h))) %>
+<% else %>
+  <% Deprecation.warn(self, '#render_show_doc_actions is deprecated; use ActionComponents instead') %>
+  <ul class="<%= controller_name %>Tools nav nav-pills">
+    <%= render_show_doc_actions document_list, document: nil, document_list: @response.documents, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h) do |config, inner| %>
+      <li class="nav-item">
+        <%= inner %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

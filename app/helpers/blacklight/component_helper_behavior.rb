@@ -72,10 +72,11 @@ module Blacklight
     def render_show_doc_actions(document = @document, url_opts: {}, **options)
       document = options[:document] if options.key? :document
 
-      actions = filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).map { |_k, v| v }
+      actions = document_actions(document, options: options)
 
       if block_given?
         # TODO: Deprecate this behavior and replace it with a separate component?
+        # Deprecation.warn(Blacklight::ComponentHelperBehavior, 'Pass a block to #render_show_doc_actions is deprecated')
         actions.each do |action|
           yield action, render((action.component || Blacklight::Document::ActionComponent).new(action: action, document: document, options: options, url_opts: url_opts))
         end
@@ -86,8 +87,16 @@ module Blacklight
       end
     end
 
+    def render_show_doc_actions_method_from_blacklight?
+      method(:render_show_doc_actions).owner == Blacklight::ComponentHelperBehavior
+    end
+
     def show_doc_actions?(document = @document, options = {})
       filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).any?
+    end
+
+    def document_actions(document, options: {})
+      filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).map { |_k, v| v }
     end
 
     private
