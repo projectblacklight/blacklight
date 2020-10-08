@@ -53,34 +53,29 @@ module Blacklight
 
     # Content for the document title area; should be an inline element
     def title
-      @title || begin
-        if show?
-          content_tag('span', presenter.heading, itemprop: "name")
-        else
-          @view_context.link_to_document @document, counter: @counter, itemprop: 'name'
-        end
-      end
+      @title || if show?
+                  content_tag('span', presenter.heading, itemprop: "name")
+                else
+                  @view_context.link_to_document @document, counter: @counter, itemprop: 'name'
+                end
     end
 
     # Content for the document actions area
     def actions
       return if @show
 
-      @actions || begin
-        @view_context.render_index_doc_actions @document, wrapping_class: "index-document-functions col-sm-3 col-lg-2"
-      end
+      @actions ||
+        @view_context.render_index_doc_actions(@document, wrapping_class: "index-document-functions col-sm-3 col-lg-2")
     end
 
     # Content for the document thumbnail area
     def thumbnail
       return if @show
+      return @thumbnail if @thumbnail
+      return unless presenter.thumbnail.exists?
 
-      @thumbnail || begin
-        return unless presenter.thumbnail.exists?
-
-        content_tag :div, class: "document-thumbnail" do
-          presenter.thumbnail.thumbnail_tag({ alt: '' }, 'aria-hidden': true, tabindex: -1, counter: @counter)
-        end
+      content_tag :div, class: "document-thumbnail" do
+        presenter.thumbnail.thumbnail_tag({ alt: '' }, 'aria-hidden': true, tabindex: -1, counter: @counter)
       end
     end
 
