@@ -60,6 +60,8 @@ module Blacklight
 
     # Content for the document title area; should be an inline element
     def title
+      return super if block_given?
+
       @title || if show?
                   content_tag('span', presenter.heading, itemprop: "name")
                 else
@@ -69,6 +71,8 @@ module Blacklight
 
     # Content for the document actions area
     def actions
+      return super if block_given?
+
       return if @show
 
       @actions ||
@@ -77,6 +81,7 @@ module Blacklight
 
     # Content for the document thumbnail area
     def thumbnail
+      return super if block_given?
       return if @show
 
       @thumbnail || render(Blacklight::Document::ThumbnailComponent.new(presenter: presenter, counter: @counter))
@@ -84,11 +89,15 @@ module Blacklight
 
     # Content for the document metadata area
     def metadata
+      return super if block_given?
+
       @metadata || @view_context.render(@metadata_component.new(fields: presenter.field_presenters, show: show?))
     end
 
     # Content that goes before the document title (e.g. the counter)
     def before_title
+      return super if block_given?
+
       @before_title || counter
     end
 
