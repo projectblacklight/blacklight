@@ -19,15 +19,7 @@ module Blacklight
         return true if @action.component
         return false unless @action.partial == 'document_action'
 
-        document_action_path&.starts_with?(Blacklight::Document::ActionComponent.blacklight_path)
-      end
-
-      def self.blacklight_path
-        @blacklight_path ||= Gem.loaded_specs["blacklight"].source.path.to_s
-      end
-
-      def document_action_path
-        @view_context.lookup_context.find_all(@action.partial, @view_context.lookup_context.prefixes + [""], true).first&.identifier
+        @view_context.partial_from_blacklight?(@action.partial)
       end
 
       def label

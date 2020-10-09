@@ -21,6 +21,10 @@ module Blacklight
       search_state.has_facet? facet_config, value: facet_value
     end
 
+    def field_label
+      facet_field_presenter.label
+    end
+
     ##
     # Get the displayable version of a facet's value
     #
@@ -76,6 +80,10 @@ module Blacklight
       else
         facet_item
       end
+    end
+
+    def facet_field_presenter
+      @facet_field_presenter ||= view_context.facet_field_presenter(facet_config, {})
     end
   end
 end
