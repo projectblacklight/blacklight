@@ -87,6 +87,14 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       expect(rendered).to have_selector 'header', text: '5. Title'
     end
 
+    context 'with a document rendered as part of a collection' do
+      let(:attr) { { document_counter: 10, counter_offset: 100 } }
+
+      it 'renders a counter with the title' do
+        expect(rendered).to have_selector 'header', text: '111. Title'
+      end
+    end
+
     it 'renders actions' do
       expect(rendered).to have_selector '.index-document-functions'
     end

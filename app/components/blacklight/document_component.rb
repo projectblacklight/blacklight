@@ -18,9 +18,15 @@ module Blacklight
     # @param component [Symbol, String] HTML tag type to use for the root element
     # @param title_component [Symbol, String] HTML tag type to use for the title element
     # @param metadata_component [Blacklight::DocumentMetadataComponent]
-    # @param counter [Number, nil]
+    # @param counter [Number, nil] a pre-computed counter for the position of this document in a search result set
+    # @param document_counter [Number, nil] alternatively, the document's position in a collection and,
+    # @param counter_offset [Number] with `document_counter`, the offset of the start of that collection counter to the overall result set
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
-    def initialize(document: nil, presenter: nil, id: nil, classes: [], component: :article, title_component: :h4, metadata_component: Blacklight::DocumentMetadataComponent, counter: nil, show: false)
+    def initialize(document: nil, presenter: nil,
+                   id: nil, classes: [], component: :article, title_component: :h4,
+                   metadata_component: Blacklight::DocumentMetadataComponent,
+                   counter: nil, document_counter: nil, counter_offset: 0,
+                   show: false)
       if presenter.nil? && document.nil?
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
@@ -36,6 +42,7 @@ module Blacklight
       @metadata_component = metadata_component
 
       @counter = counter
+      @counter ||= document_counter + 1 + counter_offset if document_counter.present?
 
       @show = show
     end
