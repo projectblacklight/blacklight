@@ -213,6 +213,8 @@ RSpec.describe BlacklightHelper do
   end
 
   describe '#render_index_field_label' do
+    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
+
     let(:doc) { SolrDocument.new({}) }
 
     before do
@@ -366,6 +368,8 @@ RSpec.describe BlacklightHelper do
     let(:presenter_class) { double }
     let(:blacklight_config) { Blacklight::Configuration.new }
 
+    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
+
     before do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
     end
@@ -420,6 +424,8 @@ RSpec.describe BlacklightHelper do
   end
 
   describe "#presenter" do
+    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
+
     let(:document) { double }
 
     before do

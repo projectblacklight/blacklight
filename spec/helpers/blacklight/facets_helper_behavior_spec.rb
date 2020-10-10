@@ -3,6 +3,8 @@
 RSpec.describe Blacklight::FacetsHelperBehavior do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   before do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
@@ -232,6 +234,8 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
         # allow_any_instance_of(Blacklight::FacetItemComponent).to receive(:overridden_helper_methods?).and_return(true)
         allow(helper).to receive(:render_facet_item).and_return('<a class="facet-select">Book</a>'.html_safe, nil)
       end
+
+      around { |test| Deprecation.silence(Blacklight::FacetItemComponent) { test.call } }
 
       it "draws a list of elements" do
         expect(subject).to have_selector 'li', count: 1

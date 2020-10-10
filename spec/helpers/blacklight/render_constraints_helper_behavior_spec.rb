@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   let(:config) do
     Blacklight::Configuration.new do |config|
       config.add_facet_field 'type'

@@ -32,7 +32,7 @@ module Blacklight::FacetsHelperBehavior
   # @return String
   def render_facet_partials fields = nil, options = {}
     unless fields
-      Deprecation.warn(self, 'Calling render_facet_partials without passing the ' \
+      Deprecation.warn(self.class, 'Calling render_facet_partials without passing the ' \
         'first argument (fields) is deprecated and will be removed in Blacklight ' \
         '8.0.0')
       fields = facet_field_names
@@ -40,7 +40,7 @@ module Blacklight::FacetsHelperBehavior
 
     response = options.delete(:response)
     unless response
-      Deprecation.warn(self, 'Calling render_facet_partials without passing the ' \
+      Deprecation.warn(self.class, 'Calling render_facet_partials without passing the ' \
         'response keyword is deprecated and will be removed in Blacklight ' \
         '8.0.0')
       response = @response

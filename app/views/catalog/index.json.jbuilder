@@ -49,10 +49,12 @@ json.included do
             json.hits item.hits
           end
           json.links do
-            if facet_in_params?(facet.name, item.value)
-              json.remove search_action_path(search_state.remove_facet_params(facet.name, item.value))
-            else
-              json.self path_for_facet(facet.name, item.value, only_path: false)
+            Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+              if facet_in_params?(facet.name, item.value)
+                json.remove search_action_path(search_state.remove_facet_params(facet.name, item.value))
+              else
+                json.self path_for_facet(facet.name, item.value, only_path: false)
+              end
             end
           end
         end

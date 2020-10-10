@@ -2,6 +2,8 @@
 
 module Blacklight
   class FacetItemComponent < ::ViewComponent::Base
+    extend Deprecation
+
     with_collection_parameter :facet_item
 
     def initialize(facet_item:, wrapping_element: 'li', suppress_link: false)
@@ -55,7 +57,7 @@ module Blacklight
     # @deprecated
     # @private
     def content_from_legacy_view_helper
-      Deprecation.warn('Calling out to the #render_facet_item helper for backwards compatibility.')
+      Deprecation.warn(self.class, 'Calling out to the #render_facet_item helper for backwards compatibility.')
       Deprecation.silence(Blacklight::FacetsHelperBehavior) do
         @view_context.render_facet_item(@facet_item.facet_field, @facet_item.facet_item)
       end

@@ -60,7 +60,9 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # Render the value of the facet
   def render_filter_value value, key = nil
     display_value = value
-    display_value = facet_display_value(key, value) if key
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      display_value = facet_display_value(key, value) if key
+    end
     tag.span(h(display_value),
              class: 'filter-value')
   end
