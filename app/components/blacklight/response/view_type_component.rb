@@ -13,7 +13,9 @@ module Blacklight
       end
 
       def render?
-        @view_context.has_alternative_views?
+        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+          @view_context.has_alternative_views?
+        end
       end
 
       def icon(view)
@@ -21,7 +23,9 @@ module Blacklight
       end
 
       def label(view)
-        @view_context.view_label(view)
+        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+          @view_context.view_label(view)
+        end
       end
 
       def url(view)

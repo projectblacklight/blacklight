@@ -248,6 +248,8 @@ RSpec.describe BlacklightHelper do
   end
 
   describe "should_show_spellcheck_suggestions?" do
+    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
+
     before do
       allow(helper).to receive_messages spell_check_max: 5
     end
@@ -398,6 +400,8 @@ RSpec.describe BlacklightHelper do
   end
 
   describe "#render_document_heading" do
+    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
+
     let(:document) { double }
 
     before do

@@ -3,11 +3,13 @@ module Blacklight
   module ComponentHelperBehavior
     extend Deprecation
 
+    # @deprecated
     def document_action_label action, opts
       t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
     end
     deprecation_deprecate :document_action_label
 
+    # @deprecated
     def document_action_path action_opts, url_opts = nil
       if action_opts.path
         send(action_opts.path, url_opts)

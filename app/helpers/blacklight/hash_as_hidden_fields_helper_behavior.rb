@@ -10,10 +10,14 @@
 # This is used to serialize a complete current query from current params
 # to form fields used for sort and change per-page
 module Blacklight::HashAsHiddenFieldsHelperBehavior
+  extend Deprecation
+
   ##
   # Writes out zero or more <input type="hidden"> elements, completely
   # representing a hash passed in using Rails-style request parameters
   # for hashes nested with arrays and other hashes.
+  #
+  # @deprecated
   # @param [Hash] hash
   # @return [String]
   def render_hash_as_hidden_fields(hash)
@@ -27,6 +31,7 @@ module Blacklight::HashAsHiddenFieldsHelperBehavior
 
     safe_join(hidden_fields, "\n")
   end
+  deprecation_deprecate render_hash_as_hidden_fields: 'Moving to a private method of Blacklight::SearchBarComponent'
 
   private
 

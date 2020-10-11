@@ -17,7 +17,9 @@ module Blacklight
       end
 
       def add_group_facet_params_and_redirect(group)
-        @view_context.search_action_path(@view_context.add_group_facet_params_and_redirect(group))
+        Deprecation.silence(Blacklight::UrlHelperBehavior) do
+          @view_context.search_action_path(@view_context.add_group_facet_params_and_redirect(group))
+        end
       end
     end
   end

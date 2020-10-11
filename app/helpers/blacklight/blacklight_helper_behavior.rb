@@ -132,14 +132,18 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Determine whether to display spellcheck suggestions
   #
+  # @deprecated
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def should_show_spellcheck_suggestions? response
-    # The spelling response field may be missing from non solr repositories.
-    response.total <= spell_check_max &&
-      !response.spelling.nil? &&
-      response.spelling.words.any?
+    Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+      # The spelling response field may be missing from non solr repositories.
+      response.total <= spell_check_max &&
+        !response.spelling.nil? &&
+        response.spelling.words.any?
+    end
   end
+  deprecation_deprecate should_show_spellcheck_suggestions?: 'moving into a private method of Blacklight::Response::SpellcheckComponent'
 
   # @!group Document helpers
   ##
@@ -204,17 +208,20 @@ module Blacklight::BlacklightHelperBehavior
   # Get the value of the document's "title" field, or a placeholder
   # value (if empty)
   #
+  # @deprecated
   # @param [SolrDocument] document
   # @return [String]
   def document_heading document = nil
     document ||= @document
     document_presenter(document).heading
   end
+  deprecation_deprecate document_heading: 'Use Blacklight::DocumentPresenter#heading instead'
 
   ##
   # Get the document's "title" to display in the <title> element.
   # (by default, use the #document_heading)
   #
+  # @deprecated
   # @see #document_heading
   # @param [SolrDocument] document
   # @return [String]
@@ -223,9 +230,11 @@ module Blacklight::BlacklightHelperBehavior
 
     document_presenter(document).html_title
   end
+  deprecation_deprecate document_show_html_title: 'Use Blacklight::DocumentPresenter#html_title instead'
 
   ##
   # Render the document "heading" (title) in a content tag
+  # @deprecated
   # @overload render_document_heading(document, options)
   #   @param [SolrDocument] document
   #   @param [Hash] options
@@ -242,6 +251,7 @@ module Blacklight::BlacklightHelperBehavior
 
     content_tag(tag, document_presenter(document).heading, itemprop: "name")
   end
+  deprecation_deprecate render_document_heading: 'Removed without replacement'
 
   ##
   # Get the current "view type" (and ensure it is a valid type)
@@ -291,6 +301,7 @@ module Blacklight::BlacklightHelperBehavior
   ##
   # Returns a document presenter for the given document
   # TODO: Move this to the controller. It can just pass a presenter or set of presenters.
+  # @deprecated
   # @return [Blacklight::DocumentPresenter]
   def presenter(document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#presenter is deprecated; use #document_presenter instead')
@@ -321,6 +332,7 @@ module Blacklight::BlacklightHelperBehavior
     end
   end
 
+  # @deprecated
   # @return [Blacklight::ShowPresenter]
   def show_presenter(document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter is deprecated; use #document_presenter instead')
@@ -334,6 +346,7 @@ module Blacklight::BlacklightHelperBehavior
     end
   end
 
+  # @deprecated
   # @return [Blacklight::IndexPresenter]
   def index_presenter(document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter is deprecated; use #document_presenter instead')
@@ -362,6 +375,7 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Override this method if you want to use a different presenter class
+  # @deprecated
   # @return [Class]
   def show_presenter_class(_document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter_class is deprecated; use #document_presenter_class instead')
@@ -369,6 +383,7 @@ module Blacklight::BlacklightHelperBehavior
     blacklight_config.show.document_presenter_class
   end
 
+  # @deprecated
   # @return [Class]
   def index_presenter_class(_document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter_class is deprecated; use #document_presenter_class instead')

@@ -105,6 +105,8 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
   end
 
   describe "facet_by_field_name" do
+    around { |test| Deprecation.silence(Blacklight::Facet) { test.call } }
+
     it "retrieves the facet from the response given a string" do
       facet_config = double(query: nil, field: 'b', key: 'a')
       facet_field = double
@@ -135,7 +137,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       expect(helper).to receive(:render_facet_limit).with(a, {})
       expect(helper).to receive(:render_facet_limit).with(b, {})
       helper.render_facet_partials
-      expect(Deprecation).to have_received(:warn).twice
     end
   end
 

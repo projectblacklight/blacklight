@@ -22,7 +22,9 @@ module Blacklight
 
       # @return [String]
       def title
-        @view_context.document_heading(@document)
+        Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
+          @view_context.document_heading(@document)
+        end
       end
     end
   end

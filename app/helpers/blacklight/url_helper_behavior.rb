@@ -2,9 +2,13 @@
 ##
 # URL helper methods
 module Blacklight::UrlHelperBehavior
+  extend Deprecation
+
+  # @deprecated
   def url_for_document(doc, options = {})
     search_state.url_for_document(doc, options)
   end
+  deprecation_deprecate url_for_document: 'Use SearchState#url_for_document directly'
 
   # Uses the catalog_path route to create a link to the show page for an item.
   # catalog_path accepts a hash. The solr query params are stored in the session,
@@ -34,9 +38,12 @@ module Blacklight::UrlHelperBehavior
               field_or_opts
             end
 
-    link_to label, url_for_document(doc), document_link_params(doc, opts)
+    Deprecation.silence(Blacklight::UrlHelperBehavior) do
+      link_to label, url_for_document(doc), document_link_params(doc, opts)
+    end
   end
 
+  # @private
   def document_link_params(doc, opts)
     session_tracking_params(doc, opts[:counter]).deep_merge(opts.except(:label, :counter))
   end
@@ -44,24 +51,29 @@ module Blacklight::UrlHelperBehavior
 
   ##
   # Link to the previous document in the current search context
+  # @deprecated
   def link_to_previous_document(previous_document)
     link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(class: "previous", rel: 'prev')
     link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
       tag.span raw(t('views.pagination.previous')), class: 'previous'
     end
   end
+  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
 
   ##
   # Link to the next document in the current search context
+  # @deprecated
   def link_to_next_document(next_document)
     link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(class: "next", rel: 'next')
     link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
       tag.span raw(t('views.pagination.next')), class: 'next'
     end
   end
+  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
 
   ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session
+  # @private
   # @param [SolrDocument] document
   # @param [Integer] counter
   # @example
@@ -100,15 +112,18 @@ module Blacklight::UrlHelperBehavior
   #
 
   # create link to query (e.g. spelling suggestion)
+  # @deprecated
   def link_to_query(query)
     p = search_state.to_h.except(:page, :action)
     p[:q] = query
     link_to(query, search_action_path(p))
   end
+  deprecation_deprecate link_to_query: 'Removed without replacement'
 
   ##
   # Get the path to the search action with any parameters (e.g. view type)
   # that should be persisted across search sessions.
+  # @deprecated
   def start_over_path query_params = params
     h = {}
     current_index_view_type = document_index_view_type(query_params)
@@ -116,6 +131,7 @@ module Blacklight::UrlHelperBehavior
 
     search_action_path(h)
   end
+  deprecation_deprecate start_over_path: 'Removed without replacement'
 
   # Create a link back to the index screen, keeping the user's facet, query and paging choices intact by using session.
   # @example
@@ -156,17 +172,21 @@ module Blacklight::UrlHelperBehavior
 
   # Get url parameters to a search within a grouped result set
   #
+  # @deprecated
   # @param [Blacklight::Solr::Response::Group] group
   # @return [Hash]
   def add_group_facet_params_and_redirect group
     search_state.add_facet_params_and_redirect(group.field, group.key)
   end
+  deprecation_deprecate add_group_facet_params_and_redirect: 'Removed without replacement'
 
   # A URL to refworks export, with an embedded callback URL to this app.
   # the callback URL is to bookmarks#export, which delivers a list of
   # user's bookmarks in 'refworks marc txt' format -- we tell refworks
   # to expect that format.
+  # @deprecated
   def bookmarks_export_url(format, params = {})
     bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id)))
   end
+  deprecation_deprecate bookmarks_export_url: 'Removed without replacement'
 end

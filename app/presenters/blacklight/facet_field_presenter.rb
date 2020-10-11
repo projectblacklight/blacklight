@@ -51,7 +51,9 @@ module Blacklight
     def paginator
       return unless display_facet
 
-      @paginator ||= view_context.facet_paginator(facet_field, display_facet)
+      Deprecation.silence(Blacklight::Facet) do
+        @paginator ||= view_context.facet_paginator(facet_field, display_facet)
+      end
     end
   end
 end

@@ -35,7 +35,9 @@ module Blacklight
     end
 
     def start_over_path
-      @view_context.start_over_path
+      Deprecation.silence(Blacklight::UrlHelperBehavior) do
+        @view_context.start_over_path
+      end
     end
 
     def render?

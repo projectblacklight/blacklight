@@ -26,15 +26,21 @@
 #
 ##
 module Blacklight::SearchFields
+  extend Deprecation
+
   # Looks up search field config list from blacklight_config[:search_fields], and
   # 'normalizes' all field config hashes using normalize_config method.
+  # @deprecated
   def search_field_list
     blacklight_config.search_fields.values
   end
+  deprecation_deprecate search_field_list: 'Use blacklight_config.search_fields instead'
 
   # Returns default search field, used for simpler display in history, etc.
   # if not set in blacklight_config, defaults to first field listed in #search_field_list
+  # @deprecated
   def default_search_field
-    blacklight_config.default_search_field || search_field_list.first
+    blacklight_config.default_search_field || (Deprecation.silence(Blacklight::SearchFields) { search_field_list.first })
   end
+  deprecation_deprecate default_search_field: 'Use Blacklight::Configuration#default_search_field'
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::RenderPartialsHelperBehavior do
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   describe "#type_field_to_partial_name" do
     subject { helper.send(:type_field_to_partial_name, document, value) }
 
