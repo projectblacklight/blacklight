@@ -17,17 +17,17 @@ module Blacklight
     def query_constraints
       return if @search_state.query_param.blank?
 
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        @view_context.render(
-          @query_constraint_component.new(
-            search_state: @search_state,
-            value: @search_state.query_param,
-            label: @view_context.constraint_query_label(@search_state.params),
-            remove_path: @view_context.remove_constraint_url(@search_state),
-            classes: 'query'
-          )
+      label = @view_context.label_for_search_field(@search_state[:search_field]) unless @view_context.default_search_field?(@search_state[:search_field])
+
+      @view_context.render(
+        @query_constraint_component.new(
+          search_state: @search_state,
+          value: @search_state.query_param,
+          label: label,
+          remove_path: @view_context.remove_constraint_url(@search_state),
+          classes: 'query'
         )
-      end
+      )
     end
 
     def facet_constraints
@@ -35,13 +35,15 @@ module Blacklight
     end
 
     def start_over_path
-      Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.start_over_path
-      end
+      h = {}
+      current_index_view_type = document_index_view_type(query_params)
+      h[:view] = current_index_view_type unless current_index_view_type == default_document_index_view_type
+
+      search_action_path(h)
     end
 
     def render?
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { @view_context.query_has_constraints? }
+      @search_state.has_constraints?
     end
 
     private

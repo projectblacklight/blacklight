@@ -362,14 +362,7 @@ module Blacklight
     ##
     # Return a list of fields for the index display that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def index_fields_for(document_or_display_types)
-      display_types = if document_or_display_types.is_a? Blacklight::Document
-                        Deprecation.warn self, "Calling index_fields_for with a #{document_or_display_types.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
-                        document_or_display_types[index.display_type_field || 'format']
-                      else
-                        document_or_display_types
-                      end
-
+    def index_fields_for(display_types)
       fields = {}.with_indifferent_access
 
       Array.wrap(display_types).each do |display_type|
@@ -382,14 +375,7 @@ module Blacklight
     ##
     # Return a list of fields for the show page that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def show_fields_for(document_or_display_types)
-      display_types = if document_or_display_types.is_a? Blacklight::Document
-                        Deprecation.warn self, "Calling show_fields_for with a #{document_or_display_types.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
-                        document_or_display_types[show.display_type_field || 'format']
-                      else
-                        document_or_display_types
-                      end
-
+    def show_fields_for(display_types)
       fields = {}.with_indifferent_access
 
       Array.wrap(display_types).each do |display_type|

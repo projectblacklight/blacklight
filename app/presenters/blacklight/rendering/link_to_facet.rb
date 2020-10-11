@@ -3,7 +3,6 @@
 module Blacklight
   module Rendering
     class LinkToFacet < AbstractStep
-      extend Deprecation
       def render
         return next_step(values) unless config.link_to_facet
 

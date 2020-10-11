@@ -15,12 +15,10 @@ module Blacklight
 
     # @private
     def label
-      Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
-        if @show
-          @view_context.render_document_show_field_label @field.document, label: @field.label('show'), field: @field.key
-        else
-          @view_context.render_index_field_label @field.document, label: @field.label, field: @field.key
-        end
+      if @show
+        @field.label('show')
+      else
+        @field.label
       end
     end
 

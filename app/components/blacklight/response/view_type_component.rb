@@ -13,9 +13,7 @@ module Blacklight
       end
 
       def render?
-        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-          @view_context.has_alternative_views?
-        end
+        views.keys.length > 1
       end
 
       def icon(view)
@@ -23,9 +21,17 @@ module Blacklight
       end
 
       def label(view)
-        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-          @view_context.view_label(view)
-        end
+        view_config = blacklight_config.view[view]
+
+        t(
+          :"blacklight.search.view_title.#{view}",
+          default: [
+            :"blacklight.search.view.#{view}",
+            view_config.label,
+            view_config.title,
+            view.to_s.humanize
+          ]
+        )
       end
 
       def url(view)

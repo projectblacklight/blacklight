@@ -12,15 +12,27 @@ module Blacklight
       end
 
       def link_to_query(query)
-        Deprecation.silence(Blacklight::UrlHelperBehavior) do
-          @view_context.link_to_query(query)
-        end
+        p = @view_context.search_state.to_h.except(:page, :action)
+        p[:q] = query
+        link_to(query, @view_context.search_action_path(p))
       end
 
       def render?
-        Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
-          @options.any? && @view_context.should_show_spellcheck_suggestions?(@response)
-        end
+        @options.any? && should_show_spellcheck_suggestions?
+      end
+
+      private
+
+      ##
+      # Determine whether to display spellcheck suggestions
+      #
+      # @param [Blacklight::Solr::Response] response
+      # @return [Boolean]
+      def should_show_spellcheck_suggestions?
+        # The spelling response field may be missing from non solr repositories.
+        @response.total <= @view_context.blacklight_config.spell_max &&
+          !@response.spelling.nil? &&
+          @response.spelling.words.any?
       end
     end
   end

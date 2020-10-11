@@ -33,9 +33,6 @@ module Blacklight
     # Default rendering pipeline:
     # @!attribute link_to_facet
     #   @return [Boolean]
-    # @!attribute link_to_search
-    #   @deprecated use link_to_facet instead.
-    #   @return [Boolean]
     # @!attribute itemprop
     #   @return [String]
     # @!attribute separator_options

@@ -11,6 +11,20 @@
 # further context to the SearchService. For example you could override this to provide the
 # currently signed in user.
 module Blacklight::Searchable
+  included do
+    # Which class to use for the search state. You can subclass SearchState if you
+    # want to override any of the methods (e.g. SearchState#url_for_document)
+    # TODO: move to Searchable
+    class_attribute :search_state_class
+    self.search_state_class = Blacklight::SearchState
+
+    # Which class to use for the search service. You can subclass SearchService if you
+    # want to override any of the methods (e.g. SearchService#fetch)
+    # TODO: move to Searchable
+    class_attribute :search_service_class
+    self.search_service_class = Blacklight::SearchService
+  end
+
   # @return [Blacklight::SearchService]
   def search_service
     search_service_class.new(config: blacklight_config, user_params: search_state.to_h, **search_service_context)

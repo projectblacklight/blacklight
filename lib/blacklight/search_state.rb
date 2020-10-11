@@ -3,8 +3,6 @@ module Blacklight
   # This class encapsulates the search state as represented by the query
   # parameters namely: :f, :q, :page, :per_page and, :sort
   class SearchState
-    extend Deprecation
-
     attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
     attr_reader :params
 
@@ -52,30 +50,6 @@ module Blacklight
       @params.deep_dup
     end
     alias to_h to_hash
-
-    def to_unsafe_h
-      Deprecation.warn(self.class, 'Use SearchState#to_h instead of SearchState#to_unsafe_h')
-      to_hash
-    end
-
-    def method_missing(method_name, *arguments, &block)
-      if @params.respond_to?(method_name)
-        Deprecation.warn(self.class, "Calling `#{method_name}` on Blacklight::SearchState " \
-          'is deprecated and will be removed in Blacklight 8. Call #to_h first if you ' \
-          ' need to use hash methods (or, preferably, use your own SearchState implementation)')
-        @params.public_send(method_name, *arguments, &block)
-      else
-        super
-      end
-    end
-
-    def respond_to_missing?(method_name, include_private = false)
-      @params.respond_to?(method_name, include_private) || super
-    end
-
-    # Tiny shim to make it easier to migrate raw params access to using this class
-    delegate :[], to: :params
-    deprecation_deprecate :[]
 
     def has_constraints?
       !(query_param.blank? && filter_params.blank?)

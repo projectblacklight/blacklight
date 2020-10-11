@@ -1,16 +1,12 @@
 # frozen_string_literal: true
 # Helper methods for catalog-like controllers
 module Blacklight::CatalogHelperBehavior
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 8.0'
-
   include Blacklight::ConfigurationHelperBehavior
   include Blacklight::ComponentHelperBehavior
   include Blacklight::FacetsHelperBehavior
   include Blacklight::RenderConstraintsHelperBehavior
   include Blacklight::RenderPartialsHelperBehavior
   include Blacklight::SearchHistoryConstraintsHelperBehavior
-  include Blacklight::SuggestHelperBehavior
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
@@ -97,20 +93,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Like #page_entries_info above, but for an individual
-  # item show page. Displays "showing X of Y items" message.
-  #
-  # @deprecated
-  # @see #page_entries_info
-  # @return [String]
-  def item_page_entry_info
-    t('blacklight.search.entry_pagination_info.other', current: number_with_delimiter(search_session['counter']),
-                                                       total: number_with_delimiter(search_session['total']),
-                                                       count: search_session['total'].to_i).html_safe
-  end
-  deprecation_deprecate item_page_entry_info: 'Use Blacklight::SearchContextComponent methods instead'
-
-  ##
   # Look up search field user-displayable label
   # based on params[:qt] and blacklight_configuration.
   # @return [String]
@@ -159,20 +141,17 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the sidebar partial for a document
   #
+  # TODO: deprecate this
   # @param [SolrDocument] document
   # @return [String]
-  def render_document_sidebar_partial(document = nil)
-    unless document
-      Deprecation.warn(self, 'render_document_sidebar_partial expects one argument ' \
-        '(@document) and you passed none. This behavior will be removed in version 8')
-      document = @document
-    end
+  def render_document_sidebar_partial(document)
     render 'show_sidebar', document: document
   end
 
   ##
   # Render the main content partial for a document
   #
+  # TODO: deprecate this
   # @param [SolrDocument] _document
   # @return [String]
   def render_document_main_content_partial(_document = @document)
@@ -182,6 +161,7 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Should we display the sort and per page widget?
   #
+  # TODO: deprecate this
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def show_sort_and_per_page? response = nil
@@ -200,59 +180,9 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # If no search parameters have been given, we should
-  # auto-focus the user's cursor into the searchbox
-  #
-  # @deprecated
-  # @return [Boolean]
-  def should_autofocus_on_search_box?
-    controller.is_a?(Blacklight::Catalog) &&
-      action_name == "index" &&
-      !has_search_parameters?
-  end
-  deprecation_deprecate should_autofocus_on_search_box?: "use SearchBarPresenter#autofocus?"
-
-  ##
-  # Does the document have a thumbnail to render?
-  #
-  # @deprecated
-  # @param [SolrDocument] document
-  # @return [Boolean]
-  def has_thumbnail? document
-    document_presenter(document).thumbnail.exists?
-  end
-  deprecation_deprecate has_thumbnail?: "use IndexPresenter#thumbnail.exists?"
-
-  ##
-  # Render the thumbnail, if available, for a document and
-  # link it to the document record.
-  #
-  # @deprecated
-  # @param [SolrDocument] document
-  # @param [Hash] image_options to pass to the image tag
-  # @param [Hash] url_options to pass to #link_to_document
-  # @return [String]
-  def render_thumbnail_tag document, image_options = {}, url_options = {}
-    document_presenter(document).thumbnail.thumbnail_tag(image_options, url_options)
-  end
-  deprecation_deprecate render_thumbnail_tag: "Use IndexPresenter#thumbnail.thumbnail_tag"
-
-  ##
-  # Get the URL to a document's thumbnail image
-  #
-  # @deprecated
-  # @param [SolrDocument] document
-  # @return [String]
-  def thumbnail_url document
-    if document.has? blacklight_config.view_config(document_index_view_type).thumbnail_field
-      document.first(blacklight_config.view_config(document_index_view_type).thumbnail_field)
-    end
-  end
-  deprecation_deprecate thumbnail_url: "this method will be removed without replacement"
-
-  ##
   # Render the view type icon for the results view picker
   #
+  # TODO: deprecate this
   # @param [String] view
   # @return [String]
   def render_view_type_group_icon view
@@ -260,28 +190,10 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Get the default view type classes for a view in the results view picker
-  #
-  # @deprecated
-  # @param [String] view
-  # @return [String]
-  def default_view_type_group_icon_classes view
-    Deprecation.warn(Blacklight::CatalogHelperBehavior, 'This method has been deprecated, use blacklight_icons helper instead')
-    "glyphicon-#{view.to_s.parameterize} view-icon-#{view.to_s.parameterize}"
-  end
-
-  ##
   # return the Bookmarks on a set of documents
   # @param [Enumerable<Blacklight::Document>] documents_or_response
   # @return [Enumerable<Bookmark>]
-  def current_bookmarks documents_or_response = nil
-    documents = if documents_or_response.respond_to? :documents
-                  Deprecation.warn(Blacklight::CatalogHelperBehavior, "Passing a response to #current_bookmarks is deprecated; pass response.documents instead")
-                  documents_or_response.documents
-                else
-                  documents_or_response
-                end
-
+  def current_bookmarks documents
     documents ||= [@document] if @document.present?
     documents ||= @response.documents
 

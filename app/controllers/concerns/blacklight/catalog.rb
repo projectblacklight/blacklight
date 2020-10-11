@@ -2,7 +2,8 @@
 module Blacklight::Catalog
   extend ActiveSupport::Concern
 
-  include Blacklight::Base
+  include Blacklight::Configurable
+  include Blacklight::SearchContext
   include Blacklight::Facet
   include Blacklight::Searchable
 
@@ -16,6 +17,9 @@ module Blacklight::Catalog
     end
 
     helper Blacklight::Facet if respond_to? :helper
+    helper_method :blacklight_configuration_context
+    helper_method :search_facet_path
+    helper_method :search_state
 
     # The index action will more than likely throw this one.
     # Example: when the standard query parser is used, and a user submits a "bad" query.
@@ -26,9 +30,7 @@ module Blacklight::Catalog
 
   # get search results from the solr index
   def index
-    (@response, deprecated_document_list) = search_service.search_results
-
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
+    @response, _deprecated_document_list = search_service.search_results
 
     respond_to do |format|
       format.html { store_preferred_view }
@@ -46,8 +48,7 @@ module Blacklight::Catalog
   # get a single document from the index
   # to add responses for formats other than html or json see _Blacklight::Document::Export_
   def show
-    deprecated_response, @document = search_service.fetch(params[:id])
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
+    _deprecated_response, @document = search_service.fetch(params[:id])
 
     respond_to do |format|
       format.html { @search_context = setup_next_and_previous_documents }
@@ -324,5 +325,28 @@ module Blacklight::Catalog
 
     flash[:notice] = flash_notice
     redirect_to search_action_url
+  end
+
+  ##
+  # Context in which to evaluate blacklight configuration conditionals
+  # TODO: move to catalog?
+  def blacklight_configuration_context
+    @blacklight_configuration_context ||= Blacklight::Configuration::Context.new(self)
+  end
+
+  # @return [Blacklight::SearchState] a memoized instance of the parameter state.
+  # TODO: move to catalog?
+  def search_state
+    @search_state ||= search_state_class.new(params, blacklight_config, self)
+  end
+
+  # TODO: move to catalog? deprecate?
+  def search_facet_path(options = {})
+    opts = search_state
+           .to_h
+           .merge(action: "facet", only_path: true)
+           .merge(options)
+           .except(:page)
+    url_for opts
   end
 end

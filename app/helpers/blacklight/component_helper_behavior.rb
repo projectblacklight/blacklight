@@ -3,24 +3,6 @@ module Blacklight
   module ComponentHelperBehavior
     extend Deprecation
 
-    # @deprecated
-    def document_action_label action, opts
-      t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
-    end
-    deprecation_deprecate :document_action_label
-
-    # @deprecated
-    def document_action_path action_opts, url_opts = nil
-      if action_opts.path
-        send(action_opts.path, url_opts)
-      elsif url_opts[:id].class.respond_to?(:model_name)
-        url_for([action_opts.key, url_opts[:id]])
-      else
-        send("#{action_opts.key}_#{controller_name}_path", url_opts)
-      end
-    end
-    deprecation_deprecate :document_action_path
-
     ##
     # Render "document actions" area for navigation header
     # (normally renders "Saved Searches", "History", "Bookmarks")

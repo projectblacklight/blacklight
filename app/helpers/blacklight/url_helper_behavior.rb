@@ -29,11 +29,6 @@ module Blacklight::UrlHelperBehavior
             when Hash
               opts = field_or_opts
               document_presenter(doc).heading
-            when Proc, Symbol
-              Deprecation.warn(self, "passing a #{field_or_opts.class} to link_to_document is deprecated and will be removed in Blacklight 8")
-              Deprecation.silence(Blacklight::IndexPresenter) do
-                index_presenter(doc).label field_or_opts, opts
-              end
             else # String
               field_or_opts
             end
@@ -48,28 +43,6 @@ module Blacklight::UrlHelperBehavior
     session_tracking_params(doc, opts[:counter]).deep_merge(opts.except(:label, :counter))
   end
   private :document_link_params
-
-  ##
-  # Link to the previous document in the current search context
-  # @deprecated
-  def link_to_previous_document(previous_document)
-    link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(class: "previous", rel: 'prev')
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
-      tag.span raw(t('views.pagination.previous')), class: 'previous'
-    end
-  end
-  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
-
-  ##
-  # Link to the next document in the current search context
-  # @deprecated
-  def link_to_next_document(next_document)
-    link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(class: "next", rel: 'next')
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
-      tag.span raw(t('views.pagination.next')), class: 'next'
-    end
-  end
-  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
 
   ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session
@@ -88,7 +61,6 @@ module Blacklight::UrlHelperBehavior
 
     { data: { 'context-href': path } }
   end
-  private :session_tracking_params
 
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing
@@ -110,15 +82,6 @@ module Blacklight::UrlHelperBehavior
   #
   # link based helpers ->
   #
-
-  # create link to query (e.g. spelling suggestion)
-  # @deprecated
-  def link_to_query(query)
-    p = search_state.to_h.except(:page, :action)
-    p[:q] = query
-    link_to(query, search_action_path(p))
-  end
-  deprecation_deprecate link_to_query: 'Removed without replacement'
 
   ##
   # Get the path to the search action with any parameters (e.g. view type)
@@ -169,24 +132,4 @@ module Blacklight::UrlHelperBehavior
   def link_to_previous_search(params)
     link_to(render_search_to_s(params), search_action_path(params))
   end
-
-  # Get url parameters to a search within a grouped result set
-  #
-  # @deprecated
-  # @param [Blacklight::Solr::Response::Group] group
-  # @return [Hash]
-  def add_group_facet_params_and_redirect group
-    search_state.add_facet_params_and_redirect(group.field, group.key)
-  end
-  deprecation_deprecate add_group_facet_params_and_redirect: 'Removed without replacement'
-
-  # A URL to refworks export, with an embedded callback URL to this app.
-  # the callback URL is to bookmarks#export, which delivers a list of
-  # user's bookmarks in 'refworks marc txt' format -- we tell refworks
-  # to expect that format.
-  # @deprecated
-  def bookmarks_export_url(format, params = {})
-    bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id)))
-  end
-  deprecation_deprecate bookmarks_export_url: 'Removed without replacement'
 end

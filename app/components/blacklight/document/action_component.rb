@@ -23,14 +23,16 @@ module Blacklight
       end
 
       def label
-        Deprecation.silence(Blacklight::ComponentHelperBehavior) do
-          @view_context.document_action_label(@action.name, @action)
-        end
+        t(@action.name, context: 'blacklight.tools', default: @action.label || @action.name.to_s.humanize)
       end
 
       def url
-        Deprecation.silence(Blacklight::ComponentHelperBehavior) do
-          @view_context.document_action_path(@action, @url_opts.merge(({ id: @document } if @document) || {}))
+        if @action.path
+          send(@action.path, url_opts)
+        elsif @document&.class&.respond_to?(:model_name)
+          url_for([@action.key, url_opts[:id]])
+        else
+          send("#{@action.key}_#{@view_context.controller_name}_path", url_opts)
         end
       end
     end

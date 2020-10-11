@@ -10,18 +10,6 @@ module Blacklight::RenderConstraintsHelperBehavior
   self.deprecation_horizon = 'blacklight 8.0'
 
   ##
-  # Check if the query has any constraints defined (a query, facet, etc)
-  #
-  # @deprecated
-  # @param [Blacklight::SearchState,Hash] params_or_search_state query parameters
-  # @return [Boolean]
-  def query_has_constraints?(params_or_search_state = search_state)
-    search_state = convert_to_search_state(params_or_search_state)
-    search_state.has_constraints?
-  end
-  deprecation_deprecate query_has_constraints?: 'use search_state#has_constraints?'
-
-  ##
   # Render the actual constraints, not including header or footer
   # info.
   #
@@ -52,12 +40,14 @@ module Blacklight::RenderConstraintsHelperBehavior
     # So simple don't need a view template, we can just do it here.
     return "".html_safe if search_state.query_param.blank?
 
-    Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-      render_constraint_element(constraint_query_label(search_state.params),
-                                search_state.query_param,
-                                classes: ["query"],
-                                remove: remove_constraint_url(search_state))
-    end
+    render(partial: "catalog/constraints_element", locals: {
+      label: constraint_query_label(search_state.params),
+      value: search_state.query_param,
+      options: {
+        classes: ["query"],
+        remove: remove_constraint_url(search_state)
+      }
+    })
   end
 
   ##
@@ -110,43 +100,16 @@ module Blacklight::RenderConstraintsHelperBehavior
       presenter = facet_item_presenter(facet_config, val, facet)
 
       Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        render_constraint_element(presenter.field_label,
-                                  presenter.label,
-                                  remove: presenter.remove_href(search_state),
-                                  classes: ["filter", "filter-" + facet.parameterize])
+        render(partial: "catalog/constraints_element", locals: {
+          label: presenter.field_label,
+          value: presenter.label,
+          options: {
+            remove: presenter.remove_href(search_state),
+            classes: ["filter", "filter-" + facet.parameterize]
+          }
+        })
       end
     end, "\n")
-  end
-
-  # Render a label/value constraint on the screen. Can be called
-  # by plugins and such to get application-defined rendering.
-  #
-  # Can be over-ridden locally to render differently if desired,
-  # although in most cases you can just change CSS instead.
-  #
-  # Can pass in nil label if desired.
-  #
-  # @deprecated
-  # @param [String] label to display
-  # @param [String] value to display
-  # @param [Hash] options
-  # @option options [String] :remove url to execute for a 'remove' action
-  # @option options [Array<String>] :classes an array of classes to add to container span for constraint.
-  # @return [String]
-  def render_constraint_element(label, value, options = {})
-    Deprecation.warn(Blacklight::RenderConstraintsHelperBehavior, 'render_constraints_element is deprecated')
-    render(partial: "catalog/constraints_element", locals: { label: label, value: value, options: options })
-  end
-
-  # @private
-  def constraints_helpers_and_partials_from_blacklight?
-    method(:render_constraints).owner == Blacklight::RenderConstraintsHelperBehavior &&
-      method(:render_constraints_query).owner == Blacklight::RenderConstraintsHelperBehavior &&
-      method(:remove_constraint_url).owner == Blacklight::RenderConstraintsHelperBehavior &&
-      method(:render_constraints_filters).owner == Blacklight::RenderConstraintsHelperBehavior &&
-      method(:render_filter_element).owner == Blacklight::RenderConstraintsHelperBehavior &&
-      method(:render_constraint_element).owner == Blacklight::RenderConstraintsHelperBehavior &&
-      partial_from_blacklight?('catalog/constraints_element')
   end
 
   private

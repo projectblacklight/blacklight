@@ -16,9 +16,9 @@ module Blacklight
         @view_context.render_document_index @group.docs
       end
 
-      def add_group_facet_params_and_redirect(group)
+      def add_group_facet_params_and_redirect
         Deprecation.silence(Blacklight::UrlHelperBehavior) do
-          @view_context.search_action_path(@view_context.add_group_facet_params_and_redirect(group))
+          @view_context.search_action_path(@view_context.search_state.add_facet_params_and_redirect(@group.field, @group.key))
         end
       end
     end

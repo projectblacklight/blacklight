@@ -14,20 +14,30 @@ module Blacklight
     end
 
     def item_page_entry_info
-      Deprecation.silence(Blacklight::CatalogHelperBehavior) do
-        @view_context.item_page_entry_info
+      t('blacklight.search.entry_pagination_info.other', current: number_with_delimiter(@search_session['counter']),
+                                                         total: number_with_delimiter(@search_session['total']),
+                                                         count: @search_session['total'].to_i).html_safe
+    end
+
+    ##
+    # Link to the previous document in the current search context
+    def link_to_previous_document(previous_document)
+      previous_document = @search_context[:prev]
+
+      link_opts = session_tracking_params(previous_document, @search_session['counter'].to_i - 1).merge(class: "previous", rel: 'prev')
+      link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
+        tag.span raw(t('views.pagination.previous')), class: 'previous'
       end
     end
 
-    def link_to_previous_document(*args)
-      Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.link_to_previous_document(*args)
-      end
-    end
+    ##
+    # Link to the next document in the current search context
+    def link_to_next_document
+      next_document = @search_context[:next]
 
-    def link_to_next_document(*args)
-      Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.link_to_next_document(*args)
+      link_opts = session_tracking_params(next_document, @search_session['counter'].to_i + 1).merge(class: "next", rel: 'next')
+      link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
+        tag.span raw(t('views.pagination.next')), class: 'next'
       end
     end
   end

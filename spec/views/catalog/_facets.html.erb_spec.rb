@@ -4,7 +4,7 @@ RSpec.describe "catalog/_facets" do
   context "with facet groups" do
     before do
       stub_template('catalog/_facet_group.html.erb' => 'text')
-      allow(view).to receive_messages(facet_group_names: [nil, nil])
+      allow(view).to receive_messages(blacklight_config: instance_double(Blacklight::Configuration, facet_group_names: [nil, nil]))
       render
     end
 

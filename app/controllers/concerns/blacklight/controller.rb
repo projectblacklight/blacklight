@@ -21,23 +21,9 @@ module Blacklight::Controller
 
       # extra head content
       helper_method :has_user_authentication_provider?
-      helper_method :blacklight_config, :blacklight_configuration_context # move to Catalog
+      helper_method :blacklight_config
       helper_method :search_action_url, :search_action_path
-      helper_method :search_facet_path # move to catalog? deprecate?
-      helper_method :search_state # move to catalog?
     end
-
-    # Which class to use for the search state. You can subclass SearchState if you
-    # want to override any of the methods (e.g. SearchState#url_for_document)
-    # TODO: move to Searchable
-    class_attribute :search_state_class
-    self.search_state_class = Blacklight::SearchState
-
-    # Which class to use for the search service. You can subclass SearchService if you
-    # want to override any of the methods (e.g. SearchService#fetch)
-    # TODO: move to Searchable
-    class_attribute :search_service_class
-    self.search_service_class = Blacklight::SearchService
 
     # This callback runs when a user first logs in
 
@@ -55,23 +41,10 @@ module Blacklight::Controller
   private
 
   ##
-  # Context in which to evaluate blacklight configuration conditionals
-  # TODO: move to catalog?
-  def blacklight_configuration_context
-    @blacklight_configuration_context ||= Blacklight::Configuration::Context.new(self)
-  end
-
-  ##
   # Determine whether to render the bookmarks control
   # (Needs to be available globally, as it is used in the navbar)
   def render_bookmarks_control?
     has_user_authentication_provider? && current_or_guest_user.present?
-  end
-
-  # @return [Blacklight::SearchState] a memoized instance of the parameter state.
-  # TODO: move to catalog?
-  def search_state
-    @search_state ||= search_state_class.new(params, blacklight_config, self)
   end
 
   # Default route to the search action (used e.g. in global partials). Override this method
@@ -88,16 +61,6 @@ module Blacklight::Controller
     end
 
     search_action_url(*args)
-  end
-
-  # TODO: move to catalog? deprecate?
-  def search_facet_path(options = {})
-    opts = search_state
-           .to_h
-           .merge(action: "facet", only_path: true)
-           .merge(options)
-           .except(:page)
-    url_for opts
   end
 
   # Returns a list of Searches from the ids in the user's history.
@@ -128,11 +91,6 @@ module Blacklight::Controller
   def has_user_authentication_provider?
     respond_to? :current_user
   end
-
-  def require_user_authentication_provider
-    raise ActionController::RoutingError, 'Not Found' unless has_user_authentication_provider?
-  end
-  deprecation_deprecate require_user_authentication_provider: 'removed without replacement'
 
   ##
   # When a user logs in, transfer any saved searches or bookmarks to the current_user

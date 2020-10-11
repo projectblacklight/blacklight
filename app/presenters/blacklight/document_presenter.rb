@@ -51,9 +51,9 @@ module Blacklight
 
     ##
     # Get the document's "title" to display in the <title> element.
-    # (by default, use the #document_heading)
+    # (by default, use the #heading)
     #
-    # @see #document_heading
+    # @see #heading
     # @return [String]
     def html_title
       return field_value(view_config.html_title_field) if view_config.html_title_field.is_a? Blacklight::Configuration::Field
@@ -114,26 +114,6 @@ module Blacklight
     end
 
     private
-
-    def render_field?(field_config)
-      field_presenter(field_config).render_field?
-    end
-    deprecation_deprecate render_field?: 'Use FieldPresenter#render_field?'
-
-    def has_value?(field_config)
-      field_presenter(field_config).any?
-    end
-    deprecation_deprecate has_value?: 'Use FieldPresenter#any?'
-
-    def field_values(field_config, options = {})
-      field_value(field_config, options)
-    end
-    deprecation_deprecate field_values: 'Use #field_value'
-
-    def retrieve_values(field_config)
-      field_presenter(field_config).values
-    end
-    deprecation_deprecate retrieve_values: 'Use FieldPresenter#values'
 
     def field_presenter(field_config, options = {})
       presenter_class = field_config.presenter || Blacklight::FieldPresenter

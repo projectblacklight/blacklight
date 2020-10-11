@@ -93,33 +93,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#spell_check_max" do
-    it "passes through the configuration" do
-      allow(blacklight_config).to receive_messages(spell_max: config_value)
-      expect(helper.spell_check_max).to eq config_value
-    end
-  end
-
-  describe "#document_show_link_field" do
-    let(:document) { SolrDocument.new id: 123, a: 1, b: 2, c: 3 }
-
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-
-    it "allows single values" do
-      blacklight_config.index.title_field = :a
-      f = helper.document_show_link_field document
-      expect(f).to eq :a
-    end
-
-    it "retrieves the first field with data" do
-      blacklight_config.index.title_field = [:zzz, :b]
-      f = helper.document_show_link_field document
-      expect(f).to eq :b
-    end
-  end
-
   describe "#view_label" do
     it "looks up the label to display for the view" do
       allow(blacklight_config).to receive(:view).and_return("my_view" => double(label: "some label", title: nil))
@@ -207,7 +180,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
     before do
       allow(Deprecation).to receive(:warn)
-      allow(helper).to receive_messages(document_has_value?: true)
     end
 
     it "is true" do

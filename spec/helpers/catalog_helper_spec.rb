@@ -224,51 +224,6 @@ RSpec.describe CatalogHelper do
     end
   end
 
-  describe "render_thumbnail_tag" do
-    let(:index_presenter) do
-      instance_double(Blacklight::IndexPresenter, thumbnail: thumbnail_presenter)
-    end
-    let(:thumbnail_presenter) { instance_double(Blacklight::ThumbnailPresenter) }
-
-    before do
-      allow(Deprecation).to receive(:warn)
-      allow(helper).to receive(:index_presenter).with(document).and_return(index_presenter)
-    end
-
-    let(:document) { instance_double(SolrDocument) }
-
-    it "calls thumbnail presenter with default values" do
-      expect(thumbnail_presenter).to receive(:thumbnail_tag).with({}, {})
-      helper.render_thumbnail_tag document
-    end
-
-    it "calls thumbnail presenter with provided values" do
-      expect(thumbnail_presenter).to receive(:thumbnail_tag).with({}, suppress_link: true)
-      helper.render_thumbnail_tag document, {}, suppress_link: true
-    end
-  end
-
-  describe "thumbnail_url" do
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-
-    it "pulls the configured thumbnail field out of the document" do
-      allow(helper).to receive_messages(blacklight_config: Blacklight::Configuration.new(index: Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz)))
-      document = instance_double(SolrDocument)
-      allow(document).to receive(:has?).with(:xyz).and_return(true)
-      allow(document).to receive(:first).with(:xyz).and_return("asdf")
-      expect(helper.thumbnail_url(document)).to eq("asdf")
-    end
-
-    it "returns nil if the thumbnail field doesn't exist" do
-      allow(helper).to receive_messages(blacklight_config: Blacklight::Configuration.new(index: Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz)))
-      document = instance_double(SolrDocument)
-      allow(document).to receive(:has?).with(:xyz).and_return(false)
-      expect(helper.thumbnail_url(document)).to be_nil
-    end
-  end
-
   describe "document_counter_with_offset" do
     it "renders the document index with the appropriate offset" do
       assign(:response, instance_double(Blacklight::Solr::Response, start: 0, grouped?: false))

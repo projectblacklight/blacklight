@@ -39,9 +39,6 @@ module Blacklight
     end
     deprecation_deprecate facets_from_request: 'Removed without replacement'
 
-    delegate :facet_group_names, to: :blacklight_config
-    deprecation_deprecate facet_group_names: 'Use blacklight_config.facet_group_names instead'
-
     # Get a FacetField object from the @response
     # @deprecated
     # @private
