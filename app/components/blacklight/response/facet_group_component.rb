@@ -17,7 +17,9 @@ module Blacklight
       end
 
       def render?
-        @view_context.has_facet_values?(@fields, @response)
+        Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+          @view_context.has_facet_values?(@fields, @response)
+        end
       end
     end
   end

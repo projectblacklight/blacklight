@@ -3,6 +3,8 @@
 RSpec.describe Blacklight::FacetsHelperBehavior do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   before do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
@@ -103,6 +105,8 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
   end
 
   describe "facet_by_field_name" do
+    around { |test| Deprecation.silence(Blacklight::Facet) { test.call } }
+
     it "retrieves the facet from the response given a string" do
       facet_config = double(query: nil, field: 'b', key: 'a')
       facet_field = double
@@ -133,7 +137,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       expect(helper).to receive(:render_facet_limit).with(a, {})
       expect(helper).to receive(:render_facet_limit).with(b, {})
       helper.render_facet_partials
-      expect(Deprecation).to have_received(:warn).twice
     end
   end
 
@@ -232,6 +235,8 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
         # allow_any_instance_of(Blacklight::FacetItemComponent).to receive(:overridden_helper_methods?).and_return(true)
         allow(helper).to receive(:render_facet_item).and_return('<a class="facet-select">Book</a>'.html_safe, nil)
       end
+
+      around { |test| Deprecation.silence(Blacklight::FacetItemComponent) { test.call } }
 
       it "draws a list of elements" do
         expect(subject).to have_selector 'li', count: 1

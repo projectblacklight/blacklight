@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::HashAsHiddenFieldsHelperBehavior do
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   let(:params) do
     { q: "query",
       search_field: "search_field",

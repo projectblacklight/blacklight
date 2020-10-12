@@ -1,13 +1,5 @@
-<% if show_sort_and_per_page? and has_alternative_views? -%>
-<div class="view-type">
-  <span class="sr-only"><%= t('blacklight.search.view_title') %></span>
-  <div class="view-type-group btn-group">
-    <% document_index_view_controls.each do |view, config| %>
-      <%= link_to url_for(search_state.to_h.merge(view: view)), title: view_label(view), class: "btn btn-outline-secondary btn-icon view-type-#{ view.to_s.parameterize } #{"active" if document_index_view_type == view}" do %>
-        <%= render_view_type_group_icon view %>
-        <span class="caption"><%= view_label(view) %></span>
-      <% end %>
-    <% end %>
-  </div>
-</div>
-<% end -%>
+<%= render(Blacklight::Response::ViewTypeComponent.new(
+      response: @response,
+      views: document_index_view_controls,
+      search_state: search_state,
+      selected: document_index_view_type)) if show_sort_and_per_page? -%>

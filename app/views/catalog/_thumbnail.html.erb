@@ -1,5 +1,1 @@
-<% if document_presenter(document).thumbnail.exists? && tn = document_presenter(document).thumbnail.thumbnail_tag({ alt: '' }, 'aria-hidden': true, tabindex: -1, counter: document_counter_with_offset(document_counter)) %>
-<div class="document-thumbnail">
-  <%= tn %>
-</div>
-<% end %>
+<%= render Blacklight::Document::ThumbnailComponent.new(presenter: document_presenter(document), counter: document_counter_with_offset(document_counter)) -%>

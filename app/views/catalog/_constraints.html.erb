@@ -1,9 +1,14 @@
-<% if Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { query_has_constraints? } %>
-  <div id="appliedParams" class="clearfix constraints-container">
-    <h2 class="sr-only"><%= t('blacklight.search.search_constraints_header') %></h2>
+<% if constraints_helpers_and_partials_from_blacklight? %>
+  <%= render(Blacklight::ConstraintsComponent.new(search_state: convert_to_search_state(controller.params != params ? params : search_state))) %>
+<% else %>
+  <% Deprecation.warn(Blacklight::RenderConstraintsHelperBehavior, 'Constraints helpers or partials were overridden; not using components') %>
+  <% if Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { query_has_constraints? } %>
+    <div id="appliedParams" class="clearfix constraints-container">
+      <h2 class="sr-only"><%= t('blacklight.search.search_constraints_header') %></h2>
 
-    <%= render 'start_over' %>
-    <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
-    <%= render_constraints(controller.params != params ? params : search_state) %>
-  </div>
+      <%= render 'start_over' %>
+      <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
+      <%= render_constraints(controller.params != params ? params : search_state) %>
+    </div>
+  <% end %>
 <% end %>

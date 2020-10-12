@@ -20,6 +20,8 @@
   </div>
 
   <%= content_tag :div, id: @panel_id, class: 'facets-collapse collapse' do %>
-    <%= @view_context.render_facet_partials @fields, response: @response %>
+    <% Deprecation.silence(Blacklight::FacetsHelperBehavior) do %>
+      <%= @view_context.render_facet_partials @fields, response: @response %>
+    <% end %>
   <% end %>
 <% end %>

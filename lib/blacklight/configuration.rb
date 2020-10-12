@@ -256,6 +256,11 @@ module Blacklight
       facet_fields.select { |_facet, opts| group == opts[:group] }.values.map(&:field)
     end
 
+    # @return [Array<String>] a list of facet groups
+    def facet_group_names
+      facet_fields.map { |_facet, opts| opts[:group] }.uniq
+    end
+
     # Add any configured facet fields to the default solr parameters hash
     # @overload add_facet_fields_to_solr_request!
     #    add all facet fields to the solr request
@@ -398,7 +403,8 @@ module Blacklight
 
     def add_action(config_hash, name, opts)
       config = Blacklight::Configuration::ToolConfig.new opts
-      config.name = name
+      config.name ||= name
+      config.key = name
       yield(config) if block_given?
       config_hash[name] = config
     end

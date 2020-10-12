@@ -320,7 +320,7 @@ module Blacklight::CatalogHelperBehavior
     constraints = []
 
     if params['q'].present?
-      q_label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
+      q_label = label_for_search_field(params[:search_field]) unless default_search_field?(params[:search_field])
 
       constraints += if q_label.present?
                        [t('blacklight.search.page_title.constraint', label: q_label, value: params['q'])]

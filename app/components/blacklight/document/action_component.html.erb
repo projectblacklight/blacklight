@@ -1,0 +1,9 @@
+<% if using_default_document_action? %>
+  <%= link_to label,
+              url,
+              id: @id,
+              class: 'nav-link',
+              data: {}.merge(({ blacklight_modal: "trigger" } if @action.modal != false) || {}) %>
+<% else %>
+  <%= @view_context.render(partial: @action.partial || @action.name.to_s, locals: { document: @document, document_action_config: @action }.merge(@options)) %>
+<% end %>

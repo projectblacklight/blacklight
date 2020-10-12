@@ -14,6 +14,10 @@ module Blacklight
       @view_config = view_config
     end
 
+    def render(image_options = {})
+      thumbnail_value(image_options)
+    end
+
     ##
     # Does the document have a thumbnail to render?
     #

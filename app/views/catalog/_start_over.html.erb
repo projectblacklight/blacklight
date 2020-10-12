@@ -1,1 +1,1 @@
-<%= link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
+<%= link_to t('blacklight.search.start_over'), (Deprecation.silence(Blacklight::UrlHelperBehavior) { start_over_path }), class: "catalog_startOverLink btn btn-primary" %>

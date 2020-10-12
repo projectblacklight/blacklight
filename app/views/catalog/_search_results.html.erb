@@ -24,7 +24,7 @@
 <%- if @response.empty? %>
   <%= render "zero_results" %>
 <%- elsif render_grouped_response? %>
-  <%= render_grouped_document_index %>
+  <%= Deprecation.silence(Blacklight::RenderPartialsHelperBehavior) { render_grouped_document_index } %>
 <%- else %>
   <%= render_document_index %>
 <%- end %>

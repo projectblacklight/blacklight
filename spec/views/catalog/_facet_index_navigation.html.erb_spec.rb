@@ -3,12 +3,14 @@
 RSpec.describe 'catalog/_facet_index_navigation.html.erb', type: :view do
   let(:pagination) { Blacklight::Solr::FacetPaginator.new([]) }
   let(:facet) { Blacklight::Configuration::FacetField.new(index_range: '0'..'9') }
+  let(:display_facet) { double(items: [], offset: 0, prefix: '', sort: 'index') }
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
-    assign(:pagination, pagination)
+    assign(:display_facet, display_facet)
     assign(:facet, facet)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive(:facet_limit_for).and_return(10)
     controller.request.path_parameters[:action] = 'index'
   end
 
@@ -27,7 +29,7 @@ RSpec.describe 'catalog/_facet_index_navigation.html.erb', type: :view do
   end
 
   context 'with a selected index' do
-    let(:pagination) { Blacklight::Solr::FacetPaginator.new([], prefix: '5') }
+    let(:display_facet) { double(items: [], offset: 0, prefix: '5', sort: 'index') }
 
     it 'highlights the selected index' do
       render

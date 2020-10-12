@@ -1,0 +1,11 @@
+<div class="view-type">
+  <span class="sr-only"><%= t('blacklight.search.view_title') %></span>
+  <div class="view-type-group btn-group">
+    <% @views.each do |view, config| %>
+      <%= link_to url(view), title: label(view), class: "btn btn-outline-secondary btn-icon view-type-#{ view.to_s.parameterize } #{"active" if @selected == view}" do %>
+        <%= icon(view) %>
+        <span class="caption"><%= label(view) %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>

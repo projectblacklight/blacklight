@@ -12,11 +12,15 @@ module Blacklight
       end
 
       def link_to_query(query)
-        @view_context.link_to_query(query)
+        Deprecation.silence(Blacklight::UrlHelperBehavior) do
+          @view_context.link_to_query(query)
+        end
       end
 
       def render?
-        @options.any? && @view_context.should_show_spellcheck_suggestions?(@response)
+        Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
+          @options.any? && @view_context.should_show_spellcheck_suggestions?(@response)
+        end
       end
     end
   end

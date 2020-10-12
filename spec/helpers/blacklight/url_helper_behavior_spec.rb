@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::UrlHelperBehavior do
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_tsim'

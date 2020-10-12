@@ -1,0 +1,5 @@
+<%= render(@layout.new(
+      classes: (Array(@classes) + ["filter-#{@facet_item_presenter.facet_config.key.parameterize}"]).join(' '),
+      label: @facet_item_presenter.field_label,
+      value: @facet_item_presenter.label,
+      remove_path: @facet_item_presenter.remove_href)) %>

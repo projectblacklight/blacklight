@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::SearchFields do
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   class MockConfig
     include Blacklight::SearchFields
   end

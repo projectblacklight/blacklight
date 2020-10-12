@@ -1,2 +1,2 @@
 <% # bookmark/folder functions -%>
-<%= render_document_heading(document, :tag => :h1) %>
+<%= Deprecation.silence(Blacklight::BlacklightHelperBehavior) { render_document_heading(document, :tag => :h1) } %>

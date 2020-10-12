@@ -18,7 +18,9 @@ module Blacklight
 
     # @return [Array<Blacklight::Solr::Response::Facets::FacetField>]
     def search_facets
-      facets_from_request(facet_field_names, @response).select { |display_facet| display_facet.items.present? }
+      Deprecation.silence(Blacklight::Facet) do
+        facets_from_request(facet_field_names, @response).select { |display_facet| display_facet.items.present? }
+      end
     end
 
     # extract the pagination info from the response object

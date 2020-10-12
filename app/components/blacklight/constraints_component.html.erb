@@ -1,0 +1,10 @@
+<%= content_tag :div, id: @id, class: @classes do %>
+  <h2 class="sr-only"><%= t('blacklight.search.search_constraints_header') %></h2>
+
+  <%= link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
+
+  <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
+  <%= query_constraints_area || query_constraints %>
+  <%= facet_constraints_area || facet_constraints %>
+  <%= additional_constraints %>
+<% end %>

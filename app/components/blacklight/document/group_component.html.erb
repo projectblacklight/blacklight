@@ -1,0 +1,9 @@
+<div class="group">
+  <h2 class="group-key"><%= @group.key %></h2>
+  <div class="grouped-documents">
+    <%= grouped_documents %>
+  </div>
+  <%- if @group_limit > 0 && @group.total > @group_limit %>
+    <%= @view_context.link_to t('blacklight.search.group.more'), add_group_facet_params_and_redirect(@group), class: 'more-in-group' %>
+  <%- end %>
+</div>

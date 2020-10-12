@@ -24,6 +24,7 @@ module Blacklight::ConfigurationHelperBehavior
   def search_fields
     search_field_options_for_select
   end
+  deprecation_deprecate search_fields: 'removed without replacement'
 
   # Returns suitable argument to options_for_select method, to create
   # an html select based on #search_field_list. Skips search_fields
@@ -34,6 +35,7 @@ module Blacklight::ConfigurationHelperBehavior
       [label_for_search_field(field_def.key), field_def.key] if should_render_field?(field_def)
     end.compact
   end
+  deprecation_deprecate search_field_options_for_select: 'removed without replacement'
 
   # used in the catalog/_show partial
   # @return [Array<Blacklight::Configuration::Field>]
@@ -51,13 +53,16 @@ module Blacklight::ConfigurationHelperBehavior
   def constraint_query_label(localized_params = params)
     label_for_search_field(localized_params[:search_field]) unless default_search_field?(localized_params[:search_field])
   end
+  deprecation_deprecate constraint_query_label: 'Moving to Blacklight::ConstraintsComponent'
 
   ##
   # Is the search form using the default search field ("all_fields" by default)?
   # @param [String] selected_search_field the currently selected search_field
   # @return [Boolean]
   def default_search_field?(selected_search_field)
-    selected_search_field.blank? || (default_search_field && selected_search_field == default_search_field[:key])
+    Deprecation.silence(Blacklight::SearchFields) do
+      selected_search_field.blank? || (default_search_field && selected_search_field == default_search_field[:key])
+    end
   end
 
   ##
@@ -106,6 +111,7 @@ module Blacklight::ConfigurationHelperBehavior
       view.to_s.humanize
     )
   end
+  deprecation_deprecate view_label: 'Moving to Blacklight::Response::ViewTypeComponent'
 
   # Shortcut for commonly needed operation, look up display
   # label for the key specified.
@@ -172,6 +178,7 @@ module Blacklight::ConfigurationHelperBehavior
   def has_alternative_views?
     document_index_views.keys.length > 1
   end
+  deprecation_deprecate has_alternative_views?: 'Moving to Blacklight::Response::ViewTypeComponent'
 
   ##
   #  Maximum number of results for spell checking
@@ -179,6 +186,7 @@ module Blacklight::ConfigurationHelperBehavior
   def spell_check_max
     blacklight_config.spell_max
   end
+  deprecation_deprecate spell_check_max: 'Use blacklight_config.spell_max directly'
 
   # Used in the document list partial (search view) for creating a link to the document show action
   # @deprecated

@@ -1,0 +1,12 @@
+<nav class="alpha-filter">
+  <ol class="pagination pagination-sm justify-content-center">
+    <li class="page-item <%= 'active' if prefix.blank? %>">
+      <%= link_to t('blacklight.search.facets.all'), clear_facet_prefix_url, data: { blacklight_modal: "preserve" }, class: 'page-link' %>
+    </li>
+    <% @facet_field.facet_field.index_range.each do |letter| %>
+      <li class="page-item <%= 'active' if prefix == letter %>">
+        <%= link_to(letter, facet_prefix_url(letter), class: 'page-link', data: { blacklight_modal: "preserve" }) %>
+      </li>
+    <% end %>
+  </ol>
+</nav>

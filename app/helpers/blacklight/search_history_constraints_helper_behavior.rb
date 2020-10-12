@@ -20,7 +20,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   def render_search_to_s_q(params)
     return "".html_safe if params['q'].blank?
 
-    label = label_for_search_field(params[:search_field]) unless default_search_field && params[:search_field] == default_search_field[:key]
+    label = label_for_search_field(params[:search_field]) unless default_search_field?(params[:search_field])
 
     render_search_to_s_element(label, render_filter_value(params['q']))
   end
@@ -60,7 +60,9 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # Render the value of the facet
   def render_filter_value value, key = nil
     display_value = value
-    display_value = facet_display_value(key, value) if key
+    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+      display_value = facet_display_value(key, value) if key
+    end
     tag.span(h(display_value),
              class: 'filter-value')
   end

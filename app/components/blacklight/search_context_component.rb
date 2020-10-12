@@ -20,11 +20,15 @@ module Blacklight
     end
 
     def link_to_previous_document(*args)
-      @view_context.link_to_previous_document(*args)
+      Deprecation.silence(Blacklight::UrlHelperBehavior) do
+        @view_context.link_to_previous_document(*args)
+      end
     end
 
     def link_to_next_document(*args)
-      @view_context.link_to_next_document(*args)
+      Deprecation.silence(Blacklight::UrlHelperBehavior) do
+        @view_context.link_to_next_document(*args)
+      end
     end
   end
 end

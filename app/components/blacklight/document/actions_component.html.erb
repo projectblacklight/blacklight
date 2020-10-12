@@ -1,0 +1,13 @@
+<%= content_tag @tag, class: @classes do %>
+  <% @actions.each do |action| %>
+    <% result = capture { @view_context.render((action.component || Blacklight::Document::ActionComponent).new(action: action, document: @document, options: @options, url_opts: @url_opts)) } %>
+
+    <% if @wrapping_tag %>
+      <%= content_tag(@wrapping_tag, class: Array(@wrapping_classes) + [action.key]) do %>
+        <%= result %>
+      <% end %>
+    <% else %>
+      <%= result %>
+    <% end %>
+  <% end %>
+<% end %>

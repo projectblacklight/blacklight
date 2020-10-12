@@ -29,6 +29,7 @@ Layout/IndentationConsistency:
 Metrics/BlockLength:
   Exclude:
     - "app/views/catalog/index.json.jbuilder"
+    - "app/views/catalog/_document.atom.builder"
     - "lib/railties/blacklight.rake"
     - "tasks/blacklight.rake"
     - "spec/**/*"
@@ -41,6 +42,10 @@ Layout/LineLength:
   Max: 200
   Exclude:
     - 'spec/**/*'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'app/controllers/concerns/blacklight/catalog.rb'
 
 Naming/HeredocDelimiterNaming:
   Enabled: false
