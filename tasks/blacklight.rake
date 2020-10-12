@@ -10,25 +10,40 @@ end
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new(:rubocop)
 
+require 'solr_wrapper'
+require 'open3'
+
+def system_with_error_handling(*args)
+  Open3.popen3(*args) do |stdout, stderr, status, _thread|
+    puts stdout.read
+    raise "Unable to run #{args.inspect}: #{stderr.read}" unless status.success?
+  end
+end
+
 def with_solr
-  puts "Starting Solr"
-  system "docker-compose up -d solr"
-  yield
-ensure
-  puts "Stopping Solr"
-  system "docker-compose stop solr"
+  if system('docker-compose')
+    begin
+      puts "Starting Solr"
+      system_with_error_handling "docker-compose up -d solr"
+      yield
+    ensure
+      puts "Stopping Solr"
+      system_with_error_handling "docker-compose stop solr"
+    end
+  else
+    SolrWrapper.wrap do |solr|
+      solr.with_collection do
+        yield
+      end
+    end
+  end
 end
 
 # rubocop:disable Rails/RakeEnvironment
 desc "Run test suite"
 task :ci do
   with_solr do
-    Rake::Task['engine_cart:generate'].invoke
-
-    within_test_app do
-      system "RAILS_ENV=test bin/rake blacklight:index:seed"
-    end
-
+    Rake::Task['blacklight:internal:seed'].invoke
     Rake::Task['blacklight:coverage'].invoke
   end
 end
