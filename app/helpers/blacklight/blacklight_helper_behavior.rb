@@ -408,7 +408,7 @@ module Blacklight::BlacklightHelperBehavior
   # @private
 
   def self.blacklight_path
-    @blacklight_path ||= Gem.loaded_specs["blacklight"].source.path.to_s
+    @blacklight_path ||= Gem.loaded_specs["blacklight"].full_gem_path
   end
 
   def partial_from_blacklight?(partial)
