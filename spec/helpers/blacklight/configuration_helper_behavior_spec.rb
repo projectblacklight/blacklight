@@ -122,8 +122,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#view_label" do
     it "looks up the label to display for the view" do
-      allow(blacklight_config).to receive(:view).and_return("my_view" => double(label: "some label", title: nil))
-      allow(helper).to receive(:field_label).with(:"blacklight.search.view_title.my_view", :"blacklight.search.view.my_view", "some label", nil, "My view")
+      allow(blacklight_config).to receive(:view).and_return("my_view" => double(display_label: "some label"))
 
       helper.view_label "my_view"
     end

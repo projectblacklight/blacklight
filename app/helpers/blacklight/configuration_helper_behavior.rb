@@ -103,15 +103,9 @@ module Blacklight::ConfigurationHelperBehavior
   # @return [String]
   def view_label view
     view_config = blacklight_config.view[view]
-    field_label(
-      :"blacklight.search.view_title.#{view}",
-      :"blacklight.search.view.#{view}",
-      view_config.label,
-      view_config.title,
-      view.to_s.humanize
-    )
+    view_config.display_label(view)
   end
-  deprecation_deprecate view_label: 'Moving to Blacklight::Response::ViewTypeComponent'
+  deprecation_deprecate view_label: 'Moving to ViewConfig#display_label and Blacklight::Response::ViewTypeComponent'
 
   # Shortcut for commonly needed operation, look up display
   # label for the key specified.
