@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/projectblacklight/blacklight.git"
   },
+  "files": [
+    "app/assets",
+    "app/javascript"
+  ],
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
