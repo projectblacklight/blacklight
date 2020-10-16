@@ -244,6 +244,21 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe 'with a facet with a custom filter query builder' do
+      let(:user_params) { { f: { some: ['value'] } }.with_indifferent_access }
+
+      before do
+        blacklight_config.add_facet_field 'some', filter_query_builder: (lambda do |*_args|
+          ['some:filter', { qq1: 'abc' }]
+        end)
+      end
+
+      it "has proper solr parameters" do
+        expect(subject[:fq]).to include('some:filter')
+        expect(subject[:qq1]).to include('abc')
+      end
+    end
+
     describe "solr parameters for a field search from config (subject)" do
       let(:user_params) { subject_search_params }
 

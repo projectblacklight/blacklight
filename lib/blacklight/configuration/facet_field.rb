@@ -46,6 +46,11 @@ module Blacklight
     #      are a hash containing: label (a label to show the user in the facet interface), fq (a string passed into solr as an fq (when selected) or a facet.query)
     # @!attribute pivot
     #   @return []
+    # @!attribute filter_query_builder
+    #   @return [nil, #call] a Proc (or other object responding to #call) that receives as parameters this facet config and an array of selected values;
+    #     The Proc returns a string suitable for e.g. Solr's fq parameter, or a 2-element array of the string and a hash of additional
+    #     parameters to include with the query (i.e. for referenced subqueries); note that implementations are responsible for ensuring
+    #     the additional parameter keys are unique.
 
     ##
     # Rendering:
