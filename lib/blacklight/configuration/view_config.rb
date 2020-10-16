@@ -17,6 +17,18 @@ class Blacklight::Configuration
       super || Blacklight::SearchBarPresenter
     end
 
+    def display_label(key)
+      I18n.t(
+        :"blacklight.search.view_title.#{key}",
+        default: [
+          :"blacklight.search.view.#{key}",
+          label,
+          title,
+          key.to_s.humanize
+        ]
+      )
+    end
+
     class Show < ViewConfig
       # @!attribute route
       #   @return [Hash] Default route parameters for 'show' requests.
