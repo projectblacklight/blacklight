@@ -118,6 +118,6 @@ RSpec.describe "Search Page" do
 
   it "handles searches with invalid facet parameters" do
     visit root_path f: { missing_s: [1] }
-    expect(page).to have_content "No results found for your search"
+    expect(page).not_to have_text "Missing S"
   end
 end

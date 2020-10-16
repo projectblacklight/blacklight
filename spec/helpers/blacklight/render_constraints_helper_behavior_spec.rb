@@ -36,13 +36,13 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
 
     before do
       allow(helper).to receive(:blacklight_config).and_return(config)
-      expect(helper).to receive(:facet_field_label).with('type').and_return("Item Type")
     end
 
     let(:params) { ActionController::Parameters.new q: 'biz' }
     let(:path) { Blacklight::SearchState.new(params, config, controller) }
 
     it "has a link relative to the current url" do
+      expect(helper).to receive(:facet_field_label).with('type').and_return("Item Type")
       expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
       expect(subject).to have_selector ".filter-name", text: 'Item Type'
     end
@@ -51,7 +51,16 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
       subject { helper.render_filter_element('type', 'journal', path) }
 
       it "handles string values gracefully" do
+        expect(helper).to receive(:facet_field_label).with('type').and_return("Item Type")
         expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
+      end
+    end
+
+    context "with unknown facet field in param" do
+      subject { helper.render_filter_element('unknown_field', 'journal', path) }
+
+      it "does not render for an unknown field" do
+        expect(subject).to be_empty
       end
     end
   end

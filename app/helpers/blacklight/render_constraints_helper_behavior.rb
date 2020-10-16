@@ -106,6 +106,8 @@ module Blacklight::RenderConstraintsHelperBehavior
 
     safe_join(Array(values).map do |val|
       next if val.blank? # skip empty string
+      # skip if facet field not configured
+      next if blacklight_config.facet_fields[facet.to_s].blank?
 
       presenter = facet_item_presenter(facet_config, val, facet)
 
