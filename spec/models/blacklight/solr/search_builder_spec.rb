@@ -399,6 +399,21 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe 'the search field query_builder config' do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new do |config|
+          config.add_search_field('built_query', query_builder: ->(builder, *_args) { [builder.blacklight_params[:q].reverse, qq1: 'xyz'] })
+        end
+      end
+
+      let(:user_params) { { search_field: 'built_query', q: 'value' } }
+
+      it 'uses the provided query builder' do
+        expect(subject[:q]).to eq 'eulav'
+        expect(subject[:qq1]).to eq 'xyz'
+      end
+    end
+
     describe "mapping facet.field" do
       let(:blacklight_config) do
         Blacklight::Configuration.new do |config|
