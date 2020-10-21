@@ -62,6 +62,14 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
   end
 
+  describe 'config.index.document_actions' do
+    it 'allows you to use the << operator' do
+      config.index.document_actions << :blah
+      expect(config.index.document_actions.blah).to have_attributes key: :blah
+      expect(config.index.document_actions.blah.name).to eq :blah
+    end
+  end
+
   describe "config.index.respond_to" do
     it "has a list of additional formats for index requests to respond to" do
       config.index.respond_to.xml = true
