@@ -51,6 +51,8 @@ module Blacklight
     #     The Proc returns a string suitable for e.g. Solr's fq parameter, or a 2-element array of the string and a hash of additional
     #     parameters to include with the query (i.e. for referenced subqueries); note that implementations are responsible for ensuring
     #     the additional parameter keys are unique.
+    # @!attribute filter_class
+    #  @ return [nil, Blacklight::SearchState::FilterField] a class that implements the `FilterField`'s' API to manage URL parameters for a facet
 
     ##
     # Rendering:

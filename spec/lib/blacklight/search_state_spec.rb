@@ -3,6 +3,8 @@
 RSpec.describe Blacklight::SearchState do
   subject(:search_state) { described_class.new(params, blacklight_config, controller) }
 
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_tsim'
@@ -242,9 +244,9 @@ RSpec.describe Blacklight::SearchState do
       end
 
       it "uses the facet's key in the url" do
-        allow(search_state).to receive(:facet_configuration_for_field).with('some_field').and_return(double(single: true, field: "a_solr_field", key: "some_key"))
+        blacklight_config.add_facet_field 'some_key', single: true, field: "a_solr_field"
 
-        result_params = search_state.add_facet_params('some_field', 'my_value')
+        result_params = search_state.add_facet_params('some_key', 'my_value')
 
         expect(result_params[:f]['some_key']).to have(1).item
         expect(result_params[:f]['some_key'].first).to eq 'my_value'
@@ -284,7 +286,7 @@ RSpec.describe Blacklight::SearchState do
       let(:params) { parameter_class.new f: { 'single_value_facet_field' => 'other_value' } }
 
       it "replaces facets configured as single" do
-        allow(search_state).to receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(double(single: true, key: "single_value_facet_field"))
+        blacklight_config.add_facet_field 'single_value_facet_field', single: true
         result_params = search_state.add_facet_params('single_value_facet_field', 'my_value')
 
         expect(result_params[:f]['single_value_facet_field']).to have(1).item
