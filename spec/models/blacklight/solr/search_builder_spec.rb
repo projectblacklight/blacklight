@@ -186,9 +186,9 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     end
 
     describe "for request params also passed in as argument" do
-      let(:user_params) { { q: "some query", 'q' => 'another value' } }
+      let(:user_params) { { 'q' => 'another value', q: "some query" } }
 
-      it "onlies have one value for the key 'q' regardless if a symbol or string" do
+      it "only has one value for the key 'q' regardless if a symbol or string" do
         expect(subject[:q]).to eq 'some query'
         expect(subject['q']).to eq 'some query'
       end

@@ -2,9 +2,10 @@
 # SearchService returns search results from the repository
 module Blacklight
   class SearchService
-    def initialize(config:, user_params: {}, search_builder_class: config.search_builder_class, **context)
+    def initialize(config:, search_state: nil, user_params: {}, search_builder_class: config.search_builder_class, **context)
       @blacklight_config = config
-      @user_params = user_params
+      @search_state = search_state || Blacklight::SearchState.new(user_params, config)
+      @user_params = @search_state.params
       @search_builder_class = search_builder_class
       @context = context
     end

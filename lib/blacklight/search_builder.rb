@@ -8,7 +8,7 @@ module Blacklight
     class_attribute :default_processor_chain
     self.default_processor_chain = []
 
-    attr_reader :processor_chain, :blacklight_params
+    attr_reader :processor_chain, :search_state, :blacklight_params
 
     # @overload initialize(scope)
     #   @param [Object] scope scope the scope where the filter methods reside in.
@@ -27,15 +27,17 @@ module Blacklight
       end
 
       @blacklight_params = {}
+      @search_state = Blacklight::SearchState.new(@blacklight_params, @scope&.blacklight_config, @scope)
       @merged_params = {}
       @reverse_merged_params = {}
     end
 
     ##
     # Set the parameters to pass through the processor chain
-    def with(blacklight_params = {})
+    def with(blacklight_state_or_params = {})
       params_will_change!
-      @blacklight_params = blacklight_params.dup
+      @search_state = blacklight_state_or_params.is_a?(Blacklight::SearchState) ? blacklight_state_or_params : Blacklight::SearchState.new(blacklight_state_or_params, blacklight_config, scope)
+      @blacklight_params = @search_state.params.dup
       self
     end
 
@@ -43,7 +45,8 @@ module Blacklight
     # Update the :q (query) parameter
     def where(conditions)
       params_will_change!
-      @blacklight_params[:q] = conditions
+      @search_state = @search_state.reset(@search_state.params.merge(q: conditions))
+      @blacklight_params = @search_state.params.dup
       self
     end
 
@@ -175,7 +178,7 @@ module Blacklight
         self.page = value
         return self
       end
-      @page ||= blacklight_params[:page].blank? ? 1 : blacklight_params[:page].to_i
+      @page ||= search_state.page
     end
 
     def rows=(value)
@@ -191,8 +194,7 @@ module Blacklight
       end
       @rows ||= begin
         # user-provided parameters should override any default row
-        r = [:rows, :per_page].map { |k| blacklight_params[k] }.reject(&:blank?).first
-        r ||= blacklight_config.default_per_page
+        r = search_state.per_page
         # ensure we don't excede the max page size
         r.nil? ? nil : [r, blacklight_config.max_per_page].map(&:to_i).min
       end
@@ -220,22 +222,10 @@ module Blacklight
     # configured search values are passed through to the search.
     # @return [String] the field/fields to sort by
     def sort
-      sort_field = if blacklight_params[:sort].blank?
-                     # no sort param provided, use default
-                     blacklight_config.default_sort_field
-                   else
-                     # check for sort field key
-                     blacklight_config.sort_fields[blacklight_params[:sort]]
-                   end
-      return sort_field.sort if sort_field.present?
-
-      Blacklight.logger.warn "Invalid sort field: '#{blacklight_params[:sort]}' was provided."
-      nil
+      search_state.sort_field&.sort
     end
 
-    def search_field
-      blacklight_config.search_fields[blacklight_params[:search_field]]
-    end
+    delegate :search_field, to: :search_state
 
     private
 

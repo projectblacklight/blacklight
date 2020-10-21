@@ -86,7 +86,7 @@ module Blacklight
       # @return [Array] an array of applied filters
       def values
         params = search_state.params
-        params.dig(param, key) || []
+        Array(params.dig(param, key)) || []
       end
       delegate :any?, to: :values
 

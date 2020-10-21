@@ -417,4 +417,131 @@ RSpec.describe Blacklight::SearchState do
       expect(new_state.to_hash).to eq('a' => 1)
     end
   end
+
+  describe '#page' do
+    context 'with a page' do
+      let(:params) { { 'page' => '3' } }
+
+      it 'is mapped from page' do
+        expect(search_state.page).to eq 3
+      end
+    end
+
+    context 'without a page' do
+      let(:params) { {} }
+
+      it 'is defaults to page 1' do
+        expect(search_state.page).to eq 1
+      end
+
+      context 'with negative numbers or other bad data' do
+        let(:params) { { 'page' => '-3' } }
+
+        it 'is defaults to page 1' do
+          expect(search_state.page).to eq 1
+        end
+      end
+    end
+  end
+
+  describe '#per_page' do
+    context 'with rows' do
+      let(:params) { { rows: '30' } }
+
+      it 'maps from rows' do
+        expect(search_state.per_page).to eq 30
+      end
+    end
+
+    context 'with per_page' do
+      let(:params) { { per_page: '14' } }
+
+      it 'maps from rows' do
+        expect(search_state.per_page).to eq 14
+      end
+    end
+
+    context 'it defaults to the configured value' do
+      let(:params) { {} }
+
+      it 'maps from rows' do
+        expect(search_state.per_page).to eq 10
+      end
+    end
+  end
+
+  describe '#sort_field' do
+    let(:params) { { 'sort' => 'author' } }
+
+    before do
+      blacklight_config.add_sort_field 'relevancy', label: 'relevance'
+      blacklight_config.add_sort_field 'author', label: 'asd'
+    end
+
+    it 'returns the current search field' do
+      expect(search_state.sort_field).to have_attributes(key: 'author')
+    end
+
+    context 'without a search field' do
+      let(:params) { {} }
+
+      it 'returns the current search field' do
+        expect(search_state.sort_field).to have_attributes(key: 'relevancy')
+      end
+    end
+  end
+
+  describe '#search_field' do
+    let(:params) { { 'search_field' => 'author' } }
+
+    before do
+      blacklight_config.add_search_field 'author', label: 'asd'
+    end
+
+    it 'returns the current search field' do
+      expect(search_state.search_field).to have_attributes(key: 'author')
+    end
+  end
+
+  describe '#facet_page' do
+    context 'with a page' do
+      let(:params) { { 'facet.page' => '3' } }
+
+      it 'is mapped from facet.page' do
+        expect(search_state.facet_page).to eq 3
+      end
+    end
+
+    context 'without a page' do
+      let(:params) { {} }
+
+      it 'is defaults to page 1' do
+        expect(search_state.facet_page).to eq 1
+      end
+    end
+
+    context 'with negative numbers or other bad data' do
+      let(:params) { { 'facet.page' => '-3' } }
+
+      it 'is defaults to page 1' do
+        expect(search_state.facet_page).to eq 1
+      end
+    end
+  end
+
+  describe '#facet_sort' do
+    let(:params) { { 'facet.sort' => 'index' } }
+
+    it 'is mapped from facet.sort' do
+      expect(search_state.facet_sort).to eq 'index'
+    end
+  end
+
+  describe '#facet_prefix' do
+    let(:params) { { 'facet.prefix' => 'A' } }
+
+    it 'is mapped from facet.prefix' do
+      expect(search_state.facet_prefix).to eq 'A'
+    end
+  end
 end

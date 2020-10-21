@@ -13,7 +13,7 @@
 module Blacklight::Searchable
   # @return [Blacklight::SearchService]
   def search_service
-    search_service_class.new(config: blacklight_config, user_params: search_state.to_h, **search_service_context)
+    search_service_class.new(config: blacklight_config, search_state: search_state, user_params: search_state.to_h, **search_service_context)
   end
 
   # @return [Hash] a hash of context information to pass through to the search service

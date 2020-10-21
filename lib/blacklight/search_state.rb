@@ -211,7 +211,55 @@ module Blacklight
       Parameters.sanitize(my_params)
     end
 
+    def page
+      [params[:page].to_i, 1].max
+    end
+
+    def per_page
+      params[:rows].presence&.to_i ||
+        params[:per_page].presence&.to_i ||
+        blacklight_config.default_per_page
+    end
+
+    def sort_field
+      if sort_field_key.blank?
+        # no sort param provided, use default
+        blacklight_config.default_sort_field
+      else
+        # check for sort field key
+        blacklight_config.sort_fields[sort_field_key]
+      end
+    end
+
+    def search_field
+      blacklight_config.search_fields[search_field_key]
+    end
+
+    def facet_page
+      [params[facet_request_keys[:page]].to_i, 1].max
+    end
+
+    def facet_sort
+      params[facet_request_keys[:sort]]
+    end
+
+    def facet_prefix
+      params[facet_request_keys[:prefix]]
+    end
+
     private
+
+    def search_field_key
+      params[:search_field]
+    end
+
+    def sort_field_key
+      params[:sort]
+    end
+
+    def facet_request_keys
+      blacklight_config.facet_paginator_class.request_keys
+    end
 
     ##
     # Reset any search parameters that store search context
