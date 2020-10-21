@@ -14,4 +14,13 @@ RSpec.describe Blacklight::NestedOpenStructWithHashAccess do
       expect(copy.a[:b]).to eq 1
     end
   end
+
+  describe '#<<' do
+    subject { described_class.new(Blacklight::Configuration::Field) }
+
+    it 'includes the key in the hash' do
+      subject << :blah
+      expect(subject.blah).to have_attributes(key: :blah)
+    end
+  end
 end
