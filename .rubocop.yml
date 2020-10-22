@@ -37,6 +37,8 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Exclude:
     - "lib/blacklight/configuration.rb"
+    - "lib/blacklight/search_builder.rb"
+    - "lib/blacklight/search_state.rb"
 
 Layout/LineLength:
   Max: 200

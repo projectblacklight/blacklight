@@ -32,7 +32,9 @@ module Blacklight
       end
 
       def facet_params(field, v)
-        context.search_state.reset.add_facet_params(field, v)
+        Deprecation.silence(Blacklight::SearchState) do
+          context.search_state.reset.add_facet_params(field, v)
+        end
       end
     end
   end

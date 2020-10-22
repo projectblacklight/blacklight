@@ -254,7 +254,10 @@ module Blacklight::FacetsHelperBehavior
   # @return [Boolean]
   def facet_field_in_params? field
     config = facet_configuration_for_field(field)
-    search_state.has_facet? config
+
+    Deprecation.silence(Blacklight::SearchState) do
+      search_state.has_facet? config
+    end
   end
   # Left undeprecated for the sake of temporary backwards compatibility
   # deprecation_deprecate :facet_field_in_params?
@@ -269,7 +272,10 @@ module Blacklight::FacetsHelperBehavior
   # @return [Boolean]
   def facet_in_params?(field, item)
     config = facet_configuration_for_field(field)
-    search_state.has_facet? config, value: facet_value_for_facet_item(item)
+
+    Deprecation.silence(Blacklight::SearchState) do
+      search_state.has_facet? config, value: facet_value_for_facet_item(item)
+    end
   end
   deprecation_deprecate :facet_in_params?
 

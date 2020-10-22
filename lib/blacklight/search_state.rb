@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require 'blacklight/search_state/filter_field'
+
 module Blacklight
   # This class encapsulates the search state as represented by the query
   # parameters namely: :f, :q, :page, :per_page and, :sort
@@ -78,7 +81,9 @@ module Blacklight
     deprecation_deprecate :[]
 
     def has_constraints?
-      !(query_param.blank? && filter_params.blank?)
+      Deprecation.silence(Blacklight::SearchState) do
+        !(query_param.blank? && filter_params.blank? && filters.blank?)
+      end
     end
 
     def query_param
@@ -88,9 +93,16 @@ module Blacklight
     def filter_params
       params[:f] || {}
     end
+    deprecation_deprecate filter_params: 'Use #filters instead'
 
+    # @return [Blacklight::SearchState]
     def reset(params = nil)
       self.class.new(params || ActionController::Parameters.new, blacklight_config, controller)
+    end
+
+    # @return [Blacklight::SearchState]
+    def reset_search(additional_params = {})
+      reset(reset_search_params.merge(additional_params))
     end
 
     ##
@@ -115,23 +127,30 @@ module Blacklight
       p
     end
 
+    def filters
+      @filters ||= blacklight_config.facet_fields.each_value.map do |value|
+        f = filter(value)
+
+        f if f.any?
+      end.compact
+    end
+
+    def filter(field_key_or_field)
+      field = field_key_or_field if field_key_or_field.is_a? Blacklight::Configuration::Field
+      field ||= blacklight_config.facet_fields[field_key_or_field]
+      field ||= Blacklight::Configuration::NullField.new(key: field_key_or_field)
+
+      (field.filter_class || FilterField).new(field, self)
+    end
+
     # adds the value and/or field to params[:f]
     # Does NOT remove request keys and otherwise ensure that the hash
     # is suitable for a redirect. See
     # add_facet_params_and_redirect
     def add_facet_params(field, item)
-      p = reset_search_params
-
-      add_facet_param(p, field, item)
-
-      if item && item.respond_to?(:fq) && item.fq
-        Array(item.fq).each do |f, v|
-          add_facet_param(p, f, v)
-        end
-      end
-
-      p
+      filter(field).add(item).params
     end
+    deprecation_deprecate add_facet_params: 'Use filter(field).add(item) instead'
 
     # Used in catalog/facet action, facets.rb view, for a click
     # on a facet value. Add on the facet params to existing
@@ -141,7 +160,9 @@ module Blacklight
     # Change the action to 'index' to send them back to
     # catalog/index with their new facet choice.
     def add_facet_params_and_redirect(field, item)
-      new_params = add_facet_params(field, item)
+      new_params = Deprecation.silence(self.class) do
+        add_facet_params(field, item)
+      end
 
       # Delete any request params from facet-specific action, needed
       # to redir to index action properly.
@@ -158,45 +179,18 @@ module Blacklight
     # @param [String] field
     # @param [String] item
     def remove_facet_params(field, item)
-      if item.respond_to? :field
-        field = item.field
-      end
-
-      facet_config = facet_configuration_for_field(field)
-
-      url_field = facet_config.key
-
-      value = facet_value_for_facet_item(item)
-
-      p = reset_search_params
-      # need to dup the facet values too,
-      # if the values aren't dup'd, then the values
-      # from the session will get remove in the show view...
-      p[:f] = (p[:f] || {}).dup
-      p[:f][url_field] = (p[:f][url_field] || []).dup
-
-      collection = p[:f][url_field]
-      # collection should be an array, because we link to ?f[key][]=value,
-      # however, Facebook (and maybe some other PHP tools) tranform that parameters
-      # into ?f[key][0]=value, which Rails interprets as a Hash.
-      if collection.is_a? Hash
-        collection = collection.values
-      end
-      p[:f][url_field] = collection - [value]
-      p[:f].delete(url_field) if p[:f][url_field].empty?
-      p.delete(:f) if p[:f].empty?
-      p
+      filter(field).remove(item).params
     end
+    deprecation_deprecate remove_facet_params: 'Use filter(field).remove(item) instead'
 
     def has_facet?(config, value: nil)
-      facet = params&.dig(:f, config.key)
-
       if value
-        (facet || []).include? value
+        filter(config).include?(value)
       else
-        facet.present?
+        filter(config).any?
       end
     end
+    deprecation_deprecate has_facet?: 'Use filter(field).include?(value) or .any? instead'
 
     # Merge the source params with the params_to_merge hash
     # @param [Hash] params_to_merge to merge into above
@@ -217,7 +211,55 @@ module Blacklight
       Parameters.sanitize(my_params)
     end
 
+    def page
+      [params[:page].to_i, 1].max
+    end
+
+    def per_page
+      params[:rows].presence&.to_i ||
+        params[:per_page].presence&.to_i ||
+        blacklight_config.default_per_page
+    end
+
+    def sort_field
+      if sort_field_key.blank?
+        # no sort param provided, use default
+        blacklight_config.default_sort_field
+      else
+        # check for sort field key
+        blacklight_config.sort_fields[sort_field_key]
+      end
+    end
+
+    def search_field
+      blacklight_config.search_fields[search_field_key]
+    end
+
+    def facet_page
+      [params[facet_request_keys[:page]].to_i, 1].max
+    end
+
+    def facet_sort
+      params[facet_request_keys[:sort]]
+    end
+
+    def facet_prefix
+      params[facet_request_keys[:prefix]]
+    end
+
     private
+
+    def search_field_key
+      params[:search_field]
+    end
+
+    def sort_field_key
+      params[:sort]
+    end
+
+    def facet_request_keys
+      blacklight_config.facet_paginator_class.request_keys
+    end
 
     ##
     # Reset any search parameters that store search context
@@ -225,36 +267,6 @@ module Blacklight
     # @return [ActionController::Parameters]
     def reset_search_params
       Parameters.sanitize(params).except(:page, :counter)
-    end
-
-    # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
-    def facet_value_for_facet_item item
-      if item.respond_to? :value
-        item.value
-      else
-        item
-      end
-    end
-
-    def add_facet_param(p, field, item)
-      if item.respond_to? :field
-        field = item.field
-      end
-
-      facet_config = facet_configuration_for_field(field)
-
-      url_field = facet_config.key
-
-      value = facet_value_for_facet_item(item)
-
-      p[:f] = (p[:f] || {}).dup # the command above is not deep in rails3, !@#$!@#$
-      p[:f][url_field] = (p[:f][url_field] || []).dup
-
-      if facet_config.single && p[:f][url_field].present?
-        p[:f][url_field] = []
-      end
-
-      p[:f][url_field].push(value)
     end
   end
 end

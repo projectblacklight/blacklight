@@ -47,13 +47,15 @@ module Blacklight
     private
 
     def facet_item_presenters
-      @search_state.filter_params.each_pair.flat_map do |facet, values|
-        facet_config = @view_context.facet_configuration_for_field(facet)
+      Deprecation.silence(Blacklight::SearchState) do
+        @search_state.filter_params.each_pair.flat_map do |facet, values|
+          facet_config = @view_context.facet_configuration_for_field(facet)
 
-        Array(values).map do |val|
-          next if val.blank? # skip empty string
+          Array(values).map do |val|
+            next if val.blank? # skip empty string
 
-          facet_item_presenter(facet_config, val, facet)
+            facet_item_presenter(facet_config, val, facet)
+          end
         end
       end
     end
