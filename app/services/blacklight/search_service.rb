@@ -2,9 +2,9 @@
 # SearchService returns search results from the repository
 module Blacklight
   class SearchService
-    def initialize(config:, search_state: nil, user_params: {}, search_builder_class: config.search_builder_class, **context)
+    def initialize(config:, search_state: nil, user_params: nil, search_builder_class: config.search_builder_class, **context)
       @blacklight_config = config
-      @search_state = search_state || Blacklight::SearchState.new(user_params, config)
+      @search_state = search_state || Blacklight::SearchState.new(user_params || {}, config)
       @user_params = @search_state.params
       @search_builder_class = search_builder_class
       @context = context
@@ -21,9 +21,9 @@ module Blacklight
     # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used.
     # @return [Blacklight::Solr::Response] the solr response object
     def search_results
-      builder = search_builder.with(user_params)
-      builder.page = user_params[:page] if user_params[:page]
-      builder.rows = (user_params[:per_page] || user_params[:rows]) if user_params[:per_page] || user_params[:rows]
+      builder = search_builder.with(search_state)
+      builder.page = search_state.page
+      builder.rows = search_state.per_page
 
       builder = yield(builder) if block_given?
       response = repository.search(builder)
@@ -52,7 +52,7 @@ module Blacklight
     # Get the solr response when retrieving only a single facet field
     # @return [Blacklight::Solr::Response] the solr response
     def facet_field_response(facet_field, extra_controller_params = {})
-      query = search_builder.with(user_params).facet(facet_field)
+      query = search_builder.with(search_state).facet(facet_field)
       repository.search(query.merge(extra_controller_params))
     end
 
@@ -60,7 +60,8 @@ module Blacklight
     # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
     def previous_and_next_documents_for_search(index, request_params, extra_controller_params = {})
       p = previous_and_next_document_params(index)
-      query = search_builder.with(request_params).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
+      new_state = request_params.is_a?(Blacklight::SearchState) ? request_params : Blacklight::SearchState.new(request_params, blacklight_config)
+      query = search_builder.with(new_state).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
       response = repository.search(query)
       document_list = response.documents
 
@@ -79,15 +80,15 @@ module Blacklight
     def opensearch_response(field = nil, extra_controller_params = {})
       field ||= blacklight_config.view_config(:opensearch).title_field
 
-      query = search_builder.with(user_params).merge(solr_opensearch_params(field)).merge(extra_controller_params)
+      query = search_builder.with(search_state).merge(solr_opensearch_params(field)).merge(extra_controller_params)
       response = repository.search(query)
 
-      [user_params[:q], response.documents.flat_map { |doc| doc[field] }.uniq]
+      [search_state.query_param, response.documents.flat_map { |doc| doc[field] }.uniq]
     end
 
     private
 
-    attr_reader :search_builder_class, :user_params
+    attr_reader :search_builder_class, :user_params, :search_state
 
     delegate :repository, to: :blacklight_config
 
@@ -136,7 +137,7 @@ module Blacklight
       extra_controller_params ||= {}
 
       query = search_builder
-              .with(user_params)
+              .with(search_state)
               .where(blacklight_config.document_model.unique_key => ids)
               .merge(blacklight_config.fetch_many_document_params)
               .merge(extra_controller_params)

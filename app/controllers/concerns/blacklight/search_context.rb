@@ -111,7 +111,7 @@ module Blacklight::SearchContext
   def setup_next_and_previous_documents
     if search_session['counter'] && current_search_session
       index = search_session['counter'].to_i - 1
-      response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset(current_search_session.query_params).to_hash
+      response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset(current_search_session.query_params)
 
       search_session['total'] = response.total
       { prev: documents.first, next: documents.last }

@@ -34,9 +34,9 @@ module Blacklight
 
     ##
     # Set the parameters to pass through the processor chain
-    def with(blacklight_state_or_params = {})
+    def with(blacklight_params_or_search_state = {})
       params_will_change!
-      @search_state = blacklight_state_or_params.is_a?(Blacklight::SearchState) ? blacklight_state_or_params : Blacklight::SearchState.new(blacklight_state_or_params, blacklight_config, scope)
+      @search_state = blacklight_params_or_search_state.is_a?(Blacklight::SearchState) ? blacklight_params_or_search_state : @search_state.reset(blacklight_params_or_search_state)
       @blacklight_params = @search_state.params.dup
       self
     end
@@ -55,7 +55,7 @@ module Blacklight
     def append(*addl_processor_chain)
       params_will_change!
       builder = self.class.new(processor_chain + addl_processor_chain, scope)
-          .with(blacklight_params)
+          .with(search_state)
           .merge(@merged_params)
           .reverse_merge(@reverse_merged_params)
 
@@ -75,7 +75,7 @@ module Blacklight
     # chain are ignored as no-ops, rather than raising.
     def except(*except_processor_chain)
       builder = self.class.new(processor_chain - except_processor_chain, scope)
-          .with(blacklight_params)
+          .with(search_state)
           .merge(@merged_params)
           .reverse_merge(@reverse_merged_params)
 
