@@ -33,14 +33,18 @@ module Blacklight::Solr
     # also include setting spellcheck.q.
     def add_query_to_solr(solr_parameters)
       ###
-      # Merge in search field configured values, if present, over-writing general
-      # defaults
-      ###
       # legacy behavior of user param :qt is passed through, but over-ridden
       # by actual search field config if present. We might want to remove
       # this legacy behavior at some point. It does not seem to be currently
       # rspec'd.
-      solr_parameters[:qt] = blacklight_params[:qt] if blacklight_params[:qt]
+      if search_state.params[:qt]
+        Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Passing the Solr qt as a parameter is deprecated.')
+        solr_parameters[:qt] = blacklight_params[:qt]
+      end
+
+      ###
+      # Merge in search field configured values, if present, over-writing general
+      # defaults
 
       if search_field
         solr_parameters[:qt] = search_field.qt if search_field.qt
