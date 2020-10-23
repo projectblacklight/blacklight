@@ -1,0 +1,17 @@
+<% @page_title = t('blacklight.advanced_search.page_title', application_name: application_name) %>
+
+<div class="advanced-search-form col-sm-12">
+  <h1 class="advanced page-header">
+      <%= t('blacklight.advanced_search.form.title') %>
+  </h1>
+
+  <div class="row">
+    <div class="col-md-8">
+        <%= render 'advanced_search_form' %>
+    </div>
+
+    <div class="col-md-4">
+        <%= render "advanced_search_help" %>
+    </div>
+  </div>
+</div>

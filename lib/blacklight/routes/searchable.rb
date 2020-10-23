@@ -8,6 +8,7 @@ module Blacklight
 
       def call(mapper, _options = {})
         mapper.match '/', action: 'index', as: 'search', via: [:get, :post]
+        mapper.get '/advanced', action: 'advanced_search', as: 'advanced_search'
 
         mapper.post ":id/track", action: 'track', as: 'track'
         mapper.get ":id/raw", action: 'raw', as: 'raw', defaults: { format: 'json' }

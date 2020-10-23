@@ -56,6 +56,12 @@ module Blacklight::Catalog
     end
   end
 
+  def advanced_search
+    empty_service = search_service_class.new(config: blacklight_config, user_params: {}, **search_service_context)
+
+    (@response, _deprecated_document_list) = empty_service.search_results
+  end
+
   # get a single document from the index
   def raw
     raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled

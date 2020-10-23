@@ -242,3 +242,17 @@ en:
 
     advanced_search:
       or_html: ' OR '
+      more_options: More options
+      any_of: 'Any of:'
+      op:
+        must: all
+        should: any
+      page_title: Advanced search - %{application_name}
+      form:
+        title: Advanced search
+        search_context: Within search
+        limit_criteria_heading_html: "<strong>AND</strong> have these attributes"
+        query_criteria_heading_html: "Match %{select_menu} of the fields below"
+        sort_label: "Sort results by"
+        start_over_html: "Start over"
+        search_btn_html: 'Search'
