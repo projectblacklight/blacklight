@@ -43,7 +43,7 @@ module Blacklight::Solr
       solr_parameters[:qt] = blacklight_params[:qt] if blacklight_params[:qt]
 
       if search_field
-        solr_parameters[:qt] = search_field.qt
+        solr_parameters[:qt] = search_field.qt if search_field.qt
         solr_parameters.merge!(search_field.solr_parameters) if search_field.solr_parameters
       end
 
@@ -52,31 +52,13 @@ module Blacklight::Solr
       # solr LocalParams in config, using solr LocalParams syntax.
       # http://wiki.apache.org/solr/LocalParams
       ##
-      if search_field && search_field.solr_local_parameters.present?
-        local_params = search_field.solr_local_parameters.map do |key, val|
-          key.to_s + "=" + solr_param_quote(val, quote: "'")
-        end.join(" ")
-        solr_parameters[:q] = "{!#{local_params}}#{search_state.query_param}"
-
-        ##
-        # Set Solr spellcheck.q to be original user-entered query, without
-        # our local params, otherwise it'll try and spellcheck the local
-        # params!
-        solr_parameters["spellcheck.q"] ||= search_state.query_param
+      if search_field&.query_builder.present?
+        add_search_field_query_builder_params(solr_parameters)
+      elsif search_field&.solr_local_parameters.present?
+        add_search_field_with_local_parameters(solr_parameters)
       elsif search_state.query_param.is_a? Hash
-        q = search_state.query_param
-        solr_parameters[:q] = if q.values.any?(&:blank?)
-                                # if any field parameters are empty, exclude _all_ results
-                                "{!lucene}NOT *:*"
-                              else
-                                "{!lucene}" + q.map do |field, values|
-                                  "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
-                                end.join(" AND ")
-                              end
-
-        solr_parameters[:defType] = 'lucene'
-        solr_parameters[:spellcheck] = 'false'
-      elsif search_state.query_param
+        add_multifield_search_query(solr_parameters)
+      elsif blacklight_params[:q]
         solr_parameters[:q] = search_state.query_param
       end
     end
@@ -92,7 +74,7 @@ module Blacklight::Solr
 
       search_state.filters.each do |filter|
         if filter.config.filter_query_builder
-          filter_query, subqueries = filter.config.filter_query_builder.call(filter.config, filter.values)
+          filter_query, subqueries = filter.config.filter_query_builder.call(self, filter, solr_parameters)
 
           solr_parameters.append_filter_query(filter_query)
           solr_parameters.merge!(subqueries) if subqueries
@@ -315,6 +297,41 @@ module Blacklight::Solr
       return super if defined?(super)
 
       @search_state ||= Blacklight::SearchState.new(blacklight_params, blacklight_config)
+    end
+
+    def add_search_field_query_builder_params(solr_parameters)
+      q, additional_parameters = search_field.query_builder.call(self, search_field, solr_parameters)
+
+      solr_parameters[:q] = q
+      solr_parameters.merge!(additional_parameters) if additional_parameters
+    end
+
+    def add_search_field_with_local_parameters(solr_parameters)
+      local_params = search_field.solr_local_parameters.map do |key, val|
+        key.to_s + "=" + solr_param_quote(val, quote: "'")
+      end.join(" ")
+      solr_parameters[:q] = "{!#{local_params}}#{search_state.query_param}"
+
+      ##
+      # Set Solr spellcheck.q to be original user-entered query, without
+      # our local params, otherwise it'll try and spellcheck the local
+      # params!
+      solr_parameters["spellcheck.q"] ||= search_state.query_param
+    end
+
+    def add_multifield_search_query(solr_parameters)
+      q = search_state.query_param
+      solr_parameters[:q] = if q.values.any?(&:blank?)
+                              # if any field parameters are empty, exclude _all_ results
+                              "{!lucene}NOT *:*"
+                            else
+                              "{!lucene}" + q.map do |field, values|
+                                "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
+                              end.join(" AND ")
+                            end
+
+      solr_parameters[:defType] = 'lucene'
+      solr_parameters[:spellcheck] = 'false'
     end
   end
 end
