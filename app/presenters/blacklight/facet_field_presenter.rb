@@ -40,6 +40,10 @@ module Blacklight
       view_context.facet_field_label(key)
     end
 
+    def values
+      search_state&.filter(facet_field)&.values || []
+    end
+
     # @private
     # @deprecated
     def html_id

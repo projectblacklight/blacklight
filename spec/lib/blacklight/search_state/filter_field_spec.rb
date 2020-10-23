@@ -72,6 +72,33 @@ RSpec.describe Blacklight::SearchState::FilterField do
         expect(new_state.filter('some_field').values).to eq %w[1 2 4]
       end
     end
+
+    context 'with an array' do
+      let(:params) do
+        { f: { another_field: ['3'] }, f_inclusive: { some_field: %w[a b c] } }
+      end
+
+      it 'creates a new group with the new values' do
+        filter = search_state.filter('new_field')
+        new_state = filter.add(%w[x y z])
+
+        expect(new_state.filter('new_field').values).to eq [%w[x y z]]
+      end
+
+      it 'updates any existing groups with the new values' do
+        filter = search_state.filter('some_field')
+        new_state = filter.add(%w[x y z])
+
+        expect(new_state.filter('some_field').values).to eq [%w[x y z]]
+      end
+
+      it 'leaves existing filters alone' do
+        filter = search_state.filter('another_field')
+        new_state = filter.add(%w[x y z])
+
+        expect(new_state.filter('another_field').values).to eq ['3', %w[x y z]]
+      end
+    end
   end
 
   describe '#remove' do
@@ -104,11 +131,49 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
       expect(new_state.filter('some_field').values).to eq ['2']
     end
+
+    context 'with an array' do
+      let(:params) do
+        { f: { another_field: ['3'] }, f_inclusive: { some_field: %w[a b c], another_field: %w[x y z] } }
+      end
+
+      it 'removes groups of values' do
+        filter = search_state.filter('some_field')
+        new_state = filter.remove(%w[a b c])
+
+        expect(new_state.params[:f_inclusive]).not_to include :some_field
+        expect(new_state.filter('some_field').values).to eq []
+      end
+
+      it 'can remove single values' do
+        filter = search_state.filter('some_field')
+        new_state = filter.remove(%w[a])
+
+        expect(new_state.filter('some_field').values).to eq [%w[b c]]
+      end
+
+      it 'leaves existing filters alone' do
+        filter = search_state.filter('another_field')
+        new_state = filter.remove(%w[x y z])
+
+        expect(new_state.filter('another_field').values).to eq ['3']
+      end
+    end
   end
 
   describe '#values' do
     it 'returns the currently selected values of the filter' do
       expect(search_state.filter('some_field').values).to eq %w[1 2]
+    end
+
+    context 'with an array' do
+      let(:params) do
+        { f: { some_field: ['3'] }, f_inclusive: { some_field: %w[a b c] } }
+      end
+
+      it 'combines the exclusive and inclusive values' do
+        expect(search_state.filter('some_field').values).to eq ['3', %w[a b c]]
+      end
     end
   end
 

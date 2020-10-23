@@ -259,6 +259,17 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe 'with multi-valued facets' do
+      let(:user_params) { { f_inclusive: { format: %w[Book Movie CD] } } }
+
+      it "has proper solr parameters" do
+        expect(subject[:fq]).to include('{!lucene}{!query v=$f_inclusive.format.0} OR {!query v=$f_inclusive.format.1} OR {!query v=$f_inclusive.format.2}')
+        expect(subject['f_inclusive.format.0']).to eq '{!term f=format}Book'
+        expect(subject['f_inclusive.format.1']).to eq '{!term f=format}Movie'
+        expect(subject['f_inclusive.format.2']).to eq '{!term f=format}CD'
+      end
+    end
+
     describe "solr parameters for a field search from config (subject)" do
       let(:user_params) { subject_search_params }
 

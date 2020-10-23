@@ -239,3 +239,6 @@ en:
     main:
       aria:
         main_container: 'Main content'
+
+    advanced_search:
+      or_html: ' OR '

@@ -1,0 +1,6 @@
+<div class="inclusive_or card card-body bg-light mb-3">
+  <h5><%= t('blacklight.advanced_search.any_of') %></h5>
+  <ul class="list-unstyled facet-values">
+    <%= @view_context.render(Blacklight::FacetItemComponent.with_collection(presenters.to_a)) %>
+  </ul>
+</div>
