@@ -15,19 +15,21 @@ module Blacklight
     end
 
     def query_constraints
-      return if @search_state.query_param.blank?
-
       Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        @view_context.render(
-          @query_constraint_component.new(
-            search_state: @search_state,
-            value: @search_state.query_param,
-            label: label,
-            remove_path: @view_context.remove_constraint_url(@search_state),
-            classes: 'query'
+        if @search_state.query_param.present?
+          @view_context.render(
+            @query_constraint_component.new(
+              search_state: @search_state,
+              value: @search_state.query_param,
+              label: label,
+              remove_path: @view_context.remove_constraint_url(@search_state),
+              classes: 'query'
+            )
           )
-        )
-      end
+        else
+          ''.html_safe
+        end
+      end + @view_context.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
     end
 
     def facet_constraints
@@ -67,6 +69,15 @@ module Blacklight
             end
           end
         end
+      end
+    end
+
+    def clause_presenters
+      return to_enum(:clause_presenters) unless block_given?
+
+      @search_state.clause_params.each do |key, clause|
+        field_config = @view_context.blacklight_config.search_fields[clause[:field]]
+        yield Blacklight::ClausePresenter.new(key, clause, field_config, @view_context)
       end
     end
 
