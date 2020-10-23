@@ -29,11 +29,11 @@ module Blacklight
 
     deprecation_deprecate label: 'Use #heading'
 
-    private
-
     def view_config
       @view_config ||= configuration.view_config(view_context.document_index_view_type)
     end
+
+    private
 
     # @return [Hash<String,Configuration::Field>] all the fields for this index view
     def fields

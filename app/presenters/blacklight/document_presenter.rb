@@ -113,6 +113,10 @@ module Blacklight
       LinkAlternatePresenter.new(view_context, document, options).render
     end
 
+    def view_config
+      @view_config ||= configuration.view_config(:show)
+    end
+
     private
 
     def render_field?(field_config)
