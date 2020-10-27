@@ -24,7 +24,7 @@ jobs:
         ruby-version: 2.7
     - name: Install dependencies
       run: bundle install
-    - name: Run tests
+    - name: Run linter
       run: bundle exec rake rubocop
   test:
     runs-on: ubuntu-latest
