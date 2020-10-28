@@ -14,14 +14,14 @@ require 'solr_wrapper'
 require 'open3'
 
 def system_with_error_handling(*args)
-  Open3.popen3(*args) do |stdout, stderr, status, _thread|
+  Open3.popen3(*args) do |_stdin, stdout, stderr, thread|
     puts stdout.read
-    raise "Unable to run #{args.inspect}: #{stderr.read}" unless status.success?
+    raise "Unable to run #{args.inspect}: #{stderr.read}" unless thread.value.success?
   end
 end
 
 def with_solr
-  if system('docker-compose')
+  if system('docker-compose -v')
     begin
       puts "Starting Solr"
       system_with_error_handling "docker-compose up -d solr"
