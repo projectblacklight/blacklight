@@ -6,10 +6,6 @@ module Blacklight
       @facet_field = facet_field
     end
 
-    def render?
-      @facet_field.facet_field.index_range&.any?
-    end
-
     def sort_facet_url(sort)
       @facet_field.paginator.params_for_resort_url(sort, @facet_fieldsearch_state.to_h)
     end
