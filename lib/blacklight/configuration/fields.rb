@@ -151,7 +151,7 @@ module Blacklight
           repository = repository_class.new(self)
           repository.reflect_fields
         rescue => e
-          Blacklight.logger.warn "Error retrieving field metadata: #{e}"
+          Blacklight.logger&.warn "Error retrieving field metadata: #{e}"
           false
         end
 

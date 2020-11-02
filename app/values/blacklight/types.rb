@@ -23,7 +23,7 @@ module Blacklight
         begin
           ::Date.parse(field)
         rescue ArgumentError
-          Rails.logger.info "Unable to parse date: #{field.first.inspect}"
+          Rails.logger&.info "Unable to parse date: #{field.first.inspect}"
         end
       end
     end
