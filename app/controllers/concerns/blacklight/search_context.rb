@@ -117,7 +117,7 @@ module Blacklight::SearchContext
       { prev: documents.first, next: documents.last }
     end
   rescue Blacklight::Exceptions::InvalidRequest => e
-    logger.warn "Unable to setup next and previous documents: #{e}"
+    logger&.warn "Unable to setup next and previous documents: #{e}"
     nil
   end
 end
