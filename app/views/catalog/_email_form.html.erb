@@ -33,6 +33,9 @@
     <%- if params[:per_page] -%>
       <%= hidden_field_tag "per_page", params[:per_page] %>
     <%- end -%>
+    <%- if params[:page] -%>
+      <%= hidden_field_tag "page", params[:page] %>
+    <%- end -%>
   </div>
   <div class="modal-footer">
   <button type="submit" class="btn btn-primary"> <%= t('blacklight.sms.form.submit') %></button>
