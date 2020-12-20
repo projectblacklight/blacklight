@@ -17,17 +17,19 @@ module Blacklight
     def query_constraints
       return if @search_state.query_param.blank?
 
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        @view_context.render(
-          @query_constraint_component.new(
-            search_state: @search_state,
-            value: @search_state.query_param,
-            label: @view_context.constraint_query_label(@search_state.params),
-            remove_path: @view_context.remove_constraint_url(@search_state),
-            classes: 'query'
-          )
+      @view_context.render(
+        @query_constraint_component.new(
+          search_state: @search_state,
+          value: @search_state.query_param,
+          label: @view_context.constraint_query_label(@search_state.params),
+          remove_path: remove_path,
+          classes: 'query'
         )
-      end
+      )
+    end
+
+    def remove_path
+      helpers.search_action_path(@search_state.remove_query_params)
     end
 
     def facet_constraints
@@ -41,7 +43,7 @@ module Blacklight
     end
 
     def render?
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { @view_context.query_has_constraints? }
+      @search_state.has_constraints?
     end
 
     private
