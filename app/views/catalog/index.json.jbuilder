@@ -67,6 +67,10 @@ json.included do
     end
   end
 
+  search_fields = blacklight_config.search_fields.values.
+                    select { |field_def| should_render_field?(field_def) }.
+                    collect { |field_def| [label_for_search_field(field_def.key), field_def.key] }
+
   json.array! search_fields do |(label, key)|
     json.type 'search_field'
     json.id key

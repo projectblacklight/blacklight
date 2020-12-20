@@ -9,10 +9,11 @@ module Blacklight
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
-      url:, advanced_search_url: nil, params:,
+      url:, params:,
+      advanced_search_url: nil,
       classes: ['search-query-form'], presenter: nil, prefix: '',
       method: 'GET', q: nil, query_param: :q,
-      search_field: nil, search_fields: [], autocomplete_path: nil,
+      search_field: nil, autocomplete_path: nil,
       autofocus: nil, i18n: { scope: 'blacklight.search.form' }
     )
       @url = url
@@ -27,7 +28,6 @@ module Blacklight
       @method = method
       @autocomplete_path = autocomplete_path
       @autofocus = autofocus
-      @search_fields = search_fields
       @i18n = i18n
     end
     # rubocop:enable Metrics/ParameterLists
@@ -44,6 +44,12 @@ module Blacklight
       else
         @autofocus
       end
+    end
+
+    def search_fields
+      @search_fields ||= blacklight_config.search_fields.values
+                                          .select { |field_def| helpers.should_render_field?(field_def) }
+                                          .collect { |field_def| [helpers.label_for_search_field(field_def.key), field_def.key] }
     end
 
     private

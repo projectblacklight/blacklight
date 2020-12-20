@@ -194,39 +194,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#search_field_options_for_select" do
-    before do
-      @config = Blacklight::Configuration.new do |config|
-        config.default_solr_params = { qt: 'search' }
-
-        config.add_search_field 'all_fields', label: 'All Fields'
-        config.add_search_field 'title', qt: 'title_search'
-        config.add_search_field 'author', qt: 'author_search'
-        config.add_search_field 'subject', qt: 'subject_search'
-        config.add_search_field 'no_display', qt: 'something', include_in_simple_select: false
-      end
-
-      allow(helper).to receive_messages(blacklight_config: @config)
-    end
-
-    it "returns proper options_for_select arguments" do
-      select_arguments = helper.search_field_options_for_select
-
-      select_arguments.each do |(label, key)|
-        config_hash = @config.search_fields[key]
-
-        expect(label).to eq config_hash.label
-        expect(key).to eq config_hash.key
-      end
-    end
-
-    it "does not include fields in select if :display_in_simple_search=>false" do
-      select_arguments = helper.search_field_options_for_select
-
-      expect(select_arguments).not_to include(["No Display", "no_display"])
-    end
-  end
-
   context 'labels' do
     let(:field_config) { { 'my-key' => double('field', display_label: 'My Field') } }
 

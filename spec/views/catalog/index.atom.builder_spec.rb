@@ -20,7 +20,6 @@ RSpec.describe "catalog/index" do
     params['content_format'] = 'some_format'
     allow(view).to receive(:action_name).and_return('index')
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
-    allow(view).to receive(:search_field_options_for_select).and_return([])
   end
 
   # We need to use rexml to test certain things that have_tag wont' test
