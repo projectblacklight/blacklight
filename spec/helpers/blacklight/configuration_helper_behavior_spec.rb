@@ -71,27 +71,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#has_alternative_views?" do
-    subject { helper.has_alternative_views? }
-
-    before do
-      blacklight_config.view.clear
-    end
-
-    describe "with a single view defined" do
-      it { is_expected.to be false }
-    end
-
-    describe "with multiple views defined" do
-      before do
-        blacklight_config.view.abc
-        blacklight_config.view.xyz
-      end
-
-      it { is_expected.to be true }
-    end
-  end
-
   describe "#spell_check_max" do
     it "passes through the configuration" do
       allow(blacklight_config).to receive_messages(spell_max: config_value)

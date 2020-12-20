@@ -167,14 +167,6 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   ##
-  # Check if there are alternative views configuration
-  # @return [Boolean]
-  def has_alternative_views?
-    document_index_views.keys.length > 1
-  end
-  deprecation_deprecate has_alternative_views?: 'Moving to Blacklight::Response::ViewTypeComponent'
-
-  ##
   #  Maximum number of results for spell checking
   # @return [Number]
   def spell_check_max
