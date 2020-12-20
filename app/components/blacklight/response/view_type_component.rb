@@ -13,9 +13,7 @@ module Blacklight
       end
 
       def render?
-        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-          @view_context.has_alternative_views?
-        end
+        @view_context.document_index_views.keys.length > 1
       end
 
       def icon(view)
