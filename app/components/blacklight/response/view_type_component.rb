@@ -13,7 +13,7 @@ module Blacklight
       end
 
       def render?
-        @view_context.document_index_views.keys.length > 1
+        !@response.empty? && @view_context.document_index_views.keys.length > 1
       end
 
       def icon(view)

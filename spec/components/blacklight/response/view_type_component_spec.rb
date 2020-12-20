@@ -3,31 +3,51 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::Response::ViewTypeComponent, type: :component do
-  subject(:render) do
-    render_inline(described_class.new(response: response, search_state: search_state))
-  end
+  subject(:render) { render_inline(instance) }
 
-  let(:response) { instance_double(Blacklight::Response) }
-  let(:search_state) { instance_double(Blacklight::SearchState) }
+  let(:instance) { described_class.new(response: response, search_state: search_state) }
+  let(:response) { double(Blacklight::Solr::Response, empty?: false) }
+  let(:search_state) { instance_double(Blacklight::SearchState, to_h: { controller: 'catalog', action: 'index' }) }
+  let(:icon) { instance_double(Blacklight::Icon, svg: '<svg></svg>', options: {}) }
 
   before do
     allow(controller).to receive(:blacklight_config).and_return(config)
+    allow(Blacklight::Icon).to receive(:new).and_return(icon)
   end
 
-  describe "when some views exist" do
+  context "when some views exist" do
     let(:config) do
       Blacklight::Configuration.new do |config|
-        config.view.abc
-        config.view.xyz
+        config.view.a
+        config.view.b
+        config.view.c
       end
+    end
+    let(:instance) do
+      described_class.new(response: response, search_state: search_state, views: %w[a b c], selected: 'a')
     end
 
     it "draws the group" do
-      expect(render.css('.view-type-group')).to be_present
+      expect(render.css('.btn-group.view-type-group')).to be_present
+      expect(render.css('.btn.view-type-a.active').to_html).to include '<span class="caption">A</span>'
+      expect(render.css('.btn.view-type-b').to_html).to include '<span class="caption">B</span>'
+      expect(render.css('.btn.view-type-c').to_html).to include '<span class="caption">C</span>'
     end
   end
 
-  describe "when no views exist" do
+  context "when no views exist" do
+    let(:config) do
+      Blacklight::Configuration.new
+    end
+
+    it "draws nothing" do
+      expect(render.to_html).to be_blank
+    end
+  end
+
+  context "when the response is empty" do
+    let(:response) { instance_double(Blacklight::Solr::Response, empty?: true) }
+
     let(:config) do
       Blacklight::Configuration.new
     end
