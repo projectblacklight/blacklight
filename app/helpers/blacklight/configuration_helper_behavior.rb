@@ -99,14 +99,6 @@ module Blacklight::ConfigurationHelperBehavior
     field_config.display_label('facet')
   end
 
-  # Return the label for a search view
-  # @return [String]
-  def view_label(view)
-    view_config = blacklight_config.view[view]
-    view_config.display_label
-  end
-  deprecation_deprecate view_label: 'Moving to ViewConfig#display_label and Blacklight::Response::ViewTypeComponent'
-
   # Shortcut for commonly needed operation, look up display
   # label for the key specified.
   # @return [String]

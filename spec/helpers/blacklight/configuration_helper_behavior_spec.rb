@@ -98,14 +98,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#view_label" do
-    it "looks up the label to display for the view" do
-      allow(blacklight_config).to receive(:view).and_return("my_view" => double(display_label: "some label"))
-
-      helper.view_label "my_view"
-    end
-  end
-
   describe "#field_label" do
     it "looks up the label as an i18n string" do
       expect(helper).to receive(:t).with(:some_key, default: []).and_return "my label"

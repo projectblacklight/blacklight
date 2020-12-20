@@ -21,16 +21,14 @@ class Blacklight::Configuration
       super || Blacklight::SearchBarPresenter
     end
 
-    def display_label(deprecated_key = nil, **options)
-      Deprecation.warn(Blacklight::Configuration::ViewConfig, 'Passing the key argument to ViewConfig#display_label is deprecated') if deprecated_key.present?
-
+    def display_label(**options)
       I18n.t(
-        :"blacklight.search.view_title.#{deprecated_key || key}",
+        :"blacklight.search.view_title.#{key}",
         default: [
-          :"blacklight.search.view.#{deprecated_key || key}",
+          :"blacklight.search.view.#{key}",
           label,
           title,
-          (deprecated_key || key).to_s.humanize
+          key.to_s.humanize
         ],
         **options
       )

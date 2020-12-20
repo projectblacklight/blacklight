@@ -5,7 +5,6 @@ RSpec.describe "catalog/_view_type_group" do
   let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
 
   before do
-    allow(view).to receive(:view_label), &:to_s
     allow(view).to receive_messages(how_sort_and_per_page?: true, blacklight_config: blacklight_config)
     controller.request.path_parameters[:action] = 'index'
     assign(:response, response)
@@ -26,12 +25,12 @@ RSpec.describe "catalog/_view_type_group" do
     end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.btn-group.view-type-group')
-    expect(rendered).to have_selector('.view-type-a', text: 'a')
+    expect(rendered).to have_selector('.view-type-a', text: 'A')
     within '.view-type-a' do
       expect(rendered).to have_selector 'svg'
     end
-    expect(rendered).to have_selector('.view-type-b', text: 'b')
-    expect(rendered).to have_selector('.view-type-c', text: 'c')
+    expect(rendered).to have_selector('.view-type-b', text: 'B')
+    expect(rendered).to have_selector('.view-type-c', text: 'C')
   end
 
   it "sets the current view to 'active'" do
@@ -41,8 +40,7 @@ RSpec.describe "catalog/_view_type_group" do
       config.view.b(icon: :list)
     end
     render partial: 'catalog/view_type_group'
-    expect(rendered).to have_selector('.active', text: 'a')
-    expect(rendered).not_to have_selector('.active', text: 'b')
-    expect(rendered).to have_selector('.btn', text: 'b')
+    expect(rendered).to have_selector('.active', text: 'A')
+    expect(rendered).not_to have_selector('.active', text: 'B')
   end
 end
