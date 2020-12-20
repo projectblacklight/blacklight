@@ -19,24 +19,6 @@ module Blacklight::ConfigurationHelperBehavior
     blacklight_config.sort_fields.select { |_sort_key, field_config| should_render_field?(field_config) }
   end
 
-  # Used in the search form partial for building a select tag
-  # @see #search_field_options_for_select
-  def search_fields
-    search_field_options_for_select
-  end
-  deprecation_deprecate search_fields: 'removed without replacement'
-
-  # Returns suitable argument to options_for_select method, to create
-  # an html select based on #search_field_list. Skips search_fields
-  # marked :include_in_simple_select => false
-  # @return [Array<Array>] the first element of the array is the label, the second is the sort field key
-  def search_field_options_for_select
-    blacklight_config.search_fields.collect do |_key, field_def|
-      [label_for_search_field(field_def.key), field_def.key] if should_render_field?(field_def)
-    end.compact
-  end
-  deprecation_deprecate search_field_options_for_select: 'removed without replacement'
-
   # used in the catalog/_show partial
   # @return [Array<Blacklight::Configuration::Field>]
   def document_show_fields _document = nil
