@@ -19,20 +19,18 @@ module Blacklight
     end
 
     def query_constraints
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        if @search_state.query_param.present?
-          @view_context.render(
-            @query_constraint_component.new(
-              search_state: @search_state,
-              value: @search_state.query_param,
-              label: label,
-              remove_path: @view_context.remove_constraint_url(@search_state),
-              classes: 'query'
-            )
+      if @search_state.query_param.present?
+        @view_context.render(
+          @query_constraint_component.new(
+            search_state: @search_state,
+            value: @search_state.query_param,
+            label: label,
+            remove_path: remove_path,
+            classes: 'query'
           )
-        else
-          ''.html_safe
-        end
+        )
+      else
+        ''.html_safe
       end + @view_context.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
     end
 
@@ -47,15 +45,13 @@ module Blacklight
     end
 
     def render?
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { @view_context.query_has_constraints? }
+      @search_state.has_constraints?
     end
 
     private
 
     def label
-      Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-        @view_context.constraint_query_label(@search_state.params)
-      end
+      @view_context.constraint_query_label(@search_state.params)
     end
 
     def facet_item_presenters

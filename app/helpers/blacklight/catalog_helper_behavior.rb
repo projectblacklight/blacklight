@@ -7,7 +7,6 @@ module Blacklight::CatalogHelperBehavior
   include Blacklight::ConfigurationHelperBehavior
   include Blacklight::ComponentHelperBehavior
   include Blacklight::FacetsHelperBehavior
-  include Blacklight::RenderConstraintsHelperBehavior
   include Blacklight::RenderPartialsHelperBehavior
   include Blacklight::SearchHistoryConstraintsHelperBehavior
   include Blacklight::SuggestHelperBehavior
