@@ -164,32 +164,6 @@ RSpec.describe CatalogHelper do
     end
   end
 
-  describe "should_autofocus_on_search_box?" do
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-
-    it "is focused if we're on a catalog-like index page without query or facet parameters" do
-      allow(helper).to receive_messages(controller: CatalogController.new, action_name: "index", has_search_parameters?: false)
-      expect(helper.should_autofocus_on_search_box?).to be true
-    end
-
-    it "does not be focused if we're not on a catalog controller" do
-      allow(helper).to receive_messages(controller: ApplicationController.new)
-      expect(helper.should_autofocus_on_search_box?).to be false
-    end
-
-    it "does not be focused if we're not on a catalog controller index" do
-      allow(helper).to receive_messages(controller: CatalogController.new, action_name: "show")
-      expect(helper.should_autofocus_on_search_box?).to be false
-    end
-
-    it "does not be focused if a search parameters are provided" do
-      allow(helper).to receive_messages(controller: CatalogController.new, action_name: "index", has_search_parameters?: true)
-      expect(helper.should_autofocus_on_search_box?).to be false
-    end
-  end
-
   describe "document_counter_with_offset" do
     it "renders the document index with the appropriate offset" do
       assign(:response, instance_double(Blacklight::Solr::Response, start: 0, grouped?: false))
