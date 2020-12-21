@@ -162,7 +162,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
     before do
       allow(Deprecation).to receive(:warn)
-      allow(helper).to receive_messages(document_has_value?: true)
     end
 
     it "is true" do
