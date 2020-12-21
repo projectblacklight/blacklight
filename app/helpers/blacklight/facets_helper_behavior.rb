@@ -36,19 +36,6 @@ module Blacklight::FacetsHelperBehavior
   end
 
   ##
-  # Where should this facet link to?
-  #
-  # @deprecated
-  # @param [Blacklight::Solr::Response::Facets::FacetField] facet_field
-  # @param [String] item
-  # @return [String]
-  def path_for_facet(facet_field, item, path_options = {})
-    facet_config = facet_configuration_for_field(facet_field)
-    facet_item_presenter(facet_config, item, facet_field).href(path_options)
-  end
-  deprecation_deprecate :path_for_facet
-
-  ##
   # Are any facet restrictions for a field in the query parameters?
   # @private
   # @param [String] field
