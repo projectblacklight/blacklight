@@ -18,7 +18,27 @@ module Blacklight
 
       def render?
         Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-          @view_context.has_facet_values?(@fields, @response)
+          Deprecation.silence(Blacklight::Facet) do
+            helpers.facets_from_request(@fields, @response).any? { |display_facet| helpers.should_render_facet?(display_facet) }
+          end
+        end
+      end
+
+      ##
+      # Render a collection of facet fields.
+      # @see #render_facet_limit
+      #
+      # @param [Array<String>] fields
+      # @param [Hash] options
+      # @option options [Blacklight::Solr::Response] :response the Solr response object
+      # @return String
+      def render_facet_partials _fields = nil, _options = {}
+        Deprecation.silence(Blacklight::FacetsHelperBehavior) do
+          Deprecation.silence(Blacklight::Facet) do
+            safe_join(helpers.facets_from_request(@fields, @response).map do |display_facet|
+              helpers.render_facet_limit(display_facet, response: @response)
+            end.compact, "\n")
+          end
         end
       end
     end
