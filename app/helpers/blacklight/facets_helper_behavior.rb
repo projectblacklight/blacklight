@@ -51,16 +51,6 @@ module Blacklight::FacetsHelperBehavior
   # deprecation_deprecate :facet_field_in_params?
 
   ##
-  # Get the values of the facet set in the blacklight query string
-  # @deprecated
-  def facet_params field
-    config = facet_configuration_for_field(field)
-
-    search_state.params.dig(:f, config.key)
-  end
-  deprecation_deprecate :facet_params
-
-  ##
   # Get the displayable version of a facet's value
   #
   # @param [Object] field
