@@ -52,7 +52,10 @@ module Blacklight
       def should_render_facet? display_facet
         return false if display_facet.items.blank?
 
-        helpers.should_render_field?(helpers.facet_configuration_for_field(display_facet.name), display_facet)
+        helpers.should_render_field?(
+          helpers.facet_configuration_for_field(display_facet.name),
+          display_facet
+        )
       end
     end
   end

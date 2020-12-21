@@ -15,9 +15,7 @@ module Blacklight
     end
 
     def collapsed?
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        view_context.should_collapse_facet?(facet_field)
-      end
+      !active? && facet_field.collapse
     end
 
     def active?
