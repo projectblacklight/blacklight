@@ -212,25 +212,6 @@ RSpec.describe BlacklightHelper do
     end
   end
 
-  describe '#render_index_field_label' do
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    let(:doc) { SolrDocument.new({}) }
-
-    before do
-      allow(helper).to receive_messages(document_index_view_type: :current_view)
-    end
-
-    it 'accepts an explicit field label' do
-      expect(helper.render_index_field_label(doc, field: 'xyz', label: 'some label')).to eq 'some label:'
-    end
-
-    it 'calculates the appropriate field label for a field' do
-      allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
-      expect(helper.render_index_field_label(doc, field: 'xyz')).to eq 'Xyz:'
-    end
-  end
-
   describe "render_grouped_response?" do
     it "checks if the response ivar contains grouped data" do
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: true))
