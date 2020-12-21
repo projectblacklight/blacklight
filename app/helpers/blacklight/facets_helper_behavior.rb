@@ -31,21 +31,6 @@ module Blacklight::FacetsHelperBehavior
     )
   end
 
-  ##
-  # The name of the partial to use to render a facet field.
-  # uses the value of the "partial" field if set in the facet configuration
-  # otherwise uses "facet_pivot" if this facet is a pivot facet
-  # defaults to 'facet_limit'
-  #
-  # @return [String]
-  def facet_partial_name(display_facet = nil)
-    config = facet_configuration_for_field(display_facet.name)
-    name = config.partial
-    name ||= "facet_pivot" if config.pivot
-    name || "facet_limit"
-  end
-  deprecation_deprecate :facet_partial_name
-
   def facet_field_presenter(facet_config, display_facet)
     (facet_config.presenter || Blacklight::FacetFieldPresenter).new(facet_config, display_facet, self)
   end
