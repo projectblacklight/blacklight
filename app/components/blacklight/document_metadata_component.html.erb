@@ -1,5 +1,5 @@
 <dl class="document-metadata dl-invert row">
   <% @fields.each do |field| -%>
-    <%= @view_context.render(field_component(field).new(field: field, show: @show)) %>
+    <%= @view_context.render(field_component(field).new(field: field, show: @show, view_type: view_type)) %>
   <% end -%>
 </dl>

@@ -7,20 +7,18 @@ module Blacklight
     # @param field [Blacklight::FieldPresenter]
     # @param layout [Blacklight::MetadataFieldLayoutComponent] alternate layout component to use
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
-    def initialize(field:, layout: nil, show: false)
+    def initialize(field:, layout: nil, show: false, view_type: nil)
       @field = field
       @layout = layout || Blacklight::MetadataFieldLayoutComponent
+      @view_type = view_type
       @show = show
     end
 
-    # @private
     def label
-      Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
-        if @show
-          @view_context.render_document_show_field_label @field.document, label: @field.label('show'), field: @field.key
-        else
-          index_field_label @field.document, label: @field.label, field: @field.key
-        end
+      if @show
+        show_field_label @field.label('show')
+      else
+        index_field_label @field.label
       end
     end
 
@@ -33,27 +31,24 @@ module Blacklight
     #
     # Translations for index field labels should go under blacklight.search.fields
     # They are picked up from there by a value "%{label}" in blacklight.search.index.label
-    #
-    # @overload render_index_field_label(options)
-    #   Use the default, document-agnostic configuration
-    #   @param [Hash] opts
-    #   @option opts [String] :field
-    # @overload render_index_field_label(document, options)
-    #   Allow an extention point where information in the document
-    #   may drive the value of the field
-    #   @param [SolrDocument] doc
-    #   @param [Hash] opts
-    #   @option opts [String] :field
     # @return [String]
-    def index_field_label *args
-      options = args.extract_options!
-      document = args.first
-
-      field = options[:field]
-      label = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-        options[:label] || index_field_label(document, field)
+    def index_field_label label
+      value = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+        label || helpers.index_field_label(@field.document, @field.key)
       end
-      html_escape t(:"blacklight.search.index.#{helpers.document_index_view_type}.label", default: :'blacklight.search.index.label', label: label)
+      html_escape t(:"blacklight.search.index.#{@view_type}.label", default: :'blacklight.search.index.label', label: value)
+    end
+
+    ##
+    # Render the show field label for a document
+    #
+    # @return [String]
+    def show_field_label label
+      value = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+        label || helpers.document_show_field_label(@field.document, @field.key)
+      end
+
+      t(:'blacklight.search.show.label', label: value)
     end
   end
 end

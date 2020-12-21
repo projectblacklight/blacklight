@@ -120,34 +120,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render the show field label for a document
-  #
-  # @deprecated
-  # @overload render_document_show_field_label(options)
-  #   Use the default, document-agnostic configuration
-  #   @param [Hash] opts
-  #   @option opts [String] :field
-  # @overload render_document_show_field_label(document, options)
-  #   Allow an extention point where information in the document
-  #   may drive the value of the field
-  #   @param [SolrDocument] doc
-  #   @param [Hash] opts
-  #   @option opts [String] :field
-  # @return [String]
-  def render_document_show_field_label *args
-    options = args.extract_options!
-    document = args.first
-
-    field = options[:field]
-    label = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-      options[:label] || document_show_field_label(document, field)
-    end
-
-    t(:'blacklight.search.show.label', label: label)
-  end
-  deprecation_deprecate render_document_show_field_label: 'Use Blacklight::MetadataFieldComponent instead'
-
-  ##
   # Get the value of the document's "title" field, or a placeholder
   # value (if empty)
   #
