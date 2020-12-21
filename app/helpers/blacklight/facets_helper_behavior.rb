@@ -36,21 +36,6 @@ module Blacklight::FacetsHelperBehavior
   end
 
   ##
-  # Are any facet restrictions for a field in the query parameters?
-  # @private
-  # @param [String] field
-  # @return [Boolean]
-  def facet_field_in_params? field
-    config = facet_configuration_for_field(field)
-
-    Deprecation.silence(Blacklight::SearchState) do
-      search_state.has_facet? config
-    end
-  end
-  # Left undeprecated for the sake of temporary backwards compatibility
-  # deprecation_deprecate :facet_field_in_params?
-
-  ##
   # Get the displayable version of a facet's value
   #
   # @param [Object] field

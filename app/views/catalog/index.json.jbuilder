@@ -49,9 +49,7 @@ json.included do
             json.hits item.hits
           end
           json.links do
-            facet_config = facet_configuration_for_field(facet.name)
-            if search_state.has_facet? facet_config, value: facet_value_for_facet_item(item.value)
-
+            if search_state.filter(facet_config).include?(facet_value_for_facet_item(item.value))
               Deprecation.silence(Blacklight::SearchState) do
                 json.remove search_action_path(search_state.remove_facet_params(facet.name, item.value))
               end

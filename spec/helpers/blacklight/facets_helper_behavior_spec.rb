@@ -50,32 +50,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
   end
 
-  describe "facet_field_in_params?" do
-    it "checks if the facet field is selected in the user params" do
-      allow(helper).to receive_messages(params: { f: { "some-field" => ["x"] } })
-      expect(helper).to be_facet_field_in_params("some-field")
-      expect(helper.facet_field_in_params?("other-field")).not_to be true
-    end
-  end
-
-  describe "facet_field_in_params?" do
-    let(:search_state) { double }
-
-    before do
-      allow(helper).to receive_messages(search_state: search_state)
-    end
-
-    it "checks if any value is selected for a given facet" do
-      allow(search_state).to receive(:has_facet?).with(having_attributes(key: 'some-facet')).and_return(true)
-      expect(helper.facet_field_in_params?("some-facet")).to eq true
-    end
-
-    it "is false if no value for facet is selected" do
-      allow(search_state).to receive(:has_facet?).with(having_attributes(key: 'some-facet')).and_return(false)
-      expect(helper.facet_field_in_params?("some-facet")).to eq false
-    end
-  end
-
   describe "#facet_display_value" do
     it "justs be the facet value for an ordinary facet" do
       allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(query: nil, date: nil, helper_method: nil, url_method: nil))
