@@ -94,27 +94,6 @@ module Blacklight::BlacklightHelperBehavior
   deprecation_deprecate document_heading: 'Use Blacklight::DocumentPresenter#heading instead'
 
   ##
-  # Render the document "heading" (title) in a content tag
-  # @deprecated
-  # @overload render_document_heading(document, options)
-  #   @param [SolrDocument] document
-  #   @param [Hash] options
-  #   @option options [Symbol] :tag
-  # @overload render_document_heading(options)
-  #   @param [Hash] options
-  #   @option options [Symbol] :tag
-  # @return [String]
-  def render_document_heading(*args)
-    options = args.extract_options!
-    document = args.first
-    tag = options.fetch(:tag, :h4)
-    document ||= @document
-
-    content_tag(tag, document_presenter(document).heading, itemprop: "name")
-  end
-  deprecation_deprecate render_document_heading: 'Removed without replacement'
-
-  ##
   # Get the current "view type" (and ensure it is a valid type)
   #
   # @param [Hash] query_params the query parameters to check
