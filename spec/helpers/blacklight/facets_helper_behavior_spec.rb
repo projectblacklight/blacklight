@@ -9,31 +9,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
 
-  describe "has_facet_values?" do
-    let(:empty) { double(items: [], name: 'empty') }
-    let(:response) { instance_double(Blacklight::Solr::Response) }
-
-    it "is true if there are any facets to display" do
-      a = double(items: [1, 2], name: 'a')
-      b = double(items: %w[b c], name: 'b')
-      fields = [a, b, empty]
-      expect(helper.has_facet_values?(fields, response)).to be true
-    end
-
-    it "is false if all facets are empty" do
-      expect(helper.has_facet_values?([empty], response)).to be false
-    end
-
-    describe "different config" do
-      let(:blacklight_config) { Blacklight::Configuration.new { |config| config.add_facet_field 'basic_field', if: false } }
-
-      it "is false if no facets are displayable" do
-        a = double(items: [1, 2], name: 'basic_field')
-        expect(helper.has_facet_values?([a], response)).to be false
-      end
-    end
-  end
-
   describe "should_render_facet?" do
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
@@ -117,29 +92,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
   end
 
-  describe "render_facet_partials" do
-    let(:a) { double(items: [1, 2]) }
-    let(:b) { double(items: %w[b c]) }
-    let(:response) { instance_double(Blacklight::Solr::Response) }
-
-    it "tries to render all provided facets" do
-      empty = double(items: [])
-      fields = [a, b, empty]
-      expect(helper).to receive(:render_facet_limit).with(a, {})
-      expect(helper).to receive(:render_facet_limit).with(b, {})
-      expect(helper).to receive(:render_facet_limit).with(empty, {})
-      helper.render_facet_partials fields, response: response
-    end
-
-    it "defaults to the configured facets" do
-      allow(Deprecation).to receive(:warn)
-      expect(helper).to receive(:facet_field_names) { [a, b] }
-      expect(helper).to receive(:render_facet_limit).with(a, {})
-      expect(helper).to receive(:render_facet_limit).with(b, {})
-      helper.render_facet_partials
-    end
-  end
-
   describe "render_facet_limit" do
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
@@ -209,42 +161,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
   end
 
-  describe "render_facet_limit_list" do
-    subject { helper.render_facet_limit_list(paginator, 'type_solr_field') }
-
-    let(:f1) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '792', value: 'Book') }
-    let(:f2) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
-    let(:paginator) { Blacklight::Solr::FacetPaginator.new([f1, f2], limit: 10) }
-
-    before do
-      allow(helper).to receive(:search_action_path) do |*args|
-        search_catalog_path *args
-      end
-    end
-
-    it "draws a list of elements" do
-      expect(subject).to have_selector 'li', count: 2
-      expect(subject).to have_selector 'li:first-child a.facet-select', text: 'Book'
-      expect(subject).to have_selector 'li:nth-child(2) a.facet-select', text: 'Musical Score'
-    end
-
-    context "when one of the facet items is rendered as nil" do
-      # An app may override render_facet_item to filter out some undesired facet items by returning nil.
-      before do
-        allow(helper.method(:render_facet_item)).to receive(:owner).and_return(self.class)
-        # allow_any_instance_of(Blacklight::FacetItemComponent).to receive(:overridden_helper_methods?).and_return(true)
-        allow(helper).to receive(:render_facet_item).and_return('<a class="facet-select">Book</a>'.html_safe, nil)
-      end
-
-      around { |test| Deprecation.silence(Blacklight::FacetItemComponent) { test.call } }
-
-      it "draws a list of elements" do
-        expect(subject).to have_selector 'li', count: 1
-        expect(subject).to have_selector 'li:first-child a.facet-select', text: 'Book'
-      end
-    end
-  end
-
   describe "facet_field_in_params?" do
     it "checks if the facet field is selected in the user params" do
       allow(helper).to receive_messages(params: { f: { "some-field" => ["x"] } })
@@ -282,64 +198,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     it "is false if no value for facet is selected" do
       allow(search_state).to receive(:has_facet?).with(having_attributes(key: 'some-facet')).and_return(false)
       expect(helper.facet_field_in_params?("some-facet")).to eq false
-    end
-  end
-
-  describe "facet_in_params?" do
-    let(:search_state) { double }
-
-    before do
-      allow(helper).to receive_messages(search_state: search_state)
-      allow(search_state).to receive(:has_facet?).with(having_attributes(key: 'some-facet'), value: 'x').and_return(true)
-      allow(search_state).to receive(:has_facet?).with(having_attributes(key: 'some-facet'), value: 'y').and_return(false)
-    end
-
-    it "checks if a particular value is set in the facet params" do
-      expect(helper.facet_in_params?("some-facet", "x")).to eq true
-      expect(helper.facet_in_params?("some-facet", "y")).to eq false
-    end
-  end
-
-  describe "render_facet_value" do
-    let(:item) { double(value: 'A', hits: 10) }
-    let(:search_state) { double(has_facet?: false, add_facet_params_and_redirect: { controller: 'catalog' }) }
-
-    before do
-      allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(Blacklight::Configuration::FacetField.new(key: 'simple_field', query: nil, date: nil, helper_method: nil, single: false, url_method: nil))
-      allow(helper).to receive(:facet_display_value).and_return('Z')
-      allow(helper).to receive(:search_state).and_return(search_state)
-      allow(helper).to receive(:search_action_path) do |*args|
-        search_catalog_path *args
-      end
-    end
-
-    describe "simple case" do
-      let(:expected_html) { '<span class="facet-label"><a class="facet-select" href="/catalog">Z</a></span><span class="facet-count">10</span>' }
-
-      it "uses facet_display_value" do
-        result = helper.render_facet_value('simple_field', item)
-        expect(result).to be_equivalent_to(expected_html).respecting_element_order
-      end
-    end
-
-    describe "when :url_method is set" do
-      let(:expected_html) { '<span class="facet-label"><a class="facet-select" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
-
-      it "uses that method" do
-        allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(Blacklight::Configuration::FacetField.new(key: 'simple_field', query: nil, date: nil, helper_method: nil, single: false, url_method: :test_method))
-        allow(helper).to receive(:test_method).with('simple_field', item).and_return('/blabla')
-        result = helper.render_facet_value('simple_field', item)
-        expect(result).to be_equivalent_to(expected_html).respecting_element_order
-      end
-    end
-
-    describe "when :suppress_link is set" do
-      let(:expected_html) { '<span class="facet-label">Z</span><span class="facet-count">10</span>' }
-
-      it "suppresses the link" do
-        result = helper.render_facet_value('simple_field', item, suppress_link: true)
-        expect(result).to be_equivalent_to(expected_html).respecting_element_order
-      end
     end
   end
 
