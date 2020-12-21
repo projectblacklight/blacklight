@@ -16,10 +16,14 @@ module Blacklight
         @view_context.render_document_index @group.docs
       end
 
+      # Get path to a search within a grouped result set
+      #
+      # @param [Blacklight::Solr::Response::Group] group
+      # @return [Hash]
       def add_group_facet_params_and_redirect(group)
-        Deprecation.silence(Blacklight::UrlHelperBehavior) do
-          @view_context.search_action_path(@view_context.add_group_facet_params_and_redirect(group))
-        end
+        helpers.search_action_path(
+          helpers.search_state.add_facet_params_and_redirect(group.field, group.key)
+        )
       end
     end
   end
