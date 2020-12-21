@@ -4,12 +4,6 @@
 module Blacklight::UrlHelperBehavior
   extend Deprecation
 
-  # @deprecated
-  def url_for_document(doc, options = {})
-    search_state.url_for_document(doc, options)
-  end
-  deprecation_deprecate url_for_document: 'Use SearchState#url_for_document directly'
-
   # Uses the catalog_path route to create a link to the show page for an item.
   # catalog_path accepts a hash. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
@@ -33,9 +27,7 @@ module Blacklight::UrlHelperBehavior
               field_or_opts
             end
 
-    Deprecation.silence(Blacklight::UrlHelperBehavior) do
-      link_to label, url_for_document(doc), document_link_params(doc, opts)
-    end
+    link_to label, search_state.url_for_document(doc), document_link_params(doc, opts)
   end
 
   # @private

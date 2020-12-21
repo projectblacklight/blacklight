@@ -8,12 +8,12 @@ xml.entry do
   xml.updated Time.current.iso8601
 
   Deprecation.silence(Blacklight::UrlHelperBehavior) do
-    xml.link "rel" => "alternate", "type" => "text/html", "href" => polymorphic_url(url_for_document(document))
+    xml.link "rel" => "alternate", "type" => "text/html", "href" => polymorphic_url(search_state.url_for_document(document))
     # add other doc-specific formats, atom only lets us have one per
     # content type, so the first one in the list wins.
     xml << presenter.link_rel_alternates(unique: true)
 
-    xml.id polymorphic_url(url_for_document(document))
+    xml.id polymorphic_url(search_state.url_for_document(document))
   end
 
   if document.to_semantic_values.key? :author

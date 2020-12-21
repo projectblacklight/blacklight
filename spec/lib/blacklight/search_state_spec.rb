@@ -544,4 +544,53 @@ RSpec.describe Blacklight::SearchState do
       expect(search_state.facet_prefix).to eq 'A'
     end
   end
+
+
+  describe "#url_for_document" do
+    let(:controller_class) { ::CatalogController.new }
+    let(:doc) { SolrDocument.new }
+
+    before do
+      allow(search_state).to receive_messages(controller: controller_class)
+      allow(search_state).to receive_messages(controller_name: controller_class.controller_name)
+      allow(search_state).to receive_messages(params: parameter_class.new)
+    end
+
+    it "is a polymorphic routing-ready object" do
+      expect(search_state.url_for_document(doc)).to eq doc
+    end
+
+    it "allows for custom show routes" do
+      search_state.blacklight_config.show.route = { controller: 'catalog' }
+      expect(search_state.url_for_document(doc)).to eq(controller: 'catalog', action: :show, id: doc)
+    end
+
+    context "within bookmarks" do
+      let(:controller_class) { ::BookmarksController.new }
+
+      it "uses polymorphic routing" do
+        expect(search_state.url_for_document(doc)).to eq doc
+      end
+    end
+
+    context "within an alternative catalog controller" do
+      let(:controller_class) { ::AlternateController.new }
+
+      before do
+        search_state.blacklight_config.show.route = { controller: :current }
+        allow(search_state).to receive(:params).and_return(parameter_class.new(controller: 'alternate'))
+      end
+
+      it "supports the :current controller configuration" do
+        expect(search_state.url_for_document(doc)).to eq(controller: 'alternate', action: :show, id: doc)
+      end
+    end
+
+    it "is a polymorphic route if the solr document responds to #to_model with a non-SolrDocument" do
+      some_model = double
+      doc = SolrDocument.new
+      allow(doc).to receive_messages(to_model: some_model)
+      expect(search_state.url_for_document(doc)).to eq doc
+    end
+  end
 end
