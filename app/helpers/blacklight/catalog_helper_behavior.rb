@@ -185,19 +185,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # If no search parameters have been given, we should
-  # auto-focus the user's cursor into the searchbox
-  #
-  # @deprecated
-  # @return [Boolean]
-  def should_autofocus_on_search_box?
-    controller.is_a?(Blacklight::Catalog) &&
-      action_name == "index" &&
-      !has_search_parameters?
-  end
-  deprecation_deprecate should_autofocus_on_search_box?: "use SearchBarPresenter#autofocus?"
-
-  ##
   # Render the view type icon for the results view picker
   #
   # @param [String] view
