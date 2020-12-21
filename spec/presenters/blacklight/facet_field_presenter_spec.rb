@@ -91,13 +91,6 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
     end
   end
 
-  describe '#html_id' do
-    it 'gets the id from a helper' do
-      allow(view_context).to receive(:html_id).with('key').and_return('facet-key')
-      expect(presenter.html_id).to eq 'facet-key'
-    end
-  end
-
   describe '#paginator' do
     subject(:paginator) { presenter.paginator }
 

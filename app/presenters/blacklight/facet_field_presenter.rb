@@ -42,14 +42,6 @@ module Blacklight
       search_state&.filter(facet_field)&.values || []
     end
 
-    # @private
-    # @deprecated
-    def html_id
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        view_context.facet_field_id(facet_field)
-      end
-    end
-
     def paginator
       return unless display_facet
 
