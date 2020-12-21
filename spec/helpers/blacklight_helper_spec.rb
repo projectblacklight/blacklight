@@ -152,10 +152,6 @@ RSpec.describe BlacklightHelper do
     end
   end
 
-  describe "render_grouped_document_index" do
-    pending 'not implemented'
-  end
-
   describe "#opensearch_description_tag" do
     subject { helper.opensearch_description_tag 'title', 'href' }
 
