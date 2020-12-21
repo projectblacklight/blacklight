@@ -18,9 +18,7 @@ module Blacklight
     # Check if the query parameters have the given facet field with the
     # given value.
     def selected?
-      Deprecation.silence(Blacklight::SearchState) do
-        search_state.has_facet? facet_config, value: facet_value
-      end
+      search_state.filter(facet_config).include?(facet_value)
     end
 
     def field_label

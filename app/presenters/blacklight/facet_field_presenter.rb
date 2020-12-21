@@ -19,9 +19,7 @@ module Blacklight
     end
 
     def active?
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        view_context.facet_field_in_params?(key)
-      end
+      search_state.filter(facet_field).any?
     end
 
     def in_modal?

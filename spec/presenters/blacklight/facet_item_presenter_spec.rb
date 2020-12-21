@@ -14,7 +14,7 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
 
   describe '#selected?' do
     it 'works' do
-      allow(search_state).to receive(:has_facet?).and_return(true)
+      allow(search_state).to receive(:filter).and_return([facet_item])
       expect(presenter.selected?).to be true
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
 
   describe '#href' do
     before do
-      allow(search_state).to receive(:has_facet?).and_return(false)
+      allow(search_state).to receive(:filter).and_return([])
     end
 
     it 'is the url to apply the facet' do
@@ -80,11 +80,13 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
     end
 
     context 'with a selected facet' do
-      it 'is the url to remove the facet' do
-        allow(search_state).to receive(:has_facet?).and_return(true)
+      before do
+        allow(search_state).to receive(:filter).and_return([facet_item])
         allow(search_state).to receive(:remove_facet_params).with('key', facet_item).and_return({})
         allow(view_context).to receive(:search_action_path).with({}).and_return('/catalog')
+      end
 
+      it 'is the url to remove the facet' do
         expect(presenter.href).to eq '/catalog'
       end
     end
