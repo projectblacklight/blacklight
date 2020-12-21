@@ -1,6 +1,6 @@
 <%= render 'previous_next_doc' if @search_context && search_session['document_id'] == @document.id %>
 
-<% @page_title = t('blacklight.search.show.title', document_title: Deprecation.silence(Blacklight::BlacklightHelperBehavior) { document_show_html_title }, application_name: application_name).html_safe %>
+<% @page_title = t('blacklight.search.show.title', document_title: document_presenter(@document).html_title, application_name: application_name).html_safe %>
 <% content_for(:head) { render_link_rel_alternates } %>
 
 <%= render (blacklight_config.view_config(:show).document_component || Blacklight::DocumentComponent).new(presenter: document_presenter(@document), component: :div, title_component: :h1, show: true) do |component| %>

@@ -3,8 +3,11 @@
 RSpec.describe "catalog/show.html.erb" do
   let(:document) { SolrDocument.new id: 'xyz', format: 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
+  let(:presenter) { Blacklight::ShowPresenter.new(document, view, blacklight_config) }
 
   before do
+    allow(presenter).to receive(:html_title).and_return('Heading')
+    allow(view).to receive(:document_presenter).and_return(presenter)
     allow(view).to receive(:action_name).and_return('show')
     allow(view).to receive_messages(has_user_authentication_provider?: false)
     allow(view).to receive_messages(render_document_sidebar_partial: "Sidebar")
@@ -14,7 +17,6 @@ RSpec.describe "catalog/show.html.erb" do
   end
 
   it "sets the @page_title" do
-    allow(view).to receive(:document_show_html_title).and_return("Heading")
     render
     page_title = view.instance_variable_get(:@page_title)
     expect(page_title).to eq "Heading - Blacklight"
@@ -22,7 +24,6 @@ RSpec.describe "catalog/show.html.erb" do
   end
 
   it "includes schema.org itemscope/type properties" do
-    allow(view).to receive(:document_show_html_title).and_return("Heading")
     allow(document).to receive_messages(itemtype: 'some-item-type-uri')
     render
     expect(rendered).to have_selector('div#document[@itemscope]')
