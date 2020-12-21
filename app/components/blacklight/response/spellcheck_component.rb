@@ -12,9 +12,9 @@ module Blacklight
       end
 
       def link_to_query(query)
-        Deprecation.silence(Blacklight::UrlHelperBehavior) do
-          @view_context.link_to_query(query)
-        end
+        p = helpers.search_state.to_h.except(:page, :action)
+        p[:q] = query
+        link_to(query, helpers.search_action_path(p))
       end
 
       def render?
