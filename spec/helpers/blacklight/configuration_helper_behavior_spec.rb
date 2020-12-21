@@ -71,13 +71,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#spell_check_max" do
-    it "passes through the configuration" do
-      allow(blacklight_config).to receive_messages(spell_max: config_value)
-      expect(helper.spell_check_max).to eq config_value
-    end
-  end
-
   describe "#document_show_link_field" do
     let(:document) { SolrDocument.new id: 123, a: 1, b: 2, c: 3 }
 

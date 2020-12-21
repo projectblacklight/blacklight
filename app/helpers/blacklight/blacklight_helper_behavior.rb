@@ -128,23 +128,6 @@ module Blacklight::BlacklightHelperBehavior
       field_config.accessor
   end
 
-  # @!group Search result helpers
-  ##
-  # Determine whether to display spellcheck suggestions
-  #
-  # @deprecated
-  # @param [Blacklight::Solr::Response] response
-  # @return [Boolean]
-  def should_show_spellcheck_suggestions? response
-    Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-      # The spelling response field may be missing from non solr repositories.
-      response.total <= spell_check_max &&
-        !response.spelling.nil? &&
-        response.spelling.words.any?
-    end
-  end
-  deprecation_deprecate should_show_spellcheck_suggestions?: 'moving into a private method of Blacklight::Response::SpellcheckComponent'
-
   # @!group Document helpers
   ##
   # Render the index field label for a document

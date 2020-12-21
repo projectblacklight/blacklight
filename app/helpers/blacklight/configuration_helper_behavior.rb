@@ -140,14 +140,6 @@ module Blacklight::ConfigurationHelperBehavior
     document_index_views.select { |_k, config| config.respond_to?(:default) && config.default }.keys.first || document_index_views.keys.first
   end
 
-  ##
-  #  Maximum number of results for spell checking
-  # @return [Number]
-  def spell_check_max
-    blacklight_config.spell_max
-  end
-  deprecation_deprecate spell_check_max: 'Use blacklight_config.spell_max directly'
-
   # Used in the document list partial (search view) for creating a link to the document show action
   # @deprecated
   def document_show_link_field document = nil
