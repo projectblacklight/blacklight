@@ -81,18 +81,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Determine whether to render a given field in the show view
-  #
-  # @deprecated
-  # @param [SolrDocument] document
-  # @param [Blacklight::Configuration::Field] field_config
-  # @return [Boolean]
-  def should_render_show_field? document, field_config
-    Deprecation.warn self, "should_render_show_field? is deprecated and will be removed in Blacklight 8. Use ShowPresenter#render_field? instead."
-    should_render_field?(field_config, document) && document_has_value?(document, field_config)
-  end
-
-  ##
   # Check if a document has (or, might have, in the case of accessor methods) a value for
   # the given solr
   # @deprecated
