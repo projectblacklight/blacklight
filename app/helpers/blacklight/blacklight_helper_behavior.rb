@@ -81,19 +81,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Get the value of the document's "title" field, or a placeholder
-  # value (if empty)
-  #
-  # @deprecated
-  # @param [SolrDocument] document
-  # @return [String]
-  def document_heading document = nil
-    document ||= @document
-    document_presenter(document).heading
-  end
-  deprecation_deprecate document_heading: 'Use Blacklight::DocumentPresenter#heading instead'
-
-  ##
   # Get the current "view type" (and ensure it is a valid type)
   #
   # @param [Hash] query_params the query parameters to check
