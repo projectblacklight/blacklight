@@ -71,26 +71,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#document_show_link_field" do
-    let(:document) { SolrDocument.new id: 123, a: 1, b: 2, c: 3 }
-
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-
-    it "allows single values" do
-      blacklight_config.index.title_field = :a
-      f = helper.document_show_link_field document
-      expect(f).to eq :a
-    end
-
-    it "retrieves the first field with data" do
-      blacklight_config.index.title_field = [:zzz, :b]
-      f = helper.document_show_link_field document
-      expect(f).to eq :b
-    end
-  end
-
   describe "#field_label" do
     it "looks up the label as an i18n string" do
       expect(helper).to receive(:t).with(:some_key, default: []).and_return "my label"

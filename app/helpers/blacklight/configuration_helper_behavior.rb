@@ -140,19 +140,6 @@ module Blacklight::ConfigurationHelperBehavior
     document_index_views.select { |_k, config| config.respond_to?(:default) && config.default }.keys.first || document_index_views.keys.first
   end
 
-  # Used in the document list partial (search view) for creating a link to the document show action
-  # @deprecated
-  def document_show_link_field document = nil
-    fields = Array(blacklight_config.view_config(document_index_view_type).title_field)
-
-    field = fields.first if document.nil?
-    field ||= fields.find { |f| document.has? f }
-    field &&= field&.to_sym
-
-    field
-  end
-  deprecation_deprecate document_show_link_field: 'Deprecated without replacement'
-
   ##
   # Default sort field
   def default_sort_field
