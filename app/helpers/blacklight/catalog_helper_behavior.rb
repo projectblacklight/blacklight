@@ -96,20 +96,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Like #page_entries_info above, but for an individual
-  # item show page. Displays "showing X of Y items" message.
-  #
-  # @deprecated
-  # @see #page_entries_info
-  # @return [String]
-  def item_page_entry_info
-    t('blacklight.search.entry_pagination_info.other', current: number_with_delimiter(search_session['counter']),
-                                                       total: number_with_delimiter(search_session['total']),
-                                                       count: search_session['total'].to_i).html_safe
-  end
-  deprecation_deprecate item_page_entry_info: 'Use Blacklight::SearchContextComponent methods instead'
-
-  ##
   # Look up search field user-displayable label
   # based on params[:qt] and blacklight_configuration.
   # @return [String]
