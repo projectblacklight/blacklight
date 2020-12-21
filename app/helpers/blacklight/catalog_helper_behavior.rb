@@ -198,17 +198,6 @@ module Blacklight::CatalogHelperBehavior
   deprecation_deprecate should_autofocus_on_search_box?: "use SearchBarPresenter#autofocus?"
 
   ##
-  # Does the document have a thumbnail to render?
-  #
-  # @deprecated
-  # @param [SolrDocument] document
-  # @return [Boolean]
-  def has_thumbnail? document
-    document_presenter(document).thumbnail.exists?
-  end
-  deprecation_deprecate has_thumbnail?: "use IndexPresenter#thumbnail.exists?"
-
-  ##
   # Render the thumbnail, if available, for a document and
   # link it to the document record.
   #
