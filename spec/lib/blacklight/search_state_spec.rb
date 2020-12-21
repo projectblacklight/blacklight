@@ -545,7 +545,6 @@ RSpec.describe Blacklight::SearchState do
     end
   end
 
-
   describe "#url_for_document" do
     let(:controller_class) { ::CatalogController.new }
     let(:doc) { SolrDocument.new }

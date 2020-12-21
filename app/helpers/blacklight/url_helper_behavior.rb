@@ -124,16 +124,6 @@ module Blacklight::UrlHelperBehavior
     link_to(render_search_to_s(params), search_action_path(params))
   end
 
-  # Get url parameters to a search within a grouped result set
-  #
-  # @deprecated
-  # @param [Blacklight::Solr::Response::Group] group
-  # @return [Hash]
-  def add_group_facet_params_and_redirect group
-    search_state.add_facet_params_and_redirect(group.field, group.key)
-  end
-  deprecation_deprecate add_group_facet_params_and_redirect: 'Removed without replacement'
-
   # A URL to refworks export, with an embedded callback URL to this app.
   # the callback URL is to bookmarks#export, which delivers a list of
   # user's bookmarks in 'refworks marc txt' format -- we tell refworks
