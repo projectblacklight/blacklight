@@ -239,10 +239,6 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
 
     let(:field_config) { double('field config', if: true, unless: false, except_operations: nil) }
 
-    before do
-      allow(presenter).to receive_messages(document_has_value?: true)
-    end
-
     it { is_expected.to be true }
 
     context 'when the view context says not to render the field' do

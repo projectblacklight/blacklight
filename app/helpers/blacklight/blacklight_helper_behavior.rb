@@ -81,20 +81,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Check if a document has (or, might have, in the case of accessor methods) a value for
-  # the given solr
-  # @deprecated
-  # @param [SolrDocument] document
-  # @param [Blacklight::Configuration::Field] field_config
-  # @return [Boolean]
-  def document_has_value? document, field_config
-    Deprecation.warn self, "document_has_value? is deprecated and will be removed in Blacklight 8. Use DocumentPresenter#has_value? instead."
-    document.has?(field_config.field) ||
-      (document.has_highlight_field? field_config.field if field_config.highlight) ||
-      field_config.accessor
-  end
-
-  ##
   # Get the value of the document's "title" field, or a placeholder
   # value (if empty)
   #

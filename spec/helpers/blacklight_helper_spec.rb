@@ -140,32 +140,6 @@ RSpec.describe BlacklightHelper do
     end
   end
 
-  describe "#document_has_value?" do
-    let(:doc) { double(SolrDocument) }
-
-    before { allow(Deprecation).to receive(:warn) }
-
-    it "ifs the document has the field value" do
-      allow(doc).to receive(:has?).with('asdf').and_return(true)
-      field_config = double(field: 'asdf')
-      expect(helper.document_has_value?(doc, field_config)).to eq true
-    end
-
-    it "ifs the document has a highlight field value" do
-      allow(doc).to receive(:has?).with('asdf').and_return(false)
-      allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(true)
-      field_config = double(field: 'asdf', highlight: true)
-      expect(helper.document_has_value?(doc, field_config)).to eq true
-    end
-
-    it "ifs the field has a model accessor" do
-      allow(doc).to receive(:has?).with('asdf').and_return(false)
-      allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(false)
-      field_config = double(field: 'asdf', highlight: true, accessor: true)
-      expect(helper.document_has_value?(doc, field_config)).to eq true
-    end
-  end
-
   describe "render_grouped_response?" do
     it "checks if the response ivar contains grouped data" do
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: true))
