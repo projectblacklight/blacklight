@@ -183,14 +183,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
   end
 
-  describe "#bookmarks_export_url" do
-    it "is the bookmark url with an encrypted user token" do
-      allow(helper).to receive_messages(encrypt_user_id: 'xyz', current_or_guest_user: double(id: 123))
-      url = helper.bookmarks_export_url(:html)
-      expect(url).to eq helper.bookmarks_url(format: :html, encrypted_user_id: 'xyz')
-    end
-  end
-
   describe "#session_tracking_path" do
     let(:document) { SolrDocument.new(id: 1) }
 
