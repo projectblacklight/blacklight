@@ -93,39 +93,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
   end
 
-  describe "link_to_query" do
-    it "builds a link tag to catalog using query string (no other params)" do
-      query = "brilliant"
-      allow(helper).to receive_messages(params: parameter_class.new)
-      tag = helper.link_to_query(query)
-      expect(tag).to match /q=#{query}/
-      expect(tag).to match %r{>#{query}</a>}
-    end
-
-    it "builds a link tag to catalog using query string and other existing params" do
-      query = "wonderful"
-      allow(helper).to receive_messages(params: parameter_class.new(qt: "title_search", per_page: "50"))
-      tag = helper.link_to_query(query)
-      expect(tag).to match /qt=title_search/
-      expect(tag).to match /per_page=50/
-    end
-
-    it "ignores existing :page param" do
-      query = "yes"
-      allow(helper).to receive_messages(params: parameter_class.new(page: "2", qt: "author_search"))
-      tag = helper.link_to_query(query)
-      expect(tag).to match /qt=author_search/
-      expect(tag).not_to match /page/
-    end
-
-    it "is html_safe" do
-      query = "brilliant"
-      allow(helper).to receive_messages(params: parameter_class.new(page: "2", qt: "author_search"))
-      tag = helper.link_to_query(query)
-      expect(tag).to be_html_safe
-    end
-  end
-
   describe "start_over_path" do
     it 'is the catalog path with the current view type' do
       allow(blacklight_config).to receive(:view).and_return(list: nil, abc: nil)

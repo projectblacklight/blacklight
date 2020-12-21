@@ -74,15 +74,6 @@ module Blacklight::UrlHelperBehavior
   # link based helpers ->
   #
 
-  # create link to query (e.g. spelling suggestion)
-  # @deprecated
-  def link_to_query(query)
-    p = search_state.to_h.except(:page, :action)
-    p[:q] = query
-    link_to(query, search_action_path(p))
-  end
-  deprecation_deprecate link_to_query: 'Removed without replacement'
-
   ##
   # Get the path to the search action with any parameters (e.g. view type)
   # that should be persisted across search sessions.
