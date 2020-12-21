@@ -123,14 +123,4 @@ module Blacklight::UrlHelperBehavior
   def link_to_previous_search(params)
     link_to(render_search_to_s(params), search_action_path(params))
   end
-
-  # A URL to refworks export, with an embedded callback URL to this app.
-  # the callback URL is to bookmarks#export, which delivers a list of
-  # user's bookmarks in 'refworks marc txt' format -- we tell refworks
-  # to expect that format.
-  # @deprecated
-  def bookmarks_export_url(format, params = {})
-    bookmarks_url(params.merge(format: format, encrypted_user_id: encrypt_user_id(current_or_guest_user.id)))
-  end
-  deprecation_deprecate bookmarks_export_url: 'Removed without replacement'
 end
