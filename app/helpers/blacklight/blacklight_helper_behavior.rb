@@ -133,21 +133,6 @@ module Blacklight::BlacklightHelperBehavior
   deprecation_deprecate document_heading: 'Use Blacklight::DocumentPresenter#heading instead'
 
   ##
-  # Get the document's "title" to display in the <title> element.
-  # (by default, use the #document_heading)
-  #
-  # @deprecated
-  # @see #document_heading
-  # @param [SolrDocument] document
-  # @return [String]
-  def document_show_html_title document = nil
-    document ||= @document
-
-    document_presenter(document).html_title
-  end
-  deprecation_deprecate document_show_html_title: 'Use Blacklight::DocumentPresenter#html_title instead'
-
-  ##
   # Render the document "heading" (title) in a content tag
   # @deprecated
   # @overload render_document_heading(document, options)
