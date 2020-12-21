@@ -11,46 +11,24 @@ module Blacklight::FacetsHelperBehavior
   # display on a per-facet basis.
   #
   # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
-  # @param [Hash] options parameters to use for rendering the facet limit partial
-  # @option options [String] :partial partial to render
-  # @option options [String] :layout partial layout to render
-  # @option options [Hash] :locals locals to pass to the partial
+  # @param [Boolean] :layout partial layout to render
   # @return [String]
-  def render_facet_limit(display_facet, options = {})
+  def render_facet_limit(display_facet, layout: true)
     field_config = facet_configuration_for_field(display_facet.name)
+    return unless should_render_field?(field_config, display_facet)
 
-    if field_config.component
-      return unless should_render_field?(field_config, display_facet)
+    component = field_config.component.presence || Blacklight::FacetFieldListComponent
+    if component == true
+      Deprecation.warn(self, "It is no longer necessary to provide component=true. This will be an error in Blacklight 9")
+      component = Blacklight::FacetFieldListComponent
+    end
 
-      component = field_config.component == true ? Blacklight::FacetFieldListComponent : field_config.component
-
-      return render(
-        component.new(
-          facet_field: facet_field_presenter(field_config, display_facet),
-          layout: (params[:action] == 'facet' ? false : options[:layout])
-        )
+    render(
+      component.new(
+        facet_field: facet_field_presenter(field_config, display_facet),
+        layout: (params[:action] == 'facet' ? false : layout)
       )
-    end
-
-    Deprecation.warn(Blacklight::FacetsHelperBehavior, 'Calling #render_facet_limit on a non-componentized'\
-      ' facet is deprecated and will be removed in Blacklight 8')
-
-    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-      return unless should_render_facet?(display_facet, field_config)
-    end
-    options = options.dup
-
-    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-      options[:partial] ||= facet_partial_name(display_facet)
-    end
-
-    options[:layout] ||= "facet_layout" unless options.key?(:layout)
-    options[:locals] ||= {}
-    options[:locals][:field_name] ||= display_facet.name
-    options[:locals][:facet_field] ||= field_config
-    options[:locals][:display_facet] ||= display_facet
-
-    render(options)
+    )
   end
 
   ##
