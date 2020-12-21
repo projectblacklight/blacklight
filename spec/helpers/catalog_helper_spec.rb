@@ -190,30 +190,6 @@ RSpec.describe CatalogHelper do
     end
   end
 
-  describe "render_thumbnail_tag" do
-    let(:index_presenter) do
-      instance_double(Blacklight::IndexPresenter, thumbnail: thumbnail_presenter)
-    end
-    let(:thumbnail_presenter) { instance_double(Blacklight::ThumbnailPresenter) }
-
-    before do
-      allow(Deprecation).to receive(:warn)
-      allow(helper).to receive(:index_presenter).with(document).and_return(index_presenter)
-    end
-
-    let(:document) { instance_double(SolrDocument) }
-
-    it "calls thumbnail presenter with default values" do
-      expect(thumbnail_presenter).to receive(:thumbnail_tag).with({}, {})
-      helper.render_thumbnail_tag document
-    end
-
-    it "calls thumbnail presenter with provided values" do
-      expect(thumbnail_presenter).to receive(:thumbnail_tag).with({}, suppress_link: true)
-      helper.render_thumbnail_tag document, {}, suppress_link: true
-    end
-  end
-
   describe "document_counter_with_offset" do
     it "renders the document index with the appropriate offset" do
       assign(:response, instance_double(Blacklight::Solr::Response, start: 0, grouped?: false))
