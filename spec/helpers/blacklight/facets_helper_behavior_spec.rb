@@ -98,64 +98,23 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
         config.add_facet_field 'basic_field'
         config.add_facet_field 'component_field', component: true
         config.add_facet_field 'non_rendering_component_field', component: true, if: false
-        config.add_facet_field 'pivot_facet_field', pivot: %w[a b]
-        config.add_facet_field 'my_pivot_facet_field_with_custom_partial', partial: 'custom_facet_partial', pivot: %w[a b]
-        config.add_facet_field 'my_facet_field_with_custom_partial', partial: 'custom_facet_partial'
       end
     end
-    let(:mock_custom_facet) { double(name: 'my_facet_field_with_custom_partial', items: [1, 2, 3]) }
 
-    it "sets basic local variables" do
-      mock_facet = double(name: 'basic_field', items: [1, 2, 3])
-      expect(helper).to receive(:render).with(hash_including(partial: 'facet_limit',
-                                                             locals: {
-                                                               field_name: 'basic_field',
-                                                               facet_field: helper.blacklight_config.facet_fields['basic_field'],
-                                                               display_facet: mock_facet
-                                                             }))
+    it "renders a component" do
+      mock_facet = double(name: 'basic_field')
+      expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetFieldListComponent))
       helper.render_facet_limit(mock_facet)
     end
 
-    it "renders a facet _not_ declared in the configuration" do
-      mock_facet = double(name: 'asdf', items: [1, 2, 3])
-      expect(helper).to receive(:render).with(hash_including(partial: 'facet_limit'))
-      helper.render_facet_limit(mock_facet)
-    end
-
-    it "gets the partial name from the configuration" do
-      expect(helper).to receive(:render).with(hash_including(partial: 'custom_facet_partial'))
-      helper.render_facet_limit(mock_custom_facet)
-    end
-
-    it "uses a partial layout for rendering the facet frame" do
-      expect(helper).to receive(:render).with(hash_including(layout: 'facet_layout'))
-      helper.render_facet_limit(mock_custom_facet)
-    end
-
-    it "allows the caller to opt-out of facet layouts" do
-      expect(helper).to receive(:render).with(hash_including(layout: nil))
-      helper.render_facet_limit(mock_custom_facet, layout: nil)
-    end
-
-    it "renders the facet_pivot partial for pivot facets" do
-      mock_facet = double(name: 'pivot_facet_field', items: [1, 2, 3])
-      expect(helper).to receive(:render).with(hash_including(partial: 'facet_pivot'))
-      helper.render_facet_limit(mock_facet)
-    end
-
-    it "lets you override the rendered partial for pivot facets" do
-      mock_facet = double(name: 'my_pivot_facet_field_with_custom_partial', items: [1, 2, 3])
-      expect(helper).to receive(:render).with(hash_including(partial: 'custom_facet_partial'))
-      helper.render_facet_limit(mock_facet)
-    end
-
-    it "lets you override the rendered partial for pivot facets" do
+    it "renders a component" do
+      expect(Deprecation).to receive(:warn)
       mock_facet = double(name: 'component_field')
       expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetFieldListComponent))
       helper.render_facet_limit(mock_facet)
     end
 
-    it "lets you override the rendered partial for pivot facets" do
+    it "renders nothing when the condition is false" do
       mock_facet = double(name: 'non_rendering_component_field')
       expect(helper.render_facet_limit(mock_facet)).to be_blank
     end
