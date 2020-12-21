@@ -19,8 +19,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       label: 'Field',
       active?: false,
       collapsed?: false,
-      modal_path: nil,
-      html_id: 'facet-field'
+      modal_path: nil
     )
   end
 
@@ -52,8 +51,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
         label: 'Field',
         active?: true,
         collapsed?: false,
-        modal_path: nil,
-        html_id: 'facet-field'
+        modal_path: nil
       )
     end
 
@@ -71,8 +69,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
         label: 'Field',
         active?: false,
         collapsed?: true,
-        modal_path: nil,
-        html_id: 'facet-field'
+        modal_path: nil
       )
     end
 
@@ -96,8 +93,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
         label: 'Field',
         active?: false,
         collapsed?: false,
-        modal_path: '/catalog/facet/modal',
-        html_id: 'facet-field'
+        modal_path: '/catalog/facet/modal'
       )
     end
 

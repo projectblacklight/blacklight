@@ -73,12 +73,6 @@ module Blacklight::FacetsHelperBehavior
     facet_item_presenter(facet_config, item, field).label
   end
 
-  # @deprecated
-  def facet_field_id facet_field
-    "facet-#{facet_field.key.parameterize}"
-  end
-  deprecation_deprecate :facet_field_id
-
   private
 
   def facet_value_for_facet_item item

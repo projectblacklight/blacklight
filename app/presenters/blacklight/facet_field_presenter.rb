@@ -38,14 +38,6 @@ module Blacklight
       view_context.facet_field_label(key)
     end
 
-    # @private
-    # @deprecated
-    def html_id
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        view_context.facet_field_id(facet_field)
-      end
-    end
-
     def paginator
       return unless display_facet
 

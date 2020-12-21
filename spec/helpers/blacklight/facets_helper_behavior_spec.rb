@@ -118,12 +118,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
   end
 
-  describe "#facet_field_id" do
-    it "is the parameterized version of the facet field" do
-      expect(helper.facet_field_id(double(key: 'some field'))).to eq "facet-some-field"
-    end
-  end
-
   describe '#facet_field_presenter' do
     let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'x').normalize! }
     let(:display_facet) { double }
