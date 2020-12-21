@@ -32,22 +32,6 @@ module Blacklight::FacetsHelperBehavior
   end
 
   ##
-  # Determine whether a facet should be rendered as collapsed or not.
-  #   - if the facet is 'active', don't collapse
-  #   - if the facet is configured to collapse (the default), collapse
-  #   - if the facet is configured not to collapse, don't collapse
-  #
-  # @deprecated
-  # @param [Blacklight::Configuration::FacetField] facet_field
-  # @return [Boolean]
-  def should_collapse_facet? facet_field
-    Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-      !facet_field_in_params?(facet_field.key) && facet_field.collapse
-    end
-  end
-  deprecation_deprecate :should_collapse_facet?
-
-  ##
   # The name of the partial to use to render a facet field.
   # uses the value of the "partial" field if set in the facet configuration
   # otherwise uses "facet_pivot" if this facet is a pivot facet

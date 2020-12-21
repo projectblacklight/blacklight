@@ -9,29 +9,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
 
-  describe "should_collapse_facet?" do
-    let(:blacklight_config) do
-      Blacklight::Configuration.new do |config|
-        config.add_facet_field 'basic_field'
-        config.add_facet_field 'no_collapse', collapse: false
-      end
-    end
-
-    it "is collapsed by default" do
-      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['basic_field'])).to be true
-    end
-
-    it "does not be collapsed if the configuration says so" do
-      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['no_collapse'])).to be false
-    end
-
-    it "does not be collapsed if it is in the params" do
-      params[:f] = ActiveSupport::HashWithIndifferentAccess.new(basic_field: [1], no_collapse: [2])
-      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['basic_field'])).to be false
-      expect(helper.should_collapse_facet?(blacklight_config.facet_fields['no_collapse'])).to be false
-    end
-  end
-
   describe "facet_by_field_name" do
     around { |test| Deprecation.silence(Blacklight::Facet) { test.call } }
 
