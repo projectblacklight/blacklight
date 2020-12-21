@@ -194,17 +194,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Get the default view type classes for a view in the results view picker
-  #
-  # @deprecated
-  # @param [String] view
-  # @return [String]
-  def default_view_type_group_icon_classes view
-    Deprecation.warn(Blacklight::CatalogHelperBehavior, 'This method has been deprecated, use blacklight_icons helper instead')
-    "glyphicon-#{view.to_s.parameterize} view-icon-#{view.to_s.parameterize}"
-  end
-
-  ##
   # return the Bookmarks on a set of documents
   # @param [Enumerable<Blacklight::Document>] documents_or_response
   # @return [Enumerable<Bookmark>]
