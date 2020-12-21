@@ -4,7 +4,6 @@ module Blacklight::BlacklightHelperBehavior
   extend Deprecation
 
   include Blacklight::UrlHelperBehavior
-  include Blacklight::HashAsHiddenFieldsHelperBehavior
   include Blacklight::LayoutHelperBehavior
   include Blacklight::IconHelperBehavior
 
