@@ -21,11 +21,20 @@ module Blacklight
         @query_constraint_component.new(
           search_state: @search_state,
           value: @search_state.query_param,
-          label: @view_context.constraint_query_label(@search_state.params),
+          label: constraint_query_label,
           remove_path: remove_path,
           classes: 'query'
         )
       )
+    end
+
+    ##
+    # @return [String] a label for the currently selected search field.
+    # If no "search_field" or the default (e.g. "all_fields") is selected, then return nil
+    # Otherwise grab the label of the selected search field.
+    def constraint_query_label
+      search_field = @search_state.params[:search_field]
+      helpers.label_for_search_field(search_field) unless helpers.default_search_field?(search_field)
     end
 
     def remove_path
