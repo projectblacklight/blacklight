@@ -27,17 +27,6 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   ##
-  # Return a label for the currently selected search field.
-  # If no "search_field" or the default (e.g. "all_fields") is selected, then return nil
-  # Otherwise grab the label of the selected search field.
-  # @param [Hash] localized_params query parameters
-  # @return [String]
-  def constraint_query_label(localized_params = params)
-    label_for_search_field(localized_params[:search_field]) unless default_search_field?(localized_params[:search_field])
-  end
-  deprecation_deprecate constraint_query_label: 'Moving to Blacklight::ConstraintsComponent'
-
-  ##
   # Is the search form using the default search field ("all_fields" by default)?
   # @param [String] selected_search_field the currently selected search_field
   # @return [Boolean]

@@ -34,6 +34,10 @@ module Blacklight
       end + @view_context.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
     end
 
+    def remove_path
+      helpers.search_action_path(@search_state.remove_query_params)
+    end
+
     def facet_constraints
       @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
     end
@@ -51,7 +55,8 @@ module Blacklight
     private
 
     def label
-      @view_context.constraint_query_label(@search_state.params)
+      search_field = @search_state.params[:search_field]
+      helpers.label_for_search_field(search_field) unless helpers.default_search_field?(search_field)
     end
 
     def facet_item_presenters
