@@ -23,54 +23,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     allow(helper).to receive(:search_session).and_return({})
   end
 
-  describe "url_for_document" do
-    let(:controller_class) { ::CatalogController.new }
-    let(:doc) { SolrDocument.new }
-
-    before do
-      allow(helper).to receive_messages(controller: controller_class)
-      allow(helper).to receive_messages(controller_name: controller_class.controller_name)
-      allow(helper).to receive_messages(params: parameter_class.new)
-    end
-
-    it "is a polymorphic routing-ready object" do
-      expect(helper.url_for_document(doc)).to eq doc
-    end
-
-    it "allows for custom show routes" do
-      helper.blacklight_config.show.route = { controller: 'catalog' }
-      expect(helper.url_for_document(doc)).to eq(controller: 'catalog', action: :show, id: doc)
-    end
-
-    context "within bookmarks" do
-      let(:controller_class) { ::BookmarksController.new }
-
-      it "uses polymorphic routing" do
-        expect(helper.url_for_document(doc)).to eq doc
-      end
-    end
-
-    context "within an alternative catalog controller" do
-      let(:controller_class) { ::AlternateController.new }
-
-      before do
-        helper.blacklight_config.show.route = { controller: :current }
-        allow(helper).to receive(:params).and_return(parameter_class.new(controller: 'alternate'))
-      end
-
-      it "supports the :current controller configuration" do
-        expect(helper.url_for_document(doc)).to eq(controller: 'alternate', action: :show, id: doc)
-      end
-    end
-
-    it "is a polymorphic route if the solr document responds to #to_model with a non-SolrDocument" do
-      some_model = double
-      doc = SolrDocument.new
-      allow(doc).to receive_messages(to_model: some_model)
-      expect(helper.url_for_document(doc)).to eq doc
-    end
-  end
-
   describe "link_back_to_catalog" do
     let(:query_params) { { q: "query", f: "facets", controller: 'catalog' } }
     let(:bookmarks_query_params) { { controller: 'bookmarks' } }
