@@ -248,27 +248,6 @@ RSpec.describe CatalogHelper do
     end
   end
 
-  describe "thumbnail_url" do
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-
-    it "pulls the configured thumbnail field out of the document" do
-      allow(helper).to receive_messages(blacklight_config: Blacklight::Configuration.new(index: Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz)))
-      document = instance_double(SolrDocument)
-      allow(document).to receive(:has?).with(:xyz).and_return(true)
-      allow(document).to receive(:first).with(:xyz).and_return("asdf")
-      expect(helper.thumbnail_url(document)).to eq("asdf")
-    end
-
-    it "returns nil if the thumbnail field doesn't exist" do
-      allow(helper).to receive_messages(blacklight_config: Blacklight::Configuration.new(index: Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz)))
-      document = instance_double(SolrDocument)
-      allow(document).to receive(:has?).with(:xyz).and_return(false)
-      expect(helper.thumbnail_url(document)).to be_nil
-    end
-  end
-
   describe "document_counter_with_offset" do
     it "renders the document index with the appropriate offset" do
       assign(:response, instance_double(Blacklight::Solr::Response, start: 0, grouped?: false))

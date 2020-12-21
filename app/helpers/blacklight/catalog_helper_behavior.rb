@@ -221,19 +221,6 @@ module Blacklight::CatalogHelperBehavior
   deprecation_deprecate render_thumbnail_tag: "Use IndexPresenter#thumbnail.thumbnail_tag"
 
   ##
-  # Get the URL to a document's thumbnail image
-  #
-  # @deprecated
-  # @param [SolrDocument] document
-  # @return [String]
-  def thumbnail_url document
-    if document.has? blacklight_config.view_config(document_index_view_type).thumbnail_field
-      document.first(blacklight_config.view_config(document_index_view_type).thumbnail_field)
-    end
-  end
-  deprecation_deprecate thumbnail_url: "this method will be removed without replacement"
-
-  ##
   # Render the view type icon for the results view picker
   #
   # @deprecated
