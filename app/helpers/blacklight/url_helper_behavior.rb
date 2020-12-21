@@ -45,37 +45,14 @@ module Blacklight::UrlHelperBehavior
   private :document_link_params
 
   ##
-  # Link to the previous document in the current search context
-  # @deprecated
-  def link_to_previous_document(previous_document)
-    link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(class: "previous", rel: 'prev')
-    link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
-      tag.span raw(t('views.pagination.previous')), class: 'previous'
-    end
-  end
-  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
-
-  ##
-  # Link to the next document in the current search context
-  # @deprecated
-  def link_to_next_document(next_document)
-    link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(class: "next", rel: 'next')
-    link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
-      tag.span raw(t('views.pagination.next')), class: 'next'
-    end
-  end
-  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
-
-  ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session
-  # @private
   # @param [SolrDocument] document
   # @param [Integer] counter
   # @example
   #   session_tracking_params(SolrDocument.new(id: 123), 7)
   #   => { data: { :'context-href' => '/catalog/123/track?counter=7&search_id=999' } }
-  def session_tracking_params document, counter
-    path = session_tracking_path(document, per_page: params.fetch(:per_page, search_session['per_page']), counter: counter, search_id: current_search_session.try(:id), document_id: document&.id)
+  def session_tracking_params document, counter, per_page: search_session['per_page'], search_id: current_search_session&.id
+    path = session_tracking_path(document, per_page: params.fetch(:per_page, per_page), counter: counter, search_id: search_id, document_id: document&.id)
 
     if path.nil?
       return {}
@@ -83,7 +60,6 @@ module Blacklight::UrlHelperBehavior
 
     { data: { 'context-href': path } }
   end
-  private :session_tracking_params
 
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing
