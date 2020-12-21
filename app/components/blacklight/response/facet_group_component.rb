@@ -19,7 +19,7 @@ module Blacklight
       def render?
         Deprecation.silence(Blacklight::FacetsHelperBehavior) do
           Deprecation.silence(Blacklight::Facet) do
-            helpers.facets_from_request(@fields, @response).any? { |display_facet| helpers.should_render_facet?(display_facet) }
+            helpers.facets_from_request(@fields, @response).any? { |display_facet| should_render_facet?(display_facet) }
           end
         end
       end
@@ -36,10 +36,23 @@ module Blacklight
         Deprecation.silence(Blacklight::FacetsHelperBehavior) do
           Deprecation.silence(Blacklight::Facet) do
             safe_join(helpers.facets_from_request(@fields, @response).map do |display_facet|
-              helpers.render_facet_limit(display_facet, response: @response)
+              helpers.render_facet_limit(display_facet)
             end.compact, "\n")
           end
         end
+      end
+
+      ##
+      # Determine if Blacklight should render the display_facet or not
+      #
+      # By default, only render facets with items.
+      #
+      # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
+      # @return [Boolean]
+      def should_render_facet? display_facet
+        return false if display_facet.items.blank?
+
+        helpers.should_render_field?(helpers.facet_configuration_for_field(display_facet.name), display_facet)
       end
     end
   end

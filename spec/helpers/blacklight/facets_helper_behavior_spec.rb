@@ -9,53 +9,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
 
-  describe "should_render_facet?" do
-    let(:blacklight_config) do
-      Blacklight::Configuration.new do |config|
-        config.add_facet_field 'basic_field'
-        config.add_facet_field 'no_show', show: false
-        config.add_facet_field 'helper_show', show: :my_custom_check
-        config.add_facet_field 'helper_with_an_arg_show', show: :my_custom_check_with_an_arg
-        config.add_facet_field 'lambda_show',    show: ->(_context, _config, _field) { true }
-        config.add_facet_field 'lambda_no_show', show: ->(_context, _config, _field) { false }
-      end
-    end
-
-    it "renders facets with items" do
-      a = double(items: [1, 2], name: 'basic_field')
-      expect(helper.should_render_facet?(a)).to be true
-    end
-
-    it "does not render facets without items" do
-      empty = double(items: [], name: 'basic_field')
-      expect(helper.should_render_facet?(empty)).to be false
-    end
-
-    it "does not render facets where show is set to false" do
-      a = double(items: [1, 2], name: 'no_show')
-      expect(helper.should_render_facet?(a)).to be false
-    end
-
-    it "calls a helper to determine if it should render a field" do
-      allow(controller).to receive_messages(my_custom_check: true)
-      a = double(items: [1, 2], name: 'helper_show')
-      expect(helper.should_render_facet?(a)).to be true
-    end
-
-    it "calls a helper to determine if it should render a field" do
-      a = double(items: [1, 2], name: 'helper_with_an_arg_show')
-      allow(controller).to receive(:my_custom_check_with_an_arg).with(blacklight_config.facet_fields['helper_with_an_arg_show'], a).and_return(true)
-      expect(helper.should_render_facet?(a)).to be true
-    end
-
-    it "evaluates a Proc to determine if it should render a field" do
-      a = double(items: [1, 2], name: 'lambda_show')
-      expect(helper.should_render_facet?(a)).to be true
-      a = double(items: [1, 2], name: 'lambda_no_show')
-      expect(helper.should_render_facet?(a)).to be false
-    end
-  end
-
   describe "should_collapse_facet?" do
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
