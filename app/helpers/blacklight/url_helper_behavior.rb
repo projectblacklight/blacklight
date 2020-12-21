@@ -29,11 +29,6 @@ module Blacklight::UrlHelperBehavior
             when Hash
               opts = field_or_opts
               document_presenter(doc).heading
-            when Proc, Symbol
-              Deprecation.warn(self, "passing a #{field_or_opts.class} to link_to_document is deprecated and will be removed in Blacklight 8")
-              Deprecation.silence(Blacklight::IndexPresenter) do
-                index_presenter(doc).label field_or_opts, opts
-              end
             else # String
               field_or_opts
             end
