@@ -92,32 +92,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#default_per_page" do
-    before do
-      expect(Deprecation).to receive(:warn)
-    end
-
-    context "when default_per_page is configured" do
-      before do
-        blacklight_config.default_per_page = 42
-      end
-
-      it "is the configured value" do
-        expect(helper.default_per_page).to eq 42
-      end
-    end
-
-    context "when default_per_page is not configured" do
-      before do
-        blacklight_config.per_page = [11, 22]
-      end
-
-      it "is the first per-page value if a default isn't set" do
-        expect(helper.default_per_page).to eq 11
-      end
-    end
-  end
-
   describe "#default_sort_field" do
     it "is the configured default field" do
       allow(helper).to receive_messages(blacklight_config: double(sort_fields: { a: double(default: nil), b: double(key: 'b', default: true) }))
