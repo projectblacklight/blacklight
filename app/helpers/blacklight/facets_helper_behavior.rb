@@ -32,24 +32,6 @@ module Blacklight::FacetsHelperBehavior
   end
 
   ##
-  # Determine if Blacklight should render the display_facet or not
-  #
-  # By default, only render facets with items.
-  #
-  # @deprecated
-  # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
-  # @param [Blacklight::Configuration::FacetField] facet_config
-  # @return [Boolean]
-  def should_render_facet? display_facet, facet_config = nil
-    return false if display_facet.items.blank?
-
-    # display when show is nil or true
-    facet_config ||= facet_configuration_for_field(display_facet.name)
-    should_render_field?(facet_config, display_facet)
-  end
-  deprecation_deprecate :should_render_facet?
-
-  ##
   # Determine whether a facet should be rendered as collapsed or not.
   #   - if the facet is 'active', don't collapse
   #   - if the facet is configured to collapse (the default), collapse
