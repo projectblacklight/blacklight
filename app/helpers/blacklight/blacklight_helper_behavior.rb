@@ -52,15 +52,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render OpenSearch headers for this search
-  # @deprecated
-  # @return [String]
-  def render_opensearch_response_metadata
-    render partial: 'catalog/opensearch_response_metadata', locals: { response: @response }
-  end
-  deprecation_deprecate render_opensearch_response_metadata: 'Use `render "catalog/opensearch_response_metadata"\' instead'
-
-  ##
   # Render classes for the <body> element
   # @return [String]
   def render_body_class
