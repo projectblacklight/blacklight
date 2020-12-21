@@ -58,20 +58,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
   end
 
-  describe "facet_params" do
-    it "extracts the facet parameters for a field" do
-      allow(helper).to receive_messages(params: { f: { "some-field" => ["x"] } })
-      expect(helper.facet_params("some-field")).to match_array ["x"]
-    end
-
-    it "uses the blacklight key to extract the right fields" do
-      blacklight_config.add_facet_field "some-key", field: "some-field"
-      allow(helper).to receive_messages(params: { f: { "some-key" => ["x"] } })
-      expect(helper.facet_params("some-key")).to match_array ["x"]
-      expect(helper.facet_params("some-field")).to match_array ["x"]
-    end
-  end
-
   describe "facet_field_in_params?" do
     let(:search_state) { double }
 
