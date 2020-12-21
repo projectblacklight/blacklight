@@ -14,13 +14,6 @@ module Blacklight::RenderPartialsHelperBehavior
   end
 
   ##
-  # Render the document index for a grouped response
-  def render_grouped_document_index
-    render 'catalog/group'
-  end
-  deprecation_deprecate render_grouped_document_index: 'Removed without replacement'
-
-  ##
   # Return the list of partials for a given solr document
   # @param [SolrDocument] doc solr document to render partials for
   # @param [Array<String>] partials list of partials to render
