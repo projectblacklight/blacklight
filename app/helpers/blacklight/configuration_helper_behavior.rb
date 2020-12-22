@@ -20,30 +20,6 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   ##
-  # Look up the label for the index field
-  # @deprecated
-  # @return [String]
-  def index_field_label document, field
-    field_config = blacklight_config.index_fields_for(document_presenter(document).display_type)[field]
-    field_config ||= Blacklight::Configuration::NullField.new(key: field)
-
-    field_config.display_label('index')
-  end
-  deprecation_deprecate :index_field_label
-
-  ##
-  # Look up the label for the show field
-  # @deprecated
-  # @return [String]
-  def document_show_field_label document, field
-    field_config = blacklight_config.show_fields_for(document_presenter(document).display_type)[field]
-    field_config ||= Blacklight::Configuration::NullField.new(key: field)
-
-    field_config.display_label('show')
-  end
-  deprecation_deprecate :document_show_field_label
-
-  ##
   # Look up the label for the facet field
   # @return [String]
   def facet_field_label field
