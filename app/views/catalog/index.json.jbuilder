@@ -50,9 +50,7 @@ json.included do
           end
           json.links do
             if search_state.filter(facet_config).include?(facet_value_for_facet_item(item.value))
-              Deprecation.silence(Blacklight::SearchState) do
-                json.remove search_action_path(search_state.remove_facet_params(facet.name, item.value))
-              end
+              json.remove search_action_path(search_state.filter(facet.name).remove(item.value))
             else
               json.self facet_item_presenter(facet_config, item.value, facet.name).href(only_path: false)
             end

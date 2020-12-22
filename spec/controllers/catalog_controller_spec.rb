@@ -779,7 +779,7 @@ RSpec.describe CatalogController, api: true do
     end
 
     describe "with a facet" do
-      before { allow(controller).to receive_messages(params: { f: { "field" => ["value"] } }) }
+      before { allow(controller).to receive_messages(params: { f: { "format" => ["value"] } }) }
 
       it { is_expected.to be true }
     end

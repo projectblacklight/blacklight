@@ -62,16 +62,14 @@ module Blacklight
     def facet_item_presenters
       return to_enum(:facet_item_presenters) unless block_given?
 
-      Deprecation.silence(Blacklight::SearchState) do
-        @search_state.filters.map do |facet|
-          facet.values.map do |val|
-            next if val.blank?
+      @search_state.filters.map do |facet|
+        facet.each_value do |val|
+          next if val.blank?
 
-            if val.is_a?(Array)
-              yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
-            else
-              yield facet_item_presenter(facet.config, val, facet.key)
-            end
+          if val.is_a?(Array)
+            yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
+          else
+            yield facet_item_presenter(facet.config, val, facet.key)
           end
         end
       end

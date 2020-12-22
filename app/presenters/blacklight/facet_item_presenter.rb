@@ -82,9 +82,7 @@ module Blacklight
 
     # @private
     def remove_href(path = search_state)
-      Deprecation.silence(Blacklight::SearchState) do
-        view_context.search_action_path(path.remove_facet_params(facet_config.key, facet_item))
-      end
+      view_context.search_action_path(path.filter(facet_config.key).remove(facet_item))
     end
 
     # @private

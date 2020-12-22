@@ -40,6 +40,11 @@ module Blacklight
       search_state&.filter(facet_field)&.values || []
     end
 
+    # Appease rubocop rules by implementing #each_value
+    def each_value(&block)
+      values.each(&block)
+    end
+
     def paginator
       return unless display_facet
 
