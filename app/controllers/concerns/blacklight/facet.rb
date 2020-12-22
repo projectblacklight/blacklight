@@ -7,21 +7,6 @@ module Blacklight
     extend Deprecation
     delegate :facet_configuration_for_field, :facet_field_names, to: :blacklight_config
 
-    # @deprecated
-    # @param [Blacklight::Configuration::Facet] field_config
-    # @param [Object] response_data
-    # @return [Blacklight::FacetPaginator]
-    def facet_paginator(field_config, response_data)
-      blacklight_config.facet_paginator_class.new(
-        response_data.items,
-        sort: response_data.sort,
-        offset: response_data.offset,
-        prefix: response_data.prefix,
-        limit: Deprecation.silence(Blacklight::Catalog) { facet_limit_for(field_config.key) }
-      )
-    end
-    deprecation_deprecate facet_paginator: 'Use Blacklight::FacetFieldPresenter#paginator instead'
-
     # @param fields [Array<String>] a list of facet field names
     # @return [Array<Solr::Response::Facets::FacetField>]
     # @deprecated
