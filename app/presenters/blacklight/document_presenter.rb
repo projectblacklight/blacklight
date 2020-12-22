@@ -127,26 +127,6 @@ module Blacklight
 
     private
 
-    def render_field?(field_config)
-      field_presenter(field_config).render_field?
-    end
-    deprecation_deprecate render_field?: 'Use FieldPresenter#render_field?'
-
-    def has_value?(field_config)
-      field_presenter(field_config).any?
-    end
-    deprecation_deprecate has_value?: 'Use FieldPresenter#any?'
-
-    def field_values(field_config, options = {})
-      field_value(field_config, options)
-    end
-    deprecation_deprecate field_values: 'Use #field_value'
-
-    def retrieve_values(field_config)
-      field_presenter(field_config).values
-    end
-    deprecation_deprecate retrieve_values: 'Use FieldPresenter#values'
-
     def field_presenter(field_config, options = {})
       presenter_class = field_config.presenter || Blacklight::FieldPresenter
       presenter_class.new(view_context, document, field_config, options.merge(field_presenter_options))
