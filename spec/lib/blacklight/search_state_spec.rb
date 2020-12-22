@@ -82,31 +82,11 @@ RSpec.describe Blacklight::SearchState do
     end
   end
 
-  describe 'interface compatibility with params' do
-    let(:params) { parameter_class.new f: { ff: ['xyz'] } }
-
-    it 'implements param methods' do
-      Deprecation.silence(described_class) do
-        expect(search_state.to_unsafe_h).to eq('f' => { 'ff' => ['xyz'] })
-        expect(search_state.fetch(:f)).to eq('ff' => ['xyz'])
-        expect(search_state.select { |k, _v,| k == 'f' }).to eq('f' => { 'ff' => ['xyz'] })
-      end
-    end
-  end
-
   describe '#query_param' do
     let(:params) { parameter_class.new q: 'xyz' }
 
     it 'returns the query param' do
       expect(search_state.query_param).to eq 'xyz'
-    end
-  end
-
-  describe '#filter_params' do
-    let(:params) { parameter_class.new f: { ff: ['xyz'] } }
-
-    it 'returns the query param' do
-      expect(search_state.filter_params.deep_symbolize_keys).to eq(ff: ['xyz'])
     end
   end
 
@@ -124,7 +104,11 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'with a facet param' do
-      let(:params) { parameter_class.new f: { ff: ['xyz'] } }
+      let(:params) { parameter_class.new f: { format: ['xyz'] } }
+
+      before do
+        blacklight_config.add_facet_field 'format', label: 'Format'
+      end
 
       it 'is true' do
         expect(search_state.has_constraints?).to eq true
@@ -209,112 +193,6 @@ RSpec.describe Blacklight::SearchState do
     end
   end
 
-  describe "add_facet_params" do
-    let(:params_no_existing_facet) do
-      parameter_class.new q: "query",
-                          search_field: "search_field",
-                          per_page: "50"
-    end
-    let(:params_existing_facets) do
-      parameter_class.new q: "query",
-                          search_field: "search_field",
-                          per_page: "50",
-                          f: { "facet_field_1" => ["value1"],
-                               "facet_field_2" => %w[value2 value2a] }
-    end
-
-    context "when there are no pre-existing facets" do
-      let(:params) { params_no_existing_facet }
-
-      it "adds facet value" do
-        result_params = search_state.add_facet_params("facet_field", "facet_value")
-        expect(result_params[:f]).to be_a Hash
-        expect(result_params[:f]["facet_field"]).to be_a_kind_of(Array)
-        expect(result_params[:f]["facet_field"]).to eq ["facet_value"]
-      end
-
-      it "leaves non-facet params alone" do
-        result_params = search_state.add_facet_params("facet_field_2", "new_facet_value")
-
-        params.each_pair do |key, _value|
-          next if key == :f
-
-          expect(result_params[key]).to eq params[key]
-        end
-      end
-
-      it "uses the facet's key in the url" do
-        blacklight_config.add_facet_field 'some_key', single: true, field: "a_solr_field"
-
-        result_params = search_state.add_facet_params('some_key', 'my_value')
-
-        expect(result_params[:f]['some_key']).to have(1).item
-        expect(result_params[:f]['some_key'].first).to eq 'my_value'
-      end
-    end
-
-    context "when there are pre-existing facets" do
-      let(:params) { params_existing_facets }
-
-      it "adds a facet param to existing facet constraints" do
-        result_params = search_state.add_facet_params("facet_field_2", "new_facet_value")
-
-        expect(result_params[:f]).to be_a Hash
-
-        params_existing_facets[:f].each_pair do |facet_field, _value_list|
-          expect(result_params[:f][facet_field]).to be_a_kind_of(Array)
-          if facet_field == 'facet_field_2'
-            expect(result_params[:f][facet_field]).to eq (params_existing_facets[:f][facet_field] | ["new_facet_value"])
-          else
-            expect(result_params[:f][facet_field]).to eq params_existing_facets[:f][facet_field]
-          end
-        end
-      end
-
-      it "leaves non-facet params alone" do
-        result_params = search_state.add_facet_params("facet_field_2", "new_facet_value")
-
-        params.each_pair do |key, _value|
-          next if key == 'f'
-
-          expect(result_params[key]).to eq params[key]
-        end
-      end
-    end
-
-    context "with a facet selected in the params" do
-      let(:params) { parameter_class.new f: { 'single_value_facet_field' => 'other_value' } }
-
-      it "replaces facets configured as single" do
-        blacklight_config.add_facet_field 'single_value_facet_field', single: true
-        result_params = search_state.add_facet_params('single_value_facet_field', 'my_value')
-
-        expect(result_params[:f]['single_value_facet_field']).to have(1).item
-        expect(result_params[:f]['single_value_facet_field'].first).to eq 'my_value'
-      end
-    end
-
-    it "accepts a FacetItem instead of a plain facet value" do
-      result_params = search_state.add_facet_params('facet_field_1', double(value: 123))
-
-      expect(result_params[:f]['facet_field_1']).to include(123)
-    end
-
-    it "defers to the field set on a FacetItem" do
-      result_params = search_state.add_facet_params('facet_field_1', double(field: 'facet_field_2', value: 123))
-
-      expect(result_params[:f]['facet_field_1']).to be_blank
-      expect(result_params[:f]['facet_field_2']).to include(123)
-    end
-
-    it "adds any extra fq parameters from the FacetItem" do
-      result_params = search_state.add_facet_params('facet_field_1', double(value: 123, fq: { 'facet_field_2' => 'abc' }))
-
-      expect(result_params[:f]['facet_field_1']).to include(123)
-      expect(result_params[:f]['facet_field_2']).to include('abc')
-    end
-  end
-
   describe "add_facet_params_and_redirect" do
     let(:params) do
       parameter_class.new(
@@ -341,72 +219,6 @@ RSpec.describe Blacklight::SearchState do
     it 'removes :page request key' do
       params = search_state.add_facet_params_and_redirect("facet_field_2", "facet_value")
       expect(params).not_to have_key(:page)
-    end
-
-    it "otherwise does the same thing as add_facet_params" do
-      added_facet_params = search_state.add_facet_params("facet_field_2", "facet_value")
-      added_facet_params_from_facet_action = search_state.add_facet_params_and_redirect("facet_field_2", "facet_value")
-
-      expect(added_facet_params_from_facet_action).to eq added_facet_params.except(Blacklight::Solr::FacetPaginator.request_keys[:page], Blacklight::Solr::FacetPaginator.request_keys[:sort])
-    end
-  end
-
-  describe "#remove_facet_params" do
-    let(:params) { parameter_class.new 'f' => facet_params }
-    let(:facet_params) { {} }
-
-    context "when the facet has multiple values" do
-      let(:facet_params) { { 'some_field' => %w[some_value another_value] } }
-
-      it "removes the facet / value tuple from the query parameters" do
-        params = search_state.remove_facet_params('some_field', 'some_value')
-        expect(params[:f]['some_field']).not_to include 'some_value'
-        expect(params[:f]['some_field']).to include 'another_value'
-      end
-    end
-
-    context "when the facet_params is a HWIA" do
-      let(:facet_values) { { '0' => 'some_value', '1' => 'another_value' }.with_indifferent_access }
-      let(:facet_params) { { 'some_field' => facet_values } }
-
-      it "removes the facet / value tuple from the query parameters" do
-        params = search_state.remove_facet_params('some_field', 'some_value')
-        expect(params[:f]['some_field']).not_to include 'some_value'
-        expect(params[:f]['some_field']).to include 'another_value'
-      end
-    end
-
-    context "when the facet has configuration" do
-      before do
-        allow(search_state).to receive(:facet_configuration_for_field).with('some_field').and_return(
-          double(single: true, field: "a_solr_field", key: "some_key")
-        )
-      end
-
-      let(:facet_params) { { 'some_key' => %w[some_value another_value] } }
-
-      it "uses the facet's key configuration" do
-        params = search_state.remove_facet_params('some_field', 'some_value')
-        expect(params[:f]['some_key']).not_to eq 'some_value'
-        expect(params[:f]['some_key']).to include 'another_value'
-      end
-    end
-
-    it "removes the facet entirely when the last facet value is removed" do
-      facet_params['another_field'] = ['some_value']
-      facet_params['some_field'] = ['some_value']
-
-      params = search_state.remove_facet_params('some_field', 'some_value')
-
-      expect(params[:f]).not_to have_key 'some_field'
-    end
-
-    it "removes the 'f' parameter entirely when no facets remain" do
-      facet_params['some_field'] = ['some_value']
-
-      params = search_state.remove_facet_params('some_field', 'some_value')
-
-      expect(params).not_to have_key :f
     end
   end
 

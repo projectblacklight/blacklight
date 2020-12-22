@@ -58,15 +58,9 @@ module Blacklight
     private
 
     def facet_item_presenters
-      Deprecation.silence(Blacklight::SearchState) do
-        @search_state.filter_params.each_pair.flat_map do |facet, values|
-          facet_config = @view_context.facet_configuration_for_field(facet)
-
-          Array(values).map do |val|
-            next if val.blank? # skip empty string
-
-            facet_item_presenter(facet_config, val, facet)
-          end
+      @search_state.filters.flat_map do |filter|
+        filter.values.reject(&:blank?).map do |val|
+          facet_item_presenter(filter.config, val, filter.key)
         end
       end
     end

@@ -246,6 +246,7 @@ module Blacklight::Catalog
   # By default, any search action from a Blacklight::Catalog controller
   # should use the current controller when constructing the route.
   def search_action_url options = {}
+    options = options.to_h if options.is_a? Blacklight::SearchState
     url_for(options.reverse_merge(action: 'index'))
   end
 
