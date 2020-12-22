@@ -493,4 +493,3 @@ Blacklight.handleSearchContextMethod = function (event) {
 Blacklight.onLoad(function () {
   Blacklight.doSearchContextBehavior();
 });
-
