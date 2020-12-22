@@ -22,7 +22,7 @@ module Blacklight
     # @param document_counter [Number, nil] alternatively, the document's position in a collection and,
     # @param counter_offset [Number] with `document_counter`, the offset of the start of that collection counter to the overall result set
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
-    def initialize(document: nil, presenter: nil,
+    def initialize(document: nil, presenter:,
                    id: nil, classes: [], component: :article, title_component: :h4,
                    metadata_component: Blacklight::DocumentMetadataComponent,
                    embed_component: nil,
@@ -68,7 +68,7 @@ module Blacklight
       @title || if show?
                   content_tag('span', presenter.heading, itemprop: "name")
                 else
-                  @view_context.link_to_document @document, counter: @counter, itemprop: 'name'
+                  @presenter.link_to_document counter: @counter, itemprop: 'name'
                 end
     end
 

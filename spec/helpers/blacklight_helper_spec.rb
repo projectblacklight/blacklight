@@ -181,13 +181,13 @@ RSpec.describe BlacklightHelper do
   end
 
   describe "#render_document_index_with_view" do
-    let(:obj1) { SolrDocument.new }
+    let(:obj1) { SolrDocument.new(id: 7) }
     let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
 
     before do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
-      allow(helper).to receive(:link_to_document).and_return('<a/>')
+      allow(helper).to receive(:session_tracking_params).and_return({})
       allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
     end
 
