@@ -2,25 +2,6 @@
 module Blacklight
   module ComponentHelperBehavior
     extend Deprecation
-
-    # @deprecated
-    def document_action_label action, opts
-      t("blacklight.tools.#{action}", default: opts.label || action.to_s.humanize)
-    end
-    deprecation_deprecate :document_action_label
-
-    # @deprecated
-    def document_action_path action_opts, url_opts = {}
-      if action_opts.path
-        send(action_opts.path, url_opts)
-      elsif url_opts[:id].class.respond_to?(:model_name)
-        url_for([action_opts.key.to_sym, url_opts[:id]])
-      else
-        send("#{action_opts.key}_#{controller_name}_path", url_opts)
-      end
-    end
-    deprecation_deprecate :document_action_path
-
     ##
     # Render "document actions" area for navigation header
     # (normally renders "Saved Searches", "History", "Bookmarks")
@@ -60,37 +41,6 @@ module Blacklight
       wrapping_class = options.delete(:wrapping_class) || "search-widgets"
 
       render(Blacklight::Document::ActionsComponent.new(actions: actions, options: options, classes: wrapping_class))
-    end
-
-    ##
-    # Render "document actions" for the item detail 'show' view.
-    # (this normally renders next to title)
-    #
-    # By default includes 'Bookmarks'
-    #
-    # @param [SolrDocument] document
-    # @param [Hash] options
-    # @return [String]
-    def render_show_doc_actions(document = @document, url_opts: {}, **options)
-      document = options[:document] if options.key? :document
-
-      actions = document_actions(document, options: options)
-
-      if block_given?
-        # TODO: Deprecate this behavior and replace it with a separate component?
-        # Deprecation.warn(Blacklight::ComponentHelperBehavior, 'Pass a block to #render_show_doc_actions is deprecated')
-        actions.each do |action|
-          yield action, render((action.component || Blacklight::Document::ActionComponent).new(action: action, document: document, options: options, url_opts: url_opts))
-        end
-
-        nil
-      else
-        render(Blacklight::Document::ActionsComponent.new(document: document, actions: actions, options: options, url_opts: url_opts))
-      end
-    end
-
-    def render_show_doc_actions_method_from_blacklight?
-      method(:render_show_doc_actions).owner == Blacklight::ComponentHelperBehavior
     end
 
     def show_doc_actions?(document = @document, options = {})

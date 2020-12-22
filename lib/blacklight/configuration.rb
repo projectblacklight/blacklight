@@ -361,10 +361,13 @@ module Blacklight
     # @!macro partial_if_unless
     #   @param name [String] the name of the document partial
     #   @param opts [Hash]
+    #   @option opts [Class] :component draw a component
+    #   @option opts [String] :partial partial to draw if component is false
     #   @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
     #   @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
     def add_show_tools_partial(name, opts = {})
       opts[:partial] ||= 'document_action'
+
       add_action(show.document_actions, name, opts)
       klass && ActionBuilder.new(klass, name, opts).build
     end

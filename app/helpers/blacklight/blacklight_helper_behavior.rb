@@ -230,16 +230,4 @@ module Blacklight::BlacklightHelperBehavior
   def opensearch_description_tag title, href
     tag :link, href: href, title: title, type: "application/opensearchdescription+xml", rel: "search"
   end
-
-  # @private
-
-  def self.blacklight_path
-    @blacklight_path ||= Gem.loaded_specs["blacklight"].full_gem_path
-  end
-
-  def partial_from_blacklight?(partial)
-    path = lookup_context.find_all(partial, lookup_context.prefixes + [""], true).first&.identifier
-
-    path&.starts_with?(Blacklight::BlacklightHelperBehavior.blacklight_path)
-  end
 end

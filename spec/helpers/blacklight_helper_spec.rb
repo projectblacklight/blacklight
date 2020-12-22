@@ -131,13 +131,6 @@ RSpec.describe BlacklightHelper do
         expect(helper.render_index_doc_actions(document)).to be_blank
       end
     end
-
-    describe "render_show_doc_actions" do
-      it "renders partials" do
-        response = helper.render_show_doc_actions(document)
-        expect(response).to have_selector(".bookmark-toggle")
-      end
-    end
   end
 
   describe "render_grouped_response?" do
