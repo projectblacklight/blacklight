@@ -33,10 +33,7 @@ module Blacklight
     # They are picked up from there by a value "%{label}" in blacklight.search.index.label
     # @return [String]
     def index_field_label label
-      value = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-        label || helpers.index_field_label(@field.document, @field.key)
-      end
-      html_escape t(:"blacklight.search.index.#{@view_type}.label", default: :'blacklight.search.index.label', label: value)
+      html_escape t(:"blacklight.search.index.#{@view_type}.label", default: :'blacklight.search.index.label', label: label)
     end
 
     ##
@@ -44,11 +41,7 @@ module Blacklight
     #
     # @return [String]
     def show_field_label label
-      value = Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-        label || helpers.document_show_field_label(@field.document, @field.key)
-      end
-
-      t(:'blacklight.search.show.label', label: value)
+      t(:'blacklight.search.show.label', label: label)
     end
   end
 end
