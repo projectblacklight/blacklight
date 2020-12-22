@@ -8,14 +8,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     allow(helper).to receive_messages(blacklight_config: blacklight_config)
   end
 
-  describe "#index_fields" do
-    it "passes through the configuration" do
-      allow(Deprecation).to receive(:warn)
-      allow(blacklight_config).to receive_messages(index_fields: config_value)
-      expect(helper.index_fields).to eq config_value
-    end
-  end
-
   describe "#active_sort_fields" do
     it "restricts the configured sort fields to only those that should be displayed" do
       allow(blacklight_config).to receive_messages(sort_fields: { a: double(if: false, unless: false), b: double(if: true, unless: true) })

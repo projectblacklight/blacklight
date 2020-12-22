@@ -3,16 +3,6 @@ module Blacklight::ConfigurationHelperBehavior
   extend Deprecation
 
   ##
-  # Index fields to display for a type of document
-  #
-  # @param [SolrDocument] _document
-  # @return [Array<Blacklight::Configuration::Field>]
-  def index_fields _document = nil
-    Deprecation.warn(self, "index_fields is deprecated and will be removed in Blacklight 8. Use IndexPresenter#fields instead")
-    blacklight_config.index_fields
-  end
-
-  ##
   # Return the available sort fields
   # @return [Array<Blacklight::Configuration::Field>]
   def active_sort_fields
