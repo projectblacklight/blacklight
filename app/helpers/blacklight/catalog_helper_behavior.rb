@@ -188,22 +188,16 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # return the Bookmarks on a set of documents
-  # @param [Enumerable<Blacklight::Document>] documents_or_response
+  # return the Bookmarks on a set of documents (all bookmarks on the page)
+  # @private
   # @return [Enumerable<Bookmark>]
-  def current_bookmarks documents_or_response = nil
-    documents = if documents_or_response.respond_to? :documents
-                  Deprecation.warn(Blacklight::CatalogHelperBehavior, "Passing a response to #current_bookmarks is deprecated; pass response.documents instead")
-                  documents_or_response.documents
-                else
-                  documents_or_response
-                end
-
-    documents ||= [@document] if @document.present?
-    documents ||= @response.documents
-
-    @current_bookmarks ||= current_or_guest_user.bookmarks_for_documents(documents).to_a
+  def current_bookmarks
+    @current_bookmarks ||= begin
+      documents = @document.presence || @response.documents
+      current_or_guest_user.bookmarks_for_documents(Array(documents)).to_a
+    end
   end
+  private :current_bookmarks
 
   ##
   # Check if the document is in the user's bookmarks
