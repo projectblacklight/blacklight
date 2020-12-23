@@ -157,8 +157,6 @@ module Blacklight
 
         @table[:reflected_fields] || {}
       end
-      alias luke_fields reflected_fields
-      deprecation_deprecate luke_fields: 'use reflected_fields instead'
 
       # Add a solr field by a solr field name and hash
       def field_config_from_key_and_hash config_key, field_name, field_or_hash = {}
