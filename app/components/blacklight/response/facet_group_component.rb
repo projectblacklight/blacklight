@@ -17,10 +17,12 @@ module Blacklight
       end
 
       def render?
-        Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-          Deprecation.silence(Blacklight::Facet) do
-            helpers.facets_from_request(@fields, @response).any? { |display_facet| should_render_facet?(display_facet) }
-          end
+          search_facets.any? { |display_facet| should_render_facet?(display_facet) }
+      end
+
+      def search_facets
+        Deprecation.silence(Blacklight::Facet) do
+          @fields.map { |field| helpers.facet_by_field_name(field, @response) }.compact
         end
       end
 
@@ -34,11 +36,9 @@ module Blacklight
       # @return String
       def render_facet_partials _fields = nil, _options = {}
         Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-          Deprecation.silence(Blacklight::Facet) do
-            safe_join(helpers.facets_from_request(@fields, @response).map do |display_facet|
-              helpers.render_facet_limit(display_facet)
-            end.compact, "\n")
-          end
+          safe_join(search_facets.map do |display_facet|
+            helpers.render_facet_limit(display_facet)
+          end.compact, "\n")
         end
       end
 
