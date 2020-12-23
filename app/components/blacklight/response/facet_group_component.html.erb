@@ -19,7 +19,7 @@
     <% end %>
   </div>
 
-  <%= content_tag :div, id: @panel_id, class: 'facets-collapse collapse' do %>
-    <%= render_facet_partials %>
-  <% end %>
+  <div id="<%= @panel_id %>" class="facets-collapse collapse">
+    <%= render Blacklight::FacetComponent.with_collection(search_facets, blacklight_config: blacklight_config) %>
+  </div>
 <% end %>

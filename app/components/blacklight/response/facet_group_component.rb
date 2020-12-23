@@ -25,18 +25,7 @@ module Blacklight
         @fields.map { |field| @response.aggregations[field.field] }.compact
       end
 
-      ##
-      # Render a collection of facet fields.
-      # @see #render_facet_limit
-      #
-      # @return String
-      def render_facet_partials
-        Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-          safe_join(search_facets.map do |display_facet|
-            helpers.render_facet_limit(display_facet)
-          end.compact, "\n")
-        end
-      end
+      delegate :blacklight_config, to: :helpers
 
       ##
       # Determine if Blacklight should render the display_facet or not

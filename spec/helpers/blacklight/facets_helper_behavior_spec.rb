@@ -9,34 +9,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
 
-  describe "render_facet_limit" do
-    let(:blacklight_config) do
-      Blacklight::Configuration.new do |config|
-        config.add_facet_field 'basic_field'
-        config.add_facet_field 'component_field', component: true
-        config.add_facet_field 'non_rendering_component_field', component: true, if: false
-      end
-    end
-
-    it "renders a component" do
-      mock_facet = double(name: 'basic_field')
-      expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetFieldListComponent))
-      helper.render_facet_limit(mock_facet)
-    end
-
-    it "renders a component" do
-      expect(Deprecation).to receive(:warn)
-      mock_facet = double(name: 'component_field')
-      expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetFieldListComponent))
-      helper.render_facet_limit(mock_facet)
-    end
-
-    it "renders nothing when the condition is false" do
-      mock_facet = double(name: 'non_rendering_component_field')
-      expect(helper.render_facet_limit(mock_facet)).to be_blank
-    end
-  end
-
   describe "#facet_display_value" do
     it "justs be the facet value for an ordinary facet" do
       allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(query: nil, date: nil, helper_method: nil, url_method: nil))
