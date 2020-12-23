@@ -2,16 +2,11 @@
 <% presenter = document_presenter(@document) %>
 <% @page_title = t('blacklight.search.show.title', document_title: presenter.html_title, application_name: application_name).html_safe %>
 <% content_for(:head) { render_link_rel_alternates } %>
-
 <%= render (blacklight_config.show.document_component || Blacklight::DocumentComponent).new(presenter: presenter, component: :div, title_component: :h1, show: true) do |component| %>
   <% component.with(:footer) do %>
     <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
-      <!--
-           // COinS, for Zotero among others.
-           // This document_partial_name(@document) business is not quite right,
-           // but has been there for a while.
-      -->
-      <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(Deprecation.silence(Blacklight::RenderPartialsHelperBehavior) { document_partial_name(@document) }) %>"></span>
+      <!-- COinS, for Zotero among others. -->
+      <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_presenter(@document).display_type) %>"></span>
     <% end %>
   <%  end %>
 
