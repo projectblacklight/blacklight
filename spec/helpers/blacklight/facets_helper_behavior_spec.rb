@@ -9,19 +9,6 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     allow(helper).to receive(:blacklight_config).and_return blacklight_config
   end
 
-  describe "facet_by_field_name" do
-    around { |test| Deprecation.silence(Blacklight::Facet) { test.call } }
-
-    it "retrieves the facet from the response given a string" do
-      facet_config = double(query: nil, field: 'b', key: 'a')
-      facet_field = double
-      allow(helper).to receive(:facet_configuration_for_field).with('b').and_return(facet_config)
-      response = instance_double(Blacklight::Solr::Response, aggregations: { 'b' => facet_field })
-
-      expect(helper.facet_by_field_name('b', response)).to eq facet_field
-    end
-  end
-
   describe "render_facet_limit" do
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|

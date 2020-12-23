@@ -3,7 +3,8 @@ module Blacklight::FacetsHelperBehavior
   extend Deprecation
   self.deprecation_horizon = 'blacklight 8.0'
 
-  include Blacklight::Facet
+  # include Blacklight::Facet
+  delegate :facet_configuration_for_field, to: :blacklight_config
 
   ##
   # Renders a single section for facet limit with a specified

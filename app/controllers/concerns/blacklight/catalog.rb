@@ -6,7 +6,6 @@ module Blacklight::Catalog
   include ActionController::MimeResponds
 
   include Blacklight::Base
-  include Blacklight::Facet
   include Blacklight::Searchable
 
   extend Deprecation
@@ -17,8 +16,6 @@ module Blacklight::Catalog
     if respond_to? :helper_method
       helper_method :sms_mappings, :has_search_parameters?
     end
-
-    helper Blacklight::Facet if respond_to? :helper
 
     # The index action will more than likely throw this one.
     # Example: when the standard query parser is used, and a user submits a "bad" query.

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
   class JsonPresenter
-    include Blacklight::Facet
-
     # @param [Solr::Response] response raw solr response.
     # @param [Configuration] blacklight_config the configuration
     def initialize(response, blacklight_config)
@@ -12,17 +10,18 @@ module Blacklight
 
     attr_reader :blacklight_config
 
+    delegate :facet_field_names, :facet_configuration_for_field, to: :blacklight_config
+
     def documents
       @response.documents
     end
 
     # @return [Array<Blacklight::Solr::Response::Facets::FacetField>]
     def search_facets
-      Deprecation.silence(Blacklight::Facet) do
-        facet_field_names.map { |field| facet_by_field_name(field, @response) }
-                         .compact
-                         .select { |display_facet| display_facet.items.present? }
-      end
+      facet_field_names
+        .map { |field| @response.aggregations[facet_configuration_for_field(field).field] }
+        .compact
+        .select { |display_facet| display_facet.items.present? }
     end
 
     # extract the pagination info from the response object
