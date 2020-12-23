@@ -1,4 +1,8 @@
 <% # container for facet groups -%>
 <% blacklight_config.facet_group_names.each do |groupname| %>
-  <%= render 'facet_group', groupname: groupname %>
+  <%= render Blacklight::Response::FacetGroupComponent.new(
+    response: @response,
+    id: groupname,
+    fields: blacklight_config.facet_fields_in_group(groupname),
+    title: groupname.present? ? t("blacklight.search.facets-#{groupname}.title") : t('blacklight.search.facets.title')) %>
 <% end %>
