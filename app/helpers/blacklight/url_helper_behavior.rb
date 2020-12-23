@@ -74,19 +74,6 @@ module Blacklight::UrlHelperBehavior
   # link based helpers ->
   #
 
-  ##
-  # Get the path to the search action with any parameters (e.g. view type)
-  # that should be persisted across search sessions.
-  # @deprecated
-  def start_over_path query_params = params
-    h = {}
-    current_index_view_type = document_index_view_type(query_params)
-    h[:view] = current_index_view_type unless current_index_view_type == default_document_index_view_type
-
-    search_action_path(h)
-  end
-  deprecation_deprecate start_over_path: 'Removed without replacement'
-
   # Create a link back to the index screen, keeping the user's facet, query and paging choices intact by using session.
   # @example
   #   link_back_to_catalog(label: 'Back to Search')

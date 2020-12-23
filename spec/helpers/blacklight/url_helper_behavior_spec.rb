@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::UrlHelperBehavior do
-  around { |test| Deprecation.silence(described_class) { test.call } }
-
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_tsim'
@@ -90,20 +88,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
         expect(tag).to match /Back to Search/
         expect(tag).to match /link-url/
       end
-    end
-  end
-
-  describe "start_over_path" do
-    it 'is the catalog path with the current view type' do
-      allow(blacklight_config).to receive(:view).and_return(list: nil, abc: nil)
-      allow(helper).to receive_messages(blacklight_config: blacklight_config)
-      expect(helper.start_over_path(view: 'abc')).to eq search_catalog_url(view: 'abc')
-    end
-
-    it 'does not include the current view type if it is the default' do
-      allow(blacklight_config).to receive(:view).and_return(list: nil, asdf: nil)
-      allow(helper).to receive_messages(blacklight_config: blacklight_config)
-      expect(helper.start_over_path(view: 'list')).to eq search_catalog_url
     end
   end
 

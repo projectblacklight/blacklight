@@ -42,12 +42,6 @@ module Blacklight
       @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
     end
 
-    def start_over_path
-      Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.start_over_path
-      end
-    end
-
     def render?
       @search_state.has_constraints?
     end
