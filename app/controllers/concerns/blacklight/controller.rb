@@ -6,9 +6,6 @@ module Blacklight::Controller
   extend Deprecation
 
   included do
-    include Blacklight::SearchFields
-    helper Blacklight::SearchFields if respond_to? :helper
-
     include ActiveSupport::Callbacks
 
     # now in application.rb file under config.filter_parameters
