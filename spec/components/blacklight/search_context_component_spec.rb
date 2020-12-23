@@ -7,12 +7,6 @@ RSpec.describe Blacklight::SearchContextComponent, type: :component do
 
   let(:search_session) { {} }
   let(:instance) { described_class.new(search_context: search_context, search_session: search_session) }
-  # let(:config) do
-  #   Blacklight::Configuration.new do |config|
-  #     config.spell_max = 5
-  #   end
-  # end
-  #
 
   before do
     allow(controller).to receive(:current_search_session).and_return(double(id: 9))
