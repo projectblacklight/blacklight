@@ -3,34 +3,7 @@ module Blacklight::FacetsHelperBehavior
   extend Deprecation
   self.deprecation_horizon = 'blacklight 8.0'
 
-  # include Blacklight::Facet
   delegate :facet_configuration_for_field, to: :blacklight_config
-
-  ##
-  # Renders a single section for facet limit with a specified
-  # solr field used for faceting. Can be over-ridden for custom
-  # display on a per-facet basis.
-  #
-  # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
-  # @param [Boolean] :layout partial layout to render
-  # @return [String]
-  def render_facet_limit(display_facet, layout: true)
-    field_config = facet_configuration_for_field(display_facet.name)
-    return unless should_render_field?(field_config, display_facet)
-
-    component = field_config.component.presence || Blacklight::FacetFieldListComponent
-    if component == true
-      Deprecation.warn(self, "It is no longer necessary to provide component=true. This will be an error in Blacklight 9")
-      component = Blacklight::FacetFieldListComponent
-    end
-
-    render(
-      component.new(
-        facet_field: facet_field_presenter(field_config, display_facet),
-        layout: (params[:action] == 'facet' ? false : layout)
-      )
-    )
-  end
 
   def facet_field_presenter(facet_config, display_facet)
     (facet_config.presenter || Blacklight::FacetFieldPresenter).new(facet_config, display_facet, self)
