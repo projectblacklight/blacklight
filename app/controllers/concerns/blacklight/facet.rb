@@ -6,8 +6,6 @@ module Blacklight
   module Facet
     extend Deprecation
     delegate :facet_configuration_for_field, :facet_field_names, to: :blacklight_config
-    delegate :facet_group_names, to: :blacklight_config
-    deprecation_deprecate facet_group_names: 'Use blacklight_config.facet_group_names instead'
 
     # Get a FacetField object from the @response
     # @deprecated
