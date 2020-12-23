@@ -129,11 +129,6 @@ module Blacklight::Controller
     respond_to? :current_user
   end
 
-  def require_user_authentication_provider
-    raise ActionController::RoutingError, 'Not Found' unless has_user_authentication_provider?
-  end
-  deprecation_deprecate require_user_authentication_provider: 'removed without replacement'
-
   ##
   # When a user logs in, transfer any saved searches or bookmarks to the current_user
   def transfer_guest_user_actions_to_current_user
