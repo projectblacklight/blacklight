@@ -1,4 +1,4 @@
 <% # container for facet groups -%>
-<% Deprecation.silence(Blacklight::Facet) { facet_group_names }.each do |groupname| %>
+<% blacklight_config.facet_group_names.each do |groupname| %>
   <%= render 'facet_group', groupname: groupname %>
 <% end %>
