@@ -6,24 +6,6 @@ module Blacklight
   module Facet
     extend Deprecation
     delegate :facet_configuration_for_field, :facet_field_names, to: :blacklight_config
-
-    # @param fields [Array<String>] a list of facet field names
-    # @return [Array<Solr::Response::Facets::FacetField>]
-    # @deprecated
-    def facets_from_request(fields = facet_field_names, response = nil)
-      unless response
-        Deprecation.warn(self, 'Calling facets_from_request without passing the ' \
-          'second argument (response) is deprecated and will be removed in Blacklight ' \
-          '8.0.0')
-        response = @response
-      end
-
-      Deprecation.silence(Blacklight::Facet) do
-        fields.map { |field| facet_by_field_name(field, response) }.compact
-      end
-    end
-    deprecation_deprecate facets_from_request: 'Removed without replacement'
-
     delegate :facet_group_names, to: :blacklight_config
     deprecation_deprecate facet_group_names: 'Use blacklight_config.facet_group_names instead'
 

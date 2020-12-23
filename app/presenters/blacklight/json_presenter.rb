@@ -19,7 +19,9 @@ module Blacklight
     # @return [Array<Blacklight::Solr::Response::Facets::FacetField>]
     def search_facets
       Deprecation.silence(Blacklight::Facet) do
-        facets_from_request(facet_field_names, @response).select { |display_facet| display_facet.items.present? }
+        facet_field_names.map { |field| facet_by_field_name(field, @response) }
+                         .compact
+                         .select { |display_facet| display_facet.items.present? }
       end
     end
 
