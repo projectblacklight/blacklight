@@ -14,6 +14,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
   let(:facet_field) do
     instance_double(
       Blacklight::FacetFieldPresenter,
+      facet_field: facet_config,
       paginator: paginator,
       key: 'field',
       label: 'Field',
@@ -21,6 +22,10 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       collapsed?: false,
       modal_path: nil
     )
+  end
+
+  let(:facet_config) do
+    Blacklight::Configuration::FacetField.new
   end
 
   let(:paginator) do
@@ -46,6 +51,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     let(:facet_field) do
       instance_double(
         Blacklight::FacetFieldPresenter,
+        facet_field: facet_config,
         paginator: paginator,
         key: 'field',
         label: 'Field',
@@ -64,6 +70,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     let(:facet_field) do
       instance_double(
         Blacklight::FacetFieldPresenter,
+        facet_field: facet_config,
         paginator: paginator,
         key: 'field',
         label: 'Field',
@@ -88,6 +95,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     let(:facet_field) do
       instance_double(
         Blacklight::FacetFieldPresenter,
+        facet_field: facet_config,
         paginator: paginator,
         key: 'field',
         label: 'Field',

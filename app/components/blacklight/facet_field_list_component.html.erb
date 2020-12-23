@@ -1,16 +1,16 @@
-<%= render(@layout.new(facet_field: @facet_field)) do |component| %>
+<%= render(@layout.new(facet_field: @presenter)) do |component| %>
   <% component.with(:label) do %>
-    <%= @facet_field.label %>
+    <%= @presenter.label %>
   <% end %>
   <% component.with(:body) do %>
     <ul class="facet-values list-unstyled">
-      <%= render_facet_limit_list @facet_field.paginator, @facet_field.key %>
+      <%= render_facet_limit_list %>
     </ul>
     <%# backwards compatibility, ugh %>
-    <% if @layout == Blacklight::FacetFieldNoLayoutComponent && !@facet_field.in_modal? && @facet_field.modal_path %>
+    <% if @layout == Blacklight::FacetFieldNoLayoutComponent && !@presenter.in_modal? && @presenter.modal_path %>
       <div class="more_facets">
-        <%= link_to t("more_#{@facet_field.key}_html", scope: 'blacklight.search.facets', default: :more_html, field_name: @facet_field.label),
-          @facet_field.modal_path,
+        <%= link_to t("more_#{@presenter.key}_html", scope: 'blacklight.search.facets', default: :more_html, field_name: @presenter.label),
+          @presenter.modal_path,
           data: { blacklight_modal: 'trigger' } %>
       </div>
     <% end %>
