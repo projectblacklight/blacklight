@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 # Helper methods for catalog-like controllers
 module Blacklight::CatalogHelperBehavior
-  extend Deprecation
-  self.deprecation_horizon = 'blacklight 8.0'
-
   include Blacklight::ConfigurationHelperBehavior
   include Blacklight::ComponentHelperBehavior
   include Blacklight::FacetsHelperBehavior
