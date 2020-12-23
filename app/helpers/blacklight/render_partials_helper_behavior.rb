@@ -50,7 +50,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [String] base_name base name for the partial
   # @param [Hash] locals local variables to pass through to the partials
   def render_document_partial(doc, base_name, locals = {})
-    format = Deprecation.silence(Blacklight::RenderPartialsHelperBehavior) { document_partial_name(doc, base_name) }
+    format = document_partial_name(doc, base_name)
 
     view_type = document_index_view_type
     template = cached_view ['show', view_type, base_name, format].join('_') do
@@ -108,6 +108,8 @@ module Blacklight::RenderPartialsHelperBehavior
     ]
   end
 
+  private
+
   ##
   # Return a normalized partial name for rendering a single document
   #
@@ -120,9 +122,6 @@ module Blacklight::RenderPartialsHelperBehavior
 
     type_field_to_partial_name(document, display_type)
   end
-  deprecation_deprecate document_partial_name: 'Moving to a private method'
-
-  private
 
   ##
   # Return a partial name for rendering a document
