@@ -1,19 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::DefaultComponentConfiguration do
+RSpec.describe CatalogController do
   subject do
     Class.new do
       include Blacklight::Configurable
-      include Blacklight::DefaultComponentConfiguration
 
       def some_existing_action
         1
       end
     end
-  end
-
-  before do
-    allow(Deprecation).to receive(:warn)
   end
 
   describe ".add_show_tools_partial" do
