@@ -14,7 +14,6 @@ module Blacklight::ConfigurationHelperBehavior
   # @param [String] selected_search_field the currently selected search_field
   # @return [Boolean]
   def default_search_field?(selected_search_field)
-    default_search_field = blacklight_config.default_search_field
     selected_search_field.blank? || (blacklight_config.default_search_field && selected_search_field == blacklight_config.default_search_field[:key])
   end
 

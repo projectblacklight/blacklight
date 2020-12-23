@@ -1,5 +1,5 @@
 <%= render Blacklight::Response::FacetGroupComponent.new(
   response: @response,
   id: groupname,
-  fields: facet_field_names(groupname),
+  fields: blacklight_config.facet_fields_in_group(groupname),
   title: groupname.present? ? t("blacklight.search.facets-#{groupname}.title") : t('blacklight.search.facets.title')) %>
