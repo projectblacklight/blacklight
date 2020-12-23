@@ -5,8 +5,7 @@ module Blacklight
     ##
     # Render "document actions" area for navigation header
     # (normally renders "Saved Searches", "History", "Bookmarks")
-    # These things are added by add_nav_action and the default config is
-    # provided by DefaultComponentConfiguration
+    # These things are added by add_nav_action
     #
     # @param [Hash] options
     # @return [String]
