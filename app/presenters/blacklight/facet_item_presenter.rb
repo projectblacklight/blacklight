@@ -42,8 +42,6 @@ module Blacklight
     #
     # @return [String]
     def label
-      return @view_context.facet_display_value(@facet_field, @facet_item) unless @view_context.method(:facet_display_value).owner == Blacklight::FacetsHelperBehavior
-
       label_value = if facet_item.respond_to? :label
                       facet_item.label
                     else
