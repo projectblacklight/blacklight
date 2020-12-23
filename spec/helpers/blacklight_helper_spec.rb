@@ -5,6 +5,9 @@ RSpec.describe BlacklightHelper do
     allow(helper).to receive(:search_action_path) do |*args|
       search_catalog_url *args
     end
+
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(helper)
   end
 
   describe "#application_name" do

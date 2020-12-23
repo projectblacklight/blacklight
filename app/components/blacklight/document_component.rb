@@ -55,7 +55,7 @@ module Blacklight
     def classes
       [
         @classes,
-        @view_context.render_document_class(@document),
+        helpers.render_document_class(@document),
         'document',
         ("document-position-#{@counter}" if @counter)
       ].compact.flatten
@@ -79,7 +79,7 @@ module Blacklight
       return if @show
 
       @actions ||
-        @view_context.render_index_doc_actions(@document, wrapping_class: "index-document-functions col-sm-3 col-lg-2")
+        helpers.render_index_doc_actions(@document, wrapping_class: "index-document-functions col-sm-3 col-lg-2")
     end
 
     # Content for the document thumbnail area
@@ -94,7 +94,7 @@ module Blacklight
     def metadata
       return super if block_given?
 
-      @metadata || @view_context.render(@metadata_component.new(fields: presenter.field_presenters, show: show?))
+      @metadata || helpers.render(@metadata_component.new(fields: presenter.field_presenters, show: show?))
     end
 
     # Content that goes before the document title (e.g. the counter)
@@ -111,7 +111,7 @@ module Blacklight
 
       return unless component
 
-      @view_context.render(component.new(document: @document, presenter: presenter, document_counter: @document_counter))
+      helpers.render(component.new(document: @document, presenter: presenter, document_counter: @document_counter))
     end
 
     private
@@ -125,7 +125,7 @@ module Blacklight
     end
 
     def presenter
-      @presenter ||= @view_context.document_presenter(@document)
+      @presenter ||= helpers.document_presenter(@document)
     end
 
     def show?

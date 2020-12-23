@@ -31,15 +31,6 @@ module Blacklight
       content_tag @wrapping_element, content
     end
 
-    # This is a little shim to let us call the render methods below outside the
-    # usual component rendering cycle (for backward compatibility)
-    # @private
-    # @deprecated
-    def with_view_context(view_context)
-      @view_context = view_context
-      self
-    end
-
     ##
     # Standard display of a facet value in a list. Used in both _facets sidebar
     # partial and catalog/facet expanded list. Will output facet value name as

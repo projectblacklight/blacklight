@@ -14,6 +14,9 @@ RSpec.describe "/catalog/_show_sidebar.html.erb" do
     allow(view).to receive(:has_user_authentication_provider?).and_return(false)
     allow(view).to receive(:document_actions).and_return([])
     allow(view).to receive(:session_tracking_params).and_return({})
+
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(view)
   end
 
   it "shows more-like-this titles in the sidebar" do

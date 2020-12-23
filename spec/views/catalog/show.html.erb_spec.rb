@@ -14,6 +14,9 @@ RSpec.describe "catalog/show.html.erb" do
     allow(view).to receive_messages(current_search_session: nil, search_session: {})
     assign :document, document
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(view)
   end
 
   it "sets the @page_title" do

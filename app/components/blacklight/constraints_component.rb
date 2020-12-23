@@ -17,7 +17,7 @@ module Blacklight
     def query_constraints
       return if @search_state.query_param.blank?
 
-      @view_context.render(
+      helpers.render(
         @query_constraint_component.new(
           search_state: @search_state,
           value: @search_state.query_param,
@@ -42,7 +42,7 @@ module Blacklight
     end
 
     def facet_constraints
-      @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters))
+      helpers.render(@facet_constraint_component.with_collection(facet_item_presenters))
     end
 
     def render?
@@ -60,7 +60,7 @@ module Blacklight
     end
 
     def facet_item_presenter(facet_config, facet_item, facet_field)
-      Blacklight::FacetItemPresenter.new(facet_item, facet_config, @view_context, facet_field)
+      Blacklight::FacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
     end
   end
 end

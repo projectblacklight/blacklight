@@ -23,6 +23,8 @@ RSpec.describe Blacklight::Document::GroupComponent, type: :component do
 
   before do
     allow(view_context).to receive(:render_document_index).with(docs).and_return('results')
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(view_context)
   end
 
   it 'renders the group with a header' do

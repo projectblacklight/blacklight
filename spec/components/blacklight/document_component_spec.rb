@@ -6,7 +6,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   subject(:component) { described_class.new(presenter: presenter, **attr) }
 
   let(:attr) { {} }
-  let(:view_context) { controller.view_context }
+  let!(:view_context) { controller.view_context }
   let(:render) do
     component.render_in(view_context)
   end
@@ -35,6 +35,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   before do
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(view_context)
     allow(controller).to receive(:current_or_guest_user).and_return(User.new)
     allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view_context).to receive(:search_session).and_return({})
