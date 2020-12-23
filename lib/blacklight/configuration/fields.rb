@@ -5,8 +5,6 @@ module Blacklight
     # solr fields configuration
     module Fields
       extend ActiveSupport::Concern
-      extend Deprecation
-      self.deprecation_horizon = 'blacklight version 8.0.0'
 
       module ClassMethods
         # Add a configuration block for a collection of solr fields
