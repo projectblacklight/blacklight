@@ -36,7 +36,6 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       config.add_index_field 'solr_doc_accessor', accessor: true
       config.add_index_field 'explicit_accessor', accessor: :solr_doc_accessor
       config.add_index_field 'explicit_array_accessor', accessor: [:solr_doc_accessor, :some_method]
-      config.add_index_field 'explicit_values', values: ->(_config, _doc) { ['some-value'] }
       config.add_index_field 'explicit_values_with_context', values: ->(_config, _doc, view_context) { [view_context.params[:x]] }
       config.add_index_field 'alias', field: 'qwer'
       config.add_index_field 'with_default', default: 'value'
@@ -157,15 +156,6 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
         allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
 
         expect(subject).to eq '123'
-      end
-    end
-
-    context 'when the values lambda is provided' do
-      let(:field_name) { 'explicit_values' }
-
-      it 'calls the accessors on the return of the preceeding' do
-        allow(Deprecation).to receive(:warn)
-        expect(subject).to eq 'some-value'
       end
     end
 
