@@ -72,7 +72,7 @@ RSpec.describe BlacklightHelper do
     end
 
     before do
-      allow(helper).to receive(:presenter).and_return(presenter)
+      allow(helper).to receive(:document_presenter).and_return(presenter)
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
     end
 
@@ -250,83 +250,6 @@ RSpec.describe BlacklightHelper do
           allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
           expect(helper.document_index_view_type(view: :c)).to eq :c
         end
-      end
-    end
-  end
-
-  context "related classes" do
-    let(:presenter_class) { double }
-    let(:blacklight_config) { Blacklight::Configuration.new }
-
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    before do
-      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
-    end
-
-    describe "#index_presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        blacklight_config.index.document_presenter_class = presenter_class
-        expect(helper.index_presenter_class(nil)).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::IndexPresenter" do
-        expect(helper.index_presenter_class(nil)).to eq Blacklight::IndexPresenter
-      end
-    end
-
-    describe "#show_presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        blacklight_config.show.document_presenter_class = presenter_class
-        expect(helper.show_presenter_class(nil)).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::DocumentPresenter" do
-        expect(helper.show_presenter_class(nil)).to eq Blacklight::ShowPresenter
-      end
-    end
-  end
-
-  describe "#presenter" do
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    let(:document) { double }
-
-    before do
-      allow(helper).to receive(:index_presenter).and_return(:index_presenter)
-      allow(helper).to receive(:show_presenter).and_return(:show_presenter)
-      allow(helper).to receive(:action_name).and_return(action_name)
-    end
-
-    context "action is show" do
-      let(:action_name) { "show" }
-
-      it "uses the show presenter" do
-        expect(helper.presenter(document)).to eq(:show_presenter)
-      end
-    end
-
-    context "action is citation" do
-      let(:action_name) { "citation" }
-
-      it "uses the show presenter" do
-        expect(helper.presenter(document)).to eq(:show_presenter)
-      end
-    end
-
-    context "action is index" do
-      let(:action_name) { "index" }
-
-      it "uses the index presenter" do
-        expect(helper.presenter(document)).to eq(:index_presenter)
-      end
-    end
-
-    context "action is foo" do
-      let(:action_name) { "foo" }
-
-      it "uses the index presenter (by default)" do
-        expect(helper.presenter(document)).to eq(:index_presenter)
       end
     end
   end
