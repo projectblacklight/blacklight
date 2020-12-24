@@ -85,11 +85,6 @@ Blacklight.onLoad(function () {
 (function ($) {
   //change form submit toggle to checkbox
   Blacklight.doBookmarkToggleBehavior = function () {
-    if (typeof Blacklight.do_bookmark_toggle_behavior == 'function') {
-      console.warn("do_bookmark_toggle_behavior is deprecated. Use doBookmarkToggleBehavior instead.");
-      return Blacklight.do_bookmark_toggle_behavior();
-    }
-
     $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
       // cssClass is added to elements added, plus used for id base
       cssClass: 'toggle-bookmark',
@@ -444,11 +439,6 @@ Blacklight.onLoad(function () {
 });
 
 Blacklight.doSearchContextBehavior = function () {
-  if (typeof Blacklight.do_search_context_behavior == 'function') {
-    console.warn("do_search_context_behavior is deprecated. Use doSearchContextBehavior instead.");
-    return Blacklight.do_search_context_behavior();
-  }
-
   var elements = document.querySelectorAll('a[data-context-href]'); // Equivalent to Array.from(), but supports ie11
 
   var nodes = Array.prototype.slice.call(elements);
@@ -474,11 +464,6 @@ Blacklight.csrfParam = function () {
 
 
 Blacklight.handleSearchContextMethod = function (event) {
-  if (typeof Blacklight.handle_search_context_method == 'function') {
-    console.warn("handle_search_context_method is deprecated. Use handleSearchContextMethod instead.");
-    return Blacklight.handle_search_context_method(event);
-  }
-
   var link = this; // instead of using the normal href, we need to use the context href instead
 
   var href = link.getAttribute('data-context-href');

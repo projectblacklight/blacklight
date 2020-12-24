@@ -1,10 +1,6 @@
 (function($) {
     //change form submit toggle to checkbox
     Blacklight.doBookmarkToggleBehavior = function() {
-      if (typeof Blacklight.do_bookmark_toggle_behavior == 'function') {
-        console.warn("do_bookmark_toggle_behavior is deprecated. Use doBookmarkToggleBehavior instead.");
-        return Blacklight.do_bookmark_toggle_behavior();
-      }
       $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
          // cssClass is added to elements added, plus used for id base
          cssClass: 'toggle-bookmark',
