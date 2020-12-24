@@ -22,7 +22,7 @@ module Blacklight
     # @param document_counter [Number, nil] alternatively, the document's position in a collection and,
     # @param counter_offset [Number] with `document_counter`, the offset of the start of that collection counter to the overall result set
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
-    def initialize(document: nil, presenter: nil,
+    def initialize(document: nil, presenter:,
                    id: nil, classes: [], component: :article, title_component: :h4,
                    metadata_component: Blacklight::DocumentMetadataComponent,
                    embed_component: nil,
@@ -55,7 +55,7 @@ module Blacklight
     def classes
       [
         @classes,
-        @view_context.render_document_class(@document),
+        helpers.render_document_class(@document),
         'document',
         ("document-position-#{@counter}" if @counter)
       ].compact.flatten
@@ -68,7 +68,7 @@ module Blacklight
       @title || if show?
                   content_tag('span', presenter.heading, itemprop: "name")
                 else
-                  @view_context.link_to_document @document, counter: @counter, itemprop: 'name'
+                  @presenter.link_to_document counter: @counter, itemprop: 'name'
                 end
     end
 
@@ -79,7 +79,7 @@ module Blacklight
       return if @show
 
       @actions ||
-        @view_context.render_index_doc_actions(@document, wrapping_class: "index-document-functions col-sm-3 col-lg-2")
+        helpers.render_index_doc_actions(@document, wrapping_class: "index-document-functions col-sm-3 col-lg-2")
     end
 
     # Content for the document thumbnail area
@@ -94,7 +94,7 @@ module Blacklight
     def metadata
       return super if block_given?
 
-      @metadata || @view_context.render(@metadata_component.new(fields: presenter.field_presenters, show: show?))
+      @metadata || helpers.render(@metadata_component.new(fields: presenter.field_presenters, show: show?))
     end
 
     # Content that goes before the document title (e.g. the counter)
@@ -111,7 +111,7 @@ module Blacklight
 
       return unless component
 
-      @view_context.render(component.new(document: @document, presenter: presenter, document_counter: @document_counter))
+      helpers.render(component.new(document: @document, presenter: presenter, document_counter: @document_counter))
     end
 
     private
@@ -125,7 +125,7 @@ module Blacklight
     end
 
     def presenter
-      @presenter ||= @view_context.document_presenter(@document)
+      @presenter ||= helpers.document_presenter(@document)
     end
 
     def show?

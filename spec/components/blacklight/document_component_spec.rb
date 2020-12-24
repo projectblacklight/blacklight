@@ -3,13 +3,15 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::DocumentComponent, type: :component do
-  subject(:component) { described_class.new(document: document, **attr) }
+  subject(:component) { described_class.new(presenter: presenter, **attr) }
 
   let(:attr) { {} }
-  let(:view_context) { controller.view_context }
+  let!(:view_context) { controller.view_context }
   let(:render) do
     component.render_in(view_context)
   end
+
+  let(:presenter) { Blacklight::IndexPresenter.new(document, view_context, blacklight_config) }
 
   let(:rendered) do
     Capybara::Node::Simple.new(render)
@@ -33,6 +35,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   before do
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(view_context)
     allow(controller).to receive(:current_or_guest_user).and_return(User.new)
     allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view_context).to receive(:search_session).and_return({})
@@ -108,10 +112,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   context 'show view' do
     let(:attr) { { title_component: :h1, show: true } }
-
-    before do
-      allow(view_context).to receive(:action_name).and_return('show')
-    end
+    let(:presenter) { Blacklight::ShowPresenter.new(document, view_context, blacklight_config) }
 
     it 'renders with an id' do
       component.with(:body, '-')

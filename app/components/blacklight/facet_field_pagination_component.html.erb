@@ -1,9 +1,9 @@
 <div class="prev_next_links btn-group">
-  <%= @view_context.link_to_previous_page @facet_field.paginator, raw(t('views.pagination.previous')), params: @facet_field.search_state.to_h, param_name: param_name, class: 'btn btn-link', data: { blacklight_modal: "preserve" } do %>
+  <%= helpers.link_to_previous_page @facet_field.paginator, raw(t('views.pagination.previous')), params: @facet_field.search_state.to_h, param_name: param_name, class: 'btn btn-link', data: { blacklight_modal: "preserve" } do %>
     <%= content_tag :span, raw(t('views.pagination.previous')), class: 'disabled btn' %>
   <% end %>
 
-  <%= @view_context.link_to_next_page @facet_field.paginator, raw(t('views.pagination.next')), params: @facet_field.search_state.to_h, param_name: param_name, class: 'btn btn-link',  data: { blacklight_modal: "preserve" } do %>
+  <%= helpers.link_to_next_page @facet_field.paginator, raw(t('views.pagination.next')), params: @facet_field.search_state.to_h, param_name: param_name, class: 'btn btn-link',  data: { blacklight_modal: "preserve" } do %>
     <%= content_tag :span, raw(t('views.pagination.next')), class: 'disabled btn' %>
   <% end %>
 </div>
@@ -11,9 +11,9 @@
 <div class="sort-options btn-group">
   <% if @facet_field.paginator.sort == 'index' -%>
     <span class="active az btn btn-outline-secondary"><%= t('blacklight.search.facets.sort.index') %></span>
-    <%= @view_context.link_to(t('blacklight.search.facets.sort.count'), sort_facet_url('count'), class: "sort_change numeric btn btn-outline-secondary", data: { blacklight_modal: "preserve" }) %>
+    <%= helpers.link_to(t('blacklight.search.facets.sort.count'), sort_facet_url('count'), class: "sort_change numeric btn btn-outline-secondary", data: { blacklight_modal: "preserve" }) %>
   <% elsif @facet_field.paginator.sort == 'count' -%>
-    <%= @view_context.link_to(t('blacklight.search.facets.sort.index'), sort_facet_url('index'), class: "sort_change az btn btn-outline-secondary",  data: { blacklight_modal: "preserve" }) %>
+    <%= helpers.link_to(t('blacklight.search.facets.sort.index'), sort_facet_url('index'), class: "sort_change az btn btn-outline-secondary",  data: { blacklight_modal: "preserve" }) %>
     <span class="active numeric btn btn-outline-secondary"><%= t('blacklight.search.facets.sort.count') %></span>
   <% end -%>
 </div>

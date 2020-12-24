@@ -3,8 +3,12 @@
 RSpec.describe "catalog/_show_tools.html.erb" do
   let(:document) { SolrDocument.new id: 'xyz', format: 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
+  let(:component) { instance_double(Blacklight::Document::ActionsComponent) }
 
   before do
+    allow(Blacklight::Document::ActionsComponent).to receive(:new).and_return(component)
+    allow(view).to receive(:render).with(component)
+    allow(view).to receive(:render).with('catalog/show_tools', {}).and_call_original
     assign :response, instance_double(Blacklight::Solr::Response, params: {})
     assign :document, document
     allow(view).to receive(:blacklight_config).and_return blacklight_config
@@ -17,57 +21,8 @@ RSpec.describe "catalog/_show_tools.html.erb" do
     it "renders a document action" do
       allow(view).to receive(:some_action_solr_document_path).with(document, any_args).and_return 'x'
       document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, partial: 'document_action'
-      render partial: 'catalog/show_tools'
-      expect(rendered).to have_link "Some action", href: "x"
-    end
-
-    it "uses the provided label" do
-      allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, label: "Some label", partial: 'document_action'
-      render partial: 'catalog/show_tools'
-      expect(rendered).to have_selector '.some_action', text: "Some label"
-    end
-
-    it "evaluates a document action's if configurations" do
-      allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, if: false, partial: 'document_action'
-      render partial: 'catalog/show_tools'
-      expect(rendered).not_to have_selector '.some_action', text: "Some action"
-    end
-
-    it "evaluates a document action's if configuration with a proc" do
-      allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, partial: 'document_action', if: proc { |_config, doc| doc.id == "xyz" }
-      render partial: 'catalog/show_tools'
-      expect(rendered).not_to have_selector '.some_action', text: "Some action"
-    end
-
-    it "evaluates a document action's unless configurations" do
-      allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, partial: 'document_action', unless: true
-      render partial: 'catalog/show_tools'
-      expect(rendered).not_to have_selector '.some_action', text: "Some action"
-    end
-
-    it "allows the tool to have a custom id" do
-      allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, partial: 'document_action', id: "some_action"
-      render partial: 'catalog/show_tools'
-      expect(rendered).to have_selector '#some_action', text: "Some action"
-    end
-
-    it "defaults to modal behavior" do
-      allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, partial: 'document_action'
-      render partial: 'catalog/show_tools'
-      expect(rendered).to have_selector '.some_action > a[data-blacklight-modal="trigger"]', text: "Some action"
-    end
-
-    it "allows configuration to opt out of modal behavior" do
-      allow(view).to receive(:some_action_solr_document_path).and_return "x"
-      document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, partial: 'document_action', modal: false
-      render partial: 'catalog/show_tools'
-      expect(rendered).not_to have_selector '.some_action > a[data-blacklight-modal="trigger"]', text: "Some action"
+      render 'catalog/show_tools'
+      expect(view).to have_received(:render).with(component)
     end
 
     context 'without any document actions defined' do
@@ -76,7 +31,7 @@ RSpec.describe "catalog/_show_tools.html.erb" do
       end
 
       it 'does not display the tools' do
-        render partial: 'catalog/show_tools'
+        render 'catalog/show_tools'
 
         expect(rendered).to be_blank
       end

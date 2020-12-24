@@ -15,8 +15,8 @@ module Blacklight
         @document.more_like_this.present?
       end
 
-      def link_to_document(*args)
-        @view_context.link_to_document(*args)
+      def link_to_document
+        helpers.document_presenter(@document).link_to_document
       end
     end
   end

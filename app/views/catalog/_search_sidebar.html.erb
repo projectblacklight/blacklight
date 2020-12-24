@@ -1,1 +1,1 @@
-<%= render 'facets' %>
+<%= render Blacklight::FacetListComponent.new(blacklight_config: blacklight_config, response: @response) %>

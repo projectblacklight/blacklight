@@ -1,19 +1,19 @@
 <%= form_tag @url, method: @method, class: @classes.join(' '), role: 'search', 'aria-label' => scoped_t('submit') do %>
   <%= render_hash_as_hidden_fields(@params) %>
-  <% if @search_fields.length > 1 %>
+  <% if search_fields.length > 1 %>
     <label for="search_field" class="sr-only"><%= scoped_t('search_field.label') %></label>
   <% end %>
   <div class="input-group">
     <%= prepend %>
 
-    <% if @search_fields.length > 1 %>
+    <% if search_fields.length > 1 %>
         <%= select_tag(:search_field,
-                       options_for_select(@search_fields, h(@search_field)),
+                       options_for_select(search_fields, h(@search_field)),
                        title: scoped_t('search_field.title'),
                        id: "#{@prefix}search_field",
                        class: "custom-select search-field") %>
-    <% elsif @search_fields.length == 1 %>
-      <%= hidden_field_tag :search_field, @search_fields.first.last %>
+    <% elsif search_fields.length == 1 %>
+      <%= hidden_field_tag :search_field, search_fields.first.last %>
     <% end %>
 
     <label for="<%= @prefix %><%= @query_param %>" class="sr-only"><%= scoped_t('search.label') %></label>

@@ -13,23 +13,20 @@ module Blacklight
       end
 
       def render?
-        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-          @view_context.has_alternative_views?
-        end
+        !@response.empty? && helpers.document_index_views.keys.length > 1
       end
 
       def icon(view)
-        @view_context.render_view_type_group_icon(view)
+        helpers.render_view_type_group_icon(view)
       end
 
       def label(view)
-        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-          @view_context.view_label(view)
-        end
+        view_config = helpers.blacklight_config.view[view]
+        view_config.display_label(view)
       end
 
       def url(view)
-        @view_context.url_for(@search_state.to_h.merge(view: view))
+        helpers.url_for(@search_state.to_h.merge(view: view))
       end
     end
   end

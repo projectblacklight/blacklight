@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::RenderPartialsHelperBehavior do
-  around { |test| Deprecation.silence(described_class) { test.call } }
-
   describe "#type_field_to_partial_name" do
     subject { helper.send(:type_field_to_partial_name, document, value) }
 
@@ -58,7 +56,7 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
       let(:document) { SolrDocument.new }
 
       it "is the default value" do
-        expect(helper.document_partial_name(document)).to eq 'default'
+        expect(helper.send(:document_partial_name, document)).to eq 'default'
       end
     end
 
@@ -70,11 +68,11 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
       end
 
       it "uses the value in the configured display type field" do
-        expect(helper.document_partial_name(document)).to eq 'xyz'
+        expect(helper.send(:document_partial_name, document)).to eq 'xyz'
       end
 
       it "uses the value in the configured display type field if the action-specific field is empty" do
-        expect(helper.document_partial_name(document, :some_action)).to eq 'xyz'
+        expect(helper.send(:document_partial_name, document, :some_action)).to eq 'xyz'
       end
     end
 
@@ -87,8 +85,8 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
       end
 
       it "uses the value in the action-specific fields" do
-        expect(helper.document_partial_name(document, :media)).to eq 'xyz'
-        expect(helper.document_partial_name(document, :metadata)).to eq 'abc'
+        expect(helper.send(:document_partial_name, document, :media)).to eq 'xyz'
+        expect(helper.send(:document_partial_name, document, :metadata)).to eq 'abc'
       end
     end
   end
