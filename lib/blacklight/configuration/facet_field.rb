@@ -19,9 +19,6 @@ module Blacklight
     #   @return [Symbol|Hash] the i18n localization option for a date or time value; used as the second parameter for the I18n.l method
     # @!attribute link_to_facet
     #   @return [Boolean]
-    # @!attribute link_to_search
-    #   @deprecated use link_to_facet instead.
-    #   @return [Boolean]
     # @!attribute helper_method
     #   @return [Symbol] the name of a helper method used to display the facet's value to the user; it receives the facet value.
     # @!attribute url_method
@@ -65,8 +62,6 @@ module Blacklight
     # @!attribute partial
     #   @return [String] Rails view partial used to render the facet field
 
-    extend Deprecation
-
     def normalize! blacklight_config = nil
       query.stringify_keys! if query
 
@@ -75,11 +70,6 @@ module Blacklight
       self.if = show if self.if.nil?
       self.index_range = 'A'..'Z' if index_range == true
       self.presenter ||= Blacklight::FacetFieldPresenter
-
-      if link_to_search
-        Deprecation.warn(Blacklight::Configuration::FacetField, '`link_to_search:` is deprecated, use `link_to_facet:` instead')
-        self.link_to_facet = link_to_search if link_to_facet.nil?
-      end
 
       super
 
