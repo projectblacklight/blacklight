@@ -2,8 +2,6 @@
 ##
 # URL helper methods
 module Blacklight::UrlHelperBehavior
-  extend Deprecation
-
   # # @private
   # def document_link_params(doc, opts)
   #   session_tracking_params(doc, opts[:counter]).deep_merge(opts.except(:label, :counter))

@@ -129,7 +129,7 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Override this method if you want to use a differnet presenter for your documents
-  def document_presenter_class(document)
+  def document_presenter_class(_document)
     case action_name
     when 'show', 'citation'
       blacklight_config.show.document_presenter_class

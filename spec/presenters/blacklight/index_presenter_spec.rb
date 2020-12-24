@@ -111,8 +111,6 @@ RSpec.describe Blacklight::IndexPresenter, api: true do
     end
 
     it "converts the counter parameter into a data- attribute" do
-      allow(Deprecation).to receive(:warn)
-
       allow(request_context).to receive(:session_tracking_params).and_return({ 'data-context-href': '5' })
 
       presenter.link_to_document('foo', counter: 5)

@@ -5,8 +5,6 @@ module Blacklight::Catalog
   include Blacklight::Base
   include Blacklight::Searchable
 
-  extend Deprecation
-
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do

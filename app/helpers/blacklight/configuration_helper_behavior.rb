@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 module Blacklight::ConfigurationHelperBehavior
-  extend Deprecation
-
   ##
   # Return the available sort fields
   # @return [Array<Blacklight::Configuration::Field>]

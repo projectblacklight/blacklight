@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 module Blacklight::RenderPartialsHelperBehavior
-  extend Deprecation
-
   ##
   # Render the document index view
   #
@@ -50,7 +48,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [String] base_name base name for the partial
   # @param [Hash] locals local variables to pass through to the partials
   def render_document_partial(doc, base_name, locals = {})
-    format = Deprecation.silence(Blacklight::RenderPartialsHelperBehavior) { document_partial_name(doc, base_name) }
+    format = document_partial_name(doc, base_name)
 
     view_type = document_index_view_type
     template = cached_view ['show', view_type, base_name, format].join('_') do
