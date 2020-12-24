@@ -383,16 +383,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
-    describe "overriding of qt parameter" do
-      let(:user_params) do
-        { qt: 'overridden' }
-      end
-
-      it "returns the correct overriden parameter" do
-        expect(subject[:qt]).to eq "overridden"
-      end
-    end
-
     describe "sorting" do
       context 'when the user has not provided a value' do
         it 'sends the default sort parameter to solr' do

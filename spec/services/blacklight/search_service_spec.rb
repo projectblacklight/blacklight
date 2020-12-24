@@ -382,7 +382,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     context "for title search" do
-      let(:user_params) { { q: 'yehudiyam', qt: 'search', "spellcheck.dictionary": "title" } }
+      let(:user_params) { { q: 'yehudiyam', "spellcheck.dictionary": "title" } }
 
       it 'has spelling suggestions' do
         (solr_response,) = service.search_results
@@ -391,7 +391,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     context "for author search" do
-      let(:user_params) { { q: 'shirma', qt: 'search', "spellcheck.dictionary": "author" } }
+      let(:user_params) { { q: 'shirma', "spellcheck.dictionary": "author" } }
 
       it 'has spelling suggestions' do
         (solr_response,) = service.search_results
@@ -400,7 +400,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     context "for subject search" do
-      let(:user_params) { { q: 'wome', qt: 'search', "spellcheck.dictionary": "subject" } }
+      let(:user_params) { { q: 'wome', "spellcheck.dictionary": "subject" } }
 
       it 'has spelling suggestions' do
         (solr_response,) = service.search_results

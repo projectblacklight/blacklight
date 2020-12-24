@@ -31,16 +31,6 @@ module Blacklight::Solr
 
     def add_search_field_default_parameters(solr_parameters)
       ###
-      # legacy behavior of user param :qt is passed through, but over-ridden
-      # by actual search field config if present. We might want to remove
-      # this legacy behavior at some point. It does not seem to be currently
-      # rspec'd.
-      if search_state.params[:qt]
-        Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Passing the Solr qt as a parameter is deprecated.')
-        solr_parameters[:qt] = blacklight_params[:qt]
-      end
-
-      ###
       # Merge in search field configured values, if present, over-writing general
       # defaults
       if search_field
