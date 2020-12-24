@@ -55,10 +55,6 @@ RSpec.describe Blacklight::SearchService, api: true do
     describe 'for a sample query returning results' do
       let(:user_params) { { q: all_docs_query } }
 
-      before do
-        (@solr_response, @document_list) = service.search_results
-      end
-
       it "uses the configured request handler" do
         allow(blacklight_config).to receive(:default_solr_params).and_return(qt: 'custom_request_handler')
         allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
@@ -69,23 +65,6 @@ RSpec.describe Blacklight::SearchService, api: true do
         end.and_return('response' => { 'docs' => [] })
         service.search_results
       end
-
-      it 'has a @response.docs list of the same size as @document_list' do
-        expect(@solr_response.docs).to have(@document_list.length).docs
-      end
-
-      it 'has @response.docs list representing same documents as SolrDocuments in @document_list' do
-        @solr_response.docs.each_index do |index|
-          mash = @solr_response.docs[index]
-          solr_document = @document_list[index]
-
-          expect(Set.new(mash.keys)).to eq Set.new(solr_document.keys)
-
-          mash.keys.each do |key|
-            expect(mash[key]).to eq solr_document[key]
-          end
-        end
-      end
     end
 
     describe "for a query returning a grouped response" do
@@ -95,12 +74,10 @@ RSpec.describe Blacklight::SearchService, api: true do
       before do
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = 'pub_date_si'
-        (@solr_response, @document_list) = service.search_results
       end
 
       it "returns a grouped response" do
-        expect(@document_list).to be_empty
-        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        expect(service.search_results).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
       end
     end
 
@@ -112,13 +89,12 @@ RSpec.describe Blacklight::SearchService, api: true do
         allow(subject).to receive_messages grouped_key_for_results: 'title_si'
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = %w[pub_date_si title_si]
-        (@solr_response, @document_list) = service.search_results
       end
 
       it "returns a grouped response" do
-        expect(@document_list).to be_empty
-        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
-        expect(@solr_response.group_field).to eq "title_si"
+        solr_response = service.search_results
+        expect(solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        expect(solr_response.group_field).to eq "title_si"
       end
     end
 
@@ -126,8 +102,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: all_docs_query, f: single_facet } }
 
       it 'has results' do
-        (solr_response, document_list) = service.search_results
-        expect(solr_response.docs).to have(document_list.size).results
+        solr_response = service.search_results
         expect(solr_response.docs).to have_at_least(1).result
       end
       # TODO: check that number of these results < number of results for all docs query
@@ -138,8 +113,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: no_docs_query } }
 
       it 'has no results and not raise error' do
-        (solr_response, document_list) = service.search_results
-        expect(document_list).to have(0).results
+        solr_response = service.search_results
         expect(solr_response.docs).to have(0).results
       end
     end
@@ -148,8 +122,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: no_docs_query, f: single_facet } }
 
       it 'has no results and not raise error' do
-        (solr_response, document_list) = service.search_results
-        expect(document_list).to have(0).results
+        solr_response = service.search_results
         expect(solr_response.docs).to have(0).results
       end
     end
@@ -159,8 +132,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: all_docs_query, f: bad_facet } }
 
       it 'has no results and not raise error' do
-        (solr_response, document_list) = service.search_results
-        expect(document_list).to have(0).results
+        solr_response = service.search_results
         expect(solr_response.docs).to have(0).results
       end
     end
@@ -222,9 +194,8 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     it 'has number of results (per page) set in initializer, by default' do
-      (solr_response, document_list) = service.search_results
+      solr_response = service.search_results
       expect(solr_response.docs).to have(blacklight_config[:default_solr_params][:rows]).items
-      expect(document_list).to have(blacklight_config[:default_solr_params][:rows]).items
     end
 
     context "with per page requested" do
@@ -232,8 +203,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:num_results) { 3 }  # non-default value
 
       it 'gets number of results per page requested' do
-        (solr_response1, document_list1) = service.search_results
-        expect(document_list1).to have(num_results).docs
+        solr_response1 = service.search_results
         expect(solr_response1.docs).to have(num_results).docs
       end
     end
@@ -243,8 +213,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:num_results) { 4 }  # non-default value
 
       it 'gets number of rows requested' do
-        (solr_response1, document_list1) = service.search_results
-        expect(document_list1).to have(num_results).docs
+        solr_response1 = service.search_results
         expect(solr_response1.docs).to have(num_results).docs
       end
     end
@@ -277,8 +246,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: all_docs_query, page: page, rows: rows } }
 
       it 'has no results when prompted for page after last result' do
-        (solr_response3, document_list3) = service.search_results
-        expect(document_list3).to have(0).docs
+        solr_response3 = service.search_results
         expect(solr_response3.docs).to have(0).docs
       end
     end
@@ -301,8 +269,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       let(:user_params) { { q: all_docs_query, page: page, rows: rows } }
 
       it 'has results available when asked for more than are in response' do
-        (solr_response5, document_list5) = service.search_results
-        expect(solr_response5.docs).to have(document_list5.length).docs
+        solr_response5 = service.search_results
         expect(solr_response5.docs).to have_at_least(1).doc
       end
     end
@@ -314,7 +281,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     let(:bad_id) { 'redrum' }
 
     before do
-      @response2, @document = service.fetch(doc_id)
+      @document = service.fetch(doc_id)
     end
 
     it "raises Blacklight::RecordNotFound for an unknown id" do
@@ -327,10 +294,6 @@ RSpec.describe Blacklight::SearchService, api: true do
       expect(@document).not_to be_nil
     end
 
-    it "has a single document in the response for a known id" do
-      expect(@response2.docs.size).to eq 1
-    end
-
     it 'has the expected value in the id field' do
       expect(@document.id).to eq doc_id
     end
@@ -339,18 +302,18 @@ RSpec.describe Blacklight::SearchService, api: true do
   describe 'Get multiple documents By Id', integration: true do
     let(:doc_id) { '2007020969' }
     let(:bad_id) { 'redrum' }
-    let(:response) { service.fetch([doc_id]).first }
+    let(:response) { service.fetch([doc_id]) }
 
     before do
       blacklight_config.fetch_many_document_params[:fl] = 'id,format'
     end
 
     it 'has the expected value in the id field' do
-      expect(response.documents.first.id).to eq doc_id
+      expect(response.first.id).to eq doc_id
     end
 
     it 'returns all the requested fields' do
-      expect(response.documents.first['format']).to eq ['Book']
+      expect(response.first['format']).to eq ['Book']
     end
   end
 
@@ -425,26 +388,26 @@ RSpec.describe Blacklight::SearchService, api: true do
     let(:user_params) { { q: '', per_page: 100 } }
 
     before do
-      @full_response, @all_docs = service.search_results
+      @full_response = service.search_results
     end
 
     it "returns the previous and next documents for a search" do
       _response, docs = service.previous_and_next_documents_for_search(4, q: '')
 
-      expect(docs.first.id).to eq @all_docs[3].id
-      expect(docs.last.id).to eq @all_docs[5].id
+      expect(docs.first.id).to eq @full_response.documents[3].id
+      expect(docs.last.id).to eq @full_response.documents[5].id
     end
 
     it "returns only the next document if the counter is 0" do
       _response, docs = service.previous_and_next_documents_for_search(0, q: '')
 
       expect(docs.first).to be_nil
-      expect(docs.last.id).to eq @all_docs[1].id
+      expect(docs.last.id).to eq @full_response.documents[1].id
     end
 
     it "returns only the previous document if the counter is the total number of documents" do
       _response, docs = service.previous_and_next_documents_for_search(@full_response.total - 1, q: '')
-      expect(docs.first.id).to eq @all_docs.slice(-2).id
+      expect(docs.first.id).to eq @full_response.documents.slice(-2).id
       expect(docs.last).to be_nil
     end
 
@@ -456,7 +419,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
     it 'returns only the unique key by default' do
       _response, docs = service.previous_and_next_documents_for_search(0, q: '')
-      expect(docs.last.to_h).to eq 'id' => @all_docs[1].id
+      expect(docs.last.to_h).to eq 'id' => @full_response.documents[1].id
     end
 
     it 'allows the query parameters to be customized using configuration' do
@@ -464,7 +427,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
       _response, docs = service.previous_and_next_documents_for_search(0, q: '')
 
-      expect(docs.last.to_h).to eq @all_docs[1].to_h.slice('id', 'format')
+      expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
     end
   end
 

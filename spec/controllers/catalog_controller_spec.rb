@@ -4,7 +4,6 @@ RSpec.describe CatalogController, api: true do
   around { |test| Deprecation.silence(Blacklight::Catalog) { test.call } }
 
   let(:doc_id) { '2007020969' }
-  let(:mock_response) { instance_double(Blacklight::Solr::Response) }
   let(:mock_document) { instance_double(SolrDocument, export_formats: {}) }
   let(:search_service) { instance_double(Blacklight::SearchService) }
 
@@ -339,7 +338,7 @@ RSpec.describe CatalogController, api: true do
       before do
         allow(mock_document).to receive_messages(export_formats: {})
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+        expect(search_service).to receive(:fetch).and_return(mock_document)
         allow(controller).to receive(:current_search_session).and_return(current_search)
       end
 
@@ -399,7 +398,7 @@ RSpec.describe CatalogController, api: true do
 
     it "renders show.html.erb" do
       allow(controller).to receive(:search_service).and_return(search_service)
-      expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+      expect(search_service).to receive(:fetch).and_return(mock_document)
 
       get :show, params: { id: doc_id }
       expect(response).to render_template(:show)
@@ -408,7 +407,7 @@ RSpec.describe CatalogController, api: true do
     describe '@document' do
       before do
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+        expect(search_service).to receive(:fetch).and_return(mock_document)
 
         get :show, params: { id: doc_id }
       end
@@ -434,7 +433,7 @@ RSpec.describe CatalogController, api: true do
         Mime::Type.register "application/mock", :mock
         SolrDocument.use_extension(FakeExtension)
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return([nil, SolrDocument.new(id: 'my_fake_doc')])
+        expect(search_service).to receive(:fetch).and_return(SolrDocument.new(id: 'my_fake_doc'))
       end
 
       after do
@@ -485,8 +484,6 @@ RSpec.describe CatalogController, api: true do
   end
 
   describe "email/sms" do
-    let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
-
     before do
       mock_document.extend(Blacklight::Document::Sms)
       mock_document.extend(Blacklight::Document::Email)
@@ -494,7 +491,7 @@ RSpec.describe CatalogController, api: true do
       allow(mock_document).to receive(:to_model).and_return(SolrDocument.new(id: 'my_fake_doc'))
 
       allow(controller).to receive(:search_service).and_return(search_service)
-      expect(search_service).to receive(:fetch).and_return([mock_response, [mock_document]])
+      expect(search_service).to receive(:fetch).and_return([mock_document])
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
       SolrDocument.use_extension(Blacklight::Document::Email)
       SolrDocument.use_extension(Blacklight::Document::Sms)

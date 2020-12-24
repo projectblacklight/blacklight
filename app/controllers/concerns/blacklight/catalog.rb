@@ -26,9 +26,7 @@ module Blacklight::Catalog
 
   # get search results from the solr index
   def index
-    (@response, deprecated_document_list) = search_service.search_results
-
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
+    @response = search_service.search_results
 
     respond_to do |format|
       format.html { store_preferred_view }
@@ -46,8 +44,7 @@ module Blacklight::Catalog
   # get a single document from the index
   # to add responses for formats other than html or json see _Blacklight::Document::Export_
   def show
-    deprecated_response, @document = search_service.fetch(params[:id])
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
+    @document = search_service.fetch(params[:id])
 
     respond_to do |format|
       format.html { @search_context = setup_next_and_previous_documents }
@@ -66,7 +63,7 @@ module Blacklight::Catalog
   def raw
     raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled
 
-    _, @document = search_service.fetch(params[:id])
+    @document = search_service.fetch(params[:id])
     render json: @document
   end
 
@@ -125,10 +122,10 @@ module Blacklight::Catalog
   # @return [Array] first value is a Blacklight::Solr::Response and the second
   #                 is a list of documents
   def action_documents
-    deprecated_response, @documents = search_service.fetch(Array(params[:id]))
+    @documents = search_service.fetch(Array(params[:id]))
     raise Blacklight::Exceptions::RecordNotFound if @documents.blank?
 
-    [deprecated_response, @documents]
+    @documents
   end
 
   def action_success_redirect_path
