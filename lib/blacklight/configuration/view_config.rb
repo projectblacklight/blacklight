@@ -34,9 +34,8 @@ class Blacklight::Configuration
       #   @return [Hash] Default route parameters for 'show' requests.
       #     Set this to a hash with additional arguments to merge into the route,
       #     or set `controller: :current` to route to the current controller.
-
       def document_presenter_class
-        super || Blacklight::ShowPresenter
+        self[:document_presenter_class] || Blacklight::ShowPresenter
       end
     end
 
@@ -48,9 +47,8 @@ class Blacklight::Configuration
       #      see Blacklight::Catalog#additional_response_formats for information about the OpenStruct data
       # @!attribute collection_actions
       #   @return [String, Symbol]
-
       def document_presenter_class
-        super || Blacklight::IndexPresenter
+        self[:document_presenter_class] || Blacklight::IndexPresenter
       end
     end
   end

@@ -54,6 +54,8 @@ module Blacklight
           response_model: nil,
           # the model to use for each response document
           document_model: nil,
+          # A class that builds documents
+          document_factory: nil,
           # Class for paginating long lists of facet fields
           facet_paginator_class: nil,
           # repository connection configuration
@@ -166,12 +168,12 @@ module Blacklight
     end
 
     def document_model
-      super || ::SolrDocument
+      self[:document_model] || ::SolrDocument
     end
 
     # A class that builds documents
     def document_factory
-      super || Blacklight::DocumentFactory
+      self[:document_factory] || Blacklight::DocumentFactory
     end
 
     # only here to support alias_method
@@ -180,7 +182,7 @@ module Blacklight
     end
 
     def response_model
-      super || Blacklight::Solr::Response
+      self[:response_model] || Blacklight::Solr::Response
     end
 
     def response_model=(*args)
@@ -188,7 +190,7 @@ module Blacklight
     end
 
     def repository_class
-      super || Blacklight::Solr::Repository
+      self[:repository_class] || Blacklight::Solr::Repository
     end
 
     def repository
@@ -196,11 +198,11 @@ module Blacklight
     end
 
     def connection_config
-      super || Blacklight.connection_config
+      self[:connection_config] || Blacklight.connection_config
     end
 
     def search_builder_class
-      super || locate_search_builder_class
+      self[:search_builder_class] || locate_search_builder_class
     end
 
     def locate_search_builder_class
@@ -208,11 +210,11 @@ module Blacklight
     end
 
     def facet_paginator_class
-      super || Blacklight::Solr::FacetPaginator
+      self[:facet_paginator_class] || Blacklight::Solr::FacetPaginator
     end
 
     def default_per_page
-      super || per_page.first
+      self[:default_per_page] || per_page.first
     end
 
     # DSL helper
@@ -224,14 +226,14 @@ module Blacklight
     # Returns default search field, used for simpler display in history, etc.
     # if not set, defaults to first defined search field
     def default_search_field
-      field = super || search_fields.values.find { |f| f.default == true }
+      field = self[:default_search_field] || search_fields.values.find { |f| f.default == true }
       field || search_fields.values.first
     end
 
     # Returns default sort field, used for simpler display in history, etc.
     # if not set, defaults to first defined sort field
     def default_sort_field
-      field = super || sort_fields.values.find { |f| f.default == true }
+      field = self[:default_sort_field] || sort_fields.values.find { |f| f.default == true }
       field || sort_fields.values.first
     end
 

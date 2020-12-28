@@ -1,2 +1,5 @@
 gem 'rails-controller-testing'
 gem 'thor', '~> 0.20' if /^5.[12]/.match?(ENV['RAILS_VERSION'])
+
+# Needed until https://github.com/cbeer/deprecation/pull/14 is in a release.
+gem 'deprecation', github: 'jcoyne/deprecation', branch: 'delegate-kwargs'

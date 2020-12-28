@@ -46,7 +46,7 @@ module Blacklight
         facet_config.query[value][:label]
       elsif facet_config.date
         localization_options = facet_config.date == true ? {} : facet_config.date
-        I18n.l(Time.zone.parse(value), localization_options)
+        I18n.l(Time.zone.parse(value), **localization_options)
       else
         value
       end

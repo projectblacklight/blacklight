@@ -83,6 +83,11 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
     documents.map { |x| x.export_formats.keys }.flatten.uniq
   end
 
+  # Prevent the class itself from being duplicated (when called via deep_dup on the config)
+  # def self.duplicable?
+  #   false
+  # end
+
   private
 
   def force_to_utf8(value)

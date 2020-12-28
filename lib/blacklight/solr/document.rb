@@ -19,6 +19,13 @@ module Blacklight::Solr::Document
   include Blacklight::Document
   include Blacklight::Document::ActiveModelShim
 
+  # class_methods do
+  #   # Prevent the class itself from being duplicated (when called via deep_dup on the config)
+  #   def duplicable?
+  #     false
+  #   end
+  # end
+
   def more_like_this
     response.more_like(self).map { |doc| self.class.new(doc, response) }
   end

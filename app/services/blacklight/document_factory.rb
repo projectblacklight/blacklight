@@ -12,5 +12,10 @@ module Blacklight
     def self.document_model(_data, options)
       options[:solr_document_model] || options[:document_model] || SolrDocument
     end
+
+    # Prevent the class itself from being duplicated (when called via deep_dup on the config)
+    def self.duplicable?
+      false
+    end
   end
 end

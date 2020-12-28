@@ -4,7 +4,7 @@ module Blacklight
   ##
   # An OpenStruct that responds to common Hash methods
   class OpenStructWithHashAccess < OpenStruct
-    delegate :keys, :each, :map, :has_key?, :key?, :include?, :empty?, :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!, :replace, :fetch, :to_json, :as_json, :any?, to: :to_h
+    delegate :keys, :each, :map, :has_key?, :key?, :include?, :empty?, :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!, :fetch, :to_json, :as_json, :any?, to: :@table
 
     ##
     # Expose the internal hash
@@ -19,11 +19,6 @@ module Blacklight
 
     def sort_by *args, &block
       self.class.new Hash[to_h.sort_by(*args, &block)]
-    end
-
-    def sort_by! *args, &block
-      replace Hash[to_h.sort_by(*args, &block)]
-      self
     end
 
     ##

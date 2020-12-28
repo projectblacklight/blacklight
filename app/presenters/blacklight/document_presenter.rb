@@ -117,6 +117,11 @@ module Blacklight
       @view_config ||= configuration.view_config(:show)
     end
 
+    # Prevent the class itself from being duplicated (when called via deep_dup on the config)
+    def self.duplicable?
+      false
+    end
+
     private
 
     def render_field?(field_config)

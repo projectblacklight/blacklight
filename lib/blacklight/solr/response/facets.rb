@@ -18,7 +18,7 @@ module Blacklight::Solr::Response::Facets
     end
 
     def label
-      super || value
+      self[:label] || value
     end
 
     def as_json(props = nil)

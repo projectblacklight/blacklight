@@ -62,30 +62,12 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     end
   end
 
-  describe "#replace" do
-    subject { described_class.new a: 1 }
-
-    it "can use #replace to reorder the hash" do
-      subject.replace b: 1
-      expect(subject.b).to eq 1
-    end
-  end
-
   describe "#sort_by" do
     subject { described_class.new c: 3, b: 1, a: 2 }
 
     it "sorts the underlying hash" do
       sorted = subject.sort_by { |_k, v| v }
       expect(sorted.keys).to match_array [:b, :a, :c]
-    end
-  end
-
-  describe "#sort_by!" do
-    subject { described_class.new c: 3, b: 1, a: 2 }
-
-    it "sorts the underlying hash" do
-      subject.sort_by! { |_k, v| v }
-      expect(subject.keys).to match_array [:b, :a, :c]
     end
   end
 
