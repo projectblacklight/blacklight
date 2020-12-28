@@ -13,6 +13,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   let(:parameter_class) { ActionController::Parameters }
 
   before do
+    allow(controller).to receive(:controller_name).and_return('test')
     allow(helper).to receive(:search_action_path) do |*args|
       search_catalog_url *args
     end
