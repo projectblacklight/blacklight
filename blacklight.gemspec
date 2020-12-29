@@ -37,8 +37,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency "capybara", '~> 3'
-  s.add_development_dependency 'webdrivers', '~> 3.0'
-  s.add_development_dependency "selenium-webdriver", '>= 3.13.1'
+  s.add_development_dependency 'apparition'
   s.add_development_dependency 'engine_cart', '~> 2.1'
   s.add_development_dependency "equivalent-xml"
   s.add_development_dependency "simplecov"
