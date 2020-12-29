@@ -20,12 +20,17 @@ require 'rspec/rails'
 require 'rspec/its'
 require 'rspec/collection_matchers'
 require 'capybara/rspec'
-require 'selenium-webdriver'
+require 'capybara/apparition'
 require 'equivalent-xml'
-require 'webdrivers'
 
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :apparition
 Capybara.disable_animation = true
+# Capybara.enable_aria_label = true
+
+# Uncomment for a headed browser
+# Capybara.register_driver :apparition do |app|
+#   Capybara::Apparition::Driver.new(app, headless: false)
+# end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
