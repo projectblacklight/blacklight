@@ -168,12 +168,7 @@ RSpec.describe "Facets" do
   end
 
   it "is collapsed when not selected", js: true do
-    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
-
-    within('#facets .facets-header') do
-      page.find('button.navbar-toggler').click
-    end
 
     within(".blacklight-subject_ssim") do
       expect(page).not_to have_selector(".card-body", visible: true)
@@ -181,12 +176,7 @@ RSpec.describe "Facets" do
   end
 
   it "expands when the heading button is clicked", js: true do
-    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
-
-    within('#facets .facets-header') do
-      page.find('button.navbar-toggler').click
-    end
 
     within(".blacklight-subject_ssim") do
       expect(page).not_to have_selector(".card-body", visible: true)
@@ -196,12 +186,7 @@ RSpec.describe "Facets" do
   end
 
   it "expands when the button is clicked", js: true do
-    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
-
-    within('#facets .facets-header') do
-      page.find('button.navbar-toggler').click
-    end
 
     within(".blacklight-subject_ssim") do
       expect(page).not_to have_selector(".card-body", visible: true)
@@ -211,12 +196,7 @@ RSpec.describe "Facets" do
   end
 
   it "keeps selected facets expanded on page load", js: true do
-    skip("Test passes locally but not on Travis.") if ENV['TRAVIS']
     visit root_path
-
-    within('#facets .facets-header') do
-      page.find('button.navbar-toggler').click
-    end
 
     within(".blacklight-subject_ssim") do
       page.find('h3.facet-field-heading', text: 'Topic').click
