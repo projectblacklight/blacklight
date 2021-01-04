@@ -5,6 +5,7 @@ RSpec.describe "catalog/_document" do
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
+    allow(controller).to receive(:controller_name).and_return('test')
     allow(view).to receive(:render_grouped_response?).and_return(false)
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
     assign(:response, instance_double(Blacklight::Solr::Response, start: 20))

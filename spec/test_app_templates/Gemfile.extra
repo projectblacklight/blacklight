@@ -1,2 +1,2 @@
 gem 'rails-controller-testing'
-gem 'thor', '~> 0.20'
+gem 'thor', '~> 0.20' if /^5.[12]/.match?(ENV['RAILS_VERSION'])
