@@ -16,6 +16,8 @@ RSpec.describe "catalog/_thumbnail" do
   end
 
   before do
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(view)
     allow(controller).to receive(:action_name).and_return('index')
     assign :response, instance_double(Blacklight::Solr::Response, start: 0)
     allow(view).to receive(:render_grouped_response?).and_return false

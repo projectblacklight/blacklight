@@ -10,7 +10,7 @@ module Blacklight
       def initialize(presenter:, counter:)
         @presenter = presenter
         @counter = counter
-        @use_thumbnail_tag = @presenter.thumbnail != Blacklight::ThumbnailPresenter
+        @use_thumbnail_tag = !@presenter.thumbnail.instance_of?(Blacklight::ThumbnailPresenter)
       end
 
       def render?
