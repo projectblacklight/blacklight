@@ -109,7 +109,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     let(:facet) { { name: "foo", value: "bar", hits: 1 } }
 
     before do
-      response.merge_facet(facet)
+      response.merge_facet(**facet)
     end
 
     context "facet does not already exist" do

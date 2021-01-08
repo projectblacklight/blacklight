@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::ConstraintLayoutComponent, type: :component do
   subject(:render) do
-    render_inline(described_class.new(params))
+    render_inline(described_class.new(**params))
   end
 
   let(:rendered) do

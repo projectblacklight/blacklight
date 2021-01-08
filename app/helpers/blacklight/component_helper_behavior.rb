@@ -10,7 +10,7 @@ module Blacklight
     deprecation_deprecate :document_action_label
 
     # @deprecated
-    def document_action_path action_opts, url_opts = nil
+    def document_action_path action_opts, url_opts = {}
       if action_opts.path
         send(action_opts.path, url_opts)
       elsif url_opts[:id].class.respond_to?(:model_name)
