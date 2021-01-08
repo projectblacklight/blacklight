@@ -22,7 +22,7 @@ module Blacklight
           @query_constraint_component.new(
             search_state: @search_state,
             value: @search_state.query_param,
-            label: @view_context.constraint_query_label(@search_state.params),
+            label: label,
             remove_path: @view_context.remove_constraint_url(@search_state),
             classes: 'query'
           )
@@ -45,6 +45,12 @@ module Blacklight
     end
 
     private
+
+    def label
+      Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+        @view_context.constraint_query_label(@search_state.params)
+      end
+    end
 
     def facet_item_presenters
       Deprecation.silence(Blacklight::SearchState) do
