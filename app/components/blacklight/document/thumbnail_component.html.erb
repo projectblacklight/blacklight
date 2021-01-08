@@ -6,7 +6,7 @@
       <% warn_about_deprecated_behavior %>
       <%= value %>
     <% else %>
-      <%= @view_context.link_to_document(@presenter.document, value, 'aria-hidden': true, tabindex: -1, counter: @counter) %>
+      <%= helpers.link_to_document(@presenter.document, value, 'aria-hidden': true, tabindex: -1, counter: @counter) %>
     <% end %>
   </div>
 <% end %>
