@@ -101,12 +101,18 @@ Blacklight.modal.modalCloseSelector   = '[data-blacklight-modal~=close]';
 // Called on fatal failure of ajax load, function returns content
 // to show to user in modal.  Right now called only for extreme
 // network errors.
-Blacklight.modal.onFailure = function(data) {
-  var contents =  '<div class="modal-header">' +
-            '<div class="modal-title">Network Error</div>' +
+Blacklight.modal.onFailure = function(jqXHR, textStatus, errorThrown) {
+  console.error('Server error:', this.url, jqXHR.status, errorThrown);
+
+  var contents = '<div class="modal-header">' +
+            '<div class="modal-title">There was a problem with your request.</div>' +
             '<button type="button" class="blacklight-modal-close close" data-dismiss="modal" aria-label="Close">' +
             '  <span aria-hidden="true">&times;</span>' +
-            '</button>';
+            '</button></div>' +
+            ' <div class="modal-body"><p>Expected a successful response from the server, but got an error</p>' +
+            '<pre>' +
+            this.type + ' ' + this.url + "\n" + jqXHR.status + ': ' + errorThrown +
+            '</pre></div>';
   $(Blacklight.modal.modalSelector).find('.modal-content').html(contents);
   $(Blacklight.modal.modalSelector).modal('show');
 }
