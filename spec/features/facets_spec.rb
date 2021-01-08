@@ -79,6 +79,16 @@ RSpec.describe "Facets" do
     expect(page).to have_css('.constraint-value', text: 'Language Tibetan')
   end
 
+  describe 'heading button focus with Firefox' do
+    it 'changes to the button on button click in Firefox' do
+      pending 'Capybara::NotSupportedByDriverError: Capybara::Driver::Base#evaluate_script'
+      visit root_path
+      page.find('h3.facet-field-heading button', text: 'Format').click
+      focused_element_data_target = page.evaluate_script("document.activeElement")['data-target']
+      expect(focused_element_data_target).to eq '#facet-format'
+    end
+  end
+
   describe '"More" links' do
     it 'has default more link with sr-only text' do
       visit root_path
