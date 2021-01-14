@@ -26,6 +26,7 @@ module Blacklight
                    id: nil, classes: [], component: :article, title_component: :h4,
                    metadata_component: Blacklight::DocumentMetadataComponent,
                    embed_component: nil,
+                   thumbnail_component: Blacklight::Document::ThumbnailComponent,
                    counter: nil, document_counter: nil, counter_offset: 0,
                    show: false)
       if presenter.nil? && document.nil?
@@ -42,6 +43,7 @@ module Blacklight
 
       @embed_component = embed_component
       @metadata_component = metadata_component
+      @thumbnail_component = thumbnail_component
 
       @document_counter = document_counter
       @counter = counter
@@ -85,9 +87,12 @@ module Blacklight
     # Content for the document thumbnail area
     def thumbnail
       return super if block_given?
+      return @thumbnail if @thumbnail
+
       return if @show
 
-      @thumbnail || render(Blacklight::Document::ThumbnailComponent.new(presenter: presenter, counter: @counter))
+      component = @thumbnail_component || presenter.view_config.thumbnail_component
+      render(component.new(presenter: presenter, counter: @counter))
     end
 
     # Content for the document metadata area

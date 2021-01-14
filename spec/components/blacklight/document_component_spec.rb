@@ -151,4 +151,19 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     expect(rendered).to have_selector 'dd', text: 'Title'
     expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
   end
+
+  context 'with a thumbnail component' do
+    let(:attr) { { thumbnail_component: thumbnail_component_class } }
+    let(:thumbnail_component_class) do
+      Class.new(ViewComponent::Base) do
+        def render_in(view_context)
+          view_context.capture { 'Thumb!' }
+        end
+      end
+    end
+
+    it 'uses the provided thumbnail component' do
+      expect(rendered).to have_content 'Thumb!'
+    end
+  end
 end
