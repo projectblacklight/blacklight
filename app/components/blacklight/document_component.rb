@@ -85,14 +85,14 @@ module Blacklight
     end
 
     # Content for the document thumbnail area
-    def thumbnail
+    def thumbnail(image_options = {})
       return super if block_given?
       return @thumbnail if @thumbnail
 
       return if @show
 
       component = @thumbnail_component || presenter.view_config.thumbnail_component
-      render(component.new(presenter: presenter, counter: @counter))
+      render(component.new(presenter: presenter, counter: @counter, image_options: image_options))
     end
 
     # Content for the document metadata area
