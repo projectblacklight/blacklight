@@ -6,7 +6,7 @@ module Blacklight
 
     def normalize! blacklight_config = nil
       super
-      self.field ||= label.try(:parameterize)
+      self.field ||= label&.parameterize
       self.field ||= sort
 
       self.sort ||= self.field
