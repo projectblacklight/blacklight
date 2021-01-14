@@ -47,4 +47,17 @@ RSpec.describe Blacklight::DocumentPresenter do
       expect(presenter.field_value(field_config, options)).to eq 'abc'
     end
   end
+
+  describe '#thumbnail' do
+    it 'returns a thumbnail presenter' do
+      expect(presenter.thumbnail).to be_a_kind_of(Blacklight::ThumbnailPresenter)
+    end
+
+    it 'use the configured thumbnail presenter' do
+      custom_presenter_class = Class.new(Blacklight::ThumbnailPresenter)
+      blacklight_config.index.thumbnail_presenter = custom_presenter_class
+
+      expect(presenter.thumbnail).to be_a_kind_of custom_presenter_class
+    end
+  end
 end

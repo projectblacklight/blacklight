@@ -97,8 +97,12 @@ module Blacklight
       field_presenter(field_config, options).render
     end
 
+    def thumbnail_presenter_class
+      view_config.thumbnail_presenter || thumbnail_presenter
+    end
+
     def thumbnail
-      @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config)
+      @thumbnail ||= thumbnail_presenter_class.new(document, view_context, view_config)
     end
 
     ##
