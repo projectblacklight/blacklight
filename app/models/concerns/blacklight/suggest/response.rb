@@ -22,7 +22,7 @@ module Blacklight
       # present
       # @return [Array]
       def suggestions
-        (response.try(:[], suggest_path).try(:[], suggester_name).try(:[], request_params[:q]).try(:[], 'suggestions') || []).uniq
+        (response.dig(suggest_path, suggester_name, request_params[:q], 'suggestions') || []).uniq
       end
     end
   end

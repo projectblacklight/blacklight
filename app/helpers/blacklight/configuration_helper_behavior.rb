@@ -189,7 +189,7 @@ module Blacklight::ConfigurationHelperBehavior
 
     field = fields.first if document.nil?
     field ||= fields.find { |f| document.has? f }
-    field &&= field.try(:to_sym)
+    field &&= field&.to_sym
 
     field
   end
@@ -198,7 +198,7 @@ module Blacklight::ConfigurationHelperBehavior
   ##
   # Default sort field
   def default_sort_field
-    (active_sort_fields.find { |_k, config| config.respond_to?(:default) && config.default } || active_sort_fields.first).try(:last)
+    (active_sort_fields.find { |_k, config| config.respond_to?(:default) && config.default } || active_sort_fields.first)&.last
   end
 
   ##

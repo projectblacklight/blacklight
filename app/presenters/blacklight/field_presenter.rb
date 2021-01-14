@@ -30,7 +30,7 @@ module Blacklight
     end
 
     attr_reader :view_context, :document, :field_config, :except_operations, :options
-    delegate :key, to: :field_config
+    delegate :key, :component, to: :field_config
 
     # @return [String]
     def render

@@ -180,7 +180,7 @@ module Blacklight::FacetsHelperBehavior
   # @return [String]
   def facet_partial_name(display_facet = nil)
     config = facet_configuration_for_field(display_facet.name)
-    name = config.try(:partial)
+    name = config.partial
     name ||= "facet_pivot" if config.pivot
     name || "facet_limit"
   end

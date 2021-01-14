@@ -15,7 +15,7 @@ module Blacklight
     end
 
     def field_component(field)
-      field.try(:component) || Blacklight::MetadataFieldComponent
+      field&.component || Blacklight::MetadataFieldComponent
     end
   end
 end
