@@ -38,7 +38,7 @@ module Blacklight::SearchContext
   end
 
   def find_search_session
-    if agent_is_crawler?
+    if agent_is_crawler? || skip_session_tracking?
       nil
     elsif params[:search_context].present?
       find_or_initialize_search_session_from_params JSON.parse(params[:search_context])
@@ -76,6 +76,13 @@ module Blacklight::SearchContext
     return false if crawler_proc.nil? || current_user.present?
 
     crawler_proc.call(request)
+  end
+
+  def skip_session_tracking?
+    skip_session_proc = blacklight_config.skip_session_tracking
+    return false if skip_session_proc.nil?
+
+    skip_session_proc.call(request, params)
   end
 
   def find_or_initialize_search_session_from_params params
