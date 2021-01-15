@@ -259,6 +259,17 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe 'with multi-valued facets' do
+      let(:user_params) { { f_inclusive: { format: %w[Book Movie CD] } } }
+
+      it "has proper solr parameters" do
+        expect(subject[:fq]).to include('{!lucene}{!query v=$f_inclusive.format.0} OR {!query v=$f_inclusive.format.1} OR {!query v=$f_inclusive.format.2}')
+        expect(subject['f_inclusive.format.0']).to eq '{!term f=format}Book'
+        expect(subject['f_inclusive.format.1']).to eq '{!term f=format}Movie'
+        expect(subject['f_inclusive.format.2']).to eq '{!term f=format}CD'
+      end
+    end
+
     describe "solr parameters for a field search from config (subject)" do
       let(:user_params) { subject_search_params }
 
@@ -721,6 +732,23 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
     it "does not add an !ex local parameter if it isn't configured" do
       expect(subject.with_ex_local_param(nil, "some-value")).to eq "some-value"
+    end
+  end
+
+  context 'with advanced search clause parameters' do
+    before do
+      blacklight_config.search_fields.each_value do |v|
+        v.clause_params = { edismax: v.solr_parameters.dup }
+      end
+    end
+
+    let(:user_params) { { op: 'must', clause: { '0': { field: 'title', query: 'the book' }, '1': { field: 'author', query: 'the person' } } } }
+
+    it "has proper solr parameters" do
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :query)).to eq 'the book'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :qf)).to eq '${title_qf}'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :query)).to eq 'the person'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :qf)).to eq '${author_qf}'
     end
   end
 end

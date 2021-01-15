@@ -82,12 +82,16 @@ module Blacklight
 
     def has_constraints?
       Deprecation.silence(Blacklight::SearchState) do
-        !(query_param.blank? && filter_params.blank? && filters.blank?)
+        !(query_param.blank? && filter_params.blank? && filters.blank? && clause_params.blank?)
       end
     end
 
     def query_param
       params[:q]
+    end
+
+    def clause_params
+      params[:clause] || {}
     end
 
     def filter_params

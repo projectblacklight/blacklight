@@ -301,6 +301,15 @@ RSpec.describe CatalogController, api: true do
     end
   end
 
+  describe 'GET advanced_search' do
+    it 'renders an advanced search form' do
+      get :advanced_search
+      expect(response).to be_successful
+
+      assert_facets_have_values(assigns(:response).aggregations)
+    end
+  end
+
   # SHOW ACTION
   describe "show action" do
     describe "with format :html" do

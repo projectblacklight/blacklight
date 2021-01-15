@@ -1,0 +1,7 @@
+<%= render(Blacklight::AdvancedSearchFormComponent.new(
+      url: search_action_url,
+      classes: ['advanced', 'form-horizontal'],
+      params: search_state.params_for_search.except(:qt),
+      search_fields: Deprecation.silence(Blacklight::ConfigurationHelperBehavior) { search_fields },
+      response: @response
+    )) %>

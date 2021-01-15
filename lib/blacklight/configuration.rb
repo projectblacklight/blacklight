@@ -132,7 +132,8 @@ module Blacklight
           crawler_detector: nil,
           autocomplete_suggester: 'mySuggester',
           raw_endpoint: OpenStructWithHashAccess.new(enabled: false),
-          track_search_session: true
+          track_search_session: true,
+          advanced_search: OpenStruct.new(enabled: false)
           }
         end
         # rubocop:enable Metrics/MethodLength

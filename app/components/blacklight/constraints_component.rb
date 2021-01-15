@@ -15,23 +15,25 @@ module Blacklight
     end
 
     def query_constraints
-      return if @search_state.query_param.blank?
-
       Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        @view_context.render(
-          @query_constraint_component.new(
-            search_state: @search_state,
-            value: @search_state.query_param,
-            label: label,
-            remove_path: @view_context.remove_constraint_url(@search_state),
-            classes: 'query'
+        if @search_state.query_param.present?
+          @view_context.render(
+            @query_constraint_component.new(
+              search_state: @search_state,
+              value: @search_state.query_param,
+              label: label,
+              remove_path: @view_context.remove_constraint_url(@search_state),
+              classes: 'query'
+            )
           )
-        )
-      end
+        else
+          ''.html_safe
+        end
+      end + @view_context.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
     end
 
     def facet_constraints
-      @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters))
+      @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
     end
 
     def start_over_path
@@ -53,21 +55,38 @@ module Blacklight
     end
 
     def facet_item_presenters
-      Deprecation.silence(Blacklight::SearchState) do
-        @search_state.filter_params.each_pair.flat_map do |facet, values|
-          facet_config = @view_context.facet_configuration_for_field(facet)
+      return to_enum(:facet_item_presenters) unless block_given?
 
-          Array(values).map do |val|
+      Deprecation.silence(Blacklight::SearchState) do
+        @search_state.filters.map do |facet|
+          facet.values.map do |val|
             next if val.blank? # skip empty string
 
-            facet_item_presenter(facet_config, val, facet)
+            if val.is_a?(Array)
+              yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
+            else
+              yield facet_item_presenter(facet.config, val, facet.key)
+            end
           end
         end
       end
     end
 
+    def clause_presenters
+      return to_enum(:clause_presenters) unless block_given?
+
+      @search_state.clause_params.each do |key, clause|
+        field_config = @view_context.blacklight_config.search_fields[clause[:field]]
+        yield Blacklight::ClausePresenter.new(key, clause, field_config, @view_context)
+      end
+    end
+
     def facet_item_presenter(facet_config, facet_item, facet_field)
       Blacklight::FacetItemPresenter.new(facet_item, facet_config, @view_context, facet_field)
+    end
+
+    def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
+      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, @view_context, facet_field)
     end
   end
 end

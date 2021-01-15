@@ -88,8 +88,8 @@ module Blacklight::RenderConstraintsHelperBehavior
       return "".html_safe if search_state.filter_params.blank?
 
       Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        safe_join(search_state.filter_params.each_pair.map do |facet, values|
-          render_filter_element(facet, values, search_state)
+        safe_join(search_state.filters.map do |field|
+          render_filter_element(field.key, field.values, search_state)
         end, "\n")
       end
     end

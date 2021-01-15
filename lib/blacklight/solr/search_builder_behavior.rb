@@ -8,7 +8,8 @@ module Blacklight::Solr
         :default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr,
         :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
         :add_sorting_to_solr, :add_group_config_to_solr,
-        :add_facet_paging_to_solr
+        :add_facet_paging_to_solr, :add_adv_search_clauses,
+        :add_additional_filters
       ]
     end
 
@@ -61,10 +62,60 @@ module Blacklight::Solr
       elsif search_field&.solr_local_parameters.present?
         add_search_field_with_local_parameters(solr_parameters)
       elsif search_state.query_param.is_a? Hash
-        add_multifield_search_query(solr_parameters)
-      elsif blacklight_params[:q]
+        add_additional_filters(solr_parameters, search_state.query_param)
+      elsif search_state.query_param
         solr_parameters[:q] = search_state.query_param
       end
+    end
+
+    def add_additional_filters(solr_parameters, additional_filters = nil)
+      q = additional_filters || @additional_filters
+
+      return if q.blank?
+
+      solr_parameters[:q] = if q.values.any?(&:blank?)
+                              # if any field parameters are empty, exclude _all_ results
+                              "{!lucene}NOT *:*"
+                            else
+                              "{!lucene}" + q.map do |field, values|
+                                "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
+                              end.join(" AND ")
+                            end
+
+      solr_parameters[:defType] = 'lucene'
+      solr_parameters[:spellcheck] = 'false'
+    end
+
+    # Transform "clause" parameters into the Solr JSON Query DSL
+    def add_adv_search_clauses(solr_parameters)
+      return if search_state.clause_params.blank?
+
+      defaults = { must: [], must_not: [], should: [] }
+      bool_query = (solr_parameters.dig(:json, :query, :bool) || {}).reverse_merge(defaults)
+
+      default_op = blacklight_params[:op]&.to_sym || :must
+
+      search_state.clause_params.each_value do |clause|
+        op, query = adv_search_clause(clause, default_op)
+        bool_query[op] << query if defaults.key?(op) && query
+      end
+
+      return if bool_query.values.all?(&:blank?)
+
+      solr_parameters[:mm] = 1 if default_op == :should
+      solr_parameters[:json] ||= { query: { bool: {} } }
+      solr_parameters[:json][:query] ||= { bool: {} }
+      solr_parameters[:json][:query][:bool] = bool_query.reject { |_k, v| v.blank? }
+    end
+
+    # @return [Array] the first element is the query operator and the second is the value to add
+    def adv_search_clause(clause, default_op)
+      op = clause[:op]&.to_sym || default_op
+      field = (blacklight_config.search_fields || {})[clause[:field]] if clause[:field]
+
+      return unless field&.clause_params && clause[:query].present?
+
+      [op, field.clause_params.transform_values { |v| v.merge(query: clause[:query]) }]
     end
 
     ##
@@ -84,8 +135,13 @@ module Blacklight::Solr
           solr_parameters.merge!(subqueries) if subqueries
         else
           filter.values.reject(&:blank?).each do |value|
-            filter_query, subqueries = facet_value_to_fq_string(filter.config.key, value)
-            solr_parameters.append_filter_query(filter_query)
+            filter_query, subqueries = if value.is_a?(Array)
+                                         facet_inclusive_value_to_fq_string(filter.key, value.reject(&:blank?))
+                                       else
+                                         facet_value_to_fq_string(filter.config.key, value)
+                                       end
+
+            solr_parameters.append_filter_query filter_query
             solr_parameters.merge!(subqueries) if subqueries
           end
         end
@@ -250,16 +306,17 @@ module Blacklight::Solr
 
     ##
     # Convert a facet/value pair into a solr fq parameter
-    def facet_value_to_fq_string(facet_field, value)
+    def facet_value_to_fq_string(facet_field, value, use_local_params: true)
       facet_config = blacklight_config.facet_fields[facet_field]
 
       solr_field = facet_config.field if facet_config && !facet_config.query
       solr_field ||= facet_field
 
       local_params = []
-      local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
 
-      prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
+      if use_local_params
+        local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
+      end
 
       if facet_config && facet_config.query
         if facet_config.query[value]
@@ -269,10 +326,32 @@ module Blacklight::Solr
           '-*:*'
         end
       elsif value.is_a?(Range)
+        prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
         "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
       else
         "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
       end
+    end
+
+    def facet_inclusive_value_to_fq_string(facet_field, values)
+      return if values.blank?
+
+      return facet_value_to_fq_string(facet_field, values.first) if values.length == 1
+
+      facet_config = blacklight_config.facet_fields[facet_field]
+
+      local_params = []
+      local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
+
+      solr_filters = values.each_with_object({}).with_index do |(v, h), index|
+        h["f_inclusive.#{facet_field}.#{index}"] = facet_value_to_fq_string(facet_field, v, use_local_params: false)
+      end
+
+      filter_query = solr_filters.keys.map do |k|
+        "{!query v=$#{k}}"
+      end.join(' OR ')
+
+      ["{!lucene#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{filter_query}", solr_filters]
     end
 
     def convert_to_term_value(value)
@@ -321,21 +400,6 @@ module Blacklight::Solr
       # our local params, otherwise it'll try and spellcheck the local
       # params!
       solr_parameters["spellcheck.q"] ||= search_state.query_param
-    end
-
-    def add_multifield_search_query(solr_parameters)
-      q = search_state.query_param
-      solr_parameters[:q] = if q.values.any?(&:blank?)
-                              # if any field parameters are empty, exclude _all_ results
-                              "{!lucene}NOT *:*"
-                            else
-                              "{!lucene}" + q.map do |field, values|
-                                "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
-                              end.join(" AND ")
-                            end
-
-      solr_parameters[:defType] = 'lucene'
-      solr_parameters[:spellcheck] = 'false'
     end
   end
 end

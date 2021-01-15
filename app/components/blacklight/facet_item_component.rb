@@ -103,6 +103,8 @@ module Blacklight
     def render_facet_count(options = {})
       return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
 
+      return '' if @hits.blank?
+
       classes = (options[:classes] || []) << "facet-count"
       tag.span(t('blacklight.search.facets.count', number: number_with_delimiter(@hits)), class: classes)
     end
