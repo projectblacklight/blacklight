@@ -1,4 +1,4 @@
-<% value = @use_thumbnail_tag ? @presenter.thumbnail.thumbnail_tag({ alt: '' }, 'aria-hidden': true, tabindex: -1, counter: @counter) : @presenter.thumbnail.render({ alt: '' }) %>
+<% value = @use_thumbnail_tag ? @presenter.thumbnail.thumbnail_tag(@image_options, 'aria-hidden': true, tabindex: -1, counter: @counter) : @presenter.thumbnail.render(@image_options) %>
 
 <% if value %>
   <div class="document-thumbnail">

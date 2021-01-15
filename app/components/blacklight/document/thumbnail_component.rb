@@ -7,9 +7,12 @@ module Blacklight
       with_collection_parameter :presenter
 
       # @param [Blacklight::DocumentPresenter] presenter
-      def initialize(presenter:, counter:)
+      # @param [Integer] counter
+      # @param [Hash] image_options options for the thumbnail presenter's image tag
+      def initialize(presenter:, counter:, image_options: {})
         @presenter = presenter
         @counter = counter
+        @image_options = { alt: '' }.merge(image_options)
         @use_thumbnail_tag = !@presenter.thumbnail.instance_of?(Blacklight::ThumbnailPresenter)
       end
 
