@@ -25,6 +25,9 @@ es:
     and: 'y'
     or: 'o'
 
+    modal:
+      close: cerca
+
     bookmarks:
       title: 'Favoritos'
       page_title: 'Favoritos - %{application_name}'
