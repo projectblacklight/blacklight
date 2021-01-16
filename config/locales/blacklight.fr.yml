@@ -25,6 +25,9 @@ fr:
     and: 'et'
     or: 'ou'
 
+    modal:
+      close: Fermer
+
     bookmarks:
       title: 'Favoris'
       page_title: 'Favoris - %{application_name}'

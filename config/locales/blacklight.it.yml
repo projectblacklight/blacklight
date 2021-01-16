@@ -25,6 +25,9 @@ it:
     and: 'e'
     or: 'o'
 
+    modal:
+      close: Vicino
+
     bookmarks:
       title: 'Preferiti'
       page_title: 'Preferiti - %{application_name}'

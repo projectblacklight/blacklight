@@ -25,6 +25,9 @@ de:
     and: 'und'
     or: 'oder'
 
+    modal:
+      close: Schließen
+
     bookmarks:
       title: 'Lesezeichen'
       page_title: 'Lesezeichen - %{application_name}'

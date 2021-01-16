@@ -25,6 +25,9 @@ pt-BR:
     and: 'e'
     or: 'ou'
 
+    modal:
+      close: Fechar
+
     bookmarks:
       title: 'Favoritos'
       page_title: 'Favoritos - %{application_name}'
