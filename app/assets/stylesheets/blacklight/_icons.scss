@@ -14,8 +14,12 @@
 
 .btn.btn-icon {
   padding: $btn-padding-y;
-  
+
   &.btn-sm {
     padding: $btn-padding-y-sm;
   }
+}
+
+.remove-icon {
+  font-family: $remove-icon-font-family;
 }
