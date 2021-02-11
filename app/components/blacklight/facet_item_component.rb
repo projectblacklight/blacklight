@@ -86,8 +86,8 @@ module Blacklight
         tag.span(@label, class: "selected") +
           # remove link
           link_to(@href, class: "remove") do
-            tag.span('✖', class: "remove-icon") +
-              tag.span('[remove]', class: 'sr-only')
+            tag.span('✖', class: "remove-icon", aria: { hidden: true }) +
+              tag.span(@view_context.t(:'blacklight.search.facets.selected.remove'), class: 'sr-only')
           end
       end + render_facet_count(classes: ["selected"])
     end
