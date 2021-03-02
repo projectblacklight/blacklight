@@ -145,4 +145,12 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
       expect(copy.b[:c]).to eq 2
     end
   end
+
+  describe "#try" do
+    subject { described_class.new a: 1 }
+
+    it "works (and doesn't throw a stack error...)" do
+      expect(subject.try(:a)).to eq 1
+    end
+  end
 end
