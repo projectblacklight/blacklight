@@ -101,9 +101,9 @@ module Blacklight::ConfigurationHelperBehavior
 
   # Return the label for a search view
   # @return [String]
-  def view_label view
+  def view_label(view)
     view_config = blacklight_config.view[view]
-    view_config.display_label(view)
+    view_config.display_label
   end
   deprecation_deprecate view_label: 'Moving to ViewConfig#display_label and Blacklight::Response::ViewTypeComponent'
 
