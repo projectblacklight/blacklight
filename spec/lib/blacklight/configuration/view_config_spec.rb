@@ -9,7 +9,7 @@ RSpec.describe Blacklight::Configuration::ViewConfig do
   describe '#display_label' do
     it "looks up the label to display for the given document and field" do
       allow(I18n).to receive(:t).with(:"blacklight.search.view_title.my_view", default: [:"blacklight.search.view.my_view", label, nil, "My view"]).and_return('x')
-      expect(subject.display_label(key)).to eq 'x'
+      expect(subject.display_label).to eq 'x'
     end
   end
 end
