@@ -18,7 +18,7 @@ class Blacklight::Configuration
     end
 
     def display_label(deprecated_key = nil, **options)
-      Deprecation.warn('Passing the key argument to ViewConfig#display_label is deprecated')
+      Deprecation.warn('Passing the key argument to ViewConfig#display_label is deprecated') if deprecated_key.present?
 
       I18n.t(
         :"blacklight.search.view_title.#{deprecated_key || key}",
