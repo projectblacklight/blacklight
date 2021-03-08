@@ -361,9 +361,11 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Override this method if you want to use a differnet presenter for your documents
+  # Override this method if you want to use a different presenter for your documents
   def document_presenter_class(document)
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
+      return index_presenter_class(document) unless controller.is_a? Blacklight::Catalog
+
       case action_name
       when 'show', 'citation'
         show_presenter_class(document)
