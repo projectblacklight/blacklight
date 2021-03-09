@@ -38,6 +38,10 @@ class Blacklight::Configuration
       def document_presenter_class
         super || Blacklight::ShowPresenter
       end
+
+      def to_h
+        super.merge(document_presenter_class: document_presenter_class)
+      end
     end
 
     class Index < ViewConfig
@@ -51,6 +55,10 @@ class Blacklight::Configuration
 
       def document_presenter_class
         super || Blacklight::IndexPresenter
+      end
+
+      def to_h
+        super.merge(document_presenter_class: document_presenter_class)
       end
     end
   end

@@ -557,4 +557,68 @@ RSpec.describe "Blacklight::Configuration", api: true do
       expect(config.facet_paginator_class).to eq Blacklight::Solr::FacetPaginator
     end
   end
+
+  describe '#view_config' do
+    before do
+      config.index.title_field = 'title_tsim'
+    end
+
+    context 'with a view that does not exist' do
+      it 'defaults to the index config' do
+        expect(config.view_config('this-doesnt-exist')).to have_attributes config.index.to_h
+      end
+    end
+
+    context 'with the :show view' do
+      it 'includes the show config' do
+        expect(config.view_config(:show)).to have_attributes config.show.to_h
+      end
+
+      it 'uses the show document presenter' do
+        expect(config.view_config(:show)).to have_attributes document_presenter_class: Blacklight::ShowPresenter
+      end
+
+      it 'includes index config defaults' do
+        expect(config.view_config(:show)).to have_attributes title_field: 'title_tsim'
+      end
+    end
+
+    context 'with just an action name' do
+      it 'includes the action config' do
+        expect(config.view_config(action_name: :show)).to have_attributes config.show.to_h
+      end
+
+      it 'includes the default action mapping configuration' do
+        config.action_mapping.default.whatever = :some_value
+
+        expect(config.view_config(action_name: :show)).to have_attributes whatever: :some_value
+      end
+
+      it 'includes the action-specific mappings' do
+        config.action_mapping.foo.document_presenter_class = Blacklight::DocumentPresenter
+
+        expect(config.view_config(action_name: :foo)).to have_attributes config.action_mapping.foo.to_h
+      end
+
+      it 'allows the action mapping to specific a parent configuration with some more defaults' do
+        config.action_mapping.foo.parent_config = :bar
+        config.action_mapping.bar.whatever = :bar_value
+
+        expect(config.view_config(action_name: :foo)).to have_attributes whatever: :bar_value
+      end
+
+      context 'with the :citation action' do
+        it 'also includes the show config' do
+          expect(config.view_config(action_name: :citation)).to have_attributes config.show.to_h
+        end
+      end
+    end
+
+    context 'with a view' do
+      it 'includes the configuration-level view parameters' do
+        expect(config.view_config(:atom)).to have_attributes config.index.to_h.except(:partials)
+        expect(config.view_config(:atom)).to have_attributes partials: [:document]
+      end
+    end
+  end
 end

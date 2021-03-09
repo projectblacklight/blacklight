@@ -94,11 +94,11 @@ module Blacklight
     end
 
     def show_doc_actions?(document = @document, options = {})
-      filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).any?
+      filter_partials(blacklight_config.view_config(:show).document_actions, { document: document }.merge(options)).any?
     end
 
     def document_actions(document, options: {})
-      filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).map { |_k, v| v }
+      filter_partials(blacklight_config.view_config(:show).document_actions, { document: document }.merge(options)).map { |_k, v| v }
     end
 
     private

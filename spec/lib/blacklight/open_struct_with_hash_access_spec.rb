@@ -123,6 +123,18 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     end
   end
 
+  describe '#reverse_merge' do
+    before do
+      @h = described_class.new
+      @h[:a] = 1
+      @h[:b] = 2
+    end
+
+    it 'reverse merges the object with the hash, preserving the object class' do
+      expect(@h.reverse_merge(b: 3, c: 4)).to have_attributes a: 1, b: 2, c: 4
+    end
+  end
+
   describe "#to_json" do
     subject { described_class.new a: 1, b: 2 }
 

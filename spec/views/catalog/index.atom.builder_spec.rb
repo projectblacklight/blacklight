@@ -12,7 +12,7 @@ RSpec.describe "catalog/index" do
     end
   end
 
-  let(:blacklight_config) { CatalogController.blacklight_config }
+  let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
 
   before do
     @response = Blacklight::Solr::Response.new({ response: { numFound: 30 } }, start: 10, rows: 10)

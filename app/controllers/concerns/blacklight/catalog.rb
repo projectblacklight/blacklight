@@ -198,7 +198,7 @@ module Blacklight::Catalog
   # @example
   #   config.index.respond_to.txt = Proc.new { render plain: "A list of docs." }
   def additional_response_formats(format)
-    blacklight_config.index.respond_to.each do |key, config|
+    blacklight_config.view_config(action_name: :index).respond_to.each do |key, config|
       format.send key do
         case config
         when false
