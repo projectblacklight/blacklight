@@ -44,6 +44,10 @@ module Blacklight
       @table.merge!((other_hash if other_hash.is_a? Hash) || other_hash.to_h)
     end
 
+    def reverse_merge(other_hash)
+      self.class.new to_h.reverse_merge((other_hash if other_hash.is_a? Hash) || other_hash.to_h)
+    end
+
     def deep_dup
       self.class.new @table.deep_dup
     end
