@@ -46,7 +46,11 @@ module Blacklight
     private
 
     def presenter
-      @presenter ||= blacklight_config.index.search_bar_presenter_class.new(controller, blacklight_config)
+      @presenter ||= presenter_class.new(controller, blacklight_config)
+    end
+
+    def presenter_class
+      blacklight_config.view_config(action_name: :index).search_bar_presenter_class
     end
 
     def blacklight_config
