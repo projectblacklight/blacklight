@@ -6,7 +6,7 @@ module Blacklight
     class ActionsComponent < ::ViewComponent::Base
       # @param [Blacklight::Document] document
       # rubocop:disable Metrics/ParameterLists
-      def initialize(document: nil, actions: [], options: {}, url_opts: nil, tag: :div, classes: 'index-document-functions', wrapping_tag: nil, wrapping_classes: nil)
+      def initialize(document: nil, actions: [], options: {}, url_opts: nil, tag: :div, classes: 'index-document-functions', wrapping_tag: nil, wrapping_classes: nil, link_classes: 'nav-link')
         @document = document
         @actions = actions
         @tag = tag
@@ -15,6 +15,7 @@ module Blacklight
         @url_opts = url_opts
         @wrapping_tag = wrapping_tag
         @wrapping_classes = wrapping_classes
+        @link_classes = link_classes
       end
       # rubocop:enable Metrics/ParameterLists
 
