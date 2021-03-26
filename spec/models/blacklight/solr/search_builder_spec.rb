@@ -321,6 +321,38 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe "solr json query parameters from the fielded search" do
+      let(:user_params) { subject_search_params }
+
+      before do
+        blacklight_config.search_fields['subject'].solr_parameters = {
+          some: :parameter
+        }
+
+        blacklight_config.search_fields['subject'].clause_params = {
+          edismax: {
+            another: :parameter
+          }
+        }
+      end
+
+      it 'sets solr parameters from the field' do
+        expect(subject[:some]).to eq :parameter
+      end
+
+      it 'does not set a q parameter' do
+        expect(subject).not_to have_key :q
+      end
+
+      it 'includes the user query in the JSON query DSL request' do
+        expect(subject.dig(:json, :query, :bool, :must, 0, :edismax)).to include query: 'wome'
+      end
+
+      it 'includes addtional clause parameters for the field' do
+        expect(subject.dig(:json, :query, :bool, :must, 0, :edismax)).to include another: :parameter
+      end
+    end
+
     describe "overriding of qt parameter" do
       let(:user_params) do
         { qt: 'overridden' }

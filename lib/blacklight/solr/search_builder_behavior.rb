@@ -59,6 +59,8 @@ module Blacklight::Solr
       ##
       if search_field&.query_builder.present?
         add_search_field_query_builder_params(solr_parameters)
+      elsif search_field&.clause_params.present?
+        add_search_field_with_json_query_parameters(solr_parameters)
       elsif search_field&.solr_local_parameters.present?
         add_search_field_with_local_parameters(solr_parameters)
       elsif search_state.query_param.is_a? Hash
@@ -84,6 +86,14 @@ module Blacklight::Solr
 
       solr_parameters[:defType] = 'lucene'
       solr_parameters[:spellcheck] = 'false'
+    end
+
+    def add_search_field_with_json_query_parameters(solr_parameters)
+      bool_query = search_field.clause_params.transform_values { |v| v.merge(query: search_state.query_param) }
+
+      solr_parameters[:json] ||= { query: { bool: { must: [] } } }
+      solr_parameters[:json][:query] ||= { bool: { must: [] } }
+      solr_parameters[:json][:query][:bool][:must] << bool_query
     end
 
     # Transform "clause" parameters into the Solr JSON Query DSL
