@@ -182,18 +182,17 @@ module Blacklight::Solr::Response::Facets
 
   def facet_field_aggregation_options(facet_field_name)
     options = {}
-    options[:sort] = (params[:"f.#{facet_field_name}.facet.sort"] || params[:'facet.sort'])
-    if params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]
-      options[:limit] = (params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]).to_i
-    end
+    options[:sort] = (single_valued_param(:"f.#{facet_field_name}.facet.sort") || single_valued_param(:'facet.sort'))
 
-    if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
-      options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
-    end
+    limit = single_valued_param(:"f.#{facet_field_name}.facet.limit") || single_valued_param(:"facet.limit")
+    options[:limit] = limit.to_i if limit.present?
 
-    if params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix']
-      options[:prefix] = (params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix'])
-    end
+    offset = single_valued_param(:"f.#{facet_field_name}.facet.offset") || single_valued_param(:"facet.offset")
+    options[:offset] = offset.to_i if offset.present?
+
+    prefix = single_valued_param(:"f.#{facet_field_name}.facet.prefix") || single_valued_param(:"facet.prefix")
+    options[:prefix] = prefix if prefix
+
     options
   end
 

@@ -120,6 +120,16 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     expect(r.params['test']).to eq :test
   end
 
+  it 'extracts json params' do
+    raw_response = eval(mock_query_response)
+    raw_response['responseHeader']['params']['test'] = 'from query'
+    raw_response['responseHeader']['params'].delete('rows')
+    raw_response['responseHeader']['params']['json'] = { limit: 5, params: { test: 'from json params' } }.to_json
+    r = described_class.new(raw_response, raw_response['params'])
+    expect(r.params['test']).to eq 'from query'
+    expect(r.rows).to eq 5
+  end
+
   it 'provides the solr-returned params and "rows" should be 11' do
     raw_response = eval(mock_query_response)
     r = described_class.new(raw_response, {})
