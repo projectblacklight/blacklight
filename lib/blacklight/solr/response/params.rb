@@ -15,15 +15,15 @@ module Blacklight::Solr::Response::Params
   end
 
   def start
-    single_valued_param(:start).to_i
+    search_builder&.start || single_valued_param(:start).to_i
   end
 
   def rows
-    single_valued_param(:rows).to_i
+    search_builder&.rows || single_valued_param(:rows).to_i
   end
 
   def sort
-    single_valued_param(:sort)
+    search_builder&.sort || single_valued_param(:sort)
   end
 
   def facet_field_aggregation_options(facet_field_name)
@@ -42,6 +42,10 @@ module Blacklight::Solr::Response::Params
   end
 
   private
+
+  def search_builder
+    request_params if request_params.is_a?(Blacklight::SearchBuilder)
+  end
 
   # Extract JSON Request API parameters from the response header or the request itself
   def json_params
