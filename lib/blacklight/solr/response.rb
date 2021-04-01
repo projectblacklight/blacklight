@@ -9,6 +9,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
     autoload :MoreLikeThis
     autoload :GroupResponse
     autoload :Group
+    autoload :Params
   end
 
   include PaginationMethods
@@ -16,6 +17,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   include Facets
   include Response
   include MoreLikeThis
+  include Params
 
   attr_reader :request_params
   attr_accessor :blacklight_config, :options
@@ -31,22 +33,6 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
 
   def header
     self['responseHeader'] || {}
-  end
-
-  def params
-    header['params'] || request_params
-  end
-
-  def start
-    params[:start].to_i
-  end
-
-  def rows
-    params[:rows].to_i
-  end
-
-  def sort
-    params[:sort]
   end
 
   def documents

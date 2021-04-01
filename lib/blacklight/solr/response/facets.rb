@@ -180,23 +180,6 @@ module Blacklight::Solr::Response::Facets
     end
   end
 
-  def facet_field_aggregation_options(facet_field_name)
-    options = {}
-    options[:sort] = (params[:"f.#{facet_field_name}.facet.sort"] || params[:'facet.sort'])
-    if params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]
-      options[:limit] = (params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]).to_i
-    end
-
-    if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
-      options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
-    end
-
-    if params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix']
-      options[:prefix] = (params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix'])
-    end
-    options
-  end
-
   ##
   # Aggregate Solr's facet_query response into the virtual facet fields defined
   # in the blacklight configuration
