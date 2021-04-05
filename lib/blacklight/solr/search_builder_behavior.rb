@@ -66,7 +66,7 @@ module Blacklight::Solr
       elsif search_state.query_param.is_a? Hash
         add_additional_filters(solr_parameters, search_state.query_param)
       elsif search_state.query_param
-        solr_parameters[:q] = search_state.query_param
+        solr_parameters.append_query search_state.query_param
       end
     end
 
@@ -75,14 +75,16 @@ module Blacklight::Solr
 
       return if q.blank?
 
-      solr_parameters[:q] = if q.values.any?(&:blank?)
-                              # if any field parameters are empty, exclude _all_ results
-                              "{!lucene}NOT *:*"
-                            else
-                              "{!lucene}" + q.map do |field, values|
-                                "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
-                              end.join(" AND ")
-                            end
+      if q.values.any?(&:blank?)
+        # if any field parameters are empty, exclude _all_ results
+        solr_parameters.append_query "{!lucene}NOT *:*"
+      else
+        composed_query = q.map do |field, values|
+          "#{field}:(#{Array(values).map { |x| solr_param_quote(x) }.join(' OR ')})"
+        end.join(" AND ")
+
+        solr_parameters.append_query "{!lucene}#{composed_query}"
+      end
 
       solr_parameters[:defType] = 'lucene'
       solr_parameters[:spellcheck] = 'false'
@@ -91,9 +93,7 @@ module Blacklight::Solr
     def add_search_field_with_json_query_parameters(solr_parameters)
       bool_query = search_field.clause_params.transform_values { |v| v.merge(query: search_state.query_param) }
 
-      solr_parameters[:json] ||= { query: { bool: { must: [] } } }
-      solr_parameters[:json][:query] ||= { bool: { must: [] } }
-      solr_parameters[:json][:query][:bool][:must] << bool_query
+      solr_parameters.append_boolean_query(:must, bool_query)
     end
 
     # Transform "clause" parameters into the Solr JSON Query DSL
@@ -101,21 +101,15 @@ module Blacklight::Solr
       return if search_state.clause_params.blank?
 
       defaults = { must: [], must_not: [], should: [] }
-      bool_query = (solr_parameters.dig(:json, :query, :bool) || {}).reverse_merge(defaults)
-
       default_op = blacklight_params[:op]&.to_sym || :must
+      solr_parameters[:mm] = 1 if default_op == :should && search_state.clause_params.values.any? { |clause| }
 
       search_state.clause_params.each_value do |clause|
         op, query = adv_search_clause(clause, default_op)
-        bool_query[op] << query if defaults.key?(op) && query
+        next unless defaults.key?(op)
+
+        solr_parameters.append_boolean_query(op, query)
       end
-
-      return if bool_query.values.all?(&:blank?)
-
-      solr_parameters[:mm] = 1 if default_op == :should
-      solr_parameters[:json] ||= { query: { bool: {} } }
-      solr_parameters[:json][:query] ||= { bool: {} }
-      solr_parameters[:json][:query][:bool] = bool_query.reject { |_k, v| v.blank? }
     end
 
     # @return [Array] the first element is the query operator and the second is the value to add
@@ -395,7 +389,7 @@ module Blacklight::Solr
     def add_search_field_query_builder_params(solr_parameters)
       q, additional_parameters = search_field.query_builder.call(self, search_field, solr_parameters)
 
-      solr_parameters[:q] = q
+      solr_parameters.append_query q
       solr_parameters.merge!(additional_parameters) if additional_parameters
     end
 
@@ -403,7 +397,7 @@ module Blacklight::Solr
       local_params = search_field.solr_local_parameters.map do |key, val|
         key.to_s + "=" + solr_param_quote(val, quote: "'")
       end.join(" ")
-      solr_parameters[:q] = "{!#{local_params}}#{search_state.query_param}"
+      solr_parameters.append_query "{!#{local_params}}#{search_state.query_param}"
 
       ##
       # Set Solr spellcheck.q to be original user-entered query, without
