@@ -2,8 +2,6 @@
 
 module Blacklight
   class SearchBarComponent < ::ViewComponent::Base
-    with_content_areas :append, :prepend
-
     # rubocop:disable Metrics/ParameterLists
     def initialize(
       url:, advanced_search_url: nil, params:,
