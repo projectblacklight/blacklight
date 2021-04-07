@@ -3,7 +3,8 @@
 module Blacklight
   class MetadataFieldLayoutComponent < ::ViewComponent::Base
     with_collection_parameter :field
-    with_content_areas :label, :value
+    renders_one :label
+    renders_one :value
 
     # @param field [Blacklight::FieldPresenter]
     def initialize(field:, label_class: 'col-md-3', value_class: 'col-md-9')
