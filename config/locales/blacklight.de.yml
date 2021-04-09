@@ -3,7 +3,7 @@ de:
     pagination:
       first: '&laquo; Erste'
       last: 'Letzte &raquo;'
-      previous: '&laquo; Voherige'
+      previous: '&laquo; Vorherige'
       next: 'Nächste &raquo;'
       truncate: '…'
       aria:
@@ -16,7 +16,7 @@ de:
         go_to_previous_page: Zurück zur letzten Seite
 
     pagination_compact:
-      previous: '&laquo; Voherige'
+      previous: '&laquo; Vorherige'
       next: 'Nächste &raquo;'
 
   blacklight:
