@@ -47,7 +47,7 @@ module Blacklight
     # Add Blacklight to the user model
     def inject_blacklight_user_behavior
       file_path = "app/models/#{model_name.underscore}.rb"
-      if File.exist?(file_path)
+      if File.exist?(File.expand_path(file_path, destination_root))
         inject_into_class file_path, model_name.classify do
           "\n  # Connects this user object to Blacklights Bookmarks." \
           "\n  include Blacklight::User\n"

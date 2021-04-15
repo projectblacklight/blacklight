@@ -68,11 +68,15 @@ module Blacklight
     private
 
     def turbolinks?
-      @turbolinks ||= IO.read("app/assets/javascripts/application.js").include?('turbolinks')
+      @turbolinks ||= application_js.include?('turbolinks')
     end
 
     def has_blacklight_assets?
-      IO.read("app/assets/javascripts/application.js").include?('blacklight/blacklight')
+      application_js.include?('blacklight/blacklight')
+    end
+
+    def application_js
+      IO.read(File.expand_path("app/assets/javascripts/application.js", destination_root))
     end
   end
 end
