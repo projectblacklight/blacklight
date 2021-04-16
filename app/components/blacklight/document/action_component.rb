@@ -34,6 +34,10 @@ module Blacklight
           @view_context.document_action_path(@action, @url_opts.merge(({ id: @document } if @document) || {}))
         end
       end
+
+      def key
+        @action.key
+      end
     end
   end
 end
