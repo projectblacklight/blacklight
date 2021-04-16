@@ -2,7 +2,10 @@
 
 module Blacklight
   class SearchBarComponent < ::ViewComponent::Base
-    with_content_areas :append, :prepend
+    include Blacklight::ContentAreasShim
+
+    renders_one :append
+    renders_one :prepend
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(

@@ -1,7 +1,9 @@
 <% if constraints.present? %>
   <div class="constraints well search_history">
     <h4><%= t 'blacklight.advanced_search.form.search_context' %></h4>
-    <%= constraints %>
+    <% constraints.each do |constraint| %>
+      <%= constraint %>
+    <% end %>
   </div>
 <% end %>
 
@@ -15,7 +17,9 @@
       </h2>
 
       <div id="advanced_search">
-        <%= search_field_controls %>
+        <% search_field_controls.each do |control| %>
+          <%= control %>
+        <% end %>
       </div>
     </div>
 
@@ -24,7 +28,9 @@
 
       <div id="advanced_search_facets" class="limit_input">
         <div class="advanced-facet-limits panel-group">
-          <%= search_filter_controls %>
+          <% search_filter_controls.each do |control| %>
+            <%= control %>
+          <% end %>
         </div>
       </div>
     </div>
