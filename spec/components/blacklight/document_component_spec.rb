@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::DocumentComponent, type: :component do
-  subject(:component) { described_class.new(document: document, **attr) }
+  subject(:component) { described_class.new(document: document, presenter: view_context.document_presenter(document), **attr) }
 
   let(:attr) { {} }
   let(:view_context) { controller.view_context }
@@ -47,7 +47,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     component.with(:embed, 'Embed')
     component.with(:metadata, 'Metadata')
     component.with(:thumbnail, 'Thumbnail')
-    component.with(:actions, 'Actions')
+    component.with(:actions) { 'Actions' }
 
     expect(rendered).to have_content 'Title'
     expect(rendered).to have_content 'Embed'
@@ -65,7 +65,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   context 'with a provided body' do
     it 'opts-out of normal component content' do
-      component.with(:body, 'Body content')
+      component.with(:body) { 'Body content' }
 
       expect(rendered).to have_content 'Body content'
       expect(rendered).not_to have_selector 'header'

@@ -3,11 +3,17 @@
 module Blacklight
   module System
     class FlashMessageComponent < ViewComponent::Base
+      renders_one :message
+
       with_collection_parameter :message
 
-      def initialize(message:, type:)
+      def initialize(message: nil, type:)
         @message = message
         @classes = alert_class(type)
+      end
+
+      def before_render
+        message { @message } if @message
       end
 
       def alert_class(type)

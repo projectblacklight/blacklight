@@ -1,5 +1,5 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
-  <% component.with(:title, t('blacklight.tools.citation')) %>
+  <% component.title { t('blacklight.tools.citation') } %>
 
   <%= render Blacklight::Document::CitationComponent.with_collection(@documents) if @documents.present? %>
 <% end %>

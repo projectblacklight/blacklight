@@ -4,7 +4,23 @@
   <%= link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
 
   <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
-  <%= query_constraints_area || query_constraints %>
-  <%= facet_constraints_area || facet_constraints %>
-  <%= additional_constraints %>
+  <% if query_constraints_area.present? %>
+    <% query_constraints_area.each do |constraint| %>
+      <%= constraint %>
+    <% end %>
+  <% else %>
+    <%= query_constraints %>
+  <% end %>
+
+  <% if facet_constraints_area.present? %>
+    <% facet_constraints_area.each do |constraint| %>
+      <%= constraint %>
+    <% end %>
+  <% else %>
+    <%= facet_constraints %>
+  <% end %>
+
+  <% additional_constraints.each do |constraints| %>
+    <%= constraints %>
+  <% end %>
 <% end %>

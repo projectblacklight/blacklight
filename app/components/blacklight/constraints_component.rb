@@ -2,7 +2,11 @@
 
 module Blacklight
   class ConstraintsComponent < ::ViewComponent::Base
-    with_content_areas :query_constraints_area, :facet_constraints_area, :additional_constraints
+    include Blacklight::ContentAreasShim
+
+    renders_many :query_constraints_area
+    renders_many :facet_constraints_area
+    renders_many :additional_constraints
 
     def initialize(search_state:,
                    id: 'appliedParams', classes: 'clearfix constraints-container',

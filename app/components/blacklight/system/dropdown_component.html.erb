@@ -1,12 +1,9 @@
 <%= content_tag :div, id: @id, class: @classes.join(' ') do %>
-  <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-    <%= t(:button_label_html, default: :label_html, scope: "blacklight.search.#{@param}", @interpolation => label_for_value(@selected)) %> <span class="caret"></span>
-  </button>
+  <%= button %>
 
   <div class="dropdown-menu" role="menu">
-    <%- @choices.each do |option| %>
-      <% text, value = option_text_and_value(option) %>
-      <%= link_to(text, @view_context.url_for(@search_state.params_for_search(@param => value)), class: 'dropdown-item', role: 'menuitem') %>
-    <%- end -%>
+    <% options.each do |option| %>
+      <%= option %>
+    <% end %>
   </div>
 <% end %>

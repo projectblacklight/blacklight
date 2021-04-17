@@ -1,0 +1,4 @@
+<%= link_to url, title: label, class: "#{Array(@classes).join(' ')} view-type-#{ @key.to_s.parameterize } #{"active" if selected?}" do %>
+  <%= icon %>
+  <span class="caption"><%= label %></span>
+<% end %>
