@@ -259,6 +259,23 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe 'with a json facet' do
+      let(:user_params) { { f: { json_facet: ['value'] } }.with_indifferent_access }
+
+      before do
+        blacklight_config.add_facet_field 'json_facet', field: 'foo', json: { bar: 'baz' }
+      end
+
+      it "has proper solr parameters" do
+        expect(subject[:fq]).to include('{!term f=foo}value')
+        expect(subject.dig(:json, :facet, 'json_facet')).to include(
+          field: 'foo',
+          type: 'terms',
+          bar: 'baz'
+        )
+      end
+    end
+
     describe 'with multi-valued facets' do
       let(:user_params) { { f_inclusive: { format: %w[Book Movie CD] } } }
 

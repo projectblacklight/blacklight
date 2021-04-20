@@ -135,7 +135,7 @@ module Blacklight::Solr
         if filter.config.filter_query_builder
           filter_query, subqueries = filter.config.filter_query_builder.call(self, filter, solr_parameters)
 
-          solr_parameters.append_filter_query(filter_query)
+          solr_parameters.append_filter_query(filter_query) if filter_query
           solr_parameters.merge!(subqueries) if subqueries
         else
           filter.values.reject(&:blank?).each do |value|
@@ -152,6 +152,21 @@ module Blacklight::Solr
       end
     end
 
+    def add_solr_facet_json_params(solr_parameters, field_name, facet, **additional_parameters)
+      solr_parameters[:json] ||= { facet: {} }
+      solr_parameters[:json][:facet] ||= {}
+
+      field_config = facet.json.respond_to?(:reverse_merge) ? facet.json : {}
+
+      field_config = field_config.reverse_merge(
+        type: 'terms',
+        field: facet.field,
+        limit: facet_limit_with_pagination(field_name)
+      ).merge(additional_parameters)
+
+      solr_parameters[:json][:facet][field_name] = field_config.select { |_k, v| v.present? }
+    end
+
     ##
     # Add appropriate Solr facetting directives in, including
     # taking account of our facet paging/'more'.  This is not
@@ -159,6 +174,11 @@ module Blacklight::Solr
     def add_facetting_to_solr(solr_parameters)
       facet_fields_to_include_in_request.each do |field_name, facet|
         solr_parameters[:facet] ||= true
+
+        if facet.json
+          add_solr_facet_json_params(solr_parameters, field_name, facet)
+          next
+        end
 
         if facet.pivot
           solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
@@ -229,9 +249,7 @@ module Blacklight::Solr
 
       facet_config = blacklight_config.facet_fields[facet]
 
-      # Now override with our specific things for fetching facet values
-      facet_ex = facet_config.respond_to?(:ex) ? facet_config.ex : nil
-      solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet_config.field)
+      solr_params[:rows] = 0
 
       limit = if solr_params["facet.limit"]
                 solr_params["facet.limit"].to_i
@@ -244,13 +262,21 @@ module Blacklight::Solr
       prefix = search_state.facet_prefix
       offset = (page - 1) * limit
 
+      if facet_config.json
+        add_solr_facet_json_params(solr_parameters, facet, facet_config, limit: limit + 1, offset: offset, sort: sort, prefix: prefix)
+        return
+      end
+
+      # Now override with our specific things for fetching facet values
+      facet_ex = facet_config.respond_to?(:ex) ? facet_config.ex : nil
+      solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet_config.field)
+
       # Need to set as f.facet_field.facet.* to make sure we
       # override any field-specific default in the solr request handler.
       solr_params[:"f.#{facet_config.field}.facet.limit"] = limit + 1
       solr_params[:"f.#{facet_config.field}.facet.offset"] = offset
       solr_params[:"f.#{facet_config.field}.facet.sort"] = sort if sort
       solr_params[:"f.#{facet_config.field}.facet.prefix"] = prefix if prefix
-      solr_params[:rows] = 0
     end
 
     def with_ex_local_param(ex, value)
