@@ -15,7 +15,7 @@ module Blacklight
       end
 
       def icon
-        @view_context.render_view_type_group_icon(@view)
+        @view_context.render_view_type_group_icon(@view.icon || @key)
       end
 
       def label
