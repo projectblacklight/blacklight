@@ -5,6 +5,9 @@ module Blacklight
   # An OpenStruct refinement that converts any hash-keys into
   # additional instances of NestedOpenStructWithHashAccess
   class NestedOpenStructWithHashAccess < OpenStructWithHashAccess
+    extend Deprecation
+    self.deprecation_horizon = 'blacklight 8.0'
+
     attr_reader :nested_class
 
     delegate :default_proc=, to: :to_h
@@ -86,15 +89,28 @@ module Blacklight
     ##
     # Override #method_missing from OpenStruct to ensure the default_proc logic
     # gets triggered.
-    def method_missing(mid, *args)
+    def method_missing(mid, *args, **kwargs, &block)
       len = args.length
 
-      if len.zero?
-        new_ostruct_member!(mid)
-        @table[mid]
-      else
-        super
-      end
+      res = if mid.to_s.ends_with?('!')
+              m = mid[0...-1]
+              new_ostruct_member!(m)
+              @table[m]
+            elsif mid.to_s.ends_with?('=')
+              m = mid[0...-1]
+              new_ostruct_member!(m)
+              @table[m] = args.first
+            elsif len.zero? && kwargs.blank? && !block
+              Deprecation.warn("Initializing a #{nested_class} implicitly (by calling #{mid}) is deprecated. Call it as #{mid}! or pass initialize arguments")
+              @table[mid]
+            else
+              new_ostruct_member!(mid)
+              @table[mid] = nested_class.new(*args, **kwargs)
+            end
+
+      block&.call(res)
+
+      res
     end
 
     private

@@ -3,7 +3,7 @@
 RSpec.describe "catalog/constraints" do
   let :blacklight_config do
     Blacklight::Configuration.new do |config|
-      config.view.xyz
+      config.view.xyz({})
     end
   end
 

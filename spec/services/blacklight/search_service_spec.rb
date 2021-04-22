@@ -477,7 +477,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     before do
-      blacklight_config.view.opensearch.title_field = :field
+      blacklight_config.view.opensearch(title_field: :field)
       allow(repository).to receive(:search).and_return(mock_response)
     end
 

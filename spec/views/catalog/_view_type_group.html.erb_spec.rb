@@ -20,9 +20,9 @@ RSpec.describe "catalog/_view_type_group" do
   it "displays the group" do
     blacklight_config.configure do |config|
       config.view.delete(:list)
-      config.view.a.icon = :list
-      config.view.b.icon = :list
-      config.view.c.icon = :list
+      config.view.a(icon: :list)
+      config.view.b(icon: :list)
+      config.view.c(icon: :list)
     end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.btn-group.view-type-group')
@@ -37,8 +37,8 @@ RSpec.describe "catalog/_view_type_group" do
   it "sets the current view to 'active'" do
     blacklight_config.configure do |config|
       config.view.delete(:list)
-      config.view.a.icon = :list
-      config.view.b.icon = :list
+      config.view.a(icon: :list)
+      config.view.b(icon: :list)
     end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.active', text: 'a')
