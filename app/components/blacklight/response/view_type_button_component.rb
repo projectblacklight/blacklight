@@ -22,7 +22,7 @@ module Blacklight
 
       def label
         Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-          @view_context.view_label(@view)
+          @view_context.view_label(@key)
         end
       end
 
