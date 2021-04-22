@@ -15,7 +15,9 @@ module Blacklight
       end
 
       def icon
-        @view_context.render_view_type_group_icon(@view)
+        Deprecation.silence(Blacklight::CatalogHelperBehavior) do
+          @view_context.render_view_type_group_icon(@view.icon || @key)
+        end
       end
 
       def label
