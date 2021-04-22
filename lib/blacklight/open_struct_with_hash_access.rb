@@ -6,7 +6,7 @@ module Blacklight
   class OpenStructWithHashAccess < OpenStruct
     delegate :keys, :each, :map, :has_key?, :key?, :include?, :empty?,
              :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!,
-             :replace, :fetch, :to_json, :as_json, :any?, to: :to_h
+             :replace, :fetch, :to_json, :as_json, :any?, :freeze, :unfreeze, :frozen?, to: :to_h
 
     ##
     # Expose the internal hash
