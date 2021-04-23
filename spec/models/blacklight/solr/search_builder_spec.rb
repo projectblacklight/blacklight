@@ -800,4 +800,13 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :qf)).to eq '${author_qf}'
     end
   end
+
+  describe '#where' do
+    let(:user_params) { {} }
+
+    it 'adds additional query filters on the search' do
+      subject.where(id: [1, 2, 3])
+      expect(subject.to_hash).to include q: '{!lucene}id:(1 OR 2 OR 3)'
+    end
+  end
 end

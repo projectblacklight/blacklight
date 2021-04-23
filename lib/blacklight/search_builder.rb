@@ -45,6 +45,7 @@ module Blacklight
     ##
     # Update the :q (query) parameter
     def where(conditions)
+      Deprecation.warn("SearchBuilder#where must be called with a hash, received #{conditions.inspect}.") unless conditions.is_a? Hash
       params_will_change!
       @search_state = @search_state.reset(@search_state.params.merge(q: conditions))
       @blacklight_params = @search_state.params.dup
