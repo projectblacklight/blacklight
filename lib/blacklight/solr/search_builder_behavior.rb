@@ -32,6 +32,7 @@ module Blacklight::Solr
     # Take the user-entered query, and put it in the solr params,
     # including config's "search field" params for current search field.
     # also include setting spellcheck.q.
+    # rubocop:disable Metrics/CyclomaticComplexity
     def add_query_to_solr(solr_parameters)
       ###
       # legacy behavior of user param :qt is passed through, but over-ridden
@@ -64,11 +65,15 @@ module Blacklight::Solr
       elsif search_field&.solr_local_parameters.present?
         add_search_field_with_local_parameters(solr_parameters)
       elsif search_state.query_param.is_a? Hash
-        add_additional_filters(solr_parameters, search_state.query_param)
+        if search_state.query_param == @additional_filters && !processor_chain.include?(:add_additional_filters)
+          Deprecation.warn('Expecting to see the processor step add_additional_filters; falling back to legacy query handling')
+          add_additional_filters(solr_parameters, search_state.query_param)
+        end
       elsif search_state.query_param
         solr_parameters.append_query search_state.query_param
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def add_additional_filters(solr_parameters, additional_filters = nil)
       q = additional_filters || @additional_filters
@@ -322,6 +327,7 @@ module Blacklight::Solr
     # around the term unless it's a bare-word. Escape internal quotes
     # if needed.
     def solr_param_quote(val, options = {})
+      val = val.to_s
       options[:quote] ||= '"'
       unless val =~ /^[a-zA-Z0-9$_\-\^]+$/
         val = options[:quote] +
