@@ -37,8 +37,10 @@ module Blacklight
     end
 
     def bundle_install
-      Bundler.with_clean_env do
-        run "bundle install"
+      inside destination_root do
+        Bundler.with_clean_env do
+          run "bundle install"
+        end
       end
     end
 
@@ -81,9 +83,7 @@ module Blacklight
       blacklight_marc = String.new('blacklight-marc')
       gem blacklight_marc, '>= 7.0.0.rc1', '< 8'
 
-      Bundler.with_clean_env do
-        run "bundle install"
-      end
+      bundle_install
 
       generate 'blacklight:marc:install'
     end
