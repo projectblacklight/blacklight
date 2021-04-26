@@ -92,11 +92,11 @@ module Blacklight
     def method_missing(mid, *args, **kwargs, &block)
       len = args.length
 
-      res = if mid.to_s.ends_with?('!')
+      res = if mid.to_s.end_with?('!')
               m = mid[0...-1]
               new_ostruct_member!(m)
               @table[m]
-            elsif mid.to_s.ends_with?('=')
+            elsif mid.to_s.end_with?('=')
               m = mid[0...-1]
               new_ostruct_member!(m)
               @table[m] = args.first
