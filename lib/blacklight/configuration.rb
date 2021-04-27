@@ -170,6 +170,8 @@ module Blacklight
     def initialize(hash = {})
       super(self.class.default_values.deep_dup.merge(hash))
       yield(self) if block_given?
+
+      @view_config ||= {}
     end
 
     def document_model
@@ -333,7 +335,6 @@ module Blacklight
         view_type = nil
       end
 
-      @view_config ||= {}
       @view_config[[view_type, action_name]] ||= begin
         if view_type.nil?
           action_config(action_name)
@@ -426,6 +427,11 @@ module Blacklight
       end
 
       fields.merge(show_fields)
+    end
+
+    def freeze
+      each { |_k, v| v.is_a?(OpenStruct) && v.freeze }
+      super
     end
 
     private

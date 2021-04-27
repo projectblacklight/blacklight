@@ -621,4 +621,14 @@ RSpec.describe "Blacklight::Configuration", api: true do
       end
     end
   end
+
+  describe '#freeze' do
+    it 'freezes the configuration' do
+      config.freeze
+
+      expect(config.a).to be_nil
+      expect { config.a = '123' }.to raise_error(FrozenError)
+      expect { config.view.a = '123' }.to raise_error(FrozenError)
+    end
+  end
 end
