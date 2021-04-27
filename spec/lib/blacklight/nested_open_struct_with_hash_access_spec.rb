@@ -1,6 +1,26 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::NestedOpenStructWithHashAccess do
+  subject { described_class.new(Blacklight::OpenStructWithHashAccess) }
+
+  describe '#key' do
+    context 'for an object provided by the initializer' do
+      subject { described_class.new(Blacklight::OpenStructWithHashAccess, a: { b: 1 }) }
+
+      it 'copies the key to the initialized value' do
+        expect(subject.a).to have_attributes key: :a, b: 1
+      end
+    end
+
+    context 'for an object provided through assignment' do
+      it 'copies the key to the initialized value' do
+        subject.a!
+
+        expect(subject.a).to have_attributes key: :a
+      end
+    end
+  end
+
   describe "#deep_dup" do
     it "preserves the current class" do
       expect(described_class.new(described_class).deep_dup).to be_a_kind_of described_class
