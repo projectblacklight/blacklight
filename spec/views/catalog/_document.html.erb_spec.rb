@@ -46,4 +46,13 @@ RSpec.describe "catalog/_document" do
     expect(rendered).to have_selector 'article.document header', text: '22. xyz'
     expect(rendered).not_to match(/partial/)
   end
+
+  it 'renders the partial using a provided view config' do
+    view_config = Blacklight::Configuration::ViewConfig.new partials: %w[a]
+    stub_template "catalog/_a_default.html.erb" => "partial"
+
+    render partial: "catalog/document", locals: { document: document, document_counter: 1, view_config: view_config }
+
+    expect(rendered).to match(/partial/)
+  end
 end
