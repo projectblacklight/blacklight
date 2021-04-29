@@ -14,12 +14,12 @@ module Blacklight
 
     def initialize(klass, hash = {})
       @nested_class = klass
-      value = hash.transform_values do |v|
-        if v.is_a? Hash
-          nested_class.new(v)
-        else
-          v
-        end
+      value = hash.each_with_object({}) do |(k, v), h|
+        h[k] = if v.is_a? Hash
+                 nested_class.new({ key: k.to_sym }.merge(v))
+               else
+                 v
+               end
       end
 
       super value
@@ -37,7 +37,7 @@ module Blacklight
     # into another NestedOpenStructWithHashAccess
     def []=(key, value)
       if value.is_a? Hash
-        send "#{key}=", nested_class.new(value)
+        send "#{key}=", nested_class.new({ key: key.to_sym }.merge(value))
       else
         super
       end
@@ -93,19 +93,20 @@ module Blacklight
       len = args.length
 
       res = if mid.to_s.end_with?('!')
-              m = mid[0...-1]
+              m = mid[0...-1].to_sym
               new_ostruct_member!(m)
               @table[m]
             elsif mid.to_s.end_with?('=')
-              m = mid[0...-1]
+              m = mid[0...-1].to_sym
               new_ostruct_member!(m)
               @table[m] = args.first
             elsif len.zero? && kwargs.blank? && !block
               Deprecation.warn("Initializing a #{nested_class} implicitly (by calling #{mid}) is deprecated. Call it as #{mid}! or pass initialize arguments")
+              new_ostruct_member!(mid)
               @table[mid]
             else
               new_ostruct_member!(mid)
-              @table[mid] = nested_class.new(*args, **kwargs)
+              @table[mid] = nested_class.new(key: mid, **(args.first || {}), **kwargs)
             end
 
       block&.call(res)
