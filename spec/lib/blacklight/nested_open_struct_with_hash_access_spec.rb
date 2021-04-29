@@ -28,13 +28,15 @@ RSpec.describe Blacklight::NestedOpenStructWithHashAccess do
     subject { described_class.new(Blacklight::Configuration::Field) }
 
     it 'strips the trailing !' do
-      subject.blaH!
+      subject.blah!
       expect(subject.blah).to have_attributes(key: :blah)
+      expect(subject.keys).to eq [:blah]
     end
 
     it 'supports direct assignment' do
       subject.blah = '123'
       expect(subject.blah).to eq '123'
+      expect(subject.keys).to eq [:blah]
     end
   end
 end

@@ -93,15 +93,16 @@ module Blacklight
       len = args.length
 
       res = if mid.to_s.end_with?('!')
-              m = mid[0...-1]
+              m = mid[0...-1].to_sym
               new_ostruct_member!(m)
               @table[m]
             elsif mid.to_s.end_with?('=')
-              m = mid[0...-1]
+              m = mid[0...-1].to_sym
               new_ostruct_member!(m)
               @table[m] = args.first
             elsif len.zero? && kwargs.blank? && !block
               Deprecation.warn("Initializing a #{nested_class} implicitly (by calling #{mid}) is deprecated. Call it as #{mid}! or pass initialize arguments")
+              new_ostruct_member!(mid)
               @table[mid]
             else
               new_ostruct_member!(mid)
