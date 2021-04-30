@@ -89,7 +89,7 @@ module Blacklight::RenderPartialsHelperBehavior
     end
 
     if template
-      template.render(self, locals.merge(documents: documents))
+      template.render(self, locals.merge(documents: documents, view_config: blacklight_config&.view_config(view)))
     else
       ''
     end
