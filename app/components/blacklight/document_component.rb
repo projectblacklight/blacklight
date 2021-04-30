@@ -25,7 +25,7 @@ module Blacklight
       next static_content if static_content.present?
       next unless component
 
-      Deprecation.warn('Pass the presenter to the DocumentComponent') if @presenter.nil?
+      Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if @presenter.nil?
 
       component.new(*args, document: @document, presenter: @presenter, document_counter: @document_counter, **kwargs)
     end)
@@ -34,7 +34,7 @@ module Blacklight
     renders_one :metadata, (lambda do |static_content = nil, *args, component: nil, fields: nil, **kwargs|
       next static_content if static_content.present?
 
-      Deprecation.warn('Pass the presenter to the DocumentComponent') if !fields && @presenter.nil?
+      Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !fields && @presenter.nil?
 
       component ||= Blacklight::DocumentMetadataComponent
 
@@ -48,7 +48,7 @@ module Blacklight
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
       component ||= @presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
-      Deprecation.warn('Pass the presenter to the DocumentComponent') if !component && @presenter.nil?
+      Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !component && @presenter.nil?
 
       component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
     end)
@@ -93,13 +93,13 @@ module Blacklight
       @id = id || ('document' if show)
       @classes = classes
 
-      Deprecation.warn('Passing embed_component is deprecated') if @embed_component.present?
+      Deprecation.warn(Blacklight::DocumentComponent, 'Passing embed_component is deprecated') if @embed_component.present?
       @embed_component = embed_component
 
-      Deprecation.warn('Passing metadata_component is deprecated') if @metadata_component.present?
+      Deprecation.warn(Blacklight::DocumentComponent, 'Passing metadata_component is deprecated') if @metadata_component.present?
       @metadata_component = metadata_component || Blacklight::DocumentMetadataComponent
 
-      Deprecation.warn('Passing thumbnail_component is deprecated') if @thumbnail_component.present?
+      Deprecation.warn(Blacklight::DocumentComponent, 'Passing thumbnail_component is deprecated') if @thumbnail_component.present?
       @thumbnail_component = thumbnail_component || Blacklight::Document::ThumbnailComponent
 
       @document_counter = document_counter

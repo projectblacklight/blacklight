@@ -66,7 +66,7 @@ module Blacklight::Solr
         add_search_field_with_local_parameters(solr_parameters)
       elsif search_state.query_param.is_a? Hash
         if search_state.query_param == @additional_filters && !processor_chain.include?(:add_additional_filters)
-          Deprecation.warn('Expecting to see the processor step add_additional_filters; falling back to legacy query handling')
+          Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Expecting to see the processor step add_additional_filters; falling back to legacy query handling')
           add_additional_filters(solr_parameters, search_state.query_param)
         end
       elsif search_state.query_param
