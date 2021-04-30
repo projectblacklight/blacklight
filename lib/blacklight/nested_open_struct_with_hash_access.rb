@@ -101,7 +101,9 @@ module Blacklight
               new_ostruct_member!(m)
               @table[m] = args.first
             elsif len.zero? && kwargs.blank? && !block
-              Deprecation.warn("Initializing a #{nested_class} implicitly (by calling #{mid}) is deprecated. Call it as #{mid}! or pass initialize arguments")
+              Deprecation.warn(Blacklight::NestedOpenStructWithHashAccess,
+                               "Initializing a #{nested_class} implicitly (by calling #{mid}) is deprecated. Call it as #{mid}! or pass initialize arguments")
+
               new_ostruct_member!(mid)
               @table[mid]
             else
