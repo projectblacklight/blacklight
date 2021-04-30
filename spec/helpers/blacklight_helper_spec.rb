@@ -320,6 +320,24 @@ RSpec.describe BlacklightHelper do
       response = helper.render_document_index_with_view :view_type, [obj1, obj1]
       expect(response).to have_selector "div#documents"
     end
+
+    context 'with a template partial provided by the view config' do
+      before do
+        blacklight_config.view.gallery(template: '/my/partial')
+      end
+
+      def stub_template(hash)
+        view.view_paths.unshift(ActionView::FixtureResolver.new(hash))
+      end
+
+      it 'renders that template' do
+        stub_template 'my/_partial.html.erb' => 'some content'
+
+        response = helper.render_document_index_with_view :gallery, [obj1, obj1]
+
+        expect(response).to eq 'some content'
+      end
+    end
   end
 
   describe "#document_index_view_type" do

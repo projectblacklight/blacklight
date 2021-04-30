@@ -84,12 +84,16 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [Hash] locals to pass to the render call
   # @return [String]
   def render_document_index_with_view view, documents, locals = {}
+    view_config = blacklight_config&.view_config(view)
+
+    return render partial: view_config.template, locals: locals.merge(documents: documents, view_config: view_config) if view_config&.template
+
     template = cached_view ['index', view].join('_') do
       find_document_index_template_with_view(view, locals)
     end
 
     if template
-      template.render(self, locals.merge(documents: documents, view_config: blacklight_config&.view_config(view)))
+      template.render(self, locals.merge(documents: documents, view_config: view_config))
     else
       ''
     end
