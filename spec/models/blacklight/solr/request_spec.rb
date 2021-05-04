@@ -16,7 +16,6 @@ RSpec.describe Blacklight::Solr::Request, api: true do
       subject['spellcheck'] = "a"
       subject['spellcheck.q'] = "fleece"
       subject['f.title_facet.facet.limit'] = "vest"
-      subject['facet.field'] = []
     end
 
     it "accepts valid parameters" do

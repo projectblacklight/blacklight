@@ -18,13 +18,13 @@ module Blacklight::Solr
     # merge to dup values, to avoid later mutating the original by mistake.
     def default_solr_parameters(solr_parameters)
       blacklight_config.default_solr_params.each do |key, value|
-        solr_parameters[key] = if value.respond_to? :deep_dup
-                                 value.deep_dup
-                               elsif value.respond_to?(:dup) && value.duplicable?
-                                 value.dup
-                               else
-                                 value
-                               end
+        solr_parameters[key] ||= if value.respond_to? :deep_dup
+                                   value.deep_dup
+                                 elsif value.respond_to?(:dup) && value.duplicable?
+                                   value.dup
+                                 else
+                                   value
+                                 end
       end
     end
 
