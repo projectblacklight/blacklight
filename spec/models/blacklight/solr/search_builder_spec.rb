@@ -29,6 +29,20 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     end
   end
 
+  context 'with merged parameters from the defaults + the search field' do
+    before do
+      blacklight_config.default_solr_params = { json: { whatever: [1, 2, 3] } }
+      blacklight_config.search_fields['all_fields'].solr_parameters = { json: { and_also: [4, 5, 6] } }
+    end
+
+    let(:user_params) { { search_field: 'all_fields' } }
+
+    it 'deep merges hash values' do
+      expect(subject.to_hash.dig(:json, :whatever)).to eq [1, 2, 3]
+      expect(subject.to_hash.dig(:json, :and_also)).to eq [4, 5, 6]
+    end
+  end
+
   context "with a complex parameter environment" do
     subject { search_builder.with(user_params).processed_parameters }
 

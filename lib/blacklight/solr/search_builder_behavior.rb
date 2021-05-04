@@ -43,10 +43,10 @@ module Blacklight::Solr
       ###
       # Merge in search field configured values, if present, over-writing general
       # defaults
-
       if search_field
         solr_parameters[:qt] = search_field.qt if search_field.qt
-        solr_parameters.merge!(search_field.solr_parameters) if search_field.solr_parameters
+
+        solr_parameters.deep_merge!(search_field.solr_parameters) if search_field.solr_parameters
       end
     end
 
