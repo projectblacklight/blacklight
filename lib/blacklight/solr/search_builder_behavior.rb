@@ -5,7 +5,8 @@ module Blacklight::Solr
 
     included do
       self.default_processor_chain = [
-        :default_solr_parameters, :add_query_to_solr, :add_facet_fq_to_solr,
+        :default_solr_parameters, :add_search_field_default_parameters,
+        :add_query_to_solr, :add_facet_fq_to_solr,
         :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
         :add_sorting_to_solr, :add_group_config_to_solr,
         :add_facet_paging_to_solr, :add_adv_search_clauses,
@@ -28,12 +29,7 @@ module Blacklight::Solr
       end
     end
 
-    ##
-    # Take the user-entered query, and put it in the solr params,
-    # including config's "search field" params for current search field.
-    # also include setting spellcheck.q.
-    # rubocop:disable Metrics/CyclomaticComplexity
-    def add_query_to_solr(solr_parameters)
+    def add_search_field_default_parameters(solr_parameters)
       ###
       # legacy behavior of user param :qt is passed through, but over-ridden
       # by actual search field config if present. We might want to remove
@@ -51,6 +47,17 @@ module Blacklight::Solr
       if search_field
         solr_parameters[:qt] = search_field.qt if search_field.qt
         solr_parameters.merge!(search_field.solr_parameters) if search_field.solr_parameters
+      end
+    end
+
+    ##
+    # Take the user-entered query, and put it in the solr params,
+    # including config's "search field" params for current search field.
+    # also include setting spellcheck.q.
+    def add_query_to_solr(solr_parameters)
+      unless processor_chain.include?(:add_search_field_default_parameters)
+        Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Please include :add_search_field_default_parameters in your process chain')
+        add_search_field_default_parameters(solr_parameters)
       end
 
       ##
@@ -73,7 +80,6 @@ module Blacklight::Solr
         solr_parameters.append_query search_state.query_param
       end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
 
     def add_additional_filters(solr_parameters, additional_filters = nil)
       q = additional_filters || @additional_filters

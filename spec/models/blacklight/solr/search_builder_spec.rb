@@ -304,7 +304,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
       it "does not include weird keys not in field definition" do
         expect(subject[:phrase_filters]).to be_nil
-        expect(subject[:fq]).to eq []
         expect(subject[:commit]).to be_nil
         expect(subject[:action]).to be_nil
         expect(subject[:controller]).to be_nil
