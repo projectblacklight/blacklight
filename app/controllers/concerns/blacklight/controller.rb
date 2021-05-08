@@ -5,9 +5,6 @@ module Blacklight::Controller
   extend ActiveSupport::Concern
 
   included do
-    include Blacklight::SearchFields
-    helper Blacklight::SearchFields if respond_to? :helper
-
     include ActiveSupport::Callbacks
 
     # now in application.rb file under config.filter_parameters
@@ -128,11 +125,6 @@ module Blacklight::Controller
   def has_user_authentication_provider?
     respond_to? :current_user
   end
-
-  def require_user_authentication_provider
-    raise ActionController::RoutingError, 'Not Found' unless has_user_authentication_provider?
-  end
-  deprecation_deprecate require_user_authentication_provider: 'removed without replacement'
 
   ##
   # When a user logs in, transfer any saved searches or bookmarks to the current_user

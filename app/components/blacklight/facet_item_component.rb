@@ -19,9 +19,7 @@ module Blacklight
     def call
       # if the downstream app has overridden the helper methods we'd usually call,
       # use the helpers to preserve compatibility
-      content = if overridden_helper_methods?
-                  content_from_legacy_view_helper
-                elsif @selected
+      content = if @selected
                   render_selected_facet_value
                 else
                   render_facet_value
@@ -40,27 +38,6 @@ module Blacklight
     def with_view_context(view_context)
       @view_context = view_context
       self
-    end
-
-    # Check if the downstream application has overridden these methods
-    # @deprecated
-    # @private
-    def overridden_helper_methods?
-      return false if explicit_component_configuration?
-
-      @view_context.method(:render_facet_item).owner != Blacklight::FacetsHelperBehavior ||
-        @view_context.method(:render_facet_value).owner != Blacklight::FacetsHelperBehavior ||
-        @view_context.method(:render_selected_facet_value).owner != Blacklight::FacetsHelperBehavior
-    end
-
-    # Call out to the helper method equivalent of this component
-    # @deprecated
-    # @private
-    def content_from_legacy_view_helper
-      Deprecation.warn(self.class, 'Calling out to the #render_facet_item helper for backwards compatibility.')
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        @view_context.render_facet_item(@facet_item.facet_field, @facet_item.facet_item)
-      end
     end
 
     ##
@@ -101,18 +78,10 @@ module Blacklight
     # @return [String]
     # @private
     def render_facet_count(options = {})
-      return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
-
       return '' if @hits.blank?
 
       classes = (options[:classes] || []) << "facet-count"
       tag.span(t('blacklight.search.facets.count', number: number_with_delimiter(@hits)), class: classes)
-    end
-
-    private
-
-    def explicit_component_configuration?
-      @facet_item.facet_config.item_component.present?
     end
   end
 end

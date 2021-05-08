@@ -17,21 +17,21 @@ module Blacklight
       end
 
       def using_default_document_action?
-        return true if @action.component
-        return false unless @action.partial == 'document_action'
-
-        @view_context.partial_from_blacklight?(@action.partial)
+        @action.component || @action.partial == 'document_action'
       end
 
       def label
-        Deprecation.silence(Blacklight::ComponentHelperBehavior) do
-          @view_context.document_action_label(@action.name, @action)
-        end
+        t("blacklight.tools.#{@action.name}", default: @action.label || @action.name.to_s.humanize)
       end
 
       def url
-        Deprecation.silence(Blacklight::ComponentHelperBehavior) do
-          @view_context.document_action_path(@action, @url_opts.merge(({ id: @document } if @document) || {}))
+        url_opts = @url_opts.merge(({ id: @document } if @document) || {})
+        if @action.path
+          public_send(@action.path, url_opts)
+        elsif url_opts[:id].class.respond_to?(:model_name)
+          url_for([@action.key, url_opts[:id]])
+        else
+          public_send("#{@action.key}_#{controller_name}_path", url_opts)
         end
       end
 

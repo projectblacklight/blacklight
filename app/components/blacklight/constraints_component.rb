@@ -19,58 +19,51 @@ module Blacklight
     end
 
     def query_constraints
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        if @search_state.query_param.present?
-          @view_context.render(
-            @query_constraint_component.new(
-              search_state: @search_state,
-              value: @search_state.query_param,
-              label: label,
-              remove_path: @view_context.remove_constraint_url(@search_state),
-              classes: 'query'
-            )
+      if @search_state.query_param.present?
+        @view_context.render(
+          @query_constraint_component.new(
+            search_state: @search_state,
+            value: @search_state.query_param,
+            label: label,
+            remove_path: remove_path,
+            classes: 'query'
           )
-        else
-          ''.html_safe
-        end
+        )
+      else
+        ''.html_safe
       end + @view_context.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
+    end
+
+    def remove_path
+      helpers.search_action_path(@search_state.remove_query_params)
     end
 
     def facet_constraints
       @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
     end
 
-    def start_over_path
-      Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.start_over_path
-      end
-    end
-
     def render?
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { @view_context.query_has_constraints? }
+      @search_state.has_constraints?
     end
 
     private
 
     def label
-      Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-        @view_context.constraint_query_label(@search_state.params)
-      end
+      search_field = @search_state.params[:search_field]
+      helpers.label_for_search_field(search_field) unless helpers.default_search_field?(search_field)
     end
 
     def facet_item_presenters
       return to_enum(:facet_item_presenters) unless block_given?
 
-      Deprecation.silence(Blacklight::SearchState) do
-        @search_state.filters.map do |facet|
-          facet.values.map do |val|
-            next if val.blank? # skip empty string
+      @search_state.filters.map do |facet|
+        facet.each_value do |val|
+          next if val.blank? # skip empty string
 
-            if val.is_a?(Array)
-              yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
-            else
-              yield facet_item_presenter(facet.config, val, facet.key)
-            end
+          if val.is_a?(Array)
+            yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
+          else
+            yield facet_item_presenter(facet.config, val, facet.key)
           end
         end
       end

@@ -76,13 +76,6 @@ module Blacklight
         params[param][key] = (params[param][key] || []).dup
 
         collection = params[param][key]
-        # collection should be an array, because we link to ?f[key][]=value,
-        # however, Facebook (and maybe some other PHP tools) tranform that parameters
-        # into ?f[key][0]=value, which Rails interprets as a Hash.
-        if collection.is_a? Hash
-          Deprecation.warn(self, 'Normalizing parameters in FilterField#remove is deprecated')
-          collection = collection.values
-        end
         params[param][key] = collection - Array(value)
         params[param].delete(key) if params[param][key].empty?
         params.delete(param) if params[param].empty?

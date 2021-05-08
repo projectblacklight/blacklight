@@ -27,7 +27,7 @@ module Blacklight
       validator = opts.fetch(:validator, nil).inspect
       klass.class_eval <<EORUBY, __FILE__, __LINE__ + 1
           def #{name}
-            @response, @documents = action_documents
+            @documents = action_documents
 
             if request.post? && #{callback} &&
                (#{validator}.blank? || send(#{validator}))

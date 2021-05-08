@@ -21,9 +21,7 @@ module Blacklight
       end
 
       def label
-        Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-          @view_context.view_label(@key)
-        end
+        @view.display_label(@key)
       end
 
       def url

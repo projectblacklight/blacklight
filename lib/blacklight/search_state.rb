@@ -6,8 +6,6 @@ module Blacklight
   # This class encapsulates the search state as represented by the query
   # parameters namely: :f, :q, :page, :per_page and, :sort
   class SearchState
-    extend Deprecation
-
     attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
     attr_reader :params
 
@@ -56,34 +54,8 @@ module Blacklight
     end
     alias to_h to_hash
 
-    def to_unsafe_h
-      Deprecation.warn(self.class, 'Use SearchState#to_h instead of SearchState#to_unsafe_h')
-      to_hash
-    end
-
-    def method_missing(method_name, *arguments, &block)
-      if @params.respond_to?(method_name)
-        Deprecation.warn(self.class, "Calling `#{method_name}` on Blacklight::SearchState " \
-          'is deprecated and will be removed in Blacklight 8. Call #to_h first if you ' \
-          ' need to use hash methods (or, preferably, use your own SearchState implementation)')
-        @params.public_send(method_name, *arguments, &block)
-      else
-        super
-      end
-    end
-
-    def respond_to_missing?(method_name, include_private = false)
-      @params.respond_to?(method_name, include_private) || super
-    end
-
-    # Tiny shim to make it easier to migrate raw params access to using this class
-    delegate :[], to: :params
-    deprecation_deprecate :[]
-
     def has_constraints?
-      Deprecation.silence(Blacklight::SearchState) do
-        !(query_param.blank? && filter_params.blank? && filters.blank? && clause_params.blank?)
-      end
+      !(query_param.blank? && filters.blank? && clause_params.blank?)
     end
 
     def query_param
@@ -93,11 +65,6 @@ module Blacklight
     def clause_params
       params[:clause] || {}
     end
-
-    def filter_params
-      params[:f] || {}
-    end
-    deprecation_deprecate filter_params: 'Use #filters instead'
 
     # @return [Blacklight::SearchState]
     def reset(params = nil)
@@ -139,6 +106,7 @@ module Blacklight
       end.compact
     end
 
+    # @return [FilterField]
     def filter(field_key_or_field)
       field = field_key_or_field if field_key_or_field.is_a? Blacklight::Configuration::Field
       field ||= blacklight_config.facet_fields[field_key_or_field]
@@ -146,15 +114,6 @@ module Blacklight
 
       (field.filter_class || FilterField).new(field, self)
     end
-
-    # adds the value and/or field to params[:f]
-    # Does NOT remove request keys and otherwise ensure that the hash
-    # is suitable for a redirect. See
-    # add_facet_params_and_redirect
-    def add_facet_params(field, item)
-      filter(field).add(item).params
-    end
-    deprecation_deprecate add_facet_params: 'Use filter(field).add(item) instead'
 
     # Used in catalog/facet action, facets.rb view, for a click
     # on a facet value. Add on the facet params to existing
@@ -164,9 +123,7 @@ module Blacklight
     # Change the action to 'index' to send them back to
     # catalog/index with their new facet choice.
     def add_facet_params_and_redirect(field, item)
-      new_params = Deprecation.silence(self.class) do
-        add_facet_params(field, item)
-      end
+      new_params = filter(field).add(item).params
 
       # Delete any request params from facet-specific action, needed
       # to redir to index action properly.
@@ -175,26 +132,6 @@ module Blacklight
 
       new_params
     end
-
-    # copies the current params (or whatever is passed in as the 3rd arg)
-    # removes the field value from params[:f]
-    # removes the field if there are no more values in params[:f][field]
-    # removes additional params (page, id, etc..)
-    # @param [String] field
-    # @param [String] item
-    def remove_facet_params(field, item)
-      filter(field).remove(item).params
-    end
-    deprecation_deprecate remove_facet_params: 'Use filter(field).remove(item) instead'
-
-    def has_facet?(config, value: nil)
-      if value
-        filter(config).include?(value)
-      else
-        filter(config).any?
-      end
-    end
-    deprecation_deprecate has_facet?: 'Use filter(field).include?(value) or .any? instead'
 
     # Merge the source params with the params_to_merge hash
     # @param [Hash] params_to_merge to merge into above
