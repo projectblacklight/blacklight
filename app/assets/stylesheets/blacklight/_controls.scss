@@ -34,7 +34,8 @@
   display: inline-block;
 
   .caption {
-    @extend .sr-only;
+    @extend .sr-only !optional;
+    @extend .visually-hidden !optional;
   }
 }
 

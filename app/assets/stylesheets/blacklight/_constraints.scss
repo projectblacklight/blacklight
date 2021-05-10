@@ -8,8 +8,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
 
-    @media (max-width: breakpoint-max(xs)) {
-      max-width: breakpoint-max(xs) / 2;
+    @media (max-width: breakpoint-min(sm)) {
+      max-width: breakpoint-min(sm) / 2;
     }
 
     @media (min-width: breakpoint-min(sm)) and (max-width: breakpoint-max(sm)) {

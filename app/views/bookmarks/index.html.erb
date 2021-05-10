@@ -13,7 +13,7 @@
   <% else %>
     <%= render 'sort_and_per_page' %>
     <%= render partial: 'tools', locals: { document_list: @response.documents } %>
-    <h2 class='section-heading sr-only'><%= t('blacklight.bookmarks.list_title') %></h2>
+    <h2 class='section-heading sr-only visually-hidden'><%= t('blacklight.bookmarks.list_title') %></h2>
     <%= render_document_index %>
     <%= render 'results_pagination' %>
   <% end %>

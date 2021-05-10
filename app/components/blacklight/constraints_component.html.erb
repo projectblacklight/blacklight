@@ -1,9 +1,9 @@
 <%= content_tag :div, id: @id, class: @classes do %>
-  <h2 class="sr-only"><%= t('blacklight.search.search_constraints_header') %></h2>
+  <h2 class="sr-only visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
 
   <%= link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
 
-  <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
+  <span class="constraints-label sr-only visually-hidden"><%= t('blacklight.search.filters.title') %></span>
   <% if query_constraints_area.present? %>
     <% query_constraints_area.each do |constraint| %>
       <%= constraint %>

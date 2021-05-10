@@ -147,7 +147,7 @@ en:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
       per_page:
-        label: '%{count}<span class="sr-only"> per page</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per page</span>'
         button_label: '%{count} per page' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per page</span>'
         title: 'Number of results to display per page'
@@ -189,7 +189,7 @@ en:
           count: 'Numerical Sort'
           index: 'A-Z Sort'
         count: '%{number}'
-        more_html: 'more <span class="sr-only">%{field_name}</span> »'
+        more_html: 'more <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[remove]'
         missing: "[Missing]"

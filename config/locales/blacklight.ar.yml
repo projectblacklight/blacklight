@@ -157,7 +157,7 @@ ar:
         request_error: "معذرة، لم أفهم ما تبحث عنه."
         invalid_solr_id: "معذرة! لقد طلبت سجلًا غير موجود."
       per_page:
-        label: '%{count}<span class="sr-only"> لكل صفحة</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> لكل صفحة</span>'
         button_label: '%{count} لكل صفحة' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> لكل صفحة</span>'
         title: 'عدد النتائج المعروضة في الصفحة'
@@ -209,7 +209,7 @@ ar:
           count: 'ترتيب رقمي'
           index: 'ترتيب أبجدي'
         count: '%{number}'
-        more_html: 'المزيد <span class="sr-only">%{field_name}</span> »'
+        more_html: 'المزيد <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[إزالة]'
         missing: "[غير موجود]"

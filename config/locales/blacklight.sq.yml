@@ -147,7 +147,7 @@ sq:
         request_error: "Na vjen keq, unë nuk e kuptoj kërkimin tuaj."
         invalid_solr_id: "Na vjen keq, ju keni kërkuar një të dhënë që nuk ekziston."
       per_page:
-        label: '%{count}<span class="sr-only"> për faqe</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> për faqe</span>'
         button_label: '%{count} për faqe' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> për faqe</span>'
         title: 'Numri i rezultateve që do të shfaqen për faqe'
@@ -190,7 +190,7 @@ sq:
           count: 'Renditja numerike'
           index: 'A-Z Renditja'
         count: '%{number}'
-        more_html: 'Më shumë <span class="sr-only">%{field_name}</span> »'
+        more_html: 'Më shumë <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[fshije]'
         missing: "[Mungon]"

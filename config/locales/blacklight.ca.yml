@@ -147,7 +147,7 @@ ca:
         request_error: "No ha estat possible entendre la cerca"
         invalid_solr_id: "El registre que heu sol·licitat no existeix."
       per_page:
-        label: '%{count}<span class="sr-only"> per pàgina</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per pàgina</span>'
         button_label: '%{count} per pàgina' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pàgina</span>'
         title: 'Nombre de resultats a mostrar per pàgina'
@@ -189,7 +189,7 @@ ca:
           count: 'Numèricament'
           index: 'Alfabèticament'
         count: '%{number}'
-        more_html: 'més <span class="sr-only">%{field_name}</span> »'
+        more_html: 'més <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[eliminar]'
         missing: "[Desaparegut]"

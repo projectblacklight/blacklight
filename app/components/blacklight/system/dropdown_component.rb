@@ -4,7 +4,7 @@ module Blacklight
   module System
     class DropdownComponent < ViewComponent::Base
       renders_one :button, (lambda do |classes:, label:|
-        button_tag class: classes, aria: { expanded: false }, data: { toggle: 'dropdown' } do
+        button_tag class: classes, aria: { expanded: false }, data: { toggle: 'dropdown', 'bs-toggle': 'dropdown' } do
           safe_join([label, content_tag(:span, '', class: 'caret')])
         end
       end)

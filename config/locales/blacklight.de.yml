@@ -147,7 +147,7 @@ de:
         request_error: "Entschuldigung, ich habe Ihre Suche nicht verstanden."
         invalid_solr_id: "Entschuldigung, Sie haben einen nicht vorhandenen Datensatz angefordert."
       per_page:
-        label: '%{count}<span class="sr-only"> pro Seite</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> pro Seite</span>'
         button_label: '%{count} pro Seite' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> pro Seite</span>'
         title: 'Anzahl der Ergebnisse, die pro Seite angezeigt werden'
@@ -190,7 +190,7 @@ de:
           count: 'Numerisch ordnen'
           index: 'A-Z Ordnen'
         count: '%{number}'
-        more_html: 'mehr <span class="sr-only">%{field_name}</span> »'
+        more_html: 'mehr <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[entfernen]'
         missing: [fehlt]
