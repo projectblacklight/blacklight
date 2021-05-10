@@ -147,7 +147,7 @@ nl:
         request_error: "Sorry, ik kon uw zoekopdracht niet begrijpen."
         invalid_solr_id: "Sorry, u vroeg een onbestaande record op."
       per_page:
-        label: '%{count}<span class="sr-only"> per pagina</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
         button_label: '%{count} per pagina' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
         title: 'Toon aantal zoekresultaten per pagina'
@@ -190,7 +190,7 @@ nl:
           count: 'Numeriek sorteren'
           index: 'A-Z Sorteren'
         count: '%{number}'
-        more_html: 'Meer <span class="sr-only">%{field_name}</span> »'
+        more_html: 'Meer <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[verwijder]'
         missing: "[Ontbrekend]"

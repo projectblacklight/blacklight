@@ -194,9 +194,9 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   describe "#per_page_options_for_select" do
     it "is the per-page values formatted as options_for_select" do
       allow(helper).to receive_messages(blacklight_config: double(per_page: [11, 22, 33]))
-      expect(helper.per_page_options_for_select).to include ["11<span class=\"sr-only\"> per page</span>", 11]
-      expect(helper.per_page_options_for_select).to include ["22<span class=\"sr-only\"> per page</span>", 22]
-      expect(helper.per_page_options_for_select).to include ["33<span class=\"sr-only\"> per page</span>", 33]
+      expect(helper.per_page_options_for_select).to include ["11<span class=\"sr-only visually-hidden\"> per page</span>", 11]
+      expect(helper.per_page_options_for_select).to include ["22<span class=\"sr-only visually-hidden\"> per page</span>", 22]
+      expect(helper.per_page_options_for_select).to include ["33<span class=\"sr-only visually-hidden\"> per page</span>", 33]
     end
   end
 

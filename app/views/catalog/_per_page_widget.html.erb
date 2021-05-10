@@ -1,5 +1,5 @@
 <% if show_sort_and_per_page? %>
-  <span class="sr-only"><%= t('blacklight.search.per_page.title') %></span>
+  <span class="sr-only visually-hidden"><%= t('blacklight.search.per_page.title') %></span>
   <%= render(Blacklight::System::DropdownComponent.new(
     param: :per_page,
     choices: per_page_options_for_select,

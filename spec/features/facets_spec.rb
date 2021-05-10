@@ -84,13 +84,13 @@ RSpec.describe "Facets" do
       pending 'Capybara::NotSupportedByDriverError: Capybara::Driver::Base#evaluate_script'
       visit root_path
       page.find('h3.facet-field-heading button', text: 'Format').click
-      focused_element_data_target = page.evaluate_script("document.activeElement")['data-target']
+      focused_element_data_target = page.evaluate_script("document.activeElement")['data-bs-target']
       expect(focused_element_data_target).to eq '#facet-format'
     end
   end
 
   describe '"More" links' do
-    it 'has default more link with sr-only text' do
+    it 'has default more link with visually-hidden text' do
       visit root_path
       within '#facet-language_ssim' do
         expect(page).to have_css 'div.more_facets', text: 'more Language'

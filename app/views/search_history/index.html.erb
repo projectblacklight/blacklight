@@ -9,7 +9,7 @@
               blacklight.clear_search_history_path,
               method: :delete,
               data: { confirm: t('blacklight.search_history.clear.action_confirm') },
-              class: 'btn btn-danger float-md-right' %>
+              class: 'btn btn-danger float-md-right float-md-end' %>
   <h2 class='section-heading'><%= t('blacklight.search_history.recent') %></h2>
   <table class="table table-striped search-history">
     <% @searches.each_with_index do |search,index| %>

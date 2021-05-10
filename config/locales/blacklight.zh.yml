@@ -147,7 +147,7 @@ zh:
         request_error: "抱歉，我不明白你要找什么。"
         invalid_solr_id: "抱歉，你要找的结果不存在。"
       per_page:
-        label: '%{count}<span class="sr-only"> 每页</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> 每页</span>'
         button_label: '%{count} 每页' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> 每页</span>'
         title: '每页显示结果数'
@@ -190,7 +190,7 @@ zh:
           count: '按数量排序'
           index: '按字母排序'
         count: '%{number}'
-        more_html: '更多 <span class="sr-only">%{field_name}</span> »'
+        more_html: '更多 <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[删除]'
         missing: "[未找到]"
