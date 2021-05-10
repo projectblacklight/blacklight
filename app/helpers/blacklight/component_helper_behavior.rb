@@ -14,7 +14,7 @@ module Blacklight
       if action_opts.path
         send(action_opts.path, url_opts)
       elsif url_opts[:id].class.respond_to?(:model_name)
-        url_for([action_opts.key, url_opts[:id]])
+        url_for([action_opts.key.to_sym, url_opts[:id]])
       else
         send("#{action_opts.key}_#{controller_name}_path", url_opts)
       end
