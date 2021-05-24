@@ -10,7 +10,7 @@ module Blacklight
     def initialize(**); end
 
     def call
-      body
+      body.to_s
     end
   end
 end

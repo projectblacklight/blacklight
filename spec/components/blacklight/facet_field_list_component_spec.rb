@@ -3,12 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
-  subject(:render) do
-    render_inline(described_class.new(facet_field: facet_field))
-  end
-
-  let(:rendered) do
-    Capybara::Node::Simple.new(render)
+  subject(:rendered) do
+    render_inline_to_capybara_node(described_class.new(facet_field: facet_field))
   end
 
   let(:facet_field) do
