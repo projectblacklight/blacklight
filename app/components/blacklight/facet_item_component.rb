@@ -27,7 +27,7 @@ module Blacklight
                   render_facet_value
                 end
 
-      return if content.blank?
+      return '' if content.blank?
       return content unless @wrapping_element
 
       content_tag @wrapping_element, content
