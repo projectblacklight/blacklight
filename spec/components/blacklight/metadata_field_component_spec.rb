@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
-  subject(:render) do
-    render_inline(described_class.new(field: field))
+  subject(:rendered) do
+    render_inline_to_capybara_node(described_class.new(field: field))
   end
 
   let(:view_context) { controller.view_context }
@@ -13,10 +13,6 @@ RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
 
   let(:field) do
     Blacklight::FieldPresenter.new(view_context, document, field_config)
-  end
-
-  let(:rendered) do
-    Capybara::Node::Simple.new(render)
   end
 
   it 'renders the field label' do
@@ -28,8 +24,8 @@ RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
   end
 
   context 'from a show view' do
-    subject(:render) do
-      render_inline(described_class.new(field: field, show: true))
+    subject(:rendered) do
+      render_inline_to_capybara_node(described_class.new(field: field, show: true))
     end
 
     it 'renders the right field label' do
