@@ -1,3 +1,10 @@
+.search-widgets {
+  @extend .d-flex;
+  > * {
+    @extend .mx-1;
+  }
+}
+
 .sort-pagination,
 .pagination-search-widgets {
   border-bottom: $pagination-border-width solid $pagination-border-color;
