@@ -13,7 +13,8 @@ module Blacklight
       classes: ['search-query-form'], presenter: nil, prefix: nil,
       method: 'GET', q: nil, query_param: :q,
       search_field: nil, search_fields: [], autocomplete_path: nil,
-      autofocus: nil, i18n: { scope: 'blacklight.search.form' }
+      autofocus: nil, i18n: { scope: 'blacklight.search.form' },
+      form_options: {}
     )
       @url = url
       @advanced_search_url = advanced_search_url
@@ -29,6 +30,7 @@ module Blacklight
       @autofocus = autofocus
       @search_fields = search_fields
       @i18n = i18n
+      @form_options = form_options
     end
     # rubocop:enable Metrics/ParameterLists
 
