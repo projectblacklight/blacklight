@@ -10,7 +10,7 @@ module Blacklight
     # rubocop:disable Metrics/ParameterLists
     def initialize(
       url:, advanced_search_url: nil, params:,
-      classes: ['search-query-form'], presenter: nil, prefix: '',
+      classes: ['search-query-form'], presenter: nil, prefix: nil,
       method: 'GET', q: nil, query_param: :q,
       search_field: nil, search_fields: [], autocomplete_path: nil,
       autofocus: nil, i18n: { scope: 'blacklight.search.form' }

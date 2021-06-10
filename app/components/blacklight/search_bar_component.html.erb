@@ -1,31 +1,31 @@
-<%= form_tag @url, method: @method, class: @classes.join(' '), role: 'search', 'aria-label' => scoped_t('submit') do %>
+<%= form_with url: @url, method: @method, class: @classes.join(' '), namespace: @prefix, role: 'search', 'aria-label' => scoped_t('submit') do |f| %>
   <%= render_hash_as_hidden_fields(@params) %>
   <% if @search_fields.length > 1 %>
-    <label for="search_field" class="sr-only visually-hidden"><%= scoped_t('search_field.label') %></label>
+    <%= f.label :search_field, scoped_t('search_field.label'), class: 'sr-only visually-hidden' %>
   <% end %>
   <div class="input-group">
-    <%= prepend %>
+    <%= prepend(form: f) %>
 
     <% if @search_fields.length > 1 %>
-        <%= select_tag(:search_field,
-                       options_for_select(@search_fields, h(@search_field)),
-                       title: scoped_t('search_field.title'),
-                       id: "#{@prefix}search_field",
-                       class: "custom-select form-select search-field") %>
+      <%= f.select(:search_field,
+                   options_for_select(@search_fields, h(@search_field)),
+                   {},
+                   title: scoped_t('search_field.title'),
+                   class: "custom-select form-select search-field") %>
     <% elsif @search_fields.length == 1 %>
-      <%= hidden_field_tag :search_field, @search_fields.first.last %>
+      <%= f.hidden_field :search_field, value: @search_fields.first.last %>
     <% end %>
 
-    <label for="<%= @prefix %><%= @query_param %>" class="sr-only visually-hidden"><%= scoped_t('search.label') %></label>
-    <%= text_field_tag @query_param, @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{@search_fields.length > 1 ? '0' : 'left'}", id: "#{@prefix}q", autocomplete: autocomplete_path.present? ? "off" : "", autofocus: @autofocus, data: { autocomplete_enabled: autocomplete_path.present?, autocomplete_path: autocomplete_path }  %>
+    <%= f.label @query_param, scoped_t('search.label'), class: 'sr-only visually-hidden' %>
+    <%= f.text_field @query_param, value: @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{@search_fields.length > 1 ? '0' : 'left'}", autocomplete: autocomplete_path.present? ? "off" : "", autofocus: @autofocus, data: { autocomplete_enabled: autocomplete_path.present?, autocomplete_path: autocomplete_path }  %>
 
     <span class="input-group-append">
-      <%= append %>
+      <%= append(form: f) %>
 
-      <button type="submit" class="btn btn-primary search-btn" id="<%= @prefix %>search">
+      <%= f.button class: 'btn btn-primary search-btn', id: "#{@prefix}search" do %>
         <span class="submit-search-text"><%= scoped_t('submit') %></span>
         <%= blacklight_icon :search, aria_hidden: true %>
-      </button>
+      <% end %>
     </span>
   </div>
 <% end %>
