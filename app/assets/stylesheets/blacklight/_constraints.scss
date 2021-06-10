@@ -1,8 +1,11 @@
 .constraints-container {
   @extend .mb-2;
+  @extend .d-flex;
 }
 
 .applied-filter {
+  @extend .mx-1;
+
   .constraint-value {
     cursor: default;
     text-overflow: ellipsis;
