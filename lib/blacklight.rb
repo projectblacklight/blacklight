@@ -96,7 +96,11 @@ module Blacklight
     end
 
     begin
-      @blacklight_yml = YAML.safe_load(blacklight_erb, aliases: true)
+      @blacklight_yml = if RUBY_VERSION > '2.6'
+                          YAML.safe_load(blacklight_erb, aliases: true)
+                        else
+                          YAML.safe_load(blacklight_erb, [], [], true)
+                        end
     rescue => e
       raise("#{blacklight_config_file} was found, but could not be parsed.\n#{e.inspect}")
     end
