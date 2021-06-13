@@ -234,7 +234,9 @@ fr:
 
 
     entry_name:
-      default: 'résultat'
+      default:
+        one: 'résultat'
+        other: 'résultats'
       grouped:
         default: 'résultat groupé'
 
