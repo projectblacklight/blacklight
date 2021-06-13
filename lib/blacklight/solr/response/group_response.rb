@@ -45,8 +45,9 @@ class Blacklight::Solr::Response::GroupResponse
   def entry_name(options)
     I18n.t(
       "blacklight.entry_name.grouped.#{key}",
-      default: :'blacklight.entry_name.grouped.default'
-    ).pluralize(options[:count])
+      default: :'blacklight.entry_name.grouped.default',
+      count: options[:count]
+    )
   end
 
   def method_missing meth, *args, &block

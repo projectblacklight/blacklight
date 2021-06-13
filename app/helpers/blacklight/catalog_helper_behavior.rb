@@ -50,8 +50,6 @@ module Blacklight::CatalogHelperBehavior
                    collection.entry_name(count: collection.size).to_s
                  end
 
-    entry_name = entry_name.pluralize unless collection.total_count == 1
-
     # grouped response objects need special handling
     end_num = if collection.respond_to?(:groups) && render_grouped_response?(collection)
                 collection.groups.length

@@ -24,6 +24,6 @@ module Blacklight::Solr::Response::PaginationMethods
   ##
   # Meant to have the same signature as Kaminari::PaginatableArray#entry_name
   def entry_name(options)
-    I18n.t('blacklight.entry_name.default').pluralize(options[:count])
+    I18n.t('blacklight.entry_name.default', count: options[:count])
   end
 end
