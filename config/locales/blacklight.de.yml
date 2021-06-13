@@ -169,7 +169,7 @@ de:
       pagination:
         title: 'Ergebnisse Navigation'
       pagination_info:
-        no_items_found: 'Kein %{entry_name} gefunden'
+        no_items_found: 'Keine %{entry_name} gefunden'
         single_item_found: '<strong>1</strong> %{entry_name} gefunden'
         pages:
           one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> von <strong>%{total_num}</strong>'
@@ -230,7 +230,9 @@ de:
         list: "Liste"
 
     entry_name:
-      default: 'Eintrag'
+      default:
+        one: Eintrag
+        other: Enträge
       grouped:
         default: 'gruppiertes Ergebnis'
 
