@@ -230,7 +230,9 @@ es:
         list: "Lista"
 
     entry_name:
-      default: 'entrada'
+      default:
+        one: 'entrada'
+        other: 'entradas'
       grouped:
         default: 'resultado agrupado'
 

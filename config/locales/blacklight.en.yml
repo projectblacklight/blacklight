@@ -230,9 +230,13 @@ en:
         list: "List"
 
     entry_name:
-      default: 'entry'
+      default:
+        one: 'entry'
+        other: 'entries'
       grouped:
-        default: 'grouped result'
+        default:
+          one: 'grouped result'
+          other: 'grouped results'
 
     did_you_mean: 'Did you mean to type: %{options}?'
 

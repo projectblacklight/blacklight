@@ -230,7 +230,9 @@ it:
         list: "Lista"
 
     entry_name:
-      default: 'termine di ricerca'
+      default:
+        one: 'termine di ricerca'
+        other: 'termini di ricerca'
       grouped:
         default: 'risultato raggruppato'
 

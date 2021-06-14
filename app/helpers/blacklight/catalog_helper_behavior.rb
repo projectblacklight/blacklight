@@ -47,10 +47,8 @@ module Blacklight::CatalogHelperBehavior
     entry_name = if entry_name
                    entry_name.pluralize(collection.size, I18n.locale)
                  else
-                   collection.entry_name(count: collection.size).to_s.downcase
+                   collection.entry_name(count: collection.size).to_s
                  end
-
-    entry_name = entry_name.pluralize unless collection.total_count == 1
 
     # grouped response objects need special handling
     end_num = if collection.respond_to?(:groups) && render_grouped_response?(collection)
