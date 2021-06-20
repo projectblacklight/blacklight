@@ -15,7 +15,7 @@ module Blacklight
 
       create_file 'app/assets/javascripts/application.js' do
         <<~CONTENT
-          //= require jquery
+          //= require jquery3
           //= require rails-ujs
           //= require turbolinks
         CONTENT
