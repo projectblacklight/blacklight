@@ -48,9 +48,6 @@ module Blacklight::Bookmarks
       format.html {}
       format.rss  { render layout: false }
       format.atom { render layout: false }
-      format.json do
-        render json: render_search_results_as_json
-      end
 
       additional_response_formats(format)
       document_export_formats(format)
