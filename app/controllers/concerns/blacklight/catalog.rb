@@ -2,6 +2,9 @@
 module Blacklight::Catalog
   extend ActiveSupport::Concern
 
+  # MimeResponds is part of ActionController::Base, but not ActionController::API
+  include ActionController::MimeResponds
+
   include Blacklight::Base
   include Blacklight::Facet
   include Blacklight::Searchable
