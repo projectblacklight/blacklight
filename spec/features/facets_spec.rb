@@ -69,7 +69,7 @@ RSpec.describe "Facets" do
     page.find('h3.facet-field-heading button', text: 'Pivot Field').click
 
     within '#facet-example_pivot_field' do
-      expect(page).to have_css('.facet-leaf-node', text: "Book\t30")
+      expect(page).to have_css('.facet-leaf-node', text: "Book 30")
       expect(page).not_to have_css('.facet-select', text: 'Tibetan')
       page.find('.facet-toggle-handle').click
       click_link 'Tibetan'

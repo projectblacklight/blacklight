@@ -19,18 +19,23 @@ EngineCart.load_application!
 require 'rspec/rails'
 require 'rspec/its'
 require 'rspec/collection_matchers'
-require 'capybara/rspec'
-require 'capybara/apparition'
+require 'capybara/rails'
+require 'webdrivers'
+require 'selenium-webdriver'
 require 'equivalent-xml'
 
-Capybara.javascript_driver = :apparition
-Capybara.disable_animation = true
-# Capybara.enable_aria_label = true
+Capybara.javascript_driver = :headless_chrome
 
-# Uncomment for a headed browser
-# Capybara.register_driver :apparition do |app|
-#   Capybara::Apparition::Driver.new(app, headless: false)
-# end
+Capybara.register_driver :headless_chrome do |app|
+  Capybara::Selenium::Driver.load_selenium
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    opts.args << '--headless'
+    opts.args << '--disable-gpu'
+    opts.args << '--no-sandbox'
+    opts.args << '--window-size=1280,1696'
+  end
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
