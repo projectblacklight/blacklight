@@ -23,6 +23,7 @@ require 'capybara/rails'
 require 'webdrivers'
 require 'selenium-webdriver'
 require 'equivalent-xml'
+require 'axe-rspec'
 
 Capybara.javascript_driver = :headless_chrome
 
