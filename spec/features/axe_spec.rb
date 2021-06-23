@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Autocomplete suggestions', api: false, js: true do
+RSpec.describe 'Accessibility testing', api: false, js: true do
   it 'validates the home page' do
     visit root_path
     expect(page).to be_accessible
