@@ -8,7 +8,12 @@ module Blacklight
       # @param [Array<String>] options explicit spellcheck options to render
       def initialize(response:, options: nil)
         @response = response
-        @options = options || @response&.spelling&.words
+        @options = options
+        if @response&.spelling&.collation
+          @options = [@response.spelling.collation]
+        elsif @response&.spelling&.words
+          @options = response.spelling.words
+        end
       end
 
       def link_to_query(query)
