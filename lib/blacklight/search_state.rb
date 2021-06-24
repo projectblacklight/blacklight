@@ -132,11 +132,14 @@ module Blacklight
     end
 
     def filters
-      @filters ||= blacklight_config.facet_fields.each_value.map do |value|
-        f = filter(value)
-
-        f if f.any?
-      end.compact
+      @filters ||= blacklight_config.facet_fields.each_value.reduce([]) do |acc, value|
+        if value.pivot
+          acc + value.pivot.map { |v| value.class.new(key: v) }
+                     .map { |f| filter(f) }.select(&:any?)
+        else
+          acc + Array(filter(value)).select(&:any?)
+        end
+      end
     end
 
     def filter(field_key_or_field)

@@ -544,4 +544,33 @@ RSpec.describe Blacklight::SearchState do
       expect(search_state.facet_prefix).to eq 'A'
     end
   end
+
+  describe '#filters' do
+    context 'pivot facet config but no facet params' do
+      it 'maps no filters' do
+        blacklight_config.add_facet_field 'some_key', pivot: %w[pivot_field_1 pivot_field_2]
+        expect(search_state.filters).to eq([])
+      end
+    end
+
+    context 'pivot facet config and some pivot facet params' do
+      let(:params) { { 'f' => { 'pivot_field_1' => 'foo' } } }
+
+      it 'maps the pivot matching param pivot_field' do
+        blacklight_config.add_facet_field 'some_key', pivot: %w[pivot_field_1 pivot_field_2]
+        expect(search_state.filters.count).to eq(1)
+        expect(search_state.filters.first.key).to eq('pivot_field_1')
+      end
+    end
+
+    context 'regular facet config with params' do
+      let(:params) { { 'f' => { 'some_key' => 'foo' } } }
+
+      it 'maps the field matching param facet_field' do
+        blacklight_config.add_facet_field 'some_key'
+        expect(search_state.filters.count).to eq(1)
+        expect(search_state.filters.first.key).to eq('some_key')
+      end
+    end
+  end
 end
