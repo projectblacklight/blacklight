@@ -163,6 +163,10 @@ module Blacklight::UrlHelperBehavior
     label ||= t('blacklight.back_to_search')
 
     link_to label, link_url, opts
+  rescue ActionController::UrlGenerationError
+    # This exception is triggered if the user's session has information that results in an
+    # invalid back to catalog link, for example if their session is corrupted.
+    link_to t('blacklight.back_to_search'), root_url
   end
 
   # Search History and Saved Searches display
