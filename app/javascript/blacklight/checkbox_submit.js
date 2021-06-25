@@ -69,6 +69,7 @@
         function updateStateFor(state) {
             checkbox.prop('checked', state);
             label.toggleClass('checked', state);
+            Rails.refreshCSRFTokens();
             if (state) {
                //Set the Rails hidden field that fakes an HTTP verb
                //properly for current state action.
