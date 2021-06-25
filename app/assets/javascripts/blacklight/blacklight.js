@@ -1,3 +1,9 @@
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 Blacklight = function () {
   var buffer = new Array();
   return {
@@ -69,33 +75,23 @@ Blacklight.onLoad(function () {
       source: terms.ttAdapter()
     });
   });
-});
+}); //change form submit toggle to checkbox
 
-(function ($) {
-  //change form submit toggle to checkbox
-  Blacklight.doBookmarkToggleBehavior = function () {
-    if (typeof Blacklight.do_bookmark_toggle_behavior == 'function') {
-      console.warn("do_bookmark_toggle_behavior is deprecated. Use doBookmarkToggleBehavior instead.");
-      return Blacklight.do_bookmark_toggle_behavior();
-    }
+Blacklight.doBookmarkToggleBehavior = function () {
+  if (typeof Blacklight.do_bookmark_toggle_behavior == 'function') {
+    console.warn("do_bookmark_toggle_behavior is deprecated. Use doBookmarkToggleBehavior instead.");
+    return Blacklight.do_bookmark_toggle_behavior();
+  }
 
-    $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
-      // cssClass is added to elements added, plus used for id base
-      cssClass: 'toggle-bookmark',
-      success: function (checked, response) {
-        if (response.bookmarks) {
-          $('[data-role=bookmark-counter]').text(response.bookmarks.count);
-        }
-      }
-    });
-  };
-
-  Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
-  Blacklight.onLoad(function () {
-    Blacklight.doBookmarkToggleBehavior();
+  document.querySelectorAll(Blacklight.doBookmarkToggleBehavior.selector).forEach(el => {
+    new CheckboxSubmit(el).render();
   });
-})(jQuery);
+};
 
+Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
+Blacklight.onLoad(function () {
+  Blacklight.doBookmarkToggleBehavior();
+});
 Blacklight.onLoad(function () {
   // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
   // Safari both do not set focus to a button on button click.
@@ -106,126 +102,137 @@ Blacklight.onLoad(function () {
     });
   });
 });
-/* A JQuery plugin (should this be implemented as a widget instead? not sure)
-   that will convert a "toggle" form, with single submit button to add/remove
+/* Converts a "toggle" form, with single submit button to add/remove
    something, like used for Bookmarks, into an AJAXy checkbox instead.
-
    Apply to a form. Does require certain assumption about the form:
     1) The same form 'action' href must be used for both ADD and REMOVE
        actions, with the different being the hidden input name="_method"
        being set to "put" or "delete" -- that's the Rails method to pretend
        to be doing a certain HTTP verb. So same URL, PUT to add, DELETE
        to remove. This plugin assumes that.
-
        Plus, the form this is applied to should provide a data-doc-id
        attribute (HTML5-style doc-*) that contains the id/primary key
        of the object in question -- used by plugin for a unique value for
        DOM id's.
-
-  Uses HTML for a checkbox compatible with Bootstrap 3.
-
-   Pass in options for your class name and labels:
-   $("form.something").blCheckboxSubmit({
-        //cssClass is added to elements added, plus used for id base
-        cssClass: "toggle_my_kinda_form",
-        error: function() {
-          #optional callback
-        },
-        success: function(after_success_check_state) {
-          #optional callback
-        }
-   });
+  Uses HTML for a checkbox compatible with Bootstrap 4.
+   new CheckboxSubmit(document.querySelector('form.something')).render()
 */
 
-(function ($) {
-  $.fn.blCheckboxSubmit = function (argOpts) {
-    this.each(function () {
-      var options = $.extend({}, $.fn.blCheckboxSubmit.defaults, argOpts);
-      var form = $(this);
-      form.children().hide(); //We're going to use the existing form to actually send our add/removes
+let CheckboxSubmit =
+/*#__PURE__*/
+function () {
+  function CheckboxSubmit(form) {
+    _classCallCheck(this, CheckboxSubmit);
+
+    this.form = form;
+    this.cssClass = 'toggle-bookmark'; //View needs to set data-doc-id so we know a unique value
+    //for making DOM id
+
+    const uniqueId = this.form.getAttribute('data-doc-id') || Math.random();
+    const id = `${this.cssClass}_${uniqueId}`;
+    this.checkbox = this._buildCheckbox(this.cssClass, id);
+    this.span = this._buildSpan();
+    this.label = this._buildLabel(id, this.cssClass, this.checkbox, this.span); // if form is currently using method delete to change state,
+    // then checkbox is currently checked
+
+    this.checked = this.form.querySelectorAll('input[name=_method][value=delete]').length != 0;
+  }
+
+  _createClass(CheckboxSubmit, [{
+    key: "_buildCheckbox",
+    value: function _buildCheckbox(cssClass, id) {
+      const checkbox = document.createElement('input');
+      checkbox.setAttribute('type', 'checkbox');
+      checkbox.classList.add(cssClass);
+      checkbox.id = id;
+      return checkbox;
+    }
+  }, {
+    key: "_buildLabel",
+    value: function _buildLabel(id, cssClass, checkbox, span) {
+      const label = document.createElement('label');
+      label.classList.add(cssClass);
+      label.for = id;
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(' '));
+      label.appendChild(span);
+      return label;
+    }
+  }, {
+    key: "_buildSpan",
+    value: function _buildSpan() {
+      return document.createElement('span');
+    }
+  }, {
+    key: "_buildCheckboxDiv",
+    value: function _buildCheckboxDiv() {
+      const checkboxDiv = document.createElement('div');
+      checkboxDiv.classList.add('checkbox');
+      checkboxDiv.classList.add(this.cssClass);
+      checkboxDiv.appendChild(this.label);
+      return checkboxDiv;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      const children = this.form.children;
+      Array.from(children).forEach(child => child.classList.add('hidden')); //We're going to use the existing form to actually send our add/removes
       //This works conveneintly because the exact same action href is used
       //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
       //of the form to avoid any future confusion.
 
-      form.find('input[type=submit]').remove(); //View needs to set data-doc-id so we know a unique value
-      //for making DOM id
-
-      var uniqueId = form.attr('data-doc-id') || Math.random(); // if form is currently using method delete to change state,
-      // then checkbox is currently checked
-
-      var checked = form.find('input[name=_method][value=delete]').length != 0;
-      var checkbox = $('<input type="checkbox">').addClass(options.cssClass).attr('id', options.cssClass + '_' + uniqueId);
-      var label = $('<label>').addClass(options.cssClass).attr('for', options.cssClass + '_' + uniqueId).attr('title', form.attr('title') || '');
-      var span = $('<span>');
-      label.append(checkbox);
-      label.append(' ');
-      label.append(span);
-      var checkboxDiv = $('<div class="checkbox" />').addClass(options.cssClass).append(label);
-
-      function updateStateFor(state) {
-        checkbox.prop('checked', state);
-        label.toggleClass('checked', state);
-
-        if (state) {
-          //Set the Rails hidden field that fakes an HTTP verb
-          //properly for current state action.
-          form.find('input[name=_method]').val('delete');
-          span.html(form.attr('data-present'));
-        } else {
-          form.find('input[name=_method]').val('put');
-          span.html(form.attr('data-absent'));
+      this.form.querySelectorAll('input[type=submit]').forEach(el => this.form.removeChild(el));
+      this.form.appendChild(this._buildCheckboxDiv());
+      this.updateStateFor(this.checked);
+      this.checkbox.onclick = this._clicked.bind(this);
+    }
+  }, {
+    key: "_clicked",
+    value: async function _clicked(evt) {
+      this.span.innerHTML = this.form.getAttribute('data-inprogress');
+      this.label.setAttribute('disabled', 'disabled');
+      this.checkbox.setAttribute('disabled', 'disabled');
+      const response = await fetch(this.form.getAttribute('action'), {
+        body: new FormData(this.form),
+        method: this.form.getAttribute('method').toUpperCase(),
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         }
+      });
+      this.label.removeAttribute('disabled');
+      this.checkbox.removeAttribute('disabled');
+
+      if (response.ok) {
+        const json = await response.json();
+        this.checked = !this.checked;
+        this.updateStateFor(this.checked);
+        document.querySelector('[data-role=bookmark-counter]').innerHTML = json.bookmarks.count;
+      } else {
+        alert('Error');
       }
+    }
+  }, {
+    key: "updateStateFor",
+    value: function updateStateFor(state) {
+      this.checkbox.checked = state;
 
-      form.append(checkboxDiv);
-      updateStateFor(checked);
-      checkbox.click(function () {
-        span.html(form.attr('data-inprogress'));
-        label.attr('disabled', 'disabled');
-        checkbox.attr('disabled', 'disabled');
-        $.ajax({
-          url: form.attr('action'),
-          dataType: 'json',
-          type: form.attr('method').toUpperCase(),
-          data: form.serialize(),
-          error: function () {
-            label.removeAttr('disabled');
-            checkbox.removeAttr('disabled');
-            options.error.call();
-          },
-          success: function (data, status, xhr) {
-            //if app isn't running at all, xhr annoyingly
-            //reports success with status 0.
-            if (xhr.status != 0) {
-              checked = !checked;
-              updateStateFor(checked);
-              label.removeAttr('disabled');
-              checkbox.removeAttr('disabled');
-              options.success.call(form, checked, xhr.responseJSON);
-            } else {
-              label.removeAttr('disabled');
-              checkbox.removeAttr('disabled');
-              options.error.call();
-            }
-          }
-        });
-        return false;
-      }); //checkbox.click
-    }); //this.each
+      if (state) {
+        this.label.classList.add('checked'); //Set the Rails hidden field that fakes an HTTP verb
+        //properly for current state action.
 
-    return this;
-  };
+        this.form.querySelector('input[name=_method]').value = 'delete';
+        this.span.innerHTML = this.form.getAttribute('data-present');
+      } else {
+        this.label.classList.remove('checked');
+        this.form.querySelector('input[name=_method]').value = 'put';
+        this.span.innerHTML = this.form.getAttribute('data-absent');
+      }
+    }
+  }]);
 
-  $.fn.blCheckboxSubmit.defaults = {
-    //cssClass is added to elements added, plus used for id base
-    cssClass: 'blCheckboxSubmit',
-    error: function () {
-      alert("Error");
-    },
-    success: function () {} //callback
-
-  };
-})(jQuery);
+  return CheckboxSubmit;
+}();
 /*global Blacklight */
 
 
