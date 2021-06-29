@@ -95,6 +95,9 @@ module Blacklight
             partials: [:show_header, :show],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
           ),
+          # SMS and Email configurations.
+          sms: ViewConfig.new,
+          email: ViewConfig.new,
           action_mapping: NestedOpenStructWithHashAccess.new(
             ViewConfig,
             default: { top_level_config: :index },
@@ -166,6 +169,12 @@ module Blacklight
 
     # solr fields to use for sorting results
     define_field_access :sort_field
+
+    # solr fields to use in text message
+    define_field_access :sms_field
+
+    # solr fields to use in email message
+    define_field_access :email_field
 
     def initialize(hash = {})
       super(self.class.default_values.deep_dup.merge(hash))

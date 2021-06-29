@@ -1,17 +1,24 @@
 # frozen_string_literal: true
 
 RSpec.describe RecordMailer do
+  let(:config) do
+    Blacklight::Configuration.new
+  end
+
+  let(:document) do
+    SolrDocument.new(id: "123456", format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt")
+  end
+
   before do
     allow(described_class).to receive(:default).and_return(from: 'no-reply@projectblacklight.org')
     SolrDocument.use_extension(Blacklight::Document::Email)
     SolrDocument.use_extension(Blacklight::Document::Sms)
-    document = SolrDocument.new(id: "123456", format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt")
     @documents = [document]
   end
 
   describe "email" do
     before do
-      details = { to: 'test@test.com', message: "This is my message" }
+      details = { to: 'test@test.com', message: "This is my message", config: config }
       @email = described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
     end
 
@@ -41,6 +48,27 @@ RSpec.describe RecordMailer do
       details = { to: 'test@test.com', message: "This is my message" }
       @https_email = described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
       expect(@https_email.body).to match %r{https://projectblacklight.org/}
+    end
+
+    context "email title_field is configured and multi valued" do
+      let(:document) { SolrDocument.new(id: "123456", foo: ["Fizz Fizz", "Fuzz Fuzz"], format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt") }
+
+      it "uses configured email title_field" do
+        config.email.title_field = "foo"
+        expect(@email.subject).to match("Fizz Fizz")
+        expect(@email.subject).not_to match("Fuzz Fuzz")
+        expect(@email.subject).not_to match("The horn")
+      end
+    end
+
+    context "email title_field is configured and single valued" do
+      let(:document) { SolrDocument.new(id: "123456", foo: "Fizz Fizz", format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt") }
+
+      it "uses configured email title_field" do
+        config.email.title_field = "foo"
+        expect(@email.subject).to match("Fizz Fizz")
+        expect(@email.subject).not_to match("The horn")
+      end
     end
   end
 

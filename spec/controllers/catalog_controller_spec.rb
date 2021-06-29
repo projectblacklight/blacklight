@@ -501,6 +501,12 @@ RSpec.describe CatalogController, api: true do
     end
 
     describe "email", api: false do
+      let(:config) { Blacklight::Configuration.new }
+
+      before do
+        allow(controller).to receive(:blacklight_config).and_return(config)
+      end
+
       it "gives error if no TO parameter" do
         post :email, params: { id: doc_id }
         expect(request.flash[:error]).to eq "You must enter a recipient in order to send this message"
@@ -518,7 +524,7 @@ RSpec.describe CatalogController, api: true do
 
       it "redirects back to the record upon success" do
         allow(RecordMailer).to receive(:email_record)
-          .with(anything, { to: 'test_email@projectblacklight.org', message: 'xyz' }, hash_including(host: 'test.host'))
+          .with(anything, { to: 'test_email@projectblacklight.org', message: 'xyz', config: config }, hash_including(host: 'test.host'))
           .and_return double(deliver: nil)
         post :email, params: { id: doc_id, to: 'test_email@projectblacklight.org', message: 'xyz' }
         expect(request.flash[:error]).to be_nil
@@ -533,6 +539,12 @@ RSpec.describe CatalogController, api: true do
     end
 
     describe "sms", api: false do
+      let(:config) { Blacklight::Configuration.new }
+
+      before do
+        allow(controller).to receive(:blacklight_config).and_return(config)
+      end
+
       it "gives error if no phone number is given" do
         post :sms, params: { id: doc_id, carrier: 'att' }
         expect(request.flash[:error]).to eq "You must enter a recipient's phone number in order to send this message"
@@ -562,7 +574,7 @@ RSpec.describe CatalogController, api: true do
       it "sends to the appropriate carrier email address" do
         expect(RecordMailer)
           .to receive(:sms_record)
-          .with(anything, { to: '5555555555@txt.att.net' }, hash_including(host: 'test.host'))
+          .with(anything, { to: '5555555555@txt.att.net', config: config }, hash_including(host: 'test.host'))
           .and_return double(deliver: nil)
         post :sms, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
       end
