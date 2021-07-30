@@ -159,6 +159,33 @@ RSpec.describe Blacklight::SearchState::FilterField do
         expect(new_state.filter('another_field').values).to eq ['3']
       end
     end
+
+    context "With facet.missing field" do
+      let(:params) do
+        { f: { some_field: [""], "-some_field:": [""] } }
+      end
+
+      it "removes facet.missing facet params" do
+        filter = search_state.filter("some_field")
+        new_state = filter.remove(OpenStruct.new(fq: "-some_field:[* TO *]"))
+
+        expect(new_state.params).to eq("f" => {})
+      end
+    end
+
+    context "With facet.missing field value" do
+      let(:params) do
+        { f: { some_field: [""], "-some_field:": [""] } }
+      end
+
+      it "removes facet.missing facet params" do
+        missing = I18n.t("blacklight.search.facets.missing")
+        filter = search_state.filter("some_field")
+        new_state = filter.remove(missing)
+
+        expect(new_state.params).to eq("f" => {})
+      end
+    end
   end
 
   describe '#values' do

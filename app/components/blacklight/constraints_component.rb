@@ -63,10 +63,14 @@ module Blacklight
 
       Deprecation.silence(Blacklight::SearchState) do
         @search_state.filters.map do |facet|
+          missing_facet = @search_state.params.dig("f", "-#{facet.key}:").present?
           facet.values.map do |val|
-            next if val.blank? # skip empty string
+            next if val.blank? && !missing_facet
 
-            if val.is_a?(Array)
+            if missing_facet && val.blank?
+              missing = I18n.t("blacklight.search.facets.missing")
+              yield facet_item_presenter(facet.config, missing, facet.key)
+            elsif val.is_a?(Array)
               yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
             else
               yield facet_item_presenter(facet.config, val, facet.key)

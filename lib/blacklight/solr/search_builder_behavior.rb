@@ -10,6 +10,7 @@ module Blacklight::Solr
         :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
         :add_sorting_to_solr, :add_group_config_to_solr,
         :add_facet_paging_to_solr, :add_adv_search_clauses,
+        :add_missing_field_query,
         :add_additional_filters
       ]
     end
@@ -79,6 +80,19 @@ module Blacklight::Solr
       elsif search_state.query_param
         solr_parameters.append_query search_state.query_param
       end
+    end
+
+    ##
+    # Build and append a missing field query.
+    ##
+    def add_missing_field_query(solr_parameters)
+      return unless solr_parameters["facet.missing"]
+
+      solr_parameters[:fq] = [] if solr_parameters[:fq].blank?
+
+      solr_parameters[:fq].append(*(blacklight_params["f"] || [])
+        .select { |f| f.match(/^-/) }
+        .map { |k, _v| "#{k}[* TO *]" })
     end
 
     def add_additional_filters(solr_parameters, additional_filters = nil)

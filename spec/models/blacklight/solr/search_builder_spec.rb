@@ -27,6 +27,10 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     it "uses the class-level default_processor_chain" do
       expect(subject.processor_chain).to eq search_builder_class.default_processor_chain
     end
+
+    it "appends the :add_missing_field_query processor" do
+      expect(subject.processor_chain).to include(:add_missing_field_query)
+    end
   end
 
   context 'with merged parameters from the defaults + the search field' do
@@ -820,6 +824,15 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     it 'adds additional query filters on the search' do
       subject.where(id: [1, 2, 3])
       expect(subject.to_hash).to include q: '{!lucene}id:(1 OR 2 OR 3)'
+    end
+  end
+
+  describe "#add_missing_field_query" do
+    it "precesses facet.missing query" do
+      subject.with("f" => { "-hello:" => [""] })
+      solr_params = { "facet.missing" => true, fq: [] }
+
+      expect(subject.add_missing_field_query(solr_params)).to eq(["-hello:[* TO *]"])
     end
   end
 end
