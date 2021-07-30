@@ -83,9 +83,18 @@ module Blacklight
           Deprecation.warn(self, 'Normalizing parameters in FilterField#remove is deprecated')
           collection = collection.values
         end
+
         params[param][key] = collection - Array(value)
         params[param].delete(key) if params[param][key].empty?
         params.delete(param) if params[param].empty?
+
+        # Handle missing field queries.
+        missing = I18n.t("blacklight.search.facets.missing")
+        if (item.respond_to?(:fq) && item.fq == "-#{key}:[* TO *]") ||
+           item == missing
+          params[param].delete("-#{key}:")
+          params[param].delete(key) if params[param][key] == [""]
+        end
 
         new_state.reset(params)
       end

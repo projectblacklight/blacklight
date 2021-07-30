@@ -50,6 +50,10 @@ Metrics/ModuleLength:
     - 'app/controllers/concerns/blacklight/catalog.rb'
     - 'lib/blacklight/solr/search_builder_behavior.rb'
 
+Metrics/AbcSize:
+  Exclude:
+    - "lib/blacklight/search_state/filter_field.rb"
+
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
