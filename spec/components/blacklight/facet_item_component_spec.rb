@@ -20,7 +20,9 @@ RSpec.describe Blacklight::FacetItemComponent, type: :component do
 
   it 'links to the facet and shows the number of hits' do
     expect(rendered).to have_selector 'li'
-    expect(rendered).to have_link 'x', href: '/catalog?f=x'
+    expect(rendered).to have_link 'x', href: '/catalog?f=x' do |link|
+      link['rel'] == 'nofollow'
+    end
     expect(rendered).to have_selector '.facet-count', text: '10'
   end
 
@@ -39,7 +41,9 @@ RSpec.describe Blacklight::FacetItemComponent, type: :component do
     it 'links to the facet and shows the number of hits' do
       expect(rendered).to have_selector 'li'
       expect(rendered).to have_selector '.selected', text: 'x'
-      expect(rendered).to have_link '[remove]', href: '/catalog'
+      expect(rendered).to have_link '[remove]', href: '/catalog' do |link|
+        link['rel'] == 'nofollow'
+      end
       expect(rendered).to have_selector '.selected.facet-count', text: '10'
     end
   end

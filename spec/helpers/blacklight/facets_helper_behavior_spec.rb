@@ -314,7 +314,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
 
     describe "simple case" do
-      let(:expected_html) { '<span class="facet-label"><a class="facet-select" href="/catalog">Z</a></span><span class="facet-count">10</span>' }
+      let(:expected_html) { '<span class="facet-label"><a class="facet-select" rel="nofollow" href="/catalog">Z</a></span><span class="facet-count">10</span>' }
 
       it "uses facet_display_value" do
         result = helper.render_facet_value('simple_field', item)
@@ -323,7 +323,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
 
     describe "when :url_method is set" do
-      let(:expected_html) { '<span class="facet-label"><a class="facet-select" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
+      let(:expected_html) { '<span class="facet-label"><a class="facet-select" rel="nofollow" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
 
       it "uses that method" do
         allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(Blacklight::Configuration::FacetField.new(key: 'simple_field', query: nil, date: nil, helper_method: nil, single: false, url_method: :test_method))
