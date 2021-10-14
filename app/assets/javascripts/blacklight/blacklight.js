@@ -36,7 +36,11 @@ Blacklight.listeners().forEach(function (listener) {
     Blacklight.activate();
   });
 });
-$('.no-js').removeClass('no-js').addClass('js');
+Blacklight.onLoad(function () {
+  const elem = document.querySelector('.no-js');
+  elem.classList.remove('no-js');
+  elem.classList.add('js');
+});
 /*global Bloodhound */
 
 Blacklight.onLoad(function () {
@@ -495,3 +499,4 @@ Blacklight.handleSearchContextMethod = function (event) {
 Blacklight.onLoad(function () {
   Blacklight.doSearchContextBehavior();
 });
+

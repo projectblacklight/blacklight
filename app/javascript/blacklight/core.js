@@ -38,4 +38,8 @@ Blacklight.listeners().forEach(function(listener) {
   })
 })
 
-$('.no-js').removeClass('no-js').addClass('js');
+Blacklight.onLoad(function () {
+  const elem = document.querySelector('.no-js')
+  elem.classList.remove('no-js')
+  elem.classList.add('js')
+})
