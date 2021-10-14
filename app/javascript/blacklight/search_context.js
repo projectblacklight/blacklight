@@ -15,6 +15,9 @@ Blacklight.doSearchContextBehavior = function() {
   })
 };
 
+Blacklight.csrfToken = () => document.querySelector('meta[name=csrf-token]')?.content
+Blacklight.csrfParam = () => document.querySelector('meta[name=csrf-param]')?.content
+
 // this is the Rails.handleMethod with a couple adjustments, described inline:
 // first, we're attaching this directly to the event handler, so we can check for meta-keys
 Blacklight.handleSearchContextMethod = function(event) {
@@ -27,8 +30,8 @@ Blacklight.handleSearchContextMethod = function(event) {
   // instead of using the normal href, we need to use the context href instead
   let href = link.getAttribute('data-context-href')
   let target = link.getAttribute('target')
-  let csrfToken = Rails.csrfToken()
-  let csrfParam = Rails.csrfParam()
+  let csrfToken = Blacklight.csrfToken()
+  let csrfParam = Blacklight.csrfParam()
   let form = document.createElement('form')
   form.method = 'post'
   form.action = href
