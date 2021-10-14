@@ -1,10 +1,26 @@
 <%= content_tag :div, id: @id, class: @classes do %>
-  <h2 class="sr-only"><%= t('blacklight.search.search_constraints_header') %></h2>
+  <h2 class="sr-only visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
 
   <%= link_to t('blacklight.search.start_over'), start_over_path, class: "catalog_startOverLink btn btn-primary" %>
 
-  <span class="constraints-label sr-only"><%= t('blacklight.search.filters.title') %></span>
-  <%= query_constraints_area || query_constraints %>
-  <%= facet_constraints_area || facet_constraints %>
-  <%= additional_constraints %>
+  <span class="constraints-label sr-only visually-hidden"><%= t('blacklight.search.filters.title') %></span>
+  <% if query_constraints_area.present? %>
+    <% query_constraints_area.each do |constraint| %>
+      <%= constraint %>
+    <% end %>
+  <% else %>
+    <%= query_constraints %>
+  <% end %>
+
+  <% if facet_constraints_area.present? %>
+    <% facet_constraints_area.each do |constraint| %>
+      <%= constraint %>
+    <% end %>
+  <% else %>
+    <%= facet_constraints %>
+  <% end %>
+
+  <% additional_constraints.each do |constraints| %>
+    <%= constraints %>
+  <% end %>
 <% end %>

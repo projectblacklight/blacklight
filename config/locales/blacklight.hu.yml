@@ -147,7 +147,7 @@ hu:
         request_error: "Elnézést, nem tudom értelmezni a keresést."
         invalid_solr_id: "Elnézést, de az Ön által kért rekord nem létezik."
       per_page:
-        label: '%{count}<span class="sr-only"> oldalanként</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> oldalanként</span>'
         button_label: '%{count} oldalanként' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> oldalanként</span>'
         title: 'Az eredmények száma oldalanként'
@@ -190,7 +190,7 @@ hu:
           count: 'Numerikus rendezés'
           index: 'A-Z rendezés'
         count: '%{number}'
-        more_html: 'több <span class="sr-only">%{field_name}</span> »'
+        more_html: 'több <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[eltávolítás]'
         missing: "[Hiányzó]"

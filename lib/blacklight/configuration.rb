@@ -95,6 +95,12 @@ module Blacklight
             partials: [:show_header, :show],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
           ),
+          action_mapping: NestedOpenStructWithHashAccess.new(
+            ViewConfig,
+            default: { top_level_config: :index },
+            show: { top_level_config: :show },
+            citation: { parent_config: :show }
+          ),
           # Configurations for specific types of index views
           view: NestedOpenStructWithHashAccess.new(ViewConfig,
                                                    list: {},
@@ -132,7 +138,8 @@ module Blacklight
           crawler_detector: nil,
           autocomplete_suggester: 'mySuggester',
           raw_endpoint: OpenStructWithHashAccess.new(enabled: false),
-          track_search_session: true
+          track_search_session: true,
+          advanced_search: OpenStruct.new(enabled: false)
           }
         end
         # rubocop:enable Metrics/MethodLength
@@ -163,6 +170,8 @@ module Blacklight
     def initialize(hash = {})
       super(self.class.default_values.deep_dup.merge(hash))
       yield(self) if block_given?
+
+      @view_config ||= {}
     end
 
     def document_model
@@ -306,13 +315,34 @@ module Blacklight
     end
     alias_method :inheritable_copy, :build
 
-    # Get a view configuration for the given view type
-    # including default values from the index configuration
+    # Get a view configuration for the given view type + action. The effective
+    # view configuration is inherited from:
+    # - the configuration from blacklight_config.view with the key `view_type`
+    # - the configuration from blacklight_config.action_mapping with the key `action_name`
+    # - any parent config for the action map result above
+    # - the action_mapping default configuration
+    # - the top-level index/show view configuration
+    #
     # @param [Symbol,#to_sym] view_type
     # @return [Blacklight::Configuration::ViewConfig]
-    def view_config(view_type)
-      view_type = view_type.to_sym unless view_type.is_a? Symbol
-      index.merge(view_type == :show ? show : view.fetch(view_type, {}))
+    def view_config(view_type = nil, action_name: :index)
+      view_type &&= view_type.to_sym
+      action_name &&= action_name.to_sym
+      action_name ||= :index
+
+      if view_type == :show
+        action_name = view_type
+        view_type = nil
+      end
+
+      @view_config[[view_type, action_name]] ||= begin
+        if view_type.nil?
+          action_config(action_name)
+        else
+          base_config = action_config(action_name)
+          base_config.merge(view.fetch(view_type, {}))
+        end
+      end
     end
 
     # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
@@ -399,6 +429,11 @@ module Blacklight
       fields.merge(show_fields)
     end
 
+    def freeze
+      each { |_k, v| v.is_a?(OpenStruct) && v.freeze }
+      super
+    end
+
     private
 
     def add_action(config_hash, name, opts)
@@ -439,6 +474,23 @@ module Blacklight
       else
         yield(object)
       end
+    end
+
+    def action_config(action, default: :index)
+      action_config = action_mapping[action]
+      action_config ||= action_mapping[:default]
+
+      if action_config.parent_config && action_config.parent_config != :default
+        parent_config = action_mapping[action_config.parent_config]
+        raise "View configuration error: the parent configuration of #{action_config.key}, #{parent_config.key}, must not specific its own parent configuration" if parent_config.parent_config
+
+        action_config = action_config.reverse_merge(parent_config)
+      end
+      action_config = action_config.reverse_merge(action_mapping[:default]) if action_config != action_mapping[:default]
+
+      action_config = action_config.reverse_merge(self[action_config.top_level_config]) if action_config.top_level_config
+      action_config = action_config.reverse_merge(show) if default == :show && action_config.top_level_config != :show
+      action_config.reverse_merge(index)
     end
   end
 end

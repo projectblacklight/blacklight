@@ -95,7 +95,7 @@ module Blacklight
     ##
     # The key to use to retrieve the grouped field to display
     def grouped_key_for_results
-      blacklight_config.index.group
+      blacklight_config.view_config(action_name: :index).group
     end
 
     ##

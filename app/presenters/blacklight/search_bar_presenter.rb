@@ -37,5 +37,9 @@ module Blacklight
         controller.action_name == "index" &&
         !controller.has_search_parameters?
     end
+
+    def advanced_search_enabled?
+      configuration.advanced_search.enabled
+    end
   end
 end

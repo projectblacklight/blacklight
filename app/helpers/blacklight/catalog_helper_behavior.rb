@@ -47,10 +47,8 @@ module Blacklight::CatalogHelperBehavior
     entry_name = if entry_name
                    entry_name.pluralize(collection.size, I18n.locale)
                  else
-                   collection.entry_name(count: collection.size).to_s.downcase
+                   collection.entry_name(count: collection.size).to_s
                  end
-
-    entry_name = entry_name.pluralize unless collection.total_count == 1
 
     # grouped response objects need special handling
     end_num = if collection.respond_to?(:groups) && render_grouped_response?(collection)
@@ -253,11 +251,13 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Render the view type icon for the results view picker
   #
+  # @deprecated
   # @param [String] view
   # @return [String]
   def render_view_type_group_icon view
     blacklight_icon(view)
   end
+  deprecation_deprecate render_view_type_group_icon: 'call blacklight_icon instead'
 
   ##
   # Get the default view type classes for a view in the results view picker

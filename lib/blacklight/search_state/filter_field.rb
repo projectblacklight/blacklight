@@ -36,12 +36,16 @@ module Blacklight
         end
 
         params = new_state.params
+        param = :f
         value = as_url_parameter(item)
+        param = :f_inclusive if value.is_a?(Array)
 
         # value could be a string
         params[param] = (params[param] || {}).dup
 
-        if config.single
+        if value.is_a? Array
+          params[param][key] = value
+        elsif config.single
           params[param][key] = [value]
         else
           params[param][key] = Array(params[param][key] || []).dup
@@ -60,7 +64,10 @@ module Blacklight
         end
 
         params = new_state.params
+
+        param = :f
         value = as_url_parameter(item)
+        param = :f_inclusive if value.is_a?(Array)
 
         # need to dup the facet values too,
         # if the values aren't dup'd, then the values
@@ -86,7 +93,10 @@ module Blacklight
       # @return [Array] an array of applied filters
       def values
         params = search_state.params
-        Array(params.dig(param, key)) || []
+        f = Array(params.dig(:f, key))
+        f_inclusive = [params.dig(:f_inclusive, key)] if params.dig(:f_inclusive, key).present?
+
+        f + (f_inclusive || [])
       end
       delegate :any?, to: :values
 
@@ -100,14 +110,14 @@ module Blacklight
         value = as_url_parameter(item)
         params = search_state.params
 
-        (params.dig(param, key) || []).include?(value)
+        if value.is_a?(Array)
+          (params.dig(:f_inclusive, key) || []).to_set == value.to_set
+        else
+          (params.dig(:f, key) || []).include?(value)
+        end
       end
 
       private
-
-      def param
-        :f
-      end
 
       # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
       def as_url_parameter(item)

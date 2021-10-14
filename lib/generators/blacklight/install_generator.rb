@@ -10,6 +10,7 @@ module Blacklight
 
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
+    class_option :'bootstrap-version', type: :string, default: nil, desc: "Set the generated app's bootstrap version"
     class_option :'skip-assets', type: :boolean, default: !defined?(Sprockets), desc: "Skip generating javascript and css assets into the application"
     class_option :'skip-solr', type: :boolean, default: false, desc: "Skip generating solr configurations."
 
@@ -33,12 +34,16 @@ module Blacklight
     # Call external generator in AssetsGenerator, so we can
     # leave that callable seperately too.
     def copy_public_assets
-      generate "blacklight:assets" unless options[:'skip-assets']
+      generated_options = "--bootstrap-version #{options[:'bootstrap-version']}" if options[:'bootstrap-version']
+
+      generate "blacklight:assets", generated_options unless options[:'skip-assets']
     end
 
     def bundle_install
-      Bundler.with_clean_env do
-        run "bundle install"
+      inside destination_root do
+        Bundler.with_clean_env do
+          run "bundle install"
+        end
       end
     end
 
@@ -81,9 +86,7 @@ module Blacklight
       blacklight_marc = String.new('blacklight-marc')
       gem blacklight_marc, '>= 7.0.0.rc1', '< 8'
 
-      Bundler.with_clean_env do
-        run "bundle install"
-      end
+      bundle_install
 
       generate 'blacklight:marc:install'
     end

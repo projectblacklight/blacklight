@@ -7,12 +7,13 @@ module Blacklight
       with_collection_parameter :action
 
       # @param [Blacklight::Document] document
-      def initialize(document:, action:, options: {}, url_opts: {}, id: nil)
+      def initialize(document:, action:, options: {}, url_opts: {}, id: nil, link_classes: 'nav-link')
         @document = document
         @action = action
         @options = options
         @url_opts = url_opts
         @id = id || @action.fetch(:id, "#{@action.name}Link")
+        @link_classes = link_classes
       end
 
       def using_default_document_action?
@@ -32,6 +33,10 @@ module Blacklight
         Deprecation.silence(Blacklight::ComponentHelperBehavior) do
           @view_context.document_action_path(@action, @url_opts.merge(({ id: @document } if @document) || {}))
         end
+      end
+
+      def key
+        @action.key
       end
     end
   end

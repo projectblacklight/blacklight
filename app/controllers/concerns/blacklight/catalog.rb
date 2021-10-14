@@ -2,6 +2,9 @@
 module Blacklight::Catalog
   extend ActiveSupport::Concern
 
+  # MimeResponds is part of ActionController::Base, but not ActionController::API
+  include ActionController::MimeResponds
+
   include Blacklight::Base
   include Blacklight::Facet
   include Blacklight::Searchable
@@ -54,6 +57,12 @@ module Blacklight::Catalog
       format.json
       additional_export_formats(@document, format)
     end
+  end
+
+  def advanced_search
+    empty_service = search_service_class.new(config: blacklight_config, user_params: {}, **search_service_context)
+
+    (@response, _deprecated_document_list) = empty_service.search_results
   end
 
   # get a single document from the index
@@ -192,7 +201,7 @@ module Blacklight::Catalog
   # @example
   #   config.index.respond_to.txt = Proc.new { render plain: "A list of docs." }
   def additional_response_formats(format)
-    blacklight_config.index.respond_to.each do |key, config|
+    blacklight_config.view_config(action_name: :index).respond_to.each do |key, config|
       format.send key do
         case config
         when false

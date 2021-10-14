@@ -15,10 +15,10 @@ module Blacklight
 
       def render_helper
         context.send(config.helper_method,
-                     options.merge(document: document,
-                                   field: config.field,
-                                   config: config,
-                                   value: values))
+                     **options.merge(document: document,
+                                     field: config.field,
+                                     config: config,
+                                     value: values))
       end
     end
   end

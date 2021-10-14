@@ -20,6 +20,8 @@ module Blacklight::Solr
     def initialize(all_facet_values, arguments = {})
       super
 
+      @sort = arguments[:sort].keys.first.to_s if arguments[:sort].is_a? Hash
+
       # count is solr's default
       @sort ||= if @limit.to_i > 0
                   'count'

@@ -4,7 +4,9 @@ module Blacklight
   ##
   # An OpenStruct that responds to common Hash methods
   class OpenStructWithHashAccess < OpenStruct
-    delegate :keys, :each, :map, :has_key?, :key?, :include?, :empty?, :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!, :replace, :fetch, :to_json, :as_json, :any?, to: :to_h
+    delegate :keys, :each, :map, :has_key?, :key?, :include?, :empty?,
+             :length, :delete, :delete_if, :keep_if, :clear, :reject!, :select!,
+             :replace, :fetch, :to_json, :as_json, :any?, :freeze, :unfreeze, :frozen?, to: :to_h
 
     ##
     # Expose the internal hash
@@ -42,8 +44,27 @@ module Blacklight
       @table.merge!((other_hash if other_hash.is_a? Hash) || other_hash.to_h)
     end
 
+    def reverse_merge(other_hash)
+      self.class.new to_h.reverse_merge((other_hash if other_hash.is_a? Hash) || other_hash.to_h)
+    end
+
     def deep_dup
       self.class.new @table.deep_dup
+    end
+
+    if Rails.version < '6'
+      # Ported from Rails 6 to fix an incompatibility with ostruct
+      def try(method_name = nil, *args, &block)
+        if method_name.nil? && block_given?
+          if b.arity.zero?
+            instance_eval(&block)
+          else
+            yield self
+          end
+        elsif respond_to?(method_name)
+          public_send(method_name, *args, &b)
+        end
+      end
     end
   end
 end

@@ -3,6 +3,15 @@
 module Blacklight
   module System
     class DropdownComponent < ViewComponent::Base
+      renders_one :button, (lambda do |classes:, label:|
+        button_tag class: classes, aria: { expanded: false }, data: { toggle: 'dropdown', 'bs-toggle': 'dropdown' } do
+          safe_join([label, content_tag(:span, '', class: 'caret')])
+        end
+      end)
+      renders_many :options, (lambda do |text:, url:, selected: false|
+        link_to(text, url, class: "dropdown-item #{'active' if selected}", role: 'menuitem', aria: { current: ('page' if selected) })
+      end)
+
       # rubocop:disable Metrics/ParameterLists
       def initialize(param:, choices:, search_state:, id: nil, classes: [], default: nil, selected: nil, interpolation: :field)
         @param = param
@@ -14,6 +23,21 @@ module Blacklight
         @interpolation = interpolation
       end
       # rubocop:enable Metrics/ParameterLists
+
+      def button_label
+        t(:button_label_html, default: :label_html, scope: "blacklight.search.#{@param}", @interpolation => label_for_value(@selected))
+      end
+
+      def before_render
+        button(classes: 'btn btn-outline-secondary dropdown-toggle', label: button_label) unless button
+
+        return if options.any?
+
+        options(@choices.map do |option|
+          text, value = option_text_and_value(option)
+          { text: text, url: @view_context.url_for(@search_state.params_for_search(@param => value)), selected: @selected == value }
+        end)
+      end
 
       def render?
         @choices.many?

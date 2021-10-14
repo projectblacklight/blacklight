@@ -25,7 +25,7 @@ module Blacklight::Bookmarks
   def action_documents
     bookmarks = token_or_current_or_guest_user.bookmarks
     bookmark_ids = bookmarks.collect { |b| b.document_id.to_s }
-    search_service.fetch(bookmark_ids)
+    search_service.fetch(bookmark_ids, rows: bookmark_ids.count)
   end
 
   def action_success_redirect_path
@@ -48,9 +48,6 @@ module Blacklight::Bookmarks
       format.html {}
       format.rss  { render layout: false }
       format.atom { render layout: false }
-      format.json do
-        render json: render_search_results_as_json
-      end
 
       additional_response_formats(format)
       document_export_formats(format)

@@ -17,9 +17,6 @@ class TestAppGenerator < Rails::Generators::Base
     options = '--devise'
     if ENV['BLACKLIGHT_API_TEST']
       options += ' --skip-assets'
-      inject_into_class 'app/controllers/application_controller.rb', 'ApplicationController' do
-        "  include ActionController::MimeResponds\n" # see https://github.com/projectblacklight/blacklight/issues/1894
-      end
     end
 
     generate 'blacklight:install', options

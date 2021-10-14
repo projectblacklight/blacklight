@@ -3,13 +3,9 @@
 RSpec.describe "catalog/_view_type_group" do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
-  let(:icon_instance) { instance_double(Blacklight::Icon) }
 
   before do
     allow(view).to receive(:view_label), &:to_s
-    allow(Blacklight::Icon).to receive(:new).and_return icon_instance
-    allow(icon_instance).to receive(:svg).and_return '<svg></svg>'
-    allow(icon_instance).to receive(:options).and_return({})
     allow(view).to receive_messages(how_sort_and_per_page?: true, blacklight_config: blacklight_config)
     controller.request.path_parameters[:action] = 'index'
     assign(:response, response)
@@ -24,13 +20,16 @@ RSpec.describe "catalog/_view_type_group" do
   it "displays the group" do
     blacklight_config.configure do |config|
       config.view.delete(:list)
-      config.view.a
-      config.view.b
-      config.view.c
+      config.view.a(icon: :list)
+      config.view.b(icon: :list)
+      config.view.c(icon: :list)
     end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.btn-group.view-type-group')
     expect(rendered).to have_selector('.view-type-a', text: 'a')
+    within '.view-type-a' do
+      expect(rendered).to have_selector 'svg'
+    end
     expect(rendered).to have_selector('.view-type-b', text: 'b')
     expect(rendered).to have_selector('.view-type-c', text: 'c')
   end
@@ -38,8 +37,8 @@ RSpec.describe "catalog/_view_type_group" do
   it "sets the current view to 'active'" do
     blacklight_config.configure do |config|
       config.view.delete(:list)
-      config.view.a
-      config.view.b
+      config.view.a(icon: :list)
+      config.view.b(icon: :list)
     end
     render partial: 'catalog/view_type_group'
     expect(rendered).to have_selector('.active', text: 'a')

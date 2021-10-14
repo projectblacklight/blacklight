@@ -1,2 +1,4 @@
 <dt class="blacklight-<%= @key %> <%= @label_class %>"><%= label %></dt>
-<dd class="blacklight-<%= @key %> <%= @value_class %>"><%= value %></dd>
+<% values.each do |v| %>
+  <%= v %>
+<% end %>

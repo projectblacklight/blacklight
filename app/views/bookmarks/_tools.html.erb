@@ -1,5 +1,5 @@
 <% if render_show_doc_actions_method_from_blacklight? %>
-  <%= render(Blacklight::Document::ActionsComponent.new(document: nil, tag: 'ul', classes: "#{controller_name}Tools nav nav-pills", wrapping_tag: 'li', wrapping_classes: 'nav-item', actions: document_actions(document_list), options: { document_list: @response.documents }, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h))) %>
+  <%= render(Blacklight::Document::ActionsComponent.new(document: nil, tag: 'div', classes: "#{controller_name}Tools", wrapping_tag: 'span', wrapping_classes: 'btn btn-outline-primary', link_classes: '', actions: document_actions(document_list, options: { document: nil }), options: { document_list: @response.documents }, url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h))) %>
 <% else %>
   <% Deprecation.warn(self, '#render_show_doc_actions is deprecated; use ActionComponents instead') %>
   <ul class="<%= controller_name %>Tools nav nav-pills">

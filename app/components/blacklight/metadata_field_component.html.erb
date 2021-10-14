@@ -1,8 +1,8 @@
 <%= render(@layout.new(field: @field)) do |component| %>
-  <% component.with(:label) do %>
+  <% component.label do %>
     <%= label %>
   <% end %>
-  <% component.with(:value) do %>
+  <% component.value do %>
     <%= @field.render %>
   <% end %>
 <% end %>

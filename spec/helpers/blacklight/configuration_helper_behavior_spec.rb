@@ -33,9 +33,8 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#default_document_index_view_type" do
     it "uses the first view with default set to true" do
-      blacklight_config.view.a
-      blacklight_config.view.b
-      blacklight_config.view.b.default = true
+      blacklight_config.view.a({})
+      blacklight_config.view.b(default: true)
       expect(helper.default_document_index_view_type).to eq :b
     end
 
@@ -48,8 +47,8 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   describe "#document_index_views" do
     before do
       blacklight_config.view.abc = false
-      blacklight_config.view.def.if = false
-      blacklight_config.view.xyz.unless = true
+      blacklight_config.view.def(if: false)
+      blacklight_config.view.xyz(unless: true)
     end
 
     it "filters views using :if/:unless configuration" do
@@ -62,8 +61,8 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe '#document_index_view_controls' do
     before do
-      blacklight_config.view.a
-      blacklight_config.view.b.display_control = false
+      blacklight_config.view.a({})
+      blacklight_config.view.b(display_control: false)
     end
 
     it "filters index views to those set to display controls" do
@@ -195,9 +194,9 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   describe "#per_page_options_for_select" do
     it "is the per-page values formatted as options_for_select" do
       allow(helper).to receive_messages(blacklight_config: double(per_page: [11, 22, 33]))
-      expect(helper.per_page_options_for_select).to include ["11<span class=\"sr-only\"> per page</span>", 11]
-      expect(helper.per_page_options_for_select).to include ["22<span class=\"sr-only\"> per page</span>", 22]
-      expect(helper.per_page_options_for_select).to include ["33<span class=\"sr-only\"> per page</span>", 33]
+      expect(helper.per_page_options_for_select).to include ["11<span class=\"sr-only visually-hidden\"> per page</span>", 11]
+      expect(helper.per_page_options_for_select).to include ["22<span class=\"sr-only visually-hidden\"> per page</span>", 22]
+      expect(helper.per_page_options_for_select).to include ["33<span class=\"sr-only visually-hidden\"> per page</span>", 33]
     end
   end
 

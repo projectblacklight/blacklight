@@ -56,10 +56,6 @@ RSpec.describe "Facets" do
 
     expect(page).to have_css('#facet-format', visible: false)
 
-    within('#facets .facets-header') do
-      page.find('button.navbar-toggler').click
-    end
-
     page.find('h3.facet-field-heading button', text: 'Format').click
 
     sleep(1) # let facet animation finish and wait for it to potentially re-collapse
@@ -70,14 +66,10 @@ RSpec.describe "Facets" do
   it 'is able to expand pivot facets when javascript is enabled', js: true do
     visit root_path
 
-    within('#facets .facets-header') do
-      page.find('button.navbar-toggler').click
-    end
-
     page.find('h3.facet-field-heading button', text: 'Pivot Field').click
 
     within '#facet-example_pivot_field' do
-      expect(page).to have_css('.facet-leaf-node', text: 'Book 30')
+      expect(page).to have_css('.facet-leaf-node', text: "Book 30")
       expect(page).not_to have_css('.facet-select', text: 'Tibetan')
       page.find('.facet-toggle-handle').click
       click_link 'Tibetan'
@@ -88,24 +80,17 @@ RSpec.describe "Facets" do
   end
 
   describe 'heading button focus with Firefox' do
-    before do
-      Capybara.current_driver = :selenium_headless
-    end
-
-    after do
-      Capybara.current_driver = :rack_test
-    end
-
     it 'changes to the button on button click in Firefox' do
+      pending 'Capybara::NotSupportedByDriverError: Capybara::Driver::Base#evaluate_script'
       visit root_path
       page.find('h3.facet-field-heading button', text: 'Format').click
-      focused_element_data_target = page.evaluate_script("document.activeElement")['data-target']
+      focused_element_data_target = page.evaluate_script("document.activeElement")['data-bs-target']
       expect(focused_element_data_target).to eq '#facet-format'
     end
   end
 
   describe '"More" links' do
-    it 'has default more link with sr-only text' do
+    it 'has default more link with visually-hidden text' do
       visit root_path
       within '#facet-language_ssim' do
         expect(page).to have_css 'div.more_facets', text: 'more Language'

@@ -3,12 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
-  subject(:render) do
-    render_inline(described_class.new(facet_item: facet_item))
-  end
-
-  let(:rendered) do
-    Capybara::Node::Simple.new(render)
+  subject(:rendered) do
+    render_inline_to_capybara_node(described_class.new(facet_item: facet_item))
   end
 
   let(:search_state) do
@@ -31,7 +27,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
 
   it 'links to the facet and shows the number of hits' do
     expect(rendered).to have_selector 'li'
-    expect(rendered).to have_link 'x', href: '/catalog?f[z]=x'
+    expect(rendered).to have_link 'x', href: '/catalog?f%5Bz%5D=x'
     expect(rendered).to have_selector '.facet-count', text: '10'
   end
 

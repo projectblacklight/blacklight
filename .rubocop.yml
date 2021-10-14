@@ -57,6 +57,7 @@ Naming/MethodParameterName:
   AllowedNames:
     - id
     - q
+    - as
 
 Naming/PredicateName:
   ForbiddenPrefixes:
@@ -122,3 +123,6 @@ Style/RedundantRegexpEscape:
 
 Style/SlicingWithRange:
   Enabled: true
+
+Rails/ContentTag:
+  Enabled: false

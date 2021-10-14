@@ -28,6 +28,7 @@ module Blacklight
 
       @blacklight_params = {}
       @search_state = Blacklight::SearchState.new(@blacklight_params, @scope&.blacklight_config, @scope)
+      @additional_filters = {}
       @merged_params = {}
       @reverse_merged_params = {}
     end
@@ -44,9 +45,11 @@ module Blacklight
     ##
     # Update the :q (query) parameter
     def where(conditions)
+      Deprecation.warn(Blacklight::SearchBuilder, "SearchBuilder#where must be called with a hash, received #{conditions.inspect}.") unless conditions.is_a? Hash
       params_will_change!
       @search_state = @search_state.reset(@search_state.params.merge(q: conditions))
       @blacklight_params = @search_state.params.dup
+      @additional_filters = conditions
       self
     end
 

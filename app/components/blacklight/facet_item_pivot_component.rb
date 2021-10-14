@@ -56,7 +56,7 @@ module Blacklight
 
     def facet_toggle_button(id)
       content_tag 'button', class: 'btn facet-toggle-handle collapsed',
-                            data: { toggle: 'collapse', target: "##{id}" },
+                            data: { toggle: 'collapse', 'bs-toggle': 'collapse', target: "##{id}", 'bs-target': "##{id}" },
                             aria: { expanded: false, controls: id, describedby: "#{id}_label" } do
         concat toggle_icon(:show)
         concat toggle_icon(:hide)
@@ -66,7 +66,7 @@ module Blacklight
     def toggle_icon(type)
       content_tag 'span', class: type do
         concat @icons[type]
-        concat content_tag('span', t(type, scope: 'blacklight.search.facets.pivot'), class: 'sr-only')
+        concat content_tag('span', t(type, scope: 'blacklight.search.facets.pivot'), class: 'sr-only visually-hidden')
       end
     end
 

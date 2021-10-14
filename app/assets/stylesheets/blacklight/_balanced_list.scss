@@ -2,11 +2,11 @@
   dt {
     font-weight: normal;
     color: $field_name_color;
-    @media (max-width: breakpoint-max(sm)) {
+    @media (max-width: breakpoint-min(md)) {
       text-align: left;
     }
 
-    @media (min-width: breakpoint-max(sm)) {
+    @media (min-width: breakpoint-min(md)) {
       text-align: right;
     }
   }

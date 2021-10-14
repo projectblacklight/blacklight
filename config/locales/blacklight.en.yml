@@ -147,7 +147,7 @@ en:
         request_error: "Sorry, I don't understand your search."
         invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
       per_page:
-        label: '%{count}<span class="sr-only"> per page</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per page</span>'
         button_label: '%{count} per page' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per page</span>'
         title: 'Number of results to display per page'
@@ -189,7 +189,7 @@ en:
           count: 'Numerical Sort'
           index: 'A-Z Sort'
         count: '%{number}'
-        more_html: 'more <span class="sr-only">%{field_name}</span> »'
+        more_html: 'more <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[remove]'
         missing: "[Missing]"
@@ -230,12 +230,33 @@ en:
         list: "List"
 
     entry_name:
-      default: 'entry'
+      default:
+        one: 'entry'
+        other: 'entries'
       grouped:
-        default: 'grouped result'
+        default:
+          one: 'grouped result'
+          other: 'grouped results'
 
     did_you_mean: 'Did you mean to type: %{options}?'
 
     main:
       aria:
         main_container: 'Main content'
+
+    advanced_search:
+      or_html: ' OR '
+      more_options: More options
+      any_of: 'Any of:'
+      op:
+        must: all
+        should: any
+      page_title: Advanced search - %{application_name}
+      form:
+        title: Advanced search
+        search_context: Within search
+        limit_criteria_heading_html: "<strong>AND</strong> have these attributes"
+        query_criteria_heading_html: "Match %{select_menu} of the fields below"
+        sort_label: "Sort results by"
+        start_over_html: "Start over"
+        search_btn_html: 'Search'

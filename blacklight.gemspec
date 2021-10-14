@@ -23,19 +23,22 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.required_ruby_version = '~> 2.1'
+  s.required_ruby_version = '>= 2.5'
 
   s.add_dependency "rails", '>= 5.1', '< 7'
   s.add_dependency "globalid"
   s.add_dependency "jbuilder", '~> 2.7'
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "deprecation"
-  s.add_dependency "view_component"
+  s.add_dependency "i18n", '>= 1.7.0' # added named parameters
+  s.add_dependency "ostruct", '>= 0.3.2'
+  s.add_dependency "view_component", '>= 2.28.0'
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
   s.add_development_dependency "rspec-rails", "~> 4.0.0.beta2"
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
+  s.add_development_dependency 'axe-core-rspec'
   s.add_development_dependency "capybara", '~> 3'
   s.add_development_dependency 'webdrivers', '~> 4.4'
   s.add_development_dependency "selenium-webdriver", '>= 3.13.1'

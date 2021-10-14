@@ -72,9 +72,9 @@ module Blacklight
       fields += Array.wrap(view_config[:"#{base_name}_display_type_field"]) if base_name && view_config.key?(:"#{base_name}_display_type_field")
       fields += Array.wrap(view_config.display_type_field)
 
-      if fields.empty?
-        fields += Array.wrap(configuration.show[:"#{base_name}_display_type_field"]) if base_name && configuration.show.key?(:"#{base_name}_display_type_field")
-        fields += Array.wrap(configuration.show.display_type_field)
+      if fields.empty? && show_view_config != view_config
+        fields += Array.wrap(show_view_config[:"#{base_name}_display_type_field"]) if base_name && show_view_config.key?(:"#{base_name}_display_type_field")
+        fields += Array.wrap(show_view_config.display_type_field)
       end
 
       fields += ['format'] if fields.empty? # backwards compatibility with the old default value for display_type_field
@@ -97,8 +97,12 @@ module Blacklight
       field_presenter(field_config, options).render
     end
 
+    def thumbnail_presenter_class
+      view_config.thumbnail_presenter || thumbnail_presenter
+    end
+
     def thumbnail
-      @thumbnail ||= thumbnail_presenter.new(document, view_context, view_config)
+      @thumbnail ||= thumbnail_presenter_class.new(document, view_context, view_config)
     end
 
     ##
@@ -114,7 +118,11 @@ module Blacklight
     end
 
     def view_config
-      @view_config ||= configuration.view_config(:show)
+      @view_config ||= show_view_config
+    end
+
+    def show_view_config
+      configuration.view_config(:show)
     end
 
     private

@@ -147,7 +147,7 @@ it:
         request_error: "La richiesta non è comprensibile."
         invalid_solr_id: "Il numero di scheda richiesto non esiste."
       per_page:
-        label: '%{count}<span class="sr-only"> per pagina</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
         button_label: '%{count} per pagina' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
         title: 'Risultati per pagina'
@@ -190,7 +190,7 @@ it:
           count: 'Ordina per numero'
           index: 'Ordina A-Z'
         count: '%{number}'
-        more_html: 'altri <span class="sr-only">%{field_name}</span> »'
+        more_html: 'altri <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[cancella]'
         missing: [Mancante]
@@ -230,7 +230,9 @@ it:
         list: "Lista"
 
     entry_name:
-      default: 'termine di ricerca'
+      default:
+        one: 'termine di ricerca'
+        other: 'termini di ricerca'
       grouped:
         default: 'risultato raggruppato'
 

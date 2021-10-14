@@ -19,13 +19,24 @@ EngineCart.load_application!
 require 'rspec/rails'
 require 'rspec/its'
 require 'rspec/collection_matchers'
-require 'capybara/rspec'
+require 'capybara/rails'
+require 'webdrivers'
 require 'selenium-webdriver'
 require 'equivalent-xml'
-require 'webdrivers'
+require 'axe-rspec'
 
-Capybara.javascript_driver = :selenium_chrome_headless
-Capybara.disable_animation = true
+Capybara.javascript_driver = :headless_chrome
+
+Capybara.register_driver :headless_chrome do |app|
+  Capybara::Selenium::Driver.load_selenium
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    opts.args << '--headless'
+    opts.args << '--disable-gpu'
+    opts.args << '--no-sandbox'
+    opts.args << '--window-size=1280,1696'
+  end
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -57,6 +68,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include PresenterTestHelpers, type: :presenter
   config.include ViewComponent::TestHelpers, type: :component
+  config.include ViewComponentCapybaraTestHelpers, type: :component
 
   config.include(ControllerLevelHelpers, type: :helper)
   config.before(:each, type: :helper) { initialize_controller_helpers(helper) }

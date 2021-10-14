@@ -1,4 +1,5 @@
 <% # container for all documents in index list view -%>
-<div id="documents" class="documents-<%= document_index_view_type %>">
-  <%= render documents, :as => :document %>
+<% view_config = local_assigns[:view_config] || blacklight_config&.view_config(document_index_view_type) %>
+<div id="documents" class="documents-<%= view_config&.key || document_index_view_type %>">
+  <%= render documents, as: :document, view_config: view_config %>
 </div>

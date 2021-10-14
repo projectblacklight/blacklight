@@ -1,8 +1,12 @@
 /* Warning! If you want to change these, just copy them into your own theme css. But you want to remove the !default, which only will set them if not already set. */
 
 $logo-image: image_url('blacklight/logo.png') !default;
-$logo_image: false !default; // deprecated
 
 /* label (field names) */
 $field_name_color: $text-muted !default;
 $zindex-typeahead: $zindex-dropdown;
+
+// the default bootstrap font-family list includes "Segoe UI Emoji", which, on windows
+// renders our remove icon as an emoji-sized x instead of what we see on all other platforms...
+// so, for now (until we replace it with an SVG icon or something), we get to override bootstrap:
+$remove-icon-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif !default;

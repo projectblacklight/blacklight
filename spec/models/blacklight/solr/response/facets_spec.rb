@@ -109,7 +109,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     let(:facet) { { name: "foo", value: "bar", hits: 1 } }
 
     before do
-      response.merge_facet(facet)
+      response.merge_facet(**facet)
     end
 
     context "facet does not already exist" do
@@ -159,6 +159,12 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
 
       expect(missing.label).to eq "[Missing]"
       expect(missing.fq).to eq "-some_field:[* TO *]"
+    end
+
+    it 'extracts the missing field data to a separate facet field attribute' do
+      missing = subject.aggregations["some_field"].missing
+
+      expect(missing).to have_attributes(label: '[Missing]', hits: 2)
     end
   end
 
@@ -276,6 +282,109 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
 
       expect(field.items.first.items.size).to eq 1
       expect(field.items.first.items.first.fq).to eq('field_a' => 'a')
+    end
+  end
+
+  describe 'json facets' do
+    subject { Blacklight::Solr::Response.new(response, {}, blacklight_config: blacklight_config) }
+
+    let(:response) do
+      {
+        facets: {
+          "count": 32,
+          "categories": {
+            "buckets": [
+              {
+                "val": "electronics",
+                "count": 12,
+                "max_price": 60
+              },
+              {
+                "val": "currency",
+                "count": 4
+              },
+              {
+                "val": "memory",
+                "count": 3
+              }
+            ]
+          }
+        }
+      }
+    end
+    let(:facet_config) do
+      Blacklight::Configuration::FacetField.new(key: 'categories', json: true, query: false)
+    end
+
+    let(:blacklight_config) { double(facet_fields: { 'categories' => facet_config }) }
+    let(:field) { subject.aggregations['categories'] }
+
+    it 'has access to the original response data' do
+      expect(field.data).to include 'buckets'
+    end
+
+    it 'converts buckets into facet items' do
+      expect(field.items.length).to eq 3
+    end
+
+    context 'with nested buckets' do
+      let(:response) do
+        {
+          facets: {
+            "categories": {
+              "buckets": [
+                {
+                  "val": "electronics",
+                  "count": 12,
+                  "top_manufacturer": {
+                    "buckets": [{
+                      "val": "corsair",
+                      "count": 3
+                    }]
+                  }
+                },
+                {
+                  "val": "currency",
+                  "count": 4,
+                  "top_manufacturer": {
+                    "buckets": [{
+                      "val": "boa",
+                      "count": 1
+                    }]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      end
+
+      it 'converts nested buckets into pivot facets' do
+        expect(field.items.first).to have_attributes hits: 12
+        expect(field.items.first.items.first).to have_attributes field: 'top_manufacturer', value: 'corsair', hits: 3, fq: { "categories" => "electronics" }
+      end
+    end
+
+    context 'with missing values' do
+      let(:response) do
+        {
+          facets: {
+            "categories": {
+              "missing" => { "count" => 13 },
+              "buckets" => [{ "val" => "India", "count" => 2 }, { "val" => "Iran", "count" => 2 }]
+            }
+          }
+        }
+      end
+
+      it 'converts "missing" facet data into a missing facet item' do
+        expect(field.items.length).to eq 2
+        expect(field.missing).to have_attributes(hits: 13)
+      end
+    end
+
+    it 'exposes any extra query function results' do
+      expect(field.items.first.data).to include 'max_price' => 60
     end
   end
 end

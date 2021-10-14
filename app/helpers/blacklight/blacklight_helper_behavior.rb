@@ -380,7 +380,7 @@ module Blacklight::BlacklightHelperBehavior
   def show_presenter_class(_document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#show_presenter_class is deprecated; use #document_presenter_class instead')
 
-    blacklight_config.show.document_presenter_class
+    blacklight_config.view_config(:show, action_name: action_name).document_presenter_class
   end
 
   # @deprecated
@@ -388,13 +388,12 @@ module Blacklight::BlacklightHelperBehavior
   def index_presenter_class(_document)
     Deprecation.warn(Blacklight::BlacklightHelperBehavior, '#index_presenter_class is deprecated; use #document_presenter_class instead')
 
-    (blacklight_config.view.key?(document_index_view_type) && blacklight_config.dig(:view, document_index_view_type, :document_presenter_class)) ||
-      blacklight_config.index.document_presenter_class
+    blacklight_config.view_config(document_index_view_type, action_name: action_name).document_presenter_class
   end
 
   # @return [Class]
   def search_bar_presenter_class
-    blacklight_config.index.search_bar_presenter_class
+    blacklight_config.view_config(action_name: :index).search_bar_presenter_class
   end
 
   # @!group Layout helpers

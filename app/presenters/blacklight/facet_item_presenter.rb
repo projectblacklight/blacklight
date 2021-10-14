@@ -4,7 +4,7 @@ module Blacklight
   class FacetItemPresenter
     attr_reader :facet_item, :facet_config, :view_context, :search_state, :facet_field
 
-    delegate :hits, :items, to: :facet_item
+    delegate :key, to: :facet_config
 
     def initialize(facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
       @facet_item = facet_item
@@ -14,12 +14,24 @@ module Blacklight
       @search_state = search_state
     end
 
+    def hits
+      return unless @facet_item.respond_to? :hits
+
+      @facet_item.hits
+    end
+
+    def items
+      return unless @facet_item.respond_to? :items
+
+      @facet_item.items
+    end
+
     ##
     # Check if the query parameters have the given facet field with the
     # given value.
     def selected?
       Deprecation.silence(Blacklight::SearchState) do
-        search_state.has_facet? facet_config, value: facet_value
+        search_state.has_facet? facet_config, value: value
       end
     end
 
@@ -34,21 +46,29 @@ module Blacklight
     def label
       return @view_context.facet_display_value(@facet_field, @facet_item) unless @view_context.method(:facet_display_value).owner == Blacklight::FacetsHelperBehavior
 
-      value = if facet_item.respond_to? :label
-                facet_item.label
-              else
-                facet_value
-              end
+      label_value = if facet_item.respond_to? :label
+                      facet_item.label
+                    else
+                      value
+                    end
 
       if facet_config.helper_method
-        view_context.public_send(facet_config.helper_method, value)
-      elsif facet_config.query && facet_config.query[value]
-        facet_config.query[value][:label]
+        view_context.public_send(facet_config.helper_method, label_value)
+      elsif facet_config.query && facet_config.query[label_value]
+        facet_config.query[label_value][:label]
       elsif facet_config.date
         localization_options = facet_config.date == true ? {} : facet_config.date
-        I18n.l(Time.zone.parse(value), localization_options)
+        I18n.l(Time.zone.parse(label_value), **localization_options)
       else
-        value
+        label_value
+      end
+    end
+
+    def value
+      if facet_item.respond_to? :value
+        facet_item.value
+      else
+        facet_item
       end
     end
 
@@ -77,14 +97,6 @@ module Blacklight
     end
 
     private
-
-    def facet_value
-      if facet_item.respond_to? :value
-        facet_item.value
-      else
-        facet_item
-      end
-    end
 
     def facet_field_presenter
       @facet_field_presenter ||= view_context.facet_field_presenter(facet_config, {})

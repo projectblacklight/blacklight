@@ -1,4 +1,5 @@
 .twitter-typeahead {
+  display: inline-flex !important;
   flex-grow: 2;
   z-index: $zindex-typeahead;
 

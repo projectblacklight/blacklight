@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::DocumentComponent, type: :component do
-  subject(:component) { described_class.new(document: document, **attr) }
+  subject(:component) { described_class.new(document: document, presenter: view_context.document_presenter(document), **attr) }
 
   let(:attr) { {} }
   let(:view_context) { controller.view_context }
@@ -33,6 +33,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   before do
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(controller).to receive(:view_context).and_return(view_context)
     allow(controller).to receive(:current_or_guest_user).and_return(User.new)
     allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
     allow(view_context).to receive(:search_session).and_return({})
@@ -45,7 +47,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     component.with(:embed, 'Embed')
     component.with(:metadata, 'Metadata')
     component.with(:thumbnail, 'Thumbnail')
-    component.with(:actions, 'Actions')
+    component.with(:actions) { 'Actions' }
 
     expect(rendered).to have_content 'Title'
     expect(rendered).to have_content 'Embed'
@@ -63,7 +65,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   context 'with a provided body' do
     it 'opts-out of normal component content' do
-      component.with(:body, 'Body content')
+      component.with(:body) { 'Body content' }
 
       expect(rendered).to have_content 'Body content'
       expect(rendered).not_to have_selector 'header'
@@ -148,5 +150,20 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     expect(rendered).to have_selector 'dt', text: 'Title:'
     expect(rendered).to have_selector 'dd', text: 'Title'
     expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
+  end
+
+  context 'with a thumbnail component' do
+    let(:attr) { { thumbnail_component: thumbnail_component_class } }
+    let(:thumbnail_component_class) do
+      Class.new(ViewComponent::Base) do
+        def render_in(view_context)
+          view_context.capture { 'Thumb!' }
+        end
+      end
+    end
+
+    it 'uses the provided thumbnail component' do
+      expect(rendered).to have_content 'Thumb!'
+    end
   end
 end

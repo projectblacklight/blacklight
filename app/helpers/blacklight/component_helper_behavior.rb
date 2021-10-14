@@ -10,11 +10,11 @@ module Blacklight
     deprecation_deprecate :document_action_label
 
     # @deprecated
-    def document_action_path action_opts, url_opts = nil
+    def document_action_path action_opts, url_opts = {}
       if action_opts.path
         send(action_opts.path, url_opts)
       elsif url_opts[:id].class.respond_to?(:model_name)
-        url_for([action_opts.key, url_opts[:id]])
+        url_for([action_opts.key.to_sym, url_opts[:id]])
       else
         send("#{action_opts.key}_#{controller_name}_path", url_opts)
       end
@@ -94,11 +94,11 @@ module Blacklight
     end
 
     def show_doc_actions?(document = @document, options = {})
-      filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).any?
+      filter_partials(blacklight_config.view_config(:show).document_actions, { document: document }.merge(options)).any?
     end
 
     def document_actions(document, options: {})
-      filter_partials(blacklight_config.show.document_actions, { document: document }.merge(options)).map { |_k, v| v }
+      filter_partials(blacklight_config.view_config(:show).document_actions, { document: document }.merge(options)).map { |_k, v| v }
     end
 
     private

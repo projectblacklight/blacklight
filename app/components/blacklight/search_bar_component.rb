@@ -2,16 +2,21 @@
 
 module Blacklight
   class SearchBarComponent < ::ViewComponent::Base
-    with_content_areas :append, :prepend
+    include Blacklight::ContentAreasShim
+
+    renders_one :append
+    renders_one :prepend
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
-      url:, params:, classes: ['search-query-form'], presenter: nil,
-      prefix: '', method: 'GET', q: nil, query_param: :q,
+      url:, advanced_search_url: nil, params:,
+      classes: ['search-query-form'], presenter: nil, prefix: '',
+      method: 'GET', q: nil, query_param: :q,
       search_field: nil, search_fields: [], autocomplete_path: nil,
       autofocus: nil, i18n: { scope: 'blacklight.search.form' }
     )
       @url = url
+      @advanced_search_url = advanced_search_url
       @q = q || params[:q]
       @query_param = query_param
       @search_field = search_field || params[:search_field]
@@ -44,7 +49,11 @@ module Blacklight
     private
 
     def presenter
-      @presenter ||= blacklight_config.index.search_bar_presenter_class.new(controller, blacklight_config)
+      @presenter ||= presenter_class.new(controller, blacklight_config)
+    end
+
+    def presenter_class
+      blacklight_config.view_config(action_name: :index).search_bar_presenter_class
     end
 
     def blacklight_config

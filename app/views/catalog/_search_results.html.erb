@@ -12,14 +12,14 @@
 <% end %>
 
 <% content_for(:container_header) do -%>
-  <h1 class="sr-only top-content-title"><%= t('blacklight.search.header') %></h1>
+  <h1 class="sr-only visually-hidden top-content-title"><%= t('blacklight.search.header') %></h1>
 
   <%= render 'constraints' %>
 <% end %>
 
 <%= render 'search_header' %>
 
-<h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
+<h2 class="sr-only visually-hidden"><%= t('blacklight.search.search_results') %></h2>
 
 <%- if @response.empty? %>
   <%= render "zero_results" %>

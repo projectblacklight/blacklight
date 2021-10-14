@@ -29,6 +29,20 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     end
   end
 
+  context 'with merged parameters from the defaults + the search field' do
+    before do
+      blacklight_config.default_solr_params = { json: { whatever: [1, 2, 3] } }
+      blacklight_config.search_fields['all_fields'].solr_parameters = { json: { and_also: [4, 5, 6] } }
+    end
+
+    let(:user_params) { { search_field: 'all_fields' } }
+
+    it 'deep merges hash values' do
+      expect(subject.to_hash.dig(:json, :whatever)).to eq [1, 2, 3]
+      expect(subject.to_hash.dig(:json, :and_also)).to eq [4, 5, 6]
+    end
+  end
+
   context "with a complex parameter environment" do
     subject { search_builder.with(user_params).processed_parameters }
 
@@ -259,6 +273,34 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe 'with a json facet' do
+      let(:user_params) { { f: { json_facet: ['value'] } }.with_indifferent_access }
+
+      before do
+        blacklight_config.add_facet_field 'json_facet', field: 'foo', json: { bar: 'baz' }
+      end
+
+      it "has proper solr parameters" do
+        expect(subject[:fq]).to include('{!term f=foo}value')
+        expect(subject.dig(:json, :facet, 'json_facet')).to include(
+          field: 'foo',
+          type: 'terms',
+          bar: 'baz'
+        )
+      end
+    end
+
+    describe 'with multi-valued facets' do
+      let(:user_params) { { f_inclusive: { format: %w[Book Movie CD] } } }
+
+      it "has proper solr parameters" do
+        expect(subject[:fq]).to include('{!lucene}{!query v=$f_inclusive.format.0} OR {!query v=$f_inclusive.format.1} OR {!query v=$f_inclusive.format.2}')
+        expect(subject['f_inclusive.format.0']).to eq '{!term f=format}Book'
+        expect(subject['f_inclusive.format.1']).to eq '{!term f=format}Movie'
+        expect(subject['f_inclusive.format.2']).to eq '{!term f=format}CD'
+      end
+    end
+
     describe "solr parameters for a field search from config (subject)" do
       let(:user_params) { subject_search_params }
 
@@ -276,7 +318,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
       it "does not include weird keys not in field definition" do
         expect(subject[:phrase_filters]).to be_nil
-        expect(subject[:fq]).to eq []
         expect(subject[:commit]).to be_nil
         expect(subject[:action]).to be_nil
         expect(subject[:controller]).to be_nil
@@ -307,6 +348,38 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
         key_value_pairs = Regexp.last_match(1).split(" ")
         expect(key_value_pairs).to include("pf=$subject_pf")
         expect(key_value_pairs).to include("qf=$subject_qf")
+      end
+    end
+
+    describe "solr json query parameters from the fielded search" do
+      let(:user_params) { subject_search_params }
+
+      before do
+        blacklight_config.search_fields['subject'].solr_parameters = {
+          some: :parameter
+        }
+
+        blacklight_config.search_fields['subject'].clause_params = {
+          edismax: {
+            another: :parameter
+          }
+        }
+      end
+
+      it 'sets solr parameters from the field' do
+        expect(subject[:some]).to eq :parameter
+      end
+
+      it 'does not set a q parameter' do
+        expect(subject).not_to have_key :q
+      end
+
+      it 'includes the user query in the JSON query DSL request' do
+        expect(subject.dig(:json, :query, :bool, :must, 0, :edismax)).to include query: 'wome'
+      end
+
+      it 'includes addtional clause parameters for the field' do
+        expect(subject.dig(:json, :query, :bool, :must, 0, :edismax)).to include another: :parameter
       end
     end
 
@@ -721,6 +794,32 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
     it "does not add an !ex local parameter if it isn't configured" do
       expect(subject.with_ex_local_param(nil, "some-value")).to eq "some-value"
+    end
+  end
+
+  context 'with advanced search clause parameters' do
+    before do
+      blacklight_config.search_fields.each_value do |v|
+        v.clause_params = { edismax: v.solr_parameters.dup }
+      end
+    end
+
+    let(:user_params) { { op: 'must', clause: { '0': { field: 'title', query: 'the book' }, '1': { field: 'author', query: 'the person' } } } }
+
+    it "has proper solr parameters" do
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :query)).to eq 'the book'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :qf)).to eq '${title_qf}'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :query)).to eq 'the person'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :qf)).to eq '${author_qf}'
+    end
+  end
+
+  describe '#where' do
+    let(:user_params) { {} }
+
+    it 'adds additional query filters on the search' do
+      subject.where(id: [1, 2, 3])
+      expect(subject.to_hash).to include q: '{!lucene}id:(1 OR 2 OR 3)'
     end
   end
 end

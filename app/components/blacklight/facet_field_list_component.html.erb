@@ -1,8 +1,9 @@
 <%= render(@layout.new(facet_field: @facet_field)) do |component| %>
-  <% component.with(:label) do %>
+  <% component.label do %>
     <%= @facet_field.label %>
   <% end %>
-  <% component.with(:body) do %>
+  <% component.body do %>
+    <%= @view_context.render(Blacklight::FacetFieldInclusiveConstraintComponent.new(facet_field: @facet_field)) %>
     <ul class="facet-values list-unstyled">
       <%= render_facet_limit_list @facet_field.paginator, @facet_field.key %>
     </ul>

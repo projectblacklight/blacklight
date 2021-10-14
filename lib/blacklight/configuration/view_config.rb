@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class Blacklight::Configuration
   class ViewConfig < Blacklight::OpenStructWithHashAccess
+    # @!attribute template
+    #   @return [String] partial to render around the documents
     # @!attribute partials
     #   @return [Array<String>] partials to render for each document(see #render_document_partials)
     # @!attribute document_presenter_class
@@ -11,21 +13,26 @@ class Blacklight::Configuration
     #   @return [String, Symbol] solr field to use to render a document title
     # @!attribute display_type_field
     #   @return [String, Symbol] solr field to use to render format-specific partials
+    # @!attribute icon
+    #   @return [String, Symbol] icon file to use in the view picker
     # @!attribute document_actions
     #   @return [NestedOpenStructWithHashAccess{Symbol => Blacklight::Configuration::ToolConfig}] 'tools' to render for each document
     def search_bar_presenter_class
       super || Blacklight::SearchBarPresenter
     end
 
-    def display_label(key)
+    def display_label(deprecated_key = nil, **options)
+      Deprecation.warn(Blacklight::Configuration::ViewConfig, 'Passing the key argument to ViewConfig#display_label is deprecated') if deprecated_key.present?
+
       I18n.t(
-        :"blacklight.search.view_title.#{key}",
+        :"blacklight.search.view_title.#{deprecated_key || key}",
         default: [
-          :"blacklight.search.view.#{key}",
+          :"blacklight.search.view.#{deprecated_key || key}",
           label,
           title,
-          key.to_s.humanize
-        ]
+          (deprecated_key || key).to_s.humanize
+        ],
+        **options
       )
     end
 
@@ -37,6 +44,10 @@ class Blacklight::Configuration
 
       def document_presenter_class
         super || Blacklight::ShowPresenter
+      end
+
+      def to_h
+        super.merge(document_presenter_class: document_presenter_class)
       end
     end
 
@@ -51,6 +62,10 @@ class Blacklight::Configuration
 
       def document_presenter_class
         super || Blacklight::IndexPresenter
+      end
+
+      def to_h
+        super.merge(document_presenter_class: document_presenter_class)
       end
     end
   end

@@ -44,7 +44,7 @@ module Blacklight
 
     def default_label
       if self.key.respond_to?(:titleize)
-        self.key.try(:titleize)
+        self.key.titleize
       else
         self.key.to_s.titleize
       end

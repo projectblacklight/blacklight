@@ -323,7 +323,7 @@ RSpec.describe CatalogHelper do
 
     it "supports view-specific field configuration" do
       allow(helper).to receive(:document_index_view_type).and_return(:some_view_type)
-      blacklight_config.view.some_view_type.display_type_field = :other_type
+      blacklight_config.view.some_view_type(display_type_field: :other_type)
       doc = { other_type: "document" }
       expect(helper.render_document_class(doc)).to eq "blacklight-document"
     end

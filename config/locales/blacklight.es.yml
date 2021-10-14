@@ -147,7 +147,7 @@ es:
         request_error: "Lo siento, no entiendo esta búsqueda"
         invalid_solr_id: "Lo sentimos, usted ha solicitado un registro que no existe."
       per_page:
-        label: '%{count}<span class="sr-only"> por página</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> por página</span>'
         button_label: '%{count} por página' # TODO: Remove during major release
         button_label_html: '%{count}<span class="d-none d-sm-inline"> por página</span>'
         title: 'El número de resultados a mostrar por página'
@@ -190,7 +190,7 @@ es:
           count: 'Ordenación numérica'
           index: 'Ordenación A-Z'
         count: '%{number}'
-        more_html: 'más <span class="sr-only">%{field_name}</span> »'
+        more_html: 'más <span class="sr-only visually-hidden">%{field_name}</span> »'
         selected:
           remove: '[borrar]'
         missing: '[Falta]'
@@ -230,7 +230,9 @@ es:
         list: "Lista"
 
     entry_name:
-      default: 'entrada'
+      default:
+        one: 'entrada'
+        other: 'entradas'
       grouped:
         default: 'resultado agrupado'
 

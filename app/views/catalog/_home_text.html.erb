@@ -1,11 +1,11 @@
-<div class="jumbotron text-center">
+<div class="jumbotron text-center p-5 mb-4 bg-light rounded-3">
   <h1 class="jumbotron-heading"><%= t('blacklight.welcome') %></h1>
 
   <p class="lead">Blacklight is a multi-institutional open-source collaboration building a better discovery platform framework.</p>
 
   <p>
     <%= link_to 'Read the Documentation', 'https://github.com/projectblacklight/blacklight/wiki', class: 'btn btn-primary' %>
-    <%= link_to 'See Examples', 'http://projectblacklight.org', class: 'btn btn-outline-secondary' %>
+    <%= link_to 'See Examples', 'http://projectblacklight.org', class: 'btn btn-light' %>
   </p>
 </div>
 
@@ -31,7 +31,7 @@
 
 <%# This is the same panel shown in the Rails welcome template %>
 <div id="about" class="card">
-  <h2 class='card-header collapsed collapse-toggle' data-toggle="collapse" data-target="#about-content"><a href="/rails/info/properties">About your application&rsquo;s environment</a></h2>
+  <h2 class='card-header collapsed collapse-toggle' data-toggle="collapse" data-bs-toggle="collapse" data-bs-target="#about-content" data-target="#about-content"><a href="/rails/info/properties">About your application&rsquo;s environment</a></h2>
   <div id="about-content" class="card-body collapse"></div>
 </div>
 

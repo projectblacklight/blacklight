@@ -1,11 +1,11 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
-  <% component.with(:prefix) do %>
+  <% component.prefix do %>
     <div class="facet-pagination top row justify-content-between">
       <%= render :partial=>'facet_pagination' %>
     </div>
   <% end %>
 
-  <% component.with(:title, facet_field_label(@facet.key)) %>
+  <% component.title { facet_field_label(@facet.key) } %>
 
   <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
 
@@ -13,7 +13,7 @@
     <%= render_facet_limit(@display_facet, layout: false) %>
   </div>
 
-  <% component.with(:footer) do %>
+  <% component.footer do %>
     <div class="facet-pagination bottom row justify-content-between">
       <%= render :partial=>'facet_pagination' %>
     </div>

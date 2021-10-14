@@ -29,6 +29,7 @@ module Blacklight::Solr::Response::Facets
   # represents a facet; which is a field and its values
   class FacetField
     attr_reader :name, :items
+    attr_accessor :missing
 
     def initialize name, items, options = {}
       @name = name
@@ -50,6 +51,14 @@ module Blacklight::Solr::Response::Facets
 
     def prefix
       @options[:prefix] || solr_default_prefix
+    end
+
+    def type
+      @options[:type] || 'terms'
+    end
+
+    def data
+      @options[:data] || {}
     end
 
     def index?
@@ -90,7 +99,7 @@ module Blacklight::Solr::Response::Facets
   # Get all the Solr facet data (fields, queries, pivots) as a hash keyed by
   # both the Solr field name and/or by the blacklight field name
   def aggregations
-    @aggregations ||= {}.merge(facet_field_aggregations).merge(facet_query_aggregations).merge(facet_pivot_aggregations)
+    @aggregations ||= {}.merge(facet_field_aggregations).merge(facet_query_aggregations).merge(facet_pivot_aggregations).merge(json_facet_aggregations)
   end
 
   def facet_counts
@@ -159,42 +168,30 @@ module Blacklight::Solr::Response::Facets
       items = values.map do |value, hits|
         i = FacetItem.new(value: value, hits: hits)
 
-        # solr facet.missing serialization
+        # legacy solr facet.missing serialization
         if value.nil?
           i.label = I18n.t(:"blacklight.search.fields.facet.missing.#{facet_field_name}", default: [:"blacklight.search.facets.missing"])
           i.fq = "-#{facet_field_name}:[* TO *]"
+          i.missing = true
         end
 
         i
       end
 
       options = facet_field_aggregation_options(facet_field_name)
-      hash[facet_field_name] = FacetField.new(facet_field_name,
-                                              items,
-                                              options)
+      facet_field = FacetField.new(facet_field_name, items, options)
+
+      if values[nil]
+        facet_field.missing = items.find(&:missing)
+      end
+
+      hash[facet_field_name] = facet_field
 
       # alias all the possible blacklight config names..
       blacklight_config.facet_fields.select { |_k, v| v.field == facet_field_name }.each_key do |key|
         hash[key] = hash[facet_field_name]
       end if blacklight_config && !blacklight_config.facet_fields[facet_field_name]
     end
-  end
-
-  def facet_field_aggregation_options(facet_field_name)
-    options = {}
-    options[:sort] = (params[:"f.#{facet_field_name}.facet.sort"] || params[:'facet.sort'])
-    if params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]
-      options[:limit] = (params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]).to_i
-    end
-
-    if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
-      options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
-    end
-
-    if params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix']
-      options[:prefix] = (params[:"f.#{facet_field_name}.facet.prefix"] || params[:'facet.prefix'])
-    end
-    options
   end
 
   ##
@@ -211,9 +208,25 @@ module Blacklight::Solr::Response::Facets
         Blacklight::Solr::Response::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
       end
 
+      items += facet_query_aggregations_from_json(facet_field)
+
       items = items.sort_by(&:hits).reverse if facet_field.sort && facet_field.sort.to_sym == :count
 
       hash[field_name] = Blacklight::Solr::Response::Facets::FacetField.new field_name, items
+    end
+  end
+
+  def facet_query_aggregations_from_json(facet_field)
+    return [] unless self['facets']
+
+    salient_facet_queries = facet_field.query.map { |_k, x| x[:fq] }
+
+    relevant_facet_data = self['facets'].select { |k, _v| salient_facet_queries.include?(k) }.reject { |_key, data| data['count'].zero? }
+
+    relevant_facet_data.map do |key, data|
+      salient_fields = facet_field.query.select { |_key, val| val[:fq] == key }
+      facet_key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
+      Blacklight::Solr::Response::Facets::FacetItem.new(value: facet_key, hits: data[:count], label: facet_field.query[facet_key][:label])
     end
   end
 
@@ -243,5 +256,46 @@ module Blacklight::Solr::Response::Facets
     end
 
     Blacklight::Solr::Response::Facets::FacetItem.new(value: lst[:value], hits: lst[:count], field: lst[:field], items: items, fq: parent_fq)
+  end
+
+  def construct_json_nested_facet_fields(bucket, parent_fq = {})
+    bucket.select { |_, nested| nested.is_a?(Hash) && nested.key?('buckets') }.map do |facet_field_name, nested|
+      nested['buckets'].map do |subbucket|
+        i = Blacklight::Solr::Response::Facets::FacetItem.new(field: facet_field_name, value: subbucket['val'], hits: subbucket['count'], fq: parent_fq, data: subbucket)
+
+        i.items = construct_json_nested_facet_fields(subbucket, parent_fq.merge(key => subbucket['val'])) if has_json_nested_facets?(subbucket)
+        i
+      end
+    end.flatten
+  end
+
+  def has_json_nested_facets?(bucket)
+    bucket.any? { |_, nested| nested.is_a?(Hash) && nested.key?('buckets') }
+  end
+
+  def json_facet_aggregations
+    return {} unless self['facets']
+
+    self['facets'].each_with_object({}) do |(facet_field_name, data), hash|
+      next if facet_field_name == 'count'
+
+      items = (data['buckets'] || []).map do |bucket|
+        i = Blacklight::Solr::Response::Facets::FacetItem.new(value: bucket['val'], hits: bucket['count'], data: bucket)
+
+        i.items = construct_json_nested_facet_fields(bucket, facet_field_name => bucket['val']) if has_json_nested_facets?(bucket)
+
+        i
+      end
+
+      options = facet_field_aggregation_options(facet_field_name).merge(data: data)
+      facet_field = FacetField.new(facet_field_name, items, options)
+
+      facet_field.missing = Blacklight::Solr::Response::Facets::FacetItem.new(
+        hits: data.dig('missing', 'count'),
+        data: data['missing']
+      ) if data['missing']
+
+      hash[facet_field_name] = facet_field
+    end
   end
 end

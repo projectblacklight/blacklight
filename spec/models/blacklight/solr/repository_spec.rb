@@ -134,6 +134,18 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
         end
       end
     end
+
+    context 'with json parameters' do
+      it 'sends a post request with some json' do
+        allow(subject.connection).to receive(:send_and_receive) do |path, params|
+          expect(path).to eq 'select'
+          expect(params[:method]).to eq :post
+          expect(JSON.parse(params[:data]).with_indifferent_access).to include(query: { bool: {} })
+          expect(params[:headers]).to include({ 'Content-Type' => 'application/json' })
+        end.and_return('response' => { 'docs' => [] })
+        subject.search(json: { query: { bool: {} } })
+      end
+    end
   end
 
   describe "http_method configuration", integration: true do
