@@ -460,8 +460,8 @@ Blacklight.handleSearchContextMethod = function (event) {
 
   let href = link.getAttribute('data-context-href');
   let target = link.getAttribute('target');
-  let csrfToken = Rails.csrfToken();
-  let csrfParam = Rails.csrfParam();
+  let csrfToken = document.querySelector('meta[name=csrf-token]')?.content
+  let csrfParam = document.querySelector('meta[name=csrf-param]')?.content
   let form = document.createElement('form');
   form.method = 'post';
   form.action = href;
