@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-rails", "~> 4.0.0.beta2"
   s.add_development_dependency "rspec-its"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
-  s.add_development_dependency 'axe-core-rspec'
   s.add_development_dependency "capybara", '~> 3'
   s.add_development_dependency 'webdrivers'
   s.add_development_dependency 'selenium-webdriver'
