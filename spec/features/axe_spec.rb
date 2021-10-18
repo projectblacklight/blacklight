@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Accessibility testing', api: false, js: true do
-  it 'validates the home page' do
+  xit 'validates the home page' do
     visit root_path
     expect(page).to be_accessible
   end
 
-  it 'validates the catalog page' do
+  xit 'validates the catalog page' do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
@@ -22,7 +22,7 @@ RSpec.describe 'Accessibility testing', api: false, js: true do
     expect(page).to be_accessible(skipping: ['aria-allowed-role'])
   end
 
-  it 'validates the single results page' do
+  xit 'validates the single results page' do
     visit solr_document_path('2007020969')
     expect(page).to be_accessible
   end
