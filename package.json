@@ -1,6 +1,6 @@
 {
   "name": "blacklight-frontend",
-  "version": "7.10.0",
+  "version": "7.20.0",
   "description": "[![Build Status](https://travis-ci.com/projectblacklight/blacklight.png?branch=master)](https://travis-ci.com/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight) [![Coverage Status](https://coveralls.io/repos/github/projectblacklight/blacklight/badge.svg?branch=master)](https://coveralls.io/github/projectblacklight/blacklight?branch=master)",
   "main": "app/assets/javascripts/blacklight",
   "scripts": {
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "bloodhound-js": "^1.2.3",
-    "bootstrap": "^4.3.1",
+    "bootstrap": ">=4.3.1 <6.0.0",
     "jquery": "^3.5.1",
     "typeahead.js": "^0.11.1"
   }
