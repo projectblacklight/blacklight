@@ -35,7 +35,7 @@ rails generate blacklight:install
 
 * Ruby 2.2+
 * Bundler
-* Rails 5.1+
+* Rails 5.2+
 
 ## Contributing Code
 
