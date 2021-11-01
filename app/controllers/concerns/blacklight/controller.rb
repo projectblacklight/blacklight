@@ -3,6 +3,7 @@
 # as this module is mixed-in to the application controller in the hosting app on installation.
 module Blacklight::Controller
   extend ActiveSupport::Concern
+  extend Deprecation
 
   included do
     include Blacklight::SearchFields
@@ -38,11 +39,6 @@ module Blacklight::Controller
     # TODO: move to Searchable
     class_attribute :search_service_class
     self.search_service_class = Blacklight::SearchService
-
-    # This callback runs when a user first logs in
-
-    define_callbacks :logging_in_user
-    set_callback :logging_in_user, :before, :transfer_guest_user_actions_to_current_user
   end
 
   # @private
@@ -136,6 +132,13 @@ module Blacklight::Controller
 
   ##
   # When a user logs in, transfer any saved searches or bookmarks to the current_user
+  def transfer_guest_to_user
+    Deprecation.silence(Blacklight::Controller) do
+      transfer_guest_user_actions_to_current_user
+    end
+  end
+
+  # @deprecated use canonical `transfer_guest_to_user` method instead
   def transfer_guest_user_actions_to_current_user
     return unless respond_to?(:current_user) && respond_to?(:guest_user) && current_user && guest_user
 
@@ -155,6 +158,7 @@ module Blacklight::Controller
     # let guest_user know we've moved some bookmarks from under it
     guest_user.reload if guest_user.persisted?
   end
+  deprecation_deprecate :transfer_guest_user_actions_to_current_user
 
   ##
   # To handle failed authorization attempts, redirect the user to the

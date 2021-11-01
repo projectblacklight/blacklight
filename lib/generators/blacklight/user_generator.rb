@@ -22,7 +22,7 @@ module Blacklight
       return unless options[:devise]
 
       gem "devise"
-      gem "devise-guests", "~> 0.6"
+      gem "devise-guests", "~> 0.8"
 
       inside destination_root do
         Bundler.with_clean_env do
