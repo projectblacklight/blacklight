@@ -83,7 +83,7 @@
   .remove {
     color: $text-muted;
     font-weight: bold;
-    padding-left: $spacer / 2;
+    padding-left: $spacer * .5;
     text-decoration: none;
 
     &:hover {
@@ -104,7 +104,7 @@
     padding-right: 1em;
     text-indent: -15px;
     padding-left: 15px;
-    padding-bottom: $spacer / 2;
+    padding-bottom: $spacer * .5;
     @include hyphens-auto;
   }
 

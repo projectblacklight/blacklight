@@ -12,19 +12,19 @@
     overflow: hidden;
 
     @media (max-width: breakpoint-min(sm)) {
-      max-width: breakpoint-min(sm) / 2;
+      max-width: breakpoint-min(sm) * .5;
     }
 
     @media (min-width: breakpoint-min(sm)) and (max-width: breakpoint-max(sm)) {
-      max-width: breakpoint-min(sm) / 2;
+      max-width: breakpoint-min(sm) * .5;
     }
 
     @media (min-width: breakpoint-min(md)) and (max-width: breakpoint-max(md)) {
-      max-width: breakpoint-min(md) / 2;
+      max-width: breakpoint-min(md) * .5;
     }
 
     @media (min-width: breakpoint-min(lg)) {
-      max-width: breakpoint-min(lg) / 2;
+      max-width: breakpoint-min(lg) * .5;
     }
 
     &:hover, &:active {
