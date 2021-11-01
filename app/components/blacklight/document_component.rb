@@ -121,10 +121,10 @@ module Blacklight
     end
 
     def before_render
-      set_slot(:title) unless title
-      set_slot(:thumbnail, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, component: @metadata_component, fields: presenter.field_presenters) unless metadata
-      set_slot(:embed, component: @embed_component || presenter.view_config&.embed_component) unless embed
+      set_slot(:title, nil) unless title
+      set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
+      set_slot(:metadata, nil, component: @metadata_component, fields: presenter.field_presenters) unless metadata
+      set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
     end
 
     private
