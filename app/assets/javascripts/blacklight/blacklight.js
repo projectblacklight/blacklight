@@ -38,6 +38,7 @@ Blacklight.listeners().forEach(function (listener) {
 });
 Blacklight.onLoad(function () {
   const elem = document.querySelector('.no-js');
+  if (!elem) return;
   elem.classList.remove('no-js');
   elem.classList.add('js');
 });
