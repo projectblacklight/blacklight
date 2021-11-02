@@ -41,6 +41,8 @@ Blacklight.listeners().forEach(function(listener) {
 Blacklight.onLoad(function () {
   const elem = document.querySelector('.no-js');
 
+  // The "no-js" class may already have been removed because this function is
+  // run on every turbo:load event, in that case, it won't find an element.
   if (!elem) return;
 
   elem.classList.remove('no-js')
