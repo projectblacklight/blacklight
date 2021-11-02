@@ -1,6 +1,6 @@
 .constraints-container {
   @extend .mb-2;
-  @extend .d-flex;
+  display: flex;
 }
 
 .applied-filter {
