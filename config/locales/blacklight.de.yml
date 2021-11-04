@@ -232,7 +232,7 @@ de:
     entry_name:
       default:
         one: Eintrag
-        other: Enträge
+        other: Einträge
       grouped:
         default: 'gruppiertes Ergebnis'
 
