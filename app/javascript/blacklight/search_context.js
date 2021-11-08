@@ -15,8 +15,8 @@ Blacklight.doSearchContextBehavior = function() {
   })
 };
 
-Blacklight.csrfToken = () => document.querySelector('meta[name=csrf-token]')?.content
-Blacklight.csrfParam = () => document.querySelector('meta[name=csrf-param]')?.content
+Blacklight.csrfToken = function() { return (document.querySelector('meta[name=csrf-token]') || {}).content }
+Blacklight.csrfParam = function() { return (document.querySelector('meta[name=csrf-param]') || {}).content }
 
 // this is the Rails.handleMethod with a couple adjustments, described inline:
 // first, we're attaching this directly to the event handler, so we can check for meta-keys

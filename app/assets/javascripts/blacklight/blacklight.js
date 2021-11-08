@@ -37,7 +37,9 @@ Blacklight.listeners().forEach(function (listener) {
   });
 });
 Blacklight.onLoad(function () {
-  const elem = document.querySelector('.no-js');
+  const elem = document.querySelector('.no-js'); // The "no-js" class may already have been removed because this function is
+  // run on every turbo:load event, in that case, it won't find an element.
+
   if (!elem) return;
   elem.classList.remove('no-js');
   elem.classList.add('js');
@@ -453,9 +455,13 @@ Blacklight.doSearchContextBehavior = function () {
   });
 };
 
-Blacklight.csrfToken = () => document.querySelector('meta[name=csrf-token]')?.content;
+Blacklight.csrfToken = function () {
+  return (document.querySelector('meta[name=csrf-token]') || {}).content;
+};
 
-Blacklight.csrfParam = () => document.querySelector('meta[name=csrf-param]')?.content; // this is the Rails.handleMethod with a couple adjustments, described inline:
+Blacklight.csrfParam = function () {
+  return (document.querySelector('meta[name=csrf-param]') || {}).content;
+}; // this is the Rails.handleMethod with a couple adjustments, described inline:
 // first, we're attaching this directly to the event handler, so we can check for meta-keys
 
 
