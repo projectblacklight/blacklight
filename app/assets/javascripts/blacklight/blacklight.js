@@ -1,15 +1,17 @@
+"use strict";
+
 Blacklight = function () {
   var buffer = new Array();
   return {
-    onLoad: function (func) {
+    onLoad: function onLoad(func) {
       buffer.push(func);
     },
-    activate: function () {
+    activate: function activate() {
       for (var i = 0; i < buffer.length; i++) {
         buffer[i].call();
       }
     },
-    listeners: function () {
+    listeners: function listeners() {
       var listeners = [];
 
       if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
@@ -37,7 +39,9 @@ Blacklight.listeners().forEach(function (listener) {
   });
 });
 Blacklight.onLoad(function () {
-  const elem = document.querySelector('.no-js');
+  var elem = document.querySelector('.no-js'); // The "no-js" class may already have been removed because this function is
+  // run on every turbo:load event, in that case, it won't find an element.
+
   if (!elem) return;
   elem.classList.remove('no-js');
   elem.classList.add('js');
@@ -87,7 +91,7 @@ Blacklight.onLoad(function () {
     $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
       // cssClass is added to elements added, plus used for id base
       cssClass: 'toggle-bookmark',
-      success: function (checked, response) {
+      success: function success(checked, response) {
         if (response.bookmarks) {
           $('[data-role=bookmark-counter]').text(response.bookmarks.count);
         }
@@ -105,8 +109,8 @@ Blacklight.onLoad(function () {
   // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
   // Safari both do not set focus to a button on button click.
   // See https://zellwk.com/blog/inconsistent-button-behavior/ for background information
-  document.querySelectorAll('button.collapse-toggle').forEach(button => {
-    button.addEventListener('click', () => {
+  document.querySelectorAll('button.collapse-toggle').forEach(function (button) {
+    button.addEventListener('click', function () {
       event.target.focus();
     });
   });
@@ -193,12 +197,12 @@ Blacklight.onLoad(function () {
           dataType: 'json',
           type: form.attr('method').toUpperCase(),
           data: form.serialize(),
-          error: function () {
+          error: function error() {
             label.removeAttr('disabled');
             checkbox.removeAttr('disabled');
             options.error.call();
           },
-          success: function (data, status, xhr) {
+          success: function success(data, status, xhr) {
             //if app isn't running at all, xhr annoyingly
             //reports success with status 0.
             if (xhr.status != 0) {
@@ -224,10 +228,10 @@ Blacklight.onLoad(function () {
   $.fn.blCheckboxSubmit.defaults = {
     //cssClass is added to elements added, plus used for id base
     cssClass: 'blCheckboxSubmit',
-    error: function () {
+    error: function error() {
       alert("Error");
     },
-    success: function () {} //callback
+    success: function success() {} //callback
 
   };
 })(jQuery);
@@ -243,12 +247,12 @@ Blacklight.doResizeFacetLabelsAndCounts = function () {
   }
 
   document.querySelectorAll('.facet-values, .pivot-facet').forEach(function (elem) {
-    const nodes = elem.querySelectorAll('.facet-count'); // TODO: when we drop ie11 support, this can become the spread operator:
+    var nodes = elem.querySelectorAll('.facet-count'); // TODO: when we drop ie11 support, this can become the spread operator:
 
-    const longest = Array.from(nodes).sort(longer)[0];
+    var longest = Array.from(nodes).sort(longer)[0];
 
     if (longest && longest.textContent) {
-      const width = longest.textContent.length + 1 + 'ch';
+      var width = longest.textContent.length + 1 + 'ch';
       elem.querySelector('.facet-count').style.width = width;
     }
   });
@@ -443,9 +447,9 @@ Blacklight.doSearchContextBehavior = function () {
     return Blacklight.do_search_context_behavior();
   }
 
-  const elements = document.querySelectorAll('a[data-context-href]'); // Equivalent to Array.from(), but supports ie11
+  var elements = document.querySelectorAll('a[data-context-href]'); // Equivalent to Array.from(), but supports ie11
 
-  const nodes = Array.prototype.slice.call(elements);
+  var nodes = Array.prototype.slice.call(elements);
   nodes.forEach(function (element) {
     element.addEventListener('click', function (e) {
       Blacklight.handleSearchContextMethod.call(e.currentTarget, e);
@@ -453,9 +457,17 @@ Blacklight.doSearchContextBehavior = function () {
   });
 };
 
-Blacklight.csrfToken = () => document.querySelector('meta[name=csrf-token]')?.content;
+Blacklight.csrfToken = function () {
+  var _document$querySelect;
 
-Blacklight.csrfParam = () => document.querySelector('meta[name=csrf-param]')?.content; // this is the Rails.handleMethod with a couple adjustments, described inline:
+  return (_document$querySelect = document.querySelector('meta[name=csrf-token]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.content;
+};
+
+Blacklight.csrfParam = function () {
+  var _document$querySelect2;
+
+  return (_document$querySelect2 = document.querySelector('meta[name=csrf-param]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.content;
+}; // this is the Rails.handleMethod with a couple adjustments, described inline:
 // first, we're attaching this directly to the event handler, so we can check for meta-keys
 
 
@@ -467,22 +479,21 @@ Blacklight.handleSearchContextMethod = function (event) {
 
   var link = this; // instead of using the normal href, we need to use the context href instead
 
-  let href = link.getAttribute('data-context-href');
-  let target = link.getAttribute('target');
-  let csrfToken = Blacklight.csrfToken();
-  let csrfParam = Blacklight.csrfParam();
-  let form = document.createElement('form');
+  var href = link.getAttribute('data-context-href');
+  var target = link.getAttribute('target');
+  var csrfToken = Blacklight.csrfToken();
+  var csrfParam = Blacklight.csrfParam();
+  var form = document.createElement('form');
   form.method = 'post';
   form.action = href;
-  let formContent = `<input name="_method" value="post" type="hidden" />
-    <input name="redirect" value="${link.getAttribute('href')}" type="hidden" />`; // check for meta keys.. if set, we should open in a new tab
+  var formContent = "<input name=\"_method\" value=\"post\" type=\"hidden\" />\n    <input name=\"redirect\" value=\"".concat(link.getAttribute('href'), "\" type=\"hidden\" />"); // check for meta keys.. if set, we should open in a new tab
 
   if (event.metaKey || event.ctrlKey) {
     target = '_blank';
   }
 
   if (csrfParam !== undefined && csrfToken !== undefined) {
-    formContent += `<input name="${csrfParam}" value="${csrfToken}" type="hidden" />`;
+    formContent += "<input name=\"".concat(csrfParam, "\" value=\"").concat(csrfToken, "\" type=\"hidden\" />");
   } // Must trigger submit by click on a button, else "submit" event handler won't work!
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit
 

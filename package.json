@@ -23,8 +23,10 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.3",
+    "@babel/preset-env": "^7.16.0",
     "shx": "^0.3.2"
   },
+  "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "bloodhound-js": "^1.2.3",
     "bootstrap": ">=4.3.1 <6.0.0",
