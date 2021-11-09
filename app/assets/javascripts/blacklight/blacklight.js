@@ -371,7 +371,7 @@ Blacklight.modal.onFailure = function (jqXHR, textStatus, errorThrown) {
 Blacklight.modal.receiveAjax = function (contents) {
   // does it have a data- selector for container?
   // important we don't execute script tags, we shouldn't.
-  // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/master/src/ajax/load.js?source=c#L62
+  // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/main/src/ajax/load.js?source=c#L62
   var container = $('<div>').append(jQuery.parseHTML(contents)).find(Blacklight.modal.containerSelector).first();
 
   if (container.length !== 0) {
