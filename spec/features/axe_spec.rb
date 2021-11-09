@@ -11,15 +11,14 @@ RSpec.describe 'Accessibility testing', api: false, js: true do
     fill_in "q", with: 'history'
     click_button 'search'
 
-    # aria-allowed-role doesn't like nav[role="region"]
-    expect(page).to be_accessible(skipping: ['aria-allowed-role'])
+    expect(page).to be_accessible
 
     within '.card.blacklight-language_ssim' do
       click_button 'Language'
       click_link "Tibetan"
     end
 
-    expect(page).to be_accessible(skipping: ['aria-allowed-role'])
+    expect(page).to be_accessible
   end
 
   it 'validates the single results page' do
