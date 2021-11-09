@@ -3,15 +3,15 @@
 Blacklight = function () {
   var buffer = new Array();
   return {
-    onLoad: function onLoad(func) {
+    onLoad: function (func) {
       buffer.push(func);
     },
-    activate: function activate() {
+    activate: function () {
       for (var i = 0; i < buffer.length; i++) {
         buffer[i].call();
       }
     },
-    listeners: function listeners() {
+    listeners: function () {
       var listeners = [];
 
       if (typeof Turbo !== 'undefined') {
@@ -41,7 +41,7 @@ Blacklight.listeners().forEach(function (listener) {
   });
 });
 Blacklight.onLoad(function () {
-  var elem = document.querySelector('.no-js'); // The "no-js" class may already have been removed because this function is
+  const elem = document.querySelector('.no-js'); // The "no-js" class may already have been removed because this function is
   // run on every turbo:load event, in that case, it won't find an element.
 
   if (!elem) return;
@@ -88,7 +88,7 @@ Blacklight.onLoad(function () {
     $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
       // cssClass is added to elements added, plus used for id base
       cssClass: 'toggle-bookmark',
-      success: function success(checked, response) {
+      success: function (checked, response) {
         if (response.bookmarks) {
           $('[data-role=bookmark-counter]').text(response.bookmarks.count);
         }
@@ -106,8 +106,8 @@ Blacklight.onLoad(function () {
   // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
   // Safari both do not set focus to a button on button click.
   // See https://zellwk.com/blog/inconsistent-button-behavior/ for background information
-  document.querySelectorAll('button.collapse-toggle').forEach(function (button) {
-    button.addEventListener('click', function () {
+  document.querySelectorAll('button.collapse-toggle').forEach(button => {
+    button.addEventListener('click', () => {
       event.target.focus();
     });
   });
@@ -194,12 +194,12 @@ Blacklight.onLoad(function () {
           dataType: 'json',
           type: form.attr('method').toUpperCase(),
           data: form.serialize(),
-          error: function error() {
+          error: function () {
             label.removeAttr('disabled');
             checkbox.removeAttr('disabled');
             options.error.call();
           },
-          success: function success(data, status, xhr) {
+          success: function (data, status, xhr) {
             //if app isn't running at all, xhr annoyingly
             //reports success with status 0.
             if (xhr.status != 0) {
@@ -225,10 +225,10 @@ Blacklight.onLoad(function () {
   $.fn.blCheckboxSubmit.defaults = {
     //cssClass is added to elements added, plus used for id base
     cssClass: 'blCheckboxSubmit',
-    error: function error() {
+    error: function () {
       alert("Error");
     },
-    success: function success() {} //callback
+    success: function () {} //callback
 
   };
 })(jQuery);
@@ -244,12 +244,12 @@ Blacklight.doResizeFacetLabelsAndCounts = function () {
   }
 
   document.querySelectorAll('.facet-values, .pivot-facet').forEach(function (elem) {
-    var nodes = elem.querySelectorAll('.facet-count'); // TODO: when we drop ie11 support, this can become the spread operator:
+    const nodes = elem.querySelectorAll('.facet-count'); // TODO: when we drop ie11 support, this can become the spread operator:
 
-    var longest = Array.from(nodes).sort(longer)[0];
+    const longest = Array.from(nodes).sort(longer)[0];
 
     if (longest && longest.textContent) {
-      var width = longest.textContent.length + 1 + 'ch';
+      const width = longest.textContent.length + 1 + 'ch';
       elem.querySelector('.facet-count').style.width = width;
     }
   });
@@ -439,9 +439,8 @@ Blacklight.onLoad(function () {
 });
 
 Blacklight.doSearchContextBehavior = function () {
-  var elements = document.querySelectorAll('a[data-context-href]'); // Equivalent to Array.from(), but supports ie11
-
-  var nodes = Array.prototype.slice.call(elements);
+  const elements = document.querySelectorAll('a[data-context-href]');
+  const nodes = Array.from(elements);
   nodes.forEach(function (element) {
     element.addEventListener('click', function (e) {
       Blacklight.handleSearchContextMethod.call(e.currentTarget, e);
@@ -449,13 +448,13 @@ Blacklight.doSearchContextBehavior = function () {
   });
 };
 
-Blacklight.csrfToken = function () {
+Blacklight.csrfToken = () => {
   var _document$querySelect;
 
   return (_document$querySelect = document.querySelector('meta[name=csrf-token]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.content;
 };
 
-Blacklight.csrfParam = function () {
+Blacklight.csrfParam = () => {
   var _document$querySelect2;
 
   return (_document$querySelect2 = document.querySelector('meta[name=csrf-param]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.content;
@@ -466,14 +465,14 @@ Blacklight.csrfParam = function () {
 Blacklight.handleSearchContextMethod = function (event) {
   var link = this; // instead of using the normal href, we need to use the context href instead
 
-  var href = link.getAttribute('data-context-href');
-  var target = link.getAttribute('target');
-  var csrfToken = Blacklight.csrfToken();
-  var csrfParam = Blacklight.csrfParam();
-  var form = document.createElement('form');
+  let href = link.getAttribute('data-context-href');
+  let target = link.getAttribute('target');
+  let csrfToken = Blacklight.csrfToken();
+  let csrfParam = Blacklight.csrfParam();
+  let form = document.createElement('form');
   form.method = 'post';
   form.action = href;
-  var formContent = "<input name=\"_method\" value=\"post\" type=\"hidden\" />\n    <input name=\"redirect\" value=\"".concat(link.getAttribute('href'), "\" type=\"hidden\" />"); // check for meta keys.. if set, we should open in a new tab
+  let formContent = "<input name=\"_method\" value=\"post\" type=\"hidden\" />\n    <input name=\"redirect\" value=\"".concat(link.getAttribute('href'), "\" type=\"hidden\" />"); // check for meta keys.. if set, we should open in a new tab
 
   if (event.metaKey || event.ctrlKey) {
     target = '_blank';
@@ -502,3 +501,4 @@ Blacklight.handleSearchContextMethod = function (event) {
 Blacklight.onLoad(function () {
   Blacklight.doSearchContextBehavior();
 });
+

@@ -31,6 +31,10 @@ rails generate blacklight:install
 * [Issue Tracker](https://github.com/projectblacklight/blacklight/issues)
 * [Support](https://github.com/projectblacklight/blacklight/wiki/Support)
 
+## Browser Compatibility
+
+Blacklight assumes a modern browser with support for ES6. This means we explicitly do not support Internet Explorer 11.
+
 ## Dependencies
 
 * Ruby 2.2+
