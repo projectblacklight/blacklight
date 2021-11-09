@@ -543,6 +543,98 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
   end
 
+  describe "add_sms_field" do
+    it "takes hash form" do
+      config.add_sms_field("title_tsim", label: "Title")
+
+      expect(config.sms_fields["title_tsim"]).not_to be_nil
+      expect(config.sms_fields["title_tsim"].label).to eq "Title"
+    end
+
+    it "takes ShowField argument" do
+      config.add_sms_field("title_tsim", Blacklight::Configuration::SmsField.new(field: "title_display", label: "Title"))
+
+      expect(config.sms_fields["title_tsim"]).not_to be_nil
+      expect(config.sms_fields["title_tsim"].label).to eq "Title"
+    end
+
+    it "takes block form" do
+      config.add_sms_field("title_tsim") do |f|
+        f.label = "Title"
+      end
+
+      expect(config.sms_fields["title_tsim"]).not_to be_nil
+      expect(config.sms_fields["title_tsim"].label).to eq "Title"
+    end
+
+    it "creates default label humanized from field" do
+      config.add_sms_field("my_custom_field")
+
+      expect(config.sms_fields["my_custom_field"].label).to eq "My Custom Field"
+    end
+
+    it "raises on nil solr field name" do
+      expect { config.add_sms_field(nil) }.to raise_error ArgumentError
+    end
+
+    it "takes wild-carded field names and dereference them to solr fields" do
+      allow(config).to receive(:reflected_fields).and_return(
+        "some_field_display" => {},
+        "another_field_display" => {},
+        "a_facet_field" => {}
+      )
+      config.add_sms_field "*_display"
+
+      expect(config.sms_fields.keys).to eq %w[some_field_display another_field_display]
+    end
+  end
+
+  describe "add_email_field" do
+    it "takes hash form" do
+      config.add_email_field("title_tsim", label: "Title")
+
+      expect(config.email_fields["title_tsim"]).not_to be_nil
+      expect(config.email_fields["title_tsim"].label).to eq "Title"
+    end
+
+    it "takes ShowField argument" do
+      config.add_email_field("title_tsim", Blacklight::Configuration::EmailField.new(field: "title_display", label: "Title"))
+
+      expect(config.email_fields["title_tsim"]).not_to be_nil
+      expect(config.email_fields["title_tsim"].label).to eq "Title"
+    end
+
+    it "takes block form" do
+      config.add_email_field("title_tsim") do |f|
+        f.label = "Title"
+      end
+
+      expect(config.email_fields["title_tsim"]).not_to be_nil
+      expect(config.email_fields["title_tsim"].label).to eq "Title"
+    end
+
+    it "creates default label humanized from field" do
+      config.add_email_field("my_custom_field")
+
+      expect(config.email_fields["my_custom_field"].label).to eq "My Custom Field"
+    end
+
+    it "raises on nil solr field name" do
+      expect { config.add_email_field(nil) }.to raise_error ArgumentError
+    end
+
+    it "takes wild-carded field names and dereference them to solr fields" do
+      allow(config).to receive(:reflected_fields).and_return(
+        "some_field_display" => {},
+        "another_field_display" => {},
+        "a_facet_field" => {}
+      )
+      config.add_email_field "*_display"
+
+      expect(config.email_fields.keys).to eq %w[some_field_display another_field_display]
+    end
+  end
+
   describe "#default_search_field" do
     it "uses the field with a :default key" do
       config.add_search_field('search_field_1')
