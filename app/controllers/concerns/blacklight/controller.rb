@@ -72,7 +72,7 @@ module Blacklight::Controller
   # which action the search form should use
   def search_action_url options = {}
     # Rails 4.2 deprecated url helpers accepting string keys for 'controller' or 'action'
-    search_catalog_url(options.except(:controller, :action))
+    search_catalog_url(options.to_h.except(:controller, :action))
   end
 
   def search_action_path *args
