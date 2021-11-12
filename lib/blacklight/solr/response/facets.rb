@@ -172,7 +172,7 @@ module Blacklight::Solr::Response::Facets
         if value.nil?
           i.label = I18n.t(:"blacklight.search.fields.facet.missing.#{facet_field_name}", default: [:"blacklight.search.facets.missing"])
           i.fq = "-#{facet_field_name}:[* TO *]" # this explicit fq is deprecated; the missing attribute below is a better thing to check for this case
-          i.value = { missing: true }
+          i.value = Blacklight::SearchState::FilterField::MISSING
           i.missing = true
         end
 

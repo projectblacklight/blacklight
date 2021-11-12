@@ -4,6 +4,8 @@ module Blacklight
   class SearchState
     # Modeling access to filter query parameters
     class FilterField
+      MISSING = { missing: true }.freeze
+
       # @param [Blacklight::Configuration::FacetField] config
       attr_reader :config
 
@@ -42,7 +44,7 @@ module Blacklight
         param = :f
         value = as_url_parameter(item)
 
-        if value.is_a?(Hash) && value[:missing]
+        if value == Blacklight::SearchState::FilterField::MISSING
           url_key = "-#{key}"
           value = Blacklight::Engine.config.facet_missing_param
         end
@@ -78,7 +80,7 @@ module Blacklight
         param = :f
         value = as_url_parameter(item)
 
-        if value.is_a?(Hash) && value[:missing]
+        if value == Blacklight::SearchState::FilterField::MISSING
           url_key = "-#{key}"
           value = Blacklight::Engine.config.facet_missing_param
         end
@@ -112,7 +114,7 @@ module Blacklight
         params = search_state.params
         f = Array(params.dig(:f, key))
         f_inclusive = [params.dig(:f_inclusive, key)] if params.dig(:f_inclusive, key).present?
-        f_missing = [{ missing: true }] if params.dig(:f, "-#{key}")&.any? { |v| v == Blacklight::Engine.config.facet_missing_param }
+        f_missing = [Blacklight::SearchState::FilterField::MISSING] if params.dig(:f, "-#{key}")&.any? { |v| v == Blacklight::Engine.config.facet_missing_param }
 
         f + (f_inclusive || []) + (f_missing || [])
       end
@@ -130,7 +132,7 @@ module Blacklight
 
         if value.is_a?(Array)
           (params.dig(:f_inclusive, key) || []).to_set == value.to_set
-        elsif value.is_a?(Hash) && value.keys.first == :missing
+        elsif value == Blacklight::SearchState::FilterField::MISSING
           (params.dig(:f, "-#{key}") || []).include?(Blacklight::Engine.config.facet_missing_param)
         else
           (params.dig(:f, key) || []).include?(value)
@@ -142,7 +144,7 @@ module Blacklight
       # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
       def as_url_parameter(item)
         if item.respond_to?(:missing) && item.missing
-          { missing: true }
+          Blacklight::SearchState::FilterField::MISSING
         elsif item.respond_to? :value
           item.value
         else

@@ -56,7 +56,7 @@ module Blacklight
         view_context.public_send(facet_config.helper_method, label_value)
       elsif facet_config.query && facet_config.query[label_value]
         facet_config.query[label_value][:label]
-      elsif value.is_a?(Hash) && value[:missing]
+      elsif value == Blacklight::SearchState::FilterField::MISSING
         I18n.t("blacklight.search.facets.missing")
       elsif facet_config.date
         localization_options = facet_config.date == true ? {} : facet_config.date

@@ -370,7 +370,7 @@ module Blacklight::Solr
       elsif value.is_a?(Range)
         prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
         "#{prefix}#{solr_field}:[#{value.first} TO #{value.last}]"
-      elsif value.is_a?(Hash) && value[:missing]
+      elsif value == Blacklight::SearchState::FilterField::MISSING
         "-#{solr_field}:[* TO *]"
       else
         "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
