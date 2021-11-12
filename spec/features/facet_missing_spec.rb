@@ -32,8 +32,12 @@ RSpec.describe "Facet missing" do
   end
 
   context "unselecting the facet missing facet" do
-    it "unselects the missig field facet" do
-      visit root_path + "?f[-subject_geo_ssim:[* TO *]][]=&f[subject_geo_ssim][]="
+    it "unselects the missing field facet" do
+      visit root_path
+
+      within "#facet-subject_geo_ssim" do
+        click_link "[Missing]"
+      end
 
       within "#facet-subject_geo_ssim" do
         click_link "remove"
@@ -45,8 +49,12 @@ RSpec.describe "Facet missing" do
   end
 
   context "unselecting the facet missing constraint" do
-    it "unselects the missig field facet" do
-      visit root_path + "?f[-subject_geo_ssim:[* TO *]][]=&f[subject_geo_ssim][]="
+    it "unselects the missing field facet" do
+      visit root_path
+
+      within "#facet-subject_geo_ssim" do
+        click_link "[Missing]"
+      end
 
       within ".filter-subject_geo_ssim" do
         click_link "Remove constraint Region: [Missing]"
