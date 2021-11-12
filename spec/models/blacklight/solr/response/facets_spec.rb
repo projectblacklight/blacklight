@@ -155,7 +155,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     end
 
     it "marks the facet.missing field with a human-readable label and fq" do
-      missing = subject.aggregations["some_field"].items.find { |i| i.value.nil? }
+      missing = subject.aggregations["some_field"].items.find(&:missing)
 
       expect(missing.label).to eq "[Missing]"
       expect(missing.fq).to eq "-some_field:[* TO *]"
