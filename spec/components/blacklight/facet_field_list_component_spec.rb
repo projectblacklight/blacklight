@@ -113,7 +113,6 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
         active?: false,
         collapsed?: false,
         modal_path: nil,
-        html_id: 'facet-field',
         values: [%w[a b c]],
         search_state: search_state
       )
