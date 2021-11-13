@@ -5,13 +5,23 @@ RSpec.describe "catalog/_view_type_group" do
   let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
 
   before do
-    allow(view).to receive_messages(how_sort_and_per_page?: true, blacklight_config: blacklight_config)
+    allow(view).to receive_messages(blacklight_config: blacklight_config)
     controller.request.path_parameters[:action] = 'index'
     assign(:response, response)
   end
 
-  it "does not display the group when there's only one option" do
+  it "does not display the group when there's no documents to view" do
+    blacklight_config.configure do |config|
+      config.view.a(icon: :list)
+      config.view.b(icon: :list)
+    end
+
     allow(response).to receive_messages(empty?: true)
+    render partial: 'catalog/view_type_group'
+    expect(rendered).to be_empty
+  end
+
+  it "does not display the group when there's only one option" do
     render partial: 'catalog/view_type_group'
     expect(rendered).to be_empty
   end

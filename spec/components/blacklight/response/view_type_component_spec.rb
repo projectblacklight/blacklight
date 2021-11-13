@@ -7,7 +7,7 @@ RSpec.describe Blacklight::Response::ViewTypeComponent, type: :component do
     render_inline(described_class.new(response: response, views: views, search_state: search_state))
   end
 
-  let(:response) { instance_double(Blacklight::Response) }
+  let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
   let(:search_state) { instance_double(Blacklight::SearchState, to_h: { controller: 'catalog', action: 'index' }) }
   let(:view_config) { Blacklight::Configuration::ViewConfig.new(icon: 'list') }
 

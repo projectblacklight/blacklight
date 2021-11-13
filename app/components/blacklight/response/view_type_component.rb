@@ -23,7 +23,7 @@ module Blacklight
       end
 
       def render?
-        views.many?
+        views.many? && !@response.empty?
       end
     end
   end
