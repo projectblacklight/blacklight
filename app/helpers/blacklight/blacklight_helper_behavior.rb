@@ -2,7 +2,6 @@
 # Methods added to this helper will be available to all templates in the hosting application
 module Blacklight::BlacklightHelperBehavior
   include Blacklight::UrlHelperBehavior
-  include Blacklight::HashAsHiddenFieldsHelperBehavior
   include Blacklight::LayoutHelperBehavior
   include Blacklight::IconHelperBehavior
 
