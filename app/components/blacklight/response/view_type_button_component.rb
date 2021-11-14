@@ -16,7 +16,7 @@ module Blacklight
 
       def icon
         Deprecation.silence(Blacklight::CatalogHelperBehavior) do
-          @view_context.render_view_type_group_icon(@view.icon || @key)
+          helpers.render_view_type_group_icon(@view.icon || @key)
         end
       end
 
@@ -27,7 +27,7 @@ module Blacklight
       end
 
       def url
-        @view_context.url_for(@search_state.to_h.merge(view: @key))
+        helpers.url_for(@search_state.to_h.merge(view: @key))
       end
 
       def selected?

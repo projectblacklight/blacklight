@@ -114,7 +114,7 @@ module Blacklight
     def classes
       [
         @classes,
-        @view_context.render_document_class(@document),
+        helpers.render_document_class(@document),
         'document',
         ("document-position-#{@counter}" if @counter)
       ].compact.flatten
@@ -130,7 +130,7 @@ module Blacklight
     private
 
     def presenter
-      @presenter ||= @view_context.document_presenter(@document)
+      @presenter ||= helpers.document_presenter(@document)
     end
 
     def show?

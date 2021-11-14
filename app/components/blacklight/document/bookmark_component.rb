@@ -16,11 +16,11 @@ module Blacklight
       def bookmarked?
         return @checked unless @checked.nil?
 
-        @view_context.bookmarked? @document
+        helpers.bookmarked? @document
       end
 
       def bookmark_path
-        @bookmark_path || @view_context.bookmark_path(@document)
+        @bookmark_path || helpers.bookmark_path(@document)
       end
     end
   end

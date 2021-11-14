@@ -29,7 +29,7 @@ module Blacklight
       end
 
       def presenter
-        @presenter ||= @view_context.document_presenter(@document)
+        @presenter ||= helpers.document_presenter(@document)
       end
     end
   end
