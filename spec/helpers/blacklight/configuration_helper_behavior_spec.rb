@@ -17,7 +17,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
 
   describe "#default_document_index_view_type" do
     it "uses the first view with default set to true" do
-      blacklight_config.view.a({})
+      blacklight_config.view.a
       blacklight_config.view.b(default: true)
       expect(helper.default_document_index_view_type).to eq :b
     end
