@@ -174,17 +174,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Render the view type icon for the results view picker
-  #
-  # @deprecated
-  # @param [String] view
-  # @return [String]
-  def render_view_type_group_icon view
-    blacklight_icon(view)
-  end
-  deprecation_deprecate render_view_type_group_icon: 'call blacklight_icon instead'
-
-  ##
   # return the Bookmarks on a set of documents (all bookmarks on the page)
   # @private
   # @return [Enumerable<Bookmark>]
