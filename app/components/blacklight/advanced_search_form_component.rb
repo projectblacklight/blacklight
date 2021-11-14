@@ -2,8 +2,6 @@
 
 module Blacklight
   class AdvancedSearchFormComponent < SearchBarComponent
-    include Blacklight::ContentAreasShim
-
     renders_many :constraints
     renders_many :search_field_controls
     renders_many :search_filter_controls, (lambda do |config:, display_facet:, presenter: nil, component: nil, **kwargs|

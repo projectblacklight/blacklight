@@ -2,8 +2,6 @@
 
 module Blacklight
   class MetadataFieldLayoutComponent < ::ViewComponent::Base
-    include Blacklight::ContentAreasShim
-
     with_collection_parameter :field
     renders_one :label
     renders_many :values, (lambda do |value: nil, &block|

@@ -2,8 +2,6 @@
 
 module Blacklight
   class ConstraintsComponent < ::ViewComponent::Base
-    include Blacklight::ContentAreasShim
-
     renders_many :query_constraints_area
     renders_many :facet_constraints_area
     renders_many :additional_constraints

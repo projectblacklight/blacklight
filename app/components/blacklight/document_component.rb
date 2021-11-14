@@ -2,8 +2,6 @@
 
 module Blacklight
   class DocumentComponent < ::ViewComponent::Base
-    include Blacklight::ContentAreasShim
-
     # Content appearing before the document
     renders_one :header
 

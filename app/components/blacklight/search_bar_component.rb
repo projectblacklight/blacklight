@@ -2,8 +2,6 @@
 
 module Blacklight
   class SearchBarComponent < ::ViewComponent::Base
-    include Blacklight::ContentAreasShim
-
     renders_one :append
     renders_one :prepend
 
