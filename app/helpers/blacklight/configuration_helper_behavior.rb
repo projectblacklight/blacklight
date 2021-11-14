@@ -9,13 +9,6 @@ module Blacklight::ConfigurationHelperBehavior
     blacklight_config.sort_fields.select { |_sort_key, field_config| should_render_field?(field_config) }
   end
 
-  # used in the catalog/_show partial
-  # @return [Array<Blacklight::Configuration::Field>]
-  def document_show_fields _document = nil
-    Deprecation.warn(self, "document_show_fields is deprecated and will be removed in Blacklight 8. Use ShowPresenter#fields instead")
-    blacklight_config.show_fields
-  end
-
   ##
   # Is the search form using the default search field ("all_fields" by default)?
   # @param [String] selected_search_field the currently selected search_field

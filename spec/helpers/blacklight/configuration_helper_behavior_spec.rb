@@ -15,14 +15,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  describe "#document_show_fields" do
-    it "passes through the configuration" do
-      allow(Deprecation).to receive(:warn)
-      allow(blacklight_config).to receive_messages(show_fields: config_value)
-      expect(helper.document_show_fields).to eq config_value
-    end
-  end
-
   describe "#default_document_index_view_type" do
     it "uses the first view with default set to true" do
       blacklight_config.view.a({})
