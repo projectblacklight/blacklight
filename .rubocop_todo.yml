@@ -219,7 +219,7 @@ Metrics/ParameterLists:
 # Offense count: 24
 # Configuration parameters: IgnoredMethods.
 Metrics/PerceivedComplexity:
-  Max: 14
+  Max: 15
 
 # Offense count: 4
 # Configuration parameters: EnforcedStyleForLeadingUnderscores.
