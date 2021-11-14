@@ -20,7 +20,7 @@ module Blacklight
 
     def query_constraints
       if @search_state.query_param.present?
-        @view_context.render(
+        helpers.render(
           @query_constraint_component.new(
             search_state: @search_state,
             value: @search_state.query_param,
@@ -31,7 +31,7 @@ module Blacklight
         )
       else
         ''.html_safe
-      end + @view_context.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
+      end + helpers.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
     end
 
     def remove_path
@@ -39,7 +39,7 @@ module Blacklight
     end
 
     def facet_constraints
-      @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
+      helpers.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
     end
 
     def render?
@@ -73,17 +73,17 @@ module Blacklight
       return to_enum(:clause_presenters) unless block_given?
 
       @search_state.clause_params.each do |key, clause|
-        field_config = @view_context.blacklight_config.search_fields[clause[:field]]
-        yield Blacklight::ClausePresenter.new(key, clause, field_config, @view_context)
+        field_config = helpers.blacklight_config.search_fields[clause[:field]]
+        yield Blacklight::ClausePresenter.new(key, clause, field_config, helpers)
       end
     end
 
     def facet_item_presenter(facet_config, facet_item, facet_field)
-      Blacklight::FacetItemPresenter.new(facet_item, facet_config, @view_context, facet_field)
+      Blacklight::FacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
     end
 
     def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
-      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, @view_context, facet_field)
+      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
     end
   end
 end

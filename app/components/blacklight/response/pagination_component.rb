@@ -13,7 +13,7 @@ module Blacklight
       end
 
       def pagination
-        @view_context.paginate @response, **@pagination_args
+        helpers.paginate @response, **@pagination_args
       end
     end
   end

@@ -63,7 +63,7 @@ module Blacklight
     end
 
     def blacklight_config
-      @view_context.blacklight_config
+      helpers.blacklight_config
     end
 
     def scoped_t(key, **args)

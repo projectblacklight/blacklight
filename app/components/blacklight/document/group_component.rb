@@ -13,7 +13,7 @@ module Blacklight
       end
 
       def grouped_documents
-        @view_context.render_document_index @group.docs
+        helpers.render_document_index @group.docs
       end
 
       # Get path to a search within a grouped result set

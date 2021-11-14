@@ -31,15 +31,6 @@ module Blacklight
       content_tag @wrapping_element, content
     end
 
-    # This is a little shim to let us call the render methods below outside the
-    # usual component rendering cycle (for backward compatibility)
-    # @private
-    # @deprecated
-    def with_view_context(view_context)
-      @view_context = view_context
-      self
-    end
-
     ##
     # Standard display of a facet value in a list. Used in both _facets sidebar
     # partial and catalog/facet expanded list. Will output facet value name as
@@ -64,7 +55,7 @@ module Blacklight
           # remove link
           link_to(@href, class: "remove", rel: "nofollow") do
             tag.span('✖', class: "remove-icon", aria: { hidden: true }) +
-              tag.span(@view_context.t(:'blacklight.search.facets.selected.remove'), class: 'sr-only visually-hidden')
+              tag.span(helpers.t(:'blacklight.search.facets.selected.remove'), class: 'sr-only visually-hidden')
           end
       end + render_facet_count(classes: ["selected"])
     end

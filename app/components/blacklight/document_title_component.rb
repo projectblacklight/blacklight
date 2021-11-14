@@ -24,7 +24,7 @@ module Blacklight
     # Content for the document title area; should be an inline element
     def title
       if @link_to_document
-        @view_context.link_to_document presenter.document, @title.presence || content.presence, counter: @counter, itemprop: 'name'
+        helpers.link_to_document presenter.document, @title.presence || content.presence, counter: @counter, itemprop: 'name'
       else
         content_tag('span', @title.presence || content.presence || presenter.heading, itemprop: 'name')
       end
@@ -39,7 +39,7 @@ module Blacklight
 
       (@has_actions_slot && get_slot(:actions)) ||
         ([@document_component&.actions] if @document_component&.actions.present?) ||
-        [@view_context.render_index_doc_actions(presenter.document, wrapping_class: 'index-document-functions col-sm-3 col-lg-2')]
+        [helpers.render_index_doc_actions(presenter.document, wrapping_class: 'index-document-functions col-sm-3 col-lg-2')]
     end
 
     def counter
@@ -53,7 +53,7 @@ module Blacklight
     private
 
     def presenter
-      @presenter ||= @view_context.document_presenter(@document)
+      @presenter ||= helpers.document_presenter(@document)
     end
   end
 end

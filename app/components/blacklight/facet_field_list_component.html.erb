@@ -3,7 +3,7 @@
     <%= @facet_field.label %>
   <% end %>
   <% component.body do %>
-    <%= @view_context.render(Blacklight::FacetFieldInclusiveConstraintComponent.new(facet_field: @facet_field)) %>
+    <%= helpers.render(Blacklight::FacetFieldInclusiveConstraintComponent.new(facet_field: @facet_field)) %>
     <ul class="facet-values list-unstyled">
       <%= render facet_items %>
     </ul>
