@@ -125,13 +125,6 @@ module Blacklight::Controller
   ##
   # When a user logs in, transfer any saved searches or bookmarks to the current_user
   def transfer_guest_to_user
-    Deprecation.silence(Blacklight::Controller) do
-      transfer_guest_user_actions_to_current_user
-    end
-  end
-
-  # @deprecated use canonical `transfer_guest_to_user` method instead
-  def transfer_guest_user_actions_to_current_user
     return unless respond_to?(:current_user) && respond_to?(:guest_user) && current_user && guest_user
 
     current_user_searches = current_user.searches.pluck(:query_params)
@@ -150,7 +143,6 @@ module Blacklight::Controller
     # let guest_user know we've moved some bookmarks from under it
     guest_user.reload if guest_user.persisted?
   end
-  deprecation_deprecate :transfer_guest_user_actions_to_current_user
 
   ##
   # To handle failed authorization attempts, redirect the user to the
