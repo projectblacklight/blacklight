@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe CatalogController, api: true do
-  around { |test| Deprecation.silence(Blacklight::Catalog) { test.call } }
-
   let(:doc_id) { '2007020969' }
   let(:mock_document) { instance_double(SolrDocument, export_formats: {}) }
   let(:search_service) { instance_double(Blacklight::SearchService) }

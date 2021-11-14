@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Blacklight
   module ComponentHelperBehavior
-    extend Deprecation
     ##
     # Render "document actions" area for navigation header
     # (normally renders "Saved Searches", "History", "Bookmarks")

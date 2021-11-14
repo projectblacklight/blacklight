@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 module Blacklight::RenderPartialsHelperBehavior
-  extend Deprecation
-
   ##
   # Render the document index view
   #

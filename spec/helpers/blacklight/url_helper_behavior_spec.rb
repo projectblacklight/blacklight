@@ -140,7 +140,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "converts the counter parameter into a data- attribute" do
-      allow(Deprecation).to receive(:warn)
       expect(helper.link_to_document(document, 'foo', counter: 5)).to include 'data-context-href="tracking url"'
       expect(helper.main_app).to have_received(:track_test_path).with(hash_including(id: have_attributes(id: '123456'), counter: 5))
     end

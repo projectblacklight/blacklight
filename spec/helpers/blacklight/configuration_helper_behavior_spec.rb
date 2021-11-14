@@ -105,10 +105,6 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   describe "#should_render_field?" do
     let(:field_config) { double('field config', if: true, unless: false) }
 
-    before do
-      allow(Deprecation).to receive(:warn)
-    end
-
     it "is true" do
       expect(helper.should_render_field?(field_config)).to be true
     end
