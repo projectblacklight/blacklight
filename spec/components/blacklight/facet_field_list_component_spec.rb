@@ -11,6 +11,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     instance_double(
       Blacklight::FacetFieldPresenter,
       paginator: paginator,
+      facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
       key: 'field',
       label: 'Field',
       active?: false,
@@ -44,6 +45,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
+        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
         key: 'field',
         label: 'Field',
         active?: true,
@@ -63,6 +65,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
+        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
         key: 'field',
         label: 'Field',
         active?: false,
@@ -88,6 +91,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
+        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
         key: 'field',
         label: 'Field',
         active?: false,
