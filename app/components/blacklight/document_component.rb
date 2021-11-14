@@ -21,6 +21,9 @@ module Blacklight
 
     renders_one :embed, (lambda do |static_content = nil, *args, component: nil, **kwargs|
       next static_content if static_content.present?
+
+      component ||= @presenter.view_config&.embed_component
+
       next unless component
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if @presenter.nil?
@@ -74,9 +77,6 @@ module Blacklight
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
     def initialize(document: nil, presenter: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
-                   metadata_component: nil,
-                   embed_component: nil,
-                   thumbnail_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
                    show: false)
       if presenter.nil? && document.nil?
@@ -90,15 +90,6 @@ module Blacklight
       @title_component = title_component
       @id = id || ('document' if show)
       @classes = classes
-
-      Deprecation.warn(Blacklight::DocumentComponent, 'Passing embed_component is deprecated') if @embed_component.present?
-      @embed_component = embed_component
-
-      Deprecation.warn(Blacklight::DocumentComponent, 'Passing metadata_component is deprecated') if @metadata_component.present?
-      @metadata_component = metadata_component || Blacklight::DocumentMetadataComponent
-
-      Deprecation.warn(Blacklight::DocumentComponent, 'Passing thumbnail_component is deprecated') if @thumbnail_component.present?
-      @thumbnail_component = thumbnail_component || Blacklight::Document::ThumbnailComponent
 
       @document_counter = document_counter
       @counter = counter
@@ -120,9 +111,9 @@ module Blacklight
 
     def before_render
       set_slot(:title, nil) unless title
-      set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component, fields: presenter.field_presenters) unless metadata
-      set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
+      set_slot(:thumbnail, nil) unless thumbnail || show?
+      set_slot(:metadata, nil, fields: presenter.field_presenters) unless metadata
+      set_slot(:embed, nil) unless embed
     end
 
     private

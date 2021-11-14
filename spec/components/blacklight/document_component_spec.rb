@@ -43,11 +43,11 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   it 'has some defined content areas' do
-    component.with(:title, 'Title')
-    component.with(:embed, 'Embed')
-    component.with(:metadata, 'Metadata')
-    component.with(:thumbnail, 'Thumbnail')
-    component.with(:actions) { 'Actions' }
+    component.set_slot(:title) { 'Title' }
+    component.set_slot(:embed, nil, 'Embed')
+    component.set_slot(:metadata, nil, 'Metadata')
+    component.set_slot(:thumbnail, nil, 'Thumbnail')
+    component.set_slot(:actions) { 'Actions' }
 
     expect(rendered).to have_content 'Title'
     expect(rendered).to have_content 'Embed'
@@ -57,7 +57,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   it 'has schema.org properties' do
-    component.with(:body, '-')
+    component.set_slot(:body) { '-' }
 
     expect(rendered).to have_selector 'article[@itemtype="http://schema.org/Thing"]'
     expect(rendered).to have_selector 'article[@itemscope]'
@@ -65,7 +65,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   context 'with a provided body' do
     it 'opts-out of normal component content' do
-      component.with(:body) { 'Body content' }
+      component.set_slot(:body) { 'Body content' }
 
       expect(rendered).to have_content 'Body content'
       expect(rendered).not_to have_selector 'header'
@@ -77,7 +77,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     let(:attr) { { counter: 5 } }
 
     it 'has data properties' do
-      component.with(:body, '-')
+      component.set_slot(:body) { '-' }
 
       expect(rendered).to have_selector 'article[@data-document-id="x"]'
       expect(rendered).to have_selector 'article[@data-document-counter="5"]'
@@ -116,7 +116,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
 
     it 'renders with an id' do
-      component.with(:body, '-')
+      component.set_slot(:body) { '-' }
 
       expect(rendered).to have_selector 'article#document'
     end
@@ -150,20 +150,5 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     expect(rendered).to have_selector 'dt', text: 'Title:'
     expect(rendered).to have_selector 'dd', text: 'Title'
     expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
-  end
-
-  context 'with a thumbnail component' do
-    let(:attr) { { thumbnail_component: thumbnail_component_class } }
-    let(:thumbnail_component_class) do
-      Class.new(ViewComponent::Base) do
-        def render_in(view_context)
-          view_context.capture { 'Thumb!' }
-        end
-      end
-    end
-
-    it 'uses the provided thumbnail component' do
-      expect(rendered).to have_content 'Thumb!'
-    end
   end
 end
