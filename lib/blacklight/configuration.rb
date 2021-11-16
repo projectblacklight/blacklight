@@ -178,7 +178,7 @@ module Blacklight
     define_field_access :email_field
 
     def initialize(hash = {})
-      super(self.class.default_values.deep_dup.merge(hash))
+      super(self.class.default_values.deep_transform_values(&method(:_deep_copy)).merge(hash))
       yield(self) if block_given?
 
       @view_config ||= {}
@@ -317,7 +317,7 @@ module Blacklight
     # Note: Rails provides `#deep_dup`, but it aggressively `#dup`'s class names too, turning them
     # into anonymous class instances.
     def deep_copy
-      deep_transform_values_in_object(self, &method(:_deep_copy))
+      deep_transform_values(&method(:_deep_copy))
     end
 
     # builds a copy for the provided controller class
@@ -450,31 +450,10 @@ module Blacklight
     def _deep_copy(value)
       case value
       when Module then value
-      when NestedOpenStructWithHashAccess then value.class.new(value.nested_class, deep_transform_values_in_object(value.to_h, &method(:_deep_copy)))
-      when OpenStruct then value.class.new(deep_transform_values_in_object(value.to_h, &method(:_deep_copy)))
+      when NestedOpenStructWithHashAccess then value.class.new(value.nested_class, value.to_h.deep_transform_values(&method(:_deep_copy)))
+      when OpenStruct then value.class.new(value.to_h.deep_transform_values(&method(:_deep_copy)))
       else
         value.dup
-      end
-    end
-
-    # This is a little shim to support Rails 6 (which has Hash#deep_transform_values) and
-    # earlier versions (which use our backport). Once we drop support for Rails 6, this
-    # can go away.
-    def deep_transform_values_in_object(object, &block)
-      return object.deep_transform_values(&block) if object.respond_to?(:deep_transform_values)
-
-      _deep_transform_values_in_object(object, &block)
-    end
-
-    # Ported from Rails 6
-    def _deep_transform_values_in_object(object, &block)
-      case object
-      when Hash
-        object.transform_values { |value| _deep_transform_values_in_object(value, &block) }
-      when Array
-        object.map { |e| _deep_transform_values_in_object(e, &block) }
-      else
-        yield(object)
       end
     end
 
