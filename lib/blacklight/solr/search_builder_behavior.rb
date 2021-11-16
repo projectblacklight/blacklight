@@ -328,6 +328,7 @@ module Blacklight::Solr
 
     ##
     # Convert a facet/value pair into a solr fq parameter
+    # rubocop:disable Metrics/PerceivedComplexity
     def facet_value_to_fq_string(facet_field, value, use_local_params: true)
       facet_config = blacklight_config.facet_fields[facet_field]
 
@@ -335,10 +336,7 @@ module Blacklight::Solr
       solr_field ||= facet_field
 
       local_params = []
-
-      if use_local_params
-        local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
-      end
+      local_params << "tag=#{facet_config.tag}" if use_local_params && facet_config && facet_config.tag
 
       if facet_config && facet_config.query
         if facet_config.query[value]
@@ -356,6 +354,7 @@ module Blacklight::Solr
         "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
       end
     end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def facet_inclusive_value_to_fq_string(facet_field, values)
       return if values.blank?
