@@ -39,13 +39,13 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
 
     it "has ordered hashes for field configuration" do
-      expect(config.facet_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.index_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.show_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.search_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.show_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.search_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.sort_fields).to be_a_kind_of ActiveSupport::OrderedHash
+      expect(config.facet_fields).to be_a_kind_of Hash
+      expect(config.index_fields).to be_a_kind_of Hash
+      expect(config.show_fields).to be_a_kind_of Hash
+      expect(config.search_fields).to be_a_kind_of Hash
+      expect(config.show_fields).to be_a_kind_of Hash
+      expect(config.search_fields).to be_a_kind_of Hash
+      expect(config.sort_fields).to be_a_kind_of Hash
     end
   end
 
@@ -158,18 +158,6 @@ RSpec.describe "Blacklight::Configuration", api: true do
       it "does not dup response_model or document_model" do
         expect(config_copy.response_model).to eq Hash
         expect(config_copy.document_model).to eq Array
-      end
-    end
-
-    context "when model classes are not set" do
-      it "leaves response_model and document_model empty" do
-        expect(config_copy.fetch(:response_model, nil)).to be_nil
-        expect(config_copy.fetch(:document_model, nil)).to be_nil
-      end
-
-      it "returns default classes" do
-        expect(config_copy.response_model).to eq Blacklight::Solr::Response
-        expect(config_copy.document_model).to eq SolrDocument
       end
     end
 

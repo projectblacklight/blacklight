@@ -48,17 +48,19 @@ module Blacklight
             ##
             # == Response models
             ## Class for sending and receiving requests from a search index
-            repository_class: nil,
+            repository_class: Blacklight::Solr::Repository,
             ## Class for converting Blacklight parameters to request parameters for the repository_class
-            search_builder_class: nil,
+            search_builder_class: ::SearchBuilder,
             # model that maps index responses to the blacklight response model
-            response_model: nil,
+            response_model: Blacklight::Solr::Response,
             # the model to use for each response document
-            document_model: nil,
+            document_model: ::SolrDocument,
+            # the factory that builds document
+            document_factory: Blacklight::DocumentFactory,
             # Class for paginating long lists of facet fields
-            facet_paginator_class: nil,
+            facet_paginator_class: Blacklight::Solr::FacetPaginator,
             # repository connection configuration
-            connection_config: nil,
+            connection_config: Blacklight.connection_config,
             ##
             # == Blacklight view configuration
             navbar: OpenStructWithHashAccess.new(partials: {}),
@@ -184,50 +186,8 @@ module Blacklight
       @view_config ||= {}
     end
 
-    def document_model
-      super || ::SolrDocument
-    end
-
-    # A class that builds documents
-    def document_factory
-      super || Blacklight::DocumentFactory
-    end
-
-    # only here to support alias_method
-    def document_model=(*args)
-      super
-    end
-
-    def response_model
-      super || Blacklight::Solr::Response
-    end
-
-    def response_model=(*args)
-      super
-    end
-
-    def repository_class
-      super || Blacklight::Solr::Repository
-    end
-
     def repository
       repository_class.new(self)
-    end
-
-    def connection_config
-      super || Blacklight.connection_config
-    end
-
-    def search_builder_class
-      super || locate_search_builder_class
-    end
-
-    def locate_search_builder_class
-      ::SearchBuilder
-    end
-
-    def facet_paginator_class
-      super || Blacklight::Solr::FacetPaginator
     end
 
     def default_per_page
