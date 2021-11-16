@@ -355,10 +355,7 @@ module Blacklight::Solr
       solr_field ||= facet_field
 
       local_params = []
-
-      if use_local_params
-        local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
-      end
+      local_params << "tag=#{facet_config.tag}" if use_local_params && facet_config && facet_config.tag
 
       if facet_config && facet_config.query
         if facet_config.query[value]
