@@ -73,7 +73,7 @@ module Blacklight
             # solr field to use to render format-specific partials
             display_type_field: nil,
             # partials to render for each document(see #render_document_partials)
-            partials: [:index_header, :thumbnail, :index],
+            partials: [],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
             collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
             # what field, if any, to use to render grouped results
@@ -92,7 +92,7 @@ module Blacklight
             # or set `controller: :current` to route to the current controller.
             route: nil,
             # partials to render for each document(see #render_document_partials)
-            partials: [:show_header, :show],
+            partials: [],
             document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
           ),
           action_mapping: NestedOpenStructWithHashAccess.new(
