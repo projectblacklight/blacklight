@@ -30,9 +30,7 @@ module Blacklight
     # Check if the query parameters have the given facet field with the
     # given value.
     def selected?
-      Deprecation.silence(Blacklight::SearchState) do
-        search_state.has_facet? facet_config, value: value
-      end
+      search_state.filter(facet_config).include?(value)
     end
 
     def field_label
@@ -44,8 +42,6 @@ module Blacklight
     #
     # @return [String]
     def label
-      return @view_context.facet_display_value(@facet_field, @facet_item) unless @view_context.method(:facet_display_value).owner == Blacklight::FacetsHelperBehavior
-
       label_value = if facet_item.respond_to? :label
                       facet_item.label
                     else
@@ -84,9 +80,7 @@ module Blacklight
 
     # @private
     def remove_href(path = search_state)
-      Deprecation.silence(Blacklight::SearchState) do
-        view_context.search_action_path(path.remove_facet_params(facet_config.key, facet_item))
-      end
+      view_context.search_action_path(path.filter(facet_config.key).remove(facet_item))
     end
 
     # @private

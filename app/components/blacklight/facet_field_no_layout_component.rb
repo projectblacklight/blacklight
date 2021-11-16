@@ -2,8 +2,6 @@
 
 module Blacklight
   class FacetFieldNoLayoutComponent < ::ViewComponent::Base
-    include Blacklight::ContentAreasShim
-
     renders_one :label
     renders_one :body
 

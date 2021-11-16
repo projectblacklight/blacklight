@@ -6,19 +6,14 @@ module Blacklight::Catalog
   include ActionController::MimeResponds
 
   include Blacklight::Base
-  include Blacklight::Facet
   include Blacklight::Searchable
-
-  extend Deprecation
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
     if respond_to? :helper_method
-      helper_method :sms_mappings, :has_search_parameters?, :facet_limit_for
+      helper_method :sms_mappings, :has_search_parameters?
     end
-
-    helper Blacklight::Facet if respond_to? :helper
 
     # The index action will more than likely throw this one.
     # Example: when the standard query parser is used, and a user submits a "bad" query.
@@ -29,9 +24,7 @@ module Blacklight::Catalog
 
   # get search results from the solr index
   def index
-    (@response, deprecated_document_list) = search_service.search_results
-
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
+    @response = search_service.search_results
 
     respond_to do |format|
       format.html { store_preferred_view }
@@ -49,8 +42,7 @@ module Blacklight::Catalog
   # get a single document from the index
   # to add responses for formats other than html or json see _Blacklight::Document::Export_
   def show
-    deprecated_response, @document = search_service.fetch(params[:id])
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
+    @document = search_service.fetch(params[:id])
 
     respond_to do |format|
       format.html { @search_context = setup_next_and_previous_documents }
@@ -69,7 +61,7 @@ module Blacklight::Catalog
   def raw
     raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled
 
-    _, @document = search_service.fetch(params[:id])
+    @document = search_service.fetch(params[:id])
     render json: @document
   end
 
@@ -128,10 +120,10 @@ module Blacklight::Catalog
   # @return [Array] first value is a Blacklight::Solr::Response and the second
   #                 is a list of documents
   def action_documents
-    deprecated_response, @documents = search_service.fetch(Array(params[:id]))
+    @documents = search_service.fetch(Array(params[:id]))
     raise Blacklight::Exceptions::RecordNotFound if @documents.blank?
 
-    [deprecated_response, @documents]
+    @documents
   end
 
   def action_success_redirect_path
@@ -144,35 +136,6 @@ module Blacklight::Catalog
   def has_search_parameters?
     params[:search_field].present? || search_state.has_constraints?
   end
-
-  # TODO: deprecate this constant with #facet_limit_for
-  DEFAULT_FACET_LIMIT = 10
-
-  # Look up facet limit for given facet_field. Will look at config, and
-  # if config is 'true' will look up from Solr @response if available. If
-  # no limit is available, returns nil. Used from #add_facetting_to_solr
-  # to supply f.fieldname.facet.limit values in solr request (no @response
-  # available), and used in display (with @response available) to create
-  # a facet paginator with the right limit.
-  def facet_limit_for(facet_field)
-    facet = blacklight_config.facet_fields[facet_field]
-    return if facet.blank?
-
-    if facet.limit && @response && @response.aggregations[facet.field]
-      limit = @response.aggregations[facet.field].limit
-
-      if limit.nil? # we didn't get or a set a limit, so infer one.
-        facet.limit if facet.limit != true
-      elsif limit == -1 # limit -1 is solr-speak for unlimited
-        nil
-      else
-        limit.to_i - 1 # we added 1 to find out if we needed to paginate
-      end
-    elsif facet.limit
-      facet.limit == true ? DEFAULT_FACET_LIMIT : facet.limit
-    end
-  end
-  deprecation_deprecate facet_limit_for: 'moving to private logic in Blacklight::FacetFieldPresenter'
 
   private
 
@@ -255,6 +218,7 @@ module Blacklight::Catalog
   # By default, any search action from a Blacklight::Catalog controller
   # should use the current controller when constructing the route.
   def search_action_url options = {}
+    options = options.to_h if options.is_a? Blacklight::SearchState
     url_for(options.reverse_merge(action: 'index'))
   end
 

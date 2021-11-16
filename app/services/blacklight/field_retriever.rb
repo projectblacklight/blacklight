@@ -67,14 +67,7 @@ module Blacklight
     end
 
     def retrieve_values
-      values_method = field_config.values
-
-      if values_method.respond_to?(:arity) && values_method.arity.abs == 2
-        Deprecation.warn(self, ":values parameter for field #{field_config.key} only accepts 2 arguments; should accept 3")
-        values_method.call(field_config, document)
-      else
-        values_method.call(field_config, document, view_context)
-      end
+      field_config.values.call(field_config, document, view_context)
     end
   end
 end

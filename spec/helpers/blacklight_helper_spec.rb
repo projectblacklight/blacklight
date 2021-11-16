@@ -72,7 +72,7 @@ RSpec.describe BlacklightHelper do
     end
 
     before do
-      allow(helper).to receive(:presenter).and_return(presenter)
+      allow(helper).to receive(:document_presenter).and_return(presenter)
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
     end
 
@@ -131,104 +131,6 @@ RSpec.describe BlacklightHelper do
         expect(helper.render_index_doc_actions(document)).to be_blank
       end
     end
-
-    describe "render_show_doc_actions" do
-      it "renders partials" do
-        response = helper.render_show_doc_actions(document)
-        expect(response).to have_selector(".bookmark-toggle")
-      end
-    end
-  end
-
-  describe "#should_render_index_field?" do
-    before do
-      allow(helper).to receive_messages(should_render_field?: true, document_has_value?: true)
-    end
-
-    it "is true" do
-      expect(Deprecation).to receive(:warn)
-      expect(helper.should_render_index_field?(double, double)).to be true
-    end
-
-    it "is false if the document doesn't have a value for the field" do
-      expect(Deprecation).to receive(:warn)
-      allow(helper).to receive_messages(document_has_value?: false)
-      expect(helper.should_render_index_field?(double, double)).to be false
-    end
-
-    it "is false if the configuration has the field disabled" do
-      expect(Deprecation).to receive(:warn)
-      allow(helper).to receive_messages(should_render_field?: false)
-      expect(helper.should_render_index_field?(double, double)).to be false
-    end
-  end
-
-  describe "#should_render_show_field?" do
-    before do
-      allow(helper).to receive_messages(should_render_field?: true, document_has_value?: true)
-    end
-
-    it "is true" do
-      expect(Deprecation).to receive(:warn)
-      expect(helper.should_render_show_field?(double, double)).to be true
-    end
-
-    it "is false if the document doesn't have a value for the field" do
-      expect(Deprecation).to receive(:warn)
-      allow(helper).to receive_messages(document_has_value?: false)
-      expect(helper.should_render_show_field?(double, double)).to be false
-    end
-
-    it "is false if the configuration has the field disabled" do
-      expect(Deprecation).to receive(:warn)
-      allow(helper).to receive_messages(should_render_field?: false)
-      expect(helper.should_render_show_field?(double, double)).to be false
-    end
-  end
-
-  describe "#document_has_value?" do
-    let(:doc) { double(SolrDocument) }
-
-    before { allow(Deprecation).to receive(:warn) }
-
-    it "ifs the document has the field value" do
-      allow(doc).to receive(:has?).with('asdf').and_return(true)
-      field_config = double(field: 'asdf')
-      expect(helper.document_has_value?(doc, field_config)).to eq true
-    end
-
-    it "ifs the document has a highlight field value" do
-      allow(doc).to receive(:has?).with('asdf').and_return(false)
-      allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(true)
-      field_config = double(field: 'asdf', highlight: true)
-      expect(helper.document_has_value?(doc, field_config)).to eq true
-    end
-
-    it "ifs the field has a model accessor" do
-      allow(doc).to receive(:has?).with('asdf').and_return(false)
-      allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(false)
-      field_config = double(field: 'asdf', highlight: true, accessor: true)
-      expect(helper.document_has_value?(doc, field_config)).to eq true
-    end
-  end
-
-  describe '#render_index_field_label' do
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    let(:doc) { SolrDocument.new({}) }
-
-    before do
-      allow(helper).to receive_messages(document_index_view_type: :current_view)
-    end
-
-    it 'accepts an explicit field label' do
-      expect(helper.render_index_field_label(doc, field: 'xyz', label: 'some label')).to eq 'some label:'
-    end
-
-    it 'calculates the appropriate field label for a field' do
-      allow(helper).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
-      expect(helper.render_index_field_label(doc, field: 'xyz')).to eq 'Xyz:'
-    end
   end
 
   describe "render_grouped_response?" do
@@ -240,38 +142,6 @@ RSpec.describe BlacklightHelper do
     it "checks if the response param contains grouped data" do
       response = instance_double(Blacklight::Solr::Response, grouped?: true)
       expect(helper.render_grouped_response?(response)).to be true
-    end
-  end
-
-  describe "render_grouped_document_index" do
-    pending 'not implemented'
-  end
-
-  describe "should_show_spellcheck_suggestions?" do
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    before do
-      allow(helper).to receive_messages spell_check_max: 5
-    end
-
-    it "does not show suggestions if there are enough results" do
-      response = double(total: 10)
-      expect(helper.should_show_spellcheck_suggestions?(response)).to be false
-    end
-
-    it "only shows suggestions if there are very few results" do
-      response = double(total: 4, spelling: double(words: [1]))
-      expect(helper.should_show_spellcheck_suggestions?(response)).to be true
-    end
-
-    it "shows suggestions only if there are spelling suggestions available" do
-      response = double(total: 4, spelling: double(words: []))
-      expect(helper.should_show_spellcheck_suggestions?(response)).to be false
-    end
-
-    it "does not show suggestions if spelling is not available" do
-      response = double(total: 4, spelling: nil)
-      expect(helper.should_show_spellcheck_suggestions?(response)).to be false
     end
   end
 
@@ -380,111 +250,6 @@ RSpec.describe BlacklightHelper do
           allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
           expect(helper.document_index_view_type(view: :c)).to eq :c
         end
-      end
-    end
-  end
-
-  context "related classes" do
-    let(:presenter_class) { double }
-    let(:blacklight_config) { Blacklight::Configuration.new }
-
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    before do
-      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
-    end
-
-    describe "#index_presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        blacklight_config.index.document_presenter_class = presenter_class
-        expect(helper.index_presenter_class(nil)).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::IndexPresenter" do
-        expect(helper.index_presenter_class(nil)).to eq Blacklight::IndexPresenter
-      end
-    end
-
-    describe "#show_presenter_class" do
-      it "uses the value defined in the blacklight configuration" do
-        blacklight_config.show.document_presenter_class = presenter_class
-        expect(helper.show_presenter_class(nil)).to eq presenter_class
-      end
-
-      it "defaults to Blacklight::DocumentPresenter" do
-        expect(helper.show_presenter_class(nil)).to eq Blacklight::ShowPresenter
-      end
-    end
-  end
-
-  describe "#render_document_heading" do
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    let(:document) { double }
-
-    before do
-      allow(helper).to receive(:presenter).and_return(double(heading: "Heading"))
-    end
-
-    it "accepts no arguments and render the document heading" do
-      expect(helper.render_document_heading).to have_selector "h4", text: "Heading"
-    end
-
-    it "accepts the tag name as an option" do
-      expect(helper.render_document_heading(tag: "h1")).to have_selector "h1", text: "Heading"
-    end
-
-    it "accepts an explicit document argument" do
-      allow(helper).to receive(:presenter).with(document).and_return(double(heading: "Document Heading"))
-      expect(helper.render_document_heading(document)).to have_selector "h4", text: "Document Heading"
-    end
-
-    it "accepts the document with a tag option" do
-      allow(helper).to receive(:presenter).with(document).and_return(double(heading: "Document Heading"))
-      expect(helper.render_document_heading(document, tag: "h3")).to have_selector "h3", text: "Document Heading"
-    end
-  end
-
-  describe "#presenter" do
-    around { |test| Deprecation.silence(Blacklight::BlacklightHelperBehavior) { test.call } }
-
-    let(:document) { double }
-
-    before do
-      allow(helper).to receive(:index_presenter).and_return(:index_presenter)
-      allow(helper).to receive(:show_presenter).and_return(:show_presenter)
-      allow(helper).to receive(:action_name).and_return(action_name)
-    end
-
-    context "action is show" do
-      let(:action_name) { "show" }
-
-      it "uses the show presenter" do
-        expect(helper.presenter(document)).to eq(:show_presenter)
-      end
-    end
-
-    context "action is citation" do
-      let(:action_name) { "citation" }
-
-      it "uses the show presenter" do
-        expect(helper.presenter(document)).to eq(:show_presenter)
-      end
-    end
-
-    context "action is index" do
-      let(:action_name) { "index" }
-
-      it "uses the index presenter" do
-        expect(helper.presenter(document)).to eq(:index_presenter)
-      end
-    end
-
-    context "action is foo" do
-      let(:action_name) { "foo" }
-
-      it "uses the index presenter (by default)" do
-        expect(helper.presenter(document)).to eq(:index_presenter)
       end
     end
   end

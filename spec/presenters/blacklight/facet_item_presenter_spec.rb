@@ -7,14 +7,14 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
   end
 
   let(:facet_item) { instance_double(Blacklight::Solr::Response::Facets::FacetItem) }
+  let(:filter_field) { instance_double(Blacklight::SearchState::FilterField, include?: true) }
   let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'key') }
   let(:facet_field) { instance_double(Blacklight::Solr::Response::Facets::FacetField) }
   let(:view_context) { controller.view_context }
-  let(:search_state) { instance_double(Blacklight::SearchState) }
+  let(:search_state) { instance_double(Blacklight::SearchState, filter: filter_field) }
 
   describe '#selected?' do
     it 'works' do
-      allow(search_state).to receive(:has_facet?).and_return(true)
       expect(presenter.selected?).to be true
     end
   end
@@ -56,9 +56,7 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
   end
 
   describe '#href' do
-    before do
-      allow(search_state).to receive(:has_facet?).and_return(false)
-    end
+    let(:filter_field) { instance_double(Blacklight::SearchState::FilterField, include?: false) }
 
     it 'is the url to apply the facet' do
       allow(search_state).to receive(:add_facet_params_and_redirect).with('key', facet_item).and_return(f: 'x')
@@ -80,11 +78,13 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
     end
 
     context 'with a selected facet' do
-      it 'is the url to remove the facet' do
-        allow(search_state).to receive(:has_facet?).and_return(true)
-        allow(search_state).to receive(:remove_facet_params).with('key', facet_item).and_return({})
-        allow(view_context).to receive(:search_action_path).with({}).and_return('/catalog')
+      let(:filter_field) { instance_double(Blacklight::SearchState::FilterField, include?: true, remove: {}) }
 
+      before do
+        allow(view_context).to receive(:search_action_path).with({}).and_return('/catalog')
+      end
+
+      it 'is the url to remove the facet' do
         expect(presenter.href).to eq '/catalog'
       end
     end

@@ -94,13 +94,6 @@ module Blacklight
         params[param][url_key] = (params[param][url_key] || []).dup
 
         collection = params[param][url_key]
-        # collection should be an array, because we link to ?f[key][]=value,
-        # however, Facebook (and maybe some other PHP tools) tranform that parameters
-        # into ?f[key][0]=value, which Rails interprets as a Hash.
-        if collection.is_a? Hash
-          Deprecation.warn(self, 'Normalizing parameters in FilterField#remove is deprecated')
-          collection = collection.values
-        end
 
         params[param][url_key] = collection - Array(value)
         params[param].delete(url_key) if params[param][url_key].empty?
@@ -119,6 +112,11 @@ module Blacklight
         f + (f_inclusive || []) + (f_missing || [])
       end
       delegate :any?, to: :values
+
+      # Appease rubocop rules by implementing #each_value
+      def each_value(&block)
+        values.each(&block)
+      end
 
       # @param [String,#value] a filter to remove from the url
       # @return [Boolean] whether the provided filter is currently applied/selected

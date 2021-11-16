@@ -16,8 +16,6 @@ module Blacklight
   autoload :SearchState, 'blacklight/search_state'
   autoload :Solr, 'blacklight/solr'
 
-  extend Deprecation
-
   require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
 

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::UrlHelperBehavior do
-  around { |test| Deprecation.silence(described_class) { test.call } }
-
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_tsim'
@@ -21,54 +19,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     allow(helper).to receive_messages(blacklight_config: blacklight_config)
     allow(helper).to receive_messages(current_search_session: nil)
     allow(helper).to receive(:search_session).and_return({})
-  end
-
-  describe "url_for_document" do
-    let(:controller_class) { ::CatalogController.new }
-    let(:doc) { SolrDocument.new }
-
-    before do
-      allow(helper).to receive_messages(controller: controller_class)
-      allow(helper).to receive_messages(controller_name: controller_class.controller_name)
-      allow(helper).to receive_messages(params: parameter_class.new)
-    end
-
-    it "is a polymorphic routing-ready object" do
-      expect(helper.url_for_document(doc)).to eq doc
-    end
-
-    it "allows for custom show routes" do
-      helper.blacklight_config.show.route = { controller: 'catalog' }
-      expect(helper.url_for_document(doc)).to eq(controller: 'catalog', action: :show, id: doc)
-    end
-
-    context "within bookmarks" do
-      let(:controller_class) { ::BookmarksController.new }
-
-      it "uses polymorphic routing" do
-        expect(helper.url_for_document(doc)).to eq doc
-      end
-    end
-
-    context "within an alternative catalog controller" do
-      let(:controller_class) { ::AlternateController.new }
-
-      before do
-        helper.blacklight_config.show.route = { controller: :current }
-        allow(helper).to receive(:params).and_return(parameter_class.new(controller: 'alternate'))
-      end
-
-      it "supports the :current controller configuration" do
-        expect(helper.url_for_document(doc)).to eq(controller: 'alternate', action: :show, id: doc)
-      end
-    end
-
-    it "is a polymorphic route if the solr document responds to #to_model with a non-SolrDocument" do
-      some_model = double
-      doc = SolrDocument.new
-      allow(doc).to receive_messages(to_model: some_model)
-      expect(helper.url_for_document(doc)).to eq doc
-    end
   end
 
   describe "link_back_to_catalog" do
@@ -141,61 +91,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
   end
 
-  describe "link_to_previous_document" do
-    context "when the argument is nil" do
-      subject { helper.link_to_previous_document(nil) }
-
-      it { is_expected.to eq '<span class="previous">&laquo; Previous</span>' }
-    end
-  end
-
-  describe "link_to_query" do
-    it "builds a link tag to catalog using query string (no other params)" do
-      query = "brilliant"
-      allow(helper).to receive_messages(params: parameter_class.new)
-      tag = helper.link_to_query(query)
-      expect(tag).to match /q=#{query}/
-      expect(tag).to match %r{>#{query}</a>}
-    end
-
-    it "builds a link tag to catalog using query string and other existing params" do
-      query = "wonderful"
-      allow(helper).to receive_messages(params: parameter_class.new(qt: "title_search", per_page: "50"))
-      tag = helper.link_to_query(query)
-      expect(tag).to match /qt=title_search/
-      expect(tag).to match /per_page=50/
-    end
-
-    it "ignores existing :page param" do
-      query = "yes"
-      allow(helper).to receive_messages(params: parameter_class.new(page: "2", qt: "author_search"))
-      tag = helper.link_to_query(query)
-      expect(tag).to match /qt=author_search/
-      expect(tag).not_to match /page/
-    end
-
-    it "is html_safe" do
-      query = "brilliant"
-      allow(helper).to receive_messages(params: parameter_class.new(page: "2", qt: "author_search"))
-      tag = helper.link_to_query(query)
-      expect(tag).to be_html_safe
-    end
-  end
-
-  describe "start_over_path" do
-    it 'is the catalog path with the current view type' do
-      allow(blacklight_config).to receive(:view).and_return(list: nil, abc: nil)
-      allow(helper).to receive_messages(blacklight_config: blacklight_config)
-      expect(helper.start_over_path(view: 'abc')).to eq search_catalog_url(view: 'abc')
-    end
-
-    it 'does not include the current view type if it is the default' do
-      allow(blacklight_config).to receive(:view).and_return(list: nil, asdf: nil)
-      allow(helper).to receive_messages(blacklight_config: blacklight_config)
-      expect(helper.start_over_path(view: 'list')).to eq search_catalog_url
-    end
-  end
-
   describe "link_to_document" do
     let(:title_tsim) { '654321' }
     let(:id) { '123456' }
@@ -209,30 +104,22 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "consists of the document title wrapped in a <a>" do
-      allow(Deprecation).to receive(:warn)
-      expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", text: '654321', count: 1)
+      expect(helper.link_to_document(document)).to have_selector("a", text: '654321', count: 1)
     end
 
     it "accepts and returns a string label" do
       expect(helper.link_to_document(document, 'This is the title')).to have_selector("a", text: 'This is the title', count: 1)
     end
 
-    it "accepts and returns a Proc" do
-      allow(Deprecation).to receive(:warn)
-      expect(helper.link_to_document(document, proc { |doc, _opts| doc[:id] + ": " + doc.first(:title_tsim) })).to have_selector("a", text: '123456: 654321', count: 1)
-    end
-
     context 'when label is missing' do
       let(:data) { { 'id' => id } }
 
       it "returns id" do
-        allow(Deprecation).to receive(:warn)
-        expect(helper.link_to_document(document, :title_tsim)).to have_selector("a", text: '123456', count: 1)
+        expect(helper.link_to_document(document)).to have_selector("a", text: '123456', count: 1)
       end
 
       it "is html safe" do
-        allow(Deprecation).to receive(:warn)
-        expect(helper.link_to_document(document, :title_tsim)).to be_html_safe
+        expect(helper.link_to_document(document)).to be_html_safe
       end
 
       it "passes on the title attribute to the link_to_with_data method" do
@@ -253,8 +140,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "converts the counter parameter into a data- attribute" do
-      allow(Deprecation).to receive(:warn)
-      expect(helper.link_to_document(document, :title_tsim, counter: 5)).to include 'data-context-href="tracking url"'
+      expect(helper.link_to_document(document, 'foo', counter: 5)).to include 'data-context-href="tracking url"'
       expect(helper.main_app).to have_received(:track_test_path).with(hash_including(id: have_attributes(id: '123456'), counter: 5))
     end
 
@@ -277,14 +163,6 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     it "links to the given search parameters" do
       allow(helper).to receive(:render_search_to_s).with(params).and_return "link text"
       expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", helper.search_action_path)
-    end
-  end
-
-  describe "#bookmarks_export_url" do
-    it "is the bookmark url with an encrypted user token" do
-      allow(helper).to receive_messages(encrypt_user_id: 'xyz', current_or_guest_user: double(id: 123))
-      url = helper.bookmarks_export_url(:html)
-      expect(url).to eq helper.bookmarks_url(format: :html, encrypted_user_id: 'xyz')
     end
   end
 

@@ -17,7 +17,6 @@ RSpec.describe Blacklight::FacetFieldCheckboxesComponent, type: :component do
       active?: false,
       collapsed?: false,
       modal_path: nil,
-      html_id: 'facet-field',
       search_state: search_state
     )
   end

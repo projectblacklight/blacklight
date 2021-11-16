@@ -242,8 +242,7 @@ module Blacklight
     # Returns default search field, used for simpler display in history, etc.
     # if not set, defaults to first defined search field
     def default_search_field
-      field = super || search_fields.values.find { |f| f.default == true }
-      field || search_fields.values.first
+      @default_search_field ||= super || search_fields.values.find { |f| f.default == true } || search_fields.values.first
     end
 
     # Returns default sort field, used for simpler display in history, etc.
@@ -271,7 +270,11 @@ module Blacklight
     # @param [String] group (nil) a group name of facet fields
     # @return [Array<String>] a list of the facet field names from the configuration
     def facet_field_names(group = nil)
-      facet_fields.select { |_facet, opts| group == opts[:group] }.values.map(&:field)
+      facet_fields_in_group(group).map(&:field)
+    end
+
+    def facet_fields_in_group(group)
+      facet_fields.values.select { |opts| group == opts[:group] }
     end
 
     # @return [Array<String>] a list of facet groups
@@ -361,10 +364,13 @@ module Blacklight
     # @!macro partial_if_unless
     #   @param name [String] the name of the document partial
     #   @param opts [Hash]
+    #   @option opts [Class] :component draw a component
+    #   @option opts [String] :partial partial to draw if component is false
     #   @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
     #   @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
     def add_show_tools_partial(name, opts = {})
       opts[:partial] ||= 'document_action'
+
       add_action(show.document_actions, name, opts)
       klass && ActionBuilder.new(klass, name, opts).build
     end
@@ -401,17 +407,10 @@ module Blacklight
     ##
     # Return a list of fields for the index display that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def index_fields_for(document_or_display_types)
-      display_types = if document_or_display_types.is_a? Blacklight::Document
-                        Deprecation.warn self, "Calling index_fields_for with a #{document_or_display_types.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
-                        document_or_display_types[index.display_type_field || 'format']
-                      else
-                        document_or_display_types
-                      end
-
+    def index_fields_for(display_types)
       fields = {}.with_indifferent_access
 
-      Array.wrap(display_types).each do |display_type|
+      display_types.each do |display_type|
         fields = fields.merge(for_display_type(display_type).index_fields)
       end
 
@@ -421,17 +420,10 @@ module Blacklight
     ##
     # Return a list of fields for the show page that should be used for the
     # provided document.  This respects any configuration made using for_display_type
-    def show_fields_for(document_or_display_types)
-      display_types = if document_or_display_types.is_a? Blacklight::Document
-                        Deprecation.warn self, "Calling show_fields_for with a #{document_or_display_types.class} is deprecated and will be removed in Blacklight 8. Pass the display type instead."
-                        document_or_display_types[show.display_type_field || 'format']
-                      else
-                        document_or_display_types
-                      end
-
+    def show_fields_for(display_types)
       fields = {}.with_indifferent_access
 
-      Array.wrap(display_types).each do |display_type|
+      display_types.each do |display_type|
         fields = fields.merge(for_display_type(display_type).show_fields)
       end
 

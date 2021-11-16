@@ -11,12 +11,12 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     instance_double(
       Blacklight::FacetFieldPresenter,
       paginator: paginator,
+      facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
       key: 'field',
       label: 'Field',
       active?: false,
       collapsed?: false,
       modal_path: nil,
-      html_id: 'facet-field',
       values: []
     )
   end
@@ -45,12 +45,12 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
+        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
         key: 'field',
         label: 'Field',
         active?: true,
         collapsed?: false,
         modal_path: nil,
-        html_id: 'facet-field',
         values: []
       )
     end
@@ -65,12 +65,12 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
+        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
         key: 'field',
         label: 'Field',
         active?: false,
         collapsed?: true,
         modal_path: nil,
-        html_id: 'facet-field',
         values: []
       )
     end
@@ -91,12 +91,12 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
+        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
         key: 'field',
         label: 'Field',
         active?: false,
         collapsed?: false,
         modal_path: '/catalog/facet/modal',
-        html_id: 'facet-field',
         values: []
       )
     end
@@ -117,7 +117,6 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
         active?: false,
         collapsed?: false,
         modal_path: nil,
-        html_id: 'facet-field',
         values: [%w[a b c]],
         search_state: search_state
       )

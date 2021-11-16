@@ -29,17 +29,17 @@ module Blacklight
       response = repository.search(builder)
 
       if response.grouped? && grouped_key_for_results
-        [response.group(grouped_key_for_results), []]
+        response.group(grouped_key_for_results)
       elsif response.grouped? && response.grouped.length == 1
-        [response.grouped.first, []]
+        response.grouped.first
       else
-        [response, response.documents]
+        response
       end
     end
 
     # retrieve a document, given the doc id
     # @param [Array{#to_s},#to_s] id
-    # @return [Blacklight::Solr::Response, Blacklight::SolrDocument] the solr response object and the first document
+    # @return [Blacklight::SolrDocument] the solr response object and the first document
     def fetch(id = nil, extra_controller_params = {})
       if id.is_a? Array
         fetch_many(id, extra_controller_params)
@@ -144,12 +144,12 @@ module Blacklight
 
       solr_response = repository.search(query)
 
-      [solr_response, solr_response.documents]
+      solr_response.documents
     end
 
     def fetch_one(id, extra_controller_params)
       solr_response = repository.find id, extra_controller_params
-      [solr_response, solr_response.documents.first]
+      solr_response.documents.first
     end
   end
 end

@@ -13,7 +13,7 @@ end
 json.data do
   json.array! @presenter.documents do |document|
     doc_presenter = document_presenter(document)
-    document_url = Deprecation.silence(Blacklight::UrlHelperBehavior) { polymorphic_url(url_for_document(document)) }
+    document_url = polymorphic_url(search_state.url_for_document(document))
     json.id document.id
     json.type doc_presenter.display_type.first
     json.attributes do
@@ -49,14 +49,10 @@ json.included do
             json.hits item.hits
           end
           json.links do
-            Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-              if facet_in_params?(facet.name, item.value)
-                Deprecation.silence(Blacklight::SearchState) do
-                  json.remove search_action_path(search_state.remove_facet_params(facet.name, item.value))
-                end
-              else
-                json.self path_for_facet(facet.name, item.value, only_path: false)
-              end
+            if search_state.filter(facet_config).include?(facet_value_for_facet_item(item.value))
+              json.remove search_action_path(search_state.filter(facet.name).remove(item.value))
+            else
+              json.self facet_item_presenter(facet_config, item.value, facet.name).href(only_path: false)
             end
           end
         end
@@ -66,6 +62,11 @@ json.included do
       json.self search_facet_path(id: facet.name, only_path: false)
     end
   end
+
+  search_fields = blacklight_config.search_fields
+                                   .values
+                                   .select { |field_def| should_render_field?(field_def) }
+                                   .collect { |field_def| [label_for_search_field(field_def.key), field_def.key] }
 
   json.array! search_fields do |(label, key)|
     json.type 'search_field'

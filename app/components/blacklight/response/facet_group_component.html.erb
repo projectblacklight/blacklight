@@ -21,9 +21,7 @@
     <% end %>
   </div>
 
-  <%= content_tag :div, id: @panel_id, class: 'facets-collapse collapse' do %>
-    <% Deprecation.silence(Blacklight::FacetsHelperBehavior) do %>
-      <%= @view_context.render_facet_partials @fields, response: @response %>
-    <% end %>
-  <% end %>
+  <div id="<%= @panel_id %>" class="facets-collapse collapse">
+    <%= render Blacklight::FacetComponent.with_collection(search_facets, blacklight_config: blacklight_config) %>
+  </div>
 <% end %>

@@ -10,7 +10,9 @@
   <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
 
   <div class="facet-extended-list">
-    <%= render_facet_limit(@display_facet, layout: false) %>
+    <%= render Blacklight::FacetComponent.new(display_facet: @display_facet,
+                                              blacklight_config: blacklight_config,
+                                              layout: false) %>
   </div>
 
   <% component.footer do %>

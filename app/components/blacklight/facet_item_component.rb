@@ -2,8 +2,6 @@
 
 module Blacklight
   class FacetItemComponent < ::ViewComponent::Base
-    extend Deprecation
-
     with_collection_parameter :facet_item
 
     def initialize(facet_item:, wrapping_element: 'li', suppress_link: false)
@@ -19,9 +17,7 @@ module Blacklight
     def call
       # if the downstream app has overridden the helper methods we'd usually call,
       # use the helpers to preserve compatibility
-      content = if overridden_helper_methods?
-                  content_from_legacy_view_helper
-                elsif @selected
+      content = if @selected
                   render_selected_facet_value
                 else
                   render_facet_value
@@ -31,36 +27,6 @@ module Blacklight
       return content unless @wrapping_element
 
       content_tag @wrapping_element, content
-    end
-
-    # This is a little shim to let us call the render methods below outside the
-    # usual component rendering cycle (for backward compatibility)
-    # @private
-    # @deprecated
-    def with_view_context(view_context)
-      @view_context = view_context
-      self
-    end
-
-    # Check if the downstream application has overridden these methods
-    # @deprecated
-    # @private
-    def overridden_helper_methods?
-      return false if explicit_component_configuration?
-
-      @view_context.method(:render_facet_item).owner != Blacklight::FacetsHelperBehavior ||
-        @view_context.method(:render_facet_value).owner != Blacklight::FacetsHelperBehavior ||
-        @view_context.method(:render_selected_facet_value).owner != Blacklight::FacetsHelperBehavior
-    end
-
-    # Call out to the helper method equivalent of this component
-    # @deprecated
-    # @private
-    def content_from_legacy_view_helper
-      Deprecation.warn(self.class, 'Calling out to the #render_facet_item helper for backwards compatibility.')
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        @view_context.render_facet_item(@facet_item.facet_field, @facet_item.facet_item)
-      end
     end
 
     ##
@@ -87,7 +53,7 @@ module Blacklight
           # remove link
           link_to(@href, class: "remove", rel: "nofollow") do
             tag.span('✖', class: "remove-icon", aria: { hidden: true }) +
-              tag.span(@view_context.t(:'blacklight.search.facets.selected.remove'), class: 'sr-only visually-hidden')
+              tag.span(helpers.t(:'blacklight.search.facets.selected.remove'), class: 'sr-only visually-hidden')
           end
       end + render_facet_count(classes: ["selected"])
     end
@@ -101,18 +67,10 @@ module Blacklight
     # @return [String]
     # @private
     def render_facet_count(options = {})
-      return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
-
       return '' if @hits.blank?
 
       classes = (options[:classes] || []) << "facet-count"
       tag.span(t('blacklight.search.facets.count', number: number_with_delimiter(@hits)), class: classes)
-    end
-
-    private
-
-    def explicit_component_configuration?
-      @facet_item.facet_config.item_component.present?
     end
   end
 end

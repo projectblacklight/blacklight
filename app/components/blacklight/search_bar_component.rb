@@ -2,17 +2,16 @@
 
 module Blacklight
   class SearchBarComponent < ::ViewComponent::Base
-    include Blacklight::ContentAreasShim
-
     renders_one :append
     renders_one :prepend
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
-      url:, advanced_search_url: nil, params:,
+      url:, params:,
+      advanced_search_url: nil,
       classes: ['search-query-form'], presenter: nil, prefix: '',
       method: 'GET', q: nil, query_param: :q,
-      search_field: nil, search_fields: [], autocomplete_path: nil,
+      search_field: nil, autocomplete_path: nil,
       autofocus: nil, i18n: { scope: 'blacklight.search.form' }
     )
       @url = url
@@ -27,7 +26,6 @@ module Blacklight
       @method = method
       @autocomplete_path = autocomplete_path
       @autofocus = autofocus
-      @search_fields = search_fields
       @i18n = i18n
     end
     # rubocop:enable Metrics/ParameterLists
@@ -46,6 +44,12 @@ module Blacklight
       end
     end
 
+    def search_fields
+      @search_fields ||= blacklight_config.search_fields.values
+                                          .select { |field_def| helpers.should_render_field?(field_def) }
+                                          .collect { |field_def| [helpers.label_for_search_field(field_def.key), field_def.key] }
+    end
+
     private
 
     def presenter
@@ -57,13 +61,7 @@ module Blacklight
     end
 
     def blacklight_config
-      @view_context.blacklight_config
-    end
-
-    def render_hash_as_hidden_fields(*args)
-      Deprecation.silence(Blacklight::HashAsHiddenFieldsHelperBehavior) do
-        @view_context.render_hash_as_hidden_fields(*args)
-      end
+      helpers.blacklight_config
     end
 
     def scoped_t(key, **args)

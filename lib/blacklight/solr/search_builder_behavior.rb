@@ -31,16 +31,6 @@ module Blacklight::Solr
 
     def add_search_field_default_parameters(solr_parameters)
       ###
-      # legacy behavior of user param :qt is passed through, but over-ridden
-      # by actual search field config if present. We might want to remove
-      # this legacy behavior at some point. It does not seem to be currently
-      # rspec'd.
-      if search_state.params[:qt]
-        Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Passing the Solr qt as a parameter is deprecated.')
-        solr_parameters[:qt] = blacklight_params[:qt]
-      end
-
-      ###
       # Merge in search field configured values, if present, over-writing general
       # defaults
       if search_field
@@ -55,11 +45,6 @@ module Blacklight::Solr
     # including config's "search field" params for current search field.
     # also include setting spellcheck.q.
     def add_query_to_solr(solr_parameters)
-      unless processor_chain.include?(:add_search_field_default_parameters)
-        Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Please include :add_search_field_default_parameters in your process chain')
-        add_search_field_default_parameters(solr_parameters)
-      end
-
       ##
       # Create Solr 'q' including the user-entered q, prefixed by any
       # solr LocalParams in config, using solr LocalParams syntax.
@@ -71,12 +56,7 @@ module Blacklight::Solr
         add_search_field_with_json_query_parameters(solr_parameters)
       elsif search_field&.solr_local_parameters.present?
         add_search_field_with_local_parameters(solr_parameters)
-      elsif search_state.query_param.is_a? Hash
-        if search_state.query_param == @additional_filters && !processor_chain.include?(:add_additional_filters)
-          Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Expecting to see the processor step add_additional_filters; falling back to legacy query handling')
-          add_additional_filters(solr_parameters, search_state.query_param)
-        end
-      elsif search_state.query_param
+      elsif !search_state&.query_param.is_a?(Hash)
         solr_parameters.append_query search_state.query_param
       end
     end
@@ -348,6 +328,7 @@ module Blacklight::Solr
 
     ##
     # Convert a facet/value pair into a solr fq parameter
+    # rubocop:disable Metrics/PerceivedComplexity
     def facet_value_to_fq_string(facet_field, value, use_local_params: true)
       facet_config = blacklight_config.facet_fields[facet_field]
 
@@ -355,10 +336,7 @@ module Blacklight::Solr
       solr_field ||= facet_field
 
       local_params = []
-
-      if use_local_params
-        local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
-      end
+      local_params << "tag=#{facet_config.tag}" if use_local_params && facet_config && facet_config.tag
 
       if facet_config && facet_config.query
         if facet_config.query[value]
@@ -376,6 +354,7 @@ module Blacklight::Solr
         "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
       end
     end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def facet_inclusive_value_to_fq_string(facet_field, values)
       return if values.blank?

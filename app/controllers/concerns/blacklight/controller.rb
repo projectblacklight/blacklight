@@ -3,12 +3,8 @@
 # as this module is mixed-in to the application controller in the hosting app on installation.
 module Blacklight::Controller
   extend ActiveSupport::Concern
-  extend Deprecation
 
   included do
-    include Blacklight::SearchFields
-    helper Blacklight::SearchFields if respond_to? :helper
-
     include ActiveSupport::Callbacks
 
     # now in application.rb file under config.filter_parameters
@@ -75,7 +71,7 @@ module Blacklight::Controller
   # which action the search form should use
   def search_action_url options = {}
     # Rails 4.2 deprecated url helpers accepting string keys for 'controller' or 'action'
-    search_catalog_url(options.except(:controller, :action))
+    search_catalog_url(options.to_h.except(:controller, :action))
   end
 
   def search_action_path *args
@@ -125,21 +121,9 @@ module Blacklight::Controller
     respond_to? :current_user
   end
 
-  def require_user_authentication_provider
-    raise ActionController::RoutingError, 'Not Found' unless has_user_authentication_provider?
-  end
-  deprecation_deprecate require_user_authentication_provider: 'removed without replacement'
-
   ##
   # When a user logs in, transfer any saved searches or bookmarks to the current_user
   def transfer_guest_to_user
-    Deprecation.silence(Blacklight::Controller) do
-      transfer_guest_user_actions_to_current_user
-    end
-  end
-
-  # @deprecated use canonical `transfer_guest_to_user` method instead
-  def transfer_guest_user_actions_to_current_user
     return unless respond_to?(:current_user) && respond_to?(:guest_user) && current_user && guest_user
 
     current_user_searches = current_user.searches.pluck(:query_params)
@@ -158,7 +142,6 @@ module Blacklight::Controller
     # let guest_user know we've moved some bookmarks from under it
     guest_user.reload if guest_user.persisted?
   end
-  deprecation_deprecate :transfer_guest_user_actions_to_current_user
 
   ##
   # To handle failed authorization attempts, redirect the user to the

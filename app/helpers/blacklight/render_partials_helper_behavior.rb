@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 module Blacklight::RenderPartialsHelperBehavior
-  extend Deprecation
-
   ##
   # Render the document index view
   #
@@ -12,13 +10,6 @@ module Blacklight::RenderPartialsHelperBehavior
     documents ||= @response.documents
     render_document_index_with_view(document_index_view_type, documents, locals)
   end
-
-  ##
-  # Render the document index for a grouped response
-  def render_grouped_document_index
-    render 'catalog/group'
-  end
-  deprecation_deprecate render_grouped_document_index: 'Removed without replacement'
 
   ##
   # Return the list of partials for a given solr document
@@ -57,7 +48,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [String] base_name base name for the partial
   # @param [Hash] locals local variables to pass through to the partials
   def render_document_partial(doc, base_name, locals = {})
-    format = Deprecation.silence(Blacklight::RenderPartialsHelperBehavior) { document_partial_name(doc, base_name) }
+    format = document_partial_name(doc, base_name)
 
     view_type = document_index_view_type
     template = cached_view ['show', view_type, base_name, format].join('_') do
@@ -115,6 +106,8 @@ module Blacklight::RenderPartialsHelperBehavior
     ]
   end
 
+  private
+
   ##
   # Return a normalized partial name for rendering a single document
   #
@@ -127,9 +120,6 @@ module Blacklight::RenderPartialsHelperBehavior
 
     type_field_to_partial_name(document, display_type)
   end
-  deprecation_deprecate document_partial_name: 'Moving to a private method'
-
-  private
 
   ##
   # Return a partial name for rendering a document

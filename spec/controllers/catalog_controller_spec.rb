@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe CatalogController, api: true do
-  around { |test| Deprecation.silence(Blacklight::Catalog) { test.call } }
-
   let(:doc_id) { '2007020969' }
-  let(:mock_response) { instance_double(Blacklight::Solr::Response) }
   let(:mock_document) { instance_double(SolrDocument, export_formats: {}) }
   let(:search_service) { instance_double(Blacklight::SearchService) }
 
@@ -339,7 +336,7 @@ RSpec.describe CatalogController, api: true do
       before do
         allow(mock_document).to receive_messages(export_formats: {})
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+        expect(search_service).to receive(:fetch).and_return(mock_document)
         allow(controller).to receive(:current_search_session).and_return(current_search)
       end
 
@@ -399,7 +396,7 @@ RSpec.describe CatalogController, api: true do
 
     it "renders show.html.erb" do
       allow(controller).to receive(:search_service).and_return(search_service)
-      expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+      expect(search_service).to receive(:fetch).and_return(mock_document)
 
       get :show, params: { id: doc_id }
       expect(response).to render_template(:show)
@@ -408,7 +405,7 @@ RSpec.describe CatalogController, api: true do
     describe '@document' do
       before do
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return([mock_response, mock_document])
+        expect(search_service).to receive(:fetch).and_return(mock_document)
 
         get :show, params: { id: doc_id }
       end
@@ -434,7 +431,7 @@ RSpec.describe CatalogController, api: true do
         Mime::Type.register "application/mock", :mock
         SolrDocument.use_extension(FakeExtension)
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return([nil, SolrDocument.new(id: 'my_fake_doc')])
+        expect(search_service).to receive(:fetch).and_return(SolrDocument.new(id: 'my_fake_doc'))
       end
 
       after do
@@ -485,8 +482,6 @@ RSpec.describe CatalogController, api: true do
   end
 
   describe "email/sms" do
-    let(:mock_response) { instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'), SolrDocument.new(id: 'my_other_doc')]) }
-
     before do
       mock_document.extend(Blacklight::Document::Sms)
       mock_document.extend(Blacklight::Document::Email)
@@ -494,7 +489,7 @@ RSpec.describe CatalogController, api: true do
       allow(mock_document).to receive(:to_model).and_return(SolrDocument.new(id: 'my_fake_doc'))
 
       allow(controller).to receive(:search_service).and_return(search_service)
-      expect(search_service).to receive(:fetch).and_return([mock_response, [mock_document]])
+      expect(search_service).to receive(:fetch).and_return([mock_document])
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
       SolrDocument.use_extension(Blacklight::Document::Email)
       SolrDocument.use_extension(Blacklight::Document::Sms)
@@ -779,7 +774,7 @@ RSpec.describe CatalogController, api: true do
     end
 
     describe "with a facet" do
-      before { allow(controller).to receive_messages(params: { f: { "field" => ["value"] } }) }
+      before { allow(controller).to receive_messages(params: { f: { "format" => ["value"] } }) }
 
       it { is_expected.to be true }
     end
@@ -839,76 +834,6 @@ RSpec.describe CatalogController, api: true do
     it "is the same as the catalog path" do
       get :index, params: { page: 1 }
       expect(controller.send(:search_facet_path, id: "some_facet", page: 5)).to eq facet_catalog_path(id: "some_facet")
-    end
-  end
-
-  describe "facet_limit_for" do
-    let(:blacklight_config) { controller.blacklight_config }
-
-    it "returns specified value for facet_field specified" do
-      expect(controller.facet_limit_for("subject_ssim")).to eq blacklight_config.facet_fields["subject_ssim"].limit
-    end
-
-    it "facet_limit_hash should return hash with key being facet_field and value being configured limit" do
-      # facet_limit_hash has been removed from solrhelper in refactor. should it go back?
-      skip "facet_limit_hash has been removed from solrhelper in refactor. should it go back?"
-      expect(controller.facet_limit_hash).to eq blacklight_config[:facet][:limits]
-    end
-
-    it "handles no facet_limits in config" do
-      blacklight_config.facet_fields = {}
-      expect(controller.facet_limit_for("subject_ssim")).to be_nil
-    end
-
-    describe "for 'true' configured values" do
-      before do
-        allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
-      end
-
-      let(:blacklight_config) do
-        Blacklight::Configuration.new do |config|
-          config.add_facet_field "language_facet", limit: true
-        end
-      end
-
-      it "returns nil if no @response available" do
-        expect(controller.facet_limit_for("some_unknown_field")).to be_nil
-      end
-
-      it "gets from @response facet.limit if available" do
-        response = instance_double(Blacklight::Solr::Response, aggregations: { "language_facet" => double(limit: nil) })
-        controller.instance_variable_set(:@response, response)
-        blacklight_config.facet_fields['language_facet'].limit = 10
-        expect(controller.facet_limit_for("language_facet")).to eq 10
-      end
-
-      it "gets the limit from the facet field in @response" do
-        response = instance_double(Blacklight::Solr::Response, aggregations: { "language_facet" => double(limit: 16) })
-        controller.instance_variable_set(:@response, response)
-        expect(controller.facet_limit_for("language_facet")).to eq 15
-      end
-
-      it "defaults to 10" do
-        expect(controller.facet_limit_for("language_facet")).to eq 10
-      end
-    end
-
-    context 'for facet fields with a key that is different from the field name' do
-      before do
-        allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
-      end
-
-      let(:blacklight_config) do
-        Blacklight::Configuration.new do |config|
-          config.add_facet_field 'some_key', field: 'x', limit: true
-        end
-      end
-
-      it 'gets the limit from the facet field in the @response' do
-        response = instance_double(Blacklight::Solr::Response, aggregations: { 'x' => double(limit: 16) })
-        controller.instance_variable_set(:@response, response)
-        expect(controller.facet_limit_for('some_key')).to eq 15
-      end
     end
   end
 end

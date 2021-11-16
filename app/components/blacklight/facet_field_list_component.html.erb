@@ -3,9 +3,9 @@
     <%= @facet_field.label %>
   <% end %>
   <% component.body do %>
-    <%= @view_context.render(Blacklight::FacetFieldInclusiveConstraintComponent.new(facet_field: @facet_field)) %>
+    <%= helpers.render(Blacklight::FacetFieldInclusiveConstraintComponent.new(facet_field: @facet_field)) %>
     <ul class="facet-values list-unstyled">
-      <%= render_facet_limit_list @facet_field.paginator, @facet_field.key %>
+      <%= render facet_items %>
     </ul>
     <%# backwards compatibility, ugh %>
     <% if @layout == Blacklight::FacetFieldNoLayoutComponent && !@facet_field.in_modal? && @facet_field.modal_path %>

@@ -2,8 +2,6 @@
 
 module Blacklight
   class DocumentComponent < ::ViewComponent::Base
-    include Blacklight::ContentAreasShim
-
     # Content appearing before the document
     renders_one :header
 
@@ -23,9 +21,10 @@ module Blacklight
 
     renders_one :embed, (lambda do |static_content = nil, *args, component: nil, **kwargs|
       next static_content if static_content.present?
-      next unless component
 
-      Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if @presenter.nil?
+      component ||= @presenter.view_config&.embed_component
+
+      next unless component
 
       component.new(*args, document: @document, presenter: @presenter, document_counter: @document_counter, **kwargs)
     end)
@@ -33,8 +32,6 @@ module Blacklight
     # The primary metadata section
     renders_one :metadata, (lambda do |static_content = nil, *args, component: nil, fields: nil, **kwargs|
       next static_content if static_content.present?
-
-      Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !fields && @presenter.nil?
 
       component ||= Blacklight::DocumentMetadataComponent
 
@@ -48,7 +45,6 @@ module Blacklight
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
       component ||= @presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
-      Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !component && @presenter.nil?
 
       component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
     end)
@@ -76,9 +72,6 @@ module Blacklight
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
     def initialize(document: nil, presenter: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
-                   metadata_component: nil,
-                   embed_component: nil,
-                   thumbnail_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
                    show: false)
       if presenter.nil? && document.nil?
@@ -93,15 +86,6 @@ module Blacklight
       @id = id || ('document' if show)
       @classes = classes
 
-      Deprecation.warn(Blacklight::DocumentComponent, 'Passing embed_component is deprecated') if @embed_component.present?
-      @embed_component = embed_component
-
-      Deprecation.warn(Blacklight::DocumentComponent, 'Passing metadata_component is deprecated') if @metadata_component.present?
-      @metadata_component = metadata_component || Blacklight::DocumentMetadataComponent
-
-      Deprecation.warn(Blacklight::DocumentComponent, 'Passing thumbnail_component is deprecated') if @thumbnail_component.present?
-      @thumbnail_component = thumbnail_component || Blacklight::Document::ThumbnailComponent
-
       @document_counter = document_counter
       @counter = counter
       @counter ||= document_counter + 1 + counter_offset if document_counter.present?
@@ -114,7 +98,7 @@ module Blacklight
     def classes
       [
         @classes,
-        @view_context.render_document_class(@document),
+        helpers.render_document_class(@document),
         'document',
         ("document-position-#{@counter}" if @counter)
       ].compact.flatten
@@ -122,15 +106,15 @@ module Blacklight
 
     def before_render
       set_slot(:title, nil) unless title
-      set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component, fields: presenter.field_presenters) unless metadata
-      set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
+      set_slot(:thumbnail, nil) unless thumbnail || show?
+      set_slot(:metadata, nil, fields: presenter.field_presenters) unless metadata
+      set_slot(:embed, nil) unless embed
     end
 
     private
 
     def presenter
-      @presenter ||= @view_context.document_presenter(@document)
+      @presenter ||= helpers.document_presenter(@document)
     end
 
     def show?

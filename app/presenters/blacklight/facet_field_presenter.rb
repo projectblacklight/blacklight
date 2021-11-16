@@ -15,15 +15,11 @@ module Blacklight
     end
 
     def collapsed?
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        view_context.should_collapse_facet?(facet_field)
-      end
+      !active? && facet_field.collapse
     end
 
     def active?
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        view_context.facet_field_in_params?(key)
-      end
+      search_state.filter(facet_field).any?
     end
 
     def in_modal?
@@ -44,20 +40,51 @@ module Blacklight
       search_state&.filter(facet_field)&.values || []
     end
 
-    # @private
-    # @deprecated
-    def html_id
-      Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        view_context.facet_field_id(facet_field)
-      end
+    # Appease rubocop rules by implementing #each_value
+    def each_value(&block)
+      values.each(&block)
     end
 
     def paginator
       return unless display_facet
 
-      Deprecation.silence(Blacklight::Facet) do
-        @paginator ||= view_context.facet_paginator(facet_field, display_facet)
+      @paginator ||= begin
+        blacklight_config.facet_paginator_class.new(
+          display_facet.items,
+          sort: display_facet.sort,
+          offset: display_facet.offset,
+          prefix: display_facet.prefix,
+          limit: facet_limit
+        )
       end
     end
+
+    DEFAULT_FACET_LIMIT = 10
+
+    # Look up facet limit for given facet_field. Will look at config, and
+    # if config is 'true' will look up from Solr @response if available. If
+    # no limit is available, returns nil. Used from #add_facetting_to_solr
+    # to supply f.fieldname.facet.limit values in solr request (no @response
+    # available), and used in display (with @response available) to create
+    # a facet paginator with the right limit.
+    def facet_limit
+      return unless facet_field.limit
+
+      if @display_facet
+        limit = @display_facet.limit
+
+        if limit.nil? # we didn't get or a set a limit, so infer one.
+          facet_field.limit if facet_field.limit != true
+        elsif limit == -1 # limit -1 is solr-speak for unlimited
+          nil
+        else
+          limit.to_i - 1 # we added 1 to find out if we needed to paginate
+        end
+      else
+        facet_field.limit == true ? DEFAULT_FACET_LIMIT : facet.limit
+      end
+    end
+
+    delegate :blacklight_config, to: :search_state
   end
 end
