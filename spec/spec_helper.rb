@@ -10,9 +10,6 @@ SimpleCov.start do
   add_filter "/spec/"
 end
 
-require 'rsolr'
-require 'blacklight'
-
 require 'engine_cart'
 EngineCart.load_application!
 
@@ -24,6 +21,9 @@ require 'webdrivers'
 require 'selenium-webdriver'
 require 'equivalent-xml'
 require 'axe-rspec'
+
+require 'rsolr'
+require 'blacklight'
 
 Capybara.javascript_driver = :headless_chrome
 
