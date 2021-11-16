@@ -30,15 +30,6 @@ RSpec.describe "catalog/show.html.erb" do
     expect(rendered).to have_selector('div#document[@itemtype="some-item-type-uri"]')
   end
 
-  it "renders the show_header and show partials by default" do
-    allow(view).to receive(:render_grouped_response?).and_return(false)
-    stub_template "catalog/_show_header_default.html.erb" => "document_header"
-    stub_template "catalog/_show_default.html.erb" => "show_default"
-    render
-    expect(rendered).to match /document_header/
-    expect(rendered).to match /show_default/
-  end
-
   it "uses the show.partials parameter to determine the partials to render" do
     allow(view).to receive(:render_grouped_response?).and_return(false)
     blacklight_config.show.partials = %w[a b c]
@@ -49,19 +40,5 @@ RSpec.describe "catalog/show.html.erb" do
     expect(rendered).to match /a_partial/
     expect(rendered).to match /b_partial/
     expect(rendered).to match /c_partial/
-  end
-
-  it 'provides the rendered partials to an explicitly configured component but does not render them by default' do
-    blacklight_config.show.partials = %w[a]
-    stub_template "catalog/_a_default.html.erb" => "partial"
-    blacklight_config.show.document_component = Blacklight::DocumentComponent
-    allow(view).to receive(:search_session).and_return({})
-    allow(view).to receive(:current_search_session).and_return(nil)
-    allow(view.main_app).to receive(:track_test_path).and_return('/track')
-
-    render
-
-    expect(rendered).to have_selector 'div.document header h1', text: 'xyz'
-    expect(rendered).not_to match(/partial/)
   end
 end
