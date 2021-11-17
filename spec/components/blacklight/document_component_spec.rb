@@ -151,4 +151,9 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     expect(rendered).to have_selector 'dd', text: 'Title'
     expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
   end
+
+  it 'renders partials' do
+    component.partial { 'Partials' }
+    expect(rendered).to have_content 'Partials'
+  end
 end

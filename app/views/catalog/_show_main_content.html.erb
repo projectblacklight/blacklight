@@ -2,19 +2,18 @@
 
 <% @page_title = t('blacklight.search.show.title', document_title: document_presenter(@document).html_title, application_name: application_name).html_safe %>
 <% content_for(:head) { render_link_rel_alternates } %>
-<%= render (blacklight_config.view_config(:show).document_component || Blacklight::DocumentComponent).new(presenter: document_presenter(@document), component: :div, title_component: :h1, show: true) do |component| %>
+<%= render (blacklight_config.view_config(:show).document_component || Blacklight::DocumentComponent).new(presenter: document_presenter(@document), component: :div, show: true) do |component| %>
+  <% component.title(as: 'h1', classes: '', link_to_document: false, actions: false) %>
   <% component.footer do %>
     <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
       <!-- COinS, for Zotero among others. -->
       <span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_presenter(@document).display_type) %>"></span>
     <% end %>
-  <%  end %>
+  <% end %>
 
-  <%# Use :body for complete backwards compatibility (overriding the component body markup),
-        but if the app explicitly  opted-in to components, make the partials data available as :partials to ease migrations pain %>
-  <% component.public_send(blacklight_config.view_config(:show).document_component.blank? && blacklight_config.view_config(:show).partials.any? ? :body : :partial) do %>
-    <div id="doc_<%= @document.id.to_s.parameterize %>">
-      <%= render_document_partials @document, blacklight_config.view_config(:show).partials, component: component %>
-    </div>
+  <% blacklight_config.view_config(:show).partials.each do |partial| %>
+    <% component.partial do %>
+      <%= render_document_partial @document, partial, component: component %>
+    <% end %>
   <% end %>
 <% end %>
