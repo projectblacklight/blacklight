@@ -11,9 +11,9 @@ module Blacklight::UrlHelperBehavior
   # @param opts [Hash] the options to create the link with
   # @option opts [Number] :counter (nil) the count to set in the session (for paging through a query result)
   # @example Passing in an image
-  #   link_to_document(doc, '<img src="thumbnail.png">', counter: 3) #=> "<a href=\"catalog/123\" data-tracker-href=\"/catalog/123/track?counter=3&search_id=999\"><img src="thumbnail.png"></a>
+  #   link_to_document(doc, '<img src="thumbnail.png">', counter: 3) #=> "<a href=\"catalog/123\" data-context-href=\"/catalog/123/track?counter=3&search_id=999\"><img src="thumbnail.png"></a>
   # @example With the default document link field
-  #   link_to_document(doc, counter: 3) #=> "<a href=\"catalog/123\" data-tracker-href=\"/catalog/123/track?counter=3&search_id=999\">My Title</a>
+  #   link_to_document(doc, counter: 3) #=> "<a href=\"catalog/123\" data-context-href=\"/catalog/123/track?counter=3&search_id=999\">My Title</a>
   def link_to_document(doc, field_or_opts = nil, opts = { counter: nil })
     label = case field_or_opts
             when NilClass
@@ -40,15 +40,12 @@ module Blacklight::UrlHelperBehavior
   # @param [Integer] counter
   # @example
   #   session_tracking_params(SolrDocument.new(id: 123), 7)
-  #   => { data: { :'context-href' => '/catalog/123/track?counter=7&search_id=999' } }
+  #   => { data: { context_href: '/catalog/123/track?counter=7&search_id=999' } }
   def session_tracking_params document, counter, per_page: search_session['per_page'], search_id: current_search_session&.id
     path = session_tracking_path(document, per_page: params.fetch(:per_page, per_page), counter: counter, search_id: search_id, document_id: document&.id)
+    return {} if path.nil?
 
-    if path.nil?
-      return {}
-    end
-
-    { data: { 'context-href': path } }
+    { data: { context_href: path } }
   end
 
   ##
