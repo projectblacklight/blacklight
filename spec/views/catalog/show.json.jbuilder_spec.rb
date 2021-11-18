@@ -11,7 +11,7 @@ RSpec.describe "catalog/show.json" do
   end
 
   let(:hash) do
-    render template: "catalog/show.json", format: :json
+    render template: "catalog/show", formats: [:json]
     JSON.parse(rendered).with_indifferent_access
   end
 
