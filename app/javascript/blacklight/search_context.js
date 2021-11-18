@@ -1,7 +1,6 @@
 Blacklight.doSearchContextBehavior = function() {
   const elements = document.querySelectorAll('a[data-context-href]')
-  // Equivalent to Array.from(), but supports ie11
-  const nodes = Array.prototype.slice.call(elements)
+  const nodes = Array.from(elements)
 
   nodes.forEach(function(element) {
     element.addEventListener('click', function(e) {
