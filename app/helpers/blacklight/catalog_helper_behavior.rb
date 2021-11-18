@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Helper methods for catalog-like controllers
 module Blacklight::CatalogHelperBehavior
   include Blacklight::ConfigurationHelperBehavior
@@ -59,18 +60,18 @@ module Blacklight::CatalogHelperBehavior
               end
 
     case collection.total_count
-      when 0
-        t('blacklight.search.pagination_info.no_items_found', entry_name: entry_name).html_safe
-      when 1
-        t('blacklight.search.pagination_info.single_item_found', entry_name: entry_name).html_safe
-      else
-        t('blacklight.search.pagination_info.pages', entry_name: entry_name,
-                                                     current_page: collection.current_page,
-                                                     num_pages: collection.total_pages,
-                                                     start_num: number_with_delimiter(collection.offset_value + 1),
-                                                     end_num: number_with_delimiter(end_num),
-                                                     total_num: number_with_delimiter(collection.total_count),
-                                                     count: collection.total_pages).html_safe
+    when 0
+      t('blacklight.search.pagination_info.no_items_found', entry_name: entry_name).html_safe
+    when 1
+      t('blacklight.search.pagination_info.single_item_found', entry_name: entry_name).html_safe
+    else
+      t('blacklight.search.pagination_info.pages', entry_name: entry_name,
+                                                   current_page: collection.current_page,
+                                                   num_pages: collection.total_pages,
+                                                   start_num: number_with_delimiter(collection.offset_value + 1),
+                                                   end_num: number_with_delimiter(end_num),
+                                                   total_num: number_with_delimiter(collection.total_count),
+                                                   count: collection.total_pages).html_safe
     end
   end
 

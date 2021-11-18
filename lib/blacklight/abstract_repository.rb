@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   # Base class for Blacklight repository adapters
   class AbstractRepository

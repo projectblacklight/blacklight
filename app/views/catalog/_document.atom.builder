@@ -26,7 +26,7 @@ xml.entry do
     end
   end
 
-  #If they asked for a format, give it to them.
+  # If they asked for a format, give it to them.
   if (params["content_format"] &&
     document.export_formats[params["content_format"].to_sym])
 
@@ -45,7 +45,7 @@ xml.entry do
         # text, escape
         content_element.text! data
       else
-        #something else, base64 encode it
+        # something else, base64 encode it
         content_element << Base64.encode64(data)
       end
     end

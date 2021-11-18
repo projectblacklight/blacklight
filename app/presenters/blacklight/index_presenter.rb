@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   class IndexPresenter < DocumentPresenter
     def view_config

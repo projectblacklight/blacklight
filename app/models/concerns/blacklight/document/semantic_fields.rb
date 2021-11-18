@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Document
   module SemanticFields
     extend ActiveSupport::Concern

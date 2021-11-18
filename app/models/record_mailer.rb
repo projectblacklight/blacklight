@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Only works for documents with a #to_marc right now.
 class RecordMailer < ActionMailer::Base
   def email_record(documents, details, url_gen_params)
@@ -22,7 +23,7 @@ class RecordMailer < ActionMailer::Base
     @config         = details[:config]
     @url_gen_params = url_gen_params
 
-    mail(to: details[:to],  subject: subject)
+    mail(to: details[:to], subject: subject)
   end
 
   def sms_record(documents, details, url_gen_params)

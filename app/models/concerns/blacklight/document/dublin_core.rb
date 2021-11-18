@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'builder'
 
 # This module provide Dublin Core export based on the document's semantic values
@@ -26,7 +27,7 @@ module Blacklight::Document::DublinCore
              'xmlns:dc' => "http://purl.org/dc/elements/1.1/",
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
              'xsi:schemaLocation' => %(http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd)) do
-      to_semantic_values.select { |field, _values| dublin_core_field_name? field  }.each do |field, values|
+      to_semantic_values.select { |field, _values| dublin_core_field_name? field }.each do |field, values|
         Array.wrap(values).each do |v|
           xml.tag! "dc:#{field}", v
         end

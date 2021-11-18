@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # SearchService returns search results from the repository
 module Blacklight
   class SearchService

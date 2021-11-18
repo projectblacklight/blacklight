@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'kaminari'
 require 'deprecation'
 require 'blacklight/open_struct_with_hash_access'

@@ -8,5 +8,5 @@ xml.OpenSearchDescription(xmlns: 'http://a9.com/-/spec/opensearch/1.1/') {
   xml.Contact
   xml.Url type: 'text/html', method: 'get', template: "#{url_for controller: 'catalog', only_path: false}?q={searchTerms}&amp;page={startPage?}"
   xml.Url type: 'application/rss+xml', method: 'get', template: "#{url_for controller: 'catalog', only_path: false}.rss?q={searchTerms}&amp;page={startPage?}"
-  xml.Url type: 'application/x-suggestions+json', method: 'get', template: "#{url_for controller: 'catalog',action: 'opensearch', format: 'json', only_path: false}?q={searchTerms}"
+  xml.Url type: 'application/x-suggestions+json', method: 'get', template: "#{url_for controller: 'catalog', action: 'opensearch', format: 'json', only_path: false}?q={searchTerms}"
 }

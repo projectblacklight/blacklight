@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   # Extends the search Builders to add bookmarks
   class BookmarksSearchBuilder < ::SearchBuilder

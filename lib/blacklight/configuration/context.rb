@@ -28,12 +28,12 @@ module Blacklight
         return config if config == true || config == false
 
         if_value = !config.respond_to?(:if) ||
-                        config.if.nil? ||
-                        evaluate_configuration_conditional(config.if, config, *args)
+                   config.if.nil? ||
+                   evaluate_configuration_conditional(config.if, config, *args)
 
         unless_value = !config.respond_to?(:unless) ||
-                          config.unless.nil? ||
-                          !evaluate_configuration_conditional(config.unless, config, *args)
+                       config.unless.nil? ||
+                       !evaluate_configuration_conditional(config.unless, config, *args)
 
         if_value && unless_value
       end

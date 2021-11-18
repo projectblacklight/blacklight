@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rake'
 
 RSpec.describe "blacklight:delete_old_searches" do
