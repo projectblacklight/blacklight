@@ -138,6 +138,9 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Render the sidebar partial for a document
+  # This is used as an integration point by downstream apps to add to the
+  # default sidebar.
+  # See: https://github.com/geoblacklight/geoblacklight/blob/7d3c31c7af3362879b97e2c1351a2496c728c59c/app/helpers/blacklight_helper.rb#L7
   #
   # @param [SolrDocument] document
   # @return [String]
@@ -147,6 +150,8 @@ module Blacklight::CatalogHelperBehavior
 
   ##
   # Render the main content partial for a document
+  # This is widely used as by downstream apps when they override their show view.
+  # See https://github.com/search?q=render_document_main_content_partial&type=Code
   #
   # @param [SolrDocument] _document
   # @return [String]
