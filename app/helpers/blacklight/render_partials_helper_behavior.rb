@@ -7,8 +7,7 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [Array<SolrDocument>] documents list of documents to render
   # @param [Hash] locals to pass to the render call
   # @return [String]
-  def render_document_index documents = nil, locals = {}
-    documents ||= @response.documents
+  def render_document_index documents, locals = {}
     render_document_index_with_view(document_index_view_type, documents, locals)
   end
 
