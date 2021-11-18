@@ -26,7 +26,7 @@
 <%- elsif render_grouped_response? %>
   <%= Deprecation.silence(Blacklight::RenderPartialsHelperBehavior) { render_grouped_document_index } %>
 <%- else %>
-  <%= render_document_index %>
+  <%= render_document_index @response.documents %>
 <%- end %>
 
 <%= render 'results_pagination' %>
