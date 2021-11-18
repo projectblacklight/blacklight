@@ -2,7 +2,8 @@
 
 <% @page_title = t('blacklight.search.show.title', document_title: document_presenter(@document).html_title, application_name: application_name).html_safe %>
 <% content_for(:head) { render_link_rel_alternates } %>
-<%= render (blacklight_config.view_config(:show).document_component || Blacklight::DocumentComponent).new(presenter: document_presenter(@document), component: :div, show: true) do |component| %>
+
+<%= render (blacklight_config.view_config(:show).document_component).new(presenter: document_presenter(@document), component: :div, show: true) do |component| %>
   <% component.title(as: 'h1', classes: '', link_to_document: false, actions: false) %>
   <% component.footer do %>
     <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>

@@ -53,18 +53,19 @@ module Blacklight
       self.class.new @table.deep_dup
     end
 
-    if Rails.version < '6'
-      # Ported from Rails 6 to fix an incompatibility with ostruct
-      def try(method_name = nil, *args, &block)
-        if method_name.nil? && block_given?
-          if b.arity.zero?
-            instance_eval(&block)
-          else
-            yield self
-          end
-        elsif respond_to?(method_name)
-          public_send(method_name, *args, &b)
+    def deep_transform_values(&method)
+      self.class.new @table.deep_transform_values(&method)
+    end
+
+    def try(method_name = nil, *args, &block)
+      if method_name.nil? && block_given?
+        if b.arity.zero?
+          instance_eval(&block)
+        else
+          yield self
         end
+      elsif respond_to?(method_name)
+        public_send(method_name, *args, &b)
       end
     end
   end

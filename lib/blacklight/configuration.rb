@@ -48,17 +48,19 @@ module Blacklight
             ##
             # == Response models
             ## Class for sending and receiving requests from a search index
-            repository_class: nil,
+            repository_class: Blacklight::Solr::Repository,
             ## Class for converting Blacklight parameters to request parameters for the repository_class
-            search_builder_class: nil,
+            search_builder_class: ::SearchBuilder,
             # model that maps index responses to the blacklight response model
-            response_model: nil,
+            response_model: Blacklight::Solr::Response,
             # the model to use for each response document
-            document_model: nil,
+            document_model: ::SolrDocument,
+            # the factory that builds document
+            document_factory: Blacklight::DocumentFactory,
             # Class for paginating long lists of facet fields
-            facet_paginator_class: nil,
+            facet_paginator_class: Blacklight::Solr::FacetPaginator,
             # repository connection configuration
-            connection_config: nil,
+            connection_config: Blacklight.connection_config,
             ##
             # == Blacklight view configuration
             navbar: OpenStructWithHashAccess.new(partials: {}),
@@ -66,9 +68,8 @@ module Blacklight
             index: ViewConfig::Index.new(
               # document presenter class used by helpers and views
               document_presenter_class: nil,
-              # component class used to render a document; defaults to Blacklight::DocumentComponent,
-              #   but can be set explicitly to avoid any legacy behavior
-              document_component: nil,
+              # component class used to render a document
+              document_component: Blacklight::DocumentComponent,
               # solr field to use to render a document title
               title_field: nil,
               # solr field to use to render format-specific partials
@@ -86,7 +87,7 @@ module Blacklight
             show: ViewConfig::Show.new(
               # document presenter class used by helpers and views
               document_presenter_class: nil,
-              document_component: nil,
+              document_component: Blacklight::DocumentComponent,
               display_type_field: nil,
               # Default route parameters for 'show' requests.
               # Set this to a hash with additional arguments to merge into the route,
@@ -178,56 +179,14 @@ module Blacklight
     define_field_access :email_field
 
     def initialize(hash = {})
-      super(self.class.default_values.deep_dup.merge(hash))
+      super(self.class.default_values.deep_transform_values(&method(:_deep_copy)).merge(hash))
       yield(self) if block_given?
 
       @view_config ||= {}
     end
 
-    def document_model
-      super || ::SolrDocument
-    end
-
-    # A class that builds documents
-    def document_factory
-      super || Blacklight::DocumentFactory
-    end
-
-    # only here to support alias_method
-    def document_model=(*args)
-      super
-    end
-
-    def response_model
-      super || Blacklight::Solr::Response
-    end
-
-    def response_model=(*args)
-      super
-    end
-
-    def repository_class
-      super || Blacklight::Solr::Repository
-    end
-
     def repository
       repository_class.new(self)
-    end
-
-    def connection_config
-      super || Blacklight.connection_config
-    end
-
-    def search_builder_class
-      super || locate_search_builder_class
-    end
-
-    def locate_search_builder_class
-      ::SearchBuilder
-    end
-
-    def facet_paginator_class
-      super || Blacklight::Solr::FacetPaginator
     end
 
     def default_per_page
@@ -317,7 +276,7 @@ module Blacklight
     # Note: Rails provides `#deep_dup`, but it aggressively `#dup`'s class names too, turning them
     # into anonymous class instances.
     def deep_copy
-      deep_transform_values_in_object(self, &method(:_deep_copy))
+      deep_transform_values(&method(:_deep_copy))
     end
 
     # builds a copy for the provided controller class
@@ -450,31 +409,10 @@ module Blacklight
     def _deep_copy(value)
       case value
       when Module then value
-      when NestedOpenStructWithHashAccess then value.class.new(value.nested_class, deep_transform_values_in_object(value.to_h, &method(:_deep_copy)))
-      when OpenStruct then value.class.new(deep_transform_values_in_object(value.to_h, &method(:_deep_copy)))
+      when NestedOpenStructWithHashAccess then value.class.new(value.nested_class, value.to_h.deep_transform_values(&method(:_deep_copy)))
+      when OpenStruct then value.class.new(value.to_h.deep_transform_values(&method(:_deep_copy)))
       else
         value.dup
-      end
-    end
-
-    # This is a little shim to support Rails 6 (which has Hash#deep_transform_values) and
-    # earlier versions (which use our backport). Once we drop support for Rails 6, this
-    # can go away.
-    def deep_transform_values_in_object(object, &block)
-      return object.deep_transform_values(&block) if object.respond_to?(:deep_transform_values)
-
-      _deep_transform_values_in_object(object, &block)
-    end
-
-    # Ported from Rails 6
-    def _deep_transform_values_in_object(object, &block)
-      case object
-      when Hash
-        object.transform_values { |value| _deep_transform_values_in_object(value, &block) }
-      when Array
-        object.map { |e| _deep_transform_values_in_object(e, &block) }
-      else
-        yield(object)
       end
     end
 
