@@ -22,10 +22,8 @@ module Blacklight
     end
 
     def call
-      component = @field_config.component.presence || Blacklight::FacetFieldListComponent
-
       render(
-        component.new(
+        @field_config.component.new(
           facet_field: helpers.facet_field_presenter(@field_config, @display_facet),
           layout: @layout
         )

@@ -2,19 +2,40 @@
 
 RSpec.describe Blacklight::Configuration::FacetField do
   describe '#normalize!' do
-    it 'preserves existing properties' do
-      expected = double
-      subject.presenter = expected
+    context 'with existing properties' do
+      let(:expected_presenter) { double }
+      let(:expected_component) { double }
 
-      subject.normalize!
+      before do
+        subject.presenter = expected_presenter
+        subject.component = expected_component
+      end
 
-      expect(subject.presenter).to eq expected
+      it 'preserves existing properties' do
+        subject.normalize!
+
+        expect(subject.presenter).to eq expected_presenter
+        expect(subject.component).to eq expected_component
+      end
     end
 
-    it 'adds a default presenter' do
+    it 'adds a default presenter and component' do
       subject.normalize!
 
       expect(subject.presenter).to eq Blacklight::FacetFieldPresenter
+      expect(subject.component).to eq Blacklight::FacetFieldListComponent
+    end
+
+    context 'when component is set to true' do
+      before do
+        subject.component = true
+      end
+
+      it 'casts to the default component' do
+        subject.normalize!
+
+        expect(subject.component).to eq Blacklight::FacetFieldListComponent
+      end
     end
   end
 end
