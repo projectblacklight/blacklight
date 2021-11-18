@@ -16,5 +16,19 @@ RSpec.describe Blacklight::Configuration::FacetField do
 
       expect(subject.presenter).to eq Blacklight::FacetFieldPresenter
     end
+
+    it 'adds a default component' do
+      subject.normalize!
+
+      expect(subject.component).to eq Blacklight::FacetFieldListComponent
+    end
+
+    it 'adds a default component when the component is set to true' do
+      subject.component = true
+
+      subject.normalize!
+
+      expect(subject.component).to eq Blacklight::FacetFieldListComponent
+    end
   end
 end

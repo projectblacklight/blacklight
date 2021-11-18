@@ -71,6 +71,8 @@ module Blacklight
       self.if = show if self.if.nil?
       self.index_range = 'A'..'Z' if index_range == true
       self.presenter ||= Blacklight::FacetFieldPresenter
+      self.component = Blacklight::FacetFieldListComponent if component == true
+      self.component ||= Blacklight::FacetFieldListComponent
 
       super
 

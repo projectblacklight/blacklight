@@ -22,7 +22,7 @@ module Blacklight
     end
 
     def call
-      component = @field_config.component.presence || Blacklight::FacetFieldListComponent
+      component = @field_config.component
 
       render(
         component.new(
