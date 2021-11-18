@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Solr
   # Pagination for facet values -- works by setting the limit to max
   # displayable. You have to ask Solr for limit+1, to get enough

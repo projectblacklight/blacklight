@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::ConfigurationHelperBehavior
   ##
   # Return the available sort fields

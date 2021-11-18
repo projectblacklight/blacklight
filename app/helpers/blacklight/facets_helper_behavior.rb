@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::FacetsHelperBehavior
   delegate :facet_configuration_for_field, to: :blacklight_config
 

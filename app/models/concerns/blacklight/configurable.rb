@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Configurable
   extend ActiveSupport::Concern
 
@@ -6,7 +7,7 @@ module Blacklight::Configurable
     helper_method :blacklight_config if respond_to? :helper_method
   end
 
-  #instance methods for blacklight_config, so get a deep copy of the class-level config
+  # instance methods for blacklight_config, so get a deep copy of the class-level config
   def blacklight_config
     @blacklight_config ||= self.class.blacklight_config.deep_copy
   end
@@ -31,7 +32,7 @@ module Blacklight::Configurable
     end
     attr_writer :blacklight_config
 
-    #simply a convenience method for blacklight_config.configure
+    # simply a convenience method for blacklight_config.configure
     def configure_blacklight(*args, &block)
       blacklight_config.configure(*args, &block)
     end

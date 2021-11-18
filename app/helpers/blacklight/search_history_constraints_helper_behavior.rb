@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # All methods in here are 'api' that may be over-ridden by plugins and local
 # code, so method signatures and semantics should not be changed casually.
 # implementations can be of course.
@@ -12,7 +13,7 @@ module Blacklight::SearchHistoryConstraintsHelperBehavior
   # But too tricky for now, too many changes to existing CSS. TODO.
   def render_search_to_s(params)
     render_search_to_s_q(params) +
-    render_search_to_s_filters(params)
+      render_search_to_s_filters(params)
   end
 
   ##

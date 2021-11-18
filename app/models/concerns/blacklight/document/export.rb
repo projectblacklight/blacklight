@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Transformation conventions
 # The main use case for extensions is for transforming a Document to another
 # format. Either to another type of Ruby object, or to an exportable string in
@@ -55,7 +56,7 @@ module Blacklight::Document::Export
   # register it using Mime::Type.register_alias if it's not previously
   # registered. This is a bit sketchy though.
   def will_export_as(short_name, content_type = nil)
-    #Lookup in Rails Mime::Type, register if needed, otherwise take
+    # Lookup in Rails Mime::Type, register if needed, otherwise take
     # content-type from registration if needed.
     if defined?(Mime) && Mime[short_name.to_sym]
       content_type ||= Mime[short_name.to_sym]

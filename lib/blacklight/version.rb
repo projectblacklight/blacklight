@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight
   unless Blacklight.const_defined? :VERSION
     def self.version

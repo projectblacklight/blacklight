@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Blacklight::Solr::Response::Params
   # From https://solr.apache.org/guide/8_8/json-request-api.html#supported-properties-and-syntax
   QUERY_PARAMETER_TO_JSON_PARAMETER_MAPPING = {
