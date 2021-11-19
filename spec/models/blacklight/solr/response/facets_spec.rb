@@ -291,21 +291,21 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     let(:response) do
       {
         facets: {
-          "count": 32,
-          "categories": {
-            "buckets": [
+          count: 32,
+          categories: {
+            buckets: [
               {
-                "val": "electronics",
-                "count": 12,
-                "max_price": 60
+                val: "electronics",
+                count: 12,
+                max_price: 60
               },
               {
-                "val": "currency",
-                "count": 4
+                val: "currency",
+                count: 4
               },
               {
-                "val": "memory",
-                "count": 3
+                val: "memory",
+                count: 3
               }
             ]
           }
@@ -331,25 +331,25 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
       let(:response) do
         {
           facets: {
-            "categories": {
-              "buckets": [
+            categories: {
+              buckets: [
                 {
-                  "val": "electronics",
-                  "count": 12,
-                  "top_manufacturer": {
-                    "buckets": [{
-                      "val": "corsair",
-                      "count": 3
+                  val: "electronics",
+                  count: 12,
+                  top_manufacturer: {
+                    buckets: [{
+                      val: "corsair",
+                      count: 3
                     }]
                   }
                 },
                 {
-                  "val": "currency",
-                  "count": 4,
-                  "top_manufacturer": {
-                    "buckets": [{
-                      "val": "boa",
-                      "count": 1
+                  val: "currency",
+                  count: 4,
+                  top_manufacturer: {
+                    buckets: [{
+                      val: "boa",
+                      count: 1
                     }]
                   }
                 }
@@ -369,7 +369,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
       let(:response) do
         {
           facets: {
-            "categories": {
+            categories: {
               "missing" => { "count" => 13 },
               "buckets" => [{ "val" => "India", "count" => 2 }, { "val" => "Iran", "count" => 2 }]
             }

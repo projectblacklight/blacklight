@@ -32,7 +32,7 @@ module Blacklight
     end
 
     def icon_label
-      I18n.translate("blacklight.icon.#{icon_name_context}", default: icon_name.to_s.titleize)
+      I18n.t("blacklight.icon.#{icon_name_context}", default: icon_name.to_s.titleize)
     end
 
     ##
@@ -40,7 +40,7 @@ module Blacklight
     def options
       {
         class: classes,
-        "aria-hidden": (true if aria_hidden)
+        'aria-hidden': (true if aria_hidden)
       }
     end
 

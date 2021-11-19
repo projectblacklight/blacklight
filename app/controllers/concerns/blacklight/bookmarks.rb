@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# note that while this is mostly restful routing, the #update and #destroy actions
+# NOTE: that while this is mostly restful routing, the #update and #destroy actions
 # take the Solr document ID as the :id, NOT the id of the actual Bookmark action.
 module Blacklight::Bookmarks
   extend ActiveSupport::Concern
@@ -119,7 +119,7 @@ module Blacklight::Bookmarks
         redirect_back fallback_location: bookmarks_path, notice: I18n.t('blacklight.bookmarks.remove.success')
       end
     elsif request.xhr?
-      head 500 # ajaxy request needs no redirect and should not have flash set
+      head :internal_server_error # ajaxy request needs no redirect and should not have flash set
     else
       redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
     end

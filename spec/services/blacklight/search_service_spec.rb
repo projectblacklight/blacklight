@@ -177,7 +177,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     it 'has all value counts > 0' do
       @facets.each do |_key, facet|
         facet.items.each do |facet_vals|
-          expect(facet_vals.hits).to be > 0
+          expect(facet_vals.hits).to be_positive
         end
       end
     end
@@ -345,7 +345,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     context "for title search" do
-      let(:user_params) { { q: 'yehudiyam', "spellcheck.dictionary": "title" } }
+      let(:user_params) { { q: 'yehudiyam', 'spellcheck.dictionary': "title" } }
 
       it 'has spelling suggestions' do
         (solr_response,) = service.search_results
@@ -354,7 +354,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     context "for author search" do
-      let(:user_params) { { q: 'shirma', "spellcheck.dictionary": "author" } }
+      let(:user_params) { { q: 'shirma', 'spellcheck.dictionary': "author" } }
 
       it 'has spelling suggestions' do
         (solr_response,) = service.search_results
@@ -363,7 +363,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     context "for subject search" do
-      let(:user_params) { { q: 'wome', "spellcheck.dictionary": "subject" } }
+      let(:user_params) { { q: 'wome', 'spellcheck.dictionary': "subject" } }
 
       it 'has spelling suggestions' do
         (solr_response,) = service.search_results

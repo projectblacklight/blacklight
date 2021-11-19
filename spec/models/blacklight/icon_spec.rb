@@ -32,7 +32,7 @@ RSpec.describe Blacklight::Icon do
       end
     end
 
-    context ' with a label context' do
+    context 'with a label context' do
       subject { described_class.new(:search, classes: 'awesome', aria_hidden: true, additional_options: { label_context: 'foo' }) }
 
       it 'adds title' do

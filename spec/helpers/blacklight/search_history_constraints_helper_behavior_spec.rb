@@ -33,7 +33,7 @@ RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
         response = helper.render_search_to_s_element("key>", "value>")
         expect(response).to have_selector("span.constraint") do |span|
           expect(span).to have_selector("span.filter-name") do |s2|
-            # Note: nokogiri's gettext will unescape the inner html
+            # NOTE: nokogiri's gettext will unescape the inner html
             # which seems to be what rspecs "contains" method calls on
             # text nodes - thus the to_s inserted below.
             expect(s2).to match(/key&gt;:/)

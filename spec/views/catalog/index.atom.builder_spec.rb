@@ -7,7 +7,7 @@ RSpec.describe "catalog/index" do
     10.times.map do |i|
       doc = SolrDocument.new(id: i)
       allow(doc).to receive(:export_as_some_format).and_return("")
-      allow(doc).to receive(:to_semantic_values).and_return(author: ['xyz']) if i == 0
+      allow(doc).to receive(:to_semantic_values).and_return(author: ['xyz']) if i.zero?
       doc.will_export_as(:some_format, "application/some-format") if i == 1
       doc
     end

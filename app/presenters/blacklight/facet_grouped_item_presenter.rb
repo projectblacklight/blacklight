@@ -7,12 +7,8 @@ module Blacklight
     delegate :key, to: :facet_config
 
     def initialize(group, facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
+      super(facet_item, facet_config, view_context, facet_field, search_state)
       @group = group
-      @facet_item = facet_item
-      @facet_config = facet_config
-      @view_context = view_context
-      @facet_field = facet_field
-      @search_state = search_state
     end
 
     ##

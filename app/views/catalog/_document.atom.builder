@@ -38,10 +38,11 @@ xml.entry do
       # encode properly. See:
       # http://tools.ietf.org/html/rfc4287#section-4.1.3.3
       type = type.downcase
-      if (type.downcase =~ %r{\+|/xml$})
+      case type.downcase
+      when %r{\+|/xml$}
         # xml, just put it right in
         content_element << data
-      elsif (type.downcase =~ %r{text/})
+      when %r{text/}
         # text, escape
         content_element.text! data
       else

@@ -59,7 +59,7 @@ module Blacklight::UrlHelperBehavior
     end
 
     raise "Unable to find #{controller_tracking_method} route helper. " \
-    "Did you add `concerns :searchable` routing mixin to your `config/routes.rb`?"
+          "Did you add `concerns :searchable` routing mixin to your `config/routes.rb`?"
   end
 
   def controller_tracking_method
