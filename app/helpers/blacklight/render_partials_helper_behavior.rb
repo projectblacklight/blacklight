@@ -9,7 +9,10 @@ module Blacklight::RenderPartialsHelperBehavior
   # @param [Hash] locals to pass to the render call
   # @return [String]
   def render_document_index documents = nil, locals = {}
-    documents ||= @response.documents
+    unless documents
+      Deprecation.warn(self, "Calling render_document_index without documents is deprecated and will be removed in version 8")
+      documents = @response.documents
+    end
     render_document_index_with_view(document_index_view_type, documents, locals)
   end
 
