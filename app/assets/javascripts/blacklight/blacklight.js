@@ -1,6 +1,6 @@
 "use strict";
 
-Blacklight = function () {
+var Blacklight = function () {
   var buffer = new Array();
   return {
     onLoad: function onLoad(func) {
