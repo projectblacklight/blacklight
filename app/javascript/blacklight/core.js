@@ -1,4 +1,4 @@
-Blacklight = function() {
+const Blacklight = function() {
   var buffer = new Array;
   return {
     onLoad: function(func) {
