@@ -5,11 +5,11 @@ require 'rexml/document'
 RSpec.describe "catalog/index" do
   let(:document_list) do
     10.times.map do |i|
-      doc = SolrDocument.new(id: i)
-      allow(doc).to receive(:export_as_some_format).and_return("")
-      allow(doc).to receive(:to_semantic_values).and_return(author: ['xyz']) if i.zero?
-      doc.will_export_as(:some_format, "application/some-format") if i == 1
-      doc
+      SolrDocument.new(id: i, title_tsim: "Title #{i}").tap do |doc|
+        allow(doc).to receive(:export_as_some_format).and_return("")
+        allow(doc).to receive(:to_semantic_values).and_return(author: ['xyz']) if i.zero?
+        doc.will_export_as(:some_format, "application/some-format") if i == 1
+      end
     end
   end
 
@@ -86,15 +86,22 @@ RSpec.describe "catalog/index" do
     end
 
     it "has a summary" do
-      stub_template "catalog/_index.html.erb" => "partial content"
       render template: 'catalog/index', formats: [:atom]
-      expect(rendered).to have_selector("entry > summary", text: 'partial content')
+      expect(rendered).to have_selector("entry > summary", text: 'Title 0')
     end
 
-    context 'with a custom HTML partial' do
+    context 'with a custom template' do
       before do
-        blacklight_config.view.atom.summary_partials = ['whatever']
-        stub_template 'catalog/_whatever_default.html.erb' => 'whatever content'
+        my_template = Class.new(ViewComponent::Base) do
+          def call
+            'whatever content'
+          end
+
+          def self.name
+            'TestComponent'
+          end
+        end
+        blacklight_config.view.atom.summary_component = my_template
       end
 
       it "has the customized summary" do

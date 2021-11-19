@@ -3,6 +3,7 @@
 module Blacklight
   class FacetFieldListComponent < ::ViewComponent::Base
     extend Deprecation
+    self.deprecation_horizon = 'blacklight 9.0'
 
     def initialize(facet_field:, layout: nil)
       @facet_field = facet_field

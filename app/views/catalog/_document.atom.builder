@@ -20,9 +20,8 @@ xml.entry do
 
   with_format(:html) do
     xml.summary "type" => "html" do
-      xml.text! render_document_partials(document,
-                                         blacklight_config.view_config(:atom).summary_partials,
-                                         document_counter: document_counter)
+      document_component = blacklight_config.view_config(:atom).summary_component
+      xml.text! render document_component.new(presenter: document_presenter(document), component: :div, show: true)
     end
   end
 

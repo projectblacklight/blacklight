@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Blacklight::RenderPartialsHelperBehavior
+  extend Deprecation
+  self.deprecation_horizon = 'blacklight 9.0'
+
   ##
   # Render the document index view
   #
@@ -22,6 +25,7 @@ module Blacklight::RenderPartialsHelperBehavior
       render_document_partial(doc, action_name, locals)
     end, "\n")
   end
+  deprecation_deprecate render_document_partials: 'Render the document_component instead'
 
   ##
   # Return the list of xml for a given solr document. Doesn't safely escape for HTML.
