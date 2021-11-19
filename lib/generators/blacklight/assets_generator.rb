@@ -9,7 +9,7 @@ module Blacklight
     # This could be skipped if you want to use webpacker
     def add_javascript_dependencies
       gem 'bootstrap', options[:'bootstrap-version']
-      gem 'jquery-rails'
+      gem 'jquery-rails' # This is not a default in Rails 5.1+ or 7.
     end
 
     ##
@@ -28,7 +28,7 @@ module Blacklight
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
-      if Rails.version >= '7'
+      if Rails.version > '7'
         create_file 'app/assets/javascripts/application.js' do
           <<~CONTENT
             //= require turbo
