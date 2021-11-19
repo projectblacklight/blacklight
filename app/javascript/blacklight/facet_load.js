@@ -1,6 +1,4 @@
-/*global Blacklight */
-
-'use strict';
+import Blacklight from './core'
 
 Blacklight.doResizeFacetLabelsAndCounts = function() {
   // adjust width of facet columns to fit their contents
@@ -17,6 +15,10 @@ Blacklight.doResizeFacetLabelsAndCounts = function() {
   })
 }
 
-Blacklight.onLoad(function() {
-  Blacklight.doResizeFacetLabelsAndCounts()
-})
+const FacetLoad = (() => {
+  Blacklight.onLoad(function() {
+    Blacklight.doResizeFacetLabelsAndCounts()
+  })
+})()
+
+export default FacetLoad
