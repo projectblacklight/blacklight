@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.6]
+        ruby: [2.7]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
@@ -102,6 +102,27 @@ jobs:
       env:
         RAILS_VERSION: 5.2.4.6
         ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
+
+  test_rails7_0:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ['3.0']
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Install dependencies
+      run: bundle install
+      env:
+        RAILS_VERSION: 7.0.0
+    - name: Run tests
+      run: bundle exec rake ci
+      env:
+        RAILS_VERSION: 7.0.0
+        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-keeps --skip-action-cable --skip-test'
   api_test:
     runs-on: ubuntu-latest
     strategy:
