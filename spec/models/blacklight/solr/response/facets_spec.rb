@@ -3,21 +3,59 @@
 RSpec.describe Blacklight::Solr::Response::Facets, api: true do
   describe Blacklight::Solr::Response::Facets::FacetField do
     describe "A field with default options" do
-      subject { described_class.new "my_field", [] }
+      subject(:field) { described_class.new "my_field", [] }
 
-      its(:name) { is_expected.to eq "my_field" }
-      its(:limit) { is_expected.to eq 100 }
-      its(:sort) { is_expected.to eq 'count' }
-      its(:offset) { is_expected.to eq 0 }
+      describe '#name' do
+        subject { field.name }
+
+        it { is_expected.to eq "my_field" }
+      end
+
+      describe '#limit' do
+        subject { field.limit }
+
+        it { is_expected.to eq 100 }
+      end
+
+      describe '#sort' do
+        subject { field.sort }
+
+        it { is_expected.to eq 'count' }
+      end
+
+      describe '#offset' do
+        subject { field.offset }
+
+        it { is_expected.to eq 0 }
+      end
     end
 
     describe "A field with additional options" do
-      subject { described_class.new "my_field", [], limit: 15, sort: 'alpha', offset: 23 }
+      subject(:field) { described_class.new "my_field", [], limit: 15, sort: 'alpha', offset: 23 }
 
-      its(:name) { is_expected.to eq "my_field" }
-      its(:limit) { is_expected.to eq 15 }
-      its(:sort) { is_expected.to eq 'alpha' }
-      its(:offset) { is_expected.to eq 23 }
+      describe '#name' do
+        subject { field.name }
+
+        it { is_expected.to eq "my_field" }
+      end
+
+      describe '#limit' do
+        subject { field.limit }
+
+        it { is_expected.to eq 15 }
+      end
+
+      describe '#sort' do
+        subject { field.sort }
+
+        it { is_expected.to eq 'alpha' }
+      end
+
+      describe '#offset' do
+        subject { field.offset }
+
+        it { is_expected.to eq 23 }
+      end
     end
   end
 
