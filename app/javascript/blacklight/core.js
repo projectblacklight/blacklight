@@ -50,3 +50,5 @@ Blacklight.onLoad(function () {
   elem.classList.remove('no-js')
   elem.classList.add('js')
 })
+
+window.Blacklight = Blacklight
