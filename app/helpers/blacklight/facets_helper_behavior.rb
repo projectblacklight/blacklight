@@ -18,6 +18,6 @@ module Blacklight::FacetsHelperBehavior
   end
 
   def facet_item_presenter(facet_config, facet_item, facet_field)
-    Blacklight::FacetItemPresenter.new(facet_item, facet_config, self, facet_field)
+    (facet_config.item_presenter || Blacklight::FacetItemPresenter).new(facet_item, facet_config, self, facet_field)
   end
 end

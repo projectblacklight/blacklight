@@ -77,7 +77,7 @@ module Blacklight
     end
 
     def facet_item_presenter(facet_config, facet_item, facet_field)
-      Blacklight::FacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+      (facet_config.item_presenter || Blacklight::FacetItemPresenter).new(facet_item, facet_config, helpers, facet_field)
     end
 
     def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
