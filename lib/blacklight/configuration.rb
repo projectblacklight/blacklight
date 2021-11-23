@@ -15,6 +15,9 @@ module Blacklight
       autoload :SearchField
       autoload :FacetField
       autoload :SortField
+      autoload :DisplayField
+      autoload :IndexField
+      autoload :ShowField
     end
 
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
