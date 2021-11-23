@@ -2,6 +2,12 @@
 
 module Blacklight
   class Configuration::DisplayField < Blacklight::Configuration::Field
+    def initialize(*args, **kwargs, &block)
+      super
+
+      self.presenter ||= Blacklight::FieldPresenter
+      self.component ||= Blacklight::MetadataFieldComponent
+    end
     ##
     # The following is a non-exhaustive list of display field config parameters that are used
     # by Blacklight directly. Application-specific code or plugins may add or replace
@@ -38,12 +44,5 @@ module Blacklight
     #   @return [String]
     # @!attribute separator_options
     #   @return [Hash]
-
-    # @param [Blacklight::Configuration] _blacklight_config
-    def normalize! _blacklight_config = nil
-      super
-      self.presenter ||= Blacklight::FieldPresenter
-      self.component ||= Blacklight::MetadataFieldComponent
-    end
   end
 end
