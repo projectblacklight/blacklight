@@ -140,7 +140,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     end
 
     it "can use explicit field configuration" do
-      config.show.title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      config.show.title_field = Blacklight::Configuration::DisplayField.new(field: 'x', values: ->(*_) { 'hardcoded' })
       expect(subject.heading).to eq 'hardcoded'
     end
 
@@ -174,7 +174,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     end
 
     it "can use explicit field configuration" do
-      config.show.html_title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      config.show.html_title_field = Blacklight::Configuration::DisplayField.new(field: 'x', values: ->(*_) { 'hardcoded' })
       expect(subject.html_title).to eq 'hardcoded'
     end
   end

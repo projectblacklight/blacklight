@@ -35,6 +35,15 @@ class Blacklight::Configuration
       )
     end
 
+    # Translate an ordinary field into the expected DisplayField object
+    def title_field=(value)
+      if value.is_a?(Blacklight::Configuration::Field) && !value.is_a?(Blacklight::Configuration::DisplayField)
+        super(Blacklight::Configuration::DisplayField.new(value.to_h))
+      else
+        super
+      end
+    end
+
     class Show < ViewConfig
       # @!attribute route
       #   @return [Hash] Default route parameters for 'show' requests.
