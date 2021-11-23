@@ -128,8 +128,7 @@ module Blacklight
     private
 
     def field_presenter(field_config, options = {})
-      presenter_class = field_config.presenter || Blacklight::FieldPresenter
-      presenter_class.new(view_context, document, field_config, options.merge(field_presenter_options))
+      field_config.presenter.new(view_context, document, field_config, options.merge(field_presenter_options))
     end
 
     def field_presenter_options

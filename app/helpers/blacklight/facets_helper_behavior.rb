@@ -4,7 +4,7 @@ module Blacklight::FacetsHelperBehavior
   delegate :facet_configuration_for_field, to: :blacklight_config
 
   def facet_field_presenter(facet_config, display_facet)
-    (facet_config.presenter || Blacklight::FacetFieldPresenter).new(facet_config, display_facet, self)
+    facet_config.presenter.new(facet_config, display_facet, self)
   end
 
   private

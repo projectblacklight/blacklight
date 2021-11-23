@@ -46,8 +46,7 @@ module Blacklight
     end
 
     def facet_item_component_class(deprecated_facet_config = nil)
-      default_component = (deprecated_facet_config || facet_config).pivot ? Blacklight::FacetItemPivotComponent : Blacklight::FacetItemComponent
-      (deprecated_facet_config || facet_config).fetch(:item_component, default_component)
+      (deprecated_facet_config || facet_config).item_component
     end
 
     def facet_config

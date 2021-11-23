@@ -43,6 +43,7 @@ module Blacklight
     def normalize! _blacklight_config = nil
       super
       self.presenter ||= Blacklight::FieldPresenter
+      self.component ||= Blacklight::MetadataFieldComponent
     end
   end
 end

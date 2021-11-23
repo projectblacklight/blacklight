@@ -10,7 +10,7 @@ RSpec.describe Blacklight::FacetFieldCheckboxesComponent, type: :component do
   let(:facet_field) do
     instance_double(
       Blacklight::FacetFieldPresenter,
-      facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
+      facet_field: Blacklight::Configuration::NullField.new(key: 'field', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPresenter),
       paginator: paginator,
       key: 'field',
       label: 'Field',
