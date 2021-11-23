@@ -58,6 +58,8 @@ module Blacklight
     # Rendering:
     # @!attribute presenter
     #   @return [Blacklight::FacetFieldPresenter]
+    # @!attribute item_presenter
+    #   @return [Blacklight::FacetItemPresenter]
     # @!attribute component
     #   @return [Blacklight::FacetFieldListComponent]
     # @!attribute item_component
