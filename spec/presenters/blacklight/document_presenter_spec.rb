@@ -17,7 +17,7 @@ RSpec.describe Blacklight::DocumentPresenter do
   describe '#fields_to_render' do
     subject { presenter.fields_to_render.to_a }
 
-    let(:field_config) { Blacklight::Configuration::Field.new(field: 'asdf') }
+    let(:field_config) { Blacklight::Configuration::DisplayField.new(field: 'asdf') }
 
     context 'when all of the fields have values' do
       before do
@@ -30,7 +30,7 @@ RSpec.describe Blacklight::DocumentPresenter do
 
   describe '#field_value' do
     let(:field_presenter) { instance_double(Blacklight::FieldPresenter, render: 'xyz') }
-    let(:field_config) { Blacklight::Configuration::Field.new }
+    let(:field_config) { Blacklight::Configuration::DisplayField.new }
     let(:options) { { a: 1 } }
 
     it 'calls the field presenter' do

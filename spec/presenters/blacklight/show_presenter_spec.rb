@@ -126,16 +126,16 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     end
 
     it "returns the value of the field" do
-      config.show.title_field = :x
-      allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
+      config.show.title_field = 'x'
+      allow(document).to receive(:has?).with('x').and_return(true)
+      allow(document).to receive(:fetch).with('x', nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
 
     it "returns the first present value" do
-      config.show.title_field = [:x, :y]
-      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
-      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
+      config.show.title_field = %w[x y]
+      allow(document).to receive(:fetch).with('x', nil).and_return(nil)
+      allow(document).to receive(:fetch).with('y', nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
 
@@ -160,16 +160,16 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     end
 
     it "returns the value of the field" do
-      config.show.html_title_field = :x
-      allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
+      config.show.html_title_field = 'x'
+      allow(document).to receive(:has?).with('x').and_return(true)
+      allow(document).to receive(:fetch).with('x', nil).and_return("value")
       expect(subject.html_title).to eq "value"
     end
 
     it "returns the first present value" do
-      config.show.html_title_field = [:x, :y]
-      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
-      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
+      config.show.html_title_field = %w[x y]
+      allow(document).to receive(:fetch).with('x', nil).and_return(nil)
+      allow(document).to receive(:fetch).with('y', nil).and_return("value")
       expect(subject.html_title).to eq "value"
     end
 
