@@ -48,6 +48,7 @@ Metrics/ModuleLength:
   Exclude:
     - 'app/controllers/concerns/blacklight/catalog.rb'
     - 'lib/blacklight/solr/search_builder_behavior.rb'
+    - 'lib/blacklight/solr/response/facets.rb'
 
 Metrics/AbcSize:
   Exclude:
