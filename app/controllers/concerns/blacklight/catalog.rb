@@ -90,7 +90,7 @@ module Blacklight::Catalog
     @response = search_service.facet_field_response(@facet.key)
     @display_facet = @response.aggregations[@facet.field]
 
-    @presenter = (@facet.presenter || Blacklight::FacetFieldPresenter).new(@facet, @display_facet, view_context)
+    @presenter = @facet.presenter.new(@facet, @display_facet, view_context)
     @pagination = @presenter.paginator
     respond_to do |format|
       format.html do

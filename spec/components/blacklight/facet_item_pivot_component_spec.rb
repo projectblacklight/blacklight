@@ -14,7 +14,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
   let(:facet_item) do
     instance_double(
       Blacklight::FacetItemPresenter,
-      facet_config: Blacklight::Configuration::FacetField.new(key: 'z'),
+      facet_config: facet_config,
       facet_field: 'z',
       label: 'x',
       hits: 10,
@@ -24,6 +24,8 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
       items: [OpenStruct.new(value: 'x:1', hits: 5)]
     )
   end
+
+  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'z', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPresenter) }
 
   it 'links to the facet and shows the number of hits' do
     expect(rendered).to have_selector 'li'
@@ -40,7 +42,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
     let(:facet_item) do
       instance_double(
         Blacklight::FacetItemPresenter,
-        facet_config: Blacklight::Configuration::FacetField.new,
+        facet_config: facet_config,
         facet_field: 'z',
         label: 'x',
         hits: 10,

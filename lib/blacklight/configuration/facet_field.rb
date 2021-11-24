@@ -56,6 +56,8 @@ module Blacklight
     # Rendering:
     # @!attribute presenter
     #   @return [Blacklight::FacetFieldPresenter]
+    # @!attribute item_presenter
+    #   @return [Blacklight::FacetItemPresenter]
     # @!attribute component
     #   @return [Blacklight::FacetFieldListComponent]
     # @!attribute item_component
@@ -63,6 +65,7 @@ module Blacklight
     # @!attribute partial
     #   @return [String] Rails view partial used to render the facet field
 
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def normalize! blacklight_config = nil
       query.stringify_keys! if query
 
@@ -71,7 +74,10 @@ module Blacklight
       self.if = show if self.if.nil?
       self.index_range = 'A'..'Z' if index_range == true
       self.presenter ||= Blacklight::FacetFieldPresenter
+      self.item_presenter ||= Blacklight::FacetItemPresenter
       self.component = Blacklight::FacetFieldListComponent if component.nil? || component == true
+      self.item_component ||= pivot ? Blacklight::FacetItemPivotComponent : Blacklight::FacetItemComponent
+      self.advanced_search_component ||= Blacklight::FacetFieldCheckboxesComponent
 
       super
 
@@ -82,5 +88,6 @@ module Blacklight
 
       self
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
 end

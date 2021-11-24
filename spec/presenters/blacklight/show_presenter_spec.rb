@@ -126,21 +126,21 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     end
 
     it "returns the value of the field" do
-      config.show.title_field = :x
-      allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
+      config.show.title_field = 'x'
+      allow(document).to receive(:has?).with('x').and_return(true)
+      allow(document).to receive(:fetch).with('x', nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
 
     it "returns the first present value" do
-      config.show.title_field = [:x, :y]
-      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
-      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
+      config.show.title_field = %w[x y]
+      allow(document).to receive(:fetch).with('x', nil).and_return(nil)
+      allow(document).to receive(:fetch).with('y', nil).and_return("value")
       expect(subject.heading).to eq "value"
     end
 
     it "can use explicit field configuration" do
-      config.show.title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      config.show.title_field = Blacklight::Configuration::DisplayField.new(field: 'x', values: ->(*_) { 'hardcoded' })
       expect(subject.heading).to eq 'hardcoded'
     end
 
@@ -160,21 +160,21 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
     end
 
     it "returns the value of the field" do
-      config.show.html_title_field = :x
-      allow(document).to receive(:has?).with(:x).and_return(true)
-      allow(document).to receive(:fetch).with(:x, nil).and_return("value")
+      config.show.html_title_field = 'x'
+      allow(document).to receive(:has?).with('x').and_return(true)
+      allow(document).to receive(:fetch).with('x', nil).and_return("value")
       expect(subject.html_title).to eq "value"
     end
 
     it "returns the first present value" do
-      config.show.html_title_field = [:x, :y]
-      allow(document).to receive(:fetch).with(:x, nil).and_return(nil)
-      allow(document).to receive(:fetch).with(:y, nil).and_return("value")
+      config.show.html_title_field = %w[x y]
+      allow(document).to receive(:fetch).with('x', nil).and_return(nil)
+      allow(document).to receive(:fetch).with('y', nil).and_return("value")
       expect(subject.html_title).to eq "value"
     end
 
     it "can use explicit field configuration" do
-      config.show.html_title_field = Blacklight::Configuration::Field.new(field: 'x', values: ->(*_) { 'hardcoded' })
+      config.show.html_title_field = Blacklight::Configuration::DisplayField.new(field: 'x', values: ->(*_) { 'hardcoded' })
       expect(subject.html_title).to eq 'hardcoded'
     end
   end

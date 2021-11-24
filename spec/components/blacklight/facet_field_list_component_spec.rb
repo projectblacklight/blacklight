@@ -11,7 +11,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     instance_double(
       Blacklight::FacetFieldPresenter,
       paginator: paginator,
-      facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
+      facet_field: facet_config,
       key: 'field',
       label: 'Field',
       active?: false,
@@ -20,6 +20,8 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       values: []
     )
   end
+
+  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'field', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPresenter) }
 
   let(:paginator) do
     instance_double(Blacklight::FacetPaginator, items: [
@@ -45,7 +47,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
-        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
+        facet_field: facet_config,
         key: 'field',
         label: 'Field',
         active?: true,
@@ -65,7 +67,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
-        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
+        facet_field: facet_config,
         key: 'field',
         label: 'Field',
         active?: false,
@@ -91,7 +93,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
-        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
+        facet_field: facet_config,
         key: 'field',
         label: 'Field',
         active?: false,
@@ -111,7 +113,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       instance_double(
         Blacklight::FacetFieldPresenter,
         paginator: paginator,
-        facet_field: Blacklight::Configuration::NullField.new(key: 'field'),
+        facet_field: facet_config,
         key: 'field',
         label: 'Field',
         active?: false,

@@ -5,8 +5,8 @@ module Blacklight
     renders_many :constraints
     renders_many :search_field_controls
     renders_many :search_filter_controls, (lambda do |config:, display_facet:, presenter: nil, component: nil, **kwargs|
-      presenter ||= (config.presenter || Blacklight::FacetFieldPresenter).new(config, display_facet, helpers)
-      component = component || config.advanced_search_component || Blacklight::FacetFieldCheckboxesComponent
+      presenter ||= config.presenter.new(config, display_facet, helpers)
+      component ||= config.advanced_search_component
 
       component.new(facet_field: presenter, **kwargs)
     end)

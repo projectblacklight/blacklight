@@ -3,7 +3,7 @@
 module Blacklight
   class DocumentMetadataComponent < ::ViewComponent::Base
     renders_many :fields, (lambda do |component: nil, **kwargs|
-      (component || Blacklight::MetadataFieldComponent).new(**kwargs)
+      component.new(**kwargs)
     end)
     with_collection_parameter :fields
 
@@ -18,7 +18,7 @@ module Blacklight
       return unless fields
 
       @fields.each do |field|
-        field(component: field_component(field), field: field, show: @show, view_type: @view_type)
+        field(component: field.component, field: field, show: @show, view_type: @view_type)
       end
     end
 
@@ -27,9 +27,5 @@ module Blacklight
     end
 
     attr_reader :view_type
-
-    def field_component(field)
-      field&.component || Blacklight::MetadataFieldComponent
-    end
   end
 end

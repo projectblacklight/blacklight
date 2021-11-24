@@ -42,12 +42,11 @@ module Blacklight
     end
 
     def facet_item_presenter(facet_item, deprecated_facet_config = nil, facet_field = nil)
-      Blacklight::FacetItemPresenter.new(facet_item, deprecated_facet_config || facet_config, helpers, facet_field || @facet_field.key)
+      (deprecated_facet_config || facet_config).item_presenter.new(facet_item, deprecated_facet_config || facet_config, helpers, facet_field || @facet_field.key)
     end
 
     def facet_item_component_class(deprecated_facet_config = nil)
-      default_component = (deprecated_facet_config || facet_config).pivot ? Blacklight::FacetItemPivotComponent : Blacklight::FacetItemComponent
-      (deprecated_facet_config || facet_config).fetch(:item_component, default_component)
+      (deprecated_facet_config || facet_config).item_component
     end
 
     def facet_config

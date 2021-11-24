@@ -2,7 +2,7 @@
 
 RSpec.describe 'catalog/_facet_index_navigation.html.erb', type: :view do
   let(:pagination) { Blacklight::Solr::FacetPaginator.new([]) }
-  let(:facet) { Blacklight::Configuration::FacetField.new(index_range: '0'..'9') }
+  let(:facet) { Blacklight::Configuration::FacetField.new(index_range: '0'..'9', presenter: Blacklight::FacetFieldPresenter) }
   let(:display_facet) { double(items: [], offset: 0, prefix: '', sort: 'index') }
   let(:blacklight_config) { Blacklight::Configuration.new }
 
