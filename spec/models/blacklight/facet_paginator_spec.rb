@@ -13,44 +13,89 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
   let(:limit) { 6 }
 
   context 'on the first page of two pages' do
-    subject { described_class.new(seven_facet_values, limit: limit) }
+    subject(:paginator) { described_class.new(seven_facet_values, limit: limit) }
 
     it { is_expected.to be_first_page }
     it { is_expected.not_to be_last_page }
-    its(:current_page) { is_expected.to eq 1 }
-    its(:prev_page) { is_expected.to be_nil }
-    its(:next_page) { is_expected.to eq 2 }
+
+    describe '#current_page' do
+      subject { paginator.current_page }
+
+      it { is_expected.to eq 1 }
+    end
+
+    describe '#prev_page' do
+      subject { paginator.prev_page }
+
+      it { is_expected.to be_nil }
+    end
+
+    describe '#next_page' do
+      subject { paginator.next_page }
+
+      it { is_expected.to eq 2 }
+    end
 
     it 'limits items to limit, if limit is smaller than items.length' do
-      expect(subject.items.size).to eq 6
+      expect(paginator.items.size).to eq 6
     end
   end
 
   context 'on the last page of two pages' do
-    subject { described_class.new([f7], offset: 6, limit: limit) }
+    subject(:paginator) { described_class.new([f7], offset: 6, limit: limit) }
 
     it { is_expected.not_to be_first_page }
     it { is_expected.to be_last_page }
-    its(:current_page) { is_expected.to eq 2 }
-    its(:prev_page) { is_expected.to eq 1 }
-    its(:next_page) { is_expected.to be_nil }
+
+    describe '#current_page' do
+      subject { paginator.current_page }
+
+      it { is_expected.to eq 2 }
+    end
+
+    describe '#prev_page' do
+      subject { paginator.prev_page }
+
+      it { is_expected.to eq 1 }
+    end
+
+    describe '#next_page' do
+      subject { paginator.next_page }
+
+      it { is_expected.to be_nil }
+    end
 
     it 'returns all items when limit is greater than items.length' do
-      expect(subject.items.size).to eq 1
+      expect(paginator.items.size).to eq 1
     end
   end
 
   context 'on the second page of three pages' do
-    subject { described_class.new(seven_facet_values, offset: 6, limit: limit) }
+    subject(:paginator) { described_class.new(seven_facet_values, offset: 6, limit: limit) }
 
     it { is_expected.not_to be_first_page }
     it { is_expected.not_to be_last_page }
-    its(:current_page) { is_expected.to eq 2 }
-    its(:prev_page) { is_expected.to eq 1 }
-    its(:next_page) { is_expected.to eq 3 }
+
+    describe '#current_page' do
+      subject { paginator.current_page }
+
+      it { is_expected.to eq 2 }
+    end
+
+    describe '#prev_page' do
+      subject { paginator.prev_page }
+
+      it { is_expected.to eq 1 }
+    end
+
+    describe '#next_page' do
+      subject { paginator.next_page }
+
+      it { is_expected.to eq 3 }
+    end
 
     it 'limits items to limit, if limit is smaller than items.length' do
-      expect(subject.items.size).to eq 6
+      expect(paginator.items.size).to eq 6
     end
   end
 
