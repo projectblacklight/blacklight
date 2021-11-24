@@ -102,6 +102,12 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
         expect(subject.aggregations['my_field'].prefix).to be_nil
       end
     end
+
+    describe '#response' do
+      it 'provides access to the full solr response' do
+        expect(subject.aggregations['my_field'].response).to eq subject
+      end
+    end
   end
 
   describe "#merge_facet" do
