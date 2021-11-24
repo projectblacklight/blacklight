@@ -120,7 +120,7 @@ module Blacklight
 
       if index > 0
         solr_params[:start] = index - window # get one before
-        solr_params[:rows] = 2 * window + 1 # and one after
+        solr_params[:rows] = (2 * window) + 1 # and one after
       else
         solr_params[:start] = 0 # there is no previous doc
         solr_params[:rows] = 2 * window # but there should be one after

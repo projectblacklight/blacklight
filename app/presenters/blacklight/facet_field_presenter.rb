@@ -48,15 +48,13 @@ module Blacklight
     def paginator
       return unless display_facet
 
-      @paginator ||= begin
-        blacklight_config.facet_paginator_class.new(
-          display_facet.items,
-          sort: display_facet.sort,
-          offset: display_facet.offset,
-          prefix: display_facet.prefix,
-          limit: facet_limit
-        )
-      end
+      @paginator ||= blacklight_config.facet_paginator_class.new(
+        display_facet.items,
+        sort: display_facet.sort,
+        offset: display_facet.offset,
+        prefix: display_facet.prefix,
+        limit: facet_limit
+      )
     end
 
     DEFAULT_FACET_LIMIT = 10

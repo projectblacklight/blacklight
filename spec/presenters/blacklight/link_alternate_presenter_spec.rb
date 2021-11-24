@@ -26,8 +26,8 @@ RSpec.describe Blacklight::LinkAlternatePresenter do
 
     let(:expected_html) do
       '<link rel="alternate" title="xml" type="application/xml" href="http://test.host/catalog/9999.xml" />' \
-      '<link rel="alternate" title="dc_xml" type="text/xml" href="http://test.host/catalog/9999.dc_xml" />' \
-      '<link rel="alternate" title="oai_dc_xml" type="text/xml" href="http://test.host/catalog/9999.oai_dc_xml" />'
+        '<link rel="alternate" title="dc_xml" type="text/xml" href="http://test.host/catalog/9999.dc_xml" />' \
+        '<link rel="alternate" title="oai_dc_xml" type="text/xml" href="http://test.host/catalog/9999.oai_dc_xml" />'
     end
 
     it { is_expected.to be_equivalent_to expected_html }

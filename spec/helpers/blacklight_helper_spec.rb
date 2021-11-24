@@ -17,7 +17,7 @@ RSpec.describe BlacklightHelper do
       expect(application_name).to eq "Blacklight"
     end
 
-    context "when the language is not english " do
+    context "when the language is not english" do
       around do |example|
         I18n.locale = :de
         example.run

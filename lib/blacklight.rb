@@ -89,7 +89,7 @@ module Blacklight
     end
 
     begin
-      blacklight_erb = ERB.new(IO.read(blacklight_config_file)).result(binding)
+      blacklight_erb = ERB.new(File.read(blacklight_config_file)).result(binding)
     rescue StandardError, SyntaxError => e
       raise("#{blacklight_config_file} was found, but could not be parsed with ERB. \n#{e.inspect}")
     end
@@ -112,9 +112,7 @@ module Blacklight
   end
 
   def self.logger
-    @logger ||= begin
-      ::Rails.logger if defined? Rails && Rails.respond_to?(:logger)
-    end
+    @logger ||= (::Rails.logger if defined? Rails && Rails.respond_to?(:logger))
   end
 
   def self.logger= logger

@@ -79,7 +79,7 @@ module Blacklight
     end
 
     def application_js
-      IO.read(File.expand_path("app/assets/javascripts/application.js", destination_root))
+      File.read(File.expand_path("app/assets/javascripts/application.js", destination_root))
     end
   end
 end

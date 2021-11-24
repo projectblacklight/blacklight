@@ -43,7 +43,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
 
     expected = "electronics - 14, memory - 3, card - 2, connector - 2, drive - 2, graphics - 2, hard - 2, monitor - 2, search - 2, software - 2"
     received = first_facet.items.collect do |item|
-      item.value + ' - ' + item.hits.to_s
+      "#{item.value} - #{item.hits}"
     end.join(', ')
 
     expect(received).to eq expected

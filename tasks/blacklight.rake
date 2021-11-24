@@ -20,7 +20,7 @@ def system_with_error_handling(*args)
   end
 end
 
-def with_solr
+def with_solr(&block)
   if system('docker-compose -v')
     begin
       puts "Starting Solr"
@@ -32,9 +32,7 @@ def with_solr
     end
   else
     SolrWrapper.wrap do |solr|
-      solr.with_collection do
-        yield
-      end
+      solr.with_collection(&block)
     end
   end
 end
