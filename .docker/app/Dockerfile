@@ -9,8 +9,10 @@ RUN apk add --update --no-cache \
   libxml2-dev \
   libxslt-dev \
   nodejs \
+  shared-mime-info \
   sqlite-dev \
-  tzdata
+  tzdata \
+  yarn
 
 RUN mkdir /app
 WORKDIR /app
