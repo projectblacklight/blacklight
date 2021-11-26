@@ -305,7 +305,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     let(:search_state) { double(has_facet?: false, add_facet_params_and_redirect: { controller: 'catalog' }) }
 
     before do
-      allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(Blacklight::Configuration::FacetField.new(key: 'simple_field', query: nil, date: nil, helper_method: nil, single: false, url_method: nil))
+      allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(Blacklight::Configuration::FacetField.new(key: 'simple_field', query: nil, date: nil, helper_method: nil, single: false, url_method: nil, item_presenter: nil))
       allow(helper).to receive(:facet_display_value).and_return('Z')
       allow(helper).to receive(:search_state).and_return(search_state)
       allow(helper).to receive(:search_action_path) do |*args|
@@ -326,7 +326,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       let(:expected_html) { '<span class="facet-label"><a class="facet-select" rel="nofollow" href="/blabla">Z</a></span><span class="facet-count">10</span>' }
 
       it "uses that method" do
-        allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(Blacklight::Configuration::FacetField.new(key: 'simple_field', query: nil, date: nil, helper_method: nil, single: false, url_method: :test_method))
+        allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(Blacklight::Configuration::FacetField.new(key: 'simple_field', query: nil, date: nil, helper_method: nil, single: false, url_method: :test_method, item_presenter: nil))
         allow(helper).to receive(:test_method).with('simple_field', item).and_return('/blabla')
         result = helper.render_facet_value('simple_field', item)
         expect(result).to be_equivalent_to(expected_html).respecting_element_order
@@ -345,28 +345,28 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
 
   describe "#facet_display_value" do
     it "justs be the facet value for an ordinary facet" do
-      allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(query: nil, date: nil, helper_method: nil, url_method: nil))
+      allow(helper).to receive(:facet_configuration_for_field).with('simple_field').and_return(double(query: nil, date: nil, helper_method: nil, url_method: nil, item_presenter: nil))
       expect(helper.facet_display_value('simple_field', 'asdf')).to eq 'asdf'
     end
 
     it "allows you to pass in a :helper_method argument to the configuration" do
-      allow(helper).to receive(:facet_configuration_for_field).with('helper_field').and_return(double(query: nil, date: nil, url_method: nil, helper_method: :my_facet_value_renderer))
+      allow(helper).to receive(:facet_configuration_for_field).with('helper_field').and_return(double(query: nil, date: nil, url_method: nil, helper_method: :my_facet_value_renderer, item_presenter: nil))
       allow(helper).to receive(:my_facet_value_renderer).with('qwerty').and_return('abc')
       expect(helper.facet_display_value('helper_field', 'qwerty')).to eq 'abc'
     end
 
     it "extracts the configuration label for a query facet" do
-      allow(helper).to receive(:facet_configuration_for_field).with('query_facet').and_return(double(query: { 'query_key' => { label: 'XYZ' } }, date: nil, helper_method: nil, url_method: nil))
+      allow(helper).to receive(:facet_configuration_for_field).with('query_facet').and_return(double(query: { 'query_key' => { label: 'XYZ' } }, date: nil, helper_method: nil, url_method: nil, item_presenter: nil))
       expect(helper.facet_display_value('query_facet', 'query_key')).to eq 'XYZ'
     end
 
     it "localizes the label for date-type facets" do
-      allow(helper).to receive(:facet_configuration_for_field).with('date_facet').and_return(double('date' => true, :query => nil, :helper_method => nil, :url_method => nil))
+      allow(helper).to receive(:facet_configuration_for_field).with('date_facet').and_return(double('date' => true, :query => nil, :helper_method => nil, :url_method => nil, :item_presenter => nil))
       expect(helper.facet_display_value('date_facet', '2012-01-01')).to eq 'Sun, 01 Jan 2012 00:00:00 +0000'
     end
 
     it "localizes the label for date-type facets with the supplied localization options" do
-      allow(helper).to receive(:facet_configuration_for_field).with('date_facet').and_return(double('date' => { format: :short }, :query => nil, :helper_method => nil, :url_method => nil))
+      allow(helper).to receive(:facet_configuration_for_field).with('date_facet').and_return(double('date' => { format: :short }, :query => nil, :helper_method => nil, :url_method => nil, :item_presenter => nil))
       expect(helper.facet_display_value('date_facet', '2012-01-01')).to eq '01 Jan 00:00'
     end
   end
