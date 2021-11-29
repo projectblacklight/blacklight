@@ -28,7 +28,7 @@
         }
    });
 */
-(function($) {
+const CheckboxSubmit = (function($) {
     $.fn.blCheckboxSubmit = function(argOpts) {
       this.each(function() {
         var options = $.extend({}, $.fn.blCheckboxSubmit.defaults, argOpts);
@@ -131,4 +131,6 @@
             },
             success: function() {} //callback
   };
-})(jQuery);
+})(jQuery)
+
+export default CheckboxSubmit

@@ -1,4 +1,4 @@
-Blacklight = function() {
+const Blacklight = function() {
   var buffer = new Array;
   return {
     onLoad: function(func) {
@@ -50,3 +50,6 @@ Blacklight.onLoad(function () {
   elem.classList.remove('no-js')
   elem.classList.add('js')
 })
+
+
+export default Blacklight

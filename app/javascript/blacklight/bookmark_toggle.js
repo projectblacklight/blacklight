@@ -1,4 +1,6 @@
-(function($) {
+import Blacklight from './core'
+
+const BookmarkToggle = (($) => {
     //change form submit toggle to checkbox
     Blacklight.doBookmarkToggleBehavior = function() {
       $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
@@ -13,9 +15,9 @@
     };
     Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
 
-Blacklight.onLoad(function() {
-  Blacklight.doBookmarkToggleBehavior();
-});
+    Blacklight.onLoad(function() {
+        Blacklight.doBookmarkToggleBehavior();
+    });
+})(jQuery)
 
-
-})(jQuery);
+export default BookmarkToggle
