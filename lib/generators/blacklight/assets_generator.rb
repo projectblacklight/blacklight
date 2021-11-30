@@ -10,19 +10,7 @@ module Blacklight
     def add_javascript_dependencies
       gem 'bootstrap', options[:'bootstrap-version']
       gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
-    end
-
-    # Add sprockets javascript to Rails 6.
-    def create_sprockets_javascript
-      return if Rails.version < '6.0.0'
-
-      create_file 'app/assets/javascripts/application.js' do
-        <<~CONTENT
-          //= require jquery3
-          //= require rails-ujs
-          //= require turbolinks
-        CONTENT
-      end
+      gem 'jquery-rails'
     end
 
     ##
@@ -41,45 +29,32 @@ module Blacklight
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
-      contents = "\n//\n// Required by Blacklight\n"
-      contents += "//= require popper\n"
-      contents += "// Twitter Typeahead for autocomplete\n"
-      contents += "//= require twitter/typeahead\n"
-      contents += "//= require bootstrap\n"
-      contents += "//= require blacklight/blacklight\n"
-
-      marker = if turbolinks?
-                 '//= require turbolinks'
-               else
-                 '//= require rails-ujs'
-               end
-
-      insert_into_file "app/assets/javascripts/application.js", after: marker do
-        contents
+      create_file 'app/assets/javascripts/application.js' do
+        <<~CONTENT
+          //= require jquery3
+          //= require rails-ujs
+          //= require turbolinks
+          //
+          // Required by Blacklight
+          //= require popper
+          // Twitter Typeahead for autocomplete
+          //= require twitter/typeahead
+          //= require bootstrap
+          //= require blacklight/blacklight
+        CONTENT
       end
-
-      insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
-        "//= require jquery3\n"
-      end
-    end
-
-    # This is not a default in Rails 5.1+
-    def add_jquery
-      gem 'jquery-rails'
     end
 
     private
-
-    def turbolinks?
-      @turbolinks ||= application_js.include?('turbolinks')
-    end
 
     def has_blacklight_assets?
       application_js.include?('blacklight/blacklight')
     end
 
     def application_js
-      File.read(File.expand_path("app/assets/javascripts/application.js", destination_root))
+      path = File.expand_path("app/assets/javascripts/application.js", destination_root)
+
+      File.exist?(path) ? File.read(path) : ''
     end
   end
 end
