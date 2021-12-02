@@ -1,6 +1,5 @@
-<%= render Blacklight::System::ModalComponent.new do |component| %>
-  <% component.title { t('blacklight.email.form.title') } %>
-
-  <%= render partial: '/shared/flash_msg' %>
-  <span data-blacklight-modal="close"></span>
-<% end %>
+<turbo-stream action="append" target="main-flashes">
+  <template>
+    <%= render '/shared/flash_msg' %>
+  </template>
+</turbo-stream>

@@ -275,10 +275,9 @@
       </div>
 
 
-    One additional feature. If the content returned from the AJAX modal load
-    has an element with `data-blacklight-modal=close`, that will trigger the modal
-    to be closed. And if this element includes a node with class "flash_messages",
-    the flash-messages node will be added to the main page inside #main-flahses.
+    One additional feature. If the content returned from the AJAX form submission
+    can be a turbo-stream that defines some HTML fragementsand where on the page to put them:
+    https://turbo.hotwired.dev/handbook/streams
 
     == Events
 
@@ -288,8 +287,6 @@
     inspect loaded content by looking inside $(this).  If you call event.preventDefault(),
     we won't 'show' the dialog (although it may already have been shown, you may want to
     $(this).modal("hide") if you want to ensure hidden/closed.
-
-    The data-blacklight-modal=close behavior is implemented with this event, see for example.
   */
 
   const Modal = (() => {
@@ -307,8 +304,6 @@
     // Trigger selectors identify forms or hyperlinks that should open
     // inside a modal dialog.
     modal.triggerLinkSelector  = 'a[data-blacklight-modal~=trigger]';
-    // Used by the email and sms forms:
-    modal.triggerFormSelector  = 'form[data-blacklight-modal~=trigger]';
 
     // preserve selectors identify forms or hyperlinks that, if activated already
     // inside a modal dialog, should have destinations remain inside the modal -- but
@@ -320,9 +315,6 @@
     modal.preserveLinkSelector = modal.modalSelector + ' a[data-blacklight-modal~=preserve]';
 
     modal.containerSelector    = '[data-blacklight-modal~=container]';
-
-    // This attribute is set on the AJAX response when the modal should be closed.
-    modal.modalCloseSelector   = '[data-blacklight-modal~=close]';
 
     // Called on fatal failure of ajax load, function returns content
     // to show to user in modal.  Right now called only for extreme
@@ -377,18 +369,6 @@
         .catch(error => modal.onFailure(error));
     };
 
-    modal.modalAjaxFormSubmit = function(e) {
-        e.preventDefault();
-
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          type: $(this).attr('method') // POST
-        })
-        .fail(modal.onFailure)
-        .done(modal.receiveAjax);
-    };
-
     modal.setupModal = function() {
       // Register both trigger and preserve selectors in ONE event handler, combining
       // into one selector with a comma, so if something matches BOTH selectors, it
@@ -397,34 +377,11 @@
         if (e.target.matches(`${modal.triggerLinkSelector}, ${modal.preserveLinkSelector}`))
           modal.modalAjaxLinkClick(e);
       });
-
-      $('body').on('submit', modal.triggerFormSelector, modal.modalAjaxFormSubmit);
-
-      // Catch our own custom loaded event to implement data-blacklight-modal=closed
-      $('body').on('loaded.blacklight.blacklight-modal', modal.checkCloseModal);
-    };
-
-    // If the modal has been updated with new content,
-    // and the new content has the modalCloseSelector,
-    // and the new content has flash messages,
-    // Then close the modal and copy the flash messages up to the main page.
-    // This is used when sending an email/sms.
-    modal.checkCloseModal = function(event) {
-      if ($(event.target).find(modal.modalCloseSelector).length) {
-        var modalFlashes = $(this).find('.flash_messages');
-
-        Blacklight.modal.hide(event.target);
-        event.preventDefault();
-
-        var mainFlashes = $('#main-flashes');
-        mainFlashes.append(modalFlashes);
-        modalFlashes.fadeIn(500);
-      }
     };
 
     modal.hide = function(el) {
       if (bootstrap.Modal.VERSION >= "5") {
-        bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).hide();
+        bootstrap.Modal.getOrCreateInstance(el || document.querySelector(modal.modalSelector)).hide();
       } else {
         $(el || modal.modalSelector).modal('hide');
       }
@@ -432,7 +389,7 @@
 
     modal.show = function(el) {
       if (bootstrap.Modal.VERSION >= "5") {
-        bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).show();
+        bootstrap.Modal.getOrCreateInstance(el || document.querySelector(modal.modalSelector)).show();
       } else {
         $(el || modal.modalSelector).modal('show');
       }
