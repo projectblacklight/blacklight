@@ -437,20 +437,6 @@
       .done(Blacklight.modal.receiveAjax);
     };
 
-    Blacklight.modal.modalAjaxFormSubmit = function(e) {
-        e.preventDefault();
-
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          type: $(this).attr('method') // POST
-        })
-        .fail(Blacklight.modal.onFailure)
-        .done(Blacklight.modal.receiveAjax);
-    };
-
-
-
     Blacklight.modal.setupModal = function() {
     	// Event indicating blacklight is setting up a modal link,
       // you can catch it and call e.preventDefault() to abort
@@ -464,8 +450,6 @@
       // still only gets the event handler called once.
       $('body').on('click', Blacklight.modal.triggerLinkSelector + ', ' + Blacklight.modal.preserveLinkSelector,
         Blacklight.modal.modalAjaxLinkClick);
-      $('body').on('submit', Blacklight.modal.triggerFormSelector + ', ' + Blacklight.modal.preserveFormSelector,
-        Blacklight.modal.modalAjaxFormSubmit);
 
       // Catch our own custom loaded event to implement data-blacklight-modal=closed
       $('body').on('loaded.blacklight.blacklight-modal', Blacklight.modal.checkCloseModal);
