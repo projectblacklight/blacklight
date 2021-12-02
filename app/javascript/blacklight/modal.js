@@ -23,12 +23,6 @@
   of the container will be placed inside the modal, the rest of the
   page will be ignored.
 
-  If you'd like to have a link or button that closes the modal,
-  you can just add a `data-dismiss="modal"` to the link,
-  standard Bootstrap convention. But you can also have
-  an href on this link for non-JS contexts, we'll make sure
-  inside the modal it closes the modal and the link is NOT followed.
-
   Link or forms inside the modal will ordinarily cause page loads
   when they are triggered. However, if you'd like their results
   to stay within the modal, just add `data-blacklight-modal="preserve"`
@@ -49,7 +43,7 @@
 
 
       <div class="modal-footer">
-        <%= link_to "Close the modal", request_done_path, class: "submit button dialog-close", data: { dismiss: "modal" } %>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
 
@@ -183,13 +177,6 @@ const Modal = (() => {
 
     // Catch our own custom loaded event to implement data-blacklight-modal=closed
     $('body').on('loaded.blacklight.blacklight-modal', Blacklight.modal.checkCloseModal);
-
-    // we support doing data-dismiss=modal on a <a> with a href for non-ajax
-    // use, we need to suppress following the a's href that's there for
-    // non-JS contexts.
-    $('body').on('click', Blacklight.modal.modalSelector + ' a[data-dismiss~=modal]', function (e) {
-      e.preventDefault();
-    });
   };
 
   // A function used as an event handler on loaded.blacklight.blacklight-modal
