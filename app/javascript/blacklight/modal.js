@@ -66,17 +66,8 @@
 */
 import Blacklight from './core'
 
-const Modal = (() => {
-  // We keep all our data in Blacklight.modal object.
-  // Create lazily if someone else created first.
-  if (Blacklight.modal === undefined) {
-    Blacklight.modal = {};
-  }
-
+const Modal = (bootstrapModal) => {
   const modal = Blacklight.modal
-
-  // a Bootstrap modal div that should be already on the page hidden
-  modal.modalSelector = '#blacklight-modal';
 
   // Trigger selectors identify forms or hyperlinks that should open
   // inside a modal dialog.
@@ -117,7 +108,7 @@ const Modal = (() => {
 
       document.querySelector(`${modal.modalSelector} .modal-content`).innerHTML = contents
 
-      modal.show();
+      bootstrapModal.show()
   }
 
   // Add the passed in contents to the modal and display it.
@@ -133,7 +124,7 @@ modal.receiveAjax = function (contents) {
       // if they did preventDefault, don't show the dialog
       if (e.isDefaultPrevented()) return;
 
-      modal.show();
+      bootstrapModal.show()
   };
 
 
@@ -187,7 +178,7 @@ modal.receiveAjax = function (contents) {
     if ($(event.target).find(modal.modalCloseSelector).length) {
       var modalFlashes = $(this).find('.flash_messages');
 
-      Blacklight.modal.hide(event.target);
+      bootstrapModal.close()
       event.preventDefault();
 
       var mainFlashes = $('#main-flashes');
@@ -196,25 +187,9 @@ modal.receiveAjax = function (contents) {
     }
   }
 
-  modal.hide = function(el) {
-    if (bootstrap.Modal.VERSION >= "5") {
-      bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).hide();
-    } else {
-      $(el || modal.modalSelector).modal('hide');
-    }
+  return {
+    setupModal: modal.setupModal
   }
-
-  modal.show = function(el) {
-    if (bootstrap.Modal.VERSION >= "5") {
-      bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).show();
-    } else {
-      $(el || modal.modalSelector).modal('show');
-    }
-  }
-
-  Blacklight.onLoad(function() {
-    modal.setupModal();
-  });
-})()
+}
 
 export default Modal
