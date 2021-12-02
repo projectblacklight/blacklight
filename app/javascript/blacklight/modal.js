@@ -62,6 +62,7 @@
   $(this).modal("hide") if you want to ensure hidden/closed.
 */
 import Blacklight from './core'
+import ModalForm from './modalForm'
 
 const Modal = (() => {
   // We keep all our data in Blacklight.modal object.
@@ -142,21 +143,6 @@ modal.receiveAjax = function (contents) {
       .then(data => modal.receiveAjax(data))
       .catch(error => modal.onFailure(error))
   };
-
-  // This is like a light-weight version of turbo that only supports append presently.
-  const updateTurboStream = (data) => {
-    $(modal.modalSelector).modal('hide')
-    const domparser = new DOMParser();
-    const dom = domparser.parseFromString(data, "text/html")
-    dom.querySelectorAll("turbo-stream[action='append']").forEach((node) => {
-      const target = node.getAttribute('target')
-      const element = document.getElementById(target)
-      if (element)
-        element.append(node.querySelector('template').content.cloneNode(true))
-      else
-        console.error(`Unable to find an element on the page with and ID of "${target}""`)
-    })
-  }
 
   modal.setupModal = function() {
     // Register both trigger and preserve selectors in ONE event handler, combining
