@@ -85,6 +85,7 @@ const Modal = (() => {
   // Trigger selectors identify forms or hyperlinks that should open
   // inside a modal dialog.
   Blacklight.modal.triggerLinkSelector  = 'a[data-blacklight-modal~=trigger]';
+  // Used by the email and sms forms:
   Blacklight.modal.triggerFormSelector  = 'form[data-blacklight-modal~=trigger]';
 
   // preserve selectors identify forms or hyperlinks that, if activated already
@@ -178,8 +179,7 @@ const Modal = (() => {
     // still only gets the event handler called once.
     $('body').on('click', Blacklight.modal.triggerLinkSelector + ', ' + Blacklight.modal.preserveLinkSelector,
       Blacklight.modal.modalAjaxLinkClick);
-    $('body').on('submit', Blacklight.modal.triggerFormSelector + ', ' + Blacklight.modal.preserveFormSelector,
-      Blacklight.modal.modalAjaxFormSubmit);
+    $('body').on('submit', Blacklight.modal.triggerFormSelector, Blacklight.modal.modalAjaxFormSubmit);
 
     // Catch our own custom loaded event to implement data-blacklight-modal=closed
     $('body').on('loaded.blacklight.blacklight-modal', Blacklight.modal.checkCloseModal);
