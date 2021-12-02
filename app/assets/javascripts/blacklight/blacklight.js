@@ -409,11 +409,15 @@
     Blacklight.modal.modalAjaxLinkClick = function(e) {
       e.preventDefault();
 
-      $.ajax({
-        url: $(this).attr('href')
-      })
-      .fail(Blacklight.modal.onFailure)
-      .done(Blacklight.modal.receiveAjax);
+      fetch($(this).attr('href'))
+        .then(response => {
+           if (!response.ok) {
+             throw new TypeError("Request failed");
+           }
+           return response.text();
+         })
+        .then(data => Blacklight.modal.receiveAjax(data))
+        .catch(error => Blacklight.modal.onFailure(error));
     };
 
     Blacklight.modal.modalAjaxFormSubmit = function(e) {
