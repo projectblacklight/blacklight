@@ -209,7 +209,7 @@ const Modal = (() => {
 
   Blacklight.modal.hide = function(el) {
     if (bootstrap.Modal.VERSION >= "5") {
-      bootstrap.Modal.getOrCreateInstance(el).hide();
+      bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).hide();
     } else {
       $(el || Blacklight.modal.modalSelector).modal('hide');
     }
@@ -217,7 +217,7 @@ const Modal = (() => {
 
   Blacklight.modal.show = function(el) {
     if (bootstrap.Modal.VERSION >= "5") {
-      bootstrap.Modal.getOrCreateInstance(el).show();
+      bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).show();
     } else {
       $(el || Blacklight.modal.modalSelector).modal('show');
     }
