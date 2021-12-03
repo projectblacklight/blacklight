@@ -11,7 +11,7 @@
         <%= t('blacklight.email.form.to') %>
       </label>
       <div class="col-sm-10">
-        <%= email_field_tag :to, params[:to], class: 'form-control' %>
+        <%= email_field_tag :to, params[:to], class: 'form-control', required: true %>
       </div>
     </div>
 
