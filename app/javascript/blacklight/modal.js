@@ -114,7 +114,7 @@ Blacklight.modal.onFailure = function(jqXHR, textStatus, errorThrown) {
             this.type + ' ' + this.url + "\n" + jqXHR.status + ': ' + errorThrown +
             '</pre></div>';
   $(Blacklight.modal.modalSelector).find('.modal-content').html(contents);
-  $(Blacklight.modal.modalSelector).modal('show');
+  Blacklight.modal.show();
 }
 
 Blacklight.modal.receiveAjax = function (contents) {
@@ -135,7 +135,7 @@ Blacklight.modal.receiveAjax = function (contents) {
     // if they did preventDefault, don't show the dialog
     if (e.isDefaultPrevented()) return;
 
-    $(Blacklight.modal.modalSelector).modal('show');
+    Blacklight.modal.show();
 };
 
 
@@ -196,12 +196,28 @@ Blacklight.modal.checkCloseModal = function(event) {
   if ($(event.target).find(Blacklight.modal.modalCloseSelector).length) {
     var modalFlashes = $(this).find('.flash_messages');
 
-    $(event.target).modal('hide');
+    Blacklight.modal.hide(event.target);
     event.preventDefault();
 
     var mainFlashes = $('#main-flashes');
     mainFlashes.append(modalFlashes);
     modalFlashes.fadeIn(500);
+  }
+}
+
+Blacklight.modal.hide = function(el) {
+  if (bootstrap.Modal.VERSION >= "5") {
+    bootstrap.Modal.getOrCreateInstance(el).hide();
+  } else {
+    $(el || Blacklight.modal.modalSelector).modal('hide');
+  }
+}
+
+Blacklight.modal.show = function(el) {
+  if (bootstrap.Modal.VERSION >= "5") {
+    bootstrap.Modal.getOrCreateInstance(el).show();
+  } else {
+    $(el || Blacklight.modal.modalSelector).modal('show');
   }
 }
 
