@@ -1,6 +1,6 @@
 {
   "name": "blacklight-frontend",
-  "version": "7.21.2",
+  "version": "7.22.0",
   "description": "[![Build Status](https://travis-ci.com/projectblacklight/blacklight.png?branch=main)](https://travis-ci.com/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight) [![Coverage Status](https://coveralls.io/repos/github/projectblacklight/blacklight/badge.svg?branch=main)](https://coveralls.io/github/projectblacklight/blacklight?branch=main)",
   "main": "app/assets/javascripts/blacklight",
   "scripts": {
