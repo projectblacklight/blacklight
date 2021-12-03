@@ -5,12 +5,11 @@ const Autocomplete = (() => {
   Blacklight.onLoad(function() {
     'use strict';
 
-    $('[data-autocomplete-enabled="true"]').each(function() {
-      var $el = $(this);
-      if($el.hasClass('tt-hint')) {
+    document.querySelectorAll('[data-autocomplete-enabled="true"]').forEach((el) {
+      if(el.classList.contains('tt-hint')) {
         return;
       }
-      var suggestUrl = $el.data().autocompletePath;
+      var suggestUrl = el.dataset.autocompletePath;
 
       var terms = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -23,7 +22,7 @@ const Autocomplete = (() => {
 
       terms.initialize();
 
-      $el.typeahead({
+      $(el).typeahead({
         hint: true,
         highlight: true,
         minLength: 2
