@@ -15,6 +15,9 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= content_for(:head) %>
+    <script type="module">
+      import githubAutoCompleteElement from 'https://cdn.skypack.dev/@github/auto-complete-element';
+    </script>
   </head>
   <body class="<%= render_body_class %>">
     <nav id="skip-link" role="navigation" aria-label="<%= t('blacklight.skip_links.label') %>">

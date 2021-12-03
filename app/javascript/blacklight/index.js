@@ -1,4 +1,3 @@
-import Autocomplete from './autocomplete'
 import BookmarkToggle from './bookmark_toggle'
 import ButtonFocus from './button_focus'
 import FacetLoad from './facet_load'
@@ -7,7 +6,6 @@ import SearchContext from './search_context'
 import Core from './core'
 
 export default {
-  Autocomplete,
   BookmarkToggle,
   ButtonFocus,
   FacetLoad,

@@ -110,12 +110,10 @@ module Blacklight::Catalog
     end
   end
 
+  # Returns the dropdown list for autocomplete
   def suggest
-    respond_to do |format|
-      format.json do
-        render json: suggestions_service.suggestions
-      end
-    end
+    @suggestions = suggestions_service.suggestions
+    render 'suggest', layout: false
   end
 
   # @return [Array] first value is a Blacklight::Solr::Response and the second

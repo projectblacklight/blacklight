@@ -1,12 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('typeahead.js/dist/bloodhound.js')) :
-  typeof define === 'function' && define.amd ? define(['typeahead.js/dist/bloodhound.js'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Blacklight = factory(global.Bloodhound));
-})(this, (function (Bloodhound) { 'use strict';
-
-  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-  const Bloodhound__default = /*#__PURE__*/_interopDefaultLegacy(Bloodhound);
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Blacklight = factory());
+})(this, (function () { 'use strict';
 
   const Blacklight = function() {
     var buffer = new Array;
@@ -60,41 +56,6 @@
     elem.classList.remove('no-js');
     elem.classList.add('js');
   });
-
-  const Autocomplete = (() => {
-    Blacklight.onLoad(function() {
-
-      $('[data-autocomplete-enabled="true"]').each(function() {
-        var $el = $(this);
-        if($el.hasClass('tt-hint')) {
-          return;
-        }
-        var suggestUrl = $el.data().autocompletePath;
-
-        var terms = new Bloodhound__default.default({
-          datumTokenizer: Bloodhound__default.default.tokenizers.obj.whitespace('value'),
-          queryTokenizer: Bloodhound__default.default.tokenizers.whitespace,
-          remote: {
-            url: suggestUrl + '?q=%QUERY',
-            wildcard: '%QUERY'
-          }
-        });
-
-        terms.initialize();
-
-        $el.typeahead({
-          hint: true,
-          highlight: true,
-          minLength: 2
-        },
-        {
-          name: 'terms',
-          displayKey: 'term',
-          source: terms.ttAdapter()
-        });
-      });
-    });
-  })();
 
   /* Converts a "toggle" form, with single submit button to add/remove
      something, like used for Bookmarks, into an AJAXy checkbox instead.
@@ -560,7 +521,6 @@
   })();
 
   const index = {
-    Autocomplete,
     BookmarkToggle,
     ButtonFocus,
     FacetLoad,

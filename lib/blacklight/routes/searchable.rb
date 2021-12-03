@@ -15,7 +15,7 @@ module Blacklight
         mapper.get ":id/raw", action: 'raw', as: 'raw', defaults: { format: 'json' }
 
         mapper.get "opensearch"
-        mapper.get 'suggest', as: 'suggest_index', defaults: { format: 'json' }
+        mapper.get 'suggest', as: 'suggest_index'
         mapper.get "facet/:id", action: 'facet', as: 'facet'
       end
     end
