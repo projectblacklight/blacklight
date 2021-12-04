@@ -22,6 +22,6 @@
   </div>
 
   <div id="<%= @panel_id %>" class="facets-collapse collapse">
-    <%= render Blacklight::FacetComponent.with_collection(search_facets, blacklight_config: blacklight_config) %>
+    <%= body %>
   </div>
 <% end %>
