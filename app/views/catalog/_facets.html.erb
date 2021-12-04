@@ -1,8 +1,9 @@
 <% # container for facet groups -%>
 <% blacklight_config.facet_group_names.each do |groupname| %>
-  <%= render Blacklight::Response::FacetGroupComponent.new(id: groupname) do |component| %>
+  <% fields = blacklight_config.facet_fields_in_group(groupname) %>
+  <%= render Blacklight::Response::FacetGroupComponent.new(id: groupname, fields: fields, response: @response) do |component| %>
     <% component.body do %>
-      <%= render Blacklight::FacetComponent.with_collection(blacklight_config.facet_fields_in_group(groupname), response: @response) %>
+      <%= render Blacklight::FacetComponent.with_collection(fields, response: @response) %>
     <% end %>
   <% end %>
 <% end %>
