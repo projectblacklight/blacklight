@@ -60,6 +60,13 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     end
   end
 
+  it 'provides a null-object for facets that are not in the response' do
+    expect(r.aggregations).not_to include :some_null_object
+
+    expect(r.aggregations[:some_null_object]).to be_a Blacklight::Solr::Response::FacetField
+    expect(r.aggregations[:some_null_object].items).to be_blank
+  end
+
   it "provides kaminari pagination helpers" do
     expect(r.limit_value).to eq(r.rows)
     expect(r.offset_value).to eq(r.start)

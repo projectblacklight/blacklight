@@ -104,7 +104,7 @@ module Blacklight::Solr::Response::Facets
   # Get all the Solr facet data (fields, queries, pivots) as a hash keyed by
   # both the Solr field name and/or by the blacklight field name
   def aggregations
-    @aggregations ||= {}.merge(facet_field_aggregations).merge(facet_query_aggregations).merge(facet_pivot_aggregations).merge(json_facet_aggregations)
+    @aggregations ||= default_aggregations.merge(facet_field_aggregations).merge(facet_query_aggregations).merge(facet_pivot_aggregations).merge(json_facet_aggregations)
   end
 
   def facet_counts
@@ -145,6 +145,21 @@ module Blacklight::Solr::Response::Facets
   end
 
   private
+
+  # @return [Hash] establish a null object pattern for facet data look-up, allowing
+  #   the response and applied parameters to get passed through even if there was no
+  #   facet data in the response
+  def default_aggregations
+    @default_aggregations ||= begin
+      h = Hash.new { |key| null_facet_field_object(key) }
+      h.with_indifferent_access
+    end
+  end
+
+  # @return [Blacklight::Solr::Response::FacetField] a "null object" facet field
+  def null_facet_field_object(key)
+    Blacklight::Solr::Response::FacetField.new(key, [], facet_field_aggregation_options(key).merge(response: self))
+  end
 
   ##
   # Convert Solr responses of various json.nl flavors to
