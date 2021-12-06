@@ -28,11 +28,25 @@ module Blacklight
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
-      create_file 'app/assets/javascripts/application.js' do
+      if Rails.version >= '7'
+        create_file 'app/assets/javascripts/application.js' do
+          <<~CONTENT
+            //= require turbo
+          CONTENT
+        end
+      else
+        create_file 'app/assets/javascripts/application.js' do
+          <<~CONTENT
+            //= require turbolinks
+            //= require rails-ujs
+          CONTENT
+        end
+      end
+
+      append_to_file 'app/assets/javascripts/application.js' do
         <<~CONTENT
           //= require jquery3
-          //= require turbolinks
-          //
+
           // Required by Blacklight
           //= require popper
           //= require bootstrap

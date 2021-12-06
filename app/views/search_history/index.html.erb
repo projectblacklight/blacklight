@@ -7,8 +7,12 @@
 <% else %>
   <%= link_to t('blacklight.search_history.clear.action_title'),
               blacklight.clear_search_history_path,
-              method: :delete,
-              data: { confirm: t('blacklight.search_history.clear.action_confirm') },
+              method: :delete, # for rails-ujs
+              data: {
+                confirm: t('blacklight.search_history.clear.action_confirm'), # for rails-ujs
+                turbo_confirm: t('blacklight.search_history.clear.action_confirm'),
+                turbo_method: :delete
+              },
               class: 'btn btn-danger float-md-right float-md-end' %>
   <h2 class='section-heading'><%= t('blacklight.search_history.recent') %></h2>
   <table class="table table-striped search-history">
