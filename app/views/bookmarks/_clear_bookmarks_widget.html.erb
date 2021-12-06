@@ -1,1 +1,8 @@
-  <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') }, :class => 'clear-bookmarks btn btn-danger' %>
+  <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path,
+      method: :delete, # for rails-UJS
+      data: {
+        confirm: t('blacklight.bookmarks.clear.action_confirm'), # for rails-UJS
+        turbo_method: :delete,
+        turbo_confirm: t('blacklight.bookmarks.clear.action_confirm')
+      },
+      class: 'clear-bookmarks btn btn-danger' %>
