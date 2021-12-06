@@ -467,20 +467,6 @@ RSpec.describe CatalogController, api: true do
     end
   end
 
-  describe 'GET suggest' do
-    it 'returns JSON' do
-      get :suggest, params: { format: 'json' }
-      expect(response.body).to eq [].to_json
-    end
-
-    it 'returns suggestions' do
-      get :suggest, params: { format: 'json', q: 'new' }
-      json = JSON.parse(response.body)
-      expect(json.count).to eq 5
-      expect(json.first['term']).to eq 'new jersey'
-    end
-  end
-
   describe "email/sms" do
     before do
       mock_document.extend(Blacklight::Document::Sms)

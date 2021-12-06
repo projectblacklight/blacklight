@@ -9,7 +9,6 @@ module Blacklight
     # This could be skipped if you want to use webpacker
     def add_javascript_dependencies
       gem 'bootstrap', options[:'bootstrap-version']
-      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
       gem 'jquery-rails'
     end
 
@@ -37,8 +36,6 @@ module Blacklight
           //
           // Required by Blacklight
           //= require popper
-          // Twitter Typeahead for autocomplete
-          //= require twitter/typeahead
           //= require bootstrap
           //= require blacklight/blacklight
         CONTENT
