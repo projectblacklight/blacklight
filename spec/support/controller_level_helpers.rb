@@ -15,4 +15,12 @@ module ControllerLevelHelpers
   def initialize_controller_helpers(helper)
     helper.extend ControllerViewHelpers
   end
+
+  # Monkeypatch to fix https://github.com/rspec/rspec-rails/pull/2521
+  def _default_render_options
+    val = super
+    return val unless val[:handlers]
+    
+    val.merge(handlers: val.fetch(:handlers).map(&:to_sym))
+  end
 end
