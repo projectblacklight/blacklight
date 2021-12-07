@@ -14,12 +14,12 @@ module Blacklight
     ##
     # Remove the empty generated app/assets/images directory. Without doing this,
     # the default Sprockets 4 manifest will raise an exception.
-    # def appease_sprockets4
-    #   return if !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4'
-    #
-    #   append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
-    #   empty_directory 'app/assets/images'
-    # end
+    def appease_sprockets4
+      return if Rails.version > '7' || !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4'
+
+      append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
+      empty_directory 'app/assets/images'
+    end
 
     def assets # rubocop:disable Metrics/MethodLength
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
@@ -31,17 +31,20 @@ module Blacklight
         gem "sassc-rails", "~> 2.1"
         append_to_file 'config/importmap.rb' do
           <<~CONTENT
+            pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.0/dist/umd/popper.min.js"
             pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.1.3/dist/js/bootstrap.js"
-            pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.0/lib/index.js"
             pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.0/dist/jquery.js"
+            pin "blacklight", to: "blacklight/blacklight.js"
           CONTENT
         end
 
-        append_to_file 'app/javascripts/application.js' do
+        append_to_file 'app/javascript/application.js' do
           <<~CONTENT
-            import "jquery"
+            import $ from "jquery"
             import bootstrap from "bootstrap"
             window.bootstrap = bootstrap // Required for Blacklight 7 so it can manage the modals
+            window.$ = $ // required as long as blacklight requires jquery
+            import "blacklight"
           CONTENT
         end
       else
