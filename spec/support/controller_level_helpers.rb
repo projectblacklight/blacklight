@@ -20,7 +20,7 @@ module ControllerLevelHelpers
   def _default_render_options
     val = super
     return val unless val[:handlers]
-    
+
     val.merge(handlers: val.fetch(:handlers).map(&:to_sym))
   end
 end

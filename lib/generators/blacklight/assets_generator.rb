@@ -27,14 +27,14 @@ module Blacklight
     ##
     # Remove the empty generated app/assets/images directory. Without doing this,
     # the default Sprockets 4 manifest will raise an exception.
-    def appease_sprockets4
-      return if !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4'
+    # def appease_sprockets4
+    #   return if !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4'
+    #
+    #   append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
+    #   empty_directory 'app/assets/images'
+    # end
 
-      append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
-      empty_directory 'app/assets/images'
-    end
-
-    def assets
+    def assets # rubocop:disable Metrics/MethodLength
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
       # Ensure this method is idempotent
