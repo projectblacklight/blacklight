@@ -182,8 +182,11 @@ render document_component.new(presenter: document_presenter(document), component
   def find_document_index_template_with_view view_type, locals
     document_index_path_templates.each do |str|
       partial = format(str, index_view_type: view_type)
+      name = partial.split('/').last
+      prefix = partial.split('/').first if partial.include?('/')
       logger&.debug "Looking for document index partial #{partial}"
-      template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:documents], {}).first
+      prefixes = lookup_context.prefixes + [prefix, ""].compact
+      template = lookup_context.find_all(name, prefixes, true, locals.keys + [:documents], {}).first
       return template if template
     end
     nil
