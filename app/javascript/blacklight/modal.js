@@ -116,17 +116,12 @@ const Modal = (() => {
     modal.show();
   }
 
-  modal.receiveAjax = function (contents) {
-      // does it have a data- selector for container?
-      // important we don't execute script tags, we shouldn't.
-      // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/main/src/ajax/load.js?source=c#L62
-      var container =  $('<div>').
-        append( jQuery.parseHTML(contents) ).find( modal.containerSelector ).first();
-      if (container.length !== 0) {
-        contents = container.html();
-      }
-
-      $(modal.modalSelector).find('.modal-content').html(contents);
+  // Add the passed in contents to the modal and display it.
+modal.receiveAjax = function (contents) {
+      const domparser = new DOMParser();
+      const dom = domparser.parseFromString(contents, "text/html")
+      const elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
+      document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(...elements)
 
       // send custom event with the modal dialog div as the target
       var e    = $.Event('loaded.blacklight.blacklight-modal')
