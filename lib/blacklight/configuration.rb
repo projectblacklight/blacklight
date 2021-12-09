@@ -115,7 +115,7 @@ module Blacklight
                                                    atom: {
                                                      if: false, # by default, atom should not show up as an alternative view
                                                      partials: [:document],
-                                                     summary_partials: [:index]
+                                                     summary_component: Blacklight::DocumentComponent
                                                    },
                                                    rss: {
                                                      if: false, # by default, rss should not show up as an alternative view
