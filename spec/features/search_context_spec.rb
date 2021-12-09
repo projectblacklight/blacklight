@@ -3,13 +3,14 @@
 RSpec.describe "Search Results context", js: true do
   it "passes the current search id through" do
     search_for ''
-    search_id = Search.last.id.to_s
     click_on 'Pluvial nectar of blessings'
+    search_id = Search.last.id.to_s
     expect(page).to have_content "« Previous | 10 of 30 | Next »"
     prev = page.find(".pagination-search-widgets .previous")
     expect(prev['data-context-href']).to eq "/catalog/2003546302/track?counter=9&document_id=2003546302&search_id=#{search_id}"
 
     click_on "« Previous"
+    expect(page).to have_content "U21.2 .W85 2003"
 
     prev = page.find(".pagination-search-widgets .previous")
     expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&document_id=2004310986&search_id=#{search_id}"
@@ -48,6 +49,7 @@ RSpec.describe "Search Results context", js: true do
       find_all('.index_title a').last.click
       click_on "Next »"
 
+      expect(page).to have_content "Naqdī barā-yi tamām-i"
       click_on "Back to Search"
       expect(page).to have_content "11 - 20"
     end
