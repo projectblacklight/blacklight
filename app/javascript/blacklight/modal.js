@@ -162,16 +162,7 @@ const Modal = (() => {
       .done(Blacklight.modal.receiveAjax)
   }
 
-
-
   Blacklight.modal.setupModal = function() {
-  	// Event indicating blacklight is setting up a modal link,
-    // you can catch it and call e.preventDefault() to abort
-    // setup.
-  	var e = $.Event('setup.blacklight.blacklight-modal');
-  	$('body').trigger(e);
-  	if (e.isDefaultPrevented()) return;
-
     // Register both trigger and preserve selectors in ONE event handler, combining
     // into one selector with a comma, so if something matches BOTH selectors, it
     // still only gets the event handler called once.
