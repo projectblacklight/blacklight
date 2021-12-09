@@ -25,7 +25,8 @@ module Blacklight::RenderPartialsHelperBehavior
       render_document_partial(doc, action_name, locals)
     end, "\n")
   end
-  deprecation_deprecate render_document_partials: 'Render the document_component instead'
+  deprecation_deprecate render_document_partials: 'Replace this call with: "document_component = blacklight_config.view_config(:atom).summary_component
+render document_component.new(presenter: document_presenter(document), component: :div, show: true)"'
 
   ##
   # Return the list of xml for a given solr document. Doesn't safely escape for HTML.
