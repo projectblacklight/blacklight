@@ -138,8 +138,8 @@ modal.receiveAjax = function (contents) {
 
   modal.modalAjaxLinkClick = function(e) {
     e.preventDefault();
-
-    fetch($(this).attr('href'))
+    const href = e.target.getAttribute('href')
+    fetch(href)
       .then(response => {
          if (!response.ok) {
            throw new TypeError("Request failed");
@@ -166,8 +166,11 @@ modal.receiveAjax = function (contents) {
     // Register both trigger and preserve selectors in ONE event handler, combining
     // into one selector with a comma, so if something matches BOTH selectors, it
     // still only gets the event handler called once.
-    $('body').on('click', modal.triggerLinkSelector + ', ' + modal.preserveLinkSelector,
-      Blacklight.modal.modalAjaxLinkClick);
+    document.addEventListener('click', (e) => {
+      if (e.target.matches(`${modal.triggerLinkSelector}, ${modal.preserveLinkSelector}`))
+        modal.modalAjaxLinkClick(e)
+    })
+
     $('body').on('submit', modal.triggerFormSelector, modal.modalAjaxFormSubmit);
 
     // Catch our own custom loaded event to implement data-blacklight-modal=closed
