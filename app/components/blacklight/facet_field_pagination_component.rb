@@ -13,5 +13,9 @@ module Blacklight
     def param_name
       @facet_field.paginator.class.request_keys[:page]
     end
+
+    def render?
+      @facet_field.paginator
+    end
   end
 end
