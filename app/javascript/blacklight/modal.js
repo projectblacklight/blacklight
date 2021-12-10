@@ -51,15 +51,6 @@
   One additional feature. If the content returned from the AJAX form submission
   can be a turbo-stream that defines some HTML fragementsand where on the page to put them:
   https://turbo.hotwired.dev/handbook/streams
-
-  == Events
-
-  We'll send out an event 'loaded.blacklight.blacklight-modal' with the #blacklight-modal
-  dialog as the target, right after content is loaded into the modal but before
-  it is shown (if not already a shown modal).  In an event handler, you can
-  inspect loaded content by looking inside $(this).  If you call event.preventDefault(),
-  we won't 'show' the dialog (although it may already have been shown, you may want to
-  $(this).modal("hide") if you want to ensure hidden/closed.
 */
 import Blacklight from './core'
 import ModalForm from './modalForm'
@@ -119,12 +110,6 @@ modal.receiveAjax = function (contents) {
       const dom = domparser.parseFromString(contents, "text/html")
       const elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
       document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(...elements)
-
-      // send custom event with the modal dialog div as the target
-      var e    = $.Event('loaded.blacklight.blacklight-modal')
-      $(modal.modalSelector).trigger(e);
-      // if they did preventDefault, don't show the dialog
-      if (e.isDefaultPrevented()) return;
 
       modal.show();
   };
