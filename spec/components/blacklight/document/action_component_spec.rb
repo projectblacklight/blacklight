@@ -28,6 +28,7 @@ RSpec.describe Blacklight::Document::ActionComponent, type: :component do
     else
       allow(view_context).to receive(:some_tool_solr_document_path).with(document).and_return('/asdf')
     end
+
     expect(rendered).to have_link 'Some tool', href: '/asdf'
   end
 
