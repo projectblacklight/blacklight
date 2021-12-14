@@ -24,14 +24,21 @@ module Blacklight
         t("blacklight.tools.#{@action.name}", default: @action.label || @action.name.to_s.humanize)
       end
 
+      # Action buttons get their URLs in one of three ways:
+      # - the action configuration explicitly specifies a helper method to call
+      # - a url route is inferred for ActiveModel-compliant objects (the default;
+      #     note that, although Rails routing is available here, we still call out to
+      #     helpers regardless, because that's where applications might have overridden the
+      #     default Rails routing behavior)
+      # - calling out to an implicit helper method with a conventional name (unlikely)
       def url
         url_opts = @url_opts.merge(({ id: @document } if @document) || {})
         if @action.path
-          public_send(@action.path, url_opts)
+          helpers.public_send(@action.path, url_opts)
         elsif url_opts[:id].class.respond_to?(:model_name)
-          url_for([@action.key.to_sym, url_opts[:id]])
+          helpers.url_for([@action.key.to_sym, url_opts[:id]])
         else
-          public_send("#{@action.key}_#{controller_name}_path", url_opts)
+          helpers.public_send("#{@action.key}_#{helpers.controller_name}_path", url_opts)
         end
       end
 
