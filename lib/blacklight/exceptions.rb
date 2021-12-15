@@ -16,6 +16,8 @@ module Blacklight
 
     class ECONNREFUSED < ::Errno::ECONNREFUSED; end
 
+    class SolrTimeout < Timeout::Error; end
+
     class IconNotFound < StandardError
     end
   end

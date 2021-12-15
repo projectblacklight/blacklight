@@ -77,7 +77,12 @@ module Blacklight::Solr
         Blacklight.logger&.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) && ::BLACKLIGHT_VERBOSE_LOGGING
         solr_response
       end
+    rescue *[(defined?(RSolr::Error::Timeout) ? RSolr::Error::Timeout : nil)].compact => e
+      # RSolr 2.4.0+ has a RSolr::Error::Timeout that we'd like to treat specially instead of
+      # lumping into RSolr::Error::Http
+      raise Blacklight::Exceptions::SolrTimeout, "Timeout connecting to Solr instance using #{connection.inspect}: #{e.inspect}"
     rescue Errno::ECONNREFUSED => e
+      # intended for and likely to be a RSolr::Error:ConnectionRefused, specifically.
       raise Blacklight::Exceptions::ECONNREFUSED, "Unable to connect to Solr instance using #{connection.inspect}: #{e.inspect}"
     rescue RSolr::Error::Http => e
       raise Blacklight::Exceptions::InvalidRequest, e.message
