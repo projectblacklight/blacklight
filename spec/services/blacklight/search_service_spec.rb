@@ -421,6 +421,15 @@ RSpec.describe Blacklight::SearchService, api: true do
     expect { service.repository.search }.to raise_exception(/Unable to connect to Solr instance/)
   end
 
+  it "raises a Blacklight exception if RSolr raises a timeout error connecting to Solr instance" do
+    # rsolr api is mess, let's
+    rsolr_timeout = RSolr::Error::Timeout.new(nil, nil)
+    allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
+
+    allow(blacklight_solr).to receive(:send_and_receive).and_raise(rsolr_timeout)
+    expect { service.repository.search }.to raise_exception(Blacklight::Exceptions::SolrTimeout, /Timeout connecting to Solr instance/)
+  end
+
   describe "#previous_and_next_documents_for_search" do
     let(:user_params) { { q: '', per_page: 100 } }
 
