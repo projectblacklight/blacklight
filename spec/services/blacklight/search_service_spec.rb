@@ -427,7 +427,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
 
     allow(blacklight_solr).to receive(:send_and_receive).and_raise(rsolr_timeout)
-    expect { service.repository.search }.to raise_exception(Blacklight::Exceptions::SolrTimeout, /Timeout connecting to Solr instance/)
+    expect { service.repository.search }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
   end
 
   describe "#previous_and_next_documents_for_search" do
