@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.7, 3.0]
+        ruby: [2.7, 3.0.3]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [3.0]
+        ruby: [3.0.3]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
@@ -106,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.7, 3.0]
+        ruby: [2.7, 3.0.3]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
