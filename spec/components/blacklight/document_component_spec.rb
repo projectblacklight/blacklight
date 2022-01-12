@@ -166,4 +166,18 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       expect(rendered).to have_content 'Thumb!'
     end
   end
+
+  context 'with before_title' do
+    let(:render) do
+      component.render_in(view_context) do
+        component.title do |c|
+          c.before_title { 'Prefix!' }
+        end
+      end
+    end
+
+    it 'shows the prefix' do
+      expect(rendered).to have_content "Prefix!"
+    end
+  end
 end
