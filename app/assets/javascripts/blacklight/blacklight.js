@@ -321,6 +321,7 @@
 
     modal.containerSelector    = '[data-blacklight-modal~=container]';
 
+    // This attribute is set on the AJAX response when the modal should be closed.
     modal.modalCloseSelector   = '[data-blacklight-modal~=close]';
 
     // Called on fatal failure of ajax load, function returns content
@@ -403,8 +404,11 @@
       $('body').on('loaded.blacklight.blacklight-modal', modal.checkCloseModal);
     };
 
-    // A function used as an event handler on loaded.blacklight.blacklight-modal
-    // to catch contained data-blacklight-modal=closed directions
+    // If the modal has been updated with new content,
+    // and the new content has the modalCloseSelector,
+    // and the new content has flash messages,
+    // Then close the modal and copy the flash messages up to the main page.
+    // This is used when sending an email/sms.
     modal.checkCloseModal = function(event) {
       if ($(event.target).find(modal.modalCloseSelector).length) {
         var modalFlashes = $(this).find('.flash_messages');
