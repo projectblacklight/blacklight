@@ -9,6 +9,8 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
     CatalogController.blacklight_config.deep_copy
   end
 
+  let(:all_docs_query) { '' }
+
   let :mock_response do
     { response: { docs: [document] } }
   end
@@ -104,19 +106,30 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
       expect(response).to be_a_kind_of Blacklight::Solr::Response
       expect(response.params).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
     end
+
+    it "calls send_and_receive with params returned from request factory method" do
+      expect(blacklight_config.http_method).to eq :get
+      input_params = { q: all_docs_query }
+      allow(subject.connection).to receive(:send_and_receive) do |path, params|
+        expect(path).to eq 'select'
+        expect(params[:method]).to eq :get
+        expect(params[:params]).to include input_params
+      end.and_return('response' => { 'docs' => [] })
+      subject.search(input_params)
+    end
   end
 
-  describe "#send_and_receive" do
+  describe "#build_solr_request" do
+    let(:input_params) { { q: all_docs_query } }
+    let(:actual_params) { subject.build_solr_request(input_params) }
+
     describe "http_method configuration" do
       describe "using default" do
         it "defaults to get" do
           expect(blacklight_config.http_method).to eq :get
-          allow(subject.connection).to receive(:send_and_receive) do |path, params|
-            expect(path).to eq 'select'
-            expect(params[:method]).to eq :get
-            expect(params[:params]).to include(:q)
-          end.and_return('response' => { 'docs' => [] })
-          subject.search(q: @all_docs_query)
+          expect(actual_params[:method]).to eq :get
+          expect(actual_params[:params]).to include input_params
+          expect(actual_params).not_to have_key :data
         end
       end
 
@@ -125,25 +138,20 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
 
         it "keep value set to post" do
           expect(blacklight_config.http_method).to eq :post
-          allow(subject.connection).to receive(:send_and_receive) do |path, params|
-            expect(path).to eq 'select'
-            expect(params[:method]).to eq :post
-            expect(params[:data]).to include(:q)
-          end.and_return('response' => { 'docs' => [] })
-          subject.search(q: @all_docs_query)
+          expect(actual_params[:method]).to eq :post
+          expect(actual_params[:data]).to include input_params
+          expect(actual_params).not_to have_key :params
         end
       end
     end
 
     context 'with json parameters' do
+      let(:input_params) { { json: { query: { bool: {} } } } }
+
       it 'sends a post request with some json' do
-        allow(subject.connection).to receive(:send_and_receive) do |path, params|
-          expect(path).to eq 'select'
-          expect(params[:method]).to eq :post
-          expect(JSON.parse(params[:data]).with_indifferent_access).to include(query: { bool: {} })
-          expect(params[:headers]).to include({ 'Content-Type' => 'application/json' })
-        end.and_return('response' => { 'docs' => [] })
-        subject.search(json: { query: { bool: {} } })
+        expect(actual_params[:method]).to eq :post
+        expect(JSON.parse(actual_params[:data]).with_indifferent_access).to include(query: { bool: {} })
+        expect(actual_params[:headers]).to include({ 'Content-Type' => 'application/json' })
       end
     end
   end
@@ -152,7 +160,7 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
     let (:blacklight_config) { config = Blacklight::Configuration.new; config.http_method = :post; config }
 
     it "sends a post request to solr and get a response back" do
-      response = subject.search(q: @all_docs_query)
+      response = subject.search(q: all_docs_query)
       expect(response.docs.length).to be >= 1
     end
   end
