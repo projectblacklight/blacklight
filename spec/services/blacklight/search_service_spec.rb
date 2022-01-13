@@ -422,7 +422,6 @@ RSpec.describe Blacklight::SearchService, api: true do
   end
 
   it "raises a Blacklight exception if RSolr raises a timeout error connecting to Solr instance" do
-    # rsolr api is mess, let's
     rsolr_timeout = RSolr::Error::Timeout.new(nil, nil)
     allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
 
