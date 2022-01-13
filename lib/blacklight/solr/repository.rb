@@ -77,9 +77,7 @@ module Blacklight::Solr
         Blacklight.logger&.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) && ::BLACKLIGHT_VERBOSE_LOGGING
         solr_response
       end
-    rescue *[(defined?(RSolr::Error::Timeout) ? RSolr::Error::Timeout : nil)].compact => e
-      # RSolr 2.4.0+ has a RSolr::Error::Timeout that we'd like to treat specially instead of
-      # lumping into RSolr::Error::Http
+    rescue *defined_rsolr_timeout_exceptions => e
       raise Blacklight::Exceptions::RepositoryTimeout, "Timeout connecting to Solr instance using #{connection.inspect}: #{e.inspect}"
     rescue Errno::ECONNREFUSED => e
       # intended for and likely to be a RSolr::Error:ConnectionRefused, specifically.
@@ -102,6 +100,20 @@ module Blacklight::Solr
 
     def build_connection
       RSolr.connect(connection_config.merge(adapter: connection_config[:http_adapter]))
+    end
+
+    # RSolr 2.4.0+ has a RSolr::Error::Timeout that we'd like to treat specially
+    # instead of lumping into RSolr::Error::Http. Before that we can not rescue
+    # specially, so return an empty array.
+    #
+    # @return [Array<Exception>] that can be used, with a splat, as argument
+    #   to a ruby rescue
+    def defined_rsolr_timeout_exceptions
+      if defined?(RSolr::Error::Timeout)
+        [RSolr::Error::Timeout]
+      else
+        []
+      end
     end
   end
 end
