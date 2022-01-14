@@ -230,6 +230,7 @@ RSpec/DescribeClass:
     - 'spec/lib/tasks/blacklight_task_spec.rb'
     - 'spec/features/**/*'
     - 'spec/requests/**/*'
+    - 'spec/routing/**/*'
     - 'spec/views/**/*'
 RSpec/ExcessiveDocstringSpacing: # new in 2.5
   Enabled: true
