@@ -23,14 +23,14 @@
       <auto-complete src="<%= autocomplete_path %>" for="autocomplete-popup">
         <%= text_field_tag @query_param, @q, placeholder: scoped_t('search.placeholder'),
             class: "search-q q form-control rounded-#{@search_fields.length > 1 ? '0' : 'left'}",
-            id: "#{@prefix}q", autofocus: @autofocus %>
+            id: "#{@prefix}q", autofocus: @autofocus, aria: { label: scoped_t('search.label') } %>
 
         <ul id="autocomplete-popup"></ul>
       </auto-complete>
     <% else %>
       <%= text_field_tag @query_param, @q, placeholder: scoped_t('search.placeholder'),
           class: "search-q q form-control rounded-#{@search_fields.length > 1 ? '0' : 'left'}",
-          id: "#{@prefix}q", autofocus: @autofocus %>
+          id: "#{@prefix}q", autofocus: @autofocus, aria: { label: scoped_t('search.label') } %>
     <% end %>
 
     <span class="input-group-append">
