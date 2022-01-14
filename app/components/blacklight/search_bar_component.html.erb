@@ -17,7 +17,7 @@
     <% end %>
 
     <label for="<%= @prefix %><%= @query_param %>" class="sr-only visually-hidden"><%= scoped_t('search.label') %></label>
-    <%= text_field_tag @query_param, @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{search_fields.length > 1 ? '0' : 'left'}", id: "#{@prefix}q", autocomplete: autocomplete_path.present? ? "off" : "", autofocus: @autofocus, data: { autocomplete_enabled: autocomplete_path.present?, autocomplete_path: autocomplete_path }  %>
+    <%= text_field_tag @query_param, @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{search_fields.length > 1 ? '0' : 'left'}", id: "#{@prefix}q", autocomplete: autocomplete_path.present? ? "off" : "", autofocus: @autofocus, aria: { label: scoped_t('search.label') }, data: { autocomplete_enabled: autocomplete_path.present?, autocomplete_path: autocomplete_path }  %>
 
     <span class="input-group-append">
       <%= append %>
