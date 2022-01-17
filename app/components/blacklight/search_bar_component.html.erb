@@ -19,8 +19,8 @@
     <%= f.label @query_param, scoped_t('search.label'), class: 'sr-only visually-hidden' %>
     <% if autocomplete_path.present? %>
       <auto-complete src="<%= autocomplete_path %>" for="autocomplete-popup">
-        <%= f.text_field @query_param, value: @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{search_fields.length > 1 ? '0' : 'left'}", autofocus: @autofocus, aria: { label: scoped_t('search.label') }  %>
-        <ul id="autocomplete-popup"></ul>
+        <%= f.text_field @query_param, value: @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{search_fields.length > 1 ? '0' : 'left'}", autofocus: @autofocus, aria: { label: scoped_t('search.label'), autocomplete: 'list', controls: 'autocomplete-popup' }  %>
+        <ul id="autocomplete-popup" role="listbox" aria-label="<%= scoped_t('search.label') %>"></ul>
       </auto-complete>
     <% else %>
       <%= f.text_field @query_param, value: @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{search_fields.length > 1 ? '0' : 'left'}", autofocus: @autofocus, aria: { label: scoped_t('search.label') }  %>
