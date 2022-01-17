@@ -127,4 +127,25 @@ RSpec.describe "Did You Mean" do
     click_button 'search'
     expect(page).to have_content("Did you mean")
   end
+
+  context 'spellcheck collations are enabled' do
+    before do
+      CatalogController.blacklight_config[:default_solr_params]["spellcheck.collate"] = true
+    end
+
+    after do
+      CatalogController.blacklight_config[:default_solr_params].delete("spellcheck.collate")
+    end
+
+    it "shows suggestions if there aren't many hits" do
+      fill_in "q", with: 'Yoshido Hajime'
+      click_button 'search'
+
+      expect(page).to have_content("Did you mean")
+      click_link 'yoshida Hajime'
+      within ("#sortAndPerPage") do
+        expect(page).to have_content "1 - 2 of 2"
+      end
+    end
+  end
 end
