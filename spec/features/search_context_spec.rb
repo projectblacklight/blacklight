@@ -53,9 +53,3 @@ RSpec.describe "Search Results context" do
     end
   end
 end
-
-def search_for q
-  visit root_path
-  fill_in "q", with: q
-  click_button 'search'
-end
