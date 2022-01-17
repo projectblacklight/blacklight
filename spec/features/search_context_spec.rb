@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe "Search Results context", js: true do
-  it "passes the current search id through" do
+RSpec.describe "Search Results context" do
+  it "passes the current search id through", js: true do
     search_for ''
     search_id = Search.last.id.to_s
     click_on 'Pluvial nectar of blessings'
@@ -15,7 +15,7 @@ RSpec.describe "Search Results context", js: true do
     expect(prev['data-context-href']).to eq "/catalog/2004310986/track?counter=8&document_id=2004310986&search_id=#{search_id}"
   end
 
-  it "redirects context urls to the original url" do
+  it "redirects context urls to the original url", js: true do
     search_for ''
     first('.index_title a').click
     expect(page).to have_content "« Previous | 1 of 30 | Next »"
@@ -42,7 +42,7 @@ RSpec.describe "Search Results context", js: true do
   end
 
   context "navigating between search results using context pagination" do
-    it "updates the back to search link with the current search pagination context" do
+    it "updates the back to search link with the current search pagination context", js: true do
       search_for ''
       expect(page).to have_content "1 - 10"
       find_all('.index_title a').last.click
