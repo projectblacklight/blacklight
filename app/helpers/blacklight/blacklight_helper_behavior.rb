@@ -139,8 +139,7 @@ module Blacklight::BlacklightHelperBehavior
     Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
       # The spelling response field may be missing from non solr repositories.
       response.total <= spell_check_max &&
-        !response.spelling.nil? &&
-        response.spelling.words.any?
+        (response.spelling&.words&.any? || response.spelling&.collation&.present? || false)
     end
   end
   deprecation_deprecate should_show_spellcheck_suggestions?: 'moving into a private method of Blacklight::Response::SpellcheckComponent'
