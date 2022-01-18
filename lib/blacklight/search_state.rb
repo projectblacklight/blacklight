@@ -80,14 +80,20 @@ module Blacklight
     # to provide more interesting routing to
     # documents
     def url_for_document(doc, options = {})
-      if respond_to?(:blacklight_config) &&
-       blacklight_config.view_config(:show).route
-        route = blacklight_config.view_config(:show).route.merge(action: :show, id: doc).merge(options)
-        route[:controller] = params[:controller] if route[:controller] == :current
-        route
-      else
-        doc
-      end
+      return doc unless routable?(doc)
+
+      route = blacklight_config.view_config(:show).route.merge(action: :show, id: doc).merge(options)
+      route[:controller] = params[:controller] if route[:controller] == :current
+      route
+    end
+
+    # To build a show route, we must have a blacklight_config that has
+    # configured show views, and the doc must appropriate to the config
+    # @return [Boolean]
+    def routable?(doc)
+      return false unless respond_to?(:blacklight_config) && blacklight_config.view_config(:show).route
+
+      doc.is_a? routable_model_for(blacklight_config)
     end
 
     def remove_query_params
@@ -187,6 +193,10 @@ module Blacklight
     end
 
     private
+
+    def routable_model_for(blacklight_config)
+      blacklight_config.document_model || ::SolrDocument
+    end
 
     def search_field_key
       params[:search_field]
