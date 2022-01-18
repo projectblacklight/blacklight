@@ -156,4 +156,36 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     component.partial { 'Partials' }
     expect(rendered).to have_content 'Partials'
   end
+
+  describe '.with_collection' do
+    subject(:rendered) do
+      described_class.with_collection(docs).render_in(view_context)
+    end
+
+    let(:docs) do
+      [
+        SolrDocument.new(id: '123', title_tsim: 'Book1'),
+        SolrDocument.new(id: '456', title_tsim: 'Book2')
+      ]
+    end
+    let(:response) do
+      instance_double(Blacklight::Solr::Response,
+                      documents: docs,
+                      prev_page: nil,
+                      next_page: 2,
+                      total_pages: 3,
+                      aggregations: [])
+    end
+
+    let(:config) do
+      Blacklight::Configuration.new do |config|
+        config.add_index_field 'title_tsim', label: 'Title:'
+      end
+    end
+
+    it 'renders the collection' do
+      expect(rendered.to_s).to include('Book1')
+      expect(rendered.to_s).to include('Book2')
+    end
+  end
 end
