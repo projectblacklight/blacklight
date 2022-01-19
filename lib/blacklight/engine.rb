@@ -55,8 +55,6 @@ module Blacklight
 
     config.action_dispatch.rescue_responses["Blacklight::Exceptions::RecordNotFound"] = :not_found
 
-    config.enable_search_bar_autofocus = false
-
     config.facet_missing_param = '[* TO *]'
   end
 end
