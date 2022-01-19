@@ -294,13 +294,13 @@ module Blacklight::Catalog
   end
 
   def sms_mappings
-    Blacklight::Engine.config.sms_mappings
+    Blacklight::Engine.config.blacklight.sms_mappings
   end
 
   def validate_email_params
     if params[:to].blank?
       flash[:error] = I18n.t('blacklight.email.errors.to.blank')
-    elsif !params[:to].match(Blacklight::Engine.config.email_regexp)
+    elsif !params[:to].match(Blacklight::Engine.config.blacklight.email_regexp)
       flash[:error] = I18n.t('blacklight.email.errors.to.invalid', to: params[:to])
     end
 

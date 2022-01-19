@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'blacklight/deprecations/engine_configuration'
 require 'view_component/engine'
 
 module Blacklight
@@ -29,7 +30,9 @@ module Blacklight
       end
     end
 
-    Blacklight::Engine.config.sms_mappings = {
+    bl_global_config = OpenStructWithHashAccess.new
+
+    bl_global_config.sms_mappings = {
       'Virgin' => 'vmobl.com',
       'AT&T' => 'txt.att.net',
       'Verizon' => 'vtext.com',
@@ -41,14 +44,20 @@ module Blacklight
       'Google Fi' => 'msg.fi.google.com'
     }
 
-    config.bookmarks_http_method = :post
+    bl_global_config.bookmarks_http_method = :post
 
-    config.email_regexp = defined?(Devise) ? Devise.email_regexp : /\A[^@\s]+@[^@\s]+\z/
+    bl_global_config.email_regexp = defined?(Devise) ? Devise.email_regexp : /\A[^@\s]+@[^@\s]+\z/
+
+    bl_global_config.facet_missing_param = '[* TO *]'
+
+    # Anything that goes into Blacklight::Engine.config is stored as a class
+    # variable on Railtie::Configuration.  we're going to encapsulate all the
+    # Blacklight specific stuff in this single struct:
+    Blacklight::Engine.config.blacklight = bl_global_config
+
+    # Deprecate top-level access to legacy engine configuration
+    Blacklight::Deprecations::EngineConfiguration.deprecate_in(Blacklight::Engine.config)
 
     config.action_dispatch.rescue_responses["Blacklight::Exceptions::RecordNotFound"] = :not_found
-
-    config.enable_search_bar_autofocus = false
-
-    config.facet_missing_param = '[* TO *]'
   end
 end
