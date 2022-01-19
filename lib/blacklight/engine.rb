@@ -48,13 +48,13 @@ module Blacklight
 
     bl_global_config.email_regexp = defined?(Devise) ? Devise.email_regexp : /\A[^@\s]+@[^@\s]+\z/
 
+    bl_global_config.facet_missing_param = '[* TO *]'
+
     # Anything that goes into Blacklight::Engine.config is stored as a class
     # variable on Railtie::Configuration.  we're going to encapsulate all the
     # Blacklight specific stuff in this single struct:
     Blacklight::Engine.config.blacklight = bl_global_config
 
     config.action_dispatch.rescue_responses["Blacklight::Exceptions::RecordNotFound"] = :not_found
-
-    config.facet_missing_param = '[* TO *]'
   end
 end
