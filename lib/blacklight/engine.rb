@@ -30,7 +30,7 @@ module Blacklight
       end
     end
 
-    bl_global_config = OpenStruct.new
+    bl_global_config = OpenStructWithHashAccess.new
 
     bl_global_config.sms_mappings = {
       'Virgin' => 'vmobl.com',
