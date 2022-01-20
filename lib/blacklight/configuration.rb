@@ -147,7 +147,8 @@ module Blacklight
           autocomplete_suggester: 'mySuggester',
           raw_endpoint: OpenStructWithHashAccess.new(enabled: false),
           track_search_session: true,
-          advanced_search: OpenStruct.new(enabled: false)
+          advanced_search: OpenStruct.new(enabled: false),
+          enable_search_bar_autofocus: false
         }
 
         # rubocop:enable Metrics/MethodLength
