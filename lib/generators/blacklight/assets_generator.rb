@@ -7,8 +7,8 @@ module Blacklight
 
     # This could be skipped if you want to use webpacker
     def add_javascript_dependencies
-      gem 'bootstrap', options[:'bootstrap-version']
-      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
+      gem 'bootstrap', options[:'bootstrap-version'] # in rails 7, only for stylesheets
+      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript' if Rails.version < '7'
     end
 
     # Add sprockets javascript to Rails 6.
@@ -34,40 +34,63 @@ module Blacklight
       empty_directory 'app/assets/images'
     end
 
-    def assets # rubocop:disable Metrics/MethodLength
+    def assets
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
-      contents = "\n//\n// Required by Blacklight\n"
-      contents += "//= require popper\n"
-      contents += "// Twitter Typeahead for autocomplete\n"
-      contents += "//= require twitter/typeahead\n"
-      contents += "//= require bootstrap\n"
-      contents += "//= require blacklight/blacklight\n"
+      if Rails.version > '7'
+        generate_import_map_assets
+      else
+        gem 'jquery-rails'
+        contents = "\n//\n// Required by Blacklight\n"
+        contents += "//= require popper\n"
+        contents += "// Twitter Typeahead for autocomplete\n"
+        contents += "//= require twitter/typeahead\n"
+        contents += "//= require bootstrap\n"
+        contents += "//= require blacklight/blacklight\n"
 
-      marker = if turbolinks?
-                 '//= require turbolinks'
-               else
-                 '//= require rails-ujs'
-               end
+        marker = if turbolinks?
+                   '//= require turbolinks'
+                 else
+                   '//= require rails-ujs'
+                 end
 
-      insert_into_file "app/assets/javascripts/application.js", after: marker do
-        contents
+        insert_into_file "app/assets/javascripts/application.js", after: marker do
+          contents
+        end
+
+        insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
+          "//= require jquery3\n"
+        end
       end
-
-      insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
-        "//= require jquery3\n"
-      end
-    end
-
-    # This is not a default in Rails 5.1+
-    def add_jquery
-      gem 'jquery-rails'
     end
 
     private
+
+    def generate_import_map_assets
+      gem "sassc-rails", "~> 2.1"
+
+      append_to_file 'config/importmap.rb' do
+        <<~CONTENT
+          pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.0/dist/umd/popper.min.js"
+          pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.1.3/dist/js/bootstrap.js"
+          pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.0/dist/jquery.js"
+          pin "blacklight", to: "blacklight/blacklight.js"
+        CONTENT
+      end
+
+      append_to_file 'app/javascript/application.js' do
+        <<~CONTENT
+          import $ from "jquery"
+          import bootstrap from "bootstrap"
+          window.bootstrap = bootstrap // Required for Blacklight so it can manage the modals
+          window.$ = $ // required as long as blacklight requires jquery
+          import "blacklight"
+        CONTENT
+      end
+    end
 
     def turbolinks?
       @turbolinks ||= application_js.include?('turbolinks')
