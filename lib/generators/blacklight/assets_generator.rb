@@ -13,7 +13,7 @@ module Blacklight
 
     # Add sprockets javascript to Rails 6.
     def create_sprockets_javascript
-      return if Rails.version < '6.0.0'
+      return unless Rails.version.starts_with? '6'
 
       create_file 'app/assets/javascripts/application.js' do
         <<~CONTENT
@@ -101,7 +101,9 @@ module Blacklight
     end
 
     def application_js
-      IO.read(File.expand_path("app/assets/javascripts/application.js", destination_root))
+      path = File.expand_path("app/assets/javascripts/application.js", destination_root)
+
+      File.exist?(path) ? File.read(path) : ''
     end
   end
 end
