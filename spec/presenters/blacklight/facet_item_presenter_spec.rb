@@ -61,7 +61,7 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
 
     it 'is the url to apply the facet' do
       allow(search_state).to receive(:add_facet_params_and_redirect).with('key', facet_item).and_return(f: 'x')
-      allow(view_context).to receive(:search_action_path).with(f: 'x').and_return('/catalog?f=x')
+      allow(view_context).to receive(:search_action_path).with({ f: 'x' }).and_return('/catalog?f=x')
 
       expect(presenter.href).to eq '/catalog?f=x'
     end
