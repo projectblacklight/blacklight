@@ -133,7 +133,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
       it "calls url_for on the engine scope" do
         expect(my_engine).to receive(:url_for)
-          .with(q: "query", f: "facets", controller: "catalog")
+          .with({ q: "query", f: "facets", controller: "catalog" })
           .and_return('link-url')
         expect(tag).to match /Back to Search/
         expect(tag).to match /link-url/
@@ -292,12 +292,12 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     let(:document) { SolrDocument.new(id: 1) }
 
     it "determines the correct route for the document class" do
-      allow(helper.main_app).to receive(:track_test_path).with(id: have_attributes(id: 1)).and_return('x')
+      allow(helper.main_app).to receive(:track_test_path).with({ id: have_attributes(id: 1) }).and_return('x')
       expect(helper.session_tracking_path(document)).to eq 'x'
     end
 
     it "passes through tracking parameters" do
-      allow(helper.main_app).to receive(:track_test_path).with(id: have_attributes(id: 1), x: 1).and_return('x')
+      allow(helper.main_app).to receive(:track_test_path).with({ id: have_attributes(id: 1), x: 1 }).and_return('x')
       expect(helper.session_tracking_path(document, x: 1)).to eq 'x'
     end
 
