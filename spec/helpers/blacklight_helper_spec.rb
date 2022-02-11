@@ -83,7 +83,7 @@ RSpec.describe BlacklightHelper do
     end
 
     it "sends parameters" do
-      expect(presenter).to receive(:link_rel_alternates).with(unique: true).and_return(result)
+      expect(presenter).to receive(:link_rel_alternates).with({ unique: true }).and_return(result)
       expect(helper.render_link_rel_alternates(document, unique: true)).to eq result
     end
   end
@@ -169,7 +169,7 @@ RSpec.describe BlacklightHelper do
   describe "#render_document_index" do
     it "renders the document index with the current view type" do
       allow(helper).to receive_messages(document_index_view_type: :current_view)
-      allow(helper).to receive(:render_document_index_with_view).with(:current_view, [], a: 1, b: 2)
+      allow(helper).to receive(:render_document_index_with_view).with(:current_view, [], { a: 1, b: 2 })
       helper.render_document_index [], a: 1, b: 2
     end
   end
