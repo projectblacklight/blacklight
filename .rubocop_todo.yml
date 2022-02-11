@@ -339,6 +339,7 @@ RSpec/SubjectStub:
     - 'spec/lib/blacklight/search_state_spec.rb'
     - 'spec/models/blacklight/document/cache_key_spec.rb'
     - 'spec/models/blacklight/search_builder_spec.rb'
+    - spec/presenters/blacklight/document_presenter_spec.rb
     - 'spec/services/blacklight/search_service_spec.rb'
 
 # Offense count: 75
