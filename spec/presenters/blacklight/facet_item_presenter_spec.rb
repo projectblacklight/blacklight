@@ -21,9 +21,9 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
   end
 
   describe '#label' do
-    it "is the facet value for an ordinary facet" do
+    it "is the stringified facet value for an ordinary facet" do
       allow(facet_config).to receive_messages(query: nil, date: nil, helper_method: nil, url_method: nil)
-      expect(presenter.label).to eq facet_item
+      expect(presenter.label).to eq facet_item.to_s
     end
 
     it "allows you to pass in a :helper_method argument to the configuration" do
