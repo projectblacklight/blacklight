@@ -146,7 +146,9 @@ module Blacklight::Solr
         if filter.config.filter_query_builder
           filter_query, subqueries = filter.config.filter_query_builder.call(self, filter, solr_parameters)
 
-          solr_parameters.append_filter_query(filter_query) if filter_query
+          Array(filter_query).each do |fq|
+            solr_parameters.append_filter_query(fq)
+          end
           solr_parameters.merge!(subqueries) if subqueries
         else
           filter.values.reject(&:blank?).each do |value|
