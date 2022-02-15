@@ -45,7 +45,7 @@ module Blacklight
     # @!attribute pivot
     #   @return []
     # @!attribute filter_query_builder
-    #   @return [nil, #call] a Proc (or other object responding to #call) that receives as parameters: 1) the search builder, 2) this facet config
+    #   @return [nil, #call] a Proc (or other object responding to #call) that receives as parameters: 1) the search builder, 2) the Blacklight::FilterField instance
     #     and 3) the solr parameters hash. The Proc returns a string suitable for e.g. Solr's fq parameter, or a 2-element array of the string and a hash of additional
     #     parameters to include with the query (i.e. for referenced subqueries); note that implementations are responsible for ensuring
     #     the additional parameter keys are unique.
