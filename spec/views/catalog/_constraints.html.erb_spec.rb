@@ -23,7 +23,7 @@ RSpec.describe "catalog/constraints" do
   end
 
   it "renders a start over link with the current view type" do
-    allow(view).to receive(:search_action_path).with(view: :xyz).and_return('http://xyz?view=xyz')
+    allow(view).to receive(:search_action_path).with({ view: :xyz }).and_return('http://xyz?view=xyz')
     allow(view).to receive_messages(query_has_constraints?: true)
     params[:view] = 'xyz'
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
