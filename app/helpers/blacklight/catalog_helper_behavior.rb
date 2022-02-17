@@ -219,21 +219,27 @@ module Blacklight::CatalogHelperBehavior
   # Render an html <title> appropriate string for a set of search parameters
   # @param [ActionController::Parameters] params2
   # @return [String]
-  def render_search_to_page_title(params)
+  def render_search_to_page_title(search_state_or_params)
+    search_state = if search_state_or_params.is_a? Blacklight::SearchState
+                     search_state_or_params
+                   else
+                     controller.search_state_class.new(params, blacklight_config, self)
+                   end
+
     constraints = []
 
-    if params['q'].present?
-      q_label = label_for_search_field(params[:search_field]) unless default_search_field?(params[:search_field])
+    if search_state.query_param.present?
+      q_label = label_for_search_field(search_state.search_field.key) unless search_state.search_field&.key.blank? || default_search_field?(search_state.search_field.key)
 
       constraints += if q_label.present?
-                       [t('blacklight.search.page_title.constraint', label: q_label, value: params['q'])]
+                       [t('blacklight.search.page_title.constraint', label: q_label, value: search_state.query_param)]
                      else
-                       [params['q']]
+                       [search_state.query_param]
                      end
     end
 
-    if params['f'].present?
-      constraints += params['f'].to_unsafe_h.collect { |key, value| render_search_to_page_title_filter(key, Array(value)) }
+    if search_state.filters.any?
+      constraints += search_state.filters.collect { |filter| render_search_to_page_title_filter(filter.key, filter.values) }
     end
 
     constraints.join(' / ')

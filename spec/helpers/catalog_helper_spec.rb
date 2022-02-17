@@ -264,7 +264,7 @@ RSpec.describe CatalogHelper do
   end
 
   describe "#render_search_to_page_title" do
-    subject { helper.render_search_to_page_title(params) }
+    subject { helper.render_search_to_page_title(Blacklight::SearchState.new(params, blacklight_config)) }
 
     before do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
@@ -272,7 +272,11 @@ RSpec.describe CatalogHelper do
       allow(helper).to receive(:label_for_search_field).with(nil).and_return('')
     end
 
-    let(:blacklight_config) { Blacklight::Configuration.new }
+    let(:blacklight_config) do
+      Blacklight::Configuration.new.tap do |config|
+        config.add_facet_field 'format'
+      end
+    end
 
     context 'when the f param is an array' do
       let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: ["Book"] }) }
