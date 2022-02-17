@@ -1,9 +1,13 @@
-<%= content_tag :div, id: @id, class: @classes do %>
-  <h2 class="sr-only visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
+<%= content_tag @tag || :div, id: @id, class: @classes do %>
+  <% if @render_headers %>
+    <h2 class="sr-only visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
+  <% end %>
 
-  <%= render Blacklight::StartOverButtonComponent.new %>
+  <%= render @start_over_component.new if @start_over_component %>
 
-  <span class="constraints-label sr-only visually-hidden"><%= t('blacklight.search.filters.title') %></span>
+  <% if @render_headers %>
+    <span class="constraints-label sr-only visually-hidden"><%= t('blacklight.search.filters.title') %></span>
+  <% end %>
   <% if query_constraints_area.present? %>
     <% query_constraints_area.each do |constraint| %>
       <%= constraint %>

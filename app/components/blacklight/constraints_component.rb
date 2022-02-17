@@ -6,15 +6,28 @@ module Blacklight
     renders_many :facet_constraints_area
     renders_many :additional_constraints
 
+    # rubocop:disable Metrics/ParameterLists
     def initialize(search_state:,
+                   tag: :div,
+                   render_headers: true,
                    id: 'appliedParams', classes: 'clearfix constraints-container',
-                   query_constraint_component: Blacklight::ConstraintLayoutComponent, facet_constraint_component: Blacklight::ConstraintComponent)
+                   query_constraint_component: Blacklight::ConstraintLayoutComponent,
+                   query_constraint_component_options: {},
+                   facet_constraint_component: Blacklight::ConstraintComponent,
+                   facet_constraint_component_options: {},
+                   start_over_component: Blacklight::StartOverButtonComponent)
       @search_state = search_state
       @query_constraint_component = query_constraint_component
+      @query_constraint_component_options = query_constraint_component_options
       @facet_constraint_component = facet_constraint_component
+      @facet_constraint_component_options = facet_constraint_component_options
+      @start_over_component = start_over_component
+      @render_headers = render_headers
+      @tag = tag
       @id = id
       @classes = classes
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def query_constraints
       if @search_state.query_param.present?
@@ -24,12 +37,13 @@ module Blacklight
             value: @search_state.query_param,
             label: label,
             remove_path: remove_path,
-            classes: 'query'
+            classes: 'query',
+            **@query_constraint_component_options
           )
         )
       else
         ''.html_safe
-      end + helpers.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
+      end + helpers.render(@facet_constraint_component.with_collection(clause_presenters.to_a, **@facet_constraint_component_options))
     end
 
     def remove_path
@@ -37,7 +51,7 @@ module Blacklight
     end
 
     def facet_constraints
-      helpers.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
+      helpers.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a, **@facet_constraint_component_options))
     end
 
     def render?
