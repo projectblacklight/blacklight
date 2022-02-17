@@ -102,8 +102,9 @@ module Blacklight::UrlHelperBehavior
     link_to label, link_url, opts
   end
 
-  # Search History and Saved Searches display
+  # Use in e.g. the search history display, where we want something more like text instead of the normal constraints
   def link_to_previous_search(params)
-    link_to(render_search_to_s(params), search_action_path(params))
+    search_state = controller.search_state_class.new(params, blacklight_config, self)
+    link_to(render(Blacklight::ConstraintsComponent.for_search_history(search_state: search_state)), search_action_path(params))
   end
 end

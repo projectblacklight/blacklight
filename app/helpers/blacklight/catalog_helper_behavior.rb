@@ -6,7 +6,6 @@ module Blacklight::CatalogHelperBehavior
   include Blacklight::ComponentHelperBehavior
   include Blacklight::FacetsHelperBehavior
   include Blacklight::RenderPartialsHelperBehavior
-  include Blacklight::SearchHistoryConstraintsHelperBehavior
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
