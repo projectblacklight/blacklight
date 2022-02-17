@@ -18,6 +18,7 @@ RSpec.describe "catalog/index.html.erb" do
 
   describe "with search parameters" do
     before do
+      allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
       allow(view).to receive(:has_search_parameters?).and_return(true)
       stub_template "catalog/_results_pagination.html.erb" => ""
       stub_template "catalog/_search_header.html.erb" => "header_content"
