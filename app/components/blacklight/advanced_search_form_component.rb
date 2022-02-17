@@ -63,9 +63,9 @@ module Blacklight
       constraint do
         params = helpers.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
 
-        params.except!(*search_fields.map { |_key, field_def| field_def[:key] })
+        adv_search_context = helpers.search_state.reset(params)
 
-        helpers.render_search_to_s(params)
+        Blacklight::ConstraintsComponent.for_search_history(search_state: adv_search_context)
       end
     end
 
