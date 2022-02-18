@@ -17,6 +17,7 @@ RSpec.describe "catalog/index" do
 
   before do
     @response = Blacklight::Solr::Response.new({ response: { numFound: 30 } }, start: 10, rows: 10)
+    allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
     allow(@response).to receive(:documents).and_return(document_list)
     params['content_format'] = 'some_format'
     allow(view).to receive(:action_name).and_return('index')
