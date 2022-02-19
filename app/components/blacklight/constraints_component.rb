@@ -42,19 +42,19 @@ module Blacklight
 
     def start_over_path
       Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.start_over_path
+        helpers.start_over_path
       end
     end
 
     def render?
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { @view_context.query_has_constraints? }
+      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { helpers.query_has_constraints? }
     end
 
     private
 
     def label
       Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-        @view_context.constraint_query_label(@search_state.params)
+        helpers.constraint_query_label(@search_state.params)
       end
     end
 

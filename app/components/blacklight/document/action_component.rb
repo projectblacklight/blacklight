@@ -20,12 +20,12 @@ module Blacklight
         return true if @action.component
         return false unless @action.partial == 'document_action'
 
-        @view_context.partial_from_blacklight?(@action.partial)
+        helpers.partial_from_blacklight?(@action.partial)
       end
 
       def label
         Deprecation.silence(Blacklight::ComponentHelperBehavior) do
-          @view_context.document_action_label(@action.name, @action)
+          helpers.document_action_label(@action.name, @action)
         end
       end
 

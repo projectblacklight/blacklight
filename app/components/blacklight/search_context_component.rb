@@ -15,19 +15,19 @@ module Blacklight
 
     def item_page_entry_info
       Deprecation.silence(Blacklight::CatalogHelperBehavior) do
-        @view_context.item_page_entry_info
+        helpers.item_page_entry_info
       end
     end
 
     def link_to_previous_document(*args)
       Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.link_to_previous_document(*args)
+        helpers.link_to_previous_document(*args)
       end
     end
 
     def link_to_next_document(*args)
       Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.link_to_next_document(*args)
+        helpers.link_to_next_document(*args)
       end
     end
   end

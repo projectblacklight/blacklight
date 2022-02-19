@@ -101,7 +101,7 @@ module Blacklight
     # @return [String]
     # @private
     def render_facet_count(options = {})
-      return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
+      return helpers.render_facet_count(@hits, options) unless helpers.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
 
       return '' if @hits.blank?
 
