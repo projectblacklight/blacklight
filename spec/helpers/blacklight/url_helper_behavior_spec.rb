@@ -12,6 +12,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
   before do
     allow(controller).to receive(:controller_name).and_return('test')
+    allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
     allow(helper).to receive(:search_action_path) do |*args|
       search_catalog_url *args
     end
@@ -158,11 +159,10 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   end
 
   describe "link_to_previous_search" do
-    let(:params) { {} }
+    let(:params) { { q: 'search query' } }
 
     it "links to the given search parameters" do
-      allow(helper).to receive(:render_search_to_s).with(params).and_return "link text"
-      expect(helper.link_to_previous_search({})).to eq helper.link_to("link text", helper.search_action_path)
+      expect(helper.link_to_previous_search(params)).to have_link(href: helper.search_action_path(params)).and(have_text('search query'))
     end
   end
 
