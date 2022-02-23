@@ -18,6 +18,12 @@ class Blacklight::Configuration
     #   @return [String, Symbol] icon file to use in the view picker
     # @!attribute document_actions
     #   @return [NestedOpenStructWithHashAccess{Symbol => Blacklight::Configuration::ToolConfig}] 'tools' to render for each document
+    # @!attribute facet_group_component
+    #   @return [Class] component class used to render a facet group
+    # @!attribute constraints_component
+    #   @return [Class] component class used to render the constraints
+    # @!attribute search_bar_component
+    #   @return [Class] component class used to render the search bar
     def search_bar_presenter_class
       super || Blacklight::SearchBarPresenter
     end
