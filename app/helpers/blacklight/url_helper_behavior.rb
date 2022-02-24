@@ -167,7 +167,9 @@ module Blacklight::UrlHelperBehavior
 
   # Search History and Saved Searches display
   def link_to_previous_search(params)
-    link_to(render_search_to_s(params), search_action_path(params))
+    Deprecation.silence(Blacklight::SearchHistoryConstraintsHelperBehavior) do
+      link_to(render_search_to_s(params), search_action_path(params))
+    end
   end
 
   # Get url parameters to a search within a grouped result set
