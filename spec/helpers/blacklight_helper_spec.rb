@@ -264,8 +264,13 @@ RSpec.describe BlacklightHelper do
       expect(helper.should_show_spellcheck_suggestions?(response)).to be true
     end
 
+    it "only shows suggestions from collations" do
+      response = double(total: 4, spelling: double(words: [], collation: { blah: 1 }))
+      expect(helper.should_show_spellcheck_suggestions?(response)).to be true
+    end
+
     it "shows suggestions only if there are spelling suggestions available" do
-      response = double(total: 4, spelling: double(words: []))
+      response = double(total: 4, spelling: double(words: [], collation: nil))
       expect(helper.should_show_spellcheck_suggestions?(response)).to be false
     end
 
