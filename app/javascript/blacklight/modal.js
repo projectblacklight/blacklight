@@ -197,7 +197,7 @@ modal.receiveAjax = function (contents) {
   }
 
   modal.hide = function(el) {
-    if (bootstrap.Modal.VERSION >= "5") {
+    if (bootstrap && bootstrap.Modal && bootstrap.Modal.VERSION >= "5") {
       bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).hide();
     } else {
       $(el || modal.modalSelector).modal('hide');
@@ -205,7 +205,7 @@ modal.receiveAjax = function (contents) {
   }
 
   modal.show = function(el) {
-    if (bootstrap.Modal.VERSION >= "5") {
+    if (bootstrap && bootstrap.Modal && bootstrap.Modal.VERSION >= "5") {
       bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).show();
     } else {
       $(el || modal.modalSelector).modal('show');
