@@ -7,19 +7,25 @@ module Blacklight
 
     # This could be skipped if you want to use webpacker
     def add_javascript_dependencies
-      gem 'bootstrap', options[:'bootstrap-version'] # in rails 7, only for stylesheets
-      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript' if Rails.version < '7'
+      gem 'bootstrap', options[:'bootstrap-version']
+      gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
     end
 
-    # Add sprockets javascript to Rails 6.
-    def create_sprockets_javascript
-      return unless Rails.version.starts_with? '6'
+    def appease_rails7
+      return unless Rails.version > '7'
 
+      gem "sassc-rails", "~> 2.1"
+
+      remove_file 'app/javascript/application.js'
+    end
+
+    # Add sprockets javascript
+    def create_sprockets_javascript
       create_file 'app/assets/javascripts/application.js' do
         <<~CONTENT
           //= require jquery3
           //= require rails-ujs
-          //= require turbolinks
+          #{'//= require turbolinks' if Rails.version < '7'}
         CONTENT
       end
     end
@@ -28,7 +34,7 @@ module Blacklight
     # Remove the empty generated app/assets/images directory. Without doing this,
     # the default Sprockets 4 manifest will raise an exception.
     def appease_sprockets4
-      return if Rails.version > '7' || !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4'
+      return if !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4'
 
       append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
       empty_directory 'app/assets/images'
@@ -40,57 +46,30 @@ module Blacklight
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
-      if Rails.version > '7'
-        generate_import_map_assets
-      else
-        gem 'jquery-rails'
-        contents = "\n//\n// Required by Blacklight\n"
-        contents += "//= require popper\n"
-        contents += "// Twitter Typeahead for autocomplete\n"
-        contents += "//= require twitter/typeahead\n"
-        contents += "//= require bootstrap\n"
-        contents += "//= require blacklight/blacklight\n"
+      gem 'jquery-rails'
+      contents = "\n//\n// Required by Blacklight\n"
+      contents += "//= require popper\n"
+      contents += "// Twitter Typeahead for autocomplete\n"
+      contents += "//= require twitter/typeahead\n"
+      contents += "//= require bootstrap\n"
+      contents += "//= require blacklight/blacklight\n"
 
-        marker = if turbolinks?
-                   '//= require turbolinks'
-                 else
-                   '//= require rails-ujs'
-                 end
+      marker = if turbolinks?
+                 '//= require turbolinks'
+               else
+                 '//= require rails-ujs'
+               end
 
-        insert_into_file "app/assets/javascripts/application.js", after: marker do
-          contents
-        end
+      insert_into_file "app/assets/javascripts/application.js", after: marker do
+        contents
+      end
 
-        insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
-          "//= require jquery3\n"
-        end
+      insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
+        "//= require jquery3\n"
       end
     end
 
     private
-
-    def generate_import_map_assets
-      gem "sassc-rails", "~> 2.1"
-
-      append_to_file 'config/importmap.rb' do
-        <<~CONTENT
-          pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.0/dist/umd/popper.min.js"
-          pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.1.3/dist/js/bootstrap.js"
-          pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.0/dist/jquery.js"
-          pin "blacklight", to: "blacklight/blacklight.js"
-        CONTENT
-      end
-
-      append_to_file 'app/javascript/application.js' do
-        <<~CONTENT
-          import $ from "jquery"
-          import bootstrap from "bootstrap"
-          window.bootstrap = bootstrap // Required for Blacklight so it can manage the modals
-          window.$ = $ // required as long as blacklight requires jquery
-          import "blacklight"
-        CONTENT
-      end
-    end
 
     def turbolinks?
       @turbolinks ||= application_js.include?('turbolinks')
