@@ -103,7 +103,7 @@ module Blacklight::Document
 
   # Certain class-level methods needed for the document-specific
   # extendability architecture
-  module ClassMethods
+  class_methods do
     attr_writer :unique_key
 
     def unique_key

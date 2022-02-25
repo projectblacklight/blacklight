@@ -8,7 +8,7 @@ module Blacklight
       extend Deprecation
       self.deprecation_horizon = 'blacklight version 8.0.0'
 
-      module ClassMethods
+      class_methods do
         # Add a configuration block for a collection of solr fields
         def define_field_access(key, options = {})
           key = key.to_s if respond_to? :to_s
