@@ -410,7 +410,15 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   def partial_from_blacklight?(partial)
-    path = lookup_context.find_all(partial, lookup_context.prefixes + [""], true).first&.identifier
+    path = if Rails::VERSION::MAJOR >= 6
+             name = partial.split('/').last
+             prefix = partial.split('/').first if partial.include?('/')
+             logger&.debug "Looking for document index partial #{partial}"
+             prefixes = lookup_context.prefixes + [prefix, ""].compact
+             lookup_context.find_all(name, prefixes, true).first&.identifier
+           else
+             lookup_context.find_all(partial, lookup_context.prefixes + [""], true).first&.identifier
+           end
 
     path&.starts_with?(Blacklight::BlacklightHelperBehavior.blacklight_path)
   end
