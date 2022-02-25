@@ -30,7 +30,7 @@ module Blacklight::Document::Extensions
     end
   end
 
-  module ClassMethods
+  class_methods do
     attr_writer :registered_extensions
 
     # Returns array of hashes of registered extensions. Each hash

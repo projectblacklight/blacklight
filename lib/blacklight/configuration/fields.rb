@@ -7,7 +7,7 @@ module Blacklight
     module Fields
       extend ActiveSupport::Concern
 
-      module ClassMethods
+      class_methods do
         # Add a configuration block for a collection of solr fields
         def define_field_access(key, options = {})
           key = key.to_s if respond_to? :to_s
