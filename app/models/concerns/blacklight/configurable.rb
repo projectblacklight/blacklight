@@ -13,7 +13,7 @@ module Blacklight::Configurable
   end
   attr_writer :blacklight_config
 
-  module ClassMethods
+  class_methods do
     def copy_blacklight_config_from(other_class)
       self.blacklight_config = other_class.blacklight_config.inheritable_copy(self)
     end

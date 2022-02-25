@@ -4,7 +4,7 @@ module Blacklight::Document
   module SemanticFields
     extend ActiveSupport::Concern
 
-    module ClassMethods
+    class_methods do
       # Class-level method for accessing/setting semantic mappings
       # for solr stored fields. Can be set by local app, key is
       # a symbol for a semantic, value is a solr _stored_ field.
