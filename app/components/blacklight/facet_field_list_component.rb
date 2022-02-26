@@ -11,7 +11,7 @@ module Blacklight
     # @private
     def render_facet_limit_list(*args)
       Deprecation.silence(Blacklight::FacetsHelperBehavior) do
-        @view_context.render_facet_limit_list(*args)
+        helpers.render_facet_limit_list(*args)
       end
     end
 

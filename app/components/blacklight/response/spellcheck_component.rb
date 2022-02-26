@@ -14,13 +14,13 @@ module Blacklight
 
       def link_to_query(query)
         Deprecation.silence(Blacklight::UrlHelperBehavior) do
-          @view_context.link_to_query(query)
+          helpers.link_to_query(query)
         end
       end
 
       def render?
         Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
-          @options&.any? && @view_context.should_show_spellcheck_suggestions?(@response)
+          @options&.any? && helpers.should_show_spellcheck_suggestions?(@response)
         end
       end
 

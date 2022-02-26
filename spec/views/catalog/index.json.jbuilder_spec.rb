@@ -16,7 +16,7 @@ RSpec.describe "catalog/index.json", api: true do
   let(:presenter) { Blacklight::JsonPresenter.new(response, config) }
 
   let(:hash) do
-    render template: "catalog/index.json", format: :json
+    render template: "catalog/index", formats: [:json]
     JSON.parse(rendered).with_indifferent_access
   end
 

@@ -21,40 +21,40 @@ module Blacklight
     def query_constraints
       Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
         if @search_state.query_param.present?
-          @view_context.render(
+          helpers.render(
             @query_constraint_component.new(
               search_state: @search_state,
               value: @search_state.query_param,
               label: label,
-              remove_path: @view_context.remove_constraint_url(@search_state),
+              remove_path: helpers.remove_constraint_url(@search_state),
               classes: 'query'
             )
           )
         else
           ''.html_safe
         end
-      end + @view_context.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
+      end + helpers.render(@facet_constraint_component.with_collection(clause_presenters.to_a))
     end
 
     def facet_constraints
-      @view_context.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
+      helpers.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a))
     end
 
     def start_over_path
       Deprecation.silence(Blacklight::UrlHelperBehavior) do
-        @view_context.start_over_path
+        helpers.start_over_path
       end
     end
 
     def render?
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { @view_context.query_has_constraints? }
+      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { helpers.query_has_constraints? }
     end
 
     private
 
     def label
       Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
-        @view_context.constraint_query_label(@search_state.params)
+        helpers.constraint_query_label(@search_state.params)
       end
     end
 
@@ -80,17 +80,17 @@ module Blacklight
       return to_enum(:clause_presenters) unless block_given?
 
       @search_state.clause_params.each do |key, clause|
-        field_config = @view_context.blacklight_config.search_fields[clause[:field]]
-        yield Blacklight::ClausePresenter.new(key, clause, field_config, @view_context)
+        field_config = helpers.blacklight_config.search_fields[clause[:field]]
+        yield Blacklight::ClausePresenter.new(key, clause, field_config, helpers)
       end
     end
 
     def facet_item_presenter(facet_config, facet_item, facet_field)
-      (facet_config.item_presenter || Blacklight::FacetItemPresenter).new(facet_item, facet_config, @view_context, facet_field)
+      (facet_config.item_presenter || Blacklight::FacetItemPresenter).new(facet_item, facet_config, helpers, facet_field)
     end
 
     def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
-      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, @view_context, facet_field)
+      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
     end
   end
 end

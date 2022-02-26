@@ -191,9 +191,20 @@ module Blacklight::RenderPartialsHelperBehavior
     document_index_path_templates.each do |str|
       partial = format(str, index_view_type: view_type)
       logger&.debug "Looking for document index partial #{partial}"
-      template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:documents], {}).first
+
+      template = if Rails::VERSION::MAJOR >= 6
+                   name = partial.split('/').last
+                   prefix = partial.split('/').first if partial.include?('/')
+
+                   prefixes = lookup_context.prefixes + [prefix, ""].compact
+                   lookup_context.find_all(name, prefixes, true, locals.keys + [:documents], {}).first
+                 else
+                   lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:documents], {}).first
+                 end
+
       return template if template
     end
+
     nil
   end
 

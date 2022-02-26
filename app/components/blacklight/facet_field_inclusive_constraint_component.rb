@@ -22,7 +22,7 @@ module Blacklight
       return to_enum(:presenters) unless block_given?
 
       values.each do |item|
-        yield Blacklight::FacetGroupedItemPresenter.new(values, item, @facet_field.facet_field, @view_context, @facet_field.key, @facet_field.search_state)
+        yield Blacklight::FacetGroupedItemPresenter.new(values, item, @facet_field.facet_field, helpers, @facet_field.key, @facet_field.search_state)
       end
     end
   end

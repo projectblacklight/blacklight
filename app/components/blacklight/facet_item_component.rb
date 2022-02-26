@@ -87,7 +87,7 @@ module Blacklight
           # remove link
           link_to(@href, class: "remove", rel: "nofollow") do
             tag.span('✖', class: "remove-icon", aria: { hidden: true }) +
-              tag.span(@view_context.t(:'blacklight.search.facets.selected.remove'), class: 'sr-only visually-hidden')
+              tag.span(helpers.t(:'blacklight.search.facets.selected.remove'), class: 'sr-only visually-hidden')
           end
       end + render_facet_count(classes: ["selected"])
     end
@@ -101,7 +101,7 @@ module Blacklight
     # @return [String]
     # @private
     def render_facet_count(options = {})
-      return @view_context.render_facet_count(@hits, options) unless @view_context.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
+      return helpers.render_facet_count(@hits, options) unless helpers.method(:render_facet_count).owner == Blacklight::FacetsHelperBehavior || explicit_component_configuration?
 
       return '' if @hits.blank?
 
