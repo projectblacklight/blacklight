@@ -10,3 +10,6 @@ $zindex-typeahead: $zindex-dropdown;
 // renders our remove icon as an emoji-sized x instead of what we see on all other platforms...
 // so, for now (until we replace it with an SVG icon or something), we get to override bootstrap:
 $remove-icon-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif !default;
+
+$facet-active-border: $success !default;
+$facet-active-bg: $success !default;

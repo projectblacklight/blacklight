@@ -58,10 +58,20 @@
 }
 
 .facet-limit-active {
-  @extend .border-success;
+  border-color: $facet-active-border !important;
 
   .card-header {
-    @extend .bg-success;
+    background-color: $facet-active-bg !important;
+
+    .btn {
+      @if function-exists(color-contrast) {
+        color: color-contrast($facet-active-bg);
+      }
+
+      @if function-exists(color-yiq) {
+        color: color-yiq($facet-active-bg);
+      }
+    }
   }
 }
 
