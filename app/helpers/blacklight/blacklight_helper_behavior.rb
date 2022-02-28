@@ -139,8 +139,7 @@ module Blacklight::BlacklightHelperBehavior
     Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
       # The spelling response field may be missing from non solr repositories.
       response.total <= spell_check_max &&
-        !response.spelling.nil? &&
-        response.spelling.words.any?
+        (response.spelling&.words&.any? || response.spelling&.collation&.present? || false)
     end
   end
   deprecation_deprecate should_show_spellcheck_suggestions?: 'moving into a private method of Blacklight::Response::SpellcheckComponent'
@@ -362,7 +361,8 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Override this method if you want to use a differnet presenter for your documents
-  def document_presenter_class(document)
+  # @param [Blacklight::Document] optional, here for extension + backwards compatibility only
+  def document_presenter_class(document = nil)
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
       case action_name
       when 'show', 'citation'
@@ -411,7 +411,15 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   def partial_from_blacklight?(partial)
-    path = lookup_context.find_all(partial, lookup_context.prefixes + [""], true).first&.identifier
+    path = if Rails::VERSION::MAJOR >= 6
+             name = partial.split('/').last
+             prefix = partial.split('/').first if partial.include?('/')
+             logger&.debug "Looking for document index partial #{partial}"
+             prefixes = lookup_context.prefixes + [prefix, ""].compact
+             lookup_context.find_all(name, prefixes, true).first&.identifier
+           else
+             lookup_context.find_all(partial, lookup_context.prefixes + [""], true).first&.identifier
+           end
 
     path&.starts_with?(Blacklight::BlacklightHelperBehavior.blacklight_path)
   end

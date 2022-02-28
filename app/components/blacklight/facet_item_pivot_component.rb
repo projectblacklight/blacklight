@@ -74,11 +74,11 @@ module Blacklight
     # with overrides of deprecated helpers. In 8.x, we can just call Component#render_in
     # and call it a day
     def render_component(component)
-      @view_context.render(component)
+      helpers.render(component)
     end
 
     def facet_item_presenter(facet_item)
-      (@facet_item.facet_config.item_presenter || Blacklight::FacetItemPresenter).new(facet_item, @facet_item.facet_config, @view_context, @facet_item.facet_field, @facet_item.search_state)
+      (@facet_item.facet_config.item_presenter || Blacklight::FacetItemPresenter).new(facet_item, @facet_item.facet_config, helpers, @facet_item.facet_field, @facet_item.search_state)
     end
   end
 end

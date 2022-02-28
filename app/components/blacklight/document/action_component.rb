@@ -20,18 +20,25 @@ module Blacklight
         return true if @action.component
         return false unless @action.partial == 'document_action'
 
-        @view_context.partial_from_blacklight?(@action.partial)
+        helpers.partial_from_blacklight?(@action.partial)
       end
 
       def label
         Deprecation.silence(Blacklight::ComponentHelperBehavior) do
-          @view_context.document_action_label(@action.name, @action)
+          helpers.document_action_label(@action.name, @action)
         end
       end
 
+      # Action buttons get their URLs in one of three ways:
+      # - the action configuration explicitly specifies a helper method to call
+      # - a url route is inferred for ActiveModel-compliant objects (the default;
+      #     note that, although Rails routing is available here, we still call out to
+      #     helpers regardless, because that's where applications might have overridden the
+      #     default Rails routing behavior)
+      # - calling out to an implicit helper method with a conventional name (unlikely)
       def url
         Deprecation.silence(Blacklight::ComponentHelperBehavior) do
-          @view_context.document_action_path(@action, @url_opts.merge(({ id: @document } if @document) || {}))
+          helpers.document_action_path(@action, @url_opts.merge(({ id: @document } if @document) || {}))
         end
       end
 

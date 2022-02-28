@@ -11,15 +11,21 @@ module Blacklight
       gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
     end
 
-    # Add sprockets javascript to Rails 6.
-    def create_sprockets_javascript
-      return if Rails.version < '6.0.0'
+    def appease_rails7
+      return unless Rails.version > '7'
 
+      gem "sassc-rails", "~> 2.1"
+
+      remove_file 'app/javascript/application.js'
+    end
+
+    # Add sprockets javascript
+    def create_sprockets_javascript
       create_file 'app/assets/javascripts/application.js' do
         <<~CONTENT
           //= require jquery3
           //= require rails-ujs
-          //= require turbolinks
+          #{'//= require turbolinks' if Rails.version < '7'}
         CONTENT
       end
     end
@@ -40,6 +46,7 @@ module Blacklight
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
+      gem 'jquery-rails'
       contents = "\n//\n// Required by Blacklight\n"
       contents += "//= require popper\n"
       contents += "// Twitter Typeahead for autocomplete\n"
@@ -62,11 +69,6 @@ module Blacklight
       end
     end
 
-    # This is not a default in Rails 5.1+
-    def add_jquery
-      gem 'jquery-rails'
-    end
-
     private
 
     def turbolinks?
@@ -78,7 +80,9 @@ module Blacklight
     end
 
     def application_js
-      IO.read(File.expand_path("app/assets/javascripts/application.js", destination_root))
+      path = File.expand_path("app/assets/javascripts/application.js", destination_root)
+
+      File.exist?(path) ? File.read(path) : ''
     end
   end
 end

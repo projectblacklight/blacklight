@@ -58,28 +58,38 @@ module Blacklight::Solr
     # @return [Blacklight::Solr::Response] the solr response object
     def send_and_receive(path, solr_params = {})
       benchmark("Solr fetch", level: :debug) do
-        res = if solr_params[:json].present?
-                connection.send_and_receive(
-                  path,
-                  data: { params: solr_params.to_hash.except(:json) }.merge(solr_params[:json]).to_json,
-                  method: :post,
-                  headers: { 'Content-Type' => 'application/json' }
-                )
-              else
-                key = blacklight_config.http_method == :post ? :data : :params
-                connection.send_and_receive(path, { key => solr_params.to_hash, method: blacklight_config.http_method })
-              end
-
+        res = connection.send_and_receive(path, build_solr_request(solr_params))
         solr_response = blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
 
         Blacklight.logger&.debug("Solr query: #{blacklight_config.http_method} #{path} #{solr_params.to_hash.inspect}")
         Blacklight.logger&.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) && ::BLACKLIGHT_VERBOSE_LOGGING
         solr_response
       end
+    rescue *defined_rsolr_timeout_exceptions => e
+      raise Blacklight::Exceptions::RepositoryTimeout, "Timeout connecting to Solr instance using #{connection.inspect}: #{e.inspect}"
     rescue Errno::ECONNREFUSED => e
+      # intended for and likely to be a RSolr::Error:ConnectionRefused, specifically.
       raise Blacklight::Exceptions::ECONNREFUSED, "Unable to connect to Solr instance using #{connection.inspect}: #{e.inspect}"
     rescue RSolr::Error::Http => e
       raise Blacklight::Exceptions::InvalidRequest, e.message
+    end
+
+    # @return [Hash]
+    # @!visibility private
+    def build_solr_request(solr_params)
+      if solr_params[:json].present?
+        {
+          data: { params: solr_params.to_hash.except(:json) }.merge(solr_params[:json]).to_json,
+          method: :post,
+          headers: { 'Content-Type' => 'application/json' }
+        }
+      else
+        key = blacklight_config.http_method == :post ? :data : :params
+        {
+          key => solr_params.to_hash,
+          method: blacklight_config.http_method
+        }
+      end
     end
 
     private
@@ -96,6 +106,20 @@ module Blacklight::Solr
 
     def build_connection
       RSolr.connect(connection_config.merge(adapter: connection_config[:http_adapter]))
+    end
+
+    # RSolr 2.4.0+ has a RSolr::Error::Timeout that we'd like to treat specially
+    # instead of lumping into RSolr::Error::Http. Before that we can not rescue
+    # specially, so return an empty array.
+    #
+    # @return [Array<Exception>] that can be used, with a splat, as argument
+    #   to a ruby rescue
+    def defined_rsolr_timeout_exceptions
+      if defined?(RSolr::Error::Timeout)
+        [RSolr::Error::Timeout]
+      else
+        []
+      end
     end
   end
 end

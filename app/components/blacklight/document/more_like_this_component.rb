@@ -16,7 +16,7 @@ module Blacklight
       end
 
       def link_to_document(*args)
-        @view_context.link_to_document(*args)
+        helpers.link_to_document(*args)
       end
     end
   end

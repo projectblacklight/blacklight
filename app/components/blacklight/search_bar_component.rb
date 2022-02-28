@@ -57,12 +57,12 @@ module Blacklight
     end
 
     def blacklight_config
-      @view_context.blacklight_config
+      helpers.blacklight_config
     end
 
     def render_hash_as_hidden_fields(*args)
       Deprecation.silence(Blacklight::HashAsHiddenFieldsHelperBehavior) do
-        @view_context.render_hash_as_hidden_fields(*args)
+        helpers.render_hash_as_hidden_fields(*args)
       end
     end
 

@@ -28,7 +28,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     CatalogController.blacklight_config.deep_copy.tap do |config|
       config.track_search_session = false
       config.index.thumbnail_field = 'thumbnail_path_ss'
-      config.index.document_actions[:bookmark].partial = '/catalog/bookmark_control.html.erb'
+      config.index.document_actions[:bookmark].partial = '/catalog/bookmark_control'
     end
   end
 

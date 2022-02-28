@@ -15,6 +15,9 @@ module Blacklight
 
     class ECONNREFUSED < ::Errno::ECONNREFUSED; end
 
+    # NOTE: In Blacklight 8, the parent class will be Timeout::Error
+    class RepositoryTimeout < InvalidRequest; end
+
     class IconNotFound < StandardError
     end
   end

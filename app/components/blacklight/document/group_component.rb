@@ -13,12 +13,12 @@ module Blacklight
       end
 
       def grouped_documents
-        @view_context.render_document_index @group.docs
+        helpers.render_document_index @group.docs
       end
 
       def add_group_facet_params_and_redirect(group)
         Deprecation.silence(Blacklight::UrlHelperBehavior) do
-          @view_context.search_action_path(@view_context.add_group_facet_params_and_redirect(group))
+          helpers.search_action_path(helpers.add_group_facet_params_and_redirect(group))
         end
       end
     end

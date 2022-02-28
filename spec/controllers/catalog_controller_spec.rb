@@ -788,7 +788,7 @@ RSpec.describe CatalogController, api: true do
   describe "#add_show_tools_partial", api: false do
     before do
       described_class.blacklight_config.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
-      allow(controller).to receive(:solr_document_url).and_return('catalog/1')
+      allow(controller).to receive(:solr_document_url).and_return('http://test.host/catalog/1')
       allow(controller).to receive(:action_documents).and_return(1)
       Rails.application.routes.draw do
         get 'catalog/like', as: :catalog_like

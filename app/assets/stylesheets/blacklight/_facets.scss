@@ -62,6 +62,12 @@
 
   .card-header {
     @extend .bg-success;
+
+    .btn {
+      @if function-exists(color-contrast) {
+        color: color-contrast($success);
+      }
+    }
   }
 }
 

@@ -7,7 +7,7 @@ module Blacklight
     renders_many :constraints
     renders_many :search_field_controls
     renders_many :search_filter_controls, (lambda do |config:, display_facet:, presenter: nil, component: nil, **kwargs|
-      presenter ||= (config.presenter || Blacklight::FacetFieldPresenter).new(config, display_facet, @view_context)
+      presenter ||= (config.presenter || Blacklight::FacetFieldPresenter).new(config, display_facet, helpers)
       component = component || config.advanced_search_component || Blacklight::FacetFieldCheckboxesComponent
 
       component.new(facet_field: presenter, **kwargs)
@@ -30,7 +30,7 @@ module Blacklight
     end
 
     def sort_fields_select
-      options = sort_fields.values.map { |field_config| [@view_context.sort_field_label(field_config.key), field_config.key] }
+      options = sort_fields.values.map { |field_config| [helpers.sort_field_label(field_config.key), field_config.key] }
       select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select")
     end
 
@@ -63,7 +63,7 @@ module Blacklight
 
     def initialize_constraints
       constraint do
-        params = @view_context.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
+        params = helpers.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
 
         adv_search_context = helpers.search_state.reset(params)
 

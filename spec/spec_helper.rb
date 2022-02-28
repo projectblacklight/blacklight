@@ -14,7 +14,6 @@ require 'engine_cart'
 EngineCart.load_application!
 
 require 'rspec/rails'
-require 'rspec/its'
 require 'rspec/collection_matchers'
 require 'capybara/rails'
 require 'webdrivers'
@@ -29,13 +28,13 @@ Capybara.javascript_driver = :headless_chrome
 
 Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.load_selenium
-  browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+  capabilities = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.args << '--headless'
     opts.args << '--disable-gpu'
     opts.args << '--no-sandbox'
     opts.args << '--window-size=1280,1696'
   end
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: capabilities)
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
