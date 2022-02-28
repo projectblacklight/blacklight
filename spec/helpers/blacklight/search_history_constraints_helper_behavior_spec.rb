@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
+  around { |test| Deprecation.silence(described_class) { test.call } }
+
   before(:all) do
     @config = Blacklight::Configuration.new do |config|
       config.add_search_field 'default_search_field', label: 'Default'
