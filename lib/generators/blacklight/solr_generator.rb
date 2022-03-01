@@ -36,7 +36,7 @@ module Blacklight
 
     def bundle_install
       inside destination_root do
-        Bundler.with_clean_env do
+        Bundler.with_unbundled_env do
           run "bundle install"
         end
       end
