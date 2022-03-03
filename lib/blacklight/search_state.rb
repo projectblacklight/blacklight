@@ -42,11 +42,8 @@ module Blacklight
       end
 
       # Normalize facet parameters mangled by facebook
-      if params[:f].is_a?(Hash) && params[:f].values.any? { |x| x.is_a?(Hash) }
-        params[:f] = params[:f].transform_values do |value|
-          value.is_a?(Hash) ? value.values : value
-        end
-      end
+      params[:f] = normalize_facet_params(params[:f]) if facet_params_need_normalization(params[:f])
+      params[:f_inclusive] = normalize_facet_params(params[:f_inclusive]) if facet_params_need_normalization(params[:f_inclusive])
 
       params
     end
@@ -249,6 +246,16 @@ module Blacklight
 
     def facet_prefix
       params[facet_request_keys[:prefix]]
+    end
+
+    def self.facet_params_need_normalization(facet_params)
+      facet_params.is_a?(Hash) && facet_params.values.any? { |x| x.is_a?(Hash) }
+    end
+
+    def self.normalize_facet_params(facet_params)
+      facet_params.transform_values do |value|
+        value.is_a?(Hash) ? value.values : value
+      end
     end
 
     private
