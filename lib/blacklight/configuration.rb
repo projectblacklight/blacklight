@@ -479,6 +479,7 @@ module Blacklight
       fields.merge(show_fields)
     end
 
+    # @!visibility private
     def freeze
       each { |_k, v| v.is_a?(OpenStruct) && v.freeze }
       super
