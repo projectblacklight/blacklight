@@ -9,11 +9,11 @@ module Blacklight
       def initialize(response:, html: {}, **pagination_args)
         @response = response
         @html_attr = { aria: { label: t('views.pagination.aria.container_label') } }.merge(html)
-        @pagination_args = { outer_window: 2, theme: 'blacklight' }.merge(pagination_args)
+        @pagination_args = pagination_args
       end
 
       def pagination
-        helpers.paginate @response, **@pagination_args
+        helpers.paginate @response, **Blacklight::Engine.config.blacklight.default_pagination_options, **@pagination_args
       end
     end
   end
