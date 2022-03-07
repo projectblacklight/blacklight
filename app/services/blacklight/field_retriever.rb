@@ -4,7 +4,7 @@ module Blacklight
   class FieldRetriever
     # @param [Blacklight::Document] document
     # @param [Blacklight::Configuration::Field] field_config solr field configuration
-    # @param [ActionView::Base] Rails rendering context
+    # @param [ActionView::Base] view_context Rails rendering context
     def initialize(document, field_config, view_context = nil)
       @document = document
       @field_config = field_config

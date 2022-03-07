@@ -9,6 +9,10 @@ module Blacklight
 
       class_methods do
         # Add a configuration block for a collection of solr fields
+        # @!macro [attach] define_field_access
+        #   @!method ${1}s
+        #   @return [Blacklight::Configuration::Field]
+        #   @!method add_${1}
         def define_field_access(key, options = {})
           key = key.to_s if respond_to? :to_s
 

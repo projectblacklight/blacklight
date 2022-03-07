@@ -13,7 +13,7 @@ module Blacklight
       with_collection_parameter :document
 
       # @param [Blacklight::Document] document
-      # @param [Hash<String => Symbol>] map of citation format names (suspiciously, i18n keys
+      # @param [Hash<String => Symbol>] formats map of citation format names (suspiciously, i18n keys
       #   for them) to document methods that return the formatted citation.
       def initialize(document:, formats: DEFAULT_FORMATS)
         @document = document
