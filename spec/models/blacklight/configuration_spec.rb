@@ -518,7 +518,7 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
 
     it "takes ShowField argument" do
-      config.add_sms_field("title_tsim", Blacklight::Configuration::SmsField.new(field: "title_display", label: "Title"))
+      config.add_sms_field("title_tsim", Blacklight::Configuration::DisplayField.new(field: "title_display", label: "Title"))
 
       expect(config.sms_fields["title_tsim"]).not_to be_nil
       expect(config.sms_fields["title_tsim"].label).to eq "Title"
@@ -564,7 +564,7 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
 
     it "takes ShowField argument" do
-      config.add_email_field("title_tsim", Blacklight::Configuration::EmailField.new(field: "title_display", label: "Title"))
+      config.add_email_field("title_tsim", Blacklight::Configuration::DisplayField.new(field: "title_display", label: "Title"))
 
       expect(config.email_fields["title_tsim"]).not_to be_nil
       expect(config.email_fields["title_tsim"].label).to eq "Title"
