@@ -52,6 +52,13 @@ module Blacklight
 
     bl_global_config.facet_missing_param = '[* TO *]'
 
+    # These options are passed through to the kaminari #paginate helper
+    # https://www.rubydoc.info/gems/kaminari/1.2.2#helpers
+    bl_global_config.default_pagination_options = {
+      theme: 'blacklight',
+      outer_window: 2
+    }
+
     # Anything that goes into Blacklight::Engine.config is stored as a class
     # variable on Railtie::Configuration.  we're going to encapsulate all the
     # Blacklight specific stuff in this single struct:
