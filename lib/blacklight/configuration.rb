@@ -167,28 +167,40 @@ module Blacklight
 
     # facet fields
     # @!macro [attach] define_field_access
-    #   @!method ${1}s
-    #   @return [Hash{String=>Blacklight::Configuration::Field}]
-    #   @!method add_${1}
-    define_field_access :facet_field
+    #   @!attribute ${1}s
+    #     @return [Hash{Symbol=>$2}]
+    #   @!method add_${1}(config_key, hash_or_field_or_array)
+    #     @param [Symbol] config_key
+    #     @return [$2]
+    #     @overload add_${1}(config_key, options)
+    #       @param [Symbol] config_key
+    #       @param [Hash] options
+    #     @overload add_${1}(config_key, field)
+    #       @param [Symbol] config_key
+    #       @param [$2] field
+    #     @overload add_${1}(config_key, array)
+    #       @param [Symbol] config_key
+    #       @param [Array<$2, Hash>] array
+    #     @see #add_blacklight_field
+    define_field_access :facet_field, Blacklight::Configuration::FacetField
 
     # solr fields to display on search results
-    define_field_access :index_field
+    define_field_access :index_field, Blacklight::Configuration::IndexField
 
     # solr fields to display when showing single documents
-    define_field_access :show_field
+    define_field_access :show_field, Blacklight::Configuration::ShowField
 
     # solr "fields" to use for scoping user search queries to particular fields
-    define_field_access :search_field
+    define_field_access :search_field, Blacklight::Configuration::SearchField
 
     # solr fields to use for sorting results
-    define_field_access :sort_field
+    define_field_access :sort_field, Blacklight::Configuration::SortField
 
     # solr fields to use in text message
-    define_field_access :sms_field
+    define_field_access :sms_field, Blacklight::Configuration::DisplayField
 
     # solr fields to use in email message
-    define_field_access :email_field
+    define_field_access :email_field, Blacklight::Configuration::DisplayField
 
     def initialize(hash = {})
       super(self.class.default_values.deep_dup.merge(hash))
