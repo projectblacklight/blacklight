@@ -19,6 +19,9 @@ module Blacklight
 
     include Fields
 
+    # @!attribute [rw] http_method
+    #   @return [:get, :post] HTTP method used for search
+
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
     class << self
       # rubocop:disable Metrics/MethodLength
@@ -163,6 +166,10 @@ module Blacklight
     # method for adding new fields to the configuration
 
     # facet fields
+    # @!macro [attach] define_field_access
+    #   @!method ${1}s
+    #   @return [Hash{String=>Blacklight::Configuration::Field}]
+    #   @!method add_${1}
     define_field_access :facet_field
 
     # solr fields to display on search results
@@ -216,6 +223,7 @@ module Blacklight
       super || Blacklight::Solr::Repository
     end
 
+    # @return [Blacklight::Repository]
     def repository
       repository_class.new(self)
     end
@@ -236,11 +244,15 @@ module Blacklight
       super || Blacklight::Solr::FacetPaginator
     end
 
+    # @return [Integer]
     def default_per_page
       super || per_page.first
     end
 
     # DSL helper
+    # @yield [config]
+    # @yieldparam [Blacklight::Configuration]
+    # @return [Blacklight::Configuration]
     def configure
       yield self if block_given?
       self
@@ -248,6 +260,7 @@ module Blacklight
 
     # Returns default search field, used for simpler display in history, etc.
     # if not set, defaults to first defined search field
+    # @return [Blacklight::Configuration::SearchField]
     def default_search_field
       field = super || search_fields.values.find { |f| f.default == true }
       field || search_fields.values.first
@@ -255,11 +268,13 @@ module Blacklight
 
     # Returns default sort field, used for simpler display in history, etc.
     # if not set, defaults to first defined sort field
+    # @return [Blacklight::Configuration::SortField]
     def default_sort_field
       field = super || sort_fields.values.find { |f| f.default == true }
       field || sort_fields.values.first
     end
 
+    # @return [String]
     def default_title_field
       document_model.unique_key || 'id'
     end
@@ -278,7 +293,13 @@ module Blacklight
     # @param [String] group (nil) a group name of facet fields
     # @return [Array<String>] a list of the facet field names from the configuration
     def facet_field_names(group = nil)
-      facet_fields.select { |_facet, opts| group == opts[:group] }.values.map(&:field)
+      facet_fields_in_group(group).map(&:field)
+    end
+
+    # @param [String] group (nil) a group name of facet fields
+    # @return [Array<Blacklight::Configuration::FacetField>] a list of facet fields
+    def facet_fields_in_group(group)
+      facet_fields.values.select { |opts| group == opts[:group] }
     end
 
     # @return [Array<String>] a list of facet groups
@@ -324,6 +345,7 @@ module Blacklight
     end
 
     # builds a copy for the provided controller class
+    # @param [Class] klass configuration host class
     def build(klass)
       deep_copy.tap do |conf|
         conf.klass = klass

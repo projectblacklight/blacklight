@@ -6,10 +6,12 @@ module Blacklight
     class FilterField
       MISSING = { missing: true }.freeze
 
-      # @param [Blacklight::Configuration::FacetField] config
+      # @!attribute config
+      #   @return [Blacklight::Configuration::FacetField]
       attr_reader :config
 
-      # @param [Blacklight::SearchState] search_state
+      # @!attribute search_state
+      #   @return [Blacklight::SearchState]
       attr_reader :search_state
 
       # @return [String,Symbol]
@@ -22,7 +24,7 @@ module Blacklight
         @search_state = search_state
       end
 
-      # @param [String,#value] a filter item to add to the url
+      # @param [String,#value] item a filter item to add to the url
       # @return [Blacklight::SearchState] new state
       def add(item)
         new_state = search_state.reset_search
@@ -66,7 +68,7 @@ module Blacklight
         new_state.reset(params)
       end
 
-      # @param [String,#value] a filter to remove from the url
+      # @param [String,#value] item a filter to remove from the url
       # @return [Blacklight::SearchState] new state
       def remove(item)
         new_state = search_state.reset_search
@@ -120,7 +122,12 @@ module Blacklight
       end
       delegate :any?, to: :values
 
-      # @param [String,#value] a filter to remove from the url
+      # Appease rubocop rules by implementing #each_value
+      def each_value(&block)
+        values.each(&block)
+      end
+
+      # @param [String,#value] item a filter to remove from the url
       # @return [Boolean] whether the provided filter is currently applied/selected
       def include?(item)
         if item.respond_to?(:field) && item.field != key

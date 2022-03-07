@@ -6,7 +6,8 @@ module Blacklight
     class GroupComponent < ::ViewComponent::Base
       with_collection_parameter :group
 
-      # @param [Blacklight::Document] document
+      # @param [Blacklight::Solr::Response::Group] group
+      # @param [Integer] group_limit
       def initialize(group:, group_limit: -1)
         @group = group
         @group_limit = group_limit

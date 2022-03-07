@@ -361,7 +361,7 @@ module Blacklight::BlacklightHelperBehavior
 
   ##
   # Override this method if you want to use a differnet presenter for your documents
-  # @param [Blacklight::Document] optional, here for extension + backwards compatibility only
+  # @param [Blacklight::Document] document optional, here for extension + backwards compatibility only
   def document_presenter_class(document = nil)
     Deprecation.silence(Blacklight::BlacklightHelperBehavior) do
       case action_name
