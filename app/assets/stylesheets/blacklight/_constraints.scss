@@ -12,6 +12,7 @@
     cursor: default;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: nowrap;
 
     @media (max-width: breakpoint-min(sm)) {
       max-width: breakpoint-min(sm) * .5;
