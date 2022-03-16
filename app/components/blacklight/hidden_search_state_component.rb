@@ -5,7 +5,7 @@ module Blacklight
   # representing a hash passed in using Rails-style request parameters
   # for hashes nested with arrays and other hashes.
   class HiddenSearchStateComponent < ::ViewComponent::Base
-    # @param [Hash] hash
+    # @param [Hash] params
     def initialize(params:)
       @params = params.except(:page, :utf8)
     end

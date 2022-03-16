@@ -9,18 +9,13 @@ module Blacklight
 
       class_methods do
         # Add a configuration block for a collection of solr fields
-        def define_field_access(key, options = {})
+        def define_field_access(key, base_class_name = nil, class: nil)
           key = key.to_s if respond_to? :to_s
 
           default_values[key.pluralize.to_sym] = ActiveSupport::OrderedHash.new
 
-          base_class_name = options.fetch(:class, Field)
-
-          unless const_defined? key.camelcase
-            class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
-              class #{key.camelcase} < #{base_class_name}; end
-            END_EVAL
-          end
+          @field_type_for_class ||= {}
+          @field_type_for_class[key] = binding.local_variable_get(:class) || base_class_name
 
           class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
             def add_#{key}(*args, &block)
@@ -28,8 +23,11 @@ module Blacklight
             end
           END_EVAL
         end
-      end
 
+        def field_type_for_class(key)
+          @field_type_for_class&.dig(key.to_s) || Blacklight::Configuration::Field
+        end
+      end
       # Add a solr field configuration to the given configuration key
       #
       # The recommended and strongly encouraged format is a field name, configuration pair, e.g.:
@@ -195,8 +193,9 @@ module Blacklight
       end
 
       # convert a config key to the appropriate Field class
-      def field_class_from_key key
-        "Blacklight::Configuration::#{key.camelcase}".constantize
+      # @param [String] key
+      def field_class_from_key(key)
+        self.class.field_type_for_class(key)
       end
     end
   end
