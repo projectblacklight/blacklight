@@ -48,7 +48,7 @@ jobs:
         - ruby: '3.0'
           rails_version: '7.0.2.3'
           api: 'true'
-          additional_engine_cart_rails_options: --api --skip-yarn
+          additional_engine_cart_rails_options: -a propshaft --api --skip-yarn
           additional_name: '/ API'
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
