@@ -80,12 +80,15 @@ module Blacklight::Bookmarks
 
     current_or_guest_user.save! unless current_or_guest_user.persisted?
 
-    success = @bookmarks.all? do |bookmark|
-      current_or_guest_user.bookmarks.where(bookmark).exists? || current_or_guest_user.bookmarks.create(bookmark).valid?
+    bookmarks_to_add = @bookmarks.reject { |bookmark| current_or_guest_user.bookmarks.where(bookmark).exists? }
+    success = ActiveRecord::Base.transaction do
+      current_or_guest_user.bookmarks.create!(bookmarks_to_add)
+    rescue ActiveRecord::RecordInvalid
+      false
     end
 
     if request.xhr?
-      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(plain: "", status: "500")
+      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(json: current_or_guest_user.errors.full_messages, status: "500")
     else
       if @bookmarks.any? && success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success', count: @bookmarks.length)
