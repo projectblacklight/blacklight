@@ -1,17 +1,3 @@
-@each $color, $value in $theme-colors {
-  .btn-#{$color} {
-    .blacklight-icons svg {
-      fill: currentColor;
-    }
-  }
-
-  .btn-outline-#{$color} {
-    .blacklight-icons svg {
-      fill: currentColor;
-    }
-  }
-}
-
 .btn.btn-icon {
   padding: $btn-padding-y;
 
