@@ -43,7 +43,7 @@ jobs:
     - name: Run tests
       run: bundle exec rake ci
       env:
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
+        ENGINE_CART_RAILS_OPTIONS: '-a propshaft --skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   test_bootstrap5:
     runs-on: ubuntu-latest
     strategy:
