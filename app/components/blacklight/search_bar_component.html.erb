@@ -28,11 +28,7 @@
 
     <span class="input-group-append">
       <%= append(form: f) %>
-
-      <%= f.button class: 'btn btn-primary search-btn', id: "#{@prefix}search" do %>
-        <span class="submit-search-text"><%= scoped_t('submit') %></span>
-        <%= blacklight_icon :search, aria_hidden: true %>
-      <% end %>
+      <%= search_button || render(Blacklight::SearchButtonComponent.new(id: "#{@prefix}search", text: scoped_t('submit'))) %>
     </span>
   </div>
 <% end %>
