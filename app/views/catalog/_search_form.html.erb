@@ -1,3 +1,4 @@
+<%= warn "#{__file__} is a deprecated partial." %>
 <%= render((blacklight_config&.view_config(document_index_view_type)&.search_bar_component || Blacklight::SearchBarComponent).new(
       url: search_action_url,
       advanced_search_url: search_action_url(action: 'advanced_search'),

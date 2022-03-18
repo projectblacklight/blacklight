@@ -10,7 +10,7 @@ module Blacklight
     def initialize(
       url:, params:,
       advanced_search_url: nil,
-      classes: ['search-query-form'], presenter: nil, prefix: nil,
+      classes: ['search-query-form'], prefix: nil,
       method: 'GET', q: nil, query_param: :q,
       search_field: nil, autocomplete_path: nil,
       autofocus: nil, i18n: { scope: 'blacklight.search.form' },
@@ -24,7 +24,6 @@ module Blacklight
       @params = params.except(:q, :search_field, :utf8, :page)
       @prefix = prefix
       @classes = classes
-      @presenter = presenter
       @method = method
       @autocomplete_path = autocomplete_path
       @autofocus = autofocus
@@ -34,14 +33,17 @@ module Blacklight
     # rubocop:enable Metrics/ParameterLists
 
     def autocomplete_path
-      return nil unless presenter.autocomplete_enabled?
+      return nil unless blacklight_config.autocomplete_enabled
 
       @autocomplete_path
     end
 
     def autofocus
       if @autofocus.nil?
-        presenter.autofocus?
+        blacklight_config.enable_search_bar_autofocus &&
+          controller.is_a?(Blacklight::Catalog) &&
+          controller.action_name == "index" &&
+          !controller.has_search_parameters?
       else
         @autofocus
       end
@@ -53,15 +55,11 @@ module Blacklight
                                           .collect { |field_def| [helpers.label_for_search_field(field_def.key), field_def.key] }
     end
 
+    def advanced_search_enabled?
+      blacklight_config.advanced_search.enabled
+    end
+
     private
-
-    def presenter
-      @presenter ||= presenter_class.new(controller, blacklight_config)
-    end
-
-    def presenter_class
-      blacklight_config.view_config(action_name: :index).search_bar_presenter_class
-    end
 
     def blacklight_config
       helpers.blacklight_config
