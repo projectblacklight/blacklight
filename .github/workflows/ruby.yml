@@ -82,7 +82,7 @@ jobs:
       env:
         RAILS_VERSION: 6.0.3.4
         ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_rails7_0:
+  test_rails6_1:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -96,11 +96,11 @@ jobs:
     - name: Install dependencies
       run: bundle install
       env:
-        RAILS_VERSION: 7.0.0
+        RAILS_VERSION: 6.1.5
     - name: Run tests
       run: bundle exec rake ci
       env:
-        RAILS_VERSION: 7.0.0
+        RAILS_VERSION: 6.1.5
         ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-keeps --skip-action-cable --skip-test'
   api_test:
     runs-on: ubuntu-latest
