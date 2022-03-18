@@ -2,6 +2,7 @@
 
 module Blacklight
   class SearchBarPresenter
+    extend Deprecation
     attr_reader :configuration, :view_context, :controller
 
     # Set the partial this presenter draws
@@ -17,6 +18,7 @@ module Blacklight
     def render
       view_context.render partial, presenter: self
     end
+    deprecation_deprecate render: "The SearchBarPresenter has been deprecated. Call `render Blacklight::SearchBarComponent.new' instead"
 
     ##
     # @return [Boolean] should autocomplete be enabled in the UI
