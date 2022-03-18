@@ -127,7 +127,13 @@ module Blacklight
       # what field, if any, to use to render grouped results
       group: false,
       # additional response formats for search results
-      respond_to: OpenStructWithHashAccess.new
+      respond_to: OpenStructWithHashAccess.new,
+      # component class used to render the facet grouping
+      facet_group_component: nil,
+      # component class used to render search constraints
+      constraints_component: nil,
+      # component class used to render the search bar
+      search_bar_component: nil
     )
 
     # @!attribute show
