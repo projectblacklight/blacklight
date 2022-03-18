@@ -361,23 +361,17 @@
       document.addEventListener('click', (e) => {
         if (e.target.matches(`${modal.triggerLinkSelector}, ${modal.preserveLinkSelector}`))
           modal.modalAjaxLinkClick(e);
+        else if (e.target.matches('[data-bl-dismiss="modal"]'))
+          modal.hide();
       });
     };
 
     modal.hide = function(el) {
-      if (bootstrap.Modal.VERSION >= "5") {
-        bootstrap.Modal.getOrCreateInstance(el || document.querySelector(modal.modalSelector)).hide();
-      } else {
-        $(el || modal.modalSelector).modal('hide');
-      }
+      document.querySelector(Blacklight.modal.modalSelector).close();
     };
 
     modal.show = function(el) {
-      if (bootstrap.Modal.VERSION >= "5") {
-        bootstrap.Modal.getOrCreateInstance(el || document.querySelector(modal.modalSelector)).show();
-      } else {
-        $(el || modal.modalSelector).modal('show');
-      }
+      document.querySelector(Blacklight.modal.modalSelector).showModal();
     };
 
     Blacklight.onLoad(function() {
