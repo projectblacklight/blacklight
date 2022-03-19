@@ -1,17 +1,17 @@
+# frozen_string_literal: true
+
 # This approach permits the addition of sidecar files in the installing application, but relies on less stable APIs
 module Blacklight
   class SidecarDemonstrationComponent < ::ViewComponent::Base
+    include ViewComponent::Translatable
     class << self
       def _sidecar_files(extensions)
         return [] unless source_location
+
         engine_directory = File.dirname(source_location)
         engine_sidecars = _sidecar_files_in(engine_directory, extensions)
         app_directory = "#{Rails.root}/#{engine_directory.slice(engine_directory.index(view_component_path)..-1)}"
-        if app_directory == engine_directory
-          return engine_sidecars.values
-        else
-          return engine_sidecars.merge(_sidecar_files_in(app_directory, extensions)).values
-        end
+        app_directory == engine_directory ? engine_sidecars.values : engine_sidecars.merge(_sidecar_files_in(app_directory, extensions)).values
       end
 
       # this is essentially the original _sidecar_files implementation with a parameterized directory,
@@ -48,7 +48,7 @@ module Blacklight
         sidecar_directory_files = Dir["#{directory}/#{component_name}/#{filename}.*{#{extensions}}"]
 
         paths = (sidecar_files - [source_location] + sidecar_directory_files + nested_component_files).uniq
-        paths.map { |path|  [path.sub(directory, ""), path]}.to_h
+        paths.index_by { |path| path.sub(directory, "") }
       end
     end
   end

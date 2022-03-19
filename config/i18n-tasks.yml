@@ -5,6 +5,8 @@ data:
   read:
     - config/locales/%{locale}.yml
     - config/locales/**/*.%{locale}.yml
+    - app/components/**/*.%{locale}.yml
+    - app/components/**/*.all.yml
 
   yaml:
     write:
@@ -12,6 +14,13 @@ data:
 search:
   paths:
    - app/
+  relative_roots:
+   - app/components
+   - app/controllers
+   - app/helpers
+   - app/mailers
+   - app/presenters
+   - app/views
   exclude:
     - app/assets/images
     - app/assets/fonts

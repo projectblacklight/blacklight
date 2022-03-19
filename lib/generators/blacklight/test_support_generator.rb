@@ -48,5 +48,9 @@ module Blacklight
         EOF
       end
     end
+
+    def alternate_component_templates
+      directory "components", "app/components/"
+    end
   end
 end

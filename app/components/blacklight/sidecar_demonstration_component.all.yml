@@ -1,0 +1,55 @@
+en:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+ar:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+de:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+es:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+fr:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+hu:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+it:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+nl:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+pt-BR:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+sq:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
+zh:
+  application_header: "Engine Translation"
+  blacklight:
+    sidecar_demonstration_component:
+      application_header: "Engine Translation"
