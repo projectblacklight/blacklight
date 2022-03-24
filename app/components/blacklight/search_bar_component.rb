@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class SearchBarComponent < ::ViewComponent::Base
+  class SearchBarComponent < Blacklight::Component
     include Blacklight::ContentAreasShim
 
     renders_one :append

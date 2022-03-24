@@ -4,7 +4,7 @@ module Blacklight
   # Writes out zero or more <input type="hidden"> elements, completely
   # representing a hash passed in using Rails-style request parameters
   # for hashes nested with arrays and other hashes.
-  class HiddenSearchStateComponent < ::ViewComponent::Base
+  class HiddenSearchStateComponent < Blacklight::Component
     # @param [Hash] params
     def initialize(params:)
       Deprecation.warn(self, "Passing page as a parameter to HiddenSearchStateComponent is deprecated and will not be supported in Blacklight 8") if params.key?(:page)

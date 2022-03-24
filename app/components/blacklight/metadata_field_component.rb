@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class MetadataFieldComponent < ::ViewComponent::Base
+  class MetadataFieldComponent < Blacklight::Component
     with_collection_parameter :field
 
     # @param field [Blacklight::FieldPresenter]

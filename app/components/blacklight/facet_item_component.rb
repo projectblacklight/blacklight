@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetItemComponent < ::ViewComponent::Base
+  class FacetItemComponent < Blacklight::Component
     extend Deprecation
 
     with_collection_parameter :facet_item

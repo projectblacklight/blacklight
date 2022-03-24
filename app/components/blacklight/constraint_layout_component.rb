@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class ConstraintLayoutComponent < ::ViewComponent::Base
+  class ConstraintLayoutComponent < Blacklight::Component
     def initialize(value:, label: nil, remove_path: nil, classes: nil, search_state: nil)
       @value = value
       @label = label

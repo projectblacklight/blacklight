@@ -2,7 +2,7 @@
 
 module Blacklight
   # Render facet items and any subtree
-  class FacetItemPivotComponent < ::ViewComponent::Base
+  class FacetItemPivotComponent < Blacklight::Component
     # Somewhat arbitrary number; the only important thing is that
     # it is bigger than the number of leaf nodes in any collapsing
     # pivot facet on the page.

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class MetadataFieldLayoutComponent < ::ViewComponent::Base
+  class MetadataFieldLayoutComponent < Blacklight::Component
     include Blacklight::ContentAreasShim
 
     with_collection_parameter :field

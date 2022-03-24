@@ -3,7 +3,7 @@
 module Blacklight
   module Document
     # Render a bookmark widget to bookmark / unbookmark a document
-    class ActionsComponent < ::ViewComponent::Base
+    class ActionsComponent < Blacklight::Component
       renders_many :actions, (lambda do |action:, component: nil, **kwargs|
         component ||= action.component || Blacklight::Document::ActionComponent
         component.new(action: action, document: @document, options: @options, url_opts: @url_opts, link_classes: @link_classes, **kwargs)

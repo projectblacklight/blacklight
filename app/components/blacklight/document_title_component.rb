@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class DocumentTitleComponent < ::ViewComponent::Base
+  class DocumentTitleComponent < Blacklight::Component
     renders_many :before_title
     renders_many :after_title
     renders_many :actions
