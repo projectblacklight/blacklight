@@ -3,7 +3,7 @@
 module Blacklight
   module Document
     # Render citations for the document
-    class CitationComponent < ::ViewComponent::Base
+    class CitationComponent < Blacklight::Component
       DEFAULT_FORMATS = {
         'blacklight.citation.mla': :export_as_mla_citation_txt,
         'blacklight.citation.apa': :export_as_apa_citation_txt,

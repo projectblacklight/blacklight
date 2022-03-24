@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class SearchButtonComponent < ::ViewComponent::Base
+  class SearchButtonComponent < Blacklight::Component
     def initialize(text:, id:)
       @text = text
       @id = id

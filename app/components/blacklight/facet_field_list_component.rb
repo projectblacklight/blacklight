@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldListComponent < ::ViewComponent::Base
+  class FacetFieldListComponent < Blacklight::Component
     extend Deprecation
     self.deprecation_horizon = 'blacklight 9.0'
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldFilterComponent < ::ViewComponent::Base
+  class FacetFieldFilterComponent < Blacklight::Component
     def initialize(facet_field:)
       @facet_field = facet_field
     end

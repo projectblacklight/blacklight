@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldInclusiveConstraintComponent < ::ViewComponent::Base
+  class FacetFieldInclusiveConstraintComponent < Blacklight::Component
     with_collection_parameter :facet_field
 
     def initialize(facet_field:, values: nil)

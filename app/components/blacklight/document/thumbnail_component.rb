@@ -3,7 +3,7 @@
 module Blacklight
   module Document
     # Render the thumbnail for the document
-    class ThumbnailComponent < ::ViewComponent::Base
+    class ThumbnailComponent < Blacklight::Component
       with_collection_parameter :presenter
 
       # @param [Blacklight::DocumentPresenter] presenter

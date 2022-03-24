@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class SearchBarComponent < ::ViewComponent::Base
+  class SearchBarComponent < Blacklight::Component
     renders_one :append
     renders_one :prepend
     renders_one :search_button

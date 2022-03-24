@@ -3,7 +3,7 @@
 module Blacklight
   module Document
     # Render the 'more like this' results from the response
-    class GroupComponent < ::ViewComponent::Base
+    class GroupComponent < Blacklight::Component
       with_collection_parameter :group
 
       # @param [Blacklight::Solr::Response::Group] group
