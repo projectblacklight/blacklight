@@ -33,7 +33,7 @@ else
   end
 
   case ENV['RAILS_VERSION'].to_s
-  when /^6.0/
+  when /^(~> ?)?6\.0/
     gem 'sass-rails', '>= 6'
     gem 'webpacker', '~> 4.0'
   when /^5.[12]/
