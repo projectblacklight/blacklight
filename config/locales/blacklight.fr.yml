@@ -147,7 +147,6 @@ fr:
       search_constraints_header: 'Recherche'
       search_results: 'Résultats de recherche'
       errors:
-        request_error: "Pardon, nous n'avons pas compris votre recherche."
         invalid_solr_id: "Vous avez demandé une notice qui n'existe pas."
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> par page</span>'

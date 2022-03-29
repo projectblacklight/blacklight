@@ -144,7 +144,6 @@ es:
       search_constraints_header: 'Buscar'
       search_results: 'Resultados de la búsqueda'
       errors:
-        request_error: "Lo siento, no entiendo esta búsqueda"
         invalid_solr_id: "Lo sentimos, usted ha solicitado un registro que no existe."
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> por página</span>'

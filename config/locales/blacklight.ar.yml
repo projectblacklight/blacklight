@@ -154,7 +154,6 @@ ar:
       search_constraints_header: 'قيود البحث'
       search_results: 'نتائج البحث'
       errors:
-        request_error: "معذرة، لم أفهم ما تبحث عنه."
         invalid_solr_id: "معذرة! لقد طلبت سجلًا غير موجود."
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> لكل صفحة</span>'

@@ -144,7 +144,6 @@ nl:
       search_constraints_header: 'Zoek filters'
       search_results: 'Zoek resultaten'
       errors:
-        request_error: "Sorry, ik kon uw zoekopdracht niet begrijpen."
         invalid_solr_id: "Sorry, u vroeg een onbestaande record op."
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'

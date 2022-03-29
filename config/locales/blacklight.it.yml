@@ -144,7 +144,6 @@ it:
       search_constraints_header: 'Ricerca'
       search_results: 'Risultati della ricerca'
       errors:
-        request_error: "La richiesta non è comprensibile."
         invalid_solr_id: "Il numero di scheda richiesto non esiste."
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
