@@ -3,6 +3,12 @@ class <%= controller_name.classify %>Controller < ApplicationController
 
   include Blacklight::Catalog
 
+  # If you'd like to handle errors returned by Solr in a certain way,
+  # you can use Rails rescue_from with a method you define in this controller,
+  # uncomment:
+  #
+  # rescue_from Blacklight::Exceptions::InvalidRequest, with: :my_handling_method
+
   configure_blacklight do |config|
     ## Class for sending and receiving requests from a search index
     # config.repository_class = Blacklight::Solr::Repository
