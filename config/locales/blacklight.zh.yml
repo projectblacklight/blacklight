@@ -144,7 +144,6 @@ zh:
       search_constraints_header: '搜索条件'
       search_results: '搜索结果'
       errors:
-        request_error: "抱歉，我不明白你要找什么。"
         invalid_solr_id: "抱歉，你要找的结果不存在。"
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> 每页</span>'

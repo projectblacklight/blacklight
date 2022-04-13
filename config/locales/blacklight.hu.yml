@@ -144,7 +144,6 @@ hu:
       search_constraints_header: 'Keresés feltételei'
       search_results: 'Keresés eredményei'
       errors:
-        request_error: "Elnézést, nem tudom értelmezni a keresést."
         invalid_solr_id: "Elnézést, de az Ön által kért rekord nem létezik."
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> oldalanként</span>'

@@ -145,7 +145,6 @@ pt-BR:
       search_constraints_header: 'Busca'
       search_results: 'Resultados da Busca'
       errors:
-        request_error: "Desculpe, Eu não compreendi sua busca."
         invalid_solr_id: "Desculpe, você solicitou um cadastro que não existe."
       per_page:
         label: '%{count}<span class="hide-text"> por página</span>'

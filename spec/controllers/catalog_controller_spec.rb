@@ -588,31 +588,6 @@ RSpec.describe CatalogController, api: true do
         get :citation, params: { id: "bad-record-identifer" }
       end.to raise_error Blacklight::Exceptions::RecordNotFound
     end
-
-    context "when there is an invalid search", api: false do
-      let(:service) { instance_double(Blacklight::SearchService) }
-      let(:fake_error) { Blacklight::Exceptions::InvalidRequest.new }
-
-      before do
-        allow(controller).to receive(:search_service).and_return(service)
-        allow(service).to receive(:search_results) { |*_args| raise fake_error }
-        allow(Rails.env).to receive_messages(test?: false)
-      end
-
-      it "redirects the user to the root url for a bad search" do
-        expect(controller.logger).to receive(:error).with(fake_error)
-        get :index, params: { q: '+' }
-        expect(response.redirect_url).to eq root_url
-        expect(request.flash[:notice]).to eq "Sorry, I don't understand your search."
-        expect(response).not_to be_successful
-        expect(response.status).to eq 302
-      end
-
-      it "returns status 500 if the catalog path is raising an exception" do
-        allow(controller).to receive(:flash).and_return(notice: I18n.t('blacklight.search.errors.request_error'))
-        expect { get :index, params: { q: '+' } }.to raise_error Blacklight::Exceptions::InvalidRequest
-      end
-    end
   end
 
   context "without a user authentication provider" do

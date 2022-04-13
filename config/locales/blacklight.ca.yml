@@ -144,7 +144,6 @@ ca:
       search_constraints_header: 'Filtres de la cerca'
       search_results: 'Resultats de la cerca'
       errors:
-        request_error: "No ha estat possible entendre la cerca"
         invalid_solr_id: "El registre que heu sol·licitat no existeix."
       per_page:
         label: '%{count}<span class="sr-only visually-hidden"> per pàgina</span>'
