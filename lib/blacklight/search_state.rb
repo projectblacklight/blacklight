@@ -26,17 +26,12 @@ module Blacklight
     def self.normalize_params(untrusted_params = {})
       params = untrusted_params
 
-      if params.respond_to?(:to_unsafe_h)
-        # This is the typical (not-ActionView::TestCase) code path.
-        params = params.to_unsafe_h
-        # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
-        params = params.with_indifferent_access if params.instance_of? Hash
-      elsif params.is_a? Hash
-        # This is an ActionView::TestCase workaround for Rails 4.2.
-        params = params.dup.with_indifferent_access
-      else
-        params = params.dup.to_h.with_indifferent_access
-      end
+      params = if params.respond_to?(:to_unsafe_h)
+                 # This is the typical (not-ActionView::TestCase) code path.
+                 params.to_unsafe_h
+               else
+                 params.dup.with_indifferent_access
+               end
 
       # Normalize facet parameters mangled by facebook
       params[:f] = normalize_facet_params(params[:f]) if facet_params_need_normalization(params[:f])
