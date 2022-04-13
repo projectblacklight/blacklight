@@ -293,17 +293,17 @@ RSpec.describe "Blacklight::Configuration", api: true do
 
     describe "if/unless conditions with legacy show parameter" do
       it "is hidden if the if condition is false" do
-        expect(config.add_facet_field("hidden", if: false).if).to eq false
-        expect(config.add_facet_field("hidden_with_legacy", if: false, show: true).if).to eq false
+        expect(config.add_facet_field("hidden", if: false).if).to be false
+        expect(config.add_facet_field("hidden_with_legacy", if: false, show: true).if).to be false
       end
 
       it "is true if the if condition is true" do
-        expect(config.add_facet_field("hidden", if: true).if).to eq true
-        expect(config.add_facet_field("hidden_with_legacy", if: true, show: false).if).to eq true
+        expect(config.add_facet_field("hidden", if: true).if).to be true
+        expect(config.add_facet_field("hidden_with_legacy", if: true, show: false).if).to be true
       end
 
       it "is true if the if condition is missing" do
-        expect(config.add_facet_field("hidden", show: true).if).to eq true
+        expect(config.add_facet_field("hidden", show: true).if).to be true
       end
     end
   end
@@ -464,17 +464,17 @@ RSpec.describe "Blacklight::Configuration", api: true do
 
     describe "if/unless conditions with legacy include_in_simple_search" do
       it "is hidden if the if condition is false" do
-        expect(config.add_search_field("hidden", if: false).if).to eq false
-        expect(config.add_search_field("hidden_with_legacy", if: false, include_in_simple_search: true).if).to eq false
+        expect(config.add_search_field("hidden", if: false).if).to be false
+        expect(config.add_search_field("hidden_with_legacy", if: false, include_in_simple_search: true).if).to be false
       end
 
       it "is true if the if condition is true" do
-        expect(config.add_search_field("hidden", if: true).if).to eq true
-        expect(config.add_search_field("hidden_with_legacy", if: true, include_in_simple_search: false).if).to eq true
+        expect(config.add_search_field("hidden", if: true).if).to be true
+        expect(config.add_search_field("hidden_with_legacy", if: true, include_in_simple_search: false).if).to be true
       end
 
       it "is true if the if condition is missing" do
-        expect(config.add_search_field("hidden", include_in_simple_search: true).if).to eq true
+        expect(config.add_search_field("hidden", include_in_simple_search: true).if).to be true
       end
     end
   end

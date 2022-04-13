@@ -7,7 +7,7 @@ RSpec.describe BookmarksController do
     end
 
     it 'opts out of search session tracking' do
-      expect(@controller.blacklight_config.track_search_session).to eq false
+      expect(@controller.blacklight_config.track_search_session).to be false
     end
   end
 
@@ -105,7 +105,7 @@ RSpec.describe BookmarksController do
     end
 
     context 'created over an hour ago' do
-      let(:current_time) { Time.zone.now - 2.hours }
+      let(:current_time) { 2.hours.ago }
 
       it 'is expired' do
         get :index, params: { encrypted_user_id: token }

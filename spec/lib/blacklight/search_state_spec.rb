@@ -94,14 +94,14 @@ RSpec.describe Blacklight::SearchState do
 
   describe '#has_constraints?' do
     it 'is false' do
-      expect(search_state.has_constraints?).to eq false
+      expect(search_state.has_constraints?).to be false
     end
 
     context 'with a query param' do
       let(:params) { parameter_class.new q: 'xyz' }
 
       it 'is true' do
-        expect(search_state.has_constraints?).to eq true
+        expect(search_state.has_constraints?).to be true
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe Blacklight::SearchState do
       end
 
       it 'is true' do
-        expect(search_state.has_constraints?).to eq true
+        expect(search_state.has_constraints?).to be true
       end
     end
   end

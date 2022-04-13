@@ -154,7 +154,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
     it 'has all facets specified in initializer' do
       expect(@facets.keys).to include *blacklight_config.facet_fields.keys
-      expect(@facets.none? { |_k, v| v.nil? }).to eq true
+      expect(@facets.none? { |_k, v| v.nil? }).to be true
     end
 
     it 'has at least one value for each facet' do
@@ -171,7 +171,7 @@ RSpec.describe Blacklight::SearchService, api: true do
           break
         end
       end
-      expect(has_mult_values).to eq true
+      expect(has_mult_values).to be true
     end
 
     it 'has all value counts > 0' do

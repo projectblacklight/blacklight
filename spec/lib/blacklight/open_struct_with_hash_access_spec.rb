@@ -54,11 +54,11 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     end
 
     it "is true if the key exists" do
-      expect(subject.key?(:a)).to eq true
+      expect(subject.key?(:a)).to be true
     end
 
     it "is false if the key does not exist" do
-      expect(subject.key?(:c)).to eq false
+      expect(subject.key?(:c)).to be false
     end
   end
 
