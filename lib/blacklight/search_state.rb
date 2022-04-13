@@ -4,7 +4,7 @@ require 'blacklight/search_state/filter_field'
 
 module Blacklight
   # This class encapsulates the search state as represented by the query
-  # parameters namely: :f, :q, :page, :per_page and, :sort
+  # parameters namely: :q, :f, :f_inclusive, :page, :per_page, :search_field and, :sort
   class SearchState
     attr_reader :blacklight_config, :params # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
 
@@ -18,12 +18,12 @@ module Blacklight
     # @param [Blacklight::Config] blacklight_config
     # @param [ApplicationController] controller used for the routing helpers
     def initialize(params, blacklight_config, controller = nil)
-      @params = self.class.normalize_params(params)
       @blacklight_config = blacklight_config
+      @params = normalize_params(params)
       @controller = controller
     end
 
-    def self.normalize_params(untrusted_params = {})
+    def normalize_params(untrusted_params = {})
       params = untrusted_params
 
       if params.respond_to?(:to_unsafe_h)
@@ -41,8 +41,11 @@ module Blacklight
       # Normalize facet parameters mangled by facebook
       params[:f] = normalize_facet_params(params[:f]) if facet_params_need_normalization(params[:f])
       params[:f_inclusive] = normalize_facet_params(params[:f_inclusive]) if facet_params_need_normalization(params[:f_inclusive])
+      params.slice(*permitted_fields)
+    end
 
-      params
+    def permitted_fields
+      blacklight_config.search_state_fields + facet_request_keys.values
     end
 
     def to_hash
@@ -136,8 +139,8 @@ module Blacklight
 
     # Merge the source params with the params_to_merge hash
     # @param [Hash] params_to_merge to merge into above
-    # @return [ActionController::Parameters] the current search parameters after being sanitized by Blacklight::Parameters.sanitize
-    # @yield [params] The merged parameters hash before being sanitized
+    # @return [ActionController::Parameters] the current search parameters
+    # @yield [params] The merged parameters hash
     def params_for_search(params_to_merge = {})
       # params hash we'll return
       my_params = params.dup.merge(self.class.new(params_to_merge, blacklight_config, controller))
@@ -189,11 +192,11 @@ module Blacklight
       params[facet_request_keys[:prefix]]
     end
 
-    def self.facet_params_need_normalization(facet_params)
+    def facet_params_need_normalization(facet_params)
       facet_params.is_a?(Hash) && facet_params.values.any? { |x| x.is_a?(Hash) }
     end
 
-    def self.normalize_facet_params(facet_params)
+    def normalize_facet_params(facet_params)
       facet_params.transform_values do |value|
         value.is_a?(Hash) ? value.values : value
       end

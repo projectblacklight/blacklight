@@ -8,7 +8,7 @@ RSpec.describe Blacklight::Base do
   describe "#search_state" do
     subject { controller.send(:search_state) }
 
-    let(:raw_params) { HashWithIndifferentAccess.new a: 1 }
+    let(:raw_params) { HashWithIndifferentAccess.new q: 1 }
     let(:params) { ActionController::Parameters.new raw_params }
 
     before { allow(controller).to receive_messages(params: params) }

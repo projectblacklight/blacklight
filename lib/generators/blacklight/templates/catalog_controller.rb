@@ -34,6 +34,9 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # items to show per page, each number in the array represent another option to choose from.
     #config.per_page = [10,20,50,100]
 
+    # Additional request parameters that compose the search state may be added
+    # config.search_state_fields += %i[some_other_field]
+
     # solr field configuration for search results/index views
     config.index.title_field = 'title_tsim'
     #config.index.display_type_field = 'format'

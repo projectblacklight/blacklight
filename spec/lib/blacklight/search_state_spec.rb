@@ -5,6 +5,8 @@ RSpec.describe Blacklight::SearchState do
 
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
+      config.search_state_fields += [:some_other_field]
+
       config.index.title_field = 'title_tsim'
       config.index.display_type_field = 'format'
     end
@@ -14,14 +16,15 @@ RSpec.describe Blacklight::SearchState do
   let(:controller) { double }
   let(:params) { parameter_class.new }
 
-  describe '#to_h' do
-    let(:data) { { a: '1' } }
-    let(:params) { parameter_class.new data }
+  describe '#permitted_fields' do
+    subject { search_state.permitted_fields }
 
-    it 'returns a copy of the original parameters' do
-      expect(search_state.to_h).to eq data.with_indifferent_access
-      expect(search_state.to_h.object_id).not_to eq params.object_id
-    end
+    it { is_expected.to include(:q, :f, :some_other_field) }
+  end
+
+  describe '#to_h' do
+    let(:data) { { q: 'search term' } }
+    let(:params) { parameter_class.new data }
 
     context 'with AC::Parameters' do
       let(:parameter_class) { ActionController::Parameters }
@@ -60,26 +63,26 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'deleting item from to_h' do
-      let(:params) { { q: 'foo', q_1: 'bar' } }
+      let(:params) { { q: 'foo', page: '1' } }
 
       it 'does not mutate search_state to mutate search_state.to_h' do
         params = search_state.to_h
-        params.delete(:q_1)
+        params.delete(:page)
 
-        expect(search_state.to_h).to eq('q' => 'foo', 'q_1' => 'bar')
+        expect(search_state.to_h).to eq('q' => 'foo', 'page' => '1')
         expect(params).to eq('q' => 'foo')
       end
     end
 
     context 'deleting deep item from to_h' do
-      let(:params) { { foo: { bar: [] } } }
+      let(:params) { { f: { bar: [] } } }
 
       it 'does not mutate search_state to deep mutate search_state.to_h' do
         params = search_state.to_h
-        params[:foo][:bar] << 'buzz'
+        params[:f][:bar] << 'buzz'
 
-        expect(search_state.to_h).to eq('foo' => { 'bar' => [] })
-        expect(params).to eq('foo' => { 'bar' => ['buzz'] })
+        expect(search_state.to_h).to eq('f' => { 'bar' => [] })
+        expect(params).to eq('f' => { 'bar' => ['buzz'] })
       end
     end
   end
@@ -119,20 +122,20 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe "params_for_search" do
-    let(:params) { parameter_class.new 'default' => 'params' }
+    let(:params) { parameter_class.new 'f' => 'params' }
 
     it "takes original params" do
       result = search_state.params_for_search
-      expect(result).to eq('default' => 'params')
+      expect(result).to eq('f' => 'params')
       expect(params.object_id).not_to eq result.object_id
     end
 
     it "accepts params to merge into the controller's params" do
       result = search_state.params_for_search(q: 'query')
-      expect(result).to eq('q' => 'query', 'default' => 'params')
+      expect(result).to eq('q' => 'query', 'f' => 'params')
     end
 
-    context "when params have blacklisted keys" do
+    context "when params have keys" do
       let(:params) { parameter_class.new action: 'action', controller: 'controller', id: "id", commit: 'commit' }
 
       it "removes them" do
@@ -180,17 +183,17 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context "with a block" do
-      let(:params) { parameter_class.new a: 1, b: 2 }
+      let(:params) { parameter_class.new q: 1, f: 2 }
 
       it "evalutes the block and allow it to add or remove keys" do
-        result = search_state.params_for_search(c: 3) do |params|
-          params.extract! :a, :b
-          params[:d] = 'd'
+        result = search_state.params_for_search(sort: 3) do |params|
+          params.extract! :q, :f
+          params[:per_page] = 'd'
         end
 
-        expect(result.keys).not_to include(:a, :b)
-        expect(result[:c]).to eq 3
-        expect(result[:d]).to eq 'd'
+        expect(result.keys).not_to include(:q, :f)
+        expect(result[:sort]).to eq 3
+        expect(result[:per_page]).to eq 'd'
       end
     end
   end
@@ -226,9 +229,9 @@ RSpec.describe Blacklight::SearchState do
 
   describe '#reset' do
     it 'returns a search state with the given parameters' do
-      new_state = search_state.reset('a' => 1)
+      new_state = search_state.reset('sort' => 1)
 
-      expect(new_state.to_hash).to eq('a' => 1)
+      expect(new_state.to_hash).to eq('sort' => 1)
     end
   end
 
