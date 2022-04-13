@@ -1,4 +1,4 @@
-<%= render Blacklight::Response::FacetGroupComponent.new(
+<%= render (blacklight_config&.view_config(document_index_view_type)&.facet_group_component || Blacklight::Response::FacetGroupComponent).new(
   response: @response,
   id: groupname,
   fields: facet_field_names(groupname),

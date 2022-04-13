@@ -273,6 +273,21 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    context 'with a facet with a custom filter query builder that returns multiple values' do
+      let(:user_params) { { f: { some: ['value'] } }.with_indifferent_access }
+
+      before do
+        blacklight_config.add_facet_field 'some', filter_query_builder: (lambda do |*_args|
+          [['some:filter', 'another:filter'], { qq1: 'abc' }]
+        end)
+      end
+
+      it "has proper solr parameters" do
+        expect(subject[:fq]).to include('some:filter', 'another:filter')
+        expect(subject[:qq1]).to include('abc')
+      end
+    end
+
     describe 'with a json facet' do
       let(:user_params) { { f: { json_facet: ['value'] } }.with_indifferent_access }
 

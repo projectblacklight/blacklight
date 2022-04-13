@@ -319,7 +319,7 @@ module Blacklight::CatalogHelperBehavior
   end
 
   # Render an html <title> appropriate string for a set of search parameters
-  # @param [ActionController::Parameters] params2
+  # @param [ActionController::Parameters] params
   # @return [String]
   def render_search_to_page_title(search_state_or_params)
     search_state = if search_state_or_params.is_a? Blacklight::SearchState

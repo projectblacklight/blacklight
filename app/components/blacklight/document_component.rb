@@ -69,7 +69,6 @@ module Blacklight
     # @param classes [Array, String] additional HTML classes for the root element
     # @param component [Symbol, String] HTML tag type to use for the root element
     # @param title_component [Symbol, String] HTML tag type to use for the title element
-    # @param metadata_component [Blacklight::DocumentMetadataComponent]
     # @param counter [Number, nil] a pre-computed counter for the position of this document in a search result set
     # @param document_counter [Number, nil] alternatively, the document's position in a collection and,
     # @param counter_offset [Number] with `document_counter`, the offset of the start of that collection counter to the overall result set

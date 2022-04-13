@@ -1,5 +1,5 @@
-<% if constraints_helpers_and_partials_from_blacklight? %>
-  <%= render(Blacklight::ConstraintsComponent.new(search_state: convert_to_search_state(controller.params != params ? params : search_state))) %>
+<% if constraints_helpers_and_partials_from_blacklight? || blacklight_config&.view_config(document_index_view_type)&.constraints_component %>
+  <%= render((blacklight_config&.view_config(document_index_view_type)&.constraints_component || Blacklight::ConstraintsComponent).new(search_state: convert_to_search_state(controller.params != params ? params : search_state))) %>
 <% else %>
   <% Deprecation.warn(Blacklight::RenderConstraintsHelperBehavior, 'Constraints helpers or partials were overridden; not using components') %>
   <% if Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) { query_has_constraints? } %>
