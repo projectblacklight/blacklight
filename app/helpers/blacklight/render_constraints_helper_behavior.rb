@@ -84,14 +84,12 @@ module Blacklight::RenderConstraintsHelperBehavior
     Deprecation.warn(Blacklight::RenderConstraintsHelperBehavior, 'render_constraints_filters is deprecated')
     search_state = convert_to_search_state(params_or_search_state)
 
-    Deprecation.silence(Blacklight::SearchState) do
-      return "".html_safe if search_state.filter_params.blank?
+    return "".html_safe unless search_state.filters.any?
 
-      Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-        safe_join(search_state.filters.map do |field|
-          render_filter_element(field.key, field.values, search_state)
-        end, "\n")
-      end
+    Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
+      safe_join(search_state.filters.map do |field|
+        render_filter_element(field.key, field.values, search_state)
+      end, "\n")
     end
   end
 
