@@ -75,6 +75,13 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     let(:query_params) { { q: "query", f: "facets", controller: 'catalog' } }
     let(:bookmarks_query_params) { { controller: 'bookmarks' } }
 
+    before do
+      # this is bad data but the legacy test exercises search fields, not filters
+      blacklight_config.configure do |config|
+        config.search_state_fields << :f
+      end
+    end
+
     it "builds a link tag to catalog using session[:search] for query params" do
       allow(helper).to receive(:current_search_session).and_return double(query_params: query_params)
       tag = helper.link_back_to_catalog

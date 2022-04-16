@@ -11,6 +11,7 @@ RSpec.describe "catalog/index.json", api: true do
   let(:config) do
     Blacklight::Configuration.new do |config|
       config.add_index_field 'title', label: 'Title', field: 'title_tsim'
+      config.add_facet_field :format
     end
   end
   let(:presenter) { Blacklight::JsonPresenter.new(response, config) }

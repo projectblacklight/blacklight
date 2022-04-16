@@ -10,6 +10,7 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
   let(:display_facet) do
     instance_double(Blacklight::Solr::Response::Facets::FacetField, items: items, sort: :index, offset: 0, prefix: nil)
   end
+
   let(:items) { [] }
   let(:view_context) { controller.view_context }
   let(:search_state) { view_context.search_state }
@@ -29,15 +30,20 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
       expect(presenter).not_to be_collapsed
     end
 
-    it "does not be collapsed if it is in the params" do
-      controller.params[:f] = ActiveSupport::HashWithIndifferentAccess.new(key: [1])
-      expect(presenter.collapsed?).to be false
+    context "it is in the params" do
+      before do
+        search_state.params[:f] = { key: [1] }
+      end
+
+      it "does not be collapsed if it is in the params" do
+        expect(presenter.collapsed?).to be false
+      end
     end
   end
 
   describe '#active?' do
     it "checks if any value is selected for a given facet" do
-      controller.params[:f] = ActiveSupport::HashWithIndifferentAccess.new(key: [1])
+      search_state.params[:f] = ActiveSupport::HashWithIndifferentAccess.new(key: [1])
       expect(presenter.active?).to eq true
     end
 

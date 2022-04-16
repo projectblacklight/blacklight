@@ -9,14 +9,19 @@ RSpec.describe Blacklight::SearchState do
     Blacklight::Configuration.new.configure do |config|
       config.index.title_field = 'title_tsim'
       config.index.display_type_field = 'format'
+      simple_facet_fields.each { |simple_facet_field| config.add_facet_field simple_facet_field }
+      config.search_state_fields = config.search_state_fields + additional_search_fields
     end
   end
 
   let(:parameter_class) { ActionController::Parameters }
   let(:controller) { double }
   let(:params) { parameter_class.new }
+  let(:simple_facet_fields) { [:facet_field_1, :facet_field_2] }
+  let(:additional_search_fields) { [] }
 
   describe '#to_h' do
+    let(:additional_search_fields) { [:a] }
     let(:data) { { a: '1' } }
     let(:params) { parameter_class.new data }
 
@@ -50,6 +55,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'with facebooks badly mangled query parameters' do
+      let(:simple_facet_fields) { [:field] }
       let(:params) do
         { f: { field: { '0': 'first', '1': 'second' } },
           f_inclusive: { field: { '0': 'first', '1': 'second' } } }
@@ -62,6 +68,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'deleting item from to_h' do
+      let(:additional_search_fields) { [:q_1] }
       let(:params) { { q: 'foo', q_1: 'bar' } }
 
       it 'does not mutate search_state to mutate search_state.to_h' do
@@ -74,6 +81,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'deleting deep item from to_h' do
+      let(:additional_search_fields) { [:foo] }
       let(:params) { { foo: { bar: [] } } }
 
       it 'does not mutate search_state to deep mutate search_state.to_h' do
@@ -87,6 +95,7 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe 'interface compatibility with params' do
+    let(:simple_facet_fields) { [:ff] }
     let(:params) { parameter_class.new f: { ff: ['xyz'] } }
 
     it 'implements param methods' do
@@ -107,6 +116,7 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe '#filter_params' do
+    let(:simple_facet_fields) { [:ff] }
     let(:params) { parameter_class.new f: { ff: ['xyz'] } }
 
     it 'returns the query param' do
@@ -128,6 +138,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'with a facet param' do
+      let(:simple_facet_fields) { [:ff] }
       let(:params) { parameter_class.new f: { ff: ['xyz'] } }
 
       it 'is true' do
@@ -137,6 +148,7 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe "params_for_search" do
+    let(:additional_search_fields) { [:default] }
     let(:params) { parameter_class.new 'default' => 'params' }
 
     it "takes original params" do
@@ -198,6 +210,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context "with a block" do
+      let(:additional_search_fields) { [:a, :b, :c, :d] }
       let(:params) { parameter_class.new a: 1, b: 2 }
 
       it "evalutes the block and allow it to add or remove keys" do
@@ -356,6 +369,7 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe "#remove_facet_params" do
+    let(:simple_facet_fields) { [:some_field, :another_field] }
     let(:params) { parameter_class.new 'f' => facet_params }
     let(:facet_params) { {} }
 
@@ -382,9 +396,7 @@ RSpec.describe Blacklight::SearchState do
 
     context "when the facet has configuration" do
       before do
-        allow(search_state).to receive(:facet_configuration_for_field).with('some_field').and_return(
-          double(single: true, field: "a_solr_field", key: "some_key")
-        )
+        blacklight_config.facet_fields['some_field'].merge!(single: true, field: "a_solr_field", key: 'some_key')
       end
 
       let(:facet_params) { { 'some_key' => %w[some_value another_value] } }
@@ -415,6 +427,8 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe '#reset' do
+    let(:additional_search_fields) { [:a] }
+
     it 'returns a search state with the given parameters' do
       new_state = search_state.reset('a' => 1)
 

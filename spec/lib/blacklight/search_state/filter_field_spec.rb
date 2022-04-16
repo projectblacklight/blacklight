@@ -6,10 +6,13 @@ RSpec.describe Blacklight::SearchState::FilterField do
   let(:params) { { f: { some_field: %w[1 2], another_field: ['3'] } } }
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
-      config.add_facet_field 'some_field'
       config.add_facet_field 'another_field', single: true
+      simple_facet_fields.each { |simple_facet_field| config.add_facet_field simple_facet_field }
+      config.search_state_fields = config.search_state_fields + additional_search_fields
     end
   end
+  let(:simple_facet_fields) { [:some_field] }
+  let(:additional_search_fields) { [] }
   let(:controller) { double }
 
   describe '#add' do
@@ -50,6 +53,8 @@ RSpec.describe Blacklight::SearchState::FilterField do
     end
 
     context 'with a pivot facet-type item' do
+      let(:simple_facet_fields) { [:some_field, :some_other_field] }
+
       it 'includes the pivot facet fqs' do
         filter = search_state.filter('some_field')
         new_state = filter.add(OpenStruct.new(fq: { some_other_field: '5' }, value: '4'))
@@ -198,6 +203,12 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
     it 'handles value indirection' do
       expect(search_state.filter('some_field').include?(OpenStruct.new(value: '1'))).to eq true
+    end
+  end
+
+  describe '#needs_normalization?' do
+    it 'returns false for Blacklight::SearchState::FilterField::MISSING' do
+      expect(search_state.filter('some_field').needs_normalization?(Blacklight::SearchState::FilterField::MISSING)).to be false
     end
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
   end
 
   let(:blacklight_config) do
-    Blacklight::Configuration.new.tap do |config|
+    Blacklight::Configuration.new.configure do |config|
       config.add_facet_field 'some_facet'
     end
   end
@@ -42,6 +42,19 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
 
   context 'with a facet' do
     let(:query_params) { { f: { some_facet: ['some value'] } } }
+
+    before do
+      controller.blacklight_config.configure do |config|
+        config.add_facet_field :some_facet
+      end
+    end
+
+    # this has to be cleaned up to prevent leaking class configuration
+    after do
+      controller.blacklight_config.configure do |config|
+        config['facet_fields'].delete('some_facet')
+      end
+    end
 
     it 'renders the query' do
       expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Some Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))

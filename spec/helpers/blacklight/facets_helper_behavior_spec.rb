@@ -246,6 +246,10 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
   end
 
   describe "facet_field_in_params?" do
+    before do
+      blacklight_config.add_facet_field "some-field"
+    end
+
     it "checks if the facet field is selected in the user params" do
       allow(helper).to receive_messages(params: { f: { "some-field" => ["x"] } })
       expect(helper).to be_facet_field_in_params("some-field")
@@ -254,16 +258,29 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
   end
 
   describe "facet_params" do
+    let(:facet_config) { ["some-field"] }
+    let(:params) { { f: { "some-field" => ["x"] } } }
+
+    before do
+      blacklight_config.add_facet_field *facet_config
+      allow(helper).to receive_messages(params: params)
+    end
+
     it "extracts the facet parameters for a field" do
-      allow(helper).to receive_messages(params: { f: { "some-field" => ["x"] } })
       expect(helper.facet_params("some-field")).to match_array ["x"]
     end
 
-    it "uses the blacklight key to extract the right fields" do
-      blacklight_config.add_facet_field "some-key", field: "some-field"
-      allow(helper).to receive_messages(params: { f: { "some-key" => ["x"] } })
-      expect(helper.facet_params("some-key")).to match_array ["x"]
-      expect(helper.facet_params("some-field")).to match_array ["x"]
+    context "a facet is not keyed by the field name" do
+      let(:facet_config) { ["some-key", { field: "some-field" }] }
+      let(:params) { { f: { "some-key" => ["x"] } } }
+
+      it "uses the blacklight key to extract the right fields" do
+        expect(helper.facet_params("some-key")).to match_array ["x"]
+      end
+
+      it "looks up facet params by configured field or key values" do
+        expect(helper.facet_params("some-field")).to match_array ["x"]
+      end
     end
   end
 
