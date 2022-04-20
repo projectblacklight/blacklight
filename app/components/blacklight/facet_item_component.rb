@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetItemComponent < ::ViewComponent::Base
+  class FacetItemComponent < Blacklight::Component
     with_collection_parameter :facet_item
 
     def initialize(facet_item:, wrapping_element: 'li', suppress_link: false)

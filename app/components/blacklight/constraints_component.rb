@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class ConstraintsComponent < ::ViewComponent::Base
+  class ConstraintsComponent < Blacklight::Component
     renders_many :query_constraints_area
     renders_many :facet_constraints_area
     renders_many :additional_constraints

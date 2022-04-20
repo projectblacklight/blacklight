@@ -3,7 +3,7 @@
 module Blacklight
   module Response
     # Render a group of facet fields
-    class FacetGroupComponent < ::ViewComponent::Base
+    class FacetGroupComponent < Blacklight::Component
       extend Deprecation
 
       renders_one :body

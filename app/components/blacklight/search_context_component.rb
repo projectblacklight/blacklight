@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class SearchContextComponent < ::ViewComponent::Base
+  class SearchContextComponent < Blacklight::Component
     with_collection_parameter :search_context
 
     def initialize(search_context:, search_session:)

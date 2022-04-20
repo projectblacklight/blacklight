@@ -3,7 +3,7 @@
 module Blacklight
   module Response
     # Render a pagination widget for search results
-    class PaginationComponent < ::ViewComponent::Base
+    class PaginationComponent < Blacklight::Component
       # @param [Blacklight::Response] response
       # @param [Hash] html html options for the pagination container
       def initialize(response:, html: {}, **pagination_args)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class DocumentComponent < ::ViewComponent::Base
+  class DocumentComponent < Blacklight::Component
     # Content appearing before the document
     renders_one :header
 

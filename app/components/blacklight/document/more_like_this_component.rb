@@ -3,7 +3,7 @@
 module Blacklight
   module Document
     # Render the 'more like this' results from the response
-    class MoreLikeThisComponent < ::ViewComponent::Base
+    class MoreLikeThisComponent < Blacklight::Component
       with_collection_parameter :document
 
       # @param [Blacklight::Document] document

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class DocumentMetadataComponent < ::ViewComponent::Base
+  class DocumentMetadataComponent < Blacklight::Component
     renders_many :fields, (lambda do |component: nil, **kwargs|
       component.new(**kwargs)
     end)

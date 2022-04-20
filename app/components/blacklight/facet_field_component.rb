@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldComponent < ::ViewComponent::Base
+  class FacetFieldComponent < Blacklight::Component
     renders_one :label
     renders_one :body
 

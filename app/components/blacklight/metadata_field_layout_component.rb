@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class MetadataFieldLayoutComponent < ::ViewComponent::Base
+  class MetadataFieldLayoutComponent < Blacklight::Component
     with_collection_parameter :field
     renders_one :label
     renders_many :values, (lambda do |value: nil, &block|

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldPaginationComponent < ::ViewComponent::Base
+  class FacetFieldPaginationComponent < Blacklight::Component
     def initialize(facet_field:)
       @facet_field = facet_field
     end
