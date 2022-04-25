@@ -123,7 +123,12 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
       )
     end
 
-    let(:search_state) { Blacklight::SearchState.new(params.with_indifferent_access, Blacklight::Configuration.new) }
+    let(:blacklight_config) do
+      Blacklight::Configuration.new.configure do |config|
+        config.add_facet_field :field
+      end
+    end
+    let(:search_state) { Blacklight::SearchState.new(params.with_indifferent_access, blacklight_config) }
     let(:params) { { f_inclusive: { field: %w[a b c] } } }
 
     it 'displays the constraint above the list' do

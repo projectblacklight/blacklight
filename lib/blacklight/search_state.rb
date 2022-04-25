@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'blacklight/deprecations/search_state_normalization'
 require 'blacklight/search_state/filter_field'
 
 module Blacklight
@@ -7,6 +8,7 @@ module Blacklight
   # parameters namely: :f, :q, :page, :per_page and, :sort
   class SearchState
     extend Deprecation
+    include Blacklight::Deprecations::SearchStateNormalization
 
     attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
     attr_reader :params
@@ -17,18 +19,7 @@ module Blacklight
 
     delegate :facet_configuration_for_field, to: :blacklight_config
 
-    # @param [ActionController::Parameters] params
-    # @param [Blacklight::Config] blacklight_config
-    # @param [ApplicationController] controller used for the routing helpers
-    def initialize(params, blacklight_config, controller = nil)
-      @params = self.class.normalize_params(params)
-      @blacklight_config = blacklight_config
-      @controller = controller
-    end
-
-    def self.normalize_params(untrusted_params = {})
-      params = untrusted_params
-
+    def self.modifiable_params(params)
       if params.respond_to?(:to_unsafe_h)
         # This is the typical (not-ActionView::TestCase) code path.
         params = params.to_unsafe_h
@@ -40,12 +31,55 @@ module Blacklight
       else
         params = params.dup.to_h.with_indifferent_access
       end
-
-      # Normalize facet parameters mangled by facebook
-      params[:f] = normalize_facet_params(params[:f]) if facet_params_need_normalization(params[:f])
-      params[:f_inclusive] = normalize_facet_params(params[:f_inclusive]) if facet_params_need_normalization(params[:f_inclusive])
-
       params
+    end
+
+    # @param [ActionController::Parameters] params
+    # @param [Blacklight::Config] blacklight_config
+    # @param [ApplicationController] controller used for the routing helpers
+    def initialize(params, blacklight_config, controller = nil)
+      @blacklight_config = blacklight_config
+      @controller = controller
+      @params = SearchState.modifiable_params(params)
+      normalize_params! if needs_normalization?
+    end
+
+    def needs_normalization?
+      return false if params.blank?
+      return true if (params.keys.map(&:to_s) - permitted_fields.map(&:to_s)).present?
+
+      !!filters.detect { |filter| filter.values.detect { |value| filter.needs_normalization?(value) } }
+    end
+
+    def normalize_params!
+      @params = normalize_params
+    end
+
+    def normalize_params
+      return params unless needs_normalization?
+
+      base_params = params.slice(*blacklight_config.search_state_fields)
+      normal_state = blacklight_config.facet_fields.each_value.inject(reset(base_params)) do |working_state, filter_key|
+        f = filter(filter_key)
+        next working_state unless f.any?
+
+        filter_values = f.values(except: [:inclusive_filters]).inject([]) do |memo, filter_value|
+          # flatten arrays that had been mangled into integer-indexed hashes
+          memo.concat([f.normalize(filter_value)].flatten)
+        end
+        filter_values = f.values(except: [:filters, :missing]).inject(filter_values) do |memo, filter_value|
+          memo << f.normalize(filter_value)
+        end
+        filter_values.inject(working_state) do |memo, filter_value|
+          memo.filter(filter_key).add(filter_value)
+        end
+      end
+      normal_state.params
+    end
+
+    def permitted_fields
+      filter_keys = filter_fields.inject(Set.new) { |memo, filter| memo.merge [filter.filters_key, filter.inclusive_filters_key] }
+      blacklight_config.search_state_fields + filter_keys.subtract([nil, '']).to_a
     end
 
     def to_hash
@@ -129,11 +163,7 @@ module Blacklight
     end
 
     def filters
-      @filters ||= blacklight_config.facet_fields.each_value.map do |value|
-        f = filter(value)
-
-        f if f.any?
-      end.compact
+      @filters ||= filter_fields.select(&:any?)
     end
 
     def filter(field_key_or_field)
@@ -248,16 +278,6 @@ module Blacklight
       params[facet_request_keys[:prefix]]
     end
 
-    def self.facet_params_need_normalization(facet_params)
-      facet_params.is_a?(Hash) && facet_params.values.any? { |x| x.is_a?(Hash) }
-    end
-
-    def self.normalize_facet_params(facet_params)
-      facet_params.transform_values do |value|
-        value.is_a?(Hash) ? value.values : value
-      end
-    end
-
     private
 
     def search_field_key
@@ -278,6 +298,10 @@ module Blacklight
     # @return [ActionController::Parameters]
     def reset_search_params
       Parameters.sanitize(params).except(:page, :counter)
+    end
+
+    def filter_fields
+      blacklight_config.facet_fields.each_value.map { |value| filter(value) }
     end
   end
 end
