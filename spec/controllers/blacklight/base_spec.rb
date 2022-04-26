@@ -11,7 +11,10 @@ RSpec.describe Blacklight::Base do
     let(:raw_params) { HashWithIndifferentAccess.new a: 1 }
     let(:params) { ActionController::Parameters.new raw_params }
 
-    before { allow(controller).to receive_messages(params: params) }
+    before do
+      controller.blacklight_config.search_state_fields << :a
+      allow(controller).to receive_messages(params: params)
+    end
 
     it "creates a path object" do
       expect(subject).to be_kind_of Blacklight::SearchState

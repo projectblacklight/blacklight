@@ -40,6 +40,8 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
       config.add_index_field 'alias', field: 'qwer'
       config.add_index_field 'with_default', default: 'value'
       config.add_index_field 'with_steps', steps: [custom_step]
+      config.add_facet_field :link_to_facet_true
+      config.add_facet_field :some_field
     end
   end
 

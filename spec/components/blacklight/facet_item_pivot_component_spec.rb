@@ -7,8 +7,14 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
     render_inline_to_capybara_node(described_class.new(facet_item: facet_item))
   end
 
+  let(:blacklight_config) do
+    Blacklight::Configuration.new.configure do |config|
+      config.add_facet_field :z
+    end
+  end
+
   let(:search_state) do
-    Blacklight::SearchState.new({}, Blacklight::Configuration.new)
+    Blacklight::SearchState.new({}, blacklight_config)
   end
 
   let(:facet_item) do
