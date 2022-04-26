@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class DocumentComponent < ::ViewComponent::Base
+  class DocumentComponent < Blacklight::Component
     include Blacklight::ContentAreasShim
 
     # Content appearing before the document

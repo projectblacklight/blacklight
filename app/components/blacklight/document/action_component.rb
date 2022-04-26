@@ -3,7 +3,7 @@
 module Blacklight
   module Document
     # Render a bookmark widget to bookmark / unbookmark a document
-    class ActionComponent < ::ViewComponent::Base
+    class ActionComponent < Blacklight::Component
       with_collection_parameter :action
 
       # @param [Blacklight::Document] document

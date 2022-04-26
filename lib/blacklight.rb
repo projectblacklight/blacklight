@@ -7,6 +7,7 @@ require 'jbuilder'
 
 module Blacklight
   autoload :AbstractRepository, 'blacklight/abstract_repository'
+  autoload :Component, 'blacklight/component'
   autoload :Configuration, 'blacklight/configuration'
   autoload :Exceptions,  'blacklight/exceptions'
   autoload :Parameters,  'blacklight/parameters'

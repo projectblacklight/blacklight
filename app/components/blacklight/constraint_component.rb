@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class ConstraintComponent < ::ViewComponent::Base
+  class ConstraintComponent < Blacklight::Component
     with_collection_parameter :facet_item_presenter
 
     def initialize(facet_item_presenter:, classes: 'filter', layout: Blacklight::ConstraintLayoutComponent)

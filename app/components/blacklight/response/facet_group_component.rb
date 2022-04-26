@@ -3,7 +3,7 @@
 module Blacklight
   module Response
     # Render a group of facet fields
-    class FacetGroupComponent < ::ViewComponent::Base
+    class FacetGroupComponent < Blacklight::Component
       # @param [Blacklight::Response] response
       # @param [Array<String>] fields facet fields to render
       # @param [String] title the title of the facet group section

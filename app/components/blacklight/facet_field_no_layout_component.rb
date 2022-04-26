@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldNoLayoutComponent < ::ViewComponent::Base
+  class FacetFieldNoLayoutComponent < Blacklight::Component
     include Blacklight::ContentAreasShim
 
     renders_one :label
