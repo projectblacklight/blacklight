@@ -29,17 +29,26 @@ module Blacklight
           def #{name}
             @documents = action_documents
 
-            if request.post? && #{callback} &&
-               (#{validator}.blank? || send(#{validator}))
+            if request.post? && #{callback}
+              if #{validator}.blank? || send(#{validator})
 
-              send(#{callback}, @documents)
+                send(#{callback}, @documents)
 
-              flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
+                flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
 
-              respond_to do |format|
-                format.html do
-                  return render "#{name}_success" if request.xhr?
-                  redirect_to action_success_redirect_path
+                respond_to do |format|
+                  format.html do
+                    return render "#{name}_success", layout: false if request.xhr?
+                    redirect_to action_success_redirect_path
+                  end
+                end
+              else
+                # Not valid
+                respond_to do |format|
+                  format.html do
+                    return render layout: false, status: :unprocessable_entity if request.xhr?
+                    # Otherwise draw the full page
+                  end
                 end
               end
             else
