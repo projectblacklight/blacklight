@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'blacklight/search_state/filter_field'
+require 'blacklight/search_state/pivot_filter_field'
 
 module Blacklight
   # This class encapsulates the search state as represented by the query
