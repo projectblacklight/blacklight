@@ -115,9 +115,4 @@ RSpec.describe "Search Page" do
     expect(page).to have_content "Welcome!"
     expect(page).not_to have_selector "#q[value='history']"
   end
-
-  it "sanitizes searches with unconfigured facet parameters" do
-    visit root_path f: { missing_s: [1] }
-    expect(page).not_to have_text "Missing S"
-  end
 end
