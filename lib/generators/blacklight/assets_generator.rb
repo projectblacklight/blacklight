@@ -8,7 +8,7 @@ module Blacklight
 
     # This could be skipped if you want to use webpacker
     def add_javascript_dependencies
-      gem 'bootstrap', options[:'bootstrap-version'] # in rails 7, only for stylesheets
+      gem 'bootstrap', options[:'bootstrap-version'].presence # in rails 7, only for stylesheets
     end
 
     ##

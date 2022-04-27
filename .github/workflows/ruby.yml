@@ -29,84 +29,32 @@ jobs:
       run: bundle exec rake rubocop
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.7, '3.0', 3.1]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-    - name: Install dependencies
-      run: bundle install
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_bootstrap4:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ['3.0']
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-    - name: Install dependencies
-      run: bundle install
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        BOOTSTRAP_VERSION: '~> 4.0'
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_rails6_0:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.7]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-    - name: Install dependencies
-      run: bundle install
-      env:
-        RAILS_VERSION: 6.0.3.4
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        RAILS_VERSION: 6.0.3.4
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_rails6_1:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ['3.0']
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-    - name: Install dependencies
-      run: bundle install
-      env:
-        RAILS_VERSION: 6.1.5
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        RAILS_VERSION: 6.1.5
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-keeps --skip-action-cable --skip-test'
-  api_test:
-    runs-on: ubuntu-latest
+    name: test (ruby ${{ matrix.ruby }} / rails ${{ matrix.rails_version }} ${{ matrix.additional_name }})
     strategy:
       matrix:
         ruby: [2.7, '3.0']
+        rails_version: ['6.1.5', '7.0.2.3']
+        bootstrap_version: [null]
+        api: [null]
+        additional_engine_cart_rails_options: ['']
+        additional_name: ['']
+        include:
+        - ruby: '3.1'
+          rails_version: '7.0.2.3'
+        - ruby: '3.0'
+          rails_version: '7.0.2.3'
+          bootstrap_version: '~> 4.0'
+          additional_name: '/ Bootstrap 4'
+        - ruby: '3.0'
+          rails_version: '7.0.2.3'
+          api: 'true'
+          additional_engine_cart_rails_options: --api --skip-yarn
+          additional_name: '/ API'
+    env:
+      RAILS_VERSION: ${{ matrix.rails_version }}
+      BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
+      BLACKLIGHT_API_TEST: ${{ matrix.api }}
+      ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test ${{ matrix.engine_cart_rails_options }}"
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
@@ -117,9 +65,6 @@ jobs:
       run: bundle install
     - name: Run tests
       run: bundle exec rake ci
-      env:
-        BLACKLIGHT_API_TEST: true
-        ENGINE_CART_RAILS_OPTIONS: '--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   docker_build:
     runs-on: ubuntu-latest
     steps:
