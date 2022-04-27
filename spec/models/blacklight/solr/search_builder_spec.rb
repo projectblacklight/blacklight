@@ -572,6 +572,17 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
       expect(solr_parameters[:fq]).to be_a_kind_of Array
     end
+
+    context "facet not defined in config" do
+      let(:single_facet) { { unknown_facet_field: "foo" } }
+      let(:user_params) { { f: single_facet } }
+
+      it "does not add facet to solr_parameters" do
+        solr_parameters = Blacklight::Solr::Request.new
+        subject.add_facet_fq_to_solr(solr_parameters)
+        expect(solr_parameters[:fq]).to be_blank
+      end
+    end
   end
 
   describe "#add_solr_fields_to_query" do

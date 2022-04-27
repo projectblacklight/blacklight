@@ -54,6 +54,15 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     it 'renders the query' do
       expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
     end
+
+    context 'that is not configured' do
+      let(:query_params) { { f: { facet: ['some value'], missing: ['another value'] } } }
+
+      it 'renders only the configured constraints' do
+        expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
+        expect(rendered).not_to have_selector('.constraint-value > .filter-name', text: 'Missing')
+      end
+    end
   end
 
   describe '.for_search_history' do
