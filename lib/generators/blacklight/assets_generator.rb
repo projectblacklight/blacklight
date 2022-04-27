@@ -36,6 +36,7 @@ module Blacklight
             pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.1.3/dist/js/bootstrap.js"
             pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.0/dist/jquery.js"
             pin "blacklight", to: "blacklight/blacklight.js"
+            pin "dialog-polyfill", to: "https://ga.jspm.io/npm:dialog-polyfill@0.5.6/dist/dialog-polyfill.js"
           CONTENT
         end
 
@@ -46,6 +47,11 @@ module Blacklight
             window.bootstrap = bootstrap // Required for Blacklight 7 so it can manage the modals
             window.$ = $ // required as long as blacklight requires jquery
             import "blacklight"
+            import dialogPolyfill from "dialog-polyfill"
+            Blacklight.onLoad(() => {
+              var dialog = document.querySelector('dialog');
+              dialogPolyfill.registerDialog(dialog);
+            })
           CONTENT
         end
       else
