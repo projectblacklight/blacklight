@@ -16,16 +16,16 @@ module Blacklight
       @table
     end
 
-    def select *args, &block
-      self.class.new to_h.select(*args, &block)
+    def select(...)
+      self.class.new to_h.select(...)
     end
 
-    def sort_by *args, &block
-      self.class.new to_h.sort_by(*args, &block).to_h
+    def sort_by(...)
+      self.class.new to_h.sort_by(...).to_h
     end
 
-    def sort_by! *args, &block
-      replace to_h.sort_by(*args, &block).to_h
+    def sort_by!(...)
+      replace to_h.sort_by(...).to_h
       self
     end
 

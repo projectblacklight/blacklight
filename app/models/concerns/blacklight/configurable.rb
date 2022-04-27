@@ -33,8 +33,8 @@ module Blacklight::Configurable
     attr_writer :blacklight_config
 
     # simply a convenience method for blacklight_config.configure
-    def configure_blacklight(*args, &block)
-      blacklight_config.configure(*args, &block)
+    def configure_blacklight(...)
+      blacklight_config.configure(...)
     end
 
     ##

@@ -7,7 +7,7 @@ inherit_from:
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"

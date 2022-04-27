@@ -64,8 +64,8 @@ module Blacklight
       self.class.new nested_class, @table.deep_dup
     end
 
-    def select *args, &block
-      self.class.new nested_class, to_h.select(*args, &block)
+    def select(...)
+      self.class.new nested_class, to_h.select(...)
     end
 
     ##
