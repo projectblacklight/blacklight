@@ -441,7 +441,7 @@ Blacklight.modal.checkCloseModal = function (event) {
 };
 
 Blacklight.modal.hide = function (el) {
-  if (bootstrap.Modal.VERSION >= "5") {
+  if (typeof bootstrap !== 'undefined' && typeof bootstrap.Modal !== 'undefined' && bootstrap.Modal.VERSION >= "5") {
     bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).hide();
   } else {
     $(el || Blacklight.modal.modalSelector).modal('hide');
@@ -449,7 +449,7 @@ Blacklight.modal.hide = function (el) {
 };
 
 Blacklight.modal.show = function (el) {
-  if (bootstrap.Modal.VERSION >= "5") {
+  if (typeof bootstrap !== 'undefined' && typeof bootstrap.Modal !== 'undefined' && bootstrap.Modal.VERSION >= "5") {
     bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).show();
   } else {
     $(el || Blacklight.modal.modalSelector).modal('show');
