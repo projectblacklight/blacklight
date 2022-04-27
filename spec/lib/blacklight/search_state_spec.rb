@@ -549,4 +549,81 @@ RSpec.describe Blacklight::SearchState do
       expect(search_state.facet_prefix).to eq 'A'
     end
   end
+
+  describe "#url_for_document" do
+    let(:controller_class) { ::CatalogController.new }
+    let(:doc) { SolrDocument.new }
+
+    before do
+      allow(search_state).to receive_messages(controller: controller_class)
+      allow(search_state).to receive_messages(controller_name: controller_class.controller_name)
+      allow(search_state).to receive_messages(params: parameter_class.new)
+    end
+
+    it "is a polymorphic routing-ready object" do
+      expect(search_state.url_for_document(doc)).to eq doc
+    end
+
+    it "allows for custom show routes" do
+      search_state.blacklight_config.show.route = { controller: 'catalog' }
+      expect(search_state.url_for_document(doc)).to eq(controller: 'catalog', action: :show, id: doc)
+    end
+
+    context "within bookmarks" do
+      let(:controller_class) { ::BookmarksController.new }
+
+      it "uses polymorphic routing" do
+        expect(search_state.url_for_document(doc)).to eq doc
+      end
+    end
+
+    context "within an alternative catalog controller" do
+      let(:controller_class) { ::AlternateController.new }
+
+      before do
+        search_state.blacklight_config.show.route = { controller: :current }
+        allow(search_state).to receive(:params).and_return(parameter_class.new(controller: 'alternate'))
+      end
+
+      it "supports the :current controller configuration" do
+        expect(search_state.url_for_document(doc)).to eq(controller: 'alternate', action: :show, id: doc)
+      end
+    end
+
+    it "is a polymorphic route if the solr document responds to #to_model with a non-SolrDocument" do
+      some_model = double
+      doc = SolrDocument.new
+      allow(doc).to receive_messages(to_model: some_model)
+      expect(search_state.url_for_document(doc)).to eq doc
+    end
+  end
+
+  describe '#filters' do
+    context 'pivot facet config but no facet params' do
+      it 'maps no filters' do
+        blacklight_config.add_facet_field 'some_key', pivot: %w[pivot_field_1 pivot_field_2]
+        expect(search_state.filters).to eq([])
+      end
+    end
+
+    context 'pivot facet config and some pivot facet params' do
+      let(:params) { { 'f' => { 'pivot_field_1' => 'foo' } } }
+
+      it 'maps the pivot matching param pivot_field' do
+        blacklight_config.add_facet_field 'some_key', pivot: %w[pivot_field_1 pivot_field_2]
+        expect(search_state.filters.count).to eq(1)
+        expect(search_state.filters.first.key).to eq('some_key')
+      end
+    end
+
+    context 'regular facet config with params' do
+      let(:params) { { 'f' => { 'some_key' => 'foo' } } }
+
+      it 'maps the field matching param facet_field' do
+        blacklight_config.add_facet_field 'some_key'
+        expect(search_state.filters.count).to eq(1)
+        expect(search_state.filters.first.key).to eq('some_key')
+      end
+    end
+  end
 end
