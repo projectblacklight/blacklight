@@ -52,13 +52,14 @@ RSpec.describe "Blacklight::User", api: true do
     end
 
     context 'when no email method is provided' do
+      let(:old_method) { subject.class.instance_method(:email) }
+
       before do
-        @old_method = subject.class.instance_method(:email)
-        subject.class.send(:undef_method, :email)
+        subject.class.send(:undef_method, old_method.name)
       end
 
       after do
-        subject.class.send(:define_method, :email, @old_method)
+        subject.class.send(:define_method, old_method.name, old_method)
       end
 
       it 'still provides a string' do
