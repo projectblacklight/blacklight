@@ -34,6 +34,13 @@ module Blacklight
       generate "devise", model_name.classify
       generate "devise_guests", model_name.classify
 
+      # add the #to_s to the model.
+      insert_into_file("app/models/#{model_name}.rb", before: /end(\n| )*$/) do
+        "\n  # Configuration added by Blacklight; Blacklight::User uses a method key on your\n" \
+          "  # user class to get a user-displayable login/identifier for\n" \
+          "  # the account.\n" \
+          "  string_display_key_unless(:email)\n"
+      end
       gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
     end
 

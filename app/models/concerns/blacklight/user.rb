@@ -30,8 +30,21 @@ module Blacklight::User
   ##
   # @return [String] a user-displayable login/identifier for the user account
   def to_s
-    return email if respond_to?(:email)
+    string_display_key = self.class.string_display_key
+    return send(string_display_key) if respond_to?(string_display_key)
 
     super
+  end
+
+  module ClassMethods
+    def string_display_key(attr_name = nil)
+      return @string_display_key if attr_name.blank?
+
+      @string_display_key = attr_name
+    end
+
+    def string_display_key_unless(attr_name)
+      @string_display_key || string_display_key(attr_name)
+    end
   end
 end
