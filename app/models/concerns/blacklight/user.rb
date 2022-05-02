@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 module Blacklight::User
-  # This gives us an is_blacklight_user method that can be included in
-  # the containing applications models.
-  # SEE ALSO:  The /lib/blacklight/engine.rb class for how when this
-  # is injected into the hosting application through ActiveRecord::Base extend
-  def self.included(base)
-    return unless base.respond_to? :has_many
-
-    base.send :has_many, :bookmarks, dependent: :destroy, as: :user
-    base.send :has_many, :searches,  dependent: :destroy, as: :user
+  extend ActiveSupport::Concern
+  # SEE ALSO:  The lib/blacklight/generator/user_generator.rb class for where this
+  # is generated into the hosting application.
+  included do
+    has_many :bookmarks, dependent: :destroy, as: :user
+    has_many :searches,  dependent: :destroy, as: :user
   end
 
   def bookmarks_for_documents documents = []
