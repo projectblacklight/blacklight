@@ -5,6 +5,8 @@ module Blacklight::User
   # SEE ALSO:  The lib/blacklight/generator/user_generator.rb class for where this
   # is generated into the hosting application.
   included do
+    class_attribute :string_display_key
+
     has_many :bookmarks, dependent: :destroy, as: :user
     has_many :searches,  dependent: :destroy, as: :user
   end
@@ -34,17 +36,5 @@ module Blacklight::User
     return send(string_display_key) if respond_to?(string_display_key)
 
     super
-  end
-
-  module ClassMethods
-    def string_display_key(attr_name = nil)
-      return @string_display_key if attr_name.blank?
-
-      @string_display_key = attr_name
-    end
-
-    def string_display_key_unless(attr_name)
-      @string_display_key || string_display_key(attr_name)
-    end
   end
 end
