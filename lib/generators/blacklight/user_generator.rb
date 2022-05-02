@@ -39,7 +39,7 @@ module Blacklight
         "\n  # Configuration added by Blacklight; Blacklight::User uses a method key on your\n" \
           "  # user class to get a user-displayable login/identifier for\n" \
           "  # the account.\n" \
-          "  self.string_display_key = :email unless string_display_key?\n"
+          "  self.string_display_key ||= :email\n"
       end
       gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
     end
