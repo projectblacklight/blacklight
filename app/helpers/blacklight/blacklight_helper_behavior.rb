@@ -81,6 +81,7 @@ module Blacklight::BlacklightHelperBehavior
   def render_search_bar
     search_bar_presenter.render
   end
+  deprecation_deprecate render_search_bar: "Call `render Blacklight::SearchBarComponent.new' instead"
 
   # @!group Presenter extension helpers
   ##
@@ -88,6 +89,7 @@ module Blacklight::BlacklightHelperBehavior
   def search_bar_presenter
     @search_bar ||= search_bar_presenter_class.new(controller, blacklight_config)
   end
+  deprecation_deprecate :search_bar_presenter
 
   # @!group Document helpers
   ##
