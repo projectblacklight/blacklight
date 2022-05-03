@@ -19,6 +19,9 @@ describe "Routing" do
     it "maps { :controller => 'catalog', :action => 'show', :id => 666 } to /catalog/666" do
       expect(:get => "/catalog/666").to route_to(:controller => 'catalog', :action => 'show', :id => "666")
     end
+    it "maps { :controller => 'catalog', :action => 'show', :id => 666, :format => 'json' } to /catalog/666.json" do
+      expect(:get => "/catalog/666.json").to route_to(:controller => 'catalog', :action => 'show', :id => "666", :format => 'json')
+    end
   end
 
   describe 'tracking' do
@@ -34,6 +37,14 @@ describe "Routing" do
       it 'routes to #track' do
         expect(post('/catalog/gallica.bnf.fr/track')).to route_to('catalog#track', id: 'gallica.bnf.fr')
       end
+    end
+
+    it "routes ids with a literal ':'" do
+      expect(post('/catalog/this:that/track')).to route_to('catalog#track', id: 'this:that')
+    end
+
+    it "routes ids with a literal ':'" do
+      expect(post('/catalog/this:that/track.json')).to route_to('catalog#track', id: 'this:that', format: 'json')
     end
   end
 
@@ -60,6 +71,10 @@ describe "Routing" do
 
       it "routes ids with a literal '+'" do
         expect(:get => solr_document_path(SolrDocument.new(:id => 'this+that'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'this+that')
+      end
+
+      it "routes ids with a literal ':'" do
+        expect(get: solr_document_path(SolrDocument.new(:id => 'this:that'))).to route_to(:controller => 'catalog', :action => 'show', :id => 'this:that')
       end
 
       it "routes ids with a literal '/" do
