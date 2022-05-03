@@ -65,20 +65,6 @@ module Blacklight::BlacklightHelperBehavior
   end
 
   ##
-  # Render the search navbar
-  # @return [String]
-  def render_search_bar
-    search_bar_presenter.render
-  end
-
-  # @!group Presenter extension helpers
-  ##
-  # @return [Blacklight::SearchBarPresenter]
-  def search_bar_presenter
-    @search_bar ||= search_bar_presenter_class.new(controller, blacklight_config)
-  end
-
-  ##
   # Get the current "view type" (and ensure it is a valid type)
   #
   # @param [Hash] query_params the query parameters to check
