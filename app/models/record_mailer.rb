@@ -31,6 +31,6 @@ class RecordMailer < ActionMailer::Base
     @config         = details[:config]
     @url_gen_params = url_gen_params
 
-    mail(to: details[:to], subject: "")
+    mail(to: details[:to], subject: "") # rubocop:disable Rails/I18nLocaleTexts
   end
 end

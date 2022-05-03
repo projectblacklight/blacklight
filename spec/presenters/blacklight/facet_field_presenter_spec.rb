@@ -39,11 +39,11 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
   describe '#active?' do
     it "checks if any value is selected for a given facet" do
       controller.params[:f] = ActiveSupport::HashWithIndifferentAccess.new(key: [1])
-      expect(presenter.active?).to eq true
+      expect(presenter.active?).to be true
     end
 
     it "is false if no value for facet is selected" do
-      expect(presenter.active?).to eq false
+      expect(presenter.active?).to be false
     end
   end
 
@@ -54,12 +54,12 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
       end
 
       it 'is true' do
-        expect(presenter.in_modal?).to eq true
+        expect(presenter.in_modal?).to be true
       end
     end
 
     it 'is false' do
-      expect(presenter.in_modal?).to eq false
+      expect(presenter.in_modal?).to be false
     end
   end
 

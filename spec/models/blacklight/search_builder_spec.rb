@@ -225,50 +225,50 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
 
   describe "#params_changed?" do
     it "is false" do
-      expect(subject.send(:params_changed?)).to eq false
+      expect(subject.send(:params_changed?)).to be false
     end
 
     it "is marked as changed when with() changes" do
       subject.with(a: 1)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when where() changes" do
       subject.where(a: 1)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when the processor chain changes" do
       subject.append(:a)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when merged parameters are added" do
       subject.merge(a: 1)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when reverse merged parameters are added" do
       subject.reverse_merge(a: 1)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when pagination changes" do
       expect(subject).to receive(:page=).with(1).and_call_original
       subject.page(1)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when rows changes" do
       expect(subject).to receive(:rows=).with(1).and_call_original
       subject.rows(1)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when start offset changes" do
       expect(subject).to receive(:start=).with(1).and_call_original
       subject.start(1)
-      expect(subject.send(:params_changed?)).to eq true
+      expect(subject.send(:params_changed?)).to be true
     end
   end
 end

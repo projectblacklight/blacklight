@@ -8,6 +8,7 @@ inherit_from:
 AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 2.7
+  TargetRailsVersion: 6.0
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"
@@ -287,4 +288,48 @@ Rails/WhereEquals: # new in 2.9
 Rails/WhereExists: # new in 2.7
   Enabled: true
 Rails/WhereNot: # new in 2.8
+  Enabled: true
+Lint/RefinementImportMethods: # new in 1.27
+  Enabled: true
+Naming/BlockForwarding: # new in 1.24
+  Enabled: true
+Style/FileRead: # new in 1.24
+  Enabled: true
+Style/FileWrite: # new in 1.24
+  Enabled: true
+Style/MapToHash: # new in 1.24
+  Enabled: true
+Style/NestedFileDirname: # new in 1.26
+  Enabled: true
+Style/RedundantInitialize: # new in 1.27
+  Enabled: true
+RSpec/BeEq: # new in 2.9.0
+  Enabled: true
+RSpec/BeNil: # new in 2.9.0
+  Enabled: true
+RSpec/FactoryBot/SyntaxMethods: # new in 2.7
+  Enabled: true
+Rails/ActionControllerTestCase: # new in 2.14
+  Enabled: true
+Rails/CompactBlank: # new in 2.13
+  Enabled: true
+Rails/DeprecatedActiveModelErrorsMethods: # new in 2.14
+  Enabled: true
+Rails/DuplicateAssociation: # new in 2.14
+  Enabled: true
+Rails/DuplicateScope: # new in 2.14
+  Enabled: true
+Rails/DurationArithmetic: # new in 2.13
+  Enabled: true
+Rails/I18nLazyLookup: # new in 2.14
+  Enabled: true
+Rails/I18nLocaleTexts: # new in 2.14
+  Enabled: true
+Rails/MigrationClassName: # new in 2.14
+  Enabled: true
+Rails/RedundantPresenceValidationOnBelongsTo: # new in 2.13
+  Enabled: true
+Rails/RootJoinChain: # new in 2.13
+  Enabled: true
+Rails/TransactionExitStatement: # new in 2.14
   Enabled: true

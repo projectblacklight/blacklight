@@ -23,7 +23,7 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
   context 'with no constraints' do
     describe '#render?' do
       it 'is false' do
-        expect(component.render?).to eq false
+        expect(component.render?).to be false
       end
     end
   end

@@ -114,13 +114,13 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
 
       it "defaults to count if no value is found and the default limit is used" do
         expect(subject.aggregations['my_field'].sort).to eq 'count'
-        expect(subject.aggregations['my_field'].count?).to eq true
+        expect(subject.aggregations['my_field'].count?).to be true
       end
 
       it "defaults to index if no value is found and the limit is unlimited" do
         request_params['facet.limit'] = -1
         expect(subject.aggregations['my_field'].sort).to eq 'index'
-        expect(subject.aggregations['my_field'].index?).to eq true
+        expect(subject.aggregations['my_field'].index?).to be true
       end
     end
 

@@ -181,7 +181,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
     it "uses the track_search_session configuration to determine whether to track the search session" do
       blacklight_config.track_search_session = false
-      expect(helper.session_tracking_path(document, x: 1)).to eq nil
+      expect(helper.session_tracking_path(document, x: 1)).to be_nil
     end
   end
 end

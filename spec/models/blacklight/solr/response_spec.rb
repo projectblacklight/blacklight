@@ -72,7 +72,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     expect(r.offset_value).to eq(r.start)
     expect(r.total_count).to eq(r.total)
     expect(r.next_page).to eq(r.current_page + 1)
-    expect(r.prev_page).to eq(nil)
+    expect(r.prev_page).to be_nil
     expect(r.entry_name(count: 1)).to eq 'entry'
     expect(r.entry_name(count: 2)).to eq 'entries'
     expect(r.size).to eq 26

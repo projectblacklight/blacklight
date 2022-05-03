@@ -139,7 +139,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
       end
 
       it 'handles a missing field' do
-        expect(helper.label_for_search_field(nil)).to eq nil
+        expect(helper.label_for_search_field(nil)).to be_nil
       end
     end
 

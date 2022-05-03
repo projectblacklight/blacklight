@@ -59,7 +59,7 @@ RSpec.describe Blacklight::Icon do
       end
 
       it 'has no aria-hidden attribute with no options' do
-        expect(subject.options[:'aria-hidden']).to be nil
+        expect(subject.options[:'aria-hidden']).to be_nil
       end
     end
   end

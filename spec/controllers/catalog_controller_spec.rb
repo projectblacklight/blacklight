@@ -562,7 +562,7 @@ RSpec.describe CatalogController, api: true do
 
       it "redirects back to the record upon success" do
         post :sms, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
-        expect(request.flash[:error]).to eq nil
+        expect(request.flash[:error]).to be_nil
         expect(request).to redirect_to(solr_document_path(doc_id))
       end
 
