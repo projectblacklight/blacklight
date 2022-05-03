@@ -2,8 +2,8 @@
 
 module Blacklight
   class DocumentTitleComponent < Blacklight::Component
-    renders_many :before_title
-    renders_many :after_title
+    renders_many :before_titles
+    renders_many :after_titles
     renders_many :actions
 
     # rubocop:disable Metrics/ParameterLists

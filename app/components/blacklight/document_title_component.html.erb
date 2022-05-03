@@ -1,12 +1,12 @@
 <header class="documentHeader row">
   <%= content_tag @as, class: @classes do %>
-    <% before_title.each do |t| %>
+    <% before_titles.each do |t| %>
       <%= t %>
     <% end %>
 
     <%= counter -%><%= title -%>
 
-    <% after_title.each do |t| %>
+    <% after_titles.each do |t| %>
       <%= t %>
     <% end %>
   <% end %>
