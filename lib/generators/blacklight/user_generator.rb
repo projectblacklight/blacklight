@@ -36,12 +36,10 @@ module Blacklight
 
       # add the #to_s to the model.
       insert_into_file("app/models/#{model_name}.rb", before: /end(\n| )*$/) do
-        "\n  # Method added by Blacklight; Blacklight uses #to_s on your\n" \
+        "\n  # Configuration added by Blacklight; Blacklight::User uses a method key on your\n" \
           "  # user class to get a user-displayable login/identifier for\n" \
           "  # the account.\n" \
-          "  def to_s\n" \
-          "    email\n" \
-          "  end\n"
+          "  self.string_display_key ||= :email\n"
       end
       gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
     end

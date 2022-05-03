@@ -45,4 +45,26 @@ RSpec.describe "Blacklight::User", api: true do
       expect(subject.existing_bookmark_for(SolrDocument.new(id: 1))).to eq subject.bookmarks.first
     end
   end
+
+  describe '#to_s' do
+    it 'is the email by default' do
+      expect(subject.to_s).to eq subject.email
+    end
+
+    context 'when no email method is provided' do
+      let(:old_method) { subject.class.instance_method(:email) }
+
+      before do
+        subject.class.send(:undef_method, old_method.name)
+      end
+
+      after do
+        subject.class.send(:define_method, old_method.name, old_method)
+      end
+
+      it 'still provides a string' do
+        expect(subject.to_s).to be_a String
+      end
+    end
+  end
 end
