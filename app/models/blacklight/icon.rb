@@ -55,7 +55,10 @@ module Blacklight
     def file_source
       raise Blacklight::Exceptions::IconNotFound, "Could not find #{path}" if file.blank?
 
-      file.source.force_encoding('UTF-8')
+      # Handle both Sprockets::Asset and Propshaft::Asset
+      data = file.respond_to?(:source) ? file.source : file.path.read
+
+      data.force_encoding('UTF-8')
     end
 
     def ng_xml
@@ -68,7 +71,10 @@ module Blacklight
       [icon_name, additional_options[:label_context]].compact.join('_')
     end
 
+    # @return [Sprockets::Asset,Propshaft::Asset]
     def file
+      return Rails.application.assets.load_path.find(path) if defined? Propshaft
+
       # Rails.application.assets is `nil` in production mode (where compile assets is enabled).
       # This workaround is based off of this comment: https://github.com/fphilipe/premailer-rails/issues/145#issuecomment-225992564
       (Rails.application.assets || ::Sprockets::Railtie.build_environment(Rails.application)).find_asset(path)
