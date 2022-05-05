@@ -103,7 +103,7 @@ module Blacklight
     # @!attribute document_factory
     # the factory that builds document
     # @return [Class]
-    property :document_factory, default: Blacklight::DocumentFactory
+    property :document_factory, default: nil
     # A class that builds documents
     def document_factory
       super || Blacklight::DocumentFactory
