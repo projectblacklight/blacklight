@@ -14,19 +14,14 @@ module Blacklight
 
     delegate :facet_configuration_for_field, to: :blacklight_config
 
+    # @param [ActionController::Parameters, Hash] params
     def self.modifiable_params(params)
       if params.respond_to?(:to_unsafe_h)
         # This is the typical (not-ActionView::TestCase) code path.
-        params = params.to_unsafe_h
-        # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
-        params = params.with_indifferent_access if params.instance_of? Hash
-      elsif params.is_a? Hash
-        # This is an ActionView::TestCase workaround for Rails 4.2.
-        params = params.dup.with_indifferent_access
+        params.to_unsafe_h
       else
-        params = params.dup.to_h.with_indifferent_access
+        params.dup.with_indifferent_access
       end
-      params
     end
 
     # @param [ActionController::Parameters] params
