@@ -13,7 +13,7 @@ module Blacklight::SearchContext
 
   class_methods do
     # Save the submitted search parameters in the search session
-    def record_search_parameters opts = { only: :index }
+    def record_search_parameters(opts = { unless: proc { |c| (c.action_name.to_s != "index") || c.send(:skip_session_tracking?) } })
       before_action :set_current_search_session, opts
     end
   end
@@ -39,7 +39,7 @@ module Blacklight::SearchContext
   end
 
   def find_search_session
-    if agent_is_crawler? || skip_session_tracking?
+    if skip_session_tracking?
       nil
     elsif params[:search_context].present?
       find_or_initialize_search_session_from_params JSON.parse(params[:search_context])
@@ -80,10 +80,17 @@ module Blacklight::SearchContext
   end
 
   def skip_session_tracking?
-    skip_session_proc = blacklight_config.skip_session_tracking
-    return false if skip_session_proc.nil?
+    return true if agent_is_crawler?
 
-    skip_session_proc.call(request, params)
+    skip_session_proc = blacklight_config.skip_session_tracking
+    case skip_session_proc
+    when TrueClass
+      true
+    when Proc
+      skip_session_proc.call(request, params)
+    else
+      false
+    end
   end
 
   def find_or_initialize_search_session_from_params params
