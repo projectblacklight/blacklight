@@ -157,6 +157,7 @@ module Blacklight::CatalogHelperBehavior
   def render_document_main_content_partial(_document = @document)
     render partial: 'show_main_content'
   end
+  deprecation_deprecate render_document_main_content_partial: "Use \"render 'show_main_content'\" instead"
 
   ##
   # Should we display the sort and per page widget?
