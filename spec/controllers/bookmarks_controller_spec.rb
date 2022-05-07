@@ -24,7 +24,8 @@ RSpec.describe BookmarksController do
       allow(@controller).to receive_message_chain(:current_or_guest_user, :existing_bookmark_for).and_return(false)
       allow(@controller).to receive_message_chain(:current_or_guest_user, :persisted?).and_return(true)
       allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :where, :exists?).and_return(false)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :create).and_return(false)
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :create!).and_raise(ActiveRecord::RecordInvalid)
+      allow(@controller).to receive_message_chain(:current_or_guest_user, :errors, :full_messages).and_return([1])
       put :update, xhr: true, params: { id: 'iamabooboo', format: :js }
       expect(response.code).to eq "500"
     end
