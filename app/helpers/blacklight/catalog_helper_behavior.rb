@@ -148,18 +148,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Render the main content partial for a document
-  # This is widely used as by downstream apps when they override their show view.
-  # See https://github.com/search?q=render_document_main_content_partial&type=Code
-  #
-  # @param [SolrDocument] _document
-  # @return [String]
-  def render_document_main_content_partial(_document = @document)
-    render partial: 'show_main_content'
-  end
-  deprecation_deprecate render_document_main_content_partial: "Use \"render 'show_main_content'\" instead"
-
-  ##
   # Should we display the sort and per page widget?
   #
   # @param [Blacklight::Solr::Response] response
