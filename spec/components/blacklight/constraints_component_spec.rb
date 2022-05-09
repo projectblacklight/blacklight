@@ -12,8 +12,8 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
   end
 
   let(:blacklight_config) do
-    Blacklight::Configuration.new.tap do |config|
-      config.add_facet_field 'facet'
+    Blacklight::Configuration.new.configure do |config|
+      config.add_facet_field :some_facet
     end
   end
 
@@ -49,17 +49,17 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
   end
 
   context 'with a facet' do
-    let(:query_params) { { f: { facet: ['some value'] } } }
+    let(:query_params) { { f: { some_facet: ['some value'] } } }
 
     it 'renders the query' do
-      expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
+      expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Some Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
     end
 
     context 'that is not configured' do
-      let(:query_params) { { f: { facet: ['some value'], missing: ['another value'] } } }
+      let(:query_params) { { f: { some_facet: ['some value'], missing: ['another value'] } } }
 
       it 'renders only the configured constraints' do
-        expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
+        expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Some Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
         expect(rendered).not_to have_selector('.constraint-value > .filter-name', text: 'Missing')
       end
     end
@@ -68,14 +68,14 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
   describe '.for_search_history' do
     subject(:component) { described_class.for_search_history(**params) }
 
-    let(:query_params) { { q: 'some query', f: { facet: ['some value'] } } }
+    let(:query_params) { { q: 'some query', f: { some_facet: ['some value'] } } }
 
     it 'wraps the output in a span' do
       expect(rendered).to have_selector('span .constraint')
     end
 
     it 'renders the search state as lightly-decorated text' do
-      expect(rendered).to have_selector('.constraint > .filter-values', text: 'some query').and(have_selector('.constraint', text: 'Facet:some value'))
+      expect(rendered).to have_selector('.constraint > .filter-values', text: 'some query').and(have_selector('.constraint', text: 'Some Facet:some value'))
     end
 
     it 'omits the headers' do

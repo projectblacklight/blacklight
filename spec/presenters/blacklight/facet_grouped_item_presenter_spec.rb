@@ -13,7 +13,12 @@ RSpec.describe Blacklight::FacetGroupedItemPresenter, type: :presenter do
 
   let(:facet_item) { 'a' }
   let(:group) { %w[a b c] }
-  let(:search_state) { Blacklight::SearchState.new(params, Blacklight::Configuration.new) }
+  let(:blacklight_config) do
+    Blacklight::Configuration.new.configure do |config|
+      config.add_facet_field :key
+    end
+  end
+  let(:search_state) { Blacklight::SearchState.new(params, blacklight_config) }
   let(:params) { { f_inclusive: { key: group } } }
 
   describe '#selected' do
