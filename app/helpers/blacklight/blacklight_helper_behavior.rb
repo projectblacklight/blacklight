@@ -79,7 +79,14 @@ module Blacklight::BlacklightHelperBehavior
   # Render the search navbar
   # @return [String]
   def render_search_bar
-    search_bar_presenter.render
+    component_class = blacklight_config&.view_config(document_index_view_type)&.search_bar_component || Blacklight::SearchBarComponent
+    component_class.new(
+      url: search_action_url,
+      advanced_search_url: search_action_url(action: 'advanced_search'),
+      params: search_state.params_for_search.except(:qt),
+      search_fields: Deprecation.silence(Blacklight::ConfigurationHelperBehavior) { search_fields },
+      autocomplete_path: search_action_path(action: :suggest)
+    )
   end
   deprecation_deprecate render_search_bar: "Call `render Blacklight::SearchBarComponent.new' instead"
 
