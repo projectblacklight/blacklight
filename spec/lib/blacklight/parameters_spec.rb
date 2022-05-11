@@ -72,8 +72,11 @@ RSpec.describe Blacklight::Parameters do
     context 'with filter_search_state_fields set to false' do
       let(:blacklight_config) { Blacklight::Configuration.new(filter_search_state_fields: false) }
 
-      it 'allows all params' do
+      it 'allows all params, but warns about the behavior' do
+        allow(Deprecation).to receive(:warn)
         expect(params.permit_search_params.to_h.with_indifferent_access).to include(a: 1, b: 2, c: [])
+
+        expect(Deprecation).to have_received(:warn).with(described_class, /including: a, b, and c/).at_least(:once)
       end
     end
 

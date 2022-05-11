@@ -1,6 +1,11 @@
 # frozen_string_literal: true
+
+require 'hashdiff'
+
 module Blacklight
   class Parameters
+    extend Deprecation
+
     ##
     # Sanitize the search parameters by removing unnecessary parameters
     # from the provided parameters.
@@ -69,11 +74,19 @@ module Blacklight
       if blacklight_config.filter_search_state_fields
         params.permit(*permitted_params)
       else
+        warn_about_deprecated_parameter_handling(params, permitted_params)
         params.deep_dup.permit!
       end
     end
 
     private
+
+    def warn_about_deprecated_parameter_handling(params, permitted_params)
+      diff = Hashdiff.diff(params.to_unsafe_h, params.permit(*permitted_params).to_h)
+      return if diff.empty?
+
+      Deprecation.warn(Blacklight::Parameters, "Blacklight 8 will filter out non-search parameter, including: #{diff.map { |_op, key, *| key }.to_sentence}")
+    end
 
     # Facebook's crawler turns array query parameters into a hash with numeric keys. Once we know
     # the expected parameter structure, we can unmangle those parameters to match our expected values.
