@@ -6,6 +6,7 @@ RSpec.describe Blacklight::SearchState::FilterField do
   let(:params) { { f: { some_field: %w[1 2], another_field: ['3'] } } }
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
+      config.add_facet_field 'new_field'
       config.add_facet_field 'another_field', single: true
       simple_facet_fields.each { |simple_facet_field| config.add_facet_field simple_facet_field }
       config.search_state_fields = config.search_state_fields + additional_search_fields
@@ -21,14 +22,6 @@ RSpec.describe Blacklight::SearchState::FilterField do
       new_state = filter.add('4')
 
       expect(new_state.filter('some_field').values).to eq %w[1 2 4]
-    end
-
-    it 'creates new parameter as needed' do
-      filter = search_state.filter('unknown_field')
-      new_state = filter.add('4')
-
-      expect(new_state.filter('unknown_field').values).to eq %w[4]
-      expect(new_state.params[:f]).to include(:unknown_field)
     end
 
     context 'without any parameters in the url' do
@@ -203,12 +196,6 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
     it 'handles value indirection' do
       expect(search_state.filter('some_field').include?(OpenStruct.new(value: '1'))).to eq true
-    end
-  end
-
-  describe '#needs_normalization?' do
-    it 'returns false for Blacklight::SearchState::FilterField::MISSING' do
-      expect(search_state.filter('some_field').needs_normalization?(Blacklight::SearchState::FilterField::MISSING)).to be false
     end
   end
 end

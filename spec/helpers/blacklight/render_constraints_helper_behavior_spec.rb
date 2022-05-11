@@ -27,7 +27,7 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
     let(:params) { ActionController::Parameters.new(q: 'foobar', f: { type: 'journal' }) }
 
     it "has a link relative to the current url" do
-      expect(subject).to have_link 'Remove constraint', href: '/catalog?f%5Btype%5D=journal'
+      expect(subject).to have_link 'Remove constraint', href: '/catalog?f%5Btype%5D%5B%5D=journal'
     end
   end
 

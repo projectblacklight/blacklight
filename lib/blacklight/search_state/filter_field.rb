@@ -159,12 +159,18 @@ module Blacklight
         end
       end
 
-      def needs_normalization?(value_params)
-        value_params&.is_a?(Hash) && value_params != Blacklight::SearchState::FilterField::MISSING
-      end
-
-      def normalize(value_params)
-        needs_normalization?(value_params) ? value_params.values : value_params
+      def permitted_params
+        if config.pivot
+          {
+            filters_key => config.pivot.each_with_object({}) { |key, filter| filter.merge(key => [], "-#{key}" => []) },
+            inclusive_filters_key => config.pivot.each_with_object({}) { |key, filter| filter.merge(key => []) }
+          }
+        else
+          {
+            filters_key => { config.key => [], "-#{config.key}" => [] },
+            inclusive_filters_key => { config.key => [] }
+          }
+        end
       end
 
       private
