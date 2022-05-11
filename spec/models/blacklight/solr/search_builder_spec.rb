@@ -3,8 +3,8 @@
 RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
   subject { search_builder.with(user_params) }
 
-  let(:single_facet) { { format: 'Book' } }
-  let(:multi_facets) { { format: 'Book', language_ssim: 'Tibetan' } }
+  let(:single_facet) { { format: ['Book'] } }
+  let(:multi_facets) { { format: ['Book'], language_ssim: ['Tibetan'] } }
   let(:mult_word_query) { 'tibetan history' }
   let(:subject_search_params) { { commit: "search", search_field: "subject", action: "index", controller: "catalog", rows: "10", q: "wome" } }
 
@@ -216,7 +216,9 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
         expect(subject["spellcheck.q"]).to be_blank
 
         single_facet.each_value do |value|
-          expect(subject[:fq]).to include("{!term f=#{single_facet.keys[0]}}#{value}")
+          value.each do |v|
+            expect(subject[:fq]).to include("{!term f=#{single_facet.keys[0]}}#{v}")
+          end
         end
       end
     end

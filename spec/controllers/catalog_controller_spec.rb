@@ -60,17 +60,17 @@ RSpec.describe CatalogController, api: true do
       end
 
       it "shows 0 results when the user asks for an invalid value to a custom facet query", integration: true do
-        get :index, params: { f: { example_query_facet_field: 'bogus' } } # bogus custom facet value
+        get :index, params: { f: { example_query_facet_field: ['bogus'] } } # bogus custom facet value
         expect(assigns(:response).docs).to be_empty
       end
 
       it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", integration: true do
-        get :index, params: { f: { example_query_facet_field: 'years_25' } } # valid custom facet value with some results
+        get :index, params: { f: { example_query_facet_field: ['years_25'] } } # valid custom facet value with some results
         expect(assigns(:response).docs).not_to be_empty
       end
 
       it "returns no results when the users asks for a value that doesn't match any" do
-        get :index, params: { f: { example_query_facet_field: 'years_5' } } # valid custom facet value with NO results
+        get :index, params: { f: { example_query_facet_field: ['years_5'] } } # valid custom facet value with NO results
         expect(assigns(:response).docs).to be_empty
       end
 

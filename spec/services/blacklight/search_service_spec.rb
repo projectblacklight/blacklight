@@ -128,7 +128,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     describe "for All Docs Query and Bad Facet" do
-      let(:bad_facet) { { format: '666' } }
+      let(:bad_facet) { { format: ['666'] } }
       let(:user_params) { { q: all_docs_query, f: bad_facet } }
 
       it 'has no results and not raise error' do
