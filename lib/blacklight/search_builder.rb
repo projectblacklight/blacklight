@@ -27,7 +27,8 @@ module Blacklight
       end
 
       @blacklight_params = {}
-      @search_state = Blacklight::SearchState.new(@blacklight_params, @scope&.blacklight_config, @scope)
+      search_state_class = @scope&.search_state_class || Blacklight::SearchState
+      @search_state = search_state_class.new(@blacklight_params, @scope&.blacklight_config, @scope)
       @additional_filters = {}
       @merged_params = {}
       @reverse_merged_params = {}
