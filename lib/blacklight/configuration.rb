@@ -24,12 +24,24 @@ module Blacklight
 
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
     class << self
-      def property(key, default: nil)
-        default_values[key] = default
+      UNASSIGNED_PROPERTY_MARKER = Object.new
+      # use default when the default value is a literal or defined in lib
+      # use default_proc if the default value resolution depends on the application being loaded
+      def property(key, default: UNASSIGNED_PROPERTY_MARKER, default_proc: nil)
+        default_values[key] = default unless default == UNASSIGNED_PROPERTY_MARKER
+        default_value_procs[key] = default_proc if default_proc
       end
 
       def default_values
         @default_values ||= {}
+      end
+
+      def default_value_procs
+        @default_value_procs ||= {}
+      end
+
+      def resolve_default_values!
+        @resolve_default_values ||= !!@default_values.merge!(@default_value_procs.transform_values(&:call))
       end
     end
     # === Search request configuration
@@ -77,7 +89,7 @@ module Blacklight
     property :repository_class, default: Blacklight::Solr::Repository
     # @!attribute search_builder_class
     # @return [Class] class for converting Blacklight parameters to request parameters for the repository_class
-    property :search_builder_class, default: ::SearchBuilder
+    property :search_builder_class, default_proc: proc {  ::SearchBuilder }
     # @!attribute response_model
     # model that maps index responses to the blacklight response model
     # @return [Class]
@@ -85,15 +97,15 @@ module Blacklight
     # @!attribute document_model
     # the model to use for each response document
     # @return [Class]
-    property :document_model, default: ::SolrDocument
+    property :document_model, default_proc: proc { ::SolrDocument }
     # @!attribute document_factory
     # the factory that builds document
     # @return [Class]
-    property :document_factory, default: Blacklight::DocumentFactory
+    property :document_factory, default_proc: proc { Blacklight::DocumentFactory }
     # @!attribute facet_paginator_class
     # Class for paginating long lists of facet fields
     # @return [Class]
-    property :facet_paginator_class, default: Blacklight::Solr::FacetPaginator
+    property :facet_paginator_class, default_proc: proc { Blacklight::Solr::FacetPaginator }
     # @!attribute connection_config
     # repository connection configuration
     # @since v5.13.0
@@ -308,6 +320,7 @@ module Blacklight
     define_field_access :email_field, Blacklight::Configuration::DisplayField
 
     def initialize(hash = {})
+      self.class.resolve_default_values!
       super(self.class.default_values.deep_transform_values(&method(:_deep_copy)).merge(hash))
       yield(self) if block_given?
 
