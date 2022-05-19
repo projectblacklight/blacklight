@@ -254,7 +254,7 @@ module Blacklight
     property :enable_search_bar_autofocus, default: false
 
     BASIC_SEARCH_PARAMETERS = [:q, :qt, :page, :per_page, :search_field, :sort, :controller, :action, :'facet.page', :'facet.prefix', :'facet.sort', :rows, :format].freeze
-    ADVANCED_SEARCH_PARAMETERS = [:clause, :op].freeze
+    ADVANCED_SEARCH_PARAMETERS = [{ clause: {} }, :op].freeze
     # List the request parameters that compose the SearchState.
     # If you use a plugin that adds to the search state, then you can add the parameters
     # by modifiying this field.
@@ -262,6 +262,13 @@ module Blacklight
     # @since v8.0.0
     # @return [Array<Symbol>]
     property :search_state_fields, default: BASIC_SEARCH_PARAMETERS + ADVANCED_SEARCH_PARAMETERS
+
+    # Have SearchState filter out unknown request parameters
+    #
+    # @!attribute filter_search_state_fields
+    # @since v8.0.0
+    # @return [Boolean]
+    property :filter_search_state_fields, default: true
 
     ##
     # Create collections of solr field configurations.

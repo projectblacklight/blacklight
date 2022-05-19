@@ -283,11 +283,5 @@ RSpec.describe CatalogHelper do
 
       it { is_expected.to eq "foobar / Format: Book" }
     end
-
-    context 'when the f param is not an array' do
-      let(:params) { ActionController::Parameters.new(q: 'foobar', f: { format: 'Book' }) }
-
-      it { is_expected.to eq "foobar / Format: Book" }
-    end
   end
 end
