@@ -19,71 +19,17 @@ module Blacklight
 
     delegate :facet_configuration_for_field, to: :blacklight_config
 
-    def self.modifiable_params(params)
-      if params.respond_to?(:to_unsafe_h)
-        # This is the typical (not-ActionView::TestCase) code path.
-        params = params.to_unsafe_h
-        # In Rails 5 to_unsafe_h returns a HashWithIndifferentAccess, in Rails 4 it returns Hash
-        params = params.with_indifferent_access if params.instance_of? Hash
-      elsif params.is_a? Hash
-        # This is an ActionView::TestCase workaround for Rails 4.2.
-        params = params.dup.with_indifferent_access
-      else
-        params = params.dup.to_h.with_indifferent_access
-      end
-      params
-    end
-
     # @param [ActionController::Parameters] params
     # @param [Blacklight::Config] blacklight_config
     # @param [ApplicationController] controller used for the routing helpers
     def initialize(params, blacklight_config, controller = nil)
       @blacklight_config = blacklight_config
       @controller = controller
-      @params = SearchState.modifiable_params(params)
-      normalize_params! if needs_normalization?
-    end
-
-    def needs_normalization?
-      return false if params.blank?
-      return true if (params.keys.map(&:to_s) - permitted_fields.map(&:to_s)).present?
-
-      !!filters.detect { |filter| filter.values.detect { |value| filter.needs_normalization?(value) } }
-    end
-
-    def normalize_params!
-      @params = normalize_params
-    end
-
-    def normalize_params
-      return params unless needs_normalization?
-
-      base_params = params.slice(*blacklight_config.search_state_fields)
-      normal_state = blacklight_config.facet_fields.each_value.inject(reset(base_params)) do |working_state, filter_key|
-        f = filter(filter_key)
-        next working_state unless f.any?
-
-        filter_values = f.values(except: [:inclusive_filters]).inject([]) do |memo, filter_value|
-          # flatten arrays that had been mangled into integer-indexed hashes
-          memo.concat([f.normalize(filter_value)].flatten)
-        end
-        filter_values = f.values(except: [:filters, :missing]).inject(filter_values) do |memo, filter_value|
-          memo << f.normalize(filter_value)
-        end
-        filter_values.inject(working_state) do |memo, filter_value|
-          memo.filter(filter_key).add(filter_value)
-        end
-      end
-      normal_state.params
-    end
-
-    def permitted_fields
-      filter_keys = filter_fields.inject(Set.new) { |memo, filter| memo.merge [filter.filters_key, filter.inclusive_filters_key] }
-      blacklight_config.search_state_fields + filter_keys.subtract([nil, '']).to_a
+      @params = Blacklight::Parameters.new(params, self).permit_search_params.to_h.with_indifferent_access
     end
 
     def to_hash
-      @params.deep_dup
+      params.deep_dup
     end
     alias to_h to_hash
 
@@ -132,7 +78,7 @@ module Blacklight
 
     # @return [Blacklight::SearchState]
     def reset(params = nil)
-      self.class.new(params || ActionController::Parameters.new, blacklight_config, controller)
+      self.class.new(params || {}, blacklight_config, controller)
     end
 
     # @return [Blacklight::SearchState]
@@ -160,6 +106,10 @@ module Blacklight
       p = reset_search_params
       p.delete(:q)
       p
+    end
+
+    def filter_fields
+      blacklight_config.facet_fields.each_value.map { |value| filter(value) }
     end
 
     def filters
@@ -192,7 +142,7 @@ module Blacklight
     # catalog/index with their new facet choice.
     def add_facet_params_and_redirect(field, item)
       new_params = Deprecation.silence(self.class) do
-        add_facet_params(field, item)
+        add_facet_params(field, item).to_h.with_indifferent_access
       end
 
       # Delete any request params from facet-specific action, needed
@@ -229,7 +179,7 @@ module Blacklight
     # @yield [params] The merged parameters hash before being sanitized
     def params_for_search(params_to_merge = {})
       # params hash we'll return
-      my_params = params.dup.merge(self.class.new(params_to_merge, blacklight_config, controller))
+      my_params = to_h.merge(self.class.new(params_to_merge, blacklight_config, controller))
 
       if block_given?
         yield my_params
@@ -297,11 +247,7 @@ module Blacklight
     # and need to be reset when e.g. constraints change
     # @return [ActionController::Parameters]
     def reset_search_params
-      Parameters.sanitize(params).except(:page, :counter)
-    end
-
-    def filter_fields
-      blacklight_config.facet_fields.each_value.map { |value| filter(value) }
+      Parameters.sanitize(to_h).except(:page, :counter)
     end
   end
 end

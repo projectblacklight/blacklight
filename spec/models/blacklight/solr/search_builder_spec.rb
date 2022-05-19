@@ -216,7 +216,9 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
         expect(subject["spellcheck.q"]).to be_blank
 
         single_facet.each_value do |value|
-          expect(subject[:fq]).to include("{!term f=#{single_facet.keys[0]}}#{value}")
+          Array(value).each do |v|
+            expect(subject[:fq]).to include("{!term f=#{single_facet.keys[0]}}#{v}")
+          end
         end
       end
     end

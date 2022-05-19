@@ -54,19 +54,6 @@ RSpec.describe Blacklight::SearchState do
       end
     end
 
-    context 'with facebooks badly mangled query parameters' do
-      let(:simple_facet_fields) { [:field] }
-      let(:params) do
-        { f: { field: { '0': 'first', '1': 'second' } },
-          f_inclusive: { field: { '0': 'first', '1': 'second' } } }
-      end
-
-      it 'normalizes the facets to the expected format' do
-        expect(search_state.to_h).to include f: { field: %w[first second] }
-        expect(search_state.to_h).to include f_inclusive: { field: %w[first second] }
-      end
-    end
-
     context 'deleting item from to_h' do
       let(:additional_search_fields) { [:q_1] }
       let(:params) { { q: 'foo', q_1: 'bar' } }
@@ -81,7 +68,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'deleting deep item from to_h' do
-      let(:additional_search_fields) { [:foo] }
+      let(:additional_search_fields) { [{ foo: {} }] }
       let(:params) { { foo: { bar: [] } } }
 
       it 'does not mutate search_state to deep mutate search_state.to_h' do

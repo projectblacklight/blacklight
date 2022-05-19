@@ -49,7 +49,7 @@ module Blacklight
       Deprecation.warn(Blacklight::SearchBuilder, "SearchBuilder#where must be called with a hash, received #{conditions.inspect}.") unless conditions.is_a? Hash
       params_will_change!
       @search_state = @search_state.reset(@search_state.params.merge(q: conditions))
-      @blacklight_params = @search_state.params.dup
+      @blacklight_params = @search_state.params
       @additional_filters = conditions
       self
     end

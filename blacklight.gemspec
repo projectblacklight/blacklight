@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency "i18n", '>= 1.7.0' # added named parameters
   s.add_dependency "ostruct", '>= 0.3.2'
   s.add_dependency "view_component", '~> 2.43'
+  s.add_dependency 'hashdiff'
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
   s.add_development_dependency "rspec-rails", "~> 5.0"
