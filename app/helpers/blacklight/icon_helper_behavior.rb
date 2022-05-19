@@ -9,10 +9,9 @@ module Blacklight::IconHelperBehavior
   # the svg everytime.
   # @param [String, Symbol] icon_name
   # @return [String]
-  def blacklight_icon(icon_name, options = {})
-    Rails.cache.fetch([:blacklight_icons, icon_name, options]) do
-      icon = Blacklight::Icon.new(icon_name, **options)
-      tag.span(icon.svg.html_safe, **icon.options)
-    end
+  def blacklight_icon(icon_name, _options = {})
+    render "Blacklight::Icons::#{icon_name.to_s.camelize}Component".constantize.new
+  rescue NameError
+    render Blacklight::Icons::LegacyIconComponent.new(name: icon_name)
   end
 end
