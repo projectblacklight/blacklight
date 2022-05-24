@@ -81,7 +81,7 @@ module Blacklight::BlacklightHelperBehavior
   def render_search_bar
     if search_bar_presenter_class == Blacklight::SearchBarPresenter && partial_from_blacklight?(Blacklight::SearchBarPresenter.partial)
       component_class = blacklight_config&.view_config(document_index_view_type)&.search_bar_component || Blacklight::SearchBarComponent
-      component_class.new(
+      render component_class.new(
         url: search_action_url,
         advanced_search_url: search_action_url(action: 'advanced_search'),
         params: search_state.params_for_search.except(:qt),
