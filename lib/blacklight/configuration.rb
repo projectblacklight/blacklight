@@ -253,7 +253,7 @@ module Blacklight
     # @return [Boolean]
     property :enable_search_bar_autofocus, default: false
 
-    BASIC_SEARCH_PARAMETERS = [:q, :qt, :page, :per_page, :search_field, :sort, :controller, :action, :'facet.page', :'facet.prefix', :'facet.sort', :rows, :format].freeze
+    BASIC_SEARCH_PARAMETERS = [:q, :qt, :page, :per_page, :search_field, :sort, :controller, :action, :'facet.page', :'facet.prefix', :'facet.sort', :rows, :format, :view].freeze
     ADVANCED_SEARCH_PARAMETERS = [{ clause: {} }, :op].freeze
     # List the request parameters that compose the SearchState.
     # If you use a plugin that adds to the search state, then you can add the parameters
