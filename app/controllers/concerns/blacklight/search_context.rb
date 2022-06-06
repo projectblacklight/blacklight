@@ -80,7 +80,7 @@ module Blacklight::SearchContext
   end
 
   def find_or_initialize_search_session_from_params params
-    params_copy = params.reject { |k, v| blacklisted_search_session_params.include?(k.to_sym) || v.blank? }
+    params_copy = params.reject { |k, v| nonpersisted_search_session_params.include?(k.to_sym) || v.blank? }
 
     return if params_copy.reject { |k, _v| [:action, :controller].include? k.to_sym }.blank?
 
@@ -103,9 +103,21 @@ module Blacklight::SearchContext
   end
 
   # A list of query parameters that should not be persisted for a search
-  def blacklisted_search_session_params
+  def nonpersisted_search_session_params
+    unless method(:blacklisted_search_session_params).source_location.first.end_with?('deprecation/method_wrappers.rb')
+      # The blacklisted_search_session_params was overridden, so call it.
+      Deprecation.warn(self, "blacklisted_search_session_params was overriden in your app, " \
+                             "but that method should be renamed to `nonpersisted_search_session_params'. " \
+                             "The original behavior will be removed in the next major release.")
+      return blacklisted_search_session_params
+    end
     [:commit, :counter, :total, :search_id, :page, :per_page]
   end
+
+  def blacklisted_search_session_params
+    nonpersisted_search_session_params
+  end
+  deprecation_deprecate blacklisted_search_session_params: 'use nonpersisted_search_session_params instead'
 
   # calls setup_previous_document then setup_next_document.
   # used in the show action for single view pagination.
