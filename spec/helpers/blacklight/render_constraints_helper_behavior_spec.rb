@@ -54,6 +54,14 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
         expect(subject).to have_link "Remove constraint Item Type: journal", href: "/catalog?q=biz"
       end
     end
+
+    context 'with multivalued facets' do
+      subject { helper.render_filter_element('type', [%w[journal book]], path) }
+
+      it "handles such values gracefully" do
+        expect(subject).to have_link "Remove constraint Item Type: journal OR book", href: "/catalog?q=biz"
+      end
+    end
   end
 
   describe "#render_constraints_filters" do
