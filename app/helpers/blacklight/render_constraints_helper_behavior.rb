@@ -107,15 +107,23 @@ module Blacklight::RenderConstraintsHelperBehavior
     safe_join(Array(values).map do |val|
       next if val.blank? # skip empty string
 
-      presenter = facet_item_presenter(facet_config, val, facet)
-
       Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
+        presenter = if val.is_a? Array
+                      inclusive_facet_item_presenter(facet_config, val, facet)
+                    else
+                      facet_item_presenter(facet_config, val, facet)
+                    end
+
         render_constraint_element(presenter.field_label,
                                   presenter.label,
                                   remove: presenter.remove_href(search_state),
                                   classes: ["filter", "filter-" + facet.parameterize])
       end
     end, "\n")
+  end
+
+  def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
+    Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, self, facet_field)
   end
 
   # Render a label/value constraint on the screen. Can be called
