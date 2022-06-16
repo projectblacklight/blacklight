@@ -52,8 +52,8 @@ module Blacklight::UrlHelperBehavior
   ##
   # Link to the previous document in the current search context
   # @deprecated
-  def link_to_previous_document(previous_document)
-    link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(class: "previous", rel: 'prev')
+  def link_to_previous_document(previous_document, classes: 'previous', **addl_link_opts)
+    link_opts = session_tracking_params(previous_document, search_session['counter'].to_i - 1).merge(class: classes, rel: 'prev').merge(addl_link_opts)
     link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
       tag.span raw(t('views.pagination.previous')), class: 'previous'
     end
@@ -63,8 +63,8 @@ module Blacklight::UrlHelperBehavior
   ##
   # Link to the next document in the current search context
   # @deprecated
-  def link_to_next_document(next_document)
-    link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(class: "next", rel: 'next')
+  def link_to_next_document(next_document, classes: 'next', **addl_link_opts)
+    link_opts = session_tracking_params(next_document, search_session['counter'].to_i + 1).merge(class: classes, rel: 'next').merge(addl_link_opts)
     link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
       tag.span raw(t('views.pagination.next')), class: 'next'
     end
