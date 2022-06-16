@@ -23,18 +23,18 @@ module Blacklight
                                                          count: total).html_safe
     end
 
-    def link_to_previous_document(previous_document)
-      link_opts = helpers.session_tracking_params(previous_document, count - 1, per_page: per_page, search_id: search_id)
-                         .merge(class: "previous", rel: 'prev')
-      link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), helpers.search_state.url_for_document(previous_document), link_opts do
+    def link_to_previous_document(previous_document = nil, classes: 'previous', **link_opts)
+      previous_document ||= @search_context[:prev]
+      link_opts = session_tracking_params(previous_document, count - 1, per_page: per_page, search_id: search_id).merge(class: classes, rel: 'prev').merge(link_opts)
+      link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
         tag.span raw(t('views.pagination.previous')), class: 'previous'
       end
     end
 
-    def link_to_next_document(next_document)
-      link_opts = helpers.session_tracking_params(next_document, count + 1, per_page: per_page, search_id: search_id)
-                         .merge(class: "next", rel: 'next')
-      link_to_unless next_document.nil?, raw(t('views.pagination.next')), helpers.search_state.url_for_document(next_document), link_opts do
+    def link_to_next_document(next_document = nil, classes: 'next', **link_opts)
+      next_document ||= @search_context[:next]
+      link_opts = session_tracking_params(next_document, count + 1, per_page: per_page, search_id: search_id).merge(class: classes, rel: 'next').merge(link_opts)
+      link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
         tag.span raw(t('views.pagination.next')), class: 'next'
       end
     end
@@ -55,6 +55,14 @@ module Blacklight
 
     def search_id
       controller.current_search_session&.id
+    end
+
+    def session_tracking_params(...)
+      helpers.session_tracking_params(...)
+    end
+
+    def url_for_document(...)
+      helpers.search_state.url_for_document(...)
     end
   end
 end
