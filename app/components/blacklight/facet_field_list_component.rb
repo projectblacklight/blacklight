@@ -39,7 +39,7 @@ module Blacklight
     end
 
     def render?
-      @facet_field.paginator.items.any?
+      @facet_field.paginator&.items&.any?
     end
 
     def facet_item_presenter(facet_item, deprecated_facet_config = nil, facet_field = nil)
