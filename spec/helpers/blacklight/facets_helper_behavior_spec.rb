@@ -199,7 +199,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
 
     it "lets you override the rendered partial for pivot facets" do
       mock_facet = double(name: 'component_field')
-      expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetFieldListComponent))
+      expect(helper).to receive(:render).with(an_instance_of(Blacklight::FacetComponent))
       helper.render_facet_limit(mock_facet)
     end
 
