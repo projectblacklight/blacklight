@@ -15,12 +15,12 @@ module Blacklight
       if display_facet_or_field_config.is_a?(Blacklight::Configuration::Field) || field_config
         @field_config = display_facet_or_field_config || field_config
         @display_facet = display_facet || (response && response.aggregations[@field_config.field])
-      else
+      elsif (display_facet || display_facet_or_field_config).respond_to?(:name)
         @display_facet = display_facet || display_facet_or_field_config
         @field_config = field_config || blacklight_config&.facet_configuration_for_field(@display_facet.name)
+      else
+        raise ArgumentError, 'You must provide one of display_facet or field_config' unless @field_config
       end
-
-      raise ArgumentError, 'You must provide one of: a) display_facet and blacklight_config, or b) field_config and response' unless @display_facet && @field_config
 
       @component_args = component_args
     end
