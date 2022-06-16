@@ -48,9 +48,9 @@ module Blacklight
     def overridden_helper_methods?
       return false if explicit_component_configuration?
 
-      @view_context.method(:render_facet_item).owner != Blacklight::FacetsHelperBehavior ||
-        @view_context.method(:render_facet_value).owner != Blacklight::FacetsHelperBehavior ||
-        @view_context.method(:render_selected_facet_value).owner != Blacklight::FacetsHelperBehavior
+      helpers.method(:render_facet_item).owner != Blacklight::FacetsHelperBehavior ||
+        helpers.method(:render_facet_value).owner != Blacklight::FacetsHelperBehavior ||
+        helpers.method(:render_selected_facet_value).owner != Blacklight::FacetsHelperBehavior
     end
 
     # Call out to the helper method equivalent of this component
