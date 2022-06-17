@@ -16,7 +16,7 @@ module Blacklight
     end
 
     def render?
-      @facet_field.paginator.items.any?
+      @facet_field.paginator&.items&.any?
     end
   end
 end

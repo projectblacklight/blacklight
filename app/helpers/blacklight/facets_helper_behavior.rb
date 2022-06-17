@@ -76,13 +76,10 @@ module Blacklight::FacetsHelperBehavior
     field_config = facet_configuration_for_field(display_facet.name)
 
     if field_config.component
-      return unless should_render_field?(field_config, display_facet)
-
-      component = field_config.component == true ? Blacklight::FacetFieldListComponent : field_config.component
-
       return render(
-        component.new(
-          facet_field: facet_field_presenter(field_config, display_facet),
+        Blacklight::FacetComponent.new(
+          display_facet: display_facet,
+          field_config: field_config,
           layout: (params[:action] == 'facet' ? false : options[:layout])
         )
       )
