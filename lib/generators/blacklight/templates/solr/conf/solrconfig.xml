@@ -17,6 +17,7 @@
   </updateHandler>
 
   <!-- solr lib dirs -->
+  <lib dir="${solr.install.dir:../../../..}/contrib/modules/lib" />
   <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lib" />
   <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lucene-libs" />
 
