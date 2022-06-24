@@ -1,4 +1,4 @@
-<% if constraints.present? %>
+<% if constraints? %>
   <div class="constraints well search_history">
     <h4><%= t 'blacklight.advanced_search.form.search_context' %></h4>
     <% constraints.each do |constraint| %>
@@ -23,25 +23,29 @@
       </div>
     </div>
 
-    <div class="limit-criteria">
-      <h2 class="limit-criteria-heading"><%= t('blacklight.advanced_search.form.limit_criteria_heading_html')%></h2>
+    <% if search_filter_controls? %>
+      <div class="limit-criteria">
+        <h2 class="limit-criteria-heading"><%= t('blacklight.advanced_search.form.limit_criteria_heading_html')%></h2>
 
-      <div id="advanced_search_facets" class="limit_input">
-        <div class="advanced-facet-limits panel-group">
-          <% search_filter_controls.each do |control| %>
-            <%= control %>
-          <% end %>
+        <div id="advanced_search_facets" class="limit_input">
+          <div class="advanced-facet-limits panel-group">
+            <% search_filter_controls.each do |control| %>
+              <%= control %>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
 
-  <%= content_tag :h2, t('blacklight.advanced_search.form.sort_label') %>
-  <div class="form-group row">
-    <div class="col-sm-offset-3 col-sm-4">
-      <%= sort_fields_select %>
+  <% if sort_fields_select %>
+    <%= content_tag :h2, t('blacklight.advanced_search.form.sort_label') %>
+    <div class="form-group row">
+      <div class="col-sm-offset-3 col-sm-4">
+        <%= sort_fields_select %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="form-group row">
     <div class="submit-buttons col-sm-offset-3 col-sm-9">
