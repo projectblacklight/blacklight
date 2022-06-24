@@ -11,8 +11,8 @@
   <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
 
   <div class="input-criteria">
-    <div class="query-criteria">
-      <h2 class="query-criteria-heading">
+    <div class="query-criteria mb-4">
+      <h2 class="query-criteria-heading h3 mb-4">
         <%= t('blacklight.advanced_search.form.query_criteria_heading_html', select_menu: default_operator_menu) %>
       </h2>
 
@@ -24,11 +24,11 @@
     </div>
 
     <% if search_filter_controls? %>
-      <div class="limit-criteria">
-        <h2 class="limit-criteria-heading"><%= t('blacklight.advanced_search.form.limit_criteria_heading_html')%></h2>
+      <div class="limit-criteria mb-4">
+        <h2 class="limit-criteria-heading h3"><%= t('blacklight.advanced_search.form.limit_criteria_heading_html')%></h2>
 
-        <div id="advanced_search_facets" class="limit_input">
-          <div class="advanced-facet-limits panel-group">
+        <div id="advanced_search_facets" class="limit_input row">
+          <div class="advanced-facet-limits panel-group col-md-9 offset-md-3">
             <% search_filter_controls.each do |control| %>
               <%= control %>
             <% end %>
@@ -39,16 +39,16 @@
   </div>
 
   <% if sort_fields_select %>
-    <%= content_tag :h2, t('blacklight.advanced_search.form.sort_label') %>
-    <div class="form-group row">
-      <div class="col-sm-offset-3 col-sm-4">
+    <div class="form-group row mb-4">
+      <%= content_tag :h2, t('blacklight.advanced_search.form.sort_label'), class: 'col-md-3 col-form-label text-md-right' %>
+      <div class="col">
         <%= sort_fields_select %>
       </div>
     </div>
   <% end %>
 
   <div class="form-group row">
-    <div class="submit-buttons col-sm-offset-3 col-sm-9">
+    <div class="submit-buttons col-md-9 offset-md-3">
       <%= submit_tag t('blacklight.advanced_search.form.search_btn_html'), class: 'btn btn-primary advanced-search-submit', id: "advanced-search-submit" %>
       <%= button_tag t('blacklight.advanced_search.form.start_over_html'), type: 'reset', class: 'btn btn-link advanced-search-start-over' %>
     </div>
