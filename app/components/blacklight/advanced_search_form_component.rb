@@ -29,6 +29,8 @@ module Blacklight
 
     def sort_fields_select
       options = sort_fields.values.map { |field_config| [helpers.sort_field_label(field_config.key), field_config.key] }
+      return unless options.any?
+
       select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select")
     end
 
@@ -60,12 +62,16 @@ module Blacklight
     end
 
     def initialize_constraints
+      params = helpers.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
+
+      adv_search_context = helpers.search_state.reset(params)
+
+      constraints_text = render(Blacklight::ConstraintsComponent.for_search_history(search_state: adv_search_context))
+
+      return if constraints_text.blank?
+
       constraint do
-        params = helpers.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
-
-        adv_search_context = helpers.search_state.reset(params)
-
-        Blacklight::ConstraintsComponent.for_search_history(search_state: adv_search_context)
+        constraints_text
       end
     end
 
