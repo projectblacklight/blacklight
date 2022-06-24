@@ -120,6 +120,21 @@
     text-align: right;
     width: 5em;
   }
+
+  .facet-checkbox {
+    display: table-cell;
+    width: 1.25rem;
+    vertical-align: top;
+  }
+
+  .label-and-count {
+    display: table;
+    width: 100%;
+  }
+
+  .label-and-count label {
+    display: table-row;
+  }
 }
 
 .facet-extended-list {

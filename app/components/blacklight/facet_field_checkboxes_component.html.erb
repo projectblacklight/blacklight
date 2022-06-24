@@ -13,7 +13,8 @@
 
           <span class="label-and-count">
             <%= label_tag "f_inclusive_#{@facet_field.key}_#{idx}" do %>
-              <%= presenter.label %>
+              <span class="facet-label"><%= presenter.label %></span>
+              <span class="facet-count"><%= t('blacklight.search.facets.count', number: number_with_delimiter(presenter.hits)) %></span>
             <% end %>
           <span>
         </li>
