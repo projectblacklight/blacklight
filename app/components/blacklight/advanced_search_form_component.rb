@@ -31,7 +31,9 @@ module Blacklight
 
     def sort_fields_select
       options = sort_fields.values.map { |field_config| [helpers.sort_field_label(field_config.key), field_config.key] }
-      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select")
+      return unless options.any?
+
+      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select w-auto")
     end
 
     private
@@ -41,7 +43,7 @@ module Blacklight
         search_field_control do
           fields_for('clause[]', i, include_id: false) do |f|
             content_tag(:div, class: 'form-group advanced-search-field row') do
-              f.label(:query, field.display_label('search'), class: "col-sm-3 col-form-label") +
+              f.label(:query, field.display_label('search'), class: "col-md-3 col-form-label text-md-right") +
                 content_tag(:div, class: 'col-sm-9') do
                   f.hidden_field(:field, value: field.key) +
                     f.text_field(:query, value: query_for_search_clause(field.key), class: 'form-control')
@@ -62,12 +64,16 @@ module Blacklight
     end
 
     def initialize_constraints
+      params = helpers.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
+
+      adv_search_context = helpers.search_state.reset(params)
+
+      constraints_text = render(Blacklight::ConstraintsComponent.for_search_history(search_state: adv_search_context))
+
+      return if constraints_text.blank?
+
       constraint do
-        params = helpers.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
-
-        adv_search_context = helpers.search_state.reset(params)
-
-        Blacklight::ConstraintsComponent.for_search_history(search_state: adv_search_context)
+        constraints_text
       end
     end
 
