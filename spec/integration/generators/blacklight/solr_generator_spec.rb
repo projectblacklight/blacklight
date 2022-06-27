@@ -20,7 +20,7 @@ RSpec.describe Blacklight::SolrGenerator do
     end
 
     after do
-      files_to_test.each { |file| File.delete(file) if File.exist?(file) }
+      files_to_test.each { |file| FileUtils.rm_rf(file) }
     end
 
     it "creates config files" do
