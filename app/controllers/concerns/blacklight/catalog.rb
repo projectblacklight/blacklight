@@ -49,9 +49,7 @@ module Blacklight::Catalog
   end
 
   def advanced_search
-    empty_service = search_service_class.new(config: blacklight_config, user_params: {}, **search_service_context)
-
-    (@response, _deprecated_document_list) = empty_service.search_results
+    (@response, _deprecated_document_list) = blacklight_advanced_search_form_search_service.search_results
   end
 
   # get a single document from the index
@@ -272,5 +270,15 @@ module Blacklight::Catalog
 
   def determine_layout
     action_name == 'show' ? 'catalog_result' : super
+  end
+
+  def blacklight_advanced_search_form_search_service
+    form_search_state = search_state_class.new(blacklight_advanced_search_form_params, blacklight_config, self)
+
+    search_service_class.new(config: blacklight_config, search_state: form_search_state, user_params: form_search_state.to_h, **search_service_context)
+  end
+
+  def blacklight_advanced_search_form_params
+    {}
   end
 end
