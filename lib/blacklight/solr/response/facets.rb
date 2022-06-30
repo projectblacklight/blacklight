@@ -100,6 +100,12 @@ module Blacklight::Solr::Response::Facets
     end
   end
 
+  class NullFacetField < FacetField
+    def initialize name, items = [], response: nil, **kwargs
+      super(name, items, response: response, **kwargs)
+    end
+  end
+
   ##
   # Get all the Solr facet data (fields, queries, pivots) as a hash keyed by
   # both the Solr field name and/or by the blacklight field name
