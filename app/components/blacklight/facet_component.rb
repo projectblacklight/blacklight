@@ -31,12 +31,18 @@ module Blacklight
     end
 
     def call
+      return render_partial if @field_config.partial
+
       render(
         @field_config.component.new(
           facet_field: helpers.facet_field_presenter(@field_config, @display_facet),
           **@component_args
         )
       )
+    end
+
+    def render_partial
+      helpers.render(@field_config.partial, locals: { field_name: @field_config.field, facet_field: @field_config, display_facet: @display_facet }.merge(@component_args))
     end
   end
 end
