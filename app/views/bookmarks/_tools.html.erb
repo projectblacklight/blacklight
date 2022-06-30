@@ -1,9 +1,7 @@
 <%= render Blacklight::Document::ActionsComponent.new(document: nil,
                                                       tag: 'div',
                                                       classes: "#{controller_name}Tools",
-                                                      wrapping_tag: 'span',
-                                                      wrapping_classes: 'btn btn-outline-primary',
-                                                      link_classes: '',
+                                                      link_classes: 'btn btn-outline-primary',
                                                       actions: document_actions(document_list, options: { document: nil }),
                                                       options: { document_list: @response.documents },
                                                       url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h)) %>
