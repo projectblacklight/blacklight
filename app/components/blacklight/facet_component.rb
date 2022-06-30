@@ -31,6 +31,8 @@ module Blacklight
     end
 
     def call
+      return render_partial if @field_config.partial
+
       component = @field_config.component == true ? Blacklight::FacetFieldListComponent : @field_config.component
 
       render(
@@ -39,6 +41,10 @@ module Blacklight
           **@component_args
         )
       )
+    end
+
+    def render_partial
+      helpers.render(@field_config.partial, locals: { field_name: @field_config.field, facet_field: @field_config, display_facet: @display_facet }.merge(@component_args))
     end
   end
 end
