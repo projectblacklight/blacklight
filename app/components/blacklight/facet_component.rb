@@ -14,7 +14,7 @@ module Blacklight
     def initialize(display_facet_or_field_config: nil, display_facet: nil, field_config: nil, response: nil, blacklight_config: nil, **component_args)
       if display_facet_or_field_config.is_a?(Blacklight::Configuration::Field) || field_config
         @field_config = display_facet_or_field_config || field_config
-        @display_facet = display_facet || (response && response.aggregations[@field_config.field])
+        @display_facet = display_facet || (response && response.aggregations.fetch(@field_config.field) { Blacklight::Solr::Response::Facets::NullFacetField.new(@field_config.field, response: response) })
       elsif (display_facet || display_facet_or_field_config).respond_to?(:name)
         @display_facet = display_facet || display_facet_or_field_config
         @field_config = field_config || blacklight_config&.facet_configuration_for_field(@display_facet.name)
