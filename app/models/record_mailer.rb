@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Only works for documents with a #to_marc right now.
-class RecordMailer < ActionMailer::Base
+class RecordMailer < ApplicationMailer
   def email_record(documents, details, url_gen_params)
     title = begin
       title_field = details[:config].email.title_field
