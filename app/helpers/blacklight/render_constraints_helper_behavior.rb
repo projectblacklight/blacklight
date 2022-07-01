@@ -35,7 +35,7 @@ module Blacklight::RenderConstraintsHelperBehavior
                              end
 
     Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
-      render_constraints_query(params_or_search_state) + render_constraints_filters(params_or_search_state)
+      render_constraints_query(params_or_search_state) + render_constraints_clauses(params_or_search_state) + render_constraints_filters(params_or_search_state)
     end
   end
 
@@ -59,6 +59,24 @@ module Blacklight::RenderConstraintsHelperBehavior
                                 remove: remove_constraint_url(search_state))
     end
   end
+
+  ##
+  # Render the query constraints
+  #
+  # @deprecated
+  # @param [Blacklight::SearchState,ActionController::Parameters] params_or_search_state query parameters
+  # @return [String]
+  def render_constraints_clauses(params_or_search_state = search_state)
+    search_state = convert_to_search_state(params_or_search_state)
+
+    clause_presenters = search_state.clause_params.map do |key, clause|
+      field_config = blacklight_config.search_fields[clause[:field]]
+      Blacklight::ClausePresenter.new(key, clause, field_config, self, search_state)
+    end
+
+    render(Blacklight::ConstraintComponent.with_collection(clause_presenters))
+  end
+  deprecation_deprecate :render_constraints_clauses
 
   ##
   # Provide a url for removing a particular constraint. This can be overriden

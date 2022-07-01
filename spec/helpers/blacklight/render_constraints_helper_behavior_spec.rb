@@ -6,6 +6,7 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
   let(:config) do
     Blacklight::Configuration.new do |config|
       config.add_facet_field 'type'
+      config.add_search_field 'title'
     end
   end
 
@@ -28,6 +29,21 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
 
     it "has a link relative to the current url" do
       expect(subject).to have_link 'Remove constraint', href: '/catalog?f%5Btype%5D%5B%5D=journal'
+    end
+  end
+
+  describe '#render_constraints_clauses' do
+    subject { helper.render_constraints_clauses(params) }
+
+    let(:my_engine) { double("Engine") }
+    let(:params) { ActionController::Parameters.new(clause: { "0": { field: 'title', query: 'nature' } }, f: { type: 'journal' }) }
+
+    it 'renders the clause constraint' do
+      expect(subject).to have_selector '.constraint-value', text: /Title\s+nature/
+    end
+
+    it "has a link relative to the current url" do
+      expect(subject).to have_link 'Remove constraint Title: nature', href: '/catalog?f%5Btype%5D%5B%5D=journal'
     end
   end
 
