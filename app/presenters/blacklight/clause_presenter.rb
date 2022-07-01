@@ -25,7 +25,7 @@ module Blacklight
     end
 
     def remove_href(path = search_state)
-      view_context.search_action_path(path.reset_search(clause: path.clause_params.except(key)))
+      view_context.search_action_path(path.reset_search(clause: path.clause_params.except(key)).to_h)
     end
 
     private
