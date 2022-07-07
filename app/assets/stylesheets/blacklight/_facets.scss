@@ -82,12 +82,11 @@
   margin-bottom: 0;
 
   li {
-
     display: table-row;
-    .selected {
-      @extend .text-success;
-    }
 
+    .selected {
+      color: $facet-active-item-color !important;
+    }
   }
 
   .remove {
