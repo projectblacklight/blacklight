@@ -12,7 +12,7 @@ module Blacklight
         def define_field_access(key, base_class_name = nil, class: nil)
           key = key.to_s if respond_to? :to_s
 
-          default_values[key.pluralize.to_sym] = ActiveSupport::OrderedHash.new
+          default_values[key.pluralize.to_sym] = ActiveSupport::HashWithIndifferentAccess.new
 
           @field_type_for_class ||= {}
           @field_type_for_class[key] = binding.local_variable_get(:class) || base_class_name
