@@ -4,6 +4,7 @@ class Search < ActiveRecord::Base
 
   belongs_to :user, belongs_to_arguments
 
+  # use a backwards-compatible serializer until the Rails API stabilizes and we can evaluate for major-revision compatibility
   serialize :query_params, Blacklight::SearchParamsYamlCoder
 
   attr_accessible :query_params if Blacklight::Utils.needs_attr_accessible?
