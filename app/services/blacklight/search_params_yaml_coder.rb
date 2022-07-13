@@ -24,18 +24,18 @@ module Blacklight
     # rubocop:disable Security/YAMLLoad
     if YAML.respond_to?(:unsafe_load)
       def self.yaml_load(payload)
-        if ActiveRecord.try(:use_yaml_unsafe_load)
+        if ActiveRecord::Base.try(:use_yaml_unsafe_load)
           YAML.unsafe_load(payload)
         else
-          YAML.safe_load(payload, permitted_classes: (ActiveRecord.try(:yaml_column_permitted_classes) || []) + Blacklight::Engine.config.blacklight.search_params_permitted_classes, aliases: true)
+          YAML.safe_load(payload, permitted_classes: (ActiveRecord::Base.try(:yaml_column_permitted_classes) || []) + Blacklight::Engine.config.blacklight.search_params_permitted_classes, aliases: true)
         end
       end
     else
       def self.yaml_load(payload)
-        if ActiveRecord.try(:use_yaml_unsafe_load)
+        if ActiveRecord::Base.try(:use_yaml_unsafe_load)
           YAML.load(payload)
         else
-          YAML.safe_load(payload, permitted_classes: (ActiveRecord.try(:yaml_column_permitted_classes) || []) + Blacklight::Engine.config.blacklight.search_params_permitted_classes, aliases: true)
+          YAML.safe_load(payload, permitted_classes: (ActiveRecord::Base.try(:yaml_column_permitted_classes) || []) + Blacklight::Engine.config.blacklight.search_params_permitted_classes, aliases: true)
         end
       end
     end
