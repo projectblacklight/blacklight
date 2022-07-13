@@ -1,32 +1,48 @@
 # frozen_string_literal: true
 
 RSpec.describe Search do
+  let(:search) { described_class.new(user: user) }
   let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345' }
+  let(:hash_params) { { q: "query", f: { facet: "filter" } } }
+  let(:query_params) { hash_params }
 
   describe "query_params" do
-    before do
-      @search = described_class.new(user: user)
-      @query_params = { q: "query", f: "facet" }
+    shared_context "persisting query_params" do
+      it "can save and retrieve the hash" do
+        search.query_params = query_params
+        search.save!
+        expect(described_class.find(search.id).query_params).to eq query_params
+      end
     end
 
-    it "can save and retrieve the hash" do
-      @search.query_params = @query_params
-      @search.save!
-      expect(described_class.find(@search.id).query_params).to eq @query_params
+    context "are an indifferent hash" do
+      include_context "persisting query_params" do
+        let(:query_params) { hash_params.with_indifferent_access }
+      end
+    end
+    context "are a string-keyed hash" do
+      include_context "persisting query_params" do
+        let(:query_params) { hash_params.with_indifferent_access.to_hash }
+      end
+    end
+    context "include symbol keys" do
+      include_context "persisting query_params" do
+        let(:query_params) { hash_params }
+      end
     end
   end
 
   describe "saved?" do
     it "is true when user_id is not NULL and greater than 0" do
-      @search = described_class.new(user: user)
-      @search.save!
-
-      expect(@search).to be_saved
+      search.save!
+      expect(search).to be_saved
     end
 
-    it "is false when user_id is NULL or less than 1" do
-      @search = described_class.create
-      expect(@search).not_to be_saved
+    context "when user_id is NULL or less than 1" do
+      let(:search) { described_class.create }
+      it "is false" do
+        expect(search).not_to be_saved
+      end
     end
   end
 
