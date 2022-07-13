@@ -3,7 +3,7 @@
 class Search < ApplicationRecord
   belongs_to :user, optional: true
 
-  serialize :query_params
+  serialize :query_params, Blacklight::SearchParamsYamlCoder
 
   # A Search instance is considered a saved search if it has a user_id.
   def saved?
