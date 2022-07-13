@@ -59,6 +59,8 @@ module Blacklight
       outer_window: 2
     }
 
+    bl_global_config.search_params_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol]
+
     # Anything that goes into Blacklight::Engine.config is stored as a class
     # variable on Railtie::Configuration.  we're going to encapsulate all the
     # Blacklight specific stuff in this single struct:
