@@ -4,7 +4,7 @@ class Search < ActiveRecord::Base
 
   belongs_to :user, belongs_to_arguments
 
-  serialize :query_params
+  serialize :query_params, Blacklight::SearchParamsYamlCoder
 
   attr_accessible :query_params if Blacklight::Utils.needs_attr_accessible?
 

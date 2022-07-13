@@ -50,5 +50,7 @@ module Blacklight
     config.bookmarks_http_method = :post
 
     config.email_regexp = defined?(Devise) ? Devise.email_regexp : /\A[^@\s]+@[^@\s]+\z/
+
+    Blacklight::Engine.config.search_params_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol]
   end
 end
