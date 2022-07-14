@@ -70,7 +70,15 @@ module Blacklight
       deep_unmangle_params!(params, permitted_params)
 
       if blacklight_config.filter_search_state_fields
-        params.permit(*permitted_params)
+        if Rails.application.config.action_controller.action_on_unpermitted_parameters == :raise
+          # Rails will blow up if we don't permit all parameters. We're just trying to filter out non-search parameters, so
+          # we'll slice the params first so it doesn't blow up... this does mean we'll lose the opportunity to use
+          # these parameters later, but if the alterantive is an exception, maybe this is better.
+          top_level_permitted_params = permitted_params.flat_map { |p| p.is_a?(Hash) ? p.keys : p }
+          params.slice(*top_level_permitted_params).permit(*permitted_params)
+        else
+          params.permit(*permitted_params)
+        end
       else
         params.deep_dup.permit!
       end
