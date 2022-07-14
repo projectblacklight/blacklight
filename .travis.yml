@@ -7,9 +7,9 @@ notifications:
   email: false
 
 rvm:
-  - 2.5.7
-  - 2.6.5
-  - 2.7.0
+  - 2.5.9
+  - 2.6.10
+  - 2.7.6
 
 before_install:
   - gem update --system
@@ -21,7 +21,7 @@ before_script:
 
 env:
  - "RAILS_VERSION=5.1.7"
- - "RAILS_VERSION=5.2.0"
+ - "RAILS_VERSION=5.2.8.1"
 
 
 notifications:
