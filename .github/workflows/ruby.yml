@@ -1,0 +1,61 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'release-*'
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Install dependencies
+      run: bundle install
+    - name: Run linter
+      run: bundle exec rake rubocop
+  test:
+    runs-on: ubuntu-latest
+    name: test (ruby ${{ matrix.ruby }} / rails ${{ matrix.rails_version }} ${{ matrix.additional_name }})
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7]
+        rails_version: ['5.1.7', '5.2.8.1']
+        bootstrap_version: [null]
+        api: [null]
+        additional_engine_cart_rails_options: ['']
+        additional_name: ['']
+    env:
+      RAILS_VERSION: ${{ matrix.rails_version }}
+      BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
+      BLACKLIGHT_API_TEST: ${{ matrix.api }}
+      ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test ${{ matrix.engine_cart_rails_options }}"
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Install dependencies
+      run: bundle install
+    - name: Run tests
+      run: bundle exec rake ci
+  docker_build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build docker image
+      run: docker-compose build app
