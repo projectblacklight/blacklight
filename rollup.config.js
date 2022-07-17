@@ -6,10 +6,8 @@ const BUNDLE = process.env.BUNDLE === 'true'
 const ESM = process.env.ESM === 'true'
 
 const fileDest = `blacklight${ESM ? '.esm' : ''}`
-const external = ['typeahead.js/dist/bloodhound.js']
-const globals = {
-  'typeahead.js/dist/bloodhound.js': 'Bloodhound'
-}
+const external = []
+const globals = {}
 
 const rollupConfig = {
   input: path.resolve(__dirname, `app/javascript/blacklight/index.js`),
