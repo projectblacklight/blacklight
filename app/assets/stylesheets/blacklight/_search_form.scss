@@ -1,7 +1,23 @@
 // bootstrap does flex-grow: 1 by default which makes the
 // text input roughly the same size as the select in many cases
-.input-group > .form-control {
-  &.search-q {
-    flex-grow: 3;
+.input-group>.search-q {
+  flex-grow: 4;
+}
+
+.input-group > .search-autocomplete-wrapper {
+  @extend .form-control;
+  flex-grow: 4;
+  padding: 0;
+
+  .search-q {
+    border: 0;
+    height: 100%;
+    width: 100%;
   }
+}
+
+.search-btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  display: flex;
 }
