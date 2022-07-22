@@ -1,6 +1,4 @@
 .modal-dialog {
-  padding: 0;
-  border: 0;
   border-radius: 5px;
 }
 
@@ -17,6 +15,10 @@
 
   .blacklight-modal-close {
     display: block;
+  }
+
+  .prev_next_links.btn-group .btn {
+    border: 0;
   }
 }
 
