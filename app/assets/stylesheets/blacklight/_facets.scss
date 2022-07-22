@@ -76,13 +76,15 @@
 }
 
 .facet-values {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  margin-bottom: 0;
 
   li {
-    display: table-row;
+    display: flex;
+    align-items: flex-start;
+    padding: 3px 0;
+
+    &[role="treeitem"] {
+      display: block;
+    }
 
     .selected {
       color: $facet-active-item-color !important;
@@ -109,44 +111,28 @@
   }
 
   .facet-label {
-    display: table-cell;
     padding-right: 1em;
     text-indent: -15px;
     padding-left: 15px;
-    padding-bottom: $spacer * .5;
     @include hyphens-auto;
   }
 
   .facet-count {
-    display: table-cell;
-    vertical-align: top;
-    text-align: right;
-    width: 5em;
+    margin-left: auto
   }
 
   .facet-checkbox {
-    display: table-cell;
     width: 1.25rem;
-    vertical-align: top;
-  }
-
-  .label-and-count {
-    display: table;
-    width: 100%;
-  }
-
-  .label-and-count label {
-    display: table-row;
   }
 }
 
 .facet-extended-list {
   .sort-options {
-    text-align:right;
+    text-align: right;
   }
 
   .prev-next-links {
-    float:left;
+    float: left;
   }
 }
 
@@ -170,32 +156,27 @@
   }
 }
 
-
-
 /* style for pivot facet's nested list */
 
-.pivot-facet {
+.facet-values {
   @extend .list-unstyled;
-  @extend .py-1;
-  @extend .px-4;
 }
 
-.facet-leaf-node {
-  margin-left: 1rem;
-  padding-right: 1rem;
-  margin-top: -1.5rem;
+.pivot-facet {
+  &.show {
+    @extend .d-flex;
+  }
 }
 
 .facet-toggle-handle {
-  margin: 0;
-  margin-left: -5px;
-  padding: 0;
+  // keep the icon span centered in the button, but shift to the left for equal spacing inside row
+  margin-left: -1 * $btn-padding-x;
 
   &.collapsed {
-    .show { display: block; }
+    .show { display: flex; }
     .hide { display: none; }
   }
 
   .show { display: none; }
-  .hide { display: block; }
+  .hide { display: flex; }
 }

@@ -11,7 +11,7 @@
             <%= check_box_tag "f_inclusive[#{@facet_field.key}][]", presenter.value, presenter.selected?, id: "f_inclusive_#{@facet_field.key}_#{idx}"%>
           </span>
 
-          <span class="label-and-count">
+          <span>
             <%= label_tag "f_inclusive_#{@facet_field.key}_#{idx}" do %>
               <span class="facet-label"><%= presenter.label %></span>
               <span class="facet-count"><%= t('blacklight.search.facets.count', number: number_with_delimiter(presenter.hits)) %></span>
