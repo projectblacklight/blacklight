@@ -57,24 +57,6 @@
   }
 }
 
-.facet-limit-active {
-  border-color: $facet-active-border !important;
-
-  .card-header {
-    background-color: $facet-active-bg !important;
-
-    .btn {
-      @if function-exists(color-contrast) {
-        color: color-contrast($facet-active-bg);
-      }
-
-      @if function-exists(color-yiq) {
-        color: color-yiq($facet-active-bg);
-      }
-    }
-  }
-}
-
 .facet-values {
   display: table;
   table-layout: fixed;
@@ -83,6 +65,10 @@
 
   li {
     display: table-row;
+
+    a {
+      text-decoration: none;
+    }
 
     .selected {
       color: $facet-active-item-color !important;
@@ -96,7 +82,7 @@
     text-decoration: none;
 
     &:hover {
-      color: theme-color("danger");
+      @extend .text-danger;
       text-decoration: none;
     }
   }
@@ -148,17 +134,6 @@
   .prev-next-links {
     float:left;
   }
-}
-
-.facet-field-heading {
-  @extend .h6;
-
-  a {
-    color: inherit;
-  }
-
-  /* This prevents the contained stretch link from covering the panel body */
-  position: relative
 }
 
 /* Sidenav

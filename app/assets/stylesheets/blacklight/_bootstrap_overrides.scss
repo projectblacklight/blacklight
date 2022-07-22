@@ -7,21 +7,42 @@
   border-bottom: 0;
 
   button {
+    @extend .accordion-button !optional;
     font-weight: $headings-font-weight;
 
-    &::after {
-      content: "❯";
-      float: right;
-      transform: rotate(90deg);
-    }
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 
     &.collapsed {
       border-bottom: 0;
+    }
+  }
+}
 
+.facets-collapse {
+  .accordion-item {
+    --bs-accordion-btn-icon-transform: rotate(0deg);
+    border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
+
+    button {
       &::after {
-        transform: rotate(0deg);
-        transition: transform 0.1s ease;
+        transform: rotate(-90deg);
       }
+      &:not(.collapsed) {
+        &::after {
+          transform: rotate(0deg);
+        }
+      }
+    }
+    border-radius: var(--bs-accordion-border-radius);
+
+    .accordion-button {
+      &.collapsed {
+        border-radius: var(--bs-accordion-border-radius);
+      }
+
+      border-top-left-radius: var(--bs-accordion-border-radius);
+      border-top-right-radius: var(--bs-accordion-border-radius);
     }
   }
 }
