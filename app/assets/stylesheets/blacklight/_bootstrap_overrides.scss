@@ -29,3 +29,11 @@
 .page-link {
   white-space: nowrap;
 }
+
+.modal {
+  // override bootstrap .modal class default display: none
+  // since we aren't using bootstrap JS that sets and unsets the display
+  display: flex;
+  background: none;
+  border: none;
+}
