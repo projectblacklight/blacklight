@@ -32,12 +32,13 @@ module Blacklight
 
       id = "h-#{self.class.mint_id}" if @collapsing && has_items?
 
-      content_tag @wrapping_element, role: 'treeitem' do
-        concat facet_toggle_button(id) if has_items? && @collapsing
-        concat content_tag('span', render_component(facet), class: "facet-values #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
-
+      content_tag @wrapping_element, role: 'treeitem', class: 'treeitem' do
+        concat(content_tag('span', class: "d-flex flex-row align-items-center") do
+          concat facet_toggle_button(id) if has_items? && @collapsing
+          concat content_tag('span', render_component(facet), class: "facet-values d-flex flex-row flex-grow-1 #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
+        end)
         if has_items?
-          concat(content_tag('ul', class: "pivot-facet list-unstyled #{'collapse' if @collapsing}", id: id, role: 'group') do
+          concat(content_tag('ul', class: "pivot-facet flex-column list-unstyled ps-5 pe-5 #{'collapse' if @collapsing}", id: id, role: 'group') do
             render_component(
               self.class.with_collection(
                 @facet_item.items.map { |i| facet_item_presenter(i) }

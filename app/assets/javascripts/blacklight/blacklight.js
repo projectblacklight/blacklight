@@ -204,27 +204,6 @@
     });
   })();
 
-  Blacklight.doResizeFacetLabelsAndCounts = function() {
-    // adjust width of facet columns to fit their contents
-    function longer (a,b) { return b.textContent.length - a.textContent.length }
-
-    document.querySelectorAll('.facet-values, .pivot-facet').forEach(function(elem){
-      const nodes = elem.querySelectorAll('.facet-count');
-      // TODO: when we drop ie11 support, this can become the spread operator:
-      const longest = Array.from(nodes).sort(longer)[0];
-      if (longest && longest.textContent) {
-        const width = longest.textContent.length + 1 + 'ch';
-        elem.querySelector('.facet-count').style.width = width;
-      }
-    });
-  };
-
-  const FacetLoad = (() => {
-    Blacklight.onLoad(function() {
-      Blacklight.doResizeFacetLabelsAndCounts();
-    });
-  })();
-
   /*
     The blacklight modal plugin can display some interactions inside a Bootstrap
     modal window, including some multi-page interactions.
@@ -444,7 +423,6 @@
   const index = {
     BookmarkToggle,
     ButtonFocus,
-    FacetLoad,
     Modal,
     SearchContext,
     onLoad: Blacklight.onLoad
