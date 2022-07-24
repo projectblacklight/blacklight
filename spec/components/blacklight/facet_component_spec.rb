@@ -21,6 +21,25 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
     expect(rendered).to have_selector 'ul.facet-values'
   end
 
+  context 'with a provided component' do
+    let(:component_kwargs) { { field_config: facet_config, display_facet: display_facet, component: component_class } }
+    let(:component_class) do
+      Class.new(Blacklight::FacetFieldListComponent) do
+        def self.name
+          'CustomFacetComponent'
+        end
+
+        def call
+          'Custom facet rendering'
+        end
+      end
+    end
+
+    it 'renders the provided component' do
+      expect(rendered).to have_content 'Custom facet rendering'
+    end
+  end
+
   context 'with a facet configured to use a partial' do
     let(:facet_config) do
       Blacklight::Configuration::FacetField.new(key: 'field', partial: 'catalog/facet_partial').normalize!

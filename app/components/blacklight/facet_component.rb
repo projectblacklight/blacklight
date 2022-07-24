@@ -11,8 +11,8 @@ module Blacklight
     # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
     # @param [Blacklight::Configuration] blacklight_config
     # @param [Boolean] layout
-    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    def initialize(display_facet_or_field_config: nil, display_facet: nil, field_config: nil, response: nil, blacklight_config: nil, **component_args)
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ParameterLists
+    def initialize(display_facet_or_field_config: nil, display_facet: nil, field_config: nil, response: nil, blacklight_config: nil, component: nil, **component_args)
       if display_facet_or_field_config.is_a? Blacklight::FacetFieldPresenter
         @facet_field_presenter = display_facet_or_field_config
         @field_config = @facet_field_presenter.facet_field
@@ -30,9 +30,10 @@ module Blacklight
         raise ArgumentError, 'You must provide one of display_facet or field_config' unless @field_config
       end
 
+      @component = component || @field_config.component
       @component_args = component_args
     end
-    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ParameterLists
 
     def render?
       helpers.should_render_field?(@field_config, @display_facet)
@@ -42,7 +43,7 @@ module Blacklight
       return render_partial if @field_config.partial
 
       render(
-        @field_config.component.new(
+        @component.new(
           facet_field: @facet_field_presenter || helpers.facet_field_presenter(@field_config, @display_facet),
           **@component_args
         )
