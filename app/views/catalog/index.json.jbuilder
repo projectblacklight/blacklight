@@ -67,14 +67,16 @@ json.included do
     end
   end
 
-  json.array! search_fields do |(label, key)|
-    json.type 'search_field'
-    json.id key
-    json.attributes do
-      json.label label
-    end
-    json.links do
-      json.self url_for(search_state.to_h.merge(search_field: key, only_path: false))
+  Deprecation.silence(Blacklight::ConfigurationHelperBehavior) do
+    json.array! search_fields do |(label, key)|
+      json.type 'search_field'
+      json.id key
+      json.attributes do
+        json.label label
+      end
+      json.links do
+        json.self url_for(search_state.to_h.merge(search_field: key, only_path: false))
+      end
     end
   end
 
