@@ -31,7 +31,7 @@ module Blacklight
       options = sort_fields.values.map { |field_config| [helpers.sort_field_label(field_config.key), field_config.key] }
       return unless options.any?
 
-      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select w-auto")
+      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-select custom-select sort-select w-auto")
     end
 
     private
