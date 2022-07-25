@@ -1,7 +1,16 @@
 /* Search History */
 .search-history {
+
+  td {
+    padding: $spacer
+  }
+
+  .constraints-container {
+    @extend .mb-0;
+  }
+
   .constraint {
-    @extend .px-3;
+    @extend .px-4;
     display: block;
     text-indent: -1 * map-get($spacers, 3);
   }
