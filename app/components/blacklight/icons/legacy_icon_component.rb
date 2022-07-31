@@ -3,11 +3,9 @@
 module Blacklight
   module Icons
     class LegacyIconComponent < ::ViewComponent::Base
-      extend Deprecation
-
       def initialize(name:, classes: '', aria_hidden: false, label: true, role: 'img', additional_options: {})
         @name = name
-        Deprecation.warn(self, "Calling the LegacyIconComponent with \"#{name}\" is deprecated. Instead create a component for this icon.")
+        Blacklight.deprecation.warn("Calling the LegacyIconComponent with \"#{name}\" is deprecated. Instead create a component for this icon.")
         @classes = classes
         @aria_hidden = aria_hidden
         @icon = Blacklight::Icon.new(name, classes: classes, label: label, role: role, additional_options: additional_options)
