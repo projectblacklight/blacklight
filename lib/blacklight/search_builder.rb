@@ -46,6 +46,9 @@ module Blacklight
 
     ##
     # Update the :q (query) parameter
+    # @param [Hash<Symbol,Object>] conditions the field and values to query on
+    # @example
+    #    search_builder.where(id: [1,2,3]) # produces: q:"{!lucene}id:(1 OR 2 OR 3)"
     def where(conditions)
       params_will_change!
       @search_state = @search_state.reset(@search_state.params.merge(q: conditions))
