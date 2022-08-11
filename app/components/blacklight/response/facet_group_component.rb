@@ -4,8 +4,6 @@ module Blacklight
   module Response
     # Render a group of facet fields
     class FacetGroupComponent < Blacklight::Component
-      extend Deprecation
-
       renders_one :body
 
       # @param [Blacklight::Response] response
@@ -36,7 +34,7 @@ module Blacklight
 
       # @deprecated
       def default_body
-        Deprecation.warn('Rendering the Blacklight::FacetGroupComponent without a body slot is deprecated.')
+        Blacklight.deprecation.warn('Rendering the Blacklight::FacetGroupComponent without a body slot is deprecated.')
         helpers.render(Blacklight::FacetComponent.with_collection(@fields, response: @response))
       end
 

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'kaminari'
-require 'deprecation'
 require 'blacklight/open_struct_with_hash_access'
 require 'blacklight/nested_open_struct_with_hash_access'
 require 'jbuilder'
@@ -131,5 +130,9 @@ module Blacklight
   # returns the full path the the blacklight plugin installation
   def self.root
     @root ||= File.expand_path(File.dirname(File.dirname(__FILE__)))
+  end
+
+  def self.deprecation
+    @deprecation ||= ActiveSupport::Deprecation.new('9.0', 'Blacklight')
   end
 end

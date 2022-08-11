@@ -2,9 +2,6 @@
 
 module Blacklight
   class FacetFieldListComponent < Blacklight::Component
-    extend Deprecation
-    self.deprecation_horizon = 'blacklight 9.0'
-
     def initialize(facet_field:, layout: nil)
       @facet_field = facet_field
       @layout = layout == false ? FacetFieldNoLayoutComponent : Blacklight::FacetFieldComponent
@@ -26,7 +23,7 @@ module Blacklight
 
       render(facet_item_component_class(facet_config).with_collection(collection, wrapping_element: wrapping_element))
     end
-    deprecation_deprecate render_facet_limit_list: 'Call e.g. `render facet_items` instead'
+    Blacklight.deprecation.deprecate_methods(self, render_facet_limit_list: 'Call e.g. `render facet_items` instead')
 
     def facet_items(wrapping_element: :li, **item_args)
       facet_item_component_class.with_collection(facet_item_presenters, wrapping_element: wrapping_element, **item_args)
