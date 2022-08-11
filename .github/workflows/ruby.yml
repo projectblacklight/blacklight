@@ -45,7 +45,7 @@ jobs:
     - name: Run tests
       run: bundle exec rake ci
       env:
-        ENGINE_CART_RAILS_OPTIONS: '-a propshaft --skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
+        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   test_bootstrap5:
     runs-on: ubuntu-latest
     strategy:
@@ -147,7 +147,7 @@ jobs:
       run: bundle exec rake ci
       env:
         BLACKLIGHT_API_TEST: true
-        ENGINE_CART_RAILS_OPTIONS: '--api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
+        ENGINE_CART_RAILS_OPTIONS: '-a propshaft --api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   docker_build:
     runs-on: ubuntu-latest
     steps:
