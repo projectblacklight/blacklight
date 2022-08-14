@@ -70,6 +70,8 @@ Naming/MethodParameterName:
     - id
     - q
     - as
+    - of
+    - by
 
 Naming/PredicateName:
   ForbiddenPrefixes:
