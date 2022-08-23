@@ -74,6 +74,9 @@ Rails:
 Rails/ApplicationMailer:
   Enabled: false
 
+Rails/IndexWith:
+  Enabled: false
+
 # https://github.com/rubocop-hq/rubocop/issues/6439
 Style/AccessModifierDeclarations:
   Enabled: false

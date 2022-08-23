@@ -114,7 +114,7 @@ module Blacklight
 
       def pivot_fq(item = nil)
         fq_keys = pivot[1..-1].map(&:to_sym)
-        null_values = fq_keys.index_with(nil)
+        null_values = fq_keys.map { |k| [k, nil] }.to_h
         return null_values unless item.respond_to?(:fq)
 
         item_fq = item.fq.to_h.symbolize_keys.slice(*fq_keys)
