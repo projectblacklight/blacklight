@@ -9,6 +9,7 @@
 
   input.tt-hint.form-control {
     width: 100%;
+    filter: opacity(0.33);
   }
 
   .tt-menu {
@@ -26,5 +27,11 @@
   .tt-suggestion {
     font-size: 14px;
     padding: 5px 5px 5px 10px;
+  }
+
+  .tt-suggestion:hover {
+    background-color: $dropdown-link-hover-bg;
+    color: $dropdown-link-hover-color;
+    cursor: pointer;
   }
 }
