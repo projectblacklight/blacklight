@@ -50,7 +50,7 @@ Blacklight aims to support the currently [supported versions of Ruby](https://ww
 Code contributions are always welcome, instructions for contributing can be found at [CONTRIBUTING.md](https://github.com/projectblacklight/blacklight/blob/main/CONTRIBUTING.md).
 
 ## Configuring Apache Solr
-You'll also want some information about how Blacklight expects [Apache Solr](http://lucene.apache.org/solr ) to run, which you can find in [README_SOLR](https://github.com/projectblacklight/blacklight/wiki/README_SOLR)
+You'll also want some information about how Blacklight expects [Apache Solr](http://lucene.apache.org/solr ) to run, which you can find in [Solr Configuration](https://github.com/projectblacklight/blacklight/wiki/Solr-Configuration#solr-configuration)
 
 ## Building the javascript
 The javascript is built by npm from sources in `app/javascript` into a bundle
