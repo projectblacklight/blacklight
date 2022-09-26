@@ -299,6 +299,14 @@ module Blacklight
     end
     # rubocop:enable Metrics/BlockLength
 
+    # Additional Blacklight configuration setting for document-type specific
+    # configuration.
+    # @!attribute fields_for_type
+    # @since v8.0.0
+    # @return [Hash{Symbol => Blacklight::Configuration}]
+    # @see [#for_display_type]
+    property :fields_for_type, default: {}.with_indifferent_access
+
     ##
     # Create collections of solr field configurations.
     # This will create array-like accessor methods for
@@ -538,9 +546,9 @@ module Blacklight
     ##
     # Add a section of config that only applies to documents with a matching display type
     def for_display_type display_type, &_block
-      self.fields_for_type ||= {}
+      fields_for_type[display_type] ||= self.class.new
 
-      (fields_for_type[display_type] ||= self.class.new).tap do |conf|
+      fields_for_type[display_type].tap do |conf|
         yield(conf) if block_given?
       end
     end
