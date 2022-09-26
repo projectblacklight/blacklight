@@ -118,7 +118,7 @@ module Blacklight
     end
 
     def view_config
-      @view_config ||= show_view_config
+      show_view_config
     end
 
     def show_view_config
