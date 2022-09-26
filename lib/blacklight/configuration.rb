@@ -557,26 +557,18 @@ module Blacklight
     # Return a list of fields for the index display that should be used for the
     # provided document.  This respects any configuration made using for_display_type
     def index_fields_for(display_types)
-      fields = {}.with_indifferent_access
-
-      display_types.each do |display_type|
-        fields = fields.merge(for_display_type(display_type).index_fields)
+      Array(display_types).inject(index_fields) do |fields, display_type|
+        fields.merge(for_display_type(display_type).index_fields)
       end
-
-      fields.merge(index_fields)
     end
 
     ##
     # Return a list of fields for the show page that should be used for the
     # provided document.  This respects any configuration made using for_display_type
     def show_fields_for(display_types)
-      fields = {}.with_indifferent_access
-
-      display_types.each do |display_type|
-        fields = fields.merge(for_display_type(display_type).show_fields)
+      Array(display_types).inject(show_fields) do |fields, display_type|
+        fields.merge(for_display_type(display_type).show_fields)
       end
-
-      fields.merge(show_fields)
     end
 
     # @!visibility private
