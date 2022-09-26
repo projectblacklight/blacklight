@@ -146,6 +146,8 @@ module Blacklight
         title_field: nil,
         # solr field to use to render format-specific partials
         display_type_field: nil,
+        # the "field access" key to use to look up the document display fields
+        document_fields_key: :index_fields,
         # partials to render for each document(see #render_document_partials)
         partials: [],
         document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
@@ -173,6 +175,8 @@ module Blacklight
         document_component: Blacklight::DocumentComponent,
         sidebar_component: Blacklight::Document::SidebarComponent,
         display_type_field: nil,
+        # the "field access" key to use to look up the document display fields
+        document_fields_key: :show_fields,
         # Default route parameters for 'show' requests.
         # Set this to a hash with additional arguments to merge into the route,
         # or set `controller: :current` to route to the current controller.
@@ -296,16 +300,16 @@ module Blacklight
       # @since v8.0.0
       # @return [Boolean]
       property :filter_search_state_fields, default: true
+
+      # Additional Blacklight configuration setting for document-type specific
+      # configuration.
+      # @!attribute fields_for_type
+      # @since v8.0.0
+      # @return [Hash{Symbol => Blacklight::Configuration}]
+      # @see [#for_display_type]
+      property :fields_for_type, default: {}.with_indifferent_access
     end
     # rubocop:enable Metrics/BlockLength
-
-    # Additional Blacklight configuration setting for document-type specific
-    # configuration.
-    # @!attribute fields_for_type
-    # @since v8.0.0
-    # @return [Hash{Symbol => Blacklight::Configuration}]
-    # @see [#for_display_type]
-    property :fields_for_type, default: {}.with_indifferent_access
 
     ##
     # Create collections of solr field configurations.
@@ -556,6 +560,7 @@ module Blacklight
     ##
     # Return a list of fields for the index display that should be used for the
     # provided document.  This respects any configuration made using for_display_type
+    # @deprecated
     def index_fields_for(display_types)
       Array(display_types).inject(index_fields) do |fields, display_type|
         fields.merge(for_display_type(display_type).index_fields)
@@ -565,6 +570,7 @@ module Blacklight
     ##
     # Return a list of fields for the show page that should be used for the
     # provided document.  This respects any configuration made using for_display_type
+    # @deprecated
     def show_fields_for(display_types)
       Array(display_types).inject(show_fields) do |fields, display_type|
         fields.merge(for_display_type(display_type).show_fields)

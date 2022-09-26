@@ -79,10 +79,8 @@ module Blacklight
 
       fields += ['format'] if fields.empty? # backwards compatibility with the old default value for display_type_field
 
-      display_type = fields.lazy.map { |field| field_presenter(field_config(field)) }.detect(&:any?)&.values
-      display_type ||= Array(default) if default
-
-      display_type || []
+      display_type = fields.lazy.map { |field| field_presenter(display_fields[field] || Configuration::NullDisplayField.new(field)) }.detect(&:any?)&.values
+      display_type || Array(default)
     end
 
     ##
@@ -132,8 +130,23 @@ module Blacklight
 
     private
 
+    # @return [Hash<String,Configuration::Field>]
+    def fields
+      @fields ||= Array(display_type).inject(display_fields) do |fields, display_type|
+        fields.merge(display_fields(configuration.for_display_type(display_type)))
+      end
+    end
+
+    def display_fields(config = configuration)
+      config[view_config.document_fields_key || :index_fields]
+    end
+
+    def field_config(field)
+      fields.fetch(field) { Configuration::NullDisplayField.new(field) }
+    end
+
     def field_presenter(field_config, options = {})
-      field_config.presenter.new(view_context, document, field_config, options.merge(field_presenter_options))
+      field_config.presenter.new(view_context, document, field_config, field_presenter_options.merge(options))
     end
 
     def field_presenter_options
