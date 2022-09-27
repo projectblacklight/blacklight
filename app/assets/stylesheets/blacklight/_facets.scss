@@ -76,6 +76,11 @@
 }
 
 .facet-values {
+  margin-bottom: 0;
+
+  a {
+    text-decoration: none;
+  }
 
   li {
     display: flex;
