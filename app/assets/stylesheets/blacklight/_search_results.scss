@@ -1,13 +1,17 @@
 // the search results on the index view of the catalog
 .documents-list {
   .document {
-    @extend .clearfix;
+    display: flex;
     border-bottom: 1px dotted $table-border-color;
     margin-top: $spacer;
     padding-top: $spacer;
 
     .document-title-heading {
       @extend h5;
+    }
+
+    .document-main-section {
+      flex-grow: 1;
     }
 
     // bookmarks checkbox on index, give it some
@@ -21,7 +25,7 @@
     }
 
     .document-thumbnail {
-      float: right;
+      flex-grow: 0;
       margin-bottom: ($spacer * 3);
       padding-left: ($spacer * 3);
     }
