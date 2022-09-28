@@ -12,6 +12,10 @@ module Blacklight::IconHelperBehavior
   def blacklight_icon(icon_name, _options = {})
     render "Blacklight::Icons::#{icon_name.to_s.camelize}Component".constantize.new
   rescue NameError
+    Blacklight.deprecation.warn(
+      "Falling back on the LegacyIconComponent with \"#{icon_name}\" is deprecated. Instead create the component `Blacklight::Icons::#{icon_name.to_s.camelize}Component` for this icon."
+    )
+
     render Blacklight::Icons::LegacyIconComponent.new(name: icon_name)
   end
 end

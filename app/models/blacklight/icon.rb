@@ -4,6 +4,8 @@ module Blacklight
   class Icon
     attr_reader :icon_name, :aria_hidden, :label, :role, :additional_options
 
+    delegate :present?, to: :file
+
     ##
     # @param [String, Symbol] icon_name
     # @param [String] classes additional classes separated by a string
