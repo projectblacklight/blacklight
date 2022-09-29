@@ -8,6 +8,8 @@ module Blacklight
         @__vc_compiler ||= EngineCompiler.new(self)
       end
       # rubocop:enable Naming/MemoizedInstanceVariableName
+
+      alias sidecar_files _sidecar_files unless ViewComponent::Base.respond_to? :sidecar_files
     end
 
     class EngineCompiler < ::ViewComponent::Compiler
@@ -23,7 +25,7 @@ module Blacklight
         @templates ||= begin
           extensions = ActionView::Template.template_handler_extensions
 
-          component_class._sidecar_files(extensions).each_with_object([]) do |path, memo|
+          component_class.sidecar_files(extensions).each_with_object([]) do |path, memo|
             pieces = File.basename(path).split(".")
             app_path = "#{Rails.root}/#{path.slice(path.index(component_class.view_component_path)..-1)}"
 
