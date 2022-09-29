@@ -24,6 +24,36 @@ RSpec.describe Blacklight::Response::ViewTypeComponent, type: :component do
     end
   end
 
+  context 'with a icon component class' do
+    let(:views) do
+      { abc: Blacklight::Configuration::ViewConfig.new(icon: Blacklight::Icons::ListComponent), def: view_config }
+    end
+
+    it 'draws the icon' do
+      expect(render.css('.view-type-abc svg')).to be_present
+    end
+  end
+
+  context 'with a icon component instance' do
+    let(:views) do
+      { abc: Blacklight::Configuration::ViewConfig.new(icon: Blacklight::Icons::ListComponent.new), def: view_config }
+    end
+
+    it 'draws the icon' do
+      expect(render.css('.view-type-abc svg')).to be_present
+    end
+  end
+
+  context 'with a icon with the svg given in-line' do
+    let(:views) do
+      { abc: Blacklight::Configuration::ViewConfig.new(icon: Blacklight::Icons::IconComponent.new(svg: 'blah')), def: view_config }
+    end
+
+    it 'draws the icon' do
+      expect(render.css('.view-type-abc').text).to include 'blah'
+    end
+  end
+
   describe "when no views exist" do
     let(:views) do
       {}
