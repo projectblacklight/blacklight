@@ -9,7 +9,7 @@ RSpec.describe Blacklight::Response::ViewTypeComponent, type: :component do
 
   let(:response) { instance_double(Blacklight::Solr::Response, empty?: false) }
   let(:search_state) { instance_double(Blacklight::SearchState, to_h: { controller: 'catalog', action: 'index' }) }
-  let(:view_config) { Blacklight::Configuration::ViewConfig.new(icon: 'list') }
+  let(:view_config) { Blacklight::Configuration::ViewConfig.new }
 
   describe "when some views exist" do
     let(:views) do
@@ -21,6 +21,36 @@ RSpec.describe Blacklight::Response::ViewTypeComponent, type: :component do
 
     it "draws the group" do
       expect(render.css('.view-type-group')).to be_present
+    end
+  end
+
+  context 'with a icon component class' do
+    let(:views) do
+      { abc: Blacklight::Configuration::ViewConfig.new(icon: Blacklight::Icons::ListComponent), def: view_config }
+    end
+
+    it 'draws the icon' do
+      expect(render.css('.view-type-abc svg')).to be_present
+    end
+  end
+
+  context 'with a icon component instance' do
+    let(:views) do
+      { abc: Blacklight::Configuration::ViewConfig.new(icon: Blacklight::Icons::ListComponent.new), def: view_config }
+    end
+
+    it 'draws the icon' do
+      expect(render.css('.view-type-abc svg')).to be_present
+    end
+  end
+
+  context 'with a icon with the svg given in-line' do
+    let(:views) do
+      { abc: Blacklight::Configuration::ViewConfig.new(icon: Blacklight::Icons::IconComponent.new(svg: 'blah')), def: view_config }
+    end
+
+    it 'draws the icon' do
+      expect(render.css('.view-type-abc').text).to include 'blah'
     end
   end
 
