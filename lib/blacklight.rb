@@ -58,11 +58,7 @@ module Blacklight
   end
 
   def self.connection_config
-    Blacklight::RuntimeRegistry.connection_config ||= begin
-      raise "The #{::Rails.env} environment settings were not found in the blacklight.yml config" unless blacklight_yml[::Rails.env]
-
-      blacklight_yml[::Rails.env].symbolize_keys
-    end
+    Blacklight::RuntimeRegistry.connection_config ||= blacklight_yml[::Rails.env]&.symbolize_keys if blacklight_yml?
   end
 
   def self.connection_config=(value)
@@ -84,7 +80,7 @@ module Blacklight
     require 'yaml'
 
     return @blacklight_yml if @blacklight_yml
-    unless File.exist?(blacklight_config_file)
+    unless blacklight_yml?
       raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?"
     end
 
@@ -109,6 +105,10 @@ module Blacklight
     end
 
     @blacklight_yml
+  end
+
+  def self.blacklight_yml?
+    File.exist?(blacklight_config_file)
   end
 
   def self.logger
