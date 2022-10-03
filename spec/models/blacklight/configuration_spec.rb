@@ -39,13 +39,13 @@ RSpec.describe "Blacklight::Configuration", api: true do
     end
 
     it "has ordered hashes for field configuration" do
-      expect(config.facet_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.index_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.show_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.search_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.show_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.search_fields).to be_a_kind_of ActiveSupport::OrderedHash
-      expect(config.sort_fields).to be_a_kind_of ActiveSupport::OrderedHash
+      expect(config.facet_fields).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
+      expect(config.index_fields).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
+      expect(config.show_fields).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
+      expect(config.search_fields).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
+      expect(config.show_fields).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
+      expect(config.search_fields).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
+      expect(config.sort_fields).to be_a_kind_of ActiveSupport::HashWithIndifferentAccess
     end
   end
 

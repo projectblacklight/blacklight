@@ -14,7 +14,7 @@ class Blacklight::Configuration
     # @!attribute display_type_field
     #   @return [String, Symbol] solr field to use to render format-specific partials
     # @!attribute icon
-    #   @return [String, Symbol] icon file to use in the view picker
+    #   @return [String, Symbol, Blacklight::Icons::IconComponent] icon file to use in the view picker
     # @!attribute document_actions
     #   @return [NestedOpenStructWithHashAccess{Symbol => Blacklight::Configuration::ToolConfig}] 'tools' to render for each document
     # @!attribute facet_group_component
