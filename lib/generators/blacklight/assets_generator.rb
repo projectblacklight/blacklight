@@ -34,7 +34,6 @@ module Blacklight
           <<~CONTENT
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
             pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.2.2/dist/js/bootstrap.js"
-            pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.1/dist/jquery.js"
             pin "blacklight", to: "blacklight/blacklight.js"
             pin "dialog-polyfill", to: "https://ga.jspm.io/npm:dialog-polyfill@0.5.6/dist/dialog-polyfill.js"
           CONTENT
@@ -42,10 +41,8 @@ module Blacklight
 
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
-            import $ from "jquery"
             import bootstrap from "bootstrap"
             window.bootstrap = bootstrap // Required for Blacklight 7 so it can manage the modals
-            window.$ = $ // required as long as blacklight requires jquery
             import "blacklight"
             import dialogPolyfill from "dialog-polyfill"
             Blacklight.onLoad(() => {
@@ -55,12 +52,10 @@ module Blacklight
           CONTENT
         end
       else
-        gem 'jquery-rails'
         create_file 'app/assets/javascripts/application.js' do
           <<~CONTENT
             //= require turbolinks
             //= require rails-ujs
-            //= require jquery3
 
             // Required by Blacklight
             //= require popper

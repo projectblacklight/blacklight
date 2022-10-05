@@ -11,7 +11,6 @@ RSpec.describe BookmarksController do
     end
   end
 
-  # jquery 1.9 ajax does error callback if 200 returns empty body. so use 204 instead.
   describe "update" do
     it "has a 200 status code when creating a new one" do
       put :update, xhr: true, params: { id: '2007020969', format: :js }
