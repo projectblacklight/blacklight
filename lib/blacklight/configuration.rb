@@ -22,253 +22,271 @@ module Blacklight
       autoload :ShowField
     end
 
+    class_attribute :default_values, default: {}
+
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
     class << self
       def property(key, default: nil)
         default_values[key] = default
       end
 
-      def default_values
-        @default_values ||= {}
+      def default_configuration(&block)
+        @default_configuration = block
+        @default_configuration_initialized = false
+      end
+
+      def initialize_default_configuration
+        @default_configuration.call
+        @default_configuration_initialized = true
+      end
+
+      def initialized_default_configuration?
+        @default_configuration_initialized
       end
     end
-    # === Search request configuration
-
-    # @!attribute http_method
-    # @since v5.0.0
-    # @return [:get, :post] HTTP method used for search
-    property :http_method, default: :get
-    # @!attribute solr_path
-    # @return [String] The path to send requests to solr.
-    property :solr_path, default: 'select'
-    # @!attribute default_solr_params
-    # @return [Hash] Default values of parameters to send with every search request
-    property :default_solr_params, default: {}
-
-    # === Single document request configuration
-
-    # @!attribute document_solr_request_handler
-    # @return [String] The solr request handler to use when requesting only a single document
-    property :document_solr_request_handler, default: nil
-    # @!attribute document_solr_path
-    # @since v5.2.0
-    # @return [String] The url path (relative to the solr base url) to use when requesting only a single document
-    property :document_solr_path, default: 'get'
-    # @!attribute document_unique_id_param
-    # @since v5.2.0
-    # @return [Symbol] The solr query parameter used for sending the unique identifiers for one or more documents
-    property :document_unique_id_param, default: :ids
-    # @!attribute default_document_solr_params
-    # @return [Hash] Default values of parameters to send with every single-document request
-    property :default_document_solr_params, default: {}
-    # @!attribute fetch_many_document_params
-    # @since v7.0.0
-    # @return [Hash] Default values of parameters to send with every multi-document request
-    property :fetch_many_document_params, default: {}
-    # @!attribute document_pagination_params
-    # @return [Hash] Default values of parameters to send when getting the previous + next documents
-    property :document_pagination_params, default: {}
-
-    ##
-    # == Response models
-
-    # @!attribute repository_class
-    # @return [Class] Class for sending and receiving requests from a search index
-    property :repository_class, default: Blacklight::Solr::Repository
-    # @!attribute search_builder_class
-    # @return [Class] class for converting Blacklight parameters to request parameters for the repository_class
-    property :search_builder_class, default: ::SearchBuilder
-    # @!attribute response_model
-    # model that maps index responses to the blacklight response model
-    # @return [Class]
-    property :response_model, default: Blacklight::Solr::Response
-    # @!attribute document_model
-    # the model to use for each response document
-    # @return [Class]
-    property :document_model, default: ::SolrDocument
-    # @!attribute document_factory
-    # the factory that builds document
-    # @return [Class]
-    property :document_factory, default: Blacklight::DocumentFactory
-    # @!attribute facet_paginator_class
-    # Class for paginating long lists of facet fields
-    # @return [Class]
-    property :facet_paginator_class, default: Blacklight::Solr::FacetPaginator
-    # @!attribute connection_config
-    # repository connection configuration
-    # @since v5.13.0
-    # @return [Class]
-    property :connection_config, default: Blacklight.connection_config
-
-    ##
-    # == Blacklight view configuration
-
-    # @!attribute navbar
-    # @since v5.8.0
-    # @return [#partials]
-    property :navbar, default: OpenStructWithHashAccess.new(partials: {})
-
-    # @!attribute index
-    # General configuration for all views
-    # @return [Blacklight::Configuration::ViewConfig::Index]
-    property :index, default: ViewConfig::Index.new(
-      # document presenter class used by helpers and views
-      document_presenter_class: nil,
-      # component class used to render a document
-      document_component: Blacklight::DocumentComponent,
-      # solr field to use to render a document title
-      title_field: nil,
-      # solr field to use to render format-specific partials
-      display_type_field: nil,
-      # partials to render for each document(see #render_document_partials)
-      partials: [],
-      document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
-      collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
-      # what field, if any, to use to render grouped results
-      group: false,
-      # additional response formats for search results
-      respond_to: OpenStructWithHashAccess.new,
-      # component class used to render the facet grouping
-      facet_group_component: nil,
-      # component class used to render search constraints
-      constraints_component: nil,
-      # component class used to render the search bar
-      search_bar_component: nil
-    )
-
-    # @!attribute show
-    # Additional configuration when displaying a single document
-    # @return [Blacklight::Configuration::ViewConfig::Show]
-    property :show, default: ViewConfig::Show.new(
-      # document presenter class used by helpers and views
-      document_presenter_class: nil,
-      document_component: Blacklight::DocumentComponent,
-      display_type_field: nil,
-      # Default route parameters for 'show' requests.
-      # Set this to a hash with additional arguments to merge into the route,
-      # or set `controller: :current` to route to the current controller.
-      route: nil,
-      # partials to render for each document(see #render_document_partials)
-      partials: [],
-      document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
-    )
-
-    # @!attribute action_mapping
-    # @since v7.16.0
-    # @return [Hash{Symbol => Blacklight::Configuration::ViewConfig}]
-    property :action_mapping, default: NestedOpenStructWithHashAccess.new(
-      ViewConfig,
-      default: { top_level_config: :index },
-      show: { top_level_config: :show },
-      citation: { parent_config: :show }
-    )
-
-    # @!attribute sms
-    # @since v7.21.0
-    # @return [Blacklight::Configuration::ViewConfig]
-    property :sms, default: ViewConfig.new
-
-    # @!attribute email
-    # @since v7.21.0
-    # @return [Blacklight::Configuration::ViewConfig]
-    property :email, default: ViewConfig.new
-
-    # @!attribute
-    # Configurations for specific types of index views
-    # @return [Hash{Symbol => Blacklight::Configuration::ViewConfig}]
-    property :view, default: NestedOpenStructWithHashAccess.new(ViewConfig,
-                                                                list: {},
-                                                                atom: {
-                                                                  if: false, # by default, atom should not show up as an alternative view
-                                                                  partials: [:document],
-                                                                  summary_component: Blacklight::DocumentComponent
-                                                                },
-                                                                rss: {
-                                                                  if: false, # by default, rss should not show up as an alternative view
-                                                                  partials: [:document]
-                                                                })
-
-    ##
-    # === Blacklight behavior configuration
-
-    # @!attribute spell_max
-    # Maxiumum number of spelling suggestions to offer
-    # @return [Integer]
-    property :spell_max, default: 5
-
-    # @!attribute max_per_page
-    # Maximum number of results to show per page
-    # @return [Integer]
-    property :max_per_page, default: 100
-    # @!attribute per_page
-    # Options for the user for number of results to show per page
-    # @return [Array<Integer>]
-    property :per_page, default: [10, 20, 50, 100]
-    # @!attribute default_per_page
-    # @return [Integer]
-    property :default_per_page, default: nil
-
-    # @!attribute search_history_window
-    # how many searches to save in session history
-    # @return [Integer]
-    property :search_history_window, default: 100
-    # @!attribute default_facet_limit
-    # @since v5.10.0
-    # @return [Integer]
-    property :default_facet_limit, default: 10
-    # @!attribute default_more_limit
-    # @since v7.0.0
-    # @return [Integer]
-    property :default_more_limit, default: 20
-
-    # @!attribute crawler_detector
-    # proc for determining whether the session is a crawler/bot
-    # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
-    # @since v7.0.0
-    # @return [<nil, Proc>]
-    property :crawler_detector, default: nil
-
-    # @!attribute autocomplete_suggester
-    # @since v7.0.0
-    # @return [String]
-    property :autocomplete_suggester, default: 'mySuggester'
-
-    # @!attribute raw_endpoint
-    # @since v7.0.0
-    # @return [#enabled]
-    property :raw_endpoint, default: OpenStructWithHashAccess.new(enabled: false)
-
-    # @!attribute track_search_session
-    # @since v7.1.0
-    # @return [Boolean]
-    property :track_search_session, default: true
-
-    # @!attribute advanced_search
-    # @since v7.15.0
-    # @return [#enabled]
-    property :advanced_search, default: OpenStruct.new(enabled: false)
-
-    # @!attribute enable_search_bar_autofocus
-    # @since v7.2.0
-    # @return [Boolean]
-    property :enable_search_bar_autofocus, default: false
 
     BASIC_SEARCH_PARAMETERS = [:q, :qt, :page, :per_page, :search_field, :sort, :controller, :action, :'facet.page', :'facet.prefix', :'facet.sort', :rows, :format, :view].freeze
     ADVANCED_SEARCH_PARAMETERS = [{ clause: {} }, :op].freeze
-    # List the request parameters that compose the SearchState.
-    # If you use a plugin that adds to the search state, then you can add the parameters
-    # by modifiying this field.
-    # @!attribute search_state_fields
-    # @since v8.0.0
-    # @return [Array<Symbol>]
-    property :search_state_fields, default: BASIC_SEARCH_PARAMETERS + ADVANCED_SEARCH_PARAMETERS
 
-    # Have SearchState filter out unknown request parameters
-    #
-    # @!attribute filter_search_state_fields
-    # @since v8.0.0
-    # @return [Boolean]
-    property :filter_search_state_fields, default: true
+    # rubocop:disable Metrics/BlockLength
+    default_configuration do
+      # === Search request configuration
+
+      # @!attribute http_method
+      # @since v5.0.0
+      # @return [:get, :post] HTTP method used for search
+      property :http_method, default: :get
+      # @!attribute solr_path
+      # @return [String] The path to send requests to solr.
+      property :solr_path, default: 'select'
+      # @!attribute default_solr_params
+      # @return [Hash] Default values of parameters to send with every search request
+      property :default_solr_params, default: {}
+
+      # === Single document request configuration
+
+      # @!attribute document_solr_request_handler
+      # @return [String] The solr request handler to use when requesting only a single document
+      property :document_solr_request_handler, default: nil
+      # @!attribute document_solr_path
+      # @since v5.2.0
+      # @return [String] The url path (relative to the solr base url) to use when requesting only a single document
+      property :document_solr_path, default: 'get'
+      # @!attribute document_unique_id_param
+      # @since v5.2.0
+      # @return [Symbol] The solr query parameter used for sending the unique identifiers for one or more documents
+      property :document_unique_id_param, default: :ids
+      # @!attribute default_document_solr_params
+      # @return [Hash] Default values of parameters to send with every single-document request
+      property :default_document_solr_params, default: {}
+      # @!attribute fetch_many_document_params
+      # @since v7.0.0
+      # @return [Hash] Default values of parameters to send with every multi-document request
+      property :fetch_many_document_params, default: {}
+      # @!attribute document_pagination_params
+      # @return [Hash] Default values of parameters to send when getting the previous + next documents
+      property :document_pagination_params, default: {}
+
+      ##
+      # == Response models
+
+      # @!attribute repository_class
+      # @return [Class] Class for sending and receiving requests from a search index
+      property :repository_class, default: Blacklight::Solr::Repository
+      # @!attribute search_builder_class
+      # @return [Class] class for converting Blacklight parameters to request parameters for the repository_class
+      property :search_builder_class, default: ::SearchBuilder
+      # @!attribute response_model
+      # model that maps index responses to the blacklight response model
+      # @return [Class]
+      property :response_model, default: Blacklight::Solr::Response
+      # @!attribute document_model
+      # the model to use for each response document
+      # @return [Class]
+      property :document_model, default: ::SolrDocument
+      # @!attribute document_factory
+      # the factory that builds document
+      # @return [Class]
+      property :document_factory, default: Blacklight::DocumentFactory
+      # @!attribute facet_paginator_class
+      # Class for paginating long lists of facet fields
+      # @return [Class]
+      property :facet_paginator_class, default: Blacklight::Solr::FacetPaginator
+      # @!attribute connection_config
+      # repository connection configuration
+      # @since v5.13.0
+      # @return [Class]
+      property :connection_config, default: Blacklight.connection_config
+
+      ##
+      # == Blacklight view configuration
+
+      # @!attribute navbar
+      # @since v5.8.0
+      # @return [#partials]
+      property :navbar, default: OpenStructWithHashAccess.new(partials: {})
+
+      # @!attribute index
+      # General configuration for all views
+      # @return [Blacklight::Configuration::ViewConfig::Index]
+      property :index, default: ViewConfig::Index.new(
+        # document presenter class used by helpers and views
+        document_presenter_class: nil,
+        # component class used to render a document
+        document_component: Blacklight::DocumentComponent,
+        # solr field to use to render a document title
+        title_field: nil,
+        # solr field to use to render format-specific partials
+        display_type_field: nil,
+        # partials to render for each document(see #render_document_partials)
+        partials: [],
+        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
+        collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
+        # what field, if any, to use to render grouped results
+        group: false,
+        # additional response formats for search results
+        respond_to: OpenStructWithHashAccess.new,
+        # component class used to render the facet grouping
+        facet_group_component: nil,
+        # component class used to render search constraints
+        constraints_component: nil,
+        # component class used to render the search bar
+        search_bar_component: nil
+      )
+
+      # @!attribute show
+      # Additional configuration when displaying a single document
+      # @return [Blacklight::Configuration::ViewConfig::Show]
+      property :show, default: ViewConfig::Show.new(
+        # document presenter class used by helpers and views
+        document_presenter_class: nil,
+        document_component: Blacklight::DocumentComponent,
+        display_type_field: nil,
+        # Default route parameters for 'show' requests.
+        # Set this to a hash with additional arguments to merge into the route,
+        # or set `controller: :current` to route to the current controller.
+        route: nil,
+        # partials to render for each document(see #render_document_partials)
+        partials: [],
+        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
+      )
+
+      # @!attribute action_mapping
+      # @since v7.16.0
+      # @return [Hash{Symbol => Blacklight::Configuration::ViewConfig}]
+      property :action_mapping, default: NestedOpenStructWithHashAccess.new(
+        ViewConfig,
+        default: { top_level_config: :index },
+        show: { top_level_config: :show },
+        citation: { parent_config: :show }
+      )
+
+      # @!attribute sms
+      # @since v7.21.0
+      # @return [Blacklight::Configuration::ViewConfig]
+      property :sms, default: ViewConfig.new
+
+      # @!attribute email
+      # @since v7.21.0
+      # @return [Blacklight::Configuration::ViewConfig]
+      property :email, default: ViewConfig.new
+
+      # @!attribute
+      # Configurations for specific types of index views
+      # @return [Hash{Symbol => Blacklight::Configuration::ViewConfig}]
+      property :view, default: NestedOpenStructWithHashAccess.new(ViewConfig,
+                                                                  list: {},
+                                                                  atom: {
+                                                                    if: false, # by default, atom should not show up as an alternative view
+                                                                    partials: [:document],
+                                                                    summary_component: Blacklight::DocumentComponent
+                                                                  },
+                                                                  rss: {
+                                                                    if: false, # by default, rss should not show up as an alternative view
+                                                                    partials: [:document]
+                                                                  })
+
+      ##
+      # === Blacklight behavior configuration
+
+      # @!attribute spell_max
+      # Maxiumum number of spelling suggestions to offer
+      # @return [Integer]
+      property :spell_max, default: 5
+
+      # @!attribute max_per_page
+      # Maximum number of results to show per page
+      # @return [Integer]
+      property :max_per_page, default: 100
+      # @!attribute per_page
+      # Options for the user for number of results to show per page
+      # @return [Array<Integer>]
+      property :per_page, default: [10, 20, 50, 100]
+      # @!attribute default_per_page
+      # @return [Integer]
+      property :default_per_page, default: nil
+
+      # @!attribute search_history_window
+      # how many searches to save in session history
+      # @return [Integer]
+      property :search_history_window, default: 100
+      # @!attribute default_facet_limit
+      # @since v5.10.0
+      # @return [Integer]
+      property :default_facet_limit, default: 10
+      # @!attribute default_more_limit
+      # @since v7.0.0
+      # @return [Integer]
+      property :default_more_limit, default: 20
+
+      # @!attribute crawler_detector
+      # proc for determining whether the session is a crawler/bot
+      # ex.: crawler_detector: lambda { |req| req.env['HTTP_USER_AGENT'] =~ /bot/ }
+      # @since v7.0.0
+      # @return [<nil, Proc>]
+      property :crawler_detector, default: nil
+
+      # @!attribute autocomplete_suggester
+      # @since v7.0.0
+      # @return [String]
+      property :autocomplete_suggester, default: 'mySuggester'
+
+      # @!attribute raw_endpoint
+      # @since v7.0.0
+      # @return [#enabled]
+      property :raw_endpoint, default: OpenStructWithHashAccess.new(enabled: false)
+
+      # @!attribute track_search_session
+      # @since v7.1.0
+      # @return [Boolean]
+      property :track_search_session, default: true
+
+      # @!attribute advanced_search
+      # @since v7.15.0
+      # @return [#enabled]
+      property :advanced_search, default: OpenStruct.new(enabled: false)
+
+      # @!attribute enable_search_bar_autofocus
+      # @since v7.2.0
+      # @return [Boolean]
+      property :enable_search_bar_autofocus, default: false
+
+      # List the request parameters that compose the SearchState.
+      # If you use a plugin that adds to the search state, then you can add the parameters
+      # by modifiying this field.
+      # @!attribute search_state_fields
+      # @since v8.0.0
+      # @return [Array<Symbol>]
+      property :search_state_fields, default: BASIC_SEARCH_PARAMETERS + ADVANCED_SEARCH_PARAMETERS
+
+      # Have SearchState filter out unknown request parameters
+      #
+      # @!attribute filter_search_state_fields
+      # @since v8.0.0
+      # @return [Boolean]
+      property :filter_search_state_fields, default: true
+    end
+    # rubocop:enable Metrics/BlockLength
 
     ##
     # Create collections of solr field configurations.
@@ -315,6 +333,8 @@ module Blacklight
     define_field_access :email_field, Blacklight::Configuration::DisplayField
 
     def initialize(hash = {})
+      self.class.initialize_default_configuration unless self.class.initialized_default_configuration?
+
       super(self.class.default_values.deep_transform_values(&method(:_deep_copy)).merge(hash))
       yield(self) if block_given?
 
