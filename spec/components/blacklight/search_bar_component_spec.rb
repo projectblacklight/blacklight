@@ -41,4 +41,28 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
       expect(render.css("button#custom_search")).to be_present
     end
   end
+
+  context 'with prepend' do
+    subject(:render) do
+      render_inline(instance) do |c|
+        c.with_prepend { 'stuff before' }
+      end
+    end
+
+    it 'renders the prepended value' do
+      expect(render.to_html).to include 'stuff before'
+    end
+  end
+
+  context 'with append' do
+    subject(:render) do
+      render_inline(instance) do |c|
+        c.with_append { 'stuff after' }
+      end
+    end
+
+    it 'renders the appended value' do
+      expect(render.to_html).to include 'stuff after'
+    end
+  end
 end
