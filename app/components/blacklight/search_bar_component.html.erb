@@ -4,7 +4,7 @@
     <%= f.label :search_field, scoped_t('search_field.label'), class: 'sr-only visually-hidden' %>
   <% end %>
   <div class="input-group">
-    <%= prepend(form: f) %>
+    <%= prepend %>
 
     <% if search_fields.length > 1 %>
       <%= f.select(:search_field,
@@ -26,7 +26,7 @@
       <%= f.search_field @query_param, value: @q, placeholder: scoped_t('search.placeholder'), class: "search-q q form-control rounded-#{search_fields.length > 1 ? '0' : 'left'}", autofocus: @autofocus, aria: { label: scoped_t('search.label') }  %>
     <% end %>
 
-    <%= append(form: f) %>
+    <%= append %>
     <%= search_button || render(Blacklight::SearchButtonComponent.new(id: "#{@prefix}search", text: scoped_t('submit'))) %>
   </div>
 <% end %>
