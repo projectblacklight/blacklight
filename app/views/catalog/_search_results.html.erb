@@ -12,8 +12,7 @@
 <% end %>
 
 <% content_for(:container_header) do -%>
-  <h1 class="sr-only visually-hidden top-content-title"><%= t('blacklight.search.header') %></h1>
-
+  <%= render 'search_results_header' %>
   <%= render 'constraints' %>
 <% end %>
 
