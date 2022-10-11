@@ -15,8 +15,6 @@ module Blacklight
       return unless Rails.version > '7'
 
       gem "sassc-rails", "~> 2.1"
-
-      remove_file 'app/javascript/application.js'
     end
 
     # Add sprockets javascript if needed
@@ -37,7 +35,7 @@ module Blacklight
     # Remove the empty generated app/assets/images directory. Without doing this,
     # the default Sprockets 4 manifest will raise an exception.
     def appease_sprockets4
-      return if !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4'
+      return if !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4' || using_importmap?
 
       append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
       empty_directory 'app/assets/images'
@@ -73,6 +71,14 @@ module Blacklight
     end
 
     private
+
+    def root
+      @root ||= Pathname(destination_root)
+    end
+
+    def using_importmap?
+      @using_importmap ||= root.join('config/importmap.rb').exist?
+    end
 
     def turbolinks?
       @turbolinks ||= application_js.include?('turbolinks')
