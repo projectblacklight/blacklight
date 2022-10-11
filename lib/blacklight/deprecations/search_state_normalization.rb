@@ -8,24 +8,24 @@ module Blacklight
       class_methods do
         def facet_params_need_normalization(facet_params)
           Deprecation.warn(self, 'Calling `facet_params_need_normalization` on the Blacklight::SearchState ' \
-          'class is deprecated and will be removed in Blacklight 8. Delegate to #needs_normalization?(value_params) on the ' \
-          'filter fields of the search state object.')
+                                 'class is deprecated and will be removed in Blacklight 8. Delegate to #needs_normalization?(value_params) on the ' \
+                                 'filter fields of the search state object.')
 
           facet_params.is_a?(Hash) && facet_params.values.any? { |x| x.is_a?(Hash) }
         end
 
         def normalize_facet_params(facet_params)
           Deprecation.warn(self, 'Calling `normalize_facet_params` on the Blacklight::SearchState ' \
-          'class is deprecated and will be removed in Blacklight 8. Delegate to #normalize(value_params) on the ' \
-          'filter fields of the search state object.')
+                                 'class is deprecated and will be removed in Blacklight 8. Delegate to #normalize(value_params) on the ' \
+                                 'filter fields of the search state object.')
 
           facet_params.transform_values { |value| value.is_a?(Hash) ? value.values : value }
         end
 
         def normalize_params(untrusted_params = {})
           Deprecation.warn(self, 'Calling `normalize_params` on the Blacklight::SearchState ' \
-          'class is deprecated and will be removed in Blacklight 8. Call #normalize_params on the ' \
-          'search state object.')
+                                 'class is deprecated and will be removed in Blacklight 8. Call #normalize_params on the ' \
+                                 'search state object.')
           params = untrusted_params
 
           if params.respond_to?(:to_unsafe_h)

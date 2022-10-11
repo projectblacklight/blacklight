@@ -36,7 +36,7 @@ RSpec.describe Blacklight::RenderConstraintsHelperBehavior do
     subject { helper.render_constraints_clauses(params) }
 
     let(:my_engine) { double("Engine") }
-    let(:params) { ActionController::Parameters.new(clause: { "0": { field: 'title', query: 'nature' } }, f: { type: 'journal' }) }
+    let(:params) { ActionController::Parameters.new(clause: { '0': { field: 'title', query: 'nature' } }, f: { type: 'journal' }) }
 
     it 'renders the clause constraint' do
       expect(subject).to have_selector '.constraint-value', text: /Title\s+nature/

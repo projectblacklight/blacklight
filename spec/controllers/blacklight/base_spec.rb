@@ -17,7 +17,7 @@ RSpec.describe Blacklight::Base do
     end
 
     it "creates a path object" do
-      expect(subject).to be_kind_of Blacklight::SearchState
+      expect(subject).to be_a Blacklight::SearchState
       expect(subject.params).to eq raw_params
     end
   end

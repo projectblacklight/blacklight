@@ -16,7 +16,7 @@ RSpec.describe BlacklightHelper do
       expect(application_name).to eq "Blacklight"
     end
 
-    context "when the language is not english " do
+    context "when the language is not english" do
       around do |example|
         I18n.locale = :de
         example.run
@@ -194,21 +194,21 @@ RSpec.describe BlacklightHelper do
     it "ifs the document has the field value" do
       allow(doc).to receive(:has?).with('asdf').and_return(true)
       field_config = double(field: 'asdf')
-      expect(helper.document_has_value?(doc, field_config)).to eq true
+      expect(helper.document_has_value?(doc, field_config)).to be true
     end
 
     it "ifs the document has a highlight field value" do
       allow(doc).to receive(:has?).with('asdf').and_return(false)
       allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(true)
       field_config = double(field: 'asdf', highlight: true)
-      expect(helper.document_has_value?(doc, field_config)).to eq true
+      expect(helper.document_has_value?(doc, field_config)).to be true
     end
 
     it "ifs the field has a model accessor" do
       allow(doc).to receive(:has?).with('asdf').and_return(false)
       allow(doc).to receive(:has_highlight_field?).with('asdf').and_return(false)
       field_config = double(field: 'asdf', highlight: true, accessor: true)
-      expect(helper.document_has_value?(doc, field_config)).to eq true
+      expect(helper.document_has_value?(doc, field_config)).to be true
     end
   end
 

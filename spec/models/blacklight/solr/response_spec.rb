@@ -43,7 +43,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
 
     expected = "electronics - 14, memory - 3, card - 2, connector - 2, drive - 2, graphics - 2, hard - 2, monitor - 2, search - 2, software - 2"
     received = first_facet.items.collect do |item|
-      item.value + ' - ' + item.hits.to_s
+      "#{item.value} - #{item.hits}"
     end.join(', ')
 
     expect(received).to eq expected
@@ -65,14 +65,14 @@ RSpec.describe Blacklight::Solr::Response, api: true do
     expect(r.offset_value).to eq(r.start)
     expect(r.total_count).to eq(r.total)
     expect(r.next_page).to eq(r.current_page + 1)
-    expect(r.prev_page).to eq(nil)
+    expect(r.prev_page).to be_nil
     expect(r.entry_name(count: 1)).to eq 'entry'
     expect(r.entry_name(count: 2)).to eq 'entries'
     expect(r.size).to eq 26
     if Kaminari.config.respond_to? :max_pages
       expect(r.max_pages).to be_nil
     end
-    expect(r).to be_a_kind_of Kaminari::PageScopeMethods
+    expect(r).to be_a Kaminari::PageScopeMethods
   end
 
   describe "FacetItem" do
@@ -94,7 +94,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
 
       expect(item.hits).to eq 15
       expect(item.value).to eq 'value'
-      expect(item).to be_a_kind_of(OpenStruct)
+      expect(item).to be_a(OpenStruct)
     end
 
     it "provides a label accessor" do

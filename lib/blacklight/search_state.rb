@@ -10,8 +10,7 @@ module Blacklight
     extend Deprecation
     include Blacklight::Deprecations::SearchStateNormalization
 
-    attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
-    attr_reader :params
+    attr_reader :blacklight_config, :params # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
 
     # This method is never accessed in this class, but may be used by subclasses that need
     # to access the url_helpers
@@ -41,8 +40,8 @@ module Blacklight
     def method_missing(method_name, *arguments, &block)
       if @params.respond_to?(method_name)
         Deprecation.warn(self.class, "Calling `#{method_name}` on Blacklight::SearchState " \
-          'is deprecated and will be removed in Blacklight 8. Call #to_h first if you ' \
-          ' need to use hash methods (or, preferably, use your own SearchState implementation)')
+                                     'is deprecated and will be removed in Blacklight 8. Call #to_h first if you ' \
+                                     ' need to use hash methods (or, preferably, use your own SearchState implementation)')
         @params.public_send(method_name, *arguments, &block)
       else
         super

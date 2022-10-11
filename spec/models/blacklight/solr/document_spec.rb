@@ -21,9 +21,9 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
     it 'creates a doc with hashy methods' do
       doc = SolrDocument.new('id' => 'SP2514N', 'inStock' => true, 'manu' => 'Samsung Electronics Co. Ltd.', 'name' => 'Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133', 'popularity' => 6, 'price' => 92.0, 'sku' => 'SP2514N', 'timestamp' => '2009-03-20T14:42:49.795Z', 'cat' => ['electronics', 'hard drive'], 'spell' => ['Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133'], 'features' => ['7200RPM, 8MB cache, IDE Ultra ATA-133', 'NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor'])
 
-      expect(doc.has?(:cat, /^elec/)).to eq true
-      expect(doc.has?(:cat, 'elec')).not_to eq true
-      expect(doc.has?(:cat, 'electronics')).to eq true
+      expect(doc.has?(:cat, /^elec/)).to be true
+      expect(doc.has?(:cat, 'elec')).not_to be true
+      expect(doc.has?(:cat, 'electronics')).to be true
 
       expect(doc.fetch(:cat)).to eq ['electronics', 'hard drive']
       expect(doc.fetch(:xyz, nil)).to be_nil
@@ -231,7 +231,7 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
     end
 
     it "returns an array even for a single-value field" do
-      expect(@doc1.to_semantic_values[:title]).to be_kind_of(Array)
+      expect(@doc1.to_semantic_values[:title]).to be_a(Array)
     end
 
     it "returns complete array for a multi-value field" do
@@ -290,7 +290,7 @@ RSpec.describe "Blacklight::Solr::Document", api: true do
 
     it "plucks the MoreLikeThis results from the Solr Response" do
       expect(result).to have(1).item
-      expect(result.first).to be_a_kind_of(MockDocument)
+      expect(result.first).to be_a(MockDocument)
       expect(result.first.id).to eq 'abc'
       expect(result.first.solr_response).to eq response
     end

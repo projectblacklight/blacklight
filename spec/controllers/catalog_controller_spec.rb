@@ -254,7 +254,7 @@ RSpec.describe CatalogController, api: true do
 
     it "HTTP status code for redirect should be 303" do
       put :track, params: { id: doc_id, counter: 3 }
-      expect(response.status).to eq 303
+      expect(response).to have_http_status :see_other
     end
 
     it "redirects to the path given in the redirect param" do
@@ -581,7 +581,7 @@ RSpec.describe CatalogController, api: true do
 
       it "redirects back to the record upon success" do
         post :sms, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
-        expect(request.flash[:error]).to eq nil
+        expect(request.flash[:error]).to be_nil
         expect(request).to redirect_to(solr_document_path(doc_id))
       end
 
@@ -624,7 +624,7 @@ RSpec.describe CatalogController, api: true do
         expect(response.redirect_url).to eq root_url
         expect(request.flash[:notice]).to eq "Sorry, I don't understand your search."
         expect(response).not_to be_successful
-        expect(response.status).to eq 302
+        expect(response).to have_http_status :found
       end
 
       it "returns status 500 if the catalog path is raising an exception" do
@@ -659,10 +659,10 @@ RSpec.describe CatalogController, api: true do
       it "is successful" do
         get :facet, params: { id: 'format' }
         expect(response).to be_successful
-        expect(assigns[:response]).to be_kind_of Blacklight::Solr::Response
-        expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
-        expect(assigns[:display_facet]).to be_kind_of Blacklight::Solr::Response::Facets::FacetField
-        expect(assigns[:pagination]).to be_kind_of Blacklight::Solr::FacetPaginator
+        expect(assigns[:response]).to be_a Blacklight::Solr::Response
+        expect(assigns[:facet]).to be_a Blacklight::Configuration::FacetField
+        expect(assigns[:display_facet]).to be_a Blacklight::Solr::Response::Facets::FacetField
+        expect(assigns[:pagination]).to be_a Blacklight::Solr::FacetPaginator
       end
     end
 
@@ -686,7 +686,7 @@ RSpec.describe CatalogController, api: true do
 
         expect(response).to be_successful
 
-        expect(assigns[:facet]).to be_kind_of Blacklight::Configuration::FacetField
+        expect(assigns[:facet]).to be_a Blacklight::Configuration::FacetField
         expect(assigns[:facet].key).to eq 'params_key'
         expect(assigns[:facet].field).to eq 'format'
 

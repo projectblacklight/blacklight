@@ -6,7 +6,7 @@ module Blacklight
     # Somewhat arbitrary number; the only important thing is that
     # it is bigger than the number of leaf nodes in any collapsing
     # pivot facet on the page.
-    ID_COUNTER_MAX = 2**20 - 1
+    ID_COUNTER_MAX = (2**20) - 1
 
     # Mint a (sufficiently) unique identifier, so we can associate
     # the expand/collapse control with labels

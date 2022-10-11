@@ -97,7 +97,7 @@ module Blacklight
                        end
 
         if (field_config.field || field_config.key).to_s =~ /\*/
-          field_config.match = Regexp.new("^" + (field_config.field || field_config.key).to_s.gsub('*', '.+') + "$")
+          field_config.match = Regexp.new("^#{(field_config.field || field_config.key).to_s.gsub('*', '.+')}$")
         end
 
         # look up any dynamic fields

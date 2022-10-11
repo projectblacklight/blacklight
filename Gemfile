@@ -33,7 +33,7 @@ else
     end
   end
 
-  case ENV['RAILS_VERSION']
+  case ENV.fetch('RAILS_VERSION', nil)
   when /^6.0/
     gem 'sass-rails', '>= 6'
     gem 'webpacker', '~> 4.0'

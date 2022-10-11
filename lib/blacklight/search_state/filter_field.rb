@@ -150,9 +150,10 @@ module Blacklight
         value = as_url_parameter(item)
         params = search_state.params
 
-        if value.is_a?(Array)
+        case value
+        when Array
           (params.dig(inclusive_filters_key, key) || []).to_set == value.to_set
-        elsif value == Blacklight::SearchState::FilterField::MISSING
+        when Blacklight::SearchState::FilterField::MISSING
           (params.dig(filters_key, "-#{key}") || []).include?(Blacklight::Engine.config.blacklight.facet_missing_param)
         else
           (params.dig(filters_key, key) || []).include?(value)

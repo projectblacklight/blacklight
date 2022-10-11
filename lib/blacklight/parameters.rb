@@ -11,7 +11,9 @@ module Blacklight
     # from the provided parameters.
     # @param [Hash] params parameters
     def self.sanitize params
-      params.reject { |_k, v| v.nil? }
+      # TODO: switch to .compact when we drop Rails 6.0 support.
+      # See https://github.com/rubocop/rubocop/issues/11066
+      params.reject { |_k, v| v.nil? } # rubocop:disable Style/CollectionCompact
             .except(:action, :controller, :id, :commit, :utf8)
     end
 

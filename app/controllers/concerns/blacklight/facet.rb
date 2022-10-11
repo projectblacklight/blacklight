@@ -28,8 +28,8 @@ module Blacklight
     def facets_from_request(fields = facet_field_names, response = nil)
       unless response
         Deprecation.warn(self, 'Calling facets_from_request without passing the ' \
-          'second argument (response) is deprecated and will be removed in Blacklight ' \
-          '8.0.0')
+                               'second argument (response) is deprecated and will be removed in Blacklight ' \
+                               '8.0.0')
         response = @response
       end
 
@@ -49,8 +49,8 @@ module Blacklight
     def facet_by_field_name(field_or_field_name, response = nil)
       unless response
         Deprecation.warn(self, 'Calling facet_by_field_name without passing the ' \
-          'second argument (response) is deprecated and will be removed in Blacklight ' \
-          '8.0.0')
+                               'second argument (response) is deprecated and will be removed in Blacklight ' \
+                               '8.0.0')
         response = @response
       end
       case field_or_field_name

@@ -226,7 +226,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
     it "accepts and returns a Proc" do
       allow(Deprecation).to receive(:warn)
-      expect(helper.link_to_document(document, proc { |doc, _opts| doc[:id] + ": " + doc.first(:title_tsim) })).to have_selector("a", text: '123456: 654321', count: 1)
+      expect(helper.link_to_document(document, proc { |doc, _opts| "#{doc[:id]}: #{doc.first(:title_tsim)}" })).to have_selector("a", text: '123456: 654321', count: 1)
     end
 
     context 'when label is missing' do
@@ -310,7 +310,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
     it "uses the track_search_session configuration to determine whether to track the search session" do
       blacklight_config.track_search_session = false
-      expect(helper.session_tracking_path(document, x: 1)).to eq nil
+      expect(helper.session_tracking_path(document, x: 1)).to be_nil
     end
   end
 end

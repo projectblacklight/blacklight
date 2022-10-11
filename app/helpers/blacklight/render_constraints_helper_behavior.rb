@@ -28,10 +28,10 @@ module Blacklight::RenderConstraintsHelperBehavior
   # @param [Hash] localized_params query parameters
   # @return [String]
   def render_constraints(localized_params = params, local_search_state = search_state)
-    params_or_search_state = if localized_params != params
-                               localized_params
-                             else
+    params_or_search_state = if localized_params == params
                                local_search_state
+                             else
+                               localized_params
                              end
 
     Deprecation.silence(Blacklight::RenderConstraintsHelperBehavior) do
@@ -135,7 +135,7 @@ module Blacklight::RenderConstraintsHelperBehavior
         render_constraint_element(presenter.field_label,
                                   presenter.label,
                                   remove: presenter.remove_href(search_state),
-                                  classes: ["filter", "filter-" + facet.parameterize])
+                                  classes: ["filter", "filter-#{facet.parameterize}"])
       end
     end, "\n")
   end

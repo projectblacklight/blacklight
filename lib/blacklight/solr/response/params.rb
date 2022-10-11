@@ -29,9 +29,9 @@ module Blacklight::Solr::Response::Params
   def facet_field_aggregation_options(facet_field_name)
     defaults = {
       sort: single_valued_param(:'facet.sort'),
-      limit: single_valued_param(:"facet.limit")&.to_i || 100,
-      offset: single_valued_param(:"facet.offset")&.to_i || 0,
-      prefix: single_valued_param(:"facet.prefix")
+      limit: single_valued_param(:'facet.limit')&.to_i || 100,
+      offset: single_valued_param(:'facet.offset')&.to_i || 0,
+      prefix: single_valued_param(:'facet.prefix')
     }
 
     json_facet = json_params.dig('facet', facet_field_name)&.slice(:limit, :offset, :prefix, :sort)&.symbolize_keys || {}
@@ -41,7 +41,7 @@ module Blacklight::Solr::Response::Params
       limit: single_valued_param(:"f.#{facet_field_name}.facet.limit")&.to_i,
       offset: single_valued_param(:"f.#{facet_field_name}.facet.offset")&.to_i,
       prefix: single_valued_param(:"f.#{facet_field_name}.facet.prefix")
-    }.reject { |_k, v| v.nil? }
+    }.compact
 
     options = defaults.merge(json_facet).merge(param_facet)
     options[:sort] ||= options[:limit].positive? ? 'count' : 'index'

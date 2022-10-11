@@ -32,7 +32,7 @@ module Blacklight
       return if presenter.nil?
 
       Deprecation.warn(self, 'SearchBarComponent no longer uses a SearchBarPresenter, the presenter: param will be removed in 8.0. ' \
-        'Set advanced_search.enabled, autocomplete_enabled, and enable_search_bar_autofocus on BlacklightConfiguration')
+                             'Set advanced_search.enabled, autocomplete_enabled, and enable_search_bar_autofocus on BlacklightConfiguration')
     end
     # rubocop:enable Metrics/ParameterLists
 

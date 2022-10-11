@@ -293,12 +293,12 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
 
     it "checks if any value is selected for a given facet" do
       allow(search_state).to receive(:has_facet?).with(having_attributes(key: 'some-facet')).and_return(true)
-      expect(helper.facet_field_in_params?("some-facet")).to eq true
+      expect(helper.facet_field_in_params?("some-facet")).to be true
     end
 
     it "is false if no value for facet is selected" do
       allow(search_state).to receive(:has_facet?).with(having_attributes(key: 'some-facet')).and_return(false)
-      expect(helper.facet_field_in_params?("some-facet")).to eq false
+      expect(helper.facet_field_in_params?("some-facet")).to be false
     end
   end
 
@@ -312,8 +312,8 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     end
 
     it "checks if a particular value is set in the facet params" do
-      expect(helper.facet_in_params?("some-facet", "x")).to eq true
-      expect(helper.facet_in_params?("some-facet", "y")).to eq false
+      expect(helper.facet_in_params?("some-facet", "x")).to be true
+      expect(helper.facet_in_params?("some-facet", "y")).to be false
     end
   end
 
@@ -400,7 +400,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
 
     it 'wraps the facet data in a presenter' do
       presenter = helper.facet_field_presenter(facet_config, display_facet)
-      expect(presenter).to be_a_kind_of Blacklight::FacetFieldPresenter
+      expect(presenter).to be_a Blacklight::FacetFieldPresenter
       expect(presenter.facet_field).to eq facet_config
       expect(presenter.display_facet).to eq display_facet
       expect(presenter.view_context).to eq helper
@@ -410,7 +410,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       stub_const('SomePresenter', Class.new(Blacklight::FacetFieldPresenter))
       facet_config.presenter = SomePresenter
       presenter = helper.facet_field_presenter(facet_config, display_facet)
-      expect(presenter).to be_a_kind_of SomePresenter
+      expect(presenter).to be_a SomePresenter
     end
   end
 end
