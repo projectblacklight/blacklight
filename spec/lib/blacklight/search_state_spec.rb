@@ -39,7 +39,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'with HashWithIndifferentAccess' do
-      let(:parameter_class) { HashWithIndifferentAccess }
+      let(:parameter_class) { ActiveSupport::HashWithIndifferentAccess }
 
       it 'returns the hash data' do
         expect(search_state.to_h).to eq data.with_indifferent_access

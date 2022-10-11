@@ -10,7 +10,7 @@ module Blacklight
     # into action view base here.
     initializer 'blacklight.helpers' do
       config.after_initialize do
-        ActionView::Base.include BlacklightHelper
+        ActiveSupport.on_load(:action_view) { include BlacklightHelper }
       end
     end
 

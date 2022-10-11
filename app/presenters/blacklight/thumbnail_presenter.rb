@@ -72,7 +72,8 @@ module Blacklight
     end
 
     def thumbnail_value_from_document
-      Array(thumbnail_field).lazy.map { |field| retrieve_values(field_config(field)).first }.reject(&:blank?).first
+      # TODO: switch to .compact_blank when we drop Rails 6.0 support.
+      Array(thumbnail_field).lazy.map { |field| retrieve_values(field_config(field)).first }.reject(&:blank?).first # rubocop:disable Rails/CompactBlank
     end
 
     def retrieve_values(field_config)

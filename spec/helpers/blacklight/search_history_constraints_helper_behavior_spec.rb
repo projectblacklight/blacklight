@@ -87,20 +87,26 @@ RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
       end
 
       context 'with I18n translations for selected facet' do
-        before do
-          @orig_locale = I18n.locale
-        end
+        subject(:response) { helper.render_search_to_s_filters(f: { 'i18n_facet' => %w[value1 value2] }) }
 
-        after do
-          I18n.locale = @orig_locale
-        end
-
-        it 'renders the correct I18n label for a selected facet with I18n translations' do
-          { en: 'English facet label', de: 'German facet label' }.each do |locale, label|
-            I18n.locale = locale
-            response = helper.render_search_to_s_filters(f: { 'i18n_facet' => %w[value1 value2] })
-            expect(response).to include(label)
+        context 'with english' do
+          around do |example|
+            I18n.with_locale 'en' do
+              example.run
+            end
           end
+
+          it { is_expected.to include('English facet label') }
+        end
+
+        context 'with german' do
+          around do |example|
+            I18n.with_locale 'de' do
+              example.run
+            end
+          end
+
+          it { is_expected.to include('German facet label') }
         end
       end
     end

@@ -105,7 +105,7 @@ RSpec.describe BookmarksController do
     end
 
     context 'created over an hour ago' do
-      let(:current_time) { Time.zone.now - 2.hours }
+      let(:current_time) { 2.hours.ago }
 
       it 'is expired' do
         get :index, params: { encrypted_user_id: token }

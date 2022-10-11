@@ -32,7 +32,8 @@ module Blacklight
       complex_params_from_b, scalar_params_from_b = b.flatten.uniq.partition { |x| x.is_a? Hash }
       complex_params_from_b = complex_params_from_b.inject({}) { |tmp, h| _deep_merge_permitted_param_hashes(h, tmp) }
 
-      (scalar_params_from_a + scalar_params_from_b + [_deep_merge_permitted_param_hashes(complex_params_from_a, complex_params_from_b)]).reject(&:blank?).uniq
+      # TODO: switch to .compact_blank when we drop Rails 6.0 support.
+      (scalar_params_from_a + scalar_params_from_b + [_deep_merge_permitted_param_hashes(complex_params_from_a, complex_params_from_b)]).reject(&:blank?).uniq # rubocop:disable Rails/CompactBlank
     end
 
     private_class_method def self._deep_merge_permitted_param_hashes(h1, h2)

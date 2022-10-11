@@ -14,7 +14,8 @@ module Blacklight
       @id_counter = ((@id_counter || 0) + 1) % ID_COUNTER_MAX
 
       # We convert the ID to hex for markup compactness
-      @id_counter.to_s(16)
+      # TODO: We can use to_fs when we drop Rails 6
+      @id_counter.to_s(16) # rubocop:disable Rails/ToSWithArgument
     end
 
     with_collection_parameter :facet_item

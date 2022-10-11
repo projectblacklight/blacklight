@@ -151,9 +151,10 @@ module Blacklight::Solr
           end
           solr_parameters.merge!(subqueries) if subqueries
         else
-          filter.values.reject(&:blank?).each do |value|
+          # TODO: switch to .compact_blank when we drop Rails 6.0 support.
+          filter.values.reject(&:blank?).each do |value| # rubocop:disable Rails/CompactBlank
             filter_query, subqueries = if value.is_a?(Array)
-                                         facet_inclusive_value_to_fq_string(filter.key, value.reject(&:blank?))
+                                         facet_inclusive_value_to_fq_string(filter.key, value.reject(&:blank?)) # rubocop:disable Rails/CompactBlank
                                        else
                                          facet_value_to_fq_string(filter.config.key, value)
                                        end

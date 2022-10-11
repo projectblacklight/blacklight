@@ -18,9 +18,9 @@ RSpec.describe BlacklightHelper do
 
     context "when the language is not english" do
       around do |example|
-        I18n.locale = :de
-        example.run
-        I18n.locale = :en
+        I18n.with_locale :de do
+          example.run
+        end
       end
 
       context "and no translation exists for that language" do
