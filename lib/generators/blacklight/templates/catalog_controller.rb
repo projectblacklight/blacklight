@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+
+# Blacklight controller that handles searches and document requests
 class <%= controller_name.classify %>Controller < ApplicationController
 
   include Blacklight::Catalog
