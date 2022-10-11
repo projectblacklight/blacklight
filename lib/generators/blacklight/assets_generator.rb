@@ -20,11 +20,10 @@ module Blacklight
     # Add sprockets javascript if needed
     def create_sprockets_javascript
       # Rails 5 already has an application.js file
-      return if Rails.version < '6'
+      return if Rails.version < '6' && !using_importmap?
 
       create_file 'app/assets/javascripts/application.js' do
         <<~CONTENT
-          //= require jquery3
           //= require rails-ujs
           #{'//= require turbolinks' if Rails.version < '7'}
         CONTENT
@@ -41,34 +40,63 @@ module Blacklight
       empty_directory 'app/assets/images'
     end
 
+    # rubocop:disable Metrics/MethodLength
     def assets
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
-      gem 'jquery-rails'
-      contents = "\n//\n// Required by Blacklight\n"
-      contents += "//= require popper\n"
-      contents += "// Twitter Typeahead for autocomplete\n"
-      contents += "//= require twitter/typeahead\n"
-      contents += "//= require bootstrap\n"
-      contents += "//= require blacklight/blacklight\n"
+      if using_importmap?
+        append_to_file 'config/importmap.rb' do
+          <<~CONTENT
+            pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.0/dist/umd/popper.min.js"
+            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.1.3/dist/js/bootstrap.js"
+            pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.0/dist/jquery.js"
+            pin "blacklight", to: "blacklight/blacklight.js"
+            pin "dialog-polyfill", to: "https://ga.jspm.io/npm:dialog-polyfill@0.5.6/dist/dialog-polyfill.js"
+          CONTENT
+        end
 
-      marker = if turbolinks?
-                 '//= require turbolinks'
-               else
-                 '//= require rails-ujs'
-               end
+        append_to_file 'app/javascript/application.js' do
+          <<~CONTENT
+            import $ from "jquery"
+            import bootstrap from "bootstrap"
+            window.bootstrap = bootstrap // Required for Blacklight 7 so it can manage the modals
+            window.$ = $ // required as long as blacklight requires jquery
+            import "blacklight"
+            import dialogPolyfill from "dialog-polyfill"
+            Blacklight.onLoad(() => {
+              var dialog = document.querySelector('dialog');
+              dialogPolyfill.registerDialog(dialog);
+            })
+          CONTENT
+        end
+      else
+        gem 'jquery-rails'
+        contents = "\n//\n// Required by Blacklight\n"
+        contents += "//= require popper\n"
+        contents += "// Twitter Typeahead for autocomplete\n"
+        contents += "//= require twitter/typeahead\n"
+        contents += "//= require bootstrap\n"
+        contents += "//= require blacklight/blacklight\n"
 
-      insert_into_file "app/assets/javascripts/application.js", after: marker do
-        contents
-      end
+        marker = if turbolinks?
+                   '//= require turbolinks'
+                 else
+                   '//= require rails-ujs'
+                 end
 
-      insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
-        "//= require jquery3\n"
+        insert_into_file "app/assets/javascripts/application.js", after: marker do
+          contents
+        end
+
+        insert_into_file "app/assets/javascripts/application.js", before: '//= require rails-ujs' do
+          "//= require jquery3\n"
+        end
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     private
 
