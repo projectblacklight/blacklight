@@ -32,9 +32,9 @@ module Blacklight
         gem "sassc-rails", "~> 2.1"
         append_to_file 'config/importmap.rb' do
           <<~CONTENT
-            pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.0/dist/umd/popper.min.js"
-            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.1.3/dist/js/bootstrap.js"
-            pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.0/dist/jquery.js"
+            pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.2.2/dist/js/bootstrap.js"
+            pin "jquery", to: "https://ga.jspm.io/npm:jquery@3.6.1/dist/jquery.js"
             pin "blacklight", to: "blacklight/blacklight.js"
             pin "dialog-polyfill", to: "https://ga.jspm.io/npm:dialog-polyfill@0.5.6/dist/dialog-polyfill.js"
           CONTENT
