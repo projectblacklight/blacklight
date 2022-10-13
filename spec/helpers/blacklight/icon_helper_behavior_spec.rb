@@ -2,9 +2,14 @@
 
 RSpec.describe Blacklight::IconHelperBehavior do
   describe '#blacklight_icon' do
-    it 'wraps the svg in a span with classes' do
-      expect(helper.blacklight_icon(:search))
-        .to have_css 'span.blacklight-icons svg'
+    subject(:icon) { helper.blacklight_icon(:search, classes: 'custom-class') }
+
+    it 'returns the svg' do
+      expect(icon).to have_css '.blacklight-icons svg'
+    end
+
+    it 'adds classes to the wrappering element' do
+      expect(icon).to have_css '.custom-class svg'
     end
   end
 end
