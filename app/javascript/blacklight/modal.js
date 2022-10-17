@@ -85,7 +85,7 @@ const Modal = (() => {
   // Called on fatal failure of ajax load, function returns content
   // to show to user in modal.  Right now called only for extreme
   // network errors.
-  modal.onFailure = function(jqXHR, textStatus, errorThrown) {
+  modal.onFailure = function (jqXHR, textStatus, errorThrown) {
       console.error('Server error:', this.url, jqXHR.status, errorThrown);
 
       const contents = `<div class="modal-header">
@@ -141,12 +141,18 @@ modal.receiveAjax = function (contents) {
     })
   };
 
-  modal.hide = function(el) {
-    document.querySelector(Blacklight.modal.modalSelector).close()
+  modal.hide = function (el) {
+    var dom = document.querySelector(Blacklight.modal.modalSelector);
+
+    if (!dom.open) return;
+    dom.close()
   }
 
   modal.show = function(el) {
-    document.querySelector(Blacklight.modal.modalSelector).showModal()
+    var dom = document.querySelector(Blacklight.modal.modalSelector);
+
+    if (dom.open) return;
+    dom.showModal()
   }
 
   Blacklight.onLoad(function() {
