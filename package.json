@@ -28,7 +28,6 @@
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
-    "bloodhound-js": "^1.2.3",
     "bootstrap": ">=4.3.1 <6.0.0",
     "jquery": "^3.5.1",
     "typeahead.js": "^0.11.1"
