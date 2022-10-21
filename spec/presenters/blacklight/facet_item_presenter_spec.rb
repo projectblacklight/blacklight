@@ -15,9 +15,9 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
   let(:search_state) { instance_double(Blacklight::SearchState, filter: filter_field) }
 
   describe '#selected?' do
-    it 'works' do
-      expect(presenter.selected?).to be true
-    end
+    subject { presenter.selected? }
+
+    it { is_expected.to be true }
   end
 
   describe '#label' do
