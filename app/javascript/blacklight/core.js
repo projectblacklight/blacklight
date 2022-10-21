@@ -1,18 +1,18 @@
 const Blacklight = function() {
-  var buffer = new Array;
+  const buffer = new Array;
   return {
     onLoad: function(func) {
       buffer.push(func);
     },
 
     activate: function() {
-      for(var i = 0; i < buffer.length; i++) {
+      for(let i = 0; i < buffer.length; i++) {
         buffer[i].call();
       }
     },
 
     listeners: function () {
-      var listeners = [];
+      const listeners = [];
       if (typeof Turbo !== 'undefined') {
         listeners.push('turbo:load');
       } else if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
