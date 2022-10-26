@@ -5,6 +5,8 @@ source 'https://rubygems.org'
 # Please see blacklight.gemspec for dependency information.
 gemspec path: File.expand_path('..', __FILE__)
 
+gem 'rspec-mocks', '3.11.1' # https://github.com/rspec/rspec-mocks/issues/1493
+
 group :test do
   gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
 end
