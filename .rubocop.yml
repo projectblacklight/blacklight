@@ -13,6 +13,12 @@ AllCops:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"
 
+
+Lint/UselessAssignment:
+  Exclude:
+    - app/presenters/blacklight/facet_item_pivot_presenter.rb # https://github.com/rubocop/rubocop/issues/11124
+
+
 # engine_cart block includes conditional, not duplication
 Bundler/DuplicatedGem:
   Exclude:

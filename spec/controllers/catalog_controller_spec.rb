@@ -158,20 +158,20 @@ RSpec.describe CatalogController, api: true do
 
         format = facets.find { |x| x['id'] == 'format' }
 
-        expect(format['attributes']['items'].map { |x| x['attributes'] }).to match_array([{ "value" => "Book", "hits" => 30, "label" => "Book" }])
+        expect(format['attributes']['items'].pluck('attributes')).to match_array([{ "value" => "Book", "hits" => 30, "label" => "Book" }])
         expect(format['links']['self']).to eq facet_catalog_url(format: :json, id: 'format')
         expect(format['attributes']['items'].first['links']['self']).to eq search_catalog_url(format: :json, f: { format: ['Book'] })
       end
 
       it "gets the search fields" do
         expect(search_fields).to have(4).fields
-        expect(search_fields.map { |x| x['id'] }).to match_array %w[all_fields author subject title]
+        expect(search_fields.pluck('id')).to match_array %w[all_fields author subject title]
         expect(search_fields.first['links']['self']).to eq search_catalog_url(format: :json, search_field: 'all_fields')
       end
 
       describe "facets" do
         let(:query_facet) { facets.find { |x| x['id'] == 'example_query_facet_field' } }
-        let(:query_facet_items) { query_facet['attributes']['items'].map { |x| x['attributes'] } }
+        let(:query_facet_items) { query_facet['attributes']['items'].pluck('attributes') }
 
         it "has items with labels and values" do
           expect(query_facet_items.first['label']).to eq 'within 25 Years'

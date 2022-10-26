@@ -405,7 +405,7 @@ module Blacklight
 
     # @return [Array<String>] a list of facet groups
     def facet_group_names
-      facet_fields.map { |_facet, opts| opts[:group] }.uniq
+      facet_fields.map { |_facet, opts| opts[:group] }.uniq # rubocop:disable Rails/Pluck https://github.com/rubocop/rubocop-rails/issues/842
     end
 
     # Add any configured facet fields to the default solr parameters hash

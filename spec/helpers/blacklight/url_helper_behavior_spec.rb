@@ -141,7 +141,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       context "with an integer id" do
         let(:id) { 123_456 }
 
-        it "works" do
+        it "has a link" do
           expect(helper.link_to_document(document)).to have_selector("a")
         end
       end

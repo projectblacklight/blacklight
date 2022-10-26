@@ -99,12 +99,12 @@ RSpec.describe "catalog/index.json", api: true do
     let(:facets) { hash[:included].select { |x| x['type'] == 'facet' } }
     let(:format) { facets.find { |x| x['id'] == 'format' } }
     let(:format_items) { format['attributes']['items'] }
-    let(:format_item_attributes) { format_items.map { |x| x['attributes'] } }
+    let(:format_item_attributes) { format_items.pluck('attributes') }
 
     context 'when no facets have been selected' do
       it 'has facet information and links' do
         expect(facets).to be_present
-        expect(facets.map { |x| x['id'] }).to include 'format'
+        expect(facets.pluck('id')).to include 'format'
         expect(format['links']).to include self: 'http://test.host/some/facet/url'
         expect(format['attributes']['label']).to eq 'Format'
         expect(format_item_attributes).to match_array [{ value: 'Book', hits: 30, label: 'Book' }]
