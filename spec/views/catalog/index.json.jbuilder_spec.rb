@@ -66,7 +66,7 @@ RSpec.describe "catalog/index.json", api: true do
                                 id: '123',
                                 type: 'Book',
                                 attributes: {
-                                  'title': {
+                                  title: {
                                     id: 'http://test.host/catalog/123#title',
                                     type: 'document_value',
                                     attributes: {
@@ -81,7 +81,7 @@ RSpec.describe "catalog/index.json", api: true do
                                 id: '456',
                                 type: 'Article',
                                 attributes: {
-                                  'title': {
+                                  title: {
                                     id: 'http://test.host/catalog/456#title',
                                     type: 'document_value',
                                     attributes: {

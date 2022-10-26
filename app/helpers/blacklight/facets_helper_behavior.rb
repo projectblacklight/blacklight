@@ -15,8 +15,8 @@ module Blacklight::FacetsHelperBehavior
     deprecated_method(:has_facet_values?)
     unless response
       Deprecation.warn(self, 'Calling has_facet_values? without passing the ' \
-        'second argument (response) is deprecated and will be removed in Blacklight ' \
-        '8.0.0')
+                             'second argument (response) is deprecated and will be removed in Blacklight ' \
+                             '8.0.0')
       response = @response
     end
     Deprecation.silence(Blacklight::FacetsHelperBehavior) do
@@ -40,16 +40,16 @@ module Blacklight::FacetsHelperBehavior
 
     unless fields
       Deprecation.warn(self.class, 'Calling render_facet_partials without passing the ' \
-        'first argument (fields) is deprecated and will be removed in Blacklight ' \
-        '8.0.0')
+                                   'first argument (fields) is deprecated and will be removed in Blacklight ' \
+                                   '8.0.0')
       fields = facet_field_names
     end
 
     response = options.delete(:response)
     unless response
       Deprecation.warn(self.class, 'Calling render_facet_partials without passing the ' \
-        'response keyword is deprecated and will be removed in Blacklight ' \
-        '8.0.0')
+                                   'response keyword is deprecated and will be removed in Blacklight ' \
+                                   '8.0.0')
       response = @response
     end
     Deprecation.silence(Blacklight::FacetsHelperBehavior) do
@@ -85,8 +85,8 @@ module Blacklight::FacetsHelperBehavior
       )
     end
 
-    Deprecation.warn(Blacklight::FacetsHelperBehavior, 'Calling #render_facet_limit on a non-componentized'\
-      ' facet is deprecated and will be removed in Blacklight 8')
+    Deprecation.warn(Blacklight::FacetsHelperBehavior, 'Calling #render_facet_limit on a non-componentized' \
+                                                       ' facet is deprecated and will be removed in Blacklight 8')
 
     Deprecation.silence(Blacklight::FacetsHelperBehavior) do
       return unless should_render_facet?(display_facet, field_config)

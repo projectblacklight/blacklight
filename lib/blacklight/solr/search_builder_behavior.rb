@@ -72,7 +72,7 @@ module Blacklight::Solr
       elsif search_field&.solr_local_parameters.present?
         add_search_field_with_local_parameters(solr_parameters)
       elsif search_state.query_param.is_a? Hash
-        if search_state.query_param == @additional_filters && !processor_chain.include?(:add_additional_filters)
+        if search_state.query_param == @additional_filters && processor_chain.exclude?(:add_additional_filters)
           Deprecation.warn(Blacklight::Solr::SearchBuilderBehavior, 'Expecting to see the processor step add_additional_filters; falling back to legacy query handling')
           add_additional_filters(solr_parameters, search_state.query_param)
         end
@@ -151,9 +151,10 @@ module Blacklight::Solr
           end
           solr_parameters.merge!(subqueries) if subqueries
         else
-          filter.values.reject(&:blank?).each do |value|
+          # TODO: switch to .compact_blank when we drop Rails 6.0 support.
+          filter.values.reject(&:blank?).each do |value| # rubocop:disable Rails/CompactBlank
             filter_query, subqueries = if value.is_a?(Array)
-                                         facet_inclusive_value_to_fq_string(filter.key, value.reject(&:blank?))
+                                         facet_inclusive_value_to_fq_string(filter.key, value.reject(&:blank?)) # rubocop:disable Rails/CompactBlank
                                        else
                                          facet_value_to_fq_string(filter.config.key, value)
                                        end
@@ -282,7 +283,7 @@ module Blacklight::Solr
 
       # Now override with our specific things for fetching facet values
       facet_ex = facet_config.respond_to?(:ex) ? facet_config.ex : nil
-      solr_params[:"facet.field"] = with_ex_local_param(facet_ex, facet_config.field)
+      solr_params[:'facet.field'] = with_ex_local_param(facet_ex, facet_config.field)
 
       # Need to set as f.facet_field.facet.* to make sure we
       # override any field-specific default in the solr request handler.
@@ -372,7 +373,7 @@ module Blacklight::Solr
       elsif value == Blacklight::SearchState::FilterField::MISSING
         "-#{solr_field}:[* TO *]"
       else
-        "{!term f=#{solr_field}#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{convert_to_term_value(value)}"
+        "{!term f=#{solr_field}#{" #{local_params.join(' ')}" unless local_params.empty?}}#{convert_to_term_value(value)}"
       end
     end
 
@@ -394,13 +395,14 @@ module Blacklight::Solr
         "{!query v=$#{k}}"
       end.join(' OR ')
 
-      ["{!lucene#{(' ' + local_params.join(' ')) unless local_params.empty?}}#{filter_query}", solr_filters]
+      ["{!lucene#{" #{local_params.join(' ')}" unless local_params.empty?}}#{filter_query}", solr_filters]
     end
 
     def convert_to_term_value(value)
-      if value.is_a?(DateTime) || value.is_a?(Time)
+      case value
+      when DateTime, Time
         value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
-      elsif value.is_a?(Date)
+      when Date
         value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")
       else
         value.to_s
@@ -434,7 +436,7 @@ module Blacklight::Solr
 
     def add_search_field_with_local_parameters(solr_parameters)
       local_params = search_field.solr_local_parameters.map do |key, val|
-        key.to_s + "=" + solr_param_quote(val, quote: "'")
+        "#{key}=#{solr_param_quote(val, quote: "'")}"
       end.join(" ")
       solr_parameters.append_query "{!#{local_params}}#{search_state.query_param}"
 

@@ -39,7 +39,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'with HashWithIndifferentAccess' do
-      let(:parameter_class) { HashWithIndifferentAccess }
+      let(:parameter_class) { ActiveSupport::HashWithIndifferentAccess }
 
       it 'returns the hash data' do
         expect(search_state.to_h).to eq data.with_indifferent_access
@@ -113,14 +113,14 @@ RSpec.describe Blacklight::SearchState do
 
   describe '#has_constraints?' do
     it 'is false' do
-      expect(search_state.has_constraints?).to eq false
+      expect(search_state.has_constraints?).to be false
     end
 
     context 'with a query param' do
       let(:params) { parameter_class.new q: 'xyz' }
 
       it 'is true' do
-        expect(search_state.has_constraints?).to eq true
+        expect(search_state.has_constraints?).to be true
       end
     end
 
@@ -129,7 +129,7 @@ RSpec.describe Blacklight::SearchState do
       let(:params) { parameter_class.new f: { ff: ['xyz'] } }
 
       it 'is true' do
-        expect(search_state.has_constraints?).to eq true
+        expect(search_state.has_constraints?).to be true
       end
     end
   end
@@ -233,7 +233,7 @@ RSpec.describe Blacklight::SearchState do
       it "adds facet value" do
         result_params = search_state.add_facet_params("facet_field", "facet_value")
         expect(result_params[:f]).to be_a Hash
-        expect(result_params[:f]["facet_field"]).to be_a_kind_of(Array)
+        expect(result_params[:f]["facet_field"]).to be_a(Array)
         expect(result_params[:f]["facet_field"]).to eq ["facet_value"]
       end
 
@@ -266,7 +266,7 @@ RSpec.describe Blacklight::SearchState do
         expect(result_params[:f]).to be_a Hash
 
         params_existing_facets[:f].each_pair do |facet_field, _value_list|
-          expect(result_params[:f][facet_field]).to be_a_kind_of(Array)
+          expect(result_params[:f][facet_field]).to be_a(Array)
           if facet_field == 'facet_field_2'
             expect(result_params[:f][facet_field]).to eq (params_existing_facets[:f][facet_field] | ["new_facet_value"])
           else

@@ -32,11 +32,11 @@ RSpec.describe 'Blacklight::Document::ActiveModelShim', api: true do
 
   describe "#==" do
     it 'is equal for the same id' do
-      expect(MockDocument.new(id: 1) == MockDocument.new(id: 1)).to eq true
+      expect(MockDocument.new(id: 1) == MockDocument.new(id: 1)).to be true
     end
 
     it 'is not equal if the ids differ' do
-      expect(MockDocument.new(id: 1) == MockDocument.new(id: 2)).to eq false
+      expect(MockDocument.new(id: 1) == MockDocument.new(id: 2)).to be false
     end
   end
 end

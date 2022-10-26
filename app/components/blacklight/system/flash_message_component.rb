@@ -7,7 +7,7 @@ module Blacklight
 
       with_collection_parameter :message
 
-      def initialize(message: nil, type:)
+      def initialize(type:, message: nil)
         @message = message
         @classes = alert_class(type)
       end

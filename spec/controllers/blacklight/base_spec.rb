@@ -8,7 +8,7 @@ RSpec.describe Blacklight::Base do
   describe "#search_state" do
     subject { controller.send(:search_state) }
 
-    let(:raw_params) { HashWithIndifferentAccess.new a: 1 }
+    let(:raw_params) { ActiveSupport::HashWithIndifferentAccess.new a: 1 }
     let(:params) { ActionController::Parameters.new raw_params }
 
     before do
@@ -17,7 +17,7 @@ RSpec.describe Blacklight::Base do
     end
 
     it "creates a path object" do
-      expect(subject).to be_kind_of Blacklight::SearchState
+      expect(subject).to be_a Blacklight::SearchState
       expect(subject.params).to eq raw_params
     end
   end

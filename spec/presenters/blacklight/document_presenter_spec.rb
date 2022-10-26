@@ -50,14 +50,14 @@ RSpec.describe Blacklight::DocumentPresenter do
 
   describe '#thumbnail' do
     it 'returns a thumbnail presenter' do
-      expect(presenter.thumbnail).to be_a_kind_of(Blacklight::ThumbnailPresenter)
+      expect(presenter.thumbnail).to be_a(Blacklight::ThumbnailPresenter)
     end
 
     it 'use the configured thumbnail presenter' do
       custom_presenter_class = Class.new(Blacklight::ThumbnailPresenter)
       blacklight_config.index.thumbnail_presenter = custom_presenter_class
 
-      expect(presenter.thumbnail).to be_a_kind_of custom_presenter_class
+      expect(presenter.thumbnail).to be_a custom_presenter_class
     end
   end
 end

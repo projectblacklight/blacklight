@@ -20,11 +20,11 @@ module Blacklight
     end
 
     def sort_by *args, &block
-      self.class.new Hash[to_h.sort_by(*args, &block)]
+      self.class.new to_h.sort_by(*args, &block).to_h
     end
 
     def sort_by! *args, &block
-      replace Hash[to_h.sort_by(*args, &block)]
+      replace to_h.sort_by(*args, &block).to_h
       self
     end
 

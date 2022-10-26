@@ -160,7 +160,7 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
     context "With facet.missing field" do
       let(:params) do
-        { f: { "-some_field": ["[* TO *]"] } }
+        { f: { '-some_field': ["[* TO *]"] } }
       end
 
       it "removes facet.missing facet params" do
@@ -190,12 +190,12 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
   describe '#include?' do
     it 'checks whether the value is currently selected' do
-      expect(search_state.filter('some_field').include?('1')).to eq true
-      expect(search_state.filter('some_field').include?('3')).to eq false
+      expect(search_state.filter('some_field').include?('1')).to be true
+      expect(search_state.filter('some_field').include?('3')).to be false
     end
 
     it 'handles value indirection' do
-      expect(search_state.filter('some_field').include?(OpenStruct.new(value: '1'))).to eq true
+      expect(search_state.filter('some_field').include?(OpenStruct.new(value: '1'))).to be true
     end
   end
 end

@@ -123,7 +123,7 @@ module Blacklight::Solr::Response::Facets
 
       # this is some old solr (1.4? earlier?) serialization of facet fields
       if val.is_a? Array
-        Hash[val]
+        val.to_h
       else
         val
       end
@@ -161,10 +161,10 @@ module Blacklight::Solr::Response::Facets
       solr_list.transform_values do |values|
         if values.first.is_a? Array
           # arrarr
-          Hash[values]
+          values.to_h
         else
           # flat
-          Hash[values.each_slice(2).to_a]
+          values.each_slice(2).to_a.to_h
         end
       end
     end
@@ -180,7 +180,7 @@ module Blacklight::Solr::Response::Facets
 
         # legacy solr facet.missing serialization
         if value.nil?
-          i.label = I18n.t(:"blacklight.search.fields.facet.missing.#{facet_field_name}", default: [:"blacklight.search.facets.missing"])
+          i.label = I18n.t(:"blacklight.search.fields.facet.missing.#{facet_field_name}", default: [:'blacklight.search.facets.missing'])
           i.fq = "-#{facet_field_name}:[* TO *]" # this explicit fq is deprecated; the missing attribute below is a better thing to check for this case
           i.value = Blacklight::SearchState::FilterField::MISSING
           i.missing = true

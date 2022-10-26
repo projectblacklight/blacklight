@@ -7,7 +7,7 @@ module Blacklight
       renders_many :views, 'Blacklight::Response::ViewTypeButtonComponent'
 
       # @param [Blacklight::Response] response
-      def initialize(response:, views: {}, search_state:, selected: nil)
+      def initialize(response:, search_state:, views: {}, selected: nil)
         @response = response
         @views = views
         @search_state = search_state

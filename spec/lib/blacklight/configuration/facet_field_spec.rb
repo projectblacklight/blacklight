@@ -7,7 +7,7 @@ RSpec.describe Blacklight::Configuration::FacetField do
     it 'is deprecated' do
       expect(Deprecation).to receive(:warn)
       expect(subject.normalize!)
-      expect(subject.link_to_facet).to eq true
+      expect(subject.link_to_facet).to be true
     end
   end
 

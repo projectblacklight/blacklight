@@ -96,9 +96,7 @@ module Blacklight
       super || Blacklight::Solr::Response
     end
 
-    def response_model=(*args)
-      super
-    end
+    
 
     # @!attribute document_factory
     # the factory that builds document
@@ -117,9 +115,7 @@ module Blacklight
     end
 
     # only here to support alias_method
-    def document_model=(*args)
-      super
-    end
+    
 
     # @!attribute facet_paginator_class
     # Class for paginating long lists of facet fields
@@ -492,14 +488,13 @@ module Blacklight
         view_type = nil
       end
 
-      @view_config[[view_type, action_name]] ||= begin
-        if view_type.nil?
-          action_config(action_name)
-        else
-          base_config = action_config(action_name)
-          base_config.merge(view.fetch(view_type, {}))
-        end
-      end
+      @view_config[[view_type, action_name]] ||= if view_type.nil?
+                                                   action_config(action_name)
+                                                 else
+                                                   base_config = action_config(action_name)
+                                                   base_config.merge(view.fetch(view_type, {}))
+                                                 end
+      
     end
 
     # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.

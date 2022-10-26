@@ -55,7 +55,7 @@ module Blacklight
       if limit.nil? || limit.zero? #check for divide by zero
         1
       else
-        @offset / limit + 1
+        (@offset / limit) + 1
       end
     end
 

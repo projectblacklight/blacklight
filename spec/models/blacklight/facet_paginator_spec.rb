@@ -124,7 +124,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
     context 'when sorting by "count"' do
       subject { described_class.new([]) }
 
-      let(:params) { HashWithIndifferentAccess.new 'facet.prefix': 'A' }
+      let(:params) { ActiveSupport::HashWithIndifferentAccess.new 'facet.prefix': 'A' }
 
       it 'includes the prefix filter for "index" sorting' do
         expect(subject.params_for_resort_url('index', params)).to include 'facet.prefix': 'A'

@@ -19,7 +19,7 @@ namespace :blacklight do
     task seed: [:environment] do
       require 'yaml'
 
-      app_file = Rails.root && Rails.root + 'spec/fixtures/sample_solr_documents.yml'
+      app_file = Rails.root && "#{Rails.root}spec/fixtures/sample_solr_documents.yml"
       file = ENV['FILE'] ||
              (app_file && File.exist?(app_file) && app_file) ||
              File.join(Blacklight.root, 'spec', 'fixtures', 'sample_solr_documents.yml')

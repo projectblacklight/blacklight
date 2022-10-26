@@ -73,7 +73,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       expect(subject[:pf]).to eq ""
     end
 
-    describe "should respect proper precedence of settings, " do
+    describe "should respect proper precedence of settings," do
       it "does not put :search_field in produced params" do
         expect(subject[:search_field]).to be_nil
       end
@@ -108,7 +108,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     end
 
     it "generates a facet limit" do
-      expect(subject[:"f.subject_ssim.facet.limit"]).to eq 21
+      expect(subject[:'f.subject_ssim.facet.limit']).to eq 21
     end
 
     context 'with a negative facet limit' do
@@ -117,7 +117,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
 
       it 'is negative' do
-        expect(subject[:"f.subject_ssim.facet.limit"]).to eq -1
+        expect(subject[:'f.subject_ssim.facet.limit']).to eq -1
       end
     end
 
@@ -127,13 +127,13 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
 
       it 'is negative' do
-        expect(subject[:"f.subject_ssim.facet.limit"]).to eq 0
+        expect(subject[:'f.subject_ssim.facet.limit']).to eq 0
       end
     end
 
     it "handles no facet_limits in config" do
       blacklight_config.facet_fields = {}
-      expect(subject).not_to have_key(:"f.subject_ssim.facet.limit")
+      expect(subject).not_to have_key(:'f.subject_ssim.facet.limit')
     end
 
     describe "with max per page enforced" do
@@ -178,7 +178,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
       it 'has default facet fields' do
         # remove local params from the facet.field
-        expect(subject[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array %w[format subject_ssim pub_date_ssim language_ssim lc_1letter_ssim subject_geo_ssim subject_era_ssim]
+        expect(subject[:'facet.field'].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array %w[format subject_ssim pub_date_ssim language_ssim lc_1letter_ssim subject_geo_ssim subject_era_ssim]
       end
 
       it "does not have a default qt" do
@@ -355,14 +355,14 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
 
       it "includes spellcheck.dictionary from field def solr_parameters" do
-        expect(subject[:"spellcheck.dictionary"]).to eq "subject"
+        expect(subject[:'spellcheck.dictionary']).to eq "subject"
       end
 
       it "adds on :solr_local_parameters using Solr LocalParams style" do
         # q == "{!pf=$subject_pf $qf=subject_qf} wome", make sure
         # the LocalParams are really there
         subject[:q] =~ /^\{!([^}]+)\}/
-        key_value_pairs = Regexp.last_match(1).split(" ")
+        key_value_pairs = Regexp.last_match(1).split
         expect(key_value_pairs).to include("pf=$subject_pf")
         expect(key_value_pairs).to include("qf=$subject_qf")
       end
@@ -492,7 +492,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     describe 'the search field query_builder config' do
       let(:blacklight_config) do
         Blacklight::Configuration.new do |config|
-          config.add_search_field('built_query', query_builder: ->(builder, *_args) { [builder.blacklight_params[:q].reverse, qq1: 'xyz'] })
+          config.add_search_field('built_query', query_builder: ->(builder, *_args) { [builder.blacklight_params[:q].reverse, { qq1: 'xyz' }] })
         end
       end
 
@@ -582,7 +582,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
 
       subject.add_facet_fq_to_solr(solr_parameters)
 
-      expect(solr_parameters[:fq]).to be_a_kind_of Array
+      expect(solr_parameters[:fq]).to be_a Array
     end
   end
 
@@ -735,7 +735,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     end
 
     it 'sets facets requested to facet_field argument' do
-      expect(solr_parameters["facet.field".to_sym]).to eq facet_field
+      expect(solr_parameters[:'facet.field']).to eq facet_field
     end
 
     it 'defaults offset to 0' do

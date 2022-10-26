@@ -114,13 +114,13 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
 
       it "defaults to count if no value is found and the default limit is used" do
         expect(subject.aggregations['my_field'].sort).to eq 'count'
-        expect(subject.aggregations['my_field'].count?).to eq true
+        expect(subject.aggregations['my_field'].count?).to be true
       end
 
       it "defaults to index if no value is found and the limit is unlimited" do
         request_params['facet.limit'] = -1
         expect(subject.aggregations['my_field'].sort).to eq 'index'
-        expect(subject.aggregations['my_field'].index?).to eq true
+        expect(subject.aggregations['my_field'].index?).to be true
       end
     end
 
@@ -247,7 +247,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     it "converts the query facets into a double RSolr FacetField" do
       field = subject.aggregations['my_query_facet_field']
 
-      expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField
+      expect(field).to be_a Blacklight::Solr::Response::Facets::FacetField
 
       expect(field.name).to eq 'my_query_facet_field'
       expect(field.items.size).to eq 3
@@ -316,7 +316,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     it "converts the pivot facet into a double RSolr FacetField" do
       field = subject.aggregations['my_pivot_facet_field']
 
-      expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField
+      expect(field).to be_a Blacklight::Solr::Response::Facets::FacetField
 
       expect(field.name).to eq 'my_pivot_facet_field'
 
@@ -335,21 +335,21 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
     let(:response) do
       {
         facets: {
-          "count": 32,
-          "categories": {
-            "buckets": [
+          count: 32,
+          categories: {
+            buckets: [
               {
-                "val": "electronics",
-                "count": 12,
-                "max_price": 60
+                val: "electronics",
+                count: 12,
+                max_price: 60
               },
               {
-                "val": "currency",
-                "count": 4
+                val: "currency",
+                count: 4
               },
               {
-                "val": "memory",
-                "count": 3
+                val: "memory",
+                count: 3
               }
             ]
           }
@@ -375,25 +375,25 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
       let(:response) do
         {
           facets: {
-            "categories": {
-              "buckets": [
+            categories: {
+              buckets: [
                 {
-                  "val": "electronics",
-                  "count": 12,
-                  "top_manufacturer": {
-                    "buckets": [{
-                      "val": "corsair",
-                      "count": 3
+                  val: "electronics",
+                  count: 12,
+                  top_manufacturer: {
+                    buckets: [{
+                      val: "corsair",
+                      count: 3
                     }]
                   }
                 },
                 {
-                  "val": "currency",
-                  "count": 4,
-                  "top_manufacturer": {
-                    "buckets": [{
-                      "val": "boa",
-                      "count": 1
+                  val: "currency",
+                  count: 4,
+                  top_manufacturer: {
+                    buckets: [{
+                      val: "boa",
+                      count: 1
                     }]
                   }
                 }
@@ -413,7 +413,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, api: true do
       let(:response) do
         {
           facets: {
-            "categories": {
+            categories: {
               "missing" => { "count" => 13 },
               "buckets" => [{ "val" => "India", "count" => 2 }, { "val" => "Iran", "count" => 2 }]
             }

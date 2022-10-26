@@ -68,7 +68,7 @@ end
 def position_in_result_page(page, id)
   i = -1
   page.all(".index_title a").each_with_index do |link, idx|
-    i = (idx + 1) if link['href'] =~ Regexp.new(Regexp.escape(id) + "$")
+    i = (idx + 1) if link['href'] =~ Regexp.new("#{Regexp.escape(id)}$")
   end
   i.to_i
 end
@@ -84,10 +84,10 @@ def number_of_results_from_page(page)
   tmp_value = Capybara.ignore_hidden_elements
   Capybara.ignore_hidden_elements = false
   val = begin
-          page.find("meta[name=totalResults]")['content'].to_i
-        rescue StandardError
-          0
-        end
+    page.find("meta[name=totalResults]")['content'].to_i
+  rescue StandardError
+    0
+  end
   Capybara.ignore_hidden_elements = tmp_value
   val
 end
