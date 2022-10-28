@@ -24,10 +24,7 @@ module Blacklight
       else
         item_fq = label_source.respond_to?(:fq) ? label_source.fq : {}
         item_fq = item_fq.symbolize_keys
-        # rubocop:disable Rails/Pluck
-        # https://github.com/rubocop/rubocop-rails/issues/842
         label_value = facet_config.pivot.map(&:to_sym).map { |k| item_fq[k] }
-        # rubocop:enable Rails/Pluck
         if label_source.respond_to?(:field)
           label_value << value
         else
