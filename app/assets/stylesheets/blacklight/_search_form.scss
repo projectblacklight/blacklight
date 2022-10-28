@@ -6,13 +6,24 @@
 
 .input-group > .search-autocomplete-wrapper {
   @extend .form-control;
+  display: inline-block;
   flex-grow: 4;
   padding: 0;
-
+  position: relative;
+  
   .search-q {
     border: 0;
     height: 100%;
     width: 100%;
+  }
+  
+  ul {
+    @extend .dropdown-menu;
+    display: block;
+
+    li {
+      @extend .dropdown-item;
+    }
   }
 }
 
