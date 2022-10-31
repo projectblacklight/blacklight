@@ -46,8 +46,8 @@ module Blacklight
             import "blacklight"
             import dialogPolyfill from "dialog-polyfill"
             Blacklight.onLoad(() => {
-              var dialog = document.querySelector('dialog');
-              dialogPolyfill.registerDialog(dialog);
+              const dialog = document.querySelector('dialog')
+              dialogPolyfill.registerDialog(dialog)
             })
           CONTENT
         end

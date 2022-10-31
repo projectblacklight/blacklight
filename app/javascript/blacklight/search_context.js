@@ -18,7 +18,7 @@ const SearchContext = (() => {
   // this is the Rails.handleMethod with a couple adjustments, described inline:
   // first, we're attaching this directly to the event handler, so we can check for meta-keys
   Blacklight.handleSearchContextMethod = function(event) {
-    var link = this
+    const link = this
 
     // instead of using the normal href, we need to use the context href instead
     let href = link.getAttribute('data-context-href')

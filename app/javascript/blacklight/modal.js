@@ -142,21 +142,21 @@ modal.receiveAjax = function (contents) {
   };
 
   modal.hide = function (el) {
-    var dom = document.querySelector(Blacklight.modal.modalSelector);
+    const dom = document.querySelector(Blacklight.modal.modalSelector)
 
-    if (!dom.open) return;
+    if (!dom.open) return
     dom.close()
   }
 
   modal.show = function(el) {
-    var dom = document.querySelector(Blacklight.modal.modalSelector);
+    const dom = document.querySelector(Blacklight.modal.modalSelector)
 
-    if (dom.open) return;
+    if (dom.open) return
     dom.showModal()
   }
 
   Blacklight.onLoad(function() {
-    modal.setupModal();
+    modal.setupModal()
   });
 })()
 
