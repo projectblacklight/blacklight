@@ -13,3 +13,23 @@
     fill: #fff;
   }
 }
+
+// define a visually-hidden class that applies to a given breakpoint and below
+// https://getbootstrap.com/docs/5.2/helpers/visually-hidden/
+@if mixin-exists(visually-hidden) {
+  @each $infix, $breakpoint in $grid-breakpoints {
+    .visually-hidden-#{$infix} {
+      @include media-breakpoint-down($breakpoint) {
+        @include visually-hidden;
+      }
+    }
+  }
+} @else if mixin-exists(sr-only) {  // Bootstrap 4 version
+  @each $infix, $breakpoint in $grid-breakpoints {
+    .visually-hidden-#{$infix} {
+      @include media-breakpoint-down($breakpoint) {
+        @include sr-only;
+      }
+    }
+  }
+}
