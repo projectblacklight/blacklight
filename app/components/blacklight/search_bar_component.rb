@@ -7,6 +7,7 @@ module Blacklight
     renders_one :append
     renders_one :prepend
     renders_one :search_button
+    renders_many :before_input_groups
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(

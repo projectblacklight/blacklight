@@ -3,6 +3,9 @@
   <% if search_fields.length > 1 %>
     <label for="search_field" class="sr-only visually-hidden"><%= scoped_t('search_field.label') %></label>
   <% end %>
+  <% before_input_groups.each do |input_group| %>
+    <%= input_group %>
+  <% end %>
   <div class="input-group">
     <%= prepend %>
 
