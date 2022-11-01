@@ -65,4 +65,18 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
       expect(render.to_html).to include 'stuff after'
     end
   end
+
+  context 'with extra inputs' do
+    subject(:render) do
+      render_inline(instance) do |c|
+        c.with_before_input_group { controller.view_context.tag.input name: 'foo' }
+        c.with_before_input_group { controller.view_context.tag.input name: 'bar' }
+      end
+    end
+
+    it 'renders the extra inputs' do
+      expect(render.css("input[name='foo']")).to be_present
+      expect(render.css("input[name='bar']")).to be_present
+    end
+  end
 end
