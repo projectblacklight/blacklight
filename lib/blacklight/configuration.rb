@@ -51,6 +51,10 @@ module Blacklight
     end
 
     property :logo_link
+    property :header_component, default: nil
+    def header_component
+      super || Blacklight::HeaderComponent
+    end
 
     # === Search request configuration
 
