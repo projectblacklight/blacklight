@@ -50,6 +50,7 @@ module Blacklight
 
     # rubocop:disable Metrics/BlockLength
     default_configuration do
+      property :logo_link, default: nil
       # === Search request configuration
 
       # @!attribute http_method
@@ -344,6 +345,11 @@ module Blacklight
     # @return [Blacklight::Repository]
     def repository
       repository_class.new(self)
+    end
+
+    # @return [String] The destination for the link around the logo in the header
+    def logo_link
+      super || Rails.application.routes.url_helpers.root_path
     end
 
     # @return [Integer]
