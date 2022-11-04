@@ -3,10 +3,9 @@
 module Blacklight
   class Component < ViewComponent::Base
     class << self
-      def inherited(subclass)
-        # Workaround for https://github.com/ViewComponent/view_component/issues/1565
-        subclass.config = ViewComponent::Base.config
-        super
+      # Workaround for https://github.com/ViewComponent/view_component/issues/1565
+      def config
+        @config ||= ViewComponent::Config.defaults.merge(ViewComponent::Base.config)
       end
 
       # rubocop:disable Naming/MemoizedInstanceVariableName
