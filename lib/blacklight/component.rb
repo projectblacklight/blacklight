@@ -3,6 +3,11 @@
 module Blacklight
   class Component < ViewComponent::Base
     class << self
+      # Workaround for https://github.com/ViewComponent/view_component/issues/1565
+      def config
+        @config ||= ViewComponent::Config.defaults.merge(ViewComponent::Base.config)
+      end
+
       # rubocop:disable Naming/MemoizedInstanceVariableName
       def compiler
         @__vc_compiler ||= EngineCompiler.new(self)
