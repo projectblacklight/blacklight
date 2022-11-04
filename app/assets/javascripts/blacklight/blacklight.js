@@ -5,20 +5,20 @@
 })(this, (function () { 'use strict';
 
   const Blacklight = function() {
-    var buffer = new Array;
+    const buffer = new Array;
     return {
       onLoad: function(func) {
         buffer.push(func);
       },
 
       activate: function() {
-        for(var i = 0; i < buffer.length; i++) {
+        for(let i = 0; i < buffer.length; i++) {
           buffer[i].call();
         }
       },
 
       listeners: function () {
-        var listeners = [];
+        const listeners = [];
         if (typeof Turbo !== 'undefined') {
           listeners.push('turbo:load');
         } else if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
@@ -346,16 +346,16 @@
     };
 
     modal.hide = function (el) {
-      var dom = document.querySelector(Blacklight.modal.modalSelector);
+      const dom = document.querySelector(Blacklight.modal.modalSelector);
 
-      if (!dom.open) return;
+      if (!dom.open) return
       dom.close();
     };
 
     modal.show = function(el) {
-      var dom = document.querySelector(Blacklight.modal.modalSelector);
+      const dom = document.querySelector(Blacklight.modal.modalSelector);
 
-      if (dom.open) return;
+      if (dom.open) return
       dom.showModal();
     };
 
@@ -382,7 +382,7 @@
     // this is the Rails.handleMethod with a couple adjustments, described inline:
     // first, we're attaching this directly to the event handler, so we can check for meta-keys
     Blacklight.handleSearchContextMethod = function(event) {
-      var link = this;
+      const link = this;
 
       // instead of using the normal href, we need to use the context href instead
       let href = link.getAttribute('data-context-href');
