@@ -40,18 +40,6 @@
     @extend .col-lg-8;
     padding-left: 0;
   }
-
-  .submit-search-text {
-    // hide 'search' label at very small screens
-    @media screen and (max-width: breakpoint-max(xs)) {
-      @if mixin-exists(sr-only) {
-        @include sr-only();
-      }
-      @if mixin-exists(visually-hidden) {
-        @include visually-hidden();
-      }
-    }
-  }
 }
 
 #skip-link {

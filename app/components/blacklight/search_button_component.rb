@@ -9,7 +9,7 @@ module Blacklight
 
     def call
       tag.button(class: 'btn btn-primary search-btn', type: 'submit', id: @id) do
-        tag.span(@text, class: "submit-search-text") +
+        tag.span(@text, class: "visually-hidden-sm me-sm-1 submit-search-text") +
           render(Blacklight::Icons::SearchComponent.new)
       end
     end
