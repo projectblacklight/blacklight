@@ -29,6 +29,17 @@ RSpec.describe SolrDocument, api: true do
     end
   end
 
+  describe '.inspect' do
+    subject(:inspect) { document.inspect }
+
+    let(:document) do
+      described_class.new(id: '123',
+                          title_tesim: ['Good Omens'])
+    end
+
+    it { is_expected.to end_with "_source: {\"id\"=>\"123\", \"title_tesim\"=>[\"Good Omens\"]}>" }
+  end
+
   describe '.attribute' do
     subject(:title) { document.title }
 

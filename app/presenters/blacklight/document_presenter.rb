@@ -125,6 +125,11 @@ module Blacklight
       configuration.view_config(:show)
     end
 
+    def inspect
+      fields = "document:#{document.inspect}"
+      "#<#{self.class.name}:#{object_id} #{fields}>"
+    end
+
     private
 
     def field_presenter(field_config, options = {})
