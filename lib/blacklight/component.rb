@@ -17,6 +17,21 @@ module Blacklight
       alias sidecar_files _sidecar_files unless ViewComponent::Base.respond_to? :sidecar_files
     end
 
+    EXCLUDE_VARIABLES = [
+      :@lookup_context, :@view_renderer, :@view_flow, :@view_context,
+      :@tag_builder, :@current_template,
+      :@__vc_set_slots, :@__vc_original_view_context,
+      :@__vc_variant, :@__vc_content_evaluated,
+      :@__vc_render_in_block, :@__vc_content, :@__vc_helpers
+    ].freeze
+
+    def inspect
+      # Exclude variables added by render_in
+      render_variables = instance_variables - EXCLUDE_VARIABLES
+      fields = render_variables.map { |ivar| "#{ivar}:#{instance_variable_get(ivar).inspect}" }.join(', ')
+      "#<#{self.class.name}:#{object_id} #{fields}>"
+    end
+
     class EngineCompiler < ::ViewComponent::Compiler
       # ViewComponent::Compiler locates and caches templates from sidecar files to the component source file.
       # While this is sensible in a Rails application, it prevents component templates defined in an Engine
