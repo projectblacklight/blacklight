@@ -8,7 +8,7 @@ RSpec.describe Blacklight::SuggestSearch, api: true do
 
   describe '#suggestions' do
     it 'delegates to the repository' do
-      expect(repository).to receive(:suggestions).with(q: 'test').and_return(response)
+      expect(repository).to receive(:suggestions).with({ q: 'test' }).and_return(response)
       expect(suggest_search.suggestions).to eq response
     end
   end
