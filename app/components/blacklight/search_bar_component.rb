@@ -6,6 +6,8 @@ module Blacklight
 
     renders_one :append
     renders_one :prepend
+    renders_one :search_button
+    renders_many :before_input_groups
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
@@ -14,7 +16,8 @@ module Blacklight
       classes: ['search-query-form'], prefix: nil,
       method: 'GET', q: nil, query_param: :q,
       search_field: nil, search_fields: nil, autocomplete_path: nil,
-      autofocus: nil, i18n: { scope: 'blacklight.search.form' }
+      autofocus: nil, i18n: { scope: 'blacklight.search.form' },
+      form_options: {}
     )
       @url = url
       @advanced_search_url = advanced_search_url
@@ -29,6 +32,8 @@ module Blacklight
       @autofocus = autofocus
       @search_fields = search_fields
       @i18n = i18n
+      @form_options = form_options
+
       return if presenter.nil?
 
       Deprecation.warn(self, 'SearchBarComponent no longer uses a SearchBarPresenter, the presenter: param will be removed in 8.0. ' \
