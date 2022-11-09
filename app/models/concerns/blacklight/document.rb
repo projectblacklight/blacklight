@@ -26,6 +26,8 @@ module Blacklight::Document
     extend ActiveModel::Naming
     include Blacklight::Document::Extensions
     include GlobalID::Identification
+
+    class_attribute :inspector_fields, default: [:_source]
   end
 
   attr_reader :response, :_source
@@ -80,6 +82,11 @@ module Blacklight::Document
 
   def first key
     Array(self[key]).first
+  end
+
+  def inspect
+    fields = inspector_fields.map { |field| "#{field}: #{public_send(field)}" }.join(", ")
+    "#<#{self.class.name}:#{object_id} #{fields}>"
   end
 
   def to_partial_path

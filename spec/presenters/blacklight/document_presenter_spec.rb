@@ -60,4 +60,10 @@ RSpec.describe Blacklight::DocumentPresenter do
       expect(presenter.thumbnail).to be_a_kind_of custom_presenter_class
     end
   end
+
+  describe '#inspect' do
+    subject(:inspect) { presenter.inspect }
+
+    it { is_expected.to start_with '#<Blacklight::DocumentPresenter:' }
+  end
 end
