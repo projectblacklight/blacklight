@@ -38,7 +38,7 @@ module Blacklight
           concat content_tag('span', render_component(facet), class: "facet-values d-flex flex-row flex-grow-1 #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
         end)
         if has_items?
-          concat(content_tag('ul', class: "pivot-facet flex-column list-unstyled ps-4 #{'collapse' if @collapsing}", id: id, role: 'group') do
+          concat(content_tag('ul', class: "pivot-facet flex-column list-unstyled ps-4 #{'collapse' if @collapsing} #{'show' if expanded?}", id: id, role: 'group') do
             render_component(
               self.class.with_collection(
                 @facet_item.facet_item_presenters.to_a
@@ -57,10 +57,16 @@ module Blacklight
       @facet_item.facet_item_presenters.any?
     end
 
+    def expanded?
+      return unless @collapsing
+
+      @facet_item.shown?
+    end
+
     def facet_toggle_button(id)
-      content_tag 'button', class: 'btn py-0 my-0 facet-toggle-handle collapsed',
+      content_tag 'button', class: %w[btn py-0 my-0 facet-toggle-handle] + [('collapsed' unless expanded?)],
                             data: { toggle: 'collapse', 'bs-toggle': 'collapse', target: "##{id}", 'bs-target': "##{id}" },
-                            aria: { expanded: false, controls: id, describedby: "#{id}_label" } do
+                            aria: { expanded: expanded?, controls: id, describedby: "#{id}_label" } do
         concat toggle_icon(:show)
         concat toggle_icon(:hide)
       end

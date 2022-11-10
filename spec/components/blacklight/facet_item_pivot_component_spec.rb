@@ -19,7 +19,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
 
   let(:facet_item) do
     instance_double(
-      Blacklight::FacetItemPresenter,
+      Blacklight::FacetItemPivotPresenter,
       facet_config: facet_config,
       facet_field: 'z',
       label: 'x',
@@ -27,11 +27,11 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
       href: '/catalog?f[z]=x',
       selected?: false,
       search_state: search_state,
-      items: [OpenStruct.new(value: 'x:1', hits: 5)]
+      facet_item_presenters: [OpenStruct.new(label: 'x:1', hits: 5, href: '/catalog?f[z][]=x:1', facet_config: facet_config)]
     )
   end
 
-  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'z', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPresenter) }
+  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'z', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPivotPresenter) }
 
   it 'links to the facet and shows the number of hits' do
     expect(rendered).to have_selector 'li'
@@ -41,13 +41,13 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
 
   it 'has the facet hierarchy' do
     expect(rendered).to have_selector 'li ul.pivot-facet'
-    expect(rendered).to have_link 'x:1', href: /f%5Bz%5D%5B%5D=x%3A1/
+    expect(rendered).to have_link 'x:1', href: /f%5Bz%5D%5B%5D=x:1/
   end
 
   context 'with a selected facet' do
     let(:facet_item) do
       instance_double(
-        Blacklight::FacetItemPresenter,
+        Blacklight::FacetItemPivotPresenter,
         facet_config: facet_config,
         facet_field: 'z',
         label: 'x',
@@ -55,7 +55,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
         href: '/catalog',
         selected?: true,
         search_state: search_state,
-        items: []
+        facet_item_presenters: []
       )
     end
 

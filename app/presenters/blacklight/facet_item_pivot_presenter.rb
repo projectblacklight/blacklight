@@ -9,6 +9,10 @@ module Blacklight
       search_state.filter(facet_config).include?(facet_item)
     end
 
+    def shown?
+      selected? || facet_item_presenters.any? { |x| x.try(:shown?) }
+    end
+
     def field_label
       facet_field_presenter.label
     end
