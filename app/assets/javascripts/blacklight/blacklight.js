@@ -145,7 +145,8 @@
         method: this.form.getAttribute('method').toUpperCase(),
         headers: {
           'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-Token': document.querySelector('meta[name=csrf-token]')?.content
         }
       });
       this.label.removeAttribute('disabled');
