@@ -6,6 +6,7 @@ RSpec.describe "catalog/_show_sidebar.html.erb" do
   let(:blacklight_config) do
     Blacklight::Configuration.new do |config|
       config.index.title_field = 'title_tsim'
+      config.index.sidebar_component = Blacklight::Document::SidebarComponent
     end
   end
 
