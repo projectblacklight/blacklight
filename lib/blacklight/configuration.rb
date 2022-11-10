@@ -51,6 +51,8 @@ module Blacklight
     # rubocop:disable Metrics/BlockLength
     default_configuration do
       property :logo_link, default: nil
+      property :header_component, default: Blacklight::HeaderComponent
+
       # === Search request configuration
 
       # @!attribute http_method
