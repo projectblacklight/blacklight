@@ -24,7 +24,7 @@ module Blacklight
       @wrapping_element = wrapping_element
       @suppress_link = suppress_link
       @collapsing = collapsing.nil? ? facet_item.facet_config.collapsing : collapsing
-      @icons = { show: '⊞', hide: '⊟' }.merge(facet_item.facet_config.icons || {})
+      @icons = { show: tag.span(class: 'icon'), hide: tag.span(class: 'icon') }.merge(facet_item.facet_config.icons || {})
     end
 
     def call
