@@ -64,7 +64,7 @@ module Blacklight
     end
 
     def facet_toggle_button(id)
-      content_tag 'button', class: %w[btn py-0 my-0 facet-toggle-handle] + [('collapsed' unless expanded?)],
+      content_tag 'button', class: %w[btn facet-toggle-handle] + [('collapsed' unless expanded?)],
                             data: { toggle: 'collapse', 'bs-toggle': 'collapse', target: "##{id}", 'bs-target': "##{id}" },
                             aria: { expanded: expanded?, controls: id, describedby: "#{id}_label" } do
         concat toggle_icon(:show)

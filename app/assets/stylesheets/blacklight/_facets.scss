@@ -174,6 +174,10 @@
 }
 
 .facet-toggle-handle {
+  @extend .my-0;
+  @extend .py-0;
+  @extend .px-2;
+
   // keep the icon span centered in the button, but shift to the left for equal spacing inside row
   margin-left: -1 * $btn-padding-x;
 
