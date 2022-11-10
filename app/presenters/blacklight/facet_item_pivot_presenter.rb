@@ -13,6 +13,17 @@ module Blacklight
       facet_field_presenter.label
     end
 
+    def facet_item_presenters
+      return to_enum(:facet_item_presenters) unless block_given?
+      return [] unless items
+
+      items.each { |i| yield facet_item_presenter(i) }
+    end
+
+    def facet_item_presenter(facet_item)
+      facet_config.item_presenter.new(facet_item, facet_config, view_context, facet_field, search_state)
+    end
+
     ##
     # Get the displayable version of a facet's value
     #

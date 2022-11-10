@@ -41,7 +41,7 @@ module Blacklight
           concat(content_tag('ul', class: "pivot-facet flex-column list-unstyled ps-5 pe-5 #{'collapse' if @collapsing}", id: id, role: 'group') do
             render_component(
               self.class.with_collection(
-                @facet_item.items.map { |i| facet_item_presenter(i) }
+                @facet_item.facet_item_presenters.to_a
               )
             )
           end)
@@ -52,7 +52,9 @@ module Blacklight
     private
 
     def has_items?
-      @facet_item.items.present?
+      return unless @facet_item.respond_to? :facet_item_presenters
+
+      @facet_item.facet_item_presenters.any?
     end
 
     def facet_toggle_button(id)
@@ -76,10 +78,6 @@ module Blacklight
     # and call it a day
     def render_component(component)
       helpers.render(component)
-    end
-
-    def facet_item_presenter(facet_item)
-      @facet_item.facet_config.item_presenter.new(facet_item, @facet_item.facet_config, helpers, @facet_item.facet_field, @facet_item.search_state)
     end
   end
 end
