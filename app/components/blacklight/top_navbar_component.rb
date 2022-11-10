@@ -9,5 +9,9 @@ module Blacklight
     attr_reader :blacklight_config
 
     delegate :application_name, :container_classes, to: :helpers
+
+    def logo_link(title: application_name)
+      link_to title, blacklight_config.logo_link, class: 'mb-0 navbar-brand navbar-logo'
+    end
   end
 end
