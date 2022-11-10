@@ -9,7 +9,6 @@ RSpec.describe "catalog/_show_tools.html.erb" do
     allow(Blacklight::Document::ActionsComponent).to receive(:new).and_return(component)
     allow(view).to receive(:render).with(component)
     allow(view).to receive(:render).with('catalog/show_tools', {}).and_call_original
-    assign :response, instance_double(Blacklight::Solr::Response, params: {})
     assign :document, document
     allow(view).to receive(:blacklight_config).and_return blacklight_config
     allow(view).to receive(:has_user_authentication_provider?).and_return false
