@@ -3,12 +3,12 @@
     <div class="card-header">
       <h2 class="mb-0 h6"><%= t('blacklight.tools.title') %></h2>
     </div>
-    <%= render Blacklight::Document::ActionsComponent.new(document: @document,
+    <%= render Blacklight::Document::ActionsComponent.new(document: document,
                                                           tag: 'ul',
                                                           classes: 'list-group list-group-flush',
                                                           wrapping_tag: 'li',
                                                           wrapping_classes: 'list-group-item list-group-item-action',
-                                                          actions: document_actions(@document),
+                                                          actions: document_actions(document),
                                                           url_opts: Blacklight::Parameters.sanitize(params.to_unsafe_h)) %>
   </div>
 <% end %>

@@ -8,8 +8,7 @@ RSpec.describe "catalog/_show_tools.html.erb" do
   before do
     allow(Blacklight::Document::ActionsComponent).to receive(:new).and_return(component)
     allow(view).to receive(:render).with(component)
-    allow(view).to receive(:render).with('catalog/show_tools', {}).and_call_original
-    assign :document, document
+    allow(view).to receive(:render).with('catalog/show_tools', { document: document }).and_call_original
     allow(view).to receive(:blacklight_config).and_return blacklight_config
     allow(view).to receive(:has_user_authentication_provider?).and_return false
   end
@@ -20,7 +19,7 @@ RSpec.describe "catalog/_show_tools.html.erb" do
     it "renders a document action" do
       allow(view).to receive(:some_action_solr_document_path).with(document, any_args).and_return 'x'
       document_actions[:some_action] = Blacklight::Configuration::ToolConfig.new key: :some_action, name: :some_action, partial: 'document_action'
-      render 'catalog/show_tools'
+      render 'catalog/show_tools', document: document
       expect(view).to have_received(:render).with(component)
     end
 
@@ -30,7 +29,7 @@ RSpec.describe "catalog/_show_tools.html.erb" do
       end
 
       it 'does not display the tools' do
-        render 'catalog/show_tools'
+        render 'catalog/show_tools', document: document
 
         expect(rendered).to be_blank
       end
