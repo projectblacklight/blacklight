@@ -3,10 +3,10 @@
 RSpec.describe "catalog/_show_tools.html.erb" do
   let(:document) { SolrDocument.new id: 'xyz', format: 'a' }
   let(:blacklight_config) { Blacklight::Configuration.new }
-  let(:component) { instance_double(Blacklight::Document::ActionsComponent) }
+  let(:component) { instance_double(Blacklight::Document::ShowToolsComponent) }
 
   before do
-    allow(Blacklight::Document::ActionsComponent).to receive(:new).and_return(component)
+    allow(Blacklight::Document::ShowToolsComponent).to receive(:new).and_return(component)
     allow(view).to receive(:render).with(component)
     allow(view).to receive(:render).with('catalog/show_tools', { document: document }).and_call_original
     allow(view).to receive(:blacklight_config).and_return blacklight_config
