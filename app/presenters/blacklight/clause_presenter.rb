@@ -24,6 +24,10 @@ module Blacklight
       user_parameters[:query]
     end
 
+    def constraint_label
+      label
+    end
+
     def remove_href(path = search_state)
       view_context.search_action_path(path.reset_search(clause: path.clause_params.except(key)).to_h)
     end
