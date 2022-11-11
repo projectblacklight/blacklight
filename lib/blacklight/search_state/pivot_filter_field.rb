@@ -94,7 +94,7 @@ module Blacklight
         def self.call(search_builder, filter, solr_parameters)
           existing = solr_parameters['fq']&.dup || []
           queries = []
-          filter.values.reject(&:blank?).each do |value|
+          filter.values.compact_blank.each do |value|
             queries << search_builder.send(:facet_value_to_fq_string, filter.pivot.first, value.value)
             value.fq.each do |entry|
               k, v = entry

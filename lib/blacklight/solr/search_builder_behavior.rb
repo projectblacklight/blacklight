@@ -132,9 +132,9 @@ module Blacklight::Solr
           end
           solr_parameters.merge!(subqueries) if subqueries
         else
-          filter.values.reject(&:blank?).each do |value|
+          filter.values.compact_blank.each do |value|
             filter_query, subqueries = if value.is_a?(Array)
-                                         facet_inclusive_value_to_fq_string(filter.key, value.reject(&:blank?))
+                                         facet_inclusive_value_to_fq_string(filter.key, value.compact_blank)
                                        else
                                          facet_value_to_fq_string(filter.config.key, value)
                                        end
