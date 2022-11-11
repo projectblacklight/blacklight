@@ -62,6 +62,14 @@ module Blacklight
       end
     end
 
+    # Get the displayable version of the facet's value for use
+    # in e.g. the constraints widget
+    #
+    # @return [String]
+    def constraint_label
+      label
+    end
+
     def value
       if facet_item.respond_to? :value
         facet_item.value

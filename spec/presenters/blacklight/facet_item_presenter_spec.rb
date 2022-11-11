@@ -56,6 +56,13 @@ RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
     end
   end
 
+  describe '#constraint_label' do
+    it 'provides the label for the constraint' do
+      allow(facet_config).to receive_messages(query: nil, date: nil, helper_method: nil, url_method: nil)
+      expect(presenter.constraint_label).to eq presenter.label
+    end
+  end
+
   describe '#href' do
     let(:filter_field) { instance_double(Blacklight::SearchState::FilterField, include?: false) }
 
