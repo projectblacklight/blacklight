@@ -72,7 +72,7 @@ module Blacklight
     end
 
     def thumbnail_value_from_document
-      Array(thumbnail_field).lazy.map { |field| retrieve_values(field_config(field)).first }.reject(&:blank?).first
+      Array(thumbnail_field).lazy.map { |field| retrieve_values(field_config(field)).first }.compact_blank.first
     end
 
     def retrieve_values(field_config)
