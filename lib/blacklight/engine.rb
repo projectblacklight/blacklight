@@ -38,6 +38,10 @@ module Blacklight
       end
     end
 
+    initializer "blacklight.importmap", before: "importmap" do |app|
+      app.config.importmap.paths << Engine.root.join("config/importmap.rb") if app.config.respond_to?(:importmap)
+    end
+
     bl_global_config = OpenStructWithHashAccess.new
 
     bl_global_config.sms_mappings = {
