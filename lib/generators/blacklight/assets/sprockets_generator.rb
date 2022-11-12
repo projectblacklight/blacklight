@@ -34,6 +34,8 @@ module Blacklight
         # Ensure this method is idempotent
         return if has_blacklight_assets?
 
+        append_to_file 'app/assets/config/manifest.js', "\n//= link blacklight/manifest"
+
         create_file 'app/assets/javascripts/application.js' do
           <<~CONTENT
             //= require turbolinks

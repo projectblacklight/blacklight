@@ -16,7 +16,7 @@ module Blacklight
 
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
-            import "blacklight-frontend/app/assets/javascripts/blacklight/blacklight";
+            import "blacklight-frontend/app/assets/javascripts/blacklight/index";
           CONTENT
         end
       end
