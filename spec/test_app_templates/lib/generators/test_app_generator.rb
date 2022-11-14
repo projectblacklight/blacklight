@@ -28,4 +28,10 @@ class TestAppGenerator < Rails::Generators::Base
 
     generate 'blacklight:test_support'
   end
+
+  def add_local_assets_for_propshaft
+    return unless defined?(Propshaft)
+
+    run "yarn add #{Blacklight::Engine.root}"
+  end
 end
