@@ -4,10 +4,14 @@ RSpec.describe Blacklight::Icon do
   subject(:instance) { described_class.new(:test, classes: 'awesome', aria_hidden: true) }
 
   let(:svg) { String.new(Blacklight::Icons::SearchComponent.new.svg) }
-  let(:sprockets_asset) { instance_double(Sprockets::Asset, source: svg) }
+  let(:asset) { double(source: svg) }
 
   before do
-    allow(Rails.application.assets).to receive(:find_asset).and_return(sprockets_asset)
+    if defined?(Sprockets)
+      allow(Rails.application.assets).to receive(:find_asset).and_return(asset)
+    elsif defined?(Propshaft)
+      allow(Rails.application.assets.load_path).to receive(:find).and_return(asset)
+    end
     # FileUtils.mkdir_p '.internal_test_app/app/assets/images/blacklight'
     # File.write '.internal_test_app/app/assets/images/blacklight/test.svg', Blacklight::Icons::SearchComponent.new.svg
   end
@@ -85,7 +89,7 @@ RSpec.describe Blacklight::Icon do
     context 'file is not available' do
       subject { described_class.new(:yolo) }
 
-      let(:sprockets_asset) { nil }
+      let(:asset) { nil }
 
       it 'raises an error when not found' do
         expect { file_source }.to raise_error(Blacklight::Exceptions::IconNotFound)
