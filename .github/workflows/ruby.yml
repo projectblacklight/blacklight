@@ -42,6 +42,9 @@ jobs:
         include:
         - ruby: '3.1'
           rails_version: '7.0.4'
+        - ruby: '3.1'
+          rails_version: '7.0.4'
+          additional_name: '/ Propshaft'
           additional_engine_cart_rails_options: -a propshaft
         - ruby: '3.0'
           rails_version: '7.0.4'
