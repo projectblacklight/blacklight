@@ -597,7 +597,7 @@ RSpec.describe CatalogController, api: true do
       allow(controller).to receive(:has_user_authentication_provider?).and_return(false)
     end
 
-    it "does not show user util links" do
+    it "does not show user util links", api: false do
       get :index
       expect(response.body).not_to match /Login/
     end
