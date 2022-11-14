@@ -31,7 +31,7 @@ module Blacklight
       return if has_blacklight_assets?
 
       if Rails.version > '7'
-        gem "sassc-rails", "~> 2.1"
+        gem "sassc-rails", "~> 2.1" if defined?(Sprockets)
         append_to_file 'config/importmap.rb' do
           <<~CONTENT
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
