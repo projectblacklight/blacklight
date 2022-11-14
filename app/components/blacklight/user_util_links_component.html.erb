@@ -1,0 +1,24 @@
+<ul class="navbar-nav">
+  <% tools.each do |action_config|%>
+    <li class="nav-item">
+      <%= render action_config.partial, document_action_config: action_config %>
+    </li>
+  <% end %>
+
+  <% if display_account_links? %>
+    <% if current_user %>
+      <li class="nav-item">
+        <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path, class: 'nav-link' %>
+      </li>
+      <% unless current_user.to_s.blank? -%>
+        <li class="nav-item">
+          <%= link_to current_user, edit_user_registration_path, class: 'nav-link' %>
+        </li>
+      <% end %>
+    <% else %>
+      <li class="nav-item">
+        <%= link_to t('blacklight.header_links.login'), new_user_session_path, class: 'nav-link' %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
