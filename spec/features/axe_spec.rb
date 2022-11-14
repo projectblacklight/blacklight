@@ -28,6 +28,6 @@ RSpec.describe 'Accessibility testing', api: false, js: true do
 
   def be_accessible(skipping: [])
     # typeahead does funny things with the search bar
-    be_axe_clean.excluding('.tt-hint').skipping(skipping + [('color-contrast' if Bootstrap::VERSION < '5')].compact)
+    be_axe_clean.excluding('.tt-hint').skipping(skipping + [('color-contrast' if defined?(Bootstrap) && Bootstrap::VERSION < '5')].compact)
   end
 end
