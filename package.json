@@ -4,7 +4,7 @@
   "description": "[![Build Status](https://travis-ci.com/projectblacklight/blacklight.png?branch=main)](https://travis-ci.com/projectblacklight/blacklight) [![Gem Version](https://badge.fury.io/rb/blacklight.png)](http://badge.fury.io/rb/blacklight) [![Coverage Status](https://coveralls.io/repos/github/projectblacklight/blacklight/badge.svg?branch=main)](https://coveralls.io/github/projectblacklight/blacklight?branch=main)",
   "main": "app/assets/javascripts/blacklight",
   "scripts": {
-    "js-compile-bundle": "rollup --config rollup.config.js --sourcemap"
+    "js-compile-bundle": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap"
   },
   "repository": {
     "type": "git",

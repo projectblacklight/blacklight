@@ -29,7 +29,7 @@ module Blacklight
 
     initializer "blacklight.assets.precompile" do
       # rubocop:disable Lint/ConstantDefinitionInBlock
-      PRECOMPILE_ASSETS = %w(favicon.ico blacklight/blacklight.js blacklight/blacklight.js.map).freeze
+      PRECOMPILE_ASSETS = %w(favicon.ico blacklight/blacklight.js blacklight/blacklight.js.map blacklight/blacklight.esm.js blacklight/blacklight.esm.js.map).freeze
       # rubocop:enable Lint/ConstantDefinitionInBlock
 
       # When Rails has been generated in API mode, it does not have sprockets available
