@@ -23,19 +23,12 @@
   cursor: pointer;
 }
 
-.no-js .sort-pagination {
-  & {
-    @extend .clearfix;
+.no-js {
+  .btn-group:focus-within {
+    .dropdown-menu {
+      @extend .show;
+    }
   }
-  .dropdown-menu {
-    background: none;
-    box-shadow: none;
-    border: none;
-    position: relative;
-    display: block;
-    float: none;
-  }
-
 }
 
 .view-type {
