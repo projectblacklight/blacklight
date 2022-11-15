@@ -6,8 +6,8 @@ const BUNDLE = process.env.BUNDLE === 'true'
 const ESM = process.env.ESM === 'true'
 
 const fileDest = `blacklight${ESM ? '.esm' : ''}`
-const external = []
-const globals = {}
+const external = []//'@hotwired/stimulus']
+const globals = { }//'@hotwired/stimulus': 'Stimulus'}
 
 const rollupConfig = {
   input: path.resolve(__dirname, `app/javascript/blacklight/index.js`),
