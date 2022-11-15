@@ -4,6 +4,8 @@ import Modal from './modal'
 import SearchContext from './search_context'
 import Core from './core'
 
+Stimulus.register('blacklight-bookmark', BookmarkToggle)
+
 export default {
   BookmarkToggle,
   ButtonFocus,

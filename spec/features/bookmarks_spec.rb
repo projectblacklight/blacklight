@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Bookmarks" do
+RSpec.describe "Bookmarks", js: true do
   describe "navigating from the homepage" do
     it "has a link to the history page" do
       sign_in 'user1'
@@ -12,9 +12,11 @@ RSpec.describe "Bookmarks" do
 
   it "clears bookmarks" do
     visit solr_document_path('2007020969')
-    click_button 'Bookmark'
+    check 'Bookmark'
     click_link 'Bookmarks'
-    click_link 'Clear Bookmarks'
+    accept_alert do
+      click_link 'Clear Bookmarks'
+    end
     expect(page).to have_content 'Cleared your bookmarks.'
     expect(page).to have_content 'You have no bookmarks'
   end
@@ -24,34 +26,36 @@ RSpec.describe "Bookmarks" do
     visit root_path
     fill_in "q", with: 'Sumadhvavijayaḥ'
     click_button 'search'
-    click_button 'Bookmark'
-    expect(page).to have_content 'Successfully added bookmark.'
+
+    check 'Bookmark'
+    expect(page).to have_css('label', text: "In Bookmarks")
+
     fill_in "q", with: 'Sumadhvavijayaḥ'
     click_button 'search'
-    click_button 'Remove bookmark'
-    expect(page).to have_content 'Successfully removed bookmark.'
+    uncheck 'In Bookmarks'
+    expect(page).to have_css('label', text: "Bookmark")
   end
 
   it "adds and delete bookmarks from the show page" do
     sign_in 'user1'
     visit solr_document_path('2007020969')
-    click_button 'Bookmark'
-    click_button 'Remove bookmark'
-    expect(page).to have_content 'Successfully removed bookmark.'
+    check 'Bookmark'
+    uncheck 'In Bookmarks'
+    expect(page).to have_css('label', text: "Bookmark")
   end
 
   it "adds bookmarks after a user logs in" do
     visit solr_document_path('2007020969')
-    click_button 'Bookmark'
+    check 'Bookmark'
     sign_in 'user1'
     visit bookmarks_path
-    expect(page).to have_button("Remove bookmark")
+    expect(page).to have_css('label', text: "In Bookmarks")
     expect(page).to have_content("Strong Medicine speaks")
   end
 
   it "cites items in bookmarks" do
     visit solr_document_path('2007020969')
-    click_button 'Bookmark'
+    check 'Bookmark'
     click_link 'Bookmarks'
     click_link 'Cite'
     expect(page).to have_content 'Strong Medicine speaks'
@@ -59,10 +63,10 @@ RSpec.describe "Bookmarks" do
 
   it "cites all items in current bookmarks" do
     visit solr_document_path('2009373513') # Ci an zhou bian
-    click_button 'Bookmark'
+    check 'Bookmark'
 
     visit solr_document_path('2007020969') # Strong Medicine speaks
-    click_button 'Bookmark'
+    check 'Bookmark'
 
     visit "/bookmarks?per_page=1"
     expect(page).to have_content 'Strong Medicine speaks'

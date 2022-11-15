@@ -118,7 +118,7 @@ RSpec.describe BlacklightHelper do
       it "renders partials" do
         allow(controller).to receive(:render_bookmarks_control?).and_return(true)
         response = helper.render_index_doc_actions(document)
-        expect(response).to have_selector(".bookmark-toggle")
+        expect(response).to have_selector("[data-controller=blacklight-bookmark]")
       end
 
       it "is nil if no partials are renderable" do

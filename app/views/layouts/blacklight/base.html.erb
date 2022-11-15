@@ -18,8 +18,15 @@
     <%= stylesheet_link_tag "https://ga.jspm.io/npm:dialog-polyfill@0.5.6/dist/dialog-polyfill.css" %>
     <% if defined? Importmap %>
       <%= javascript_importmap_tags %>
+    <% elsif defined? Propshaft %>
+      <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <% else %>
-      <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+      <script type="module">
+        import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+        window.Stimulus = Application.start()
+        window.stimulus = { Controller: Controller }
+      </script>
+      <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <% end %>
 
     <%= csrf_meta_tags %>
