@@ -63,11 +63,9 @@ module Blacklight::Bookmarks
     create
   end
 
-  # For adding a single bookmark, suggest use PUT/#update to
-  # /bookmarks/$docuemnt_id instead.
-  # But this method, accessed via POST to /bookmarks, can be used for
-  # creating multiple bookmarks at once, by posting with keys
-  # such as bookmarks[n][document_id], bookmarks[n][title].
+  # For adding a single bookmark, suggest use PUT to /bookmarks/$document_id instead (triggering the #update method).
+  # This method, accessed via POST to /bookmarks, can be used for creating multiple bookmarks at once, by posting
+  # with keys such as bookmarks[n][document_id], bookmarks[n][title].
   # It can also be used for creating a single bookmark by including keys
   # bookmark[title] and bookmark[document_id], but in that case #update
   # is simpler.
