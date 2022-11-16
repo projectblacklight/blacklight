@@ -19,3 +19,7 @@ auto-complete {
     padding: 0.25rem 1.5rem;
   }
 }
+
+.no-js #autocomplete-popup {
+  display: none;
+}
