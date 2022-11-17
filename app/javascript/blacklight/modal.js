@@ -52,8 +52,8 @@
   can be a turbo-stream that defines some HTML fragementsand where on the page to put them:
   https://turbo.hotwired.dev/handbook/streams
 */
-import Blacklight from './core'
-import ModalForm from './modalForm'
+import Blacklight from 'blacklight/core'
+import ModalForm from 'blacklight/modalForm'
 
 const Modal = (() => {
   // We keep all our data in Blacklight.modal object.
