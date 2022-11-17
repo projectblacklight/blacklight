@@ -35,11 +35,11 @@ module Blacklight
       content_tag @wrapping_element, role: 'treeitem', class: 'treeitem' do
         concat(content_tag('span', class: "d-flex flex-row align-items-center") do
           concat facet_toggle_button(id) if has_items? && @collapsing
-          concat content_tag('span', render_component(facet), class: "facet-values d-flex flex-row flex-grow-1 #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
+          concat content_tag('span', render(facet), class: "facet-values d-flex flex-row flex-grow-1 #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
         end)
         if has_items?
           concat(content_tag('ul', class: "pivot-facet flex-column list-unstyled ps-4 #{'collapse' if @collapsing} #{'show' if expanded?}", id: id, role: 'group') do
-            render_component(
+            render(
               self.class.with_collection(
                 @facet_item.facet_item_presenters.to_a
               )
@@ -77,13 +77,6 @@ module Blacklight
         concat @icons[type]
         concat content_tag('span', t(type, scope: 'blacklight.search.facets.pivot'), class: 'sr-only visually-hidden')
       end
-    end
-
-    # This is a little convoluted in Blacklight 7 in order to maintain backwards-compat
-    # with overrides of deprecated helpers. In 8.x, we can just call Component#render_in
-    # and call it a day
-    def render_component(component)
-      helpers.render(component)
     end
   end
 end
