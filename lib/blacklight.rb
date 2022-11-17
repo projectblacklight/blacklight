@@ -65,6 +65,13 @@ module Blacklight
     Blacklight::RuntimeRegistry.connection_config = value
   end
 
+  def defaults_version
+    @defaults_version ||= blacklight_yml['load_defaults'] ||
+                          Blacklight::VERSION
+
+    @defaults_version == 'latest' ? Blacklight::VERSION : @defaults_version
+  end
+
   def self.blacklight_yml
     require 'erb'
     require 'yaml'
