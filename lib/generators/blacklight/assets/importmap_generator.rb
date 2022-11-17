@@ -25,7 +25,6 @@ module Blacklight
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
             import bootstrap from "bootstrap"
-            window.bootstrap = bootstrap // Required for Blacklight 7 so it can manage the modals
             import Blacklight from "blacklight"
             import dialogPolyfill from "dialog-polyfill"
             Blacklight.onLoad(() => {
