@@ -67,9 +67,6 @@ module Blacklight
 
   def defaults_version
     @defaults_version ||= blacklight_yml['load_defaults'] ||
-                          # this config parameter was introduced in Blacklight 7.11, so to be safe,
-                          # we pin any 7.x app to the 7.10 behavior
-                          (Blacklight::VERSION.starts_with?('7') && '7.10.0') ||
                           Blacklight::VERSION
 
     @defaults_version == 'latest' ? Blacklight::VERSION : @defaults_version
