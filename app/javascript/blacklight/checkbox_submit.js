@@ -16,9 +16,67 @@
 export default class CheckboxSubmit {
   constructor(form) {
     this.form = form
+    this.cssClass = 'toggle-bookmark'
   }
 
-  async clicked(evt) {
+  _buildCheckbox(cssClass, id) {
+    const checkbox = document.createElement('input')
+    checkbox.setAttribute('type', 'checkbox')
+    checkbox.setAttribute('data-checkboxsubmit-target', 'checkbox')
+    checkbox.classList.add(cssClass)
+    checkbox.id = id
+    return checkbox
+  }
+
+  _buildSpan() {
+    const span = document.createElement('span')
+    span.setAttribute('data-checkboxsubmit-target', 'span')
+    return span
+  }
+
+  _buildLabel(id, cssClass) {
+    const label = document.createElement('label')
+    label.classList.add(cssClass)
+    label.for = id
+    label.setAttribute('data-checkboxsubmit-target', 'label')
+
+    label.appendChild(this._buildCheckbox(cssClass, id))
+    label.appendChild(document.createTextNode(' '))
+    label.appendChild(this._buildSpan())
+    return label
+  }
+
+  _buildCheckboxDiv(cssClass) {
+    //View needs to set data-doc-id so we know a unique value
+    //for making DOM id
+    const uniqueId = this.form.getAttribute('data-doc-id') || Math.random();
+    const id = `${this.cssClass}_${uniqueId}`
+
+    const checkboxDiv = document.createElement('div')
+    checkboxDiv.classList.add('checkbox')
+    checkboxDiv.classList.add(this.cssClass)
+    checkboxDiv.appendChild(this._buildLabel(id, cssClass))
+    return checkboxDiv
+  }
+
+  render() {
+    if (!this.formTarget.querySelector('div.checkbox')) {
+      const children = this.formTarget.children
+      Array.from(children).forEach((child) => child.classList.add('hidden'))
+
+      //We're going to use the existing form to actually send our add/removes
+      //This works conveneintly because the exact same action href is used
+      //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
+      //of the form to avoid any future confusion.
+      this.formTarget.querySelectorAll('input[type=submit]').forEach((el) => this.formTarget.removeChild(el))
+      this.formTarget.appendChild(this._buildCheckboxDiv())
+    }
+    this.updateStateFor(this.checked)
+
+    this.checkboxTarget.onclick = this._clicked.bind(this)
+  }
+
+  async _clicked(evt) {
     this.spanTarget.innerHTML = this.form.getAttribute('data-inprogress')
     this.labelTarget.setAttribute('disabled', 'disabled');
     this.checkboxTarget.setAttribute('disabled', 'disabled');
