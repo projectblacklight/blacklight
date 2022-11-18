@@ -14,7 +14,7 @@ const Blacklight = function() {
     listeners: function () {
       const listeners = [];
       if (typeof Turbo !== 'undefined') {
-        listeners.push('turbo:load');
+        listeners.push('turbo:load', 'turbo:frame-load');
       } else if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
         // Turbolinks 5
         if (Turbolinks.BrowserAdapter) {
