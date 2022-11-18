@@ -1,16 +1,12 @@
-import Blacklight from './core'
-
 const ButtonFocus = (() => {
-  Blacklight.onLoad(function() {
+  document.addEventListener('click', (e) => {
     // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
     // Safari both do not set focus to a button on button click.
     // See https://zellwk.com/blog/inconsistent-button-behavior/ for background information
-    document.querySelectorAll('button.collapse-toggle').forEach((button) => {
-      button.addEventListener('click', () => {
-        event.target.focus();
-      });
-    });
-  });
+    if (e.target.matches('[data-toggle="collapse"]') || e.target.matches('[data-bs-toggle="collapse"]')) {
+      e.target.focus()
+    }
+  })
 })()
 
 export default ButtonFocus

@@ -155,9 +155,7 @@ modal.receiveAjax = function (contents) {
     dom.showModal()
   }
 
-  Blacklight.onLoad(function() {
-    modal.setupModal()
-  });
+  modal.setupModal()
 })()
 
 export default Modal

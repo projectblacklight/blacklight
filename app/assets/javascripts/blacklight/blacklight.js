@@ -20,7 +20,7 @@
       listeners: function () {
         const listeners = [];
         if (typeof Turbo !== 'undefined') {
-          listeners.push('turbo:load');
+          listeners.push('turbo:load', 'turbo:frame-load');
         } else if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
           // Turbolinks 5
           if (Turbolinks.BrowserAdapter) {
@@ -193,15 +193,13 @@
   })();
 
   const ButtonFocus = (() => {
-    Blacklight.onLoad(function() {
+    document.addEventListener('click', (e) => {
       // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
       // Safari both do not set focus to a button on button click.
       // See https://zellwk.com/blog/inconsistent-button-behavior/ for background information
-      document.querySelectorAll('button.collapse-toggle').forEach((button) => {
-        button.addEventListener('click', () => {
-          event.target.focus();
-        });
-      });
+      if (e.target.matches('[data-toggle="collapse"]') || e.target.matches('[data-bs-toggle="collapse"]')) {
+        e.target.focus();
+      }
     });
   })();
 
@@ -360,20 +358,15 @@
       dom.showModal();
     };
 
-    Blacklight.onLoad(function() {
-      modal.setupModal();
-    });
+    modal.setupModal();
   })();
 
   const SearchContext = (() => {
     Blacklight.doSearchContextBehavior = function() {
-      const elements = document.querySelectorAll('a[data-context-href]');
-      const nodes = Array.from(elements);
-
-      nodes.forEach(function(element) {
-        element.addEventListener('click', function(e) {
-          Blacklight.handleSearchContextMethod.call(e.currentTarget, e);
-        });
+      document.addEventListener('click', (e) => {
+        if (e.target.matches('[data-context-href]')) {
+          Blacklight.handleSearchContextMethod.call(e.target, e);
+        }
       });
     };
 
@@ -422,9 +415,7 @@
       event.stopPropagation();
     };
 
-    Blacklight.onLoad(function() {
-      Blacklight.doSearchContextBehavior();
-    });
+    Blacklight.doSearchContextBehavior();
   })();
 
   const index = {
