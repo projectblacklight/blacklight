@@ -2,13 +2,10 @@ import Blacklight from './core'
 
 const SearchContext = (() => {
   Blacklight.doSearchContextBehavior = function() {
-    const elements = document.querySelectorAll('a[data-context-href]')
-    const nodes = Array.from(elements)
-
-    nodes.forEach(function(element) {
-      element.addEventListener('click', function(e) {
-        Blacklight.handleSearchContextMethod.call(e.currentTarget, e)
-      })
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('[data-context-href]')) {
+        Blacklight.handleSearchContextMethod.call(e.target, e)
+      }
     })
   };
 
@@ -54,12 +51,9 @@ const SearchContext = (() => {
     form.querySelector('[type="submit"]').click()
 
     event.preventDefault()
-    event.stopPropagation()
   };
 
-  Blacklight.onLoad(function() {
-    Blacklight.doSearchContextBehavior();
-  });
+  Blacklight.doSearchContextBehavior();
 })()
 
 export default SearchContext
