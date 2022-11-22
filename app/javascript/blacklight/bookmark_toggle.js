@@ -4,15 +4,16 @@ import CheckboxSubmit from './checkbox_submit'
 const BookmarkToggle = (() => {
     // change form submit toggle to checkbox
     Blacklight.doBookmarkToggleBehavior = function() {
-      document.querySelectorAll(Blacklight.doBookmarkToggleBehavior.selector).forEach((el) => {
-        new CheckboxSubmit(el).render()
-      })
+      document.addEventListener('click', (e) => {
+        if (e.target.matches('[data-checkboxsubmit-target="checkbox"]')) {
+          const form = e.target.closest('form')
+          if (form) new CheckboxSubmit(form).clicked(e);
+        }
+      });
     };
     Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
 
-    Blacklight.onLoad(function() {
-      Blacklight.doBookmarkToggleBehavior();
-    });
+    Blacklight.doBookmarkToggleBehavior();
 })()
 
 export default BookmarkToggle
