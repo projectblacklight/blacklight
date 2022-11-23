@@ -2,20 +2,20 @@
 
 module Blacklight
   class FacetItemPresenter
-    attr_reader :facet_item, :facet_config, :view_context, :search_state, :facet_field
+    attr_reader :facet_item, :facet_config, :view_context, :search_state
 
     delegate :key, to: :facet_config
 
     # @param [Blacklight::Solr::Response::Facets::FacetItem, String] facet_item
     # @param [Blacklight::Configuration::FacetField] facet_config
     # @param [#search_action_path,#facet_field_presenter] view_context
-    # @param [String] facet_field the name of the facet field. Same as facet_config.key
+    # @param [String] _facet_field unused. The name of the facet field is available as facet_config.key
     # @param [Blacklight::SearchState] search_state
-    def initialize(facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
+    def initialize(facet_item, facet_config, view_context, _facet_field, search_state = view_context.search_state)
       @facet_item = facet_item
       @facet_config = facet_config
       @view_context = view_context
-      @facet_field = facet_field
+      # @facet_field = facet_field
       @search_state = search_state
     end
 
