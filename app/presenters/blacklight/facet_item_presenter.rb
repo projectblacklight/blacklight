@@ -2,15 +2,15 @@
 
 module Blacklight
   class FacetItemPresenter
-    attr_reader :facet_item, :facet_config, :view_context, :search_state, :facet_field
+    attr_reader :facet_item, :facet_config, :view_context, :search_state
 
     delegate :key, to: :facet_config
 
-    def initialize(facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
+    def initialize(facet_item, facet_config, view_context, _facet_field, search_state = view_context.search_state)
       @facet_item = facet_item
       @facet_config = facet_config
       @view_context = view_context
-      @facet_field = facet_field
+      # @facet_field = facet_field
       @search_state = search_state
     end
 
