@@ -53,6 +53,10 @@ module Blacklight
       property :logo_link, default: nil
       property :header_component, default: Blacklight::HeaderComponent
 
+      # bootstrap_version may be set to 4 or 5
+      bootstrap_version = ENV['BOOTSTRAP_VERSION'].presence || "5"
+      property :bootstrap_version, default: /(\d)(?:\.\d){0,2}/.match(bootstrap_version)[1].to_i
+
       # === Search request configuration
 
       # @!attribute http_method

@@ -1,4 +1,6 @@
 <div class="alert <%= @classes %>">
   <%= message %>
-  <a class="btn-close close" data-dismiss="alert" data-bs-dismiss="alert" href="#">&times;</a>
+  <%= tag.button_tag button_contents, type: "button", class: "btn-close",
+                     data: { dismiss: "alert", bs_dismiss: "alert" },
+                     aria: { label: "Close" } %>
 </div>
