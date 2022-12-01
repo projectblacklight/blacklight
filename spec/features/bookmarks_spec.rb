@@ -40,6 +40,16 @@ RSpec.describe "Bookmarks" do
     expect(page).to have_content 'Successfully removed bookmark.'
   end
 
+  it 'shows bookmarks as checkboxes', js: true do
+    visit solr_document_path('2007020969')
+    check 'Bookmark'
+    click_link 'Bookmarks'
+
+    visit solr_document_path('2007020969')
+    expect(page).to have_css('input[type="checkbox"][checked]')
+    uncheck 'In Bookmarks'
+  end
+
   it "adds bookmarks after a user logs in" do
     visit solr_document_path('2007020969')
     click_button 'Bookmark'
