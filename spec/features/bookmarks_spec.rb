@@ -43,7 +43,6 @@ RSpec.describe "Bookmarks" do
   it 'shows bookmarks as checkboxes', js: true do
     visit solr_document_path('2007020969')
     check 'Bookmark'
-    click_link 'Bookmarks'
 
     visit solr_document_path('2007020969')
     expect(page).to have_css('input[type="checkbox"][checked]')
