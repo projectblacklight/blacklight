@@ -6,7 +6,7 @@ RSpec.describe "catalog/show.json" do
   end
   let(:config) do
     Blacklight::Configuration.new do |config|
-      config.add_show_field 'title', label: 'Title', field: 'title_tsim'
+      config.show.title_field = 'title_tsim'
     end
   end
 
@@ -27,14 +27,7 @@ RSpec.describe "catalog/show.json" do
         id: '123',
         type: 'Book',
         attributes: {
-          'title' => {
-            id: 'http://test.host/catalog/123#title',
-            type: 'document_value',
-            attributes: {
-              value: 'Book1',
-              label: 'Title'
-            }
-          }
+          'title' => 'Book1'
         }
       })
   end

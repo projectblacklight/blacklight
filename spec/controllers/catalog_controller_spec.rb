@@ -148,7 +148,7 @@ RSpec.describe CatalogController, api: true do
       it "gets the documents" do
         expect(docs).to have(10).documents
         expect(docs.first['attributes'].keys).to match_array(
-          %w[author_tsim format language_ssim lc_callnum_ssim published_ssim title_tsim]
+          %w[author_tsim format language_ssim lc_callnum_ssim published_ssim title title_tsim]
         )
         expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
       end
@@ -324,7 +324,7 @@ RSpec.describe CatalogController, api: true do
         json = JSON.parse response.body
         expect(json["data"]["attributes"].keys).to match_array(
           %w[author_tsim format isbn_ssim language_ssim lc_callnum_ssim
-             published_ssim subtitle_tsim title_tsim url_suppl_ssim]
+             published_ssim subtitle_tsim title title_tsim url_suppl_ssim]
         )
       end
     end

@@ -10,7 +10,7 @@ RSpec.describe "catalog/index.json", api: true do
   end
   let(:config) do
     Blacklight::Configuration.new do |config|
-      config.add_index_field 'title', label: 'Title', field: 'title_tsim'
+      config.index.title_field = 'title_tsim'
       config.add_facet_field :format
     end
   end
@@ -66,14 +66,7 @@ RSpec.describe "catalog/index.json", api: true do
                                 id: '123',
                                 type: 'Book',
                                 attributes: {
-                                  title: {
-                                    id: 'http://test.host/catalog/123#title',
-                                    type: 'document_value',
-                                    attributes: {
-                                      value: 'Book1',
-                                      label: 'Title'
-                                    }
-                                  }
+                                  title: 'Book1'
                                 },
                                 links: { self: 'http://test.host/catalog/123' }
                               },
@@ -81,14 +74,7 @@ RSpec.describe "catalog/index.json", api: true do
                                 id: '456',
                                 type: 'Article',
                                 attributes: {
-                                  title: {
-                                    id: 'http://test.host/catalog/456#title',
-                                    type: 'document_value',
-                                    attributes: {
-                                      value: 'Article1',
-                                      label: 'Title'
-                                    }
-                                  }
+                                  title: 'Article1'
                                 },
                                 links: { self: 'http://test.host/catalog/456' }
                               }
