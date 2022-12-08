@@ -37,6 +37,30 @@
   }
 }
 
+.no-js {
+  @include media-breakpoint-down(lg) {
+    #sidebar {
+      order: 6 !important;
+    }
+  }
+
+  .facet-content.collapse {
+    display: block;
+  }
+
+  .facet-toggle-handle {
+    display: none;
+  }
+
+  .pivot-facet.collapse {
+    display: block;
+  }
+
+  .facets-collapse.collapse {
+    display: block;
+  }
+}
+
 .facets-header {
   display: flex;
   justify-content: space-between;
