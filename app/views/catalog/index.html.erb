@@ -1,5 +1,8 @@
 <% content_for(:sidebar) do %>
-  <%= render 'search_sidebar' %>
+  <% conf = blacklight_config.view_config(document_index_view_type) %>
+  <%= render conf.sidebar_component.new(blacklight_config: blacklight_config,
+                                        response: @response,
+                                        view_config: conf) %>
 <% end %>
 
 <% unless has_search_parameters? %>

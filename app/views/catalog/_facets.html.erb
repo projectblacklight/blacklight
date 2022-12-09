@@ -1,9 +1,5 @@
-<% # container for facet groups -%>
-<% blacklight_config.facet_group_names.each do |groupname| %>
-  <% fields = blacklight_config.facet_fields_in_group(groupname) %>
-  <%= render (blacklight_config&.view_config(document_index_view_type)&.facet_group_component || Blacklight::Response::FacetGroupComponent).new(id: groupname, fields: fields, response: @response) do |component| %>
-    <% component.body do %>
-      <%= render Blacklight::FacetComponent.with_collection(fields, response: @response) %>
-    <% end %>
-  <% end %>
-<% end %>
+<% # this partial is deprecated.  catalog/index now renders the component %>
+<% conf = blacklight_config.view_config(document_index_view_type) %>
+<%= render conf.sidebar_component.new(blacklight_config: blacklight_config,
+                                      response: @response,
+                                      view_config: conf) %>
