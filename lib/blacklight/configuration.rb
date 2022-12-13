@@ -577,9 +577,13 @@ module Blacklight
                         document_or_display_types
                       end
 
+      unless display_types.respond_to?(:each)
+        Deprecation.warn self, "Calling show_fields_for with a scalar value is deprecated. It must receive an Enumerable."
+        display_types = Array.wrap(display_types)
+      end
       fields = {}.with_indifferent_access
 
-      Array.wrap(display_types).each do |display_type|
+      display_types.each do |display_type|
         fields = fields.merge(for_display_type(display_type).show_fields)
       end
 
