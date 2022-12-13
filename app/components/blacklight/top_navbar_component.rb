@@ -8,6 +8,6 @@ module Blacklight
 
     attr_reader :blacklight_config
 
-    delegate :container_classes, to: :helpers
+    delegate :application_name, :container_classes, to: :helpers
   end
 end

@@ -13,6 +13,7 @@ module Blacklight::Controller
 
     # handle basic authorization exception with #access_denied
     rescue_from Blacklight::Exceptions::AccessDenied, with: :access_denied
+    helper BlacklightHelper
 
     if respond_to? :helper_method
       helper_method :current_user_session, :current_user, :current_or_guest_user
