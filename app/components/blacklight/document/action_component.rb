@@ -16,8 +16,26 @@ module Blacklight
         @link_classes = link_classes
       end
 
+      def render_control
+        return link_to_modal_control if using_default_document_action?
+
+        render_partial
+      end
+
       def using_default_document_action?
         @action.component || @action.partial == 'document_action'
+      end
+
+      def link_to_modal_control
+        link_to label,
+                url,
+                id: @id,
+                class: @link_classes,
+                data: {}.merge(({ blacklight_modal: "trigger", turbo: false } if @action.modal != false) || {})
+      end
+
+      def render_partial
+        helpers.render(partial: @action.partial || @action.name.to_s, locals: { document: @document, document_action_config: @action }.merge(@options))
       end
 
       def label
