@@ -8,6 +8,8 @@ module Blacklight
 
     attr_reader :blacklight_config
 
+    delegate :container_classes, to: :helpers
+
     def search_bar
       render search_bar_component
     end
