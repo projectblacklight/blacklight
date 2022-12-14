@@ -22,7 +22,7 @@ module Blacklight::Controller
       helper_method :blacklight_config, :blacklight_configuration_context # move to Catalog
       helper_method :search_action_url, :search_action_path
       helper_method :search_facet_path # move to catalog? deprecate?
-      helper_method :search_state # move to catalog?
+      helper_method :search_state
     end
 
     # Which class to use for the search state. You can subclass SearchState if you
@@ -55,8 +55,9 @@ module Blacklight::Controller
     has_user_authentication_provider? && current_or_guest_user.present?
   end
 
+  # This must be on every controller that uses the layout, because it is used in
+  # the header to draw Blacklight::SearchNavbarComponent (via the shared/header_navbar template)
   # @return [Blacklight::SearchState] a memoized instance of the parameter state.
-  # TODO: move to catalog?
   def search_state
     @search_state ||= search_state_class.new(params, blacklight_config, self)
   end
