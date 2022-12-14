@@ -22,7 +22,6 @@ module Blacklight::Controller
       helper_method :has_user_authentication_provider?
       helper_method :blacklight_config, :blacklight_configuration_context # move to Catalog
       helper_method :search_action_url, :search_action_path
-      helper_method :search_facet_path # move to catalog? deprecate?
       helper_method :search_state
     end
 
@@ -77,16 +76,6 @@ module Blacklight::Controller
     end
 
     search_action_url(*args)
-  end
-
-  # TODO: move to catalog? deprecate?
-  def search_facet_path(options = {})
-    opts = search_state
-           .to_h
-           .merge(action: "facet", only_path: true)
-           .merge(options)
-           .except(:page)
-    url_for opts
   end
 
   # Should be provided by authentication provider
