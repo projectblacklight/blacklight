@@ -46,6 +46,10 @@ desc "Run test suite"
 task :ci do
   with_solr do
     Rake::Task['blacklight:internal:seed'].invoke
+    within_test_app do
+      # Precompiles the javascript
+      system "bin/rake spec:prepare"
+    end
     Rake::Task['blacklight:coverage'].invoke
   end
 end
