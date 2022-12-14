@@ -23,6 +23,11 @@ module Blacklight::SearchContext
     @current_search_session ||= find_search_session
   end
 
+  # Returns a list of Searches from the ids in the user's history.
+  def searches_from_history
+    session[:history].blank? ? ::Search.none : ::Search.where(id: session[:history]).order("updated_at desc")
+  end
+
   private
 
   # sets up the session[:search] hash if it doesn't already exist

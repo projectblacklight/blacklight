@@ -4,6 +4,7 @@ module Blacklight
   module SearchHistory
     extend ActiveSupport::Concern
     include Blacklight::Configurable
+    include Blacklight::SearchContext
 
     included do
       copy_blacklight_config_from(CatalogController)
