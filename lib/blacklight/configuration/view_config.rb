@@ -24,6 +24,8 @@ class Blacklight::Configuration
     #   @return [Class] component class used to render the constraints
     # @!attribute search_bar_component
     #   @return [Class] component class used to render the search bar
+    # @!attribute search_header_component
+    #   @return [Class] component class used to render the header above the documents
     def search_bar_presenter_class
       super || Blacklight::SearchBarPresenter
     end
