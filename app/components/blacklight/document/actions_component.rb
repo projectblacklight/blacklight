@@ -2,7 +2,7 @@
 
 module Blacklight
   module Document
-    # Render a bookmark widget to bookmark / unbookmark a document
+    # Render a the set of actions for a document. One of the default actions is the bookmark control.
     class ActionsComponent < Blacklight::Component
       renders_many :actions, (lambda do |action:, component: nil, **kwargs|
         component ||= action.component || Blacklight::Document::ActionComponent
