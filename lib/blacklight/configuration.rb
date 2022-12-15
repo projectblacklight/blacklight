@@ -169,6 +169,7 @@ module Blacklight
         # document presenter class used by helpers and views
         document_presenter_class: nil,
         document_component: Blacklight::DocumentComponent,
+        sidebar_component: Blacklight::Document::SidebarComponent,
         display_type_field: nil,
         # Default route parameters for 'show' requests.
         # Set this to a hash with additional arguments to merge into the route,

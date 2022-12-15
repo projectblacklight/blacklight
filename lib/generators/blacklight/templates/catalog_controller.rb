@@ -80,6 +80,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #
     # These components can be configured
     # config.show.document_component = MyApp::DocumentComponent
+    # config.show.sidebar_component = MyApp::SidebarComponent
     # config.show.embed_component = MyApp::EmbedComponent
 
     # solr fields that will be treated as facets by the blacklight application
