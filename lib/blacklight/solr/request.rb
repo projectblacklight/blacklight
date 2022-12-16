@@ -18,6 +18,8 @@ class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess
   end
 
   def append_query(query)
+    return if query.nil?
+
     if self['q'] || dig(:json, :query, :bool)
       self[:json] ||= { query: { bool: { must: [] } } }
       self[:json][:query] ||= { bool: { must: [] } }
