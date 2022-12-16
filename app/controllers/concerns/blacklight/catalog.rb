@@ -15,6 +15,7 @@ module Blacklight::Catalog
   included do
     if respond_to? :helper_method
       helper_method :sms_mappings, :has_search_parameters?
+      helper_method :search_facet_path
     end
 
     record_search_parameters
@@ -129,6 +130,15 @@ module Blacklight::Catalog
   # @return [Boolean]
   def has_search_parameters?
     params[:search_field].present? || search_state.has_constraints?
+  end
+
+  def search_facet_path(options = {})
+    opts = search_state
+           .to_h
+           .merge(action: "facet", only_path: true)
+           .merge(options)
+           .except(:page)
+    url_for opts
   end
 
   private
