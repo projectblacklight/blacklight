@@ -6,14 +6,6 @@ module Blacklight
   class Engine < Rails::Engine
     engine_name "blacklight"
 
-    # BlacklightHelper is needed by all helpers, so we inject it
-    # into action view base here.
-    initializer 'blacklight.helpers' do
-      config.after_initialize do
-        ActionView::Base.include BlacklightHelper
-      end
-    end
-
     config.after_initialize do
       Blacklight::Configuration.initialize_default_configuration
     end
