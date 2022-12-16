@@ -191,6 +191,14 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
     end
 
+    describe "for a missing string search" do
+      let(:user_params) { { q: nil } }
+
+      it "does not populate the q parameter in solr parameters" do
+        expect(subject).not_to have_key :q
+      end
+    end
+
     describe "for an empty string search" do
       let(:user_params) { { q: "" } }
 
