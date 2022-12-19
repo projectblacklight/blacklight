@@ -723,4 +723,26 @@ RSpec.describe "Blacklight::Configuration", api: true do
       expect { config.view.a = '123' }.to raise_error(FrozenError)
     end
   end
+
+  describe '.default_configuration' do
+    it 'adds additional default configuration properties' do
+      Blacklight::Configuration.default_configuration do
+        Blacklight::Configuration.default_values[:a] = '123'
+      end
+
+      Blacklight::Configuration.default_configuration do
+        Blacklight::Configuration.default_values[:b] = 'abc'
+      end
+
+      expect(Blacklight::Configuration.default_values[:a]).to eq '123'
+      expect(Blacklight::Configuration.default_values[:b]).to eq 'abc'
+    ensure
+      # reset the default configuration
+      Blacklight::Configuration.default_values.delete(:a)
+      Blacklight::Configuration.default_values.delete(:b)
+
+      Blacklight::Configuration.default_configuration.delete_at(1)
+      Blacklight::Configuration.default_configuration.delete_at(2)
+    end
+  end
 end
