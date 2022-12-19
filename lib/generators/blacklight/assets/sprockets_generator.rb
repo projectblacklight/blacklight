@@ -36,7 +36,6 @@ module Blacklight
 
         create_file 'app/assets/javascripts/application.js' do
           <<~CONTENT
-            //= require turbolinks
             //= require rails-ujs
             #{'//= require jquery3' if bootstrap_4?}
 
