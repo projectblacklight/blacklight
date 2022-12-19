@@ -20,6 +20,9 @@ module Blacklight::Document
       # @example
       #   class SolrDocument
       #     include Blacklight::Solr::Document
+      #     attribute :title, :string, 'title_tesim'
+      #
+      #     Deprecated syntax:
       #     attribute :title, Blacklight::Types::String, 'title_tesim'
       #   end
       #
