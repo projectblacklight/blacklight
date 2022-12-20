@@ -21,6 +21,7 @@ module Blacklight::Document
   include Blacklight::Document::SemanticFields
   include Blacklight::Document::CacheKey
   include Blacklight::Document::Export
+  include Blacklight::Document::Attributes
 
   included do
     extend ActiveModel::Naming
@@ -70,13 +71,20 @@ module Blacklight::Document
   alias has_field? has?
   alias has_key? key?
 
-  def fetch key, *default
+  NO_DEFAULT_PROVIDED = Object.new # :nodoc:
+  def fetch key, default = NO_DEFAULT_PROVIDED
     if key? key
       self[key]
-    elsif default.empty? && !block_given?
-      raise KeyError, "key not found \"#{key}\""
+    elsif block_given?
+      yield(self) if block_given?
+    elsif default != NO_DEFAULT_PROVIDED
+      if default.respond_to?(:call)
+        default.call(self)
+      else
+        default
+      end
     else
-      (yield(self) if block_given?) || default.first
+      raise KeyError, "key not found \"#{key}\""
     end
   end
 
@@ -115,22 +123,6 @@ module Blacklight::Document
 
     def unique_key
       @unique_key ||= 'id'
-    end
-
-    # Define an attribute reader on a document model
-    # @example
-    #   class SolrDocument
-    #     include Blacklight::Solr::Document
-    #     attribute :title, Blacklight::Types::String, 'title_tesim'
-    #   end
-    #
-    #   doc = SolrDocument.new(title_tesim: ["One flew over the cuckoo's nest"])
-    #   doc.title
-    #   #=> "One flew over the cuckoo's nest"
-    def attribute(name, type, field)
-      define_method name do
-        type.coerce(self[field])
-      end
     end
   end
 end
