@@ -48,7 +48,7 @@ module Blacklight
 
     class String < Value
       def cast(input)
-        super.to_s
+        super&.to_s
       end
     end
 
