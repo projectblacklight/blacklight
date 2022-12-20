@@ -66,5 +66,19 @@ RSpec.describe SolrDocument, api: true do
       expect(document.date).to eq Date.new(1990)
       expect(document.whatever).to eq 'default_value'
     end
+
+    context 'with missing data' do
+      let(:document) { doc_class.new(id: '123') }
+
+      it 'returns nil for scalar values' do
+        expect(document.title).to be_nil
+        expect(document.first_author).to be_nil
+        expect(document.date).to be_nil
+      end
+
+      it 'returns an array for array values' do
+        expect(document.author).to eq []
+      end
+    end
   end
 end

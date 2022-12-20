@@ -29,7 +29,7 @@ module Blacklight::Document
       #   doc = SolrDocument.new(title_tesim: ["One flew over the cuckoo's nest"])
       #   doc.title
       #   #=> "One flew over the cuckoo's nest"
-      def attribute(name, type = :value, deprecated_field = name, field: nil, default: Blacklight::Document::NO_DEFAULT_PROVIDED, **kwargs)
+      def attribute(name, type = :value, deprecated_field = name, field: nil, default: nil, **kwargs)
         field ||= deprecated_field
 
         define_method name do
