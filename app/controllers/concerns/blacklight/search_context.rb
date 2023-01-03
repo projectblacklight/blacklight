@@ -107,6 +107,8 @@ module Blacklight::SearchContext
   end
 
   def find_or_initialize_search_session_from_params params
+    return unless blacklight_config.track_search_session == 'server'
+
     params_copy = params.reject { |k, v| nonpersisted_search_session_params.include?(k.to_sym) || v.blank? }
 
     return if params_copy.reject { |k, _v| [:action, :controller].include? k.to_sym }.blank?
