@@ -1,9 +1,4 @@
-<% if current_search_session %>
-  <div id="appliedParams" class="clearfix constraints-container">
-    <%= render 'start_over' %>
-    <%= link_back_to_catalog class: 'btn btn-outline-secondary' %>
-  </div>
-<% end %>
+<%= render Blacklight::SearchContext::ServerAppliedParamsComponent.new %>
 
 <%= render 'show_main_content' %>
 
