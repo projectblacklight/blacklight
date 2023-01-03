@@ -1,6 +1,6 @@
-<%= render(Blacklight::SearchContextComponent.new(search_context: @search_context, search_session: search_session, current_document: @document)) %>
+<%= render blacklight_config.track_search_session_config.item_pagination_component.new(search_context: @search_context, search_session: search_session, current_document: @document) if blacklight_config.track_search_session_config.item_pagination_component %>
 
-<% @page_title = t('blacklight.search.show.title', document_title: Deprecation.silence(Blacklight::BlacklightHelperBehavior) { document_show_html_title }, application_name: application_name).html_safe %>
+<% @page_title = t('blacklight.search.show.title', document_title: document_presenter(@document).html_title, application_name: application_name).html_safe %>
 <% content_for(:head) { render_link_rel_alternates } %>
 
 <%= render (blacklight_config.view_config(:show).document_component || Blacklight::DocumentComponent).new(presenter: document_presenter(@document), component: :div, title_component: :h1, show: true) do |component| %>
