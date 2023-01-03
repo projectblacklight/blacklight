@@ -7,7 +7,7 @@ RSpec.describe BookmarksController do
     end
 
     it 'opts out of search session tracking' do
-      expect(@controller.blacklight_config.track_search_session).to be false
+      expect(@controller.blacklight_config.track_search_session.storage).to be false
     end
   end
 

@@ -20,6 +20,7 @@ module Blacklight
       autoload :DisplayField
       autoload :IndexField
       autoload :ShowField
+      autoload :SessionTrackingConfig
     end
 
     class_attribute :default_values, default: {}
@@ -279,9 +280,10 @@ module Blacklight
       property :raw_endpoint, default: OpenStructWithHashAccess.new(enabled: false)
 
       # @!attribute track_search_session
-      # @since v7.1.0
-      # @return [Boolean]
-      property :track_search_session, default: true
+      # falsy value: do no tracking
+      # @since v8.0.0
+      # @return [Blacklight::Configuration::SessionTrackingConfig]
+      property :track_search_session, default: Blacklight::Configuration::SessionTrackingConfig.new
 
       # @!attribute advanced_search
       # @since v7.15.0

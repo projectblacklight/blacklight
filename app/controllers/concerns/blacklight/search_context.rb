@@ -107,6 +107,8 @@ module Blacklight::SearchContext
   end
 
   def find_or_initialize_search_session_from_params params
+    return unless blacklight_config.track_search_session.storage == 'server'
+
     params_copy = params.reject { |k, v| nonpersisted_search_session_params.include?(k.to_sym) || v.blank? }
 
     return if params_copy.reject { |k, _v| [:action, :controller].include? k.to_sym }.blank?
@@ -149,25 +151,31 @@ module Blacklight::SearchContext
   # calls setup_previous_document then setup_next_document.
   # used in the show action for single view pagination.
   def setup_next_and_previous_documents
-    if search_session['counter'] && current_search_session
-      index = search_session['counter'].to_i - 1
-      response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset(current_search_session.query_params)
+    return { counter: params[:counter] } if setup_next_and_previous_on_client?
+    return nil unless setup_next_and_previous_on_server?
 
-      search_session['total'] = response.total
-      { prev: documents.first, next: documents.last }
-    end
+    index = search_session['counter'].to_i - 1
+    response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset(current_search_session.query_params)
+
+    search_session['total'] = response.total
+    { prev: documents.first, next: documents.last }
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger&.warn "Unable to setup next and previous documents: #{e}"
     nil
   end
 
+  def setup_next_and_previous_on_server?
+    search_session['counter'] && current_search_session && blacklight_config.track_search_session.storage == 'server'
+  end
+
+  def setup_next_and_previous_on_client?
+    params[:counter] && blacklight_config.track_search_session.storage == 'client'
+  end
+
   def page_links_document_path(document, counter)
     return nil unless document
+    return search_state.url_for_document(document, counter: counter) if blacklight_config.view_config(:show).route
 
-    if blacklight_config.view_config(:show).route
-      search_state.url_for_document(document, counter: counter)
-    else
-      solr_document_path(document, counter: counter)
-    end
+    solr_document_path(document, counter: counter)
   end
 end
