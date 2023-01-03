@@ -17,6 +17,28 @@ module Blacklight::SearchContext
     end
   end
 
+  # GET previous and next document json for the document specified by
+  # the counter param in current search
+  def page_links
+    counter_param = params.delete(:counter)
+    @page_link_data = {}
+    if counter_param
+      index = counter_param.to_i - 1
+      response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset_search
+      if documents.detect(&:present?)
+        @page_link_data[:prev] = page_links_document_path(documents.first, index)
+        @page_link_data[:next] = page_links_document_path(documents.last, index + 2)
+      end
+      if response&.total && response.total.positive?
+        @page_link_data[:counterRaw] = counter_param
+        @page_link_data[:counterDelimited] = helpers.number_with_delimiter(counter_param.to_i)
+        @page_link_data[:totalRaw] = response.total
+        @page_link_data[:totalDelimited] = helpers.number_with_delimiter(response.total)
+      end
+    end
+    render json: @page_link_data
+  end
+
   private
 
   # sets up the session[:search] hash if it doesn't already exist
@@ -119,5 +141,15 @@ module Blacklight::SearchContext
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger&.warn "Unable to setup next and previous documents: #{e}"
     nil
+  end
+
+  def page_links_document_path(document, counter)
+    return nil unless document
+
+    if blacklight_config.view_config(:show).route
+      search_state.url_for_document(document, counter: counter)
+    else
+      solr_document_path(document, counter: counter)
+    end
   end
 end
