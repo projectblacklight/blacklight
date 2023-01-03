@@ -1,4 +1,4 @@
-<%= render Blacklight::SearchContext::ServerAppliedParamsComponent.new %>
+<%= render (blacklight_config.track_search_session == 'client' ? Blacklight::SearchContext::ClientAppliedParamsComponent : Blacklight::SearchContext::ServerAppliedParamsComponent).new %>
 
 <%= render 'show_main_content' %>
 

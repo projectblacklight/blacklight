@@ -1,5 +1,8 @@
-<%= render(Blacklight::SearchContextComponent.new(search_context: @search_context, search_session: search_session, current_document: @document)) %>
-
+<% if blacklight_config.track_search_session == 'client' -%>
+  <%= render Blacklight::SearchContext::ClientItemPaginationComponent.new(counter: params.permit(:counter)[:counter]) -%>
+<% else -%>
+  <%= render Blacklight::SearchContextComponent.new(search_context: @search_context, search_session: search_session, current_document: @document) -%>
+<% end -%>
 <% @page_title = t('blacklight.search.show.title', document_title: document_presenter(@document).html_title, application_name: application_name).html_safe %>
 <% content_for(:head) { render_link_rel_alternates } %>
 
