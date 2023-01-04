@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Represent a single document returned from Solr
+# Represents a single document returned from Solr
 class <%= model_name.classify %>
   include Blacklight::Solr::Document
 
