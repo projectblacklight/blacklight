@@ -1,5 +1,5 @@
 <% if blacklight_config.track_search_session == 'client' -%>
-  <%= render Blacklight::SearchContext::ClientItemPaginationComponent.new(counter: params.permit(:counter)[:counter]) -%>
+  <%= render Blacklight::SearchContext::ClientItemPaginationComponent.new(counter: params[:counter]) -%>
 <% else -%>
   <%= render Blacklight::SearchContextComponent.new(search_context: @search_context, search_session: search_session, current_document: @document) -%>
 <% end -%>
