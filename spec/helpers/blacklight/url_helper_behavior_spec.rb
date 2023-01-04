@@ -187,12 +187,12 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "uses the track_search_session configuration to determine whether to track the search session" do
-      blacklight_config.track_search_session = false
+      blacklight_config.track_search_session.storage = false
       expect(helper.session_tracking_path(document, x: 1)).to be_nil
     end
 
     it "uses solr_document_path if tracking is done on the client" do
-      blacklight_config.track_search_session = 'client'
+      blacklight_config.track_search_session.storage = 'client'
       allow(helper.main_app).to receive(:solr_document_path).with({ id: have_attributes(id: 1), x: 1 }).and_return('x')
       expect(helper.session_tracking_path(document, x: 1)).to eq 'x'
     end

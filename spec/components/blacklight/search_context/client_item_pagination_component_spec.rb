@@ -10,7 +10,7 @@ RSpec.describe Blacklight::SearchContext::ClientItemPaginationComponent, type: :
   end
 
   let(:counter) { nil }
-  let(:instance) { described_class.new(counter: counter) }
+  let(:instance) { described_class.new(search_context: { counter: counter }) }
   let(:view_context) { controller.view_context }
 
   before do

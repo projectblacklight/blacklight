@@ -5,8 +5,8 @@ module Blacklight
     class ClientItemPaginationComponent < Blacklight::Component
       delegate :search_action_path, to: :helpers
 
-      def initialize(counter:, **_args)
-        @counter = counter
+      def initialize(search_context:, **_args)
+        @counter = search_context&.fetch(:counter, nil)
       end
 
       def render?
@@ -29,19 +29,23 @@ module Blacklight
         # rubocop:enable Rails/OutputSafety
       end
 
-      def link_to_previous_document(classes: 'previous', **link_opts)
+      # Displays a stub link for previous document to be activated by client script
+      # @return [String]
+      def link_to_previous_document
         # rubocop:disable Rails/OutputSafety
-        link_opts = { class: classes, rel: 'prev' }.merge(link_opts)
-        link_to '#', link_opts do
+        link_opts = { class: ['previous'], rel: 'prev', aria: { disabled: true } }
+        content_tag :a, link_opts do
           tag.span raw(t('views.pagination.previous')), class: 'previous'
         end
         # rubocop:enable Rails/OutputSafety
       end
 
-      def link_to_next_document(classes: 'next', **link_opts)
+      # Displays a stub link for next document to be activated by client script
+      # @return [String]
+      def link_to_next_document
         # rubocop:disable Rails/OutputSafety
-        link_opts = { class: classes, rel: 'next' }.merge(link_opts)
-        link_to '#', link_opts do
+        link_opts = { class: ['next'], rel: 'next', aria: { disabled: true } }
+        content_tag :a, link_opts do
           tag.span raw(t('views.pagination.next')), class: 'next'
         end
         # rubocop:enable Rails/OutputSafety

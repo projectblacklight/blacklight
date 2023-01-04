@@ -1,5 +1,5 @@
 <% content_for(:head) do %>
-  <meta name="blacklight-search-storage" content="<%= blacklight_config.track_search_session %>">
+  <meta name="blacklight-search-storage" content="<%= blacklight_config.track_search_session.storage %>">
 <% end %>
 <% content_for(:sidebar) do %>
   <% conf = blacklight_config.view_config(document_index_view_type) %>
