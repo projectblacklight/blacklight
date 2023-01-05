@@ -1,4 +1,4 @@
 <div id="appliedParams" class="clearfix constraints-container">
   <%= render 'start_over' %>
-  <%= link_to t('blacklight.back_to_search'), search_action_path(only_path: true), class: 'btn btn-outline-secondary back-to-catalog d-none', aria: { live: "off" } %>
+  <%= link_to t('blacklight.back_to_search'), search_action_path(only_path: true), class: 'btn btn-outline-secondary back-to-catalog', aria: { live: "off", disabled: true }, hidden: true %>
 </div>

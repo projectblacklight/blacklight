@@ -333,9 +333,9 @@
       // page-links dynamic content depends on a loaded document
       Blacklight.onLoad(() => {
         // if page-links container has a data URL, do client-side search context behaviors
-        let clientPageLinks = document.querySelectorAll('.page-links[data-page-links-url]');
+        const clientPageLinks = document.querySelectorAll('.page-links[data-page-links-url]');
         if (clientPageLinks[0]) {
-          const storedSearch = new URLSearchParams(sessionStorage.getItem("blacklightSearch"));
+          const storedSearch = new URLSearchParams(sessionStorage.getItem("blacklightSearch") || "");
           Blacklight.clientAppliedParams(storedSearch);
           Blacklight.clientPageLinks(clientPageLinks[0].getAttribute('data-page-links-url'), storedSearch);
         }
@@ -378,7 +378,7 @@
       const target = (event.metaKey || event.ctrlKey) ? '_blank' : formTarget;
       if (target) form.target = target;
 
-      form.style.display = 'none';
+      form.hidden = true;
 
       let formContent = buildInputsFromSearchParams(actionUrl);
       if (formMethod != 'get' && formMethod != 'post') formContent += `<input name="_method" value="${formMethod}" type="hidden" />`;
@@ -428,7 +428,8 @@
           if (backToCatalogEle) {
             const backToCatalogUrl = new URL(backToCatalogEle.href);
             backToCatalogEle.href = `${backToCatalogUrl.pathname}?${storedSearch.toString()}`;
-            backToCatalogEle.classList.remove('d-none');
+            backToCatalogEle.removeAttribute('aria-disabled');
+            backToCatalogEle.hidden = false;
           }
         }
       }
@@ -468,7 +469,7 @@
     Blacklight.clientPageLinks = function(pageLinksPath, storedSearch) {
       const pageLinksUrl = new URL(pageLinksPath, window.location);
       // pageLinksUrl should already have a counter param, but needs search params
-      let prevNextParams = new URLSearchParams(pageLinksUrl.search);
+      const prevNextParams = new URLSearchParams(pageLinksUrl.search);
       if (storedSearch) {
         for (const [paramName, paramValue] of storedSearch.entries()) {
           prevNextParams.append(paramName, paramValue);
