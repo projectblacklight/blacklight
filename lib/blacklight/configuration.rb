@@ -31,12 +31,19 @@ module Blacklight
       end
 
       def default_configuration(&block)
-        @default_configuration = block
-        @default_configuration_initialized = false
+        @default_configurations ||= []
+
+        if block
+          @default_configurations << block
+
+          block.call if @default_configuration_initialized
+        end
+
+        @default_configurations
       end
 
       def initialize_default_configuration
-        @default_configuration.call
+        @default_configurations&.map(&:call)
         @default_configuration_initialized = true
       end
 
