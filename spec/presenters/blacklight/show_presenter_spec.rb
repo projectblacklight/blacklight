@@ -14,10 +14,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
   let(:search_state) { Blacklight::SearchState.new(params, config, controller) }
 
   let(:document) do
-    SolrDocument.new(id: 1,
-                     'link_to_facet_true' => 'x',
-                     'link_to_facet_named' => 'x',
-                     'qwer' => 'document qwer value')
+    SolrDocument.new(id: 'xyz', some_field: 'value')
   end
 
   before do
@@ -108,34 +105,27 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
   end
 
   describe '#fields' do
-    let(:field) { instance_double(Blacklight::Configuration::Field) }
-
     before do
-      allow(config).to receive(:show_fields_for).and_return(title: field)
+      config.add_show_field 'title'
     end
 
     it 'returns the list from the configs' do
-      expect(subject.send(:fields)).to eq(title: field)
+      expect(subject.send(:fields).keys).to eq ['title']
     end
   end
 
   describe "#heading" do
     it "falls back to an id" do
-      allow(document).to receive(:[]).with('id').and_return "xyz"
       expect(subject.heading).to eq document.id
     end
 
     it "returns the value of the field" do
-      config.show.title_field = 'x'
-      allow(document).to receive(:has?).with('x').and_return(true)
-      allow(document).to receive(:fetch).with('x', nil).and_return("value")
+      config.show.title_field = 'some_field'
       expect(subject.heading).to eq "value"
     end
 
     it "returns the first present value" do
-      config.show.title_field = %w[x y]
-      allow(document).to receive(:fetch).with('x', nil).and_return(nil)
-      allow(document).to receive(:fetch).with('y', nil).and_return("value")
+      config.show.title_field = %w[a_field_that_doesnt_exist some_field]
       expect(subject.heading).to eq "value"
     end
 
@@ -144,7 +134,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
       expect(subject.heading).to eq 'hardcoded'
     end
 
-    context "when empty document" do
+    context "with an empty document" do
       let(:document) { SolrDocument.new({}) }
 
       it "returns an empty string as the heading" do
@@ -155,21 +145,16 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
 
   describe "#html_title" do
     it "falls back to an id" do
-      allow(document).to receive(:[]).with('id').and_return "xyz"
       expect(subject.html_title).to eq document.id
     end
 
     it "returns the value of the field" do
-      config.show.html_title_field = 'x'
-      allow(document).to receive(:has?).with('x').and_return(true)
-      allow(document).to receive(:fetch).with('x', nil).and_return("value")
+      config.show.html_title_field = 'some_field'
       expect(subject.html_title).to eq "value"
     end
 
     it "returns the first present value" do
-      config.show.html_title_field = %w[x y]
-      allow(document).to receive(:fetch).with('x', nil).and_return(nil)
-      allow(document).to receive(:fetch).with('y', nil).and_return("value")
+      config.show.html_title_field = %w[a_field_that_doesnt_exist some_field]
       expect(subject.html_title).to eq "value"
     end
 

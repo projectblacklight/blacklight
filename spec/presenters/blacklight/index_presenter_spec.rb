@@ -25,14 +25,12 @@ RSpec.describe Blacklight::IndexPresenter, api: true do
   end
 
   describe '#fields' do
-    let(:field) { instance_double(Blacklight::Configuration::Field) }
-
     before do
-      allow(config).to receive(:index_fields_for).and_return(title: field)
+      config.add_index_field 'title'
     end
 
     it 'returns the list from the configs' do
-      expect(subject.send(:fields)).to eq(title: field)
+      expect(subject.send(:fields).keys).to eq ['title']
     end
   end
 
