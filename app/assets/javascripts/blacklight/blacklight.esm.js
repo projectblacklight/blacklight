@@ -14,7 +14,7 @@ const Blacklight = function() {
     listeners: function () {
       const listeners = [];
       if (typeof Turbo !== 'undefined') {
-        listeners.push('turbo:load');
+        listeners.push('turbo:load', 'turbo:frame-load');
       } else if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
         // Turbolinks 5
         if (Turbolinks.BrowserAdapter) {
@@ -69,105 +69,65 @@ Blacklight.onLoad(function () {
 class CheckboxSubmit {
   constructor(form) {
     this.form = form;
-    this.cssClass = 'toggle-bookmark';
-
-    //View needs to set data-doc-id so we know a unique value
-    //for making DOM id
-    const uniqueId = this.form.getAttribute('data-doc-id') || Math.random();
-    const id = `${this.cssClass}_${uniqueId}`;
-    this.checkbox = this._buildCheckbox(this.cssClass, id);
-    this.span = this._buildSpan();
-    this.label = this._buildLabel(id, this.cssClass, this.checkbox, this.span);
-
-    // if form is currently using method delete to change state,
-    // then checkbox is currently checked
-    this.checked = (this.form.querySelectorAll('input[name=_method][value=delete]').length != 0);
   }
 
-  _buildCheckbox(cssClass, id) {
-    const checkbox = document.createElement('input');
-    checkbox.setAttribute('type', 'checkbox');
-    checkbox.classList.add(cssClass);
-    checkbox.id = id;
-    return checkbox
-  }
-
-  _buildLabel(id, cssClass, checkbox, span) {
-    const label = document.createElement('label');
-    label.classList.add(cssClass);
-    label.for = id;
-
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(' '));
-    label.appendChild(span);
-    return label
-  }
-
-  _buildSpan() {
-    return document.createElement('span')
-  }
-
-  _buildCheckboxDiv() {
-    const checkboxDiv = document.createElement('div');
-    checkboxDiv.classList.add('checkbox');
-    checkboxDiv.classList.add(this.cssClass);
-    checkboxDiv.appendChild(this.label);
-    return checkboxDiv
-  }
-
-  render() {
-    const children = this.form.children;
-    Array.from(children).forEach((child) => child.classList.add('hidden'));
-
-    //We're going to use the existing form to actually send our add/removes
-    //This works conveneintly because the exact same action href is used
-    //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
-    //of the form to avoid any future confusion.
-    this.form.querySelectorAll('input[type=submit]').forEach((el) => this.form.removeChild(el));
-    this.form.appendChild(this._buildCheckboxDiv());
-    this.updateStateFor(this.checked);
-
-    this.checkbox.onclick = this._clicked.bind(this);
-  }
-
-  async _clicked(evt) {
-    this.span.innerHTML = this.form.getAttribute('data-inprogress');
-    this.label.setAttribute('disabled', 'disabled');
-    this.checkbox.setAttribute('disabled', 'disabled');
-    const response = await fetch(this.form.getAttribute('action'), {
-      body: new FormData(this.form),
-      method: this.form.getAttribute('method').toUpperCase(),
+  async clicked(evt) {
+    this.spanTarget.innerHTML = this.form.getAttribute('data-inprogress');
+    this.labelTarget.setAttribute('disabled', 'disabled');
+    this.checkboxTarget.setAttribute('disabled', 'disabled');
+    const response = await fetch(this.formTarget.getAttribute('action'), {
+      body: new FormData(this.formTarget),
+      method: this.formTarget.getAttribute('method').toUpperCase(),
       headers: {
         'Accept': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
         'X-CSRF-Token': document.querySelector('meta[name=csrf-token]')?.content
       }
     });
-    this.label.removeAttribute('disabled');
-    this.checkbox.removeAttribute('disabled');
+    this.labelTarget.removeAttribute('disabled');
+    this.checkboxTarget.removeAttribute('disabled');
     if (response.ok) {
       const json = await response.json();
-      this.checked = !this.checked;
-      this.updateStateFor(this.checked);
+      this.updateStateFor(!this.checked);
       document.querySelector('[data-role=bookmark-counter]').innerHTML = json.bookmarks.count;
     } else {
       alert('Error');
     }
   }
 
+  get checked() {
+    return (this.form.querySelectorAll('input[name=_method][value=delete]').length != 0)
+  }
+
+  get formTarget() {
+    return this.form
+  }
+
+  get labelTarget() {
+    return this.form.querySelector('[data-checkboxsubmit-target="label"]')
+  }
+
+  get checkboxTarget() {
+    return this.form.querySelector('[data-checkboxsubmit-target="checkbox"]')
+  }
+
+  get spanTarget() {
+    return this.form.querySelector('[data-checkboxsubmit-target="span"]')
+  }
+
   updateStateFor(state) {
-    this.checkbox.checked = state;
+    this.checkboxTarget.checked = state;
 
     if (state) {
-      this.label.classList.add('checked');
+      this.labelTarget.classList.add('checked');
       //Set the Rails hidden field that fakes an HTTP verb
       //properly for current state action.
-      this.form.querySelector('input[name=_method]').value = 'delete';
-      this.span.innerHTML = this.form.getAttribute('data-present');
+      this.formTarget.querySelector('input[name=_method]').value = 'delete';
+      this.spanTarget.innerHTML = this.form.getAttribute('data-present');
     } else {
-      this.label.classList.remove('checked');
-      this.form.querySelector('input[name=_method]').value = 'put';
-      this.span.innerHTML = this.form.getAttribute('data-absent');
+      this.labelTarget.classList.remove('checked');
+      this.formTarget.querySelector('input[name=_method]').value = 'put';
+      this.spanTarget.innerHTML = this.form.getAttribute('data-absent');
     }
   }
 }
@@ -175,27 +135,26 @@ class CheckboxSubmit {
 const BookmarkToggle = (() => {
     // change form submit toggle to checkbox
     Blacklight.doBookmarkToggleBehavior = function() {
-      document.querySelectorAll(Blacklight.doBookmarkToggleBehavior.selector).forEach((el) => {
-        new CheckboxSubmit(el).render();
+      document.addEventListener('click', (e) => {
+        if (e.target.matches('[data-checkboxsubmit-target="checkbox"]')) {
+          const form = e.target.closest('form');
+          if (form) new CheckboxSubmit(form).clicked(e);
+        }
       });
     };
     Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
 
-    Blacklight.onLoad(function() {
-      Blacklight.doBookmarkToggleBehavior();
-    });
+    Blacklight.doBookmarkToggleBehavior();
 })();
 
 const ButtonFocus = (() => {
-  Blacklight.onLoad(function() {
+  document.addEventListener('click', (e) => {
     // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
     // Safari both do not set focus to a button on button click.
     // See https://zellwk.com/blog/inconsistent-button-behavior/ for background information
-    document.querySelectorAll('button.collapse-toggle').forEach((button) => {
-      button.addEventListener('click', () => {
-        event.target.focus();
-      });
-    });
+    if (e.target.matches('[data-toggle="collapse"]') || e.target.matches('[data-bs-toggle="collapse"]')) {
+      e.target.focus();
+    }
   });
 })();
 
@@ -354,20 +313,15 @@ modal.receiveAjax = function (contents) {
     dom.showModal();
   };
 
-  Blacklight.onLoad(function() {
-    modal.setupModal();
-  });
+  modal.setupModal();
 })();
 
 const SearchContext = (() => {
   Blacklight.doSearchContextBehavior = function() {
-    const elements = document.querySelectorAll('a[data-context-href]');
-    const nodes = Array.from(elements);
-
-    nodes.forEach(function(element) {
-      element.addEventListener('click', function(e) {
-        Blacklight.handleSearchContextMethod.call(e.currentTarget, e);
-      });
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('[data-context-href]')) {
+        Blacklight.handleSearchContextMethod.call(e.target, e);
+      }
     });
   };
 
@@ -413,12 +367,9 @@ const SearchContext = (() => {
     form.querySelector('[type="submit"]').click();
 
     event.preventDefault();
-    event.stopPropagation();
   };
 
-  Blacklight.onLoad(function() {
-    Blacklight.doSearchContextBehavior();
-  });
+  Blacklight.doSearchContextBehavior();
 })();
 
 const index = {
