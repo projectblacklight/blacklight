@@ -5,11 +5,13 @@ require 'spec_helper'
 RSpec.describe Blacklight::SearchContextComponent, type: :component do
   subject(:render) { render_inline(instance) }
 
-  let(:search_session) { {} }
-  let(:instance) { described_class.new(search_context: search_context, search_session: search_session) }
+  let(:current_document_id) { 9 }
+  let(:current_document) { SolrDocument.new(id: current_document_id) }
+  let(:search_session) { { 'document_id' => current_document_id } }
+  let(:instance) { described_class.new(search_context: search_context, search_session: search_session, current_document: current_document) }
 
   before do
-    allow(controller).to receive(:current_search_session).and_return(double(id: 9))
+    allow(controller).to receive(:current_search_session).and_return(double(id: current_document_id))
   end
 
   context 'when there is no next or previous' do
@@ -35,6 +37,14 @@ RSpec.describe Blacklight::SearchContextComponent, type: :component do
 
     it "renders content" do
       expect(render.css('.pagination-search-widgets').to_html).not_to be_blank
+    end
+
+    context "session and document are out of sync" do
+      let(:current_document) { SolrDocument.new(id: current_document_id + 1) }
+
+      it "does not render content" do
+        expect(render.to_html).to be_blank
+      end
     end
   end
 end

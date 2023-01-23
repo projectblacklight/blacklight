@@ -43,16 +43,22 @@ module Blacklight::UrlHelperBehavior
   #   session_tracking_params(SolrDocument.new(id: 123), 7)
   #   => { data: { context_href: '/catalog/123/track?counter=7&search_id=999' } }
   def session_tracking_params document, counter, per_page: search_session['per_page'], search_id: current_search_session&.id
-    path = session_tracking_path(document, per_page: params.fetch(:per_page, per_page), counter: counter, search_id: search_id, document_id: document&.id)
+    path_params = { per_page: params.fetch(:per_page, per_page), counter: counter, search_id: search_id }
+    if blacklight_config.track_search_session.storage == 'server'
+      path_params[:document_id] = document&.id
+      path_params[:search_id] = search_id
+    end
+    path = session_tracking_path(document, path_params)
     return {} if path.nil?
 
-    { data: { context_href: path } }
+    context_method = blacklight_config.track_search_session.storage == 'client' ? 'get' : 'post'
+    { data: { context_href: path, context_method: context_method } }
   end
 
   ##
   # Get the URL for tracking search sessions across pages using polymorphic routing
   def session_tracking_path document, params = {}
-    return if document.nil? || !blacklight_config&.track_search_session
+    return if document.nil? || !blacklight_config.track_search_session.storage
 
     if main_app.respond_to?(controller_tracking_method)
       return main_app.public_send(controller_tracking_method, params.merge(id: document))
@@ -63,6 +69,8 @@ module Blacklight::UrlHelperBehavior
   end
 
   def controller_tracking_method
+    return "solr_document_path" if blacklight_config.track_search_session.storage == 'client'
+
     "track_#{controller_name}_path"
   end
 
