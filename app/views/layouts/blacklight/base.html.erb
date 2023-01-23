@@ -18,8 +18,11 @@
     <%= stylesheet_link_tag "https://ga.jspm.io/npm:dialog-polyfill@0.5.6/dist/dialog-polyfill.css" %>
     <% if defined? Importmap %>
       <%= javascript_importmap_tags %>
-    <% else %>
-      <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+    <% elsif defined? Propshaft %>
+      <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <% else %>    
+      <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+      <%= javascript_include_tag "blacklight/blacklight", type: 'module' %>
     <% end %>
 
     <%= csrf_meta_tags %>
