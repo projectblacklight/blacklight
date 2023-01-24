@@ -535,6 +535,7 @@ RSpec.describe CatalogController, api: true do
         post :email, xhr: true, params: { id: doc_id, to: 'test_email@projectblacklight.org' }
         expect(request).to render_template 'email_success'
         expect(request.flash[:success]).to eq "Email Sent"
+        expect(flash.instance_variable_get("@discard").first).to eq("success")
       end
     end
 
@@ -589,6 +590,8 @@ RSpec.describe CatalogController, api: true do
         post :sms, xhr: true, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
         expect(request).to render_template 'sms_success'
         expect(request.flash[:success]).to eq "SMS Sent"
+        # The flash message should only be good for this action
+        expect(flash.instance_variable_get("@discard").first).to eq("success")
       end
     end
   end

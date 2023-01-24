@@ -34,7 +34,7 @@ module Blacklight
 
               send(#{callback}, @documents)
 
-              flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
+              flash.now[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
 
               respond_to do |format|
                 format.html do
