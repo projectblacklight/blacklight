@@ -17,6 +17,7 @@ services:
     environment:
       - SOLR_URL # Set via environment variable or use default defined in .env file
       - RAILS_VERSION # Set via environment variable or use default defined in .env file
+      - VIEW_COMPONENT_VERSION # Set via environment variable or use default defined in .env file
       - SOLR_ENV=docker-compose
       - ENGINE_CART_RAILS_OPTIONS=--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test --skip-solr
 
