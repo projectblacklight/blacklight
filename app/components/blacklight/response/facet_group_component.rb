@@ -23,7 +23,7 @@ module Blacklight
 
       # Provide fallback behavior for rendering this object without a body slot
       def before_render
-        set_slot(:body, nil) { default_body } unless body
+        set_slot(:body, nil) { default_body } unless body?
       end
 
       def render?
