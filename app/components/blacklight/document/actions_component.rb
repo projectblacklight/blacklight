@@ -28,7 +28,7 @@ module Blacklight
         return if actions.present?
 
         @actions.each do |a|
-          action(component: a.component, action: a)
+          with_action(component: a.component, action: a)
         end
       end
 

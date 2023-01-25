@@ -17,7 +17,7 @@ module Blacklight
       return unless fields
 
       @fields.each do |field|
-        field(component: field_component(field), field: field, show: @show)
+        with_field(component: field_component(field), field: field, show: @show)
       end
     end
 

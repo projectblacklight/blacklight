@@ -13,7 +13,7 @@ module Blacklight
       end
 
       def before_render
-        message { @message } if @message
+        with_message { @message } if @message
       end
 
       def alert_class(type)

@@ -18,7 +18,7 @@ module Blacklight
         return if views.any?
 
         @views.each do |key, config|
-          view(key: key, view: config, selected: @selected == key, search_state: @search_state)
+          with_view(key: key, view: config, selected: @selected == key, search_state: @search_state)
         end
       end
 

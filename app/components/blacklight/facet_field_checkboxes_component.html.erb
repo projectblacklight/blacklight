@@ -1,9 +1,9 @@
 <%= render(@layout.new(facet_field: @facet_field)) do |component| %>
-  <% component.label do %>
+  <% component.with_label do %>
     <%= @facet_field.label %>
   <% end %>
 
-  <% component.body do %>
+  <% component.with_body do %>
     <ul class="facet-values list-unstyled blacklight-facet-checkboxes">
       <% presenters.each_with_index do |presenter, idx| -%>
         <li>

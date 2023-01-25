@@ -40,7 +40,7 @@ module Blacklight
 
     def initialize_search_field_controls
       search_fields.values.each.with_index do |field, i|
-        search_field_control do
+        with_search_field_control do
           fields_for('clause[]', i, include_id: false) do |f|
             content_tag(:div, class: 'form-group advanced-search-field row') do
               f.label(:query, field.display_label('search'), class: "col-sm-3 col-form-label text-md-right") +
@@ -59,7 +59,7 @@ module Blacklight
 
       fields.each do |_k, config|
         display_facet = @response.aggregations[config.field]
-        search_filter_control(config: config, display_facet: display_facet)
+        with_search_filter_control(config: config, display_facet: display_facet)
       end
     end
 
@@ -72,7 +72,7 @@ module Blacklight
 
       return if constraints_text.blank?
 
-      constraint do
+      with_constraint do
         constraints_text
       end
     end

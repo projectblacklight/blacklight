@@ -29,7 +29,7 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
   context 'when a button is passed in' do
     subject(:render) do
       render_inline(instance) do |c|
-        c.search_button do
+        c.with_search_button do
           controller.view_context.tag.button "hello", id: 'custom_search'
         end
       end
