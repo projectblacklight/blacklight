@@ -388,6 +388,7 @@
     ButtonFocus,
     Modal,
     SearchContext,
+    Core: Blacklight,
     onLoad: Blacklight.onLoad
   };
 
