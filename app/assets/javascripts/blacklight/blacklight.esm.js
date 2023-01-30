@@ -241,20 +241,19 @@ const Modal = (() => {
   modal.containerSelector    = '[data-blacklight-modal~=container]';
 
   // Called on fatal failure of ajax load, function returns content
-  // to show to user in modal.  Right now called only for extreme
-  // network errors.
-  modal.onFailure = function (jqXHR, textStatus, errorThrown) {
-      console.error('Server error:', this.url, jqXHR.status, errorThrown);
+  // to show to user in modal.  Right now called only for network errors.
+  modal.onFailure = function (error) {
+      console.error('Server error:', this.url, error);
 
       const contents = `<div class="modal-header">
         <div class="modal-title">There was a problem with your request.</div>
         <button type="button" class="blacklight-modal-close btn-close close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
         </div>
         <div class="modal-body">
           <p>Expected a successful response from the server, but got an error</p>
-          <pre>${this.type} ${this.url}\n${jqXHR.status}: ${errorThrown}</pre>
+          <pre>${this.url}\n${error}</pre>
         </div>`;
 
       document.querySelector(`${modal.modalSelector} .modal-content`).innerHTML = contents;
