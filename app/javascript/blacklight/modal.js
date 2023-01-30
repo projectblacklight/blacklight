@@ -105,10 +105,15 @@ const Modal = (() => {
   }
 
   // Add the passed in contents to the modal and display it.
-modal.receiveAjax = function (contents) {
+  modal.receiveAjax = function (contents) {
       const domparser = new DOMParser();
       const dom = domparser.parseFromString(contents, "text/html")
-      const elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
+      // If there is a containerSelector on the document, use it's children.
+      let elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
+      if (element.length == 0) {
+        // If the containerSelector wasn't found, use the whole document
+        elements = dom.querySelectorAll(`*`)
+      }
       document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(...elements)
 
       modal.show();
