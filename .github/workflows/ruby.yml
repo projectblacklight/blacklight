@@ -36,6 +36,7 @@ jobs:
         ruby: [2.7, '3.0']
         rails_version: ['6.1.7', '7.0.4']
         bootstrap_version: [null]
+        view_component_version: ['~> 2.66']
         api: [null]
         additional_engine_cart_rails_options: ['']
         additional_name: ['']
@@ -44,6 +45,10 @@ jobs:
           rails_version: '7.0.4'
         - ruby: '3.1'
           rails_version: '7.0.4'
+        - ruby: '3.1'
+          rails_version: '7.0.4'
+          view_component_version: '~> 3.0.0.rc1'
+          additional_name: '/ ViewComponent 3'
         - ruby: '3.1'
           rails_version: '7.0.4'
           additional_name: '/ Propshaft'
@@ -59,6 +64,7 @@ jobs:
           additional_name: '/ API'
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
+      VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
       ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"

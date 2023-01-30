@@ -13,7 +13,7 @@ module Blacklight
       end
 
       def before_render
-        message { @message } if @message
+        with_message { @message } if @message
       end
 
       # Bootstrap 4 requires the span, but Bootstrap 5 should not have it.

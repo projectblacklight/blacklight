@@ -29,11 +29,11 @@ module Blacklight
       end
 
       def before_render
-        button(classes: 'btn btn-outline-secondary dropdown-toggle', label: button_label) unless button
+        with_button(classes: 'btn btn-outline-secondary dropdown-toggle', label: button_label) unless button
 
         return if options.any?
 
-        options(@choices.map do |option|
+        with_options(@choices.map do |option|
           text, value = option_text_and_value(option)
           { text: text, url: helpers.url_for(@search_state.params_for_search(@param => value)), selected: @selected == value }
         end)
