@@ -30,7 +30,7 @@
   white-space: nowrap;
 }
 
-.modal {
+.modal[open] {
   // override bootstrap .modal class default display: none
   // since we aren't using bootstrap JS that sets and unsets the display
   display: block;
