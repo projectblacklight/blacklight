@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
+require 'view_component/version'
+
 module Blacklight
   class DocumentComponent < Blacklight::Component
+    # ViewComponent 3 changes iteration counters to begin at 0 rather than 1
+    COLLECTION_INDEX_OFFSET = ViewComponent::VERSION::MAJOR < 3 ? 0 : 1
+
     # Content appearing before the document
     renders_one :header
 
@@ -64,7 +69,7 @@ module Blacklight
     # @param component [Symbol, String] HTML tag type to use for the root element
     # @param title_component [Symbol, String] HTML tag type to use for the title element
     # @param counter [Number, nil] a pre-computed counter for the position of this document in a search result set
-    # @param document_counter [Number, nil] a 1-indexed value provided by ViewComponent collection iteration
+    # @param document_counter [Number, nil] provided by ViewComponent collection iteration
     # @param counter_offset [Number] the offset of the start of the collection counter parameter for the component to the overall result set
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
     def initialize(document: nil, partials: nil,
@@ -82,7 +87,7 @@ module Blacklight
 
       @counter = counter
       @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
-      @counter ||= @document_counter + counter_offset if @document_counter.present?
+      @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
 
       @show = show
     end
