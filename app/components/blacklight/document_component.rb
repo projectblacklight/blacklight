@@ -56,8 +56,6 @@ module Blacklight
     # Backwards compatibility
     renders_one :actions
 
-    with_collection_parameter :document
-
     # rubocop:disable Metrics/ParameterLists
     # @param document [Blacklight::Document]
     # @param presenter [Blacklight::DocumentPresenter]
