@@ -272,9 +272,9 @@
     modal.receiveAjax = function (contents) {
         const domparser = new DOMParser();
         const dom = domparser.parseFromString(contents, "text/html");
-        // If there is a containerSelector on the document, use it's children.
+        // If there is a containerSelector on the document, use its children.
         let elements = dom.querySelectorAll(`${modal.containerSelector} > *`);
-        if (element.length == 0) {
+        if (elements.length == 0) {
           // If the containerSelector wasn't found, use the whole document
           elements = dom.querySelectorAll(`*`);
         }
