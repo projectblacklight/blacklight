@@ -9,5 +9,6 @@ export default {
   ButtonFocus,
   Modal,
   SearchContext,
+  Core,
   onLoad: Core.onLoad
 }
