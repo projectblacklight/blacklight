@@ -14,6 +14,7 @@ RSpec.describe Blacklight::Configuration::SessionTrackingConfig do
 
     it "defaults components values" do
       expect(config.applied_params_component).to eq Blacklight::SearchContext::ServerAppliedParamsComponent
+      expect(config.item_pagination_component).to eq Blacklight::SearchContext::ServerItemPaginationComponent
     end
 
     it "defaults tracking url helper" do

@@ -384,7 +384,7 @@ Rails/I18nLocaleAssignment:
 # Offense count: 10
 Rails/OutputSafety:
   Exclude:
-    - 'app/components/blacklight/search_context_component.rb'
+    - 'app/components/blacklight/search_context/server_item_pagination_component.rb'
     - 'app/helpers/blacklight/catalog_helper_behavior.rb'
     - 'app/helpers/blacklight/configuration_helper_behavior.rb'
     - 'app/presenters/blacklight/rendering/join.rb'

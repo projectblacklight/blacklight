@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Blacklight::SearchContextComponent, type: :component do
+RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :component do
   subject(:render) { render_inline(instance) }
 
   let(:current_document_id) { 9 }

@@ -32,7 +32,8 @@ class Blacklight::Configuration
     end
 
     def default_item_pagination_component(storage)
-      return Blacklight::SearchContextComponent if storage == 'server'
+      return Blacklight::SearchContext::ServerItemPaginationComponent if storage == 'server'
+
       nil
     end
 
