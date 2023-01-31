@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::DocumentComponent, type: :component do
-  subject(:component) { described_class.new(document: document, presenter: view_context.document_presenter(document), **attr) }
+  subject(:component) { described_class.new(document: document, **attr) }
 
   let(:attr) { {} }
   let(:view_context) { controller.view_context }
@@ -15,7 +15,9 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     Capybara::Node::Simple.new(render)
   end
 
-  let(:document) do
+  let(:document) { view_context.document_presenter(presented_document) }
+
+  let(:presented_document) do
     SolrDocument.new(
       id: 'x',
       thumbnail_path_ss: 'http://example.com/image.jpg',
@@ -95,7 +97,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       let(:attr) { { document_counter: 10, counter_offset: 100 } }
 
       it 'renders a counter with the title' do
-        expect(rendered).to have_selector 'header', text: '111. Title'
+        # after ViewComponent 2.5, collection counter params are 1-indexed
+        expect(rendered).to have_selector 'header', text: '110. Title'
       end
     end
 

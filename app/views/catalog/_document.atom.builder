@@ -21,7 +21,7 @@ xml.entry do
   with_format(:html) do
     xml.summary "type" => "html" do
       document_component = blacklight_config.view_config(:atom).summary_component
-      xml.text! render document_component.new(presenter: document_presenter(document), component: :div, show: true)
+      xml.text! render document_component.new(document_component.collection_parameter => document_presenter(document), component: :div, show: true)
     end
   end
 

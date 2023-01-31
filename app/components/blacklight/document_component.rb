@@ -57,35 +57,32 @@ module Blacklight
     renders_one :actions
 
     # rubocop:disable Metrics/ParameterLists
-    # @param document [Blacklight::Document]
-    # @param presenter [Blacklight::DocumentPresenter]
+    # @param document [Blacklight::DocumentPresenter]
+    # @param partials [Array, nil] view partial names that should be used to provide content for the `partials` slot
     # @param id [String] HTML id for the root element
     # @param classes [Array, String] additional HTML classes for the root element
     # @param component [Symbol, String] HTML tag type to use for the root element
     # @param title_component [Symbol, String] HTML tag type to use for the title element
     # @param counter [Number, nil] a pre-computed counter for the position of this document in a search result set
-    # @param document_counter [Number, nil] alternatively, the document's position in a collection and,
-    # @param counter_offset [Number] with `document_counter`, the offset of the start of that collection counter to the overall result set
+    # @param document_counter [Number, nil] a 1-indexed value provided by ViewComponent collection iteration
+    # @param counter_offset [Number] the offset of the start of the collection counter parameter for the component to the overall result set
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
-    def initialize(document: nil, presenter: nil,
+    def initialize(document: nil, partials: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
-                   show: false)
-      if presenter.nil? && document.nil?
-        raise ArgumentError, 'missing keyword: :document or :presenter'
-      end
-
-      @document = document || presenter&.document
-      @presenter = presenter
+                   show: false, **args)
+      @presenter = document || args[self.class.collection_parameter]
+      @document = @presenter.document
+      @view_partials = partials || []
 
       @component = component
       @title_component = title_component
       @id = id || ('document' if show)
       @classes = classes
 
-      @document_counter = document_counter
       @counter = counter
-      @counter ||= document_counter + 1 + counter_offset if document_counter.present?
+      @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
+      @counter ||= @document_counter + counter_offset if @document_counter.present?
 
       @show = show
     end
@@ -106,13 +103,20 @@ module Blacklight
       set_slot(:thumbnail, nil) unless thumbnail || show?
       set_slot(:metadata, nil, fields: presenter.field_presenters) unless metadata
       set_slot(:embed, nil) unless embed
+      if view_partials.present?
+        view_partials.each do |view_partial|
+          with_partial(view_partial) do
+            helpers.render_document_partial @document, view_partial, component: self, document_counter: @counter
+          end
+        end
+      else
+        set_slot(:partials, nil)
+      end
     end
 
     private
 
-    def presenter
-      @presenter ||= helpers.document_presenter(@document)
-    end
+    attr_reader :document_counter, :presenter, :view_partials
 
     def show?
       @show
