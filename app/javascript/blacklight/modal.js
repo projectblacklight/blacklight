@@ -112,8 +112,9 @@ const Modal = (() => {
       let elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
       if (elements.length == 0) {
         // If the containerSelector wasn't found, use the whole document
-        elements = dom.querySelectorAll(`*`)
+        elements = dom.body.childNodes
       }
+
       document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(...elements)
 
       modal.show();
