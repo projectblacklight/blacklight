@@ -96,10 +96,6 @@ de:
         submit: 'Senden'
       text:
         default_title: 'N/A'
-        title: 'Titel: %{value}'
-        author: 'Autor: %{value}'
-        format: 'Format: %{value}'
-        language: 'Sprache: %{value}'
         subject:
           one: 'Artikeldatensatz: %{title}'
           other: 'Artikeldatensätze'
@@ -120,8 +116,6 @@ de:
         carrier_prompt: 'Bitte wählen Sie Ihren Netzbetreiber aus'
         submit: 'Schicken'
       text:
-        title: '%{value}'
-        author: ' von %{value}'
         url: 'Link: %{url}'
       success: "SMS verschickt"
       errors:

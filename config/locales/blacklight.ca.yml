@@ -96,10 +96,6 @@ ca:
         submit: 'Enviar-ho'
       text:
         default_title: 'N/A'
-        title: 'Títol: %{value}'
-        author: 'Autor: %{value}'
-        format: 'Format: %{value}'
-        language: 'Llengua: %{value}'
         subject:
           one: 'Registre: %{title}'
           other: 'Registres'
@@ -120,8 +116,6 @@ ca:
         carrier_prompt: 'Heu de seleccionar un operador'
         submit: 'Enviar'
       text:
-        title: '%{value}'
-        author: ' de %{value}'
         url: 'URL: %{url}'
       success: "SMS enviat"
       errors:

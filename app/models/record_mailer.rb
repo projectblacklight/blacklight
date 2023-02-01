@@ -2,26 +2,21 @@
 
 # Only works for documents with a #to_marc right now.
 class RecordMailer < ApplicationMailer
+  helper BlacklightHelper
+  helper CatalogHelper
+  helper_method :blacklight_config, :blacklight_configuration_context
+
   def email_record(documents, details, url_gen_params)
-    title = begin
-      title_field = details[:config].email.title_field
-      if title_field
-        [documents.first[title_field]].flatten.first
-      else
-        documents.first.to_semantic_values[:title]
-      end
-    rescue
-      I18n.t('blacklight.email.text.default_title')
-    end
-
-    subject = I18n.t('blacklight.email.text.subject',
-                     count: documents.length,
-                     title: Array(title).first)
-
     @documents      = documents
     @message        = details[:message]
     @config         = details[:config]
     @url_gen_params = url_gen_params
+
+    title = view_context.document_presenter(documents.first).html_title || I18n.t('blacklight.email.text.default_title')
+
+    subject = I18n.t('blacklight.email.text.subject',
+                     count: documents.length,
+                     title: Array(title).first)
 
     mail(to: details[:to], subject: subject)
   end
@@ -32,5 +27,15 @@ class RecordMailer < ApplicationMailer
     @url_gen_params = url_gen_params
 
     mail(to: details[:to], subject: "") # rubocop:disable Rails/I18nLocaleTexts
+  end
+
+  def blacklight_config
+    @config || Blacklight.default_configuration
+  end
+
+  ##
+  # Context in which to evaluate blacklight configuration conditionals
+  def blacklight_configuration_context
+    @blacklight_configuration_context ||= Blacklight::Configuration::Context.new(self)
   end
 end

@@ -101,10 +101,6 @@ ar:
         submit: 'إرسال'
       text:
         default_title: 'لا يوجد'
-        title: 'العنوان: %{value}'
-        author: 'المؤلف: %{value}'
-        format: 'الصيغة: %{value}'
-        language: 'اللغة: %{value}'
         subject:
           zero: 'لا يوجد سجل للمادة'
           one: 'سجل المادة: %{title}'
@@ -130,8 +126,6 @@ ar:
         carrier_prompt: 'يرجى تحديد شركة الاتصالات'
         submit: 'إرسال'
       text:
-        title: '%{value}'
-        author: ' بواسطة %{value}'
         url: 'الرابط: %{url}'
       success: "تم الإرسال كرسالة نصية قصيرة"
       errors:

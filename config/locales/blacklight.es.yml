@@ -96,10 +96,6 @@ es:
         submit: 'Enviar'
       text:
         default_title: 'N/A'
-        title: 'Titulo: %{value}'
-        author: 'Autor: %{value}'
-        format: 'Formato: %{value}'
-        language: 'Idioma: %{value}'
         subject:
           one: 'Ficha artículo: %{title}'
           other: 'Ficha artículos'
@@ -120,8 +116,6 @@ es:
         carrier_prompt: 'Por favor, seleccione su compañía telefónica'
         submit: 'Enviar'
       text:
-        title: '%{value}'
-        author: 'por %{value}'
         url: 'Link: %{url}'
       success: "SMS enviado"
       errors:

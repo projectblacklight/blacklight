@@ -96,10 +96,6 @@ nl:
         submit: 'Verzenden'
       text:
         default_title: 'N/A'
-        title: 'Titel: %{value}'
-        author: 'Auteur: %{value}'
-        format: 'Formaat: %{value}'
-        language: 'Taal: %{value}'
         subject:
           one: 'Item Record: %{title}'
           other: 'Item records'
@@ -120,8 +116,6 @@ nl:
         carrier_prompt: 'Gelieve uw carrier op te geven.'
         submit: 'Verzenden'
       text:
-        title: '%{value}'
-        author: ' door %{value}'
         url: 'Link: %{url}'
       success: "SMS Verzonden"
       errors:

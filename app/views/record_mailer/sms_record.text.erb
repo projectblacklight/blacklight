@@ -1,4 +1,4 @@
 <% @documents.each do |document| %>
-<%= document.to_sms_text(@config) %>
-<%= t('blacklight.sms.text.url', :url => polymorphic_url(document, @url_gen_params) ) %>
+  <%= render Blacklight::DocumentMetadataComponent.new(fields: document_presenter(document).field_presenters(blacklight_config.sms_fields), tag: nil, field_layout: Blacklight::MetadataFieldPlainTextLayoutComponent, field_presenter_options: { format: 'text' }) %>
+  <%= t('blacklight.sms.text.url', url: polymorphic_url(document, @url_gen_params)) %>
 <% end %>

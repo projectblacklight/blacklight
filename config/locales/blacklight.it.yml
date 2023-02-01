@@ -96,10 +96,6 @@ it:
         submit: 'Invia'
       text:
         default_title: 'N/A'
-        title: 'Titolo: %{value}'
-        author: 'Autore: %{value}'
-        format: 'Formato: %{value}'
-        language: 'Lingua: %{value}'
         subject:
           one: 'Numero di scheda: %{title}'
           other: 'Numeri di scheda'
@@ -120,8 +116,6 @@ it:
         carrier_prompt: "Indicare l'operatore"
         submit: 'Inviare'
       text:
-        title: '%{value}'
-        author: ' da %{value}'
         url: 'Link: %{url}'
       success: "SMS inviato"
       errors:
