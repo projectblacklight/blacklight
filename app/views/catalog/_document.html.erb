@@ -1,9 +1,4 @@
 <% # container for a single doc -%>
 <% view_config = local_assigns[:view_config] || blacklight_config.view_config(document_index_view_type) %>
-<%= render view_config.document_component.new(presenter: document_presenter(document), counter: document_counter_with_offset(document_counter)) do |component| %>
-  <% view_config.partials.each do |partial| %>
-    <% component.with_partial do %>
-      <%= render_document_partial document, partial, component: component, document_counter: document_counter %>
-    <% end %>
-  <% end %>
-<% end %>
+<% document_component = blacklight_config.view_config(:show).document_component -%>
+<%= render document_component.new(document_component.collection_parameter => document_presenter(document), counter: document_counter_with_offset(document_counter), partials: view_config&.partials) %>
