@@ -192,7 +192,7 @@ const ButtonFocus = (() => {
 
     <div data-blacklight-modal="container">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <button type="button" class="close" data-bl-dismiss="modal" aria-hidden="true">×</button>
         <h3 class="modal-title">Request Placed</h3>
       </div>
 
@@ -203,7 +203,7 @@ const ButtonFocus = (() => {
 
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bl-dismiss="modal">Close</button>
       </div>
     </div>
 
@@ -247,7 +247,7 @@ const Modal = (() => {
 
       const contents = `<div class="modal-header">
         <div class="modal-title">There was a problem with your request.</div>
-        <button type="button" class="blacklight-modal-close btn-close close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+        <button type="button" class="blacklight-modal-close btn-close close" data-bl-dismiss="modal" aria-label="Close">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
         </div>
