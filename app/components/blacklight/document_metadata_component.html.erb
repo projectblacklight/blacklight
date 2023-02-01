@@ -1,5 +1,7 @@
-<dl class="document-metadata dl-invert row">
+<% content = capture do %>
   <% fields.each do |field| -%>
     <%= field %>
   <% end -%>
-</dl>
+<% end %>
+
+<%= @tag.nil? ? content : tag.public_send(@tag, content, class: @classes, **@component_args) %>
