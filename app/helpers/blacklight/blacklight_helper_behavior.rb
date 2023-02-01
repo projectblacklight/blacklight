@@ -69,9 +69,9 @@ module Blacklight::BlacklightHelperBehavior
   #
   # @param [Hash] query_params the query parameters to check
   # @return [Symbol]
-  def document_index_view_type query_params = params
+  def document_index_view_type query_params = params || {}
     view_param = query_params[:view]
-    view_param ||= session[:preferred_view]
+    view_param ||= session[:preferred_view] if respond_to?(:session)
     if view_param && document_index_views.key?(view_param.to_sym)
       view_param.to_sym
     else
