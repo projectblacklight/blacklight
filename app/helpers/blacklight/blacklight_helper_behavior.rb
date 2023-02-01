@@ -37,9 +37,4 @@ module Blacklight::BlacklightHelperBehavior
     self.formats = old_formats
     nil
   end
-
-  # @return [Class]
-  def search_bar_presenter_class
-    blacklight_config.view_config(action_name: :index).search_bar_presenter_class
-  end
 end
