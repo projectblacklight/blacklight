@@ -12,6 +12,7 @@ RSpec.describe Blacklight::DocumentPresenter do
 
   before do
     allow(request_context).to receive(:search_state).and_return(search_state)
+    allow(request_context).to receive(:action_name).and_return(:show)
   end
 
   describe '#fields_to_render' do

@@ -11,18 +11,26 @@ module Blacklight
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
-    def initialize(document, view_context, configuration = view_context.blacklight_config)
+    def initialize(document, view_context, configuration = view_context.blacklight_config, view_config: nil, field_presenter_options: {})
       @document = document
       @view_context = view_context
       @configuration = configuration
+      @view_config = view_config
+      @field_presenter_options = field_presenter_options
     end
 
     # @return [Hash<String,Configuration::Field>]  all the fields for this index view that should be rendered
-    def fields_to_render
-      return to_enum(:fields_to_render) unless block_given?
+    def fields_to_render(document_fields = fields, **kwargs)
+      unless block_given?
+        return to_enum(:fields_to_render, document_fields, **kwargs) unless method(:fields_to_render).arity.zero?
 
-      fields.each do |name, field_config|
-        field_presenter = field_presenter(field_config)
+        Deprecation.warn(self.class, 'In Blacklight 8, Blacklight::DocumentPresenter#fields_to_render accepts additional arguments')
+
+        return to_enum(:fields_to_render)
+      end
+
+      document_fields.each do |name, field_config|
+        field_presenter = field_presenter(field_config, kwargs)
 
         next unless field_presenter.render_field? && field_presenter.any?
 
@@ -30,10 +38,21 @@ module Blacklight
       end
     end
 
-    def field_presenters
-      return to_enum(:field_presenters) unless block_given?
+    def field_presenters(document_fields = fields, **kwargs)
+      unless block_given?
+        return to_enum(:field_presenters, document_fields, **kwargs) unless method(:field_presenters).arity.zero?
 
-      fields_to_render.each { |_, _, config| yield config }
+        Deprecation.warn(self.class, 'In Blacklight 8, Blacklight::DocumentPresenter#field_presenters accepts additional arguments')
+
+        return to_enum(:field_presenters)
+      end
+
+      if method(:fields_to_render).arity.zero?
+        Deprecation.warn(self.class, 'In Blacklight 8, Blacklight::DocumentPresenter#fields_to_render accept additional arguments')
+        fields_to_render.each { |_, _, config| yield config }
+      else
+        fields_to_render(document_fields, **kwargs).each { |_, _, config| yield config }
+      end
     end
 
     ##
@@ -122,7 +141,7 @@ module Blacklight
     end
 
     def show_view_config
-      configuration.view_config(:show)
+      configuration.view_config(:show, action_name: view_context.action_name)
     end
 
     def inspect
@@ -158,7 +177,7 @@ module Blacklight
     end
 
     def field_presenter_options
-      {}
+      @field_presenter_options ||= {}
     end
   end
 end
