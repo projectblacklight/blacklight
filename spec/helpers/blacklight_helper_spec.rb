@@ -134,18 +134,6 @@ RSpec.describe BlacklightHelper do
     end
   end
 
-  describe "render_grouped_response?" do
-    it "checks if the response ivar contains grouped data" do
-      assign(:response, instance_double(Blacklight::Solr::Response, grouped?: true))
-      expect(helper.render_grouped_response?).to be true
-    end
-
-    it "checks if the response param contains grouped data" do
-      response = instance_double(Blacklight::Solr::Response, grouped?: true)
-      expect(helper.render_grouped_response?(response)).to be true
-    end
-  end
-
   describe "#opensearch_description_tag" do
     subject { helper.opensearch_description_tag 'title', 'href' }
 
@@ -207,50 +195,6 @@ RSpec.describe BlacklightHelper do
         response = helper.render_document_index_with_view :gallery, [obj1, obj1]
 
         expect(response).to eq 'some content'
-      end
-    end
-  end
-
-  describe "#document_index_view_type" do
-    it "defaults to the default view" do
-      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
-      allow(helper).to receive(:default_document_index_view_type).and_return(:xyz)
-      expect(helper.document_index_view_type).to eq :xyz
-    end
-
-    it "uses the query parameter" do
-      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
-      expect(helper.document_index_view_type(view: :a)).to eq :a
-    end
-
-    it "uses the default view if the requested view is not available" do
-      allow(helper).to receive(:default_document_index_view_type).and_return(:xyz)
-      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
-      expect(helper.document_index_view_type(view: :c)).to eq :xyz
-    end
-
-    context "when they have a preferred view" do
-      before do
-        session[:preferred_view] = :b
-      end
-
-      context "and no view is specified" do
-        it "uses the saved preference" do
-          allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
-          expect(helper.document_index_view_type).to eq :b
-        end
-
-        it "uses the default view if the preference is not available" do
-          allow(helper).to receive(:document_index_views).and_return(a: 1)
-          expect(helper.document_index_view_type).to eq :a
-        end
-      end
-
-      context "and a view is specified" do
-        it "uses the query parameter" do
-          allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
-          expect(helper.document_index_view_type(view: :c)).to eq :c
-        end
       end
     end
   end

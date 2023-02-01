@@ -371,7 +371,9 @@ Rails/HelperInstanceVariable:
   Exclude:
     - 'app/helpers/blacklight/blacklight_helper_behavior.rb'
     - 'app/helpers/blacklight/catalog_helper_behavior.rb'
+    - 'app/helpers/blacklight/document_helper_behavior.rb'
     - 'app/helpers/blacklight/component_helper_behavior.rb'
+    - 'app/helpers/blacklight/layout_helper_behavior.rb'
     - 'app/helpers/blacklight/render_partials_helper_behavior.rb'
 
 # Offense count: 2

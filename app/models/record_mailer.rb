@@ -2,7 +2,6 @@
 
 # Only works for documents with a #to_marc right now.
 class RecordMailer < ApplicationMailer
-  helper BlacklightHelper
   helper CatalogHelper
   helper_method :blacklight_config, :blacklight_configuration_context
 

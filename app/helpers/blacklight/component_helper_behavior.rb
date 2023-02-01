@@ -3,17 +3,6 @@
 module Blacklight
   module ComponentHelperBehavior
     ##
-    # Render "document actions" area for navigation header
-    # (normally renders "Saved Searches", "History", "Bookmarks")
-    # These things are added by add_nav_action
-    #
-    # @param [Hash] options
-    # @return [String]
-    def render_nav_actions(options = {}, &block)
-      render_filtered_partials(blacklight_config.navbar.partials, options, &block)
-    end
-
-    ##
     # Render "document actions" area for search results view
     # (normally renders next to title in the list view)
     #

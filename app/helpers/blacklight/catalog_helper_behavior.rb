@@ -4,6 +4,7 @@
 module Blacklight::CatalogHelperBehavior
   include Blacklight::ConfigurationHelperBehavior
   include Blacklight::ComponentHelperBehavior
+  include Blacklight::DocumentHelperBehavior
   include Blacklight::FacetsHelperBehavior
   include Blacklight::RenderPartialsHelperBehavior
 
@@ -114,40 +115,6 @@ module Blacklight::CatalogHelperBehavior
   end
 
   ##
-  # Get the classes to add to a document's div
-  #
-  # @param [Blacklight::Document] document
-  # @return [String]
-  def render_document_class(document = @document)
-    types = document_presenter(document).display_type
-    return if types.blank?
-
-    Array(types).compact.map do |t|
-      "#{document_class_prefix}#{t.try(:parameterize) || t}"
-    end.join(' ')
-  end
-
-  ##
-  # Return a prefix for the document classes infered from the document
-  # @see #render_document_class
-  # @return [String]
-  def document_class_prefix
-    'blacklight-'
-  end
-
-  ##
-  # Render the sidebar partial for a document
-  # This is used as an integration point by downstream apps to add to the
-  # default sidebar.
-  # See: https://github.com/geoblacklight/geoblacklight/blob/7d3c31c7af3362879b97e2c1351a2496c728c59c/app/helpers/blacklight_helper.rb#L7
-  #
-  # @param [SolrDocument] document
-  # @return [String]
-  def render_document_sidebar_partial(document)
-    render 'show_sidebar', document: document
-  end
-
-  ##
   # Should we display the sort and per page widget?
   #
   # @param [Blacklight::Solr::Response] response
@@ -165,26 +132,6 @@ module Blacklight::CatalogHelperBehavior
   def show_pagination? response = nil
     response ||= @response
     response.limit_value > 0
-  end
-
-  ##
-  # return the Bookmarks on a set of documents (all bookmarks on the page)
-  # @private
-  # @return [Enumerable<Bookmark>]
-  def current_bookmarks
-    @current_bookmarks ||= begin
-      documents = @document.presence || @response.documents
-      current_or_guest_user.bookmarks_for_documents(Array(documents)).to_a
-    end
-  end
-  private :current_bookmarks
-
-  ##
-  # Check if the document is in the user's bookmarks
-  # @param [Blacklight::Document] document
-  # @return [Boolean]
-  def bookmarked? document
-    current_bookmarks.any? { |x| x.document_id == document.id && x.document_type == document.class }
   end
 
   # Render an html <title> appropriate string for a selected facet field and values
@@ -231,6 +178,32 @@ module Blacklight::CatalogHelperBehavior
     end
 
     constraints.join(' / ')
+  end
+
+  ##
+  # Should we render a grouped response (because the response
+  # contains a grouped response instead of the normal response)
+  #
+  # Default to false if there's no response object available (sometimes the case
+  #   for tests, but might happen in other circumstances too..)
+  # @return [Boolean]
+  def render_grouped_response? response = @response
+    response&.grouped?
+  end
+
+  ##
+  # Get the current "view type" (and ensure it is a valid type)
+  #
+  # @param [Hash] query_params the query parameters to check
+  # @return [Symbol]
+  def document_index_view_type query_params = params || {}
+    view_param = query_params[:view]
+    view_param ||= session[:preferred_view] if respond_to?(:session)
+    if view_param && document_index_views.key?(view_param.to_sym)
+      view_param.to_sym
+    else
+      default_document_index_view_type
+    end
   end
 
   private
