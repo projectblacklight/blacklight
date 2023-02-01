@@ -20,6 +20,10 @@ module Blacklight
         first, *rest = *stack
         first.new(output_values, config, document, context, options, rest).render
       end
+
+      def html?
+        options[:format].nil? || options[:format].to_s == 'html'
+      end
     end
   end
 end
