@@ -96,10 +96,6 @@ zh:
         submit: '发送'
       text:
         default_title: '无'
-        title: '标题: %{value}'
-        author: '作者: %{value}'
-        format: '格式: %{value}'
-        language: '语言: %{value}'
         subject:
           one: '记录: %{title}'
           other: '记录'
@@ -120,8 +116,6 @@ zh:
         carrier_prompt: '请选择运营商'
         submit: '发送'
       text:
-        title: '%{value}'
-        author: ' 来自 %{value}'
         url: '链接: %{url}'
       success: "已发送短信"
       errors:

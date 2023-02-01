@@ -47,5 +47,64 @@ module Blacklight
     def container_classes
       'container'
     end
+
+    ##
+    # Render "document actions" area for navigation header
+    # (normally renders "Saved Searches", "History", "Bookmarks")
+    # These things are added by add_nav_action
+    #
+    # @param [Hash] options
+    # @return [String]
+    def render_nav_actions(options = {}, &block)
+      render_filtered_partials(blacklight_config.navbar.partials, options, &block)
+    end
+
+    ##
+    # Open Search discovery tag for HTML <head> links
+    # @return [String]
+    def opensearch_description_tag title, href
+      tag :link, href: href, title: title, type: "application/opensearchdescription+xml", rel: "search"
+    end
+
+    ##
+    # Get the page's HTML title
+    #
+    # @return [String]
+    def render_page_title
+      (content_for(:page_title) if content_for?(:page_title)) || @page_title || application_name
+    end
+
+    ##
+    # Create <link rel="alternate"> links from a documents dynamically
+    # provided export formats.
+    #
+    # Returns empty string if no links available.
+    #
+    # @param [SolrDocument] document
+    # @param [Hash] options
+    # @option options [Boolean] :unique ensures only one link is output for every
+    #     content type, e.g. as required by atom
+    # @option options [Array<String>] :exclude array of format shortnames to not include in the output
+    # @return [String]
+    def render_link_rel_alternates(document = @document, options = {})
+      return if document.nil?
+
+      document_presenter(document).link_rel_alternates(options)
+    end
+
+    ##
+    # Render classes for the <body> element
+    # @return [String]
+    def render_body_class
+      extra_body_classes.join " "
+    end
+
+    ##
+    # List of classes to be applied to the <body> element
+    # @see render_body_class
+    # @return [Array<String>]
+    def extra_body_classes
+      @extra_body_classes ||= ["blacklight-#{controller.controller_name}", "blacklight-#{[controller.controller_name, controller.action_name].join('-')}"]
+    end
   end
 end

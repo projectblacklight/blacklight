@@ -97,10 +97,6 @@ pt-BR:
         submit: 'Enviar'
       text:
         default_title: 'N/A'
-        title: 'Título: %{value}'
-        author: 'Autor: %{value}'
-        format: 'Formato: %{value}'
-        language: 'Idioma: %{value}'
         subject:
           one: 'Item: %{title}'
           other: 'Itens'
@@ -121,8 +117,6 @@ pt-BR:
         carrier_prompt: 'Selecione a Operadora'
         submit: 'Enviar'
       text:
-        title: '%{value}'
-        author: ' por %{value}'
         url: 'Link: %{url}'
       success: 'SMS Enviado'
       errors:

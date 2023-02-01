@@ -468,17 +468,14 @@ RSpec.describe CatalogController, api: true do
   end
 
   describe "email/sms" do
+    let(:mock_document) { SolrDocument.new }
+
     before do
-      mock_document.extend(Blacklight::Document::Sms)
-      mock_document.extend(Blacklight::Document::Email)
-      allow(mock_document).to receive(:to_semantic_values).and_return({})
       allow(mock_document).to receive(:to_model).and_return(SolrDocument.new(id: 'my_fake_doc'))
 
       allow(controller).to receive(:search_service).and_return(search_service)
       expect(search_service).to receive(:fetch).and_return([mock_document])
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
-      SolrDocument.use_extension(Blacklight::Document::Email)
-      SolrDocument.use_extension(Blacklight::Document::Sms)
     end
 
     describe "email", api: false do

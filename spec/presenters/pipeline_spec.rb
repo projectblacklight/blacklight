@@ -4,10 +4,10 @@ RSpec.describe Blacklight::Rendering::Pipeline do
   include Capybara::RSpecMatchers
   let(:document) { instance_double(SolrDocument) }
   let(:context) { double }
-  let(:options) { double('options') }
+  let(:options) { {} }
 
   describe '.render' do
-    subject { described_class.render(values, field_config, document, context, options) }
+    subject(:rendered) { described_class.render(values, field_config, document, context, options) }
 
     let(:values) { %w[a b] }
     let(:field_config) { Blacklight::Configuration::NullField.new }
@@ -34,6 +34,17 @@ RSpec.describe Blacklight::Rendering::Pipeline do
       subject
       expect(described_class).to have_received(:new)
         .with(values, field_config, document, context, described_class.operations, options)
+    end
+
+    context 'outside of an HTML context' do
+      let(:options) { { format: 'text' } }
+
+      let(:values) { ['"blah"', "<notatag>"] }
+      let(:field_config) { Blacklight::Configuration::NullField.new itemprop: 'some-prop' }
+
+      it 'does not HTML escape values or inject HTML tags' do
+        expect(rendered).to eq '"blah" and <notatag>'
+      end
     end
   end
 

@@ -96,10 +96,6 @@ en:
         submit: 'Send'
       text:
         default_title: 'N/A'
-        title: 'Title: %{value}'
-        author: 'Author: %{value}'
-        format: 'Format: %{value}'
-        language: 'Language: %{value}'
         subject:
           one: 'Item Record: %{title}'
           other: 'Item records'
@@ -120,8 +116,6 @@ en:
         carrier_prompt: 'Please select your carrier'
         submit: 'Send'
       text:
-        title: '%{value}'
-        author: ' by %{value}'
         url: 'Link: %{url}'
       success: "SMS Sent"
       errors:

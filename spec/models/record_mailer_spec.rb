@@ -2,7 +2,16 @@
 
 RSpec.describe RecordMailer do
   let(:config) do
-    Blacklight::Configuration.new
+    Blacklight::Configuration.new do |config|
+      config.email.title_field = 'title_tsim'
+      config.add_email_field 'title_tsim', label: 'Title'
+      config.add_email_field "author_tsim", label: 'Author'
+      config.add_email_field "language_ssim", label: 'Language'
+      config.add_email_field "format", label: 'Format'
+
+      config.add_sms_field 'title_tsim', label: 'Title'
+      config.add_sms_field "author_tsim", label: 'Author'
+    end
   end
 
   let(:document) do
@@ -11,37 +20,38 @@ RSpec.describe RecordMailer do
 
   before do
     allow(described_class).to receive(:default).and_return(from: 'no-reply@projectblacklight.org')
-    SolrDocument.use_extension(Blacklight::Document::Email)
-    SolrDocument.use_extension(Blacklight::Document::Sms)
     @documents = [document]
   end
 
   describe "email" do
-    before do
-      details = { to: 'test@test.com', message: "This is my message", config: config }
-      @email = described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
+    subject(:email) do
+      described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
+    end
+
+    let(:details) do
+      { to: 'test@test.com', message: "This is my message", config: config }
     end
 
     it "receives the TO paramater and send the email to that address" do
-      expect(@email.to).to include 'test@test.com'
+      expect(email.to).to include 'test@test.com'
     end
 
     it "starts the subject w/ Item Record:" do
-      expect(@email.subject).to match /^Item Record:/
+      expect(email.subject).to match /^Item Record:/
     end
 
     it "puts the title of the item in the subject" do
-      expect(@email.subject).to match /The horn/
+      expect(email.subject).to match /The horn/
     end
 
     it "has the correct from address (w/o the port number)" do
-      expect(@email.from).to include "no-reply@projectblacklight.org"
+      expect(email.from).to include "no-reply@projectblacklight.org"
     end
 
     it "prints out the correct body" do
-      expect(@email.body).to match /Title: The horn/
-      expect(@email.body).to match /Author: Janetzky, Kurt/
-      expect(@email.body).to match /projectblacklight.org/
+      expect(email.body).to match /Title: The horn/
+      expect(email.body).to match /Author: Janetzky, Kurt/
+      expect(email.body).to match /projectblacklight.org/
     end
 
     it "uses https URLs when protocol is set" do
@@ -53,28 +63,31 @@ RSpec.describe RecordMailer do
     context "email title_field is configured and multi valued" do
       let(:document) { SolrDocument.new(id: "123456", foo: ["Fizz Fizz", "Fuzz Fuzz"], format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt") }
 
-      it "uses configured email title_field" do
+      before do
         config.email.title_field = "foo"
-        expect(@email.subject).to match("Fizz Fizz")
-        expect(@email.subject).not_to match("Fuzz Fuzz")
-        expect(@email.subject).not_to match("The horn")
+      end
+
+      it "uses configured email title_field" do
+        expect(email.subject).to eq 'Item Record: Fizz Fizz and Fuzz Fuzz'
       end
     end
 
     context "email title_field is configured and single valued" do
       let(:document) { SolrDocument.new(id: "123456", foo: "Fizz Fizz", format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt") }
 
-      it "uses configured email title_field" do
+      before do
         config.email.title_field = "foo"
-        expect(@email.subject).to match("Fizz Fizz")
-        expect(@email.subject).not_to match("The horn")
+      end
+
+      it "uses configured email title_field" do
+        expect(email.subject).to eq 'Item Record: Fizz Fizz'
       end
     end
   end
 
   describe "SMS" do
     before do
-      details = { to: '5555555555@txt.att.net' }
+      details = { to: '5555555555@txt.att.net', config: config }
       @sms = described_class.sms_record(@documents, details, host: 'projectblacklight.org:3000')
     end
 
@@ -91,8 +104,8 @@ RSpec.describe RecordMailer do
     end
 
     it "prints out the correct body" do
-      expect(@sms.body).to match /The horn/
-      expect(@sms.body).to match /by Janetzky, Kurt/
+      expect(@sms.body).to match /Title: The horn/
+      expect(@sms.body).to match /Author: Janetzky, Kurt/
       expect(@sms.body).to match /projectblacklight.org:3000/
     end
 

@@ -11,18 +11,20 @@ module Blacklight
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
     # @param [Blacklight::Configuration] configuration
-    def initialize(document, view_context, configuration = view_context.blacklight_config)
+    def initialize(document, view_context, configuration = view_context.blacklight_config, view_config: nil, field_presenter_options: {})
       @document = document
       @view_context = view_context
       @configuration = configuration
+      @view_config = view_config
+      @field_presenter_options = field_presenter_options
     end
 
     # @return [Hash<String,Configuration::Field>]  all the fields for this index view that should be rendered
-    def fields_to_render
-      return to_enum(:fields_to_render) unless block_given?
+    def fields_to_render(document_fields = fields, **kwargs)
+      return to_enum(:fields_to_render, document_fields, **kwargs) unless block_given?
 
-      fields.each do |name, field_config|
-        field_presenter = field_presenter(field_config)
+      document_fields.each do |name, field_config|
+        field_presenter = field_presenter(field_config, kwargs)
 
         next unless field_presenter.render_field? && field_presenter.any?
 
@@ -30,10 +32,10 @@ module Blacklight
       end
     end
 
-    def field_presenters
-      return to_enum(:field_presenters) unless block_given?
+    def field_presenters(document_fields = fields, **kwargs)
+      return to_enum(:field_presenters, document_fields, **kwargs) unless block_given?
 
-      fields_to_render.each { |_, _, config| yield config }
+      fields_to_render(document_fields, **kwargs).each { |_, _, config| yield config }
     end
 
     ##
@@ -116,11 +118,11 @@ module Blacklight
     end
 
     def view_config
-      show_view_config
+      @view_config ||= show_view_config
     end
 
     def show_view_config
-      configuration.view_config(:show)
+      configuration.view_config(:show, action_name: view_context.action_name)
     end
 
     def inspect
@@ -150,7 +152,7 @@ module Blacklight
     end
 
     def field_presenter_options
-      {}
+      @field_presenter_options ||= {}
     end
   end
 end

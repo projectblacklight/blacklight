@@ -96,10 +96,6 @@ hu:
         submit: 'Küldés'
       text:
         default_title: 'N/A'
-        title: 'Cím: %{value}'
-        author: 'Szerző: %{value}'
-        format: 'Formátum: %{value}'
-        language: 'Nyelv: %{value}'
         subject:
           one: 'Adatrekord: %{title}'
           other: 'Adatrekordok'
@@ -120,8 +116,6 @@ hu:
         carrier_prompt: 'Kérjük válassza ki a szolgáltatót'
         submit: 'Küldés'
       text:
-        title: '%{value}'
-        author: ' írta %{value}'
         url: 'Link: %{url}'
       success: "SMS elküldve"
       errors:

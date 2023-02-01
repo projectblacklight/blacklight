@@ -4,7 +4,7 @@ module Blacklight
   module Rendering
     class LinkToFacet < AbstractStep
       def render
-        return next_step(values) unless config.link_to_facet
+        return next_step(values) unless config.link_to_facet && html?
 
         next_step(render_link)
       end

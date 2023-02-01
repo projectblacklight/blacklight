@@ -96,10 +96,6 @@ fr:
         submit: 'Envoyer'
       text:
         default_title: 'N/A'
-        title: 'Titre : %{value}'
-        author: 'Auteur : %{value}'
-        format: 'Format : %{value}'
-        language: 'Langue : %{value}'
         subject:
           one: 'Une référence : %{title}'
           other: 'Des références bibliographiques'
@@ -121,8 +117,6 @@ fr:
         carrier_prompt: 'Veuillez choisir votre opérateur'
         submit: 'Envoyer'
       text:
-        title: '%{value}'
-        author: ' by %{value}'
         url: 'Lien : %{url}'
 
       success: "SMS envoyé"

@@ -51,13 +51,13 @@ RSpec.describe Blacklight::FieldPresenter, api: true do
     context 'when an explicit html value is provided' do
       let(:options) { { value: '<b>val1</b>' } }
 
-      it { is_expected.to eq '&lt;b&gt;val1&lt;/b&gt;' }
+      it { is_expected.not_to be_html_safe }
     end
 
     context 'when an explicit array value with unsafe characters is provided' do
       let(:options) { { value: ['<a', 'b'] } }
 
-      it { is_expected.to eq '&lt;a and b' }
+      it { is_expected.to eq('&lt;a and b').and be_html_safe }
     end
 
     context 'when an explicit array value is provided' do

@@ -5,7 +5,7 @@ module Blacklight
     class Microdata < AbstractStep
       include ActionView::Helpers::TagHelper
       def render
-        return next_step(values) unless config.itemprop
+        return next_step(values) unless config.itemprop && html?
 
         next_step(values.map { |x| itemprop(x, config.itemprop) })
       end

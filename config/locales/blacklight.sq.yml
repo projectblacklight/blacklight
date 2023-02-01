@@ -96,10 +96,6 @@ sq:
         submit: 'Dërgo'
       text:
         default_title: 'N/A'
-        title: 'Titulli: %{value}'
-        author: 'Autori: %{value}'
-        format: 'Formati: %{value}'
-        language: 'Gjuha: %{value}'
         subject:
           one: 'Item Record: %{title}'
           other: 'Item records'
@@ -120,8 +116,6 @@ sq:
         carrier_prompt: 'Ju lutemi zgjedheni operatorin'
         submit: 'Dërgo'
       text:
-        title: '%{value}'
-        author: ' nga %{value}'
         url: 'Link: %{url}'
       success: "SMS-i u dëgua"
       errors:
