@@ -12,6 +12,7 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
 
   before do
     allow(controller).to receive(:current_search_session).and_return(double(id: current_document_id))
+    controller.class.helper_method :current_search_session
   end
 
   context 'when there is no next or previous' do

@@ -56,7 +56,7 @@ module Blacklight
       end
 
       def search_id
-        controller.current_search_session&.id
+        @search_session['id'] || helpers.current_search_session&.id
       end
 
       def session_tracking_params(...)
