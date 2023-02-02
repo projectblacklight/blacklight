@@ -297,9 +297,9 @@ const Modal = (() => {
     // into one selector with a comma, so if something matches BOTH selectors, it
     // still only gets the event handler called once.
     document.addEventListener('click', (e) => {
-      if (e.target.matches(`${modal.triggerLinkSelector}, ${modal.preserveLinkSelector}`))
+      if (e.target.closest(`${modal.triggerLinkSelector}, ${modal.preserveLinkSelector}`))
         modal.modalAjaxLinkClick(e);
-      else if (e.target.matches('[data-bl-dismiss="modal"]'))
+      else if (e.target.closest('[data-bl-dismiss="modal"]'))
         modal.hide();
     });
   };
