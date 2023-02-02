@@ -3,7 +3,7 @@
 module Blacklight
   module Response
     # Render spellcheck results for a search query
-    class ViewTypeComponent < ViewComponent::Base
+    class ViewTypeComponent < Blacklight::Component
       renders_many :views, 'Blacklight::Response::ViewTypeButtonComponent'
 
       # @param [Blacklight::Response] response

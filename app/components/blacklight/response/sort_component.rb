@@ -2,7 +2,7 @@
 
 module Blacklight
   module Response
-    class SortComponent < ViewComponent::Base
+    class SortComponent < Blacklight::Component
       def initialize(search_state:, param: 'sort', choices: {}, id: 'sort-dropdown', classes: [], selected: nil)
         @param = param
         @choices = choices

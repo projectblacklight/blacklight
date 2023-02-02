@@ -2,7 +2,7 @@
 
 module Blacklight
   module System
-    class ModalComponent < ViewComponent::Base
+    class ModalComponent < Blacklight::Component
       renders_one :prefix
       renders_one :header
       renders_one :title
