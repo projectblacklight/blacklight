@@ -794,6 +794,21 @@ RSpec.describe CatalogController, api: true do
       expect(controller.send(:search_facet_path, id: "some_facet", page: 5)).to eq facet_catalog_path(id: "some_facet")
     end
   end
+
+  describe "page_links" do
+    it "has prev/next docs and result set data for non-empty result sets", integration: true do
+      get :page_links, params: { f: { "format" => 'Book' }, counter: 2 }
+      expect(assigns(:page_link_data)).not_to be_empty
+      expect(assigns(:page_link_data).fetch(:prev, nil)).to end_with('counter=1')
+      expect(assigns(:page_link_data).fetch(:next, nil)).to end_with('counter=3')
+      expect(assigns(:page_link_data).fetch(:totalRaw, nil)).to be 30
+    end
+
+    it "is empty for empty result sets", integration: true do
+      get :page_links, params: { f: { "format" => 'empty-result-set' }, counter: 1 }
+      expect(assigns(:page_link_data)).to be_empty
+    end
+  end
 end
 
 # there must be at least one facet, and each facet must have at least one value
