@@ -280,7 +280,7 @@ module Blacklight
       property :raw_endpoint, default: OpenStructWithHashAccess.new(enabled: false)
 
       # @!attribute track_search_session
-      # falsy value: do no tracking
+      # { storage: false } value: do no tracking
       # @since v8.0.0
       # @return [Blacklight::Configuration::SessionTrackingConfig]
       property :track_search_session, default: Blacklight::Configuration::SessionTrackingConfig.new
