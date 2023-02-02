@@ -44,7 +44,8 @@ module Blacklight
 
     # retrieve a document, given the doc id
     # @param [Array{#to_s},#to_s] id
-    # @return [Blacklight::SolrDocument] the solr response object and the first document
+    # @return [Blacklight::SolrDocument] the solr document (or array of
+    #   documents if an array of ids was given)
     def fetch(id = nil, extra_controller_params = {})
       if id.is_a? Array
         fetch_many(id, extra_controller_params)
