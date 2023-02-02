@@ -13,7 +13,6 @@ var Blacklight = function () {
     },
     listeners: function listeners() {
       var listeners = [];
-
       if (typeof Turbo !== 'undefined') {
         listeners.push('turbo:load');
       } else if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
@@ -27,23 +26,23 @@ var Blacklight = function () {
       } else {
         listeners.push('DOMContentLoaded');
       }
-
       return listeners;
     }
   };
-}(); // turbolinks triggers page:load events on page transition
+}();
+
+// turbolinks triggers page:load events on page transition
 // If app isn't using turbolinks, this event will never be triggered, no prob.
-
-
 Blacklight.listeners().forEach(function (listener) {
   document.addEventListener(listener, function () {
     Blacklight.activate();
   });
 });
 Blacklight.onLoad(function () {
-  var elem = document.querySelector('.no-js'); // The "no-js" class may already have been removed because this function is
-  // run on every turbo:load event, in that case, it won't find an element.
+  var elem = document.querySelector('.no-js');
 
+  // The "no-js" class may already have been removed because this function is
+  // run on every turbo:load event, in that case, it won't find an element.
   if (!elem) return;
   elem.classList.remove('no-js');
   elem.classList.add('js');
@@ -56,11 +55,9 @@ Blacklight.onLoad(function () {
 
   $('[data-autocomplete-enabled="true"]').each(function () {
     var $el = $(this);
-
     if ($el.hasClass('tt-hint')) {
       return;
     }
-
     var suggestUrl = $el.data().autocompletePath;
     var terms = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -82,7 +79,6 @@ Blacklight.onLoad(function () {
     });
   });
 });
-
 (function ($) {
   //change form submit toggle to checkbox
   Blacklight.doBookmarkToggleBehavior = function () {
@@ -90,7 +86,6 @@ Blacklight.onLoad(function () {
       console.warn("do_bookmark_toggle_behavior is deprecated. Use doBookmarkToggleBehavior instead.");
       return Blacklight.do_bookmark_toggle_behavior();
     }
-
     $(Blacklight.doBookmarkToggleBehavior.selector).blCheckboxSubmit({
       // cssClass is added to elements added, plus used for id base
       cssClass: 'toggle-bookmark',
@@ -101,13 +96,11 @@ Blacklight.onLoad(function () {
       }
     });
   };
-
   Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
   Blacklight.onLoad(function () {
     Blacklight.doBookmarkToggleBehavior();
   });
 })(jQuery);
-
 Blacklight.onLoad(function () {
   // Button clicks should change focus. As of 10/3/19, Firefox for Mac and
   // Safari both do not set focus to a button on button click.
@@ -148,23 +141,23 @@ Blacklight.onLoad(function () {
         }
    });
 */
-
 (function ($) {
   $.fn.blCheckboxSubmit = function (argOpts) {
     this.each(function () {
       var options = $.extend({}, $.fn.blCheckboxSubmit.defaults, argOpts);
       var form = $(this);
-      form.children().hide(); //We're going to use the existing form to actually send our add/removes
+      form.children().hide();
+      //We're going to use the existing form to actually send our add/removes
       //This works conveneintly because the exact same action href is used
       //for both bookmarks/$doc_id.  But let's take out the irrelevant parts
       //of the form to avoid any future confusion.
+      form.find('input[type=submit]').remove();
 
-      form.find('input[type=submit]').remove(); //View needs to set data-doc-id so we know a unique value
+      //View needs to set data-doc-id so we know a unique value
       //for making DOM id
-
-      var uniqueId = form.attr('data-doc-id') || Math.random(); // if form is currently using method delete to change state,
+      var uniqueId = form.attr('data-doc-id') || Math.random();
+      // if form is currently using method delete to change state,
       // then checkbox is currently checked
-
       var checked = form.find('input[name=_method][value=delete]').length != 0;
       var checkbox = $('<input type="checkbox">').addClass(options.cssClass).attr('id', options.cssClass + '_' + uniqueId);
       var label = $('<label>').addClass(options.cssClass).attr('for', options.cssClass + '_' + uniqueId).attr('title', form.attr('title') || '');
@@ -173,11 +166,9 @@ Blacklight.onLoad(function () {
       label.append(' ');
       label.append(span);
       var checkboxDiv = $('<div class="checkbox" />').addClass(options.cssClass).append(label);
-
       function updateStateFor(state) {
         checkbox.prop('checked', state);
         label.toggleClass('checked', state);
-
         if (state) {
           //Set the Rails hidden field that fakes an HTTP verb
           //properly for current state action.
@@ -188,7 +179,6 @@ Blacklight.onLoad(function () {
           span.html(form.attr('data-absent'));
         }
       }
-
       form.append(checkboxDiv);
       updateStateFor(checked);
       checkbox.click(function () {
@@ -224,10 +214,8 @@ Blacklight.onLoad(function () {
         return false;
       }); //checkbox.click
     }); //this.each
-
     return this;
   };
-
   $.fn.blCheckboxSubmit.defaults = {
     //cssClass is added to elements added, plus used for id base
     cssClass: 'blCheckboxSubmit',
@@ -235,32 +223,26 @@ Blacklight.onLoad(function () {
       alert("Error");
     },
     success: function success() {} //callback
-
   };
 })(jQuery);
 /*global Blacklight */
 
-
 'use strict';
-
 Blacklight.doResizeFacetLabelsAndCounts = function () {
   // adjust width of facet columns to fit their contents
   function longer(a, b) {
     return b.textContent.length - a.textContent.length;
   }
-
   document.querySelectorAll('.facet-values, .pivot-facet').forEach(function (elem) {
-    var nodes = elem.querySelectorAll('.facet-count'); // TODO: when we drop ie11 support, this can become the spread operator:
-
+    var nodes = elem.querySelectorAll('.facet-count');
+    // TODO: when we drop ie11 support, this can become the spread operator:
     var longest = Array.from(nodes).sort(longer)[0];
-
     if (longest && longest.textContent) {
       var width = longest.textContent.length + 1 + 'ch';
       elem.querySelector('.facet-count').style.width = width;
     }
   });
 };
-
 Blacklight.onLoad(function () {
   Blacklight.doResizeFacetLabelsAndCounts();
 });
@@ -336,99 +318,99 @@ Blacklight.onLoad(function () {
 
   The data-blacklight-modal=close behavior is implemented with this event, see for example.
 */
+
 // We keep all our data in Blacklight.modal object.
 // Create lazily if someone else created first.
-
 if (Blacklight.modal === undefined) {
   Blacklight.modal = {};
-} // a Bootstrap modal div that should be already on the page hidden
+}
 
+// a Bootstrap modal div that should be already on the page hidden
+Blacklight.modal.modalSelector = '#blacklight-modal';
 
-Blacklight.modal.modalSelector = '#blacklight-modal'; // Trigger selectors identify forms or hyperlinks that should open
+// Trigger selectors identify forms or hyperlinks that should open
 // inside a modal dialog.
-
 Blacklight.modal.triggerLinkSelector = 'a[data-blacklight-modal~=trigger]';
-Blacklight.modal.triggerFormSelector = 'form[data-blacklight-modal~=trigger]'; // preserve selectors identify forms or hyperlinks that, if activated already
+Blacklight.modal.triggerFormSelector = 'form[data-blacklight-modal~=trigger]';
+
+// preserve selectors identify forms or hyperlinks that, if activated already
 // inside a modal dialog, should have destinations remain inside the modal -- but
 // won't trigger a modal if not already in one.
 //
 // No need to repeat selectors from trigger selectors, those will already
 // be preserved. MUST be manually prefixed with the modal selector,
 // so they only apply to things inside a modal.
-
 Blacklight.modal.preserveLinkSelector = Blacklight.modal.modalSelector + ' a[data-blacklight-modal~=preserve]';
 Blacklight.modal.containerSelector = '[data-blacklight-modal~=container]';
-Blacklight.modal.modalCloseSelector = '[data-blacklight-modal~=close]'; // Called on fatal failure of ajax load, function returns content
+Blacklight.modal.modalCloseSelector = '[data-blacklight-modal~=close]';
+
+// Called on fatal failure of ajax load, function returns content
 // to show to user in modal.  Right now called only for extreme
 // network errors.
-
 Blacklight.modal.onFailure = function (jqXHR, textStatus, errorThrown) {
   console.error('Server error:', this.url, jqXHR.status, errorThrown);
   var contents = '<div class="modal-header">' + '<div class="modal-title">There was a problem with your request.</div>' + '<button type="button" class="blacklight-modal-close btn-close close" data-dismiss="modal" aria-label="Close">' + '  <span aria-hidden="true">&times;</span>' + '</button></div>' + ' <div class="modal-body"><p>Expected a successful response from the server, but got an error</p>' + '<pre>' + this.type + ' ' + this.url + "\n" + jqXHR.status + ': ' + errorThrown + '</pre></div>';
   $(Blacklight.modal.modalSelector).find('.modal-content').html(contents);
   Blacklight.modal.show();
 };
-
 Blacklight.modal.receiveAjax = function (contents) {
   // does it have a data- selector for container?
   // important we don't execute script tags, we shouldn't.
   // code modelled off of JQuery ajax.load. https://github.com/jquery/jquery/blob/main/src/ajax/load.js?source=c#L62
   var container = $('<div>').append(jQuery.parseHTML(contents)).find(Blacklight.modal.containerSelector).first();
-
   if (container.length !== 0) {
     contents = container.html();
   }
+  $(Blacklight.modal.modalSelector).find('.modal-content').html(contents);
 
-  $(Blacklight.modal.modalSelector).find('.modal-content').html(contents); // send custom event with the modal dialog div as the target
-
+  // send custom event with the modal dialog div as the target
   var e = $.Event('loaded.blacklight.blacklight-modal');
-  $(Blacklight.modal.modalSelector).trigger(e); // if they did preventDefault, don't show the dialog
-
+  $(Blacklight.modal.modalSelector).trigger(e);
+  // if they did preventDefault, don't show the dialog
   if (e.isDefaultPrevented()) return;
   Blacklight.modal.show();
 };
-
 Blacklight.modal.modalAjaxLinkClick = function (e) {
   e.preventDefault();
   $.ajax({
     url: $(this).attr('href')
   }).fail(Blacklight.modal.onFailure).done(Blacklight.modal.receiveAjax);
 };
-
 Blacklight.modal.modalAjaxFormSubmit = function (e) {
   e.preventDefault();
   $.ajax({
     url: $(this).attr('action'),
     data: $(this).serialize(),
     type: $(this).attr('method') // POST
-
   }).fail(Blacklight.modal.onFailure).done(Blacklight.modal.receiveAjax);
 };
-
 Blacklight.modal.setupModal = function () {
   // Event indicating blacklight is setting up a modal link,
   // you can catch it and call e.preventDefault() to abort
   // setup.
   var e = $.Event('setup.blacklight.blacklight-modal');
   $('body').trigger(e);
-  if (e.isDefaultPrevented()) return; // Register both trigger and preserve selectors in ONE event handler, combining
+  if (e.isDefaultPrevented()) return;
+
+  // Register both trigger and preserve selectors in ONE event handler, combining
   // into one selector with a comma, so if something matches BOTH selectors, it
   // still only gets the event handler called once.
-
   $('body').on('click', Blacklight.modal.triggerLinkSelector + ', ' + Blacklight.modal.preserveLinkSelector, Blacklight.modal.modalAjaxLinkClick);
-  $('body').on('submit', Blacklight.modal.triggerFormSelector + ', ' + Blacklight.modal.preserveFormSelector, Blacklight.modal.modalAjaxFormSubmit); // Catch our own custom loaded event to implement data-blacklight-modal=closed
+  $('body').on('submit', Blacklight.modal.triggerFormSelector + ', ' + Blacklight.modal.preserveFormSelector, Blacklight.modal.modalAjaxFormSubmit);
 
-  $('body').on('loaded.blacklight.blacklight-modal', Blacklight.modal.checkCloseModal); // we support doing data-dismiss=modal on a <a> with a href for non-ajax
+  // Catch our own custom loaded event to implement data-blacklight-modal=closed
+  $('body').on('loaded.blacklight.blacklight-modal', Blacklight.modal.checkCloseModal);
+
+  // we support doing data-dismiss=modal on a <a> with a href for non-ajax
   // use, we need to suppress following the a's href that's there for
   // non-JS contexts.
-
   $('body').on('click', Blacklight.modal.modalSelector + ' a[data-dismiss~=modal]', function (e) {
     e.preventDefault();
   });
-}; // A function used as an event handler on loaded.blacklight.blacklight-modal
+};
+
+// A function used as an event handler on loaded.blacklight.blacklight-modal
 // to catch contained data-blacklight-modal=closed directions
-
-
 Blacklight.modal.checkCloseModal = function (event) {
   if ($(event.target).find(Blacklight.modal.modalCloseSelector).length) {
     var modalFlashes = $(this).find('.flash_messages');
@@ -439,7 +421,6 @@ Blacklight.modal.checkCloseModal = function (event) {
     modalFlashes.fadeIn(500);
   }
 };
-
 Blacklight.modal.hide = function (el) {
   if (typeof bootstrap !== 'undefined' && typeof bootstrap.Modal !== 'undefined' && bootstrap.Modal.VERSION >= "5") {
     bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).hide();
@@ -447,7 +428,6 @@ Blacklight.modal.hide = function (el) {
     $(el || Blacklight.modal.modalSelector).modal('hide');
   }
 };
-
 Blacklight.modal.show = function (el) {
   if (typeof bootstrap !== 'undefined' && typeof bootstrap.Modal !== 'undefined' && bootstrap.Modal.VERSION >= "5") {
     bootstrap.Modal.getOrCreateInstance(el || document.querySelector(Blacklight.modal.modalSelector)).show();
@@ -455,19 +435,16 @@ Blacklight.modal.show = function (el) {
     $(el || Blacklight.modal.modalSelector).modal('show');
   }
 };
-
 Blacklight.onLoad(function () {
   Blacklight.modal.setupModal();
 });
-
 Blacklight.doSearchContextBehavior = function () {
   if (typeof Blacklight.do_search_context_behavior == 'function') {
     console.warn("do_search_context_behavior is deprecated. Use doSearchContextBehavior instead.");
     return Blacklight.do_search_context_behavior();
   }
-
-  var elements = document.querySelectorAll('a[data-context-href]'); // Equivalent to Array.from(), but supports ie11
-
+  var elements = document.querySelectorAll('a[data-context-href]');
+  // Equivalent to Array.from(), but supports ie11
   var nodes = Array.prototype.slice.call(elements);
   nodes.forEach(function (element) {
     element.addEventListener('click', function (e) {
@@ -475,29 +452,25 @@ Blacklight.doSearchContextBehavior = function () {
     });
   });
 };
-
 Blacklight.csrfToken = function () {
   var _document$querySelect;
-
   return (_document$querySelect = document.querySelector('meta[name=csrf-token]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.content;
 };
-
 Blacklight.csrfParam = function () {
   var _document$querySelect2;
-
   return (_document$querySelect2 = document.querySelector('meta[name=csrf-param]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.content;
-}; // this is the Rails.handleMethod with a couple adjustments, described inline:
+};
+
+// this is the Rails.handleMethod with a couple adjustments, described inline:
 // first, we're attaching this directly to the event handler, so we can check for meta-keys
-
-
 Blacklight.handleSearchContextMethod = function (event) {
   if (typeof Blacklight.handle_search_context_method == 'function') {
     console.warn("handle_search_context_method is deprecated. Use handleSearchContextMethod instead.");
     return Blacklight.handle_search_context_method(event);
   }
+  var link = this;
 
-  var link = this; // instead of using the normal href, we need to use the context href instead
-
+  // instead of using the normal href, we need to use the context href instead
   var href = link.getAttribute('data-context-href');
   var target = link.getAttribute('target');
   var csrfToken = Blacklight.csrfToken();
@@ -505,24 +478,22 @@ Blacklight.handleSearchContextMethod = function (event) {
   var form = document.createElement('form');
   form.method = 'post';
   form.action = href;
-  var formContent = "<input name=\"_method\" value=\"post\" type=\"hidden\" />\n    <input name=\"redirect\" value=\"".concat(link.getAttribute('href'), "\" type=\"hidden\" />"); // check for meta keys.. if set, we should open in a new tab
+  var formContent = "<input name=\"_method\" value=\"post\" type=\"hidden\" />\n    <input name=\"redirect\" value=\"".concat(link.getAttribute('href'), "\" type=\"hidden\" />");
 
+  // check for meta keys.. if set, we should open in a new tab
   if (event.metaKey || event.ctrlKey) {
     target = '_blank';
   }
-
   if (csrfParam !== undefined && csrfToken !== undefined) {
     formContent += "<input name=\"".concat(csrfParam, "\" value=\"").concat(csrfToken, "\" type=\"hidden\" />");
-  } // Must trigger submit by click on a button, else "submit" event handler won't work!
+  }
+
+  // Must trigger submit by click on a button, else "submit" event handler won't work!
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit
-
-
   formContent += '<input type="submit" />';
-
   if (target) {
     form.setAttribute('target', target);
   }
-
   form.style.display = 'none';
   form.innerHTML = formContent;
   document.body.appendChild(form);
@@ -530,7 +501,6 @@ Blacklight.handleSearchContextMethod = function (event) {
   event.preventDefault();
   event.stopPropagation();
 };
-
 Blacklight.onLoad(function () {
   Blacklight.doSearchContextBehavior();
 });
