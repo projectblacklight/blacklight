@@ -1,8 +1,8 @@
-import BookmarkToggle from './bookmark_toggle'
-import ButtonFocus from './button_focus'
-import Modal from './modal'
-import SearchContext from './search_context'
-import Core from './core'
+import BookmarkToggle from 'blacklight/bookmark_toggle'
+import ButtonFocus from 'blacklight/button_focus'
+import Modal from 'blacklight/modal'
+import SearchContext from 'blacklight/search_context'
+import Core from 'blacklight/core'
 
 export default {
   BookmarkToggle,

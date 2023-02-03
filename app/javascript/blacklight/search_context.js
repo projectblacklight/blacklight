@@ -1,4 +1,4 @@
-import Blacklight from './core'
+import Blacklight from 'blacklight/core'
 
 const SearchContext = (() => {
   Blacklight.doSearchContextBehavior = function() {

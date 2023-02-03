@@ -18,6 +18,7 @@ module Blacklight
         return if Rails.version > '7' || Sprockets::VERSION < '4'
 
         append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
+        append_to_file 'app/assets/config/manifest.js', "\n//= link blacklight/manifest.js"
         empty_directory 'app/assets/images'
       end
 
@@ -42,6 +43,7 @@ module Blacklight
             // Required by Blacklight
             //= require popper
             //= require bootstrap
+            //= require blacklight/blacklight
           CONTENT
         end
       end

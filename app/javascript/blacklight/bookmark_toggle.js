@@ -1,5 +1,5 @@
-import Blacklight from './core'
-import CheckboxSubmit from './checkbox_submit'
+import Blacklight from 'blacklight/core'
+import CheckboxSubmit from 'blacklight/checkbox_submit'
 
 const BookmarkToggle = (() => {
     // change form submit toggle to checkbox

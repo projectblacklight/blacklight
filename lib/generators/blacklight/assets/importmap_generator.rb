@@ -16,7 +16,12 @@ module Blacklight
           <<~CONTENT
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
             pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.2.2'}/dist/js/bootstrap.js"
-            pin "blacklight", to: "blacklight/blacklight.js"
+          CONTENT
+        end
+
+        append_to_file 'app/assets/config/manifest.js' do
+          <<~CONTENT
+            //= link blacklight/manifest.js
           CONTENT
         end
       end
@@ -25,7 +30,7 @@ module Blacklight
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
             import bootstrap from "bootstrap"
-            import "blacklight"
+            import Blacklight from "blacklight"
           CONTENT
         end
       end
