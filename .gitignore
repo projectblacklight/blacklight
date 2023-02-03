@@ -17,3 +17,4 @@ pkg/*
 /spec/examples.txt
 node_modules/*
 package-lock.json
+/app/assets/javascripts/blacklight
