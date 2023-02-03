@@ -23,7 +23,7 @@ module Blacklight
   require 'blacklight/engine' if defined?(Rails)
 
   def self.blacklight_config_file
-    "#{::Rails.root}/config/blacklight.yml"
+    Rails.root.join("config/blacklight.yml")
   end
 
   ##
