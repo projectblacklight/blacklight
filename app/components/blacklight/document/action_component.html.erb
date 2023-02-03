@@ -1,9 +1,2 @@
-<% if using_default_document_action? %>
-  <%= link_to label,
-              url,
-              id: @id,
-              class: @link_classes,
-              data: {}.merge(({ blacklight_modal: "trigger", turbo: false } if @action.modal != false) || {}) %>
-<% else %>
-  <%= helpers.render(partial: @action.partial || @action.name.to_s, locals: { document: @document, document_action_config: @action }.merge(@options)) %>
-<% end %>
+<%# We keep this template around so that downstream applications can override the template if desired %>
+<%= render_control %>
