@@ -16,6 +16,10 @@ module Blacklight
         new.cast(input)
       end
 
+      def initialize(**kwargs)
+        @kwargs = kwargs
+      end
+
       def cast(input)
         if input.is_a?(::Array)
           input.first
