@@ -20,14 +20,13 @@ module Blacklight
       autoload :ShowField
     end
 
+
+    class_attribute :default_values, default: {}
+
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
     class << self
       def property(key, default: nil)
         default_values[key] = default
-      end
-
-      def default_values
-        @default_values ||= {}
       end
     end
     # === Search request configuration
