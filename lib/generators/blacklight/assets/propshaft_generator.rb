@@ -4,7 +4,11 @@ module Blacklight
   module Assets
     class PropshaftGenerator < Rails::Generators::Base
       def add_package
-        run 'yarn add blacklight-frontend'
+        if ENV['CI']
+          run "yarn add blacklight-frontend:#{Blacklight::Engine.root}"
+        else
+          run 'yarn add blacklight-frontend'
+        end
       end
 
       def add_package_assets
@@ -16,7 +20,7 @@ module Blacklight
 
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
-            import Blacklight from "blacklight-frontend/app/assets/javascripts/blacklight/blacklight.esm";
+            import Blacklight from "blacklight-frontend";
           CONTENT
         end
       end
