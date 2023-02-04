@@ -34,7 +34,7 @@ module Blacklight
     # Call external generator in AssetsGenerator, so we can
     # leave that callable seperately too.
     def copy_public_assets
-      generated_options = "--bootstrap-version #{options[:'bootstrap-version']}" if options[:'bootstrap-version']
+      generated_options = "--bootstrap-version='#{options[:'bootstrap-version']}'" if options[:'bootstrap-version']
 
       generate "blacklight:assets", generated_options unless options[:'skip-assets']
     end

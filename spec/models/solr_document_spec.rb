@@ -45,9 +45,11 @@ RSpec.describe SolrDocument, api: true do
 
     let(:doc_class) do
       Class.new(SolrDocument) do
-        attribute :title, Blacklight::Types::String, 'title_tesim'
-        attribute :author, Blacklight::Types::Array, 'author_tesim'
-        attribute :date, Blacklight::Types::Date, 'date_dtsi'
+        attribute :title, :string, 'title_tesim'
+        attribute :author, :array, 'author_tesim', of: :string
+        attribute :first_author, :select, 'author_tesim', by: :min
+        attribute :date, :date, field: 'date_dtsi'
+        attribute :whatever, :string, default: ->(*) { 'default_value' }
       end
     end
     let(:document) do
@@ -60,7 +62,23 @@ RSpec.describe SolrDocument, api: true do
     it "casts the attributes" do
       expect(document.title).to eq 'Good Omens'
       expect(document.author).to eq ['Neil Gaiman', 'Terry Pratchett']
+      expect(document.first_author).to eq 'Neil Gaiman'
       expect(document.date).to eq Date.new(1990)
+      expect(document.whatever).to eq 'default_value'
+    end
+
+    context 'with missing data' do
+      let(:document) { doc_class.new(id: '123') }
+
+      it 'returns nil for scalar values' do
+        expect(document.title).to be_nil
+        expect(document.first_author).to be_nil
+        expect(document.date).to be_nil
+      end
+
+      it 'returns an array for array values' do
+        expect(document.author).to eq []
+      end
     end
   end
 end
