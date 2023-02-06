@@ -1,5 +1,7 @@
 'use strict'
 
+import includePaths from 'rollup-plugin-includepaths';
+
 const path = require('path')
 
 const BUNDLE = process.env.BUNDLE === 'true'
@@ -9,6 +11,13 @@ const fileDest = `blacklight${ESM ? '.esm' : ''}`
 const external = []
 const globals = {}
 
+let includePathOptions = {
+  include: {},
+  paths: ['app/javascript'],
+  external: [],
+  extensions: ['.js']
+};
+
 const rollupConfig = {
   input: path.resolve(__dirname, `app/javascript/blacklight/index.js`),
   output: {
@@ -17,7 +26,8 @@ const rollupConfig = {
     globals,
     generatedCode: 'es2015'
   },
-  external
+  external,
+  plugins: [includePaths(includePathOptions)]
 }
 
 if (!ESM) {

@@ -19,15 +19,14 @@ module Blacklight
       end
     end
 
-    initializer "blacklight.assets.precompile" do
-      # rubocop:disable Lint/ConstantDefinitionInBlock
-      PRECOMPILE_ASSETS = %w(favicon.ico blacklight/blacklight.js blacklight/blacklight.js.map blacklight/blacklight.esm.js blacklight/blacklight.esm.js.map).freeze
-      # rubocop:enable Lint/ConstantDefinitionInBlock
+    PRECOMPILE_ASSETS = %w(favicon.ico blacklight/blacklight.js blacklight/blacklight.js.map blacklight/blacklight.esm.js blacklight/blacklight.esm.js.map).freeze
 
+    initializer "blacklight.assets.precompile" do |app|
       # When Rails has been generated in API mode, it does not have sprockets available
-      if Rails.application.config.respond_to?(:assets)
-        Rails.application.config.assets.precompile += PRECOMPILE_ASSETS
-      end
+      next unless app.config.respond_to?(:assets)
+
+      app.config.assets.paths << Engine.root.join("app/javascript")
+      app.config.assets.precompile += Blacklight::Engine::PRECOMPILE_ASSETS
     end
 
     initializer "blacklight.importmap", before: "importmap" do |app|

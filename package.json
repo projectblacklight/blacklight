@@ -12,7 +12,8 @@
     "url": "git+https://github.com/projectblacklight/blacklight.git"
   },
   "files": [
-    "app/assets"
+    "app/assets",
+    "app/javascript"
   ],
   "author": "",
   "license": "Apache-2.0",
@@ -21,7 +22,8 @@
   },
   "homepage": "https://github.com/projectblacklight/blacklight#readme",
   "devDependencies": {
-    "rollup": "^2.60.0"
+    "rollup": "^2.60.0",
+    "rollup-plugin-includepaths": "^0.2.4"
   },
   "browserslist": [
     "defaults",
