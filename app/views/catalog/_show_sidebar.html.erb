@@ -1,2 +1,2 @@
-<%= render 'show_tools' %>
+<%= render 'show_tools', document: document %>
 <%= render(Blacklight::Document::MoreLikeThisComponent.new(document: document)) %>
