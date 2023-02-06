@@ -31,10 +31,8 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
   end
 
   it 'renders a collapsible card' do
-    expect(rendered).to have_selector '.card'
-    expect(rendered).to have_button 'Field'
-    expect(rendered).to have_selector 'button[data-bs-target="#facet-field"]'
-    expect(rendered).to have_selector '#facet-field.collapse.show'
+    expect(rendered).to have_selector 'details.card[open]'
+    expect(rendered).to have_selector 'summary', text: 'Field'
   end
 
   it 'renders the facet items' do
@@ -58,7 +56,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     end
 
     it 'adds the facet-limit-active class' do
-      expect(rendered).to have_selector 'div.facet-limit-active'
+      expect(rendered).to have_selector '.facet-limit-active'
     end
   end
 
@@ -78,13 +76,8 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     end
 
     it 'renders a collapsed facet' do
-      expect(rendered).to have_selector '.facet-content.collapse'
-      expect(rendered).not_to have_selector '.facet-content.collapse.show'
-    end
-
-    it 'renders the toggle button in the collapsed state' do
-      expect(rendered).to have_selector '.btn.collapsed'
-      expect(rendered).to have_selector '.btn[aria-expanded="false"]'
+      expect(rendered).to have_selector 'details'
+      expect(rendered).not_to have_selector 'details[open]'
     end
   end
 

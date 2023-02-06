@@ -2,30 +2,6 @@
   @extend .py-2;
 }
 
-// Facet field headings and buttons
-.facet-field-heading {
-  border-bottom: 0;
-
-  button {
-    font-weight: $headings-font-weight;
-
-    &::after {
-      content: "❯";
-      float: right;
-      transform: rotate(90deg);
-    }
-
-    &.collapsed {
-      border-bottom: 0;
-
-      &::after {
-        transform: rotate(0deg);
-        transition: transform 0.1s ease;
-      }
-    }
-  }
-}
-
 .page-link {
   white-space: nowrap;
 }

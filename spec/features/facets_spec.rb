@@ -56,7 +56,7 @@ RSpec.describe "Facets" do
 
     expect(page).to have_css('#facet-format', visible: false)
 
-    page.find('h3.facet-field-heading button', text: 'Format').click
+    page.find('.facet-field-heading', text: 'Format').click
 
     sleep(1) # let facet animation finish and wait for it to potentially re-collapse
 
@@ -66,7 +66,7 @@ RSpec.describe "Facets" do
   it 'is able to expand pivot facets when javascript is enabled', js: true do
     visit root_path
 
-    page.find('h3.facet-field-heading button', text: 'Pivot Field').click
+    page.find('.facet-field-heading', text: 'Pivot Field').click
 
     within '#facet-example_pivot_field' do
       expect(page).to have_css('.facet-leaf-node', text: "Book 30", normalize_ws: true)
@@ -79,19 +79,10 @@ RSpec.describe "Facets" do
     expect(page).to have_css('.constraint-value', text: 'Language Tibetan')
   end
 
-  describe 'heading button focus with Firefox' do
-    it 'changes to the button on button click in Firefox' do
-      pending 'Capybara::NotSupportedByDriverError: Capybara::Driver::Base#evaluate_script'
-      visit root_path
-      page.find('h3.facet-field-heading button', text: 'Format').click
-      focused_element_data_target = page.evaluate_script("document.activeElement")['data-bs-target']
-      expect(focused_element_data_target).to eq '#facet-format'
-    end
-  end
-
   describe '"More" links' do
     it 'has default more link with visually-hidden text' do
       visit root_path
+      page.find('.facet-field-heading', text: 'Language').click
       within '#facet-language_ssim' do
         expect(page).to have_css 'div.more_facets', text: 'more Language'
       end

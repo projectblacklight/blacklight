@@ -15,7 +15,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
     instance_double(Blacklight::Solr::Response::Facets::FacetField, name: 'field', items: items, limit: nil, sort: :index, offset: 0, prefix: nil)
   end
 
-  let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'field').normalize! }
+  let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'field', collapse: false).normalize! }
 
   it 'delegates to the configured component to render something' do
     expect(rendered).to have_selector 'ul.facet-values'
