@@ -60,7 +60,7 @@ components in the gem are changed, this bundle should be rebuild with the
 following steps:
 1. [Install npm](https://www.npmjs.com/get-npm)
 1. run `npm install` to download dependencies
-1. run `npm run js-compile-bundle` to build the bundle
+1. run `npm run prepare` to build the bundle
 1. run `npm publish` to push the javascript package to https://npmjs.org/package/blacklight-frontend
 
 ## Using the javascript

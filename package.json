@@ -5,7 +5,7 @@
   "main": "app/assets/javascripts/blacklight",
   "module": "app/assets/javascripts/blacklight/blacklight.esm.js",
   "scripts": {
-    "js-compile-bundle": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap"
+    "prepare": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap"
   },
   "repository": {
     "type": "git",
