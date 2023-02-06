@@ -20,16 +20,36 @@ module Blacklight
       autoload :ShowField
     end
 
+    class_attribute :default_values, default: {}
+
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
     class << self
       def property(key, default: nil)
         default_values[key] = default
       end
 
-      def default_values
-        @default_values ||= {}
+      def default_configuration(&block)
+        @default_configurations ||= []
+
+        if block
+          @default_configurations << block
+
+          block.call if @default_configuration_initialized
+        end
+
+        @default_configurations
+      end
+
+      def initialize_default_configuration
+        @default_configurations&.map(&:call)
+        @default_configuration_initialized = true
+      end
+
+      def initialized_default_configuration?
+        @default_configuration_initialized
       end
     end
+
     # === Search request configuration
 
     # @!attribute http_method
@@ -357,6 +377,8 @@ module Blacklight
     define_field_access :email_field, Blacklight::Configuration::DisplayField
 
     def initialize(hash = {})
+      self.class.initialize_default_configuration unless self.class.initialized_default_configuration?
+
       super(self.class.default_values.deep_dup.merge(hash))
       yield(self) if block_given?
 
