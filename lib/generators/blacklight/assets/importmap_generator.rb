@@ -14,6 +14,7 @@ module Blacklight
       def import_javascript_assets
         append_to_file 'config/importmap.rb' do
           <<~CONTENT
+            pin "@github/auto-complete-element", to: "https://cdn.skypack.dev/@github/auto-complete-element"
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
             pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.2.2'}/dist/js/bootstrap.js"
           CONTENT
@@ -30,6 +31,7 @@ module Blacklight
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
             import bootstrap from "bootstrap"
+            import githubAutoCompleteElement from "https://cdn.skypack.dev/@github/auto-complete-element"
             import Blacklight from "blacklight"
           CONTENT
         end
