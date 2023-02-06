@@ -3,7 +3,7 @@
 RSpec.describe Blacklight::Base do
   subject { controller }
 
-  let(:controller) { (Class.new(ApplicationController) { include Blacklight::Base }).new }
+  let(:controller) { Deprecation.silence(described_class) { (Class.new(ApplicationController) { include Blacklight::Base }).new } }
 
   describe "#search_state" do
     subject { controller.send(:search_state) }

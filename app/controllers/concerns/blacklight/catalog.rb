@@ -5,7 +5,10 @@ module Blacklight::Catalog
   # MimeResponds is part of ActionController::Base, but not ActionController::API
   include ActionController::MimeResponds
 
-  include Blacklight::Base
+  Deprecation.silence(Blacklight::Base) do
+    include Blacklight::Base
+  end
+
   include Blacklight::Facet
   include Blacklight::Searchable
 
