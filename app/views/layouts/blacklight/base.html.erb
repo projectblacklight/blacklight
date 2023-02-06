@@ -19,7 +19,7 @@
       <%= javascript_importmap_tags %>
     <% elsif defined? Propshaft %>
       <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-    <% else %>    
+    <% else %>
       <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
       <%= javascript_include_tag "blacklight/blacklight", type: 'module' %>
     <% end %>
@@ -30,7 +30,7 @@
       import githubAutoCompleteElement from 'https://cdn.skypack.dev/@github/auto-complete-element';
     </script>
   </head>
-  <body class="<%= render_body_class %>">
+  <body class="<%= render_body_class %>" data-controller="blacklight--modal">
     <nav id="skip-link" role="navigation" aria-label="<%= t('blacklight.skip_links.label') %>">
       <%= link_to t('blacklight.skip_links.search_field'), '#search_field', class: 'element-invisible element-focusable rounded-bottom py-2 px-3', data: { turbolinks: 'false' } %>
       <%= link_to t('blacklight.skip_links.main_content'), '#main-container', class: 'element-invisible element-focusable rounded-bottom py-2 px-3', data: { turbolinks: 'false' } %>

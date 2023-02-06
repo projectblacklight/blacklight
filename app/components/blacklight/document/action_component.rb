@@ -31,7 +31,7 @@ module Blacklight
                 url,
                 id: @id,
                 class: @link_classes,
-                data: {}.merge(({ blacklight_modal: "trigger", turbo: false } if @action.modal != false) || {})
+                data: {}.merge(({ action: 'blacklight--modal#open', 'turbo-frame': 'modal' } if @action.modal != false) || {})
       end
 
       def render_partial
