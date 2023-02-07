@@ -7,15 +7,16 @@
              method:  bookmarked? ? :delete : :put,
              class: "bookmark-toggle",
              data: {
-               'doc-id' => @document.id,
-               present: t('blacklight.search.bookmarks.present'),
-               absent: t('blacklight.search.bookmarks.absent'),
-               inprogress: t('blacklight.search.bookmarks.inprogress')
+              controller: 'blacklight--checkbox-submit',
+              'blacklight--checkbox-submit-present-value': t('blacklight.search.bookmarks.present'),
+              'blacklight--checkbox-submit-absent-value': t('blacklight.search.bookmarks.absent'),
+              'blacklight--checkbox-submit-inprogress-value': t('blacklight.search.bookmarks.inprogress'),
+              'doc-id' => @document.id
             }) do %>
   <div class="checkbox toggle-bookmark">
-    <label class="toggle-bookmark" data-checkboxsubmit-target="label">
-      <input type="checkbox" class="toggle-bookmark" data-checkboxsubmit-target="checkbox" <%= 'checked="checked"' if bookmarked? %>>
-      <span data-checkboxsubmit-target="span"><%= bookmarked? ? t('blacklight.search.bookmarks.present') : t('blacklight.search.bookmarks.absent') %></span>
+    <label class="toggle-bookmark" data-blacklight--checkbox-submit-target="label">
+      <input type="checkbox" class="toggle-bookmark" data-action="change->blacklight--checkbox-submit#change" <%= 'checked="checked"' if bookmarked? %> data-blacklight--checkbox-submit-target="checkbox">
+      <span data-blacklight--checkbox-submit-target="span"><%= bookmarked? ? t('blacklight.search.bookmarks.present') : t('blacklight.search.bookmarks.absent') %></span>
     </label>
   </div>
 

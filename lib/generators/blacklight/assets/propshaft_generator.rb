@@ -29,6 +29,10 @@ module Blacklight
           CONTENT
         end
       end
+
+      def install_stimulus_controllers
+        rake "stimulus:manifest:update"
+      end
     end
   end
 end

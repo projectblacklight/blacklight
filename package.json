@@ -30,6 +30,7 @@
     "not IE 11"
   ],
   "dependencies": {
+    "@hotwired/stimulus": "^3.2.1",
     "bootstrap": ">=4.3.1 <6.0.0"
   }
 }
