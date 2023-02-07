@@ -31,7 +31,7 @@ module Blacklight
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
             import bootstrap from "bootstrap"
-            import githubAutoCompleteElement from "https://cdn.skypack.dev/@github/auto-complete-element"
+            import githubAutoCompleteElement from "@github/auto-complete-element"
             import Blacklight from "blacklight"
           CONTENT
         end
