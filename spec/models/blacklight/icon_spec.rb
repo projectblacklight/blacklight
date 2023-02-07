@@ -12,8 +12,6 @@ RSpec.describe Blacklight::Icon do
     elsif defined?(Propshaft)
       allow(Rails.application.assets.load_path).to receive(:find).and_return(asset)
     end
-    # FileUtils.mkdir_p '.internal_test_app/app/assets/images/blacklight'
-    # File.write '.internal_test_app/app/assets/images/blacklight/test.svg', Blacklight::Icons::SearchComponent.new.svg
   end
 
   describe '#svg' do
