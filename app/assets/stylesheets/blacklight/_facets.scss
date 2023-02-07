@@ -78,6 +78,7 @@
 
   .card-body {
     padding: $spacer;
+    padding-top: 0;
   }
 }
 
@@ -165,15 +166,41 @@
   }
 }
 
+// Facet field headings and buttons
 .facet-field-heading {
-  @extend .h6;
+  border-bottom: 0;
 
-  a {
-    color: inherit;
+  // This fakes a slight animation when expanding/collapsing the details
+  details & {
+    transition: margin 150ms ease-out;
   }
 
-  /* This prevents the contained stretch link from covering the panel body */
-  position: relative
+  details[open] & {
+    margin-bottom: 10px;
+  }
+
+  // Use our own stylized icon
+  &::-webkit-details-marker,
+  &::marker {
+    content: "";
+    display: none;
+  }
+
+  .field-label {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+
+    &::after {
+      content: "❯";
+      transform: rotate(0deg);
+
+      details[open] & {
+        transform: rotate(90deg);
+        transition: transform 0.1s ease;
+      }
+    }
+  }
 }
 
 /* Sidenav

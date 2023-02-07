@@ -3,6 +3,7 @@
 RSpec.describe "Facets" do
   it "works without a search term" do
     visit root_path
+    page.find('summary', text: 'Language').click
     within "#facet-language_ssim" do
       click_link "Tibetan"
     end
@@ -18,6 +19,7 @@ RSpec.describe "Facets" do
       expect(page).to have_selector("span.facet-count.selected", text: "6")
     end
 
+    page.find('summary', text: 'Region').click
     click_link "India"
     within ("#sortAndPerPage") do
       expect(page).to have_content "1 - 2 of 2"
@@ -40,6 +42,7 @@ RSpec.describe "Facets" do
       expect(page).to have_content "1 - 10 of 11"
     end
 
+    page.find('summary', text: 'Language').click
     within "#facet-language_ssim" do
       click_link "Tibetan"
     end
@@ -54,11 +57,26 @@ RSpec.describe "Facets" do
       expect(page).to have_content "You searched for:"
       expect(page).to have_content "history"
     end
+  end
 
+  it 'works with search terms and multiple filters' do
+    visit root_path
+    fill_in "q", with: 'history'
+    click_button 'search'
+    page.find('summary', text: 'Language').click
+    within "#facet-language_ssim" do
+      click_link "Tibetan"
+    end
+
+    page.find('summary', text: 'Publication Year').click
     click_link "2004"
 
     within ("#sortAndPerPage") do
       expect(page).to have_content "1 entry found"
+    end
+    within "#appliedParams" do
+      expect(page).to have_content "You searched for:"
+      expect(page).to have_content "history"
     end
     within "#facet-language_ssim" do
       expect(page).to have_selector("span.selected", text: "Tibetan")
@@ -72,6 +90,7 @@ RSpec.describe "Facets" do
 
   it "allows removing filters" do
     visit root_path
+    page.find('summary', text: 'Language').click
     within "#facet-language_ssim" do
       click_link "Tibetan"
     end
@@ -90,6 +109,7 @@ RSpec.describe "Facets" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
+    page.find('summary', text: 'Language').click
     within "#facet-language_ssim" do
       click_link 'Tibetan'
     end
@@ -98,6 +118,7 @@ RSpec.describe "Facets" do
       expect(page).to have_selector("span.facet-count.selected", text: "2")
     end
 
+    page.find('summary', text: 'Publication Year').click
     click_link '2004'
 
     within "#facet-language_ssim" do
@@ -125,6 +146,7 @@ RSpec.describe "Facets" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
+    page.find('summary', text: 'Language').click
     within "#facet-language_ssim" do
       click_link 'Tibetan'
     end
@@ -147,6 +169,7 @@ RSpec.describe "Facets" do
     visit root_path
     fill_in "q", with: 'history'
     click_button 'search'
+    page.find('summary', text: 'Language').click
     within "#facet-language_ssim" do
       click_link 'Tibetan'
     end
@@ -167,7 +190,7 @@ RSpec.describe "Facets" do
     end
   end
 
-  it "is collapsed when not selected", js: true do
+  it "is collapsed when not selected" do
     visit root_path
 
     within(".blacklight-subject_ssim") do
@@ -175,38 +198,28 @@ RSpec.describe "Facets" do
     end
   end
 
-  it "expands when the heading button is clicked", js: true do
+  it "expands when the summary is clicked" do
     visit root_path
 
     within(".blacklight-subject_ssim") do
       expect(page).not_to have_selector(".card-body", visible: true)
-      find(".card-header button").click
+      find("summary").click
       expect(page).to have_selector(".card-body", visible: true)
     end
   end
 
-  it "expands when the button is clicked", js: true do
+  it "keeps selected facets expanded on page load" do
     visit root_path
 
     within(".blacklight-subject_ssim") do
-      expect(page).not_to have_selector(".card-body", visible: true)
-      find(".card-header").click
+      page.find('summary.facet-field-heading', text: 'Topic').click
       expect(page).to have_selector(".card-body", visible: true)
-    end
-  end
-
-  it "keeps selected facets expanded on page load", js: true do
-    visit root_path
-
-    within(".blacklight-subject_ssim") do
-      page.find('h3.facet-field-heading', text: 'Topic').click
-      expect(page).to have_selector(".panel-collapse", visible: true)
     end
     within(".blacklight-subject_ssim") do
       click_link "Japanese drama"
     end
     within(".blacklight-subject_ssim") do
-      expect(page).to have_selector(".panel-collapse", visible: true)
+      expect(page).to have_selector(".card-body", visible: true)
     end
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe "Facet missing" do
   context "selecting missing field in facets" do
     it "adds facet missing query and constraints" do
       visit root_path
-
+      page.find('summary', text: 'Region').click
       within "#facet-subject_geo_ssim" do
         click_link "[Missing]"
       end
@@ -35,6 +35,7 @@ RSpec.describe "Facet missing" do
     it "unselects the missing field facet" do
       visit root_path
 
+      page.find('summary', text: 'Region').click
       within "#facet-subject_geo_ssim" do
         click_link "[Missing]"
       end
@@ -52,6 +53,7 @@ RSpec.describe "Facet missing" do
     it "unselects the missing field facet" do
       visit root_path
 
+      page.find('summary', text: 'Region').click
       within "#facet-subject_geo_ssim" do
         click_link "[Missing]"
       end

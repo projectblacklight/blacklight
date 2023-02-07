@@ -14,7 +14,7 @@ RSpec.describe 'Accessibility testing', api: false, js: true do
     expect(page).to be_accessible
 
     within '.card.blacklight-language_ssim' do
-      click_button 'Language'
+      page.find('summary', text: 'Language').click
       click_link "Tibetan"
     end
 

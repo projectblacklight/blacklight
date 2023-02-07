@@ -19,6 +19,7 @@ RSpec.describe Blacklight::AdvancedSearchFormComponent, type: :component do
 
   before do
     allow(view_context).to receive(:facet_limit_for).and_return(nil)
+    view_context.blacklight_config.facet_fields['format'].collapse = false
   end
 
   context 'with additional parameters' do

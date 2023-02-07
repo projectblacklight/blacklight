@@ -3,6 +3,7 @@
 RSpec.describe "Search Sort" do
   it "sorts on facet results with no search terms" do
     visit root_path
+    page.find('summary', text: 'Language').click
     within "#facet-language_ssim" do
       click_link 'English'
     end
