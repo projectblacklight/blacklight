@@ -52,17 +52,10 @@
   can be a turbo-stream that defines some HTML fragementsand where on the page to put them:
   https://turbo.hotwired.dev/handbook/streams
 */
-import Blacklight from 'blacklight/core'
 import ModalForm from 'blacklight/modalForm'
 
 const Modal = (() => {
-  // We keep all our data in Blacklight.modal object.
-  // Create lazily if someone else created first.
-  if (Blacklight.modal === undefined) {
-    Blacklight.modal = {};
-  }
-
-  const modal = Blacklight.modal
+  const modal = {}
 
   // a Bootstrap modal div that should be already on the page hidden
   modal.modalSelector = '#blacklight-modal';
@@ -147,20 +140,22 @@ const Modal = (() => {
   };
 
   modal.hide = function (el) {
-    const dom = document.querySelector(Blacklight.modal.modalSelector)
+    const dom = document.querySelector(modal.modalSelector)
 
     if (!dom.open) return
     dom.close()
   }
 
   modal.show = function(el) {
-    const dom = document.querySelector(Blacklight.modal.modalSelector)
+    const dom = document.querySelector(modal.modalSelector)
 
     if (dom.open) return
     dom.showModal()
   }
 
   modal.setupModal()
+
+  return modal;
 })()
 
 export default Modal
