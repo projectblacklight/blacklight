@@ -20,7 +20,7 @@
         <div class="more_facets">
           <%= link_to t("more_#{@facet_field.key}_html", scope: 'blacklight.search.facets', default: :more_html, field_name: @facet_field.label),
             @facet_field.modal_path,
-            data: { blacklight_modal: 'trigger', turbo: false } %>
+            data: { action: 'blacklight--modal#open', 'turbo-frame': 'modal' } %>
         </div>
       <% end %>
     </div>

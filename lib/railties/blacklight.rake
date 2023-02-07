@@ -119,3 +119,19 @@ namespace :blacklight do
     end
   end
 end
+
+if Rake::Task.task_defined?('stimulus:manifest:display')
+  Rake::Task['stimulus:manifest:display'].enhance do
+    puts Stimulus::Manifest.generate_from(Blacklight::Engine.root.join("app/javascript/controllers")).join("\n").gsub('./blacklight/', 'blacklight-frontend/app/javascript/controllers/blacklight/')
+  end
+end
+
+if Rake::Task.task_defined?('stimulus:manifest:update')
+  Rake::Task['stimulus:manifest:update'].enhance do
+    manifest = Stimulus::Manifest.generate_from(Blacklight::Engine.root.join("app/javascript/controllers")).join("\n").gsub('./blacklight/',
+                                                                                                                            'blacklight-frontend/app/javascript/controllers/blacklight/')
+    File.open(Rails.root.join("app/javascript/controllers/index.js"), "a+") do |index|
+      index.puts manifest
+    end
+  end
+end
