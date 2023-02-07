@@ -59,7 +59,7 @@ RSpec.describe "Facets" do
     page.find('.facet-field-heading', text: 'Format').click
 
     sleep(1) # let facet animation finish and wait for it to potentially re-collapse
-
+puts page.body
     expect(page).to have_css('#facet-format', visible: true) # assert that it didn't re-collapse
   end
 
