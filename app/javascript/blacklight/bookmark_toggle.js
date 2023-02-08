@@ -11,7 +11,6 @@ const BookmarkToggle = (() => {
         }
       });
     };
-    Blacklight.doBookmarkToggleBehavior.selector = 'form.bookmark-toggle';
 
     Blacklight.doBookmarkToggleBehavior();
 })()
