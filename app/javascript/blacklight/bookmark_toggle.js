@@ -7,8 +7,6 @@ const BookmarkToggle = (e) => {
   }
 };
 
-BookmarkToggle.selector = 'form.bookmark-toggle';
-
 document.addEventListener('click', BookmarkToggle);
 
 export default BookmarkToggle
