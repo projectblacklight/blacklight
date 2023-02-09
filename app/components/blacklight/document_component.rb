@@ -3,7 +3,23 @@
 require 'view_component/version'
 
 module Blacklight
+  ##
+  # A component for rendering a single document
+  #
+  # @note when subclassing this component, you must explicitly specify the collection parameter
+  #    as `document` and handle the `document` parameter in your initializer.
+  #
+  # @example
+  #  class MyDocumentComponent < Blacklight::DocumentComponent
+  #    with_collection_parameter :document
+  #
+  #    def initialize(document:, **kwargs)
+  #      super(document: document, **kwargs)
+  #    end
+  #  end
   class DocumentComponent < Blacklight::Component
+    with_collection_parameter :document
+
     # ViewComponent 3 changes iteration counters to begin at 0 rather than 1
     COLLECTION_INDEX_OFFSET = ViewComponent::VERSION::MAJOR < 3 ? 0 : 1
 
