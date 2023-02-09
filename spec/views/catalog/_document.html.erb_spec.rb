@@ -24,4 +24,25 @@ RSpec.describe "catalog/_document" do
     expect(rendered).to match /b_partial/
     expect(rendered).to match /c_partial/
   end
+
+  context 'with a configured document component' do
+    let(:custom_component_class) do
+      Class.new(Blacklight::DocumentComponent) do
+        # Override component rendering with our own value
+        def call
+          'blah'
+        end
+      end
+    end
+
+    before do
+      stub_const('MyDocumentComponent', custom_component_class)
+      blacklight_config.index.document_component = MyDocumentComponent
+    end
+
+    it 'renders the document component' do
+      render partial: "catalog/document", locals: { document: document, document_counter: 1, view_config: blacklight_config.index }
+      expect(rendered).to match /blah/
+    end
+  end
 end
