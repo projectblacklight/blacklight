@@ -37,7 +37,6 @@ module Blacklight
     def appease_sprockets4
       return if !defined?(Sprockets::VERSION) || Sprockets::VERSION < '4' || using_importmap?
 
-      append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
       empty_directory 'app/assets/images'
     end
 
