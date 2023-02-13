@@ -192,6 +192,8 @@ en:
           hide: Hide
         group:
           toggle: Toggle facets
+          open: Show facets
+          close: Hide facets
       group:
         more: 'more »'
       filters:

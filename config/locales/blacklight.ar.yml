@@ -1,254 +1,237 @@
+---
 ar:
-  views:
-    pagination:
-      first: 'الأولى &laquo;'
-      last: 'الأخيرة &raquo;'
-      previous: '&laquo; السابق'
-      next: 'التالي &raquo;'
-      truncate: '…'
-      aria:
-        container_label: 'روابط الصفحات'
-        current_page: 'الصفحة الحالية، الصفحة %{page}'
-        go_to_page: 'الانتقال إلى %{page}'
-        go_to_previous_page: 'الانتقال للصفحة السابقة'
-        go_to_next_page: 'الانتقال للصفحة التالية'
-        go_to_first_page: 'الانتقال للصفحة الأولى'
-        go_to_last_page: 'الانتقال للصفحة الأخيرة'
-
-    pagination_compact:
-      previous: '&laquo; السابقة'
-      next: 'التالية &raquo;'
-
   blacklight:
-    application_name: 'Blacklight'
-    skip_links:
-      label: 'تخطي الروابط'
-      main_content: 'انتقل إلى المحتوى الرئيسي'
-      search_field: 'انتقل إلى البحث'
-      first_result: 'انتقل إلى النتيجة الأولى'
-    header_links:
-      login: 'تسجيل الدخول'
-      logout: 'تسجيل الخروج'
-      bookmarks: 'الصفحات المفضلة'
-      search_history: 'سجل البحث السابق'
-
-    welcome: 'مرحبًا!'
-    and: 'و'
-    or: 'أو'
-
-    modal:
-      close: "إغلاق"
-
+    and: و
+    application_name: Blacklight
+    back_to_bookmarks: عودة لصفحة الصفحات المفضلة
+    back_to_search: عودة لصفحة البحث
     bookmarks:
-      title: 'الصفحات المفضلة'
-      page_title: 'الصفحات المفضلة - %{application_name}'
-      no_bookmarks: 'ليس لديك صفحات مفضلة'
       add:
-        button: 'صفحة مفضلة'
+        button: صفحة مفضلة
+        failure: معذرة! حدثت مشكلة في حفظ الصفحات المفضلة.
         success:
-          zero: 'لم يتم إضافة أي صفحة مفضلة.'
-          one: 'أضيفت الصفحة المفضلة بنجاح.'
-          two: 'أضيفت صفحتان مفضلتان بنجاح.'
-          few: 'أضيفت الصفحات المفضلة بنجاح.'
-          many: 'أضيفت الصفحات المفضلة بنجاح.'
-          other: 'أضيفت الصفحات المفضلة بنجاح.'
-
-        failure:  'معذرة! حدثت مشكلة في حفظ الصفحات المفضلة.'
+          few: أضيفت الصفحات المفضلة بنجاح.
+          many: أضيفت الصفحات المفضلة بنجاح.
+          one: أضيفت الصفحة المفضلة بنجاح.
+          other: أضيفت الصفحات المفضلة بنجاح.
+          two: أضيفت صفحتان مفضلتان بنجاح.
+          zero: لم يتم إضافة أي صفحة مفضلة.
+      clear:
+        action_confirm: هل ترغب في مسح الصفحات المفضلة؟
+        action_title: مسح الصفحات المفضلة
+        failure: معذرة! حدثت مشكلة في مسح صفحاتك المفضلة.
+        success: تم مسح صفحاتك المفضلة.
+      delete: إزالة
+      list_title: صفحاتك المفضلة
+      need_login: يُرجى تسجيل الدخول لتنظيم صفحاتك المفضلة وعرضها.
+      no_bookmarks: ليس لديك صفحات مفضلة
+      page_title: الصفحات المفضلة - %{application_name}
       remove:
-        button: 'إزالة الصفحة المفضلة'
-        success: 'أزيلت الصفحة المفضلة بنجاح.'
-        failure: 'معذرة! حدثت مشكلة في إزالة الصفحات المفضلة.'
-        action_confirm: 'هل ترغب في إزالة الصفحة المفضلة؟'
-      clear:
-        action_title: 'مسح الصفحات المفضلة'
-        action_confirm: 'هل ترغب في مسح الصفحات المفضلة؟'
-        success: 'تم مسح صفحاتك المفضلة.'
-        failure: 'معذرة! حدثت مشكلة في مسح صفحاتك المفضلة.'
-      need_login: 'يُرجى تسجيل الدخول لتنظيم صفحاتك المفضلة وعرضها.'
-      list_title: 'صفحاتك المفضلة'
-      delete: 'إزالة'
-
-    search_history:
-      clear:
-        action_title: 'امسح سجل البحث السابق'
-        action_confirm: 'هل ترغب في مسح سجل البحث السابق؟'
-        success: 'تم مسح سجل بحثك السابق.'
-        failure: 'حدثت مشكلة في مسح سجل بحثك السابق.'
-      title: 'سجل البحث'
-      page_title: 'سجل البحث - %{application_name}'
-      no_history: 'لا يوجد لديك سجل بحث'
-      recent: 'سجل ابحاثك السابقة'
-      forget: 'تراجع'
-      save: 'حفظ'
-
-    tools:
-      title: 'أدوات'
-      citation: 'استشهاد مرجعي'
-      email: 'بريد إلكتروني'
-      sms: 'إرسله كرسالة نصية قصيرة'
-      clear: 'مسح'
-
+        action_confirm: هل ترغب في إزالة الصفحة المفضلة؟
+        button: إزالة الصفحة المفضلة
+        failure: معذرة! حدثت مشكلة في إزالة الصفحات المفضلة.
+        success: أزيلت الصفحة المفضلة بنجاح.
+      title: الصفحات المفضلة
     citation:
-      mla: 'جمعية اللغة الحديثة MLA'
-      apa: 'الجمعية الأمريكية لعلم النفس APA'
-      chicago: 'شيكاغو'
-
-    email:
-      form:
-        title: 'إرسله عبرالبريد الإلكتروني'
-        to: 'بريد إلكتروني:'
-        message: 'الرسالة:'
-        submit: 'إرسال'
-      text:
-        default_title: 'لا يوجد'
-        subject:
-          zero: 'لا يوجد سجل للمادة'
-          one: 'سجل المادة: %{title}'
-          two: 'سجلان للمادة'
-          few: 'سجلات المادة'
-          many: 'سجلات المادة'
-          other: 'سجلات المادة'
-
-        url: 'الرابط: %{url}'
-        message: 'الرسالة: %{message}'
-
-      success: "تم إرسال البريد الإلكتروني"
-
-      errors:
-        to:
-          invalid: 'يجب إدخال عنوان بريد إلكتروني صحيح'
-          blank: 'يجب إدخال مُستلم من أجل إرسال هذه الرسالة'
-    sms:
-      form:
-        title: 'إرسله كرسالة نصية قصيرة'
-        to: 'رقم الهاتف:'
-        carrier: 'شركة الاتصالات'
-        carrier_prompt: 'يرجى تحديد شركة الاتصالات'
-        submit: 'إرسال'
-      text:
-        url: 'الرابط: %{url}'
-      success: "تم الإرسال كرسالة نصية قصيرة"
-      errors:
-        to:
-          invalid: 'يجب إدخال رقم هاتف صحيح من 10 أرقام'
-          blank: "يجب إدخال رقم هاتف المستلم لإرسال هذه الرسالة"
-        carrier:
-          blank: 'يجب تحديد شركة الاتصالات'
-          invalid: "يجب إدخال شركة اتصالات صحيحة"
-
-    back_to_search: 'عودة لصفحة البحث'
-    back_to_bookmarks: 'عودة لصفحة الصفحات المفضلة'
-
-    search:
-      page_title:
-        title: '%{constraints} - %{application_name} نتائج البحث'
-        constraint: '%{label}: %{value}'
-        many_constraint_values: 'تم تحديد %{values}'
-      header: 'ابحث'
-      search_constraints_header: 'قيود البحث'
-      search_results: 'نتائج البحث'
-      errors:
-        invalid_solr_id: "معذرة! لقد طلبت سجلًا غير موجود."
-      per_page:
-        label: '%{count}<span class="sr-only visually-hidden"> لكل صفحة</span>'
-        button_label: '%{count} لكل صفحة' # TODO: Remove during major release
-        button_label_html: '%{count}<span class="d-none d-sm-inline"> لكل صفحة</span>'
-        title: 'عدد النتائج المعروضة في الصفحة'
-        submit: 'تحديث'
-        aria_label: 'تصفح النتائج'
-      sort:
-        label: 'ترتيب حسب %{field}' # TODO: Remove during major release
-        label_html: 'ترتيب <span class="d-none d-sm-inline"> حسب %{field}</span>'
-        submit: 'نتائج الترتيب'
-      form:
-        search_field:
-          label: 'ابحث في'
-          title: 'خيارات البحث المستهدفة'
-          post_label: 'عن'
-        search:
-          label: 'ابحث عن'
-          placeholder: 'بحث...'
-        submit: 'بحث'
-      pagination:
-        title: 'تصفح النتائج'
-      pagination_info:
-        no_items_found: 'لم يتم العثور على %{entry_name}'
-        single_item_found: 'تم العثور على <strong>1</strong> %{entry_name}'
-        pages:
-          zero: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
-          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
-          two: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
-          few: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
-          many: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
-          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>'
-
-      entry_pagination_info:
-        zero: '<strong>%{current}</strong> من <strong>%{total}</strong>'
-        one: '<strong>%{current}</strong> من <strong>%{total}</strong>'
-        two: '<strong>%{current}</strong> من <strong>%{total}</strong>'
-        few: '<strong>%{current}</strong> من <strong>%{total}</strong>'
-        many: '<strong>%{current}</strong> من <strong>%{total}</strong>'
-        other: '<strong>%{current}</strong> من <strong>%{total}</strong>'
-
-      documents:
-        aria:
-          search_results: 'نتائج البحث'
-          limit_search: '...ابحث عن العناصر حسب'
-        counter: '%{counter}. '
-      facets:
-        title: 'تحديد نطاق البحث'
-        clear: 'إزالة معايير البحث'
-        sort:
-          count: 'ترتيب رقمي'
-          index: 'ترتيب أبجدي'
-        count: '%{number}'
-        more_html: 'المزيد <span class="sr-only visually-hidden">%{field_name}</span> »'
-        selected:
-          remove: '[إزالة]'
-        missing: "[غير موجود]"
-        all: الكل
-        pivot:
-          show: فتح
-          hide: "إغلاق"
-        group:
-          toggle: 'المزيد »'
-      group:
-        more: 'المزيد »'
-      filters:
-        title: 'لقد بحثت عن:'
-        label: '%{label}:'
-        remove:
-          value: 'إزالة القيد %{value}'
-          label_value: 'إزالة القيد %{label}: %{value}'
-      start_over: 'البدء من جديد'
-      index:
-        label: '%{label}:'
-      show:
-        title: '%{document_title} - %{application_name}'
-        label: '%{label}:'
-      rss_feed: 'خلاصات RSS للنتائج'
-      atom_feed: 'خلاصات Atom للنتائج'
-      bookmarks:
-        present: "في الصفحات المفضلة"
-        absent: "صفحة مفضلة"
-        inprogress: "حفظ..."
-      zero_results:
-        title: "لا توجد نتائج للبحث"
-        modify_search: "حاول تعديل معايير البحث"
-        use_fewer_keywords: "استخدم كلمات أساسية أقل أولاً، ثم أعد تحديد البحث باستخدام الروابط على اليسار."
-        search_fields: "لقد بحثت باستخدام %{search_fields}"
-        search_everything: "حاول البحث عن كل شيء"
-      view_title: "عرض النتائج ك: "
-      view:
-        list: "قائمة"
-
-    entry_name:
-      default: 'إدخال'
-      grouped:
-        default: 'النتائج المجمعة'
-
+      apa: الجمعية الأمريكية لعلم النفس APA
+      chicago: شيكاغو
+      mla: جمعية اللغة الحديثة MLA
     did_you_mean: 'هل كنت تقصد كتابة: %{options}؟'
-
+    email:
+      errors:
+        to:
+          blank: يجب إدخال مُستلم من أجل إرسال هذه الرسالة
+          invalid: يجب إدخال عنوان بريد إلكتروني صحيح
+      form:
+        message: 'الرسالة:'
+        submit: إرسال
+        title: إرسله عبرالبريد الإلكتروني
+        to: 'بريد إلكتروني:'
+      success: تم إرسال البريد الإلكتروني
+      text:
+        default_title: لا يوجد
+        message: 'الرسالة: %{message}'
+        subject:
+          few: سجلات المادة
+          many: سجلات المادة
+          one: 'سجل المادة: %{title}'
+          other: سجلات المادة
+          two: سجلان للمادة
+          zero: لا يوجد سجل للمادة
+        url: 'الرابط: %{url}'
+    entry_name:
+      default: إدخال
+      grouped:
+        default: النتائج المجمعة
+    header_links:
+      bookmarks: الصفحات المفضلة
+      login: تسجيل الدخول
+      logout: تسجيل الخروج
+      search_history: سجل البحث السابق
     main:
       aria:
-        main_container: 'المحتوى الرئيسي'
+        main_container: المحتوى الرئيسي
+    modal:
+      close: إغلاق
+    or: أو
+    search:
+      atom_feed: خلاصات Atom للنتائج
+      bookmarks:
+        absent: صفحة مفضلة
+        inprogress: حفظ...
+        present: في الصفحات المفضلة
+      documents:
+        aria:
+          limit_search: "...ابحث عن العناصر حسب"
+          search_results: نتائج البحث
+        counter: "%{counter}. "
+      entry_pagination_info:
+        few: "<strong>%{current}</strong> من <strong>%{total}</strong>"
+        many: "<strong>%{current}</strong> من <strong>%{total}</strong>"
+        one: "<strong>%{current}</strong> من <strong>%{total}</strong>"
+        other: "<strong>%{current}</strong> من <strong>%{total}</strong>"
+        two: "<strong>%{current}</strong> من <strong>%{total}</strong>"
+        zero: "<strong>%{current}</strong> من <strong>%{total}</strong>"
+      errors:
+        invalid_solr_id: معذرة! لقد طلبت سجلًا غير موجود.
+      facets:
+        all: الكل
+        clear: إزالة معايير البحث
+        count: "%{number}"
+        group:
+          close: إخفاء الأوجه
+          open: عرض الأوجه
+          toggle: المزيد »
+        missing: "[غير موجود]"
+        more_html: المزيد <span class="sr-only visually-hidden">%{field_name}</span> »
+        pivot:
+          hide: إغلاق
+          show: فتح
+        selected:
+          remove: "[إزالة]"
+        sort:
+          count: ترتيب رقمي
+          index: ترتيب أبجدي
+        title: تحديد نطاق البحث
+      filters:
+        label: "%{label}:"
+        remove:
+          label_value: 'إزالة القيد %{label}: %{value}'
+          value: إزالة القيد %{value}
+        title: 'لقد بحثت عن:'
+      form:
+        search:
+          label: ابحث عن
+          placeholder: بحث...
+        search_field:
+          label: ابحث في
+          post_label: عن
+          title: خيارات البحث المستهدفة
+        submit: بحث
+      group:
+        more: المزيد »
+      header: ابحث
+      index:
+        label: "%{label}:"
+      page_title:
+        constraint: "%{label}: %{value}"
+        many_constraint_values: تم تحديد %{values}
+        title: "%{constraints} - %{application_name} نتائج البحث"
+      pagination:
+        title: تصفح النتائج
+      pagination_info:
+        no_items_found: لم يتم العثور على %{entry_name}
+        pages:
+          few: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>"
+          many: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>"
+          one: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>"
+          other: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>"
+          two: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>"
+          zero: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> من <strong>%{total_num}</strong>"
+        single_item_found: تم العثور على <strong>1</strong> %{entry_name}
+      per_page:
+        aria_label: تصفح النتائج
+        button_label: "%{count} لكل صفحة"
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> لكل صفحة</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> لكل صفحة</span>'
+        submit: تحديث
+        title: عدد النتائج المعروضة في الصفحة
+      rss_feed: خلاصات RSS للنتائج
+      search_constraints_header: قيود البحث
+      search_results: نتائج البحث
+      show:
+        label: "%{label}:"
+        title: "%{document_title} - %{application_name}"
+      sort:
+        label: ترتيب حسب %{field}
+        label_html: ترتيب <span class="d-none d-sm-inline"> حسب %{field}</span>
+        submit: نتائج الترتيب
+      start_over: البدء من جديد
+      view:
+        list: قائمة
+      view_title: 'عرض النتائج ك: '
+      zero_results:
+        modify_search: حاول تعديل معايير البحث
+        search_everything: حاول البحث عن كل شيء
+        search_fields: لقد بحثت باستخدام %{search_fields}
+        title: لا توجد نتائج للبحث
+        use_fewer_keywords: استخدم كلمات أساسية أقل أولاً، ثم أعد تحديد البحث باستخدام الروابط على اليسار.
+    search_history:
+      clear:
+        action_confirm: هل ترغب في مسح سجل البحث السابق؟
+        action_title: امسح سجل البحث السابق
+        failure: حدثت مشكلة في مسح سجل بحثك السابق.
+        success: تم مسح سجل بحثك السابق.
+      forget: تراجع
+      no_history: لا يوجد لديك سجل بحث
+      page_title: سجل البحث - %{application_name}
+      recent: سجل ابحاثك السابقة
+      save: حفظ
+      title: سجل البحث
+    skip_links:
+      first_result: انتقل إلى النتيجة الأولى
+      label: تخطي الروابط
+      main_content: انتقل إلى المحتوى الرئيسي
+      search_field: انتقل إلى البحث
+    sms:
+      errors:
+        carrier:
+          blank: يجب تحديد شركة الاتصالات
+          invalid: يجب إدخال شركة اتصالات صحيحة
+        to:
+          blank: يجب إدخال رقم هاتف المستلم لإرسال هذه الرسالة
+          invalid: يجب إدخال رقم هاتف صحيح من 10 أرقام
+      form:
+        carrier: شركة الاتصالات
+        carrier_prompt: يرجى تحديد شركة الاتصالات
+        submit: إرسال
+        title: إرسله كرسالة نصية قصيرة
+        to: 'رقم الهاتف:'
+      success: تم الإرسال كرسالة نصية قصيرة
+      text:
+        url: 'الرابط: %{url}'
+    tools:
+      citation: استشهاد مرجعي
+      clear: مسح
+      email: بريد إلكتروني
+      sms: إرسله كرسالة نصية قصيرة
+      title: أدوات
+    welcome: مرحبًا!
+  views:
+    pagination:
+      aria:
+        container_label: روابط الصفحات
+        current_page: الصفحة الحالية، الصفحة %{page}
+        go_to_first_page: الانتقال للصفحة الأولى
+        go_to_last_page: الانتقال للصفحة الأخيرة
+        go_to_next_page: الانتقال للصفحة التالية
+        go_to_page: الانتقال إلى %{page}
+        go_to_previous_page: الانتقال للصفحة السابقة
+      first: الأولى &laquo;
+      last: الأخيرة &raquo;
+      next: التالي &raquo;
+      previous: "&laquo; السابق"
+      truncate: "…"
+    pagination_compact:
+      next: التالية &raquo;
+      previous: "&laquo; السابقة"

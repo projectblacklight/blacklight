@@ -1,234 +1,221 @@
+---
 sq:
+  blacklight:
+    and: dhe
+    application_name: Blacklight
+    back_to_bookmarks: Kthehu te memorizimet
+    back_to_search: Kthehu te kërkimi
+    bookmarks:
+      add:
+        button: Memorizo
+        failure: Na vjen keq, ka pasur një problem gjatë ruajtes së memorizimeve.
+        success:
+          one: Memorizimi u shtua me sukses.
+          other: Memorizimet u shtuan me sukses.
+      clear:
+        action_confirm: Dëshiron t'i fshishë memorizimet?
+        action_title: Fshij memorizimet
+        failure: Na vjen keq, ka pasur një problem gjatë fshirjes së memorizimeve.
+        success: Memorizimet u fshinë.
+      delete: Fshije
+      list_title: Memorizimet e juaja
+      need_login: Ju lutemi kyçuni për të menaxhuar dhe për të parë memorizimet tuaja.
+      no_bookmarks: Nuk keni memorizime të ruajtura
+      page_title: Memorizimet - %{application_name}
+      remove:
+        action_confirm: Dëshiron ta fshishë memorizimin?
+        button: Fshij memorizimin
+        failure: Na vjen keq, ka pasur një problem gjatë fshirjes së memorizimeve.
+        success: Fshrija e memorizimit u krye me sukses
+      title: Memorizimet
+    citation:
+      apa: APA
+      chicago: Chicago
+      mla: MLA
+    did_you_mean: 'A keni menduar: %{options}?'
+    email:
+      errors:
+        to:
+          blank: Duhet të shkruash një pranues për të dëguar mesazh
+          invalid: Duhet të shkruash një email adresë valide
+      form:
+        message: 'Mesazhi:'
+        submit: Dërgo
+        title: Dërgo Email
+        to: 'Email:'
+      success: Emaili u dëgua
+      text:
+        default_title: N/A
+        message: 'Mesazhi: %{message}'
+        subject:
+          one: 'Item Record: %{title}'
+          other: Item records
+        url: 'URL: %{url}'
+    entry_name:
+      default: entry
+      grouped:
+        default: rezultat i grupuar
+    header_links:
+      bookmarks: Memorizimet
+      login: Hyr
+      logout: Dil
+      search_history: Historia
+    main:
+      aria:
+        main_container: Përmbajtja kryesore
+    modal:
+      close: Mbylle
+    or: ose
+    search:
+      atom_feed: Atom për rezultatet
+      bookmarks:
+        absent: Memorizo
+        inprogress: Duke u ruajtur...
+        present: Në memorizime
+      documents:
+        aria:
+          limit_search: Kufizo këkimin
+          search_results: Rezultatet e kërkimit
+        counter: "%{counter}. "
+      entry_pagination_info:
+        one: "<strong>1 prej 1</strong>"
+        other: "<strong>%{current}</strong> prej <strong>%{total}</strong>"
+      errors:
+        invalid_solr_id: Na vjen keq, ju keni kërkuar një të dhënë që nuk ekziston.
+      facets:
+        all: Gjithë
+        clear: Fshij filterin
+        count: "%{number}"
+        group:
+          close: Fshih aspektet
+          open: Trego aspektet
+          toggle: më shumë »
+        missing: "[Mungon]"
+        more_html: Më shumë <span class="sr-only visually-hidden">%{field_name}</span> »
+        pivot:
+          hide: Mbylle
+          show: Hape
+        selected:
+          remove: "[fshije]"
+        sort:
+          count: Renditja numerike
+          index: A-Z Renditja
+        title: Kufizo këkimin
+      filters:
+        label: "%{label}:"
+        remove:
+          label_value: 'Fshij kufizimin %{label}: %{value}'
+          value: Fshij kufizimin %{value}
+        title: 'Ju keni kërkuar për:'
+      form:
+        search:
+          label: kërko për
+          placeholder: Kërko...
+        search_field:
+          label: Kërko
+          post_label: për
+          title: Targeted search options
+        submit: Kërko
+      group:
+        more: më shumë »
+      header: Kërkimit
+      index:
+        label: "%{label}:"
+      page_title:
+        constraint: "%{label}: %{value}"
+        many_constraint_values: "%{values} zgjedhura"
+        title: "%{constraints} - %{application_name} Rezultatet e kërkimit"
+      pagination:
+        title: Navigimi i rezultateteve
+      pagination_info:
+        no_items_found: "%{entry_name} nuk u gjet"
+        pages:
+          one: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> prej <strong>%{total_num}</strong>"
+          other: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> prej <strong>%{total_num}</strong>"
+        single_item_found: "<strong>1</strong> %{entry_name} u gjet"
+      per_page:
+        aria_label: Rezultatet e lundrimit
+        button_label: "%{count} për faqe"
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> për faqe</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> për faqe</span>'
+        submit: Përditëso
+        title: Numri i rezultateve që do të shfaqen për faqe
+      rss_feed: RSS për rezultatet
+      search_constraints_header: Kufizimet e kërkimit
+      search_results: Rezultatet e kërkimit
+      show:
+        label: "%{label}:"
+        title: "%{document_title} - %{application_name}"
+      sort:
+        label: Klasifikoj sipas %{field}
+        label_html: Klasifikoj<span class="d-none d-sm-inline"> sipas %{field}</span>
+        submit: klasifiko rezultatet
+      start_over: Fillo nga e para
+      view:
+        list: List
+      view_title: 'Shiko rezultatin si: '
+      zero_results:
+        modify_search: Provo të ndryshosh kërkimin
+        search_everything: provo të kërkosh çdo gjë
+        search_fields: u kërkuat për %{search_fields}
+        title: Nuk u gjet asnjë rezultat
+        use_fewer_keywords: Përdorni më pak fjalë kyçe, pastaj filtroni kërkimin tuaj me opcionet në të majtë
+    search_history:
+      clear:
+        action_confirm: Dëshiron ta fshishë historinë e kërkimit?
+        action_title: Fshij Historinë E Kërkimit
+        failure: Ka pasur një problem gjatë fshirjes së historisë së kërkimit.
+        success: Historia e kërkimit u fshi
+      forget: fshije
+      no_history: Nuk keni histori të kërkimit
+      page_title: Historia e kërkimit - %{application_name}
+      recent: Kërkimet e fundit
+      save: ruaje
+      title: Historia e kërkimit
+    skip_links:
+      first_result: Shkoni te rezultati i parë i kërkimit
+      label: lidhjet e kaloni
+      main_content: Shkoni tek përmbajtja kryesore
+      search_field: Shkoni në kërkim
+    sms:
+      errors:
+        carrier:
+          blank: Duhet të zgjedheni operatorin
+          invalid: Duhet të zgjedheni operatorë valid
+        to:
+          blank: Duhet të shkruash një numer telefoni për të dëguar SMS
+          invalid: Duhet të shkruash një number telefoni me 10 shifra
+      form:
+        carrier: Operatori
+        carrier_prompt: Ju lutemi zgjedheni operatorin
+        submit: Dërgo
+        title: SMS
+        to: 'Numri i telefonit:'
+      success: SMS-i u dëgua
+      text:
+        url: 'Link: %{url}'
+    tools:
+      citation: Citati
+      clear: Fshij
+      email: Email
+      sms: Dërgo SMS
+      title: Veglat
+    welcome: Mirësevini!
   views:
     pagination:
-      first: '&laquo; E para'
-      last: 'E fundit &raquo;'
-      previous: '&laquo; Mbrapa'
-      next: 'Tjetra &raquo;'
-      truncate: '…'
       aria:
         container_label: lidhjet e pagination
         current_page: Faqja aktuale, Faqja %{page}
-        go_to_page: Shkoni te faqja %{page}
-        go_to_previous_page: Shko te faqja e mëparshme
-        go_to_next_page: Shko te faqja tjetër
         go_to_first_page: Shko tek faqja e parë
         go_to_last_page: Shko tek faqja e fundit
-
+        go_to_next_page: Shko te faqja tjetër
+        go_to_page: Shkoni te faqja %{page}
+        go_to_previous_page: Shko te faqja e mëparshme
+      first: "&laquo; E para"
+      last: E fundit &raquo;
+      next: Tjetra &raquo;
+      previous: "&laquo; Mbrapa"
+      truncate: "…"
     pagination_compact:
-      previous: '&laquo; Mbrapa'
-      next: 'Tjetra &raquo;'
-
-  blacklight:
-    application_name: 'Blacklight'
-    skip_links:
-      label: 'lidhjet e kaloni'
-      main_content: 'Shkoni tek përmbajtja kryesore'
-      search_field: 'Shkoni në kërkim'
-      first_result: 'Shkoni te rezultati i parë i kërkimit'
-    header_links:
-      login: 'Hyr'
-      logout: 'Dil'
-      bookmarks: 'Memorizimet'
-      search_history: 'Historia'
-
-    welcome: 'Mirësevini!'
-    and: 'dhe'
-    or: 'ose'
-
-    modal:
-      close: "Mbylle"
-
-    bookmarks:
-      title: 'Memorizimet'
-      page_title: 'Memorizimet - %{application_name}'
-      no_bookmarks: 'Nuk keni memorizime të ruajtura'
-      add:
-        button: 'Memorizo'
-        success:
-          one: 'Memorizimi u shtua me sukses.'
-          other: 'Memorizimet u shtuan me sukses.'
-        failure:  'Na vjen keq, ka pasur një problem gjatë ruajtes së memorizimeve.'
-      remove:
-        button: 'Fshij memorizimin'
-        success: 'Fshrija e memorizimit u krye me sukses'
-        failure: 'Na vjen keq, ka pasur një problem gjatë fshirjes së memorizimeve.'
-        action_confirm: 'Dëshiron ta fshishë memorizimin?'
-      clear:
-        action_title: 'Fshij memorizimet'
-        action_confirm: "Dëshiron t'i fshishë memorizimet?"
-        success: 'Memorizimet u fshinë.'
-        failure: 'Na vjen keq, ka pasur një problem gjatë fshirjes së memorizimeve.'
-      need_login: 'Ju lutemi kyçuni për të menaxhuar dhe për të parë memorizimet tuaja.'
-      list_title: 'Memorizimet e juaja'
-      delete: 'Fshije'
-
-    search_history:
-      clear:
-        action_title: 'Fshij Historinë E Kërkimit'
-        action_confirm: 'Dëshiron ta fshishë historinë e kërkimit?'
-        success: 'Historia e kërkimit u fshi'
-        failure: 'Ka pasur një problem gjatë fshirjes së historisë së kërkimit.'
-      title: 'Historia e kërkimit'
-      page_title: 'Historia e kërkimit - %{application_name}'
-      no_history: 'Nuk keni histori të kërkimit'
-      recent: 'Kërkimet e fundit'
-      forget: 'fshije'
-      save: 'ruaje'
-
-    tools:
-      title: 'Veglat'
-      citation: 'Citati'
-      email: 'Email'
-      sms: 'Dërgo SMS'
-      clear: 'Fshij'
-
-    citation:
-      mla: 'MLA'
-      apa: 'APA'
-      chicago: 'Chicago'
-
-    email:
-      form:
-        title: 'Dërgo Email'
-        to: 'Email:'
-        message: 'Mesazhi:'
-        submit: 'Dërgo'
-      text:
-        default_title: 'N/A'
-        subject:
-          one: 'Item Record: %{title}'
-          other: 'Item records'
-        url: 'URL: %{url}'
-        message: 'Mesazhi: %{message}'
-
-      success: "Emaili u dëgua"
-
-      errors:
-        to:
-          invalid: 'Duhet të shkruash një email adresë valide'
-          blank: 'Duhet të shkruash një pranues për të dëguar mesazh'
-    sms:
-      form:
-        title: 'SMS'
-        to: 'Numri i telefonit:'
-        carrier: 'Operatori'
-        carrier_prompt: 'Ju lutemi zgjedheni operatorin'
-        submit: 'Dërgo'
-      text:
-        url: 'Link: %{url}'
-      success: "SMS-i u dëgua"
-      errors:
-        to:
-          invalid: 'Duhet të shkruash një number telefoni me 10 shifra'
-          blank: "Duhet të shkruash një numer telefoni për të dëguar SMS"
-        carrier:
-          blank: 'Duhet të zgjedheni operatorin'
-          invalid: "Duhet të zgjedheni operatorë valid"
-
-    back_to_search: 'Kthehu te kërkimi'
-    back_to_bookmarks: 'Kthehu te memorizimet'
-
-    search:
-      page_title:
-        title: '%{constraints} - %{application_name} Rezultatet e kërkimit'
-        constraint: '%{label}: %{value}'
-        many_constraint_values: '%{values} zgjedhura'
-      header: 'Kërkimit'
-      search_constraints_header: 'Kufizimet e kërkimit'
-      search_results: 'Rezultatet e kërkimit'
-      errors:
-        invalid_solr_id: "Na vjen keq, ju keni kërkuar një të dhënë që nuk ekziston."
-      per_page:
-        label: '%{count}<span class="sr-only visually-hidden"> për faqe</span>'
-        button_label: '%{count} për faqe' # TODO: Remove during major release
-        button_label_html: '%{count}<span class="d-none d-sm-inline"> për faqe</span>'
-        title: 'Numri i rezultateve që do të shfaqen për faqe'
-        submit: 'Përditëso'
-        aria_label: 'Rezultatet e lundrimit'
-      sort:
-        label: 'Klasifikoj sipas %{field}' # TODO: Remove during major release
-        label_html: 'Klasifikoj<span class="d-none d-sm-inline"> sipas %{field}</span>'
-        submit: 'klasifiko rezultatet'
-      form:
-        search_field:
-          label: 'Kërko'
-          title: 'Targeted search options'
-          post_label: 'për'
-        search:
-          label: 'kërko për'
-          placeholder: 'Kërko...'
-        submit: 'Kërko'
-      pagination:
-        title: 'Navigimi i rezultateteve'
-      pagination_info:
-        no_items_found: '%{entry_name} nuk u gjet'
-        single_item_found: '<strong>1</strong> %{entry_name} u gjet'
-        pages:
-          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> prej <strong>%{total_num}</strong>'
-          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> prej <strong>%{total_num}</strong>'
-      entry_pagination_info:
-        one: '<strong>1 prej 1</strong>'
-        other: '<strong>%{current}</strong> prej <strong>%{total}</strong>'
-      documents:
-        aria:
-          search_results: 'Rezultatet e kërkimit'
-          limit_search: 'Kufizo këkimin'
-        counter: '%{counter}. '
-      facets:
-        title: 'Kufizo këkimin'
-        clear: 'Fshij filterin'
-        all: 'Gjithë'
-        sort:
-          count: 'Renditja numerike'
-          index: 'A-Z Renditja'
-        count: '%{number}'
-        more_html: 'Më shumë <span class="sr-only visually-hidden">%{field_name}</span> »'
-        selected:
-          remove: '[fshije]'
-        missing: "[Mungon]"
-        pivot:
-          show: Hape
-          hide: "Mbylle"
-        group:
-          toggle: 'më shumë »'
-      group:
-        more: 'më shumë »'
-      filters:
-        title: 'Ju keni kërkuar për:'
-        label: '%{label}:'
-        remove:
-          value: 'Fshij kufizimin %{value}'
-          label_value: 'Fshij kufizimin %{label}: %{value}'
-      start_over: 'Fillo nga e para'
-      index:
-        label: '%{label}:'
-      show:
-        title: '%{document_title} - %{application_name}'
-        label: '%{label}:'
-      rss_feed: 'RSS për rezultatet'
-      atom_feed: 'Atom për rezultatet'
-      bookmarks:
-        present: "Në memorizime"
-        absent: "Memorizo"
-        inprogress: "Duke u ruajtur..."
-      zero_results:
-        title: "Nuk u gjet asnjë rezultat"
-        modify_search: "Provo të ndryshosh kërkimin"
-        use_fewer_keywords: "Përdorni më pak fjalë kyçe, pastaj filtroni kërkimin tuaj me opcionet në të majtë"
-        search_fields: "u kërkuat për %{search_fields}"
-        search_everything: "provo të kërkosh çdo gjë"
-      view_title: "Shiko rezultatin si: "
-      view:
-        list: "List"
-
-    entry_name:
-      default: 'entry'
-      grouped:
-        default: 'rezultat i grupuar'
-
-    did_you_mean: 'A keni menduar: %{options}?'
-
-    main:
-      aria:
-        main_container: 'Përmbajtja kryesore'
+      next: Tjetra &raquo;
+      previous: "&laquo; Mbrapa"
