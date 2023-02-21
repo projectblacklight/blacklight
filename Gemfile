@@ -32,10 +32,6 @@ else
     end
   end
 
-  unless ENV['VIEW_COMPONENT_VERSION'].to_s == ""
-    gem 'view_component', ENV.fetch('VIEW_COMPONENT_VERSION')
-  end
-
   case ENV['RAILS_VERSION'].to_s
   when /^(~> ?)?6\.0/
     gem 'sass-rails', '>= 6'
