@@ -1,2 +1,6 @@
 gem 'rails-controller-testing'
 gem 'thor', '~> 0.20' if /^5.[12]/.match?(ENV['RAILS_VERSION'])
+
+unless ENV['VIEW_COMPONENT_VERSION'].to_s == ""
+  gem 'view_component', ENV.fetch('VIEW_COMPONENT_VERSION')
+end
