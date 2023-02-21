@@ -3,7 +3,23 @@
 require 'view_component/version'
 
 module Blacklight
+  ##
+  # A component for rendering a single document
+  #
+  # @note when subclassing this component, you must explicitly specify the collection parameter
+  #    as `document` and handle the `document` parameter in your initializer.
+  #
+  # @example
+  #  class MyDocumentComponent < Blacklight::DocumentComponent
+  #    with_collection_parameter :document
+  #
+  #    def initialize(document:, **kwargs)
+  #      super(document: document, **kwargs)
+  #    end
+  #  end
   class DocumentComponent < Blacklight::Component
+    with_collection_parameter :document
+
     # ViewComponent 3 changes iteration counters to begin at 0 rather than 1
     COLLECTION_INDEX_OFFSET = ViewComponent::VERSION::MAJOR < 3 ? 0 : 1
 
@@ -63,6 +79,7 @@ module Blacklight
 
     # rubocop:disable Metrics/ParameterLists
     # @param document [Blacklight::DocumentPresenter]
+    # @param presenter [Blacklight::DocumentPresenter] alias for document
     # @param partials [Array, nil] view partial names that should be used to provide content for the `partials` slot
     # @param id [String] HTML id for the root element
     # @param classes [Array, String] additional HTML classes for the root element
@@ -72,11 +89,13 @@ module Blacklight
     # @param document_counter [Number, nil] provided by ViewComponent collection iteration
     # @param counter_offset [Number] the offset of the start of the collection counter parameter for the component to the overall result set
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
-    def initialize(document: nil, partials: nil,
+    def initialize(document: nil, presenter: nil, partials: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
                    show: false, **args)
-      @presenter = document || args[self.class.collection_parameter]
+      Blacklight.deprecation.warn('the `presenter` argument to DocumentComponent#initialize is deprecated; pass the `presenter` in as document instead') if presenter
+
+      @presenter = presenter || document || args[self.class.collection_parameter]
       @document = @presenter.document
       @view_partials = partials || []
 
