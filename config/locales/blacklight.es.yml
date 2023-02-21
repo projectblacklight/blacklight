@@ -1,11 +1,210 @@
+---
 es:
+  blacklight:
+    and: "y"
+    application_name: Blacklight
+    back_to_bookmarks: Volver a sus favoritos
+    back_to_search: Volver a Buscar
+    bookmarks:
+      add:
+        button: Favoritos
+        failure: Lo siento, hubo un problema al guardar los favoritos.
+        success:
+          one: Éxito al añadir su favorito.
+          other: Éxito añadido favorito.
+      clear:
+        action_confirm: "¿Borrar sus favoritos?"
+        action_title: Borrar favorito
+        failure: Lo siento, hubo un problema al borrar sus favoritos.
+        success: Se borraron sus favoritos.
+      delete: Borrar
+      list_title: Mis Favoritos
+      need_login: Por favor, inicie sesión para administrar y ver sus favoritos.
+      no_bookmarks: Usted no tiene favoritos
+      page_title: Favoritos - %{application_name}
+      remove:
+        action_confirm: "¿Quitar este favorito?"
+        button: Borrar favorito
+        failure: Lo siento, hubo un problema al borrar los favoritos.
+        success: Borrado favorito.
+      title: Favoritos
+    citation:
+      apa: APA
+      chicago: Chicago
+      mla: MLA
+    did_you_mean: "¿Quiere decir %{options}?"
+    email:
+      errors:
+        to:
+          blank: Debe introducir un destinatario para enviar este mensaje
+          invalid: Debe entrar un email válido
+      form:
+        message: 'Mensaje:'
+        submit: Enviar
+        title: Enviar
+        to: 'Email:'
+      success: Email enviado
+      text:
+        default_title: N/A
+        message: 'Mensaje: %{message}'
+        subject:
+          one: 'Ficha artículo: %{title}'
+          other: Ficha artículos
+        url: 'URL: %{url}'
+    entry_name:
+      default:
+        one: entrada
+        other: entradas
+      grouped:
+        default: resultado agrupado
+    header_links:
+      bookmarks: Favoritos
+      login: Entrar
+      logout: Salir
+      search_history: Historia
+    main:
+      aria:
+        main_container: Contenido principal
+    modal:
+      close: cerca
+    or: o
+    search:
+      atom_feed: Atom de los resultados
+      bookmarks:
+        absent: Favoritos
+        inprogress: Guardando...
+        present: En Favoritos
+      documents:
+        aria:
+          limit_search: Limite su búsqueda
+          search_results: Resultados de la búsqueda
+        counter: "%{counter}."
+      entry_pagination_info:
+        one: "<strong>1 de 1</strong>"
+        other: "<strong>%{current}</strong> de <strong>%{total}</strong>"
+      errors:
+        invalid_solr_id: Lo sentimos, usted ha solicitado un registro que no existe.
+      facets:
+        all: Todos
+        clear: Borrar
+        count: "%{number}"
+        group:
+          close: Ocultar facetas
+          open: Mostrar facetas
+          toggle: más »
+        missing: "[Falta]"
+        more_html: más <span class="sr-only visually-hidden">%{field_name}</span> »
+        pivot:
+          hide: Cerrar
+          show: Abierto
+        selected:
+          remove: "[borrar]"
+        sort:
+          count: Ordenación numérica
+          index: Ordenación A-Z
+        title: Limite su búsqueda
+      filters:
+        label: "%{label}:"
+        remove:
+          label_value: 'Eliminar la restricción%{label}: %{value}'
+          value: Eliminar la restricción %{value}
+        title: 'Usted ha buscado:'
+      form:
+        search:
+          label: buscar
+          placeholder: Buscar...
+        search_field:
+          label: Buscar en
+          post_label: para
+          title: Opciones de Búsqueda temática
+        submit: Buscar
+      group:
+        more: más »
+      header: Buscar
+      index:
+        label: "%{label}:"
+      page_title:
+        constraint: "%{label}: %{value}"
+        many_constraint_values: "%{values} seleccionado"
+        title: "%{constraints} - %{application_name} Resultados de la búsqueda"
+      pagination:
+        title: Resultados de navegación
+      pagination_info:
+        no_items_found: No %{entry_name} encontrada
+        pages:
+          one: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>"
+          other: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>"
+        single_item_found: "<strong>1</strong> %{entry_name} encontrada"
+      per_page:
+        aria_label: Navegación de resultados
+        button_label: "%{count} por página"
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> por página</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> por página</span>'
+        submit: Actualización
+        title: El número de resultados a mostrar por página
+      rss_feed: RSS de los resultados
+      search_constraints_header: Buscar
+      search_results: Resultados de la búsqueda
+      show:
+        label: "%{label}:"
+        title: "%{document_title} - %{application_name}"
+      sort:
+        label: Ordenar por %{field}
+        label_html: Ordenar<span class="d-none d-sm-inline"> por %{field}</span>
+        submit: Resultados de ordenación
+      start_over: Volver a empezar
+      view:
+        list: Lista
+      view_title: 'Ver Resultados por: '
+      zero_results:
+        modify_search: Intente modificar su búsqueda
+        search_everything: Pruebe a buscar de todo
+        search_fields: Usted busco por %{search_fields}
+        title: No se han encontrado resultados para su búsqueda
+        use_fewer_keywords: Use menos palabras para empezar, y luego refinar la búsqueda utilizando los enlaces de la izquierda.
+    search_history:
+      clear:
+        action_confirm: "¿Borrar el historial de búsqueda?"
+        action_title: Borrar historial de búsqueda
+        failure: Hubo un problema al borrar su historial de búsqueda.
+        success: Se borro el historial de búsqueda.
+      forget: Olvidar
+      no_history: Usted no tiene historial de búsqueda
+      page_title: Historia - %{application_name}
+      recent: Sus búsquedas recientes
+      save: Guardar
+      title: Historia
+    skip_links:
+      first_result: Salta al primer resultado de búsqueda
+      label: Saltar enlaces
+      main_content: Saltar al contenido principal
+      search_field: Salta a la búsqueda
+    sms:
+      errors:
+        carrier:
+          blank: Debe seleccionar compañía telefónica
+          invalid: Debe entrar una compañía telefónica válida
+        to:
+          blank: Debe introducir el número de teléfono del destinatario para enviar este mensaj
+          invalid: Debe entrar un número de teléfono válido de 10 dígitos
+      form:
+        carrier: Compañía telefónica
+        carrier_prompt: Por favor, seleccione su compañía telefónica
+        submit: Enviar
+        title: Enviar SMS
+        to: 'Número de teléfono:'
+      success: SMS enviado
+      text:
+        url: 'Link: %{url}'
+    tools:
+      citation: Cité
+      clear: Borrar
+      email: Correo electrónico
+      sms: Enviar SMS
+      title: Herramientas
+    welcome: "¡Bienvenido!"
   views:
     pagination:
-      first: '&laquo; Primero'
-      last: 'Ultimo &raquo;'
-      previous: '&laquo; Anterior'
-      next: 'Siguiente &raquo;'
-      truncate: '…'
       aria:
         container_label: enlaces de paginación
         current_page: Página actual, página %{page}
@@ -14,223 +213,11 @@ es:
         go_to_next_page: Ir a la página siguiente
         go_to_page: Ir a la página %{page}
         go_to_previous_page: Regresar a la pagina anterior
-
+      first: "&laquo; Primero"
+      last: Ultimo &raquo;
+      next: Siguiente &raquo;
+      previous: "&laquo; Anterior"
+      truncate: "…"
     pagination_compact:
-      previous: '&laquo; Anterior'
-      next: 'Siguiente &raquo;'
-
-  blacklight:
-    application_name: 'Blacklight'
-    skip_links:
-      label: 'Saltar enlaces'
-      main_content: 'Saltar al contenido principal'
-      search_field: 'Salta a la búsqueda'
-      first_result: 'Salta al primer resultado de búsqueda'
-    header_links:
-      login: 'Entrar'
-      logout: 'Salir'
-      bookmarks: 'Favoritos'
-      search_history: 'Historia'
-
-    welcome: '¡Bienvenido!'
-    and: 'y'
-    or: 'o'
-
-    modal:
-      close: cerca
-
-    bookmarks:
-      title: 'Favoritos'
-      page_title: 'Favoritos - %{application_name}'
-      no_bookmarks: 'Usted no tiene favoritos'
-      add:
-        button: 'Favoritos'
-        success:
-          one: 'Éxito al añadir su favorito.'
-          other: 'Éxito añadido favorito.'
-        failure: 'Lo siento, hubo un problema al guardar los favoritos.'
-      remove:
-        button: 'Borrar favorito'
-        success: 'Borrado favorito.'
-        failure: 'Lo siento, hubo un problema al borrar los favoritos.'
-        action_confirm: '¿Quitar este favorito?'
-      clear:
-        action_title: 'Borrar favorito'
-        action_confirm: '¿Borrar sus favoritos?'
-        success: 'Se borraron sus favoritos.'
-        failure: 'Lo siento, hubo un problema al borrar sus favoritos.'
-      need_login: 'Por favor, inicie sesión para administrar y ver sus favoritos.'
-      list_title: 'Mis Favoritos'
-      delete: 'Borrar'
-
-    search_history:
-      clear:
-        action_title: 'Borrar historial de búsqueda'
-        action_confirm: '¿Borrar el historial de búsqueda?'
-        success: 'Se borro el historial de búsqueda.'
-        failure: 'Hubo un problema al borrar su historial de búsqueda.'
-      title: 'Historia'
-      page_title: 'Historia - %{application_name}'
-      no_history: 'Usted no tiene historial de búsqueda'
-      recent: 'Sus búsquedas recientes'
-      forget: 'Olvidar'
-      save: 'Guardar'
-
-    tools:
-      title: 'Herramientas'
-      citation: 'Cité'
-      email: 'Correo electrónico'
-      sms: 'Enviar SMS'
-      clear: 'Borrar'
-
-    citation:
-      mla: 'MLA'
-      apa: 'APA'
-      chicago: 'Chicago'
-
-    email:
-      form:
-        title: 'Enviar'
-        to: 'Email:'
-        message: 'Mensaje:'
-        submit: 'Enviar'
-      text:
-        default_title: 'N/A'
-        subject:
-          one: 'Ficha artículo: %{title}'
-          other: 'Ficha artículos'
-        url: 'URL: %{url}'
-        message: 'Mensaje: %{message}'
-
-      success: "Email enviado"
-
-      errors:
-        to:
-          invalid: 'Debe entrar un email válido'
-          blank: 'Debe introducir un destinatario para enviar este mensaje'
-    sms:
-      form:
-        title: 'Enviar SMS'
-        to: 'Número de teléfono:'
-        carrier: 'Compañía telefónica'
-        carrier_prompt: 'Por favor, seleccione su compañía telefónica'
-        submit: 'Enviar'
-      text:
-        url: 'Link: %{url}'
-      success: "SMS enviado"
-      errors:
-        to:
-          invalid: 'Debe entrar un número de teléfono válido de 10 dígitos'
-          blank: "Debe introducir el número de teléfono del destinatario para enviar este mensaj"
-        carrier:
-          blank: 'Debe seleccionar compañía telefónica'
-          invalid: "Debe entrar una compañía telefónica válida"
-
-    back_to_search: 'Volver a Buscar'
-    back_to_bookmarks: 'Volver a sus favoritos'
-
-    search:
-      page_title:
-        title: '%{constraints} - %{application_name} Resultados de la búsqueda'
-        constraint: '%{label}: %{value}'
-        many_constraint_values: '%{values} seleccionado'
-      header: 'Buscar'
-      search_constraints_header: 'Buscar'
-      search_results: 'Resultados de la búsqueda'
-      errors:
-        invalid_solr_id: "Lo sentimos, usted ha solicitado un registro que no existe."
-      per_page:
-        label: '%{count}<span class="sr-only visually-hidden"> por página</span>'
-        button_label: '%{count} por página' # TODO: Remove during major release
-        button_label_html: '%{count}<span class="d-none d-sm-inline"> por página</span>'
-        title: 'El número de resultados a mostrar por página'
-        submit: 'Actualización'
-        aria_label: 'Navegación de resultados'
-      sort:
-        label: 'Ordenar por %{field}' # TODO: Remove during major release
-        label_html: 'Ordenar<span class="d-none d-sm-inline"> por %{field}</span>'
-        submit: 'Resultados de ordenación'
-      form:
-        search_field:
-          label: 'Buscar en'
-          title: 'Opciones de Búsqueda temática'
-          post_label: 'para'
-        search:
-          label: 'buscar'
-          placeholder: 'Buscar...'
-        submit: 'Buscar'
-      pagination:
-        title: 'Resultados de navegación'
-      pagination_info:
-        no_items_found: 'No %{entry_name} encontrada'
-        single_item_found: '<strong>1</strong> %{entry_name} encontrada'
-        pages:
-          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
-          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> de <strong>%{total_num}</strong>'
-      entry_pagination_info:
-        one: '<strong>1 de 1</strong>'
-        other: '<strong>%{current}</strong> de <strong>%{total}</strong>'
-      documents:
-        aria:
-          search_results: 'Resultados de la búsqueda'
-          limit_search: 'Limite su búsqueda'
-        counter: '%{counter}.'
-      facets:
-        title: 'Limite su búsqueda'
-        clear: 'Borrar'
-        all: 'Todos'
-        sort:
-          count: 'Ordenación numérica'
-          index: 'Ordenación A-Z'
-        count: '%{number}'
-        more_html: 'más <span class="sr-only visually-hidden">%{field_name}</span> »'
-        selected:
-          remove: '[borrar]'
-        missing: '[Falta]'
-        pivot:
-          show: Abierto
-          hide: Cerrar
-        group:
-          toggle: 'más »'
-      group:
-        more: 'más »'
-      filters:
-        title: 'Usted ha buscado:'
-        label: '%{label}:'
-        remove:
-          value: 'Eliminar la restricción %{value}'
-          label_value: 'Eliminar la restricción%{label}: %{value}'
-      start_over: 'Volver a empezar'
-      index:
-        label: '%{label}:'
-      show:
-        title: '%{document_title} - %{application_name}'
-        label: '%{label}:'
-      rss_feed: 'RSS de los resultados'
-      atom_feed: 'Atom de los resultados'
-      bookmarks:
-        present: "En Favoritos"
-        absent: "Favoritos"
-        inprogress: "Guardando..."
-      zero_results:
-        title: "No se han encontrado resultados para su búsqueda"
-        modify_search: "Intente modificar su búsqueda"
-        use_fewer_keywords: "Use menos palabras para empezar, y luego refinar la búsqueda utilizando los enlaces de la izquierda."
-        search_fields: "Usted busco por %{search_fields}"
-        search_everything: "Pruebe a buscar de todo"
-      view_title: "Ver Resultados por: "
-      view:
-        list: "Lista"
-
-    entry_name:
-      default:
-        one: 'entrada'
-        other: 'entradas'
-      grouped:
-        default: 'resultado agrupado'
-
-    did_you_mean: '¿Quiere decir %{options}?'
-
-    main:
-      aria:
-        main_container: 'Contenido principal'
+      next: Siguiente &raquo;
+      previous: "&laquo; Anterior"

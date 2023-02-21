@@ -1,16 +1,36 @@
 .sidenav {
+  --bl-facets-smallish-padding: .25rem;
+  --bl-facets-smallish-border: var(--bs-border-width) solid var(--bs-border-color);
+  --bl-facets-smallish-margin-bottom: #{$spacer};
+  --bl-facets-smallish-border-radius: #{$border-radius};
+
   .navbar-toggler {
-    border-color: $navbar-light-toggler-border-color;
+    --bs-navbar-toggler-padding-x: #{$navbar-toggler-padding-x};
+    --bs-navbar-toggler-padding-y: #{$navbar-toggler-padding-y};
+    --bs-navbar-toggler-border-color: #{$navbar-light-toggler-border-color};
+    --bs-navbar-toggler-border-radius: #{$navbar-toggler-border-radius};
     color: $navbar-light-active-color;
 
     &:hover,
     &:focus {
       color: $navbar-light-active-color;
     }
-  }
 
-  .navbar-toggler-icon {
-    background-image: $navbar-light-toggler-icon-bg;
+    [data-hide-label] {
+      display: inline;
+    }
+    [data-show-label] {
+      display: none;
+    }
+
+    &[aria-expanded="false"] {
+      [data-hide-label] {
+        display: none;
+      }
+      [data-show-label] {
+        display: inline;
+      }
+    }
   }
 }
 
@@ -19,9 +39,16 @@
     $next: breakpoint-next($breakpoint, $grid-breakpoints);
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    &#{$infix} {
-      @include media-breakpoint-up($next) {
 
+    &#{$infix} {
+      @include media-breakpoint-down($next) {
+        border: var(--bl-facets-smallish-border);
+        padding: var(--bl-facets-smallish-padding);
+        margin-bottom: var(--bl-facets-smallish-margin-bottom);
+        border-radius: var(--bl-facets-smallish-border-radius);
+
+      }
+      @include media-breakpoint-up($next) {
         // scss-lint:disable ImportantRule
         .facets-collapse {
           display: block !important;

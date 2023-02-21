@@ -1,234 +1,221 @@
+---
 nl:
+  blacklight:
+    and: en
+    application_name: Blacklight
+    back_to_bookmarks: Terug naar favorieten
+    back_to_search: Terug naar zoeken
+    bookmarks:
+      add:
+        button: Maak favoriet
+        failure: Sorry, er was een probleem met het bewaren van favorieten.
+        success:
+          one: Fovoriet succesvol toegevoegd.
+          other: Favorieten succesvol toegevoegd.
+      clear:
+        action_confirm: Favorieten leeg maken?
+        action_title: Favorieten leeg maken
+        failure: Sorry, er was een probleem met het leeg maken van favorieten.
+        success: Favorieten werden leeg gemaakt.
+      delete: Verwijder
+      list_title: Uw favorieten
+      need_login: Gelieve in te loggen om favorieten te bekijken en te beheren.
+      no_bookmarks: U hebt geen favorieten
+      page_title: Favorieten - %{application_name}
+      remove:
+        action_confirm: Verwijder deze favoriet?
+        button: Verwijder favoriet
+        failure: Sorry, er was een probleem met het verwijderen van favorieten.
+        success: Favoriet succesvol verwijderd.
+      title: Favorieten
+    citation:
+      apa: APA
+      chicago: Chicago
+      mla: MLA
+    did_you_mean: 'Bedoelde u: %{options}?'
+    email:
+      errors:
+        to:
+          blank: U dient een ontvanger voor dit bericht op te geven.
+          invalid: U dient een geldig e-mailadres op te geven.
+      form:
+        message: 'Boodschap:'
+        submit: Verzenden
+        title: Email dit
+        to: 'Email:'
+      success: Email Verzonden
+      text:
+        default_title: N/A
+        message: 'Boodschap: %{message}'
+        subject:
+          one: 'Item Record: %{title}'
+          other: Item records
+        url: 'URL: %{url}'
+    entry_name:
+      default: ingang
+      grouped:
+        default: gegroepeerd resultaat
+    header_links:
+      bookmarks: Favorieten
+      login: Login
+      logout: Log Out
+      search_history: Geschiedenis
+    main:
+      aria:
+        main_container: Belangrijkste inhoud
+    modal:
+      close: Sluiten
+    or: of
+    search:
+      atom_feed: Atom voor zoekresultaten
+      bookmarks:
+        absent: Favoriet
+        inprogress: Opslaan...
+        present: In Favorieten
+      documents:
+        aria:
+          limit_search: Verfijn uw zoekopdracht
+          search_results: Zoek resultaten
+        counter: "%{counter}. "
+      entry_pagination_info:
+        one: "<strong>1 van 1</strong>"
+        other: "<strong>%{current}</strong> van <strong>%{total}</strong>"
+      errors:
+        invalid_solr_id: Sorry, u vroeg een onbestaande record op.
+      facets:
+        all: Al
+        clear: Filters legen
+        count: "%{number}"
+        group:
+          close: Verberg facetten
+          open: Toon facetten
+          toggle: meer »
+        missing: "[Ontbrekend]"
+        more_html: Meer <span class="sr-only visually-hidden">%{field_name}</span> »
+        pivot:
+          hide: Sluiten
+          show: Openen
+        selected:
+          remove: "[verwijder]"
+        sort:
+          count: Numeriek sorteren
+          index: A-Z Sorteren
+        title: Verfijn uw zoekopdracht
+      filters:
+        label: "%{label}:"
+        remove:
+          label_value: 'Verwijder zoekfilter %{label}: %{value}'
+          value: Verwijder zoekfilter %{value}
+        title: 'U zocht op:'
+      form:
+        search:
+          label: zoeken op
+          placeholder: Zoeken...
+        search_field:
+          label: Zoeken in
+          post_label: voor
+          title: Gerichte zoekopties
+        submit: Zoeken
+      group:
+        more: meer »
+      header: Zoek
+      index:
+        label: "%{label}:"
+      page_title:
+        constraint: "%{label}: %{value}"
+        many_constraint_values: "%{values} geselecteerd"
+        title: "%{constraints} - %{application_name} Zoek resultaten"
+      pagination:
+        title: Zoeken navigatie
+      pagination_info:
+        no_items_found: Geen %{entry_name} gevonden
+        pages:
+          one: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> van <strong>%{total_num}</strong>"
+          other: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> van <strong>%{total_num}</strong>"
+        single_item_found: "<strong>1</strong> %{entry_name} gevonden"
+      per_page:
+        aria_label: Resultaten navigatie
+        button_label: "%{count} per pagina"
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
+        submit: Update
+        title: Toon aantal zoekresultaten per pagina
+      rss_feed: RSS voor zoekresultaten
+      search_constraints_header: Zoek filters
+      search_results: Zoek resultaten
+      show:
+        label: "%{label}:"
+        title: "%{document_title} - %{application_name}"
+      sort:
+        label: Sorteer op %{field}
+        label_html: Sorteer<span class="d-none d-sm-inline"> op %{field}</span>
+        submit: sorteer resultaten
+      start_over: Start Opnieuw
+      view:
+        list: Lijst
+      view_title: 'Bekijk resultaten als: '
+      zero_results:
+        modify_search: Probeer uw zoekopdracht aan te passen
+        search_everything: probeer door alles te zoeken
+        search_fields: U zocht op %{search_fields}
+        title: Geen resultaten gevonden voor uw zoekopdracht...
+        use_fewer_keywords: Probeer minder sleutelwoorden te gebruiken. Verfijn uw zoekopdracht aan de hand van de links in de linker kolom.
+    search_history:
+      clear:
+        action_confirm: Leeg maken zoekgeschiedenis?
+        action_title: Leeg maken zoekgeschiedenis
+        failure: Er was een probleem met het leeg maken van uw zoekgeschiedenis.
+        success: Zoekgeschiedenis werd leeg gemaakt.
+      forget: vergeten
+      no_history: U hebt geen zoekgeschiedenis
+      page_title: Zoekgeschiedenis - %{application_name}
+      recent: Uw recente zoekopdrachten.
+      save: opslaan
+      title: Zoekgeschiedenis
+    skip_links:
+      first_result: Ga naar het eerste zoekresultaat
+      label: links overslaan
+      main_content: Ga naar de hoofdinhoud
+      search_field: Ga naar de zoekopdracht
+    sms:
+      errors:
+        carrier:
+          blank: U dient een carrier te selecteren
+          invalid: U dient een geldige carrier op te geven
+        to:
+          blank: U dient het telefoonnummer van uw bestemmeling op te geven om dit bericht te kunnen versturen.
+          invalid: U dient een geldig 10-cijferig telefoonnummer op te geven.
+      form:
+        carrier: Carrier
+        carrier_prompt: Gelieve uw carrier op te geven.
+        submit: Verzenden
+        title: SMS dit
+        to: 'Telefoonnummer:'
+      success: SMS Verzonden
+      text:
+        url: 'Link: %{url}'
+    tools:
+      citation: Citeer
+      clear: Leeg maken
+      email: Email
+      sms: SMS dit
+      title: Hulpmiddelen
+    welcome: Welkom!
   views:
     pagination:
-      first: '&laquo; Eerste'
-      last: 'Laatste &raquo;'
-      previous: '&laquo; Vorige'
-      next: 'Volgende &raquo;'
-      truncate: '…'
       aria:
         container_label: paginatielinks
         current_page: Huidige pagina, Pagina %{page}
-        go_to_page: Ga naar pagina %{page}
-        go_to_previous_page: Ga naar de vorige pagina
-        go_to_next_page: Ga naar de volgende pagina
         go_to_first_page: Ga naar de eerste pagina
         go_to_last_page: Ga naar de laatste pagina
-
+        go_to_next_page: Ga naar de volgende pagina
+        go_to_page: Ga naar pagina %{page}
+        go_to_previous_page: Ga naar de vorige pagina
+      first: "&laquo; Eerste"
+      last: Laatste &raquo;
+      next: Volgende &raquo;
+      previous: "&laquo; Vorige"
+      truncate: "…"
     pagination_compact:
-      previous: '&laquo; Vorige'
-      next: 'Volgende &raquo;'
-
-  blacklight:
-    application_name: 'Blacklight'
-    skip_links:
-      label: 'links overslaan'
-      main_content: 'Ga naar de hoofdinhoud'
-      search_field: 'Ga naar de zoekopdracht'
-      first_result: 'Ga naar het eerste zoekresultaat'
-    header_links:
-      login: 'Login'
-      logout: 'Log Out'
-      bookmarks: 'Favorieten'
-      search_history: 'Geschiedenis'
-
-    welcome: 'Welkom!'
-    and: 'en'
-    or: 'of'
-
-    modal:
-      close: "Sluiten"
-
-    bookmarks:
-      title: 'Favorieten'
-      page_title: 'Favorieten - %{application_name}'
-      no_bookmarks: 'U hebt geen favorieten'
-      add:
-        button: 'Maak favoriet'
-        success:
-          one: 'Fovoriet succesvol toegevoegd.'
-          other: 'Favorieten succesvol toegevoegd.'
-        failure:  'Sorry, er was een probleem met het bewaren van favorieten.'
-      remove:
-        button: 'Verwijder favoriet'
-        success: 'Favoriet succesvol verwijderd.'
-        failure: 'Sorry, er was een probleem met het verwijderen van favorieten.'
-        action_confirm: 'Verwijder deze favoriet?'
-      clear:
-        action_title: 'Favorieten leeg maken'
-        action_confirm: 'Favorieten leeg maken?'
-        success: 'Favorieten werden leeg gemaakt.'
-        failure: 'Sorry, er was een probleem met het leeg maken van favorieten.'
-      need_login: 'Gelieve in te loggen om favorieten te bekijken en te beheren.'
-      list_title: 'Uw favorieten'
-      delete: 'Verwijder'
-
-    search_history:
-      clear:
-        action_title: 'Leeg maken zoekgeschiedenis'
-        action_confirm: 'Leeg maken zoekgeschiedenis?'
-        success: 'Zoekgeschiedenis werd leeg gemaakt.'
-        failure: 'Er was een probleem met het leeg maken van uw zoekgeschiedenis.'
-      title: 'Zoekgeschiedenis'
-      page_title: 'Zoekgeschiedenis - %{application_name}'
-      no_history: 'U hebt geen zoekgeschiedenis'
-      recent: 'Uw recente zoekopdrachten.'
-      forget: 'vergeten'
-      save: 'opslaan'
-
-    tools:
-      title: 'Hulpmiddelen'
-      citation: 'Citeer'
-      email: 'Email'
-      sms: 'SMS dit'
-      clear: 'Leeg maken'
-
-    citation:
-      mla: 'MLA'
-      apa: 'APA'
-      chicago: 'Chicago'
-
-    email:
-      form:
-        title: 'Email dit'
-        to: 'Email:'
-        message: 'Boodschap:'
-        submit: 'Verzenden'
-      text:
-        default_title: 'N/A'
-        subject:
-          one: 'Item Record: %{title}'
-          other: 'Item records'
-        url: 'URL: %{url}'
-        message: 'Boodschap: %{message}'
-
-      success: "Email Verzonden"
-
-      errors:
-        to:
-          invalid: 'U dient een geldig e-mailadres op te geven.'
-          blank: 'U dient een ontvanger voor dit bericht op te geven.'
-    sms:
-      form:
-        title: 'SMS dit'
-        to: 'Telefoonnummer:'
-        carrier: 'Carrier'
-        carrier_prompt: 'Gelieve uw carrier op te geven.'
-        submit: 'Verzenden'
-      text:
-        url: 'Link: %{url}'
-      success: "SMS Verzonden"
-      errors:
-        to:
-          invalid: 'U dient een geldig 10-cijferig telefoonnummer op te geven.'
-          blank: "U dient het telefoonnummer van uw bestemmeling op te geven om dit bericht te kunnen versturen."
-        carrier:
-          blank: 'U dient een carrier te selecteren'
-          invalid: "U dient een geldige carrier op te geven"
-
-    back_to_search: 'Terug naar zoeken'
-    back_to_bookmarks: 'Terug naar favorieten'
-
-    search:
-      page_title:
-        title: '%{constraints} - %{application_name} Zoek resultaten'
-        constraint: '%{label}: %{value}'
-        many_constraint_values: '%{values} geselecteerd'
-      header: 'Zoek'
-      search_constraints_header: 'Zoek filters'
-      search_results: 'Zoek resultaten'
-      errors:
-        invalid_solr_id: "Sorry, u vroeg een onbestaande record op."
-      per_page:
-        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
-        button_label: '%{count} per pagina' # TODO: Remove during major release
-        button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
-        title: 'Toon aantal zoekresultaten per pagina'
-        submit: 'Update'
-        aria_label: 'Resultaten navigatie'
-      sort:
-        label: 'Sorteer op %{field}' # TODO: Remove during major release
-        label_html: 'Sorteer<span class="d-none d-sm-inline"> op %{field}</span>'
-        submit: 'sorteer resultaten'
-      form:
-        search_field:
-          label: 'Zoeken in'
-          title: 'Gerichte zoekopties'
-          post_label: 'voor'
-        search:
-          label: 'zoeken op'
-          placeholder: 'Zoeken...'
-        submit: 'Zoeken'
-      pagination:
-        title: 'Zoeken navigatie'
-      pagination_info:
-        no_items_found: 'Geen %{entry_name} gevonden'
-        single_item_found: '<strong>1</strong> %{entry_name} gevonden'
-        pages:
-          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> van <strong>%{total_num}</strong>'
-          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> van <strong>%{total_num}</strong>'
-      entry_pagination_info:
-        one: '<strong>1 van 1</strong>'
-        other: '<strong>%{current}</strong> van <strong>%{total}</strong>'
-      documents:
-        aria:
-          search_results: 'Zoek resultaten'
-          limit_search: 'Verfijn uw zoekopdracht'
-        counter: '%{counter}. '
-      facets:
-        title: 'Verfijn uw zoekopdracht'
-        clear: 'Filters legen'
-        all: 'Al'
-        sort:
-          count: 'Numeriek sorteren'
-          index: 'A-Z Sorteren'
-        count: '%{number}'
-        more_html: 'Meer <span class="sr-only visually-hidden">%{field_name}</span> »'
-        selected:
-          remove: '[verwijder]'
-        missing: "[Ontbrekend]"
-        pivot:
-          show: Openen
-          hide: Sluiten
-        group:
-          toggle: 'meer »'
-      group:
-        more: 'meer »'
-      filters:
-        title: 'U zocht op:'
-        label: '%{label}:'
-        remove:
-          value: 'Verwijder zoekfilter %{value}'
-          label_value: 'Verwijder zoekfilter %{label}: %{value}'
-      start_over: 'Start Opnieuw'
-      index:
-        label: '%{label}:'
-      show:
-        title: '%{document_title} - %{application_name}'
-        label: '%{label}:'
-      rss_feed: 'RSS voor zoekresultaten'
-      atom_feed: 'Atom voor zoekresultaten'
-      bookmarks:
-        present: "In Favorieten"
-        absent: "Favoriet"
-        inprogress: "Opslaan..."
-      zero_results:
-        title: "Geen resultaten gevonden voor uw zoekopdracht..."
-        modify_search: "Probeer uw zoekopdracht aan te passen"
-        use_fewer_keywords: "Probeer minder sleutelwoorden te gebruiken. Verfijn uw zoekopdracht aan de hand van de links in de linker kolom."
-        search_fields: "U zocht op %{search_fields}"
-        search_everything: "probeer door alles te zoeken"
-      view_title: "Bekijk resultaten als: "
-      view:
-        list: "Lijst"
-
-    entry_name:
-      default: 'ingang'
-      grouped:
-        default: 'gegroepeerd resultaat'
-
-    did_you_mean: 'Bedoelde u: %{options}?'
-
-    main:
-      aria:
-        main_container: 'Belangrijkste inhoud'
+      next: Volgende &raquo;
+      previous: "&laquo; Vorige"

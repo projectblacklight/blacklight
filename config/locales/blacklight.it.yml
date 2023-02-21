@@ -1,11 +1,211 @@
+---
 it:
+  blacklight:
+    and: e
+    application_name: Blacklight
+    back_to_bookmarks: Torna ai preferiti
+    back_to_search: Torna alla ricerca
+    bookmarks:
+      add:
+        button: Preferiti
+        failure: Si è verificato un errore nel salvare i preferiti.
+        success:
+          one: Pagina aggiunta a preferiti.
+          other: Pagine aggiunte a preferiti.
+      clear:
+        action_confirm: Vuoi cancellare tutti i preferiti?
+        action_title: Cancella tutti i preferiti
+        failure: Si è verificato un errore nel cancellare i preferiti.
+        success: Tutti i preferiti sono stati cancellati.
+      delete: Togli
+      list_title: Preferiti
+      need_login: Effettuare il login per gestire e visualizzare i preferiti.
+      no_bookmarks: Non è stato salvato nessun preferito.
+      page_title: Preferiti - %{application_name}
+      remove:
+        action_confirm: Vuoi togliere questa pagina dai preferiti?
+        button: Togli la pagina dai preferiti
+        failure: Si è verificato un errore nel togliere la pagina dai preferiti.
+        success: La pagina è stata tolta dai preferiti.
+      title: Preferiti
+    citation:
+      apa: APA
+      chicago: Chicago
+      mla: MLA
+    did_you_mean: 'Intendevi digitare: %{options}?'
+    email:
+      errors:
+        to:
+          blank: Inserisci un destinatario per inviare il messaggio
+          invalid: L'indirizzo e-mail inserito non è valido
+      form:
+        message: 'Messaggio:'
+        submit: Invia
+        title: Invia per e-mail
+        to: 'E-mail:'
+      success: Messaggio inviato
+      text:
+        default_title: N/A
+        message: 'Messaggio: %{message}'
+        subject:
+          one: 'Numero di scheda: %{title}'
+          other: Numeri di scheda
+        url: 'URL: %{url}'
+    entry_name:
+      default:
+        one: termine di ricerca
+        other: termini di ricerca
+      grouped:
+        default: risultato raggruppato
+    header_links:
+      bookmarks: Preferiti
+      login: Login
+      logout: Log out
+      search_history: Ricerche effettuate
+    main:
+      aria:
+        main_container: Contenuto principale
+    modal:
+      close: Vicino
+    or: o
+    search:
+      atom_feed: Atom per i risultati
+      bookmarks:
+        absent: Non fra i preferiti
+        inprogress: Salvataggio in corso...
+        present: Nei preferiti
+      documents:
+        aria:
+          limit_search: Affina la ricerca
+          search_results: Risultati della ricerca
+        counter: "%{counter}. "
+      entry_pagination_info:
+        one: "<strong>1 di 1</strong>"
+        other: "<strong>%{current}</strong> di <strong>%{total}</strong>"
+      errors:
+        invalid_solr_id: Il numero di scheda richiesto non esiste.
+      facets:
+        all: Ogni
+        clear: Cancella
+        count: "%{number}"
+        group:
+          close: Nascondi sfaccettature
+          open: Mostra sfaccettature
+          toggle: altri »
+        missing:
+        - Mancante
+        more_html: altri <span class="sr-only visually-hidden">%{field_name}</span> »
+        pivot:
+          hide: Chiudi
+          show: Apri
+        selected:
+          remove: "[cancella]"
+        sort:
+          count: Ordina per numero
+          index: Ordina A-Z
+        title: Affina la ricerca
+      filters:
+        label: "%{label}:"
+        remove:
+          label_value: 'Cancella il filtro %{label}: %{value}'
+          value: Cancella il filtro %{value}
+        title: 'Hai cercato per:'
+      form:
+        search:
+          label: cerca per
+          placeholder: Ricerca in corso...
+        search_field:
+          label: Cerca in
+          post_label: per
+          title: Opzioni di ricerca mirate
+        submit: Avvia la ricerca
+      group:
+        more: altri »
+      header: Ricerca
+      index:
+        label: "%{label}:"
+      page_title:
+        constraint: "%{label}: %{value}"
+        many_constraint_values: "%{values} selezionato"
+        title: "%{constraints} - %{application_name} Risultati della ricerca"
+      pagination:
+        title: Navigazione nei risultati
+      pagination_info:
+        no_items_found: Nessun %{entry_name} trovano
+        pages:
+          one: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> di <strong>%{total_num}</strong>"
+          other: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> di <strong>%{total_num}</strong>"
+        single_item_found: "<strong>1</strong> %{entry_name} trovato"
+      per_page:
+        aria_label: Navigazione dei risultati
+        button_label: "%{count} per pagina"
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
+        submit: Aggiorna
+        title: Risultati per pagina
+      rss_feed: RSS per i risultati
+      search_constraints_header: Ricerca
+      search_results: Risultati della ricerca
+      show:
+        label: "%{label}:"
+        title: "%{document_title} - %{application_name}"
+      sort:
+        label: Ordina per %{field}
+        label_html: Ordina<span class="d-none d-sm-inline"> per %{field}</span>
+        submit: Ordina i risultati
+      start_over: Nuova ricerca
+      view:
+        list: Lista
+      view_title: 'Visualizza i risultati come: '
+      zero_results:
+        modify_search: Modifica la ricerca
+        search_everything: prova a cercare in tutti i campi
+        search_fields: hai cercato in %{search_fields}
+        title: La ricerca non ha prodotto alcun risultato
+        use_fewer_keywords: Usa meno parole chiave per iniziare, poi raffina la ricerca con i links sulla sinistra.
+    search_history:
+      clear:
+        action_confirm: Vuoi cancellare le ricerche effettuate?
+        action_title: Cancella le ricerche effettuate
+        failure: Si è verificato un errore nel cancellare le ricerche effettuate.
+        success: Le ricerche effettuate sono state cancellate.
+      forget: dimentica
+      no_history: Non è stata effettuata nessuna ricerca
+      page_title: Ricerche effettuate - %{application_name}
+      recent: Ricerche effettuate
+      save: salva
+      title: Ricerche effettuate
+    skip_links:
+      first_result: Vai al primo risultato di ricerca
+      label: Saltare i collegamenti
+      main_content: Vai al contenuto principale
+      search_field: Vai alla ricerca
+    sms:
+      errors:
+        carrier:
+          blank: Si richiede la scelta di un operatore
+          invalid: L'operatore non è valido
+        to:
+          blank: Inserisci il numero di telefono del destinarario per inviare il messaggio
+          invalid: Inserisci un numero telefonico valido di 10 cifre
+      form:
+        carrier: Operatore
+        carrier_prompt: Indicare l'operatore
+        submit: Inviare
+        title: Invia per SMS
+        to: 'Numero di telefono:'
+      success: SMS inviato
+      text:
+        url: 'Link: %{url}'
+    tools:
+      citation: Cita
+      clear: Cancella
+      email: Invia per e-mail
+      sms: Invia per SMS
+      title: Strumenti
+    welcome: Benvenuti!
   views:
     pagination:
-      first: '&laquo; Pagina iniziale'
-      last: 'Pagina finale &raquo;'
-      previous: '&laquo; Pagina precedente'
-      next: 'Pagina successiva &raquo;'
-      truncate: '…'
       aria:
         container_label: collegamenti di paginazione
         current_page: Pagina corrente, Pagina %{page}
@@ -14,223 +214,11 @@ it:
         go_to_next_page: Vai alla pagina successiva
         go_to_page: Vai alla pagina %{page}
         go_to_previous_page: Vai alla pagina precedente
-
+      first: "&laquo; Pagina iniziale"
+      last: Pagina finale &raquo;
+      next: Pagina successiva &raquo;
+      previous: "&laquo; Pagina precedente"
+      truncate: "…"
     pagination_compact:
-      previous: '&laquo; Pagina precedente'
-      next: 'Pagina successiva &raquo;'
-
-  blacklight:
-    application_name: 'Blacklight'
-    skip_links:
-      label: 'Saltare i collegamenti'
-      main_content: 'Vai al contenuto principale'
-      search_field: 'Vai alla ricerca'
-      first_result: 'Vai al primo risultato di ricerca'
-    header_links:
-      login: 'Login'
-      logout: 'Log out'
-      bookmarks: 'Preferiti'
-      search_history: 'Ricerche effettuate'
-
-    welcome: 'Benvenuti!'
-    and: 'e'
-    or: 'o'
-
-    modal:
-      close: Vicino
-
-    bookmarks:
-      title: 'Preferiti'
-      page_title: 'Preferiti - %{application_name}'
-      no_bookmarks: 'Non è stato salvato nessun preferito.'
-      add:
-        button: 'Preferiti'
-        success:
-          one: 'Pagina aggiunta a preferiti.'
-          other: 'Pagine aggiunte a preferiti.'
-        failure:  'Si è verificato un errore nel salvare i preferiti.'
-      remove:
-        button: 'Togli la pagina dai preferiti'
-        success: 'La pagina è stata tolta dai preferiti.'
-        failure: 'Si è verificato un errore nel togliere la pagina dai preferiti.'
-        action_confirm: 'Vuoi togliere questa pagina dai preferiti?'
-      clear:
-        action_title: 'Cancella tutti i preferiti'
-        action_confirm: 'Vuoi cancellare tutti i preferiti?'
-        success: 'Tutti i preferiti sono stati cancellati.'
-        failure: 'Si è verificato un errore nel cancellare i preferiti.'
-      need_login: 'Effettuare il login per gestire e visualizzare i preferiti.'
-      list_title: 'Preferiti'
-      delete: 'Togli'
-
-    search_history:
-      clear:
-        action_title: 'Cancella le ricerche effettuate'
-        action_confirm: 'Vuoi cancellare le ricerche effettuate?'
-        success: 'Le ricerche effettuate sono state cancellate.'
-        failure: 'Si è verificato un errore nel cancellare le ricerche effettuate.'
-      title: 'Ricerche effettuate'
-      page_title: 'Ricerche effettuate - %{application_name}'
-      no_history: 'Non è stata effettuata nessuna ricerca'
-      recent: 'Ricerche effettuate'
-      forget: 'dimentica'
-      save: 'salva'
-
-    tools:
-      title: 'Strumenti'
-      citation: 'Cita'
-      email: 'Invia per e-mail'
-      sms: 'Invia per SMS'
-      clear: 'Cancella'
-
-    citation:
-      mla: 'MLA'
-      apa: 'APA'
-      chicago: 'Chicago'
-
-    email:
-      form:
-        title: 'Invia per e-mail'
-        to: 'E-mail:'
-        message: 'Messaggio:'
-        submit: 'Invia'
-      text:
-        default_title: 'N/A'
-        subject:
-          one: 'Numero di scheda: %{title}'
-          other: 'Numeri di scheda'
-        url: 'URL: %{url}'
-        message: 'Messaggio: %{message}'
-
-      success: "Messaggio inviato"
-
-      errors:
-        to:
-          invalid: "L'indirizzo e-mail inserito non è valido"
-          blank: 'Inserisci un destinatario per inviare il messaggio'
-    sms:
-      form:
-        title: 'Invia per SMS'
-        to: 'Numero di telefono:'
-        carrier: 'Operatore'
-        carrier_prompt: "Indicare l'operatore"
-        submit: 'Inviare'
-      text:
-        url: 'Link: %{url}'
-      success: "SMS inviato"
-      errors:
-        to:
-          invalid: 'Inserisci un numero telefonico valido di 10 cifre'
-          blank: "Inserisci il numero di telefono del destinarario per inviare il messaggio"
-        carrier:
-          blank: 'Si richiede la scelta di un operatore'
-          invalid: "L'operatore non è valido"
-
-    back_to_search: 'Torna alla ricerca'
-    back_to_bookmarks: 'Torna ai preferiti'
-
-    search:
-      page_title:
-        title: '%{constraints} - %{application_name} Risultati della ricerca'
-        constraint: '%{label}: %{value}'
-        many_constraint_values: '%{values} selezionato'
-      header: 'Ricerca'
-      search_constraints_header: 'Ricerca'
-      search_results: 'Risultati della ricerca'
-      errors:
-        invalid_solr_id: "Il numero di scheda richiesto non esiste."
-      per_page:
-        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
-        button_label: '%{count} per pagina' # TODO: Remove during major release
-        button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
-        title: 'Risultati per pagina'
-        submit: 'Aggiorna'
-        aria_label: 'Navigazione dei risultati'
-      sort:
-        label: 'Ordina per %{field}' # TODO: Remove during major release
-        label_html: 'Ordina<span class="d-none d-sm-inline"> per %{field}</span>'
-        submit: 'Ordina i risultati'
-      form:
-        search_field:
-          label: 'Cerca in'
-          title: 'Opzioni di ricerca mirate'
-          post_label: 'per'
-        search:
-          label: 'cerca per'
-          placeholder: 'Ricerca in corso...'
-        submit: 'Avvia la ricerca'
-      pagination:
-        title: 'Navigazione nei risultati'
-      pagination_info:
-        no_items_found: 'Nessun %{entry_name} trovano'
-        single_item_found: '<strong>1</strong> %{entry_name} trovato'
-        pages:
-          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> di <strong>%{total_num}</strong>'
-          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> di <strong>%{total_num}</strong>'
-      entry_pagination_info:
-        one: '<strong>1 di 1</strong>'
-        other: '<strong>%{current}</strong> di <strong>%{total}</strong>'
-      documents:
-        aria:
-          search_results: 'Risultati della ricerca'
-          limit_search: 'Affina la ricerca'
-        counter: '%{counter}. '
-      facets:
-        title: 'Affina la ricerca'
-        clear: 'Cancella'
-        all: 'Ogni'
-        sort:
-          count: 'Ordina per numero'
-          index: 'Ordina A-Z'
-        count: '%{number}'
-        more_html: 'altri <span class="sr-only visually-hidden">%{field_name}</span> »'
-        selected:
-          remove: '[cancella]'
-        missing: [Mancante]
-        pivot:
-          show: Apri
-          hide: Chiudi
-        group:
-          toggle: 'altri »'
-      group:
-        more: 'altri »'
-      filters:
-        title: 'Hai cercato per:'
-        label: '%{label}:'
-        remove:
-          value: 'Cancella il filtro %{value}'
-          label_value: 'Cancella il filtro %{label}: %{value}'
-      start_over: 'Nuova ricerca'
-      index:
-        label: '%{label}:'
-      show:
-        title: '%{document_title} - %{application_name}'
-        label: '%{label}:'
-      rss_feed: 'RSS per i risultati'
-      atom_feed: 'Atom per i risultati'
-      bookmarks:
-        present: "Nei preferiti"
-        absent: "Non fra i preferiti"
-        inprogress: "Salvataggio in corso..."
-      zero_results:
-        title: "La ricerca non ha prodotto alcun risultato"
-        modify_search: "Modifica la ricerca"
-        use_fewer_keywords: "Usa meno parole chiave per iniziare, poi raffina la ricerca con i links sulla sinistra."
-        search_fields: "hai cercato in %{search_fields}"
-        search_everything: "prova a cercare in tutti i campi"
-      view_title: "Visualizza i risultati come: "
-      view:
-        list: "Lista"
-
-    entry_name:
-      default:
-        one: 'termine di ricerca'
-        other: 'termini di ricerca'
-      grouped:
-        default: 'risultato raggruppato'
-
-    did_you_mean: 'Intendevi digitare: %{options}?'
-
-    main:
-      aria:
-        main_container: 'Contenuto principale'
+      next: Pagina successiva &raquo;
+      previous: "&laquo; Pagina precedente"
