@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
     full text and/or metadata.)
   s.license     = "Apache 2.0"
 
-  s.files         = `git ls-files -z`.split("\x0") + Dir.glob("app/assets/javascript/blacklight/**/*")
+  s.files         = `git ls-files -z`.split("\x0") + Dir.glob("app/assets/javascripts/blacklight/**/*")
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.bindir        = 'exe'
   s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
