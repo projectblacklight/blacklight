@@ -54,7 +54,7 @@ module Blacklight
     renders_one :metadata, (lambda do |static_content = nil, *args, component: nil, fields: nil, **kwargs|
       next static_content if static_content.present?
 
-      component ||= Blacklight::DocumentMetadataComponent
+      component ||= @presenter&.view_config&.metadata_component || Blacklight::DocumentMetadataComponent
 
       component.new(*args, fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
