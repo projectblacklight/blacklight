@@ -6,15 +6,14 @@ module Blacklight
   ##
   # A component for rendering a single document
   #
-  # @note when subclassing this component, you must explicitly specify the collection parameter
-  #    as `document` and handle the `document` parameter in your initializer.
+  # @note when subclassing this component, you must explicitly specify the counter variable
+  #    as `document_counter` in your initializer.
+  # @see https://viewcomponent.org/guide/collections.html#collection-counter
   #
   # @example
   #  class MyDocumentComponent < Blacklight::DocumentComponent
-  #    with_collection_parameter :document
-  #
-  #    def initialize(document:, **kwargs)
-  #      super(document: document, **kwargs)
+  #    def initialize(document_counter: nil, **kwargs)
+  #      super
   #    end
   #  end
   class DocumentComponent < Blacklight::Component
