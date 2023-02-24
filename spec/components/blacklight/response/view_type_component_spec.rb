@@ -11,7 +11,24 @@ RSpec.describe Blacklight::Response::ViewTypeComponent, type: :component do
   let(:search_state) { instance_double(Blacklight::SearchState, to_h: { controller: 'catalog', action: 'index' }) }
   let(:view_config) { Blacklight::Configuration::ViewConfig.new }
 
+  let(:custom_component_class) do
+    Class.new(Blacklight::Icons::IconComponent) do
+      # Override component rendering with our own value
+      def call
+        'blah'
+      end
+    end
+  end
+
+  before do
+    stub_const('Blacklight::Icons::DefComponent', custom_component_class)
+  end
+
   describe "when some views exist" do
+    before do
+      stub_const('Blacklight::Icons::AbcComponent', custom_component_class)
+    end
+
     let(:views) do
       {
         abc: view_config,
