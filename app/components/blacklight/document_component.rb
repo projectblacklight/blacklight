@@ -36,7 +36,7 @@ module Blacklight
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !fields && @presenter.nil?
 
-      component ||= Blacklight::DocumentMetadataComponent
+      component ||= @presenter&.view_config&.metadata_component || Blacklight::DocumentMetadataComponent
 
       component.new(*args, fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
