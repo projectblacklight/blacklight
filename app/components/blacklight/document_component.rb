@@ -6,14 +6,17 @@ module Blacklight
   ##
   # A component for rendering a single document
   #
-  # @note when subclassing this component, you must explicitly specify the counter variable
-  #    as `document_counter` in your initializer.
+  # @note when subclassing this component, if you override the initializer,
+  #    you must explicitly specify the counter variable `document_counter` even if you don't use it.
+  #    Otherwise view_component will not provide the count value when calling the component.
+  #
   # @see https://viewcomponent.org/guide/collections.html#collection-counter
   #
   # @example
   #  class MyDocumentComponent < Blacklight::DocumentComponent
   #    def initialize(document_counter: nil, **kwargs)
   #      super
+  #      ... custom code ...
   #    end
   #  end
   class DocumentComponent < Blacklight::Component
