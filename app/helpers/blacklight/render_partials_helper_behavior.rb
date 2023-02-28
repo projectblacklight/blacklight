@@ -59,6 +59,7 @@ render document_component.new(presenter: document_presenter(document), component
     if template
       template.render(self, locals.merge(document: doc))
     else
+      logger.warn("No template was found for base_name: '#{base_name}', view_type: '#{view_type}' in render_document_partial")
       ''
     end
   end
