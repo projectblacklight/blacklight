@@ -93,6 +93,7 @@ module Blacklight
     # @param [Configuration::Field] field_config
     # @param [Hash] options
     # @option options [String] :value
+    # @return [String]
     def field_value field_config, options = {}
       field_presenter(field_config, options).render
     end
