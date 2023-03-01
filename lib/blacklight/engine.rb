@@ -6,10 +6,6 @@ module Blacklight
   class Engine < Rails::Engine
     engine_name "blacklight"
 
-    config.after_initialize do
-      Blacklight::Configuration.initialize_default_configuration
-    end
-
     # This makes our rake tasks visible.
     rake_tasks do
       Dir.chdir(File.expand_path(File.join(File.dirname(__FILE__), '..'))) do
