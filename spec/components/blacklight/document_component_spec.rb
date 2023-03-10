@@ -181,6 +181,26 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
         expect(rendered).to have_text 'blah'
       end
     end
+
+    context 'with configured title component' do
+      let(:custom_component_class) do
+        Class.new(Blacklight::DocumentTitleComponent) do
+          # Override component rendering with our own value
+          def call
+            'Titleriffic'
+          end
+        end
+      end
+
+      before do
+        stub_const('MyTitleComponent', custom_component_class)
+        blacklight_config.show.title_component = MyTitleComponent
+      end
+
+      it 'renders custom component' do
+        expect(rendered).to have_text 'Titleriffic'
+      end
+    end
   end
 
   it 'renders partials' do
