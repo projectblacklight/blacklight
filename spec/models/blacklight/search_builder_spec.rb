@@ -45,7 +45,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
 
     it "is mutable" do
       subject.processor_chain.insert(-1, :d)
-      expect(subject.processor_chain).to match_array [:a, :b, :c, :d]
+      expect(subject.processor_chain).to contain_exactly(:a, :b, :c, :d)
     end
   end
 
@@ -56,7 +56,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
       builder = subject.append(:d, :e)
       expect(subject.processor_chain).to eq processor_chain
       expect(builder.processor_chain).not_to eq subject.processor_chain
-      expect(builder.processor_chain).to match_array [:a, :b, :c, :d, :e]
+      expect(builder.processor_chain).to contain_exactly(:a, :b, :c, :d, :e)
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe Blacklight::SearchBuilder, api: true do
       expect(builder).not_to equal(subject)
       expect(subject.processor_chain).to eq processor_chain
       expect(builder.processor_chain).not_to eq subject.processor_chain
-      expect(builder.processor_chain).to match_array [:a, :c, :e]
+      expect(builder.processor_chain).to contain_exactly(:a, :c, :e)
     end
   end
 

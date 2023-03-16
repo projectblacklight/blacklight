@@ -158,7 +158,7 @@ RSpec.describe CatalogController, api: true do
 
         format = facets.find { |x| x['id'] == 'format' }
 
-        expect(format['attributes']['items'].pluck('attributes')).to match_array([{ "value" => "Book", "hits" => 30, "label" => "Book" }])
+        expect(format['attributes']['items'].pluck('attributes')).to contain_exactly({ "value" => "Book", "hits" => 30, "label" => "Book" })
         expect(format['links']['self']).to eq facet_catalog_url(format: :json, id: 'format')
         expect(format['attributes']['items'].first['links']['self']).to eq search_catalog_url(format: :json, f: { format: ['Book'] })
       end

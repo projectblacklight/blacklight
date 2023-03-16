@@ -76,7 +76,7 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
 
     it "sorts the underlying hash" do
       sorted = subject.sort_by { |_k, v| v }
-      expect(sorted.keys).to match_array [:b, :a, :c]
+      expect(sorted.keys).to contain_exactly(:b, :a, :c)
     end
   end
 
@@ -85,7 +85,7 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
 
     it "sorts the underlying hash" do
       subject.sort_by! { |_k, v| v }
-      expect(subject.keys).to match_array [:b, :a, :c]
+      expect(subject.keys).to contain_exactly(:b, :a, :c)
     end
   end
 

@@ -45,7 +45,7 @@ RSpec.describe Blacklight::Solr::Request, api: true do
       subject.append_query 'this is my query'
       subject.append_query 'another:query'
       expect(subject).not_to have_key 'q'
-      expect(subject.dig('json', 'query', 'bool', 'must')).to match_array ['this is my query', 'another:query']
+      expect(subject.dig('json', 'query', 'bool', 'must')).to contain_exactly('this is my query', 'another:query')
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.describe Blacklight::Solr::Request, api: true do
       subject['q'] = 'some query'
       subject.append_boolean_query :must, 'also required'
 
-      expect(subject.dig('json', 'query', 'bool', 'must')).to match_array ['some query', 'also required']
+      expect(subject.dig('json', 'query', 'bool', 'must')).to contain_exactly('some query', 'also required')
     end
   end
 end
