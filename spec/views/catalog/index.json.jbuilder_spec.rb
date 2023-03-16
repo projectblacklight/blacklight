@@ -93,7 +93,7 @@ RSpec.describe "catalog/index.json", api: true do
         expect(facets.pluck('id')).to include 'format'
         expect(format['links']).to include self: 'http://test.host/some/facet/url'
         expect(format['attributes']['label']).to eq 'Format'
-        expect(format_item_attributes).to match_array [{ value: 'Book', hits: 30, label: 'Book' }]
+        expect(format_item_attributes).to contain_exactly({ value: 'Book', hits: 30, label: 'Book' })
       end
     end
 
