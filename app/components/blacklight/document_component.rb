@@ -37,7 +37,7 @@ module Blacklight
 
     # The document title with some reasonable default behavior
     renders_one :title, (lambda do |*args, component: nil, **kwargs|
-      component ||= Blacklight::DocumentTitleComponent
+      component ||= @presenter&.view_config&.title_component || Blacklight::DocumentTitleComponent
 
       component.new(*args, counter: @counter, document: @document, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
     end)
