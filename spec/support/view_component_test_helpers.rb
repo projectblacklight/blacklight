@@ -14,7 +14,7 @@ module ViewComponentTestHelpers
     return super if defined?(super)
 
     # ViewComponent 3.x
-    return __vc_test_helpers_controller if defined?(__vc_test_helpers_controller)
+    return vc_test_controller if defined?(vc_test_controller)
 
     ApplicationController.new.extend(Rails.application.routes.url_helpers)
   end
