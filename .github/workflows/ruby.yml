@@ -18,7 +18,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -30,112 +30,44 @@ jobs:
       run: bundle exec rake rubocop
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.7, '3.0', 3.1, 3.2]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler: 'latest'
-    - name: Install dependencies
-      run: bundle install
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_bootstrap5:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ['3.0']
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler: 'latest'
-    - name: Install dependencies
-      run: bundle install
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        BOOTSTRAP_VERSION: '~> 5.0'
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_rails6_0:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.6]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler: 'latest'
-    - name: Install dependencies
-      run: bundle install
-      env:
-        RAILS_VERSION: 6.0.5.1
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        RAILS_VERSION: 6.0.5.1
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_rails5_2:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.7]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler: 'latest'
-    - name: Install dependencies
-      run: bundle install
-      env:
-        RAILS_VERSION: 5.2.8.1
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        RAILS_VERSION: 5.2.8.1
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-
-  test_rails6_1:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ['3.0']
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler: 'latest'
-    - name: Install dependencies
-      run: bundle install
-      env:
-        RAILS_VERSION: 6.1.6.1
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        RAILS_VERSION: 6.1.6.1
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-keeps --skip-action-cable --skip-test'
-  api_test:
-    runs-on: ubuntu-latest
+    name: test (ruby ${{ matrix.ruby }} / rails ${{ matrix.rails_version }} ${{ matrix.additional_name }})
     strategy:
       matrix:
         ruby: [2.7, '3.0']
+        rails_version: ['6.1.7', '7.0.4']
+        bootstrap_version: ['~> 4.0']
+        api: [null]
+        additional_engine_cart_rails_options: ['']
+        additional_name: ['']
+        include:
+        - rails_version: '5.2.8.1'
+          ruby: '2.7'
+        - rails_version: '6.0.6.1'
+          ruby: '2.6'
+        - ruby: '3.2.0'
+          rails_version: '7.0.4'
+        - ruby: '3.1'
+          rails_version: '7.0.4'
+        - ruby: '3.1'
+          rails_version: '7.0.4'
+          additional_name: '/ Propshaft'
+          additional_engine_cart_rails_options: -a propshaft --css=bootstrap
+        - ruby: '3.0'
+          rails_version: '7.0.4'
+          bootstrap_version: '~> 5.0'
+          additional_name: '/ Bootstrap 5'
+        - ruby: '3.0'
+          rails_version: '7.0.4'
+          api: 'true'
+          additional_engine_cart_rails_options: --api --skip-yarn
+          additional_name: '/ API'
+    env:
+      RAILS_VERSION: ${{ matrix.rails_version }}
+      BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
+      BLACKLIGHT_API_TEST: ${{ matrix.api }}
+      ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -145,12 +77,9 @@ jobs:
       run: bundle install
     - name: Run tests
       run: bundle exec rake ci
-      env:
-        BLACKLIGHT_API_TEST: true
-        ENGINE_CART_RAILS_OPTIONS: '-a propshaft --api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   docker_build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Build docker image
       run: docker-compose build app
