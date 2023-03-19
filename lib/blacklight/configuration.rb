@@ -181,6 +181,9 @@ module Blacklight
         # document presenter class used by helpers and views
         document_presenter_class: nil,
         document_component: Blacklight::DocumentComponent,
+        # in Blacklight 9, the default show_tools_component configuration will
+        # be Blacklight::Document::ShowToolsComponent
+        show_tools_component: nil,
         sidebar_component: Blacklight::Document::SidebarComponent,
         display_type_field: nil,
         # the "field access" key to use to look up the document display fields
