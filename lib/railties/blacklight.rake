@@ -40,7 +40,7 @@ namespace :blacklight do
         exit 1
       end
     rescue => e
-      puts e.to_s
+      puts e
       exit 1
     end
 
@@ -70,7 +70,7 @@ namespace :blacklight do
         end
       rescue => e
         errors += 1
-        puts e.to_s
+        puts e
       end
 
       print " - search_results: "
@@ -92,7 +92,7 @@ namespace :blacklight do
         end
       rescue => e
         errors += 1
-        puts e.to_s
+        puts e
       end
 
       print " - fetch: "
@@ -112,7 +112,7 @@ namespace :blacklight do
         end
       rescue => e
         errors += 1
-        puts e.to_s
+        puts e
       end
 
       exit 1 if errors > 0
