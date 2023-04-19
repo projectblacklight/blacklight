@@ -50,10 +50,6 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
 
       MockDocument.use_extension(MockExtension)
 
-      def mock_document_app_helper_url *args
-        solr_document_url(*args)
-      end
-
       allow(request_context).to receive(:polymorphic_url) do |_, opts|
         "url.#{opts[:format]}"
       end
@@ -68,12 +64,10 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
         tmp_value = Capybara.ignore_hidden_elements
         Capybara.ignore_hidden_elements = false
         document.export_formats.each_pair do |format, _spec|
-          expect(subject).to have_selector("link[href$='.#{format}']") do |matches|
-            expect(matches).to have(1).match
-            tag = matches[0]
-            expect(tag.attributes["rel"].value).to eq "alternate"
-            expect(tag.attributes["title"].value).to eq format.to_s
-            expect(tag.attributes["href"].value).to eq mock_document_app_helper_url(document, format: format)
+          expect(subject).to have_selector("link[href$='.#{format}']", count: 1) do |tag|
+            expect(tag["rel"]).to eq "alternate"
+            expect(tag["title"]).to eq format.to_s
+            expect(tag["href"]).to eq "url.#{format}"
           end
         end
         Capybara.ignore_hidden_elements = tmp_value
