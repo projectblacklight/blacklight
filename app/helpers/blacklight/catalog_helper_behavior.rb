@@ -206,6 +206,11 @@ module Blacklight::CatalogHelperBehavior
     end
   end
 
+  # Should we display special "home" splash screen content, instead of search results?
+  def display_splash_content?
+    !has_search_parameters?
+  end
+
   private
 
   # @param [String] format

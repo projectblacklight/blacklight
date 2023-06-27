@@ -8,7 +8,7 @@
                                         view_config: conf) %>
 <% end %>
 
-<% unless has_search_parameters? %>
+<% if display_splash_content? %>
   <%# if there are no input/search related params, display the "home" partial -%>
   <%= render 'home' %>
   <%= render 'shared/sitelinks_search_box' %>
