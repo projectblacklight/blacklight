@@ -20,7 +20,7 @@ module Blacklight
 
     # Define a simple action handler for the tool as long as the method
     # doesn't already exist or the `:define_method` option is not `false`
-    def build
+    def build # rubocop:disable Metrics/MethodLength
       return if skip?
 
       callback = opts.fetch(:callback, nil).inspect
