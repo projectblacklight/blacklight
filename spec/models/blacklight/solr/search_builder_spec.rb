@@ -335,6 +335,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
           qf: '$subject_qf',
           pf: '$subject_pf'
         }
+        blacklight_config.search_fields['subject'].clause_params = nil
       end
 
       it "looks up qt from field definition" do
@@ -373,6 +374,18 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
         key_value_pairs = Regexp.last_match(1).split
         expect(key_value_pairs).to include("pf=$subject_pf")
         expect(key_value_pairs).to include("qf=$subject_qf")
+      end
+
+      context 'when subject field uses JSON query DSL' do
+        before do
+          blacklight_config.search_fields['subject'].clause_params = {
+            edismax: {}
+          }
+        end
+
+        it "includes spellcheck.q, without LocalParams" do
+          expect(subject["spellcheck.q"]).to eq "wome"
+        end
       end
     end
 
