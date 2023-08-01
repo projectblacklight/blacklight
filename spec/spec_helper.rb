@@ -17,7 +17,6 @@ EngineCart.load_application!
 require 'rspec/rails'
 require 'rspec/collection_matchers'
 require 'capybara/rails'
-require 'webdrivers'
 require 'selenium-webdriver'
 require 'equivalent-xml'
 require 'axe-rspec'
