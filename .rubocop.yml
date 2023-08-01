@@ -197,6 +197,9 @@ Security/IoMethods: # new in 1.22
   Enabled: true
 Style/ArgumentsForwarding: # new in 1.1
   Enabled: true
+  Exclude:
+    # This cop includes some checks specific to Ruby 3.2
+    - 'lib/blacklight/solr/response/group_response.rb'
 Style/CollectionCompact: # new in 1.2
   Enabled: true
 Style/DocumentDynamicEvalDefinition: # new in 1.1
