@@ -5,7 +5,14 @@ require 'spec_helper'
 RSpec.describe "Blacklight Advanced Search Form" do
   describe "advanced search form" do
     before do
+      CatalogController.blacklight_config.search_fields['title']['clause_params'] = {
+        edismax: {}
+      }
       visit '/catalog/advanced?hypothetical_existing_param=true&q=ignore+this+existing+query'
+    end
+
+    after do
+      CatalogController.blacklight_config.search_fields['title'].delete('clause_params')
     end
 
     it "has field and facet blocks" do
@@ -45,6 +52,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
       click_on 'advanced-search-submit'
       expect(page).to have_content 'Remove constraint Title: Medicine'
       expect(page).to have_content 'Strong Medicine speaks'
+      expect(page).to have_selector('article.document', count: 1)
     end
   end
 
