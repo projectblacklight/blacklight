@@ -45,6 +45,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
       click_on 'advanced-search-submit'
       expect(page).to have_content 'Remove constraint Title: Medicine'
       expect(page).to have_content 'Strong Medicine speaks'
+      expect(page).to have_selector('article.document', count: 1)
     end
   end
 
