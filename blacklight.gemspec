@@ -40,7 +40,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency 'axe-core-rspec'
   s.add_development_dependency "capybara", '~> 3'
-  s.add_development_dependency 'webdrivers'
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'engine_cart', '~> 2.1'
   s.add_development_dependency "equivalent-xml"
