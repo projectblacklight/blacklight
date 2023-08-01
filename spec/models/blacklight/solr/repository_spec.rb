@@ -153,6 +153,33 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
         expect(JSON.parse(actual_params[:data]).with_indifferent_access).to include(query: { bool: {} })
         expect(actual_params[:headers]).to include({ 'Content-Type' => 'application/json' })
       end
+
+      context "without a json solr path configured" do
+        before do
+          blacklight_config.json_solr_path = nil
+        end
+
+        it "uses the default solr path" do
+          blacklight_config.solr_path = 'xyz'
+          allow(subject.connection).to receive(:send_and_receive) do |path|
+            expect(path).to eq 'xyz'
+          end
+          subject.search(input_params)
+        end
+      end
+
+      context "with a json solr path configured" do
+        before do
+          blacklight_config.json_solr_path = 'my-great-json'
+        end
+
+        it "uses the configured json_solr_path" do
+          allow(subject.connection).to receive(:send_and_receive) do |path|
+            expect(path).to eq 'my-great-json'
+          end
+          subject.search(input_params)
+        end
+      end
     end
   end
 
