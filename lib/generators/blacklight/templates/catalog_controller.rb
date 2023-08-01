@@ -38,6 +38,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # solr path which will be added to solr base url before the other solr params.
     #config.solr_path = 'select'
     #config.document_solr_path = 'get'
+    #config.json_solr_path = 'advanced'
 
     # items to show per page, each number in the array represent another option to choose from.
     #config.per_page = [10,20,50,100]

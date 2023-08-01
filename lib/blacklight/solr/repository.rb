@@ -21,7 +21,7 @@ module Blacklight::Solr
     # Execute a search query against solr
     # @param [Hash] params solr query parameters
     def search params = {}
-      send_and_receive blacklight_config.solr_path, params.reverse_merge(qt: blacklight_config.qt)
+      send_and_receive search_path(params), params.reverse_merge(qt: blacklight_config.qt)
     end
 
     # @param [Hash] request_params
@@ -78,7 +78,7 @@ module Blacklight::Solr
     # @return [Hash]
     # @!visibility private
     def build_solr_request(solr_params)
-      if solr_params[:json].present?
+      if uses_json_query_dsl?(solr_params)
         {
           data: { params: solr_params.to_hash.except(:json) }.merge(solr_params[:json]).to_json,
           method: :post,
@@ -121,6 +121,18 @@ module Blacklight::Solr
       else
         []
       end
+    end
+
+    # @return [String]
+    def search_path(solr_params)
+      return blacklight_config.json_solr_path if blacklight_config.json_solr_path && uses_json_query_dsl?(solr_params)
+
+      blacklight_config.solr_path
+    end
+
+    # @return [Boolean]
+    def uses_json_query_dsl?(solr_params)
+      solr_params[:json].present?
     end
   end
 end

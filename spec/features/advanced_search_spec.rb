@@ -12,7 +12,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
     end
 
     after do
-      CatalogController.blacklight_config.search_fields['title'].delete('clause_params')
+      CatalogController.blacklight_config.search_fields['title'].delete(:clause_params)
     end
 
     it "has field and facet blocks" do
