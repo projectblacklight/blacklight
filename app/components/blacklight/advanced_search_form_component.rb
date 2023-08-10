@@ -26,14 +26,14 @@ module Blacklight
 
     def default_operator_menu
       options_with_labels = [:must, :should].index_by { |op| t(op, scope: 'blacklight.advanced_search.op') }
-      select_tag(:op, options_for_select(options_with_labels, params[:op]), class: 'input-small')
+      label_tag(:op, t('blacklight.advanced_search.op.label'), class: 'sr-only visually-hidden') + select_tag(:op, options_for_select(options_with_labels, params[:op]), class: 'input-small')
     end
 
     def sort_fields_select
       options = sort_fields.values.map { |field_config| [helpers.sort_field_label(field_config.key), field_config.key] }
       return unless options.any?
 
-      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select w-auto")
+      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select w-auto", aria: { labelledby: 'advanced-search-sort-label' })
     end
 
     private

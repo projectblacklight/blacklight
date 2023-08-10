@@ -21,6 +21,11 @@ RSpec.describe 'Accessibility testing', api: false, js: true do
     expect(page).to be_accessible
   end
 
+  it 'validates the advanced search form' do
+    visit advanced_search_catalog_path
+    expect(page).to be_accessible
+  end
+
   it 'validates the single results page' do
     visit solr_document_path('2007020969')
     expect(page).to be_accessible
