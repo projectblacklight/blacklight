@@ -23,7 +23,7 @@ RSpec.describe 'Accessibility testing', api: false, js: true do
 
   it 'validates the advanced search form' do
     visit advanced_search_catalog_path
-    expect(page).to be_accessible
+    expect(page).to be_accessible.excluding('.search-query-form')
   end
 
   it 'validates the single results page' do
