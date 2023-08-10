@@ -25,8 +25,8 @@ RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
       it "renders basic element" do
         response = helper.render_search_to_s_element("key", "value")
         expect(response).to have_selector("span.constraint") do |span|
-          expect(span).to have_selector("span.filter-name", content: "key:")
-          expect(span).to have_selector("span.filter-value", content: "value")
+          expect(span).to have_selector("span.filter-name", text: "key:")
+          expect(span).to have_selector("span.filter-values", text: "value")
         end
         expect(response).to be_html_safe
       end
@@ -34,15 +34,8 @@ RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
       it "escapes them that need escaping" do
         response = helper.render_search_to_s_element("key>", "value>")
         expect(response).to have_selector("span.constraint") do |span|
-          expect(span).to have_selector("span.filter-name") do |s2|
-            # Note: nokogiri's gettext will unescape the inner html
-            # which seems to be what rspecs "contains" method calls on
-            # text nodes - thus the to_s inserted below.
-            expect(s2).to match(/key&gt;:/)
-          end
-          expect(span).to have_selector("span.filter-value") do |s3|
-            expect(s3).to match(/value&gt;/)
-          end
+          expect(span).to have_selector("span.filter-name", text: 'key>:')
+          expect(span).to have_selector("span.filter-values", text: 'value>')
         end
         expect(response).to be_html_safe
       end
@@ -50,8 +43,8 @@ RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
       it "does not escape with options set thus" do
         response = helper.render_search_to_s_element("key>", "value>", escape_key: false, escape_value: false)
         expect(response).to have_selector("span.constraint") do |span|
-          expect(span).to have_selector("span.filter-name", content: "key>:")
-          expect(span).to have_selector("span.filter-value", content: "value>")
+          expect(span).to have_selector("span.filter-name", text: "key>:")
+          expect(span).to have_selector("span.filter-values", text: "value>")
         end
         expect(response).to be_html_safe
       end
