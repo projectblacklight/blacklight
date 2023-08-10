@@ -244,6 +244,7 @@ en:
       more_options: More options
       any_of: 'Any of:'
       op:
+        label: search operator
         must: all
         should: any
       page_title: Advanced search - %{application_name}
