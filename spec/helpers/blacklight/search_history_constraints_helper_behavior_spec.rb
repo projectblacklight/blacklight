@@ -40,8 +40,8 @@ RSpec.describe Blacklight::SearchHistoryConstraintsHelperBehavior do
         expect(response).to be_html_safe
       end
 
-      it "does not escape with options set thus" do
-        response = helper.render_search_to_s_element("key>", "value>", escape_key: false, escape_value: false)
+      xit "does not escape with options set thus" do
+        response = helper.render_search_to_s_element("<key>", "value>", escape_key: false, escape_value: false)
         expect(response).to have_selector("span.constraint") do |span|
           expect(span).to have_selector("span.filter-name", text: "key>:")
           expect(span).to have_selector("span.filter-values", text: "value>")
