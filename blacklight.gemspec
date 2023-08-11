@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency "deprecation"
   s.add_dependency "i18n", '>= 1.7.0' # added named parameters
   s.add_dependency "ostruct", '>= 0.3.2'
-  s.add_dependency "view_component", '~> 2.66'
+  s.add_dependency "view_component", '>= 2.66', '< 4'
   s.add_dependency 'hashdiff'
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
@@ -40,7 +40,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency 'axe-core-rspec'
   s.add_development_dependency "capybara", '~> 3'
-  s.add_development_dependency 'webdrivers'
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'engine_cart', '~> 2.1'
   s.add_development_dependency "equivalent-xml"

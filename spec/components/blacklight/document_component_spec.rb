@@ -167,11 +167,11 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
   end
 
-  context 'with before_title' do
+  context 'with before_titles' do
     let(:render) do
       component.render_in(view_context) do
-        component.title do |c|
-          c.before_title { 'Prefix!' }
+        component.with_title do |c|
+          c.with_before_title { 'Prefix!' }
         end
       end
     end

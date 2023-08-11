@@ -16,7 +16,6 @@ EngineCart.load_application!
 require 'rspec/rails'
 require 'rspec/collection_matchers'
 require 'capybara/rails'
-require 'webdrivers'
 require 'selenium-webdriver'
 require 'equivalent-xml'
 require 'axe-rspec'
@@ -67,7 +66,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include PresenterTestHelpers, type: :presenter
   config.include ViewComponent::TestHelpers, type: :component
-  config.include ViewComponentCapybaraTestHelpers, type: :component
+  config.include ViewComponentTestHelpers, type: :component
 
   config.include(ControllerLevelHelpers, type: :helper)
   config.before(:each, type: :helper) { initialize_controller_helpers(helper) }

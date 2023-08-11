@@ -26,21 +26,21 @@ module Blacklight
 
     def default_operator_menu
       options_with_labels = [:must, :should].index_by { |op| t(op, scope: 'blacklight.advanced_search.op') }
-      select_tag(:op, options_for_select(options_with_labels, params[:op]), class: 'input-small')
+      label_tag(:op, t('blacklight.advanced_search.op.label'), class: 'sr-only visually-hidden') + select_tag(:op, options_for_select(options_with_labels, params[:op]), class: 'input-small')
     end
 
     def sort_fields_select
       options = sort_fields.values.map { |field_config| [helpers.sort_field_label(field_config.key), field_config.key] }
       return unless options.any?
 
-      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select w-auto")
+      select_tag(:sort, options_for_select(options, params[:sort]), class: "form-control sort-select w-auto", aria: { labelledby: 'advanced-search-sort-label' })
     end
 
     private
 
     def initialize_search_field_controls
       search_fields.values.each.with_index do |field, i|
-        search_field_control do
+        with_search_field_control do
           fields_for('clause[]', i, include_id: false) do |f|
             content_tag(:div, class: 'form-group advanced-search-field row') do
               f.label(:query, field.display_label('search'), class: "col-sm-3 col-form-label text-md-right") +
@@ -59,7 +59,7 @@ module Blacklight
 
       fields.each do |_k, config|
         display_facet = @response.aggregations[config.field]
-        search_filter_control(config: config, display_facet: display_facet)
+        with_search_filter_control(config: config, display_facet: display_facet)
       end
     end
 
@@ -72,7 +72,7 @@ module Blacklight
 
       return if constraints_text.blank?
 
-      constraint do
+      with_constraint do
         constraints_text
       end
     end
