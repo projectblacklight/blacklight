@@ -102,12 +102,12 @@ module Blacklight
                    embed_component: nil,
                    thumbnail_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
-                   show: false)
+                   show: false, **args)
       if presenter.nil? && document.nil?
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
-      @document = document || presenter&.document
+      @document = document || presenter&.document || args[self.class.collection_parameter]
       @presenter = presenter
 
       @component = component
