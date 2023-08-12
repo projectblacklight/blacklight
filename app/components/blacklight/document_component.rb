@@ -59,7 +59,7 @@ module Blacklight
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !fields && @presenter.nil?
 
-      component ||= @presenter&.view_config&.metadata_component || Blacklight::DocumentMetadataComponent
+      component ||= presenter&.view_config&.metadata_component || Blacklight::DocumentMetadataComponent
 
       component.new(*args, fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
@@ -70,7 +70,7 @@ module Blacklight
     renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, *args, component: nil, **kwargs|
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
-      component ||= @presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
+      component ||= presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !component && @presenter.nil?
 
       component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
@@ -119,10 +119,10 @@ module Blacklight
       @embed_component = embed_component
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Passing metadata_component is deprecated') if @metadata_component.present?
-      @metadata_component = metadata_component || Blacklight::DocumentMetadataComponent
+      @metadata_component = metadata_component
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Passing thumbnail_component is deprecated') if @thumbnail_component.present?
-      @thumbnail_component = thumbnail_component || Blacklight::Document::ThumbnailComponent
+      @thumbnail_component = thumbnail_component
 
       @counter = counter
       @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
@@ -145,7 +145,7 @@ module Blacklight
     def before_render
       set_slot(:title, nil) unless title
       set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component, fields: presenter.field_presenters) unless metadata
+      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters) unless metadata
       set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
     end
 
