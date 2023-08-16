@@ -43,6 +43,14 @@ jobs:
         include:
         - ruby: '3.2.0'
           rails_version: '7.0.4'
+        - ruby: '3.2.0'
+          rails_version: '7.0.4'
+          solr_version: '9.3.0'
+          additional_name: 'Solr 9.3.0'
+        - ruby: '3.2.0'
+          rails_version: '7.0.4'
+          solr_version: '8.11.2'
+          additional_name: 'Solr 8.11.2'
         - ruby: '3.1'
           rails_version: '7.0.4'
         - ruby: '3.1'
@@ -64,6 +72,7 @@ jobs:
           additional_name: '/ API'
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
+      SOLR_VERSION: ${{ matrix.solr_version || 'latest' }}
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
