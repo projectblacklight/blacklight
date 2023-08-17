@@ -81,7 +81,7 @@ module Blacklight
     # @!attribute json_solr_path
     # @since v7.34.0
     # @return [String] The url path (relative to the solr base url) to use when using Solr's JSON Query DSL (as with the advanced search)
-    property :json_solr_path, default: 'advanced'
+    property :json_solr_path, default: nil
     # @!attribute document_unique_id_param
     # @since v5.2.0
     # @return [Symbol] The solr query parameter used for sending the unique identifiers for one or more documents

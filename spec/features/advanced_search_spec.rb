@@ -17,6 +17,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
       CatalogController.blacklight_config.search_fields['subject']['clause_params'] = {
         edismax: { qf: '${subject_qf}' }
       }
+      CatalogController.blacklight_config.json_solr_path = 'advanced'
       visit '/catalog/advanced?hypothetical_existing_param=true&q=ignore+this+existing+query'
     end
 
