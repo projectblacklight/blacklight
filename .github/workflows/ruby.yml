@@ -129,6 +129,26 @@ jobs:
       env:
         RAILS_VERSION: 6.1.6.1
         ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-keeps --skip-action-cable --skip-test'
+  test_vc3:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ['3.2']
+    env:
+      VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler: 'latest'
+    - name: Install dependencies
+      run: bundle install
+    - name: Run tests
+      run: bundle exec rake ci
+      env:
+        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   api_test:
     runs-on: ubuntu-latest
     strategy:

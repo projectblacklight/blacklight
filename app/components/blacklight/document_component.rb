@@ -1,8 +1,31 @@
 # frozen_string_literal: true
 
+require 'view_component/version'
+
 module Blacklight
+  ##
+  # A component for rendering a single document
+  #
+  # @note when subclassing this component, if you override the initializer,
+  #    you must explicitly specify the counter variable `document_counter` even if you don't use it.
+  #    Otherwise view_component will not provide the count value when calling the component.
+  #
+  # @see https://viewcomponent.org/guide/collections.html#collection-counter
+  #
+  # @example
+  #  class MyDocumentComponent < Blacklight::DocumentComponent
+  #    def initialize(document_counter: nil, **kwargs)
+  #      super
+  #      ... custom code ...
+  #    end
+  #  end
   class DocumentComponent < Blacklight::Component
     include Blacklight::ContentAreasShim
+
+    with_collection_parameter :document
+
+    # ViewComponent 3 changes iteration counters to begin at 0 rather than 1
+    COLLECTION_INDEX_OFFSET = ViewComponent::VERSION::MAJOR < 3 ? 0 : 1
 
     # Content appearing before the document
     renders_one :header
@@ -16,7 +39,7 @@ module Blacklight
 
     # The document title with some reasonable default behavior
     renders_one :title, (lambda do |*args, component: nil, **kwargs|
-      component ||= Blacklight::DocumentTitleComponent
+      component ||= @presenter&.view_config&.title_component || Blacklight::DocumentTitleComponent
 
       component.new(*args, counter: @counter, document: @document, presenter: @presenter, as: @title_component, link_to_document: !@show, document_component: self, **kwargs)
     end)
@@ -36,7 +59,7 @@ module Blacklight
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !fields && @presenter.nil?
 
-      component ||= Blacklight::DocumentMetadataComponent
+      component ||= presenter&.view_config&.metadata_component || Blacklight::DocumentMetadataComponent
 
       component.new(*args, fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
@@ -47,7 +70,7 @@ module Blacklight
     renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, *args, component: nil, **kwargs|
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
-      component ||= @presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
+      component ||= presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !component && @presenter.nil?
 
       component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
@@ -79,12 +102,12 @@ module Blacklight
                    embed_component: nil,
                    thumbnail_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
-                   show: false)
+                   show: false, **args)
       if presenter.nil? && document.nil?
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
-      @document = document || presenter&.document
+      @document = document || presenter&.document || args[self.class.collection_parameter]
       @presenter = presenter
 
       @component = component
@@ -96,14 +119,14 @@ module Blacklight
       @embed_component = embed_component
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Passing metadata_component is deprecated') if @metadata_component.present?
-      @metadata_component = metadata_component || Blacklight::DocumentMetadataComponent
+      @metadata_component = metadata_component
 
       Deprecation.warn(Blacklight::DocumentComponent, 'Passing thumbnail_component is deprecated') if @thumbnail_component.present?
-      @thumbnail_component = thumbnail_component || Blacklight::Document::ThumbnailComponent
+      @thumbnail_component = thumbnail_component
 
-      @document_counter = document_counter
       @counter = counter
-      @counter ||= document_counter + 1 + counter_offset if document_counter.present?
+      @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
+      @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
 
       @show = show
     end
@@ -122,7 +145,7 @@ module Blacklight
     def before_render
       set_slot(:title, nil) unless title
       set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component, fields: presenter.field_presenters) unless metadata
+      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters) unless metadata
       set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
     end
 

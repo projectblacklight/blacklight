@@ -15,6 +15,9 @@ class <%= controller_name.classify %>Controller < ApplicationController
     ## Model that maps search index responses to the blacklight response model
     # config.response_model = Blacklight::Solr::Response
     #
+    ## The destination for the link around the logo in the header
+    # config.logo_link = root_path
+    #
     ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
     # config.raw_endpoint.enabled = false
 

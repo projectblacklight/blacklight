@@ -74,6 +74,10 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   context 'index view' do
+    before do
+      controller.action_name = "index"
+    end
+
     let(:attr) { { counter: 5 } }
 
     it 'has data properties' do
@@ -92,9 +96,12 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
 
     context 'with a document rendered as part of a collection' do
-      let(:attr) { { document_counter: 10, counter_offset: 100 } }
+      # ViewComponent 3 changes iteration counters to begin at 0 rather than 1
+      let(:document_counter) { ViewComponent::VERSION::MAJOR < 3 ? 11 : 10 }
+      let(:attr) { { document_counter: document_counter, counter_offset: 100 } }
 
       it 'renders a counter with the title' do
+        # after ViewComponent 2.5, collection counter params are 1-indexed
         expect(rendered).to have_selector 'header', text: '111. Title'
       end
     end
@@ -106,13 +113,22 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     it 'renders a thumbnail' do
       expect(rendered).to have_selector 'a[href="/catalog/x"] img[src="http://example.com/image.jpg"]'
     end
+
+    context 'with default metadata component' do
+      it 'renders metadata' do
+        expect(rendered).to have_selector 'dl.document-metadata'
+        expect(rendered).to have_selector 'dt', text: 'Title:'
+        expect(rendered).to have_selector 'dd', text: 'Title'
+        expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
+      end
+    end
   end
 
   context 'show view' do
     let(:attr) { { title_component: :h1, show: true } }
 
     before do
-      allow(view_context).to receive(:action_name).and_return('show')
+      controller.action_name = "show"
     end
 
     it 'renders with an id' do
@@ -143,13 +159,46 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       blacklight_config.show.embed_component = StubComponent
       expect(rendered).to have_content 'embed'
     end
-  end
 
-  it 'renders metadata' do
-    expect(rendered).to have_selector 'dl.document-metadata'
-    expect(rendered).to have_selector 'dt', text: 'Title:'
-    expect(rendered).to have_selector 'dd', text: 'Title'
-    expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
+    context 'with configured metadata component' do
+      let(:custom_component_class) do
+        Class.new(Blacklight::DocumentMetadataComponent) do
+          # Override component rendering with our own value
+          def call
+            'blah'
+          end
+        end
+      end
+
+      before do
+        stub_const('MyMetadataComponent', custom_component_class)
+        blacklight_config.show.metadata_component = MyMetadataComponent
+      end
+
+      it 'renders custom component' do
+        expect(rendered).to have_text 'blah'
+      end
+    end
+
+    context 'with configured title component' do
+      let(:custom_component_class) do
+        Class.new(Blacklight::DocumentTitleComponent) do
+          # Override component rendering with our own value
+          def call
+            'Titleriffic'
+          end
+        end
+      end
+
+      before do
+        stub_const('MyTitleComponent', custom_component_class)
+        blacklight_config.show.title_component = MyTitleComponent
+      end
+
+      it 'renders custom component' do
+        expect(rendered).to have_text 'Titleriffic'
+      end
+    end
   end
 
   context 'with a thumbnail component' do
