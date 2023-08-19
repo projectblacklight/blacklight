@@ -84,6 +84,7 @@ module Blacklight::Solr
 
     def add_search_field_with_json_query_parameters(solr_parameters)
       bool_query = search_field.clause_params.transform_values { |v| v.merge(query: search_state.query_param) }
+      solr_parameters["spellcheck.q"] ||= search_state.query_param
 
       solr_parameters.append_boolean_query(:must, bool_query)
     end
