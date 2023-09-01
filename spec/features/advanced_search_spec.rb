@@ -5,7 +5,26 @@ require 'spec_helper'
 RSpec.describe "Blacklight Advanced Search Form" do
   describe "advanced search form" do
     before do
+      CatalogController.blacklight_config.search_fields['all_fields']['clause_params'] = {
+        edismax: {}
+      }
+      CatalogController.blacklight_config.search_fields['author']['clause_params'] = {
+        edismax: { qf: '${author_qf}' }
+      }
+      CatalogController.blacklight_config.search_fields['title']['clause_params'] = {
+        edismax: { qf: '${title_qf}' }
+      }
+      CatalogController.blacklight_config.search_fields['subject']['clause_params'] = {
+        edismax: { qf: '${subject_qf}' }
+      }
+      CatalogController.blacklight_config.json_solr_path = 'advanced'
       visit '/catalog/advanced?hypothetical_existing_param=true&q=ignore+this+existing+query'
+    end
+
+    after do
+      %w[all_fields author title subject].each do |field|
+        CatalogController.blacklight_config.search_fields[field].delete(:clause_params)
+      end
     end
 
     it "has field and facet blocks" do
@@ -45,6 +64,43 @@ RSpec.describe "Blacklight Advanced Search Form" do
       click_on 'advanced-search-submit'
       expect(page).to have_content 'Remove constraint Title: Medicine'
       expect(page).to have_content 'Strong Medicine speaks'
+      expect(page).to have_selector('article.document', count: 1)
+    end
+
+    it 'can limit to facets' do
+      fill_in 'Subject', with: 'Women'
+      click_on 'Language'
+      check 'Urdu 3'
+      click_on 'advanced-search-submit'
+      expect(page).to have_content 'Pākistānī ʻaurat dorāhe par'
+      expect(page).not_to have_content 'Ajikto kŭrŏk chŏrŏk sasimnikka : and 아직도　그럭　저럭　사십니까'
+      expect(page).to have_selector('article.document', count: 1)
+    end
+
+    it 'handles boolean queries' do
+      fill_in 'All Fields', with: 'history NOT strong'
+      click_on 'advanced-search-submit'
+      expect(page).to have_content('Ci an zhou bian')
+      expect(page).not_to have_content('Strong Medicine speaks')
+      expect(page).to have_selector('article.document', count: 10)
+    end
+
+    it 'handles queries in multiple fields with the ALL operator' do
+      fill_in 'All Fields', with: 'history'
+      fill_in 'Author', with: 'hearth'
+      click_on 'advanced-search-submit'
+      expect(page).to have_content('Strong Medicine speaks')
+      expect(page).to have_selector('article.document', count: 1)
+    end
+
+    it 'handles queries in multiple fields with the ANY operator' do
+      select 'any', from: 'op'
+      fill_in 'All Fields', with: 'history'
+      fill_in 'Subject', with: 'women'
+      click_on 'advanced-search-submit'
+      expect(page).to have_content('Ci an zhou bian')
+      expect(page).to have_content('Pākistānī ʻaurat dorāhe par')
+      expect(page).to have_selector('article.document', count: 10)
     end
   end
 
