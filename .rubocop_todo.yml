@@ -176,12 +176,12 @@ RSpec/BeforeAfterAll:
 
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
-RSpec/Capybara/CurrentPathExpectation:
+Capybara/CurrentPathExpectation:
   Exclude:
     - 'spec/features/alternate_controller_spec.rb'
 
 # Offense count: 13
-RSpec/Capybara/VisibilityMatcher:
+Capybara/VisibilityMatcher:
   Exclude:
     - 'spec/features/facets_spec.rb'
     - 'spec/features/search_filters_spec.rb'
@@ -211,10 +211,9 @@ RSpec/ExpectInHook:
 # Offense count: 5
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.
 # Include: **/*_spec*rb*, **/spec/**/*
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
   Exclude:
     - 'spec/controllers/blacklight/catalog/component_configuration_spec.rb'
-    - 'spec/features/sitelinks_search_box.rb'
     - 'spec/models/blacklight/solr/search_builder_spec.rb'
     - 'spec/presenters/pipeline_spec.rb'
     - 'spec/presenters/thumbnail_presenter_spec.rb'
