@@ -86,7 +86,7 @@ module Blacklight::Bookmarks
     end
 
     if request.xhr?
-      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(json: current_or_guest_user.errors.full_messages, status: "500")
+      success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(json: current_or_guest_user.errors.full_messages, status: :internal_server_error)
     else
       if @bookmarks.any? && success
         flash[:notice] = I18n.t('blacklight.bookmarks.add.success', count: @bookmarks.length)
