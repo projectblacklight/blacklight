@@ -406,6 +406,14 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       it 'includes addtional clause parameters for the field' do
         expect(subject.dig(:json, :query, :bool, :must, 0, :edismax)).to include another: :parameter
       end
+
+      context 'with an empty search' do
+        let(:subject_search_params) { { commit: "search", search_field: "subject", action: "index", controller: "catalog", rows: "10", q: nil } }
+
+        it 'does not add nil query value clauses to json query' do
+          expect(subject).not_to have_key :json
+        end
+      end
     end
 
     describe "sorting" do

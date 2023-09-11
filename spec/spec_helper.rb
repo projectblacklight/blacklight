@@ -34,7 +34,7 @@ Capybara.register_driver :headless_chrome do |app|
     opts.args << '--no-sandbox'
     opts.args << '--window-size=1280,1696'
   end
-  Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: capabilities)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: capabilities)
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
