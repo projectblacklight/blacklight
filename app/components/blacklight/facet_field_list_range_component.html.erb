@@ -1,0 +1,17 @@
+<%= render(@layout.new(facet_field: @facet_field)) do |component| %>
+  <% component.with_label do %>
+    <%= @facet_field.label %>
+  <% end %>
+
+  <% component.with_body do %>
+    <%# Don't display form if the missing facet is selected. Otherwise provide
+        the form as an easy way for users to updated the range. %>
+    <% unless @facet_field.missing_selected? %>
+        <%= render Blacklight::FacetFieldListRangeFormComponent.new(facet_field: @facet_field) %>
+    <% end %>
+
+    <ul class="facet-values list-unstyled">
+      <%= render facet_items %>
+    </ul>
+  <% end %>
+<% end %>
