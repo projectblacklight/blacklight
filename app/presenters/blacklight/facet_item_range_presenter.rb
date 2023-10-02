@@ -4,7 +4,6 @@ module Blacklight
   # Override the default item presenter to provide custom labels for
   # range data.
   class FacetItemRangePresenter < Blacklight::FacetItemPresenter
-
     # Overriding method to generate a more descriptive label
     def label
       label_for_range || super

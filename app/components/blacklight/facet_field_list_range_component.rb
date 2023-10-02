@@ -2,7 +2,6 @@
 
 module Blacklight
   class FacetFieldListRangeComponent < Blacklight::Component
-
     # @param [Blacklight::FacetFieldRangePresenter] facet_field
     def initialize(facet_field:, layout: nil)
       @facet_field = facet_field
