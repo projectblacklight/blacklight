@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'shellwords'
-
 module Blacklight
   class Install < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
@@ -37,7 +35,7 @@ module Blacklight
     # Call external generator in AssetsGenerator, so we can
     # leave that callable seperately too.
     def copy_public_assets
-      generated_options = "--bootstrap-version='#{Shellwords.escape(options[:'bootstrap-version'])}'" if options[:'bootstrap-version']
+      generated_options = "--bootstrap-version='#{options[:'bootstrap-version']}'" if options[:'bootstrap-version']
 
       generate "blacklight:assets", generated_options unless options[:'skip-assets']
     end
