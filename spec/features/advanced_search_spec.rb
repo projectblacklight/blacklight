@@ -118,5 +118,11 @@ RSpec.describe "Blacklight Advanced Search Form" do
       expect(page.current_url).to match(/bread/)
       expect(page.current_url).not_to match(/medicine/)
     end
+
+    it "clears the prepopulated fields when the Start Over button is pressed" do
+      expect(page).to have_field 'Title', with: 'medicine'
+      click_on 'Start over'
+      expect(page).not_to have_field 'Title', with: 'medicine'
+    end
   end
 end

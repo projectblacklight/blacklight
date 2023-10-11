@@ -50,7 +50,7 @@
   <div class="form-group row">
     <div class="submit-buttons col-md-9 offset-md-3">
       <%= submit_tag t('blacklight.advanced_search.form.search_btn_html'), class: 'btn btn-primary advanced-search-submit', id: "advanced-search-submit" %>
-      <%= button_tag t('blacklight.advanced_search.form.start_over_html'), type: 'reset', class: 'btn btn-link advanced-search-start-over' %>
+      <%= link_to t('blacklight.advanced_search.form.start_over_html'), @advanced_search_path, :class =>"btn btn-link advanced-search-start-over" %>
     </div>
   </div>
 <% end %>
