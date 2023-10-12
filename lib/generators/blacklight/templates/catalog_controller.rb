@@ -116,7 +116,6 @@ class <%= controller_name.classify %>Controller < ApplicationController
     config.add_facet_field 'lc_1letter_ssim', label: 'Call Number'
     config.add_facet_field 'subject_geo_ssim', label: 'Region'
     config.add_facet_field 'subject_era_ssim', label: 'Era'
-    config.add_facet_field 'pub_date_si', label: 'Publication Year Range', range: true
 
     config.add_facet_field 'example_pivot_field', label: 'Pivot Field', pivot: ['format', 'language_ssim'], collapsing: true
 
