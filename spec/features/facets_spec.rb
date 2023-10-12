@@ -79,6 +79,16 @@ RSpec.describe "Facets" do
     expect(page).to have_css('.constraint-value', text: 'Language Tibetan')
   end
 
+  it 'is able to display range facet' do
+    visit root_path
+
+    expect(page).to have_selector 'input.range_start'
+    expect(page).to have_selector 'input.range_end'
+    expect(page).to have_selector 'label.sr-only[for="range_pub_date_si_start"]', text: 'Publication Date Sort range start'
+    expect(page).to have_selector 'label.sr-only[for="range_pub_date_si_end"]', text: 'Publication Date Sort range end'
+    expect(page).to have_button 'Apply'
+  end
+
   describe 'heading button focus with Firefox' do
     it 'changes to the button on button click in Firefox' do
       pending 'Capybara::NotSupportedByDriverError: Capybara::Driver::Base#evaluate_script'
