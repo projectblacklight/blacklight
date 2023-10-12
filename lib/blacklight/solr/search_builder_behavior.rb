@@ -134,7 +134,9 @@ module Blacklight::Solr
           solr_parameters.merge!(subqueries) if subqueries
         else
           filter.values.compact_blank.each do |value|
-            filter_query, subqueries = if value.is_a?(Array)
+            filter_query, subqueries = if value.is_a?(Array) && value.include?(Blacklight::SearchState::FilterField::EXCLUDE)
+                                         facet_value_to_fq_string(filter.config.key, value.first, exclude: true)
+                                       elsif value.is_a?(Array)
                                          facet_inclusive_value_to_fq_string(filter.key, value.compact_blank)
                                        else
                                          facet_value_to_fq_string(filter.config.key, value)
@@ -333,7 +335,7 @@ module Blacklight::Solr
     ##
     # Convert a facet/value pair into a solr fq parameter
     # rubocop:disable Metrics/PerceivedComplexity
-    def facet_value_to_fq_string(facet_field, value, use_local_params: true)
+    def facet_value_to_fq_string(facet_field, value, use_local_params: true, exclude: false)
       facet_config = blacklight_config.facet_fields[facet_field]
 
       solr_field = facet_config.field if facet_config && !facet_config.query
@@ -355,7 +357,7 @@ module Blacklight::Solr
       elsif value == Blacklight::SearchState::FilterField::MISSING
         "-#{solr_field}:[* TO *]"
       else
-        "{!term f=#{solr_field}#{" #{local_params.join(' ')}" unless local_params.empty?}}#{convert_to_term_value(value)}"
+        "#{'-' if exclude}{!term f=#{solr_field}#{" #{local_params.join(' ')}" unless local_params.empty?}}#{convert_to_term_value(value)}"
       end
     end
     # rubocop:enable Metrics/PerceivedComplexity
