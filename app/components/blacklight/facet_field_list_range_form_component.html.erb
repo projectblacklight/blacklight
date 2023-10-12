@@ -5,8 +5,8 @@
     <%= render_range_input(:start, start_label) %>
     <%= render_range_input(:end, end_label) %>
     <div class="input-group-append visually-hidden">
-      <%= submit_tag t('blacklight.search.facets.range.submit'), class: 'submit btn btn-secondary', name: nil %>
+      <%= submit_tag t('blacklight.search.facets.range.form.submit'), class: 'submit btn btn-secondary', name: nil %>
     </div>
-    <%= submit_tag t('blacklight.search.facets.range.submit'), class: "submit btn btn-secondary sr-only", "aria-hidden": "true", name: nil %>
+    <%= submit_tag t('blacklight.search.facets.range.form.submit'), class: "submit btn btn-secondary sr-only", "aria-hidden": "true", name: nil %>
   </div>
 <% end %>

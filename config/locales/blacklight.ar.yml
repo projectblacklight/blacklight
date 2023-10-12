@@ -114,11 +114,12 @@ ar:
           index: ترتيب أبجدي
         title: تحديد نطاق البحث
         range:
-          start_label: "%{field_label} بداية المدة"
-          end_label: "%{field_label} نهاية المدة"
-          submit: 'تطبيق'
-          single_html: '<span class="single">%{begin}</span>'
-          range_html: '<span class="from">%{begin}</span> الى <span class="to">%{end}</span>'
+          form:
+            start_label: "%{field_label} بداية المدة"
+            end_label: "%{field_label} نهاية المدة"
+            submit: 'تطبيق'
+          single_value: '%{begin}'
+          range_value: '%{begin} الى %{end}'
       filters:
         label: "%{label}:"
         remove:

@@ -195,11 +195,12 @@ en:
           open: Show facets
           close: Hide facets
         range:
-          start_label: "%{field_label} range start"
-          end_label: "%{field_label} range end"
-          submit: 'Apply'
-          single_html: '<span class="single">%{start}</span>'
-          range_html: '<span class="from">%{start}</span> to <span class="to">%{end}</span>'
+          form:
+            start_label: "%{field_label} range start"
+            end_label: "%{field_label} range end"
+            submit: 'Apply'
+          single_value: "%{start}"
+          range_value: "%{start} to %{end}"
       group:
         more: 'more »'
       filters:

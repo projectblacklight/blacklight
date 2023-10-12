@@ -9,15 +9,18 @@ module Blacklight
     end
 
     def start_label
-      t('blacklight.search.facets.range.start_label', field_label: @facet_field.label)
+      t('blacklight.search.facets.range.form.start_label', field_label: @facet_field.label)
     end
 
     def end_label
-      t('blacklight.search.facets.range.end_label', field_label: @facet_field.label)
+      t('blacklight.search.facets.range.form.end_label', field_label: @facet_field.label)
     end
 
     def input_options
-      range_config[:input].slice(:min, :max, :placeholder, :step)
+      return {} unless range_config
+
+      range_config.fetch(:input, {})
+                  .slice(:min, :max, :placeholder, :step)
     end
 
     # type is 'start' or 'end'

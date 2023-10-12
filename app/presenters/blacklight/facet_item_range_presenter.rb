@@ -19,9 +19,9 @@ module Blacklight
 
     def range_limit_label_key
       if value.first == value.last
-        'blacklight.search.facets.range.single_html'
+        'blacklight.search.facets.range.single_value'
       else
-        'blacklight.search.facets.range.range_html'
+        'blacklight.search.facets.range.range_value'
       end
     end
   end
