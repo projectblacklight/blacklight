@@ -1,7 +1,7 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
-  <% component.title { t('blacklight.email.form.title') } %>
+  <% component.with_title { t('blacklight.email.form.title') } %>
 
-  <% component.body do %>
+  <% component.with_body do %>
     <%= render 'email_form' %>
   <% end %>
 <% end %>
