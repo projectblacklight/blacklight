@@ -185,12 +185,17 @@ RSpec.describe BlacklightHelper do
         blacklight_config.view.gallery(template: '/my/partial')
       end
 
-      def stub_template(hash)
-        view.view_paths.unshift(ActionView::FixtureResolver.new(hash))
-      end
-
       it 'renders that template' do
-        stub_template 'my/_partial.html.erb' => 'some content'
+        # Not sure why we need to re-implement rspec's stub_template, but
+        # we already were, and need a Rails 7.1+ safe alternate too
+        # https://github.com/rspec/rspec-rails/commit/4d65bea0619955acb15023b9c3f57a3a53183da8
+        # https://github.com/rspec/rspec-rails/issues/2696
+        replace_hash = { 'my/_partial.html.erb' => 'some content' }
+        if ::Rails.version.to_f >= 7.1
+          controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
+        else
+          view.view_paths.unshift(ActionView::FixtureResolver.new(replace_hash))
+        end
 
         response = helper.render_document_index_with_view :gallery, [obj1, obj1]
 
