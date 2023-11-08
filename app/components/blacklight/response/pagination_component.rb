@@ -17,7 +17,12 @@ module Blacklight
       end
 
       def pagination
-        helpers.paginate @response, **Blacklight::Engine.config.blacklight.default_pagination_options, **@pagination_args
+        args = configured_options.merge(@pagination_args).compact
+        helpers.paginate @response, **args
+      end
+
+      def configured_options
+        controller.blacklight_config.index.pagination_options
       end
     end
   end
