@@ -22,17 +22,19 @@ module Blacklight
 
     # @return [Array]
     def fetch
-      Array.wrap(
-        if field_config.highlight
-          retrieve_highlight
-        elsif field_config.accessor
-          retieve_using_accessor
-        elsif field_config.values
-          retrieve_values
-        else
-          retrieve_simple
-        end
-      )
+      if field_config.highlight
+        value = retrieve_highlight
+      end
+      if value.blank?
+        value = if field_config.accessor
+                  retieve_using_accessor
+                elsif field_config.values
+                  retrieve_values
+                else
+                  retrieve_simple
+                end
+      end
+      Array.wrap(value)
     end
 
     private
