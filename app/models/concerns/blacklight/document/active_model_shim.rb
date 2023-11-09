@@ -28,6 +28,16 @@ module Blacklight::Document
       def find id
         repository.find(id).documents.first
       end
+
+      # In Rails 7.1+, needs this method
+      def composite_primary_key?
+        false
+      end
+
+      # In Rails 7.1+, needs this method
+      def has_query_constraints?
+        false
+      end
     end
 
     ##

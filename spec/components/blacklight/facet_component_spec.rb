@@ -51,7 +51,17 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
     end
 
     before do
-      controller.view_context.view_paths.unshift(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for('catalog/_facet_partial.html.erb' => 'facet partial'))
+      # Not sure why we need to re-implement rspec's stub_template, but
+      # we already were, and need a Rails 7.1+ safe alternate too
+      # https://github.com/rspec/rspec-rails/commit/4d65bea0619955acb15023b9c3f57a3a53183da8
+      # https://github.com/rspec/rspec-rails/issues/2696
+
+      replace_hash = { 'catalog/_facet_partial.html.erb' => 'facet partial' }
+      if ::Rails.version.to_f >= 7.1
+        controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
+      else
+        controller.view_context.view_paths.unshift(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
+      end
     end
 
     it 'renders the partial' do

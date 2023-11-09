@@ -34,7 +34,11 @@ module Blacklight::Catalog
   def index
     (@response, deprecated_document_list) = search_service.search_results
 
-    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_document_list, 'The @document_list instance variable is deprecated; use @response.documents instead.')
+    @document_list = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_document_list,
+      'The @document_list instance variable is deprecated; use @response.documents instead.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
 
     respond_to do |format|
       format.html { store_preferred_view }
@@ -53,7 +57,11 @@ module Blacklight::Catalog
   # to add responses for formats other than html or json see _Blacklight::Document::Export_
   def show
     deprecated_response, @document = search_service.fetch(params[:id])
-    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(deprecated_response, 'The @response instance variable is deprecated; use @document.response instead.')
+    @response = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(
+      deprecated_response,
+      'The @response instance variable is deprecated; use @document.response instead.',
+      ActiveSupport::Deprecation.new("8.0", "blacklight")
+    )
 
     respond_to do |format|
       format.html { @search_context = setup_next_and_previous_documents }

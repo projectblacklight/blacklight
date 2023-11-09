@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.5'
 
-  s.add_dependency "rails", '>= 5.1', '< 7.1'
+  s.add_dependency "rails", '>= 5.1', '< 7.2'
   s.add_dependency "globalid"
   s.add_dependency "jbuilder", '~> 2.7'
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'hashdiff'
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
-  s.add_development_dependency "rspec-rails", "~> 5.0"
+  s.add_development_dependency "rspec-rails", ">= 5.0" # some versions tested need >= 6.0
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency 'axe-core-rspec'
   s.add_development_dependency "capybara", '~> 3'
