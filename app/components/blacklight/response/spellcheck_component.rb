@@ -3,7 +3,7 @@
 module Blacklight
   module Response
     # Render spellcheck results for a search query
-    class SpellcheckComponent < ViewComponent::Base
+    class SpellcheckComponent < Blacklight::Component
       # @param [Blacklight::Response] response
       # @param [Array<String>] options explicit spellcheck options to render
       def initialize(response:, options: nil)

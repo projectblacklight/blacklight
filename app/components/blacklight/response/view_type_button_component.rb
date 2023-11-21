@@ -3,7 +3,7 @@
 module Blacklight
   module Response
     # Render spellcheck results for a search query
-    class ViewTypeButtonComponent < ViewComponent::Base
+    class ViewTypeButtonComponent < Blacklight::Component
       with_collection_parameter :view
       # @param [Blacklight::Configuration::View] view
       def initialize(view:, key: nil, selected: false, search_state: nil, classes: 'btn btn-outline-secondary btn-icon')
