@@ -118,31 +118,3 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 end
-
-# RSpec's stub_template method needs a differnet implementation for Rails 7.1, that
-# isn't yet in an rspec-rails release.
-#
-# First rspec-rails tried this:
-#   https://github.com/rspec/rspec-rails/commit/4d65bea0619955acb15023b9c3f57a3a53183da8
-#
-# But it was subject to this problem:
-#   https://github.com/rspec/rspec-rails/issues/2696
-#
-# Below implementation appears to work for our purposes here, so we will patch it in
-# if we are on Rails 7.1+, and  not yet rspec-rails 6.1 which we expect to have it.
-
-if ::Rails.version.to_f >= 7.1 && Gem.loaded_specs["rspec-rails"].version.release < Gem::Version.new('6.1')
-
-  module RSpec
-    module Rails
-      module ViewExampleGroup
-        module ExampleMethods
-          def stub_template(hash)
-            controller.prepend_view_path(StubResolverCache.resolver_for(hash))
-          end
-        end
-      end
-    end
-  end
-
-end
