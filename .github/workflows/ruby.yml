@@ -22,7 +22,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: 3.2
         bundler: 'latest'
     - name: Install dependencies
       run: bundle install
@@ -33,7 +33,7 @@ jobs:
     name: test (ruby ${{ matrix.ruby }} / rails ${{ matrix.rails_version }} ${{ matrix.additional_name }})
     strategy:
       matrix:
-        ruby: [2.7, '3.0']
+        ruby: ['3.0']
         rails_version: ['6.1.7', '7.0.4']
         bootstrap_version: [null]
         view_component_version: ['~> 2.66']
@@ -43,13 +43,13 @@ jobs:
         include:
         - ruby: '3.2.2'
           rails_version: '7.1.1'
-        - ruby: '3.2.0'
+        - ruby: '3.2.2'
           rails_version: '7.0.4'
-        - ruby: '3.2.0'
+        - ruby: '3.2.2'
           rails_version: '7.0.4'
           solr_version: '9.3.0'
           additional_name: 'Solr 9.3.0'
-        - ruby: '3.2.0'
+        - ruby: '3.2.2'
           rails_version: '7.0.4'
           solr_version: '8.11.2'
           additional_name: 'Solr 8.11.2'
