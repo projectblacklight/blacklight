@@ -31,7 +31,7 @@ module Blacklight::Solr::Response::Params
     defaults = {
       sort: single_valued_param(:'facet.sort'),
       limit: single_valued_param(:'facet.limit')&.to_i || 100,
-      offset: single_valued_param(:'facet.offset')&.to_i || 0,
+      offset: single_valued_param(:'facet.offset').to_i,
       prefix: single_valued_param(:'facet.prefix')
     }
 

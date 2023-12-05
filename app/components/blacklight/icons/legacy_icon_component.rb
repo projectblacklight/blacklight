@@ -11,7 +11,7 @@ module Blacklight
       end
 
       def call
-        tag.span(svg&.html_safe || default_icon,  # rubocop:disable Rails/OutputSafety
+        tag.span(svg&.html_safe || default_icon, # rubocop:disable Rails/OutputSafety
                  class: "blacklight-icons blacklight-icon-#{@name} #{@classes}".strip,
                  'aria-hidden': (true if @aria_hidden))
       end
