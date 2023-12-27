@@ -599,7 +599,7 @@ module Blacklight
 
     # @!visibility private
     def freeze
-      each { |_k, v| v.is_a?(OpenStruct) && v.freeze } # rubocop:disable Style/HashEachMethods
+      each { |_k, v| v.is_a?(OpenStruct) && v.freeze }
       super
     end
 
