@@ -55,7 +55,7 @@ module Blacklight
     def initialize_search_filter_controls
       fields = blacklight_config.facet_fields.select { |_k, v| v.include_in_advanced_search || v.include_in_advanced_search.nil? }
 
-      fields.each do |_k, config|
+      fields.each_value do |config|
         display_facet = @response.aggregations[config.field]
         with_search_filter_control(config: config, display_facet: display_facet)
       end

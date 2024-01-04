@@ -48,7 +48,7 @@ RSpec.describe Blacklight::Solr::Response, api: true do
 
     expect(received).to eq expected
 
-    r.aggregations.each do |_key, facet|
+    r.aggregations.each_value do |facet|
       expect(facet).to respond_to :name
       expect(facet).to respond_to :sort
       expect(facet).to respond_to :offset

@@ -54,7 +54,7 @@ RSpec.describe CatalogController, api: true do
       it "has no docs or facet values for query without results", integration: true do
         get :index, params: { q: 'sadfdsafasdfsadfsadfsadf' } # query for no results
         expect(assigns(:response).docs).to be_empty
-        assigns(:response).aggregations.each do |_key, facet|
+        assigns(:response).aggregations.each_value do |facet|
           expect(facet.items).to be_empty
         end
       end
@@ -815,7 +815,7 @@ end
 def assert_facets_have_values(aggregations)
   expect(aggregations).not_to be_empty
   # should have at least one value for each facet
-  aggregations.each do |_key, facet|
+  aggregations.each_value do |facet|
     expect(facet.items).to have_at_least(1).item
   end
 end

@@ -2,12 +2,12 @@
 
 gem 'blacklight', '>= 7.0'
 
-run "bundle install"
+after_bundle do
+  # run the blacklight install generator
+  options = ENV.fetch("BLACKLIGHT_INSTALL_OPTIONS", '--devise --marc')
 
-# run the blacklight install generator
-options = ENV.fetch("BLACKLIGHT_INSTALL_OPTIONS", '--devise --marc')
+  generate 'blacklight:install', options
 
-generate 'blacklight:install', options
-
-# run the database migrations
-rake "db:migrate"
+  # run the database migrations
+  rake "db:migrate"
+end
