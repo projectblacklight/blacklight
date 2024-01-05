@@ -84,7 +84,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        bundler: 'latest'
+        bundler: '2.5.2'
         ruby-version: ${{ matrix.ruby }}
     - name: Install dependencies
       run: bundle install
