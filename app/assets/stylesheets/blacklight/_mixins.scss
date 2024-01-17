@@ -15,7 +15,7 @@
 }
 
 // define a visually-hidden class that applies to a given breakpoint and below
-// https://getbootstrap.com/docs/5.2/helpers/visually-hidden/
+// https://getbootstrap.com/docs/5.3/helpers/visually-hidden/
 @if mixin-exists(visually-hidden) {
   @each $infix, $breakpoint in $grid-breakpoints {
     .visually-hidden-#{$infix} {
