@@ -3,7 +3,7 @@
 module Blacklight
   module Assets
     class SprocketsGenerator < Rails::Generators::Base
-      class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 5.1'), desc: "Set the generated app's bootstrap version"
+      class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 5.3'), desc: "Set the generated app's bootstrap version"
 
       # This could be skipped if you want to use webpacker
       def add_javascript_dependencies

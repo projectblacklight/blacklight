@@ -3,7 +3,7 @@
 module Blacklight
   module Assets
     class ImportmapGenerator < Rails::Generators::Base
-      class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 5.1'), desc: "Set the generated app's bootstrap version"
+      class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 5.3'), desc: "Set the generated app's bootstrap version"
 
       # This could be skipped if you want to use webpacker
       def add_javascript_dependencies
@@ -16,7 +16,7 @@ module Blacklight
           <<~CONTENT
             pin "@github/auto-complete-element", to: "https://cdn.skypack.dev/@github/auto-complete-element"
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.2.2'}/dist/js/bootstrap.js"
+            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.2'}/dist/js/bootstrap.js"
           CONTENT
         end
 
