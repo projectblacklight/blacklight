@@ -49,18 +49,7 @@ module Blacklight::TokenBasedUser
   end
 
   def secret_key_generator
-    @secret_key_generator ||= begin
-      app = Rails.application
-
-      secret_key_base = if app.respond_to?(:credentials)
-                          # Rails 5.2+
-                          app.credentials.secret_key_base
-                        else
-                          # Rails <= 5.1
-                          app.secrets.secret_key_base
-                        end
-      ActiveSupport::KeyGenerator.new(secret_key_base)
-    end
+    @secret_key_generator ||= ActiveSupport::KeyGenerator.new(Rails.application.secret_key_base)
   end
 
   def message_encryptor
