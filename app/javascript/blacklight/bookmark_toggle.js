@@ -1,4 +1,4 @@
-import CheckboxSubmit from 'blacklight/checkbox_submit'
+import CheckboxSubmit from './checkbox_submit.js'
 
 const BookmarkToggle = (e) => {
   if (e.target.matches('[data-checkboxsubmit-target="checkbox"]')) {
