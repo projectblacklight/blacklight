@@ -508,7 +508,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
     describe 'the search field query_builder config' do
       let(:blacklight_config) do
         Blacklight::Configuration.new do |config|
-          config.add_search_field('built_query', query_builder: ->(builder, *_args) { [builder.blacklight_params[:q].reverse, qq1: 'xyz'] })
+          config.add_search_field('built_query', query_builder: ->(builder, *_args) { [builder.blacklight_params[:q].reverse, { qq1: 'xyz' }] })
         end
       end
 

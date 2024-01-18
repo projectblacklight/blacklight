@@ -10,8 +10,7 @@ module Blacklight
     extend Deprecation
     include Blacklight::Deprecations::SearchStateNormalization
 
-    attr_reader :blacklight_config # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
-    attr_reader :params
+    attr_reader :blacklight_config, :params # Must be called blacklight_config, because Blacklight::Facet calls blacklight_config.
 
     # This method is never accessed in this class, but may be used by subclasses that need
     # to access the url_helpers

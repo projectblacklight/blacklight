@@ -29,8 +29,8 @@ xml.entry do
   end
 
   #If they asked for a format, give it to them.
-  if (params["content_format"] &&
-    document.export_formats[params["content_format"].to_sym])
+  if params["content_format"] &&
+     document.export_formats[params["content_format"].to_sym]
 
     type = document.export_formats[params["content_format"].to_sym][:content_type]
 

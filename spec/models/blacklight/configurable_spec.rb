@@ -93,7 +93,7 @@ RSpec.describe "Blacklight::Configurable", api: true do
       instance.blacklight_config.bar << "123"
       expect(instance.blacklight_config).not_to eq klass.blacklight_config
       expect(klass.blacklight_config.foo).to eq "bar"
-      expect(instance.blacklight_config.foo).to eq  "bar"
+      expect(instance.blacklight_config.foo).to eq "bar"
       expect(klass.blacklight_config.bar).not_to include("123")
       expect(instance.blacklight_config.bar).to include("asd", "123")
     end

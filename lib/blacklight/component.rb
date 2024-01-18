@@ -47,7 +47,7 @@ module Blacklight
 
           component_class.sidecar_files(extensions).each_with_object([]) do |path, memo|
             pieces = File.basename(path).split(".")
-            app_path = "#{Rails.root}/#{path.slice(path.index(component_class.view_component_path)..-1)}"
+            app_path = "#{Rails.root.join("#{path.slice(path.index(component_class.view_component_path)..-1)}")}"
 
             memo << {
               path: File.exist?(app_path) ? app_path : path,

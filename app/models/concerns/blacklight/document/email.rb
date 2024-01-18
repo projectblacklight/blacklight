@@ -21,6 +21,6 @@ module Blacklight::Document::Email
       body << I18n.t('blacklight.email.text.language', value: semantics[:language].join(" ")) if semantics[:language].present?
     end
 
-    return body.join("\n") unless body.empty?
+    body.join("\n") unless body.empty?
   end
 end

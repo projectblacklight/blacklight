@@ -20,7 +20,7 @@ def system_with_error_handling(*args)
   end
 end
 
-def with_solr
+def with_solr(&block)
   # We're being invoked by the app entrypoint script and solr is already up via docker-compose
   if ENV['SOLR_ENV'] == 'docker-compose'
     yield
@@ -36,9 +36,7 @@ def with_solr
     end
   else
     SolrWrapper.wrap do |solr|
-      solr.with_collection do
-        yield
-      end
+      solr.with_collection(&block)
     end
   end
 end

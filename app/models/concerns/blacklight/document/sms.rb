@@ -19,6 +19,6 @@ module Blacklight::Document::Sms
       body << I18n.t('blacklight.sms.text.author', value: semantics[:author].first) if semantics[:author].present?
     end
 
-    return body.join unless body.empty?
+    body.join unless body.empty?
   end
 end

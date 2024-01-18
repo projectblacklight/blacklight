@@ -84,10 +84,10 @@ def number_of_results_from_page(page)
   tmp_value = Capybara.ignore_hidden_elements
   Capybara.ignore_hidden_elements = false
   val = begin
-          page.find("meta[name=totalResults]")['content'].to_i
-        rescue StandardError
-          0
-        end
+    page.find("meta[name=totalResults]")['content'].to_i
+  rescue StandardError
+    0
+  end
   Capybara.ignore_hidden_elements = tmp_value
   val
 end
