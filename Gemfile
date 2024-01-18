@@ -48,3 +48,29 @@ end
 # END ENGINE_CART BLOCK
 
 eval_gemfile File.expand_path("spec/test_app_templates/Gemfile.extra", File.dirname(__FILE__))
+
+gem "rubocop", "~> 1.60"
+
+gem "rubocop-capybara", "~> 2.20"
+
+gem "rubocop-rspec", "~> 2.26"
+
+gem "rubocop-rails", "~> 2.23"
+
+gem "rspec", "~> 3.12"
+
+gem "simplecov", "~> 0.22.0"
+
+gem "engine_cart", "~> 2.6"
+
+gem "rspec-rails", "~> 6.1"
+
+gem "rspec-collection_matchers", "~> 1.2"
+
+gem "capybara", "~> 3.39"
+
+gem "selenium-webdriver", "~> 4.16"
+
+gem "equivalent-xml", "~> 0.6.0"
+
+gem "axe-core-rspec", "~> 4.8"
