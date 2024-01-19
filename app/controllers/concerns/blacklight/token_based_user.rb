@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# A controller mixin that allows users to share their bookmarks.
+# This is used to create a callback from refworks in the bookmarks_export_url helper in blacklight-marc
 module Blacklight::TokenBasedUser
   extend ActiveSupport::Concern
 
