@@ -97,21 +97,35 @@ const Modal = (() => {
   }
 
   // Add the passed in contents to the modal and display it.
+  // We have specific handling so that scripts returned from the ajax call are executed.
+  // This enables adding a script like recaptcha to prevent bots from sending emails.
   modal.receiveAjax = function (contents) {
-      const domparser = new DOMParser();
-      const dom = domparser.parseFromString(contents, "text/html")
-      // If there is a containerSelector on the document, use its children.
-      let elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
-      if (elements.length == 0) {
-        // If the containerSelector wasn't found, use the whole document
-        elements = dom.body.childNodes
-      }
+    const domparser = new DOMParser();
+    const dom = domparser.parseFromString(contents, "text/html")
+    // If there is a containerSelector on the document, use its children.
+    let elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
+    const frag = document.createDocumentFragment()
+    if (elements.length == 0) {
+      // If the containerSelector wasn't found, use the whole document
+      elements = dom.body.childNodes
+    }
+    elements.forEach((el) => frag.appendChild(el))
+    modal.activateScripts(frag)
+    
+    document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(frag)
 
-      document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(...elements)
-
-      modal.show();
+    modal.show();
   };
 
+  // DOMParser doesn't allow scripts to be executed.  This fixes that.
+  modal.activateScripts = function (frag) {
+    frag.querySelectorAll('script').forEach((script) => {
+      const fixedScript = document.createElement('script')
+      fixedScript.src = script.src
+      fixedScript.async = false
+      script.parentNode.replaceChild(fixedScript, script)
+    })
+  }
 
   modal.modalAjaxLinkClick = function(e) {
     e.preventDefault();
