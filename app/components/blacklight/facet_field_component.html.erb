@@ -8,11 +8,12 @@
       data-target="#<%= html_id %>"
       data-bs-target="#<%= html_id %>"
       aria-expanded="<%= @facet_field.collapsed? ? 'false' : 'true' %>"
+      arial-controls="<%= html_id %>"
     >
       <%= label %>
     </button>
   </h3>
-  <div id="<%= html_id %>" aria-labelledby="<%= header_html_id %>" class="panel-collapse facet-content collapse <%= "show" unless @facet_field.collapsed? %>">
+  <div id="<%= html_id %>" role="region" aria-labelledby="<%= header_html_id %>" class="panel-collapse facet-content collapse <%= "show" unless @facet_field.collapsed? %>">
     <div class="card-body">
       <%= body %>
 
