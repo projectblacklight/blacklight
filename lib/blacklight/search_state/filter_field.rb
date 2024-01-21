@@ -5,6 +5,7 @@ module Blacklight
     # Modeling access to filter query parameters
     class FilterField
       MISSING = { missing: true }.freeze
+      EXCLUDE = { exclude: true }.freeze
 
       # @!attribute config
       #   @return [Blacklight::Configuration::FacetField]
@@ -53,6 +54,11 @@ module Blacklight
           value = Blacklight::Engine.config.blacklight.facet_missing_param
         end
 
+        if value.is_a?(Array) && value.include?(Blacklight::SearchState::FilterField::EXCLUDE)
+          url_key = "-#{key}"
+          value = value.without(Blacklight::SearchState::FilterField::EXCLUDE).first
+        end
+
         param = inclusive_filters_key if value.is_a?(Array)
 
         # value could be a string
@@ -88,6 +94,11 @@ module Blacklight
           value = Blacklight::Engine.config.blacklight.facet_missing_param
         end
 
+        if value.is_a?(Array) && value.include?(Blacklight::SearchState::FilterField::EXCLUDE)
+          url_key = "-#{key}"
+          value = value.without(Blacklight::SearchState::FilterField::EXCLUDE).first
+        end
+
         param = inclusive_filters_key if value.is_a?(Array)
 
         # need to dup the facet values too,
@@ -114,8 +125,14 @@ module Blacklight
         f_inclusive = [params.dig(:f_inclusive, key)] unless params.dig(inclusive_filters_key, key).blank? || except.include?(:inclusive_filters)
         f_missing = [Blacklight::SearchState::FilterField::MISSING] if params.dig(filters_key, "-#{key}")&.any? { |v| v == Blacklight::Engine.config.blacklight.facet_missing_param }
         f_missing = [] if except.include?(:missing)
+        exclude_facets = Array(params.dig(filters_key, "-#{key}")).reject { |v| v == Blacklight::Engine.config.blacklight.facet_missing_param }
+        f_exclude = if except.include?(:filters) || exclude_facets.none?
+                      []
+                    else
+                      [exclude_facets.flatten.compact + [Blacklight::SearchState::FilterField::EXCLUDE]]
+                    end
 
-        f + (f_inclusive || []) + (f_missing || [])
+        f + (f_inclusive || []) + (f_missing || []) + (f_exclude || [])
       end
       delegate :any?, to: :values
 
@@ -134,7 +151,11 @@ module Blacklight
 
         case value
         when Array
-          (params.dig(inclusive_filters_key, key) || []).to_set == value.to_set
+          if value.include?(Blacklight::SearchState::FilterField::EXCLUDE)
+            (params.dig(filters_key, "-#{key}") || []).include?(value)
+          else
+            (params.dig(inclusive_filters_key, key) || []).to_set == value.to_set
+          end
         when Blacklight::SearchState::FilterField::MISSING
           (params.dig(filters_key, "-#{key}") || []).include?(Blacklight::Engine.config.blacklight.facet_missing_param)
         else
