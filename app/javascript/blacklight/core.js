@@ -51,4 +51,7 @@ Blacklight.onLoad(function () {
   elem.classList.add('js')
 })
 
+Blacklight.csrfToken = () => document.querySelector('meta[name=csrf-token]')?.content
+Blacklight.csrfParam = () => document.querySelector('meta[name=csrf-param]')?.content
+
 window.Blacklight = Blacklight

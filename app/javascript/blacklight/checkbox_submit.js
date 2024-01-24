@@ -90,6 +90,7 @@
 
             $.ajax({
                 url: form.attr('action'),
+                beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token', Blacklight.csrfToken()) },
                 dataType: 'json',
                 type: form.attr('method').toUpperCase(),
                 data: form.serialize(),
