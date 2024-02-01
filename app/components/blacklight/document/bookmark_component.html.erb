@@ -1,13 +1,9 @@
-<%-
-# the data-doc-id attribute is used by our JS that converts to a checkbox/label.
-# we don't use the per-form csrf token
--%>
+<%- # we don't use the per-form csrf token -%>
 <%= form_tag(bookmark_path,
              authenticity_token: false,
              method:  bookmarked? ? :delete : :put,
              class: "bookmark-toggle",
              data: {
-               'doc-id' => @document.id,
                present: t('blacklight.search.bookmarks.present'),
                absent: t('blacklight.search.bookmarks.absent'),
                inprogress: t('blacklight.search.bookmarks.inprogress')
@@ -20,6 +16,5 @@
   </div>
 
   <%= submit_tag(t(bookmarked? ? 'remove.button' : 'add.button', scope: 'blacklight.bookmarks'),
-                 id: "bookmark_toggle_#{@document.id.to_s.parameterize}",
                  class: "bookmark-#{bookmarked? ? 'remove' : 'add'} btn btn-outline-secondary") %>
 <% end %>
