@@ -49,6 +49,7 @@ RSpec.describe SolrDocument, api: true do
         attribute :author, :array, 'author_tesim', of: :string
         attribute :first_author, :select, 'author_tesim', by: :min
         attribute :date, :date, field: 'date_dtsi'
+        attribute :time, :time, field: 'date_dtsi'
         attribute :whatever, :string, default: ->(*) { 'default_value' }
       end
     end
@@ -56,14 +57,17 @@ RSpec.describe SolrDocument, api: true do
       doc_class.new(id: '123',
                     title_tesim: ['Good Omens'],
                     author_tesim: ['Neil Gaiman', 'Terry Pratchett'],
-                    date_dtsi: '1990-01-01T00:00:00Z')
+                    date_dtsi: '1990-01-01T17:23:13Z')
     end
 
     it "casts the attributes" do
       expect(document.title).to eq 'Good Omens'
       expect(document.author).to eq ['Neil Gaiman', 'Terry Pratchett']
       expect(document.first_author).to eq 'Neil Gaiman'
-      expect(document.date).to eq Date.new(1990)
+      expect(document.date).to be_a Date
+      expect(document.date.to_s).to eq '1990-01-01'
+      expect(document.time).to be_a Time
+      expect(document.time.to_s).to eq '1990-01-01 17:23:13 UTC'
       expect(document.whatever).to eq 'default_value'
     end
 
