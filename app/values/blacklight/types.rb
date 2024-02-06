@@ -65,6 +65,19 @@ module Blacklight
       end
     end
 
+    class Time < Value
+      def cast(input)
+        value = super
+        return if value.blank?
+
+        begin
+          ::Time.parse(value.to_s) # rubocop:disable Rails/TimeZone
+        rescue ArgumentError
+          Rails.logger&.info "Unable to parse time: #{value.inspect}"
+        end
+      end
+    end
+
     class Boolean < Value
       def cast(input)
         ActiveModel::Type::Boolean.new.cast(super)
@@ -106,6 +119,7 @@ module Blacklight
     register :boolean, Boolean
     register :string, String
     register :date, Date
+    register :time, Time
     register :array, Array
     register :json, JsonValue
     register :html, Html
