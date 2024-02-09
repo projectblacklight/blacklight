@@ -51,8 +51,11 @@ module Blacklight::UrlHelperBehavior
     path = session_tracking_path(document, path_params)
     return {} if path.nil?
 
-    context_method = blacklight_config.track_search_session.storage == 'client' ? 'get' : 'post'
-    { data: { context_href: path, context_method: context_method } }
+    if blacklight_config.track_search_session.storage == 'client'
+      { data: { context_href: path, context_method: 'get' } }
+    else
+      { onclick: "navigator.sendBeacon('#{path}')" }
+    end
   end
 
   ##

@@ -5,7 +5,6 @@
 import BookmarkToggle from './bookmark_toggle.js'
 import ButtonFocus from './button_focus.js'
 import Modal from './modal.js'
-import SearchContext from './search_context.js'
 import Core from './core.js'
 
 
@@ -13,7 +12,6 @@ export default {
   BookmarkToggle,
   ButtonFocus,
   Modal,
-  SearchContext,
   Core,
   onLoad: Core.onLoad
 }
