@@ -27,6 +27,7 @@ SearchContext.handleSearchContextMethod = function(event) {
 
   // check for meta keys.. if set, we should open in a new tab
   if(event.metaKey || event.ctrlKey) {
+    form.dataset.turbo = "false";
     target = '_blank';
   }
 
