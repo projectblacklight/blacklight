@@ -73,12 +73,13 @@ module Blacklight::UrlHelperBehavior
 
   ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session
+  # We disable turbo prefetch (InstantClick), because since we replace the link with a form, it's just wasted.
   # @private
   # @param [SolrDocument] document
   # @param [Integer] counter
   # @example
   #   session_tracking_params(SolrDocument.new(id: 123), 7)
-  #   => { data: { :'context-href' => '/catalog/123/track?counter=7&search_id=999' } }
+  #   => { data: { context_href: '/catalog/123/track?counter=7&search_id=999' } }
   def session_tracking_params document, counter
     path = session_tracking_path(document, per_page: params.fetch(:per_page, search_session['per_page']), counter: counter, search_id: current_search_session.try(:id), document_id: document&.id)
 
@@ -86,7 +87,7 @@ module Blacklight::UrlHelperBehavior
       return {}
     end
 
-    { data: { 'context-href': path } }
+    { data: { context_href: path, turbo_prefetch: false } }
   end
   private :session_tracking_params
 
