@@ -69,9 +69,11 @@ module Blacklight
 
     extend Deprecation
 
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def normalize! blacklight_config = nil
       query.stringify_keys! if query
 
+      normalize_pivot_config! if pivot
       self.collapse = true if collapse.nil?
       self.show = true if show.nil?
       self.if = show if self.if.nil?
@@ -83,6 +85,10 @@ module Blacklight
         self.link_to_facet = link_to_search if link_to_facet.nil?
       end
 
+      self.item_presenter ||= Blacklight::FacetItemPresenter
+      self.component = Blacklight::FacetFieldListComponent if component.nil? || component == true
+      self.advanced_search_component ||= Blacklight::FacetFieldCheckboxesComponent
+      self.item_component ||= Blacklight::FacetItemComponent
       super
 
       if single && tag.blank? && ex.blank?
@@ -91,6 +97,16 @@ module Blacklight
       end
 
       self
+    end
+    # rubocop:enable Metrics/CyclomaticComplexity,  Metrics/PerceivedComplexity
+
+    private
+
+    def normalize_pivot_config!
+      self.item_presenter ||= Blacklight::FacetItemPivotPresenter
+      self.item_component ||= Blacklight::FacetItemPivotComponent
+      self.filter_class ||= Blacklight::SearchState::PivotFilterField
+      self.filter_query_builder ||= Blacklight::SearchState::PivotFilterField::QueryBuilder
     end
   end
 end
