@@ -11,7 +11,7 @@
 
 <li class="page-item <%= 'active' if page.current? %>">
   <% if page.current? %>
-    <span class="page-link" aria-label="<%= t('views.pagination.aria.current_page', page: page_display) %>" aria-current="true"><%= page_display %></span>
+    <span class="page-link" aria-current="true"><%= page_display %><span class="sr-only visually-hidden"> <%= t('views.pagination.aria.current_page', page: page_display) %></span></span>
   <% else %>
     <%= link_to page_display, url, :remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil, class: 'page-link', aria: { label: t('views.pagination.aria.go_to_page', page: page_display) } %>
   <% end %>
