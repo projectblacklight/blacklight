@@ -194,6 +194,13 @@ en:
           toggle: Toggle facets
           open: Show facets
           close: Hide facets
+        range:
+          form:
+            start_label: "%{field_label} range start"
+            end_label: "%{field_label} range end"
+            submit: 'Apply'
+          single_value: "%{start}"
+          range_value: "%{start} to %{end}"
       group:
         more: 'more »'
       filters:

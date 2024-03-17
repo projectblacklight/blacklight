@@ -104,6 +104,13 @@ de:
           count: Numerisch ordnen
           index: A-Z Ordnen
         title: Suche beschränken
+        range:
+          form:
+            start_label: "%{field_label} Bereichsanfang"
+            end_label: "%{field_label} Bereichsende"
+            submit: 'Anwenden'
+          single_value: '%{begin}'
+          range_value: '%{begin} bis %{end}'
       filters:
         label: "%{label}:"
         remove:

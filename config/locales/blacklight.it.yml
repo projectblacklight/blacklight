@@ -104,6 +104,13 @@ it:
           count: Ordina per numero
           index: Ordina A-Z
         title: Affina la ricerca
+        range:
+          form:
+            start_label: "%{field_label} da"
+            end_label: "%{field_label} a"
+            submit: 'Invia'
+          single_value: '%{begin}'
+          range_value: '%{begin} a %{end}'
       filters:
         label: "%{label}:"
         remove:

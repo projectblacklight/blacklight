@@ -113,6 +113,13 @@ ar:
           count: ترتيب رقمي
           index: ترتيب أبجدي
         title: تحديد نطاق البحث
+        range:
+          form:
+            start_label: "%{field_label} بداية المدة"
+            end_label: "%{field_label} نهاية المدة"
+            submit: 'تطبيق'
+          single_value: '%{begin}'
+          range_value: '%{begin} الى %{end}'
       filters:
         label: "%{label}:"
         remove:
