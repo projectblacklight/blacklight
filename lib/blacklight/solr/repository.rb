@@ -57,12 +57,12 @@ module Blacklight::Solr
     # @overload find(params)
     #   @param [Hash] parameters for RSolr::Client#send_and_receive
     # @return [Blacklight::Solr::Response] the solr response object
-    def send_and_receive(path, solr_params = {})
+    def send_and_receive(path, search_builder = {})
       benchmark("Solr fetch", level: :debug) do
-        res = connection.send_and_receive(path, build_solr_request(solr_params))
-        solr_response = blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
+        res = connection.send_and_receive(path, build_solr_request(search_builder))
+        solr_response = blacklight_config.response_model.new(res, search_builder, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
 
-        Blacklight.logger&.debug("Solr query: #{blacklight_config.http_method} #{path} #{solr_params.to_hash.inspect}")
+        Blacklight.logger&.debug("Solr query: #{blacklight_config.http_method} #{path} #{search_builder.to_hash.inspect}")
         Blacklight.logger&.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) && ::BLACKLIGHT_VERBOSE_LOGGING
         solr_response
       end
@@ -77,17 +77,17 @@ module Blacklight::Solr
 
     # @return [Hash]
     # @!visibility private
-    def build_solr_request(solr_params)
-      if uses_json_query_dsl?(solr_params)
+    def build_solr_request(search_builder)
+      if uses_json_query_dsl?(search_builder)
         {
-          data: { params: solr_params.to_hash.except(:json) }.merge(solr_params[:json]).to_json,
+          data: { params: search_builder.to_hash.except(:json) }.merge(search_builder[:json]).to_json,
           method: :post,
           headers: { 'Content-Type' => 'application/json' }
         }
       else
         key = blacklight_config.http_method == :post ? :data : :params
         {
-          key => solr_params.to_hash,
+          key => search_builder.to_hash,
           method: blacklight_config.http_method
         }
       end
@@ -124,15 +124,15 @@ module Blacklight::Solr
     end
 
     # @return [String]
-    def search_path(solr_params)
-      return blacklight_config.json_solr_path if blacklight_config.json_solr_path && uses_json_query_dsl?(solr_params)
+    def search_path(search_builder)
+      return blacklight_config.json_solr_path if blacklight_config.json_solr_path && uses_json_query_dsl?(search_builder)
 
       blacklight_config.solr_path
     end
 
     # @return [Boolean]
-    def uses_json_query_dsl?(solr_params)
-      solr_params[:json].present?
+    def uses_json_query_dsl?(search_builder)
+      search_builder[:json].present?
     end
   end
 end
