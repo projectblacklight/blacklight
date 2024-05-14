@@ -19,9 +19,11 @@ module Blacklight::Solr
 
     ##
     # Execute a search query against solr
-    # @param [Hash] params solr query parameters
-    def search params = {}
-      send_and_receive search_path(params), params.reverse_merge(qt: blacklight_config.qt)
+    # @param [SearchBuilder] search_builder solr query parameters
+    def search search_builder = {}
+      request_params = search_builder.to_hash
+
+      send_and_receive search_path(request_params), request_params.reverse_merge(qt: blacklight_config.qt)
     end
 
     # @param [Hash] request_params
@@ -62,7 +64,7 @@ module Blacklight::Solr
         res = connection.send_and_receive(path, build_solr_request(solr_params))
         solr_response = blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
 
-        Blacklight.logger&.debug("Solr query: #{blacklight_config.http_method} #{path} #{solr_params.to_hash.inspect}")
+        Blacklight.logger&.debug("Solr query: #{blacklight_config.http_method} #{path} #{solr_params.inspect}")
         Blacklight.logger&.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) && ::BLACKLIGHT_VERBOSE_LOGGING
         solr_response
       end
@@ -80,14 +82,14 @@ module Blacklight::Solr
     def build_solr_request(solr_params)
       if uses_json_query_dsl?(solr_params)
         {
-          data: { params: solr_params.to_hash.except(:json) }.merge(solr_params[:json]).to_json,
+          data: { params: solr_params.except(:json) }.merge(solr_params[:json]).to_json,
           method: :post,
           headers: { 'Content-Type' => 'application/json' }
         }
       else
         key = blacklight_config.http_method == :post ? :data : :params
         {
-          key => solr_params.to_hash,
+          key => solr_params,
           method: blacklight_config.http_method
         }
       end
