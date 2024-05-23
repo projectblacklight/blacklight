@@ -89,7 +89,6 @@ sq:
         group:
           close: Fshih aspektet
           open: Trego aspektet
-          toggle: më shumë »
         missing: "[Mungon]"
         more_html: Më shumë <span class="sr-only visually-hidden">%{field_name}</span> »
         pivot:

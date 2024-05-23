@@ -89,7 +89,6 @@ pt-BR:
         group:
           close: Ocultar facetas
           open: Mostrar facetas
-          toggle: mais »
         missing:
         - Ausência
         more_html: mais <span class="sr-only visually-hidden">%{field_name}</span> »

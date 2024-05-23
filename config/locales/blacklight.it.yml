@@ -91,7 +91,6 @@ it:
         group:
           close: Nascondi sfaccettature
           open: Mostra sfaccettature
-          toggle: altri »
         missing:
         - Mancante
         more_html: altri <span class="sr-only visually-hidden">%{field_name}</span> »

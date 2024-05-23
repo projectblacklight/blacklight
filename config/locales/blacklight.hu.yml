@@ -89,7 +89,6 @@ hu:
         group:
           close: Fazetek elrejtése
           open: Szempontok megjelenítése
-          toggle: több »
         missing: "[Hiányzó]"
         more_html: több <span class="sr-only visually-hidden">%{field_name}</span> »
         pivot:
