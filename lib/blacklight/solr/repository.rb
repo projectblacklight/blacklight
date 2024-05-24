@@ -20,7 +20,9 @@ module Blacklight::Solr
     # Execute a search query against solr
     # @param [Hash] params solr query parameters
     def search params = {}
-      send_and_receive search_path(params), params.reverse_merge(qt: blacklight_config.qt)
+      request_params = params.reverse_merge({ qt: blacklight_config.qt })
+
+      send_and_receive search_path(request_params), request_params
     end
 
     # @param [Hash] request_params
