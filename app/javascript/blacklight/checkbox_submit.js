@@ -18,11 +18,11 @@ export default class CheckboxSubmit {
     this.form = form
   }
 
-  async clicked(evt) {
+  clicked(evt) {
     this.spanTarget.innerHTML = this.form.getAttribute('data-inprogress')
     this.labelTarget.setAttribute('disabled', 'disabled');
     this.checkboxTarget.setAttribute('disabled', 'disabled');
-    const response = await fetch(this.formTarget.getAttribute('action'), {
+    fetch(this.formTarget.getAttribute('action'), {
       body: new FormData(this.formTarget),
       method: this.formTarget.getAttribute('method').toUpperCase(),
       headers: {
@@ -30,16 +30,17 @@ export default class CheckboxSubmit {
         'X-Requested-With': 'XMLHttpRequest',
         'X-CSRF-Token': document.querySelector('meta[name=csrf-token]')?.content
       }
-    })
-    this.labelTarget.removeAttribute('disabled')
-    this.checkboxTarget.removeAttribute('disabled')
-    if (response.ok) {
-      const json = await response.json()
+    }).then((response) => {
+      if (response.ok) return response.json();
+      return Promise.reject('response was not ok')
+    }).then((json) => {
+      this.labelTarget.removeAttribute('disabled')
+      this.checkboxTarget.removeAttribute('disabled')
       this.updateStateFor(!this.checked)
       document.querySelector('[data-role=bookmark-counter]').innerHTML = json.bookmarks.count
-    } else {
-      alert('Error')
-    }
+    }).catch((error) => {
+      this.handleError(error)
+    })
   }
 
   get checked() {
@@ -60,6 +61,10 @@ export default class CheckboxSubmit {
 
   get spanTarget() {
     return this.form.querySelector('[data-checkboxsubmit-target="span"]')
+  }
+
+  handleError() {
+    alert("Unable to save the bookmark at this time.")
   }
 
   updateStateFor(state) {
