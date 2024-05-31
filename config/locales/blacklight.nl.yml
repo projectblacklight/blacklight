@@ -89,7 +89,6 @@ nl:
         group:
           close: Verberg facetten
           open: Toon facetten
-          toggle: meer »
         missing: "[Ontbrekend]"
         more_html: Meer <span class="sr-only visually-hidden">%{field_name}</span> »
         pivot:

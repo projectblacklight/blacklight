@@ -89,7 +89,6 @@ zh:
         group:
           close: 隐藏方面
           open: 显示方面
-          toggle: 更多 »
         missing: "[未找到]"
         more_html: 更多 <span class="sr-only visually-hidden">%{field_name}</span> »
         pivot:

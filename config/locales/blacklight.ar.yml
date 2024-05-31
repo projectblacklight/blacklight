@@ -101,7 +101,6 @@ ar:
         group:
           close: إخفاء الأوجه
           open: عرض الأوجه
-          toggle: المزيد »
         missing: "[غير موجود]"
         more_html: المزيد <span class="sr-only visually-hidden">%{field_name}</span> »
         pivot:

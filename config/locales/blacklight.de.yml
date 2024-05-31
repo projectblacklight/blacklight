@@ -91,7 +91,6 @@ de:
         group:
           close: Facetten ausblenden
           open: Facetten zeigen
-          toggle: mehr »
         missing:
         - fehlt
         more_html: mehr <span class="sr-only visually-hidden">%{field_name}</span> »

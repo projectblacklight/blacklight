@@ -91,7 +91,6 @@ fr:
         group:
           close: Masquer les facettes
           open: Afficher les facettes
-          toggle: plus »
         missing: "[manquante]"
         more_html: plus <span class="sr-only visually-hidden">%{field_name}</span> »
         pivot:
