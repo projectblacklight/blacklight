@@ -1,13 +1,8 @@
-// ALL imports in this dir, including in files imported, should be RELATIVE
-// paths to keep things working in the various ways these files get used, at
-// both compile time and npm package run time.
-
-import BookmarkToggle from './bookmark_toggle.js'
-import ButtonFocus from './button_focus.js'
-import Modal from './modal.js'
-import SearchContext from './search_context.js'
-import Core from './core.js'
-
+import BookmarkToggle from 'blacklight/bookmark_toggle'
+import ButtonFocus from 'blacklight/button_focus'
+import Modal from 'blacklight/modal'
+import SearchContext from 'blacklight/search_context'
+import Core from 'blacklight/core'
 
 export default {
   BookmarkToggle,
