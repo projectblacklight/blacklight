@@ -30,7 +30,7 @@ RSpec.describe "catalog/_document" do
       Class.new(Blacklight::DocumentComponent) do
         # Override component rendering with our own value
         def call
-          'blah'
+          'blah'.html_safe
         end
       end
     end

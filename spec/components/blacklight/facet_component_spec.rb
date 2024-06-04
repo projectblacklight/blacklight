@@ -30,7 +30,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
         end
 
         def call
-          'Custom facet rendering'
+          'Custom facet rendering'.html_safe
         end
       end
     end

@@ -154,7 +154,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
         def initialize(**); end
 
         def call
-          'embed'
+          'embed'.html_safe
         end
       end)
 
@@ -167,7 +167,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
         Class.new(Blacklight::DocumentMetadataComponent) do
           # Override component rendering with our own value
           def call
-            'blah'
+            'blah'.html_safe
           end
         end
       end
@@ -187,7 +187,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
         Class.new(Blacklight::DocumentTitleComponent) do
           # Override component rendering with our own value
           def call
-            'Titleriffic'
+            'Titleriffic'.html_safe
           end
         end
       end
