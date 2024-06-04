@@ -95,7 +95,7 @@ RSpec.describe "catalog/index" do
       before do
         my_template = Class.new(ViewComponent::Base) do
           def call
-            'whatever content'
+            'whatever content'.html_safe
           end
 
           def self.name

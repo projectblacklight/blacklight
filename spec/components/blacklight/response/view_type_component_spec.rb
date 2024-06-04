@@ -15,7 +15,7 @@ RSpec.describe Blacklight::Response::ViewTypeComponent, type: :component do
     Class.new(Blacklight::Icons::IconComponent) do
       # Override component rendering with our own value
       def call
-        'blah'
+        'blah'.html_safe
       end
     end
   end
