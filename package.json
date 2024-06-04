@@ -1,6 +1,6 @@
 {
   "name": "blacklight-frontend",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "The frontend code and styles for Blacklight",
   "main": "app/assets/javascripts/blacklight",
   "module": "app/assets/javascripts/blacklight/blacklight.esm.js",
