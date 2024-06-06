@@ -24,6 +24,10 @@
 .navbar-search {
   z-index: 1;
 
+  search {
+    display: contents;
+  }
+
   .search-field {
     // This prevents the widget from being squished so the text overflows
     min-width: 7em;
