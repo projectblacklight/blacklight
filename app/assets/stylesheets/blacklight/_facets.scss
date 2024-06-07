@@ -230,16 +230,16 @@ $facet-toggle-width: 1em !default;
 $facet-toggle-height: $facet-toggle-width !default;
 
 .facet-toggle-handle {
-  @extend .my-0;
-  @extend .py-0;
-  @extend .px-2;
+  margin-block: 0;
+  padding-block: 0;
+  padding-inline: 0.5rem;
 
   // keep the icon span centered in the button, but shift to the left for equal spacing inside row
-  margin-left: -1 * $btn-padding-x;
+  margin-inline-start: -1 * $btn-padding-x;
 
   .pivot-facet & {
     // shift pivot values a little more aggressively for better compact display
-    margin-left: -2 * $btn-padding-x;
+    margin-inline-start: -2 * $btn-padding-x;
   }
 
   &.collapsed {
