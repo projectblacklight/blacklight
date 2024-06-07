@@ -1,0 +1,51 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "bootstrap/scss/variables";
+
+/* These classes are all the BS things that Blacklight depends on (via @extend) */
+.col-md-12 {
+}
+
+.col-lg-8 {
+}
+
+.mb-2 {
+}
+
+.mx-1 {
+}
+
+.btn-danger {
+}
+
+.clearfix {
+}
+
+.form-control {
+}
+
+.dropdown-item {
+}
+
+h5 {
+}
+.h4 {
+}
+.h6 {
+}
+
+.my-0 {
+}
+
+.py-0 {
+}
+
+.px-2 {
+}
+.mb-0 {
+}
+
+.px-4 {
+}
+
+@import "blacklight";
