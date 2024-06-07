@@ -40,11 +40,11 @@ module Blacklight
     end
 
     ##
-    # Class used for specifying main layout container classes. Can be
-    # overwritten to return 'container-fluid' for Bootstrap full-width layout
+    # Class used for specifying main layout container classes.
+    # Set config.full_width_layout to true to use a fluid layout.
     # @return [String]
     def container_classes
-      'container'
+      blacklight_config.full_width_layout ? 'container-fluid' : 'container'
     end
   end
 end

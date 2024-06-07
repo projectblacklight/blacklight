@@ -51,6 +51,7 @@ module Blacklight
     end
 
     property :logo_link
+    property :full_width_layout, default: false
     property :header_component, default: nil
     def header_component
       super || Blacklight::HeaderComponent
