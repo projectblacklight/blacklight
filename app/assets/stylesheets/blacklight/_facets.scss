@@ -118,17 +118,8 @@
   border-color: $facet-active-border;
 
   .card-header {
+    --bs-btn-color: #{$facet-active-header-color};
     background-color: var(--bl-facet-active-bg);
-
-    .btn {
-      @if function-exists(color-contrast) {
-        color: color-contrast($facet-active-bg);
-      }
-
-      @if function-exists(color-yiq) {
-        color: color-yiq($facet-active-bg);
-      }
-    }
   }
 }
 
