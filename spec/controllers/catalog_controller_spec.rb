@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe CatalogController, api: true do
+RSpec.describe CatalogController, :api do
   let(:doc_id) { '2007020969' }
   let(:mock_document) { instance_double(SolrDocument, export_formats: {}) }
   let(:search_service) { instance_double(Blacklight::SearchService) }
@@ -24,26 +24,26 @@ RSpec.describe CatalogController, api: true do
       end
 
       # check each user manipulated parameter
-      it "has docs and facets for query with results", integration: true do
+      it "has docs and facets for query with results", :integration do
         get :index, params: { q: user_query }
         expect(assigns(:response).docs).not_to be_empty
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
-      it "has docs and facets for existing facet value", integration: true do
+      it "has docs and facets for existing facet value", :integration do
         get :index, params: { f: { "format" => 'Book' } }
         expect(assigns(:response).docs).not_to be_empty
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
-      it "has docs and facets for non-default results per page", integration: true do
+      it "has docs and facets for non-default results per page", :integration do
         num_per_page = 7
         get :index, params: { per_page: num_per_page }
         expect(assigns(:response).docs).to have(num_per_page).items
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
-      it "has docs and facets for second page", integration: true do
+      it "has docs and facets for second page", :integration do
         page = 2
         get :index, params: { page: page }
         expect(assigns(:response).docs).not_to be_empty
@@ -51,7 +51,7 @@ RSpec.describe CatalogController, api: true do
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
-      it "has no docs or facet values for query without results", integration: true do
+      it "has no docs or facet values for query without results", :integration do
         get :index, params: { q: 'sadfdsafasdfsadfsadfsadf' } # query for no results
         expect(assigns(:response).docs).to be_empty
         assigns(:response).aggregations.each_value do |facet|
@@ -59,12 +59,12 @@ RSpec.describe CatalogController, api: true do
         end
       end
 
-      it "shows 0 results when the user asks for an invalid value to a custom facet query", integration: true do
+      it "shows 0 results when the user asks for an invalid value to a custom facet query", :integration do
         get :index, params: { f: { example_query_facet_field: ['bogus'] } } # bogus custom facet value
         expect(assigns(:response).docs).to be_empty
       end
 
-      it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", integration: true do
+      it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", :integration do
         get :index, params: { f: { example_query_facet_field: ['years_25'] } } # valid custom facet value with some results
         expect(assigns(:response).docs).not_to be_empty
       end
@@ -74,7 +74,7 @@ RSpec.describe CatalogController, api: true do
         expect(assigns(:response).docs).to be_empty
       end
 
-      it "has a spelling suggestion for an appropriately poor query", integration: true do
+      it "has a spelling suggestion for an appropriately poor query", :integration do
         get :index, params: { q: 'boo' }
         expect(assigns(:response).spelling.words).not_to be_nil
       end
@@ -95,12 +95,12 @@ RSpec.describe CatalogController, api: true do
 
       # check with no user manipulation
       describe "for default query" do
-        it "gets documents when no query", integration: true do
+        it "gets documents when no query", :integration do
           get :index
           expect(assigns(:response).docs).not_to be_empty
         end
 
-        it "gets facets when no query", integration: true do
+        it "gets facets when no query", :integration do
           get :index
           assert_facets_have_values(assigns(:response).aggregations)
         end
@@ -113,14 +113,14 @@ RSpec.describe CatalogController, api: true do
       end
 
       # NOTE: status code is always 200 in isolation mode ...
-      it "HTTP status code for GET should be 200", integration: true do
+      it "HTTP status code for GET should be 200", :integration do
         get :index
         expect(response).to be_successful
       end
     end
 
     describe "with format :rss" do
-      it "gets the feed", integration: true do
+      it "gets the feed", :integration do
         get :index, params: { format: 'rss' }
         expect(response).to be_successful
       end
@@ -133,7 +133,7 @@ RSpec.describe CatalogController, api: true do
         expect(response).to be_successful
       end
 
-      let(:json) { JSON.parse(response.body) }
+      let(:json) { response.parsed_body }
       let(:pages)  { json['meta']['pages'] }
       let(:docs)   { json['data'] }
       let(:facets) { json['included'].select { |x| x['type'] == 'facet' } }
@@ -251,7 +251,7 @@ RSpec.describe CatalogController, api: true do
 
     it "HTTP status code for redirect should be 303" do
       put :track, params: { id: doc_id, counter: 3 }
-      expect(response.status).to eq 303
+      expect(response).to have_http_status :see_other
     end
 
     it "redirects to the path given in the redirect param" do
@@ -285,7 +285,7 @@ RSpec.describe CatalogController, api: true do
       it "gets the raw solr document" do
         get :raw, params: { id: doc_id, format: 'json' }
         expect(response).to be_successful
-        json = JSON.parse response.body
+        json = response.parsed_body
         expect(json.keys).to match_array(
           %w[id _version_ author_addl_tsim author_tsim format isbn_ssim
              language_ssim lc_1letter_ssim lc_alpha_ssim lc_b4cutter_ssim
@@ -310,7 +310,7 @@ RSpec.describe CatalogController, api: true do
   # SHOW ACTION
   describe "show action" do
     describe "with format :html" do
-      it "gets document", integration: true do
+      it "gets document", :integration do
         get :show, params: { id: doc_id }
         expect(assigns[:document]).not_to be_nil
       end
@@ -321,7 +321,7 @@ RSpec.describe CatalogController, api: true do
       it "gets the feed" do
         get :show, params: { id: doc_id, format: 'json' }
         expect(response).to be_successful
-        json = JSON.parse response.body
+        json = response.parsed_body
         expect(json["data"]["attributes"].keys).to match_array(
           %w[author_tsim format isbn_ssim language_ssim lc_callnum_ssim
              published_ssim subtitle_tsim title title_tsim url_suppl_ssim]
@@ -335,9 +335,8 @@ RSpec.describe CatalogController, api: true do
 
       before do
         allow(mock_document).to receive_messages(export_formats: {})
-        allow(controller).to receive(:search_service).and_return(search_service)
         expect(search_service).to receive(:fetch).and_return(mock_document)
-        allow(controller).to receive(:current_search_session).and_return(current_search)
+        allow(controller).to receive_messages(search_service: search_service, current_search_session: current_search)
       end
 
       context 'if counter is present in session' do
@@ -389,7 +388,7 @@ RSpec.describe CatalogController, api: true do
     end
 
     # NOTE: status code is always 200 in isolation mode ...
-    it "HTTP status code for GET should be 200", integration: true do
+    it "HTTP status code for GET should be 200", :integration do
       get :show, params: { id: doc_id }
       expect(response).to be_successful
     end
@@ -624,7 +623,7 @@ RSpec.describe CatalogController, api: true do
       it "is successful" do
         get :facet, params: { id: 'format', format: 'json' }
         expect(response).to be_successful
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json["response"]["facets"]["items"].first["value"]).to eq 'Book'
       end
     end
@@ -741,8 +740,7 @@ RSpec.describe CatalogController, api: true do
   describe "#add_show_tools_partial", api: false do
     before do
       described_class.blacklight_config.add_show_tools_partial(:like, callback: :perform_like, validator: :validate_like_params)
-      allow(controller).to receive(:solr_document_url).and_return('http://test.host/catalog/1')
-      allow(controller).to receive(:action_documents).and_return(1)
+      allow(controller).to receive_messages(solr_document_url: 'http://test.host/catalog/1', action_documents: 1)
       Rails.application.routes.draw do
         get 'catalog/like', as: :catalog_like
       end
@@ -796,7 +794,7 @@ RSpec.describe CatalogController, api: true do
   end
 
   describe "page_links" do
-    it "has prev/next docs and result set data for non-empty result sets", integration: true do
+    it "has prev/next docs and result set data for non-empty result sets", :integration do
       get :page_links, params: { f: { "format" => 'Book' }, counter: 2 }
       expect(assigns(:page_link_data)).not_to be_empty
       expect(assigns(:page_link_data).fetch(:prev, nil)).to end_with('counter=1')
@@ -804,7 +802,7 @@ RSpec.describe CatalogController, api: true do
       expect(assigns(:page_link_data).fetch(:totalRaw, nil)).to be 30
     end
 
-    it "is empty for empty result sets", integration: true do
+    it "is empty for empty result sets", :integration do
       get :page_links, params: { f: { "format" => 'empty-result-set' }, counter: 1 }
       expect(assigns(:page_link_data)).to be_empty
     end

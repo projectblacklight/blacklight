@@ -36,12 +36,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   before do
     # Every call to view_context returns a different object. This ensures it stays stable.
-    allow(controller).to receive(:view_context).and_return(view_context)
-    allow(controller).to receive(:current_or_guest_user).and_return(User.new)
-    allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
-    allow(view_context).to receive(:search_session).and_return({})
-    allow(view_context).to receive(:current_search_session).and_return(nil)
-    allow(view_context).to receive(:current_bookmarks).and_return([])
+    allow(controller).to receive_messages(view_context: view_context, current_or_guest_user: User.new, blacklight_config: blacklight_config)
+    allow(view_context).to receive_messages(search_session: {}, current_search_session: nil, current_bookmarks: [])
   end
 
   it 'has some defined content areas' do
@@ -61,8 +57,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   it 'has schema.org properties' do
     component.set_slot(:body) { '-' }
 
-    expect(rendered).to have_selector 'article[@itemtype="http://schema.org/Thing"]'
-    expect(rendered).to have_selector 'article[@itemscope]'
+    expect(rendered).to have_css 'article[@itemtype="http://schema.org/Thing"]'
+    expect(rendered).to have_css 'article[@itemscope]'
   end
 
   context 'with a provided body' do
@@ -70,8 +66,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       component.set_slot(:body) { 'Body content' }
 
       expect(rendered).to have_content 'Body content'
-      expect(rendered).not_to have_selector 'header'
-      expect(rendered).not_to have_selector 'dl'
+      expect(rendered).to have_no_css 'header'
+      expect(rendered).to have_no_css 'dl'
     end
   end
 
@@ -85,8 +81,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     it 'has data properties' do
       component.set_slot(:body) { '-' }
 
-      expect(rendered).to have_selector 'article[@data-document-id="x"]'
-      expect(rendered).to have_selector 'article[@data-document-counter="5"]'
+      expect(rendered).to have_css 'article[@data-document-id="x"]'
+      expect(rendered).to have_css 'article[@data-document-counter="5"]'
     end
 
     it 'renders a linked title' do
@@ -94,7 +90,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
 
     it 'renders a counter with the title' do
-      expect(rendered).to have_selector 'header', text: '5. Title'
+      expect(rendered).to have_css 'header', text: '5. Title'
     end
 
     context 'with a document rendered as part of a collection' do
@@ -104,24 +100,24 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
       it 'renders a counter with the title' do
         # after ViewComponent 2.5, collection counter params are 1-indexed
-        expect(rendered).to have_selector 'header', text: '111. Title'
+        expect(rendered).to have_css 'header', text: '111. Title'
       end
     end
 
     it 'renders actions' do
-      expect(rendered).to have_selector '.index-document-functions'
+      expect(rendered).to have_css '.index-document-functions'
     end
 
     it 'renders a thumbnail' do
-      expect(rendered).to have_selector 'a[href="/catalog/x"] img[src="http://example.com/image.jpg"]'
+      expect(rendered).to have_css 'a[href="/catalog/x"] img[src="http://example.com/image.jpg"]'
     end
 
     context 'with default metadata component' do
       it 'renders metadata' do
-        expect(rendered).to have_selector 'dl.document-metadata'
-        expect(rendered).to have_selector 'dt', text: 'Title:'
-        expect(rendered).to have_selector 'dd', text: 'Title'
-        expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
+        expect(rendered).to have_css 'dl.document-metadata'
+        expect(rendered).to have_css 'dt', text: 'Title:'
+        expect(rendered).to have_css 'dd', text: 'Title'
+        expect(rendered).to have_no_css 'dt', text: 'ISBN:'
       end
     end
   end
@@ -136,17 +132,17 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     it 'renders with an id' do
       component.set_slot(:body) { '-' }
 
-      expect(rendered).to have_selector 'article#document'
+      expect(rendered).to have_css 'article#document'
     end
 
     it 'renders a title' do
-      expect(rendered).to have_selector 'h1', text: 'Title'
+      expect(rendered).to have_css 'h1', text: 'Title'
     end
 
     it 'renders with show-specific metadata' do
-      expect(rendered).to have_selector 'dl.document-metadata'
-      expect(rendered).to have_selector 'dt', text: 'ISBN:'
-      expect(rendered).to have_selector 'dd', text: 'Value'
+      expect(rendered).to have_css 'dl.document-metadata'
+      expect(rendered).to have_css 'dt', text: 'ISBN:'
+      expect(rendered).to have_css 'dd', text: 'Value'
     end
 
     it 'renders an embed' do

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Blacklight::Solr::Response::GroupResponse, api: true do
+RSpec.describe Blacklight::Solr::Response::GroupResponse, :api do
   let(:response) do
     create_response(sample_response)
   end

@@ -33,15 +33,15 @@ RSpec.describe Blacklight::FacetFieldCheckboxesComponent, type: :component do
   let(:params) { { f: { field: ['a'] } } }
 
   it 'renders a collapsible card' do
-    expect(rendered).to have_selector '.card'
+    expect(rendered).to have_css '.card'
     expect(rendered).to have_button 'Field'
-    expect(rendered).to have_selector 'button[data-bs-target="#facet-field"]'
-    expect(rendered).to have_selector '#facet-field.collapse.show'
+    expect(rendered).to have_css 'button[data-bs-target="#facet-field"]'
+    expect(rendered).to have_css '#facet-field.collapse.show'
   end
 
   it 'renders the facet items' do
-    expect(rendered).to have_selector 'ul.facet-values'
-    expect(rendered).to have_selector 'li', count: 3
+    expect(rendered).to have_css 'ul.facet-values'
+    expect(rendered).to have_css 'li', count: 3
 
     expect(rendered).to have_field 'f_inclusive[field][]', with: 'a'
     expect(rendered).to have_field 'f_inclusive[field][]', with: 'b'

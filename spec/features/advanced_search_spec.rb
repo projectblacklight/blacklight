@@ -27,16 +27,16 @@ RSpec.describe "Blacklight Advanced Search Form" do
     end
 
     it "has field and facet blocks" do
-      expect(page).to have_selector('.query-criteria')
-      expect(page).to have_selector('.limit-criteria')
+      expect(page).to have_css('.query-criteria')
+      expect(page).to have_css('.limit-criteria')
     end
 
     describe "query column" do
       it "gives the user a choice between and/or queries" do
-        expect(page).to have_selector('#op')
+        expect(page).to have_css('#op')
         within('#op') do
-          expect(page).to have_selector('option[value="must"]')
-          expect(page).to have_selector('option[value="should"]')
+          expect(page).to have_css('option[value="must"]')
+          expect(page).to have_css('option[value="should"]')
         end
       end
 
@@ -50,7 +50,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
 
     describe "facet column" do
       it "lists facets" do
-        expect(page).to have_selector('.blacklight-language_ssim')
+        expect(page).to have_css('.blacklight-language_ssim')
 
         within('.blacklight-language_ssim') do
           expect(page).to have_content 'Language'
@@ -63,7 +63,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
       click_on 'advanced-search-submit'
       expect(page).to have_content 'Remove constraint Title: Medicine'
       expect(page).to have_content 'Strong Medicine speaks'
-      expect(page).to have_selector('article.document', count: 1)
+      expect(page).to have_css('article.document', count: 1)
     end
 
     it 'can limit to facets' do
@@ -72,16 +72,16 @@ RSpec.describe "Blacklight Advanced Search Form" do
       check 'Urdu 3'
       click_on 'advanced-search-submit'
       expect(page).to have_content 'Pākistānī ʻaurat dorāhe par'
-      expect(page).not_to have_content 'Ajikto kŭrŏk chŏrŏk sasimnikka : and 아직도　그럭　저럭　사십니까'
-      expect(page).to have_selector('article.document', count: 1)
+      expect(page).to have_no_content 'Ajikto kŭrŏk chŏrŏk sasimnikka : and 아직도　그럭　저럭　사십니까'
+      expect(page).to have_css('article.document', count: 1)
     end
 
     it 'handles boolean queries' do
       fill_in 'All Fields', with: 'history NOT strong'
       click_on 'advanced-search-submit'
       expect(page).to have_content('Ci an zhou bian')
-      expect(page).not_to have_content('Strong Medicine speaks')
-      expect(page).to have_selector('article.document', count: 10)
+      expect(page).to have_no_content('Strong Medicine speaks')
+      expect(page).to have_css('article.document', count: 10)
     end
 
     it 'handles queries in multiple fields with the ALL operator' do
@@ -89,7 +89,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
       fill_in 'Author', with: 'hearth'
       click_on 'advanced-search-submit'
       expect(page).to have_content('Strong Medicine speaks')
-      expect(page).to have_selector('article.document', count: 1)
+      expect(page).to have_css('article.document', count: 1)
     end
 
     it 'handles queries in multiple fields with the ANY operator' do
@@ -99,7 +99,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
       click_on 'advanced-search-submit'
       expect(page).to have_content('Ci an zhou bian')
       expect(page).to have_content('Pākistānī ʻaurat dorāhe par')
-      expect(page).to have_selector('article.document', count: 10)
+      expect(page).to have_css('article.document', count: 10)
     end
   end
 
@@ -122,7 +122,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
     it "clears the prepopulated fields when the Start Over button is pressed" do
       expect(page).to have_field 'Title', with: 'medicine'
       click_on 'Start over'
-      expect(page).not_to have_field 'Title', with: 'medicine'
+      expect(page).to have_no_field 'Title', with: 'medicine'
     end
   end
 end

@@ -26,9 +26,9 @@ RSpec.describe Blacklight::Document::GroupComponent, type: :component do
   end
 
   it 'renders the group with a header' do
-    expect(rendered).to have_selector 'div.group'
-    expect(rendered).to have_selector 'h2', text: 'group1'
-    expect(rendered).not_to have_link 'more'
+    expect(rendered).to have_css 'div.group'
+    expect(rendered).to have_css 'h2', text: 'group1'
+    expect(rendered).to have_no_link 'more'
   end
 
   it 'renders the group documents' do

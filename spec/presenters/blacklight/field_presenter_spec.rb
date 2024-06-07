@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::FieldPresenter, api: true do
+RSpec.describe Blacklight::FieldPresenter, :api do
   subject(:presenter) { described_class.new(request_context, document, field_config, options) }
 
   let(:request_context) { double('View context', params: { x: '1' }, search_state: search_state, should_render_field?: true, blacklight_config: config) }

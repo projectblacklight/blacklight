@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
+RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
   subject { search_builder.with(user_params) }
 
   let(:single_facet) { { format: ['Book'] } }
+  let(:search_builder_class) do
+    Class.new(Blacklight::SearchBuilder) do
+      include Blacklight::Solr::SearchBuilderBehavior
+    end
+  end
+  let(:search_builder) { search_builder_class.new(context) }
   let(:multi_facets) { { format: ['Book'], language_ssim: ['Tibetan'] } }
   let(:mult_word_query) { 'tibetan history' }
   let(:subject_search_params) { { commit: "search", search_field: "subject", action: "index", controller: "catalog", rows: "10", q: "wome" } }
@@ -13,13 +19,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
   let(:context) { CatalogController.new }
 
   before { allow(context).to receive(:blacklight_config).and_return(blacklight_config) }
-
-  let(:search_builder_class) do
-    Class.new(Blacklight::SearchBuilder) do
-      include Blacklight::Solr::SearchBuilderBehavior
-    end
-  end
-  let(:search_builder) { search_builder_class.new(context) }
 
   context "with default processor chain" do
     subject { search_builder }
@@ -117,7 +116,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       end
 
       it 'is negative' do
-        expect(subject[:'f.subject_ssim.facet.limit']).to eq -1
+        expect(subject[:'f.subject_ssim.facet.limit']).to eq(-1)
       end
     end
 
@@ -522,15 +521,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
         expect(subject[:qq1]).to eq 'xyz'
       end
     end
-
-    describe "mapping facet.field" do
-      let(:blacklight_config) do
-        Blacklight::Configuration.new do |config|
-          config.add_facet_field 'some_field'
-          config.add_facet_fields_to_solr_request!
-        end
-      end
-    end
   end
 
   describe "#facet_value_to_fq_string" do
@@ -564,7 +554,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, api: true do
       expect(subject.send(:facet_value_to_fq_string, "facet_name", 1.11)).to eq '{!term f=facet_name}1.11'
     end
 
-    it "passes floats through" do
+    it "passes floats in strings through" do
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "1.11")).to eq '{!term f=facet_name}1.11'
     end
 

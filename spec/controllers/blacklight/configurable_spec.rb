@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe CatalogController do
+RSpec.describe Blacklight::Configurable do
   subject do
     Class.new do
       include Blacklight::Configurable

@@ -267,8 +267,7 @@ RSpec.describe CatalogHelper do
     subject { helper.render_search_to_page_title(Blacklight::SearchState.new(params, blacklight_config)) }
 
     before do
-      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
-      allow(helper).to receive(:default_search_field).and_return(Blacklight::Configuration::SearchField.new(key: 'default_search_field', display_label: 'Default'))
+      allow(helper).to receive_messages(blacklight_config: blacklight_config, default_search_field: Blacklight::Configuration::SearchField.new(key: 'default_search_field', display_label: 'Default'))
       allow(helper).to receive(:label_for_search_field).with(nil).and_return('')
     end
 
@@ -299,8 +298,7 @@ RSpec.describe CatalogHelper do
 
   describe "#document_index_view_type" do
     it "defaults to the default view" do
-      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
-      allow(helper).to receive(:default_document_index_view_type).and_return(:xyz)
+      allow(helper).to receive_messages(document_index_views: { a: 1, b: 2 }, default_document_index_view_type: :xyz)
       expect(helper.document_index_view_type).to eq :xyz
     end
 
@@ -310,8 +308,7 @@ RSpec.describe CatalogHelper do
     end
 
     it "uses the default view if the requested view is not available" do
-      allow(helper).to receive(:default_document_index_view_type).and_return(:xyz)
-      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
+      allow(helper).to receive_messages(default_document_index_view_type: :xyz, document_index_views: { a: 1, b: 2 })
       expect(helper.document_index_view_type(view: :c)).to eq :xyz
     end
 

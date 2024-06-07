@@ -17,14 +17,14 @@ RSpec.describe Blacklight::System::FlashMessageComponent, type: :component do
   let(:type) { 'whatever' }
 
   it 'renders a message inside an alert' do
-    expect(rendered).to have_selector 'div.alert.alert-whatever', text: message
+    expect(rendered).to have_css 'div.alert.alert-whatever', text: message
   end
 
   context 'with a success message' do
     let(:type) { 'success' }
 
     it 'adds some styling' do
-      expect(rendered).to have_selector 'div.alert-success'
+      expect(rendered).to have_css 'div.alert-success'
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe Blacklight::System::FlashMessageComponent, type: :component do
     let(:type) { 'notice' }
 
     it 'adds some styling' do
-      expect(rendered).to have_selector 'div.alert-info'
+      expect(rendered).to have_css 'div.alert-info'
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe Blacklight::System::FlashMessageComponent, type: :component do
     let(:type) { 'alert' }
 
     it 'adds some styling' do
-      expect(rendered).to have_selector 'div.alert-warning'
+      expect(rendered).to have_css 'div.alert-warning'
     end
   end
 
@@ -48,7 +48,7 @@ RSpec.describe Blacklight::System::FlashMessageComponent, type: :component do
     let(:type) { 'error' }
 
     it 'adds some styling' do
-      expect(rendered).to have_selector 'div.alert-danger'
+      expect(rendered).to have_css 'div.alert-danger'
     end
   end
 end

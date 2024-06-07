@@ -8,7 +8,7 @@
 #  to talk with solr and get results)? when we do a document request, does
 #  blacklight code get a single document returned?)
 #
-RSpec.describe Blacklight::SearchService, api: true do
+RSpec.describe Blacklight::SearchService, :api do
   subject { service }
 
   let(:context) { { whatever: :value } }
@@ -17,7 +17,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   let(:user_params) { {} }
 
   let(:blacklight_config) { Blacklight::Configuration.new }
-  let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
+  let(:copy_of_catalog_config) { CatalogController.blacklight_config.deep_copy }
   let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config.except(:adapter)) }
 
   let(:all_docs_query) { '' }
@@ -49,7 +49,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end
 
   # SPECS FOR SEARCH RESULTS FOR QUERY
-  describe 'Search Results', integration: true do
+  describe 'Search Results', :integration do
     let(:blacklight_config) { copy_of_catalog_config }
 
     describe 'for a sample query returning results' do
@@ -81,7 +81,7 @@ RSpec.describe Blacklight::SearchService, api: true do
       end
     end
 
-    describe "for a query returning multiple groups", integration: true do
+    describe "for a query returning multiple groups", :integration do
       let(:blacklight_config) { copy_of_catalog_config }
       let(:user_params) { { q: all_docs_query } }
 
@@ -139,7 +139,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end # Search Results
 
   # SPECS FOR SEARCH RESULTS FOR FACETS
-  describe 'Facets in Search Results for All Docs Query', integration: true do
+  describe 'Facets in Search Results for All Docs Query', :integration do
     let(:blacklight_config) { copy_of_catalog_config }
     let(:user_params) { { q: all_docs_query } }
 
@@ -184,7 +184,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end # facet specs
 
   # SPECS FOR SEARCH RESULTS FOR PAGING
-  describe 'Paging', integration: true do
+  describe 'Paging', :integration do
     let(:blacklight_config) { copy_of_catalog_config }
     let(:user_params) { { q: all_docs_query } }
 
@@ -276,7 +276,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end # page specs
 
   # SPECS FOR SINGLE DOCUMENT REQUESTS
-  describe 'Get Document By Id', integration: true do
+  describe 'Get Document By Id', :integration do
     let(:doc_id) { '2007020969' }
     let(:bad_id) { 'redrum' }
 
@@ -299,7 +299,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
   end
 
-  describe 'Get multiple documents By Id', integration: true do
+  describe 'Get multiple documents By Id', :integration do
     let(:doc_id) { '2007020969' }
     let(:bad_id) { 'redrum' }
     let(:response) { service.fetch([doc_id]) }
@@ -318,7 +318,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end
 
   # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
-  describe "Searches should return spelling suggestions", integration: true do
+  describe "Searches should return spelling suggestions", :integration do
     context "for just-poor-enough-query term" do
       let(:user_params) { { q: 'boo' } }
 

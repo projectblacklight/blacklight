@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::SearchBuilder, api: true do
+RSpec.describe Blacklight::SearchBuilder, :api do
   subject(:builder) { described_class.new processor_chain, scope }
 
   let(:processor_chain) { [] }

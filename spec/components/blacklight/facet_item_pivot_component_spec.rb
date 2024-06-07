@@ -34,13 +34,13 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
   let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'z', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPivotPresenter) }
 
   it 'links to the facet and shows the number of hits' do
-    expect(rendered).to have_selector 'li'
+    expect(rendered).to have_css 'li'
     expect(rendered).to have_link 'x', href: nokogiri_mediated_href(facet_item.href)
-    expect(rendered).to have_selector '.facet-count', text: '10'
+    expect(rendered).to have_css '.facet-count', text: '10'
   end
 
   it 'has the facet hierarchy' do
-    expect(rendered).to have_selector 'li ul.pivot-facet'
+    expect(rendered).to have_css 'li ul.pivot-facet'
     expect(rendered).to have_link 'x:1', href: nokogiri_mediated_href(facet_item.facet_item_presenters.first.href)
   end
 
@@ -60,10 +60,10 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
     end
 
     it 'links to the facet and shows the number of hits' do
-      expect(rendered).to have_selector 'li'
-      expect(rendered).to have_selector '.selected', text: 'x'
+      expect(rendered).to have_css 'li'
+      expect(rendered).to have_css '.selected', text: 'x'
       expect(rendered).to have_link '[remove]', href: '/catalog'
-      expect(rendered).to have_selector '.selected.facet-count', text: '10'
+      expect(rendered).to have_css '.selected.facet-count', text: '10'
     end
   end
 end

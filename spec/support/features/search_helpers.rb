@@ -6,7 +6,7 @@ module Features
     def search_for q
       visit root_path
       fill_in "q", with: q
-      click_button 'search'
+      click_on 'search'
     end
 
     def position_in_result_page(page, id)
@@ -20,7 +20,7 @@ module Features
     def number_of_results_for_query(query)
       visit root_path
       fill_in "q", with: query
-      click_button "search"
+      click_on "search"
       get_number_of_results_from_page(page)
     end
 

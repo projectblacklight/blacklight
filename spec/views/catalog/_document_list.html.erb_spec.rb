@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "catalog/_document_list", type: :view do
+RSpec.describe "catalog/_document_list" do
   let(:view_type) { 'some-view' }
   let(:view_config) { double(Blacklight::Configuration::ViewConfig) }
 
@@ -12,6 +12,6 @@ RSpec.describe "catalog/_document_list", type: :view do
 
   it "includes a class for the current view" do
     render(partial: "catalog/document_list", locals: { view_config: view_config })
-    expect(rendered).to have_selector(".documents-some-view")
+    expect(rendered).to have_css(".documents-some-view")
   end
 end

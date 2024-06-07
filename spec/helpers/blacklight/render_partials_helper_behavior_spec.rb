@@ -40,8 +40,9 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
     end
 
     it "gets the document format from document_partial_name" do
-      allow(helper).to receive(:document_partial_name).with(doc, :xyz)
+      allow(helper).to receive(:document_partial_name)
       helper.render_document_partial(doc, :xyz)
+      expect(helper).to have_received(:document_partial_name).with(doc, :xyz)
     end
   end
 

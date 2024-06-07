@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Document, api: true do
+RSpec.describe Blacklight::Document, :api do
   subject do
     Class.new do
       include Blacklight::Document

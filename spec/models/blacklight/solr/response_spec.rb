@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Response, api: true do
+RSpec.describe Blacklight::Solr::Response, :api do
   let(:raw_response) { eval(mock_query_response) }
 
   let(:config) { Blacklight::Configuration.new }

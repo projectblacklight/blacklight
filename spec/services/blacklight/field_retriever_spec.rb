@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::FieldRetriever, api: true do
+RSpec.describe Blacklight::FieldRetriever, :api do
   let(:service) { described_class.new(document, blacklight_field_config) }
 
   let(:blacklight_field_config) { Blacklight::Configuration::Field.new(field: 'author_field', highlight: true) }

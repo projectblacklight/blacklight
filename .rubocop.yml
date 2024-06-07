@@ -375,3 +375,209 @@ Rails/StripHeredoc: # new in 2.15
   Enabled: true
 Rails/ToFormattedS: # new in 2.15
   Enabled: true
+Gemspec/DevelopmentDependencies: # new in 1.44
+  Enabled: true
+Lint/DuplicateMagicComment: # new in 1.37
+  Enabled: true
+Lint/DuplicateMatchPattern: # new in 1.50
+  Enabled: true
+Lint/ItWithoutArgumentsInBlock: # new in 1.59
+  Enabled: true
+Lint/LiteralAssignmentInCondition: # new in 1.58
+  Enabled: true
+Lint/MixedCaseRange: # new in 1.53
+  Enabled: true
+Lint/RedundantRegexpQuantifiers: # new in 1.53
+  Enabled: true
+Lint/RequireRangeParentheses: # new in 1.32
+  Enabled: true
+Lint/UselessRescue: # new in 1.43
+  Enabled: true
+Metrics/CollectionLiteralLength: # new in 1.47
+  Enabled: true
+Style/ArrayIntersect: # new in 1.40
+  Enabled: true
+Style/ComparableClamp: # new in 1.44
+  Enabled: true
+Style/ConcatArrayLiterals: # new in 1.41
+  Enabled: true
+Style/DataInheritance: # new in 1.49
+  Enabled: true
+Style/DirEmpty: # new in 1.48
+  Enabled: true
+Style/EmptyHeredoc: # new in 1.32
+  Enabled: true
+Style/ExactRegexpMatch: # new in 1.51
+  Enabled: true
+Style/FileEmpty: # new in 1.48
+  Enabled: true
+Style/MagicCommentFormat: # new in 1.35
+  Enabled: true
+Style/MapIntoArray: # new in 1.63
+  Enabled: true
+Style/MapToSet: # new in 1.42
+  Enabled: true
+Style/MinMaxComparison: # new in 1.42
+  Enabled: true
+Style/OperatorMethodCall: # new in 1.37
+  Enabled: true
+Style/RedundantArrayConstructor: # new in 1.52
+  Enabled: true
+Style/RedundantConstantBase: # new in 1.40
+  Enabled: true
+Style/RedundantCurrentDirectoryInPath: # new in 1.53
+  Enabled: true
+Style/RedundantDoubleSplatHashBraces: # new in 1.41
+  Enabled: true
+Style/RedundantEach: # new in 1.38
+  Enabled: true
+Style/RedundantFilterChain: # new in 1.52
+  Enabled: true
+Style/RedundantHeredocDelimiterQuotes: # new in 1.45
+  Enabled: true
+Style/RedundantLineContinuation: # new in 1.49
+  Enabled: true
+Style/RedundantRegexpArgument: # new in 1.53
+  Enabled: true
+Style/RedundantRegexpConstructor: # new in 1.52
+  Enabled: true
+Style/RedundantStringEscape: # new in 1.37
+  Enabled: true
+Style/ReturnNilInPredicateMethodDefinition: # new in 1.53
+  Enabled: true
+Style/SendWithLiteralMethodName: # new in 1.64
+  Enabled: true
+Style/SingleLineDoEndBlock: # new in 1.57
+  Enabled: true
+Style/SuperArguments: # new in 1.64
+  Enabled: true
+Style/SuperWithArgsParentheses: # new in 1.58
+  Enabled: true
+Style/YAMLFileRead: # new in 1.53
+  Enabled: true
+Capybara/ClickLinkOrButtonStyle: # new in 2.19
+  Enabled: true
+Capybara/MatchStyle: # new in 2.17
+  Enabled: true
+Capybara/NegationMatcher: # new in 2.14
+  Enabled: true
+  Exclude:
+    - "spec/models/**/*"
+Capybara/RedundantWithinFind: # new in 2.20
+  Enabled: true
+Capybara/SpecificActions: # new in 2.14
+  Enabled: true
+Capybara/SpecificFinders: # new in 2.13
+  Enabled: true
+Capybara/SpecificMatcher: # new in 2.12
+  Enabled: true
+Capybara/RSpec/HaveSelector: # new in 2.19
+  Enabled: true
+Capybara/RSpec/PredicateMatcher: # new in 2.19
+  Enabled: true
+FactoryBot/AssociationStyle: # new in 2.23
+  Enabled: true
+FactoryBot/ConsistentParenthesesStyle: # new in 2.14
+  Enabled: true
+FactoryBot/ExcessiveCreateList: # new in 2.25
+  Enabled: true
+FactoryBot/FactoryAssociationWithStrategy: # new in 2.23
+  Enabled: true
+FactoryBot/FactoryNameStyle: # new in 2.16
+  Enabled: true
+FactoryBot/IdSequence: # new in 2.24
+  Enabled: true
+FactoryBot/RedundantFactoryOption: # new in 2.23
+  Enabled: true
+RSpecRails/HaveHttpStatus: # new in 2.12
+  Enabled: true
+RSpecRails/InferredSpecType: # new in 2.14
+  Enabled: true
+RSpecRails/MinitestAssertions: # new in 2.17
+  Enabled: true
+RSpecRails/NegationBeValid: # new in 2.23
+  Enabled: true
+RSpecRails/TravelAround: # new in 2.19
+  Enabled: true
+RSpec/BeEmpty: # new in 2.20
+  Enabled: true
+RSpec/ContainExactly: # new in 2.19
+  Enabled: true
+RSpec/DuplicatedMetadata: # new in 2.16
+  Enabled: true
+RSpec/EmptyMetadata: # new in 2.24
+  Enabled: true
+RSpec/EmptyOutput: # new in 2.29
+  Enabled: true
+RSpec/Eq: # new in 2.24
+  Enabled: true
+RSpec/ExpectInLet: # new in 2.30
+  Enabled: true
+RSpec/IndexedLet: # new in 2.20
+  Enabled: true
+RSpec/IsExpectedSpecify: # new in 2.27
+  Enabled: true
+RSpec/MatchArray: # new in 2.19
+  Enabled: true
+RSpec/MetadataStyle: # new in 2.24
+  Enabled: true
+RSpec/NoExpectationExample: # new in 2.13
+  Enabled: true
+RSpec/PendingWithoutReason: # new in 2.16
+  Enabled: true
+RSpec/ReceiveMessages: # new in 2.23
+  Enabled: true
+RSpec/RedundantAround: # new in 2.19
+  Enabled: true
+RSpec/RedundantPredicateMatcher: # new in 2.26
+  Enabled: true
+RSpec/RemoveConst: # new in 2.26
+  Enabled: true
+RSpec/RepeatedSubjectCall: # new in 2.27
+  Enabled: true
+RSpec/SkipBlockInsideExample: # new in 2.19
+  Enabled: true
+RSpec/SortMetadata: # new in 2.14
+  Enabled: true
+RSpec/SpecFilePathFormat: # new in 2.24
+  Enabled: true
+RSpec/SpecFilePathSuffix: # new in 2.24
+  Enabled: true
+RSpec/UndescriptiveLiteralsDescription: # new in 2.29
+  Enabled: true
+Rails/ActionControllerFlashBeforeRender: # new in 2.16
+  Enabled: true
+Rails/ActionOrder: # new in 2.17
+  Enabled: true
+Rails/ActiveSupportOnLoad: # new in 2.16
+  Enabled: true
+Rails/DangerousColumnNames: # new in 2.21
+  Enabled: true
+Rails/EnvLocal: # new in 2.22
+  Enabled: true
+Rails/FreezeTime: # new in 2.16
+  Enabled: true
+Rails/IgnoredColumnsAssignment: # new in 2.17
+  Enabled: true
+Rails/RedundantActiveRecordAllMethod: # new in 2.21
+  Enabled: true
+Rails/ResponseParsedBody: # new in 2.18
+  Enabled: true
+Rails/RootPathnameMethods: # new in 2.16
+  Enabled: true
+Rails/SelectMap: # new in 2.21
+  Enabled: true
+Rails/ThreeStateBooleanColumn: # new in 2.19
+  Enabled: true
+Rails/ToSWithArgument: # new in 2.16
+  Enabled: true
+Rails/TopLevelHashWithIndifferentAccess: # new in 2.16
+  Enabled: true
+Rails/UnusedRenderContent: # new in 2.21
+  Enabled: true
+Rails/WhereMissing: # new in 2.16
+  Enabled: true
+Rails/WhereNotWithMultipleConditions: # new in 2.17
+  Enabled: true
+Rails/WhereRange: # new in 2.25
+  Enabled: true

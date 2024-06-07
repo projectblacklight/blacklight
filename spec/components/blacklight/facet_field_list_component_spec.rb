@@ -31,15 +31,15 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
   end
 
   it 'renders a collapsible card' do
-    expect(rendered).to have_selector '.card'
+    expect(rendered).to have_css '.card'
     expect(rendered).to have_button 'Field'
-    expect(rendered).to have_selector 'button[data-bs-target="#facet-field"]'
-    expect(rendered).to have_selector '#facet-field.collapse.show'
+    expect(rendered).to have_css 'button[data-bs-target="#facet-field"]'
+    expect(rendered).to have_css '#facet-field.collapse.show'
   end
 
   it 'renders the facet items' do
-    expect(rendered).to have_selector 'ul.facet-values'
-    expect(rendered).to have_selector 'li', count: 2
+    expect(rendered).to have_css 'ul.facet-values'
+    expect(rendered).to have_css 'li', count: 2
   end
 
   context 'with an active facet' do
@@ -58,7 +58,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     end
 
     it 'adds the facet-limit-active class' do
-      expect(rendered).to have_selector 'div.facet-limit-active'
+      expect(rendered).to have_css 'div.facet-limit-active'
     end
   end
 
@@ -78,13 +78,13 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     end
 
     it 'renders a collapsed facet' do
-      expect(rendered).to have_selector '.facet-content.collapse'
-      expect(rendered).not_to have_selector '.facet-content.collapse.show'
+      expect(rendered).to have_css '.facet-content.collapse'
+      expect(rendered).to have_no_css '.facet-content.collapse.show'
     end
 
     it 'renders the toggle button in the collapsed state' do
-      expect(rendered).to have_selector '.btn.collapsed'
-      expect(rendered).to have_selector '.btn[aria-expanded="false"]'
+      expect(rendered).to have_css '.btn.collapsed'
+      expect(rendered).to have_css '.btn[aria-expanded="false"]'
     end
   end
 
@@ -134,11 +134,11 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
 
     it 'displays the constraint above the list' do
       expect(rendered).to have_content 'Any of:'
-      expect(rendered).to have_selector '.inclusive_or .facet-label', text: 'a'
+      expect(rendered).to have_css '.inclusive_or .facet-label', text: 'a'
       expect(rendered).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=b&f_inclusive%5Bfield%5D%5B%5D=c'
-      expect(rendered).to have_selector '.inclusive_or .facet-label', text: 'b'
+      expect(rendered).to have_css '.inclusive_or .facet-label', text: 'b'
       expect(rendered).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=a&f_inclusive%5Bfield%5D%5B%5D=c'
-      expect(rendered).to have_selector '.inclusive_or .facet-label', text: 'c'
+      expect(rendered).to have_css '.inclusive_or .facet-label', text: 'c'
       expect(rendered).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=a&f_inclusive%5Bfield%5D%5B%5D=b'
     end
   end

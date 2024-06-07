@@ -34,13 +34,13 @@ RSpec.describe "catalog/_view_type_group" do
       config.view.c(icon: :list)
     end
     render partial: 'catalog/view_type_group'
-    expect(rendered).to have_selector('.btn-group.view-type-group')
-    expect(rendered).to have_selector('.view-type-a', text: 'A')
+    expect(rendered).to have_css('.btn-group.view-type-group')
+    expect(rendered).to have_css('.view-type-a', text: 'A')
     within '.view-type-a' do
-      expect(rendered).to have_selector 'svg'
+      expect(rendered).to have_css 'svg'
     end
-    expect(rendered).to have_selector('.view-type-b', text: 'B')
-    expect(rendered).to have_selector('.view-type-c', text: 'C')
+    expect(rendered).to have_css('.view-type-b', text: 'B')
+    expect(rendered).to have_css('.view-type-c', text: 'C')
   end
 
   it "sets the current view to 'active'" do
@@ -50,7 +50,7 @@ RSpec.describe "catalog/_view_type_group" do
       config.view.b(icon: :list)
     end
     render partial: 'catalog/view_type_group'
-    expect(rendered).to have_selector('.active', text: 'A')
-    expect(rendered).not_to have_selector('.active', text: 'B')
+    expect(rendered).to have_css('.active', text: 'A')
+    expect(rendered).to have_no_css('.active', text: 'B')
   end
 end

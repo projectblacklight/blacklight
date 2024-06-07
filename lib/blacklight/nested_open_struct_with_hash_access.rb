@@ -20,7 +20,7 @@ module Blacklight
                end
       end
 
-      super value
+      super(value)
       set_default_proc!
     end
 
@@ -56,7 +56,7 @@ module Blacklight
     # to the internal hash
     def marshal_load x
       @nested_class = x.first
-      super x.last
+      super(x.last)
       set_default_proc!
     end
 

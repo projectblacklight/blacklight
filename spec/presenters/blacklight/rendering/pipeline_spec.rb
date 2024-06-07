@@ -25,7 +25,7 @@ RSpec.describe Blacklight::Rendering::Pipeline do
       let(:values) { ['a'] }
       let(:field_config) { Blacklight::Configuration::NullField.new(itemprop: 'some-prop', separator_options: nil) }
 
-      it { is_expected.to have_selector("span[@itemprop='some-prop']", text: "a") }
+      it { is_expected.to have_css("span[@itemprop='some-prop']", text: "a") }
     end
 
     it 'sets the operations on the instance as equal to the class variable' do

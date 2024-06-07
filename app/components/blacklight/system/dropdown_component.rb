@@ -18,7 +18,7 @@ module Blacklight
         @choices = choices
         @search_state = search_state
         @id = id
-        @classes = classes.concat(['btn-group', "#{param.to_s.parameterize}-dropdown"])
+        @classes = classes.push('btn-group', "#{param.to_s.parameterize}-dropdown")
         @selected = selected || default || option_text_and_value(@choices.first)&.first
         @interpolation = interpolation
       end

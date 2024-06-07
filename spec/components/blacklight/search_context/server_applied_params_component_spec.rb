@@ -15,7 +15,7 @@ RSpec.describe Blacklight::SearchContext::ServerAppliedParamsComponent, type: :c
     # https://github.com/rspec/rspec-rails/commit/4d65bea0619955acb15023b9c3f57a3a53183da8
     # https://github.com/rspec/rspec-rails/issues/2696
     replace_hash = { 'application/_start_over.html.erb' => 'start over' }
-    if ::Rails.version.to_f >= 7.1
+    if Rails.version.to_f >= 7.1
       controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
     else
       view_context.view_paths.unshift(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))

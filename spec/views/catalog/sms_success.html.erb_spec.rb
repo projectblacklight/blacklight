@@ -3,6 +3,6 @@
 RSpec.describe "catalog/sms_success.html.erb" do
   it "includes updates to the main flash messages" do
     render
-    expect(rendered).to have_selector 'turbo-stream[action="append"][target="main-flashes"]'
+    expect(rendered).to have_css 'turbo-stream[action="append"][target="main-flashes"]'
   end
 end

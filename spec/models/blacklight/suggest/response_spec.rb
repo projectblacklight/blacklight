@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Suggest::Response, api: true do
+RSpec.describe Blacklight::Suggest::Response, :api do
   let(:empty_response) { described_class.new({}, { q: 'hello' }, 'suggest', 'mySuggester') }
   let(:full_response) do
     described_class.new(

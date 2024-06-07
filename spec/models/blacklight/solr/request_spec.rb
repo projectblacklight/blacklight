@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Request, api: true do
+RSpec.describe Blacklight::Solr::Request, :api do
   context 'with some solr parameter keys' do
     before do
       subject[:qt] = 'hey'

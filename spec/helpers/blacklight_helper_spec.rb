@@ -73,8 +73,7 @@ RSpec.describe BlacklightHelper do
     end
 
     before do
-      allow(helper).to receive(:document_presenter).and_return(presenter)
-      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+      allow(helper).to receive_messages(document_presenter: presenter, blacklight_config: blacklight_config)
     end
 
     it "generates <link rel=alternate> tags" do
@@ -109,8 +108,8 @@ RSpec.describe BlacklightHelper do
       it "renders partials" do
         buff = String.new
         helper.render_nav_actions { |_config, item| buff << "<foo>#{item}</foo>" }
-        expect(buff).to have_selector "foo a#bookmarks_nav[href=\"/bookmarks\"]"
-        expect(buff).to have_selector "foo a span[data-role='bookmark-counter']", text: '0'
+        expect(buff).to have_css "foo a#bookmarks_nav[href=\"/bookmarks\"]"
+        expect(buff).to have_css "foo a span[data-role='bookmark-counter']", text: '0'
       end
     end
 
@@ -118,7 +117,7 @@ RSpec.describe BlacklightHelper do
       it "renders partials" do
         allow(controller).to receive(:render_bookmarks_control?).and_return(true)
         response = helper.render_index_doc_actions(document)
-        expect(response).to have_selector(".bookmark-toggle")
+        expect(response).to have_css(".bookmark-toggle")
       end
 
       it "is nil if no partials are renderable" do
@@ -138,27 +137,28 @@ RSpec.describe BlacklightHelper do
     subject { helper.opensearch_description_tag 'title', 'href' }
 
     it "has a search rel" do
-      expect(subject).to have_selector "link[rel='search']", visible: false
+      expect(subject).to have_css "link[rel='search']", visible: false
     end
 
     it "has the correct mime type" do
-      expect(subject).to have_selector "link[type='application/opensearchdescription+xml']", visible: false
+      expect(subject).to have_css "link[type='application/opensearchdescription+xml']", visible: false
     end
 
     it "has a title attribute" do
-      expect(subject).to have_selector "link[title='title']", visible: false
+      expect(subject).to have_css "link[title='title']", visible: false
     end
 
     it "has an href attribute" do
-      expect(subject).to have_selector "link[href='href']", visible: false
+      expect(subject).to have_css "link[href='href']", visible: false
     end
   end
 
   describe "#render_document_index" do
     it "renders the document index with the current view type" do
       allow(helper).to receive_messages(document_index_view_type: :current_view)
-      allow(helper).to receive(:render_document_index_with_view).with(:current_view, [], { a: 1, b: 2 })
+      allow(helper).to receive(:render_document_index_with_view)
       helper.render_document_index [], a: 1, b: 2
+      expect(helper).to have_received(:render_document_index_with_view).with(:current_view, [], { a: 1, b: 2 })
     end
   end
 
@@ -167,17 +167,15 @@ RSpec.describe BlacklightHelper do
     let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
 
     before do
-      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: false, start: 0))
-      allow(helper).to receive(:link_to_document).and_return('<a/>')
-      allow(helper).to receive(:render_index_doc_actions).and_return('<div/>')
+      allow(helper).to receive_messages(blacklight_config: blacklight_config, link_to_document: '<a/>', render_index_doc_actions: '<div/>')
     end
 
     it "ignores missing templates" do
       blacklight_config.view.view_type(partials: %w[index_header a b])
 
       response = helper.render_document_index_with_view :view_type, [obj1, obj1]
-      expect(response).to have_selector "div#documents"
+      expect(response).to have_css "div#documents"
     end
 
     context 'with a template partial provided by the view config' do
@@ -191,7 +189,7 @@ RSpec.describe BlacklightHelper do
         # https://github.com/rspec/rspec-rails/commit/4d65bea0619955acb15023b9c3f57a3a53183da8
         # https://github.com/rspec/rspec-rails/issues/2696
         replace_hash = { 'my/_partial.html.erb' => 'some content' }
-        if ::Rails.version.to_f >= 7.1
+        if Rails.version.to_f >= 7.1
           controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
         else
           view.view_paths.unshift(ActionView::FixtureResolver.new(replace_hash))

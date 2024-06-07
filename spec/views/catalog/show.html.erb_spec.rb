@@ -7,13 +7,11 @@ RSpec.describe "catalog/show.html.erb" do
 
   before do
     allow(presenter).to receive(:html_title).and_return('Heading')
-    allow(view).to receive(:document_presenter).and_return(presenter)
-    allow(view).to receive(:action_name).and_return('show')
     allow(view).to receive_messages(has_user_authentication_provider?: false)
     allow(view).to receive_messages(render_document_sidebar_partial: "Sidebar")
     allow(view).to receive_messages(current_search_session: nil, search_session: {})
     assign :document, document
-    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive_messages(document_presenter: presenter, action_name: 'show', blacklight_config: blacklight_config)
   end
 
   it "sets the @page_title" do
@@ -26,8 +24,8 @@ RSpec.describe "catalog/show.html.erb" do
   it "includes schema.org itemscope/type properties" do
     allow(document).to receive_messages(itemtype: 'some-item-type-uri')
     render
-    expect(rendered).to have_selector('div#document[@itemscope]')
-    expect(rendered).to have_selector('div#document[@itemtype="some-item-type-uri"]')
+    expect(rendered).to have_css('div#document[@itemscope]')
+    expect(rendered).to have_css('div#document[@itemtype="some-item-type-uri"]')
   end
 
   it "uses the show.partials parameter to determine the partials to render" do

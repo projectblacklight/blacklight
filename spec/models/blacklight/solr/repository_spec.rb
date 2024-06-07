@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Repository, api: true do
+RSpec.describe Blacklight::Solr::Repository, :api do
   subject(:repository) do
     described_class.new blacklight_config
   end
@@ -183,7 +183,7 @@ RSpec.describe Blacklight::Solr::Repository, api: true do
     end
   end
 
-  describe "http_method configuration", integration: true do
+  describe "http_method configuration", :integration do
     let (:blacklight_config) { config = Blacklight::Configuration.new; config.http_method = :post; config }
 
     it "sends a post request to solr and get a response back" do

@@ -52,13 +52,13 @@ module Blacklight
     private
 
     def has_items?
-      return unless @facet_item.respond_to? :facet_item_presenters
+      return false unless @facet_item.respond_to? :facet_item_presenters
 
       @facet_item.facet_item_presenters.any?
     end
 
     def expanded?
-      return unless @collapsing
+      return false unless @collapsing
 
       @facet_item.shown?
     end
