@@ -19,4 +19,6 @@ $body-secondary-color: rgba($body-color, 0.75) !default;
   --bl-constraint-remove-hover-border-color: #bb2d3b;
 
   --bl-field-name-color: var(--bs-secondary-color);
+
+  --bl-facet-active-header-color: #{color-contrast($facet-active-bg)};
 }
