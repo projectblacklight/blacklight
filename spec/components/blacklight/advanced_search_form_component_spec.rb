@@ -32,7 +32,7 @@ RSpec.describe Blacklight::AdvancedSearchFormComponent, type: :component do
   end
 
   it 'has text fields for each search field' do
-    expect(rendered).to have_selector '.advanced-search-field', count: 4
+    expect(rendered).to have_css '.advanced-search-field', count: 4
     expect(rendered).to have_field 'clause_0_field', with: 'all_fields', type: :hidden
     expect(rendered).to have_field 'clause_1_field', with: 'title', type: :hidden
     expect(rendered).to have_field 'clause_2_field', with: 'author', type: :hidden
@@ -40,7 +40,7 @@ RSpec.describe Blacklight::AdvancedSearchFormComponent, type: :component do
   end
 
   it 'has filters' do
-    expect(rendered).to have_selector '.blacklight-format'
+    expect(rendered).to have_css '.blacklight-format'
     expect(rendered).to have_field 'f_inclusive[format][]', with: 'Book'
     expect(rendered).to have_field 'f_inclusive[format][]', with: 'CD'
   end

@@ -4,7 +4,7 @@ RSpec.describe "Search Pagination" do
   it "has results with pagination" do
     visit root_path
     fill_in "q", with: ''
-    click_button 'search'
+    click_on 'search'
     within ("#sortAndPerPage") do
       expect(page).to have_content "1 - 10 of "
       within '#per_page-dropdown' do
@@ -15,11 +15,11 @@ RSpec.describe "Search Pagination" do
       end
     end
     within '#sortAndPerPage' do
-      click_link "Next »"
+      click_on "Next »"
     end
     within "#sortAndPerPage" do
       expect(page).to have_content "11 - 20 of "
-      click_link "« Previous"
+      click_on "« Previous"
     end
     within "#sortAndPerPage" do
       expect(page).to have_content "1 - 10 of "
@@ -29,13 +29,13 @@ RSpec.describe "Search Pagination" do
   it "is able to change the number of items per page" do
     visit root_path
     fill_in "q", with: ''
-    click_button 'search'
+    click_on 'search'
     within ("#sortAndPerPage") do
       expect(page).to have_content "1 - 10 of "
     end
 
     within ("#per_page-dropdown") do
-      click_link '20'
+      click_on '20'
     end
     within ("#sortAndPerPage") do
       expect(page).to have_content "1 - 20 of "
@@ -59,7 +59,7 @@ RSpec.describe "Search Pagination" do
     it "uses the configured values" do
       visit root_path
       fill_in "q", with: ''
-      click_button 'search'
+      click_on 'search'
       within ("#sortAndPerPage") do
         expect(page).to have_content "1 - 15 of "
         within '#per_page-dropdown' do
@@ -68,7 +68,7 @@ RSpec.describe "Search Pagination" do
         end
       end
       within ("#per_page-dropdown") do
-        click_link '30'
+        click_on '30'
       end
       within ("#sortAndPerPage") do
         expect(page).to have_content "1 - 30 of "
@@ -79,15 +79,15 @@ RSpec.describe "Search Pagination" do
   it "resets the page offset to 1 when changing per page" do
     visit root_path
     fill_in "q", with: ''
-    click_button 'search'
+    click_on 'search'
     within "#sortAndPerPage" do
-      click_link "Next »"
+      click_on "Next »"
     end
     within "#sortAndPerPage" do
       expect(page).to have_content "11 - 20 of "
     end
     within ("#per_page-dropdown") do
-      click_link '20'
+      click_on '20'
     end
     within "#sortAndPerPage" do
       expect(page).to have_content "1 - 20 of "

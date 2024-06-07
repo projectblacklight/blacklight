@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::FacetPaginator, api: true do
-  let(:f1) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '792', value: 'Book') }
-  let(:f2) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
-  let(:f3) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '58', value: 'Serial') }
-  let(:f4) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '48', value: 'Musical Recording') }
-  let(:f5) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '37', value: 'Microform') }
-  let(:f6) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '27', value: 'Thesis') }
-  let(:f7) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '0') }
-  let(:seven_facet_values) { [f1, f2, f3, f4, f5, f6, f7] }
-  let(:six_facet_values) { [f1, f2, f3, f4, f5, f6] }
+RSpec.describe Blacklight::FacetPaginator, :api do
+  let(:book) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '792', value: 'Book') }
+  let(:musical_score) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '65', value: 'Musical Score') }
+  let(:serial) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '58', value: 'Serial') }
+  let(:musical_recording) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '48', value: 'Musical Recording') }
+  let(:microform) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '37', value: 'Microform') }
+  let(:thesis) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '27', value: 'Thesis') }
+  let(:blank) { Blacklight::Solr::Response::Facets::FacetItem.new(hits: '0') }
+  let(:seven_facet_values) { [book, musical_score, serial, musical_recording, microform, thesis, blank] }
+  let(:six_facet_values) { [book, musical_score, serial, musical_recording, microform, thesis] }
   let(:limit) { 6 }
 
   context 'on the first page of two pages' do
@@ -42,7 +42,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
   end
 
   context 'on the last page of two pages' do
-    subject(:paginator) { described_class.new([f7], offset: 6, limit: limit) }
+    subject(:paginator) { described_class.new([blank], offset: 6, limit: limit) }
 
     it { is_expected.not_to be_first_page }
     it { is_expected.to be_last_page }
@@ -124,7 +124,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
     context 'when sorting by "count"' do
       subject { described_class.new([]) }
 
-      let(:params) { HashWithIndifferentAccess.new 'facet.prefix': 'A' }
+      let(:params) { ActiveSupport::HashWithIndifferentAccess.new 'facet.prefix': 'A' }
 
       it 'includes the prefix filter for "index" sorting' do
         expect(subject.params_for_resort_url('index', params)).to include 'facet.prefix': 'A'
@@ -159,7 +159,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
   end
 
   describe "#as_json" do
-    subject { described_class.new([f1], offset: 0, limit: nil).as_json }
+    subject { described_class.new([book], offset: 0, limit: nil).as_json }
 
     it "is well structured" do
       expect(subject).to eq("items" => [{ "hits" => "792", "value" => "Book" }], "limit" => nil,
@@ -169,7 +169,7 @@ RSpec.describe Blacklight::FacetPaginator, api: true do
 
   describe "#total_pages" do
     # this method is just for API compatability with kaminari 0.16.1
-    subject { described_class.new([f1], offset: 0, limit: nil).total_pages }
+    subject { described_class.new([book], offset: 0, limit: nil).total_pages }
 
     it { is_expected.to eq -1 }
   end

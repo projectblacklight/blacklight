@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::ShowPresenter, api: true do
+RSpec.describe Blacklight::ShowPresenter, :api do
   include Capybara::RSpecMatchers
   subject { presenter }
 
@@ -18,8 +18,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
   end
 
   before do
-    allow(request_context).to receive(:search_state).and_return(search_state)
-    allow(request_context).to receive(:action_name).and_return(:show)
+    allow(request_context).to receive_messages(search_state: search_state, action_name: :show)
   end
 
   describe "link_rel_alternates" do
@@ -64,7 +63,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
         tmp_value = Capybara.ignore_hidden_elements
         Capybara.ignore_hidden_elements = false
         document.export_formats.each_pair do |format, _spec|
-          expect(subject).to have_selector("link[href$='.#{format}']", count: 1) do |tag|
+          expect(subject).to have_css("link[href$='.#{format}']", count: 1) do |tag|
             expect(tag["rel"]).to eq "alternate"
             expect(tag["title"]).to eq format.to_s
             expect(tag["href"]).to eq "url.#{format}"
@@ -82,7 +81,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
       it "respects unique: true" do
         tmp_value = Capybara.ignore_hidden_elements
         Capybara.ignore_hidden_elements = false
-        expect(subject).to have_selector("link[type='application/weird']", count: 1)
+        expect(subject).to have_css("link[type='application/weird']", count: 1)
         Capybara.ignore_hidden_elements = tmp_value
       end
     end
@@ -93,7 +92,7 @@ RSpec.describe Blacklight::ShowPresenter, api: true do
       it "excludes formats from :exclude" do
         tmp_value = Capybara.ignore_hidden_elements
         Capybara.ignore_hidden_elements = false
-        expect(subject).not_to have_selector("link[href$='.weird_dup']")
+        expect(subject).to have_no_css("link[href$='.weird_dup']")
         Capybara.ignore_hidden_elements = tmp_value
       end
     end

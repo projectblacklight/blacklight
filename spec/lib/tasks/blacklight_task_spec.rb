@@ -13,7 +13,8 @@ RSpec.describe "blacklight:delete_old_searches" do
 
   it "calls Search.delete_old_searches" do
     days_old = 7
-    allow(Search).to receive(:delete_old_searches).with(days_old)
+    allow(Search).to receive(:delete_old_searches)
     @rake[@task_name].invoke(days_old)
+    expect(Search).to have_received(:delete_old_searches).with(days_old)
   end
 end

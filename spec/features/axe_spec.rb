@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Accessibility testing', api: false, js: true do
+RSpec.describe 'Accessibility testing', :js, api: false do
   it 'validates the home page' do
     visit root_path
     expect(page).to be_accessible
@@ -9,13 +9,13 @@ RSpec.describe 'Accessibility testing', api: false, js: true do
   it 'validates the catalog page' do
     visit root_path
     fill_in "q", with: 'history'
-    click_button 'search'
+    click_on 'search'
 
     expect(page).to be_accessible
 
     within '.card.blacklight-language_ssim' do
-      click_button 'Language'
-      click_link "Tibetan"
+      click_on 'Language'
+      click_on "Tibetan"
     end
 
     expect(page).to be_accessible

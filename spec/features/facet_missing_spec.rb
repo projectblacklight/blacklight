@@ -14,12 +14,12 @@ RSpec.describe "Facet missing" do
       visit root_path
 
       within "#facet-subject_geo_ssim" do
-        click_link "[Missing]"
+        click_on "[Missing]"
       end
 
       within "#facet-subject_geo_ssim" do
-        expect(page).to have_selector("span.selected", text: "[Missing")
-        expect(page).to have_selector("span.facet-count.selected", text: "13")
+        expect(page).to have_css("span.selected", text: "[Missing")
+        expect(page).to have_css("span.facet-count.selected", text: "13")
       end
 
       within "#sortAndPerPage" do
@@ -36,14 +36,14 @@ RSpec.describe "Facet missing" do
       visit root_path
 
       within "#facet-subject_geo_ssim" do
-        click_link "[Missing]"
+        click_on "[Missing]"
       end
 
       within "#facet-subject_geo_ssim" do
-        click_link "remove"
+        click_on "remove"
       end
 
-      expect(page).not_to have_link "remove"
+      expect(page).to have_no_link "remove"
       expect(page).to have_content("Welcome!")
     end
   end
@@ -53,14 +53,14 @@ RSpec.describe "Facet missing" do
       visit root_path
 
       within "#facet-subject_geo_ssim" do
-        click_link "[Missing]"
+        click_on "[Missing]"
       end
 
       within ".filter-subject_geo_ssim" do
-        click_link "Remove constraint Region: [Missing]"
+        click_on "Remove constraint Region: [Missing]"
       end
 
-      expect(page).not_to have_link "remove"
+      expect(page).to have_no_link "remove"
       expect(page).to have_content("Welcome!")
     end
   end

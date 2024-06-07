@@ -102,7 +102,7 @@ module Blacklight::Solr::Response::Facets
 
   class NullFacetField < FacetField
     def initialize name, items = [], response: nil, **kwargs
-      super(name, items, response: response, **kwargs)
+      super
     end
   end
 

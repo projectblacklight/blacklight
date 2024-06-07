@@ -15,8 +15,8 @@ RSpec.describe BookmarksController do
     it "has a 200 status code when creating a new one" do
       put :update, xhr: true, params: { id: '2007020969', format: :js }
       expect(response).to be_successful
-      expect(response.code).to eq "200"
-      expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 1
+      expect(response).to have_http_status :ok
+      expect(response.parsed_body["bookmarks"]["count"]).to eq 1
     end
 
     it "has a 500 status code when create is not success" do
@@ -26,7 +26,7 @@ RSpec.describe BookmarksController do
       allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :create!).and_raise(ActiveRecord::RecordInvalid)
       allow(@controller).to receive_message_chain(:current_or_guest_user, :errors, :full_messages).and_return([1])
       put :update, xhr: true, params: { id: 'iamabooboo', format: :js }
-      expect(response.code).to eq "500"
+      expect(response).to have_http_status :internal_server_error
     end
   end
 
@@ -44,8 +44,8 @@ RSpec.describe BookmarksController do
       }
 
       expect(response).to be_successful
-      expect(response.code).to eq "200"
-      expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 3
+      expect(response).to have_http_status :ok
+      expect(response.parsed_body["bookmarks"]["count"]).to eq 3
     end
   end
 
@@ -58,8 +58,8 @@ RSpec.describe BookmarksController do
     it "has a 200 status code when delete is success" do
       delete :destroy, xhr: true, params: { id: '2007020969', format: :js }
       expect(response).to be_successful
-      expect(response.code).to eq "200"
-      expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 0
+      expect(response).to have_http_status :ok
+      expect(response.parsed_body["bookmarks"]["count"]).to eq 0
     end
 
     it "can handle bookmark deletion via :bookmarks param" do
@@ -74,8 +74,8 @@ RSpec.describe BookmarksController do
         format: :js
       }
       expect(response).to be_successful
-      expect(response.code).to eq "200"
-      expect(JSON.parse(response.body)["bookmarks"]["count"]).to eq 0
+      expect(response).to have_http_status :ok
+      expect(response.parsed_body["bookmarks"]["count"]).to eq 0
     end
 
     it "has a 500 status code when delete is not success" do
@@ -85,7 +85,7 @@ RSpec.describe BookmarksController do
 
       delete :destroy, xhr: true, params: { id: 'pleasekillme', format: :js }
 
-      expect(response.code).to eq "500"
+      expect(response).to have_http_status :internal_server_error
     end
   end
 

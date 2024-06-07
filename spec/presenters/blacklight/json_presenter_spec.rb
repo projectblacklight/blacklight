@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Blacklight::JsonPresenter, api: true do
+RSpec.describe Blacklight::JsonPresenter, :api do
   let(:response) do
     instance_double(Blacklight::Solr::Response,
                     documents: docs,

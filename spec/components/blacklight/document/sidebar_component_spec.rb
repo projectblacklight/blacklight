@@ -26,8 +26,7 @@ RSpec.describe Blacklight::Document::SidebarComponent, type: :component do
 
   before do
     # Every call to view_context returns a different object. This ensures it stays stable.
-    allow(controller).to receive(:view_context).and_return(view_context)
-    allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(controller).to receive_messages(view_context: view_context, blacklight_config: blacklight_config)
   end
 
   describe '#render_show_tools' do
@@ -42,7 +41,7 @@ RSpec.describe Blacklight::Document::SidebarComponent, type: :component do
       end
 
       it 'renders show_tools partial' do
-        expect(rendered).to have_selector 'div[@class="expected-show_tools"]'
+        expect(rendered).to have_css 'div[@class="expected-show_tools"]'
       end
     end
 
@@ -55,7 +54,7 @@ RSpec.describe Blacklight::Document::SidebarComponent, type: :component do
       end
 
       it 'renders configured show_tools component' do
-        expect(rendered).to have_selector 'div[@class="expected-show_tools"]'
+        expect(rendered).to have_css 'div[@class="expected-show_tools"]'
       end
     end
     # rubocop:enable RSpec/SubjectStub

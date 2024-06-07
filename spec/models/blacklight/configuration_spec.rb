@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Blacklight::Configuration", api: true do
+RSpec.describe "Blacklight::Configuration", :api do
   let(:config) do
     Blacklight::Configuration.new
   end
@@ -352,7 +352,7 @@ RSpec.describe "Blacklight::Configuration", api: true do
       expect(config.index_fields.keys).to eq %w[some_field_display another_field_display]
     end
 
-    it "queries solr and get live values for match fields", integration: true do
+    it "queries solr and get live values for match fields", :integration do
       config.add_index_field match: /title.+sim/
       expect(config.index_fields.keys).to include "subtitle_tsim", "subtitle_vern_ssim", "title_tsim", "title_vern_ssim"
     end

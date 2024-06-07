@@ -20,13 +20,13 @@ class TestAppGenerator < Rails::Generators::Base
       options += ' --skip-assets'
     end
 
-    generate 'blacklight:install', options
+    generate :'blacklight:install', options
   end
 
   def run_test_support_generator
     say_status("warning", "GENERATING test_support", :yellow)
 
-    generate 'blacklight:test_support'
+    generate(:'blacklight:test_support')
   end
 
   def add_local_assets_for_propshaft

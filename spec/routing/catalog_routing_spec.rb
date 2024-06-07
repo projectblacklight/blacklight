@@ -30,7 +30,7 @@ RSpec.describe "Routing" do
     end
   end
 
-  describe "solr_document_path for SolrDocument", test: true do
+  describe "solr_document_path for SolrDocument", :test do
     it "routes correctly" do
       expect(get: solr_document_path(SolrDocument.new(id: 'asdf'))).to route_to(controller: 'catalog', action: 'show', id: 'asdf')
     end

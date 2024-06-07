@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::IndexPresenter, api: true do
+RSpec.describe Blacklight::IndexPresenter, :api do
   include Capybara::RSpecMatchers
   subject { presenter }
 
@@ -21,8 +21,7 @@ RSpec.describe Blacklight::IndexPresenter, api: true do
   end
 
   before do
-    allow(request_context).to receive(:search_state).and_return(search_state)
-    allow(request_context).to receive(:action_name).and_return(:index)
+    allow(request_context).to receive_messages(search_state: search_state, action_name: :index)
   end
 
   describe '#fields' do

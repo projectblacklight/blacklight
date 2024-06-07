@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Blacklight::User", api: true do
+RSpec.describe "Blacklight::User", :api do
   subject { User.create! email: 'xyz@example.com', password: 'xyz12345' }
 
   def mock_bookmark document_id

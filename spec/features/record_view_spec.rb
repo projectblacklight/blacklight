@@ -15,13 +15,13 @@ RSpec.describe "Record View" do
     expect(page).to have_content "E99.D2 H437 2008"
     tmp_value = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = false
-    expect(page).to have_selector("link[rel=alternate]")
+    expect(page).to have_css("link[rel=alternate]")
     Capybara.ignore_hidden_elements = tmp_value
   end
 
   it "does not display blank titles" do
     visit solr_document_path('2008305903')
-    expect(page).not_to have_content "More Information:"
+    expect(page).to have_no_content "More Information:"
   end
 
   it "does not display vernacular records" do

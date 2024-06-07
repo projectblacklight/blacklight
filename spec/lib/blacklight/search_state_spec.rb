@@ -37,7 +37,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context 'with HashWithIndifferentAccess' do
-      let(:parameter_class) { HashWithIndifferentAccess }
+      let(:parameter_class) { ActiveSupport::HashWithIndifferentAccess }
 
       it 'returns the hash data' do
         expect(search_state.to_h).to eq data.with_indifferent_access
@@ -356,7 +356,7 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe "#url_for_document" do
-    let(:controller_class) { ::CatalogController.new }
+    let(:controller_class) { CatalogController.new }
     let(:doc) { SolrDocument.new }
 
     before do
@@ -375,7 +375,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context "within bookmarks" do
-      let(:controller_class) { ::BookmarksController.new }
+      let(:controller_class) { BookmarksController.new }
 
       it "uses polymorphic routing" do
         expect(search_state.url_for_document(doc)).to eq doc
@@ -383,7 +383,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context "within an alternative catalog controller" do
-      let(:controller_class) { ::AlternateController.new }
+      let(:controller_class) { AlternateController.new }
 
       before do
         search_state.blacklight_config.show.route = { controller: :current }

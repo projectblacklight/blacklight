@@ -11,8 +11,7 @@ RSpec.describe Blacklight::DocumentPresenter do
   let(:search_state) { Blacklight::SearchState.new(params, blacklight_config, controller) }
 
   before do
-    allow(request_context).to receive(:search_state).and_return(search_state)
-    allow(request_context).to receive(:action_name).and_return(:show)
+    allow(request_context).to receive_messages(search_state: search_state, action_name: :show)
   end
 
   describe '#fields_to_render' do

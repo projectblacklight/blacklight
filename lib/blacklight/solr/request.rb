@@ -14,7 +14,7 @@ class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess
       super()
       update(constructor)
     else
-      super(constructor)
+      super
     end
   end
 

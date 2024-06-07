@@ -18,7 +18,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
   let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'field').normalize! }
 
   it 'delegates to the configured component to render something' do
-    expect(rendered).to have_selector 'ul.facet-values'
+    expect(rendered).to have_css 'ul.facet-values'
   end
 
   context 'with a provided component' do
@@ -52,7 +52,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
     before do
       replace_hash = { 'catalog/_facet_partial.html.erb' => 'facet partial' }
 
-      if ::Rails.version.to_f >= 7.1
+      if Rails.version.to_f >= 7.1
         controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
       else
         controller.view_context.view_paths.unshift(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))

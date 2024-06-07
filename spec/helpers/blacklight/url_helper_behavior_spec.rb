@@ -11,8 +11,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   let(:parameter_class) { ActionController::Parameters }
 
   before do
-    allow(controller).to receive(:controller_name).and_return('test')
-    allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
+    allow(controller).to receive_messages(controller_name: 'test', search_state_class: Blacklight::SearchState)
     allow(helper).to receive(:search_action_path) do |*args|
       search_catalog_url *args
     end
@@ -112,18 +111,18 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it "consists of the document title wrapped in a <a>" do
-      expect(helper.link_to_document(document)).to have_selector("a", text: '654321', count: 1)
+      expect(helper.link_to_document(document)).to have_css("a", text: '654321', count: 1)
     end
 
     it "accepts and returns a string label" do
-      expect(helper.link_to_document(document, 'This is the title')).to have_selector("a", text: 'This is the title', count: 1)
+      expect(helper.link_to_document(document, 'This is the title')).to have_css("a", text: 'This is the title', count: 1)
     end
 
     context 'when label is missing' do
       let(:data) { { 'id' => id } }
 
       it "returns id" do
-        expect(helper.link_to_document(document)).to have_selector("a", text: '123456', count: 1)
+        expect(helper.link_to_document(document)).to have_css("a", text: '123456', count: 1)
       end
 
       it "is html safe" do
@@ -142,7 +141,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
         let(:id) { 123_456 }
 
         it "has a link" do
-          expect(helper.link_to_document(document)).to have_selector("a")
+          expect(helper.link_to_document(document)).to have_css("a")
         end
       end
     end
@@ -154,14 +153,14 @@ RSpec.describe Blacklight::UrlHelperBehavior do
 
     it "includes the data- attributes from the options" do
       link = helper.link_to_document document, data: { x: 1 }
-      expect(link).to have_selector '[data-x]'
+      expect(link).to have_css '[data-x]'
     end
 
     it 'adds a controller-specific tracking attribute' do
       expect(helper.main_app).to receive(:track_test_path).and_return('/asdf')
       link = helper.link_to_document document, data: { x: 1 }
 
-      expect(link).to have_selector '[data-context-href="/asdf"]'
+      expect(link).to have_css '[data-context-href="/asdf"]'
     end
   end
 

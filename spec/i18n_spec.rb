@@ -12,7 +12,8 @@ RSpec.describe 'I18n', type: :i18n do
                             "Missing #{missing_keys.leaves.count} i18n keys, run `i18n-tasks missing' to show them"
   end
 
-  pending 'does not have unused keys' do
+  it 'does not have unused keys' do
+    pending 'Many unused keys are detected'
     expect(unused_keys).to be_empty,
                            "#{unused_keys.leaves.count} unused i18n keys, run `i18n-tasks unused' to show them"
   end

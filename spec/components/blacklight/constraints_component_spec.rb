@@ -36,15 +36,15 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     end
 
     it 'has a header' do
-      expect(rendered).to have_selector('h2', text: 'Search Constraints')
+      expect(rendered).to have_css('h2', text: 'Search Constraints')
     end
 
     it 'wraps the output in a div' do
-      expect(rendered).to have_selector('div#appliedParams')
+      expect(rendered).to have_css('div#appliedParams')
     end
 
     it 'renders the query' do
-      expect(rendered).to have_selector('.applied-filter.constraint', text: 'some query')
+      expect(rendered).to have_css('.applied-filter.constraint', text: 'some query')
     end
   end
 
@@ -52,15 +52,15 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     let(:query_params) { { f: { some_facet: ['some value'] } } }
 
     it 'renders the query' do
-      expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Some Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
+      expect(rendered).to have_css('.constraint-value > .filter-name', text: 'Some Facet').and(have_css('.constraint-value > .filter-value', text: 'some value'))
     end
 
     context 'that is not configured' do
       let(:query_params) { { f: { some_facet: ['some value'], missing: ['another value'] } } }
 
       it 'renders only the configured constraints' do
-        expect(rendered).to have_selector('.constraint-value > .filter-name', text: 'Some Facet').and(have_selector('.constraint-value > .filter-value', text: 'some value'))
-        expect(rendered).not_to have_selector('.constraint-value > .filter-name', text: 'Missing')
+        expect(rendered).to have_css('.constraint-value > .filter-name', text: 'Some Facet').and(have_css('.constraint-value > .filter-value', text: 'some value'))
+        expect(rendered).to have_no_css('.constraint-value > .filter-name', text: 'Missing')
       end
     end
   end
@@ -71,15 +71,15 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     let(:query_params) { { q: 'some query', f: { some_facet: ['some value'] } } }
 
     it 'wraps the output in a span' do
-      expect(rendered).to have_selector('span .constraint')
+      expect(rendered).to have_css('span .constraint')
     end
 
     it 'renders the search state as lightly-decorated text' do
-      expect(rendered).to have_selector('.constraint > .filter-values', text: 'some query').and(have_selector('.constraint', text: 'Some Facet:some value'))
+      expect(rendered).to have_css('.constraint > .filter-values', text: 'some query').and(have_css('.constraint', text: 'Some Facet:some value'))
     end
 
     it 'omits the headers' do
-      expect(rendered).not_to have_selector('h2', text: 'Search Constraints')
+      expect(rendered).to have_no_css('h2', text: 'Search Constraints')
     end
   end
 end

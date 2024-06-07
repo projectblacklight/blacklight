@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "catalog/index.json", api: true do
+RSpec.describe "catalog/index.json", :api do
   let(:response) { instance_double(Blacklight::Solr::Response, documents: docs, prev_page: nil, next_page: 2, total_pages: 3) }
   let(:docs) do
     [
@@ -32,13 +32,10 @@ RSpec.describe "catalog/index.json", api: true do
   end
 
   before do
-    allow(view).to receive(:blacklight_config).and_return(config)
-    allow(view).to receive(:search_action_path).and_return('http://test.host/some/search/url')
-    allow(view).to receive(:search_facet_path).and_return('http://test.host/some/facet/url')
-    allow(presenter).to receive(:pagination_info).and_return(current_page: 1,
-                                                             next_page: 2,
-                                                             prev_page: nil)
-    allow(presenter).to receive(:search_facets).and_return([format_facet])
+    allow(view).to receive_messages(blacklight_config: config, search_action_path: 'http://test.host/some/search/url', search_facet_path: 'http://test.host/some/facet/url')
+    allow(presenter).to receive_messages(pagination_info: { current_page: 1,
+                                                            next_page: 2,
+                                                            prev_page: nil }, search_facets: [format_facet])
     assign :presenter, presenter
     assign :response, response
   end

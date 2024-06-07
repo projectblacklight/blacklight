@@ -9,7 +9,7 @@ module Features
       fill_in 'Email', with: email
       fill_in 'Password', with: password
       fill_in 'Password confirmation', with: password
-      click_button 'Sign up'
+      click_on 'Sign up'
     end
 
     def sign_in(login = 'user1')
@@ -20,9 +20,9 @@ module Features
       fill_in("user_password", with: "password")
 
       if has_button? "Sign in"
-        click_button("Sign in")
+        click_on("Sign in")
       elsif has_button? "Log in"
-        click_button("Log in")
+        click_on("Log in")
       else
         raise "Unable to find sign in button"
       end

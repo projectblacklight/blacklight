@@ -20,8 +20,7 @@ RSpec.describe "catalog/index" do
     allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
     allow(@response).to receive(:documents).and_return(document_list)
     params['content_format'] = 'some_format'
-    allow(view).to receive(:action_name).and_return('index')
-    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(view).to receive_messages(action_name: 'index', blacklight_config: blacklight_config)
   end
 
   # We need to use rexml to test certain things that have_tag wont' test
@@ -30,13 +29,13 @@ RSpec.describe "catalog/index" do
   it "has contextual information" do
     render template: 'catalog/index', formats: [:atom]
 
-    expect(rendered).to have_selector("link[rel=self]")
-    expect(rendered).to have_selector("link[rel=next]")
-    expect(rendered).to have_selector("link[rel=previous]")
-    expect(rendered).to have_selector("link[rel=first]")
-    expect(rendered).to have_selector("link[rel=last]")
-    expect(rendered).to have_selector("link[rel='alternate'][type='text/html']")
-    expect(rendered).to have_selector("link[rel=search][type='application/opensearchdescription+xml']")
+    expect(rendered).to have_css("link[rel=self]")
+    expect(rendered).to have_css("link[rel=next]")
+    expect(rendered).to have_css("link[rel=previous]")
+    expect(rendered).to have_css("link[rel=first]")
+    expect(rendered).to have_css("link[rel=last]")
+    expect(rendered).to have_css("link[rel='alternate'][type='text/html']")
+    expect(rendered).to have_css("link[rel=search][type='application/opensearchdescription+xml']")
   end
 
   it "gets paging data correctly from response" do
@@ -62,33 +61,33 @@ RSpec.describe "catalog/index" do
   it "has ten entries" do
     render template: 'catalog/index', formats: [:atom]
 
-    expect(rendered).to have_selector("entry", count: 10)
+    expect(rendered).to have_css("entry", count: 10)
   end
 
   describe "entries" do
     it "has a title" do
       render template: 'catalog/index', formats: [:atom]
-      expect(rendered).to have_selector("entry > title")
+      expect(rendered).to have_css("entry > title")
     end
 
     it "has an updated" do
       render template: 'catalog/index', formats: [:atom]
-      expect(rendered).to have_selector("entry > updated")
+      expect(rendered).to have_css("entry > updated")
     end
 
     it "has html link" do
       render template: 'catalog/index', formats: [:atom]
-      expect(rendered).to have_selector("entry > link[rel=alternate][type='text/html']")
+      expect(rendered).to have_css("entry > link[rel=alternate][type='text/html']")
     end
 
     it "has an id" do
       render template: 'catalog/index', formats: [:atom]
-      expect(rendered).to have_selector("entry > id")
+      expect(rendered).to have_css("entry > id")
     end
 
     it "has a summary" do
       render template: 'catalog/index', formats: [:atom]
-      expect(rendered).to have_selector("entry > summary", text: 'Title 0')
+      expect(rendered).to have_css("entry > summary", text: 'Title 0')
     end
 
     context 'with a custom template' do
@@ -107,7 +106,7 @@ RSpec.describe "catalog/index" do
 
       it "has the customized summary" do
         render template: 'catalog/index', formats: [:atom]
-        expect(rendered).to have_selector("entry > summary", text: 'whatever content')
+        expect(rendered).to have_css("entry > summary", text: 'whatever content')
       end
     end
 
@@ -136,12 +135,12 @@ RSpec.describe "catalog/index" do
 
       it "includes a link rel tag" do
         render template: 'catalog/index', formats: [:atom]
-        expect(entry).to have_selector("link[rel=alternate][type='application/some-format']")
+        expect(entry).to have_css("link[rel=alternate][type='application/some-format']")
       end
 
       it "has content embedded" do
         render template: 'catalog/index', formats: [:atom]
-        expect(entry).to have_selector("content")
+        expect(entry).to have_css("content")
       end
     end
 
@@ -150,7 +149,7 @@ RSpec.describe "catalog/index" do
 
       it "does not have content embedded" do
         render template: 'catalog/index', formats: [:atom]
-        expect(entry).not_to have_selector("content[type='application/some-format']")
+        expect(entry).to have_no_css("content[type='application/some-format']")
       end
     end
   end

@@ -13,11 +13,11 @@ RSpec.describe Blacklight::HiddenSearchStateComponent, type: :component do
   let(:instance) { described_class.new(params: params) }
 
   it "converts a hash with nested complex data to Rails-style hidden form fields" do
-    expect(rendered).to have_selector("input[type='hidden'][name='q'][value='query']", visible: :hidden)
-    expect(rendered).to have_selector("input[type='hidden'][name='per_page'][value='10']", visible: :hidden)
-    expect(rendered).to have_selector("input[type='hidden'][name='extra_arbitrary_key'][value='arbitrary_value']", visible: :hidden)
-    expect(rendered).to have_selector("input[type='hidden'][name='f[field2][]'][value='z']", visible: :hidden)
-    expect(rendered).to have_selector("input[type='hidden'][name='f[field1][]'][value='a']", visible: :hidden)
-    expect(rendered).to have_selector("input[type='hidden'][name='f[field1][]'][value='b']", visible: :hidden)
+    expect(rendered).to have_css("input[type='hidden'][name='q'][value='query']", visible: :hidden)
+    expect(rendered).to have_css("input[type='hidden'][name='per_page'][value='10']", visible: :hidden)
+    expect(rendered).to have_css("input[type='hidden'][name='extra_arbitrary_key'][value='arbitrary_value']", visible: :hidden)
+    expect(rendered).to have_css("input[type='hidden'][name='f[field2][]'][value='z']", visible: :hidden)
+    expect(rendered).to have_css("input[type='hidden'][name='f[field1][]'][value='a']", visible: :hidden)
+    expect(rendered).to have_css("input[type='hidden'][name='f[field1][]'][value='b']", visible: :hidden)
   end
 end

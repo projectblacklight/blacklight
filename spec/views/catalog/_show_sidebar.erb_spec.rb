@@ -11,10 +11,7 @@ RSpec.describe "catalog/_show_sidebar.html.erb" do
   end
 
   before do
-    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
-    allow(view).to receive(:has_user_authentication_provider?).and_return(false)
-    allow(view).to receive(:document_actions).and_return([])
-    allow(view).to receive(:session_tracking_params).and_return({})
+    allow(view).to receive_messages(blacklight_config: blacklight_config, has_user_authentication_provider?: false, document_actions: [], session_tracking_params: {})
   end
 
   it "shows more-like-this titles in the sidebar" do

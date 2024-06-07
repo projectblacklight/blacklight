@@ -53,11 +53,7 @@ module Blacklight::CatalogHelperBehavior
                 collection.limit_value
               end
 
-    end_num = if collection.offset_value + end_num <= collection.total_count
-                collection.offset_value + end_num
-              else
-                collection.total_count
-              end
+    end_num = [collection.offset_value + end_num, collection.total_count].min
 
     case collection.total_count
     when 0

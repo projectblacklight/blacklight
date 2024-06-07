@@ -30,10 +30,8 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
 
     before do
       # allow(controller).to receive(:controller_tracking_method).and_return('track_catalog_path')
-      allow(controller).to receive(:controller_name).and_return('catalog')
 
-      allow(controller).to receive(:link_to_previous_document).and_return('')
-      allow(controller).to receive(:link_to_next_document).and_return('')
+      allow(controller).to receive_messages(controller_name: 'catalog', link_to_previous_document: '', link_to_next_document: '')
     end
 
     it "renders content" do

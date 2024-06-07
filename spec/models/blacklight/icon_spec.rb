@@ -39,7 +39,7 @@ RSpec.describe Blacklight::Icon do
 
       it 'does not add title' do
         expect(Capybara.string(subject.svg))
-          .not_to have_css 'title', text: 'Test'
+          .to have_no_css 'title', text: 'Test'
       end
     end
 

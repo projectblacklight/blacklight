@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Response::Facets, api: true do
+RSpec.describe Blacklight::Solr::Response::Facets, :api do
   describe Blacklight::Solr::Response::Facets::FacetField do
     describe "A field with default options" do
       subject(:field) { described_class.new "my_field", [] }

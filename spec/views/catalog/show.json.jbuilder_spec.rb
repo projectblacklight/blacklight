@@ -16,8 +16,7 @@ RSpec.describe "catalog/show.json" do
   end
 
   before do
-    allow(view).to receive(:blacklight_config).and_return(config)
-    allow(view).to receive(:action_name).and_return('show')
+    allow(view).to receive_messages(blacklight_config: config, action_name: 'show')
     assign :document, document
   end
 

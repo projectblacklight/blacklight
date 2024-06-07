@@ -51,7 +51,7 @@ RSpec.describe "Search Results" do
     visit root_path
     fill_in "q", with: "inmul"
     select "Author", from: "search_field"
-    click_button 'search'
+    click_on 'search'
     expect(page).to have_content "No results found for your search"
     expect(page).to have_content "you searched by Author"
     click_on "try searching everything"

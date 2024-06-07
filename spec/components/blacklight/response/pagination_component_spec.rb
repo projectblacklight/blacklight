@@ -18,10 +18,10 @@ RSpec.describe Blacklight::Response::PaginationComponent, type: :component do
       before { render }
 
       it "has links to deep pages" do
-        expect(page).not_to have_link '98'
+        expect(page).to have_no_link '98'
         expect(page).to have_link '99'
         expect(page).to have_link '100'
-        expect(page).not_to have_link '101'
+        expect(page).to have_no_link '101'
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Blacklight::Response::PaginationComponent, type: :component do
 
       it "does not link to deep pages" do
         expect(page).to have_link '1'
-        expect(page).not_to have_link '100'
+        expect(page).to have_no_link '100'
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Blacklight::Response::PaginationComponent, type: :component do
 
       it "does not link to deep pages" do
         expect(page).to have_link '1'
-        expect(page).not_to have_link '100'
+        expect(page).to have_no_link '100'
       end
     end
   end

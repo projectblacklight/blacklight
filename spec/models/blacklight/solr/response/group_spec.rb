@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Blacklight::Solr::Response::Group, api: true do
+RSpec.describe Blacklight::Solr::Response::Group, :api do
   subject do
     group.groups.first
   end

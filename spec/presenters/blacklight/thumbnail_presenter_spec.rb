@@ -75,10 +75,10 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         end
 
         it "calls the provided thumbnail method" do
-          expect(view_context).to receive_messages(xyz: "some-thumbnail")
           allow(view_context).to receive(:link_to_document).with(document, "some-thumbnail", {})
                                                            .and_return("link")
           expect(subject).to eq "link"
+          expect(view_context).to have_received(:xyz)
         end
 
         context "and url options have :suppress_link" do
@@ -107,8 +107,9 @@ RSpec.describe Blacklight::ThumbnailPresenter do
       it "creates an image tag from the given field" do
         allow(document).to receive(:fetch).with(:xyz, nil).and_return("http://example.com/some.jpg")
         allow(view_context).to receive(:image_tag).with("http://example.com/some.jpg", {}).and_return('<img src="image.jpg">')
-        expect(view_context).to receive(:link_to_document).with(document, '<img src="image.jpg">', {})
+        allow(view_context).to receive(:link_to_document)
         subject
+        expect(view_context).to have_received(:link_to_document).with(document, '<img src="image.jpg">', {})
       end
 
       it "returns nil if no thumbnail is in the document" do
@@ -126,8 +127,9 @@ RSpec.describe Blacklight::ThumbnailPresenter do
 
         it "creates an image tag from the given field" do
           allow(view_context).to receive(:image_tag).with("http://example.com/some.jpg", {}).and_return('<img src="image.jpg">')
-          expect(view_context).to receive(:link_to_document).with(document, '<img src="image.jpg">', {}).and_return('<a><img></a>')
+          allow(view_context).to receive(:link_to_document).and_return('<a><img></a>')
           expect(presenter.thumbnail_tag).to eq '<a><img></a>'
+          expect(view_context).to have_received(:link_to_document).with(document, '<img src="image.jpg">', {})
         end
       end
     end

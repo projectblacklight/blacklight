@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Blacklight::Document::ActiveModelShim', api: true do
+RSpec.describe 'Blacklight::Document::ActiveModelShim', :api do
   class MockDocument
     include Blacklight::Document
     include Blacklight::Document::ActiveModelShim

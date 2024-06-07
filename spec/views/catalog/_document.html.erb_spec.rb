@@ -6,10 +6,7 @@ RSpec.describe "catalog/_document" do
 
   before do
     allow(controller).to receive(:controller_name).and_return('test')
-    allow(view).to receive(:render_grouped_response?).and_return(false)
-    allow(view).to receive(:blacklight_config).and_return(blacklight_config)
-    allow(view).to receive(:search_session).and_return({})
-    allow(view).to receive(:current_search_session).and_return(nil)
+    allow(view).to receive_messages(render_grouped_response?: false, blacklight_config: blacklight_config, search_session: {}, current_search_session: nil)
     allow(view.main_app).to receive(:track_test_path).and_return('/track')
     assign(:response, instance_double(Blacklight::Solr::Response, start: 20))
   end
