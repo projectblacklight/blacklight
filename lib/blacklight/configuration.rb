@@ -60,6 +60,7 @@ module Blacklight
     default_configuration do
       property :logo_link, default: nil
       property :header_component, default: Blacklight::HeaderComponent
+      property :full_width_layout, default: false
 
       # bootstrap_version may be set to 4 or 5
       bootstrap_version = ENV['BOOTSTRAP_VERSION'].presence || "5"
