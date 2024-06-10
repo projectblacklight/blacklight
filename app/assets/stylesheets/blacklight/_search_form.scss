@@ -1,6 +1,6 @@
 // bootstrap does flex-grow: 1 by default which makes the
 // text input roughly the same size as the select in many cases
-.input-group>.search-q {
+.input-group > .search-q {
   flex-grow: 4;
 }
 
@@ -10,20 +10,15 @@
   flex-grow: 4;
   padding: 0;
   position: relative;
-  
+
   .search-q {
     border: 0;
     height: 100%;
     width: 100%;
   }
-  
-  ul {
-    @extend .dropdown-menu;
-    display: block;
 
-    li {
-      @extend .dropdown-item;
-    }
+  ul {
+    display: block;
   }
 }
 
