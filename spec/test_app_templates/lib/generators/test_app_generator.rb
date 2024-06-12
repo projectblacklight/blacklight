@@ -27,4 +27,12 @@ class TestAppGenerator < Rails::Generators::Base
 
     generate 'blacklight:test_support'
   end
+
+  def add_component_template_override
+    src_template = File.join(Blacklight::Engine.root, 'app', 'components', 'blacklight', 'top_navbar_component.html.erb')
+    target_template = File.join('app', 'components', 'blacklight', 'top_navbar_component.html.erb')
+    create_file(target_template) do
+      File.read(src_template).gsub('role="navigation"', 'role="navigation" data-template-override="top_navbar_component"')
+    end
+  end
 end
