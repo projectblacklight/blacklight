@@ -4,9 +4,6 @@ $logo-image: image_url('blacklight/logo.png') !default;
 $logo-width: 150px !default;
 $logo-height: 50px !default;
 
-/* label (field names) */
-$field_name_color: $text-muted !default;
-
 // the default bootstrap font-family list includes "Segoe UI Emoji", which, on windows
 // renders our remove icon as an emoji-sized x instead of what we see on all other platforms...
 // so, for now (until we replace it with an SVG icon or something), we get to override bootstrap:
@@ -15,3 +12,13 @@ $remove-icon-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helveti
 $facet-active-border: $success !default;
 $facet-active-bg: $success !default;
 $facet-active-item-color: $success !default;
+
+/* for compatability with BS < 5.3  */
+$body-secondary-color: rgba($body-color, 0.75) !default;
+
+:root {
+  --bs-secondary-color: #{$body-secondary-color}; /* for compatability with BS < 5.3  */
+
+  --bl-field-name-color: var(--bs-secondary-color);
+  --bl-facet-remove-color: var(--bs-secondary-color);
+}

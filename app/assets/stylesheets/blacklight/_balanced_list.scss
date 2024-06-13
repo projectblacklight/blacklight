@@ -1,7 +1,7 @@
 .dl-invert {
   dt {
     font-weight: normal;
-    color: $field_name_color;
+    color: var(--bl-field-name-color);
     @media (max-width: breakpoint-min(md)) {
       text-align: left;
     }
