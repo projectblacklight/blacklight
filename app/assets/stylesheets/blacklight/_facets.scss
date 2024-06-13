@@ -212,12 +212,6 @@
   }
 }
 
-/* style for pivot facet's nested list */
-
-.facet-values {
-  @extend .list-unstyled;
-}
-
 .pivot-facet {
   &.show {
     @extend .d-flex;
