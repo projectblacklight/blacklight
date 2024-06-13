@@ -37,7 +37,7 @@ RSpec.describe Blacklight::Solr::Response::Group, :api do
   describe "#docs" do
     it "is a list of SolrDocuments" do
       subject.docs.each do |doc|
-        expect(doc).to be_a_kind_of SolrDocument
+        expect(doc).to be_a SolrDocument
       end
 
       expect(subject.docs.first.id).to eq 1

@@ -13,7 +13,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
 
     it 'wraps the facet data in a presenter' do
       presenter = helper.facet_field_presenter(facet_config, display_facet)
-      expect(presenter).to be_a_kind_of Blacklight::FacetFieldPresenter
+      expect(presenter).to be_a Blacklight::FacetFieldPresenter
       expect(presenter.facet_field).to eq facet_config
       expect(presenter.display_facet).to eq display_facet
       expect(presenter.view_context).to eq helper
@@ -23,7 +23,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       stub_const('SomePresenter', Class.new(Blacklight::FacetFieldPresenter))
       facet_config.presenter = SomePresenter
       presenter = helper.facet_field_presenter(facet_config, display_facet)
-      expect(presenter).to be_a_kind_of SomePresenter
+      expect(presenter).to be_a SomePresenter
     end
   end
 end

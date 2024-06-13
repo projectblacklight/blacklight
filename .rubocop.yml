@@ -3,6 +3,7 @@ require:
   - rubocop-rspec
   - rubocop-rspec_rails
   - rubocop-rails
+  - rubocop-factory_bot
 
 inherit_from:
   - .rubocop_todo.yml

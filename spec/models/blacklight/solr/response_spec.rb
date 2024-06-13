@@ -79,7 +79,7 @@ RSpec.describe Blacklight::Solr::Response, :api do
     if Kaminari.config.respond_to? :max_pages
       expect(r.max_pages).to be_nil
     end
-    expect(r).to be_a_kind_of Kaminari::PageScopeMethods
+    expect(r).to be_a Kaminari::PageScopeMethods
   end
 
   describe "FacetItem" do
@@ -101,7 +101,7 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
       expect(item.hits).to eq 15
       expect(item.value).to eq 'value'
-      expect(item).to be_a_kind_of(OpenStruct)
+      expect(item).to be_a(OpenStruct)
     end
 
     it "provides a label accessor" do

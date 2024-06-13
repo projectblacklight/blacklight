@@ -77,7 +77,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
 
       it "returns a grouped response" do
-        expect(service.search_results).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        expect(service.search_results).to be_a Blacklight::Solr::Response::GroupResponse
       end
     end
 
@@ -93,7 +93,7 @@ RSpec.describe Blacklight::SearchService, :api do
 
       it "returns a grouped response" do
         solr_response = service.search_results
-        expect(solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        expect(solr_response).to be_a Blacklight::Solr::Response::GroupResponse
         expect(solr_response.group_field).to eq "title_si"
       end
     end

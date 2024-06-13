@@ -36,7 +36,7 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     end
 
     it "exposes the internal hash table" do
-      expect(@h.to_h).to be_a_kind_of(Hash)
+      expect(@h.to_h).to be_a(Hash)
       expect(@h.to_h[:a]).to eq 1
     end
 

@@ -14,7 +14,7 @@ RSpec.describe "Blacklight::Configuration", :api do
 
   describe "initialization" do
     it "is an OpenStructWithHashAccess" do
-      expect(config).to be_a_kind_of Blacklight::OpenStructWithHashAccess
+      expect(config).to be_a Blacklight::OpenStructWithHashAccess
     end
 
     it "accepts a block for configuration" do
@@ -30,22 +30,22 @@ RSpec.describe "Blacklight::Configuration", :api do
 
   describe "defaults" do
     it "has a hash of default rsolr query parameters" do
-      expect(config.default_solr_params).to be_a_kind_of Hash
+      expect(config.default_solr_params).to be_a Hash
     end
 
     it "has openstruct values for show and index parameters" do
-      expect(config.show).to be_a_kind_of OpenStruct
-      expect(config.index).to be_a_kind_of OpenStruct
+      expect(config.show).to be_a OpenStruct
+      expect(config.index).to be_a OpenStruct
     end
 
     it "has ordered hashes for field configuration" do
-      expect(config.facet_fields).to be_a_kind_of Hash
-      expect(config.index_fields).to be_a_kind_of Hash
-      expect(config.show_fields).to be_a_kind_of Hash
-      expect(config.search_fields).to be_a_kind_of Hash
-      expect(config.show_fields).to be_a_kind_of Hash
-      expect(config.search_fields).to be_a_kind_of Hash
-      expect(config.sort_fields).to be_a_kind_of Hash
+      expect(config.facet_fields).to be_a Hash
+      expect(config.index_fields).to be_a Hash
+      expect(config.show_fields).to be_a Hash
+      expect(config.search_fields).to be_a Hash
+      expect(config.show_fields).to be_a Hash
+      expect(config.search_fields).to be_a Hash
+      expect(config.sort_fields).to be_a Hash
     end
   end
 
@@ -197,7 +197,7 @@ RSpec.describe "Blacklight::Configuration", :api do
         config.add_my_custom_facet_field 'qwerty', label: "asdf"
       end
 
-      expect(config.my_custom_facet_fields['qwerty']).to be_a_kind_of(Blacklight::Configuration::FacetField)
+      expect(config.my_custom_facet_fields['qwerty']).to be_a(Blacklight::Configuration::FacetField)
     end
   end
 
