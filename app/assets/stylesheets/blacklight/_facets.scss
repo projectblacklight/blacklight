@@ -214,7 +214,7 @@
 
 .pivot-facet {
   &.show {
-    @extend .d-flex;
+    display: flex;
   }
 }
 
