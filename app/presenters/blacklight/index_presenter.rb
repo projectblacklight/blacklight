@@ -41,7 +41,7 @@ module Blacklight
     end
 
     def field_config(field)
-      configuration.index_fields.fetch(field) { Configuration::NullField.new(field) }
+      configuration.index_fields.fetch(field) { Configuration::NullDisplayField.new(field) }
     end
   end
 end

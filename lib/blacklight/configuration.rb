@@ -12,6 +12,7 @@ module Blacklight
       autoload :Fields
       autoload :Field
       autoload :NullField
+      autoload :NullDisplayField
       autoload :SearchField
       autoload :FacetField
       autoload :SortField
