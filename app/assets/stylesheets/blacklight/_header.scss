@@ -2,13 +2,6 @@
   Header bar at top (Bootstrap nav-bar)
 */
 
-.topbar > .container {
-  @media (max-width: breakpoint-max(xs)) {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
 .navbar-logo {
   /* The main logo image for the Blacklight instance */
   @if $logo-image {
