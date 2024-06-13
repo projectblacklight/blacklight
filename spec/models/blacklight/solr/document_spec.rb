@@ -231,7 +231,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "returns an array even for a single-value field" do
-      expect(@doc1.to_semantic_values[:title]).to be_kind_of(Array)
+      expect(@doc1.to_semantic_values[:title]).to be_a(Array)
     end
 
     it "returns complete array for a multi-value field" do
@@ -290,7 +290,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
 
     it "plucks the MoreLikeThis results from the Solr Response" do
       expect(result).to have(1).item
-      expect(result.first).to be_a_kind_of(MockDocument)
+      expect(result.first).to be_a(MockDocument)
       expect(result.first.id).to eq 'abc'
       expect(result.first.solr_response).to eq response
     end

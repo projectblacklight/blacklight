@@ -247,7 +247,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
     it "converts the query facets into a double RSolr FacetField" do
       field = subject.aggregations['my_query_facet_field']
 
-      expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField
+      expect(field).to be_a Blacklight::Solr::Response::Facets::FacetField
 
       expect(field.name).to eq 'my_query_facet_field'
       expect(field.items.size).to eq 3
@@ -316,7 +316,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
     it "converts the pivot facet into a double RSolr FacetField" do
       field = subject.aggregations['my_pivot_facet_field']
 
-      expect(field).to be_a_kind_of Blacklight::Solr::Response::Facets::FacetField
+      expect(field).to be_a Blacklight::Solr::Response::Facets::FacetField
 
       expect(field.name).to eq 'my_pivot_facet_field'
 

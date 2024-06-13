@@ -30,7 +30,7 @@ RSpec.describe Bookmark do
 
   describe "#document" do
     it "is a SolrDocument with just an id field" do
-      expect(subject.document).to be_a_kind_of SolrDocument
+      expect(subject.document).to be_a SolrDocument
       expect(subject.document.id).to eq 'u001'
     end
   end

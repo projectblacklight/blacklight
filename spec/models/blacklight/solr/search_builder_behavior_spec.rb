@@ -591,7 +591,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
 
       subject.add_facet_fq_to_solr(solr_parameters)
 
-      expect(solr_parameters[:fq]).to be_a_kind_of Array
+      expect(solr_parameters[:fq]).to be_a Array
     end
 
     context "facet not defined in config" do
