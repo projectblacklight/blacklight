@@ -6,10 +6,6 @@
     padding: $spacer;
   }
 
-  .constraints-container {
-    @extend .mb-0;
-  }
-
   .constraint {
     @extend .px-4;
     display: block;
