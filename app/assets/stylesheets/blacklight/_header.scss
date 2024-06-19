@@ -26,9 +26,4 @@
     // This prevents the widget from being squished so the text overflows
     min-width: 7em;
   }
-
-  .search-query-form {
-    @extend .col-md-12;
-    @extend .col-lg-8;
-  }
 }
