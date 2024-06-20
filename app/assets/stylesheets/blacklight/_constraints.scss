@@ -44,7 +44,12 @@
     padding-left: $caret-width;
   }
 
-  .remove:hover, .remove:active {
-    @extend .btn-danger;
+  .remove {
+    --bs-btn-hover-bg: var(--bl-constraint-remove-hover-bg);
+    --bs-btn-hover-border-color: var(--bl-constraint-remove-hover-border-color);
+    --bs-btn-active-bg: var(--bl-constraint-remove-hover-bg);
+    --bs-btn-active-border-color: var(
+      --bl-constraint-remove-hover-border-color
+    );
   }
 }
