@@ -5,6 +5,15 @@ module Blacklight
     class ImportmapGenerator < Rails::Generators::Base
       class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 5.3'), desc: "Set the generated app's bootstrap version"
 
+      # Add css files from blacklight-frontend
+      def add_package
+        if ENV['CI']
+          run "yarn add blacklight-frontend:#{Blacklight::Engine.root}"
+        else
+          run 'yarn add blacklight-frontend'
+        end
+      end
+
       # This could be skipped if you want to use webpacker
       def add_javascript_dependencies
         gem 'bootstrap', options[:'bootstrap-version'].presence # in rails 7, only for stylesheets
@@ -38,12 +47,9 @@ module Blacklight
       end
 
       def add_stylesheet
-        gem "sassc-rails", "~> 2.1" if Rails.version > '7'
-
-        create_file 'app/assets/stylesheets/blacklight.scss' do
+        append_to_file 'app/assets/stylesheets/application.bootstrap.scss' do
           <<~CONTENT
-            @import 'bootstrap';
-            @import 'blacklight/blacklight';
+            @import "blacklight-frontend/app/assets/stylesheets/blacklight/blacklight";
           CONTENT
         end
       end
