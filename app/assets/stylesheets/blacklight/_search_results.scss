@@ -6,10 +6,6 @@
     margin-top: $spacer;
     padding-top: $spacer;
 
-    .document-title-heading {
-      @extend h5;
-    }
-
     .document-main-section {
       flex-grow: 1;
     }
