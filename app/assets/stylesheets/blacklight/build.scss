@@ -1,9 +1,4 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/mixins/breakpoints";
 @import "bootstrap/scss/variables";
-
-/* These classes are all the BS things that Blacklight depends on (via @extend) */
-.px-4 {
-}
-
 @import "blacklight";
