@@ -20,7 +20,7 @@ module Blacklight
     def initialize(search_state:,
                    tag: :div,
                    render_headers: true,
-                   id: 'appliedParams', classes: 'clearfix constraints-container',
+                   id: 'appliedParams', classes: 'clearfix constraints-container mb-2',
                    query_constraint_component: Blacklight::ConstraintLayoutComponent,
                    query_constraint_component_options: {},
                    facet_constraint_component: Blacklight::ConstraintComponent,

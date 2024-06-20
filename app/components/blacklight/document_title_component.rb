@@ -7,7 +7,8 @@ module Blacklight
     renders_many :actions
 
     # rubocop:disable Metrics/ParameterLists
-    def initialize(title = nil, document: nil, presenter: nil, as: :h3, counter: nil, classes: 'index_title document-title-heading col', link_to_document: true, document_component: nil, actions: true)
+    def initialize(title = nil, document: nil, presenter: nil, as: :h3, counter: nil, classes: 'index_title document-title-heading col h5', link_to_document: true, document_component: nil,
+                   actions: true)
       raise ArgumentError, 'missing keyword: :document or :presenter' if presenter.nil? && document.nil?
 
       @title = title
