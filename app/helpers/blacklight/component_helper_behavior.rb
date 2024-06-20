@@ -24,7 +24,7 @@ module Blacklight
     # @param [Class] component (Blacklight::Document::ActionsComponent)
     # @return [String]
     def render_results_collection_tools(wrapping_class: "search-widgets", component: Blacklight::Document::ActionsComponent)
-      actions = filter_partials(blacklight_config.view_config(document_index_view_type).collection_actions, {}).map { |_k, v| v }
+      actions = filter_partials(blacklight_config.view_config(document_index_view_type).collection_actions, {}).values
 
       render(component.new(actions: actions, classes: wrapping_class))
     end
