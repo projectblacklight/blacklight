@@ -23,6 +23,7 @@ module Blacklight
                  param: :per_page,
                  choices: per_page_options_for_select,
                  id: 'per_page-dropdown',
+                 classes: ['mx-1'],
                  search_state: @search_state,
                  selected: current_per_page,
                  interpolation: :count

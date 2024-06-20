@@ -22,6 +22,7 @@ module Blacklight
                  param: @param,
                  choices: @choices,
                  id: @id,
+                 classes: @classes,
                  search_state: @search_state,
                  selected: @selected
                ))
