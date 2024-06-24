@@ -575,6 +575,9 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
 
     it "handles range requests" do
       expect(subject.send(:facet_value_to_fq_string, "facet_name", 1..5)).to eq "facet_name:[1 TO 5]"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", 1..nil)).to eq "facet_name:[1 TO *]"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", nil..5)).to eq "facet_name:[* TO 5]"
+      expect(subject.send(:facet_value_to_fq_string, "facet_name", nil..nil)).to eq "facet_name:[* TO *]"
     end
 
     it "adds tag local parameters" do
