@@ -12,10 +12,10 @@ RSpec.describe "Bookmarks" do
 
   describe "when bookmark counter is not rendered" do
     before do
-        CatalogController.configure_blacklight do |config|
-          config.add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark', if: proc { false })
-        end
+      CatalogController.configure_blacklight do |config|
+        config.add_nav_action(:bookmark, partial: 'blacklight/nav/bookmark', if: proc { false })
       end
+    end
 
     it 'adds bookmark without raising an alert', :js do
       visit solr_document_path('2007020969')
