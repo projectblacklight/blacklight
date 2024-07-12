@@ -25,7 +25,9 @@ jobs:
           ruby-version: 3.2
           bundler: "2.5.14"
       - name: Install dependencies
-        run: bundle install
+        run: |
+          bundle config path /home/runner/work/blacklight/blacklight
+          bundle install
       - name: Run linter
         run: bundle exec rake rubocop
   test:
@@ -83,7 +85,9 @@ jobs:
           bundler: "2.5.14"
           ruby-version: ${{ matrix.ruby }}
       - name: Install dependencies
-        run: bundle install
+        run: |
+          bundle config path /home/runner/work/blacklight/blacklight
+          bundle install
       - name: Run tests
         run: bundle exec rake ci
   docker_build:
