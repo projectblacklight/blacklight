@@ -15,6 +15,7 @@ AllCops:
   Exclude:
     - "lib/generators/blacklight/templates/**/*"
     - "blacklight.gemspec"
+    - "vendor/**/*"
 
 Lint/UselessAssignment:
   Exclude:

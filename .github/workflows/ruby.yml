@@ -23,7 +23,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
-          bundler: "latest"
+          bundler: "2.5.14"
       - name: Install dependencies
         run: bundle install
       - name: Run linter
@@ -80,7 +80,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          bundler: "latest"
+          bundler: "2.5.14"
           ruby-version: ${{ matrix.ruby }}
       - name: Install dependencies
         run: bundle install
