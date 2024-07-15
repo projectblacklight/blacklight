@@ -10,7 +10,8 @@
             }) do %>
   <div class="checkbox toggle-bookmark">
     <label class="toggle-bookmark" data-checkboxsubmit-target="label">
-      <input type="checkbox" class="toggle-bookmark" data-checkboxsubmit-target="checkbox" <%= 'checked="checked"' if bookmarked? %>>
+      <input type="checkbox" class="toggle-bookmark <%= bookmark_icon ? 'd-none' : '' %>" data-checkboxsubmit-target="checkbox" <%= 'checked="checked"' if bookmarked? %>>
+      <%= bookmark_icon %>
       <span data-checkboxsubmit-target="span"><%= bookmarked? ? t('blacklight.search.bookmarks.present') : t('blacklight.search.bookmarks.absent') %></span>
     </label>
   </div>

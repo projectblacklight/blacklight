@@ -18,3 +18,23 @@ label.toggle-bookmark {
 		display: none;
 	}
 }
+.toggle-bookmark .blacklight-icons svg {
+  height: 1.25rem;
+  width: 1.25rem;
+  overflow: visible;
+  fill: var(--bs-primary);
+
+  &.bookmark-checked {
+    display: none;
+  }
+}
+
+.toggle-bookmark[type="checkbox"]:checked+span svg {
+  &.bookmark-checked {
+    display: inherit;
+  }
+
+  &.bookmark-unchecked {
+    display: none;
+  }
+}

@@ -150,6 +150,12 @@ module Blacklight
       # @return [#partials]
       property :navbar, default: OpenStructWithHashAccess.new(partials: {})
 
+      # @!attribute bookmark_icon_component
+      # @since v8.3.1
+      # component class used to render a document
+      # set to Blacklight::Icons::BookmarkIconComponent to replace checkbox with icon
+      property :bookmark_icon_component, default: nil
+
       # @!attribute index
       # General configuration for all views
       # @return [Blacklight::Configuration::ViewConfig::Index]
