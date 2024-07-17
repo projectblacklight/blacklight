@@ -73,6 +73,24 @@ RSpec.describe Blacklight::Solr::Repository, :api do
     end
   end
 
+  describe '#find_many' do
+    context 'with a configured fetch_many_documents_path' do
+      it 'uses the path' do
+        blacklight_config.fetch_many_documents_path = 'documents'
+        allow(subject.connection).to receive(:send_and_receive).with('documents', anything).and_return(mock_response)
+        expect(subject.find_many({})).to be_a Blacklight::Solr::Response
+      end
+    end
+
+    context 'without a configured fetch_many_documents_path' do
+      it 'falls back to the search path' do
+        blacklight_config.solr_path = 'xyz'
+        allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
+        expect(subject.find_many({})).to be_a Blacklight::Solr::Response
+      end
+    end
+  end
+
   describe "#search" do
     it "uses the search-specific solr path" do
       blacklight_config.solr_path = 'xyz'
