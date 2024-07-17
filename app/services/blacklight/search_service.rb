@@ -146,7 +146,15 @@ module Blacklight
               .merge(blacklight_config.fetch_many_document_params)
               .merge(extra_controller_params)
 
-      solr_response = repository.search(query)
+      # find_many was introduced in Blacklight 8.4. Before that, we used the
+      # regular search method (possibly with a find-many specific `qt` parameter).
+      # In order to support Repository implementations that may not have a find_many,
+      # we'll fall back to search if find_many isn't available.
+      solr_response = if repository.respond_to?(:find_many)
+                        repository.find_many(query)
+                      else
+                        repository.search(query)
+                      end
 
       [solr_response, solr_response.documents]
     end
