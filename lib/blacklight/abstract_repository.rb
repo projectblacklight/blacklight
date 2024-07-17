@@ -34,6 +34,12 @@ module Blacklight
       raise NotImplementedError
     end
 
+    # Find multiple documents by their ids
+    # @param [Hash] _params query parameters
+    def find_many(params, **kwargs)
+      search(params, **kwargs)
+    end
+
     ##
     # Execute a search query against a search index
     # @param [Hash] _params query parameters

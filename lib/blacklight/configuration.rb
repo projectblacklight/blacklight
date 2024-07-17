@@ -89,6 +89,10 @@ module Blacklight
     # @!attribute default_document_solr_params
     # @return [Hash] Default values of parameters to send with every single-document request
     property :default_document_solr_params, default: {}
+    # @!attribute fetch_many_documents_path
+    # @since v8.4.0
+    # @return [String] The url path (relative to the solr base url) to use when requesting multiple documents by id
+    property :fetch_many_documents_path, default: nil
     # @!attribute fetch_many_document_params
     # @since v7.0.0
     # @return [Hash] Default values of parameters to send with every multi-document request

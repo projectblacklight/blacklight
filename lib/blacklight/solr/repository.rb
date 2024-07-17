@@ -16,11 +16,20 @@ module Blacklight::Solr
       solr_response
     end
 
+    # Find multiple documents by their ids
+    # @param [Hash] _params query parameters
+    def find_many(params)
+      search(params: params, path: blacklight_config.fetch_many_documents_path)
+    end
+
     ##
     # Execute a search query against solr
     # @param [Hash] params solr query parameters
-    def search params = {}
-      send_and_receive search_path(params), params.reverse_merge(qt: blacklight_config.qt)
+    # @param [String] path solr request handler path
+    def search pos_params = {}, path: nil, params: nil, **kwargs
+      request_params = (params || pos_params).reverse_merge(kwargs).reverse_merge({ qt: blacklight_config.qt })
+
+      send_and_receive(path || default_search_path(request_params), request_params)
     end
 
     # @param [Hash] request_params
@@ -123,7 +132,7 @@ module Blacklight::Solr
     end
 
     # @return [String]
-    def search_path(solr_params)
+    def default_search_path(solr_params)
       return blacklight_config.json_solr_path if blacklight_config.json_solr_path && uses_json_query_dsl?(solr_params)
 
       blacklight_config.solr_path
