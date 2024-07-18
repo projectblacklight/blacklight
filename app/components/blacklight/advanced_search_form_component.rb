@@ -24,7 +24,7 @@ module Blacklight
 
     def default_operator_menu
       options_with_labels = [:must, :should].index_by { |op| t(op, scope: 'blacklight.advanced_search.op') }
-      label_tag(:op, t('blacklight.advanced_search.op.label'), class: 'sr-only visually-hidden') + select_tag(:op, options_for_select(options_with_labels, params[:op]), class: 'input-small')
+      label_tag(:op, t('blacklight.advanced_search.op.label'), class: 'visually-hidden') + select_tag(:op, options_for_select(options_with_labels, params[:op]), class: 'input-small')
     end
 
     def sort_fields_select

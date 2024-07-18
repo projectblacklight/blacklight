@@ -32,25 +32,25 @@ it:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: 'Intendevi digitare: %{options}?'
+    did_you_mean: "Intendevi digitare: %{options}?"
     email:
       errors:
         to:
           blank: Inserisci un destinatario per inviare il messaggio
           invalid: L'indirizzo e-mail inserito non è valido
       form:
-        message: 'Messaggio:'
+        message: "Messaggio:"
         submit: Invia
         title: Invia per e-mail
-        to: 'E-mail:'
+        to: "E-mail:"
       success: Messaggio inviato
       text:
         default_title: N/A
-        message: 'Messaggio: %{message}'
+        message: "Messaggio: %{message}"
         subject:
-          one: 'Numero di scheda: %{title}'
+          one: "Numero di scheda: %{title}"
           other: Numeri di scheda
-        url: 'URL: %{url}'
+        url: "URL: %{url}"
     entry_name:
       default:
         one: termine di ricerca
@@ -92,8 +92,8 @@ it:
           close: Nascondi sfaccettature
           open: Mostra sfaccettature
         missing:
-        - Mancante
-        more_html: altri <span class="sr-only visually-hidden">%{field_name}</span> »
+          - Mancante
+        more_html: altri <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Chiudi
           show: Apri
@@ -106,9 +106,9 @@ it:
       filters:
         label: "%{label}:"
         remove:
-          label_value: 'Cancella il filtro %{label}: %{value}'
+          label_value: "Cancella il filtro %{label}: %{value}"
           value: Cancella il filtro %{value}
-        title: 'Hai cercato per:'
+        title: "Hai cercato per:"
       form:
         search:
           label: cerca per
@@ -139,7 +139,7 @@ it:
         aria_label: Navigazione dei risultati
         button_label: "%{count} per pagina"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
+        label: '%{count}<span class="visually-hidden"> per pagina</span>'
         submit: Aggiorna
         title: Risultati per pagina
       rss_feed: RSS per i risultati
@@ -155,7 +155,7 @@ it:
       start_over: Nuova ricerca
       view:
         list: Lista
-      view_title: 'Visualizza i risultati come: '
+      view_title: "Visualizza i risultati come: "
       zero_results:
         modify_search: Modifica la ricerca
         search_everything: prova a cercare in tutti i campi
@@ -192,10 +192,10 @@ it:
         carrier_prompt: Indicare l'operatore
         submit: Inviare
         title: Invia per SMS
-        to: 'Numero di telefono:'
+        to: "Numero di telefono:"
       success: SMS inviato
       text:
-        url: 'Link: %{url}'
+        url: "Link: %{url}"
     tools:
       citation: Cita
       clear: Cancella
