@@ -37,6 +37,8 @@ module Blacklight
       end
 
       def append_blacklight_javascript
+        # revert the addition that may already have been done if generated with --css=bootstrap
+        gsub_file 'app/javascript/application.js', /import \* as bootstrap from "bootstrap"/, ''
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
             import bootstrap from "bootstrap"
