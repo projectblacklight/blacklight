@@ -38,7 +38,7 @@ module Blacklight
       end
 
       def add_stylesheet
-        gem "sassc-rails", "~> 2.1" if Rails.version > '7'
+        gem "sassc-rails", "~> 2.1"
 
         create_file 'app/assets/stylesheets/blacklight.scss' do
           <<~CONTENT
