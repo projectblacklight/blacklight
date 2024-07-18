@@ -34,8 +34,6 @@ module Blacklight
 
         create_file 'app/assets/javascripts/application.js' do
           <<~CONTENT
-            //= require rails-ujs
-
             // Required by Blacklight
             //= require popper
             //= require bootstrap

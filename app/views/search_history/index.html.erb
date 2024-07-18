@@ -7,9 +7,7 @@
 <% else %>
   <%= link_to t('blacklight.search_history.clear.action_title'),
               blacklight.clear_search_history_path,
-              method: :delete, # for rails-ujs
               data: {
-                confirm: t('blacklight.search_history.clear.action_confirm'), # for rails-ujs
                 turbo_confirm: t('blacklight.search_history.clear.action_confirm'),
                 turbo_method: :delete
               },
