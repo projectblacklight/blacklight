@@ -35,20 +35,36 @@ module Blacklight
           CONTENT
         end
 
-        # Ensure this method is idempotent
-        return if has_blacklight_assets?
+        if File.exist?('app/javascript/application.js')
+          append_blacklight_javascript
+        else
+          # This is for rails legacy javascript
+          # Ensure this method is idempotent
+          return if has_blacklight_assets?
 
-        create_file 'app/assets/javascripts/application.js' do
-          <<~CONTENT
-            // Required by Blacklight
-            //= require popper
-            //= require bootstrap
-            //= require blacklight/blacklight
-          CONTENT
+          create_file 'app/assets/javascripts/application.js' do
+            <<~CONTENT
+              // Required by Blacklight
+              //= require popper
+              //= require bootstrap
+              //= require blacklight/blacklight
+            CONTENT
+          end
         end
       end
 
       private
+
+      def append_blacklight_javascript
+        # revert the addition that may already have been done if generated with --css=bootstrap
+        gsub_file 'app/javascript/application.js', /import \* as bootstrap from "bootstrap"/, ''
+        append_to_file 'app/javascript/application.js' do
+          <<~CONTENT
+            import * as bootstrap from "bootstrap"
+            import Blacklight from "blacklight-frontend"
+          CONTENT
+        end
+      end
 
       def has_blacklight_assets?
         application_js.include?('blacklight/blacklight')
