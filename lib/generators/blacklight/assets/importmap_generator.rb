@@ -8,7 +8,7 @@ module Blacklight
       # Add css files from blacklight-frontend
       def add_package
         if ENV['CI']
-          run "yarn add blacklight-frontend:#{Blacklight::Engine.root}"
+          run "yarn add file:#{Blacklight::Engine.root}"
         else
           run 'yarn add blacklight-frontend'
         end
