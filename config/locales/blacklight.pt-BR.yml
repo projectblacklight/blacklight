@@ -91,7 +91,7 @@ pt-BR:
           open: Mostrar facetas
         missing:
           - Ausência
-        more_html: mais <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: mais <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Fechar
           show: Abrir

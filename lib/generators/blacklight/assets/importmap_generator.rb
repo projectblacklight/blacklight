@@ -8,7 +8,6 @@ module Blacklight
       # This could be skipped if you want to use webpacker
       def add_javascript_dependencies
         gem 'bootstrap', options[:'bootstrap-version'].presence # in rails 7, only for stylesheets
-        gem 'jquery-rails' if bootstrap_4? # Bootstrap 4 has a dependency on jquery
       end
 
       def import_javascript_assets
@@ -46,10 +45,6 @@ module Blacklight
             @import 'blacklight/blacklight';
           CONTENT
         end
-      end
-
-      def bootstrap_4?
-        options[:'bootstrap-version'].match?(/\A[^0-9]*4\./)
       end
     end
   end

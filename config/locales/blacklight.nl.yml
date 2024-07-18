@@ -90,7 +90,7 @@ nl:
           close: Verberg facetten
           open: Toon facetten
         missing: "[Ontbrekend]"
-        more_html: Meer <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: Meer <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Sluiten
           show: Openen
@@ -136,7 +136,7 @@ nl:
         aria_label: Resultaten navigatie
         button_label: "%{count} per pagina"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
+        label: '%{count}<span class="visually-hidden"> per pagina</span>'
         submit: Update
         title: Toon aantal zoekresultaten per pagina
       rss_feed: RSS voor zoekresultaten

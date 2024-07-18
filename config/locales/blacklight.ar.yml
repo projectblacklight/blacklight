@@ -102,7 +102,7 @@ ar:
           close: إخفاء الأوجه
           open: عرض الأوجه
         missing: "[غير موجود]"
-        more_html: المزيد <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: المزيد <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: إغلاق
           show: فتح
@@ -152,7 +152,7 @@ ar:
         aria_label: تصفح النتائج
         button_label: "%{count} لكل صفحة"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> لكل صفحة</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> لكل صفحة</span>'
+        label: '%{count}<span class="visually-hidden"> لكل صفحة</span>'
         submit: تحديث
         title: عدد النتائج المعروضة في الصفحة
       rss_feed: خلاصات RSS للنتائج

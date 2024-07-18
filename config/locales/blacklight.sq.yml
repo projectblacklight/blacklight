@@ -90,7 +90,7 @@ sq:
           close: Fshih aspektet
           open: Trego aspektet
         missing: "[Mungon]"
-        more_html: Më shumë <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: Më shumë <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Mbylle
           show: Hape
@@ -136,7 +136,7 @@ sq:
         aria_label: Rezultatet e lundrimit
         button_label: "%{count} për faqe"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> për faqe</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> për faqe</span>'
+        label: '%{count}<span class="visually-hidden"> për faqe</span>'
         submit: Përditëso
         title: Numri i rezultateve që do të shfaqen për faqe
       rss_feed: RSS për rezultatet

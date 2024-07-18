@@ -139,7 +139,7 @@ it:
         aria_label: Navigazione dei risultati
         button_label: "%{count} per pagina"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per pagina</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> per pagina</span>'
+        label: '%{count}<span class="visually-hidden"> per pagina</span>'
         submit: Aggiorna
         title: Risultati per pagina
       rss_feed: RSS per i risultati
