@@ -11,7 +11,7 @@ module Blacklight
     def initialize(
       url:, params:,
       advanced_search_url: nil,
-      classes: ['search-query-form'], prefix: nil,
+      classes: %w[search-query-form col-md-12 col-lg-8], prefix: nil,
       method: 'GET', q: nil, query_param: :q,
       search_field: nil, autocomplete_path: nil,
       autofocus: nil, i18n: { scope: 'blacklight.search.form' },

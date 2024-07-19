@@ -6,14 +6,9 @@
     padding: $spacer;
   }
 
-  .constraints-container {
-    @extend .mb-0;
-  }
-
   .constraint {
-    @extend .px-4;
+    padding-inline-end: $spacer;
     display: block;
-    text-indent: -1 * map-get($spacers, 3);
   }
 
   .filter-name {
