@@ -9,8 +9,8 @@ module Blacklight
       # rubocop:disable Metrics/ParameterLists
       def initialize(svg: nil, tag: :span, name: nil, label: nil, aria_hidden: nil, classes: nil, **options)
         self.svg = svg if svg
-        @classes = Array(classes) + ['blacklight-icons', "blacklight-icons-#{name}"]
         @name = name
+        @assigned_classes = Array(classes)
         @tag = tag
         @options = options.merge(aria: options.fetch(:aria, {}).reverse_merge(label: label, hidden: aria_hidden))
       end
@@ -18,11 +18,15 @@ module Blacklight
 
       def call
         tag.public_send(@tag, svg&.html_safe, # rubocop:disable Rails/OutputSafety
-                        class: @classes,
+                        class: classes,
                         **@options)
       end
 
       class_attribute :svg
+
+      def classes
+        @classes ||= @assigned_classes + ['blacklight-icons', "blacklight-icons-#{name}"]
+      end
 
       def name
         @name ||= self.class.name.demodulize.underscore.sub('_component', '')
