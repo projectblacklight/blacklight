@@ -64,7 +64,7 @@ export default class CheckboxSubmit {
   }
 
   bookmarkCounter() {
-    return document.querySelector('[data-role=bookmark-counter]')
+    return document.querySelector('[data-role="bookmark-counter"]')
   }
 
   handleError() {
