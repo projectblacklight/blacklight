@@ -37,7 +37,7 @@ export default class CheckboxSubmit {
       this.labelTarget.removeAttribute('disabled')
       this.checkboxTarget.removeAttribute('disabled')
       this.updateStateFor(!this.checked)
-      document.querySelector('[data-role=bookmark-counter]').innerHTML = json.bookmarks.count
+      if (this.bookmarkCounter()) this.bookmarkCounter().innerHTML = json.bookmarks.count
     }).catch((error) => {
       this.handleError(error)
     })
@@ -61,6 +61,10 @@ export default class CheckboxSubmit {
 
   get spanTarget() {
     return this.form.querySelector('[data-checkboxsubmit-target="span"]')
+  }
+
+  bookmarkCounter() {
+    return document.querySelector('[data-role="bookmark-counter"]')
   }
 
   handleError() {

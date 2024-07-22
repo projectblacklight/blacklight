@@ -10,6 +10,19 @@ RSpec.describe "Bookmarks" do
     end
   end
 
+  describe "when bookmark counter is not rendered" do
+    before do
+      allow(CatalogController).to receive(:render_bookmarks_control?).and_return(false)
+    end
+
+    it 'adds bookmark without raising an alert', :js do
+      visit solr_document_path('2007020969')
+      check 'Bookmark'
+      visit bookmarks_path
+      expect(page).to have_css('input[type="checkbox"][checked]')
+    end
+  end
+
   it "clears bookmarks" do
     visit solr_document_path('2007020969')
     click_on 'Bookmark'
