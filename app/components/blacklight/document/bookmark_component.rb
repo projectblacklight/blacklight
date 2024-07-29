@@ -21,6 +21,12 @@ module Blacklight
         helpers.bookmarked? @document
       end
 
+      def bookmark_icon
+        return unless helpers.blacklight_config.bookmark_icon_component
+
+        render helpers.blacklight_config.bookmark_icon_component.new(name: 'bookmark')
+      end
+
       def bookmark_path
         @bookmark_path || helpers.bookmark_path(@document)
       end

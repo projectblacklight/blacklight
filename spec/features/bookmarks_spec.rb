@@ -94,4 +94,19 @@ RSpec.describe "Bookmarks" do
     expect(page).to have_content 'Strong Medicine speaks'
     expect(page).to have_content 'Ci an zhou bian'
   end
+
+  context "has bookmark icon" do
+    before do
+      CatalogController.blacklight_config.bookmark_icon_component = Blacklight::Icons::BookmarkIconComponent
+    end
+
+    it 'shows bookmark icon instead of checkbox', :js do
+      visit solr_document_path('2007020969')
+      expect(page).to have_css('.blacklight-icons-bookmark')
+      find('.blacklight-icons-bookmark').click
+
+      expect(find('.toggle-bookmark[type="checkbox"]', visible: false)).to be_checked
+      find('.blacklight-icons-bookmark').click
+    end
+  end
 end
