@@ -1,6 +1,7 @@
 .sidenav {
-  --bl-facets-smallish-padding: .25rem;
-  --bl-facets-smallish-border: var(--bs-border-width) solid var(--bs-border-color);
+  --bl-facets-smallish-padding: 0.25rem;
+  --bl-facets-smallish-border: var(--bs-border-width) solid
+    var(--bs-border-color);
   --bl-facets-smallish-margin-bottom: #{$spacer};
   --bl-facets-smallish-border-radius: #{$border-radius};
 
@@ -39,14 +40,12 @@
     $next: breakpoint-next($breakpoint, $grid-breakpoints);
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-
     &#{$infix} {
       @include media-breakpoint-down($next) {
         border: var(--bl-facets-smallish-border);
         padding: var(--bl-facets-smallish-padding);
         margin-bottom: var(--bl-facets-smallish-margin-bottom);
         border-radius: var(--bl-facets-smallish-border-radius);
-
       }
       @include media-breakpoint-up($next) {
         // scss-lint:disable ImportantRule
@@ -100,11 +99,16 @@
   line-height: inherit;
 }
 
+:root {
+  --bl-facet-limit-margin: $spacer;
+  --bl-facet-limit-body-padding: $spacer;
+}
+
 .facet-limit {
-  margin-bottom: $spacer;
+  margin-bottom: var(--bl-facet-limit-margin);
 
   .card-body {
-    padding: $spacer;
+    padding: var(--bl-facet-limit-body-padding);
   }
 }
 
@@ -168,7 +172,7 @@
   }
 
   .facet-count {
-    margin-left: auto
+    margin-left: auto;
   }
 
   .facet-checkbox {
@@ -194,7 +198,7 @@
   }
 
   /* This prevents the contained stretch link from covering the panel body */
-  position: relative
+  position: relative;
 }
 
 /* Sidenav
