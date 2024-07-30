@@ -21,4 +21,7 @@ $body-secondary-color: rgba($body-color, 0.75) !default;
 
   --bl-field-name-color: var(--bs-secondary-color);
   --bl-facet-remove-color: var(--bs-secondary-color);
+
+  --bl-facet-active-bg: #{$facet-active-bg};
+  --bl-facet-active-item-color: #{$facet-active-item-color};
 }
