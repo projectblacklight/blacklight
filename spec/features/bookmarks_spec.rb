@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe "Bookmarks" do
+  before do
+    # Prevent any existing bookmarks from interfering
+    Bookmark.delete_all
+  end
+
   describe "navigating from the homepage" do
     it "has a link to the history page" do
       sign_in 'user1'
@@ -18,6 +23,7 @@ RSpec.describe "Bookmarks" do
     it 'adds bookmark without raising an alert', :js do
       visit solr_document_path('2007020969')
       check 'Bookmark'
+      expect(page).to have_content 'In Bookmarks' # confirm bookmark saved before navigating away.
       visit bookmarks_path
       expect(page).to have_css('input[type="checkbox"][checked]')
     end
