@@ -20,6 +20,9 @@ module Blacklight
           CONTENT
         end
 
+        # NOTE: manifest may not exist if they installed with "-a propshaft"
+        return unless File.exist?('app/assets/config/manifest.js')
+
         append_to_file 'app/assets/config/manifest.js' do
           <<~CONTENT
             //= link blacklight/manifest.js
@@ -28,9 +31,11 @@ module Blacklight
       end
 
       def append_blacklight_javascript
+        # NOTE: Avoid reimport of bootstrap (if they ran --css=bootstrap)
+        # see https://github.com/rails/cssbundling-rails/blob/4f4c62148bbee215a4694d6970be30f17c3066dd/lib/install/bootstrap/install.rb#L17-L20
+        append_to_file "app/javascript/application.js", %(import * as bootstrap from "bootstrap"\n)
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
-            import bootstrap from "bootstrap"
             import githubAutoCompleteElement from "@github/auto-complete-element"
             import Blacklight from "blacklight"
           CONTENT
@@ -38,13 +43,22 @@ module Blacklight
       end
 
       def add_stylesheet
-        gem "sassc-rails", "~> 2.1" if Rails.version > '7'
+        # NOTE: this indicates they installed with --css=bootstrap
+        if File.exist?('app/assets/stylesheets/application.bootstrap.scss')
+          append_to_file 'app/assets/stylesheets/application.bootstrap.scss' do
+            <<~CONTENT
+              @import "blacklight-frontend/app/assets/stylesheets/blacklight/blacklight";
+            CONTENT
+          end
+        else
+          gem "sassc-rails", "~> 2.1" if Rails.version > '7'
 
-        create_file 'app/assets/stylesheets/blacklight.scss' do
-          <<~CONTENT
-            @import 'bootstrap';
-            @import 'blacklight/blacklight';
-          CONTENT
+          create_file 'app/assets/stylesheets/blacklight.scss' do
+            <<~CONTENT
+              @import 'bootstrap';
+              @import 'blacklight/blacklight';
+            CONTENT
+          end
         end
       end
 
