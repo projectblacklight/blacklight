@@ -25,7 +25,7 @@ jobs:
           ruby-version: 3.2
           bundler: "latest"
       - name: Change permissions
-        run: chmod -R o-w /opt/hostedtoolcache/Ruby/3.2.4/x64/lib/ruby/gems/3.2.0/gems
+        run: "chmod -f -R o-w /opt/hostedtoolcache/Ruby/3.2.5/x64/lib/ruby/gems/3.2.0/gems | :"
       - name: Install dependencies
         run: bundle install
       - name: Run linter
@@ -85,7 +85,7 @@ jobs:
           bundler: "latest"
           ruby-version: ${{ matrix.ruby }}
       - name: Change permissions
-        run: chmod -R o-w /opt/hostedtoolcache/Ruby/3.2.4/x64/lib/ruby/gems/3.2.0/gems
+        run: "chmod -f -R o-w /opt/hostedtoolcache/Ruby/3.2.5/x64/lib/ruby/gems/3.2.0/gems | :"
       - name: Install dependencies
         run: bundle install
       - name: Run tests
