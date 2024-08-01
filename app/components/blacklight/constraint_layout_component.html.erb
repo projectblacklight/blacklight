@@ -10,14 +10,7 @@
   <% if @remove_path.present? %>
     <%= link_to(@remove_path, class: 'btn btn-outline-secondary remove') do %>
       <span class="remove-icon" aria-hidden="true">✖</span>
-      <span class="sr-only visually-hidden">
-        <%= if @label.blank?
-            t('blacklight.search.filters.remove.value', value: @value)
-          else
-            t('blacklight.search.filters.remove.label_value', label: @label, value: @value)
-          end
-        %>
-      </span>
+      <span class="sr-only visually-hidden"><%= remove_aria_label %></span>
     <% end %>
   <% end %>
 </span>
