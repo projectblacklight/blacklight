@@ -95,4 +95,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build docker image
-        run: docker-compose build app
+        run: docker compose build app
