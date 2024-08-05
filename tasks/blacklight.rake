@@ -21,18 +21,18 @@ def system_with_error_handling(*args)
 end
 
 def with_solr
-  # We're being invoked by the app entrypoint script and solr is already up via docker-compose
+  # We're being invoked by the app entrypoint script and solr is already up via docker compose
   if ENV['SOLR_ENV'] == 'docker-compose'
     yield
-  elsif system('docker-compose -v')
-    # We're not running docker-compose up but still want to use a docker instance of solr.
+  elsif system('docker compose -v')
+    # We're not running `docker compose up' but still want to use a docker instance of solr.
     begin
       puts "Starting Solr"
-      system_with_error_handling "docker-compose up -d solr"
+      system_with_error_handling "docker compose up -d solr"
       yield
     ensure
       puts "Stopping Solr"
-      system_with_error_handling "docker-compose stop solr"
+      system_with_error_handling "docker compose stop solr"
     end
   else
     SolrWrapper.wrap do |solr|
