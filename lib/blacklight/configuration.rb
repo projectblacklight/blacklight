@@ -59,6 +59,7 @@ module Blacklight
     # rubocop:disable Metrics/BlockLength
     default_configuration do
       property :logo_link, default: nil
+      property :skip_link_component, default: Blacklight::SkipLinkComponent
       property :header_component, default: Blacklight::HeaderComponent
       property :full_width_layout, default: false
 

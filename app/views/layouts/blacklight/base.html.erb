@@ -28,13 +28,10 @@
     <%= content_for(:head) %>
   </head>
   <body class="<%= render_body_class %>">
-    <nav id="skip-link" role="navigation" class="visually-hidden-focusable sr-only sr-only-focusable" aria-label="<%= t('blacklight.skip_links.label') %>">
-      <div class="container-xl">
-        <%= link_to t('blacklight.skip_links.search_field'), '#search_field', class: 'd-inline-flex p-2 m-1', data: { turbolinks: 'false' } %>
-        <%= link_to t('blacklight.skip_links.main_content'), '#main-container', class: 'd-inline-flex p-2 m-1', data: { turbolinks: 'false' } %>
-        <%= content_for(:skip_links) %>
-      </div>
-    </nav>
+    <%= render blacklight_config.skip_link_component.new do %>
+      <%= content_for(:skip_links) %>
+    <% end %>
+
     <%= render partial: 'shared/header_navbar' %>
 
     <main id="main-container" class="<%= container_classes %>" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
