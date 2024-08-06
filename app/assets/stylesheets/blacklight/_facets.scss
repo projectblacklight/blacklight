@@ -112,7 +112,7 @@
   border-color: $facet-active-border !important;
 
   .card-header {
-    background-color: $facet-active-bg !important;
+    background-color: var(--bl-facet-active-bg) !important;
 
     .btn {
       @if function-exists(color-contrast) {
@@ -143,7 +143,7 @@
     }
 
     .selected {
-      color: $facet-active-item-color !important;
+      color: var(--bl-facet-active-item-color) !important;
     }
   }
 
