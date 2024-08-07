@@ -101,7 +101,7 @@
 }
 
 .facet-limit {
-  margin-bottom: $spacer;
+  margin-bottom: var(--bl-facet-margin-bottom);
 
   .card-body {
     padding: $spacer;
@@ -168,7 +168,7 @@
   }
 
   .facet-count {
-    margin-left: auto
+    margin-left: auto;
   }
 
   .facet-checkbox {
@@ -194,7 +194,7 @@
   }
 
   /* This prevents the contained stretch link from covering the panel body */
-  position: relative
+  position: relative;
 }
 
 /* Sidenav
