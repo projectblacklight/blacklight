@@ -10,6 +10,14 @@ module Blacklight
       @search_state = search_state
     end
 
+    def remove_aria_label
+      if @label.blank?
+        t('blacklight.search.filters.remove.value', value: @value)
+      else
+        t('blacklight.search.filters.remove.label_value', label: @label, value: @value)
+      end
+    end
+
     def render?
       @value.present?
     end
