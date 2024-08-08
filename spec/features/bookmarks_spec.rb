@@ -123,6 +123,7 @@ RSpec.describe "Bookmarks" do
       visit solr_document_path('2007020969')
       expect(page).to have_no_css('#bookmarks_nav')
       check 'Bookmark'
+      expect(page).to have_content 'In Bookmarks'
 
       visit solr_document_path('2007020969')
       expect(page).to have_css('input[type="checkbox"][checked]')
