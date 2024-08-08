@@ -88,8 +88,14 @@ RSpec.describe "Bookmarks" do
   end
 
   context "has bookmark icon" do
+    let!(:default_bookmark_icon_component) { CatalogController.blacklight_config.bookmark_icon_component }
+
     before do
       CatalogController.blacklight_config.bookmark_icon_component = Blacklight::Icons::BookmarkIconComponent
+    end
+
+    after do
+      CatalogController.blacklight_config.bookmark_icon_component = default_bookmark_icon_component
     end
 
     it 'shows bookmark icon instead of checkbox', :js do
