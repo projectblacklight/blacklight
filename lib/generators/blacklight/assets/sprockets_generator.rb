@@ -15,8 +15,6 @@ module Blacklight
       # Remove the empty generated app/assets/images directory. Without doing this,
       # the default Sprockets 4 manifest will raise an exception.
       def appease_sprockets4
-        return if Rails.version > '7' || Sprockets::VERSION < '4'
-
         append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
         append_to_file 'app/assets/config/manifest.js', "\n//= link blacklight/manifest.js"
         empty_directory 'app/assets/images'
@@ -30,7 +28,7 @@ module Blacklight
           CONTENT
         end
 
-        gem "sassc-rails", "~> 2.1" if Rails.version > '7'
+        gem "sassc-rails", "~> 2.1"
 
         # Ensure this method is idempotent
         return if has_blacklight_assets?
