@@ -75,7 +75,7 @@ module Blacklight
     def toggle_icon(type)
       content_tag 'span', class: type do
         concat @icons[type]
-        concat content_tag('span', t(type, scope: 'blacklight.search.facets.pivot'), class: 'sr-only visually-hidden')
+        concat content_tag('span', t(type, scope: 'blacklight.search.facets.pivot'), class: 'visually-hidden')
       end
     end
   end
