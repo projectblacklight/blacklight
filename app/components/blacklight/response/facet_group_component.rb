@@ -35,7 +35,7 @@ module Blacklight
       # @deprecated
       def default_body
         Blacklight.deprecation.warn('Rendering the Blacklight::FacetGroupComponent without a body slot is deprecated.')
-        helpers.render(Blacklight::FacetComponent.with_collection(@fields, response: @response))
+        render(Blacklight::FacetComponent.with_collection(@fields, response: @response))
       end
 
       # @deprecated

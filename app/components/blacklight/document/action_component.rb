@@ -35,7 +35,8 @@ module Blacklight
       end
 
       def render_partial
-        helpers.render(partial: @action.partial || @action.name.to_s, locals: { document: @document, document_action_config: @action }.merge(@options))
+        render(partial: @action.partial || @action.name.to_s,
+               locals: { document: @document, document_action_config: @action }.merge(@options))
       end
 
       def label
