@@ -582,3 +582,5 @@ Rails/WhereNotWithMultipleConditions: # new in 2.17
   Enabled: true
 Rails/WhereRange: # new in 2.25
   Enabled: true
+Gemspec/AddRuntimeDependency: # new in 1.65
+  Enabled: true
