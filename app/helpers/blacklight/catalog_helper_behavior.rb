@@ -105,10 +105,12 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Look up the current per page value, or the default if none if set
   #
+  # @deprecated
   # @return [Integer]
   def current_per_page
     (@response.rows if @response && @response.rows > 0) || params.fetch(:per_page, blacklight_config.default_per_page).to_i
   end
+  Blacklight.deprecation.deprecate_methods(self, current_per_page: 'has moved to Blacklight::Search::PerPageComponent')
 
   ##
   # Should we display the sort and per page widget?
