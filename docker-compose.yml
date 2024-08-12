@@ -9,7 +9,7 @@ services:
         - ALPINE_RUBY_VERSION
     # mounting . is causing seg-fault on macosx
     #volumes:
-      #- .:/app
+    #- .:/app
     depends_on:
       - solr
     ports:
