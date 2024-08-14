@@ -35,7 +35,7 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
     end
 
     it "renders content" do
-      expect(render.css('.pagination-search-widgets').to_html).not_to be_blank
+      expect(render.css('.search-context.page-links').to_html).not_to be_blank
     end
 
     context "session and document are out of sync" do

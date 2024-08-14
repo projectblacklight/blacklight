@@ -37,6 +37,10 @@ module Blacklight
       filter_partials(blacklight_config.view_config(:show).document_actions, { document: document }.merge(options)).map { |_k, v| v }
     end
 
+    def filter_partials(partials, options)
+      partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }
+    end
+
     private
 
     def render_filtered_partials(partials, options = {})
@@ -51,10 +55,6 @@ module Blacklight
         end
       end
       safe_join(content, "\n") unless block_given?
-    end
-
-    def filter_partials(partials, options)
-      partials.select { |_, config| blacklight_configuration_context.evaluate_if_unless_configuration config, options }
     end
   end
 end

@@ -3,6 +3,12 @@ label.toggle-bookmark {
 	min-width: 8.5em;
 }
 
+/* override for line 3.
+Creates weird spacing in toolbar when min-width is set to 8rem */
+.header-tools label.toggle-bookmark {
+  min-width: 2rem;
+}
+
 .bookmark-toggle {
 	.no-js & {
 		input[type="submit"] {
