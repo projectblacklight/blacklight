@@ -199,6 +199,9 @@ hu:
       email: Email
       sms: Küldés SMS-ben
       title: Eszközök
+    top_navbar:
+      aria:
+        container_label: Fő navigáció
     welcome: Üdvözöljük!
   views:
     pagination:

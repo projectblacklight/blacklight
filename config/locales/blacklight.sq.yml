@@ -199,6 +199,9 @@ sq:
       email: Email
       sms: Dërgo SMS
       title: Veglat
+    top_navbar:
+      aria:
+        container_label: Lundrimi kryesor
     welcome: Mirësevini!
   views:
     pagination:

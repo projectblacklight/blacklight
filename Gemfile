@@ -35,3 +35,5 @@ end
 # END ENGINE_CART BLOCK
 
 eval_gemfile File.expand_path("spec/test_app_templates/Gemfile.extra", File.dirname(__FILE__))
+
+gem "easy_translate", "~> 0.5.1"

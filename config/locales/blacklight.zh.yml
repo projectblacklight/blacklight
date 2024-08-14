@@ -199,6 +199,9 @@ zh:
       email: 电子邮件
       sms: 发送短信
       title: 工具
+    top_navbar:
+      aria:
+        container_label: 主导航
     welcome: 欢迎!
   views:
     pagination:

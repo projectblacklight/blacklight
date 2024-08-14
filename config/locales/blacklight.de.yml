@@ -202,6 +202,9 @@ de:
       email: E-Mail
       sms: SMS
       title: Werkzeuge
+    top_navbar:
+      aria:
+        container_label: Hauptnavigation
     welcome: Willkommen!
   views:
     pagination:

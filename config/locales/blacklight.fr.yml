@@ -201,6 +201,9 @@ fr:
       email: Envoyer
       sms: SMS
       title: Outils
+    top_navbar:
+      aria:
+        container_label: Navigation principale
     welcome: Welcome!
   views:
     pagination:

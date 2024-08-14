@@ -215,6 +215,9 @@ ar:
       email: بريد إلكتروني
       sms: إرسله كرسالة نصية قصيرة
       title: أدوات
+    top_navbar:
+      aria:
+        container_label: التنقل الرئيسي
     welcome: مرحبًا!
   views:
     pagination:
