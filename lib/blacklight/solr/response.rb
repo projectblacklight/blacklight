@@ -1,18 +1,6 @@
 # frozen_string_literal: true
 
 class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
-  extend ActiveSupport::Autoload
-  eager_autoload do
-    autoload :PaginationMethods
-    autoload :Response
-    autoload :Spelling
-    autoload :Facets
-    autoload :MoreLikeThis
-    autoload :GroupResponse
-    autoload :Group
-    autoload :Params
-  end
-
   include PaginationMethods
   include Spelling
   include Facets

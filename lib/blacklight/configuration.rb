@@ -5,24 +5,6 @@ module Blacklight
   # Blacklight::Configuration holds the configuration for a Blacklight::Controller, including
   # fields to display, facets to show, sort options, and search fields.
   class Configuration < OpenStructWithHashAccess
-    extend ActiveSupport::Autoload
-    eager_autoload do
-      autoload :Context
-      autoload :ViewConfig
-      autoload :ToolConfig
-      autoload :Fields
-      autoload :Field
-      autoload :NullField
-      autoload :NullDisplayField
-      autoload :SearchField
-      autoload :FacetField
-      autoload :SortField
-      autoload :DisplayField
-      autoload :IndexField
-      autoload :ShowField
-      autoload :SessionTrackingConfig
-    end
-
     class_attribute :default_values, default: {}
 
     # Set up Blacklight::Configuration.default_values to contain the basic, required Blacklight fields
