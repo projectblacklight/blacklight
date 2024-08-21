@@ -201,6 +201,8 @@ module Blacklight
         # in Blacklight 9, the default show_tools_component configuration will
         # be Blacklight::Document::ShowToolsComponent
         show_tools_component: nil,
+        show_header_tools_component: nil,
+        document_header_component: Blacklight::Document::PageHeaderComponent,
         sidebar_component: Blacklight::Document::SidebarComponent,
         display_type_field: nil,
         # the "field access" key to use to look up the document display fields
@@ -211,7 +213,8 @@ module Blacklight
         route: nil,
         # partials to render for each document(see #render_document_partials)
         partials: [],
-        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
+        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
+        header_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
       )
 
       # @!attribute action_mapping
@@ -558,6 +561,22 @@ module Blacklight
       add_action(show.document_actions, name, opts)
       klass && ActionBuilder.new(klass, name, opts).build
     end
+
+    # Add a partial to the show page header when rendering a document.
+    # @!macro partial_if_unless
+    #   @param name [String] the name of the document partial
+    #   @param opts [Hash]
+    #   @option opts [Class] :component draw a component
+    #   @option opts [String] :partial partial to draw if component is false
+    #   @option opts [Symbol,Proc] :if render this action if the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
+    #   @option opts [Symbol,Proc] :unless render this action unless the method identified by the symbol or the proc evaluates to true. The proc will receive the action configuration and the document or documents for the action.
+    def add_show_header_tools_partial(name, opts = {})
+      opts[:partial] ||= 'document_action'
+
+      add_action(show.header_actions, name, opts)
+      klass && ActionBuilder.new(klass, name, opts).build
+    end
+
     # rubocop:enable Layout/LineLength
 
     # Add a tool for the search result list itself
