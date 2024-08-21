@@ -234,6 +234,10 @@ en:
 
     did_you_mean: 'Did you mean to type: %{options}?'
 
+    top_navbar:
+      aria:
+        container_label: Main navigation
+
     main:
       aria:
         main_container: 'Main content'

@@ -199,6 +199,9 @@ nl:
       email: Email
       sms: SMS dit
       title: Hulpmiddelen
+    top_navbar:
+      aria:
+        container_label: Hoofdnavigatie
     welcome: Welkom!
   views:
     pagination:

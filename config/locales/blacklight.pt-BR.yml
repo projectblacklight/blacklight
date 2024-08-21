@@ -200,6 +200,9 @@ pt-BR:
       email: Email
       sms: SMS
       title: Ferramentas
+    top_navbar:
+      aria:
+        container_label: Navegação principal
     welcome: Bem-Vindo!
   views:
     pagination:

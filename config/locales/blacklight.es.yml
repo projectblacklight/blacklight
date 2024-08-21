@@ -201,6 +201,9 @@ es:
       email: Correo electrónico
       sms: Enviar SMS
       title: Herramientas
+    top_navbar:
+      aria:
+        container_label: Navegación principal
     welcome: "¡Bienvenido!"
   views:
     pagination:
