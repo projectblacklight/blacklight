@@ -1,0 +1,12 @@
+<%= form_tag search_action_path, method: :get, class: ['range_limit subsection form-inline', "range_#{@facet_field.key} d-flex justify-content-center"].join(' ') do %>
+  <%= render hidden_search_state %>
+
+  <div class="input-group input-group-sm mb-3 flex-nowrap range-limit-input-group">
+    <%= render_range_input(:start, start_label) %>
+    <%= render_range_input(:end, end_label) %>
+    <div class="input-group-append visually-hidden">
+      <%= submit_tag t('blacklight.search.facets.range.form.submit'), class: 'submit btn btn-secondary', name: nil %>
+    </div>
+    <%= submit_tag t('blacklight.search.facets.range.form.submit'), class: "submit btn btn-secondary sr-only", "aria-hidden": "true", name: nil %>
+  </div>
+<% end %>

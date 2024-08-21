@@ -70,6 +70,7 @@ module Blacklight
       query.stringify_keys! if query
 
       normalize_pivot_config! if pivot
+      normalize_range_config! if range
       self.collapse = true if collapse.nil?
       self.show = true if show.nil?
       self.if = show if self.if.nil?
@@ -97,6 +98,14 @@ module Blacklight
       self.item_component ||= Blacklight::FacetItemPivotComponent
       self.filter_class ||= Blacklight::SearchState::PivotFilterField
       self.filter_query_builder ||= Blacklight::SearchState::PivotFilterField::QueryBuilder
+    end
+
+    def normalize_range_config!
+      self.presenter ||= Blacklight::FacetFieldRangePresenter
+      self.item_presenter ||= Blacklight::FacetItemRangePresenter
+      self.component ||= Blacklight::FacetFieldListRangeComponent
+      self.filter_class ||= Blacklight::SearchState::RangeFilterField
+      self.solr_params = (solr_params || {}).merge({ 'facet.missing' => true })
     end
   end
 end
