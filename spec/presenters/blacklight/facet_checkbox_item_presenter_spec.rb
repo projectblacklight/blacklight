@@ -24,25 +24,19 @@ RSpec.describe Blacklight::FacetCheckboxItemPresenter, type: :presenter do
     subject { presenter.selected? }
 
     context 'with a matching inclusive filter' do
-      it 'returns true' do
-        expect(subject).to be true
-      end
+      it { is_expected.to be true }
     end
 
     context 'with an inclusive filter that does not match' do
       let(:params) { ActionController::Parameters.new(f_inclusive: { format: ["Manuscript"] }) }
 
-      it 'returns true' do
-        expect(subject).to be false
-      end
+      it { is_expected.to be false }
     end
 
     context 'with a matching exclusive filter' do
       let(:params) { ActionController::Parameters.new(f: { format: ["Book"] }) }
 
-      it 'returns false' do
-        expect(subject).to be false
-      end
+      it { is_expected.to be false }
     end
   end
 end
