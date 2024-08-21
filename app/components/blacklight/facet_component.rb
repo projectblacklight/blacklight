@@ -51,7 +51,7 @@ module Blacklight
     end
 
     def render_partial
-      helpers.render(@field_config.partial, locals: { field_name: @field_config.field, facet_field: @field_config, display_facet: @display_facet }.merge(@component_args))
+      render(@field_config.partial, locals: { field_name: @field_config.field, facet_field: @field_config, display_facet: @display_facet }.merge(@component_args))
     end
   end
 end

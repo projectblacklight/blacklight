@@ -41,7 +41,7 @@ module Blacklight
 
     def query_constraints
       if @search_state.query_param.present?
-        helpers.render(
+        render(
           @query_constraint_component.new(
             search_state: @search_state,
             value: @search_state.query_param,
@@ -53,7 +53,7 @@ module Blacklight
         )
       else
         ''.html_safe
-      end + helpers.render(@facet_constraint_component.with_collection(clause_presenters.to_a, **@facet_constraint_component_options))
+      end + render(@facet_constraint_component.with_collection(clause_presenters.to_a, **@facet_constraint_component_options))
     end
 
     def remove_path
@@ -61,7 +61,7 @@ module Blacklight
     end
 
     def facet_constraints
-      helpers.render(@facet_constraint_component.with_collection(facet_item_presenters.to_a, **@facet_constraint_component_options))
+      render(@facet_constraint_component.with_collection(facet_item_presenters.to_a, **@facet_constraint_component_options))
     end
 
     def render?

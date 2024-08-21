@@ -36,7 +36,7 @@ RSpec.describe Blacklight::Document::ActionComponent, type: :component do
     let(:action) { Blacklight::Configuration::ToolConfig.new(name: '', partial: '/some/tool') }
 
     it 'render the partial' do
-      allow(view_context).to receive(:render).with(hash_including(partial: '/some/tool')).and_return('tool')
+      allow(view_context).to receive(:render).with(hash_including(partial: '/some/tool'), {}).and_return('tool')
 
       expect(rendered).to have_content 'tool'
     end
