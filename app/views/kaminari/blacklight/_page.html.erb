@@ -8,12 +8,8 @@
     remote:        data-remote
 -%>
 <% page_display = number_with_delimiter(page.to_s) %>
+<% aria_label = page.current? ? t('views.pagination.aria.current_page', page: page_display) : t('views.pagination.aria.go_to_page', page: page_display) %>
 
-<li class="page-item <%= 'active' if page.current? %>">
-  <% if page.current? %>
-    <span class="page-link" aria-current="true"><%= page_display %><span class="sr-only visually-hidden"> <%= t('views.pagination.aria.current_page', page: page_display) %></span></span>
-  <% else %>
-    <%= link_to page_display, url, :remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil, class: 'page-link', aria: { label: t('views.pagination.aria.go_to_page', page: page_display) } %>
-  <% end %>
+<li class="page-item <%= 'active' if page.current? %>" <%= 'aria-current="page"' if page.current? %>>
+  <%= link_to page_display, url, :remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil, class: 'page-link', aria: { label: aria_label } %>
 </li>
-
