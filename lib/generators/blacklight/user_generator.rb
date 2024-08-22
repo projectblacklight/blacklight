@@ -25,9 +25,7 @@ module Blacklight
       gem "devise-guests", "~> 0.8"
 
       inside destination_root do
-        Bundler.with_unbundled_env do
-          run "bundle install"
-        end
+        run "bundle install"
       end
 
       generate "devise:install"
