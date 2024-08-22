@@ -14,6 +14,9 @@ $body-secondary-color: rgba($body-color, 0.75) !default;
 :root {
   --bs-secondary-color: #{$body-secondary-color}; /* for compatability with BS < 5.3  */
 
+  --bl-constraint-remove-hover-bg: #bb2d3b;
+  --bl-constraint-remove-hover-border-color: #bb2d3b;
+
   --bl-field-name-color: var(--bs-secondary-color);
   --bl-facet-remove-color: var(--bs-secondary-color);
 
