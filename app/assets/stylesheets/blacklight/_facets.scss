@@ -99,11 +99,16 @@
   line-height: inherit;
 }
 
+:root {
+  --bl-facet-limit-margin: $spacer;
+  --bl-facet-limit-body-padding: $spacer;
+}
+
 .facet-limit {
-  margin-bottom: $spacer;
+  margin-bottom: var(--bl-facet-limit-margin);
 
   .card-body {
-    padding: $spacer;
+    padding: var(--bl-facet-limit-body-padding);
   }
 }
 
