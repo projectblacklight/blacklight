@@ -7,7 +7,7 @@ module Blacklight
         if ENV['CI']
           run "yarn add file:#{Blacklight::Engine.root}"
         else
-          run 'yarn add blacklight-frontend'
+          run "yarn add blacklight-frontend@#{Blacklight::VERSION}"
         end
       end
 
