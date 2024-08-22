@@ -151,6 +151,8 @@ module Blacklight
       # @return [#partials]
       property :navbar, default: OpenStructWithHashAccess.new(partials: {})
 
+      property :start_over_component, default: Blacklight::StartOverButtonComponent.new
+
       # @!attribute bookmark_icon_component
       # @since v8.3.1
       # component class used to render a document

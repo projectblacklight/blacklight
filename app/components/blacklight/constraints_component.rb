@@ -6,13 +6,14 @@ module Blacklight
     renders_many :facet_constraints_area
     renders_many :additional_constraints
 
+    delegate :blacklight_config, to: :helpers
+
     def self.for_search_history(**kwargs)
       new(tag: :span,
           render_headers: false,
           id: nil,
           query_constraint_component: Blacklight::SearchHistoryConstraintLayoutComponent,
           facet_constraint_component_options: { layout: Blacklight::SearchHistoryConstraintLayoutComponent },
-          start_over_component: nil,
           **kwargs)
     end
 
@@ -24,14 +25,12 @@ module Blacklight
                    query_constraint_component: Blacklight::ConstraintLayoutComponent,
                    query_constraint_component_options: {},
                    facet_constraint_component: Blacklight::ConstraintComponent,
-                   facet_constraint_component_options: {},
-                   start_over_component: Blacklight::StartOverButtonComponent)
+                   facet_constraint_component_options: {})
       @search_state = search_state
       @query_constraint_component = query_constraint_component
       @query_constraint_component_options = query_constraint_component_options
       @facet_constraint_component = facet_constraint_component
       @facet_constraint_component_options = facet_constraint_component_options
-      @start_over_component = start_over_component
       @render_headers = render_headers
       @tag = tag
       @id = id
@@ -95,7 +94,7 @@ module Blacklight
       return to_enum(:clause_presenters) unless block_given?
 
       @search_state.clause_params.each do |key, clause|
-        field_config = helpers.blacklight_config.search_fields[clause[:field]]
+        field_config = blacklight_config.search_fields[clause[:field]]
         yield Blacklight::ClausePresenter.new(key, clause, field_config, helpers)
       end
     end

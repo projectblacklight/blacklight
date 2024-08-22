@@ -3,7 +3,7 @@
     <h2 class="sr-only visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
   <% end %>
 
-  <%= render @start_over_component.new if @start_over_component %>
+  <%= render blacklight_config.start_over_component if blacklight_config.start_over_component %>
 
   <% if @render_headers %>
     <span class="constraints-label sr-only visually-hidden"><%= t('blacklight.search.filters.title') %></span>
