@@ -4,7 +4,7 @@
   --bl-facet-margin-bottom: #{$spacer};
   --bl-facet-remove-color: var(--bs-secondary-color);
 
-  --bl-facet-limit-body-padding: $spacer;
+  --bl-facet-limit-body-padding: #{$spacer};
 
   --bl-facets-smallish-padding: 0.25rem;
   --bl-facets-smallish-border: var(--bs-border-width) solid
