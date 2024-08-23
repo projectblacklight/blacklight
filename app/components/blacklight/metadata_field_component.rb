@@ -26,6 +26,11 @@ module Blacklight
       @field.render_field?
     end
 
+    # Override this method in a subclass to change the way this value is rendered
+    def render_field
+      @field.render
+    end
+
     ##
     # Render the index field label for a document
     #
