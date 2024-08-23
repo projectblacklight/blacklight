@@ -11,6 +11,21 @@ module Blacklight
         @classes = classes
         @selected = selected
       end
+
+      # You may override this method in a subclass if you want to use a different dropdown component
+      def dropdown_class
+        Blacklight::System::DropdownComponent
+      end
+
+      def dropdown
+        render(dropdown_class.new(
+                 param: @param,
+                 choices: @choices,
+                 id: @id,
+                 search_state: @search_state,
+                 selected: @selected
+               ))
+      end
     end
   end
 end
