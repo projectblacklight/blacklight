@@ -166,6 +166,7 @@ module Blacklight
         # component class used to render a document
         document_component: Blacklight::DocumentComponent,
         sidebar_component: Blacklight::Search::SidebarComponent,
+        dropdown_component: Blacklight::System::DropdownComponent,
         # solr field to use to render a document title
         title_field: nil,
         # solr field to use to render format-specific partials

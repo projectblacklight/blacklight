@@ -14,7 +14,7 @@ module Blacklight
 
       # You may override this method in a subclass if you want to use a different dropdown component
       def dropdown_class
-        Blacklight::System::DropdownComponent
+        helpers.blacklight_config.view_config(:show).dropdown_component
       end
 
       def dropdown
