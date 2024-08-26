@@ -1,4 +1,4 @@
 /* Generic layout stuff */
 main {
-  padding-block: 0.5rem;
+  padding-block: var(--bl-main-padding-y);
 }
