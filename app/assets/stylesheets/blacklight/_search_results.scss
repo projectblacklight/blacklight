@@ -1,10 +1,13 @@
 // the search results on the index view of the catalog
 .documents-list {
+  --bl-results-document-margin-top: #{$spacer};
+  --bl-results-document-padding-top: #{$spacer};
+
   .document {
     display: flex;
     border-bottom: 1px dotted $table-border-color;
-    margin-top: $spacer;
-    padding-top: $spacer;
+    margin-top: var(--bl-results-document-margin-top);
+    padding-top: var(--bl-results-document-padding-top);
 
     .document-title-heading {
       @extend h5;
