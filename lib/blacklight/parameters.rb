@@ -7,7 +7,7 @@ module Blacklight
     # from the provided parameters.
     # @param [Hash] params parameters
     def self.sanitize params
-      params.reject { |_k, v| v.nil? } # rubocop:disable Style/CollectionCompact not available in Rails 6.0
+      params.reject { |_k, v| v.nil? } # not available in Rails 6.0
             .except(:action, :controller, :id, :commit, :utf8)
     end
 
