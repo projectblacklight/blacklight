@@ -98,7 +98,7 @@ module Blacklight::Solr::Response::Params
       json_params[json_key || key],
       json_params.dig(:params, key),
       json_params.dig(:params, "json.#{key}")
-    ].select(&:present?).inject([]) do |memo, arr|
+    ].compact_blank.inject([]) do |memo, arr|
       memo.concat(Array.wrap(arr))
     end
   end

@@ -161,7 +161,7 @@ module Blacklight::Solr
         limit: facet_limit_with_pagination(field_name)
       ).merge(additional_parameters)
 
-      solr_parameters[:json][:facet][field_name] = field_config.select { |_k, v| v.present? }
+      solr_parameters[:json][:facet][field_name] = field_config.compact_blank
     end
 
     ##
