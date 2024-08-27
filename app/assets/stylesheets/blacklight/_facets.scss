@@ -160,7 +160,7 @@
     text-decoration: none;
 
     &:hover {
-      color: theme-color("danger");
+      color: $danger;
       text-decoration: none;
     }
   }
