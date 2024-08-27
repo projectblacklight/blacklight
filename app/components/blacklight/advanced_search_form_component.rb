@@ -34,6 +34,12 @@ module Blacklight
       select_tag(:sort, options_for_select(options, params[:sort]), class: "form-select custom-select sort-select w-auto", aria: { labelledby: 'advanced-search-sort-label' })
     end
 
+    # Filtered params to pass to hidden search fields
+    # @return [ActiveSupport::HashWithIndifferentAccess]
+    def hidden_search_state_params
+      @params.except(:clause, :f_inclusive, :op, :sort)
+    end
+
     private
 
     def initialize_search_field_controls

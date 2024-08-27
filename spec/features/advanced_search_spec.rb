@@ -105,11 +105,23 @@ RSpec.describe "Blacklight Advanced Search Form" do
 
   describe "prepopulated advanced search form" do
     before do
-      visit '/catalog/advanced?op=must&clause[0][field]=title&clause[0]query=medicine'
+      visit '/catalog/advanced?op=must&clause[1][field]=title&clause[1]query=medicine&f_inclusive[language_ssim][]=Tibetan&sort=author'
     end
 
-    it "does not create hidden inputs for search fields" do
+    it 'prepopulates the expected fields' do
       expect(page).to have_field 'Title', with: 'medicine'
+      expect(page).to have_field 'Tibetan', checked: true
+      expect(page).to have_select 'op', selected: 'all'
+      expect(page).to have_select 'sort', selected: 'author'
+    end
+
+    it "does not create hidden inputs for fields included in adv search form" do
+      within('form.advanced') do
+        expect(page).to have_no_field('clause[1][query]', type: :hidden, with: 'medicine')
+        expect(page).to have_no_field('f_inclusive[language_ssim][]', type: :hidden, with: 'Tibetan')
+        expect(page).to have_no_field('op', type: :hidden, with: 'must')
+        expect(page).to have_no_field('sort', type: :hidden, with: 'author')
+      end
     end
 
     it "does not have multiple parameters for a search field" do
@@ -121,8 +133,10 @@ RSpec.describe "Blacklight Advanced Search Form" do
 
     it "clears the prepopulated fields when the Start Over button is pressed" do
       expect(page).to have_field 'Title', with: 'medicine'
+      expect(page).to have_field 'Tibetan', checked: true
       click_on 'Start over'
       expect(page).to have_no_field 'Title', with: 'medicine'
+      expect(page).to have_no_field 'Tibetan', checked: true
     end
   end
 end

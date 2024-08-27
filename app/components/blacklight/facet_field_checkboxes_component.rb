@@ -17,7 +17,7 @@ module Blacklight
       return to_enum(:presenters) unless block_given?
 
       @facet_field.paginator.items.each do |item|
-        yield @facet_field.facet_field.item_presenter.new(item, @facet_field.facet_field, helpers, @facet_field.key, @facet_field.search_state)
+        yield Blacklight::FacetCheckboxItemPresenter.new(item, @facet_field.facet_field, helpers, @facet_field.key, @facet_field.search_state)
       end
     end
   end

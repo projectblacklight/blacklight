@@ -8,7 +8,7 @@
 <% end %>
 
 <%= form_tag @url, method: @method, class: @classes.join(' '), role: 'search', 'aria-label' => t('blacklight.search.form.submit') do %>
-  <%= render Blacklight::HiddenSearchStateComponent.new(params: @params) %>
+  <%= render Blacklight::HiddenSearchStateComponent.new(params: hidden_search_state_params) %>
 
   <div class="input-criteria">
     <div class="query-criteria mb-4">
