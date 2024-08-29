@@ -150,7 +150,7 @@ module Blacklight
     def before_render
       set_slot(:title, nil) unless title
       set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters) unless metadata
+      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters, show: @show) unless metadata
       set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
     end
 
