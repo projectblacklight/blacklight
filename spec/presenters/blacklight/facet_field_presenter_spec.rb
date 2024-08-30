@@ -51,6 +51,20 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
     it "is false if no value for facet is selected" do
       expect(presenter.active?).to be false
     end
+
+    context 'with an advanced search action' do
+      before { controller.params[:action] = 'advanced_search' }
+
+      it "is true if any value for inclusive facet is selected" do
+        search_state.params[:f_inclusive] = ActiveSupport::HashWithIndifferentAccess.new(key: [1])
+        expect(presenter.active?).to be true
+      end
+
+      it "is false if no value for inclusive facet is selected" do
+        search_state.params[:f] = ActiveSupport::HashWithIndifferentAccess.new(key: [1])
+        expect(presenter.active?).to be false
+      end
+    end
   end
 
   describe '#in_modal?' do

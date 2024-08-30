@@ -19,7 +19,15 @@ module Blacklight
     end
 
     def active?
-      search_state.filter(facet_field).any?
+      if in_advanced_search?
+        search_state.filter(facet_field).values(except: [:filters, :missing]).any?
+      else
+        search_state.filter(facet_field).any?
+      end
+    end
+
+    def in_advanced_search?
+      search_state.params[:action] == "advanced_search"
     end
 
     def in_modal?
