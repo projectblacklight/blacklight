@@ -1,50 +1,51 @@
-label.toggle-bookmark {
-	font-weight: inherit;
-	min-width: 8.5em;
-}
-
-div.toggle-bookmark {
-  cursor: pointer;
-}
-
-/* override for line 3.
-Creates weird spacing in toolbar when min-width is set to 8rem */
-.header-tools label.toggle-bookmark {
-  min-width: 2rem;
-}
-
 .bookmark-toggle {
-	.no-js & {
-		input[type="submit"] {
-			display: inline
-		}
+  .no-js & {
+    input[type="submit"] {
+      display: inline;
+    }
 
-		div.toggle-bookmark {
-			display: none
-		}
-	}
-
-	input[type="submit"] {
-		display: none;
-	}
-}
-.toggle-bookmark .blacklight-icons svg {
-  height: 1.25rem;
-  width: 1.25rem;
-  overflow: visible;
-  fill: var(--bs-primary);
-
-  &.bookmark-checked {
-    display: none;
-  }
-}
-
-.toggle-bookmark[type="checkbox"]:checked+span svg {
-  &.bookmark-checked {
-    display: inherit;
+    .toggle-bookmark {
+      display: none;
+    }
   }
 
-  &.bookmark-unchecked {
+  input[type="submit"] {
     display: none;
+  }
+
+  .toggle-bookmark {
+    cursor: pointer;
+
+    .toggle-bookmark-label {
+      font-weight: inherit;
+      min-width: 8.5em;
+
+      .blacklight-icons svg {
+        height: 1.25rem;
+        width: 1.25rem;
+        overflow: visible;
+        fill: var(--bs-primary);
+
+        &.bookmark-checked {
+          display: none;
+        }
+      }
+    }
+
+    .toggle-bookmark-input:checked + span svg {
+      &.bookmark-checked {
+        display: inherit;
+      }
+
+      &.bookmark-unchecked {
+        display: none;
+      }
+    }
+  }
+
+  /* override for line 21.
+      Creates weird spacing in toolbar when min-width is set to 8rem */
+  .header-tools .toggle-bookmark-label {
+    min-width: 2rem;
   }
 }
