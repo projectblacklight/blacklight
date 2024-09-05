@@ -12,11 +12,11 @@ module Blacklight
       end
 
       def render?
-        return false unless (@search_session['document_id'] == @current_document_id)
+        return false unless @search_session['document_id'] == @current_document_id
 
         return true if total == 1
-        
-        @search_context.present? && (@search_context[:prev] || @search_context[:next]) 
+
+        @search_context.present? && (@search_context[:prev] || @search_context[:next])
       end
 
       ##
@@ -34,7 +34,7 @@ module Blacklight
 
         previous_document ||= @search_context[:prev]
         link_opts = session_tracking_params(previous_document, count - 1, per_page: per_page, search_id: search_id).merge(class: classes, rel: 'prev').merge(link_opts)
-       
+
         link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
           tag.span raw(t('views.pagination.previous')), class: 'previous'
         end
@@ -42,7 +42,7 @@ module Blacklight
 
       def link_to_next_document(next_document = nil, classes: 'next', **link_opts)
         return if total == 1
-        
+
         next_document ||= @search_context[:next]
         link_opts = session_tracking_params(next_document, count + 1, per_page: per_page, search_id: search_id).merge(class: classes, rel: 'next').merge(link_opts)
         link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
@@ -51,7 +51,7 @@ module Blacklight
       end
 
       def current_count
-        (total == 1)? total : number_with_delimiter(count)
+        total == 1 ? total : number_with_delimiter(count)
       end
 
       private
