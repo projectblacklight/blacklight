@@ -10,6 +10,6 @@
 <% page_display = number_with_delimiter(page.to_s) %>
 <% aria_label = page.current? ? t('views.pagination.aria.current_page', page: page_display) : t('views.pagination.aria.go_to_page', page: page_display) %>
 
-<li class="page-item <%= 'active' if page.current? %>" <%= 'aria-current="page"' if page.current? %>>
+<li class="page-item <%= 'active' if page.current? %>" <%= 'aria-current=page' if page.current? %>>
   <%= link_to page_display, url, :remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil, class: 'page-link', aria: { label: aria_label } %>
 </li>
