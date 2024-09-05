@@ -19,6 +19,10 @@ module Blacklight
         @search_context.present? && (@search_context[:prev] || @search_context[:next])
       end
 
+      def display_separator
+        '|' unless total == 1
+      end
+
       ##
       # Displays "showing X of Y items" message.
       #

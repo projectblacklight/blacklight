@@ -29,6 +29,7 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
 
     it "renders single page count" do
       expect(render.to_html).to include '<strong>1</strong> of <strong>1</strong>'
+      expect(render.to_html).not_to include '|'
       expect(render.css('span.previous').to_html).to be_blank
       expect(render.css('span.next').to_html).to be_blank
     end
