@@ -23,6 +23,17 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
     end
   end
 
+  context 'when there is exactly one search result with no next or previous document' do
+    let(:search_context) { {} }
+    let(:search_session) { { 'document_id' => current_document_id, 'total' => '1' } }
+
+    it "renders single page count" do
+      expect(render.to_html).to include '<strong>1</strong> of <strong>1</strong>'
+      expect(render.css('span.previous').to_html).to be_blank
+      expect(render.css('span.next').to_html).to be_blank
+    end
+  end
+
   context 'when there is next and previous' do
     let(:search_context) { { next: next_doc, prev: prev_doc } }
     let(:prev_doc) { SolrDocument.new(id: '777') }

@@ -12,7 +12,11 @@ module Blacklight
       end
 
       def render?
-        @search_context.present? && (@search_context[:prev] || @search_context[:next]) && (@search_session['document_id'] == @current_document_id)
+        return false unless (@search_session['document_id'] == @current_document_id)
+
+        return true if total == 1
+        
+        @search_context.present? && (@search_context[:prev] || @search_context[:next]) 
       end
 
       ##
@@ -20,25 +24,34 @@ module Blacklight
       #
       # @return [String]
       def item_page_entry_info
-        t('blacklight.search.entry_pagination_info.other', current: number_with_delimiter(count),
+        t('blacklight.search.entry_pagination_info.other', current: current_count,
                                                            total: number_with_delimiter(total),
                                                            count: total).html_safe
       end
 
       def link_to_previous_document(previous_document = nil, classes: 'previous', **link_opts)
+        return if total == 1
+
         previous_document ||= @search_context[:prev]
         link_opts = session_tracking_params(previous_document, count - 1, per_page: per_page, search_id: search_id).merge(class: classes, rel: 'prev').merge(link_opts)
+       
         link_to_unless previous_document.nil?, raw(t('views.pagination.previous')), url_for_document(previous_document), link_opts do
           tag.span raw(t('views.pagination.previous')), class: 'previous'
         end
       end
 
       def link_to_next_document(next_document = nil, classes: 'next', **link_opts)
+        return if total == 1
+        
         next_document ||= @search_context[:next]
         link_opts = session_tracking_params(next_document, count + 1, per_page: per_page, search_id: search_id).merge(class: classes, rel: 'next').merge(link_opts)
         link_to_unless next_document.nil?, raw(t('views.pagination.next')), url_for_document(next_document), link_opts do
           tag.span raw(t('views.pagination.next')), class: 'next'
         end
+      end
+
+      def current_count
+        (total == 1)? total : number_with_delimiter(count)
       end
 
       private
