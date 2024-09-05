@@ -220,6 +220,7 @@ es:
       next: Siguiente &raquo;
       previous: "&laquo; Anterior"
       truncate: "…"
+      separator: "|"
     pagination_compact:
       next: Siguiente &raquo;
       previous: "&laquo; Anterior"

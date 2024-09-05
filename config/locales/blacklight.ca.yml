@@ -6,6 +6,7 @@ ca:
       previous: '&laquo; Anterior'
       next: 'Següent &raquo;'
       truncate: '…'
+      separator: '|'
       aria:
         container_label: 'enllaços de paginació'
         current_page: 'Pàgina actual, pàgina %{page}'

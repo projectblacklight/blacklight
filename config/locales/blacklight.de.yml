@@ -221,6 +221,7 @@ de:
       next: Nächste &raquo;
       previous: "&laquo; Vorherige"
       truncate: "…"
+      separator: "|"
     pagination_compact:
       next: Nächste &raquo;
       previous: "&laquo; Vorherige"

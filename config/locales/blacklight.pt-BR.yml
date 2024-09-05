@@ -219,6 +219,7 @@ pt-BR:
       next: próximo &raquo;
       previous: "&laquo; anterior"
       truncate: "…"
+      separator: "|"
     pagination_compact:
       next: próx &raquo;
       previous: "&laquo; ant"

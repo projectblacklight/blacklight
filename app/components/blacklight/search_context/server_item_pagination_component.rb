@@ -20,7 +20,7 @@ module Blacklight
       end
 
       def display_separator
-        '|' unless total == 1
+        t('views.pagination.separator') unless total == 1
       end
 
       ##
