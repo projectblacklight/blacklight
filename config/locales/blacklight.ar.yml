@@ -234,6 +234,7 @@ ar:
       next: التالي &raquo;
       previous: "&laquo; السابق"
       truncate: "…"
+      separator: "|"
     pagination_compact:
       next: التالية &raquo;
       previous: "&laquo; السابقة"

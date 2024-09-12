@@ -218,6 +218,7 @@ nl:
       next: Volgende &raquo;
       previous: "&laquo; Vorige"
       truncate: "…"
+      separator: "|"
     pagination_compact:
       next: Volgende &raquo;
       previous: "&laquo; Vorige"

@@ -218,6 +218,7 @@ sq:
       next: Tjetra &raquo;
       previous: "&laquo; Mbrapa"
       truncate: "…"
+      separator: "|"
     pagination_compact:
       next: Tjetra &raquo;
       previous: "&laquo; Mbrapa"

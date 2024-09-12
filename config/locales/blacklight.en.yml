@@ -6,6 +6,7 @@ en:
       previous: '&laquo; Previous'
       next: 'Next &raquo;'
       truncate: '…'
+      separator: '|'
       aria:
         container_label: 'pagination links'
         current_page: 'Current Page, Page %{page}'

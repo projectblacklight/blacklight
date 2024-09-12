@@ -218,6 +218,7 @@ hu:
       next: Következő &raquo;
       previous: "&laquo; Előző"
       truncate: "…"
+      separator: "|"
     pagination_compact:
       next: Következő &raquo;
       previous: "&laquo; Előző"
