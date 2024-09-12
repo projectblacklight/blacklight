@@ -12,11 +12,9 @@ module Blacklight
       end
 
       def render?
-        return false unless @search_session['document_id'] == @current_document_id
+        return false unless @search_context.present? && @search_session['document_id'] == @current_document_id
 
-        return true if total == 1
-
-        @search_context.present? && (@search_context[:prev] || @search_context[:next])
+        total == 1 || (@search_context[:prev] || @search_context[:next])
       end
 
       def display_separator

@@ -24,7 +24,7 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
   end
 
   context 'when there is exactly one search result with no next or previous document' do
-    let(:search_context) { {} }
+    let(:search_context) { { prev: nil, next: nil } }
     let(:search_session) { { 'document_id' => current_document_id, 'total' => '1' } }
 
     it "renders single page count" do
