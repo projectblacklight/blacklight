@@ -1,2 +1,0 @@
-<% Blacklight.deprecation.warn('The partial _show_tools.html.erb will be removed in Blacklight 9.0. Configure blacklight_config.show.show_tools_component instead (default Blacklight::Document::ShowToolsComponent).') unless local_assigns[:silence_deprecation] %>
-<%= render Blacklight::Document::ShowToolsComponent.new(document: document) %>

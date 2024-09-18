@@ -16,12 +16,12 @@ module Blacklight
 
       private
 
-      def render_show_tools
-        blacklight_config.view_config(:show).show_tools_component&.tap do |show_tools_component_class|
-          return render show_tools_component_class.new(document: document)
-        end
+      def show_tools_component_class
+        blacklight_config.view_config(:show).show_tools_component
+      end
 
-        render 'show_tools', document: document, silence_deprecation: helpers.partial_from_blacklight?('show_tools')
+      def render_show_tools
+        render show_tools_component_class.new(document: document)
       end
     end
   end
