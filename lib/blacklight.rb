@@ -1,23 +1,13 @@
 # frozen_string_literal: true
 
 require 'kaminari'
-require 'blacklight/open_struct_with_hash_access'
-require 'blacklight/nested_open_struct_with_hash_access'
 require 'jbuilder'
+require "zeitwerk"
+loader = Zeitwerk::Loader.for_gem
+loader.ignore("#{__dir__}/generators")
+loader.setup
 
 module Blacklight
-  autoload :AbstractRepository, 'blacklight/abstract_repository'
-  autoload :Component, 'blacklight/component'
-  autoload :Configuration, 'blacklight/configuration'
-  autoload :Exceptions,  'blacklight/exceptions'
-  autoload :Parameters,  'blacklight/parameters'
-  autoload :Routes,      'blacklight/routes'
-  autoload :RuntimeRegistry, 'blacklight/runtime_registry'
-  autoload :SearchBuilder, 'blacklight/search_builder'
-  autoload :SearchState, 'blacklight/search_state'
-  autoload :Solr, 'blacklight/solr'
-
-  require 'blacklight/version'
   require 'blacklight/engine' if defined?(Rails)
 
   def self.blacklight_config_file
