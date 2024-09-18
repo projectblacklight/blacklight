@@ -1,261 +1,244 @@
+---
 en:
-  views:
-    pagination:
-      first: '&laquo; First'
-      last: 'Last &raquo;'
-      previous: '&laquo; Previous'
-      next: 'Next &raquo;'
-      truncate: '…'
-      aria:
-        container_label: 'pagination links'
-        current_page: 'Current Page, Page %{page}'
-        go_to_page: 'Go to page %{page}'
-        go_to_previous_page: 'Go to previous page'
-        go_to_next_page: 'Go to next page'
-        go_to_first_page: 'Go to first page'
-        go_to_last_page: 'Go to last page'
-
-    pagination_compact:
-      previous: '&laquo; Previous'
-      next: 'Next &raquo;'
-
   blacklight:
-    application_name: 'Blacklight'
-    skip_links:
-      label: 'Skip links'
-      main_content: 'Skip to main content'
-      search_field: 'Skip to search'
-      first_result: 'Skip to first result'
-    header_links:
-      login: 'Login'
-      logout: 'Log Out'
-      bookmarks: 'Bookmarks'
-      search_history: 'History'
-
-    welcome: 'Welcome!'
-    and: 'and'
-    or: 'or'
-
-    modal:
-      close: "Close"
-
-    bookmarks:
-      title: 'Bookmarks'
-      page_title: 'Bookmarks - %{application_name}'
-      no_bookmarks: 'You have no bookmarks'
-      add:
-        button: 'Bookmark'
-        success:
-          one: 'Successfully added bookmark.'
-          other: 'Successfully added bookmarks.'
-        failure:  'Sorry, there was a problem saving the bookmarks.'
-      remove:
-        button: 'Remove bookmark'
-        success: 'Successfully removed bookmark.'
-        failure: 'Sorry, there was a problem removing the bookmarks.'
-        action_confirm: 'Remove this bookmark?'
-      clear:
-        action_title: 'Clear Bookmarks'
-        action_confirm: 'Clear your bookmarks?'
-        success: 'Cleared your bookmarks.'
-        failure: 'Sorry, there was a problem clearing your bookmarks.'
-      need_login: 'Please log in to manage and view your bookmarks.'
-      list_title: 'Your Bookmarks'
-      delete: 'Remove'
-
-    search_history:
-      clear:
-        action_title: 'Clear Search History'
-        action_confirm: 'Clear your search history?'
-        success: 'Cleared your search history.'
-        failure: 'There was a problem clearing your search history.'
-      title: 'Search History'
-      page_title: 'Search History - %{application_name}'
-      no_history: 'You have no search history'
-      recent: 'Your recent searches'
-      forget: 'forget'
-      save: 'save'
-
-    tools:
-      title: 'Tools'
-      citation: 'Cite'
-      email: 'Email'
-      sms: 'SMS This'
-      clear: 'Clear'
-
-    citation:
-      mla: 'MLA'
-      apa: 'APA'
-      chicago: 'Chicago'
-
-    email:
-      form:
-        title: 'Email This'
-        to: 'Email:'
-        message: 'Message:'
-        submit: 'Send'
-      text:
-        default_title: 'N/A'
-        subject:
-          one: 'Item Record: %{title}'
-          other: 'Item records'
-        url: 'URL: %{url}'
-        message: 'Message: %{message}'
-
-      success: "Email Sent"
-
-      errors:
-        to:
-          invalid: 'You must enter a valid email address'
-          blank: 'You must enter a recipient in order to send this message'
-    sms:
-      form:
-        title: 'SMS This'
-        to: 'Phone Number:'
-        carrier: 'Carrier'
-        carrier_prompt: 'Please select your carrier'
-        submit: 'Send'
-      text:
-        url: 'Link: %{url}'
-      success: "SMS Sent"
-      errors:
-        to:
-          invalid: 'You must enter a valid 10 digit phone number'
-          blank: "You must enter a recipient's phone number in order to send this message"
-        carrier:
-          blank: 'You must select a carrier'
-          invalid: "You must enter a valid carrier"
-
-    back_to_search: 'Back to Search'
-    back_to_bookmarks: 'Back to Bookmarks'
-
-    search:
-      page_title:
-        title: '%{constraints} - %{application_name} Search Results'
-        constraint: '%{label}: %{value}'
-        many_constraint_values: '%{values} selected'
-      header: 'Search'
-      search_constraints_header: 'Search Constraints'
-      search_results: 'Search Results'
-      errors:
-        invalid_solr_id: "Sorry, you have requested a record that doesn't exist."
-      per_page:
-        label: '%{count}<span class="sr-only visually-hidden"> per page</span>'
-        button_label: '%{count} per page' # TODO: Remove during major release
-        button_label_html: '%{count}<span class="d-none d-sm-inline"> per page</span>'
-        title: 'Number of results to display per page'
-        submit: 'Update'
-        aria_label: 'Results navigation'
-      sort:
-        label: 'Sort by %{field}' # TODO: Remove during major release
-        label_html: 'Sort<span class="d-none d-sm-inline"> by %{field}</span>'
-        submit: 'sort results'
-      form:
-        search_field:
-          label: 'Search in'
-          title: 'Targeted search options'
-          post_label: 'for'
-        search:
-          label: 'search for'
-          placeholder: 'Search...'
-        submit: 'Search'
-      pagination:
-        title: 'Results navigation'
-      pagination_info:
-        no_items_found: 'No %{entry_name} found'
-        single_item_found: '<strong>1</strong> %{entry_name} found'
-        pages:
-          one: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
-          other: '<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>'
-      entry_pagination_info:
-        one: '<strong>1 of 1</strong>'
-        other: '<strong>%{current}</strong> of <strong>%{total}</strong>'
-      documents:
-        aria:
-          search_results: 'search results'
-          limit_search: 'limit your search'
-        counter: '%{counter}. '
-      facets:
-        title: 'Limit your search'
-        clear: 'Clear Filter'
-        sort:
-          count: 'Numerical Sort'
-          index: 'A-Z Sort'
-        count: '%{number}'
-        more_html: 'more <span class="sr-only visually-hidden">%{field_name}</span> »'
-        selected:
-          remove: '[remove]'
-        missing: "[Missing]"
-        all: All
-        pivot:
-          show: Show
-          hide: Hide
-        group:
-          open: Show facets
-          close: Hide facets
-      group:
-        more: 'more »'
-      filters:
-        title: 'You searched for:'
-        label: '%{label}:'
-        remove:
-          value: 'Remove constraint %{value}'
-          label_value: 'Remove constraint %{label}: %{value}'
-      start_over: 'Start Over'
-      index:
-        label: '%{label}:'
-      show:
-        title: '%{document_title} - %{application_name}'
-        label: '%{label}:'
-      rss_feed: 'RSS for results'
-      atom_feed: 'Atom for results'
-      bookmarks:
-        present: "In Bookmarks"
-        absent: "Bookmark"
-        inprogress: "Saving..."
-      zero_results:
-        title: "No results found for your search"
-        modify_search: "Try modifying your search"
-        use_fewer_keywords: "Use fewer keywords to start, then refine your search using the links on the left."
-        search_fields: "you searched by %{search_fields}"
-        search_everything: "try searching everything"
-      view_title: "View results as: "
-      view:
-        list: "List"
-
-    entry_name:
-      default:
-        one: 'entry'
-        other: 'entries'
-      grouped:
-        default:
-          one: 'grouped result'
-          other: 'grouped results'
-
-    did_you_mean: 'Did you mean to type: %{options}?'
-
-    top_navbar:
-      aria:
-        container_label: Main navigation
-
-    main:
-      aria:
-        main_container: 'Main content'
-
     advanced_search:
-      or_html: ' OR '
-      more_options: More options
       any_of: 'Any of:'
+      form:
+        limit_criteria_heading_html: "<strong>AND</strong> have these attributes"
+        query_criteria_heading_html: Match %{select_menu} of the fields below
+        search_btn_html: Search
+        search_context: Within search
+        sort_label: Sort results by
+        start_over_html: Start over
+        title: Advanced search
+      more_options: More options
       op:
         label: search operator
         must: all
         should: any
+      or_html: " OR "
       page_title: Advanced search - %{application_name}
+    and: and
+    application_name: Blacklight
+    back_to_bookmarks: Back to Bookmarks
+    back_to_search: Back to Search
+    bookmarks:
+      add:
+        button: Bookmark
+        failure: Sorry, there was a problem saving the bookmarks.
+        success:
+          one: Successfully added bookmark.
+          other: Successfully added bookmarks.
+      clear:
+        action_confirm: Clear your bookmarks?
+        action_title: Clear Bookmarks
+        failure: Sorry, there was a problem clearing your bookmarks.
+        success: Cleared your bookmarks.
+      delete: Remove
+      list_title: Your Bookmarks
+      need_login: Please log in to manage and view your bookmarks.
+      no_bookmarks: You have no bookmarks
+      page_title: Bookmarks - %{application_name}
+      remove:
+        action_confirm: Remove this bookmark?
+        button: Remove bookmark
+        failure: Sorry, there was a problem removing the bookmarks.
+        success: Successfully removed bookmark.
+      title: Bookmarks
+    citation:
+      apa: APA
+      chicago: Chicago
+      mla: MLA
+    did_you_mean: 'Did you mean to type: %{options}?'
+    email:
+      errors:
+        to:
+          blank: You must enter a recipient in order to send this message
+          invalid: You must enter a valid email address
       form:
-        title: Advanced search
-        search_context: Within search
-        limit_criteria_heading_html: "<strong>AND</strong> have these attributes"
-        query_criteria_heading_html: "Match %{select_menu} of the fields below"
-        sort_label: "Sort results by"
-        start_over_html: "Start over"
-        search_btn_html: 'Search'
+        message: 'Message:'
+        submit: Send
+        title: Email This
+        to: 'Email:'
+      success: Email Sent
+      text:
+        default_title: N/A
+        message: 'Message: %{message}'
+        subject:
+          one: 'Item Record: %{title}'
+          other: Item records
+        url: 'URL: %{url}'
+    entry_name:
+      default:
+        one: entry
+        other: entries
+      grouped:
+        default:
+          one: grouped result
+          other: grouped results
+    header_links:
+      bookmarks: Bookmarks
+      login: Login
+      logout: Log Out
+      search_history: History
+    main:
+      aria:
+        main_container: Main content
+    modal:
+      close: Close
+    or: or
+    search:
+      atom_feed: Atom for results
+      bookmarks:
+        absent: Bookmark
+        inprogress: Saving...
+        present: In Bookmarks
+      documents:
+        aria:
+          limit_search: limit your search
+          search_results: search results
+        counter: "%{counter}. "
+      entry_pagination_info:
+        one: "<strong>1 of 1</strong>"
+        other: "<strong>%{current}</strong> of <strong>%{total}</strong>"
+      errors:
+        invalid_solr_id: Sorry, you have requested a record that doesn't exist.
+      facets:
+        all: All
+        clear: Clear Filter
+        count: "%{number}"
+        group:
+          close: Hide facets
+          open: Show facets
+        missing: "[Missing]"
+        more_html: more <span class="sr-only visually-hidden">%{field_name}</span> »
+        pivot:
+          hide: Hide
+          show: Show
+        selected:
+          remove: "[remove]"
+        sort:
+          count: Numerical Sort
+          index: A-Z Sort
+        title: Limit your search
+      filters:
+        label: "%{label}:"
+        remove:
+          label_value: 'Remove constraint %{label}: %{value}'
+          value: Remove constraint %{value}
+        title: 'You searched for:'
+      form:
+        search:
+          label: search for
+          placeholder: Search...
+        search_field:
+          label: Search in
+          post_label: for
+          title: Targeted search options
+        submit: Search
+      group:
+        more: more »
+      header: Search
+      index:
+        label: "%{label}:"
+      page_title:
+        constraint: "%{label}: %{value}"
+        many_constraint_values: "%{values} selected"
+        title: "%{constraints} - %{application_name} Search Results"
+      pagination:
+        title: Results navigation
+      pagination_info:
+        no_items_found: No %{entry_name} found
+        pages:
+          one: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>"
+          other: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> of <strong>%{total_num}</strong>"
+        single_item_found: "<strong>1</strong> %{entry_name} found"
+      per_page:
+        aria_label: Results navigation
+        button_label: "%{count} per page"
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> per page</span>'
+        label: '%{count}<span class="sr-only visually-hidden"> per page</span>'
+        submit: Update
+        title: Number of results to display per page
+      rss_feed: RSS for results
+      search_constraints_header: Search Constraints
+      search_results: Search Results
+      show:
+        label: "%{label}:"
+        title: "%{document_title} - %{application_name}"
+      sort:
+        label: Sort by %{field}
+        label_html: Sort<span class="d-none d-sm-inline"> by %{field}</span>
+        submit: sort results
+      start_over: Start Over
+      view:
+        list: List
+      view_title: 'View results as: '
+      zero_results:
+        modify_search: Try modifying your search
+        search_everything: try searching everything
+        search_fields: you searched by %{search_fields}
+        title: No results found for your search
+        use_fewer_keywords: Use fewer keywords to start, then refine your search using the links on the left.
+    search_history:
+      clear:
+        action_confirm: Clear your search history?
+        action_title: Clear Search History
+        failure: There was a problem clearing your search history.
+        success: Cleared your search history.
+      forget: forget
+      no_history: You have no search history
+      page_title: Search History - %{application_name}
+      recent: Your recent searches
+      save: save
+      title: Search History
+    skip_links:
+      first_result: Skip to first result
+      label: Skip links
+      main_content: Skip to main content
+      search_field: Skip to search
+    sms:
+      errors:
+        carrier:
+          blank: You must select a carrier
+          invalid: You must enter a valid carrier
+        to:
+          blank: You must enter a recipient's phone number in order to send this message
+          invalid: You must enter a valid 10 digit phone number
+      form:
+        carrier: Carrier
+        carrier_prompt: Please select your carrier
+        submit: Send
+        title: SMS This
+        to: 'Phone Number:'
+      success: SMS Sent
+      text:
+        url: 'Link: %{url}'
+    tools:
+      citation: Cite
+      clear: Clear
+      email: Email
+      sms: SMS This
+      title: Tools
+    top_navbar:
+      aria:
+        container_label: Main navigation
+    welcome: Welcome!
+  views:
+    pagination:
+      aria:
+        container_label: pagination links
+        current_page: Current Page, Page %{page}
+        go_to_first_page: Go to first page
+        go_to_last_page: Go to last page
+        go_to_next_page: Go to next page
+        go_to_page: Go to page %{page}
+        go_to_previous_page: Go to previous page
+      first: "&laquo; First"
+      last: Last &raquo;
+      next: Next &raquo;
+      previous: "&laquo; Previous"
+      truncate: "…"
+    pagination_compact:
+      next: Next &raquo;
+      previous: "&laquo; Previous"
