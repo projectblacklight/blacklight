@@ -36,7 +36,7 @@ module Blacklight
     concerns :exportable
   end
 
-  resources :bookmarks do
+  resources :bookmarks, only: [:index, :update, :create, :destroy] do
     concerns :exportable
 
     collection do
