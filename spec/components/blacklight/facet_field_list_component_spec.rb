@@ -30,8 +30,8 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
                     ])
   end
 
-  it 'renders a collapsible card' do
-    expect(rendered).to have_css '.card'
+  it 'renders an accordion item' do
+    expect(rendered).to have_css '.accordion-item'
     expect(rendered).to have_button 'Field'
     expect(rendered).to have_css 'button[data-bs-target="#facet-field"]'
     expect(rendered).to have_css '#facet-field.collapse.show'

@@ -13,7 +13,7 @@ RSpec.describe 'Accessibility testing', :js, api: false do
 
     expect(page).to be_accessible
 
-    within '.card.blacklight-language_ssim' do
+    within '.accordion-item.blacklight-language_ssim' do
       click_on 'Language'
       click_on "Tibetan"
     end
