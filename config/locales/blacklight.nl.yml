@@ -32,25 +32,25 @@ nl:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: 'Bedoelde u: %{options}?'
+    did_you_mean: "Bedoelde u: %{options}?"
     email:
       errors:
         to:
           blank: U dient een ontvanger voor dit bericht op te geven.
           invalid: U dient een geldig e-mailadres op te geven.
       form:
-        message: 'Boodschap:'
+        message: "Boodschap:"
         submit: Verzenden
         title: Email dit
-        to: 'Email:'
+        to: "Email:"
       success: Email Verzonden
       text:
         default_title: N/A
-        message: 'Boodschap: %{message}'
+        message: "Boodschap: %{message}"
         subject:
-          one: 'Item Record: %{title}'
+          one: "Item Record: %{title}"
           other: Item records
-        url: 'URL: %{url}'
+        url: "URL: %{url}"
     entry_name:
       default: ingang
       grouped:
@@ -103,9 +103,9 @@ nl:
       filters:
         label: "%{label}:"
         remove:
-          label_value: 'Verwijder zoekfilter %{label}: %{value}'
+          label_value: "Verwijder zoekfilter %{label}: %{value}"
           value: Verwijder zoekfilter %{value}
-        title: 'U zocht op:'
+        title: "U zocht op:"
       form:
         search:
           label: zoeken op
@@ -152,7 +152,7 @@ nl:
       start_over: Start Opnieuw
       view:
         list: Lijst
-      view_title: 'Bekijk resultaten als: '
+      view_title: "Bekijk resultaten als: "
       zero_results:
         modify_search: Probeer uw zoekopdracht aan te passen
         search_everything: probeer door alles te zoeken
@@ -189,10 +189,10 @@ nl:
         carrier_prompt: Gelieve uw carrier op te geven.
         submit: Verzenden
         title: SMS dit
-        to: 'Telefoonnummer:'
+        to: "Telefoonnummer:"
       success: SMS Verzonden
       text:
-        url: 'Link: %{url}'
+        url: "Link: %{url}"
     tools:
       citation: Citeer
       clear: Leeg maken

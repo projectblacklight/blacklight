@@ -39,18 +39,18 @@ es:
           blank: Debe introducir un destinatario para enviar este mensaje
           invalid: Debe entrar un email válido
       form:
-        message: 'Mensaje:'
+        message: "Mensaje:"
         submit: Enviar
         title: Enviar
-        to: 'Email:'
+        to: "Email:"
       success: Email enviado
       text:
         default_title: N/A
-        message: 'Mensaje: %{message}'
+        message: "Mensaje: %{message}"
         subject:
-          one: 'Ficha artículo: %{title}'
+          one: "Ficha artículo: %{title}"
           other: Ficha artículos
-        url: 'URL: %{url}'
+        url: "URL: %{url}"
     entry_name:
       default:
         one: entrada
@@ -105,9 +105,9 @@ es:
       filters:
         label: "%{label}:"
         remove:
-          label_value: 'Eliminar la restricción%{label}: %{value}'
+          label_value: "Eliminar la restricción%{label}: %{value}"
           value: Eliminar la restricción %{value}
-        title: 'Usted ha buscado:'
+        title: "Usted ha buscado:"
       form:
         search:
           label: buscar
@@ -154,7 +154,7 @@ es:
       start_over: Volver a empezar
       view:
         list: Lista
-      view_title: 'Ver Resultados por: '
+      view_title: "Ver Resultados por: "
       zero_results:
         modify_search: Intente modificar su búsqueda
         search_everything: Pruebe a buscar de todo
@@ -191,10 +191,10 @@ es:
         carrier_prompt: Por favor, seleccione su compañía telefónica
         submit: Enviar
         title: Enviar SMS
-        to: 'Número de teléfono:'
+        to: "Número de teléfono:"
       success: SMS enviado
       text:
-        url: 'Link: %{url}'
+        url: "Link: %{url}"
     tools:
       citation: Cité
       clear: Borrar

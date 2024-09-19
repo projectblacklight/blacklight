@@ -2,7 +2,7 @@
 en:
   blacklight:
     advanced_search:
-      any_of: 'Any of:'
+      any_of: "Any of:"
       form:
         limit_criteria_heading_html: "<strong>AND</strong> have these attributes"
         query_criteria_heading_html: Match %{select_menu} of the fields below
@@ -49,25 +49,25 @@ en:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: 'Did you mean to type: %{options}?'
+    did_you_mean: "Did you mean to type: %{options}?"
     email:
       errors:
         to:
           blank: You must enter a recipient in order to send this message
           invalid: You must enter a valid email address
       form:
-        message: 'Message:'
+        message: "Message:"
         submit: Send
         title: Email This
-        to: 'Email:'
+        to: "Email:"
       success: Email Sent
       text:
         default_title: N/A
-        message: 'Message: %{message}'
+        message: "Message: %{message}"
         subject:
-          one: 'Item Record: %{title}'
+          one: "Item Record: %{title}"
           other: Item records
-        url: 'URL: %{url}'
+        url: "URL: %{url}"
     entry_name:
       default:
         one: entry
@@ -124,9 +124,9 @@ en:
       filters:
         label: "%{label}:"
         remove:
-          label_value: 'Remove constraint %{label}: %{value}'
+          label_value: "Remove constraint %{label}: %{value}"
           value: Remove constraint %{value}
-        title: 'You searched for:'
+        title: "You searched for:"
       form:
         search:
           label: search for
@@ -173,7 +173,7 @@ en:
       start_over: Start Over
       view:
         list: List
-      view_title: 'View results as: '
+      view_title: "View results as: "
       zero_results:
         modify_search: Try modifying your search
         search_everything: try searching everything
@@ -210,10 +210,10 @@ en:
         carrier_prompt: Please select your carrier
         submit: Send
         title: SMS This
-        to: 'Phone Number:'
+        to: "Phone Number:"
       success: SMS Sent
       text:
-        url: 'Link: %{url}'
+        url: "Link: %{url}"
     tools:
       citation: Cite
       clear: Clear
