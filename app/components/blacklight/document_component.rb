@@ -107,8 +107,13 @@ module Blacklight
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
-      @document = document || presenter&.document || args[self.class.collection_parameter]
-      @presenter = presenter
+      if document.is_a?(Blacklight::DocumentPresenter) && presenter.nil?
+        @presenter = document
+        @document = @presenter.document || args[self.class.collection_parameter]
+      else
+        @document = document || presenter&.document || args[self.class.collection_parameter]
+        @presenter = presenter
+      end
 
       @component = component
       @title_component = title_component
