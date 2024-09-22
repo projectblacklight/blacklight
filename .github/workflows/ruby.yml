@@ -22,7 +22,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: 3.1
         bundler: 'default'
     - name: Install dependencies
       run: bundle install
@@ -69,50 +69,6 @@ jobs:
       env:
         BOOTSTRAP_VERSION: '~> 5.0'
         ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-coffee --skip-test'
-  test_rails6_0:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.6]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler: 'default'
-    - name: Install dependencies
-      run: bundle install
-      env:
-        RAILS_VERSION: 6.0.5.1
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        RAILS_VERSION: 6.0.5.1
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
-  test_rails5_2:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: [2.7]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler: 'default'
-    - name: Install dependencies
-      run: bundle install
-      env:
-        BOOTSTRAP_VERSION: '4.6.2'
-        RAILS_VERSION: 5.2.8.1
-    - name: Run tests
-      run: bundle exec rake ci
-      env:
-        BOOTSTRAP_VERSION: '4.6.2'
-        RAILS_VERSION: 5.2.8.1
-        ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   test_rails6_1:
     runs-on: ubuntu-latest
     strategy:
