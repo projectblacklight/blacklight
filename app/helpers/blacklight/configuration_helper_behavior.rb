@@ -207,6 +207,7 @@ module Blacklight::ConfigurationHelperBehavior
   deprecation_deprecate default_per_page: "Use blacklight_config.default_per_page instead"
 
   ##
+  # @deprecated
   # The available options for results per page, in the style of #options_for_select
   def per_page_options_for_select
     return [] if blacklight_config.per_page.blank?
@@ -215,6 +216,7 @@ module Blacklight::ConfigurationHelperBehavior
       [t(:'blacklight.search.per_page.label', count: count).html_safe, count]
     end
   end
+  deprecation_deprecate per_page_options_for_select: 'has moved to Blacklight::Search::PerPageComponent'
 
   ##
   # Determine whether to render a field by evaluating :if and :unless conditions

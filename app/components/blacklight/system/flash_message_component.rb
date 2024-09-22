@@ -2,7 +2,7 @@
 
 module Blacklight
   module System
-    class FlashMessageComponent < ViewComponent::Base
+    class FlashMessageComponent < Blacklight::Component
       renders_one :message
 
       with_collection_parameter :message

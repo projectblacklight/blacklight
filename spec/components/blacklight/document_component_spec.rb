@@ -160,6 +160,26 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       expect(rendered).to have_content 'embed'
     end
 
+    context 'show view with custom translation' do
+      let!(:original_translations) { I18n.backend.send(:translations).deep_dup }
+
+      before do
+        controller.action_name = "show"
+        I18n.backend.store_translations(:en, blacklight: { search: { show: { label: "testing:%{label}" } } })
+      end
+
+      after do
+        I18n.backend.reload!
+        I18n.backend.store_translations(:en, original_translations[:en])
+      end
+
+      it 'renders with show-specific metadata with correct translation' do
+        expect(rendered).to have_css 'dl.document-metadata'
+        expect(rendered).to have_css 'dt', text: 'testing:ISBN'
+        expect(rendered).to have_css 'dd', text: 'Value'
+      end
+    end
+
     context 'with configured metadata component' do
       let(:custom_component_class) do
         Class.new(Blacklight::DocumentMetadataComponent) do

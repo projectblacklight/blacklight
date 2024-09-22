@@ -11,7 +11,7 @@ module Blacklight
     # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
     # @param [Blacklight::Configuration] blacklight_config
     # @param [Boolean] layout
-    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ParameterLists
+    # rubocop:disable Metrics/ParameterLists
     def initialize(display_facet_or_field_config: nil, display_facet: nil, field_config: nil, response: nil, blacklight_config: nil, component: nil, **component_args)
       if display_facet_or_field_config.is_a? Blacklight::FacetFieldPresenter
         @facet_field_presenter = display_facet_or_field_config
@@ -33,7 +33,7 @@ module Blacklight
       @component = component || (@field_config.component == true ? Blacklight::FacetFieldListComponent : @field_config.component)
       @component_args = component_args
     end
-    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ParameterLists
+    # rubocop:enable Metrics/ParameterLists
 
     def render?
       helpers.should_render_field?(@field_config, @display_facet)

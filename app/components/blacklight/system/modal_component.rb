@@ -2,7 +2,7 @@
 
 module Blacklight
   module System
-    class ModalComponent < ViewComponent::Base
+    class ModalComponent < Blacklight::Component
       include Blacklight::ContentAreasShim
 
       renders_one :prefix

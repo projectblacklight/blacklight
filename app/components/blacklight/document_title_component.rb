@@ -7,7 +7,7 @@ module Blacklight
     renders_many :actions
 
     # rubocop:disable Metrics/ParameterLists
-    def initialize(title = nil, document: nil, presenter: nil, as: :h3, counter: nil, classes: 'index_title document-title-heading col', link_to_document: true, document_component: nil)
+    def initialize(title = nil, document: nil, presenter: nil, as: :h3, counter: nil, classes: 'index_title document-title-heading col', link_to_document: true, document_component: nil, actions: true)
       raise ArgumentError, 'missing keyword: :document or :presenter' if presenter.nil? && document.nil?
 
       @title = title
@@ -18,6 +18,7 @@ module Blacklight
       @classes = classes
       @link_to_document = link_to_document
       @document_component = document_component
+      @actions = actions
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -32,6 +33,8 @@ module Blacklight
 
     # Content for the document actions area
     def actions
+      return [] unless @actions
+
       if block_given?
         @has_actions_slot = true
         return super

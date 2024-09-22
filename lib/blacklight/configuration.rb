@@ -205,7 +205,9 @@ module Blacklight
       # component class used to render search constraints
       constraints_component: nil,
       # component class used to render the search bar
-      search_bar_component: nil
+      search_bar_component: nil,
+      # pagination parameters to pass to kaminari
+      pagination_options: Blacklight::Engine.config.blacklight.default_pagination_options.dup
     )
 
     # @!attribute show

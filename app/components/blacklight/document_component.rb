@@ -107,8 +107,13 @@ module Blacklight
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
-      @document = document || presenter&.document || args[self.class.collection_parameter]
-      @presenter = presenter
+      if document.is_a?(Blacklight::DocumentPresenter) && presenter.nil?
+        @presenter = document
+        @document = @presenter.document || args[self.class.collection_parameter]
+      else
+        @document = document || presenter&.document || args[self.class.collection_parameter]
+        @presenter = presenter
+      end
 
       @component = component
       @title_component = title_component
@@ -145,7 +150,7 @@ module Blacklight
     def before_render
       set_slot(:title, nil) unless title
       set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters) unless metadata
+      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters, show: @show) unless metadata
       set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
     end
 

@@ -105,10 +105,12 @@ jobs:
     - name: Install dependencies
       run: bundle install
       env:
+        BOOTSTRAP_VERSION: '4.6.2'
         RAILS_VERSION: 5.2.8.1
     - name: Run tests
       run: bundle exec rake ci
       env:
+        BOOTSTRAP_VERSION: '4.6.2'
         RAILS_VERSION: 5.2.8.1
         ENGINE_CART_RAILS_OPTIONS: '--skip-git --skip-listen --skip-spring --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   test_rails6_1:

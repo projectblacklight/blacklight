@@ -2,9 +2,11 @@
 
 RSpec.describe "catalog/_paginate_compact.html.erb" do
   let(:user) { User.new { |u| u.save(validate: false) } }
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
     controller.request.path_parameters[:action] = 'index'
+    allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
   it "renders paginatable arrays" do
