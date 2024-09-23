@@ -90,7 +90,7 @@ hu:
           close: Fazetek elrejtése
           open: Szempontok megjelenítése
         missing: "[Hiányzó]"
-        more_html: több <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: több <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Bezárás
           show: Megnyitás
@@ -136,7 +136,7 @@ hu:
         aria_label: Eredmények navigáció
         button_label: "%{count} oldalanként"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> oldalanként</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> oldalanként</span>'
+        label: '%{count}<span class="visually-hidden"> oldalanként</span>'
         submit: Frissítés
         title: Az eredmények száma oldalanként
       rss_feed: Eredmények RSS-ként

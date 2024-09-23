@@ -111,7 +111,7 @@ en:
           close: Hide facets
           open: Show facets
         missing: "[Missing]"
-        more_html: more <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: more <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Hide
           show: Show
@@ -157,7 +157,7 @@ en:
         aria_label: Results navigation
         button_label: "%{count} per page"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> per page</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> per page</span>'
+        label: '%{count}<span class="visually-hidden"> per page</span>'
         submit: Update
         title: Number of results to display per page
       rss_feed: RSS for results

@@ -10,7 +10,7 @@
   <% if @remove_path.present? %>
     <%= link_to(@remove_path, class: 'btn btn-outline-secondary remove') do %>
       <%= render Blacklight::Icons::RemoveComponent.new %>
-      <span class="sr-only visually-hidden"><%= remove_aria_label %></span>
+      <span class="visually-hidden"><%= remove_aria_label %></span>
     <% end %>
   <% end %>
 </span>

@@ -92,7 +92,7 @@ es:
           close: Ocultar facetas
           open: Mostrar facetas
         missing: "[Falta]"
-        more_html: más <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: más <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Cerrar
           show: Abierto
@@ -138,7 +138,7 @@ es:
         aria_label: Navegación de resultados
         button_label: "%{count} por página"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> por página</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> por página</span>'
+        label: '%{count}<span class="visually-hidden"> por página</span>'
         submit: Actualización
         title: El número de resultados a mostrar por página
       rss_feed: RSS de los resultados

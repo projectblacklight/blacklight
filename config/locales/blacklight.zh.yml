@@ -90,7 +90,7 @@ zh:
           close: 隐藏方面
           open: 显示方面
         missing: "[未找到]"
-        more_html: 更多 <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: 更多 <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: 关
           show: 打开
@@ -136,7 +136,7 @@ zh:
         aria_label: 结果导航
         button_label: "%{count} 每页"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> 每页</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> 每页</span>'
+        label: '%{count}<span class="visually-hidden"> 每页</span>'
         submit: 更新
         title: 每页显示结果数
       rss_feed: 搜索结果RSS

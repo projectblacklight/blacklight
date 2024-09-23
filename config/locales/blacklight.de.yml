@@ -93,7 +93,7 @@ de:
           open: Facetten zeigen
         missing:
           - fehlt
-        more_html: mehr <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: mehr <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Schließen
           show: Öffnen
@@ -139,7 +139,7 @@ de:
         aria_label: Ergebnisnavigation
         button_label: "%{count} pro Seite"
         button_label_html: '%{count}<span class="d-none d-sm-inline"> pro Seite</span>'
-        label: '%{count}<span class="sr-only visually-hidden"> pro Seite</span>'
+        label: '%{count}<span class="visually-hidden"> pro Seite</span>'
         submit: Aktualisieren
         title: Anzahl der Ergebnisse, die pro Seite angezeigt werden
       rss_feed: RSS für Ergebnisse
