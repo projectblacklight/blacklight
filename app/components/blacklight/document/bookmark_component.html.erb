@@ -8,9 +8,9 @@
                absent: t('blacklight.search.bookmarks.absent'),
                inprogress: t('blacklight.search.bookmarks.inprogress')
             }) do %>
-  <div class="checkbox toggle-bookmark">
-    <label class="toggle-bookmark" data-checkboxsubmit-target="label">
-      <input type="checkbox" class="toggle-bookmark <%= bookmark_icon ? 'd-none' : '' %>" data-checkboxsubmit-target="checkbox" <%= 'checked="checked"' if bookmarked? %>>
+  <div class="toggle-bookmark">
+    <label class="toggle-bookmark-label" data-checkboxsubmit-target="label">
+      <input type="checkbox" class="toggle-bookmark-input <%= bookmark_icon ? 'd-none' : '' %>" data-checkboxsubmit-target="checkbox" <%= 'checked="checked"' if bookmarked? %>>
       <%= bookmark_icon %>
       <span data-checkboxsubmit-target="span"><%= bookmarked? ? t('blacklight.search.bookmarks.present') : t('blacklight.search.bookmarks.absent') %></span>
     </label>
