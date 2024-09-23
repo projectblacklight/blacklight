@@ -13,8 +13,8 @@
 
 <% content_for(:container_header) do -%>
   <%= render 'search_results_header' %>
-  <%= render 'constraints' %>
-<% end %>
+  <%= render (blacklight_config&.view_config(document_index_view_type)&.constraints_component || Blacklight::ConstraintsComponent).new(search_state: search_state) %>
+d<% end %>
 
 <%= render 'search_header' %>
 
