@@ -7,8 +7,8 @@ RSpec.describe "catalog/show.html.erb" do
 
   before do
     allow(presenter).to receive(:html_title).and_return('Heading')
+    allow(document).to receive(:more_like_this).and_return([])
     allow(view).to receive_messages(has_user_authentication_provider?: false)
-    allow(view).to receive_messages(render_document_sidebar_partial: "Sidebar")
     allow(view).to receive_messages(current_search_session: nil, search_session: {})
     assign :document, document
     allow(view).to receive_messages(document_presenter: presenter, action_name: 'show', blacklight_config: blacklight_config)
