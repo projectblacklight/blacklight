@@ -7,6 +7,15 @@ $logo-height: 50px !default;
 $facet-active-border: $success !default;
 $facet-active-bg: $success !default;
 $facet-active-item-color: $success !default;
+$facet-active-header-color: $black;
+/* Bootstrap 5+ */
+@if function-exists(color-contrast) {
+  $facet-active-header-color: color-contrast($facet-active-bg);
+}
+/* Bootstrap 4 */
+@if function-exists(color-yiq) {
+  $facet-active-header-color: color-yiq($facet-active-bg);
+}
 
 /* for compatability with BS < 5.3  */
 $body-secondary-color: rgba($body-color, 0.75) !default;
