@@ -41,10 +41,4 @@ module Blacklight::BlacklightHelperBehavior
   def self.blacklight_gem_path
     @blacklight_gem_path ||= Gem.loaded_specs["blacklight"].full_gem_path
   end
-
-  def partial_from_blacklight?(partial)
-    path = lookup_context.find_all(partial, lookup_context.prefixes + [""], true).first&.identifier
-
-    path.nil? ? false : path.starts_with?(Blacklight::BlacklightHelperBehavior.blacklight_gem_path)
-  end
 end
