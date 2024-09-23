@@ -45,8 +45,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency "equivalent-xml"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "rubocop", '~> 1.66'
+  s.add_development_dependency "rubocop-capybara", '~> 2.21'
   s.add_development_dependency "rubocop-rails", '~> 2.6'
   s.add_development_dependency "rubocop-rspec", '~> 3.0'
+  s.add_development_dependency "rubocop-rspec_rails", '~> 2.30'
   s.add_development_dependency "i18n-tasks"
   s.add_development_dependency "solr_wrapper"
 end

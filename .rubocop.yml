@@ -1,6 +1,8 @@
 require:
-  - rubocop-rspec
+  - rubocop-capybara
   - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
 
 
 inherit_from:
@@ -8,7 +10,7 @@ inherit_from:
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
   Exclude:
   - "lib/generators/blacklight/templates/**/*"
   - "blacklight.gemspec"
@@ -76,6 +78,15 @@ Rails:
 Rails/ApplicationMailer:
   Enabled: false
 
+# Offense count: 1
+# Configuration parameters: IgnoredMetadata.
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/features/**/*'
+    - 'spec/lib/tasks/**/*'
+    - 'spec/routing/**/*'
+    - 'spec/views/**/*'
+
 # https://github.com/rubocop-hq/rubocop/issues/6439
 Style/AccessModifierDeclarations:
   Enabled: false
@@ -113,8 +124,6 @@ Style/ExponentialNotation:
 
 Style/HashEachMethods:
   Enabled: true
-  Exclude:
-    - 'spec/services/blacklight/search_service_spec.rb'
 
 Style/HashTransformKeys:
   Enabled: true
