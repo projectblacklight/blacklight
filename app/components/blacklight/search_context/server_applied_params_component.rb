@@ -9,6 +9,14 @@ module Blacklight
       def render?
         current_search_session
       end
+
+      def start_over
+        render start_over_component.new
+      end
+
+      def start_over_component
+        Blacklight::StartOverButtonComponent
+      end
     end
   end
 end
