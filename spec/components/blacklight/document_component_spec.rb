@@ -236,6 +236,36 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
   end
 
+  context 'with partials rendered into a component slot' do
+    it 'does not automatically renders partials' do
+      component.with_partial { 'Partials' }
+      expect(rendered).not_to have_content 'Partials'
+    end
+  end
+
+  context 'with render_partials_in_component set to true' do
+    before do
+      blacklight_config.index.render_partials_in_component = true
+    end
+
+    it 'renders partials' do
+      component.with_partial { 'Partials' }
+      expect(rendered).to have_content 'Partials'
+    end
+  end
+
+  context 'with partials passed into the component constructor' do
+    let(:attr) { { partials: ['a'] } }
+
+    before do
+      allow(view_context).to receive(:render_document_partial).and_return('Partials')
+    end
+
+    it 'renders partials' do
+      expect(rendered).to have_content 'Partials'
+    end
+  end
+
   context 'with before_titles' do
     let(:render) do
       component.render_in(view_context) do
