@@ -19,9 +19,6 @@ module Blacklight
 
     # Add sprockets javascript if needed
     def create_sprockets_javascript
-      # Rails 5 already has an application.js file
-      return if Rails.version < '6'
-
       create_file 'app/assets/javascripts/application.js' do
         <<~CONTENT
           //= require jquery3
