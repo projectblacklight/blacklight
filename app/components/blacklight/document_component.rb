@@ -88,6 +88,7 @@ module Blacklight
     # rubocop:disable Metrics/ParameterLists
     # @param document [Blacklight::Document]
     # @param presenter [Blacklight::DocumentPresenter]
+    # @param partials [Array, nil] view partial names that should be used to provide content for the `partials` slot
     # @param id [String] HTML id for the root element
     # @param classes [Array, String] additional HTML classes for the root element
     # @param component [Symbol, String] HTML tag type to use for the root element
@@ -96,7 +97,7 @@ module Blacklight
     # @param document_counter [Number, nil] alternatively, the document's position in a collection and,
     # @param counter_offset [Number] with `document_counter`, the offset of the start of that collection counter to the overall result set
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
-    def initialize(document: nil, presenter: nil,
+    def initialize(document: nil, presenter: nil, partials: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
                    metadata_component: nil,
                    embed_component: nil,
@@ -134,6 +135,7 @@ module Blacklight
       @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
 
       @show = show
+      @view_partials = partials
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -152,9 +154,25 @@ module Blacklight
       set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
       set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters, show: @show) unless metadata
       set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
+
+      # Blacklight 8 allows applications to pass in the partials to render instead of requiring the template to render the slots.
+      if partials.empty? && view_partials.present? # rubocop:disable Style/GuardClause
+        @render_partials = true
+        view_partials.each do |view_partial|
+          with_partial(view_partial) do
+            helpers.render_document_partial @document, view_partial, component: self, document_counter: @counter
+          end
+        end
+      end
+    end
+
+    def render_partials?
+      @render_partials || presenter.view_config&.render_partials_in_component?
     end
 
     private
+
+    attr_reader :view_partials
 
     def presenter
       @presenter ||= helpers.document_presenter(@document)

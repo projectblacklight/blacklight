@@ -5,6 +5,8 @@ class Blacklight::Configuration
     #   @return [String] partial to render around the documents
     # @!attribute partials
     #   @return [Array<String>] partials to render for each document(see #render_document_partials)
+    # @!attribute [w] render_partials_in_component
+    #   @return [Boolean] whether to render partials in the component. This is false by default in Blacklight 7, but true in Blacklight 8.
     # @!attribute document_presenter_class
     #   @return [Class] document presenter class used by helpers and views
     # @!attribute document_component
@@ -40,6 +42,10 @@ class Blacklight::Configuration
         ],
         **options
       )
+    end
+
+    def render_partials_in_component?
+      render_partials_in_component
     end
 
     class Show < ViewConfig
