@@ -22,9 +22,6 @@ module Blacklight
   class DocumentComponent < Blacklight::Component
     with_collection_parameter :document
 
-    # ViewComponent 3 changes iteration counters to begin at 0 rather than 1
-    COLLECTION_INDEX_OFFSET = ViewComponent::VERSION::MAJOR < 3 ? 0 : 1
-
     # Content appearing before the document
     renders_one :header
 
@@ -108,7 +105,7 @@ module Blacklight
 
       @counter = counter
       @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
-      @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
+      @counter ||= 1 + @document_counter + counter_offset if @document_counter.present?
 
       @show = show
     end
