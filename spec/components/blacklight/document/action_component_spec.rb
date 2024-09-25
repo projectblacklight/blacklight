@@ -23,12 +23,7 @@ RSpec.describe Blacklight::Document::ActionComponent, type: :component do
   end
 
   it 'renders an action link' do
-    if Rails.version >= '6'
-      allow(view_context).to receive(:some_tool_solr_document_path).with(document, { only_path: true }).and_return('/asdf')
-    else
-      allow(view_context).to receive(:some_tool_solr_document_path).with(document).and_return('/asdf')
-    end
-
+    allow(view_context).to receive(:some_tool_solr_document_path).with(document, { only_path: true }).and_return('/asdf')
     expect(rendered).to have_link 'Some tool', href: '/asdf'
   end
 

@@ -8,7 +8,7 @@
 #  to talk with solr and get results)? when we do a document request, does
 #  blacklight code get a single document returned?)
 #
-RSpec.describe Blacklight::SearchService, api: true do
+RSpec.describe Blacklight::SearchService, :api do
   subject { service }
 
   let(:context) { { whatever: :value } }
@@ -49,7 +49,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end
 
   # SPECS FOR SEARCH RESULTS FOR QUERY
-  describe 'Search Results', integration: true do
+  describe 'Search Results', :integration do
     let(:blacklight_config) { copy_of_catalog_config }
 
     describe 'for a sample query returning results' do
@@ -100,11 +100,11 @@ RSpec.describe Blacklight::SearchService, api: true do
 
       it "returns a grouped response" do
         expect(@document_list).to be_empty
-        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        expect(@solr_response).to be_a Blacklight::Solr::Response::GroupResponse
       end
     end
 
-    describe "for a query returning multiple groups", integration: true do
+    describe "for a query returning multiple groups", :integration do
       let(:blacklight_config) { copy_of_catalog_config }
       let(:user_params) { { q: all_docs_query } }
 
@@ -117,7 +117,7 @@ RSpec.describe Blacklight::SearchService, api: true do
 
       it "returns a grouped response" do
         expect(@document_list).to be_empty
-        expect(@solr_response).to be_a_kind_of Blacklight::Solr::Response::GroupResponse
+        expect(@solr_response).to be_a Blacklight::Solr::Response::GroupResponse
         expect(@solr_response.group_field).to eq "title_si"
       end
     end
@@ -167,7 +167,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end # Search Results
 
   # SPECS FOR SEARCH RESULTS FOR FACETS
-  describe 'Facets in Search Results for All Docs Query', integration: true do
+  describe 'Facets in Search Results for All Docs Query', :integration do
     let(:blacklight_config) { copy_of_catalog_config }
     let(:user_params) { { q: all_docs_query } }
 
@@ -181,7 +181,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
 
     it 'has all facets specified in initializer' do
-      expect(@facets.keys).to include *blacklight_config.facet_fields.keys
+      expect(@facets.keys).to include(*blacklight_config.facet_fields.keys)
       expect(@facets.none? { |_k, v| v.nil? }).to eq true
     end
 
@@ -205,14 +205,14 @@ RSpec.describe Blacklight::SearchService, api: true do
     it 'has all value counts > 0' do
       @facets.each do |_key, facet|
         facet.items.each do |facet_vals|
-          expect(facet_vals.hits).to be > 0
+          expect(facet_vals.hits).to be_positive
         end
       end
     end
   end # facet specs
 
   # SPECS FOR SEARCH RESULTS FOR PAGING
-  describe 'Paging', integration: true do
+  describe 'Paging', :integration do
     let(:blacklight_config) { copy_of_catalog_config }
     let(:user_params) { { q: all_docs_query } }
 
@@ -309,7 +309,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end # page specs
 
   # SPECS FOR SINGLE DOCUMENT REQUESTS
-  describe 'Get Document By Id', integration: true do
+  describe 'Get Document By Id', :integration do
     let(:doc_id) { '2007020969' }
     let(:bad_id) { 'redrum' }
 
@@ -336,7 +336,7 @@ RSpec.describe Blacklight::SearchService, api: true do
     end
   end
 
-  describe 'Get multiple documents By Id', integration: true do
+  describe 'Get multiple documents By Id', :integration do
     let(:doc_id) { '2007020969' }
     let(:bad_id) { 'redrum' }
     let(:response) { service.fetch([doc_id]).first }
@@ -355,7 +355,7 @@ RSpec.describe Blacklight::SearchService, api: true do
   end
 
   # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
-  describe "Searches should return spelling suggestions", integration: true do
+  describe "Searches should return spelling suggestions", :integration do
     context "for just-poor-enough-query term" do
       let(:user_params) { { q: 'boo' } }
 
