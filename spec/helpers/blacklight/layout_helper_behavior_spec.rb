@@ -30,9 +30,26 @@ RSpec.describe Blacklight::LayoutHelperBehavior do
   end
 
   describe '#container_classes' do
-    it 'returns a string of classe(s)' do
-      expect(helper.container_classes).to be_an String
-      expect(helper.container_classes).to eq 'container'
+    before do
+      allow(view).to receive(:blacklight_config).and_return(config)
+    end
+
+    context 'when not full-width' do
+      let(:config) { Blacklight::Configuration.new }
+
+      it 'returns a string of classe(s)' do
+        expect(helper.container_classes).to be_an String
+        expect(helper.container_classes).to eq 'container'
+      end
+    end
+
+    context 'when full-width' do
+      let(:config) { Blacklight::Configuration.new(full_width_layout: true) }
+
+      it 'returns a string of classe(s)' do
+        expect(helper.container_classes).to be_an String
+        expect(helper.container_classes).to eq 'container-fluid'
+      end
     end
   end
 

@@ -40,8 +40,8 @@
 
   <% if sort_fields_select %>
     <div class="form-group row mb-4">
-      <%= content_tag :h2, t('blacklight.advanced_search.form.sort_label'), id: 'advanced-search-sort-label', class: 'col-md-3 col-form-label text-md-right' %>
-      <div class="col">
+      <%= content_tag :h2, t('blacklight.advanced_search.form.sort_label'), id: 'advanced-search-sort-label', class: 'col-md-3 text-md-right' %>
+      <div class="col-md-9">
         <%= sort_fields_select %>
       </div>
     </div>
