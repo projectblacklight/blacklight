@@ -43,6 +43,9 @@ jobs:
         additional_engine_cart_rails_options: [""]
         additional_name: [""]
         include:
+          - ruby: "3.3"
+            rails_version: "8.0.0.beta1"
+            additional_engine_cart_rails_options: --css=bootstrap
           - ruby: "3.2"
             rails_version: "6.1.7.8"
           - ruby: "3.2"
@@ -76,7 +79,7 @@ jobs:
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
-      ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"
+      ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-kamal --skip-solid --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
