@@ -22,6 +22,7 @@ RSpec.describe Blacklight::IndexPresenter, api: true do
 
   before do
     allow(request_context).to receive(:search_state).and_return(search_state)
+    allow(request_context).to receive(:action_name).and_return(:index)
   end
 
   describe '#fields' do

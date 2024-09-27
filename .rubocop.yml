@@ -42,6 +42,7 @@ Metrics/ClassLength:
     - "lib/blacklight/search_builder.rb"
     - "lib/blacklight/search_state.rb"
     - "lib/blacklight/search_state/filter_field.rb"
+    - "app/presenters/blacklight/document_presenter.rb"
 
 Layout/LineLength:
   Max: 200
