@@ -23,6 +23,10 @@ RSpec.describe "Routing" do
     it "maps { :controller => 'catalog', :action => 'show', :id => 666 } to /catalog/666" do
       expect(get: "/catalog/666").to route_to(controller: 'catalog', action: 'show', id: "666")
     end
+
+    it "maps GET {:controller => 'catalog', :action => 'prev_next_documents'} to /catalog/page_links" do
+      expect(get: "/catalog/page_links").to route_to(controller: 'catalog', action: 'page_links')
+    end
   end
 
   describe "solr_document_path for SolrDocument", test: true do

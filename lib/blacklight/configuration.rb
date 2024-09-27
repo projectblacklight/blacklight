@@ -306,6 +306,11 @@ module Blacklight
     # @return [Boolean]
     property :track_search_session, default: true
 
+    # @!attribute track_search_session_config
+    # @since v7.35.0
+    # @return [Blacklight::Configuration::SessionTrackingConfig]
+    property :track_search_session_config, default: nil
+
     # @!attribute advanced_search
     # @since v7.15.0
     # @return [#enabled]
@@ -616,6 +621,21 @@ module Blacklight
       end
 
       fields.merge(show_fields)
+    end
+
+    def track_search_session=(val)
+      self.track_search_session_config = Blacklight::Configuration::SessionTrackingConfig.new(storage: val ? 'server' : false)
+      super
+    end
+
+    def track_search_session_config
+      return track_search_session if track_search_session.is_a?(Blacklight::Configuration::SessionTrackingConfig)
+
+      stored_config = super
+
+      return stored_config if stored_config
+
+      self.track_search_session_config = Blacklight::Configuration::SessionTrackingConfig.new(storage: track_search_session ? 'server' : false)
     end
 
     # @!visibility private
