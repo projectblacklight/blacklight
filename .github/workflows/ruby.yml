@@ -109,14 +109,14 @@ jobs:
       run: bundle exec rake ci
       env:
         ENGINE_CART_RAILS_OPTIONS: '--skip-keeps --skip-test'
-  test_vc3:
+  test_vc2:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby: ['3.2']
     env:
       RAILS_VERSION: 7.0.8
-      VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
+      VIEW_COMPONENT_VERSION: "~> 2.74"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
