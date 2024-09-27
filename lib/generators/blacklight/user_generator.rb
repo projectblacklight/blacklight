@@ -34,13 +34,6 @@ module Blacklight
       generate "devise", model_name.classify
       generate "devise_guests", model_name.classify
 
-      # add the #to_s to the model.
-      insert_into_file("app/models/#{model_name}.rb", before: /end(\n| )*$/) do
-        "\n  # Configuration added by Blacklight; Blacklight::User uses a method key on your\n" \
-          "  # user class to get a user-displayable login/identifier for\n" \
-          "  # the account.\n" \
-          "  self.string_display_key ||= :email\n"
-      end
       gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
     end
 
@@ -49,13 +42,19 @@ module Blacklight
       file_path = "app/models/#{model_name.underscore}.rb"
       if File.exist?(File.expand_path(file_path, destination_root))
         inject_into_class file_path, model_name.classify do
-          "\n  # Connects this user object to Blacklights Bookmarks." \
-            "\n  include Blacklight::User\n"
+          <<~EOS
+            # Connects this user object to Blacklights Bookmarks.
+            include Blacklight::User
+
+            # Blacklight::User uses a method on your User class to get a user-displayable
+            # label (e.g. login or identifier) for the account. Blacklight uses `email' by default.
+            # self.string_display_key = :email
+          EOS
         end
       else
         say_status "warning", <<~EOS, :yellow
           Blacklight authenticated user functionality not installed, as a user model
-          could not be found at /app/models/user.rb. If you used a different name,
+          could not be found at #{file_path}. If you used a different name,
           please re-run the migration and provide that name as an argument. E.g.:
 
             `rails -g blacklight:user client`
