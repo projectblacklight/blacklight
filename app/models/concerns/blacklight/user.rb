@@ -5,7 +5,7 @@ module Blacklight::User
   # SEE ALSO:  The lib/blacklight/generator/user_generator.rb class for where this
   # is generated into the hosting application.
   included do
-    class_attribute :string_display_key
+    class_attribute :string_display_key, default: :email
 
     has_many :bookmarks, dependent: :destroy, as: :user
     has_many :searches,  dependent: :destroy, as: :user
