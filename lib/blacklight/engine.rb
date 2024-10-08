@@ -72,6 +72,12 @@ module Blacklight
       outer_window: 2
     }
 
+    # Blacklight 9 moves the next button after the page numbers. This behavior can be configured
+    # in Blacklight 8 by setting the next_button_position to :after
+    bl_global_config.paginator = {
+      next_button_position: :before
+    }
+
     bl_global_config.search_params_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol]
 
     # Anything that goes into Blacklight::Engine.config is stored as a class

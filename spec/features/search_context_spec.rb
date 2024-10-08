@@ -47,9 +47,10 @@ RSpec.describe "Search Results context" do
       search_for ''
       expect(page).to have_content "1 - 10"
       find_all('.index_title a').last.click
+      expect(page).to have_css "h1", text: "Pluvial nectar"
       click_on "Next »"
 
-      expect(page).to have_content "Naqdī barā-yi tamām-i"
+      expect(page).to have_css "h1", text: "Naqdī barā-yi tamām-i"
       click_on "Back to Search"
       expect(page).to have_content "11 - 20"
     end
