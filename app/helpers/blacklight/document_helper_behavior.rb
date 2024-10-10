@@ -58,8 +58,8 @@ module Blacklight::DocumentHelperBehavior
 
   ##
   # Returns a document presenter for the given document
-  def document_presenter(document)
-    document_presenter_class(document).new(document, self)
+  def document_presenter(document, view_config: nil, **kwargs)
+    (view_config&.document_presenter_class || document_presenter_class(document)).new(document, self, view_config: view_config, **kwargs)
   end
 
   ##
