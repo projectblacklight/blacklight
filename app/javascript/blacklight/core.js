@@ -1,4 +1,4 @@
-const Blacklight = function() {
+const Core = function() {
   const buffer = new Array;
   return {
     onLoad: function(func) {
@@ -34,13 +34,13 @@ const Blacklight = function() {
 
 // turbolinks triggers page:load events on page transition
 // If app isn't using turbolinks, this event will never be triggered, no prob.
-Blacklight.listeners().forEach(function(listener) {
+Core.listeners().forEach(function(listener) {
   document.addEventListener(listener, function() {
-    Blacklight.activate()
+    Core.activate()
   })
 })
 
-Blacklight.onLoad(function () {
+Core.onLoad(function () {
   const elem = document.querySelector('.no-js');
 
   // The "no-js" class may already have been removed because this function is
@@ -52,4 +52,4 @@ Blacklight.onLoad(function () {
 })
 
 
-export default Blacklight
+export default Core
