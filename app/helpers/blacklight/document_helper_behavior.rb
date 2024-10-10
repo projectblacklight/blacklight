@@ -25,18 +25,6 @@ module Blacklight::DocumentHelperBehavior
   end
 
   ##
-  # Render the sidebar partial for a document
-  # This is used as an integration point by downstream apps to add to the
-  # default sidebar.
-  # See: https://github.com/geoblacklight/geoblacklight/blob/7d3c31c7af3362879b97e2c1351a2496c728c59c/app/helpers/blacklight_helper.rb#L7
-  #
-  # @param [SolrDocument] document
-  # @return [String]
-  def render_document_sidebar_partial(document)
-    render 'show_sidebar', document: document
-  end
-
-  ##
   # return the Bookmarks on a set of documents (all bookmarks on the page)
   # @private
   # @return [Enumerable<Bookmark>]
