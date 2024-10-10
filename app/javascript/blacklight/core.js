@@ -15,14 +15,6 @@ const Core = function() {
       const listeners = [];
       if (typeof Turbo !== 'undefined') {
         listeners.push('turbo:load', 'turbo:frame-load');
-      } else if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
-        // Turbolinks 5
-        if (Turbolinks.BrowserAdapter) {
-          listeners.push('turbolinks:load');
-        } else {
-          // Turbolinks < 5
-          listeners.push('page:load', 'DOMContentLoaded');
-        }
       } else {
         listeners.push('DOMContentLoaded');
       }
@@ -32,8 +24,8 @@ const Core = function() {
   };
 }();
 
-// turbolinks triggers page:load events on page transition
-// If app isn't using turbolinks, this event will never be triggered, no prob.
+// turbo triggers turbo:load events on page transition
+// If app isn't using turbo, this event will never be triggered, no prob.
 Core.listeners().forEach(function(listener) {
   document.addEventListener(listener, function() {
     Core.activate()
