@@ -126,7 +126,7 @@
     align-items: flex-start;
     padding: 3px 0;
 
-    &[role="treeitem"] {
+    &.treeitem {
       display: block;
     }
 
