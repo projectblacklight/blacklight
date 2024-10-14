@@ -19,6 +19,8 @@ module Blacklight
           CONTENT
         end
 
+        return unless defined?(Sprockets)
+
         append_to_file 'app/assets/config/manifest.js' do
           <<~CONTENT
             //= link blacklight/manifest.js
@@ -27,9 +29,15 @@ module Blacklight
       end
 
       def append_blacklight_javascript
+        # This may already be present if rails new was invoked with `--css bootstrap'
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
-            import bootstrap from "bootstrap"
+            import * as bootstrap from "bootstrap"
+          CONTENT
+        end
+
+        append_to_file 'app/javascript/application.js' do
+          <<~CONTENT
             import githubAutoCompleteElement from "@github/auto-complete-element"
             import Blacklight from "blacklight"
           CONTENT
@@ -37,13 +45,27 @@ module Blacklight
       end
 
       def add_stylesheet
-        gem "sassc-rails", "~> 2.1"
+        if File.exist? 'app/assets/stylesheets/application.bootstrap.scss'
+          if ENV['CI']
+            run "yarn add file:#{Blacklight::Engine.root}"
+          else
+            run "yarn add blacklight-frontend@#{Blacklight::VERSION}"
+          end
 
-        create_file 'app/assets/stylesheets/blacklight.scss' do
-          <<~CONTENT
-            @import 'bootstrap';
-            @import 'blacklight/blacklight';
-          CONTENT
+          append_to_file 'app/assets/stylesheets/application.bootstrap.scss' do
+            <<~CONTENT
+              @import "blacklight-frontend/app/assets/stylesheets/blacklight/blacklight";
+            CONTENT
+          end
+        else
+          gem "sassc-rails", "~> 2.1"
+
+          create_file 'app/assets/stylesheets/blacklight.scss' do
+            <<~CONTENT
+              @import 'bootstrap';
+              @import 'blacklight/blacklight';
+            CONTENT
+          end
         end
       end
     end
