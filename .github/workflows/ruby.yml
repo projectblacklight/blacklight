@@ -34,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     name: test (ruby ${{ matrix.ruby }} / rails ${{ matrix.rails_version }} ${{ matrix.additional_name }})
     strategy:
+      fail-fast: false
       matrix:
         ruby: ["3.3"]
         rails_version: ["7.0.8.4", "7.1.3.4", "7.2.0"]
