@@ -824,6 +824,70 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
     end
   end
 
+  describe "#add_facet_suggestion_parameters" do
+    it "does not add anything when the builder has no facet_suggestion_query and no facet" do
+      expect(subject.facet).to be_nil
+      expect(subject.facet_suggestion_query).to be_nil
+      solr_params = Blacklight::Solr::Request.new
+
+      expect do
+        subject.add_facet_suggestion_parameters(solr_params)
+      end.not_to(change { solr_params })
+    end
+
+    it "does not add anything when the builder has a facet_suggestion_query but no facet" do
+      subject.facet_suggestion_query = 'artic'
+      expect(subject.facet_suggestion_query).to eq 'artic'
+      expect(subject.facet).to be_nil
+      solr_params = Blacklight::Solr::Request.new
+
+      expect do
+        subject.add_facet_suggestion_parameters(solr_params)
+      end.not_to(change { solr_params })
+    end
+
+    it "does not add anything when the builder has a facet but no facet_suggestion_query" do
+      subject.facet = 'subject_facet'
+      expect(subject.facet_suggestion_query).to be_nil
+      expect(subject.facet).to eq 'subject_facet'
+      solr_params = Blacklight::Solr::Request.new
+
+      expect do
+        subject.add_facet_suggestion_parameters(solr_params)
+      end.not_to(change { solr_params })
+    end
+
+    it "adds the facet_suggestion_query to facet.contains" do
+      subject.facet = 'subject_facet'
+      subject.facet_suggestion_query = 'artic'
+      solr_params = Blacklight::Solr::Request.new
+
+      subject.add_facet_suggestion_parameters(solr_params)
+
+      expect(solr_params[:'facet.contains']).to eq 'artic'
+    end
+
+    it "adds the first part of facet_suggestion_query to facet.contains if it is extremely long" do
+      subject.facet = 'subject_facet'
+      subject.facet_suggestion_query = 'Call me Ishmael. Some years ago—never mind how long precisely'
+      solr_params = Blacklight::Solr::Request.new
+
+      subject.add_facet_suggestion_parameters(solr_params)
+
+      expect(solr_params[:'facet.contains']).to eq 'Call me Ishmael. Some years ago—never mind how long'
+    end
+
+    it "adds facet.contains.ignoreCase" do
+      subject.facet = 'subject_facet'
+      subject.facet_suggestion_query = 'artic'
+      solr_params = Blacklight::Solr::Request.new
+
+      subject.add_facet_suggestion_parameters(solr_params)
+
+      expect(solr_params[:'facet.contains.ignoreCase']).to be true
+    end
+  end
+
   describe "#with_tag_ex" do
     it "adds an !ex local parameter if the facet configuration requests it" do
       expect(subject.with_ex_local_param("xyz", "some-value")).to eq "{!ex=xyz}some-value"
