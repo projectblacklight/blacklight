@@ -65,6 +65,7 @@ jobs:
             additional_engine_cart_rails_options: --api --skip-yarn
             additional_name: "/ API"
     env:
+      RSPEC_SEED: 49059
       RAILS_VERSION: ${{ matrix.rails_version }}
       SOLR_VERSION: ${{ matrix.solr_version || 'latest' }}
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
