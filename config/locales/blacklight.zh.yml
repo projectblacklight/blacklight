@@ -48,9 +48,9 @@ zh:
         default_title: 无
         message: 正文： %{message}
         subject:
-          one: "记录: %{title}"
+          one: '记录: %{title}'
           other: 记录
-        url: "网址: %{url}"
+        url: '网址: %{url}'
     entry_name:
       default: 条目
       grouped:
@@ -99,11 +99,14 @@ zh:
         sort:
           count: 按数量排序
           index: 按字母排序
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: 限定搜索
       filters:
         label: "%{label}:"
         remove:
-          label_value: "删除限定条件 %{label}: %{value}"
+          label_value: '删除限定条件 %{label}: %{value}'
           value: 删除限定条件 %{value}
         title: 你在搜索：
       form:
@@ -127,7 +130,7 @@ zh:
       pagination:
         title: 搜索结果导航
       pagination_info:
-        no_items_found: "没有找到 %{entry_name} "
+        no_items_found: '没有找到 %{entry_name} '
         pages:
           one: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> 共 <strong>%{total_num}</strong>"
           other: "<strong>%{start_num}</strong> - <strong>%{end_num}</strong> 共 <strong>%{total_num}</strong>"
@@ -152,7 +155,7 @@ zh:
       start_over: 重新开始
       view:
         list: 列表
-      view_title: "以如下方式察看搜索结果: "
+      view_title: '以如下方式察看搜索结果: '
       zero_results:
         modify_search: 请更改你的搜索条件
         search_everything: 试一试搜索所有记录
@@ -170,7 +173,7 @@ zh:
       page_title: 搜索历史 - %{application_name}
       recent: 你最近搜索历史
       save: 保存
-      title: ""
+      title: ''
     skip_links:
       first_result: 转到第一个搜索结果
       label: 跳过链接
@@ -189,10 +192,10 @@ zh:
         carrier_prompt: 请选择运营商
         submit: 发送
         title: 通过短信发送
-        to: "电话号码:"
+        to: '电话号码:'
       success: 已发送短信
       text:
-        url: "链接: %{url}"
+        url: '链接: %{url}'
     tools:
       citation: 引用
       clear: 清除

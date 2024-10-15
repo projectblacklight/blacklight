@@ -36,29 +36,29 @@ ar:
       apa: الجمعية الأمريكية لعلم النفس APA
       chicago: شيكاغو
       mla: جمعية اللغة الحديثة MLA
-    did_you_mean: "هل كنت تقصد كتابة: %{options}؟"
+    did_you_mean: 'هل كنت تقصد كتابة: %{options}؟'
     email:
       errors:
         to:
           blank: يجب إدخال مُستلم من أجل إرسال هذه الرسالة
           invalid: يجب إدخال عنوان بريد إلكتروني صحيح
       form:
-        message: "الرسالة:"
+        message: 'الرسالة:'
         submit: إرسال
         title: إرسله عبرالبريد الإلكتروني
-        to: "بريد إلكتروني:"
+        to: 'بريد إلكتروني:'
       success: تم إرسال البريد الإلكتروني
       text:
         default_title: لا يوجد
-        message: "الرسالة: %{message}"
+        message: 'الرسالة: %{message}'
         subject:
           few: سجلات المادة
           many: سجلات المادة
-          one: "سجل المادة: %{title}"
+          one: 'سجل المادة: %{title}'
           other: سجلات المادة
           two: سجلان للمادة
           zero: لا يوجد سجل للمادة
-        url: "الرابط: %{url}"
+        url: 'الرابط: %{url}'
     entry_name:
       default: إدخال
       grouped:
@@ -111,13 +111,16 @@ ar:
         sort:
           count: ترتيب رقمي
           index: ترتيب أبجدي
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: تحديد نطاق البحث
       filters:
         label: "%{label}:"
         remove:
-          label_value: "إزالة القيد %{label}: %{value}"
+          label_value: 'إزالة القيد %{label}: %{value}'
           value: إزالة القيد %{value}
-        title: "لقد بحثت عن:"
+        title: 'لقد بحثت عن:'
       form:
         search:
           label: ابحث عن
@@ -168,7 +171,7 @@ ar:
       start_over: البدء من جديد
       view:
         list: قائمة
-      view_title: "عرض النتائج ك: "
+      view_title: 'عرض النتائج ك: '
       zero_results:
         modify_search: حاول تعديل معايير البحث
         search_everything: حاول البحث عن كل شيء
@@ -205,10 +208,10 @@ ar:
         carrier_prompt: يرجى تحديد شركة الاتصالات
         submit: إرسال
         title: إرسله كرسالة نصية قصيرة
-        to: "رقم الهاتف:"
+        to: 'رقم الهاتف:'
       success: تم الإرسال كرسالة نصية قصيرة
       text:
-        url: "الرابط: %{url}"
+        url: 'الرابط: %{url}'
     tools:
       citation: استشهاد مرجعي
       clear: مسح

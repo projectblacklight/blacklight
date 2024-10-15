@@ -32,25 +32,25 @@ pt-BR:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: "Você quis dizer: %{options}?"
+    did_you_mean: 'Você quis dizer: %{options}?'
     email:
       errors:
         to:
           blank: Você precisa especificar um destinaário para enviar esta mensagem
           invalid: Verifique seu endereço de email
       form:
-        message: "Mensagem:"
+        message: 'Mensagem:'
         submit: Enviar
         title: Enviar por Email
-        to: "Email:"
+        to: 'Email:'
       success: Email Enviado
       text:
         default_title: N/A
-        message: "Mensagem: %{message}"
+        message: 'Mensagem: %{message}'
         subject:
-          one: "Item: %{title}"
+          one: 'Item: %{title}'
           other: Itens
-        url: "URL: %{url}"
+        url: 'URL: %{url}'
     entry_name:
       default: registro
       grouped:
@@ -90,7 +90,7 @@ pt-BR:
           close: Ocultar facetas
           open: Mostrar facetas
         missing:
-          - Ausência
+        - Ausência
         more_html: mais <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Fechar
@@ -100,13 +100,16 @@ pt-BR:
         sort:
           count: Ordenar por Número
           index: Ordem Alfabética A-Z
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: Filtre sua busca
       filters:
         label: "%{label}:"
         remove:
-          label_value: "Remover %{label}: %{value}"
+          label_value: 'Remover %{label}: %{value}'
           value: Remover filtro %{value}
-        title: "Sua busca por:"
+        title: 'Sua busca por:'
       form:
         search:
           label: busca
@@ -153,7 +156,7 @@ pt-BR:
       start_over: refazer busca
       view:
         list: Lista
-      view_title: "Ver resultados como: "
+      view_title: 'Ver resultados como: '
       zero_results:
         modify_search: Tente modificar sua busca
         search_everything: tente buscar em tudo
@@ -190,10 +193,10 @@ pt-BR:
         carrier_prompt: Selecione a Operadora
         submit: Enviar
         title: Enviar por SMS
-        to: "Celular:"
+        to: 'Celular:'
       success: SMS Enviado
       text:
-        url: "Link: %{url}"
+        url: 'Link: %{url}'
     tools:
       citation: Citar
       clear: Limpar
