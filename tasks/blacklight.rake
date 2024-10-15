@@ -47,8 +47,8 @@ task ci: ['build:npm'] do
   with_solr do
     Rake::Task['blacklight:internal:seed'].invoke
     within_test_app do
-      # Precompiles the javascript
-      system "bin/rake spec:prepare"
+      # Precompiles the assets
+      system "bin/rake assets:precompile" # Required due to https://github.com/rails/propshaft/issues/211
     end
     Rake::Task['blacklight:coverage'].invoke
   end
