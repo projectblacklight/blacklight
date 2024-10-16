@@ -225,6 +225,16 @@ RSpec.describe Blacklight::SearchBuilder, :api do
     end
   end
 
+  describe "#facet_suggestion_query" do
+    it "is nil if no value is set" do
+      expect(subject.facet_suggestion_query).to be_nil
+    end
+
+    it "sets facet_suggestion_query value" do
+      expect(subject.facet_suggestion_query('antel').facet_suggestion_query).to eq 'antel'
+    end
+  end
+
   describe "#search_field" do
     it "uses the requested search field" do
       blacklight_config.add_search_field 'x'

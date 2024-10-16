@@ -31,7 +31,8 @@ module Blacklight
     end
 
     def in_modal?
-      search_state.params[:action] == "facet"
+      modal_like_actions = %w[facet facet_suggest]
+      modal_like_actions.include? search_state.params[:action]
     end
 
     def modal_path
