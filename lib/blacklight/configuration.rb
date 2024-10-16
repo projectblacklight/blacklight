@@ -36,7 +36,7 @@ module Blacklight
     end
 
     BASIC_SEARCH_PARAMETERS = [:q, :qt, :page, :per_page, :search_field, :sort, :controller, :action, :'facet.page', :'facet.prefix', :'facet.sort', :rows, :format, :view, :id, :facet_id,
-                               :query_fragment].freeze
+                               :query_fragment, :only_values].freeze
     ADVANCED_SEARCH_PARAMETERS = [{ clause: {} }, :op].freeze
 
     # rubocop:disable Metrics/BlockLength

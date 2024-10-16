@@ -80,36 +80,28 @@ module Blacklight::Catalog
 
   # displays values and pagination links for a single facet field
   def facet
-    retrieve_facet_by_id params[:id]
+    @facet = blacklight_config.facet_fields[params[:id]]
+    raise ActionController::RoutingError, 'Not Found' unless @facet
 
-    @response = search_service.facet_field_response(@facet.key)
-    set_facet_data
-
-    respond_to do |format|
-      format.html do
-        # Draw the partial for the "more" facet modal window:
-        return render layout: false if request.xhr?
-        # Otherwise draw the facet selector for users who have javascript disabled.
-      end
-      format.json
-    end
-  end
-
-  # displays facet values that are relevant both to the current search and a facet_suggestion_query
-  def facet_suggest
-    retrieve_facet_by_id params[:facet_id]
     query_fragment = params[:query_fragment] || ''
-
     @response = if query_fragment.present?
                   search_service.facet_suggest_response(@facet.key, params[:query_fragment])
                 else
                   @response = search_service.facet_field_response(@facet.key)
                 end
-    set_facet_data
+    @display_facet = @response.aggregations[@facet.field]
 
+    @presenter = @facet.presenter.new(@facet, @display_facet, view_context)
+    @pagination = @presenter.paginator
     respond_to do |format|
-      format.html { render layout: false }
-      format.json { render 'facet' }
+      format.html do
+        # Draw the partial for the "more" facet modal window:
+        return render layout: false if request.xhr?
+        # Only show the facet names and their values:
+        return render 'facet_values', layout: false if params[:only_values]
+        # Otherwise draw the facet selector for users who have javascript disabled.
+      end
+      format.json
     end
   end
 
@@ -260,17 +252,6 @@ module Blacklight::Catalog
     else
       mail.deliver
     end
-  end
-
-  def retrieve_facet_by_id(facet_id)
-    @facet = blacklight_config.facet_fields[facet_id]
-    raise ActionController::RoutingError, 'Not Found' unless @facet
-  end
-
-  def set_facet_data
-    @display_facet = @response.aggregations[@facet.field]
-    @presenter = @facet.presenter.new(@facet, @display_facet, view_context)
-    @pagination = @presenter.paginator
   end
 
   def validate_sms_params
