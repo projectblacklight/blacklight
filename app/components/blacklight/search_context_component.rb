@@ -4,13 +4,14 @@ module Blacklight
   class SearchContextComponent < Blacklight::Component
     with_collection_parameter :search_context
 
-    def initialize(search_context:, search_session:)
+    def initialize(search_context:, search_session:, current_document: nil)
       @search_context = search_context
       @search_session = search_session
+      @current_document_id = current_document&.id
     end
 
     def render?
-      @search_context.present? && (@search_context[:prev] || @search_context[:next])
+      @search_context.present? && (@search_context[:prev] || @search_context[:next]) && (@current_document_id && @search_session['document_id'] == @current_document_id)
     end
 
     def item_page_entry_info
