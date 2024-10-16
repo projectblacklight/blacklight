@@ -99,6 +99,9 @@ zh:
         sort:
           count: 按数量排序
           index: 按字母排序
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: 限定搜索
       filters:
         label: "%{label}:"

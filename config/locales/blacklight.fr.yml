@@ -101,6 +101,9 @@ fr:
         sort:
           count: Du + au - fréquent
           index: Tri de A à Z
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: Limiter votre recherche
       filters:
         label: "%{label}:"
