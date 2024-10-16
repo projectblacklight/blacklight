@@ -35,6 +35,8 @@ module Blacklight
       generate "devise_guests", model_name.classify
 
       gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
+      # Work around for https://github.com/heartcombo/devise/issues/5720
+      gsub_file("config/initializers/devise.rb", "# config.reload_routes = true", "config.reload_routes = false")
     end
 
     # Add Blacklight to the user model
