@@ -48,7 +48,7 @@ task ci: ['build:npm'] do
     Rake::Task['blacklight:internal:seed'].invoke
     within_test_app do
       # Precompiles the assets
-      system "bin/rake assets:precompile" # Required due to https://github.com/rails/propshaft/issues/211
+      system "bin/rake spec:prepare"
     end
     Rake::Task['blacklight:coverage'].invoke
   end
