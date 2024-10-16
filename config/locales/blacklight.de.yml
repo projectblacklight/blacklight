@@ -32,25 +32,25 @@ de:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: "Meinten Sie: %{options}?"
+    did_you_mean: 'Meinten Sie: %{options}?'
     email:
       errors:
         to:
           blank: Sie müssen einen Empfänger eingeben, um diese Mitteilung zu schicken
           invalid: Sie müssen eine gültige E-Mail-Addresse eingeben
       form:
-        message: "Nachricht:"
+        message: 'Nachricht:'
         submit: Senden
         title: E-Mail
-        to: "E-Mail-Adresse:"
+        to: 'E-Mail-Adresse:'
       success: E-Mail verschickt
       text:
         default_title: N/A
-        message: "Mitteilung: %{message}"
+        message: 'Mitteilung: %{message}'
         subject:
-          one: "Artikeldatensatz: %{title}"
+          one: 'Artikeldatensatz: %{title}'
           other: Artikeldatensätze
-        url: "URL: %{url}"
+        url: 'URL: %{url}'
     entry_name:
       default:
         one: Eintrag
@@ -92,7 +92,7 @@ de:
           close: Facetten ausblenden
           open: Facetten zeigen
         missing:
-          - fehlt
+        - fehlt
         more_html: mehr <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Schließen
@@ -102,13 +102,16 @@ de:
         sort:
           count: Numerisch ordnen
           index: A-Z Ordnen
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: Suche beschränken
       filters:
         label: "%{label}:"
         remove:
-          label_value: "Filter %{label}: %{value} entfernen"
+          label_value: 'Filter %{label}: %{value} entfernen'
           value: Filter %{value} entfernen
-        title: "Sie suchten nach:"
+        title: 'Sie suchten nach:'
       form:
         search:
           label: suchen nach
@@ -155,7 +158,7 @@ de:
       start_over: Neu anfangen
       view:
         list: Liste
-      view_title: "Ergebnisse ansehen als: "
+      view_title: 'Ergebnisse ansehen als: '
       zero_results:
         modify_search: Ändern Sie Ihre Suche
         search_everything: Suchen Sie nach allem
@@ -192,10 +195,10 @@ de:
         carrier_prompt: Bitte wählen Sie Ihren Netzbetreiber aus
         submit: Schicken
         title: SMS
-        to: "Telefonnummer:"
+        to: 'Telefonnummer:'
       success: SMS verschickt
       text:
-        url: "Link: %{url}"
+        url: 'Link: %{url}'
     tools:
       citation: Zitieren
       clear: Löschen

@@ -43,6 +43,7 @@ Metrics/BlockLength:
 
 Metrics/ClassLength:
   Exclude:
+    - "app/services/blacklight/search_service.rb"
     - "lib/blacklight/configuration.rb"
     - "lib/blacklight/search_builder.rb"
     - "lib/blacklight/search_state.rb"

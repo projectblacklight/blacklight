@@ -224,6 +224,19 @@ module Blacklight
       @facet
     end
 
+    def facet_suggestion_query=(value)
+      params_will_change!
+      @facet_suggestion_query = value
+    end
+
+    def facet_suggestion_query(value = nil)
+      if value
+        self.facet_suggestion_query = value
+        return self
+      end
+      @facet_suggestion_query
+    end
+
     # Decode the user provided 'sort' parameter into a sort string that can be
     # passed to the search.  This sanitizes the input by ensuring only
     # configured search values are passed through to the search.

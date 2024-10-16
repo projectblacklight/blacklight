@@ -62,6 +62,11 @@ module Blacklight
       repository.search(query.merge(extra_controller_params))
     end
 
+    def facet_suggest_response(facet_field, facet_suggestion_query, extra_controller_params = {})
+      query = search_builder.with(search_state).facet(facet_field).facet_suggestion_query(facet_suggestion_query)
+      repository.search(query.merge(extra_controller_params))
+    end
+
     # Get the previous and next document from a search result
     # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
     def previous_and_next_documents_for_search(index, request_params, extra_controller_params = {})

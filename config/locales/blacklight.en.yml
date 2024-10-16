@@ -120,6 +120,9 @@ en:
         sort:
           count: Numerical Sort
           index: A-Z Sort
+        suggest:
+          label: "Filter %{field_label}"
+          placeholder: Filter...
         title: Limit your search
       filters:
         label: "%{label}:"
