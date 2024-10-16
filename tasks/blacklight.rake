@@ -47,7 +47,7 @@ task ci: ['build:npm'] do
   with_solr do
     Rake::Task['blacklight:internal:seed'].invoke
     within_test_app do
-      # Precompiles the javascript
+      # Precompiles the assets
       system "bin/rake spec:prepare"
     end
     Rake::Task['blacklight:coverage'].invoke

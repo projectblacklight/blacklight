@@ -42,6 +42,8 @@ module Blacklight
           "  self.string_display_key ||= :email\n"
       end
       gsub_file("config/initializers/devise.rb", "config.sign_out_via = :delete", "config.sign_out_via = :get")
+      # Work around for https://github.com/heartcombo/devise/issues/5720
+      gsub_file("config/initializers/devise.rb", "# config.reload_routes = true", "config.reload_routes = false")
     end
 
     # Add Blacklight to the user model
