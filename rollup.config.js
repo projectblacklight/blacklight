@@ -24,7 +24,8 @@ const rollupConfig = {
     file: path.resolve(__dirname, `app/assets/javascripts/blacklight/${fileDest}.js`),
     format: ESM ? 'esm' : 'umd',
     globals,
-    generatedCode: 'es2015'
+    generatedCode: 'es2015',
+    minifyInternalExports: true,
   },
   external,
   plugins: [includePaths(includePathOptions)]
