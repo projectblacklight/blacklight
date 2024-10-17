@@ -1,10 +1,7 @@
 .sidenav {
   --bl-facet-active-bg: #{$facet-active-bg};
   --bl-facet-active-item-color: #{$facet-active-item-color};
-  --bl-facet-margin-bottom: #{$spacer};
   --bl-facet-remove-color: var(--bs-secondary-color);
-
-  --bl-facet-limit-body-padding: #{$spacer};
 
   --bl-facets-smallish-padding: 0.25rem;
   --bl-facets-smallish-border: var(--bs-border-width) solid
@@ -107,17 +104,14 @@
 }
 
 .facet-limit {
-  margin-bottom: var(--bl-facet-margin-bottom);
-
-  .card-body {
-    padding: var(--bl-facet-limit-body-padding);
-  }
+  --bs-accordion-active-bg: transparent;
 }
 
 .facet-limit-active {
   border-color: $facet-active-border;
+  --bs-accordion-btn-bg: #{$facet-active-bg};
 
-  .card-header {
+  .accordion-header {
     background-color: var(--bl-facet-active-bg);
 
     .btn {
