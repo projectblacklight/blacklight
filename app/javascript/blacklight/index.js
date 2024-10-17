@@ -1,9 +1,9 @@
-import BookmarkToggle from 'blacklight/bookmark_toggle'
-import ButtonFocus from 'blacklight/button_focus'
-import FacetSuggest from 'blacklight/facet_suggest'
-import Modal from 'blacklight/modal'
-import SearchContext from 'blacklight/search_context'
-import Core from 'blacklight/core'
+import BookmarkToggle from 'blacklight-frontend/bookmark_toggle.js'
+import ButtonFocus from 'blacklight-frontend/button_focus.js'
+import FacetSuggest from 'blacklight-frontend/facet_suggest.js'
+import Modal from 'blacklight-frontend/modal.js'
+import SearchContext from 'blacklight-frontend/search_context.js'
+import Core from 'blacklight-frontend/core.js'
 
 export default {
   BookmarkToggle,
