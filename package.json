@@ -10,7 +10,7 @@
       "import": "./app/javascript/blacklight/index.js",
       "require": "./app/assets/javascripts/blacklight.js"
     },
-    "./*": "./app/javascript/blacklight/*"
+    "./*": "./app/javascript/blacklight/*.js"
    },
 
   "scripts": {
