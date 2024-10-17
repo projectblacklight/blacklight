@@ -1,4 +1,4 @@
-import debounce from "blacklight-frontend/debounce.js";
+import debounce from "blacklight-frontend/debounce";
 
 const FacetSuggest = async (e) => {
   if (e.target.matches('.facet-suggest')) {
