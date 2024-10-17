@@ -183,9 +183,7 @@ module Blacklight
         # document presenter class used by helpers and views
         document_presenter_class: nil,
         document_component: Blacklight::DocumentComponent,
-        # in Blacklight 9, the default show_tools_component configuration will
-        # be Blacklight::Document::ShowToolsComponent
-        show_tools_component: nil,
+        show_tools_component: Blacklight::Document::ShowToolsComponent,
         show_header_tools_component: nil,
         document_header_component: Blacklight::Document::PageHeaderComponent,
         sidebar_component: Blacklight::Document::SidebarComponent,

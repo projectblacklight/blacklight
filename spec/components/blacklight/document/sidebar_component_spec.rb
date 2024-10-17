@@ -33,29 +33,14 @@ RSpec.describe Blacklight::Document::SidebarComponent, type: :component do
     # rubocop:disable RSpec/SubjectStub
     before do
       allow(component).to receive(:render).with(an_instance_of(Blacklight::Document::MoreLikeThisComponent)).and_return("")
+      blacklight_config.show.show_tools_component = show_tools_component
+      allow(component).to receive(:render).with(an_instance_of(show_tools_component)).and_return(expected_html)
     end
 
-    context "without a configured ShowTools component" do
-      before do
-        allow(component).to receive(:render).with('show_tools', document: presented_document, silence_deprecation: false).and_return(expected_html)
-      end
+    let(:show_tools_component) { Class.new(Blacklight::Document::ShowToolsComponent) }
 
-      it 'renders show_tools partial' do
-        expect(rendered).to have_css 'div[@class="expected-show_tools"]'
-      end
-    end
-
-    context "with a configured ShowTools component" do
-      let(:show_tools_component) { Class.new(Blacklight::Document::ShowToolsComponent) }
-
-      before do
-        blacklight_config.show.show_tools_component = show_tools_component
-        allow(component).to receive(:render).with(an_instance_of(show_tools_component)).and_return(expected_html)
-      end
-
-      it 'renders configured show_tools component' do
-        expect(rendered).to have_css 'div[@class="expected-show_tools"]'
-      end
+    it 'renders configured show_tools component' do
+      expect(rendered).to have_css 'div[@class="expected-show_tools"]'
     end
     # rubocop:enable RSpec/SubjectStub
   end
