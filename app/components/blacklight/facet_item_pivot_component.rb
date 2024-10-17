@@ -32,7 +32,7 @@ module Blacklight
 
       id = "h-#{self.class.mint_id}" if @collapsing && has_items?
 
-      content_tag @wrapping_element, role: 'treeitem', class: 'treeitem' do
+      content_tag @wrapping_element, class: 'treeitem' do
         concat(content_tag('span', class: "d-flex flex-row align-items-center") do
           concat facet_toggle_button(id) if has_items? && @collapsing
           concat content_tag('span', render(facet), class: "facet-values d-flex flex-row flex-grow-1 #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
