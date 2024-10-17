@@ -102,7 +102,6 @@
 }
 
 .facets-heading {
-  @extend .h4;
   line-height: inherit;
 }
 
@@ -193,8 +192,6 @@
 }
 
 .facet-field-heading {
-  @extend .h6;
-
   a {
     color: inherit;
   }

@@ -9,10 +9,6 @@
     margin-top: var(--bl-results-document-margin-top);
     padding-top: var(--bl-results-document-padding-top);
 
-    .document-title-heading {
-      @extend h5;
-    }
-
     .document-main-section {
       flex-grow: 1;
     }
