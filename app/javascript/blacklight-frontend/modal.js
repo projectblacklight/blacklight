@@ -52,7 +52,7 @@
   can be a turbo-stream that defines some HTML fragementsand where on the page to put them:
   https://turbo.hotwired.dev/handbook/streams
 */
-import ModalForm from 'blacklight/modalForm'
+import ModalForm from 'blacklight-frontend/modalForm'
 
 const Modal = (() => {
   const modal = {}
@@ -111,7 +111,7 @@ const Modal = (() => {
     }
     elements.forEach((el) => frag.appendChild(el))
     modal.activateScripts(frag)
-    
+
     document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(frag)
 
     modal.show();

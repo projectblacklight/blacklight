@@ -34,7 +34,7 @@ module Blacklight
         append_to_file 'app/javascript/application.js' do
           <<~CONTENT
             import githubAutoCompleteElement from "@github/auto-complete-element"
-            import Blacklight from "blacklight"
+            import Blacklight from "blacklight-frontend"
           CONTENT
         end
       end
