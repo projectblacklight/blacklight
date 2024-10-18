@@ -1,4 +1,4 @@
-import debounce from "blacklight/debounce";
+import debounce from "blacklight-frontend/debounce";
 
 const FacetSuggest = async (e) => {
   if (e.target.matches('.facet-suggest')) {
@@ -11,9 +11,9 @@ const FacetSuggest = async (e) => {
     if (response.ok) {
         const blob = await response.blob()
         const text = await blob.text()
-    
+
         const facetArea = document.querySelector('.facet-extended-list');
-    
+
         if (text && facetArea) {
             facetArea.innerHTML = text
         }

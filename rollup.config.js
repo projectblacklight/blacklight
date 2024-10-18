@@ -19,7 +19,7 @@ let includePathOptions = {
 };
 
 const rollupConfig = {
-  input: path.resolve(__dirname, `app/javascript/blacklight/index.js`),
+  input: path.resolve(__dirname, `app/javascript/blacklight-frontend/index.js`),
   output: {
     file: path.resolve(__dirname, `app/assets/javascripts/blacklight/${fileDest}.js`),
     format: ESM ? 'esm' : 'umd',
