@@ -1,9 +1,5 @@
 .search-widgets {
   display: flex;
-
-  > * {
-    @extend .mx-1;
-  }
 }
 
 .sort-pagination,
