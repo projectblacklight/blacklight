@@ -15,14 +15,8 @@
 
     <% if defined? Importmap %>
       <%= javascript_importmap_tags %>
-    <% elsif defined? Propshaft %>
-      <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <% else %>
       <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-      <%= javascript_include_tag "blacklight/blacklight", type: 'module' %>
-      <script type="module">
-        import githubAutoCompleteElement from 'https://cdn.skypack.dev/@github/auto-complete-element';
-      </script>
     <% end %>
 
     <%= csrf_meta_tags %>

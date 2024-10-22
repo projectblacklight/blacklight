@@ -11,8 +11,8 @@ module Blacklight
                     'blacklight:assets:importmap'
                   elsif defined?(Propshaft)
                     'blacklight:assets:propshaft'
-                  elsif defined?(Sprockets)
-                    'blacklight:assets:sprockets'
+                  else
+                    raise "Unsupported path"
                   end
 
       generate generator, generated_options if generator
