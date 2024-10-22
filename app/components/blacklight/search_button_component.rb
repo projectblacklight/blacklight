@@ -8,8 +8,8 @@ module Blacklight
     end
 
     def call
-      tag.button(class: 'btn btn-primary search-btn', type: 'submit', id: @id) do
-        tag.span(@text, class: "visually-hidden-sm me-sm-1 submit-search-text") +
+      tag.button(class: 'btn btn-primary search-btn', type: 'submit', id: @id, aria: { label: @text }) do
+        tag.span(@text, class: "d-none d-md-inline me-sm-1 submit-search-text", aria: { hidden: true }) +
           render(Blacklight::Icons::SearchComponent.new)
       end
     end
