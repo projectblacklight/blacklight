@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe "Bookmarks" do
+  before do
+    # Prevent any existing bookmarks from interfering
+    Bookmark.delete_all
+  end
+
   describe "navigating from the homepage" do
     it "has a link to the history page" do
       sign_in 'user1'
@@ -83,8 +88,14 @@ RSpec.describe "Bookmarks" do
   end
 
   context "has bookmark icon" do
+    let!(:default_bookmark_icon_component) { CatalogController.blacklight_config.bookmark_icon_component }
+
     before do
       CatalogController.blacklight_config.bookmark_icon_component = Blacklight::Icons::BookmarkIconComponent
+    end
+
+    after do
+      CatalogController.blacklight_config.bookmark_icon_component = default_bookmark_icon_component
     end
 
     it 'shows bookmark icon instead of checkbox', :js do
@@ -94,6 +105,29 @@ RSpec.describe "Bookmarks" do
 
       expect(find('.toggle-bookmark[type="checkbox"]', visible: false)).to be_checked
       find('.blacklight-icons-bookmark').click
+    end
+  end
+
+  context "without bookmark navbar element" do
+    let!(:default_nav_partials) { CatalogController.blacklight_config.navbar.partials }
+
+    before do
+      CatalogController.blacklight_config.navbar.partials = CatalogController.blacklight_config.navbar.partials.except(:bookmark)
+    end
+
+    after do
+      CatalogController.blacklight_config.navbar.partials = default_nav_partials
+    end
+
+    it 'adds and removes bookmarks', :js do
+      visit solr_document_path('2007020969')
+      expect(page).to have_no_css('#bookmarks_nav')
+      check 'Bookmark'
+      expect(page).to have_content 'In Bookmarks'
+
+      visit solr_document_path('2007020969')
+      expect(page).to have_css('input[type="checkbox"][checked]')
+      uncheck 'In Bookmarks'
     end
   end
 end
