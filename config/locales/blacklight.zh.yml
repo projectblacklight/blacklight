@@ -100,8 +100,8 @@ zh:
           count: 按数量排序
           index: 按字母排序
         suggest:
-          label: Filter %{field_label}
-          placeholder: Filter...
+          label: 过滤器 %{field_label}
+          placeholder: 筛选...
         title: 限定搜索
       filters:
         label: "%{label}:"

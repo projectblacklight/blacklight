@@ -101,8 +101,8 @@ pt-BR:
           count: Ordenar por Número
           index: Ordem Alfabética A-Z
         suggest:
-          label: Filter %{field_label}
-          placeholder: Filter...
+          label: Filtro %{field_label}
+          placeholder: Filtro...
         title: Filtre sua busca
       filters:
         label: "%{label}:"

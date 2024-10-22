@@ -1,9 +1,9 @@
-<label for="facet-suggest-<%= facet.key %>">
+<label for="facet_suggest_<%= facet.key %>">
   <%= I18n.t('blacklight.search.facets.suggest.label', field_label: presenter&.label) %>
 </label>
-<input class="facet-suggest form-control"
-       id="facet-suggest-<%= facet.key %>"
-       data-facet-field="<%= facet.key %>"
-       name="facet_suggest_<%= facet.key %>"
-       placeholder="<%= I18n.t('blacklight.search.form.search.placeholder') %>">
-</input>
+<%= text_field_tag "facet_suggest_#{facet.key}",
+  nil,
+  class: "facet-suggest form-control",
+  data: {facet_field: facet.key},
+  placeholder: I18n.t('blacklight.search.form.search.placeholder')
+%>

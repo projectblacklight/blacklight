@@ -100,8 +100,8 @@ sq:
           count: Renditja numerike
           index: A-Z Renditja
         suggest:
-          label: Filter %{field_label}
-          placeholder: Filter...
+          label: Filtri %{field_label}
+          placeholder: Filtro...
         title: Kufizo këkimin
       filters:
         label: "%{label}:"

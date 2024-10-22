@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::Search::FacetSuggestInput, type: :component do
-  let(:facet) { Blacklight::Configuration::FacetField.new key: 'language_facet' }
+  let(:facet) { Blacklight::Configuration::FacetField.new key: 'language_facet', suggest: true }
   let(:presenter) { instance_double(Blacklight::FacetFieldPresenter) }
 
   before do
@@ -26,8 +26,25 @@ RSpec.describe Blacklight::Search::FacetSuggestInput, type: :component do
     expect(label.text.strip).to eq 'Filter Language'
 
     id_in_label_for = label.attribute('for').text
-    expect(id_in_label_for).to eq('facet-suggest-language_facet')
+    expect(id_in_label_for).to eq('facet_suggest_language_facet')
 
     expect(rendered.css('input').first.attribute('id').text).to eq id_in_label_for
+  end
+
+  context 'when the facet is explicitly configured to suggest: false' do
+    let(:facet) { Blacklight::Configuration::FacetField.new key: 'language_facet', suggest: false }
+
+    it 'does not display' do
+      expect(render_inline(described_class.new(facet: facet, presenter: presenter)).to_s).to eq ''
+    end
+  end
+
+  context 'when the facet is not explicitly configured with a suggest key' do
+    let(:facet) { Blacklight::Configuration::FacetField.new key: 'language_facet' }
+
+    it 'displays' do
+      rendered = render_inline(described_class.new(facet: facet, presenter: presenter))
+      expect(rendered.css("input.facet-suggest").count).to eq 1
+    end
   end
 end

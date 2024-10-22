@@ -11,6 +11,10 @@ module Blacklight
       private
 
       attr_accessor :facet, :presenter
+
+      def render?
+        facet&.suggest != false
+      end
     end
   end
 end

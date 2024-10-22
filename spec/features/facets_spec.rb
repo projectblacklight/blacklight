@@ -129,5 +129,18 @@ RSpec.describe "Facets" do
       expect(page).to have_link 'Old age'
       expect(page).to have_link('Old age', href: '/?f%5Bsubject_ssim%5D%5B%5D=Old+age')
     end
+
+    context 'when facet is configured with suggest: false' do
+      before do
+        enabled = CatalogController.blacklight_config.dup
+        enabled.facet_fields[:subject_ssim].merge!({ suggest: false })
+        allow(CatalogController).to receive(:blacklight_config).and_return enabled
+      end
+
+      it 'does not offer the user a way to filter the list of facet values' do
+        visit '/catalog/facet/subject_ssim'
+        expect(page).to have_no_field 'facet_suggest_subject_ssim'
+      end
+    end
   end
 end
