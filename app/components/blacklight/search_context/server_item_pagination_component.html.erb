@@ -1,7 +1,11 @@
 <div class="search-context page-links">
-  <%= link_to_previous_document %> |
+  <% if total == 1 %>
+    <%= item_page_entry_info %>
+  <% else %>
+    <%= link_to_previous_document %> |
 
-  <%= item_page_entry_info %> |
+    <%= item_page_entry_info %> |
 
-  <%= link_to_next_document %>
+    <%= link_to_next_document %>
+  <% end %>
 </div>
