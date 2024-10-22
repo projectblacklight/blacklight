@@ -47,26 +47,6 @@
   padding: var(--bl-facets-smallish-padding);
   margin-bottom: var(--bl-facets-smallish-margin-bottom);
   border-radius: var(--bl-facets-smallish-border-radius);
-
-  @each $breakpoint in map-keys($grid-breakpoints) {
-    $next: breakpoint-next($breakpoint, $grid-breakpoints);
-    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-
-    &#{$infix} {
-      @include media-breakpoint-up($next) {
-        // scss-lint:disable ImportantRule
-        .facets-collapse {
-          display: block !important;
-          width: 100%;
-        }
-        // scss-lint:enable ImportantRule
-
-        .navbar-toggler {
-          display: none;
-        }
-      }
-    }
-  }
 }
 
 .no-js {
