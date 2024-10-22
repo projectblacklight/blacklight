@@ -13,7 +13,7 @@
    },
   "type": "module",
   "scripts": {
-    "build": "sass ./app/assets/stylesheets/blacklight/build.scss:./app/assets/builds/blacklight.css --no-source-map --load-path=node_modules",
+    "build": "sass ./app/assets/stylesheets/blacklight/build.scss:./app/assets/builds/blacklight.css --no-source-map --load-path=node_modules --quiet-deps",
     "prepare": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap"
   },
   "repository": {
