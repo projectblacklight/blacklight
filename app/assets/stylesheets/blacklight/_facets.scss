@@ -43,17 +43,16 @@
 }
 
 .facets-toggleable {
+  border: var(--bl-facets-smallish-border);
+  padding: var(--bl-facets-smallish-padding);
+  margin-bottom: var(--bl-facets-smallish-margin-bottom);
+  border-radius: var(--bl-facets-smallish-border-radius);
+
   @each $breakpoint in map-keys($grid-breakpoints) {
     $next: breakpoint-next($breakpoint, $grid-breakpoints);
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
     &#{$infix} {
-      @include media-breakpoint-down($next) {
-        border: var(--bl-facets-smallish-border);
-        padding: var(--bl-facets-smallish-padding);
-        margin-bottom: var(--bl-facets-smallish-margin-bottom);
-        border-radius: var(--bl-facets-smallish-border-radius);
-      }
       @include media-breakpoint-up($next) {
         // scss-lint:disable ImportantRule
         .facets-collapse {
