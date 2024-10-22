@@ -4,7 +4,7 @@
     <%= content_tag :h2, @title, class: 'facets-heading h4' if @title %>
 
     <%= content_tag :button,
-      class:'navbar-toggler navbar-toggler-right',
+      class:'navbar-toggler navbar-toggler-right d-block d-lg-none',
       type: 'button',
       data: {
         toggle: 'collapse',
@@ -21,7 +21,7 @@
     <% end %>
   </div>
 
-  <div id="<%= @panel_id %>" class="facets-collapse collapse">
+  <div id="<%= @panel_id %>" class="facets-collapse d-lg-block collapse">
     <%= body %>
   </div>
 <% end %>
