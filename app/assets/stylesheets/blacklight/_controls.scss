@@ -28,10 +28,6 @@
 
 .view-type {
   display: inline-block;
-
-  .caption {
-    @extend .visually-hidden !optional;
-  }
 }
 
 .search-input-group {
