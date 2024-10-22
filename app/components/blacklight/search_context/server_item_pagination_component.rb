@@ -12,7 +12,7 @@ module Blacklight
       end
 
       def render?
-        @search_context.present? && (@search_context[:prev] || @search_context[:next]) && (@search_session['document_id'] == @current_document_id)
+        @search_context.present? && (@search_context[:prev] || @search_context[:next] || total.positive?) && (@search_session['document_id'] == @current_document_id)
       end
 
       ##
