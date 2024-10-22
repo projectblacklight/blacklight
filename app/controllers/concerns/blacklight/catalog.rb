@@ -87,7 +87,7 @@ module Blacklight::Catalog
     @response = if query_fragment.present?
                   search_service.facet_suggest_response(@facet.key, params[:query_fragment])
                 else
-                  @response = search_service.facet_field_response(@facet.key)
+                  search_service.facet_field_response(@facet.key)
                 end
     @display_facet = @response.aggregations[@facet.field]
 
