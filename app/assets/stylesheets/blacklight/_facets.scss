@@ -1,3 +1,4 @@
+/* dood */
 .sidenav {
   --bl-facet-active-bg: #{$facet-active-bg};
   --bl-facet-active-item-color: #{$facet-active-item-color};
@@ -110,6 +111,16 @@
 
   .card-body {
     padding: var(--bl-facet-limit-body-padding);
+  }
+
+  /* Provide a focus ring on the expand/collapse button */
+  .btn {
+    --bs-btn-focus-shadow-rgb: 50, 50, 50;
+    &:focus-visible {
+      border-color: var(--bs-btn-hover-border-color);
+      outline: 0;
+      box-shadow: var(--bs-btn-focus-box-shadow);
+    }
   }
 }
 
