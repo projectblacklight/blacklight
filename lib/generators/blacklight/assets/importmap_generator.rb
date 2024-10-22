@@ -49,8 +49,10 @@ module Blacklight
         else
           append_to_file 'app/assets/stylesheets/application.css' do
             <<~CONTENT
-              @import url("blacklight.css");
-              @import stylesheet_path("blacklight.css");
+              /*
+               *= require blacklight
+               */
+              @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
             CONTENT
           end
         end
