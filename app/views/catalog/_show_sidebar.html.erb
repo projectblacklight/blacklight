@@ -1,3 +1,2 @@
-<% Blacklight.deprecation.warn('The partial catalog/_show_sidebar.html.erb will be removed in Blacklight 9.0. Configure blacklight_config.show.sidebar_component instead (default Blacklight::Search::SidebarComponent).') unless local_assigns[:silence_deprecation] %>
 <% presenter = document_presenter(document) %>
 <%= render presenter.view_config.sidebar_component.new(presenter: presenter) %>

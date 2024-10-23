@@ -35,9 +35,6 @@ module Blacklight::DocumentHelperBehavior
   def render_document_sidebar_partial(document)
     render 'show_sidebar', document: document
   end
-  Blacklight.deprecation.deprecate_methods(self,
-                                           render_document_sidebar_partial: 'has been replaced by calling the sidebar component (Blacklight::Search::SidebarComponent) directly. ' \
-                                                                            'Set sidebar_component in the view config.')
 
   ##
   # return the Bookmarks on a set of documents (all bookmarks on the page)
