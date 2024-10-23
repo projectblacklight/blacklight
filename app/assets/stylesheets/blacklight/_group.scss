@@ -1,5 +1,6 @@
 .group-key {
-  border-bottom: 1px solid darken($border-color, 60%);
+  --bl-border-color: var(--bs-gray-600);
+  border-bottom: 1px solid var(--bl-border-color);
   clear: right;
 }
 
