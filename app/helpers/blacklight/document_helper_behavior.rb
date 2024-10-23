@@ -34,6 +34,15 @@ module Blacklight::DocumentHelperBehavior
   # @deprecated
   # @return [String]
   def render_document_sidebar_partial(document)
+    unless @render_document_sidebar_partials_deprecation_warning_shown
+      partials = lookup_context.find_all('show_sidebar', lookup_context.prefixes, true, [], {})
+      unless partials.first.identifier.starts_with? Blacklight.root
+        Blacklight.deprecation.warn('The partial catalog/_show_sidebar.html.erb will not be rendered by #render_document_sidebar_partial in Blacklight 9.0.' \
+                                    'Configure blacklight_config.show.sidebar_component instead (default Blacklight::Search::SidebarComponent).')
+        @render_document_sidebar_partials_deprecation_warning_shown = true
+      end
+    end
+
     render 'show_sidebar', document: document
   end
 
