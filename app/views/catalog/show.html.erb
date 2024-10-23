@@ -1,6 +1,7 @@
 <%= render 'show_main_content' %>
 
 <% content_for(:sidebar) do %>
-  <% presenter = document_presenter(@document) %>
-  <%= render presenter.view_config.sidebar_component.new(presenter: presenter) %>
+  <% Blacklight.deprecation.silence do %>
+    <%= render_document_sidebar_partial @document %>
+  <% end %>
 <% end %>
