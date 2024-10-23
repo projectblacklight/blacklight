@@ -24,7 +24,7 @@ def with_solr(&block)
   # We're being invoked by the app entrypoint script and solr is already up via docker compose
   if ENV['SOLR_ENV'] == 'docker-compose'
     yield
-  elsif system('docker compose -v')
+  elsif system('docker compose version')
     # We're not running `docker compose up' but still want to use a docker instance of solr.
     begin
       puts "Starting Solr"
@@ -47,7 +47,7 @@ task ci: ['build:npm'] do
   with_solr do
     Rake::Task['blacklight:internal:seed'].invoke
     within_test_app do
-      # Precompiles the javascript
+      # Precompiles the assets
       system "bin/rake spec:prepare"
     end
     Rake::Task['blacklight:coverage'].invoke

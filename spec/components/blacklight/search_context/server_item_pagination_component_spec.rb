@@ -7,7 +7,7 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
 
   let(:current_document_id) { 9 }
   let(:current_document) { SolrDocument.new(id: current_document_id) }
-  let(:search_session) { { 'document_id' => current_document_id } }
+  let(:search_session) { { 'document_id' => current_document_id, 'counter' => 1, 'total' => '3' } }
   let(:instance) { described_class.new(search_context: search_context, search_session: search_session, current_document: current_document) }
 
   before do
@@ -20,6 +20,17 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
 
     it "does not render content" do
       expect(render.to_html).to be_blank
+    end
+  end
+
+  context 'when there is exactly one search result with no next or previous document' do
+    let(:search_context) { { prev: nil, next: nil } }
+    let(:search_session) { { 'document_id' => current_document_id, 'counter' => 1, 'total' => '1' } }
+
+    it "renders single page count" do
+      expect(render.to_html).to include '<strong>1</strong> of <strong>1</strong>'
+      expect(render.css('span.previous').to_html).to be_blank
+      expect(render.css('span.next').to_html).to be_blank
     end
   end
 
