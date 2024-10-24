@@ -193,7 +193,7 @@ module Blacklight::CatalogHelperBehavior
   # Get the current "view type" (and ensure it is a valid type)
   #
   # @param [Hash] query_params the query parameters to check
-  # @return [Symbol]
+  # @return [Symbol] (e.g. :index, :gallery)
   def document_index_view_type query_params = params || {}
     view_param = query_params[:view]
     view_param ||= session[:preferred_view] if respond_to?(:session)

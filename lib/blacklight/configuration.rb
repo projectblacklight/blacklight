@@ -167,7 +167,7 @@ module Blacklight
         # component class used to render the facet grouping
         facet_group_component: nil,
         # component class used to render search constraints
-        constraints_component: nil,
+        constraints_component: Blacklight::ConstraintsComponent,
         # component class used to render the search bar
         search_bar_component: nil,
         # component class used to render the header above the documents
