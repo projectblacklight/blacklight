@@ -23,7 +23,7 @@
 <%- if @response.empty? %>
   <%= render "zero_results" %>
 <%- elsif render_grouped_response? %>
-  <%= render 'catalog/group' %>
+  <%= render 'group' %>
 <%- else %>
   <%= render_document_index @response.documents %>
 <%- end %>
