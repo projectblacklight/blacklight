@@ -103,7 +103,7 @@ RSpec.describe "Bookmarks" do
       expect(page).to have_css('.blacklight-icons-bookmark')
       find('.blacklight-icons-bookmark').click
 
-      expect(find('.toggle-bookmark[type="checkbox"]', visible: false)).to be_checked
+      expect(find('.toggle-bookmark-input', visible: false)).to be_checked
       find('.blacklight-icons-bookmark').click
     end
   end
