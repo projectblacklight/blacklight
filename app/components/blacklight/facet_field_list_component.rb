@@ -21,12 +21,12 @@ module Blacklight
       @facet_field.paginator&.items&.any?
     end
 
-    def facet_item_presenter(facet_item, deprecated_facet_config = nil, facet_field = nil)
-      (deprecated_facet_config || facet_config).item_presenter.new(facet_item, deprecated_facet_config || facet_config, helpers, facet_field || @facet_field.key)
+    def facet_item_presenter(facet_item)
+      facet_config.item_presenter.new(facet_item, facet_config, helpers, @facet_field.key)
     end
 
-    def facet_item_component_class(deprecated_facet_config = nil)
-      (deprecated_facet_config || facet_config).item_component
+    def facet_item_component_class
+      facet_config.item_component
     end
 
     def facet_config
