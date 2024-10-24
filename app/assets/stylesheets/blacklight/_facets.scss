@@ -4,9 +4,6 @@
   --bl-facet-margin-bottom: #{$spacer};
   --bl-facet-remove-color: var(--bs-secondary-color);
 
-  --bl-facet-limit-body-padding: #{$spacer};
-
-  --bl-facets-smallish-padding: 0.25rem;
   --bl-facets-smallish-border: var(--bs-border-width) solid
     var(--bs-border-color);
   --bl-facets-smallish-margin-bottom: #{$spacer};
@@ -86,11 +83,6 @@
 
 .facet-limit {
   margin-bottom: var(--bl-facet-margin-bottom);
-
-  .card-body {
-    padding: var(--bl-facet-limit-body-padding);
-  }
-
   /* Provide a focus ring on the expand/collapse button */
   .btn {
     --bs-btn-focus-shadow-rgb: 50, 50, 50;
