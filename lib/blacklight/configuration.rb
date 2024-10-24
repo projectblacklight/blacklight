@@ -156,8 +156,6 @@ module Blacklight
         display_type_field: nil,
         # the "field access" key to use to look up the document display fields
         document_fields_key: :index_fields,
-        # partials to render for each document(see #render_document_partials)
-        partials: [],
         document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
         collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
         # what field, if any, to use to render grouped results
@@ -194,8 +192,6 @@ module Blacklight
         # Set this to a hash with additional arguments to merge into the route,
         # or set `controller: :current` to route to the current controller.
         route: nil,
-        # partials to render for each document(see #render_document_partials)
-        partials: [],
         document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
         header_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
       )
