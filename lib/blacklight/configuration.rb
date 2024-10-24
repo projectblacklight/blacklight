@@ -165,7 +165,7 @@ module Blacklight
         # additional response formats for search results
         respond_to: OpenStructWithHashAccess.new,
         # component class used to render the facet grouping
-        facet_group_component: nil,
+        facet_group_component: Blacklight::Response::FacetGroupComponent,
         # component class used to render search constraints
         constraints_component: nil,
         # component class used to render the search bar
