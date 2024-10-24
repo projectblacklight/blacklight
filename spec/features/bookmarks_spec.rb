@@ -45,13 +45,25 @@ RSpec.describe "Bookmarks" do
     expect(page).to have_content 'Successfully removed bookmark.'
   end
 
-  it 'shows bookmarks as checkboxes', :js do
-    visit solr_document_path('2007020969')
-    check 'Bookmark'
+  context 'when bookmark_icon_component is set to nil' do
+    let!(:default_bookmark_icon_component) { CatalogController.blacklight_config.bookmark_icon_component }
 
-    visit solr_document_path('2007020969')
-    expect(page).to have_css('input[type="checkbox"][checked]')
-    uncheck 'In Bookmarks'
+    before do
+      CatalogController.blacklight_config.bookmark_icon_component = nil
+    end
+
+    after do
+      CatalogController.blacklight_config.bookmark_icon_component = default_bookmark_icon_component
+    end
+
+    it 'shows bookmarks as checkboxes', :js do
+      visit solr_document_path('2007020969')
+      check 'Bookmark'
+
+      visit solr_document_path('2007020969')
+      expect(page).to have_css('input[type="checkbox"][checked]')
+      uncheck 'In Bookmarks'
+    end
   end
 
   it "adds bookmarks after a user logs in" do
@@ -87,18 +99,8 @@ RSpec.describe "Bookmarks" do
     expect(page).to have_content 'Ci an zhou bian'
   end
 
-  context "has bookmark icon" do
-    let!(:default_bookmark_icon_component) { CatalogController.blacklight_config.bookmark_icon_component }
-
-    before do
-      CatalogController.blacklight_config.bookmark_icon_component = Blacklight::Icons::BookmarkIconComponent
-    end
-
-    after do
-      CatalogController.blacklight_config.bookmark_icon_component = default_bookmark_icon_component
-    end
-
-    it 'shows bookmark icon instead of checkbox', :js do
+  context "when the bookmark icon is configured (default)" do
+    it 'shows bookmark icon', :js do
       visit solr_document_path('2007020969')
       expect(page).to have_css('.blacklight-icons-bookmark')
       find('.blacklight-icons-bookmark').click
@@ -122,12 +124,13 @@ RSpec.describe "Bookmarks" do
     it 'adds and removes bookmarks', :js do
       visit solr_document_path('2007020969')
       expect(page).to have_no_css('#bookmarks_nav')
-      check 'Bookmark'
+      find('.blacklight-icons-bookmark').click
+
       expect(page).to have_content 'In Bookmarks'
 
       visit solr_document_path('2007020969')
-      expect(page).to have_css('input[type="checkbox"][checked]')
-      uncheck 'In Bookmarks'
+      expect(find('.toggle-bookmark-input', visible: false)).to be_checked
+      find('.blacklight-icons-bookmark').click
     end
   end
 end
