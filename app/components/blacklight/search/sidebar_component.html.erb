@@ -1,7 +1,7 @@
 <search>
   <% facet_group_names.each do |groupname| %>
     <% fields = facet_fields_in_group(groupname) %>
-    <%= render group_component_class.new(id: groupname, fields: fields, response: response) do |component| %>
+    <%= render group_component_class.new(id: groupname) do |component| %>
       <% component.with_body do %>
         <%= render Blacklight::FacetComponent.with_collection(fields, response: response) %>
       <% end %>
