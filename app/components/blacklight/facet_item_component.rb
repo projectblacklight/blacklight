@@ -54,7 +54,7 @@ module Blacklight
         tag.span(label, class: "selected") +
           # remove link
           link_to(href, class: "remove", rel: "nofollow") do
-            render(Blacklight::Icons::RemoveComponent.new) +
+            render(Blacklight::Icons::RemoveComponent.new(aria_hidden: true)) +
               tag.span(helpers.t(:'blacklight.search.facets.selected.remove'), class: 'visually-hidden')
           end
       end + render_facet_count(classes: ["selected"])
