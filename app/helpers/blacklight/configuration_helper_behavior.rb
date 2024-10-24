@@ -92,18 +92,6 @@ module Blacklight::ConfigurationHelperBehavior
   end
 
   ##
-  # @deprecated
-  # The available options for results per page, in the style of #options_for_select
-  def per_page_options_for_select
-    return [] if blacklight_config.per_page.blank?
-
-    blacklight_config.per_page.map do |count|
-      [t(:'blacklight.search.per_page.label', count: count).html_safe, count]
-    end
-  end
-  Blacklight.deprecation.deprecate_methods(self, per_page_options_for_select: 'has moved to Blacklight::Search::PerPageComponent')
-
-  ##
   # Determine whether to render a field by evaluating :if and :unless conditions
   #
   # @param [Blacklight::Solr::Configuration::Field] field_config

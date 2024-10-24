@@ -31,17 +31,6 @@ module Blacklight::Document
     class_attribute :inspector_fields, default: [:_source]
   end
 
-  Email = Module.new do
-    def self.included(mod)
-      Blacklight.deprecation.warn("Blacklight::Document::Email is deprecated and will be removed (included in #{mod}).")
-    end
-  end
-  Sms = Module.new do
-    def self.included(mod)
-      Blacklight.deprecation.warn("Blacklight::Document::Sms is deprecated and will be removed (included in #{mod}).")
-    end
-  end
-
   attr_reader :response, :_source
   alias_method :solr_response, :response
 
