@@ -5,6 +5,8 @@
 }
 
 .applied-filter {
+  --separator-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'%3e%3cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/%3e%3c/svg%3e");
+
   .constraint-value {
     cursor: default;
     text-overflow: ellipsis;
@@ -27,19 +29,23 @@
       max-width: breakpoint-min(lg) * 0.5;
     }
 
-    &:hover,
-    &:active {
-      background-color: $secondary;
-      border-color: $secondary;
-      box-shadow: none;
+    .filter-name:after {
+      background-color: var(--bs-btn-color);
+      content: "";
+      mask: var(--separator-icon);
+      mask-repeat: no-repeat;
+      display: inline-block;
+      height: 1.1rem;
+      width: 1.25rem;
+      vertical-align: text-bottom;
+      margin-right: -0.2rem;
+      margin-left: 0.25rem;
+      transition: background-color 0.15s ease-in-out;
     }
-  }
 
-  .filter-name:after {
-    color: $gray-500;
-    content: "❯";
-    font-size: 90%;
-    padding-left: $caret-width;
+    &:hover .filter-name:after {
+      background-color: var(--bs-btn-hover-color);
+    }
   }
 
   .remove {
