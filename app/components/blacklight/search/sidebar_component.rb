@@ -6,7 +6,7 @@ module Blacklight
       def initialize(blacklight_config:, response:, view_config:)
         @blacklight_config = blacklight_config
         @response = response
-        @group_component_class = view_config.facet_group_component || Blacklight::Response::FacetGroupComponent
+        @group_component_class = view_config.facet_group_component
       end
 
       attr_reader :group_component_class, :response
