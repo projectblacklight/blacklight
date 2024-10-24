@@ -6,12 +6,6 @@
 
   --bl-facet-limit-body-padding: #{$spacer};
 
-  --bl-facets-smallish-padding: 0.25rem;
-  --bl-facets-smallish-border: var(--bs-border-width) solid
-    var(--bs-border-color);
-  --bl-facets-smallish-margin-bottom: #{$spacer};
-  --bl-facets-smallish-border-radius: #{$border-radius};
-
   .navbar-toggler {
     --bs-navbar-toggler-padding-x: #{$navbar-toggler-padding-x};
     --bs-navbar-toggler-padding-y: #{$navbar-toggler-padding-y};
@@ -40,13 +34,6 @@
       }
     }
   }
-}
-
-.facets-toggleable {
-  border: var(--bl-facets-smallish-border);
-  padding: var(--bl-facets-smallish-padding);
-  margin-bottom: var(--bl-facets-smallish-margin-bottom);
-  border-radius: var(--bl-facets-smallish-border-radius);
 }
 
 .no-js {
