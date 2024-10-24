@@ -137,8 +137,8 @@ module Blacklight
       # @!attribute bookmark_icon_component
       # @since v8.3.1
       # component class used to render a document
-      # set to Blacklight::Icons::BookmarkIconComponent to replace checkbox with icon
-      property :bookmark_icon_component, default: nil
+      # set to nil if a checkbox is prefered to the icon
+      property :bookmark_icon_component, default: Blacklight::Icons::BookmarkIconComponent
 
       # @!attribute index
       # General configuration for all views
