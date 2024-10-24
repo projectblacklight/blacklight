@@ -4,8 +4,6 @@ class Blacklight::Configuration
   class ViewConfig < Blacklight::OpenStructWithHashAccess
     # @!attribute template
     #   @return [String] partial to render around the documents
-    # @!attribute partials
-    #   @return [Array<String>] partials to render for each document(see #render_document_partials)
     # @!attribute document_presenter_class
     #   @return [Class] document presenter class used by helpers and views
     # @!attribute document_component
