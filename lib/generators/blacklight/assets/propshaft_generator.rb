@@ -18,7 +18,7 @@ module Blacklight
       def add_package_assets
         append_to_file 'app/assets/stylesheets/application.bootstrap.scss' do
           <<~CONTENT
-            @import "blacklight-frontend/app/assets/stylesheets/blacklight/blacklight";
+            @import url("blacklight.css");
           CONTENT
         end
 
