@@ -1,10 +1,7 @@
 .sidenav {
   --bl-facet-active-bg: #{$facet-active-bg};
   --bl-facet-active-item-color: #{$facet-active-item-color};
-  --bl-facet-margin-bottom: #{$spacer};
   --bl-facet-remove-color: var(--bs-secondary-color);
-
-  --bl-facet-limit-body-padding: #{$spacer};
 
   --bl-facets-smallish-padding: 0.25rem;
   --bl-facets-smallish-border: var(--bs-border-width) solid
@@ -85,33 +82,17 @@
 }
 
 .facet-limit {
-  margin-bottom: var(--bl-facet-margin-bottom);
-
-  .card-body {
-    padding: var(--bl-facet-limit-body-padding);
-  }
-
-  /* Provide a focus ring on the expand/collapse button */
-  .btn {
-    --bs-btn-focus-shadow-rgb: 50, 50, 50;
-    &:focus-visible {
-      border-color: var(--bs-btn-hover-border-color);
-      outline: 0;
-      box-shadow: var(--bs-btn-focus-box-shadow);
-    }
-  }
+  --bs-accordion-btn-bg: var(--bs-gray-100);
+  --bs-btn-hover-bg: var(--bs-gray-200);
+  --bs-accordion-active-bg: var(--bs-accordion-btn-bg);
 }
 
 .facet-limit-active {
-  border-color: $facet-active-border;
-
-  .card-header {
-    background-color: var(--bl-facet-active-bg);
-
-    .btn {
-      color: color-contrast($facet-active-bg);
-    }
-  }
+  --bs-accordion-btn-bg: var(--bl-facet-active-bg);
+  --bs-btn-hover-bg: var(--bs-accordion-btn-bg);
+  --bs-accordion-btn-color: #{color-contrast($facet-active-bg)};
+  --bs-btn-hover-color: var(--bs-accordion-btn-color);
+  --bs-accordion-active-color: var(--bs-accordion-btn-color);
 }
 
 .facet-values {
