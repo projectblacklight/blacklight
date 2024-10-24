@@ -99,6 +99,9 @@ hu:
         sort:
           count: Numerikus rendezés
           index: A-Z rendezés
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: Szűrje tovább a keresését
       filters:
         label: "%{label}:"
