@@ -91,7 +91,7 @@ const Modal = (() => {
           <pre>${this.url}\n${error}</pre>
         </div>`
 
-      document.querySelector(`${modal.modalSelector} .modal-content`).innerHTML = contents
+      modal.target().querySelector('.modal-content').innerHTML = contents
 
       modal.show();
   }
@@ -112,7 +112,7 @@ const Modal = (() => {
     elements.forEach((el) => frag.appendChild(el))
     modal.activateScripts(frag)
     
-    document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(frag)
+    modal.target().querySelector('.modal-content').replaceChildren(frag)
 
     modal.show();
   };
@@ -154,17 +154,21 @@ const Modal = (() => {
   };
 
   modal.hide = function (el) {
-    const dom = document.querySelector(modal.modalSelector)
+    const dom = modal.target();
 
     if (!dom.open) return
     dom.close()
   }
 
   modal.show = function(el) {
-    const dom = document.querySelector(modal.modalSelector)
+    const dom = modal.target();
 
     if (dom.open) return
     dom.showModal()
+  }
+
+  modal.target = function() {
+    return document.querySelector(modal.modalSelector);
   }
 
   modal.setupModal()
