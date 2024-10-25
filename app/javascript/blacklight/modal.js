@@ -164,6 +164,10 @@ const Modal = (() => {
     const dom = modal.target();
 
     if (!dom.open) return
+
+    var e = new CustomEvent('hide.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    dom.dispatchEvent(e)
+
     dom.close()
   }
 
@@ -171,6 +175,10 @@ const Modal = (() => {
     const dom = modal.target();
 
     if (dom.open) return
+
+    var e = new CustomEvent('show.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    dom.dispatchEvent(e)
+
     dom.showModal()
   }
 
