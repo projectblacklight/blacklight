@@ -91,7 +91,7 @@ const Modal = (() => {
           <pre>${this.url}\n${error}</pre>
         </div>`
 
-      document.querySelector(`${modal.modalSelector} .modal-content`).innerHTML = contents
+      modal.target().querySelector('.modal-content').innerHTML = contents
 
       modal.show();
   }
@@ -112,7 +112,14 @@ const Modal = (() => {
     elements.forEach((el) => frag.appendChild(el))
     modal.activateScripts(frag)
     
-    document.querySelector(`${modal.modalSelector} .modal-content`).replaceChildren(frag)
+    modal.target().querySelector('.modal-content').replaceChildren(frag)
+
+    // send custom event with the modal dialog div as the target
+    var e = new CustomEvent('loaded.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    modal.target().dispatchEvent(e)
+
+    // if they did preventDefault, don't show the dialog
+    if (e.isDefaultPrevented()) return;
 
     modal.show();
   };
@@ -154,17 +161,29 @@ const Modal = (() => {
   };
 
   modal.hide = function (el) {
-    const dom = document.querySelector(modal.modalSelector)
+    const dom = modal.target();
 
     if (!dom.open) return
+
+    var e = new CustomEvent('hide.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    dom.dispatchEvent(e)
+
     dom.close()
   }
 
   modal.show = function(el) {
-    const dom = document.querySelector(modal.modalSelector)
+    const dom = modal.target();
 
     if (dom.open) return
+
+    var e = new CustomEvent('show.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    dom.dispatchEvent(e)
+
     dom.showModal()
+  }
+
+  modal.target = function() {
+    return document.querySelector(modal.modalSelector);
   }
 
   modal.setupModal()
