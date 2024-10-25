@@ -34,14 +34,33 @@
 
     <%= render partial: 'shared/header_navbar' %>
 
-    <main id="main-container" class="<%= container_classes %>" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
-      <%= content_for(:container_header) %>
+    <main id="main-container" role="main" aria-label="<%= t('blacklight.main.aria.main_container') %>">
+      <% if controller.is_a?(Blacklight::Catalog) && controller_name != 'bookmarks' && controller.action_name == "index"  %>
+        <search>
+          <%= render Blacklight::SearchNavbarComponent.new(blacklight_config: blacklight_config) %>
+          <div class="<%= container_classes %>">
+            <%= content_for(:container_header) %>
 
-      <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
+            <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
 
-      <div class="row">
-        <%= content_for?(:content) ? yield(:content) : yield %>
-      </div>
+            <div class="row">
+              <%= content_for?(:content) ? yield(:content) : yield %>
+            </div>
+          </div>
+        </search>
+      <% else %>
+        <search>
+          <%= render Blacklight::SearchNavbarComponent.new(blacklight_config: blacklight_config) %>
+        </search>
+        <%# content on this page is not related to search %>
+        <div class="<%= container_classes %>">
+          <%= render partial: 'shared/flash_msg', layout: 'shared/flash_messages' %>
+
+          <div class="row">
+            <%= content_for?(:content) ? yield(:content) : yield %>
+          </div>
+        </div>
+      <% end %>
     </main>
 
     <%= render partial: 'shared/footer' %>
