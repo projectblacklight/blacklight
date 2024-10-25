@@ -119,7 +119,7 @@ const Modal = (() => {
     modal.target().dispatchEvent(e)
 
     // if they did preventDefault, don't show the dialog
-    if (e.isDefaultPrevented()) return;
+    if (e.defaultPrevented) return;
 
     modal.show();
   };
