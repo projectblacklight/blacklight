@@ -40,7 +40,7 @@ module Blacklight
       end
 
       def header_container_classes
-        has_header_tools? ? 'row pagination-search-widgets pb-2' : 'pagination-search-widgets'
+        has_header_tools? ? 'row pagination-search-widgets pb-3' : 'pagination-search-widgets pb-3'
       end
 
       def header_actions
