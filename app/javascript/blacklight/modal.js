@@ -114,6 +114,13 @@ const Modal = (() => {
     
     modal.target().querySelector('.modal-content').replaceChildren(frag)
 
+    // send custom event with the modal dialog div as the target
+    var e = new CustomEvent('loaded.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    modal.target().dispatchEvent(e)
+
+    // if they did preventDefault, don't show the dialog
+    if (e.defaultPrevented) return;
+
     modal.show();
   };
 
