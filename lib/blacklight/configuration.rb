@@ -578,7 +578,7 @@ module Blacklight
 
     ##
     # Add a section of config that only applies to documents with a matching display type
-    def for_display_type display_type, &_block
+    def for_display_type(display_type, &)
       fields_for_type[display_type] ||= self.class.new
 
       fields_for_type[display_type].tap do |conf|

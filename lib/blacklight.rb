@@ -116,7 +116,7 @@ module Blacklight
 
   # returns the full path the the blacklight plugin installation
   def self.root
-    @root ||= File.expand_path(File.dirname(File.dirname(__FILE__)))
+    @root ||= File.expand_path(File.dirname(__FILE__, 2))
   end
 
   def self.deprecation

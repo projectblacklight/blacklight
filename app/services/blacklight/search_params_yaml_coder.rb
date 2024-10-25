@@ -21,7 +21,6 @@ module Blacklight
       params.with_indifferent_access
     end
 
-    # rubocop:disable Security/YAMLLoad
     if YAML.respond_to?(:unsafe_load)
       def self.yaml_load(payload)
         if ActiveRecord.try(:use_yaml_unsafe_load) || ActiveRecord::Base.try(:use_yaml_unsafe_load)
@@ -43,6 +42,5 @@ module Blacklight
         end
       end
     end
-    # rubocop:enable Security/YAMLLoad
   end
 end
