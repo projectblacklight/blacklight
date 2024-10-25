@@ -129,14 +129,11 @@ module Blacklight
       set_slot(:thumbnail, nil) unless thumbnail || show?
       set_slot(:metadata, nil, fields: presenter.field_presenters, show: @show) unless metadata
       set_slot(:embed, nil) unless embed
-      if view_partials.present?
-        view_partials.each do |view_partial|
-          with_partial(view_partial) do
-            helpers.render_document_partial @document, view_partial, component: self, document_counter: @counter
-          end
+
+      view_partials.each do |view_partial|
+        with_partial(view_partial) do
+          helpers.render_document_partial @document, view_partial, component: self, document_counter: @counter
         end
-      else
-        set_slot(:partials, nil)
       end
     end
 
