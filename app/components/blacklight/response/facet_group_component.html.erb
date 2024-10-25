@@ -3,22 +3,7 @@
   <div class="facets-header">
     <%= content_tag :h2, @title, class: 'facets-heading h4' if @title %>
 
-    <%= content_tag :button,
-      class: 'btn btn-outline-secondary facet-toggle-button d-block d-lg-none',
-      type: 'button',
-      data: {
-        toggle: 'collapse',
-        target: "##{@panel_id}",
-        'bs-toggle': 'collapse',
-        'bs-target': "##{@panel_id}"
-      },
-      aria: {
-        controls: @panel_id,
-        expanded: 'false',
-      } do %>
-      <span data-show-label><%= t('blacklight.search.facets.group.open') %></span>
-      <span data-hide-label><%= t('blacklight.search.facets.group.close') %></span>
-    <% end %>
+    <%= collapse_toggle_button(@panel_id) %>
   </div>
 
   <div id="<%= @panel_id %>" class="facets-collapse d-lg-block collapse accordion">

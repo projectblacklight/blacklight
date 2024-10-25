@@ -15,6 +15,14 @@ module Blacklight
         @panel_id = id ? "facet-panel-#{id}-collapse" : 'facet-panel-collapse'
       end
 
+      def collapse_toggle_button(panel_id)
+        render button_component.new(panel_id: panel_id)
+      end
+
+      def button_component
+        Blacklight::Response::FacetToggleButtonComponent
+      end
+
       def render?
         body.present?
       end
