@@ -2,7 +2,7 @@
 
 module Blacklight
   class Configuration::DisplayField < Blacklight::Configuration::Field
-    def initialize(*args, **kwargs, &block)
+    def initialize(*args, **kwargs, &)
       super
 
       self.presenter ||= Blacklight::FieldPresenter

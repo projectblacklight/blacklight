@@ -95,20 +95,20 @@ module Blacklight
 
     ##
     # Merge additional, repository-specific parameters
-    def merge(extra_params, &block)
+    def merge(extra_params, &)
       if extra_params
         params_will_change!
-        @merged_params.merge!(extra_params.to_hash, &block)
+        @merged_params.merge!(extra_params.to_hash, &)
       end
       self
     end
 
     ##
     # "Reverse merge" additional, repository-specific parameters
-    def reverse_merge(extra_params, &block)
+    def reverse_merge(extra_params, &)
       if extra_params
         params_will_change!
-        @reverse_merged_params.reverse_merge!(extra_params.to_hash, &block)
+        @reverse_merged_params.reverse_merge!(extra_params.to_hash, &)
       end
       self
     end
