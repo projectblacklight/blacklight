@@ -224,6 +224,12 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     expect(rendered).to have_content 'Partials'
   end
 
+  it 'has no partials by default' do
+    component.render_in(view_context)
+
+    expect(component.partials?).to be false
+  end
+
   context 'with before_titles' do
     let(:render) do
       component.render_in(view_context) do
