@@ -114,6 +114,6 @@ module Blacklight::UrlHelperBehavior
   # Use in e.g. the search history display, where we want something more like text instead of the normal constraints
   def link_to_previous_search(params)
     search_state = controller.search_state_class.new(params, blacklight_config, self)
-    link_to(render(Blacklight::ConstraintsComponent.for_search_history(search_state: search_state)), search_action_path(params))
+    link_to(render(Blacklight::ConstraintsComponent.for_search_history(search_state: search_state, classes: 'clearfix constraints-container mb-0')), search_action_path(params))
   end
 end

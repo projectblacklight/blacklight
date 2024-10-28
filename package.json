@@ -2,7 +2,6 @@
   "name": "blacklight-frontend",
   "version": "9.0.0-alpha",
   "description": "The frontend code and styles for Blacklight",
-
   "exports": {
     "./blacklight.esm.js": "./app/assets/javascripts/blacklight/blacklight.esm.js",
     "./stylesheets/*": "./app/assets/stylesheets/blacklight/*",
@@ -12,7 +11,7 @@
     },
     "./*": "./app/javascript/blacklight-frontend/*.js"
    },
-
+  "type": "module",
   "scripts": {
     "prepare": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap"
   },
@@ -31,7 +30,7 @@
   },
   "homepage": "https://github.com/projectblacklight/blacklight#readme",
   "devDependencies": {
-    "rollup": "^2.60.0",
+    "rollup": "^4.24.0",
     "rollup-plugin-includepaths": "^0.2.4"
   },
   "browserslist": [

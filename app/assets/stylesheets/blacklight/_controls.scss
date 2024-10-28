@@ -1,9 +1,5 @@
 .search-widgets {
   display: flex;
-
-  > * {
-    @extend .mx-1;
-  }
 }
 
 .sort-pagination,
@@ -25,7 +21,7 @@
 .no-js {
   .btn-group:focus-within {
     .dropdown-menu {
-      @extend .show;
+      display: block; /* show menu when tabbing to it, without Javascript */
     }
   }
 }

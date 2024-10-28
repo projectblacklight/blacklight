@@ -16,9 +16,9 @@ module Blacklight
     # Add Blacklight to the application controller
     def inject_blacklight_controller_behavior
       inject_into_class "app/controllers/application_controller.rb", "ApplicationController" do
-        "  # Adds a few additional behaviors into the application controller\n" \
-          "  include Blacklight::Controller\n" \
-          "  layout :determine_layout if respond_to? :layout\n\n"
+        "  # Adds a few additional behaviors into the application controller\n  " \
+          "include Blacklight::Controller\n  " \
+          "layout :determine_layout if respond_to? :layout\n\n"
       end
     end
 

@@ -43,31 +43,10 @@
 }
 
 .facets-toggleable {
-  @each $breakpoint in map-keys($grid-breakpoints) {
-    $next: breakpoint-next($breakpoint, $grid-breakpoints);
-    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-
-    &#{$infix} {
-      @include media-breakpoint-down($next) {
-        border: var(--bl-facets-smallish-border);
-        padding: var(--bl-facets-smallish-padding);
-        margin-bottom: var(--bl-facets-smallish-margin-bottom);
-        border-radius: var(--bl-facets-smallish-border-radius);
-      }
-      @include media-breakpoint-up($next) {
-        // scss-lint:disable ImportantRule
-        .facets-collapse {
-          display: block !important;
-          width: 100%;
-        }
-        // scss-lint:enable ImportantRule
-
-        .navbar-toggler {
-          display: none;
-        }
-      }
-    }
-  }
+  border: var(--bl-facets-smallish-border);
+  padding: var(--bl-facets-smallish-padding);
+  margin-bottom: var(--bl-facets-smallish-margin-bottom);
+  border-radius: var(--bl-facets-smallish-border-radius);
 }
 
 .no-js {
@@ -102,7 +81,6 @@
 }
 
 .facets-heading {
-  @extend .h4;
   line-height: inherit;
 }
 
@@ -111,6 +89,16 @@
 
   .card-body {
     padding: var(--bl-facet-limit-body-padding);
+  }
+
+  /* Provide a focus ring on the expand/collapse button */
+  .btn {
+    --bs-btn-focus-shadow-rgb: 50, 50, 50;
+    &:focus-visible {
+      border-color: var(--bs-btn-hover-border-color);
+      outline: 0;
+      box-shadow: var(--bs-btn-focus-box-shadow);
+    }
   }
 }
 
@@ -121,13 +109,7 @@
     background-color: var(--bl-facet-active-bg);
 
     .btn {
-      @if function-exists(color-contrast) {
-        color: color-contrast($facet-active-bg);
-      }
-
-      @if function-exists(color-yiq) {
-        color: color-yiq($facet-active-bg);
-      }
+      color: color-contrast($facet-active-bg);
     }
   }
 }
@@ -144,7 +126,7 @@
     align-items: flex-start;
     padding: 3px 0;
 
-    &[role="treeitem"] {
+    &.treeitem {
       display: block;
     }
 
@@ -193,8 +175,6 @@
 }
 
 .facet-field-heading {
-  @extend .h6;
-
   a {
     color: inherit;
   }

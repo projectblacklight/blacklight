@@ -4,7 +4,7 @@
 
 .modal-content {
   .facet-pagination.top {
-  	display: none;
+    display: none; /* Doesn't display in a modal, but would display on a new page (e.g. without Javascript) */
   }
 
   .page-sidebar {
@@ -23,5 +23,5 @@
 // app/views/catalog/facet.html.erb may be rendered as a modal or a whole page.
 // When it's a whole page, don't show the close button.
 .blacklight-modal-close {
-	display: none;
+  display: none;
 }

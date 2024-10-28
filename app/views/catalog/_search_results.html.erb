@@ -8,12 +8,12 @@
 <% end %>
 
 <% content_for(:skip_links) do -%>
-    <%= link_to t('blacklight.skip_links.first_result'), '#documents', class: 'd-inline-flex p-2 m-1', data: { turbolinks: 'false' } %>
+    <%= link_to t('blacklight.skip_links.first_result'), '#documents', class: 'd-inline-flex p-2 m-1' %>
 <% end %>
 
 <% content_for(:container_header) do -%>
   <%= render 'search_results_header' %>
-  <%= render 'constraints' %>
+  <%= render (blacklight_config&.view_config(document_index_view_type)&.constraints_component || Blacklight::ConstraintsComponent).new(search_state: search_state) %>
 <% end %>
 
 <%= render 'search_header' %>
@@ -23,7 +23,7 @@
 <%- if @response.empty? %>
   <%= render "zero_results" %>
 <%- elsif render_grouped_response? %>
-  <%= render 'catalog/group' %>
+  <%= render 'group' %>
 <%- else %>
   <%= render_document_index @response.documents %>
 <%- end %>
