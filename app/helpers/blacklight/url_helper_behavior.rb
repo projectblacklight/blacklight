@@ -58,7 +58,7 @@ module Blacklight::UrlHelperBehavior
       tag.span raw(t('views.pagination.previous')), class: 'previous'
     end
   end
-  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
+  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContext::ServerItemPaginationComponent'
 
   ##
   # Link to the next document in the current search context
@@ -69,7 +69,7 @@ module Blacklight::UrlHelperBehavior
       tag.span raw(t('views.pagination.next')), class: 'next'
     end
   end
-  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContextComponent'
+  deprecation_deprecate link_to_previous_document: 'Moving to Blacklight::SearchContext::ServerItemPaginationComponent'
 
   ##
   # Attributes for a link that gives a URL we can use to track clicks for the current search session
