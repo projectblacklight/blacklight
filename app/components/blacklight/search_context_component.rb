@@ -5,7 +5,7 @@ module Blacklight
     with_collection_parameter :search_context
 
     def initialize(search_context:, search_session:)
-      Blacklight.deprecation.warn("Blacklight::SearchContextComponent is deprecated and will be moved to Blacklight::SearchContext::ServerItemPaginationComponent in Blacklight 8.0.0")
+      Deprecation.warn("Blacklight::SearchContextComponent is deprecated and will be moved to Blacklight::SearchContext::ServerItemPaginationComponent in Blacklight 8.0.0")
       @search_context = search_context
       @search_session = search_session
     end

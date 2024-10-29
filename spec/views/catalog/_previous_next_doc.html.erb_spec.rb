@@ -7,14 +7,12 @@ RSpec.describe "catalog/_previous_next_doc.html.erb" do
 
   it "without next or previous does not render content" do
     assign(:search_context, {})
-    assign(:current_document, SolrDocument.new(id: 9))
     render
     expect(rendered).not_to have_selector ".pagination-search-widgets"
   end
 
   it "with next or previous does render content" do
     assign(:search_context, next: 'foo', prev: 'bar')
-    assign(:current_document, SolrDocument.new(id: 9))
     allow(view).to receive(:link_to_previous_document).and_return('')
     allow(view).to receive(:item_page_entry_info).and_return('')
     allow(view).to receive(:link_to_next_document).and_return('')
