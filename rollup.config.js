@@ -16,7 +16,7 @@ let includePathOptions = {
 };
 
 const rollupConfig = {
-  input: 'app/javascript/blacklight/index.js',
+  input: 'app/javascript/blacklight-frontend/index.js',
   output: {
     file: `app/assets/javascripts/blacklight/${fileDest}.js`,
     format: ESM ? 'es' : 'umd',

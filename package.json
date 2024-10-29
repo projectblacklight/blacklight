@@ -2,9 +2,16 @@
   "name": "blacklight-frontend",
   "version": "9.0.0-alpha",
   "description": "The frontend code and styles for Blacklight",
-  "main": "app/assets/javascripts/blacklight",
+  "exports": {
+    "./blacklight.esm.js": "./app/assets/javascripts/blacklight/blacklight.esm.js",
+    "./stylesheets/*": "./app/assets/stylesheets/blacklight/*",
+    ".": {
+      "import": "./app/javascript/blacklight-frontend/index.js",
+      "require": "./app/assets/javascripts/blacklight.js"
+    },
+    "./*": "./app/javascript/blacklight-frontend/*.js"
+   },
   "type": "module",
-  "module": "app/assets/javascripts/blacklight/blacklight.esm.js",
   "scripts": {
     "prepare": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap"
   },
