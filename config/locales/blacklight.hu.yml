@@ -206,6 +206,10 @@ hu:
       aria:
         container_label: Fő navigáció
     welcome: Üdvözöljük!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Eszközök
   views:
     pagination:
       aria:
