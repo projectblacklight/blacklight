@@ -206,6 +206,10 @@ de:
       aria:
         container_label: Hauptnavigation
     welcome: Willkommen!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Werkzeuge
   views:
     pagination:
       aria:

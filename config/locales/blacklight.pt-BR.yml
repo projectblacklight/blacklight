@@ -204,6 +204,10 @@ pt-BR:
       aria:
         container_label: Navegação principal
     welcome: Bem-Vindo!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Ferramentas
   views:
     pagination:
       aria:

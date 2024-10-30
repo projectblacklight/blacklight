@@ -242,3 +242,7 @@ en:
     pagination_compact:
       next: Next &raquo;
       previous: "&laquo; Previous"
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Tools

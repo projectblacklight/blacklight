@@ -205,6 +205,10 @@ fr:
       aria:
         container_label: Navigation principale
     welcome: Welcome!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Outils
   views:
     pagination:
       aria:
