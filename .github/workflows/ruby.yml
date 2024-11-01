@@ -45,10 +45,10 @@ jobs:
         additional_name: [""]
         include:
           - ruby: "3.3"
-            rails_version: "8.0.0.beta1"
+            rails_version: "8.0.0.rc2"
             additional_engine_cart_rails_options: --css=bootstrap
           - ruby: "3.3"
-            rails_version: "8.0.0.beta1"
+            rails_version: "8.0.0.rc2"
             additional_engine_cart_rails_options: --css=bootstrap --js=esbuild
             additional_name: "/ esbuild"
           - ruby: "3.2"
