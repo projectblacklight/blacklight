@@ -9,18 +9,7 @@
   --bl-facets-smallish-margin-bottom: #{$spacer};
   --bl-facets-smallish-border-radius: #{$border-radius};
 
-  .navbar-toggler {
-    --bs-navbar-toggler-padding-x: #{$navbar-toggler-padding-x};
-    --bs-navbar-toggler-padding-y: #{$navbar-toggler-padding-y};
-    --bs-navbar-toggler-border-color: #{$navbar-light-toggler-border-color};
-    --bs-navbar-toggler-border-radius: #{$navbar-toggler-border-radius};
-    color: $navbar-light-active-color;
-
-    &:hover,
-    &:focus {
-      color: $navbar-light-active-color;
-    }
-
+  .facet-toggle-button {
     [data-hide-label] {
       display: inline;
     }
