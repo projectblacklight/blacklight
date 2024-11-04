@@ -28,14 +28,14 @@ RSpec.describe "catalog/facet_layout" do
   it "is collapsable" do
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to have_css 'button.collapsed[data-toggle="collapse"][data-bs-toggle="collapse"][aria-expanded="false"]'
-    expect(rendered).to have_css '.collapse .card-body'
+    expect(rendered).to have_css '.collapse .accordion-body'
   end
 
   it "is configured to be open by default" do
     allow(facet_field).to receive_messages(collapse: false)
     render partial: 'catalog/facet_layout', locals: { facet_field: facet_field }
     expect(rendered).to have_css 'button[data-toggle="collapse"][data-bs-toggle="collapse"][aria-expanded="true"]'
-    expect(rendered).to have_no_css '.card-header.collapsed'
-    expect(rendered).to have_css '.collapse.show .card-body'
+    expect(rendered).to have_no_css '.accordion-header.collapsed'
+    expect(rendered).to have_css '.collapse.show .accordion-body'
   end
 end

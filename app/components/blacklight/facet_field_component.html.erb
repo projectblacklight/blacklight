@@ -1,8 +1,8 @@
-<div class="card facet-limit blacklight-<%= @facet_field.key %> <%= 'facet-limit-active' if @facet_field.active? %>">
-  <h3 class="card-header p-0 facet-field-heading h6" id="<%= header_html_id %>">
+<div class="accordion-item facet-limit blacklight-<%= @facet_field.key %> <%= 'facet-limit-active' if @facet_field.active? %>">
+  <h3 class="accordion-header p-0 facet-field-heading h6" id="<%= header_html_id %>">
     <button
       type="button"
-      class="btn w-100 d-block btn-block p-2 text-start text-left collapse-toggle <%= "collapsed" if @facet_field.collapsed? %>"
+      class="btn accordion-button <%= "collapsed" if @facet_field.collapsed? %>"
       data-toggle="collapse"
       data-bs-toggle="collapse"
       data-target="#<%= html_id %>"
@@ -14,7 +14,7 @@
     </button>
   </h3>
   <div id="<%= html_id %>" role="region" aria-labelledby="<%= header_html_id %>" class="panel-collapse facet-content collapse <%= "show" unless @facet_field.collapsed? %>">
-    <div class="card-body">
+    <div class="accordion-body">
       <%= body %>
 
       <% if @facet_field.modal_path %>

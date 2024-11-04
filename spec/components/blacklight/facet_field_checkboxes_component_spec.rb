@@ -32,8 +32,8 @@ RSpec.describe Blacklight::FacetFieldCheckboxesComponent, type: :component do
   let(:search_state) { Blacklight::SearchState.new(params.with_indifferent_access, Blacklight::Configuration.new) }
   let(:params) { { f: { field: ['a'] } } }
 
-  it 'renders a collapsible card' do
-    expect(rendered).to have_css '.card'
+  it 'renders an accordion item' do
+    expect(rendered).to have_css '.accordion-item'
     expect(rendered).to have_button 'Field'
     expect(rendered).to have_css 'button[data-bs-target="#facet-field"]'
     expect(rendered).to have_css '#facet-field.collapse.show'
