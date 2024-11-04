@@ -5,7 +5,7 @@
 
   .document {
     display: flex;
-    border-bottom: 1px dotted $table-border-color;
+    border-bottom: 1px dotted var(--bs-border-color);
     margin-top: var(--bl-results-document-margin-top);
     padding-top: var(--bl-results-document-padding-top);
 
