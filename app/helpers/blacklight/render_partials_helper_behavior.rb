@@ -12,20 +12,6 @@ module Blacklight::RenderPartialsHelperBehavior
   end
 
   ##
-  # Return the list of partials for a given solr document
-  # @param [SolrDocument] doc solr document to render partials for
-  # @param [Array<String>] partials list of partials to render
-  # @param [Hash] locals local variables to pass to the render call
-  # @return [String]
-  def render_document_partials(doc, partials = [], locals = {})
-    safe_join(partials.map do |action_name|
-      render_document_partial(doc, action_name, locals)
-    end, "\n")
-  end
-  Blacklight.deprecation.deprecate_methods(self, render_document_partials: 'Replace this call with: "document_component = blacklight_config.view_config(:atom).summary_component
-render document_component.new(presenter: document_presenter(document), component: :div, show: true)"')
-
-  ##
   # Return the list of xml for a given solr document. Doesn't safely escape for HTML.
   # @param [SolrDocument] doc solr document to render partials for
   # @param [Array<String>] partials list of partials to render
