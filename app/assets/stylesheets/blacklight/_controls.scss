@@ -4,7 +4,7 @@
 
 .sort-pagination,
 .pagination-search-widgets {
-  border-bottom: $pagination-border-width solid $pagination-border-color;
+  border-bottom: var(--bs-border-width) solid var(--bs-border-color);
   margin-bottom: 1em;
   padding-bottom: 1em;
 }
