@@ -6,9 +6,10 @@ module Blacklight
     class PaginationComponent < Blacklight::Component
       # @param [Blacklight::Response] response
       # @param [Hash] html html options for the pagination container
-      def initialize(response:, html: {}, **pagination_args)
+      def initialize(response:, html: {}, classes: 'paginate-section', **pagination_args)
         @response = response
         @html = html
+        @classes = classes
         @pagination_args = pagination_args
       end
 

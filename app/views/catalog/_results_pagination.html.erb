@@ -1,7 +1,4 @@
 <% if show_pagination? and @response.total_pages > 1 %>
- <div class="row record-padding">
-  <div class="col-md-12">
-    <%= render Blacklight::Response::PaginationComponent.new(response: @response) %>
-  </div>
- </div>
+  <%= render Blacklight::Response::PaginationComponent.new(response: @response,
+    classes: 'paginate-section mt-2') %>
 <% end %>
