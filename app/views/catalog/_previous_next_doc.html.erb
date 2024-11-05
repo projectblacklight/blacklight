@@ -1,2 +1,2 @@
-<% Deprecation.warn(self, 'The partial _previous_next_doc.html.erb will be removed in 8.0. Render Blacklight::SearchContextComponent instead.') %>
+<% Deprecation.warn(self, 'The partial _previous_next_doc.html.erb will be removed in 8.0. Render Blacklight::SearchContext::ServerItemPaginationComponent instead.') %>
 <%= render(Blacklight::SearchContextComponent.new(search_context: @search_context, search_session: search_session)) %>
