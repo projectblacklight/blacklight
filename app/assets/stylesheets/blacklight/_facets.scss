@@ -3,12 +3,6 @@
   --bl-facet-active-item-color: #{$facet-active-item-color};
   --bl-facet-remove-color: var(--bs-secondary-color);
 
-  --bl-facets-smallish-padding: 0.25rem;
-  --bl-facets-smallish-border: var(--bs-border-width) solid
-    var(--bs-border-color);
-  --bl-facets-smallish-margin-bottom: #{$spacer};
-  --bl-facets-smallish-border-radius: #{$border-radius};
-
   .facet-toggle-button {
     [data-hide-label] {
       display: inline;
@@ -26,13 +20,6 @@
       }
     }
   }
-}
-
-.facets-toggleable-md {
-  border: var(--bl-facets-smallish-border);
-  padding: var(--bl-facets-smallish-padding);
-  margin-bottom: var(--bl-facets-smallish-margin-bottom);
-  border-radius: var(--bl-facets-smallish-border-radius);
 }
 
 .no-js {
