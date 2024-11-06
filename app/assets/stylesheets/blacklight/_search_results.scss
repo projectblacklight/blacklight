@@ -13,16 +13,6 @@
       flex-grow: 1;
     }
 
-    // bookmarks checkbox on index, give it some
-    // lower margin when it collapses
-    .index-document-functions {
-      margin-bottom: ($spacer * 1.5);
-
-      @media (min-width: breakpoint-min(sm)) {
-        margin-bottom: 0;
-      }
-    }
-
     .document-thumbnail {
       flex-grow: 0;
       margin-bottom: ($spacer * 3);
