@@ -2,9 +2,6 @@
   dt {
     font-weight: normal;
     color: var(--bl-field-name-color);
-    @media (max-width: breakpoint-min(md)) {
-      text-align: left;
-    }
 
     @media (min-width: breakpoint-min(md)) {
       text-align: end;
