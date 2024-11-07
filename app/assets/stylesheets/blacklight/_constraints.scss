@@ -12,22 +12,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-
-    @media (max-width: breakpoint-min(sm)) {
-      max-width: breakpoint-min(sm) * 0.5;
-    }
-
-    @media (min-width: breakpoint-min(sm)) and (max-width: breakpoint-max(sm)) {
-      max-width: breakpoint-min(sm) * 0.5;
-    }
-
-    @media (min-width: breakpoint-min(md)) and (max-width: breakpoint-max(md)) {
-      max-width: breakpoint-min(md) * 0.5;
-    }
-
-    @media (min-width: breakpoint-min(lg)) {
-      max-width: breakpoint-min(lg) * 0.5;
-    }
+    max-width: clamp(288px, calc(30vw), 500px);
 
     .filter-name:after {
       background-color: var(--bs-btn-color);
