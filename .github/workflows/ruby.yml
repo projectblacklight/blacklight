@@ -44,7 +44,7 @@ jobs:
         additional_name: [""]
         include:
           - ruby: "3.3"
-            rails_version: "8.0.0.beta1"
+            rails_version: "8.0.0"
             additional_engine_cart_rails_options: --css=bootstrap
           - ruby: "3.2"
             rails_version: "6.1.7.8"
