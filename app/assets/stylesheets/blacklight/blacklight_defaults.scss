@@ -1,17 +1,13 @@
-/* Warning! If you want to change these, just copy them into your own theme css. But you want to remove the !default, which only will set them if not already set. */
-
-$logo-image: url("blacklight/logo.png") !default;
-$logo-width: 150px !default;
-$logo-height: 50px !default;
-
-$facet-active-bg: $success !default;
-$facet-active-item-color: $success !default;
-
-/* for compatability with BS < 5.3  */
-$body-secondary-color: rgba($body-color, 0.75) !default;
-
 :root {
-  --bs-secondary-color: #{$body-secondary-color}; /* for compatability with BS < 5.3  */
+  --bl-logo-image: url("blacklight/logo.png");
+  --bl-logo-width: 150px;
+  --bl-logo-height: 50px;
+  --bs-secondary-color: rgba(
+    33,
+    37,
+    41,
+    0.75
+  ); /* for compatability with BS < 5.3  */
 
   --bl-main-padding-y: 0.5rem;
 
