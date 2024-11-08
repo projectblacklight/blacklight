@@ -49,6 +49,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rubocop-capybara"
   s.add_development_dependency "rubocop-rspec_rails"
   s.add_development_dependency "rubocop-factory_bot"
-  s.add_development_dependency "i18n-tasks"
+  s.add_development_dependency "i18n-tasks", '~> 1.0'
   s.add_development_dependency "solr_wrapper"
 end
