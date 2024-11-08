@@ -99,7 +99,7 @@
     text-decoration: none;
 
     &:hover {
-      color: $danger;
+      color: var(--bs-danger);
       text-decoration: none;
     }
   }
