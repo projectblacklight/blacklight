@@ -61,15 +61,29 @@ Code contributions are always welcome, instructions for contributing can be foun
 You'll also want some information about how Blacklight expects [Apache Solr](http://lucene.apache.org/solr ) to run, which you can find in [Solr Configuration](https://github.com/projectblacklight/blacklight/wiki/Solr-Configuration#solr-configuration)
 
 ## Building the javascript
-The javascript is built by npm from sources in `app/javascript` into a bundle
-in `app/assets/javascripts/blacklight/blacklight.js`. This file should not be edited
-by hand as any changes would be overwritten.  When any of the javascript
-components in the gem are changed, this bundle should be rebuild with the
-following steps:
+The javascript includes some derivative combination files that are built at release time, that can be used by some javascript pipelines. The derivatives are placed at `app/assets/javascripts/blacklight`, and files there should not be edited by hand.
+
+When any of the javascript components in the gem are changed, you may have to rebuild these derivative files.
+
+
 1. [Install npm](https://www.npmjs.com/get-npm)
-1. run `npm install` to download dependencies
-1. run `npm run prepare` to build the bundle
-1. run `npm publish` to push the javascript package to https://npmjs.org/package/blacklight-frontend
+1. run `bundle exec rake build:npm`
+  (just runs `npm install` to download dependencies and `npm run prepare` to build the bundle)
+
+
+## Releasing versions
+
+You always need to release both the rubygem and npm package simultaneously. For more information, see [wiki](https://github.com/projectblacklight/blacklight/wiki/How-to-release-a-version)
+
+Summary of technical steps:
+
+1. Make sure `./package.json` and  `./VERSION` files have correct and matching versions.
+1. Release ruby gem with `bundle exec rake release`
+1. Release npm package
+  1. Build derivative products included in release with `bundle exec rake build:npm`
+  1. Publish with `npm publish`.
+
+
 
 ## Using the javascript
 Blacklight ships with Javascript that can be compiled either by Webpacker or by
