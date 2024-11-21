@@ -34,7 +34,7 @@ module Blacklight
 
     # The document title with some reasonable default behavior
     renders_one :title, (lambda do |*args, component: nil, **kwargs|
-      component ||= @presenter&.view_config&.title_component || Blacklight::DocumentTitleComponent
+      component ||= view_config.title_component || Blacklight::DocumentTitleComponent
 
       component.new(*args, counter: @counter, document: @document, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
     end)
@@ -42,7 +42,7 @@ module Blacklight
     renders_one :embed, (lambda do |static_content = nil, *args, component: nil, **kwargs|
       next static_content if static_content.present?
 
-      component ||= @presenter.view_config&.embed_component
+      component ||= view_config.embed_component
 
       next unless component
 
@@ -53,7 +53,7 @@ module Blacklight
     renders_one :metadata, (lambda do |static_content = nil, *args, component: nil, fields: nil, **kwargs|
       next static_content if static_content.present?
 
-      component ||= @presenter&.view_config&.metadata_component || Blacklight::DocumentMetadataComponent
+      component ||= view_config.metadata_component || Blacklight::DocumentMetadataComponent
 
       component.new(*args, fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
@@ -64,7 +64,7 @@ module Blacklight
     renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, *args, component: nil, **kwargs|
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
-      component ||= @presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
+      component ||= view_config.thumbnail_component || Blacklight::Document::ThumbnailComponent
 
       component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
     end)
@@ -133,6 +133,8 @@ module Blacklight
     end
 
     private
+
+    delegate :view_config, to: :@presenter
 
     attr_reader :document_counter, :presenter, :view_partials
 
