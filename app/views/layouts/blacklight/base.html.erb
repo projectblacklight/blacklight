@@ -32,7 +32,7 @@
       <%= content_for(:skip_links) %>
     <% end %>
 
-    <%= render partial: 'shared/header_navbar' %>
+    <%= render blacklight_config.header_component.new(blacklight_config: blacklight_config) %>
 
     <main id="main-container" class="<%= container_classes %>" aria-label="<%= t('blacklight.main.aria.main_container') %>">
       <%= content_for(:container_header) %>
