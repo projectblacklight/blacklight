@@ -10,6 +10,7 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
   let(:blacklight_config) do
     Blacklight::Configuration.new.configure do |config|
       config.view = { list: nil, abc: nil }
+      config.add_search_field('test_field', label: 'Test Field')
     end
   end
 
@@ -77,6 +78,30 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
     it 'renders the extra inputs' do
       expect(render.css("input[name='foo']")).to be_present
       expect(render.css("input[name='bar']")).to be_present
+    end
+  end
+
+  context 'with one search field' do
+    subject(:render) { render_inline(instance) }
+
+    it 'sets the rounded border class' do
+      expect(render.css('.rounded-start')).to be_present
+    end
+  end
+
+  context 'with multiple search fields' do
+    subject(:render) { render_inline(instance) }
+
+    let(:blacklight_config) do
+      Blacklight::Configuration.new.configure do |config|
+        config.view = { list: nil, abc: nil }
+        config.add_search_field('test_field', label: 'Test Field')
+        config.add_search_field('another_field', label: 'Another Field')
+      end
+    end
+
+    it 'sets the rounded border class' do
+      expect(render.css('.rounded-0')).to be_present
     end
   end
 end
