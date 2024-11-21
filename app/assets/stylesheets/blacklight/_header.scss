@@ -4,15 +4,13 @@
 
 .navbar-logo {
   /* The main logo image for the Blacklight instance */
-  @if $logo-image {
-    background: transparent $logo-image no-repeat top left;
-    background-size: $logo-width $logo-height;
-  }
-  height: $logo-height;
+  background: transparent var(--bl-logo-image) no-repeat top left;
+  background-size: var(--bl-logo-width) var(--bl-logo-height);
+  height: var(--bl-logo-height);
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
-  width: $logo-width;
+  width: var(--bl-logo-width);
 }
 
 .navbar-search {

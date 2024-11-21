@@ -1,6 +1,6 @@
 .sidenav {
-  --bl-facet-active-bg: #{$facet-active-bg};
-  --bl-facet-active-item-color: #{$facet-active-item-color};
+  --bl-facet-active-bg: var(--bs-success);
+  --bl-facet-active-item-color: var(--bs-success);
   --bl-facet-remove-color: var(--bs-secondary-color);
 
   .facet-toggle-button {
@@ -66,7 +66,7 @@
 .facet-limit-active {
   --bs-accordion-btn-bg: var(--bl-facet-active-bg);
   --bs-btn-hover-bg: var(--bs-accordion-btn-bg);
-  --bs-accordion-btn-color: #{color-contrast($facet-active-bg)};
+  --bs-accordion-btn-color: var(--bs-light);
   --bs-btn-hover-color: var(--bs-accordion-btn-color);
   --bs-accordion-active-color: var(--bs-accordion-btn-color);
 }
