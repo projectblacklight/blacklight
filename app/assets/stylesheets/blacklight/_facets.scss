@@ -2,6 +2,7 @@
   --bl-facet-active-bg: var(--bs-success);
   --bl-facet-active-item-color: var(--bs-success);
   --bl-facet-remove-color: var(--bs-secondary-color);
+  --bl-facet-remove-hover-color: var(--bs-danger);
 
   .facet-toggle-button {
     [data-hide-label] {
@@ -99,7 +100,7 @@
     text-decoration: none;
 
     &:hover {
-      color: $danger;
+      color: var(--bl-facet-remove-hover-color);
       text-decoration: none;
     }
   }
