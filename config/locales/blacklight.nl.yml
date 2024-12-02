@@ -86,6 +86,7 @@ nl:
         all: Al
         clear: Filters legen
         count: "%{number}"
+        faceted_search: "%{field_label} zoeken"
         group:
           close: Verberg facetten
           open: Toon facetten
