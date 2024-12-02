@@ -7,10 +7,10 @@ module Blacklight
     def run_asset_pipeline_specific_generator
       generated_options = "--bootstrap-version='#{options[:'bootstrap-version']}'" if options[:'bootstrap-version']
 
-      generator = if defined?(Propshaft)
-                    'blacklight:assets:propshaft'
-                  elsif defined?(Importmap)
+      generator = if defined?(Importmap)
                     'blacklight:assets:importmap'
+                  elsif defined?(Propshaft)
+                    'blacklight:assets:propshaft'
                   elsif defined?(Sprockets)
                     'blacklight:assets:sprockets'
                   end

@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.7'
 
-  s.add_dependency "rails", '>= 6.1', '< 8'
+  s.add_dependency "rails", '>= 6.1', '< 9'
   s.add_dependency "globalid"
   s.add_dependency "jbuilder", '~> 2.7'
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
@@ -49,6 +49,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rubocop-capybara"
   s.add_development_dependency "rubocop-rspec_rails"
   s.add_development_dependency "rubocop-factory_bot"
-  s.add_development_dependency "i18n-tasks"
+  s.add_development_dependency "i18n-tasks", '~> 1.0'
   s.add_development_dependency "solr_wrapper"
 end
