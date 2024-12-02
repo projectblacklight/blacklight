@@ -18,7 +18,7 @@ module Blacklight
       copy_file "alternate_controller.rb", "app/controllers/alternate_controller.rb"
 
       routing_code = <<-EOF
-    resource :alternate, controller: 'alternate', only: [:index] do
+    resource :alternate, controller: 'alternate', only: [] do
       concerns :searchable
     end
       EOF
