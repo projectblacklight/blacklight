@@ -91,7 +91,6 @@ module Blacklight
                    id: nil, classes: [], component: :article, title_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
                    show: false, **args)
-
       @presenter = document || args[self.class.collection_parameter]
       @document = @presenter.document
       @view_partials = partials || []
