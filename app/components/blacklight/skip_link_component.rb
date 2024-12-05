@@ -17,7 +17,7 @@ module Blacklight
     end
 
     def link_classes
-      'd-inline-flex p-2 m-1'
+      'visually-hidden-focusable rounded-bottom py-2 px-3'
     end
   end
 end
