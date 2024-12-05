@@ -2,10 +2,16 @@
   white-space: nowrap;
 }
 
-.modal[open] {
+// Blacklight's decision to try to use bootstrap modal CSS with an html5 dialog --
+// in such a way the <dialog> element actually serves as the modal backdrop --
+// requires some fixes to both bootstrap CSS and user-agent default css
+dialog.modal[open] {
   // override bootstrap .modal class default display: none
   // since we aren't using bootstrap JS that sets and unsets the display
   display: block;
   background: none;
   border: none;
+
+  max-height: unset; // override user-agent dialog
+  max-width: unset; // override user-agent dialog
 }
