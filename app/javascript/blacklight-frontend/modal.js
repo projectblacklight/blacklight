@@ -57,6 +57,9 @@ import ModalForm from 'blacklight-frontend/modalForm'
 const Modal = (() => {
   const modal = {}
 
+  // bootstrap class that will stop body scrolling when modal is open
+  const bootstrapBodyClassOpen = "modal-open";
+
   // a Bootstrap modal div that should be already on the page hidden
   modal.modalSelector = '#blacklight-modal';
 
@@ -170,6 +173,12 @@ const Modal = (() => {
     dom.dispatchEvent(e)
 
     dom.close()
+
+    // Turn body scrolling back to what it was
+    document.body.style["overflow"] = modal.originalBodyOverflow;
+    document.body.style["padding-right"] = modal.originalBodyPaddingRight;
+    modal.originalBodyOverflow = undefined;
+    modal.originalBodyPaddingRight = undefined;
   }
 
   modal.show = function(el) {
@@ -181,6 +190,12 @@ const Modal = (() => {
     dom.dispatchEvent(e)
 
     dom.showModal()
+
+    // Turn off body scrolling
+    modal.originalBodyOverflow = document.body.style['overflow'];
+    modal.originalBodyPaddingRight = document.body.style['padding-right'];
+    document.body.style["overflow"] = "hidden"
+    document.body.style["padding-right"] = "0px"
   }
 
   modal.target = function() {
