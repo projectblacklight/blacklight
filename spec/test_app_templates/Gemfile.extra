@@ -1,5 +1,4 @@
 gem 'rails-controller-testing'
-gem 'rails-i18n', github: 'Shopify/rails-i18n', branch: 'schwad_rails_8'
 
 unless ENV['VIEW_COMPONENT_VERSION'].to_s == ""
   gem 'view_component', ENV.fetch('VIEW_COMPONENT_VERSION')
