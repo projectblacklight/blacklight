@@ -68,9 +68,19 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
   end
 
   describe '#in_modal?' do
-    context 'for a modal-like action' do
+    context 'for action #facet, which is a modal-like action' do
       before do
         controller.params[:action] = 'facet'
+      end
+
+      it 'is true' do
+        expect(presenter.in_modal?).to be true
+      end
+    end
+
+    context 'for action #facet_suggest, which is a modal-like action' do
+      before do
+        controller.params[:action] = 'facet_suggest'
       end
 
       it 'is true' do

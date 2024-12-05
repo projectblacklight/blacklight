@@ -10,7 +10,8 @@ module Blacklight::Solr
         :add_query_to_solr, :add_facet_fq_to_solr,
         :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
         :add_sorting_to_solr, :add_group_config_to_solr,
-        :add_facet_paging_to_solr, :add_adv_search_clauses,
+        :add_facet_paging_to_solr, :add_facet_suggestion_parameters,
+        :add_adv_search_clauses,
         :add_additional_filters
       ]
     end
@@ -274,6 +275,13 @@ module Blacklight::Solr
       solr_params[:"f.#{facet_config.field}.facet.offset"] = offset
       solr_params[:"f.#{facet_config.field}.facet.sort"] = sort if sort
       solr_params[:"f.#{facet_config.field}.facet.prefix"] = prefix if prefix
+    end
+
+    def add_facet_suggestion_parameters(solr_params)
+      return if facet.blank? || facet_suggestion_query.blank?
+
+      solr_params[:'facet.contains'] = facet_suggestion_query[0..50]
+      solr_params[:'facet.contains.ignoreCase'] = true
     end
 
     def with_ex_local_param(ex, value)
