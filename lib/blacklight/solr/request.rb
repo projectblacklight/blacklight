@@ -36,7 +36,7 @@ class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess
     self[:json][:query] ||= { bool: { bool_operator => [] } }
     self[:json][:query][:bool][bool_operator] ||= []
 
-    if self['q']
+    if self['q'].present?
       self[:json][:query][:bool][:must] ||= []
       self[:json][:query][:bool][:must] << self['q']
       delete 'q'

@@ -64,5 +64,12 @@ RSpec.describe Blacklight::Solr::Request, :api do
 
       expect(subject.dig('json', 'query', 'bool', 'must')).to contain_exactly('some query', 'also required')
     end
+
+    it 'filters out empty query' do
+      subject['q'] = ""
+      subject.append_boolean_query :must, 'present query'
+
+      expect(subject.dig('json', 'query', 'bool', 'must')).to contain_exactly('present query')
+    end
   end
 end
