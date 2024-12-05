@@ -3,9 +3,9 @@
     <%= yield %>
   </section>
 
-  <section class="<%= show_sidebar_classes %>">
+  <aside class="<%= show_sidebar_classes %>" aria-label="<%= t('.aria.sidebar') %>">
     <%= content_for(:sidebar) %>
-  </section>
+  </aside>
 <% end %>
 
 <%= render template: "layouts/blacklight/base" %>

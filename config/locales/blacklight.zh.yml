@@ -203,6 +203,10 @@ zh:
       aria:
         container_label: 主导航
     welcome: 欢迎!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: 工具
   views:
     pagination:
       aria:

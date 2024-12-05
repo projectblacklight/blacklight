@@ -203,6 +203,10 @@ nl:
       aria:
         container_label: Hoofdnavigatie
     welcome: Welkom!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Hulpmiddelen
   views:
     pagination:
       aria:

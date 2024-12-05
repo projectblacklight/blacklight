@@ -219,6 +219,10 @@ ar:
       aria:
         container_label: التنقل الرئيسي
     welcome: مرحبًا!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: أدوات
   views:
     pagination:
       aria:

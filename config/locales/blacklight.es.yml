@@ -205,6 +205,10 @@ es:
       aria:
         container_label: Navegación principal
     welcome: "¡Bienvenido!"
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Herramientas
   views:
     pagination:
       aria:
