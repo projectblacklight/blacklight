@@ -136,7 +136,7 @@ module Blacklight::CatalogHelperBehavior
                    else
                      t('blacklight.search.page_title.many_constraint_values', values: values.size)
                    end
-    t('blacklight.search.page_title.constraint', label: filter_label, value: filter_value)
+    t('blacklight.search.page_title.constraint', label: filter_label, value: strip_tags(filter_value))
   end
 
   # Render an html <title> appropriate string for a set of search parameters
