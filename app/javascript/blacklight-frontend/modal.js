@@ -148,13 +148,15 @@ const Modal = (() => {
   };
 
   modal.setupModal = function() {
-    // Register both trigger and preserve selectors in ONE event handler, combining
-    // into one selector with a comma, so if something matches BOTH selectors, it
-    // still only gets the event handler called once.
+    // Register several click handlers in ONE event handler for efficiency
+    //
+    // * close button OR click on backdrop (modal.modalSelector) closes modal
+    // * trigger and preserve link in modal functionality -- if somethign matches both trigger and
+    //   preserve, still only called once.
     document.addEventListener('click', (e) => {
       if (e.target.closest(`${modal.triggerLinkSelector}, ${modal.preserveLinkSelector}`))
         modal.modalAjaxLinkClick(e)
-      else if (e.target.closest('[data-bl-dismiss="modal"]'))
+      else if (e.target.matches(`${modal.modalSelector}`) || e.target.closest('[data-bl-dismiss="modal"]'))
         modal.hide()
     })
   };
