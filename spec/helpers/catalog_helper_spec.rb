@@ -261,6 +261,10 @@ RSpec.describe CatalogHelper do
     it "renders a facet with more than two values" do
       expect(helper.render_search_to_page_title_filter('foo', %w[bar baz foobar])).to eq "Foo: 3 selected"
     end
+
+    it "strips tags from values" do
+      expect(helper.render_search_to_page_title_filter('Year', ['<span class="from" data-blrl-begin="1990">1990</span> to <span class="to" data-blrl-end="1999">1999</span>'])).to eq "Year: 1990 to 1999"
+    end
   end
 
   describe "#render_search_to_page_title" do
