@@ -102,6 +102,9 @@ de:
         sort:
           count: Numerisch ordnen
           index: A-Z Ordnen
+        suggest:
+          label: Filter %{field_label}
+          placeholder: Filter...
         title: Suche beschränken
       filters:
         label: "%{label}:"
