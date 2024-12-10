@@ -52,7 +52,6 @@
   can be a turbo-stream that defines some HTML fragementsand where on the page to put them:
   https://turbo.hotwired.dev/handbook/streams
 */
-import ModalForm from 'blacklight-frontend/modalForm'
 
 const Modal = (() => {
   const modal = {}
