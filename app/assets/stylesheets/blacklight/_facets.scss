@@ -3,6 +3,8 @@
   --bl-facet-active-item-color: #{$facet-active-item-color};
   --bl-facet-margin-bottom: #{$spacer};
   --bl-facet-remove-color: var(--bs-secondary-color);
+  --bl-facet-label-indent: -15px;
+  --bl-facet-label-padding-left: 15px;
 
   --bl-facet-limit-body-padding: #{$spacer};
 
@@ -168,9 +170,9 @@
   .facet-label {
     hyphens: auto;
     overflow-wrap: break-word;
-    padding-left: 15px;
+    padding-left: var(--bl-facet-label-padding-left);
     padding-right: 1em;
-    text-indent: -15px;
+    text-indent: var(--bl-facet-label-indent);
   }
 
   .facet-count {
