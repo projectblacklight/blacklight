@@ -27,10 +27,6 @@
       margin-left: 0.25rem;
       transition: background-color 0.15s ease-in-out;
     }
-
-    &:hover .filter-name:after {
-      background-color: var(--bs-btn-hover-color);
-    }
   }
 
   .remove {
