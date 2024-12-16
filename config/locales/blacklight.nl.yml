@@ -100,7 +100,7 @@ nl:
           count: Numeriek sorteren
           index: A-Z Sorteren
         suggest:
-          label: Filter %{field_label}
+          label: Filteren %{field_label}
           placeholder: Filter...
         title: Verfijn uw zoekopdracht
       filters:

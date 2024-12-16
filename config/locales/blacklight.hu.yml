@@ -100,8 +100,8 @@ hu:
           count: Numerikus rendezés
           index: A-Z rendezés
         suggest:
-          label: Filter %{field_label}
-          placeholder: Filter...
+          label: Szűrő %{field_label}
+          placeholder: Szűrő...
         title: Szűrje tovább a keresését
       filters:
         label: "%{label}:"
