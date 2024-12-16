@@ -29,13 +29,6 @@
     @media (min-width: breakpoint-min(lg)) {
       max-width: breakpoint-min(lg) * 0.5;
     }
-
-    &:hover,
-    &:active {
-      background-color: $secondary;
-      border-color: $secondary;
-      box-shadow: none;
-    }
   }
 
   .filter-name:after {
