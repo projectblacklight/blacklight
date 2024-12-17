@@ -83,7 +83,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
     context 'when field has link_to_facet with true' do
       before do
         allow(request_context).to receive(:search_action_path).with({ 'f' => { 'link_to_facet_true' => ['x'] } }).and_return('/foo')
-        allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+        allow(request_context).to receive(:link_to).with('/foo').and_return('bar')
       end
 
       let(:field_name) { 'link_to_facet_true' }
@@ -94,7 +94,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
     context 'when field has link_to_facet with a field name' do
       before do
         allow(request_context).to receive(:search_action_path).with({ 'f' => { 'some_field' => ['x'] } }).and_return('/foo')
-        allow(request_context).to receive(:link_to).with("x", '/foo').and_return('bar')
+        allow(request_context).to receive(:link_to).with('/foo').and_return('bar')
       end
 
       let(:field_name) { 'link_to_facet_named' }
