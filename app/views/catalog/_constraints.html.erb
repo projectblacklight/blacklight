@@ -1,1 +1,2 @@
+<% Blacklight.deprecation.warn('The partial catalog/_constraints.html.erb will be removed in Blacklight 9.0. Call the constraints_component instead') unless hide_warning %>
 <%= render (blacklight_config&.view_config(document_index_view_type)&.constraints_component || Blacklight::ConstraintsComponent).new(search_state: search_state) %>
