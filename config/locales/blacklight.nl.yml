@@ -99,6 +99,9 @@ nl:
         sort:
           count: Numeriek sorteren
           index: A-Z Sorteren
+        suggest:
+          label: Filteren %{field_label}
+          placeholder: Filter...
         title: Verfijn uw zoekopdracht
       filters:
         label: "%{label}:"

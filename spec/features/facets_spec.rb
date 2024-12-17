@@ -98,4 +98,25 @@ RSpec.describe "Facets" do
       end
     end
   end
+
+  describe 'Facet modal' do
+    context 'when configured' do
+      before do
+        enabled = CatalogController.blacklight_config.dup
+        enabled.facet_fields[:subject_ssim].merge!({ suggest: true })
+        allow(CatalogController).to receive(:blacklight_config).and_return enabled
+      end
+
+      it 'allows the user to filter a long list of facet values', :js do
+        visit '/catalog/facet/subject_ssim'
+        expect(page).to have_no_link 'Old age' # This is on the second page of facet values
+        expect(page).to have_css 'a.facet-select', count: 20
+
+        fill_in 'facet_suggest_subject_ssim', with: "ag"
+
+        expect(page).to have_link 'Old age'
+        expect(page).to have_css 'a.facet-select', count: 2
+      end
+    end
+  end
 end

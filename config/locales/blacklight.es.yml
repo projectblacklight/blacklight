@@ -101,6 +101,9 @@ es:
         sort:
           count: Ordenación numérica
           index: Ordenación A-Z
+        suggest:
+          label: Filtro %{field_label}
+          placeholder: Filtrar...
         title: Limite su búsqueda
       filters:
         label: "%{label}:"

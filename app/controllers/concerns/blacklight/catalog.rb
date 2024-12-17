@@ -83,7 +83,11 @@ module Blacklight::Catalog
     @facet = blacklight_config.facet_fields[params[:id]]
     raise ActionController::RoutingError, 'Not Found' unless @facet
 
-    @response = search_service.facet_field_response(@facet.key)
+    @response = if params[:query_fragment].present?
+                  search_service.facet_suggest_response(@facet.key, params[:query_fragment])
+                else
+                  search_service.facet_field_response(@facet.key)
+                end
     @display_facet = @response.aggregations[@facet.field]
 
     @presenter = @facet.presenter.new(@facet, @display_facet, view_context)
@@ -92,6 +96,8 @@ module Blacklight::Catalog
       format.html do
         # Draw the partial for the "more" facet modal window:
         return render layout: false if request.xhr?
+        # Only show the facet names and their values:
+        return render 'facet_values', layout: false if params[:only_values]
         # Otherwise draw the facet selector for users who have javascript disabled.
       end
       format.json

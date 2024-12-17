@@ -6,6 +6,7 @@
   <% end %>
 
   <% component.with_title { facet_field_label(@facet.key) } %>
+  <%= render Blacklight::Search::FacetSuggestInput.new(facet: @facet, presenter: @presenter) %>
 
   <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
 

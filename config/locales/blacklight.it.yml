@@ -102,6 +102,9 @@ it:
         sort:
           count: Ordina per numero
           index: Ordina A-Z
+        suggest:
+          label: Filtro %{field_label}
+          placeholder: Filtro...
         title: Affina la ricerca
       filters:
         label: "%{label}:"

@@ -111,6 +111,9 @@ ar:
         sort:
           count: ترتيب رقمي
           index: ترتيب أبجدي
+        suggest:
+          label: الفلتر %{field_label}
+          placeholder: فلتر...
         title: تحديد نطاق البحث
       filters:
         label: "%{label}:"
