@@ -209,6 +209,10 @@ it:
       aria:
         container_label: Navigazione principale
     welcome: Benvenuti!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Utensili
   views:
     pagination:
       aria:

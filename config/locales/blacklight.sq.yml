@@ -206,6 +206,10 @@ sq:
       aria:
         container_label: Lundrimi kryesor
     welcome: Mirësevini!
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: Mjetet
   views:
     pagination:
       aria:
