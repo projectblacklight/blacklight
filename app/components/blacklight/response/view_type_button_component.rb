@@ -25,6 +25,12 @@ module Blacklight
         @view.display_label
       end
 
+      def aria_attributes
+        return unless selected?
+
+        { current: true }
+      end
+
       def url
         helpers.url_for(@search_state.to_h.merge(view: @key))
       end
