@@ -10,7 +10,7 @@ module Blacklight
           <<~CONTENT
             pin "@github/auto-complete-element", to: "https://cdn.skypack.dev/@github/auto-complete-element"
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.2'}/dist/js/bootstrap.js"
+            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.3'}/dist/js/bootstrap.js"
           CONTENT
         end
 
@@ -40,41 +40,21 @@ module Blacklight
       end
 
       def add_stylesheet
-        unless used_bootstrap_css?
-          generate_with_sassc_rails
-          return
-        end
-
-        if ENV['CI']
-          run "yarn add file:#{Blacklight::Engine.root}"
+        if File.exist? 'app/assets/stylesheets/application.bootstrap.scss'
+          append_to_file 'app/assets/stylesheets/application.bootstrap.scss' do
+            <<~CONTENT
+              @import url("blacklight.css");
+            CONTENT
+          end
         else
-          run "yarn add blacklight-frontend@#{Blacklight::VERSION}"
-        end
-
-        append_to_file 'app/assets/stylesheets/application.bootstrap.scss' do
-          <<~CONTENT
-            @import "blacklight-frontend/app/assets/stylesheets/blacklight/blacklight";
-          CONTENT
-        end
-      end
-
-      private
-
-      # Did they generate the rails app with `--css bootstrap' ?
-      def used_bootstrap_css?
-        File.exist? 'app/assets/stylesheets/application.bootstrap.scss'
-      end
-
-      def generate_with_sassc_rails
-        gem "sassc-rails", "~> 2.1"
-        # This could be skipped if you want to use shakapacker or cssbunding-rails
-        gem 'bootstrap', options[:'bootstrap-version'].presence
-
-        create_file 'app/assets/stylesheets/blacklight.scss' do
-          <<~CONTENT
-            @import 'bootstrap';
-            @import 'blacklight/blacklight';
-          CONTENT
+          append_to_file 'app/assets/stylesheets/application.css' do
+            <<~CONTENT
+              /*
+               *= require blacklight
+               */
+              @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+            CONTENT
+          end
         end
       end
     end
