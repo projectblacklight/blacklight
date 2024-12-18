@@ -24,10 +24,12 @@
   white-space: nowrap;
 }
 
-.modal[open] {
+dialog.modal[open] {
   display: block;
   background: none;
   border: none;
+  max-height: unset;
+  max-width: unset;
 }
 
 /* Generic layout stuff */
@@ -87,9 +89,6 @@ main {
   margin-right: -0.2rem;
   margin-left: 0.25rem;
   transition: background-color 0.15s ease-in-out;
-}
-.applied-filter .constraint-value:hover .filter-name:after {
-  background-color: var(--bs-btn-hover-color);
 }
 .applied-filter .remove {
   --bs-btn-hover-bg: var(--bl-constraint-remove-hover-bg);
@@ -245,6 +244,9 @@ main {
   --bl-facet-active-bg: var(--bs-success);
   --bl-facet-active-item-color: var(--bs-success);
   --bl-facet-remove-color: var(--bs-secondary-color);
+  --bl-facet-remove-hover-color: var(--bs-danger);
+  --bl-facet-label-indent: -15px;
+  --bl-facet-label-padding-left: 15px;
 }
 .sidenav .facet-toggle-button [data-hide-label] {
   display: inline;
@@ -326,15 +328,15 @@ main {
   text-decoration: none;
 }
 .facet-values .remove:hover {
-  color: #dc3545;
+  color: var(--bl-facet-remove-hover-color);
   text-decoration: none;
 }
 .facet-values .facet-label {
   hyphens: auto;
   overflow-wrap: break-word;
-  padding-left: 15px;
+  padding-left: var(--bl-facet-label-padding-left);
   padding-right: 1em;
-  text-indent: -15px;
+  text-indent: var(--bl-facet-label-indent);
 }
 .facet-values .facet-count {
   margin-left: auto;
