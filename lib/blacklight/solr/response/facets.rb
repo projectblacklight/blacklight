@@ -157,7 +157,7 @@ module Blacklight::Solr::Response::Facets
   #   facet data in the response
   def default_aggregations
     @default_aggregations ||= begin
-      h = Hash.new { |key| null_facet_field_object(key) }
+      h = Hash.new { |_hash, key| null_facet_field_object(key) }
       h.with_indifferent_access
     end
   end
