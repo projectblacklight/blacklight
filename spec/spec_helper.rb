@@ -24,12 +24,6 @@ require 'axe-rspec'
 require 'rsolr'
 require 'blacklight'
 
-require 'rspec-benchmark'
-
-RSpec.configure do |config|
-  config.include RSpec::Benchmark::Matchers
-end
-
 Capybara.javascript_driver = :headless_chrome
 
 Capybara.register_driver :headless_chrome do |app|

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rspec-benchmark'
+
 RSpec.describe Blacklight::Solr::Response, :api do
   let(:raw_response) { eval(mock_query_response) }
 
@@ -68,6 +70,8 @@ RSpec.describe Blacklight::Solr::Response, :api do
   end
 
   context 'when aggregations are very large' do
+    include RSpec::Benchmark::Matchers
+
     let(:raw_response) { eval(mock_query_response_with_lots_of_facets) }
 
     it 'null object generation is relatively performant' do
