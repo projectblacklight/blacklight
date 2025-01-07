@@ -247,6 +247,7 @@ main {
   --bl-facet-remove-hover-color: var(--bs-danger);
   --bl-facet-label-indent: -15px;
   --bl-facet-label-padding-left: 15px;
+  --bl-facet-header-padding-y: 0.5rem;
 }
 .sidenav .facet-toggle-button [data-hide-label] {
   display: inline;
@@ -282,8 +283,7 @@ main {
 .facets-header {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
+  padding-block: var(--bl-facet-header-padding-y);
 }
 
 .facets-heading {
