@@ -192,6 +192,7 @@ main {
 }
 
 .bookmark-toggle {
+  --bl-icon-color: var(--bs-primary);
   /* override for line 21.
       Creates weird spacing in toolbar when min-width is set to 8rem */
 }
@@ -215,7 +216,7 @@ main {
   height: 1.25rem;
   width: 1.25rem;
   overflow: visible;
-  fill: var(--bs-primary);
+  fill: var(--bl-icon-color);
 }
 .bookmark-toggle .toggle-bookmark .toggle-bookmark-label .blacklight-icons svg.bookmark-checked {
   display: none;
