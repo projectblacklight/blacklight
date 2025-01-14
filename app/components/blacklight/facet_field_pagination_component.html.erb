@@ -10,10 +10,10 @@
 
 <div class="sort-options btn-group">
   <% if @facet_field.paginator.sort == 'index' -%>
-    <span class="active az btn btn-outline-secondary"><%= t('blacklight.search.facets.sort.index') %></span>
-    <%= helpers.link_to(t('blacklight.search.facets.sort.count'), sort_facet_url('count'), class: "sort_change numeric btn btn-outline-secondary", data: { blacklight_modal: "preserve" }) %>
+    <span class="active az <%= @button_classes %>"><%= t('blacklight.search.facets.sort.index') %></span>
+    <%= helpers.link_to(t('blacklight.search.facets.sort.count'), sort_facet_url('count'), class: "sort_change numeric #{@button_classes}", data: { blacklight_modal: "preserve" }) %>
   <% elsif @facet_field.paginator.sort == 'count' -%>
-    <%= helpers.link_to(t('blacklight.search.facets.sort.index'), sort_facet_url('index'), class: "sort_change az btn btn-outline-secondary",  data: { blacklight_modal: "preserve" }) %>
-    <span class="active numeric btn btn-outline-secondary"><%= t('blacklight.search.facets.sort.count') %></span>
+    <%= helpers.link_to(t('blacklight.search.facets.sort.index'), sort_facet_url('index'), class: "sort_change az #{@button_classes}",  data: { blacklight_modal: "preserve" }) %>
+    <span class="active numeric <%= @button_classes %>"><%= t('blacklight.search.facets.sort.count') %></span>
   <% end -%>
 </div>
