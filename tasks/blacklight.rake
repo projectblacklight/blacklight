@@ -3,7 +3,7 @@
 require 'engine_cart/rake_task'
 
 require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec) do |t|
+RSpec::Core::RakeTask.new(spec: 'blacklight:build_host_assets') do |t|
   t.pattern = 'spec/**/*_spec.rb'
 end
 
@@ -46,15 +46,18 @@ desc "Run test suite"
 task ci: ['build:npm'] do
   with_solr do
     Rake::Task['blacklight:internal:seed'].invoke
-    within_test_app do
-      # Precompiles the assets
-      system "bin/rake spec:prepare"
-    end
     Rake::Task['blacklight:coverage'].invoke
   end
 end
 
 namespace :blacklight do
+  task :build_host_assets do
+    within_test_app do
+      # Precompiles the assets
+      `bin/rails spec:prepare`
+    end
+  end
+
   desc "Run tests with coverage"
   task :coverage do
     ENV['COVERAGE'] = 'true'
