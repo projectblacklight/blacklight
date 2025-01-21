@@ -1,9 +1,10 @@
 // Facet field headings and buttons
 .facet-field-heading {
+  --bl-facet-field-heading-font-weight: #{$headings-font-weight};
   border-bottom: 0;
 
   button {
-    font-weight: $headings-font-weight;
+    font-weight: var(--bl-facet-field-heading-font-weight);
 
     &::after {
       content: "❯";
