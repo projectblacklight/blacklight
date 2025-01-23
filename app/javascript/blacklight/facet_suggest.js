@@ -6,7 +6,7 @@ const FacetSuggest = async (e) => {
     const facetField = e.target.dataset.facetField;
     if (!facetField) { return; }
 
-    const urlToFetch = `/catalog/facet_suggest/${facetField}/${queryFragment}`
+    const urlToFetch = `/catalog/facet_suggest/${facetField}/${queryFragment}${window.location.search}`
     const response = await fetch(urlToFetch);
     if (response.ok) {
         const blob = await response.blob()
