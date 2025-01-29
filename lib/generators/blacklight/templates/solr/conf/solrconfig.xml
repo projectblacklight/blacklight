@@ -16,7 +16,7 @@
     </updateLog>
   </updateHandler>
 
-  <!-- solr lib dirs -->
+  <!-- solr lib dirs, which are needed for Solr 8 compatibility but ignored in solr 9.8 and above -->
   <lib dir="${solr.install.dir:../../../..}/modules/analysis-extras/lib" />
   <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lib" />
   <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lucene-libs" />
