@@ -117,14 +117,14 @@ RSpec.describe "Facets" do
         expect(page).to have_link 'Old age'
         expect(page).to have_css 'a.facet-select', count: 2
       end
-    end
 
-    it 'shows the user facet suggestions that are relevant to their q param', :js do
-      visit '/catalog/facet/subject_ssim?q=tibet&search_field=all_fields'
-      fill_in 'facet_suggest_subject_ssim', with: 'la'
+      it 'shows the user facet suggestions that are relevant to their q param', :js do
+        visit '/catalog/facet/subject_ssim?q=tibet&search_field=all_fields'
+        fill_in 'facet_suggest_subject_ssim', with: 'la'
 
-      expect(page).to have_link 'Tibetan language'
-      expect(page).to have_css 'a.facet-select', count: 1
+        expect(page).to have_link 'Tibetan language'
+        expect(page).to have_css 'a.facet-select', count: 1
+      end
     end
   end
 end
