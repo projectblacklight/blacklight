@@ -149,6 +149,11 @@ main {
   display: flex;
 }
 
+.search-field,
+.search-q {
+  scroll-margin: 5rem;
+}
+
 .documents-list {
   --bl-results-document-margin-top: 1rem;
   --bl-results-document-padding-top: 1rem;
