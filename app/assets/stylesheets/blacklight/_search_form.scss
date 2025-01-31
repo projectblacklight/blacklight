@@ -27,3 +27,10 @@
   border-bottom-left-radius: 0;
   display: flex;
 }
+
+// ensure that the search bar appears at the top of the page when focused using
+// anchor links, e.g. from the skip links navigation
+.search-field,
+.search-q {
+  scroll-margin: 5rem;
+}
