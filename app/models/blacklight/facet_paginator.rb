@@ -16,7 +16,7 @@ module Blacklight
     # and need to make them accessible in a list so we can easily
     # strip em out before redirecting to catalog/index.
     mattr_accessor :request_keys do
-      { sort: :'facet.sort', page: :'facet.page', prefix: :'facet.prefix' }
+      { sort: :'facet.sort', page: :'facet.page', prefix: :'facet.prefix', fragment: :query_fragment, only: :only_values }
     end
 
     attr_reader :offset, :limit, :sort, :prefix
