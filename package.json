@@ -1,6 +1,6 @@
 {
   "name": "blacklight-frontend",
-  "version": "9.0.0-alpha",
+  "version": "9.0.0-beta1",
   "description": "The frontend code and styles for Blacklight",
   "exports": {
     "./blacklight.esm.js": "./app/assets/javascripts/blacklight/blacklight.esm.js",
@@ -10,7 +10,7 @@
       "require": "./app/assets/javascripts/blacklight.js"
     },
     "./*": "./app/javascript/blacklight-frontend/*.js"
-   },
+  },
   "type": "module",
   "scripts": {
     "build": "sass ./app/assets/stylesheets/blacklight/build.scss:./app/assets/builds/blacklight.css --no-source-map --load-path=node_modules --quiet-deps",
