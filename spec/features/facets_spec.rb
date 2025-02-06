@@ -118,5 +118,16 @@ RSpec.describe "Facets" do
       expect(page).to have_link 'Tibetan language'
       expect(page).to have_css 'a.facet-select', count: 1
     end
+
+    it 'allows the user to filter more than once', :js do
+      visit '/catalog/facet/subject_ssim'
+      expect(page).to have_no_link 'Old age' # This is on the second page of facet values
+      expect(page).to have_css 'a.facet-select', count: 20
+
+      fill_in 'facet_suggest_subject_ssim', with: "ag"
+
+      expect(page).to have_link 'Old age'
+      expect(page).to have_link('Old age', href: '/?f%5Bsubject_ssim%5D%5B%5D=Old+age')
+    end
   end
 end
