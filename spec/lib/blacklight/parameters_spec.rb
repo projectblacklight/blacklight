@@ -52,7 +52,7 @@ RSpec.describe Blacklight::Parameters do
     let(:search_state) { Blacklight::SearchState.new(query_params, blacklight_config) }
     let(:blacklight_config) { Blacklight::Configuration.new }
 
-    context 'with facebooks badly mangled query parameters' do
+    context 'with facebook\'s badly mangled query parameters' do
       let(:query_params) do
         ActionController::Parameters.new(
           f: { field: { '0': 'first', '1': 'second' } },
@@ -66,6 +66,17 @@ RSpec.describe Blacklight::Parameters do
 
       it 'normalizes the facets to the expected format' do
         expect(params.permit_search_params.to_h.with_indifferent_access).to include f: { field: %w[first second] }, f_inclusive: { field: %w[first second] }
+      end
+
+      context 'when several fields are configured' do
+        before do
+          blacklight_config.add_facet_field 'other_field'
+          blacklight_config.add_facet_field 'some_other_pivot_field', pivot: %w[abc def]
+        end
+
+        it 'normalizes the facets to the expected format' do
+          expect(params.permit_search_params.to_h.with_indifferent_access).to include f: { field: %w[first second] }, f_inclusive: { field: %w[first second] }
+        end
       end
     end
 
