@@ -13,9 +13,7 @@ module Blacklight
 
     delegate :facet_field_names, :facet_configuration_for_field, to: :blacklight_config
 
-    def documents
-      @response.documents
-    end
+    delegate :documents, to: :@response
 
     # @return [Array<Blacklight::Solr::Response::Facets::FacetField>]
     def search_facets
