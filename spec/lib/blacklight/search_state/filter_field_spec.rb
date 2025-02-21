@@ -198,4 +198,22 @@ RSpec.describe Blacklight::SearchState::FilterField do
       expect(search_state.filter('some_field').include?(OpenStruct.new(value: '1'))).to be true
     end
   end
+
+  describe '#permitted_params' do
+    context 'with a pivot facet' do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.configure do |config|
+          config.add_facet_field 'my_pivot', pivot: %w[format language_ssim]
+        end
+      end
+
+      it 'marks all the pivot fields as permitted' do
+        field = described_class.new blacklight_config.facet_fields['my_pivot'], search_state
+        expect(field.permitted_params).to eq({
+                                               f: { "-format" => [], "-language_ssim" => [], "format" => [], "language_ssim" => [] },
+                                               f_inclusive: { "format" => [], "language_ssim" => [] }
+                                             })
+      end
+    end
+  end
 end

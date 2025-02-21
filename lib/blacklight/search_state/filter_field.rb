@@ -145,8 +145,8 @@ module Blacklight
       def permitted_params
         if config.pivot
           {
-            filters_key => config.pivot.each_with_object({}) { |key, filter| filter.merge(key => [], "-#{key}" => []) },
-            inclusive_filters_key => config.pivot.each_with_object({}) { |key, filter| filter.merge(key => []) }
+            filters_key => config.pivot.each_with_object({}) { |key, filter| filter.merge!(key => [], "-#{key}" => []) },
+            inclusive_filters_key => config.pivot.each_with_object({}) { |key, filter| filter.merge!(key => []) }
           }
         else
           {

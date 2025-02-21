@@ -143,4 +143,11 @@ RSpec.describe "Facets" do
       end
     end
   end
+
+  describe 'facebook-style facet parameters' do
+    it 'can perform a search' do
+      visit '/?f[subject_ssim][0]=Iran.+Viza%CC%84rat-i+Kishvar'
+      expect(page).to have_text 'Naqdī barā-yi tamām-i fuṣūl'
+    end
+  end
 end
