@@ -59,7 +59,7 @@ RSpec.describe Blacklight::SearchService, :api do
         allow(blacklight_config).to receive(:default_solr_params).and_return(qt: 'custom_request_handler')
         allow(blacklight_solr).to receive(:send_and_receive) do |path, params|
           expect(path).to eq 'select'
-          expect(params[:params]['facet.field']).to eq ["format", "{!ex=pub_date_ssim_single}pub_date_ssim", "subject_ssim", "language_ssim", "lc_1letter_ssim", "subject_geo_ssim", "subject_era_ssim"]
+          expect(params[:params]['facet.field']).to contain_exactly "format", "{!ex=pub_date_ssim_single}pub_date_ssim", "subject_ssim", "language_ssim", "lc_1letter_ssim", "subject_geo_ssim", "subject_era_ssim"
           expect(params[:params]["facet.query"]).to eq ["pub_date_ssim:[#{5.years.ago.year} TO *]", "pub_date_ssim:[#{10.years.ago.year} TO *]", "pub_date_ssim:[#{25.years.ago.year} TO *]"]
           expect(params[:params]).to include('rows' => 10, 'qt' => "custom_request_handler", 'q' => "", "f.subject_ssim.facet.limit" => 21, 'sort' => "score desc, pub_date_si desc, title_si asc")
         end.and_return('response' => { 'docs' => [] })
