@@ -803,7 +803,7 @@ RSpec.describe CatalogController, :api do
     end
 
     it "is empty for empty result sets", :integration do
-      get :page_links, params: { f: { "format" => 'empty-result-set' }, counter: 1 }
+      get :page_links, params: { f: { "format" => ['empty-result-set'] }, counter: 1 }
       expect(assigns(:page_link_data)).to be_empty
     end
   end
