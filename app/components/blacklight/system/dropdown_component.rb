@@ -6,7 +6,7 @@ module Blacklight
       renders_one :button, DropdownButtonComponent
 
       renders_many :options, (lambda do |text:, url:, selected: false|
-        link_to(text, url, class: "dropdown-item #{'active' if selected}", role: 'menuitem', aria: { current: ('page' if selected) })
+        link_to(text, url, class: "dropdown-item #{'active' if selected}", aria: { current: ('page' if selected) })
       end)
 
       # rubocop:disable Metrics/ParameterLists
