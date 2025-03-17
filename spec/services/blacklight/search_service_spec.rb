@@ -13,11 +13,11 @@ RSpec.describe Blacklight::SearchService, :api do
 
   let(:context) { { whatever: :value } }
   let(:service) { described_class.new(config: blacklight_config, user_params: user_params, **context) }
-  let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
+  let(:repository) {  Blacklight.repository_class.new(blacklight_config) }
   let(:user_params) { {} }
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
-  let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config.except(:adapter)) }
+  let(:blacklight_solr) { repository.connection }
 
   let(:all_docs_query) { '' }
   let(:no_docs_query) { 'zzzzzzzzzzzz' }
