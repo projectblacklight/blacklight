@@ -14,22 +14,19 @@ module Blacklight
     class_option :'bootstrap-version', type: :string, default: nil, desc: "Set the generated app's bootstrap version"
     class_option :'skip-assets', type: :boolean, default: false, desc: "Skip generating javascript and css assets into the application"
     class_option :'skip-solr', type: :boolean, default: false, desc: "Skip generating solr configurations."
+    class_option :repository, type: :string, default: ENV['BLACKLIGHT_REPOSITORY'].presence || 'solr', desc: "Which repository to use ('elasticsearch' or 'solr')"
 
     desc <<-EOS
       This generator makes the following changes to your application:
        1. Generates blacklight:models
-       2. Generates utilities for working with solr
-       3. Creates a number of public assets, including images, stylesheets, and javascript
-       4. Injects behavior into your user application_controller.rb
-       5. Adds example configurations for dealing with MARC-like data
-       6. Adds Blacklight routes to your ./config/routes.rb
+       2. Creates a number of public assets, including images, stylesheets, and javascript
+       3. Injects behavior into your user application_controller.rb
+       4. Adds example configurations for dealing with MARC-like data
+       5. Adds Blacklight routes to your ./config/routes.rb
+       6. Generates utilities for working with solr/elasticsearch
 
       Thank you for Installing Blacklight.
     EOS
-
-    def add_solr_wrapper
-      generate 'blacklight:solr' unless options[:'skip-solr']
-    end
 
     # Copy all files in templates/public/ directory to public/
     # Call external generator in AssetsGenerator, so we can
@@ -53,7 +50,7 @@ module Blacklight
     end
 
     def generate_search_builder
-      generate 'blacklight:search_builder', search_builder_name
+      generate 'blacklight:search_builder', search_builder_name, options.fetch(:repository, 'solr')
     end
 
     def generate_blacklight_models
@@ -75,6 +72,21 @@ module Blacklight
 
     def add_default_catalog_route
       route("root to: \"#{controller_name}#index\"")
+    end
+
+    def add_solr_wrapper
+      if options[:'skip-solr'] || options[:repository] != 'solr'
+        say "Skipping solr. #{options.inspect}"
+        return
+      end
+
+      generate 'blacklight:solr'
+    end
+
+    def add_elasticsearch
+      return unless options[:repository] == 'elasticsearch'
+
+      generate 'blacklight:elasticsearch'
     end
 
     def inject_blacklight_i18n_strings

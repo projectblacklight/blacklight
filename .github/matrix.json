@@ -6,6 +6,7 @@
   "api": [null],
   "additional_engine_cart_rails_options": [""],
   "additional_name": [""],
+  "repository": [null],
   "include": [
     {
       "ruby": "3.4",
@@ -24,6 +25,12 @@
       "additional_engine_cart_rails_options": "--css=bootstrap",
       "view_component_version": "~> 3.0",
       "additional_name": "ViewComponent 3"
+    },
+    {
+      "rails_version": "8.1.1",
+      "additional_engine_cart_rails_options": "--css=bootstrap",
+      "repository": "elasticsearch",
+      "additional_name": "| Elasticsearch"
     },
     {
       "ruby": "3.3",

@@ -104,6 +104,11 @@ module Blacklight::Solr
       end
     end
 
+    def seed_index docs
+      connection.add docs
+      connection.commit
+    end
+
     private
 
     ##

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
-  include PaginationMethods
+  include Blacklight::Response::PaginationMethods
   include Spelling
   include Facets
   include Response

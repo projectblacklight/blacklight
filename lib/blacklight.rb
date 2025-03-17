@@ -27,7 +27,7 @@ module Blacklight
   ##
   # The configured repository class. By convention, this is
   # the class Blacklight::(name of the adapter)::Repository, e.g.
-  #   elastic_search => Blacklight::ElasticSearch::Repository
+  #   elasticsearch => Blacklight::ElasticSearch::Repository
   def self.repository_class
     if connection_config && !connection_config.key?(:adapter)
       raise "The value for :adapter was not found in the blacklight.yml config"
@@ -36,6 +36,8 @@ module Blacklight
     case connection_config&.fetch(:adapter) || 'solr'
     when 'solr'
       Blacklight::Solr::Repository
+    when 'elasticsearch'
+      Blacklight::Elasticsearch::Repository
     when /::/
       connection_config[:adapter].constantize
     else
