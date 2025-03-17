@@ -99,9 +99,6 @@ module Blacklight
       ##
       # == Response models
 
-      # @!attribute repository_class
-      # @return [Class] Class for sending and receiving requests from a search index
-      property :repository_class, default: Blacklight::Solr::Repository
       # @!attribute search_builder_class
       # @return [Class] class for converting Blacklight parameters to request parameters for the repository_class
       property :search_builder_class, default: ::SearchBuilder
@@ -380,7 +377,7 @@ module Blacklight
 
     # @return [Blacklight::Repository]
     def repository
-      repository_class.new(self)
+      Blacklight.repository_class.new(self)
     end
 
     # @return [String] The destination for the link around the logo in the header

@@ -145,7 +145,6 @@ module Blacklight
         end
 
         @table[:reflected_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/reflected_fields", expires_in: 1.hour) do
-          repository = repository_class.new(self)
           repository.reflect_fields
         rescue => e
           Blacklight.logger&.warn "Error retrieving field metadata: #{e}"
