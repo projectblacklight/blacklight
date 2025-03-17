@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe "Blacklight::Configuration", :api do
+RSpec.describe Blacklight::Configuration, :api do
   let(:config) do
-    Blacklight::Configuration.new
+    described_class.new
   end
 
   it "supports arbitrary configuration values" do
@@ -17,14 +17,18 @@ RSpec.describe "Blacklight::Configuration", :api do
       expect(config).to be_a Blacklight::OpenStructWithHashAccess
     end
 
-    it "accepts a block for configuration" do
-      config = Blacklight::Configuration.new(a: 1) { |c| c.a = 2 }
+    context 'when passed a block' do
+      let(:config) do
+        described_class.new(a: 1) { |c| c.a = 2 }
+      end
 
-      expect(config.a).to eq 2
+      it "accepts a block for configuration" do
+        expect(config.a).to eq 2
 
-      config.configure { |c| c.a = 3 }
+        config.configure { |c| c.a = 3 }
 
-      expect(config.a).to eq 3
+        expect(config.a).to eq 3
+      end
     end
   end
 
@@ -84,11 +88,11 @@ RSpec.describe "Blacklight::Configuration", :api do
 
   describe "spell_max" do
     it "defaults to 5" do
-      expect(Blacklight::Configuration.new.spell_max).to eq 5
+      expect(config.spell_max).to eq 5
     end
 
     it "accepts config'd value" do
-      expect(Blacklight::Configuration.new(spell_max: 10).spell_max).to eq 10
+      expect(described_class.new(spell_max: 10).spell_max).to eq 10
     end
   end
 
@@ -181,9 +185,9 @@ RSpec.describe "Blacklight::Configuration", :api do
 
   describe "add alternative solr fields" do
     it "lets you define any arbitrary solr field" do
-      Blacklight::Configuration.define_field_access :my_custom_field
+      described_class.define_field_access :my_custom_field
 
-      config = Blacklight::Configuration.new do |config|
+      config = described_class.new do |config|
         config.add_my_custom_field 'qwerty', label: "asdf"
       end
 
@@ -191,9 +195,9 @@ RSpec.describe "Blacklight::Configuration", :api do
     end
 
     it "lets you define a field accessor that uses an existing field-type" do
-      Blacklight::Configuration.define_field_access :my_custom_facet_field, class: Blacklight::Configuration::FacetField
+      described_class.define_field_access :my_custom_facet_field, class: Blacklight::Configuration::FacetField
 
-      config = Blacklight::Configuration.new do |config|
+      config = described_class.new do |config|
         config.add_my_custom_facet_field 'qwerty', label: "asdf"
       end
 
@@ -406,13 +410,13 @@ RSpec.describe "Blacklight::Configuration", :api do
 
   describe "add_search_field" do
     it "accepts hash form" do
-      c = Blacklight::Configuration.new
+      c = described_class.new
       c.add_search_field(key: "my_search_key")
       expect(c.search_fields["my_search_key"]).not_to be_nil
     end
 
     it "accepts two-arg hash form" do
-      c = Blacklight::Configuration.new
+      c = described_class.new
 
       c.add_search_field("my_search_type",
                          key: "my_search_type",
@@ -428,7 +432,7 @@ RSpec.describe "Blacklight::Configuration", :api do
     end
 
     it "accepts block form" do
-      c = Blacklight::Configuration.new
+      c = described_class.new
 
       c.add_search_field("some_field") do |field|
         field.solr_parameters = { qf: "solr_field^10" }
@@ -443,7 +447,7 @@ RSpec.describe "Blacklight::Configuration", :api do
     end
 
     it "accepts SearchField object" do
-      c = Blacklight::Configuration.new
+      c = described_class.new
 
       f = Blacklight::Configuration::SearchField.new(foo: "bar")
 
@@ -481,7 +485,7 @@ RSpec.describe "Blacklight::Configuration", :api do
 
   describe "add_sort_field" do
     it "takes a hash" do
-      c = Blacklight::Configuration.new
+      c = described_class.new
       c.add_sort_field(key: "my_sort_key", sort: "score desc")
       expect(c.sort_fields["my_sort_key"]).not_to be_nil
     end
@@ -692,23 +696,23 @@ RSpec.describe "Blacklight::Configuration", :api do
 
   describe '.default_configuration' do
     it 'adds additional default configuration properties' do
-      Blacklight::Configuration.default_configuration do
-        Blacklight::Configuration.default_values[:a] = '123'
+      described_class.default_configuration do
+        described_class.default_values[:a] = '123'
       end
 
-      Blacklight::Configuration.default_configuration do
-        Blacklight::Configuration.default_values[:b] = 'abc'
+      described_class.default_configuration do
+        described_class.default_values[:b] = 'abc'
       end
 
-      expect(Blacklight::Configuration.default_values[:a]).to eq '123'
-      expect(Blacklight::Configuration.default_values[:b]).to eq 'abc'
+      expect(described_class.default_values[:a]).to eq '123'
+      expect(described_class.default_values[:b]).to eq 'abc'
     ensure
       # reset the default configuration
-      Blacklight::Configuration.default_values.delete(:a)
-      Blacklight::Configuration.default_values.delete(:b)
+      described_class.default_values.delete(:a)
+      described_class.default_values.delete(:b)
 
-      Blacklight::Configuration.default_configuration.delete_at(1)
-      Blacklight::Configuration.default_configuration.delete_at(2)
+      described_class.default_configuration.delete_at(1)
+      described_class.default_configuration.delete_at(2)
     end
   end
 end
