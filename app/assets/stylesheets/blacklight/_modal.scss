@@ -3,20 +3,12 @@
 }
 
 .modal-content {
-  .facet-pagination.top {
-    display: none; /* Doesn't display in a modal, but would display on a new page (e.g. without Javascript) */
-  }
-
   .page-sidebar {
     display: none;
   }
 
   .blacklight-modal-close {
     display: block;
-  }
-
-  .prev_next_links.btn-group .btn {
-    border: 0;
   }
 }
 
