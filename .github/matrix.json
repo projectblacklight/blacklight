@@ -6,7 +6,15 @@
   "api": [null],
   "additional_engine_cart_rails_options": [""],
   "additional_name": [""],
+  "repository": [null],
   "include": [
+    {
+      "ruby": "3.4",
+      "rails_version": "8.0.2",
+      "additional_engine_cart_rails_options": "--css=bootstrap",
+      "repository": "elasticsearch",
+      "additional_name": "| Elasticsearch"
+    },
     {
       "ruby": "3.3",
       "rails_version": "8.0.2",

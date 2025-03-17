@@ -21,6 +21,7 @@ require 'selenium-webdriver'
 require 'equivalent-xml'
 require 'axe-rspec'
 
+require 'elasticsearch'
 require 'blacklight'
 
 Capybara.javascript_driver = :headless_chrome

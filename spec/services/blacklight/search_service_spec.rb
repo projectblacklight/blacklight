@@ -14,7 +14,7 @@ RSpec.describe Blacklight::SearchService, :api do
   let(:context) { { whatever: :value } }
   let(:search_state) { Blacklight::SearchState.new(user_params, blacklight_config) }
   let(:service) { described_class.new(config: blacklight_config, search_state: search_state, **context) }
-  let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
+  let(:repository) {  Blacklight.repository_class.new(blacklight_config) }
   let(:user_params) { {} }
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
