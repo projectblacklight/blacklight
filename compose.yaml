@@ -36,3 +36,15 @@ services:
       - /opt/solr/conf
       - "-Xms256m"
       - "-Xmx512m"
+
+  elasticsearch:
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    image: elasticsearch:8.17.3
+    ports:
+      - 9200:9200
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+volumes:
+  es_data:

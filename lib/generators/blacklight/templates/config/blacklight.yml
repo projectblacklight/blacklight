@@ -1,10 +1,10 @@
 load_defaults: __VERSION__
 development:
-  adapter: solr
+  adapter: <%= ENV.fetch('BLACKLIGHT_INDEX') { 'solr' } %>
   url: <%= ENV['SOLR_URL'] || "http://127.0.0.1:8983/solr/blacklight-core" %>
 test: &test
-  adapter: solr
+  adapter: <%= ENV.fetch('BLACKLIGHT_INDEX') { 'solr' } %>
   url: <%= ENV['SOLR_URL'] || "http://127.0.0.1:8983/solr/blacklight-core" %>
 production:
-  adapter: solr
+  adapter: <%= ENV.fetch('BLACKLIGHT_INDEX') { 'solr' } %>
   url: <%= ENV['SOLR_URL'] || "http://127.0.0.1:8983/solr/blacklight-core" %>
