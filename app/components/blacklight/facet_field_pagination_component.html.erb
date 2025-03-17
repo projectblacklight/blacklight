@@ -1,10 +1,10 @@
 <div class="prev_next_links btn-group">
-  <%= helpers.link_to_previous_page @facet_field.paginator, raw(t('views.pagination.previous')), params: @facet_field.search_state.to_h, param_name: param_name, class: 'btn btn-link', data: { blacklight_modal: "preserve" } do %>
-    <%= content_tag :span, raw(t('views.pagination.previous')), class: 'disabled btn' %>
+  <%= helpers.link_to_previous_page @facet_field.paginator, raw(t('views.pagination.previous')), params: @facet_field.search_state.to_h, param_name: param_name, class: 'btn btn-link ps-0', data: { blacklight_modal: "preserve" } do %>
+    <%= content_tag :span, raw(t('views.pagination.previous')), class: 'disabled text-decoration-none btn btn-link ps-0' %>
   <% end %>
 
   <%= helpers.link_to_next_page @facet_field.paginator, raw(t('views.pagination.next')), params: @facet_field.search_state.to_h, param_name: param_name, class: 'btn btn-link',  data: { blacklight_modal: "preserve" } do %>
-    <%= content_tag :span, raw(t('views.pagination.next')), class: 'disabled btn' %>
+    <%= content_tag :span, raw(t('views.pagination.next')), class: 'disabled text-decoration-none btn btn-link' %>
   <% end %>
 </div>
 
