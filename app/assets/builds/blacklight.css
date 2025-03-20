@@ -434,9 +434,6 @@ main {
 .modal-content .blacklight-modal-close {
   display: block;
 }
-.modal-content .prev_next_links.btn-group .btn {
-  border: 0;
-}
 
 .blacklight-modal-close {
   display: none;
