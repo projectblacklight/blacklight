@@ -52,10 +52,6 @@ module Blacklight::Solr::Response::Params
 
   private
 
-  def search_builder
-    request_params if request_params.is_a?(Blacklight::SearchBuilder)
-  end
-
   # Extract JSON Request API parameters from the response header or the request itself
   def json_params
     encoded_json_params = header&.dig('params', 'json')

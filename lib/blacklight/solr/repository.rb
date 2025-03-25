@@ -56,15 +56,11 @@ module Blacklight::Solr
     end
 
     ##
-    # Execute a solr query
+    # Execute a solr query at the given path with the parameters
     # TODO: Make this private after we have a way to abstract admin/luke and ping
     # @see [RSolr::Client#send_and_receive]
-    # @overload find(solr_path, params)
-    #   Execute a solr query at the given path with the parameters
-    #   @param [String] solr path (defaults to blacklight_config.solr_path)
-    #   @param [Hash] parameters for RSolr::Client#send_and_receive
-    # @overload find(params)
-    #   @param [Hash] parameters for RSolr::Client#send_and_receive
+    # @param [String] path solr path (defaults to blacklight_config.solr_path)
+    # @param [Hash, Blacklight::SearchBuilder] solr_params parameters for RSolr::Client#send_and_receive
     # @return [Blacklight::Solr::Response] the solr response object
     def send_and_receive(path, solr_params = {})
       benchmark("Solr fetch", level: :debug) do

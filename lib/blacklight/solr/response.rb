@@ -8,12 +8,16 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   include MoreLikeThis
   include Params
 
-  attr_reader :request_params
+  attr_reader :request_params, :search_builder
   attr_accessor :blacklight_config, :options
 
   delegate :document_factory, to: :blacklight_config
 
+  # @param [Hash] data
+  # @param [Hash, Blacklight::SearchBuilder] request_params a SearchBuilder or a Hash of parameters
   def initialize(data, request_params, options = {})
+    @search_builder = request_params if request_params.is_a?(Blacklight::SearchBuilder)
+
     super(force_to_utf8(ActiveSupport::HashWithIndifferentAccess.new(data)))
     @request_params = ActiveSupport::HashWithIndifferentAccess.new(request_params)
     self.blacklight_config = options[:blacklight_config]
