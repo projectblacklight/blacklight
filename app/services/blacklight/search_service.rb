@@ -31,7 +31,7 @@ module Blacklight
       builder.rows = search_state.per_page
 
       builder = yield(builder) if block_given?
-      response = repository.search(builder)
+      response = repository.search(params: builder)
 
       if response.grouped? && grouped_key_for_results
         response.group(grouped_key_for_results)
@@ -59,12 +59,12 @@ module Blacklight
     # @return [Blacklight::Solr::Response] the solr response
     def facet_field_response(facet_field, extra_controller_params = {})
       query = search_builder.with(search_state).facet(facet_field)
-      repository.search(query.merge(extra_controller_params))
+      repository.search(params: query.merge(extra_controller_params))
     end
 
     def facet_suggest_response(facet_field, facet_suggestion_query, extra_controller_params = {})
       query = search_builder.with(search_state).facet(facet_field).facet_suggestion_query(facet_suggestion_query)
-      repository.search(query.merge(extra_controller_params))
+      repository.search(params: query.merge(extra_controller_params))
     end
 
     # Get the previous and next document from a search result
@@ -73,7 +73,7 @@ module Blacklight
       p = previous_and_next_document_params(index)
       new_state = request_params.is_a?(Blacklight::SearchState) ? request_params : Blacklight::SearchState.new(request_params, blacklight_config)
       query = search_builder.with(new_state).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
-      response = repository.search(query)
+      response = repository.search(params: query)
       document_list = response.documents
 
       # only get the previous doc if there is one

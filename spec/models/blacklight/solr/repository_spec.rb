@@ -92,27 +92,36 @@ RSpec.describe Blacklight::Solr::Repository, :api do
   end
 
   describe "#search" do
+    context 'with positional params' do
+      it "uses the search-specific solr path" do
+        blacklight_config.solr_path = 'xyz'
+        allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
+        allow(Blacklight.deprecation).to receive(:warn)
+        expect(subject.search({})).to be_a Blacklight::Solr::Response
+      end
+    end
+
     it "uses the search-specific solr path" do
       blacklight_config.solr_path = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
-      expect(subject.search({})).to be_a Blacklight::Solr::Response
+      expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
     end
 
     it "uses the default solr path" do
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
-      expect(subject.search({})).to be_a Blacklight::Solr::Response
+      expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
     end
 
     it "uses a default :qt param" do
       blacklight_config.qt = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'xyz' })).and_return(mock_response)
-      expect(subject.search({})).to be_a Blacklight::Solr::Response
+      expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
     end
 
     it "uses the provided :qt param" do
       blacklight_config.qt = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc' })).and_return(mock_response)
-      expect(subject.search(qt: 'abc')).to be_a Blacklight::Solr::Response
+      expect(subject.search(params: { qt: 'abc' })).to be_a Blacklight::Solr::Response
     end
 
     it "preserves the class of the incoming params" do
@@ -120,7 +129,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       search_params[:q] = "query"
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
 
-      response = subject.search(search_params)
+      response = subject.search(params: search_params)
       expect(response).to be_a Blacklight::Solr::Response
       expect(response.params).to be_a ActiveSupport::HashWithIndifferentAccess
     end
@@ -133,7 +142,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
         expect(params[:method]).to eq :get
         expect(params[:params]).to include input_params
       end.and_return('response' => { 'docs' => [] })
-      subject.search(input_params)
+      subject.search(params: input_params)
     end
   end
 
@@ -182,7 +191,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
           allow(subject.connection).to receive(:send_and_receive) do |path|
             expect(path).to eq 'xyz'
           end
-          subject.search(input_params)
+          subject.search(params: input_params)
         end
       end
 
@@ -195,7 +204,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
           allow(subject.connection).to receive(:send_and_receive) do |path|
             expect(path).to eq 'my-great-json'
           end
-          subject.search(input_params)
+          subject.search(params: input_params)
         end
       end
     end
@@ -205,7 +214,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
     let (:blacklight_config) { config = Blacklight::Configuration.new; config.http_method = :post; config }
 
     it "sends a post request to solr and get a response back" do
-      response = subject.search(q: all_docs_query)
+      response = subject.search(params: { q: all_docs_query })
       expect(response.docs.length).to be >= 1
     end
   end
