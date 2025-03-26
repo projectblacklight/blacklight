@@ -55,8 +55,6 @@ jobs:
             rails_version: "7.1.5.1"
             solr_version: "8.11.2"
             additional_name: "Solr 8.11.2"
-          - ruby: "3.1"
-            rails_version: "7.1.5.1"
           - ruby: "3.3"
             rails_version: "7.1.5.1"
             additional_name: "/ Propshaft"
