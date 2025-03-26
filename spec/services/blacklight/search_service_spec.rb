@@ -16,8 +16,7 @@ RSpec.describe Blacklight::SearchService, :api do
   let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
   let(:user_params) { {} }
 
-  let(:blacklight_config) { Blacklight::Configuration.new }
-  let(:copy_of_catalog_config) { CatalogController.blacklight_config.deep_copy }
+  let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
   let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config.except(:adapter)) }
 
   let(:all_docs_query) { '' }
@@ -50,8 +49,6 @@ RSpec.describe Blacklight::SearchService, :api do
 
   # SPECS FOR SEARCH RESULTS FOR QUERY
   describe 'Search Results', :integration do
-    let(:blacklight_config) { copy_of_catalog_config }
-
     describe 'for a sample query returning results' do
       let(:user_params) { { q: all_docs_query } }
 
@@ -68,7 +65,6 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     describe "for a query returning a grouped response" do
-      let(:blacklight_config) { copy_of_catalog_config }
       let(:user_params) { { q: all_docs_query } }
 
       before do
@@ -82,7 +78,6 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     describe "for a query returning multiple groups", :integration do
-      let(:blacklight_config) { copy_of_catalog_config }
       let(:user_params) { { q: all_docs_query } }
 
       before do
@@ -140,7 +135,6 @@ RSpec.describe Blacklight::SearchService, :api do
 
   # SPECS FOR SEARCH RESULTS FOR FACETS
   describe 'Facets in Search Results for All Docs Query', :integration do
-    let(:blacklight_config) { copy_of_catalog_config }
     let(:user_params) { { q: all_docs_query } }
 
     before do
@@ -185,7 +179,6 @@ RSpec.describe Blacklight::SearchService, :api do
 
   # SPECS FOR SEARCH RESULTS FOR PAGING
   describe 'Paging', :integration do
-    let(:blacklight_config) { copy_of_catalog_config }
     let(:user_params) { { q: all_docs_query } }
 
     it 'starts with first results by default' do
