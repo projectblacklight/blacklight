@@ -5,9 +5,11 @@ require 'spec_helper'
 RSpec.describe Blacklight::Search::FacetSuggestInput, type: :component do
   let(:facet) { Blacklight::Configuration::FacetField.new key: 'language_facet', suggest: true }
   let(:presenter) { instance_double(Blacklight::FacetFieldPresenter) }
+  let(:view_context) { double(ActionView::Base) }
 
   before do
-    allow(presenter).to receive(:label).and_return 'Language'
+    allow(presenter).to receive_messages(label: 'Language', view_context: view_context)
+    allow(view_context).to receive(:search_facet_path).and_return('/catalog/facet/language_facet')
   end
 
   it 'has an input with the facet-suggest class, which the javascript needs to find it' do
@@ -18,6 +20,12 @@ RSpec.describe Blacklight::Search::FacetSuggestInput, type: :component do
   it 'has an input with the data-facet-field attribute, which the javascript needs to determine the correct query' do
     rendered = render_inline(described_class.new(facet: facet, presenter: presenter))
     expect(rendered.css('input[data-facet-field="language_facet"]').count).to eq 1
+  end
+
+  it 'has an input with the data-facet-search-context attribute, which the javascript needs to determine the current search context' do
+    allow(view_context).to receive(:search_facet_path).and_return('/catalog/facet/language_facet?f%5Bformat%5D%5B%5D=Book&facet.prefix=R&facet.sort=index&q=tibet&search_field=all_fields')
+    rendered = render_inline(described_class.new(facet: facet, presenter: presenter))
+    expect(rendered.css('input[data-facet-search-context="/catalog/facet/language_facet?f%5Bformat%5D%5B%5D=Book&facet.prefix=R&facet.sort=index&q=tibet&search_field=all_fields"]').count).to eq 1
   end
 
   it 'has a visible label that is associated with the input' do
