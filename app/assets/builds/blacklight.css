@@ -180,10 +180,8 @@ main {
   padding-left: 0;
 }
 
-@media (max-width: 575.98px) {
-  .pagination {
-    flex-wrap: wrap;
-  }
+.pagination {
+  flex-wrap: wrap;
 }
 
 .group-key {
