@@ -75,12 +75,6 @@ Lint/EmptyBlock:
     - 'app/controllers/concerns/blacklight/bookmarks.rb'
     - 'lib/blacklight/solr/search_builder_behavior.rb'
 
-# Offense count: 1
-# Configuration parameters: AllowComments.
-Lint/EmptyFile:
-  Exclude:
-    - 'spec/components/blacklight/document_metadata_component_spec.rb'
-
 # Offense count: 48
 # Configuration parameters: AllowedParentClasses.
 Lint/MissingSuper:
