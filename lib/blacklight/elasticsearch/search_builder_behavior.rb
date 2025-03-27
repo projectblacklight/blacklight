@@ -19,6 +19,10 @@ module Blacklight::Elasticsearch
       ]
     end
 
+    def limit_to_specific_records(request, document_ids)
+      request.ids = document_ids
+    end
+
     ##
     # Pagination parameters for selecting the previous and next documents
     # out of a result set.
@@ -43,7 +47,7 @@ module Blacklight::Elasticsearch
 
     # Add wildcard search if no search is present (similar to q.alt in solr)
     def empty_search_query(request)
-      request.match_all
+      request.match_all unless search_state.query_param
     end
 
     def request
