@@ -25,9 +25,6 @@ module Blacklight
                 'config.response_model = Blacklight::Elasticsearch::Response'
     end
 
-    def configure_search_builder
-    end
-
     def add_rsolr_gem
       gem 'elasticsearch', '~> 8.17'
     end
