@@ -27,12 +27,14 @@ RSpec.describe CatalogController, :api do
       it "has docs and facets for query with results", :integration do
         get :index, params: { q: user_query }
         expect(assigns(:response).docs).not_to be_empty
+
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
       it "has docs and facets for existing facet value", :integration do
         get :index, params: { f: { "format" => 'Book' } }
         expect(assigns(:response).docs).not_to be_empty
+
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
@@ -40,6 +42,7 @@ RSpec.describe CatalogController, :api do
         num_per_page = 7
         get :index, params: { per_page: num_per_page }
         expect(assigns(:response).docs).to have(num_per_page).items
+
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
@@ -48,6 +51,7 @@ RSpec.describe CatalogController, :api do
         get :index, params: { page: page }
         expect(assigns(:response).docs).not_to be_empty
         expect(assigns(:response).params[:start].to_i).to eq (page - 1) * controller.blacklight_config[:default_solr_params][:rows]
+
         assert_facets_have_values(assigns(:response).aggregations)
       end
 
@@ -74,7 +78,7 @@ RSpec.describe CatalogController, :api do
         expect(assigns(:response).docs).to be_empty
       end
 
-      it "has a spelling suggestion for an appropriately poor query", :integration do
+      it "has a spelling suggestion for an appropriately poor query", :integration, :solr do
         get :index, params: { q: 'boo' }
         expect(assigns(:response).spelling.words).not_to be_nil
       end
@@ -102,6 +106,7 @@ RSpec.describe CatalogController, :api do
 
         it "gets facets when no query", :integration do
           get :index
+
           assert_facets_have_values(assigns(:response).aggregations)
         end
       end
@@ -246,6 +251,7 @@ RSpec.describe CatalogController, :api do
 
     it "redirects to show action for doc id" do
       put :track, params: { id: doc_id, counter: 3 }
+
       assert_redirected_to(solr_document_path(doc_id))
     end
 
@@ -256,16 +262,19 @@ RSpec.describe CatalogController, :api do
 
     it "redirects to the path given in the redirect param" do
       put :track, params: { id: doc_id, counter: 3, redirect: '/xyz' }
+
       assert_redirected_to("/xyz")
     end
 
     it "redirects to the path of the uri given in the redirect param" do
       put :track, params: { id: doc_id, counter: 3, redirect: 'http://localhost:3000/xyz' }
+
       assert_redirected_to("/xyz")
     end
 
     it "keeps querystring on redirect" do
       put :track, params: { id: doc_id, counter: 3, redirect: 'http://localhost:3000/xyz?locale=pt-BR' }
+
       assert_redirected_to("/xyz?locale=pt-BR")
     end
   end
