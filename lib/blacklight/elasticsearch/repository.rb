@@ -5,7 +5,7 @@ module Blacklight::Elasticsearch
     ##
     # Find a single solr document result (by id) using the document configuration
     # @param [String] id document's unique key value
-    # @param [Hash] params additional solr query parameters
+    # @param [Hash] params additional query parameters
     def find id, params = {}
       api_response = connection.get(index:, id:)
       blacklight_config.response_model.new(api_response, params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
@@ -14,7 +14,7 @@ module Blacklight::Elasticsearch
     end
 
     # Find multiple documents by their ids
-    # @param [Hash] _params query parameters
+    # @param [SearchBuilder] search_builder the search builder
     def find_many(search_builder)
       # TODO: This is hacky, but SearchBuilder#where is currently very coupled to Solr
       ids = search_builder.search_state.params['q']['id']
@@ -26,9 +26,8 @@ module Blacklight::Elasticsearch
 
     ##
     # Execute a search query against solr
-    # @param [Hash] params solr query parameters
-    # @param [String] path solr request handler path
-    def search path: nil, params: nil, **kwargs
+    # @param [SearchBuilder] params the search builder
+    def search params: nil, **kwargs
       request_params = params.reverse_merge(kwargs)
       api_response = connection.search(index:, body: request_params)
       blacklight_config.response_model.new(api_response, params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
