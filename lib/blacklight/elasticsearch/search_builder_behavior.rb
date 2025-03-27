@@ -291,7 +291,7 @@ module Blacklight::Elasticsearch
       index_field ||= facet_field
 
       if facet_config && facet_config.query
-        raise "facet value not found, {value}" unless facet_config.query[value]
+        raise "facet value not found, #{value}" unless facet_config.query[value]
 
         facet_config.query[value][:fq]
       elsif value.is_a?(Range)
