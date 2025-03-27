@@ -130,7 +130,7 @@ module Blacklight::Controller
     # send the user home if the access was previously denied by the same
     # request to avoid sending the user back to the login page
     #   (e.g. protected page -> logout -> returned to protected page -> home)
-    redirect_to(root_url) && flash.discard && return if request.referer && request.referer.ends_with?(request.fullpath)
+    redirect_to(root_url) && flash.discard && return if request.referer&.ends_with?(request.fullpath)
 
     redirect_to(root_url) && return unless has_user_authentication_provider?
 

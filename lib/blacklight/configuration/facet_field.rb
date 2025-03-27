@@ -67,7 +67,7 @@ module Blacklight
 
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def normalize! blacklight_config = nil
-      query.stringify_keys! if query
+      query&.stringify_keys!
 
       normalize_pivot_config! if pivot
       self.collapse = true if collapse.nil?

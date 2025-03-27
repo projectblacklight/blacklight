@@ -532,20 +532,6 @@ Style/RescueStandardError:
     - 'lib/blacklight/configuration/fields.rb'
     - 'lib/railties/blacklight.rake'
 
-# Offense count: 11
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: ConvertCodeThatCanStartToReturnNil, AllowedMethods, MaxChainLength.
-# AllowedMethods: present?, blank?, presence, try, try!
-Style/SafeNavigation:
-  Exclude:
-    - 'app/controllers/concerns/blacklight/bookmarks.rb'
-    - 'app/controllers/concerns/blacklight/controller.rb'
-    - 'app/services/blacklight/field_retriever.rb'
-    - 'lib/blacklight.rb'
-    - 'lib/blacklight/configuration/facet_field.rb'
-    - 'lib/blacklight/configuration/search_field.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
-
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowAsExpressionSeparator.
