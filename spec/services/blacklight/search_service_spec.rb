@@ -21,7 +21,6 @@ RSpec.describe Blacklight::SearchService, :api do
 
   let(:all_docs_query) { '' }
   let(:no_docs_query) { 'zzzzzzzzzzzz' }
-  #  f[format][]=Book&f[language_facet][]=English
   let(:single_facet) { { format: 'Book' } }
 
   before do
@@ -311,7 +310,7 @@ RSpec.describe Blacklight::SearchService, :api do
   end
 
   # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
-  describe "Searches should return spelling suggestions", :integration do
+  describe "Searches should return spelling suggestions", :integration, :solr do
     context "for just-poor-enough-query term" do
       let(:user_params) { { q: 'boo' } }
 
