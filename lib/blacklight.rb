@@ -24,6 +24,11 @@ module Blacklight
     Blacklight::RuntimeRegistry.connection = repository
   end
 
+  # @return [Bool] Are we configured to use solr?
+  def self.solr?
+    repository_class == Blacklight::Solr::Repository
+  end
+
   ##
   # The configured repository class. By convention, this is
   # the class Blacklight::(name of the adapter)::Repository, e.g.

@@ -30,6 +30,7 @@ module Blacklight
     end
 
     def copy_solr_conf
+      raise "XXXXXX"
       directory 'solr'
     end
 

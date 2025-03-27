@@ -67,6 +67,7 @@ class Blacklight::Elasticsearch::Response < ActiveSupport::HashWithIndifferentAc
   end
 
   def spelling
+    raise "XXXXXX"
     nil
   end
 
