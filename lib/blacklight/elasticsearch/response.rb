@@ -111,10 +111,10 @@ class Blacklight::Elasticsearch::Response < ActiveSupport::HashWithIndifferentAc
         hits = bucket['doc_count']
         Blacklight::Solr::Response::Facets::FacetItem.new(value: value, hits: hits)
       end
+      next if items.empty?
 
       options = {}
-      facet_field = Blacklight::Solr::Response::Facets::FacetField.new(facet_field_name, items, options.merge(response: self))
-
+      facet_field = Blacklight::Solr::Response::Facets::FacetField.new(facet_field_name, items, options)
       hash[facet_field_name] = facet_field
 
       # alias all the possible blacklight config names..
