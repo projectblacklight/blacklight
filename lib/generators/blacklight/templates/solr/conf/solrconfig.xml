@@ -47,7 +47,6 @@
           full_title_tsim
           short_title_tsim
           alternative_title_tsim
-          active_fedora_model_ssi
           title_tsim
           author_tsim
           subject_tsim
@@ -84,7 +83,6 @@
        <str name="facet">true</str>
        <str name="facet.mincount">1</str>
        <str name="facet.limit">10</str>
-       <str name="facet.field">active_fedora_model_ssi</str>
        <str name="facet.field">subject_ssim</str>
 
        <str name="spellcheck">true</str>
@@ -116,7 +114,6 @@
           full_title_tsim
           short_title_tsim
           alternative_title_tsim
-          active_fedora_model_ssi
           title_tsim
           author_tsim
           subject_tsim
@@ -153,7 +150,6 @@
        <str name="facet">true</str>
        <str name="facet.mincount">1</str>
        <str name="facet.limit">10</str>
-       <str name="facet.field">active_fedora_model_ssi</str>
        <str name="facet.field">subject_ssim</str>
 
        <str name="spellcheck">true</str>
