@@ -114,8 +114,8 @@ module Blacklight::Elasticsearch
         # solr_parameters[:facet] ||= true
         if facet.json
           raise 'not implemented'
-          add_solr_facet_json_params(request, field_name, facet)
-          next
+          # add_solr_facet_json_params(request, field_name, facet)
+          # next
         end
 
         # TODO: support pivot, query, ex
