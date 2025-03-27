@@ -610,7 +610,7 @@ RSpec.describe CatalogController, :api do
       it "is successful" do
         get :facet, params: { id: 'format' }
         expect(response).to be_successful
-        expect(assigns[:response]).to be_a Blacklight::Solr::Response
+        expect(assigns[:response]).to respond_to(:documents, :aggregations)
         expect(assigns[:facet]).to be_a Blacklight::Configuration::FacetField
         expect(assigns[:display_facet]).to be_a Blacklight::Solr::Response::Facets::FacetField
         expect(assigns[:pagination]).to be_a Blacklight::Solr::FacetPaginator
