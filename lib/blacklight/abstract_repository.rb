@@ -37,8 +37,8 @@ module Blacklight
 
     # Find multiple documents by their ids
     # @param [Hash] _params query parameters
-    def find_many(params, **kwargs)
-      search(params, **kwargs)
+    def find_many(params, **)
+      search(params, **)
     end
 
     ##

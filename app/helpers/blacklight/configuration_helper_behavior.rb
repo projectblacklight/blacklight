@@ -96,7 +96,7 @@ module Blacklight::ConfigurationHelperBehavior
   #
   # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
-  def should_render_field?(field_config, *args)
-    blacklight_configuration_context.evaluate_if_unless_configuration field_config, *args
+  def should_render_field?(field_config, *)
+    blacklight_configuration_context.evaluate_if_unless_configuration(field_config, *)
   end
 end
