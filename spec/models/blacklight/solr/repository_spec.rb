@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Solr::Repository, :api do
+RSpec.describe Blacklight::Solr::Repository, :api, :solr do
   subject(:repository) do
     described_class.new blacklight_config
   end
