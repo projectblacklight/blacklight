@@ -371,17 +371,22 @@ RSpec.describe Blacklight::SearchService, :api do
   # TODO: maybe eventually check other types of solr requests
   #  more like this
   #  nearby on shelf
-  it "raises a Blacklight exception if RSolr can't connect to the Solr instance" do
-    allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
-    expect { service.repository.search(params: {}) }.to raise_exception(/Unable to connect to Solr instance/)
+  #
+  context "when RSolr can't connect to the Solr instance", :solr do
+    it "raises a Blacklight exception" do
+      allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
+      expect { service.repository.search(params: {}) }.to raise_exception(/Unable to connect to Solr instance/)
+    end
   end
 
-  it "raises a Blacklight exception if RSolr raises a timeout error connecting to Solr instance" do
-    rsolr_timeout = RSolr::Error::Timeout.new(nil, nil)
-    allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
+  context 'when RSolr raises a timeout error connecting to Solr instance', :solr do
+    it "raises a Blacklight exception" do
+      rsolr_timeout = RSolr::Error::Timeout.new(nil, nil)
+      allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
 
-    allow(blacklight_solr).to receive(:send_and_receive).and_raise(rsolr_timeout)
-    expect { service.repository.search(params: {}) }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
+      allow(blacklight_solr).to receive(:send_and_receive).and_raise(rsolr_timeout)
+      expect { service.repository.search(params: {}) }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
+    end
   end
 
   describe "#previous_and_next_documents_for_search" do
