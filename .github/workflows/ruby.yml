@@ -41,9 +41,15 @@ jobs:
         bootstrap_version: [null]
         view_component_version: ["~> 3.12"]
         api: [null]
+        repository: [null]
         additional_engine_cart_rails_options: [""]
         additional_name: [""]
         include:
+          - ruby: "3.4"
+            rails_version: "8.0.1"
+            additional_engine_cart_rails_options: --css=bootstrap
+            repository: elasticsearch
+            additional_name: "/ elasticsearch"
           - ruby: "3.3"
             rails_version: "8.0.1"
             additional_engine_cart_rails_options: --css=bootstrap
@@ -74,6 +80,7 @@ jobs:
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
+      BLACKLIGHT_REPOSITORY: ${{ matrix.repository }}
       ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-kamal --skip-solid --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"
     steps:
       - uses: actions/checkout@v4

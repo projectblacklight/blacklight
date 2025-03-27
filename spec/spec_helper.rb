@@ -21,6 +21,7 @@ require 'selenium-webdriver'
 require 'equivalent-xml'
 require 'axe-rspec'
 
+require 'elasticsearch'
 require 'blacklight'
 
 Capybara.javascript_driver = :headless_chrome
@@ -47,6 +48,9 @@ RSpec.configure do |config|
 
   # When we're testing the API, only run the api tests
   config.filter_run api: true if ENV['BLACKLIGHT_API_TEST'].present?
+
+  # Don't run 'solr' tests when configured for elasticsearch'
+  config.filter_run_excluding solr: true unless Blacklight.solr?
 
   if Rails.version.to_f >= 7.1
     config.fixture_paths = [Rails.root.join("spec/fixtures")]
