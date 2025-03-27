@@ -60,8 +60,12 @@ module Blacklight::Elasticsearch
       connection.indices.refresh(index:)
     end
 
-    def suggestions
-      []
+    # @param [Hash] request_params
+    # @return [Blacklight::Suggest::Response]
+    def suggestions(request_params)
+      suggest_results = {} # TODO: implement
+      Blacklight.logger.warn("suggestions has not yet been implemented for elasticsearch")
+      Blacklight::Suggest::Response.new suggest_results, request_params, '', ''
     end
 
     private
