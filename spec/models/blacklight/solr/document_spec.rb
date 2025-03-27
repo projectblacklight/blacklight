@@ -179,10 +179,6 @@ RSpec.describe "Blacklight::Solr::Document", :api do
         # registration in an after, sorry.
       end
 
-      it "registers format" do
-        expect(defined?("Mime::MOCK2")).to be_truthy
-      end
-
       it "registers as alias only" do
         expect(Mime::Type.lookup("application/mock2")).not_to equal Mime::Type.lookup_by_extension("mock2")
       end

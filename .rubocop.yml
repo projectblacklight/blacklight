@@ -585,3 +585,49 @@ Rails/WhereRange: # new in 2.25
   Enabled: true
 Gemspec/AddRuntimeDependency: # new in 1.65
   Enabled: true
+Lint/ArrayLiteralInRegexp: # new in 1.71
+  Enabled: true
+Lint/ConstantReassignment: # new in 1.70
+  Enabled: true
+Lint/DuplicateSetElement: # new in 1.67
+  Enabled: true
+Lint/HashNewWithKeywordArgumentsAsDefault: # new in 1.69
+  Enabled: true
+Lint/NumericOperationWithConstantResult: # new in 1.69
+  Enabled: true
+Lint/SharedMutableDefault: # new in 1.70
+  Enabled: true
+Lint/UnescapedBracketInRegexp: # new in 1.68
+  Enabled: true
+Lint/UselessDefined: # new in 1.69
+  Enabled: true
+Lint/UselessNumericOperation: # new in 1.66
+  Enabled: true
+Style/AmbiguousEndlessMethodDefinition: # new in 1.68
+  Enabled: true
+Style/BitwisePredicate: # new in 1.68
+  Enabled: true
+Style/CombinableDefined: # new in 1.68
+  Enabled: true
+Style/DigChain: # new in 1.69
+  Enabled: true
+Style/FileNull: # new in 1.69
+  Enabled: true
+Style/FileTouch: # new in 1.69
+  Enabled: true
+Style/HashSlice: # new in 1.71
+  Enabled: true
+Style/ItAssignment: # new in 1.70
+  Enabled: true
+Style/KeywordArgumentsMerging: # new in 1.68
+  Enabled: true
+Style/RedundantInterpolationUnfreeze: # new in 1.66
+  Enabled: true
+Style/SafeNavigationChainLength: # new in 1.68
+  Enabled: true
+Rails/EnumSyntax: # new in 2.26
+  Enabled: true
+Rails/MultipleRoutePaths: # new in 2.29
+  Enabled: true
+Rails/StrongParametersExpect: # new in 2.29
+  Enabled: true
