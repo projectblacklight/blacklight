@@ -22,6 +22,11 @@ module Blacklight::Solr
       ]
     end
 
+    def limit_to_specific_records(solr_parameters, document_ids)
+      solr_parameters[:fq] ||= []
+      solr_parameters[:fq] += ["{!terms f=id}#{document_ids.join(',')}"]
+    end
+
     ##
     # Pagination parameters for selecting the previous and next documents
     # out of a result set.
