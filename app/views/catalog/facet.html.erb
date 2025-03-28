@@ -1,14 +1,15 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
-  <% component.with_prefix do %>
-    <div class="facet-pagination top row justify-content-between">
-      <%= render :partial=>'facet_pagination' %>
-    </div>
-  <% end %>
 
-  <% component.with_title { facet_field_label(@facet.key) } %>
-  <%= render Blacklight::Search::FacetSuggestInput.new(facet: @facet, presenter: @presenter) %>
+  <div class="card card-body bg-light p-3 mb-3 border-0">
+    <% component.with_title { facet_field_label(@facet.key) } %>
+    <%= render Blacklight::Search::FacetSuggestInput.new(facet: @facet, presenter: @presenter) %>
+    <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
 
-  <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
+  </div>
+
+  <div class="facet-pagination top d-flex flex-wrap w-100 justify-content-between border-bottom pb-3 mb-3">
+    <%= render :partial=>'facet_pagination' %>
+  </div>
 
   <div class="facet-extended-list">
     <%= render Blacklight::FacetComponent.new(display_facet: @display_facet,
@@ -17,7 +18,7 @@
   </div>
 
   <% component.with_footer do %>
-    <div class="facet-pagination bottom flex-row justify-content-between">
+    <div class="facet-pagination bottom d-flex flex-wrap w-100 justify-content-between">
       <%= render :partial=>'facet_pagination' %>
     </div>
   <% end %>
