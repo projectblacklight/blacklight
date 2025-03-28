@@ -17,16 +17,13 @@ RSpec.describe Blacklight::SearchService, :api do
   let(:user_params) { {} }
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
-  let(:blacklight_solr) { RSolr.connect(Blacklight.connection_config.except(:adapter)) }
 
   let(:all_docs_query) { '' }
   let(:no_docs_query) { 'zzzzzzzzzzzz' }
-  #  f[format][]=Book&f[language_facet][]=English
   let(:single_facet) { { format: 'Book' } }
 
   before do
     allow(service).to receive(:repository).and_return(repository)
-    service.repository.connection = blacklight_solr
   end
 
   describe '#search_builder_class' do
@@ -51,6 +48,7 @@ RSpec.describe Blacklight::SearchService, :api do
   describe 'Search Results', :integration do
     describe 'for a sample query returning results' do
       let(:user_params) { { q: all_docs_query } }
+      let(:blacklight_solr) { service.repository.connection }
 
       it "uses the configured request handler" do
         allow(blacklight_config).to receive(:default_solr_params).and_return(qt: 'custom_request_handler')
@@ -372,18 +370,6 @@ RSpec.describe Blacklight::SearchService, :api do
   # TODO: maybe eventually check other types of solr requests
   #  more like this
   #  nearby on shelf
-  it "raises a Blacklight exception if RSolr can't connect to the Solr instance" do
-    allow(blacklight_solr).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
-    expect { service.repository.search(params: {}) }.to raise_exception(/Unable to connect to Solr instance/)
-  end
-
-  it "raises a Blacklight exception if RSolr raises a timeout error connecting to Solr instance" do
-    rsolr_timeout = RSolr::Error::Timeout.new(nil, nil)
-    allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
-
-    allow(blacklight_solr).to receive(:send_and_receive).and_raise(rsolr_timeout)
-    expect { service.repository.search(params: {}) }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
-  end
 
   describe "#previous_and_next_documents_for_search" do
     let(:user_params) { { q: '', per_page: 100 } }

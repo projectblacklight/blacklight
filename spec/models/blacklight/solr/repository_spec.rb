@@ -144,6 +144,19 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       end.and_return('response' => { 'docs' => [] })
       subject.search(params: input_params)
     end
+
+    it "raises a Blacklight exception if RSolr can't connect to the Solr instance" do
+      allow(repository.connection).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
+      expect { subject.search(params: {}) }.to raise_exception(/Unable to connect to Solr instance/)
+    end
+
+    it "raises a Blacklight exception if RSolr raises a timeout error connecting to Solr instance" do
+      rsolr_timeout = RSolr::Error::Timeout.new(nil, nil)
+      allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
+
+      allow(repository.connection).to receive(:send_and_receive).and_raise(rsolr_timeout)
+      expect { subject.search(params: {}) }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
+    end
   end
 
   describe "#build_solr_request" do
