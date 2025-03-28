@@ -110,7 +110,7 @@ module Blacklight::Bookmarks
 
     success = @bookmarks.all? do |bookmark|
       bookmark = current_or_guest_user.bookmarks.find_by(bookmark)
-      bookmark && bookmark.delete && bookmark.destroyed?
+      bookmark&.delete && bookmark.destroyed?
     end
 
     if success

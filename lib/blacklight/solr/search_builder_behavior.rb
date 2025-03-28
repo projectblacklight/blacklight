@@ -190,10 +190,8 @@ module Blacklight::Solr
           solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
         end
 
-        if facet.solr_params
-          facet.solr_params.each do |k, v|
-            solr_parameters[:"f.#{facet.field}.#{k}"] = v
-          end
+        facet.solr_params&.each do |k, v|
+          solr_parameters[:"f.#{facet.field}.#{k}"] = v
         end
 
         limit = facet_limit_with_pagination(field_name)
@@ -203,9 +201,9 @@ module Blacklight::Solr
 
     def add_solr_fields_to_query solr_parameters
       blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).each_value do |field|
-        field.solr_params.each do |k, v|
+        field.solr_params&.each do |k, v|
           solr_parameters[:"f.#{field.field}.#{k}"] = v
-        end if field.solr_params
+        end
       end
 
       blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).each_value do |field|
@@ -214,9 +212,9 @@ module Blacklight::Solr
           solr_parameters.append_highlight_field field.field
         end
 
-        field.solr_params.each do |k, v|
+        field.solr_params&.each do |k, v|
           solr_parameters[:"f.#{field.field}.#{k}"] = v
-        end if field.solr_params
+        end
       end
     end
 
@@ -350,9 +348,9 @@ module Blacklight::Solr
       solr_field ||= facet_field
 
       local_params = []
-      local_params << "tag=#{facet_config.tag}" if use_local_params && facet_config && facet_config.tag
+      local_params << "tag=#{facet_config.tag}" if use_local_params && facet_config&.tag
 
-      if facet_config && facet_config.query
+      if facet_config&.query
         if facet_config.query[value]
           facet_config.query[value][:fq]
         else
@@ -380,7 +378,7 @@ module Blacklight::Solr
       facet_config = blacklight_config.facet_fields[facet_field]
 
       local_params = []
-      local_params << "tag=#{facet_config.tag}" if facet_config && facet_config.tag
+      local_params << "tag=#{facet_config.tag}" if facet_config&.tag
 
       solr_filters = values.each_with_object({}).with_index do |(v, h), index|
         h["f_inclusive.#{facet_field}.#{index}"] = facet_value_to_fq_string(facet_field, v, use_local_params: false)
