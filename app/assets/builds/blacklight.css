@@ -423,9 +423,6 @@ main {
   border-radius: 5px;
 }
 
-.modal-content .facet-pagination.top {
-  display: none; /* Doesn't display in a modal, but would display on a new page (e.g. without Javascript) */
-}
 .modal-content .page-sidebar {
   display: none;
 }
@@ -435,6 +432,12 @@ main {
 
 .blacklight-modal-close {
   display: none;
+}
+
+.modal-footer:not(.modal .modal-footer) {
+  border-top: var(--bs-border-width) solid var(--bs-border-color);
+  padding-top: 1rem;
+  margin-top: 1rem;
 }
 
 .remove .bi {

@@ -3,10 +3,6 @@
 }
 
 .modal-content {
-  .facet-pagination.top {
-    display: none; /* Doesn't display in a modal, but would display on a new page (e.g. without Javascript) */
-  }
-
   .page-sidebar {
     display: none;
   }
@@ -20,4 +16,13 @@
 // When it's a whole page, don't show the close button.
 .blacklight-modal-close {
   display: none;
+}
+
+// When modal content is rendered outside of a modal, Bootstrap css variables like
+// --bs-modal-footer-border-width are undefined (only in .modal scope). So we apply
+// light styling to the modal footer when it's not in a modal.
+.modal-footer:not(.modal .modal-footer) {
+  border-top: var(--bs-border-width) solid var(--bs-border-color);
+  padding-top: 1rem;
+  margin-top: 1rem;
 }
